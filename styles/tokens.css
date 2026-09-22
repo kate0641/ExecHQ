@@ -237,7 +237,7 @@
   --viewport-tablet-height: 1180px;
   --viewport-web-max: 1440px;
   --device-bezel-mobile: 3px;
-  --device-bezel-tablet: 16px;
+  --device-bezel-tablet: 6px;
   --device-statusbar-height: 44px;
   --dock-width: 38px;
   --dock-control: 30px;
