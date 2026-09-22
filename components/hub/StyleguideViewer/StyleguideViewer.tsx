@@ -31,7 +31,7 @@ function TokenRow({ token, children }: { token: Token; children?: React.ReactNod
 function Swatches({ tokens, label }: { tokens: Token[]; label: string }) {
   return (
     <div className="styleguide__group">
-      <h4 className="styleguide__group-title">{label}</h4>
+      <h3 className="styleguide__group-title">{label}</h3>
       <ul className="styleguide__swatches">
         {tokens.map((token) => (
           <TokenRow token={token} key={token.name}>
@@ -83,7 +83,7 @@ export function StyleguideViewer() {
     <div className="styleguide">
       <Panel
         title="Colour"
-        headingLevel={3}
+        headingLevel={2}
         description={`${colourTokens.length} colour tokens, read from styles/tokens.css. Greyscale for this sprint. The raw palette and the brand slots are the only things that change when navy, gold and slate blue arrive.`}
       >
         <Swatches
@@ -102,14 +102,14 @@ export function StyleguideViewer() {
 
       <Panel
         title="Typography"
-        headingLevel={3}
+        headingLevel={2}
         description="Three faces, three jobs. The scale below is rendered in each of them so the roles can be compared directly."
       >
         {TYPE_ROLES.map((role) => (
           <div className="styleguide__group" key={role.token}>
-            <h4 className="styleguide__group-title">
+            <h3 className="styleguide__group-title">
               {role.font} <code>{role.token}</code>
-            </h4>
+            </h3>
             <p className="styleguide__group-note">{role.role}</p>
             <ul className="styleguide__type-scale">
               {textSizes.map((token) => (
@@ -132,7 +132,7 @@ export function StyleguideViewer() {
 
       <Panel
         title="Spacing"
-        headingLevel={3}
+        headingLevel={2}
         description="A 4px base. Every gap, padding and margin in the prototype comes from this scale."
       >
         <ul className="styleguide__bars">
@@ -147,7 +147,7 @@ export function StyleguideViewer() {
         </ul>
       </Panel>
 
-      <Panel title="Radii" headingLevel={3}>
+      <Panel title="Radii" headingLevel={2}>
         <ul className="styleguide__tiles">
           {radii.map((token) => (
             <TokenRow token={token} key={token.name}>
@@ -160,7 +160,7 @@ export function StyleguideViewer() {
         </ul>
       </Panel>
 
-      <Panel title="Shadows" headingLevel={3}>
+      <Panel title="Shadows" headingLevel={2}>
         <ul className="styleguide__tiles">
           {shadows.map((token) => (
             <TokenRow token={token} key={token.name}>
@@ -175,7 +175,7 @@ export function StyleguideViewer() {
 
       <Panel
         title="Borders"
-        headingLevel={3}
+        headingLevel={2}
         description="Three widths, and the composed border shorthands the stylesheet uses most."
       >
         <ul className="styleguide__bars">

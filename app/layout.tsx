@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Libre_Baskerville, Red_Hat_Display } from "next/font/google";
 import { FlowList } from "@/components/hub/FlowList";
+import { HubNav } from "@/components/hub/HubNav";
 import { PrototypeShell } from "@/components/layout/PrototypeShell";
 import { ViewportProvider } from "@/lib/viewport-context";
 import "./globals.css";
@@ -56,9 +57,16 @@ export default function RootLayout({
           <a className="u-skip-link" href="#main">
             Skip to content
           </a>
-          {/* FlowList has no client hooks, so it renders on the server here and
-              slots into the client-side panel as children. */}
-          <PrototypeShell hubIndex={<FlowList compact headingLevel={3} />}>
+          {/* Neither of these uses client hooks, so they render on the server
+              here and slot into the client-side panel as children. */}
+          <PrototypeShell
+            hubIndex={
+              <>
+                <HubNav variant="stacked" label="Prototype pages" />
+                <FlowList compact headingLevel={3} />
+              </>
+            }
+          >
             {children}
           </PrototypeShell>
         </ViewportProvider>

@@ -52,10 +52,13 @@ docs/                 The source product PDFs. Context only, never rendered as U
 styles/tokens.css     Every colour, space, type size, radius, border and shadow.
 styles/app.css        The single shared stylesheet of reusable classes.
 
-app/                  Routes. app/page.tsx is the hub. app/[flow]/[concept]/ is
-                      every other page, generated from the manifest.
+app/                  Routes. app/page.tsx is the hub, app/catalogue/ and
+                      app/stylesheet/ are its reference tools, and
+                      app/[flow]/[concept]/ is every product page, generated
+                      from the manifest.
 components/           Every component, hand-written. No UI kits.
-lib/                  Manifest, spec and token readers, and the viewport store.
+lib/                  Manifest, spec and token readers, the hub page list, and
+                      the viewport store.
 scripts/              The token guard and the spec stub generator.
 ```
 
@@ -63,21 +66,25 @@ scripts/              The token guard and the spec stub generator.
 
 ## The file hub
 
-`/` is the home base. It has three parts:
+`/` is the home base: the index of every flow and concept page, grouped by
+sprint, each with its status badge and its interaction spec in the slot
+underneath.
 
-1. **Flows and pages** — every flow from the manifest, grouped by sprint, with
-   its concept pages linked and their status badges, and its interaction spec in
-   the slot underneath.
-2. **Component catalogue** — every component, in every state, with a search box
-   and filters for status and flow. "Approved only" shows the set handed off to
-   engineering.
-3. **Stylesheet** — the design system rendered visually: colour swatches, the
-   type scale in all three fonts, spacing, radii, shadows and borders.
+Two reference tools are linked from it, each its own page:
+
+| Page          | What it is                                                     |
+| ------------- | -------------------------------------------------------------- |
+| `/catalogue`  | Every component, in every state, with a search box and filters for status and flow. "Approved only" shows the set handed off to engineering. |
+| `/stylesheet` | The design system rendered: colour swatches, the type scale in all three fonts, spacing, radii, shadows and borders. |
+
+All three share a header with navigation between them, and they are declared in
+`lib/hub-pages.ts` rather than the manifest — they are tools for designing
+ExecHQ, not screens in it.
 
 There is also a **hub button in the toolbar at the bottom of every page**. It
-opens a slide-out version of the flows index so you can jump anywhere without
-losing your place. It closes on Escape or a click outside, and focus returns to
-the button.
+opens a slide-out panel with links to those three pages and the full flow index,
+so you can jump anywhere without losing your place. It closes on Escape or a
+click outside, and focus returns to the button.
 
 ---
 

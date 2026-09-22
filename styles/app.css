@@ -1373,13 +1373,103 @@ samp {
   color: var(--color-text-secondary);
 }
 
-.hub__local-nav-list {
+/* Navigation between the prototype's own pages: hub, catalogue, stylesheet. */
+
+.hub-nav {
+  margin-top: var(--space-xs);
+}
+
+.hub-nav__list {
   display: flex;
   gap: var(--space-lg);
   flex-wrap: wrap;
   padding: 0;
-  margin-top: var(--space-xs);
   list-style: none;
+}
+
+.hub-nav--stacked .hub-nav__list {
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.hub-nav__link {
+  display: inline-block;
+  padding-block: var(--space-2xs);
+  border-bottom: var(--border-width-medium) solid transparent;
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+}
+
+.hub-nav__link:hover {
+  color: var(--color-text-primary);
+  border-bottom-color: var(--color-border-strong);
+}
+
+.hub-nav__link[aria-current="page"] {
+  color: var(--color-text-primary);
+  border-bottom-color: var(--color-accent);
+}
+
+.hub-nav--stacked {
+  margin: 0 0 var(--space-lg);
+  padding-bottom: var(--space-md);
+  border-bottom: var(--border-width-thin) solid var(--color-border);
+}
+
+/* The way in to the reference tools, from the hub. */
+
+.hub-tools {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-md);
+  padding: 0;
+  list-style: none;
+}
+
+[data-viewport="mobile"] .hub-tools {
+  grid-template-columns: 1fr;
+}
+
+.hub-tools__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  height: 100%;
+  padding: var(--space-lg);
+  background-color: var(--color-surface);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  transition: border-color var(--duration-fast) var(--easing-standard),
+    box-shadow var(--duration-fast) var(--easing-standard);
+}
+
+.hub-tools__card:hover {
+  border-color: var(--color-text-primary);
+  box-shadow: var(--shadow-sm);
+  color: var(--color-text-primary);
+}
+
+.hub-tools__card-title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-tight);
+}
+
+.hub-tools__card-description {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.hub-tools__card-count {
+  margin-top: auto;
+  padding-top: var(--space-xs);
 }
 
 .hub__main {

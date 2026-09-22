@@ -111,7 +111,7 @@ export function ComponentCatalogue() {
           ) : (
             groups.map(({ group, components }) => (
               <div className="catalogue__group" key={group}>
-                <h3 className="catalogue__group-title t-eyebrow">{group}</h3>
+                <h2 className="catalogue__group-title t-eyebrow">{group}</h2>
                 <ul className="catalogue__list">
                   {components.map((component) => {
                     const id = componentId(component);
@@ -142,7 +142,7 @@ export function ComponentCatalogue() {
           <>
             <header className="catalogue__detail-header">
               <div className="catalogue__detail-heading">
-                <h3 className="catalogue__detail-title">{selected.name}</h3>
+                <h2 className="catalogue__detail-title">{selected.name}</h2>
                 <div className="u-row">
                   <Badge>{selected.group}</Badge>
                   <StatusBadge status={selected.status} />

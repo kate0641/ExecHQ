@@ -16,7 +16,8 @@ Nothing in this repo talks to a network.
 | `styles/tokens.css`   | Every colour, spacing, type, radius, border and shadow value.     |
 | `styles/app.css`      | The single shared stylesheet of reusable classes.                 |
 | `components/`         | Every component, hand-written. Each ships a sibling `*.states.ts`. |
-| `app/`                | Routes. `app/page.tsx` is the hub; `app/[flow]/[concept]/` is everything else. |
+| `app/`                | Routes. `app/page.tsx` is the hub, `app/catalogue/` and `app/stylesheet/` are its reference tools, `app/[flow]/[concept]/` is every product page. |
+| `lib/hub-pages.ts`    | The prototype's own pages (hub, catalogue, stylesheet). Not product flows. |
 
 ## Greyscale via tokens
 
@@ -58,6 +59,10 @@ panel and the routes are all generated from it.
 - Routes resolve as `/<flow-slug>/<concept-slug>` from `app/[flow]/[concept]/page.tsx`,
   with `generateStaticParams()` reading the manifest and `dynamicParams = false`
   so anything undeclared 404s.
+- The prototype's own pages are separate. `/` is the file hub, `/catalogue` is the
+  component catalogue and `/stylesheet` is the design system. They are declared in
+  `lib/hub-pages.ts`, not in the manifest, because they have no sprint, no
+  concepts and no status. They share `HubChrome`, never the product's `AppChrome`.
 - Each flow declares an explicit `slug`, never derived from its title, so titles
   can change without breaking routes.
 - `sprint` drives the "Not yet built — Sprint N" placeholder text.
