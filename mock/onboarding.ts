@@ -434,6 +434,15 @@ export const CUSTOM_PLAN_STEPS: CustomPlanStepSpec[] = [
 
 export const CUSTOM_PLAN_DRAFT_NAME = "Your own plan";
 
+/** The custom plan as an option in a set, for a concept that presents building
+ *  your own as a peer of the five templates rather than as a way out of them. */
+export const CUSTOM_PLAN_OPTION: PlanTemplate = {
+  id: "custom",
+  name: "Build my own plan",
+  bestFor: "None of these is close enough to what you are actually doing.",
+  emphasis: "Four questions. You can leave at any point and keep the draft.",
+};
+
 /* -----------------------------------------------------------------------------
    FIRST ACTION AND ARTIFACT
    -------------------------------------------------------------------------- */

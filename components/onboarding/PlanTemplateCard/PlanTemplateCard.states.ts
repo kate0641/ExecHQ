@@ -35,6 +35,21 @@ export const planTemplateCardStates = defineComponentStates({
       props: { plan: PLAN_TEMPLATES[2], selected: true, name: "catalogue-d" },
     },
     {
+      label: "Comparison — recommended",
+      description:
+        "Every card carries its 'best for' line so the set reads across; the recommendation adds its rationale on top rather than in place of it.",
+      props: {
+        plan: recommended,
+        recommended: true,
+        comparison: true,
+        name: "catalogue-f",
+      },
+    },
+    {
+      label: "Comparison — alternative",
+      props: { plan: PLAN_TEMPLATES[3], comparison: true, name: "catalogue-g" },
+    },
+    {
       label: "The unsure path's plan",
       props: { plan: PLAN_TEMPLATES[4], name: "catalogue-e" },
     },

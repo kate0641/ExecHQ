@@ -7,6 +7,11 @@ export interface PlanTemplateCardProps {
   plan: PlanTemplate;
   /** Marks the system's recommendation. Only ever one card in a set. */
   recommended?: boolean;
+  /** Comparison mode: every card shows its "best for" line, so the set can be
+   *  read across rather than one card at a time, and the recommendation adds
+   *  its rationale on top rather than in place of it. For a concept that asks
+   *  the user to choose between all five rather than accept one. */
+  comparison?: boolean;
   selected?: boolean;
   /** Radio group name. Shared by every card in one selection. */
   name: string;
@@ -29,6 +34,7 @@ export interface PlanTemplateCardProps {
 export function PlanTemplateCard({
   plan,
   recommended = false,
+  comparison = false,
   selected = false,
   name,
   onSelect,
@@ -42,6 +48,7 @@ export function PlanTemplateCard({
       className={[
         "plan-card",
         recommended ? "plan-card--recommended" : null,
+        comparison ? "plan-card--comparison" : null,
         selected ? "is-selected" : null,
         className,
       ]
@@ -70,9 +77,10 @@ export function PlanTemplateCard({
         <span className="plan-card__name">{plan.name}</span>
         {plan.rationale ? (
           <span className="plan-card__rationale">{plan.rationale}</span>
-        ) : (
+        ) : null}
+        {comparison || !plan.rationale ? (
           <span className="plan-card__best-for">{plan.bestFor}</span>
-        )}
+        ) : null}
         <span className="plan-card__emphasis">{plan.emphasis}</span>
       </label>
     </div>

@@ -85,8 +85,9 @@ export const prototypeConfig: PrototypeConfig = {
         },
         {
           slug: "concept-3",
-          title: "Concept 3",
-          summary: "Not yet briefed.",
+          title: "Concept 3 — Living canvas",
+          summary:
+            "One page that fills itself in. All five plans compared, not one recommended.",
         },
       ],
     },

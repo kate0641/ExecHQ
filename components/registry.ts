@@ -35,6 +35,8 @@ import { artifactDraftStates } from "./onboarding/ArtifactDraft/ArtifactDraft.st
 import { connectOfferStates } from "./onboarding/ConnectOffer/ConnectOffer.states";
 import { wizardStepStates } from "./onboarding/WizardStep/WizardStep.states";
 import { threadTurnStates } from "./onboarding/ThreadTurn/ThreadTurn.states";
+import { canvasSectionStates } from "./onboarding/CanvasSection/CanvasSection.states";
+import { canvasHeaderStates } from "./onboarding/CanvasHeader/CanvasHeader.states";
 
 export const registry: RegisteredComponent[] = [
   badgeStates,
@@ -62,6 +64,8 @@ export const registry: RegisteredComponent[] = [
   connectOfferStates,
   wizardStepStates,
   threadTurnStates,
+  canvasSectionStates,
+  canvasHeaderStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */
