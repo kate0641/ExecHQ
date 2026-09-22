@@ -69,12 +69,23 @@ export const prototypeConfig: PrototypeConfig = {
       sprint: 1,
       chrome: "minimal",
       description:
-        "The first ninety seconds: privacy promise, career direction, and one usable result before anything else is asked for.",
+        "The first ninety seconds: privacy promise, career direction, plan selection and one usable artifact — one continuous sequence, never a setup tool.",
       concepts: [
         {
           slug: "concept-1",
-          title: "Concept 1",
-          summary: "Email, direction, first win.",
+          title: "Concept 1 — Paged wizard",
+          summary:
+            "One decision per screen, explicit progress, nothing below the fold. The baseline.",
+        },
+        {
+          slug: "concept-2",
+          title: "Concept 2",
+          summary: "Not yet briefed.",
+        },
+        {
+          slug: "concept-3",
+          title: "Concept 3",
+          summary: "Not yet briefed.",
         },
       ],
     },

@@ -1976,3 +1976,137 @@ samp {
 .styleguide__rule--composed {
   width: 160px;
 }
+
+/* -----------------------------------------------------------------------------
+   8. ONBOARDING (SPRINT 1)
+   Step frame: the parts every concept shares regardless of its direction.
+   -------------------------------------------------------------------------- */
+
+/* Stand-in for navigation that Sprint 2 designs. Reads as unfinished on
+   purpose — a dashed edge and a lowercase label, so nobody mistakes it for a
+   design decision. */
+.nav-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--space-2xl);
+  padding: var(--space-xs) var(--space-md);
+  background-color: var(--color-surface-sunken);
+  border: var(--border-width-thin) dashed var(--color-border-strong);
+  border-radius: var(--radius-sm);
+}
+
+.nav-placeholder__label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: lowercase;
+  color: var(--color-text-muted);
+}
+
+.step-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.step-header__title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text-primary);
+  text-wrap: balance;
+}
+
+/* The heading is a focus target on a step change, so it must show a ring even
+   though it is not in the tab order. */
+.step-header__title:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-xs);
+}
+
+.step-header__description {
+  max-width: var(--content-measure);
+  font-size: var(--text-md);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+[data-viewport="mobile"] .step-header__title {
+  font-size: var(--text-xl);
+}
+
+[data-viewport="web"] .step-header__title {
+  font-size: var(--text-3xl);
+}
+
+.step-progress {
+  display: flex;
+  align-items: center;
+}
+
+.step-progress__marks {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+}
+
+.step-progress__mark {
+  width: var(--space-md);
+  height: var(--space-3xs);
+  background-color: var(--color-border);
+  border-radius: var(--radius-pill);
+}
+
+.step-progress__mark.is-done {
+  background-color: var(--color-text-muted);
+}
+
+.step-progress__mark.is-current {
+  width: var(--space-lg);
+  background-color: var(--color-text-primary);
+}
+
+/* Optional steps are drawn hollow so "up to three" reads as up to, not three. */
+.step-progress__mark.is-optional {
+  background-color: transparent;
+  box-shadow: inset 0 0 0 var(--border-width-thin) var(--color-border-strong);
+}
+
+.step-progress__mark.is-optional.is-current {
+  background-color: var(--color-text-primary);
+  box-shadow: none;
+}
+
+.step-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+/* Primary and skip are peers. Peer weight means same width and same size, not
+   necessarily same row: "Skip and show my first step" is a long label, and at
+   half of 390px it wraps to three lines and stops looking like a real choice.
+   So they stack full-width on mobile and sit side by side with equal basis from
+   tablet up. Either way neither is smaller or quieter than the other. */
+.step-actions__row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.step-actions__row > .btn {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+[data-viewport="tablet"] .step-actions__row,
+[data-viewport="web"] .step-actions__row {
+  flex-direction: row;
+}
+
+.step-actions__back {
+  display: flex;
+}

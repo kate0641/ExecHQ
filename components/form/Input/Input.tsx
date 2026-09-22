@@ -10,6 +10,10 @@ export interface InputProps
   hint?: string;
   /** Error text. Sets aria-invalid and is announced politely. */
   error?: string;
+  /** Ids of extra elements describing the field, appended to the hint and the
+   *  error. Lets a wrapper attach its own content — a list of examples, say —
+   *  without rebuilding the field and losing this wiring. */
+  describedBy?: string;
   /** Hides the label visually but keeps it for screen readers. */
   labelHidden?: boolean;
   /** Renders a multi-line field instead. */
@@ -25,6 +29,7 @@ export function Input({
   label,
   hint,
   error,
+  describedBy,
   labelHidden = false,
   multiline = false,
   rows = 4,
@@ -36,7 +41,7 @@ export function Input({
   const id = useId();
   const hintId = `${id}-hint`;
   const errorId = `${id}-error`;
-  const describedBy = [hint ? hintId : null, error ? errorId : null]
+  const describedByIds = [hint ? hintId : null, error ? errorId : null, describedBy]
     .filter(Boolean)
     .join(" ");
 
@@ -50,7 +55,7 @@ export function Input({
     disabled,
     required,
     "aria-invalid": error ? true : undefined,
-    "aria-describedby": describedBy || undefined,
+    "aria-describedby": describedByIds || undefined,
   };
 
   return (

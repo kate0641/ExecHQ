@@ -1,0 +1,150 @@
+{
+  "_comment": "Mock content for the Sprint 1 onboarding concepts. Local only — nothing here is fetched. Copy is written to the brand voice: short sentences, active voice, no hedging.",
+
+  "privacy": {
+    "heading": "Before you tell us anything",
+    "statements": [
+      "Nothing you do here is visible to your employer, your network, or another user.",
+      "This account is yours. It stays yours regardless of where you work.",
+      "We ask for a personal email for that reason, and for no other."
+    ],
+    "action": "Understood"
+  },
+
+  "direction": {
+    "prompt": "What would you like to move toward?",
+    "hint": "A role, a scope, an aspiration or a challenge. A precise title is optional.",
+    "examples": [
+      "CMO within three years",
+      "I want out of agency life",
+      "More influence where I already am",
+      "I have hit a ceiling and cannot name the next role"
+    ],
+    "sample": "I want to lead a larger marketing organisation, ideally somewhere the brand actually matters to the business."
+  },
+
+  "interpretation": {
+    "sentence": "You want to lead a larger marketing organisation, in a business where marketing carries real weight.",
+    "editLabel": "Edit this"
+  },
+
+  "refinement": [
+    {
+      "id": "horizon",
+      "question": "Roughly when?",
+      "hint": "A rough answer is enough. It changes what we put first, not whether we start.",
+      "options": [
+        { "value": "now", "label": "Already underway" },
+        { "value": "year", "label": "Within a year" },
+        { "value": "two-three", "label": "Two to three years" },
+        { "value": "unsure", "label": "Not sure yet" }
+      ]
+    },
+    {
+      "id": "audience",
+      "question": "Who most needs to see this differently?",
+      "hint": "The people whose reading of you would change things.",
+      "options": [
+        { "value": "internal", "label": "Leaders in my company" },
+        { "value": "external", "label": "People outside it" },
+        { "value": "both", "label": "Both" },
+        { "value": "unsure", "label": "Not sure yet" }
+      ]
+    },
+    {
+      "id": "constraint",
+      "question": "What is most in the way right now?",
+      "hint": "Naming the constraint changes what we recommend first.",
+      "options": [
+        { "value": "visibility", "label": "Nobody sees the work" },
+        { "value": "scope", "label": "The remit is too narrow" },
+        { "value": "clarity", "label": "I cannot articulate it" },
+        { "value": "time", "label": "No time to work on it" }
+      ]
+    }
+  ],
+
+  "assumption": {
+    "statement": "Based on your goal of leading a larger marketing organisation, we have started with a concise leadership narrative.",
+    "promise": "We can make this more specific later."
+  },
+
+  "plans": [
+    {
+      "id": "leadership-scope",
+      "name": "Increase leadership scope",
+      "bestFor": "A strong performer seeking promotion or a broader remit.",
+      "emphasis": "Leadership narrative, executive-ready evidence, key conversations.",
+      "rationale": "You said you want to lead a larger organisation, so this plan starts with the narrative and the evidence that decision-makers ask for."
+    },
+    {
+      "id": "executive-presence",
+      "name": "Build executive presence",
+      "bestFor": "You need greater visibility and a clearer point of view.",
+      "emphasis": "Positioning, thought leadership, speaking and podcast pitching."
+    },
+    {
+      "id": "inflection-point",
+      "name": "Prepare for a career inflection point",
+      "bestFor": "A promotion, role change, review, board presentation or negotiation is ahead.",
+      "emphasis": "Situation Brief, narrative, stakeholder strategy."
+    },
+    {
+      "id": "current-org",
+      "name": "Strengthen influence in the current organisation",
+      "bestFor": "You intend to grow where you are.",
+      "emphasis": "Strategic communication, executive presence, internal opportunity framing."
+    },
+    {
+      "id": "explore",
+      "name": "Explore and clarify a next direction",
+      "bestFor": "You feel a ceiling but cannot name a role.",
+      "emphasis": "Direction refinement, transferable narrative, low-risk exploratory actions."
+    }
+  ],
+
+  "artifact": {
+    "tool": "Positioning Builder",
+    "title": "Your leadership narrative",
+    "note": "A first draft, already started. Edit anything.",
+    "sections": [
+      {
+        "heading": "What I do",
+        "body": "I lead marketing organisations where the brand is a commercial instrument rather than a cost line — building the team, the positioning and the operating rhythm that make demand predictable.",
+        "state": "filled"
+      },
+      {
+        "heading": "What I am known for",
+        "body": "Taking marketing functions that are treated as a service desk and turning them into a function the executive team plans around.",
+        "state": "filled"
+      },
+      {
+        "heading": "What I am building toward",
+        "body": "A larger organisation, in a business where marketing carries real weight in the strategy — not only in the funnel.",
+        "state": "filled"
+      },
+      {
+        "heading": "Evidence",
+        "body": "Add two or three specific results and this section writes itself.",
+        "state": "pending"
+      }
+    ]
+  },
+
+  "connect": [
+    {
+      "id": "linkedin",
+      "title": "Add your LinkedIn metrics",
+      "body": "Enter them yourself, whenever you like. It sharpens future drafts. It is not needed for anything you have today.",
+      "connectLabel": "Add metrics",
+      "declineLabel": "Not now"
+    },
+    {
+      "id": "website",
+      "title": "Connect a personal website",
+      "body": "Gives us your own voice to write in. Useful later. It changes nothing about the draft you already have.",
+      "connectLabel": "Connect",
+      "declineLabel": "Not now"
+    }
+  ]
+}

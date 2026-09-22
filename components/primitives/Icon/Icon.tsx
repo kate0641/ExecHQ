@@ -1,4 +1,14 @@
-export type IconName = "mobile" | "tablet" | "web" | "hub" | "chevron";
+export type IconName =
+  | "mobile"
+  | "tablet"
+  | "web"
+  | "hub"
+  | "chevron"
+  | "shield"
+  | "check"
+  | "document"
+  | "link"
+  | "pencil";
 
 export interface IconProps {
   name: IconName;
@@ -42,6 +52,33 @@ const PATHS: Record<IconName, React.ReactNode> = {
     </>
   ),
   chevron: <path d="M7 4l5 6-5 6" />,
+  // Privacy. A closed shield, because the promise is that nothing leaves.
+  shield: (
+    <>
+      <path d="M10 2.5l6 2.2v4.6c0 3.6-2.4 6.5-6 8.2-3.6-1.7-6-4.6-6-8.2V4.7z" />
+      <path d="M7.6 10.1l1.7 1.8 3.3-3.6" />
+    </>
+  ),
+  check: <path d="M4 10.4l3.6 3.6L16 5.6" />,
+  document: (
+    <>
+      <path d="M5 2.5h6.5L16 7v10.5H5z" />
+      <path d="M11.2 2.6V7H15.8" />
+      <path d="M7.6 11h5.2M7.6 14h3.4" strokeWidth="1.3" />
+    </>
+  ),
+  link: (
+    <>
+      <path d="M8.4 11.6a3 3 0 004.3 0l2.6-2.6a3 3 0 10-4.3-4.3l-1 1" />
+      <path d="M11.6 8.4a3 3 0 00-4.3 0l-2.6 2.6a3 3 0 104.3 4.3l1-1" />
+    </>
+  ),
+  pencil: (
+    <>
+      <path d="M13.4 3.6l3 3L7.6 15.4 4 16l.6-3.6z" />
+      <path d="M11.8 5.2l3 3" strokeWidth="1.3" />
+    </>
+  ),
 };
 
 export function Icon({ name, size = 18, className }: IconProps) {
