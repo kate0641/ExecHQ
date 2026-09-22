@@ -1,0 +1,27 @@
+{
+  "name": "exechq",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint --max-warnings=0",
+    "check:tokens": "node scripts/check-tokens.mjs",
+    "check": "npm run lint && npm run check:tokens && npm run build"
+  },
+  "dependencies": {
+    "next": "16.3.6",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.6",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "typescript": "^5"
+  }
+}
