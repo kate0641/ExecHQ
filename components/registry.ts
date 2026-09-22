@@ -37,6 +37,7 @@ import { wizardStepStates } from "./onboarding/WizardStep/WizardStep.states";
 import { threadTurnStates } from "./onboarding/ThreadTurn/ThreadTurn.states";
 import { canvasSectionStates } from "./onboarding/CanvasSection/CanvasSection.states";
 import { canvasHeaderStates } from "./onboarding/CanvasHeader/CanvasHeader.states";
+import { directionDeckStates } from "./onboarding/DirectionDeck/DirectionDeck.states";
 
 export const registry: RegisteredComponent[] = [
   badgeStates,
@@ -66,6 +67,7 @@ export const registry: RegisteredComponent[] = [
   threadTurnStates,
   canvasSectionStates,
   canvasHeaderStates,
+  directionDeckStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */

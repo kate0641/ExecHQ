@@ -56,6 +56,31 @@ export const inputStates = defineComponentStates({
       },
     },
     {
+      label: "Statement",
+      description:
+        "No box. An underlined line in the serif, for text being composed rather than a form being completed.",
+      props: {
+        label: "What would you like to move toward?",
+        labelHidden: true,
+        variant: "statement" as const,
+        multiline: true,
+        rows: 2,
+        defaultValue:
+          "I want to lead a larger organisation, with a broader remit than I have now.",
+      },
+    },
+    {
+      label: "Statement — empty",
+      props: {
+        label: "What would you like to move toward?",
+        labelHidden: true,
+        variant: "statement" as const,
+        multiline: true,
+        rows: 2,
+        placeholder: "A role, a scope, an aspiration or a challenge.",
+      },
+    },
+    {
       label: "Label hidden",
       props: { label: "Search components", labelHidden: true, placeholder: "Search" },
     },

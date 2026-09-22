@@ -7,7 +7,7 @@ export const threadTurnStates = defineComponentStates({
   status: "draft",
   flows: ["onboarding"],
   description:
-    "One turn in Concept 2's conversational intake. Deliberately not a chat bubble — no avatars, no tails, no alternating sides — because the visual language of messaging would promise the general-purpose chat window the product strategy rules out. It is a transcript: advisor turns as editorial text, user turns indented against a rule.",
+    "One turn in Concept 2's conversational intake. Two voices down the same margin: ExecHQ as plain editorial text at full measure, the user in a filled block carrying their name. Enough to tell the voices apart at a glance without the messaging costume — and keeping full width matters, because the plan and the draft are long.",
   component: ThreadTurn,
   variants: [
     {
@@ -41,6 +41,16 @@ export const threadTurnStates = defineComponentStates({
       label: "You — skipped",
       description: "Skipping is recorded plainly, not apologised for.",
       props: { speaker: "you" as const, children: "Skipped the rest" },
+    },
+    {
+      label: "You — with a way back in",
+      description:
+        "With the back button gone, this is how a mistake is corrected: by editing the record rather than reversing out of it.",
+      props: {
+        speaker: "you" as const,
+        children: "maya@gmail.com",
+        onEdit: () => {},
+      },
     },
     {
       label: "Past turn",

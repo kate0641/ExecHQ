@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Button } from "@/components/primitives/Button";
 
 export type TurnSpeaker = "advisor" | "you";
 
@@ -15,23 +16,29 @@ export interface ThreadTurnProps {
   children?: ReactNode;
   /** A turn that has been answered and is now part of the record. */
   past?: boolean;
+  /** Reopens the step this turn answered. With the back button gone, this is
+   *  how a mistake gets corrected: by editing the record rather than reversing
+   *  out of it. */
+  onEdit?: () => void;
+  editLabel?: string;
   className?: string;
 }
 
 /**
  * One turn in the conversational intake.
  *
- * Deliberately not a chat bubble. No avatars, no tails, no alternating sides,
- * no timestamps — the product strategy is explicit that a chat window is what a
- * short prompt to any LLM already gives you, and the visual language of
- * messaging would promise exactly that. What this is instead is a transcript:
- * the advisor's turns are set as plain editorial text at full measure, and the
- * user's turns are indented against a rule, the way a quoted answer is set in a
- * document.
+ * Two voices, both down the left margin. ExecHQ speaks as plain editorial text
+ * at full measure; the user's turns sit in a filled block carrying their name.
+ * That is enough to tell at a glance what came from the program and what came
+ * from you, without avatars, tails, alternating sides or timestamps — the
+ * product strategy is explicit that a chat window is what a short prompt to any
+ * LLM already gives you, and the full messaging costume would promise exactly
+ * that. Keeping every turn at full width also matters practically: the plan and
+ * the draft are long, and a right-hand column cannot hold them.
  *
- * `past` marks a turn that has been answered. It stays fully legible rather
- * than being faded out — the thread is the record, and a record you cannot read
- * is not one.
+ * `past` marks a turn that has been answered. The attribution and the spent
+ * controls step back; the words do not. The thread is the record, and a record
+ * you cannot read is not one.
  */
 export function ThreadTurn({
   speaker,
@@ -41,6 +48,8 @@ export function ThreadTurn({
   description,
   children,
   past = false,
+  onEdit,
+  editLabel = "Change",
   className,
 }: ThreadTurnProps) {
   const Heading = `h${headingLevel}` as const;
@@ -51,7 +60,16 @@ export function ThreadTurn({
         .filter(Boolean)
         .join(" ")}
     >
-      {speaker === "you" ? <p className="turn__attribution">You</p> : null}
+      {speaker === "you" ? (
+        <div className="turn__head">
+          <p className="turn__attribution">You</p>
+          {onEdit ? (
+            <Button variant="ghost" size="sm" onClick={onEdit}>
+              {editLabel}
+            </Button>
+          ) : null}
+        </div>
+      ) : null}
 
       {heading ? (
         <Heading className="turn__heading" id={headingId}>

@@ -7,6 +7,7 @@ import { GeneratingState } from "@/components/onboarding/GeneratingState";
 import { Notice } from "@/components/onboarding/Notice";
 import { ThreadTurn } from "@/components/onboarding/ThreadTurn";
 import {
+  ONBOARDING_STEPS,
   stepIndex,
   useOnboardingFlow,
   type OnboardingStep,
@@ -63,7 +64,7 @@ export function OnboardingConcept2() {
     conceptId: "concept-2",
     followInterpretation: true,
   });
-  const { state, derived, generating, pendingResume, refinementQuestions } = flow;
+  const { state, dispatch, derived, generating, pendingResume, refinementQuestions } = flow;
 
   const headingIdBase = useId();
   const activeHeadingId = `${headingIdBase}-active`;
@@ -130,12 +131,50 @@ export function OnboardingConcept2() {
   };
 
   const current = state.step;
-  const isPast = (step: OnboardingStep) => stepIndex(step) < stepIndex(current);
+  const currentIndex = stepIndex(current);
+
+  /** The furthest the conversation has got, which is not the same as where the
+   *  user is standing. Going back to change an answer must not delete the record
+   *  of everything said after it — the thread is the record, and a record that
+   *  disappears when you correct a typo is not one. */
+  const furthestIndex = state.visited.reduce(
+    (furthest, step) => Math.max(furthest, stepIndex(step)),
+    currentIndex
+  );
+
   const isNow = (step: OnboardingStep) => step === current;
+  /** Answered, ever — not "before where I am standing". These two are the same
+   *  thing until the user goes back to change something, and the difference is
+   *  the whole reason the record survives that. */
+  const isDone = (step: OnboardingStep) => stepIndex(step) < furthestIndex;
+  /** Styling: every turn except the live one is part of the record. */
+  const isPast = (step: OnboardingStep) => !isNow(step);
   const inCustomPlan = state.customPlanIndex !== null;
 
-  /** A turn is shown once the flow has reached its step. */
-  const reached = (step: OnboardingStep) => stepIndex(step) <= stepIndex(current);
+  /** A turn is shown once the conversation has reached its step, ever. */
+  const reached = (step: OnboardingStep) => stepIndex(step) <= furthestIndex;
+
+  /** Set when the user has gone back to change something, so they can return to
+   *  where they were instead of walking the whole thread again. */
+  const revisiting = currentIndex < furthestIndex;
+  const returnStep = ONBOARDING_STEPS[furthestIndex];
+
+  const backToWhereIWas = revisiting ? (
+    <div className="thread__revisit">
+      <Notice tone="info" live>
+        You are changing an earlier answer. Everything after it is still here.
+        <div className="thread__revisit-actions">
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => dispatch({ type: "go-to", step: returnStep })}
+          >
+            Back to where I was
+          </Button>
+        </div>
+      </Notice>
+    </div>
+  ) : null;
 
   const turns: { key: string; node: ReactNode }[] = [];
 
@@ -166,10 +205,19 @@ export function OnboardingConcept2() {
     });
   }
 
-  function said(key: string, children: ReactNode) {
+  /** A turn recording what the user said. `step` makes it correctable: with the
+   *  back button gone, editing the record is how a mistake gets fixed. */
+  function said(key: string, children: ReactNode, step?: OnboardingStep) {
     turns.push({
       key,
-      node: <ThreadTurn speaker="you">{children}</ThreadTurn>,
+      node: (
+        <ThreadTurn
+          speaker="you"
+          onEdit={step ? () => dispatch({ type: "go-to", step }) : undefined}
+        >
+          {children}
+        </ThreadTurn>
+      ),
     });
   }
 
@@ -180,7 +228,7 @@ export function OnboardingConcept2() {
     active: isNow("account"),
     children: isNow("account") ? <AccountAsk context={context} /> : undefined,
   });
-  if (isPast("account")) said("account-said", accountRecord(state));
+  if (isDone("account")) said("account-said", accountRecord(state), "account");
 
   /* --- Privacy --- */
   if (reached("privacy")) {
@@ -189,7 +237,7 @@ export function OnboardingConcept2() {
       active: isNow("privacy"),
       children: isNow("privacy") ? <PrivacyAsk context={context} /> : undefined,
     });
-    if (isPast("privacy")) said("privacy-said", PRIVACY.action);
+    if (isDone("privacy")) said("privacy-said", PRIVACY.action);
   }
 
   /* --- Direction --- */
@@ -199,8 +247,8 @@ export function OnboardingConcept2() {
       active: isNow("direction"),
       children: isNow("direction") ? <DirectionAsk context={context} /> : undefined,
     });
-    if (isPast("direction") && state.answers.direction) {
-      said("direction-said", state.answers.direction);
+    if (isDone("direction") && state.answers.direction) {
+      said("direction-said", state.answers.direction, "direction");
     }
   }
 
@@ -227,12 +275,13 @@ export function OnboardingConcept2() {
       if (answered) {
         said(
           `refinement-${question.id}-said`,
-          refinementRecord(state, question.id, question.options)
+          refinementRecord(state, question.id, question.options),
+          "refinement"
         );
       }
     });
 
-    if (isPast("refinement") && state.skipped.includes("refinement")) {
+    if (isDone("refinement") && state.skipped.includes("refinement")) {
       said(
         "refinement-skipped",
         Object.keys(state.answers.refinement).length > 0
@@ -285,14 +334,57 @@ export function OnboardingConcept2() {
         children: <CustomPlanAsk context={context} />,
       });
     } else {
-      advisor("plan", "This is where we would start", {
+      // Stage by stage: the reasoning, then the name, then one turn per stage.
+      // A page has to show a plan all at once; a conversation can hand it over
+      // in the order a person would say it, and scrolling back gives the
+      // reasoning in the order it was given.
+      advisor("plan-why", "Here is where I would start", {
         description: derived?.recommended.rationale,
-        past: isPast("plan"),
-        active: isNow("plan"),
-        children: isNow("plan") ? <PlanAsk context={context} /> : undefined,
+        past: true,
       });
-      if (isPast("plan")) {
-        said("plan-said", planRecord(state, derived?.recommended.name ?? "A plan"));
+
+      advisor("plan-name", derived?.recommended.name ?? "A plan", {
+        past: true,
+      });
+
+      (derived?.recommended.stages ?? []).forEach((stage, index) => {
+        const last = index === (derived?.recommended.stages?.length ?? 0) - 1;
+        turns.push({
+          key: `plan-stage-${stage.title}`,
+          node: (
+            <ThreadTurn speaker="advisor" past={!last || isDone("plan")}>
+              <div className="plan-stage-turn">
+                <p className="plan-stage__window">{stage.window}</p>
+                <p className="plan-stage-turn__title">{stage.title}</p>
+                <ul className="plan-stage__outcomes">
+                  {stage.outcomes.map((outcome) => (
+                    <li key={outcome}>{outcome}</li>
+                  ))}
+                </ul>
+              </div>
+            </ThreadTurn>
+          ),
+        });
+      });
+
+      if (isNow("plan")) {
+        turns.push({
+          key: "plan-choose",
+          node: (
+            <ThreadTurn
+              speaker="advisor"
+              heading="Does that sound like your plan?"
+              headingLevel={2}
+              headingId={activeHeadingId}
+            >
+              <PlanAsk context={context} />
+            </ThreadTurn>
+          ),
+        });
+      }
+
+      if (isDone("plan")) {
+        said("plan-said", planRecord(state, derived?.recommended.name ?? "A plan"), "plan");
       }
     }
   }
@@ -374,6 +466,8 @@ export function OnboardingConcept2() {
           page whose outline starts at h2 has a hole in it. This names the thing
           the turns belong to without putting chrome on the screen. */}
       <h1 className="u-visually-hidden">Onboarding</h1>
+
+      {backToWhereIWas}
 
       <ol className="thread__list">
         {turns.map((turn) => (

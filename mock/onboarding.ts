@@ -66,6 +66,9 @@ export interface PromptedDirection {
   label: string;
   /** What lands in the open field when it is selected. Still editable. */
   text: string;
+  /** One line saying what this direction means, for a layout that spells each
+   *  one out rather than listing them as labels. */
+  blurb: string;
   /** The need this reading points at. Drives the plan recommendation. */
   need: DirectionNeed;
 }
@@ -88,36 +91,42 @@ export const PROMPTED_DIRECTIONS: PromptedDirection[] = [
     id: "bigger-org",
     label: "Lead a bigger organisation",
     text: "I want to lead a larger organisation, with a broader remit than I have now.",
+    blurb: "A larger remit than the one you have now.",
     need: "positioning",
   },
   {
     id: "seen-differently",
     label: "Be seen differently",
     text: "I want to be read as an executive rather than a strong operator.",
+    blurb: "Read as an executive rather than a strong operator.",
     need: "visibility",
   },
   {
     id: "weigh-more",
     label: "Carry more weight where I am",
     text: "I want more influence in the organisation I am already in.",
+    blurb: "More say where you already are, without moving to get it.",
     need: "influence",
   },
   {
     id: "moment-ahead",
     label: "Something specific is coming up",
     text: "I have a promotion conversation, review or board presentation ahead of me.",
+    blurb: "A conversation, review or presentation with a date on it.",
     need: "preparation",
   },
   {
     id: "leaving",
     label: "Get out of where I am",
     text: "I want out of the industry I am in, but I have not worked out what replaces it.",
+    blurb: "Out of the industry, before you have named what replaces it.",
     need: "exploration",
   },
   {
     id: "unsure",
     label: "I do not know yet",
     text: "I have hit a ceiling and I cannot name the next role.",
+    blurb: "A ceiling you can feel but cannot put a title to.",
     need: "exploration",
   },
 ];

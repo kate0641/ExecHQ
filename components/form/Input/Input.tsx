@@ -18,6 +18,11 @@ export interface InputProps
   labelHidden?: boolean;
   /** Renders a multi-line field instead. */
   multiline?: boolean;
+  /** `field` is the default bordered box. `statement` drops the box for an
+   *  underlined line set in the serif — for text the user is composing rather
+   *  than a form they are completing. Weaker affordance by design, so use it
+   *  only where the surrounding copy makes the editability obvious. */
+  variant?: "field" | "statement";
   rows?: number;
 }
 
@@ -32,6 +37,7 @@ export function Input({
   describedBy,
   labelHidden = false,
   multiline = false,
+  variant = "field",
   rows = 4,
   className,
   disabled,
@@ -45,7 +51,12 @@ export function Input({
     .filter(Boolean)
     .join(" ");
 
-  const fieldClasses = ["field__control", error ? "field__control--error" : null, className]
+  const fieldClasses = [
+    "field__control",
+    variant === "statement" ? "field__control--statement" : null,
+    error ? "field__control--error" : null,
+    className,
+  ]
     .filter(Boolean)
     .join(" ");
 

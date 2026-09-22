@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import Link from "next/link";
 import { Input } from "@/components/form/Input";
 import { ToggleGroup } from "@/components/form/ToggleGroup";
 import { Button } from "@/components/primitives/Button";
@@ -8,7 +9,7 @@ import { ActionCard } from "@/components/onboarding/ActionCard";
 import { ArtifactDraft } from "@/components/onboarding/ArtifactDraft";
 import { AssumptionNotice } from "@/components/onboarding/AssumptionNotice";
 import { ConnectOffer } from "@/components/onboarding/ConnectOffer";
-import { DirectionField } from "@/components/onboarding/DirectionField";
+import { DirectionDeck } from "@/components/onboarding/DirectionDeck";
 import { InterpretedDirection } from "@/components/onboarding/InterpretedDirection";
 import { Notice } from "@/components/onboarding/Notice";
 import { PlanTemplateCard } from "@/components/onboarding/PlanTemplateCard";
@@ -88,12 +89,11 @@ export function AccountAsk({ context }: { context: TurnContext }) {
   const { state, dispatch } = context.flow;
   const [code, setCode] = useState(state.answers.inviteCode ?? "");
   const [email, setEmail] = useState(state.answers.email ?? "");
-  const [showCode, setShowCode] = useState(Boolean(state.answers.inviteCode));
   const [codeError, setCodeError] = useState(false);
   const [verdict, setVerdict] = useState<ReturnType<typeof checkEmail> | null>(null);
 
   function submit() {
-    const codeOk = !showCode || !code.trim() || isValidInviteCode(code);
+    const codeOk = !code.trim() || isValidInviteCode(code);
     const emailVerdict = checkEmail(email);
     setCodeError(!codeOk);
     setVerdict(emailVerdict === "ok" ? null : emailVerdict);
@@ -105,33 +105,11 @@ export function AccountAsk({ context }: { context: TurnContext }) {
 
   return (
     <Ask context={context}>
-      {showCode ? (
-        <Input
-          label="Invite code"
-          hint="From the invitation you were sent. Optional."
-          value={code}
-          onChange={(event) => setCode(event.target.value)}
-        />
-      ) : (
-        <div className="turn__inline-action">
-          <Button variant="ghost" size="sm" onClick={() => setShowCode(true)}>
-            I have an invite code
-          </Button>
-        </div>
-      )}
-
-      {codeError ? (
-        <Notice tone="explain" title="We do not recognise that code" live>
-          Check it against the invitation you were sent. You can also continue
-          without one — a code only changes who pays, never what you get.
-        </Notice>
-      ) : null}
-
       <Input
         label="Email"
         type="email"
         required
-        hint="Use whichever address suits you. You can change it whenever you like."
+        hint="Use whichever address suits you. You can change it whenever you like, and the account stays yours either way."
         value={email}
         error={
           verdict === "empty"
@@ -143,7 +121,21 @@ export function AccountAsk({ context }: { context: TurnContext }) {
         onChange={(event) => setEmail(event.target.value)}
       />
 
-      <StepActions primaryLabel="Continue" onPrimary={submit} />
+      <Input
+        label="Invite code"
+        hint="From an invitation, if you were sent one."
+        value={code}
+        onChange={(event) => setCode(event.target.value)}
+      />
+
+      {codeError ? (
+        <Notice tone="explain" title="We do not recognise that code" live>
+          Check it against the invitation you were sent. You can also continue
+          without one — a code only changes who pays, never what you get.
+        </Notice>
+      ) : null}
+
+      <StepActions primaryLabel="Next" onPrimary={submit} />
     </Ask>
   );
 }
@@ -165,10 +157,8 @@ export function PrivacyAsk({ context }: { context: TurnContext }) {
     <Ask context={context}>
       <PrivacyPromise statements={PRIVACY.statements} />
       <StepActions
-        primaryLabel={PRIVACY.action}
+        primaryLabel="Next"
         onPrimary={() => context.flow.dispatch({ type: "next" })}
-        backLabel="Back"
-        onBack={() => context.flow.dispatch({ type: "back" })}
       />
     </Ask>
   );
@@ -181,11 +171,12 @@ export function PrivacyAsk({ context }: { context: TurnContext }) {
 export function DirectionAsk({ context }: { context: TurnContext }) {
   const { state, dispatch } = context.flow;
   const [value, setValue] = useState(state.answers.direction ?? "");
-  const [selected, setSelected] = useState<string | null>(
-    state.answers.directionSource === "prompted"
-      ? (PROMPTED_DIRECTIONS.find((p) => p.text === state.answers.direction)?.id ?? null)
-      : null
-  );
+  const [selected, setSelected] = useState<string | null>(() => {
+    if (state.answers.directionSource === "free" && state.answers.direction) return "own";
+    return (
+      PROMPTED_DIRECTIONS.find((p) => p.text === state.answers.direction)?.id ?? null
+    );
+  });
   const [error, setError] = useState<string | undefined>();
 
   function choose(prompt: PromptedDirection) {
@@ -196,41 +187,40 @@ export function DirectionAsk({ context }: { context: TurnContext }) {
 
   function submit() {
     if (!value.trim()) {
-      setError("Tell us roughly where you want to go. A few words is enough.");
+      setError(
+        selected === "own" ? "A few words is enough." : "Choose one, or write your own."
+      );
       return;
     }
     dispatch({
       type: "set-direction",
       direction: value.trim(),
-      source: selected ? "prompted" : "free",
+      source: selected === "own" ? "free" : "prompted",
     });
     dispatch({ type: "next" });
   }
 
   return (
     <Ask context={context}>
-      <DirectionField
-        label={DIRECTION.prompt}
-        labelHidden
-        hint={DIRECTION.hint}
+      <DirectionDeck
+        directions={PROMPTED_DIRECTIONS}
+        selectedId={selected}
+        onSelect={choose}
+        onWriteOwn={() => {
+          setSelected("own");
+          setValue("");
+          setError(undefined);
+        }}
         value={value}
         onChange={(next) => {
           setValue(next);
-          setSelected(null);
           if (next.trim()) setError(undefined);
         }}
-        prompted={PROMPTED_DIRECTIONS}
-        promptedLabel={DIRECTION.promptedLabel}
-        selectedPromptId={selected}
-        onSelectPrompt={choose}
+        label={DIRECTION.prompt}
+        hint={DIRECTION.hint}
         error={error}
       />
-      <StepActions
-        primaryLabel="Continue"
-        onPrimary={submit}
-        backLabel="Back"
-        onBack={() => dispatch({ type: "back" })}
-      />
+      <StepActions primaryLabel="Next" onPrimary={submit} primaryDisabled={!selected} />
     </Ask>
   );
 }
@@ -278,14 +268,12 @@ export function InterpretationTurn({
       />
       {active ? (
         <StepActions
-          primaryLabel="That is right"
+          primaryLabel="Next"
           onPrimary={() => {
             dispatch({ type: "next" });
             withDelay("planning", () => {});
           }}
           primaryDisabled={editing}
-          backLabel="Back"
-          onBack={() => dispatch({ type: "back" })}
         />
       ) : null}
     </>
@@ -325,8 +313,6 @@ export function RefinementAsk({ context }: { context: TurnContext }) {
           dispatch({ type: "skip-all-refinement" });
           withDelay("interpreting", () => {});
         }}
-        backLabel="Back"
-        onBack={() => dispatch({ type: "back" })}
       />
     </Ask>
   );
@@ -362,13 +348,6 @@ export function PlanAsk({ context }: { context: TurnContext }) {
   const selectedId = state.answers.planId ?? recommended.id;
   const others = PLAN_TEMPLATES.filter((plan) => plan.id !== recommended.id);
 
-  // The turn has already stated the reasoning above the card — that ordering is
-  // the whole point of delivering this conversationally. So the card drops its
-  // rationale and falls back to its "best for" line, which is the one thing the
-  // turn has not said. Printing the same sentence twice would make the
-  // reasoning read as boilerplate.
-  const card = { ...recommended, rationale: undefined };
-
   return (
     <Ask context={context}>
       {hasSkippedRefinement(state) && derived ? (
@@ -385,30 +364,25 @@ export function PlanAsk({ context }: { context: TurnContext }) {
         </Notice>
       ) : null}
 
-      <div className="plan-set" role="radiogroup" aria-label="Plan">
-        <PlanTemplateCard
-          plan={card}
-          recommended
-          selected={selectedId === recommended.id}
-          name="plan-c2"
-          onSelect={(planId) =>
-            dispatch({ type: "select-plan", planId, source: "recommended" })
-          }
-        />
-        {showOthers
-          ? others.map((plan) => (
-              <PlanTemplateCard
-                key={plan.id}
-                plan={plan}
-                selected={selectedId === plan.id}
-                name="plan-c2"
-                onSelect={(planId) =>
-                  dispatch({ type: "select-plan", planId, source: "switched" })
-                }
-              />
-            ))
-          : null}
-      </div>
+      {/* No card for the recommendation here: the turns above have just delivered
+          it stage by stage, and repeating it as a card would be the same plan
+          told twice in the space of one screen. The alternatives still appear as
+          cards, because those have not been described. */}
+      {showOthers ? (
+        <div className="plan-set" role="radiogroup" aria-label="Other plans">
+          {others.map((plan) => (
+            <PlanTemplateCard
+              key={plan.id}
+              plan={plan}
+              selected={selectedId === plan.id}
+              name="plan-c2"
+              onSelect={(planId) =>
+                dispatch({ type: "select-plan", planId, source: "switched" })
+              }
+            />
+          ))}
+        </div>
+      ) : null}
 
       <div className="plan-set__actions">
         {!showOthers ? (
@@ -434,8 +408,6 @@ export function PlanAsk({ context }: { context: TurnContext }) {
           });
           dispatch({ type: "next" });
         }}
-        backLabel="Back"
-        onBack={() => dispatch({ type: "back" })}
       />
     </Ask>
   );
@@ -480,8 +452,6 @@ export function CustomPlanAsk({ context }: { context: TurnContext }) {
         }}
         skipLabel="Leave this and keep the draft"
         onSkip={() => dispatch({ type: "exit-custom-plan" })}
-        backLabel="Back"
-        onBack={() => dispatch({ type: "back" })}
       />
     </Ask>
   );
@@ -507,8 +477,6 @@ export function PlanConfirmedAsk({ context }: { context: TurnContext }) {
       <StepActions
         primaryLabel="Show me the first step"
         onPrimary={() => dispatch({ type: "next" })}
-        backLabel="Back"
-        onBack={() => dispatch({ type: "back" })}
       />
     </Ask>
   );
@@ -526,8 +494,6 @@ export function ActionAsk({ context }: { context: TurnContext }) {
           dispatch({ type: "next" });
           withDelay("drafting", () => {});
         }}
-        backLabel="Back"
-        onBack={() => dispatch({ type: "back" })}
       />
     </Ask>
   );
@@ -557,8 +523,6 @@ export function ArtifactAsk({ context }: { context: TurnContext }) {
           }
           dispatch({ type: "next" });
         }}
-        backLabel="Back"
-        onBack={() => dispatch({ type: "back" })}
       />
     </Ask>
   );
@@ -593,19 +557,24 @@ export function ConnectAsk({ context }: { context: TurnContext }) {
           />
         ))}
       </div>
-      <StepActions
-        primaryLabel="Done"
-        onPrimary={() => dispatch({ type: "next" })}
-        skipLabel="Skip both"
-        onSkip={() => {
-          CONNECT_OFFERS.forEach((offer) =>
-            dispatch({ type: "set-connection", id: offer.id, state: "declined" })
-          );
-          dispatch({ type: "next" });
-        }}
-        backLabel="Back"
-        onBack={() => dispatch({ type: "back" })}
-      />
+      {/* Adding and skipping both end onboarding and hand over to the app, so
+          they go to the same place. Skipping is not a lesser exit. */}
+      <div className="thread__handover">
+        <Link className="btn btn--primary btn--md btn--full" href="/homepage/concept-1">
+          Save and go to my homepage
+        </Link>
+        <Link
+          className="btn btn--secondary btn--md btn--full"
+          href="/homepage/concept-1"
+          onClick={() =>
+            CONNECT_OFFERS.forEach((offer) =>
+              dispatch({ type: "set-connection", id: offer.id, state: "declined" })
+            )
+          }
+        >
+          Go to my homepage
+        </Link>
+      </div>
     </Ask>
   );
 }
