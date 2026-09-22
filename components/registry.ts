@@ -22,6 +22,17 @@ import { navPlaceholderStates } from "./layout/NavPlaceholder/NavPlaceholder.sta
 import { stepHeaderStates } from "./onboarding/StepHeader/StepHeader.states";
 import { stepProgressStates } from "./onboarding/StepProgress/StepProgress.states";
 import { stepActionsStates } from "./onboarding/StepActions/StepActions.states";
+import { privacyPromiseStates } from "./onboarding/PrivacyPromise/PrivacyPromise.states";
+import { directionFieldStates } from "./onboarding/DirectionField/DirectionField.states";
+import { interpretedDirectionStates } from "./onboarding/InterpretedDirection/InterpretedDirection.states";
+import { refinementQuestionStates } from "./onboarding/RefinementQuestion/RefinementQuestion.states";
+import { noticeStates } from "./onboarding/Notice/Notice.states";
+import { assumptionNoticeStates } from "./onboarding/AssumptionNotice/AssumptionNotice.states";
+import { generatingStateStates } from "./onboarding/GeneratingState/GeneratingState.states";
+import { planTemplateCardStates } from "./onboarding/PlanTemplateCard/PlanTemplateCard.states";
+import { actionCardStates } from "./onboarding/ActionCard/ActionCard.states";
+import { artifactDraftStates } from "./onboarding/ArtifactDraft/ArtifactDraft.states";
+import { connectOfferStates } from "./onboarding/ConnectOffer/ConnectOffer.states";
 
 export const registry: RegisteredComponent[] = [
   badgeStates,
@@ -36,6 +47,17 @@ export const registry: RegisteredComponent[] = [
   stepHeaderStates,
   stepProgressStates,
   stepActionsStates,
+  privacyPromiseStates,
+  directionFieldStates,
+  interpretedDirectionStates,
+  refinementQuestionStates,
+  noticeStates,
+  assumptionNoticeStates,
+  generatingStateStates,
+  planTemplateCardStates,
+  actionCardStates,
+  artifactDraftStates,
+  connectOfferStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */
