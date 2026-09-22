@@ -280,6 +280,11 @@ samp {
 .btn--sm {
   padding: var(--space-xs) var(--space-sm);
   font-size: var(--text-xs);
+  /* Small buttons carry short labels and often an icon beside them. Letting one
+     wrap mid-label stacks the icon above the text and reads as a broken
+     control, so it never wraps. Full-size buttons still do — the skip path is
+     full width on mobile and its label is a sentence. */
+  white-space: nowrap;
 }
 
 .btn--full {
@@ -2746,4 +2751,39 @@ samp {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
+}
+
+/* A single control that should sit at its natural width rather than stretch to
+   the step's measure. */
+.wizard__inline-action {
+  display: flex;
+}
+
+/* Concept 1's claim is that the decision on a screen is never hidden. On a
+   390px phone some steps genuinely do not fit — six prompted directions plus a
+   free-text field is one of them — so rather than cram the content, the actions
+   stick to the bottom of the scrolling area. The content scrolls; the decision
+   does not move. Web and tablet have the room and leave them in flow. */
+[data-viewport="mobile"] .wizard .step-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: var(--z-sticky);
+  padding: var(--space-sm) 0 var(--space-xs);
+  background-color: var(--color-surface);
+  box-shadow: 0 calc(-1 * var(--space-xs)) var(--space-sm) var(--color-surface);
+}
+
+/* The rule above paints a band of surface colour behind the actions, so the
+   step's own bottom padding is no longer doing anything useful. */
+[data-viewport="mobile"] .wizard {
+  padding-bottom: var(--space-md);
+}
+
+/* A step with no skip path has one button, and stretching it across the full
+   measure makes a single "Continue" look like a banner. Equal width only
+   matters when there is something to be equal to. On mobile it stays full
+   width, where a wide tap target is worth more than the proportion. */
+[data-viewport="tablet"] .step-actions__row > .btn:only-child,
+[data-viewport="web"] .step-actions__row > .btn:only-child {
+  flex: 0 0 auto;
 }

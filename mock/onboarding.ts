@@ -147,7 +147,7 @@ export const PROMPTED_DIRECTIONS: PromptedDirection[] = [
 
 export const DIRECTION = {
   prompt: "What would you like to move toward?",
-  hint: "A role, a scope, an aspiration or a challenge. A precise title is optional.",
+  hint: 'A role, a scope, an aspiration or a challenge. "CMO within three years" works here as well as "I want out of agency life".',
   promptedLabel: "Or start from one of these",
   placeholder: "",
   examplesLabel: "Answers that work here",

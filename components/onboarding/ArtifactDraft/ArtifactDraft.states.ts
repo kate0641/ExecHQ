@@ -17,6 +17,11 @@ export const artifactDraftStates = defineComponentStates({
     { label: "Saved", props: { artifact, saved: true } },
     { label: "Read only", props: { artifact, readOnly: true } },
     {
+      label: "Without its own title",
+      description: "Where the screen around it already names the document.",
+      props: { artifact, showTitle: false },
+    },
+    {
       label: "The unsure path's draft",
       props: {
         artifact: artifactFor("I have hit a ceiling and cannot name the next role"),

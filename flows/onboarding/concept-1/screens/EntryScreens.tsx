@@ -70,9 +70,11 @@ export function AccountScreen({ flow, step, total, headingId }: ScreenProps) {
           onChange={(event) => setCode(event.target.value)}
         />
       ) : (
-        <Button variant="ghost" size="sm" onClick={() => setShowCode(true)}>
-          I have an invite code
-        </Button>
+        <div className="wizard__inline-action">
+          <Button variant="ghost" size="sm" onClick={() => setShowCode(true)}>
+            I have an invite code
+          </Button>
+        </div>
       )}
 
       {codeError ? (
@@ -180,6 +182,9 @@ export function DirectionScreen({ flow, step, total, headingId }: ScreenProps) {
     >
       <DirectionField
         label={DIRECTION.prompt}
+        // The step's h1 already asks this. Showing the label too would put the
+        // same sentence on screen twice and push the primary action off it.
+        labelHidden
         hint={DIRECTION.hint}
         value={value}
         onChange={(next) => {
@@ -192,8 +197,9 @@ export function DirectionScreen({ flow, step, total, headingId }: ScreenProps) {
         promptedLabel={DIRECTION.promptedLabel}
         selectedPromptId={selected}
         onSelectPrompt={choose}
-        examples={DIRECTION.examples}
-        examplesLabel={DIRECTION.examplesLabel}
+        // No separate examples block here: the hint carries both answer shapes
+        // in a line, and the prompts below are examples you can act on. Concept
+        // 1's whole claim is that nothing important sits below the fold.
         error={error}
       />
     </WizardStep>

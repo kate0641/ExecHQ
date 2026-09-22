@@ -9,6 +9,10 @@ export interface ArtifactDraftProps {
   onEditSection?: (heading: string, body: string) => void;
   /** Read-only rendering, for the catalogue and for review screens. */
   readOnly?: boolean;
+  /** Drops the document's own tool and title lines where the screen around it
+   *  already carries them, so the same words do not appear twice. The note and
+   *  the saved confirmation stay — they belong to the document, not the page. */
+  showTitle?: boolean;
   className?: string;
 }
 
@@ -30,13 +34,18 @@ export function ArtifactDraft({
   saved = false,
   onEditSection,
   readOnly = false,
+  showTitle = true,
   className,
 }: ArtifactDraftProps) {
   return (
     <article className={["artifact", className].filter(Boolean).join(" ")}>
       <header className="artifact__header">
-        <p className="t-eyebrow">{artifact.tool}</p>
-        <h2 className="artifact__title">{artifact.title}</h2>
+        {showTitle ? (
+          <>
+            <p className="t-eyebrow">{artifact.tool}</p>
+            <h2 className="artifact__title">{artifact.title}</h2>
+          </>
+        ) : null}
         <p className="artifact__note">{saved ? "Saved to your plan." : artifact.note}</p>
       </header>
 

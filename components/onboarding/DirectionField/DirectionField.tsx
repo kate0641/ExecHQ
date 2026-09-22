@@ -6,6 +6,10 @@ import type { PromptedDirection } from "@/mock/onboarding";
 
 export interface DirectionFieldProps {
   label: string;
+  /** Hides the label visually where the step's heading already asks the same
+   *  question. The label stays in the accessibility tree — the field keeps its
+   *  name, the outline just stops carrying the question twice. */
+  labelHidden?: boolean;
   hint?: string;
   value: string;
   onChange: (value: string) => void;
@@ -40,6 +44,7 @@ export interface DirectionFieldProps {
  */
 export function DirectionField({
   label,
+  labelHidden = false,
   hint,
   value,
   onChange,
@@ -58,6 +63,7 @@ export function DirectionField({
     <div className={["direction-field", className].filter(Boolean).join(" ")}>
       <Input
         label={label}
+        labelHidden={labelHidden}
         hint={hint}
         error={error}
         multiline

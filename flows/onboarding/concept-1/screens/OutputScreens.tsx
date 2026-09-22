@@ -83,7 +83,13 @@ export function ArtifactScreen({ flow, step, total, headingId }: ScreenProps) {
       backLabel="Back"
       onBack={() => dispatch({ type: "back" })}
     >
-      <ArtifactDraft artifact={derived.artifact} saved={state.answers.artifactSaved} />
+      {/* The step header already carries the tool and the document's name, so
+          the document does not repeat them. */}
+      <ArtifactDraft
+        artifact={derived.artifact}
+        saved={state.answers.artifactSaved}
+        showTitle={false}
+      />
       {state.answers.artifactSaved ? (
         <Notice tone="info" live>
           Saved. It is yours — edit it, export it, or leave it as it is.
