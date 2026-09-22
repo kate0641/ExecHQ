@@ -6,7 +6,8 @@ export type ButtonSize = "sm" | "md";
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;
-  /** Shows a spinner and marks the button busy. Still focusable, not clickable. */
+  /** Shows a spinner and marks the button busy. Stays focusable but does not
+   *  activate, so focus is never lost mid-interaction. */
   loading?: boolean;
   fullWidth?: boolean;
   children: ReactNode;
@@ -28,6 +29,7 @@ export function Button({
   disabled,
   className,
   children,
+  onClick,
   type = "button",
   ...rest
 }: ButtonProps) {
@@ -47,8 +49,13 @@ export function Button({
       {...rest}
       type={type}
       className={classes}
-      disabled={disabled ?? loading}
+      disabled={disabled}
+      // A loading button keeps focus rather than being removed from the tab
+      // order mid-interaction, so it is marked disabled to assistive technology
+      // and simply does not activate.
+      aria-disabled={loading || undefined}
       aria-busy={loading || undefined}
+      onClick={loading ? undefined : onClick}
     >
       {loading ? <span className="btn__spinner" aria-hidden="true" /> : null}
       <span className="btn__label">{children}</span>

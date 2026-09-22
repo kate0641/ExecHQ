@@ -352,7 +352,8 @@ samp {
   cursor: not-allowed;
 }
 
-.btn--loading {
+.btn--loading,
+.btn[aria-disabled="true"] {
   cursor: progress;
 }
 
