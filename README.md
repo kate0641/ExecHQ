@@ -81,7 +81,7 @@ All three share a header with navigation between them, and they are declared in
 `lib/hub-pages.ts` rather than the manifest — they are tools for designing
 ExecHQ, not screens in it.
 
-There is also a **hub button in the toolbar at the bottom of every page**. It
+There is also a **hub button in the toolbar at the top left of every page**. It
 opens a slide-out panel with links to those three pages and the full flow index,
 so you can jump anywhere without losing your place. It closes on Escape or a
 click outside, and focus returns to the button.
@@ -90,7 +90,7 @@ click outside, and focus returns to the button.
 
 ## How the viewport toggle works
 
-The toolbar at the bottom of every page switches the canvas between **Web**,
+The toolbar at the top left of every page switches the canvas between **Web**,
 **Tablet** and **Mobile**. Mobile and tablet render inside a device frame drawn
 in CSS — bezel, rounded corners, and a status bar on mobile. Content scrolls
 inside the frame, so the frame stays put.

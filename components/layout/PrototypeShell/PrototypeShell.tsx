@@ -30,10 +30,8 @@ export function PrototypeShell({ hubIndex, children }: PrototypeShellProps) {
 
   return (
     <div className="prototype" data-viewport={viewport}>
-      <div className="prototype__canvas">
-        <DeviceFrame>{children}</DeviceFrame>
-      </div>
-
+      {/* The prototype's own controls sit above the canvas, clustered left, and
+          before it in the DOM so reading order matches what is on screen. */}
       <div className="devtools">
         <p className="devtools__brand">
           <Link href="/" className="devtools__brand-link">
@@ -52,6 +50,10 @@ export function PrototypeShell({ hubIndex, children }: PrototypeShellProps) {
         >
           {hubOpen ? "Close hub" : "Open hub"}
         </button>
+      </div>
+
+      <div className="prototype__canvas">
+        <DeviceFrame>{children}</DeviceFrame>
       </div>
 
       <HubPanel open={hubOpen} onClose={closeHub}>

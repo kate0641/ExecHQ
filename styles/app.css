@@ -872,15 +872,16 @@ samp {
   gap: var(--space-lg);
   flex-shrink: 0;
   flex-wrap: wrap;
-  height: var(--devtools-height);
-  padding-inline: var(--space-lg);
-  background-color: var(--color-surface);
-  border-top: var(--border-width-thin) solid var(--color-border);
+  min-height: var(--devtools-height);
+  padding: var(--space-xs) var(--space-lg);
+  /* The canvas colour, not the surface colour: this bar is the workbench, and
+     it must not read as part of the screen being reviewed. */
+  background-color: var(--color-canvas);
+  border-bottom: var(--border-width-thin) solid var(--color-border-strong);
   z-index: var(--z-devtools);
 }
 
 .devtools__brand {
-  margin-right: auto;
   font-family: var(--font-display);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);

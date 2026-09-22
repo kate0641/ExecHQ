@@ -73,7 +73,11 @@ panel and the routes are all generated from it.
 
 ## Viewport toggle
 
-A persistent developer panel switches the canvas between Web, Tablet and Mobile.
+A persistent developer toolbar at the top left of every page switches the canvas
+between Web, Tablet and Mobile. It sits outside the canvas, takes the canvas
+background rather than the surface background so it never reads as part of the
+screen being reviewed, and stays visible at all times — it is not in the hub
+panel, because the panel is modal and would hide the change it is making.
 
 - **Never use `@media` queries for this.** Media queries respond to the browser
   window, not to a simulated frame inside it. All responsive CSS is written
