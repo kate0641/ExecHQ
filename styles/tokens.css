@@ -237,7 +237,8 @@
   --device-bezel-mobile: 12px;
   --device-bezel-tablet: 16px;
   --device-statusbar-height: 44px;
-  --devtools-height: 56px;
+  --dock-width: 38px;
+  --dock-control: 30px;
   --hub-panel-width: 420px;
   --content-measure: 68ch;
 

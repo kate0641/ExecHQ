@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ToggleGroup } from "@/components/form/ToggleGroup";
+import { Icon } from "@/components/primitives/Icon";
 import {
   VIEWPORTS,
   VIEWPORT_LABELS,
@@ -9,15 +10,25 @@ import {
   type Viewport,
 } from "@/lib/viewport-context";
 
+/** Shown in the tooltip and read out with the option, so a glyph is never the
+ *  only thing identifying a viewport. */
+const VIEWPORT_WIDTHS: Record<Viewport, string> = {
+  web: "fills the width",
+  tablet: "820px",
+  mobile: "390px",
+};
+
 /**
  * Switches the canvas between Web, Tablet and Mobile.
  *
  * The toggle only sets state — all responsive CSS is written against the
  * `data-viewport` attribute the shell puts on the wrapper, never `@media`.
  *
- * On a web-only flow the Mobile and Tablet options are visibly disabled and
- * each carries the reason via aria-describedby, and the reason is also shown
- * on screen next to the toggle.
+ * It renders as a vertical stack of icons in the dock. The labels are still
+ * there: they are the accessible name of each option and its tooltip. On a
+ * web-only route the Mobile and Tablet options are disabled and carry the
+ * reason, which reaches assistive technology through aria-describedby and
+ * pointer users through the tooltip.
  */
 export function ViewportToggle() {
   const { selected, viewport, setViewport, locked, lockReason } = useViewport();
@@ -29,15 +40,19 @@ export function ViewportToggle() {
     setAnnouncement(`Viewport: ${VIEWPORT_LABELS[viewport]}`);
   }, [viewport]);
 
-  const options = VIEWPORTS.map((option) => ({
-    value: option,
-    label: VIEWPORT_LABELS[option],
-    disabled: locked && option !== "web",
-    description:
-      locked && option !== "web" && lockReason
-        ? `Unavailable. ${lockReason}`
-        : undefined,
-  }));
+  const options = VIEWPORTS.map((option) => {
+    const unavailable = locked && option !== "web";
+    return {
+      value: option,
+      label: VIEWPORT_LABELS[option],
+      icon: <Icon name={option} size={17} />,
+      disabled: unavailable,
+      description:
+        unavailable && lockReason
+          ? `Unavailable. ${lockReason}`
+          : VIEWPORT_WIDTHS[option],
+    };
+  });
 
   return (
     <div className="viewport-toggle">
@@ -45,6 +60,8 @@ export function ViewportToggle() {
         label="Viewport"
         labelHidden
         size="sm"
+        orientation="vertical"
+        iconOnly
         options={options}
         value={locked ? "web" : selected}
         onChange={(next) => {
@@ -52,9 +69,6 @@ export function ViewportToggle() {
           setViewport(next as Viewport);
         }}
       />
-      {locked && lockReason ? (
-        <p className="viewport-toggle__note">{lockReason}</p>
-      ) : null}
       <output className="u-visually-hidden">{announcement}</output>
     </div>
   );

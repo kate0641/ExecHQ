@@ -88,20 +88,25 @@ the button.
 
 ---
 
-## The floating toolbar
+## The dock
 
-The toolbar carries the viewport toggle and the hub button, and floats above the
-canvas so it is on every page without taking a strip of the layout.
+A narrow vertical dock carries the viewport toggle and the hub button. It sits
+against the right edge of the window — clear of the hub panel, which opens from
+the left — and is 38px wide, so it covers almost nothing of the screen you are
+looking at.
 
-**You can move it.** Drag it by the grip or by any empty part of the bar. If you
-would rather not drag, press the grip and it hops to the next corner. With the
-grip focused, the arrow keys nudge it (hold Shift for bigger steps) and Home
-puts it back at the top left. Wherever you leave it is where it will be next
-time, and it always stays inside the window.
+**You can move it.** Drag it by the grip at the top or by any empty part of it.
+If you would rather not drag, press the grip and it hops to the next corner.
+With the grip focused, the arrow keys nudge it (hold Shift for bigger steps) and
+Home puts it back at the right edge. Wherever you leave it is where it will be
+next time, and it always stays inside the window.
 
-**You can fold it away.** The chevron at the right end collapses it to just the
-grip, for when it is sitting over something you want to look at. The chevron
-brings it back. That also persists.
+**You can fold it away.** The chevron at the bottom collapses it to a 38×56 tab,
+for when it is sitting over something you want to look at. The chevron brings it
+back. That also persists.
+
+The three device icons are the viewport toggle; hover any of them for its name
+and width.
 
 ## How the viewport toggle works
 
@@ -111,7 +116,8 @@ corners, and a status bar on mobile. Content scrolls inside the frame, so the
 frame stays put.
 
 **Concept pages open on Mobile**, because that is what ExecHQ is. Four routes are
-web only and have Mobile and Tablet disabled with the reason shown: the
+web only and show Mobile and Tablet struck through, with the reason in the
+tooltip: the
 Enterprise Dashboard, and the prototype's own three pages — the hub, the
 catalogue and the stylesheet. Landing on one of those does not lose your choice;
 it comes back on the next concept page.

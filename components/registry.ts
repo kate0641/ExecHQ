@@ -12,6 +12,7 @@ import { COMPONENT_GROUPS, type ComponentGroup, type RegisteredComponent } from 
 
 import { badgeStates } from "./primitives/Badge/Badge.states";
 import { buttonStates } from "./primitives/Button/Button.states";
+import { iconStates } from "./primitives/Icon/Icon.states";
 import { textLinkStates } from "./primitives/TextLink/TextLink.states";
 import { inputStates } from "./form/Input/Input.states";
 import { toggleGroupStates } from "./form/ToggleGroup/ToggleGroup.states";
@@ -21,6 +22,7 @@ import { placeholderStateStates } from "./layout/PlaceholderState/PlaceholderSta
 export const registry: RegisteredComponent[] = [
   badgeStates,
   buttonStates,
+  iconStates,
   textLinkStates,
   inputStates,
   toggleGroupStates,

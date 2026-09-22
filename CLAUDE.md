@@ -71,17 +71,31 @@ panel and the routes are all generated from it.
   (Enterprise Dashboard).
 - `webOnly: true` marks a flow the viewport toggle locks to web width.
 
-## The prototype toolbar
+## The prototype dock
 
-A floating toolbar carries the viewport toggle and the hub button. It is present
-on every page, overlays the canvas, and can be dragged out of the way. It also
-collapses to just its handle for when it is over something being reviewed. Both
-position and collapsed state persist in `localStorage` via `lib/toolbar.ts`.
+A floating dock carries the viewport toggle and the hub button. It is present on
+every page and overlays the canvas.
 
-Collapsing uses the `hidden` attribute rather than CSS, so the controls leave the
-tab order when they are not on screen. `.devtools__content[hidden]` has to
-restate `display: none`, because a class selector outranks the user agent's
-`[hidden]` rule.
+It is **vertical**, because everything on the canvas — headings, navigation, body
+copy — runs horizontally, so a tall narrow strip covers far less of the screen
+being reviewed than a wide bar does. It **anchors to the right edge**, because
+the hub panel opens from the left and the two must not sit on top of each other.
+Controls are icons from `components/primitives/Icon`, each with a visually-hidden
+label that is also its tooltip.
+
+It can be dragged anywhere and collapsed to just its handle. Both position and
+collapsed state persist in `localStorage` via `lib/toolbar.ts`.
+
+Two details worth knowing before changing it:
+
+- A stored position of `null` means "not placed yet", and `.is-anchored` puts the
+  dock at the right edge from CSS alone. That keeps the default free of any
+  measurement, so the server and the client agree on the first paint. Home
+  returns it to `null`.
+- Collapsing uses the `hidden` attribute rather than CSS, so the controls leave
+  the tab order when they are not on screen. `.devtools__content[hidden]` has to
+  restate `display: none`, because a class selector outranks the user agent's
+  `[hidden]` rule.
 
 The toggle is deliberately **not** inside the hub panel: the panel is a modal
 dialog, so it would hide the change the toggle is making.

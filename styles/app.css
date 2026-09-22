@@ -566,6 +566,10 @@ samp {
   gap: var(--space-3xs);
 }
 
+.toggle-group--vertical .toggle-group__options {
+  flex-direction: column;
+}
+
 .toggle-group__item {
   display: contents;
 }
@@ -590,6 +594,17 @@ samp {
   font-size: var(--text-xs);
 }
 
+/* Icon-only options are square, and the checked rule below must not resize them
+   — so they keep their padding and take a border that replaces the transparent
+   one they already carry. */
+.toggle-group--icon .toggle-group__option,
+.toggle-group--sm.toggle-group--icon .toggle-group__option {
+  width: var(--dock-control);
+  height: var(--dock-control);
+  padding: 0;
+  border: var(--border-width-thin) solid transparent;
+}
+
 .toggle-group__option:hover {
   background-color: var(--color-surface-hover);
   color: var(--color-text-primary);
@@ -608,6 +623,29 @@ samp {
 .toggle-group--sm .toggle-group__input:checked + .toggle-group__option {
   padding-block: calc(var(--space-2xs) - var(--border-width-thin));
   padding-inline: calc(var(--space-sm) - var(--border-width-thin));
+}
+
+.toggle-group--icon .toggle-group__input:checked + .toggle-group__option,
+.toggle-group--sm.toggle-group--icon .toggle-group__input:checked + .toggle-group__option {
+  padding: 0;
+  border-color: var(--color-border-strong);
+}
+
+/* Strikethrough cannot describe an icon, so an unavailable option dims and
+   takes the diagonal bar instead. The reason is on the label either way. */
+.toggle-group--icon .toggle-group__input:disabled + .toggle-group__option {
+  position: relative;
+  text-decoration: none;
+}
+
+.toggle-group--icon .toggle-group__input:disabled + .toggle-group__option::after {
+  content: "";
+  position: absolute;
+  left: 20%;
+  right: 20%;
+  height: var(--border-width-thin);
+  background-color: currentColor;
+  rotate: -45deg;
 }
 
 .toggle-group__input:focus-visible + .toggle-group__option {
@@ -861,26 +899,39 @@ samp {
   background-color: currentColor;
 }
 
-/* Floating developer toolbar — present on every page, and draggable so it can be
-   moved out of the way. Position comes from the toolbar store as inline
-   left/top; everything else is here. */
+/* The prototype dock — a vertical strip of controls against the window edge.
+
+   Vertical because everything on the canvas runs horizontally, so a tall narrow
+   strip covers far less of the screen being reviewed than a wide bar does. It
+   anchors to the right edge, because the hub panel opens from the left.
+
+   Position comes from the toolbar store as inline left/top once it has been
+   moved; until then `.is-anchored` places it from CSS alone, which keeps the
+   default free of any measurement. */
 
 .devtools {
   position: fixed;
+  z-index: var(--z-devtools);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: var(--space-md);
-  min-height: var(--devtools-height);
-  padding: var(--space-2xs) var(--space-sm);
+  gap: var(--space-xs);
+  width: var(--dock-width);
+  padding: var(--space-2xs);
   background-color: var(--color-surface);
   border: var(--border-width-thin) solid var(--color-border-strong);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
-  z-index: var(--z-devtools);
   cursor: grab;
-  /* Stops the browser panning the page when the bar is dragged on touch. */
+  /* Stops the browser panning the page when the dock is dragged on touch. */
   touch-action: none;
   user-select: none;
+}
+
+.devtools.is-anchored {
+  top: 50%;
+  right: var(--space-md);
+  translate: 0 -50%;
 }
 
 .devtools:active {
@@ -889,7 +940,6 @@ samp {
 
 /* The controls inside are not drag surfaces. */
 .devtools button:not(.devtools__handle),
-.devtools a,
 .devtools label {
   cursor: pointer;
 }
@@ -897,8 +947,8 @@ samp {
 .devtools__handle {
   display: grid;
   place-items: center;
-  align-self: stretch;
-  width: 24px;
+  width: 100%;
+  height: 18px;
   padding: 0;
   border-radius: var(--radius-sm);
   color: var(--color-text-muted);
@@ -910,20 +960,21 @@ samp {
   color: var(--color-text-primary);
 }
 
-/* Two columns of three dots, drawn rather than imported. */
+/* Two rows of dots, drawn rather than imported. */
 .devtools__grip {
-  width: 8px;
-  height: 16px;
+  width: 16px;
+  height: 8px;
   background-image: radial-gradient(currentColor 1px, transparent 1.2px);
-  background-size: 4px 5px;
+  background-size: 5px 4px;
   background-position: center;
 }
 
 .devtools__content {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: var(--space-md);
-  min-width: 0;
+  gap: var(--space-xs);
+  width: 100%;
 }
 
 /* A class selector outranks the user agent's [hidden] rule, so say it here. */
@@ -931,74 +982,50 @@ samp {
   display: none;
 }
 
-/* Folded away, the toolbar is just its handle and the expand control. */
-.devtools.is-collapsed {
-  gap: var(--space-3xs);
-  padding-inline: var(--space-2xs);
+.devtools__rule {
+  width: 60%;
+  height: var(--border-width-thin);
+  background-color: var(--color-border);
 }
 
+.devtools__hub-button,
 .devtools__collapse {
   display: grid;
   place-items: center;
-  width: 28px;
-  height: 28px;
+  width: var(--dock-control);
+  height: var(--dock-control);
   border-radius: var(--radius-sm);
   color: var(--color-text-secondary);
 }
 
+.devtools__hub-button:hover,
 .devtools__collapse:hover {
   background-color: var(--color-surface-hover);
   color: var(--color-text-primary);
 }
 
-/* A chevron, drawn from two borders. Points left to fold the toolbar away, and
-   right to bring it back. */
-.devtools__chevron {
-  width: 7px;
-  height: 7px;
-  border-right: var(--border-width-medium) solid currentColor;
-  border-bottom: var(--border-width-medium) solid currentColor;
-  transform: translateX(1px) rotate(135deg);
+.devtools__hub-button[aria-expanded="true"] {
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
 }
 
-.devtools.is-collapsed .devtools__chevron {
-  transform: translateX(-1px) rotate(-45deg);
+.devtools__collapse {
+  width: 100%;
+  height: 20px;
+  color: var(--color-text-muted);
 }
 
-.devtools__brand {
-  font-family: var(--font-display);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-tight);
-  color: var(--color-text-secondary);
+/* Chevron up to fold the dock away, down to bring it back. */
+.devtools__collapse .icon {
+  rotate: -90deg;
 }
 
-.devtools__hub-button {
-  padding: var(--space-xs) var(--space-md);
-  background-color: var(--color-surface);
-  border: var(--border-width-thin) solid var(--color-border-strong);
-  border-radius: var(--radius-sm);
-  font-family: var(--font-display);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-primary);
-}
-
-.devtools__hub-button:hover {
-  background-color: var(--color-surface-hover);
-  border-color: var(--color-text-primary);
+.devtools.is-collapsed .devtools__collapse .icon {
+  rotate: 90deg;
 }
 
 .viewport-toggle {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-}
-
-.viewport-toggle__note {
-  font-size: var(--text-xs);
-  color: var(--color-text-secondary);
-  max-width: 28ch;
+  display: contents;
 }
 
 /* Slide-out hub panel.
@@ -1438,9 +1465,15 @@ samp {
   width: 100%;
   max-width: var(--viewport-web-max);
   margin-inline: auto;
-  /* The prototype toolbar floats at the top left by default, and these pages
-     run full width with no device frame to keep clear of it. */
-  padding: var(--space-4xl) var(--space-lg) var(--space-lg);
+  padding: var(--space-2xl) var(--space-lg) var(--space-lg);
+}
+
+/* These pages run full width with no device frame, so they keep clear of the
+   dock at the right edge rather than running underneath it. */
+.hub__header,
+.hub__main,
+.hub__footer {
+  padding-right: calc(var(--space-lg) + var(--dock-width) + var(--space-md));
 }
 
 .hub__title {

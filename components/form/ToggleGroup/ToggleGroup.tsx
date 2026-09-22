@@ -1,10 +1,13 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useState, type ReactNode } from "react";
 
 export interface ToggleOption {
   value: string;
+  /** Always required. Stays the accessible name even when only an icon shows. */
   label: string;
+  /** Shown in place of the label text when the group is `iconOnly`. */
+  icon?: ReactNode;
   disabled?: boolean;
   /** Why the option is unavailable, or what it does. Read out via
    *  aria-describedby, so a disabled option always explains itself. */
@@ -21,6 +24,11 @@ export interface ToggleGroupProps {
   defaultValue?: string;
   onChange?: (value: string) => void;
   size?: "sm" | "md";
+  /** Stacks the options instead of placing them in a row. */
+  orientation?: "horizontal" | "vertical";
+  /** Shows each option's icon only. The label becomes the accessible name and
+   *  the tooltip, so nothing is lost — but every option then needs an `icon`. */
+  iconOnly?: boolean;
   className?: string;
 }
 
@@ -37,6 +45,8 @@ export function ToggleGroup({
   defaultValue,
   onChange,
   size = "md",
+  orientation = "horizontal",
+  iconOnly = false,
   className,
 }: ToggleGroupProps) {
   const name = useId();
@@ -51,7 +61,13 @@ export function ToggleGroup({
     onChange?.(next);
   }
 
-  const classes = ["toggle-group", `toggle-group--${size}`, className]
+  const classes = [
+    "toggle-group",
+    `toggle-group--${size}`,
+    `toggle-group--${orientation}`,
+    iconOnly ? "toggle-group--icon" : null,
+    className,
+  ]
     .filter(Boolean)
     .join(" ");
 
@@ -79,8 +95,26 @@ export function ToggleGroup({
                 aria-describedby={descriptionId}
                 onChange={() => handleChange(option.value)}
               />
-              <label className="toggle-group__option" id={labelId} htmlFor={optionId}>
-                {option.label}
+              <label
+                className="toggle-group__option"
+                id={labelId}
+                htmlFor={optionId}
+                // A pointer user gets the same text the label carries, including
+                // the reason an option is unavailable.
+                title={
+                  option.description
+                    ? `${option.label} — ${option.description}`
+                    : option.label
+                }
+              >
+                {iconOnly ? (
+                  <>
+                    {option.icon}
+                    <span className="u-visually-hidden">{option.label}</span>
+                  </>
+                ) : (
+                  option.label
+                )}
               </label>
               {option.description ? (
                 <span id={descriptionId} className="u-visually-hidden">
