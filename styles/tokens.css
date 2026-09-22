@@ -216,7 +216,7 @@
   --shadow-sm: 0 1px 3px rgb(var(--shadow-rgb) / 0.08), 0 1px 2px rgb(var(--shadow-rgb) / 0.04);
   --shadow-md: 0 4px 12px rgb(var(--shadow-rgb) / 0.1), 0 1px 3px rgb(var(--shadow-rgb) / 0.06);
   --shadow-lg: 0 12px 32px rgb(var(--shadow-rgb) / 0.14), 0 2px 8px rgb(var(--shadow-rgb) / 0.06);
-  --shadow-panel: -8px 0 40px rgb(var(--shadow-rgb) / 0.18);
+  --shadow-panel: 8px 0 40px rgb(var(--shadow-rgb) / 0.18);
   --shadow-device: 0 24px 64px rgb(var(--shadow-rgb) / 0.22);
 
   /* ---------------------------------------------------------------------------

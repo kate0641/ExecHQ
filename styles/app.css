@@ -1010,7 +1010,7 @@ samp {
 
 .hub-panel {
   position: fixed;
-  inset: 0 0 0 auto;
+  inset: 0 auto 0 0;
   width: min(var(--hub-panel-width), 100%);
   max-width: 100%;
   height: 100dvh;
@@ -1020,9 +1020,9 @@ samp {
   background-color: var(--color-surface);
   color: var(--color-text-primary);
   border: none;
-  border-left: var(--border-width-thin) solid var(--color-border);
+  border-right: var(--border-width-thin) solid var(--color-border);
   box-shadow: var(--shadow-panel);
-  translate: 101% 0;
+  translate: -101% 0;
   transition: translate var(--duration-base) var(--easing-standard),
     overlay var(--duration-base) allow-discrete,
     display var(--duration-base) allow-discrete;
@@ -1034,7 +1034,7 @@ samp {
 
 @starting-style {
   .hub-panel[open] {
-    translate: 101% 0;
+    translate: -101% 0;
   }
 }
 
