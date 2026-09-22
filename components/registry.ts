@@ -33,6 +33,7 @@ import { planTemplateCardStates } from "./onboarding/PlanTemplateCard/PlanTempla
 import { actionCardStates } from "./onboarding/ActionCard/ActionCard.states";
 import { artifactDraftStates } from "./onboarding/ArtifactDraft/ArtifactDraft.states";
 import { connectOfferStates } from "./onboarding/ConnectOffer/ConnectOffer.states";
+import { wizardStepStates } from "./onboarding/WizardStep/WizardStep.states";
 
 export const registry: RegisteredComponent[] = [
   badgeStates,
@@ -58,6 +59,7 @@ export const registry: RegisteredComponent[] = [
   actionCardStates,
   artifactDraftStates,
   connectOfferStates,
+  wizardStepStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */

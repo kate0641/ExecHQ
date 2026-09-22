@@ -16,6 +16,12 @@ export const privacyPromiseStates = defineComponentStates({
       props: { heading: PRIVACY.heading, statements: PRIVACY.statements },
     },
     {
+      label: "Without its own heading",
+      description:
+        "Where the step around it already carries the same words as a heading.",
+      props: { statements: PRIVACY.statements },
+    },
+    {
       label: "Secondary level",
       description: "Where the screen already has an h1.",
       props: {

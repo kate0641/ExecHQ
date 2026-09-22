@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { AppChrome } from "@/components/layout/AppChrome";
 import { PlaceholderState } from "@/components/layout/PlaceholderState";
 import { StatusBadge } from "@/components/primitives/Badge";
+import { getBuiltConcept } from "@/flows/registry";
 import { allConceptParams, conceptStatus, getConcept } from "@/lib/manifest";
 import { getSpec } from "@/lib/specs";
 
@@ -44,6 +45,17 @@ export default async function ConceptPage({
   if (!match) notFound();
 
   const { flow, concept } = match;
+  const Built = getBuiltConcept(flow.slug, concept.slug);
+
+  // A built concept gets the canvas to itself. The page furniture — eyebrow,
+  // concept title, status badge — is review scaffolding, and leaving it above a
+  // finished screen would put a heading in the outline that the design does not
+  // have and change what is being reviewed. The hub already says which concept
+  // this is and what state it is in.
+  if (Built) {
+    return <AppChrome flow={flow}>{Built}</AppChrome>;
+  }
+
   const spec = getSpec(flow.slug);
 
   return (

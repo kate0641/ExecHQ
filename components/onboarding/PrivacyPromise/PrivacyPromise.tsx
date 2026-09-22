@@ -1,7 +1,9 @@
 import { Icon } from "@/components/primitives/Icon";
 
 export interface PrivacyPromiseProps {
-  heading: string;
+  /** Omit where the surrounding step already carries the heading, so the page
+   *  does not end up with the same words twice in the heading outline. */
+  heading?: string;
   /** One statement per line. Each is a complete sentence and stands alone. */
   statements: readonly string[];
   headingLevel?: 1 | 2;
@@ -32,7 +34,7 @@ export function PrivacyPromise({
       <span className="privacy__mark">
         <Icon name="shield" size={28} />
       </span>
-      <Heading className="privacy__heading">{heading}</Heading>
+      {heading ? <Heading className="privacy__heading">{heading}</Heading> : null}
       <ul className="privacy__list">
         {statements.map((statement) => (
           <li className="privacy__statement" key={statement}>

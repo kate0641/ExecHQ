@@ -2690,3 +2690,60 @@ samp {
 .connect__status {
   display: flex;
 }
+
+/* --- The paged wizard ----------------------------------------------------- */
+
+.wizard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  width: 100%;
+  max-width: var(--content-measure);
+  margin: 0 auto;
+  padding: var(--space-lg) var(--space-md) var(--space-2xl);
+}
+
+[data-viewport="tablet"] .wizard,
+[data-viewport="web"] .wizard {
+  padding: var(--space-2xl) var(--space-lg) var(--space-3xl);
+  gap: var(--space-xl);
+}
+
+.wizard__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.wizard__resume-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin-top: var(--space-md);
+}
+
+.wizard__restart {
+  display: flex;
+}
+
+.plan-set {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.plan-set__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.plan-set__actions > .btn {
+  flex: 1 1 auto;
+}
+
+.connect-set {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
