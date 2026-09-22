@@ -16,14 +16,18 @@ import {
   DEFAULT_TOOLBAR_POSITION,
   TOOLBAR_CORNERS,
   clampToolbarPosition,
+  getServerToolbarCollapsed,
   getServerToolbarPosition,
+  getToolbarCollapsed,
   getToolbarPosition,
+  setToolbarCollapsed,
   setToolbarPosition,
+  subscribeToToolbarCollapsed,
   subscribeToToolbarPosition,
   toolbarCornerPositions,
   type ToolbarCorner,
   type ToolbarPosition,
-} from "@/lib/toolbar-position";
+} from "@/lib/toolbar";
 
 /** Pointer movement, in px, before a press counts as a drag rather than a click. */
 const DRAG_THRESHOLD = 3;
@@ -51,6 +55,11 @@ export function DevToolbar({ hubOpen, onToggleHub, hubTriggerRef }: DevToolbarPr
     getToolbarPosition,
     getServerToolbarPosition
   );
+  const collapsed = useSyncExternalStore(
+    subscribeToToolbarCollapsed,
+    getToolbarCollapsed,
+    getServerToolbarCollapsed
+  );
   const barRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef<{
     offsetX: number;
@@ -63,6 +72,7 @@ export function DevToolbar({ hubOpen, onToggleHub, hubTriggerRef }: DevToolbarPr
   const cornerRef = useRef(0);
   const [announcement, setAnnouncement] = useState("");
   const hintId = useId();
+  const contentId = useId();
 
   const measure = useCallback(() => {
     const rect = barRef.current?.getBoundingClientRect();
@@ -92,6 +102,14 @@ export function DevToolbar({ hubOpen, onToggleHub, hubTriggerRef }: DevToolbarPr
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [measure]);
+
+  useEffect(() => {
+    const { size, windowSize } = measure();
+    setToolbarPosition(
+      clampToolbarPosition(getToolbarPosition(), size, windowSize),
+      false
+    );
+  }, [collapsed, measure]);
 
   function moveToCorner(corner: ToolbarCorner) {
     const { size, windowSize } = measure();
@@ -189,7 +207,7 @@ export function DevToolbar({ hubOpen, onToggleHub, hubTriggerRef }: DevToolbarPr
 
   return (
     <div
-      className="devtools"
+      className={`devtools${collapsed ? " is-collapsed" : ""}`}
       ref={barRef}
       style={{ left: `${position.x}px`, top: `${position.y}px` }}
       onPointerDown={handlePointerDown}
@@ -212,21 +230,38 @@ export function DevToolbar({ hubOpen, onToggleHub, hubTriggerRef }: DevToolbarPr
         it and Home returns it to the top left.
       </p>
 
-      {/* Plain text, not a link: it doubles as the drag surface, and a press
-          that starts on a link is ambiguous. The route home is "File hub" at the
-          top of the hub panel. */}
-      <p className="devtools__brand">ExecHQ prototype</p>
+      {/* `hidden` rather than CSS, so the controls leave the tab order when the
+          toolbar is folded away. */}
+      <div className="devtools__content" id={contentId} hidden={collapsed}>
+        {/* Plain text, not a link: it doubles as the drag surface, and a press
+            that starts on a link is ambiguous. The route home is "File hub" at
+            the top of the hub panel. */}
+        <p className="devtools__brand">ExecHQ prototype</p>
 
-      <ViewportToggle />
+        <ViewportToggle />
+
+        <button
+          type="button"
+          className="devtools__hub-button"
+          ref={hubTriggerRef}
+          onClick={onToggleHub}
+          aria-expanded={hubOpen}
+        >
+          {hubOpen ? "Close hub" : "Open hub"}
+        </button>
+      </div>
 
       <button
         type="button"
-        className="devtools__hub-button"
-        ref={hubTriggerRef}
-        onClick={onToggleHub}
-        aria-expanded={hubOpen}
+        className="devtools__collapse"
+        aria-expanded={!collapsed}
+        aria-controls={contentId}
+        onClick={() => setToolbarCollapsed(!collapsed)}
       >
-        {hubOpen ? "Close hub" : "Open hub"}
+        <span className="devtools__chevron" aria-hidden="true" />
+        <span className="u-visually-hidden">
+          {collapsed ? "Expand the prototype toolbar" : "Collapse the prototype toolbar"}
+        </span>
       </button>
 
       <output className="u-visually-hidden">{announcement}</output>

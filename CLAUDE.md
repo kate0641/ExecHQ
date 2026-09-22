@@ -74,8 +74,14 @@ panel and the routes are all generated from it.
 ## The prototype toolbar
 
 A floating toolbar carries the viewport toggle and the hub button. It is present
-on every page, overlays the canvas, and can be dragged out of the way; its
-position persists in `localStorage` via `lib/toolbar-position.ts`.
+on every page, overlays the canvas, and can be dragged out of the way. It also
+collapses to just its handle for when it is over something being reviewed. Both
+position and collapsed state persist in `localStorage` via `lib/toolbar.ts`.
+
+Collapsing uses the `hidden` attribute rather than CSS, so the controls leave the
+tab order when they are not on screen. `.devtools__content[hidden]` has to
+restate `display: none`, because a class selector outranks the user agent's
+`[hidden]` rule.
 
 The toggle is deliberately **not** inside the hub panel: the panel is a modal
 dialog, so it would hide the change the toggle is making.
@@ -88,6 +94,16 @@ drag interaction must come with the same two alternatives.
 ## Viewport toggle
 
 Switches the canvas between Web, Tablet and Mobile.
+
+- **Product pages default to Mobile.** ExecHQ is a mobile-first product, so a
+  concept page opens on the phone unless the reviewer has chosen otherwise.
+- **Web-only routes** are locked to web with the Mobile and Tablet options
+  visibly disabled and an accessible explanation: the Enterprise Dashboard
+  (`webOnly` on its flow) and all three of the prototype's own pages — the hub,
+  the catalogue and the stylesheet (`webOnly` in `lib/hub-pages.ts`).
+- A lock never overwrites the reviewer's choice. `selected` is what they picked,
+  `viewport` is what renders, and the choice comes back on the next unlocked
+  page.
 
 - **Never use `@media` queries for this.** Media queries respond to the browser
   window, not to a simulated frame inside it. All responsive CSS is written

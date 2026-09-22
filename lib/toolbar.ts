@@ -1,5 +1,5 @@
 /**
- * Where the prototype toolbar sits.
+ * The prototype toolbar's own state: where it sits, and whether it is collapsed.
  *
  * Same shape as the viewport store in `lib/viewport-context.tsx`: a tiny
  * external store read through useSyncExternalStore, so the position can be read
@@ -130,4 +130,46 @@ export function toolbarCornerPositions(
     "bottom-right": { x: right, y: bottom },
     "bottom-left": { x: TOOLBAR_EDGE_MARGIN, y: bottom },
   };
+}
+
+/* -----------------------------------------------------------------------------
+   Collapsed state. The toolbar overlays the canvas, so it can be folded down to
+   just its handle when it is in the way of the screen being reviewed.
+   -------------------------------------------------------------------------- */
+
+const COLLAPSED_STORAGE_KEY = "exechq.toolbar-collapsed";
+
+const collapsedListeners = new Set<() => void>();
+let collapsedCache: boolean | null = null;
+
+export function getToolbarCollapsed(): boolean {
+  if (collapsedCache === null) {
+    try {
+      collapsedCache = window.localStorage.getItem(COLLAPSED_STORAGE_KEY) === "true";
+    } catch {
+      collapsedCache = false;
+    }
+  }
+  return collapsedCache;
+}
+
+export function getServerToolbarCollapsed(): boolean {
+  return false;
+}
+
+export function subscribeToToolbarCollapsed(listener: () => void): () => void {
+  collapsedListeners.add(listener);
+  return () => {
+    collapsedListeners.delete(listener);
+  };
+}
+
+export function setToolbarCollapsed(next: boolean): void {
+  collapsedCache = next;
+  try {
+    window.localStorage.setItem(COLLAPSED_STORAGE_KEY, String(next));
+  } catch {
+    // Not being able to persist is not worth failing over.
+  }
+  for (const listener of collapsedListeners) listener();
 }

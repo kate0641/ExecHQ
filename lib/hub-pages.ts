@@ -16,6 +16,8 @@ export interface HubPage {
   /** Full page title. */
   title: string;
   description: string;
+  /** Locks the viewport toggle to web width, as `webOnly` does for a flow. */
+  webOnly?: boolean;
 }
 
 export const HUB_PAGES: readonly HubPage[] = [
@@ -24,6 +26,7 @@ export const HUB_PAGES: readonly HubPage[] = [
     href: "/",
     label: "File hub",
     title: "File hub",
+    webOnly: true,
     description:
       "Every flow and concept page in the prototype, with its status and its interaction spec.",
   },
@@ -32,6 +35,7 @@ export const HUB_PAGES: readonly HubPage[] = [
     href: "/catalogue",
     label: "Component catalogue",
     title: "Component catalogue",
+    webOnly: true,
     description:
       "Every component, in every state, imported from /components. Searchable and filterable by status and flow.",
   },
@@ -40,6 +44,7 @@ export const HUB_PAGES: readonly HubPage[] = [
     href: "/stylesheet",
     label: "Stylesheet",
     title: "Stylesheet",
+    webOnly: true,
     description:
       "The design system rendered: colour tokens, the type scale in all three fonts, spacing, radii, shadows and borders.",
   },
@@ -49,6 +54,11 @@ export const HUB_PAGES: readonly HubPage[] = [
 export const HUB_TOOLS: readonly HubPage[] = HUB_PAGES.filter(
   (page) => page.key !== "hub"
 );
+
+/** The hub page a pathname belongs to, if any. */
+export function getHubPageByPath(pathname: string): HubPage | undefined {
+  return HUB_PAGES.find((page) => page.href === pathname);
+}
 
 export function getHubPage(key: HubPageKey): HubPage {
   const page = HUB_PAGES.find((item) => item.key === key);

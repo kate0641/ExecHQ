@@ -99,12 +99,22 @@ grip focused, the arrow keys nudge it (hold Shift for bigger steps) and Home
 puts it back at the top left. Wherever you leave it is where it will be next
 time, and it always stays inside the window.
 
+**You can fold it away.** The chevron at the right end collapses it to just the
+grip, for when it is sitting over something you want to look at. The chevron
+brings it back. That also persists.
+
 ## How the viewport toggle works
 
 The toggle switches the canvas between **Web**, **Tablet** and **Mobile**.
 Mobile and tablet render inside a device frame drawn in CSS — bezel, rounded
 corners, and a status bar on mobile. Content scrolls inside the frame, so the
 frame stays put.
+
+**Concept pages open on Mobile**, because that is what ExecHQ is. Four routes are
+web only and have Mobile and Tablet disabled with the reason shown: the
+Enterprise Dashboard, and the prototype's own three pages — the hub, the
+catalogue and the stylesheet. Landing on one of those does not lose your choice;
+it comes back on the next concept page.
 
 The important technical detail, if you are writing CSS in this repo:
 

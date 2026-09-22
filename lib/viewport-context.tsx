@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import { usePathname } from "next/navigation";
+import { getHubPageByPath } from "@/lib/hub-pages";
 import { getFlow } from "@/lib/manifest";
 
 export type Viewport = "web" | "tablet" | "mobile";
@@ -21,7 +22,14 @@ export const VIEWPORT_LABELS: Record<Viewport, string> = {
 };
 
 const STORAGE_KEY = "exechq.viewport";
-const DEFAULT_VIEWPORT: Viewport = "web";
+
+/**
+ * ExecHQ is a mobile-first product, so a product page opens on the phone unless
+ * the reviewer has chosen otherwise. The prototype's own pages — the hub, the
+ * catalogue and the stylesheet — and the Enterprise Dashboard are web only, and
+ * override this.
+ */
+const DEFAULT_VIEWPORT: Viewport = "mobile";
 
 function isViewport(value: unknown): value is Viewport {
   return typeof value === "string" && (VIEWPORTS as readonly string[]).includes(value);
@@ -108,9 +116,13 @@ export function ViewportProvider({ children }: { children: ReactNode }) {
   const selected = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   const pathname = usePathname();
 
+  // A route is web only either because its flow says so, or because it is one
+  // of the prototype's own pages.
   const flowSlug = pathname.split("/").filter(Boolean)[0];
   const flow = flowSlug ? getFlow(flowSlug) : undefined;
-  const locked = Boolean(flow?.webOnly);
+  const hubPage = getHubPageByPath(pathname);
+  const webOnlyPage = flow?.webOnly ? flow : hubPage?.webOnly ? hubPage : undefined;
+  const locked = Boolean(webOnlyPage);
 
   const value = useMemo<ViewportContextValue>(
     () => ({
@@ -118,9 +130,9 @@ export function ViewportProvider({ children }: { children: ReactNode }) {
       viewport: locked ? "web" : selected,
       setViewport: writeViewport,
       locked,
-      lockReason: locked && flow ? `The ${flow.title} is web only.` : null,
+      lockReason: webOnlyPage ? `The ${webOnlyPage.title} is web only.` : null,
     }),
-    [selected, locked, flow]
+    [selected, locked, webOnlyPage]
   );
 
   return <ViewportContext.Provider value={value}>{children}</ViewportContext.Provider>;
