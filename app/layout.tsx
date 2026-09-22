@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import { Inter, Libre_Baskerville, Red_Hat_Display } from "next/font/google";
+import { FlowList } from "@/components/hub/FlowList";
+import { PrototypeShell } from "@/components/layout/PrototypeShell";
+import { ViewportProvider } from "@/lib/viewport-context";
 import "./globals.css";
 
 /**
  * Font roles (see CLAUDE.md):
- *   Red Hat Display  → headings and UI labels    → --font-display
+ *   Red Hat Display   → headings and UI labels   → --font-display
  *   Libre Baskerville → pull quotes, editorial   → --font-serif
- *   Inter            → body copy and interface   → --font-body
+ *   Inter             → body copy and interface  → --font-body
  */
 const redHatDisplay = Red_Hat_Display({
   subsets: ["latin"],
@@ -48,7 +51,18 @@ export default function RootLayout({
 
   return (
     <html lang="en-GB" className={fontVariables}>
-      <body>{children}</body>
+      <body>
+        <ViewportProvider>
+          <a className="u-skip-link" href="#main">
+            Skip to content
+          </a>
+          {/* FlowList has no client hooks, so it renders on the server here and
+              slots into the client-side panel as children. */}
+          <PrototypeShell hubIndex={<FlowList compact headingLevel={3} />}>
+            {children}
+          </PrototypeShell>
+        </ViewportProvider>
+      </body>
     </html>
   );
 }

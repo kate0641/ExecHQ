@@ -16,6 +16,7 @@ import { textLinkStates } from "./primitives/TextLink/TextLink.states";
 import { inputStates } from "./form/Input/Input.states";
 import { toggleGroupStates } from "./form/ToggleGroup/ToggleGroup.states";
 import { panelStates } from "./layout/Panel/Panel.states";
+import { placeholderStateStates } from "./layout/PlaceholderState/PlaceholderState.states";
 
 export const registry: RegisteredComponent[] = [
   badgeStates,
@@ -24,6 +25,7 @@ export const registry: RegisteredComponent[] = [
   inputStates,
   toggleGroupStates,
   panelStates,
+  placeholderStateStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */

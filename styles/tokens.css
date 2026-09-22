@@ -228,7 +228,9 @@
      LAYOUT / DEVICE
      ------------------------------------------------------------------------ */
   --viewport-mobile-width: 390px;
+  --viewport-mobile-height: 844px;
   --viewport-tablet-width: 820px;
+  --viewport-tablet-height: 1180px;
   --viewport-web-max: 1440px;
   --device-bezel-mobile: 12px;
   --device-bezel-tablet: 16px;
