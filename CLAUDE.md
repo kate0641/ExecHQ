@@ -71,13 +71,23 @@ panel and the routes are all generated from it.
   (Enterprise Dashboard).
 - `webOnly: true` marks a flow the viewport toggle locks to web width.
 
+## The prototype toolbar
+
+A floating toolbar carries the viewport toggle and the hub button. It is present
+on every page, overlays the canvas, and can be dragged out of the way; its
+position persists in `localStorage` via `lib/toolbar-position.ts`.
+
+The toggle is deliberately **not** inside the hub panel: the panel is a modal
+dialog, so it would hide the change the toggle is making.
+
+Dragging is never the only way to do something (WCAG 2.2 SC 2.5.7). The handle
+is a real button: pressing it without dragging cycles the toolbar through the
+four corners, and with it focused the arrow keys nudge and Home resets. Any new
+drag interaction must come with the same two alternatives.
+
 ## Viewport toggle
 
-A persistent developer toolbar at the top left of every page switches the canvas
-between Web, Tablet and Mobile. It sits outside the canvas, takes the canvas
-background rather than the surface background so it never reads as part of the
-screen being reviewed, and stays visible at all times — it is not in the hub
-panel, because the panel is modal and would hide the change it is making.
+Switches the canvas between Web, Tablet and Mobile.
 
 - **Never use `@media` queries for this.** Media queries respond to the browser
   window, not to a simulated frame inside it. All responsive CSS is written
