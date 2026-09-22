@@ -135,7 +135,7 @@
 
   /* Device frame */
   --color-device-bezel: var(--grey-900);
-  --color-device-edge: var(--grey-700);
+  --color-device-edge: var(--grey-600);
   --color-device-screen: var(--color-surface);
   --color-device-hardware: var(--grey-600);
 
@@ -217,7 +217,7 @@
   --shadow-md: 0 4px 12px rgb(var(--shadow-rgb) / 0.1), 0 1px 3px rgb(var(--shadow-rgb) / 0.06);
   --shadow-lg: 0 12px 32px rgb(var(--shadow-rgb) / 0.14), 0 2px 8px rgb(var(--shadow-rgb) / 0.06);
   --shadow-panel: 8px 0 40px rgb(var(--shadow-rgb) / 0.18);
-  --shadow-device: 0 24px 64px rgb(var(--shadow-rgb) / 0.22);
+  --shadow-device: 0 14px 34px rgb(var(--shadow-rgb) / 0.16);
 
   /* ---------------------------------------------------------------------------
      FOCUS
@@ -229,12 +229,14 @@
   /* ---------------------------------------------------------------------------
      LAYOUT / DEVICE
      ------------------------------------------------------------------------ */
-  --viewport-mobile-width: 390px;
-  --viewport-mobile-height: 844px;
+  /* iPhone 15/16 logical viewport. 390 x 844 (iPhone 12-14) is still common but
+     a generation behind, and the three extra points change no layout here. */
+  --viewport-mobile-width: 393px;
+  --viewport-mobile-height: 852px;
   --viewport-tablet-width: 820px;
   --viewport-tablet-height: 1180px;
   --viewport-web-max: 1440px;
-  --device-bezel-mobile: 12px;
+  --device-bezel-mobile: 3px;
   --device-bezel-tablet: 16px;
   --device-statusbar-height: 44px;
   --dock-width: 38px;

@@ -123,7 +123,7 @@ Switches the canvas between Web, Tablet and Mobile.
   window, not to a simulated frame inside it. All responsive CSS is written
   against the `data-viewport` attribute the toggle sets on the canvas wrapper:
   `[data-viewport="mobile"] .card { … }`.
-- Widths: mobile 390px, tablet 820px, web fills available width.
+- Widths: mobile 393px, tablet 820px, web fills available width.
 - Mobile and tablet render inside a device frame drawn in CSS — bezel, rounded
   corners, and a status bar area on mobile. No image assets.
 - The selection persists across navigation (React context in the root layout,

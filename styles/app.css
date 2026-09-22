@@ -838,15 +838,19 @@ samp {
   color: var(--color-text-primary);
 }
 
-/* The camera housing, drawn as a pill in the bezel colour. */
+/* The camera housing, drawn as a dynamic island in the bezel colour. It sits
+   inside the screen rather than in the bezel, which is where a current iPhone
+   puts it — and with a 3px bezel there is nowhere else for it to go. Dimensions
+   are literal pixels because this is a drawing of a physical object, not
+   layout: it does not scale with the spacing scale. */
 .device__statusbar::before {
   content: "";
   position: absolute;
   top: var(--space-xs);
   left: 50%;
   transform: translateX(-50%);
-  width: 88px;
-  height: 24px;
+  width: 96px;
+  height: 26px;
   border-radius: var(--radius-pill);
   background-color: var(--color-device-bezel);
 }
