@@ -18,8 +18,10 @@ export interface RefinementQuestionProps {
  * outcome. The skip path is not part of this component — it belongs to the
  * step's actions, where it sits at the same weight as the primary action.
  *
- * Options are stacked rather than in a row: the labels are sentences, and a
- * segmented row of sentences is unreadable at 390px.
+ * The answers are chips rather than a segmented control or a stacked list: they
+ * are short, and pills read as choices where a joined track reads as a form
+ * field. It also reuses the language already on the direction screen, so the two
+ * optional moments in the flow look related.
  */
 export function RefinementQuestion({
   question,
@@ -33,7 +35,7 @@ export function RefinementQuestion({
       <ToggleGroup
         label={question.question}
         labelHidden
-        orientation="vertical"
+        shape="chips"
         options={question.options}
         value={value ?? ""}
         onChange={(next) => onChange?.(next)}

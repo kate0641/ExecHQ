@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { NavPlaceholder } from "@/components/layout/NavPlaceholder";
+import { Icon } from "@/components/primitives/Icon";
 import { StepActions } from "@/components/onboarding/StepActions";
 import { StepHeader } from "@/components/onboarding/StepHeader";
 import { StepProgress } from "@/components/onboarding/StepProgress";
@@ -23,10 +24,15 @@ export interface WizardStepProps {
   primaryLabel?: string;
   onPrimary?: () => void;
   primaryDisabled?: boolean;
+  /** The skip path, in the top right. Its accessible name is this label; only a
+   *  short word shows. */
   skipLabel?: string;
   onSkip?: () => void;
+  /** Back, in the top left, as an icon button carrying this as its name. */
   backLabel?: string;
   onBack?: () => void;
+  /** Extra controls under the primary action, e.g. a second route onward. */
+  footer?: ReactNode;
   /** Shows the Sprint 2 navigation placeholder above the step. Used from the
    *  point the user is effectively inside the app. */
   showNav?: boolean;
@@ -42,8 +48,15 @@ export interface WizardStepProps {
  * wanted to be different, that difference would have to be argued for here
  * rather than quietly introduced in one place.
  *
- * Progress sits above the heading and the actions sit below the content, so the
- * reading order is: where am I, what is being asked, what can I do about it.
+ * Back and skip sit in a bar at the very top — back left, skip right — with
+ * progress under it, then the question, then the one primary action. Reading
+ * order is: how do I leave, where am I, what is being asked, what do I do.
+ *
+ * Worth knowing: putting skip in the corner makes it quieter than the primary
+ * action. The Sprint 1 brief asks for a skip path at equal weight, and this is
+ * deliberately not that — it is a direction taken on 2026-09-22, not an
+ * oversight. The skip still appears on every step that has one, is a real
+ * button in the tab order, and is reachable before the primary action.
  */
 export function WizardStep({
   step,
@@ -62,12 +75,40 @@ export function WizardStep({
   onSkip,
   backLabel,
   onBack,
+  footer,
   showNav = false,
   className,
 }: WizardStepProps) {
+  const hasBar = Boolean(onBack || skipLabel);
+
   return (
     <div className={["wizard", className].filter(Boolean).join(" ")}>
       {showNav ? <NavPlaceholder /> : null}
+
+      {hasBar ? (
+        <div className="wizard__bar">
+          {onBack ? (
+            <button
+              type="button"
+              className="wizard__back"
+              onClick={onBack}
+              aria-label={backLabel ?? "Back"}
+            >
+              <Icon name="chevron" size={18} className="wizard__back-icon" />
+            </button>
+          ) : (
+            <span />
+          )}
+
+          {skipLabel ? (
+            <button type="button" className="wizard__skip" onClick={onSkip}>
+              {skipLabel}
+            </button>
+          ) : (
+            <span />
+          )}
+        </div>
+      ) : null}
 
       <StepProgress
         current={step}
@@ -90,12 +131,10 @@ export function WizardStep({
           primaryLabel={primaryLabel}
           onPrimary={onPrimary}
           primaryDisabled={primaryDisabled}
-          skipLabel={skipLabel}
-          onSkip={onSkip}
-          backLabel={backLabel}
-          onBack={onBack}
         />
       ) : null}
+
+      {footer ? <div className="wizard__footer">{footer}</div> : null}
     </div>
   );
 }

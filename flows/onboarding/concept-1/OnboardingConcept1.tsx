@@ -3,11 +3,7 @@
 import { useEffect, useId, useRef } from "react";
 import { Button } from "@/components/primitives/Button";
 import { Notice } from "@/components/onboarding/Notice";
-import {
-  PROGRESS_TOTAL,
-  progressStep,
-  useOnboardingFlow,
-} from "@/flows/onboarding/shared";
+import { useOnboardingFlow, type OnboardingStep } from "@/flows/onboarding/shared";
 import {
   AccountScreen,
   DirectionScreen,
@@ -16,12 +12,10 @@ import {
 } from "./screens/EntryScreens";
 import {
   CustomPlanScreen,
-  PlanConfirmedScreen,
   PlanScreen,
   RefinementScreen,
 } from "./screens/PlanScreens";
 import {
-  ActionScreen,
   ArtifactScreen,
   CompleteScreen,
   ConnectScreen,
@@ -42,6 +36,26 @@ import type { ScreenProps } from "./screens/types";
  * session. Everything else lives in the screens, and the flow's behaviour lives
  * in the shared state machine.
  */
+/**
+ * The steps this concept actually puts on screen.
+ *
+ * `plan-confirmed` and `action` stay in the shared list because Concepts 2 and 3
+ * still use them, and this concept steps over them rather than forking the flow.
+ * Progress has to be counted against what the user will actually see, or the
+ * last screens report themselves as 9 and 10 of 10 while two marks never light.
+ */
+const SHOWN_STEPS: OnboardingStep[] = [
+  "account",
+  "privacy",
+  "direction",
+  "refinement",
+  "interpretation",
+  "plan",
+  "artifact",
+  "connect",
+  "complete",
+];
+
 export function OnboardingConcept1() {
   const flow = useOnboardingFlow({ conceptId: "concept-1" });
   const { state, pendingResume } = flow;
@@ -77,10 +91,12 @@ export function OnboardingConcept1() {
     );
   }
 
+  const shownIndex = SHOWN_STEPS.indexOf(state.step);
+
   const screenProps: ScreenProps = {
     flow,
-    step: progressStep(state),
-    total: PROGRESS_TOTAL,
+    step: (shownIndex === -1 ? 0 : shownIndex) + 1,
+    total: SHOWN_STEPS.length,
     headingId,
   };
 
@@ -103,10 +119,12 @@ export function OnboardingConcept1() {
       return <RefinementScreen {...screenProps} />;
     case "plan":
       return <PlanScreen {...screenProps} />;
+    // plan-confirmed and action are no longer screens in this concept:
+    // confirming a plan builds the draft immediately. They stay in the shared
+    // step list because Concepts 2 and 3 still use them, so this concept steps
+    // over them with go-to rather than forking the flow.
     case "plan-confirmed":
-      return <PlanConfirmedScreen {...screenProps} />;
     case "action":
-      return <ActionScreen {...screenProps} />;
     case "artifact":
       return <ArtifactScreen {...screenProps} />;
     case "connect":

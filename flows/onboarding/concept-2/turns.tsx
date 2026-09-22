@@ -128,10 +128,10 @@ export function AccountAsk({ context }: { context: TurnContext }) {
       ) : null}
 
       <Input
-        label="Personal email"
+        label="Email"
         type="email"
         required
-        hint="Not a work address. This account has to outlast your current job."
+        hint="Use whichever address suits you. You can change it whenever you like."
         value={email}
         error={
           verdict === "empty"
@@ -142,13 +142,6 @@ export function AccountAsk({ context }: { context: TurnContext }) {
         }
         onChange={(event) => setEmail(event.target.value)}
       />
-
-      {verdict === "corporate" ? (
-        <Notice tone="explain" title="That looks like a work address" live>
-          Your employer must never be able to reach this account, and you should
-          not lose it when you leave. Use a personal address instead.
-        </Notice>
-      ) : null}
 
       <StepActions primaryLabel="Continue" onPrimary={submit} />
     </Ask>
@@ -186,7 +179,7 @@ export function PrivacyAsk({ context }: { context: TurnContext }) {
    -------------------------------------------------------------------------- */
 
 export function DirectionAsk({ context }: { context: TurnContext }) {
-  const { state, dispatch, withDelay } = context.flow;
+  const { state, dispatch } = context.flow;
   const [value, setValue] = useState(state.answers.direction ?? "");
   const [selected, setSelected] = useState<string | null>(
     state.answers.directionSource === "prompted"
@@ -212,7 +205,6 @@ export function DirectionAsk({ context }: { context: TurnContext }) {
       source: selected ? "prompted" : "free",
     });
     dispatch({ type: "next" });
-    withDelay("interpreting", () => {});
   }
 
   return (
@@ -260,7 +252,7 @@ export function InterpretationTurn({
   context: TurnContext;
   active: boolean;
 }) {
-  const { state, dispatch, derived } = context.flow;
+  const { state, dispatch, derived, withDelay } = context.flow;
   const sentence = state.answers.interpretation ?? derived?.interpretation ?? "";
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(sentence);
@@ -287,7 +279,10 @@ export function InterpretationTurn({
       {active ? (
         <StepActions
           primaryLabel="That is right"
-          onPrimary={() => dispatch({ type: "next" })}
+          onPrimary={() => {
+            dispatch({ type: "next" });
+            withDelay("planning", () => {});
+          }}
           primaryDisabled={editing}
           backLabel="Back"
           onBack={() => dispatch({ type: "back" })}
@@ -323,12 +318,12 @@ export function RefinementAsk({ context }: { context: TurnContext }) {
         primaryDisabled={!answer}
         onPrimary={() => {
           dispatch({ type: "next" });
-          if (isLast) withDelay("planning", () => {});
+          if (isLast) withDelay("interpreting", () => {});
         }}
         skipLabel="Skip and show my first step"
         onSkip={() => {
           dispatch({ type: "skip-all-refinement" });
-          withDelay("planning", () => {});
+          withDelay("interpreting", () => {});
         }}
         backLabel="Back"
         onBack={() => dispatch({ type: "back" })}

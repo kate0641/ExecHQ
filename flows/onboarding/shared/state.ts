@@ -180,10 +180,13 @@ export function makeReducer(refinementCount: number, customPlanCount: number) {
           refinementCount
         );
 
+      // Skipping leaves the refinement step entirely and lands on whatever comes
+      // next in the list, rather than naming a destination — the step order has
+      // moved once already and a hard-coded target would have gone stale silently.
       case "skip-all-refinement":
         return withVisit(
           { ...state, skipped: addSkip(state.skipped, "refinement") },
-          "plan"
+          ONBOARDING_STEPS[stepIndex("refinement") + 1]
         );
 
       case "select-plan":

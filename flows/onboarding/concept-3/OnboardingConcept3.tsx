@@ -387,7 +387,7 @@ function activeKey(step: OnboardingStep): SectionKey {
  * its own — it is the page's subject, so it lives where the subject lives.
  */
 function InterpretationBody({ flow }: { flow: OnboardingFlow }) {
-  const { state, dispatch, derived } = flow;
+  const { state, dispatch, derived, withDelay } = flow;
   const sentence = state.answers.interpretation ?? derived?.interpretation ?? "";
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(sentence);
@@ -414,7 +414,10 @@ function InterpretationBody({ flow }: { flow: OnboardingFlow }) {
       <div className="canvas__actions">
         <Button
           variant="primary"
-          onClick={() => dispatch({ type: "next" })}
+          onClick={() => {
+            dispatch({ type: "next" });
+            withDelay("planning", () => {});
+          }}
           disabled={editing}
         >
           That is right

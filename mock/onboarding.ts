@@ -20,49 +20,27 @@
  *  storing one here would invite a screen that shows it. */
 export const INVITE_CODES = ["EXEC-4821", "EXEC-7390", "EXEC-1155"] as const;
 
-/** Domains treated as corporate. Real detection is a backend problem; this list
- *  is enough to design the rejection state against. */
-const CORPORATE_DOMAIN_HINTS = [
-  "acme.com",
-  "globex.com",
-  "initech.com",
-  "company.com",
-  "corp.com",
-];
-
-const PERSONAL_DOMAIN_HINTS = [
-  "gmail.com",
-  "outlook.com",
-  "hotmail.com",
-  "icloud.com",
-  "me.com",
-  "proton.me",
-  "yahoo.com",
-];
-
 export function isValidInviteCode(code: string): boolean {
   const normalised = code.trim().toUpperCase();
   return (INVITE_CODES as readonly string[]).includes(normalised);
 }
 
-export type EmailVerdict = "ok" | "empty" | "malformed" | "corporate";
+export type EmailVerdict = "ok" | "empty" | "malformed";
 
 /**
- * The email check. Corporate addresses are a designed, explanatory state rather
- * than a bare validation error, so the verdict is specific enough for the UI to
- * say why rather than just no.
+ * The email check.
+ *
+ * Shape only. The personal-domain rule was removed by decision on 2026-09-22:
+ * any address is accepted, because the account is the user's and they can change
+ * the address whenever they like. That deliberately drops the rejected-corporate
+ * -email state the Sprint 1 brief lists as required — a scope change on the
+ * record, not an omission.
  */
 export function checkEmail(value: string): EmailVerdict {
   const email = value.trim().toLowerCase();
   if (!email) return "empty";
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return "malformed";
-
-  const domain = email.split("@")[1] ?? "";
-  if (PERSONAL_DOMAIN_HINTS.includes(domain)) return "ok";
-  if (CORPORATE_DOMAIN_HINTS.includes(domain)) return "corporate";
-  // Anything that is not a known personal provider is treated as corporate.
-  // Wrong sometimes, but it is the state worth designing against.
-  return "corporate";
+  return "ok";
 }
 
 /* -----------------------------------------------------------------------------
@@ -74,7 +52,6 @@ export const PRIVACY = {
   statements: [
     "Nothing you do here is visible to your employer, your network, or another user.",
     "This account is yours. It stays yours regardless of where you work.",
-    "That is why we asked for a personal address, and it is the only reason.",
   ],
   action: "Understood",
 } as const;
@@ -292,6 +269,15 @@ export const REFINEMENT_QUESTIONS: RefinementQuestionSpec[] = [
    PLANS
    -------------------------------------------------------------------------- */
 
+/** One stage of a plan's roadmap: a window of time, and what exists by the end
+ *  of it. The PRD defines a plan as three to four of these. */
+export interface PlanStage {
+  window: string;
+  title: string;
+  /** What the user will have, not what they will do. */
+  outcomes: string[];
+}
+
 export interface PlanTemplate {
   id: string;
   name: string;
@@ -299,6 +285,8 @@ export interface PlanTemplate {
   emphasis: string;
   /** Why this plan, tied to what the user said. Filled in by `recommendPlan`. */
   rationale?: string;
+  /** The roadmap, shown so the user can judge whether it is the plan for them. */
+  stages?: PlanStage[];
 }
 
 export const PLAN_TEMPLATES: PlanTemplate[] = [
@@ -307,30 +295,160 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     name: "Increase leadership scope",
     bestFor: "A strong performer seeking promotion or a broader remit.",
     emphasis: "Leadership narrative, executive-ready evidence, key conversations.",
+    stages: [
+      {
+        window: "Weeks 1\u20133",
+        title: "Name what you lead",
+        outcomes: [
+          "A leadership narrative you can say out loud",
+          "An executive bio in three lengths",
+        ],
+      },
+      {
+        window: "Weeks 4\u201310",
+        title: "Build the evidence",
+        outcomes: [
+          "Three results written as scope, not activity",
+          "One brief for the conversation you know is coming",
+        ],
+      },
+      {
+        window: "Week 11 onward",
+        title: "Put it in front of people",
+        outcomes: [
+          "Two conversations with people who influence the decision",
+          "A record of what each one moved",
+        ],
+      },
+    ],
   },
   {
     id: "executive-presence",
     name: "Build executive presence",
     bestFor: "You need greater visibility and a clearer point of view.",
     emphasis: "Positioning, thought leadership, speaking and podcast pitching.",
+    stages: [
+      {
+        window: "Weeks 1\u20132",
+        title: "Settle what you stand for",
+        outcomes: [
+          "A point of view you are willing to defend",
+          "A positioning statement that is yours, not your employer's",
+        ],
+      },
+      {
+        window: "Weeks 3\u20138",
+        title: "Say it somewhere",
+        outcomes: [
+          "Three pieces published under your own name",
+          "A short list of rooms worth being in",
+        ],
+      },
+      {
+        window: "Week 9 onward",
+        title: "Be asked rather than apply",
+        outcomes: [
+          "Two pitches sent to events or shows",
+          "One inbound approach you did not chase",
+        ],
+      },
+    ],
   },
   {
     id: "inflection-point",
     name: "Prepare for a career inflection point",
     bestFor: "A promotion, role change, review, board presentation or negotiation is ahead.",
     emphasis: "Situation Brief, narrative, stakeholder strategy.",
+    stages: [
+      {
+        window: "This week",
+        title: "Get the situation on paper",
+        outcomes: [
+          "A situation brief: what is being decided, by whom, against what",
+          "The two objections you have not answered yet",
+        ],
+      },
+      {
+        window: "Before the date",
+        title: "Prepare the case",
+        outcomes: [
+          "A ninety-second account of yourself",
+          "Evidence for each claim in it",
+        ],
+      },
+      {
+        window: "After",
+        title: "Bank what happened",
+        outcomes: [
+          "What was said, while you still remember it",
+          "The next move, decided rather than drifted into",
+        ],
+      },
+    ],
   },
   {
     id: "current-org",
     name: "Strengthen influence in the current organisation",
     bestFor: "You intend to grow where you are.",
     emphasis: "Strategic communication, executive presence, internal opportunity framing.",
+    stages: [
+      {
+        window: "Weeks 1\u20133",
+        title: "Make the work legible",
+        outcomes: [
+          "Your remit described in the terms your leadership uses",
+          "One result reframed as organisational impact",
+        ],
+      },
+      {
+        window: "Weeks 4\u20139",
+        title: "Widen who hears it",
+        outcomes: [
+          "Three people outside your function who know what you do",
+          "A standing reason to be in one room you are not in",
+        ],
+      },
+      {
+        window: "Quarter onward",
+        title: "Be counted on for something",
+        outcomes: [
+          "One problem that comes to you by default",
+          "A scope change you asked for rather than waited for",
+        ],
+      },
+    ],
   },
   {
     id: "explore",
     name: "Explore and clarify a next direction",
     bestFor: "You feel a ceiling but cannot name a role.",
     emphasis: "Direction refinement, transferable narrative, low-risk exploratory actions.",
+    stages: [
+      {
+        window: "Weeks 1\u20132",
+        title: "Find out what travels",
+        outcomes: [
+          "What you are good at, separated from where you did it",
+          "The parts of the job you would not miss",
+        ],
+      },
+      {
+        window: "Weeks 3\u20138",
+        title: "Test it cheaply",
+        outcomes: [
+          "Four conversations with people doing something adjacent",
+          "Two directions ruled out on evidence rather than nerve",
+        ],
+      },
+      {
+        window: "Week 9 onward",
+        title: "Name it",
+        outcomes: [
+          "A direction specific enough to plan against",
+          "A narrative that makes the move look deliberate",
+        ],
+      },
+    ],
   },
 ];
 
@@ -364,6 +482,31 @@ export function recommendPlan(direction: string): PlanTemplate {
     PLAN_TEMPLATES.find((plan) => plan.id === planId) ?? PLAN_TEMPLATES[0];
   return { ...template, rationale: RATIONALES[need] };
 }
+
+/** What the user can do with a finished artifact. Designed states only: nothing
+ *  here leaves the browser, because nothing in this prototype talks out. */
+export const EXPORT_ACTIONS = {
+  downloadLabel: "Download",
+  emailLabel: "Email it to me",
+  downloaded: "Downloaded. Check wherever your device puts files.",
+  emailed: "Sent. It will be in your inbox shortly.",
+} as const;
+
+/** The fields the last step asks for, entered by hand. Nothing is fetched. */
+export const CONNECT_FIELDS = {
+  heading: "Anything else you want us to know?",
+  hint: "Optional. It sharpens later drafts and changes nothing about the one you already have.",
+  linkedinLabel: "LinkedIn",
+  websiteLabel: "Personal website",
+  fields: [
+    { id: "followers", label: "Followers", group: "linkedin" },
+    { id: "posts", label: "Posts, last 90 days", group: "linkedin" },
+    { id: "reactions", label: "Median reactions", group: "linkedin" },
+    { id: "website", label: "Address", group: "website" },
+  ],
+  saveLabel: "Save and go to my homepage",
+  skipLabel: "Go to my homepage",
+} as const;
 
 export function planById(id: string): PlanTemplate | undefined {
   return PLAN_TEMPLATES.find((plan) => plan.id === id);

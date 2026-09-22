@@ -62,12 +62,14 @@ export function AppChrome({ flow, children }: AppChromeProps) {
         {children}
       </main>
 
-      <footer className="chrome__footer">
-        <p className="chrome__footer-text">
-          Private by default. Your employer, your network and your colleagues
-          never see this account.
-        </p>
-      </footer>
+      {flow.privacyFooter === false ? null : (
+        <footer className="chrome__footer">
+          <p className="chrome__footer-text">
+            Private by default. Your employer, your network and your colleagues
+            never see this account.
+          </p>
+        </footer>
+      )}
     </div>
   );
 }

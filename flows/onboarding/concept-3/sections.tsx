@@ -81,10 +81,10 @@ export function AccountBody({ flow }: SectionProps) {
       ) : null}
 
       <Input
-        label="Personal email"
+        label="Email"
         type="email"
         required
-        hint="Not a work address. This account has to outlast your current job."
+        hint="Use whichever address suits you. You can change it whenever you like."
         value={email}
         error={
           verdict === "empty"
@@ -95,13 +95,6 @@ export function AccountBody({ flow }: SectionProps) {
         }
         onChange={(event) => setEmail(event.target.value)}
       />
-
-      {verdict === "corporate" ? (
-        <Notice tone="explain" title="That looks like a work address" live>
-          Your employer must never be able to reach this account, and you should
-          not lose it when you leave. Use a personal address instead.
-        </Notice>
-      ) : null}
 
       <StepActions primaryLabel="Continue" onPrimary={submit} />
     </>
@@ -131,7 +124,7 @@ export function PrivacyBody({ flow }: SectionProps) {
    -------------------------------------------------------------------------- */
 
 export function DirectionBody({ flow }: SectionProps) {
-  const { state, dispatch, withDelay } = flow;
+  const { state, dispatch } = flow;
   const [value, setValue] = useState(state.answers.direction ?? "");
   const [selected, setSelected] = useState<string | null>(
     state.answers.directionSource === "prompted"
@@ -157,7 +150,6 @@ export function DirectionBody({ flow }: SectionProps) {
       source: selected ? "prompted" : "free",
     });
     dispatch({ type: "next" });
-    withDelay("interpreting", () => {});
   }
 
   return (
@@ -216,12 +208,12 @@ export function RefinementBody({ flow }: SectionProps) {
         primaryDisabled={!answer}
         onPrimary={() => {
           dispatch({ type: "next" });
-          if (isLast) withDelay("planning", () => {});
+          if (isLast) withDelay("interpreting", () => {});
         }}
         skipLabel="Skip and show my first step"
         onSkip={() => {
           dispatch({ type: "skip-all-refinement" });
-          withDelay("planning", () => {});
+          withDelay("interpreting", () => {});
         }}
         backLabel="Back"
         onBack={() => dispatch({ type: "back" })}

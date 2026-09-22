@@ -3200,3 +3200,197 @@ samp {
   background-color: var(--color-surface);
   box-shadow: 0 calc(-1 * var(--space-xs)) var(--space-sm) var(--color-surface);
 }
+
+/* Chips: the options break out of the segmented track into separate pills that
+   wrap. Same radios underneath, so arrow-key navigation and the group semantics
+   are unchanged — only the shape differs. */
+.toggle-group--chips .toggle-group__options {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+  border-radius: 0;
+  gap: var(--space-xs);
+}
+
+.toggle-group--chips .toggle-group__option {
+  padding: var(--space-sm) var(--space-md);
+  border: var(--border-strong);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface);
+}
+
+.toggle-group--chips .toggle-group__input:checked + .toggle-group__option {
+  color: var(--color-text-inverse);
+  background-color: var(--color-surface-inverse);
+  border-color: var(--color-surface-inverse);
+}
+
+.toggle-group--chips .toggle-group__option:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.toggle-group--chips .toggle-group__input:checked + .toggle-group__option:hover {
+  background-color: var(--color-surface-inverse-hover);
+}
+
+/* Back top-left, skip top-right. The bar keeps both out of the primary action's
+   way and off the bottom of the screen, where the one thing to press should be
+   the only thing to press. */
+.wizard__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  min-height: var(--space-2xl);
+}
+
+.wizard__back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-2xl);
+  height: var(--space-2xl);
+  color: var(--color-text-primary);
+  background-color: var(--color-surface);
+  border: var(--border-thin);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+}
+
+.wizard__back:hover {
+  background-color: var(--color-surface-hover);
+}
+
+/* The chevron points right in the icon set; back is the same glyph turned. */
+.wizard__back-icon {
+  transform: rotate(180deg);
+}
+
+.wizard__skip {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-secondary);
+  background: none;
+  border: 0;
+  padding: var(--space-xs) var(--space-2xs);
+  cursor: pointer;
+  border-radius: var(--radius-xs);
+}
+
+.wizard__skip:hover {
+  color: var(--color-text-primary);
+}
+
+.wizard__footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+/* --- The stated reason, and the roadmap it explains ----------------------- */
+
+.plan-reason {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding: var(--space-md);
+  background-color: var(--color-surface-sunken);
+  border-radius: var(--radius-md);
+}
+
+.plan-reason__text {
+  font-size: var(--text-md);
+  line-height: var(--leading-normal);
+  color: var(--color-text-primary);
+}
+
+/* A single rule down the left with a mark per stage: the plan reads as a
+   sequence without drawing a timeline that implies dates we do not have. */
+.plan-stages {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.plan-stage {
+  position: relative;
+  padding: 0 0 var(--space-lg) var(--space-md);
+  border-left: var(--border-width-medium) solid var(--color-border);
+}
+
+.plan-stage:last-child {
+  padding-bottom: 0;
+  border-left-color: transparent;
+}
+
+.plan-stage::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--space-2xs) - 1px);
+  top: var(--space-2xs);
+  width: var(--space-xs);
+  height: var(--space-xs);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-text-primary);
+}
+
+.plan-stage__window {
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.plan-stage__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+  color: var(--color-text-primary);
+  margin: var(--space-3xs) 0 var(--space-2xs);
+}
+
+/* Outcomes, not activities: what the user will have by the end of the stage. */
+.plan-stage__outcomes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  margin: 0;
+  padding-left: var(--space-md);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+/* --- Export, and the last step's fields ----------------------------------- */
+
+.export {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.export > .btn {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.connect-fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.connect-fields > .t-eyebrow {
+  padding: 0;
+}

@@ -8,7 +8,7 @@ export const refinementQuestionStates = defineComponentStates({
   status: "draft",
   flows: ["onboarding"],
   description:
-    "One optional refinement question. No required marker and no validation, because no answer is a valid outcome. The skip path deliberately lives in the step's actions instead of here, so it sits at the same weight as the primary action rather than inside the question.",
+    "One optional refinement question. No required marker and no validation, because no answer is a valid outcome. Answers are chips rather than a segmented control: they are short, and pills read as choices where a joined track reads as a form field. The skip path lives in the step's top bar, not here.",
   component: RefinementQuestion,
   variants: [
     { label: "Unanswered", props: { question: REFINEMENT_QUESTIONS[0] } },

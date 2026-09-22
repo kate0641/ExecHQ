@@ -8,13 +8,17 @@
  * Account creation comes before the privacy promise, and the promise comes
  * before any career information is asked for. That ordering is a decision on
  * record, not an accident of the list.
+ *
+ * Refinement sits before the interpretation, so the system reads everything the
+ * user has offered before telling them what it understood — rather than
+ * interpreting a bare direction and then asking for more.
  */
 export const ONBOARDING_STEPS = [
   "account",
   "privacy",
   "direction",
-  "interpretation",
   "refinement",
+  "interpretation",
   "plan",
   "plan-confirmed",
   "action",

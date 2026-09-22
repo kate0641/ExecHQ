@@ -204,32 +204,8 @@ export function OnboardingConcept2() {
     }
   }
 
-  /* --- Interpretation --- */
-  if (reached("interpretation")) {
-    if (generating === "interpreting") {
-      turns.push({
-        key: "interpreting",
-        node: (
-          <ThreadTurn speaker="advisor">
-            <GeneratingState label={GENERATING_COPY.interpreting} />
-          </ThreadTurn>
-        ),
-      });
-    } else {
-      advisor("interpretation", "Here is what we understood", {
-        description:
-          "If this is not quite right, change it. Everything after it is built on it.",
-        past: isPast("interpretation"),
-        active: isNow("interpretation"),
-        children: (
-          <InterpretationTurn context={context} active={isNow("interpretation")} />
-        ),
-      });
-    }
-  }
-
   /* --- Refinement --- */
-  if (reached("refinement") && generating !== "interpreting") {
+  if (reached("refinement")) {
     // Only the questions the user actually reached. refinementIndex is where
     // they got to in every case — mid-step, skipped out, or answered them all —
     // so a question they never saw never appears as a turn the advisor asked.
@@ -263,6 +239,30 @@ export function OnboardingConcept2() {
           ? "Skipped the rest"
           : "Skipped these"
       );
+    }
+  }
+
+  /* --- Interpretation --- */
+  if (reached("interpretation")) {
+    if (generating === "interpreting") {
+      turns.push({
+        key: "interpreting",
+        node: (
+          <ThreadTurn speaker="advisor">
+            <GeneratingState label={GENERATING_COPY.interpreting} />
+          </ThreadTurn>
+        ),
+      });
+    } else {
+      advisor("interpretation", "Here is what we understood", {
+        description:
+          "If this is not quite right, change it. Everything after it is built on it.",
+        past: isPast("interpretation"),
+        active: isNow("interpretation"),
+        children: (
+          <InterpretationTurn context={context} active={isNow("interpretation")} />
+        ),
+      });
     }
   }
 

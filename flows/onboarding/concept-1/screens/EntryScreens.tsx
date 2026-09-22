@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/primitives/Button";
 import { Input } from "@/components/form/Input";
+import { AssumptionNotice } from "@/components/onboarding/AssumptionNotice";
 import { DirectionField } from "@/components/onboarding/DirectionField";
 import { GeneratingState } from "@/components/onboarding/GeneratingState";
 import { InterpretedDirection } from "@/components/onboarding/InterpretedDirection";
@@ -18,30 +18,30 @@ import {
   isValidInviteCode,
   type PromptedDirection,
 } from "@/mock/onboarding";
+import { hasSkippedRefinement } from "@/flows/onboarding/shared";
 import type { ScreenProps } from "./types";
 
 /**
- * Account creation. Two entry paths on one screen: an invite code plus a
- * personal email, or a personal email alone.
+ * Account creation. Two entry paths on one screen: an email address, and an
+ * optional invite code beneath it.
  *
- * Both rejections are explanatory rather than bare validation. A work address
- * is the one most likely to be typed by reflex, so it gets a reason — the
- * account has to outlast the job — instead of a red line under the field. The
- * invite code is never shown again after this screen and no employer name
- * appears anywhere, which is why nothing is stored about who issued it.
+ * The personal-domain rule was removed by decision on 2026-09-22. Any address is
+ * accepted: the account belongs to the user and they can change the address
+ * whenever they like, so refusing a work one was a gate with nothing behind it.
+ * The hint says the useful part — a personal address survives a job change —
+ * without turning it into a rule.
  */
 export function AccountScreen({ flow, step, total, headingId }: ScreenProps) {
   const { state, dispatch } = flow;
   const [code, setCode] = useState(state.answers.inviteCode ?? "");
   const [email, setEmail] = useState(state.answers.email ?? "");
-  const [showCode, setShowCode] = useState(Boolean(state.answers.inviteCode));
   const [codeError, setCodeError] = useState(false);
   const [emailVerdict, setEmailVerdict] = useState<
     ReturnType<typeof checkEmail> | null
   >(null);
 
   function submit() {
-    const codeOk = !showCode || !code.trim() || isValidInviteCode(code);
+    const codeOk = !code.trim() || isValidInviteCode(code);
     const verdict = checkEmail(email);
     setCodeError(!codeOk);
     setEmailVerdict(verdict === "ok" ? null : verdict);
@@ -57,38 +57,15 @@ export function AccountScreen({ flow, step, total, headingId }: ScreenProps) {
       step={step}
       total={total}
       title="Create your account"
-      description="A personal email is all we need to start."
       headingId={headingId}
-      primaryLabel="Continue"
+      primaryLabel="Next"
       onPrimary={submit}
     >
-      {showCode ? (
-        <Input
-          label="Invite code"
-          hint="From the invitation you were sent. Optional."
-          value={code}
-          onChange={(event) => setCode(event.target.value)}
-        />
-      ) : (
-        <div className="wizard__inline-action">
-          <Button variant="ghost" size="sm" onClick={() => setShowCode(true)}>
-            I have an invite code
-          </Button>
-        </div>
-      )}
-
-      {codeError ? (
-        <Notice tone="explain" title="We do not recognise that code" live>
-          Check it against the invitation you were sent. You can also continue
-          without one — a code only changes who pays, never what you get.
-        </Notice>
-      ) : null}
-
       <Input
-        label="Personal email"
+        label="Email"
         type="email"
         required
-        hint="Not a work address. This account has to outlast your current job."
+        hint="Use whichever address suits you. You can change it whenever you like, and the account stays yours either way."
         value={email}
         error={
           emailVerdict === "empty"
@@ -100,10 +77,17 @@ export function AccountScreen({ flow, step, total, headingId }: ScreenProps) {
         onChange={(event) => setEmail(event.target.value)}
       />
 
-      {emailVerdict === "corporate" ? (
-        <Notice tone="explain" title="That looks like a work address" live>
-          Your employer must never be able to reach this account, and you should
-          not lose it when you leave. Use a personal address instead.
+      <Input
+        label="Invite code"
+        hint="From an invitation, if you were sent one."
+        value={code}
+        onChange={(event) => setCode(event.target.value)}
+      />
+
+      {codeError ? (
+        <Notice tone="explain" title="We do not recognise that code" live>
+          Check it against the invitation you were sent. You can also continue
+          without one — a code only changes who pays, never what you get.
         </Notice>
       ) : null}
     </WizardStep>
@@ -122,7 +106,7 @@ export function PrivacyScreen({ flow, step, total, headingId }: ScreenProps) {
       total={total}
       title={PRIVACY.heading}
       headingId={headingId}
-      primaryLabel={PRIVACY.action}
+      primaryLabel="Next"
       onPrimary={() => flow.dispatch({ type: "next" })}
       backLabel="Back"
       onBack={() => flow.dispatch({ type: "back" })}
@@ -136,7 +120,7 @@ export function PrivacyScreen({ flow, step, total, headingId }: ScreenProps) {
 
 /** The direction. The only piece of career information the flow requires. */
 export function DirectionScreen({ flow, step, total, headingId }: ScreenProps) {
-  const { state, dispatch, withDelay } = flow;
+  const { state, dispatch } = flow;
   const [value, setValue] = useState(state.answers.direction ?? "");
   const [selected, setSelected] = useState<string | null>(
     state.answers.directionSource === "prompted"
@@ -162,11 +146,9 @@ export function DirectionScreen({ flow, step, total, headingId }: ScreenProps) {
       direction: value.trim(),
       source: selected ? "prompted" : "free",
     });
-    // Move first, then start the clock: the screen being waited for is the one
-    // that shows the waiting, so the user is never held on the screen they have
-    // just finished with.
+    // Refinement comes next now, so there is nothing to think about yet. The
+    // interpreting pause happens on the way out of refinement instead.
     dispatch({ type: "next" });
-    withDelay("interpreting", () => {});
   }
 
   return (
@@ -175,7 +157,7 @@ export function DirectionScreen({ flow, step, total, headingId }: ScreenProps) {
       total={total}
       title={DIRECTION.prompt}
       headingId={headingId}
-      primaryLabel="Continue"
+      primaryLabel="Next"
       onPrimary={submit}
       backLabel="Back"
       onBack={() => dispatch({ type: "back" })}
@@ -219,7 +201,7 @@ export function InterpretationScreen({
   total,
   headingId,
 }: ScreenProps) {
-  const { state, dispatch, derived, generating } = flow;
+  const { state, dispatch, derived, generating, withDelay } = flow;
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(
     state.answers.interpretation ?? derived?.interpretation ?? ""
@@ -243,12 +225,26 @@ export function InterpretationScreen({
       title="Here is what we understood"
       description="If this is not quite right, change it. Everything after this is built on it."
       headingId={headingId}
-      primaryLabel="That is right"
-      onPrimary={() => dispatch({ type: "next" })}
+      primaryLabel="Next"
+      onPrimary={() => {
+        dispatch({ type: "next" });
+        withDelay("planning", () => {});
+      }}
       primaryDisabled={editing}
       backLabel="Back"
       onBack={() => dispatch({ type: "back" })}
     >
+      {/* Refinement comes before this screen now, so a skip lands here — which
+          makes this the place the assumption was actually made, and the place to
+          say so. On the plan screen it sat next to the plan's own reasoning and
+          the two read as one thought said twice. */}
+      {hasSkippedRefinement(state) && derived ? (
+        <AssumptionNotice
+          statement={derived.assumption.statement}
+          promise={derived.assumption.promise}
+        />
+      ) : null}
+
       <InterpretedDirection
         sentence={editing ? draft : sentence}
         editing={editing}

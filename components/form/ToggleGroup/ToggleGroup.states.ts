@@ -17,6 +17,23 @@ export const toggleGroupStates = defineComponentStates({
   component: ToggleGroup,
   variants: [
     {
+      label: "Chips",
+      description:
+        "Separate pills that wrap. For answers that should read as choices rather than as a form control.",
+      props: {
+        label: "Roughly when?",
+        labelHidden: true,
+        shape: "chips" as const,
+        options: [
+          { value: "now", label: "Already underway" },
+          { value: "year", label: "Within a year" },
+          { value: "two-three", label: "Two to three years" },
+          { value: "unsure", label: "No fixed timeline" },
+        ],
+        defaultValue: "year",
+      },
+    },
+    {
       label: "Default",
       props: { label: "Viewport", options: viewportOptions, defaultValue: "web" },
     },

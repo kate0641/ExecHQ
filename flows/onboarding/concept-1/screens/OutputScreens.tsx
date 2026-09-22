@@ -1,59 +1,42 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { Input } from "@/components/form/Input";
 import { Button } from "@/components/primitives/Button";
-import { ActionCard } from "@/components/onboarding/ActionCard";
 import { ArtifactDraft } from "@/components/onboarding/ArtifactDraft";
-import { ConnectOffer } from "@/components/onboarding/ConnectOffer";
 import { GeneratingState } from "@/components/onboarding/GeneratingState";
 import { Notice } from "@/components/onboarding/Notice";
 import { WizardStep } from "@/components/onboarding/WizardStep";
-import { CONNECT_OFFERS, GENERATING_COPY } from "@/mock/onboarding";
+import {
+  CONNECT_FIELDS,
+  EXPORT_ACTIONS,
+  GENERATING_COPY,
+} from "@/mock/onboarding";
 import type { ScreenProps } from "./types";
 
-/** The first recommended action, with its reasoning shown. */
-export function ActionScreen({ flow, step, total, headingId }: ScreenProps) {
-  const { dispatch, derived, withDelay } = flow;
-  if (!derived) return null;
-
-  return (
-    <WizardStep
-      step={step}
-      total={total}
-      eyebrow="First step"
-      title="Start here"
-      headingId={headingId}
-      primaryLabel="Write it now"
-      onPrimary={() => {
-        dispatch({ type: "next" });
-        withDelay("drafting", () => {});
-      }}
-      backLabel="Back"
-      onBack={() => dispatch({ type: "back" })}
-    >
-      <ActionCard action={derived.action} />
-    </WizardStep>
-  );
-}
-
 /**
- * The first artifact.
+ * The first artifact, built the moment the plan is confirmed.
  *
- * A stub of the Positioning Builder — Sprint 4 designs the real thing. What it
- * has to do here is arrive already written, so the transition reads as a
- * hand-off into work in progress rather than the start of a tutorial. The nav
- * placeholder appears from this point: the user is now inside the product
- * rather than being set up for it.
+ * There is no longer a screen between choosing a plan and having something: the
+ * user has just decided, and the fastest way to prove the decision was worth
+ * making is to hand them the work rather than describe it. The one line under
+ * the title carries what the deleted step used to say — why this piece first.
+ *
+ * Download and email sit in a toolbar above the primary action, available the
+ * whole time. Both are designed states: nothing in this prototype leaves the
+ * browser, so they confirm and stop.
  */
 export function ArtifactScreen({ flow, step, total, headingId }: ScreenProps) {
   const { state, dispatch, derived, generating } = flow;
+  const [exported, setExported] = useState<"download" | "email" | null>(null);
 
   if (generating === "drafting") {
     return (
       <WizardStep
         step={step}
         total={total}
-        title="One moment"
+        title="Building your first draft"
         headingId={headingId}
         showNav
       >
@@ -70,9 +53,10 @@ export function ArtifactScreen({ flow, step, total, headingId }: ScreenProps) {
       total={total}
       eyebrow={derived.artifact.tool}
       title={derived.artifact.title}
+      description="Everything in your plan reuses this, which is why it came first. Edit anything."
       headingId={headingId}
       showNav
-      primaryLabel={state.answers.artifactSaved ? "Continue" : "Save to my plan"}
+      primaryLabel={state.answers.artifactSaved ? "Next" : "Save"}
       onPrimary={() => {
         if (!state.answers.artifactSaved) {
           dispatch({ type: "save-artifact" });
@@ -81,18 +65,33 @@ export function ArtifactScreen({ flow, step, total, headingId }: ScreenProps) {
         dispatch({ type: "next" });
       }}
       backLabel="Back"
-      onBack={() => dispatch({ type: "back" })}
+      onBack={() => dispatch({ type: "go-to", step: "plan" })}
+      footer={
+        <div className="export">
+          <Button
+            variant="secondary"
+            fullWidth
+            onClick={() => setExported("download")}
+          >
+            {EXPORT_ACTIONS.downloadLabel}
+          </Button>
+          <Button variant="secondary" fullWidth onClick={() => setExported("email")}>
+            {EXPORT_ACTIONS.emailLabel}
+          </Button>
+        </div>
+      }
     >
-      {/* The step header already carries the tool and the document's name, so
-          the document does not repeat them. */}
       <ArtifactDraft
         artifact={derived.artifact}
         saved={state.answers.artifactSaved}
         showTitle={false}
       />
-      {state.answers.artifactSaved ? (
+
+      {exported ? (
         <Notice tone="info" live>
-          Saved. It is yours — edit it, export it, or leave it as it is.
+          {exported === "download"
+            ? EXPORT_ACTIONS.downloaded
+            : EXPORT_ACTIONS.emailed}
         </Notice>
       ) : null}
     </WizardStep>
@@ -100,25 +99,37 @@ export function ArtifactScreen({ flow, step, total, headingId }: ScreenProps) {
 }
 
 /**
- * The optional connections, offered only now that the artifact exists.
+ * The last step. The metrics and the link are typed in here rather than offered
+ * on a card that opens a form — the user asked for two things, and asking for
+ * them is fewer moves than offering to ask.
  *
- * The website offer fails on its first attempt on purpose: a failed connection
- * is a required state, and the only honest way to reach it in a prototype with
- * no network is to script it. Retrying succeeds.
+ * Both routes onward go to the same place. Saving nothing is not a lesser exit,
+ * so the two buttons differ in what they do and not in how much they are worth.
  */
 export function ConnectScreen({ flow, step, total, headingId }: ScreenProps) {
-  const { state, dispatch } = flow;
-  const [attempted, setAttempted] = useState<Record<string, boolean>>({});
+  const { dispatch } = flow;
+  const [values, setValues] = useState<Record<string, string>>({});
 
-  function connect(id: string) {
-    const isFirstTry = !attempted[id];
-    setAttempted((previous) => ({ ...previous, [id]: true }));
-    const fails = id === "website" && isFirstTry;
+  function set(id: string, value: string) {
+    setValues((previous) => ({ ...previous, [id]: value }));
+  }
+
+  const linkedin = CONNECT_FIELDS.fields.filter((f) => f.group === "linkedin");
+  const website = CONNECT_FIELDS.fields.filter((f) => f.group === "website");
+
+  function finish(save: boolean) {
+    const added = save && Object.values(values).some((v) => v.trim());
     dispatch({
       type: "set-connection",
-      id,
-      state: fails ? "failed" : "connected",
+      id: "linkedin",
+      state: added ? "connected" : "declined",
     });
+    dispatch({
+      type: "set-connection",
+      id: "website",
+      state: save && values.website?.trim() ? "connected" : "declined",
+    });
+    dispatch({ type: "next" });
   }
 
   return (
@@ -126,41 +137,56 @@ export function ConnectScreen({ flow, step, total, headingId }: ScreenProps) {
       step={step}
       total={total}
       eyebrow="Optional"
-      title="Two things that would sharpen later drafts"
-      description="Neither changes what you already have. You can add them any time, or never."
+      title={CONNECT_FIELDS.heading}
+      description={CONNECT_FIELDS.hint}
       headingId={headingId}
       showNav
-      primaryLabel="Done"
-      onPrimary={() => dispatch({ type: "next" })}
-      skipLabel="Skip both"
-      onSkip={() => {
-        CONNECT_OFFERS.forEach((offer) =>
-          dispatch({ type: "set-connection", id: offer.id, state: "declined" })
-        );
-        dispatch({ type: "next" });
-      }}
+      skipLabel="Skip"
+      onSkip={() => finish(false)}
       backLabel="Back"
       onBack={() => dispatch({ type: "back" })}
+      primaryLabel={CONNECT_FIELDS.saveLabel}
+      onPrimary={() => finish(true)}
+      footer={
+        <Button variant="secondary" fullWidth onClick={() => finish(false)}>
+          {CONNECT_FIELDS.skipLabel}
+        </Button>
+      }
     >
-      <div className="connect-set">
-        {CONNECT_OFFERS.map((offer) => (
-          <ConnectOffer
-            key={offer.id}
-            offer={offer}
-            state={state.answers.connections[offer.id] ?? "offered"}
-            onConnect={() => connect(offer.id)}
-            onRetry={() => connect(offer.id)}
-            onDecline={() =>
-              dispatch({ type: "set-connection", id: offer.id, state: "declined" })
-            }
+      <fieldset className="connect-fields">
+        <legend className="t-eyebrow">{CONNECT_FIELDS.linkedinLabel}</legend>
+        {linkedin.map((field) => (
+          <Input
+            key={field.id}
+            label={field.label}
+            inputMode="numeric"
+            value={values[field.id] ?? ""}
+            onChange={(event) => set(field.id, event.target.value)}
           />
         ))}
-      </div>
+      </fieldset>
+
+      <fieldset className="connect-fields">
+        <legend className="t-eyebrow">{CONNECT_FIELDS.websiteLabel}</legend>
+        {website.map((field) => (
+          <Input
+            key={field.id}
+            label={field.label}
+            type="url"
+            placeholder="https://"
+            value={values[field.id] ?? ""}
+            onChange={(event) => set(field.id, event.target.value)}
+          />
+        ))}
+      </fieldset>
     </WizardStep>
   );
 }
 
-/** The end of onboarding. Says what exists now, and gets out of the way. */
+/**
+ * Where onboarding hands over. The homepage is a real route — a Sprint 2
+ * placeholder — so the handover is a link rather than a description of one.
+ */
 export function CompleteScreen({ flow, step, total, headingId }: ScreenProps) {
   return (
     <WizardStep
@@ -171,16 +197,21 @@ export function CompleteScreen({ flow, step, total, headingId }: ScreenProps) {
       description="Both are yours. Nothing here is visible to anyone else."
       headingId={headingId}
       showNav
+      footer={
+        <>
+          <Link className="btn btn--primary btn--md btn--full" href="/homepage/concept-1">
+            Go to my homepage
+          </Link>
+          <Button variant="ghost" fullWidth onClick={flow.restart}>
+            Walk the flow again
+          </Button>
+        </>
+      }
     >
       <Notice tone="info">
-        This is where onboarding hands over to the signed-in app. That surface is
-        Sprint 2, which is why the navigation above is a placeholder.
+        The signed-in app is Sprint 2, which is why the navigation above is a
+        placeholder and the homepage is still a holding page.
       </Notice>
-      <div className="wizard__restart">
-        <Button variant="secondary" onClick={flow.restart}>
-          Walk the flow again
-        </Button>
-      </div>
     </WizardStep>
   );
 }

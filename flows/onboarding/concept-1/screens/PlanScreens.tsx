@@ -3,18 +3,17 @@
 import { useState } from "react";
 import { Button } from "@/components/primitives/Button";
 import { ToggleGroup } from "@/components/form/ToggleGroup";
-import { AssumptionNotice } from "@/components/onboarding/AssumptionNotice";
 import { GeneratingState } from "@/components/onboarding/GeneratingState";
 import { Notice } from "@/components/onboarding/Notice";
 import { PlanTemplateCard } from "@/components/onboarding/PlanTemplateCard";
 import { RefinementQuestion } from "@/components/onboarding/RefinementQuestion";
 import { WizardStep } from "@/components/onboarding/WizardStep";
-import { hasSkippedRefinement } from "@/flows/onboarding/shared";
 import {
   CUSTOM_PLAN_DRAFT_NAME,
   GENERATING_COPY,
   PLAN_TEMPLATES,
   planById,
+  type PlanTemplate,
 } from "@/mock/onboarding";
 import type { ScreenProps } from "./types";
 
@@ -41,16 +40,18 @@ export function RefinementScreen({ flow, headingId }: ScreenProps) {
       eyebrow="Optional"
       title={question.question}
       headingId={headingId}
-      primaryLabel="Continue"
+      primaryLabel="Next"
       onPrimary={() => {
         dispatch({ type: "next" });
-        if (isLast) withDelay("planning", () => {});
+        // Leaving refinement is what triggers the reading, now that the
+        // interpretation comes after these questions rather than before them.
+        if (isLast) withDelay("interpreting", () => {});
       }}
       primaryDisabled={!answer}
-      skipLabel="Skip and show my first step"
+      skipLabel="Skip"
       onSkip={() => {
         dispatch({ type: "skip-all-refinement" });
-        withDelay("planning", () => {});
+        withDelay("interpreting", () => {});
       }}
       backLabel="Back"
       onBack={() => dispatch({ type: "back" })}
@@ -80,7 +81,7 @@ export function RefinementScreen({ flow, headingId }: ScreenProps) {
  * actually done anything.
  */
 export function PlanScreen({ flow, step, total, headingId }: ScreenProps) {
-  const { state, dispatch, derived, generating } = flow;
+  const { state, dispatch, derived, generating, withDelay } = flow;
   const [showOthers, setShowOthers] = useState(false);
 
   if (generating === "planning") {
@@ -95,34 +96,52 @@ export function PlanScreen({ flow, step, total, headingId }: ScreenProps) {
   if (!recommended) return null;
 
   const selectedId = state.answers.planId ?? recommended.id;
+  const chosen = planById(selectedId) ?? recommended;
   const others = PLAN_TEMPLATES.filter((plan) => plan.id !== recommended.id);
+
+  /** Confirming a plan goes straight to building the draft. There is no longer a
+   *  screen in between: the user has just decided, and the fastest way to prove
+   *  the decision was worth making is to hand them the first piece of work. */
+  const recommendedId = recommended.id;
+
+  function confirm() {
+    dispatch({
+      type: "select-plan",
+      planId: selectedId,
+      source: selectedId === recommendedId ? "recommended" : "switched",
+    });
+    dispatch({ type: "go-to", step: "artifact" });
+    withDelay("drafting", () => {});
+  }
 
   return (
     <WizardStep
       step={step}
       total={total}
-      eyebrow="Your plan"
-      title="This is where we would start"
+      eyebrow="Recommended for you"
+      title={chosen.name}
       headingId={headingId}
       primaryLabel="Use this plan"
-      onPrimary={() => {
-        dispatch({
-          type: "select-plan",
-          planId: selectedId,
-          source: selectedId === recommended.id ? "recommended" : "switched",
-        });
-        dispatch({ type: "next" });
-      }}
+      onPrimary={confirm}
       backLabel="Back"
       onBack={() => dispatch({ type: "back" })}
+      footer={
+        <>
+          {!showOthers ? (
+            <Button variant="secondary" fullWidth onClick={() => setShowOthers(true)}>
+              See other plans
+            </Button>
+          ) : null}
+          <Button
+            variant="ghost"
+            fullWidth
+            onClick={() => dispatch({ type: "open-custom-plan" })}
+          >
+            Build my own plan
+          </Button>
+        </>
+      }
     >
-      {hasSkippedRefinement(state) && derived ? (
-        <AssumptionNotice
-          statement={derived.assumption.statement}
-          promise={derived.assumption.promise}
-        />
-      ) : null}
-
       {state.answers.customPlanDraftSaved ? (
         <Notice tone="info" title="Your own plan is saved as a draft">
           You can come back and finish it whenever you like. Nothing you answered
@@ -130,46 +149,60 @@ export function PlanScreen({ flow, step, total, headingId }: ScreenProps) {
         </Notice>
       ) : null}
 
-      <div className="plan-set" role="radiogroup" aria-label="Plan">
-        <PlanTemplateCard
-          plan={recommended}
-          recommended
-          selected={selectedId === recommended.id}
-          name="plan"
-          onSelect={(planId) =>
-            dispatch({ type: "select-plan", planId, source: "recommended" })
-          }
-        />
+      {/* Why before what. The reason is tied to the user's own words, so it is
+          the part that tells them whether this is their plan. */}
+      {recommended.rationale && selectedId === recommended.id ? (
+        <PlanReason reason={recommended.rationale} />
+      ) : null}
 
-        {showOthers
-          ? others.map((plan) => (
-              <PlanTemplateCard
-                key={plan.id}
-                plan={plan}
-                selected={selectedId === plan.id}
-                name="plan"
-                onSelect={(planId) =>
-                  dispatch({ type: "select-plan", planId, source: "switched" })
-                }
-              />
-            ))
-          : null}
-      </div>
+      <PlanStages plan={chosen} />
 
-      <div className="plan-set__actions">
-        {!showOthers ? (
-          <Button variant="secondary" onClick={() => setShowOthers(true)}>
-            See other plans
-          </Button>
-        ) : null}
-        <Button
-          variant="secondary"
-          onClick={() => dispatch({ type: "open-custom-plan" })}
-        >
-          Build my own
-        </Button>
-      </div>
+      {showOthers ? (
+        <div className="plan-set" role="radiogroup" aria-label="Plan">
+          {others.map((plan) => (
+            <PlanTemplateCard
+              key={plan.id}
+              plan={plan}
+              selected={selectedId === plan.id}
+              name="plan"
+              onSelect={(planId) =>
+                dispatch({ type: "select-plan", planId, source: "switched" })
+              }
+            />
+          ))}
+        </div>
+      ) : null}
     </WizardStep>
+  );
+}
+
+/** The stated reason this plan was chosen. */
+function PlanReason({ reason }: { reason: string }) {
+  return (
+    <div className="plan-reason">
+      <p className="t-eyebrow">Why this one</p>
+      <p className="plan-reason__text">{reason}</p>
+    </div>
+  );
+}
+
+/** The roadmap: what the plan is, in enough detail to judge it. */
+function PlanStages({ plan }: { plan: PlanTemplate }) {
+  if (!plan.stages?.length) return null;
+  return (
+    <ol className="plan-stages">
+      {plan.stages.map((stage) => (
+        <li className="plan-stage" key={stage.title}>
+          <p className="plan-stage__window">{stage.window}</p>
+          <h2 className="plan-stage__title">{stage.title}</h2>
+          <ul className="plan-stage__outcomes">
+            {stage.outcomes.map((outcome) => (
+              <li key={outcome}>{outcome}</li>
+            ))}
+          </ul>
+        </li>
+      ))}
+    </ol>
   );
 }
 
@@ -182,7 +215,7 @@ export function PlanScreen({ flow, step, total, headingId }: ScreenProps) {
  * their mind should lose nothing by backing out.
  */
 export function CustomPlanScreen({ flow, headingId }: ScreenProps) {
-  const { state, dispatch, customPlanSteps } = flow;
+  const { state, dispatch, customPlanSteps, withDelay } = flow;
   const index = state.customPlanIndex ?? 0;
   const stepSpec = customPlanSteps[index];
   const answer = state.answers.customPlan[stepSpec.id];
@@ -197,12 +230,13 @@ export function CustomPlanScreen({ flow, headingId }: ScreenProps) {
       title={stepSpec.question}
       description={stepSpec.hint}
       headingId={headingId}
-      primaryLabel={isLast ? "Use this plan" : "Continue"}
+      primaryLabel={isLast ? "Use this plan" : "Next"}
       primaryDisabled={!answer}
       onPrimary={() => {
         if (isLast) {
           dispatch({ type: "select-plan", planId: "custom", source: "custom" });
-          dispatch({ type: "next" });
+          dispatch({ type: "go-to", step: "artifact" });
+          withDelay("drafting", () => {});
           return;
         }
         dispatch({
@@ -211,7 +245,7 @@ export function CustomPlanScreen({ flow, headingId }: ScreenProps) {
           value: answer ?? "",
         });
       }}
-      skipLabel="Leave this and keep the draft"
+      skipLabel="Leave"
       onSkip={() => dispatch({ type: "exit-custom-plan" })}
       backLabel="Back"
       onBack={() => dispatch({ type: "back" })}
@@ -226,35 +260,6 @@ export function CustomPlanScreen({ flow, headingId }: ScreenProps) {
           dispatch({ type: "answer-custom-plan", id: stepSpec.id, value })
         }
       />
-    </WizardStep>
-  );
-}
-
-/** Plan confirmed. A beat, not a celebration — nothing has been achieved yet. */
-export function PlanConfirmedScreen({ flow, step, total, headingId }: ScreenProps) {
-  const { state, dispatch, derived } = flow;
-  const plan =
-    state.answers.planSource === "custom"
-      ? { name: CUSTOM_PLAN_DRAFT_NAME, emphasis: "Built from your answers." }
-      : (planById(state.answers.planId ?? "") ?? derived?.recommended);
-
-  return (
-    <WizardStep
-      step={step}
-      total={total}
-      eyebrow="Your plan"
-      title={plan?.name ?? "Your plan"}
-      description={plan?.emphasis}
-      headingId={headingId}
-      primaryLabel="Show me the first step"
-      onPrimary={() => dispatch({ type: "next" })}
-      backLabel="Back"
-      onBack={() => dispatch({ type: "back" })}
-    >
-      <Notice tone="info">
-        You can change the plan at any time, and changing it will not lose
-        anything you have already made.
-      </Notice>
     </WizardStep>
   );
 }

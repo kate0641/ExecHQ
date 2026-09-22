@@ -41,6 +41,10 @@ export interface Flow {
   chrome: NavChrome;
   /** Locks the viewport toggle to web width and disables Mobile and Tablet. */
   webOnly?: boolean;
+  /** The standing privacy line in the chrome footer. Defaults to shown. Turned
+   *  off for Onboarding, where a dedicated privacy screen makes the same promise
+   *  properly and a permanent footer repeating it in small type weakens it. */
+  privacyFooter?: boolean;
   /** One line shown under the flow in the hub. */
   description: string;
   concepts: Concept[];
@@ -68,6 +72,7 @@ export const prototypeConfig: PrototypeConfig = {
       title: "Onboarding",
       sprint: 1,
       chrome: "minimal",
+      privacyFooter: false,
       description:
         "The first ninety seconds: privacy promise, career direction, plan selection and one usable artifact — one continuous sequence, never a setup tool.",
       concepts: [

@@ -26,6 +26,10 @@ export interface ToggleGroupProps {
   size?: "sm" | "md";
   /** Stacks the options instead of placing them in a row. */
   orientation?: "horizontal" | "vertical";
+  /** `segmented` is the default: one joined control on a sunken track.
+   *  `chips` breaks the options into separate pills that wrap — for a set of
+   *  answers that should read as choices rather than as a form control. */
+  shape?: "segmented" | "chips";
   /** Shows each option's icon only. The label becomes the accessible name and
    *  the tooltip, so nothing is lost — but every option then needs an `icon`. */
   iconOnly?: boolean;
@@ -46,6 +50,7 @@ export function ToggleGroup({
   onChange,
   size = "md",
   orientation = "horizontal",
+  shape = "segmented",
   iconOnly = false,
   className,
 }: ToggleGroupProps) {
@@ -65,6 +70,7 @@ export function ToggleGroup({
     "toggle-group",
     `toggle-group--${size}`,
     `toggle-group--${orientation}`,
+    `toggle-group--${shape}`,
     iconOnly ? "toggle-group--icon" : null,
     className,
   ]
