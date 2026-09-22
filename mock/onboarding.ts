@@ -509,8 +509,11 @@ const ARTIFACT_OPENERS: Record<DirectionNeed, string> = {
  * The canned first artifact. Deliberately a stub of the real Positioning
  * Builder: the Toolbox is Sprint 4. It produces and saves one draft so the flow
  * can be walked end to end, and it is not a design for that tool.
+ *
+ * `interpretation` is the user's edited direction sentence, where a concept
+ * lets them rewrite it. Optional, so existing callers keep the old behaviour.
  */
-export function artifactFor(direction: string): Artifact {
+export function artifactFor(direction: string, interpretation?: string): Artifact {
   const need = interpretNeed(direction);
   return {
     tool: "Positioning Builder",
@@ -524,8 +527,11 @@ export function artifactFor(direction: string): Artifact {
         state: "filled",
       },
       {
+        // The user's own wording when they have rewritten the interpretation,
+        // so a draft never quotes a sentence they replaced. Callers that do not
+        // pass one get the system's reading, exactly as before.
         heading: "What I am building toward",
-        body: interpretDirection(direction),
+        body: interpretation?.trim() || interpretDirection(direction),
         state: "filled",
       },
       {

@@ -2791,3 +2791,125 @@ samp {
 [data-viewport="web"] .step-actions__row > .btn:only-child {
   flex: 0 0 auto;
 }
+
+/* The set of controls answering one turn. A fieldset for the semantics, reset
+   to nothing visually — the turn around it already provides the grouping a
+   reader sees. */
+.turn__ask {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* --- Concept 2: the conversational intake --------------------------------- */
+
+.thread {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  width: 100%;
+  max-width: var(--content-measure);
+  margin: 0 auto;
+  padding: var(--space-lg) var(--space-md) var(--space-2xl);
+}
+
+[data-viewport="tablet"] .thread,
+[data-viewport="web"] .thread {
+  padding: var(--space-2xl) var(--space-lg) var(--space-3xl);
+}
+
+.thread__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.thread__resume-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin-top: var(--space-md);
+}
+
+.turn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.turn__heading {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text-primary);
+  text-wrap: balance;
+}
+
+[data-viewport="mobile"] .turn__heading {
+  font-size: var(--text-lg);
+}
+
+.turn__description {
+  max-width: var(--content-measure);
+  font-size: var(--text-md);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+.turn__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-top: var(--space-xs);
+}
+
+/* The user's turns are set as a quoted answer against a rule — a transcript
+   convention rather than a messaging one. No bubble, no alignment flip: this is
+   an advisor's notes, not a chat. */
+.turn--you {
+  padding-left: var(--space-md);
+  border-left: var(--border-width-medium) solid var(--color-border-strong);
+}
+
+.turn__attribution {
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.turn--you .turn__body,
+.turn--you > :not(.turn__attribution) {
+  font-size: var(--text-md);
+  line-height: var(--leading-normal);
+  color: var(--color-text-primary);
+}
+
+/* An answered advisor turn stays fully legible: the thread is the record, and a
+   record you cannot read is not one. Only the heading steps back, so the eye
+   finds the live turn without the history being greyed out. */
+.turn--advisor.is-past .turn__heading {
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-text-secondary);
+}
+
+.turn--advisor.is-past .turn__description {
+  font-size: var(--text-sm);
+}
+
+.turn__inline-action {
+  display: flex;
+}

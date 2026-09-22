@@ -43,9 +43,16 @@ export type Generating = "interpreting" | "planning" | "drafting" | null;
 export interface UseOnboardingFlowOptions {
   /** Namespaces stored sessions so concepts do not read each other's state. */
   conceptId: string;
+  /** Feeds the user's edited interpretation into the artifact, so a concept
+   *  that lets them rewrite that sentence does not then quote the version they
+   *  replaced. Opt-in: concepts that do not offer the edit are unaffected. */
+  followInterpretation?: boolean;
 }
 
-export function useOnboardingFlow({ conceptId }: UseOnboardingFlowOptions) {
+export function useOnboardingFlow({
+  conceptId,
+  followInterpretation = false,
+}: UseOnboardingFlowOptions) {
   const reducer = useMemo(
     () => makeReducer(REFINEMENT_QUESTIONS.length, CUSTOM_PLAN_STEPS.length),
     []
@@ -101,9 +108,12 @@ export function useOnboardingFlow({ conceptId }: UseOnboardingFlowOptions) {
       recommended: recommendPlan(direction),
       assumption: assumptionFor(direction),
       action: firstAction(direction),
-      artifact: artifactFor(direction),
+      artifact: artifactFor(
+        direction,
+        followInterpretation ? (state.answers.interpretation ?? undefined) : undefined
+      ),
     };
-  }, [direction, state.answers.interpretation]);
+  }, [direction, state.answers.interpretation, followInterpretation]);
 
   const acceptResume = useCallback(() => {
     if (!pendingResume) return;

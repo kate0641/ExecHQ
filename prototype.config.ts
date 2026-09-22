@@ -79,8 +79,9 @@ export const prototypeConfig: PrototypeConfig = {
         },
         {
           slug: "concept-2",
-          title: "Concept 2",
-          summary: "Not yet briefed.",
+          title: "Concept 2 — Conversational intake",
+          summary:
+            "One thread. Every question and answer stays on screen as the record.",
         },
         {
           slug: "concept-3",

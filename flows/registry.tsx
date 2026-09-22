@@ -1,5 +1,6 @@
 import type { ReactElement } from "react";
 import { OnboardingConcept1 } from "./onboarding/concept-1";
+import { OnboardingConcept2 } from "./onboarding/concept-2";
 
 /**
  * Concept pages that have been built.
@@ -18,6 +19,7 @@ import { OnboardingConcept1 } from "./onboarding/concept-1";
  */
 const BUILT_CONCEPTS: Record<string, ReactElement> = {
   "onboarding/concept-1": <OnboardingConcept1 />,
+  "onboarding/concept-2": <OnboardingConcept2 />,
 };
 
 export function getBuiltConcept(
