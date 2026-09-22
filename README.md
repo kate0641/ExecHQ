@@ -81,7 +81,7 @@ All three share a header with navigation between them, and they are declared in
 `lib/hub-pages.ts` rather than the manifest — they are tools for designing
 ExecHQ, not screens in it.
 
-The **hub button** in the floating toolbar opens a slide-out panel with links to
+The **hub button** in the dock opens a slide-out panel, from the left, with links to
 those three pages and the full flow index, so you can jump anywhere without
 losing your place. It closes on Escape or a click outside, and focus returns to
 the button.
@@ -238,7 +238,7 @@ the same rule as the real selector:
 Then a variant passes `className: "is-hover"`. There is only ever one set of
 styles, so the two cannot diverge.
 
-Shell infrastructure — the device frame, the dev toolbar, the navigation chrome
+Shell infrastructure — the device frame, the dock, the navigation chrome
 and the hub panel — is deliberately not in the catalogue. It is the prototype's
 frame, not product UI.
 

@@ -101,7 +101,7 @@ The toggle is deliberately **not** inside the hub panel: the panel is a modal
 dialog, so it would hide the change the toggle is making.
 
 Dragging is never the only way to do something (WCAG 2.2 SC 2.5.7). The handle
-is a real button: pressing it without dragging cycles the toolbar through the
+is a real button: pressing it without dragging cycles the dock through the
 four corners, and with it focused the arrow keys nudge and Home resets. Any new
 drag interaction must come with the same two alternatives.
 
