@@ -68,6 +68,8 @@
   --color-surface-sunken: var(--grey-050);  /* wells, inset areas, code blocks */
   --color-surface-muted: var(--grey-025);
   --color-surface-inverse: var(--brand-primary);
+  --color-surface-inverse-hover: var(--brand-primary-muted);
+  --color-surface-inverse-active: var(--brand-primary-strong);
   --color-surface-hover: var(--grey-050);
   --color-surface-active: var(--grey-100);
   --color-surface-disabled: var(--grey-050);

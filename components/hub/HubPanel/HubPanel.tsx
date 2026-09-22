@@ -24,10 +24,11 @@ export interface HubPanelProps {
 export function HubPanel({ open, onClose, children }: HubPanelProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
-  // Clicking the backdrop closes the panel. The listener is attached to the
-  // element rather than passed as a JSX prop because the backdrop is part of the
-  // dialog itself and has no element of its own to put a handler on. Escape is
-  // the keyboard equivalent and is handled natively by <dialog>.
+  // Backdrop click and Escape. Both listeners are attached to the element rather
+  // than passed as JSX props: the backdrop is part of the dialog itself and has
+  // no element of its own, and <dialog> already handles Escape natively — this
+  // handler only guarantees the same result where the native close request does
+  // not reach the element. Closing twice is a no-op.
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
@@ -36,8 +37,19 @@ export function HubPanel({ open, onClose, children }: HubPanelProps) {
       if (event.target === dialog) onClose();
     }
 
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        onClose();
+      }
+    }
+
     dialog.addEventListener("click", handleClick);
-    return () => dialog.removeEventListener("click", handleClick);
+    dialog.addEventListener("keydown", handleKeyDown);
+    return () => {
+      dialog.removeEventListener("click", handleClick);
+      dialog.removeEventListener("keydown", handleKeyDown);
+    };
   }, [onClose]);
 
   useEffect(() => {
