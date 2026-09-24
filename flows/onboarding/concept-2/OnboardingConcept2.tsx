@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { useRouter } from "next/navigation";
 import { ChatComposer } from "@/components/chat/ChatComposer";
 import { ChatMessage } from "@/components/chat/ChatMessage";
 import { ChatWelcome } from "@/components/chat/ChatWelcome";
@@ -13,6 +14,7 @@ import { StorySummaryCard } from "@/components/onboarding/StorySummaryCard";
 import { PlanTimeline } from "@/components/onboarding/PlanTimeline";
 import { StoryOutputs, narrativePartKey } from "@/components/onboarding/StoryOutputs";
 import { ThisWeekCard } from "@/components/onboarding/ThisWeekCard";
+import { Icon } from "@/components/primitives/Icon";
 import { Wordmark } from "@/components/primitives/Wordmark";
 import {
   emptyPositioning,
@@ -27,6 +29,8 @@ import { useStepNav } from "@/lib/step-nav";
 import {
   CHAT_C2,
   DIRECTION_PROMPTS_C1,
+  DONE_C1,
+  GENERATING_MS,
   OPENER_KIND,
   PLAN_C1,
   PLAN_TEMPLATES,
@@ -70,7 +74,7 @@ import {
  * tapping a quick reply, never leaves a keyboard user stranded.
  */
 
-/** Stages 1 and 2 build the conversation up to a saved story. */
+/** The whole intake, and its ending: Done, then Signals, as in Concept 1. */
 const CHAT_STEPS: OnboardingStep[] = [
   "account",
   "privacy",
@@ -79,9 +83,15 @@ const CHAT_STEPS: OnboardingStep[] = [
   "interpretation",
   "plan",
   "artifact",
+  "complete",
+  "connect",
 ];
 const STEP_NAV = stepNavItems(CHAT_STEPS).map((item) =>
-  item.id === "artifact" ? { ...item, label: "Your story" } : item
+  item.id === "artifact"
+    ? { ...item, label: "Your story" }
+    : item.id === "connect"
+      ? { ...item, label: "Signals" }
+      : item
 );
 
 /**
@@ -173,6 +183,17 @@ type DraftEdit =
   | { section: SectionId; kind: "rewrite"; text: string };
 const NARRATIVE_SECTIONS: SectionId[] = ["doing", "known", "toward"];
 
+/** Signals: the sources, and what happened in the conversation about them. */
+type SignalId = "linkedin" | "website";
+const SIGNAL_IDS: SignalId[] = ["linkedin", "website"];
+type SignalEvent =
+  | { type: "pick"; id: SignalId }
+  | { type: "connect" }
+  | { type: "connected" }
+  | { type: "paste" }
+  | { type: "link"; id: SignalId; link: string }
+  | { type: "end"; label: string };
+
 function stepDone(step: BuilderStep, inputs: PositioningInputs, skipped: readonly string[]) {
   if (step.field) return builderAnswered(questionFor(step.field), inputs, skipped);
   // No audience with an opener: there is no opener to review.
@@ -233,6 +254,10 @@ export function OnboardingConcept2() {
   const [edits, setEdits] = useState<DraftEdit[]>([]);
   const [rewriting, setRewriting] = useState<SectionId | null>(null);
   const [storyOpen, setStoryOpen] = useState(false);
+  // Signals: the conversation so far, and a connection in progress.
+  const [signalLog, setSignalLog] = useState<SignalEvent[]>([]);
+  const [connecting, setConnecting] = useState(false);
+  const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const threadRef = useRef<HTMLDivElement>(null);
 
@@ -248,6 +273,8 @@ export function OnboardingConcept2() {
     setEdits([]);
     setRewriting(null);
     setStoryOpen(false);
+    setSignalLog([]);
+    setConnecting(false);
     setJumpTick((tick) => tick + 1);
   }
 
@@ -806,9 +833,170 @@ export function OnboardingConcept2() {
     }
   }
 
-  /* ---- Stage 2 ends at the saved story. */
-  if (past("artifact")) {
-    say("stage-end", <span className="chat-hint">{CHAT_C2.stageEnd}</span>);
+  /* ---- The ending: the win, said and shown, then signals as an optional
+     extra, as in Concept 1. Home is always one tap away. */
+  // Done and Signals both sit after the story in the step order; which one
+  // the user is on decides whether the invitation has been taken up.
+  const ended = past("artifact");
+  const inSignals = state.step === "connect";
+  if (ended) {
+    const plan = planById(a.planId ?? "") ?? recommended;
+    say("done-lead", CHAT_C2.doneLead);
+    say(
+      "done",
+      <div className="chat-readback">
+        <p className="chat-done__title">{DONE_C1.title}</p>
+        <ul className="done-saved">
+          {plan ? (
+            <li>
+              <Icon name="check" size={18} />
+              {DONE_C1.planPrefix} {plan.name}
+            </li>
+          ) : null}
+          <li>
+            <Icon name="check" size={18} />
+            {recommendedOutput()}
+          </li>
+        </ul>
+        <p className="chat-hint">{DONE_C1.hint}</p>
+      </div>,
+      true
+    );
+    say("done-invite", CHAT_C2.doneInvite);
+    if (inSignals) said("done-said", CHAT_C2.doneSignals);
+    else
+      ask = {
+        label: CHAT_C2.doneInvite,
+        replies: [{ label: CHAT_C2.doneSignals }, { label: CHAT_C2.doneHome, quiet: true }],
+        onReply: (label) => {
+          if (label === CHAT_C2.doneHome) return router.push(DONE_C1.homeHref);
+          reply(() => dispatch({ type: "go-to", step: "connect" }));
+        },
+        placeholder: CHAT_C2.doneSignals,
+        voice: CHAT_C2.voice.signals,
+        onSend: () => reply(() => dispatch({ type: "go-to", step: "connect" })),
+      };
+  }
+
+  /* ---- Signals: which source, then connect it or add it by link. What is
+     brought in, and what it is used for, is said before anything connects:
+     that is the permission scope. Connecting is simulated. */
+  if (inSignals) {
+    const S = CHAT_C2.signals;
+    const title = (id: SignalId) => (id === "linkedin" ? S.linkedin : S.website);
+    const isOn = (id: SignalId) =>
+      a.connections[id] === "connected" || Boolean(a.signalLinks[id]);
+    type Mode = "choose" | "more" | "offer" | "link-linkedin" | "link-website" | "connecting" | "ended";
+    // Widened: the replay below sets it inside a callback, out of the checker's sight.
+    let mode = "choose" as Mode;
+    say("sig-which", S.which);
+    signalLog.forEach((event, i) => {
+      const k = `sig-${i}`;
+      if (event.type === "pick") {
+        said(k, title(event.id));
+        if (event.id === "linkedin") {
+          say(`${k}-what`, S.linkedinWhat);
+          mode = "offer";
+        } else {
+          say(`${k}-ask`, S.websiteAsk);
+          mode = "link-website";
+        }
+      } else if (event.type === "connect") {
+        said(k, S.connect);
+        mode = "connecting";
+      } else if (event.type === "connected") {
+        say(k, S.connected);
+        mode = "more";
+      } else if (event.type === "paste") {
+        said(k, S.paste);
+        say(`${k}-ask`, S.pasteAsk);
+        mode = "link-linkedin";
+      } else if (event.type === "link") {
+        said(k, event.link);
+        say(`${k}-added`, S.added);
+        mode = "more";
+      } else {
+        said(k, event.label);
+        say(`${k}-end`, SIGNAL_IDS.some(isOn) ? S.end : S.endNone);
+        mode = "ended";
+      }
+    });
+    const left = SIGNAL_IDS.filter((id) => !isOn(id));
+    // Everything connected: nothing more to offer.
+    if (mode === "more" && !left.length) {
+      say("sig-all", S.end);
+      mode = "ended";
+    } else if (mode === "more") say(`sig-more-${signalLog.length}`, S.more);
+
+    const log = (event: SignalEvent) => setSignalLog((all) => [...all, event]);
+    const finish = (label: string) => reply(() => log({ type: "end", label }));
+    const addLink = (id: SignalId) => (text: string) =>
+      reply(() => {
+        const link = text.trim();
+        if (!link) return;
+        dispatch({ type: "set-signal-link", id, link });
+        dispatch({ type: "set-connection", id, state: "connected" });
+        log({ type: "link", id, link });
+      });
+
+    if (mode === "choose" || mode === "more") {
+      const pick = (label: string) => {
+        const id = SIGNAL_IDS.find((source) => title(source) === label);
+        if (id) reply(() => log({ type: "pick", id }));
+        else finish(label);
+      };
+      ask = {
+        label: mode === "choose" ? S.which : S.more,
+        replies: [
+          ...left.map((id) => ({ label: title(id) })),
+          { label: mode === "choose" ? S.notNow : S.thatsAll, quiet: true },
+        ],
+        onReply: pick,
+        placeholder: S.which,
+        voice: { full: title(left[0] ?? "linkedin") },
+        onSend: pick,
+      };
+    } else if (mode === "offer") {
+      ask = {
+        label: S.linkedinWhat,
+        replies: [{ label: S.connect }, { label: S.paste, quiet: true }, { label: S.notNow, quiet: true }],
+        onReply: (label) => {
+          if (label === S.notNow) return finish(label);
+          if (label === S.paste) return reply(() => log({ type: "paste" }));
+          reply(() => {
+            log({ type: "connect" });
+            setConnecting(true);
+            window.setTimeout(() => {
+              setConnecting(false);
+              dispatch({ type: "set-connection", id: "linkedin", state: "connected" });
+              log({ type: "connected" });
+            }, GENERATING_MS);
+          });
+        },
+        placeholder: S.connect,
+        voice: { full: S.connect },
+        onSend: () => {},
+      };
+    } else if (mode === "link-linkedin" || mode === "link-website") {
+      const id: SignalId = mode === "link-linkedin" ? "linkedin" : "website";
+      ask = {
+        label: id === "linkedin" ? S.pasteAsk : S.websiteAsk,
+        replies: [{ label: S.notNow, quiet: true }],
+        onReply: finish,
+        placeholder: id === "linkedin" ? S.pastePlaceholder : S.websitePlaceholder,
+        voice: id === "linkedin" ? CHAT_C2.voice.linkedinLink : CHAT_C2.voice.website,
+        onSend: addLink(id),
+      };
+    } else if (mode === "ended") {
+      ask = {
+        label: CHAT_C2.doneHome,
+        replies: [{ label: CHAT_C2.doneHome }],
+        onReply: () => router.push(DONE_C1.homeHref),
+        placeholder: CHAT_C2.doneHome,
+        voice: { full: CHAT_C2.doneHome },
+        onSend: () => router.push(DONE_C1.homeHref),
+      };
+    }
   }
 
   /** Confirming the read-back: ExecHQ puts the plan together. */
@@ -963,7 +1151,7 @@ export function OnboardingConcept2() {
   }, [focusTick]);
 
   // ExecHQ "thinking": reading the answers, planning, writing the story.
-  const thinking = generating !== null;
+  const thinking = generating !== null || connecting;
   const revealing = shown < messages.length || thinking;
   const typingNow = thinking || (shown < messages.length && messages[shown].from === "advisor");
 

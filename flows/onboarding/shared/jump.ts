@@ -48,6 +48,9 @@ export function jumpState(current: OnboardingState, step: OnboardingStep): Onboa
       : sampleDirection.text
     : null;
 
+  // Past the builder with no story built: a sample one, so the ending has
+  // something real to show.
+  const hasStory = was.positioning.built;
   const refinementTouched =
     Object.keys(was.refinement).length > 0 || current.skipped.includes("refinement");
   const hasPlan = past("plan") && was.planId !== null;
@@ -77,8 +80,17 @@ export function jumpState(current: OnboardingState, step: OnboardingStep): Onboa
     planSource: past("plan") ? (hasPlan ? was.planSource : "recommended") : null,
     customPlan: keepCustom ? was.customPlan : {},
     customPlanDraftSaved: keepCustom ? was.customPlanDraftSaved : false,
-    artifactSaved: past("artifact") ? was.artifactSaved : false,
-    positioning: past("artifact") ? was.positioning : initialState.answers.positioning,
+    artifactSaved: past("artifact") ? (hasStory ? was.artifactSaved : true) : false,
+    positioning: past("artifact")
+      ? hasStory
+        ? was.positioning
+        : {
+            ...SAMPLE_ANSWERS.positioning,
+            strengths: [...SAMPLE_ANSWERS.positioning.strengths],
+            edits: {},
+            approved: [...SAMPLE_ANSWERS.positioning.approved],
+          }
+      : initialState.answers.positioning,
     connections: past("connect") ? was.connections : {},
     signalLinks: past("connect") ? was.signalLinks : {},
   };
@@ -91,11 +103,17 @@ export function jumpState(current: OnboardingState, step: OnboardingStep): Onboa
   ]);
   const skipped = current.skipped.filter((id) => {
     if (refinementIds.has(id)) return past("refinement");
+    // The builder's own skips belong to the story, kept or dropped with it.
+    if (id.startsWith("positioning:")) return past("artifact") && hasStory;
     if ((ONBOARDING_STEPS as readonly string[]).includes(id)) {
       return past(id as OnboardingStep);
     }
     return past("connect");
   });
+
+  // The sample story had nothing to start from, and stopped at two
+  // strengths: both passed, not left open.
+  if (past("artifact") && !hasStory) skipped.push("positioning:source", "positioning:strengths");
 
   return {
     ...initialState,

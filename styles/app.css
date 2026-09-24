@@ -3460,19 +3460,6 @@ samp {
   flex: 0 0 auto;
 }
 
-/* The set of controls answering one turn. A fieldset for the semantics, reset
-   to nothing visually — the turn around it already provides the grouping a
-   reader sees. */
-.turn__ask {
-  border: 0;
-  margin: 0;
-  padding: 0;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-
 /* --- Concept 2: the chat ---------------------------------------------------- */
 /* A conversation from the first moment. The chat fills the screen: header,
    a thread that scrolls on its own, and a foot with quick replies over the
@@ -3791,6 +3778,13 @@ samp {
 
 .chat-readback__close {
   font-weight: var(--weight-medium);
+}
+
+.chat-done__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
 }
 
 /* A plan short enough for a conversation: the full plan is one tap away. */
@@ -4159,108 +4153,6 @@ samp {
   background-color: var(--color-surface-disabled);
   color: var(--color-text-disabled);
   cursor: not-allowed;
-}
-
-/* --- Concept 2: the conversational intake --------------------------------- */
-
-.thread {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-  width: 100%;
-  max-width: var(--content-measure);
-  margin: 0 auto;
-  padding: var(--space-lg) var(--space-md) var(--space-2xl);
-}
-
-[data-viewport="tablet"] .thread,
-[data-viewport="web"] .thread {
-  padding: var(--space-2xl) var(--space-lg) var(--space-3xl);
-}
-
-.thread__list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xl);
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-.turn {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
-.turn__heading {
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-bold);
-  line-height: var(--leading-snug);
-  letter-spacing: var(--tracking-tight);
-  color: var(--color-text-primary);
-  text-wrap: balance;
-}
-
-[data-viewport="mobile"] .turn__heading {
-  font-size: var(--text-lg);
-}
-
-.turn__description {
-  max-width: var(--content-measure);
-  font-size: var(--text-md);
-  line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
-}
-
-.turn__body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-  margin-top: var(--space-xs);
-}
-
-/* The user's turns are set as a quoted answer against a rule — a transcript
-   convention rather than a messaging one. No bubble, no alignment flip: this is
-   an advisor's notes, not a chat. */
-.turn--you {
-  padding-left: var(--space-md);
-  border-left: var(--border-width-medium) solid var(--color-border-strong);
-}
-
-.turn__attribution {
-  font-family: var(--font-display);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-}
-
-.turn--you .turn__body,
-.turn--you > :not(.turn__attribution) {
-  font-size: var(--text-md);
-  line-height: var(--leading-normal);
-  color: var(--color-text-primary);
-}
-
-/* An answered advisor turn stays fully legible: the thread is the record, and a
-   record you cannot read is not one. Only the heading steps back, so the eye
-   finds the live turn without the history being greyed out. */
-.turn--advisor.is-past .turn__heading {
-  font-size: var(--text-md);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-normal);
-  color: var(--color-text-secondary);
-}
-
-.turn--advisor.is-past .turn__description {
-  font-size: var(--text-sm);
-}
-
-.turn__inline-action {
-  display: flex;
 }
 
 /* --- Concept 3: the living canvas ----------------------------------------- */
@@ -5265,6 +5157,28 @@ samp {
   }
 }
 
+/* Wider screens: the sheet keeps to a reading width. On a tablet it still
+   rises from the bottom; on the web, where nothing rises from the bottom of
+   a window, it sits centred as a panel. */
+[data-viewport="tablet"] .sheet__panel,
+[data-viewport="web"] .sheet__panel {
+  max-width: var(--content-measure);
+  margin-inline: auto;
+}
+
+[data-viewport="web"] .sheet {
+  justify-content: center;
+  padding: var(--space-xl) var(--space-lg);
+}
+
+[data-viewport="web"] .sheet__panel {
+  border-radius: var(--radius-xl);
+}
+
+[data-viewport="web"] .sheet__grab {
+  display: none;
+}
+
 /* --- Starting plan (Concept 1) --------------------------------------------- */
 
 .plan-built {
@@ -5602,65 +5516,6 @@ samp {
   padding: 0;
 }
 
-/* --- Concept 2, revised: two voices down one margin --------------------- */
-
-/* ExecHQ speaks as plain text; the user's turns are filled blocks carrying
-   their name. Enough to tell the voices apart without the messaging costume,
-   and every turn keeps the full measure — the plan and the draft are long, and
-   a right-hand column cannot hold them. */
-.turn--you {
-  padding: var(--space-sm) var(--space-md);
-  background-color: var(--color-surface-sunken);
-  border-left: 0;
-  border-radius: var(--radius-md);
-}
-
-.turn__head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-xs);
-}
-
-/* Spent turns: the attribution and the furniture step back, the words do not.
-   The thread is the record, and a record you cannot read is not one. */
-.turn--advisor.is-past .turn__description,
-.turn.is-past .turn__attribution {
-  opacity: 0.55;
-}
-
-.turn.is-past .turn__head .btn {
-  opacity: 0.55;
-}
-
-.turn.is-past .turn__head .btn:hover,
-.turn.is-past .turn__head .btn:focus-visible {
-  opacity: 1;
-}
-
-/* The newest turn rolls up as it arrives. Only the last one animates, so a
-   resumed session does not replay the whole conversation. */
-.thread__item:last-child {
-  animation: turn-roll-up var(--duration-slow) var(--easing-standard) both;
-}
-
-@keyframes turn-roll-up {
-  from {
-    opacity: 0;
-    transform: translateY(var(--space-sm));
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-.thread__handover {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
 /* --- The direction deck -------------------------------------------------- */
 
 .deck {
@@ -5747,40 +5602,4 @@ samp {
 
 .field__control--statement.is-hover:hover {
   border-bottom-color: var(--color-text-primary);
-}
-
-/* --- Plan stages, as turns ----------------------------------------------- */
-
-.plan-stage-turn {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2xs);
-}
-
-.plan-stage-turn__title {
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-  color: var(--color-text-primary);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .thread__item:last-child {
-    animation: none;
-  }
-}
-
-/* Shown while the user has gone back to change an answer. Sticky, because the
-   thread below it is the whole record and they may scroll a long way inside it
-   before deciding to return. */
-.thread__revisit {
-  position: sticky;
-  top: 0;
-  z-index: var(--z-sticky);
-}
-
-.thread__revisit-actions {
-  display: flex;
-  margin-top: var(--space-xs);
 }

@@ -39,7 +39,6 @@ import { actionCardStates } from "./onboarding/ActionCard/ActionCard.states";
 import { artifactDraftStates } from "./onboarding/ArtifactDraft/ArtifactDraft.states";
 import { connectOfferStates } from "./onboarding/ConnectOffer/ConnectOffer.states";
 import { wizardStepStates } from "./onboarding/WizardStep/WizardStep.states";
-import { threadTurnStates } from "./onboarding/ThreadTurn/ThreadTurn.states";
 import { canvasSectionStates } from "./onboarding/CanvasSection/CanvasSection.states";
 import { canvasHeaderStates } from "./onboarding/CanvasHeader/CanvasHeader.states";
 import { directionDeckStates } from "./onboarding/DirectionDeck/DirectionDeck.states";
@@ -92,7 +91,6 @@ export const registry: RegisteredComponent[] = [
   artifactDraftStates,
   connectOfferStates,
   wizardStepStates,
-  threadTurnStates,
   canvasSectionStates,
   canvasHeaderStates,
   directionDeckStates,

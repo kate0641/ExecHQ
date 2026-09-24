@@ -1941,7 +1941,32 @@ export const CHAT_C2 = {
   },
   storyLead: "That\u2019s every part approved. Here\u2019s your whole story.",
   save: "Save and continue",
-  stageEnd: "The ending and your signals come in the next stage of this concept.",
+  /** The ending: the win, then signals as an optional extra. */
+  doneLead: "Saved. That\u2019s everything we needed today.",
+  doneInvite:
+    "One more thing, if you like: build out your signals. Connect LinkedIn or your website, and your next drafts will sound more like you. It\u2019s optional, and you can do it anytime.",
+  doneSignals: "Build out my signals",
+  doneHome: "Go to my homepage",
+  signals: {
+    which: "Which would you like to connect?",
+    linkedin: "LinkedIn",
+    website: "My website",
+    notNow: "Not now",
+    thatsAll: "That\u2019s all",
+    linkedinWhat:
+      "I\u2019ll bring in your headline, about section and your last 20 posts, and use them only to shape your drafts. Nothing is ever posted or shared.",
+    connect: "Connect LinkedIn",
+    paste: "Paste my profile link instead",
+    pasteAsk: "Paste your LinkedIn profile link.",
+    pastePlaceholder: "linkedin.com/in/\u2026",
+    connected: "Connected. I\u2019ve brought in your headline, about section and last 20 posts.",
+    websiteAsk: "What\u2019s your website address? I\u2019ll learn your voice from the pages there, and use them for nothing else.",
+    websitePlaceholder: "https://",
+    added: "Added. I\u2019ll use it only to shape your drafts.",
+    more: "Anything else to connect?",
+    end: "You\u2019re all set. Nothing is ever posted or shared, and you can disconnect anytime.",
+    endNone: "No problem. You can connect them anytime.",
+  },
   /** What the simulated mic "hears" for each kind of question. */
   voice: {
     email: { full: "maya.chen@example.com" },
@@ -1960,6 +1985,9 @@ export const CHAT_C2 = {
     source: { full: "I lead brand and demand for a B2B software company." },
     save: { full: "Save and continue" },
     approve: { full: "Looks good" },
+    signals: { full: "Build out my signals" },
+    linkedinLink: { full: "linkedin.com/in/mayachen" },
+    website: { full: "https://mayachen.com" },
   },
 } as const;
 
@@ -1990,4 +2018,20 @@ export const SAMPLE_ANSWERS = {
   /** A prompted direction by id, so it reads exactly as picking one would. */
   directionId: "c-suite",
   refinement: { horizon: "year", audience: "internal", constraint: "visibility" },
+  /** A finished story, for a jump past the builder. Every part approved, so
+   *  Concept 2's thread reads as a completed build. */
+  positioning: {
+    name: "Maya Chen",
+    role: "VP of Marketing",
+    own: "brand and demand",
+    teamSize: "51\u2013200",
+    strengths: ["Building teams", "Growing revenue"],
+    result: "grew pipeline 40% in a year",
+    audience: "My manager",
+    showFirst: "narrative",
+    source: "",
+    edits: {},
+    built: true,
+    approved: ["doing", "known", "toward", "bio", "opener"],
+  },
 } as const;
