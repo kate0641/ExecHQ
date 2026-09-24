@@ -2099,11 +2099,192 @@ export const GUIDE_C3 = {
     },
     cta: "Continue",
   },
+  questions: {
+    kicker: "Checking my recommendation",
+    typedLabel: "Or in your own words",
+    skip: "Skip this one",
+    confirmLead: "Still my recommendation",
+    switchLead: "That changes my mind. I\u2019d now start you on",
+    checked: (count: number) => `Checked against ${count} answer${count === 1 ? "" : "s"}`,
+    whyDefault: "Each answer either makes me surer of where to start, or changes it. You\u2019ll see which straight away.",
+    /** Why each question is asked, said plainly. */
+    why: {
+      "scope-kind": "A step up can mean more people, more of the business, or a different seat. Each needs a different case.",
+      "scope-when": "The timeline sets the pace: a near-term move and a three-year climb start in different places.",
+      "scope-block": "What\u2019s in the way decides what to do first. It\u2019s the answer most likely to change my recommendation.",
+      "influence-where": "Influence is always over something. Knowing what tells me where your plan should push.",
+      "influence-who": "Influence travels through people. Knowing whose backing matters most tells me where to start.",
+      "influence-block": "What\u2019s holding you back decides what to do first, and it can change where I\u2019d start you.",
+      "presence-who": "Being seen means being seen by someone. The audience decides the kind of presence you build.",
+      "presence-now": "How you\u2019re seen today is the starting line. The plan closes the gap between that and how you want to be seen.",
+      "presence-where": "Where you show up today tells me what to build on, and what to start from scratch.",
+      "moment-what": "Each kind of moment needs a different kind of preparation.",
+      "moment-when": "The date sets how much there\u2019s time for, and what to leave out.",
+      "moment-ready": "How ready you feel tells me whether to check your case or help you build it.",
+      "explore-why": "Why you want a change says a lot about where to look. It can change where I\u2019d start you.",
+      "explore-keep": "What you\u2019d keep narrows the options to the ones worth testing.",
+      "explore-when": "How soon decides how much testing there\u2019s time for.",
+    } as Record<string, string>,
+    cta: "Continue",
+  },
+  reflect2: {
+    ceo: {
+      title: "If your CEO described what you do, would they get it right?",
+      lede: "Not your title. What you actually lead, and what it\u2019s worth to the business.",
+      label: "Who knows your work",
+      options: ["Yes, exactly", "Roughly", "Probably not", "They don\u2019t know me"],
+      replies: [
+        "Then your work is already visible where it counts. Your plan makes sure that story reaches the people you haven\u2019t met yet.",
+        "Roughly is a risky place to be: close enough to be trusted, not clear enough to be chosen. The story we\u2019ll write together is how you fix it.",
+        "Then the gap isn\u2019t your work, it\u2019s the telling. That\u2019s exactly what we\u2019ll build first.",
+        "Then that\u2019s where we start. It\u2019s hard for anyone to back you if they don\u2019t know what you do.",
+      ],
+      fact: {
+        label: "Fun fact \u00b7 to be sourced",
+        text: "A sourced fact about how visible senior leaders\u2019 work is to the people who decide their next role. It must never rank the user.",
+      },
+      why: "Whether the people above you can say what you do decides a lot of what happens next. It\u2019s worth knowing where you stand.",
+    },
+    conversation: {
+      title: "When did you last talk to your manager about what\u2019s next for you?",
+      lede: "A real conversation about your career, not your targets.",
+      label: "Last career conversation",
+      options: ["This month", "In the last six months", "Over a year ago", "Never, really"],
+      replies: [
+        "Good. Then the next one can be sharper: your plan will give you something specific to bring.",
+        "Then one is due. Your plan will make sure you walk in with a clear ask, not just an update.",
+        "That\u2019s a long time for your manager to guess at what you want. Your plan puts that conversation back on the calendar, with something to say.",
+        "Then your manager is guessing. The first thing your plan will do is give you the words to start that conversation.",
+      ],
+      fact: {
+        label: "Fun fact \u00b7 to be sourced",
+        text: "A sourced fact about how often senior leaders talk about their own development with their manager. It must never rank the user.",
+      },
+      why: "The people who decide your next role can only back what they know you want.",
+    },
+  },
+  readback: {
+    kicker: "What I heard",
+    title: "Here\u2019s what I heard",
+    recLead: "So I\u2019d start you on",
+    checked: "Checked against your answers",
+    why: "So you can check I\u2019ve understood you before I build anything on it. If I\u2019ve got something wrong, now is the time.",
+    confirm: "That\u2019s right",
+    change: "Change it",
+    editLabel: "How would you put it?",
+    save: "Save",
+  },
+  plan: {
+    kicker: "Your plan",
+    intro: {
+      title: "What a plan is",
+      lede: "A plan is how you get from where you are to where you said you want to be. Yours has five parts. We\u2019ll go through each one, then it\u2019s yours.",
+      why: "A plan you understand is a plan you\u2019ll follow. Each part has a job.",
+      cta: "Build it with me",
+    },
+    whatLabel: "What it is",
+    helpsLabel: "How it helps",
+    yoursLabel: "Yours",
+    builtFrom: "Built from what you told me",
+    parts: [
+      {
+        id: "start",
+        title: "Your starting point",
+        what: "The plan I recommend for where you want to go, and what it\u2019s built from.",
+        helps: "You start from something built for you, not a blank page.",
+      },
+      {
+        id: "week",
+        title: "This week",
+        what: "The one thing to do first.",
+        helps: "You always know the next move, so nothing stalls.",
+      },
+      {
+        id: "stages",
+        title: "Three stages",
+        what: "What your plan builds toward, in order.",
+        helps: "Each stage sets up the next, so the effort adds up.",
+      },
+      {
+        id: "done",
+        title: "Done when",
+        what: "A clear finish line for each stage.",
+        helps: "You can tell it\u2019s working, not just feel busy.",
+      },
+      {
+        id: "grows",
+        title: "It grows with you",
+        what: "Every draft you make and every conversation you log tells me what to do next.",
+        helps: "The plan gets sharper the more you use it, and it never runs out.",
+      },
+    ],
+    partOf: (index: number) => `Part ${index + 1} of 5`,
+    next: "Next part",
+    right: "This is right",
+    others: "See other plans",
+    use: "Use this plan",
+    othersTitle: "The other plans",
+    othersLede: "Each one is built for a different kind of next step. My recommendation is marked.",
+    othersCta: "Use this one",
+  },
   stageEnd: {
-    title: "That\u2019s stage 1",
-    lede: "Next: the questions that check my recommendation, your plan taught part by part, and your story.",
+    title: "That\u2019s stage 2",
+    lede: "Next: the Positioning Builder, with what good looks like at every step, and the ending.",
   },
 } as const;
+
+/**
+ * Answers that change Concept 3's recommendation, with the reason said. Every
+ * other answer confirms it. Keyed by question, then by option value.
+ */
+const SWITCHES_C3: Record<string, Record<string, { planId: string; reason: string }>> = {
+  "scope-block": {
+    "nobody-sees-my-work": {
+      planId: "executive-presence",
+      reason: "The results are there. What\u2019s missing is being seen by the people deciding, and that\u2019s what this plan is for.",
+    },
+    "wrong-company-for-it": {
+      planId: "explore",
+      reason: "If the next step may not be where you are, it\u2019s worth working out the direction before making the case.",
+    },
+  },
+  "influence-block": {
+    "too-junior-on-paper": {
+      planId: "leadership-scope",
+      reason: "Your title undersells what you do, so the case for a bigger role comes first.",
+    },
+  },
+  "explore-why": {
+    "hit-a-ceiling": {
+      planId: "leadership-scope",
+      reason: "A ceiling is a scope problem. Making the case for a bigger role comes before looking elsewhere.",
+    },
+  },
+};
+
+/** Concept 3's recommendation, as the answers so far leave it: the one from
+ *  the direction, unless an answer changed it. The last change wins. */
+export function recommendC3(
+  direction: string,
+  answers: Record<string, string>
+): { plan: PlanTemplate; reason: string; changedBy?: string } {
+  const base = recommendPlan(direction);
+  let result: { plan: PlanTemplate; reason: string; changedBy?: string } = {
+    plan: base,
+    reason: earlyReasonFor(direction, base),
+  };
+  for (const question of refinementFor(direction)) {
+    const change = SWITCHES_C3[question.id]?.[answers[question.id] ?? ""];
+    const plan = change ? PLAN_TEMPLATES.find((p) => p.id === change.planId) : undefined;
+    if (change && plan) result = { plan, reason: change.reason, changedBy: question.id };
+  }
+  return result;
+}
+
+/** What one answer does to the recommendation: confirms it, or changes it. */
+export function verdictC3(questionId: string, value: string) {
+  return SWITCHES_C3[questionId]?.[value];
+}
 
 /** Why a plan fits, said early, from the direction alone. */
 export function earlyReasonFor(direction: string, plan: PlanTemplate): string {

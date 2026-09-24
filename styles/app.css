@@ -5473,3 +5473,104 @@ samp {
   font-weight: var(--weight-semibold);
   color: var(--color-text-secondary);
 }
+
+/* What ExecHQ heard, and a plan's open end: set as statements. */
+.guide__heard {
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-primary);
+}
+
+/* A plan part taught: what it is and how it helps (boxed), then the user's
+   own, under a label. */
+.guide__yours {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.guide__yours-label {
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+}
+
+.guide__plan-start {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.guide__stages,
+.guide__done {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guide__stages > li,
+.guide__done > li {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  padding-top: var(--space-sm);
+  border-top: var(--border-subtle);
+}
+
+.guide__stages > li:first-child,
+.guide__done > li:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.guide__stage-when {
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.guide__stage-title {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.guide__stages ul {
+  margin: 0;
+  padding-left: var(--space-md);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+.guide__done p {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+.guide__done p b {
+  color: var(--color-text-primary);
+}
+
+.guide__grows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.guide__grows-note {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
