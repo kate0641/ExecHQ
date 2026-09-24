@@ -3939,6 +3939,240 @@ samp {
 
 /* --- The stated reason, and the roadmap it explains ----------------------- */
 
+/* --- Starting plan (Concept 1) --------------------------------------------- */
+
+.plan-built {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.plan-built__label {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.plan-built__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.plan-built__tags > li {
+  padding: var(--space-3xs) var(--space-sm);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-sunken);
+  border: var(--border-thin);
+  border-radius: var(--radius-pill);
+}
+
+.plan-built__grows {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+.this-week {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+}
+
+.this-week__label {
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-inverse-muted);
+}
+
+.this-week__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.this-week__detail {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-inverse-muted);
+}
+
+.this-week__why {
+  margin-top: var(--space-2xs);
+  padding-top: var(--space-sm);
+  border-top: var(--border-width-thin) solid var(--color-border-inverse);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-inverse-muted);
+}
+
+.this-week__why b {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-inverse);
+}
+
+.plan-ahead {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.plan-ahead__toward {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.plan-ahead__toward b {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+/* The timeline: a rule down the left, a mark per stage. The current stage's
+   mark is filled; the open end's is dashed. */
+.plan-timeline {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.plan-timeline__stage {
+  position: relative;
+  padding: 0 0 var(--space-md) var(--space-lg);
+}
+
+.plan-timeline__stage::before {
+  content: "";
+  position: absolute;
+  top: var(--space-xs);
+  bottom: calc(-1 * var(--space-xs));
+  left: calc(var(--space-2xs) + var(--border-width-thin));
+  width: var(--border-width-medium);
+  background-color: var(--color-border);
+}
+
+.plan-timeline__stage:last-child::before {
+  display: none;
+}
+
+.plan-timeline__stage::after {
+  content: "";
+  position: absolute;
+  top: var(--space-2xs);
+  left: 0;
+  width: var(--space-sm);
+  height: var(--space-sm);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface);
+  border: var(--border-width-medium) solid var(--color-border-strong);
+}
+
+.plan-timeline__stage.is-now::after {
+  background-color: var(--color-text-primary);
+  border-color: var(--color-text-primary);
+}
+
+.plan-timeline__stage--open::after {
+  border-style: dashed;
+}
+
+.plan-timeline__window {
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.plan-timeline__title {
+  margin-top: var(--space-3xs);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  color: var(--color-text-secondary);
+}
+
+.plan-timeline__stage.is-now .plan-timeline__title {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.plan-timeline__steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  margin: var(--space-xs) 0 0;
+  padding-left: var(--space-md);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+.plan-timeline__done {
+  margin-top: var(--space-xs);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+.plan-timeline__done b {
+  font-family: var(--font-display);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.plan-timeline__after {
+  font-size: var(--text-sm);
+  font-style: italic;
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+/* The way to a different plan: a quiet link under the title, opening the
+   full set in place. */
+.plan-others {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.plan-others__toggle {
+  align-self: flex-start;
+  padding: var(--space-3xs) 0;
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-primary);
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width-thin);
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.plan-others__toggle:hover {
+  text-decoration-thickness: var(--border-width-medium);
+}
+
+/* A class selector outranks the user agent's [hidden] rule. */
+.plan-others .plan-set[hidden] {
+  display: none;
+}
+
 .plan-reason {
   display: flex;
   flex-direction: column;

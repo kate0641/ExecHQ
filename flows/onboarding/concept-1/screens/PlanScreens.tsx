@@ -1,22 +1,23 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { Button } from "@/components/primitives/Button";
+import { useEffect, useId, useRef, useState } from "react";
 import { ToggleGroup } from "@/components/form/ToggleGroup";
 import { GeneratingState } from "@/components/onboarding/GeneratingState";
-import { Notice } from "@/components/onboarding/Notice";
 import { PlanTemplateCard } from "@/components/onboarding/PlanTemplateCard";
 import { AnswerList } from "@/components/onboarding/AnswerList";
+import { PlanTimeline } from "@/components/onboarding/PlanTimeline";
+import { ThisWeekCard } from "@/components/onboarding/ThisWeekCard";
 import { WizardStep } from "@/components/onboarding/WizardStep";
 import {
   CUSTOM_PLAN_DRAFT_NAME,
   GENERATING_COPY,
   PLAN_TEMPLATES,
+  PLAN_C1,
   REFINEMENT_C1,
+  builtFrom,
   planById,
-  refinementEcho,
   refinementFor,
-  type PlanTemplate,
+  towardFor,
 } from "@/mock/onboarding";
 import type { ScreenProps } from "./types";
 
@@ -109,6 +110,7 @@ export function RefinementScreen({ flow, step, total, headingId }: ScreenProps) 
 export function PlanScreen({ flow, step, total, headingId }: ScreenProps) {
   const { state, dispatch, derived, generating, withDelay } = flow;
   const [showOthers, setShowOthers] = useState(false);
+  const othersId = useId();
 
   if (generating === "planning") {
     return (
@@ -121,20 +123,16 @@ export function PlanScreen({ flow, step, total, headingId }: ScreenProps) {
   const recommended = derived?.recommended;
   if (!recommended) return null;
 
-  // One refinement answer, said back in the reasoning, so the questions
-  // visibly shaped the plan.
-  const echo = refinementEcho(state.answers.direction ?? "", state.answers.refinement);
-  const withEcho = (reason: string) => (echo ? `${reason} ${echo}` : reason);
-
   const selectedId = state.answers.planId ?? recommended.id;
   const chosen = planById(selectedId) ?? recommended;
-  const others = PLAN_TEMPLATES.filter((plan) => plan.id !== recommended.id);
-
-  /** Confirming a plan goes straight to building the draft. There is no longer a
-   *  screen in between: the user has just decided, and the fastest way to prove
-   *  the decision was worth making is to hand them the first piece of work. */
   const recommendedId = recommended.id;
+  const direction = state.answers.direction ?? "";
+  const tags = builtFrom(direction, state.answers.refinement);
+  const toward = towardFor(direction);
 
+  /** Confirming a plan goes straight to building the draft. There is no screen
+   *  in between: the user has just decided, and the fastest way to prove the
+   *  decision was worth making is to hand them the first piece of work. */
   function confirm() {
     dispatch({
       type: "select-plan",
@@ -149,91 +147,87 @@ export function PlanScreen({ flow, step, total, headingId }: ScreenProps) {
     <WizardStep
       step={step}
       total={total}
-      eyebrow="Recommended for you"
+      eyebrow={PLAN_C1.eyebrow}
       title={chosen.name}
+      description={chosen.formalName}
       headingId={headingId}
-      primaryLabel="Use this plan"
+      primaryLabel={PLAN_C1.confirm}
       onPrimary={confirm}
-      backLabel="Back"
-      onBack={() => dispatch({ type: "back" })}
-      footer={
-        <>
-          {!showOthers ? (
-            <Button variant="secondary" fullWidth onClick={() => setShowOthers(true)}>
-              See other plans
-            </Button>
-          ) : null}
-          <Button
-            variant="ghost"
-            fullWidth
-            onClick={() => dispatch({ type: "open-custom-plan" })}
-          >
-            Build my own plan
-          </Button>
-        </>
-      }
     >
-      {state.answers.customPlanDraftSaved ? (
-        <Notice tone="info" title="Your own plan is saved as a draft">
-          You can come back and finish it whenever you like. Nothing you answered
-          was lost.
-        </Notice>
-      ) : null}
-
-      {/* Why before what. The reason is tied to the user's own words, so it is
-          the part that tells them whether this is their plan. */}
-      {recommended.rationale && selectedId === recommended.id ? (
-        <PlanReason reason={withEcho(recommended.rationale)} />
-      ) : null}
-
-      <PlanStages plan={chosen} />
-
-      {showOthers ? (
-        <div className="plan-set" role="radiogroup" aria-label="Plan">
-          {others.map((plan) => (
+      {/* The way to a different plan sits under the title, where it is seen
+          without scrolling, and stays quiet so it never competes with using
+          this one. Building your own is not offered: out of scope for the
+          MVP, by decision on 2026-09-24. */}
+      <div className="plan-others">
+        <button
+          type="button"
+          className="plan-others__toggle"
+          aria-expanded={showOthers}
+          aria-controls={othersId}
+          onClick={() => setShowOthers((open) => !open)}
+        >
+          {showOthers ? PLAN_C1.hideOthers : PLAN_C1.others}
+        </button>
+        <div
+          className="plan-set"
+          id={othersId}
+          role="radiogroup"
+          aria-label="Plans"
+          hidden={!showOthers}
+        >
+          {PLAN_TEMPLATES.map((plan) => (
             <PlanTemplateCard
               key={plan.id}
               plan={plan}
+              recommended={plan.id === recommendedId}
               selected={selectedId === plan.id}
               name="plan"
               onSelect={(planId) =>
-                dispatch({ type: "select-plan", planId, source: "switched" })
+                dispatch({
+                  type: "select-plan",
+                  planId,
+                  source: planId === recommendedId ? "recommended" : "switched",
+                })
               }
             />
           ))}
         </div>
+      </div>
+
+      {/* What it was built from, then that it grows: a starting point, not a
+          programme with an end date. */}
+      <div className="plan-built">
+        <p className="plan-built__label">{PLAN_C1.builtFrom}</p>
+        <ul className="plan-built__tags">
+          {tags.map((tag) => (
+            <li key={tag}>{tag}</li>
+          ))}
+        </ul>
+        <p className="plan-built__grows">{PLAN_C1.grows}</p>
+      </div>
+
+      {chosen.thisWeek ? (
+        <ThisWeekCard
+          label={PLAN_C1.thisWeek}
+          whyLabel={PLAN_C1.why}
+          {...chosen.thisWeek}
+        />
+      ) : null}
+
+      {chosen.stages?.length ? (
+        <div className="plan-ahead">
+          <p className="plan-ahead__toward">
+            {chosen.horizon}, toward <b>{toward}</b>
+          </p>
+          <PlanTimeline
+            stages={chosen.stages}
+            nowLabel={PLAN_C1.now}
+            doneLabel={PLAN_C1.doneWhen}
+            after={chosen.after}
+          />
+        </div>
       ) : null}
     </WizardStep>
-  );
-}
-
-/** The stated reason this plan was chosen. */
-function PlanReason({ reason }: { reason: string }) {
-  return (
-    <div className="plan-reason">
-      <p className="t-eyebrow">Why this one</p>
-      <p className="plan-reason__text">{reason}</p>
-    </div>
-  );
-}
-
-/** The roadmap: what the plan is, in enough detail to judge it. */
-function PlanStages({ plan }: { plan: PlanTemplate }) {
-  if (!plan.stages?.length) return null;
-  return (
-    <ol className="plan-stages">
-      {plan.stages.map((stage) => (
-        <li className="plan-stage" key={stage.title}>
-          <p className="plan-stage__window">{stage.window}</p>
-          <h2 className="plan-stage__title">{stage.title}</h2>
-          <ul className="plan-stage__outcomes">
-            {stage.outcomes.map((outcome) => (
-              <li key={outcome}>{outcome}</li>
-            ))}
-          </ul>
-        </li>
-      ))}
-    </ol>
   );
 }
 

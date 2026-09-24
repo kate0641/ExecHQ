@@ -45,6 +45,8 @@ import { welcomeSplitStates } from "./onboarding/WelcomeSplit/WelcomeSplit.state
 import { privacySplashStates } from "./onboarding/PrivacySplash/PrivacySplash.states";
 import { answerListStates } from "./onboarding/AnswerList/AnswerList.states";
 import { advisorNoteStates } from "./onboarding/AdvisorNote/AdvisorNote.states";
+import { thisWeekCardStates } from "./onboarding/ThisWeekCard/ThisWeekCard.states";
+import { planTimelineStates } from "./onboarding/PlanTimeline/PlanTimeline.states";
 
 export const registry: RegisteredComponent[] = [
   badgeStates,
@@ -82,6 +84,8 @@ export const registry: RegisteredComponent[] = [
   privacySplashStates,
   answerListStates,
   advisorNoteStates,
+  thisWeekCardStates,
+  planTimelineStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */

@@ -198,6 +198,49 @@ export const VOICE_SAMPLE = {
   addition: "ideally leading a broader marketing organisation.",
 } as const;
 
+/** What the plan was built from, as short tags: the direction, then each
+ *  refinement answer. A long typed answer is cut at a word boundary. */
+export function builtFrom(direction: string, answers: Record<string, string>): string[] {
+  const text = direction.trim();
+  // A prompt is shown whole; only a long typed or spoken answer is cut short.
+  const isPrompt = DIRECTION_PROMPTS_C1.some((prompt) => prompt.text === text);
+  const directionTag =
+    isPrompt || text.length <= 40
+      ? text
+      : `${text.slice(0, 40).replace(/\s+\S*$/, "")}\u2026`;
+  const labels = refinementFor(direction)
+    .map((question) => question.options.find((o) => o.value === answers[question.id])?.label)
+    .filter((label): label is string => Boolean(label));
+  return [directionTag, ...labels].filter(Boolean);
+}
+
+/** The goal the plan works toward, for "The next 12 weeks, toward …". */
+const PROMPT_TOWARD: Record<string, string> = {
+  "C-suite in 3 years": "the C-suite in 3 years",
+  "Take on more of a leadership role": "a bigger leadership role where you are",
+  "Be seen as an executive": "being seen as an executive",
+  "Nail an upcoming board presentation": "your board presentation",
+  "Find my next move": "your next move",
+};
+
+export function towardFor(direction: string): string {
+  return PROMPT_TOWARD[direction.trim()] ?? "your goal";
+}
+
+/** Concept 1's plan screen. */
+export const PLAN_C1 = {
+  eyebrow: "Your starting point",
+  builtFrom: "Built from what you told us",
+  grows: "It sharpens as you go. Every draft you make and every conversation you log tells us what to do next.",
+  thisWeek: "This week",
+  why: "Why now:",
+  now: "Now",
+  doneWhen: "Done when:",
+  others: "Not quite right? See other plans",
+  hideOthers: "Hide other plans",
+  confirm: "Use this plan",
+} as const;
+
 /** Concept 1's interpretation screen. */
 export const INTERPRETATION_C1 = {
   heading: "Here\u2019s what we heard",
@@ -343,8 +386,7 @@ export const REFINEMENT_QUESTIONS: RefinementQuestionSpec[] = [
 /* Concept 1's refinement: three questions per plan, chosen from the plan the
    direction points at, rather than one set for everyone. A question is left
    out when the direction already answers it, so the count is never promised
-   to the user. Each question can echo its answer into the plan's reasoning,
-   so the answers visibly count. */
+   to the user. The answers are said back on the interpretation screen. */
 
 export interface HeardOption extends RefinementOption {
   /** How the interpretation says this answer back: a full sentence in the
@@ -356,9 +398,6 @@ export interface TailoredQuestion extends RefinementQuestionSpec {
   options: HeardOption[];
   /** Leave the question out when the direction already answers it. */
   skipIf?: RegExp[];
-  /** One sentence for the plan's "Why this one", with {answer} standing in
-   *  for the chosen option's label. */
-  echo: string;
 }
 
 /** Under every tailored question: why it is being asked. */
@@ -390,7 +429,6 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       question: "What kind of step up?",
       hint: REFINEMENT_C1.instruction,
       options: opts("Bigger team", "Broader remit", "A seat at the top table", "A new title").map(withHeard("A bigger team matters most to you: more people, and the weight that comes with leading them.", "A broader remit matters most to you: owning more of the business, not just more of the same work.", "A seat at the top table matters most to you: being in the room where the big calls get made.", "The title matters most to you: being named for the role, not just doing the work.")),
-      echo: "It builds the evidence around the step up you picked: \u201c{answer}\u201d.",
     },
     {
       id: "scope-when",
@@ -398,14 +436,12 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       hint: REFINEMENT_C1.instruction,
       options: opts("Within a year", "1\u20132 years", "3+ years", "No fixed timeline").map(withHeard("You want it within a year, so this is a near-term move, not a long campaign.", "You\u2019re giving it one to two years, which is enough time to build the case properly.", "You\u2019re playing a longer game of three years or more, so there\u2019s room to build step by step.", "You haven\u2019t set a timeline, so the pace can fit around your job.")),
       skipIf: SAYS_WHEN,
-      echo: "It is paced to your timeline: \u201c{answer}\u201d.",
     },
     {
       id: "scope-block",
       question: "What\u2019s in the way?",
       hint: REFINEMENT_C1.instruction,
       options: opts("No clear path up", "Nobody sees my work", "I can\u2019t make my case", "Wrong company for it").map(withHeard("Right now there\u2019s no clear path up, so part of the job is finding one, or making one.", "Right now nobody sees your work. The results are there; the people deciding just aren\u2019t looking at them.", "Right now you can\u2019t quite make your case. You know you\u2019re ready; it\u2019s putting it into words that\u2019s hard.", "You suspect you\u2019re in the wrong company for it, so the next step may not be where you are now.")),
-      echo: "Its first stage tackles what is in the way: \u201c{answer}\u201d.",
     },
   ],
   influence: [
@@ -414,21 +450,18 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       question: "Where do you want more say?",
       hint: REFINEMENT_C1.instruction,
       options: opts("My team\u2019s direction", "Company strategy", "Budget and headcount", "Across other teams").map(withHeard("You want more say in your team\u2019s direction: setting it, not just delivering it.", "You want more say in company strategy: a voice in where the business goes, not only in how your part gets there.", "You want more say over budget and headcount, which is where influence becomes real.", "You want more say across other teams, beyond the part of the business you run.")),
-      echo: "It starts where you want more say: \u201c{answer}\u201d.",
     },
     {
       id: "influence-who",
       question: "Who do you most need on side?",
       hint: REFINEMENT_C1.instruction,
       options: opts("My boss", "My boss\u2019s peers", "The exec team", "My own team").map(withHeard("Your boss is who you most need on side, so that relationship comes first.", "Your boss\u2019s peers are who you most need on side: the people whose view of you travels upward.", "The exec team is who you most need on side: the people who decide what you get to lead.", "Your own team is who you most need on side, because influence starts with the people who already follow you.")),
-      echo: "The first moves are aimed at who you need on side: \u201c{answer}\u201d.",
     },
     {
       id: "influence-block",
       question: "What\u2019s holding you back?",
       hint: REFINEMENT_C1.instruction,
       options: opts("I\u2019m not in the room", "I\u2019m in the room but not heard", "Too junior on paper", "Politics").map(withHeard("You\u2019re not in the room yet. The decisions that matter to you are made without you.", "You\u2019re in the room but not heard. You\u2019re there, but your view doesn\u2019t carry.", "You\u2019re too junior on paper. Your title undersells what you actually do.", "Politics is getting in the way. Being right isn\u2019t enough; you need people behind you.")),
-      echo: "Its first stage deals with what holds you back: \u201c{answer}\u201d.",
     },
   ],
   visibility: [
@@ -437,21 +470,18 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       question: "Who needs to see you differently?",
       hint: REFINEMENT_C1.instruction,
       options: opts("Leaders in my company", "My industry", "Recruiters and boards", "All of them").map(withHeard("Leaders in your company need to see you differently: as someone they\u2019d promote, not just rely on.", "Your industry needs to see you differently: known beyond your own company.", "Recruiters and boards need to see you differently: as someone on their shortlist.", "Everyone who matters needs to see you differently, inside your company and out.")),
-      echo: "It starts with the audience you named: \u201c{answer}\u201d.",
     },
     {
       id: "presence-now",
       question: "How do they see you now?",
       hint: REFINEMENT_C1.instruction,
       options: opts("Strong operator", "Specialist", "Hard worker, low profile", "Not sure").map(withHeard("Today they see a strong operator: someone who delivers, not yet someone who leads.", "Today they see a specialist: expert in one thing, not yet seen as broad enough to lead.", "Today they see a hard worker with a low profile. The work is good; it just isn\u2019t seen.", "You\u2019re not sure how they see you today, so finding out is part of the work.")),
-      echo: "It starts from how you are read today: \u201c{answer}\u201d.",
     },
     {
       id: "presence-where",
       question: "Where do you show up today?",
       hint: REFINEMENT_C1.instruction,
       options: opts("Meetings only", "LinkedIn now and then", "Industry events", "Nowhere yet").map(withHeard("Today you only show up in meetings, so your reputation depends on who\u2019s in the room.", "You show up on LinkedIn now and then, which is a start, but not yet a point of view.", "You show up at industry events, so there\u2019s already a stage to build on.", "You don\u2019t show up anywhere yet, so there\u2019s a clean slate to build on.")),
-      echo: "It builds out from where you show up now: \u201c{answer}\u201d.",
     },
   ],
   preparation: [
@@ -461,7 +491,6 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       hint: REFINEMENT_C1.instruction,
       options: opts("Promotion conversation", "Performance review", "Board or exec presentation", "Negotiation or offer").map(withHeard("You have a promotion conversation coming up, and you want to walk in with a case, not a hope.", "You have a performance review coming up, and you want it to set up what\u2019s next, not just look back.", "You have a board or exec presentation coming up, the kind of moment people remember.", "You have a negotiation or offer coming up, where what you say in the moment matters.")),
       skipIf: SAYS_WHAT_MOMENT,
-      echo: "Everything works back from what is coming up: \u201c{answer}\u201d.",
     },
     {
       id: "moment-when",
@@ -469,14 +498,12 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       hint: REFINEMENT_C1.instruction,
       options: opts("This week", "This month", "Next few months", "Not scheduled yet").map(withHeard("It\u2019s this week, so there\u2019s only time for the essentials.", "It\u2019s this month, which is enough time to prepare properly if you start now.", "It\u2019s in the next few months, so there\u2019s time to prepare well rather than cram.", "It isn\u2019t scheduled yet, so you can be ready before the date is set.")),
       skipIf: SAYS_WHEN,
-      echo: "It is paced to when that is: \u201c{answer}\u201d.",
     },
     {
       id: "moment-ready",
       question: "How ready do you feel?",
       hint: REFINEMENT_C1.instruction,
       options: opts("Ready, want a check", "Know what, not how", "Not sure where to start", "Dreading it").map(withHeard("You feel ready and want a second opinion before it counts.", "You know what you want to say, but not how to say it.", "You\u2019re not sure where to start, which is normal for a moment like this.", "You\u2019re dreading it, so part of the work is making it feel manageable.")),
-      echo: "Its first stage meets you where you are: \u201c{answer}\u201d.",
     },
   ],
   exploration: [
@@ -485,14 +512,12 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       question: "What\u2019s making you want a change?",
       hint: REFINEMENT_C1.instruction,
       options: opts("Hit a ceiling", "Lost interest", "Industry is shrinking", "Life has changed").map(withHeard("You\u2019ve hit a ceiling where you are, and staying put isn\u2019t going to move it.", "You\u2019ve lost interest in the work, so this is about what you want to do, not just where.", "Your industry is shrinking, so moving is about staying ahead, not just a change of scene.", "Your life has changed, and your career needs to fit its new shape.")),
-      echo: "It starts from what is pushing you: \u201c{answer}\u201d.",
     },
     {
       id: "explore-keep",
       question: "What would you keep?",
       hint: REFINEMENT_C1.instruction,
       options: opts("My function", "My industry", "My seniority", "Nothing in particular").map(withHeard("You\u2019d keep your function: it\u2019s the setting that\u2019s wrong, not the work.", "You\u2019d keep your industry: you know it well, you just need a different place in it.", "You\u2019d keep your seniority, so any move has to be at your level or above.", "Nothing in particular has to stay, so every direction is open.")),
-      echo: "The options it tests hold on to what you would keep: \u201c{answer}\u201d.",
     },
     {
       id: "explore-when",
@@ -500,7 +525,6 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       hint: REFINEMENT_C1.instruction,
       options: opts("Actively looking", "Within a year", "Just exploring", "Not sure").map(withHeard("You\u2019re actively looking, so this needs to move quickly.", "You want to move within a year, which gives time to test a few directions first.", "You\u2019re exploring rather than actively looking, so there\u2019s time to get this right before you commit.", "You\u2019re not sure how soon, and that\u2019s fine: working out the direction comes first.")),
       skipIf: SAYS_WHEN,
-      echo: "It is paced to how soon you want this: \u201c{answer}\u201d.",
     },
   ],
 };
@@ -569,20 +593,6 @@ export function readBack(direction: string, answers: Record<string, string>): st
   return [directionReadback(direction), ...sentences].join(" ");
 }
 
-/** The sentence the plan adds to its reasoning from the first answered
- *  question, or null when nothing was answered. */
-export function refinementEcho(
-  direction: string,
-  answers: Record<string, string>
-): string | null {
-  for (const question of refinementFor(direction)) {
-    const value = answers[question.id];
-    const option = question.options.find((o) => o.value === value);
-    if (option) return question.echo.replace("{answer}", option.label);
-  }
-  return null;
-}
-
 /* -----------------------------------------------------------------------------
    PLANS
    -------------------------------------------------------------------------- */
@@ -594,11 +604,25 @@ export interface PlanStage {
   title: string;
   /** What the user will have, not what they will do. */
   outcomes: string[];
+  /** The finish line: a concrete, checkable sign the stage is done. */
+  done?: string;
 }
 
 export interface PlanTemplate {
   id: string;
+  /** What the user calls it: short, plain, in their terms. */
   name: string;
+  /** The plan's formal name from the product scope, shown as a label under
+   *  the plain one. */
+  formalName?: string;
+  /** The first thing to do. Always the draft the next screen builds, framed
+   *  for this plan, so the promise is kept one tap later. No effort estimate:
+   *  by decision on 2026-09-24, onboarding carries no time-to-complete. */
+  thisWeek?: { title: string; detail: string; why: string };
+  /** What the stages span, e.g. "The next 12 weeks". */
+  horizon?: string;
+  /** The open end after the last stage: the plan keeps going. */
+  after?: string;
   bestFor: string;
   emphasis: string;
   /** Why this plan, tied to what the user said. Filled in by `recommendPlan`. */
@@ -610,161 +634,216 @@ export interface PlanTemplate {
 export const PLAN_TEMPLATES: PlanTemplate[] = [
   {
     id: "leadership-scope",
-    name: "Increase leadership scope",
-    bestFor: "A strong performer seeking promotion or a broader remit.",
-    emphasis: "Leadership narrative, executive-ready evidence, key conversations.",
+    name: "Step up",
+    formalName: "Increase leadership scope",
+    bestFor: "You\u2019re ready for a bigger role and want the promotion or remit to match.",
+    emphasis: "Your leadership story, proof of what you\u2019ve delivered, and the conversations that decide it.",
+    thisWeek: {
+      title: "Write the story of what you lead",
+      detail: "The version you\u2019d say out loud in a meeting. We\u2019ll draft it on the next screen; you make it sound like you.",
+      why: "Every conversation about a bigger role starts with \u201cwhat do you lead?\u201d",
+    },
+    horizon: "The next 12 weeks",
+    after: "After week 12, we\u2019ll plan the next stretch together, based on what worked and what didn\u2019t.",
     stages: [
       {
-        window: "Weeks 1\u20133",
-        title: "Name what you lead",
+        window: "Weeks 1\u20132",
+        title: "Say what you lead",
         outcomes: [
-          "A leadership narrative you can say out loud",
-          "An executive bio in three lengths",
+          "The story of what you lead, ready to say out loud",
+          "A bio in short, medium and long versions",
         ],
+        done: "You can describe your scope in a sentence, and your bio is ready to send.",
       },
       {
-        window: "Weeks 4\u201310",
-        title: "Build the evidence",
+        window: "Weeks 3\u20136",
+        title: "Show the proof",
         outcomes: [
-          "Three results written as scope, not activity",
-          "One brief for the conversation you know is coming",
+          "Three wins written up to show how much you ran, not just what you did",
+          "Talking points for your next career conversation",
         ],
+        done: "Your manager has seen your three wins, in writing.",
       },
       {
-        window: "Week 11 onward",
-        title: "Put it in front of people",
+        window: "Weeks 7\u201312",
+        title: "Get in front of the deciders",
         outcomes: [
           "Two conversations with people who influence the decision",
-          "A record of what each one moved",
+          "Notes on what each one needs to see from you",
         ],
+        done: "You know who decides on the role, and what they need to see from you.",
       },
     ],
   },
   {
     id: "executive-presence",
-    name: "Build executive presence",
-    bestFor: "You need greater visibility and a clearer point of view.",
-    emphasis: "Positioning, thought leadership, speaking and podcast pitching.",
+    name: "Build your executive presence",
+    formalName: "Build executive presence",
+    bestFor: "You need to be seen, and to have a clear point of view.",
+    emphasis: "What you stand for, where you say it, and getting invited to say more.",
+    thisWeek: {
+      title: "Write how you describe yourself",
+      detail: "The short version of who you are and what you stand for, in your words, not your employer\u2019s. We\u2019ll draft it on the next screen; you make it sound like you.",
+      why: "Everything you say in public builds on it.",
+    },
+    horizon: "The next 12 weeks",
+    after: "After week 12, we\u2019ll plan the next stretch together, based on what worked and what didn\u2019t.",
     stages: [
       {
         window: "Weeks 1\u20132",
-        title: "Settle what you stand for",
+        title: "Decide what you stand for",
         outcomes: [
-          "A point of view you are willing to defend",
-          "A positioning statement that is yours, not your employer's",
+          "How you describe yourself, in your words, not your employer\u2019s",
+          "A point of view you\u2019re willing to defend",
         ],
+        done: "You can say what you stand for in one sentence, without mentioning where you work.",
       },
       {
         window: "Weeks 3\u20138",
-        title: "Say it somewhere",
+        title: "Say it in public",
         outcomes: [
-          "Three pieces published under your own name",
-          "A short list of rooms worth being in",
+          "Three posts or articles under your own name",
+          "A short list of events and groups worth being part of",
         ],
+        done: "Three pieces are published, and you know which rooms you want to be in.",
       },
       {
-        window: "Week 9 onward",
-        title: "Be asked rather than apply",
+        window: "Weeks 9\u201312",
+        title: "Get invited",
         outcomes: [
-          "Two pitches sent to events or shows",
-          "One inbound approach you did not chase",
+          "Two pitches sent to events or podcasts",
+          "A follow-up plan for each one",
         ],
+        done: "Two pitches are out, to events or shows the people you want to reach actually follow.",
       },
     ],
   },
   {
     id: "inflection-point",
-    name: "Prepare for a career inflection point",
-    bestFor: "A promotion, role change, review, board presentation or negotiation is ahead.",
-    emphasis: "Situation Brief, narrative, stakeholder strategy.",
+    name: "Get ready for a big moment",
+    formalName: "Prepare for a career inflection point",
+    bestFor: "A promotion, review, board presentation or negotiation is coming up.",
+    emphasis: "A clear brief, a strong case, and a plan for the people in the room.",
+    thisWeek: {
+      title: "Write the story you\u2019ll tell in the room",
+      detail: "What you\u2019ve done, what you want, and why it should be you. We\u2019ll draft it on the next screen; you make it sound like you.",
+      why: "It\u2019s the core of your case, and the thing you\u2019ll rehearse.",
+    },
+    horizon: "Between now and the moment",
+    after: "After the moment, we\u2019ll plan what\u2019s next together, based on how it went.",
     stages: [
       {
         window: "This week",
         title: "Get the situation on paper",
         outcomes: [
-          "A situation brief: what is being decided, by whom, against what",
-          "The two objections you have not answered yet",
+          "The story you\u2019ll tell in the room, in draft",
+          "A one-page brief: what\u2019s being decided, by whom, and on what basis",
         ],
+        done: "You can say what\u2019s being decided, who decides, and what they\u2019ll push back on.",
       },
       {
         window: "Before the date",
-        title: "Prepare the case",
+        title: "Prepare your case",
         outcomes: [
-          "A ninety-second account of yourself",
-          "Evidence for each claim in it",
+          "A ninety-second version you can say without notes",
+          "Proof for every claim, and answers to the two hardest objections",
         ],
+        done: "You can give your case without notes, with proof behind every claim.",
       },
       {
         window: "After",
-        title: "Bank what happened",
+        title: "Capture what happened",
         outcomes: [
-          "What was said, while you still remember it",
-          "The next move, decided rather than drifted into",
+          "Notes on what was said, while it\u2019s fresh",
+          "A decision on your next move",
         ],
+        done: "Your next move is decided, not drifted into.",
       },
     ],
   },
   {
     id: "current-org",
-    name: "Strengthen influence in the current organisation",
-    bestFor: "You intend to grow where you are.",
-    emphasis: "Strategic communication, executive presence, internal opportunity framing.",
+    name: "Grow your influence where you are",
+    formalName: "Strengthen influence in the current organisation",
+    bestFor: "You want to grow where you already are.",
+    emphasis: "Making your work visible, widening who knows it, and becoming the go-to.",
+    thisWeek: {
+      title: "Write the story of what you own",
+      detail: "What you\u2019re responsible for, in the words your leadership already uses. We\u2019ll draft it on the next screen; you make it sound like you.",
+      why: "Your work gets heard when it\u2019s described in the terms decisions are made in.",
+    },
+    horizon: "The next 12 weeks",
+    after: "After week 12, we\u2019ll plan the next stretch together, based on what worked and what didn\u2019t.",
     stages: [
       {
         window: "Weeks 1\u20133",
-        title: "Make the work legible",
+        title: "Make your work easy to see",
         outcomes: [
-          "Your remit described in the terms your leadership uses",
-          "One result reframed as organisational impact",
+          "Your role described in the words your leadership uses",
+          "One recent win reframed as impact on the business",
         ],
+        done: "Your role and one win are written in your leadership\u2019s language, ready to use.",
       },
       {
         window: "Weeks 4\u20139",
-        title: "Widen who hears it",
+        title: "Widen who hears about it",
         outcomes: [
-          "Three people outside your function who know what you do",
-          "A standing reason to be in one room you are not in",
+          "Three people outside your team who know what you do",
+          "A regular reason to be in one meeting you\u2019re not in yet",
         ],
+        done: "Three people outside your team could explain what you do.",
       },
       {
-        window: "Quarter onward",
-        title: "Be counted on for something",
+        window: "Weeks 10\u201312",
+        title: "Become the go-to",
         outcomes: [
           "One problem that comes to you by default",
-          "A scope change you asked for rather than waited for",
+          "A specific piece of bigger scope, asked for",
         ],
+        done: "You\u2019ve asked for a specific piece of bigger scope, and had an answer.",
       },
     ],
   },
   {
     id: "explore",
-    name: "Explore and clarify a next direction",
-    bestFor: "You feel a ceiling but cannot name a role.",
-    emphasis: "Direction refinement, transferable narrative, low-risk exploratory actions.",
+    name: "Find your next direction",
+    formalName: "Explore and clarify a next direction",
+    bestFor: "You feel stuck but can\u2019t yet name the next role.",
+    emphasis: "What you bring anywhere, cheap ways to test options, and a direction you can commit to.",
+    thisWeek: {
+      title: "Write the story of what you\u2019re good at",
+      detail: "What you do well, separated from where you\u2019ve done it. We\u2019ll draft it on the next screen; you make it sound like you.",
+      why: "It shows which strengths go with you anywhere, before you choose where.",
+    },
+    horizon: "The next 12 weeks",
+    after: "After week 12, we\u2019ll plan the next stretch together, based on what worked and what didn\u2019t.",
     stages: [
       {
         window: "Weeks 1\u20132",
-        title: "Find out what travels",
+        title: "Work out what travels",
         outcomes: [
-          "What you are good at, separated from where you did it",
-          "The parts of the job you would not miss",
+          "What you\u2019re good at, separated from where you\u2019ve done it",
+          "The parts of the job you wouldn\u2019t miss",
         ],
+        done: "You have a short list of strengths that would matter anywhere.",
       },
       {
         window: "Weeks 3\u20138",
         title: "Test it cheaply",
         outcomes: [
-          "Four conversations with people doing something adjacent",
-          "Two directions ruled out on evidence rather than nerve",
+          "Four conversations with people in adjacent roles",
+          "Two directions ruled out on evidence, not nerves",
         ],
+        done: "You\u2019ve crossed at least two options off, for real reasons.",
       },
       {
-        window: "Week 9 onward",
-        title: "Name it",
+        window: "Weeks 9\u201312",
+        title: "Choose your direction",
         outcomes: [
-          "A direction specific enough to plan against",
-          "A narrative that makes the move look deliberate",
+          "A direction specific enough to plan around",
+          "A story that makes the move look deliberate",
         ],
+        done: "You can name the role you\u2019re going for, and why.",
       },
     ],
   },
