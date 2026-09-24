@@ -15,7 +15,9 @@ export interface AdvisorFileProps {
   newestLabel?: string;
   emptyText?: string;
   open: boolean;
-  onToggle: () => void;
+  onToggle?: () => void;
+  /** Always open, with no toggle: the file as a summary, at the end. */
+  fixed?: boolean;
   className?: string;
 }
 
@@ -34,31 +36,48 @@ export function AdvisorFile({
   emptyText = "Nothing yet. It builds as we go.",
   open,
   onToggle,
+  fixed = false,
   className,
 }: AdvisorFileProps) {
   const listId = useId();
+  const shown = fixed || open;
   return (
-    <section className={["advisor-file", open ? "is-open" : null, className].filter(Boolean).join(" ")} aria-label={label}>
-      <button
-        type="button"
-        className="advisor-file__toggle"
-        aria-expanded={open}
-        aria-controls={listId}
-        onClick={onToggle}
-      >
-        <span className="advisor-file__label">{label}</span>
-        <span className="advisor-file__count">{items.length}</span>
-        {newest && !open ? (
-          <span className="advisor-file__new">
-            {newestLabel}: {newest}
-          </span>
-        ) : null}
-      </button>
-      <div className="advisor-file__list" id={listId} hidden={!open}>
+    <section
+      className={["advisor-file", shown ? "is-open" : null, className]
+        .filter(Boolean)
+        .join(" ")}
+      aria-label={label}
+    >
+      {fixed ? (
+        <p className="advisor-file__toggle">
+          <span className="advisor-file__label">{label}</span>
+          <span className="advisor-file__count">{items.length}</span>
+        </p>
+      ) : (
+        <button
+          type="button"
+          className="advisor-file__toggle"
+          aria-expanded={open}
+          aria-controls={listId}
+          onClick={onToggle}
+        >
+          <span className="advisor-file__label">{label}</span>
+          <span className="advisor-file__count">{items.length}</span>
+          {newest && !open ? (
+            <span className="advisor-file__new">
+              {newestLabel}: {newest}
+            </span>
+          ) : null}
+        </button>
+      )}
+      <div className="advisor-file__list" id={listId} hidden={!shown}>
         {items.length ? (
           <dl>
             {items.map((item) => (
-              <div key={item.label} className={item.label === newest ? "is-new" : undefined}>
+              <div
+                key={item.label}
+                className={item.label === newest ? "is-new" : undefined}
+              >
                 <dt>{item.label}</dt>
                 <dd>{item.value}</dd>
               </div>

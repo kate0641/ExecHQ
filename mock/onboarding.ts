@@ -2227,9 +2227,97 @@ export const GUIDE_C3 = {
     othersLede: "Each one is built for a different kind of next step. My recommendation is marked.",
     othersCta: "Use this one",
   },
-  stageEnd: {
-    title: "That\u2019s stage 2",
-    lede: "Next: the Positioning Builder, with what good looks like at every step, and the ending.",
+  story: {
+    kicker: "Your story",
+    reflect: {
+      title: "Could you say what you lead in one sentence, right now?",
+      lede: "Out loud, to someone who\u2019s never met you.",
+      label: "Your story, out loud",
+      options: ["Yes, easily", "Roughly", "Not really"],
+      replies: [
+        "Good. Then we\u2019ll sharpen it, and make it work in writing and for different people.",
+        "That\u2019s the gap we\u2019ll close. By the end of this part you\u2019ll have that sentence, and more.",
+        "That\u2019s what this next part is for. You\u2019ll leave with that sentence, a bio and an opener.",
+      ],
+      fact: {
+        label: "Fun fact \u00b7 to be sourced",
+        text: "A sourced fact about how quickly people form an impression of a leader they\u2019re meeting. It must never rank the user.",
+      },
+      why: "Every next step, a promotion conversation, a post, an introduction, starts with this sentence.",
+    },
+    intro: {
+      kicker: "How you\u2019ll complete it",
+      lede: "The Positioning Builder writes it with you. Tell me a few things only you know, and I\u2019ll draft the rest.",
+      outputsLabel: "What you\u2019ll leave with",
+      outputs: [
+        { title: "Your leadership narrative", detail: "What you do, what you\u2019re known for, and what you\u2019re building toward." },
+        { title: "Your executive bio", detail: "Short, medium and long, ready to paste." },
+        { title: "An opener", detail: "For the first person who hears it." },
+        { title: "Where to use it next", detail: "Tied to your plan\u2019s next step." },
+      ],
+      why: "Every plan starts here, because every next step needs you to say what you lead. It\u2019s also the first thing on your plan this week.",
+      cta: "Start",
+    },
+    goodLabel: "What good looks like",
+    goodWhy: "Why it works",
+    doing: {
+      title: "What you do",
+      lede: "Your role, what you\u2019re responsible for, and how big your team is.",
+      good: {
+        example: "\u201cVP of Marketing, leading brand and demand with a team of 60.\u201d",
+        why: "A clear title, a specific scope, and a size. No jargon, nothing to decode.",
+      },
+      why: "This is the first thing anyone asks. A clear answer makes everything after it easier to hear.",
+    },
+    known: {
+      title: "What you\u2019re known for",
+      lede: "Up to three strengths, and one result you\u2019re proud of.",
+      good: {
+        example: "\u201cGrew pipeline 40% in a year.\u201d",
+        why: "A number, a timeframe, and it\u2019s clearly yours. Proof beats adjectives.",
+      },
+      why: "Strengths say how you work. A result proves it.",
+    },
+    audience: {
+      title: "Who it\u2019s for",
+      lede: "Who will hear it first, and the name for your bio.",
+      good: {
+        example: "For your manager: \u201cI\u2019d like to talk about what\u2019s next for me\u2026\u201d",
+        why: "Written for one person, it starts the conversation you actually need to have.",
+      },
+      why: "A story lands differently with your manager than with a recruiter. Knowing who hears it first shapes the opener.",
+    },
+    source: {
+      title: "Anything to start from?",
+      lede: "Paste a bio you already have, or your LinkedIn About section.",
+      connected: (sources: string) => `I\u2019ll also use what came in from ${sources}.`,
+      good: {
+        example: "Your current LinkedIn About section, even if it\u2019s out of date.",
+        why: "Your own words, however rough, keep the draft sounding like you.",
+      },
+      why: "Everything you\u2019ve told me is used already. This just gives me your voice.",
+      cta: "Build my story",
+    },
+    output: {
+      lede: "Built from what you told me. Change anything.",
+      why: "Each output is for a different moment. \u201cWhere to use it next\u201d ties it to your plan.",
+      building: "Writing your story",
+      cta: "Save and continue",
+    },
+    cta: "Continue",
+  },
+  done: {
+    kicker: "You\u2019re set up",
+    title: "You have a plan and your first story",
+    lede: "Both are saved, and nothing here is visible to anyone else. Here\u2019s everything I learned, and what happens next.",
+    nextLabel: "What happens next",
+    // The first thing on the plan is the story, which is now done.
+    thisWeek: "Done today",
+    then: "Next",
+    after: "After that",
+    signals: "You can connect LinkedIn or your website anytime, so your drafts sound more like you.",
+    why: "You\u2019ve done the hardest part: saying where you want to go. From here, the plan does the work with you.",
+    home: "Go to my homepage",
   },
 } as const;
 

@@ -1,10 +1,15 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type ComponentProps } from "react";
+import { useEffect, useId, useRef, useState, type ComponentProps, type ReactNode } from "react";
+import { useRouter } from "next/navigation";
 import { ChipGroup } from "@/components/form/ChipGroup";
 import { Input } from "@/components/form/Input";
 import { AdvisorFile, type AdvisorFileItem } from "@/components/onboarding/AdvisorFile";
 import { DirectionField } from "@/components/onboarding/DirectionField";
+import { ExportLinks } from "@/components/onboarding/ExportLinks";
+import { GeneratingState } from "@/components/onboarding/GeneratingState";
+import { GoodExample } from "@/components/onboarding/GoodExample";
+import { StoryOutputs } from "@/components/onboarding/StoryOutputs";
 import { PlanTemplateCard } from "@/components/onboarding/PlanTemplateCard";
 import { ThisWeekCard } from "@/components/onboarding/ThisWeekCard";
 import { GuidePage } from "@/components/onboarding/GuidePage";
@@ -23,7 +28,10 @@ import {
 import { useStepNav } from "@/lib/step-nav";
 import {
   DIRECTION_PROMPTS_C1,
+  DONE_C1,
   GUIDE_C3,
+  POSITIONING_C1,
+  STORY_EXPORTS,
   PLAN_C1,
   PLAN_TEMPLATES,
   SIGNALS_C1,
@@ -38,6 +46,7 @@ import {
   refinementFor,
   towardFor,
   verdictC3,
+  type OutputKind,
   type PlanTemplate,
   type TailoredQuestion,
 } from "@/mock/onboarding";
@@ -91,7 +100,14 @@ type PageId =
   | "plan-stages"
   | "plan-done"
   | "plan-grows"
-  | "stage-end";
+  | "reflect-story"
+  | "story-intro"
+  | "build-doing"
+  | "build-known"
+  | "build-audience"
+  | "build-source"
+  | "story"
+  | "done";
 
 interface Page {
   id: PageId;
@@ -134,7 +150,16 @@ const PAGES: Page[] = [
   { id: "plan-stages", label: "Stages", part: 2, step: "plan", offBar: true },
   { id: "plan-done", label: "Done when", part: 2, step: "plan", offBar: true },
   { id: "plan-grows", label: "It grows", part: 2, step: "plan", offBar: true },
-  { id: "stage-end", label: "Next", step: "plan" },
+  // The Positioning Builder, coached: a reflection, what it is, four pages
+  // of what goes in, each with what good looks like, then the story.
+  { id: "reflect-story", label: "Your story", part: 3, step: "artifact" },
+  { id: "story-intro", label: "The builder", part: 3, step: "artifact", offBar: true },
+  { id: "build-doing", label: "What you do", part: 3, step: "artifact", offBar: true },
+  { id: "build-known", label: "Known for", part: 3, step: "artifact", offBar: true },
+  { id: "build-audience", label: "Who it’s for", part: 3, step: "artifact", offBar: true },
+  { id: "build-source", label: "Start from", part: 3, step: "artifact", offBar: true },
+  { id: "story", label: "Story", part: 3, step: "artifact" },
+  { id: "done", label: "Done", step: "complete" },
 ];
 /** Where a page sits, handed to every page. */
 type Frame = Pick<
@@ -157,6 +182,7 @@ const REFLECTION_PAGES: Partial<Record<PageId, string>> = {
   "reflect-time": "time",
   "reflect-ceo": "ceo",
   "reflect-conversation": "conversation",
+  "reflect-story": "story",
 };
 
 export function OnboardingConcept3() {
@@ -164,6 +190,7 @@ export function OnboardingConcept3() {
   const { state, dispatch } = flow;
   const a = state.answers;
   const headingId = useId();
+  const router = useRouter();
 
   const [pageId, setPageId] = useState<PageId>("welcome");
   const [reflections, setReflections] = useState<Record<string, string>>({});
@@ -238,6 +265,8 @@ export function OnboardingConcept3() {
   if (reflections.conversation)
     items.push({ label: GUIDE_C3.reflect2.conversation.label, value: reflections.conversation });
   if (a.planId && at > pageIndex("plan-grows")) items.push({ label: "Your plan", value: plan?.name ?? "" });
+  if (reflections.story) items.push({ label: GUIDE_C3.story.reflect.label, value: reflections.story });
+  if (a.artifactSaved) items.push({ label: "Your story", value: plan?.thisWeek?.output ?? "Saved" });
   const file = (
     <AdvisorFile
       label={GUIDE_C3.file.label}
@@ -351,14 +380,17 @@ export function OnboardingConcept3() {
 
     case "reflect-time":
     case "reflect-ceo":
-    case "reflect-conversation": {
+    case "reflect-conversation":
+    case "reflect-story": {
       const key = REFLECTION_PAGES[pageId]!;
       const c =
         key === "time"
           ? GUIDE_C3.reflect.time
           : key === "ceo"
             ? GUIDE_C3.reflect2.ceo
-            : GUIDE_C3.reflect2.conversation;
+            : key === "story"
+              ? GUIDE_C3.story.reflect
+              : GUIDE_C3.reflect2.conversation;
       return (
         <ReflectPage
           frame={frame()}
@@ -489,12 +521,114 @@ export function OnboardingConcept3() {
       );
     }
 
-    case "stage-end":
+    case "story-intro": {
+      const c = GUIDE_C3.story.intro;
       return (
-        <GuidePage headingId={headingId} title={GUIDE_C3.stageEnd.title} lede={GUIDE_C3.stageEnd.lede}>
-          <div className="guide__file-end">{file}</div>
+        <GuidePage
+          {...frame()}
+          kicker={c.kicker}
+          title={`First: ${(plan?.thisWeek?.output ?? "the story of what you lead").toLowerCase()}`}
+          lede={c.lede}
+          why={c.why}
+          primaryLabel={c.cta}
+          onPrimary={next}
+        >
+          <PointList items={c.outputs} label={c.outputsLabel} />
         </GuidePage>
       );
+    }
+
+    case "build-doing":
+    case "build-known":
+    case "build-audience":
+    case "build-source":
+      return (
+        <BuildPage
+          flow={flow}
+          frame={frame()}
+          page={pageId}
+          connected={connected}
+          onDone={
+            pageId === "build-source"
+              ? () => {
+                  // A build starts from the inputs, so any earlier edits go.
+                  dispatch({ type: "set-positioning", patch: { built: true, edits: {} } });
+                  flow.withDelay("drafting", () => {});
+                  next();
+                }
+              : next
+          }
+        />
+      );
+
+    case "story": {
+      const c = GUIDE_C3.story.output;
+      const inputs = a.positioning;
+      if (flow.generating === "drafting")
+        return (
+          <GuidePage {...frame()} kicker={GUIDE_C3.story.kicker} title={c.building}>
+            <GeneratingState label={c.building} />
+          </GuidePage>
+        );
+      return (
+        <StoryPage
+          frame={frame()}
+          title={plan?.thisWeek?.output ?? "The story of what you lead"}
+          onSave={() => {
+            dispatch({ type: "save-artifact" });
+            next();
+          }}
+        >
+          {(setEditing) => (
+            <>
+              <StoryOutputs
+                inputs={inputs}
+                direction={direction}
+                showFirst={inputs.showFirst as OutputKind}
+                nextStage={plan?.stages?.[1]?.title}
+                edits={inputs.edits}
+                onSaveEdit={(key, text) =>
+                  dispatch({ type: "set-positioning", patch: { edits: { ...inputs.edits, [key]: text } } })
+                }
+                onEditingChange={setEditing}
+              />
+              <ExportLinks actions={STORY_EXPORTS} />
+            </>
+          )}
+        </StoryPage>
+      );
+    }
+
+    case "done": {
+      const c = GUIDE_C3.done;
+      const stages = plan?.stages ?? [];
+      // This week, then the next two stages: what the plan does next.
+      const steps: { title: string; detail: string }[] = [];
+      if (plan?.thisWeek) steps.push({ title: c.thisWeek, detail: plan.thisWeek.title });
+      if (stages[1]) steps.push({ title: c.then, detail: `${stages[1].window}: ${stages[1].title}` });
+      if (stages[2]) steps.push({ title: c.after, detail: `${stages[2].window}: ${stages[2].title}` });
+      return (
+        <GuidePage
+          headingId={headingId}
+          kicker={c.kicker}
+          title={c.title}
+          lede={c.lede}
+          why={c.why}
+          primaryLabel={c.home}
+          onPrimary={() => router.push(DONE_C1.homeHref)}
+        >
+          {/* The file, open: everything learned, as the summary. */}
+          <AdvisorFile
+            label={GUIDE_C3.file.label}
+            items={items}
+            open
+            fixed
+          />
+          <PointList items={steps} numbered label={c.nextLabel} />
+          {connected.length ? null : <p className="guide__next">{c.signals}</p>}
+        </GuidePage>
+      );
+    }
   }
 }
 
@@ -639,6 +773,7 @@ function DirectionPage({ flow, frame, onDone }: PageProps) {
 }
 
 type ReflectCopy =
+  | typeof GUIDE_C3.story.reflect
   | typeof GUIDE_C3.reflect.time
   | typeof GUIDE_C3.reflect2.ceo
   | typeof GUIDE_C3.reflect2.conversation;
@@ -817,6 +952,127 @@ function ReadbackPage({ flow, frame, onDone }: PageProps) {
         reason={now.reason}
         status={c.checked}
       />
+    </GuidePage>
+  );
+}
+
+/**
+ * One page of the builder's inputs, coached: the fields, then what good looks
+ * like and why it works. Everything is optional, as in Concepts 1 and 2; a
+ * gap stays visible in the story until it is filled.
+ */
+function BuildPage({
+  flow,
+  frame,
+  page,
+  connected,
+  onDone,
+}: PageProps & { page: PageId; connected: string[] }) {
+  const { state, dispatch } = flow;
+  const inputs = state.answers.positioning;
+  const p = POSITIONING_C1;
+  const c = GUIDE_C3.story;
+  const copy =
+    page === "build-doing" ? c.doing : page === "build-known" ? c.known : page === "build-audience" ? c.audience : c.source;
+  const set = (patch: Partial<typeof inputs>) => dispatch({ type: "set-positioning", patch });
+
+  return (
+    <GuidePage
+      {...frame}
+      kicker={c.kicker}
+      title={copy.title}
+      lede={copy.lede}
+      why={copy.why}
+      primaryLabel={page === "build-source" ? c.source.cta : c.cta}
+      onPrimary={onDone}
+    >
+      {page === "build-doing" ? (
+        <>
+          <Input label={p.role.label} placeholder={p.role.placeholder} value={inputs.role} onChange={(e) => set({ role: e.target.value })} />
+          <Input label={p.own.label} placeholder={p.own.placeholder} value={inputs.own} onChange={(e) => set({ own: e.target.value })} />
+          <ChipGroup
+            label={p.team.label}
+            options={p.team.options}
+            value={inputs.teamSize ? [inputs.teamSize] : []}
+            onChange={(next) => set({ teamSize: next[0] ?? "" })}
+          />
+        </>
+      ) : page === "build-known" ? (
+        <>
+          <ChipGroup
+            label={p.strengths.label}
+            note={p.strengths.note}
+            options={p.strengths.options}
+            value={inputs.strengths}
+            max={p.strengths.max}
+            onChange={(next) => set({ strengths: next })}
+          />
+          <Input
+            label={p.result.label}
+            placeholder={p.result.placeholder}
+            multiline
+            rows={2}
+            value={inputs.result}
+            onChange={(e) => set({ result: e.target.value })}
+          />
+        </>
+      ) : page === "build-audience" ? (
+        <>
+          <ChipGroup
+            label={p.audience.label}
+            note={p.audience.note}
+            options={p.audience.options}
+            value={inputs.audience ? [inputs.audience] : []}
+            onChange={(next) => set({ audience: next[0] ?? "", showFirst: "narrative" })}
+          />
+          <Input label={p.name.label} autoComplete="name" value={inputs.name} onChange={(e) => set({ name: e.target.value })} />
+        </>
+      ) : (
+        <>
+          <Input
+            label={p.source.label}
+            labelHidden
+            placeholder={p.source.placeholder}
+            multiline
+            rows={4}
+            value={inputs.source}
+            onChange={(e) => set({ source: e.target.value })}
+          />
+          {/* What was connected earlier, in Signals, is used here. */}
+          {connected.length ? <p className="guide__next">{c.source.connected(connected.join(" and "))}</p> : null}
+        </>
+      )}
+      <GoodExample label={c.goodLabel} whyLabel={c.goodWhy} {...copy.good} />
+    </GuidePage>
+  );
+}
+
+/** The story, with its outputs; the action waits while one is being edited. */
+function StoryPage({
+  frame,
+  title,
+  onSave,
+  children,
+}: {
+  frame: Frame;
+  title: string;
+  onSave: () => void;
+  children: (setEditing: (editing: boolean) => void) => ReactNode;
+}) {
+  const c = GUIDE_C3.story.output;
+  const [editing, setEditing] = useState(false);
+  return (
+    <GuidePage
+      {...frame}
+      kicker={GUIDE_C3.story.kicker}
+      title={title}
+      lede={c.lede}
+      why={c.why}
+      primaryLabel={c.cta}
+      primaryDisabled={editing}
+      onPrimary={onSave}
+    >
+      {children(setEditing)}
     </GuidePage>
   );
 }

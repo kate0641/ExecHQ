@@ -5574,3 +5574,41 @@ samp {
   line-height: var(--leading-normal);
   color: var(--color-text-secondary);
 }
+
+/* What good looks like: an example, set apart from the user's own fields. */
+.good-example {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding: var(--space-md);
+  border: var(--border-thin);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-sunken);
+}
+
+.good-example__label {
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.good-example__example {
+  font-family: var(--font-serif);
+  font-size: var(--text-md);
+  font-style: italic;
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-primary);
+}
+
+.good-example__why {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+.good-example__why b {
+  color: var(--color-text-primary);
+}

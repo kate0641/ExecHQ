@@ -21,5 +21,6 @@ export const advisorFileStates = defineComponentStates({
     { label: "Empty", props: { label: GUIDE_C3.file.label, items: [], open: true, onToggle: noop } },
     { label: "Closed, just added", props: { label: GUIDE_C3.file.label, items, newest: "Starting point", open: false, onToggle: noop } },
     { label: "Open", props: { label: GUIDE_C3.file.label, items, newest: "Starting point", open: true, onToggle: noop } },
+    { label: "Summary", description: "Always open, no toggle: the end of onboarding.", props: { label: GUIDE_C3.file.label, items, open: true, fixed: true } },
   ],
 });
