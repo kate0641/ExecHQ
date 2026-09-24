@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useId, useRef } from "react";
-import { Button } from "@/components/primitives/Button";
-import { Notice } from "@/components/onboarding/Notice";
 import { useOnboardingFlow, type OnboardingStep } from "@/flows/onboarding/shared";
 import {
   AccountScreen,
@@ -31,9 +29,10 @@ import type { ScreenProps } from "./screens/types";
  * If a later concept is not clearly better than this for a given step, this is
  * the one that should win.
  *
- * The shell owns three things the screens should not: which step renders, where
- * focus goes when the step changes, and the offer to resume an abandoned
- * session. Everything else lives in the screens, and the flow's behaviour lives
+ * The shell owns two things the screens should not: which step renders and
+ * where focus goes when the step changes. It never resumes: a refresh or a
+ * fresh visit always opens on the first screen, so every review walks the
+ * flow from the start. Everything else lives in the screens, and the flow's behaviour lives
  * in the shared state machine.
  */
 /**
@@ -57,8 +56,8 @@ const SHOWN_STEPS: OnboardingStep[] = [
 ];
 
 export function OnboardingConcept1() {
-  const flow = useOnboardingFlow({ conceptId: "concept-1" });
-  const { state, pendingResume } = flow;
+  const flow = useOnboardingFlow();
+  const { state } = flow;
   const headingId = useId();
   const stepKey = `${state.step}-${state.refinementIndex}-${state.customPlanIndex}`;
   const previousKey = useRef(stepKey);
@@ -71,25 +70,6 @@ export function OnboardingConcept1() {
     previousKey.current = stepKey;
     document.getElementById(headingId)?.focus();
   }, [stepKey, headingId]);
-
-  if (pendingResume) {
-    return (
-      <div className="wizard">
-        <Notice tone="info" title="You were part way through">
-          We kept your answers. You can pick up where you stopped, or start again
-          from the beginning.
-          <div className="wizard__resume-actions">
-            <Button variant="primary" onClick={flow.acceptResume}>
-              Pick up where I stopped
-            </Button>
-            <Button variant="secondary" onClick={flow.declineResume}>
-              Start again
-            </Button>
-          </div>
-        </Notice>
-      </div>
-    );
-  }
 
   const shownIndex = SHOWN_STEPS.indexOf(state.step);
 

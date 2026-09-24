@@ -60,11 +60,8 @@ import {
  *    reachable and operable by keyboard with no scrolling at all.
  */
 export function OnboardingConcept2() {
-  const flow = useOnboardingFlow({
-    conceptId: "concept-2",
-    followInterpretation: true,
-  });
-  const { state, dispatch, derived, generating, pendingResume, refinementQuestions } = flow;
+  const flow = useOnboardingFlow({ followInterpretation: true });
+  const { state, dispatch, derived, generating, refinementQuestions } = flow;
 
   const headingIdBase = useId();
   const activeHeadingId = `${headingIdBase}-active`;
@@ -104,25 +101,6 @@ export function OnboardingConcept2() {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     ask.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
   }, [turnKey]);
-
-  if (pendingResume) {
-    return (
-      <div className="thread">
-        <Notice tone="info" title="You were part way through">
-          We kept the conversation. You can pick it up where it stopped, or start
-          again from the beginning.
-          <div className="thread__resume-actions">
-            <Button variant="primary" onClick={flow.acceptResume}>
-              Pick up where I stopped
-            </Button>
-            <Button variant="secondary" onClick={flow.declineResume}>
-              Start again
-            </Button>
-          </div>
-        </Notice>
-      </div>
-    );
-  }
 
   const context: TurnContext = {
     flow,

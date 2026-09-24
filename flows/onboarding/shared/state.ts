@@ -46,10 +46,8 @@ export interface OnboardingState {
   customPlanIndex: number | null;
   /** Ids of anything the user skipped: step names and refinement question ids. */
   skipped: string[];
-  /** Every step the user has reached, so a resumed session can say where it is. */
+  /** Every step the user has reached. */
   visited: OnboardingStep[];
-  /** True once state has been restored from a previous session. */
-  resumed: boolean;
 }
 
 export const initialState: OnboardingState = {
@@ -72,7 +70,6 @@ export const initialState: OnboardingState = {
   customPlanIndex: null,
   skipped: [],
   visited: ["account"],
-  resumed: false,
 };
 
 export type OnboardingAction =
@@ -92,7 +89,6 @@ export type OnboardingAction =
   | { type: "next" }
   | { type: "back" }
   | { type: "go-to"; step: OnboardingStep }
-  | { type: "restore"; state: OnboardingState }
   | { type: "reset" };
 
 function withVisit(state: OnboardingState, step: OnboardingStep): OnboardingState {
@@ -255,9 +251,6 @@ export function makeReducer(refinementCount: number, customPlanCount: number) {
 
       case "go-to":
         return withVisit(state, action.step);
-
-      case "restore":
-        return { ...action.state, resumed: true };
 
       case "reset":
         return initialState;

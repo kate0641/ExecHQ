@@ -40,9 +40,8 @@ import {
  *
  * Every turn is derived from the shared flow state rather than pushed onto a
  * list of its own. That is what makes the thread a record rather than a log:
- * going back does not leave orphaned turns behind, a resumed session rebuilds
- * the whole conversation exactly, and there is no second source of truth to
- * drift from the state machine.
+ * going back does not leave orphaned turns behind, and there is no second
+ * source of truth to drift from the state machine.
  *
  * Each step contributes an advisor turn, and — once it has been answered — a
  * turn recording what the user said. The step the flow is currently on also

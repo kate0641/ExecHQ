@@ -106,11 +106,8 @@ const SECTION_HINTS: Record<SectionKey, string> = {
 };
 
 export function OnboardingConcept3() {
-  const flow = useOnboardingFlow({
-    conceptId: "concept-3",
-    followInterpretation: true,
-  });
-  const { state, dispatch, derived, generating, pendingResume } = flow;
+  const flow = useOnboardingFlow({ followInterpretation: true });
+  const { state, dispatch, derived, generating } = flow;
 
   // Where the user was before they went back to change something. The canvas
   // promises you can revisit an earlier answer without losing your place, and
@@ -145,25 +142,6 @@ export function OnboardingConcept3() {
       block: "center",
     });
   }, [focusKey, activeHeadingId]);
-
-  if (pendingResume) {
-    return (
-      <div className="canvas">
-        <Notice tone="info" title="You were part way through">
-          We kept the page as you left it. You can pick it up, or start again
-          from the beginning.
-          <div className="canvas__resume-actions">
-            <Button variant="primary" onClick={flow.acceptResume}>
-              Pick up where I stopped
-            </Button>
-            <Button variant="secondary" onClick={flow.declineResume}>
-              Start again
-            </Button>
-          </div>
-        </Notice>
-      </div>
-    );
-  }
 
   const current = state.step;
   const currentIndex = stepIndex(current);
