@@ -71,6 +71,7 @@ export function jumpState(current: OnboardingState, step: OnboardingStep): Onboa
     artifactSaved: past("artifact") ? was.artifactSaved : false,
     positioning: past("artifact") ? was.positioning : initialState.answers.positioning,
     connections: past("connect") ? was.connections : {},
+    signalLinks: past("connect") ? was.signalLinks : {},
   };
 
   // Skips are ids of steps, refinement questions and connections. Keep only

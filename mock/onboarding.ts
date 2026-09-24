@@ -895,19 +895,64 @@ export const EXPORT_ACTIONS = {
 } as const;
 
 /** The fields the last step asks for, entered by hand. Nothing is fetched. */
-export const CONNECT_FIELDS = {
-  heading: "Anything else you want us to know?",
-  hint: "Optional. It sharpens later drafts and changes nothing about the one you already have.",
-  linkedinLabel: "LinkedIn",
-  websiteLabel: "Personal website",
-  fields: [
-    { id: "followers", label: "Followers", group: "linkedin" },
-    { id: "posts", label: "Posts, last 90 days", group: "linkedin" },
-    { id: "reactions", label: "Median reactions", group: "linkedin" },
-    { id: "website", label: "Address", group: "website" },
+/** Concept 1's ending: the win, then two ways on. */
+export const DONE_C1 = {
+  eyebrow: "You\u2019re set up",
+  title: "You have a plan and your first story",
+  hint: "Both are saved. Nothing here is visible to anyone else.",
+  planPrefix: "Your starting plan:",
+  inviteTitle: "Build out your signals",
+  inviteBody: "Connect LinkedIn or your website so your next drafts sound like you. Optional, and you can do it anytime.",
+  home: "Go to my homepage",
+  signals: "Build out your signals",
+  homeHref: "/homepage/concept-1",
+} as const;
+
+/** Concept 1's signals page: optional, after onboarding has ended. The
+ *  product's own word — the Signal Background — for what is connected. */
+export const SIGNALS_C1 = {
+  eyebrow: "Optional",
+  title: "Build out your signals",
+  hint: "Connect what\u2019s already public and we\u2019ll use it to shape your drafts.",
+  privacy: "Nothing is ever posted or shared. Disconnect anytime.",
+  connect: "Connect",
+  connected: "Connected",
+  close: "Close",
+  disconnect: "Disconnect",
+  add: "Add",
+  cancel: "Cancel",
+  skip: "Skip for now",
+  done: "Done",
+  sources: [
+    {
+      id: "linkedin",
+      mark: "in",
+      title: "LinkedIn",
+      why: "So your drafts match how you already show up.",
+      imported: "Headline, about section and your last 20 posts",
+      use: "Used only to shape your drafts.",
+      connectLabel: "Connect LinkedIn",
+      connecting: "Connecting to LinkedIn\u2026",
+      pasteLabel: "Or paste your profile link",
+      linkLabel: "Your LinkedIn profile link",
+      placeholder: "linkedin.com/in/\u2026",
+      canImport: true,
+    },
+    {
+      id: "website",
+      mark: "www",
+      title: "Personal website",
+      why: "So we can learn your voice from your own writing.",
+      imported: "The pages at your address",
+      use: "Used only to learn your voice.",
+      connectLabel: "",
+      connecting: "",
+      pasteLabel: "",
+      linkLabel: "Your website address",
+      placeholder: "https://",
+      canImport: false,
+    },
   ],
-  saveLabel: "Save and go to my homepage",
-  skipLabel: "Go to my homepage",
 } as const;
 
 export function planById(id: string): PlanTemplate | undefined {

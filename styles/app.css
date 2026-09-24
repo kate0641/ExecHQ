@@ -275,6 +275,8 @@ samp {
   transition: background-color var(--duration-fast) var(--easing-standard),
     border-color var(--duration-fast) var(--easing-standard),
     color var(--duration-fast) var(--easing-standard);
+  /* A link dressed as a button reads as a button, not as linked text. */
+  text-decoration: none;
 }
 
 /* The label wraps an icon and its text. Icons are display: block from the
@@ -4304,6 +4306,268 @@ samp {
   font-size: var(--text-xs);
   text-align: center;
   color: var(--color-text-secondary);
+}
+
+/* --- Ending and signals (Concept 1) --------------------------------------- */
+
+.done-saved {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.done-saved > li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-sunken);
+  border-radius: var(--radius-md);
+}
+
+.done-invite {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding: var(--space-md);
+  border: var(--border-thin);
+  border-radius: var(--radius-md);
+}
+
+.done-invite__title {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.done-invite__body {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+/* The Done page's two ways on, pinned where the button always sits. */
+.done-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+[data-viewport="mobile"] .wizard .wizard__footer:has(.done-actions) {
+  position: sticky;
+  bottom: 0;
+  margin-top: auto;
+  padding: var(--space-sm) 0 var(--space-xl);
+  background-color: var(--color-surface);
+}
+
+.signal-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.signal-list > li {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md) 0;
+  border-top: var(--border-subtle);
+}
+
+.signal-list > li:last-child {
+  border-bottom: var(--border-subtle);
+}
+
+.signal-list__mark {
+  display: grid;
+  place-items: center;
+  width: var(--space-xl);
+  height: var(--space-xl);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-bold);
+}
+
+.signal-list__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  min-width: 0;
+}
+
+.signal-list__title {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.signal-list__detail {
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+  color: var(--color-text-secondary);
+}
+
+.signal-list__status {
+  padding: var(--space-3xs) var(--space-xs);
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-inverse);
+  background-color: var(--color-surface-inverse);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+}
+
+.signal-privacy {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+.signal-privacy .icon {
+  flex: none;
+  margin-top: var(--space-3xs);
+}
+
+.signal-sheet {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.signal-sheet__head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+}
+
+.signal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.signal-imported {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+  background-color: var(--color-surface-sunken);
+  border-radius: var(--radius-sm);
+}
+
+.signal-imported__how {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  overflow-wrap: anywhere;
+}
+
+.signal-working {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.signal-link {
+  align-self: flex-start;
+  padding: var(--space-3xs) 0;
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-primary);
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width-thin);
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+/* Sheet: over the device screen, not the window. */
+.device__screen {
+  position: relative;
+}
+
+.sheet {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-scrim);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.sheet--inline {
+  position: relative;
+  min-height: 18rem;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.sheet__scrim {
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-overlay);
+}
+
+.sheet__panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  width: 100%;
+  max-height: 85%;
+  margin: 0;
+  padding: var(--space-md) var(--space-lg) var(--space-xl);
+  overflow-y: auto;
+  color: var(--color-text-primary);
+  background-color: var(--color-surface);
+  border: 0;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  box-shadow: var(--shadow-lg);
+}
+
+.sheet__grab {
+  align-self: center;
+  width: var(--space-2xl);
+  height: var(--space-2xs);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-border-strong);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sheet__panel {
+    animation: sheet-up 0.24s var(--easing-standard);
+  }
+}
+
+@keyframes sheet-up {
+  from {
+    translate: 0 100%;
+  }
+  to {
+    translate: 0 0;
+  }
 }
 
 /* --- Starting plan (Concept 1) --------------------------------------------- */

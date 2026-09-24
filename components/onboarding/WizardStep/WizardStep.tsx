@@ -29,6 +29,8 @@ export interface WizardStepProps {
   primaryVariant?: ButtonVariant;
   /** Pinned above the primary action, e.g. export links. */
   actionsLead?: ReactNode;
+  /** Off for a page outside the counted flow, which has no place in it. */
+  showProgress?: boolean;
   /** The skip path, in the top right. Its accessible name is this label; only a
    *  short word shows. */
   skipLabel?: string;
@@ -78,6 +80,7 @@ export function WizardStep({
   primaryDisabled,
   primaryVariant,
   actionsLead,
+  showProgress = true,
   skipLabel,
   onSkip,
   backLabel,
@@ -117,12 +120,14 @@ export function WizardStep({
         </div>
       ) : null}
 
-      <StepProgress
-        current={step}
-        total={total}
-        optionalFrom={optionalFrom}
-        label={progressLabel}
-      />
+      {showProgress ? (
+        <StepProgress
+          current={step}
+          total={total}
+          optionalFrom={optionalFrom}
+          label={progressLabel}
+        />
+      ) : null}
 
       <StepHeader
         eyebrow={eyebrow}

@@ -23,6 +23,7 @@ import { panelStates } from "./layout/Panel/Panel.states";
 import { placeholderStateStates } from "./layout/PlaceholderState/PlaceholderState.states";
 import { navPlaceholderStates } from "./layout/NavPlaceholder/NavPlaceholder.states";
 import { stepBarStates } from "./layout/StepBar/StepBar.states";
+import { sheetStates } from "./layout/Sheet/Sheet.states";
 import { stepHeaderStates } from "./onboarding/StepHeader/StepHeader.states";
 import { stepProgressStates } from "./onboarding/StepProgress/StepProgress.states";
 import { stepActionsStates } from "./onboarding/StepActions/StepActions.states";
@@ -65,6 +66,7 @@ export const registry: RegisteredComponent[] = [
   placeholderStateStates,
   navPlaceholderStates,
   stepBarStates,
+  sheetStates,
   stepHeaderStates,
   stepProgressStates,
   stepActionsStates,

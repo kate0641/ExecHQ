@@ -313,7 +313,7 @@ export function PositioningOutputScreen({ flow, step, total, headingId }: Screen
       primaryLabel={copy.save}
       onPrimary={() => {
         dispatch({ type: "save-artifact" });
-        dispatch({ type: "go-to", step: "connect" });
+        dispatch({ type: "go-to", step: "complete" });
       }}
       primaryDisabled={editing}
       actionsLead={exportLinks}

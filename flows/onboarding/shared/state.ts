@@ -69,6 +69,9 @@ export interface OnboardingAnswers {
   artifactSaved: boolean;
   positioning: PositioningInputs;
   connections: Record<string, ConnectionState>;
+  /** A pasted link for a signal source, keyed by source. Present means the
+   *  source was added by link rather than connected. */
+  signalLinks: Record<string, string>;
 }
 
 export interface OnboardingState {
@@ -100,6 +103,7 @@ export const initialState: OnboardingState = {
     artifactSaved: false,
     positioning: emptyPositioning,
     connections: {},
+    signalLinks: {},
   },
   refinementIndex: 0,
   customPlanIndex: null,
@@ -111,6 +115,7 @@ export type OnboardingAction =
   | { type: "set-invite-code"; code: string | null }
   | { type: "set-email"; email: string }
   | { type: "set-positioning"; patch: Partial<PositioningInputs> }
+  | { type: "set-signal-link"; id: string; link: string | null }
   | { type: "set-direction"; direction: string; source: DirectionSource }
   | { type: "edit-interpretation"; interpretation: string }
   | { type: "answer-refinement"; id: string; value: string }
@@ -185,6 +190,13 @@ export function makeReducer(refinementCount: number, customPlanCount: number) {
 
       case "set-email":
         return { ...state, answers: { ...state.answers, email: action.email } };
+
+      case "set-signal-link": {
+        const signalLinks = { ...state.answers.signalLinks };
+        if (action.link) signalLinks[action.id] = action.link;
+        else delete signalLinks[action.id];
+        return { ...state, answers: { ...state.answers, signalLinks } };
+      }
 
       case "set-positioning":
         return {

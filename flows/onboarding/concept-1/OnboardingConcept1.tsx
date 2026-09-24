@@ -18,7 +18,7 @@ import {
   PlanScreen,
   RefinementScreen,
 } from "./screens/PlanScreens";
-import { CompleteScreen, ConnectScreen } from "./screens/OutputScreens";
+import { CompleteScreen, SignalsScreen } from "./screens/OutputScreens";
 import {
   PositioningBuildScreen,
   PositioningOutputScreen,
@@ -56,8 +56,9 @@ const SHOWN_STEPS: OnboardingStep[] = [
   "interpretation",
   "plan",
   "artifact",
-  "connect",
   "complete",
+  // After the ending, not in the counted flow: an optional extra.
+  "connect",
 ];
 
 /** The Positioning Builder is one step in the flow and two pages on screen:
@@ -68,7 +69,11 @@ const BUILDER_PAGES = [
 ];
 
 const STEP_NAV = stepNavItems(SHOWN_STEPS).flatMap((item) =>
-  item.id === "artifact" ? BUILDER_PAGES : [item]
+  item.id === "artifact"
+    ? BUILDER_PAGES
+    : item.id === "connect"
+      ? [{ id: "connect", label: "Signals" }]
+      : [item]
 );
 
 /**
@@ -76,7 +81,10 @@ const STEP_NAV = stepNavItems(SHOWN_STEPS).flatMap((item) =>
  * the opening, not work to get through, so the marks start at Direction and
  * the first question is "1 of 7" rather than "3 of 9".
  */
-const PROGRESS_STEPS = SHOWN_STEPS.slice(SHOWN_STEPS.indexOf("direction"));
+const PROGRESS_STEPS = SHOWN_STEPS.slice(
+  SHOWN_STEPS.indexOf("direction"),
+  SHOWN_STEPS.indexOf("complete") + 1
+);
 /** One more mark than steps: the builder's two pages each have one. */
 const PROGRESS_TOTAL = PROGRESS_STEPS.length + 1;
 
@@ -164,7 +172,7 @@ export function OnboardingConcept1() {
         <PositioningBuildScreen {...screenProps} />
       );
     case "connect":
-      return <ConnectScreen {...screenProps} />;
+      return <SignalsScreen {...screenProps} />;
     case "complete":
       return <CompleteScreen {...screenProps} />;
     default:
