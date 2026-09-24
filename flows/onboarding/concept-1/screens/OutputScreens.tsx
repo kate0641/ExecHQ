@@ -4,99 +4,12 @@ import { useState } from "react";
 import Link from "next/link";
 import { Input } from "@/components/form/Input";
 import { Button } from "@/components/primitives/Button";
-import { ArtifactDraft } from "@/components/onboarding/ArtifactDraft";
-import { GeneratingState } from "@/components/onboarding/GeneratingState";
 import { Notice } from "@/components/onboarding/Notice";
 import { WizardStep } from "@/components/onboarding/WizardStep";
 import {
   CONNECT_FIELDS,
-  EXPORT_ACTIONS,
-  GENERATING_COPY,
 } from "@/mock/onboarding";
 import type { ScreenProps } from "./types";
-
-/**
- * The first artifact, built the moment the plan is confirmed.
- *
- * There is no longer a screen between choosing a plan and having something: the
- * user has just decided, and the fastest way to prove the decision was worth
- * making is to hand them the work rather than describe it. The one line under
- * the title carries what the deleted step used to say — why this piece first.
- *
- * Download and email sit in a toolbar above the primary action, available the
- * whole time. Both are designed states: nothing in this prototype leaves the
- * browser, so they confirm and stop.
- */
-export function ArtifactScreen({ flow, step, total, headingId }: ScreenProps) {
-  const { state, dispatch, derived, generating } = flow;
-  const [exported, setExported] = useState<"download" | "email" | null>(null);
-
-  if (generating === "drafting") {
-    return (
-      <WizardStep
-        step={step}
-        total={total}
-        title="Building your first draft"
-        headingId={headingId}
-        showNav
-      >
-        <GeneratingState label={GENERATING_COPY.drafting} />
-      </WizardStep>
-    );
-  }
-
-  if (!derived) return null;
-
-  return (
-    <WizardStep
-      step={step}
-      total={total}
-      eyebrow={derived.artifact.tool}
-      title={derived.artifact.title}
-      description="Everything in your plan reuses this, which is why it came first. Edit anything."
-      headingId={headingId}
-      showNav
-      primaryLabel={state.answers.artifactSaved ? "Next" : "Save"}
-      onPrimary={() => {
-        if (!state.answers.artifactSaved) {
-          dispatch({ type: "save-artifact" });
-          return;
-        }
-        dispatch({ type: "next" });
-      }}
-      backLabel="Back"
-      onBack={() => dispatch({ type: "go-to", step: "plan" })}
-      footer={
-        <div className="export">
-          <Button
-            variant="secondary"
-            fullWidth
-            onClick={() => setExported("download")}
-          >
-            {EXPORT_ACTIONS.downloadLabel}
-          </Button>
-          <Button variant="secondary" fullWidth onClick={() => setExported("email")}>
-            {EXPORT_ACTIONS.emailLabel}
-          </Button>
-        </div>
-      }
-    >
-      <ArtifactDraft
-        artifact={derived.artifact}
-        saved={state.answers.artifactSaved}
-        showTitle={false}
-      />
-
-      {exported ? (
-        <Notice tone="info" live>
-          {exported === "download"
-            ? EXPORT_ACTIONS.downloaded
-            : EXPORT_ACTIONS.emailed}
-        </Notice>
-      ) : null}
-    </WizardStep>
-  );
-}
 
 /**
  * The last step. The metrics and the link are typed in here rather than offered

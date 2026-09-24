@@ -618,7 +618,7 @@ export interface PlanTemplate {
   /** The first thing to do. Always the draft the next screen builds, framed
    *  for this plan, so the promise is kept one tap later. No effort estimate:
    *  by decision on 2026-09-24, onboarding carries no time-to-complete. */
-  thisWeek?: { title: string; detail: string; why: string };
+  thisWeek?: { title: string; output: string; detail: string; why: string };
   /** What the stages span, e.g. "The next 12 weeks". */
   horizon?: string;
   /** The open end after the last stage: the plan keeps going. */
@@ -640,7 +640,8 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     emphasis: "Your leadership story, proof of what you\u2019ve delivered, and the conversations that decide it.",
     thisWeek: {
       title: "Write the story of what you lead",
-      detail: "The version you\u2019d say out loud in a meeting. We\u2019ll draft it on the next screen; you make it sound like you.",
+      output: "The story of what you lead",
+      detail: "The version you\u2019d say out loud in a meeting. Next, the Positioning Builder: add a few details and we\u2019ll write it for you to make your own.",
       why: "Every conversation about a bigger role starts with \u201cwhat do you lead?\u201d",
     },
     horizon: "The next 12 weeks",
@@ -683,7 +684,8 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     emphasis: "What you stand for, where you say it, and getting invited to say more.",
     thisWeek: {
       title: "Write how you describe yourself",
-      detail: "The short version of who you are and what you stand for, in your words, not your employer\u2019s. We\u2019ll draft it on the next screen; you make it sound like you.",
+      output: "How you describe yourself",
+      detail: "The short version of who you are and what you stand for, in your words, not your employer\u2019s. Next, the Positioning Builder: add a few details and we\u2019ll write it for you to make your own.",
       why: "Everything you say in public builds on it.",
     },
     horizon: "The next 12 weeks",
@@ -726,7 +728,8 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     emphasis: "A clear brief, a strong case, and a plan for the people in the room.",
     thisWeek: {
       title: "Write the story you\u2019ll tell in the room",
-      detail: "What you\u2019ve done, what you want, and why it should be you. We\u2019ll draft it on the next screen; you make it sound like you.",
+      output: "The story you\u2019ll tell in the room",
+      detail: "What you\u2019ve done, what you want, and why it should be you. Next, the Positioning Builder: add a few details and we\u2019ll write it for you to make your own.",
       why: "It\u2019s the core of your case, and the thing you\u2019ll rehearse.",
     },
     horizon: "Between now and the moment",
@@ -769,7 +772,8 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     emphasis: "Making your work visible, widening who knows it, and becoming the go-to.",
     thisWeek: {
       title: "Write the story of what you own",
-      detail: "What you\u2019re responsible for, in the words your leadership already uses. We\u2019ll draft it on the next screen; you make it sound like you.",
+      output: "The story of what you own",
+      detail: "What you\u2019re responsible for, in the words your leadership already uses. Next, the Positioning Builder: add a few details and we\u2019ll write it for you to make your own.",
       why: "Your work gets heard when it\u2019s described in the terms decisions are made in.",
     },
     horizon: "The next 12 weeks",
@@ -812,7 +816,8 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     emphasis: "What you bring anywhere, cheap ways to test options, and a direction you can commit to.",
     thisWeek: {
       title: "Write the story of what you\u2019re good at",
-      detail: "What you do well, separated from where you\u2019ve done it. We\u2019ll draft it on the next screen; you make it sound like you.",
+      output: "The story of what you\u2019re good at",
+      detail: "What you do well, separated from where you\u2019ve done it. Next, the Positioning Builder: add a few details and we\u2019ll write it for you to make your own.",
       why: "It shows which strengths go with you anywhere, before you choose where.",
     },
     horizon: "The next 12 weeks",
@@ -1143,6 +1148,631 @@ export const CONNECTION_FAILURE = {
 } as const;
 
 /* -----------------------------------------------------------------------------
+   POSITIONING BUILDER (Concept 1)
+   -------------------------------------------------------------------------- */
+
+/* The first artifact for every plan, in two pages: what goes in, then what
+   comes out. The outputs are the builder's four: the leadership narrative,
+   the executive bio in three lengths, an optional opener for a chosen
+   audience, and a recommended next use. Nothing is invented: what we know is
+   written in, and what only the user knows is a gap until they fill it. */
+
+export const POSITIONING_C1 = {
+  tool: "Positioning Builder",
+  buildTitle: "Let’s build your story",
+  buildHint: "Fill in what you can. Anything you skip stays a gap you can fill later.",
+  parts: {
+    doing: "What I do",
+    known: "What I’m known for",
+    toward: "What I’m building toward",
+    use: "How you’ll use it",
+    bio: "For your bio",
+  },
+  role: { label: "Your current role", placeholder: "e.g. VP of Marketing" },
+  own: { label: "What you’re responsible for", placeholder: "e.g. brand and demand" },
+  team: { label: "How big is your team?", options: ["Just me", "2–10", "11–50", "51–200", "200+"] },
+  strengths: {
+    label: "What you’re strongest at",
+    note: "Up to three",
+    max: 3,
+    options: [
+      "Building teams",
+      "Turning results around",
+      "Setting strategy",
+      "Getting things done",
+      "Growing revenue",
+      "Leading through change",
+      "Getting people aligned",
+    ],
+  },
+  result: { label: "A result you’re proud of", placeholder: "e.g. grew pipeline 40% in a year" },
+  fromPlan: "From your plan",
+  audience: {
+    label: "Who will hear it first?",
+    note: "Adds an opener for them",
+    none: "None for now",
+    options: ["My manager", "The exec team", "Recruiters", "A board", "My industry", "None for now"],
+  },
+  showFirst: { label: "Show me first" },
+  name: { label: "Your name" },
+  source: {
+    label: "Anything to start from?",
+    placeholder: "Paste a bio you already have, or your LinkedIn About section",
+    hint: "We already use everything you’ve told us so far.",
+  },
+  build: "Build my story",
+  building: "Writing your story",
+  outputHint: "Built from what you told us. Edit anything.",
+  outputs: { narrative: "Narrative", bio: "Bio" },
+  lengths: { short: "Short", medium: "Medium", long: "Long" },
+  revise: { label: "Change it" },
+  edit: "Edit",
+  nextUse: "Where to use it next",
+  copy: "Copy",
+  copied: "Copied: the narrative, your bio in three lengths and any opener.",
+  save: "Save and continue",
+} as const;
+
+export type BioLength = "short" | "medium" | "long";
+
+/** A piece of an output: words, or a gap only the user can fill. */
+export type StorySegment = { text: string } | { gap: string };
+
+/** The builder's inputs, as the outputs need them. */
+export interface PositioningSource {
+  name: string;
+  role: string;
+  own: string;
+  teamSize: string;
+  strengths: string[];
+  result: string;
+  audience: string;
+}
+
+/** The kind of opener each audience gets: a promotion-conversation opening
+ *  for the people who decide on your next role, an introduction for the rest. */
+export const OPENER_KIND: Record<string, string> = {
+  "My manager": "Promotion conversation",
+  "The exec team": "Promotion conversation",
+  Recruiters: "Introduction",
+  "A board": "Introduction",
+  "My industry": "Introduction",
+};
+
+const GAPS = {
+  role: "your current role",
+  own: "what you’re responsible for",
+  team: "your team size",
+  strengths: "your strengths",
+  result: "a result you’re proud of",
+  name: "your name",
+};
+
+const text = (value: string): StorySegment => ({ text: value });
+const slot = (value: string, gap: string): StorySegment =>
+  value.trim() ? { text: value.trim() } : { gap };
+
+function joinAnd(items: string[]): string {
+  if (items.length < 2) return items.join("");
+  return `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}`;
+}
+
+const strengthsOf = (inputs: PositioningSource) =>
+  joinAnd(inputs.strengths.map((strength) => strength.toLowerCase()));
+
+function teamOf(inputs: PositioningSource, person: "first" | "third"): string {
+  if (!inputs.teamSize) return "";
+  if (inputs.teamSize === "Just me") return person === "first" ? "on my own" : "on their own";
+  return `with a team of ${inputs.teamSize}`;
+}
+
+/** The goal, in the user's voice and in the bio's. */
+interface Goal {
+  /** "a C-suite role within three years" */
+  phrase: string;
+  /** "a C-suite role within three years", in the third person */
+  third: string;
+  /** Their own sentence, when they typed one in the first person. */
+  own?: string;
+}
+
+const PROMPT_GOALS: Record<string, [string, string]> = {
+  "C-suite in 3 years": ["a C-suite role within three years", "a C-suite role within three years"],
+  "Take on more of a leadership role": ["a bigger leadership role where I am", "a bigger leadership role where they are"],
+  "Be seen as an executive": ["being seen as an executive", "being seen as an executive"],
+  "Nail an upcoming board presentation": ["a board presentation that lands", "a board presentation that lands"],
+  "Find my next move": ["my next move", "their next move"],
+};
+
+export function goalFor(direction: string): Goal {
+  const typed = direction.trim().replace(/[.]$/, "");
+  const prompt = PROMPT_GOALS[typed];
+  if (prompt) return { phrase: prompt[0], third: prompt[1] };
+  if (/^i\b|^i’|^i'/i.test(typed)) {
+    return { phrase: "what’s next for me", third: "the next step in their career", own: `${typed}.` };
+  }
+  return { phrase: typed, third: typed };
+}
+
+/* Revisions: the builder's "request revisions", as chips. Each output has
+   its own. Every chip brings a new one when applied: its own follow-ups
+   (`reveals`), or the next general one from the set's pool. Chips hide the
+   ones that contradict them (`excludes`); removing one removes what it
+   brought. */
+
+export interface RevisionOption {
+  id: string;
+  label: string;
+  /** Offered beside this one once it is applied. */
+  reveals?: string[];
+  /** Hidden while any of these is applied. */
+  excludes?: string[];
+  /** Only has an effect once this is applied, so never offered before it. */
+  needs?: string;
+}
+
+export type OutputKind = "narrative" | "bio" | "opener";
+
+interface RevisionSet {
+  options: RevisionOption[];
+  /** The three offered from the start. */
+  start: string[];
+  /** Follow-ups in the order they are offered after a chip with nothing of
+   *  its own left to reveal. Anything else still hidden follows. */
+  pool: string[];
+}
+
+export const REVISIONS: Record<OutputKind, RevisionSet> = {
+  narrative: {
+    options: [
+      { id: "shorter", label: "Shorter", reveals: ["shortest"] },
+      { id: "shortest", label: "Even shorter", reveals: ["endAsk"], needs: "shorter" },
+      { id: "confident", label: "More confident", reveals: ["bold"], excludes: ["warm", "personal"] },
+      { id: "bold", label: "Bolder still", reveals: ["cut"], excludes: ["warm", "personal"], needs: "confident" },
+      { id: "cut", label: "Cut the qualifiers" },
+      { id: "warm", label: "Warmer", reveals: ["personal"], excludes: ["confident", "bold"] },
+      { id: "personal", label: "More personal", reveals: ["why"], excludes: ["confident", "bold"], needs: "warm" },
+      { id: "why", label: "Say why it matters" },
+      { id: "lead", label: "Lead with your result", reveals: ["impact"] },
+      { id: "impact", label: "Add the impact" },
+      { id: "asOne", label: "Read it as one", reveals: ["spoken"] },
+      { id: "spoken", label: "Make it easier to say" },
+      { id: "team", label: "Mention your team" },
+      { id: "endAsk", label: "End with what you want next" },
+    ],
+    start: ["shorter", "confident", "warm"],
+    pool: ["lead", "asOne", "team", "endAsk", "why", "cut", "impact", "spoken"],
+  },
+  bio: {
+    options: [
+      { id: "first", label: "Write it in first person", reveals: ["linkedin"] },
+      { id: "linkedin", label: "Shape it for LinkedIn", reveals: ["openTo"], needs: "first" },
+      { id: "openTo", label: "Say what you\u2019re open to", needs: "linkedin" },
+      { id: "formal", label: "More formal", reveals: ["title"], excludes: ["warm"] },
+      { id: "title", label: "Lead with your title" },
+      { id: "warm", label: "Warmer", reveals: ["enjoy"], excludes: ["formal"] },
+      { id: "enjoy", label: "Add what you enjoy" },
+      { id: "goal", label: "Add your goal", reveals: ["goalFirst"] },
+      { id: "goalFirst", label: "Put the goal first", needs: "goal" },
+      { id: "result", label: "Lead with your result" },
+      { id: "noTeam", label: "Leave out team size" },
+    ],
+    start: ["first", "formal", "warm"],
+    pool: ["goal", "result", "noTeam", "enjoy", "title"],
+  },
+  opener: {
+    options: [
+      { id: "shorter", label: "Shorter", reveals: ["essentials"] },
+      // Dropping the opening line leaves nothing for a change of tone to change.
+      { id: "essentials", label: "Just the essentials", excludes: ["soft", "direct"] },
+      { id: "direct", label: "More direct", reveals: ["nameWant"], excludes: ["soft", "essentials"] },
+      { id: "nameWant", label: "Name what you want" },
+      { id: "soft", label: "Softer", reveals: ["thank"], excludes: ["direct", "essentials"] },
+      { id: "thank", label: "Thank them first" },
+      { id: "ask", label: "End with a clear ask", reveals: ["time"] },
+      { id: "time", label: "Suggest a time", reveals: ["notes"], needs: "ask" },
+      { id: "notes", label: "Offer to send notes first" },
+      { id: "result", label: "Lead with your result" },
+      { id: "whyNow", label: "Say why now" },
+    ],
+    start: ["shorter", "direct", "ask"],
+    pool: ["soft", "result", "whyNow", "thank", "nameWant", "notes", "essentials"],
+  },
+};
+
+/**
+ * The chips to show, in order. Three to start; each applied chip brings a
+ * new one right beside it — its own follow-up, or the next general one, or
+ * anything else still hidden — until everything has been offered. Chips ruled
+ * out by an applied one, unavailable here, or without the chip they need are
+ * never offered. Applied chips stay, to show as used.
+ */
+export function visibleRevisions(
+  kind: OutputKind,
+  applied: readonly string[],
+  unavailable: readonly string[] = []
+): RevisionOption[] {
+  const { options, start, pool } = REVISIONS[kind];
+  const byId = new Map(options.map((option) => [option.id, option]));
+  const offerable = (id: string, list: string[]) => {
+    const option = byId.get(id);
+    if (!option || list.includes(id) || unavailable.includes(id)) return false;
+    if (option.needs && !applied.includes(option.needs)) return false;
+    return !option.excludes?.some((other) => applied.includes(other));
+  };
+
+  const list = start.filter((id) => offerable(id, []));
+  const order = [...pool, ...options.map((option) => option.id)];
+
+  for (const id of applied) {
+    const at = list.indexOf(id);
+    if (at === -1) continue;
+    const own = (byId.get(id)?.reveals ?? []).filter((r) => offerable(r, list));
+    const fresh = own.length ? own.slice(0, 1) : order.filter((r) => offerable(r, list)).slice(0, 1);
+    list.splice(at + 1, 0, ...fresh);
+  }
+  return list.map((id) => byId.get(id)!).filter(Boolean);
+}
+
+/** Applies a revision, or removes it and anything that was only on offer
+ *  because of it. */
+export function toggleRevision(
+  kind: OutputKind,
+  applied: readonly string[],
+  id: string,
+  unavailable: readonly string[] = []
+): string[] {
+  if (!applied.includes(id)) return [...applied, id];
+  let next = applied.filter((item) => item !== id);
+  let changed = true;
+  while (changed) {
+    const shown = new Set(visibleRevisions(kind, next, unavailable).map((option) => option.id));
+    const kept = next.filter((item) => shown.has(item));
+    changed = kept.length !== next.length;
+    next = kept;
+  }
+  return next;
+}
+
+type Voice = "plain" | "confident" | "bold" | "warm" | "personal";
+
+function voiceOf(applied: readonly string[]): Voice {
+  if (applied.includes("bold")) return "bold";
+  if (applied.includes("confident")) return "confident";
+  if (applied.includes("personal")) return "personal";
+  if (applied.includes("warm")) return "warm";
+  return "plain";
+}
+
+function towardSentence(goal: Goal, voice: Voice, short: boolean): string {
+  if (goal.own) return goal.own;
+  const lines: Record<Voice, [string, string]> = {
+    plain: [`I’m working toward ${goal.phrase}.`, `Next: ${goal.phrase}.`],
+    confident: [`Next, I’ll take that into ${goal.phrase}.`, `Next: ${goal.phrase}. I’m ready.`],
+    bold: [`Next: ${goal.phrase}. I’m ready for it.`, `Next: ${goal.phrase}. And I’m ready for it.`],
+    warm: [`What I’m working toward is ${goal.phrase}.`, `Next, I hope: ${goal.phrase}.`],
+    personal: [`What I want most next is ${goal.phrase}.`, `What I want next: ${goal.phrase}.`],
+  };
+  return lines[voice][short ? 1 : 0];
+}
+
+/** The leadership narrative, in its three parts. */
+export function narrativeFor(
+  inputs: PositioningSource,
+  goal: Goal,
+  applied: readonly string[] = []
+): { heading: string; segments: StorySegment[] }[] {
+  const role = slot(inputs.role, GAPS.role);
+  const own = slot(inputs.own, GAPS.own);
+  const team = slot(teamOf(inputs, "first"), GAPS.team);
+  const strengths = slot(strengthsOf(inputs), GAPS.strengths);
+  const result = slot(inputs.result, GAPS.result);
+  const on = (id: string) => applied.includes(id);
+  const short = on("shortest") ? 2 : on("shorter") ? 1 : 0;
+  const voice = voiceOf(applied);
+  const parts = POSITIONING_C1.parts;
+
+  // Each revision changes its own piece, so any combination still reads, and
+  // every chip changes something whenever it is on offer.
+  let doing: StorySegment[];
+  if (short === 2) doing = [role, text(", "), own, text(".")];
+  else if (short === 1) doing = [role, text(", "), team, text(", responsible for "), own, text(".")];
+  else if (voice === "confident" || voice === "bold")
+    doing = [text("I’m "), role, text(". I run "), own, text(" "), team, text(".")];
+  else if (voice === "warm" || voice === "personal")
+    doing = [text("I’m "), role, text(", and I lead "), own, text(" "), team, text(".")];
+  else doing = [text("I’m "), role, text(", leading "), own, text(" "), team, text(".")];
+  if (on("team")) doing.push(text(" I’m proud of the team I’ve built."));
+  if (on("spoken")) doing.unshift(text("Here’s the short version. "));
+
+  const strengthsLine: Record<Voice, StorySegment[]> = short
+    ? {
+        plain: [text("Known for "), strengths, text(".")],
+        confident: [text("Go-to for "), strengths, text(".")],
+        bold: [text("The one they call for "), strengths, text(".")],
+        warm: [text("People come to me for "), strengths, text(".")],
+        personal: [text("I love "), strengths, text(".")],
+      }
+    : {
+        plain: [text("I’m known for "), strengths, text(".")],
+        confident: [text("When the business needs "), strengths, text(", it comes to me.")],
+        bold: [text("I’m the one the business calls for "), strengths, text(".")],
+        warm: [text("People come to me for "), strengths, text(".")],
+        personal: [text("People come to me for "), strengths, text(", and it’s the part of the work I love most.")],
+      };
+  // "Cut the qualifiers" drops the softening lead-in; "Add the impact" says
+  // what the result did, without inventing numbers.
+  const resultLine: StorySegment[] = [
+    text(on("cut") ? "I " : "Most recently, I "),
+    result,
+    text(
+      (voice === "warm" || voice === "personal") && !short ? ", with a team I’m proud of" : ""
+    ),
+    text(on("impact") ? ", and the business felt it." : "."),
+  ];
+  const known = on("lead")
+    ? [...resultLine, text(" "), ...strengthsLine[voice]]
+    : [...strengthsLine[voice], text(" "), ...resultLine];
+
+  let toward = towardSentence(goal, voice, short > 0);
+  if (on("why")) toward += " It matters to me because I want to build something that lasts.";
+  if (on("endAsk")) toward += " I’d like to talk about how I get there.";
+
+  return [
+    { heading: parts.doing, segments: doing },
+    { heading: parts.known, segments: known },
+    { heading: parts.toward, segments: [text(toward)] },
+  ];
+}
+
+/** The executive bio at three lengths: third person by default, first
+ *  person on request. */
+export function bioFor(
+  inputs: PositioningSource,
+  goal: Goal,
+  length: BioLength,
+  applied: readonly string[] = []
+): StorySegment[] {
+  const on = (id: string) => applied.includes(id);
+  const name = slot(inputs.name, GAPS.name);
+  // Full name once, then the first name, as a bio would.
+  const later = slot(inputs.name.trim().split(/\s+/)[0] ?? "", GAPS.name);
+  const role = slot(inputs.role, GAPS.role);
+  const own = slot(inputs.own, GAPS.own);
+  const strengths = slot(strengthsOf(inputs), GAPS.strengths);
+  const result = slot(inputs.result, GAPS.result);
+  const first = on("first");
+  const formal = on("formal");
+  const warm = on("warm");
+  const withGoal = length === "long" || on("goal");
+  const noTeam = on("noTeam");
+
+  const goalLine: StorySegment[] = first
+    ? [text(goal.own ?? `I\u2019m working toward ${goal.phrase}.`)]
+    : [later, text(` is working toward ${goal.third}.`)];
+  const resultLine: StorySegment[] = first
+    ? [text("I recently "), result, text(".")]
+    : [text("Most recently, "), later, text(" "), result, text(".")];
+
+  const out: StorySegment[] = [];
+  const add = (...segments: StorySegment[]) => {
+    if (out.length) out.push(text(" "));
+    out.push(...segments);
+  };
+
+  if (first && on("linkedin")) add(text("Hi, I\u2019m "), name, text("."));
+  if (withGoal && on("goalFirst")) add(...goalLine);
+  if (on("result")) add(...resultLine);
+
+  if (first) {
+    const team = noTeam ? [] : [text(" "), slot(teamOf(inputs, "first"), GAPS.team)];
+    if (on("title")) add(text("As "), role, text(formal ? ", I am responsible for " : ", I lead "), own, ...team, text("."));
+    else if (formal) add(text("I serve as "), role, text(", responsible for "), own, ...team, text("."));
+    else if (warm) add(text("I\u2019m "), role, text(", and I lead "), own, ...team, text("."));
+    else add(text("I\u2019m "), role, text(", leading "), own, ...team, text("."));
+    if (length !== "short") {
+      if (formal) add(text("I\u2019m recognised for "), strengths, text("."));
+      else if (warm) add(text("People come to me for "), strengths, text("."));
+      else add(text("I\u2019m known for "), strengths, text("."));
+      if (!on("result")) add(...resultLine);
+    }
+    if (on("enjoy")) add(text("What I enjoy most: "), strengths, text("."));
+    if (withGoal && !on("goalFirst")) add(...goalLine);
+    if (on("linkedin")) {
+      if (on("openTo")) add(text(`Open to conversations about ${goal.phrase}.`));
+      add(text("Always glad to connect with people working on the same problems."));
+    }
+    return out;
+  }
+
+  const team = noTeam ? [] : [text(" "), slot(teamOf(inputs, "third"), GAPS.team)];
+  if (on("title")) add(name, text(", "), role, text(formal ? ", is responsible for " : ", leads "), own, ...team, text("."));
+  else if (formal) add(name, text(" serves as "), role, text(", with responsibility for "), own, ...team, text("."));
+  else if (warm) add(name, text(" is "), role, text(", leading "), own, ...team, text(", and puts people at the centre of the work."));
+  else add(name, text(" is "), role, text(", leading "), own, ...team, text("."));
+  if (length !== "short") {
+    if (formal) add(later, text(" is recognised for "), strengths, text("."));
+    else if (warm) add(text("Colleagues know "), later, text(" for "), strengths, text("."));
+    else add(text("Known for "), strengths, text("."));
+    if (!on("result")) add(...resultLine);
+  }
+  if (on("enjoy")) add(text("What "), later, text(" enjoys most: "), strengths, text("."));
+  if (withGoal && !on("goalFirst")) add(...goalLine);
+  return out;
+}
+
+/** How an opener is put together for one audience: an opening line in three
+ *  voices, the body, whether it names the goal, and its possible closes. */
+interface OpenerShape {
+  intro: { plain: string; direct: string; soft: string };
+  /** The middle. `withResult` is false when the result has moved to the
+   *  front, so it is never said twice. */
+  body: (s: Record<"role" | "own" | "result" | "strengths", StorySegment>, withResult: boolean) => StorySegment[];
+  goal: boolean;
+  close: { plain: string; direct?: string; ask: string; time: string };
+}
+
+const OPENERS: Record<string, OpenerShape> = {
+  "My manager": {
+    intro: {
+      plain: "I’d like to talk about what’s next for me.",
+      direct: "I want to talk about my next step.",
+      soft: "I’ve been thinking about what’s next for me, and I’d value your view.",
+    },
+    body: ({ role, own, result }, withResult) => [
+      text(" Today I’m "),
+      role,
+      text(", leading "),
+      own,
+      text("."),
+      ...(withResult ? [text(" Most recently, I "), result, text(".")] : []),
+    ],
+    goal: true,
+    close: {
+      plain: " I’d like us to plan how I get there.",
+      direct: " What would it take?",
+      ask: " Could we set time this month to map out the path?",
+      time: " Does thirty minutes next week work?",
+    },
+  },
+  "The exec team": {
+    intro: { plain: "Thanks for the time.", direct: "I’ll be brief.", soft: "Thank you for making the time." },
+    body: ({ own, result }, withResult) => [
+      text(" I lead "),
+      own,
+      text("."),
+      ...(withResult ? [text(" Most recently, I "), result, text(".")] : []),
+    ],
+    goal: false,
+    close: {
+      plain: " I’d like to share where I think I can take it next.",
+      direct: " Here’s where I can take it next.",
+      ask: " Could I bring you a proposal for what’s next?",
+      time: " I can have it to you by the end of the month.",
+    },
+  },
+  Recruiters: {
+    intro: { plain: "Thanks for reaching out.", direct: "Here’s where I am.", soft: "Thank you for thinking of me." },
+    body: ({ role, own, strengths }) => [text(" I’m "), role, text(", leading "), own, text(". I’m known for "), strengths, text(".")],
+    goal: true,
+    close: {
+      plain: "",
+      ask: " Could we find time to talk about what you’re seeing?",
+      time: " I have time on Thursday or Friday.",
+    },
+  },
+  "A board": {
+    intro: { plain: "Thank you for considering me.", direct: "Here’s what I’d bring.", soft: "I’m grateful for the chance to be considered." },
+    body: ({ role, strengths, result }, withResult) => [
+      text(" I’m "),
+      role,
+      text(". I’d bring "),
+      strengths,
+      text("."),
+      ...(withResult ? [text(" Most recently, I "), result, text(".")] : []),
+    ],
+    goal: false,
+    close: {
+      plain: "",
+      ask: " I’d welcome a conversation about where I could help most.",
+      time: " I’m available in the next two weeks.",
+    },
+  },
+  "My industry": {
+    intro: { plain: "Good to meet you.", direct: "Quick intro.", soft: "It’s lovely to connect." },
+    body: ({ own, strengths }) => [text(" I lead "), own, text(", and I’m known for "), strengths, text(".")],
+    goal: false,
+    close: {
+      plain: " I’d be glad to compare notes on what’s working.",
+      ask: " Would you be up for a coffee to compare notes?",
+      time: " I’m around most of next week.",
+    },
+  },
+};
+
+/** The optional opener for the chosen audience, or null for none. */
+export function openerFor(
+  inputs: PositioningSource,
+  goal: Goal,
+  applied: readonly string[] = []
+): { kind: string; segments: StorySegment[] } | null {
+  const kind = OPENER_KIND[inputs.audience];
+  const shape = OPENERS[inputs.audience];
+  if (!kind || !shape) return null;
+  const on = (id: string) => applied.includes(id);
+  const voice = on("direct") ? "direct" : on("soft") ? "soft" : "plain";
+  const result = slot(inputs.result, GAPS.result);
+  const segments: StorySegment[] = [];
+  if (on("thank")) segments.push(text("Thank you for the support so far. "));
+  // "Just the essentials" drops the opening line and gets straight to it.
+  if (!on("essentials")) segments.push(text(shape.intro[voice]));
+  if (on("result")) segments.push(text(" Most recently, I "), result, text("."));
+  if (!on("shorter")) {
+    segments.push(
+      ...shape.body(
+        {
+          role: slot(inputs.role, GAPS.role),
+          own: slot(inputs.own, GAPS.own),
+          result,
+          strengths: slot(strengthsOf(inputs), GAPS.strengths),
+        },
+        !on("result")
+      )
+    );
+  }
+  // "Name what you want" says the goal outright, even to an audience whose
+  // opener would otherwise leave it out.
+  if (shape.goal || on("nameWant")) {
+    segments.push(
+      text(
+        on("nameWant")
+          ? goal.own
+            ? ` ${goal.own}`
+            : ` What I want is ${goal.phrase}.`
+          : inputs.audience === "Recruiters"
+            ? ` I\u2019m open to conversations about ${goal.phrase}.`
+            : ` ${towardSentence(goal, "plain", false)}`
+      )
+    );
+  }
+  if (on("whyNow")) segments.push(text(" I\u2019d rather plan it together now than leave it to chance."));
+  if (on("ask")) {
+    segments.push(text(shape.close.ask));
+    if (on("time")) segments.push(text(shape.close.time));
+  } else {
+    segments.push(text((voice === "direct" && shape.close.direct) || shape.close.plain));
+  }
+  if (on("notes")) segments.push(text(" I can send a short note beforehand."));
+  return { kind, segments };
+}
+
+const AUDIENCE_NAMES: Record<string, string> = {
+  "My manager": "your manager",
+  "The exec team": "the exec team",
+  Recruiters: "recruiters",
+  "A board": "a board",
+  "My industry": "people in your industry",
+};
+
+/** The recommended next use, pointing at the plan's next stage. */
+export function nextUseFor(audience: string, nextStage: string | undefined): string {
+  const then = nextStage ? ` Your plan’s next step, “${nextStage}”, builds on it.` : "";
+  const who = AUDIENCE_NAMES[audience];
+  if (!who) {
+    return `Say the narrative out loud once this week, then use the short bio the next time you’re introduced.${then}`;
+  }
+  if (OPENER_KIND[audience] === "Promotion conversation") {
+    return `Use the opener to start your next conversation with ${who} about what’s next.${then}`;
+  }
+  return `Use the introduction the next time you reach out to ${who}, with the short bio attached.${then}`;
+}
+
+/** An output as plain text, gaps in brackets: for editing and exporting. */
+export function segmentsToText(segments: StorySegment[]): string {
+  return segments.map((segment) => ("gap" in segment ? `[${segment.gap}]` : segment.text)).join("");
+}
+
+/* -----------------------------------------------------------------------------
    SIMULATED WORK
    -------------------------------------------------------------------------- */
 
@@ -1167,6 +1797,6 @@ export const GENERATING_COPY = {
 export const SAMPLE_ANSWERS = {
   email: "reviewer@example.com",
   /** A prompted direction by id, so it reads exactly as picking one would. */
-  directionId: "bigger-org",
+  directionId: "c-suite",
   refinement: { horizon: "year", audience: "internal", constraint: "visibility" },
 } as const;

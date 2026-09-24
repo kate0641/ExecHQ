@@ -18,6 +18,7 @@ import { wordmarkStates } from "./primitives/Wordmark/Wordmark.states";
 import { inputStates } from "./form/Input/Input.states";
 import { toggleGroupStates } from "./form/ToggleGroup/ToggleGroup.states";
 import { micButtonStates } from "./form/MicButton/MicButton.states";
+import { chipGroupStates } from "./form/ChipGroup/ChipGroup.states";
 import { panelStates } from "./layout/Panel/Panel.states";
 import { placeholderStateStates } from "./layout/PlaceholderState/PlaceholderState.states";
 import { navPlaceholderStates } from "./layout/NavPlaceholder/NavPlaceholder.states";
@@ -47,6 +48,8 @@ import { answerListStates } from "./onboarding/AnswerList/AnswerList.states";
 import { advisorNoteStates } from "./onboarding/AdvisorNote/AdvisorNote.states";
 import { thisWeekCardStates } from "./onboarding/ThisWeekCard/ThisWeekCard.states";
 import { planTimelineStates } from "./onboarding/PlanTimeline/PlanTimeline.states";
+import { storyTextStates } from "./onboarding/StoryText/StoryText.states";
+import { revisionChipsStates } from "./onboarding/RevisionChips/RevisionChips.states";
 
 export const registry: RegisteredComponent[] = [
   badgeStates,
@@ -57,6 +60,7 @@ export const registry: RegisteredComponent[] = [
   inputStates,
   toggleGroupStates,
   micButtonStates,
+  chipGroupStates,
   panelStates,
   placeholderStateStates,
   navPlaceholderStates,
@@ -86,6 +90,8 @@ export const registry: RegisteredComponent[] = [
   advisorNoteStates,
   thisWeekCardStates,
   planTimelineStates,
+  storyTextStates,
+  revisionChipsStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */

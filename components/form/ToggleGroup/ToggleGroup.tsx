@@ -28,8 +28,11 @@ export interface ToggleGroupProps {
   orientation?: "horizontal" | "vertical";
   /** `segmented` is the default: one joined control on a sunken track.
    *  `chips` breaks the options into separate pills that wrap — for a set of
-   *  answers that should read as choices rather than as a form control. */
-  shape?: "segmented" | "chips";
+   *  answers that should read as choices rather than as a form control.
+   *  `pill` is a rounded track with the chosen option raised in white — for
+   *  switching between views of one thing. `underline` is plain text with the
+   *  chosen option underlined — for a quiet secondary switch under a pill. */
+  shape?: "segmented" | "chips" | "pill" | "underline";
   /** Shows each option's icon only. The label becomes the accessible name and
    *  the tooltip, so nothing is lost — but every option then needs an `icon`. */
   iconOnly?: boolean;

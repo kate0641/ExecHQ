@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { Button, type ButtonVariant } from "@/components/primitives/Button";
 
 export interface StepActionsProps {
@@ -16,6 +17,9 @@ export interface StepActionsProps {
   /** A quiet tertiary action, e.g. "Back". Never the skip path. */
   backLabel?: string;
   onBack?: () => void;
+  /** Pinned with the actions, above them: things that must stay reachable
+   *  without scrolling, like export links. */
+  lead?: ReactNode;
   className?: string;
 }
 
@@ -40,10 +44,12 @@ export function StepActions({
   onSkip,
   backLabel,
   onBack,
+  lead,
   className,
 }: StepActionsProps) {
   return (
     <div className={["step-actions", className].filter(Boolean).join(" ")}>
+      {lead ? <div className="step-actions__lead">{lead}</div> : null}
       <div className="step-actions__row">
         <Button variant={primaryVariant} onClick={onPrimary} disabled={primaryDisabled}>
           {primaryLabel}

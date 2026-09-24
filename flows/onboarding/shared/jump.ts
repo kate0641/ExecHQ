@@ -1,4 +1,5 @@
 import {
+  DIRECTION_PROMPTS_C1,
   PROMPTED_DIRECTIONS,
   REFINEMENT_BY_NEED,
   REFINEMENT_QUESTIONS,
@@ -28,8 +29,9 @@ export function jumpState(current: OnboardingState, step: OnboardingStep): Onboa
   const was = current.answers;
 
   const sampleDirection =
-    PROMPTED_DIRECTIONS.find((p) => p.id === SAMPLE_ANSWERS.directionId) ??
-    PROMPTED_DIRECTIONS[0];
+    [...DIRECTION_PROMPTS_C1, ...PROMPTED_DIRECTIONS].find(
+      (p) => p.id === SAMPLE_ANSWERS.directionId
+    ) ?? PROMPTED_DIRECTIONS[0];
   const hasDirection = past("direction") && was.direction !== null;
   const direction = past("direction")
     ? hasDirection
@@ -67,6 +69,7 @@ export function jumpState(current: OnboardingState, step: OnboardingStep): Onboa
     customPlan: keepCustom ? was.customPlan : {},
     customPlanDraftSaved: keepCustom ? was.customPlanDraftSaved : false,
     artifactSaved: past("artifact") ? was.artifactSaved : false,
+    positioning: past("artifact") ? was.positioning : initialState.answers.positioning,
     connections: past("connect") ? was.connections : {},
   };
 

@@ -18,6 +18,39 @@ export type ConnectionState = "offered" | "connected" | "declined" | "failed";
 export type PlanSource = "recommended" | "switched" | "custom";
 export type DirectionSource = "prompted" | "free";
 
+/** What the Positioning Builder is given on its build page. Every field is
+ *  optional: anything left empty stays a gap in the outputs. */
+export interface PositioningInputs {
+  name: string;
+  role: string;
+  own: string;
+  teamSize: string;
+  strengths: string[];
+  result: string;
+  audience: string;
+  showFirst: string;
+  source: string;
+  /** The user's own rewrite of an output, keyed by output. Wins over the
+   *  generated text until the inputs are changed and it is rebuilt. */
+  edits: Record<string, string>;
+  /** True once "Build my story" has been pressed: the outputs page shows. */
+  built: boolean;
+}
+
+export const emptyPositioning: PositioningInputs = {
+  name: "",
+  role: "",
+  own: "",
+  teamSize: "",
+  strengths: [],
+  result: "",
+  audience: "",
+  showFirst: "narrative",
+  source: "",
+  edits: {},
+  built: false,
+};
+
 export interface OnboardingAnswers {
   inviteCode: string | null;
   email: string | null;
@@ -34,6 +67,7 @@ export interface OnboardingAnswers {
   customPlan: Record<string, string>;
   customPlanDraftSaved: boolean;
   artifactSaved: boolean;
+  positioning: PositioningInputs;
   connections: Record<string, ConnectionState>;
 }
 
@@ -64,6 +98,7 @@ export const initialState: OnboardingState = {
     customPlan: {},
     customPlanDraftSaved: false,
     artifactSaved: false,
+    positioning: emptyPositioning,
     connections: {},
   },
   refinementIndex: 0,
@@ -75,10 +110,16 @@ export const initialState: OnboardingState = {
 export type OnboardingAction =
   | { type: "set-invite-code"; code: string | null }
   | { type: "set-email"; email: string }
+  | { type: "set-positioning"; patch: Partial<PositioningInputs> }
   | { type: "set-direction"; direction: string; source: DirectionSource }
   | { type: "edit-interpretation"; interpretation: string }
   | { type: "answer-refinement"; id: string; value: string }
   | { type: "skip-refinement"; id: string }
+  /** For a concept whose refinement set varies in length: move to a question
+   *  by index, and record a skip without moving. The fixed-length reducer
+   *  count does not apply to either. */
+  | { type: "refinement-to"; index: number }
+  | { type: "note-skip"; id: string }
   | { type: "skip-all-refinement" }
   | { type: "select-plan"; planId: string; source: PlanSource }
   | { type: "open-custom-plan" }
@@ -145,6 +186,15 @@ export function makeReducer(refinementCount: number, customPlanCount: number) {
       case "set-email":
         return { ...state, answers: { ...state.answers, email: action.email } };
 
+      case "set-positioning":
+        return {
+          ...state,
+          answers: {
+            ...state.answers,
+            positioning: { ...state.answers.positioning, ...action.patch },
+          },
+        };
+
       case "set-direction":
         return {
           ...state,
@@ -182,6 +232,12 @@ export function makeReducer(refinementCount: number, customPlanCount: number) {
       // Skipping leaves the refinement step entirely and lands on whatever comes
       // next in the list, rather than naming a destination — the step order has
       // moved once already and a hard-coded target would have gone stale silently.
+      case "refinement-to":
+        return { ...state, refinementIndex: action.index };
+
+      case "note-skip":
+        return { ...state, skipped: addSkip(state.skipped, action.id) };
+
       case "skip-all-refinement":
         return withVisit(
           { ...state, skipped: addSkip(state.skipped, "refinement") },

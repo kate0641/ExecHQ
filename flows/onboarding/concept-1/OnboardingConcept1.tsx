@@ -18,11 +18,11 @@ import {
   PlanScreen,
   RefinementScreen,
 } from "./screens/PlanScreens";
+import { CompleteScreen, ConnectScreen } from "./screens/OutputScreens";
 import {
-  ArtifactScreen,
-  CompleteScreen,
-  ConnectScreen,
-} from "./screens/OutputScreens";
+  PositioningBuildScreen,
+  PositioningOutputScreen,
+} from "./screens/BuilderScreens";
 import type { ScreenProps } from "./screens/types";
 
 /**
@@ -60,7 +60,16 @@ const SHOWN_STEPS: OnboardingStep[] = [
   "complete",
 ];
 
-const STEP_NAV = stepNavItems(SHOWN_STEPS);
+/** The Positioning Builder is one step in the flow and two pages on screen:
+ *  inputs, then outputs. The step bar and the progress marks both show two. */
+const BUILDER_PAGES = [
+  { id: "artifact-build", label: "Build" },
+  { id: "artifact-story", label: "Your story" },
+];
+
+const STEP_NAV = stepNavItems(SHOWN_STEPS).flatMap((item) =>
+  item.id === "artifact" ? BUILDER_PAGES : [item]
+);
 
 /**
  * The steps the progress marks count. The welcome and the privacy promise are
@@ -68,6 +77,16 @@ const STEP_NAV = stepNavItems(SHOWN_STEPS);
  * the first question is "1 of 7" rather than "3 of 9".
  */
 const PROGRESS_STEPS = SHOWN_STEPS.slice(SHOWN_STEPS.indexOf("direction"));
+/** One more mark than steps: the builder's two pages each have one. */
+const PROGRESS_TOTAL = PROGRESS_STEPS.length + 1;
+
+/** 1-based progress position, counting the builder as two marks. */
+function progressPosition(step: OnboardingStep, built: boolean): number {
+  const index = Math.max(PROGRESS_STEPS.indexOf(step), 0);
+  const builderIndex = PROGRESS_STEPS.indexOf("artifact");
+  const pastBuild = index > builderIndex || (index === builderIndex && built);
+  return index + 1 + (pastBuild ? 1 : 0);
+}
 
 /** Which step bar entry the flow is on. The steps this concept steps over
  *  render the draft screen, so that is where the bar says the user is. */
@@ -79,11 +98,22 @@ export function OnboardingConcept1() {
   const flow = useOnboardingFlow();
   const { state } = flow;
   const headingId = useId();
-  const stepKey = `${state.step}-${state.refinementIndex}-${state.customPlanIndex}`;
+  const built = state.answers.positioning.built;
+  const stepKey = `${state.step}-${state.refinementIndex}-${state.customPlanIndex}-${built}`;
   const previousKey = useRef(stepKey);
 
-  useStepNav(STEP_NAV, shownStep(state.step), (id) =>
-    flow.jumpTo(id as OnboardingStep)
+  const current = shownStep(state.step);
+  useStepNav(
+    STEP_NAV,
+    current === "artifact" ? (built ? "artifact-story" : "artifact-build") : current,
+    (id) => {
+      if (id.startsWith("artifact-")) {
+        flow.jumpTo("artifact");
+        flow.dispatch({ type: "set-positioning", patch: { built: id === "artifact-story" } });
+        return;
+      }
+      flow.jumpTo(id as OnboardingStep);
+    }
   );
 
   // Move focus to the new step's heading when the step changes, so focus is
@@ -95,12 +125,10 @@ export function OnboardingConcept1() {
     document.getElementById(headingId)?.focus();
   }, [stepKey, headingId]);
 
-  const progressIndex = PROGRESS_STEPS.indexOf(shownStep(state.step));
-
   const screenProps: ScreenProps = {
     flow,
-    step: Math.max(progressIndex, 0) + 1,
-    total: PROGRESS_STEPS.length,
+    step: progressPosition(current, built),
+    total: PROGRESS_TOTAL,
     headingId,
   };
 
@@ -130,7 +158,11 @@ export function OnboardingConcept1() {
     case "plan-confirmed":
     case "action":
     case "artifact":
-      return <ArtifactScreen {...screenProps} />;
+      return built ? (
+        <PositioningOutputScreen {...screenProps} />
+      ) : (
+        <PositioningBuildScreen {...screenProps} />
+      );
     case "connect":
       return <ConnectScreen {...screenProps} />;
     case "complete":

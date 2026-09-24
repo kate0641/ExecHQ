@@ -6,6 +6,7 @@ export {
   type OnboardingStep,
 } from "./steps";
 export {
+  emptyPositioning,
   hasSkippedRefinement,
   initialState,
   makeReducer,
@@ -16,6 +17,7 @@ export {
   type OnboardingAnswers,
   type OnboardingState,
   type PlanSource,
+  type PositioningInputs,
 } from "./state";
 export { jumpState } from "./jump";
 export { useDictation } from "./useDictation";

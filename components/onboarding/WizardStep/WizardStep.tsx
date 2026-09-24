@@ -27,6 +27,8 @@ export interface WizardStepProps {
   primaryDisabled?: boolean;
   /** Passed to StepActions. */
   primaryVariant?: ButtonVariant;
+  /** Pinned above the primary action, e.g. export links. */
+  actionsLead?: ReactNode;
   /** The skip path, in the top right. Its accessible name is this label; only a
    *  short word shows. */
   skipLabel?: string;
@@ -75,6 +77,7 @@ export function WizardStep({
   onPrimary,
   primaryDisabled,
   primaryVariant,
+  actionsLead,
   skipLabel,
   onSkip,
   backLabel,
@@ -136,6 +139,7 @@ export function WizardStep({
           onPrimary={onPrimary}
           primaryDisabled={primaryDisabled}
           primaryVariant={primaryVariant}
+          lead={actionsLead}
         />
       ) : null}
 

@@ -62,14 +62,15 @@ export function RefinementScreen({ flow, step, total, headingId }: ScreenProps) 
     settle.current = setTimeout(() => {
       settle.current = null;
       if (isLast) leave();
-      else dispatch({ type: "next" });
+      else dispatch({ type: "refinement-to", index: index + 1 });
     }, ANSWER_SETTLE_MS);
   }
 
   function skip() {
     if (settle.current) return;
-    dispatch({ type: "skip-refinement", id: question.id });
+    dispatch({ type: "note-skip", id: question.id });
     if (isLast) leave();
+    else dispatch({ type: "refinement-to", index: index + 1 });
   }
 
   return (
@@ -108,7 +109,7 @@ export function RefinementScreen({ flow, step, total, headingId }: ScreenProps) 
  * actually done anything.
  */
 export function PlanScreen({ flow, step, total, headingId }: ScreenProps) {
-  const { state, dispatch, derived, generating, withDelay } = flow;
+  const { state, dispatch, derived, generating } = flow;
   const [showOthers, setShowOthers] = useState(false);
   const othersId = useId();
 
@@ -139,8 +140,9 @@ export function PlanScreen({ flow, step, total, headingId }: ScreenProps) {
       planId: selectedId,
       source: selectedId === recommendedId ? "recommended" : "switched",
     });
+    // Straight to the builder's inputs; the writing pause comes when they
+    // press "Build my story".
     dispatch({ type: "go-to", step: "artifact" });
-    withDelay("drafting", () => {});
   }
 
   return (
