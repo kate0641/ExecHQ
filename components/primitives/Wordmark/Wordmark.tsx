@@ -6,6 +6,8 @@ export interface WordmarkProps {
   size?: WordmarkSize;
   /** A product line after the name, e.g. "Enterprise". Set lighter. */
   suffix?: string;
+  /** `span` where the wordmark sits inside a heading. */
+  as?: "p" | "span";
   className?: string;
 }
 
@@ -19,12 +21,12 @@ export interface WordmarkProps {
  * A paragraph rather than a heading: the wordmark names the product, not the
  * page, and a screen's h1 is what it is asking.
  */
-export function Wordmark({ size = "md", suffix, className }: WordmarkProps) {
+export function Wordmark({ size = "md", suffix, className, as: Tag = "p" }: WordmarkProps) {
   return (
-    <p className={["wordmark", `wordmark--${size}`, className].filter(Boolean).join(" ")}>
+    <Tag className={["wordmark", `wordmark--${size}`, className].filter(Boolean).join(" ")}>
       ExecHQ
       {suffix ? <span className="wordmark__suffix"> {suffix}</span> : null}
-    </p>
+    </Tag>
   );
 }
 

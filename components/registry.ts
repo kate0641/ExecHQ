@@ -51,6 +51,11 @@ import { thisWeekCardStates } from "./onboarding/ThisWeekCard/ThisWeekCard.state
 import { planTimelineStates } from "./onboarding/PlanTimeline/PlanTimeline.states";
 import { storyTextStates } from "./onboarding/StoryText/StoryText.states";
 import { revisionChipsStates } from "./onboarding/RevisionChips/RevisionChips.states";
+import { chatMessageStates } from "./chat/ChatMessage/ChatMessage.states";
+import { advisorMarkStates } from "./chat/AdvisorMark/AdvisorMark.states";
+import { quickRepliesStates } from "./chat/QuickReplies/QuickReplies.states";
+import { chatComposerStates } from "./chat/ChatComposer/ChatComposer.states";
+import { chatWelcomeStates, introCardStates } from "./chat/ChatWelcome/ChatWelcome.states";
 
 export const registry: RegisteredComponent[] = [
   badgeStates,
@@ -94,6 +99,12 @@ export const registry: RegisteredComponent[] = [
   planTimelineStates,
   storyTextStates,
   revisionChipsStates,
+  chatMessageStates,
+  advisorMarkStates,
+  quickRepliesStates,
+  chatComposerStates,
+  chatWelcomeStates,
+  introCardStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */

@@ -7,6 +7,7 @@ export type IconName =
   | "shield"
   | "lock"
   | "mic"
+  | "send"
   | "check"
   | "document"
   | "link"
@@ -75,6 +76,8 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <path d="M4.5 9.5a5.5 5.5 0 0011 0M10 15v2.5" />
     </>
   ),
+  // Sending a message: an arrow up, out of the field.
+  send: <path d="M10 16V4M5 9l5-5 5 5" />,
   check: <path d="M4 10.4l3.6 3.6L16 5.6" />,
   document: (
     <>

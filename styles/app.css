@@ -3466,6 +3466,433 @@ samp {
   gap: var(--space-md);
 }
 
+/* --- Concept 2: the chat ---------------------------------------------------- */
+/* A conversation from the first moment. The chat fills the screen: header,
+   a thread that scrolls on its own, and a foot with quick replies over the
+   composer. */
+
+.chrome:has(.chat) {
+  height: 100%;
+  min-height: 0;
+}
+
+.chrome__main:has(> .chat) {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  width: 100%;
+  max-width: var(--content-measure);
+  margin: 0 auto;
+}
+
+.chat__head {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  padding: var(--space-2xs) var(--space-lg) var(--space-sm);
+  border-bottom: var(--border-subtle);
+}
+
+.chat__quote {
+  font-family: var(--font-serif);
+  font-size: var(--text-sm);
+  font-style: italic;
+  color: var(--color-text-secondary);
+}
+
+.chat__avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-tight);
+}
+
+.chat__avatar {
+  width: var(--space-xl);
+  height: var(--space-xl);
+  font-size: var(--text-2xs);
+}
+
+.chat__name {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-text-primary);
+}
+
+.chat__name:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.chat__role {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-muted);
+}
+
+.chat__thread {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-md);
+  overflow-y: auto;
+}
+
+.chat__foot {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm) var(--space-lg);
+  background-color: var(--color-surface);
+  border-top: var(--border-subtle);
+}
+
+/* The open door: the empty chat is the welcome. */
+.chat-welcome {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  padding: 0 var(--space-md);
+  text-align: center;
+}
+
+.chat-welcome__mark {
+  color: var(--color-text-primary);
+}
+
+.chat-welcome__title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text-primary);
+  text-wrap: balance;
+}
+
+.chat-welcome__title:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.chat-welcome__quote {
+  font-family: var(--font-serif);
+  font-size: var(--text-md);
+  font-style: italic;
+  color: var(--color-text-primary);
+}
+
+.chat-welcome__lede,
+.chat-welcome__ask {
+  font-size: var(--text-md);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+  text-wrap: balance;
+}
+
+/* What the welcome folds into: the record of who you are talking to. */
+.intro-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+}
+
+.intro-card__quote {
+  font-family: var(--font-serif);
+  font-size: var(--text-md);
+  font-style: italic;
+  line-height: var(--leading-snug);
+  color: var(--color-text-inverse-muted);
+}
+
+/* Messages. ExecHQ's words sit on the page, uncontained, with the mark and
+   name at the start of each run; the user's are dark bubbles on the right. */
+.chat-message {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.chat-message--advisor {
+  align-self: stretch;
+}
+
+.chat-message--advisor.chat-message--lead {
+  margin-top: var(--space-sm);
+}
+
+.chat-message--advisor.chat-message--lead:first-child {
+  margin-top: 0;
+}
+
+.chat-message--you {
+  align-self: flex-end;
+  align-items: flex-end;
+  gap: var(--space-3xs);
+  max-width: 82%;
+  margin-top: var(--space-sm);
+}
+
+.chat-message__from {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.chat-message__body {
+  min-width: 0;
+  font-size: var(--text-md);
+  line-height: var(--leading-normal);
+  overflow-wrap: anywhere;
+}
+
+.chat-message--advisor .chat-message__body {
+  color: var(--color-text-primary);
+}
+
+.chat-message--you .chat-message__body {
+  padding: var(--space-xs) var(--space-sm);
+  color: var(--color-text-inverse);
+  background-color: var(--color-surface-inverse);
+  border-radius: var(--radius-lg);
+  border-bottom-right-radius: var(--radius-xs);
+}
+
+.chat-message__edit {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-secondary);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.chat-message__typing {
+  display: inline-flex;
+  align-self: flex-start;
+  gap: var(--space-3xs);
+  padding: var(--space-xs) 0;
+}
+
+.chat-message__typing > span {
+  width: var(--space-2xs);
+  height: var(--space-2xs);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-text-muted);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .chat-message__typing > span {
+    animation: chat-typing 1s var(--easing-standard) infinite;
+  }
+
+  .chat-message__typing > span:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+
+  .chat-message__typing > span:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+
+  .chat-message {
+    animation: chat-in 0.22s var(--easing-standard);
+  }
+}
+
+@keyframes chat-typing {
+  0%,
+  60%,
+  100% {
+    opacity: 0.4;
+    translate: 0 0;
+  }
+  30% {
+    opacity: 1;
+    translate: 0 calc(-1 * var(--space-3xs));
+  }
+}
+
+@keyframes chat-in {
+  from {
+    opacity: 0;
+    translate: 0 var(--space-2xs);
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+.chat-hint {
+  display: block;
+  margin-top: var(--space-3xs);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.chat-readback {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  font-size: var(--text-md);
+  line-height: var(--leading-normal);
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-raised);
+  border: var(--border-thin);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.chat-readback__close {
+  font-weight: var(--weight-medium);
+}
+
+/* Quick replies: tap to answer. */
+/* One row that scrolls sideways, so the foot of the chat never grows with the
+   number of answers. The first chip's auto margin keeps a short row to the
+   right, beside the user's side of the conversation; a long row starts at the
+   left edge so all of it can be scrolled to. */
+.quick-replies {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--space-2xs);
+  margin: 0 calc(-1 * var(--space-sm));
+  padding: var(--space-3xs) 0;
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  /* Snapping would otherwise pull the first chip flush to the edge. */
+  scroll-padding-inline: var(--space-sm);
+  scrollbar-width: none;
+}
+
+.quick-replies::-webkit-scrollbar {
+  display: none;
+}
+
+/* The row's inset at each end. Padding on a scrolling flex row is dropped at
+   the far end, so spacers hold it instead. */
+.quick-replies::before,
+.quick-replies::after {
+  content: "";
+  flex: 0 0 var(--space-sm);
+}
+
+.quick-replies > li {
+  flex: none;
+  scroll-snap-align: start;
+}
+
+.quick-replies > li:first-child {
+  margin-left: auto;
+}
+
+.quick-replies__chip {
+  white-space: nowrap;
+  padding: var(--space-xs) var(--space-sm);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-primary);
+  background-color: var(--color-surface);
+  border: var(--border-width-thin) solid var(--color-text-primary);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+}
+
+.quick-replies__chip:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.quick-replies__chip.is-quiet {
+  color: var(--color-text-secondary);
+  border-color: var(--color-border-strong);
+}
+
+/* The composer. */
+.chat-composer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.chat-composer__field {
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--text-md);
+  color: var(--color-text-primary);
+  background-color: var(--color-surface);
+  border: var(--border-strong);
+  border-radius: var(--radius-pill);
+}
+
+.chat-composer__field:focus-visible {
+  outline: var(--border-width-medium) solid transparent;
+  outline-offset: calc(var(--border-width-medium) * -1);
+  border-color: var(--color-text-primary);
+  box-shadow: inset 0 0 0 var(--border-width-thin) var(--color-text-primary);
+}
+
+.chat-composer__field[aria-disabled="true"] {
+  background-color: var(--color-surface-sunken);
+}
+
+.chat-composer__send {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--space-2xl);
+  height: var(--space-2xl);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+  cursor: pointer;
+}
+
+.chat-composer__send:disabled {
+  background-color: var(--color-surface-disabled);
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+
 /* --- Concept 2: the conversational intake --------------------------------- */
 
 .thread {

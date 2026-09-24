@@ -568,6 +568,11 @@ function withFullStop(text: string): string {
   return /[.!?]$/.test(text) ? text : `${text}.`;
 }
 
+/** First person to second, whatever the sentence starts with. */
+function toSecondPerson(text: string): string {
+  return PRONOUNS.reduce((out, [pattern, to]) => out.replace(pattern, to), text);
+}
+
 /** The opening of the read-back: the direction, in the user's own words. */
 function directionReadback(direction: string): string {
   const text = direction.trim();
@@ -588,7 +593,13 @@ function directionReadback(direction: string): string {
  */
 export function readBack(direction: string, answers: Record<string, string>): string {
   const sentences = refinementFor(direction)
-    .map((question) => question.options.find((o) => o.value === answers[question.id])?.heard)
+    .map((question) => {
+      const value = answers[question.id];
+      if (!value) return undefined;
+      // A typed answer, rather than a chosen one, is said back in their words.
+      const option = question.options.find((o) => o.value === value);
+      return option ? option.heard : withFullStop(sentenceCase(toSecondPerson(value.trim())));
+    })
     .filter((sentence): sentence is string => Boolean(sentence));
   return [directionReadback(direction), ...sentences].join(" ");
 }
@@ -1816,6 +1827,57 @@ export function nextUseFor(audience: string, nextStage: string | undefined): str
 export function segmentsToText(segments: StorySegment[]): string {
   return segments.map((segment) => ("gap" in segment ? `[${segment.gap}]` : segment.text)).join("");
 }
+
+/* -----------------------------------------------------------------------------
+   CHAT (Concept 2)
+   -------------------------------------------------------------------------- */
+
+/* Concept 2 is a conversation from the first moment. It says Concept 1's
+   things in ExecHQ's own voice, so the logic is shared and only the telling
+   differs. */
+
+export const CHAT_C2 = {
+  advisor: "ExecHQ",
+  role: "Your advisor",
+  welcomeTitle: "Welcome to ExecHQ",
+  welcomeQuote: "Somewhere to work on what comes next.",
+  welcomeLede:
+    "I\u2019m a private career advisor. I take you from \u201cI\u2019d like to be\u201d to \u201cI\u2019m going to be\u201d. I don\u2019t just show you the way. I work for you to get you there.",
+  welcomeAsk: "Start with your email and we\u2019ll take it from there.",
+  emailPlaceholder: "Your email",
+  invite: "Do you have an invite code?",
+  inviteNo: "No, I don\u2019t",
+  invitePlaceholder: "Your invite code",
+  inviteThanks: "Got it, that\u2019s added.",
+  privacyLead: "Thanks. Before we go any further, one thing you should know.",
+  privacy: "Private by design.",
+  privacyBody: "I respect your data. It\u2019s your eyes only.",
+  privacyReply: "Good to know",
+  direction: "Where do you want to go next?",
+  directionHint: "A role, a timeline, or just a feeling. Type it, say it, or start with one of these.",
+  directionPlaceholder: "In your own words",
+  refinementLead: "A few quick questions so I can build a plan that fits you. Skip any you like.",
+  skip: "Skip this one",
+  skipped: "Skip",
+  answerPlaceholder: "Or type your own answer",
+  interpretLead: "Here\u2019s what I heard.",
+  interpretClose: "Next, I\u2019ll build a plan around this.",
+  confirm: "That\u2019s right",
+  change: "Change it",
+  changePlaceholder: "Say it how you\u2019d put it",
+  changed: "Thanks. That\u2019s what I\u2019ll build on.",
+  edit: "Change this answer",
+  waiting: "Choose an answer above, or type",
+  stageEnd: "Your plan is built in the next stage of this concept.",
+  /** What the simulated mic "hears" for each kind of question. */
+  voice: {
+    email: { full: "maya.chen@example.com" },
+    invite: { full: "EXEC-4821" },
+    reply: { full: "Good to know" },
+    answer: { full: "Honestly, nobody above me sees the work my team does." },
+    confirm: { full: "That\u2019s right" },
+  },
+} as const;
 
 /* -----------------------------------------------------------------------------
    SIMULATED WORK

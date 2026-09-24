@@ -15,15 +15,28 @@ const WORD_MS = 180;
  * sample; a field with something in it — a prompt, say — gets the addition,
  * after a comma. Reduced motion types it all at once.
  */
-export function useDictation(value: string, setValue: (next: string) => void) {
+export interface DictationSample {
+  /** What is "heard" into an empty field. */
+  full: string;
+  /** What is "heard" after something already typed. Omit to replace it. */
+  addition?: string;
+}
+
+export function useDictation(
+  value: string,
+  setValue: (next: string) => void,
+  sample: DictationSample = VOICE_SAMPLE
+) {
   const [listening, setListening] = useState(false);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
   // The words go in through the latest value, not the one the timer started
   // with, so it never overwrites anything typed or chosen meanwhile.
   const valueRef = useRef(value);
+  const sampleRef = useRef(sample);
   useEffect(() => {
     valueRef.current = value;
-  }, [value]);
+    sampleRef.current = sample;
+  });
 
   const stop = useCallback(() => {
     if (timer.current) clearInterval(timer.current);
@@ -34,8 +47,9 @@ export function useDictation(value: string, setValue: (next: string) => void) {
   useEffect(() => stop, [stop]);
 
   const start = useCallback(() => {
-    const current = valueRef.current.trim();
-    const words = (current ? VOICE_SAMPLE.addition : VOICE_SAMPLE.full).split(" ");
+    const { full, addition } = sampleRef.current;
+    const current = addition ? valueRef.current.trim() : "";
+    const words = (current ? addition! : full).split(" ");
     let text = current ? `${current.replace(/[.,]$/, "")},` : "";
     let index = 0;
 

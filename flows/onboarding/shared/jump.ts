@@ -5,7 +5,16 @@ import {
   REFINEMENT_QUESTIONS,
   SAMPLE_ANSWERS,
   recommendPlan,
+  refinementFor,
 } from "@/mock/onboarding";
+
+/** Sample answers for a jump past refinement: the first option of each
+ *  question this direction is asked, so the read-back has something real. */
+function sampleRefinement(direction: string): Record<string, string> {
+  return Object.fromEntries(
+    refinementFor(direction).map((question) => [question.id, question.options[0].value])
+  );
+}
 import { initialState, type OnboardingState } from "./state";
 import { ONBOARDING_STEPS, stepIndex, type OnboardingStep } from "./steps";
 
@@ -58,7 +67,7 @@ export function jumpState(current: OnboardingState, step: OnboardingStep): Onboa
     refinement: past("refinement")
       ? refinementTouched
         ? was.refinement
-        : { ...SAMPLE_ANSWERS.refinement }
+        : sampleRefinement(direction ?? "")
       : {},
     planId: past("plan")
       ? hasPlan
