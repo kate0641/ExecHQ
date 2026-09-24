@@ -10,7 +10,7 @@ import { createContext, useContext, useEffect, type Dispatch, type SetStateActio
  * needs the inverse status bar asks for it with `useStatusBarTone`, for as long
  * as it is mounted, and the frame goes back to the default when it unmounts.
  */
-export type StatusBarTone = "default" | "inverse";
+export type StatusBarTone = "default" | "inverse" | "sunken";
 
 export const StatusBarToneSetter = createContext<Dispatch<
   SetStateAction<StatusBarTone>

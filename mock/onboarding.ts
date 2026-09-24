@@ -198,6 +198,19 @@ export const VOICE_SAMPLE = {
   addition: "ideally leading a broader marketing organisation.",
 } as const;
 
+/** Concept 1's interpretation screen. */
+export const INTERPRETATION_C1 = {
+  heading: "Here\u2019s what we heard",
+  hint: "Change anything that\u2019s off.",
+  from: "ExecHQ",
+  role: "Your advisor",
+  /** When every question was skipped, said inside the note. */
+  assumed: "You skipped the questions, so this is based on your goal alone. You can make it more specific later.",
+  bridge: "Next, we\u2019ll build a plan around this.",
+  edit: "Change it",
+  confirm: "That\u2019s right",
+} as const;
+
 /* -----------------------------------------------------------------------------
    INTERPRETATION
    -------------------------------------------------------------------------- */
@@ -333,7 +346,14 @@ export const REFINEMENT_QUESTIONS: RefinementQuestionSpec[] = [
    to the user. Each question can echo its answer into the plan's reasoning,
    so the answers visibly count. */
 
+export interface HeardOption extends RefinementOption {
+  /** How the interpretation says this answer back: a full sentence in the
+   *  second person that says what the answer means, not only what it was. */
+  heard: string;
+}
+
 export interface TailoredQuestion extends RefinementQuestionSpec {
+  options: HeardOption[];
   /** Leave the question out when the direction already answers it. */
   skipIf?: RegExp[];
   /** One sentence for the plan's "Why this one", with {answer} standing in
@@ -348,12 +368,20 @@ export const REFINEMENT_C1 = {
 } as const;
 
 /** Timing already stated: "in 3 years", "next year", "this month"… */
-const SAYS_WHEN = [/\b\d+\s*(year|yr|month|week)s?\b/i, /\b(next|this) (year|month|week|quarter)\b/i, /\bwithin a year\b/i];
+const SAYS_WHEN = [/\b(\d+|one|two|three|four|five|six|ten)\s*(year|yr|month|week)s?\b/i, /\b(next|this) (year|month|week|quarter)\b/i, /\bwithin a year\b/i];
 /** The moment already named. */
 const SAYS_WHAT_MOMENT = [/board/i, /review/i, /promotion conversation/i, /negotiat/i, /interview/i, /presentation/i];
 
 const opts = (...labels: string[]): RefinementOption[] =>
   labels.map((label) => ({ value: label.toLowerCase().replace(/[^a-z0-9]+/g, "-"), label }));
+
+/** Pairs each option, in order, with how the read-back says it. */
+const withHeard =
+  (...phrases: string[]) =>
+  (option: RefinementOption, index: number): HeardOption => ({
+    ...option,
+    heard: phrases[index],
+  });
 
 export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
   positioning: [
@@ -361,14 +389,14 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       id: "scope-kind",
       question: "What kind of step up?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("Bigger team", "Broader remit", "A seat at the top table", "A new title"),
+      options: opts("Bigger team", "Broader remit", "A seat at the top table", "A new title").map(withHeard("A bigger team matters most to you: more people, and the weight that comes with leading them.", "A broader remit matters most to you: owning more of the business, not just more of the same work.", "A seat at the top table matters most to you: being in the room where the big calls get made.", "The title matters most to you: being named for the role, not just doing the work.")),
       echo: "It builds the evidence around the step up you picked: \u201c{answer}\u201d.",
     },
     {
       id: "scope-when",
       question: "When do you want to get there?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("Within a year", "1\u20132 years", "3+ years", "No fixed timeline"),
+      options: opts("Within a year", "1\u20132 years", "3+ years", "No fixed timeline").map(withHeard("You want it within a year, so this is a near-term move, not a long campaign.", "You\u2019re giving it one to two years, which is enough time to build the case properly.", "You\u2019re playing a longer game of three years or more, so there\u2019s room to build step by step.", "You haven\u2019t set a timeline, so the pace can fit around your job.")),
       skipIf: SAYS_WHEN,
       echo: "It is paced to your timeline: \u201c{answer}\u201d.",
     },
@@ -376,7 +404,7 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       id: "scope-block",
       question: "What\u2019s in the way?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("No clear path up", "Nobody sees my work", "I can\u2019t make my case", "Wrong company for it"),
+      options: opts("No clear path up", "Nobody sees my work", "I can\u2019t make my case", "Wrong company for it").map(withHeard("Right now there\u2019s no clear path up, so part of the job is finding one, or making one.", "Right now nobody sees your work. The results are there; the people deciding just aren\u2019t looking at them.", "Right now you can\u2019t quite make your case. You know you\u2019re ready; it\u2019s putting it into words that\u2019s hard.", "You suspect you\u2019re in the wrong company for it, so the next step may not be where you are now.")),
       echo: "Its first stage tackles what is in the way: \u201c{answer}\u201d.",
     },
   ],
@@ -385,21 +413,21 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       id: "influence-where",
       question: "Where do you want more say?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("My team\u2019s direction", "Company strategy", "Budget and headcount", "Across other teams"),
+      options: opts("My team\u2019s direction", "Company strategy", "Budget and headcount", "Across other teams").map(withHeard("You want more say in your team\u2019s direction: setting it, not just delivering it.", "You want more say in company strategy: a voice in where the business goes, not only in how your part gets there.", "You want more say over budget and headcount, which is where influence becomes real.", "You want more say across other teams, beyond the part of the business you run.")),
       echo: "It starts where you want more say: \u201c{answer}\u201d.",
     },
     {
       id: "influence-who",
       question: "Who do you most need on side?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("My boss", "My boss\u2019s peers", "The exec team", "My own team"),
+      options: opts("My boss", "My boss\u2019s peers", "The exec team", "My own team").map(withHeard("Your boss is who you most need on side, so that relationship comes first.", "Your boss\u2019s peers are who you most need on side: the people whose view of you travels upward.", "The exec team is who you most need on side: the people who decide what you get to lead.", "Your own team is who you most need on side, because influence starts with the people who already follow you.")),
       echo: "The first moves are aimed at who you need on side: \u201c{answer}\u201d.",
     },
     {
       id: "influence-block",
       question: "What\u2019s holding you back?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("I\u2019m not in the room", "I\u2019m in the room but not heard", "Too junior on paper", "Politics"),
+      options: opts("I\u2019m not in the room", "I\u2019m in the room but not heard", "Too junior on paper", "Politics").map(withHeard("You\u2019re not in the room yet. The decisions that matter to you are made without you.", "You\u2019re in the room but not heard. You\u2019re there, but your view doesn\u2019t carry.", "You\u2019re too junior on paper. Your title undersells what you actually do.", "Politics is getting in the way. Being right isn\u2019t enough; you need people behind you.")),
       echo: "Its first stage deals with what holds you back: \u201c{answer}\u201d.",
     },
   ],
@@ -408,21 +436,21 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       id: "presence-who",
       question: "Who needs to see you differently?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("Leaders in my company", "My industry", "Recruiters and boards", "All of them"),
+      options: opts("Leaders in my company", "My industry", "Recruiters and boards", "All of them").map(withHeard("Leaders in your company need to see you differently: as someone they\u2019d promote, not just rely on.", "Your industry needs to see you differently: known beyond your own company.", "Recruiters and boards need to see you differently: as someone on their shortlist.", "Everyone who matters needs to see you differently, inside your company and out.")),
       echo: "It starts with the audience you named: \u201c{answer}\u201d.",
     },
     {
       id: "presence-now",
       question: "How do they see you now?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("Strong operator", "Specialist", "Hard worker, low profile", "Not sure"),
+      options: opts("Strong operator", "Specialist", "Hard worker, low profile", "Not sure").map(withHeard("Today they see a strong operator: someone who delivers, not yet someone who leads.", "Today they see a specialist: expert in one thing, not yet seen as broad enough to lead.", "Today they see a hard worker with a low profile. The work is good; it just isn\u2019t seen.", "You\u2019re not sure how they see you today, so finding out is part of the work.")),
       echo: "It starts from how you are read today: \u201c{answer}\u201d.",
     },
     {
       id: "presence-where",
       question: "Where do you show up today?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("Meetings only", "LinkedIn now and then", "Industry events", "Nowhere yet"),
+      options: opts("Meetings only", "LinkedIn now and then", "Industry events", "Nowhere yet").map(withHeard("Today you only show up in meetings, so your reputation depends on who\u2019s in the room.", "You show up on LinkedIn now and then, which is a start, but not yet a point of view.", "You show up at industry events, so there\u2019s already a stage to build on.", "You don\u2019t show up anywhere yet, so there\u2019s a clean slate to build on.")),
       echo: "It builds out from where you show up now: \u201c{answer}\u201d.",
     },
   ],
@@ -431,7 +459,7 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       id: "moment-what",
       question: "What\u2019s coming up?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("Promotion conversation", "Performance review", "Board or exec presentation", "Negotiation or offer"),
+      options: opts("Promotion conversation", "Performance review", "Board or exec presentation", "Negotiation or offer").map(withHeard("You have a promotion conversation coming up, and you want to walk in with a case, not a hope.", "You have a performance review coming up, and you want it to set up what\u2019s next, not just look back.", "You have a board or exec presentation coming up, the kind of moment people remember.", "You have a negotiation or offer coming up, where what you say in the moment matters.")),
       skipIf: SAYS_WHAT_MOMENT,
       echo: "Everything works back from what is coming up: \u201c{answer}\u201d.",
     },
@@ -439,7 +467,7 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       id: "moment-when",
       question: "When is it?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("This week", "This month", "Next few months", "Not scheduled yet"),
+      options: opts("This week", "This month", "Next few months", "Not scheduled yet").map(withHeard("It\u2019s this week, so there\u2019s only time for the essentials.", "It\u2019s this month, which is enough time to prepare properly if you start now.", "It\u2019s in the next few months, so there\u2019s time to prepare well rather than cram.", "It isn\u2019t scheduled yet, so you can be ready before the date is set.")),
       skipIf: SAYS_WHEN,
       echo: "It is paced to when that is: \u201c{answer}\u201d.",
     },
@@ -447,7 +475,7 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       id: "moment-ready",
       question: "How ready do you feel?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("Ready, want a check", "Know what, not how", "Not sure where to start", "Dreading it"),
+      options: opts("Ready, want a check", "Know what, not how", "Not sure where to start", "Dreading it").map(withHeard("You feel ready and want a second opinion before it counts.", "You know what you want to say, but not how to say it.", "You\u2019re not sure where to start, which is normal for a moment like this.", "You\u2019re dreading it, so part of the work is making it feel manageable.")),
       echo: "Its first stage meets you where you are: \u201c{answer}\u201d.",
     },
   ],
@@ -456,21 +484,21 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       id: "explore-why",
       question: "What\u2019s making you want a change?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("Hit a ceiling", "Lost interest", "Industry is shrinking", "Life has changed"),
+      options: opts("Hit a ceiling", "Lost interest", "Industry is shrinking", "Life has changed").map(withHeard("You\u2019ve hit a ceiling where you are, and staying put isn\u2019t going to move it.", "You\u2019ve lost interest in the work, so this is about what you want to do, not just where.", "Your industry is shrinking, so moving is about staying ahead, not just a change of scene.", "Your life has changed, and your career needs to fit its new shape.")),
       echo: "It starts from what is pushing you: \u201c{answer}\u201d.",
     },
     {
       id: "explore-keep",
       question: "What would you keep?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("My function", "My industry", "My seniority", "Nothing in particular"),
+      options: opts("My function", "My industry", "My seniority", "Nothing in particular").map(withHeard("You\u2019d keep your function: it\u2019s the setting that\u2019s wrong, not the work.", "You\u2019d keep your industry: you know it well, you just need a different place in it.", "You\u2019d keep your seniority, so any move has to be at your level or above.", "Nothing in particular has to stay, so every direction is open.")),
       echo: "The options it tests hold on to what you would keep: \u201c{answer}\u201d.",
     },
     {
       id: "explore-when",
       question: "How soon?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("Actively looking", "Within a year", "Just exploring", "Not sure"),
+      options: opts("Actively looking", "Within a year", "Just exploring", "Not sure").map(withHeard("You\u2019re actively looking, so this needs to move quickly.", "You want to move within a year, which gives time to test a few directions first.", "You\u2019re exploring rather than actively looking, so there\u2019s time to get this right before you commit.", "You\u2019re not sure how soon, and that\u2019s fine: working out the direction comes first.")),
       skipIf: SAYS_WHEN,
       echo: "It is paced to how soon you want this: \u201c{answer}\u201d.",
     },
@@ -482,6 +510,63 @@ export function refinementFor(direction: string): TailoredQuestion[] {
   return REFINEMENT_BY_NEED[interpretNeed(direction)].filter(
     (question) => !question.skipIf?.some((pattern) => pattern.test(direction))
   );
+}
+
+/** How each Concept 1 prompt is said back, when it is used as written. */
+const PROMPT_READBACK: Record<string, string> = {
+  "C-suite in 3 years": "You want to reach the C-suite within three years.",
+  "Take on more of a leadership role": "You want to take on more of a leadership role where you are.",
+  "Be seen as an executive": "You want to be seen as an executive.",
+  "Nail an upcoming board presentation": "You want to nail an upcoming board presentation.",
+  "Find my next move": "You\u2019re looking for your next move.",
+};
+
+/** First person to second, for saying a typed or spoken answer back. Crude
+ *  but honest: it keeps the user's own words rather than replacing them. */
+const PRONOUNS: [RegExp, string][] = [
+  [/\bI am\b/g, "you are"],
+  [/\bI\u2019m\b|\bI'm\b/g, "you\u2019re"],
+  [/\bI\u2019ve\b|\bI've\b/g, "you\u2019ve"],
+  [/\bI\u2019d\b|\bI'd\b/g, "you\u2019d"],
+  [/\bI\u2019ll\b|\bI'll\b/g, "you\u2019ll"],
+  [/\bI\b/g, "you"],
+  [/\bmyself\b/gi, "yourself"],
+  [/\bmine\b/gi, "yours"],
+  [/\bmy\b/gi, "your"],
+  [/\bme\b/gi, "you"],
+];
+
+function sentenceCase(text: string): string {
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+function withFullStop(text: string): string {
+  return /[.!?]$/.test(text) ? text : `${text}.`;
+}
+
+/** The opening of the read-back: the direction, in the user's own words. */
+function directionReadback(direction: string): string {
+  const text = direction.trim();
+  if (PROMPT_READBACK[text]) return PROMPT_READBACK[text];
+  if (/^i\b|^i\u2019|^i'/i.test(text)) {
+    const swapped = PRONOUNS.reduce((out, [pattern, to]) => out.replace(pattern, to), text);
+    return withFullStop(sentenceCase(swapped));
+  }
+  return `You\u2019re aiming for \u201c${text.replace(/[.]$/, "")}\u201d.`;
+}
+
+/**
+ * Concept 1's interpretation: what the user said, said back. The direction in
+ * their own words (a prompt restated, or typed and spoken answers turned from
+ * "I" to "you"), then a sentence per refinement answer saying what it means.
+ * Nothing is replaced with a stock sentence, so it can never contradict an
+ * answer. What the plan does about it is the plan screen's job, not this one.
+ */
+export function readBack(direction: string, answers: Record<string, string>): string {
+  const sentences = refinementFor(direction)
+    .map((question) => question.options.find((o) => o.value === answers[question.id])?.heard)
+    .filter((sentence): sentence is string => Boolean(sentence));
+  return [directionReadback(direction), ...sentences].join(" ");
 }
 
 /** The sentence the plan adds to its reasoning from the first answered

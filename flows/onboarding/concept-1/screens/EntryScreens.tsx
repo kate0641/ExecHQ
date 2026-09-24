@@ -3,10 +3,9 @@
 import { useId, useState } from "react";
 import { Input } from "@/components/form/Input";
 import { Button } from "@/components/primitives/Button";
-import { AssumptionNotice } from "@/components/onboarding/AssumptionNotice";
+import { AdvisorNote } from "@/components/onboarding/AdvisorNote";
 import { DirectionField } from "@/components/onboarding/DirectionField";
 import { GeneratingState } from "@/components/onboarding/GeneratingState";
-import { InterpretedDirection } from "@/components/onboarding/InterpretedDirection";
 import { Notice } from "@/components/onboarding/Notice";
 import { PrivacySplash } from "@/components/onboarding/PrivacySplash";
 import { WelcomeSplit } from "@/components/onboarding/WelcomeSplit";
@@ -15,10 +14,12 @@ import {
   DIRECTION_C1,
   DIRECTION_PROMPTS_C1,
   GENERATING_COPY,
+  INTERPRETATION_C1,
   PRIVACY_SPLASH,
   WELCOME,
   checkEmail,
   isValidInviteCode,
+  readBack,
   type PromptedDirection,
 } from "@/mock/onboarding";
 import { hasSkippedRefinement, useDictation } from "@/flows/onboarding/shared";
@@ -245,53 +246,56 @@ export function InterpretationScreen({
   total,
   headingId,
 }: ScreenProps) {
-  const { state, dispatch, derived, generating, withDelay } = flow;
+  const { state, dispatch, generating, withDelay } = flow;
+  // The screen is tinted so the note can lift off it; the status bar matches.
+  useStatusBarTone("sunken");
+  // Said back from the user's own inputs — their direction and their
+  // refinement answers — so it can never contradict what they just told us.
+  const heard = readBack(state.answers.direction ?? "", state.answers.refinement);
   const [editing, setEditing] = useState(false);
-  const [draft, setDraft] = useState(
-    state.answers.interpretation ?? derived?.interpretation ?? ""
-  );
+  const [draft, setDraft] = useState(state.answers.interpretation ?? heard);
 
   if (generating === "interpreting") {
     return (
-      <WizardStep step={step} total={total} title="One moment" headingId={headingId}>
+      <WizardStep
+        step={step}
+        total={total}
+        title="One moment"
+        headingId={headingId}
+        className="wizard--tinted"
+      >
         <GeneratingState label={GENERATING_COPY.interpreting} />
       </WizardStep>
     );
   }
 
-  const sentence = state.answers.interpretation ?? derived?.interpretation ?? "";
+  const sentence = state.answers.interpretation ?? heard;
 
   return (
     <WizardStep
       step={step}
       total={total}
-      eyebrow="What we heard"
-      title="Here is what we understood"
-      description="If this is not quite right, change it. Everything after this is built on it."
+      title={INTERPRETATION_C1.heading}
+      description={INTERPRETATION_C1.hint}
       headingId={headingId}
-      primaryLabel="Next"
+      primaryLabel={INTERPRETATION_C1.confirm}
       onPrimary={() => {
         dispatch({ type: "next" });
         withDelay("planning", () => {});
       }}
       primaryDisabled={editing}
-      backLabel="Back"
-      onBack={() => dispatch({ type: "back" })}
+      className="wizard--centred wizard--tinted"
     >
-      {/* Refinement comes before this screen now, so a skip lands here — which
-          makes this the place the assumption was actually made, and the place to
-          say so. On the plan screen it sat next to the plan's own reasoning and
-          the two read as one thought said twice. */}
-      {hasSkippedRefinement(state) && derived ? (
-        <AssumptionNotice
-          statement={derived.assumption.statement}
-          promise={derived.assumption.promise}
-        />
-      ) : null}
-
-      <InterpretedDirection
-        sentence={editing ? draft : sentence}
+      <AdvisorNote
+        from={INTERPRETATION_C1.from}
+        role={INTERPRETATION_C1.role}
+        body={editing ? draft : sentence}
+        // Refinement comes before this screen, so a skip lands here — which
+        // makes this the place to say the reading rests on the goal alone.
+        aside={hasSkippedRefinement(state) ? INTERPRETATION_C1.assumed : undefined}
+        closing={INTERPRETATION_C1.bridge}
         editing={editing}
+        editLabel={INTERPRETATION_C1.edit}
         onEdit={() => {
           setDraft(sentence);
           setEditing(true);
