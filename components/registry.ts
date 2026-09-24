@@ -41,6 +41,7 @@ import { canvasSectionStates } from "./onboarding/CanvasSection/CanvasSection.st
 import { canvasHeaderStates } from "./onboarding/CanvasHeader/CanvasHeader.states";
 import { directionDeckStates } from "./onboarding/DirectionDeck/DirectionDeck.states";
 import { welcomeSplitStates } from "./onboarding/WelcomeSplit/WelcomeSplit.states";
+import { privacySplashStates } from "./onboarding/PrivacySplash/PrivacySplash.states";
 
 export const registry: RegisteredComponent[] = [
   badgeStates,
@@ -74,6 +75,7 @@ export const registry: RegisteredComponent[] = [
   canvasHeaderStates,
   directionDeckStates,
   welcomeSplitStates,
+  privacySplashStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */

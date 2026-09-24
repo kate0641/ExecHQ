@@ -62,6 +62,13 @@ const SHOWN_STEPS: OnboardingStep[] = [
 
 const STEP_NAV = stepNavItems(SHOWN_STEPS);
 
+/**
+ * The steps the progress marks count. The welcome and the privacy promise are
+ * the opening, not work to get through, so the marks start at Direction and
+ * the first question is "1 of 7" rather than "3 of 9".
+ */
+const PROGRESS_STEPS = SHOWN_STEPS.slice(SHOWN_STEPS.indexOf("direction"));
+
 /** Which step bar entry the flow is on. The steps this concept steps over
  *  render the draft screen, so that is where the bar says the user is. */
 function shownStep(step: OnboardingStep): OnboardingStep {
@@ -88,12 +95,12 @@ export function OnboardingConcept1() {
     document.getElementById(headingId)?.focus();
   }, [stepKey, headingId]);
 
-  const shownIndex = SHOWN_STEPS.indexOf(state.step);
+  const progressIndex = PROGRESS_STEPS.indexOf(shownStep(state.step));
 
   const screenProps: ScreenProps = {
     flow,
-    step: (shownIndex === -1 ? 0 : shownIndex) + 1,
-    total: SHOWN_STEPS.length,
+    step: Math.max(progressIndex, 0) + 1,
+    total: PROGRESS_STEPS.length,
     headingId,
   };
 

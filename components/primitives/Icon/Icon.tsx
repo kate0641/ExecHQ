@@ -5,6 +5,7 @@ export type IconName =
   | "hub"
   | "chevron"
   | "shield"
+  | "lock"
   | "check"
   | "document"
   | "link"
@@ -57,6 +58,13 @@ const PATHS: Record<IconName, React.ReactNode> = {
     <>
       <path d="M10 2.5l6 2.2v4.6c0 3.6-2.4 6.5-6 8.2-3.6-1.7-6-4.6-6-8.2V4.7z" />
       <path d="M7.6 10.1l1.7 1.8 3.3-3.6" />
+    </>
+  ),
+  // Privacy, as an object rather than a badge: closed, with nothing showing.
+  lock: (
+    <>
+      <rect x="4" y="8.5" width="12" height="9" rx="2" />
+      <path d="M6.8 8.5V6.2a3.2 3.2 0 016.4 0v2.3" />
     </>
   ),
   check: <path d="M4 10.4l3.6 3.6L16 5.6" />,

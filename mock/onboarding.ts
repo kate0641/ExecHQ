@@ -71,6 +71,15 @@ export const PRIVACY = {
   action: "Understood",
 } as const;
 
+/** Concept 1's privacy screen: the same promise as PRIVACY, as short as it
+ *  can be said. */
+export const PRIVACY_SPLASH = {
+  titleLead: "Private",
+  titleRest: "by design",
+  lines: ["We respect your data.", "It’s your eyes only."],
+  action: "Good to know",
+} as const;
+
 /* -----------------------------------------------------------------------------
    DIRECTION
    -------------------------------------------------------------------------- */

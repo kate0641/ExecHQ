@@ -8,13 +8,13 @@ import { DirectionField } from "@/components/onboarding/DirectionField";
 import { GeneratingState } from "@/components/onboarding/GeneratingState";
 import { InterpretedDirection } from "@/components/onboarding/InterpretedDirection";
 import { Notice } from "@/components/onboarding/Notice";
-import { PrivacyPromise } from "@/components/onboarding/PrivacyPromise";
+import { PrivacySplash } from "@/components/onboarding/PrivacySplash";
 import { WelcomeSplit } from "@/components/onboarding/WelcomeSplit";
 import { WizardStep } from "@/components/onboarding/WizardStep";
 import {
   DIRECTION,
   GENERATING_COPY,
-  PRIVACY,
+  PRIVACY_SPLASH,
   PROMPTED_DIRECTIONS,
   WELCOME,
   checkEmail,
@@ -134,26 +134,20 @@ export function AccountScreen({ flow, headingId }: ScreenProps) {
 }
 
 /**
- * The privacy promise. Nothing to fill in and nothing to agree to — there is no
- * consent here to withhold, only a statement of fact, so the only control is
- * the one that moves on.
+ * The privacy promise, told as who does not see the account. Nothing to fill
+ * in and nothing to agree to, so the one control acknowledges it. No back
+ * button, by decision on 2026-09-24.
  */
-export function PrivacyScreen({ flow, step, total, headingId }: ScreenProps) {
+export function PrivacyScreen({ flow, headingId }: ScreenProps) {
   return (
-    <WizardStep
-      step={step}
-      total={total}
-      title={PRIVACY.heading}
+    <PrivacySplash
+      titleLead={PRIVACY_SPLASH.titleLead}
+      titleRest={PRIVACY_SPLASH.titleRest}
+      lines={PRIVACY_SPLASH.lines}
       headingId={headingId}
-      primaryLabel="Next"
+      primaryLabel={PRIVACY_SPLASH.action}
       onPrimary={() => flow.dispatch({ type: "next" })}
-      backLabel="Back"
-      onBack={() => flow.dispatch({ type: "back" })}
-    >
-      {/* No heading of its own: the step already carries these words as its
-          h1, and repeating them would put the same line in the outline twice. */}
-      <PrivacyPromise statements={PRIVACY.statements} />
-    </WizardStep>
+    />
   );
 }
 

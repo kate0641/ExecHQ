@@ -2238,7 +2238,8 @@ samp {
    line, and a white sheet with the welcome and the ask. Full-bleed, so the
    chrome's own padding is dropped around it. */
 
-.chrome__main:has(> .welcome) {
+.chrome__main:has(> .welcome),
+.chrome__main:has(> .privacy-splash) {
   display: flex;
   flex-direction: column;
   padding: 0;
@@ -2400,6 +2401,108 @@ samp {
 
 [data-viewport="mobile"] .privacy__statement {
   font-size: var(--text-md);
+}
+
+/* --- Privacy splash (Concept 1) ----------------------------------------- */
+/* The privacy promise as its own moment: centred, quiet, full-bleed like the
+   welcome. Part of the opening, so no progress marks. */
+
+.privacy-splash {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  padding: var(--space-lg) var(--space-lg) var(--space-xl);
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  text-align: center;
+}
+
+/* Centred in the space above the action, so the promise sits in the middle
+   of the screen rather than hanging off the top. */
+.privacy-splash__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-lg);
+}
+
+.privacy-splash__title {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  text-wrap: balance;
+}
+
+.privacy-splash__title:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-xs);
+}
+
+.privacy-splash__title-lead {
+  color: var(--color-text-primary);
+}
+
+.privacy-splash__title-rest {
+  color: var(--color-text-muted);
+}
+
+.privacy-splash__lines {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-md);
+  line-height: var(--leading-snug);
+  color: var(--color-text-secondary);
+}
+
+.privacy-splash__art {
+  display: grid;
+  place-items: center;
+  padding-block: var(--space-xl);
+}
+
+/* Where the gold accent will sit when the palette lands. */
+.privacy-splash__lock {
+  color: var(--color-accent);
+}
+
+.privacy-splash__footnote {
+  max-width: 28ch;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+  text-wrap: balance;
+}
+
+.privacy-splash__actions {
+  display: flex;
+  flex-direction: column;
+}
+
+[data-viewport="tablet"] .privacy-splash__actions,
+[data-viewport="web"] .privacy-splash__actions {
+  align-items: center;
+}
+
+[data-viewport="tablet"] .privacy-splash__actions .btn,
+[data-viewport="web"] .privacy-splash__actions .btn {
+  width: 100%;
+  max-width: 24rem;
+}
+
+[data-viewport="web"] .privacy-splash__title {
+  font-size: var(--text-4xl);
 }
 
 /* --- Direction field ------------------------------------------------------ */

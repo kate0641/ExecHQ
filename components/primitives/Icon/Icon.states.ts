@@ -24,6 +24,7 @@ export const iconStates = defineComponentStates({
       description: "Privacy. Closed, because the promise is that nothing leaves.",
       props: { name: "shield" },
     },
+    { label: "Lock", props: { name: "lock" } },
     { label: "Check", props: { name: "check" } },
     { label: "Document", props: { name: "document" } },
     { label: "Link", props: { name: "link" } },
