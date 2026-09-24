@@ -5,6 +5,9 @@ import { useId } from "react";
 export interface ChipGroupProps {
   /** The question. Rendered as the group's legend. */
   label: string;
+  /** Hides the legend visually where the question is already on screen
+   *  beside it. It stays the group's name for assistive technology. */
+  labelHidden?: boolean;
   /** A quiet note after the label, e.g. "Up to three". */
   note?: string;
   options: readonly string[];
@@ -27,6 +30,7 @@ export interface ChipGroupProps {
  */
 export function ChipGroup({
   label,
+  labelHidden = false,
   note,
   options,
   value,
@@ -48,7 +52,7 @@ export function ChipGroup({
 
   return (
     <fieldset className={["chip-group", className].filter(Boolean).join(" ")}>
-      <legend className="chip-group__label" id={legendId}>
+      <legend className={labelHidden ? "u-visually-hidden" : "chip-group__label"} id={legendId}>
         {label}
         {note ? <span className="chip-group__note"> {note}</span> : null}
       </legend>

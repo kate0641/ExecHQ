@@ -27,6 +27,14 @@ export interface GuidePageProps {
   onSecondary?: () => void;
   /** The opening page: no progress, the title set large. */
   cover?: boolean;
+  /** An AnswerDrawer, pinned under the page. The page scrolls above it. */
+  drawer?: ReactNode;
+  /** Whether that drawer is open. While it is, the question lives in the
+   *  drawer, so the heading's id (where focus lands) is the drawer's. */
+  drawerOpen?: boolean;
+  /** The title is the question itself: hidden while the drawer holds it,
+   *  rather than said twice. Otherwise it steps back as context. */
+  questionInDrawer?: boolean;
   className?: string;
 }
 
@@ -55,10 +63,21 @@ export function GuidePage({
   secondaryLabel,
   onSecondary,
   cover = false,
+  drawer,
+  drawerOpen = false,
+  questionInDrawer = false,
   className,
 }: GuidePageProps) {
-  return (
-    <div className={["guide", cover ? "guide--cover" : null, className].filter(Boolean).join(" ")}>
+  const drawn = Boolean(drawer) && drawerOpen;
+  const titleClass = [
+    "guide__title",
+    drawn && questionInDrawer ? "u-visually-hidden" : null,
+    drawn && !questionInDrawer ? "guide__title--context" : null,
+  ]
+    .filter(Boolean)
+    .join(" ");
+  const page = (
+    <>
       {part && !cover ? (
         <div className="guide__top">
           <p className="guide__where">
@@ -83,10 +102,10 @@ export function GuidePage({
 
       <header className="guide__head">
         {kicker ? <p className="guide__kicker">{kicker}</p> : null}
-        <h1 className="guide__title" id={headingId} tabIndex={-1}>
+        <h1 className={titleClass} id={drawn ? undefined : headingId} tabIndex={-1}>
           {title}
         </h1>
-        {lede ? <p className="guide__lede">{lede}</p> : null}
+        {lede && !(drawn && questionInDrawer) ? <p className="guide__lede">{lede}</p> : null}
       </header>
 
       {children ? <div className="guide__body">{children}</div> : null}
@@ -108,6 +127,17 @@ export function GuidePage({
           onSkip={onSecondary}
         />
       ) : null}
+    </>
+  );
+
+  const classes = ["guide", cover ? "guide--cover" : null, drawer ? "guide--drawer" : null, drawn ? "is-drawn" : null, className]
+    .filter(Boolean)
+    .join(" ");
+  if (!drawer) return <div className={classes}>{page}</div>;
+  return (
+    <div className={classes}>
+      <div className="guide__page">{page}</div>
+      {drawer}
     </div>
   );
 }

@@ -5612,3 +5612,287 @@ samp {
 .good-example__why b {
   color: var(--color-text-primary);
 }
+
+/* Concept 3's pages carry their own inset, so the chrome's goes. */
+.chrome__main:has(> .guide) {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+/* A page with an answer drawer fills the screen: the page scrolls on its own
+   above the drawer, and the drawer (and any keyboard) sits at the foot. */
+.chrome:has(.guide--drawer) {
+  height: 100%;
+  min-height: 0;
+}
+
+/* Clip, not hidden: a hidden overflow can still be scrolled by focus, and a
+   field focused while the drawer is rising would leave the screen shifted. */
+.chrome__main:has(> .guide--drawer) {
+  min-height: 0;
+  overflow: clip;
+}
+
+.guide--drawer {
+  min-height: 0;
+  max-width: none;
+  padding: 0;
+  gap: 0;
+}
+
+[data-viewport="tablet"] .guide--drawer,
+[data-viewport="web"] .guide--drawer {
+  padding: 0;
+  gap: 0;
+}
+
+.guide__page {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  width: 100%;
+  max-width: var(--content-measure);
+  margin: 0 auto;
+  padding: var(--space-lg) var(--space-lg) var(--space-xl);
+  overflow-y: auto;
+}
+
+/* While the drawer is open the page steps back behind it. */
+.guide--drawer.is-drawn {
+  background-color: var(--color-surface-sunken);
+}
+
+.guide__title--context {
+  font-size: var(--text-lg);
+  color: var(--color-text-secondary);
+}
+
+/* What the user said, back on the page, with the way to change it. */
+.guide__said {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  color: var(--color-text-inverse);
+  background-color: var(--color-surface-inverse);
+}
+
+.guide__said-label {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-inverse-muted);
+}
+
+.guide__said-value {
+  font-size: var(--text-md);
+}
+
+.guide__said-change {
+  flex: none;
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-inverse);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.guide__said-change:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-focus-inverse);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* The answer drawer. */
+.answer-drawer__wrap {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.answer-drawer {
+  flex: none;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-2xs) var(--space-lg) var(--space-lg);
+  background-color: var(--color-surface);
+  border-top: var(--border-thin);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  box-shadow: var(--shadow-drawer);
+}
+
+/* On a wider screen the drawer's contents keep to the reading width. */
+[data-viewport="tablet"] .answer-drawer,
+[data-viewport="web"] .answer-drawer {
+  padding-inline: max(var(--space-lg), calc((100% - var(--content-measure)) / 2));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .answer-drawer:not(.is-peek) {
+    animation: sheet-up 0.24s var(--easing-standard);
+  }
+}
+
+.answer-drawer__grab {
+  align-self: center;
+  display: grid;
+  place-items: center;
+  width: var(--space-3xl);
+  height: var(--space-lg);
+  cursor: pointer;
+}
+
+.answer-drawer__grab::before {
+  content: "";
+  width: var(--space-2xl);
+  height: var(--space-2xs);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-border-strong);
+}
+
+.answer-drawer__grab:focus-visible,
+.answer-drawer__peek:focus-visible,
+.answer-drawer__q:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.answer-drawer__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-sm);
+}
+
+.answer-drawer__kicker,
+.answer-drawer__step {
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.answer-drawer__q {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text-primary);
+  text-wrap: balance;
+}
+
+.answer-drawer__lede {
+  margin-top: calc(-1 * var(--space-2xs));
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+.answer-drawer__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.answer-drawer__actions {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.answer-drawer__actions > .btn {
+  flex: 1;
+}
+
+/* Folded: one bar carrying the question. */
+.answer-drawer.is-peek {
+  padding-top: var(--space-xs);
+}
+
+.answer-drawer__peek {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  padding: var(--space-xs) 0;
+  text-align: left;
+  cursor: pointer;
+}
+
+.answer-drawer__peek-q {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.answer-drawer__peek-status {
+  flex: none;
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+/* The drawn keyboard. */
+.device-keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-3xs) var(--space-xl);
+  background-color: var(--color-surface-muted);
+}
+
+[data-viewport="web"] .device-keyboard {
+  display: none;
+}
+
+.device-keyboard__row {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2xs);
+}
+
+.device-keyboard__key {
+  flex: 0 0 8.4%;
+  height: var(--space-2xl);
+  display: grid;
+  place-items: center;
+  font-size: var(--text-lg);
+  color: var(--color-text-primary);
+  background-color: var(--color-surface);
+  border-radius: var(--radius-xs);
+  box-shadow: 0 var(--border-width-thin) 0 var(--color-border-strong);
+}
+
+.device-keyboard__key.is-wide {
+  flex-basis: 12%;
+  font-size: var(--text-sm);
+  background-color: var(--color-surface-active);
+}
+
+.device-keyboard__key.is-space {
+  flex-basis: 50%;
+  font-size: var(--text-sm);
+}
+
+.device-keyboard__key.is-return {
+  flex-basis: 22%;
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-inverse);
+  background-color: var(--color-surface-inverse);
+}

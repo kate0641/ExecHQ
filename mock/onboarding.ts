@@ -2008,6 +2008,19 @@ export const CHAT_C2 = {
 export const GUIDE_C3 = {
   from: "ExecHQ",
   parts: ["About ExecHQ", "About you", "Your plan", "Your story"],
+  /** The answer drawer's own words. */
+  drawer: {
+    answer: "Answer",
+    next: "Next",
+    continue: "Continue",
+    skip: "Skip",
+    peek: "Tap to answer",
+    peekAnswered: "Answered",
+    fold: "Fold the drawer down to read the page",
+    said: "You said",
+    change: "Change",
+    back: "Back",
+  },
   file: { label: "What I know so far", added: "Added" },
   welcome: {
     title: "From \u201cI\u2019d like to be\u201d to \u201cI\u2019m going to be\u201d.",
@@ -2035,6 +2048,7 @@ export const GUIDE_C3 = {
   },
   account: {
     kicker: "Your account",
+    ask: "What\u2019s your email?",
     title: "First, somewhere to keep all this",
     lede: "Your plan and your story are saved to your account, so you can come back to them.",
     inviteShow: "I have an invite code",
@@ -2064,9 +2078,12 @@ export const GUIDE_C3 = {
   direction: {
     kicker: "Where you\u2019re going",
     title: "Where do you want to go next?",
-    lede: "A role, a timeline, or just a feeling. Say it or type it.",
+    lede: "Pick as many as are true.",
     promptedLabel: "Or start with one of these",
-    why: "Everything I build points here. A rough answer is fine: I\u2019ll sharpen it with you.",
+    /** More than one picked: which to start from. */
+    first: "Which matters most right now?",
+    firstLede: "I\u2019ll start there, and keep the rest in view.",
+    why: "Everything I build points here. Pick all that are true, and I\u2019ll start with the one that matters most.",
     cta: "Continue",
   },
   rec: {
@@ -2074,6 +2091,8 @@ export const GUIDE_C3 = {
     title: "Here\u2019s where I\u2019d start",
     lead: "From that alone, I\u2019d start you on",
     next: "Next, a few questions to check it. If your answers point somewhere else, I\u2019ll tell you.",
+    /** The other directions picked, said so they are not lost. */
+    also: (goals: string) => `You also picked ${goals}. I\u2019ll keep that in view as your plan grows.`,
     why: "You should get a clear starting point, not a menu of options. I\u2019ll show you how I got there, and you can always change it.",
     cta: "Check it with me",
   },
@@ -2104,6 +2123,7 @@ export const GUIDE_C3 = {
     typedLabel: "Or in your own words",
     skip: "Skip this one",
     confirmLead: "Still my recommendation",
+    typedHeard: "Thanks. I\u2019ll keep that in your own words.",
     switchLead: "That changes my mind. I\u2019d now start you on",
     checked: (count: number) => `Checked against ${count} answer${count === 1 ? "" : "s"}`,
     whyDefault: "Each answer either makes me surer of where to start, or changes it. You\u2019ll see which straight away.",
@@ -2173,6 +2193,7 @@ export const GUIDE_C3 = {
     change: "Change it",
     editLabel: "How would you put it?",
     save: "Save",
+    cancel: "Cancel",
   },
   plan: {
     kicker: "Your plan",
@@ -2257,6 +2278,17 @@ export const GUIDE_C3 = {
       ],
       why: "Every plan starts here, because every next step needs you to say what you lead. It\u2019s also the first thing on your plan this week.",
       cta: "Start",
+    },
+    /** Each builder input, as the drawer asks it. */
+    asks: {
+      role: "What\u2019s your current role?",
+      own: "What are you responsible for?",
+      team: "How big is your team?",
+      strengths: "What are you strongest at? Up to three.",
+      result: "What\u2019s a result you\u2019re proud of?",
+      audience: "Who will hear it first?",
+      name: "What name should go on your bio?",
+      source: "Anything I should start from?",
     },
     goodLabel: "What good looks like",
     goodWhy: "Why it works",
@@ -2377,7 +2409,8 @@ export function verdictC3(questionId: string, value: string) {
 /** Why a plan fits, said early, from the direction alone. */
 export function earlyReasonFor(direction: string, plan: PlanTemplate): string {
   const forWhom = plan.bestFor.charAt(0).toLowerCase() + plan.bestFor.slice(1);
-  return `You said \u201c${direction.trim().replace(/[.]$/, "")}\u201d. This is the plan for when ${forWhom}`;
+  // Concept 3's directions are picked from a list, not typed, so "picked".
+  return `You picked \u201c${direction.trim().replace(/[.]$/, "")}\u201d. This is the plan for when ${forWhom}`;
 }
 
 /* -----------------------------------------------------------------------------

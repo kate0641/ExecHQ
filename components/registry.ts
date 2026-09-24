@@ -40,6 +40,8 @@ import { thisWeekCardStates } from "./onboarding/ThisWeekCard/ThisWeekCard.state
 import { planTimelineStates } from "./onboarding/PlanTimeline/PlanTimeline.states";
 import { storyTextStates } from "./onboarding/StoryText/StoryText.states";
 import { revisionChipsStates } from "./onboarding/RevisionChips/RevisionChips.states";
+import { answerDrawerStates } from "./onboarding/AnswerDrawer/AnswerDrawer.states";
+import { deviceKeyboardStates } from "./onboarding/DeviceKeyboard/DeviceKeyboard.states";
 import { goodExampleStates } from "./onboarding/GoodExample/GoodExample.states";
 import { guidePageStates } from "./onboarding/GuidePage/GuidePage.states";
 import { advisorFileStates } from "./onboarding/AdvisorFile/AdvisorFile.states";
@@ -94,6 +96,8 @@ export const registry: RegisteredComponent[] = [
   signalSourcesStates,
   guidePageStates,
   goodExampleStates,
+  answerDrawerStates,
+  deviceKeyboardStates,
   advisorFileStates,
   pointListStates,
   reflectionReplyStates,
