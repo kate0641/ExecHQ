@@ -1,11 +1,14 @@
 "use client";
 
-import { Button } from "@/components/primitives/Button";
+import { Button, type ButtonVariant } from "@/components/primitives/Button";
 
 export interface StepActionsProps {
   primaryLabel: string;
   onPrimary?: () => void;
   primaryDisabled?: boolean;
+  /** `primary` by default. `secondary` where the only action is a way past the
+   *  question — the answer itself is what moves the screen on. */
+  primaryVariant?: ButtonVariant;
   /** The skip path. Rendered at the same size and weight as the primary action,
    *  never as a link or a quiet ghost. Omit it where a step has no skip. */
   skipLabel?: string;
@@ -32,6 +35,7 @@ export function StepActions({
   primaryLabel,
   onPrimary,
   primaryDisabled = false,
+  primaryVariant = "primary",
   skipLabel,
   onSkip,
   backLabel,
@@ -41,7 +45,7 @@ export function StepActions({
   return (
     <div className={["step-actions", className].filter(Boolean).join(" ")}>
       <div className="step-actions__row">
-        <Button variant="primary" onClick={onPrimary} disabled={primaryDisabled}>
+        <Button variant={primaryVariant} onClick={onPrimary} disabled={primaryDisabled}>
           {primaryLabel}
         </Button>
         {skipLabel ? (

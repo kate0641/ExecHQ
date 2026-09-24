@@ -327,6 +327,177 @@ export const REFINEMENT_QUESTIONS: RefinementQuestionSpec[] = [
   },
 ];
 
+/* Concept 1's refinement: three questions per plan, chosen from the plan the
+   direction points at, rather than one set for everyone. A question is left
+   out when the direction already answers it, so the count is never promised
+   to the user. Each question can echo its answer into the plan's reasoning,
+   so the answers visibly count. */
+
+export interface TailoredQuestion extends RefinementQuestionSpec {
+  /** Leave the question out when the direction already answers it. */
+  skipIf?: RegExp[];
+  /** One sentence for the plan's "Why this one", with {answer} standing in
+   *  for the chosen option's label. */
+  echo: string;
+}
+
+/** Under every tailored question: why it is being asked. */
+export const REFINEMENT_C1 = {
+  instruction: "A few quick taps so we can build a plan that fits you. Skip any you like.",
+  skip: "Skip this question",
+} as const;
+
+/** Timing already stated: "in 3 years", "next year", "this month"… */
+const SAYS_WHEN = [/\b\d+\s*(year|yr|month|week)s?\b/i, /\b(next|this) (year|month|week|quarter)\b/i, /\bwithin a year\b/i];
+/** The moment already named. */
+const SAYS_WHAT_MOMENT = [/board/i, /review/i, /promotion conversation/i, /negotiat/i, /interview/i, /presentation/i];
+
+const opts = (...labels: string[]): RefinementOption[] =>
+  labels.map((label) => ({ value: label.toLowerCase().replace(/[^a-z0-9]+/g, "-"), label }));
+
+export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
+  positioning: [
+    {
+      id: "scope-kind",
+      question: "What kind of step up?",
+      hint: REFINEMENT_C1.instruction,
+      options: opts("Bigger team", "Broader remit", "A seat at the top table", "A new title"),
+      echo: "It builds the evidence around the step up you picked: \u201c{answer}\u201d.",
+    },
+    {
+      id: "scope-when",
+      question: "When do you want to get there?",
+      hint: REFINEMENT_C1.instruction,
+      options: opts("Within a year", "1\u20132 years", "3+ years", "No fixed timeline"),
+      skipIf: SAYS_WHEN,
+      echo: "It is paced to your timeline: \u201c{answer}\u201d.",
+    },
+    {
+      id: "scope-block",
+      question: "What\u2019s in the way?",
+      hint: REFINEMENT_C1.instruction,
+      options: opts("No clear path up", "Nobody sees my work", "I can\u2019t make my case", "Wrong company for it"),
+      echo: "Its first stage tackles what is in the way: \u201c{answer}\u201d.",
+    },
+  ],
+  influence: [
+    {
+      id: "influence-where",
+      question: "Where do you want more say?",
+      hint: REFINEMENT_C1.instruction,
+      options: opts("My team\u2019s direction", "Company strategy", "Budget and headcount", "Across other teams"),
+      echo: "It starts where you want more say: \u201c{answer}\u201d.",
+    },
+    {
+      id: "influence-who",
+      question: "Who do you most need on side?",
+      hint: REFINEMENT_C1.instruction,
+      options: opts("My boss", "My boss\u2019s peers", "The exec team", "My own team"),
+      echo: "The first moves are aimed at who you need on side: \u201c{answer}\u201d.",
+    },
+    {
+      id: "influence-block",
+      question: "What\u2019s holding you back?",
+      hint: REFINEMENT_C1.instruction,
+      options: opts("I\u2019m not in the room", "I\u2019m in the room but not heard", "Too junior on paper", "Politics"),
+      echo: "Its first stage deals with what holds you back: \u201c{answer}\u201d.",
+    },
+  ],
+  visibility: [
+    {
+      id: "presence-who",
+      question: "Who needs to see you differently?",
+      hint: REFINEMENT_C1.instruction,
+      options: opts("Leaders in my company", "My industry", "Recruiters and boards", "All of them"),
+      echo: "It starts with the audience you named: \u201c{answer}\u201d.",
+    },
+    {
+      id: "presence-now",
+      question: "How do they see you now?",
+      hint: REFINEMENT_C1.instruction,
+      options: opts("Strong operator", "Specialist", "Hard worker, low profile", "Not sure"),
+      echo: "It starts from how you are read today: \u201c{answer}\u201d.",
+    },
+    {
+      id: "presence-where",
+      question: "Where do you show up today?",
+      hint: REFINEMENT_C1.instruction,
+      options: opts("Meetings only", "LinkedIn now and then", "Industry events", "Nowhere yet"),
+      echo: "It builds out from where you show up now: \u201c{answer}\u201d.",
+    },
+  ],
+  preparation: [
+    {
+      id: "moment-what",
+      question: "What\u2019s coming up?",
+      hint: REFINEMENT_C1.instruction,
+      options: opts("Promotion conversation", "Performance review", "Board or exec presentation", "Negotiation or offer"),
+      skipIf: SAYS_WHAT_MOMENT,
+      echo: "Everything works back from what is coming up: \u201c{answer}\u201d.",
+    },
+    {
+      id: "moment-when",
+      question: "When is it?",
+      hint: REFINEMENT_C1.instruction,
+      options: opts("This week", "This month", "Next few months", "Not scheduled yet"),
+      skipIf: SAYS_WHEN,
+      echo: "It is paced to when that is: \u201c{answer}\u201d.",
+    },
+    {
+      id: "moment-ready",
+      question: "How ready do you feel?",
+      hint: REFINEMENT_C1.instruction,
+      options: opts("Ready, want a check", "Know what, not how", "Not sure where to start", "Dreading it"),
+      echo: "Its first stage meets you where you are: \u201c{answer}\u201d.",
+    },
+  ],
+  exploration: [
+    {
+      id: "explore-why",
+      question: "What\u2019s making you want a change?",
+      hint: REFINEMENT_C1.instruction,
+      options: opts("Hit a ceiling", "Lost interest", "Industry is shrinking", "Life has changed"),
+      echo: "It starts from what is pushing you: \u201c{answer}\u201d.",
+    },
+    {
+      id: "explore-keep",
+      question: "What would you keep?",
+      hint: REFINEMENT_C1.instruction,
+      options: opts("My function", "My industry", "My seniority", "Nothing in particular"),
+      echo: "The options it tests hold on to what you would keep: \u201c{answer}\u201d.",
+    },
+    {
+      id: "explore-when",
+      question: "How soon?",
+      hint: REFINEMENT_C1.instruction,
+      options: opts("Actively looking", "Within a year", "Just exploring", "Not sure"),
+      skipIf: SAYS_WHEN,
+      echo: "It is paced to how soon you want this: \u201c{answer}\u201d.",
+    },
+  ],
+};
+
+/** The questions this direction gets, in order, minus any it already answers. */
+export function refinementFor(direction: string): TailoredQuestion[] {
+  return REFINEMENT_BY_NEED[interpretNeed(direction)].filter(
+    (question) => !question.skipIf?.some((pattern) => pattern.test(direction))
+  );
+}
+
+/** The sentence the plan adds to its reasoning from the first answered
+ *  question, or null when nothing was answered. */
+export function refinementEcho(
+  direction: string,
+  answers: Record<string, string>
+): string | null {
+  for (const question of refinementFor(direction)) {
+    const value = answers[question.id];
+    const option = question.options.find((o) => o.value === value);
+    if (option) return question.echo.replace("{answer}", option.label);
+  }
+  return null;
+}
+
 /* -----------------------------------------------------------------------------
    PLANS
    -------------------------------------------------------------------------- */

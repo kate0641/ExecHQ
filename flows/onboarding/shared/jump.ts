@@ -1,5 +1,6 @@
 import {
   PROMPTED_DIRECTIONS,
+  REFINEMENT_BY_NEED,
   REFINEMENT_QUESTIONS,
   SAMPLE_ANSWERS,
   recommendPlan,
@@ -71,7 +72,10 @@ export function jumpState(current: OnboardingState, step: OnboardingStep): Onboa
 
   // Skips are ids of steps, refinement questions and connections. Keep only
   // those that belong to steps the target has passed.
-  const refinementIds = new Set(REFINEMENT_QUESTIONS.map((q) => q.id));
+  const refinementIds = new Set([
+    ...REFINEMENT_QUESTIONS.map((q) => q.id),
+    ...Object.values(REFINEMENT_BY_NEED).flatMap((set) => set.map((q) => q.id)),
+  ]);
   const skipped = current.skipped.filter((id) => {
     if (refinementIds.has(id)) return past("refinement");
     if ((ONBOARDING_STEPS as readonly string[]).includes(id)) {

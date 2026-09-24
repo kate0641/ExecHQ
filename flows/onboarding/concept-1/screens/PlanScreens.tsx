@@ -1,67 +1,93 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/primitives/Button";
 import { ToggleGroup } from "@/components/form/ToggleGroup";
 import { GeneratingState } from "@/components/onboarding/GeneratingState";
 import { Notice } from "@/components/onboarding/Notice";
 import { PlanTemplateCard } from "@/components/onboarding/PlanTemplateCard";
-import { RefinementQuestion } from "@/components/onboarding/RefinementQuestion";
+import { AnswerList } from "@/components/onboarding/AnswerList";
 import { WizardStep } from "@/components/onboarding/WizardStep";
 import {
   CUSTOM_PLAN_DRAFT_NAME,
   GENERATING_COPY,
   PLAN_TEMPLATES,
+  REFINEMENT_C1,
   planById,
+  refinementEcho,
+  refinementFor,
   type PlanTemplate,
 } from "@/mock/onboarding";
 import type { ScreenProps } from "./types";
 
+/** How long a chosen answer shows as pressed before the next question. */
+const ANSWER_SETTLE_MS = 250;
+
 /**
- * The refinement questions.
+ * The refinement questions, tailored to the plan the direction points at.
  *
- * The skip path says "Skip and show my first step" and means it: it leaves the
- * whole refinement step, not just this question. Offering a per-question skip
- * as well would turn one clear exit into three small ones and make stopping
- * feel like a series of small failures rather than a decision.
+ * Three per plan, minus any the direction already answers — "C-suite in 3
+ * years" is not asked when. Because the count varies, it is never shown: the
+ * progress marks stay on the flow's own step.
+ *
+ * Tapping an answer answers and moves on, so there is no Next button. The one
+ * pinned action is a per-question skip, by decision on 2026-09-24: skipping
+ * one question keeps the others, rather than one exit that throws them all
+ * away. Leaving the last question, answered or skipped, starts the reading.
  */
-export function RefinementScreen({ flow, headingId }: ScreenProps) {
-  const { state, dispatch, refinementQuestions, withDelay } = flow;
-  const question = refinementQuestions[state.refinementIndex];
-  const answer = state.answers.refinement[question.id];
-  const isLast = state.refinementIndex === refinementQuestions.length - 1;
+export function RefinementScreen({ flow, step, total, headingId }: ScreenProps) {
+  const { state, dispatch, withDelay } = flow;
+  const questions = refinementFor(state.answers.direction ?? "");
+  const index = Math.min(state.refinementIndex, questions.length - 1);
+  const question = questions[index];
+  const isLast = index === questions.length - 1;
+  const settle = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (settle.current) clearTimeout(settle.current);
+    };
+  }, []);
+
+  function leave() {
+    dispatch({ type: "go-to", step: "interpretation" });
+    withDelay("interpreting", () => {});
+  }
+
+  function choose(value: string) {
+    if (settle.current) return;
+    dispatch({ type: "answer-refinement", id: question.id, value });
+    // A beat on the pressed answer, so the choice is seen before it moves on.
+    settle.current = setTimeout(() => {
+      settle.current = null;
+      if (isLast) leave();
+      else dispatch({ type: "next" });
+    }, ANSWER_SETTLE_MS);
+  }
+
+  function skip() {
+    if (settle.current) return;
+    dispatch({ type: "skip-refinement", id: question.id });
+    if (isLast) leave();
+  }
 
   return (
     <WizardStep
-      step={state.refinementIndex + 1}
-      total={refinementQuestions.length}
-      progressLabel="Question"
-      optionalFrom={1}
-      eyebrow="Optional"
+      step={step}
+      total={total}
       title={question.question}
+      description={REFINEMENT_C1.instruction}
       headingId={headingId}
-      primaryLabel="Next"
-      onPrimary={() => {
-        dispatch({ type: "next" });
-        // Leaving refinement is what triggers the reading, now that the
-        // interpretation comes after these questions rather than before them.
-        if (isLast) withDelay("interpreting", () => {});
-      }}
-      primaryDisabled={!answer}
-      skipLabel="Skip"
-      onSkip={() => {
-        dispatch({ type: "skip-all-refinement" });
-        withDelay("interpreting", () => {});
-      }}
-      backLabel="Back"
-      onBack={() => dispatch({ type: "back" })}
+      primaryLabel={REFINEMENT_C1.skip}
+      primaryVariant="secondary"
+      onPrimary={skip}
+      className="wizard--centred"
     >
-      <RefinementQuestion
-        question={question}
-        value={answer}
-        onChange={(value) =>
-          dispatch({ type: "answer-refinement", id: question.id, value })
-        }
+      <AnswerList
+        label={question.question}
+        options={question.options}
+        value={state.answers.refinement[question.id]}
+        onChoose={choose}
       />
     </WizardStep>
   );
@@ -94,6 +120,11 @@ export function PlanScreen({ flow, step, total, headingId }: ScreenProps) {
 
   const recommended = derived?.recommended;
   if (!recommended) return null;
+
+  // One refinement answer, said back in the reasoning, so the questions
+  // visibly shaped the plan.
+  const echo = refinementEcho(state.answers.direction ?? "", state.answers.refinement);
+  const withEcho = (reason: string) => (echo ? `${reason} ${echo}` : reason);
 
   const selectedId = state.answers.planId ?? recommended.id;
   const chosen = planById(selectedId) ?? recommended;
@@ -152,7 +183,7 @@ export function PlanScreen({ flow, step, total, headingId }: ScreenProps) {
       {/* Why before what. The reason is tied to the user's own words, so it is
           the part that tells them whether this is their plan. */}
       {recommended.rationale && selectedId === recommended.id ? (
-        <PlanReason reason={recommended.rationale} />
+        <PlanReason reason={withEcho(recommended.rationale)} />
       ) : null}
 
       <PlanStages plan={chosen} />

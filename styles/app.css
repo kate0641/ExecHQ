@@ -2720,6 +2720,44 @@ samp {
   }
 }
 
+/* --- Answer list ----------------------------------------------------------- */
+/* One-tap answers, stacked at one width and centred — the same shape as the
+   stacked direction prompts. */
+
+.answer-list {
+  display: grid;
+  grid-template-columns: minmax(max-content, 20rem);
+  justify-content: center;
+  gap: var(--space-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.answer-list__option {
+  width: 100%;
+  padding: var(--space-xs) var(--space-sm);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-primary);
+  background-color: var(--color-surface);
+  border: var(--border-strong);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--easing-standard);
+}
+
+.answer-list__option:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.answer-list__option.is-chosen {
+  color: var(--color-text-inverse);
+  background-color: var(--color-surface-inverse);
+  border-color: var(--color-surface-inverse);
+}
+
 /* --- Interpreted direction ------------------------------------------------ */
 
 .interpreted {
@@ -3265,6 +3303,13 @@ samp {
 [data-viewport="mobile"] .wizard {
   flex: 1;
   padding: var(--space-2xl) var(--space-lg) 0;
+}
+
+/* Centred: the question and its answers sit in the middle of the space between
+   the progress marks and the pinned action. Both auto margins share the free
+   space, so the block lands halfway. */
+[data-viewport="mobile"] .wizard--centred .step-header {
+  margin-top: auto;
 }
 
 /* A step with no skip path has one button, and stretching it across the full

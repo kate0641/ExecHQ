@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { NavPlaceholder } from "@/components/layout/NavPlaceholder";
+import type { ButtonVariant } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import { StepActions } from "@/components/onboarding/StepActions";
 import { StepHeader } from "@/components/onboarding/StepHeader";
@@ -24,6 +25,8 @@ export interface WizardStepProps {
   primaryLabel?: string;
   onPrimary?: () => void;
   primaryDisabled?: boolean;
+  /** Passed to StepActions. */
+  primaryVariant?: ButtonVariant;
   /** The skip path, in the top right. Its accessible name is this label; only a
    *  short word shows. */
   skipLabel?: string;
@@ -71,6 +74,7 @@ export function WizardStep({
   primaryLabel,
   onPrimary,
   primaryDisabled,
+  primaryVariant,
   skipLabel,
   onSkip,
   backLabel,
@@ -131,6 +135,7 @@ export function WizardStep({
           primaryLabel={primaryLabel}
           onPrimary={onPrimary}
           primaryDisabled={primaryDisabled}
+          primaryVariant={primaryVariant}
         />
       ) : null}
 
