@@ -1,5 +1,10 @@
 import { defineComponentStates } from "@/components/types";
-import { DIRECTION, PROMPTED_DIRECTIONS } from "@/mock/onboarding";
+import {
+  DIRECTION,
+  DIRECTION_C1,
+  DIRECTION_PROMPTS_C1,
+  PROMPTED_DIRECTIONS,
+} from "@/mock/onboarding";
 import { DirectionField } from "./DirectionField";
 
 const base = {
@@ -22,6 +27,33 @@ export const directionFieldStates = defineComponentStates({
   component: DirectionField,
   variants: [
     { label: "Empty", props: { ...base, value: "" } },
+    {
+      label: "With voice — Concept 1",
+      description:
+        "A mic in the field's corner, and short goal prompts. Choosing a prompt moves focus into the field.",
+      props: {
+        label: DIRECTION_C1.prompt,
+        labelHidden: true,
+        prompted: DIRECTION_PROMPTS_C1,
+        promptedLabel: DIRECTION_C1.promptedLabel,
+        onChange: () => {},
+        value: "",
+        voice: { listening: false, onToggle: () => {} },
+        promptLayout: "stacked",
+      },
+    },
+    {
+      label: "With voice — listening",
+      props: {
+        label: DIRECTION_C1.prompt,
+        labelHidden: true,
+        prompted: DIRECTION_PROMPTS_C1,
+        promptedLabel: DIRECTION_C1.promptedLabel,
+        onChange: () => {},
+        value: "I want to move from running campaigns",
+        voice: { listening: true, onToggle: () => {} },
+      },
+    },
     {
       label: "Free text entered",
       props: {

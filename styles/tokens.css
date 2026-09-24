@@ -108,6 +108,10 @@
   /* Overlay / scrim */
   --color-overlay: rgb(var(--shadow-rgb) / 0.48);
 
+  /* The mic's listening pulse: a ring that fades as it grows. */
+  --color-listening-pulse: rgb(var(--shadow-rgb) / 0.28);
+  --color-listening-pulse-end: rgb(var(--shadow-rgb) / 0);
+
   /* Status badges: draft, in-review, approved */
   --color-status-draft-surface: var(--grey-050);
   --color-status-draft-text: var(--grey-600);

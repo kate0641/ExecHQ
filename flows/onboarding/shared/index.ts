@@ -18,6 +18,7 @@ export {
   type PlanSource,
 } from "./state";
 export { jumpState } from "./jump";
+export { useDictation } from "./useDictation";
 export { STEP_LABELS, stepNavItems } from "./step-nav";
 export {
   useOnboardingFlow,

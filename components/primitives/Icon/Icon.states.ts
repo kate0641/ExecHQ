@@ -25,6 +25,7 @@ export const iconStates = defineComponentStates({
       props: { name: "shield" },
     },
     { label: "Lock", props: { name: "lock" } },
+    { label: "Mic", props: { name: "mic" } },
     { label: "Check", props: { name: "check" } },
     { label: "Document", props: { name: "document" } },
     { label: "Link", props: { name: "link" } },

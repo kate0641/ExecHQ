@@ -6,6 +6,7 @@ export type IconName =
   | "chevron"
   | "shield"
   | "lock"
+  | "mic"
   | "check"
   | "document"
   | "link"
@@ -65,6 +66,13 @@ const PATHS: Record<IconName, React.ReactNode> = {
     <>
       <rect x="4" y="8.5" width="12" height="9" rx="2" />
       <path d="M6.8 8.5V6.2a3.2 3.2 0 016.4 0v2.3" />
+    </>
+  ),
+  // Speaking an answer instead of typing it.
+  mic: (
+    <>
+      <rect x="7" y="2.5" width="6" height="10" rx="3" />
+      <path d="M4.5 9.5a5.5 5.5 0 0011 0M10 15v2.5" />
     </>
   ),
   check: <path d="M4 10.4l3.6 3.6L16 5.6" />,

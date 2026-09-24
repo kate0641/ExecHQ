@@ -1,7 +1,8 @@
 "use client";
 
-import { useId } from "react";
+import { useId, useRef } from "react";
 import { Input } from "@/components/form/Input";
+import { MicButton } from "@/components/form/MicButton";
 import type { PromptedDirection } from "@/mock/onboarding";
 
 export interface DirectionFieldProps {
@@ -23,6 +24,15 @@ export interface DirectionFieldProps {
   examples?: readonly string[];
   examplesLabel?: string;
   error?: string;
+  /** Speak instead of type: puts a mic in the field's bottom edge, with a
+   *  "Listening" line beside it while it is on. */
+  voice?: { listening: boolean; onToggle: () => void };
+  /** Moves focus into the field after a prompt is chosen, with the cursor at
+   *  the end, so the next thing typed or said adds to it. */
+  focusOnSelect?: boolean;
+  /** `wrap` flows the prompts as pills; `stacked` puts one per row, all the
+   *  same width and centred, for a short list. */
+  promptLayout?: "wrap" | "stacked";
   className?: string;
 }
 
@@ -55,12 +65,58 @@ export function DirectionField({
   examples,
   examplesLabel = "Answers that work here",
   error,
+  voice,
+  focusOnSelect = false,
+  promptLayout = "wrap",
   className,
 }: DirectionFieldProps) {
   const examplesId = useId();
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  function select(prompt: PromptedDirection) {
+    onSelectPrompt?.(prompt);
+    if (!focusOnSelect) return;
+    // After the value lands, so the cursor goes to the end of the new text.
+    requestAnimationFrame(() => {
+      const field = rootRef.current?.querySelector("textarea");
+      if (!field) return;
+      field.focus();
+      field.setSelectionRange(field.value.length, field.value.length);
+    });
+  }
+
+  // The status line is always rendered, so a change to it is announced; it
+  // only has text while listening.
+  const adornment = voice ? (
+    <>
+      <output className="direction-field__listening">
+        {voice.listening ? (
+          <>
+            <span className="direction-field__bars" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+              <span />
+            </span>
+            Listening…
+          </>
+        ) : null}
+      </output>
+      <MicButton listening={voice.listening} onToggle={voice.onToggle} />
+    </>
+  ) : undefined;
 
   return (
-    <div className={["direction-field", className].filter(Boolean).join(" ")}>
+    <div
+      ref={rootRef}
+      className={[
+        "direction-field",
+        promptLayout === "stacked" ? "direction-field--stacked" : null,
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
+    >
       <Input
         label={label}
         labelHidden={labelHidden}
@@ -71,6 +127,7 @@ export function DirectionField({
         required
         value={value}
         describedBy={examples?.length ? examplesId : undefined}
+        adornment={adornment}
         onChange={(event) => onChange(event.target.value)}
       />
 
@@ -109,7 +166,7 @@ export function DirectionField({
                     // Not a radio: choosing one fills an editable field rather
                     // than setting a value, so pressed state would overstate it.
                     aria-pressed={isSelected}
-                    onClick={() => onSelectPrompt?.(prompt)}
+                    onClick={() => select(prompt)}
                   >
                     {prompt.label}
                   </button>

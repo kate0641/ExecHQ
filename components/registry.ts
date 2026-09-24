@@ -17,6 +17,7 @@ import { textLinkStates } from "./primitives/TextLink/TextLink.states";
 import { wordmarkStates } from "./primitives/Wordmark/Wordmark.states";
 import { inputStates } from "./form/Input/Input.states";
 import { toggleGroupStates } from "./form/ToggleGroup/ToggleGroup.states";
+import { micButtonStates } from "./form/MicButton/MicButton.states";
 import { panelStates } from "./layout/Panel/Panel.states";
 import { placeholderStateStates } from "./layout/PlaceholderState/PlaceholderState.states";
 import { navPlaceholderStates } from "./layout/NavPlaceholder/NavPlaceholder.states";
@@ -51,6 +52,7 @@ export const registry: RegisteredComponent[] = [
   wordmarkStates,
   inputStates,
   toggleGroupStates,
+  micButtonStates,
   panelStates,
   placeholderStateStates,
   navPlaceholderStates,

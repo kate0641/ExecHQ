@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, type InputHTMLAttributes } from "react";
+import { useId, type InputHTMLAttributes, type ReactNode } from "react";
 
 export interface InputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "id" | "size"> {
@@ -24,6 +24,9 @@ export interface InputProps
    *  only where the surrounding copy makes the editability obvious. */
   variant?: "field" | "statement";
   rows?: number;
+  /** A control drawn inside the field's bottom edge, e.g. a mic button. The
+   *  field pads itself so typed text never runs under it. */
+  adornment?: ReactNode;
 }
 
 /**
@@ -39,6 +42,7 @@ export function Input({
   multiline = false,
   variant = "field",
   rows = 4,
+  adornment,
   className,
   disabled,
   required,
@@ -55,6 +59,7 @@ export function Input({
     "field__control",
     variant === "statement" ? "field__control--statement" : null,
     error ? "field__control--error" : null,
+    adornment ? "field__control--adorned" : null,
     className,
   ]
     .filter(Boolean)
@@ -68,6 +73,18 @@ export function Input({
     "aria-invalid": error ? true : undefined,
     "aria-describedby": describedByIds || undefined,
   };
+
+  function control() {
+    return multiline ? (
+      <textarea
+        {...(rest as React.TextareaHTMLAttributes<HTMLTextAreaElement>)}
+        {...shared}
+        rows={rows}
+      />
+    ) : (
+      <input {...rest} {...shared} />
+    );
+  }
 
   return (
     <div className={`field${disabled ? " field--disabled" : ""}`}>
@@ -90,14 +107,13 @@ export function Input({
         </p>
       ) : null}
 
-      {multiline ? (
-        <textarea
-          {...(rest as React.TextareaHTMLAttributes<HTMLTextAreaElement>)}
-          {...shared}
-          rows={rows}
-        />
+      {adornment ? (
+        <div className="field__control-wrap">
+          {control()}
+          <div className="field__adornment">{adornment}</div>
+        </div>
       ) : (
-        <input {...rest} {...shared} />
+        control()
       )}
 
       {error ? (

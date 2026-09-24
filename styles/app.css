@@ -527,6 +527,32 @@ samp {
   cursor: not-allowed;
 }
 
+/* A control inside the field's bottom edge — the mic. The field pads its
+   bottom so text never runs under it. */
+.field__control-wrap {
+  position: relative;
+}
+
+.field__control--adorned {
+  padding-bottom: calc(var(--space-2xl) + var(--space-xs));
+  /* The resize grip would sit under the adornment. */
+  resize: none;
+}
+
+.field__adornment {
+  position: absolute;
+  inset: auto var(--space-xs) var(--space-xs) var(--space-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  pointer-events: none;
+}
+
+.field__adornment > * {
+  pointer-events: auto;
+}
+
 .field__control--error {
   border-color: var(--color-feedback-danger-border);
   border-width: var(--border-width-medium);
@@ -2154,6 +2180,8 @@ samp {
   font-size: var(--text-md);
   line-height: var(--leading-normal);
   color: var(--color-text-secondary);
+  /* Two short lines rather than a long one and a stranded word. */
+  text-wrap: balance;
 }
 
 [data-viewport="mobile"] .step-header__title {
@@ -2570,10 +2598,126 @@ samp {
   background-color: var(--color-surface-hover);
 }
 
+/* Stacked: one prompt per row, all the same width, centred. The track is
+   20rem where there is room, never narrower than the longest label, and the
+   rest stretch to match. */
+.direction-field--stacked .direction-field__prompts-label {
+  text-align: center;
+}
+
+.direction-field--stacked .direction-field__prompt-list {
+  display: grid;
+  grid-template-columns: minmax(max-content, 20rem);
+  justify-content: center;
+  gap: var(--space-sm);
+}
+
+.direction-field--stacked .direction-field__prompt {
+  width: 100%;
+}
+
 .direction-field__prompt.is-selected {
   color: var(--color-text-inverse);
   background-color: var(--color-surface-inverse);
   border-color: var(--color-surface-inverse);
+}
+
+.direction-field__listening {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-height: 1lh;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.direction-field__bars {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  height: var(--space-sm);
+}
+
+.direction-field__bars > span {
+  width: var(--border-width-thick);
+  height: 40%;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-text-primary);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .direction-field__bars > span {
+    animation: direction-bars 0.9s var(--easing-standard) infinite;
+  }
+
+  .direction-field__bars > span:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+
+  .direction-field__bars > span:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+
+  .direction-field__bars > span:nth-child(4) {
+    animation-delay: 0.45s;
+  }
+}
+
+@keyframes direction-bars {
+  0%,
+  100% {
+    height: 30%;
+  }
+  50% {
+    height: 100%;
+  }
+}
+
+/* --- Mic button ------------------------------------------------------------ */
+
+.mic-button {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--space-2xl);
+  height: var(--space-2xl);
+  border: var(--border-thin);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--easing-standard);
+}
+
+.mic-button:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.mic-button[aria-pressed="true"] {
+  background-color: var(--color-surface-inverse);
+  border-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+}
+
+.mic-button:disabled {
+  color: var(--color-text-disabled);
+  background-color: var(--color-surface-disabled);
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .mic-button[aria-pressed="true"] {
+    animation: mic-pulse 1.4s ease-out infinite;
+  }
+}
+
+@keyframes mic-pulse {
+  0% {
+    box-shadow: 0 0 0 0 var(--color-listening-pulse);
+  }
+  100% {
+    box-shadow: 0 0 0 var(--space-md) var(--color-listening-pulse-end);
+  }
 }
 
 /* --- Interpreted direction ------------------------------------------------ */
@@ -3100,15 +3244,27 @@ samp {
   position: sticky;
   bottom: 0;
   z-index: var(--z-sticky);
-  padding: var(--space-sm) 0 var(--space-xs);
+  /* Pinned to the foot of the screen, at the same inset as the welcome and
+     privacy screens, so the button never moves between steps. The bottom
+     padding is the inset, so it holds while content scrolls behind it. */
+  margin-top: auto;
+  padding: var(--space-sm) 0 var(--space-xl);
   background-color: var(--color-surface);
   box-shadow: 0 calc(-1 * var(--space-xs)) var(--space-sm) var(--color-surface);
 }
 
-/* The rule above paints a band of surface colour behind the actions, so the
-   step's own bottom padding is no longer doing anything useful. */
+/* The wizard fills the screen so the actions can sit at its foot, and takes
+   the same side inset as the welcome and privacy screens. The actions carry
+   the bottom inset themselves. */
+[data-viewport="mobile"] .chrome__main:has(> .wizard) {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
 [data-viewport="mobile"] .wizard {
-  padding-bottom: var(--space-md);
+  flex: 1;
+  padding: var(--space-2xl) var(--space-lg) 0;
 }
 
 /* A step with no skip path has one button, and stretching it across the full

@@ -169,6 +169,35 @@ export const DIRECTION = {
   ],
 } as const;
 
+/** Concept 1's direction screen. Say it or type it: the prompts are short,
+ *  concrete goals rather than categories, and work for any function. */
+export const DIRECTION_C1 = {
+  prompt: "Where do you want to go next?",
+  hint: "A role, a timeline, or just a feeling.",
+  promptedLabel: "Or start with",
+} as const;
+
+/** Tapping one puts its text in the field, still editable — "Promotion in the
+ *  next year" can become "Promotion to VP in the next year". */
+export const DIRECTION_PROMPTS_C1: PromptedDirection[] = [
+  // One per plan, so every plan is reachable from a prompt and none is
+  // favoured. The field still takes any answer.
+  { id: "c-suite", label: "C-suite in 3 years", text: "C-suite in 3 years", blurb: "", need: "positioning" },
+  { id: "leadership", label: "Take on more of a leadership role", text: "Take on more of a leadership role", blurb: "", need: "influence" },
+  { id: "executive", label: "Be seen as an executive", text: "Be seen as an executive", blurb: "", need: "visibility" },
+  { id: "board", label: "Nail an upcoming board presentation", text: "Nail an upcoming board presentation", blurb: "", need: "preparation" },
+  { id: "next-move", label: "Find my next move", text: "Find my next move", blurb: "", need: "exploration" },
+];
+
+/** What the simulated mic "hears". The prototype has no speech input, so the
+ *  mic types one of these in word by word: the whole answer into an empty
+ *  field, or the addition after a prompt or something already typed. The full
+ *  answer is the pilot scope's own example. */
+export const VOICE_SAMPLE = {
+  full: "I want to move from running campaigns to leading a broader marketing organisation.",
+  addition: "ideally leading a broader marketing organisation.",
+} as const;
+
 /* -----------------------------------------------------------------------------
    INTERPRETATION
    -------------------------------------------------------------------------- */
@@ -182,7 +211,7 @@ const NEED_TESTS: { need: DirectionNeed; patterns: RegExp[] }[] = [
   },
   {
     need: "exploration",
-    patterns: [/do not know/i, /don't know/i, /cannot name/i, /can't name/i, /ceiling/i, /out of/i, /unsure/i, /explore/i],
+    patterns: [/do not know/i, /don't know/i, /cannot name/i, /can't name/i, /ceiling/i, /out of/i, /unsure/i, /explore/i, /next move/i, /what'?s next/i],
   },
   {
     need: "visibility",
@@ -190,11 +219,11 @@ const NEED_TESTS: { need: DirectionNeed; patterns: RegExp[] }[] = [
   },
   {
     need: "influence",
-    patterns: [/influence/i, /weight/i, /already in/i, /where i am/i, /internal/i],
+    patterns: [/influence/i, /weight/i, /already in/i, /where i am/i, /internal/i, /take on more/i],
   },
   {
     need: "positioning",
-    patterns: [/lead/i, /larger/i, /bigger/i, /scope/i, /remit/i, /cmo|cto|cfo|coo|chief|vp|director/i],
+    patterns: [/lead/i, /larger/i, /bigger/i, /scope/i, /remit/i, /promot/i, /c-suite/i, /cmo|cto|cfo|coo|chief|vp|director/i],
   },
 ];
 

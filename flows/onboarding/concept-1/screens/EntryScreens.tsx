@@ -12,16 +12,16 @@ import { PrivacySplash } from "@/components/onboarding/PrivacySplash";
 import { WelcomeSplit } from "@/components/onboarding/WelcomeSplit";
 import { WizardStep } from "@/components/onboarding/WizardStep";
 import {
-  DIRECTION,
+  DIRECTION_C1,
+  DIRECTION_PROMPTS_C1,
   GENERATING_COPY,
   PRIVACY_SPLASH,
-  PROMPTED_DIRECTIONS,
   WELCOME,
   checkEmail,
   isValidInviteCode,
   type PromptedDirection,
 } from "@/mock/onboarding";
-import { hasSkippedRefinement } from "@/flows/onboarding/shared";
+import { hasSkippedRefinement, useDictation } from "@/flows/onboarding/shared";
 import { useStatusBarTone } from "@/lib/device-tone";
 import type { ScreenProps } from "./types";
 
@@ -151,25 +151,37 @@ export function PrivacyScreen({ flow, headingId }: ScreenProps) {
   );
 }
 
-/** The direction. The only piece of career information the flow requires. */
+/**
+ * Where the user wants to go, said or typed. The prompts are short, concrete
+ * goals: tapping one puts it in the field, still editable, and focus follows
+ * so the next thing typed or said adds to it. The mic sits in the field's
+ * corner, where people expect it from messaging apps.
+ */
 export function DirectionScreen({ flow, step, total, headingId }: ScreenProps) {
   const { state, dispatch } = flow;
   const [value, setValue] = useState(state.answers.direction ?? "");
   const [selected, setSelected] = useState<string | null>(
     state.answers.directionSource === "prompted"
-      ? (PROMPTED_DIRECTIONS.find((p) => p.text === state.answers.direction)?.id ??
+      ? (DIRECTION_PROMPTS_C1.find((p) => p.text === state.answers.direction)?.id ??
         null)
       : null
   );
   const [error, setError] = useState<string | undefined>();
+  const dictation = useDictation(value, (next) => {
+    setValue(next);
+    setSelected(null);
+    setError(undefined);
+  });
 
   function choose(prompt: PromptedDirection) {
+    dictation.stop();
     setValue(prompt.text);
     setSelected(prompt.id);
     setError(undefined);
   }
 
   function submit() {
+    dictation.stop();
     if (!value.trim()) {
       setError("Tell us roughly where you want to go. A few words is enough.");
       return;
@@ -188,33 +200,32 @@ export function DirectionScreen({ flow, step, total, headingId }: ScreenProps) {
     <WizardStep
       step={step}
       total={total}
-      title={DIRECTION.prompt}
+      title={DIRECTION_C1.prompt}
+      description={DIRECTION_C1.hint}
       headingId={headingId}
       primaryLabel="Next"
       onPrimary={submit}
-      backLabel="Back"
-      onBack={() => dispatch({ type: "back" })}
     >
       <DirectionField
-        label={DIRECTION.prompt}
+        label={DIRECTION_C1.prompt}
         // The step's h1 already asks this. Showing the label too would put the
-        // same sentence on screen twice and push the primary action off it.
+        // same sentence on screen twice.
         labelHidden
-        hint={DIRECTION.hint}
         value={value}
         onChange={(next) => {
+          // Typing takes over from the mic, and makes a prompt the user's own.
+          dictation.stop();
           setValue(next);
-          // Typing over a prompt makes it the user's own answer again.
           setSelected(null);
           if (next.trim()) setError(undefined);
         }}
-        prompted={PROMPTED_DIRECTIONS}
-        promptedLabel={DIRECTION.promptedLabel}
+        prompted={DIRECTION_PROMPTS_C1}
+        promptedLabel={DIRECTION_C1.promptedLabel}
         selectedPromptId={selected}
         onSelectPrompt={choose}
-        // No separate examples block here: the hint carries both answer shapes
-        // in a line, and the prompts below are examples you can act on. Concept
-        // 1's whole claim is that nothing important sits below the fold.
+        focusOnSelect
+        promptLayout="stacked"
+        voice={{ listening: dictation.listening, onToggle: dictation.toggle }}
         error={error}
       />
     </WizardStep>
