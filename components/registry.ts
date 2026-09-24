@@ -27,21 +27,11 @@ import { sheetStates } from "./layout/Sheet/Sheet.states";
 import { stepHeaderStates } from "./onboarding/StepHeader/StepHeader.states";
 import { stepProgressStates } from "./onboarding/StepProgress/StepProgress.states";
 import { stepActionsStates } from "./onboarding/StepActions/StepActions.states";
-import { privacyPromiseStates } from "./onboarding/PrivacyPromise/PrivacyPromise.states";
 import { directionFieldStates } from "./onboarding/DirectionField/DirectionField.states";
-import { interpretedDirectionStates } from "./onboarding/InterpretedDirection/InterpretedDirection.states";
-import { refinementQuestionStates } from "./onboarding/RefinementQuestion/RefinementQuestion.states";
 import { noticeStates } from "./onboarding/Notice/Notice.states";
-import { assumptionNoticeStates } from "./onboarding/AssumptionNotice/AssumptionNotice.states";
 import { generatingStateStates } from "./onboarding/GeneratingState/GeneratingState.states";
 import { planTemplateCardStates } from "./onboarding/PlanTemplateCard/PlanTemplateCard.states";
-import { actionCardStates } from "./onboarding/ActionCard/ActionCard.states";
-import { artifactDraftStates } from "./onboarding/ArtifactDraft/ArtifactDraft.states";
-import { connectOfferStates } from "./onboarding/ConnectOffer/ConnectOffer.states";
 import { wizardStepStates } from "./onboarding/WizardStep/WizardStep.states";
-import { canvasSectionStates } from "./onboarding/CanvasSection/CanvasSection.states";
-import { canvasHeaderStates } from "./onboarding/CanvasHeader/CanvasHeader.states";
-import { directionDeckStates } from "./onboarding/DirectionDeck/DirectionDeck.states";
 import { welcomeSplitStates } from "./onboarding/WelcomeSplit/WelcomeSplit.states";
 import { privacySplashStates } from "./onboarding/PrivacySplash/PrivacySplash.states";
 import { answerListStates } from "./onboarding/AnswerList/AnswerList.states";
@@ -50,6 +40,12 @@ import { thisWeekCardStates } from "./onboarding/ThisWeekCard/ThisWeekCard.state
 import { planTimelineStates } from "./onboarding/PlanTimeline/PlanTimeline.states";
 import { storyTextStates } from "./onboarding/StoryText/StoryText.states";
 import { revisionChipsStates } from "./onboarding/RevisionChips/RevisionChips.states";
+import { guidePageStates } from "./onboarding/GuidePage/GuidePage.states";
+import { advisorFileStates } from "./onboarding/AdvisorFile/AdvisorFile.states";
+import { pointListStates } from "./onboarding/PointList/PointList.states";
+import { reflectionReplyStates } from "./onboarding/ReflectionReply/ReflectionReply.states";
+import { recommendationCardStates } from "./onboarding/RecommendationCard/RecommendationCard.states";
+import { signalSourcesStates } from "./onboarding/SignalSources/SignalSources.states";
 import { draftSectionStates } from "./onboarding/DraftSection/DraftSection.states";
 import { storySummaryCardStates } from "./onboarding/StorySummaryCard/StorySummaryCard.states";
 import { planSummaryCardStates } from "./onboarding/PlanSummaryCard/PlanSummaryCard.states";
@@ -79,21 +75,11 @@ export const registry: RegisteredComponent[] = [
   stepHeaderStates,
   stepProgressStates,
   stepActionsStates,
-  privacyPromiseStates,
   directionFieldStates,
-  interpretedDirectionStates,
-  refinementQuestionStates,
   noticeStates,
-  assumptionNoticeStates,
   generatingStateStates,
   planTemplateCardStates,
-  actionCardStates,
-  artifactDraftStates,
-  connectOfferStates,
   wizardStepStates,
-  canvasSectionStates,
-  canvasHeaderStates,
-  directionDeckStates,
   welcomeSplitStates,
   privacySplashStates,
   answerListStates,
@@ -104,6 +90,12 @@ export const registry: RegisteredComponent[] = [
   revisionChipsStates,
   planSummaryCardStates,
   draftSectionStates,
+  signalSourcesStates,
+  guidePageStates,
+  advisorFileStates,
+  pointListStates,
+  reflectionReplyStates,
+  recommendationCardStates,
   storySummaryCardStates,
   storyOutputsStates,
   exportLinksStates,

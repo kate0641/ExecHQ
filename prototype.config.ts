@@ -95,9 +95,9 @@ export const prototypeConfig: PrototypeConfig = {
         },
         {
           slug: "concept-3",
-          title: "Concept 3 — Living canvas",
+          title: "Concept 3 — Guided",
           summary:
-            "One page that fills itself in. All five plans compared, not one recommended.",
+            "Explains as it goes: what ExecHQ is, why each thing is asked, and what a plan is. Recommends early, then tests it.",
         },
       ],
     },

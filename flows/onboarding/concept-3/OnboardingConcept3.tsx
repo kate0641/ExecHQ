@@ -1,434 +1,455 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type ReactNode } from "react";
-import { NavPlaceholder } from "@/components/layout/NavPlaceholder";
-import { Button } from "@/components/primitives/Button";
-import { CanvasHeader } from "@/components/onboarding/CanvasHeader";
-import { CanvasSection } from "@/components/onboarding/CanvasSection";
-import { GeneratingState } from "@/components/onboarding/GeneratingState";
-import { InterpretedDirection } from "@/components/onboarding/InterpretedDirection";
+import { useEffect, useId, useRef, useState, type ComponentProps } from "react";
+import { ChipGroup } from "@/components/form/ChipGroup";
+import { Input } from "@/components/form/Input";
+import { AdvisorFile, type AdvisorFileItem } from "@/components/onboarding/AdvisorFile";
+import { DirectionField } from "@/components/onboarding/DirectionField";
+import { GuidePage } from "@/components/onboarding/GuidePage";
 import { Notice } from "@/components/onboarding/Notice";
+import { PointList } from "@/components/onboarding/PointList";
+import { RecommendationCard } from "@/components/onboarding/RecommendationCard";
+import { ReflectionReply } from "@/components/onboarding/ReflectionReply";
+import { SignalSources } from "@/components/onboarding/SignalSources";
+import { Button } from "@/components/primitives/Button";
 import {
-  STEP_LABELS,
-  stepIndex,
+  useDictation,
   useOnboardingFlow,
   type OnboardingFlow,
   type OnboardingStep,
 } from "@/flows/onboarding/shared";
-import { useStepNav, type StepNavItem } from "@/lib/step-nav";
-import { GENERATING_COPY, REFINEMENT_QUESTIONS } from "@/mock/onboarding";
+import { useStepNav } from "@/lib/step-nav";
 import {
-  AccountBody,
-  ActionBody,
-  ArtifactBody,
-  ConnectBody,
-  CustomPlanBody,
-  DirectionBody,
-  PlanBody,
-  PlanConfirmedBody,
-  PrivacyBody,
-  RefinementBody,
-  planSummary,
-} from "./sections";
+  DIRECTION_PROMPTS_C1,
+  GUIDE_C3,
+  SIGNALS_C1,
+  checkEmail,
+  earlyReasonFor,
+  isValidInviteCode,
+  recommendPlan,
+} from "@/mock/onboarding";
 
 /**
- * Concept 3 — the living canvas.
+ * Concept 3 — the guided onboarding.
  *
- * One surface that fills itself in. Every section is on the page from the first
- * paint as a single muted line, so the user can see the shape of what they are
- * building rather than discovering it a screen at a time; exactly one section is
- * open; answered sections collapse into their answer and can be reopened
- * without losing your place.
+ * Rebuilt on 2026-09-24 from the living canvas. It keeps Concepts 1 and 2's
+ * steps and logic, and explains as it goes: what ExecHQ is and how it is
+ * built, why each thing is asked, what a plan is and how each part helps. It
+ * is paged, like Concept 1, and differs from it on purpose:
  *
- * Built at 390px first, which is the width this pattern is hardest at and the
- * one the product actually lives at. Everything here works in a single column
- * with no horizontal scrolling and no section hidden behind a gesture.
+ *  - It recommends as soon as it hears where the user wants to go, then tests
+ *    that recommendation with every question after, rather than asking first
+ *    and recommending at the end.
+ *  - It carries a file of what it has learned on every page, so "it
+ *    remembers" is shown rather than claimed.
+ *  - It reads like an advisor's briefing: progress in words, a margin note on
+ *    every page saying why it is there, and reflections set as pull quotes.
+ *  - It stops to make the user reflect, with questions that are not needed
+ *    for the plan but are worth sitting with.
  *
- * The plan step is deliberately different from the other two concepts. Concepts
- * 1 and 2 recommend and let you overrule; this one puts all five templates plus
- * building your own on the page together and asks you to choose, with the
- * recommendation flagged and its reasoning attached. That difference is the
- * thing the three concepts exist to test, so it is not softened here.
+ * Signals come early, straight after the privacy promise, by decision on
+ * 2026-09-24: connecting LinkedIn or a website first means the first draft
+ * already sounds like the user. The promise comes first because it is the
+ * first time the user is asked for their data.
+ *
+ * Pages are this concept's own; each maps to the shared step it belongs to,
+ * so a step-bar jump fills in everything before it the same way it does in
+ * the other two concepts.
  */
-type SectionKey =
+type PageId =
+  | "welcome"
+  | "about"
   | "account"
   | "privacy"
+  | "signals"
   | "direction"
-  | "refinement"
-  | "plan"
-  | "action"
-  | "artifact"
-  | "connect";
+  | "rec"
+  | "reflect-time"
+  | "stage-end";
 
-/** Which step each section owns. A section can own more than one — the plan
- *  section covers choosing and confirming, which are one decision to the user
- *  even though the flow tracks them separately. */
-const SECTION_STEPS: Record<SectionKey, OnboardingStep[]> = {
-  account: ["account"],
-  privacy: ["privacy"],
-  direction: ["direction", "interpretation"],
-  refinement: ["refinement"],
-  plan: ["plan", "plan-confirmed"],
-  action: ["action"],
-  artifact: ["artifact"],
-  connect: ["connect"],
-};
-
-const SECTION_ORDER: SectionKey[] = [
-  "account",
-  "privacy",
-  "direction",
-  "refinement",
-  "plan",
-  "action",
-  "artifact",
-  "connect",
-];
-
-const SECTION_LABELS: Record<SectionKey, string> = {
-  account: "Your account",
-  privacy: "Privacy",
-  direction: "What you are working toward",
-  refinement: "A few optional questions",
-  plan: "Your plan",
-  action: "Your first step",
-  artifact: "Your first draft",
-  connect: "Optional connections",
-};
-
-const SECTION_HINTS: Record<SectionKey, string> = {
-  account: "A personal email. Nothing else is required.",
-  privacy: "What we will and will not do with this.",
-  direction: "Where you want to get to.",
-  refinement: "Up to three. Every one of them skippable.",
-  plan: "Five starting points, and the option to build your own.",
-  action: "The one thing worth doing first.",
-  artifact: "Something you can actually use.",
-  connect: "Two things that would sharpen later drafts.",
-};
-
-/** The step bar lists sections, not steps: a section is what the canvas shows
- *  as one thing, and jumping to one opens it at its first step. The finished
- *  page is the last stop. */
-const STEP_NAV: StepNavItem[] = [
-  ...SECTION_ORDER.map((key) => ({ id: key, label: STEP_LABELS[SECTION_STEPS[key][0]] })),
-  { id: "complete", label: STEP_LABELS.complete },
-];
-
-function stepNavTarget(id: string): OnboardingStep {
-  return id === "complete" ? "complete" : SECTION_STEPS[id as SectionKey][0];
+interface Page {
+  id: PageId;
+  /** The step bar's name for it. */
+  label: string;
+  /** Which of the four parts it sits in. Omitted: outside them (the cover). */
+  part?: number;
+  /** The shared step it belongs to, for jumps and for the flow's own state. */
+  step: OnboardingStep;
 }
 
-function stepNavCurrent(step: OnboardingStep): string {
-  return SECTION_ORDER.find((key) => SECTION_STEPS[key].includes(step)) ?? "complete";
-}
+const PAGES: Page[] = [
+  { id: "welcome", label: "Welcome", step: "account" },
+  { id: "about", label: "What ExecHQ is", part: 0, step: "account" },
+  { id: "account", label: "Account", part: 0, step: "account" },
+  { id: "privacy", label: "Privacy", part: 0, step: "privacy" },
+  { id: "signals", label: "Signals", part: 0, step: "direction" },
+  { id: "direction", label: "Direction", part: 1, step: "direction" },
+  { id: "rec", label: "Recommendation", part: 1, step: "refinement" },
+  { id: "reflect-time", label: "Reflection", part: 1, step: "refinement" },
+  { id: "stage-end", label: "Next", step: "refinement" },
+];
+/** Where a page sits, handed to every page. */
+type Frame = Pick<
+  ComponentProps<typeof GuidePage>,
+  "part" | "position" | "partIndex" | "partCount" | "file" | "headingId"
+>;
+
+const STEP_NAV = PAGES.map((page) => ({ id: page.id, label: page.label }));
+const pageIndex = (id: PageId) => PAGES.findIndex((page) => page.id === id);
+
+/** Pages whose answers live only in this concept, cleared when a jump lands
+ *  on or before them. */
+const REFLECTION_PAGES: Partial<Record<PageId, string>> = { "reflect-time": "time" };
 
 export function OnboardingConcept3() {
-  const flow = useOnboardingFlow({ followInterpretation: true });
-  const { state, dispatch, derived, generating } = flow;
+  const flow = useOnboardingFlow();
+  const { state, dispatch } = flow;
+  const a = state.answers;
+  const headingId = useId();
 
-  // Where the user was before they went back to change something. The canvas
-  // promises you can revisit an earlier answer without losing your place, and
-  // the flow on its own cannot keep that promise: sending the step back to
-  // "account" means walking forward through everything after it again. So the
-  // canvas remembers, and offers the way back.
-  const [returnTo, setReturnTo] = useState<OnboardingStep | null>(null);
+  const [pageId, setPageId] = useState<PageId>("welcome");
+  const [reflections, setReflections] = useState<Record<string, string>>({});
+  const [fileOpen, setFileOpen] = useState(false);
+  const at = pageIndex(pageId);
+  const page = PAGES[at];
 
-  // A jump is a fresh arrival, not a revisit, so there is nowhere to return to.
-  useStepNav(STEP_NAV, stepNavCurrent(state.step), (id) => {
-    setReturnTo(null);
-    flow.jumpTo(stepNavTarget(id));
+  /** Moves on, keeping the shared flow's step in step with the page. */
+  function goTo(id: PageId) {
+    const next = PAGES[pageIndex(id)];
+    if (next.step !== state.step) dispatch({ type: "go-to", step: next.step });
+    setPageId(id);
+    setFileOpen(false);
+  }
+  const next = () => goTo(PAGES[Math.min(at + 1, PAGES.length - 1)].id);
+
+  useStepNav(STEP_NAV, pageId, (id) => {
+    const target = PAGES[pageIndex(id as PageId)];
+    flow.jumpTo(target.step);
+    // What only this concept asks is cleared from the target onward.
+    setReflections((all) =>
+      Object.fromEntries(
+        Object.entries(all).filter(([key]) => {
+          const owner = (Object.keys(REFLECTION_PAGES) as PageId[]).find((p) => REFLECTION_PAGES[p] === key);
+          return owner ? pageIndex(owner) < pageIndex(target.id) : true;
+        })
+      )
+    );
+    setPageId(target.id);
+    setFileOpen(false);
   });
 
-  const idBase = useId();
-  const activeHeadingId = `${idBase}-active`;
-  const focusKey = [
-    state.step,
-    state.refinementIndex,
-    state.customPlanIndex,
-    generating ?? "idle",
-  ].join("-");
-  const previousKey = useRef(focusKey);
-
-  // Focus moves to the section that has just opened — its heading, not its
-  // first control, so what is announced is which part of the page is now live
-  // rather than a stray field name. The heading is focusable but not tabbable,
-  // so it never appears in the tab order afterwards.
+  // Focus moves to the new page's heading, never on first paint.
+  const previous = useRef(pageId);
   useEffect(() => {
-    if (previousKey.current === focusKey) return;
-    previousKey.current = focusKey;
-    const heading = document.getElementById(activeHeadingId);
-    if (!heading) return;
-    heading.focus();
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    heading.scrollIntoView({
-      behavior: reduced ? "auto" : "smooth",
-      block: "center",
-    });
-  }, [focusKey, activeHeadingId]);
+    if (previous.current === pageId) return;
+    previous.current = pageId;
+    document.getElementById(headingId)?.focus();
+  }, [pageId, headingId]);
 
-  const current = state.step;
-  const currentIndex = stepIndex(current);
-  const inCustomPlan = state.customPlanIndex !== null;
-
-  function sectionState(key: SectionKey) {
-    const steps = SECTION_STEPS[key];
-    if (steps.includes(current)) return "active" as const;
-    const last = steps[steps.length - 1];
-    return stepIndex(last) < currentIndex ? ("complete" as const) : ("pending" as const);
-  }
-
-  /* --- The header: the direction, and what we have gathered since --- */
-
-  const interpretationReady =
-    stepIndex("interpretation") <= currentIndex && generating !== "interpreting";
-  const sentence = interpretationReady
-    ? (state.answers.interpretation ?? derived?.interpretation ?? null)
-    : null;
-
-  // Refinement answers surface in the header as they are given, so the page's
-  // subject keeps up with the page rather than freezing at the first answer.
-  const meta = REFINEMENT_QUESTIONS.map((question) => {
-    const value = state.answers.refinement[question.id];
-    if (!value) return null;
-    return question.options.find((option) => option.value === value)?.label ?? null;
-  }).filter((label): label is string => Boolean(label));
-
-  const headerEditing = current === "direction" || current === "interpretation";
-
-  const header = (
-    <CanvasHeader
-      label="What you are working toward"
-      sentence={sentence}
-      placeholder="We will fill this in as soon as you tell us."
-      meta={meta}
-      onEdit={() => dispatch({ type: "go-to", step: "direction" })}
-    >
-      {headerEditing ? (
-        <div className="canvas-header__active">
-          <h1
-            className="canvas-header__sentence is-placeholder"
-            id={activeHeadingId}
-            tabIndex={-1}
-          >
-            {current === "direction"
-              ? "Where do you want to get to?"
-              : "Here is what we understood"}
-          </h1>
-
-          {generating === "interpreting" ? (
-            <GeneratingState label={GENERATING_COPY.interpreting} />
-          ) : current === "direction" ? (
-            <DirectionBody flow={flow} />
-          ) : (
-            <InterpretationBody flow={flow} />
-          )}
-        </div>
-      ) : undefined}
-    </CanvasHeader>
+  /* ---- The file: what ExecHQ knows so far. Each line appears once the
+     answer behind it exists, in the order it was learned. */
+  const direction = a.direction ?? "";
+  const plan = direction ? recommendPlan(direction) : null;
+  const connected = SIGNALS_C1.sources
+    .filter((source) => a.connections[source.id] === "connected" || a.signalLinks[source.id])
+    .map((source) => source.title);
+  const items: AdvisorFileItem[] = [];
+  if (connected.length) items.push({ label: "Signals", value: connected.join(", ") });
+  if (direction) items.push({ label: "Where you’re going", value: direction });
+  if (plan && at > pageIndex("rec")) items.push({ label: "Starting point", value: plan.name });
+  if (reflections.time) items.push({ label: GUIDE_C3.reflect.time.label, value: reflections.time });
+  const file = (
+    <AdvisorFile
+      label={GUIDE_C3.file.label}
+      items={items}
+      newest={items[items.length - 1]?.label}
+      newestLabel={GUIDE_C3.file.added}
+      open={fileOpen}
+      onToggle={() => setFileOpen((open) => !open)}
+    />
   );
 
-  /* --- The sections --- */
-
-  function bodyFor(key: SectionKey): ReactNode {
-    if (key === "refinement") return <RefinementBody flow={flow} />;
-    if (key === "plan") {
-      if (generating === "planning") {
-        return <GeneratingState label={GENERATING_COPY.planning} />;
-      }
-      if (inCustomPlan) return <CustomPlanBody flow={flow} />;
-      return current === "plan-confirmed" ? (
-        <PlanConfirmedBody flow={flow} />
-      ) : (
-        <PlanBody flow={flow} />
-      );
-    }
-    if (key === "action") return <ActionBody flow={flow} />;
-    if (key === "artifact") {
-      return generating === "drafting" ? (
-        <GeneratingState label={GENERATING_COPY.drafting} />
-      ) : (
-        <ArtifactBody flow={flow} />
-      );
-    }
-    if (key === "connect") return <ConnectBody flow={flow} />;
-    if (key === "account") return <AccountBody flow={flow} />;
-    if (key === "privacy") return <PrivacyBody flow={flow} />;
-    return null;
-  }
-
-  function summaryFor(key: SectionKey): ReactNode {
-    switch (key) {
-      case "account":
-        return state.answers.inviteCode
-          ? `${state.answers.email} · joined with an invite code`
-          : state.answers.email;
-      case "privacy":
-        return "Understood";
-      case "refinement": {
-        const answered = meta.length ? meta.join(" · ") : null;
-        if (state.skipped.includes("refinement")) {
-          return answered ? `${answered} · skipped the rest` : "Skipped";
-        }
-        return answered ?? "Skipped";
-      }
-      case "plan":
-        return planSummary(flow);
-      case "action":
-        return derived?.action.title ?? "Chosen";
-      case "artifact":
-        return state.answers.artifactSaved ? "Saved to your plan" : "Started";
-      case "connect": {
-        const added = Object.entries(state.answers.connections)
-          .filter(([, value]) => value === "connected")
-          .map(([id]) => (id === "linkedin" ? "LinkedIn metrics" : "Personal website"));
-        return added.length ? added.join(" · ") : "None added";
-      }
-      default:
-        return null;
-    }
-  }
-
-  /** Sections you can meaningfully reopen. Privacy is not one: there is nothing
-   *  in it to change. */
-  function editFor(key: SectionKey): (() => void) | undefined {
-    const step = SECTION_STEPS[key][0];
-    if (key === "privacy") return undefined;
-    return () => {
-      setReturnTo(current);
-      dispatch({ type: "go-to", step });
+  /** Where the page sits, in words. */
+  function frame(): Frame {
+    if (page.part === undefined) return { headingId };
+    const inPart = PAGES.filter((p) => p.part === page.part);
+    return {
+      part: GUIDE_C3.parts[page.part],
+      position: `${inPart.indexOf(page) + 1} of ${inPart.length}`,
+      partIndex: page.part,
+      partCount: GUIDE_C3.parts.length,
+      file,
+      headingId,
     };
   }
 
-  const revisiting =
-    returnTo !== null && currentIndex < stepIndex(returnTo) ? returnTo : null;
+  switch (pageId) {
+    case "welcome":
+      return (
+        <GuidePage
+          cover
+          headingId={headingId}
+          title={GUIDE_C3.welcome.title}
+          lede={GUIDE_C3.welcome.lede}
+          primaryLabel={GUIDE_C3.welcome.cta}
+          onPrimary={next}
+        >
+          <p className="guide__quote">{GUIDE_C3.welcome.quote}</p>
+        </GuidePage>
+      );
 
-  const showNav = currentIndex >= stepIndex("artifact");
-  const announcement =
-    current === "complete"
-      ? "Onboarding complete."
-      : `Now: ${SECTION_LABELS[activeKey(current)]}.`;
+    case "about": {
+      const c = GUIDE_C3.about;
+      return (
+        <GuidePage {...frame()} kicker={c.kicker} title={c.title} why={c.why} primaryLabel={c.cta} onPrimary={next}>
+          <PointList items={c.points} numbered />
+          <PointList items={c.built} label={c.builtLabel} />
+        </GuidePage>
+      );
+    }
 
-  return (
-    <div className="canvas">
-      {showNav ? <NavPlaceholder /> : null}
+    case "account":
+      return <AccountPage flow={flow} frame={frame()} onDone={next} />;
 
-      {header}
+    case "privacy": {
+      const c = GUIDE_C3.privacy;
+      return (
+        <GuidePage {...frame()} kicker={c.kicker} title={c.title} why={c.why} primaryLabel={c.cta} onPrimary={next}>
+          <PointList items={c.points} />
+        </GuidePage>
+      );
+    }
 
-      <div className="canvas__sections">
-        {SECTION_ORDER.map((key) => {
-          if (key === "direction") return null;
-          const sectionStatus = sectionState(key);
-          const isActive = sectionStatus === "active";
-          return (
-            <CanvasSection
-              key={key}
-              label={SECTION_LABELS[key]}
-              state={sectionStatus}
-              headingId={isActive ? activeHeadingId : undefined}
-              hint={SECTION_HINTS[key]}
-              summary={summaryFor(key)}
-              onEdit={sectionStatus === "complete" ? editFor(key) : undefined}
-            >
-              {isActive ? (
-                <>
-                  {revisiting ? (
-                    <Notice tone="info">
-                      You are changing an earlier answer. Everything after it is
-                      still here.
-                      <div className="canvas__inline-action">
-                        <Button
-                          variant="secondary"
-                          size="sm"
-                          onClick={() => {
-                            dispatch({ type: "go-to", step: revisiting });
-                            setReturnTo(null);
-                          }}
-                        >
-                          Back to {SECTION_LABELS[activeKey(revisiting)].toLowerCase()}
-                        </Button>
-                      </div>
-                    </Notice>
-                  ) : null}
-                  {bodyFor(key)}
-                </>
-              ) : null}
-            </CanvasSection>
-          );
-        })}
-      </div>
+    case "signals": {
+      const c = GUIDE_C3.signals;
+      const anyOn = connected.length > 0;
+      return (
+        <GuidePage
+          {...frame()}
+          kicker={c.kicker}
+          title={c.title}
+          lede={c.lede}
+          why={c.why}
+          primaryLabel={anyOn ? c.done : c.skip}
+          onPrimary={next}
+        >
+          <SignalSources
+            connections={a.connections}
+            signalLinks={a.signalLinks}
+            onConnect={(id) => dispatch({ type: "set-connection", id, state: "connected" })}
+            onAddLink={(id, link) => {
+              dispatch({ type: "set-signal-link", id, link });
+              dispatch({ type: "set-connection", id, state: "connected" });
+            }}
+            onDisconnect={(id) => {
+              dispatch({ type: "set-signal-link", id, link: null });
+              dispatch({ type: "set-connection", id, state: "declined" });
+            }}
+          />
+        </GuidePage>
+      );
+    }
 
-      {current === "complete" ? (
-        <div className="canvas__done">
-          <Notice tone="info" title="You have a plan and a first draft">
-            Both are yours. Nothing here is visible to anyone else. This is where
-            onboarding hands over to the signed-in app — that surface is Sprint 2,
-            which is why the navigation above is a placeholder.
-          </Notice>
-          <div className="canvas__inline-action">
-            <Button variant="secondary" onClick={flow.restart}>
-              Walk the flow again
-            </Button>
+    case "direction":
+      return <DirectionPage flow={flow} frame={frame()} onDone={next} />;
+
+    case "rec": {
+      const c = GUIDE_C3.rec;
+      if (!plan) return null;
+      return (
+        <GuidePage {...frame()} kicker={c.kicker} title={c.title} why={c.why} primaryLabel={c.cta} onPrimary={next}>
+          <RecommendationCard
+            lead={c.lead}
+            name={plan.name}
+            formalName={plan.formalName}
+            reason={earlyReasonFor(direction, plan)}
+          />
+          <p className="guide__next">{c.next}</p>
+        </GuidePage>
+      );
+    }
+
+    case "reflect-time": {
+      const c = GUIDE_C3.reflect.time;
+      const picked = reflections.time;
+      const index = c.options.findIndex((option) => option === picked);
+      return (
+        <GuidePage
+          {...frame()}
+          kicker={GUIDE_C3.reflect.kicker}
+          title={c.title}
+          lede={c.lede}
+          why={c.why}
+          primaryLabel={GUIDE_C3.reflect.cta}
+          primaryDisabled={!picked}
+          onPrimary={next}
+        >
+          <ChipGroup
+            label={GUIDE_C3.reflect.answerLabel}
+            options={c.options}
+            value={picked ? [picked] : []}
+            onChange={(value) => setReflections((all) => ({ ...all, time: value[0] ?? "" }))}
+          />
+          {/* The reply lands where the answer was given, and is announced. */}
+          <div aria-live="polite">
+            {picked ? (
+              <ReflectionReply
+                from={GUIDE_C3.from}
+                text={c.replies[index]}
+                fact={{ ...c.fact, placeholder: true }}
+              />
+            ) : null}
           </div>
-        </div>
-      ) : null}
+        </GuidePage>
+      );
+    }
 
-      <output className="u-visually-hidden">{announcement}</output>
-    </div>
-  );
-}
-
-/** The section a step belongs to, for the announcement. */
-function activeKey(step: OnboardingStep): SectionKey {
-  const found = SECTION_ORDER.find((key) => SECTION_STEPS[key].includes(step));
-  return found ?? "account";
+    case "stage-end":
+      return (
+        <GuidePage headingId={headingId} title={GUIDE_C3.stageEnd.title} lede={GUIDE_C3.stageEnd.lede}>
+          <div className="guide__file-end">{file}</div>
+        </GuidePage>
+      );
+  }
 }
 
 /**
- * The interpreted direction, edited in the header rather than in a section of
- * its own — it is the page's subject, so it lives where the subject lives.
+ * The account: email, and an invite code for those who have one. Same rules
+ * as Concept 1: any address, and a code only changes who pays.
  */
-function InterpretationBody({ flow }: { flow: OnboardingFlow }) {
-  const { state, dispatch, derived, withDelay } = flow;
-  const sentence = state.answers.interpretation ?? derived?.interpretation ?? "";
-  const [editing, setEditing] = useState(false);
-  const [draft, setDraft] = useState(sentence);
+interface PageProps {
+  flow: OnboardingFlow;
+  frame: Frame;
+  onDone: () => void;
+}
+
+function AccountPage({ flow, frame, onDone }: PageProps) {
+  const { state, dispatch } = flow;
+  const c = GUIDE_C3.account;
+  const [email, setEmail] = useState(state.answers.email ?? "");
+  const [code, setCode] = useState(state.answers.inviteCode ?? "");
+  const [showCode, setShowCode] = useState(Boolean(state.answers.inviteCode));
+  const [codeError, setCodeError] = useState(false);
+  const [verdict, setVerdict] = useState<ReturnType<typeof checkEmail> | null>(null);
+  const codeId = useId();
+
+  function submit() {
+    const codeOk = !showCode || !code.trim() || isValidInviteCode(code);
+    const check = checkEmail(email);
+    setCodeError(!codeOk);
+    setVerdict(check === "ok" ? null : check);
+    if (!codeOk || check !== "ok") return;
+    dispatch({ type: "set-invite-code", code: showCode ? code.trim() || null : null });
+    dispatch({ type: "set-email", email: email.trim() });
+    onDone();
+  }
 
   return (
-    <>
-      <InterpretedDirection
-        sentence={editing ? draft : sentence}
-        editing={editing}
-        onEdit={() => {
-          setDraft(sentence);
-          setEditing(true);
-        }}
-        onChange={setDraft}
-        onSave={() => {
-          dispatch({ type: "edit-interpretation", interpretation: draft });
-          setEditing(false);
-        }}
-        onCancel={() => {
-          setDraft(sentence);
-          setEditing(false);
+    <GuidePage {...frame} kicker={c.kicker} title={c.title} lede={c.lede} why={c.why} primaryLabel={c.cta} onPrimary={submit}>
+      <Input
+        label="Email"
+        type="email"
+        required
+        autoComplete="email"
+        value={email}
+        error={
+          verdict === "empty"
+            ? "We need an email address to create the account."
+            : verdict === "malformed"
+              ? "That does not look like an email address."
+              : undefined
+        }
+        onChange={(event) => {
+          setEmail(event.target.value);
+          setVerdict(null);
         }}
       />
-      <div className="canvas__actions">
+      <div className="guide__invite">
         <Button
-          variant="primary"
+          variant="ghost"
+          size="sm"
+          aria-expanded={showCode}
+          aria-controls={codeId}
           onClick={() => {
-            dispatch({ type: "next" });
-            withDelay("planning", () => {});
+            setShowCode((open) => !open);
+            setCodeError(false);
           }}
-          disabled={editing}
         >
-          That is right
-        </Button>
-        <Button variant="ghost" size="sm" onClick={() => dispatch({ type: "back" })}>
-          Back
+          {showCode ? c.inviteHide : c.inviteShow}
         </Button>
       </div>
-    </>
+      <div id={codeId} hidden={!showCode}>
+        <Input
+          label="Invite code"
+          autoComplete="off"
+          value={code}
+          onChange={(event) => {
+            setCode(event.target.value);
+            setCodeError(false);
+          }}
+        />
+      </div>
+      {codeError ? (
+        <Notice tone="explain" title="We do not recognise that code" live>
+          Check it against the invitation you were sent. You can also continue without one — a code
+          only changes who pays, never what you get.
+        </Notice>
+      ) : null}
+    </GuidePage>
+  );
+}
+
+/** Where the user wants to go: typed, spoken, or started from a prompt. */
+function DirectionPage({ flow, frame, onDone }: PageProps) {
+  const { state, dispatch } = flow;
+  const c = GUIDE_C3.direction;
+  const [value, setValue] = useState(state.answers.direction ?? "");
+  const [selected, setSelected] = useState<string | null>(
+    DIRECTION_PROMPTS_C1.find((p) => p.text === state.answers.direction)?.id ?? null
+  );
+  const [error, setError] = useState<string | undefined>();
+  const dictation = useDictation(value, (text) => {
+    setValue(text);
+    setSelected(null);
+    setError(undefined);
+  });
+
+  function submit() {
+    dictation.stop();
+    if (!value.trim()) {
+      setError("Tell me roughly where you want to go. A few words is enough.");
+      return;
+    }
+    dispatch({ type: "set-direction", direction: value.trim(), source: selected ? "prompted" : "free" });
+    onDone();
+  }
+
+  return (
+    <GuidePage {...frame} kicker={c.kicker} title={c.title} lede={c.lede} why={c.why} primaryLabel={c.cta} onPrimary={submit}>
+      <DirectionField
+        label={c.title}
+        labelHidden
+        value={value}
+        onChange={(text) => {
+          dictation.stop();
+          setValue(text);
+          setSelected(null);
+          if (text.trim()) setError(undefined);
+        }}
+        prompted={DIRECTION_PROMPTS_C1}
+        promptedLabel={c.promptedLabel}
+        selectedPromptId={selected}
+        onSelectPrompt={(prompt) => {
+          dictation.stop();
+          setValue(prompt.text);
+          setSelected(prompt.id);
+          setError(undefined);
+        }}
+        focusOnSelect
+        voice={{ listening: dictation.listening, onToggle: dictation.toggle }}
+        error={error}
+      />
+    </GuidePage>
   );
 }
 

@@ -1992,6 +1992,126 @@ export const CHAT_C2 = {
 } as const;
 
 /* -----------------------------------------------------------------------------
+   CONCEPT 3: THE GUIDED ONBOARDING
+   -------------------------------------------------------------------------- */
+
+/**
+ * Concept 3 explains as it goes, by decision on 2026-09-24: what ExecHQ is,
+ * why each thing is asked, what a plan is and how each part helps. It
+ * recommends early and tests the recommendation, carries a file of what it
+ * has learned, and stops to make the user reflect.
+ *
+ * Credibility comes only from how the product is built; nothing here claims
+ * outside proof. Facts are placeholders until sourced, and none ranks the
+ * user: the pilot rules out rank and percentile.
+ */
+export const GUIDE_C3 = {
+  from: "ExecHQ",
+  parts: ["About ExecHQ", "About you", "Your plan", "Your story"],
+  file: { label: "What I know so far", added: "Added" },
+  welcome: {
+    title: "From \u201cI\u2019d like to be\u201d to \u201cI\u2019m going to be\u201d.",
+    lede: "A private career advisor that doesn\u2019t just show you the way \u2014 it works for you to get there.",
+    quote: "Somewhere to work on what comes next.",
+    cta: "Get started",
+  },
+  about: {
+    kicker: "What ExecHQ is",
+    title: "An advisor that does the work with you",
+    points: [
+      { title: "It plans with you", detail: "A plan built around where you want to go, that sharpens as you go." },
+      { title: "It does the work with you", detail: "It drafts your story, your bio and your next conversation. Not advice to act on later." },
+      { title: "It remembers", detail: "Everything you tell it builds on what came before. You never start from scratch." },
+    ],
+    builtLabel: "How it\u2019s built",
+    built: [
+      { title: "For senior managers through SVPs", detail: "And the decisions that come with those roles." },
+      { title: "Private by design", detail: "Your eyes only. Nothing is ever posted or shared." },
+      { title: "No agenda", detail: "It tells you what a coach, a mentor or a colleague might not." },
+      { title: "Alongside your coach", detail: "It gives you both better information to work from." },
+    ],
+    why: "You\u2019re trusting ExecHQ with your career. You should know exactly what it is before you tell it anything.",
+    cta: "Continue",
+  },
+  account: {
+    kicker: "Your account",
+    title: "First, somewhere to keep all this",
+    lede: "Your plan and your story are saved to your account, so you can come back to them.",
+    inviteShow: "I have an invite code",
+    inviteHide: "I don\u2019t have a code",
+    why: "Everything you tell me builds on what came before. Your account is how I remember it, and how you come back to it.",
+    cta: "Continue",
+  },
+  privacy: {
+    kicker: "Before you tell me anything",
+    title: "Private by design",
+    points: [
+      { title: "Your eyes only", detail: "Not your employer, not your manager, not anyone else." },
+      { title: "Nothing is posted or shared", detail: "Drafts stay drafts until you use them yourself." },
+      { title: "Yours to take away", detail: "Disconnect anything, anytime." },
+    ],
+    why: "Thinking out loud about your next move is hard to do at work. This is the one place built for it.",
+    cta: "Good to know",
+  },
+  signals: {
+    kicker: "Optional",
+    title: "Want me to start from what\u2019s already public?",
+    lede: "Connect LinkedIn or your website and I\u2019ll learn how you already show up.",
+    why: "Everything I write for you starts from how you already show up. Connecting now means your first draft sounds like you, not a template.",
+    done: "Continue",
+    skip: "Skip for now",
+  },
+  direction: {
+    kicker: "Where you\u2019re going",
+    title: "Where do you want to go next?",
+    lede: "A role, a timeline, or just a feeling. Say it or type it.",
+    promptedLabel: "Or start with one of these",
+    why: "Everything I build points here. A rough answer is fine: I\u2019ll sharpen it with you.",
+    cta: "Continue",
+  },
+  rec: {
+    kicker: "My recommendation",
+    title: "Here\u2019s where I\u2019d start",
+    lead: "From that alone, I\u2019d start you on",
+    next: "Next, a few questions to check it. If your answers point somewhere else, I\u2019ll tell you.",
+    why: "You should get a clear starting point, not a menu of options. I\u2019ll show you how I got there, and you can always change it.",
+    cta: "Check it with me",
+  },
+  reflect: {
+    kicker: "A question to sit with",
+    answerLabel: "Your answer",
+    time: {
+      title: "How much time do you spend on your career each week?",
+      lede: "Not your job. Your career: thinking about what\u2019s next, and working toward it.",
+      label: "Time on your career",
+      options: ["None, honestly", "Under an hour", "An hour or two", "More than that"],
+      replies: [
+        "That\u2019s an honest answer, and a useful one. Your plan starts with work you already do, the meetings and the writing, and makes each one count toward where you\u2019re going.",
+        "Then every minute has to count. Your plan puts the highest-value step first, so the little time you give goes where it moves you most.",
+        "That\u2019s enough to move, if it\u2019s aimed. Your plan gives that time a direction, so it builds from one week to the next.",
+        "Then the question isn\u2019t effort, it\u2019s aim. Your plan makes sure the time you already give builds toward one thing.",
+      ],
+      fact: {
+        label: "Fun fact \u00b7 to be sourced",
+        text: "A sourced fact about how much time senior leaders spend on their own careers, compared with their teams\u2019. It must never rank the user.",
+      },
+      why: "Careers move in the time you give them. Knowing yours sets the pace of your plan, so it asks for what you can actually do.",
+    },
+    cta: "Continue",
+  },
+  stageEnd: {
+    title: "That\u2019s stage 1",
+    lede: "Next: the questions that check my recommendation, your plan taught part by part, and your story.",
+  },
+} as const;
+
+/** Why a plan fits, said early, from the direction alone. */
+export function earlyReasonFor(direction: string, plan: PlanTemplate): string {
+  const forWhom = plan.bestFor.charAt(0).toLowerCase() + plan.bestFor.slice(1);
+  return `You said \u201c${direction.trim().replace(/[.]$/, "")}\u201d. This is the plan for when ${forWhom}`;
+}
+
+/* -----------------------------------------------------------------------------
    SIMULATED WORK
    -------------------------------------------------------------------------- */
 
