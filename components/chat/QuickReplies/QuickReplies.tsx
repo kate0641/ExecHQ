@@ -4,6 +4,8 @@ export interface QuickReply {
   label: string;
   /** Quieter styling, for a way past the question rather than an answer. */
   quiet?: boolean;
+  /** For a pick-several question: a toggle, shown pressed while chosen. */
+  pressed?: boolean;
 }
 
 export interface QuickRepliesProps {
@@ -30,6 +32,7 @@ export function QuickReplies({ label, replies, onChoose, className }: QuickRepli
           <button
             type="button"
             className={["quick-replies__chip", reply.quiet ? "is-quiet" : null].filter(Boolean).join(" ")}
+            aria-pressed={reply.pressed}
             onClick={() => onChoose(reply.label)}
           >
             {reply.label}

@@ -3,31 +3,19 @@
 import { useState } from "react";
 import { ChipGroup } from "@/components/form/ChipGroup";
 import { Input } from "@/components/form/Input";
-import { ToggleGroup } from "@/components/form/ToggleGroup";
 import { GeneratingState } from "@/components/onboarding/GeneratingState";
-import { RevisionChips } from "@/components/onboarding/RevisionChips";
-import { StoryText } from "@/components/onboarding/StoryText";
+import { ExportLinks } from "@/components/onboarding/ExportLinks";
+import { StoryOutputs } from "@/components/onboarding/StoryOutputs";
 import { WizardStep } from "@/components/onboarding/WizardStep";
-import { Button } from "@/components/primitives/Button";
 import type { PositioningInputs } from "@/flows/onboarding/shared";
 import {
-  EXPORT_ACTIONS,
   OPENER_KIND,
   POSITIONING_C1,
-  bioFor,
+  STORY_EXPORTS,
   builtFrom,
-  goalFor,
-  narrativeFor,
-  nextUseFor,
-  openerFor,
   planById,
-  segmentsToText,
-  toggleRevision,
-  visibleRevisions,
-  type BioLength,
   type OutputKind,
   type PlanTemplate,
-  type StorySegment,
 } from "@/mock/onboarding";
 import type { ScreenProps } from "./types";
 
@@ -211,38 +199,17 @@ export function PositioningBuildScreen({ flow, step, total, headingId }: ScreenP
    OUTPUTS
    -------------------------------------------------------------------------- */
 
-type OutputView = OutputKind;
-
 /**
- * What comes out: the builder's four outputs. The leadership narrative in its
- * three parts (or read as one), the executive bio at three lengths, the
- * optional opener for the audience they chose, and where to use it next.
- *
- * Each output has its own revision chips. They build on each other: an
- * applied one fades with a check and its follow-ups appear, and each output
- * keeps its own set, so shortening the narrative leaves the bio alone.
- *
- * Copy, Download and Email sit with the pinned action, available the whole
- * time, and each takes everything at once. Nothing in this prototype leaves
- * the browser, so they confirm and stop.
+ * What comes out: the builder's four outputs, drawn by StoryOutputs, which
+ * Concept 2's story card shares. Copy, Download and Email sit with the pinned
+ * action, available the whole time, and each takes everything at once.
  */
 export function PositioningOutputScreen({ flow, step, total, headingId }: ScreenProps) {
   const { state, dispatch, generating } = flow;
   const inputs = state.answers.positioning;
   const plan = usePlan({ flow });
-  const goal = goalFor(state.answers.direction ?? "");
   const copy = POSITIONING_C1;
-
-  const [view, setView] = useState<OutputView>(inputs.showFirst as OutputView);
-  const [applied, setApplied] = useState<Record<OutputView, string[]>>({
-    narrative: [],
-    bio: [],
-    opener: [],
-  });
-  const [length, setLength] = useState<BioLength>("short");
   const [editing, setEditing] = useState(false);
-  const [draft, setDraft] = useState("");
-  const [exported, setExported] = useState<string | null>(null);
 
   if (generating === "drafting") {
     return (
@@ -251,56 +218,6 @@ export function PositioningOutputScreen({ flow, step, total, headingId }: Screen
       </WizardStep>
     );
   }
-
-  const opener = openerFor(inputs, goal, applied.opener);
-  const shown: OutputView = view === "opener" && !opener ? "narrative" : view;
-  const revisions = applied[shown];
-  const parts = narrativeFor(inputs, goal, applied.narrative);
-  const asOne = applied.narrative.includes("asOne");
-  const editKey = shown === "bio" ? `bio-${length}` : shown;
-  const edited = inputs.edits[editKey];
-  // The long bio already says the goal, so adding it would change nothing.
-  const unavailable = shown === "bio" && length === "long" ? ["goal"] : [];
-
-  /** The current output as segments, for editing and for the as-one view. */
-  function currentSegments(): StorySegment[] {
-    if (shown === "bio") return bioFor(inputs, goal, length, applied.bio);
-    if (shown === "opener" && opener) return opener.segments;
-    return parts.flatMap((part, index) =>
-      index === 0 ? part.segments : [{ text: " " }, ...part.segments]
-    );
-  }
-
-  const viewOptions = [
-    { value: "narrative", label: copy.outputs.narrative },
-    { value: "bio", label: copy.outputs.bio },
-    ...(opener ? [{ value: "opener", label: opener.kind }] : []),
-  ];
-
-  function saveEdit() {
-    dispatch({
-      type: "set-positioning",
-      patch: { edits: { ...inputs.edits, [editKey]: draft } },
-    });
-    setEditing(false);
-  }
-
-  const exportLinks = (
-    <div className="builder-export">
-      <div className="builder-export__links">
-        <button type="button" onClick={() => setExported(copy.copied)}>
-          {copy.copy}
-        </button>
-        <button type="button" onClick={() => setExported(EXPORT_ACTIONS.downloaded)}>
-          {EXPORT_ACTIONS.downloadLabel}
-        </button>
-        <button type="button" onClick={() => setExported(EXPORT_ACTIONS.emailed)}>
-          {EXPORT_ACTIONS.emailLabel}
-        </button>
-      </div>
-      <output className="builder-export__status">{exported}</output>
-    </div>
-  );
 
   return (
     <WizardStep
@@ -316,113 +233,20 @@ export function PositioningOutputScreen({ flow, step, total, headingId }: Screen
         dispatch({ type: "go-to", step: "complete" });
       }}
       primaryDisabled={editing}
-      actionsLead={exportLinks}
+      actionsLead={<ExportLinks actions={STORY_EXPORTS} />}
     >
-      <ToggleGroup
-        label="Output"
-        labelHidden
-        shape="pill"
-        options={viewOptions}
-        value={shown}
-        onChange={(next) => {
-          setView(next as OutputView);
-          setEditing(false);
-        }}
+      <StoryOutputs
+        inputs={inputs}
+        direction={state.answers.direction ?? ""}
+        showFirst={inputs.showFirst as OutputKind}
+        nextStage={plan?.stages?.[1]?.title}
+        edits={inputs.edits}
+        onSaveEdit={(key, text) =>
+          dispatch({ type: "set-positioning", patch: { edits: { ...inputs.edits, [key]: text } } })
+        }
+        onEditingChange={setEditing}
       />
-
-      {shown === "bio" ? (
-        <ToggleGroup
-          label="Length"
-          labelHidden
-          shape="underline"
-          options={[
-            { value: "short", label: copy.lengths.short },
-            { value: "medium", label: copy.lengths.medium },
-            { value: "long", label: copy.lengths.long },
-          ]}
-          value={length}
-          onChange={(next) => {
-            setLength(next as BioLength);
-            setEditing(false);
-          }}
-        />
-      ) : null}
-
-      {shown === "opener" && opener ? (
-        <p className="builder-output__for">For {inputs.audience.toLowerCase().replace(/^my /, "your ")}.</p>
-      ) : null}
-
-      {editing ? (
-        <div className="builder-output__edit">
-          <Input
-            label="Your version"
-            labelHidden
-            multiline
-            rows={8}
-            value={draft}
-            onChange={(event) => setDraft(event.target.value)}
-          />
-          <div className="builder-output__edit-actions">
-            <Button variant="primary" size="sm" onClick={saveEdit}>
-              Save
-            </Button>
-            <Button variant="ghost" size="sm" onClick={() => setEditing(false)}>
-              Cancel
-            </Button>
-          </div>
-        </div>
-      ) : edited ? (
-        <StoryText segments={[{ text: edited }]} className="builder-output__text" />
-      ) : shown === "narrative" && !asOne ? (
-        <ol className="builder-narrative">
-          {parts.map((part) => (
-            <li key={part.heading}>
-              <p className="builder-narrative__label">{part.heading}</p>
-              <StoryText segments={part.segments} className="builder-output__text" />
-            </li>
-          ))}
-        </ol>
-      ) : (
-        <StoryText segments={currentSegments()} className="builder-output__text" />
-      )}
-
-      {!editing ? (
-        <div className="builder-output__tools">
-          <button
-            type="button"
-            className="builder-output__edit-link"
-            onClick={() => {
-              setDraft(edited ?? segmentsToText(currentSegments()));
-              setEditing(true);
-            }}
-          >
-            {copy.edit}
-          </button>
-        </div>
-      ) : null}
-
-      {/* A hand edit replaces the generated text, so the chips that rewrite
-          it step aside until the edit is cleared by a rebuild. */}
-      {!editing && !edited ? (
-        <RevisionChips
-          label={copy.revise.label}
-          options={visibleRevisions(shown, revisions, unavailable)}
-          applied={revisions}
-          onToggle={(id) =>
-            setApplied((all) => ({
-              ...all,
-              [shown]: toggleRevision(shown, all[shown], id, unavailable),
-            }))
-          }
-        />
-      ) : null}
-
-      <section className="builder-next" aria-label={copy.nextUse}>
-        <p className="builder-next__label">{copy.nextUse}</p>
-        <p className="builder-next__text">
-          {nextUseFor(inputs.audience, plan?.stages?.[1]?.title)}
-        </p>
-      </section>
     </WizardStep>
   );
 }
+

@@ -1269,6 +1269,13 @@ export const POSITIONING_C1 = {
   save: "Save and continue",
 } as const;
 
+/** Copy, Download and Email for the builder's outputs: each takes everything. */
+export const STORY_EXPORTS = [
+  { label: POSITIONING_C1.copy, done: POSITIONING_C1.copied },
+  { label: EXPORT_ACTIONS.downloadLabel, done: EXPORT_ACTIONS.downloaded },
+  { label: EXPORT_ACTIONS.emailLabel, done: EXPORT_ACTIONS.emailed },
+];
+
 export type BioLength = "short" | "medium" | "long";
 
 /** A piece of an output: words, or a gap only the user can fill. */
@@ -1868,7 +1875,73 @@ export const CHAT_C2 = {
   changed: "Thanks. That\u2019s what I\u2019ll build on.",
   edit: "Change this answer",
   waiting: "Choose an answer above, or type",
-  stageEnd: "Your plan is built in the next stage of this concept.",
+  planLead: "Here\u2019s your starting point. It\u2019s built from what you told me, and it grows with you.",
+  planUse: "Use this plan",
+  planOthers: "See other plans",
+  planWhich: "Here are the others. Which would you like to see?",
+  planRecommended: "(my pick)",
+  /** Opens the full plan in a sheet: the 12 weeks, or a plan that runs to a date. */
+  planFullWeeks: "See the full 12 weeks",
+  planFull: "See the full plan",
+  planClose: "Done",
+  builderLead:
+    "Good. The first thing we\u2019ll make is your story, one part at a time. I\u2019ll draft each part for you to check before we move on. Skip anything you like.",
+  /** The builder's parts, each asked, drafted and approved in turn. */
+  sections: {
+    doing: "First, what you do.",
+    known: "Next, what you\u2019re known for.",
+    toward: "The last part comes from your plan, so there\u2019s nothing to ask.",
+    bio: "Now your bio.",
+    opener: "Last, an opener for the first people who hear it.",
+  },
+  draft: {
+    eyebrow: "Draft",
+    approved: "Approved",
+    lead: "Here\u2019s a draft. Does it sound like you?",
+    bioLead: "Here\u2019s the short one. It comes in medium and long too.",
+    bioTitle: "Your bio",
+    approve: "Looks good",
+    change: "Change it",
+    changePlaceholder: "Write it how you\u2019d say it",
+    rewritten: "Here it is in your words. Does it read right?",
+  },
+  noOpener: "No opener for now. You can add one any time.",
+  storyAlso: (openerKind: string | null) =>
+    openerKind
+      ? `Also: your bio in three lengths, and a ${openerKind.toLowerCase()} opener.`
+      : "Also: your bio in three lengths.",
+  storyOpen: "See all of it",
+  revisedSection: (label: string) =>
+    `Done: ${label.toLowerCase()}. I\u2019ll carry that through the rest of your story.`,
+  revised: (label: string) => `Done: ${label.toLowerCase()}.`,
+  revisedStatus: (label: string) => `Changed: ${label.toLowerCase()}`,
+  builder: {
+    role: { question: "What\u2019s your current role?", placeholder: "e.g. VP of Marketing" },
+    own: { question: "What are you responsible for?", placeholder: "e.g. brand and demand" },
+    teamSize: { question: "How big is your team?", placeholder: "Or type it" },
+    strengths: {
+      question: "What are you strongest at?",
+      hint: "Pick up to three.",
+      placeholder: "Or type your own",
+      done: "That\u2019s all",
+    },
+    result: { question: "What\u2019s a result you\u2019re proud of?", placeholder: "e.g. grew pipeline 40% in a year" },
+    audience: {
+      question: "Who will hear it first?",
+      hint: "I\u2019ll write an opener for them.",
+      placeholder: "Or type who",
+    },
+    name: { question: "And what name should go on your bio?", placeholder: "Your name" },
+    source: {
+      question: "Anything I should start from?",
+      hint: "Paste a bio you already have, or your LinkedIn About section.",
+      placeholder: "Paste it here",
+      none: "Nothing to add",
+    },
+  },
+  storyLead: "That\u2019s every part approved. Here\u2019s your whole story.",
+  save: "Save and continue",
+  stageEnd: "The ending and your signals come in the next stage of this concept.",
   /** What the simulated mic "hears" for each kind of question. */
   voice: {
     email: { full: "maya.chen@example.com" },
@@ -1876,6 +1949,17 @@ export const CHAT_C2 = {
     reply: { full: "Good to know" },
     answer: { full: "Honestly, nobody above me sees the work my team does." },
     confirm: { full: "That\u2019s right" },
+    plan: { full: "Use this plan" },
+    role: { full: "VP of Marketing" },
+    own: { full: "Brand and demand" },
+    teamSize: { full: "About sixty" },
+    strengths: { full: "Building teams" },
+    result: { full: "Grew pipeline 40% in a year" },
+    audience: { full: "My manager" },
+    name: { full: "Maya Chen" },
+    source: { full: "I lead brand and demand for a B2B software company." },
+    save: { full: "Save and continue" },
+    approve: { full: "Looks good" },
   },
 } as const;
 

@@ -35,6 +35,9 @@ export interface PositioningInputs {
   edits: Record<string, string>;
   /** True once "Build my story" has been pressed: the outputs page shows. */
   built: boolean;
+  /** Concept 2: the parts of the story the user has reviewed and approved,
+   *  by section id. Concept 1 has no per-section review and leaves it empty. */
+  approved: string[];
 }
 
 export const emptyPositioning: PositioningInputs = {
@@ -49,6 +52,7 @@ export const emptyPositioning: PositioningInputs = {
   source: "",
   edits: {},
   built: false,
+  approved: [],
 };
 
 export interface OnboardingAnswers {

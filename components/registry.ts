@@ -51,6 +51,11 @@ import { thisWeekCardStates } from "./onboarding/ThisWeekCard/ThisWeekCard.state
 import { planTimelineStates } from "./onboarding/PlanTimeline/PlanTimeline.states";
 import { storyTextStates } from "./onboarding/StoryText/StoryText.states";
 import { revisionChipsStates } from "./onboarding/RevisionChips/RevisionChips.states";
+import { draftSectionStates } from "./onboarding/DraftSection/DraftSection.states";
+import { storySummaryCardStates } from "./onboarding/StorySummaryCard/StorySummaryCard.states";
+import { planSummaryCardStates } from "./onboarding/PlanSummaryCard/PlanSummaryCard.states";
+import { storyOutputsStates } from "./onboarding/StoryOutputs/StoryOutputs.states";
+import { exportLinksStates } from "./onboarding/ExportLinks/ExportLinks.states";
 import { chatMessageStates } from "./chat/ChatMessage/ChatMessage.states";
 import { advisorMarkStates } from "./chat/AdvisorMark/AdvisorMark.states";
 import { quickRepliesStates } from "./chat/QuickReplies/QuickReplies.states";
@@ -99,6 +104,11 @@ export const registry: RegisteredComponent[] = [
   planTimelineStates,
   storyTextStates,
   revisionChipsStates,
+  planSummaryCardStates,
+  draftSectionStates,
+  storySummaryCardStates,
+  storyOutputsStates,
+  exportLinksStates,
   chatMessageStates,
   advisorMarkStates,
   quickRepliesStates,
