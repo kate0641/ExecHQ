@@ -1,71 +1,85 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import { Input } from "@/components/form/Input";
+import { Button } from "@/components/primitives/Button";
 import { AssumptionNotice } from "@/components/onboarding/AssumptionNotice";
 import { DirectionField } from "@/components/onboarding/DirectionField";
 import { GeneratingState } from "@/components/onboarding/GeneratingState";
 import { InterpretedDirection } from "@/components/onboarding/InterpretedDirection";
 import { Notice } from "@/components/onboarding/Notice";
 import { PrivacyPromise } from "@/components/onboarding/PrivacyPromise";
+import { WelcomeSplit } from "@/components/onboarding/WelcomeSplit";
 import { WizardStep } from "@/components/onboarding/WizardStep";
 import {
   DIRECTION,
   GENERATING_COPY,
   PRIVACY,
   PROMPTED_DIRECTIONS,
+  WELCOME,
   checkEmail,
   isValidInviteCode,
   type PromptedDirection,
 } from "@/mock/onboarding";
 import { hasSkippedRefinement } from "@/flows/onboarding/shared";
+import { useStatusBarTone } from "@/lib/device-tone";
 import type { ScreenProps } from "./types";
 
 /**
- * Account creation. Two entry paths on one screen: an email address, and an
- * optional invite code beneath it.
+ * The welcome and account creation, on one screen.
+ *
+ * The first thing anyone sees, so it says what ExecHQ is before it asks for
+ * anything: the wordmark and one serif line on a dark panel, then the welcome,
+ * then the email. The invite code sits behind a link, since most people do not
+ * have one, and opening it is the only way the screen grows.
+ *
+ * No progress marks here. A welcome that opens on "1 of 9" reads as paperwork
+ * before anything has started; the marks begin on the next screen.
  *
  * The personal-domain rule was removed by decision on 2026-09-22. Any address is
  * accepted: the account belongs to the user and they can change the address
  * whenever they like, so refusing a work one was a gate with nothing behind it.
- * The hint says the useful part — a personal address survives a job change —
- * without turning it into a rule.
  */
-export function AccountScreen({ flow, step, total, headingId }: ScreenProps) {
+export function AccountScreen({ flow, headingId }: ScreenProps) {
   const { state, dispatch } = flow;
   const [code, setCode] = useState(state.answers.inviteCode ?? "");
   const [email, setEmail] = useState(state.answers.email ?? "");
+  const [showCode, setShowCode] = useState(Boolean(state.answers.inviteCode));
   const [codeError, setCodeError] = useState(false);
   const [emailVerdict, setEmailVerdict] = useState<
     ReturnType<typeof checkEmail> | null
   >(null);
+  const codeFieldId = useId();
+
+  // The dark panel runs to the top edge of the phone.
+  useStatusBarTone("inverse");
 
   function submit() {
-    const codeOk = !code.trim() || isValidInviteCode(code);
+    const codeOk = !showCode || !code.trim() || isValidInviteCode(code);
     const verdict = checkEmail(email);
     setCodeError(!codeOk);
     setEmailVerdict(verdict === "ok" ? null : verdict);
     if (!codeOk || verdict !== "ok") return;
 
-    dispatch({ type: "set-invite-code", code: code.trim() || null });
+    dispatch({ type: "set-invite-code", code: showCode ? code.trim() || null : null });
     dispatch({ type: "set-email", email: email.trim() });
     dispatch({ type: "next" });
   }
 
   return (
-    <WizardStep
-      step={step}
-      total={total}
-      title="Create your account"
+    <WelcomeSplit
+      quote={WELCOME.quote}
+      title={WELCOME.heading}
+      description={WELCOME.lede}
       headingId={headingId}
-      primaryLabel="Next"
+      primaryLabel={WELCOME.cta}
       onPrimary={submit}
     >
       <Input
         label="Email"
         type="email"
         required
-        hint="Use whichever address suits you. You can change it whenever you like, and the account stays yours either way."
+        autoComplete="email"
         value={email}
         error={
           emailVerdict === "empty"
@@ -74,15 +88,40 @@ export function AccountScreen({ flow, step, total, headingId }: ScreenProps) {
               ? "That does not look like an email address."
               : undefined
         }
-        onChange={(event) => setEmail(event.target.value)}
+        onChange={(event) => {
+          setEmail(event.target.value);
+          // Typing answers the error, so it goes rather than sitting over a
+          // field that no longer says what it describes.
+          setEmailVerdict(null);
+        }}
       />
 
-      <Input
-        label="Invite code"
-        hint="From an invitation, if you were sent one."
-        value={code}
-        onChange={(event) => setCode(event.target.value)}
-      />
+      <div className="welcome__invite">
+        <Button
+          variant="ghost"
+          size="sm"
+          aria-expanded={showCode}
+          aria-controls={codeFieldId}
+          onClick={() => {
+            setShowCode((open) => !open);
+            setCodeError(false);
+          }}
+        >
+          {showCode ? WELCOME.inviteHide : WELCOME.inviteShow}
+        </Button>
+      </div>
+
+      <div id={codeFieldId} hidden={!showCode}>
+        <Input
+          label="Invite code"
+          autoComplete="off"
+          value={code}
+          onChange={(event) => {
+            setCode(event.target.value);
+            setCodeError(false);
+          }}
+        />
+      </div>
 
       {codeError ? (
         <Notice tone="explain" title="We do not recognise that code" live>
@@ -90,7 +129,7 @@ export function AccountScreen({ flow, step, total, headingId }: ScreenProps) {
           without one — a code only changes who pays, never what you get.
         </Notice>
       ) : null}
-    </WizardStep>
+    </WelcomeSplit>
   );
 }
 

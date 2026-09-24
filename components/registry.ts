@@ -14,11 +14,13 @@ import { badgeStates } from "./primitives/Badge/Badge.states";
 import { buttonStates } from "./primitives/Button/Button.states";
 import { iconStates } from "./primitives/Icon/Icon.states";
 import { textLinkStates } from "./primitives/TextLink/TextLink.states";
+import { wordmarkStates } from "./primitives/Wordmark/Wordmark.states";
 import { inputStates } from "./form/Input/Input.states";
 import { toggleGroupStates } from "./form/ToggleGroup/ToggleGroup.states";
 import { panelStates } from "./layout/Panel/Panel.states";
 import { placeholderStateStates } from "./layout/PlaceholderState/PlaceholderState.states";
 import { navPlaceholderStates } from "./layout/NavPlaceholder/NavPlaceholder.states";
+import { stepBarStates } from "./layout/StepBar/StepBar.states";
 import { stepHeaderStates } from "./onboarding/StepHeader/StepHeader.states";
 import { stepProgressStates } from "./onboarding/StepProgress/StepProgress.states";
 import { stepActionsStates } from "./onboarding/StepActions/StepActions.states";
@@ -38,17 +40,20 @@ import { threadTurnStates } from "./onboarding/ThreadTurn/ThreadTurn.states";
 import { canvasSectionStates } from "./onboarding/CanvasSection/CanvasSection.states";
 import { canvasHeaderStates } from "./onboarding/CanvasHeader/CanvasHeader.states";
 import { directionDeckStates } from "./onboarding/DirectionDeck/DirectionDeck.states";
+import { welcomeSplitStates } from "./onboarding/WelcomeSplit/WelcomeSplit.states";
 
 export const registry: RegisteredComponent[] = [
   badgeStates,
   buttonStates,
   iconStates,
   textLinkStates,
+  wordmarkStates,
   inputStates,
   toggleGroupStates,
   panelStates,
   placeholderStateStates,
   navPlaceholderStates,
+  stepBarStates,
   stepHeaderStates,
   stepProgressStates,
   stepActionsStates,
@@ -68,6 +73,7 @@ export const registry: RegisteredComponent[] = [
   canvasSectionStates,
   canvasHeaderStates,
   directionDeckStates,
+  welcomeSplitStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */

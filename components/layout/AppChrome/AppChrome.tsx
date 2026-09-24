@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { Wordmark } from "@/components/primitives/Wordmark";
 import { navForChrome, type Flow } from "@/lib/manifest";
 
 export interface AppChromeProps {
@@ -25,17 +26,14 @@ export function AppChrome({ flow, children }: AppChromeProps) {
 
   return (
     <div className={`chrome chrome--${flow.chrome}`}>
-      <header className="chrome__header">
-        <p className="chrome__wordmark">
-          ExecHQ
-          {flow.chrome === "enterprise" ? (
-            <span className="chrome__wordmark-suffix"> Enterprise</span>
-          ) : null}
-        </p>
-        {flow.chrome === "minimal" ? (
-          <p className="chrome__context">{flow.title}</p>
-        ) : null}
-      </header>
+      {flow.header === false ? null : (
+        <header className="chrome__header">
+          <Wordmark
+            size="md"
+            suffix={flow.chrome === "enterprise" ? "Enterprise" : undefined}
+          />
+        </header>
+      )}
 
       {nav.length > 0 ? (
         <nav className="chrome__nav" aria-label={`${flow.title} navigation`}>

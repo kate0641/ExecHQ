@@ -45,6 +45,10 @@ export interface Flow {
    *  off for Onboarding, where a dedicated privacy screen makes the same promise
    *  properly and a permanent footer repeating it in small type weakens it. */
   privacyFooter?: boolean;
+  /** The chrome header carrying the wordmark. Defaults to shown. Turned off for
+   *  Onboarding, whose first screen carries the wordmark itself; a header
+   *  repeating it on every later step would only take room from the question. */
+  header?: boolean;
   /** One line shown under the flow in the hub. */
   description: string;
   concepts: Concept[];
@@ -73,6 +77,7 @@ export const prototypeConfig: PrototypeConfig = {
       sprint: 1,
       chrome: "minimal",
       privacyFooter: false,
+      header: false,
       description:
         "The first ninety seconds: privacy promise, career direction, plan selection and one usable artifact — one continuous sequence, never a setup tool.",
       concepts: [

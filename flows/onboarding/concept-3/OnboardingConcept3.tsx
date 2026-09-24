@@ -9,11 +9,13 @@ import { GeneratingState } from "@/components/onboarding/GeneratingState";
 import { InterpretedDirection } from "@/components/onboarding/InterpretedDirection";
 import { Notice } from "@/components/onboarding/Notice";
 import {
+  STEP_LABELS,
   stepIndex,
   useOnboardingFlow,
   type OnboardingFlow,
   type OnboardingStep,
 } from "@/flows/onboarding/shared";
+import { useStepNav, type StepNavItem } from "@/lib/step-nav";
 import { GENERATING_COPY, REFINEMENT_QUESTIONS } from "@/mock/onboarding";
 import {
   AccountBody,
@@ -105,6 +107,22 @@ const SECTION_HINTS: Record<SectionKey, string> = {
   connect: "Two things that would sharpen later drafts.",
 };
 
+/** The step bar lists sections, not steps: a section is what the canvas shows
+ *  as one thing, and jumping to one opens it at its first step. The finished
+ *  page is the last stop. */
+const STEP_NAV: StepNavItem[] = [
+  ...SECTION_ORDER.map((key) => ({ id: key, label: STEP_LABELS[SECTION_STEPS[key][0]] })),
+  { id: "complete", label: STEP_LABELS.complete },
+];
+
+function stepNavTarget(id: string): OnboardingStep {
+  return id === "complete" ? "complete" : SECTION_STEPS[id as SectionKey][0];
+}
+
+function stepNavCurrent(step: OnboardingStep): string {
+  return SECTION_ORDER.find((key) => SECTION_STEPS[key].includes(step)) ?? "complete";
+}
+
 export function OnboardingConcept3() {
   const flow = useOnboardingFlow({ followInterpretation: true });
   const { state, dispatch, derived, generating } = flow;
@@ -115,6 +133,12 @@ export function OnboardingConcept3() {
   // "account" means walking forward through everything after it again. So the
   // canvas remembers, and offers the way back.
   const [returnTo, setReturnTo] = useState<OnboardingStep | null>(null);
+
+  // A jump is a fresh arrival, not a revisit, so there is nowhere to return to.
+  useStepNav(STEP_NAV, stepNavCurrent(state.step), (id) => {
+    setReturnTo(null);
+    flow.jumpTo(stepNavTarget(id));
+  });
 
   const idBase = useId();
   const activeHeadingId = `${idBase}-active`;

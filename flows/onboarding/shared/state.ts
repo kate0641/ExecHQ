@@ -89,6 +89,9 @@ export type OnboardingAction =
   | { type: "next" }
   | { type: "back" }
   | { type: "go-to"; step: OnboardingStep }
+  /** Replaces the whole state. Only the prototype's step bar sends this, with
+   *  a state built by `jumpState`. */
+  | { type: "jump"; state: OnboardingState }
   | { type: "reset" };
 
 function withVisit(state: OnboardingState, step: OnboardingStep): OnboardingState {
@@ -251,6 +254,9 @@ export function makeReducer(refinementCount: number, customPlanCount: number) {
 
       case "go-to":
         return withVisit(state, action.step);
+
+      case "jump":
+        return action.state;
 
       case "reset":
         return initialState;

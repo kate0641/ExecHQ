@@ -9,9 +9,11 @@ import { ThreadTurn } from "@/components/onboarding/ThreadTurn";
 import {
   ONBOARDING_STEPS,
   stepIndex,
+  stepNavItems,
   useOnboardingFlow,
   type OnboardingStep,
 } from "@/flows/onboarding/shared";
+import { useStepNav } from "@/lib/step-nav";
 import { DIRECTION, GENERATING_COPY, PRIVACY } from "@/mock/onboarding";
 import {
   AccountAsk,
@@ -59,9 +61,14 @@ import {
  *  - Scrolling the newest turn into view is a convenience. Everything is
  *    reachable and operable by keyboard with no scrolling at all.
  */
+/** Every step is a turn in the thread, so every step is a screen to jump to. */
+const STEP_NAV = stepNavItems(ONBOARDING_STEPS);
+
 export function OnboardingConcept2() {
   const flow = useOnboardingFlow({ followInterpretation: true });
   const { state, dispatch, derived, generating, refinementQuestions } = flow;
+
+  useStepNav(STEP_NAV, state.step, (id) => flow.jumpTo(id as OnboardingStep));
 
   const headingIdBase = useId();
   const activeHeadingId = `${headingIdBase}-active`;

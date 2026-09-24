@@ -18,7 +18,9 @@ import {
   interpretDirection,
   recommendPlan,
 } from "@/mock/onboarding";
+import { jumpState } from "./jump";
 import { makeReducer, initialState } from "./state";
+import type { OnboardingStep } from "./steps";
 
 /**
  * Binds the onboarding state machine to React and adds the simulated
@@ -46,6 +48,12 @@ export function useOnboardingFlow({
     []
   );
   const [state, dispatch] = useReducer(reducer, initialState);
+  // Kept in a ref so `jumpTo` can read the latest state without changing
+  // identity on every render.
+  const stateRef = useRef(state);
+  useEffect(() => {
+    stateRef.current = state;
+  }, [state]);
   const [generating, setGenerating] = useState<Generating>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -85,6 +93,14 @@ export function useOnboardingFlow({
     dispatch({ type: "reset" });
   }, []);
 
+  /** The step bar's jump. Cancels any fake work in flight first, so a delayed
+   *  change from the screen being left cannot land on the one jumped to. */
+  const jumpTo = useCallback((step: OnboardingStep) => {
+    if (timer.current) clearTimeout(timer.current);
+    setGenerating(null);
+    dispatch({ type: "jump", state: jumpState(stateRef.current, step) });
+  }, []);
+
   return {
     state,
     dispatch,
@@ -92,6 +108,7 @@ export function useOnboardingFlow({
     generating,
     withDelay,
     restart,
+    jumpTo,
     refinementQuestions: REFINEMENT_QUESTIONS,
     customPlanSteps: CUSTOM_PLAN_STEPS,
   };

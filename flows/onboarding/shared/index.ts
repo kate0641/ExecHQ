@@ -17,6 +17,8 @@ export {
   type OnboardingState,
   type PlanSource,
 } from "./state";
+export { jumpState } from "./jump";
+export { STEP_LABELS, stepNavItems } from "./step-nav";
 export {
   useOnboardingFlow,
   type Generating,

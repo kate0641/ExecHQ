@@ -15,14 +15,29 @@
    ENTRY
    -------------------------------------------------------------------------- */
 
+/** The welcome at the top of the account screen. What ExecHQ is, in the
+ *  words of the pilot scope; the serif line answers the brand questionnaire's
+ *  core audience — someone privately wondering what comes next, with nowhere
+ *  to work on it. */
+export const WELCOME = {
+  quote: "Somewhere to work on what comes next.",
+  heading: "Welcome to ExecHQ",
+  lede: "A private career advisor that takes you from “I’d like to be” to “I’m going to be”. It doesn’t just show you the way. It works for you to get you there.",
+  cta: "Get started",
+  inviteShow: "I have an invite code",
+  inviteHide: "I do not have a code",
+} as const;
+
 /** Codes an enterprise user might arrive with. The sponsoring organisation is
  *  deliberately not recorded: no employer name appears anywhere in the UI, and
  *  storing one here would invite a screen that shows it. */
 export const INVITE_CODES = ["EXEC-4821", "EXEC-7390", "EXEC-1155"] as const;
 
+/** Any code is accepted, so reviewers can type anything to move on. The
+ *  unrecognised-code notice is still a designed state: see it in the
+ *  catalogue, or switch this back to checking against INVITE_CODES. */
 export function isValidInviteCode(code: string): boolean {
-  const normalised = code.trim().toUpperCase();
-  return (INVITE_CODES as readonly string[]).includes(normalised);
+  return code.trim().length > 0;
 }
 
 export type EmailVerdict = "ok" | "empty" | "malformed";
@@ -37,10 +52,10 @@ export type EmailVerdict = "ok" | "empty" | "malformed";
  * record, not an omission.
  */
 export function checkEmail(value: string): EmailVerdict {
-  const email = value.trim().toLowerCase();
-  if (!email) return "empty";
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return "malformed";
-  return "ok";
+  // Prototype: any text moves on, so reviewers can type anything. Only an
+  // empty field is stopped. The "malformed" state is kept as a designed state
+  // for when a real check returns.
+  return value.trim() ? "ok" : "empty";
 }
 
 /* -----------------------------------------------------------------------------
@@ -766,4 +781,19 @@ export const GENERATING_COPY = {
   interpreting: "Reading what you said",
   planning: "Putting a plan together",
   drafting: "Starting your draft",
+} as const;
+
+/* -----------------------------------------------------------------------------
+   REVIEW SHORTCUTS
+   -------------------------------------------------------------------------- */
+
+/** Answers the prototype's step bar fills in when a reviewer jumps past a step
+ *  they have not answered, so every later screen has something real to show.
+ *  Review scaffolding, never product copy: nothing here appears unless a step
+ *  was skipped by jumping. */
+export const SAMPLE_ANSWERS = {
+  email: "reviewer@example.com",
+  /** A prompted direction by id, so it reads exactly as picking one would. */
+  directionId: "bigger-org",
+  refinement: { horizon: "year", audience: "internal", constraint: "visibility" },
 } as const;

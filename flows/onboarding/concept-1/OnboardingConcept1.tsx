@@ -1,7 +1,12 @@
 "use client";
 
 import { useEffect, useId, useRef } from "react";
-import { useOnboardingFlow, type OnboardingStep } from "@/flows/onboarding/shared";
+import {
+  stepNavItems,
+  useOnboardingFlow,
+  type OnboardingStep,
+} from "@/flows/onboarding/shared";
+import { useStepNav } from "@/lib/step-nav";
 import {
   AccountScreen,
   DirectionScreen,
@@ -55,12 +60,24 @@ const SHOWN_STEPS: OnboardingStep[] = [
   "complete",
 ];
 
+const STEP_NAV = stepNavItems(SHOWN_STEPS);
+
+/** Which step bar entry the flow is on. The steps this concept steps over
+ *  render the draft screen, so that is where the bar says the user is. */
+function shownStep(step: OnboardingStep): OnboardingStep {
+  return step === "plan-confirmed" || step === "action" ? "artifact" : step;
+}
+
 export function OnboardingConcept1() {
   const flow = useOnboardingFlow();
   const { state } = flow;
   const headingId = useId();
   const stepKey = `${state.step}-${state.refinementIndex}-${state.customPlanIndex}`;
   const previousKey = useRef(stepKey);
+
+  useStepNav(STEP_NAV, shownStep(state.step), (id) =>
+    flow.jumpTo(id as OnboardingStep)
+  );
 
   // Move focus to the new step's heading when the step changes, so focus is
   // never left on a control that has just been replaced. Not on first paint:

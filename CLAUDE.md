@@ -68,7 +68,8 @@ panel and the routes are all generated from it.
 - `sprint` drives the "Not yet built — Sprint N" placeholder text.
 - `chrome` picks the navigation chrome: `minimal` (Onboarding, Login), `app`
   (Homepage, Profile, Plan, Toolbox, Toolbox flow, Daily Briefing), `enterprise`
-  (Enterprise Dashboard).
+  (Enterprise Dashboard). `header: false` drops the wordmark header (Onboarding,
+  whose welcome screen carries the wordmark itself).
 - `webOnly: true` marks a flow the viewport toggle locks to web width.
 
 ## The prototype dock
@@ -129,6 +130,9 @@ Switches the canvas between Web, Tablet and Mobile.
 - The selection persists across navigation (React context in the root layout,
   mirrored to `localStorage`).
 - Content scrolls inside the device frame, not the browser window.
+- Mobile and tablet frames always render at true size (393×852, 820×1180). When
+  the window is shorter, the canvas scrolls to bring the frame into view; the
+  frame never shrinks to fit.
 - On `webOnly` flows the Mobile and Tablet options are visibly disabled with an
   accessible explanation, and the canvas stays at web width.
 - `@media` is still correct for `prefers-reduced-motion` and print.
