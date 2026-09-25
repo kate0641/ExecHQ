@@ -191,7 +191,20 @@ export function ComponentCatalogue() {
 /** What the selected component does not show yet, and what it rules out. */
 function CoverageNote({ component }: { component: (typeof registry)[number] }) {
   const missing = missingStates(component);
-  const ruledOut = Object.entries(component.notApplicable);
+
+  // States that share a reason read as one line: "No hover, focus or active
+  // state: …", rather than the same sentence three times.
+  const byReason = new Map<string, string[]>();
+  for (const [state, reason] of Object.entries(component.notApplicable)) {
+    byReason.set(reason, [...(byReason.get(reason) ?? []), state]);
+  }
+  const ruledOut = [...byReason].map(([reason, states]) => ({
+    reason,
+    states:
+      states.length === 1
+        ? states[0]
+        : `${states.slice(0, -1).join(", ")} or ${states[states.length - 1]}`,
+  }));
 
   return (
     <div className="catalogue__coverage">
@@ -202,9 +215,9 @@ function CoverageNote({ component }: { component: (typeof registry)[number] }) {
       </p>
       {ruledOut.length > 0 ? (
         <ul className="catalogue__coverage-list">
-          {ruledOut.map(([state, reason]) => (
-            <li key={state}>
-              No {state} state: {reason}
+          {ruledOut.map(({ reason, states }) => (
+            <li key={reason}>
+              No {states} state: {reason}
             </li>
           ))}
         </ul>

@@ -12,6 +12,10 @@ export const planTemplateCardStates = defineComponentStates({
   description:
     "One plan template as a choice, built on a native radio so arrow-key navigation and '2 of 5' come from the platform rather than from key handlers. The recommendation carries a rationale tied to what the user said; the others carry their 'best for' line, so switching is informed rather than a guess.",
   component: PlanTemplateCard,
+  notApplicable: {
+    loading: "The plan templates are fixed: nothing to wait for.",
+    empty: "Always describes a plan.",
+  },
   variants: [
     {
       label: "Recommended — selected",

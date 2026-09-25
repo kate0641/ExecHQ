@@ -15,6 +15,9 @@ export const toggleGroupStates = defineComponentStates({
   description:
     "Single-select segmented control built on native radio inputs, so arrow-key navigation and screen-reader semantics come from the platform. Used by the viewport toggle.",
   component: ToggleGroup,
+  notApplicable: {
+    loading: "The options are fixed: nothing to wait for.",
+  },
   variants: [
     {
       label: "Chips",

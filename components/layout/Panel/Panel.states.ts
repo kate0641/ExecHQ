@@ -1,4 +1,5 @@
 import { defineComponentStates } from "@/components/types";
+import { NOT_AN_INPUT, NOT_INTERACTIVE } from "@/components/not-applicable";
 import { Panel } from "./Panel";
 
 export const panelStates = defineComponentStates({
@@ -9,6 +10,12 @@ export const panelStates = defineComponentStates({
   description:
     "A titled surface. The generic container everything else composes with. `headingLevel` is explicit so heading order stays correct on whatever page the panel lands on.",
   component: Panel,
+  notApplicable: {
+    ...NOT_INTERACTIVE,
+    loading: "A container: what it holds shows its own loading state.",
+    error: "A container: what it holds shows its own errors.",
+    filled: NOT_AN_INPUT,
+  },
   variants: [
     {
       label: "Default",

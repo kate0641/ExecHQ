@@ -1,4 +1,5 @@
 import { defineComponentStates } from "@/components/types";
+import { NOT_AN_INPUT } from "@/components/not-applicable";
 import { CHAT_C2, PLAN_C1, PLAN_TEMPLATES } from "@/mock/onboarding";
 import { PlanSummaryCard } from "./PlanSummaryCard";
 
@@ -14,6 +15,9 @@ export const planSummaryCardStates = defineComponentStates({
   description:
     "A plan short enough for a conversation: name, this week's one thing and the stages as a line each, with the full plan one tap away. Concept 2's plan card.",
   component: PlanSummaryCard,
+  notApplicable: {
+    filled: NOT_AN_INPUT,
+  },
   variants: [
     {
       label: "Default",

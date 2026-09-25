@@ -1,4 +1,5 @@
 import { defineComponentStates } from "@/components/types";
+import { NOT_AN_INPUT, NOT_INTERACTIVE } from "@/components/not-applicable";
 import { PLAN_C1, PLAN_TEMPLATES } from "@/mock/onboarding";
 import { PlanTimeline } from "./PlanTimeline";
 
@@ -18,6 +19,10 @@ export const planTimelineStates = defineComponentStates({
   description:
     "A plan's stages as a vertical timeline. The current stage is open with its steps and a “Done when” finish line; later stages are one line each; a dashed last mark says the plan keeps going.",
   component: PlanTimeline,
+  notApplicable: {
+    ...NOT_INTERACTIVE,
+    filled: NOT_AN_INPUT,
+  },
   variants: [
     { label: "Starting out", props: base },
     {

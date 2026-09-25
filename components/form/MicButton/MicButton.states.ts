@@ -11,6 +11,11 @@ export const micButtonStates = defineComponentStates({
   description:
     "Speak an answer instead of typing it. A pressed-state toggle; its accessible name says what pressing will do. Sits inside a text field's bottom edge through Input's `adornment`. In the prototype, listening is simulated: a sample answer is typed in word by word.",
   component: MicButton,
+  notApplicable: {
+    empty: "An icon button: it takes no content.",
+    "long text": "Shows no text; its name is for assistive tech only.",
+    filled: "A toggle, not an input: its on state is Listening.",
+  },
   variants: [
     { label: "Default", props: { listening: false, onToggle: noop } },
     {

@@ -1,4 +1,5 @@
 import { defineComponentStates } from "@/components/types";
+import { NOT_AN_INPUT, NOT_INTERACTIVE } from "@/components/not-applicable";
 import { GUIDE_C3 } from "@/mock/onboarding";
 import { ReflectionReply } from "./ReflectionReply";
 
@@ -12,6 +13,10 @@ export const reflectionReplyStates = defineComponentStates({
   description:
     "ExecHQ's answer to a reflection question as a pull quote, with a fact after it. Facts show as marked placeholders until they are sourced.",
   component: ReflectionReply,
+  notApplicable: {
+    ...NOT_INTERACTIVE,
+    filled: NOT_AN_INPUT,
+  },
   variants: [
     {
       label: "With a fact to source",

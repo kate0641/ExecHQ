@@ -1,4 +1,5 @@
 import { defineComponentStates } from "@/components/types";
+import { NOT_AN_INPUT, NOT_INTERACTIVE } from "@/components/not-applicable";
 import { PLAN_C1, PLAN_TEMPLATES } from "@/mock/onboarding";
 import { ThisWeekCard } from "./ThisWeekCard";
 
@@ -12,6 +13,10 @@ export const thisWeekCardStates = defineComponentStates({
   description:
     "The first action in a plan, on a dark card: what, one line of detail, and why now. Always the draft the next screen builds, so the promise is kept one tap later. No effort estimate in onboarding.",
   component: ThisWeekCard,
+  notApplicable: {
+    ...NOT_INTERACTIVE,
+    filled: NOT_AN_INPUT,
+  },
   variants: [
     {
       label: "Default",

@@ -1,4 +1,5 @@
 import { defineComponentStates } from "@/components/types";
+import { NOT_AN_INPUT, NOT_INTERACTIVE } from "@/components/not-applicable";
 import { GUIDE_C3, PLAN_TEMPLATES, earlyReasonFor } from "@/mock/onboarding";
 import { RecommendationCard } from "./RecommendationCard";
 
@@ -12,6 +13,10 @@ export const recommendationCardStates = defineComponentStates({
   description:
     "ExecHQ's recommendation stated as one: a plan and the reason for it. Concept 3 makes it early and tests it with every question after.",
   component: RecommendationCard,
+  notApplicable: {
+    ...NOT_INTERACTIVE,
+    filled: NOT_AN_INPUT,
+  },
   variants: [
     {
       label: "Early",

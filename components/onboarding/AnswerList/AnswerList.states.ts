@@ -13,6 +13,11 @@ export const answerListStates = defineComponentStates({
   description:
     "One-tap answers for a refinement question: pressing one answers and moves on, so there is no Next button. Buttons rather than radios, so arrow keys never answer by accident. Stacked at one width and centred, matching the direction prompts.",
   component: AnswerList,
+  notApplicable: {
+    loading: "The answers are fixed for each question: nothing to wait for.",
+    error: "Choosing an answer cannot fail; there is nothing to check.",
+    empty: "Only ever shown with its answers.",
+  },
   variants: [
     {
       label: "Default",

@@ -1,4 +1,5 @@
 import { defineComponentStates } from "@/components/types";
+import { CONTROLS_INSIDE, NOT_AN_INPUT } from "@/components/not-applicable";
 import { Notice } from "./Notice";
 
 export const noticeStates = defineComponentStates({
@@ -9,6 +10,12 @@ export const noticeStates = defineComponentStates({
   description:
     "Explanation attached to what the user just did. The 'explain' tone exists because a rejected corporate email and an unrecognised invite code both deserve a reason in the product's voice rather than a bare validation error. Tone never carries meaning alone — every notice says its situation in words.",
   component: Notice,
+  notApplicable: {
+    ...CONTROLS_INSIDE,
+    loading: "A message: it appears once there is something to say.",
+    empty: "Always has a message.",
+    filled: NOT_AN_INPUT,
+  },
   variants: [
     {
       label: "Info",

@@ -1,4 +1,5 @@
 import { defineComponentStates } from "@/components/types";
+import { SCAFFOLDING } from "@/components/not-applicable";
 import { PlaceholderState } from "./PlaceholderState";
 
 export const placeholderStateStates = defineComponentStates({
@@ -20,6 +21,17 @@ export const placeholderStateStates = defineComponentStates({
   description:
     "Fills the content area of a page that has not been designed yet. The sprint number comes from the flow's manifest entry.",
   component: PlaceholderState,
+  notApplicable: {
+    hover: SCAFFOLDING,
+    focus: SCAFFOLDING,
+    active: SCAFFOLDING,
+    disabled: SCAFFOLDING,
+    loading: SCAFFOLDING,
+    error: SCAFFOLDING,
+    empty: SCAFFOLDING,
+    filled: SCAFFOLDING,
+    "long text": SCAFFOLDING,
+  },
   variants: [
     {
       label: "Default",

@@ -1,4 +1,5 @@
 import { defineComponentStates } from "@/components/types";
+import { FIXED_CONTENT, NOT_AN_INPUT, NOT_INTERACTIVE } from "@/components/not-applicable";
 import { StepHeader } from "./StepHeader";
 
 export const stepHeaderStates = defineComponentStates({
@@ -9,6 +10,12 @@ export const stepHeaderStates = defineComponentStates({
   description:
     "The top of an onboarding step. The heading carries tabIndex -1 so a concept can move focus to it on a step change, which is how focus is never left on a control that has just been replaced.",
   component: StepHeader,
+  notApplicable: {
+    ...NOT_INTERACTIVE,
+    ...FIXED_CONTENT,
+    empty: "Always has a title.",
+    filled: NOT_AN_INPUT,
+  },
   variants: [
     {
       label: "Default",

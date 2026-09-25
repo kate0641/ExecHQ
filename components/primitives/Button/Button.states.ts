@@ -1,4 +1,5 @@
 import { defineComponentStates } from "@/components/types";
+import { NOT_AN_INPUT } from "@/components/not-applicable";
 import { Button } from "./Button";
 
 export const buttonStates = defineComponentStates({
@@ -9,6 +10,11 @@ export const buttonStates = defineComponentStates({
   description:
     "Primary action control. Primary carries the single most important action on a surface; secondary and ghost step back from it.",
   component: Button,
+  notApplicable: {
+    error: "A button reports no error itself; the field or Notice beside it does.",
+    empty: "Always has a label.",
+    filled: NOT_AN_INPUT,
+  },
   variants: [
     { label: "Primary — default", props: { children: "Save draft" } },
     {

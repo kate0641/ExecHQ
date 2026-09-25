@@ -12,6 +12,10 @@ export const quickRepliesStates = defineComponentStates({
   description:
     "Tap-to-answer chips above the chat composer. Choosing one sends it as the user's message. A way past the question is styled quieter than the answers; in a pick-several question the chips are toggles.",
   component: QuickReplies,
+  notApplicable: {
+    loading: "The replies are fixed for each question: nothing to wait for.",
+    error: "Choosing a reply cannot fail; there is nothing to check.",
+  },
   variants: [
     {
       label: "Direction prompts",

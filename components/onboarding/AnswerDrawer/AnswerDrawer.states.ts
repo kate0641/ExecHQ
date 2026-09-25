@@ -1,5 +1,6 @@
 import { createElement } from "react";
 import { defineComponentStates } from "@/components/types";
+import { CONTENT_INSIDE } from "@/components/not-applicable";
 import { GUIDE_C3 } from "@/mock/onboarding";
 import { AnswerDrawer } from "./AnswerDrawer";
 
@@ -22,6 +23,10 @@ export const answerDrawerStates = defineComponentStates({
   description:
     "Concept 3's drawer: the question and its answer together, with the page's context behind. Folds to a peek bar carrying the question; a drawn keyboard sits under it while a field has focus.",
   component: AnswerDrawer,
+  notApplicable: {
+    ...CONTENT_INSIDE,
+    empty: "Always has its question.",
+  },
   variants: [
     { label: "Open", props: { ...base, open: true, primaryDisabled: true } },
     {

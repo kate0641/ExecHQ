@@ -9,6 +9,10 @@ export const inputStates = defineComponentStates({
   description:
     "Text field. The label is a required prop, so an unlabelled field cannot be built by accident. Errors are wired to the field with aria-describedby and never rely on colour alone.",
   component: Input,
+  notApplicable: {
+    active: "A text field has no pressed state; focus covers it.",
+    loading: "A text field never waits on anything.",
+  },
   variants: [
     { label: "Default", props: { label: "Personal email" } },
     {

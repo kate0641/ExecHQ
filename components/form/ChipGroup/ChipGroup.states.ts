@@ -13,6 +13,9 @@ export const chipGroupStates = defineComponentStates({
   description:
     "Pressable chips for picking one, or up to a set number. Toggle buttons, so single and multiple choice look and behave the same and no arrow key ever chooses. At the limit, the other chips disable and the legend's note says why.",
   component: ChipGroup,
+  notApplicable: {
+    loading: "The options are fixed for each question: nothing to wait for.",
+  },
   variants: [
     { label: "Single — empty", props: { label: team.label, options: team.options, value: [], onChange: noop } },
     {
@@ -20,7 +23,7 @@ export const chipGroupStates = defineComponentStates({
       props: { label: team.label, options: team.options, value: ["11–50"], onChange: noop },
     },
     {
-      label: "Multiple — at the limit",
+      label: "Multiple — at the limit", states: ["disabled", "filled"],
       description: "Three chosen of up to three: the rest are disabled.",
       props: {
         label: strengths.label,

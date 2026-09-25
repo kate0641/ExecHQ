@@ -1,4 +1,5 @@
 import { defineComponentStates } from "@/components/types";
+import { FIXED_CONTENT, NOT_AN_INPUT, NOT_INTERACTIVE } from "@/components/not-applicable";
 import { Icon } from "./Icon";
 
 export const iconStates = defineComponentStates({
@@ -9,6 +10,13 @@ export const iconStates = defineComponentStates({
   description:
     "The prototype's icon set, drawn on a 20×20 grid and stroked in currentColor. Always decorative: every use pairs an icon with a visible or visually-hidden label.",
   component: Icon,
+  notApplicable: {
+    ...NOT_INTERACTIVE,
+    ...FIXED_CONTENT,
+    empty: "Always drawn in full; it takes no content.",
+    "long text": "Contains no text.",
+    filled: NOT_AN_INPUT,
+  },
   variants: [
     { label: "Mobile", props: { name: "mobile" } },
     { label: "Tablet", props: { name: "tablet" } },

@@ -1,4 +1,5 @@
 import { defineComponentStates } from "@/components/types";
+import { NOT_AN_INPUT } from "@/components/not-applicable";
 import { CHAT_C2, goalFor, narrativeFor } from "@/mock/onboarding";
 import { StorySummaryCard } from "./StorySummaryCard";
 
@@ -22,6 +23,9 @@ export const storySummaryCardStates = defineComponentStates({
   description:
     "The finished story, short enough for a conversation: the narrative's three parts and what else is ready, with every output one tap away. Concept 2.",
   component: StorySummaryCard,
+  notApplicable: {
+    filled: NOT_AN_INPUT,
+  },
   variants: [
     {
       label: "Default",
@@ -45,7 +49,7 @@ export const storySummaryCardStates = defineComponentStates({
       },
     },
     {
-      label: "With gaps",
+      label: "With gaps", states: ["empty"],
       props: {
         title: "The story of what you lead",
         parts: narrativeFor({ ...inputs, role: "", teamSize: "" }, goal),

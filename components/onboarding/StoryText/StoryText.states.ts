@@ -1,4 +1,5 @@
 import { defineComponentStates } from "@/components/types";
+import { NOT_INTERACTIVE } from "@/components/not-applicable";
 import { bioFor, goalFor, narrativeFor } from "@/mock/onboarding";
 import { StoryText } from "./StoryText";
 
@@ -22,9 +23,12 @@ export const storyTextStates = defineComponentStates({
   description:
     "A Positioning Builder output. What the user told us is written in; what they have not is a dashed gap, announced as “To add”, never made up.",
   component: StoryText,
+  notApplicable: {
+    ...NOT_INTERACTIVE,
+  },
   variants: [
     { label: "Filled", props: { segments: narrativeFor(filled, goal)[0].segments } },
-    { label: "With gaps", props: { segments: narrativeFor(empty, goal)[0].segments } },
+    { label: "With gaps", states: ["empty"], props: { segments: narrativeFor(empty, goal)[0].segments } },
     { label: "Bio — long, part filled", props: { segments: bioFor({ ...empty, role: "VP of Marketing" }, goal, "long") } },
   ],
 });

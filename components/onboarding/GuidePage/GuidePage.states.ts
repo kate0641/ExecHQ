@@ -1,4 +1,5 @@
 import { defineComponentStates } from "@/components/types";
+import { CONTENT_INSIDE } from "@/components/not-applicable";
 import { GUIDE_C3 } from "@/mock/onboarding";
 import { GuidePage } from "./GuidePage";
 
@@ -12,6 +13,10 @@ export const guidePageStates = defineComponentStates({
   description:
     "One page of Concept 3, the guided onboarding: progress in words, what ExecHQ knows so far, the page, and a margin note saying why it is there.",
   component: GuidePage,
+  notApplicable: {
+    ...CONTENT_INSIDE,
+    empty: "Always has a title and its content.",
+  },
   variants: [
     {
       label: "Cover",
