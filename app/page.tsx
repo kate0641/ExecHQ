@@ -2,8 +2,9 @@ import Link from "next/link";
 import { FlowList } from "@/components/hub/FlowList";
 import { HubChrome } from "@/components/layout/HubChrome";
 import { registry } from "@/components/registry";
-import { HUB_TOOLS } from "@/lib/hub-pages";
+import { SHOWROOM_ROOMS } from "@/lib/hub-pages";
 import { flows } from "@/lib/manifest";
+import { getBuiltConceptKeys } from "@/flows/registry";
 import { getSpec, type Spec } from "@/lib/specs";
 import { readTokens } from "@/lib/tokens";
 
@@ -14,8 +15,9 @@ export const metadata = {
 /**
  * The file hub — the prototype's home base.
  *
- * The index of flows and pages, plus the way in to the reference tools. The
- * component catalogue and the stylesheet are their own pages, linked from here.
+ * The index of flows and pages, plus the way in to the showroom's rooms where
+ * the showroom is built. On the public production site it is not, and the
+ * Showroom section is left out rather than linking to pages that 404.
  */
 export default function HubPage() {
   const specs: Record<string, Spec> = Object.fromEntries(
@@ -24,8 +26,9 @@ export default function HubPage() {
 
   const conceptCount = flows.reduce((total, flow) => total + flow.concepts.length, 0);
   const counts: Record<string, string> = {
-    catalogue: `${registry.length} components`,
-    stylesheet: `${readTokens().length} tokens`,
+    "design-system": `${readTokens().length} tokens`,
+    components: `${registry.length} components`,
+    playground: `${getBuiltConceptKeys().length} built flows`,
   };
 
   return (
@@ -39,24 +42,26 @@ export default function HubPage() {
         </p>
       }
     >
-      <section className="hub__section" aria-labelledby="tools-title">
-        <h2 className="hub__section-title" id="tools-title">
-          Reference
-        </h2>
-        <ul className="hub-tools">
-          {HUB_TOOLS.map((tool) => (
-            <li key={tool.key}>
-              <Link href={tool.href} className="hub-tools__card">
-                <span className="hub-tools__card-title">{tool.title}</span>
-                <span className="hub-tools__card-description">{tool.description}</span>
-                <span className="hub-tools__card-count t-eyebrow">
-                  {counts[tool.key]}
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
+      {SHOWROOM_ROOMS.length > 0 ? (
+        <section className="hub__section" aria-labelledby="tools-title">
+          <h2 className="hub__section-title" id="tools-title">
+            Showroom
+          </h2>
+          <ul className="hub-tools">
+            {SHOWROOM_ROOMS.map((tool) => (
+              <li key={tool.key}>
+                <Link href={tool.href} className="hub-tools__card">
+                  <span className="hub-tools__card-title">{tool.title}</span>
+                  <span className="hub-tools__card-description">{tool.description}</span>
+                  <span className="hub-tools__card-count t-eyebrow">
+                    {counts[tool.key]}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       <section className="hub__section" id="flows" aria-labelledby="flows-title">
         <h2 className="hub__section-title" id="flows-title">

@@ -12,8 +12,8 @@ export interface HubChromeProps {
 }
 
 /**
- * The chrome shared by the prototype's own pages — the hub, the component
- * catalogue and the stylesheet.
+ * The chrome shared by the prototype's own pages — the hub and the showroom's
+ * pages (design system, component catalogue, playground).
  *
  * Deliberately not the product's `AppChrome`: these are reference tools for
  * designing ExecHQ, not screens in it.
@@ -24,7 +24,11 @@ export function HubChrome({ page, title, intro, children }: HubChromeProps) {
   return (
     <div className="hub">
       <header className="hub__header">
-        <p className="t-eyebrow">ExecHQ design prototype</p>
+        <p className="t-eyebrow">
+          {hubPage.showroom
+            ? "ExecHQ showroom · private"
+            : "ExecHQ design prototype"}
+        </p>
         <h1 className="hub__title">{title ?? hubPage.title}</h1>
         {intro ? <div className="hub__intro t-measure">{intro}</div> : null}
         <HubNav current={page} />

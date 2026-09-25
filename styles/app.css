@@ -1694,11 +1694,11 @@ samp {
   border-bottom: var(--border-width-thin) solid var(--color-border);
 }
 
-/* The way in to the reference tools, from the hub. */
+/* The way in to the showroom's rooms, from the hub and the showroom. */
 
 .hub-tools {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-md);
   padding: 0;
   list-style: none;
@@ -2001,7 +2001,20 @@ samp {
   color: var(--color-text-secondary);
 }
 
-/* Stylesheet viewer -------------------------------------------------------- */
+/* Playground -------------------------------------------------------------- */
+
+.playground__tips {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: 0;
+  padding-left: var(--space-lg);
+  list-style: disc;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+/* Design system viewer ----------------------------------------------------- */
 
 .styleguide {
   display: flex;
@@ -2128,6 +2141,59 @@ samp {
   background-color: var(--color-surface);
   border: none;
   border-radius: var(--radius-sm);
+}
+
+.styleguide__surfaces {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-md);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.styleguide__surfaces .styleguide__token {
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-2xs);
+}
+
+.styleguide__surface {
+  display: flex;
+  align-items: flex-end;
+  min-height: 96px;
+  padding: var(--space-md);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.styleguide__specimens {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--space-md);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.styleguide__specimen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  min-width: 0;
+}
+
+.styleguide__specimen-label {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.styleguide__specimen .catalogue__stage {
+  flex: 1;
 }
 
 .styleguide__rule {

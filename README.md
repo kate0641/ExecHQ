@@ -52,10 +52,9 @@ docs/                 The source product PDFs. Context only, never rendered as U
 styles/tokens.css     Every colour, space, type size, radius, border and shadow.
 styles/app.css        The single shared stylesheet of reusable classes.
 
-app/                  Routes. app/page.tsx is the hub, app/catalogue/ and
-                      app/stylesheet/ are its reference tools, and
-                      app/[flow]/[concept]/ is every product page, generated
-                      from the manifest.
+app/                  Routes. app/page.tsx is the hub, app/showroom/ is the
+                      private showroom, and app/[flow]/[concept]/ is every
+                      product page, generated from the manifest.
 components/           Every component, hand-written. No UI kits.
 lib/                  Manifest, spec and token readers, the hub page list, and
                       the viewport store.
@@ -70,19 +69,31 @@ scripts/              The token guard and the spec stub generator.
 sprint, each with its status badge and its interaction spec in the slot
 underneath.
 
-Two reference tools are linked from it, each its own page:
+## The showroom
 
-| Page          | What it is                                                     |
-| ------------- | -------------------------------------------------------------- |
-| `/catalogue`  | Every component, in every state, with a search box and filters for status and flow. "Approved only" shows the set handed off to engineering. |
-| `/stylesheet` | The design system rendered: colour swatches, the type scale in all three fonts, spacing, radii, shadows and borders. |
+`/showroom` is the private workspace for designing ExecHQ. It has three rooms:
 
-All three share a header with navigation between them, and they are declared in
-`lib/hub-pages.ts` rather than the manifest — they are tools for designing
-ExecHQ, not screens in it.
+| Page                      | What it is                                                     |
+| ------------------------- | -------------------------------------------------------------- |
+| `/showroom/design-system` | The design system rendered: colour, the type scale in all three fonts, spacing, surfaces, radii, shadows and borders, then the real buttons and form fields in every state. |
+| `/showroom/components`    | The component catalogue. Every component, in every state, with a search box and filters for status and flow. "Approved only" shows the set handed off to engineering. |
+| `/showroom/playground`    | Every built flow, to step through on sample data. |
+
+**It is never on the public site.** The production build leaves it out
+entirely: every showroom page is a 404 there, and the hub drops its links. It is
+on for every Vercel preview deployment, and on your laptop once you have copied
+the settings file:
+
+```bash
+cp .env.example .env.local
+```
+
+The hub and the showroom share a header with navigation between them, and they
+are declared in `lib/hub-pages.ts` rather than the manifest — they are tools for
+designing ExecHQ, not screens in it.
 
 The **hub button** in the dock opens a slide-out panel, from the left, with links to
-those three pages and the full flow index, so you can jump anywhere without
+the hub, the showroom and the full flow index, so you can jump anywhere without
 losing your place. It closes on Escape or a click outside, and focus returns to
 the button.
 
@@ -115,11 +126,11 @@ Mobile and tablet render inside a device frame drawn in CSS — bezel, rounded
 corners, and a status bar on mobile. Content scrolls inside the frame, so the
 frame stays put.
 
-**Concept pages open on Mobile**, because that is what ExecHQ is. Four routes are
+**Concept pages open on Mobile**, because that is what ExecHQ is. The routes that are
 web only and show Mobile and Tablet struck through, with the reason in the
 tooltip: the
-Enterprise Dashboard, and the prototype's own three pages — the hub, the
-catalogue and the stylesheet. Landing on one of those does not lose your choice;
+Enterprise Dashboard, and the prototype's own pages — the hub and the
+showroom. Landing on one of those does not lose your choice;
 it comes back on the next concept page.
 
 The important technical detail, if you are writing CSS in this repo:

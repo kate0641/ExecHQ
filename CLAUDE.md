@@ -16,8 +16,9 @@ Nothing in this repo talks to a network.
 | `styles/tokens.css`   | Every colour, spacing, type, radius, border and shadow value.     |
 | `styles/app.css`      | The single shared stylesheet of reusable classes.                 |
 | `components/`         | Every component, hand-written. Each ships a sibling `*.states.ts`. |
-| `app/`                | Routes. `app/page.tsx` is the hub, `app/catalogue/` and `app/stylesheet/` are its reference tools, `app/[flow]/[concept]/` is every product page. |
-| `lib/hub-pages.ts`    | The prototype's own pages (hub, catalogue, stylesheet). Not product flows. |
+| `app/`                | Routes. `app/page.tsx` is the hub, `app/showroom/` is the private showroom (design system, component catalogue, playground), `app/[flow]/[concept]/` is every product page. |
+| `lib/hub-pages.ts`    | The prototype's own pages (hub and showroom). Not product flows. |
+| `lib/showroom.ts`     | Whether the showroom is built. Decided in `next.config.ts`. |
 
 ## Greyscale via tokens
 
@@ -59,10 +60,23 @@ panel and the routes are all generated from it.
 - Routes resolve as `/<flow-slug>/<concept-slug>` from `app/[flow]/[concept]/page.tsx`,
   with `generateStaticParams()` reading the manifest and `dynamicParams = false`
   so anything undeclared 404s.
-- The prototype's own pages are separate. `/` is the file hub, `/catalogue` is the
-  component catalogue and `/stylesheet` is the design system. They are declared in
+- The prototype's own pages are separate. `/` is the file hub, and `/showroom`
+  is the showroom: `/showroom/design-system`, `/showroom/components` (the
+  component catalogue) and `/showroom/playground`. They are declared in
   `lib/hub-pages.ts`, not in the manifest, because they have no sprint, no
   concepts and no status. They share `HubChrome`, never the product's `AppChrome`.
+
+## The showroom is private
+
+The showroom is **never built on the public production site**. `next.config.ts`
+decides once, at build time: off on Vercel production whatever any setting says,
+on for every Vercel preview deployment, and on locally when `.env.local` has
+`SHOWROOM=on` (copied from `.env.example`). Where it is off, `app/showroom/layout.tsx`
+turns every page under it into a 404 and `lib/hub-pages.ts` drops its links, so
+nothing points at it. The file hub and the concept pages stay public.
+
+Never add a way round that gate, and never link to a showroom page except
+through `lib/hub-pages.ts`.
 - Each flow declares an explicit `slug`, never derived from its title, so titles
   can change without breaking routes.
 - `sprint` drives the "Not yet built — Sprint N" placeholder text.
@@ -114,8 +128,8 @@ Switches the canvas between Web, Tablet and Mobile.
   concept page opens on the phone unless the reviewer has chosen otherwise.
 - **Web-only routes** are locked to web with the Mobile and Tablet options
   visibly disabled and an accessible explanation: the Enterprise Dashboard
-  (`webOnly` on its flow) and all three of the prototype's own pages — the hub,
-  the catalogue and the stylesheet (`webOnly` in `lib/hub-pages.ts`).
+  (`webOnly` on its flow) and all of the prototype's own pages — the hub and
+  the showroom (`webOnly` in `lib/hub-pages.ts`).
 - A lock never overwrites the reviewer's choice. `selected` is what they picked,
   `viewport` is what renders, and the choice comes back on the next unlocked
   page.

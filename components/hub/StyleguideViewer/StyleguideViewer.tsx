@@ -1,4 +1,7 @@
 import { Panel } from "@/components/layout/Panel";
+import { TextLink } from "@/components/primitives/TextLink";
+import { getHubPage } from "@/lib/hub-pages";
+import { Specimens } from "./Specimens";
 import {
   CATEGORY_LABELS,
   readTokens,
@@ -13,6 +16,10 @@ import {
  * Every value here is read from `styles/tokens.css` at build time and referenced
  * with `var()`, so this page shows the system as it actually is. Changing a
  * token changes this page; nothing is restated.
+ *
+ * The buttons and form fields at the end are the real components, taken from
+ * their own `*.states.ts` files through the registry — the same source the
+ * component catalogue reads — so they cannot differ from what ships.
  */
 
 function TokenRow({ token, children }: { token: Token; children?: React.ReactNode }) {
@@ -45,6 +52,16 @@ function Swatches({ tokens, label }: { tokens: Token[]; label: string }) {
     </div>
   );
 }
+
+/** The surface tokens, in the order a page stacks them, with what each is for. */
+const SURFACES: { token: string; role: string; inverse?: boolean }[] = [
+  { token: "--color-canvas", role: "Behind the device frame." },
+  { token: "--color-surface", role: "The default page." },
+  { token: "--color-surface-raised", role: "Cards above the page. Paired with a shadow." },
+  { token: "--color-surface-muted", role: "Quiet areas that still read as the page." },
+  { token: "--color-surface-sunken", role: "Wells, inset areas and code." },
+  { token: "--color-surface-inverse", role: "The one dark moment on a screen.", inverse: true },
+];
 
 const TYPE_ROLES: { font: string; token: string; role: string }[] = [
   {
@@ -147,6 +164,38 @@ export function StyleguideViewer() {
         </ul>
       </Panel>
 
+      <Panel
+        title="Surfaces"
+        headingLevel={2}
+        description="What a screen is built on, from the canvas up. Text on each is the colour that belongs there."
+      >
+        <ul className="styleguide__surfaces">
+          {SURFACES.map((surface) => (
+            <li className="styleguide__token" key={surface.token}>
+              <span
+                className="styleguide__surface"
+                style={{
+                  backgroundColor: `var(${surface.token})`,
+                  color: surface.inverse
+                    ? "var(--color-text-inverse)"
+                    : "var(--color-text-primary)",
+                  boxShadow:
+                    surface.token === "--color-surface-raised"
+                      ? "var(--shadow-sm)"
+                      : undefined,
+                }}
+              >
+                Your next role, planned
+              </span>
+              <div className="styleguide__token-meta">
+                <code className="styleguide__token-name">{surface.token}</code>
+                <span className="styleguide__token-note">{surface.role}</span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </Panel>
+
       <Panel title="Radii" headingLevel={2}>
         <ul className="styleguide__tiles">
           {radii.map((token) => (
@@ -200,6 +249,30 @@ export function StyleguideViewer() {
               </TokenRow>
             ))}
         </ul>
+      </Panel>
+
+      <Panel
+        title="Buttons"
+        headingLevel={2}
+        description="Every button variant and state, rendered from the real component."
+        actions={
+          <TextLink href={getHubPage("components").href} tone="standalone">
+            Every component in the catalogue
+          </TextLink>
+        }
+      >
+        <Specimens id="button" />
+        <Specimens id="textlink" />
+      </Panel>
+
+      <Panel
+        title="Form fields"
+        headingLevel={2}
+        description="Text fields, choice chips and toggles, in each of their states."
+      >
+        <Specimens id="input" />
+        <Specimens id="chipgroup" />
+        <Specimens id="togglegroup" />
       </Panel>
     </div>
   );

@@ -2,13 +2,13 @@ import { StyleguideViewer } from "@/components/hub/StyleguideViewer";
 import { HubChrome } from "@/components/layout/HubChrome";
 
 export const metadata = {
-  title: "Stylesheet",
+  title: "Design system",
 };
 
 export default function StylesheetPage() {
   return (
     <HubChrome
-      page="stylesheet"
+      page="design-system"
       intro={
         <p>
           Read directly from <code>styles/tokens.css</code>. Greyscale for this

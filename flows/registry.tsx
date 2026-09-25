@@ -24,6 +24,14 @@ const BUILT_CONCEPTS: Record<string, ReactElement> = {
   "onboarding/concept-3": <OnboardingConcept3 />,
 };
 
+/** Every built concept, as manifest slugs, in the order they are listed above. */
+export function getBuiltConceptKeys(): { flow: string; concept: string }[] {
+  return Object.keys(BUILT_CONCEPTS).map((key) => {
+    const [flow, concept] = key.split("/");
+    return { flow, concept };
+  });
+}
+
 export function getBuiltConcept(
   flowSlug: string,
   conceptSlug: string

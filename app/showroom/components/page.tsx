@@ -7,11 +7,11 @@ export const metadata = {
 };
 
 export default function CataloguePage() {
-  const page = getHubPage("catalogue");
+  const page = getHubPage("components");
 
   return (
     <HubChrome
-      page="catalogue"
+      page="components"
       intro={
         <p>
           {page.description} Every component ships a sibling states file, and this

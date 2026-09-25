@@ -17,7 +17,7 @@ import {
  *
  * A built concept declares its screens with `useStepNav`, and the shell draws
  * the bar from whatever is declared. Anything that declares nothing — an
- * unbuilt concept, the hub, the catalogue, the stylesheet — gets no bar.
+ * unbuilt concept, the hub, the showroom — gets no bar.
  * Declaring is one call from inside the concept, so a new flow never touches
  * the shell to get one.
  *
