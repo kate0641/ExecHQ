@@ -322,3 +322,4 @@ Next.js, React, TypeScript, ESLint and `eslint-plugin-jsx-a11y`. That is the
 whole list, and it is meant to stay that way. Every component here is written
 from scratch — no MUI, Chakra, shadcn, Radix, Tailwind or animation libraries.
 Ask before adding anything.
+
