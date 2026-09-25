@@ -89,6 +89,32 @@ npm run showroom
 Press **Ctrl+C** in that window to stop it. Changes you save show up in the
 browser straight away; there is no need to restart.
 
+## Running a design session
+
+Open Claude Code in the `ExecHQ` folder and say what you want to try, in your
+own words. Claude handles every git step the same way each time:
+
+1. **Start.** *"Start a design session: I want to try warmer cards on the plan
+   screens."* Claude gets the latest shared version, makes a new branch for
+   the idea — `design/warmer-plan-cards` — and opens the showroom.
+2. **Work.** Ask for changes and look at them in the showroom. Claude only
+   touches the design parts of the project: components, styles, sample content,
+   flows and the showroom itself.
+3. **Finish.** *"I'm done — open the pull request."* Claude runs the checks,
+   saves your work to GitHub and opens a pull request. Once the preview link
+   appears on it, anyone with access can see your change without installing
+   anything.
+4. **Stop.** Kate reviews the pull request and merges it. Nothing reaches the
+   shared version until she does.
+
+Two more things you can ask for at any point:
+
+- *"Update my branch"* — brings in whatever has changed on the shared version
+  since you started. If you and someone else changed the same thing, Claude
+  shows you both versions and asks which to keep.
+- A new idea after a pull request is open is a new session. Say *"Start a
+  design session"* again.
+
 ## If something goes wrong
 
 | What you see | What to do |
