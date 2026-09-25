@@ -21,6 +21,10 @@ const showroomEnabled =
   (vercelEnv === "preview" || process.env.SHOWROOM === "on");
 
 const nextConfig: NextConfig = {
+  // Next.js 16.3 otherwise appends its own agent rules to CLAUDE.md on every
+  // `next dev`, leaving every designer's working copy with a change to a file
+  // outside the design areas. CLAUDE.md is written by hand here.
+  agentRules: false,
   env: {
     SHOWROOM_ENABLED: showroomEnabled ? "true" : "false",
   },
