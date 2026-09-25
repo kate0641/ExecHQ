@@ -1,0 +1,38 @@
+# The checks every pull request into main must pass before Kate can merge it.
+# Turn them into required checks in the branch protection for main.
+name: Pull request
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  design-areas:
+    name: Design areas only
+    # Kate's own branches may change anything; design branches may not.
+    if: startsWith(github.head_ref, 'design/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - run: node scripts/check-design-scope.mjs "origin/${{ github.base_ref }}"
+
+  check:
+    name: npm run check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      # SHOWROOM=on builds the showroom, so the component-state check in the
+      # catalogue page runs here as it does on a laptop.
+      - run: npm run check
+        env:
+          SHOWROOM: "on"

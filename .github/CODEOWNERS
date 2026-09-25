@@ -1,0 +1,3 @@
+# Kate reviews every change. With "Require review from Code Owners" turned on
+# for main, no pull request merges without her approval.
+* @kate0641
