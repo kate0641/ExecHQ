@@ -2,7 +2,11 @@
   "name": "exechq",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "24.x"
+  },
   "scripts": {
+    "showroom": "node scripts/showroom.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

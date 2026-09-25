@@ -19,6 +19,7 @@ Nothing in this repo talks to a network.
 | `app/`                | Routes. `app/page.tsx` is the hub, `app/showroom/` is the private showroom (design system, component catalogue, playground), `app/[flow]/[concept]/` is every product page. |
 | `lib/hub-pages.ts`    | The prototype's own pages (hub and showroom). Not product flows. |
 | `lib/showroom.ts`     | Whether the showroom is built. Decided in `next.config.ts`. |
+| `DESIGN.md`           | The designers' one-page laptop setup. Keep it in step with `npm run showroom`. |
 
 ## Greyscale via tokens
 
@@ -196,6 +197,9 @@ Write it from scratch or ask.
 
 **Package manager is npm.** Never yarn, pnpm or bun. `package-lock.json` is
 committed; no other lockfile may exist in the repo.
+
+**Node is pinned to 24** in `.nvmrc` and `engines`, matching Vercel. `npm run
+showroom` installs with `npm ci`, so it never rewrites the lockfile.
 
 ## Git
 

@@ -15,24 +15,32 @@ sprints 1 to 5, and every one of them is currently a placeholder.
 
 ## Running it
 
-You need [Node.js](https://nodejs.org) 20 or newer. The package manager is
-**npm** — not yarn, pnpm or bun.
+**Designers: start with [DESIGN.md](DESIGN.md).** It is the one-page laptop setup.
+
+You need [Node.js](https://nodejs.org) 24 — the version is pinned in `.nvmrc`
+and is what Vercel builds with. The package manager is **npm** — not yarn, pnpm
+or bun.
 
 ```bash
-npm install
+cp .env.example .env.local
 ```
 
 ```bash
-npm run dev
+npm run showroom
 ```
 
-Then open http://localhost:3000. That is the file hub, and everything else is
-linked from there.
+That checks the Node version, creates `.env.local` if it is missing, installs
+packages with `npm ci` when they are missing or out of date, and starts the dev
+server on the first free port from 3000. Then open the address it prints:
+`/showroom` is the showroom, and `/` is the file hub with everything else linked
+from there.
 
 Other commands:
 
 | Command                | What it does                                              |
 | ---------------------- | --------------------------------------------------------- |
+| `npm run showroom`     | Everything above in one go: the way designers start it.   |
+| `npm run dev`          | The plain dev server, with none of those checks.          |
 | `npm run build`        | Production build. Must pass before anything is handed over. |
 | `npm run lint`         | ESLint, including accessibility rules. Zero warnings allowed. |
 | `npm run check:tokens` | Fails if a colour value appears outside the tokens file.  |
