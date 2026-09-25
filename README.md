@@ -44,7 +44,8 @@ Other commands:
 | `npm run build`        | Production build. Must pass before anything is handed over. |
 | `npm run lint`         | ESLint, including accessibility rules. Zero warnings allowed. |
 | `npm run check:tokens` | Fails if a colour value appears outside the tokens file.  |
-| `npm run check`        | All three of the above, in order.                         |
+| `npm run check:components` | Fails if a component has no states file or no catalogue entry. |
+| `npm run check`        | All of the above, in order. The build also checks component states. |
 | `npm run sync:specs`   | Creates a stub spec file for any flow that lacks one.     |
 
 ---

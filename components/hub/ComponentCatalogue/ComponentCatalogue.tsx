@@ -4,6 +4,7 @@ import { useId, useMemo, useState } from "react";
 import { Badge, StatusBadge } from "@/components/primitives/Badge";
 import { Input } from "@/components/form/Input";
 import { componentId, registry, registryByGroup } from "@/components/registry";
+import { missingStates } from "@/components/states-coverage";
 import { STATUS_LABELS, STATUS_ORDER, flows, type Status } from "@/lib/manifest";
 
 type StatusFilter = Status | "all";
@@ -154,6 +155,7 @@ export function ComponentCatalogue() {
                   ? "Used by the prototype shell. Not yet assigned to a flow."
                   : `Used in: ${selected.flows.join(", ")}`}
               </p>
+              <CoverageNote component={selected} />
             </header>
 
             <ul className="catalogue__variants">
@@ -182,6 +184,31 @@ export function ComponentCatalogue() {
           </p>
         )}
       </div>
+    </div>
+  );
+}
+
+/** What the selected component does not show yet, and what it rules out. */
+function CoverageNote({ component }: { component: (typeof registry)[number] }) {
+  const missing = missingStates(component);
+  const ruledOut = Object.entries(component.notApplicable);
+
+  return (
+    <div className="catalogue__coverage">
+      <p>
+        {missing.length === 0
+          ? "Shows every state that applies."
+          : `Not shown yet: ${missing.join(", ")}.`}
+      </p>
+      {ruledOut.length > 0 ? (
+        <ul className="catalogue__coverage-list">
+          {ruledOut.map(([state, reason]) => (
+            <li key={state}>
+              No {state} state: {reason}
+            </li>
+          ))}
+        </ul>
+      ) : null}
     </div>
   );
 }

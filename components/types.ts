@@ -23,11 +23,33 @@ export const COMPONENT_GROUPS = [
 
 export type ComponentGroup = (typeof COMPONENT_GROUPS)[number];
 
+/**
+ * The states every component is checked for. `components/states-coverage.ts`
+ * says how a variant counts as showing one, and the build fails when a
+ * component neither shows a state nor says why it does not apply.
+ */
+export const COMPONENT_STATES = [
+  "default",
+  "hover",
+  "focus",
+  "active",
+  "disabled",
+  "loading",
+  "error",
+  "empty",
+  "filled",
+  "long text",
+] as const;
+
+export type ComponentState = (typeof COMPONENT_STATES)[number];
+
 export interface ComponentVariant<P> {
   /** The state or variant this shows, e.g. "Primary — disabled". */
   label: string;
   /** Optional note about when to use it, or how the state is reached. */
   description?: string;
+  /** States this variant shows, where the label does not already say so. */
+  states?: ComponentState[];
   props: P;
 }
 
@@ -44,11 +66,15 @@ export interface ComponentStatesSpec<C extends ElementType> {
   variants: ComponentVariant<ComponentProps<C>>[];
   /** Render the variants on the inverse surface instead of the default one. */
   surface?: "default" | "inverse";
+  /** States that do not apply to this component, each with the reason — e.g.
+   *  `{ loading: "Static text; there is nothing to wait for." }`. */
+  notApplicable?: Partial<Record<ComponentState, string>>;
 }
 
 export interface RegisteredVariant {
   label: string;
   description?: string;
+  states: ComponentState[];
   element: ReactElement;
 }
 
@@ -59,6 +85,7 @@ export interface RegisteredComponent {
   flows: string[];
   description: string;
   surface: "default" | "inverse";
+  notApplicable: Partial<Record<ComponentState, string>>;
   variants: RegisteredVariant[];
 }
 
@@ -76,9 +103,11 @@ export function defineComponentStates<C extends ElementType>(
     flows: spec.flows,
     description: spec.description,
     surface: spec.surface ?? "default",
+    notApplicable: spec.notApplicable ?? {},
     variants: spec.variants.map((variant) => ({
       label: variant.label,
       description: variant.description,
+      states: variant.states ?? [],
       element: createElement(spec.component, variant.props),
     })),
   };
