@@ -35,6 +35,18 @@ About twenty minutes, most of it downloads.
 
    On Windows, use the installer from [git-scm.com](https://git-scm.com).
 
+   Then tell Git who you are. Use an email address that is **verified on your
+   GitHub account** — Vercel matches it to build your preview links, and
+   without a match your pull requests get no preview:
+
+   ```bash
+   git config --global user.name "Your Name"
+   ```
+
+   ```bash
+   git config --global user.email "you@example.com"
+   ```
+
 4. **Install the GitHub CLI and sign in.** Install it from
    [cli.github.com](https://cli.github.com), then:
 
@@ -125,3 +137,4 @@ Two more things you can ask for at any point:
 | The showroom says "This page could not be found" | The same fix: check `.env.local` has `SHOWROOM=on`, then stop and restart. |
 | It opened on port 3001 instead of 3000 | Something else is already using 3000, often another copy of the showroom. Use the address it printed. |
 | "installing packages failed" | Check you are online, then run `npm run showroom` again. |
+| Your pull request has no Vercel preview | Check `git config user.email` is an address verified on your GitHub account (step 3), then ask Kate. |

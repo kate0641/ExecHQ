@@ -316,6 +316,22 @@ by merging all of `main` at a checkpoint Kate calls.
 
 ---
 
+## Reviewing a pull request
+
+Designers never change `main` directly. Each idea arrives as a pull request
+from a `design/<idea>` branch, opened by Claude following the **Design
+sessions** section of `CLAUDE.md`. Each pull request has:
+
+- **Two checks.** *npm run check* is the whole definition of done, run with the
+  showroom on, including component states. *Design areas only* fails if the
+  branch touches anything outside `components/`, `styles/`, `mock/`, `flows/`
+  and `app/showroom/`, or changes a status.
+- **A preview link**, posted by Vercel as a comment once it has built. Add
+  `/showroom` to it.
+
+Review it on the preview, then merge on GitHub. Merging deploys to production
+as any push to `main` does, and the showroom stays off there.
+
 ## Dependencies
 
 Next.js, React, TypeScript, ESLint and `eslint-plugin-jsx-a11y`. That is the
