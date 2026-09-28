@@ -1237,6 +1237,9 @@ export const CONNECT_OFFERS: ConnectOfferSpec[] = [
  *  only — nothing here is scraped, and the PRD forbids implying otherwise. */
 export const MOCK_LINKEDIN_CONTEXT = {
   headline: "Marketing leader | Demand, brand and the bit in between",
+  /** The role the headline gives, as the first draft says it. Concept 3
+   *  asks for LinkedIn early, so its draft can open with this. */
+  role: "a marketing leader",
   followers: 4820,
   postsLast90Days: 6,
   medianReactions: 31,
@@ -2514,9 +2517,9 @@ export const GUIDE_C3 = {
       label: "Your story, out loud",
       options: ["Yes, easily", "Roughly", "Not really"],
       replies: [
-        "Good. Then we\u2019ll sharpen it, and make it work in writing and for different people.",
-        "That\u2019s the gap we\u2019ll close. By the end of this part you\u2019ll have that sentence, and more.",
-        "That\u2019s what this next part is for. You\u2019ll leave with that sentence, a bio and an opener.",
+        "Good. Then I\u2019ll put it in writing, and you can sharpen it from there.",
+        "That\u2019s the gap we\u2019ll close. I\u2019ll draft that sentence for you next.",
+        "That\u2019s what this next part is for. I\u2019ll draft it for you, from what you\u2019ve told me.",
       ],
       fact: {
         label: "Fun fact \u00b7 to be sourced",
@@ -2524,75 +2527,55 @@ export const GUIDE_C3 = {
       },
       why: "Every next step, a promotion conversation, a post, an introduction, starts with this sentence.",
     },
-    intro: {
-      kicker: "How you\u2019ll complete it",
-      lede: "The Positioning Builder writes it with you. Tell me a few things only you know, and I\u2019ll draft the rest.",
-      outputsLabel: "What you\u2019ll leave with",
-      outputs: [
-        { title: "Your leadership narrative", detail: "What you do, what you\u2019re known for, and what you\u2019re building toward." },
-        { title: "Your executive bio", detail: "Short, medium and long, ready to paste." },
-        { title: "An opener", detail: "For the first person who hears it." },
-        { title: "Where to use it next", detail: "Tied to your plan\u2019s next step." },
-      ],
-      why: "Every plan starts here, because every next step needs you to say what you lead. It\u2019s also the first thing on your plan this week.",
-      cta: "Start",
+    /** The first draft, written from what the user has said, by decision on
+     *  2026-09-28. Its lede answers the reflection before it. */
+    draft: {
+      title: "Here\u2019s your first draft",
+      ledes: {
+        "Yes, easily": "Good. Here it is in writing, from what you\u2019ve told me.",
+        Roughly: "You said you could say it roughly. Here\u2019s a start, from what you\u2019ve told me.",
+        "Not really": "Here\u2019s one to start from, built from what you\u2019ve told me.",
+      } as Record<string, string>,
+      lede: "Built from what you\u2019ve told me.",
+      fromLinkedIn: "From LinkedIn: your role.",
+      why: "You can use this today. Everything after this makes it sharper, and your plan picks up where it leaves off.",
+      sharpen: "Sharpen it with me",
+      sharpenAgain: "Sharpen it again",
+      cta: "Save it and finish",
+      writing: "Writing your first draft",
+      /** How the summary file on the last page says the story. */
+      fileDraft: "First draft",
+      fileSharpened: "Sharpened",
     },
-    /** Each builder input, as the drawer asks it. */
+    /** Sharpening: the three facts, one at a time in the drawer. */
+    sharpen: {
+      title: "Three things only you know",
+      lede: "Your role, what you\u2019re responsible for, and one result. Skip any you like.",
+      why: "These are what turn where you\u2019re going into something you can say in a meeting.",
+      fromLinkedIn: "From LinkedIn. Change it if it\u2019s not how you\u2019d put it.",
+      cta: "Update my draft",
+    },
+    /** Each sharpen question, as the drawer asks it. */
     asks: {
       role: "What\u2019s your current role?",
       own: "What are you responsible for?",
-      team: "How big is your team?",
-      strengths: "What are you strongest at? Up to three.",
       result: "What\u2019s a result you\u2019re proud of?",
-      audience: "Who will hear it first?",
-      name: "What name should go on your bio?",
-      source: "Anything I should start from?",
     },
     goodLabel: "What good looks like",
     goodWhy: "Why it works",
+    /** What good looks like, for the sharpen questions: what you do, then a
+     *  result. */
     doing: {
-      title: "What you do",
-      lede: "Your role, what you\u2019re responsible for, and how big your team is.",
       good: {
-        example: "\u201cVP of Marketing, leading brand and demand with a team of 60.\u201d",
-        why: "A clear title, a specific scope, and a size. No jargon, nothing to decode.",
+        example: "\u201cVP of Marketing, leading brand and demand.\u201d",
+        why: "A clear title and a specific scope. No jargon, nothing to decode.",
       },
-      why: "This is the first thing anyone asks. A clear answer makes everything after it easier to hear.",
     },
     known: {
-      title: "What you\u2019re known for",
-      lede: "Up to three strengths, and one result you\u2019re proud of.",
       good: {
         example: "\u201cGrew pipeline 40% in a year.\u201d",
         why: "A number, a timeframe, and it\u2019s clearly yours. Proof beats adjectives.",
       },
-      why: "Strengths say how you work. A result proves it.",
-    },
-    audience: {
-      title: "Who it\u2019s for",
-      lede: "Who will hear it first, and the name for your bio.",
-      good: {
-        example: "For your manager: \u201cI\u2019d like to talk about what\u2019s next for me\u2026\u201d",
-        why: "Written for one person, it starts the conversation you actually need to have.",
-      },
-      why: "A story lands differently with your manager than with a recruiter. Knowing who hears it first shapes the opener.",
-    },
-    source: {
-      title: "Anything to start from?",
-      lede: "Paste a bio you already have, or your LinkedIn About section.",
-      connected: (sources: string) => `I\u2019ll also use what came in from ${sources}.`,
-      good: {
-        example: "Your current LinkedIn About section, even if it\u2019s out of date.",
-        why: "Your own words, however rough, keep the draft sounding like you.",
-      },
-      why: "Everything you\u2019ve told me is used already. This just gives me your voice.",
-      cta: "Build my story",
-    },
-    output: {
-      lede: "Built from what you told me. Change anything.",
-      why: "Each output is for a different moment. \u201cWhere to use it next\u201d ties it to your plan.",
-      building: "Writing your story",
-      cta: "Save and continue",
     },
     cta: "Continue",
   },
@@ -2601,7 +2584,8 @@ export const GUIDE_C3 = {
     title: "You have a plan and your first story",
     lede: "Both are saved, and nothing here is visible to anyone else. Here\u2019s everything I learned, and what happens next.",
     nextLabel: "What happens next",
-    // The first thing on the plan is the story, which is now done.
+    // The first thing on the plan is the story, which is now drafted; the
+    // quick win after it comes next.
     thisWeek: "Done today",
     then: "Next",
     after: "After that",
