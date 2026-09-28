@@ -65,7 +65,6 @@ const BRAND_GROUPS: {
     role: "The colours that make a screen ExecHQ.",
     colours: [
       { token: "--brand-navy", name: "Navy" },
-      { token: "--brand-slate", name: "Slate", role: "Navy's deep end" },
       { token: "--brand-bright-yellow", name: "Bright yellow" },
       { token: "--brand-gold-yellow", name: "Gold yellow" },
     ],
