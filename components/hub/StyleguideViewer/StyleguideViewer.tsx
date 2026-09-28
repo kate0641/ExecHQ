@@ -172,7 +172,7 @@ const SCALES: { key: string; title: string; role: string }[] = [
   {
     key: "stone",
     title: "Stone",
-    role: "The warm neutral. Stone 100 is the canvas behind the device.",
+    role: "The warm neutral. Stone 100 is the platform's page; 200 and 300 are the quiet, hover and pressed surfaces on it.",
   },
 ];
 
@@ -248,8 +248,8 @@ function Scale({
 /** The surface tokens, in the order a page stacks them, with what each is for. */
 const SURFACES: { token: string; role: string; inverse?: boolean }[] = [
   { token: "--color-canvas", role: "Behind the device frame." },
-  { token: "--color-surface", role: "The default page." },
-  { token: "--color-surface-raised", role: "Cards above the page. Paired with a shadow." },
+  { token: "--color-surface", role: "The default page: stone, the platform's own colour." },
+  { token: "--color-surface-raised", role: "Cards and fields above the page, in white." },
   { token: "--color-surface-muted", role: "Quiet areas that still read as the page." },
   { token: "--color-surface-sunken", role: "Wells, inset areas and code." },
   { token: "--color-surface-inverse", role: "The one dark moment on a screen.", inverse: true },

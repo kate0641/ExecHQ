@@ -78,7 +78,7 @@
   --brand-slate-200: #d6dde3;
   --brand-slate-300: #b5bfc7;
   --brand-slate-400: #829099;
-  --brand-slate-500: #5e6d77;
+  --brand-slate-500: #5a6973;
   --brand-slate-600: #45555f;
   --brand-slate-700: #303f49;
   --brand-slate-800: #202d36;
@@ -140,19 +140,23 @@
 
   /* Surfaces */
   --color-canvas: var(--brand-stone-100);          /* behind the device frame */
-  --color-surface: var(--brand-white);         /* default page surface */
-  --color-surface-raised: var(--brand-white);  /* cards sitting above the surface */
-  --color-surface-sunken: var(--brand-slate-100);  /* wells, inset areas, code blocks */
-  --color-surface-muted: var(--brand-stone-100);
+  /* Stone is the platform's page; cards and fields stay white on it. Every
+     surface is stone, and slate does the text and borders. */
+  --color-surface: var(--brand-stone-100);     /* default page surface */
+  --color-surface-raised: var(--brand-white);  /* cards and fields above the page */
+  --color-surface-sunken: var(--brand-stone-200);  /* wells, inset areas, code blocks */
+  --color-surface-muted: var(--brand-stone-200);
   --color-surface-inverse: var(--brand-primary);
   --color-surface-inverse-hover: var(--brand-primary-muted);
   --color-surface-inverse-active: var(--brand-primary-strong);
-  --color-surface-hover: var(--brand-slate-100);
-  --color-surface-active: var(--brand-slate-200);
-  --color-surface-disabled: var(--brand-slate-100);
+  --color-surface-hover: var(--brand-stone-200);
+  --color-surface-active: var(--brand-stone-300);
+  --color-surface-disabled: var(--brand-stone-200);
 
-  /* Text — primary 18.2:1, secondary 7.7:1, muted 5.3:1 on --color-surface.
-     Muted stays 4.5:1 or more on sunken and stone; not on --color-surface-active. */
+  /* Text — primary 16.8:1, secondary 7.1:1, muted 5.2:1 on --color-surface
+     (stone 100). Muted is 4.6:1 on stone 200 (sunken, muted, hover), which is
+     why slate 500 sits a touch darker than an even step; not on
+     --color-surface-active. */
   --color-text-primary: var(--brand-slate-900);
   --color-text-secondary: var(--brand-slate-600);
   --color-text-muted: var(--brand-slate-500);

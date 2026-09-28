@@ -500,7 +500,7 @@ samp {
 .field__control {
   width: 100%;
   padding: var(--space-sm) var(--space-md);
-  background-color: var(--color-surface);
+  background-color: var(--color-surface-raised);
   border: var(--border-width-thin) solid var(--color-border-strong);
   border-radius: var(--radius-sm);
   color: var(--color-text-primary);
