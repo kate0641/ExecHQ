@@ -5738,17 +5738,25 @@ ul.concierge-mini {
    32px, about the size Claude's and ChatGPT's mobile composers use, and
    above the 24px AA target size (SC 2.5.8). */
 .chat-composer .mic-button,
+.chat-composer .chat-composer__attach,
 .chat-composer__send {
   width: var(--space-xl);
   height: var(--space-xl);
 }
 
-.chat-composer .mic-button {
+.chat-composer .mic-button,
+.chat-composer .chat-composer__attach {
   border-color: transparent;
   background-color: transparent;
 }
 
-.chat-composer .mic-button:hover:not(:disabled) {
+/* With attach at the start, the pill's inset matches at both ends. */
+.chat-composer:has(.chat-composer__attach) {
+  padding-left: var(--space-2xs);
+}
+
+.chat-composer .mic-button:hover:not(:disabled),
+.chat-composer .chat-composer__attach:hover:not(:disabled) {
   background-color: var(--color-surface-hover);
 }
 
