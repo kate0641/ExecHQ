@@ -2099,6 +2099,15 @@ samp {
 
 /* Design system viewer ----------------------------------------------------- */
 
+/* The design system runs the full width of the window, not the hub's usual
+   measure, so a scale's nine steps have room in one row. Header, main and
+   footer widen together so their left edges stay aligned. */
+.hub:has(.styleguide-layout) .hub__header,
+.hub:has(.styleguide-layout) .hub__main,
+.hub:has(.styleguide-layout) .hub__footer-text {
+  max-width: none;
+}
+
 /* One section at a time, with a sidebar on the left: search, then the
    sections under quiet group labels. The sidebar is attached to the content
    by a rule rather than floating as a card. */
@@ -2251,6 +2260,14 @@ samp {
   box-shadow: var(--shadow-xs);
 }
 
+/* For content that is already cards, like a scale's steps: no second card. */
+.styleguide-layout__card--plain {
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+
 .styleguide-layout__next {
   align-self: flex-end;
   font-family: var(--font-display);
@@ -2359,8 +2376,8 @@ samp {
 
 .styleguide__scale {
   display: grid;
-  /* Nine across at laptop width; a narrower window wraps rather than crushes. */
-  grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+  /* Always one row of nine, lightest to darkest, sharing the width. */
+  grid-template-columns: repeat(9, minmax(0, 1fr));
   gap: var(--space-sm);
   margin-top: var(--space-xs);
 }

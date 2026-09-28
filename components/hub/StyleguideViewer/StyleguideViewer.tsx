@@ -487,7 +487,7 @@ export function StyleguideViewer() {
           description: "Five scales, 100 to 900, with the palette colors named. Everything else is built from them.",
           source: "styles/tokens.css",
           content: (
-          <div className="styleguide-layout__card">
+          <div className="styleguide-layout__card styleguide-layout__card--plain">
             {SCALES.map((scale) => (
               <Scale scale={scale} tokens={tokenMap} uses={uses} key={scale.key} />
             ))}
