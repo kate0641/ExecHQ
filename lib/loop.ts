@@ -464,3 +464,48 @@ export function lastWorkedOn(records: LoopRecord[]): LoopRecord | undefined {
       undefined
     );
 }
+
+/* -----------------------------------------------------------------------------
+   THE JOURNEY
+   -------------------------------------------------------------------------- */
+
+/** "13 Oct": a short date for a tracker or a list. */
+export function shortDate(date: LoopDate): string {
+  const d = toUtc(date);
+  return `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()].slice(0, 3)}`;
+}
+
+export interface JourneyStep {
+  key: "drafted" | "used" | "outcome";
+  /** "Drafted", the kind's used word ("Sent", "Published"), "What came of it". */
+  label: string;
+  /** When it happened, if it has. */
+  on?: LoopDate;
+  done: boolean;
+  /** The step the artifact is waiting on now. */
+  current: boolean;
+}
+
+/** An artifact's way through the Loop in three steps, for a tracker: made,
+ *  used, and what came of it. "Nothing yet" leaves the last step open. */
+export function loopJourney(record: LoopRecord): JourneyStep[] {
+  const used = record.usedOn !== undefined;
+  const heard = record.outcome !== undefined && record.outcome.type !== "no-response-yet";
+  return [
+    { key: "drafted", label: "Drafted", on: record.createdOn, done: true, current: false },
+    {
+      key: "used",
+      label: ARTIFACT_KINDS[record.kind].usedLabel,
+      on: record.usedOn,
+      done: used,
+      current: !used,
+    },
+    {
+      key: "outcome",
+      label: "What came of it",
+      on: heard ? record.outcome!.on : undefined,
+      done: heard,
+      current: used && !heard,
+    },
+  ];
+}
