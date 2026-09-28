@@ -4,6 +4,7 @@ import { Badge, type FeedbackBadgeTone } from "@/components/primitives/Badge";
 import { TextLink } from "@/components/primitives/TextLink";
 import { getHubPage } from "@/lib/hub-pages";
 import { Specimens } from "./Specimens";
+import { StyleguideSections } from "./StyleguideSections";
 import {
   readTokens,
   tokensIn,
@@ -466,191 +467,260 @@ export function StyleguideViewer() {
   const borderWidths = tokensWithPrefix("--border-width-");
 
   return (
-    <div className="styleguide">
-      <Panel
-        title="Brand colours"
-        headingLevel={2}
-        description="The main colours, by role. Each sits on one of the scales below; all but slate at their exact palette value."
-      >
-        <BrandColours tokens={tokenMap} />
-      </Panel>
-
-      <Panel
-        title="Colour scales"
-        headingLevel={2}
-        description="Five scales, 100 to 900, with the palette colours named. Everything else is built from them."
-      >
-        {SCALES.map((scale) => (
-          <Scale scale={scale} tokens={tokenMap} uses={uses} key={scale.key} />
-        ))}
-      </Panel>
-
-      <Panel
-        title="Colour roles"
-        headingLevel={2}
-        description={`${roleTokens.length} tokens the interface actually uses, grouped by job. Each shows the scale step it lands on.`}
-      >
-        <ColourRoles roleTokens={roleTokens} tokens={tokenMap} />
-      </Panel>
-
-      <Panel
-        title="Typography"
-        headingLevel={2}
-        description="Three faces, three jobs. The scale below is rendered in each of them so the roles can be compared directly."
-      >
-        {TYPE_ROLES.map((role) => (
-          <div className="styleguide__group" key={role.token}>
-            <h3 className="styleguide__group-title">
-              {role.font} <code>{role.token}</code>
-            </h3>
-            <p className="styleguide__group-note">{role.role}</p>
-            <ul className="styleguide__type-scale">
-              {textSizes.map((token) => (
-                <TokenRow token={token} key={`${role.token}-${token.name}`}>
+    <StyleguideSections
+      sections={[
+        {
+          id: "brand-colours",
+          label: "Brand colours",
+          group: "Colour",
+          content: (
+          <Panel
+            title="Brand colours"
+            headingLevel={2}
+            description="The main colours, by role. Each sits on one of the scales below; all but slate at their exact palette value."
+          >
+            <BrandColours tokens={tokenMap} />
+          </Panel>
+          ),
+        },
+        {
+          id: "colour-scales",
+          label: "Colour scales",
+          group: "Colour",
+          content: (
+          <Panel
+            title="Colour scales"
+            headingLevel={2}
+            description="Five scales, 100 to 900, with the palette colours named. Everything else is built from them."
+          >
+            {SCALES.map((scale) => (
+              <Scale scale={scale} tokens={tokenMap} uses={uses} key={scale.key} />
+            ))}
+          </Panel>
+          ),
+        },
+        {
+          id: "colour-roles",
+          label: "Colour roles",
+          group: "Colour",
+          content: (
+          <Panel
+            title="Colour roles"
+            headingLevel={2}
+            description={`${roleTokens.length} tokens the interface actually uses, grouped by job. Each shows the scale step it lands on.`}
+          >
+            <ColourRoles roleTokens={roleTokens} tokens={tokenMap} />
+          </Panel>
+          ),
+        },
+        {
+          id: "typography",
+          label: "Typography",
+          group: "Type",
+          content: (
+          <Panel
+            title="Typography"
+            headingLevel={2}
+            description="Three faces, three jobs. The scale below is rendered in each of them so the roles can be compared directly."
+          >
+            {TYPE_ROLES.map((role) => (
+              <div className="styleguide__group" key={role.token}>
+                <h3 className="styleguide__group-title">
+                  {role.font} <code>{role.token}</code>
+                </h3>
+                <p className="styleguide__group-note">{role.role}</p>
+                <ul className="styleguide__type-scale">
+                  {textSizes.map((token) => (
+                    <TokenRow token={token} key={`${role.token}-${token.name}`}>
+                      <span
+                        className="styleguide__type-sample"
+                        style={{
+                          fontFamily: `var(${role.token})`,
+                          fontSize: `var(${token.name})`,
+                        }}
+                      >
+                        Your career doesn&apos;t pause
+                      </span>
+                    </TokenRow>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </Panel>
+          ),
+        },
+        {
+          id: "spacing",
+          label: "Spacing",
+          group: "Layout",
+          content: (
+          <Panel
+            title="Spacing"
+            headingLevel={2}
+            description="A 4px base. Every gap, padding and margin in the prototype comes from this scale."
+          >
+            <ul className="styleguide__bars">
+              {spacing.map((token) => (
+                <TokenRow token={token} key={token.name}>
                   <span
-                    className="styleguide__type-sample"
-                    style={{
-                      fontFamily: `var(${role.token})`,
-                      fontSize: `var(${token.name})`,
-                    }}
-                  >
-                    Your career doesn&apos;t pause
-                  </span>
+                    className="styleguide__bar"
+                    style={{ width: `var(${token.name})` }}
+                  />
                 </TokenRow>
               ))}
             </ul>
-          </div>
-        ))}
-      </Panel>
-
-      <Panel
-        title="Spacing"
-        headingLevel={2}
-        description="A 4px base. Every gap, padding and margin in the prototype comes from this scale."
-      >
-        <ul className="styleguide__bars">
-          {spacing.map((token) => (
-            <TokenRow token={token} key={token.name}>
-              <span
-                className="styleguide__bar"
-                style={{ width: `var(${token.name})` }}
-              />
-            </TokenRow>
-          ))}
-        </ul>
-      </Panel>
-
-      <Panel
-        title="Surfaces"
-        headingLevel={2}
-        description="What a screen is built on, from the canvas up. Text on each is the colour that belongs there."
-      >
-        <ul className="styleguide__surfaces">
-          {SURFACES.map((surface) => (
-            <li className="styleguide__token" key={surface.token}>
-              <span
-                className="styleguide__surface"
-                style={{
-                  backgroundColor: `var(${surface.token})`,
-                  color: surface.inverse
-                    ? "var(--color-text-inverse)"
-                    : "var(--color-text-primary)",
-                  boxShadow:
-                    surface.token === "--color-surface-raised"
-                      ? "var(--shadow-sm)"
-                      : undefined,
-                }}
-              >
-                Your next role, planned
-              </span>
-              <div className="styleguide__token-meta">
-                <code className="styleguide__token-name">{surface.token}</code>
-                <span className="styleguide__token-note">{surface.role}</span>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </Panel>
-
-      <Panel title="Radii" headingLevel={2}>
-        <ul className="styleguide__tiles">
-          {radii.map((token) => (
-            <TokenRow token={token} key={token.name}>
-              <span
-                className="styleguide__tile"
-                style={{ borderRadius: `var(${token.name})` }}
-              />
-            </TokenRow>
-          ))}
-        </ul>
-      </Panel>
-
-      <Panel title="Shadows" headingLevel={2}>
-        <ul className="styleguide__tiles">
-          {shadows.map((token) => (
-            <TokenRow token={token} key={token.name}>
-              <span
-                className="styleguide__tile styleguide__tile--plain"
-                style={{ boxShadow: `var(${token.name})` }}
-              />
-            </TokenRow>
-          ))}
-        </ul>
-      </Panel>
-
-      <Panel
-        title="Borders"
-        headingLevel={2}
-        description="Three widths, and the composed border shorthands the stylesheet uses most."
-      >
-        <ul className="styleguide__bars">
-          {borderWidths.map((token) => (
-            <TokenRow token={token} key={token.name}>
-              <span
-                className="styleguide__rule"
-                style={{ borderTopWidth: `var(${token.name})` }}
-              />
-            </TokenRow>
-          ))}
-        </ul>
-        <ul className="styleguide__bars">
-          {tokensWithPrefix("--border-")
-            .filter((token) => !token.name.startsWith("--border-width-"))
-            .map((token) => (
-              <TokenRow token={token} key={token.name}>
-                <span
-                  className="styleguide__rule styleguide__rule--composed"
-                  style={{ borderTop: `var(${token.name})` }}
-                />
-              </TokenRow>
-            ))}
-        </ul>
-      </Panel>
-
-      <Panel
-        title="Buttons"
-        headingLevel={2}
-        description="Every button variant and state, rendered from the real component."
-        actions={
-          <TextLink href={getHubPage("components").href} tone="standalone">
-            Every component in the catalogue
-          </TextLink>
-        }
-      >
-        <Specimens id="button" />
-        <Specimens id="textlink" />
-      </Panel>
-
-      <Panel
-        title="Form fields"
-        headingLevel={2}
-        description="Text fields, choice chips and toggles, in each of their states."
-      >
-        <Specimens id="input" />
-        <Specimens id="chipgroup" />
-        <Specimens id="togglegroup" />
-      </Panel>
-    </div>
+          </Panel>
+          ),
+        },
+        {
+          id: "surfaces",
+          label: "Surfaces",
+          group: "Layout",
+          content: (
+          <Panel
+            title="Surfaces"
+            headingLevel={2}
+            description="What a screen is built on, from the canvas up. Text on each is the colour that belongs there."
+          >
+            <ul className="styleguide__surfaces">
+              {SURFACES.map((surface) => (
+                <li className="styleguide__token" key={surface.token}>
+                  <span
+                    className="styleguide__surface"
+                    style={{
+                      backgroundColor: `var(${surface.token})`,
+                      color: surface.inverse
+                        ? "var(--color-text-inverse)"
+                        : "var(--color-text-primary)",
+                      boxShadow:
+                        surface.token === "--color-surface-raised"
+                          ? "var(--shadow-sm)"
+                          : undefined,
+                    }}
+                  >
+                    Your next role, planned
+                  </span>
+                  <div className="styleguide__token-meta">
+                    <code className="styleguide__token-name">{surface.token}</code>
+                    <span className="styleguide__token-note">{surface.role}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </Panel>
+          ),
+        },
+        {
+          id: "radii",
+          label: "Radii",
+          group: "Layout",
+          content: (
+          <Panel title="Radii" headingLevel={2}>
+            <ul className="styleguide__tiles">
+              {radii.map((token) => (
+                <TokenRow token={token} key={token.name}>
+                  <span
+                    className="styleguide__tile"
+                    style={{ borderRadius: `var(${token.name})` }}
+                  />
+                </TokenRow>
+              ))}
+            </ul>
+          </Panel>
+          ),
+        },
+        {
+          id: "shadows",
+          label: "Shadows",
+          group: "Layout",
+          content: (
+          <Panel title="Shadows" headingLevel={2}>
+            <ul className="styleguide__tiles">
+              {shadows.map((token) => (
+                <TokenRow token={token} key={token.name}>
+                  <span
+                    className="styleguide__tile styleguide__tile--plain"
+                    style={{ boxShadow: `var(${token.name})` }}
+                  />
+                </TokenRow>
+              ))}
+            </ul>
+          </Panel>
+          ),
+        },
+        {
+          id: "borders",
+          label: "Borders",
+          group: "Layout",
+          content: (
+          <Panel
+            title="Borders"
+            headingLevel={2}
+            description="Three widths, and the composed border shorthands the stylesheet uses most."
+          >
+            <ul className="styleguide__bars">
+              {borderWidths.map((token) => (
+                <TokenRow token={token} key={token.name}>
+                  <span
+                    className="styleguide__rule"
+                    style={{ borderTopWidth: `var(${token.name})` }}
+                  />
+                </TokenRow>
+              ))}
+            </ul>
+            <ul className="styleguide__bars">
+              {tokensWithPrefix("--border-")
+                .filter((token) => !token.name.startsWith("--border-width-"))
+                .map((token) => (
+                  <TokenRow token={token} key={token.name}>
+                    <span
+                      className="styleguide__rule styleguide__rule--composed"
+                      style={{ borderTop: `var(${token.name})` }}
+                    />
+                  </TokenRow>
+                ))}
+            </ul>
+          </Panel>
+          ),
+        },
+        {
+          id: "buttons",
+          label: "Buttons",
+          group: "Components",
+          content: (
+          <Panel
+            title="Buttons"
+            headingLevel={2}
+            description="Every button variant and state, rendered from the real component."
+            actions={
+              <TextLink href={getHubPage("components").href} tone="standalone">
+                Every component in the catalogue
+              </TextLink>
+            }
+          >
+            <Specimens id="button" />
+            <Specimens id="textlink" />
+          </Panel>
+          ),
+        },
+        {
+          id: "form-fields",
+          label: "Form fields",
+          group: "Components",
+          content: (
+          <Panel
+            title="Form fields"
+            headingLevel={2}
+            description="Text fields, choice chips and toggles, in each of their states."
+          >
+            <Specimens id="input" />
+            <Specimens id="chipgroup" />
+            <Specimens id="togglegroup" />
+          </Panel>
+          ),
+        },
+      ]}
+    />
   );
 }
 

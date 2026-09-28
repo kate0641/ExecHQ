@@ -2099,6 +2099,87 @@ samp {
 
 /* Design system viewer ----------------------------------------------------- */
 
+/* One section at a time, with a menu on the left — laid out like the
+   component catalogue so the showroom's rooms read the same. */
+.styleguide-layout {
+  display: grid;
+  grid-template-columns: minmax(200px, 240px) minmax(0, 1fr);
+  gap: var(--space-lg);
+  align-items: start;
+}
+
+.styleguide-layout__nav {
+  position: sticky;
+  top: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  background-color: var(--color-surface-sunken);
+  border: var(--border-thin);
+  border-radius: var(--radius-md);
+}
+
+.styleguide-layout__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.styleguide-layout__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+.styleguide-layout__link {
+  display: block;
+  padding: var(--space-xs) var(--space-sm);
+  border: var(--border-width-thin) solid transparent;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-primary);
+  text-decoration: none;
+}
+
+.styleguide-layout__link:hover {
+  background-color: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+.styleguide-layout__link[aria-current="page"] {
+  background-color: var(--color-surface-raised);
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-xs);
+  font-weight: var(--weight-semibold);
+}
+
+.styleguide-layout__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  min-width: 0;
+}
+
+/* A hash link lands on its section; leave room above it. */
+.styleguide-layout__section {
+  scroll-margin-top: var(--space-md);
+}
+
+.styleguide-layout__section[hidden] {
+  display: none;
+}
+
+.styleguide-layout__next {
+  align-self: flex-end;
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+}
+
 .styleguide {
   display: flex;
   flex-direction: column;
