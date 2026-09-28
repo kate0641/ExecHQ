@@ -4084,18 +4084,22 @@ samp {
   padding: var(--space-2xs);
   padding-left: var(--space-md);
   background-color: var(--color-surface-raised);
-  border: var(--border-strong);
+  /* A light edge, lifted by a soft shadow, rather than the strong control
+     border: the placeholder, the mic and send already say what this is, so
+     the edge only needs to be seen, not to identify it (WCAG 1.4.11). */
+  border: var(--border-thin);
   border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xs);
 }
 
-/* Focus is the pill's edge turning near-black and thickening to 2px, as a
-   field's does. The second pixel is an inset shadow, so nothing shifts; the
-   transparent outline is what forced-colours mode draws. */
+/* Focus is the edge stepping up to the strong control border (3.2:1 on the
+   page, 3.4:1 on the fill) with a deeper shadow — quieter than a field's 2px
+   near-black edge, to suit the lighter box. The transparent outline is what
+   forced-colours mode draws, since it drops shadows. */
 .chat-composer:has(.chat-composer__field:focus-visible) {
-  outline: var(--border-width-medium) solid transparent;
-  outline-offset: calc(var(--border-width-medium) * -1);
-  border-color: var(--color-text-primary);
-  box-shadow: inset 0 0 0 var(--border-width-thin) var(--color-text-primary);
+  outline: var(--border-width-thin) solid transparent;
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-sm);
 }
 
 .chat-composer:has(.chat-composer__field[aria-disabled="true"]) {
