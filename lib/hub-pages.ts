@@ -7,8 +7,8 @@
  * list, so adding a page is one entry here plus its route.
  *
  * Pages marked `showroom` exist only where the showroom is built (see
- * `lib/showroom.ts`). On the public production site they are left out of every
- * list, so nothing links to a page that 404s there.
+ * `lib/showroom.ts`). Where it is not, they are left out of every list, so
+ * nothing links to a page that 404s there.
  */
 import { SHOWROOM_ENABLED } from "@/lib/showroom";
 
@@ -24,7 +24,7 @@ export interface HubPage {
   description: string;
   /** Locks the viewport toggle to web width, as `webOnly` does for a flow. */
   webOnly?: boolean;
-  /** Part of the private showroom, so never built on the production site. */
+  /** Part of the showroom, so built only where the showroom is on. */
   showroom?: boolean;
 }
 
@@ -86,7 +86,7 @@ export const HUB_PAGES: readonly HubPage[] = ALL_HUB_PAGES.filter(
 );
 
 /** The showroom's three rooms — everything in it except its own front page.
- *  Empty on the production site. */
+ *  Empty where the showroom is off. */
 export const SHOWROOM_ROOMS: readonly HubPage[] = HUB_PAGES.filter(
   (page) => page.showroom && page.key !== "showroom"
 );

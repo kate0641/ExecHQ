@@ -1,0 +1,520 @@
+"use client";
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
+import { ChatComposer } from "@/components/chat/ChatComposer";
+import { ChatMessage } from "@/components/chat/ChatMessage";
+import { QuickReplies } from "@/components/chat/QuickReplies";
+import { AdvisorMark } from "@/components/chat/AdvisorMark";
+import { ConciergePanel } from "@/components/navigation/ConciergePanel";
+import { ConciergePill } from "@/components/navigation/ConciergePill";
+import { Icon, type IconName } from "@/components/primitives/Icon";
+import { LoopStatus } from "@/components/loop/LoopStatus";
+import {
+  respond,
+  suggestions,
+  understand,
+  type AdvisorTurn,
+  type ConciergeAction,
+  type ConciergeContext,
+  type ConciergeEffect,
+  type ConciergeReply,
+} from "@/lib/concierge";
+import { nextFollowUp } from "@/lib/loop";
+import {
+  currentSnapshot,
+  getLoopState,
+  loopActions,
+  nextStepAfter,
+  useLoop,
+} from "@/lib/loop-store";
+import type { NavDestination } from "@/lib/manifest";
+import { useViewport } from "@/lib/viewport-context";
+import { CONCIERGE_COPY as C } from "@/mock/concierge";
+import type { NavConceptProps } from "../types";
+
+/**
+ * Navigation Concept 1 — Concierge.
+ *
+ * The onboarding advisor on every signed-in page. One pill, "Ask or go":
+ * floating at the foot of the phone, in the middle of the header on tablet
+ * and web. It opens a sheet over the phone, and a panel docked beside the
+ * page on tablet and web, where the page stays usable next to him.
+ *
+ * Type a destination and he takes you there. Type anything else and he
+ * answers — scripted, from `lib/concierge.ts` — and what he does is real:
+ * answering a follow-up, marking something used or taking up a next step
+ * changes the Loop, so Home, the statuses and the dot all follow.
+ */
+
+const PANEL_ID = "concierge-panel";
+const PILL_ID = "concierge-pill";
+/** How long he takes to reply. Instant under reduced motion. */
+const TYPING_MS = 650;
+/** A beat between "Here's your plan." and actually going. */
+const GO_MS = 350;
+
+const ICONS: Record<string, IconName> = {
+  homepage: "home",
+  plan: "flag",
+  toolbox: "pencil",
+  "daily-briefing": "calendar",
+  profile: "person",
+};
+
+/* -----------------------------------------------------------------------------
+   The conversation, kept for the tab's life so it survives moving between
+   pages. Shared by the pill in the header and the panel in the nav slot.
+   -------------------------------------------------------------------------- */
+
+type Message = { id: number; from: "you"; text: string } | { id: number; from: "advisor"; turn: AdvisorTurn };
+
+interface ConciergeState {
+  open: boolean;
+  messages: Message[];
+  typing: boolean;
+  asked?: "follow-up";
+}
+
+let state: ConciergeState = { open: false, messages: [], typing: false };
+let nextId = 1;
+const listeners = new Set<() => void>();
+function update(change: Partial<ConciergeState>) {
+  state = { ...state, ...change };
+  for (const listener of listeners) listener();
+}
+function subscribe(listener: () => void) {
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+  };
+}
+const SERVER_STATE: ConciergeState = { open: false, messages: [], typing: false };
+const useConcierge = () => useSyncExternalStore(subscribe, () => state, () => SERVER_STATE);
+
+/** Whether focus should go back to the pill when the panel closes. */
+let returnFocus = false;
+function closePanel(focusPill = true) {
+  returnFocus = focusPill;
+  update({ open: false });
+}
+
+/** The Loop as it stands this moment, read fresh when he replies. */
+function contextNow(destinations: NavDestination[]): ConciergeContext {
+  const snapshot = currentSnapshot(getLoopState());
+  return {
+    snapshot,
+    followUp: nextFollowUp(snapshot.records, snapshot.today),
+    nextStep: snapshot.recommendations[0],
+    destinations,
+    nextStepAfter,
+  };
+}
+
+function applyEffect(effect: ConciergeEffect | undefined, go: (href: string) => void) {
+  if (!effect) return;
+  switch (effect.kind) {
+    case "go":
+      go(effect.href);
+      break;
+    case "answer":
+      loopActions.answer(effect.recordId, { type: effect.outcome, detail: effect.detail });
+      break;
+    case "mark-used":
+      loopActions.markUsed(effect.recordId, { checkBackDays: effect.days });
+      break;
+    case "take-next":
+      loopActions.takeNextStep(effect.recordId);
+      break;
+    case "set-aside":
+      loopActions.setNextStepAside(effect.recordId);
+      break;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   The pill
+   -------------------------------------------------------------------------- */
+
+function Pill({ destinations, currentFlow, layout }: NavConceptProps & { layout: "floating" | "header" }) {
+  const { open } = useConcierge();
+  const loop = useLoop();
+  const here = destinations.find((d) => d.flowSlug === currentFlow);
+  return (
+    <ConciergePill
+      id={PILL_ID}
+      layout={layout}
+      here={{ label: here?.label ?? "Home", icon: ICONS[currentFlow] ?? "home" }}
+      ask={C.pillAsk}
+      followUpDue={Boolean(loop.followUp)}
+      expanded={open}
+      controls={PANEL_ID}
+      onClick={() => (open ? closePanel() : update({ open: true }))}
+    />
+  );
+}
+
+/** In the middle of the header, on tablet and web. */
+export function ConciergeHeaderCentre(props: NavConceptProps) {
+  const { viewport } = useViewport();
+  if (viewport === "mobile") return null;
+  return <Pill {...props} layout="header" />;
+}
+
+/* -----------------------------------------------------------------------------
+   The panel
+   -------------------------------------------------------------------------- */
+
+/** The floating pill and the sheet on mobile; the docked panel on tablet and
+ *  web. Drawn on the device screen, over or beside the page. */
+export function ConciergeNav(props: NavConceptProps) {
+  const { viewport } = useViewport();
+  const concierge = useConcierge();
+  const anchor = useRef<HTMLSpanElement>(null);
+  const [screen, setScreen] = useState<HTMLElement | null>(null);
+  const mobile = viewport === "mobile";
+
+  useEffect(() => {
+    setScreen(anchor.current?.closest<HTMLElement>(".device__screen") ?? null);
+  }, []);
+
+  // Tell the screen what is showing, so the page can leave room for the
+  // floating pill and make way for the docked panel. On mobile the open sheet
+  // is modal: the page behind is inert and Escape closes it.
+  useEffect(() => {
+    if (!screen) return;
+    screen.setAttribute("data-concierge", concierge.open ? "open" : "closed");
+    const content = screen.querySelector<HTMLElement>(".device__content");
+    const modal = mobile && concierge.open;
+    if (content) content.inert = modal;
+    if (!concierge.open) {
+      if (returnFocus) document.getElementById(PILL_ID)?.focus();
+      returnFocus = false;
+      return;
+    }
+    screen.querySelector<HTMLInputElement>(`#${PANEL_ID} .chat-composer__field`)?.focus();
+    function onKey(event: KeyboardEvent) {
+      if (event.key !== "Escape") return;
+      if (!modal && !screen!.querySelector(`#${PANEL_ID}`)?.contains(document.activeElement)) return;
+      event.preventDefault();
+      closePanel();
+    }
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      if (content) content.inert = false;
+    };
+  }, [screen, concierge.open, mobile]);
+
+  useEffect(() => {
+    return () => {
+      screen?.removeAttribute("data-concierge");
+    };
+  }, [screen]);
+
+  return (
+    <>
+      <span ref={anchor} hidden />
+      {screen
+        ? createPortal(
+            <div className={`concierge-host concierge-host--${mobile ? "mobile" : "docked"}`}>
+              {mobile ? (
+                <>
+                  <div className="concierge-host__pill">
+                    <Pill {...props} layout="floating" />
+                  </div>
+                  <button
+                    type="button"
+                    className="concierge-host__scrim"
+                    tabIndex={-1}
+                    aria-hidden="true"
+                    onClick={() => closePanel()}
+                  />
+                </>
+              ) : null}
+              <div className="concierge-host__panel" inert={!concierge.open}>
+                <Conversation {...props} mode={mobile ? "sheet" : "docked"} />
+              </div>
+            </div>,
+            screen
+          )
+        : null}
+    </>
+  );
+}
+
+function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { mode: "sheet" | "docked" }) {
+  const router = useRouter();
+  const { viewport } = useViewport();
+  const concierge = useConcierge();
+  const loop = useLoop();
+  const [draft, setDraft] = useState("");
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const chatting = concierge.messages.length > 0;
+  const ctx: ConciergeContext = {
+    snapshot: loop,
+    followUp: loop.followUp,
+    nextStep: loop.nextStep,
+    destinations,
+    nextStepAfter,
+  };
+
+  // Keep the latest message in view. The panel's body is what scrolls.
+  useEffect(() => {
+    const scroller = bodyRef.current?.parentElement;
+    if (scroller) scroller.scrollTop = scroller.scrollHeight;
+  }, [concierge.messages.length, concierge.typing]);
+
+  function go(href: string) {
+    // On the phone the sheet makes way; docked, he stays beside the page.
+    if (viewport === "mobile") closePanel(false);
+    router.push(href);
+  }
+
+  function send(text: string, chosen?: ConciergeAction) {
+    if (state.typing) return;
+    const action = chosen ?? understand(text, contextNow(destinations), state.asked);
+    const you: Message = { id: nextId++, from: "you", text };
+    if (action.kind === "go") {
+      const { turn, effect } = respond(action, contextNow(destinations));
+      update({ messages: [...state.messages, you, { id: nextId++, from: "advisor", turn }], asked: undefined });
+      setTimeout(() => applyEffect(effect, go), GO_MS);
+      return;
+    }
+    update({ messages: [...state.messages, you], typing: true });
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    setTimeout(() => {
+      // Read the Loop now, not when the message was sent.
+      const { turn, effect } = respond(action, contextNow(destinations));
+      applyEffect(effect, go);
+      update({
+        messages: [...state.messages, { id: nextId++, from: "advisor", turn }],
+        typing: false,
+        asked: turn.asked,
+      });
+    }, reduce ? 0 : TYPING_MS);
+  }
+
+  function choose(reply: ConciergeReply) {
+    send(reply.label, reply.action);
+  }
+
+  // Typing a place offers to go straight there.
+  const typed = draft.trim().toLowerCase().replace(/^(go to|open)\s+/, "");
+  const goTo =
+    typed.length > 1 ? destinations.find((d) => d.label.toLowerCase().startsWith(typed)) : undefined;
+
+  const last = concierge.messages[concierge.messages.length - 1];
+  const replies = !concierge.typing && last?.from === "advisor" ? last.turn.replies ?? [] : [];
+
+  return (
+    <ConciergePanel
+      id={PANEL_ID}
+      mode={mode}
+      name={C.name}
+      role={C.role}
+      newLabel={C.newConversation}
+      closeLabel={C.close}
+      privacy={C.privacy}
+      onNew={chatting ? () => update({ messages: [], asked: undefined }) : undefined}
+      onClose={() => closePanel()}
+      className={chatting ? "is-chatting" : undefined}
+      footer={
+        <>
+          {replies.length ? (
+            <QuickReplies
+              label="Answers"
+              replies={replies.map((r) => ({ label: r.label }))}
+              onChoose={(label) => {
+                const reply = replies.find((r) => r.label === label);
+                if (reply) choose(reply);
+              }}
+            />
+          ) : null}
+          {goTo ? (
+            <button
+              type="button"
+              className="concierge-go"
+              onClick={() => {
+                setDraft("");
+                send(draft.trim(), { kind: "go", flow: goTo.flowSlug });
+              }}
+            >
+              <Icon name={ICONS[goTo.flowSlug] ?? "home"} size={18} />
+              {C.goHint(goTo.label)}
+              <kbd>Enter</kbd>
+            </button>
+          ) : null}
+          <ChatComposer
+            value={draft}
+            onChange={setDraft}
+            placeholder={C.placeholder}
+            disabled={concierge.typing}
+            onSend={(value) => {
+              setDraft("");
+              send(value, goTo ? { kind: "go", flow: goTo.flowSlug } : undefined);
+            }}
+          />
+        </>
+      }
+    >
+      <div className="concierge-body" ref={bodyRef}>
+        {chatting ? (
+          <>
+            <ul className="concierge-mini" aria-label={C.goTo}>
+              {destinations.map((d) => (
+                <li key={d.flowSlug}>
+                  <Link
+                    href={d.href}
+                    className={d.flowSlug === currentFlow ? "is-current" : undefined}
+                    aria-current={d.flowSlug === currentFlow ? "page" : undefined}
+                    onClick={() => viewport === "mobile" && closePanel(false)}
+                  >
+                    <Icon name={ICONS[d.flowSlug] ?? "home"} size={16} />
+                    {d.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <div className="concierge-thread" role="log" aria-label="Conversation">
+              {concierge.messages.map((m, i) => {
+                const prev = concierge.messages[i - 1];
+                if (m.from === "you") return <ChatMessage key={m.id} from="you">{m.text}</ChatMessage>;
+                return (
+                  <ChatMessage key={m.id} from="advisor" lead={prev?.from !== "advisor"} card={Boolean(m.turn.card)}>
+                    <Turn turn={m.turn} />
+                  </ChatMessage>
+                );
+              })}
+              {concierge.typing ? <ChatMessage from="advisor" lead typing /> : null}
+            </div>
+          </>
+        ) : (
+          <Start destinations={destinations} currentFlow={currentFlow} ctx={ctx} onAsk={choose} />
+        )}
+      </div>
+    </ConciergePanel>
+  );
+}
+
+function Turn({ turn }: { turn: AdvisorTurn }) {
+  return (
+    <>
+      {turn.paragraphs.map((p, i) => (
+        <p key={`p${i}`}>{p}</p>
+      ))}
+      {turn.list ? (
+        <ol className="concierge-list">
+          {turn.list.map((item, i) => (
+            <li key={i}>{item}</li>
+          ))}
+        </ol>
+      ) : null}
+      {turn.after?.map((p, i) => (
+        <p key={`a${i}`}>{p}</p>
+      ))}
+      {turn.card ? (
+        <div className="concierge-card">
+          <b>{turn.card.title}</b>
+          <span>{turn.card.body}</span>
+        </div>
+      ) : null}
+    </>
+  );
+}
+
+/** Before anything is asked: where to go, the work in hand, and what to ask. */
+function Start({
+  destinations,
+  currentFlow,
+  ctx,
+  onAsk,
+}: {
+  destinations: NavDestination[];
+  currentFlow: string;
+  ctx: ConciergeContext;
+  onAsk: (reply: ConciergeReply) => void;
+}) {
+  const { viewport } = useViewport();
+  const loop = useLoop();
+  const work = loop.records.filter((r) => r.state !== "closed").slice(0, 3);
+  return (
+    <div className="concierge-start">
+      <section aria-labelledby="concierge-goto">
+        <h2 id="concierge-goto" className="concierge-start__title">{C.goTo}</h2>
+        <ul className="concierge-dests">
+          {destinations.map((d) => (
+            <li key={d.flowSlug}>
+              <Link
+                href={d.href}
+                className={["concierge-dest", d.flowSlug === currentFlow ? "is-current" : null].filter(Boolean).join(" ")}
+                aria-current={d.flowSlug === currentFlow ? "page" : undefined}
+                onClick={() => viewport === "mobile" && closePanel(false)}
+              >
+                <Icon name={ICONS[d.flowSlug] ?? "home"} size={20} />
+                <span>{d.label}</span>
+                {d.flowSlug === "homepage" && loop.followUp ? (
+                  <>
+                    <span className="concierge-dest__dot" aria-hidden="true" />
+                    <span className="u-visually-hidden">, a follow-up is waiting</span>
+                  </>
+                ) : null}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section aria-labelledby="concierge-work">
+        <h2 id="concierge-work" className="concierge-start__title">{C.yourWork}</h2>
+        <ul className="concierge-work">
+          {loop.followUp ? (
+            <li>
+              <button
+                type="button"
+                className="concierge-row"
+                onClick={() => onAsk({ label: C.suggest.followUp(loop.followUp!.name), action: { kind: "ask-follow-up" } })}
+              >
+                <span className="concierge-row__icon"><AdvisorMark size={20} /></span>
+                <span className="concierge-row__text">
+                  <span className="concierge-row__title">{C.followUpRow(loop.followUp.name)}</span>
+                  <span className="concierge-row__hint">{C.followUpRowHint}</span>
+                </span>
+              </button>
+            </li>
+          ) : null}
+          {work.map((r) => (
+            <li key={r.id}>
+              <Link
+                href={destinations.find((d) => d.flowSlug === "toolbox")?.href ?? "#"}
+                className="concierge-row"
+                onClick={() => viewport === "mobile" && closePanel(false)}
+              >
+                <span className="concierge-row__icon"><Icon name="document" size={20} /></span>
+                <span className="concierge-row__text">
+                  <span className="concierge-row__title">{r.title}</span>
+                  <LoopStatus record={r} />
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section aria-labelledby="concierge-ask">
+        <h2 id="concierge-ask" className="concierge-start__title">{C.askMe}</h2>
+        <ul className="concierge-suggest">
+          {suggestions(ctx).map((s) => (
+            <li key={s.label}>
+              <button type="button" className="concierge-suggest__item" onClick={() => onAsk(s)}>
+                {s.label}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </div>
+  );
+}

@@ -1,28 +1,33 @@
 "use client";
 
-import { useState } from "react";
-import { ChipGroup } from "@/components/form/ChipGroup";
+import { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/form/Input";
 import { GeneratingState } from "@/components/onboarding/GeneratingState";
 import { ExportLinks } from "@/components/onboarding/ExportLinks";
-import { StoryOutputs } from "@/components/onboarding/StoryOutputs";
+import { StoryDraft } from "@/components/onboarding/StoryDraft";
 import { WizardStep } from "@/components/onboarding/WizardStep";
-import type { PositioningInputs } from "@/flows/onboarding/shared";
+import { Button } from "@/components/primitives/Button";
 import {
-  OPENER_KIND,
+  DRAFT_C1,
+  DRAFT_EXPORTS,
   POSITIONING_C1,
-  STORY_EXPORTS,
-  builtFrom,
+  SHARPEN_C1,
+  firstDraftFor,
+  isSharpened,
   planById,
-  type OutputKind,
   type PlanTemplate,
 } from "@/mock/onboarding";
 import type { ScreenProps } from "./types";
 
 /**
- * The Positioning Builder, Concept 1's first artifact for every plan, in two
- * pages: what goes in, then what comes out. Each page is its own mark in the
- * progress bar.
+ * The story, Concept 1's first artifact for every plan.
+ *
+ * Written before anything is asked, by decision on 2026-09-28: confirming the
+ * plan hands over a first draft built from the direction and the refinement
+ * answers. It replaces a ten-field build page and a four-output page, which
+ * made the first win cost more than the plan did. Sharpening is optional and
+ * asks three things; the bio, the opener and the rest of the builder move out
+ * of onboarding.
  */
 
 /** The plan the user chose, or the one recommended to them. */
@@ -31,222 +36,159 @@ function usePlan({ flow }: Pick<ScreenProps, "flow">): PlanTemplate | undefined 
   return planById(state.answers.planId ?? "") ?? derived?.recommended;
 }
 
-/* -----------------------------------------------------------------------------
-   BUILD
-   -------------------------------------------------------------------------- */
+/** Where a hand edit of the draft is kept, with the builder's other edits. */
+const DRAFT_EDIT = "draft";
 
 /**
- * What goes in, grouped by the part of the story each input fills. What
- * earlier steps told us is shown, not asked again. Everything is optional:
- * "Build my story" works with nothing filled in, and every gap stays visible
- * on the outputs page until the user fills it.
+ * The first draft, with the optional sharpen page behind it.
+ *
+ * Saving is the skip: the draft is kept whichever way the user goes, so there
+ * is nothing to decline. Sharpening is quieter than saving, and says what
+ * happens if it is left: it becomes this week's quick win on the plan.
  */
-export function PositioningBuildScreen({ flow, step, total, headingId }: ScreenProps) {
-  const { state, dispatch, withDelay } = flow;
-  const inputs = state.answers.positioning;
-  const plan = usePlan({ flow });
-  const direction = state.answers.direction ?? "";
-  const copy = POSITIONING_C1;
-
-  const set = (patch: Partial<PositioningInputs>) =>
-    dispatch({ type: "set-positioning", patch });
-
-  const hasOpener = Boolean(OPENER_KIND[inputs.audience]);
-  const showFirstOptions = [
-    copy.outputs.narrative,
-    copy.outputs.bio,
-    ...(hasOpener ? [OPENER_KIND[inputs.audience]] : []),
-  ];
-  const showFirstKey: Record<string, string> = {
-    [copy.outputs.narrative]: "narrative",
-    [copy.outputs.bio]: "bio",
-    ...(hasOpener ? { [OPENER_KIND[inputs.audience]]: "opener" } : {}),
-  };
-  const showFirstLabel =
-    Object.keys(showFirstKey).find((label) => showFirstKey[label] === inputs.showFirst) ??
-    copy.outputs.narrative;
-
-  function build() {
-    // A rebuild starts from the inputs, so earlier hand edits are dropped.
-    set({ built: true, edits: {} });
-    withDelay("drafting", () => {});
-  }
-
-  return (
-    <WizardStep
-      step={step}
-      total={total}
-      eyebrow={copy.tool}
-      title={copy.buildTitle}
-      description={copy.buildHint}
-      headingId={headingId}
-      primaryLabel={copy.build}
-      onPrimary={build}
-    >
-      <section className="builder-part" aria-labelledby="builder-doing">
-        <h2 className="builder-part__title" id="builder-doing">
-          {copy.parts.doing}
-        </h2>
-        <Input
-          label={copy.role.label}
-          placeholder={copy.role.placeholder}
-          value={inputs.role}
-          onChange={(event) => set({ role: event.target.value })}
-        />
-        <Input
-          label={copy.own.label}
-          placeholder={copy.own.placeholder}
-          value={inputs.own}
-          onChange={(event) => set({ own: event.target.value })}
-        />
-        <ChipGroup
-          label={copy.team.label}
-          options={copy.team.options}
-          value={inputs.teamSize ? [inputs.teamSize] : []}
-          onChange={(next) => set({ teamSize: next[0] ?? "" })}
-        />
-      </section>
-
-      <section className="builder-part" aria-labelledby="builder-known">
-        <h2 className="builder-part__title" id="builder-known">
-          {copy.parts.known}
-        </h2>
-        <ChipGroup
-          label={copy.strengths.label}
-          note={copy.strengths.note}
-          options={copy.strengths.options}
-          value={inputs.strengths}
-          max={copy.strengths.max}
-          onChange={(next) => set({ strengths: next })}
-        />
-        <Input
-          label={copy.result.label}
-          placeholder={copy.result.placeholder}
-          multiline
-          rows={2}
-          value={inputs.result}
-          onChange={(event) => set({ result: event.target.value })}
-        />
-      </section>
-
-      {/* Already known from earlier steps, so shown rather than asked. */}
-      <section className="builder-part" aria-labelledby="builder-toward">
-        <h2 className="builder-part__title" id="builder-toward">
-          {copy.parts.toward}
-        </h2>
-        <div className="builder-known">
-          <p className="builder-known__label">{copy.fromPlan}</p>
-          <ul className="builder-known__tags">
-            {builtFrom(direction, state.answers.refinement).map((tag) => (
-              <li key={tag}>{tag}</li>
-            ))}
-            {plan ? <li>{plan.name}</li> : null}
-          </ul>
-        </div>
-      </section>
-
-      <section className="builder-part" aria-labelledby="builder-use">
-        <h2 className="builder-part__title" id="builder-use">
-          {copy.parts.use}
-        </h2>
-        <ChipGroup
-          label={copy.audience.label}
-          note={copy.audience.note}
-          options={copy.audience.options}
-          value={inputs.audience ? [inputs.audience] : []}
-          onChange={(next) => {
-            const audience = next[0] ?? "";
-            // Without an opener, it cannot be the output shown first.
-            const keepFirst = OPENER_KIND[audience] || inputs.showFirst !== "opener";
-            set({ audience, showFirst: keepFirst ? inputs.showFirst : "narrative" });
-          }}
-        />
-        <ChipGroup
-          label={copy.showFirst.label}
-          options={showFirstOptions}
-          value={[showFirstLabel]}
-          onChange={(next) =>
-            set({ showFirst: next[0] ? showFirstKey[next[0]] : "narrative" })
-          }
-        />
-      </section>
-
-      <section className="builder-part" aria-labelledby="builder-bio">
-        <h2 className="builder-part__title" id="builder-bio">
-          {copy.parts.bio}
-        </h2>
-        <Input
-          label={copy.name.label}
-          autoComplete="name"
-          value={inputs.name}
-          onChange={(event) => set({ name: event.target.value })}
-        />
-        <Input
-          label={copy.source.label}
-          placeholder={copy.source.placeholder}
-          hint={copy.source.hint}
-          multiline
-          rows={3}
-          value={inputs.source}
-          onChange={(event) => set({ source: event.target.value })}
-        />
-      </section>
-    </WizardStep>
-  );
-}
-
-/* -----------------------------------------------------------------------------
-   OUTPUTS
-   -------------------------------------------------------------------------- */
-
-/**
- * What comes out: the builder's four outputs, drawn by StoryOutputs, which
- * Concept 2's story card shares. Copy, Download and Email sit with the pinned
- * action, available the whole time, and each takes everything at once.
- */
-export function PositioningOutputScreen({ flow, step, total, headingId }: ScreenProps) {
+export function StoryDraftScreen({ flow, step, total, headingId }: ScreenProps) {
   const { state, dispatch, generating } = flow;
   const inputs = state.answers.positioning;
   const plan = usePlan({ flow });
-  const copy = POSITIONING_C1;
+  const [sharpening, setSharpening] = useState(false);
   const [editing, setEditing] = useState(false);
+
+  // The shell moves focus on a step change; opening and closing the sharpen
+  // page is a change inside the step, so it moves focus itself.
+  const wasSharpening = useRef(sharpening);
+  useEffect(() => {
+    if (wasSharpening.current === sharpening) return;
+    wasSharpening.current = sharpening;
+    document.getElementById(headingId)?.focus();
+  }, [sharpening, headingId]);
 
   if (generating === "drafting") {
     return (
       <WizardStep step={step} total={total} title="One moment" headingId={headingId}>
-        <GeneratingState label={copy.building} />
+        <GeneratingState label={DRAFT_C1.writing} />
       </WizardStep>
     );
   }
+
+  if (sharpening) {
+    return (
+      <SharpenPage
+        flow={flow}
+        headingId={headingId}
+        onDone={() => setSharpening(false)}
+      />
+    );
+  }
+
+  const sharpened = isSharpened(inputs);
+  const text = firstDraftFor(state.answers.direction ?? "", state.answers.refinement, inputs);
 
   return (
     <WizardStep
       step={step}
       total={total}
-      eyebrow={copy.tool}
-      title={plan?.thisWeek?.output ?? "The story of what you lead"}
-      description={copy.outputHint}
+      eyebrow={DRAFT_C1.eyebrow}
+      title={DRAFT_C1.title}
+      description={DRAFT_C1.hint}
       headingId={headingId}
-      primaryLabel={copy.save}
+      primaryLabel={DRAFT_C1.save}
       onPrimary={() => {
         dispatch({ type: "save-artifact" });
         dispatch({ type: "go-to", step: "complete" });
       }}
       primaryDisabled={editing}
-      actionsLead={<ExportLinks actions={STORY_EXPORTS} />}
+      actionsLead={<ExportLinks actions={DRAFT_EXPORTS} />}
     >
-      <StoryOutputs
-        inputs={inputs}
-        direction={state.answers.direction ?? ""}
-        showFirst={inputs.showFirst as OutputKind}
-        nextStage={plan?.stages?.[1]?.title}
-        edits={inputs.edits}
-        onSaveEdit={(key, text) =>
-          dispatch({ type: "set-positioning", patch: { edits: { ...inputs.edits, [key]: text } } })
+      <StoryDraft
+        // A new draft, from sharpening, opens fresh rather than in an editor
+        // still holding the old one.
+        key={text}
+        label={sharpened ? DRAFT_C1.sharpenedLabel : DRAFT_C1.label}
+        text={text}
+        edited={inputs.edits[DRAFT_EDIT]}
+        onSaveEdit={(own) =>
+          dispatch({
+            type: "set-positioning",
+            patch: { edits: { ...inputs.edits, [DRAFT_EDIT]: own } },
+          })
         }
         onEditingChange={setEditing}
+        usesLabel={DRAFT_C1.usesLabel}
+        uses={plan?.uses ?? []}
       />
+
+      <div className="draft-sharpen">
+        <p className="draft-sharpen__lead">
+          {sharpened ? DRAFT_C1.sharpenedLead : DRAFT_C1.sharpenLead}
+        </p>
+        <Button variant="secondary" fullWidth onClick={() => setSharpening(true)}>
+          {sharpened ? DRAFT_C1.sharpenAgain : DRAFT_C1.sharpen}
+        </Button>
+      </div>
     </WizardStep>
   );
 }
 
+/**
+ * The three facts only the user knows. Reached only from the draft and not
+ * counted in progress, like the custom-plan wizard. Every field is optional,
+ * and anything left empty is left out of the draft rather than drawn as a gap.
+ */
+function SharpenPage({
+  flow,
+  headingId,
+  onDone,
+}: Pick<ScreenProps, "flow" | "headingId"> & { onDone: () => void }) {
+  const { state, dispatch } = flow;
+  const inputs = state.answers.positioning;
+  const [role, setRole] = useState(inputs.role);
+  const [own, setOwn] = useState(inputs.own);
+  const [result, setResult] = useState(inputs.result);
+  const handEdited = Boolean(inputs.edits[DRAFT_EDIT]);
+
+  return (
+    <WizardStep
+      step={1}
+      total={1}
+      showProgress={false}
+      eyebrow={SHARPEN_C1.eyebrow}
+      title={SHARPEN_C1.title}
+      description={handEdited ? `${SHARPEN_C1.hint} ${SHARPEN_C1.rewrites}` : SHARPEN_C1.hint}
+      headingId={headingId}
+      backLabel={SHARPEN_C1.back}
+      onBack={onDone}
+      primaryLabel={SHARPEN_C1.update}
+      onPrimary={() => {
+        // The draft is rewritten from the facts, so a hand edit is replaced.
+        const otherEdits = { ...inputs.edits };
+        delete otherEdits[DRAFT_EDIT];
+        dispatch({
+          type: "set-positioning",
+          patch: { role: role.trim(), own: own.trim(), result: result.trim(), edits: otherEdits },
+        });
+        onDone();
+      }}
+    >
+      <Input
+        label={POSITIONING_C1.role.label}
+        placeholder={POSITIONING_C1.role.placeholder}
+        value={role}
+        onChange={(event) => setRole(event.target.value)}
+      />
+      <Input
+        label={POSITIONING_C1.own.label}
+        placeholder={POSITIONING_C1.own.placeholder}
+        value={own}
+        onChange={(event) => setOwn(event.target.value)}
+      />
+      <Input
+        label={POSITIONING_C1.result.label}
+        placeholder={POSITIONING_C1.result.placeholder}
+        multiline
+        rows={2}
+        value={result}
+        onChange={(event) => setResult(event.target.value)}
+      />
+    </WizardStep>
+  );
+}

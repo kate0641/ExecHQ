@@ -6,13 +6,17 @@ export {
   type OnboardingStep,
 } from "./steps";
 export {
+  emptyLinkedIn,
   emptyPositioning,
   hasSkippedRefinement,
+  linkedInIn,
   initialState,
   makeReducer,
   progressStep,
   type ConnectionState,
   type DirectionSource,
+  type LinkedInStatus,
+  type LinkedInUpload,
   type OnboardingAction,
   type OnboardingAnswers,
   type OnboardingState,

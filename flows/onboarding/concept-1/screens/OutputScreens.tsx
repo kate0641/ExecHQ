@@ -1,23 +1,41 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
+import { LinkedInUpload } from "@/components/onboarding/LinkedInUpload";
 import { SignalSources } from "@/components/onboarding/SignalSources";
+import { ThisWeekCard } from "@/components/onboarding/ThisWeekCard";
 import { WizardStep } from "@/components/onboarding/WizardStep";
-import { DONE_C1, SIGNALS_C1, planById } from "@/mock/onboarding";
+import { linkedInIn } from "@/flows/onboarding/shared";
+import {
+  DONE_C1,
+  LINKEDIN_UPLOAD,
+  SIGNALS_C1,
+  isSharpened,
+  looksLikeLinkedInExport,
+  planById,
+  quickWinFor,
+} from "@/mock/onboarding";
 import type { ScreenProps } from "./types";
 
 /**
  * Onboarding ends here, on the win: the plan and the story, both saved. Two
  * ways on: build out your signals, the main one by decision on 2026-09-24,
  * or go home. Signals stays optional — home is always one tap away.
+ *
+ * Then what comes next on the plan, by decision on 2026-09-28: sharpening the
+ * story if it was left as a first draft, the bio once it has been sharpened.
+ * The plan screen came before the draft, so this is the first place that can
+ * say which.
  */
 export function CompleteScreen({ flow, step, total, headingId }: ScreenProps) {
   const { state, derived, dispatch } = flow;
   const plan = planById(state.answers.planId ?? "") ?? derived?.recommended;
-  const story = plan?.thisWeek?.output ?? "The story of what you lead";
+  const sharpened = isSharpened(state.answers.positioning);
+  const story = sharpened ? DONE_C1.storySharpened : DONE_C1.storyDraft;
 
   return (
     <WizardStep
@@ -55,6 +73,11 @@ export function CompleteScreen({ flow, step, total, headingId }: ScreenProps) {
           {story}
         </li>
       </ul>
+      <ThisWeekCard
+        label={DONE_C1.nextLabel}
+        whyLabel={DONE_C1.nextWhy}
+        {...quickWinFor(plan, sharpened)}
+      />
       <div className="done-invite">
         <p className="done-invite__title">{DONE_C1.inviteTitle}</p>
         <p className="done-invite__body">{DONE_C1.inviteBody}</p>
@@ -72,10 +95,54 @@ export function SignalsScreen({ flow, step, total, headingId }: ScreenProps) {
   const { state, dispatch } = flow;
   const router = useRouter();
   const copy = SIGNALS_C1;
-  const { connections, signalLinks } = state.answers;
-  const anyOn = copy.sources.some(
-    (source) => connections[source.id] === "connected" || Boolean(signalLinks[source.id])
-  );
+  const { connections, signalLinks, linkedin } = state.answers;
+  const anyOn = linkedInIn(linkedin) || Boolean(signalLinks.website) || connections.website === "connected";
+  // LinkedIn's upload is a page of its own inside this screen, by decision on
+  // 2026-09-28: four steps and a picker are too much for a sheet.
+  const [uploading, setUploading] = useState(false);
+
+  // Opening and closing the upload page is a change inside the step, so this
+  // screen moves focus itself, to the new heading.
+  const wasUploading = useRef(uploading);
+  useEffect(() => {
+    if (wasUploading.current === uploading) return;
+    wasUploading.current = uploading;
+    if (uploading) document.getElementById(headingId)?.focus();
+    else document.querySelector<HTMLElement>('[data-source="linkedin"]')?.focus();
+  }, [uploading, headingId]);
+
+  if (uploading) {
+    const fileIn = linkedInIn(linkedin);
+    return (
+      <WizardStep
+        step={step}
+        total={total}
+        showProgress={false}
+        eyebrow={LINKEDIN_UPLOAD.eyebrow}
+        title={LINKEDIN_UPLOAD.title}
+        description={fileIn ? undefined : LINKEDIN_UPLOAD.lede}
+        headingId={headingId}
+        backLabel={copy.title}
+        onBack={() => setUploading(false)}
+        primaryLabel={fileIn ? LINKEDIN_UPLOAD.done : LINKEDIN_UPLOAD.skip}
+        primaryVariant={fileIn ? "primary" : "secondary"}
+        onPrimary={() => setUploading(false)}
+      >
+        <LinkedInUpload
+          status={linkedin.status}
+          fileName={linkedin.fileName}
+          email={state.answers.email}
+          onChoose={(fileName) =>
+            dispatch({
+              type: "set-linkedin",
+              patch: { fileName, status: looksLikeLinkedInExport(fileName) ? "reading" : "wrong-file" },
+            })
+          }
+          onSendSteps={() => dispatch({ type: "set-linkedin", patch: { status: "sent" } })}
+        />
+      </WizardStep>
+    );
+  }
 
   return (
     <WizardStep
@@ -93,7 +160,8 @@ export function SignalsScreen({ flow, step, total, headingId }: ScreenProps) {
       <SignalSources
         connections={connections}
         signalLinks={signalLinks}
-        onConnect={(id) => dispatch({ type: "set-connection", id, state: "connected" })}
+        linkedin={linkedin}
+        onOpenLinkedIn={() => setUploading(true)}
         onAddLink={(id, link) => {
           dispatch({ type: "set-signal-link", id, link });
           dispatch({ type: "set-connection", id, state: "connected" });

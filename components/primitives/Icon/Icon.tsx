@@ -11,7 +11,17 @@ export type IconName =
   | "check"
   | "document"
   | "link"
-  | "pencil";
+  | "pencil"
+  | "flag"
+  | "attach"
+  | "reset"
+  | "home"
+  | "calendar"
+  | "person"
+  | "menu"
+  | "close"
+  | "draft"
+  | "sidebar";
 
 export interface IconProps {
   name: IconName;
@@ -96,6 +106,55 @@ const PATHS: Record<IconName, React.ReactNode> = {
     <>
       <path d="M13.4 3.6l3 3L7.6 15.4 4 16l.6-3.6z" />
       <path d="M11.8 5.2l3 3" strokeWidth="1.3" />
+    </>
+  ),
+  // Attaching a file to a message: a paperclip.
+  attach: <path d="M14.5 9.5l-5.3 5.3a3.2 3.2 0 01-4.5-4.5l6-6a2.1 2.1 0 013 3l-5.9 5.9a1 1 0 01-1.5-1.5L11.6 6" />,
+  // A destination: where the plan is headed.
+  flag: (
+    <>
+      <path d="M5 17.5V3" />
+      <path d="M5 3.5h9.5l-2.2 3.2 2.2 3.3H5" />
+    </>
+  ),
+  // Home: the one place every page comes back to.
+  home: <path d="M3.5 9.2 10 3.6l6.5 5.6v6.9a.9.9 0 0 1-.9.9h-3.3v-4.7H7.7V17H4.4a.9.9 0 0 1-.9-.9z" />,
+  // A day. Drawn with room in its lower half for a date set over it.
+  calendar: (
+    <>
+      <rect x="3.5" y="4.5" width="13" height="12" rx="2" />
+      <path d="M3.5 8.2h13M7 3v3M13 3v3" />
+    </>
+  ),
+  // The account: a head and shoulders, no face.
+  person: (
+    <>
+      <circle cx="10" cy="7" r="3.2" />
+      <path d="M4 16.8c.9-3 3.3-4.6 6-4.6s5.1 1.6 6 4.6" />
+    </>
+  ),
+  menu: <path d="M3.5 6h13M3.5 10h13M3.5 14h13" />,
+  // A page with a side column: widening or folding a sidebar.
+  sidebar: (
+    <>
+      <rect x="2.5" y="3.5" width="15" height="13" rx="2" />
+      <path d="M8 3.5v13" />
+    </>
+  ),
+  close: <path d="M5 5l10 10M15 5 5 15" />,
+  // The pencil with its tip filled in: a draft is open, waiting for you.
+  draft: (
+    <>
+      <path d="M13.4 3.6l3 3L7.6 15.4 4 16l.6-3.6z" />
+      <path d="M11.8 5.2l3 3" strokeWidth="1.3" />
+      <path d="M4 16l.6-3.6 3 3z" fill="currentColor" />
+    </>
+  ),
+  // Going back to the start: an arrow turning back on itself.
+  reset: (
+    <>
+      <path d="M4.2 8.2A6 6 0 1 1 4 11.5" />
+      <path d="M3.5 4.2v4.3h4.3" />
     </>
   ),
 };

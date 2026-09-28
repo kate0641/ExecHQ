@@ -19,9 +19,9 @@ export const storySummaryCardStates = defineComponentStates({
   name: "StorySummaryCard",
   group: "cards",
   status: "draft",
-  flows: ["onboarding"],
+  flows: [],
   description:
-    "The finished story, short enough for a conversation: the narrative's three parts and what else is ready, with every output one tap away. Concept 2.",
+    "The finished story, short enough for a conversation: the narrative's three parts and what else is ready, with every output one tap away. Out of Concept 2 since 2026-09-28, where a first-draft card replaced it; kept for the full builder in the Toolbox.",
   component: StorySummaryCard,
   notApplicable: {
     filled: NOT_AN_INPUT,

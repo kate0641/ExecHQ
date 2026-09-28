@@ -267,6 +267,7 @@
   --text-2xl: 1.75rem;   /* 28px */
   --text-3xl: 2.25rem;   /* 36px */
   --text-4xl: 3rem;      /* 48px */
+  --text-icon: 0.4375rem; /* 7px — a date set inside a 20px icon */
 
   --leading-tight: 1.15;
   --leading-snug: 1.3;

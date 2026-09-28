@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type ComponentProps, type ReactNode } from "react";
+import { useEffect, useId, useRef, useState, type ComponentProps } from "react";
 import { useRouter } from "next/navigation";
 import { ChipGroup } from "@/components/form/ChipGroup";
 import { Input } from "@/components/form/Input";
@@ -9,7 +9,8 @@ import { AnswerDrawer } from "@/components/onboarding/AnswerDrawer";
 import { ExportLinks } from "@/components/onboarding/ExportLinks";
 import { GeneratingState } from "@/components/onboarding/GeneratingState";
 import { GoodExample } from "@/components/onboarding/GoodExample";
-import { StoryOutputs } from "@/components/onboarding/StoryOutputs";
+import { LinkedInUpload } from "@/components/onboarding/LinkedInUpload";
+import { StoryDraft } from "@/components/onboarding/StoryDraft";
 import { PlanTemplateCard } from "@/components/onboarding/PlanTemplateCard";
 import { ThisWeekCard } from "@/components/onboarding/ThisWeekCard";
 import { GuidePage } from "@/components/onboarding/GuidePage";
@@ -21,31 +22,38 @@ import { SignalSources } from "@/components/onboarding/SignalSources";
 import { Button } from "@/components/primitives/Button";
 import {
   useOnboardingFlow,
+  linkedInIn,
   type OnboardingFlow,
   type OnboardingStep,
+  type PositioningInputs,
 } from "@/flows/onboarding/shared";
 import { useStepNav } from "@/lib/step-nav";
 import {
   DIRECTION_PROMPTS_C1,
   DONE_C1,
+  DRAFT_C1,
+  DRAFT_EXPORTS,
   GUIDE_C3,
+  LINKEDIN_UPLOAD,
   POSITIONING_C1,
-  STORY_EXPORTS,
   PLAN_C1,
   PLAN_TEMPLATES,
   SIGNALS_C1,
   builtFrom,
   checkEmail,
   earlyReasonFor,
+  firstDraftFor,
+  isSharpened,
   isValidInviteCode,
+  looksLikeLinkedInExport,
   planById,
+  quickWinFor,
   readBack,
   recommendC3,
   recommendPlan,
   refinementFor,
   towardFor,
   verdictC3,
-  type OutputKind,
   type PlanTemplate,
   type TailoredQuestion,
 } from "@/mock/onboarding";
@@ -83,6 +91,7 @@ type PageId =
   | "account"
   | "privacy"
   | "signals"
+  | "linkedin"
   | "direction"
   | "rec"
   | "reflect-time"
@@ -100,12 +109,8 @@ type PageId =
   | "plan-done"
   | "plan-grows"
   | "reflect-story"
-  | "story-intro"
-  | "build-doing"
-  | "build-known"
-  | "build-audience"
-  | "build-source"
-  | "story"
+  | "draft"
+  | "sharpen"
   | "done";
 
 interface Page {
@@ -126,6 +131,8 @@ const PAGES: Page[] = [
   { id: "account", label: "Account", step: "account" },
   { id: "privacy", label: "Privacy", step: "privacy" },
   { id: "signals", label: "Signals", step: "direction" },
+  // LinkedIn's upload, reached from Signals: the steps and the picker.
+  { id: "linkedin", label: "LinkedIn", step: "direction", offBar: true, aside: true },
   { id: "direction", label: "Direction", step: "direction" },
   { id: "rec", label: "Recommendation", step: "refinement" },
   { id: "reflect-time", label: "Reflection", step: "refinement" },
@@ -147,15 +154,12 @@ const PAGES: Page[] = [
   { id: "plan-stages", label: "Stages", step: "plan", offBar: true },
   { id: "plan-done", label: "Done when", step: "plan", offBar: true },
   { id: "plan-grows", label: "It grows", step: "plan", offBar: true },
-  // The Positioning Builder, coached: a reflection, what it is, four pages
-  // of what goes in, each with what good looks like, then the story.
+  // The story: a reflection, then a first draft written from what the user
+  // has said, by decision on 2026-09-28. Sharpening is optional, reached only
+  // from the draft. It replaces the builder's intro and four input pages.
   { id: "reflect-story", label: "Your story", step: "artifact" },
-  { id: "story-intro", label: "The builder", step: "artifact", offBar: true },
-  { id: "build-doing", label: "What you do", step: "artifact", offBar: true },
-  { id: "build-known", label: "Known for", step: "artifact", offBar: true },
-  { id: "build-audience", label: "Who it’s for", step: "artifact", offBar: true },
-  { id: "build-source", label: "Start from", step: "artifact", offBar: true },
-  { id: "story", label: "Story", step: "artifact" },
+  { id: "draft", label: "First draft", step: "artifact" },
+  { id: "sharpen", label: "Sharpen", step: "artifact", offBar: true, aside: true },
   { id: "done", label: "Done", step: "complete" },
 ];
 /** An answer drawer's state: open, folded to a peek, or answered (gone). */
@@ -252,10 +256,29 @@ export function OnboardingConcept3() {
   const chosen = planById(a.planId ?? "");
   const plan = chosen ?? verdict?.plan ?? null;
   const connected = SIGNALS_C1.sources
-    .filter((source) => a.connections[source.id] === "connected" || a.signalLinks[source.id])
+    .filter((source) =>
+      source.id === "linkedin"
+        ? linkedInIn(a.linkedin)
+        : a.connections[source.id] === "connected" || a.signalLinks[source.id]
+    )
     .map((source) => source.title);
+  const sharpened = isSharpened(a.positioning);
   const items: AdvisorFileItem[] = [];
-  if (connected.length) items.push({ label: "Signals", value: connected.join(", ") });
+  // The LinkedIn file is read while the user does the rest, so by the last
+  // page it has usually finished: the file says what came in, or that it is
+  // still being read.
+  if (linkedInIn(a.linkedin))
+    items.push({
+      label: "LinkedIn",
+      value:
+        a.linkedin.status === "reading"
+          ? LINKEDIN_UPLOAD.short.reading
+          : a.linkedin.status === "empty"
+            ? GUIDE_C3.linkedin.fileEmpty
+            : SIGNALS_C1.sources[0].imported,
+    });
+  const others = connected.filter((title) => title !== "LinkedIn");
+  if (others.length) items.push({ label: "Signals", value: others.join(", ") });
   if (direction)
     items.push({
       label: "Where you’re going",
@@ -274,7 +297,11 @@ export function OnboardingConcept3() {
     items.push({ label: GUIDE_C3.reflect2.conversation.label, value: reflections.conversation });
   if (a.planId && at > pageIndex("plan-grows")) items.push({ label: "Your plan", value: plan?.name ?? "" });
   if (reflections.story) items.push({ label: GUIDE_C3.story.reflect.label, value: reflections.story });
-  if (a.artifactSaved) items.push({ label: "Your story", value: plan?.thisWeek?.output ?? "Saved" });
+  if (a.artifactSaved)
+    items.push({
+      label: "Your story",
+      value: sharpened ? GUIDE_C3.story.draft.fileSharpened : GUIDE_C3.story.draft.fileDraft,
+    });
   /** Where the page sits. Progress and the running file were cut from the
    *  pages by decision on 2026-09-24; what ExecHQ learned is shown once, as
    *  the summary on the last page. */
@@ -335,7 +362,8 @@ export function OnboardingConcept3() {
           <SignalSources
             connections={a.connections}
             signalLinks={a.signalLinks}
-            onConnect={(id) => dispatch({ type: "set-connection", id, state: "connected" })}
+            linkedin={a.linkedin}
+            onOpenLinkedIn={() => goTo("linkedin")}
             onAddLink={(id, link) => {
               dispatch({ type: "set-signal-link", id, link });
               dispatch({ type: "set-connection", id, state: "connected" });
@@ -344,6 +372,35 @@ export function OnboardingConcept3() {
               dispatch({ type: "set-signal-link", id, link: null });
               dispatch({ type: "set-connection", id, state: "declined" });
             }}
+          />
+        </GuidePage>
+      );
+    }
+
+    case "linkedin": {
+      const c = GUIDE_C3.linkedin;
+      const fileIn = linkedInIn(a.linkedin);
+      return (
+        <GuidePage
+          {...frame()}
+          kicker={LINKEDIN_UPLOAD.eyebrow}
+          title={LINKEDIN_UPLOAD.title}
+          lede={fileIn ? undefined : LINKEDIN_UPLOAD.lede}
+          why={c.why}
+          primaryLabel={fileIn ? LINKEDIN_UPLOAD.done : LINKEDIN_UPLOAD.skip}
+          onPrimary={() => goTo("signals")}
+        >
+          <LinkedInUpload
+            status={a.linkedin.status}
+            fileName={a.linkedin.fileName}
+            email={a.email}
+            onChoose={(fileName) =>
+              dispatch({
+                type: "set-linkedin",
+                patch: { fileName, status: looksLikeLinkedInExport(fileName) ? "reading" : "wrong-file" },
+              })
+            }
+            onSendSteps={() => dispatch({ type: "set-linkedin", patch: { status: "sent" } })}
           />
         </GuidePage>
       );
@@ -400,7 +457,14 @@ export function OnboardingConcept3() {
           copy={c}
           value={reflections[key]}
           onChange={(value) => setReflections((all) => ({ ...all, [key]: value }))}
-          onDone={next}
+          onDone={
+            key === "story"
+              ? () => {
+                  flow.withDelay("drafting", () => {});
+                  next();
+                }
+              : next
+          }
         />
       );
     }
@@ -525,94 +589,48 @@ export function OnboardingConcept3() {
       );
     }
 
-    case "story-intro": {
-      const c = GUIDE_C3.story.intro;
-      return (
-        <GuidePage
-          {...frame()}
-          kicker={c.kicker}
-          title={`First: ${(plan?.thisWeek?.output ?? "the story of what you lead").toLowerCase()}`}
-          lede={c.lede}
-          why={c.why}
-          primaryLabel={c.cta}
-          onPrimary={next}
-        >
-          <PointList items={c.outputs} label={c.outputsLabel} />
-        </GuidePage>
-      );
-    }
-
-    case "build-doing":
-    case "build-known":
-    case "build-audience":
-    case "build-source":
-      return (
-        <BuildPage
-          key={pageId}
-          flow={flow}
-          frame={frame()}
-          drawer={{ mode, setMode }}
-          page={pageId}
-          connected={connected}
-          onDone={
-            pageId === "build-source"
-              ? () => {
-                  // A build starts from the inputs, so any earlier edits go.
-                  dispatch({ type: "set-positioning", patch: { built: true, edits: {} } });
-                  flow.withDelay("drafting", () => {});
-                  next();
-                }
-              : next
-          }
-        />
-      );
-
-    case "story": {
-      const c = GUIDE_C3.story.output;
-      const inputs = a.positioning;
+    case "draft": {
+      const c = GUIDE_C3.story.draft;
       if (flow.generating === "drafting")
         return (
-          <GuidePage {...frame()} kicker={GUIDE_C3.story.kicker} title={c.building}>
-            <GeneratingState label={c.building} />
+          <GuidePage {...frame()} kicker={GUIDE_C3.story.kicker} title={c.writing}>
+            <GeneratingState label={c.writing} />
           </GuidePage>
         );
       return (
-        <StoryPage
+        <DraftPage
+          flow={flow}
           frame={frame()}
-          title={plan?.thisWeek?.output ?? "The story of what you lead"}
+          plan={plan}
+          lede={c.ledes[reflections.story ?? ""] ?? c.lede}
+          onSharpen={() => goTo("sharpen")}
           onSave={() => {
             dispatch({ type: "save-artifact" });
-            next();
+            goTo("done");
           }}
-        >
-          {(setEditing) => (
-            <>
-              <StoryOutputs
-                inputs={inputs}
-                direction={direction}
-                showFirst={inputs.showFirst as OutputKind}
-                nextStage={plan?.stages?.[1]?.title}
-                edits={inputs.edits}
-                onSaveEdit={(key, text) =>
-                  dispatch({ type: "set-positioning", patch: { edits: { ...inputs.edits, [key]: text } } })
-                }
-                onEditingChange={setEditing}
-              />
-              <ExportLinks actions={STORY_EXPORTS} />
-            </>
-          )}
-        </StoryPage>
+        />
       );
     }
+
+    case "sharpen":
+      return (
+        <SharpenPage
+          flow={flow}
+          frame={frame()}
+          drawer={{ mode, setMode }}
+          onDone={() => goTo("draft")}
+        />
+      );
 
     case "done": {
       const c = GUIDE_C3.done;
       const stages = plan?.stages ?? [];
-      // This week, then the next two stages: what the plan does next.
+      // What was done today, the quick win that comes next (sharpening, or
+      // the bio once the story is sharpened), then the plan's next stage.
       const steps: { title: string; detail: string }[] = [];
-      if (plan?.thisWeek) steps.push({ title: c.thisWeek, detail: plan.thisWeek.title });
-      if (stages[1]) steps.push({ title: c.then, detail: `${stages[1].window}: ${stages[1].title}` });
-      if (stages[2]) steps.push({ title: c.after, detail: `${stages[2].window}: ${stages[2].title}` });
+      steps.push({ title: c.thisWeek, detail: sharpened ? DONE_C1.storySharpened : DONE_C1.storyDraft });
+      steps.push({ title: c.then, detail: quickWinFor(plan ?? undefined, sharpened).title });
+      if (stages[1]) steps.push({ title: c.after, detail: `${stages[1].window}: ${stages[1].title}` });
       return (
         <GuidePage
           headingId={headingId}
@@ -1124,182 +1142,151 @@ function ReadbackPage({ flow, frame, drawer, onDone }: PageProps) {
   );
 }
 
+/** Where a hand edit of the draft is kept, with the builder's other edits. */
+const DRAFT_EDIT = "draft";
+
+/** The facts the draft is written from: what the user gave when sharpening,
+ *  with a connected LinkedIn's role standing in until they give their own. */
+function draftFacts(inputs: PositioningInputs) {
+  return { role: inputs.role, own: inputs.own, result: inputs.result };
+}
+
 /**
- * One part of the builder's inputs, coached. Its questions come up one at a
- * time in the drawer, "1 of 3" and so on; the page behind keeps what good
- * looks like and why it is asked. Everything is optional, as in Concepts 1
- * and 2: a gap stays visible in the story until it is filled.
+ * The first draft, written from what the user has said. Saving is the skip:
+ * the draft is kept whichever way they go. Sharpening is the quieter action.
  */
-function BuildPage({
+function DraftPage({
+  flow,
+  frame,
+  plan,
+  lede,
+  onSharpen,
+  onSave,
+}: {
+  flow: OnboardingFlow;
+  frame: Frame;
+  plan: PlanTemplate | null;
+  lede: string;
+  onSharpen: () => void;
+  onSave: () => void;
+}) {
+  const { state, dispatch } = flow;
+  const inputs = state.answers.positioning;
+  const c = GUIDE_C3.story.draft;
+  const [editing, setEditing] = useState(false);
+  const text = firstDraftFor(state.answers.direction ?? "", state.answers.refinement, draftFacts(inputs));
+  const sharpened = isSharpened(inputs);
+  return (
+    <GuidePage
+      {...frame}
+      kicker={GUIDE_C3.story.kicker}
+      title={c.title}
+      lede={lede}
+      why={c.why}
+      primaryLabel={c.cta}
+      primaryDisabled={editing}
+      onPrimary={onSave}
+      secondaryLabel={sharpened ? c.sharpenAgain : c.sharpen}
+      onSecondary={onSharpen}
+    >
+      <StoryDraft
+        key={text}
+        label={sharpened ? DRAFT_C1.sharpenedLabel : DRAFT_C1.label}
+        text={text}
+        edited={inputs.edits[DRAFT_EDIT]}
+        onSaveEdit={(own) =>
+          dispatch({ type: "set-positioning", patch: { edits: { ...inputs.edits, [DRAFT_EDIT]: own } } })
+        }
+        onEditingChange={setEditing}
+        usesLabel={DRAFT_C1.usesLabel}
+        uses={plan?.uses ?? []}
+      />
+      <ExportLinks actions={DRAFT_EXPORTS} />
+    </GuidePage>
+  );
+}
+
+/**
+ * Sharpening: role, scope and a result, asked one at a time in the drawer,
+ * each skippable, with what good looks like for the one being asked. Nothing
+ * is saved until "Update my draft", so backing out loses nothing.
+ */
+function SharpenPage({
   flow,
   frame,
   drawer,
-  page,
-  connected,
   onDone,
-}: PageProps & { page: PageId; connected: string[] }) {
+}: PageProps) {
   const { state, dispatch } = flow;
   const inputs = state.answers.positioning;
   const p = POSITIONING_C1;
   const c = GUIDE_C3.story;
   const d = GUIDE_C3.drawer;
-  const copy =
-    page === "build-doing" ? c.doing : page === "build-known" ? c.known : page === "build-audience" ? c.audience : c.source;
-  const set = (patch: Partial<typeof inputs>) => dispatch({ type: "set-positioning", patch });
+  const [role, setRole] = useState(inputs.role);
+  const [own, setOwn] = useState(inputs.own);
+  const [result, setResult] = useState(inputs.result);
   const [index, setIndex] = useState(0);
 
-  /** Each of the part's questions, as the drawer asks it. */
-  const steps: { ask: string; typed: boolean; field: ReactNode }[] =
-    page === "build-doing"
-      ? [
-          {
-            ask: c.asks.role,
-            typed: true,
-            field: <Input label={c.asks.role} labelHidden placeholder={p.role.placeholder} value={inputs.role} onChange={(e) => set({ role: e.target.value })} />,
-          },
-          {
-            ask: c.asks.own,
-            typed: true,
-            field: <Input label={c.asks.own} labelHidden placeholder={p.own.placeholder} value={inputs.own} onChange={(e) => set({ own: e.target.value })} />,
-          },
-          {
-            ask: c.asks.team,
-            typed: false,
-            field: (
-              <ChipGroup
-                label={c.asks.team}
-                labelHidden
-                options={p.team.options}
-                value={inputs.teamSize ? [inputs.teamSize] : []}
-                onChange={(next) => set({ teamSize: next[0] ?? "" })}
-              />
-            ),
-          },
-        ]
-      : page === "build-known"
-        ? [
-            {
-              ask: c.asks.strengths,
-              typed: false,
-              field: (
-                <ChipGroup
-                  label={c.asks.strengths}
-                  labelHidden
-                  options={p.strengths.options}
-                  value={inputs.strengths}
-                  max={p.strengths.max}
-                  onChange={(next) => set({ strengths: next })}
-                />
-              ),
-            },
-            {
-              ask: c.asks.result,
-              typed: true,
-              field: <Input label={c.asks.result} labelHidden placeholder={p.result.placeholder} value={inputs.result} onChange={(e) => set({ result: e.target.value })} />,
-            },
-          ]
-        : page === "build-audience"
-          ? [
-              {
-                ask: c.asks.audience,
-                typed: false,
-                field: (
-                  <ChipGroup
-                    label={c.asks.audience}
-                    labelHidden
-                    options={p.audience.options}
-                    value={inputs.audience ? [inputs.audience] : []}
-                    onChange={(next) => set({ audience: next[0] ?? "", showFirst: "narrative" })}
-                  />
-                ),
-              },
-              {
-                ask: c.asks.name,
-                typed: true,
-                field: <Input label={c.asks.name} labelHidden autoComplete="name" value={inputs.name} onChange={(e) => set({ name: e.target.value })} />,
-              },
-            ]
-          : [
-              {
-                ask: c.asks.source,
-                typed: true,
-                field: (
-                  <>
-                    <Input
-                      label={c.asks.source}
-                      labelHidden
-                      placeholder={p.source.placeholder}
-                      multiline
-                      rows={3}
-                      value={inputs.source}
-                      onChange={(e) => set({ source: e.target.value })}
-                    />
-                    {/* What was connected earlier, in Signals, is used here. */}
-                    {connected.length ? <p className="answer-drawer__lede">{c.source.connected(connected.join(" and "))}</p> : null}
-                  </>
-                ),
-              },
-            ];
-  const current = steps[Math.min(index, steps.length - 1)];
-  const last = index >= steps.length - 1;
+  const steps = [
+    { ask: c.asks.role, value: role, set: setRole, placeholder: p.role.placeholder, good: c.doing.good },
+    { ask: c.asks.own, value: own, set: setOwn, placeholder: p.own.placeholder, good: c.doing.good },
+    { ask: c.asks.result, value: result, set: setResult, placeholder: p.result.placeholder, good: c.known.good },
+  ];
+  const current = steps[index];
+  const last = index === steps.length - 1;
   const open = drawer.mode === "open";
+
+  function finish() {
+    // The draft is rewritten from the facts, so a hand edit is replaced.
+    const edits = { ...inputs.edits };
+    delete edits[DRAFT_EDIT];
+    dispatch({
+      type: "set-positioning",
+      patch: { role: role.trim(), own: own.trim(), result: result.trim(), edits },
+    });
+    onDone();
+  }
+  const forward = () => (last ? finish() : setIndex(index + 1));
 
   return (
     <GuidePage
       {...frame}
       kicker={c.kicker}
-      title={copy.title}
-      lede={copy.lede}
-      why={copy.why}
+      title={c.sharpen.title}
+      lede={c.sharpen.lede}
+      why={c.sharpen.why}
       drawerOpen={open}
       drawer={
         <AnswerDrawer
           key={index}
           question={current.ask}
           questionId={frame.headingId}
-          kicker={copy.title}
-          step={steps.length > 1 ? `${index + 1} of ${steps.length}` : undefined}
+          kicker={c.sharpen.title}
+          step={`${index + 1} of ${steps.length}`}
           open={open}
           onToggle={toggle(drawer)}
-          primaryLabel={last ? (page === "build-source" ? c.source.cta : d.continue) : d.next}
-          onPrimary={() => (last ? onDone() : setIndex(index + 1))}
-          autoFocusField={current.typed}
+          primaryLabel={last ? c.sharpen.cta : d.next}
+          onPrimary={forward}
+          secondaryLabel={d.skip}
+          onSecondary={() => {
+            current.set("");
+            forward();
+          }}
+          autoFocusField
         >
-          {current.field}
+          <Input
+            label={current.ask}
+            labelHidden
+            placeholder={current.placeholder}
+            multiline={last}
+            rows={last ? 2 : undefined}
+            value={current.value}
+            onChange={(event) => current.set(event.target.value)}
+          />
         </AnswerDrawer>
       }
     >
-      <GoodExample label={c.goodLabel} whyLabel={c.goodWhy} {...copy.good} />
-    </GuidePage>
-  );
-}
-
-/** The story, with its outputs; the action waits while one is being edited. */
-function StoryPage({
-  frame,
-  title,
-  onSave,
-  children,
-}: {
-  frame: Frame;
-  title: string;
-  onSave: () => void;
-  children: (setEditing: (editing: boolean) => void) => ReactNode;
-}) {
-  const c = GUIDE_C3.story.output;
-  const [editing, setEditing] = useState(false);
-  return (
-    <GuidePage
-      {...frame}
-      kicker={GUIDE_C3.story.kicker}
-      title={title}
-      lede={c.lede}
-      why={c.why}
-      primaryLabel={c.cta}
-      primaryDisabled={editing}
-      onPrimary={onSave}
-    >
-      {children(setEditing)}
+      <GoodExample label={c.goodLabel} whyLabel={c.goodWhy} {...current.good} />
     </GuidePage>
   );
 }

@@ -53,12 +53,23 @@ import { draftSectionStates } from "./onboarding/DraftSection/DraftSection.state
 import { storySummaryCardStates } from "./onboarding/StorySummaryCard/StorySummaryCard.states";
 import { planSummaryCardStates } from "./onboarding/PlanSummaryCard/PlanSummaryCard.states";
 import { storyOutputsStates } from "./onboarding/StoryOutputs/StoryOutputs.states";
+import { storyDraftStates } from "./onboarding/StoryDraft/StoryDraft.states";
+import { linkedInStepsStates } from "./onboarding/LinkedInSteps/LinkedInSteps.states";
+import { linkedInUploadStates } from "./onboarding/LinkedInUpload/LinkedInUpload.states";
 import { exportLinksStates } from "./onboarding/ExportLinks/ExportLinks.states";
 import { chatMessageStates } from "./chat/ChatMessage/ChatMessage.states";
 import { advisorMarkStates } from "./chat/AdvisorMark/AdvisorMark.states";
 import { quickRepliesStates } from "./chat/QuickReplies/QuickReplies.states";
 import { chatComposerStates } from "./chat/ChatComposer/ChatComposer.states";
 import { chatWelcomeStates, introCardStates } from "./chat/ChatWelcome/ChatWelcome.states";
+import { loopStatusStates } from "./loop/LoopStatus/LoopStatus.states";
+import { destinationStubStates } from "./layout/DestinationStub/DestinationStub.states";
+import { tabBarStates } from "./navigation/TabBar/TabBar.states";
+import { iconLinkStates } from "./navigation/IconLink/IconLink.states";
+import { drawerNavStates } from "./navigation/DrawerNav/DrawerNav.states";
+import { menuButtonStates } from "./navigation/MenuButton/MenuButton.states";
+import { conciergePillStates } from "./navigation/ConciergePill/ConciergePill.states";
+import { conciergePanelStates } from "./navigation/ConciergePanel/ConciergePanel.states";
 
 export const registry: RegisteredComponent[] = [
   badgeStates,
@@ -104,6 +115,9 @@ export const registry: RegisteredComponent[] = [
   recommendationCardStates,
   storySummaryCardStates,
   storyOutputsStates,
+  storyDraftStates,
+  linkedInStepsStates,
+  linkedInUploadStates,
   exportLinksStates,
   chatMessageStates,
   advisorMarkStates,
@@ -111,6 +125,14 @@ export const registry: RegisteredComponent[] = [
   chatComposerStates,
   chatWelcomeStates,
   introCardStates,
+  loopStatusStates,
+  destinationStubStates,
+  tabBarStates,
+  iconLinkStates,
+  drawerNavStates,
+  menuButtonStates,
+  conciergePillStates,
+  conciergePanelStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */

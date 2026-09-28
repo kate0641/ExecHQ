@@ -28,5 +28,16 @@ export const chatComposerStates = defineComponentStates({
       props: { value: "I want to move from", onChange: noop, onSend: noop, voice: { listening: true, onToggle: noop } },
     },
     { label: "Disabled", description: "While ExecHQ is writing.", props: { value: "", onChange: noop, onSend: noop, disabled: true } },
+    {
+      label: "With attach",
+      description: "Only while a file is being asked for: the LinkedIn spreadsheet.",
+      props: {
+        value: "",
+        onChange: noop,
+        onSend: noop,
+        voice: { listening: false, onToggle: noop },
+        attach: { label: CHAT_C2.signals.attach, onAttach: noop },
+      },
+    },
   ],
 });

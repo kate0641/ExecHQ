@@ -16,8 +16,8 @@ export const metadata = {
  * The file hub — the prototype's home base.
  *
  * The index of flows and pages, plus the way in to the showroom's rooms where
- * the showroom is built. On the public production site it is not, and the
- * Showroom section is left out rather than linking to pages that 404.
+ * the showroom is built. Where it is not, the Showroom section is left out
+ * rather than linking to pages that 404.
  */
 export default function HubPage() {
   const specs: Record<string, Spec> = Object.fromEntries(

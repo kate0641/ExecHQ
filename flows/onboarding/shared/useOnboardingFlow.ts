@@ -11,6 +11,7 @@ import {
 import {
   CUSTOM_PLAN_STEPS,
   GENERATING_MS,
+  LINKEDIN_READ_MS,
   REFINEMENT_QUESTIONS,
   artifactFor,
   assumptionFor,
@@ -72,6 +73,19 @@ export function useOnboardingFlow({
       then();
     }, GENERATING_MS);
   }, []);
+
+  // The LinkedIn export is read in the background, wherever the user goes
+  // next: it finishes on its own clock, never blocking a step. A new file, a
+  // removed one or a jump that clears it cancels the read in flight.
+  const { status: linkedInStatus, fileName: linkedInFile } = state.answers.linkedin;
+  useEffect(() => {
+    if (linkedInStatus !== "reading") return;
+    const read = setTimeout(
+      () => dispatch({ type: "set-linkedin", patch: { status: "ready" } }),
+      LINKEDIN_READ_MS
+    );
+    return () => clearTimeout(read);
+  }, [linkedInStatus, linkedInFile]);
 
   const direction = state.answers.direction ?? "";
 

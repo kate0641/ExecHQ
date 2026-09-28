@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { AppChrome } from "@/components/layout/AppChrome";
+import { DestinationStub } from "@/components/layout/DestinationStub";
 import { PlaceholderState } from "@/components/layout/PlaceholderState";
 import { StatusBadge } from "@/components/primitives/Badge";
 import { getBuiltConcept } from "@/flows/registry";
@@ -45,7 +46,17 @@ export default async function ConceptPage({
   if (!match) notFound();
 
   const { flow, concept } = match;
-  const Built = getBuiltConcept(flow.slug, concept.slug);
+
+  // A navigation concept is reviewed on another flow's page (the manifest's
+  // `navCanvas`): that page's content, inside this concept's navigation.
+  const canvas = flow.navCanvas
+    ? getConcept(flow.navCanvas.flowSlug, flow.navCanvas.conceptSlug)
+    : undefined;
+  const page = canvas ?? match;
+  const navConcept = canvas
+    ? { slug: concept.slug, currentFlow: canvas.flow.slug }
+    : undefined;
+  const Built = getBuiltConcept(page.flow.slug, page.concept.slug);
 
   // A built concept gets the canvas to itself. The page furniture — eyebrow,
   // concept title, status badge — is review scaffolding, and leaving it above a
@@ -53,24 +64,44 @@ export default async function ConceptPage({
   // have and change what is being reviewed. The hub already says which concept
   // this is and what state it is in.
   if (Built) {
-    return <AppChrome flow={flow}>{Built}</AppChrome>;
+    return (
+      <AppChrome flow={flow} navConcept={navConcept}>
+        {Built}
+      </AppChrome>
+    );
   }
 
-  const spec = getSpec(flow.slug);
+  // A signed-in destination a later sprint designs reads as a quiet, real
+  // page, so the navigation around it can be judged.
+  if (page.flow.stub) {
+    return (
+      <AppChrome flow={flow} navConcept={navConcept}>
+        <DestinationStub
+          heading={page.flow.stub.heading}
+          body={page.flow.stub.body}
+          sprint={page.flow.sprint}
+        />
+      </AppChrome>
+    );
+  }
+
+  const spec = getSpec(page.flow.slug);
 
   return (
-    <AppChrome flow={flow}>
+    <AppChrome flow={flow} navConcept={navConcept}>
       <div className="page">
         <div className="page__header">
-          <p className="t-eyebrow">{flow.title}</p>
+          <p className="t-eyebrow">
+            {canvas ? `${flow.title} — on the ${canvas.flow.title.toLowerCase()}` : flow.title}
+          </p>
           <h1 className="page__title">{concept.title}</h1>
           <StatusBadge status={conceptStatus(concept)} />
         </div>
 
         <PlaceholderState
-          sprint={flow.sprint}
-          title={flow.title}
-          description={flow.description}
+          sprint={page.flow.sprint}
+          title={page.flow.title}
+          description={page.flow.description}
           specPath={spec.path}
         />
       </div>

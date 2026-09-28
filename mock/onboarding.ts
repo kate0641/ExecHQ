@@ -173,8 +173,23 @@ export const DIRECTION = {
  *  concrete goals rather than categories, and work for any function. */
 export const DIRECTION_C1 = {
   prompt: "Where do you want to go next?",
-  hint: "A role, a timeline, or just a feeling.",
+  hint: "As specific or as loose as you like.",
   promptedLabel: "Or start with",
+} as const;
+
+/** Concept 1's bridge into Direction, in the privacy splash's layout. It says
+ *  why this question comes first, that a loose answer is as good a start as a
+ *  precise one, and that the answer is not fixed. */
+export const DIRECTION_INTRO_C1 = {
+  titleLead: "First,",
+  titleRest: "where you\u2019re headed",
+  lines: [
+    "Maybe you know exactly what you\u2019re aiming for. Maybe it\u2019s just a feeling that it\u2019s time for more.",
+    "Either is a good place to start. We\u2019ll build your plan around it.",
+    "As your goals change, your plan changes with them.",
+  ],
+  action: "Let\u2019s start",
+  back: "Back to why we ask this",
 } as const;
 
 /** Tapping one puts its text in the field, still editable — "Promotion in the
@@ -630,6 +645,9 @@ export interface PlanTemplate {
    *  for this plan, so the promise is kept one tap later. No effort estimate:
    *  by decision on 2026-09-24, onboarding carries no time-to-complete. */
   thisWeek?: { title: string; output: string; detail: string; why: string };
+  /** Where the first draft of the story can be used, for this plan. Three
+   *  short ideas, shown under the draft. */
+  uses?: string[];
   /** What the stages span, e.g. "The next 12 weeks". */
   horizon?: string;
   /** The open end after the last stage: the plan keeps going. */
@@ -652,9 +670,14 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     thisWeek: {
       title: "Write the story of what you lead",
       output: "The story of what you lead",
-      detail: "The version you\u2019d say out loud in a meeting. Next, the Positioning Builder: add a few details and we\u2019ll write it for you to make your own.",
+      detail: "The version you\u2019d say out loud in a meeting. We\u2019ll write the first draft for you next.",
       why: "Every conversation about a bigger role starts with \u201cwhat do you lead?\u201d",
     },
+    uses: [
+      "When someone asks what\u2019s next for you",
+      "To open your next 1:1 with your manager",
+      "As the start of your LinkedIn About section",
+    ],
     horizon: "The next 12 weeks",
     after: "After week 12, we\u2019ll plan the next stretch together, based on what worked and what didn\u2019t.",
     stages: [
@@ -696,9 +719,14 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     thisWeek: {
       title: "Write how you describe yourself",
       output: "How you describe yourself",
-      detail: "The short version of who you are and what you stand for, in your words, not your employer\u2019s. Next, the Positioning Builder: add a few details and we\u2019ll write it for you to make your own.",
+      detail: "The short version of who you are and what you stand for, in your words, not your employer\u2019s. We\u2019ll write the first draft for you next.",
       why: "Everything you say in public builds on it.",
     },
+    uses: [
+      "When you\u2019re introduced at a meeting or event",
+      "As the start of your LinkedIn About section",
+      "Before you post or speak, to check it says the same thing",
+    ],
     horizon: "The next 12 weeks",
     after: "After week 12, we\u2019ll plan the next stretch together, based on what worked and what didn\u2019t.",
     stages: [
@@ -740,9 +768,14 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     thisWeek: {
       title: "Write the story you\u2019ll tell in the room",
       output: "The story you\u2019ll tell in the room",
-      detail: "What you\u2019ve done, what you want, and why it should be you. Next, the Positioning Builder: add a few details and we\u2019ll write it for you to make your own.",
+      detail: "What you\u2019ve done, what you want, and why it should be you. We\u2019ll write the first draft for you next.",
       why: "It\u2019s the core of your case, and the thing you\u2019ll rehearse.",
     },
+    uses: [
+      "As the first thing you say in the room",
+      "Out loud, twice, before the day",
+      "In the note that sets up the meeting",
+    ],
     horizon: "Between now and the moment",
     after: "After the moment, we\u2019ll plan what\u2019s next together, based on how it went.",
     stages: [
@@ -784,9 +817,14 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     thisWeek: {
       title: "Write the story of what you own",
       output: "The story of what you own",
-      detail: "What you\u2019re responsible for, in the words your leadership already uses. Next, the Positioning Builder: add a few details and we\u2019ll write it for you to make your own.",
+      detail: "What you\u2019re responsible for, in the words your leadership already uses. We\u2019ll write the first draft for you next.",
       why: "Your work gets heard when it\u2019s described in the terms decisions are made in.",
     },
+    uses: [
+      "In your next update to your leadership",
+      "To open your next 1:1 with your manager",
+      "When you meet a peer from another team",
+    ],
     horizon: "The next 12 weeks",
     after: "After week 12, we\u2019ll plan the next stretch together, based on what worked and what didn\u2019t.",
     stages: [
@@ -828,9 +866,14 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     thisWeek: {
       title: "Write the story of what you\u2019re good at",
       output: "The story of what you\u2019re good at",
-      detail: "What you do well, separated from where you\u2019ve done it. Next, the Positioning Builder: add a few details and we\u2019ll write it for you to make your own.",
+      detail: "What you do well, separated from where you\u2019ve done it. We\u2019ll write the first draft for you next.",
       why: "It shows which strengths go with you anywhere, before you choose where.",
     },
+    uses: [
+      "In a first coffee with someone in a field you\u2019re curious about",
+      "When someone asks what you\u2019re looking for",
+      "As the start of your LinkedIn About section",
+    ],
     horizon: "The next 12 weeks",
     after: "After week 12, we\u2019ll plan the next stretch together, based on what worked and what didn\u2019t.",
     stages: [
@@ -912,11 +955,32 @@ export const DONE_C1 = {
   title: "You have a plan and your first story",
   hint: "Both are saved. Nothing here is visible to anyone else.",
   planPrefix: "Your starting plan:",
+  /** The story, saved: a first draft, or sharpened. */
+  storyDraft: "Your story, first draft",
+  storySharpened: "Your story",
+  /** The quick win that comes next, on the plan. */
+  nextLabel: "Next on your plan",
+  nextWhy: "Why now:",
   inviteTitle: "Build out your signals",
-  inviteBody: "Connect LinkedIn or your website so your next drafts sound like you. Optional, and you can do it anytime.",
+  inviteBody: "Bring in your LinkedIn numbers to see how far your posts reach, or your website so your drafts sound like you. Optional, and you can do it anytime.",
   home: "Go to my homepage",
   signals: "Build out your signals",
   homeHref: "/homepage/concept-1",
+} as const;
+
+/** What reading a LinkedIn analytics export gives us, by decision on
+ *  2026-09-28: the export's five sheets (Discovery, Engagement, Top posts,
+ *  Followers, Demographics). Post performance and who sees it. It has no
+ *  headline, About section, post text or role, so nothing here may claim to
+ *  know those. */
+export const MOCK_LINKEDIN_CONTEXT = {
+  range: "the last year",
+  posts: 38,
+  impressions: 41200,
+  membersReached: 12900,
+  followers: 4820,
+  newFollowers: 214,
+  topAudience: { seniority: "Senior", jobTitle: "Marketing Director", industry: "Software" },
 } as const;
 
 /** Concept 1's signals page: optional, after onboarding has ended. The
@@ -924,7 +988,7 @@ export const DONE_C1 = {
 export const SIGNALS_C1 = {
   eyebrow: "Optional",
   title: "Build out your signals",
-  hint: "Connect what\u2019s already public and we\u2019ll use it to shape your drafts.",
+  hint: "Bring in what\u2019s already out there, and we\u2019ll use it to shape your plan and your drafts.",
   privacy: "Nothing is ever posted or shared. Disconnect anytime.",
   connect: "Connect",
   connected: "Connected",
@@ -939,15 +1003,15 @@ export const SIGNALS_C1 = {
       id: "linkedin",
       mark: "in",
       title: "LinkedIn",
-      why: "So your drafts match how you already show up.",
-      imported: "Headline, about section and your last 20 posts",
-      use: "Used only to shape your drafts.",
-      connectLabel: "Connect LinkedIn",
-      connecting: "Connecting to LinkedIn\u2026",
-      pasteLabel: "Or paste your profile link",
-      linkLabel: "Your LinkedIn profile link",
-      placeholder: "linkedin.com/in/\u2026",
-      canImport: true,
+      why: "So we can see how far your posts reach, and who they reach.",
+      imported: `${MOCK_LINKEDIN_CONTEXT.posts} posts and your audience, from ${MOCK_LINKEDIN_CONTEXT.range}`,
+      use: "Used only to shape your plan and your drafts.",
+      connectLabel: "",
+      connecting: "",
+      pasteLabel: "",
+      linkLabel: "",
+      placeholder: "",
+      canImport: false,
     },
     {
       id: "website",
@@ -965,6 +1029,63 @@ export const SIGNALS_C1 = {
     },
   ],
 } as const;
+
+/** One step of the LinkedIn export, in parts: plain text, what to press
+ *  (bold), or the link to LinkedIn's analytics page. */
+export type UploadStepPart = { text: string } | { press: string } | { link: string; href: string };
+
+/** LinkedIn's creator analytics page, where the export lives. */
+export const LINKEDIN_ANALYTICS_URL = "https://www.linkedin.com/analytics/creator/content/";
+
+/**
+ * The LinkedIn upload, shared by all three concepts, by decision on
+ * 2026-09-28. The first three steps are LinkedIn's own and cannot change; the
+ * fourth is ours. Past 365 days, since senior leaders often post only a few
+ * times a quarter and 90 days may hold none.
+ */
+export const LINKEDIN_UPLOAD = {
+  eyebrow: "Optional \u00b7 LinkedIn",
+  title: "Bring in your LinkedIn numbers",
+  lede: "A spreadsheet LinkedIn gives you, showing how far your posts reach and who sees them. It takes about a minute, on a computer.",
+  stepsLabel: "How to get it",
+  steps: [
+    [{ text: "Open " }, { link: "your LinkedIn analytics", href: LINKEDIN_ANALYTICS_URL }, { text: "." }],
+    [{ text: "At the top, choose " }, { press: "Past 365 days" }, { text: "." }],
+    [{ text: "Press " }, { press: "Export" }, { text: ", then " }, { press: "Confirm" }, { text: ". A spreadsheet downloads." }],
+    [{ text: "Upload it here." }],
+  ] as UploadStepPart[][],
+  linkNote: "Opens LinkedIn in a new tab",
+  upload: "Upload the spreadsheet",
+  uploadHint: "The .xlsx file from step 3",
+  chooseAgain: "Choose a different file",
+  tryAgain: "Try again",
+  noExport: "I don\u2019t see Export",
+  noExportBody:
+    "Analytics show once you\u2019ve posted at least once. If you haven\u2019t posted yet, leave this for now: your plan will help you start.",
+  phone: "On your phone? Email me these steps",
+  status: {
+    reading: "Reading it now. Carry on, and it\u2019ll be ready by the time you need it.",
+    ready: `${MOCK_LINKEDIN_CONTEXT.posts} posts and your audience, from ${MOCK_LINKEDIN_CONTEXT.range}.`,
+    empty: "Read it. No posts in the last year, so there\u2019s nothing to measure yet. Your plan will help you start.",
+    wrongFile:
+      "That doesn\u2019t look like a LinkedIn analytics export. It should be the .xlsx from step 3. Try again, or leave it for now.",
+    failed: "That didn\u2019t upload. Nothing was saved. Try again, or carry on without it.",
+    sent: (email: string) =>
+      `Sent to ${email}. Do it on your computer when you\u2019re ready. It\u2019ll be on your plan too.`,
+  },
+  /** Short status for a list row. */
+  short: { reading: "Reading\u2026", ready: "Ready", empty: "Read", sent: "Steps sent" },
+  privacy: "Nothing is posted or shared. Delete the file anytime.",
+  remove: "Remove it",
+  done: "Continue",
+  skip: "Not now",
+} as const;
+
+/** Whether a chosen file could be a LinkedIn analytics export: the one check
+ *  the prototype makes. Nothing is read; only the name is looked at. */
+export function looksLikeLinkedInExport(fileName: string): boolean {
+  return /\.xlsx?$/i.test(fileName.trim());
+}
 
 export function planById(id: string): PlanTemplate | undefined {
   return PLAN_TEMPLATES.find((plan) => plan.id === id);
@@ -1184,15 +1305,6 @@ export const CONNECT_OFFERS: ConnectOfferSpec[] = [
   },
 ];
 
-/** What a successful LinkedIn connection would have pulled in. Manual entry
- *  only — nothing here is scraped, and the PRD forbids implying otherwise. */
-export const MOCK_LINKEDIN_CONTEXT = {
-  headline: "Marketing leader | Demand, brand and the bit in between",
-  followers: 4820,
-  postsLast90Days: 6,
-  medianReactions: 31,
-  note: "You entered these. Change them whenever they change.",
-} as const;
 
 /** The failed-connection state. A connection can fail; that is a designed
  *  screen, not an unhandled case. */
@@ -1830,6 +1942,232 @@ export function nextUseFor(audience: string, nextStage: string | undefined): str
   return `Use the introduction the next time you reach out to ${who}, with the short bio attached.${then}`;
 }
 
+/* -----------------------------------------------------------------------------
+   FIRST DRAFT
+   -------------------------------------------------------------------------- */
+
+/* The story's first draft, written as soon as the plan is chosen, by decision
+   on 2026-09-28. Nothing is asked first: it is built from the direction and
+   the refinement answers alone, so a user who skipped everything still gets a
+   draft they can use. The pilot scope rules out unsupported claims, so the
+   draft says only what the user told us. Sharpening adds the three facts only
+   they know, and each one adds a sentence rather than filling a gap. */
+
+/** How each Concept 1 prompt opens the draft. */
+const PROMPT_TOWARD_LINE: Record<string, string> = {
+  "C-suite in 3 years": "I’m building toward a C-suite role within the next three years.",
+  "Take on more of a leadership role": "I’m building toward a bigger leadership role where I am.",
+  "Be seen as an executive": "I’m working on being seen as an executive.",
+  "Nail an upcoming board presentation": "I have a board presentation ahead of me, and I want it to land.",
+  "Find my next move": "I’m working out my next move.",
+};
+
+/** Each refinement answer in the user's own voice, in the order of its
+ *  options: the read-back's "heard" line, turned round to first person. */
+const SAID: Record<string, string[]> = {
+  "scope-kind": [
+    "What I want next is a bigger team, and the weight that comes with leading it.",
+    "What I want next is a broader remit: more of the business, not more of the same work.",
+    "What I want next is a seat at the top table, in the room where the big calls get made.",
+    "What I want next is the title, so I’m named for the role I’m already doing.",
+  ],
+  "scope-when": [
+    "I want to get there within a year.",
+    "I’m giving it one to two years, to build the case properly.",
+    "I’m playing a longer game, and building toward it step by step.",
+    "I haven’t set a timeline, so I can build toward it alongside my current role.",
+  ],
+  "scope-block": [
+    "There’s no clear path up yet, so part of the work is finding one.",
+    "The results are there. My focus now is making sure the people who decide can see them.",
+    "I know I’m ready. What I’m working on is making the case clearly.",
+    "The next step may not be where I am now, and I’m open to that.",
+  ],
+  "influence-where": [
+    "I want more say in my team’s direction: setting it, not just delivering it.",
+    "I want a voice in company strategy, not only in how my part delivers it.",
+    "I want more say over budget and headcount, where influence becomes real.",
+    "I want my influence to reach across other teams, beyond the part of the business I run.",
+  ],
+  "influence-who": [
+    "Getting my boss on side comes first.",
+    "My boss’s peers matter most: their view of me travels upward.",
+    "The exec team matters most: they decide what I get to lead.",
+    "It starts with my own team, the people who already follow me.",
+  ],
+  "influence-block": [
+    "Right now the decisions that matter to me are made without me in the room.",
+    "I’m in the room. What I’m working on is making my view carry.",
+    "My title undersells what I actually do.",
+    "Being right isn’t enough here, so I’m building support behind my ideas.",
+  ],
+  "presence-who": [
+    "I want leaders in my company to see me as someone they’d promote, not just rely on.",
+    "I want to be known across my industry, beyond my own company.",
+    "I want to be on the shortlist for recruiters and boards.",
+    "I want to be seen differently by everyone who matters, inside my company and out.",
+  ],
+  "presence-now": [
+    "Today I’m seen as a strong operator. Next, I want to be seen as a leader.",
+    "Today I’m seen as a specialist. Next, I want to be seen as broad enough to lead.",
+    "The work is good. It just isn’t seen yet.",
+    "Part of the work is finding out how I’m seen today.",
+  ],
+  "presence-where": [
+    "Today my reputation lives in the meetings I’m in.",
+    "I post on LinkedIn now and then, and I’m ready to have a point of view.",
+    "I already have a stage at industry events to build on.",
+    "I’m starting from a clean slate, so I get to choose how I show up.",
+  ],
+  "moment-what": [
+    "I have a promotion conversation coming up, and I want to walk in with a case.",
+    "I have a performance review coming up, and I want it to set up what’s next.",
+    "I have a board or exec presentation coming up, and I want it remembered.",
+    "I have a negotiation coming up, where what I say in the moment matters.",
+  ],
+  "moment-when": [
+    "It’s this week, so I’m focused on the essentials.",
+    "It’s this month, which is enough time to prepare properly.",
+    "It’s a few months away, so I have time to prepare well.",
+    "It isn’t scheduled yet, so I can be ready before it is.",
+  ],
+  "moment-ready": [
+    "I feel ready, and I want it checked before it counts.",
+    "I know what I want to say. I’m working on how to say it.",
+    "I’m working out where to start.",
+    "I’m preparing early, so it feels manageable when it comes.",
+  ],
+  "explore-why": [
+    "I’ve hit a ceiling where I am, and staying put won’t move it.",
+    "I want work I care about again, not just a new place to do it.",
+    "My industry is shrinking, and I want to move ahead of it.",
+    "My life has changed, and I want a career that fits its new shape.",
+  ],
+  "explore-keep": [
+    "I’d keep my function. It’s the setting I want to change, not the work.",
+    "I’d keep my industry, and find a different place in it.",
+    "Whatever comes next has to be at my level or above.",
+    "Every direction is open.",
+  ],
+  "explore-when": [
+    "I’m actively looking.",
+    "I want to move within a year, and test a few directions first.",
+    "I’m exploring, so I can get this right before I commit.",
+    "Working out the direction comes before the timing.",
+  ],
+};
+
+/** The three facts sharpening asks for. Any can be left empty. */
+export interface SharpenFacts {
+  role: string;
+  own: string;
+  result: string;
+}
+
+/** True once any of the three facts is in, so the story counts as sharpened
+ *  and the next quick win moves on to the bio. */
+export function isSharpened(facts: SharpenFacts): boolean {
+  return Boolean(facts.role.trim() || facts.own.trim() || facts.result.trim());
+}
+
+/** The draft's opening: what the user does, from whichever facts they gave. */
+function doingLine({ role, own }: SharpenFacts): string | null {
+  const r = role.trim();
+  const o = own.trim();
+  if (r && o) return `I’m ${r}, leading ${o}.`;
+  if (r) return `I’m ${r}.`;
+  if (o) return `I lead ${o}.`;
+  return null;
+}
+
+/** The goal as the draft says it: a prompt's own line, a typed first-person
+ *  answer in the user's words, or anything else as what they're building
+ *  toward. */
+function towardLine(direction: string): string {
+  const typed = direction.trim().replace(/[.]$/, "");
+  if (PROMPT_TOWARD_LINE[typed]) return PROMPT_TOWARD_LINE[typed];
+  if (/^i\b|^i’|^i'/i.test(typed)) return withFullStop(sentenceCase(typed));
+  return `I’m building toward ${typed}.`;
+}
+
+/**
+ * The first draft of the story: what they do (once sharpened), where they're
+ * going, a sentence per chosen refinement answer, and a result (once
+ * sharpened). A typed refinement answer is left out rather than turned into
+ * first person badly: the read-back already said it back in their words.
+ */
+export function firstDraftFor(
+  direction: string,
+  answers: Record<string, string>,
+  facts: SharpenFacts
+): string {
+  const said = refinementFor(direction)
+    .map((question) => {
+      const index = question.options.findIndex((o) => o.value === answers[question.id]);
+      return index >= 0 ? SAID[question.id]?.[index] : undefined;
+    })
+    .filter((line): line is string => Boolean(line));
+  const result = facts.result.trim()
+    ? `Most recently, I ${withFullStop(facts.result.trim().replace(/^i\s+/i, ""))}`
+    : null;
+  return [doingLine(facts), towardLine(direction), ...said, result]
+    .filter(Boolean)
+    .join(" ");
+}
+
+/** The first thing on the plan after onboarding: sharpen the story if they
+ *  left it as it was, the bio once it is sharpened. */
+export function quickWinFor(
+  plan: PlanTemplate | undefined,
+  sharpened: boolean
+): { title: string; detail: string; why: string } {
+  return sharpened
+    ? {
+        title: "Write your bio",
+        detail: "Short, medium and long, built from your story and ready to send ahead of you.",
+        why: "It’s what goes ahead of you: to a recruiter, an event, a new boss.",
+      }
+    : {
+        title: "Sharpen your story",
+        detail: "Add your role and one result, so your draft is ready to say in a meeting.",
+        why: plan?.thisWeek?.why ?? "Every next step starts with saying what you lead.",
+      };
+}
+
+/** Concept 1's first-draft screen. */
+export const DRAFT_C1 = {
+  eyebrow: "This week · Your story",
+  title: "Here’s how you’d say it",
+  hint: "Written only from what you’ve told us. Use it as it is, or make it sharper.",
+  label: "First draft",
+  sharpenedLabel: "Your story",
+  usesLabel: "Where you could use it",
+  sharpenLead: "Add your role and one result to make it yours. Or skip it, and it goes on your plan for this week.",
+  sharpenedLead: "Want to change what you added? You can sharpen it again.",
+  sharpen: "Sharpen it now",
+  sharpenAgain: "Sharpen it again",
+  save: "Save it and finish",
+  writing: "Writing your first draft",
+  copied: "Copied your story.",
+} as const;
+
+/** Copy, Download and Email for the first draft. */
+export const DRAFT_EXPORTS = [
+  { label: POSITIONING_C1.copy, done: DRAFT_C1.copied },
+  { label: EXPORT_ACTIONS.downloadLabel, done: EXPORT_ACTIONS.downloaded },
+  { label: EXPORT_ACTIONS.emailLabel, done: EXPORT_ACTIONS.emailed },
+];
+
+/** Concept 1's sharpen page: the three facts, each optional. */
+export const SHARPEN_C1 = {
+  eyebrow: "Sharpen your story",
+  title: "Three things only you know",
+  hint: "Fill in what you like. Anything you leave out, we leave out.",
+  back: "Back to your draft",
+  update: "Update my draft",
+  rewrites: "Updating rewrites the draft, so changes you made by hand will be replaced.",
+} as const;
+
 /** An output as plain text, gaps in brackets: for editing and exporting. */
 export function segmentsToText(segments: StorySegment[]): string {
   return segments.map((segment) => ("gap" in segment ? `[${segment.gap}]` : segment.text)).join("");
@@ -1860,8 +2198,13 @@ export const CHAT_C2 = {
   privacy: "Private by design.",
   privacyBody: "I respect your data. It\u2019s your eyes only.",
   privacyReply: "Good to know",
+  /** Before the direction question: why it comes first, and that a loose
+   *  answer is as good a start as a precise one. */
+  directionLead: "Next comes the part everything else builds on, which is where you\u2019re headed.",
+  directionWhy:
+    "You might have a clear goal, like a title and a date. Or just a sense that it\u2019s time for more. I can work with either, and we can change it as your goals change.",
   direction: "Where do you want to go next?",
-  directionHint: "A role, a timeline, or just a feeling. Type it, say it, or start with one of these.",
+  directionHint: "Type it, say it, or start with one of these.",
   directionPlaceholder: "In your own words",
   refinementLead: "A few quick questions so I can build a plan that fits you. Skip any you like.",
   skip: "Skip this one",
@@ -1884,41 +2227,23 @@ export const CHAT_C2 = {
   planFullWeeks: "See the full 12 weeks",
   planFull: "See the full plan",
   planClose: "Done",
-  builderLead:
-    "Good. The first thing we\u2019ll make is your story, one part at a time. I\u2019ll draft each part for you to check before we move on. Skip anything you like.",
-  /** The builder's parts, each asked, drafted and approved in turn. */
-  sections: {
-    doing: "First, what you do.",
-    known: "Next, what you\u2019re known for.",
-    toward: "The last part comes from your plan, so there\u2019s nothing to ask.",
-    bio: "Now your bio.",
-    opener: "Last, an opener for the first people who hear it.",
-  },
   draft: {
     eyebrow: "Draft",
     approved: "Approved",
-    lead: "Here\u2019s a draft. Does it sound like you?",
-    bioLead: "Here\u2019s the short one. It comes in medium and long too.",
-    bioTitle: "Your bio",
     approve: "Looks good",
     change: "Change it",
     changePlaceholder: "Write it how you\u2019d say it",
     rewritten: "Here it is in your words. Does it read right?",
   },
-  noOpener: "No opener for now. You can add one any time.",
   storyAlso: (openerKind: string | null) =>
     openerKind
       ? `Also: your bio in three lengths, and a ${openerKind.toLowerCase()} opener.`
       : "Also: your bio in three lengths.",
   storyOpen: "See all of it",
-  revisedSection: (label: string) =>
-    `Done: ${label.toLowerCase()}. I\u2019ll carry that through the rest of your story.`,
-  revised: (label: string) => `Done: ${label.toLowerCase()}.`,
   revisedStatus: (label: string) => `Changed: ${label.toLowerCase()}`,
   builder: {
     role: { question: "What\u2019s your current role?", placeholder: "e.g. VP of Marketing" },
     own: { question: "What are you responsible for?", placeholder: "e.g. brand and demand" },
-    teamSize: { question: "How big is your team?", placeholder: "Or type it" },
     strengths: {
       question: "What are you strongest at?",
       hint: "Pick up to three.",
@@ -1926,25 +2251,25 @@ export const CHAT_C2 = {
       done: "That\u2019s all",
     },
     result: { question: "What\u2019s a result you\u2019re proud of?", placeholder: "e.g. grew pipeline 40% in a year" },
-    audience: {
-      question: "Who will hear it first?",
-      hint: "I\u2019ll write an opener for them.",
-      placeholder: "Or type who",
-    },
-    name: { question: "And what name should go on your bio?", placeholder: "Your name" },
-    source: {
-      question: "Anything I should start from?",
-      hint: "Paste a bio you already have, or your LinkedIn About section.",
-      placeholder: "Paste it here",
-      none: "Nothing to add",
-    },
   },
-  storyLead: "That\u2019s every part approved. Here\u2019s your whole story.",
-  save: "Save and continue",
+  /** The story's first draft, handed over after the plan, by decision on
+   *  2026-09-28. Sharpening is three questions and one review. */
+  storyDraft: {
+    lead: "Good. First on it is your story, so here\u2019s a first draft of how you\u2019d say it.",
+    eyebrow: "First draft",
+    sharpenedEyebrow: "Sharpened",
+    title: "Your story",
+    offer: "It\u2019s yours to use as it is. Or tell me your role and one result, and I\u2019ll sharpen it now.",
+    asIs: "Use it as it is",
+    sharpen: "Sharpen it now",
+    sharpenLead: "Three quick ones, then. Skip any you like.",
+    review: "Here it is, sharpened. Does it sound like you?",
+    unchanged: "Nothing added, so it stays as it was. Does it still sound like you?",
+  },
   /** The ending: the win, then signals as an optional extra. */
   doneLead: "Saved. That\u2019s everything we needed today.",
   doneInvite:
-    "One more thing, if you like: build out your signals. Connect LinkedIn or your website, and your next drafts will sound more like you. It\u2019s optional, and you can do it anytime.",
+    "One more thing, if you like: build out your signals. Bring in your LinkedIn numbers or your website, and your plan and drafts start from how you already show up. It\u2019s optional, and you can do it anytime.",
   doneSignals: "Build out my signals",
   doneHome: "Go to my homepage",
   signals: {
@@ -1953,13 +2278,17 @@ export const CHAT_C2 = {
     website: "My website",
     notNow: "Not now",
     thatsAll: "That\u2019s all",
+    /** LinkedIn is an upload, by decision on 2026-09-28: the analytics
+     *  spreadsheet the user exports. It holds post performance and audience,
+     *  so that is all this promises. */
     linkedinWhat:
-      "I\u2019ll bring in your headline, about section and your last 20 posts, and use them only to shape your drafts. Nothing is ever posted or shared.",
-    connect: "Connect LinkedIn",
-    paste: "Paste my profile link instead",
-    pasteAsk: "Paste your LinkedIn profile link.",
-    pastePlaceholder: "linkedin.com/in/\u2026",
-    connected: "Connected. I\u2019ve brought in your headline, about section and last 20 posts.",
+      "LinkedIn gives you a spreadsheet of how your posts have done and who\u2019s seen them. Bring it here and I\u2019ll use it to shape your plan. It takes a minute, on a computer, and nothing is posted or shared.",
+    upload: "Upload the spreadsheet",
+    emailSteps: "Email me the steps",
+    attach: "Attach the LinkedIn spreadsheet",
+    reading: "Got it. I\u2019m reading it now, so carry on. I\u2019ll tell you when it\u2019s ready.",
+    ready: `Your LinkedIn spreadsheet is ready: ${MOCK_LINKEDIN_CONTEXT.posts} posts and your audience, from ${MOCK_LINKEDIN_CONTEXT.range}.`,
+    uploadPlaceholder: "Attach it here",
     websiteAsk: "What\u2019s your website address? I\u2019ll learn your voice from the pages there, and use them for nothing else.",
     websitePlaceholder: "https://",
     added: "Added. I\u2019ll use it only to shape your drafts.",
@@ -1977,16 +2306,11 @@ export const CHAT_C2 = {
     plan: { full: "Use this plan" },
     role: { full: "VP of Marketing" },
     own: { full: "Brand and demand" },
-    teamSize: { full: "About sixty" },
     strengths: { full: "Building teams" },
     result: { full: "Grew pipeline 40% in a year" },
-    audience: { full: "My manager" },
-    name: { full: "Maya Chen" },
-    source: { full: "I lead brand and demand for a B2B software company." },
-    save: { full: "Save and continue" },
     approve: { full: "Looks good" },
+    asIs: { full: "Use it as it is" },
     signals: { full: "Build out my signals" },
-    linkedinLink: { full: "linkedin.com/in/mayachen" },
     website: { full: "https://mayachen.com" },
   },
 } as const;
@@ -2069,11 +2393,17 @@ export const GUIDE_C3 = {
   },
   signals: {
     kicker: "Optional",
-    title: "Want me to start from what\u2019s already public?",
-    lede: "Connect LinkedIn or your website and I\u2019ll learn how you already show up.",
-    why: "Everything I write for you starts from how you already show up. Connecting now means your first draft sounds like you, not a template.",
+    title: "Want me to start from how you already show up?",
+    lede: "Bring in your LinkedIn numbers or your website, and I\u2019ll see how you already show up.",
+    why: "Your posts show how far you already reach, and who you reach. That shapes your plan, and it\u2019s read while you carry on.",
     done: "Continue",
     skip: "Skip for now",
+  },
+  /** The LinkedIn upload page, reached from Signals. */
+  linkedin: {
+    why: "Bringing it in now means it\u2019s read while you do the rest. By the end, I\u2019ll know how far your posts reach, and who they reach.",
+    /** How the summary file on the last page says a file with no posts. */
+    fileEmpty: "No posts in the last year yet",
   },
   direction: {
     kicker: "Where you\u2019re going",
@@ -2256,9 +2586,9 @@ export const GUIDE_C3 = {
       label: "Your story, out loud",
       options: ["Yes, easily", "Roughly", "Not really"],
       replies: [
-        "Good. Then we\u2019ll sharpen it, and make it work in writing and for different people.",
-        "That\u2019s the gap we\u2019ll close. By the end of this part you\u2019ll have that sentence, and more.",
-        "That\u2019s what this next part is for. You\u2019ll leave with that sentence, a bio and an opener.",
+        "Good. Then I\u2019ll put it in writing, and you can sharpen it from there.",
+        "That\u2019s the gap we\u2019ll close. I\u2019ll draft that sentence for you next.",
+        "That\u2019s what this next part is for. I\u2019ll draft it for you, from what you\u2019ve told me.",
       ],
       fact: {
         label: "Fun fact \u00b7 to be sourced",
@@ -2266,75 +2596,53 @@ export const GUIDE_C3 = {
       },
       why: "Every next step, a promotion conversation, a post, an introduction, starts with this sentence.",
     },
-    intro: {
-      kicker: "How you\u2019ll complete it",
-      lede: "The Positioning Builder writes it with you. Tell me a few things only you know, and I\u2019ll draft the rest.",
-      outputsLabel: "What you\u2019ll leave with",
-      outputs: [
-        { title: "Your leadership narrative", detail: "What you do, what you\u2019re known for, and what you\u2019re building toward." },
-        { title: "Your executive bio", detail: "Short, medium and long, ready to paste." },
-        { title: "An opener", detail: "For the first person who hears it." },
-        { title: "Where to use it next", detail: "Tied to your plan\u2019s next step." },
-      ],
-      why: "Every plan starts here, because every next step needs you to say what you lead. It\u2019s also the first thing on your plan this week.",
-      cta: "Start",
+    /** The first draft, written from what the user has said, by decision on
+     *  2026-09-28. Its lede answers the reflection before it. */
+    draft: {
+      title: "Here\u2019s your first draft",
+      ledes: {
+        "Yes, easily": "Good. Here it is in writing, from what you\u2019ve told me.",
+        Roughly: "You said you could say it roughly. Here\u2019s a start, from what you\u2019ve told me.",
+        "Not really": "Here\u2019s one to start from, built from what you\u2019ve told me.",
+      } as Record<string, string>,
+      lede: "Built from what you\u2019ve told me.",
+      why: "You can use this today. Everything after this makes it sharper, and your plan picks up where it leaves off.",
+      sharpen: "Sharpen it with me",
+      sharpenAgain: "Sharpen it again",
+      cta: "Save it and finish",
+      writing: "Writing your first draft",
+      /** How the summary file on the last page says the story. */
+      fileDraft: "First draft",
+      fileSharpened: "Sharpened",
     },
-    /** Each builder input, as the drawer asks it. */
+    /** Sharpening: the three facts, one at a time in the drawer. */
+    sharpen: {
+      title: "Three things only you know",
+      lede: "Your role, what you\u2019re responsible for, and one result. Skip any you like.",
+      why: "These are what turn where you\u2019re going into something you can say in a meeting.",
+      cta: "Update my draft",
+    },
+    /** Each sharpen question, as the drawer asks it. */
     asks: {
       role: "What\u2019s your current role?",
       own: "What are you responsible for?",
-      team: "How big is your team?",
-      strengths: "What are you strongest at? Up to three.",
       result: "What\u2019s a result you\u2019re proud of?",
-      audience: "Who will hear it first?",
-      name: "What name should go on your bio?",
-      source: "Anything I should start from?",
     },
     goodLabel: "What good looks like",
     goodWhy: "Why it works",
+    /** What good looks like, for the sharpen questions: what you do, then a
+     *  result. */
     doing: {
-      title: "What you do",
-      lede: "Your role, what you\u2019re responsible for, and how big your team is.",
       good: {
-        example: "\u201cVP of Marketing, leading brand and demand with a team of 60.\u201d",
-        why: "A clear title, a specific scope, and a size. No jargon, nothing to decode.",
+        example: "\u201cVP of Marketing, leading brand and demand.\u201d",
+        why: "A clear title and a specific scope. No jargon, nothing to decode.",
       },
-      why: "This is the first thing anyone asks. A clear answer makes everything after it easier to hear.",
     },
     known: {
-      title: "What you\u2019re known for",
-      lede: "Up to three strengths, and one result you\u2019re proud of.",
       good: {
         example: "\u201cGrew pipeline 40% in a year.\u201d",
         why: "A number, a timeframe, and it\u2019s clearly yours. Proof beats adjectives.",
       },
-      why: "Strengths say how you work. A result proves it.",
-    },
-    audience: {
-      title: "Who it\u2019s for",
-      lede: "Who will hear it first, and the name for your bio.",
-      good: {
-        example: "For your manager: \u201cI\u2019d like to talk about what\u2019s next for me\u2026\u201d",
-        why: "Written for one person, it starts the conversation you actually need to have.",
-      },
-      why: "A story lands differently with your manager than with a recruiter. Knowing who hears it first shapes the opener.",
-    },
-    source: {
-      title: "Anything to start from?",
-      lede: "Paste a bio you already have, or your LinkedIn About section.",
-      connected: (sources: string) => `I\u2019ll also use what came in from ${sources}.`,
-      good: {
-        example: "Your current LinkedIn About section, even if it\u2019s out of date.",
-        why: "Your own words, however rough, keep the draft sounding like you.",
-      },
-      why: "Everything you\u2019ve told me is used already. This just gives me your voice.",
-      cta: "Build my story",
-    },
-    output: {
-      lede: "Built from what you told me. Change anything.",
-      why: "Each output is for a different moment. \u201cWhere to use it next\u201d ties it to your plan.",
-      building: "Writing your story",
-      cta: "Save and continue",
     },
     cta: "Continue",
   },
@@ -2343,11 +2651,12 @@ export const GUIDE_C3 = {
     title: "You have a plan and your first story",
     lede: "Both are saved, and nothing here is visible to anyone else. Here\u2019s everything I learned, and what happens next.",
     nextLabel: "What happens next",
-    // The first thing on the plan is the story, which is now done.
+    // The first thing on the plan is the story, which is now drafted; the
+    // quick win after it comes next.
     thisWeek: "Done today",
     then: "Next",
     after: "After that",
-    signals: "You can connect LinkedIn or your website anytime, so your drafts sound more like you.",
+    signals: "You can bring in your LinkedIn numbers or your website anytime, so your plan and your drafts start from how you already show up.",
     why: "You\u2019ve done the hardest part: saying where you want to go. From here, the plan does the work with you.",
     home: "Go to my homepage",
   },
@@ -2421,6 +2730,10 @@ export function earlyReasonFor(direction: string, plan: PlanTemplate): string {
  *  short enough that walking the flow is not a chore. */
 export const GENERATING_MS = 1100;
 
+/** How long the LinkedIn export takes to "read", in the background. Long
+ *  enough to be seen as reading on the step after the upload. */
+export const LINKEDIN_READ_MS = 8000;
+
 export const GENERATING_COPY = {
   interpreting: "Reading what you said",
   planning: "Putting a plan together",
@@ -2440,8 +2753,8 @@ export const SAMPLE_ANSWERS = {
   /** A prompted direction by id, so it reads exactly as picking one would. */
   directionId: "c-suite",
   refinement: { horizon: "year", audience: "internal", constraint: "visibility" },
-  /** A finished story, for a jump past the builder. Every part approved, so
-   *  Concept 2's thread reads as a completed build. */
+  /** A finished story, for a jump past it: sharpened and approved, so
+   *  Concept 2's thread reads as a completed sharpen. */
   positioning: {
     name: "Maya Chen",
     role: "VP of Marketing",
@@ -2454,6 +2767,6 @@ export const SAMPLE_ANSWERS = {
     source: "",
     edits: {},
     built: true,
-    approved: ["doing", "known", "toward", "bio", "opener"],
+    approved: ["sharpen", "story"],
   },
 } as const;

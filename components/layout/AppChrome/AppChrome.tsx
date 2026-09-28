@@ -1,11 +1,15 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { AppNav, AppNavSlot } from "@/components/layout/AppNav";
 import { Wordmark } from "@/components/primitives/Wordmark";
 import { navForChrome, type Flow } from "@/lib/manifest";
 
 export interface AppChromeProps {
   flow: Flow;
   children: ReactNode;
+  /** On a navigation concept's page: the concept to show, and the flow whose
+   *  page it is wrapping, which is the current destination. */
+  navConcept?: { slug: string; currentFlow: string };
 }
 
 /**
@@ -17,26 +21,42 @@ export interface AppChromeProps {
  *   app        — the signed-in app: top nav on web and tablet, tab bar on mobile
  *   enterprise — the separate enterprise surface (web only)
  *
+ * In the `app` chrome the nav is whichever navigation concept the reviewer is
+ * judging (`AppNav`). The enterprise chrome keeps its own list.
+ *
  * The nav sits before `main` in the DOM in every chrome. On mobile it is moved
  * to the bottom of the screen visually with flex `order`, so reading order stays
  * navigation-then-content while the tab bar sits where a thumb expects it.
  */
-export function AppChrome({ flow, children }: AppChromeProps) {
+export function AppChrome({ flow, children, navConcept }: AppChromeProps) {
   const nav = navForChrome(flow.chrome);
+  // "Main", because assistive technology already announces it as navigation.
+  const navLabel = flow.chrome === "app" ? "Main" : `${flow.title} navigation`;
+  const navProps = {
+    destinations: nav,
+    currentFlow: navConcept?.currentFlow ?? flow.slug,
+    label: navLabel,
+    concept: navConcept?.slug,
+  };
 
   return (
     <div className={`chrome chrome--${flow.chrome}`}>
       {flow.header === false ? null : (
         <header className="chrome__header">
+          {flow.chrome === "app" ? <AppNavSlot part="headerStart" {...navProps} /> : null}
           <Wordmark
             size="md"
             suffix={flow.chrome === "enterprise" ? "Enterprise" : undefined}
           />
+          {flow.chrome === "app" ? <AppNavSlot part="headerCentre" {...navProps} /> : null}
+          {flow.chrome === "app" ? <AppNavSlot part="headerEnd" {...navProps} /> : null}
         </header>
       )}
 
-      {nav.length > 0 ? (
-        <nav className="chrome__nav" aria-label={`${flow.title} navigation`}>
+      {flow.chrome === "app" ? (
+        <AppNav {...navProps} />
+      ) : nav.length > 0 ? (
+        <nav className="chrome__nav" aria-label={navLabel}>
           <ul className="chrome__nav-list">
             {nav.map((item) => {
               const isCurrent = item.flowSlug === flow.slug;

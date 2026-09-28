@@ -62,7 +62,7 @@ styles/tokens.css     Every colour, space, type size, radius, border and shadow.
 styles/app.css        The single shared stylesheet of reusable classes.
 
 app/                  Routes. app/page.tsx is the hub, app/showroom/ is the
-                      private showroom, and app/[flow]/[concept]/ is every
+                      showroom, and app/[flow]/[concept]/ is every
                       product page, generated from the manifest.
 components/           Every component, hand-written. No UI kits.
 lib/                  Manifest, spec and token readers, the hub page list, and
@@ -88,10 +88,9 @@ underneath.
 | `/showroom/components`    | The component catalogue. Every component, in every state, with a search box and filters for status and flow. "Approved only" shows the set handed off to engineering. |
 | `/showroom/playground`    | Every built flow, to step through on sample data. |
 
-**It is never on the public site.** The production build leaves it out
-entirely: every showroom page is a 404 there, and the hub drops its links. It is
-on for every Vercel preview deployment, and on your laptop once you have copied
-the settings file:
+**It is on the public site as well as every preview.** Every Vercel deployment
+builds it, production included, and keeps it out of search engines. On your
+laptop it is on once you have copied the settings file:
 
 ```bash
 cp .env.example .env.local
