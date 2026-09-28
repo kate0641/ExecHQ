@@ -212,17 +212,18 @@
   --color-status-approved-text: var(--brand-blue-100);
   --color-status-approved-border: var(--brand-primary);
 
-  /* Feedback. Warning is orange (border 500, 3.6:1 on white); danger is the
-     red end of the same scale (border 600, text 700 at 6.4:1 on its surface). */
+  /* Feedback. Warning is gold (border yellow 700, 5.2:1 on its surface), so
+     it reads apart from danger, which is the red end of the orange scale
+     (border 600, text 700 at 6.4:1 on its surface). */
   --color-feedback-info-surface: var(--brand-blue-100);
   --color-feedback-info-text: var(--brand-slate-900);
   --color-feedback-info-border: var(--brand-blue-600);
   --color-feedback-success-surface: var(--brand-green-100);
   --color-feedback-success-text: var(--brand-green-800);
   --color-feedback-success-border: var(--brand-green-800);
-  --color-feedback-warning-surface: var(--brand-orange-100);
+  --color-feedback-warning-surface: var(--brand-yellow-100);
   --color-feedback-warning-text: var(--brand-slate-900);
-  --color-feedback-warning-border: var(--brand-orange-500);
+  --color-feedback-warning-border: var(--brand-yellow-700);
   --color-feedback-danger-surface: var(--brand-orange-100);
   --color-feedback-danger-text: var(--brand-orange-700);
   --color-feedback-danger-border: var(--brand-orange-600);

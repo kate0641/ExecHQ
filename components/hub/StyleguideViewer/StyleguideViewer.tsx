@@ -157,12 +157,12 @@ const SCALES: { key: string; title: string; role: string }[] = [
   {
     key: "yellow",
     title: "Yellow",
-    role: "Bright yellow (400) is the primary button, 500 on hover and 600 pressed. Gold yellow (700) is for small accents on light.",
+    role: "Bright yellow (400) is the primary button, 500 on hover and 600 pressed. Gold yellow (700) is for small accents on light, and is the warning colour.",
   },
   {
     key: "orange",
     title: "Orange",
-    role: "Orange into red. Warning is the orange end (border 500); from 600 the scale turns red for danger (border 600, text 700). The palette orange (400) is too light for text on white.",
+    role: "Orange into red. From 600 the scale turns red for danger (border 600, text 700). The palette orange (400) is too light for text on white.",
   },
   {
     key: "slate",
