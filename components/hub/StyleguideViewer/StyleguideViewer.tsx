@@ -162,7 +162,7 @@ const SCALES: { key: string; title: string; role: string }[] = [
   {
     key: "orange",
     title: "Orange",
-    role: "Warning. The palette orange (400) is too light for text on white, so the border is 600.",
+    role: "Orange into red. Warning is the orange end (border 500); from 600 the scale turns red for danger (border 600, text 700). The palette orange (400) is too light for text on white.",
   },
   {
     key: "slate",

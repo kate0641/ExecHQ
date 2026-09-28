@@ -59,16 +59,18 @@
   --brand-yellow-800: #644803;
   --brand-yellow-900: #432f07;
 
-  /* Orange — the palette orange at 400. */
+  /* Orange into red — the palette orange at 400. From 500 the steps gain
+     chroma and turn towards red instead of browning, so the dark end is a true
+     red: danger comes from 600 and 700 rather than a separate red scale. */
   --brand-orange-100: #fff0e8;
   --brand-orange-200: #ffdac8;
   --brand-orange-300: #ffb38f;
   --brand-orange-400: #fd8143;  /* palette: orange */
-  --brand-orange-500: #d96530;
-  --brand-orange-600: #b34f28;
-  --brand-orange-700: #8e3b1e;
-  --brand-orange-800: #6b2d19;
-  --brand-orange-900: #4b1f12;
+  --brand-orange-500: #eb5520;
+  --brand-orange-600: #d72212;
+  --brand-orange-700: #b30614;
+  --brand-orange-800: #8a0e15;
+  --brand-orange-900: #5f0c10;
 
   /* Slate — the cool neutral, used for text, borders and greys. The palette
      near-black is 900. */
@@ -210,8 +212,8 @@
   --color-status-approved-text: var(--brand-blue-100);
   --color-status-approved-border: var(--brand-primary);
 
-  /* Feedback. Danger stays neutral: the palette has no red, and orange is
-     already warning. */
+  /* Feedback. Warning is orange (border 500, 3.6:1 on white); danger is the
+     red end of the same scale (border 600, text 700 at 6.4:1 on its surface). */
   --color-feedback-info-surface: var(--brand-blue-100);
   --color-feedback-info-text: var(--brand-slate-900);
   --color-feedback-info-border: var(--brand-blue-600);
@@ -220,10 +222,10 @@
   --color-feedback-success-border: var(--brand-green-800);
   --color-feedback-warning-surface: var(--brand-orange-100);
   --color-feedback-warning-text: var(--brand-slate-900);
-  --color-feedback-warning-border: var(--brand-orange-600);
-  --color-feedback-danger-surface: var(--brand-slate-200);
-  --color-feedback-danger-text: var(--brand-slate-900);
-  --color-feedback-danger-border: var(--brand-slate-700);
+  --color-feedback-warning-border: var(--brand-orange-500);
+  --color-feedback-danger-surface: var(--brand-orange-100);
+  --color-feedback-danger-text: var(--brand-orange-700);
+  --color-feedback-danger-border: var(--brand-orange-600);
 
   /* Device frame */
   --color-device-bezel: var(--brand-slate-900);
