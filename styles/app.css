@@ -3513,8 +3513,17 @@ samp {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
-  padding: var(--space-md);
+  /* The foot pads by the fade's height, so the last message clears the fade
+     once the thread is scrolled to the end. */
+  padding: var(--space-md) var(--space-md) var(--space-lg);
   overflow-y: auto;
+  /* The conversation fades out above the chips and the composer rather than
+     stopping at a hard edge. */
+  mask-image: linear-gradient(
+    to bottom,
+    var(--color-mask) calc(100% - var(--space-lg)),
+    transparent
+  );
   /* The containing block for the visually-hidden labels inside, so they
      scroll with the thread rather than stretching the device screen. */
   position: relative;

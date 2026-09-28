@@ -192,6 +192,10 @@
   --color-focus: var(--brand-primary);
   --color-focus-inverse: var(--brand-white);
 
+  /* Masks read only opacity, so this just needs to be solid. Used to fade
+     scrolling content out at an edge. */
+  --color-mask: var(--brand-white);
+
   /* Overlay / scrim */
   --color-overlay: rgb(var(--shadow-rgb) / 0.48);
 
