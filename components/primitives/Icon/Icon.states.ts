@@ -39,6 +39,11 @@ export const iconStates = defineComponentStates({
     { label: "Document", props: { name: "document" } },
     { label: "Link", props: { name: "link" } },
     { label: "Pencil", props: { name: "pencil" } },
+    {
+      label: "Flag",
+      description: "A destination: where the plan is headed.",
+      props: { name: "flag" },
+    },
     { label: "Large — 32px", props: { name: "web", size: 32 } },
     { label: "Small — 14px", props: { name: "mobile", size: 14 } },
   ],

@@ -11,7 +11,8 @@ export type IconName =
   | "check"
   | "document"
   | "link"
-  | "pencil";
+  | "pencil"
+  | "flag";
 
 export interface IconProps {
   name: IconName;
@@ -96,6 +97,13 @@ const PATHS: Record<IconName, React.ReactNode> = {
     <>
       <path d="M13.4 3.6l3 3L7.6 15.4 4 16l.6-3.6z" />
       <path d="M11.8 5.2l3 3" strokeWidth="1.3" />
+    </>
+  ),
+  // A destination: where the plan is headed.
+  flag: (
+    <>
+      <path d="M5 17.5V3" />
+      <path d="M5 3.5h9.5l-2.2 3.2 2.2 3.3H5" />
     </>
   ),
 };
