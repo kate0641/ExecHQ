@@ -21,8 +21,10 @@ export interface InputProps
   /** `field` is the default bordered box. `statement` drops the box for an
    *  underlined line set in the serif — for text the user is composing rather
    *  than a form they are completing. Weaker affordance by design, so use it
-   *  only where the surrounding copy makes the editability obvious. */
-  variant?: "field" | "statement";
+   *  only where the surrounding copy makes the editability obvious. `pill`
+   *  is a rounded field with its label set small inside its top edge, for a
+   *  short form with one or two fields (sign in). Single line only. */
+  variant?: "field" | "statement" | "pill";
   rows?: number;
   /** A control drawn inside the field's bottom edge, e.g. a mic button. The
    *  field pads itself so typed text never runs under it. */
@@ -58,6 +60,7 @@ export function Input({
   const fieldClasses = [
     "field__control",
     variant === "statement" ? "field__control--statement" : null,
+    variant === "pill" ? "field__control--pill" : null,
     error ? "field__control--error" : null,
     adornment ? "field__control--adorned" : null,
     className,
@@ -86,11 +89,37 @@ export function Input({
     );
   }
 
+  const labelClass = labelHidden ? "u-visually-hidden" : "field__label";
+
+  if (variant === "pill" && !multiline) {
+    return (
+      <div className={`field field--pill${disabled ? " field--disabled" : ""}`}>
+        <div className="field__pill">
+          <label htmlFor={id} className={labelHidden ? "u-visually-hidden" : "field__label field__label--pill"}>
+            {label}
+          </label>
+          {control()}
+        </div>
+        {hint ? (
+          <p id={hintId} className="field__hint field__hint--pill">
+            {hint}
+          </p>
+        ) : null}
+        {error ? (
+          <p id={errorId} className="field__error field__error--pill">
+            <span className="u-visually-hidden">Error: </span>
+            {error}
+          </p>
+        ) : null}
+      </div>
+    );
+  }
+
   return (
     <div className={`field${disabled ? " field--disabled" : ""}`}>
       <label
         htmlFor={id}
-        className={labelHidden ? "u-visually-hidden" : "field__label"}
+        className={labelClass}
       >
         {label}
         {required ? (

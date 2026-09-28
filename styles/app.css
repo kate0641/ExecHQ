@@ -690,6 +690,42 @@ samp {
   color: var(--color-text-disabled);
 }
 
+/* Pill: the label sits small inside the field's top edge. */
+.field__pill {
+  position: relative;
+}
+
+.field__label--pill {
+  position: absolute;
+  top: var(--space-xs);
+  left: var(--space-lg);
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  pointer-events: none;
+}
+
+.field__control--pill {
+  min-height: 3.75rem;
+  padding: var(--space-lg) var(--space-lg) var(--space-xs);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-sm);
+}
+
+.field__control--pill:focus-visible,
+.field__control--pill.is-focus {
+  box-shadow: inset 0 0 0 var(--border-width-thin) var(--color-text-primary), var(--shadow-sm);
+}
+
+.field__control--pill.field__control--error:focus-visible,
+.field__control--pill.field__control--error.is-focus {
+  box-shadow: inset 0 0 0 var(--border-width-thin) var(--color-feedback-danger-border), var(--shadow-sm);
+}
+
+.field__hint--pill,
+.field__error--pill {
+  padding-inline: var(--space-lg);
+}
+
 /* Toggle group ------------------------------------------------------------- */
 
 .toggle-group {

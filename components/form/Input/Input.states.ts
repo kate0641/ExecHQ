@@ -85,6 +85,28 @@ export const inputStates = defineComponentStates({
       },
     },
     {
+      label: "Pill",
+      description: "A rounded field with its label inside the top edge, for a short form like sign in.",
+      props: { label: "Your personal email", variant: "pill" as const, type: "email" },
+    },
+    {
+      label: "Pill — filled",
+      props: { label: "Your personal email", variant: "pill" as const, type: "email", defaultValue: "maya.chen@example.com" },
+    },
+    {
+      label: "Pill — focus",
+      props: { label: "Your personal email", variant: "pill" as const, className: "is-focus" },
+    },
+    {
+      label: "Pill — error",
+      props: {
+        label: "Your personal email",
+        variant: "pill" as const,
+        defaultValue: "maya.chen@",
+        error: "That doesn\u2019t look like an email address. Check it and try again.",
+      },
+    },
+    {
       label: "Label hidden",
       props: { label: "Search components", labelHidden: true, placeholder: "Search" },
     },
