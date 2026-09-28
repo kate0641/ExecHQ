@@ -145,6 +145,7 @@
   --color-surface-hover: var(--brand-stone-200);
   --color-surface-active: var(--brand-stone-300);
   --color-surface-disabled: var(--brand-stone-200);
+  --color-surface-selected: var(--brand-primary-soft); /* the item a detail pane is showing */
 
   /* Text — primary 18.0:1, secondary 7.4:1, muted 5.4:1 on --color-surface
      (stone 100). Muted is 4.6:1 on stone 200 (sunken, muted, hover); not on

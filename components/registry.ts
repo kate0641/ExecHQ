@@ -82,6 +82,15 @@ import { ringDetailStates } from "./homepage/RingDetail/RingDetail.states";
 import { signalActivityStates } from "./homepage/SignalActivity/SignalActivity.states";
 import { stageTrackStates } from "./homepage/StageTrack/StageTrack.states";
 import { stageActionsStates } from "./homepage/StageActions/StageActions.states";
+import { monogramStates } from "./primitives/Monogram/Monogram.states";
+import { switchStates } from "./form/Switch/Switch.states";
+import { profileHeaderStates } from "./profile/ProfileHeader/ProfileHeader.states";
+import { settingsGroupStates } from "./profile/SettingsGroup/SettingsGroup.states";
+import { settingsRowStates } from "./profile/SettingsRow/SettingsRow.states";
+import { detailPanelStates } from "./profile/DetailPanel/DetailPanel.states";
+import { connectionDetailStates } from "./profile/ConnectionDetail/ConnectionDetail.states";
+import { exportDetailStates } from "./profile/ExportDetail/ExportDetail.states";
+import { deletionDetailStates } from "./profile/DeletionDetail/DeletionDetail.states";
 
 export const registry: RegisteredComponent[] = [
   badgeStates,
@@ -157,6 +166,15 @@ export const registry: RegisteredComponent[] = [
   signalActivityStates,
   stageTrackStates,
   stageActionsStates,
+  monogramStates,
+  switchStates,
+  profileHeaderStates,
+  settingsGroupStates,
+  settingsRowStates,
+  detailPanelStates,
+  connectionDetailStates,
+  exportDetailStates,
+  deletionDetailStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */
