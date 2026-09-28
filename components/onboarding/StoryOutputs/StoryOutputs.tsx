@@ -57,9 +57,9 @@ export const narrativePartKey = (index: number) => `narrative-${index}`;
  * opener for the chosen audience, and where to use it next.
  *
  * Each output has its own revision chips, which build on each other; a hand
- * edit replaces the generated text and the chips step aside. Shared by
- * Concept 1's outputs page and Concept 2's story card, so the two can only
- * ever differ in where they sit.
+ * edit replaces the generated text and the chips step aside. Used by
+ * Concept 2's story card. Since 2026-09-28 Concept 1's onboarding shows
+ * StoryDraft instead; these four outputs belong to the full builder.
  */
 export function StoryOutputs({
   inputs,

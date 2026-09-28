@@ -109,7 +109,7 @@ export function RefinementScreen({ flow, step, total, headingId }: ScreenProps) 
  * actually done anything.
  */
 export function PlanScreen({ flow, step, total, headingId }: ScreenProps) {
-  const { state, dispatch, derived, generating } = flow;
+  const { state, dispatch, derived, generating, withDelay } = flow;
   const [showOthers, setShowOthers] = useState(false);
   const othersId = useId();
 
@@ -131,18 +131,18 @@ export function PlanScreen({ flow, step, total, headingId }: ScreenProps) {
   const tags = builtFrom(direction, state.answers.refinement);
   const toward = towardFor(direction);
 
-  /** Confirming a plan goes straight to building the draft. There is no screen
-   *  in between: the user has just decided, and the fastest way to prove the
-   *  decision was worth making is to hand them the first piece of work. */
+  /** Confirming a plan hands over the story's first draft, after the writing
+   *  pause. There is no screen in between: the user has just decided, and the
+   *  fastest way to prove the decision was worth making is to hand them the
+   *  first piece of work, already written. */
   function confirm() {
     dispatch({
       type: "select-plan",
       planId: selectedId,
       source: selectedId === recommendedId ? "recommended" : "switched",
     });
-    // Straight to the builder's inputs; the writing pause comes when they
-    // press "Build my story".
     dispatch({ type: "go-to", step: "artifact" });
+    withDelay("drafting", () => {});
   }
 
   return (

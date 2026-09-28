@@ -19,10 +19,7 @@ import {
   RefinementScreen,
 } from "./screens/PlanScreens";
 import { CompleteScreen, SignalsScreen } from "./screens/OutputScreens";
-import {
-  PositioningBuildScreen,
-  PositioningOutputScreen,
-} from "./screens/BuilderScreens";
+import { StoryDraftScreen } from "./screens/BuilderScreens";
 import type { ScreenProps } from "./screens/types";
 
 /**
@@ -61,19 +58,14 @@ const SHOWN_STEPS: OnboardingStep[] = [
   "connect",
 ];
 
-/** The Positioning Builder is one step in the flow and two pages on screen:
- *  inputs, then outputs. The step bar and the progress marks both show two. */
-const BUILDER_PAGES = [
-  { id: "artifact-build", label: "Build" },
-  { id: "artifact-story", label: "Your story" },
-];
-
-const STEP_NAV = stepNavItems(SHOWN_STEPS).flatMap((item) =>
+/** The story is one page: the first draft, with sharpening behind it off the
+ *  count. It was two (build, then outputs) until 2026-09-28. */
+const STEP_NAV = stepNavItems(SHOWN_STEPS).map((item) =>
   item.id === "artifact"
-    ? BUILDER_PAGES
+    ? { id: "artifact", label: "Your story" }
     : item.id === "connect"
-      ? [{ id: "connect", label: "Signals" }]
-      : [item]
+      ? { id: "connect", label: "Signals" }
+      : item
 );
 
 /**
@@ -85,15 +77,11 @@ const PROGRESS_STEPS = SHOWN_STEPS.slice(
   SHOWN_STEPS.indexOf("direction"),
   SHOWN_STEPS.indexOf("complete") + 1
 );
-/** One more mark than steps: the builder's two pages each have one. */
-const PROGRESS_TOTAL = PROGRESS_STEPS.length + 1;
+const PROGRESS_TOTAL = PROGRESS_STEPS.length;
 
-/** 1-based progress position, counting the builder as two marks. */
-function progressPosition(step: OnboardingStep, built: boolean): number {
-  const index = Math.max(PROGRESS_STEPS.indexOf(step), 0);
-  const builderIndex = PROGRESS_STEPS.indexOf("artifact");
-  const pastBuild = index > builderIndex || (index === builderIndex && built);
-  return index + 1 + (pastBuild ? 1 : 0);
+/** 1-based progress position. */
+function progressPosition(step: OnboardingStep): number {
+  return Math.max(PROGRESS_STEPS.indexOf(step), 0) + 1;
 }
 
 /** Which step bar entry the flow is on. The steps this concept steps over
@@ -106,23 +94,11 @@ export function OnboardingConcept1() {
   const flow = useOnboardingFlow();
   const { state } = flow;
   const headingId = useId();
-  const built = state.answers.positioning.built;
-  const stepKey = `${state.step}-${state.refinementIndex}-${state.customPlanIndex}-${built}`;
+  const stepKey = `${state.step}-${state.refinementIndex}-${state.customPlanIndex}`;
   const previousKey = useRef(stepKey);
 
   const current = shownStep(state.step);
-  useStepNav(
-    STEP_NAV,
-    current === "artifact" ? (built ? "artifact-story" : "artifact-build") : current,
-    (id) => {
-      if (id.startsWith("artifact-")) {
-        flow.jumpTo("artifact");
-        flow.dispatch({ type: "set-positioning", patch: { built: id === "artifact-story" } });
-        return;
-      }
-      flow.jumpTo(id as OnboardingStep);
-    }
-  );
+  useStepNav(STEP_NAV, current, (id) => flow.jumpTo(id as OnboardingStep));
 
   // Move focus to the new step's heading when the step changes, so focus is
   // never left on a control that has just been replaced. Not on first paint:
@@ -135,7 +111,7 @@ export function OnboardingConcept1() {
 
   const screenProps: ScreenProps = {
     flow,
-    step: progressPosition(current, built),
+    step: progressPosition(current),
     total: PROGRESS_TOTAL,
     headingId,
   };
@@ -160,17 +136,13 @@ export function OnboardingConcept1() {
     case "plan":
       return <PlanScreen {...screenProps} />;
     // plan-confirmed and action are no longer screens in this concept:
-    // confirming a plan builds the draft immediately. They stay in the shared
+    // confirming a plan writes the draft immediately. They stay in the shared
     // step list because Concepts 2 and 3 still use them, so this concept steps
     // over them with go-to rather than forking the flow.
     case "plan-confirmed":
     case "action":
     case "artifact":
-      return built ? (
-        <PositioningOutputScreen {...screenProps} />
-      ) : (
-        <PositioningBuildScreen {...screenProps} />
-      );
+      return <StoryDraftScreen {...screenProps} />;
     case "connect":
       return <SignalsScreen {...screenProps} />;
     case "complete":

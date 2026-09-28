@@ -5,19 +5,26 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import { SignalSources } from "@/components/onboarding/SignalSources";
+import { ThisWeekCard } from "@/components/onboarding/ThisWeekCard";
 import { WizardStep } from "@/components/onboarding/WizardStep";
-import { DONE_C1, SIGNALS_C1, planById } from "@/mock/onboarding";
+import { DONE_C1, SIGNALS_C1, isSharpened, planById, quickWinFor } from "@/mock/onboarding";
 import type { ScreenProps } from "./types";
 
 /**
  * Onboarding ends here, on the win: the plan and the story, both saved. Two
  * ways on: build out your signals, the main one by decision on 2026-09-24,
  * or go home. Signals stays optional — home is always one tap away.
+ *
+ * Then what comes next on the plan, by decision on 2026-09-28: sharpening the
+ * story if it was left as a first draft, the bio once it has been sharpened.
+ * The plan screen came before the draft, so this is the first place that can
+ * say which.
  */
 export function CompleteScreen({ flow, step, total, headingId }: ScreenProps) {
   const { state, derived, dispatch } = flow;
   const plan = planById(state.answers.planId ?? "") ?? derived?.recommended;
-  const story = plan?.thisWeek?.output ?? "The story of what you lead";
+  const sharpened = isSharpened(state.answers.positioning);
+  const story = sharpened ? DONE_C1.storySharpened : DONE_C1.storyDraft;
 
   return (
     <WizardStep
@@ -55,6 +62,11 @@ export function CompleteScreen({ flow, step, total, headingId }: ScreenProps) {
           {story}
         </li>
       </ul>
+      <ThisWeekCard
+        label={DONE_C1.nextLabel}
+        whyLabel={DONE_C1.nextWhy}
+        {...quickWinFor(plan, sharpened)}
+      />
       <div className="done-invite">
         <p className="done-invite__title">{DONE_C1.inviteTitle}</p>
         <p className="done-invite__body">{DONE_C1.inviteBody}</p>
