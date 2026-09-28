@@ -7,17 +7,13 @@ import { ChatMessage } from "@/components/chat/ChatMessage";
 import { ChatWelcome } from "@/components/chat/ChatWelcome";
 import { QuickReplies, type QuickReply } from "@/components/chat/QuickReplies";
 import { Sheet } from "@/components/layout/Sheet";
-import { ExportLinks } from "@/components/onboarding/ExportLinks";
 import { DraftSection } from "@/components/onboarding/DraftSection";
 import { PlanSummaryCard } from "@/components/onboarding/PlanSummaryCard";
-import { StorySummaryCard } from "@/components/onboarding/StorySummaryCard";
 import { PlanTimeline } from "@/components/onboarding/PlanTimeline";
-import { StoryOutputs, narrativePartKey } from "@/components/onboarding/StoryOutputs";
 import { ThisWeekCard } from "@/components/onboarding/ThisWeekCard";
 import { Icon } from "@/components/primitives/Icon";
 import { Wordmark } from "@/components/primitives/Wordmark";
 import {
-  emptyPositioning,
   stepIndex,
   stepNavItems,
   useDictation,
@@ -30,28 +26,20 @@ import {
   CHAT_C2,
   DIRECTION_PROMPTS_C1,
   DONE_C1,
+  DRAFT_C1,
   GENERATING_MS,
-  OPENER_KIND,
   PLAN_C1,
   PLAN_TEMPLATES,
-  POSITIONING_C1,
-  STORY_EXPORTS,
   VOICE_SAMPLE,
-  bioFor,
   builtFrom,
-  goalFor,
-  narrativeFor,
-  openerFor,
+  firstDraftFor,
+  isSharpened,
   planById,
+  quickWinFor,
   readBack,
   refinementFor,
-  segmentsToText,
-  toggleRevision,
   towardFor,
-  visibleRevisions,
-  type OutputKind,
   type PlanTemplate,
-  type StorySegment,
 } from "@/mock/onboarding";
 
 /**
@@ -95,93 +83,32 @@ const STEP_NAV = stepNavItems(CHAT_STEPS).map((item) =>
 );
 
 /**
- * The Positioning Builder's inputs, asked one at a time in Concept 1's order.
- * What earlier answers already told us — the direction, the plan — is used,
- * not asked again. Every question can be skipped; a skipped fact stays a
- * visible gap in the story.
+ * Sharpening the story's first draft: three questions, asked one at a time,
+ * each skippable. By decision on 2026-09-28 they replace the Positioning
+ * Builder's eight questions and five part reviews. The draft comes first, so
+ * none of them is needed to have a story.
  */
-type BuilderField = "role" | "own" | "teamSize" | "strengths" | "result" | "audience" | "name" | "source";
-interface BuilderQuestion {
-  field: BuilderField;
+type SharpenField = "role" | "own" | "result";
+interface SharpenQuestion {
+  field: SharpenField;
   question: string;
-  hint?: string;
   placeholder: string;
-  /** Chips to tap. Omitted: typed or spoken only. */
-  options?: readonly string[];
-  /** Pick several, up to this many. */
-  max?: number;
-  /** The way past it, when "Skip this one" reads wrong. */
-  none?: string;
 }
-
 const B = CHAT_C2.builder;
-const BUILDER: BuilderQuestion[] = [
+const SHARPEN: SharpenQuestion[] = [
   { field: "role", ...B.role },
   { field: "own", ...B.own },
-  { field: "teamSize", ...B.teamSize, options: POSITIONING_C1.team.options },
-  {
-    field: "strengths",
-    ...B.strengths,
-    options: POSITIONING_C1.strengths.options,
-    max: POSITIONING_C1.strengths.max,
-  },
   { field: "result", ...B.result },
-  {
-    field: "audience",
-    ...B.audience,
-    // "None for now" is an answer here, not a skip: no opener is written.
-    options: POSITIONING_C1.audience.options,
-  },
-  { field: "name", ...B.name },
-  { field: "source", ...B.source },
 ];
+const NO_FACTS = { role: "", own: "", result: "" };
+/** Markers kept in `positioning.approved`: chose to sharpen, approved it. */
+const CHOSE_SHARPEN = "sharpen";
+const APPROVED_STORY = "story";
+/** Where the user's own version of the story is kept. */
+const DRAFT_EDIT = "draft";
 
 /** Skips are kept with the flow's other skips, under their own prefix. */
-const skipId = (field: BuilderField) => `positioning:${field}`;
-const questionFor = (field: BuilderField) => BUILDER.find((q) => q.field === field)!;
-
-/**
- * The story is built a part at a time, by decision on 2026-09-24: ExecHQ asks
- * what one part needs, drafts just that part, and the user approves it,
- * adjusts it or rewrites it before the next is started. The whole story then
- * arrives already agreed. "Anything to start from" comes first, since it
- * informs every part.
- */
-type SectionId = "source" | "doing" | "known" | "toward" | "bio" | "opener";
-const SECTIONS: { id: SectionId; intro?: string; fields: BuilderField[]; review: boolean }[] = [
-  { id: "source", fields: ["source"], review: false },
-  { id: "doing", intro: CHAT_C2.sections.doing, fields: ["role", "own", "teamSize"], review: true },
-  { id: "known", intro: CHAT_C2.sections.known, fields: ["strengths", "result"], review: true },
-  // Built from the plan and the direction: nothing to ask.
-  { id: "toward", intro: CHAT_C2.sections.toward, fields: [], review: true },
-  { id: "bio", intro: CHAT_C2.sections.bio, fields: ["name"], review: true },
-  { id: "opener", intro: CHAT_C2.sections.opener, fields: ["audience"], review: true },
-];
-/** Every question and every review, in order. */
-type BuilderStep = { section: SectionId; field?: BuilderField };
-const STEPS: BuilderStep[] = SECTIONS.flatMap((section) => [
-  ...section.fields.map((field) => ({ section: section.id, field })),
-  ...(section.review ? [{ section: section.id }] : []),
-]);
-const SECTION_ORDER = SECTIONS.map((section) => section.id);
-/** Where a part's hand rewrite is kept: the same keys the full editor uses. */
-const EDIT_KEY: Record<SectionId, string> = {
-  source: "",
-  doing: narrativePartKey(0),
-  known: narrativePartKey(1),
-  toward: narrativePartKey(2),
-  bio: "bio-short",
-  opener: "opener",
-};
-const PART_INDEX: Partial<Record<SectionId, number>> = { doing: 0, known: 1, toward: 2 };
-/** Revisions that only make sense on the whole story, not on one part. */
-const WHOLE_STORY_ONLY = ["asOne", "spoken"];
-/** One edit to a draft, and the version it produced: a chip's tone, or the
- *  user's own words. Each is answered with the new draft to review. */
-type DraftEdit =
-  | { section: SectionId; kind: "revision"; label: string; applied: string[] }
-  | { section: SectionId; kind: "rewrite"; text: string };
-const NARRATIVE_SECTIONS: SectionId[] = ["doing", "known", "toward"];
+const skipId = (field: SharpenField) => `positioning:${field}`;
 
 /** Signals: the sources, and what happened in the conversation about them. */
 type SignalId = "linkedin" | "website";
@@ -193,13 +120,6 @@ type SignalEvent =
   | { type: "paste" }
   | { type: "link"; id: SignalId; link: string }
   | { type: "end"; label: string };
-
-function stepDone(step: BuilderStep, inputs: PositioningInputs, skipped: readonly string[]) {
-  if (step.field) return builderAnswered(questionFor(step.field), inputs, skipped);
-  // No audience with an opener: there is no opener to review.
-  if (step.section === "opener" && !OPENER_KIND[inputs.audience]) return true;
-  return inputs.approved.includes(step.section);
-}
 
 /** How long ExecHQ "types" before each message lands. */
 const TYPING_MS = 650;
@@ -244,16 +164,12 @@ export function OnboardingConcept2() {
   // list of them is open. Local, since only this telling has the browsing.
   const [looked, setLooked] = useState<string[]>([]);
   const [browsing, setBrowsing] = useState(false);
-  const [storyEditing, setStoryEditing] = useState(false);
   // The plan open in the sheet, if any.
   const [sheetPlan, setSheetPlan] = useState<string | null>(null);
-  // The builder: the tone applied to each part of the narrative, every edit
-  // asked for in the chat (each one sends a new draft back for review), the
-  // part being rewritten, and whether the full story is open.
-  const [partApplied, setPartApplied] = useState<Partial<Record<SectionId, string[]>>>({});
-  const [edits, setEdits] = useState<DraftEdit[]>([]);
-  const [rewriting, setRewriting] = useState<SectionId | null>(null);
-  const [storyOpen, setStoryOpen] = useState(false);
+  // The story: every version the user wrote in their own words, in order,
+  // and whether they are writing one now.
+  const [rewrites, setRewrites] = useState<string[]>([]);
+  const [rewriting, setRewriting] = useState(false);
   // Signals: the conversation so far, and a connection in progress.
   const [signalLog, setSignalLog] = useState<SignalEvent[]>([]);
   const [connecting, setConnecting] = useState(false);
@@ -267,12 +183,9 @@ export function OnboardingConcept2() {
     setChanging(false);
     setLooked([]);
     setBrowsing(false);
-    setStoryEditing(false);
     setSheetPlan(null);
-    setPartApplied({});
-    setEdits([]);
-    setRewriting(null);
-    setStoryOpen(false);
+    setRewrites([]);
+    setRewriting(false);
     setSignalLog([]);
     setConnecting(false);
     setJumpTick((tick) => tick + 1);
@@ -549,6 +462,7 @@ export function OnboardingConcept2() {
             source: current.id === recommended.id ? "recommended" : "switched",
           });
           dispatch({ type: "go-to", step: "artifact" });
+          withDelay("drafting", () => {});
         });
       ask = {
         label: CHAT_C2.planLead,
@@ -564,274 +478,138 @@ export function OnboardingConcept2() {
     }
   }
 
-  /* ---- The Positioning Builder, a part at a time: each part's questions,
-     then a draft of just that part to approve, then the whole story. */
+  /* ---- The story: a first draft, handed over, then the choice to use it
+     as it is or sharpen it. Sharpening is three questions and one review. */
   const inputs = a.positioning;
-  const goal = goalFor(direction);
-  const opener = openerFor(inputs, goal);
-
-  /** A part's tone: its own changes, or where the part before it left off,
-   *  so a tone set early carries forward but never reaches back into a part
-   *  already approved. */
-  function appliedFor(section: SectionId): string[] {
-    const own = partApplied[section];
-    if (own) return own;
-    const index = NARRATIVE_SECTIONS.indexOf(section);
-    return index > 0 ? appliedFor(NARRATIVE_SECTIONS[index - 1]) : [];
-  }
-  /** The part as generated, in a given tone. */
-  function generated(section: SectionId, applied: readonly string[]): StorySegment[] {
-    if (section === "bio") return bioFor(inputs, goal, "short");
-    if (section === "opener") return opener?.segments ?? [];
-    return narrativeFor(inputs, goal, applied)[PART_INDEX[section] ?? 0].segments;
-  }
-  /** The part as it stands now: the user's own words, or the draft. */
-  function partSegments(section: SectionId): StorySegment[] {
-    const own = inputs.edits[EDIT_KEY[section]];
-    return own ? [{ text: own }] : generated(section, appliedFor(section));
-  }
-  /** The narrative as approved, part by part, for the finished story. */
-  const storyParts = NARRATIVE_SECTIONS.map((section) => ({
-    heading: POSITIONING_C1.parts[section === "doing" ? "doing" : section === "known" ? "known" : "toward"],
-    segments: partSegments(section),
-  }));
-  const partTitle = (section: SectionId) =>
-    section === "bio"
-      ? CHAT_C2.draft.bioTitle
-      : section === "opener"
-        ? (opener?.kind ?? "")
-        : POSITIONING_C1.parts[section === "doing" ? "doing" : section === "known" ? "known" : "toward"];
-  const revisionsFor = (section: SectionId) => {
-    const applied = appliedFor(section);
-    return visibleRevisions("narrative", applied)
-      .filter((option) => !applied.includes(option.id))
-      .filter((option) => !WHOLE_STORY_ONLY.includes(option.id));
-  };
-  const draftCard = (key: string, section: SectionId, segments: StorySegment[], approved: boolean) =>
+  const S2 = CHAT_C2.storyDraft;
+  const storyPlan = planById(a.planId ?? "") ?? recommended;
+  const chose = inputs.approved.includes(CHOSE_SHARPEN);
+  const sharpened = isSharpened(inputs);
+  const set = (patch: Partial<PositioningInputs>) => dispatch({ type: "set-positioning", patch });
+  const saveStory = () =>
+    reply(() => {
+      dispatch({ type: "save-artifact" });
+      dispatch({ type: "go-to", step: "complete" });
+    });
+  const storyCard = (key: string, text: string, eyebrow: string, approved: boolean) =>
     say(
       key,
       <DraftSection
-        eyebrow={CHAT_C2.draft.eyebrow}
-        title={partTitle(section)}
-        segments={segments}
+        eyebrow={eyebrow}
+        title={S2.title}
+        segments={[{ text }]}
         approvedLabel={approved ? CHAT_C2.draft.approved : undefined}
+        usesLabel={DRAFT_C1.usesLabel}
+        uses={storyPlan?.uses}
       />,
       true
     );
 
-  if (reached("artifact")) {
-    say("builder-lead", CHAT_C2.builderLead);
-    const open = STEPS.findIndex((step) => !stepDone(step, inputs, state.skipped));
-    const upTo = open === -1 ? STEPS.length - 1 : open;
-    const set = (patch: Partial<PositioningInputs>) => dispatch({ type: "set-positioning", patch });
-    /** After this change, is every part done? Then the whole story is built. */
-    const finishIf = (patch: Partial<PositioningInputs>, skipped: readonly string[] = state.skipped) => {
-      const next = { ...inputs, ...patch };
-      if (STEPS.every((step) => stepDone(step, next, skipped))) {
-        set({ built: true });
-        withDelay("drafting", () => {});
-      }
-    };
+  if (reached("artifact") && generating !== "drafting") {
+    say("story-lead", S2.lead);
+    storyCard(
+      "story-draft",
+      firstDraftFor(direction, a.refinement, NO_FACTS),
+      S2.eyebrow,
+      past("artifact") && !chose
+    );
+    say("story-offer", S2.offer);
 
-    STEPS.slice(0, upTo + 1).forEach((step, i) => {
-      const section = SECTIONS.find((s) => s.id === step.section)!;
-      const firstOfSection = STEPS.findIndex((s) => s.section === step.section) === i;
-      if (firstOfSection && section.intro) say(`sec-${section.id}`, section.intro);
-      const done = stepDone(step, inputs, state.skipped);
-
-      if (step.field) {
-        const q = questionFor(step.field);
-        say(
-          `b-${q.field}`,
-          q.hint ? (
-            <>
-              {q.question}
-              <span className="chat-hint">{q.hint}</span>
-            </>
-          ) : (
-            q.question
-          )
-        );
-        if (done) said(`b-${q.field}-said`, builderAnswer(q, inputs, state.skipped), () => changeBuilder(i));
-        return;
-      }
-
-      // A review. No opener to review: said so, and on.
-      if (step.section === "opener" && !opener) {
-        say("no-opener", CHAT_C2.noOpener);
-        return;
-      }
-      // The first draft, then every edit and the version it sent back. Each
-      // card keeps the version it showed; only the last is the one approved.
-      const history = edits.filter((edit) => edit.section === step.section);
-      const index = NARRATIVE_SECTIONS.indexOf(step.section);
-      const firstTone = index > 0 ? appliedFor(NARRATIVE_SECTIONS[index - 1]) : [];
-      // Before any edit here, a rewrite already saved is the draft to show.
-      const saved = history.length ? undefined : inputs.edits[EDIT_KEY[step.section]];
-      say(`draft-${step.section}-lead`, step.section === "bio" ? CHAT_C2.draft.bioLead : CHAT_C2.draft.lead);
-      draftCard(
-        `draft-${step.section}-0`,
-        step.section,
-        saved ? [{ text: saved }] : generated(step.section, firstTone),
-        done && !history.length
-      );
-      history.forEach((edit, n) => {
-        const last = n === history.length - 1;
-        if (edit.kind === "revision") {
-          said(`draft-${step.section}-${n}-ask`, edit.label);
-          say(`draft-${step.section}-${n}-done`, CHAT_C2.revisedSection(edit.label));
-          draftCard(`draft-${step.section}-${n + 1}`, step.section, generated(step.section, edit.applied), done && last);
-        } else {
-          said(`draft-${step.section}-${n}-ask`, edit.text);
-          say(`draft-${step.section}-${n}-done`, CHAT_C2.draft.rewritten);
-          draftCard(`draft-${step.section}-${n + 1}`, step.section, [{ text: edit.text }], done && last);
+    if (!chose) {
+      if (past("artifact")) said("story-as-is", S2.asIs, change("artifact"));
+      else
+        ask = {
+          label: S2.offer,
+          replies: [{ label: S2.asIs }, { label: S2.sharpen }],
+          onReply: (label) => {
+            if (label === S2.sharpen) reply(() => set({ approved: [...inputs.approved, CHOSE_SHARPEN] }));
+            else saveStory();
+          },
+          placeholder: S2.asIs,
+          voice: CHAT_C2.voice.asIs,
+          onSend: saveStory,
+        };
+    } else {
+      said("story-sharpen", S2.sharpen, change("artifact"));
+      say("sharpen-lead", S2.sharpenLead);
+      const open = SHARPEN.findIndex((q) => !sharpenAnswered(q, inputs, state.skipped));
+      const upTo = open === -1 ? SHARPEN.length - 1 : open;
+      SHARPEN.slice(0, upTo + 1).forEach((q, i) => {
+        say(`s-${q.field}`, q.question);
+        if (sharpenAnswered(q, inputs, state.skipped)) {
+          said(`s-${q.field}-said`, inputs[q.field] || CHAT_C2.skipped, () => changeSharpen(i));
         }
       });
-      if (done) said(`draft-${step.section}-said`, CHAT_C2.draft.approve);
-    });
 
-    const current = open === -1 ? null : STEPS[open];
-    if (current && state.step === "artifact") {
-      if (current.field) {
-        const q = questionFor(current.field);
-        const skip = () =>
-          reply(() => {
-            const skipped = [...state.skipped, skipId(q.field)];
-            dispatch({ type: "note-skip", id: skipId(q.field) });
-            finishIf({}, skipped);
-          });
-        const answer = (value: string) =>
-          reply(() => {
-            const patch: Partial<PositioningInputs> =
-              q.field === "audience"
-                ? { audience: value, showFirst: "narrative" }
-                : ({ [q.field]: value } as Partial<PositioningInputs>);
-            set(patch);
-            finishIf(patch);
-          });
+      if (open !== -1 && state.step === "artifact") {
+        const q = SHARPEN[open];
+        ask = {
+          label: q.question,
+          replies: [{ label: CHAT_C2.skip, quiet: true }],
+          onReply: () => reply(() => dispatch({ type: "note-skip", id: skipId(q.field) })),
+          placeholder: q.placeholder,
+          voice: CHAT_C2.voice[q.field],
+          onSend: (value) => reply(() => set({ [q.field]: value.trim() })),
+        };
+      }
 
-        if (q.max) {
-          // Pick several: each tap toggles, and "That's all" moves on. The
-          // third pick moves on by itself. A typed strength is added as said.
-          const picks = inputs.strengths;
-          const pickTo = (next: string[]) => {
-            if (next.length >= q.max!) reply(() => set({ strengths: next }));
-            else {
-              setDraft("");
-              set({ strengths: next });
-            }
+      if (open === -1) {
+        // The sharpened draft, then every version the user wrote, each card
+        // keeping what it showed. Only the last is the one approved.
+        const approvedStory = inputs.approved.includes(APPROVED_STORY);
+        const saved = rewrites.length ? undefined : inputs.edits[DRAFT_EDIT];
+        say("sharpen-review", sharpened ? S2.review : S2.unchanged);
+        storyCard(
+          "story-sharpened",
+          saved ?? firstDraftFor(direction, a.refinement, inputs),
+          sharpened ? S2.sharpenedEyebrow : S2.eyebrow,
+          approvedStory && !rewrites.length
+        );
+        rewrites.forEach((text, n) => {
+          said(`story-rewrite-${n}`, text);
+          say(`story-rewrite-${n}-done`, CHAT_C2.draft.rewritten);
+          storyCard(`story-rewrite-${n}-card`, text, S2.sharpenedEyebrow, approvedStory && n === rewrites.length - 1);
+        });
+
+        if (approvedStory) said("story-approved", CHAT_C2.draft.approve);
+        else if (state.step === "artifact") {
+          const approve = () => {
+            set({ approved: [...inputs.approved, APPROVED_STORY] });
+            saveStory();
           };
-          ask = {
-            label: q.question,
-            replies: [
-              ...(q.options ?? []).map((label) => ({ label, pressed: picks.includes(label) })),
-              picks.length ? { label: B.strengths.done, quiet: true } : { label: CHAT_C2.skip, quiet: true },
-            ],
-            onReply: (label) => {
-              if (label === B.strengths.done || label === CHAT_C2.skip) skip();
-              else pickTo(picks.includes(label) ? picks.filter((p) => p !== label) : [...picks, label]);
-            },
-            placeholder: q.placeholder,
-            voice: CHAT_C2.voice.strengths,
-            onSend: (text) => pickTo([...picks, text]),
-          };
-        } else {
-          const way = q.none ?? CHAT_C2.skip;
-          ask = {
-            label: q.question,
-            replies: [...(q.options ?? []).map((label) => ({ label })), { label: way, quiet: true }],
-            onReply: (label) => (label === way ? skip() : answer(label)),
-            placeholder: q.placeholder,
-            voice: CHAT_C2.voice[q.field],
-            onSend: answer,
-          };
-        }
-      } else {
-        const section = current.section;
-        const approve = () =>
-          reply(() => {
-            const patch = { approved: [...inputs.approved, section] };
-            set(patch);
-            finishIf(patch);
-          });
-        // A tone change on a part the user rewrote would throw their words
-        // away, so after a rewrite only approving or rewriting again is offered.
-        const tones =
-          NARRATIVE_SECTIONS.includes(section) && !inputs.edits[EDIT_KEY[section]] ? revisionsFor(section) : [];
-        ask =
-          rewriting === section
+          const current = inputs.edits[DRAFT_EDIT] ?? firstDraftFor(direction, a.refinement, inputs);
+          ask = rewriting
             ? {
                 label: CHAT_C2.draft.change,
                 replies: [],
                 onReply: () => {},
                 placeholder: CHAT_C2.draft.changePlaceholder,
-                voice: { full: segmentsToText(partSegments(section)), addition: "and I want it to sound like me." },
+                voice: { full: current, addition: "and I want it to sound like me." },
                 // Their version comes back as the next draft, to review like any other.
                 onSend: (text) =>
                   reply(() => {
-                    setRewriting(null);
-                    setEdits((all) => [...all, { section, kind: "rewrite", text }]);
-                    set({ edits: { ...inputs.edits, [EDIT_KEY[section]]: text } });
+                    setRewriting(false);
+                    setRewrites((all) => [...all, text]);
+                    set({ edits: { ...inputs.edits, [DRAFT_EDIT]: text } });
                   }),
               }
             : {
-                label: CHAT_C2.draft.lead,
-                replies: [
-                  { label: CHAT_C2.draft.approve },
-                  ...tones.map((option) => ({ label: option.label })),
-                  { label: CHAT_C2.draft.change, quiet: true },
-                ],
+                label: sharpened ? S2.review : S2.unchanged,
+                replies: [{ label: CHAT_C2.draft.approve }, { label: CHAT_C2.draft.change, quiet: true }],
                 onReply: (label) => {
-                  if (label === CHAT_C2.draft.approve) return approve();
                   if (label === CHAT_C2.draft.change) {
-                    setRewriting(section);
-                    setDraft(segmentsToText(partSegments(section)));
+                    setRewriting(true);
+                    setDraft(current);
                     setFocusTick((tick) => tick + 1);
                     return;
                   }
-                  const option = tones.find((o) => o.label === label);
-                  if (!option) return;
-                  reply(() => {
-                    const applied = toggleRevision("narrative", appliedFor(section), option.id);
-                    setPartApplied((all) => ({ ...all, [section]: applied }));
-                    setEdits((all) => [...all, { section, kind: "revision", label: option.label, applied }]);
-                  });
+                  approve();
                 },
                 placeholder: CHAT_C2.draft.approve,
                 voice: CHAT_C2.voice.approve,
                 onSend: approve,
               };
-      }
-    }
-
-    if (inputs.built && generating !== "drafting") {
-      say("story-lead", CHAT_C2.storyLead);
-      say(
-        "story",
-        <StorySummaryCard
-          title={recommendedOutput()}
-          parts={storyParts}
-          also={CHAT_C2.storyAlso(opener?.kind ?? null)}
-          detailsLabel={CHAT_C2.storyOpen}
-          onDetails={() => setStoryOpen(true)}
-        />,
-        true
-      );
-      if (past("artifact")) said("story-said", CHAT_C2.save);
-      else {
-        const save = () =>
-          reply(() => {
-            dispatch({ type: "save-artifact" });
-            dispatch({ type: "go-to", step: "complete" });
-          });
-        ask = {
-          label: CHAT_C2.storyLead,
-          replies: [{ label: CHAT_C2.save }],
-          onReply: save,
-          placeholder: CHAT_C2.save,
-          voice: CHAT_C2.voice.save,
-          onSend: save,
-        };
+        }
       }
     }
   }
@@ -858,12 +636,24 @@ export function OnboardingConcept2() {
           ) : null}
           <li>
             <Icon name="check" size={18} />
-            {recommendedOutput()}
+            {sharpened ? DONE_C1.storySharpened : DONE_C1.storyDraft}
           </li>
         </ul>
         <p className="chat-hint">{DONE_C1.hint}</p>
       </div>,
       true
+    );
+    // What comes next on the plan: sharpening, if the draft was used as it
+    // was, or the bio once the story is sharpened.
+    const win = quickWinFor(plan, sharpened);
+    say(
+      "done-next",
+      <>
+        <b>
+          {DONE_C1.nextLabel}: {win.title.toLowerCase()}.
+        </b>{" "}
+        {win.detail}
+      </>
     );
     say("done-invite", CHAT_C2.doneInvite);
     if (inSignals) said("done-said", CHAT_C2.doneSignals);
@@ -1008,29 +798,15 @@ export function OnboardingConcept2() {
     withDelay("planning", () => {});
   }
 
-  /** The plan's own name for what it makes first. */
-  function recommendedOutput() {
-    const plan = planById(a.planId ?? "") ?? recommended;
-    return plan?.thisWeek?.output ?? "The story of what you lead";
-  }
-
-  /** Changing a builder answer asks it, and everything after it, again:
-   *  the later answers go, and so does every approval and rewrite from its
-   *  part onward. */
-  function changeBuilder(from: number) {
-    const later = STEPS.slice(from);
-    const fields = later.flatMap((step) => (step.field ? [step.field] : []));
-    const cleared = Object.fromEntries(fields.map((field) => [field, emptyPositioning[field]]));
+  /** Changing a sharpen answer asks it, and everything after it, again. The
+   *  review, and any version the user wrote, go with them. */
+  function changeSharpen(from: number) {
+    const fields = SHARPEN.slice(from).map((q) => q.field);
+    const cleared = Object.fromEntries(fields.map((field) => [field, ""]));
     const laterSkips = new Set(fields.map(skipId));
-    const sections = SECTION_ORDER.slice(SECTION_ORDER.indexOf(STEPS[from].section));
-    const keptEdits = Object.fromEntries(
-      Object.entries(inputs.edits).filter(([key]) => !sections.some((section) => EDIT_KEY[section] === key))
-    );
+    const edits = { ...inputs.edits };
+    delete edits[DRAFT_EDIT];
     restartFrom();
-    // Parts before the change stay exactly as they were approved.
-    const kept = (section: SectionId) => !sections.includes(section);
-    setPartApplied(Object.fromEntries(Object.entries(partApplied).filter(([section]) => kept(section as SectionId))));
-    setEdits(edits.filter((edit) => kept(edit.section)));
     dispatch({
       type: "jump",
       state: {
@@ -1043,8 +819,8 @@ export function OnboardingConcept2() {
             ...inputs,
             ...cleared,
             built: false,
-            edits: keptEdits,
-            approved: inputs.approved.filter((section) => !sections.includes(section as SectionId)),
+            edits,
+            approved: inputs.approved.filter((marker) => marker !== APPROVED_STORY),
           },
         },
         skipped: state.skipped.filter((id) => !laterSkips.has(id)),
@@ -1167,8 +943,7 @@ export function OnboardingConcept2() {
   }, [shown, typingNow]);
 
   const visible = messages.slice(0, shown);
-  // While a story output is being hand-edited, the conversation waits.
-  const showAsk = ask && !revealing && !storyEditing;
+  const showAsk = ask && !revealing;
 
   return (
     <div className="chat">
@@ -1246,50 +1021,13 @@ export function OnboardingConcept2() {
         {sheetPlan && planById(sheetPlan) ? fullPlan(planById(sheetPlan)!) : null}
       </Sheet>
 
-      {/* The whole story, every output, with hand edits and export. */}
-      <Sheet open={storyOpen} onClose={() => setStoryOpen(false)} label={recommendedOutput()}>
-        {storyOpen ? (
-          <div className="chat-plan-sheet">
-            <div className="chat-plan-sheet__head">
-              <p className="plan-summary__name">{recommendedOutput()}</p>
-              <button type="button" className="plan-summary__details" onClick={() => setStoryOpen(false)}>
-                {CHAT_C2.planClose}
-              </button>
-            </div>
-            <StoryOutputs
-              inputs={inputs}
-              direction={direction}
-              showFirst={inputs.showFirst as OutputKind}
-              nextStage={(planById(a.planId ?? "") ?? flow.derived?.recommended)?.stages?.[1]?.title}
-              edits={inputs.edits}
-              onSaveEdit={(key, text) =>
-                dispatch({ type: "set-positioning", patch: { edits: { ...inputs.edits, [key]: text } } })
-              }
-              onEditingChange={setStoryEditing}
-              narrativeParts={storyParts}
-            />
-            <ExportLinks actions={STORY_EXPORTS} className="chat-story__export" />
-          </div>
-        ) : null}
-      </Sheet>
     </div>
   );
 }
 
-/** Answered, or deliberately passed. A pick-several question is answered
- *  once it is full or the user says that's all. */
-function builderAnswered(q: BuilderQuestion, inputs: PositioningInputs, skipped: readonly string[]) {
-  if (skipped.includes(skipId(q.field))) return true;
-  if (q.max) return inputs.strengths.length >= q.max;
-  return inputs[q.field] !== "";
-}
-
-/** What the user said, as their message reads back. */
-function builderAnswer(q: BuilderQuestion, inputs: PositioningInputs, skipped: readonly string[]) {
-  if (q.max) return inputs.strengths.length ? inputs.strengths.join(", ") : CHAT_C2.skipped;
-  const value = inputs[q.field] as string;
-  if (value) return value;
-  return skipped.includes(skipId(q.field)) ? (q.none ?? CHAT_C2.skipped) : CHAT_C2.skipped;
+/** Answered, or deliberately passed. */
+function sharpenAnswered(q: SharpenQuestion, inputs: PositioningInputs, skipped: readonly string[]) {
+  return skipped.includes(skipId(q.field)) || inputs[q.field] !== "";
 }
 
 export default OnboardingConcept2;

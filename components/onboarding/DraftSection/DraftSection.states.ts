@@ -1,6 +1,6 @@
 import { defineComponentStates } from "@/components/types";
 import { NOT_AN_INPUT, NOT_INTERACTIVE } from "@/components/not-applicable";
-import { CHAT_C2 } from "@/mock/onboarding";
+import { CHAT_C2, DRAFT_C1, PLAN_TEMPLATES, firstDraftFor } from "@/mock/onboarding";
 import { DraftSection } from "./DraftSection";
 
 const drafted = [
@@ -20,13 +20,31 @@ export const draftSectionStates = defineComponentStates({
   status: "draft",
   flows: ["onboarding"],
   description:
-    "One part of the story, drafted for review before the next is written. Gaps stay dashed; once approved it says so. Concept 2's Positioning Builder.",
+    "A draft in Concept 2's thread: the story's first draft with ideas for where to use it, or one part of it for review. Gaps stay dashed; once approved it says so.",
   component: DraftSection,
   notApplicable: {
     ...NOT_INTERACTIVE,
     filled: NOT_AN_INPUT,
   },
   variants: [
+    {
+      label: "Default, the first draft",
+      props: {
+        eyebrow: CHAT_C2.storyDraft.eyebrow,
+        title: CHAT_C2.storyDraft.title,
+        segments: [
+          {
+            text: firstDraftFor(
+              "C-suite in 3 years",
+              { "scope-kind": "a-seat-at-the-top-table", "scope-block": "nobody-sees-my-work" },
+              { role: "", own: "", result: "" }
+            ),
+          },
+        ],
+        usesLabel: DRAFT_C1.usesLabel,
+        uses: PLAN_TEMPLATES[0].uses,
+      },
+    },
     { label: "Draft", props: { eyebrow: CHAT_C2.draft.eyebrow, title: "What I do", segments: drafted } },
     { label: "With gaps", props: { eyebrow: CHAT_C2.draft.eyebrow, title: "What I do", segments: withGaps } },
     {

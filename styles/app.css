@@ -3768,6 +3768,12 @@ samp {
   box-shadow: var(--shadow-sm);
 }
 
+/* The first draft's use ideas, set off from the draft above them. */
+.draft-section__uses {
+  padding-top: var(--space-xs);
+  border-top: var(--border-thin);
+}
+
 .draft-section__head {
   display: flex;
   justify-content: space-between;

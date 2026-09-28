@@ -9,6 +9,9 @@ export interface DraftSectionProps {
   segments: readonly StorySegment[];
   /** Set once the user has approved it. */
   approvedLabel?: string;
+  /** Where it could be used, as a short list under the text. */
+  usesLabel?: string;
+  uses?: readonly string[];
   className?: string;
 }
 
@@ -17,8 +20,19 @@ export interface DraftSectionProps {
  * written, by decision on 2026-09-24. Anything they have not told us stays a
  * dashed gap. Once approved it says so, and stays in the conversation as a
  * record of what was agreed.
+ *
+ * Since 2026-09-28 it also carries the whole first draft in Concept 2's
+ * thread, with a few ideas for where to use it.
  */
-export function DraftSection({ eyebrow, title, segments, approvedLabel, className }: DraftSectionProps) {
+export function DraftSection({
+  eyebrow,
+  title,
+  segments,
+  approvedLabel,
+  usesLabel,
+  uses,
+  className,
+}: DraftSectionProps) {
   return (
     <div
       className={["draft-section", approvedLabel ? "is-approved" : null, className]
@@ -31,6 +45,16 @@ export function DraftSection({ eyebrow, title, segments, approvedLabel, classNam
       </div>
       <p className="draft-section__title">{title}</p>
       <StoryText segments={segments} className="draft-section__text" />
+      {uses?.length ? (
+        <section className="story-draft__uses draft-section__uses" aria-label={usesLabel}>
+          {usesLabel ? <p className="builder-next__label">{usesLabel}</p> : null}
+          <ul>
+            {uses.map((use) => (
+              <li key={use}>{use}</li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
     </div>
   );
 }

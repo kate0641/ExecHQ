@@ -2164,41 +2164,23 @@ export const CHAT_C2 = {
   planFullWeeks: "See the full 12 weeks",
   planFull: "See the full plan",
   planClose: "Done",
-  builderLead:
-    "Good. The first thing we\u2019ll make is your story, one part at a time. I\u2019ll draft each part for you to check before we move on. Skip anything you like.",
-  /** The builder's parts, each asked, drafted and approved in turn. */
-  sections: {
-    doing: "First, what you do.",
-    known: "Next, what you\u2019re known for.",
-    toward: "The last part comes from your plan, so there\u2019s nothing to ask.",
-    bio: "Now your bio.",
-    opener: "Last, an opener for the first people who hear it.",
-  },
   draft: {
     eyebrow: "Draft",
     approved: "Approved",
-    lead: "Here\u2019s a draft. Does it sound like you?",
-    bioLead: "Here\u2019s the short one. It comes in medium and long too.",
-    bioTitle: "Your bio",
     approve: "Looks good",
     change: "Change it",
     changePlaceholder: "Write it how you\u2019d say it",
     rewritten: "Here it is in your words. Does it read right?",
   },
-  noOpener: "No opener for now. You can add one any time.",
   storyAlso: (openerKind: string | null) =>
     openerKind
       ? `Also: your bio in three lengths, and a ${openerKind.toLowerCase()} opener.`
       : "Also: your bio in three lengths.",
   storyOpen: "See all of it",
-  revisedSection: (label: string) =>
-    `Done: ${label.toLowerCase()}. I\u2019ll carry that through the rest of your story.`,
-  revised: (label: string) => `Done: ${label.toLowerCase()}.`,
   revisedStatus: (label: string) => `Changed: ${label.toLowerCase()}`,
   builder: {
     role: { question: "What\u2019s your current role?", placeholder: "e.g. VP of Marketing" },
     own: { question: "What are you responsible for?", placeholder: "e.g. brand and demand" },
-    teamSize: { question: "How big is your team?", placeholder: "Or type it" },
     strengths: {
       question: "What are you strongest at?",
       hint: "Pick up to three.",
@@ -2206,21 +2188,21 @@ export const CHAT_C2 = {
       done: "That\u2019s all",
     },
     result: { question: "What\u2019s a result you\u2019re proud of?", placeholder: "e.g. grew pipeline 40% in a year" },
-    audience: {
-      question: "Who will hear it first?",
-      hint: "I\u2019ll write an opener for them.",
-      placeholder: "Or type who",
-    },
-    name: { question: "And what name should go on your bio?", placeholder: "Your name" },
-    source: {
-      question: "Anything I should start from?",
-      hint: "Paste a bio you already have, or your LinkedIn About section.",
-      placeholder: "Paste it here",
-      none: "Nothing to add",
-    },
   },
-  storyLead: "That\u2019s every part approved. Here\u2019s your whole story.",
-  save: "Save and continue",
+  /** The story's first draft, handed over after the plan, by decision on
+   *  2026-09-28. Sharpening is three questions and one review. */
+  storyDraft: {
+    lead: "Good. First on it is your story, so here\u2019s a first draft of how you\u2019d say it.",
+    eyebrow: "First draft",
+    sharpenedEyebrow: "Sharpened",
+    title: "Your story",
+    offer: "It\u2019s yours to use as it is. Or tell me your role and one result, and I\u2019ll sharpen it now.",
+    asIs: "Use it as it is",
+    sharpen: "Sharpen it now",
+    sharpenLead: "Three quick ones, then. Skip any you like.",
+    review: "Here it is, sharpened. Does it sound like you?",
+    unchanged: "Nothing added, so it stays as it was. Does it still sound like you?",
+  },
   /** The ending: the win, then signals as an optional extra. */
   doneLead: "Saved. That\u2019s everything we needed today.",
   doneInvite:
@@ -2257,14 +2239,10 @@ export const CHAT_C2 = {
     plan: { full: "Use this plan" },
     role: { full: "VP of Marketing" },
     own: { full: "Brand and demand" },
-    teamSize: { full: "About sixty" },
     strengths: { full: "Building teams" },
     result: { full: "Grew pipeline 40% in a year" },
-    audience: { full: "My manager" },
-    name: { full: "Maya Chen" },
-    source: { full: "I lead brand and demand for a B2B software company." },
-    save: { full: "Save and continue" },
     approve: { full: "Looks good" },
+    asIs: { full: "Use it as it is" },
     signals: { full: "Build out my signals" },
     linkedinLink: { full: "linkedin.com/in/mayachen" },
     website: { full: "https://mayachen.com" },
@@ -2720,8 +2698,8 @@ export const SAMPLE_ANSWERS = {
   /** A prompted direction by id, so it reads exactly as picking one would. */
   directionId: "c-suite",
   refinement: { horizon: "year", audience: "internal", constraint: "visibility" },
-  /** A finished story, for a jump past the builder. Every part approved, so
-   *  Concept 2's thread reads as a completed build. */
+  /** A finished story, for a jump past it: sharpened and approved, so
+   *  Concept 2's thread reads as a completed sharpen. */
   positioning: {
     name: "Maya Chen",
     role: "VP of Marketing",
@@ -2734,6 +2712,6 @@ export const SAMPLE_ANSWERS = {
     source: "",
     edits: {},
     built: true,
-    approved: ["doing", "known", "toward", "bio", "opener"],
+    approved: ["sharpen", "story"],
   },
 } as const;
