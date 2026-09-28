@@ -303,21 +303,21 @@ samp {
 }
 
 .btn--primary {
-  background-color: var(--color-surface-inverse);
-  border-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
+  background-color: var(--color-action);
+  border-color: var(--color-action);
+  color: var(--color-text-on-action);
 }
 
 .btn--primary:hover,
 .btn--primary.is-hover {
-  background-color: var(--color-surface-inverse-hover);
-  border-color: var(--color-surface-inverse-hover);
+  background-color: var(--color-action-hover);
+  border-color: var(--color-action-hover);
 }
 
 .btn--primary:active,
 .btn--primary.is-active {
-  background-color: var(--color-surface-inverse-active);
-  border-color: var(--color-surface-inverse-active);
+  background-color: var(--color-action-active);
+  border-color: var(--color-action-active);
 }
 
 .btn--secondary {
@@ -2142,6 +2142,78 @@ samp {
   height: 56px;
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-sm);
+}
+
+/* A brand scale: its nine steps in one row, lightest first. */
+.styleguide__scale-title {
+  font-size: var(--text-md);
+}
+
+.styleguide__scale {
+  display: grid;
+  /* Nine across at laptop width; a narrower window wraps rather than crushes. */
+  grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+  gap: var(--space-sm);
+  margin-top: var(--space-xs);
+}
+
+.styleguide__step {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  background-color: var(--color-surface-raised);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xs);
+}
+
+.styleguide__step-swatch {
+  display: block;
+  height: var(--space-3xl);
+  border-bottom: var(--border-width-thin) solid var(--color-border);
+}
+
+.styleguide__step-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  padding: var(--space-sm);
+}
+
+.styleguide__step-name {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+/* The main brand colours: fewer, larger cards than a scale row. */
+.styleguide__brand-colours {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-xs);
+}
+
+.styleguide__step-swatch--large {
+  height: var(--space-4xl);
+}
+
+.styleguide__step-value {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.styleguide__step-uses {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  margin-top: var(--space-xs);
+  padding-top: var(--space-xs);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+  font-size: var(--text-2xs);
+  color: var(--color-text-secondary);
+  overflow-wrap: anywhere;
 }
 
 .styleguide__type-sample {

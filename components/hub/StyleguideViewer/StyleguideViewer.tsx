@@ -36,6 +36,7 @@ function TokenRow({ token, children }: { token: Token; children?: React.ReactNod
 }
 
 function Swatches({ tokens, label }: { tokens: Token[]; label: string }) {
+  if (tokens.length === 0) return null;
   return (
     <div className="styleguide__group">
       <h3 className="styleguide__group-title">{label}</h3>
@@ -47,6 +48,197 @@ function Swatches({ tokens, label }: { tokens: Token[]; label: string }) {
               style={{ backgroundColor: `var(${token.name})` }}
             />
           </TokenRow>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+/** The main brand colours, by role. Each points at a palette name in tokens.css. */
+const BRAND_GROUPS: {
+  title: string;
+  role: string;
+  colours: { token: string; name: string; role?: string }[];
+}[] = [
+  {
+    title: "Primary",
+    role: "The colours that make a screen ExecHQ.",
+    colours: [
+      { token: "--brand-navy", name: "Navy" },
+      { token: "--brand-bright-yellow", name: "Bright yellow" },
+      { token: "--brand-gold-yellow", name: "Gold yellow" },
+    ],
+  },
+  {
+    title: "Secondary",
+    role: "Supporting colours, used in smaller amounts.",
+    colours: [
+      { token: "--brand-light-green", name: "Light green" },
+      { token: "--brand-dark-green", name: "Dark green" },
+      { token: "--brand-light-blue", name: "Light blue" },
+      { token: "--brand-orange", name: "Orange" },
+    ],
+  },
+  {
+    title: "Neutral",
+    role: "Darks come from slate, lights from stone.",
+    colours: [
+      { token: "--brand-slate", name: "Slate", role: "Darks" },
+      { token: "--brand-stone", name: "Stone", role: "Lights" },
+    ],
+  },
+];
+
+const VAR_REFERENCE = /^var\((--[\w-]+)\)$/;
+
+/** Follows a token's var() references down to the scale step it lands on. */
+function resolve(name: string, tokens: Map<string, Token>): Token | undefined {
+  let token = tokens.get(name);
+  let target = token && VAR_REFERENCE.exec(token.value)?.[1];
+  while (target && tokens.has(target)) {
+    token = tokens.get(target);
+    target = token && VAR_REFERENCE.exec(token.value)?.[1];
+  }
+  return token;
+}
+
+/** "--brand-blue-800" → "Blue 800". */
+function stepLabel(name: string): string | undefined {
+  const match = /^--brand-([a-z]+)-(\d00)$/.exec(name);
+  return match ? `${match[1][0].toUpperCase()}${match[1].slice(1)} ${match[2]}` : undefined;
+}
+
+function BrandColours({ tokens }: { tokens: Map<string, Token> }) {
+  return (
+    <>
+      {BRAND_GROUPS.map((group) => (
+        <div className="styleguide__group" key={group.title}>
+          <h3 className="styleguide__scale-title">{group.title}</h3>
+          <p className="styleguide__group-note">{group.role}</p>
+          <ul className="styleguide__brand-colours">
+            {group.colours.map((colour) => {
+              const step = resolve(colour.token, tokens);
+              if (!step) return null;
+              return (
+                <li className="styleguide__step" key={colour.token}>
+                  <span
+                    className="styleguide__step-swatch styleguide__step-swatch--large"
+                    style={{ backgroundColor: `var(${colour.token})` }}
+                  />
+                  <div className="styleguide__step-body">
+                    {colour.role ? <span className="t-eyebrow">{colour.role}</span> : null}
+                    <span className="styleguide__step-name">{colour.name}</span>
+                    <code className="styleguide__step-value">{step.value}</code>
+                    <span className="styleguide__token-note">{stepLabel(step.name)}</span>
+                    <code className="styleguide__step-value">{colour.token}</code>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ))}
+    </>
+  );
+}
+
+/** The six brand scales, in the order the page shows them, with what each is for. */
+const SCALES: { key: string; title: string; role: string }[] = [
+  {
+    key: "blue",
+    title: "Blue",
+    role: "Navy (800) carries links, focus rings, dark panels and the approved badge. Deep navy (900) is pressed; light blue (200) is the soft secondary.",
+  },
+  {
+    key: "green",
+    title: "Green",
+    role: "Success. Dark green (800) is its text and border, green 100 its surface.",
+  },
+  {
+    key: "yellow",
+    title: "Yellow",
+    role: "Bright yellow (400) is the primary button, 500 on hover and 600 pressed. Gold yellow (700) is for small accents on light.",
+  },
+  {
+    key: "orange",
+    title: "Orange",
+    role: "Warning. The palette orange (400) is too light for text on white, so the border is 600.",
+  },
+  {
+    key: "slate",
+    title: "Slate",
+    role: "The cool neutral, in place of the old greys: text, borders and quiet surfaces. Slate 900 is the ink.",
+  },
+  {
+    key: "stone",
+    title: "Stone",
+    role: "The warm neutral. Stone 100 is the canvas behind the device.",
+  },
+];
+
+const STEPS = [100, 200, 300, 400, 500, 600, 700, 800, 900];
+
+/** The semantic colour tokens that resolve to each token, through any aliases. */
+function colourUses(tokens: Token[]): Map<string, string[]> {
+  const values = new Map(tokens.map((token) => [token.name, token.value]));
+  const uses = new Map<string, string[]>();
+  for (const token of tokens) {
+    if (!token.name.startsWith("--color-")) continue;
+    let value = token.value;
+    let target = /^var\((--[\w-]+)\)$/.exec(value)?.[1];
+    while (target && values.has(target)) {
+      uses.set(target, [...(uses.get(target) ?? []), token.name]);
+      value = values.get(target) ?? "";
+      target = /^var\((--[\w-]+)\)$/.exec(value)?.[1];
+    }
+  }
+  return uses;
+}
+
+function Scale({
+  scale,
+  tokens,
+  uses,
+}: {
+  scale: (typeof SCALES)[number];
+  tokens: Map<string, Token>;
+  uses: Map<string, string[]>;
+}) {
+  const steps = STEPS.flatMap((step) => {
+    const token = tokens.get(`--brand-${scale.key}-${step}`);
+    return token ? [{ step, token }] : [];
+  });
+  if (steps.length === 0) return null;
+  return (
+    <div className="styleguide__group">
+      <h3 className="styleguide__scale-title">{scale.title}</h3>
+      <p className="styleguide__group-note">
+        {scale.role} Tokens <code>--brand-{scale.key}-100</code> to <code>-900</code>.
+      </p>
+      <ul className="styleguide__scale">
+        {steps.map(({ step, token }) => (
+          <li className="styleguide__step" key={token.name}>
+            <span
+              className="styleguide__step-swatch"
+              style={{ backgroundColor: `var(${token.name})` }}
+            />
+            <div className="styleguide__step-body">
+              <span className="styleguide__step-name">
+                {scale.title} {step}
+              </span>
+              <code className="styleguide__step-value">{token.value}</code>
+              {token.note ? <span className="styleguide__token-note">{token.note}</span> : null}
+              {uses.get(token.name)?.length ? (
+                <ul className="styleguide__step-uses" aria-label="Used by">
+                  {uses.get(token.name)?.map((use) => (
+                    <li key={use}>
+                      <code>{use}</code>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </div>
+          </li>
         ))}
       </ul>
     </div>
@@ -90,6 +282,9 @@ export function StyleguideViewer() {
         token.category === "colour") &&
       token.name !== "--shadow-rgb"
   );
+  const tokenMap = new Map(allTokens.map((token) => [token.name, token]));
+  const uses = colourUses(allTokens);
+  const scaleStep = new RegExp(`^--brand-(${SCALES.map((s) => s.key).join("|")})-\\d00$`);
   const textSizes = tokensWithPrefix("--text-");
   const spacing = tokensIn("spacing");
   const radii = tokensIn("radii");
@@ -99,17 +294,30 @@ export function StyleguideViewer() {
   return (
     <div className="styleguide">
       <Panel
+        title="Brand colours"
+        headingLevel={2}
+        description="The main colours, by role. Each sits on one of the scales below at its exact value."
+      >
+        <BrandColours tokens={tokenMap} />
+      </Panel>
+
+      <Panel
         title="Colour"
         headingLevel={2}
-        description={`${colourTokens.length} colour tokens, read from styles/tokens.css. Greyscale for this sprint. The raw palette and the brand slots are the only things that change when navy, gold and slate blue arrive.`}
+        description={`${colourTokens.length} colour tokens, read from styles/tokens.css. The six brand scales come first, 100 to 900, with the nine palette colours named; everything else is built from them.`}
       >
         <Swatches
           tokens={colourTokens.filter((token) => token.category === "palette")}
           label={CATEGORY_LABELS.palette}
         />
+        {SCALES.map((scale) => (
+          <Scale scale={scale} tokens={tokenMap} uses={uses} key={scale.key} />
+        ))}
         <Swatches
-          tokens={colourTokens.filter((token) => token.category === "brand")}
-          label={CATEGORY_LABELS.brand}
+          tokens={colourTokens.filter(
+            (token) => token.category === "brand" && !scaleStep.test(token.name)
+          )}
+          label="White, palette names and brand slots"
         />
         <Swatches
           tokens={colourTokens.filter((token) => token.category === "colour")}
