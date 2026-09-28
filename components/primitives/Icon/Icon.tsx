@@ -13,7 +13,8 @@ export type IconName =
   | "link"
   | "pencil"
   | "flag"
-  | "attach";
+  | "attach"
+  | "reset";
 
 export interface IconProps {
   name: IconName;
@@ -107,6 +108,13 @@ const PATHS: Record<IconName, React.ReactNode> = {
     <>
       <path d="M5 17.5V3" />
       <path d="M5 3.5h9.5l-2.2 3.2 2.2 3.3H5" />
+    </>
+  ),
+  // Going back to the start: an arrow turning back on itself.
+  reset: (
+    <>
+      <path d="M4.2 8.2A6 6 0 1 1 4 11.5" />
+      <path d="M3.5 4.2v4.3h4.3" />
     </>
   ),
 };

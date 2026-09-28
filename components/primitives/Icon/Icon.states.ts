@@ -41,6 +41,11 @@ export const iconStates = defineComponentStates({
     { label: "Pencil", props: { name: "pencil" } },
     { label: "Attach", props: { name: "attach" } },
     {
+      label: "Reset",
+      description: "Puts the prototype's snapshots back as they started. Dock only.",
+      props: { name: "reset" },
+    },
+    {
       label: "Flag",
       description: "A destination: where the plan is headed.",
       props: { name: "flag" },
