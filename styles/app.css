@@ -10236,3 +10236,491 @@ ul.stage-actions__list {
   width: auto;
   align-self: flex-start;
 }
+
+/* =============================================================================
+   LOGIN — Concept 1, Open page
+   White and quiet, a light blue glow in the corner, pill fields, the button
+   to the right with an arrow, and round provider buttons.
+   ========================================================================== */
+
+/* --- Checkbox -------------------------------------------------------------- */
+.checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+}
+
+.checkbox__box {
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: var(--space-3xs) 0 0;
+  accent-color: var(--color-surface-inverse);
+  cursor: pointer;
+}
+
+.checkbox__box:hover,
+.checkbox__box.is-hover {
+  filter: brightness(0.92);
+}
+
+.checkbox__box:active,
+.checkbox__box.is-active {
+  filter: brightness(0.84);
+}
+
+.checkbox__box:focus-visible,
+.checkbox__box.is-focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.checkbox__label {
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.checkbox--disabled .checkbox__box,
+.checkbox--disabled .checkbox__label {
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+
+/* --- Code field ------------------------------------------------------------ */
+.code-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.code-field__label {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.code-field__control {
+  position: relative;
+}
+
+/* The real input covers the cells, invisible, so taps, paste and the
+   keyboard's code suggestion all land on it. */
+.code-field__input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  font-size: var(--text-md);
+  cursor: text;
+}
+
+.code-field__cells {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: var(--space-xs);
+  max-width: 22rem;
+  pointer-events: none;
+}
+
+.code-field__cell {
+  display: grid;
+  place-items: center;
+  height: 3.5rem;
+  border: var(--border-width-thin) solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-raised);
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+}
+
+.code-field__cell--gap {
+  margin-left: var(--space-xs);
+}
+
+.code-field__control:focus-within .code-field__cell--current,
+.code-field.is-focus .code-field__cell--current {
+  border-color: var(--color-text-primary);
+  box-shadow: inset 0 0 0 var(--border-width-thin) var(--color-text-primary);
+}
+
+.code-field--error .code-field__cell {
+  border-color: var(--color-feedback-danger-border);
+}
+
+/* --- Provider buttons ------------------------------------------------------ */
+.provider-buttons {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-xl);
+}
+
+.provider-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-text-secondary);
+  font: inherit;
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+
+.provider-button__disc {
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: 50%;
+  background-color: var(--color-surface-raised);
+  box-shadow: var(--shadow-sm);
+  color: var(--color-text-primary);
+  transition: border-color var(--duration-fast) var(--easing-standard);
+}
+
+.provider-button:hover .provider-button__disc,
+.provider-button.is-hover .provider-button__disc {
+  border-color: var(--color-text-secondary);
+}
+
+.provider-button:active .provider-button__disc,
+.provider-button.is-active .provider-button__disc {
+  background-color: var(--color-surface-hover);
+}
+
+.provider-button:focus-visible,
+.provider-button.is-focus {
+  outline: none;
+}
+
+.provider-button:focus-visible .provider-button__disc,
+.provider-button.is-focus .provider-button__disc {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.provider-button:disabled {
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+
+.provider-button:disabled .provider-button__disc {
+  background-color: var(--color-surface-disabled);
+  color: var(--color-text-disabled);
+  box-shadow: none;
+}
+
+.provider-mark--google {
+  display: grid;
+  place-items: center;
+  width: 1.625rem;
+  height: 1.625rem;
+  border: var(--border-width-medium) solid currentColor;
+  border-radius: 50%;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  line-height: 1;
+}
+
+/* --- Mail notification ----------------------------------------------------- */
+.mail-notification {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  border: 0;
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-raised);
+  box-shadow: var(--shadow-lg);
+  color: var(--color-text-primary);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.mail-notification:hover,
+.mail-notification.is-hover {
+  background-color: var(--color-surface);
+}
+
+.mail-notification:active,
+.mail-notification.is-active {
+  background-color: var(--color-surface-hover);
+}
+
+.mail-notification:focus-visible,
+.mail-notification.is-focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.mail-notification__app {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2.375rem;
+  height: 2.375rem;
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+}
+
+.mail-notification__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+}
+
+.mail-notification__from {
+  font-weight: var(--weight-semibold);
+}
+
+.mail-notification__preview {
+  overflow: hidden;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mail-notification__when {
+  flex: none;
+  align-self: flex-start;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .login__notification .mail-notification {
+    animation: notification-drop 0.35s var(--easing-standard);
+  }
+}
+
+@keyframes notification-drop {
+  from {
+    translate: 0 calc(-1 * var(--space-lg));
+    opacity: 0;
+  }
+  to {
+    translate: 0 0;
+    opacity: 1;
+  }
+}
+
+/* --- The drawn email ------------------------------------------------------- */
+.sign-in-email {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  background-color: var(--color-surface-raised);
+}
+
+.sign-in-email__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2xs) var(--space-md);
+  border-bottom: var(--border-subtle);
+}
+
+.sign-in-email__back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  min-height: 2.75rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-text-link);
+  font: inherit;
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+}
+
+.sign-in-email__back:focus-visible,
+.sign-in-email__later:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.sign-in-email__back-icon {
+  rotate: 180deg;
+}
+
+.sign-in-email__app {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.sign-in-email__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-lg) var(--space-lg) var(--space-md);
+  border-bottom: var(--border-subtle);
+}
+
+.sign-in-email__subject {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.sign-in-email__subject:focus {
+  outline: none;
+}
+
+.sign-in-email__from {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  overflow-wrap: anywhere;
+}
+
+.sign-in-email__from b {
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+}
+
+.sign-in-email__avatar {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+}
+
+.sign-in-email__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+}
+
+.sign-in-email__body p {
+  margin: 0;
+}
+
+.sign-in-email__small {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.sign-in-email__code {
+  padding: var(--space-sm);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.18em;
+  text-align: center;
+}
+
+.sign-in-email__later {
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-text-link);
+  font: inherit;
+  font-size: var(--text-xs);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.sign-in-email__note {
+  margin: 0 var(--space-lg) var(--space-lg);
+}
+
+/* --- Account picker -------------------------------------------------------- */
+.account-picker {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.account-picker__account {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-raised);
+  color: var(--color-text-primary);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.account-picker__account:hover,
+.account-picker__account.is-hover {
+  border-color: var(--color-text-secondary);
+}
+
+.account-picker__account:active,
+.account-picker__account.is-active {
+  background-color: var(--color-surface-hover);
+}
+
+.account-picker__account:focus-visible,
+.account-picker__account.is-focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.account-picker__avatar {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background-color: var(--color-surface-sunken);
+  font-weight: var(--weight-bold);
+}
+
+.account-picker__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.account-picker__title {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  overflow-wrap: anywhere;
+}
+
+.account-picker__detail {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
