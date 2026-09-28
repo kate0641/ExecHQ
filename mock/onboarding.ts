@@ -645,6 +645,9 @@ export interface PlanTemplate {
    *  for this plan, so the promise is kept one tap later. No effort estimate:
    *  by decision on 2026-09-24, onboarding carries no time-to-complete. */
   thisWeek?: { title: string; output: string; detail: string; why: string };
+  /** Where the first draft of the story can be used, for this plan. Three
+   *  short ideas, shown under the draft. */
+  uses?: string[];
   /** What the stages span, e.g. "The next 12 weeks". */
   horizon?: string;
   /** The open end after the last stage: the plan keeps going. */
@@ -667,9 +670,14 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     thisWeek: {
       title: "Write the story of what you lead",
       output: "The story of what you lead",
-      detail: "The version you\u2019d say out loud in a meeting. Next, the Positioning Builder: add a few details and we\u2019ll write it for you to make your own.",
+      detail: "The version you\u2019d say out loud in a meeting. We\u2019ll write the first draft for you next.",
       why: "Every conversation about a bigger role starts with \u201cwhat do you lead?\u201d",
     },
+    uses: [
+      "When someone asks what\u2019s next for you",
+      "To open your next 1:1 with your manager",
+      "As the start of your LinkedIn About section",
+    ],
     horizon: "The next 12 weeks",
     after: "After week 12, we\u2019ll plan the next stretch together, based on what worked and what didn\u2019t.",
     stages: [
@@ -711,9 +719,14 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     thisWeek: {
       title: "Write how you describe yourself",
       output: "How you describe yourself",
-      detail: "The short version of who you are and what you stand for, in your words, not your employer\u2019s. Next, the Positioning Builder: add a few details and we\u2019ll write it for you to make your own.",
+      detail: "The short version of who you are and what you stand for, in your words, not your employer\u2019s. We\u2019ll write the first draft for you next.",
       why: "Everything you say in public builds on it.",
     },
+    uses: [
+      "When you\u2019re introduced at a meeting or event",
+      "As the start of your LinkedIn About section",
+      "Before you post or speak, to check it says the same thing",
+    ],
     horizon: "The next 12 weeks",
     after: "After week 12, we\u2019ll plan the next stretch together, based on what worked and what didn\u2019t.",
     stages: [
@@ -755,9 +768,14 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     thisWeek: {
       title: "Write the story you\u2019ll tell in the room",
       output: "The story you\u2019ll tell in the room",
-      detail: "What you\u2019ve done, what you want, and why it should be you. Next, the Positioning Builder: add a few details and we\u2019ll write it for you to make your own.",
+      detail: "What you\u2019ve done, what you want, and why it should be you. We\u2019ll write the first draft for you next.",
       why: "It\u2019s the core of your case, and the thing you\u2019ll rehearse.",
     },
+    uses: [
+      "As the first thing you say in the room",
+      "Out loud, twice, before the day",
+      "In the note that sets up the meeting",
+    ],
     horizon: "Between now and the moment",
     after: "After the moment, we\u2019ll plan what\u2019s next together, based on how it went.",
     stages: [
@@ -799,9 +817,14 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     thisWeek: {
       title: "Write the story of what you own",
       output: "The story of what you own",
-      detail: "What you\u2019re responsible for, in the words your leadership already uses. Next, the Positioning Builder: add a few details and we\u2019ll write it for you to make your own.",
+      detail: "What you\u2019re responsible for, in the words your leadership already uses. We\u2019ll write the first draft for you next.",
       why: "Your work gets heard when it\u2019s described in the terms decisions are made in.",
     },
+    uses: [
+      "In your next update to your leadership",
+      "To open your next 1:1 with your manager",
+      "When you meet a peer from another team",
+    ],
     horizon: "The next 12 weeks",
     after: "After week 12, we\u2019ll plan the next stretch together, based on what worked and what didn\u2019t.",
     stages: [
@@ -843,9 +866,14 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     thisWeek: {
       title: "Write the story of what you\u2019re good at",
       output: "The story of what you\u2019re good at",
-      detail: "What you do well, separated from where you\u2019ve done it. Next, the Positioning Builder: add a few details and we\u2019ll write it for you to make your own.",
+      detail: "What you do well, separated from where you\u2019ve done it. We\u2019ll write the first draft for you next.",
       why: "It shows which strengths go with you anywhere, before you choose where.",
     },
+    uses: [
+      "In a first coffee with someone in a field you\u2019re curious about",
+      "When someone asks what you\u2019re looking for",
+      "As the start of your LinkedIn About section",
+    ],
     horizon: "The next 12 weeks",
     after: "After week 12, we\u2019ll plan the next stretch together, based on what worked and what didn\u2019t.",
     stages: [
@@ -927,6 +955,12 @@ export const DONE_C1 = {
   title: "You have a plan and your first story",
   hint: "Both are saved. Nothing here is visible to anyone else.",
   planPrefix: "Your starting plan:",
+  /** The story, saved: a first draft, or sharpened. */
+  storyDraft: "Your story, first draft",
+  storySharpened: "Your story",
+  /** The quick win that comes next, on the plan. */
+  nextLabel: "Next on your plan",
+  nextWhy: "Why now:",
   inviteTitle: "Build out your signals",
   inviteBody: "Connect LinkedIn or your website so your next drafts sound like you. Optional, and you can do it anytime.",
   home: "Go to my homepage",
@@ -1844,6 +1878,232 @@ export function nextUseFor(audience: string, nextStage: string | undefined): str
   }
   return `Use the introduction the next time you reach out to ${who}, with the short bio attached.${then}`;
 }
+
+/* -----------------------------------------------------------------------------
+   FIRST DRAFT
+   -------------------------------------------------------------------------- */
+
+/* The story's first draft, written as soon as the plan is chosen, by decision
+   on 2026-09-28. Nothing is asked first: it is built from the direction and
+   the refinement answers alone, so a user who skipped everything still gets a
+   draft they can use. The pilot scope rules out unsupported claims, so the
+   draft says only what the user told us. Sharpening adds the three facts only
+   they know, and each one adds a sentence rather than filling a gap. */
+
+/** How each Concept 1 prompt opens the draft. */
+const PROMPT_TOWARD_LINE: Record<string, string> = {
+  "C-suite in 3 years": "I’m building toward a C-suite role within the next three years.",
+  "Take on more of a leadership role": "I’m building toward a bigger leadership role where I am.",
+  "Be seen as an executive": "I’m working on being seen as an executive.",
+  "Nail an upcoming board presentation": "I have a board presentation ahead of me, and I want it to land.",
+  "Find my next move": "I’m working out my next move.",
+};
+
+/** Each refinement answer in the user's own voice, in the order of its
+ *  options: the read-back's "heard" line, turned round to first person. */
+const SAID: Record<string, string[]> = {
+  "scope-kind": [
+    "What I want next is a bigger team, and the weight that comes with leading it.",
+    "What I want next is a broader remit: more of the business, not more of the same work.",
+    "What I want next is a seat at the top table, in the room where the big calls get made.",
+    "What I want next is the title, so I’m named for the role I’m already doing.",
+  ],
+  "scope-when": [
+    "I want to get there within a year.",
+    "I’m giving it one to two years, to build the case properly.",
+    "I’m playing a longer game, and building toward it step by step.",
+    "I haven’t set a timeline, so I can build toward it alongside my current role.",
+  ],
+  "scope-block": [
+    "There’s no clear path up yet, so part of the work is finding one.",
+    "The results are there. My focus now is making sure the people who decide can see them.",
+    "I know I’m ready. What I’m working on is making the case clearly.",
+    "The next step may not be where I am now, and I’m open to that.",
+  ],
+  "influence-where": [
+    "I want more say in my team’s direction: setting it, not just delivering it.",
+    "I want a voice in company strategy, not only in how my part delivers it.",
+    "I want more say over budget and headcount, where influence becomes real.",
+    "I want my influence to reach across other teams, beyond the part of the business I run.",
+  ],
+  "influence-who": [
+    "Getting my boss on side comes first.",
+    "My boss’s peers matter most: their view of me travels upward.",
+    "The exec team matters most: they decide what I get to lead.",
+    "It starts with my own team, the people who already follow me.",
+  ],
+  "influence-block": [
+    "Right now the decisions that matter to me are made without me in the room.",
+    "I’m in the room. What I’m working on is making my view carry.",
+    "My title undersells what I actually do.",
+    "Being right isn’t enough here, so I’m building support behind my ideas.",
+  ],
+  "presence-who": [
+    "I want leaders in my company to see me as someone they’d promote, not just rely on.",
+    "I want to be known across my industry, beyond my own company.",
+    "I want to be on the shortlist for recruiters and boards.",
+    "I want to be seen differently by everyone who matters, inside my company and out.",
+  ],
+  "presence-now": [
+    "Today I’m seen as a strong operator. Next, I want to be seen as a leader.",
+    "Today I’m seen as a specialist. Next, I want to be seen as broad enough to lead.",
+    "The work is good. It just isn’t seen yet.",
+    "Part of the work is finding out how I’m seen today.",
+  ],
+  "presence-where": [
+    "Today my reputation lives in the meetings I’m in.",
+    "I post on LinkedIn now and then, and I’m ready to have a point of view.",
+    "I already have a stage at industry events to build on.",
+    "I’m starting from a clean slate, so I get to choose how I show up.",
+  ],
+  "moment-what": [
+    "I have a promotion conversation coming up, and I want to walk in with a case.",
+    "I have a performance review coming up, and I want it to set up what’s next.",
+    "I have a board or exec presentation coming up, and I want it remembered.",
+    "I have a negotiation coming up, where what I say in the moment matters.",
+  ],
+  "moment-when": [
+    "It’s this week, so I’m focused on the essentials.",
+    "It’s this month, which is enough time to prepare properly.",
+    "It’s a few months away, so I have time to prepare well.",
+    "It isn’t scheduled yet, so I can be ready before it is.",
+  ],
+  "moment-ready": [
+    "I feel ready, and I want it checked before it counts.",
+    "I know what I want to say. I’m working on how to say it.",
+    "I’m working out where to start.",
+    "I’m preparing early, so it feels manageable when it comes.",
+  ],
+  "explore-why": [
+    "I’ve hit a ceiling where I am, and staying put won’t move it.",
+    "I want work I care about again, not just a new place to do it.",
+    "My industry is shrinking, and I want to move ahead of it.",
+    "My life has changed, and I want a career that fits its new shape.",
+  ],
+  "explore-keep": [
+    "I’d keep my function. It’s the setting I want to change, not the work.",
+    "I’d keep my industry, and find a different place in it.",
+    "Whatever comes next has to be at my level or above.",
+    "Every direction is open.",
+  ],
+  "explore-when": [
+    "I’m actively looking.",
+    "I want to move within a year, and test a few directions first.",
+    "I’m exploring, so I can get this right before I commit.",
+    "Working out the direction comes before the timing.",
+  ],
+};
+
+/** The three facts sharpening asks for. Any can be left empty. */
+export interface SharpenFacts {
+  role: string;
+  own: string;
+  result: string;
+}
+
+/** True once any of the three facts is in, so the story counts as sharpened
+ *  and the next quick win moves on to the bio. */
+export function isSharpened(facts: SharpenFacts): boolean {
+  return Boolean(facts.role.trim() || facts.own.trim() || facts.result.trim());
+}
+
+/** The draft's opening: what the user does, from whichever facts they gave. */
+function doingLine({ role, own }: SharpenFacts): string | null {
+  const r = role.trim();
+  const o = own.trim();
+  if (r && o) return `I’m ${r}, leading ${o}.`;
+  if (r) return `I’m ${r}.`;
+  if (o) return `I lead ${o}.`;
+  return null;
+}
+
+/** The goal as the draft says it: a prompt's own line, a typed first-person
+ *  answer in the user's words, or anything else as what they're building
+ *  toward. */
+function towardLine(direction: string): string {
+  const typed = direction.trim().replace(/[.]$/, "");
+  if (PROMPT_TOWARD_LINE[typed]) return PROMPT_TOWARD_LINE[typed];
+  if (/^i\b|^i’|^i'/i.test(typed)) return withFullStop(sentenceCase(typed));
+  return `I’m building toward ${typed}.`;
+}
+
+/**
+ * The first draft of the story: what they do (once sharpened), where they're
+ * going, a sentence per chosen refinement answer, and a result (once
+ * sharpened). A typed refinement answer is left out rather than turned into
+ * first person badly: the read-back already said it back in their words.
+ */
+export function firstDraftFor(
+  direction: string,
+  answers: Record<string, string>,
+  facts: SharpenFacts
+): string {
+  const said = refinementFor(direction)
+    .map((question) => {
+      const index = question.options.findIndex((o) => o.value === answers[question.id]);
+      return index >= 0 ? SAID[question.id]?.[index] : undefined;
+    })
+    .filter((line): line is string => Boolean(line));
+  const result = facts.result.trim()
+    ? `Most recently, I ${withFullStop(facts.result.trim().replace(/^i\s+/i, ""))}`
+    : null;
+  return [doingLine(facts), towardLine(direction), ...said, result]
+    .filter(Boolean)
+    .join(" ");
+}
+
+/** The first thing on the plan after onboarding: sharpen the story if they
+ *  left it as it was, the bio once it is sharpened. */
+export function quickWinFor(
+  plan: PlanTemplate | undefined,
+  sharpened: boolean
+): { title: string; detail: string; why: string } {
+  return sharpened
+    ? {
+        title: "Write your bio",
+        detail: "Short, medium and long, built from your story and ready to send ahead of you.",
+        why: "It’s what goes ahead of you: to a recruiter, an event, a new boss.",
+      }
+    : {
+        title: "Sharpen your story",
+        detail: "Add your role and one result, so your draft is ready to say in a meeting.",
+        why: plan?.thisWeek?.why ?? "Every next step starts with saying what you lead.",
+      };
+}
+
+/** Concept 1's first-draft screen. */
+export const DRAFT_C1 = {
+  eyebrow: "This week · Your story",
+  title: "Here’s how you’d say it",
+  hint: "Written only from what you’ve told us. Use it as it is, or make it sharper.",
+  label: "First draft",
+  sharpenedLabel: "Your story",
+  usesLabel: "Where you could use it",
+  sharpenLead: "Add your role and one result to make it yours. Or skip it, and it goes on your plan for this week.",
+  sharpenedLead: "Want to change what you added? You can sharpen it again.",
+  sharpen: "Sharpen it now",
+  sharpenAgain: "Sharpen it again",
+  save: "Save it and finish",
+  writing: "Writing your first draft",
+  copied: "Copied your story.",
+} as const;
+
+/** Copy, Download and Email for the first draft. */
+export const DRAFT_EXPORTS = [
+  { label: POSITIONING_C1.copy, done: DRAFT_C1.copied },
+  { label: EXPORT_ACTIONS.downloadLabel, done: EXPORT_ACTIONS.downloaded },
+  { label: EXPORT_ACTIONS.emailLabel, done: EXPORT_ACTIONS.emailed },
+];
+
+/** Concept 1's sharpen page: the three facts, each optional. */
+export const SHARPEN_C1 = {
+  eyebrow: "Sharpen your story",
+  title: "Three things only you know",
+  hint: "Fill in what you like. Anything you leave out, we leave out.",
+  back: "Back to your draft",
+  update: "Update my draft",
+  rewrites: "Updating rewrites the draft, so changes you made by hand will be replaced.",
+} as const;
 
 /** An output as plain text, gaps in brackets: for editing and exporting. */
 export function segmentsToText(segments: StorySegment[]): string {
