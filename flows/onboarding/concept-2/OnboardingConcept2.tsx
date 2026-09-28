@@ -370,6 +370,9 @@ export function OnboardingConcept2() {
 
   /* ---- Direction: typed, spoken, or a prompt. */
   if (reached("direction")) {
+    // Why this comes first, before it is asked. By decision on 2026-09-28.
+    say("direction-lead", CHAT_C2.directionLead);
+    say("direction-why", CHAT_C2.directionWhy);
     say(
       "direction",
       <>
