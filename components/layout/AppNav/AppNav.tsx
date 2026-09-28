@@ -73,7 +73,7 @@ export function AppNavSlot({
   });
   if (!content) return null;
   return (
-    <div className={part === "headerStart" ? "chrome__header-start" : "chrome__header-end"}>
+    <div className={`chrome__${part === "headerStart" ? "header-start" : part === "headerCentre" ? "header-centre" : "header-end"}`}>
       {content}
     </div>
   );

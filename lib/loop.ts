@@ -150,6 +150,16 @@ export function whenPhrase(date: LoopDate, today: LoopDate): string {
   return datePhrase(date);
 }
 
+/** A date ahead, said plainly: "today", "tomorrow", "on Friday" (within a
+ *  week), or "on 3 November". */
+export function aheadPhrase(date: LoopDate, today: LoopDate): string {
+  const ahead = daysBetween(today, date);
+  if (ahead <= 0) return "today";
+  if (ahead === 1) return "tomorrow";
+  if (ahead < 7) return `on ${WEEKDAYS[toUtc(date).getUTCDay()]}`;
+  return datePhrase(date);
+}
+
 function sameMonth(a: LoopDate, b: LoopDate): boolean {
   return a.slice(0, 7) === b.slice(0, 7);
 }

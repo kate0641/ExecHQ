@@ -1,10 +1,11 @@
 import type { ReactElement } from "react";
+import { ConciergeHeaderCentre, ConciergeNav } from "./concept-1";
 import { TabBarHeaderEnd, TabBarNav } from "./concept-2";
 import { DrawerConceptNav, DrawerHeaderStart } from "./concept-3";
 import type { NavConceptProps } from "./types";
 
 /** Where in the chrome a navigation concept can draw. */
-export type NavPart = "nav" | "headerStart" | "headerEnd";
+export type NavPart = "nav" | "headerStart" | "headerCentre" | "headerEnd";
 
 /**
  * A built navigation concept: what it draws in each part of the chrome.
@@ -12,6 +13,7 @@ export type NavPart = "nav" | "headerStart" | "headerEnd";
  * - `nav`         — the navigation itself, in the chrome's nav slot, before
  *                   `main` in the DOM.
  * - `headerStart` — before the wordmark, e.g. a menu button.
+ * - `headerCentre` — the middle of the header, e.g. the Concierge's pill.
  * - `headerEnd`   — at the right of the header, e.g. a profile icon.
  *
  * Each is a render function rather than a component looked up and rendered by
@@ -26,6 +28,10 @@ export type BuiltNav = Partial<Record<NavPart, (props: NavConceptProps) => React
  * navigation in `components/layout/AppNav` in its place.
  */
 const BUILT_NAVS: Record<string, BuiltNav> = {
+  "concept-1": {
+    nav: (props) => <ConciergeNav {...props} />,
+    headerCentre: (props) => <ConciergeHeaderCentre {...props} />,
+  },
   "concept-2": {
     nav: (props) => <TabBarNav {...props} />,
     headerEnd: (props) => <TabBarHeaderEnd {...props} />,

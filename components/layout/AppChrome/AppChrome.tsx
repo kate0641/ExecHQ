@@ -48,6 +48,7 @@ export function AppChrome({ flow, children, navConcept }: AppChromeProps) {
             size="md"
             suffix={flow.chrome === "enterprise" ? "Enterprise" : undefined}
           />
+          {flow.chrome === "app" ? <AppNavSlot part="headerCentre" {...navProps} /> : null}
           {flow.chrome === "app" ? <AppNavSlot part="headerEnd" {...navProps} /> : null}
         </header>
       )}

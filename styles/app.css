@@ -1632,6 +1632,7 @@ ul.chrome__nav-list {
    takes the right edge. */
 
 .chrome__header:has(> .chrome__header-start),
+.chrome__header:has(> .chrome__header-centre),
 .chrome__header:has(> .chrome__header-end) {
   align-items: center;
   justify-content: flex-start;
@@ -1646,6 +1647,13 @@ ul.chrome__nav-list {
 
 .chrome__header-end {
   margin-left: auto;
+}
+
+.chrome__header-centre {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  min-width: 0;
 }
 
 /* Tab bar — Navigation Concept 2 ------------------------------------------
@@ -2282,6 +2290,545 @@ ul.drawer-nav__list {
   border-radius: 50%;
   background-color: var(--color-accent);
   box-shadow: 0 0 0 2px var(--color-surface);
+}
+
+/* Concierge — Navigation Concept 1 ----------------------------------------
+
+   One pill, "Ask or go", and the advisor behind it. Everything is drawn on
+   the device screen: a floating pill and a rising sheet on the phone, a panel
+   docked beside the page on tablet and web, with the page making way. */
+
+.concierge-pill {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: min(480px, 100%);
+  height: 46px;
+  padding: 0 var(--space-sm) 0 5px;
+  border: var(--border-width-thin) solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface);
+  color: var(--color-text-muted);
+  text-align: left;
+  transition: border-color var(--duration-fast), box-shadow var(--duration-fast), transform var(--duration-fast);
+}
+
+.concierge-pill--floating {
+  width: 100%;
+  height: 58px;
+  padding-left: 7px;
+  border-color: transparent;
+  box-shadow: var(--shadow-lg);
+}
+
+.concierge-pill:hover,
+.concierge-pill.is-hover {
+  border-color: var(--color-text-secondary);
+}
+
+.concierge-pill--floating:hover,
+.concierge-pill--floating.is-hover {
+  border-color: transparent;
+  box-shadow: var(--shadow-panel);
+}
+
+.concierge-pill:focus-visible,
+.concierge-pill.is-focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.concierge-pill:active,
+.concierge-pill.is-active {
+  transform: scale(0.98);
+}
+
+.concierge-pill[aria-expanded="true"] {
+  border-color: var(--color-text-primary);
+}
+
+.concierge-pill__here {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: 6px var(--space-sm) 6px 9px;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+}
+
+.concierge-pill--floating .concierge-pill__here {
+  padding: var(--space-xs) var(--space-md) var(--space-xs) var(--space-sm);
+}
+
+.concierge-pill__ask {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font-size: var(--text-md);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.concierge-pill__dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+}
+
+.concierge-pill__mark {
+  flex: none;
+  color: var(--color-text-primary);
+}
+
+/* On the device screen. The host spans it but takes no clicks itself. */
+
+.concierge-host {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.concierge-host__pill {
+  position: absolute;
+  right: var(--space-md);
+  bottom: var(--space-lg);
+  left: var(--space-md);
+  pointer-events: auto;
+  transition: opacity var(--duration-base), transform var(--duration-slow) cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.device__screen[data-concierge="open"] .concierge-host__pill {
+  opacity: 0;
+  transform: translateY(16px);
+  pointer-events: none;
+}
+
+.concierge-host__scrim {
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-overlay);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-base);
+}
+
+.device__screen[data-concierge="open"] .concierge-host__scrim {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.concierge-host__panel {
+  position: absolute;
+  pointer-events: auto;
+  transition:
+    transform 0.34s cubic-bezier(0.2, 0.8, 0.2, 1),
+    top 0.34s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.concierge-host--mobile .concierge-host__panel {
+  top: 18%;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateY(104%);
+}
+
+/* Once you're talking, the sheet takes the whole screen. */
+.concierge-host--mobile .concierge-host__panel:has(.is-chatting) {
+  top: var(--device-statusbar-height);
+}
+
+.concierge-host--docked .concierge-host__panel {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 400px;
+  transform: translateX(100%);
+}
+
+.device--web .concierge-host--docked .concierge-host__panel {
+  width: 420px;
+}
+
+.device__screen[data-concierge="open"] .concierge-host__panel {
+  transform: none;
+}
+
+/* The page leaves room for the floating pill, and makes way for the docked
+   panel so it stays usable beside him. */
+.device__screen:has(.concierge-host--mobile) .chrome__main {
+  padding-bottom: var(--space-4xl);
+}
+
+.device__screen[data-concierge] > .device__content {
+  transition: margin-right 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.device__screen[data-concierge="open"]:has(.concierge-host--docked) > .device__content {
+  margin-right: 400px;
+}
+
+.device--web .device__screen[data-concierge="open"]:has(.concierge-host--docked) > .device__content {
+  margin-right: 420px;
+}
+
+/* The panel. */
+
+.concierge-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--color-surface);
+}
+
+.concierge-panel--sheet {
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  box-shadow: var(--shadow-lg);
+}
+
+.concierge-panel--docked {
+  border-left: var(--border-width-thin) solid var(--color-border);
+}
+
+.concierge-panel__grab {
+  flex: none;
+  width: 40px;
+  height: 5px;
+  margin: var(--space-sm) auto 0;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-border);
+}
+
+.concierge-panel__head {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-md) var(--space-sm) var(--space-lg);
+  border-bottom: var(--border-width-thin) solid var(--color-border);
+  color: var(--color-text-primary);
+}
+
+.concierge-panel__who {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  line-height: var(--leading-snug);
+}
+
+.concierge-panel__who b {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+}
+
+.concierge-panel__who span {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.concierge-panel__new {
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.concierge-panel__new:hover {
+  background-color: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+.concierge-panel__new:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.concierge-panel__close {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+  transition: background-color var(--duration-fast), transform var(--duration-fast);
+}
+
+.concierge-panel__close:hover,
+.concierge-panel__close.is-hover {
+  background-color: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+.concierge-panel__close:focus-visible,
+.concierge-panel__close.is-focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.concierge-panel__close:active,
+.concierge-panel__close.is-active {
+  transform: scale(0.94);
+}
+
+.concierge-panel__body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--space-md) var(--space-lg);
+}
+
+.concierge-panel__foot {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md) var(--space-md);
+  border-top: var(--border-width-thin) solid var(--color-border);
+}
+
+.concierge-panel--sheet .concierge-panel__foot {
+  padding-bottom: var(--space-lg);
+}
+
+.concierge-panel__privacy {
+  margin: 0;
+  font-size: var(--text-2xs);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.concierge-panel__hint {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+/* What goes in it. */
+
+.concierge-start {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.concierge-start__title {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+ul.concierge-dests,
+ul.concierge-work,
+ul.concierge-suggest,
+ul.concierge-mini {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.concierge-dests {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-2xs);
+}
+
+.concierge-dest {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-sm) var(--space-2xs);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+}
+
+.concierge-dest:hover {
+  background-color: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+.concierge-dest.is-current {
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+}
+
+.concierge-dest__dot {
+  position: absolute;
+  top: var(--space-xs);
+  right: calc(50% - 16px);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+}
+
+.concierge-work,
+.concierge-suggest {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.concierge-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  padding: var(--space-sm);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  text-align: left;
+  text-decoration: none;
+}
+
+.concierge-row:hover {
+  border-color: var(--color-border-strong);
+}
+
+.concierge-row__icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-sunken);
+}
+
+.concierge-row__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  min-width: 0;
+}
+
+.concierge-row__title {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.concierge-row__hint {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.concierge-suggest__item {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  border: var(--border-width-thin) solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm);
+  text-align: left;
+}
+
+.concierge-suggest__item:hover {
+  border-color: var(--color-text-primary);
+}
+
+.concierge-dest:focus-visible,
+.concierge-row:focus-visible,
+.concierge-suggest__item:focus-visible,
+.concierge-mini a:focus-visible,
+.concierge-go:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.concierge-mini {
+  display: flex;
+  gap: var(--space-2xs);
+  margin-bottom: var(--space-md);
+  overflow-x: auto;
+}
+
+.concierge-mini a {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-sm);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+}
+
+.concierge-mini a.is-current {
+  border-color: var(--color-surface-inverse);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+}
+
+.concierge-thread {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.concierge-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: 0;
+  padding-left: var(--space-lg);
+}
+
+.concierge-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-sunken);
+}
+
+.concierge-card b {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+}
+
+.concierge-card span {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.concierge-go {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-sunken);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  text-align: left;
+}
+
+.concierge-go kbd {
+  margin-left: auto;
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  color: var(--color-text-muted);
 }
 
 /* Destination stub — a later sprint's page, quiet and intentional. */

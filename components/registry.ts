@@ -68,6 +68,8 @@ import { tabBarStates } from "./navigation/TabBar/TabBar.states";
 import { iconLinkStates } from "./navigation/IconLink/IconLink.states";
 import { drawerNavStates } from "./navigation/DrawerNav/DrawerNav.states";
 import { menuButtonStates } from "./navigation/MenuButton/MenuButton.states";
+import { conciergePillStates } from "./navigation/ConciergePill/ConciergePill.states";
+import { conciergePanelStates } from "./navigation/ConciergePanel/ConciergePanel.states";
 
 export const registry: RegisteredComponent[] = [
   badgeStates,
@@ -129,6 +131,8 @@ export const registry: RegisteredComponent[] = [
   iconLinkStates,
   drawerNavStates,
   menuButtonStates,
+  conciergePillStates,
+  conciergePanelStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */
