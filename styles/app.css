@@ -3645,6 +3645,8 @@ samp {
 
 .chat-message--you .chat-message__body {
   padding: var(--space-xs) var(--space-sm);
+  /* Keep the lines the user broke with Shift+Enter in the composer. */
+  white-space: pre-line;
   color: var(--color-text-inverse);
   background-color: var(--color-surface-inverse);
   border-radius: var(--radius-lg);
@@ -4071,16 +4073,19 @@ samp {
 }
 
 /* The composer: one pill holding the field, the mic and send. The pill
-   carries the edge and the fill; the field inside it is bare. */
+   carries the edge and the fill; the field inside it is bare. Its corners
+   are a fixed radius rather than a pill's, so at one line it reads as a pill
+   and, as the field grows, it opens into a rounded box. The buttons stay at
+   the foot. */
 .chat-composer {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: var(--space-3xs);
   padding: var(--space-2xs);
   padding-left: var(--space-md);
   background-color: var(--color-surface-raised);
   border: var(--border-strong);
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-xl);
 }
 
 /* Focus is the pill's edge turning near-black and thickening to 2px, as a
@@ -4100,11 +4105,17 @@ samp {
 .chat-composer__field {
   flex: 1;
   min-width: 0;
+  /* One line sits level with the 40px buttons beside it. */
   padding: var(--space-xs) 0;
   font-size: var(--text-md);
+  line-height: var(--leading-normal);
   color: var(--color-text-primary);
   background-color: transparent;
   border: none;
+  /* Height is set by the component as the text grows; past its cap the
+     field scrolls rather than growing further. */
+  resize: none;
+  overflow-y: auto;
 }
 
 /* The pill shows focus for the field (above), so the field's own ring would

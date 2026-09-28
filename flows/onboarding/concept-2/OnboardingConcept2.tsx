@@ -258,7 +258,7 @@ export function OnboardingConcept2() {
   const [signalLog, setSignalLog] = useState<SignalEvent[]>([]);
   const [connecting, setConnecting] = useState(false);
   const router = useRouter();
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   const threadRef = useRef<HTMLDivElement>(null);
 
   /** A jump or a changed answer: the thread re-forms from the new state. */
