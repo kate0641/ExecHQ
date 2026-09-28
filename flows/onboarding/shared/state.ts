@@ -18,6 +18,32 @@ export type ConnectionState = "offered" | "connected" | "declined" | "failed";
 export type PlanSource = "recommended" | "switched" | "custom";
 export type DirectionSource = "prompted" | "free";
 
+/**
+ * The LinkedIn analytics export the user brings, by decision on 2026-09-28.
+ * LinkedIn has no connection to make: the user exports a spreadsheet from
+ * their analytics page and uploads it. Reading it runs in the background, so
+ * nothing waits on it.
+ *
+ * - `none`: nothing yet
+ * - `sent`: the steps were emailed to do later, on a computer
+ * - `reading`: uploaded, being read
+ * - `ready` / `empty`: read; `empty` means no posts in the range
+ * - `wrong-file` / `failed`: not a LinkedIn export, or the upload failed
+ */
+export type LinkedInStatus = "none" | "sent" | "reading" | "ready" | "empty" | "wrong-file" | "failed";
+
+export interface LinkedInUpload {
+  fileName: string | null;
+  status: LinkedInStatus;
+}
+
+export const emptyLinkedIn: LinkedInUpload = { fileName: null, status: "none" };
+
+/** Brought in, or on its way: the upload counts as a signal from here. */
+export function linkedInIn(upload: LinkedInUpload): boolean {
+  return upload.status === "reading" || upload.status === "ready" || upload.status === "empty";
+}
+
 /** What the Positioning Builder is given on its build page. Every field is
  *  optional: anything left empty stays a gap in the outputs. */
 export interface PositioningInputs {
@@ -75,8 +101,10 @@ export interface OnboardingAnswers {
   positioning: PositioningInputs;
   connections: Record<string, ConnectionState>;
   /** A pasted link for a signal source, keyed by source. Present means the
-   *  source was added by link rather than connected. */
+   *  source was added by link rather than connected. The website only. */
   signalLinks: Record<string, string>;
+  /** The LinkedIn analytics export, uploaded by the user. */
+  linkedin: LinkedInUpload;
 }
 
 export interface OnboardingState {
@@ -109,6 +137,7 @@ export const initialState: OnboardingState = {
     positioning: emptyPositioning,
     connections: {},
     signalLinks: {},
+    linkedin: emptyLinkedIn,
   },
   refinementIndex: 0,
   customPlanIndex: null,
@@ -137,6 +166,7 @@ export type OnboardingAction =
   | { type: "exit-custom-plan" }
   | { type: "save-artifact" }
   | { type: "set-connection"; id: string; state: ConnectionState }
+  | { type: "set-linkedin"; patch: Partial<LinkedInUpload> }
   | { type: "next" }
   | { type: "back" }
   | { type: "go-to"; step: OnboardingStep }
@@ -313,6 +343,12 @@ export function makeReducer(refinementCount: number, customPlanCount: number) {
             artifactSaved: true,
             positioning: { ...state.answers.positioning, built: true },
           },
+        };
+
+      case "set-linkedin":
+        return {
+          ...state,
+          answers: { ...state.answers, linkedin: { ...state.answers.linkedin, ...action.patch } },
         };
 
       case "set-connection":
