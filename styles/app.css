@@ -2569,6 +2569,12 @@ samp {
   color: var(--color-text-secondary);
 }
 
+.privacy-splash__lines--spaced {
+  gap: var(--space-sm);
+  max-width: 30ch;
+  text-wrap: pretty;
+}
+
 .privacy-splash__art {
   display: grid;
   place-items: center;
@@ -2576,7 +2582,7 @@ samp {
 }
 
 /* Where the gold accent will sit when the palette lands. */
-.privacy-splash__lock {
+.privacy-splash__icon {
   color: var(--color-accent);
 }
 

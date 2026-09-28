@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { Input } from "@/components/form/Input";
 import { Button } from "@/components/primitives/Button";
 import { AdvisorNote } from "@/components/onboarding/AdvisorNote";
@@ -12,6 +12,7 @@ import { WelcomeSplit } from "@/components/onboarding/WelcomeSplit";
 import { WizardStep } from "@/components/onboarding/WizardStep";
 import {
   DIRECTION_C1,
+  DIRECTION_INTRO_C1,
   DIRECTION_PROMPTS_C1,
   GENERATING_COPY,
   INTERPRETATION_C1,
@@ -157,9 +158,27 @@ export function PrivacyScreen({ flow, headingId }: ScreenProps) {
  * goals: tapping one puts it in the field, still editable, and focus follows
  * so the next thing typed or said adds to it. The mic sits in the field's
  * corner, where people expect it from messaging apps.
+ *
+ * It opens on a bridge in the privacy splash's layout, saying why this comes
+ * first and that a loose answer is as good a start as a precise one, by
+ * decision on 2026-09-28. Without it the flow dropped from the privacy promise
+ * straight into the hardest question. The bridge is part of this step rather
+ * than a step of its own, so the shared step list and every concept's progress
+ * count are untouched. Arriving with a direction already given goes straight
+ * to the question; a step-bar jump clears the answer, so it opens on the
+ * bridge like a first arrival.
  */
 export function DirectionScreen({ flow, step, total, headingId }: ScreenProps) {
   const { state, dispatch } = flow;
+  const [intro, setIntro] = useState(!state.answers.direction);
+  // The shell moves focus on a step change; this is a change inside the step,
+  // so it moves focus itself. Not on first paint, for the shell's reason.
+  const introShown = useRef(intro);
+  useEffect(() => {
+    if (introShown.current === intro) return;
+    introShown.current = intro;
+    document.getElementById(headingId)?.focus();
+  }, [intro, headingId]);
   const [value, setValue] = useState(state.answers.direction ?? "");
   const [selected, setSelected] = useState<string | null>(
     state.answers.directionSource === "prompted"
@@ -197,6 +216,21 @@ export function DirectionScreen({ flow, step, total, headingId }: ScreenProps) {
     dispatch({ type: "next" });
   }
 
+  if (intro) {
+    return (
+      <PrivacySplash
+        titleLead={DIRECTION_INTRO_C1.titleLead}
+        titleRest={DIRECTION_INTRO_C1.titleRest}
+        lines={DIRECTION_INTRO_C1.lines}
+        spaced
+        icon="flag"
+        headingId={headingId}
+        primaryLabel={DIRECTION_INTRO_C1.action}
+        onPrimary={() => setIntro(false)}
+      />
+    );
+  }
+
   return (
     <WizardStep
       step={step}
@@ -204,6 +238,11 @@ export function DirectionScreen({ flow, step, total, headingId }: ScreenProps) {
       title={DIRECTION_C1.prompt}
       description={DIRECTION_C1.hint}
       headingId={headingId}
+      backLabel={DIRECTION_INTRO_C1.back}
+      onBack={() => {
+        dictation.stop();
+        setIntro(true);
+      }}
       primaryLabel="Next"
       onPrimary={submit}
     >

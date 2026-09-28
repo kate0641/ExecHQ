@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/primitives/Button";
-import { Icon } from "@/components/primitives/Icon";
+import { Icon, type IconName } from "@/components/primitives/Icon";
 
 export interface PrivacySplashProps {
   /** The heading in two tones: the lead at full strength, the rest muted. It
@@ -10,6 +10,12 @@ export interface PrivacySplashProps {
   titleRest: string;
   /** Short lines, one idea each. Stacked, not a paragraph. */
   lines: readonly string[];
+  /** Sets the lines apart. For lines that are whole sentences, which run
+   *  together at the couplet spacing the privacy promise uses. */
+  spaced?: boolean;
+  /** The large glyph under the lines. Defaults to the lock; the Direction
+   *  bridge, which borrows this layout, uses the flag. */
+  icon?: IconName;
   /** A quieter closing statement under the illustration. */
   footnote?: string;
   /** Focus target for a step change, passed to the heading. */
@@ -27,12 +33,17 @@ export interface PrivacySplashProps {
  * withhold, only a statement of fact — so the one control acknowledges it and
  * moves on.
  *
- * The lock is where the gold accent will sit when the palette lands.
+ * The same layout carries the bridge into Direction in Concept 1, so the
+ * opening reads as a run of short moments before the questions begin.
+ *
+ * The icon is where the gold accent will sit when the palette lands.
  */
 export function PrivacySplash({
   titleLead,
   titleRest,
   lines,
+  spaced = false,
+  icon = "lock",
   footnote,
   headingId,
   primaryLabel,
@@ -46,14 +57,20 @@ export function PrivacySplash({
           <span className="privacy-splash__title-rest">{titleRest}</span>
         </h1>
 
-        <ul className="privacy-splash__lines">
+        <ul
+          className={
+            spaced
+              ? "privacy-splash__lines privacy-splash__lines--spaced"
+              : "privacy-splash__lines"
+          }
+        >
           {lines.map((line) => (
             <li key={line}>{line}</li>
           ))}
         </ul>
 
         <div className="privacy-splash__art" aria-hidden="true">
-          <Icon name="lock" size={72} className="privacy-splash__lock" />
+          <Icon name={icon} size={72} className="privacy-splash__icon" />
         </div>
 
         {footnote ? <p className="privacy-splash__footnote">{footnote}</p> : null}

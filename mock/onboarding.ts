@@ -173,8 +173,23 @@ export const DIRECTION = {
  *  concrete goals rather than categories, and work for any function. */
 export const DIRECTION_C1 = {
   prompt: "Where do you want to go next?",
-  hint: "A role, a timeline, or just a feeling.",
+  hint: "As specific or as loose as you like.",
   promptedLabel: "Or start with",
+} as const;
+
+/** Concept 1's bridge into Direction, in the privacy splash's layout. It says
+ *  why this question comes first, that a loose answer is as good a start as a
+ *  precise one, and that the answer is not fixed. */
+export const DIRECTION_INTRO_C1 = {
+  titleLead: "First,",
+  titleRest: "where you\u2019re headed",
+  lines: [
+    "Maybe you know exactly what you\u2019re aiming for. Maybe it\u2019s just a feeling that it\u2019s time for more.",
+    "Either is a good place to start. We\u2019ll build your plan around it.",
+    "As your goals change, your plan changes with them.",
+  ],
+  action: "Let\u2019s start",
+  back: "Back to why we ask this",
 } as const;
 
 /** Tapping one puts its text in the field, still editable — "Promotion in the
@@ -1860,8 +1875,13 @@ export const CHAT_C2 = {
   privacy: "Private by design.",
   privacyBody: "I respect your data. It\u2019s your eyes only.",
   privacyReply: "Good to know",
+  /** Before the direction question: why it comes first, and that a loose
+   *  answer is as good a start as a precise one. */
+  directionLead: "Next comes the part everything else builds on, which is where you\u2019re headed.",
+  directionWhy:
+    "You might have a clear goal, like a title and a date. Or just a sense that it\u2019s time for more. I can work with either, and we can change it as your goals change.",
   direction: "Where do you want to go next?",
-  directionHint: "A role, a timeline, or just a feeling. Type it, say it, or start with one of these.",
+  directionHint: "Type it, say it, or start with one of these.",
   directionPlaceholder: "In your own words",
   refinementLead: "A few quick questions so I can build a plan that fits you. Skip any you like.",
   skip: "Skip this one",
