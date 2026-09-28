@@ -12,7 +12,8 @@ export type IconName =
   | "document"
   | "link"
   | "pencil"
-  | "flag";
+  | "flag"
+  | "attach";
 
 export interface IconProps {
   name: IconName;
@@ -99,6 +100,8 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <path d="M11.8 5.2l3 3" strokeWidth="1.3" />
     </>
   ),
+  // Attaching a file to a message: a paperclip.
+  attach: <path d="M14.5 9.5l-5.3 5.3a3.2 3.2 0 01-4.5-4.5l6-6a2.1 2.1 0 013 3l-5.9 5.9a1 1 0 01-1.5-1.5L11.6 6" />,
   // A destination: where the plan is headed.
   flag: (
     <>

@@ -2828,7 +2828,8 @@ samp {
 
 /* --- Mic button ------------------------------------------------------------ */
 
-.mic-button {
+.mic-button,
+.chat-composer__attach {
   flex: none;
   display: grid;
   place-items: center;
@@ -2842,7 +2843,8 @@ samp {
   transition: background-color var(--duration-fast) var(--easing-standard);
 }
 
-.mic-button:hover {
+.mic-button:hover,
+.chat-composer__attach:hover {
   background-color: var(--color-surface-hover);
 }
 
@@ -2852,7 +2854,8 @@ samp {
   color: var(--color-text-inverse);
 }
 
-.mic-button:disabled {
+.mic-button:disabled,
+.chat-composer__attach:disabled {
   color: var(--color-text-disabled);
   background-color: var(--color-surface-disabled);
   cursor: not-allowed;
@@ -4777,6 +4780,24 @@ samp {
   to {
     transform: translateX(230%);
   }
+}
+
+/* The LinkedIn file as the user's own message in Concept 2's thread. It
+   sits on the user's dark bubble, so the mark takes the bubble's colour. */
+.chat-file {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+.chat-file .linkedin-file__mark {
+  border-color: currentColor;
+  color: inherit;
+}
+
+.chat-file__name {
+  overflow-wrap: anywhere;
 }
 
 /* --- Ending and signals (Concept 1) --------------------------------------- */

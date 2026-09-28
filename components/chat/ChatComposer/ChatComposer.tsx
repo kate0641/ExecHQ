@@ -16,6 +16,9 @@ export interface ChatComposerProps {
   voice?: { listening: boolean; onToggle: () => void };
   /** Rests the mic while ExecHQ is writing, without hiding it. */
   micDisabled?: boolean;
+  /** Attach a file. Only offered while a file is what is being asked for, so
+   *  it appears and goes with that question rather than resting disabled. */
+  attach?: { label: string; onAttach: () => void };
   inputRef?: RefObject<HTMLInputElement | null>;
   className?: string;
 }
@@ -33,6 +36,7 @@ export function ChatComposer({
   disabled = false,
   voice,
   micDisabled = false,
+  attach,
   inputRef,
   className,
 }: ChatComposerProps) {
@@ -46,6 +50,17 @@ export function ChatComposer({
 
   return (
     <form className={["chat-composer", className].filter(Boolean).join(" ")} onSubmit={submit}>
+      {attach ? (
+        <button
+          type="button"
+          className="chat-composer__attach"
+          aria-label={attach.label}
+          onClick={attach.onAttach}
+          disabled={disabled}
+        >
+          <Icon name="attach" size={20} />
+        </button>
+      ) : null}
       <input
         id={id}
         aria-label="Message"
