@@ -3202,11 +3202,17 @@ samp {
   --notice-halo: var(--color-feedback-danger-halo);
 }
 
+/* The label is an eyebrow set in the body face, so Red Hat Display stays for
+   headings and primary UI. */
 .notice__head {
   display: flex;
   align-items: center;
   gap: var(--space-xs);
-  font-size: var(--text-xs);
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
   color: var(--color-text-secondary);
 }
 

@@ -7,7 +7,7 @@ const DEFAULT_LABELS: Record<NoticeTone, string> = {
   info: "Note",
   success: "Done",
   explain: "Check this",
-  problem: "Something went wrong",
+  problem: "Didn’t work",
 };
 
 export interface NoticeProps {
