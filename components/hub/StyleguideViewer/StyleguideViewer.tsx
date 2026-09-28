@@ -3,7 +3,6 @@ import { TextLink } from "@/components/primitives/TextLink";
 import { getHubPage } from "@/lib/hub-pages";
 import { Specimens } from "./Specimens";
 import {
-  CATEGORY_LABELS,
   readTokens,
   tokensIn,
   tokensWithPrefix,
@@ -32,25 +31,6 @@ function TokenRow({ token, children }: { token: Token; children?: React.ReactNod
         {token.note ? <span className="styleguide__token-note">{token.note}</span> : null}
       </div>
     </li>
-  );
-}
-
-function Swatches({ tokens, label }: { tokens: Token[]; label: string }) {
-  if (tokens.length === 0) return null;
-  return (
-    <div className="styleguide__group">
-      <h3 className="styleguide__group-title">{label}</h3>
-      <ul className="styleguide__swatches">
-        {tokens.map((token) => (
-          <TokenRow token={token} key={token.name}>
-            <span
-              className="styleguide__swatch"
-              style={{ backgroundColor: `var(${token.name})` }}
-            />
-          </TokenRow>
-        ))}
-      </ul>
-    </div>
   );
 }
 
@@ -85,9 +65,168 @@ const BRAND_GROUPS: {
     colours: [
       { token: "--brand-stone", name: "Stone", role: "Lights" },
       { token: "--brand-stone-900", name: "Stone 900", role: "Darks" },
+      { token: "--brand-white", name: "White", role: "Cards and fields" },
     ],
   },
 ];
+
+/** The semantic colour tokens, grouped by the job they do. First match wins. */
+const ROLE_GROUPS: { title: string; note: string; prefixes: string[]; kind?: "samples" }[] = [
+  {
+    title: "Brand slots",
+    note: "What the semantic tokens reach for. Swap a slot and every role built on it follows.",
+    prefixes: ["--brand-primary", "--brand-accent", "--brand-secondary"],
+  },
+  {
+    title: "Surfaces",
+    note: "What a screen is built on, from the canvas up, and how surfaces respond to the pointer.",
+    prefixes: ["--color-canvas", "--color-surface"],
+  },
+  {
+    title: "Action and accent",
+    note: "The primary button, gold accents and the soft secondary.",
+    prefixes: ["--color-action", "--color-text-on-action", "--color-accent", "--color-text-on-accent", "--color-secondary"],
+  },
+  {
+    title: "Text",
+    note: "Primary for reading, secondary for support, muted for metadata. Inverse sits on navy.",
+    prefixes: ["--color-text-"],
+  },
+  {
+    title: "Borders",
+    note: "Subtle and default are decorative; strong is the one controls use.",
+    prefixes: ["--color-border"],
+  },
+  {
+    title: "Focus and overlay",
+    note: "Focus rings, the scrim behind dialogs, and the mic's listening pulse.",
+    prefixes: ["--color-focus", "--color-overlay", "--color-listening"],
+  },
+  {
+    title: "Feedback",
+    note: "Each tone is a surface, a text colour and an edge, shown together as they are used.",
+    prefixes: ["--color-feedback-"],
+    kind: "samples",
+  },
+  {
+    title: "Status badges",
+    note: "The draft, in-review and approved badges on the hub and in the catalogue.",
+    prefixes: ["--color-status-"],
+    kind: "samples",
+  },
+  {
+    title: "Device frame",
+    note: "The phone and tablet drawn around the canvas. Prototype chrome, not product.",
+    prefixes: ["--color-device-"],
+  },
+];
+
+/** Feedback and status tokens come in sets: surface, text and border per tone. */
+const SAMPLE_SETS: { group: string; tone: string; label: string; prefix: string }[] = [
+  { group: "Feedback", tone: "info", label: "Info", prefix: "--color-feedback-info-" },
+  { group: "Feedback", tone: "success", label: "Success", prefix: "--color-feedback-success-" },
+  { group: "Feedback", tone: "warning", label: "Warning", prefix: "--color-feedback-warning-" },
+  { group: "Feedback", tone: "danger", label: "Danger", prefix: "--color-feedback-danger-" },
+  { group: "Status badges", tone: "draft", label: "Draft", prefix: "--color-status-draft-" },
+  { group: "Status badges", tone: "review", label: "In review", prefix: "--color-status-review-" },
+  { group: "Status badges", tone: "approved", label: "Approved", prefix: "--color-status-approved-" },
+];
+
+/** Where a token lands, in words: the scale step and its value, e.g. "Stone 900 · <hex>". */
+function landsOn(name: string, tokens: Map<string, Token>): string {
+  const step = resolve(name, tokens);
+  if (!step) return "";
+  if (VAR_REFERENCE.test(step.value)) return step.value;
+  const label =
+    stepLabel(step.name) ?? (step.name === "--brand-white" ? "White" : undefined);
+  return label ? `${label} · ${step.value}` : step.value;
+}
+
+function RoleRow({ token, tokens }: { token: Token; tokens: Map<string, Token> }) {
+  return (
+    <li className="styleguide__role">
+      <span
+        className="styleguide__role-swatch"
+        style={{ backgroundColor: `var(${token.name})` }}
+      />
+      <div className="styleguide__token-meta">
+        <code className="styleguide__token-name">{token.name}</code>
+        <span className="styleguide__token-value">{landsOn(token.name, tokens)}</span>
+        {token.note ? <span className="styleguide__token-note">{token.note}</span> : null}
+      </div>
+    </li>
+  );
+}
+
+function Sample({
+  set,
+  tokens,
+}: {
+  set: (typeof SAMPLE_SETS)[number];
+  tokens: Map<string, Token>;
+}) {
+  const part = (end: string) => `${set.prefix}${end}`;
+  const isBadge = set.group === "Status badges";
+  return (
+    <li className="styleguide__sample-item">
+      <div
+        className={isBadge ? "styleguide__sample styleguide__sample--badge" : "styleguide__sample"}
+        style={{
+          backgroundColor: `var(${part("surface")})`,
+          borderColor: `var(${part("border")})`,
+          color: `var(${part("text")})`,
+        }}
+      >
+        {set.label}
+      </div>
+      <ul className="styleguide__sample-tokens">
+        {["surface", "text", "border"].map((end) =>
+          tokens.has(part(end)) ? (
+            <li key={end}>
+              <code>{part(end)}</code>
+              <span>{landsOn(part(end), tokens)}</span>
+            </li>
+          ) : null
+        )}
+      </ul>
+    </li>
+  );
+}
+
+function ColourRoles({ roleTokens, tokens }: { roleTokens: Token[]; tokens: Map<string, Token> }) {
+  const groupOf = (name: string) =>
+    ROLE_GROUPS.find((group) => group.prefixes.some((prefix) => name.startsWith(prefix)))?.title ??
+    "Other";
+  const groups = [...ROLE_GROUPS, { title: "Other", note: "Colour tokens no group above claims.", prefixes: [] }];
+  return (
+    <>
+      {groups.map((group) => {
+        const members = roleTokens.filter((token) => groupOf(token.name) === group.title);
+        if (members.length === 0) return null;
+        const sets = SAMPLE_SETS.filter((set) => set.group === group.title);
+        return (
+          <div className="styleguide__group" key={group.title}>
+            <h3 className="styleguide__scale-title">{group.title}</h3>
+            <p className="styleguide__group-note">{group.note}</p>
+            {"kind" in group && group.kind === "samples" ? (
+              <ul className="styleguide__samples">
+                {sets.map((set) => (
+                  <Sample set={set} tokens={tokens} key={set.tone} />
+                ))}
+              </ul>
+            ) : (
+              <ul className="styleguide__roles">
+                {members.map((token) => (
+                  <RoleRow token={token} tokens={tokens} key={token.name} />
+                ))}
+              </ul>
+            )}
+          </div>
+        );
+      })}
+    </>
+  );
+}
 
 const VAR_REFERENCE = /^var\((--[\w-]+)\)$/;
 
@@ -279,7 +418,11 @@ export function StyleguideViewer() {
   );
   const tokenMap = new Map(allTokens.map((token) => [token.name, token]));
   const uses = colourUses(allTokens);
-  const scaleStep = new RegExp(`^--brand-(${SCALES.map((s) => s.key).join("|")})-\\d00$`);
+  const slots = ROLE_GROUPS[0].prefixes;
+  const roleTokens = colourTokens.filter(
+    (token) =>
+      token.category === "colour" || slots.some((prefix) => token.name.startsWith(prefix))
+  );
   const textSizes = tokensWithPrefix("--text-");
   const spacing = tokensIn("spacing");
   const radii = tokensIn("radii");
@@ -297,27 +440,21 @@ export function StyleguideViewer() {
       </Panel>
 
       <Panel
-        title="Colour"
+        title="Colour scales"
         headingLevel={2}
-        description={`${colourTokens.length} colour tokens, read from styles/tokens.css. The five brand scales come first, 100 to 900, with the nine palette colours named; everything else is built from them.`}
+        description="Five scales, 100 to 900, with the palette colours named. Everything else is built from them."
       >
-        <Swatches
-          tokens={colourTokens.filter((token) => token.category === "palette")}
-          label={CATEGORY_LABELS.palette}
-        />
         {SCALES.map((scale) => (
           <Scale scale={scale} tokens={tokenMap} uses={uses} key={scale.key} />
         ))}
-        <Swatches
-          tokens={colourTokens.filter(
-            (token) => token.category === "brand" && !scaleStep.test(token.name)
-          )}
-          label="White, palette names and brand slots"
-        />
-        <Swatches
-          tokens={colourTokens.filter((token) => token.category === "colour")}
-          label={CATEGORY_LABELS.colour}
-        />
+      </Panel>
+
+      <Panel
+        title="Colour roles"
+        headingLevel={2}
+        description={`${roleTokens.length} tokens the interface actually uses, grouped by job. Each shows the scale step it lands on.`}
+      >
+        <ColourRoles roleTokens={roleTokens} tokens={tokenMap} />
       </Panel>
 
       <Panel

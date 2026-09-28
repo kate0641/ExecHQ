@@ -2199,6 +2199,82 @@ samp {
   height: var(--space-4xl);
 }
 
+/* Colour roles: compact rows — a chip, the token, and the step it lands on. */
+.styleguide__roles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  gap: var(--space-sm) var(--space-lg);
+  margin-top: var(--space-xs);
+}
+
+.styleguide__role {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-width: 0;
+}
+
+.styleguide__role-swatch {
+  flex: none;
+  width: var(--space-xl);
+  height: var(--space-xl);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+/* Feedback tones and status badges, drawn as they are used. */
+.styleguide__samples {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-xs);
+}
+
+.styleguide__sample-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+.styleguide__sample {
+  padding: var(--space-sm) var(--space-md);
+  border: var(--border-width-thin) solid;
+  border-left-width: var(--border-width-thick);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.styleguide__sample--badge {
+  align-self: flex-start;
+  padding: var(--space-3xs) var(--space-sm);
+  border-left-width: var(--border-width-thin);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.styleguide__sample-tokens {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  font-size: var(--text-2xs);
+  color: var(--color-text-secondary);
+}
+
+.styleguide__sample-tokens li {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--space-xs);
+}
+
+.styleguide__sample-tokens code {
+  color: var(--color-text-primary);
+}
+
 .styleguide__step-value {
   font-size: var(--text-xs);
   color: var(--color-text-muted);
