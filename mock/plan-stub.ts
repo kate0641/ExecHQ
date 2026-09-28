@@ -61,14 +61,17 @@ export interface RoadmapStage {
   window: string;
   /** The weeks it spans, for finding the current stage. */
   weeks: [number, number];
+  /** What the stage asks of the user, in one line. Shown only while it is
+   *  the current stage (Homepage Concept 3). */
+  asks: string;
 }
 
 /** Increase Leadership Scope, in four stages. */
 export const ROADMAP: RoadmapStage[] = [
-  { title: "Say what you lead", window: "Weeks 1–2", weeks: [1, 2] },
-  { title: "Show the proof", window: "Weeks 3–6", weeks: [3, 6] },
-  { title: "Get in front of the deciders", window: "Weeks 7–12", weeks: [7, 12] },
-  { title: "Make the case", window: "After week 12", weeks: [13, 52] },
+  { title: "Say what you lead", window: "Weeks 1–2", weeks: [1, 2], asks: "Put what you lead into words, and say it to the person who decides." },
+  { title: "Show the proof", window: "Weeks 3–6", weeks: [3, 6], asks: "Back up what you lead with work the people above you can see." },
+  { title: "Get in front of the deciders", window: "Weeks 7–12", weeks: [7, 12], asks: "Put your case in front of the people who decide on scope." },
+  { title: "Make the case", window: "After week 12", weeks: [13, 52], asks: "Ask for the broader role, with the record to back it." },
 ];
 
 /** The stage a given week of the plan falls in. */

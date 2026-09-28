@@ -80,6 +80,8 @@ import { recentWorkStates } from "./homepage/RecentWork/RecentWork.states";
 import { ringsHeroStates } from "./homepage/RingsHero/RingsHero.states";
 import { ringDetailStates } from "./homepage/RingDetail/RingDetail.states";
 import { signalActivityStates } from "./homepage/SignalActivity/SignalActivity.states";
+import { stageTrackStates } from "./homepage/StageTrack/StageTrack.states";
+import { stageActionsStates } from "./homepage/StageActions/StageActions.states";
 
 export const registry: RegisteredComponent[] = [
   badgeStates,
@@ -153,6 +155,8 @@ export const registry: RegisteredComponent[] = [
   ringsHeroStates,
   ringDetailStates,
   signalActivityStates,
+  stageTrackStates,
+  stageActionsStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */
