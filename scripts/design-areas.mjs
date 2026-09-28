@@ -11,7 +11,7 @@
  */
 export const DESIGN_AREAS = [
   "components/", // every component, its states file and the registry
-  "styles/", // tokens.css and app.css
+  "styles/", // tokens.css, app.css and fonts.ts (the typefaces)
   "mock/", // sample content
   "flows/", // the built concepts' screens
   "app/showroom/", // the showroom's own pages

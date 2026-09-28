@@ -251,11 +251,12 @@
 
   /* ---------------------------------------------------------------------------
      TYPOGRAPHY
-     Families are assigned by next/font in app/layout.tsx; the roles live here.
+     Typefaces are chosen in styles/fonts.ts and arrive as the --font-*-face
+     variables; the roles, with their fallbacks, live here.
      ------------------------------------------------------------------------ */
-  --font-display: var(--font-red-hat-display), "Helvetica Neue", Arial, sans-serif;
-  --font-serif: var(--font-libre-baskerville), Georgia, "Times New Roman", serif;
-  --font-body: var(--font-inter), "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-display-face), "Helvetica Neue", Arial, sans-serif;
+  --font-serif: var(--font-serif-face), Georgia, "Times New Roman", serif;
+  --font-body: var(--font-body-face), "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
   --text-2xs: 0.6875rem; /* 11px — badges, meta */

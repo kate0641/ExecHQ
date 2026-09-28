@@ -44,7 +44,8 @@ the design areas.
   outside them — a new route or concept, the manifest, a spec, a dependency,
   config — stop and tell the designer it is a change for Kate.
 - **Keep to the rules in the rest of this file.** Colours, type, spacing, radii,
-  borders and shadows change in `styles/tokens.css` and nowhere else. No UI kits,
+  borders and shadows change in `styles/tokens.css` and nowhere else; typefaces
+  change in `styles/fonts.ts`, through `next/font/google` only. No UI kits,
   icon sets or new packages. Responsive styles use `data-viewport`, never
   `@media`. WCAG 2.2 AA holds.
 - **Show every change in the showroom.** A token change is checked in
@@ -98,6 +99,7 @@ Done when: the branch is pushed and a pull request into `main` is open.
 | `specs/`              | One interaction spec markdown file per flow slug. Rendered by the hub. |
 | `mock/`               | Local mock JSON. The only data source a placeholder page may use. |
 | `styles/tokens.css`   | Every colour, spacing, type, radius, border and shadow value.     |
+| `styles/fonts.ts`     | The typefaces, one per role, loaded with `next/font/google`.      |
 | `styles/app.css`      | The single shared stylesheet of reusable classes.                 |
 | `components/`         | Every component, hand-written. Each ships a sibling `*.states.ts`. |
 | `app/`                | Routes. `app/page.tsx` is the hub, `app/showroom/` is the showroom (design system, component catalogue, playground), `app/[flow]/[concept]/` is every product page. |
@@ -126,7 +128,16 @@ evaluated before colour.
 
 ## Font roles
 
-Loaded via `next/font/google` in `app/layout.tsx`, exposed as tokens:
+Loaded in `styles/fonts.ts`, the one place a typeface is chosen, and exposed as
+tokens. Each face arrives as a variable named for its role (`--font-display-face`,
+`--font-serif-face`, `--font-body-face`), and `styles/tokens.css` builds the
+tokens on those, so swapping a typeface only touches `styles/fonts.ts`.
+`app/layout.tsx` imports the fonts from there and applies their `.variable`
+classes; it chooses nothing itself.
+
+`styles/` is a design area, so the designer can change a typeface in a design
+session. Only `next/font/google` may load one: no new packages, no `<link>`
+tags, and no `@import` from Google Fonts.
 
 | Token            | Family             | Role                                        |
 | ---------------- | ------------------ | ------------------------------------------- |
