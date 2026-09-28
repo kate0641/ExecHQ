@@ -35,8 +35,9 @@ export interface PositioningInputs {
   edits: Record<string, string>;
   /** True once "Build my story" has been pressed: the outputs page shows. */
   built: boolean;
-  /** Concept 2: the parts of the story the user has reviewed and approved,
-   *  by section id. Concept 1 has no per-section review and leaves it empty. */
+  /** Concept 2: markers for the story's choices, "sharpen" once the user
+   *  chose to sharpen it and "story" once they approved it. Concept 1 has no
+   *  review in the thread and leaves it empty. */
   approved: string[];
 }
 
@@ -302,8 +303,17 @@ export function makeReducer(refinementCount: number, customPlanCount: number) {
           },
         };
 
+      // A saved story counts as built, so a step-bar jump from after it keeps
+      // the user's own story rather than swapping in the sample one.
       case "save-artifact":
-        return { ...state, answers: { ...state.answers, artifactSaved: true } };
+        return {
+          ...state,
+          answers: {
+            ...state.answers,
+            artifactSaved: true,
+            positioning: { ...state.answers.positioning, built: true },
+          },
+        };
 
       case "set-connection":
         return {
