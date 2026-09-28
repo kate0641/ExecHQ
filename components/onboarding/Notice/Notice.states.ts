@@ -8,7 +8,7 @@ export const noticeStates = defineComponentStates({
   status: "draft",
   flows: ["onboarding"],
   description:
-    "Explanation attached to what the user just did. The 'explain' tone exists because a rejected corporate email and an unrecognised invite code both deserve a reason in the product's voice rather than a bare validation error. Tone never carries meaning alone — every notice says its situation in words.",
+    "Explanation attached to what the user just did: a white card with a label line whose halo dot shows the tone (info, success, explain for warning, problem for danger). The 'explain' tone exists because a rejected corporate email and an unrecognised invite code both deserve a reason in the product's voice rather than a bare validation error. Tone never carries meaning alone — the label names it and every notice says its situation in words.",
   component: Notice,
   notApplicable: {
     ...CONTROLS_INSIDE,
@@ -19,7 +19,16 @@ export const noticeStates = defineComponentStates({
   variants: [
     {
       label: "Info",
-      props: { children: "Your draft is saved. You can come back to it." },
+      props: { label: "Saved", children: "Your draft is saved. You can come back to it." },
+    },
+    {
+      label: "Success",
+      props: {
+        tone: "success" as const,
+        label: "Ready",
+        title: "Your plan is ready",
+        children: "Five parts, built from what you told me. You can change any of it.",
+      },
     },
     {
       label: "Explain — corporate email",

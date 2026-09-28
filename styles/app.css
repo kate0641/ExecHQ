@@ -471,6 +471,52 @@ samp {
   color: var(--color-status-approved-text);
 }
 
+/* Feedback tags: a white pill with a halo dot before the word. Sentence case
+   and no tracking, so they read as labels rather than statuses. */
+.badge--info,
+.badge--success,
+.badge--warning,
+.badge--danger {
+  --badge-dot: var(--color-feedback-info-dot);
+  --badge-halo: var(--color-feedback-info-halo);
+  gap: var(--space-xs);
+  padding-inline: var(--space-xs) var(--space-sm);
+  background-color: var(--color-surface-raised);
+  border-color: var(--color-border-subtle);
+  color: var(--color-text-primary);
+  letter-spacing: var(--tracking-normal);
+  text-transform: none;
+}
+
+.badge--success {
+  --badge-dot: var(--color-feedback-success-dot);
+  --badge-halo: var(--color-feedback-success-halo);
+}
+
+.badge--warning {
+  --badge-dot: var(--color-feedback-warning-dot);
+  --badge-halo: var(--color-feedback-warning-halo);
+}
+
+.badge--danger {
+  --badge-dot: var(--color-feedback-danger-dot);
+  --badge-halo: var(--color-feedback-danger-halo);
+}
+
+.badge--info::before,
+.badge--success::before,
+.badge--warning::before,
+.badge--danger::before {
+  content: "";
+  flex: none;
+  width: var(--feedback-dot-sm);
+  height: var(--feedback-dot-sm);
+  margin-inline: var(--feedback-dot-halo-sm);
+  border-radius: var(--radius-pill);
+  background-color: var(--badge-dot);
+  box-shadow: 0 0 0 var(--feedback-dot-halo-sm) var(--badge-halo);
+}
+
 /* Field -------------------------------------------------------------------- */
 
 .field {
@@ -2259,6 +2305,11 @@ samp {
   text-transform: uppercase;
 }
 
+/* A real tag keeps its own width rather than stretching to the column. */
+.styleguide__sample-item > .badge {
+  align-self: flex-start;
+}
+
 .styleguide__sample-tokens {
   display: flex;
   flex-direction: column;
@@ -3122,24 +3173,52 @@ samp {
 
 /* --- Notice --------------------------------------------------------------- */
 
+/* A white card on the page. Tone is the halo dot on the label line; the card
+   itself stays neutral, so the bright accents show without tinting it. */
 .notice {
+  --notice-dot: var(--color-feedback-info-dot);
+  --notice-halo: var(--color-feedback-info-halo);
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
-  padding: var(--space-md);
-  border-radius: var(--radius-sm);
-  border-left: var(--border-width-thick) solid var(--color-border-strong);
-  background-color: var(--color-feedback-info-surface);
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-surface-raised);
+  border: var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.notice--success {
+  --notice-dot: var(--color-feedback-success-dot);
+  --notice-halo: var(--color-feedback-success-halo);
 }
 
 .notice--explain {
-  background-color: var(--color-feedback-warning-surface);
-  border-left-color: var(--color-feedback-warning-border);
+  --notice-dot: var(--color-feedback-warning-dot);
+  --notice-halo: var(--color-feedback-warning-halo);
 }
 
 .notice--problem {
-  background-color: var(--color-feedback-danger-surface);
-  border-left-color: var(--color-feedback-danger-border);
+  --notice-dot: var(--color-feedback-danger-dot);
+  --notice-halo: var(--color-feedback-danger-halo);
+}
+
+.notice__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+/* The halo is a spread shadow, so the row is padded by it to stay aligned. */
+.notice__dot {
+  flex: none;
+  width: var(--feedback-dot);
+  height: var(--feedback-dot);
+  margin-inline: var(--feedback-dot-halo);
+  border-radius: var(--radius-pill);
+  background-color: var(--notice-dot);
+  box-shadow: 0 0 0 var(--feedback-dot-halo) var(--notice-halo);
 }
 
 .notice__title {

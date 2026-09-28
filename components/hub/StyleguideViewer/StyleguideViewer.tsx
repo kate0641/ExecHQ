@@ -1,4 +1,6 @@
 import { Panel } from "@/components/layout/Panel";
+import { Notice, type NoticeTone } from "@/components/onboarding/Notice";
+import { Badge, type FeedbackBadgeTone } from "@/components/primitives/Badge";
 import { TextLink } from "@/components/primitives/TextLink";
 import { getHubPage } from "@/lib/hub-pages";
 import { Specimens } from "./Specimens";
@@ -98,13 +100,13 @@ const ROLE_GROUPS: { title: string; note: string; prefixes: string[]; kind?: "sa
     prefixes: ["--color-border"],
   },
   {
-    title: "Focus and overlay",
-    note: "Focus rings, the scrim behind dialogs, and the mic's listening pulse.",
-    prefixes: ["--color-focus", "--color-overlay", "--color-listening"],
+    title: "Focus, overlay and masks",
+    note: "Focus rings, the scrim behind dialogs, the mic's listening pulse, and the mask that fades scrolling content at an edge.",
+    prefixes: ["--color-focus", "--color-overlay", "--color-listening", "--color-mask"],
   },
   {
     title: "Feedback",
-    note: "Each tone is a surface, a text colour and an edge, shown together as they are used.",
+    note: "Each tone is a halo dot (a mid-tone centre in a bright ring), drawn here with the real notice and tag. Border and text are the field error; surface is the catalogue's problem box.",
     prefixes: ["--color-feedback-"],
     kind: "samples",
   },
@@ -121,12 +123,19 @@ const ROLE_GROUPS: { title: string; note: string; prefixes: string[]; kind?: "sa
   },
 ];
 
-/** Feedback and status tokens come in sets: surface, text and border per tone. */
-const SAMPLE_SETS: { group: string; tone: string; label: string; prefix: string }[] = [
-  { group: "Feedback", tone: "info", label: "Info", prefix: "--color-feedback-info-" },
-  { group: "Feedback", tone: "success", label: "Success", prefix: "--color-feedback-success-" },
-  { group: "Feedback", tone: "warning", label: "Warning", prefix: "--color-feedback-warning-" },
-  { group: "Feedback", tone: "danger", label: "Danger", prefix: "--color-feedback-danger-" },
+/** Feedback and status tokens come in sets per tone. Feedback is drawn with
+ *  the real Notice and Badge; status badges with their three tokens. */
+const SAMPLE_SETS: {
+  group: string;
+  tone: string;
+  label: string;
+  prefix: string;
+  notice?: NoticeTone;
+}[] = [
+  { group: "Feedback", tone: "info", label: "Info", prefix: "--color-feedback-info-", notice: "info" },
+  { group: "Feedback", tone: "success", label: "Success", prefix: "--color-feedback-success-", notice: "success" },
+  { group: "Feedback", tone: "warning", label: "Warning", prefix: "--color-feedback-warning-", notice: "explain" },
+  { group: "Feedback", tone: "danger", label: "Danger", prefix: "--color-feedback-danger-", notice: "problem" },
   { group: "Status badges", tone: "draft", label: "Draft", prefix: "--color-status-draft-" },
   { group: "Status badges", tone: "review", label: "In review", prefix: "--color-status-review-" },
   { group: "Status badges", tone: "approved", label: "Approved", prefix: "--color-status-approved-" },
@@ -137,6 +146,13 @@ function landsOn(name: string, tokens: Map<string, Token>): string {
   const step = resolve(name, tokens);
   if (!step) return "";
   if (VAR_REFERENCE.test(step.value)) return step.value;
+  // A halo is its bright colour softened towards white.
+  const mixed = /^color-mix\(in srgb, var\((--[\w-]+)\) (\d+)%/.exec(step.value);
+  if (mixed) {
+    const base = resolve(mixed[1], tokens);
+    const baseLabel = base ? stepLabel(base.name) : undefined;
+    return baseLabel ? `${baseLabel} at ${mixed[2]}%, softened with white` : step.value;
+  }
   const label =
     stepLabel(step.name) ?? (step.name === "--brand-white" ? "White" : undefined);
   return label ? `${label} · ${step.value}` : step.value;
@@ -167,6 +183,26 @@ function Sample({
 }) {
   const part = (end: string) => `${set.prefix}${end}`;
   const isBadge = set.group === "Status badges";
+  if (set.notice) {
+    return (
+      <li className="styleguide__sample-item">
+        <Notice tone={set.notice} label={set.label}>
+          An example {set.label.toLowerCase()} notice.
+        </Notice>
+        <Badge tone={set.tone as FeedbackBadgeTone}>{set.label} tag</Badge>
+        <ul className="styleguide__sample-tokens">
+          {["dot", "halo", "border", "text", "surface"].map((end) =>
+            tokens.has(part(end)) ? (
+              <li key={end}>
+                <code>{part(end)}</code>
+                <span>{landsOn(part(end), tokens)}</span>
+              </li>
+            ) : null
+          )}
+        </ul>
+      </li>
+    );
+  }
   return (
     <li className="styleguide__sample-item">
       <div

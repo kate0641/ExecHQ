@@ -230,6 +230,19 @@
   --color-feedback-danger-text: var(--brand-orange-700);
   --color-feedback-danger-border: var(--brand-orange-600);
 
+  /* Feedback dots: a mid-tone centre inside a halo of the bright palette
+     colour, softened a quarter towards white. The bright accents are too
+     light for text on white, so this is where they show. The dot is never
+     the only cue: every notice and tag says its tone in words. */
+  --color-feedback-info-dot: var(--brand-blue-500);
+  --color-feedback-info-halo: color-mix(in srgb, var(--brand-blue-200) 75%, var(--brand-white));
+  --color-feedback-success-dot: var(--brand-green-600);
+  --color-feedback-success-halo: color-mix(in srgb, var(--brand-green-300) 75%, var(--brand-white));
+  --color-feedback-warning-dot: var(--brand-yellow-500);
+  --color-feedback-warning-halo: color-mix(in srgb, var(--brand-yellow-400) 75%, var(--brand-white));
+  --color-feedback-danger-dot: var(--brand-orange-600);
+  --color-feedback-danger-halo: color-mix(in srgb, var(--brand-orange-300) 75%, var(--brand-white));
+
   /* Device frame */
   --color-device-bezel: var(--brand-stone-900);
   --color-device-edge: var(--brand-stone-600);
@@ -345,6 +358,11 @@
   --dock-width: 38px;
   --dock-control: 30px;
   --hub-panel-width: 420px;
+  /* Feedback dots: centre and halo ring. 14px across on a notice, 10px on a tag. */
+  --feedback-dot: 8px;
+  --feedback-dot-halo: 3px;
+  --feedback-dot-sm: 6px;
+  --feedback-dot-halo-sm: 2px;
   --content-measure: 68ch;
 
   /* ---------------------------------------------------------------------------

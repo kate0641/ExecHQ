@@ -8,7 +8,7 @@ export const badgeStates = defineComponentStates({
   status: "draft",
   flows: [],
   description:
-    "Status and metadata label. The word is always present, so the badge never depends on colour alone to carry meaning.",
+    "Status and metadata label, and feedback tags (info, success, warning, danger) drawn as white pills with a halo dot. The word is always present, so the badge never depends on colour alone to carry meaning.",
   component: Badge,
   notApplicable: {
     ...NOT_INTERACTIVE,
@@ -23,5 +23,9 @@ export const badgeStates = defineComponentStates({
     { label: "Draft", props: { tone: "draft", srPrefix: "Status:", children: "Draft" } },
     { label: "In review", props: { tone: "in-review", srPrefix: "Status:", children: "In review" } },
     { label: "Approved", props: { tone: "approved", srPrefix: "Status:", children: "Approved" } },
+    { label: "Feedback — info", props: { tone: "info", children: "Info" } },
+    { label: "Feedback — success", props: { tone: "success", children: "On track" } },
+    { label: "Feedback — warning", props: { tone: "warning", children: "Needs a look" } },
+    { label: "Feedback — danger", props: { tone: "danger", children: "Overdue" } },
   ],
 });
