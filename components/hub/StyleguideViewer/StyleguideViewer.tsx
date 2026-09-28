@@ -54,6 +54,109 @@ function Swatches({ tokens, label }: { tokens: Token[]; label: string }) {
   );
 }
 
+/** The six brand scales, in the order the page shows them, with what each is for. */
+const SCALES: { key: string; title: string; role: string }[] = [
+  {
+    key: "blue",
+    title: "Blue",
+    role: "Navy (800) carries links, focus rings, dark panels and the approved badge. Deep navy (900) is pressed; light blue (200) is the soft secondary.",
+  },
+  {
+    key: "green",
+    title: "Green",
+    role: "Success. Dark green (800) is its text and border, green 100 its surface.",
+  },
+  {
+    key: "yellow",
+    title: "Yellow",
+    role: "Bright yellow (400) is the primary button, 500 on hover and 600 pressed. Gold yellow (700) is for small accents on light.",
+  },
+  {
+    key: "orange",
+    title: "Orange",
+    role: "Warning. The palette orange (400) is too light for text on white, so the border is 600.",
+  },
+  {
+    key: "slate",
+    title: "Slate",
+    role: "The cool neutral, in place of the old greys: text, borders and quiet surfaces. Slate 900 is the ink.",
+  },
+  {
+    key: "stone",
+    title: "Stone",
+    role: "The warm neutral. Stone 100 is the canvas behind the device.",
+  },
+];
+
+const STEPS = [100, 200, 300, 400, 500, 600, 700, 800, 900];
+
+/** The semantic colour tokens that resolve to each token, through any aliases. */
+function colourUses(tokens: Token[]): Map<string, string[]> {
+  const values = new Map(tokens.map((token) => [token.name, token.value]));
+  const uses = new Map<string, string[]>();
+  for (const token of tokens) {
+    if (!token.name.startsWith("--color-")) continue;
+    let value = token.value;
+    let target = /^var\((--[\w-]+)\)$/.exec(value)?.[1];
+    while (target && values.has(target)) {
+      uses.set(target, [...(uses.get(target) ?? []), token.name]);
+      value = values.get(target) ?? "";
+      target = /^var\((--[\w-]+)\)$/.exec(value)?.[1];
+    }
+  }
+  return uses;
+}
+
+function Scale({
+  scale,
+  tokens,
+  uses,
+}: {
+  scale: (typeof SCALES)[number];
+  tokens: Map<string, Token>;
+  uses: Map<string, string[]>;
+}) {
+  const steps = STEPS.flatMap((step) => {
+    const token = tokens.get(`--brand-${scale.key}-${step}`);
+    return token ? [{ step, token }] : [];
+  });
+  if (steps.length === 0) return null;
+  return (
+    <div className="styleguide__group">
+      <h3 className="styleguide__scale-title">{scale.title}</h3>
+      <p className="styleguide__group-note">
+        {scale.role} Tokens <code>--brand-{scale.key}-100</code> to <code>-900</code>.
+      </p>
+      <ul className="styleguide__scale">
+        {steps.map(({ step, token }) => (
+          <li className="styleguide__step" key={token.name}>
+            <span
+              className="styleguide__step-swatch"
+              style={{ backgroundColor: `var(${token.name})` }}
+            />
+            <div className="styleguide__step-body">
+              <span className="styleguide__step-name">
+                {scale.title} {step}
+              </span>
+              <code className="styleguide__step-value">{token.value}</code>
+              {token.note ? <span className="styleguide__token-note">{token.note}</span> : null}
+              {uses.get(token.name)?.length ? (
+                <ul className="styleguide__step-uses" aria-label="Used by">
+                  {uses.get(token.name)?.map((use) => (
+                    <li key={use}>
+                      <code>{use}</code>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 /** The surface tokens, in the order a page stacks them, with what each is for. */
 const SURFACES: { token: string; role: string; inverse?: boolean }[] = [
   { token: "--color-canvas", role: "Behind the device frame." },
@@ -91,6 +194,9 @@ export function StyleguideViewer() {
         token.category === "colour") &&
       token.name !== "--shadow-rgb"
   );
+  const tokenMap = new Map(allTokens.map((token) => [token.name, token]));
+  const uses = colourUses(allTokens);
+  const scaleStep = new RegExp(`^--brand-(${SCALES.map((s) => s.key).join("|")})-\\d00$`);
   const textSizes = tokensWithPrefix("--text-");
   const spacing = tokensIn("spacing");
   const radii = tokensIn("radii");
@@ -108,9 +214,14 @@ export function StyleguideViewer() {
           tokens={colourTokens.filter((token) => token.category === "palette")}
           label={CATEGORY_LABELS.palette}
         />
+        {SCALES.map((scale) => (
+          <Scale scale={scale} tokens={tokenMap} uses={uses} key={scale.key} />
+        ))}
         <Swatches
-          tokens={colourTokens.filter((token) => token.category === "brand")}
-          label={CATEGORY_LABELS.brand}
+          tokens={colourTokens.filter(
+            (token) => token.category === "brand" && !scaleStep.test(token.name)
+          )}
+          label="White, palette names and brand slots"
         />
         <Swatches
           tokens={colourTokens.filter((token) => token.category === "colour")}
