@@ -46,7 +46,7 @@ export function SnapshotPicker() {
       value: id,
       label: snapshot.label,
       icon: (
-        <span className="snapshot-picker__glyph" aria-hidden="true">
+        <span className="dock-picker__glyph" aria-hidden="true">
           {SNAPSHOT_GLYPHS[id]}
         </span>
       ),
@@ -55,7 +55,7 @@ export function SnapshotPicker() {
   });
 
   return (
-    <div className="snapshot-picker">
+    <div className="dock-picker">
       <span className="devtools__rule" aria-hidden="true" />
       <ToggleGroup
         label="Snapshot"

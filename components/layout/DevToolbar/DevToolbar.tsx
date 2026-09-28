@@ -11,6 +11,7 @@ import {
   type PointerEvent as ReactPointerEvent,
   type RefObject,
 } from "react";
+import { NavPicker } from "@/components/hub/NavPicker";
 import { SnapshotPicker } from "@/components/hub/SnapshotPicker";
 import { ViewportToggle } from "@/components/hub/ViewportToggle";
 import { Icon } from "@/components/primitives/Icon";
@@ -43,8 +44,8 @@ export interface DevToolbarProps {
 }
 
 /**
- * The prototype's controls: the viewport toggle, the snapshot picker (on
- * signed-in pages) and the hub button, stacked in a dock against the edge of
+ * The prototype's controls: the viewport toggle, the navigation and snapshot
+ * pickers (on signed-in pages) and the hub button, stacked in a dock against the edge of
  * the window.
  *
  * A dock rather than a bar because everything on the canvas — headings,
@@ -250,7 +251,8 @@ export function DevToolbar({ hubOpen, onToggleHub, hubTriggerRef }: DevToolbarPr
       <div className="devtools__content" id={contentId} hidden={collapsed}>
         <ViewportToggle />
 
-        {/* Signed-in pages only; renders nothing elsewhere. */}
+        {/* Signed-in pages only; both render nothing elsewhere. */}
+        <NavPicker />
         <SnapshotPicker />
 
         <span className="devtools__rule" aria-hidden="true" />

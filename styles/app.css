@@ -1224,12 +1224,13 @@ samp {
   display: contents;
 }
 
-.snapshot-picker {
+/* The navigation and snapshot pickers. */
+.dock-picker {
   display: contents;
 }
 
-/* Two characters where an icon would sit: "D1", "W3", "M3". */
-.snapshot-picker__glyph {
+/* Two characters where an icon would sit: "N1", "D1", "W3", "M3". */
+.dock-picker__glyph {
   font-family: var(--font-display);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
@@ -1510,12 +1511,20 @@ samp {
   opacity: 0.72;
 }
 
+/* The navigation concept's wrapper. Takes no box, so the nav inside it is laid
+   out by the chrome as if the wrapper were not there. */
+.app-nav {
+  display: contents;
+}
+
 .chrome__nav {
   background-color: var(--color-surface);
   border-bottom: var(--border-width-thin) solid var(--color-border);
 }
 
-.chrome__nav-list {
+/* `ul.` so it outranks the `ul[class]` reset, which would otherwise take its
+   side padding away and push Home against the edge. */
+ul.chrome__nav-list {
   display: flex;
   gap: var(--space-lg);
   max-width: var(--viewport-web-max);
@@ -1616,6 +1625,31 @@ samp {
 
 [data-viewport="tablet"] .chrome__main {
   padding: var(--space-lg) var(--space-lg);
+}
+
+/* Destination stub — a later sprint's page, quiet and intentional. */
+
+.destination-stub {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  max-width: var(--content-measure);
+  margin-inline: auto;
+  width: 100%;
+}
+
+.destination-stub__heading {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  color: var(--color-text-primary);
+}
+
+.destination-stub__body {
+  font-size: var(--text-md);
+  color: var(--color-text-secondary);
 }
 
 /* Page anatomy — shared by every placeholder page. */

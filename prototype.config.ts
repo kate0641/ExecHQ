@@ -51,6 +51,14 @@ export interface Flow {
   header?: boolean;
   /** One line shown under the flow in the hub. */
   description: string;
+  /** What a signed-in destination shows until its sprint designs it: a
+   *  heading and one line in product voice, so the navigation can be
+   *  reviewed against pages that look intentional without committing that
+   *  sprint to a layout. Only for `app` flows. */
+  stub?: { heading: string; body: string };
+  /** For the navigation flow: the page each navigation concept is reviewed
+   *  on. By decision on 2026-09-28, all three wrap one homepage concept. */
+  navCanvas?: { flowSlug: string; conceptSlug: string };
   concepts: Concept[];
 }
 
@@ -122,12 +130,23 @@ export const prototypeConfig: PrototypeConfig = {
       sprint: 2,
       chrome: "app",
       description:
-        "How the signed-in app is structured and moved through on web, tablet and mobile.",
+        "How the signed-in app is structured and moved through on web, tablet and mobile. Each concept is reviewed on the homepage.",
+      navCanvas: { flowSlug: "homepage", conceptSlug: "concept-1" },
       concepts: [
         {
           slug: "concept-1",
           title: "Concept 1",
-          summary: "Primary navigation model.",
+          summary: "Direction to come.",
+        },
+        {
+          slug: "concept-2",
+          title: "Concept 2",
+          summary: "Direction to come.",
+        },
+        {
+          slug: "concept-3",
+          title: "Concept 3",
+          summary: "Direction to come.",
         },
       ],
     },
@@ -168,6 +187,10 @@ export const prototypeConfig: PrototypeConfig = {
       chrome: "app",
       description:
         "Roadmap, Active Landscape and plan progress in one place. Factual, never a score.",
+      stub: {
+        heading: "Your plan",
+        body: "Where your plan will live: the road ahead, what\u2019s next on it, and what you\u2019ve done so far.",
+      },
       concepts: [
         {
           slug: "concept-1",
@@ -183,6 +206,10 @@ export const prototypeConfig: PrototypeConfig = {
       chrome: "app",
       description:
         "The four pilot workflows: Positioning Builder, Pitch Builder, Situation Brief, Thought Leadership Builder.",
+      stub: {
+        heading: "Toolbox",
+        body: "Where you\u2019ll make your next draft: a pitch, a brief, a post or your positioning.",
+      },
       concepts: [
         {
           slug: "concept-1",
@@ -213,6 +240,10 @@ export const prototypeConfig: PrototypeConfig = {
       chrome: "app",
       description:
         "A standalone daily read: three curated items, why each matters, and an optional route into Thought Leadership Builder.",
+      stub: {
+        heading: "Briefing",
+        body: "Where your daily read will live: three things worth your time, and why each one matters.",
+      },
       concepts: [
         {
           slug: "concept-1",

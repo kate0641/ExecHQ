@@ -63,6 +63,7 @@ import { quickRepliesStates } from "./chat/QuickReplies/QuickReplies.states";
 import { chatComposerStates } from "./chat/ChatComposer/ChatComposer.states";
 import { chatWelcomeStates, introCardStates } from "./chat/ChatWelcome/ChatWelcome.states";
 import { loopStatusStates } from "./loop/LoopStatus/LoopStatus.states";
+import { destinationStubStates } from "./layout/DestinationStub/DestinationStub.states";
 
 export const registry: RegisteredComponent[] = [
   badgeStates,
@@ -119,6 +120,7 @@ export const registry: RegisteredComponent[] = [
   chatWelcomeStates,
   introCardStates,
   loopStatusStates,
+  destinationStubStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */
