@@ -1896,6 +1896,394 @@ ul.tab-bar__list {
   color: var(--color-text-primary);
 }
 
+/* Drawer — Navigation Concept 3 -------------------------------------------
+
+   Mobile: the list is laid out on the device screen behind the page, and
+   opening it makes the page step aside. The page is `.device__content`, so
+   the whole of it — header, content, footer — moves as one. */
+
+.device__screen[data-nav-drawer] > .device__statusbar {
+  z-index: 2;
+}
+
+.device__screen[data-nav-drawer] > .device__content {
+  position: relative;
+  z-index: 1;
+  background-color: var(--color-surface);
+  transform-origin: 0 50%;
+  transition:
+    transform 0.42s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-radius 0.42s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.42s ease;
+}
+
+.device__screen[data-nav-drawer="open"] > .device__content {
+  overflow: hidden;
+  transform: translateX(270px) scale(0.84);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-drawer);
+}
+
+/* Hidden until opened, so the screen behind the status bar stays the page's
+   own colour while the menu is closed. */
+.drawer-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  padding: calc(var(--device-statusbar-height) + var(--space-sm)) var(--space-md) var(--space-lg);
+  background-color: var(--color-canvas);
+  opacity: 0;
+  transition: opacity var(--duration-base) ease 0.2s;
+}
+
+.device__screen[data-nav-drawer="open"] > .drawer-stage {
+  opacity: 1;
+  transition-delay: 0s;
+}
+
+/* The stepped-aside page is one big button back. */
+.drawer-stage__back {
+  position: absolute;
+  inset: 0 0 0 262px;
+  z-index: 3;
+  cursor: pointer;
+}
+
+.drawer-stage__back:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: calc(-1 * var(--space-md));
+  border-radius: var(--radius-xl);
+}
+
+/* The list, in all three modes. */
+
+.drawer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.drawer-nav--drawer {
+  width: 250px;
+  height: 100%;
+}
+
+.drawer-nav__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 40px;
+  padding: 0 0 var(--space-sm) var(--space-sm);
+}
+
+.drawer-nav__wordmark {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text-primary);
+}
+
+ul.drawer-nav__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.drawer-nav__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-height: 56px;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-lg);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  transition: background-color var(--duration-fast), transform var(--duration-fast);
+}
+
+.drawer-nav__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.drawer-nav__label {
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+  color: var(--color-text-primary);
+}
+
+.drawer-nav__line {
+  overflow: hidden;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.drawer-nav__item:hover,
+.drawer-nav__item.is-hover {
+  background-color: var(--color-surface-hover);
+}
+
+.drawer-nav--drawer .drawer-nav__item:hover,
+.drawer-nav--drawer .drawer-nav__item.is-hover {
+  background-color: var(--color-surface);
+}
+
+.drawer-nav__item:focus-visible,
+.drawer-nav__item.is-focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.drawer-nav__item:active,
+.drawer-nav__item.is-active {
+  transform: scale(0.98);
+}
+
+.drawer-nav__item.is-current {
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+}
+
+.drawer-nav__item.is-current .drawer-nav__label {
+  color: var(--color-text-inverse);
+}
+
+.drawer-nav__item.is-current .drawer-nav__line {
+  color: var(--color-text-inverse-muted);
+}
+
+.drawer-nav__dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  margin-left: auto;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+}
+
+.drawer-nav__item.is-current .drawer-nav__dot {
+  background-color: var(--color-accent-on-inverse);
+}
+
+.drawer-nav__account {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: auto;
+  padding: var(--space-sm);
+  border-radius: var(--radius-lg);
+}
+
+.drawer-nav__avatar {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: var(--color-surface-sunken);
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  color: var(--color-text-primary);
+}
+
+.drawer-nav--drawer .drawer-nav__avatar {
+  background-color: var(--color-surface);
+}
+
+.drawer-nav__who {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.drawer-nav__who b {
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+}
+
+/* Mobile: the items follow the page aside, one after another. */
+.drawer-nav--drawer .drawer-nav__item {
+  opacity: 0;
+  transform: translateX(-12px);
+  transition:
+    opacity var(--duration-slow) ease,
+    transform 0.38s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background-color var(--duration-fast);
+  transition-delay: calc(var(--i, 0) * 40ms + 80ms);
+}
+
+.device__screen[data-nav-drawer="open"] .drawer-nav--drawer .drawer-nav__item {
+  opacity: 1;
+  transform: none;
+}
+
+/* Tablet and web: the list stands beside the page, full height, and the
+   page's header, content and footer take the column to its right. */
+
+.drawer-host {
+  display: contents;
+}
+
+/* So the rail can be exactly as tall as the screen showing it. */
+.device__content {
+  container-type: size;
+}
+
+.chrome:has(.drawer-nav--rail, .drawer-nav--sidebar) {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto 1fr auto;
+}
+
+.chrome:has(.drawer-nav--rail, .drawer-nav--sidebar) > .chrome__header { grid-column: 2; grid-row: 1; }
+.chrome:has(.drawer-nav--rail, .drawer-nav--sidebar) > .chrome__main { grid-column: 2; grid-row: 2; }
+.chrome:has(.drawer-nav--rail, .drawer-nav--sidebar) > .chrome__footer { grid-column: 2; grid-row: 3; }
+
+.drawer-nav--rail,
+.drawer-nav--sidebar {
+  position: sticky;
+  top: 0;
+  grid-column: 1;
+  grid-row: 1 / -1;
+  align-self: start;
+  height: 100cqh;
+  padding: var(--space-md) var(--space-sm);
+  overflow: hidden;
+  background-color: var(--color-canvas);
+  border-right: var(--border-width-thin) solid var(--color-border);
+  transition: width var(--duration-slow) cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.drawer-nav--sidebar { width: 272px; }
+.drawer-nav--rail { width: 88px; }
+
+.drawer-nav--sidebar .drawer-nav__item,
+.drawer-nav--sidebar .drawer-nav__who {
+  white-space: nowrap;
+}
+
+.drawer-nav--rail .drawer-nav__top {
+  justify-content: center;
+  padding: 0 0 var(--space-sm);
+}
+
+.drawer-nav--sidebar .drawer-nav__top {
+  justify-content: flex-end;
+}
+
+.drawer-nav--rail .drawer-nav__item {
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-3xs);
+  min-height: 62px;
+  padding: var(--space-2xs);
+}
+
+.drawer-nav--rail .drawer-nav__text {
+  flex: none;
+  align-items: center;
+}
+
+.drawer-nav--rail .drawer-nav__label {
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-medium);
+  color: inherit;
+}
+
+.drawer-nav--rail .drawer-nav__item.is-current .drawer-nav__label {
+  color: var(--color-text-inverse);
+}
+
+.drawer-nav--rail .drawer-nav__line,
+.drawer-nav--rail .drawer-nav__who {
+  display: none;
+}
+
+.drawer-nav--rail .drawer-nav__dot {
+  position: absolute;
+  top: var(--space-xs);
+  right: var(--space-md);
+  margin: 0;
+}
+
+.drawer-nav--rail .drawer-nav__account {
+  justify-content: center;
+  padding: var(--space-2xs);
+}
+
+.drawer-nav__toggle {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+}
+
+.drawer-nav__toggle:hover {
+  background-color: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+.drawer-nav__toggle:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* Menu button — opens the Drawer on mobile. */
+
+.menu-button {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-left: calc(-1 * var(--space-sm));
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  transition: background-color var(--duration-fast), transform var(--duration-fast);
+}
+
+.menu-button:hover,
+.menu-button.is-hover {
+  background-color: var(--color-surface-hover);
+}
+
+.menu-button:focus-visible,
+.menu-button.is-focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.menu-button:active,
+.menu-button.is-active {
+  transform: scale(0.94);
+}
+
+.menu-button__dot {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+  box-shadow: 0 0 0 2px var(--color-surface);
+}
+
 /* Destination stub — a later sprint's page, quiet and intentional. */
 
 .destination-stub {

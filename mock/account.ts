@@ -33,7 +33,15 @@ export interface Account {
   name?: string;
   /** Her direction, in her own words from onboarding. */
   direction: string;
-  plan: { id: string; name: string; formalName: string };
+  plan: {
+    id: string;
+    name: string;
+    formalName: string;
+    /** When the plan began, for "Week 3 of 12". */
+    startedOn: string;
+    /** How many weeks it runs. */
+    weeks: number;
+  };
   connections: Connection[];
   /** Loop follow-ups by email. Off means they only appear on Home. */
   emailFollowUps: boolean;
@@ -56,7 +64,13 @@ export const MAYA: Account = {
   name: "Maya",
   direction:
     "I want to move from running campaigns to leading a broader marketing organisation.",
-  plan: { id: "leadership-scope", name: "Step up", formalName: "Increase leadership scope" },
+  plan: {
+    id: "leadership-scope",
+    name: "Step up",
+    formalName: "Increase leadership scope",
+    startedOn: "2026-10-05",
+    weeks: 12,
+  },
   connections: [
     {
       id: "linkedin",

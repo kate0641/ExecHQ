@@ -66,6 +66,8 @@ import { loopStatusStates } from "./loop/LoopStatus/LoopStatus.states";
 import { destinationStubStates } from "./layout/DestinationStub/DestinationStub.states";
 import { tabBarStates } from "./navigation/TabBar/TabBar.states";
 import { iconLinkStates } from "./navigation/IconLink/IconLink.states";
+import { drawerNavStates } from "./navigation/DrawerNav/DrawerNav.states";
+import { menuButtonStates } from "./navigation/MenuButton/MenuButton.states";
 
 export const registry: RegisteredComponent[] = [
   badgeStates,
@@ -125,6 +127,8 @@ export const registry: RegisteredComponent[] = [
   destinationStubStates,
   tabBarStates,
   iconLinkStates,
+  drawerNavStates,
+  menuButtonStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */

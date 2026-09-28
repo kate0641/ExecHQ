@@ -20,7 +20,8 @@ export type IconName =
   | "person"
   | "menu"
   | "close"
-  | "draft";
+  | "draft"
+  | "sidebar";
 
 export interface IconProps {
   name: IconName;
@@ -133,6 +134,13 @@ const PATHS: Record<IconName, React.ReactNode> = {
     </>
   ),
   menu: <path d="M3.5 6h13M3.5 10h13M3.5 14h13" />,
+  // A page with a side column: widening or folding a sidebar.
+  sidebar: (
+    <>
+      <rect x="2.5" y="3.5" width="15" height="13" rx="2" />
+      <path d="M8 3.5v13" />
+    </>
+  ),
   close: <path d="M5 5l10 10M15 5 5 15" />,
   // The pencil with its tip filled in: a draft is open, waiting for you.
   draft: (

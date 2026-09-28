@@ -1,5 +1,6 @@
 import type { ReactElement } from "react";
 import { TabBarHeaderEnd, TabBarNav } from "./concept-2";
+import { DrawerConceptNav, DrawerHeaderStart } from "./concept-3";
 import type { NavConceptProps } from "./types";
 
 /** Where in the chrome a navigation concept can draw. */
@@ -28,6 +29,10 @@ const BUILT_NAVS: Record<string, BuiltNav> = {
   "concept-2": {
     nav: (props) => <TabBarNav {...props} />,
     headerEnd: (props) => <TabBarHeaderEnd {...props} />,
+  },
+  "concept-3": {
+    nav: (props) => <DrawerConceptNav {...props} />,
+    headerStart: () => <DrawerHeaderStart />,
   },
 };
 

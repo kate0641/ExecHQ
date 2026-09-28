@@ -48,6 +48,7 @@ export const iconStates = defineComponentStates({
     },
     { label: "Person", props: { name: "person" } },
     { label: "Menu", props: { name: "menu" } },
+    { label: "Sidebar", description: "Widening or folding a sidebar.", props: { name: "sidebar" } },
     { label: "Close", props: { name: "close" } },
     {
       label: "Draft",

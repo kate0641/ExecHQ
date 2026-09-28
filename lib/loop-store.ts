@@ -44,7 +44,7 @@ import {
 const STORAGE_KEY = "exechq.loop";
 /** Bumped whenever the stored shape or the snapshots' starting data change,
  *  so an old save is dropped rather than half-read. */
-const STORAGE_VERSION = 1;
+const STORAGE_VERSION = 2;
 
 export interface LoopStoreState {
   snapshot: SnapshotId;
