@@ -1627,6 +1627,275 @@ ul.chrome__nav-list {
   padding: var(--space-lg) var(--space-lg);
 }
 
+/* Chrome header slots — what a navigation concept puts before or after the
+   wordmark. With either present the header aligns on centre, and the end slot
+   takes the right edge. */
+
+.chrome__header:has(> .chrome__header-start),
+.chrome__header:has(> .chrome__header-end) {
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.chrome__header-start,
+.chrome__header-end {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.chrome__header-end {
+  margin-left: auto;
+}
+
+/* Tab bar — Navigation Concept 2 ------------------------------------------
+
+   At the foot of the page on mobile and tablet: sticky inside the device's
+   scroll area, and last in visual order while staying before `main` in the
+   DOM. On web the same bar sits in the header. */
+
+.tab-bar-host {
+  display: contents;
+}
+
+.chrome:has(.tab-bar--stacked, .tab-bar--inline) > .chrome__header { order: 1; }
+.chrome:has(.tab-bar--stacked, .tab-bar--inline) > .chrome__main { order: 2; }
+.chrome:has(.tab-bar--stacked, .tab-bar--inline) > .chrome__footer { order: 4; }
+
+.tab-bar--stacked,
+.tab-bar--inline {
+  order: 5;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  background-color: var(--color-surface);
+  border-top: var(--border-width-thin) solid var(--color-border);
+  transition: padding var(--duration-slow) cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.tab-bar--stacked {
+  padding: var(--space-xs) var(--space-xs) var(--space-lg);
+}
+
+.tab-bar--inline {
+  padding: var(--space-sm) var(--space-lg) var(--space-lg);
+}
+
+.tab-bar--stacked.is-tucked {
+  padding-top: var(--space-2xs);
+  padding-bottom: var(--space-md);
+}
+
+.tab-bar--inline.is-tucked {
+  padding-top: var(--space-2xs);
+  padding-bottom: var(--space-sm);
+}
+
+.tab-bar__track {
+  position: relative;
+}
+
+ul.tab-bar__list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tab-bar--stacked .tab-bar__list { justify-content: space-around; }
+.tab-bar--inline .tab-bar__list { justify-content: center; gap: var(--space-lg); }
+.tab-bar--header .tab-bar__list { gap: var(--space-2xs); }
+
+.tab-bar--stacked .tab-bar__item { flex: 1; }
+
+/* The pill that glides. Placed by the component from measurement, and moved
+   with transitions only, so reduced motion stills it. */
+.tab-bar__glide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-secondary-soft);
+  pointer-events: none;
+  transition:
+    transform var(--duration-base) cubic-bezier(0.2, 0.8, 0.2, 1),
+    width var(--duration-base) cubic-bezier(0.2, 0.8, 0.2, 1),
+    height var(--duration-slow) cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.tab-bar__glide.is-instant {
+  transition: none;
+}
+
+.tab-bar__link {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3xs);
+  padding: var(--space-2xs) 0;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  transition: color var(--duration-fast), transform var(--duration-fast), gap var(--duration-slow);
+}
+
+.tab-bar--inline .tab-bar__link,
+.tab-bar--header .tab-bar__link {
+  flex-direction: row;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-md);
+  font-size: var(--text-sm);
+}
+
+.tab-bar__link:hover,
+.tab-bar__link.is-hover {
+  color: var(--color-text-primary);
+}
+
+.tab-bar--stacked .tab-bar__link:hover:not(.is-current) .tab-bar__pill,
+.tab-bar--stacked .tab-bar__link.is-hover:not(.is-current) .tab-bar__pill,
+.tab-bar--inline .tab-bar__link:hover:not(.is-current),
+.tab-bar--inline .tab-bar__link.is-hover:not(.is-current),
+.tab-bar--header .tab-bar__link:hover:not(.is-current),
+.tab-bar--header .tab-bar__link.is-hover:not(.is-current) {
+  background-color: var(--color-surface-hover);
+}
+
+.tab-bar__link:focus-visible,
+.tab-bar__link.is-focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.tab-bar__link:active,
+.tab-bar__link.is-active {
+  transform: scale(0.95);
+}
+
+.tab-bar__link.is-current {
+  color: var(--color-text-primary);
+  font-weight: var(--weight-semibold);
+}
+
+.tab-bar__pill {
+  position: relative;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-pill);
+}
+
+.tab-bar--stacked .tab-bar__pill {
+  width: 58px;
+  height: 32px;
+}
+
+.tab-bar__icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+/* Briefing's date, set in the lower half of the calendar. */
+.tab-bar__date {
+  position: absolute;
+  inset: 8px 0 0;
+  font-family: var(--font-display);
+  font-size: var(--text-icon);
+  font-weight: var(--weight-bold);
+  line-height: 1;
+  text-align: center;
+  pointer-events: none;
+}
+
+/* The quiet dot: something is waiting, never how many. */
+.tab-bar__dot {
+  position: absolute;
+  top: 2px;
+  right: 12px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+  box-shadow: 0 0 0 2px var(--color-surface);
+}
+
+.tab-bar--inline .tab-bar__dot,
+.tab-bar--header .tab-bar__dot {
+  top: -3px;
+  right: -5px;
+}
+
+.tab-bar__label {
+  display: block;
+  max-height: 1.5em;
+  max-width: 7em;
+  overflow: hidden;
+  transition: max-height var(--duration-slow) cubic-bezier(0.2, 0.8, 0.2, 1),
+    max-width var(--duration-slow) cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity var(--duration-base);
+}
+
+/* Tucked: icons only. The labels fold away but stay in the accessibility
+   tree, so every item keeps its name. */
+.tab-bar--stacked.is-tucked .tab-bar__link { gap: 0; }
+.tab-bar--stacked.is-tucked .tab-bar__label { max-height: 0; opacity: 0; }
+.tab-bar--inline.is-tucked .tab-bar__link { gap: 0; }
+.tab-bar--inline.is-tucked .tab-bar__label { max-width: 0; opacity: 0; }
+
+/* The chosen icon draws its own line. Every stroke is set to length 1 by the
+   component, so one dash covers it. */
+@keyframes tab-bar-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+
+.tab-bar__icon svg.is-drawing path,
+.tab-bar__icon svg.is-drawing circle,
+.tab-bar__icon svg.is-drawing rect {
+  stroke-dasharray: 1;
+  animation: tab-bar-draw 0.55s ease forwards;
+}
+
+/* Icon link — a destination by icon alone, e.g. Profile in the top right. */
+
+.icon-link {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-pill);
+  color: var(--color-text-secondary);
+  transition: background-color var(--duration-fast), transform var(--duration-fast);
+}
+
+.icon-link:hover,
+.icon-link.is-hover {
+  background-color: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+.icon-link:focus-visible,
+.icon-link.is-focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.icon-link:active,
+.icon-link.is-active {
+  transform: scale(0.94);
+}
+
+.icon-link.is-current {
+  background-color: var(--color-secondary-soft);
+  color: var(--color-text-primary);
+}
+
 /* Destination stub — a later sprint's page, quiet and intentional. */
 
 .destination-stub {

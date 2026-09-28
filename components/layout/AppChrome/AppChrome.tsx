@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { AppNav } from "@/components/layout/AppNav";
+import { AppNav, AppNavSlot } from "@/components/layout/AppNav";
 import { Wordmark } from "@/components/primitives/Wordmark";
 import { navForChrome, type Flow } from "@/lib/manifest";
 
@@ -32,25 +32,28 @@ export function AppChrome({ flow, children, navConcept }: AppChromeProps) {
   const nav = navForChrome(flow.chrome);
   // "Main", because assistive technology already announces it as navigation.
   const navLabel = flow.chrome === "app" ? "Main" : `${flow.title} navigation`;
+  const navProps = {
+    destinations: nav,
+    currentFlow: navConcept?.currentFlow ?? flow.slug,
+    label: navLabel,
+    concept: navConcept?.slug,
+  };
 
   return (
     <div className={`chrome chrome--${flow.chrome}`}>
       {flow.header === false ? null : (
         <header className="chrome__header">
+          {flow.chrome === "app" ? <AppNavSlot part="headerStart" {...navProps} /> : null}
           <Wordmark
             size="md"
             suffix={flow.chrome === "enterprise" ? "Enterprise" : undefined}
           />
+          {flow.chrome === "app" ? <AppNavSlot part="headerEnd" {...navProps} /> : null}
         </header>
       )}
 
       {flow.chrome === "app" ? (
-        <AppNav
-          destinations={nav}
-          currentFlow={navConcept?.currentFlow ?? flow.slug}
-          label={navLabel}
-          concept={navConcept?.slug}
-        />
+        <AppNav {...navProps} />
       ) : nav.length > 0 ? (
         <nav className="chrome__nav" aria-label={navLabel}>
           <ul className="chrome__nav-list">

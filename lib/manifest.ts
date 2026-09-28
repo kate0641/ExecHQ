@@ -64,10 +64,15 @@ export function allConceptParams(): { flow: string; concept: string }[] {
   );
 }
 
+/** One destination in a navigation, resolved to where it links. */
+export interface NavDestination {
+  label: string;
+  href: string;
+  flowSlug: string;
+}
+
 /** Nav items resolved to hrefs, skipping any whose flow has no concepts yet. */
-export function resolveNav(
-  items: readonly NavItem[]
-): { label: string; href: string; flowSlug: string }[] {
+export function resolveNav(items: readonly NavItem[]): NavDestination[] {
   return items.flatMap((item) => {
     const flow = getFlow(item.flowSlug);
     const href = flow && flowHref(flow);
@@ -75,9 +80,7 @@ export function resolveNav(
   });
 }
 
-export function navForChrome(
-  chrome: NavChrome
-): { label: string; href: string; flowSlug: string }[] {
+export function navForChrome(chrome: NavChrome): NavDestination[] {
   if (chrome === "app") return resolveNav(prototypeConfig.appNav);
   if (chrome === "enterprise") return resolveNav(prototypeConfig.enterpriseNav);
   return [];

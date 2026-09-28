@@ -1,10 +1,8 @@
+import type { NavDestination } from "@/lib/manifest";
+
 /** One destination in the signed-in navigation, resolved from the manifest's
  *  `appNav`: Home, Plan, Toolbox, Briefing, Profile. */
-export interface NavDestination {
-  label: string;
-  href: string;
-  flowSlug: string;
-}
+export type { NavDestination };
 
 /**
  * What every navigation concept is given. A concept renders its own pattern

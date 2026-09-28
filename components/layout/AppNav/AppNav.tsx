@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
-import { renderBuiltNav } from "@/flows/navigation/registry";
+import { renderBuiltNav, type NavPart } from "@/flows/navigation/registry";
 import type { NavDestination } from "@/flows/navigation/types";
 import { setNavChoice, useNavChoice } from "@/lib/nav-choice";
 
@@ -26,15 +26,15 @@ export interface AppNavProps {
 export function AppNav({ destinations, currentFlow, label, concept }: AppNavProps) {
   const chosen = useNavChoice();
   const shown = concept ?? chosen;
-  const built = renderBuiltNav(shown, { destinations, currentFlow, label });
+  const built = renderBuiltNav(shown, "nav", { destinations, currentFlow, label });
 
   useEffect(() => {
     if (concept) setNavChoice(concept);
   }, [concept]);
 
   return (
-    <div className="app-nav" data-nav-concept={built ? shown : "baseline"}>
-      {built ?? (
+    <div className="app-nav" data-nav-concept={built === undefined ? "baseline" : shown}>
+      {built !== undefined ? built : (
         <nav className="chrome__nav" aria-label={label}>
           <ul className="chrome__nav-list">
             {destinations.map((item) => (
@@ -51,6 +51,30 @@ export function AppNav({ destinations, currentFlow, label, concept }: AppNavProp
           </ul>
         </nav>
       )}
+    </div>
+  );
+}
+
+/**
+ * What the chosen navigation concept puts in the chrome header, before or
+ * after the wordmark. Renders nothing for a concept with nothing there, and
+ * for the baseline.
+ */
+export function AppNavSlot({
+  part,
+  ...props
+}: AppNavProps & { part: Exclude<NavPart, "nav"> }) {
+  const chosen = useNavChoice();
+  const shown = props.concept ?? chosen;
+  const content = renderBuiltNav(shown, part, {
+    destinations: props.destinations,
+    currentFlow: props.currentFlow,
+    label: props.label,
+  });
+  if (!content) return null;
+  return (
+    <div className={part === "headerStart" ? "chrome__header-start" : "chrome__header-end"}>
+      {content}
     </div>
   );
 }

@@ -40,6 +40,20 @@ export const iconStates = defineComponentStates({
     { label: "Link", props: { name: "link" } },
     { label: "Pencil", props: { name: "pencil" } },
     { label: "Attach", props: { name: "attach" } },
+    { label: "Home", props: { name: "home" } },
+    {
+      label: "Calendar",
+      description: "Room in the lower half for a date set over it, as the tab bar does for Briefing.",
+      props: { name: "calendar" },
+    },
+    { label: "Person", props: { name: "person" } },
+    { label: "Menu", props: { name: "menu" } },
+    { label: "Close", props: { name: "close" } },
+    {
+      label: "Draft",
+      description: "The pencil with its tip filled in: a draft is open.",
+      props: { name: "draft" },
+    },
     {
       label: "Reset",
       description: "Puts the prototype's snapshots back as they started. Dock only.",

@@ -1,2 +1,2 @@
-export { AppNav, default } from "./AppNav";
+export { AppNav, AppNavSlot, default } from "./AppNav";
 export type { AppNavProps } from "./AppNav";
