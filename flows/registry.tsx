@@ -5,6 +5,7 @@ import { OnboardingConcept3 } from "./onboarding/concept-3";
 import { HomepageConcept1 } from "./homepage/concept-1";
 import { HomepageConcept2 } from "./homepage/concept-2";
 import { HomepageConcept3 } from "./homepage/concept-3";
+import { ProfileConcept1 } from "./profile/concept-1";
 
 /**
  * Concept pages that have been built.
@@ -28,6 +29,7 @@ const BUILT_CONCEPTS: Record<string, ReactElement> = {
   "homepage/concept-1": <HomepageConcept1 />,
   "homepage/concept-2": <HomepageConcept2 />,
   "homepage/concept-3": <HomepageConcept3 />,
+  "profile/concept-1": <ProfileConcept1 />,
 };
 
 /** Every built concept, as manifest slugs, in the order they are listed above. */

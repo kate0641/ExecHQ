@@ -191,8 +191,9 @@ export const prototypeConfig: PrototypeConfig = {
       concepts: [
         {
           slug: "concept-1",
-          title: "Concept 1",
-          summary: "Profile and settings.",
+          title: "Concept 1 — Grouped",
+          summary:
+            "Profile and settings on one page: labelled groups of rows, each ending in its current value. Details open in a sheet on mobile and tablet, beside the list on web.",
         },
       ],
     },

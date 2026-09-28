@@ -10042,3 +10042,161 @@ ul.stage-actions__list {
   font-size: var(--text-xs);
   color: var(--color-text-muted);
 }
+
+/* --- The Profile page (Concept 1, Grouped) --------------------------------- */
+.profile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  max-width: 36rem;
+  margin-inline: auto;
+}
+
+.profile__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+}
+
+.profile__layout,
+.profile__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  min-width: 0;
+}
+
+/* The follow-up note belongs to the Email group, so it sits close under it. */
+.profile__note {
+  margin-top: calc(-1 * var(--space-sm));
+}
+
+.profile__owner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.profile__owner .icon {
+  flex: none;
+  margin-top: var(--space-3xs);
+  color: var(--color-accent);
+}
+
+.profile__list .btn[aria-current="true"] {
+  border-color: var(--color-surface-inverse);
+  background-color: var(--color-surface-selected);
+}
+
+/* Room at the foot for a floating navigation pill. */
+[data-viewport="mobile"] .profile {
+  padding-bottom: var(--space-2xl);
+}
+
+/* Web: the list and the detail side by side. The pane stays in view while
+   the list scrolls. */
+[data-viewport="web"] .profile {
+  max-width: 68rem;
+}
+
+[data-viewport="web"] .profile__layout {
+  display: grid;
+  grid-template-columns: minmax(20rem, 26rem) minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-2xl);
+}
+
+.profile__pane {
+  position: sticky;
+  top: var(--space-lg);
+  padding: var(--space-xl);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-raised);
+  box-shadow: var(--shadow-sm);
+}
+
+.profile__pane .detail-panel {
+  max-width: var(--content-measure);
+}
+
+.profile__pane .connection-upload,
+.profile__pane .format-choice__option {
+  background-color: var(--color-surface);
+}
+
+.profile-fact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+.profile-fact__label {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.profile-fact__value {
+  overflow-wrap: anywhere;
+}
+
+.profile-fact__hint {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+/* Signed out, or deleted: the page ends in place. */
+.profile-end {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  max-width: 24rem;
+  margin: var(--space-3xl) auto;
+  text-align: center;
+}
+
+.profile-end__mark {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--color-surface-selected);
+  color: var(--color-surface-inverse);
+}
+
+.profile-end__heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+}
+
+.profile-end__heading:focus {
+  outline: none;
+}
+
+.profile-end__body {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+/* In the web pane there is room beside a button, so it keeps to its label. */
+.profile__pane .detail-panel__actions {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.profile__pane .detail-panel__actions .btn--full,
+.profile__pane .detail-panel__form > .btn--full,
+.profile__pane .detail-panel > .btn--full {
+  display: inline-flex;
+  width: auto;
+  align-self: flex-start;
+}
