@@ -53,6 +53,7 @@ import { draftSectionStates } from "./onboarding/DraftSection/DraftSection.state
 import { storySummaryCardStates } from "./onboarding/StorySummaryCard/StorySummaryCard.states";
 import { planSummaryCardStates } from "./onboarding/PlanSummaryCard/PlanSummaryCard.states";
 import { storyOutputsStates } from "./onboarding/StoryOutputs/StoryOutputs.states";
+import { storyDraftStates } from "./onboarding/StoryDraft/StoryDraft.states";
 import { exportLinksStates } from "./onboarding/ExportLinks/ExportLinks.states";
 import { chatMessageStates } from "./chat/ChatMessage/ChatMessage.states";
 import { advisorMarkStates } from "./chat/AdvisorMark/AdvisorMark.states";
@@ -104,6 +105,7 @@ export const registry: RegisteredComponent[] = [
   recommendationCardStates,
   storySummaryCardStates,
   storyOutputsStates,
+  storyDraftStates,
   exportLinksStates,
   chatMessageStates,
   advisorMarkStates,
