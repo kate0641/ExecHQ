@@ -8,12 +8,14 @@ import { ChatWelcome } from "@/components/chat/ChatWelcome";
 import { QuickReplies, type QuickReply } from "@/components/chat/QuickReplies";
 import { Sheet } from "@/components/layout/Sheet";
 import { DraftSection } from "@/components/onboarding/DraftSection";
+import { LinkedInSteps } from "@/components/onboarding/LinkedInSteps";
 import { PlanSummaryCard } from "@/components/onboarding/PlanSummaryCard";
 import { PlanTimeline } from "@/components/onboarding/PlanTimeline";
 import { ThisWeekCard } from "@/components/onboarding/ThisWeekCard";
 import { Icon } from "@/components/primitives/Icon";
 import { Wordmark } from "@/components/primitives/Wordmark";
 import {
+  linkedInIn,
   stepIndex,
   stepNavItems,
   useDictation,
@@ -27,13 +29,14 @@ import {
   DIRECTION_PROMPTS_C1,
   DONE_C1,
   DRAFT_C1,
-  GENERATING_MS,
+  LINKEDIN_UPLOAD,
   PLAN_C1,
   PLAN_TEMPLATES,
   VOICE_SAMPLE,
   builtFrom,
   firstDraftFor,
   isSharpened,
+  looksLikeLinkedInExport,
   planById,
   quickWinFor,
   readBack,
@@ -115,9 +118,9 @@ type SignalId = "linkedin" | "website";
 const SIGNAL_IDS: SignalId[] = ["linkedin", "website"];
 type SignalEvent =
   | { type: "pick"; id: SignalId }
-  | { type: "connect" }
-  | { type: "connected" }
-  | { type: "paste" }
+  /** A file attached for LinkedIn; `ok` is false when it is not an export. */
+  | { type: "file"; name: string; ok: boolean }
+  | { type: "sent" }
   | { type: "link"; id: SignalId; link: string }
   | { type: "end"; label: string };
 
@@ -172,7 +175,16 @@ export function OnboardingConcept2() {
   const [rewriting, setRewriting] = useState(false);
   // Signals: the conversation so far, and a connection in progress.
   const [signalLog, setSignalLog] = useState<SignalEvent[]>([]);
-  const [connecting, setConnecting] = useState(false);
+  // The LinkedIn spreadsheet's picker, opened from a reply or the composer.
+  const fileInputId = useId();
+  // Reading finishes in the background. When it does, the thread says so
+  // once, where it had got to: how far the signals conversation was is kept
+  // at that moment, so the message holds its place from then on.
+  const [readyAt, setReadyAt] = useState<number | null>(null);
+  const uploaded = signalLog.some((event) => event.type === "file" && event.ok);
+  if (state.answers.linkedin.status === "ready" && uploaded && readyAt === null) {
+    setReadyAt(signalLog.length);
+  }
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const threadRef = useRef<HTMLDivElement>(null);
@@ -187,7 +199,7 @@ export function OnboardingConcept2() {
     setRewrites([]);
     setRewriting(false);
     setSignalLog([]);
-    setConnecting(false);
+    setReadyAt(null);
     setJumpTick((tick) => tick + 1);
   }
 
@@ -671,55 +683,85 @@ export function OnboardingConcept2() {
       };
   }
 
-  /* ---- Signals: which source, then connect it or add it by link. What is
-     brought in, and what it is used for, is said before anything connects:
-     that is the permission scope. Connecting is simulated. */
+  /* ---- Signals: which source, then bring it in. LinkedIn is an upload of
+     the analytics spreadsheet the user exports, by decision on 2026-09-28:
+     the steps arrive as a card, the file as the user's own message, and
+     ExecHQ says when it has been read. The website is added by link. What
+     is brought in, and what it is for, is said before anything is asked. */
+  let attach: { label: string; onAttach: () => void } | undefined;
   if (inSignals) {
     const S = CHAT_C2.signals;
+    const U = LINKEDIN_UPLOAD;
     const title = (id: SignalId) => (id === "linkedin" ? S.linkedin : S.website);
     const isOn = (id: SignalId) =>
-      a.connections[id] === "connected" || Boolean(a.signalLinks[id]);
-    type Mode = "choose" | "more" | "offer" | "link-linkedin" | "link-website" | "connecting" | "ended";
+      id === "linkedin" ? linkedInIn(a.linkedin) : a.connections[id] === "connected" || Boolean(a.signalLinks[id]);
+    type Mode = "choose" | "more" | "upload" | "link-website" | "ended";
     // Widened: the replay below sets it inside a callback, out of the checker's sight.
     let mode = "choose" as Mode;
+    // What has been dealt with so far, as the thread replays: brought in, or
+    // (for LinkedIn) emailed for later. Each "anything else?" is asked from
+    // where the thread was, not from where it is now.
+    const dealt = new Set<SignalId>();
+    const moveOn = (k: string) => {
+      if (SIGNAL_IDS.every((id) => dealt.has(id))) {
+        say(`${k}-all`, S.end);
+        mode = "ended";
+      } else {
+        say(`${k}-more`, S.more);
+        mode = "more";
+      }
+    };
     say("sig-which", S.which);
     signalLog.forEach((event, i) => {
       const k = `sig-${i}`;
+      // The file finished reading here: said once, where the thread was.
+      if (i === readyAt) say("sig-ready", S.ready);
       if (event.type === "pick") {
         said(k, title(event.id));
         if (event.id === "linkedin") {
           say(`${k}-what`, S.linkedinWhat);
-          mode = "offer";
+          say(`${k}-steps`, <LinkedInSteps label={U.stepsLabel} steps={U.steps} linkNote={U.linkNote} />, true);
+          mode = "upload";
         } else {
           say(`${k}-ask`, S.websiteAsk);
           mode = "link-website";
         }
-      } else if (event.type === "connect") {
-        said(k, S.connect);
-        mode = "connecting";
-      } else if (event.type === "connected") {
-        say(k, S.connected);
-        mode = "more";
-      } else if (event.type === "paste") {
-        said(k, S.paste);
-        say(`${k}-ask`, S.pasteAsk);
-        mode = "link-linkedin";
+      } else if (event.type === "file") {
+        said(
+          k,
+          <span className="chat-file">
+            <span className="linkedin-file__mark" aria-hidden="true">
+              {fileKind(event.name)}
+            </span>
+            <span className="chat-file__name">{event.name}</span>
+          </span>
+        );
+        if (event.ok) {
+          say(`${k}-reading`, S.reading);
+          dealt.add("linkedin");
+          moveOn(k);
+        } else {
+          say(`${k}-wrong`, U.status.wrongFile);
+          mode = "upload";
+        }
+      } else if (event.type === "sent") {
+        said(k, S.emailSteps);
+        say(`${k}-sent`, U.status.sent(a.email || "your email"));
+        dealt.add("linkedin");
+        moveOn(k);
       } else if (event.type === "link") {
         said(k, event.link);
         say(`${k}-added`, S.added);
-        mode = "more";
+        dealt.add(event.id);
+        moveOn(k);
       } else {
         said(k, event.label);
-        say(`${k}-end`, SIGNAL_IDS.some(isOn) ? S.end : S.endNone);
+        say(`${k}-end`, SIGNAL_IDS.some(isOn) || a.linkedin.status === "sent" ? S.end : S.endNone);
         mode = "ended";
       }
     });
-    const left = SIGNAL_IDS.filter((id) => !isOn(id));
-    // Everything connected: nothing more to offer.
-    if (mode === "more" && !left.length) {
-      say("sig-all", S.end);
-      mode = "ended";
-    } else if (mode === "more") say(`sig-more-${signalLog.length}`, S.more);
+    if (readyAt === signalLog.length) say("sig-ready", S.ready);
+    const left = SIGNAL_IDS.filter((id) => !dealt.has(id));
 
     const log = (event: SignalEvent) => setSignalLog((all) => [...all, event]);
     const finish = (label: string) => reply(() => log({ type: "end", label }));
@@ -749,36 +791,34 @@ export function OnboardingConcept2() {
         voice: { full: title(left[0] ?? "linkedin") },
         onSend: pick,
       };
-    } else if (mode === "offer") {
+    } else if (mode === "upload") {
+      const choose = () => document.getElementById(fileInputId)?.click();
+      attach = { label: S.attach, onAttach: choose };
       ask = {
         label: S.linkedinWhat,
-        replies: [{ label: S.connect }, { label: S.paste, quiet: true }, { label: S.notNow, quiet: true }],
+        replies: [{ label: S.upload }, { label: S.emailSteps }, { label: S.notNow, quiet: true }],
         onReply: (label) => {
           if (label === S.notNow) return finish(label);
-          if (label === S.paste) return reply(() => log({ type: "paste" }));
-          reply(() => {
-            log({ type: "connect" });
-            setConnecting(true);
-            window.setTimeout(() => {
-              setConnecting(false);
-              dispatch({ type: "set-connection", id: "linkedin", state: "connected" });
-              log({ type: "connected" });
-            }, GENERATING_MS);
-          });
+          if (label === S.emailSteps)
+            return reply(() => {
+              dispatch({ type: "set-linkedin", patch: { status: "sent" } });
+              log({ type: "sent" });
+            });
+          choose();
         },
-        placeholder: S.connect,
-        voice: { full: S.connect },
-        onSend: () => {},
+        placeholder: S.uploadPlaceholder,
+        voice: { full: S.upload },
+        // A typed message is not a file: the picker is the way to send one.
+        onSend: choose,
       };
-    } else if (mode === "link-linkedin" || mode === "link-website") {
-      const id: SignalId = mode === "link-linkedin" ? "linkedin" : "website";
+    } else if (mode === "link-website") {
       ask = {
-        label: id === "linkedin" ? S.pasteAsk : S.websiteAsk,
+        label: S.websiteAsk,
         replies: [{ label: S.notNow, quiet: true }],
         onReply: finish,
-        placeholder: id === "linkedin" ? S.pastePlaceholder : S.websitePlaceholder,
-        voice: id === "linkedin" ? CHAT_C2.voice.linkedinLink : CHAT_C2.voice.website,
-        onSend: addLink(id),
+        placeholder: S.websitePlaceholder,
+        voice: CHAT_C2.voice.website,
+        onSend: addLink("website"),
       };
     } else if (mode === "ended") {
       ask = {
@@ -930,7 +970,7 @@ export function OnboardingConcept2() {
   }, [focusTick]);
 
   // ExecHQ "thinking": reading the answers, planning, writing the story.
-  const thinking = generating !== null || connecting;
+  const thinking = generating !== null;
   const revealing = shown < messages.length || thinking;
   const typingNow = thinking || (shown < messages.length && messages[shown].from === "advisor");
 
@@ -997,6 +1037,29 @@ export function OnboardingConcept2() {
         {showAsk ? (
           <QuickReplies label={ask!.label} replies={ask!.replies} onChoose={ask!.onReply} />
         ) : null}
+        {/* The LinkedIn spreadsheet's picker. Only the name is kept: in the
+            prototype nothing is read or sent. */}
+        <input
+          id={fileInputId}
+          type="file"
+          className="u-visually-hidden"
+          accept=".xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          tabIndex={-1}
+          aria-hidden="true"
+          onChange={(event) => {
+            const file = event.target.files?.[0];
+            event.target.value = "";
+            if (!file) return;
+            const ok = looksLikeLinkedInExport(file.name);
+            reply(() => {
+              dispatch({
+                type: "set-linkedin",
+                patch: { fileName: file.name, status: ok ? "reading" : "wrong-file" },
+              });
+              setSignalLog((all) => [...all, { type: "file", name: file.name, ok }]);
+            });
+          }}
+        />
         <ChatComposer
           value={draft}
           onChange={(value) => {
@@ -1009,6 +1072,7 @@ export function OnboardingConcept2() {
           // The mic is always there; it rests while ExecHQ is writing.
           voice={{ listening: dictation.listening, onToggle: dictation.toggle }}
           micDisabled={!showAsk}
+          attach={showAsk ? attach : undefined}
           inputRef={inputRef}
         />
       </div>
@@ -1023,6 +1087,12 @@ export function OnboardingConcept2() {
 
     </div>
   );
+}
+
+/** A file's kind, as its mark shows it: the extension, e.g. "XLSX". */
+function fileKind(name: string): string {
+  const ext = name.includes(".") ? name.split(".").pop() ?? "" : "";
+  return ext.slice(0, 4).toUpperCase() || "FILE";
 }
 
 /** Answered, or deliberately passed. */

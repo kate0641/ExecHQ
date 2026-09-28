@@ -2269,7 +2269,7 @@ export const CHAT_C2 = {
   /** The ending: the win, then signals as an optional extra. */
   doneLead: "Saved. That\u2019s everything we needed today.",
   doneInvite:
-    "One more thing, if you like: build out your signals. Connect LinkedIn or your website, and your next drafts will sound more like you. It\u2019s optional, and you can do it anytime.",
+    "One more thing, if you like: build out your signals. Bring in your LinkedIn numbers or your website, and your plan and drafts start from how you already show up. It\u2019s optional, and you can do it anytime.",
   doneSignals: "Build out my signals",
   doneHome: "Go to my homepage",
   signals: {
@@ -2278,13 +2278,17 @@ export const CHAT_C2 = {
     website: "My website",
     notNow: "Not now",
     thatsAll: "That\u2019s all",
+    /** LinkedIn is an upload, by decision on 2026-09-28: the analytics
+     *  spreadsheet the user exports. It holds post performance and audience,
+     *  so that is all this promises. */
     linkedinWhat:
-      "I\u2019ll bring in your headline, about section and your last 20 posts, and use them only to shape your drafts. Nothing is ever posted or shared.",
-    connect: "Connect LinkedIn",
-    paste: "Paste my profile link instead",
-    pasteAsk: "Paste your LinkedIn profile link.",
-    pastePlaceholder: "linkedin.com/in/\u2026",
-    connected: "Connected. I\u2019ve brought in your headline, about section and last 20 posts.",
+      "LinkedIn gives you a spreadsheet of how your posts have done and who\u2019s seen them. Bring it here and I\u2019ll use it to shape your plan. It takes a minute, on a computer, and nothing is posted or shared.",
+    upload: "Upload the spreadsheet",
+    emailSteps: "Email me the steps",
+    attach: "Attach the LinkedIn spreadsheet",
+    reading: "Got it. I\u2019m reading it now, so carry on. I\u2019ll tell you when it\u2019s ready.",
+    ready: `Your LinkedIn spreadsheet is ready: ${MOCK_LINKEDIN_CONTEXT.posts} posts and your audience, from ${MOCK_LINKEDIN_CONTEXT.range}.`,
+    uploadPlaceholder: "Attach it here",
     websiteAsk: "What\u2019s your website address? I\u2019ll learn your voice from the pages there, and use them for nothing else.",
     websitePlaceholder: "https://",
     added: "Added. I\u2019ll use it only to shape your drafts.",
@@ -2307,7 +2311,6 @@ export const CHAT_C2 = {
     approve: { full: "Looks good" },
     asIs: { full: "Use it as it is" },
     signals: { full: "Build out my signals" },
-    linkedinLink: { full: "linkedin.com/in/mayachen" },
     website: { full: "https://mayachen.com" },
   },
 } as const;
