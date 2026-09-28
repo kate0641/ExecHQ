@@ -10724,3 +10724,194 @@ ul.stage-actions__list {
   font-size: var(--text-xs);
   color: var(--color-text-muted);
 }
+
+/* --- The Login page (Concept 1, Open page) --------------------------------- */
+.login {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  max-width: 26rem;
+  min-height: 100%;
+  margin-inline: auto;
+}
+
+/* The light blue glow, reaching out past the page's padding into the corner. */
+.login__glow {
+  position: absolute;
+  z-index: -1;
+  top: calc(-1 * var(--space-4xl));
+  left: calc(-1 * var(--space-4xl));
+  width: 22rem;
+  height: 22rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 45% 55%, var(--color-glow) 0%, var(--color-glow-fade) 55%, transparent 72%);
+  pointer-events: none;
+}
+
+.login__notification {
+  position: absolute;
+  z-index: 2;
+  top: calc(-1 * var(--space-md));
+  left: 0;
+  right: 0;
+}
+
+.login__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-lg);
+  padding-top: var(--space-3xl);
+}
+
+.login__intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.login__kicker {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.login__heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  text-wrap: balance;
+}
+
+.login__heading:focus {
+  outline: none;
+}
+
+.login__lede {
+  margin: 0;
+  color: var(--color-text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.login__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.login__submit {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.login__or {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.login__or::before,
+.login__or::after {
+  content: "";
+  width: var(--space-3xl);
+  height: var(--border-width-thin);
+  background-color: var(--color-border);
+}
+
+.login__foot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-top: auto;
+  padding-top: var(--space-lg);
+}
+
+.login__small {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.login__privacy {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.login__privacy .icon {
+  flex: none;
+  margin-top: var(--space-3xs);
+  color: var(--color-accent);
+}
+
+.login__link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-text-link);
+  font: inherit;
+  font-weight: var(--weight-semibold);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.login__link:hover {
+  color: var(--color-text-link-hover);
+}
+
+.login__link:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.login__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-lg);
+  margin: 0;
+  font-size: var(--text-sm);
+}
+
+.login__buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-sm);
+}
+
+/* The drawn email rises almost to the top, as another app would. */
+.sheet--tall .sheet__panel {
+  max-height: 94%;
+  padding: 0;
+  gap: 0;
+}
+
+.sheet--tall .sheet__grab {
+  margin-top: var(--space-xs);
+}
+
+[data-viewport="tablet"] .login__body,
+[data-viewport="web"] .login__body {
+  padding-top: var(--space-4xl);
+}
+
+/* Open page rounds its buttons to match the pill fields. */
+.login .btn,
+.sheet .sign-in-email .btn {
+  border-radius: var(--radius-pill);
+  padding-inline: var(--space-lg);
+}

@@ -119,8 +119,9 @@ export const prototypeConfig: PrototypeConfig = {
       concepts: [
         {
           slug: "concept-1",
-          title: "Concept 1",
-          summary: "Sign in and account recovery.",
+          title: "Concept 1 — Open page",
+          summary:
+            "A quiet white page: an emailed link or a code to sign in, Google and Apple beside it, and help when the inbox is out of reach.",
         },
       ],
     },
