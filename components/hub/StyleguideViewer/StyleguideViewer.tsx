@@ -36,6 +36,7 @@ function TokenRow({ token, children }: { token: Token; children?: React.ReactNod
 }
 
 function Swatches({ tokens, label }: { tokens: Token[]; label: string }) {
+  if (tokens.length === 0) return null;
   return (
     <div className="styleguide__group">
       <h3 className="styleguide__group-title">{label}</h3>
@@ -101,7 +102,7 @@ export function StyleguideViewer() {
       <Panel
         title="Colour"
         headingLevel={2}
-        description={`${colourTokens.length} colour tokens, read from styles/tokens.css. Greyscale for this sprint. The raw palette and the brand slots are the only things that change when navy, gold and slate blue arrive.`}
+        description={`${colourTokens.length} colour tokens, read from styles/tokens.css. The six brand scales come first, 100 to 900, with the nine palette colours named; everything else is built from them.`}
       >
         <Swatches
           tokens={colourTokens.filter((token) => token.category === "palette")}

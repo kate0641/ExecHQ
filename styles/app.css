@@ -303,21 +303,21 @@ samp {
 }
 
 .btn--primary {
-  background-color: var(--color-surface-inverse);
-  border-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
+  background-color: var(--color-action);
+  border-color: var(--color-action);
+  color: var(--color-text-on-action);
 }
 
 .btn--primary:hover,
 .btn--primary.is-hover {
-  background-color: var(--color-surface-inverse-hover);
-  border-color: var(--color-surface-inverse-hover);
+  background-color: var(--color-action-hover);
+  border-color: var(--color-action-hover);
 }
 
 .btn--primary:active,
 .btn--primary.is-active {
-  background-color: var(--color-surface-inverse-active);
-  border-color: var(--color-surface-inverse-active);
+  background-color: var(--color-action-active);
+  border-color: var(--color-action-active);
 }
 
 .btn--secondary {
