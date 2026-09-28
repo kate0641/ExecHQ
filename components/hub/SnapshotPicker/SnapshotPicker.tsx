@@ -8,12 +8,15 @@ import { getFlow } from "@/lib/manifest";
 import { resetLoop, selectSnapshot, useLoop } from "@/lib/loop-store";
 import { SNAPSHOT_IDS, SNAPSHOTS, type SnapshotId } from "@/mock/snapshots";
 
-/** What each option shows in the dock, where a word will not fit. The full
- *  label is its accessible name and its tooltip. */
+/** What each option shows in the dock, where a word will not fit: the five
+ *  states in the prompt's order. The full label is its accessible name and
+ *  its tooltip. */
 const SNAPSHOT_GLYPHS: Record<SnapshotId, string> = {
-  "day-one": "D1",
-  "week-three": "W3",
-  "month-three": "M3",
+  "first-return": "1",
+  "follow-up-due": "2",
+  "drafted-not-used": "3",
+  "nothing-pending": "4",
+  "just-answered": "5",
 };
 
 const DATE_FORMAT = new Intl.DateTimeFormat("en-GB", {
@@ -24,8 +27,13 @@ const DATE_FORMAT = new Intl.DateTimeFormat("en-GB", {
 });
 
 /**
- * Picks which point in Maya's first months the signed-in pages show, and puts
- * every snapshot back as it started.
+ * The reviewer's state switcher: picks which of the five homepage states every
+ * signed-in page shows, and puts them all back as they started. A reviewer
+ * tool, not product UI.
+ *
+ * The highlighted state is read from the Loop, not from the last pick, so it
+ * always tells the truth: answering a follow-up moves it to "Just answered" on
+ * its own, and the live region says so.
  *
  * Only on signed-in pages (the manifest's `app` chrome): nothing anywhere else
  * reads the Loop, so the control would do nothing there. The choice and every
@@ -58,16 +66,16 @@ export function SnapshotPicker() {
     <div className="dock-picker">
       <span className="devtools__rule" aria-hidden="true" />
       <ToggleGroup
-        label="Snapshot"
+        label="Homepage state"
         labelHidden
         size="sm"
         orientation="vertical"
         iconOnly
         options={options}
-        value={loop.id}
+        value={loop.homeState}
         onChange={(next) => {
+          setAnnouncement("");
           selectSnapshot(next as SnapshotId);
-          setAnnouncement(`Snapshot: ${SNAPSHOTS[next as SnapshotId].label}`);
         }}
       />
       <button
@@ -77,24 +85,28 @@ export function SnapshotPicker() {
         aria-describedby={resetHintId}
         title={
           loop.anyChanged
-            ? "Reset all three snapshots"
-            : "Reset all three snapshots — nothing has changed yet"
+            ? "Put every state back as it started"
+            : "Put every state back as it started — nothing has changed yet"
         }
         onClick={() => {
           if (!loop.anyChanged) return;
           resetLoop();
-          setAnnouncement("All three snapshots are back as they started.");
+          setAnnouncement("Every state is back as it started.");
         }}
       >
         <Icon name="reset" size={16} />
-        <span className="u-visually-hidden">Reset all three snapshots</span>
+        <span className="u-visually-hidden">Put every state back as it started</span>
       </button>
       <span className="u-visually-hidden" id={resetHintId}>
         {loop.anyChanged
-          ? "Undoes every change made in Day one, Week three and Month three."
-          : "Unavailable. Nothing has changed in any snapshot yet."}
+          ? "Undoes every change made in any of the five states."
+          : "Unavailable. Nothing has changed in any state yet."}
       </span>
-      <output className="u-visually-hidden">{announcement}</output>
+      {/* Always the state showing now, so any change — a pick, or an answer
+          that moves the page on — is read out. */}
+      <output className="u-visually-hidden">
+        {announcement || `Homepage state: ${SNAPSHOTS[loop.homeState].label}`}
+      </output>
     </div>
   );
 }

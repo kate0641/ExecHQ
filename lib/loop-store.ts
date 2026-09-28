@@ -9,8 +9,10 @@
  * swaps in the stored one after hydration, so the two never disagree on the
  * first paint.
  *
- * Each snapshot keeps its own changes. Switching snapshot never loses work in
- * the one left behind; reset puts all three back as they started.
+ * The snapshots are the five homepage states (`mock/homepage.ts`). Picking
+ * one from the dock starts it fresh, so the state the dock shows — read from
+ * the Loop, never remembered — always matches what was picked. Changes made
+ * in it are kept until another is picked, across pages and reloads.
  *
  * Every move is made on the snapshot's own "today", never the reviewer's clock.
  */
@@ -40,11 +42,12 @@ import {
   type SnapshotId,
   type SnapshotState,
 } from "@/mock/snapshots";
+import { homeStateOf, type HomeStateId } from "@/mock/homepage";
 
 const STORAGE_KEY = "exechq.loop";
 /** Bumped whenever the stored shape or the snapshots' starting data change,
  *  so an old save is dropped rather than half-read. */
-const STORAGE_VERSION = 2;
+const STORAGE_VERSION = 3;
 
 export interface LoopStoreState {
   snapshot: SnapshotId;
@@ -147,19 +150,30 @@ function update(change: (current: Snapshot) => Partial<SnapshotState>): void {
         account: next.account,
         records: next.records,
         recommendations: next.recommendations,
+        justAnswered: next.justAnswered,
       },
     },
   });
 }
 
-function updateRecord(id: string, change: (record: LoopRecord, today: string) => LoopRecord): void {
+/** Any move on a record ends the "just answered" moment, unless the move is
+ *  itself an answer, which starts one. */
+function updateRecord(
+  id: string,
+  change: (record: LoopRecord, today: string) => LoopRecord,
+  justAnswered?: string
+): void {
   update(({ records, today }) => ({
     records: records.map((record) => (record.id === id ? change(record, today) : record)),
+    justAnswered,
   }));
 }
 
+/** Pick a scenario, fresh: any earlier changes to it are dropped. */
 export function selectSnapshot(snapshot: SnapshotId): void {
-  write({ ...getLoopState(), snapshot });
+  const changes = { ...getLoopState().changes };
+  delete changes[snapshot];
+  write({ snapshot, changes });
 }
 
 /** Every snapshot back as it started. Keeps the one being looked at. */
@@ -179,7 +193,10 @@ export const loopActions = {
   markUsed: (id: string, answers?: Parameters<typeof markUsed>[2]) =>
     updateRecord(id, (r, today) => markUsed(r, today, answers)),
   answer: (id: string, answer: { type: OutcomeType; detail?: string; notes?: string }) =>
-    updateRecord(id, (r, today) => answerFollowUp(r, today, answer)),
+    updateRecord(id, (r, today) => answerFollowUp(r, today, answer), id),
+  /** Leave the "just answered" moment without changing anything else, e.g.
+   *  to answer the other follow-up that is waiting. */
+  moveOn: () => update(() => ({ justAnswered: undefined })),
   abandon: (id: string) => updateRecord(id, (r, today) => abandonRecord(r, today)),
   /** Take up the offered next step: the record closes, and the step becomes
    *  the one next thing. */
@@ -191,6 +208,7 @@ export const loopActions = {
       return {
         records: records.map((r) => (r.id === id ? closeRecord(r, today) : r)),
         recommendations: [step, ...recommendations.filter((rec) => rec.id !== step.id)],
+        justAnswered: undefined,
       };
     }),
   /** Set the offered next step aside: the record closes, nothing else moves. */
@@ -214,6 +232,8 @@ export interface LoopView extends Snapshot {
   changed: boolean;
   /** True when any snapshot has, which is what the dock's reset undoes. */
   anyChanged: boolean;
+  /** Which of the five homepage states the Loop is in now. */
+  homeState: HomeStateId;
 }
 
 /** The live Loop for whichever snapshot is showing. */
@@ -221,9 +241,11 @@ export function useLoop(): LoopView {
   const state = useSyncExternalStore(subscribeToLoop, getLoopState, getServerLoopState);
   return useMemo(() => {
     const snapshot = currentSnapshot(state);
+    const followUp = nextFollowUp(snapshot.records, snapshot.today);
     return {
       ...snapshot,
-      followUp: nextFollowUp(snapshot.records, snapshot.today),
+      homeState: homeStateOf(snapshot, Boolean(followUp)),
+      followUp,
       lastWorkedOn: lastWorkedOn(snapshot.records),
       nextStep: snapshot.recommendations[0],
       changed: state.changes[state.snapshot] !== undefined,
