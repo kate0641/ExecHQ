@@ -565,12 +565,14 @@ samp {
 
 .field__control--error {
   border-color: var(--color-feedback-danger-border);
-  border-width: var(--border-width-medium);
 }
 
-/* An errored field is already 2px, so focus only darkens it. */
-.field__control--error:focus-visible {
-  box-shadow: none;
+/* Focus thickens an errored field to 2px as it does any field, but keeps it
+   red, so the error is still flagged while it is being fixed. */
+.field__control--error:focus-visible,
+.field__control--error.is-focus {
+  border-color: var(--color-feedback-danger-border);
+  box-shadow: inset 0 0 0 var(--border-width-thin) var(--color-feedback-danger-border);
 }
 
 .field__error {
