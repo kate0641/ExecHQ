@@ -141,9 +141,13 @@ tags, and no `@import` from Google Fonts.
 
 | Token            | Family             | Role                                        |
 | ---------------- | ------------------ | ------------------------------------------- |
-| `--font-display` | Red Hat Display    | Headings and UI labels (primary)            |
+| `--font-display` | Kulim Park         | Headings and UI labels (primary)            |
 | `--font-serif`   | Libre Baskerville  | Pull quotes and editorial moments (sparing) |
 | `--font-body`    | Inter              | Body copy and interface text                |
+
+Kulim Park is not a variable font and comes in 200, 300, 400, 600 and 700
+only. It has no 500, so display text set in `--weight-medium` falls to the
+nearest weight; what medium becomes on the display face is the designer's call.
 
 Libre Baskerville is deliberate and rare. If it is doing the job of body copy,
 it is being misused.

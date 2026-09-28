@@ -4703,7 +4703,7 @@ ul.concierge-mini {
   --notice-halo: var(--color-feedback-danger-halo);
 }
 
-/* The label is an eyebrow set in the body face, so Red Hat Display stays for
+/* The label is an eyebrow set in the body face, so the display face stays for
    headings and primary UI. */
 .notice__head {
   display: flex;
