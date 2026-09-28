@@ -163,8 +163,9 @@ export const prototypeConfig: PrototypeConfig = {
       concepts: [
         {
           slug: "concept-1",
-          title: "Concept 1",
-          summary: "Signed-in home.",
+          title: "Concept 1 — Rings",
+          summary:
+            "Task forward: three rings for the actions Maya has accepted, and the one action that fills the next segment.",
         },
       ],
     },

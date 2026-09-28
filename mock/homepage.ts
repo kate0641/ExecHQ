@@ -217,3 +217,23 @@ export function homeStateOf(snapshot: Pick<Snapshot, "records" | "justAnswered">
   if (snapshot.records.every((r) => !r.usedOn)) return "first-return";
   return "nothing-pending";
 }
+
+/* -----------------------------------------------------------------------------
+   HOMEPAGE WORDS
+   -------------------------------------------------------------------------- */
+
+/** What the homepage says around the shared components. Advisor voice: no
+ *  "Welcome back!", no counts of what's waiting. */
+export const HOME_COPY = {
+  greeting: (name: string) => `Good morning, ${name}`,
+  planLine: (plan: string, week: number, weeks: number) => `${plan} · Week ${week} of ${weeks}`,
+  startNote: "Four actions on your plan. Each segment fills when you use the work it asks for.",
+  confirms: (horizon: string) => `Confirms your ${horizon.toLowerCase()} action`,
+  forAction: (horizon: string) => `For your ${horizon.toLowerCase()} action`,
+  another: (name: string) => `Another is waiting: ${name}`,
+  loggedDetail: (detail: string) => `Logged. You told me: “${detail}”`,
+  loggedPlain: (readback: string) => `Logged. ${readback}`,
+  askAgain: (name: string, when: string) => `No problem. I’ll ask about ${name} again ${when}.`,
+  lastUsed: "Last used",
+  checkBack: (days: number) => (days === 2 ? "in two days" : `in ${days} days`),
+} as const;

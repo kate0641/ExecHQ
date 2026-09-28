@@ -3425,6 +3425,371 @@ ul.recent-work__list {
   text-align: center;
 }
 
+/* Homepage Concept 1 — Rings (Row) ----------------------------------------
+
+   The rings and the one action lead; then the card the moment calls for;
+   then the Briefing, then the user's work. One column on mobile and tablet;
+   on web the Briefing and the work move to a second column, in the same
+   order. */
+
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  max-width: 40rem;
+  margin-inline: auto;
+}
+
+.home__lead,
+.home__side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  min-width: 0;
+}
+
+[data-viewport="web"] .home {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-xl) var(--space-2xl);
+  max-width: 68rem;
+}
+
+/* Leave room at the foot for a floating navigation pill. */
+[data-viewport="mobile"] .home {
+  padding-bottom: var(--space-lg);
+}
+
+.home__greeting {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.home__greeting b {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  line-height: var(--leading-snug);
+}
+
+.home__greeting span span {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.home__avatar {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--color-surface-sunken);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+}
+
+.home__another {
+  align-self: flex-start;
+  margin-top: calc(-1 * var(--space-sm));
+}
+
+.home__last {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+/* The hero: a dark card holding the three rings and the one action. */
+
+.rings-hero {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-lg) var(--space-md);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+}
+
+[data-viewport="tablet"] .rings-hero,
+[data-viewport="web"] .rings-hero {
+  padding: var(--space-lg);
+}
+
+.rings-hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-2xs) var(--space-sm);
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-inverse-muted);
+}
+
+.rings-hero__note {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-inverse);
+}
+
+ul.rings-hero__row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rings-hero__ring {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2xs);
+  width: 100%;
+  padding: var(--space-sm) var(--space-2xs);
+  border-radius: var(--radius-lg);
+  color: var(--color-text-inverse);
+  text-align: center;
+  transition: background-color var(--duration-fast);
+}
+
+.rings-hero__ring:hover,
+.rings-hero__ring.is-hover,
+.rings-hero__ring[aria-expanded="true"] {
+  background-color: var(--color-surface-inverse-hover);
+}
+
+.rings-hero__ring:focus-visible,
+.rings-hero__ring.is-focus {
+  outline: var(--focus-ring-width) solid var(--color-focus-inverse);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.rings-hero__ring:active,
+.rings-hero__ring.is-active {
+  background-color: var(--color-surface-inverse-active);
+}
+
+.rings-hero__svg {
+  width: 100%;
+  max-width: 5rem;
+  overflow: visible;
+}
+
+[data-viewport="tablet"] .rings-hero__svg,
+[data-viewport="web"] .rings-hero__svg {
+  max-width: 6.5rem;
+}
+
+/* Solid when confirmed; a hollow outline when not; the next to fill is
+   outlined in the accent. Shape tells them apart, not colour alone. */
+.rings-hero__svg circle,
+.rings-hero__svg path {
+  fill: none;
+  transition: stroke var(--duration-base);
+}
+
+.rings-hero__fill { stroke: var(--color-text-inverse); }
+.rings-hero__track { stroke: var(--color-text-inverse-muted); }
+.rings-hero__next { stroke: var(--color-accent-on-inverse); }
+.rings-hero__hole { stroke: var(--color-surface-inverse); }
+
+.rings-hero__ring:hover .rings-hero__hole,
+.rings-hero__ring.is-hover .rings-hero__hole,
+.rings-hero__ring[aria-expanded="true"] .rings-hero__hole {
+  stroke: var(--color-surface-inverse-hover);
+}
+
+.rings-hero__ring:active .rings-hero__hole,
+.rings-hero__ring.is-active .rings-hero__hole {
+  stroke: var(--color-surface-inverse-active);
+}
+
+.rings-hero__name {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+}
+
+.rings-hero__count {
+  font-size: var(--text-xs);
+  color: var(--color-text-inverse-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.rings-hero__focal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+.rings-hero__eyebrow {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-inverse-muted);
+}
+
+.rings-hero__action {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  line-height: var(--leading-snug);
+  text-wrap: balance;
+}
+
+.rings-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.rings-hero__pill {
+  display: inline-flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  min-width: 8.5rem;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  text-decoration: none;
+}
+
+.rings-hero__pill--quiet {
+  background-color: var(--color-surface-inverse-hover);
+  color: var(--color-text-inverse);
+}
+
+.rings-hero__pill:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-focus-inverse);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* The ring opened: its actions and a timeline of what they track. */
+
+.ring-detail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-sunken);
+}
+
+.ring-detail__heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+}
+
+.ring-detail__heading:focus {
+  outline: none;
+}
+
+.ring-detail__heading span {
+  font-weight: var(--weight-regular);
+  color: var(--color-text-muted);
+}
+
+ul.ring-detail__actions,
+ol.ring-detail__timeline {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ring-detail__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.ring-detail__actions li {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+}
+
+.ring-detail__title {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.ring-detail__state,
+.ring-detail__quiet {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.ring-detail__quiet {
+  margin: 0;
+}
+
+.ring-detail__timeline li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 3.5rem 14px 1fr;
+  gap: var(--space-sm);
+  align-items: start;
+  padding-bottom: var(--space-md);
+  font-size: var(--text-sm);
+}
+
+.ring-detail__timeline li::after {
+  content: "";
+  position: absolute;
+  top: 18px;
+  bottom: 0;
+  left: calc(3.5rem + var(--space-sm) + 6px);
+  border-left: var(--border-width-medium) dashed var(--color-border-strong);
+}
+
+.ring-detail__timeline li:last-child::after {
+  display: none;
+}
+
+.ring-detail__timeline time {
+  font-weight: var(--weight-semibold);
+}
+
+.ring-detail__dot {
+  width: 14px;
+  height: 14px;
+  margin-top: 3px;
+  border-radius: 50%;
+  background-color: var(--color-text-primary);
+}
+
+.ring-detail__source {
+  display: inline-block;
+  padding: 0 var(--space-xs);
+  border: var(--border-width-thin) solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.ring-detail__source--reported {
+  border-style: dashed;
+}
+
 /* Destination stub — a later sprint's page, quiet and intentional. */
 
 .destination-stub {

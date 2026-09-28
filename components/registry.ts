@@ -77,6 +77,8 @@ import { nextStepCardStates } from "./homepage/NextStepCard/NextStepCard.states"
 import { readyCardStates } from "./homepage/ReadyCard/ReadyCard.states";
 import { briefingEntryStates } from "./homepage/BriefingEntry/BriefingEntry.states";
 import { recentWorkStates } from "./homepage/RecentWork/RecentWork.states";
+import { ringsHeroStates } from "./homepage/RingsHero/RingsHero.states";
+import { ringDetailStates } from "./homepage/RingDetail/RingDetail.states";
 
 export const registry: RegisteredComponent[] = [
   badgeStates,
@@ -147,6 +149,8 @@ export const registry: RegisteredComponent[] = [
   readyCardStates,
   briefingEntryStates,
   recentWorkStates,
+  ringsHeroStates,
+  ringDetailStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */
