@@ -167,6 +167,12 @@ export const prototypeConfig: PrototypeConfig = {
           summary:
             "Task forward: three rings for the actions Maya has accepted, and the one action that fills the next segment.",
         },
+        {
+          slug: "concept-2",
+          title: "Concept 2 — Signals",
+          summary:
+            "Signal forward: the signal Maya’s next step touches, with its last seven days as facts, and the step joined beneath it.",
+        },
       ],
     },
     {

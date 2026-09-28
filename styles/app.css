@@ -9029,3 +9029,221 @@ ol.ring-detail__timeline {
   color: var(--color-text-inverse);
   background-color: var(--color-surface-inverse);
 }
+
+/* Homepage Concept 2 — Signals (Ledger) -------------------------------------
+
+   PROVISIONAL signal area, until the Signal Picture in Sprint 3. The signal
+   the next step touches leads in a dark panel, with the step's card joined
+   beneath it; then the other signals as quiet headed lists. Facts only: no
+   bars, counts or trends. Layout columns come from `.home` above. */
+
+.signals-home__focus {
+  display: flex;
+  flex-direction: column;
+}
+
+/* The card tucks up under the panel, so the step reads as part of the signal. */
+.signals-home__focus > .signal--focal {
+  padding-bottom: calc(var(--space-xl) + var(--space-md));
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+.signals-home__focus > .home-card {
+  margin-top: calc(-1 * var(--space-xl));
+}
+
+.signals-home__others {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.signals-home__intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+.signals-home__heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.signals-home__window {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.signals-home__others > .signal {
+  padding-top: var(--space-md);
+  border-top: var(--border-subtle);
+}
+
+/* SignalActivity -------------------------------------------------------- */
+
+.signal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  color: var(--color-text-primary);
+}
+
+.signal--focal {
+  padding: var(--space-lg) var(--space-md);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+}
+
+.signal__eyebrow {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.signal--focal .signal__eyebrow {
+  color: var(--color-accent-on-inverse);
+}
+
+.signal__name {
+  margin: 0;
+  color: inherit;
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+  text-wrap: balance;
+}
+
+.signal--focal .signal__name {
+  font-size: var(--text-xl);
+  letter-spacing: var(--tracking-tight);
+}
+
+.signal__window {
+  margin: calc(-1 * var(--space-2xs)) 0 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-inverse-muted);
+}
+
+.signal__quiet {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.signal--focal .signal__quiet {
+  color: var(--color-text-inverse-muted);
+}
+
+ol.signal__list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.signal__list li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 14px 1fr;
+  gap: var(--space-sm);
+  padding-bottom: var(--space-md);
+}
+
+.signal__list li:last-child {
+  padding-bottom: 0;
+}
+
+/* The line joining one entry to the next. */
+.signal__list li::before {
+  position: absolute;
+  top: 18px;
+  bottom: 2px;
+  left: 6px;
+  width: var(--border-width-medium);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-border);
+  content: "";
+}
+
+.signal__list li:last-child::before {
+  display: none;
+}
+
+.signal--focal .signal__list li::before {
+  background-color: var(--color-border-inverse);
+}
+
+/* Filled: seen in ExecHQ. Hollow: the user told us. The words say it too. */
+.signal__node {
+  width: 14px;
+  height: 14px;
+  margin-top: 3px;
+  border: var(--border-width-medium) solid var(--color-text-primary);
+  border-radius: 50%;
+  background-color: var(--color-surface);
+}
+
+.signal__node--observed {
+  background-color: var(--color-text-primary);
+}
+
+.signal--focal .signal__node {
+  border-color: var(--color-text-inverse);
+  background-color: var(--color-surface-inverse);
+}
+
+.signal--focal .signal__node--observed {
+  background-color: var(--color-text-inverse);
+}
+
+.signal__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  min-width: 0;
+}
+
+.signal__text {
+  font-size: var(--text-md);
+  line-height: var(--leading-snug);
+  overflow-wrap: anywhere;
+}
+
+.signal__text q {
+  font-family: var(--font-serif);
+  font-size: var(--text-sm);
+  font-style: italic;
+  line-height: var(--leading-normal);
+}
+
+.signal__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3xs) var(--space-sm);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.signal--focal .signal__meta {
+  color: var(--color-text-inverse-muted);
+}
+
+.signal__source {
+  font-weight: var(--weight-medium);
+  color: var(--color-text-secondary);
+}
+
+.signal--focal .signal__source {
+  color: var(--color-text-inverse);
+}
