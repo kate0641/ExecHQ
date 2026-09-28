@@ -2,6 +2,7 @@ import type { ReactElement } from "react";
 import { OnboardingConcept1 } from "./onboarding/concept-1";
 import { OnboardingConcept2 } from "./onboarding/concept-2";
 import { OnboardingConcept3 } from "./onboarding/concept-3";
+import { HomepageConcept1 } from "./homepage/concept-1";
 
 /**
  * Concept pages that have been built.
@@ -22,6 +23,7 @@ const BUILT_CONCEPTS: Record<string, ReactElement> = {
   "onboarding/concept-1": <OnboardingConcept1 />,
   "onboarding/concept-2": <OnboardingConcept2 />,
   "onboarding/concept-3": <OnboardingConcept3 />,
+  "homepage/concept-1": <HomepageConcept1 />,
 };
 
 /** Every built concept, as manifest slugs, in the order they are listed above. */

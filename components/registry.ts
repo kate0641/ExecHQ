@@ -70,6 +70,15 @@ import { drawerNavStates } from "./navigation/DrawerNav/DrawerNav.states";
 import { menuButtonStates } from "./navigation/MenuButton/MenuButton.states";
 import { conciergePillStates } from "./navigation/ConciergePill/ConciergePill.states";
 import { conciergePanelStates } from "./navigation/ConciergePanel/ConciergePanel.states";
+import { loopTrackStates } from "./loop/LoopTrack/LoopTrack.states";
+import { outcomeCaptureStates } from "./homepage/OutcomeCapture/OutcomeCapture.states";
+import { followUpCardStates } from "./homepage/FollowUpCard/FollowUpCard.states";
+import { nextStepCardStates } from "./homepage/NextStepCard/NextStepCard.states";
+import { readyCardStates } from "./homepage/ReadyCard/ReadyCard.states";
+import { briefingEntryStates } from "./homepage/BriefingEntry/BriefingEntry.states";
+import { recentWorkStates } from "./homepage/RecentWork/RecentWork.states";
+import { ringsHeroStates } from "./homepage/RingsHero/RingsHero.states";
+import { ringDetailStates } from "./homepage/RingDetail/RingDetail.states";
 
 export const registry: RegisteredComponent[] = [
   badgeStates,
@@ -133,6 +142,15 @@ export const registry: RegisteredComponent[] = [
   menuButtonStates,
   conciergePillStates,
   conciergePanelStates,
+  loopTrackStates,
+  outcomeCaptureStates,
+  followUpCardStates,
+  nextStepCardStates,
+  readyCardStates,
+  briefingEntryStates,
+  recentWorkStates,
+  ringsHeroStates,
+  ringDetailStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */

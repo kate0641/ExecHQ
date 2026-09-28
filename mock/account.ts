@@ -58,7 +58,7 @@ export const WEBSITE_SHARES = [
 ];
 
 /** Maya as she leaves onboarding: nothing connected, follow-ups on. The
- *  snapshots in `mock/snapshots.ts` build on this. */
+ *  five homepage states in `mock/homepage.ts` build on this. */
 export const MAYA: Account = {
   email: "maya.chen@example.com",
   name: "Maya",
