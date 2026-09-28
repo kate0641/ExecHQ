@@ -166,3 +166,47 @@ export const ACTIONS: LandscapeAction[] = [
 
 export const actionById = (id: string) => ACTIONS.find((a) => a.id === id);
 export const signalById = (id: string) => SIGNALS.find((s) => s.id === id);
+
+/* -----------------------------------------------------------------------------
+   SIGNAL ACTIVITY — PROVISIONAL (Homepage Concept 2)
+   The Signal Picture is designed in Sprint 3. Until then Concept 2 shows a
+   lightweight stand-in: the last seven days of each tracked signal, read from
+   the Loop through the actions above (`lib/signals.ts`), and said in these
+   words. Facts only: no counts, bars, grades or trends, and never a claim
+   that the work caused anything.
+   -------------------------------------------------------------------------- */
+
+/**
+ * The next steps offered after an outcome (`mock/snapshots.ts`) are not Plan
+ * actions yet, so the signal each one touches is named here.
+ */
+export const STEP_SIGNALS: Record<string, string> = {
+  bio: "seen-as-leader",
+  "stakeholder-map": "broader-remit",
+  "review-sponsor": "decider-access",
+};
+
+const capitalise = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
+
+export const SIGNAL_COPY = {
+  /** How far back the homepage looks. */
+  windowDays: 7,
+  window: (from: string, to: string) => `Last 7 days · ${from} – ${to}`,
+  /** Every entry says where it came from, in words. */
+  sources: { observed: "Seen in ExecHQ", reported: "You told me" },
+  /* One line per Loop event. `name` reads mid-sentence: "your leadership story". */
+  drafted: (name: string) => `Drafted ${name}`,
+  edited: (name: string) => `Worked on ${name}`,
+  ready: (name: string) => `Finished ${name}`,
+  used: (verb: string, name: string) => `${capitalise(verb)} ${name}`,
+  nothingYet: (name: string) => `Nothing back yet on ${name}`,
+  outcome: (name: string, label: string) => `${capitalise(name)}: ${label.toLowerCase()}`,
+  /** A signal with nothing in the window gets one quiet line, never a verdict. */
+  quiet: "Nothing logged in the last 7 days.",
+  quietStarted: (when: string) => `Your plan started ${when}. Nothing logged here yet.`,
+  focalEyebrow: "Your next step adds to",
+  answeredEyebrow: "What you logged adds to",
+  followUpAbout: "Adds to your signal",
+  othersHeading: "Your other signals",
+  allHeading: "The signals on your plan",
+} as const;
