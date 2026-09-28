@@ -24,9 +24,9 @@ export const storyOutputsStates = defineComponentStates({
   name: "StoryOutputs",
   group: "cards",
   status: "draft",
-  flows: ["onboarding"],
+  flows: [],
   description:
-    "The Positioning Builder's four outputs, with their tabs, bio lengths, revision chips, hand edits and next use. Used by Concept 2's story card. Concept 1 now shows StoryDraft instead, and these four outputs belong to the full builder.",
+    "The Positioning Builder's four outputs, with their tabs, bio lengths, revision chips, hand edits and next use. Out of onboarding since 2026-09-28, where StoryDraft shows the first draft instead; kept for the full builder in the Toolbox.",
   component: StoryOutputs,
   variants: [
     { label: "Filled", props: { ...base, inputs: filled } },
