@@ -173,6 +173,12 @@ export const prototypeConfig: PrototypeConfig = {
           summary:
             "Signal forward: the signal Maya’s next step touches, with its last seven days as facts, and the step joined beneath it.",
         },
+        {
+          slug: "concept-3",
+          title: "Concept 3 — Plan",
+          summary:
+            "Plan forward: the roadmap as a table of contents, the current stage opened up with what it asks now, and the next step.",
+        },
       ],
     },
     {
