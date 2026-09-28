@@ -8,7 +8,7 @@ export const textLinkStates = defineComponentStates({
   status: "draft",
   flows: [],
   description:
-    "Link. Underlined by default so it is identifiable without colour; `quiet` drops the underline for dense lists where the surrounding structure already reads as navigation.",
+    "Link. Underlined by default so it is identifiable without color; `quiet` drops the underline for dense lists where the surrounding structure already reads as navigation.",
   component: TextLink,
   notApplicable: {
     disabled: "Links are never disabled: where there is nowhere to go, there is no link.",

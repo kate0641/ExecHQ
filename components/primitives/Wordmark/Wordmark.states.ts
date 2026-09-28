@@ -8,7 +8,7 @@ export const wordmarkStates = defineComponentStates({
   status: "draft",
   flows: ["onboarding"],
   description:
-    "The ExecHQ name set in Red Hat Display, standing in for the logo until one exists. Every appearance of the mark goes through this component, so the logo swaps in one place. Colour is inherited, so it works on both surfaces.",
+    "The ExecHQ name set in the display face, standing in for the logo until one exists. Every appearance of the mark goes through this component, so the logo swaps in one place. Color is inherited, so it works on both surfaces.",
   component: Wordmark,
   notApplicable: {
     ...NOT_INTERACTIVE,

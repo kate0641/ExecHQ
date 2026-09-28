@@ -1,9 +1,10 @@
-import { Panel } from "@/components/layout/Panel";
+import { Notice, type NoticeTone } from "@/components/onboarding/Notice";
+import { Badge, type FeedbackBadgeTone } from "@/components/primitives/Badge";
 import { TextLink } from "@/components/primitives/TextLink";
 import { getHubPage } from "@/lib/hub-pages";
 import { Specimens } from "./Specimens";
+import { StyleguideSections } from "./StyleguideSections";
 import {
-  CATEGORY_LABELS,
   readTokens,
   tokensIn,
   tokensWithPrefix,
@@ -35,25 +36,6 @@ function TokenRow({ token, children }: { token: Token; children?: React.ReactNod
   );
 }
 
-function Swatches({ tokens, label }: { tokens: Token[]; label: string }) {
-  if (tokens.length === 0) return null;
-  return (
-    <div className="styleguide__group">
-      <h3 className="styleguide__group-title">{label}</h3>
-      <ul className="styleguide__swatches">
-        {tokens.map((token) => (
-          <TokenRow token={token} key={token.name}>
-            <span
-              className="styleguide__swatch"
-              style={{ backgroundColor: `var(${token.name})` }}
-            />
-          </TokenRow>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
 /** The main brand colours, by role. Each points at a palette name in tokens.css. */
 const BRAND_GROUPS: {
   title: string;
@@ -62,7 +44,7 @@ const BRAND_GROUPS: {
 }[] = [
   {
     title: "Primary",
-    role: "The colours that make a screen ExecHQ.",
+    role: "The colors that make a screen ExecHQ.",
     colours: [
       { token: "--brand-navy", name: "Navy" },
       { token: "--brand-bright-yellow", name: "Bright yellow" },
@@ -71,7 +53,7 @@ const BRAND_GROUPS: {
   },
   {
     title: "Secondary",
-    role: "Supporting colours, used in smaller amounts.",
+    role: "Supporting colors, used in smaller amounts.",
     colours: [
       { token: "--brand-light-green", name: "Light green" },
       { token: "--brand-dark-green", name: "Dark green" },
@@ -81,13 +63,206 @@ const BRAND_GROUPS: {
   },
   {
     title: "Neutral",
-    role: "Darks come from slate, lights from stone.",
+    role: "One neutral: stone. Its 100 is the page, its 900 the near-black used in place of black.",
     colours: [
-      { token: "--brand-slate", name: "Slate", role: "Darks" },
       { token: "--brand-stone", name: "Stone", role: "Lights" },
+      { token: "--brand-stone-900", name: "Stone 900", role: "Darks" },
+      { token: "--brand-white", name: "White", role: "Cards and fields" },
     ],
   },
 ];
+
+/** The semantic colour tokens, grouped by the job they do. First match wins. */
+const ROLE_GROUPS: { title: string; note: string; prefixes: string[]; kind?: "samples" }[] = [
+  {
+    title: "Brand slots",
+    note: "What the semantic tokens reach for. Swap a slot and every role built on it follows.",
+    prefixes: ["--brand-primary", "--brand-accent", "--brand-secondary"],
+  },
+  {
+    title: "Surfaces",
+    note: "What a screen is built on, from the canvas up, and how surfaces respond to the pointer.",
+    prefixes: ["--color-canvas", "--color-surface"],
+  },
+  {
+    title: "Action and accent",
+    note: "The primary button, gold accents and the soft secondary.",
+    prefixes: ["--color-action", "--color-text-on-action", "--color-accent", "--color-text-on-accent", "--color-secondary"],
+  },
+  {
+    title: "Text",
+    note: "Primary for reading, secondary for support, muted for metadata. Inverse sits on navy.",
+    prefixes: ["--color-text-"],
+  },
+  {
+    title: "Borders",
+    note: "Subtle and default are decorative; strong is the one controls use.",
+    prefixes: ["--color-border"],
+  },
+  {
+    title: "Focus, overlay and masks",
+    note: "Focus rings, the scrim behind dialogs, the mic's listening pulse, and the mask that fades scrolling content at an edge.",
+    prefixes: ["--color-focus", "--color-overlay", "--color-listening", "--color-mask"],
+  },
+  {
+    title: "Feedback",
+    note: "Each tone is a halo dot (a mid-tone centre in a bright ring), drawn here with the real notice and tag. Border and text are the field error; surface is the catalogue's problem box.",
+    prefixes: ["--color-feedback-"],
+    kind: "samples",
+  },
+  {
+    title: "Status badges",
+    note: "The draft, in-review and approved badges on the hub and in the catalogue.",
+    prefixes: ["--color-status-"],
+    kind: "samples",
+  },
+  {
+    title: "Device frame",
+    note: "The phone and tablet drawn around the canvas. Prototype chrome, not product.",
+    prefixes: ["--color-device-"],
+  },
+];
+
+/** Feedback and status tokens come in sets per tone. Feedback is drawn with
+ *  the real Notice and Badge; status badges with their three tokens. */
+const SAMPLE_SETS: {
+  group: string;
+  tone: string;
+  label: string;
+  prefix: string;
+  notice?: NoticeTone;
+}[] = [
+  { group: "Feedback", tone: "info", label: "Info", prefix: "--color-feedback-info-", notice: "info" },
+  { group: "Feedback", tone: "success", label: "Success", prefix: "--color-feedback-success-", notice: "success" },
+  { group: "Feedback", tone: "warning", label: "Warning", prefix: "--color-feedback-warning-", notice: "explain" },
+  { group: "Feedback", tone: "danger", label: "Danger", prefix: "--color-feedback-danger-", notice: "problem" },
+  { group: "Status badges", tone: "draft", label: "Draft", prefix: "--color-status-draft-" },
+  { group: "Status badges", tone: "review", label: "In review", prefix: "--color-status-review-" },
+  { group: "Status badges", tone: "approved", label: "Approved", prefix: "--color-status-approved-" },
+];
+
+/** Where a token lands, in words: the scale step and its value, e.g. "Stone 900 · <hex>". */
+function landsOn(name: string, tokens: Map<string, Token>): string {
+  const step = resolve(name, tokens);
+  if (!step) return "";
+  if (VAR_REFERENCE.test(step.value)) return step.value;
+  // A halo is its bright colour softened towards white.
+  const mixed = /^color-mix\(in srgb, var\((--[\w-]+)\) (\d+)%/.exec(step.value);
+  if (mixed) {
+    const base = resolve(mixed[1], tokens);
+    const baseLabel = base ? stepLabel(base.name) : undefined;
+    return baseLabel ? `${baseLabel} at ${mixed[2]}%, softened with white` : step.value;
+  }
+  const label =
+    stepLabel(step.name) ?? (step.name === "--brand-white" ? "White" : undefined);
+  return label ? `${label} · ${step.value}` : step.value;
+}
+
+function RoleRow({ token, tokens }: { token: Token; tokens: Map<string, Token> }) {
+  return (
+    <li className="styleguide__role">
+      <span
+        className="styleguide__role-swatch"
+        style={{ backgroundColor: `var(${token.name})` }}
+      />
+      <div className="styleguide__token-meta">
+        <code className="styleguide__token-name">{token.name}</code>
+        <span className="styleguide__token-value">{landsOn(token.name, tokens)}</span>
+        {token.note ? <span className="styleguide__token-note">{token.note}</span> : null}
+      </div>
+    </li>
+  );
+}
+
+function Sample({
+  set,
+  tokens,
+}: {
+  set: (typeof SAMPLE_SETS)[number];
+  tokens: Map<string, Token>;
+}) {
+  const part = (end: string) => `${set.prefix}${end}`;
+  const isBadge = set.group === "Status badges";
+  if (set.notice) {
+    return (
+      <li className="styleguide__sample-item">
+        <Notice tone={set.notice} label={set.label}>
+          An example {set.label.toLowerCase()} notice.
+        </Notice>
+        <Badge tone={set.tone as FeedbackBadgeTone}>{set.label} tag</Badge>
+        <ul className="styleguide__sample-tokens">
+          {["dot", "halo", "border", "text", "surface"].map((end) =>
+            tokens.has(part(end)) ? (
+              <li key={end}>
+                <code>{part(end)}</code>
+                <span>{landsOn(part(end), tokens)}</span>
+              </li>
+            ) : null
+          )}
+        </ul>
+      </li>
+    );
+  }
+  return (
+    <li className="styleguide__sample-item">
+      <div
+        className={isBadge ? "styleguide__sample styleguide__sample--badge" : "styleguide__sample"}
+        style={{
+          backgroundColor: `var(${part("surface")})`,
+          borderColor: `var(${part("border")})`,
+          color: `var(${part("text")})`,
+        }}
+      >
+        {set.label}
+      </div>
+      <ul className="styleguide__sample-tokens">
+        {["surface", "text", "border"].map((end) =>
+          tokens.has(part(end)) ? (
+            <li key={end}>
+              <code>{part(end)}</code>
+              <span>{landsOn(part(end), tokens)}</span>
+            </li>
+          ) : null
+        )}
+      </ul>
+    </li>
+  );
+}
+
+function ColourRoles({ roleTokens, tokens }: { roleTokens: Token[]; tokens: Map<string, Token> }) {
+  const groupOf = (name: string) =>
+    ROLE_GROUPS.find((group) => group.prefixes.some((prefix) => name.startsWith(prefix)))?.title ??
+    "Other";
+  const groups = [...ROLE_GROUPS, { title: "Other", note: "Color tokens no group above claims.", prefixes: [] }];
+  return (
+    <>
+      {groups.map((group) => {
+        const members = roleTokens.filter((token) => groupOf(token.name) === group.title);
+        if (members.length === 0) return null;
+        const sets = SAMPLE_SETS.filter((set) => set.group === group.title);
+        return (
+          <div className="styleguide__group" key={group.title}>
+            <h3 className="styleguide__scale-title">{group.title}</h3>
+            <p className="styleguide__group-note">{group.note}</p>
+            {"kind" in group && group.kind === "samples" ? (
+              <ul className="styleguide__samples">
+                {sets.map((set) => (
+                  <Sample set={set} tokens={tokens} key={set.tone} />
+                ))}
+              </ul>
+            ) : (
+              <ul className="styleguide__roles">
+                {members.map((token) => (
+                  <RoleRow token={token} tokens={tokens} key={token.name} />
+                ))}
+              </ul>
+            )}
+          </div>
+        );
+      })}
+    </>
+  );
+}
 
 const VAR_REFERENCE = /^var\((--[\w-]+)\)$/;
 
@@ -142,12 +317,12 @@ function BrandColours({ tokens }: { tokens: Map<string, Token> }) {
   );
 }
 
-/** The six brand scales, in the order the page shows them, with what each is for. */
+/** The five brand scales, in the order the page shows them, with what each is for. */
 const SCALES: { key: string; title: string; role: string }[] = [
   {
     key: "blue",
     title: "Blue",
-    role: "Navy (800) carries links, focus rings, dark panels and the approved badge. Deep navy (900) is pressed; light blue (200) is the soft secondary.",
+    role: "Navy (800) carries links, focus rings, dark panels and the approved badge. Slate (900) is its deep end: pressed navy and deep backgrounds. Light blue (200) is the soft secondary.",
   },
   {
     key: "green",
@@ -157,22 +332,17 @@ const SCALES: { key: string; title: string; role: string }[] = [
   {
     key: "yellow",
     title: "Yellow",
-    role: "Bright yellow (400) is the primary button, 500 on hover and 600 pressed. Gold yellow (700) is for small accents on light.",
+    role: "Bright yellow (400) is the primary button, 500 on hover and 600 pressed. Gold yellow (700) is for small accents on light, and is the warning color.",
   },
   {
     key: "orange",
     title: "Orange",
-    role: "Warning. The palette orange (400) is too light for text on white, so the border is 600.",
-  },
-  {
-    key: "slate",
-    title: "Slate",
-    role: "The cool neutral, in place of the old greys: text, borders and quiet surfaces. Slate 900 is the ink.",
+    role: "Orange into red. From 600 the scale turns red for danger (border 600, text 700). The palette orange (400) is too light for text on white.",
   },
   {
     key: "stone",
     title: "Stone",
-    role: "The warm neutral. Stone 100 is the canvas behind the device.",
+    role: "The one neutral. 100 is the platform's page; 200 and 300 are quiet, hover and pressed surfaces; 400 to 600 are borders and secondary text; 900 is the near-black used in place of black.",
   },
 ];
 
@@ -248,8 +418,8 @@ function Scale({
 /** The surface tokens, in the order a page stacks them, with what each is for. */
 const SURFACES: { token: string; role: string; inverse?: boolean }[] = [
   { token: "--color-canvas", role: "Behind the device frame." },
-  { token: "--color-surface", role: "The default page." },
-  { token: "--color-surface-raised", role: "Cards above the page. Paired with a shadow." },
+  { token: "--color-surface", role: "The default page: stone, the platform's own color." },
+  { token: "--color-surface-raised", role: "Cards and fields above the page, in white." },
   { token: "--color-surface-muted", role: "Quiet areas that still read as the page." },
   { token: "--color-surface-sunken", role: "Wells, inset areas and code." },
   { token: "--color-surface-inverse", role: "The one dark moment on a screen.", inverse: true },
@@ -257,7 +427,7 @@ const SURFACES: { token: string; role: string; inverse?: boolean }[] = [
 
 const TYPE_ROLES: { font: string; token: string; role: string }[] = [
   {
-    font: "Red Hat Display",
+    font: "Kulim Park",
     token: "--font-display",
     role: "Headings and UI labels. The primary face.",
   },
@@ -284,7 +454,11 @@ export function StyleguideViewer() {
   );
   const tokenMap = new Map(allTokens.map((token) => [token.name, token]));
   const uses = colourUses(allTokens);
-  const scaleStep = new RegExp(`^--brand-(${SCALES.map((s) => s.key).join("|")})-\\d00$`);
+  const slots = ROLE_GROUPS[0].prefixes;
+  const roleTokens = colourTokens.filter(
+    (token) =>
+      token.category === "colour" || slots.some((prefix) => token.name.startsWith(prefix))
+  );
   const textSizes = tokensWithPrefix("--text-");
   const spacing = tokensIn("spacing");
   const radii = tokensIn("radii");
@@ -292,197 +466,246 @@ export function StyleguideViewer() {
   const borderWidths = tokensWithPrefix("--border-width-");
 
   return (
-    <div className="styleguide">
-      <Panel
-        title="Brand colours"
-        headingLevel={2}
-        description="The main colours, by role. Each sits on one of the scales below at its exact value."
-      >
-        <BrandColours tokens={tokenMap} />
-      </Panel>
-
-      <Panel
-        title="Colour"
-        headingLevel={2}
-        description={`${colourTokens.length} colour tokens, read from styles/tokens.css. The six brand scales come first, 100 to 900, with the nine palette colours named; everything else is built from them.`}
-      >
-        <Swatches
-          tokens={colourTokens.filter((token) => token.category === "palette")}
-          label={CATEGORY_LABELS.palette}
-        />
-        {SCALES.map((scale) => (
-          <Scale scale={scale} tokens={tokenMap} uses={uses} key={scale.key} />
-        ))}
-        <Swatches
-          tokens={colourTokens.filter(
-            (token) => token.category === "brand" && !scaleStep.test(token.name)
-          )}
-          label="White, palette names and brand slots"
-        />
-        <Swatches
-          tokens={colourTokens.filter((token) => token.category === "colour")}
-          label={CATEGORY_LABELS.colour}
-        />
-      </Panel>
-
-      <Panel
-        title="Typography"
-        headingLevel={2}
-        description="Three faces, three jobs. The scale below is rendered in each of them so the roles can be compared directly."
-      >
-        {TYPE_ROLES.map((role) => (
-          <div className="styleguide__group" key={role.token}>
-            <h3 className="styleguide__group-title">
-              {role.font} <code>{role.token}</code>
-            </h3>
-            <p className="styleguide__group-note">{role.role}</p>
-            <ul className="styleguide__type-scale">
-              {textSizes.map((token) => (
-                <TokenRow token={token} key={`${role.token}-${token.name}`}>
+    <StyleguideSections
+      sections={[
+        {
+          id: "brand-colors",
+          label: "Brand colors",
+          group: "Color",
+          description: "The main colors, by role. Each sits on one of the scales below; all but slate at their exact palette value.",
+          source: "styles/tokens.css",
+          content: (
+          <div className="styleguide-layout__card">
+            <BrandColours tokens={tokenMap} />
+          </div>
+          ),
+        },
+        {
+          id: "color-scales",
+          label: "Color scales",
+          group: "Color",
+          description: "Five scales, 100 to 900, with the palette colors named. Everything else is built from them.",
+          source: "styles/tokens.css",
+          content: (
+          <div className="styleguide-layout__card styleguide-layout__card--plain">
+            {SCALES.map((scale) => (
+              <Scale scale={scale} tokens={tokenMap} uses={uses} key={scale.key} />
+            ))}
+          </div>
+          ),
+        },
+        {
+          id: "color-roles",
+          label: "Color roles",
+          group: "Color",
+          description: `${roleTokens.length} tokens the interface actually uses, grouped by job. Each shows the scale step it lands on.`,
+          source: "styles/tokens.css",
+          content: (
+          <div className="styleguide-layout__card">
+            <ColourRoles roleTokens={roleTokens} tokens={tokenMap} />
+          </div>
+          ),
+        },
+        {
+          id: "typography",
+          label: "Typography",
+          group: "Type",
+          description: "Three faces, three jobs. The scale below is rendered in each of them so the roles can be compared directly.",
+          source: "styles/tokens.css",
+          content: (
+          <div className="styleguide-layout__card">
+            {TYPE_ROLES.map((role) => (
+              <div className="styleguide__group" key={role.token}>
+                <h3 className="styleguide__group-title">
+                  {role.font} <code>{role.token}</code>
+                </h3>
+                <p className="styleguide__group-note">{role.role}</p>
+                <ul className="styleguide__type-scale">
+                  {textSizes.map((token) => (
+                    <TokenRow token={token} key={`${role.token}-${token.name}`}>
+                      <span
+                        className="styleguide__type-sample"
+                        style={{
+                          fontFamily: `var(${role.token})`,
+                          fontSize: `var(${token.name})`,
+                        }}
+                      >
+                        Your career doesn&apos;t pause
+                      </span>
+                    </TokenRow>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+          ),
+        },
+        {
+          id: "spacing",
+          label: "Spacing",
+          group: "Layout",
+          description: "A 4px base. Every gap, padding and margin in the prototype comes from this scale.",
+          source: "styles/tokens.css",
+          content: (
+          <div className="styleguide-layout__card">
+            <ul className="styleguide__bars">
+              {spacing.map((token) => (
+                <TokenRow token={token} key={token.name}>
                   <span
-                    className="styleguide__type-sample"
-                    style={{
-                      fontFamily: `var(${role.token})`,
-                      fontSize: `var(${token.name})`,
-                    }}
-                  >
-                    Your career doesn&apos;t pause
-                  </span>
+                    className="styleguide__bar"
+                    style={{ width: `var(${token.name})` }}
+                  />
                 </TokenRow>
               ))}
             </ul>
           </div>
-        ))}
-      </Panel>
-
-      <Panel
-        title="Spacing"
-        headingLevel={2}
-        description="A 4px base. Every gap, padding and margin in the prototype comes from this scale."
-      >
-        <ul className="styleguide__bars">
-          {spacing.map((token) => (
-            <TokenRow token={token} key={token.name}>
-              <span
-                className="styleguide__bar"
-                style={{ width: `var(${token.name})` }}
-              />
-            </TokenRow>
-          ))}
-        </ul>
-      </Panel>
-
-      <Panel
-        title="Surfaces"
-        headingLevel={2}
-        description="What a screen is built on, from the canvas up. Text on each is the colour that belongs there."
-      >
-        <ul className="styleguide__surfaces">
-          {SURFACES.map((surface) => (
-            <li className="styleguide__token" key={surface.token}>
-              <span
-                className="styleguide__surface"
-                style={{
-                  backgroundColor: `var(${surface.token})`,
-                  color: surface.inverse
-                    ? "var(--color-text-inverse)"
-                    : "var(--color-text-primary)",
-                  boxShadow:
-                    surface.token === "--color-surface-raised"
-                      ? "var(--shadow-sm)"
-                      : undefined,
-                }}
-              >
-                Your next role, planned
-              </span>
-              <div className="styleguide__token-meta">
-                <code className="styleguide__token-name">{surface.token}</code>
-                <span className="styleguide__token-note">{surface.role}</span>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </Panel>
-
-      <Panel title="Radii" headingLevel={2}>
-        <ul className="styleguide__tiles">
-          {radii.map((token) => (
-            <TokenRow token={token} key={token.name}>
-              <span
-                className="styleguide__tile"
-                style={{ borderRadius: `var(${token.name})` }}
-              />
-            </TokenRow>
-          ))}
-        </ul>
-      </Panel>
-
-      <Panel title="Shadows" headingLevel={2}>
-        <ul className="styleguide__tiles">
-          {shadows.map((token) => (
-            <TokenRow token={token} key={token.name}>
-              <span
-                className="styleguide__tile styleguide__tile--plain"
-                style={{ boxShadow: `var(${token.name})` }}
-              />
-            </TokenRow>
-          ))}
-        </ul>
-      </Panel>
-
-      <Panel
-        title="Borders"
-        headingLevel={2}
-        description="Three widths, and the composed border shorthands the stylesheet uses most."
-      >
-        <ul className="styleguide__bars">
-          {borderWidths.map((token) => (
-            <TokenRow token={token} key={token.name}>
-              <span
-                className="styleguide__rule"
-                style={{ borderTopWidth: `var(${token.name})` }}
-              />
-            </TokenRow>
-          ))}
-        </ul>
-        <ul className="styleguide__bars">
-          {tokensWithPrefix("--border-")
-            .filter((token) => !token.name.startsWith("--border-width-"))
-            .map((token) => (
-              <TokenRow token={token} key={token.name}>
-                <span
-                  className="styleguide__rule styleguide__rule--composed"
-                  style={{ borderTop: `var(${token.name})` }}
-                />
-              </TokenRow>
-            ))}
-        </ul>
-      </Panel>
-
-      <Panel
-        title="Buttons"
-        headingLevel={2}
-        description="Every button variant and state, rendered from the real component."
-        actions={
-          <TextLink href={getHubPage("components").href} tone="standalone">
-            Every component in the catalogue
-          </TextLink>
-        }
-      >
-        <Specimens id="button" />
-        <Specimens id="textlink" />
-      </Panel>
-
-      <Panel
-        title="Form fields"
-        headingLevel={2}
-        description="Text fields, choice chips and toggles, in each of their states."
-      >
-        <Specimens id="input" />
-        <Specimens id="chipgroup" />
-        <Specimens id="togglegroup" />
-      </Panel>
-    </div>
+          ),
+        },
+        {
+          id: "surfaces",
+          label: "Surfaces",
+          group: "Layout",
+          description: "What a screen is built on, from the canvas up. Text on each is the color that belongs there.",
+          source: "styles/tokens.css",
+          content: (
+          <div className="styleguide-layout__card">
+            <ul className="styleguide__surfaces">
+              {SURFACES.map((surface) => (
+                <li className="styleguide__token" key={surface.token}>
+                  <span
+                    className="styleguide__surface"
+                    style={{
+                      backgroundColor: `var(${surface.token})`,
+                      color: surface.inverse
+                        ? "var(--color-text-inverse)"
+                        : "var(--color-text-primary)",
+                      boxShadow:
+                        surface.token === "--color-surface-raised"
+                          ? "var(--shadow-sm)"
+                          : undefined,
+                    }}
+                  >
+                    Your next role, planned
+                  </span>
+                  <div className="styleguide__token-meta">
+                    <code className="styleguide__token-name">{surface.token}</code>
+                    <span className="styleguide__token-note">{surface.role}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+          ),
+        },
+        {
+          id: "radii",
+          label: "Radii",
+          group: "Layout",
+          description: "Corner rounding, from small controls up to the device frame.",
+          source: "styles/tokens.css",
+          content: (
+          <div className="styleguide-layout__card">
+            <ul className="styleguide__tiles">
+              {radii.map((token) => (
+                <TokenRow token={token} key={token.name}>
+                  <span
+                    className="styleguide__tile"
+                    style={{ borderRadius: `var(${token.name})` }}
+                  />
+                </TokenRow>
+              ))}
+            </ul>
+          </div>
+          ),
+        },
+        {
+          id: "shadows",
+          label: "Shadows",
+          group: "Layout",
+          description: "Depth, tinted with slate so it reads as depth rather than dirt.",
+          source: "styles/tokens.css",
+          content: (
+          <div className="styleguide-layout__card">
+            <ul className="styleguide__tiles">
+              {shadows.map((token) => (
+                <TokenRow token={token} key={token.name}>
+                  <span
+                    className="styleguide__tile styleguide__tile--plain"
+                    style={{ boxShadow: `var(${token.name})` }}
+                  />
+                </TokenRow>
+              ))}
+            </ul>
+          </div>
+          ),
+        },
+        {
+          id: "borders",
+          label: "Borders",
+          group: "Layout",
+          description: "Three widths, and the composed border shorthands the stylesheet uses most.",
+          source: "styles/tokens.css",
+          content: (
+          <div className="styleguide-layout__card">
+            <ul className="styleguide__bars">
+              {borderWidths.map((token) => (
+                <TokenRow token={token} key={token.name}>
+                  <span
+                    className="styleguide__rule"
+                    style={{ borderTopWidth: `var(${token.name})` }}
+                  />
+                </TokenRow>
+              ))}
+            </ul>
+            <ul className="styleguide__bars">
+              {tokensWithPrefix("--border-")
+                .filter((token) => !token.name.startsWith("--border-width-"))
+                .map((token) => (
+                  <TokenRow token={token} key={token.name}>
+                    <span
+                      className="styleguide__rule styleguide__rule--composed"
+                      style={{ borderTop: `var(${token.name})` }}
+                    />
+                  </TokenRow>
+                ))}
+            </ul>
+          </div>
+          ),
+        },
+        {
+          id: "buttons",
+          label: "Buttons",
+          group: "Components",
+          description: "Every button variant and state, rendered from the real component.",
+          actions: (
+            <TextLink href={getHubPage("components").href} tone="standalone">
+                Every component in the catalogue
+              </TextLink>
+          ),
+          source: "components/primitives/Button",
+          content: (
+          <div className="styleguide-layout__card">
+            <Specimens id="button" />
+            <Specimens id="textlink" />
+          </div>
+          ),
+        },
+        {
+          id: "form-fields",
+          label: "Form fields",
+          group: "Components",
+          description: "Text fields, choice chips and toggles, in each of their states.",
+          source: "components/form",
+          content: (
+          <div className="styleguide-layout__card">
+            <Specimens id="input" />
+            <Specimens id="chipgroup" />
+            <Specimens id="togglegroup" />
+          </div>
+          ),
+        },
+      ]}
+    />
   );
 }
 
