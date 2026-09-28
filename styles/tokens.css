@@ -240,7 +240,7 @@
   --color-feedback-success-halo: color-mix(in srgb, var(--brand-green-300) 75%, var(--brand-white));
   --color-feedback-warning-dot: var(--brand-yellow-500);
   --color-feedback-warning-halo: color-mix(in srgb, var(--brand-yellow-400) 75%, var(--brand-white));
-  --color-feedback-danger-dot: var(--brand-orange-600);
+  --color-feedback-danger-dot: var(--brand-orange-500);
   --color-feedback-danger-halo: color-mix(in srgb, var(--brand-orange-300) 75%, var(--brand-white));
 
   /* Device frame */
