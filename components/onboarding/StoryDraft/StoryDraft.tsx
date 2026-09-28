@@ -15,6 +15,9 @@ export interface StoryDraftProps {
   onSaveEdit: (text: string) => void;
   /** Told when editing starts and stops, so a page can hold its own action. */
   onEditingChange?: (editing: boolean) => void;
+  /** A line under the draft saying where part of it came from, e.g. a
+   *  connected LinkedIn. */
+  note?: string;
   /** Where it could be used, as a short list under the draft. */
   usesLabel: string;
   uses: readonly string[];
@@ -42,6 +45,7 @@ export function StoryDraft({
   edited,
   onSaveEdit,
   onEditingChange,
+  note,
   usesLabel,
   uses,
   preview,
@@ -101,6 +105,7 @@ export function StoryDraft({
         ) : (
           <>
             <StoryText segments={[{ text: shown }]} />
+            {note ? <p className="story-draft__note">{note}</p> : null}
             <div className="builder-output__tools">
               <Button
                 variant="ghost"
