@@ -45,7 +45,7 @@ const BRAND_GROUPS: {
 }[] = [
   {
     title: "Primary",
-    role: "The colours that make a screen ExecHQ.",
+    role: "The colors that make a screen ExecHQ.",
     colours: [
       { token: "--brand-navy", name: "Navy" },
       { token: "--brand-bright-yellow", name: "Bright yellow" },
@@ -54,7 +54,7 @@ const BRAND_GROUPS: {
   },
   {
     title: "Secondary",
-    role: "Supporting colours, used in smaller amounts.",
+    role: "Supporting colors, used in smaller amounts.",
     colours: [
       { token: "--brand-light-green", name: "Light green" },
       { token: "--brand-dark-green", name: "Dark green" },
@@ -234,7 +234,7 @@ function ColourRoles({ roleTokens, tokens }: { roleTokens: Token[]; tokens: Map<
   const groupOf = (name: string) =>
     ROLE_GROUPS.find((group) => group.prefixes.some((prefix) => name.startsWith(prefix)))?.title ??
     "Other";
-  const groups = [...ROLE_GROUPS, { title: "Other", note: "Colour tokens no group above claims.", prefixes: [] }];
+  const groups = [...ROLE_GROUPS, { title: "Other", note: "Color tokens no group above claims.", prefixes: [] }];
   return (
     <>
       {groups.map((group) => {
@@ -333,7 +333,7 @@ const SCALES: { key: string; title: string; role: string }[] = [
   {
     key: "yellow",
     title: "Yellow",
-    role: "Bright yellow (400) is the primary button, 500 on hover and 600 pressed. Gold yellow (700) is for small accents on light, and is the warning colour.",
+    role: "Bright yellow (400) is the primary button, 500 on hover and 600 pressed. Gold yellow (700) is for small accents on light, and is the warning color.",
   },
   {
     key: "orange",
@@ -419,7 +419,7 @@ function Scale({
 /** The surface tokens, in the order a page stacks them, with what each is for. */
 const SURFACES: { token: string; role: string; inverse?: boolean }[] = [
   { token: "--color-canvas", role: "Behind the device frame." },
-  { token: "--color-surface", role: "The default page: stone, the platform's own colour." },
+  { token: "--color-surface", role: "The default page: stone, the platform's own color." },
   { token: "--color-surface-raised", role: "Cards and fields above the page, in white." },
   { token: "--color-surface-muted", role: "Quiet areas that still read as the page." },
   { token: "--color-surface-sunken", role: "Wells, inset areas and code." },
@@ -470,28 +470,28 @@ export function StyleguideViewer() {
     <StyleguideSections
       sections={[
         {
-          id: "brand-colours",
-          label: "Brand colours",
-          group: "Colour",
+          id: "brand-colors",
+          label: "Brand colors",
+          group: "Color",
           content: (
           <Panel
-            title="Brand colours"
+            title="Brand colors"
             headingLevel={2}
-            description="The main colours, by role. Each sits on one of the scales below; all but slate at their exact palette value."
+            description="The main colors, by role. Each sits on one of the scales below; all but slate at their exact palette value."
           >
             <BrandColours tokens={tokenMap} />
           </Panel>
           ),
         },
         {
-          id: "colour-scales",
-          label: "Colour scales",
-          group: "Colour",
+          id: "color-scales",
+          label: "Color scales",
+          group: "Color",
           content: (
           <Panel
-            title="Colour scales"
+            title="Color scales"
             headingLevel={2}
-            description="Five scales, 100 to 900, with the palette colours named. Everything else is built from them."
+            description="Five scales, 100 to 900, with the palette colors named. Everything else is built from them."
           >
             {SCALES.map((scale) => (
               <Scale scale={scale} tokens={tokenMap} uses={uses} key={scale.key} />
@@ -500,12 +500,12 @@ export function StyleguideViewer() {
           ),
         },
         {
-          id: "colour-roles",
-          label: "Colour roles",
-          group: "Colour",
+          id: "color-roles",
+          label: "Color roles",
+          group: "Color",
           content: (
           <Panel
-            title="Colour roles"
+            title="Color roles"
             headingLevel={2}
             description={`${roleTokens.length} tokens the interface actually uses, grouped by job. Each shows the scale step it lands on.`}
           >
@@ -580,7 +580,7 @@ export function StyleguideViewer() {
           <Panel
             title="Surfaces"
             headingLevel={2}
-            description="What a screen is built on, from the canvas up. Text on each is the colour that belongs there."
+            description="What a screen is built on, from the canvas up. Text on each is the color that belongs there."
           >
             <ul className="styleguide__surfaces">
               {SURFACES.map((surface) => (

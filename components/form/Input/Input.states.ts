@@ -7,7 +7,7 @@ export const inputStates = defineComponentStates({
   status: "draft",
   flows: [],
   description:
-    "Text field. The label is a required prop, so an unlabelled field cannot be built by accident. Errors are wired to the field with aria-describedby and never rely on colour alone.",
+    "Text field. The label is a required prop, so an unlabelled field cannot be built by accident. Errors are wired to the field with aria-describedby and never rely on color alone.",
   component: Input,
   notApplicable: {
     active: "A text field has no pressed state; focus covers it.",

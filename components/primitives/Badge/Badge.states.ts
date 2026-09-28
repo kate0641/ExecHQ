@@ -8,7 +8,7 @@ export const badgeStates = defineComponentStates({
   status: "draft",
   flows: [],
   description:
-    "Status and metadata label, and feedback tags (info, success, warning, danger) drawn as white pills with a halo dot. The word is always present, so the badge never depends on colour alone to carry meaning.",
+    "Status and metadata label, and feedback tags (info, success, warning, danger) drawn as white pills with a halo dot. The word is always present, so the badge never depends on color alone to carry meaning.",
   component: Badge,
   notApplicable: {
     ...NOT_INTERACTIVE,
