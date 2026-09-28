@@ -129,17 +129,25 @@ export function daysBetween(from: LoopDate, to: LoopDate): number {
   return Math.round((toUtc(to).getTime() - toUtc(from).getTime()) / DAY_MS);
 }
 
-/** "today", "yesterday", "on Tuesday", "last Tuesday", or "on 13 October":
- *  how an advisor would say when something happened. */
+/** "on 13 October": a fixed date, for records read long after the event. */
+export function datePhrase(date: LoopDate): string {
+  const d = toUtc(date);
+  return `on ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
+}
+
+/** "today", "yesterday", "on Tuesday" (this week), "last Tuesday" (the week
+ *  before), or "on 13 October": how an advisor would say when something
+ *  happened. Weeks start on Monday. */
 export function whenPhrase(date: LoopDate, today: LoopDate): string {
   const ago = daysBetween(date, today);
-  const d = toUtc(date);
-  const weekday = WEEKDAYS[d.getUTCDay()];
+  const weekday = WEEKDAYS[toUtc(date).getUTCDay()];
+  /** Days since this week's Monday: 0 on a Monday, 6 on a Sunday. */
+  const intoWeek = (toUtc(today).getUTCDay() + 6) % 7;
   if (ago === 0) return "today";
   if (ago === 1) return "yesterday";
-  if (ago > 1 && ago < 7) return `on ${weekday}`;
-  if (ago >= 7 && ago < 14) return `last ${weekday}`;
-  return `on ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
+  if (ago > 1 && ago <= intoWeek) return `on ${weekday}`;
+  if (ago > intoWeek && ago <= intoWeek + 7) return `last ${weekday}`;
+  return datePhrase(date);
 }
 
 function sameMonth(a: LoopDate, b: LoopDate): boolean {
@@ -361,7 +369,12 @@ export function statusLabel(record: LoopRecord): string {
 
 /** The status's second line, for the states that have one. */
 export function statusDetail(record: LoopRecord): string | undefined {
-  return record.state === "in-progress" ? STATE_DETAILS["in-progress"] : undefined;
+  if (record.state === "in-progress") return STATE_DETAILS["in-progress"];
+  if (record.state === "closed") {
+    const closed = record.history.findLast((e) => e.type === "closed");
+    if (closed?.type === "closed" && closed.reason === "abandoned") return STATE_DETAILS.abandoned;
+  }
+  return undefined;
 }
 
 /** What happened, as the user reported it. States the facts in order and
@@ -369,7 +382,7 @@ export function statusDetail(record: LoopRecord): string | undefined {
 export function outcomeSummary(record: LoopRecord): string | undefined {
   if (!record.outcome || !record.usedOn) return undefined;
   const verb = ARTIFACT_KINDS[record.kind].usedVerb;
-  const used = `You ${verb} ${record.name} ${whenPhrase(record.usedOn, record.outcome.on)}.`;
+  const used = `You ${verb} ${record.name} ${datePhrase(record.usedOn)}.`;
   const detail = record.outcome.detail?.trim();
   // The detail is the user's own words, so it is quoted rather than rephrased,
   // and "Afterwards" says what followed without saying what caused it.
@@ -420,4 +433,24 @@ export function progressSentence(records: LoopRecord[], today: LoopDate): string
   if (awaiting > 0) return `You have ${PROGRESS_COPY.awaiting(inWords(awaiting), awaiting !== 1)}.`;
   if (total === 1 && records[0].createdOn === today) return PROGRESS_COPY.firstToday;
   return PROGRESS_COPY.soFar(inWords(total), total !== 1);
+}
+
+/* -----------------------------------------------------------------------------
+   PICKING UP
+   -------------------------------------------------------------------------- */
+
+/** The date of the last thing that happened to a record. */
+export function lastTouched(record: LoopRecord): LoopDate {
+  return record.history.reduce((latest, e) => (e.on > latest ? e.on : latest), record.createdOn);
+}
+
+/** "Pick up where you left off": the open artifact most recently touched.
+ *  Closed ones are finished, so they are never offered to pick up. */
+export function lastWorkedOn(records: LoopRecord[]): LoopRecord | undefined {
+  return records
+    .filter((r) => r.state !== "closed")
+    .reduce<LoopRecord | undefined>(
+      (latest, r) => (!latest || lastTouched(r) > lastTouched(latest) ? r : latest),
+      undefined
+    );
 }

@@ -72,6 +72,8 @@ export const STATE_LABELS = {
  *  difference the user cares about. */
 export const STATE_DETAILS = {
   "in-progress": "Still editing",
+  /** Closed because the user set it aside, not because it was used. */
+  abandoned: "Set aside",
 } as const;
 
 /** The five answers to a follow-up, in the order they are offered. Each is
