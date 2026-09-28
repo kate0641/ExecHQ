@@ -29,7 +29,7 @@
   "ReflectionReply": ["loading", "error", "empty", "long text"],
   "RevisionChips": ["hover", "focus", "active", "disabled", "loading", "error", "empty", "filled", "long text"],
   "Sheet": ["long text"],
-  "SignalSources": ["hover", "focus", "active", "disabled", "loading", "error", "empty", "filled", "long text"],
+  "SignalSources": ["hover", "focus", "active", "disabled", "error", "empty", "filled", "long text"],
   "StepActions": ["loading", "long text"],
   "StepBar": ["hover", "focus", "active"],
   "StepHeader": ["long text"],

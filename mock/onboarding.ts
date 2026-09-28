@@ -962,10 +962,25 @@ export const DONE_C1 = {
   nextLabel: "Next on your plan",
   nextWhy: "Why now:",
   inviteTitle: "Build out your signals",
-  inviteBody: "Connect LinkedIn or your website so your next drafts sound like you. Optional, and you can do it anytime.",
+  inviteBody: "Bring in your LinkedIn numbers to see how far your posts reach, or your website so your drafts sound like you. Optional, and you can do it anytime.",
   home: "Go to my homepage",
   signals: "Build out your signals",
   homeHref: "/homepage/concept-1",
+} as const;
+
+/** What reading a LinkedIn analytics export gives us, by decision on
+ *  2026-09-28: the export's five sheets (Discovery, Engagement, Top posts,
+ *  Followers, Demographics). Post performance and who sees it. It has no
+ *  headline, About section, post text or role, so nothing here may claim to
+ *  know those. */
+export const MOCK_LINKEDIN_CONTEXT = {
+  range: "the last year",
+  posts: 38,
+  impressions: 41200,
+  membersReached: 12900,
+  followers: 4820,
+  newFollowers: 214,
+  topAudience: { seniority: "Senior", jobTitle: "Marketing Director", industry: "Software" },
 } as const;
 
 /** Concept 1's signals page: optional, after onboarding has ended. The
@@ -973,7 +988,7 @@ export const DONE_C1 = {
 export const SIGNALS_C1 = {
   eyebrow: "Optional",
   title: "Build out your signals",
-  hint: "Connect what\u2019s already public and we\u2019ll use it to shape your drafts.",
+  hint: "Bring in what\u2019s already out there, and we\u2019ll use it to shape your plan and your drafts.",
   privacy: "Nothing is ever posted or shared. Disconnect anytime.",
   connect: "Connect",
   connected: "Connected",
@@ -988,15 +1003,15 @@ export const SIGNALS_C1 = {
       id: "linkedin",
       mark: "in",
       title: "LinkedIn",
-      why: "So your drafts match how you already show up.",
-      imported: "Headline, about section and your last 20 posts",
-      use: "Used only to shape your drafts.",
-      connectLabel: "Connect LinkedIn",
-      connecting: "Connecting to LinkedIn\u2026",
-      pasteLabel: "Or paste your profile link",
-      linkLabel: "Your LinkedIn profile link",
-      placeholder: "linkedin.com/in/\u2026",
-      canImport: true,
+      why: "So we can see how far your posts reach, and who they reach.",
+      imported: `${MOCK_LINKEDIN_CONTEXT.posts} posts and your audience, from ${MOCK_LINKEDIN_CONTEXT.range}`,
+      use: "Used only to shape your plan and your drafts.",
+      connectLabel: "",
+      connecting: "",
+      pasteLabel: "",
+      linkLabel: "",
+      placeholder: "",
+      canImport: false,
     },
     {
       id: "website",
@@ -1014,6 +1029,63 @@ export const SIGNALS_C1 = {
     },
   ],
 } as const;
+
+/** One step of the LinkedIn export, in parts: plain text, what to press
+ *  (bold), or the link to LinkedIn's analytics page. */
+export type UploadStepPart = { text: string } | { press: string } | { link: string; href: string };
+
+/** LinkedIn's creator analytics page, where the export lives. */
+export const LINKEDIN_ANALYTICS_URL = "https://www.linkedin.com/analytics/creator/content/";
+
+/**
+ * The LinkedIn upload, shared by all three concepts, by decision on
+ * 2026-09-28. The first three steps are LinkedIn's own and cannot change; the
+ * fourth is ours. Past 365 days, since senior leaders often post only a few
+ * times a quarter and 90 days may hold none.
+ */
+export const LINKEDIN_UPLOAD = {
+  eyebrow: "Optional \u00b7 LinkedIn",
+  title: "Bring in your LinkedIn numbers",
+  lede: "A spreadsheet LinkedIn gives you, showing how far your posts reach and who sees them. It takes about a minute, on a computer.",
+  stepsLabel: "How to get it",
+  steps: [
+    [{ text: "Open " }, { link: "your LinkedIn analytics", href: LINKEDIN_ANALYTICS_URL }, { text: "." }],
+    [{ text: "At the top, choose " }, { press: "Past 365 days" }, { text: "." }],
+    [{ text: "Press " }, { press: "Export" }, { text: ", then " }, { press: "Confirm" }, { text: ". A spreadsheet downloads." }],
+    [{ text: "Upload it here." }],
+  ] as UploadStepPart[][],
+  linkNote: "Opens LinkedIn in a new tab",
+  upload: "Upload the spreadsheet",
+  uploadHint: "The .xlsx file from step 3",
+  chooseAgain: "Choose a different file",
+  tryAgain: "Try again",
+  noExport: "I don\u2019t see Export",
+  noExportBody:
+    "Analytics show once you\u2019ve posted at least once. If you haven\u2019t posted yet, leave this for now: your plan will help you start.",
+  phone: "On your phone? Email me these steps",
+  status: {
+    reading: "Reading it now. Carry on, and it\u2019ll be ready by the time you need it.",
+    ready: `${MOCK_LINKEDIN_CONTEXT.posts} posts and your audience, from ${MOCK_LINKEDIN_CONTEXT.range}.`,
+    empty: "Read it. No posts in the last year, so there\u2019s nothing to measure yet. Your plan will help you start.",
+    wrongFile:
+      "That doesn\u2019t look like a LinkedIn analytics export. It should be the .xlsx from step 3. Try again, or leave it for now.",
+    failed: "That didn\u2019t upload. Nothing was saved. Try again, or carry on without it.",
+    sent: (email: string) =>
+      `Sent to ${email}. Do it on your computer when you\u2019re ready. It\u2019ll be on your plan too.`,
+  },
+  /** Short status for a list row. */
+  short: { reading: "Reading\u2026", ready: "Ready", empty: "Read", sent: "Steps sent" },
+  privacy: "Nothing is posted or shared. Delete the file anytime.",
+  remove: "Remove it",
+  done: "Continue",
+  skip: "Not now",
+} as const;
+
+/** Whether a chosen file could be a LinkedIn analytics export: the one check
+ *  the prototype makes. Nothing is read; only the name is looked at. */
+export function looksLikeLinkedInExport(fileName: string): boolean {
+  return /\.xlsx?$/i.test(fileName.trim());
+}
 
 export function planById(id: string): PlanTemplate | undefined {
   return PLAN_TEMPLATES.find((plan) => plan.id === id);
@@ -1233,18 +1305,6 @@ export const CONNECT_OFFERS: ConnectOfferSpec[] = [
   },
 ];
 
-/** What a successful LinkedIn connection would have pulled in. Manual entry
- *  only — nothing here is scraped, and the PRD forbids implying otherwise. */
-export const MOCK_LINKEDIN_CONTEXT = {
-  headline: "Marketing leader | Demand, brand and the bit in between",
-  /** The role the headline gives, as the first draft says it. Concept 3
-   *  asks for LinkedIn early, so its draft can open with this. */
-  role: "a marketing leader",
-  followers: 4820,
-  postsLast90Days: 6,
-  medianReactions: 31,
-  note: "You entered these. Change them whenever they change.",
-} as const;
 
 /** The failed-connection state. A connection can fail; that is a designed
  *  screen, not an unhandled case. */
@@ -2330,11 +2390,17 @@ export const GUIDE_C3 = {
   },
   signals: {
     kicker: "Optional",
-    title: "Want me to start from what\u2019s already public?",
-    lede: "Connect LinkedIn or your website and I\u2019ll learn how you already show up.",
-    why: "Everything I write for you starts from how you already show up. Connecting now means your first draft sounds like you, not a template.",
+    title: "Want me to start from how you already show up?",
+    lede: "Bring in your LinkedIn numbers or your website, and I\u2019ll see how you already show up.",
+    why: "Your posts show how far you already reach, and who you reach. That shapes your plan, and it\u2019s read while you carry on.",
     done: "Continue",
     skip: "Skip for now",
+  },
+  /** The LinkedIn upload page, reached from Signals. */
+  linkedin: {
+    why: "Bringing it in now means it\u2019s read while you do the rest. By the end, I\u2019ll know how far your posts reach, and who they reach.",
+    /** How the summary file on the last page says a file with no posts. */
+    fileEmpty: "No posts in the last year yet",
   },
   direction: {
     kicker: "Where you\u2019re going",
@@ -2537,7 +2603,6 @@ export const GUIDE_C3 = {
         "Not really": "Here\u2019s one to start from, built from what you\u2019ve told me.",
       } as Record<string, string>,
       lede: "Built from what you\u2019ve told me.",
-      fromLinkedIn: "From LinkedIn: your role.",
       why: "You can use this today. Everything after this makes it sharper, and your plan picks up where it leaves off.",
       sharpen: "Sharpen it with me",
       sharpenAgain: "Sharpen it again",
@@ -2552,7 +2617,6 @@ export const GUIDE_C3 = {
       title: "Three things only you know",
       lede: "Your role, what you\u2019re responsible for, and one result. Skip any you like.",
       why: "These are what turn where you\u2019re going into something you can say in a meeting.",
-      fromLinkedIn: "From LinkedIn. Change it if it\u2019s not how you\u2019d put it.",
       cta: "Update my draft",
     },
     /** Each sharpen question, as the drawer asks it. */
@@ -2589,7 +2653,7 @@ export const GUIDE_C3 = {
     thisWeek: "Done today",
     then: "Next",
     after: "After that",
-    signals: "You can connect LinkedIn or your website anytime, so your drafts sound more like you.",
+    signals: "You can bring in your LinkedIn numbers or your website anytime, so your plan and your drafts start from how you already show up.",
     why: "You\u2019ve done the hardest part: saying where you want to go. From here, the plan does the work with you.",
     home: "Go to my homepage",
   },
@@ -2662,6 +2726,10 @@ export function earlyReasonFor(direction: string, plan: PlanTemplate): string {
 /** How long the fake thinking takes. Long enough that the state is real UI,
  *  short enough that walking the flow is not a chore. */
 export const GENERATING_MS = 1100;
+
+/** How long the LinkedIn export takes to "read", in the background. Long
+ *  enough to be seen as reading on the step after the upload. */
+export const LINKEDIN_READ_MS = 8000;
 
 export const GENERATING_COPY = {
   interpreting: "Reading what you said",

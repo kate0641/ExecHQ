@@ -4572,11 +4572,6 @@ samp {
   color: var(--color-text-muted);
 }
 
-.story-draft__note {
-  font-size: var(--text-xs);
-  color: var(--color-text-secondary);
-}
-
 .story-draft__uses {
   display: flex;
   flex-direction: column;
@@ -4608,6 +4603,180 @@ samp {
   font-size: var(--text-sm);
   line-height: var(--leading-normal);
   color: var(--color-text-secondary);
+}
+
+/* --- LinkedIn upload (all concepts) -------------------------------------- */
+
+.linkedin-upload {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.linkedin-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: linkedin-step;
+}
+
+.linkedin-steps > li {
+  counter-increment: linkedin-step;
+  display: grid;
+  grid-template-columns: var(--space-lg) 1fr;
+  column-gap: var(--space-sm);
+  align-items: baseline;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+.linkedin-steps > li::before {
+  content: counter(linkedin-step);
+  display: grid;
+  place-items: center;
+  width: var(--space-lg);
+  height: var(--space-lg);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-sunken);
+}
+
+.linkedin-steps b {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.linkedin-steps a {
+  color: var(--color-text-link);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.linkedin-steps a:hover {
+  color: var(--color-text-link-hover);
+}
+
+.linkedin-steps a:focus-visible,
+.linkedin-upload__help summary:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-xs);
+}
+
+.linkedin-upload__help {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.linkedin-upload__help summary {
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.linkedin-upload__help p {
+  margin-top: var(--space-2xs);
+  line-height: var(--leading-normal);
+}
+
+.linkedin-upload__pick {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.linkedin-upload__hint,
+.linkedin-upload__privacy {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+/* The file, once chosen: its name, what is happening to it, and while it
+   is being read, a bar that moves only when motion is welcome. */
+.linkedin-file {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-sm);
+  align-items: start;
+  padding: var(--space-sm) var(--space-md);
+  border: var(--border-thin);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-raised);
+}
+
+.linkedin-file__mark {
+  display: grid;
+  place-items: center;
+  width: calc(var(--space-xl) + var(--space-xs));
+  height: calc(var(--space-xl) + var(--space-sm));
+  border: var(--border-width-medium) solid var(--color-border-strong);
+  border-radius: var(--radius-xs);
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-bold);
+  color: var(--color-text-secondary);
+}
+
+.linkedin-file__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  min-width: 0;
+}
+
+.linkedin-file__name {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  overflow-wrap: anywhere;
+}
+
+.linkedin-file__status {
+  font-size: var(--text-xs);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+.linkedin-file__bar {
+  position: relative;
+  display: block;
+  height: var(--border-width-thick);
+  margin-top: var(--space-2xs);
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-sunken);
+}
+
+.linkedin-file__bar::after {
+  content: "";
+  position: absolute;
+  inset: 0 55% 0 0;
+  border-radius: inherit;
+  background-color: var(--color-text-primary);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .linkedin-file__bar::after {
+    animation: linkedin-reading 1.4s var(--easing-standard) infinite;
+  }
+}
+
+@keyframes linkedin-reading {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(230%);
+  }
 }
 
 /* --- Ending and signals (Concept 1) --------------------------------------- */

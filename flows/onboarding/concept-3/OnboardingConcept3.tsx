@@ -9,6 +9,7 @@ import { AnswerDrawer } from "@/components/onboarding/AnswerDrawer";
 import { ExportLinks } from "@/components/onboarding/ExportLinks";
 import { GeneratingState } from "@/components/onboarding/GeneratingState";
 import { GoodExample } from "@/components/onboarding/GoodExample";
+import { LinkedInUpload } from "@/components/onboarding/LinkedInUpload";
 import { StoryDraft } from "@/components/onboarding/StoryDraft";
 import { PlanTemplateCard } from "@/components/onboarding/PlanTemplateCard";
 import { ThisWeekCard } from "@/components/onboarding/ThisWeekCard";
@@ -21,6 +22,7 @@ import { SignalSources } from "@/components/onboarding/SignalSources";
 import { Button } from "@/components/primitives/Button";
 import {
   useOnboardingFlow,
+  linkedInIn,
   type OnboardingFlow,
   type OnboardingStep,
   type PositioningInputs,
@@ -32,7 +34,7 @@ import {
   DRAFT_C1,
   DRAFT_EXPORTS,
   GUIDE_C3,
-  MOCK_LINKEDIN_CONTEXT,
+  LINKEDIN_UPLOAD,
   POSITIONING_C1,
   PLAN_C1,
   PLAN_TEMPLATES,
@@ -43,6 +45,7 @@ import {
   firstDraftFor,
   isSharpened,
   isValidInviteCode,
+  looksLikeLinkedInExport,
   planById,
   quickWinFor,
   readBack,
@@ -88,6 +91,7 @@ type PageId =
   | "account"
   | "privacy"
   | "signals"
+  | "linkedin"
   | "direction"
   | "rec"
   | "reflect-time"
@@ -127,6 +131,8 @@ const PAGES: Page[] = [
   { id: "account", label: "Account", step: "account" },
   { id: "privacy", label: "Privacy", step: "privacy" },
   { id: "signals", label: "Signals", step: "direction" },
+  // LinkedIn's upload, reached from Signals: the steps and the picker.
+  { id: "linkedin", label: "LinkedIn", step: "direction", offBar: true, aside: true },
   { id: "direction", label: "Direction", step: "direction" },
   { id: "rec", label: "Recommendation", step: "refinement" },
   { id: "reflect-time", label: "Reflection", step: "refinement" },
@@ -250,15 +256,29 @@ export function OnboardingConcept3() {
   const chosen = planById(a.planId ?? "");
   const plan = chosen ?? verdict?.plan ?? null;
   const connected = SIGNALS_C1.sources
-    .filter((source) => a.connections[source.id] === "connected" || a.signalLinks[source.id])
+    .filter((source) =>
+      source.id === "linkedin"
+        ? linkedInIn(a.linkedin)
+        : a.connections[source.id] === "connected" || a.signalLinks[source.id]
+    )
     .map((source) => source.title);
-  // Signals come early in this concept, so a connected LinkedIn can give the
-  // first draft its role before the user is asked for it.
-  const linkedInRole =
-    a.connections.linkedin === "connected" || a.signalLinks.linkedin ? MOCK_LINKEDIN_CONTEXT.role : "";
   const sharpened = isSharpened(a.positioning);
   const items: AdvisorFileItem[] = [];
-  if (connected.length) items.push({ label: "Signals", value: connected.join(", ") });
+  // The LinkedIn file is read while the user does the rest, so by the last
+  // page it has usually finished: the file says what came in, or that it is
+  // still being read.
+  if (linkedInIn(a.linkedin))
+    items.push({
+      label: "LinkedIn",
+      value:
+        a.linkedin.status === "reading"
+          ? LINKEDIN_UPLOAD.short.reading
+          : a.linkedin.status === "empty"
+            ? GUIDE_C3.linkedin.fileEmpty
+            : SIGNALS_C1.sources[0].imported,
+    });
+  const others = connected.filter((title) => title !== "LinkedIn");
+  if (others.length) items.push({ label: "Signals", value: others.join(", ") });
   if (direction)
     items.push({
       label: "Where you’re going",
@@ -342,7 +362,8 @@ export function OnboardingConcept3() {
           <SignalSources
             connections={a.connections}
             signalLinks={a.signalLinks}
-            onConnect={(id) => dispatch({ type: "set-connection", id, state: "connected" })}
+            linkedin={a.linkedin}
+            onOpenLinkedIn={() => goTo("linkedin")}
             onAddLink={(id, link) => {
               dispatch({ type: "set-signal-link", id, link });
               dispatch({ type: "set-connection", id, state: "connected" });
@@ -351,6 +372,35 @@ export function OnboardingConcept3() {
               dispatch({ type: "set-signal-link", id, link: null });
               dispatch({ type: "set-connection", id, state: "declined" });
             }}
+          />
+        </GuidePage>
+      );
+    }
+
+    case "linkedin": {
+      const c = GUIDE_C3.linkedin;
+      const fileIn = linkedInIn(a.linkedin);
+      return (
+        <GuidePage
+          {...frame()}
+          kicker={LINKEDIN_UPLOAD.eyebrow}
+          title={LINKEDIN_UPLOAD.title}
+          lede={fileIn ? undefined : LINKEDIN_UPLOAD.lede}
+          why={c.why}
+          primaryLabel={fileIn ? LINKEDIN_UPLOAD.done : LINKEDIN_UPLOAD.skip}
+          onPrimary={() => goTo("signals")}
+        >
+          <LinkedInUpload
+            status={a.linkedin.status}
+            fileName={a.linkedin.fileName}
+            email={a.email}
+            onChoose={(fileName) =>
+              dispatch({
+                type: "set-linkedin",
+                patch: { fileName, status: looksLikeLinkedInExport(fileName) ? "reading" : "wrong-file" },
+              })
+            }
+            onSendSteps={() => dispatch({ type: "set-linkedin", patch: { status: "sent" } })}
           />
         </GuidePage>
       );
@@ -553,7 +603,6 @@ export function OnboardingConcept3() {
           frame={frame()}
           plan={plan}
           lede={c.ledes[reflections.story ?? ""] ?? c.lede}
-          linkedInRole={linkedInRole}
           onSharpen={() => goTo("sharpen")}
           onSave={() => {
             dispatch({ type: "save-artifact" });
@@ -569,7 +618,6 @@ export function OnboardingConcept3() {
           flow={flow}
           frame={frame()}
           drawer={{ mode, setMode }}
-          linkedInRole={linkedInRole}
           onDone={() => goTo("draft")}
         />
       );
@@ -1099,8 +1147,8 @@ const DRAFT_EDIT = "draft";
 
 /** The facts the draft is written from: what the user gave when sharpening,
  *  with a connected LinkedIn's role standing in until they give their own. */
-function draftFacts(inputs: PositioningInputs, linkedInRole: string) {
-  return { role: inputs.role || linkedInRole, own: inputs.own, result: inputs.result };
+function draftFacts(inputs: PositioningInputs) {
+  return { role: inputs.role, own: inputs.own, result: inputs.result };
 }
 
 /**
@@ -1112,7 +1160,6 @@ function DraftPage({
   frame,
   plan,
   lede,
-  linkedInRole,
   onSharpen,
   onSave,
 }: {
@@ -1120,7 +1167,6 @@ function DraftPage({
   frame: Frame;
   plan: PlanTemplate | null;
   lede: string;
-  linkedInRole: string;
   onSharpen: () => void;
   onSave: () => void;
 }) {
@@ -1128,7 +1174,7 @@ function DraftPage({
   const inputs = state.answers.positioning;
   const c = GUIDE_C3.story.draft;
   const [editing, setEditing] = useState(false);
-  const text = firstDraftFor(state.answers.direction ?? "", state.answers.refinement, draftFacts(inputs, linkedInRole));
+  const text = firstDraftFor(state.answers.direction ?? "", state.answers.refinement, draftFacts(inputs));
   const sharpened = isSharpened(inputs);
   return (
     <GuidePage
@@ -1152,7 +1198,6 @@ function DraftPage({
           dispatch({ type: "set-positioning", patch: { edits: { ...inputs.edits, [DRAFT_EDIT]: own } } })
         }
         onEditingChange={setEditing}
-        note={linkedInRole && !inputs.role ? c.fromLinkedIn : undefined}
         usesLabel={DRAFT_C1.usesLabel}
         uses={plan?.uses ?? []}
       />
@@ -1170,15 +1215,14 @@ function SharpenPage({
   flow,
   frame,
   drawer,
-  linkedInRole,
   onDone,
-}: PageProps & { linkedInRole: string }) {
+}: PageProps) {
   const { state, dispatch } = flow;
   const inputs = state.answers.positioning;
   const p = POSITIONING_C1;
   const c = GUIDE_C3.story;
   const d = GUIDE_C3.drawer;
-  const [role, setRole] = useState(inputs.role || linkedInRole);
+  const [role, setRole] = useState(inputs.role);
   const [own, setOwn] = useState(inputs.own);
   const [result, setResult] = useState(inputs.result);
   const [index, setIndex] = useState(0);
@@ -1239,9 +1283,6 @@ function SharpenPage({
             value={current.value}
             onChange={(event) => current.set(event.target.value)}
           />
-          {index === 0 && linkedInRole && role === linkedInRole ? (
-            <p className="answer-drawer__lede">{c.sharpen.fromLinkedIn}</p>
-          ) : null}
         </AnswerDrawer>
       }
     >

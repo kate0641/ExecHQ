@@ -54,6 +54,8 @@ import { storySummaryCardStates } from "./onboarding/StorySummaryCard/StorySumma
 import { planSummaryCardStates } from "./onboarding/PlanSummaryCard/PlanSummaryCard.states";
 import { storyOutputsStates } from "./onboarding/StoryOutputs/StoryOutputs.states";
 import { storyDraftStates } from "./onboarding/StoryDraft/StoryDraft.states";
+import { linkedInStepsStates } from "./onboarding/LinkedInSteps/LinkedInSteps.states";
+import { linkedInUploadStates } from "./onboarding/LinkedInUpload/LinkedInUpload.states";
 import { exportLinksStates } from "./onboarding/ExportLinks/ExportLinks.states";
 import { chatMessageStates } from "./chat/ChatMessage/ChatMessage.states";
 import { advisorMarkStates } from "./chat/AdvisorMark/AdvisorMark.states";
@@ -106,6 +108,8 @@ export const registry: RegisteredComponent[] = [
   storySummaryCardStates,
   storyOutputsStates,
   storyDraftStates,
+  linkedInStepsStates,
+  linkedInUploadStates,
   exportLinksStates,
   chatMessageStates,
   advisorMarkStates,

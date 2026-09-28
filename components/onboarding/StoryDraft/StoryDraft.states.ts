@@ -1,6 +1,6 @@
 import { defineComponentStates } from "@/components/types";
 import { CONTROLS_INSIDE } from "@/components/not-applicable";
-import { DRAFT_C1, GUIDE_C3, MOCK_LINKEDIN_CONTEXT, PLAN_TEMPLATES, firstDraftFor } from "@/mock/onboarding";
+import { DRAFT_C1, PLAN_TEMPLATES, firstDraftFor } from "@/mock/onboarding";
 import { StoryDraft } from "./StoryDraft";
 
 const noop = () => {};
@@ -42,15 +42,6 @@ export const storyDraftStates = defineComponentStates({
       label: "Sharpened",
       description: "Role, scope and a result added: each one adds a sentence.",
       props: { ...base, label: DRAFT_C1.sharpenedLabel, text: firstDraftFor(direction, answers, sharpened) },
-    },
-    {
-      label: "Role from LinkedIn",
-      description: "Concept 3: LinkedIn was connected early, so the draft already has a role, and says where it came from.",
-      props: {
-        ...base,
-        text: firstDraftFor(direction, answers, { ...none, role: MOCK_LINKEDIN_CONTEXT.role }),
-        note: GUIDE_C3.story.draft.fromLinkedIn,
-      },
     },
     {
       label: "Long typed direction, wraps",

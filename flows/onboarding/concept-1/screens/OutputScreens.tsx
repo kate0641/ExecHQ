@@ -1,13 +1,24 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
+import { LinkedInUpload } from "@/components/onboarding/LinkedInUpload";
 import { SignalSources } from "@/components/onboarding/SignalSources";
 import { ThisWeekCard } from "@/components/onboarding/ThisWeekCard";
 import { WizardStep } from "@/components/onboarding/WizardStep";
-import { DONE_C1, SIGNALS_C1, isSharpened, planById, quickWinFor } from "@/mock/onboarding";
+import { linkedInIn } from "@/flows/onboarding/shared";
+import {
+  DONE_C1,
+  LINKEDIN_UPLOAD,
+  SIGNALS_C1,
+  isSharpened,
+  looksLikeLinkedInExport,
+  planById,
+  quickWinFor,
+} from "@/mock/onboarding";
 import type { ScreenProps } from "./types";
 
 /**
@@ -84,10 +95,54 @@ export function SignalsScreen({ flow, step, total, headingId }: ScreenProps) {
   const { state, dispatch } = flow;
   const router = useRouter();
   const copy = SIGNALS_C1;
-  const { connections, signalLinks } = state.answers;
-  const anyOn = copy.sources.some(
-    (source) => connections[source.id] === "connected" || Boolean(signalLinks[source.id])
-  );
+  const { connections, signalLinks, linkedin } = state.answers;
+  const anyOn = linkedInIn(linkedin) || Boolean(signalLinks.website) || connections.website === "connected";
+  // LinkedIn's upload is a page of its own inside this screen, by decision on
+  // 2026-09-28: four steps and a picker are too much for a sheet.
+  const [uploading, setUploading] = useState(false);
+
+  // Opening and closing the upload page is a change inside the step, so this
+  // screen moves focus itself, to the new heading.
+  const wasUploading = useRef(uploading);
+  useEffect(() => {
+    if (wasUploading.current === uploading) return;
+    wasUploading.current = uploading;
+    if (uploading) document.getElementById(headingId)?.focus();
+    else document.querySelector<HTMLElement>('[data-source="linkedin"]')?.focus();
+  }, [uploading, headingId]);
+
+  if (uploading) {
+    const fileIn = linkedInIn(linkedin);
+    return (
+      <WizardStep
+        step={step}
+        total={total}
+        showProgress={false}
+        eyebrow={LINKEDIN_UPLOAD.eyebrow}
+        title={LINKEDIN_UPLOAD.title}
+        description={fileIn ? undefined : LINKEDIN_UPLOAD.lede}
+        headingId={headingId}
+        backLabel={copy.title}
+        onBack={() => setUploading(false)}
+        primaryLabel={fileIn ? LINKEDIN_UPLOAD.done : LINKEDIN_UPLOAD.skip}
+        primaryVariant={fileIn ? "primary" : "secondary"}
+        onPrimary={() => setUploading(false)}
+      >
+        <LinkedInUpload
+          status={linkedin.status}
+          fileName={linkedin.fileName}
+          email={state.answers.email}
+          onChoose={(fileName) =>
+            dispatch({
+              type: "set-linkedin",
+              patch: { fileName, status: looksLikeLinkedInExport(fileName) ? "reading" : "wrong-file" },
+            })
+          }
+          onSendSteps={() => dispatch({ type: "set-linkedin", patch: { status: "sent" } })}
+        />
+      </WizardStep>
+    );
+  }
 
   return (
     <WizardStep
@@ -105,7 +160,8 @@ export function SignalsScreen({ flow, step, total, headingId }: ScreenProps) {
       <SignalSources
         connections={connections}
         signalLinks={signalLinks}
-        onConnect={(id) => dispatch({ type: "set-connection", id, state: "connected" })}
+        linkedin={linkedin}
+        onOpenLinkedIn={() => setUploading(true)}
         onAddLink={(id, link) => {
           dispatch({ type: "set-signal-link", id, link });
           dispatch({ type: "set-connection", id, state: "connected" });
