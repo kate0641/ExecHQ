@@ -471,6 +471,52 @@ samp {
   color: var(--color-status-approved-text);
 }
 
+/* Feedback tags: a white pill with a halo dot before the word. Sentence case
+   and no tracking, so they read as labels rather than statuses. */
+.badge--info,
+.badge--success,
+.badge--warning,
+.badge--danger {
+  --badge-dot: var(--color-feedback-info-dot);
+  --badge-halo: var(--color-feedback-info-halo);
+  gap: var(--space-xs);
+  padding-inline: var(--space-xs) var(--space-sm);
+  background-color: var(--color-surface-raised);
+  border-color: var(--color-border-subtle);
+  color: var(--color-text-primary);
+  letter-spacing: var(--tracking-normal);
+  text-transform: none;
+}
+
+.badge--success {
+  --badge-dot: var(--color-feedback-success-dot);
+  --badge-halo: var(--color-feedback-success-halo);
+}
+
+.badge--warning {
+  --badge-dot: var(--color-feedback-warning-dot);
+  --badge-halo: var(--color-feedback-warning-halo);
+}
+
+.badge--danger {
+  --badge-dot: var(--color-feedback-danger-dot);
+  --badge-halo: var(--color-feedback-danger-halo);
+}
+
+.badge--info::before,
+.badge--success::before,
+.badge--warning::before,
+.badge--danger::before {
+  content: "";
+  flex: none;
+  width: var(--feedback-dot-sm);
+  height: var(--feedback-dot-sm);
+  margin-inline: var(--feedback-dot-halo-sm);
+  border-radius: var(--radius-pill);
+  background-color: var(--badge-dot);
+  box-shadow: 0 0 0 var(--feedback-dot-halo-sm) var(--badge-halo);
+}
+
 /* Loop status ---------------------------------------------------------------
 
    One treatment for an artifact's place in the Loop, wherever it appears.
@@ -538,7 +584,7 @@ samp {
 .field__control {
   width: 100%;
   padding: var(--space-sm) var(--space-md);
-  background-color: var(--color-surface);
+  background-color: var(--color-surface-raised);
   border: var(--border-width-thin) solid var(--color-border-strong);
   border-radius: var(--radius-sm);
   color: var(--color-text-primary);
@@ -603,12 +649,14 @@ samp {
 
 .field__control--error {
   border-color: var(--color-feedback-danger-border);
-  border-width: var(--border-width-medium);
 }
 
-/* An errored field is already 2px, so focus only darkens it. */
-.field__control--error:focus-visible {
-  box-shadow: none;
+/* Focus thickens an errored field to 2px as it does any field, but keeps it
+   red, so the error is still flagged while it is being fixed. */
+.field__control--error:focus-visible,
+.field__control--error.is-focus {
+  border-color: var(--color-feedback-danger-border);
+  box-shadow: inset 0 0 0 var(--border-width-thin) var(--color-feedback-danger-border);
 }
 
 .field__error {
@@ -3366,6 +3414,183 @@ ul.concierge-mini {
 
 /* Design system viewer ----------------------------------------------------- */
 
+/* The design system runs the full width of the window, not the hub's usual
+   measure, so a scale's nine steps have room in one row. Header, main and
+   footer widen together so their left edges stay aligned. */
+.hub:has(.styleguide-layout) .hub__header,
+.hub:has(.styleguide-layout) .hub__main,
+.hub:has(.styleguide-layout) .hub__footer-text {
+  max-width: none;
+}
+
+/* One section at a time, with a sidebar on the left: search, then the
+   sections under quiet group labels. The sidebar is attached to the content
+   by a rule rather than floating as a card. */
+.styleguide-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
+  align-items: start;
+  border-top: var(--border-thin);
+}
+
+.styleguide-layout__nav {
+  position: sticky;
+  top: 0;
+  max-height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  padding: var(--space-lg) var(--space-md) var(--space-xl) 0;
+  border-right: var(--border-thin);
+}
+
+.styleguide-layout__search-field {
+  width: 100%;
+  padding: var(--space-xs) var(--space-sm);
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-raised);
+  border: var(--border-strong);
+  border-radius: var(--radius-sm);
+}
+
+.styleguide-layout__search-field::placeholder {
+  color: var(--color-text-muted);
+}
+
+.styleguide-layout__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.styleguide-layout__group-label {
+  padding-inline: var(--space-sm);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-muted);
+}
+
+.styleguide-layout__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+.styleguide-layout__link {
+  display: block;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+  text-decoration: none;
+}
+
+.styleguide-layout__link:hover {
+  background-color: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+/* The current section sits on the soft secondary: light blue. */
+.styleguide-layout__link[aria-current="page"] {
+  background-color: var(--color-secondary-soft);
+  font-weight: var(--weight-semibold);
+}
+
+.styleguide-layout__empty {
+  display: block;
+  padding-inline: var(--space-sm);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.styleguide-layout__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  min-width: 0;
+  padding: var(--space-lg) 0 var(--space-xl) var(--space-xl);
+}
+
+.styleguide-layout__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  /* A hash link lands on its section; leave room above it. */
+  scroll-margin-top: var(--space-md);
+}
+
+.styleguide-layout__section[hidden] {
+  display: none;
+}
+
+.styleguide-layout__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  padding-bottom: var(--space-lg);
+  border-bottom: var(--border-thin);
+}
+
+.styleguide-layout__heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  max-width: var(--content-measure);
+}
+
+.styleguide-layout__eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-link);
+}
+
+.styleguide-layout__title {
+  font-size: var(--text-2xl);
+}
+
+.styleguide-layout__description {
+  color: var(--color-text-secondary);
+}
+
+.styleguide-layout__source {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.styleguide-layout__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  background-color: var(--color-surface-raised);
+  border: var(--border-thin);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xs);
+}
+
+/* For content that is already cards, like a scale's steps: no second card. */
+.styleguide-layout__card--plain {
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.styleguide-layout__next {
+  align-self: flex-end;
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+}
+
 .styleguide {
   display: flex;
   flex-direction: column;
@@ -3466,8 +3691,8 @@ ul.concierge-mini {
 
 .styleguide__scale {
   display: grid;
-  /* Nine across at laptop width; a narrower window wraps rather than crushes. */
-  grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+  /* Always one row of nine, lightest to darkest, sharing the width. */
+  grid-template-columns: repeat(9, minmax(0, 1fr));
   gap: var(--space-sm);
   margin-top: var(--space-xs);
 }
@@ -3512,6 +3737,87 @@ ul.concierge-mini {
 
 .styleguide__step-swatch--large {
   height: var(--space-4xl);
+}
+
+/* Colour roles: compact rows — a chip, the token, and the step it lands on. */
+.styleguide__roles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  gap: var(--space-sm) var(--space-lg);
+  margin-top: var(--space-xs);
+}
+
+.styleguide__role {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-width: 0;
+}
+
+.styleguide__role-swatch {
+  flex: none;
+  width: var(--space-xl);
+  height: var(--space-xl);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+/* Feedback tones and status badges, drawn as they are used. */
+.styleguide__samples {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-xs);
+}
+
+.styleguide__sample-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+.styleguide__sample {
+  padding: var(--space-sm) var(--space-md);
+  border: var(--border-width-thin) solid;
+  border-left-width: var(--border-width-thick);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.styleguide__sample--badge {
+  align-self: flex-start;
+  padding: var(--space-3xs) var(--space-sm);
+  border-left-width: var(--border-width-thin);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+/* A real tag keeps its own width rather than stretching to the column. */
+.styleguide__sample-item > .badge {
+  align-self: flex-start;
+}
+
+.styleguide__sample-tokens {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  font-size: var(--text-2xs);
+  color: var(--color-text-secondary);
+}
+
+.styleguide__sample-tokens li {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--space-xs);
+}
+
+.styleguide__sample-tokens code {
+  color: var(--color-text-primary);
 }
 
 .styleguide__step-value {
@@ -4150,9 +4456,10 @@ ul.concierge-mini {
   place-items: center;
   width: var(--space-2xl);
   height: var(--space-2xl);
-  border: var(--border-thin);
+  /* The composer's one edge: the raised surface, with the field's control border. */
+  border: var(--border-strong);
   border-radius: var(--radius-pill);
-  background-color: var(--color-surface);
+  background-color: var(--color-surface-raised);
   color: var(--color-text-primary);
   cursor: pointer;
   transition: background-color var(--duration-fast) var(--easing-standard);
@@ -4367,24 +4674,58 @@ ul.concierge-mini {
 
 /* --- Notice --------------------------------------------------------------- */
 
+/* A white card on the page. Tone is the halo dot on the label line; the card
+   itself stays neutral, so the bright accents show without tinting it. */
 .notice {
+  --notice-dot: var(--color-feedback-info-dot);
+  --notice-halo: var(--color-feedback-info-halo);
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
-  padding: var(--space-md);
-  border-radius: var(--radius-sm);
-  border-left: var(--border-width-thick) solid var(--color-border-strong);
-  background-color: var(--color-feedback-info-surface);
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-surface-raised);
+  border: var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.notice--success {
+  --notice-dot: var(--color-feedback-success-dot);
+  --notice-halo: var(--color-feedback-success-halo);
 }
 
 .notice--explain {
-  background-color: var(--color-feedback-warning-surface);
-  border-left-color: var(--color-feedback-warning-border);
+  --notice-dot: var(--color-feedback-warning-dot);
+  --notice-halo: var(--color-feedback-warning-halo);
 }
 
 .notice--problem {
-  background-color: var(--color-feedback-danger-surface);
-  border-left-color: var(--color-feedback-danger-border);
+  --notice-dot: var(--color-feedback-danger-dot);
+  --notice-halo: var(--color-feedback-danger-halo);
+}
+
+/* The label is an eyebrow set in the body face, so Red Hat Display stays for
+   headings and primary UI. */
+.notice__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+/* The halo is a spread shadow, so the row is padded by it to stay aligned. */
+.notice__dot {
+  flex: none;
+  width: var(--feedback-dot);
+  height: var(--feedback-dot);
+  margin-inline: var(--feedback-dot-halo);
+  border-radius: var(--radius-pill);
+  background-color: var(--notice-dot);
+  box-shadow: 0 0 0 var(--feedback-dot-halo) var(--notice-halo);
 }
 
 .notice__title {
@@ -4760,8 +5101,17 @@ ul.concierge-mini {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
-  padding: var(--space-md);
+  /* The foot pads by the fade's height, so the last message clears the fade
+     once the thread is scrolled to the end. */
+  padding: var(--space-md) var(--space-md) var(--space-lg);
   overflow-y: auto;
+  /* The conversation fades out above the chips and the composer rather than
+     stopping at a hard edge. */
+  mask-image: linear-gradient(
+    to bottom,
+    var(--color-mask) calc(100% - var(--space-lg)),
+    transparent
+  );
   /* The containing block for the visually-hidden labels inside, so they
      scroll with the thread rather than stretching the device screen. */
   position: relative;
@@ -4774,7 +5124,6 @@ ul.concierge-mini {
   gap: var(--space-xs);
   padding: var(--space-xs) var(--space-sm) var(--space-lg);
   background-color: var(--color-surface);
-  border-top: var(--border-subtle);
 }
 
 /* The open door: the empty chat is the welcome. */
@@ -4893,6 +5242,8 @@ ul.concierge-mini {
 
 .chat-message--you .chat-message__body {
   padding: var(--space-xs) var(--space-sm);
+  /* Keep the lines the user broke with Shift+Enter in the composer. */
+  white-space: pre-line;
   color: var(--color-text-inverse);
   background-color: var(--color-surface-inverse);
   border-radius: var(--radius-lg);
@@ -5303,8 +5654,8 @@ ul.concierge-mini {
   font-size: var(--text-sm);
   font-weight: var(--weight-medium);
   color: var(--color-text-primary);
-  background-color: var(--color-surface);
-  border: var(--border-width-thin) solid var(--color-text-primary);
+  background-color: var(--color-surface-raised);
+  border: var(--border-strong);
   border-radius: var(--radius-pill);
   cursor: pointer;
 }
@@ -5315,54 +5666,123 @@ ul.concierge-mini {
 
 .quick-replies__chip.is-quiet {
   color: var(--color-text-secondary);
-  border-color: var(--color-border-strong);
 }
 
 /* A chosen answer in a pick-several question. */
 .quick-replies__chip[aria-pressed="true"] {
   color: var(--color-text-inverse);
   background-color: var(--color-surface-inverse);
+  border-color: var(--color-surface-inverse);
 }
 
-/* The composer. */
+/* The composer: one pill holding the field, the mic and send. The pill
+   carries the edge and the fill; the field inside it is bare. Its corners
+   are a fixed radius, so it is a rounded box at one line and stays one as
+   the field grows. The buttons stay at the foot. */
 .chat-composer {
   display: flex;
-  align-items: center;
-  gap: var(--space-xs);
+  align-items: flex-end;
+  gap: var(--space-3xs);
+  padding: var(--space-2xs);
+  padding-left: var(--space-md);
+  background-color: var(--color-surface-raised);
+  /* A light edge, lifted by a soft shadow, rather than the strong control
+     border: the placeholder, the mic and send already say what this is, so
+     the edge only needs to be seen, not to identify it (WCAG 1.4.11). */
+  border: var(--border-thin);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+}
+
+/* Focus is the edge stepping up to the strong control border (3.2:1 on the
+   page, 3.4:1 on the fill) with a deeper shadow — quieter than a field's 2px
+   near-black edge, to suit the lighter box. The transparent outline is what
+   forced-colours mode draws, since it drops shadows. */
+.chat-composer:has(.chat-composer__field:focus-visible) {
+  outline: var(--border-width-thin) solid transparent;
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-sm);
+}
+
+.chat-composer:has(.chat-composer__field[aria-disabled="true"]) {
+  background-color: var(--color-surface-sunken);
 }
 
 .chat-composer__field {
   flex: 1;
   min-width: 0;
-  padding: var(--space-sm) var(--space-md);
+  /* One line sits level with the 32px buttons beside it. */
+  padding: var(--space-2xs) 0;
   font-size: var(--text-md);
+  line-height: var(--leading-normal);
   color: var(--color-text-primary);
-  background-color: var(--color-surface);
-  border: var(--border-strong);
-  border-radius: var(--radius-pill);
+  background-color: transparent;
+  border: none;
+  /* Height is set by the component as the text grows; past its cap the
+     field scrolls rather than growing further. */
+  resize: none;
+  overflow-y: auto;
 }
 
+/* The pill shows focus for the field (above), so the field's own ring would
+   only double it. */
 .chat-composer__field:focus-visible {
-  outline: var(--border-width-medium) solid transparent;
-  outline-offset: calc(var(--border-width-medium) * -1);
-  border-color: var(--color-text-primary);
-  box-shadow: inset 0 0 0 var(--border-width-thin) var(--color-text-primary);
+  outline: none;
 }
 
-.chat-composer__field[aria-disabled="true"] {
-  background-color: var(--color-surface-sunken);
+.chat-composer__field::placeholder {
+  color: var(--color-text-muted);
+}
+
+/* Inside the pill the mic drops its own edge and sits beside send. Both are
+   32px, about the size Claude's and ChatGPT's mobile composers use, and
+   above the 24px AA target size (SC 2.5.8). */
+.chat-composer .mic-button,
+.chat-composer .chat-composer__attach,
+.chat-composer__send {
+  width: var(--space-xl);
+  height: var(--space-xl);
+}
+
+.chat-composer .mic-button,
+.chat-composer .chat-composer__attach {
+  border-color: transparent;
+  background-color: transparent;
+}
+
+/* With attach at the start, the pill's inset matches at both ends. */
+.chat-composer:has(.chat-composer__attach) {
+  padding-left: var(--space-2xs);
+}
+
+.chat-composer .mic-button:hover:not(:disabled),
+.chat-composer .chat-composer__attach:hover:not(:disabled) {
+  background-color: var(--color-surface-hover);
+}
+
+.chat-composer .mic-button[aria-pressed="true"] {
+  background-color: var(--color-surface-inverse);
+  border-color: var(--color-surface-inverse);
 }
 
 .chat-composer__send {
   flex: none;
   display: grid;
   place-items: center;
-  width: var(--space-2xl);
-  height: var(--space-2xl);
   border-radius: var(--radius-pill);
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
+  /* The composer's main action, so it takes the primary button's yellow. */
+  background-color: var(--color-action);
+  color: var(--color-text-on-action);
   cursor: pointer;
+  transition: background-color var(--duration-fast) var(--easing-standard);
+}
+
+.chat-composer__send:hover {
+  background-color: var(--color-action-hover);
+}
+
+.chat-composer__send:active {
+  background-color: var(--color-action-active);
 }
 
 .chat-composer__send:disabled {

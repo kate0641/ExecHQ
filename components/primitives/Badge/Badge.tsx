@@ -1,7 +1,10 @@
 import type { ReactNode } from "react";
 import { STATUS_LABELS, type Status } from "@/lib/manifest";
 
-export type BadgeTone = "neutral" | "sprint" | Status;
+/** Feedback tones draw a halo dot before the word; the word still carries it. */
+export type FeedbackBadgeTone = "info" | "success" | "warning" | "danger";
+
+export type BadgeTone = "neutral" | "sprint" | Status | FeedbackBadgeTone;
 
 export interface BadgeProps {
   tone?: BadgeTone;

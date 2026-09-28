@@ -9,8 +9,9 @@
      2. SEMANTIC     — what the interface actually references. Named by role,
                        never by colour, so the brand palette slots straight in.
 
-   The brand palette is six scales — blue, green, yellow, orange, slate and
-   stone, 100 to 900 — holding the nine palette colours at their exact values.
+   The brand palette is five scales — blue, green, yellow, orange and stone,
+   100 to 900 — holding the nine palette colours. Eight sit at their exact
+   values; slate is tuned by a hair (ΔE 2) so it ends the navy scale.
    Every text and control pairing below passes WCAG 2.2 AA. Pairs to avoid:
      - yellow 700 on navy (2.8:1) — use yellow 400 on navy instead
      - yellow 400 or orange 400 on white — use yellow 700 or orange 600
@@ -20,13 +21,15 @@
 :root {
   /* ---------------------------------------------------------------------------
      1. RAW PALETTE
-     Six scales, 100 (lightest) to 900 (darkest). Each palette colour sits on
+     Five scales, 100 (lightest) to 900 (darkest). Each palette colour sits on
      its scale at its exact value, marked "palette"; the steps between were
      interpolated in OKLCH so they look evenly spaced. Brand colours carry the
      --brand- prefix so the showroom's design-system page draws them.
      ------------------------------------------------------------------------ */
 
-  /* Blue — light blue at 200, navy at 800, deep navy at 900. */
+  /* Blue — light blue at 200, navy at 800, slate at 900. Slate was #0c171e;
+     it is nudged a touch darker and bluer so the scale runs on from navy
+     without a visible change (ΔE 2.1 from the original). */
   --brand-blue-100: #eff3ff;
   --brand-blue-200: #d4e0ff;  /* palette: light blue */
   --brand-blue-300: #a6beef;
@@ -35,7 +38,7 @@
   --brand-blue-600: #22609c;
   --brand-blue-700: #014472;
   --brand-blue-800: #002945;  /* palette: navy */
-  --brand-blue-900: #00182a;  /* deep navy: pressed states, deep backgrounds */
+  --brand-blue-900: #03151f;  /* palette: slate — pressed navy, deep backgrounds */
 
   /* Green — light green at 300, dark green at 800. */
   --brand-green-100: #f1fdd8;
@@ -59,62 +62,54 @@
   --brand-yellow-800: #644803;
   --brand-yellow-900: #432f07;
 
-  /* Orange — the palette orange at 400. */
+  /* Orange into red — the palette orange at 400. From 500 the steps gain
+     chroma and turn towards red instead of browning, so the dark end is a true
+     red: danger comes from 600 and 700 rather than a separate red scale. */
   --brand-orange-100: #fff0e8;
   --brand-orange-200: #ffdac8;
   --brand-orange-300: #ffb38f;
   --brand-orange-400: #fd8143;  /* palette: orange */
-  --brand-orange-500: #d96530;
-  --brand-orange-600: #b34f28;
-  --brand-orange-700: #8e3b1e;
-  --brand-orange-800: #6b2d19;
-  --brand-orange-900: #4b1f12;
+  --brand-orange-500: #eb5520;
+  --brand-orange-600: #d72212;
+  --brand-orange-700: #b30614;
+  --brand-orange-800: #8a0e15;
+  --brand-orange-900: #5f0c10;
 
-  /* Slate — the cool neutral, used for text, borders and greys. The palette
-     near-black is 900. */
-  --brand-slate-100: #edf1f4;
-  --brand-slate-200: #d6dde3;
-  --brand-slate-300: #b5bfc7;
-  --brand-slate-400: #829099;
-  --brand-slate-500: #5e6d77;
-  --brand-slate-600: #45555f;
-  --brand-slate-700: #303f49;
-  --brand-slate-800: #202d36;
-  --brand-slate-900: #0c171e;  /* palette: slate */
-
-  /* Stone — the warm neutral. The palette off-white is 100. */
+  /* Stone — the one neutral, warm all the way down. The palette off-white is
+     100, the platform's page. 900 is the near-black used in place of black:
+     text, button labels, the device bezel. Steps between match the lightness
+     text and borders need, so every pairing below passes. */
   --brand-stone-100: #f7f6f1;  /* palette: stone */
-  --brand-stone-200: #eae8e1;
-  --brand-stone-300: #d3d1c9;
-  --brand-stone-400: #b1aea6;
-  --brand-stone-500: #8c8981;
-  --brand-stone-600: #6c6962;
-  --brand-stone-700: #504d47;
-  --brand-stone-800: #35322e;
-  --brand-stone-900: #1f1c1a;
+  --brand-stone-200: #e7e4de;
+  --brand-stone-300: #c7c4bd;
+  --brand-stone-400: #8e8a83;
+  --brand-stone-500: #68645e;
+  --brand-stone-600: #55504b;
+  --brand-stone-700: #3e3a36;
+  --brand-stone-800: #24211e;
+  --brand-stone-900: #0e0c0a;  /* near-black: the ink */
 
   --brand-white: #ffffff;
 
   /* The palette colours by name, for reading and talking about. Each points
      at its step above. */
   --brand-navy: var(--brand-blue-800);
-  --brand-deep-navy: var(--brand-blue-900);
   --brand-light-blue: var(--brand-blue-200);
   --brand-dark-green: var(--brand-green-800);
   --brand-light-green: var(--brand-green-300);
   --brand-gold-yellow: var(--brand-yellow-700);
   --brand-bright-yellow: var(--brand-yellow-400);
   --brand-orange: var(--brand-orange-400);
-  --brand-slate: var(--brand-slate-900);
+  --brand-slate: var(--brand-blue-900);
   --brand-stone: var(--brand-stone-100);
 
   /* Shadow tint, kept as channels so opacity can vary at the point of use.
-     Deep navy, so shadows read as depth rather than dirt. */
-  --shadow-rgb: 0 26 46;
+     Slate, so shadows read as depth rather than dirt. */
+  --shadow-rgb: 3 21 31;
 
   /* ---------------------------------------------------------------------------
      BRAND SLOTS
-     --brand-primary   → navy (blue 800); deep navy (900) when pressed
+     --brand-primary   → navy (blue 800); slate (900) when pressed
      --brand-accent    → gold yellow (yellow 700) for small accents on light;
                          bright yellow (400) for buttons and accents on navy
      --brand-secondary → blue
@@ -138,43 +133,48 @@
 
   /* Surfaces */
   --color-canvas: var(--brand-stone-100);          /* behind the device frame */
-  --color-surface: var(--brand-white);         /* default page surface */
-  --color-surface-raised: var(--brand-white);  /* cards sitting above the surface */
-  --color-surface-sunken: var(--brand-slate-100);  /* wells, inset areas, code blocks */
-  --color-surface-muted: var(--brand-stone-100);
+  /* Stone is the platform's page; cards and fields stay white on it. Every
+     surface, text and border is stone. */
+  --color-surface: var(--brand-stone-100);     /* default page surface */
+  --color-surface-raised: var(--brand-white);  /* cards and fields above the page */
+  --color-surface-sunken: var(--brand-stone-200);  /* wells, inset areas, code blocks */
+  --color-surface-muted: var(--brand-stone-200);
   --color-surface-inverse: var(--brand-primary);
   --color-surface-inverse-hover: var(--brand-primary-muted);
   --color-surface-inverse-active: var(--brand-primary-strong);
-  --color-surface-hover: var(--brand-slate-100);
-  --color-surface-active: var(--brand-slate-200);
-  --color-surface-disabled: var(--brand-slate-100);
+  --color-surface-hover: var(--brand-stone-200);
+  --color-surface-active: var(--brand-stone-300);
+  --color-surface-disabled: var(--brand-stone-200);
 
-  /* Text — primary 18.2:1, secondary 7.7:1, muted 5.3:1 on --color-surface.
-     Muted stays 4.5:1 or more on sunken and stone; not on --color-surface-active. */
-  --color-text-primary: var(--brand-slate-900);
-  --color-text-secondary: var(--brand-slate-600);
-  --color-text-muted: var(--brand-slate-500);
-  --color-text-disabled: var(--brand-slate-400);   /* inactive: exempt from 1.4.3 */
+  /* Text — primary 18.0:1, secondary 7.4:1, muted 5.4:1 on --color-surface
+     (stone 100). Muted is 4.6:1 on stone 200 (sunken, muted, hover); not on
+     --color-surface-active, where secondary is the lightest text (4.6:1). */
+  --color-text-primary: var(--brand-stone-900);
+  --color-text-secondary: var(--brand-stone-600);
+  --color-text-muted: var(--brand-stone-500);
+  --color-text-disabled: var(--brand-stone-400);   /* inactive: exempt from 1.4.3 */
   --color-text-inverse: var(--brand-blue-100);
   --color-text-inverse-muted: var(--brand-blue-300);
   --color-text-on-accent: var(--brand-white);
   --color-text-link: var(--brand-primary);
   --color-text-link-hover: var(--brand-accent-strong);
 
-  /* Borders — "strong" is 3.25:1 on surface and is the one to use on controls */
-  --color-border-subtle: var(--brand-slate-100);
-  --color-border: var(--brand-slate-200);
-  --color-border-strong: var(--brand-slate-400);
+  /* Borders — "strong" is 3.2:1 on the stone page and 3.4:1 on white, and is
+     the one to use on controls. It is 2.7:1 on stone 200, so a control inside
+     a sunken well relies on its own fill for its edge. */
+  --color-border-subtle: var(--brand-stone-200);
+  --color-border: var(--brand-stone-300);
+  --color-border-strong: var(--brand-stone-400);
   --color-border-inverse: var(--brand-blue-700);
 
   /* Action — the primary button, bright yellow on every surface. No border:
-     slate text on it is 12.5:1, and the label identifies the control, so it
+     stone 900 text on it is 13.5:1, and the label identifies the control, so it
      meets WCAG 1.4.11 even though the fill is only 1.3:1 against stone. If
      testing shows people miss the button, add a yellow 600 edge here. */
   --color-action: var(--brand-yellow-400);
   --color-action-hover: var(--brand-yellow-500);
   --color-action-active: var(--brand-yellow-600);
-  --color-text-on-action: var(--brand-slate-900);
+  --color-text-on-action: var(--brand-stone-900);
 
   /* Accent — gold yellow, for small accents on light: the active nav
      underline, the privacy lock, link hover. */
@@ -192,6 +192,10 @@
   --color-focus: var(--brand-primary);
   --color-focus-inverse: var(--brand-white);
 
+  /* Masks read only opacity, so this just needs to be solid. Used to fade
+     scrolling content out at an edge. */
+  --color-mask: var(--brand-white);
+
   /* Overlay / scrim */
   --color-overlay: rgb(var(--shadow-rgb) / 0.48);
 
@@ -200,36 +204,50 @@
   --color-listening-pulse-end: rgb(var(--shadow-rgb) / 0);
 
   /* Status badges: draft, in-review, approved */
-  --color-status-draft-surface: var(--brand-slate-100);
-  --color-status-draft-text: var(--brand-slate-600);
-  --color-status-draft-border: var(--brand-slate-200);
-  --color-status-review-surface: var(--brand-slate-200);
-  --color-status-review-text: var(--brand-slate-800);
-  --color-status-review-border: var(--brand-slate-400);
+  --color-status-draft-surface: var(--brand-stone-200);
+  --color-status-draft-text: var(--brand-stone-600);
+  --color-status-draft-border: var(--brand-stone-300);
+  --color-status-review-surface: var(--brand-stone-300);
+  --color-status-review-text: var(--brand-stone-800);
+  --color-status-review-border: var(--brand-stone-400);
   --color-status-approved-surface: var(--brand-primary);
   --color-status-approved-text: var(--brand-blue-100);
   --color-status-approved-border: var(--brand-primary);
 
-  /* Feedback. Danger stays neutral: the palette has no red, and orange is
-     already warning. */
+  /* Feedback. Warning is gold (border yellow 700, 5.2:1 on its surface), so
+     it reads apart from danger, which is the red end of the orange scale
+     (border 600, text 700 at 6.4:1 on its surface). */
   --color-feedback-info-surface: var(--brand-blue-100);
-  --color-feedback-info-text: var(--brand-slate-900);
+  --color-feedback-info-text: var(--brand-stone-900);
   --color-feedback-info-border: var(--brand-blue-600);
   --color-feedback-success-surface: var(--brand-green-100);
   --color-feedback-success-text: var(--brand-green-800);
   --color-feedback-success-border: var(--brand-green-800);
-  --color-feedback-warning-surface: var(--brand-orange-100);
-  --color-feedback-warning-text: var(--brand-slate-900);
-  --color-feedback-warning-border: var(--brand-orange-600);
-  --color-feedback-danger-surface: var(--brand-slate-200);
-  --color-feedback-danger-text: var(--brand-slate-900);
-  --color-feedback-danger-border: var(--brand-slate-700);
+  --color-feedback-warning-surface: var(--brand-yellow-100);
+  --color-feedback-warning-text: var(--brand-stone-900);
+  --color-feedback-warning-border: var(--brand-yellow-700);
+  --color-feedback-danger-surface: var(--brand-orange-100);
+  --color-feedback-danger-text: var(--brand-orange-700);
+  --color-feedback-danger-border: var(--brand-orange-600);
+
+  /* Feedback dots: a mid-tone centre inside a halo of the bright palette
+     colour, softened a quarter towards white. The bright accents are too
+     light for text on white, so this is where they show. The dot is never
+     the only cue: every notice and tag says its tone in words. */
+  --color-feedback-info-dot: var(--brand-blue-500);
+  --color-feedback-info-halo: color-mix(in srgb, var(--brand-blue-200) 75%, var(--brand-white));
+  --color-feedback-success-dot: var(--brand-green-600);
+  --color-feedback-success-halo: color-mix(in srgb, var(--brand-green-300) 75%, var(--brand-white));
+  --color-feedback-warning-dot: var(--brand-yellow-500);
+  --color-feedback-warning-halo: color-mix(in srgb, var(--brand-yellow-400) 75%, var(--brand-white));
+  --color-feedback-danger-dot: var(--brand-orange-500);
+  --color-feedback-danger-halo: color-mix(in srgb, var(--brand-orange-300) 75%, var(--brand-white));
 
   /* Device frame */
-  --color-device-bezel: var(--brand-slate-900);
-  --color-device-edge: var(--brand-slate-600);
+  --color-device-bezel: var(--brand-stone-900);
+  --color-device-edge: var(--brand-stone-600);
   --color-device-screen: var(--color-surface);
-  --color-device-hardware: var(--brand-slate-600);
+  --color-device-hardware: var(--brand-stone-600);
 
   /* ---------------------------------------------------------------------------
      TYPOGRAPHY
@@ -317,8 +335,12 @@
   /* ---------------------------------------------------------------------------
      FOCUS
      ------------------------------------------------------------------------ */
-  --focus-ring-width: 2px;
-  --focus-ring-offset: 2px;
+  /* 1.5px with a 1px gap: lighter than the 2px AAA size guide (SC 2.4.13),
+     which is beyond this prototype's AA target. Visible (2.4.7) and 13.8:1 on
+     the stone page (1.4.11). Never below 1px, and keep the gap so the ring
+     does not merge with 1px control borders. */
+  --focus-ring-width: 1.5px;
+  --focus-ring-offset: 1px;
   --focus-ring: var(--focus-ring-width) solid var(--color-focus);
 
   /* ---------------------------------------------------------------------------
@@ -337,6 +359,11 @@
   --dock-width: 38px;
   --dock-control: 30px;
   --hub-panel-width: 420px;
+  /* Feedback dots: centre and halo ring. 14px across on a notice, 10px on a tag. */
+  --feedback-dot: 8px;
+  --feedback-dot-halo: 3px;
+  --feedback-dot-sm: 6px;
+  --feedback-dot-halo-sm: 2px;
   --content-measure: 68ch;
 
   /* ---------------------------------------------------------------------------

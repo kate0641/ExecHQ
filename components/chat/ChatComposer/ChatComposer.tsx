@@ -1,6 +1,13 @@
 "use client";
 
-import { useId, type FormEvent, type RefObject } from "react";
+import {
+  useId,
+  useLayoutEffect,
+  useRef,
+  type FormEvent,
+  type KeyboardEvent,
+  type RefObject,
+} from "react";
 import { MicButton } from "@/components/form/MicButton";
 import { Icon } from "@/components/primitives/Icon";
 
@@ -19,14 +26,21 @@ export interface ChatComposerProps {
   /** Attach a file. Only offered while a file is what is being asked for, so
    *  it appears and goes with that question rather than resting disabled. */
   attach?: { label: string; onAttach: () => void };
-  inputRef?: RefObject<HTMLInputElement | null>;
+  inputRef?: RefObject<HTMLTextAreaElement | null>;
   className?: string;
 }
+
+/** Lines the field grows to before it scrolls instead. */
+const MAX_LINES = 6;
 
 /**
  * The message field, pinned to the foot of the chat: type, or speak, then
  * send. Sending with nothing typed does nothing, rather than posting an
  * empty message.
+ *
+ * The field grows with what is typed, a line at a time up to MAX_LINES, so
+ * the start of a long answer never scrolls out of sight. Enter sends;
+ * Shift+Enter starts a new line.
  */
 export function ChatComposer({
   value,
@@ -41,11 +55,36 @@ export function ChatComposer({
   className,
 }: ChatComposerProps) {
   const id = useId();
+  const ownRef = useRef<HTMLTextAreaElement>(null);
+  const fieldRef = inputRef ?? ownRef;
+
+  // Fit the field to its text: collapse, then take the height the text needs,
+  // capped at MAX_LINES. Runs before paint, so the field never flickers.
+  useLayoutEffect(() => {
+    const field = fieldRef.current;
+    if (!field) return;
+    const style = getComputedStyle(field);
+    const line = parseFloat(style.lineHeight);
+    const padding = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+    field.style.height = "auto";
+    field.style.height = `${Math.min(field.scrollHeight, line * MAX_LINES + padding)}px`;
+  }, [value, fieldRef]);
+
+  function send() {
+    if (!value.trim() || disabled) return;
+    onSend(value.trim());
+  }
 
   function submit(event: FormEvent) {
     event.preventDefault();
-    if (!value.trim() || disabled) return;
-    onSend(value.trim());
+    send();
+  }
+
+  function onKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
+    // Mid-composition (an IME choosing characters), Enter belongs to the IME.
+    if (event.key !== "Enter" || event.shiftKey || event.nativeEvent.isComposing) return;
+    event.preventDefault();
+    send();
   }
 
   return (
@@ -61,11 +100,12 @@ export function ChatComposer({
           <Icon name="attach" size={20} />
         </button>
       ) : null}
-      <input
+      <textarea
         id={id}
         aria-label="Message"
-        ref={inputRef}
+        ref={fieldRef}
         className="chat-composer__field"
+        rows={1}
         autoComplete="off"
         placeholder={placeholder}
         value={value}
@@ -74,6 +114,7 @@ export function ChatComposer({
         readOnly={disabled}
         aria-disabled={disabled || undefined}
         onChange={(event) => onChange(event.target.value)}
+        onKeyDown={onKeyDown}
       />
       {voice ? (
         <MicButton listening={voice.listening} onToggle={voice.onToggle} disabled={micDisabled} />
