@@ -4083,9 +4083,8 @@ samp {
 
 /* The composer: one pill holding the field, the mic and send. The pill
    carries the edge and the fill; the field inside it is bare. Its corners
-   are a fixed radius rather than a pill's, so at one line it reads as a pill
-   and, as the field grows, it opens into a rounded box. The buttons stay at
-   the foot. */
+   are a fixed radius, so it is a rounded box at one line and stays one as
+   the field grows. The buttons stay at the foot. */
 .chat-composer {
   display: flex;
   align-items: flex-end;
@@ -4097,7 +4096,7 @@ samp {
      border: the placeholder, the mic and send already say what this is, so
      the edge only needs to be seen, not to identify it (WCAG 1.4.11). */
   border: var(--border-thin);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-xs);
 }
 
@@ -4118,8 +4117,8 @@ samp {
 .chat-composer__field {
   flex: 1;
   min-width: 0;
-  /* One line sits level with the 40px buttons beside it. */
-  padding: var(--space-xs) 0;
+  /* One line sits level with the 32px buttons beside it. */
+  padding: var(--space-2xs) 0;
   font-size: var(--text-md);
   line-height: var(--leading-normal);
   color: var(--color-text-primary);
@@ -4141,11 +4140,13 @@ samp {
   color: var(--color-text-muted);
 }
 
-/* Inside the pill the mic drops its own edge and sits beside send. */
+/* Inside the pill the mic drops its own edge and sits beside send. Both are
+   32px, about the size Claude's and ChatGPT's mobile composers use, and
+   above the 24px AA target size (SC 2.5.8). */
 .chat-composer .mic-button,
 .chat-composer__send {
-  width: calc(var(--space-xl) + var(--space-xs));
-  height: calc(var(--space-xl) + var(--space-xs));
+  width: var(--space-xl);
+  height: var(--space-xl);
 }
 
 .chat-composer .mic-button {
