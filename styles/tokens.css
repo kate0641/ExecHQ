@@ -317,8 +317,12 @@
   /* ---------------------------------------------------------------------------
      FOCUS
      ------------------------------------------------------------------------ */
-  --focus-ring-width: 2px;
-  --focus-ring-offset: 2px;
+  /* 1.5px with a 1px gap: lighter than the 2px AAA size guide (SC 2.4.13),
+     which is beyond this prototype's AA target. Visible (2.4.7) and 13.8:1 on
+     the stone page (1.4.11). Never below 1px, and keep the gap so the ring
+     does not merge with 1px control borders. */
+  --focus-ring-width: 1.5px;
+  --focus-ring-offset: 1px;
   --focus-ring: var(--focus-ring-width) solid var(--color-focus);
 
   /* ---------------------------------------------------------------------------
