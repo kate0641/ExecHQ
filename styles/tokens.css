@@ -176,6 +176,14 @@
   --color-action-active: var(--brand-yellow-600);
   --color-text-on-action: var(--brand-stone-900);
 
+  /* Danger — the destructive action: deleting the account, removing a
+     connection. The red end of the orange scale. White on it is 7.0:1, and
+     the fill is 6.4:1 against stone, so it needs no edge. */
+  --color-danger: var(--brand-orange-700);
+  --color-danger-hover: var(--brand-orange-800);
+  --color-danger-active: var(--brand-orange-900);
+  --color-text-on-danger: var(--brand-white);
+
   /* Accent — gold yellow, for small accents on light: the active nav
      underline, the privacy lock, link hover. */
   --color-accent: var(--brand-accent);

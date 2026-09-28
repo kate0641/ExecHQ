@@ -8,7 +8,7 @@ export const buttonStates = defineComponentStates({
   status: "draft",
   flows: [],
   description:
-    "Primary action control. Primary carries the single most important action on a surface; secondary and ghost step back from it.",
+    "Primary action control. Primary carries the single most important action on a surface; secondary and ghost step back from it. Danger is kept for confirming something that cannot be undone.",
   component: Button,
   notApplicable: {
     error: "A button reports no error itself; the field or Notice beside it does.",
@@ -49,6 +49,23 @@ export const buttonStates = defineComponentStates({
       props: { variant: "ghost", children: "Cancel", className: "is-hover" },
     },
     { label: "Ghost — disabled", props: { variant: "ghost", children: "Cancel", disabled: true } },
+    {
+      label: "Danger — default",
+      description: "The destructive action, and only on its confirmation: deleting the account, removing a connection.",
+      props: { variant: "danger", children: "Delete my account" },
+    },
+    {
+      label: "Danger — hover",
+      props: { variant: "danger", children: "Delete my account", className: "is-hover" },
+    },
+    {
+      label: "Danger — active",
+      props: { variant: "danger", children: "Delete my account", className: "is-active" },
+    },
+    {
+      label: "Danger — disabled",
+      props: { variant: "danger", children: "Delete my account", disabled: true },
+    },
     { label: "Small", props: { size: "sm", children: "Edit" } },
     { label: "Full width", props: { fullWidth: true, children: "Show me a first step" } },
   ],

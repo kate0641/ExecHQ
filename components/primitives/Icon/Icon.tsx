@@ -21,7 +21,16 @@ export type IconName =
   | "menu"
   | "close"
   | "draft"
-  | "sidebar";
+  | "sidebar"
+  | "globe"
+  | "linkedin"
+  | "bell"
+  | "download"
+  | "trash"
+  | "sign-out"
+  | "compass"
+  | "mail"
+  | "briefing";
 
 export interface IconProps {
   name: IconName;
@@ -148,6 +157,61 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <path d="M13.4 3.6l3 3L7.6 15.4 4 16l.6-3.6z" />
       <path d="M11.8 5.2l3 3" strokeWidth="1.3" />
       <path d="M4 16l.6-3.6 3 3z" fill="currentColor" />
+    </>
+  ),
+  // A personal website: the web, as a globe.
+  globe: (
+    <>
+      <circle cx="10" cy="10" r="7.5" />
+      <path d="M2.5 10h15M10 2.5c2.6 2.8 2.6 12.2 0 15M10 2.5c-2.6 2.8-2.6 12.2 0 15" />
+    </>
+  ),
+  // LinkedIn, drawn as a rounded square with "in", not the brand mark.
+  linkedin: (
+    <>
+      <rect x="2.5" y="2.5" width="15" height="15" rx="2.5" />
+      <path d="M6.8 8.8v5M6.8 6.1v.01M9.8 13.8V8.8M9.8 11.1a2 2 0 014 0v2.7" />
+    </>
+  ),
+  // Email that comes to you: a follow-up.
+  bell: (
+    <>
+      <path d="M5 13.5V9a5 5 0 0110 0v4.5l1.3 1.7H3.7z" />
+      <path d="M8.3 17.2a1.8 1.8 0 003.4 0" />
+    </>
+  ),
+  download: <path d="M10 3v10M5.8 9l4.2 4.2L14.2 9M4 17h12" />,
+  trash: (
+    <>
+      <path d="M3.5 5.5h13M8 5.5V3.3h4v2.2" />
+      <path d="M5.2 5.5l.9 11.2h7.8l.9-11.2" />
+    </>
+  ),
+  // Leaving: out through a door.
+  "sign-out": (
+    <>
+      <path d="M11.5 3.5h4v13h-4" />
+      <path d="M8 6.5 4.5 10 8 13.5M4.5 10h8.5" />
+    </>
+  ),
+  // A direction: where she is heading.
+  compass: (
+    <>
+      <circle cx="10" cy="10" r="7.5" />
+      <path d="M12.9 7.1l-1.7 4.1-4.1 1.7 1.7-4.1z" />
+    </>
+  ),
+  mail: (
+    <>
+      <rect x="2.5" y="4.5" width="15" height="11" rx="1.8" />
+      <path d="M2.8 5.5 10 10.8l7.2-5.3" />
+    </>
+  ),
+  // The Daily Briefing: a page of headlines.
+  briefing: (
+    <>
+      <rect x="3.5" y="3.5" width="13" height="13" rx="1.8" />
+      <path d="M6.5 7h7M6.5 10h7M6.5 13h4" />
     </>
   ),
   // Going back to the start: an arrow turning back on itself.
