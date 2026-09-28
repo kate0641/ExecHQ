@@ -65,6 +65,7 @@ const BRAND_GROUPS: {
     role: "The colours that make a screen ExecHQ.",
     colours: [
       { token: "--brand-navy", name: "Navy" },
+      { token: "--brand-slate", name: "Slate", role: "Navy's deep end" },
       { token: "--brand-bright-yellow", name: "Bright yellow" },
       { token: "--brand-gold-yellow", name: "Gold yellow" },
     ],
@@ -81,10 +82,10 @@ const BRAND_GROUPS: {
   },
   {
     title: "Neutral",
-    role: "Darks come from slate, lights from stone.",
+    role: "One neutral: stone. Its 100 is the page, its 900 the near-black used in place of black.",
     colours: [
-      { token: "--brand-slate", name: "Slate", role: "Darks" },
       { token: "--brand-stone", name: "Stone", role: "Lights" },
+      { token: "--brand-stone-900", name: "Stone 900", role: "Darks" },
     ],
   },
 ];
@@ -142,12 +143,12 @@ function BrandColours({ tokens }: { tokens: Map<string, Token> }) {
   );
 }
 
-/** The six brand scales, in the order the page shows them, with what each is for. */
+/** The five brand scales, in the order the page shows them, with what each is for. */
 const SCALES: { key: string; title: string; role: string }[] = [
   {
     key: "blue",
     title: "Blue",
-    role: "Navy (800) carries links, focus rings, dark panels and the approved badge. Deep navy (900) is pressed; light blue (200) is the soft secondary.",
+    role: "Navy (800) carries links, focus rings, dark panels and the approved badge. Slate (900) is its deep end: pressed navy and deep backgrounds. Light blue (200) is the soft secondary.",
   },
   {
     key: "green",
@@ -165,14 +166,9 @@ const SCALES: { key: string; title: string; role: string }[] = [
     role: "Orange into red. From 600 the scale turns red for danger (border 600, text 700). The palette orange (400) is too light for text on white.",
   },
   {
-    key: "slate",
-    title: "Slate",
-    role: "The cool neutral, in place of the old greys: text, borders and quiet surfaces. Slate 900 is the ink.",
-  },
-  {
     key: "stone",
     title: "Stone",
-    role: "The warm neutral. Stone 100 is the platform's page; 200 and 300 are the quiet, hover and pressed surfaces on it.",
+    role: "The one neutral. 100 is the platform's page; 200 and 300 are quiet, hover and pressed surfaces; 400 to 600 are borders and secondary text; 900 is the near-black used in place of black.",
   },
 ];
 
@@ -296,7 +292,7 @@ export function StyleguideViewer() {
       <Panel
         title="Brand colours"
         headingLevel={2}
-        description="The main colours, by role. Each sits on one of the scales below at its exact value."
+        description="The main colours, by role. Each sits on one of the scales below; all but slate at their exact palette value."
       >
         <BrandColours tokens={tokenMap} />
       </Panel>
@@ -304,7 +300,7 @@ export function StyleguideViewer() {
       <Panel
         title="Colour"
         headingLevel={2}
-        description={`${colourTokens.length} colour tokens, read from styles/tokens.css. The six brand scales come first, 100 to 900, with the nine palette colours named; everything else is built from them.`}
+        description={`${colourTokens.length} colour tokens, read from styles/tokens.css. The five brand scales come first, 100 to 900, with the nine palette colours named; everything else is built from them.`}
       >
         <Swatches
           tokens={colourTokens.filter((token) => token.category === "palette")}
