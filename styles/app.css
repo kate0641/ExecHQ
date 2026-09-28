@@ -2187,6 +2187,18 @@ samp {
   font-weight: var(--weight-semibold);
 }
 
+/* The main brand colours: fewer, larger cards than a scale row. */
+.styleguide__brand-colours {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-xs);
+}
+
+.styleguide__step-swatch--large {
+  height: var(--space-4xl);
+}
+
 .styleguide__step-value {
   font-size: var(--text-xs);
   color: var(--color-text-muted);
