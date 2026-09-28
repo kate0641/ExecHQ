@@ -6,7 +6,8 @@ playground for stepping through flows. Everything you see there is the real
 thing from this repo, not a copy.
 
 It needs no login, no database and no keys. Nothing you do in the showroom is
-saved or sent anywhere, and the showroom is never part of the public site.
+saved or sent anywhere. The public site has a showroom too, but it only shows
+what has been merged: your changes appear there once Kate merges them.
 
 ## One-time setup
 

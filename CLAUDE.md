@@ -100,7 +100,7 @@ Done when: the branch is pushed and a pull request into `main` is open.
 | `styles/tokens.css`   | Every colour, spacing, type, radius, border and shadow value.     |
 | `styles/app.css`      | The single shared stylesheet of reusable classes.                 |
 | `components/`         | Every component, hand-written. Each ships a sibling `*.states.ts`. |
-| `app/`                | Routes. `app/page.tsx` is the hub, `app/showroom/` is the private showroom (design system, component catalogue, playground), `app/[flow]/[concept]/` is every product page. |
+| `app/`                | Routes. `app/page.tsx` is the hub, `app/showroom/` is the showroom (design system, component catalogue, playground), `app/[flow]/[concept]/` is every product page. |
 | `lib/hub-pages.ts`    | The prototype's own pages (hub and showroom). Not product flows. |
 | `lib/showroom.ts`     | Whether the showroom is built. Decided in `next.config.ts`. |
 | `DESIGN.md`           | The designers' one-page laptop setup. Keep it in step with `npm run showroom`. |
@@ -153,16 +153,17 @@ panel and the routes are all generated from it.
   `lib/hub-pages.ts`, not in the manifest, because they have no sprint, no
   concepts and no status. They share `HubChrome`, never the product's `AppChrome`.
 
-## The showroom is private
+## Where the showroom is built
 
-The showroom is **never built on the public production site**. `next.config.ts`
-decides once, at build time: off on Vercel production whatever any setting says,
-on for every Vercel preview deployment, and on locally when `.env.local` has
-`SHOWROOM=on` (copied from `.env.example`). Where it is off, `app/showroom/layout.tsx`
-turns every page under it into a 404 and `lib/hub-pages.ts` drops its links, so
-nothing points at it. The file hub and the concept pages stay public.
+The showroom is **built on every Vercel deployment, the public production site
+included**, by Kate's decision on 2026-09-28 (it was kept off production until
+then). `next.config.ts` decides once, at build time: on for every Vercel
+deployment, and on locally when `.env.local` has `SHOWROOM=on` (copied from
+`.env.example`). Where it is off, `app/showroom/layout.tsx` turns every page
+under it into a 404 and `lib/hub-pages.ts` drops its links, so nothing points
+at it. Wherever it is on, it is kept out of search engines.
 
-Never add a way round that gate, and never link to a showroom page except
+Keep that one gate the only switch, and never link to a showroom page except
 through `lib/hub-pages.ts`.
 - Each flow declares an explicit `slug`, never derived from its title, so titles
   can change without breaking routes.

@@ -7,18 +7,16 @@ import type { NextConfig } from "next";
  * Decided once, here, at build time, and handed to the app as
  * `process.env.SHOWROOM_ENABLED` so server and client read the same answer.
  *
- * - Vercel production (`VERCEL_ENV=production`): always off. No setting can
- *   turn it on, so a stray `SHOWROOM=on` in the production environment is
- *   harmless.
- * - Vercel preview deployments: always on, so every pull request's preview
- *   link opens the showroom.
+ * - Every Vercel deployment, production and preview: on. Production was kept
+ *   off until 2026-09-28, when Kate decided the showroom should be on the
+ *   public site too.
  * - Everywhere else (a laptop, CI): on when `SHOWROOM=on`, which is what
  *   `.env.example` sets.
+ *
+ * It stays out of search engines everywhere: see `app/showroom/layout.tsx`.
  */
-const vercelEnv = process.env.VERCEL_ENV;
-const showroomEnabled =
-  vercelEnv !== "production" &&
-  (vercelEnv === "preview" || process.env.SHOWROOM === "on");
+const onVercel = Boolean(process.env.VERCEL_ENV);
+const showroomEnabled = onVercel || process.env.SHOWROOM === "on";
 
 const nextConfig: NextConfig = {
   // Next.js 16.3 otherwise appends its own agent rules to CLAUDE.md on every
@@ -29,7 +27,7 @@ const nextConfig: NextConfig = {
     SHOWROOM_ENABLED: showroomEnabled ? "true" : "false",
   },
   // The reference tools used to live at the top level. Old links still land
-  // somewhere; on production they land on the 404 like the rest of the showroom.
+  // somewhere: on the showroom where it is built, and on the 404 where not.
   async redirects() {
     return [
       { source: "/catalogue", destination: "/showroom/components", permanent: false },
