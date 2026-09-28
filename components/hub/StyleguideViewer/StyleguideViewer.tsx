@@ -1,4 +1,3 @@
-import { Panel } from "@/components/layout/Panel";
 import { Notice, type NoticeTone } from "@/components/onboarding/Notice";
 import { Badge, type FeedbackBadgeTone } from "@/components/primitives/Badge";
 import { TextLink } from "@/components/primitives/TextLink";
@@ -473,56 +472,48 @@ export function StyleguideViewer() {
           id: "brand-colors",
           label: "Brand colors",
           group: "Color",
+          description: "The main colors, by role. Each sits on one of the scales below; all but slate at their exact palette value.",
+          source: "styles/tokens.css",
           content: (
-          <Panel
-            title="Brand colors"
-            headingLevel={2}
-            description="The main colors, by role. Each sits on one of the scales below; all but slate at their exact palette value."
-          >
+          <div className="styleguide-layout__card">
             <BrandColours tokens={tokenMap} />
-          </Panel>
+          </div>
           ),
         },
         {
           id: "color-scales",
           label: "Color scales",
           group: "Color",
+          description: "Five scales, 100 to 900, with the palette colors named. Everything else is built from them.",
+          source: "styles/tokens.css",
           content: (
-          <Panel
-            title="Color scales"
-            headingLevel={2}
-            description="Five scales, 100 to 900, with the palette colors named. Everything else is built from them."
-          >
+          <div className="styleguide-layout__card">
             {SCALES.map((scale) => (
               <Scale scale={scale} tokens={tokenMap} uses={uses} key={scale.key} />
             ))}
-          </Panel>
+          </div>
           ),
         },
         {
           id: "color-roles",
           label: "Color roles",
           group: "Color",
+          description: `${roleTokens.length} tokens the interface actually uses, grouped by job. Each shows the scale step it lands on.`,
+          source: "styles/tokens.css",
           content: (
-          <Panel
-            title="Color roles"
-            headingLevel={2}
-            description={`${roleTokens.length} tokens the interface actually uses, grouped by job. Each shows the scale step it lands on.`}
-          >
+          <div className="styleguide-layout__card">
             <ColourRoles roleTokens={roleTokens} tokens={tokenMap} />
-          </Panel>
+          </div>
           ),
         },
         {
           id: "typography",
           label: "Typography",
           group: "Type",
+          description: "Three faces, three jobs. The scale below is rendered in each of them so the roles can be compared directly.",
+          source: "styles/tokens.css",
           content: (
-          <Panel
-            title="Typography"
-            headingLevel={2}
-            description="Three faces, three jobs. The scale below is rendered in each of them so the roles can be compared directly."
-          >
+          <div className="styleguide-layout__card">
             {TYPE_ROLES.map((role) => (
               <div className="styleguide__group" key={role.token}>
                 <h3 className="styleguide__group-title">
@@ -546,19 +537,17 @@ export function StyleguideViewer() {
                 </ul>
               </div>
             ))}
-          </Panel>
+          </div>
           ),
         },
         {
           id: "spacing",
           label: "Spacing",
           group: "Layout",
+          description: "A 4px base. Every gap, padding and margin in the prototype comes from this scale.",
+          source: "styles/tokens.css",
           content: (
-          <Panel
-            title="Spacing"
-            headingLevel={2}
-            description="A 4px base. Every gap, padding and margin in the prototype comes from this scale."
-          >
+          <div className="styleguide-layout__card">
             <ul className="styleguide__bars">
               {spacing.map((token) => (
                 <TokenRow token={token} key={token.name}>
@@ -569,19 +558,17 @@ export function StyleguideViewer() {
                 </TokenRow>
               ))}
             </ul>
-          </Panel>
+          </div>
           ),
         },
         {
           id: "surfaces",
           label: "Surfaces",
           group: "Layout",
+          description: "What a screen is built on, from the canvas up. Text on each is the color that belongs there.",
+          source: "styles/tokens.css",
           content: (
-          <Panel
-            title="Surfaces"
-            headingLevel={2}
-            description="What a screen is built on, from the canvas up. Text on each is the color that belongs there."
-          >
+          <div className="styleguide-layout__card">
             <ul className="styleguide__surfaces">
               {SURFACES.map((surface) => (
                 <li className="styleguide__token" key={surface.token}>
@@ -607,15 +594,17 @@ export function StyleguideViewer() {
                 </li>
               ))}
             </ul>
-          </Panel>
+          </div>
           ),
         },
         {
           id: "radii",
           label: "Radii",
           group: "Layout",
+          description: "Corner rounding, from small controls up to the device frame.",
+          source: "styles/tokens.css",
           content: (
-          <Panel title="Radii" headingLevel={2}>
+          <div className="styleguide-layout__card">
             <ul className="styleguide__tiles">
               {radii.map((token) => (
                 <TokenRow token={token} key={token.name}>
@@ -626,15 +615,17 @@ export function StyleguideViewer() {
                 </TokenRow>
               ))}
             </ul>
-          </Panel>
+          </div>
           ),
         },
         {
           id: "shadows",
           label: "Shadows",
           group: "Layout",
+          description: "Depth, tinted with slate so it reads as depth rather than dirt.",
+          source: "styles/tokens.css",
           content: (
-          <Panel title="Shadows" headingLevel={2}>
+          <div className="styleguide-layout__card">
             <ul className="styleguide__tiles">
               {shadows.map((token) => (
                 <TokenRow token={token} key={token.name}>
@@ -645,19 +636,17 @@ export function StyleguideViewer() {
                 </TokenRow>
               ))}
             </ul>
-          </Panel>
+          </div>
           ),
         },
         {
           id: "borders",
           label: "Borders",
           group: "Layout",
+          description: "Three widths, and the composed border shorthands the stylesheet uses most.",
+          source: "styles/tokens.css",
           content: (
-          <Panel
-            title="Borders"
-            headingLevel={2}
-            description="Three widths, and the composed border shorthands the stylesheet uses most."
-          >
+          <div className="styleguide-layout__card">
             <ul className="styleguide__bars">
               {borderWidths.map((token) => (
                 <TokenRow token={token} key={token.name}>
@@ -680,43 +669,39 @@ export function StyleguideViewer() {
                   </TokenRow>
                 ))}
             </ul>
-          </Panel>
+          </div>
           ),
         },
         {
           id: "buttons",
           label: "Buttons",
           group: "Components",
-          content: (
-          <Panel
-            title="Buttons"
-            headingLevel={2}
-            description="Every button variant and state, rendered from the real component."
-            actions={
-              <TextLink href={getHubPage("components").href} tone="standalone">
+          description: "Every button variant and state, rendered from the real component.",
+          actions: (
+            <TextLink href={getHubPage("components").href} tone="standalone">
                 Every component in the catalogue
               </TextLink>
-            }
-          >
+          ),
+          source: "components/primitives/Button",
+          content: (
+          <div className="styleguide-layout__card">
             <Specimens id="button" />
             <Specimens id="textlink" />
-          </Panel>
+          </div>
           ),
         },
         {
           id: "form-fields",
           label: "Form fields",
           group: "Components",
+          description: "Text fields, choice chips and toggles, in each of their states.",
+          source: "components/form",
           content: (
-          <Panel
-            title="Form fields"
-            headingLevel={2}
-            description="Text fields, choice chips and toggles, in each of their states."
-          >
+          <div className="styleguide-layout__card">
             <Specimens id="input" />
             <Specimens id="chipgroup" />
             <Specimens id="togglegroup" />
-          </Panel>
+          </div>
           ),
         },
       ]}
