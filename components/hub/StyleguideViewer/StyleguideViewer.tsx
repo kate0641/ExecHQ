@@ -48,13 +48,13 @@ const BRAND_GROUPS: {
     colours: [
       { token: "--brand-navy", name: "Navy" },
       { token: "--brand-bright-yellow", name: "Bright yellow" },
-      { token: "--brand-gold-yellow", name: "Gold yellow" },
     ],
   },
   {
     title: "Secondary",
     role: "Supporting colors, used in smaller amounts.",
     colours: [
+      { token: "--brand-gold-yellow", name: "Gold yellow" },
       { token: "--brand-light-green", name: "Light green" },
       { token: "--brand-dark-green", name: "Dark green" },
       { token: "--brand-light-blue", name: "Light blue" },
