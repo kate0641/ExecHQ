@@ -2,12 +2,14 @@
  * Words the Login concept uses, and the prototype's stand-ins for what a real
  * login would receive.
  *
- * Decisions on 2026-09-28: an emailed link is the main way in, with a 6-digit
- * code in the same email for logging in on another device. Google and Apple
- * sit beside it, which reopens the brief's "personal email only" (flagged
+ * Decisions on 2026-09-28: Google and Apple sit beside the email route, which reopens the brief's "personal email only" (flagged
  * below). The screen says the same thing whether or not an address has an
  * account, so it never reveals who is a member. After login the reviewer
  * lands on Home.
+ *
+ * Changed 2026-09-29 (Kate): the email route is a one-time code, not a link.
+ * The email carries a 6-digit code and no button; she types it in the app,
+ * which also works the same on any device.
  *
  * Nothing is sent. The email is drawn on screen so reviewers can see its
  * neutral subject line, which is the brief's lock-screen privacy rule.
@@ -58,15 +60,15 @@ export const LOGIN_COPY = {
     providerLabel: (name: string) => `Continue with ${name}`,
     newHere: "New to ExecHQ?",
     start: "Start here",
-    empty: "Enter your email address to get a login link.",
+    empty: "Enter your email address to get a login code.",
     malformed: "That doesn’t look like an email address. Check it and try again.",
   },
 
   inbox: {
-    heading: "Check your inbox",
+    heading: "Enter your code",
     lede: (email: string) =>
-      `If there’s an account for ${email}, a login link is on its way. It works for 15 minutes.`,
-    codeLabel: "Logging in on another device? Type the code from the email.",
+      `If there’s an account for ${email}, we’ve sent a 6-digit code. It works for 10 minutes.`,
+    codeLabel: "Type the code from the email.",
     codeName: "Six-digit code from the email",
     wrongCode: "That code doesn’t match. Check the latest email and try again.",
     resendIn: (seconds: number) => `Send it again in ${seconds}s`,
@@ -75,7 +77,7 @@ export const LOGIN_COPY = {
     otherAddress: "Use a different address",
     nothing: "Nothing arrived? Check your junk folder.",
     lostAccess: "Can’t get into that inbox?",
-    arrived: "New email from ExecHQ: Your login link.",
+    arrived: "New email from ExecHQ: Your login code.",
   },
 
   /** The drawn email. The subject and preview say nothing about her career. */
@@ -83,22 +85,21 @@ export const LOGIN_COPY = {
     app: "Mail",
     back: "Inbox",
     from: "ExecHQ",
-    subject: "Your login link",
-    preview: "Here’s the link you asked for.",
+    subject: "Your login code",
+    preview: "Here’s the code you asked for.",
     to: (email: string) => `to ${email} · now`,
-    button: "Log in to ExecHQ",
-    codeLead: "Logging in on another device? Type this code instead:",
+    codeLead: "Type this code in ExecHQ to log in:",
     footer:
-      "This link and code work for 15 minutes and only once. If you didn’t ask for them, you can ignore this email. No one can log in without it.",
-    tryExpired: "Open it again after 15 minutes",
+      "This code works for 10 minutes and only once. If you didn’t ask for it, you can ignore this email. No one can log in without it.",
+    tryExpired: "Open it again after 10 minutes",
     note: "The subject and preview say nothing about her career, so nothing private shows on a lock screen.",
     noteLabel: "Note",
   },
 
   expired: {
-    heading: "That link has expired",
-    lede: (email: string) => `Login links work for 15 minutes and only once. We can send a new one to ${email}.`,
-    send: "Send a new link",
+    heading: "That code has expired",
+    lede: (email: string) => `Login codes work for 10 minutes and only once. We can send a new one to ${email}.`,
+    send: "Send a new code",
   },
 
   otherAccount: {

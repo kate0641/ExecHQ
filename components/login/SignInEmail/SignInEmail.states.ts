@@ -5,7 +5,7 @@ import { SIGN_IN_CODE } from "@/mock/login";
 import { SignInEmail } from "./SignInEmail";
 
 const noop = () => {};
-const controls = "Its controls are a Button and two text buttons, which show their own states.";
+const controls = "Its controls are text buttons, which show their own states.";
 
 export const signInEmailStates = defineComponentStates({
   name: "SignInEmail",
@@ -13,7 +13,7 @@ export const signInEmailStates = defineComponentStates({
   status: "draft",
   flows: ["login"],
   description:
-    "The sign-in email drawn as a message in a mail app: neutral subject, one button, and the code for another device.",
+    "The sign-in email drawn as a message in a mail app: neutral subject and the one-time code. No button: she types the code into ExecHQ.",
   component: SignInEmail,
   notApplicable: {
     ...FIXED_CONTENT,
@@ -25,10 +25,10 @@ export const signInEmailStates = defineComponentStates({
     filled: NOT_AN_INPUT,
   },
   variants: [
-    { label: "Default", props: { email: MAYA.email, code: SIGN_IN_CODE, onSignIn: noop, onBack: noop, onExpired: noop, headingId: "sie-1" } },
+    { label: "Default", props: { email: MAYA.email, code: SIGN_IN_CODE, onBack: noop, onExpired: noop, headingId: "sie-1" } },
     {
       label: "A long address wraps",
-      props: { email: "maya.alexandra.chen-whitfield@example.com", code: SIGN_IN_CODE, onSignIn: noop, onBack: noop, headingId: "sie-2" },
+      props: { email: "maya.alexandra.chen-whitfield@example.com", code: SIGN_IN_CODE, onBack: noop, headingId: "sie-2" },
     },
   ],
 });

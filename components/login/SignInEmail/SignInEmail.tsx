@@ -1,14 +1,12 @@
 import { Notice } from "@/components/onboarding/Notice";
-import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import { LOGIN_COPY } from "@/mock/login";
 
 export interface SignInEmailProps {
   email: string;
   code: string;
-  onSignIn: () => void;
   onBack: () => void;
-  /** Opens the link again once it has expired. */
+  /** Opens the code again once it has expired. */
   onExpired?: () => void;
   headingId?: string;
 }
@@ -16,11 +14,12 @@ export interface SignInEmailProps {
 const C = LOGIN_COPY.email;
 
 /**
- * The sign-in email itself, drawn as a message in a mail app: a neutral
- * subject, one button, and the same code for another device. Nothing in it
- * says anything about the person's career.
+ * The login email itself, drawn as a message in a mail app: a neutral
+ * subject and the one-time code, large enough to read across a table. There
+ * is no button: she types the code into ExecHQ. Nothing in it says anything
+ * about the person's career.
  */
-export function SignInEmail({ email, code, onSignIn, onBack, onExpired, headingId = "sign-in-email" }: SignInEmailProps) {
+export function SignInEmail({ email, code, onBack, onExpired, headingId = "sign-in-email" }: SignInEmailProps) {
   const spaced = `${code.slice(0, 3)} ${code.slice(3)}`;
   return (
     <article className="sign-in-email" aria-labelledby={headingId}>
@@ -48,9 +47,6 @@ export function SignInEmail({ email, code, onSignIn, onBack, onExpired, headingI
       </header>
       <div className="sign-in-email__body">
         <p>{C.preview}</p>
-        <Button fullWidth onClick={onSignIn}>
-          {C.button}
-        </Button>
         <p className="sign-in-email__small">{C.codeLead}</p>
         <p className="sign-in-email__code">
           <span aria-hidden="true">{spaced}</span>

@@ -32,12 +32,13 @@ import {
 /**
  * Login Concept 1 — Open page.
  *
- * White and quiet: a light blue glow in the corner, a pill field, a full-width Log in button, and Google and Apple as traditional buttons.
+ * White and quiet: a light blue glow in the corner, a pill field, a full-width Log in button, and Google and Apple as
+ * traditional buttons.
  *
- * The emailed link is the main way in. After it is asked for, the email
+ * A one-time code is the main way in. After it is asked for, the email
  * arrives as the phone's notification; tapping it opens the drawn email in a
- * sheet, as another app would. Its button signs in, or its code can be typed
- * here. Google and Apple open a stand-in for their own pickers, which offer
+ * sheet, as another app would, and the six digits in it are typed here.
+ * Google and Apple open a stand-in for their own pickers, which offer
  * the case that matters: a work account, or a hidden relay address.
  *
  * A successful sign-in goes to Home (Homepage Concept 1), in whatever Loop
@@ -125,7 +126,6 @@ export function LoginConcept1() {
         <SignInEmail
           email={sentTo}
           code={SIGN_IN_CODE}
-          onSignIn={signIn}
           onBack={() => setSheet(null)}
           onExpired={() => {
             setSheet(null);
