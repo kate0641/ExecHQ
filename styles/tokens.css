@@ -331,7 +331,7 @@
   --type-display-font: var(--font-display);
   --type-display-size: var(--text-4xl);
   --type-display-size-phone: var(--text-3xl);
-  --type-display-weight: var(--weight-bold);
+  --type-display-weight: var(--weight-semibold);
   --type-display-leading: var(--leading-tight);
   --type-display-tracking: var(--font-display-tracking-heading);
   --type-display-word-spacing: var(--font-display-word-spacing);
@@ -357,7 +357,7 @@
   /* Subheading — an item in a list or card: a row, a link, a read. */
   --type-subheading-font: var(--font-display);
   --type-subheading-size: var(--text-md);
-  --type-subheading-weight: var(--weight-semibold);
+  --type-subheading-weight: var(--weight-bold);
   --type-subheading-leading: var(--leading-snug);
   --type-subheading-tracking: var(--font-display-tracking);
   --type-subheading-word-spacing: var(--font-display-word-spacing);
@@ -389,7 +389,7 @@
   /* Caption — metadata: dates, hints, counts, status. */
   --type-caption-font: var(--font-body);
   --type-caption-size: var(--text-xs);
-  --type-caption-weight: var(--weight-regular);
+  --type-caption-weight: var(--weight-semibold);
   --type-caption-leading: var(--leading-snug);
   --type-caption-tracking: var(--tracking-normal);
   --type-caption-word-spacing: var(--word-spacing-normal);
@@ -397,7 +397,7 @@
   /* Eyebrow — the small capitals above a heading, and badges. Always
      uppercase; the case is set with the role in styles/app.css. */
   --type-eyebrow-font: var(--font-display);
-  --type-eyebrow-size: var(--text-2xs);
+  --type-eyebrow-size: var(--text-xs);
   --type-eyebrow-weight: var(--weight-semibold);
   --type-eyebrow-leading: var(--leading-snug);
   --type-eyebrow-tracking: var(--tracking-label);
@@ -409,7 +409,7 @@
   --type-figure-size: var(--text-xl);
   --type-figure-weight: var(--weight-bold);
   --type-figure-leading: var(--leading-tight);
-  --type-figure-tracking: var(--tracking-normal);
+  --type-figure-tracking: var(--tracking-widest);
   --type-figure-word-spacing: var(--word-spacing-normal);
 
   /* Editorial — Libre Baskerville's voice: quotes and welcome lines. Rare. */
