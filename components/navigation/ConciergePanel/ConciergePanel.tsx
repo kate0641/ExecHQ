@@ -14,6 +14,10 @@ export interface ConciergePanelProps {
   label?: string;
   name?: string;
   role?: string;
+  /** Whether the advisor's name sits in the top bar. Off before anything is
+   *  asked, when the start screen introduces him itself, above the questions:
+   *  the top bar then holds only New and Close. */
+  whoInHead?: boolean;
   newLabel?: string;
   closeLabel?: string;
   onNew?: () => void;
@@ -37,6 +41,7 @@ export function ConciergePanel({
   label = "ExecHQ, your advisor",
   name = "ExecHQ",
   role = "Your advisor",
+  whoInHead = true,
   newLabel = "New",
   closeLabel = "Close the advisor",
   onNew,
@@ -55,11 +60,7 @@ export function ConciergePanel({
     >
       {mode === "sheet" ? <span className="concierge-panel__grab" aria-hidden="true" /> : null}
       <div className="concierge-panel__head">
-        <AdvisorMark size={22} />
-        <span className="concierge-panel__who">
-          <b>{name}</b>
-          <span>{role}</span>
-        </span>
+        {whoInHead ? <AdvisorWho name={name} role={role} /> : <span className="concierge-panel__who" />}
         {onNew ? (
           <button type="button" className="concierge-panel__new" onClick={onNew}>
             {newLabel}
@@ -82,6 +83,19 @@ export function ConciergePanel({
         {footer}
       </div>
     </Tag>
+  );
+}
+
+/** The advisor's mark, name and role. */
+export function AdvisorWho({ name = "ExecHQ", role = "Your advisor", className }: { name?: string; role?: string; className?: string }) {
+  return (
+    <span className={["concierge-who", className].filter(Boolean).join(" ")}>
+      <AdvisorMark size={22} />
+      <span className="concierge-panel__who">
+        <b>{name}</b>
+        <span>{role}</span>
+      </span>
+    </span>
   );
 }
 

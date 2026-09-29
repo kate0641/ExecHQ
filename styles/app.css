@@ -2645,6 +2645,17 @@ a.drawer-nav__account {
   color: var(--color-text-primary);
 }
 
+.concierge-who {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.concierge-start__who {
+  margin-bottom: var(--space-sm);
+}
+
 .concierge-panel__who {
   display: flex;
   flex: 1;

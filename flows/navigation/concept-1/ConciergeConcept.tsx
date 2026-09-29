@@ -7,7 +7,7 @@ import { createPortal } from "react-dom";
 import { ChatComposer } from "@/components/chat/ChatComposer";
 import { ChatMessage } from "@/components/chat/ChatMessage";
 import { QuickReplies } from "@/components/chat/QuickReplies";
-import { ConciergePanel } from "@/components/navigation/ConciergePanel";
+import { AdvisorWho, ConciergePanel } from "@/components/navigation/ConciergePanel";
 import { ConciergePill } from "@/components/navigation/ConciergePill";
 import { Icon, type IconName } from "@/components/primitives/Icon";
 import { EntryLink } from "@/components/homepage/EntryLink";
@@ -315,6 +315,7 @@ function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { m
       mode={mode}
       name={C.name}
       role={C.role}
+      whoInHead={chatting}
       newLabel={C.newConversation}
       closeLabel={C.close}
       onNew={chatting ? () => update({ messages: [], asked: undefined }) : undefined}
@@ -424,7 +425,7 @@ function Turn({ turn }: { turn: AdvisorTurn }) {
   );
 }
 
-/** Before anything is asked: what to ask, the draft in hand, and where to go. */
+/** Before anything is asked: where to go, the draft in hand, then the advisor and what to ask. */
 function Start({
   destinations,
   currentFlow,
@@ -444,30 +445,6 @@ function Start({
   const resumeLast = resume?.history.at(-1);
   return (
     <div className="concierge-start">
-      <section aria-labelledby="concierge-ask">
-        <h2 id="concierge-ask" className="concierge-start__title">{C.askMe}</h2>
-        <ul className="concierge-suggest">
-          {suggestions(ctx).map((s) => (
-            <li key={s.label}>
-              <button type="button" className="concierge-suggest__item" onClick={() => onAsk(s)}>
-                {s.label}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {resume && resumeLast ? (
-        <EntryLink
-          href={TOOLBOX}
-          icon="draft"
-          eyebrow={C.resumeEyebrow}
-          title={resume.title}
-          detail={`${resumeLast.type === "drafted" ? "Drafted" : "Edited"} ${shortDate(resumeLast.on)}`}
-          onClick={() => viewport === "mobile" && closePanel(false)}
-        />
-      ) : null}
-
       <section aria-labelledby="concierge-goto">
         <h2 id="concierge-goto" className="concierge-start__title">{C.goTo}</h2>
         <ul className="concierge-dests">
@@ -488,6 +465,31 @@ function Start({
                   </>
                 ) : null}
               </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {resume && resumeLast ? (
+        <EntryLink
+          href={TOOLBOX}
+          icon="draft"
+          eyebrow={C.resumeEyebrow}
+          title={resume.title}
+          detail={`${resumeLast.type === "drafted" ? "Drafted" : "Edited"} ${shortDate(resumeLast.on)}`}
+          onClick={() => viewport === "mobile" && closePanel(false)}
+        />
+      ) : null}
+
+      <section aria-labelledby="concierge-ask">
+        <AdvisorWho name={C.name} role={C.role} className="concierge-start__who" />
+        <h2 id="concierge-ask" className="concierge-start__title">{C.askMe}</h2>
+        <ul className="concierge-suggest">
+          {suggestions(ctx).map((s) => (
+            <li key={s.label}>
+              <button type="button" className="concierge-suggest__item" onClick={() => onAsk(s)}>
+                {s.label}
+              </button>
             </li>
           ))}
         </ul>
