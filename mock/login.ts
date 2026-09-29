@@ -50,7 +50,7 @@ export const LOGIN_COPY = {
   signIn: {
     kicker: "Welcome back",
     heading: "Log in to ExecHQ",
-    emailLabel: "Your personal email",
+    emailLabel: "Your email",
     keep: "Keep me logged in on this device",
     send: "Log in",
     or: "or",

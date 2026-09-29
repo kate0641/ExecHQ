@@ -85,7 +85,7 @@ export function Input({
         rows={rows}
       />
     ) : (
-      <input {...rest} {...shared} />
+      <input {...rest} {...shared} placeholder={variant === "pill" ? rest.placeholder ?? " " : rest.placeholder} />
     );
   }
 
