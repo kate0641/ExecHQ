@@ -22,7 +22,9 @@ export type ProfileDetailId =
   | "direction"
   | "linkedin"
   | "website"
-  | "follow-ups"
+  | "notifications"
+  | "uses"
+  | "organisation"
   | "export"
   | "delete"
   | "sign-out";
@@ -35,7 +37,8 @@ export const PROFILE_COPY = {
   groups: {
     you: "You",
     connections: "Connections",
-    email: "Email",
+    settings: "Settings",
+    organisation: "Organisation",
     data: "Your data",
   },
 
@@ -46,20 +49,64 @@ export const PROFILE_COPY = {
     planValue: (name: string, formalName: string) => `${name} · ${formalName}`,
     connected: "Connected",
     notConnected: "Not connected",
-    followUps: "Loop follow-ups",
+    notifications: "Notifications",
+    notificationsValue: (on: number) => `${on} on`,
+    uses: "What ExecHQ uses",
+    usesValue: (on: number, of: number) => `${on} of ${of}`,
+    organisation: "Membership",
+    noOrganisation: "None",
     export: "Download your data",
     delete: "Delete account",
     signOut: "Sign out",
   },
 
-  followUps: {
-    label: "Loop follow-ups by email",
-    on: "One question after you use something, at most one a week. The subject line never says what it’s about.",
-    off: "Off. Follow-ups show on Home only, when you sign in.",
-    turnedOn: "Follow-up emails on.",
-    turnedOff: "Follow-up emails off. They’ll show on Home instead.",
-    detail: (email: string) =>
-      `When you’ve used something, we ask once what came of it. Emails go to ${email} and the subject line never says what they’re about, so nothing sensitive shows on a lock screen.`,
+  notifications: {
+    heading: "Notifications",
+    lead: "Choose what reaches you, and how. The subject line of an email never says what it is about.",
+    channels: { email: "Email", app: "In the app" },
+    topics: {
+      followUps: { label: "Loop follow-ups", hint: "One question after you use something." },
+      briefing: { label: "Daily Briefing", hint: "Three reads, once a day." },
+      plan: { label: "Plan reminders", hint: "When a step is due to move." },
+      news: { label: "Product news", hint: "Occasional. Off unless you want it." },
+    },
+    capLabel: "How often follow-ups can email you",
+    caps: { week: "Weekly", fortnight: "Fortnightly", month: "Monthly" },
+    capHint: "At most one follow-up email in that time. Anything else waits for you on Home.",
+    quietLabel: "Quiet hours",
+    quietOn: "No emails from 9pm to 7am. They are sent when quiet hours end.",
+    quietOff: "Off. Emails can arrive at any hour.",
+    saved: "Notifications updated.",
+  },
+
+  uses: {
+    heading: "What ExecHQ uses",
+    lead: "Switch off anything you would rather it left alone. Drafts you have already made stay as they are.",
+    items: {
+      loop: { label: "Your Loop record", hint: "What you used, and what came of it." },
+      connections: { label: "Your connections", hint: "LinkedIn and your website, as each one lists." },
+      drafts: { label: "Your drafts", hint: "To tune what it suggests next." },
+    },
+    savedOn: (label: string) => `${label}: on.`,
+    savedOff: (label: string) => `${label}: off.`,
+    offNote: "With something off, your suggestions lean on less, so they may be more general.",
+  },
+
+  organisation: {
+    heading: "Your organisation",
+    member: (name: string) => `Your account comes through ${name}. It is still yours: only you can open it.`,
+    role: "Your role",
+    joined: "Joined",
+    sees: "What they can see",
+    never: "What they never see",
+    leave: "Leave organisation",
+    confirmHeading: (name: string) => `Leave ${name}?`,
+    confirmBody: "You keep your account and everything in it. They stop seeing that you are a member.",
+    confirm: "Leave",
+    keep: "Stay a member",
+    left: (name: string) => `You left ${name}.`,
+    noneLead: "You are not part of an organisation. This account is yours alone.",
+    noneHint: "If a programme invites you, it will show up here, with exactly what it can see.",
   },
 
   account: {
@@ -175,4 +222,5 @@ export const PROFILE_PROVISIONAL = {
   delete: "Immediate or with a grace period is still to be decided. This copy assumes immediate.",
   revoke: "What revoking deletes needs confirming with the client.",
   followUps: "“At most one a week” stands in for the frequency cap the brief asks for.",
+  organisation: "What an organisation may see is still to be decided with the client, and has to match the Enterprise Dashboard.",
 } as const;

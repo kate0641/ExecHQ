@@ -4,11 +4,13 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Input } from "@/components/form/Input";
 import { Sheet } from "@/components/layout/Sheet";
-import { Notice } from "@/components/onboarding/Notice";
 import { ConnectionDetail } from "@/components/profile/ConnectionDetail";
 import { DeletionDetail } from "@/components/profile/DeletionDetail";
 import { DetailPanel } from "@/components/profile/DetailPanel";
 import { ExportDetail } from "@/components/profile/ExportDetail";
+import { NotificationsDetail } from "@/components/profile/NotificationsDetail";
+import { OrganisationDetail } from "@/components/profile/OrganisationDetail";
+import { UsesDetail } from "@/components/profile/UsesDetail";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { SettingsGroup } from "@/components/profile/SettingsGroup";
 import { SettingsRow } from "@/components/profile/SettingsRow";
@@ -17,8 +19,8 @@ import { Icon } from "@/components/primitives/Icon";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { useViewport } from "@/lib/viewport-context";
-import { fullName, withConnection, type Account, type Connection, type ConnectionId } from "@/mock/account";
-import { PROFILE_COPY as C, PROFILE_PROVISIONAL, type ProfileDetailId } from "@/mock/profile";
+import { fullName, withConnection, type Account, type Connection, type ConnectionId, type UseId } from "@/mock/account";
+import { PROFILE_COPY as C, type ProfileDetailId } from "@/mock/profile";
 
 /**
  * Profile Concept 1 — Grouped.
@@ -55,6 +57,12 @@ function headingOf(id: ProfileDetailId, account: Account): string {
       const c = connectionOf(account, id);
       return c.connected ? c.label : C.connection.connect(c.label);
     }
+    case "notifications":
+      return C.notifications.heading;
+    case "uses":
+      return C.uses.heading;
+    case "organisation":
+      return C.organisation.heading;
     case "export":
       return C.export.heading;
     case "delete":
@@ -243,6 +251,57 @@ export function ProfileConcept1() {
           />
         );
       }
+      case "notifications":
+        return (
+          <NotificationsDetail
+            notify={account.notify}
+            cap={account.followUpCap}
+            quietHours={account.quietHours}
+            headingId={PANE_HEADING}
+            onClose={onClose}
+            onNotify={(topic, channel, on) => {
+              loopActions.updateAccount({
+                notify: { ...account.notify, [topic]: { ...account.notify[topic], [channel]: on } },
+              });
+              announce(C.notifications.saved);
+            }}
+            onCap={(followUpCap) => {
+              loopActions.updateAccount({ followUpCap });
+              announce(C.notifications.saved);
+            }}
+            onQuietHours={(quietHours) => {
+              loopActions.updateAccount({ quietHours });
+              announce(C.notifications.saved);
+            }}
+          />
+        );
+      case "uses":
+        return (
+          <UsesDetail
+            uses={account.uses}
+            headingId={PANE_HEADING}
+            onClose={onClose}
+            onChange={(id, on) => {
+              loopActions.updateAccount({ uses: { ...account.uses, [id]: on } });
+              const label = C.uses.items[id].label;
+              announce(on ? C.uses.savedOn(label) : C.uses.savedOff(label));
+            }}
+          />
+        );
+      case "organisation":
+        return (
+          <OrganisationDetail
+            org={account.org}
+            headingId={PANE_HEADING}
+            onClose={onClose}
+            onLeave={() => {
+              const name = account.org?.name ?? "";
+              loopActions.updateAccount({ org: undefined });
+              announce(C.organisation.left(name));
+              setTimeout(() => document.getElementById(PANE_HEADING)?.focus(), 0);
+            }}
+          />
+        );
       case "export":
         return <ExportDetail drafts={loop.records.map((r) => r.title)} headingId={PANE_HEADING} onClose={onClose} />;
       case "delete":
@@ -305,6 +364,9 @@ export function ProfileConcept1() {
   const R = C.rows;
   const linkedin = connectionOf(account, "linkedin");
   const website = connectionOf(account, "website");
+  const notificationsOn = Object.values(account.notify).filter((channels) => channels.email || channels.app).length;
+  const USE_IDS = Object.keys(account.uses) as UseId[];
+  const usesOn = USE_IDS.filter((id) => account.uses[id]).length;
 
   return (
     <div className="profile">
@@ -347,22 +409,29 @@ export function ProfileConcept1() {
             />
           </SettingsGroup>
 
-          <SettingsGroup label={C.groups.email}>
+          <SettingsGroup label={C.groups.settings}>
             <SettingsRow
-              kind="switch"
-              icon="bell"
-              label={R.followUps}
-              description={account.emailFollowUps ? C.followUps.on : C.followUps.off}
-              checked={account.emailFollowUps}
-              onChange={(on) => {
-                loopActions.updateAccount({ emailFollowUps: on });
-                announce(on ? C.followUps.turnedOn : C.followUps.turnedOff);
-              }}
+              label={R.notifications}
+              value={R.notificationsValue(notificationsOn)}
+              onOpen={() => show("notifications")}
+              current={current("notifications")}
+            />
+            <SettingsRow
+              label={R.uses}
+              value={R.usesValue(usesOn, USE_IDS.length)}
+              onOpen={() => show("uses")}
+              current={current("uses")}
             />
           </SettingsGroup>
-          <Notice tone="explain" label={PROFILE_PROVISIONAL.label} className="profile__note">
-            {PROFILE_PROVISIONAL.followUps}
-          </Notice>
+
+          <SettingsGroup label={C.groups.organisation}>
+            <SettingsRow
+              label={R.organisation}
+              value={account.org?.name ?? R.noOrganisation}
+              onOpen={() => show("organisation")}
+              current={current("organisation")}
+            />
+          </SettingsGroup>
 
           <SettingsGroup label={C.groups.data}>
             <SettingsRow icon="download" label={R.export} onOpen={() => show("export")} current={current("export")} />

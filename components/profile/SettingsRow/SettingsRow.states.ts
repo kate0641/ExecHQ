@@ -38,11 +38,11 @@ export const settingsRowStates = defineComponentStates({
     { label: "Read only", props: { kind: "static", icon: "mail", label: "Email", value: "maya.chen@example.com" } },
     {
       label: "Switch — on",
-      props: { kind: "switch", icon: "bell", label: R.followUps, description: PROFILE_COPY.followUps.on, checked: true, onChange: noop },
+      props: { kind: "switch", icon: "bell", label: "Quiet hours", description: PROFILE_COPY.notifications.quietOn, checked: true, onChange: noop },
     },
     {
       label: "Switch — off",
-      props: { kind: "switch", icon: "bell", label: R.followUps, description: PROFILE_COPY.followUps.off, checked: false, onChange: noop },
+      props: { kind: "switch", icon: "bell", label: "Quiet hours", description: PROFILE_COPY.notifications.quietOff, checked: false, onChange: noop },
     },
     {
       label: "Arrives later — unavailable",

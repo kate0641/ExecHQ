@@ -95,6 +95,9 @@ import { detailPanelStates } from "./profile/DetailPanel/DetailPanel.states";
 import { connectionDetailStates } from "./profile/ConnectionDetail/ConnectionDetail.states";
 import { exportDetailStates } from "./profile/ExportDetail/ExportDetail.states";
 import { deletionDetailStates } from "./profile/DeletionDetail/DeletionDetail.states";
+import { notificationsDetailStates } from "./profile/NotificationsDetail/NotificationsDetail.states";
+import { usesDetailStates } from "./profile/UsesDetail/UsesDetail.states";
+import { organisationDetailStates } from "./profile/OrganisationDetail/OrganisationDetail.states";
 import { checkboxStates } from "./form/Checkbox/Checkbox.states";
 import { codeFieldStates } from "./form/CodeField/CodeField.states";
 import { providerButtonsStates } from "./login/ProviderButtons/ProviderButtons.states";
@@ -189,6 +192,9 @@ export const registry: RegisteredComponent[] = [
   connectionDetailStates,
   exportDetailStates,
   deletionDetailStates,
+  notificationsDetailStates,
+  usesDetailStates,
+  organisationDetailStates,
   checkboxStates,
   codeFieldStates,
   providerButtonsStates,

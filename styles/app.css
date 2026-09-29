@@ -10751,6 +10751,41 @@ ul.stage-actions__list {
   color: var(--color-text-secondary);
 }
 
+/* --- Notifications --------------------------------------------------------- */
+.notify-topics {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.notify-topic {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.notify-topic__label {
+  padding: 0;
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+}
+
+.notify-topic__hint {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.notify-topic__channels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-lg);
+  margin-top: var(--space-2xs);
+}
+
 /* --- Connections ----------------------------------------------------------- */
 .connection-status {
   display: flex;
