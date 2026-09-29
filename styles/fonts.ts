@@ -12,9 +12,8 @@ import { Inter, Kulim_Park, Libre_Baskerville } from "next/font/google";
  *   Inter             → body copy and interface  → --font-body-face    → --font-body
  *
  * Kulim Park is not a variable font, so its weights are listed: 200, 300,
- * 400, 600 and 700. It has no 500, so text set in --weight-medium falls to
- * the nearest weight the browser can find; the designer decides what medium
- * becomes on the display face.
+ * 400, 600 and 700. It has no 500, so the type scale has no medium weight:
+ * anything that would be medium is set in --weight-semibold instead.
  *
  * Only next/font/google may load a face — no new packages, no <link> tags,
  * no @import from Google Fonts. app/layout.tsx applies the `.variable`
