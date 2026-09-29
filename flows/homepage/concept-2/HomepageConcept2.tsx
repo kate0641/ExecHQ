@@ -19,7 +19,7 @@ import { ARTIFACT_KINDS, FOLLOW_UP_POLICY, OUTCOME_READBACK } from "@/mock/loop"
 import { ACTIONS, HORIZONS, actionById, signalById } from "@/mock/plan-stub";
 
 /**
- * Homepage Concept 2 — Signals (Ledger).
+ * Homepage Concept 2 — Stay on track (was Signals, renamed 2026-09-29).
  *
  * Top to bottom (decided 2026-09-29): today's Briefing, in a light card that
  * closes until tomorrow; your next step, always, naming the signal it adds

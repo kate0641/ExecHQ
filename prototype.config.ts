@@ -171,9 +171,9 @@ export const prototypeConfig: PrototypeConfig = {
         },
         {
           slug: "concept-2",
-          title: "Concept 2 — Signals",
+          title: "Concept 2 — Stay on track",
           summary:
-            "Signal forward: the signal Maya’s next step touches, with its last seven days as facts, and the step joined beneath it.",
+            "Day forward: today’s Briefing, then Maya’s next step, then everything waiting on her word, then what her LinkedIn and website say.",
         },
         {
           slug: "concept-3",
