@@ -34,6 +34,8 @@ export interface SignalEntry {
   source: "observed" | "reported";
   text: string;
   on: string;
+  /** For a reported entry: how ExecHQ knows, shown when its label is tapped. */
+  how?: string;
 }
 
 export interface TrackedSignal {
@@ -212,8 +214,17 @@ export const SIGNAL_COPY = {
   /** How far back the homepage looks. */
   windowDays: 7,
   window: (from: string, to: string) => `Last 7 days · ${from} – ${to}`,
-  /** Every entry says where it came from, in words. */
-  sources: { observed: "Seen in ExecHQ", reported: "You told me" },
+  /* Where a fact comes from, by who can vouch for it (decided 2026-09-29,
+     option B, "Mark the outside"). What ExecHQ saw happen is the baseline and
+     carries no label; a key says so once. What the user reported is marked
+     "Your word", and tapping it says how ExecHQ knows. */
+  key: "Unmarked lines happened in ExecHQ.",
+  reportedLabel: "Your word",
+  /** Read with the label, so it names what the tap does. */
+  reportedLabelHint: "How ExecHQ knows this",
+  howUsed: (date: string) => `You said so on ${date}. ExecHQ can’t see where you used it.`,
+  howNothingYet: (date: string) => `You told us on ${date} that nothing had come of it yet.`,
+  howOutcome: (date: string) => `You logged this on ${date}. ExecHQ wasn’t there, so it’s in your words.`,
   /* One line per Loop event. `name` reads mid-sentence: "your leadership story". */
   drafted: (name: string) => `Drafted ${name}`,
   edited: (name: string) => `Worked on ${name}`,

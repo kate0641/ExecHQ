@@ -9,8 +9,10 @@
  *
  * Each entry is either observed (it happened in ExecHQ: drafting, working on,
  * finishing an artifact) or reported (the user told us: that they used or
- * sent it, and what came of it). ExecHQ cannot see a 1:1 or an inbox, so a
- * use is always reported, even though it is logged with one tap in ExecHQ.
+ * sent it, and what came of it). The line is drawn by who can vouch for the
+ * event, not where the button was pressed: ExecHQ cannot see a 1:1 or an
+ * inbox, so a use is always reported, even though it is logged with one tap
+ * in ExecHQ. A reported entry carries how ExecHQ knows it.
  *
  * Wording is in `mock/plan-stub.ts`.
  */
@@ -64,10 +66,15 @@ function entriesFor(record: LoopRecord): SignalActivityEntry[] {
         out.push({ source: "observed", text: C.ready(record.name), on: event.on });
         break;
       case "used":
-        out.push({ source: "reported", text: C.used(ARTIFACT_KINDS[record.kind].usedVerb, record.name), on: event.on });
+        out.push({
+          source: "reported",
+          text: C.used(ARTIFACT_KINDS[record.kind].usedVerb, record.name),
+          on: event.on,
+          how: C.howUsed(shortDate(event.on)),
+        });
         break;
       case "nothing-yet":
-        out.push({ source: "reported", text: C.nothingYet(record.name), on: event.on });
+        out.push({ source: "reported", text: C.nothingYet(record.name), on: event.on, how: C.howNothingYet(shortDate(event.on)) });
         break;
       case "outcome": {
         if (event.outcome === "no-longer-relevant") break;
@@ -75,8 +82,8 @@ function entriesFor(record: LoopRecord): SignalActivityEntry[] {
         const label = OUTCOME_OPTIONS.find((o) => o.type === event.outcome)?.label ?? "";
         out.push(
           detail
-            ? { source: "reported", text: detail, on: event.on, quote: true }
-            : { source: "reported", text: C.outcome(record.name, label), on: event.on }
+            ? { source: "reported", text: detail, on: event.on, quote: true, how: C.howOutcome(shortDate(event.on)) }
+            : { source: "reported", text: C.outcome(record.name, label), on: event.on, how: C.howOutcome(shortDate(event.on)) }
         );
         break;
       }

@@ -1,5 +1,5 @@
 import { defineComponentStates } from "@/components/types";
-import { NOT_AN_INPUT, NOT_INTERACTIVE } from "@/components/not-applicable";
+import { NOT_AN_INPUT } from "@/components/not-applicable";
 import { signalActivity, windowLabel } from "@/lib/signals";
 import { HOME_STATES } from "@/mock/homepage";
 import { SIGNAL_COPY } from "@/mock/plan-stub";
@@ -19,10 +19,10 @@ export const signalActivityStates = defineComponentStates({
   status: "draft",
   flows: ["homepage"],
   description:
-    "Provisional, until the Signal Picture in Sprint 3. One tracked signal and its last seven days as a dated list of facts, each saying in words whether it was seen in ExecHQ or the user told us. No counts, bars or trends. With nothing in the window it shows one quiet line.",
+    "Provisional, until the Signal Picture in Sprint 3. One tracked signal and its last seven days as a dated list of facts, labelled by who can vouch for them: what ExecHQ saw is unmarked (a key says so), what the user reported is marked “Your word”, which opens how ExecHQ knows. No counts, bars or trends. With nothing in the window it shows one quiet line.",
   component: SignalActivity,
   notApplicable: {
-    ...NOT_INTERACTIVE,
+    disabled: "“Your word” can always be opened.",
     loading: "Read from the local Loop: there is nothing to wait for.",
     error: "Read locally: nothing can fail.",
     filled: NOT_AN_INPUT,
@@ -37,10 +37,32 @@ export const signalActivityStates = defineComponentStates({
         window: ready.window,
         tone: "focal",
         today: ready.today,
+        keyLine: SIGNAL_COPY.key,
         headingLevel: 2,
         headingId: "signal-demo-focal",
       },
     },
+    {
+      label: "“Your word” opened",
+      description: "Tapping the label says how ExecHQ knows a fact it didn’t see.",
+      props: {
+        name: ready.signals[0].signal.name,
+        entries: ready.signals[0].entries,
+        today: ready.today,
+        headingId: "signal-demo-open",
+        demo: { open: ready.signals[0].entries.findIndex((e) => e.source === "reported") },
+      },
+    },
+    ...(["hover", "focus", "active"] as const).map((state) => ({
+      label: `“Your word” — ${state === "active" ? "pressed" : state}`,
+      props: {
+        name: ready.signals[1].signal.name,
+        entries: ready.signals[1].entries,
+        today: ready.today,
+        headingId: `signal-demo-${state}`,
+        demo: { label: state },
+      },
+    })),
     {
       label: "Plain, seen and told",
       props: { name: ready.signals[1].signal.name, entries: ready.signals[1].entries, today: ready.today, headingId: "signal-demo-plain" },

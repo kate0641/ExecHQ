@@ -206,6 +206,7 @@ export function HomepageConcept2() {
               today={loop.today}
               headingLevel={2}
               headingId="focal-signal"
+              keyLine={C.key}
             />
             {card}
           </div>
@@ -220,6 +221,7 @@ export function HomepageConcept2() {
               {focal ? C.othersHeading : C.allHeading}
             </h2>
             <p className="signals-home__window">{span}</p>
+            {focal ? null : <p className="signals-home__window">{C.key}</p>}
           </div>
           {others.map(({ signal, entries }) => (
             <SignalActivity
