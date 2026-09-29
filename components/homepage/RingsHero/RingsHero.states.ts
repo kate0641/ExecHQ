@@ -1,3 +1,5 @@
+import { createElement as h } from "react";
+import { NextStepCard } from "@/components/homepage/NextStepCard";
 import { defineComponentStates } from "@/components/types";
 import { NOT_AN_INPUT } from "@/components/not-applicable";
 import { nextToFill, ringsFor } from "@/lib/rings";
@@ -5,17 +7,43 @@ import { HOME_STATES, type HomeStateId } from "@/mock/homepage";
 import { ACTIONS } from "@/mock/plan-stub";
 import { RingsHero } from "./RingsHero";
 
-const base = { greeting: "Good morning, Maya", date: "Tuesday 20 October", planLine: "Step up", planName: "Increase leadership scope", startHref: "/toolbox-flow/concept-1", planHref: "/plan/concept-1" };
+const base = {
+  greeting: "Good morning, Maya",
+  date: "Tuesday 20 October",
+  planLine: "Step up",
+  direction: "toward leading a broader marketing organisation",
+  planHref: "/plan/concept-1",
+};
+/** The tray as the page fills it when the next step is the moment. Each
+ *  variant gets its own heading id, since the catalogue shows them together. */
+let stepCount = 0;
+function step(title: string, a = ACTIONS[0], horizon = "Short-term") {
+  return h(NextStepCard, {
+    eyebrow: `Next to fill · ${horizon}`,
+    title,
+    why: { this: a.whyThis, now: a.whyNow, you: a.whyYou },
+    whyStyle: "folded",
+    href: "/toolbox-flow/concept-1",
+    headingId: `rh-step-${++stepCount}`,
+  });
+}
 function forState(id: HomeStateId) {
   const rings = ringsFor(HOME_STATES[id].records);
-  return { ...base, rings, next: nextToFill(rings) };
+  const next = nextToFill(rings);
+  return {
+    ...base,
+    rings,
+    next,
+    focus: next?.ring.horizon ?? null,
+    children: next ? step(next.segment.action.title, next.segment.action, next.ring.label) : undefined,
+  };
 }
 const allDone = (() => {
   const rings = ringsFor(
     HOME_STATES["nothing-pending"].records,
     ACTIONS.filter((a) => a.id !== "scope-case")
   );
-  return { ...base, rings, next: nextToFill(rings) };
+  return { ...base, rings, next: nextToFill(rings), children: h("p", { className: "rings-hero__done" }, "Every action on your plan is in hand.") };
 })();
 
 export const ringsHeroStates = defineComponentStates({
@@ -24,7 +52,7 @@ export const ringsHeroStates = defineComponentStates({
   status: "draft",
   flows: ["homepage"],
   description:
-    "Homepage Concept 1’s focal point: three rings, one per Active Landscape horizon, each named where it sits, and the one action that fills the next segment. A segment fills only when the Loop confirms the work; filled segments are solid, unfilled hollow, the next outlined in the accent. Each ring reads out as text.",
+    "Homepage Concept 1’s focal point, Merged: one card with the greeting, the plan and where it’s heading, three rings (one per Active Landscape horizon) and a tray holding what the moment asks for, its notch on the ring it belongs to. A segment fills only when the Loop confirms the work; filled segments are solid, unfilled hollow, the next outlined in the accent. Each ring reads out as text.",
   component: RingsHero,
   notApplicable: {
     disabled: "Every ring can always be opened.",
@@ -45,15 +73,27 @@ export const ringsHeroStates = defineComponentStates({
     { label: "A ring opened", props: { ...forState("follow-up-due"), open: "short" } },
     {
       label: "A long action title wraps",
+      props: { ...forState("first-return"), children: step("Use your leadership story to open your next 1:1 with your manager, before the planning cycle") },
+    },
+    {
+      label: "Tray without a notch",
+      description: "The just-answered hand-off: the next step isn’t on the plan yet, so no ring claims it.",
       props: {
-        ...forState("first-return"),
-        next: (() => {
-          const f = forState("first-return");
-          const n = f.next!;
-          return { ...n, segment: { ...n.segment, action: { ...n.segment.action, title: "Use your leadership story to open your next 1:1 with your manager, before the planning cycle" } } };
-        })(),
+        ...forState("follow-up-due"),
+        focus: null,
+        children: h(NextStepCard, {
+          lead: h("p", { className: "home-card__readback" }, "Logged. You told me: “She asked me to lead the planning workstream.”"),
+          eyebrow: "Next",
+          title: "Build a stakeholder message map for the workstream",
+          why: { now: "You said the new work needs influence across teams." },
+          whyStyle: "folded",
+          href: "/toolbox-flow/concept-1",
+          stubbed: true,
+          headingId: "rh-handoff",
+        }),
       },
     },
+    { label: "No tray, no direction", description: "Without a moment or a short direction, the card is the greeting, the plan and the rings.", props: { ...forState("follow-up-due"), children: undefined, focus: null, direction: undefined } },
     { label: "Ring — hover", props: { ...forState("follow-up-due"), demo: { horizon: "medium", state: "hover" } } },
     { label: "Ring — focus", props: { ...forState("follow-up-due"), demo: { horizon: "short", state: "focus" } } },
     { label: "Ring — pressed", props: { ...forState("follow-up-due"), demo: { horizon: "long", state: "active" } } },

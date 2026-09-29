@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { Icon } from "@/components/primitives/Icon";
+import type { CSSProperties, ReactNode } from "react";
 import { ringCount, ringText, type Ring, type RingSegment } from "@/lib/rings";
 import type { Horizon } from "@/mock/plan-stub";
 
 export interface RingsHeroProps {
   rings: Ring[];
-  /** The one action that fills the next segment, if any is left. */
+  /** The next segment to fill, outlined in the accent, if any is left. */
   next?: { ring: Ring; segment: RingSegment };
   /** "Good morning, Maya", at the head of the card, so the card is hers. */
   greeting?: string;
@@ -13,17 +13,24 @@ export interface RingsHeroProps {
   date?: string;
   /** The plan's name: "Step up". No week count: a plan has no end date. */
   planLine: string;
-  /** The plan's formal name, beside it. */
-  planName?: string;
+  /** Where the plan is heading, after the name: "toward leading a broader
+   *  marketing organisation". The formal plan name lives on the Plan page. */
+  direction?: string;
   /** A line for the first return, so nearly empty rings read as a start. */
   startNote?: string;
+  /** The ring the tray belongs to. Its name takes the accent and the tray's
+   *  notch points at it. None: the tray has no notch. */
+  focus?: Horizon | null;
+  /** What the moment asks for, in a tray inside the card: the next step, a
+   *  follow-up, or something ready to use. Omitted: no tray. */
+  children?: ReactNode;
   /** The ring whose actions are showing, if any. */
   open?: Horizon | null;
   onToggle?: (horizon: Horizon) => void;
   /** The id of the panel a ring opens, for aria-controls. */
   detailId?: string;
-  startHref: string;
   planHref: string;
+  planLabel?: string;
   /** Catalogue only: shows one ring in a state a static page can't reach. */
   demo?: { horizon: Horizon; state: "hover" | "focus" | "active" };
   className?: string;
@@ -89,9 +96,11 @@ function RingDrawing({ ring, nextId }: { ring: Ring; nextId?: string }) {
 }
 
 /**
- * The focal point of Homepage Concept 1 — Rings, Row: three rings for the
- * actions the user has accepted, one per horizon, each named where it sits,
- * and the one action that would fill the next segment.
+ * The focal point of Homepage Concept 1 — Rings, Merged: one card that is
+ * the user's own — greeting, plan and where it's heading — with three rings
+ * for the actions they have accepted, one per horizon, and beneath them a
+ * tray holding the one thing the moment asks for. The tray's notch points at
+ * the ring that thing belongs to, so the rings and the action read as one.
  *
  * Each ring is a button that opens its actions. Each reads out as text
  * ("Short-term: 1 of 2 actions confirmed."), so the drawing is never the only
@@ -103,16 +112,19 @@ export function RingsHero({
   greeting,
   date,
   planLine,
-  planName,
+  direction,
   startNote,
+  focus = null,
+  children,
   open = null,
   onToggle,
   detailId = "ring-detail",
-  startHref,
   planHref,
+  planLabel = "See your plan",
   demo,
   className,
 }: RingsHeroProps) {
+  const at = rings.findIndex((r) => r.horizon === focus);
   return (
     <section className={["rings-hero", className].filter(Boolean).join(" ")} aria-labelledby="rings-hero-heading">
       <h2 className="u-visually-hidden" id="rings-hero-heading">
@@ -124,17 +136,26 @@ export function RingsHero({
           {date ? <span>{date}</span> : null}
         </p>
       ) : null}
-      <p className="rings-hero__meta">
-        <span>{planLine}</span>
-        {planName ? <span>{planName}</span> : null}
-      </p>
+      <div className="rings-hero__plan">
+        <p>
+          <b>{planLine}</b>
+          {direction ? <> &middot; {direction}</> : null}
+        </p>
+        <Link href={planHref} className="rings-hero__plan-link">
+          {planLabel}
+        </Link>
+      </div>
       {startNote ? <p className="rings-hero__note">{startNote}</p> : null}
       <ul className="rings-hero__row">
         {rings.map((ring) => (
           <li key={ring.horizon}>
             <button
               type="button"
-              className={["rings-hero__ring", demo?.horizon === ring.horizon ? `is-${demo.state}` : null]
+              className={[
+                "rings-hero__ring",
+                ring.horizon === focus ? "is-pointed" : null,
+                demo?.horizon === ring.horizon ? `is-${demo.state}` : null,
+              ]
                 .filter(Boolean)
                 .join(" ")}
               aria-expanded={open === ring.horizon}
@@ -153,30 +174,14 @@ export function RingsHero({
           </li>
         ))}
       </ul>
-      <div className="rings-hero__focal">
-        {next ? (
-          <>
-            <span className="rings-hero__eyebrow">Next to fill &middot; {next.ring.label}</span>
-            <b className="rings-hero__action">{next.segment.action.title}</b>
-          </>
-        ) : (
-          <>
-            <span className="rings-hero__eyebrow">All confirmed</span>
-            <b className="rings-hero__action">Every action on your plan is in hand</b>
-          </>
-        )}
-      </div>
-      <div className="rings-hero__actions">
-        {next ? (
-          <Link href={startHref} className="rings-hero__pill">
-            <Icon name="chevron" size={16} />
-            Start it
-          </Link>
-        ) : null}
-        <Link href={planHref} className="rings-hero__pill rings-hero__pill--quiet">
-          See your plan
-        </Link>
-      </div>
+      {children ? (
+        <div className="rings-hero__tray">
+          {at >= 0 ? (
+            <span className="rings-hero__notch" style={{ "--at": at } as CSSProperties} aria-hidden="true" />
+          ) : null}
+          {children}
+        </div>
+      ) : null}
     </section>
   );
 }

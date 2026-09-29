@@ -26,6 +26,11 @@ export const nextStepCardStates = defineComponentStates({
   variants: [
     { label: "Why this, now, you — default", props: { title: a.title, why, href } },
     {
+      label: "Folded reasons",
+      description: "Why now as one line; why this and why you behind a disclosure. Homepage Concept 1’s tray.",
+      props: { title: a.title, why, whyStyle: "folded", href, eyebrow: "Next to fill · Short-term", headingId: "nsc-folded" },
+    },
+    {
       label: "Just answered, stubbed hand-off",
       description: "After an outcome: what was logged, then the next recommendation, marked as a stand-in.",
       props: {

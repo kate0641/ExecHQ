@@ -3077,6 +3077,72 @@ ul.concierge-mini {
   color: var(--color-text-primary);
 }
 
+/* Folded reasons: why now in a line, the other two behind a disclosure. */
+.home-card__whynow {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.home-card__whynow b {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.home-card__fold summary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-link);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+  list-style: none;
+}
+
+.home-card__fold summary::-webkit-details-marker {
+  display: none;
+}
+
+.home-card__fold summary svg {
+  transform: rotate(90deg);
+  transition: transform var(--duration-fast) var(--easing-standard);
+}
+
+.home-card__fold[open] summary svg {
+  transform: rotate(-90deg);
+}
+
+.home-card__fold summary:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.home-card__fold dl {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: var(--space-sm) 0 0;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  font-size: var(--text-sm);
+}
+
+.home-card__fold dt {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.home-card__fold dd {
+  margin: 0;
+}
+
 .home-card__actions {
   display: flex;
   flex-direction: column;
@@ -3641,14 +3707,40 @@ ul.recent-work__list {
   color: var(--color-text-inverse-muted);
 }
 
-.rings-hero__meta {
+/* The plan and where it's heading, in one line, with the way to the Plan. */
+.rings-hero__plan {
   display: flex;
   flex-wrap: wrap;
+  align-items: baseline;
   justify-content: space-between;
   gap: var(--space-2xs) var(--space-sm);
+  padding-top: var(--space-sm);
+  border-top: var(--border-width-thin) solid var(--color-border-inverse);
+}
+
+.rings-hero__plan p {
+  min-width: 0;
   margin: 0;
-  font-size: var(--text-xs);
-  color: var(--color-text-inverse-muted);
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+}
+
+.rings-hero__plan b {
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+}
+
+.rings-hero__plan-link {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-inverse);
+  text-underline-offset: 0.2em;
+  white-space: nowrap;
+}
+
+.rings-hero__plan-link:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-focus-inverse);
+  outline-offset: var(--focus-ring-offset);
 }
 
 .rings-hero__note {
@@ -3743,58 +3835,55 @@ ul.rings-hero__row {
   font-variant-numeric: tabular-nums;
 }
 
-.rings-hero__focal {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3xs);
+/* The tray: what the moment asks for, inside the card. Its notch points at
+   the ring it belongs to; --at is that ring's place in the row, from 0. The
+   tray and the row share a width, so the ring's centre is at (2 × at + 1) / 6. */
+
+.rings-hero__ring.is-pointed .rings-hero__name {
+  color: var(--color-accent-on-inverse);
 }
 
-.rings-hero__eyebrow {
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--color-text-inverse-muted);
-}
-
-.rings-hero__action {
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
-  line-height: var(--leading-snug);
-  text-wrap: balance;
-}
-
-.rings-hero__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-xs);
-}
-
-.rings-hero__pill {
-  display: inline-flex;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-xs);
-  min-width: 8.5rem;
-  padding: var(--space-sm) var(--space-md);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface);
+.rings-hero__tray {
+  position: relative;
+  padding: var(--space-md);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-raised);
   color: var(--color-text-primary);
+}
+
+.rings-hero__notch {
+  position: absolute;
+  top: calc(-1 * var(--space-xs));
+  left: calc(100% * (var(--at) * 2 + 1) / 6);
+  width: var(--space-md);
+  height: var(--space-md);
+  border-radius: var(--radius-xs);
+  background-color: var(--color-surface-raised);
+  transform: translateX(-50%) rotate(45deg);
+  transition: left var(--duration-base) var(--easing-standard);
+}
+
+/* A shared card inside the tray gives up its own chrome: the tray is the card. */
+.rings-hero__tray > .home-card {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+}
+
+.rings-hero__tray :focus-visible {
+  outline-color: var(--color-focus);
+}
+
+.rings-hero__tray > .home__another {
+  margin-top: var(--space-md);
+}
+
+.rings-hero__done {
+  margin: 0;
   font-family: var(--font-display);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-bold);
-  text-decoration: none;
-}
-
-.rings-hero__pill--quiet {
-  background-color: var(--color-surface-inverse-hover);
-  color: var(--color-text-inverse);
-}
-
-.rings-hero__pill:focus-visible {
-  outline: var(--focus-ring-width) solid var(--color-focus-inverse);
-  outline-offset: var(--focus-ring-offset);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
 }
 
 /* The ring opened: its actions and a timeline of what they track. */

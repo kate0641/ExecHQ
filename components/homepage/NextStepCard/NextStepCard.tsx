@@ -7,6 +7,10 @@ export interface NextStepCardProps {
   title: string;
   /** Why this, why now, why you. Any can be left out. */
   why?: { this?: string; now?: string; you?: string };
+  /** `rows`: all three as label and value rows. `folded`: why now as one
+   *  line, with why this and why you behind "Why this, for you". */
+  whyStyle?: "rows" | "folded";
+  foldLabel?: string;
   /** Where it starts: its Toolbox flow. Stubbed until Sprint 4. */
   href: string;
   actionLabel?: string;
@@ -26,12 +30,16 @@ export interface NextStepCardProps {
 }
 
 /**
- * One action, with the reasons for it — why this, why now, why you — as
- * label and value rows, and the way into its Toolbox flow.
+ * One action, with the reasons for it — why this, why now, why you — and
+ * the way into its Toolbox flow. The reasons show as label and value rows,
+ * or folded: why now in one line, the other two a tap away in a native
+ * disclosure, so it needs no script and works from the keyboard.
  */
 export function NextStepCard({
   title,
   why = {},
+  whyStyle = "rows",
+  foldLabel = "Why this, for you",
   href,
   actionLabel = "Start in the Toolbox",
   eyebrow = "Your next step",
@@ -56,7 +64,37 @@ export function NextStepCard({
         <h2 className={titleHidden ? "u-visually-hidden" : "home-card__title"} id={headingId} tabIndex={-1}>
           {title}
         </h2>
-        {rows.length ? (
+        {whyStyle === "folded" ? (
+          <>
+            {why.now ? (
+              <p className="home-card__whynow">
+                <b>Why now:</b> {why.now}
+              </p>
+            ) : null}
+            {why.this || why.you ? (
+              <details className="home-card__fold">
+                <summary>
+                  {foldLabel}
+                  <Icon name="chevron" size={12} />
+                </summary>
+                <dl>
+                  {why.this ? (
+                    <div>
+                      <dt>Why this</dt>
+                      <dd>{why.this}</dd>
+                    </div>
+                  ) : null}
+                  {why.you ? (
+                    <div>
+                      <dt>Why you</dt>
+                      <dd>{why.you}</dd>
+                    </div>
+                  ) : null}
+                </dl>
+              </details>
+            ) : null}
+          </>
+        ) : rows.length ? (
           <dl className="home-card__why">
             {rows.map(([term, text]) => (
               <div key={term}>
