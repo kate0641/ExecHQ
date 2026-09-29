@@ -50,10 +50,9 @@ export const LOGIN_COPY = {
   signIn: {
     kicker: "Welcome back",
     heading: "Sign in to ExecHQ",
-    lede: "We’ll email you a link to sign in. There’s no password to remember.",
     emailLabel: "Your personal email",
     keep: "Keep me signed in on this device",
-    send: "Email me a link",
+    send: "Log in",
     or: "or",
     providers: { google: "Google", apple: "Apple" } satisfies Record<Provider, string>,
     providerLabel: (name: string) => `Continue with ${name}`,

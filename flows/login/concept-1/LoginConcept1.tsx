@@ -32,8 +32,7 @@ import {
 /**
  * Login Concept 1 — Open page.
  *
- * White and quiet: a light blue glow in the corner, a pill field, the button
- * off to the right with an arrow, and Google and Apple as round buttons.
+ * White and quiet: a light blue glow in the corner, a pill field, a full-width Log in button, and Google and Apple as traditional buttons.
  *
  * The emailed link is the main way in. After it is asked for, the email
  * arrives as the phone's notification; tapping it opens the drawn email in a
@@ -185,7 +184,6 @@ export function LoginConcept1() {
           <h1 className="login__heading" id={HEADING} tabIndex={-1}>
             {C.signIn.heading}
           </h1>
-          <p className="login__lede">{C.signIn.lede}</p>
         </div>
         <form
           className="login__form"
@@ -212,12 +210,9 @@ export function LoginConcept1() {
             }}
           />
           <Checkbox label={C.signIn.keep} checked={keep} onChange={(event) => setKeep(event.target.checked)} />
-          <div className="login__submit">
-            <Button type="submit">
-              {C.signIn.send}
-              <Icon name="chevron" size={16} />
-            </Button>
-          </div>
+          <Button type="submit" fullWidth>
+            {C.signIn.send}
+          </Button>
         </form>
         <p className="login__or">{C.signIn.or}</p>
         <ProviderButtons onChoose={(p) => setSheet(p)} />

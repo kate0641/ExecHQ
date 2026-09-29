@@ -11161,80 +11161,70 @@ ul.stage-actions__list {
 /* --- Provider buttons ------------------------------------------------------ */
 .provider-buttons {
   display: flex;
-  justify-content: center;
-  gap: var(--space-xl);
+  flex-direction: column;
+  gap: var(--space-sm);
 }
 
 .provider-button {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: var(--space-2xs);
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--color-text-secondary);
+  justify-content: center;
+  gap: var(--space-sm);
+  width: 100%;
+  min-height: 3rem;
+  padding: 0 var(--space-lg);
+  border: var(--border-width-thin) solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-raised);
+  color: var(--color-text-primary);
   font: inherit;
   font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
   cursor: pointer;
+  transition: background-color var(--duration-fast) var(--easing-standard);
 }
 
-.provider-button__disc {
-  display: grid;
-  place-items: center;
-  width: 3.5rem;
-  height: 3.5rem;
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: 50%;
-  background-color: var(--color-surface-raised);
-  box-shadow: var(--shadow-sm);
-  color: var(--color-text-primary);
-  transition: border-color var(--duration-fast) var(--easing-standard);
+.provider-button--apple {
+  border-color: var(--color-surface-inverse);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
 }
 
-.provider-button:hover .provider-button__disc,
-.provider-button.is-hover .provider-button__disc {
-  border-color: var(--color-text-secondary);
-}
-
-.provider-button:active .provider-button__disc,
-.provider-button.is-active .provider-button__disc {
+.provider-button:hover,
+.provider-button.is-hover {
   background-color: var(--color-surface-hover);
+}
+
+.provider-button--apple:hover,
+.provider-button--apple.is-hover {
+  background-color: var(--color-surface-inverse-hover);
+}
+
+.provider-button:active,
+.provider-button.is-active {
+  background-color: var(--color-surface-sunken);
+}
+
+.provider-button--apple:active,
+.provider-button--apple.is-active {
+  background-color: var(--color-surface-inverse-active);
 }
 
 .provider-button:focus-visible,
 .provider-button.is-focus {
-  outline: none;
-}
-
-.provider-button:focus-visible .provider-button__disc,
-.provider-button.is-focus .provider-button__disc {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
 }
 
 .provider-button:disabled {
+  border-color: var(--color-border);
+  background-color: var(--color-surface-disabled);
   color: var(--color-text-disabled);
   cursor: not-allowed;
 }
 
-.provider-button:disabled .provider-button__disc {
-  background-color: var(--color-surface-disabled);
-  color: var(--color-text-disabled);
-  box-shadow: none;
-}
-
-.provider-mark--google {
-  display: grid;
-  place-items: center;
-  width: 1.625rem;
-  height: 1.625rem;
-  border: var(--border-width-medium) solid currentColor;
-  border-radius: 50%;
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-bold);
-  line-height: 1;
+.provider-mark {
+  flex: none;
 }
 
 /* --- Mail notification ----------------------------------------------------- */
@@ -11611,11 +11601,6 @@ ul.stage-actions__list {
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
-}
-
-.login__submit {
-  display: flex;
-  justify-content: flex-end;
 }
 
 .login__or {

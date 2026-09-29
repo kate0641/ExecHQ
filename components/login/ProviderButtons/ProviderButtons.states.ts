@@ -10,7 +10,7 @@ export const providerButtonsStates = defineComponentStates({
   status: "draft",
   flows: ["login"],
   description:
-    "Google and Apple as round buttons with the name underneath. The marks are drawn stand-ins; the real ones follow each provider's brand rules.",
+    "Google and Apple as full-width buttons in the traditional form: the mark and “Continue with …”. Google's is light with a hairline border, Apple's is solid. The marks are drawn stand-ins in one colour; the real ones follow each provider's brand rules.",
   component: ProviderButtons,
   notApplicable: {
     loading: "The provider's own window takes over; this page has nothing to wait for.",
