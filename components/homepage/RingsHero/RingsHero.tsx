@@ -20,17 +20,17 @@ export interface RingsHeroProps {
   /** A line for the first return, so nearly empty rings read as a start.
    *  It explains the segments, so it sits under the rings as a caption. */
   startNote?: string;
-  /** The ring the tray belongs to. Its name takes the accent and the tray's
-   *  notch points at it. None: the tray has no notch. */
+  /** The ring the tray is showing. Its name takes the accent, its button is
+   *  pressed, and the tray's notch points at it. None: no notch. */
   focus?: Horizon | null;
-  /** What the moment asks for, in a tray inside the card: the next step, a
-   *  follow-up, or something ready to use. Omitted: no tray. */
+  /** What the tray shows: by default the moment — the next step, a
+   *  follow-up, or something ready to use — or the next action of a ring
+   *  the user picked. Omitted: no tray. */
   children?: ReactNode;
-  /** The ring whose actions are showing, if any. */
-  open?: Horizon | null;
-  onToggle?: (horizon: Horizon) => void;
-  /** The id of the panel a ring opens, for aria-controls. */
-  detailId?: string;
+  /** A ring was tapped: the page decides what the tray shows for it. */
+  onSelect?: (horizon: Horizon) => void;
+  /** The tray's id, for the rings' aria-controls. */
+  trayId?: string;
   /** The whole plan line is the way to the Plan, marked with a chevron. */
   planHref: string;
   /** Read before the plan line by assistive technology. */
@@ -106,7 +106,9 @@ function RingDrawing({ ring, nextId }: { ring: Ring; nextId?: string }) {
  * tray holding the one thing the moment asks for. The tray's notch points at
  * the ring that thing belongs to, so the rings and the action read as one.
  *
- * Each ring is a button that opens its actions. Each reads out as text
+ * Each ring is a button that puts its next action in the tray, and the
+ * notch moves to it; the page decides what that means for the ring the
+ * moment belongs to. Each reads out as text
  * ("Short-term: 1 of 2 actions confirmed."), so the drawing is never the only
  * way to know where things stand. Nothing celebrates when a ring fills.
  */
@@ -120,9 +122,8 @@ export function RingsHero({
   startNote,
   focus = null,
   children,
-  open = null,
-  onToggle,
-  detailId = "ring-detail",
+  onSelect,
+  trayId = "rings-hero-tray",
   planHref,
   planLabel = "See your plan",
   demo,
@@ -131,7 +132,7 @@ export function RingsHero({
   const at = rings.findIndex((r) => r.horizon === focus);
   return (
     <section className={["rings-hero", className].filter(Boolean).join(" ")} aria-labelledby="rings-hero-heading">
-      <h2 className="u-visually-hidden" id="rings-hero-heading">
+      <h2 className="u-visually-hidden" id="rings-hero-heading" tabIndex={-1}>
         Your plan&rsquo;s actions
       </h2>
       {greeting ? (
@@ -149,7 +150,7 @@ export function RingsHero({
         <Icon name="chevron" size={16} />
       </Link>
       {children ? (
-        <div className="rings-hero__tray">
+        <div className="rings-hero__tray" id={trayId}>
           {at >= 0 ? (
             <span className="rings-hero__notch" style={{ "--at": at } as CSSProperties} aria-hidden="true" />
           ) : null}
@@ -168,9 +169,9 @@ export function RingsHero({
               ]
                 .filter(Boolean)
                 .join(" ")}
-              aria-expanded={open === ring.horizon}
-              aria-controls={detailId}
-              onClick={() => onToggle?.(ring.horizon)}
+              aria-pressed={ring.horizon === focus}
+              aria-controls={children ? trayId : undefined}
+              onClick={() => onSelect?.(ring.horizon)}
             >
               <RingDrawing ring={ring} nextId={next?.segment.action.id} />
               <span className="rings-hero__name" aria-hidden="true">
@@ -179,7 +180,7 @@ export function RingsHero({
               <span className="rings-hero__count" aria-hidden="true">
                 {ringCount(ring)}
               </span>
-              <span className="u-visually-hidden">{`${ringText(ring)} Show its actions.`}</span>
+              <span className="u-visually-hidden">{`${ringText(ring)} Show its next action.`}</span>
             </button>
           </li>
         ))}

@@ -6,7 +6,6 @@ import { FollowUpCard } from "@/components/homepage/FollowUpCard";
 import { NextStepCard } from "@/components/homepage/NextStepCard";
 import { ReadyCard } from "@/components/homepage/ReadyCard";
 import { RecentWork } from "@/components/homepage/RecentWork";
-import { RingDetail } from "@/components/homepage/RingDetail";
 import { RingsHero } from "@/components/homepage/RingsHero";
 import { addDays, aheadPhrase, dueFollowUps, type LoopRecord } from "@/lib/loop";
 import { loopActions, nextStepAfter, useLoop } from "@/lib/loop-store";
@@ -14,7 +13,7 @@ import { conceptHref } from "@/lib/manifest";
 import { nextToFill, ringOf, ringsFor } from "@/lib/rings";
 import { HOME_COPY as C } from "@/mock/homepage";
 import { ARTIFACT_KINDS, FOLLOW_UP_POLICY, OUTCOME_READBACK } from "@/mock/loop";
-import { signalById, type Horizon } from "@/mock/plan-stub";
+import type { Horizon } from "@/mock/plan-stub";
 
 /**
  * Homepage Concept 1 — Rings (Row, Merged).
@@ -42,6 +41,15 @@ function longDate(date: string): string {
   return `${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
 }
 
+/** The heading of each kind of moment, for focus on the way back to it. */
+const MOMENT_HEADING = {
+  followUp: "follow-up-question",
+  ready: "ready-title",
+  next: "next-step-title",
+  answered: "handoff-title",
+  done: "rings-hero-heading",
+} as const;
+
 /** Moves focus to a heading once the card it names has replaced the last. */
 function focusSoon(id: string) {
   setTimeout(() => document.getElementById(id)?.focus(), 0);
@@ -49,7 +57,9 @@ function focusSoon(id: string) {
 
 export function HomepageConcept1() {
   const loop = useLoop();
-  const [open, setOpen] = useState<Horizon | null>(null);
+  /* A ring the user tapped, kept only for the state it was tapped in, so a
+     new moment (or the dock's switcher) always opens on the moment. */
+  const [picked, setPicked] = useState<{ horizon: Horizon; state: string } | null>(null);
   const [showing, setShowing] = useState<string | null>(null);
 
   const rings = ringsFor(loop.records);
@@ -57,14 +67,14 @@ export function HomepageConcept1() {
   const plan = loop.account.plan;
   const due = dueFollowUps(loop.records, loop.today);
   const ready = loop.records.find((r) => r.state === "ready");
-  const openRing = rings.find((r) => r.horizon === open);
 
   const about = (record: LoopRecord, lead: (h: string) => string) => {
     const found = ringOf(rings, record.id);
     return found ? { lead: lead(found.ring.label), title: found.segment.action.title } : undefined;
   };
-  /** The ring the tray points at. */
+  /** The ring the moment belongs to, and what kind of moment it is. */
   let focus: Horizon | null = null;
+  let kind: keyof typeof C.backTo = "done";
 
   /* The one card the moment calls for. */
   let card: React.ReactNode = null;
@@ -81,6 +91,7 @@ export function HomepageConcept1() {
       lead = outcome.detail ? C.loggedDetail(outcome.detail) : C.loggedPlain(OUTCOME_READBACK[outcome.type]);
     }
     const step = outcome && outcome.type !== "no-response-yet" ? nextStepAfter(record) : loop.nextStep;
+    kind = "answered";
     card = (
       <>
         <NextStepCard
@@ -112,6 +123,7 @@ export function HomepageConcept1() {
     const record = due.find((r) => r.id === showing) ?? due[0];
     const other = due.find((r) => r.id !== record.id);
     focus = ringOf(rings, record.id)?.ring.horizon ?? null;
+    kind = "followUp";
     card = (
       <FollowUpCard
         record={record}
@@ -138,6 +150,7 @@ export function HomepageConcept1() {
     );
   } else if (ready) {
     focus = ringOf(rings, ready.id)?.ring.horizon ?? null;
+    kind = "ready";
     card = (
       <ReadyCard
         record={ready}
@@ -154,6 +167,7 @@ export function HomepageConcept1() {
   } else if (next) {
     const a = next.segment.action;
     focus = next.ring.horizon;
+    kind = "next";
     card = (
       <NextStepCard
         eyebrow={C.nextToFill(next.ring.label)}
@@ -166,6 +180,41 @@ export function HomepageConcept1() {
   } else {
     card = <p className="rings-hero__done">{C.allDone}</p>;
   }
+
+  /* A ring picked that isn't the moment's shows its own next action in the
+     tray, with a way back. The moment's ring always leads with the moment. */
+  const pick = picked && picked.state === loop.homeState && picked.horizon !== focus ? picked.horizon : null;
+  if (pick) {
+    const ring = rings.find((r) => r.horizon === pick)!;
+    const step = ring.segments.find((s) => !s.filled)?.action;
+    card = (
+      <>
+        <button
+          type="button"
+          className="link link--standalone home__back"
+          onClick={() => {
+            setPicked(null);
+            focusSoon(MOMENT_HEADING[kind]);
+          }}
+        >
+          {C.backTo[kind]}
+        </button>
+        {step ? (
+          <NextStepCard
+            eyebrow={C.nextIn(ring.label)}
+            title={step.title}
+            why={{ this: step.whyThis, now: step.whyNow, you: step.whyYou }}
+            whyStyle="folded"
+            href={TOOLBOX}
+            headingId="picked-title"
+          />
+        ) : (
+          <p className="rings-hero__done">{C.ringDone(ring.label)}</p>
+        )}
+      </>
+    );
+  }
+  const shownRing = pick ?? focus;
 
   const lastUsed = [...loop.records]
     .filter((r) => r.usedOn)
@@ -184,26 +233,19 @@ export function HomepageConcept1() {
           planLine={plan.name}
           direction={loop.account.towardShort ? C.toward(loop.account.towardShort) : undefined}
           startNote={loop.homeState === "first-return" ? C.startNote : undefined}
-          focus={focus}
-          open={open}
-          onToggle={(h) => {
-            const opening = open !== h;
-            setOpen(opening ? h : null);
-            if (opening) focusSoon("ring-detail-heading");
+          focus={shownRing}
+          onSelect={(h) => {
+            // Tapping the moment's ring, or the ring already shown, returns
+            // to the moment.
+            setPicked(h === focus || h === pick ? null : { horizon: h, state: loop.homeState });
           }}
           planHref={PLAN}
         >
           {card}
         </RingsHero>
-        {openRing ? (
-          <RingDetail
-            ring={openRing}
-            today={loop.today}
-            signals={[...new Set(openRing.segments.map((s) => s.action.signalId).filter(Boolean))]
-              .map((id) => signalById(id!))
-              .filter((s) => s !== undefined)}
-          />
-        ) : null}
+        <p className="u-visually-hidden" aria-live="polite">
+          {pick ? C.showing(rings.find((r) => r.horizon === pick)!.label) : ""}
+        </p>
         {loop.homeState === "nothing-pending" && lastUsed ? (
           <p className="home__last">
             {C.lastUsed}: <b>{lastUsed.title}</b>

@@ -17,9 +17,9 @@ const base = {
 /** The tray as the page fills it when the next step is the moment. Each
  *  variant gets its own heading id, since the catalogue shows them together. */
 let stepCount = 0;
-function step(title: string, a = ACTIONS[0], horizon = "Short-term") {
+function step(title: string, a = ACTIONS[0], horizon = "Short-term", eyebrow = `Next to fill · ${horizon}`) {
   return h(NextStepCard, {
-    eyebrow: `Next to fill · ${horizon}`,
+    eyebrow,
     title,
     why: { this: a.whyThis, now: a.whyNow, you: a.whyYou },
     whyStyle: "folded",
@@ -70,7 +70,15 @@ export const ringsHeroStates = defineComponentStates({
     { label: "Follow-up due, part confirmed", props: forState("follow-up-due") },
     { label: "Nothing pending, short and medium confirmed", props: forState("nothing-pending") },
     { label: "Every action confirmed", description: "No next action left: nothing celebrates, it just says so.", props: allDone },
-    { label: "A ring opened", props: { ...forState("follow-up-due"), open: "short" } },
+    {
+      label: "Another ring picked",
+      description: "Tapping a ring that isn’t the moment’s puts its next action in the tray, with a way back; the notch moves to it.",
+      props: {
+        ...forState("follow-up-due"),
+        focus: "long",
+        children: step(ACTIONS.find((a) => a.id === "scope-case")!.title, ACTIONS.find((a) => a.id === "scope-case")!, "Long-term", "Next in long-term"),
+      },
+    },
     {
       label: "A long action title wraps",
       props: { ...forState("first-return"), children: step("Use your leadership story to open your next 1:1 with your manager, before the planning cycle") },

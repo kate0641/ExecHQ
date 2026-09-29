@@ -3887,6 +3887,10 @@ ul.rings-hero__row {
   outline-color: var(--color-focus);
 }
 
+.rings-hero__tray > .home__back {
+  margin-bottom: var(--space-sm);
+}
+
 .rings-hero__tray > .home__another {
   margin-top: var(--space-md);
 }
