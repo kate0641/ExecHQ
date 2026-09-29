@@ -72,6 +72,28 @@ export const WEBSITE_STUB = {
   },
 } as const;
 
+/* Concept 3's simpler version: one row per account, a finding and the one
+   thing to try, no numbers grid or chart (decided 2026-09-29). */
+export const ACCOUNTS_ROWS = {
+  heading: "What your accounts say",
+  linkedIn: {
+    eyebrow: (date: string) => `LinkedIn · uploaded ${date}`,
+    finding: "Your planning post reached twice as many directors and above as usual",
+    tryThis: "Try: one post a month about the planning work",
+    offEyebrow: "LinkedIn · not connected",
+    offTitle: "See who your posts reach",
+    offDetail: "Upload your analytics export in Profile",
+  },
+  website: {
+    eyebrow: (date: string) => `Your website · read ${date}`,
+    finding: "Your site still calls you a “campaign lead”",
+    tryThis: "Try: open your About page with what you lead",
+    offEyebrow: "Your website · not connected",
+    offTitle: "See how your site describes you",
+    offDetail: "Add its address in Profile",
+  },
+} as const;
+
 /** What the dock's toggle records as the source when it connects both. */
 export const DEMO_SOURCES = {
   linkedin: "LinkedIn analytics export, October 2026",

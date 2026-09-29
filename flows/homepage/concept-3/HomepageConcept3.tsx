@@ -1,18 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { BriefingEntry } from "@/components/homepage/BriefingEntry";
+import { EntryLink } from "@/components/homepage/EntryLink";
 import { FollowUpCard } from "@/components/homepage/FollowUpCard";
 import { NextStepCard } from "@/components/homepage/NextStepCard";
 import { ReadyCard } from "@/components/homepage/ReadyCard";
-import { RecentWork } from "@/components/homepage/RecentWork";
 import { StageActions } from "@/components/homepage/StageActions";
 import { StageTrack } from "@/components/homepage/StageTrack";
-import { addDays, aheadPhrase, dueFollowUps, type LoopRecord } from "@/lib/loop";
+import { addDays, aheadPhrase, dueFollowUps, shortDate, type LoopRecord } from "@/lib/loop";
 import { loopActions, nextStepAfter, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { currentStageIndex } from "@/lib/rings";
-import { HOME_COPY as C } from "@/mock/homepage";
+import { ACCOUNTS_ROWS as AR } from "@/mock/accounts-stub";
+import { BRIEFING_STUB as B, HOME_COPY as C } from "@/mock/homepage";
 import { ARTIFACT_KINDS, FOLLOW_UP_POLICY, OUTCOME_READBACK } from "@/mock/loop";
 import { ACTIONS, HORIZONS, ROADMAP, actionById } from "@/mock/plan-stub";
 
@@ -22,8 +22,10 @@ import { ACTIONS, HORIZONS, ROADMAP, actionById } from "@/mock/plan-stub";
  * Plan forward. The roadmap as a table of contents, with the current stage
  * opened up — you are here, and what it asks now — then the focal item: a
  * follow-up due (naming the action it belongs to), then something ready but
- * not used, then the next step. Then the stage's other live actions, the
- * Briefing, and the user's work.
+ * not used, then the next step. Then the stage's other live actions; then,
+ * beside them on web, today's Briefing with its lead read and why it
+ * matters, and what her LinkedIn and website say — one row each, a finding
+ * and the one thing to try (2026-09-29; no "Your work" list).
  *
  * Kept apart from the Plan tab: only the current stage and what to do next.
  * No full roadmap detail, milestones or history; "See full plan" goes there.
@@ -37,6 +39,7 @@ import { ACTIONS, HORIZONS, ROADMAP, actionById } from "@/mock/plan-stub";
 const TOOLBOX = conceptHref("toolbox-flow", "concept-1");
 const PLAN = conceptHref("plan", "concept-1");
 const BRIEFING = conceptHref("daily-briefing", "concept-1");
+const PROFILE = conceptHref("profile", "concept-1");
 const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const MAX_ACTIONS = 5;
@@ -167,6 +170,9 @@ export function HomepageConcept3() {
     );
   }
 
+  const linkedIn = loop.account.connections.find((c) => c.id === "linkedin");
+  const website = loop.account.connections.find((c) => c.id === "website");
+
   const rest = live
     .filter((a) => a.id !== focalAction && a.stage === current)
     .map((action) => ({ action, record: loop.records.find((r) => r.id === action.artifactId) }));
@@ -192,8 +198,54 @@ export function HomepageConcept3() {
         <StageActions heading={`Also in ${stage.title}`} items={rest} />
       </div>
       <div className="home__side">
-        <BriefingEntry href={BRIEFING} />
-        <RecentWork records={loop.records} hrefFor={() => TOOLBOX} />
+        <EntryLink
+          href={BRIEFING}
+          icon="briefing"
+          eyebrow={B.eyebrow(B.reads)}
+          title={B.lead}
+          detail={B.why}
+        />
+        {/* Her accounts, one row each: a finding and the one thing to try.
+            Simpler than Concept 2's cards on purpose. */}
+        <section className="c3-accounts" aria-labelledby="c3-accounts-heading">
+          <h2 className="c3-accounts__heading" id="c3-accounts-heading">
+            {AR.heading}
+          </h2>
+          {linkedIn?.connected && linkedIn.connectedOn ? (
+            <EntryLink
+              href={TOOLBOX}
+              icon="linkedin"
+              eyebrow={AR.linkedIn.eyebrow(shortDate(linkedIn.connectedOn))}
+              title={AR.linkedIn.finding}
+              detail={AR.linkedIn.tryThis}
+            />
+          ) : (
+            <EntryLink
+              href={PROFILE}
+              icon="linkedin"
+              eyebrow={AR.linkedIn.offEyebrow}
+              title={AR.linkedIn.offTitle}
+              detail={AR.linkedIn.offDetail}
+            />
+          )}
+          {website?.connected && website.connectedOn ? (
+            <EntryLink
+              href={TOOLBOX}
+              icon="globe"
+              eyebrow={AR.website.eyebrow(shortDate(website.connectedOn))}
+              title={AR.website.finding}
+              detail={AR.website.tryThis}
+            />
+          ) : (
+            <EntryLink
+              href={PROFILE}
+              icon="globe"
+              eyebrow={AR.website.offEyebrow}
+              title={AR.website.offTitle}
+              detail={AR.website.offDetail}
+            />
+          )}
+        </section>
       </div>
     </div>
   );
