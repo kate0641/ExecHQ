@@ -49,7 +49,7 @@ const ONBOARDING = conceptHref("onboarding", "concept-1");
 const HEADING = "login-heading";
 
 type Screen = "sign-in" | "inbox" | "expired" | "other-account";
-type SheetId = Provider | "email" | "recovery" | null;
+type SheetId = Provider | "email" | "recovery" | "private" | null;
 
 export function LoginConcept1() {
   const router = useRouter();
@@ -134,6 +134,26 @@ export function LoginConcept1() {
         />
       );
     }
+    if (sheet === "private") {
+      return (
+        <DetailPanel heading={C.private.heading} headingId="login-sheet-heading" onClose={() => setSheet(null)}>
+          <ul className="login__never">
+            {C.private.rows.map((row) => (
+              <li key={row.who}>
+                <Icon name="close" size={16} />
+                <span>
+                  <b>{row.who}</b>
+                  {row.body}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <Button variant="secondary" fullWidth onClick={() => setSheet(null)}>
+            {C.private.close}
+          </Button>
+        </DetailPanel>
+      );
+    }
     if (sheet === "recovery") {
       return (
         <DetailPanel heading={C.recovery.heading} headingId="login-sheet-heading" onClose={() => setSheet(null)}>
@@ -170,9 +190,11 @@ export function LoginConcept1() {
       ? C.email.subject
       : sheet === "recovery"
         ? C.recovery.heading
-        : sheet
-          ? C.picker.heading(C.signIn.providers[sheet])
-          : "";
+        : sheet === "private"
+          ? C.private.heading
+          : sheet
+            ? C.picker.heading(C.signIn.providers[sheet])
+            : "";
 
   let body: React.ReactNode;
 
@@ -216,7 +238,7 @@ export function LoginConcept1() {
         </form>
         <p className="login__or">{C.signIn.or}</p>
         <ProviderButtons onChoose={(p) => setSheet(p)} />
-        <div className="login__foot">
+        <div className="login__foot login__foot--centre">
           <p className="login__small">
             {C.signIn.newHere}{" "}
             <Link className="login__link" href={ONBOARDING}>
@@ -225,7 +247,10 @@ export function LoginConcept1() {
           </p>
           <p className="login__privacy">
             <Icon name="lock" size={16} />
-            <span>{C.signIn.privacy}</span>
+            <span>{C.private.line}</span>{" "}
+            <button type="button" className="login__link" onClick={() => setSheet("private")}>
+              {C.private.more}
+            </button>
           </p>
         </div>
       </>

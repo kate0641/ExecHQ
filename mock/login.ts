@@ -58,7 +58,6 @@ export const LOGIN_COPY = {
     providerLabel: (name: string) => `Continue with ${name}`,
     newHere: "New to ExecHQ?",
     start: "Start here",
-    privacy: "Private to you. Nothing here is visible to your employer.",
     empty: "Enter your email address to get a login link.",
     malformed: "That doesn’t look like an email address. Check it and try again.",
   },
@@ -112,6 +111,19 @@ export const LOGIN_COPY = {
   picker: {
     heading: (name: string) => `Continue with ${name}`,
     lede: (name: string) => `In the product, ${name}’s own window opens here. This stands in for it.`,
+  },
+
+  /** The line at the foot of the page, and what "Learn more" opens. */
+  private: {
+    line: "Private to you.",
+    more: "Learn more",
+    heading: "Only you see this",
+    rows: [
+      { who: "Your employer", body: "Can’t see that you have an account, or anything in it." },
+      { who: "Your colleagues", body: "Nothing is shared with the people you work with." },
+      { who: "Your network", body: "Nothing is posted, and no one is told you’re here." },
+    ],
+    close: "Got it",
   },
 
   recovery: {

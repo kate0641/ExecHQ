@@ -11654,9 +11654,15 @@ ul.stage-actions__list {
   color: var(--color-text-secondary);
 }
 
+.login__foot--centre {
+  align-items: center;
+  text-align: center;
+}
+
 .login__privacy {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
   gap: var(--space-xs);
   margin: 0;
   font-size: var(--text-xs);
@@ -11665,8 +11671,37 @@ ul.stage-actions__list {
 
 .login__privacy .icon {
   flex: none;
-  margin-top: var(--space-3xs);
   color: var(--color-accent);
+}
+
+/* What "Learn more" opens: who does not see the account. */
+ul.login__never {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.login__never li {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: flex-start;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.login__never .icon {
+  flex: none;
+  margin-top: var(--space-3xs);
+  color: var(--color-text-muted);
+}
+
+.login__never b {
+  display: block;
+  font-size: var(--text-md);
+  color: var(--color-text-primary);
 }
 
 .login__link {
