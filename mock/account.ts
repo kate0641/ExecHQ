@@ -33,6 +33,10 @@ export interface Account {
   name?: string;
   /** Her direction, in her own words from onboarding. */
   direction: string;
+  /** The same direction, short enough to follow "toward" on the homepage:
+   *  "leading a broader marketing organisation". Written by hand in the
+   *  prototype; the product needs a way to make it from her words. */
+  towardShort?: string;
   plan: {
     id: string;
     name: string;
@@ -62,6 +66,7 @@ export const MAYA: Account = {
   name: "Maya",
   direction:
     "I want to move from running campaigns to leading a broader marketing organisation.",
+  towardShort: "leading a broader marketing organisation",
   plan: {
     id: "leadership-scope",
     name: "Step up",

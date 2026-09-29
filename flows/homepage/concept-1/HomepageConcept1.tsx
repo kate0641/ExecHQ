@@ -17,12 +17,14 @@ import { ARTIFACT_KINDS, FOLLOW_UP_POLICY, OUTCOME_READBACK } from "@/mock/loop"
 import { signalById, type Horizon } from "@/mock/plan-stub";
 
 /**
- * Homepage Concept 1 — Rings (Row).
+ * Homepage Concept 1 — Rings (Row, Merged).
  *
- * Task forward. The rings and the one action that fills the next segment
- * lead; then the one card the moment calls for — a follow-up due, then
- * something ready but not used, then the next step — then the Briefing, then
- * the user's work.
+ * Task forward. One card leads: the greeting, the plan and where it's
+ * heading, the rings, and in a tray beneath them the one thing the moment
+ * calls for — a follow-up due, then something ready but not used, then the
+ * next step — with the tray's notch on the ring it belongs to. Then the
+ * Briefing, then the user's work. Chosen 2026-09-29 from Merged, Tethered
+ * and Selector.
  *
  * Everything reads the live Loop, so answering the follow-up here moves the
  * page (and the dock's state switcher) to just-answered, and fills nothing:
@@ -61,6 +63,8 @@ export function HomepageConcept1() {
     const found = ringOf(rings, record.id);
     return found ? { lead: lead(found.ring.label), title: found.segment.action.title } : undefined;
   };
+  /** The ring the tray points at. */
+  let focus: Horizon | null = null;
 
   /* The one card the moment calls for. */
   let card: React.ReactNode = null;
@@ -84,6 +88,7 @@ export function HomepageConcept1() {
           eyebrow="Next"
           title={step?.title ?? "Pick your next step from your plan"}
           why={{ now: step?.why }}
+          whyStyle="folded"
           href={TOOLBOX}
           stubbed
           headingId="handoff-title"
@@ -106,6 +111,7 @@ export function HomepageConcept1() {
   } else if (due.length) {
     const record = due.find((r) => r.id === showing) ?? due[0];
     const other = due.find((r) => r.id !== record.id);
+    focus = ringOf(rings, record.id)?.ring.horizon ?? null;
     card = (
       <FollowUpCard
         record={record}
@@ -130,6 +136,7 @@ export function HomepageConcept1() {
       />
     );
   } else if (ready) {
+    focus = ringOf(rings, ready.id)?.ring.horizon ?? null;
     card = (
       <ReadyCard
         record={ready}
@@ -144,15 +151,18 @@ export function HomepageConcept1() {
     );
   } else if (next) {
     const a = next.segment.action;
+    focus = next.ring.horizon;
     card = (
       <NextStepCard
-        eyebrow="Why this one"
+        eyebrow={C.nextToFill(next.ring.label)}
         title={a.title}
-        titleHidden
         why={{ this: a.whyThis, now: a.whyNow, you: a.whyYou }}
+        whyStyle="folded"
         href={TOOLBOX}
       />
     );
+  } else {
+    card = <p className="rings-hero__done">{C.allDone}</p>;
   }
 
   const lastUsed = [...loop.records]
@@ -170,17 +180,19 @@ export function HomepageConcept1() {
           greeting={C.greeting(loop.account.name ?? "")}
           date={longDate(loop.today)}
           planLine={plan.name}
-          planName={plan.formalName}
+          direction={loop.account.towardShort ? C.toward(loop.account.towardShort) : undefined}
           startNote={loop.homeState === "first-return" ? C.startNote : undefined}
+          focus={focus}
           open={open}
           onToggle={(h) => {
             const opening = open !== h;
             setOpen(opening ? h : null);
             if (opening) focusSoon("ring-detail-heading");
           }}
-          startHref={TOOLBOX}
           planHref={PLAN}
-        />
+        >
+          {card}
+        </RingsHero>
         {openRing ? (
           <RingDetail
             ring={openRing}
@@ -190,7 +202,6 @@ export function HomepageConcept1() {
               .filter((s) => s !== undefined)}
           />
         ) : null}
-        {card}
         {loop.homeState === "nothing-pending" && lastUsed ? (
           <p className="home__last">
             {C.lastUsed}: <b>{lastUsed.title}</b>
