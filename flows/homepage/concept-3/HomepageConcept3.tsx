@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { BriefingEditorial } from "@/components/homepage/BriefingEditorial";
 import { EntryLink } from "@/components/homepage/EntryLink";
 import { FollowUpCard } from "@/components/homepage/FollowUpCard";
 import { LoopRow } from "@/components/homepage/LoopRow";
@@ -25,8 +26,9 @@ import { ACTIONS, HORIZONS, ROADMAP, actionById } from "@/mock/plan-stub";
  * step and the stage it belongs to; then "Stay on track", whatever is
  * waiting on her word (as in Concept 2, decided 2026-09-29); then the
  * stage's other actions, each a way in with what's next. Then,
- * beside them on web, today's Briefing with its lead read and why it
- * matters, and what her LinkedIn and website say — one row each, a finding
+ * beside them on web, today's Briefing as a page of reading (Editorial,
+ * 2026-09-29: the lead headline in the serif, why it matters as a tag), and
+ * what her LinkedIn and website say — one row each, a finding
  * and the one thing to try (2026-09-29; no "Your work" list).
  *
  * Kept apart from the Plan tab: only the current stage and what to do next.
@@ -52,6 +54,12 @@ function longDate(date: string): string {
 }
 
 const capitalise = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
+
+/** "Tue 20 Oct", for the Briefing's top line. */
+function shortDay(date: string): string {
+  const d = new Date(`${date}T00:00:00Z`);
+  return `${WEEKDAYS[d.getUTCDay()].slice(0, 3)} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()].slice(0, 3)}`;
+}
 
 /** Moves focus to a heading once the card it names has replaced the last. */
 function focusSoon(id: string) {
@@ -224,12 +232,12 @@ export function HomepageConcept3() {
         <StageActions heading={C3.alsoIn(stage.title)} items={rest} href={TOOLBOX} />
       </div>
       <div className="home__side">
-        <EntryLink
+        <BriefingEditorial
           href={BRIEFING}
-          icon="briefing"
-          eyebrow={B.eyebrow(B.reads)}
-          title={B.lead}
-          detail={B.why}
+          heading={B.heading}
+          meta={B.meta(shortDay(loop.today), B.reads)}
+          lead={B.lead}
+          tag={B.tag}
         />
         {/* Her accounts, one row each: a finding and the one thing to try.
             Simpler than Concept 2's cards on purpose. */}

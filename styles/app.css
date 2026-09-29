@@ -9571,6 +9571,93 @@ ol.signal__list {
   color: var(--color-text-inverse-muted);
 }
 
+/* Today's Briefing, editorial (Concept 3): the headline in the serif under a
+   thin top rule, so it reads as reading, apart from the plan. */
+
+.briefing-editorial {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-md) var(--space-md) var(--space-sm);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-top: var(--border-width-thick) solid var(--color-text-primary);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-raised);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  transition: border-color var(--duration-fast) var(--easing-standard), transform var(--duration-fast) var(--easing-standard);
+}
+
+.briefing-editorial:hover,
+.briefing-editorial.is-hover {
+  border-color: var(--color-border-strong);
+  border-top-color: var(--color-text-primary);
+}
+
+.briefing-editorial:active,
+.briefing-editorial.is-active {
+  transform: scale(0.99);
+}
+
+.briefing-editorial:focus-visible,
+.briefing-editorial.is-focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.briefing-editorial__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3xs) var(--space-sm);
+}
+
+.briefing-editorial__heading {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.briefing-editorial__meta {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.briefing-editorial__lead {
+  font-family: var(--font-serif);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-normal);
+  text-wrap: balance;
+}
+
+.briefing-editorial__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.briefing-editorial__tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 var(--space-sm);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-sunken);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.briefing-editorial__go {
+  flex: none;
+  color: var(--color-text-muted);
+}
+
 /* Concept 3's accounts: one row each, under a small heading. */
 
 .c3-accounts {

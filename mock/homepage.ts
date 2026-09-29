@@ -276,6 +276,8 @@ export const BRIEFING_STUB = {
   ],
   heading: "Today’s Briefing",
   meta: (date: string, reads: number) => `${date} · ${reads} reads`,
+  /** The why, short enough for a tag (Concept 3). */
+  tag: "For your Q1 planning review",
   open: "Read today’s Briefing",
   close: "Close today’s Briefing. It comes back tomorrow.",
 } as const;
