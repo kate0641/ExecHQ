@@ -13,7 +13,7 @@ export interface PlanSummaryCardProps {
   formalName?: string;
   thisWeekLabel: string;
   thisWeek?: string;
-  /** The line over the stages, e.g. "The next 12 weeks, toward …". */
+  /** The line over the stages, e.g. "Stage by stage, toward …". */
   toward?: ReactNode;
   stages: readonly PlanSummaryStage[];
   /** Marks the first stage as the current one. */

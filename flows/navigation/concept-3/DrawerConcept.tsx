@@ -4,10 +4,11 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { DrawerNav } from "@/components/navigation/DrawerNav";
 import { MenuButton } from "@/components/navigation/MenuButton";
-import { daysBetween } from "@/lib/loop";
 import { useLoop, type LoopView } from "@/lib/loop-store";
+import { currentStageIndex } from "@/lib/rings";
 import { useViewport } from "@/lib/viewport-context";
 import { DRAWER_COPY } from "@/mock/navigation";
+import { ROADMAP } from "@/mock/plan-stub";
 import type { NavConceptProps } from "../types";
 
 /**
@@ -61,14 +62,14 @@ function linesFor(loop: LoopView): Partial<Record<string, string>> {
   const { lines } = DRAWER_COPY;
   const openDraft = loop.records.find((r) => r.state === "drafted" || r.state === "in-progress");
   const plan = loop.account.plan;
-  const week = Math.min(plan.weeks, Math.floor(daysBetween(plan.startedOn, loop.today) / 7) + 1);
+  const stage = ROADMAP[currentStageIndex(loop.records, ROADMAP.length)];
   return {
     homepage: loop.followUp
       ? lines.homeDue(loop.followUp.name)
       : loop.nextStep
         ? lines.homeNext(loop.nextStep.title)
         : undefined,
-    plan: lines.plan(plan.name, week, plan.weeks),
+    plan: lines.plan(plan.name, stage.title),
     toolbox: openDraft ? lines.toolboxOpen(openDraft.title) : lines.toolbox,
     "daily-briefing": lines.briefing(WEEKDAYS[new Date(`${loop.today}T00:00:00Z`).getUTCDay()]),
     profile: loop.account.email,

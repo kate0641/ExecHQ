@@ -29,7 +29,7 @@ export const settingsRowStates = defineComponentStates({
     },
     { label: "Without a value — none", props: { icon: "download", label: R.export, onOpen: noop } },
     { label: "Danger", props: { icon: "trash", label: R.delete, tone: "danger", onOpen: noop } },
-    { label: "Goes to a page", props: { icon: "flag", label: R.plan, value: R.planValue("Step up", 3), href: "/plan/concept-1" } },
+    { label: "Goes to a page", props: { icon: "flag", label: R.plan, value: R.planValue("Step up", "Increase leadership scope"), href: "/plan/concept-1" } },
     { label: "Read only", props: { kind: "static", icon: "mail", label: R.email, value: "maya.chen@example.com" } },
     {
       label: "Switch — on",

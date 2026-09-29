@@ -8,12 +8,13 @@ import { ReadyCard } from "@/components/homepage/ReadyCard";
 import { RecentWork } from "@/components/homepage/RecentWork";
 import { StageActions } from "@/components/homepage/StageActions";
 import { StageTrack } from "@/components/homepage/StageTrack";
-import { addDays, aheadPhrase, daysBetween, dueFollowUps, type LoopRecord } from "@/lib/loop";
+import { addDays, aheadPhrase, dueFollowUps, type LoopRecord } from "@/lib/loop";
 import { loopActions, nextStepAfter, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
+import { currentStageIndex } from "@/lib/rings";
 import { HOME_COPY as C } from "@/mock/homepage";
 import { ARTIFACT_KINDS, FOLLOW_UP_POLICY, OUTCOME_READBACK } from "@/mock/loop";
-import { ACTIONS, HORIZONS, ROADMAP, actionById, currentStage } from "@/mock/plan-stub";
+import { ACTIONS, HORIZONS, ROADMAP, actionById } from "@/mock/plan-stub";
 
 /**
  * Homepage Concept 3 — Plan (Chapters).
@@ -54,8 +55,8 @@ export function HomepageConcept3() {
   const [showing, setShowing] = useState<string | null>(null);
 
   const plan = loop.account.plan;
-  const week = Math.max(1, Math.floor(daysBetween(plan.startedOn, loop.today) / 7) + 1);
-  const stage = currentStage(week);
+  const current = currentStageIndex(loop.records, ROADMAP.length);
+  const stage = ROADMAP[current];
   const due = dueFollowUps(loop.records, loop.today);
   const ready = loop.records.find((r) => r.state === "ready");
   const live = ACTIONS.filter((a) => a.status === "accepted").slice(0, MAX_ACTIONS);
@@ -166,7 +167,7 @@ export function HomepageConcept3() {
   }
 
   const rest = live
-    .filter((a) => a.id !== focalAction)
+    .filter((a) => a.id !== focalAction && a.stage === current)
     .map((action) => ({ action, record: loop.records.find((r) => r.id === action.artifactId) }));
 
   return (
@@ -184,9 +185,8 @@ export function HomepageConcept3() {
         </div>
         <StageTrack
           stages={ROADMAP}
-          current={ROADMAP.indexOf(stage)}
+          current={current}
           planName={plan.name}
-          weekLine={week <= plan.weeks ? `week ${week} of ${plan.weeks}` : `week ${week}`}
           planHref={PLAN}
         />
         {card}

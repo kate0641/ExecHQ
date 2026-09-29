@@ -37,10 +37,8 @@ export interface Account {
     id: string;
     name: string;
     formalName: string;
-    /** When the plan began, for "Week 3 of 12". */
+    /** When the plan began. It has no end date (decided 2026-09-29). */
     startedOn: string;
-    /** How many weeks it runs. */
-    weeks: number;
   };
   connections: Connection[];
   /** Loop follow-ups by email. Off means they only appear on Home. */
@@ -69,7 +67,6 @@ export const MAYA: Account = {
     name: "Step up",
     formalName: "Increase leadership scope",
     startedOn: "2026-10-05",
-    weeks: 12,
   },
   connections: [
     {

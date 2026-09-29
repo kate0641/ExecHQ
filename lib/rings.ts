@@ -92,3 +92,16 @@ export function ringOf(rings: Ring[], recordId: string): { ring: Ring; segment: 
   }
   return undefined;
 }
+
+/**
+ * Where the user is on the roadmap, from progress rather than a calendar: the
+ * first stage holding an accepted action the Loop hasn't confirmed. Once
+ * everything accepted is confirmed, the stage after the last one worked in.
+ */
+export function currentStageIndex(records: LoopRecord[], stageCount: number, actions: LandscapeAction[] = ACTIONS): number {
+  const accepted = actions.filter((a) => a.status === "accepted");
+  const open = accepted.filter((a) => !isConfirmed(a.artifactId ? records.find((r) => r.id === a.artifactId) : undefined));
+  if (open.length) return Math.min(...open.map((a) => a.stage));
+  const last = accepted.length ? Math.max(...accepted.map((a) => a.stage)) : -1;
+  return Math.min(last + 1, stageCount - 1);
+}

@@ -885,7 +885,7 @@ export function OnboardingConcept2() {
         }
         stages={plan.stages ?? []}
         nowLabel={PLAN_C1.now}
-        detailsLabel={plan.horizon === "The next 12 weeks" ? CHAT_C2.planFullWeeks : CHAT_C2.planFull}
+        detailsLabel={CHAT_C2.planFull}
         onDetails={() => setSheetPlan(plan.id)}
       />
     );

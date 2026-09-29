@@ -14,7 +14,6 @@ import { SettingsGroup } from "@/components/profile/SettingsGroup";
 import { SettingsRow } from "@/components/profile/SettingsRow";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
-import { daysBetween } from "@/lib/loop";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { useViewport } from "@/lib/viewport-context";
@@ -120,7 +119,6 @@ export function ProfileConcept1() {
   const web = viewport === "web";
   const account = loop.account;
   const plan = account.plan;
-  const week = Math.min(plan.weeks, Math.floor(daysBetween(plan.startedOn, loop.today) / 7) + 1);
 
   /** The sheet open on mobile and tablet. */
   const [open, setOpen] = useState<ProfileDetailId | null>(null);
@@ -293,7 +291,7 @@ export function ProfileConcept1() {
               onOpen={() => show("direction")}
               current={current("direction")}
             />
-            <SettingsRow icon="flag" label={R.plan} value={R.planValue(plan.name, week)} href={PLAN} />
+            <SettingsRow icon="flag" label={R.plan} value={R.planValue(plan.name, plan.formalName)} href={PLAN} />
             <SettingsRow kind="static" icon="mail" label={R.email} value={account.email} />
           </SettingsGroup>
 

@@ -28,13 +28,13 @@ export const planSummaryCardStates = defineComponentStates({
         thisWeek: first.thisWeek?.title,
         toward: `${first.horizon}, toward the C-suite in 3 years`,
         stages: first.stages ?? [],
-        detailsLabel: CHAT_C2.planFullWeeks,
+        detailsLabel: CHAT_C2.planFull,
         onDetails: noop,
       },
     },
     {
       label: "Working toward a date",
-      description: "A plan without a 12-week span links to the full plan instead.",
+      description: "A plan working toward a date names its stages around that date.",
       props: {
         ...base,
         name: moment.name,

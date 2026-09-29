@@ -54,13 +54,20 @@ export interface LandscapeAction {
   artifactId?: string;
   /** The signal this action moves. */
   signalId?: string;
+  /** The roadmap stage it belongs to, from 0. Decided 2026-09-29: every
+   *  action sits in a stage, so the homepage can show the current stage's
+   *  actions, and the current stage comes from progress, never a calendar. */
+  stage: number;
 }
 
+/**
+ * A stage of the roadmap. No dates and no week windows: by decision on
+ * 2026-09-29 a plan has no end date, so stages are an order, not a schedule.
+ * The current one is the first with an accepted action the Loop hasn't
+ * confirmed (`currentStageIndex` in `lib/rings.ts`).
+ */
 export interface RoadmapStage {
   title: string;
-  window: string;
-  /** The weeks it spans, for finding the current stage. */
-  weeks: [number, number];
   /** What the stage asks of the user, in one line. Shown only while it is
    *  the current stage (Homepage Concept 3). */
   asks: string;
@@ -68,16 +75,11 @@ export interface RoadmapStage {
 
 /** Increase Leadership Scope, in four stages. */
 export const ROADMAP: RoadmapStage[] = [
-  { title: "Say what you lead", window: "Weeks 1–2", weeks: [1, 2], asks: "Put what you lead into words, and say it to the person who decides." },
-  { title: "Show the proof", window: "Weeks 3–6", weeks: [3, 6], asks: "Back up what you lead with work the people above you can see." },
-  { title: "Get in front of the deciders", window: "Weeks 7–12", weeks: [7, 12], asks: "Put your case in front of the people who decide on scope." },
-  { title: "Make the case", window: "After week 12", weeks: [13, 52], asks: "Ask for the broader role, with the record to back it." },
+  { title: "Say what you lead", asks: "Put what you lead into words, and say it to the person who decides." },
+  { title: "Show the proof", asks: "Back up what you lead with work the people above you can see." },
+  { title: "Get in front of the deciders", asks: "Put your case in front of the people who decide on scope." },
+  { title: "Make the case", asks: "Ask for the broader role, with the record to back it." },
 ];
-
-/** The stage a given week of the plan falls in. */
-export function currentStage(week: number): RoadmapStage {
-  return ROADMAP.find((s) => week >= s.weeks[0] && week <= s.weeks[1]) ?? ROADMAP[ROADMAP.length - 1];
-}
 
 export const SIGNALS: TrackedSignal[] = [
   {
@@ -114,6 +116,7 @@ export const ACTIONS: LandscapeAction[] = [
     whyYou: "You want to move from running campaigns to leading a broader marketing organisation.",
     artifactId: "story",
     signalId: "seen-as-leader",
+    stage: 0,
   },
   {
     id: "brief-manager",
@@ -125,6 +128,7 @@ export const ACTIONS: LandscapeAction[] = [
     whyYou: "You’re in the Show the proof stage of your plan.",
     artifactId: "check-in-brief",
     signalId: "decider-access",
+    stage: 1,
   },
   {
     id: "add-wins",
@@ -134,6 +138,7 @@ export const ACTIONS: LandscapeAction[] = [
     whyThis: "Every draft after this one gets sharper.",
     whyNow: "Five minutes, whenever suits.",
     whyYou: "You said the results are there.",
+    stage: 1,
   },
   {
     id: "q1-review",
@@ -145,6 +150,7 @@ export const ACTIONS: LandscapeAction[] = [
     whyYou: "Your manager already knows your planning work.",
     artifactId: "pitch",
     signalId: "broader-remit",
+    stage: 1,
   },
   {
     id: "cross-functional",
@@ -154,6 +160,7 @@ export const ACTIONS: LandscapeAction[] = [
     whyThis: "A visible project across teams shows scope before you have it.",
     whyNow: "Planning season is when new work gets handed out.",
     whyYou: "You said you want a broader remit.",
+    stage: 1,
   },
   {
     id: "scope-case",
@@ -164,6 +171,7 @@ export const ACTIONS: LandscapeAction[] = [
     whyNow: "The next planning cycle starts in January.",
     whyYou: "You said the results are there; the case is what’s missing.",
     signalId: "broader-remit",
+    stage: 3,
   },
 ];
 

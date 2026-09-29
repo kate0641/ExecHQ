@@ -44,7 +44,7 @@ export const PROFILE_COPY = {
     direction: "Direction",
     directionValue: "In your words",
     plan: "Plan",
-    planValue: (name: string, week: number) => `${name} · Week ${week}`,
+    planValue: (name: string, formalName: string) => `${name} · ${formalName}`,
     email: "Email",
     connected: "Connected",
     notConnected: "Not connected",

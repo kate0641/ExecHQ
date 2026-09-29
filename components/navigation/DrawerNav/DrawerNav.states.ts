@@ -7,7 +7,7 @@ const items = navForChrome("app");
 const account = { name: "Maya", email: "maya.chen@example.com" };
 const lines = {
   homepage: "A question about your leadership story",
-  plan: "Step up · Week 3 of 12",
+  plan: "Step up · Show the proof",
   toolbox: "Open: Brief for your manager check-in",
   "daily-briefing": "Three reads for Tuesday",
   profile: "maya.chen@example.com",

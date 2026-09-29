@@ -9,8 +9,6 @@ export interface StageTrackProps {
   current: number;
   /** "Step up". */
   planName: string;
-  /** "Week 3 of 12". */
-  weekLine: string;
   /** The Plan destination. Stubbed until Sprint 3. */
   planHref: string;
   planLabel?: string;
@@ -34,7 +32,6 @@ export function StageTrack({
   stages,
   current,
   planName,
-  weekLine,
   planHref,
   planLabel = "See full plan",
   headingId = "stage-track",
@@ -58,9 +55,6 @@ export function StageTrack({
               <li key={stage.title} className="stage-track__stage is-current" aria-current="step">
                 <span className="stage-track__here">
                   <span className="stage-track__chip">You are here</span>
-                  <span>
-                    {stage.window} · {weekLine}
-                  </span>
                 </span>
                 <span className="stage-track__row">
                   <span className="stage-track__big-n" aria-hidden="true">

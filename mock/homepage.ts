@@ -226,7 +226,6 @@ export function homeStateOf(snapshot: Pick<Snapshot, "records" | "justAnswered">
  *  "Welcome back!", no counts of what's waiting. */
 export const HOME_COPY = {
   greeting: (name: string) => `Good morning, ${name}`,
-  planLine: (plan: string, week: number, weeks: number) => `${plan} · Week ${week} of ${weeks}`,
   startNote: "Four actions on your plan. Each segment fills when you use the work it asks for.",
   confirms: (horizon: string) => `Confirms your ${horizon.toLowerCase()} action`,
   forAction: (horizon: string) => `For your ${horizon.toLowerCase()} action`,

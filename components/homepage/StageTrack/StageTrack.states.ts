@@ -25,9 +25,9 @@ export const stageTrackStates = defineComponentStates({
     filled: NOT_AN_INPUT,
   },
   variants: [
-    { label: "Second stage, first done — default", props: { ...base, current: 1, weekLine: "week 3 of 12", headingId: "st-demo-1" } },
-    { label: "First stage, plan just started", props: { ...base, current: 0, weekLine: "week 1 of 12", headingId: "st-demo-0" } },
-    { label: "Last stage, all before it done", props: { ...base, current: 3, weekLine: "week 14", headingId: "st-demo-3" } },
+    { label: "Second stage, first done — default", props: { ...base, current: 1, headingId: "st-demo-1" } },
+    { label: "First stage, plan just started", props: { ...base, current: 0, headingId: "st-demo-0" } },
+    { label: "Last stage, all before it done", props: { ...base, current: 3, headingId: "st-demo-3" } },
     {
       label: "Long stage names wrap",
       props: {
@@ -36,7 +36,7 @@ export const stageTrackStates = defineComponentStates({
           i === 2 ? { ...s, title: "Get in front of the operating committee and the people who decide on scope" } : s
         ),
         current: 2,
-        weekLine: "week 8 of 12",
+       
         headingId: "st-demo-long",
       },
     },

@@ -229,7 +229,7 @@ export function builtFrom(direction: string, answers: Record<string, string>): s
   return [directionTag, ...labels].filter(Boolean);
 }
 
-/** The goal the plan works toward, for "The next 12 weeks, toward …". */
+/** The goal the plan works toward, for "Stage by stage, toward …". */
 const PROMPT_TOWARD: Record<string, string> = {
   "C-suite in 3 years": "the C-suite in 3 years",
   "Take on more of a leadership role": "a bigger leadership role where you are",
@@ -648,7 +648,8 @@ export interface PlanTemplate {
   /** Where the first draft of the story can be used, for this plan. Three
    *  short ideas, shown under the draft. */
   uses?: string[];
-  /** What the stages span, e.g. "The next 12 weeks". */
+  /** How the stages run, e.g. "Stage by stage". Never a length: by decision
+   *  on 2026-09-29 a plan has no end date. */
   horizon?: string;
   /** The open end after the last stage: the plan keeps going. */
   after?: string;
@@ -678,11 +679,11 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
       "To open your next 1:1 with your manager",
       "As the start of your LinkedIn About section",
     ],
-    horizon: "The next 12 weeks",
-    after: "After week 12, we\u2019ll plan the next stretch together, based on what worked and what didn\u2019t.",
+    horizon: "Stage by stage",
+    after: "Once these stages are done, we\u2019ll plan the next stretch together, based on what worked and what didn\u2019t.",
     stages: [
       {
-        window: "Weeks 1\u20132",
+        window: "First",
         title: "Say what you lead",
         outcomes: [
           "The story of what you lead, ready to say out loud",
@@ -691,7 +692,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
         done: "You can describe your scope in a sentence, and your bio is ready to send.",
       },
       {
-        window: "Weeks 3\u20136",
+        window: "Next",
         title: "Show the proof",
         outcomes: [
           "Three wins written up to show how much you ran, not just what you did",
@@ -700,7 +701,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
         done: "Your manager has seen your three wins, in writing.",
       },
       {
-        window: "Weeks 7\u201312",
+        window: "Then",
         title: "Get in front of the deciders",
         outcomes: [
           "Two conversations with people who influence the decision",
@@ -727,11 +728,11 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
       "As the start of your LinkedIn About section",
       "Before you post or speak, to check it says the same thing",
     ],
-    horizon: "The next 12 weeks",
-    after: "After week 12, we\u2019ll plan the next stretch together, based on what worked and what didn\u2019t.",
+    horizon: "Stage by stage",
+    after: "Once these stages are done, we\u2019ll plan the next stretch together, based on what worked and what didn\u2019t.",
     stages: [
       {
-        window: "Weeks 1\u20132",
+        window: "First",
         title: "Decide what you stand for",
         outcomes: [
           "How you describe yourself, in your words, not your employer\u2019s",
@@ -740,7 +741,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
         done: "You can say what you stand for in one sentence, without mentioning where you work.",
       },
       {
-        window: "Weeks 3\u20138",
+        window: "Next",
         title: "Say it in public",
         outcomes: [
           "Three posts or articles under your own name",
@@ -749,7 +750,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
         done: "Three pieces are published, and you know which rooms you want to be in.",
       },
       {
-        window: "Weeks 9\u201312",
+        window: "Then",
         title: "Get invited",
         outcomes: [
           "Two pitches sent to events or podcasts",
@@ -825,11 +826,11 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
       "To open your next 1:1 with your manager",
       "When you meet a peer from another team",
     ],
-    horizon: "The next 12 weeks",
-    after: "After week 12, we\u2019ll plan the next stretch together, based on what worked and what didn\u2019t.",
+    horizon: "Stage by stage",
+    after: "Once these stages are done, we\u2019ll plan the next stretch together, based on what worked and what didn\u2019t.",
     stages: [
       {
-        window: "Weeks 1\u20133",
+        window: "First",
         title: "Make your work easy to see",
         outcomes: [
           "Your role described in the words your leadership uses",
@@ -838,7 +839,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
         done: "Your role and one win are written in your leadership\u2019s language, ready to use.",
       },
       {
-        window: "Weeks 4\u20139",
+        window: "Next",
         title: "Widen who hears about it",
         outcomes: [
           "Three people outside your team who know what you do",
@@ -847,7 +848,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
         done: "Three people outside your team could explain what you do.",
       },
       {
-        window: "Weeks 10\u201312",
+        window: "Then",
         title: "Become the go-to",
         outcomes: [
           "One problem that comes to you by default",
@@ -874,11 +875,11 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
       "When someone asks what you\u2019re looking for",
       "As the start of your LinkedIn About section",
     ],
-    horizon: "The next 12 weeks",
-    after: "After week 12, we\u2019ll plan the next stretch together, based on what worked and what didn\u2019t.",
+    horizon: "Stage by stage",
+    after: "Once these stages are done, we\u2019ll plan the next stretch together, based on what worked and what didn\u2019t.",
     stages: [
       {
-        window: "Weeks 1\u20132",
+        window: "First",
         title: "Work out what travels",
         outcomes: [
           "What you\u2019re good at, separated from where you\u2019ve done it",
@@ -887,7 +888,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
         done: "You have a short list of strengths that would matter anywhere.",
       },
       {
-        window: "Weeks 3\u20138",
+        window: "Next",
         title: "Test it cheaply",
         outcomes: [
           "Four conversations with people in adjacent roles",
@@ -896,7 +897,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
         done: "You\u2019ve crossed at least two options off, for real reasons.",
       },
       {
-        window: "Weeks 9\u201312",
+        window: "Then",
         title: "Choose your direction",
         outcomes: [
           "A direction specific enough to plan around",
@@ -2223,8 +2224,7 @@ export const CHAT_C2 = {
   planOthers: "See other plans",
   planWhich: "Here are the others. Which would you like to see?",
   planRecommended: "(my pick)",
-  /** Opens the full plan in a sheet: the 12 weeks, or a plan that runs to a date. */
-  planFullWeeks: "See the full 12 weeks",
+  /** Opens the full plan in a sheet. */
   planFull: "See the full plan",
   planClose: "Done",
   draft: {
