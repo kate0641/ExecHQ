@@ -356,7 +356,7 @@
 
   /* Subheading — an item in a list or card: a row, a link, a read. */
   --type-subheading-font: var(--font-display);
-  --type-subheading-size: var(--text-md);
+  --type-subheading-size: var(--text-lg);
   --type-subheading-weight: var(--weight-bold);
   --type-subheading-leading: var(--leading-snug);
   --type-subheading-tracking: var(--font-display-tracking);
