@@ -114,6 +114,7 @@ export const prototypeConfig: PrototypeConfig = {
       title: "Login",
       sprint: 2,
       chrome: "minimal",
+      header: false,
       privacyFooter: false,
       description:
         "Returning to a private account. Personal email only; no employer visible anywhere.",
