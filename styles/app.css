@@ -112,7 +112,7 @@ h6 {
   word-spacing: var(--font-display-word-spacing);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-normal);
+  letter-spacing: var(--font-display-tracking-heading);
   color: var(--color-text-primary);
   text-wrap: balance;
 }
@@ -531,7 +531,7 @@ samp {
   word-spacing: var(--font-display-word-spacing);
   font-weight: var(--weight-semibold);
   font-size: var(--text-sm);
-  letter-spacing: var(--tracking-wide);
+  letter-spacing: var(--font-display-tracking-label);
 }
 
 /* Badge -------------------------------------------------------------------- */
@@ -1465,7 +1465,7 @@ samp {
   word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-wide);
+  letter-spacing: var(--font-display-tracking-label);
   line-height: 1;
 }
 
@@ -1732,7 +1732,7 @@ samp {
   word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-lg);
   line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-normal);
+  letter-spacing: var(--font-display-tracking-heading);
 }
 
 .wordmark__suffix {
@@ -4269,7 +4269,7 @@ ol.ring-detail__timeline {
   word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-xl);
   font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-normal);
+  letter-spacing: var(--font-display-tracking-heading);
 }
 
 .placeholder__title {
@@ -4352,7 +4352,7 @@ ol.ring-detail__timeline {
   word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-wide);
+  letter-spacing: var(--font-display-tracking-label);
   color: var(--color-text-secondary);
   text-decoration: none;
 }
@@ -4413,7 +4413,7 @@ ol.ring-detail__timeline {
   word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-lg);
   font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-normal);
+  letter-spacing: var(--font-display-tracking-heading);
 }
 
 .hub-tools__card-description {
@@ -4914,7 +4914,7 @@ ol.ring-detail__timeline {
   word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-wide);
+  letter-spacing: var(--font-display-tracking-label);
 }
 
 .styleguide {
@@ -5579,7 +5579,7 @@ ol.ring-detail__timeline {
   font-size: var(--text-3xl);
   font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-normal);
+  letter-spacing: var(--font-display-tracking-heading);
   text-wrap: balance;
 }
 
@@ -5932,7 +5932,7 @@ ol.ring-detail__timeline {
   word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xs);
   font-weight: var(--weight-bold);
-  letter-spacing: var(--tracking-normal);
+  letter-spacing: var(--font-display-tracking-heading);
 }
 
 .advisor-note__who {
@@ -6433,7 +6433,7 @@ ol.ring-detail__timeline {
   font-family: var(--font-display);
   word-spacing: var(--font-display-word-spacing);
   font-weight: var(--weight-bold);
-  letter-spacing: var(--tracking-normal);
+  letter-spacing: var(--font-display-tracking-heading);
 }
 
 .chat__avatar {
@@ -6519,7 +6519,7 @@ ol.ring-detail__timeline {
   font-size: var(--text-2xl);
   font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-normal);
+  letter-spacing: var(--font-display-tracking-heading);
   color: var(--color-text-primary);
   text-wrap: balance;
 }
@@ -8710,7 +8710,7 @@ ol.ring-detail__timeline {
   font-size: var(--text-2xl);
   font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-normal);
+  letter-spacing: var(--font-display-tracking-heading);
   color: var(--color-text-primary);
   text-wrap: balance;
 }
@@ -9080,7 +9080,7 @@ ol.ring-detail__timeline {
   font-size: var(--text-2xl);
   font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-normal);
+  letter-spacing: var(--font-display-tracking-heading);
   color: var(--color-text-primary);
 }
 
@@ -9431,7 +9431,7 @@ ol.ring-detail__timeline {
   font-size: var(--text-xl);
   font-weight: var(--weight-bold);
   line-height: var(--leading-snug);
-  letter-spacing: var(--tracking-normal);
+  letter-spacing: var(--font-display-tracking-heading);
   color: var(--color-text-primary);
   text-wrap: balance;
 }
@@ -10636,7 +10636,7 @@ ol.stage-track__list {
   font-weight: var(--weight-bold);
   font-variant-numeric: tabular-nums;
   line-height: 0.9;
-  letter-spacing: var(--tracking-normal);
+  letter-spacing: var(--font-display-tracking-heading);
 }
 
 .stage-track__big-name {
@@ -10646,7 +10646,7 @@ ol.stage-track__list {
   font-size: var(--text-2xl);
   font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-normal);
+  letter-spacing: var(--font-display-tracking-heading);
   text-wrap: balance;
 }
 
@@ -12100,7 +12100,7 @@ ul.stage-actions__list {
   font-size: var(--text-3xl);
   font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-normal);
+  letter-spacing: var(--font-display-tracking-heading);
   text-wrap: balance;
 }
 

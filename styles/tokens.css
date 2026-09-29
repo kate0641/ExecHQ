@@ -300,20 +300,24 @@
 
   --tracking-tight: -0.02em;
   --tracking-normal: 0;
-  --tracking-open: 0.01em;
   --tracking-wide: 0.02em;
+  --tracking-wider: 0.03em;
+  --tracking-widest: 0.04em;
   --tracking-label: 0.08em;
 
   /* Word spacing, as a change to the face's own space. */
-  --word-spacing-tight: -0.12em;
   --word-spacing-snug: -0.06em;
+  --word-spacing-tight: -0.12em;
+  --word-spacing-tightest: -0.18em;
   --word-spacing-normal: 0;
 
   /* Kulim Park sets its letters close and its spaces wide, so words look
-     cramped with gaps between them. Wherever it is used, letters open a
-     little and spaces close a little. */
-  --font-display-tracking: var(--tracking-open);
-  --font-display-word-spacing: var(--word-spacing-snug);
+     cramped with gaps between them. Wherever it is used, letters open and
+     spaces close: headings a little less than text, labels a little more. */
+  --font-display-tracking-heading: var(--tracking-wide);
+  --font-display-tracking: var(--tracking-wider);
+  --font-display-tracking-label: var(--tracking-widest);
+  --font-display-word-spacing: var(--word-spacing-tightest);
 
   /* ---------------------------------------------------------------------------
      TYPE ROLES — every piece of text in the product is one of these. Each
@@ -329,7 +333,7 @@
   --type-display-size-phone: var(--text-3xl);
   --type-display-weight: var(--weight-bold);
   --type-display-leading: var(--leading-tight);
-  --type-display-tracking: var(--tracking-normal);
+  --type-display-tracking: var(--font-display-tracking-heading);
   --type-display-word-spacing: var(--font-display-word-spacing);
 
   /* Title — what a screen is asking or showing: one per screen. */
@@ -338,7 +342,7 @@
   --type-title-size-phone: var(--text-2xl);
   --type-title-weight: var(--weight-semibold);
   --type-title-leading: var(--leading-tight);
-  --type-title-tracking: var(--tracking-normal);
+  --type-title-tracking: var(--font-display-tracking-heading);
   --type-title-word-spacing: var(--font-display-word-spacing);
 
   /* Heading — a section or a card's title. */
@@ -347,7 +351,7 @@
   --type-heading-size-phone: var(--text-xl);
   --type-heading-weight: var(--weight-semibold);
   --type-heading-leading: var(--leading-snug);
-  --type-heading-tracking: var(--tracking-normal);
+  --type-heading-tracking: var(--font-display-tracking-heading);
   --type-heading-word-spacing: var(--font-display-word-spacing);
 
   /* Subheading — an item in a list or card: a row, a link, a read. */
@@ -379,7 +383,7 @@
   --type-label-size: var(--text-sm);
   --type-label-weight: var(--weight-semibold);
   --type-label-leading: var(--leading-snug);
-  --type-label-tracking: var(--tracking-wide);
+  --type-label-tracking: var(--font-display-tracking-label);
   --type-label-word-spacing: var(--font-display-word-spacing);
 
   /* Caption — metadata: dates, hints, counts, status. */
