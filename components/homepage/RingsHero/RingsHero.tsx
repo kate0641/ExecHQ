@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
+import { Icon } from "@/components/primitives/Icon";
 import { ringCount, ringText, type Ring, type RingSegment } from "@/lib/rings";
 import type { Horizon } from "@/mock/plan-stub";
 
@@ -16,7 +17,8 @@ export interface RingsHeroProps {
   /** Where the plan is heading, after the name: "toward leading a broader
    *  marketing organisation". The formal plan name lives on the Plan page. */
   direction?: string;
-  /** A line for the first return, so nearly empty rings read as a start. */
+  /** A line for the first return, so nearly empty rings read as a start.
+   *  It explains the segments, so it sits under the rings as a caption. */
   startNote?: string;
   /** The ring the tray belongs to. Its name takes the accent and the tray's
    *  notch points at it. None: the tray has no notch. */
@@ -29,7 +31,9 @@ export interface RingsHeroProps {
   onToggle?: (horizon: Horizon) => void;
   /** The id of the panel a ring opens, for aria-controls. */
   detailId?: string;
+  /** The whole plan line is the way to the Plan, marked with a chevron. */
   planHref: string;
+  /** Read before the plan line by assistive technology. */
   planLabel?: string;
   /** Catalogue only: shows one ring in a state a static page can't reach. */
   demo?: { horizon: Horizon; state: "hover" | "focus" | "active" };
@@ -136,16 +140,14 @@ export function RingsHero({
           {date ? <span>{date}</span> : null}
         </p>
       ) : null}
-      <div className="rings-hero__plan">
-        <p>
+      <Link href={planHref} className="rings-hero__plan">
+        <span className="u-visually-hidden">{planLabel}: </span>
+        <span className="rings-hero__plan-text">
           <b>{planLine}</b>
           {direction ? <> &middot; {direction}</> : null}
-        </p>
-        <Link href={planHref} className="rings-hero__plan-link">
-          {planLabel}
-        </Link>
-      </div>
-      {startNote ? <p className="rings-hero__note">{startNote}</p> : null}
+        </span>
+        <Icon name="chevron" size={16} />
+      </Link>
       <ul className="rings-hero__row">
         {rings.map((ring) => (
           <li key={ring.horizon}>
@@ -174,6 +176,7 @@ export function RingsHero({
           </li>
         ))}
       </ul>
+      {startNote ? <p className="rings-hero__note">{startNote}</p> : null}
       {children ? (
         <div className="rings-hero__tray">
           {at >= 0 ? (
