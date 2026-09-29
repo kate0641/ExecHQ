@@ -7,17 +7,16 @@ import { FollowUpCard } from "@/components/homepage/FollowUpCard";
 import { LoopRow } from "@/components/homepage/LoopRow";
 import { NextStepCard } from "@/components/homepage/NextStepCard";
 import { ReadyCard } from "@/components/homepage/ReadyCard";
-import { SignalActivity } from "@/components/homepage/SignalActivity";
 import { TrendLine } from "@/components/homepage/TrendLine";
 import { addDays, aheadPhrase, dueFollowUps, shortDate, whenPhrase, type LoopRecord } from "@/lib/loop";
 import { loopActions, nextStepAfter, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
-import { signalActivity, signalOfStep, windowLabel, windowStart } from "@/lib/signals";
+import { signalOfStep } from "@/lib/signals";
 import { closeBriefing, useBriefingClosed } from "@/lib/briefing-dismissal";
 import { ACCOUNTS_COPY as AC, LINKEDIN_STUB as LI, WEBSITE_STUB as WEB } from "@/mock/accounts-stub";
 import { BRIEFING_STUB as B, HOME_COPY, STAY_COPY as S } from "@/mock/homepage";
 import { ARTIFACT_KINDS, FOLLOW_UP_POLICY, OUTCOME_READBACK } from "@/mock/loop";
-import { ACTIONS, HORIZONS, SIGNAL_COPY as C, actionById } from "@/mock/plan-stub";
+import { ACTIONS, HORIZONS, actionById, signalById } from "@/mock/plan-stub";
 
 /**
  * Homepage Concept 2 — Signals (Ledger).
@@ -26,10 +25,11 @@ import { ACTIONS, HORIZONS, SIGNAL_COPY as C, actionById } from "@/mock/plan-stu
  * closes until tomorrow; your next step, always, naming the signal it adds
  * to; "Stay on track", everything waiting on her word — one follow-up or
  * ready draft open, the rest as rows, and drafts only waiting as quiet
- * lines; then the signals, the one the next step feeds first in the dark
- * panel. Logging an outcome can change the next step above, and says so.
+ * lines. Logging an outcome can change the next step above, and says so.
+ * The per-signal lists were dropped the same day: the signal a step feeds
+ * is named on the step instead.
  *
- * Below the signals, in their own section and never in the next step, what
+ * After that, in their own section and never in the next step, what
  * her LinkedIn and website say (Account cards, 2026-09-29): numbers with
  * source and date, what they suggest, and one thing to try; or, not
  * connected, what connecting would show. Connections are Profile's, so
@@ -37,10 +37,9 @@ import { ACTIONS, HORIZONS, SIGNAL_COPY as C, actionById } from "@/mock/plan-stu
  * it fills the right-hand column. There is no "Your work" list and no
  * second Briefing link (decided 2026-09-29).
  *
- * PROVISIONAL signal area: the Signal Picture is designed in Sprint 3. Every
- * fact is read from the live Loop (`lib/signals.ts`), and all signal data and
- * wording is in `mock/plan-stub.ts`. Answering the follow-up here adds its
- * entry at once and moves the page to just-answered.
+ * PROVISIONAL: the Signal Picture is designed in Sprint 3; the signal names
+ * and the accounts data are stubs in `mock/plan-stub.ts` and
+ * `mock/accounts-stub.ts`.
  */
 
 const TOOLBOX = conceptHref("toolbox-flow", "concept-1");
@@ -67,12 +66,6 @@ export function HomepageConcept2() {
   const briefingClosed = useBriefingClosed(loop.today);
 
   const due = dueFollowUps(loop.records, loop.today);
-  const signals = signalActivity(loop.records, loop.today);
-  const span = windowLabel(loop.today);
-  const plan = loop.account.plan;
-  // A plan chosen inside the window explains the quiet, so it says so.
-  const quiet =
-    plan.startedOn >= windowStart(loop.today) ? C.quietStarted(whenPhrase(plan.startedOn, loop.today)) : C.quiet;
   const forAction = (recordId: string) => {
     const action = ACTIONS.find((a) => a.artifactId === recordId);
     const horizon = HORIZONS.find((h) => h.id === action?.horizon);
@@ -140,8 +133,7 @@ export function HomepageConcept2() {
   const website = loop.account.connections.find((c) => c.id === "website");
   const anyConnected = Boolean(linkedIn?.connected || website?.connected);
 
-  const focal = signals.find((s) => s.signal.id === focalSignal);
-  const others = signals.filter((s) => s !== focal);
+  const focalName = focalSignal ? signalById(focalSignal)?.name : undefined;
 
   return (
     <div className="home">
@@ -170,9 +162,9 @@ export function HomepageConcept2() {
             eyebrow={S.nextHeading}
             lead={updated ? <p className="home-card__readback">{S.updated}</p> : undefined}
             context={
-              focal ? (
+              focalName ? (
                 <p className="home-card__adds">
-                  {S.addsTo} <b>{focal.signal.name}</b>
+                  {S.addsTo} <b>{focalName}</b>
                 </p>
               ) : undefined
             }
@@ -245,40 +237,9 @@ export function HomepageConcept2() {
           {nothingInLoop ? <p className="c2-section__note">{anyUsed ? S.allLogged : S.empty}</p> : null}
         </section>
 
-        <section className="signals-home__others" aria-labelledby="other-signals">
-          <div className="signals-home__intro">
-            <h2 className="signals-home__heading" id="other-signals" tabIndex={-1}>
-              {C.allHeading}
-            </h2>
-            <p className="signals-home__window">{span}</p>
-            {focal ? null : <p className="signals-home__window">{C.key}</p>}
-          </div>
-          {focal ? (
-            <SignalActivity
-              name={focal.signal.name}
-              entries={focal.entries}
-              quiet={quiet}
-              eyebrow={C.focalEyebrow}
-              tone="focal"
-              today={loop.today}
-              headingId="focal-signal"
-              keyLine={C.key}
-            />
-          ) : null}
-          {others.map(({ signal, entries }) => (
-            <SignalActivity
-              key={signal.id}
-              name={signal.name}
-              entries={entries}
-              quiet={quiet}
-              today={loop.today}
-              headingId={`signal-${signal.id}`}
-            />
-          ))}
-        </section>
 
       </div>
-      {/* On web, the right-hand column; on a phone, after the signals. */}
+      {/* On web, the right-hand column; on a phone, after Stay on track. */}
       <div className="home__side">
         {/* Her accounts: their own section, never part of the next step. */}
         <section className="accounts-home" aria-labelledby="accounts-heading">
@@ -328,7 +289,6 @@ export function HomepageConcept2() {
           ) : (
             <AccountCard name={WEB.name} mark={WEB.mark} invite={{ ...WEB.invite, href: PROFILE }} headingId="account-website" />
           )}
-          <p className="accounts-home__private">{AC.private}</p>
         </section>
       </div>
     </div>

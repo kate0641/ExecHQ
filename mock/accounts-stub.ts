@@ -16,7 +16,6 @@ export const ACCOUNTS_COPY = {
   heading: "What your accounts say",
   sub: "Numbers from your accounts, as of the dates shown. Only you see this.",
   subNotConnected: "Not connected yet. Only you would see this.",
-  private: "Your employer, your network and your colleagues never see any of this. You can disconnect in Profile at any time.",
   asOfLinkedIn: (date: string) => `Uploaded ${date}`,
   asOfWebsite: (date: string) => `Read ${date}`,
   says: "What it suggests",

@@ -9686,12 +9686,6 @@ ol.signal__list {
   gap: var(--space-sm);
 }
 
-.accounts-home__private {
-  margin: 0;
-  font-size: var(--text-xs);
-  color: var(--color-text-muted);
-}
-
 .account-card {
   display: flex;
   flex-direction: column;
