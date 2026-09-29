@@ -531,6 +531,8 @@ function typeLabRoles(tokens: Map<string, Token>): TypeLabRole[] {
         size: value(sizeToken),
         weight: value(`--type-${role.key}-weight`),
         leading: value(`--type-${role.key}-leading`),
+        tracking: value(`--type-${role.key}-tracking`),
+        "word-spacing": value(`--type-${role.key}-word-spacing`),
       },
     };
   });

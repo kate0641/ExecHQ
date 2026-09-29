@@ -300,12 +300,24 @@
 
   --tracking-tight: -0.02em;
   --tracking-normal: 0;
+  --tracking-open: 0.01em;
   --tracking-wide: 0.02em;
   --tracking-label: 0.08em;
 
+  /* Word spacing, as a change to the face's own space. */
+  --word-spacing-tight: -0.12em;
+  --word-spacing-snug: -0.06em;
+  --word-spacing-normal: 0;
+
+  /* Kulim Park sets its letters close and its spaces wide, so words look
+     cramped with gaps between them. Wherever it is used, letters open a
+     little and spaces close a little. */
+  --font-display-tracking: var(--tracking-open);
+  --font-display-word-spacing: var(--word-spacing-snug);
+
   /* ---------------------------------------------------------------------------
      TYPE ROLES — every piece of text in the product is one of these. Each
-     role sets its face, size, weight, line height and letter spacing from the
+     role sets its face, size, weight, line height, letter and word spacing from the
      scales above; components use the role, never the scales directly, so a
      role changed here changes everywhere it is used. Display, title and
      heading also have a phone size, applied on the mobile canvas below.
@@ -317,7 +329,8 @@
   --type-display-size-phone: var(--text-3xl);
   --type-display-weight: var(--weight-bold);
   --type-display-leading: var(--leading-tight);
-  --type-display-tracking: var(--tracking-tight);
+  --type-display-tracking: var(--tracking-normal);
+  --type-display-word-spacing: var(--font-display-word-spacing);
 
   /* Title — what a screen is asking or showing: one per screen. */
   --type-title-font: var(--font-display);
@@ -325,7 +338,8 @@
   --type-title-size-phone: var(--text-2xl);
   --type-title-weight: var(--weight-semibold);
   --type-title-leading: var(--leading-tight);
-  --type-title-tracking: var(--tracking-tight);
+  --type-title-tracking: var(--tracking-normal);
+  --type-title-word-spacing: var(--font-display-word-spacing);
 
   /* Heading — a section or a card's title. */
   --type-heading-font: var(--font-display);
@@ -333,14 +347,16 @@
   --type-heading-size-phone: var(--text-xl);
   --type-heading-weight: var(--weight-semibold);
   --type-heading-leading: var(--leading-snug);
-  --type-heading-tracking: var(--tracking-tight);
+  --type-heading-tracking: var(--tracking-normal);
+  --type-heading-word-spacing: var(--font-display-word-spacing);
 
   /* Subheading — an item in a list or card: a row, a link, a read. */
   --type-subheading-font: var(--font-display);
   --type-subheading-size: var(--text-md);
   --type-subheading-weight: var(--weight-semibold);
   --type-subheading-leading: var(--leading-snug);
-  --type-subheading-tracking: var(--tracking-normal);
+  --type-subheading-tracking: var(--font-display-tracking);
+  --type-subheading-word-spacing: var(--font-display-word-spacing);
 
   /* Body — reading text. */
   --type-body-font: var(--font-body);
@@ -348,6 +364,7 @@
   --type-body-weight: var(--weight-regular);
   --type-body-leading: var(--leading-normal);
   --type-body-tracking: var(--tracking-normal);
+  --type-body-word-spacing: var(--word-spacing-normal);
 
   /* Body small — supporting text under a subheading or heading. */
   --type-body-sm-font: var(--font-body);
@@ -355,6 +372,7 @@
   --type-body-sm-weight: var(--weight-regular);
   --type-body-sm-leading: var(--leading-normal);
   --type-body-sm-tracking: var(--tracking-normal);
+  --type-body-sm-word-spacing: var(--word-spacing-normal);
 
   /* Label — the words on controls: buttons, field labels, tabs. */
   --type-label-font: var(--font-display);
@@ -362,6 +380,7 @@
   --type-label-weight: var(--weight-semibold);
   --type-label-leading: var(--leading-snug);
   --type-label-tracking: var(--tracking-wide);
+  --type-label-word-spacing: var(--font-display-word-spacing);
 
   /* Caption — metadata: dates, hints, counts, status. */
   --type-caption-font: var(--font-body);
@@ -369,6 +388,7 @@
   --type-caption-weight: var(--weight-regular);
   --type-caption-leading: var(--leading-snug);
   --type-caption-tracking: var(--tracking-normal);
+  --type-caption-word-spacing: var(--word-spacing-normal);
 
   /* Eyebrow — the small capitals above a heading, and badges. Always
      uppercase; the case is set with the role in styles/app.css. */
@@ -377,6 +397,7 @@
   --type-eyebrow-weight: var(--weight-semibold);
   --type-eyebrow-leading: var(--leading-snug);
   --type-eyebrow-tracking: var(--tracking-label);
+  --type-eyebrow-word-spacing: var(--font-display-word-spacing);
 
   /* Editorial — Libre Baskerville's voice: quotes and welcome lines. Rare. */
   --type-editorial-font: var(--font-serif);
@@ -384,6 +405,7 @@
   --type-editorial-weight: var(--weight-regular);
   --type-editorial-leading: var(--leading-relaxed);
   --type-editorial-tracking: var(--tracking-normal);
+  --type-editorial-word-spacing: var(--word-spacing-normal);
 
   /* ---------------------------------------------------------------------------
      SPACING — 4px base

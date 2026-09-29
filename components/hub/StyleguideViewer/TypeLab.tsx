@@ -11,7 +11,14 @@ export interface TypeLabRole {
   /** Display, title and heading: the lab edits the phone size, because the
    *  preview is a phone. */
   sizeToken: string;
-  values: { font: string; size: string; weight: string; leading: string };
+  values: {
+    font: string;
+    size: string;
+    weight: string;
+    leading: string;
+    tracking: string;
+    "word-spacing": string;
+  };
 }
 
 const FACES = [
@@ -42,11 +49,28 @@ const LEADINGS = [
   { value: "var(--leading-relaxed)", label: "Relaxed" },
 ];
 
+const TRACKINGS = [
+  { value: "var(--tracking-tight)", label: "−0.02em" },
+  { value: "var(--tracking-normal)", label: "0" },
+  { value: "var(--tracking-open)", label: "0.01em" },
+  { value: "var(--font-display-tracking)", label: "Kulim (0.01em)" },
+  { value: "var(--tracking-wide)", label: "0.02em" },
+  { value: "var(--tracking-label)", label: "0.08em" },
+];
+const WORD_SPACINGS = [
+  { value: "var(--word-spacing-tight)", label: "−0.12em" },
+  { value: "var(--word-spacing-snug)", label: "−0.06em" },
+  { value: "var(--font-display-word-spacing)", label: "Kulim (−0.06em)" },
+  { value: "var(--word-spacing-normal)", label: "0" },
+];
+
 const SETTINGS = [
   { part: "font", label: "Face", options: FACES },
   { part: "size", label: "Size", options: SIZES },
   { part: "weight", label: "Weight", options: WEIGHTS },
   { part: "leading", label: "Line height", options: LEADINGS },
+  { part: "tracking", label: "Letters", options: TRACKINGS },
+  { part: "word-spacing", label: "Words", options: WORD_SPACINGS },
 ] as const;
 
 /** The real components the preview stacks, each at the variant that shows the
