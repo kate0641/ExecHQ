@@ -10083,10 +10083,6 @@ ul.stage-actions__list {
 }
 
 .stage-actions__list li {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2xs);
-  padding: var(--space-sm) var(--space-md);
   border-top: var(--border-subtle);
 }
 
@@ -10094,19 +10090,68 @@ ul.stage-actions__list {
   border-top: 0;
 }
 
+.stage-actions__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  transition: background-color var(--duration-fast) var(--easing-standard);
+}
+
+.stage-actions__list li:first-child .stage-actions__row {
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.stage-actions__list li:last-child .stage-actions__row {
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+.stage-actions__list li:only-child .stage-actions__row {
+  border-radius: var(--radius-lg);
+}
+
+.stage-actions__row:hover,
+.is-demo-hover .stage-actions__list li:first-child .stage-actions__row {
+  background-color: var(--color-surface-hover);
+}
+
+.stage-actions__row:active,
+.is-demo-active .stage-actions__list li:first-child .stage-actions__row {
+  background-color: var(--color-surface-active);
+}
+
+.stage-actions__row:focus-visible,
+.is-demo-focus .stage-actions__list li:first-child .stage-actions__row {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.stage-actions__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  min-width: 0;
+}
+
 .stage-actions__title {
   font-family: var(--font-display);
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
+  /* Avoids a lone last word, like "in" from "check-in". */
+  text-wrap: pretty;
 }
 
 .stage-actions__meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2xs) var(--space-sm);
   font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.stage-actions__go {
+  flex: none;
   color: var(--color-text-muted);
 }
 

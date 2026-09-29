@@ -300,3 +300,9 @@ export const STAY_COPY = {
   empty: "When you use something you’ve made, it shows here, so you can tell ExecHQ what came of it.",
   allLogged: "Nothing waiting on you. Everything you’ve used has its outcome logged.",
 } as const;
+
+/** Concept 3's own words around the shared pieces. */
+export const CONCEPT3_COPY = {
+  inStage: (stage: string) => `Part of ${stage}`,
+  alsoIn: (stage: string) => `Also in ${stage}`,
+} as const;

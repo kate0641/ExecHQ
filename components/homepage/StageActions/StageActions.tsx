@@ -1,7 +1,8 @@
-import { LoopStatus } from "@/components/loop/LoopStatus";
+import Link from "next/link";
+import { Icon } from "@/components/primitives/Icon";
 import { shortDate, type LoopRecord } from "@/lib/loop";
 import { ARTIFACT_KINDS } from "@/mock/loop";
-import { HORIZONS, type LandscapeAction } from "@/mock/plan-stub";
+import type { LandscapeAction } from "@/mock/plan-stub";
 
 export interface StageActionsItem {
   action: LandscapeAction;
@@ -13,28 +14,43 @@ export interface StageActionsProps {
   items: StageActionsItem[];
   /** "Also in Show the proof". */
   heading: string;
-  /** Shown when the focal item was the stage's only action. */
+  /** Where each row goes: its Toolbox flow, stubbed until Sprint 4. */
+  href: string;
+  /** Shown when the stage has nothing else. */
   emptyText?: string;
   headingId?: string;
   className?: string;
 }
 
-/** When the record last moved, in the list's words. */
-function whenLine(record: LoopRecord): string {
-  if (record.usedOn) return `${ARTIFACT_KINDS[record.kind].usedLabel} ${shortDate(record.usedOn)}`;
-  return `Drafted ${shortDate(record.createdOn)}`;
+/** Where the action's work stands and what's next, in plain words. */
+export function stageActionLine(record?: LoopRecord): string {
+  if (!record) return "Not started · Start in the Toolbox";
+  const used = record.usedOn ? `${ARTIFACT_KINDS[record.kind].usedLabel} ${shortDate(record.usedOn)}` : "";
+  switch (record.state) {
+    case "drafted":
+    case "in-progress":
+      return `Draft started ${shortDate(record.createdOn)} · Pick it up`;
+    case "ready":
+      return "Ready · Say when you’ve used it";
+    case "used":
+    case "waiting":
+      return `${used} · Waiting to hear`;
+    default:
+      return used ? `${used} · Outcome logged` : "Done";
+  }
 }
 
 /**
- * The current stage's other live actions, each with its horizon and where
- * its work stands in the Loop. Accepted actions only: the page passes no
- * declined or deferred ones. Where each stands is the Loop's own status,
- * never a score.
+ * The current stage's other actions, after the next step and anything
+ * waiting on the user's word. Each row is a way in: its title, and where its
+ * work stands with what's next ("Draft started 16 Oct · Pick it up").
+ * Accepted actions only; declined and deferred ones never reach it.
  */
 export function StageActions({
   items,
   heading,
-  emptyText = "That’s the only action in this stage right now.",
+  href,
+  emptyText = "Nothing else in this stage right now.",
   headingId = "stage-actions",
   className,
 }: StageActionsProps) {
@@ -47,18 +63,13 @@ export function StageActions({
         <ul className="stage-actions__list">
           {items.map(({ action, record }) => (
             <li key={action.id}>
-              <span className="stage-actions__title">{action.title}</span>
-              <span className="stage-actions__meta">
-                <span>{HORIZONS.find((h) => h.id === action.horizon)?.label}</span>
-                {record ? (
-                  <>
-                    <LoopStatus record={record} detail={false} />
-                    <span>{whenLine(record)}</span>
-                  </>
-                ) : (
-                  <span>Not started</span>
-                )}
-              </span>
+              <Link href={href} className="stage-actions__row">
+                <span className="stage-actions__text">
+                  <span className="stage-actions__title">{action.title}</span>
+                  <span className="stage-actions__meta">{stageActionLine(record)}</span>
+                </span>
+                <Icon name="chevron" size={16} className="stage-actions__go" />
+              </Link>
             </li>
           ))}
         </ul>

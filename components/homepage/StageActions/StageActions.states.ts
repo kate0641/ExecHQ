@@ -1,5 +1,5 @@
 import { defineComponentStates } from "@/components/types";
-import { NOT_AN_INPUT, NOT_INTERACTIVE } from "@/components/not-applicable";
+import { NOT_AN_INPUT } from "@/components/not-applicable";
 import { HOME_STATES } from "@/mock/homepage";
 import { ACTIONS } from "@/mock/plan-stub";
 import { StageActions } from "./StageActions";
@@ -16,22 +16,26 @@ export const stageActionsStates = defineComponentStates({
   status: "draft",
   flows: ["homepage"],
   description:
-    "The current stage’s other live actions, each with its horizon and its work’s Loop status, or “Not started”. Accepted actions only; declined and deferred ones never reach it.",
+    "The current stage’s other actions, after the next step and anything waiting on the user’s word. Each row is a link: its title, and where its work stands with what’s next, in plain words. Accepted actions only.",
   component: StageActions,
   notApplicable: {
-    ...NOT_INTERACTIVE,
+    disabled: "Every row can be opened.",
     loading: "Read from the plan stub and the local Loop: there is nothing to wait for.",
     error: "Read locally: nothing can fail.",
     filled: NOT_AN_INPUT,
   },
   variants: [
-    { label: "Mid-stage, work moving — default", props: { heading: "Also in Show the proof", items: itemsAt("follow-up-due", "use-story"), headingId: "sa-demo-1" } },
-    { label: "Plan just started, nothing begun", props: { heading: "Also in Say what you lead", items: itemsAt("first-return", "use-story"), headingId: "sa-demo-0" } },
-    { label: "Most of it done", props: { heading: "Also in Show the proof", items: itemsAt("nothing-pending", "scope-case"), headingId: "sa-demo-2" } },
-    { label: "Only the focal action — empty", props: { heading: "Also in Show the proof", items: [], headingId: "sa-demo-empty" } },
+    { label: "Mid-stage, work moving — default", props: { href: "/toolbox-flow/concept-1", heading: "Also in Show the proof", items: itemsAt("follow-up-due", "use-story"), headingId: "sa-demo-1" } },
+    { label: "Plan just started, nothing begun", props: { href: "/toolbox-flow/concept-1", heading: "Also in Say what you lead", items: itemsAt("first-return", "use-story"), headingId: "sa-demo-0" } },
+    { label: "Most of it done", props: { href: "/toolbox-flow/concept-1", heading: "Also in Show the proof", items: itemsAt("nothing-pending", "scope-case"), headingId: "sa-demo-2" } },
+    { label: "Row — hover", states: ["hover"], props: { href: "/toolbox-flow/concept-1", heading: "Also in Show the proof", items: itemsAt("follow-up-due", "use-story"), headingId: "sa-demo-hover", className: "is-demo-hover" } },
+    { label: "Row — focus", states: ["focus"], props: { href: "/toolbox-flow/concept-1", heading: "Also in Show the proof", items: itemsAt("follow-up-due", "use-story"), headingId: "sa-demo-focus", className: "is-demo-focus" } },
+    { label: "Row — pressed", states: ["active"], props: { href: "/toolbox-flow/concept-1", heading: "Also in Show the proof", items: itemsAt("follow-up-due", "use-story"), headingId: "sa-demo-active", className: "is-demo-active" } },
+    { label: "Only the focal action — empty", props: { href: "/toolbox-flow/concept-1", heading: "Also in Show the proof", items: [], headingId: "sa-demo-empty" } },
     {
       label: "Long titles wrap",
       props: {
+        href: "/toolbox-flow/concept-1",
         heading: "Also in Get in front of the deciders",
         items: [{ action: { ...ACTIONS[3], title: "Put yourself forward to lead the cross-functional Q1 planning review for marketing, sales operations and finance" } }],
         headingId: "sa-demo-long",

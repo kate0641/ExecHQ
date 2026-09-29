@@ -3,16 +3,17 @@
 import { useState } from "react";
 import { EntryLink } from "@/components/homepage/EntryLink";
 import { FollowUpCard } from "@/components/homepage/FollowUpCard";
+import { LoopRow } from "@/components/homepage/LoopRow";
 import { NextStepCard } from "@/components/homepage/NextStepCard";
 import { ReadyCard } from "@/components/homepage/ReadyCard";
 import { StageActions } from "@/components/homepage/StageActions";
 import { StageTrack } from "@/components/homepage/StageTrack";
-import { addDays, aheadPhrase, dueFollowUps, shortDate, type LoopRecord } from "@/lib/loop";
+import { addDays, aheadPhrase, dueFollowUps, shortDate, whenPhrase, type LoopRecord } from "@/lib/loop";
 import { loopActions, nextStepAfter, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { currentStageIndex } from "@/lib/rings";
 import { ACCOUNTS_ROWS as AR } from "@/mock/accounts-stub";
-import { BRIEFING_STUB as B, HOME_COPY as C } from "@/mock/homepage";
+import { BRIEFING_STUB as B, CONCEPT3_COPY as C3, HOME_COPY as C, STAY_COPY as S } from "@/mock/homepage";
 import { ARTIFACT_KINDS, FOLLOW_UP_POLICY, OUTCOME_READBACK } from "@/mock/loop";
 import { ACTIONS, HORIZONS, ROADMAP, actionById } from "@/mock/plan-stub";
 
@@ -20,9 +21,10 @@ import { ACTIONS, HORIZONS, ROADMAP, actionById } from "@/mock/plan-stub";
  * Homepage Concept 3 — Plan (Chapters).
  *
  * Plan forward. The roadmap as a table of contents, with the current stage
- * opened up — you are here, and what it asks now — then the focal item: a
- * follow-up due (naming the action it belongs to), then something ready but
- * not used, then the next step. Then the stage's other live actions; then,
+ * opened up — you are here, and what it asks now — then, always, your next
+ * step and the stage it belongs to; then "Stay on track", whatever is
+ * waiting on her word (as in Concept 2, decided 2026-09-29); then the
+ * stage's other actions, each a way in with what's next. Then,
  * beside them on web, today's Briefing with its lead read and why it
  * matters, and what her LinkedIn and website say — one row each, a finding
  * and the one thing to try (2026-09-29; no "Your work" list).
@@ -49,6 +51,8 @@ function longDate(date: string): string {
   return `${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
 }
 
+const capitalise = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
+
 /** Moves focus to a heading once the card it names has replaced the last. */
 function focusSoon(id: string) {
   setTimeout(() => document.getElementById(id)?.focus(), 0);
@@ -62,119 +66,73 @@ export function HomepageConcept3() {
   const current = currentStageIndex(loop.records, ROADMAP.length);
   const stage = ROADMAP[current];
   const due = dueFollowUps(loop.records, loop.today);
-  const ready = loop.records.find((r) => r.state === "ready");
   const live = ACTIONS.filter((a) => a.status === "accepted").slice(0, MAX_ACTIONS);
 
-  /** "For your short-term action" and the action, for the card's top line. */
+  /** "For your short-term action" and the action, for a card's top line. */
   const about = (record: LoopRecord, lead: (h: string) => string) => {
     const action = live.find((a) => a.artifactId === record.id);
     const horizon = HORIZONS.find((h) => h.id === action?.horizon);
     return action && horizon ? { lead: lead(horizon.label), title: action.title } : undefined;
   };
 
-  /* The focal item, and the action it stands for, which the list then leaves out. */
-  let focalAction: string | undefined;
-  let card: React.ReactNode = null;
-  let after: React.ReactNode = null;
+  /* What's waiting on her word, as in Concept 2's "Stay on track". */
+  const readyRecords = loop.records.filter((r) => r.state === "ready");
+  const waitingRecords = loop.records.filter(
+    (r) => (r.state === "used" || r.state === "waiting") && !due.includes(r)
+  );
+  const answered =
+    loop.homeState === "just-answered" && loop.justAnswered
+      ? loop.records.find((r) => r.id === loop.justAnswered)
+      : undefined;
 
-  if (loop.homeState === "just-answered" && loop.justAnswered) {
-    const record = loop.records.find((r) => r.id === loop.justAnswered)!;
-    const outcome = record.outcome;
-    const waiting = due.filter((r) => r.id !== record.id);
-    let lead: string;
-    if (!outcome || outcome.type === "no-response-yet") {
-      const nextAsk = record.checkBackOn ?? addDays(loop.today, FOLLOW_UP_POLICY.rescheduleDays[0]);
-      lead = C.askAgain(record.name, aheadPhrase(nextAsk, loop.today));
-    } else {
-      lead = outcome.detail ? C.loggedDetail(outcome.detail) : C.loggedPlain(OUTCOME_READBACK[outcome.type]);
-    }
-    const step = outcome && outcome.type !== "no-response-yet" ? nextStepAfter(record) : loop.nextStep;
-    focalAction = step?.id;
-    card = (
-      <NextStepCard
-        lead={<p className="home-card__readback">{lead}</p>}
-        eyebrow="Next"
-        title={step?.title ?? "Pick your next step from your plan"}
-        why={{ now: step?.why }}
-        href={TOOLBOX}
-        stubbed
-        headingId="handoff-title"
-      />
-    );
-    if (waiting.length) {
-      after = (
-        <button
-          type="button"
-          className="link link--standalone home__another"
-          onClick={() => {
-            setShowing(waiting[0].id);
-            loopActions.moveOn();
-            focusSoon("follow-up-question");
-          }}
-        >
-          {C.another(waiting[0].name)}
-        </button>
-      );
-    }
-  } else if (due.length) {
-    const record = due.find((r) => r.id === showing) ?? due[0];
-    const other = due.find((r) => r.id !== record.id);
-    focalAction = live.find((a) => a.artifactId === record.id)?.id;
-    card = (
-      <FollowUpCard
-        record={record}
-        today={loop.today}
-        about={about(record, C.confirms)}
-        onSubmit={(answer) => {
-          loopActions.answer(record.id, { type: answer.type, detail: answer.detail || undefined });
-          setShowing(null);
-          focusSoon("handoff-title");
-        }}
-        another={
-          other
-            ? {
-                label: C.another(other.name),
-                onShow: () => {
-                  setShowing(other.id);
-                  focusSoon("follow-up-question");
-                },
-              }
-            : undefined
-        }
-      />
-    );
-  } else if (ready) {
-    focalAction = live.find((a) => a.artifactId === ready.id)?.id;
-    card = (
-      <ReadyCard
-        record={ready}
-        about={about(ready, C.forAction)}
-        openHref={TOOLBOX}
-        checkBack={C.checkBack(ARTIFACT_KINDS[ready.kind].checkBackDays)}
-        onUsed={() => {
-          loopActions.markUsed(ready.id);
-          focusSoon("next-step-title");
-        }}
-      />
-    );
-  } else if (loop.nextStep) {
-    const step = loop.nextStep;
-    const action = actionById(step.id);
-    focalAction = step.id;
-    card = (
-      <NextStepCard
-        title={step.title}
-        why={action ? { this: action.whyThis, now: action.whyNow, you: action.whyYou } : { now: step.why }}
-        href={TOOLBOX}
-      />
-    );
-  }
+  /* Your next step: always its own card, under the roadmap. After a logged
+     outcome it's the step that outcome brings; otherwise the first
+     recommendation whose work hasn't reached the Loop yet. */
+  const outcome = answered?.outcome;
+  const updated = Boolean(answered && outcome && outcome.type !== "no-response-yet");
+  const step = updated
+    ? nextStepAfter(answered!)
+    : loop.recommendations.find((rec) => {
+        const artifactId = actionById(rec.id)?.artifactId;
+        const record = artifactId ? loop.records.find((r) => r.id === artifactId) : undefined;
+        return !record || record.state === "drafted" || record.state === "in-progress";
+      });
+  const stepAction = step ? actionById(step.id) : undefined;
+  const stepStage = stepAction ? ROADMAP[stepAction.stage] : undefined;
+
+  const openId =
+    showing && [...due, ...readyRecords].some((r) => r.id === showing)
+      ? showing
+      : answered
+        ? undefined
+        : (due[0] ?? readyRecords[0])?.id;
+  const openRecord = loop.records.find((r) => r.id === openId);
+  const readback = answered
+    ? !outcome || outcome.type === "no-response-yet"
+      ? C.askAgain(
+          answered.name,
+          aheadPhrase(answered.checkBackOn ?? addDays(loop.today, FOLLOW_UP_POLICY.rescheduleDays[0]), loop.today)
+        )
+      : outcome.detail
+        ? C.loggedDetail(outcome.detail)
+        : C.loggedPlain(OUTCOME_READBACK[outcome.type])
+    : undefined;
+  const openItem = (id: string) => {
+    setShowing(id);
+    const record = loop.records.find((r) => r.id === id);
+    focusSoon(record?.state === "ready" ? "ready-title" : "follow-up-question");
+  };
+  const usedLine = (r: LoopRecord) =>
+    `${capitalise(ARTIFACT_KINDS[r.kind].usedVerb)}${r.usedOn ? ` ${whenPhrase(r.usedOn, loop.today)}` : ""}. ${S.dueLine}`;
+  const anyInLoop = Boolean(answered || due.length || readyRecords.length || waitingRecords.length);
 
   const linkedIn = loop.account.connections.find((c) => c.id === "linkedin");
   const website = loop.account.connections.find((c) => c.id === "website");
 
+  /* The stage's other actions: not the next step, and not anything open in
+     "Stay on track". */
   const rest = live
-    .filter((a) => a.id !== focalAction && a.stage === current)
+    .filter((a) => a.id !== step?.id && a.stage === current && a.artifactId !== openId)
     .map((action) => ({ action, record: loop.records.find((r) => r.id === action.artifactId) }));
 
   return (
@@ -193,9 +151,77 @@ export function HomepageConcept3() {
           planName={plan.name}
           planHref={PLAN}
         />
-        {card}
-        {after}
-        <StageActions heading={`Also in ${stage.title}`} items={rest} />
+        {step ? (
+          <NextStepCard
+            eyebrow={S.nextHeading}
+            lead={updated ? <p className="home-card__readback">{S.updated}</p> : undefined}
+            context={stepStage ? <p className="home-card__adds">{C3.inStage(stepStage.title)}</p> : undefined}
+            title={step.title}
+            why={stepAction ? { this: stepAction.whyThis, now: stepAction.whyNow, you: stepAction.whyYou } : { now: step.why }}
+            href={TOOLBOX}
+            stubbed={updated}
+            headingId="next-step-title"
+          />
+        ) : null}
+        {anyInLoop ? (
+          <section className="c2-section" aria-labelledby="stay-heading">
+            <h2 className="stage-actions__heading" id="stay-heading" tabIndex={-1}>
+              {S.heading}
+            </h2>
+            {readback ? <p className="home-card__readback">{readback}</p> : null}
+            {openRecord?.state === "ready" ? (
+              <ReadyCard
+                record={openRecord}
+                about={about(openRecord, C.forAction)}
+                openHref={TOOLBOX}
+                checkBack={C.checkBack(ARTIFACT_KINDS[openRecord.kind].checkBackDays)}
+                onUsed={() => {
+                  loopActions.markUsed(openRecord.id);
+                  setShowing(null);
+                  focusSoon("stay-heading");
+                }}
+              />
+            ) : openRecord ? (
+              <FollowUpCard
+                record={openRecord}
+                today={loop.today}
+                about={about(openRecord, C.confirms)}
+                onSubmit={(answer) => {
+                  loopActions.answer(openRecord.id, { type: answer.type, detail: answer.detail || undefined });
+                  setShowing(null);
+                  focusSoon("next-step-title");
+                }}
+              />
+            ) : null}
+            {due.length + readyRecords.length + waitingRecords.length > (openRecord ? 1 : 0) ? (
+              <ul className="loop-rows">
+                {due
+                  .filter((r) => r.id !== openId)
+                  .map((r) => (
+                    <li key={r.id}>
+                      <LoopRow record={r} line={usedLine(r)} onOpen={() => openItem(r.id)} />
+                    </li>
+                  ))}
+                {readyRecords
+                  .filter((r) => r.id !== openId)
+                  .map((r) => (
+                    <li key={r.id}>
+                      <LoopRow record={r} line={S.readyLine} onOpen={() => openItem(r.id)} />
+                    </li>
+                  ))}
+                {waitingRecords.map((r) => (
+                  <li key={r.id}>
+                    <LoopRow
+                      record={r}
+                      line={r.checkBackOn ? S.askOn(aheadPhrase(r.checkBackOn, loop.today)) : S.usedNoAsk}
+                    />
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </section>
+        ) : null}
+        <StageActions heading={C3.alsoIn(stage.title)} items={rest} href={TOOLBOX} />
       </div>
       <div className="home__side">
         <EntryLink
