@@ -11654,8 +11654,15 @@ ul.stage-actions__list {
   color: var(--color-text-secondary);
 }
 
+/* "New to ExecHQ?" stays under the buttons; the privacy line drops to the
+   foot of the screen, with room between them. */
 .login__foot--centre {
+  flex: 1;
   align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2xl);
+  margin-top: 0;
+  padding-bottom: var(--space-md);
   text-align: center;
 }
 
