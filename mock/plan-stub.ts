@@ -50,6 +50,9 @@ export interface LandscapeAction {
   whyThis: string;
   whyNow: string;
   whyYou: string;
+  /** The three reasons as one sentence in the advisor's voice, for where a
+   *  single line fits (Homepage Concept 1). Written by hand here. */
+  whyLine: string;
   /** The Loop record of the artifact that does this action. */
   artifactId?: string;
   /** The signal this action moves. */
@@ -114,6 +117,7 @@ export const ACTIONS: LandscapeAction[] = [
     whyThis: "It’s the clearest way to say what you lead, out loud, to the person who decides.",
     whyNow: "Your 1:1 with your manager is on Tuesday.",
     whyYou: "You want to move from running campaigns to leading a broader marketing organisation.",
+    whyLine: "Your 1:1 is on Tuesday, and saying what you lead out loud is the first step to the broader role you want.",
     artifactId: "story",
     signalId: "seen-as-leader",
     stage: 0,
@@ -126,6 +130,7 @@ export const ACTIONS: LandscapeAction[] = [
     whyThis: "A one-page brief turns a check-in into a conversation about scope.",
     whyNow: "The check-in is on Thursday.",
     whyYou: "You’re in the Show the proof stage of your plan.",
+    whyLine: "Thursday’s check-in is your chance to talk about scope, and a one-page brief shows the proof.",
     artifactId: "check-in-brief",
     signalId: "decider-access",
     stage: 1,
@@ -138,6 +143,7 @@ export const ACTIONS: LandscapeAction[] = [
     whyThis: "Every draft after this one gets sharper.",
     whyNow: "Five minutes, whenever suits.",
     whyYou: "You said the results are there.",
+    whyLine: "Five minutes on your recent results makes every draft after this one sharper.",
     stage: 1,
   },
   {
@@ -148,6 +154,7 @@ export const ACTIONS: LandscapeAction[] = [
     whyThis: "Leading a cross-functional review is the broader scope you want, in practice.",
     whyNow: "Nominations close at the end of the month.",
     whyYou: "Your manager already knows your planning work.",
+    whyLine: "Nominations close at the end of the month, and leading the review is the broader scope you want, in practice.",
     artifactId: "pitch",
     signalId: "broader-remit",
     stage: 1,
@@ -160,6 +167,7 @@ export const ACTIONS: LandscapeAction[] = [
     whyThis: "A visible project across teams shows scope before you have it.",
     whyNow: "Planning season is when new work gets handed out.",
     whyYou: "You said you want a broader remit.",
+    whyLine: "Planning season is when new work gets handed out, and a project across teams shows the remit you want before you have it.",
     stage: 1,
   },
   {
@@ -170,6 +178,7 @@ export const ACTIONS: LandscapeAction[] = [
     whyThis: "When the role comes up, the people deciding will want it on paper.",
     whyNow: "The next planning cycle starts in January.",
     whyYou: "You said the results are there; the case is what’s missing.",
+    whyLine: "The next planning cycle starts in January, and when the role comes up, the people deciding will want your results on paper.",
     signalId: "broader-remit",
     stage: 3,
   },

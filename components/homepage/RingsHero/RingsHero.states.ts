@@ -21,8 +21,7 @@ function step(title: string, a = ACTIONS[0], horizon = "Short-term", eyebrow = `
   return h(NextStepCard, {
     eyebrow,
     title,
-    why: { this: a.whyThis, now: a.whyNow, you: a.whyYou },
-    whyStyle: "folded",
+    whyLine: a.whyLine,
     href: "/toolbox-flow/concept-1",
     headingId: `rh-step-${++stepCount}`,
   });
@@ -93,8 +92,7 @@ export const ringsHeroStates = defineComponentStates({
           lead: h("p", { className: "home-card__readback" }, "Logged. You told me: “She asked me to lead the planning workstream.”"),
           eyebrow: "Next",
           title: "Build a stakeholder message map for the workstream",
-          why: { now: "You said the new work needs influence across teams." },
-          whyStyle: "folded",
+          whyLine: "You said the new work needs influence across teams.",
           href: "/toolbox-flow/concept-1",
           stubbed: true,
           headingId: "rh-handoff",

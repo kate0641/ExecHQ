@@ -3077,70 +3077,12 @@ ul.concierge-mini {
   color: var(--color-text-primary);
 }
 
-/* Folded reasons: why now in a line, the other two behind a disclosure. */
-.home-card__whynow {
+/* The reasons as one sentence. */
+.home-card__whyline {
   margin: 0;
   font-size: var(--text-sm);
+  line-height: var(--leading-normal);
   color: var(--color-text-secondary);
-}
-
-.home-card__whynow b {
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-primary);
-}
-
-.home-card__fold summary {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2xs);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-link);
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-  cursor: pointer;
-  list-style: none;
-}
-
-.home-card__fold summary::-webkit-details-marker {
-  display: none;
-}
-
-.home-card__fold summary svg {
-  transform: rotate(90deg);
-  transition: transform var(--duration-fast) var(--easing-standard);
-}
-
-.home-card__fold[open] summary svg {
-  transform: rotate(-90deg);
-}
-
-.home-card__fold summary:focus-visible {
-  outline: var(--focus-ring-width) solid var(--color-focus);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.home-card__fold dl {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  margin: var(--space-sm) 0 0;
-  padding: var(--space-sm) var(--space-md);
-  border-radius: var(--radius-md);
-  background-color: var(--color-surface);
-  font-size: var(--text-sm);
-}
-
-.home-card__fold dt {
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-}
-
-.home-card__fold dd {
-  margin: 0;
 }
 
 .home-card__actions {

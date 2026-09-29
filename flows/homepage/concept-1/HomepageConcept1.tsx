@@ -98,8 +98,7 @@ export function HomepageConcept1() {
           lead={<p className="home-card__readback">{lead}</p>}
           eyebrow="Next"
           title={step?.title ?? "Pick your next step from your plan"}
-          why={{ now: step?.why }}
-          whyStyle="folded"
+          whyLine={step?.why}
           href={TOOLBOX}
           stubbed
           headingId="handoff-title"
@@ -172,8 +171,7 @@ export function HomepageConcept1() {
       <NextStepCard
         eyebrow={C.nextToFill(next.ring.label)}
         title={a.title}
-        why={{ this: a.whyThis, now: a.whyNow, you: a.whyYou }}
-        whyStyle="folded"
+        whyLine={a.whyLine}
         href={TOOLBOX}
       />
     );
@@ -203,8 +201,7 @@ export function HomepageConcept1() {
           <NextStepCard
             eyebrow={C.nextIn(ring.label)}
             title={step.title}
-            why={{ this: step.whyThis, now: step.whyNow, you: step.whyYou }}
-            whyStyle="folded"
+            whyLine={step.whyLine}
             href={TOOLBOX}
             headingId="picked-title"
           />

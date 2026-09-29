@@ -14,7 +14,7 @@ export const nextStepCardStates = defineComponentStates({
   status: "draft",
   flows: ["homepage"],
   description:
-    "One action, with its why this, why now and why you as label and value rows, and the way into its Toolbox flow (stubbed until Sprint 4). Also the just-answered hand-off, visibly marked as stubbed.",
+    "One action, with its why this, why now and why you as label and value rows or one sentence, and the way into its Toolbox flow (stubbed until Sprint 4). Also the just-answered hand-off, visibly marked as stubbed.",
   component: NextStepCard,
   notApplicable: {
     ...CONTROLS_INSIDE,
@@ -26,9 +26,9 @@ export const nextStepCardStates = defineComponentStates({
   variants: [
     { label: "Why this, now, you — default", props: { title: a.title, why, href } },
     {
-      label: "Folded reasons",
-      description: "Why now as one line; why this and why you behind a disclosure. Homepage Concept 1’s tray.",
-      props: { title: a.title, why, whyStyle: "folded", href, eyebrow: "Next to fill · Short-term", headingId: "nsc-folded" },
+      label: "Reasons in one sentence",
+      description: "Why this, why now and why you said as one line. Homepage Concept 1’s tray.",
+      props: { title: a.title, whyLine: a.whyLine, href, eyebrow: "Next to fill · Short-term", headingId: "nsc-whyline" },
     },
     {
       label: "Just answered, stubbed hand-off",
