@@ -407,6 +407,7 @@
      number. Libre Baskerville, so figures read as considered, not as UI. */
   --type-figure-font: var(--font-serif);
   --type-figure-size: var(--text-xl);
+  --type-figure-size-lg: var(--text-3xl);  /* the stage number on the plan track */
   --type-figure-weight: var(--weight-bold);
   --type-figure-leading: var(--leading-tight);
   --type-figure-tracking: var(--tracking-widest);

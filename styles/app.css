@@ -10640,7 +10640,7 @@ ol.stage-track__list {
   letter-spacing: var(--type-figure-tracking);
   word-spacing: var(--type-figure-word-spacing);
   flex: none;
-  font-size: var(--text-4xl);
+  font-size: var(--type-figure-size-lg);
   font-variant-numeric: tabular-nums;
   line-height: 0.9;
 }
