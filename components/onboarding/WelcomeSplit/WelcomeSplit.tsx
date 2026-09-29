@@ -43,7 +43,7 @@ export function WelcomeSplit({
   return (
     <div className="welcome">
       <div className="welcome__hero">
-        <Wordmark size="xl" />
+        <Wordmark size="xl" tone="light" />
         <p className="welcome__quote">{quote}</p>
       </div>
 

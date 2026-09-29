@@ -1604,21 +1604,16 @@ samp {
   border-bottom: var(--border-width-thin) solid var(--color-border);
 }
 
-/* Wordmark — the name set in type until the logo lands. Colour is inherited so
-   it works on either surface. */
+/* Wordmark — the logo, with an optional product line after it. The line
+   takes the surrounding text colour. */
 .wordmark {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
   font-family: var(--font-display);
-  font-weight: var(--weight-bold);
+  font-size: var(--text-lg);
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tight);
-}
-
-.wordmark--md {
-  font-size: var(--text-lg);
-}
-
-.wordmark--xl {
-  font-size: var(--text-3xl);
 }
 
 .wordmark__suffix {
@@ -2140,14 +2135,6 @@ ul.tab-bar__list {
   justify-content: space-between;
   min-height: 40px;
   padding: 0 0 var(--space-sm) var(--space-sm);
-}
-
-.drawer-nav__wordmark {
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-bold);
-  letter-spacing: var(--tracking-tight);
-  color: var(--color-text-primary);
 }
 
 ul.drawer-nav__list {
@@ -11686,7 +11673,7 @@ ul.stage-actions__list {
   overflow-wrap: anywhere;
 }
 
-/* The header's wordmark stays above the glow that reaches up into it. */
+/* The header's logo stays above the glow that reaches up into it. */
 .chrome:has(.login) > .chrome__header {
   position: relative;
   z-index: 1;
