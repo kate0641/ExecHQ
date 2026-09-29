@@ -201,58 +201,58 @@ export function LoginConcept1() {
   if (screen === "sign-in") {
     body = (
       <>
-        <div className="login__intro">
-          <p className="login__kicker">{C.signIn.kicker}</p>
-          <h1 className="login__heading" id={HEADING} tabIndex={-1}>
-            {C.signIn.heading}
-          </h1>
-        </div>
-        <form
-          className="login__form"
-          noValidate
-          onSubmit={(event) => {
-            event.preventDefault();
-            const value = email.trim();
-            if (!value) setEmailError(C.signIn.empty);
-            else if (!looksLikeEmail(value)) setEmailError(C.signIn.malformed);
-            else send(value);
-          }}
-        >
-          <Input
-            variant="pill"
-            label={C.signIn.emailLabel}
-            type="email"
-            inputMode="email"
-            autoComplete="email"
-            value={email}
-            error={emailError}
-            onChange={(event) => {
-              setEmail(event.target.value);
-              setEmailError(undefined);
+        <div className="login__centre">
+          <div className="login__intro">
+            <p className="login__kicker">{C.signIn.kicker}</p>
+            <h1 className="login__heading" id={HEADING} tabIndex={-1}>
+              {C.signIn.heading}
+            </h1>
+          </div>
+          <form
+            className="login__form"
+            noValidate
+            onSubmit={(event) => {
+              event.preventDefault();
+              const value = email.trim();
+              if (!value) setEmailError(C.signIn.empty);
+              else if (!looksLikeEmail(value)) setEmailError(C.signIn.malformed);
+              else send(value);
             }}
-          />
-          <Checkbox label={C.signIn.keep} checked={keep} onChange={(event) => setKeep(event.target.checked)} />
-          <Button type="submit" fullWidth>
-            {C.signIn.send}
-          </Button>
-        </form>
-        <p className="login__or">{C.signIn.or}</p>
-        <ProviderButtons onChoose={(p) => setSheet(p)} />
-        <div className="login__foot login__foot--centre">
-          <p className="login__small">
+          >
+            <Input
+              variant="pill"
+              label={C.signIn.emailLabel}
+              type="email"
+              inputMode="email"
+              autoComplete="email"
+              value={email}
+              error={emailError}
+              onChange={(event) => {
+                setEmail(event.target.value);
+                setEmailError(undefined);
+              }}
+            />
+            <Checkbox label={C.signIn.keep} checked={keep} onChange={(event) => setKeep(event.target.checked)} />
+            <Button type="submit" fullWidth>
+              {C.signIn.send}
+            </Button>
+          </form>
+          <p className="login__or">{C.signIn.or}</p>
+          <ProviderButtons onChoose={(p) => setSheet(p)} />
+          <p className="login__small login__new">
             {C.signIn.newHere}{" "}
             <Link className="login__link" href={ONBOARDING}>
               {C.signIn.start}
             </Link>
           </p>
-          <p className="login__privacy">
-            <Icon name="lock" size={16} />
-            <span>{C.private.line}</span>{" "}
-            <button type="button" className="login__link" onClick={() => setSheet("private")}>
-              {C.private.more}
-            </button>
-          </p>
         </div>
+        <p className="login__privacy">
+          <Icon name="lock" size={16} />
+          <span>{C.private.line}</span>{" "}
+          <button type="button" className="login__link" onClick={() => setSheet("private")}>
+            {C.private.more}
+          </button>
+        </p>
       </>
     );
   } else if (screen === "inbox") {
@@ -362,7 +362,7 @@ export function LoginConcept1() {
           />
         </div>
       ) : null}
-      <div className={["login__body", screen === "inbox" ? "login__body--inbox" : null].filter(Boolean).join(" ")}>{body}</div>
+      <div className={["login__body", screen === "inbox" ? "login__body--inbox" : null, screen === "sign-in" ? "login__body--centred" : null].filter(Boolean).join(" ")}>{body}</div>
       <Sheet open={sheet !== null} onClose={() => setSheet(null)} label={sheetLabel} className={sheet === "email" ? "sheet--tall" : undefined}>
         {sheetContent()}
       </Sheet>

@@ -11521,11 +11521,19 @@ ul.stage-actions__list {
 }
 
 /* --- The Login page (Concept 1, Open page) --------------------------------- */
+/* The login page fills the screen, so its privacy line can sit at the foot. */
+.chrome__main:has(> .login) {
+  display: flex;
+  flex-direction: column;
+}
+
 .login {
   position: relative;
   isolation: isolate;
   display: flex;
+  flex: 1;
   flex-direction: column;
+  width: 100%;
   max-width: 26rem;
   min-height: 100%;
   margin-inline: auto;
@@ -11654,15 +11662,32 @@ ul.stage-actions__list {
   color: var(--color-text-secondary);
 }
 
-/* "New to ExecHQ?" stays under the buttons; the privacy line drops to the
-   foot of the screen, with room between them. */
-.login__foot--centre {
+/* The sign-in form sits in the middle of the page; the privacy line drops to
+   the foot. */
+.login__centre {
+  display: flex;
   flex: 1;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-2xl);
-  margin-top: 0;
-  padding-bottom: var(--space-md);
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-lg);
+}
+
+/* The form is centred on the whole page; equal room above and below holds the
+   privacy line, which sits at the very foot. */
+.login__body--centred,
+[data-viewport="tablet"] .login__body--centred,
+[data-viewport="web"] .login__body--centred {
+  padding-block: 4rem;
+}
+
+.login__body--centred .login__privacy {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.login__new {
   text-align: center;
 }
 
@@ -11671,6 +11696,7 @@ ul.stage-actions__list {
   align-items: center;
   justify-content: center;
   gap: var(--space-xs);
+  padding-block: var(--space-md);
   margin: 0;
   font-size: var(--text-xs);
   color: var(--color-text-muted);
