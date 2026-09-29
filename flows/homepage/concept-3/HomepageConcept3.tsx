@@ -28,9 +28,10 @@ import { ACTIONS, HORIZONS, ROADMAP, actionById } from "@/mock/plan-stub";
  * Kept apart from the Plan tab: only the current stage and what to do next.
  * No full roadmap detail, milestones or history; "See full plan" goes there.
  *
- * The stub doesn't yet say which actions belong to which stage, so the
- * current stage holds every accepted action (at most five). Declined and
- * deferred actions never appear.
+ * Every action belongs to a stage, and the current stage is the first with
+ * an accepted action not yet confirmed (decided 2026-09-29), so "Also in"
+ * lists only that stage's actions. Declined and deferred actions never
+ * appear.
  */
 
 const TOOLBOX = conceptHref("toolbox-flow", "concept-1");
@@ -175,9 +176,6 @@ export function HomepageConcept3() {
       <h1 className="u-visually-hidden">Home</h1>
       <div className="home__lead">
         <div className="home__greeting">
-          <span className="home__avatar" aria-hidden="true">
-            {loop.account.name?.charAt(0) ?? loop.account.email.charAt(0)}
-          </span>
           <span>
             <b>{C.greeting(loop.account.name ?? "")}</b>
             <span>{longDate(loop.today)}</span>

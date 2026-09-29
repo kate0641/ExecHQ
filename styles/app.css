@@ -3768,19 +3768,6 @@ ul.recent-work__list {
   color: var(--color-text-muted);
 }
 
-.home__avatar {
-  display: grid;
-  flex: none;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background-color: var(--color-surface-sunken);
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-bold);
-}
-
 .home__another {
   align-self: flex-start;
   margin-top: calc(-1 * var(--space-sm));

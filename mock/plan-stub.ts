@@ -159,7 +159,7 @@ export const ACTIONS: LandscapeAction[] = [
     whyLine: "Nominations close at the end of the month, and leading the review is the broader scope you want, in practice.",
     artifactId: "pitch",
     signalId: "broader-remit",
-    stage: 1,
+    stage: 2,
   },
   {
     id: "cross-functional",
