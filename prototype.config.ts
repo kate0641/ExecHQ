@@ -159,6 +159,7 @@ export const prototypeConfig: PrototypeConfig = {
       title: "Homepage",
       sprint: 2,
       chrome: "app",
+      privacyFooter: false,
       description:
         "The signed-in landing surface: current direction, what to do next, and the way into the Plan, Toolbox and Briefing.",
       concepts: [
