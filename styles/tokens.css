@@ -403,6 +403,15 @@
   --type-eyebrow-tracking: var(--tracking-label);
   --type-eyebrow-word-spacing: var(--font-display-word-spacing);
 
+  /* Figure — numbers shown as data: follower counts, percentages, the stage
+     number. Libre Baskerville, so figures read as considered, not as UI. */
+  --type-figure-font: var(--font-serif);
+  --type-figure-size: var(--text-xl);
+  --type-figure-weight: var(--weight-bold);
+  --type-figure-leading: var(--leading-tight);
+  --type-figure-tracking: var(--tracking-normal);
+  --type-figure-word-spacing: var(--word-spacing-normal);
+
   /* Editorial — Libre Baskerville's voice: quotes and welcome lines. Rare. */
   --type-editorial-font: var(--font-serif);
   --type-editorial-size: var(--text-2xl);

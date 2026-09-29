@@ -514,6 +514,7 @@ const TYPE_LAB_ROLES: { key: string; name: string; job: string; phone?: boolean 
   { key: "label", name: "Label", job: "Buttons, field labels" },
   { key: "caption", name: "Caption", job: "Dates, hints, status" },
   { key: "eyebrow", name: "Eyebrow", job: "Capitals above a heading" },
+  { key: "figure", name: "Figure", job: "Numbers shown as data" },
   { key: "editorial", name: "Editorial", job: "Quotes, welcome lines", phone: true },
 ];
 
@@ -651,7 +652,7 @@ export function StyleguideViewer() {
           id: "type-roles",
           label: "Type roles",
           group: "Type",
-          description: "Every piece of text is one of ten roles. Change a role here to try it on real components at phone size; nothing is saved until it goes into styles/tokens.css.",
+          description: "Every piece of text is one of eleven roles. Change a role here to try it on real components at phone size; nothing is saved until it goes into styles/tokens.css.",
           source: "styles/tokens.css",
           content: (
           <div className="styleguide-layout__card">

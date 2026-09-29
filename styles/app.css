@@ -248,6 +248,16 @@ samp {
   color: var(--color-text-muted);
 }
 
+.t-figure {
+  font-family: var(--type-figure-font);
+  font-size: var(--type-figure-size);
+  font-weight: var(--type-figure-weight);
+  line-height: var(--type-figure-leading);
+  letter-spacing: var(--type-figure-tracking);
+  word-spacing: var(--type-figure-word-spacing);
+  font-variant-numeric: tabular-nums;
+}
+
 .t-editorial {
   font-family: var(--type-editorial-font);
   font-size: var(--type-editorial-size);
@@ -10324,11 +10334,12 @@ ul.account-card__stats {
 }
 
 .account-card__stats b {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-xl);
-  line-height: 1.1;
+  font-family: var(--type-figure-font);
+  font-size: var(--type-figure-size);
+  font-weight: var(--type-figure-weight);
+  line-height: var(--type-figure-leading);
+  letter-spacing: var(--type-figure-tracking);
+  word-spacing: var(--type-figure-word-spacing);
   font-variant-numeric: tabular-nums;
 }
 
@@ -10624,14 +10635,14 @@ ol.stage-track__list {
 }
 
 .stage-track__big-n {
+  font-family: var(--type-figure-font);
+  font-weight: var(--type-figure-weight);
+  letter-spacing: var(--type-figure-tracking);
+  word-spacing: var(--type-figure-word-spacing);
   flex: none;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-4xl);
-  font-weight: var(--weight-bold);
   font-variant-numeric: tabular-nums;
   line-height: 0.9;
-  letter-spacing: var(--font-display-tracking-heading);
 }
 
 .stage-track__big-name {
@@ -12297,19 +12308,30 @@ ul.login__never {
    a phone-width stack of components on the right; the controls override role
    tokens on .type-lab, so everything inside picks them up. */
 .type-lab {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) var(--viewport-mobile-width);
+  container: type-lab / inline-size;
+  display: flex;
+  flex-wrap: wrap;
   gap: var(--space-xl);
-  align-items: start;
+  align-items: flex-start;
 }
 
+/* The controls keep the room their seven columns need; where the page is too
+   narrow for both, the phone wraps below instead of sliding under them. */
 .type-lab__controls {
+  flex: 1 1 44rem;
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
-  position: sticky;
-  top: var(--space-md);
   min-width: 0;
+  overflow-x: auto;
+}
+
+/* Side by side, the controls stay in view while the phone scrolls past. */
+@container type-lab (min-width: 72rem) {
+  .type-lab__controls {
+    position: sticky;
+    top: var(--space-md);
+  }
 }
 
 .type-lab__table {
@@ -12405,6 +12427,7 @@ ul.login__never {
 }
 
 .type-lab__phone {
+  flex: 0 0 var(--viewport-mobile-width);
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);

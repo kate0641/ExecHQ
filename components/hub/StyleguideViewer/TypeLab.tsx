@@ -88,6 +88,7 @@ const PREVIEW: { id: string; variant?: string }[] = [
   { id: "entrylink", variant: "A draft to pick up" },
   { id: "briefingcard" },
   { id: "accountcard" },
+  { id: "stagetrack" },
   { id: "profileheader" },
   { id: "settingsgroup" },
   { id: "notice" },
