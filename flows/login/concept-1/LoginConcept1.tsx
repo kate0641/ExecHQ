@@ -60,7 +60,6 @@ export function LoginConcept1() {
   const [keep, setKeep] = useState(true);
   const [sentTo, setSentTo] = useState(MAYA.email);
   const [code, setCode] = useState("");
-  const [codeError, setCodeError] = useState<string>();
   const [arrived, setArrived] = useState(false);
   const [resendLeft, setResendLeft] = useState(0);
   const [sheet, setSheet] = useState<SheetId>(null);
@@ -97,7 +96,6 @@ export function LoginConcept1() {
   function send(to: string) {
     setSentTo(to);
     setCode("");
-    setCodeError(undefined);
     setArrived(false);
     setResendLeft(RESEND_SECONDS);
     setSheet(null);
@@ -267,14 +265,10 @@ export function LoginConcept1() {
         <CodeField
           label={C.inbox.codeLabel}
           value={code}
-          error={codeError}
           onChange={(value) => {
             setCode(value);
-            setCodeError(undefined);
-            if (value.length === 6) {
-              if (value === SIGN_IN_CODE) signIn();
-              else setCodeError(C.inbox.wrongCode);
-            }
+                    // The prototype takes any six digits.
+            if (value.length === 6) signIn();
           }}
         />
         <p className="login__actions">
