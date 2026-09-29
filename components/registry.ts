@@ -77,6 +77,7 @@ import { nextStepCardStates } from "./homepage/NextStepCard/NextStepCard.states"
 import { readyCardStates } from "./homepage/ReadyCard/ReadyCard.states";
 import { briefingEntryStates } from "./homepage/BriefingEntry/BriefingEntry.states";
 import { entryLinkStates } from "./homepage/EntryLink/EntryLink.states";
+import { briefingCardStates } from "./homepage/BriefingCard/BriefingCard.states";
 import { recentWorkStates } from "./homepage/RecentWork/RecentWork.states";
 import { ringsHeroStates } from "./homepage/RingsHero/RingsHero.states";
 import { ringDetailStates } from "./homepage/RingDetail/RingDetail.states";
@@ -168,6 +169,7 @@ export const registry: RegisteredComponent[] = [
   readyCardStates,
   briefingEntryStates,
   entryLinkStates,
+  briefingCardStates,
   recentWorkStates,
   ringsHeroStates,
   ringDetailStates,

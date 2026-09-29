@@ -269,4 +269,13 @@ export const BRIEFING_STUB = {
   lead: "How planning season decides who gets new work",
   /** Only when a read touches an action on the plan. */
   why: "Relevant to your Q1 planning review.",
+  /** The other two reads, headlines only (Concept 2's Briefing card). */
+  others: [
+    "What chief marketing officers look for when they widen a remit",
+    "Why strong operators get passed over for scope, and what changes it",
+  ],
+  heading: "Today’s Briefing",
+  meta: (date: string, reads: number) => `${date} · ${reads} reads`,
+  open: "Read today’s Briefing",
+  close: "Close today’s Briefing. It comes back tomorrow.",
 } as const;

@@ -18,6 +18,7 @@
  */
 
 import { useMemo, useSyncExternalStore } from "react";
+import { reopenBriefing, useBriefingEverClosed } from "@/lib/briefing-dismissal";
 import {
   abandonRecord,
   answerFollowUp,
@@ -179,6 +180,7 @@ export function selectSnapshot(snapshot: SnapshotId): void {
 /** Every snapshot back as it started. Keeps the one being looked at. */
 export function resetLoop(): void {
   write({ snapshot: getLoopState().snapshot, changes: {} });
+  reopenBriefing();
 }
 
 /** The next step offered once this record's outcome is logged. Stubbed. */
@@ -230,7 +232,8 @@ export interface LoopView extends Snapshot {
   nextStep: Recommendation | undefined;
   /** True when this snapshot has changes a reset would undo. */
   changed: boolean;
-  /** True when any snapshot has, which is what the dock's reset undoes. */
+  /** True when any snapshot has, or the Briefing is closed: what the dock's
+   *  reset undoes. */
   anyChanged: boolean;
   /** Which of the five homepage states the Loop is in now. */
   homeState: HomeStateId;
@@ -239,6 +242,7 @@ export interface LoopView extends Snapshot {
 /** The live Loop for whichever snapshot is showing. */
 export function useLoop(): LoopView {
   const state = useSyncExternalStore(subscribeToLoop, getLoopState, getServerLoopState);
+  const briefingClosed = useBriefingEverClosed();
   return useMemo(() => {
     const snapshot = currentSnapshot(state);
     const followUp = nextFollowUp(snapshot.records, snapshot.today);
@@ -249,7 +253,7 @@ export function useLoop(): LoopView {
       lastWorkedOn: lastWorkedOn(snapshot.records),
       nextStep: snapshot.recommendations[0],
       changed: state.changes[state.snapshot] !== undefined,
-      anyChanged: Object.keys(state.changes).length > 0,
+      anyChanged: Object.keys(state.changes).length > 0 || briefingClosed,
     };
-  }, [state]);
+  }, [state, briefingClosed]);
 }

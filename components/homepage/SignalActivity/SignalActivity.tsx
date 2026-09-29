@@ -56,7 +56,7 @@ export function SignalActivity({
   return (
     <section className={["signal", `signal--${tone}`, className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
       {eyebrow ? <p className="signal__eyebrow">{eyebrow}</p> : null}
-      <Heading className="signal__name" id={headingId}>
+      <Heading className="signal__name" id={headingId} tabIndex={-1}>
         {name}
       </Heading>
       {window ? <p className="signal__window">{window}</p> : null}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { BriefingCard } from "@/components/homepage/BriefingCard";
 import { BriefingEntry } from "@/components/homepage/BriefingEntry";
 import { FollowUpCard } from "@/components/homepage/FollowUpCard";
 import { NextStepCard } from "@/components/homepage/NextStepCard";
@@ -11,14 +12,17 @@ import { addDays, aheadPhrase, dueFollowUps, whenPhrase } from "@/lib/loop";
 import { loopActions, nextStepAfter, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { signalActivity, signalOfRecord, signalOfStep, windowLabel, windowStart } from "@/lib/signals";
-import { HOME_COPY } from "@/mock/homepage";
+import { closeBriefing, useBriefingClosed } from "@/lib/briefing-dismissal";
+import { BRIEFING_STUB as B, HOME_COPY } from "@/mock/homepage";
 import { ARTIFACT_KINDS, FOLLOW_UP_POLICY, OUTCOME_READBACK } from "@/mock/loop";
 import { ACTIONS, HORIZONS, SIGNAL_COPY as C, actionById } from "@/mock/plan-stub";
 
 /**
  * Homepage Concept 2 — Signals (Ledger).
  *
- * Signal forward. The one signal the next action touches leads, in a dark
+ * Today's Briefing opens the page, in a light card that closes until
+ * tomorrow (decided 2026-09-29, replacing the greeting); then, signal
+ * forward, the one signal the next action touches, in a dark
  * panel with its last seven days as a dated list of facts, and the action is
  * joined directly beneath it. If a follow-up is due, the follow-up takes that
  * place instead and names its signal. Then the other tracked signals, then
@@ -48,6 +52,7 @@ function focusSoon(id: string) {
 export function HomepageConcept2() {
   const loop = useLoop();
   const [showing, setShowing] = useState<string | null>(null);
+  const briefingClosed = useBriefingClosed(loop.today);
 
   const due = dueFollowUps(loop.records, loop.today);
   const ready = loop.records.find((r) => r.state === "ready");
@@ -172,15 +177,22 @@ export function HomepageConcept2() {
     <div className="home">
       <h1 className="u-visually-hidden">Home</h1>
       <div className="home__lead">
-        <div className="home__greeting">
-          <span className="home__avatar" aria-hidden="true">
-            {loop.account.name?.charAt(0) ?? loop.account.email.charAt(0)}
-          </span>
-          <span>
-            <b>{HOME_COPY.greeting(loop.account.name ?? "")}</b>
-            <span>{longDate(loop.today)}</span>
-          </span>
-        </div>
+        {briefingClosed ? null : (
+          <BriefingCard
+            meta={B.meta(longDate(loop.today), B.reads)}
+            lead={B.lead}
+            why={B.why}
+            others={B.others}
+            href={BRIEFING}
+            heading={B.heading}
+            openLabel={B.open}
+            closeLabel={B.close}
+            onClose={() => {
+              closeBriefing(loop.today);
+              focusSoon(focal ? "focal-signal" : "other-signals");
+            }}
+          />
+        )}
 
         {focal ? (
           <div className="signals-home__focus">
@@ -204,7 +216,7 @@ export function HomepageConcept2() {
 
         <section className="signals-home__others" aria-labelledby="other-signals">
           <div className="signals-home__intro">
-            <h2 className="signals-home__heading" id="other-signals">
+            <h2 className="signals-home__heading" id="other-signals" tabIndex={-1}>
               {focal ? C.othersHeading : C.allHeading}
             </h2>
             <p className="signals-home__window">{span}</p>
@@ -222,7 +234,8 @@ export function HomepageConcept2() {
         </section>
       </div>
       <div className="home__side">
-        <BriefingEntry href={BRIEFING} />
+        {/* Once the card is closed, the one-line link keeps today's reads in reach. */}
+        {briefingClosed ? <BriefingEntry href={BRIEFING} /> : null}
         <RecentWork records={loop.records} hrefFor={() => TOOLBOX} />
       </div>
     </div>
