@@ -117,6 +117,7 @@ export function HomepageConcept1() {
         record={record}
         today={loop.today}
         about={about(record, C.confirms)}
+        showTrack={false}
         onSubmit={(answer) => {
           loopActions.answer(record.id, { type: answer.type, detail: answer.detail || undefined });
           setShowing(null);
@@ -141,6 +142,7 @@ export function HomepageConcept1() {
       <ReadyCard
         record={ready}
         about={about(ready, C.forAction)}
+        showTrack={false}
         openHref={TOOLBOX}
         checkBack={C.checkBack(ARTIFACT_KINDS[ready.kind].checkBackDays)}
         onUsed={() => {

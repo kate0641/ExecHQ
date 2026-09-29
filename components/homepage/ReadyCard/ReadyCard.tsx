@@ -15,6 +15,8 @@ export interface ReadyCardProps {
   openHref: string;
   /** When the Loop will check back once it's used, in words: "in two days". */
   checkBack?: string;
+  /** Shows the artifact's way through the Loop above the question. */
+  showTrack?: boolean;
   headingId?: string;
   className?: string;
 }
@@ -23,7 +25,16 @@ export interface ReadyCardProps {
  * An artifact that is ready but not marked used. It never nags: it says the
  * artifact is ready, and makes marking it used a single tap.
  */
-export function ReadyCard({ record, about, onUsed, openHref, checkBack, headingId = "ready-title", className }: ReadyCardProps) {
+export function ReadyCard({
+  record,
+  about,
+  onUsed,
+  openHref,
+  checkBack,
+  showTrack = true,
+  headingId = "ready-title",
+  className,
+}: ReadyCardProps) {
   const verb = ARTIFACT_KINDS[record.kind].usedVerb;
   return (
     <section className={["home-card", "home-card--raised", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
@@ -38,7 +49,7 @@ export function ReadyCard({ record, about, onUsed, openHref, checkBack, headingI
         )}
         <LoopStatus record={record} detail={false} />
       </div>
-      <LoopTrack record={record} />
+      {showTrack ? <LoopTrack record={record} /> : null}
       <h2 className="home-card__question" id={headingId} tabIndex={-1}>
         {record.title} is ready. Tell me when you’ve {verb} it.
       </h2>

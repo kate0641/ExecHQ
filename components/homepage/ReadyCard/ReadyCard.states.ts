@@ -33,6 +33,19 @@ export const readyCardStates = defineComponentStates({
       },
     },
     {
+      label: "Without the tracker",
+      description: "Where the rings already show progress, as in Homepage Concept 1’s tray.",
+      props: {
+        record: brief,
+        about: { lead: "For your short-term action", title: "Brief your manager before Thursday’s check-in" },
+        onUsed: noop,
+        openHref: "/toolbox-flow/concept-1",
+        checkBack: "in two days",
+        showTrack: false,
+        headingId: "ready-title-notrack",
+      },
+    },
+    {
       label: "A long title wraps",
       props: {
         record: { ...brief, title: "Brief for your manager check-in on scope, the planning workstream and the Q1 review" },
