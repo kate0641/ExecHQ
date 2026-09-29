@@ -308,3 +308,29 @@ export const CONCEPT3_COPY = {
   inStage: (stage: string) => `Part of ${stage}`,
   alsoIn: (stage: string) => `Also in ${stage}`,
 } as const;
+
+/* -----------------------------------------------------------------------------
+   THE CHECK-IN — one component for everything the Loop asks (2026-09-29).
+   Drawn three ways: Question first (Concept 1), Stepper (Concept 2),
+   Conversation (Concept 3). The words are the same in all three.
+   -------------------------------------------------------------------------- */
+
+export const CHECKIN_COPY = {
+  aboutFor: "For",
+  readyQuestion: (title: string) => `${title} is ready. Have you used it?`,
+  readySub: "Tell me once it’s been used, and I’ll ask what came of it.",
+  used: (verb: string) => `Yes, I’ve ${verb} it`,
+  notYet: "Not yet",
+  notYetReadback: "No problem. I’ll check in again in a couple of days.",
+  addNote: "Add a note",
+  noteLabel: "Anything to add? Optional. Only you see it.",
+  saveNote: "Save note",
+  skipNote: "Skip",
+  chatSend: "Send",
+  chatDone: "That’s all",
+  chatNoted: "Thanks. That’s saved with it.",
+  steps: { drafted: "Drafted", used: "Used", came: "What came of it" },
+  stepNotYet: "Not yet",
+  stepWaiting: "Waiting to hear",
+  stepLogged: "Logged",
+} as const;

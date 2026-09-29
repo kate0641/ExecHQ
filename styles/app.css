@@ -3951,6 +3951,20 @@ ul.rings-hero__row {
   outline-color: var(--color-focus);
 }
 
+/* In the tray the check-in, like the cards, gives up its own chrome. */
+.rings-hero__tray > .check-in {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+}
+
+.rings-hero__tray > .home-card--after-check-in {
+  margin-top: var(--space-md);
+  padding-top: var(--space-md);
+  border-top: var(--border-subtle);
+}
+
 .rings-hero__tray > .home__back {
   margin-bottom: var(--space-sm);
 }
@@ -9656,6 +9670,198 @@ ol.signal__list {
 .briefing-editorial__go {
   flex: none;
   color: var(--color-text-muted);
+}
+
+/* The check-in: one component for everything the Loop asks, drawn three
+   ways. Shared parts first, then each layout. */
+
+.check-in {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-raised);
+}
+
+.check-in__about {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.check-in__about b {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.check-in__dots {
+  display: inline-flex;
+  flex: none;
+  gap: var(--space-3xs);
+}
+
+.check-in__dots i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--color-border);
+}
+
+.check-in__dots i.is-done {
+  background-color: var(--color-text-primary);
+}
+
+.check-in__dots i.is-now {
+  background-color: var(--color-surface-raised);
+  box-shadow: inset 0 0 0 2px var(--color-text-primary);
+}
+
+.check-in__question {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-snug);
+  text-wrap: balance;
+}
+
+.check-in__question:focus,
+.check-in__readback:focus,
+.check-in__thread span:focus {
+  outline: none;
+}
+
+.check-in__sub {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.check-in__answers,
+.check-in__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.check-in__quiet {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs) var(--space-md);
+}
+
+.check-in__readback {
+  margin: 0;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  font-size: var(--text-sm);
+}
+
+.check-in__add {
+  align-self: flex-start;
+}
+
+.check-in__note {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.check-in__note-label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.check-in__note-field {
+  min-height: 64px;
+  padding: var(--space-xs) var(--space-sm);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  font: inherit;
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+  resize: vertical;
+}
+
+.check-in__note-field:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* Stepper: three steps across, the current one opened underneath. */
+ol.check-in__steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.check-in__steps li {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.check-in__steps li::before {
+  content: "";
+  height: 4px;
+  border-radius: 2px;
+  background-color: var(--color-border);
+}
+
+.check-in__steps li.is-done::before {
+  background-color: var(--color-text-primary);
+}
+
+.check-in__steps li.is-now::before {
+  background-color: var(--color-action);
+}
+
+.check-in__steps b {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.check-in__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md) var(--space-md);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+}
+
+.check-in__panel .check-in__readback {
+  background-color: var(--color-surface-raised);
+}
+
+/* Conversation: no card; the advisor's words sit on the page. */
+.check-in--chat {
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+}
+
+.check-in__thread {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
 }
 
 /* Concept 3's accounts: one row each, under a small heading. */

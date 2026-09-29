@@ -81,7 +81,7 @@ export const STATE_DETAILS = {
  *  reschedules the check-back rather than counting as a failure. */
 export const OUTCOME_OPTIONS = [
   { type: "positive", label: "It went well" },
-  { type: "neutral", label: "Somewhere in between" },
+  { type: "neutral", label: "It was mixed" },
   { type: "negative", label: "Not the way I hoped" },
   { type: "no-response-yet", label: "Nothing yet" },
   { type: "no-longer-relevant", label: "It’s no longer relevant" },
@@ -91,7 +91,7 @@ export const OUTCOME_OPTIONS = [
  *  what the user reported and never claims the artifact caused it. */
 export const OUTCOME_READBACK = {
   positive: "You said it went well.",
-  neutral: "You said it was somewhere in between.",
+  neutral: "You said it was mixed.",
   negative: "You said it didn’t go the way you hoped.",
   "no-response-yet": "Nothing yet.",
   "no-longer-relevant": "You said it’s no longer relevant.",

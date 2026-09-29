@@ -196,6 +196,10 @@ export const loopActions = {
     updateRecord(id, (r, today) => markUsed(r, today, answers)),
   answer: (id: string, answer: { type: OutcomeType; detail?: string; notes?: string }) =>
     updateRecord(id, (r, today) => answerFollowUp(r, today, answer), id),
+  /** Adds her note to an outcome she has just logged (the check-in saves the
+   *  answer on one tap, and offers the note after). Keeps "just answered". */
+  noteOutcome: (id: string, detail: string) =>
+    updateRecord(id, (r) => (r.outcome ? { ...r, outcome: { ...r.outcome, detail } } : r), id),
   /** Leave the "just answered" moment without changing anything else, e.g.
    *  to answer the other follow-up that is waiting. */
   moveOn: () => update(() => ({ justAnswered: undefined })),

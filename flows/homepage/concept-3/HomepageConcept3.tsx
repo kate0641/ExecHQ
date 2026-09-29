@@ -3,12 +3,11 @@
 import { useState } from "react";
 import { BriefingEditorial } from "@/components/homepage/BriefingEditorial";
 import { EntryLink } from "@/components/homepage/EntryLink";
-import { FollowUpCard } from "@/components/homepage/FollowUpCard";
 import { LoopRow } from "@/components/homepage/LoopRow";
 import { NextStepCard } from "@/components/homepage/NextStepCard";
-import { ReadyCard } from "@/components/homepage/ReadyCard";
 import { StageActions } from "@/components/homepage/StageActions";
 import { StageTrack } from "@/components/homepage/StageTrack";
+import { CheckIn } from "@/components/loop/CheckIn";
 import { addDays, aheadPhrase, dueFollowUps, shortDate, whenPhrase, type LoopRecord } from "@/lib/loop";
 import { loopActions, nextStepAfter, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
@@ -125,10 +124,17 @@ export function HomepageConcept3() {
         ? C.loggedDetail(outcome.detail)
         : C.loggedPlain(OUTCOME_READBACK[outcome.type])
     : undefined;
+  /* The one check-in showing: a row she opened, else what she just answered,
+     else the first thing due. Same key before and after she answers, so the
+     conversation keeps going in place. */
+  const checkRecord = showing && openRecord ? openRecord : (answered ?? openRecord);
+  const rowCount =
+    due.filter((r) => r.id !== checkRecord?.id).length +
+    readyRecords.filter((r) => r.id !== checkRecord?.id).length +
+    waitingRecords.filter((r) => r.id !== checkRecord?.id).length;
   const openItem = (id: string) => {
     setShowing(id);
-    const record = loop.records.find((r) => r.id === id);
-    focusSoon(record?.state === "ready" ? "ready-title" : "follow-up-question");
+    focusSoon("check-in-question");
   };
   const usedLine = (r: LoopRecord) =>
     `${capitalise(ARTIFACT_KINDS[r.kind].usedVerb)}${r.usedOn ? ` ${whenPhrase(r.usedOn, loop.today)}` : ""}. ${S.dueLine}`;
@@ -176,48 +182,44 @@ export function HomepageConcept3() {
             <h2 className="stage-actions__heading" id="stay-heading" tabIndex={-1}>
               {S.heading}
             </h2>
-            {readback ? <p className="home-card__readback">{readback}</p> : null}
-            {openRecord?.state === "ready" ? (
-              <ReadyCard
-                record={openRecord}
-                about={about(openRecord, C.forAction)}
-                openHref={TOOLBOX}
-                checkBack={C.checkBack(ARTIFACT_KINDS[openRecord.kind].checkBackDays)}
+            {checkRecord ? (
+              <CheckIn
+                key={checkRecord.id}
+                record={checkRecord}
+                today={loop.today}
+                about={about(checkRecord, C.confirms)?.title}
+                layout="chat"
+                answered={checkRecord === answered}
+                readback={checkRecord === answered ? readback : undefined}
                 onUsed={() => {
-                  loopActions.markUsed(openRecord.id);
+                  loopActions.markUsed(checkRecord.id);
                   setShowing(null);
                   focusSoon("stay-heading");
                 }}
-              />
-            ) : openRecord ? (
-              <FollowUpCard
-                record={openRecord}
-                today={loop.today}
-                about={about(openRecord, C.confirms)}
-                onSubmit={(answer) => {
-                  loopActions.answer(openRecord.id, { type: answer.type, detail: answer.detail || undefined });
+                onAnswer={(type) => {
+                  loopActions.answer(checkRecord.id, { type });
                   setShowing(null);
-                  focusSoon("next-step-title");
                 }}
+                onNote={(detail) => loopActions.noteOutcome(checkRecord.id, detail)}
               />
             ) : null}
-            {due.length + readyRecords.length + waitingRecords.length > (openRecord ? 1 : 0) ? (
+            {rowCount ? (
               <ul className="loop-rows">
                 {due
-                  .filter((r) => r.id !== openId)
+                  .filter((r) => r.id !== checkRecord?.id)
                   .map((r) => (
                     <li key={r.id}>
                       <LoopRow record={r} line={usedLine(r)} onOpen={() => openItem(r.id)} />
                     </li>
                   ))}
                 {readyRecords
-                  .filter((r) => r.id !== openId)
+                  .filter((r) => r.id !== checkRecord?.id)
                   .map((r) => (
                     <li key={r.id}>
                       <LoopRow record={r} line={S.readyLine} onOpen={() => openItem(r.id)} />
                     </li>
                   ))}
-                {waitingRecords.map((r) => (
+                {waitingRecords.filter((r) => r.id !== checkRecord?.id).map((r) => (
                   <li key={r.id}>
                     <LoopRow
                       record={r}

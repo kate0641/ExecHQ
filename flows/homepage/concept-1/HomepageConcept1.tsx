@@ -2,16 +2,15 @@
 
 import { useState } from "react";
 import { EntryLink } from "@/components/homepage/EntryLink";
-import { FollowUpCard } from "@/components/homepage/FollowUpCard";
 import { NextStepCard } from "@/components/homepage/NextStepCard";
-import { ReadyCard } from "@/components/homepage/ReadyCard";
 import { RingsHero } from "@/components/homepage/RingsHero";
+import { CheckIn } from "@/components/loop/CheckIn";
 import { addDays, aheadPhrase, dueFollowUps, shortDate, type LoopRecord } from "@/lib/loop";
 import { loopActions, nextStepAfter, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { nextToFill, ringOf, ringsFor } from "@/lib/rings";
 import { BRIEFING_STUB, HOME_COPY as C } from "@/mock/homepage";
-import { ARTIFACT_KINDS, FOLLOW_UP_POLICY, OUTCOME_READBACK } from "@/mock/loop";
+import { FOLLOW_UP_POLICY, OUTCOME_READBACK } from "@/mock/loop";
 import type { Horizon } from "@/mock/plan-stub";
 
 /**
@@ -45,9 +44,9 @@ const capitalise = (text: string) => text.charAt(0).toUpperCase() + text.slice(1
 
 /** The heading of each kind of moment, for focus on the way back to it. */
 const MOMENT_HEADING = {
-  followUp: "follow-up-question",
-  ready: "ready-title",
-  answered: "handoff-title",
+  followUp: "check-in-question",
+  ready: "check-in-question",
+  answered: "check-in-question",
 } as const;
 
 /** Moves focus to a heading once the card it names has replaced the last. */
@@ -72,6 +71,29 @@ export function HomepageConcept1() {
     const found = ringOf(rings, record.id);
     return found ? { lead: lead(found.ring.label), title: found.segment.action.title } : undefined;
   };
+  /** The Loop's one check-in, drawn Question first in this concept. */
+  const checkIn = (record: LoopRecord, answered: boolean, readback?: string) => (
+    <CheckIn
+      key={record.id}
+      record={record}
+      today={loop.today}
+      about={about(record, C.confirms)?.title}
+      layout="question"
+      answered={answered}
+      readback={readback}
+      onUsed={() => {
+        loopActions.markUsed(record.id);
+        setShowing(null);
+        focusSoon("next-step-title");
+      }}
+      onAnswer={(type) => {
+        loopActions.answer(record.id, { type });
+        setShowing(null);
+        focusSoon("check-in-question");
+      }}
+      onNote={(detail) => loopActions.noteOutcome(record.id, detail)}
+    />
+  );
   /** The ring the moment belongs to, and what kind of moment it is. */
   let focus: Horizon | null = null;
   let kind: keyof typeof C.backTo | "next" | "done" = "done";
@@ -92,17 +114,21 @@ export function HomepageConcept1() {
     }
     const step = outcome && outcome.type !== "no-response-yet" ? nextStepAfter(record) : loop.nextStep;
     kind = "answered";
+    focus = ringOf(rings, record.id)?.ring.horizon ?? null;
     card = (
       <>
-        <NextStepCard
-          lead={<p className="home-card__readback">{lead}</p>}
-          eyebrow="Next"
-          title={step?.title ?? "Pick your next step from your plan"}
-          whyLine={step?.why}
-          href={TOOLBOX}
-          stubbed
-          headingId="handoff-title"
-        />
+        {checkIn(record, true, lead)}
+        {outcome && outcome.type !== "no-response-yet" && outcome.type !== "no-longer-relevant" ? (
+          <NextStepCard
+            eyebrow="Next"
+            title={step?.title ?? "Pick your next step from your plan"}
+            whyLine={step?.why}
+            href={TOOLBOX}
+            stubbed
+            headingId="handoff-title"
+            className="home-card--after-check-in"
+          />
+        ) : null}
         {waiting.length ? (
           <button
             type="button"
@@ -110,7 +136,7 @@ export function HomepageConcept1() {
             onClick={() => {
               setShowing(waiting[0].id);
               loopActions.moveOn();
-              focusSoon("follow-up-question");
+              focusSoon("check-in-question");
             }}
           >
             {C.another(waiting[0].name)}
@@ -124,45 +150,26 @@ export function HomepageConcept1() {
     focus = ringOf(rings, record.id)?.ring.horizon ?? null;
     kind = "followUp";
     card = (
-      <FollowUpCard
-        record={record}
-        today={loop.today}
-        about={about(record, C.confirms)}
-        showTrack={false}
-        onSubmit={(answer) => {
-          loopActions.answer(record.id, { type: answer.type, detail: answer.detail || undefined });
-          setShowing(null);
-          focusSoon("handoff-title");
-        }}
-        another={
-          other
-            ? {
-                label: C.another(other.name),
-                onShow: () => {
-                  setShowing(other.id);
-                  focusSoon("follow-up-question");
-                },
-              }
-            : undefined
-        }
-      />
+      <>
+        {checkIn(record, false)}
+        {other ? (
+          <button
+            type="button"
+            className="link link--standalone home__another"
+            onClick={() => {
+              setShowing(other.id);
+              focusSoon("check-in-question");
+            }}
+          >
+            {C.another(other.name)}
+          </button>
+        ) : null}
+      </>
     );
   } else if (ready) {
     focus = ringOf(rings, ready.id)?.ring.horizon ?? null;
     kind = "ready";
-    card = (
-      <ReadyCard
-        record={ready}
-        about={about(ready, C.forAction)}
-        showTrack={false}
-        openHref={TOOLBOX}
-        checkBack={C.checkBack(ARTIFACT_KINDS[ready.kind].checkBackDays)}
-        onUsed={() => {
-          loopActions.markUsed(ready.id);
-          focusSoon("next-step-title");
-        }}
-      />
-    );
+    card = <>{checkIn(ready, false)}</>;
   } else if (next) {
     const a = next.segment.action;
     focus = next.ring.horizon;
