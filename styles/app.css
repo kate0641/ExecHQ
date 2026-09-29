@@ -3847,8 +3847,8 @@ ul.rings-hero__row {
   font-variant-numeric: tabular-nums;
 }
 
-/* The tray: what the moment asks for, inside the card. Its notch points at
-   the ring it belongs to; --at is that ring's place in the row, from 0. The
+/* The tray: what the moment asks for, inside the card, above the rings. Its
+   notch points down at the ring it belongs to; --at is that ring's place in the row, from 0. The
    tray and the row share a width, so the ring's centre is at (2 × at + 1) / 6. */
 
 .rings-hero__ring.is-pointed .rings-hero__name {
@@ -3865,7 +3865,7 @@ ul.rings-hero__row {
 
 .rings-hero__notch {
   position: absolute;
-  top: calc(-1 * var(--space-xs));
+  bottom: calc(-1 * var(--space-xs));
   left: calc(100% * (var(--at) * 2 + 1) / 6);
   width: var(--space-md);
   height: var(--space-md);

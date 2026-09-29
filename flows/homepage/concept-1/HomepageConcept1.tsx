@@ -20,9 +20,9 @@ import { signalById, type Horizon } from "@/mock/plan-stub";
  * Homepage Concept 1 — Rings (Row, Merged).
  *
  * Task forward. One card leads: the greeting, the plan and where it's
- * heading, the rings, and in a tray beneath them the one thing the moment
- * calls for — a follow-up due, then something ready but not used, then the
- * next step — with the tray's notch on the ring it belongs to. Then the
+ * heading, then a tray with the one thing the moment calls for — a follow-up
+ * due, then something ready but not used, then the next step — and under it
+ * the rings, the tray's notch pointing down at the ring it belongs to. Then the
  * Briefing, then the user's work. Chosen 2026-09-29 from Merged, Tethered
  * and Selector.
  *

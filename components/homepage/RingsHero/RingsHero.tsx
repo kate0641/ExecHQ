@@ -148,6 +148,14 @@ export function RingsHero({
         </span>
         <Icon name="chevron" size={16} />
       </Link>
+      {children ? (
+        <div className="rings-hero__tray">
+          {at >= 0 ? (
+            <span className="rings-hero__notch" style={{ "--at": at } as CSSProperties} aria-hidden="true" />
+          ) : null}
+          {children}
+        </div>
+      ) : null}
       <ul className="rings-hero__row">
         {rings.map((ring) => (
           <li key={ring.horizon}>
@@ -177,14 +185,6 @@ export function RingsHero({
         ))}
       </ul>
       {startNote ? <p className="rings-hero__note">{startNote}</p> : null}
-      {children ? (
-        <div className="rings-hero__tray">
-          {at >= 0 ? (
-            <span className="rings-hero__notch" style={{ "--at": at } as CSSProperties} aria-hidden="true" />
-          ) : null}
-          {children}
-        </div>
-      ) : null}
     </section>
   );
 }
