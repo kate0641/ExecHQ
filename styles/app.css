@@ -2561,7 +2561,7 @@ a.drawer-nav__account {
 }
 
 .concierge-host--mobile .concierge-host__panel {
-  top: 18%;
+  top: 7%;
   right: 0;
   bottom: 0;
   left: 0;
@@ -2626,13 +2626,38 @@ a.drawer-nav__account {
   border-left: var(--border-width-thin) solid var(--color-border);
 }
 
+/* The whole strip is the thing to pull; the bar inside it is what shows. */
 .concierge-panel__grab {
+  display: flex;
   flex: none;
+  justify-content: center;
+  padding: var(--space-sm) 0 var(--space-md);
+  cursor: grab;
+  touch-action: none;
+}
+
+.concierge-panel__grab::before {
+  content: "";
   width: 40px;
   height: 5px;
-  margin: var(--space-sm) auto 0;
   border-radius: var(--radius-pill);
   background-color: var(--color-border);
+}
+
+.concierge-panel.is-dragging {
+  transition: none;
+}
+
+/* No top bar before anything is asked: Close is there for keyboards and
+   screen readers, and appears when focused. */
+.concierge-panel__head--bare:not(:focus-within) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  border: 0;
 }
 
 .concierge-panel__head {

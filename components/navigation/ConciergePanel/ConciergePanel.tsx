@@ -1,4 +1,5 @@
-import type { ReactNode } from "react";
+"use client";
+import { useRef, type PointerEvent, type ReactNode } from "react";
 import { AdvisorMark } from "@/components/chat/AdvisorMark";
 import { Icon } from "@/components/primitives/Icon";
 
@@ -51,15 +52,50 @@ export function ConciergePanel({
   className,
 }: ConciergePanelProps) {
   const Tag = mode === "sheet" ? "div" : "aside";
+  const panelRef = useRef<HTMLElement>(null);
+  const drag = useRef<{ from: number; dy: number } | null>(null);
+  // Before anything is asked, the sheet has no top bar: it closes by tapping
+  // above it or pulling it down. The close button stays for keyboards and
+  // screen readers, out of sight until focused.
+  const bare = mode === "sheet" && !whoInHead;
+
+  function onDown(event: PointerEvent<HTMLElement>) {
+    drag.current = { from: event.clientY, dy: 0 };
+    event.currentTarget.setPointerCapture(event.pointerId);
+    panelRef.current?.classList.add("is-dragging");
+  }
+  function onMove(event: PointerEvent<HTMLElement>) {
+    if (!drag.current || !panelRef.current) return;
+    drag.current.dy = Math.max(0, event.clientY - drag.current.from);
+    panelRef.current.style.transform = `translateY(${drag.current.dy}px)`;
+  }
+  function onUp() {
+    const moved = drag.current?.dy ?? 0;
+    drag.current = null;
+    panelRef.current?.classList.remove("is-dragging");
+    if (panelRef.current) panelRef.current.style.transform = "";
+    if (moved > 80) onClose?.();
+  }
+
   return (
     <Tag
+      ref={panelRef as never}
       id={id}
       className={["concierge-panel", `concierge-panel--${mode}`, className].filter(Boolean).join(" ")}
       aria-label={label}
       {...(mode === "sheet" ? { role: "dialog", "aria-modal": true } : {})}
     >
-      {mode === "sheet" ? <span className="concierge-panel__grab" aria-hidden="true" /> : null}
-      <div className="concierge-panel__head">
+      {mode === "sheet" ? (
+        <span
+          className="concierge-panel__grab"
+          aria-hidden="true"
+          onPointerDown={onDown}
+          onPointerMove={onMove}
+          onPointerUp={onUp}
+          onPointerCancel={onUp}
+        />
+      ) : null}
+      <div className={["concierge-panel__head", bare ? "concierge-panel__head--bare" : null].filter(Boolean).join(" ")}>
         {whoInHead ? <AdvisorWho name={name} role={role} /> : <span className="concierge-panel__who" />}
         {onNew ? (
           <button type="button" className="concierge-panel__new" onClick={onNew}>
