@@ -304,6 +304,88 @@
   --tracking-label: 0.08em;
 
   /* ---------------------------------------------------------------------------
+     TYPE ROLES — every piece of text in the product is one of these. Each
+     role sets its face, size, weight, line height and letter spacing from the
+     scales above; components use the role, never the scales directly, so a
+     role changed here changes everywhere it is used. Display, title and
+     heading also have a phone size, applied on the mobile canvas below.
+     ------------------------------------------------------------------------ */
+
+  /* Display — the biggest words on a screen: welcome, privacy. */
+  --type-display-font: var(--font-display);
+  --type-display-size: var(--text-4xl);
+  --type-display-size-phone: var(--text-3xl);
+  --type-display-weight: var(--weight-bold);
+  --type-display-leading: var(--leading-tight);
+  --type-display-tracking: var(--tracking-tight);
+
+  /* Title — what a screen is asking or showing: one per screen. */
+  --type-title-font: var(--font-display);
+  --type-title-size: var(--text-3xl);
+  --type-title-size-phone: var(--text-2xl);
+  --type-title-weight: var(--weight-semibold);
+  --type-title-leading: var(--leading-tight);
+  --type-title-tracking: var(--tracking-tight);
+
+  /* Heading — a section or a card's title. */
+  --type-heading-font: var(--font-display);
+  --type-heading-size: var(--text-2xl);
+  --type-heading-size-phone: var(--text-xl);
+  --type-heading-weight: var(--weight-semibold);
+  --type-heading-leading: var(--leading-snug);
+  --type-heading-tracking: var(--tracking-tight);
+
+  /* Subheading — an item in a list or card: a row, a link, a read. */
+  --type-subheading-font: var(--font-display);
+  --type-subheading-size: var(--text-md);
+  --type-subheading-weight: var(--weight-semibold);
+  --type-subheading-leading: var(--leading-snug);
+  --type-subheading-tracking: var(--tracking-normal);
+
+  /* Body — reading text. */
+  --type-body-font: var(--font-body);
+  --type-body-size: var(--text-md);
+  --type-body-weight: var(--weight-regular);
+  --type-body-leading: var(--leading-normal);
+  --type-body-tracking: var(--tracking-normal);
+
+  /* Body small — supporting text under a subheading or heading. */
+  --type-body-sm-font: var(--font-body);
+  --type-body-sm-size: var(--text-sm);
+  --type-body-sm-weight: var(--weight-regular);
+  --type-body-sm-leading: var(--leading-normal);
+  --type-body-sm-tracking: var(--tracking-normal);
+
+  /* Label — the words on controls: buttons, field labels, tabs. */
+  --type-label-font: var(--font-display);
+  --type-label-size: var(--text-sm);
+  --type-label-weight: var(--weight-semibold);
+  --type-label-leading: var(--leading-snug);
+  --type-label-tracking: var(--tracking-wide);
+
+  /* Caption — metadata: dates, hints, counts, status. */
+  --type-caption-font: var(--font-body);
+  --type-caption-size: var(--text-xs);
+  --type-caption-weight: var(--weight-regular);
+  --type-caption-leading: var(--leading-snug);
+  --type-caption-tracking: var(--tracking-normal);
+
+  /* Eyebrow — the small capitals above a heading, and badges. Always
+     uppercase; the case is set with the role in styles/app.css. */
+  --type-eyebrow-font: var(--font-display);
+  --type-eyebrow-size: var(--text-2xs);
+  --type-eyebrow-weight: var(--weight-semibold);
+  --type-eyebrow-leading: var(--leading-snug);
+  --type-eyebrow-tracking: var(--tracking-label);
+
+  /* Editorial — Libre Baskerville's voice: quotes and welcome lines. Rare. */
+  --type-editorial-font: var(--font-serif);
+  --type-editorial-size: var(--text-lg);
+  --type-editorial-weight: var(--weight-regular);
+  --type-editorial-leading: var(--leading-relaxed);
+  --type-editorial-tracking: var(--tracking-normal);
+
+  /* ---------------------------------------------------------------------------
      SPACING — 4px base
      ------------------------------------------------------------------------ */
   --space-3xs: 0.125rem; /* 2px  */
@@ -401,4 +483,11 @@
   --z-devtools: 40;
   --z-scrim: 50;
   --z-hub-panel: 60;
+}
+
+/* On the phone canvas, the three largest roles take their phone size. */
+[data-viewport="mobile"] {
+  --type-display-size: var(--type-display-size-phone);
+  --type-title-size: var(--type-title-size-phone);
+  --type-heading-size: var(--type-heading-size-phone);
 }

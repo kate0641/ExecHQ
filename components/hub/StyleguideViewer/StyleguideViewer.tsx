@@ -5,6 +5,7 @@ import { TextLink } from "@/components/primitives/TextLink";
 import { getHubPage } from "@/lib/hub-pages";
 import { Specimens } from "./Specimens";
 import { StyleguideSections } from "./StyleguideSections";
+import { TypeLab, type TypeLabRole } from "./TypeLab";
 import {
   readTokens,
   tokensIn,
@@ -502,6 +503,39 @@ const TYPE_ROLES: { font: string; token: string; role: string }[] = [
   },
 ];
 
+/** The type roles, in the order the lab lists them, with what each is for. */
+const TYPE_LAB_ROLES: { key: string; name: string; job: string; phone?: boolean }[] = [
+  { key: "display", name: "Display", job: "Welcome, privacy", phone: true },
+  { key: "title", name: "Title", job: "One per screen", phone: true },
+  { key: "heading", name: "Heading", job: "Sections, card titles", phone: true },
+  { key: "subheading", name: "Subheading", job: "Rows, links, reads" },
+  { key: "body", name: "Body", job: "Reading text" },
+  { key: "body-sm", name: "Body small", job: "Supporting text" },
+  { key: "label", name: "Label", job: "Buttons, field labels" },
+  { key: "caption", name: "Caption", job: "Dates, hints, status" },
+  { key: "eyebrow", name: "Eyebrow", job: "Capitals above a heading" },
+  { key: "editorial", name: "Editorial", job: "Quotes, welcome lines" },
+];
+
+function typeLabRoles(tokens: Map<string, Token>): TypeLabRole[] {
+  const value = (name: string) => tokens.get(name)?.value ?? "";
+  return TYPE_LAB_ROLES.map((role) => {
+    const sizeToken = role.phone ? `--type-${role.key}-size-phone` : `--type-${role.key}-size`;
+    return {
+      key: role.key,
+      name: role.name,
+      job: role.job,
+      sizeToken,
+      values: {
+        font: value(`--type-${role.key}-font`),
+        size: value(sizeToken),
+        weight: value(`--type-${role.key}-weight`),
+        leading: value(`--type-${role.key}-leading`),
+      },
+    };
+  });
+}
+
 export function StyleguideViewer() {
   const allTokens = readTokens();
   const colourTokens = allTokens.filter(
@@ -579,7 +613,7 @@ export function StyleguideViewer() {
         },
         {
           id: "typography",
-          label: "Typography",
+          label: "Typefaces",
           group: "Type",
           description: "Three faces, three jobs. The scale below is rendered in each of them so the roles can be compared directly.",
           source: "styles/tokens.css",
@@ -608,6 +642,18 @@ export function StyleguideViewer() {
                 </ul>
               </div>
             ))}
+          </div>
+          ),
+        },
+        {
+          id: "type-roles",
+          label: "Type roles",
+          group: "Type",
+          description: "Every piece of text is one of ten roles. Change a role here to try it on real components at phone size; nothing is saved until it goes into styles/tokens.css.",
+          source: "styles/tokens.css",
+          content: (
+          <div className="styleguide-layout__card">
+            <TypeLab roles={typeLabRoles(tokenMap)} />
           </div>
           ),
         },
