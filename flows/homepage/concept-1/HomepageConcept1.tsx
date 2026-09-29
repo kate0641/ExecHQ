@@ -9,9 +9,9 @@ import { addDays, aheadPhrase, dueFollowUps, shortDate, type LoopRecord } from "
 import { loopActions, nextStepAfter, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { nextToFill, ringOf, ringsFor } from "@/lib/rings";
-import { BRIEFING_STUB, HOME_COPY as C } from "@/mock/homepage";
+import { BRIEFING_STUB, CHECKIN_COPY as CK, HOME_COPY as C } from "@/mock/homepage";
 import { FOLLOW_UP_POLICY, OUTCOME_READBACK } from "@/mock/loop";
-import type { Horizon } from "@/mock/plan-stub";
+import { ACTIONS, type Horizon } from "@/mock/plan-stub";
 
 /**
  * Homepage Concept 1 — Rings (Row, Merged).
@@ -61,7 +61,7 @@ export function HomepageConcept1() {
   const [picked, setPicked] = useState<{ horizon: Horizon; state: string } | null>(null);
   const [showing, setShowing] = useState<string | null>(null);
 
-  const rings = ringsFor(loop.records);
+  const rings = ringsFor(loop.records, ACTIONS, loop.tasks);
   const next = nextToFill(rings);
   const plan = loop.account.plan;
   const due = dueFollowUps(loop.records, loop.today);
@@ -71,6 +71,21 @@ export function HomepageConcept1() {
     const found = ringOf(rings, record.id);
     return found ? { lead: lead(found.ring.label), title: found.segment.action.title } : undefined;
   };
+  /* An action with no draft she's said is done, waiting on (or just given)
+     what came of it: the moment, after any follow-up due. */
+  const pendingTask = ACTIONS.find((a) => {
+    const t = !a.artifactId ? loop.tasks?.[a.id] : undefined;
+    return t && !t.dropped && (!t.outcome || t.outcome.on === loop.today);
+  });
+  const taskCheck = pendingTask ? loop.tasks![pendingTask.id] : undefined;
+  const taskReadback = taskCheck?.outcome
+    ? taskCheck.outcome.type === "no-response-yet"
+      ? CK.taskNothingYet
+      : taskCheck.outcome.detail
+        ? C.loggedDetail(taskCheck.outcome.detail)
+        : C.loggedPlain(OUTCOME_READBACK[taskCheck.outcome.type])
+    : undefined;
+
   /** The Loop's one check-in, drawn Question first in this concept. */
   const checkIn = (record: LoopRecord, answered: boolean, readback?: string) => (
     <CheckIn
@@ -166,6 +181,28 @@ export function HomepageConcept1() {
         ) : null}
       </>
     );
+  } else if (pendingTask && taskCheck) {
+    focus = pendingTask.horizon;
+    kind = "done";
+    card = (
+      <>
+        <CheckIn
+          key={`task-${pendingTask.id}`}
+          task={taskCheck}
+          today={loop.today}
+          about={pendingTask.title}
+          layout="question"
+          answered={Boolean(taskCheck.outcome)}
+          readback={taskReadback}
+          onAnswer={(type) => {
+            loopActions.answerTask(pendingTask.id, type);
+            focusSoon("check-in-task");
+          }}
+          onNote={(detail) => loopActions.noteTask(pendingTask.id, detail)}
+          headingId="check-in-task"
+        />
+      </>
+    );
   } else if (ready) {
     focus = ringOf(rings, ready.id)?.ring.horizon ?? null;
     kind = "ready";
@@ -180,6 +217,17 @@ export function HomepageConcept1() {
         title={a.title}
         whyLine={a.whyLine}
         href={TOOLBOX}
+        secondary={
+          a.artifactId
+            ? undefined
+            : {
+                label: CK.markDone,
+                onClick: () => {
+                  loopActions.completeTask(a.id);
+                  focusSoon("check-in-task");
+                },
+              }
+        }
       />
     );
   } else {

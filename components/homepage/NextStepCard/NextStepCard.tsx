@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 
 export interface NextStepCardProps {
@@ -22,6 +23,9 @@ export interface NextStepCardProps {
    *  visible when set, so no reviewer mistakes it for a live recommendation. */
   stubbed?: boolean;
   stubbedLabel?: string;
+  /** A second way on, under the main one: "I've done this", for a step with
+   *  no draft that she can say she's done. */
+  secondary?: { label: string; onClick: () => void };
   /** Keep the title for assistive technology only, when a concept already
    *  shows it large elsewhere (e.g. inside a ring). */
   titleHidden?: boolean;
@@ -46,6 +50,7 @@ export function NextStepCard({
   stubbed = false,
   stubbedLabel = "Stubbed · Sprint 3 connects this",
   titleHidden = false,
+  secondary,
   headingId = "next-step-title",
   className,
 }: NextStepCardProps) {
@@ -81,6 +86,11 @@ export function NextStepCard({
         {actionLabel}
         <Icon name="chevron" size={16} />
       </Link>
+      {secondary ? (
+        <Button variant="secondary" fullWidth onClick={secondary.onClick}>
+          {secondary.label}
+        </Button>
+      ) : null}
     </section>
   );
 }

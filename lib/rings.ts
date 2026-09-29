@@ -15,6 +15,21 @@
 
 import type { LoopRecord } from "@/lib/loop";
 import { ACTIONS, HORIZONS, type Horizon, type LandscapeAction } from "@/mock/plan-stub";
+import type { TaskCheck } from "@/mock/snapshots";
+
+type Tasks = Record<string, TaskCheck> | undefined;
+
+/** An action is done when the Loop confirms its draft, or, for an action
+ *  with no draft, when she says she's done it (her word). */
+function isDone(action: LandscapeAction, records: LoopRecord[], tasks: Tasks): boolean {
+  const record = action.artifactId ? records.find((r) => r.id === action.artifactId) : undefined;
+  return isConfirmed(record) || Boolean(!action.artifactId && tasks?.[action.id]?.doneOn && !tasks[action.id].dropped);
+}
+
+/** Accepted, and not set aside on her word. */
+function isLive(action: LandscapeAction, tasks: Tasks): boolean {
+  return action.status === "accepted" && !tasks?.[action.id]?.dropped;
+}
 
 export interface RingSegment {
   action: LandscapeAction;
@@ -40,13 +55,13 @@ export function isConfirmed(record: LoopRecord | undefined): boolean {
   return Boolean(record && (record.usedOn !== undefined || record.outcome !== undefined));
 }
 
-export function ringsFor(records: LoopRecord[], actions: LandscapeAction[] = ACTIONS): Ring[] {
+export function ringsFor(records: LoopRecord[], actions: LandscapeAction[] = ACTIONS, tasks?: Tasks): Ring[] {
   return HORIZONS.map((h) => {
     const segments = actions
-      .filter((a) => a.horizon === h.id && a.status === "accepted")
+      .filter((a) => a.horizon === h.id && isLive(a, tasks))
       .map((action) => {
         const record = action.artifactId ? records.find((r) => r.id === action.artifactId) : undefined;
-        return { action, record, filled: isConfirmed(record) };
+        return { action, record, filled: isDone(action, records, tasks) };
       });
     return {
       horizon: h.id,
@@ -54,7 +69,9 @@ export function ringsFor(records: LoopRecord[], actions: LandscapeAction[] = ACT
       span: h.span,
       segments,
       confirmed: segments.filter((s) => s.filled).length,
-      setAside: actions.filter((a) => a.horizon === h.id && (a.status === "declined" || a.status === "deferred")),
+      setAside: actions.filter(
+        (a) => a.horizon === h.id && (a.status === "declined" || a.status === "deferred" || Boolean(tasks?.[a.id]?.dropped))
+      ),
     };
   });
 }
@@ -98,9 +115,14 @@ export function ringOf(rings: Ring[], recordId: string): { ring: Ring; segment: 
  * first stage holding an accepted action the Loop hasn't confirmed. Once
  * everything accepted is confirmed, the stage after the last one worked in.
  */
-export function currentStageIndex(records: LoopRecord[], stageCount: number, actions: LandscapeAction[] = ACTIONS): number {
-  const accepted = actions.filter((a) => a.status === "accepted");
-  const open = accepted.filter((a) => !isConfirmed(a.artifactId ? records.find((r) => r.id === a.artifactId) : undefined));
+export function currentStageIndex(
+  records: LoopRecord[],
+  stageCount: number,
+  actions: LandscapeAction[] = ACTIONS,
+  tasks?: Tasks
+): number {
+  const accepted = actions.filter((a) => isLive(a, tasks));
+  const open = accepted.filter((a) => !isDone(a, records, tasks));
   if (open.length) return Math.min(...open.map((a) => a.stage));
   const last = accepted.length ? Math.max(...accepted.map((a) => a.stage)) : -1;
   return Math.min(last + 1, stageCount - 1);

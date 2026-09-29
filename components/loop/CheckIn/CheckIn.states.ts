@@ -21,7 +21,7 @@ export const checkInStates = defineComponentStates({
   status: "draft",
   flows: ["homepage"],
   description:
-    "The one check-in the Loop uses everywhere. It asks for where a draft stands — “Have you used it?” when ready, “What came of it?” when used — saves an answer on one tap and offers a note after. Drawn three ways: Question first (Concept 1), Stepper (Concept 2), Conversation (Concept 3); the words are the same.",
+    "The one check-in the Loop uses everywhere. It asks for where a draft stands — “Have you used it?” when ready, “What came of it?” when used — or, for a Plan action with no draft, “Have you done this yet?”; it saves an answer on one tap and offers a note after. Drawn three ways: Question first (Concept 1), Stepper (Concept 2), Conversation (Concept 3); the words are the same.",
   component: CheckIn,
   notApplicable: {
     ...CONTROLS_INSIDE,
@@ -38,6 +38,15 @@ export const checkInStates = defineComponentStates({
     { label: "Stepper, answered — filled", props: { ...done, layout: "stepper", headingId: "ci-s-done" } },
     { label: "Conversation, what came of it", props: { ...used, layout: "chat", headingId: "ci-c-used" } },
     { label: "Conversation, ready to use", props: { ...isReady, layout: "chat", headingId: "ci-c-ready" } },
+    {
+      label: "Question first, an action with no draft",
+      description: "“Have you done this yet?” — done on her word, it fills its ring and counts toward its stage.",
+      props: { ...base, task: {}, today: due.today, about: "Build a documented case for broader scope", layout: "question", headingId: "ci-t-todo" },
+    },
+    {
+      label: "Stepper, action done, what came of it",
+      props: { ...base, task: { doneOn: due.today }, today: due.today, about: "Build a documented case for broader scope", layout: "stepper", headingId: "ci-t-done" },
+    },
     {
       label: "A long action name wraps",
       props: { ...used, about: "Use your leadership story to open your next 1:1 with your manager, before the planning cycle", layout: "question", headingId: "ci-long" },

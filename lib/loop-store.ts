@@ -152,6 +152,7 @@ function update(change: (current: Snapshot) => Partial<SnapshotState>): void {
         records: next.records,
         recommendations: next.recommendations,
         justAnswered: next.justAnswered,
+        tasks: next.tasks,
       },
     },
   });
@@ -196,6 +197,20 @@ export const loopActions = {
     updateRecord(id, (r, today) => markUsed(r, today, answers)),
   answer: (id: string, answer: { type: OutcomeType; detail?: string; notes?: string }) =>
     updateRecord(id, (r, today) => answerFollowUp(r, today, answer), id),
+  /* Actions with no draft, on her word. Doing one ends "just answered". */
+  completeTask: (id: string) =>
+    update(({ tasks, today }) => ({ tasks: { ...tasks, [id]: { doneOn: today } }, justAnswered: undefined })),
+  dropTask: (id: string) =>
+    update(({ tasks, today }) => ({ tasks: { ...tasks, [id]: { doneOn: today, dropped: true } }, justAnswered: undefined })),
+  answerTask: (id: string, type: OutcomeType) =>
+    update(({ tasks, today }) => ({
+      tasks: { ...tasks, [id]: { doneOn: tasks?.[id]?.doneOn ?? today, outcome: { type, on: today } } },
+    })),
+  noteTask: (id: string, detail: string) =>
+    update(({ tasks }) => {
+      const task = tasks?.[id];
+      return task?.outcome ? { tasks: { ...tasks, [id]: { ...task, outcome: { ...task.outcome, detail } } } } : {};
+    }),
   /** Adds her note to an outcome she has just logged (the check-in saves the
    *  answer on one tap, and offers the note after). Keeps "just answered". */
   noteOutcome: (id: string, detail: string) =>

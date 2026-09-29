@@ -37,6 +37,16 @@ export const nextStepCardStates = defineComponentStates({
       },
     },
     {
+      label: "A step with no draft, with a way to say it’s done",
+      props: {
+        title: "Build a documented case for broader scope",
+        whyLine: "The next planning cycle starts in January, and when the role comes up, the people deciding will want your results on paper.",
+        href,
+        secondary: { label: "I’ve done this", onClick: () => {} },
+        headingId: "nsc-task",
+      },
+    },
+    {
       label: "Reasons in one sentence",
       description: "Why this, why now and why you said as one line. Homepage Concept 1’s tray.",
       props: { title: a.title, whyLine: a.whyLine, href, eyebrow: "Next in short-term", headingId: "nsc-whyline" },

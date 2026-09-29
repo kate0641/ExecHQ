@@ -329,7 +329,16 @@ export const CHECKIN_COPY = {
   chatSend: "Send",
   chatDone: "That’s all",
   chatNoted: "Thanks. That’s saved with it.",
-  steps: { drafted: "Drafted", used: "Used", came: "What came of it" },
+  steps: { drafted: "Drafted", used: "Used", came: "What came of it", accepted: "On your plan", done: "Done" },
+  /* An action with no draft, done on her word. */
+  taskQuestion: "Have you done this yet?",
+  taskSub: "Say when it’s done, and what came of it.",
+  taskDone: "Yes, it’s done",
+  taskDrop: "I’m not doing it",
+  taskDoneQuestion: (when: string) => `You finished this ${when}. What came of it?`,
+  taskNothingYet: "No problem. I’ll ask again in a couple of days.",
+  /** On a next step with no draft: the way to say it's done. */
+  markDone: "I’ve done this",
   stepNotYet: "Not yet",
   stepWaiting: "Waiting to hear",
   stepLogged: "Logged",

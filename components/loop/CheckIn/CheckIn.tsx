@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ChatMessage } from "@/components/chat/ChatMessage";
 import { QuickReplies } from "@/components/chat/QuickReplies";
 import { Button } from "@/components/primitives/Button";
-import { followUpQuestion, shortDate, type LoopRecord, type OutcomeType } from "@/lib/loop";
+import { followUpQuestion, shortDate, whenPhrase, type LoopRecord, type OutcomeType } from "@/lib/loop";
 import { CHECKIN_COPY as C } from "@/mock/homepage";
 import { ARTIFACT_KINDS, OUTCOME_OPTIONS } from "@/mock/loop";
 
@@ -12,7 +12,10 @@ export type CheckInLayout = "question" | "stepper" | "chat";
 
 export interface CheckInProps {
   /** The draft it's asking about. Its state decides the question. */
-  record: LoopRecord;
+  record?: LoopRecord;
+  /** Or a Plan action with no draft: done on her word, then asked what came
+   *  of it. Used when there is no record. */
+  task?: { doneOn?: string; outcome?: { type: OutcomeType; detail?: string } };
   /** The snapshot's today, for "last Tuesday". */
   today: string;
   /** The Plan action it belongs to, named in the context line. */
@@ -25,7 +28,11 @@ export interface CheckInProps {
   /** What was logged, in the page's words, once answered. */
   readback?: string;
   /** "Yes, I've used it", for a ready draft. */
-  onUsed: () => void;
+  onUsed?: () => void;
+  /** "Yes, it's done", for an action with no draft. */
+  onDone?: () => void;
+  /** "I'm not doing it", for an action with no draft. */
+  onDrop?: () => void;
   /** An outcome, saved on one tap. */
   onAnswer: (type: OutcomeType) => void;
   /** Her note, added to the outcome just logged. */
@@ -41,7 +48,9 @@ const labelOf = (type: OutcomeType) => OUTCOME_OPTIONS.find((o) => o.type === ty
 /**
  * The one check-in the Loop uses everywhere: it asks the question for where a
  * draft stands — "Have you used it?" once it's ready, "What came of it?"
- * once it's used — takes the answer on one tap, and offers a note after.
+ * once it's used — or, for a Plan action with no draft, "Have you done this
+ * yet?" and then what came of it. It takes the answer on one tap, and offers
+ * a note after.
  * "Nothing yet" and "It's no longer relevant" sit quieter, because they
  * aren't about how it went.
  *
@@ -51,12 +60,15 @@ const labelOf = (type: OutcomeType) => OUTCOME_OPTIONS.find((o) => o.type === ty
  */
 export function CheckIn({
   record,
+  task,
   today,
   about,
   layout = "question",
   answered = false,
   readback,
   onUsed,
+  onDone,
+  onDrop,
   onAnswer,
   onNote,
   headingId = "check-in-question",
@@ -72,13 +84,22 @@ export function CheckIn({
   const [firstReadback, setFirstReadback] = useState<string | undefined>(undefined);
   if (answered && readback && firstReadback === undefined) setFirstReadback(readback);
 
-  const kind = ARTIFACT_KINDS[record.kind];
-  const ready = record.state === "ready";
-  const question = ready ? C.readyQuestion(record.title) : followUpQuestion(record, today);
-  const canNote = answered && Boolean(record.outcome) && record.outcome?.type !== "no-longer-relevant" && !record.outcome?.detail && !noted;
+  const usedVerb = record ? ARTIFACT_KINDS[record.kind].usedVerb : "";
+  const ready = record?.state === "ready";
+  /** An action with no draft, not yet done. */
+  const todo = !record && !task?.doneOn;
+  const outcome = record ? record.outcome : task?.outcome;
+  const question = record
+    ? ready
+      ? C.readyQuestion(record.title)
+      : followUpQuestion(record, today)
+    : todo
+      ? C.taskQuestion
+      : C.taskDoneQuestion(whenPhrase(task!.doneOn!, today));
+  const canNote = answered && Boolean(outcome) && outcome?.type !== "no-longer-relevant" && !outcome?.detail && !noted;
   const shown = later ? C.notYetReadback : readback;
-  /** Where it is in the Loop: 0 drafted, 1 used, 2 what came of it. */
-  const at = answered && record.outcome ? 3 : ready ? 1 : 2;
+  /** Where it is in the Loop: 0 drafted or accepted, 1 used or done, 2 what came of it. */
+  const at = answered && outcome ? 3 : ready || todo ? 1 : 2;
 
   const saveNote = () => {
     if (note.trim()) onNote(note.trim());
@@ -121,11 +142,27 @@ export function CheckIn({
     )
   ) : null;
 
-  const answerButtons = ready ? (
+  const answerButtons = todo ? (
+    <>
+      <div className="check-in__answers">
+        <Button size="sm" onClick={onDone}>
+          {C.taskDone}
+        </Button>
+      </div>
+      <div className="check-in__quiet">
+        <button type="button" className="link link--standalone" onClick={() => setLater(true)}>
+          {C.notYet}
+        </button>
+        <button type="button" className="link link--standalone" onClick={onDrop}>
+          {C.taskDrop}
+        </button>
+      </div>
+    </>
+  ) : ready ? (
     <>
       <div className="check-in__answers">
         <Button size="sm" onClick={onUsed}>
-          {C.used(kind.usedVerb)}
+          {C.used(usedVerb)}
         </Button>
       </div>
       <div className="check-in__quiet">
@@ -156,8 +193,10 @@ export function CheckIn({
 
   /* Conversation: the advisor asks; her answer and its reply follow. */
   if (layout === "chat") {
-    const replies = ready
-      ? [{ label: C.used(kind.usedVerb) }, { label: C.notYet, quiet: true }]
+    const replies = todo
+      ? [{ label: C.taskDone }, { label: C.notYet, quiet: true }, { label: C.taskDrop, quiet: true }]
+      : ready
+      ? [{ label: C.used(usedVerb) }, { label: C.notYet, quiet: true }]
       : [...MAIN.map((t) => ({ label: labelOf(t) })), ...QUIET.map((t) => ({ label: labelOf(t), quiet: true }))];
     return (
       <section className={["check-in", "check-in--chat", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
@@ -195,7 +234,9 @@ export function CheckIn({
             onChoose={(label) => {
               setSaid(label);
               if (label === C.notYet) return setLater(true);
-              if (label === C.used(kind.usedVerb)) return onUsed();
+              if (label === C.taskDone) return onDone?.();
+              if (label === C.taskDrop) return onDrop?.();
+              if (label === C.used(usedVerb)) return onUsed?.();
               const type = OUTCOME_OPTIONS.find((o) => o.label === label)?.type;
               if (type) onAnswer(type);
             }}
@@ -207,11 +248,17 @@ export function CheckIn({
 
   /* Stepper: the Loop's three steps, the current one opened underneath. */
   if (layout === "stepper") {
-    const steps = [
-      { label: C.steps.drafted, when: shortDate(record.createdOn) },
-      { label: C.steps.used, when: record.usedOn ? shortDate(record.usedOn) : C.stepNotYet },
-      { label: C.steps.came, when: record.outcome ? C.stepLogged : record.usedOn ? C.stepWaiting : "" },
-    ];
+    const steps = record
+      ? [
+          { label: C.steps.drafted, when: shortDate(record.createdOn) },
+          { label: C.steps.used, when: record.usedOn ? shortDate(record.usedOn) : C.stepNotYet },
+          { label: C.steps.came, when: record.outcome ? C.stepLogged : record.usedOn ? C.stepWaiting : "" },
+        ]
+      : [
+          { label: C.steps.accepted, when: "" },
+          { label: C.steps.done, when: task?.doneOn ? shortDate(task.doneOn) : C.stepNotYet },
+          { label: C.steps.came, when: task?.outcome ? C.stepLogged : task?.doneOn ? C.stepWaiting : "" },
+        ];
     return (
       <section className={["check-in", "check-in--stepper", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
         {about ? <p className="check-in__about">{about}</p> : null}
@@ -238,7 +285,7 @@ export function CheckIn({
               <h3 className="check-in__question" id={headingId} tabIndex={-1}>
                 {question}
               </h3>
-              {ready ? <p className="check-in__sub">{C.readySub}</p> : null}
+              {ready ? <p className="check-in__sub">{C.readySub}</p> : todo ? <p className="check-in__sub">{C.taskSub}</p> : null}
               {answerButtons}
             </>
           )}
@@ -276,7 +323,7 @@ export function CheckIn({
           <h3 className="check-in__question" id={headingId} tabIndex={-1}>
             {question}
           </h3>
-          {ready ? <p className="check-in__sub">{C.readySub}</p> : null}
+          {ready ? <p className="check-in__sub">{C.readySub}</p> : todo ? <p className="check-in__sub">{C.taskSub}</p> : null}
           {answerButtons}
         </>
       )}

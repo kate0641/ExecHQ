@@ -13,7 +13,7 @@ import { conceptHref } from "@/lib/manifest";
 import { signalOfStep } from "@/lib/signals";
 import { closeBriefing, useBriefingClosed } from "@/lib/briefing-dismissal";
 import { ACCOUNTS_COPY as AC, LINKEDIN_STUB as LI, WEBSITE_STUB as WEB } from "@/mock/accounts-stub";
-import { BRIEFING_STUB as B, HOME_COPY, STAY_COPY as S } from "@/mock/homepage";
+import { BRIEFING_STUB as B, CHECKIN_COPY as CK, HOME_COPY, STAY_COPY as S } from "@/mock/homepage";
 import { ARTIFACT_KINDS, FOLLOW_UP_POLICY, OUTCOME_READBACK } from "@/mock/loop";
 import { ACTIONS, HORIZONS, actionById, signalById } from "@/mock/plan-stub";
 
@@ -91,9 +91,10 @@ export function HomepageConcept2() {
     : loop.recommendations.find((rec) => {
         const artifactId = actionById(rec.id)?.artifactId;
         const record = artifactId ? loop.records.find((r) => r.id === artifactId) : undefined;
+        if (loop.tasks?.[rec.id]) return false;
         return !record || record.state === "drafted" || record.state === "in-progress";
       });
-  const action = step ? actionById(step.id) : undefined;
+  const stepAction = step ? actionById(step.id) : undefined;
   const focalSignal = step ? signalOfStep(step.id) : undefined;
 
   /* Which item in "Stay on track" is open: the one she picked, else the
@@ -117,6 +118,21 @@ export function HomepageConcept2() {
     : undefined;
   // Opening another row keeps the just-logged state, so the next step it
   // brought stays in place while she answers the rest.
+  /* An action with no draft she's said is done, waiting on (or just given)
+     what came of it. */
+  const pendingTask = ACTIONS.find((a) => {
+    const t = !a.artifactId ? loop.tasks?.[a.id] : undefined;
+    return t && !t.dropped && (!t.outcome || t.outcome.on === loop.today);
+  });
+  const taskCheck = pendingTask ? loop.tasks![pendingTask.id] : undefined;
+  const taskReadback = taskCheck?.outcome
+    ? taskCheck.outcome.type === "no-response-yet"
+      ? CK.taskNothingYet
+      : taskCheck.outcome.detail
+        ? HOME_COPY.loggedDetail(taskCheck.outcome.detail)
+        : HOME_COPY.loggedPlain(OUTCOME_READBACK[taskCheck.outcome.type])
+    : undefined;
+
   /* The one check-in showing: a row she opened, else what she just answered,
      else the first thing due. Same key before and after she answers, so it
      keeps its place while offering a note. */
@@ -131,7 +147,7 @@ export function HomepageConcept2() {
   };
   const usedLine = (r: LoopRecord) =>
     `${capitalise(ARTIFACT_KINDS[r.kind].usedVerb)}${r.usedOn ? ` ${whenPhrase(r.usedOn, loop.today)}` : ""}. ${S.dueLine}`;
-  const nothingInLoop = !answered && !due.length && !readyRecords.length && !waitingRecords.length;
+  const nothingInLoop = !answered && !pendingTask && !due.length && !readyRecords.length && !waitingRecords.length;
   const anyUsed = loop.records.some((r) => r.usedOn);
 
   /* Her accounts, as Profile (or the dock) left them. */
@@ -175,12 +191,25 @@ export function HomepageConcept2() {
               ) : undefined
             }
             title={step.title}
-            why={action ? { this: action.whyThis, now: action.whyNow, you: action.whyYou } : { now: step.why }}
+            why={stepAction ? { this: stepAction.whyThis, now: stepAction.whyNow, you: stepAction.whyYou } : { now: step.why }}
             href={TOOLBOX}
             stubbed={updated}
             headingId="next-step-title"
+            secondary={
+              stepAction && !stepAction.artifactId && !updated
+                ? {
+                    label: CK.markDone,
+                    onClick: () => {
+                      loopActions.completeTask(step.id);
+                      focusSoon("check-in-task");
+                    },
+                  }
+                : undefined
+            }
           />
-        ) : null}
+        ) : (
+          <p className="c2-section__note">{HOME_COPY.allDone}</p>
+        )}
 
         {/* 3. Stay on track: what's waiting on her word. */}
         <section className="c2-section" aria-labelledby="stay-heading">
@@ -189,6 +218,20 @@ export function HomepageConcept2() {
               {S.heading}
             </h2>
           </div>
+          {pendingTask && taskCheck ? (
+            <CheckIn
+              key={`task-${pendingTask.id}`}
+              task={taskCheck}
+              today={loop.today}
+              about={pendingTask.title}
+              layout="stepper"
+              answered={Boolean(taskCheck.outcome)}
+              readback={taskReadback}
+              onAnswer={(type) => loopActions.answerTask(pendingTask.id, type)}
+              onNote={(detail) => loopActions.noteTask(pendingTask.id, detail)}
+              headingId="check-in-task"
+            />
+          ) : null}
           {checkRecord ? (
             <CheckIn
               key={checkRecord.id}

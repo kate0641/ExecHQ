@@ -8,7 +8,7 @@ import { useLoop, type LoopView } from "@/lib/loop-store";
 import { currentStageIndex } from "@/lib/rings";
 import { useViewport } from "@/lib/viewport-context";
 import { DRAWER_COPY } from "@/mock/navigation";
-import { ROADMAP } from "@/mock/plan-stub";
+import { ACTIONS, ROADMAP } from "@/mock/plan-stub";
 import type { NavConceptProps } from "../types";
 
 /**
@@ -62,7 +62,7 @@ function linesFor(loop: LoopView): Partial<Record<string, string>> {
   const { lines } = DRAWER_COPY;
   const openDraft = loop.records.find((r) => r.state === "drafted" || r.state === "in-progress");
   const plan = loop.account.plan;
-  const stage = ROADMAP[currentStageIndex(loop.records, ROADMAP.length)];
+  const stage = ROADMAP[currentStageIndex(loop.records, ROADMAP.length, ACTIONS, loop.tasks)];
   return {
     homepage: loop.followUp
       ? lines.homeDue(loop.followUp.name)

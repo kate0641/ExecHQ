@@ -13,7 +13,7 @@
 
 import { HOME_STATES, HOME_STATE_IDS, type HomeStateId } from "@/mock/homepage";
 import type { Account } from "@/mock/account";
-import type { LoopRecord } from "@/lib/loop";
+import type { LoopRecord, OutcomeType } from "@/lib/loop";
 
 export type SnapshotId = HomeStateId;
 
@@ -26,10 +26,24 @@ export interface Recommendation {
   why: string;
 }
 
+/**
+ * A Plan action with no draft, done on the user's word (decided 2026-09-29).
+ * Doing it fills its ring segment and counts toward its stage, labelled as
+ * her word; then the Loop asks what came of it, as it does for a draft.
+ */
+export interface TaskCheck {
+  doneOn: string;
+  outcome?: { type: OutcomeType; on: string; detail?: string };
+  /** "I'm not doing it": it leaves the rings, like a declined action. */
+  dropped?: boolean;
+}
+
 export interface SnapshotState {
   account: Account;
   records: LoopRecord[];
   recommendations: Recommendation[];
+  /** Actions with no draft, by action id, once she's said something. */
+  tasks?: Record<string, TaskCheck>;
   /** The record whose outcome was just recorded, for the hand-off. Cleared
    *  by the next move. */
   justAnswered?: string;
