@@ -3,12 +3,10 @@
 import { useState } from "react";
 import { AccountCard } from "@/components/homepage/AccountCard";
 import { BriefingCard } from "@/components/homepage/BriefingCard";
-import { BriefingEntry } from "@/components/homepage/BriefingEntry";
 import { FollowUpCard } from "@/components/homepage/FollowUpCard";
 import { LoopRow } from "@/components/homepage/LoopRow";
 import { NextStepCard } from "@/components/homepage/NextStepCard";
 import { ReadyCard } from "@/components/homepage/ReadyCard";
-import { RecentWork } from "@/components/homepage/RecentWork";
 import { SignalActivity } from "@/components/homepage/SignalActivity";
 import { TrendLine } from "@/components/homepage/TrendLine";
 import { addDays, aheadPhrase, dueFollowUps, shortDate, whenPhrase, type LoopRecord } from "@/lib/loop";
@@ -35,7 +33,9 @@ import { ACTIONS, HORIZONS, SIGNAL_COPY as C, actionById } from "@/mock/plan-stu
  * her LinkedIn and website say (Account cards, 2026-09-29): numbers with
  * source and date, what they suggest, and one thing to try; or, not
  * connected, what connecting would show. Connections are Profile's, so
- * connecting there shows here; the dock's toggle sets both at once.
+ * connecting there shows here; the dock's toggle sets both at once. On web
+ * it fills the right-hand column. There is no "Your work" list and no
+ * second Briefing link (decided 2026-09-29).
  *
  * PROVISIONAL signal area: the Signal Picture is designed in Sprint 3. Every
  * fact is read from the live Loop (`lib/signals.ts`), and all signal data and
@@ -277,6 +277,9 @@ export function HomepageConcept2() {
           ))}
         </section>
 
+      </div>
+      {/* On web, the right-hand column; on a phone, after the signals. */}
+      <div className="home__side">
         {/* Her accounts: their own section, never part of the next step. */}
         <section className="accounts-home" aria-labelledby="accounts-heading">
           <div className="signals-home__intro">
@@ -327,11 +330,6 @@ export function HomepageConcept2() {
           )}
           <p className="accounts-home__private">{AC.private}</p>
         </section>
-      </div>
-      <div className="home__side">
-        {/* Once the card is closed, the one-line link keeps today's reads in reach. */}
-        {briefingClosed ? <BriefingEntry href={BRIEFING} /> : null}
-        <RecentWork records={loop.records} hrefFor={() => TOOLBOX} />
       </div>
     </div>
   );
