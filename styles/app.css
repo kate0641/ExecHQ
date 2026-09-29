@@ -10646,13 +10646,13 @@ ol.stage-track__list {
 }
 
 .stage-track__big-name {
+  font-family: var(--type-title-font);
+  font-size: var(--type-title-size);
+  font-weight: var(--type-title-weight);
+  line-height: var(--type-title-leading);
+  letter-spacing: var(--type-title-tracking);
+  word-spacing: var(--type-title-word-spacing);
   min-width: 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-2xl);
-  font-weight: var(--weight-bold);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--font-display-tracking-heading);
   text-wrap: balance;
 }
 
@@ -10661,11 +10661,6 @@ ol.stage-track__list {
   margin: var(--space-2xs) 0 0;
   font-size: var(--text-md);
   line-height: var(--leading-normal);
-}
-
-[data-viewport="tablet"] .stage-track__big-name,
-[data-viewport="web"] .stage-track__big-name {
-  font-size: var(--text-3xl);
 }
 
 /* StageActions ----------------------------------------------------------- */
