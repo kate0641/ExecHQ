@@ -3393,6 +3393,81 @@ ol.loop-track {
   color: var(--color-text-muted);
 }
 
+/* Entry links: a way to another destination that says what's there. */
+
+.entry-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-raised);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  transition: border-color var(--duration-fast) var(--easing-standard), transform var(--duration-fast) var(--easing-standard);
+}
+
+.entry-link:hover,
+.entry-link.is-hover {
+  border-color: var(--color-border-strong);
+}
+
+.entry-link:focus-visible,
+.entry-link.is-focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.entry-link:active,
+.entry-link.is-active {
+  transform: scale(0.99);
+}
+
+.entry-link__icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-sunken);
+}
+
+.entry-link__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  min-width: 0;
+}
+
+.entry-link__eyebrow {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.entry-link__title {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.entry-link__detail {
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+  color: var(--color-text-secondary);
+}
+
+.entry-link__go {
+  flex: none;
+  color: var(--color-text-muted);
+}
+
 /* Recent work */
 
 .recent-work {
@@ -3647,50 +3722,6 @@ ul.recent-work__list {
 .rings-hero__greeting span {
   font-size: var(--text-sm);
   color: var(--color-text-inverse-muted);
-}
-
-/* The plan and where it's heading, in one line. The whole line is the way
-   to the Plan: outlined at rest so it reads as something to tap, and set
-   apart from the caption under the rings. */
-.rings-hero__plan {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-sm) var(--space-sm) var(--space-md);
-  border: var(--border-width-thin) solid var(--color-border-inverse);
-  border-radius: var(--radius-lg);
-  color: var(--color-text-inverse);
-  text-decoration: none;
-  transition: background-color var(--duration-fast) var(--easing-standard);
-}
-
-.rings-hero__plan:hover {
-  background-color: var(--color-surface-inverse-hover);
-}
-
-.rings-hero__plan:active {
-  background-color: var(--color-surface-inverse-active);
-}
-
-.rings-hero__plan:focus-visible {
-  outline: var(--focus-ring-width) solid var(--color-focus-inverse);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.rings-hero__plan-text {
-  flex: 1;
-  min-width: 0;
-  font-size: var(--text-sm);
-  line-height: var(--leading-snug);
-}
-
-.rings-hero__plan-text b {
-  font-family: var(--font-display);
-  font-weight: var(--weight-bold);
-}
-
-.rings-hero__plan svg {
-  flex: none;
 }
 
 /* A caption for the rings on the first return: smaller and quieter than

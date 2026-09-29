@@ -1,6 +1,4 @@
-import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
-import { Icon } from "@/components/primitives/Icon";
 import { ringCount, ringText, type Ring, type RingSegment } from "@/lib/rings";
 import type { Horizon } from "@/mock/plan-stub";
 
@@ -12,11 +10,6 @@ export interface RingsHeroProps {
   greeting?: string;
   /** Today, under the greeting: "Monday 5 October". */
   date?: string;
-  /** The plan's name: "Step up". No week count: a plan has no end date. */
-  planLine: string;
-  /** Where the plan is heading, after the name: "toward leading a broader
-   *  marketing organisation". The formal plan name lives on the Plan page. */
-  direction?: string;
   /** A line for the first return, so nearly empty rings read as a start.
    *  It explains the segments, so it sits under the rings as a caption. */
   startNote?: string;
@@ -31,10 +24,6 @@ export interface RingsHeroProps {
   onSelect?: (horizon: Horizon) => void;
   /** The tray's id, for the rings' aria-controls. */
   trayId?: string;
-  /** The whole plan line is the way to the Plan, marked with a chevron. */
-  planHref: string;
-  /** Read before the plan line by assistive technology. */
-  planLabel?: string;
   /** Catalogue only: shows one ring in a state a static page can't reach. */
   demo?: { horizon: Horizon; state: "hover" | "focus" | "active" };
   className?: string;
@@ -101,10 +90,11 @@ function RingDrawing({ ring, nextId }: { ring: Ring; nextId?: string }) {
 
 /**
  * The focal point of Homepage Concept 1 — Rings, Merged: one card that is
- * the user's own — greeting, plan and where it's heading — with three rings
- * for the actions they have accepted, one per horizon, and beneath them a
- * tray holding the one thing the moment asks for. The tray's notch points at
- * the ring that thing belongs to, so the rings and the action read as one.
+ * the user's own, opening on the greeting and date, then a tray holding the
+ * one thing the moment asks for, and beneath it three rings for the actions
+ * they have accepted, one per horizon. The tray's notch points down at the
+ * ring that thing belongs to, so the action and the rings read as one. The
+ * plan sits outside the card, below it.
  *
  * Each ring is a button that puts its next action in the tray, and the
  * notch moves to it; the page decides what that means for the ring the
@@ -117,15 +107,11 @@ export function RingsHero({
   next,
   greeting,
   date,
-  planLine,
-  direction,
   startNote,
   focus = null,
   children,
   onSelect,
   trayId = "rings-hero-tray",
-  planHref,
-  planLabel = "See your plan",
   demo,
   className,
 }: RingsHeroProps) {
@@ -141,14 +127,6 @@ export function RingsHero({
           {date ? <span>{date}</span> : null}
         </p>
       ) : null}
-      <Link href={planHref} className="rings-hero__plan">
-        <span className="u-visually-hidden">{planLabel}: </span>
-        <span className="rings-hero__plan-text">
-          <b>{planLine}</b>
-          {direction ? <> &middot; {direction}</> : null}
-        </span>
-        <Icon name="chevron" size={16} />
-      </Link>
       {children ? (
         <div className="rings-hero__tray" id={trayId}>
           {at >= 0 ? (

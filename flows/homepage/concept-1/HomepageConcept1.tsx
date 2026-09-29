@@ -1,28 +1,28 @@
 "use client";
 
 import { useState } from "react";
-import { BriefingEntry } from "@/components/homepage/BriefingEntry";
+import { EntryLink } from "@/components/homepage/EntryLink";
 import { FollowUpCard } from "@/components/homepage/FollowUpCard";
 import { NextStepCard } from "@/components/homepage/NextStepCard";
 import { ReadyCard } from "@/components/homepage/ReadyCard";
-import { RecentWork } from "@/components/homepage/RecentWork";
 import { RingsHero } from "@/components/homepage/RingsHero";
-import { addDays, aheadPhrase, dueFollowUps, type LoopRecord } from "@/lib/loop";
+import { addDays, aheadPhrase, dueFollowUps, shortDate, type LoopRecord } from "@/lib/loop";
 import { loopActions, nextStepAfter, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { nextToFill, ringOf, ringsFor } from "@/lib/rings";
-import { HOME_COPY as C } from "@/mock/homepage";
+import { BRIEFING_STUB, HOME_COPY as C } from "@/mock/homepage";
 import { ARTIFACT_KINDS, FOLLOW_UP_POLICY, OUTCOME_READBACK } from "@/mock/loop";
 import type { Horizon } from "@/mock/plan-stub";
 
 /**
  * Homepage Concept 1 — Rings (Row, Merged).
  *
- * Task forward. One card leads: the greeting, the plan and where it's
- * heading, then a tray with the one thing the moment calls for — a follow-up
- * due, then something ready but not used, then the next step — and under it
- * the rings, the tray's notch pointing down at the ring it belongs to. Then the
- * Briefing, then the user's work. Chosen 2026-09-29 from Merged, Tethered
+ * Task forward. One card leads: the greeting, then a tray with the one thing
+ * the moment calls for — a follow-up due, then something ready but not used,
+ * then the next step — and under it the rings, the tray's notch pointing
+ * down at the ring it belongs to. Under the card, the plan; then a draft to
+ * pick up if there is one, and today's Briefing, each saying what's there.
+ * The full list of work belongs to the Toolbox (Sprint 4). Chosen 2026-09-29 from Merged, Tethered
  * and Selector.
  *
  * Everything reads the live Loop, so answering the follow-up here moves the
@@ -40,6 +40,8 @@ function longDate(date: string): string {
   const d = new Date(`${date}T00:00:00Z`);
   return `${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
 }
+
+const capitalise = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
 
 /** The heading of each kind of moment, for focus on the way back to it. */
 const MOMENT_HEADING = {
@@ -217,7 +219,12 @@ export function HomepageConcept1() {
   const lastUsed = [...loop.records]
     .filter((r) => r.usedOn)
     .sort((a, b) => (a.usedOn! < b.usedOn! ? 1 : -1))[0];
-  const labelFor = (record: LoopRecord) => ringOf(rings, record.id)?.ring.label;
+  /* A draft she's partway through, unless the tray is already about it. */
+  const trayArtifact = next && kind === "next" ? next.segment.action.artifactId : undefined;
+  const resume = [...loop.records]
+    .filter((r) => (r.state === "drafted" || r.state === "in-progress") && r.id !== trayArtifact)
+    .sort((a, b) => (a.history.at(-1)!.on < b.history.at(-1)!.on ? 1 : -1))[0];
+  const resumeLast = resume?.history.at(-1);
 
   return (
     <div className="home">
@@ -228,8 +235,6 @@ export function HomepageConcept1() {
           next={next}
           greeting={C.greeting(loop.account.name ?? "")}
           date={longDate(loop.today)}
-          planLine={plan.name}
-          direction={loop.account.towardShort ? C.toward(loop.account.towardShort) : undefined}
           startNote={loop.homeState === "first-return" ? C.startNote : undefined}
           focus={shownRing}
           onSelect={(h) => {
@@ -237,13 +242,19 @@ export function HomepageConcept1() {
             // to the moment.
             setPicked(h === focus || h === pick ? null : { horizon: h, state: loop.homeState });
           }}
-          planHref={PLAN}
         >
           {card}
         </RingsHero>
         <p className="u-visually-hidden" aria-live="polite">
           {pick ? C.showing(rings.find((r) => r.horizon === pick)!.label) : ""}
         </p>
+        <EntryLink
+          href={PLAN}
+          icon="flag"
+          eyebrow={C.planEyebrow}
+          title={plan.name}
+          detail={loop.account.towardShort ? capitalise(C.toward(loop.account.towardShort)) : undefined}
+        />
         {loop.homeState === "nothing-pending" && lastUsed ? (
           <p className="home__last">
             {C.lastUsed}: <b>{lastUsed.title}</b>
@@ -251,8 +262,22 @@ export function HomepageConcept1() {
         ) : null}
       </div>
       <div className="home__side">
-        <BriefingEntry href={BRIEFING} />
-        <RecentWork records={loop.records} hrefFor={() => TOOLBOX} labelFor={labelFor} />
+        {resume && resumeLast ? (
+          <EntryLink
+            href={TOOLBOX}
+            icon="draft"
+            eyebrow={C.resumeEyebrow}
+            title={resume.title}
+            detail={C.resumeDetail(resumeLast.type === "drafted" ? "Drafted" : "Edited", shortDate(resumeLast.on))}
+          />
+        ) : null}
+        <EntryLink
+          href={BRIEFING}
+          icon="briefing"
+          eyebrow={BRIEFING_STUB.eyebrow(BRIEFING_STUB.reads)}
+          title={BRIEFING_STUB.lead}
+          detail={BRIEFING_STUB.why}
+        />
       </div>
     </div>
   );

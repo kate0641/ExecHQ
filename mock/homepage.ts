@@ -231,6 +231,10 @@ export const HOME_COPY = {
   /** Over a ring's next action, whether it's the moment's or a ring picked. */
   nextIn: (horizon: string) => `Next in ${horizon.toLowerCase()}`,
   ringDone: (horizon: string) => `Every ${horizon.toLowerCase()} action is confirmed.`,
+  /** The links under the rings card (Concept 1): each says what's there. */
+  planEyebrow: "Your plan",
+  resumeEyebrow: "Pick up where you left off",
+  resumeDetail: (verb: "Drafted" | "Edited", date: string) => `${verb} ${date}`,
   /** Read out when a ring's action replaces the moment above the rings. */
   showing: (horizon: string) => `Showing your next ${horizon.toLowerCase()} action above.`,
   /** Back to what the page was asking for, when it's more than a next step:
@@ -249,4 +253,20 @@ export const HOME_COPY = {
   askAgain: (name: string, when: string) => `No problem. I’ll ask about ${name} again ${when}.`,
   lastUsed: "Last used",
   checkBack: (days: number) => (days === 2 ? "in two days" : `in ${days} days`),
+} as const;
+
+/* -----------------------------------------------------------------------------
+   TODAY'S BRIEFING — STUB
+   The Briefing is designed in Sprint 4. Until then Concept 1 says what's in
+   it with one lead read and, when it touches the plan, why it matters. The
+   Briefing stays visibly apart from plan recommendations: it sits outside
+   the rings card, and never in the tray.
+   -------------------------------------------------------------------------- */
+
+export const BRIEFING_STUB = {
+  reads: 3,
+  eyebrow: (reads: number) => `Today’s Briefing · ${reads} reads`,
+  lead: "How planning season decides who gets new work",
+  /** Only when a read touches an action on the plan. */
+  why: "Relevant to your Q1 planning review.",
 } as const;

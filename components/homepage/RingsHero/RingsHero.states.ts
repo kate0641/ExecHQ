@@ -10,9 +10,6 @@ import { RingsHero } from "./RingsHero";
 const base = {
   greeting: "Good morning, Maya",
   date: "Tuesday 20 October",
-  planLine: "Step up",
-  direction: "toward leading a broader marketing organisation",
-  planHref: "/plan/concept-1",
 };
 /** The tray as the page fills it when the next step is the moment. Each
  *  variant gets its own heading id, since the catalogue shows them together. */
@@ -99,7 +96,7 @@ export const ringsHeroStates = defineComponentStates({
         }),
       },
     },
-    { label: "No tray, no direction", description: "Without a moment or a short direction, the card is the greeting, the plan and the rings.", props: { ...forState("follow-up-due"), children: undefined, focus: null, direction: undefined } },
+    { label: "No tray", description: "Without a moment, the card is the greeting and the rings.", props: { ...forState("follow-up-due"), children: undefined, focus: null } },
     { label: "Ring — hover", props: { ...forState("follow-up-due"), demo: { horizon: "medium", state: "hover" } } },
     { label: "Ring — focus", props: { ...forState("follow-up-due"), demo: { horizon: "short", state: "focus" } } },
     { label: "Ring — pressed", props: { ...forState("follow-up-due"), demo: { horizon: "long", state: "active" } } },
