@@ -36,7 +36,6 @@ export const PROFILE_COPY = {
     you: "You",
     connections: "Connections",
     email: "Email",
-    briefing: "Briefing",
     data: "Your data",
   },
 
@@ -45,13 +44,9 @@ export const PROFILE_COPY = {
     directionValue: "In your words",
     plan: "Plan",
     planValue: (name: string, formalName: string) => `${name} · ${formalName}`,
-    email: "Email",
     connected: "Connected",
     notConnected: "Not connected",
     followUps: "Loop follow-ups",
-    publishers: "Publishers you follow",
-    delivery: "Briefing delivery",
-    later: "With the Briefing",
     export: "Download your data",
     delete: "Delete account",
     signOut: "Sign out",
@@ -71,14 +66,17 @@ export const PROFILE_COPY = {
 
   account: {
     heading: "Your account",
-    nameLabel: "Name (optional)",
-    nameHint: "Only used to greet you. Leave it empty and we’ll just say hello.",
+    firstNameLabel: "First name",
+    lastNameLabel: "Last name",
+    titleLabel: "Current title (optional)",
+    titleHint: "As you’d say it yourself. Never your employer.",
+    firstNameMissing: "Add your first name.",
+    lastNameMissing: "Add your last name.",
     emailLabel: "Email",
     emailHint: "Your personal email. It’s how you sign in.",
     save: "Save",
     cancel: "Cancel",
     saved: "Saved.",
-    removed: "Name removed.",
   },
 
   direction: {

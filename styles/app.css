@@ -10479,7 +10479,7 @@ ul.stage-actions__list {
   color: var(--color-text-secondary);
 }
 
-.profile-header__email {
+.profile-header__title {
   overflow: hidden;
   font-size: var(--text-sm);
   color: var(--color-text-muted);

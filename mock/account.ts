@@ -4,10 +4,11 @@
  * onboarding mocks).
  *
  * What the account holds follows the Sprint 2 brief's Profile contents:
- * personal email, optional name, the selected plan, the LinkedIn and website
- * connections with exactly what each shares, and the follow-up email setting.
- * There is no employer, company or title field, by rule. The role Maya gave
- * during onboarding lives in her story, not on her account.
+ * personal email, first and last name, an optional current title, the selected
+ * plan, the LinkedIn and website connections with exactly what each shares,
+ * and the follow-up email setting. There is no employer or company field, by
+ * rule. The current title was added on 2026-09-29 (Kate); like the rest, only
+ * she sees it.
  */
 
 export type ConnectionId = "linkedin" | "website";
@@ -29,8 +30,11 @@ export interface Connection {
 
 export interface Account {
   email: string;
-  /** Optional. The only personal detail beyond the email. */
+  /** First name. It is what the greeting uses. */
   name?: string;
+  lastName?: string;
+  /** Optional. Her title today, in her own words. Never an employer. */
+  jobTitle?: string;
   /** Her direction, in her own words from onboarding. */
   direction: string;
   /** The same direction, short enough to follow "toward" on the homepage:
@@ -49,6 +53,11 @@ export interface Account {
   emailFollowUps: boolean;
 }
 
+/** "Maya Chen": first and last name together, whichever she has given. */
+export function fullName(account: Pick<Account, "name" | "lastName">): string {
+  return [account.name, account.lastName].map((part) => part?.trim()).filter(Boolean).join(" ");
+}
+
 export const LINKEDIN_SHARES = [
   "How your posts performed over the last year",
   "Your follower count and how it changed",
@@ -64,6 +73,8 @@ export const WEBSITE_SHARES = [
 export const MAYA: Account = {
   email: "maya.chen@example.com",
   name: "Maya",
+  lastName: "Chen",
+  jobTitle: "Senior Director, Campaigns",
   direction:
     "I want to move from running campaigns to leading a broader marketing organisation.",
   towardShort: "leading a broader marketing organisation",

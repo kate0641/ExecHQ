@@ -190,6 +190,7 @@ export const prototypeConfig: PrototypeConfig = {
       title: "Profile",
       sprint: 2,
       chrome: "app",
+      privacyFooter: false,
       description:
         "Direction, signal background, connections and settings — all optional, none of it a completion gate.",
       concepts: [

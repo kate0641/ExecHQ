@@ -6,7 +6,8 @@ import { Switch } from "@/components/form/Switch";
 import { Icon, type IconName } from "@/components/primitives/Icon";
 
 interface RowBase {
-  icon: IconName;
+  /** Optional: the You group has none. */
+  icon?: IconName;
   label: string;
   /** A line under the label, e.g. what a switch does right now. */
   description?: string;
@@ -52,7 +53,7 @@ export interface LaterRowProps extends RowBase {
 export type SettingsRowProps = OpenRowProps | StaticRowProps | SwitchRowProps | LaterRowProps;
 
 /**
- * One row of a SettingsGroup: an icon, a label, and whatever the row does
+ * One row of a SettingsGroup: an optional icon, a label, and whatever the row does
  * at its end — a value and a chevron, a switch, or a note that the setting
  * comes later.
  */
@@ -82,11 +83,11 @@ export function SettingsRow(props: SettingsRowProps) {
       ) : null}
     </span>
   );
-  const mark = (
+  const mark = icon ? (
     <span className="settings-row__icon">
       <Icon name={icon} size={20} />
     </span>
-  );
+  ) : null;
 
   if (props.kind === "switch") {
     return (

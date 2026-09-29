@@ -17,7 +17,7 @@ import { Icon } from "@/components/primitives/Icon";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { useViewport } from "@/lib/viewport-context";
-import { withConnection, type Account, type Connection, type ConnectionId } from "@/mock/account";
+import { fullName, withConnection, type Account, type Connection, type ConnectionId } from "@/mock/account";
 import { PROFILE_COPY as C, PROFILE_PROVISIONAL, type ProfileDetailId } from "@/mock/profile";
 
 /**
@@ -66,32 +66,68 @@ function headingOf(id: ProfileDetailId, account: Account): string {
   }
 }
 
-/** Editing the optional name. Remounted whenever the saved name changes. */
+interface AccountEdit {
+  name: string;
+  lastName: string;
+  jobTitle: string;
+}
+
+/** Editing her name and current title. Remounted whenever they are saved. */
 function AccountDetail({
   account,
   onSave,
   onClose,
 }: {
   account: Account;
-  onSave: (name: string) => void;
+  onSave: (edit: AccountEdit) => void;
   onClose?: () => void;
 }) {
   const [name, setName] = useState(account.name ?? "");
+  const [lastName, setLastName] = useState(account.lastName ?? "");
+  const [jobTitle, setJobTitle] = useState(account.jobTitle ?? "");
+  const [errors, setErrors] = useState<{ name?: string; lastName?: string }>({});
   return (
     <DetailPanel heading={C.account.heading} headingId={PANE_HEADING} onClose={onClose}>
       <form
         className="detail-panel__form"
+        noValidate
         onSubmit={(event) => {
           event.preventDefault();
-          onSave(name.trim());
+          const next = {
+            name: name.trim() ? undefined : C.account.firstNameMissing,
+            lastName: lastName.trim() ? undefined : C.account.lastNameMissing,
+          };
+          setErrors(next);
+          if (next.name || next.lastName) return;
+          onSave({ name: name.trim(), lastName: lastName.trim(), jobTitle: jobTitle.trim() });
         }}
       >
         <Input
-          label={C.account.nameLabel}
-          hint={C.account.nameHint}
+          label={C.account.firstNameLabel}
           value={name}
+          error={errors.name}
           autoComplete="given-name"
-          onChange={(event) => setName(event.target.value)}
+          onChange={(event) => {
+            setName(event.target.value);
+            setErrors((e) => ({ ...e, name: undefined }));
+          }}
+        />
+        <Input
+          label={C.account.lastNameLabel}
+          value={lastName}
+          error={errors.lastName}
+          autoComplete="family-name"
+          onChange={(event) => {
+            setLastName(event.target.value);
+            setErrors((e) => ({ ...e, lastName: undefined }));
+          }}
+        />
+        <Input
+          label={C.account.titleLabel}
+          hint={C.account.titleHint}
+          value={jobTitle}
+          autoComplete="organization-title"
+          onChange={(event) => setJobTitle(event.target.value)}
         />
         <div className="profile-fact">
           <span className="profile-fact__label">{C.account.emailLabel}</span>
@@ -167,12 +203,12 @@ export function ProfileConcept1() {
       case "account":
         return (
           <AccountDetail
-            key={account.name ?? ""}
+            key={`${account.name}|${account.lastName}|${account.jobTitle}`}
             account={account}
             onClose={onClose}
-            onSave={(name) => {
-              loopActions.updateAccount({ name: name || undefined });
-              announce(name ? C.account.saved : C.account.removed);
+            onSave={({ name, lastName, jobTitle }) => {
+              loopActions.updateAccount({ name, lastName, jobTitle: jobTitle || undefined });
+              announce(C.account.saved);
               if (inSheet) close();
             }}
           />
@@ -276,8 +312,9 @@ export function ProfileConcept1() {
       <div className="profile__layout">
         <div className="profile__list">
           <ProfileHeader
-            name={account.name}
-            email={account.email}
+            name={fullName(account) || undefined}
+            title={account.jobTitle}
+            initialOf={account.name}
             noName={C.noName}
             onOpen={() => show("account")}
             current={current("account")}
@@ -285,14 +322,12 @@ export function ProfileConcept1() {
 
           <SettingsGroup label={C.groups.you}>
             <SettingsRow
-              icon="compass"
               label={R.direction}
               value={R.directionValue}
               onOpen={() => show("direction")}
               current={current("direction")}
             />
-            <SettingsRow icon="flag" label={R.plan} value={R.planValue(plan.name, plan.formalName)} href={PLAN} />
-            <SettingsRow kind="static" icon="mail" label={R.email} value={account.email} />
+            <SettingsRow label={R.plan} value={R.planValue(plan.name, plan.formalName)} href={PLAN} />
           </SettingsGroup>
 
           <SettingsGroup label={C.groups.connections}>
@@ -328,11 +363,6 @@ export function ProfileConcept1() {
           <Notice tone="explain" label={PROFILE_PROVISIONAL.label} className="profile__note">
             {PROFILE_PROVISIONAL.followUps}
           </Notice>
-
-          <SettingsGroup label={C.groups.briefing}>
-            <SettingsRow kind="later" icon="briefing" label={R.publishers} tag={R.later} />
-            <SettingsRow kind="later" icon="send" label={R.delivery} tag={R.later} />
-          </SettingsGroup>
 
           <SettingsGroup label={C.groups.data}>
             <SettingsRow icon="download" label={R.export} onOpen={() => show("export")} current={current("export")} />

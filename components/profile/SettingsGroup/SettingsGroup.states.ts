@@ -33,12 +33,12 @@ export const settingsGroupStates = defineComponentStates({
       },
     },
     {
-      label: "Briefing, arriving later",
+      label: "You — rows without icons",
       props: {
-        label: PROFILE_COPY.groups.briefing,
+        label: PROFILE_COPY.groups.you,
         children: [
-          row({ kind: "later", icon: "briefing", label: R.publishers, tag: R.later }, "p"),
-          row({ kind: "later", icon: "send", label: R.delivery, tag: R.later }, "d"),
+          row({ label: R.direction, value: R.directionValue, onOpen: () => {} }, "d"),
+          row({ label: R.plan, value: R.planValue("Step up", "Increase leadership scope"), href: "/plan/concept-1" }, "p"),
         ],
       },
     },

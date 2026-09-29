@@ -27,10 +27,15 @@ export const settingsRowStates = defineComponentStates({
       description: "On web, the row whose detail is showing beside the list.",
       props: { icon: "linkedin", label: "LinkedIn", value: R.notConnected, onOpen: noop, current: true },
     },
+    {
+      label: "Without an icon",
+      description: "The You group's rows carry no icon.",
+      props: { label: R.direction, value: R.directionValue, onOpen: noop },
+    },
     { label: "Without a value — none", props: { icon: "download", label: R.export, onOpen: noop } },
     { label: "Danger", props: { icon: "trash", label: R.delete, tone: "danger", onOpen: noop } },
     { label: "Goes to a page", props: { icon: "flag", label: R.plan, value: R.planValue("Step up", "Increase leadership scope"), href: "/plan/concept-1" } },
-    { label: "Read only", props: { kind: "static", icon: "mail", label: R.email, value: "maya.chen@example.com" } },
+    { label: "Read only", props: { kind: "static", icon: "mail", label: "Email", value: "maya.chen@example.com" } },
     {
       label: "Switch — on",
       props: { kind: "switch", icon: "bell", label: R.followUps, description: PROFILE_COPY.followUps.on, checked: true, onChange: noop },
@@ -42,7 +47,7 @@ export const settingsRowStates = defineComponentStates({
     {
       label: "Arrives later — unavailable",
       description: "A setting a later sprint designs. Not a control: it says when it comes.",
-      props: { kind: "later", icon: "briefing", label: R.publishers, tag: R.later },
+      props: { kind: "later", icon: "briefing", label: "Publishers you follow", tag: "With the Briefing" },
     },
     { label: "Opens a detail — disabled", props: { icon: "globe", label: "Website", value: R.connected, disabled: true } },
     {

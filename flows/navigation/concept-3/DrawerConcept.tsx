@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { DrawerNav } from "@/components/navigation/DrawerNav";
 import { MenuButton } from "@/components/navigation/MenuButton";
+import { fullName } from "@/mock/account";
 import { useLoop, type LoopView } from "@/lib/loop-store";
 import { currentStageIndex } from "@/lib/rings";
 import { useViewport } from "@/lib/viewport-context";
@@ -85,7 +86,7 @@ function useDrawerProps(props: NavConceptProps) {
     followUpDue: Boolean(loop.followUp),
     draftOpen: loop.records.some((r) => r.state === "drafted" || r.state === "in-progress"),
     account: {
-      name: loop.account.name,
+      name: fullName(loop.account) || undefined,
       email: loop.account.email,
       href: props.destinations.find((d) => d.flowSlug === "profile")?.href,
     },
