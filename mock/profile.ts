@@ -62,8 +62,6 @@ export const PROFILE_COPY = {
       `When you’ve used something, we ask once what came of it. Emails go to ${email} and the subject line never says what they’re about, so nothing sensitive shows on a lock screen.`,
   },
 
-  owner: "This account is yours, and it stays yours. Nothing here is shared with anyone.",
-
   account: {
     heading: "Your account",
     firstNameLabel: "First name",

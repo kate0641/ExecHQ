@@ -375,11 +375,6 @@ export function ProfileConcept1() {
             />
           </SettingsGroup>
 
-          <p className="profile__owner">
-            <Icon name="lock" size={16} />
-            <span>{C.owner}</span>
-          </p>
-
           <Button
             variant="secondary"
             fullWidth

@@ -10930,21 +10930,6 @@ ul.stage-actions__list {
   margin-top: calc(-1 * var(--space-sm));
 }
 
-.profile__owner {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-xs);
-  margin: 0;
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-}
-
-.profile__owner .icon {
-  flex: none;
-  margin-top: var(--space-3xs);
-  color: var(--color-accent);
-}
-
 .profile__list .btn[aria-current="true"] {
   border-color: var(--color-surface-inverse);
   background-color: var(--color-surface-selected);
