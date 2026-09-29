@@ -5444,11 +5444,14 @@ ol.ring-detail__timeline {
 }
 
 .welcome__quote {
+  font-family: var(--type-editorial-font);
+  font-size: var(--type-editorial-size);
+  font-weight: var(--type-editorial-weight);
+  line-height: var(--type-editorial-leading);
+  letter-spacing: var(--type-editorial-tracking);
+  word-spacing: var(--type-editorial-word-spacing);
   max-width: 22ch;
-  font-family: var(--font-serif);
-  font-size: var(--text-xl);
   font-style: italic;
-  line-height: var(--leading-snug);
   text-wrap: balance;
 }
 
@@ -5512,10 +5515,6 @@ ol.ring-detail__timeline {
   padding: var(--space-2xl) var(--space-xl);
 }
 
-[data-viewport="web"] .welcome__quote {
-  font-size: var(--text-2xl);
-}
-
 [data-viewport="tablet"] .welcome__sheet,
 [data-viewport="web"] .welcome__sheet {
   justify-content: center;
@@ -5572,14 +5571,14 @@ ol.ring-detail__timeline {
 }
 
 .privacy-splash__title {
+  font-family: var(--type-display-font);
+  font-size: var(--type-display-size);
+  font-weight: var(--type-display-weight);
+  line-height: var(--type-display-leading);
+  letter-spacing: var(--type-display-tracking);
+  word-spacing: var(--type-display-word-spacing);
   display: flex;
   flex-direction: column;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-3xl);
-  font-weight: var(--weight-bold);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--font-display-tracking-heading);
   text-wrap: balance;
 }
 
@@ -5648,10 +5647,6 @@ ol.ring-detail__timeline {
 [data-viewport="web"] .privacy-splash__actions .btn {
   width: 100%;
   max-width: 24rem;
-}
-
-[data-viewport="web"] .privacy-splash__title {
-  font-size: var(--text-4xl);
 }
 
 /* --- Direction field ------------------------------------------------------ */

@@ -514,7 +514,7 @@ const TYPE_LAB_ROLES: { key: string; name: string; job: string; phone?: boolean 
   { key: "label", name: "Label", job: "Buttons, field labels" },
   { key: "caption", name: "Caption", job: "Dates, hints, status" },
   { key: "eyebrow", name: "Eyebrow", job: "Capitals above a heading" },
-  { key: "editorial", name: "Editorial", job: "Quotes, welcome lines" },
+  { key: "editorial", name: "Editorial", job: "Quotes, welcome lines", phone: true },
 ];
 
 function typeLabRoles(tokens: Map<string, Token>): TypeLabRole[] {

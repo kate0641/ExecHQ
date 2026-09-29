@@ -323,8 +323,8 @@
      TYPE ROLES — every piece of text in the product is one of these. Each
      role sets its face, size, weight, line height, letter and word spacing from the
      scales above; components use the role, never the scales directly, so a
-     role changed here changes everywhere it is used. Display, title and
-     heading also have a phone size, applied on the mobile canvas below.
+     role changed here changes everywhere it is used. Display, title,
+     heading and editorial also have a phone size, applied on the mobile canvas below.
      ------------------------------------------------------------------------ */
 
   /* Display — the biggest words on a screen: welcome, privacy. */
@@ -405,9 +405,10 @@
 
   /* Editorial — Libre Baskerville's voice: quotes and welcome lines. Rare. */
   --type-editorial-font: var(--font-serif);
-  --type-editorial-size: var(--text-lg);
+  --type-editorial-size: var(--text-2xl);
+  --type-editorial-size-phone: var(--text-xl);
   --type-editorial-weight: var(--weight-regular);
-  --type-editorial-leading: var(--leading-relaxed);
+  --type-editorial-leading: var(--leading-snug);
   --type-editorial-tracking: var(--tracking-normal);
   --type-editorial-word-spacing: var(--word-spacing-normal);
 
@@ -511,8 +512,9 @@
   --z-hub-panel: 60;
 }
 
-/* On the phone canvas, the three largest roles take their phone size. */
+/* On the phone canvas, the largest roles take their phone size. */
 [data-viewport="mobile"] {
+  --type-editorial-size: var(--type-editorial-size-phone);
   --type-display-size: var(--type-display-size-phone);
   --type-title-size: var(--type-title-size-phone);
   --type-heading-size: var(--type-heading-size-phone);

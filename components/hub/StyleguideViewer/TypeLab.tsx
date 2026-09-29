@@ -80,6 +80,8 @@ const SETTINGS = [
 /** The real components the preview stacks, each at the variant that shows the
  *  most roles at once. */
 const PREVIEW: { id: string; variant?: string }[] = [
+  { id: "welcomesplit", variant: "Default" },
+  { id: "privacysplash", variant: "Default" },
   { id: "stepheader", variant: "With supporting sentence" },
   { id: "nextstepcard" },
   { id: "entrylink", variant: "Today’s Briefing" },
