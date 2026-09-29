@@ -17,7 +17,7 @@ const base = {
 /** The tray as the page fills it when the next step is the moment. Each
  *  variant gets its own heading id, since the catalogue shows them together. */
 let stepCount = 0;
-function step(title: string, a = ACTIONS[0], horizon = "Short-term", eyebrow = `Next to fill · ${horizon}`) {
+function step(title: string, a = ACTIONS[0], horizon = "Short-term", eyebrow = `Next in ${horizon.toLowerCase()}`) {
   return h(NextStepCard, {
     eyebrow,
     title,
@@ -75,7 +75,7 @@ export const ringsHeroStates = defineComponentStates({
       props: {
         ...forState("follow-up-due"),
         focus: "long",
-        children: step(ACTIONS.find((a) => a.id === "scope-case")!.title, ACTIONS.find((a) => a.id === "scope-case")!, "Long-term", "Next in long-term"),
+        children: step(ACTIONS.find((a) => a.id === "scope-case")!.title, ACTIONS.find((a) => a.id === "scope-case")!, "Long-term"),
       },
     },
     {

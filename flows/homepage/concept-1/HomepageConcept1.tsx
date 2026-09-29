@@ -45,9 +45,7 @@ function longDate(date: string): string {
 const MOMENT_HEADING = {
   followUp: "follow-up-question",
   ready: "ready-title",
-  next: "next-step-title",
   answered: "handoff-title",
-  done: "rings-hero-heading",
 } as const;
 
 /** Moves focus to a heading once the card it names has replaced the last. */
@@ -74,7 +72,7 @@ export function HomepageConcept1() {
   };
   /** The ring the moment belongs to, and what kind of moment it is. */
   let focus: Horizon | null = null;
-  let kind: keyof typeof C.backTo = "done";
+  let kind: keyof typeof C.backTo | "next" | "done" = "done";
 
   /* The one card the moment calls for. */
   let card: React.ReactNode = null;
@@ -169,7 +167,7 @@ export function HomepageConcept1() {
     kind = "next";
     card = (
       <NextStepCard
-        eyebrow={C.nextToFill(next.ring.label)}
+        eyebrow={C.nextIn(next.ring.label)}
         title={a.title}
         whyLine={a.whyLine}
         href={TOOLBOX}
@@ -180,23 +178,26 @@ export function HomepageConcept1() {
   }
 
   /* A ring picked that isn't the moment's shows its own next action in the
-     tray, with a way back. The moment's ring always leads with the moment. */
+     tray. The moment's ring always leads with the moment; a follow-up, a
+     ready artifact or a just-logged outcome also gets a link back. */
   const pick = picked && picked.state === loop.homeState && picked.horizon !== focus ? picked.horizon : null;
   if (pick) {
     const ring = rings.find((r) => r.horizon === pick)!;
     const step = ring.segments.find((s) => !s.filled)?.action;
     card = (
       <>
-        <button
-          type="button"
-          className="link link--standalone home__back"
-          onClick={() => {
-            setPicked(null);
-            focusSoon(MOMENT_HEADING[kind]);
-          }}
-        >
-          {C.backTo[kind]}
-        </button>
+        {kind !== "next" && kind !== "done" ? (
+          <button
+            type="button"
+            className="link link--standalone home__back"
+            onClick={() => {
+              setPicked(null);
+              focusSoon(MOMENT_HEADING[kind]);
+            }}
+          >
+            {C.backTo[kind]}
+          </button>
+        ) : null}
         {step ? (
           <NextStepCard
             eyebrow={C.nextIn(ring.label)}

@@ -227,20 +227,18 @@ export function homeStateOf(snapshot: Pick<Snapshot, "records" | "justAnswered">
 export const HOME_COPY = {
   greeting: (name: string) => `Good morning, ${name}`,
   toward: (where: string) => `toward ${where}`,
-  nextToFill: (horizon: string) => `Next to fill · ${horizon}`,
   allDone: "Every action on your plan is in hand.",
-  /** A ring picked that isn't the moment's: its next action, or that it's done. */
+  /** Over a ring's next action, whether it's the moment's or a ring picked. */
   nextIn: (horizon: string) => `Next in ${horizon.toLowerCase()}`,
   ringDone: (horizon: string) => `Every ${horizon.toLowerCase()} action is confirmed.`,
   /** Read out when a ring's action replaces the moment above the rings. */
   showing: (horizon: string) => `Showing your next ${horizon.toLowerCase()} action above.`,
-  /** Back to what the page was asking for, named for what it is. */
+  /** Back to what the page was asking for, when it's more than a next step:
+   *  a next step looks the same as a picked ring's, so needs no way back. */
   backTo: {
     followUp: "Back to your follow-up",
     ready: "Back to what’s ready",
-    next: "Back to your next step",
     answered: "Back to what you logged",
-    done: "Back",
   },
   startNote: "Four actions on your plan. Each segment fills when you use the work it asks for.",
   confirms: (horizon: string) => `Confirms your ${horizon.toLowerCase()} action`,

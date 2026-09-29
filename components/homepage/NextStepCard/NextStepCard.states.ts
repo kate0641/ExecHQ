@@ -28,7 +28,7 @@ export const nextStepCardStates = defineComponentStates({
     {
       label: "Reasons in one sentence",
       description: "Why this, why now and why you said as one line. Homepage Concept 1’s tray.",
-      props: { title: a.title, whyLine: a.whyLine, href, eyebrow: "Next to fill · Short-term", headingId: "nsc-whyline" },
+      props: { title: a.title, whyLine: a.whyLine, href, eyebrow: "Next in short-term", headingId: "nsc-whyline" },
     },
     {
       label: "Just answered, stubbed hand-off",
