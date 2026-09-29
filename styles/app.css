@@ -9584,6 +9584,237 @@ ol.signal__list {
   color: var(--color-text-inverse-muted);
 }
 
+/* What your accounts say (Concept 2): a card per connected account, below
+   the signals and never in the next-step card. */
+
+.accounts-home {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.accounts-home__private {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.account-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-raised);
+}
+
+.account-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs);
+}
+
+.account-card__name {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--weight-bold);
+}
+
+.account-card__mark {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface-sunken);
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.account-card__asof {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 var(--space-xs);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+ul.account-card__stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.account-card__stats li {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  padding: var(--space-sm);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+}
+
+.account-card__stats b {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.account-card__stat-label {
+  font-size: var(--text-xs);
+  line-height: var(--leading-snug);
+  color: var(--color-text-muted);
+}
+
+.account-card__stat-note {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.account-card__says {
+  margin: 0;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  font-size: var(--text-sm);
+}
+
+.account-card__says span,
+.account-card__try-label {
+  display: block;
+  margin-bottom: var(--space-3xs);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.account-card__try {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding-top: var(--space-sm);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+.account-card__try b {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  line-height: var(--leading-snug);
+}
+
+.account-card__try p,
+.account-card__text {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+ul.account-card__shows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  margin: 0;
+  padding-left: var(--space-md);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.account-card__cta {
+  align-self: flex-start;
+  margin-top: var(--space-2xs);
+}
+
+/* TrendLine: one series, a readout on hover. */
+
+.trend-line {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  margin: 0;
+}
+
+.trend-line__caption {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.trend-line__plot {
+  position: relative;
+}
+
+.trend-line__plot svg {
+  display: block;
+  width: 100%;
+  height: 56px;
+  overflow: visible;
+}
+
+.trend-line__base {
+  stroke: var(--color-border-subtle);
+  stroke-width: 1;
+}
+
+.trend-line__area {
+  fill: var(--color-secondary-soft);
+  opacity: 0.6;
+}
+
+.trend-line__line {
+  fill: none;
+  stroke: var(--color-secondary);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.trend-line__end {
+  fill: var(--color-surface-inverse);
+  stroke: var(--color-surface-raised);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.trend-line__cross {
+  stroke: var(--color-border-strong);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.trend-line__hit {
+  fill: transparent;
+}
+
+.trend-line__tip {
+  position: absolute;
+  top: calc(-1 * var(--space-2xs));
+  padding: var(--space-3xs) var(--space-xs);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+  font-size: var(--text-xs);
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translate(-50%, -100%);
+}
+
 /* Homepage Concept 3 — Plan (Chapters) --------------------------------------
 
    The roadmap as a table of contents: the current stage opens up in large

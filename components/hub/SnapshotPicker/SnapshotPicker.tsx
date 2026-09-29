@@ -5,7 +5,9 @@ import { usePathname } from "next/navigation";
 import { ToggleGroup } from "@/components/form/ToggleGroup";
 import { Icon } from "@/components/primitives/Icon";
 import { getFlow } from "@/lib/manifest";
-import { resetLoop, selectSnapshot, useLoop } from "@/lib/loop-store";
+import { addDays } from "@/lib/loop";
+import { loopActions, resetLoop, selectSnapshot, useLoop } from "@/lib/loop-store";
+import { DEMO_SOURCES } from "@/mock/accounts-stub";
 import { SNAPSHOT_IDS, SNAPSHOTS, type SnapshotId } from "@/mock/snapshots";
 
 /** What each option shows in the dock, where a word will not fit: the five
@@ -34,6 +36,11 @@ const DATE_FORMAT = new Intl.DateTimeFormat("en-GB", {
  * The highlighted state is read from the Loop, not from the last pick, so it
  * always tells the truth: answering a follow-up moves it to "Just answered" on
  * its own, and the live region says so.
+ *
+ * Under it, whether her LinkedIn and website are connected, for the state
+ * showing: both at once, written to the same account Profile's connections
+ * change, so the two always agree. Neither option is pressed when only one
+ * is connected.
  *
  * Only on signed-in pages (the manifest's `app` chrome): nothing anywhere else
  * reads the Loop, so the control would do nothing there. The choice and every
@@ -76,6 +83,46 @@ export function SnapshotPicker() {
         onChange={(next) => {
           setAnnouncement("");
           selectSnapshot(next as SnapshotId);
+        }}
+      />
+      <span className="devtools__rule" aria-hidden="true" />
+      <ToggleGroup
+        label="Her accounts"
+        labelHidden
+        size="sm"
+        orientation="vertical"
+        iconOnly
+        options={[
+          {
+            value: "on",
+            label: "Accounts connected",
+            icon: <Icon name="link" size={16} />,
+            description: "LinkedIn and her website connected, as if uploaded two days ago.",
+          },
+          {
+            value: "off",
+            label: "Accounts not connected",
+            icon: <Icon name="close" size={16} />,
+            description: "Neither connected, as onboarding leaves her.",
+          },
+        ]}
+        value={
+          loop.account.connections.every((c) => c.connected)
+            ? "on"
+            : loop.account.connections.some((c) => c.connected)
+              ? ""
+              : "off"
+        }
+        onChange={(next) => {
+          const on = next === "on";
+          loopActions.updateAccount({
+            connections: loop.account.connections.map((c) =>
+              on
+                ? { ...c, connected: true, connectedOn: addDays(loop.today, -2), source: DEMO_SOURCES[c.id] }
+                : { ...c, connected: false, connectedOn: undefined, source: undefined }
+            ),
+          });
+          setAnnouncement(on ? "Her accounts are connected." : "Her accounts are not connected.");
         }}
       />
       <button

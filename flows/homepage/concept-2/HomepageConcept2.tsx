@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AccountCard } from "@/components/homepage/AccountCard";
 import { BriefingCard } from "@/components/homepage/BriefingCard";
 import { BriefingEntry } from "@/components/homepage/BriefingEntry";
 import { FollowUpCard } from "@/components/homepage/FollowUpCard";
@@ -8,11 +9,13 @@ import { NextStepCard } from "@/components/homepage/NextStepCard";
 import { ReadyCard } from "@/components/homepage/ReadyCard";
 import { RecentWork } from "@/components/homepage/RecentWork";
 import { SignalActivity } from "@/components/homepage/SignalActivity";
-import { addDays, aheadPhrase, dueFollowUps, whenPhrase } from "@/lib/loop";
+import { TrendLine } from "@/components/homepage/TrendLine";
+import { addDays, aheadPhrase, dueFollowUps, shortDate, whenPhrase } from "@/lib/loop";
 import { loopActions, nextStepAfter, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { signalActivity, signalOfRecord, signalOfStep, windowLabel, windowStart } from "@/lib/signals";
 import { closeBriefing, useBriefingClosed } from "@/lib/briefing-dismissal";
+import { ACCOUNTS_COPY as AC, LINKEDIN_STUB as LI, WEBSITE_STUB as WEB } from "@/mock/accounts-stub";
 import { BRIEFING_STUB as B, HOME_COPY } from "@/mock/homepage";
 import { ARTIFACT_KINDS, FOLLOW_UP_POLICY, OUTCOME_READBACK } from "@/mock/loop";
 import { ACTIONS, HORIZONS, SIGNAL_COPY as C, actionById } from "@/mock/plan-stub";
@@ -28,6 +31,12 @@ import { ACTIONS, HORIZONS, SIGNAL_COPY as C, actionById } from "@/mock/plan-stu
  * place instead and names its signal. Then the other tracked signals, then
  * the Briefing, then the user's work.
  *
+ * Below the signals, in their own section and never in the next step, what
+ * her LinkedIn and website say (Account cards, 2026-09-29): numbers with
+ * source and date, what they suggest, and one thing to try; or, not
+ * connected, what connecting would show. Connections are Profile's, so
+ * connecting there shows here; the dock's toggle sets both at once.
+ *
  * PROVISIONAL signal area: the Signal Picture is designed in Sprint 3. Every
  * fact is read from the live Loop (`lib/signals.ts`), and all signal data and
  * wording is in `mock/plan-stub.ts`. Answering the follow-up here adds its
@@ -35,6 +44,7 @@ import { ACTIONS, HORIZONS, SIGNAL_COPY as C, actionById } from "@/mock/plan-stu
  */
 
 const TOOLBOX = conceptHref("toolbox-flow", "concept-1");
+const PROFILE = conceptHref("profile", "concept-1");
 const BRIEFING = conceptHref("daily-briefing", "concept-1");
 const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -170,6 +180,11 @@ export function HomepageConcept2() {
     );
   }
 
+  /* Her accounts, as Profile (or the dock) left them. */
+  const linkedIn = loop.account.connections.find((c) => c.id === "linkedin");
+  const website = loop.account.connections.find((c) => c.id === "website");
+  const anyConnected = Boolean(linkedIn?.connected || website?.connected);
+
   const focal = signals.find((s) => s.signal.id === focalSignal);
   const others = signals.filter((s) => s !== focal);
 
@@ -233,6 +248,57 @@ export function HomepageConcept2() {
               headingId={`signal-${signal.id}`}
             />
           ))}
+        </section>
+
+        {/* Her accounts: their own section, never part of the next step. */}
+        <section className="accounts-home" aria-labelledby="accounts-heading">
+          <div className="signals-home__intro">
+            <h2 className="signals-home__heading" id="accounts-heading">
+              {AC.heading}
+            </h2>
+            <p className="signals-home__window">{anyConnected ? AC.sub : AC.subNotConnected}</p>
+          </div>
+          {linkedIn?.connected && linkedIn.connectedOn ? (
+            <AccountCard
+              name={LI.name}
+              mark={LI.mark}
+              asOf={AC.asOfLinkedIn(shortDate(linkedIn.connectedOn))}
+              stats={LI.stats}
+              chart={
+                <TrendLine
+                  values={LI.followers}
+                  labels={LI.followers.map(
+                    (_, i) => `Week of ${shortDate(addDays(linkedIn.connectedOn!, -(LI.followers.length - 1 - i) * 7))}`
+                  )}
+                  caption={LI.chartCaption}
+                  summary={LI.chartSummary}
+                />
+              }
+              says={LI.says}
+              saysLabel={AC.says}
+              tryThis={{ ...LI.tryThis, href: TOOLBOX }}
+              tryLabel={AC.tryThis}
+              headingId="account-linkedin"
+            />
+          ) : (
+            <AccountCard name={LI.name} mark={LI.mark} invite={{ ...LI.invite, href: PROFILE }} headingId="account-linkedin" />
+          )}
+          {website?.connected && website.connectedOn ? (
+            <AccountCard
+              name={WEB.name}
+              mark={WEB.mark}
+              asOf={AC.asOfWebsite(shortDate(website.connectedOn))}
+              stats={WEB.stats}
+              says={WEB.says}
+              saysLabel={AC.says}
+              tryThis={{ ...WEB.tryThis, href: TOOLBOX }}
+              tryLabel={AC.tryThis}
+              headingId="account-website"
+            />
+          ) : (
+            <AccountCard name={WEB.name} mark={WEB.mark} invite={{ ...WEB.invite, href: PROFILE }} headingId="account-website" />
+          )}
+          <p className="accounts-home__private">{AC.private}</p>
         </section>
       </div>
       <div className="home__side">
