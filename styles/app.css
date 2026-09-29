@@ -1626,6 +1626,44 @@ samp {
   opacity: 0.72;
 }
 
+/* Logo — the brand artwork. Its height sets its size; width follows. Each
+   version's colours are tokens, so the palette reaches it. */
+.logo {
+  display: inline-flex;
+  max-inline-size: 100%;
+}
+
+.logo__art {
+  display: block;
+  block-size: 100%;
+  inline-size: auto;
+  max-inline-size: 100%;
+}
+
+.logo--md {
+  block-size: var(--space-lg);
+}
+
+.logo--xl {
+  block-size: var(--space-3xl);
+}
+
+.logo--dark .logo__exec {
+  fill: var(--color-logo-exec);
+}
+
+.logo--dark .logo__hq {
+  fill: var(--color-logo-hq);
+}
+
+.logo--light .logo__exec {
+  fill: var(--color-logo-exec-on-inverse);
+}
+
+.logo--light .logo__hq {
+  fill: var(--color-logo-hq-on-inverse);
+}
+
 /* The navigation concept's wrapper. Takes no box, so the nav inside it is laid
    out by the chrome as if the wrapper were not there. */
 .app-nav {
@@ -4838,6 +4876,22 @@ ol.ring-detail__timeline {
 
 .styleguide__step-swatch--large {
   height: var(--space-4xl);
+}
+
+/* The logo on each background it may sit on. */
+.styleguide__logos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-xs);
+}
+
+.styleguide__logo-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl) var(--space-lg);
+  border-bottom: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
 /* Colour roles: compact rows — a chip, the token, and the step it lands on. */

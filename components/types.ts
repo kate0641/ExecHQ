@@ -50,6 +50,9 @@ export interface ComponentVariant<P> {
   description?: string;
   /** States this variant shows, where the label does not already say so. */
   states?: ComponentState[];
+  /** Show this variant on another surface than the component's own, e.g. a
+   *  version made for dark backgrounds. */
+  surface?: "default" | "inverse";
   props: P;
 }
 
@@ -75,6 +78,7 @@ export interface RegisteredVariant {
   label: string;
   description?: string;
   states: ComponentState[];
+  surface?: "default" | "inverse";
   element: ReactElement;
 }
 
@@ -108,6 +112,7 @@ export function defineComponentStates<C extends ElementType>(
       label: variant.label,
       description: variant.description,
       states: variant.states ?? [],
+      surface: variant.surface,
       element: createElement(spec.component, variant.props),
     })),
   };

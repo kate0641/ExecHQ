@@ -22,7 +22,7 @@ export function Specimens({ id }: { id: string }) {
         {component.variants.map((variant) => (
           <li className="styleguide__specimen" key={variant.label}>
             <p className="styleguide__specimen-label">{variant.label}</p>
-            <div className={`catalogue__stage catalogue__stage--${component.surface}`}>
+            <div className={`catalogue__stage catalogue__stage--${variant.surface ?? component.surface}`}>
               {variant.element}
             </div>
           </li>

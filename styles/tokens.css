@@ -199,6 +199,16 @@
   --color-secondary: var(--brand-secondary);
   --color-secondary-soft: var(--brand-secondary-soft);
 
+  /* Logo — two versions, never recoloured beyond these. The dark logo (gold
+     "Exec", navy "HQ") sits on stone and light blue; the light logo (bright
+     yellow "Exec", light blue "HQ") sits on any dark colour. The logo file's
+     light "HQ" is #e0e9ff, a touch paler than light blue; it is drawn here in
+     light blue itself. */
+  --color-logo-exec: var(--brand-gold-yellow);
+  --color-logo-hq: var(--brand-navy);
+  --color-logo-exec-on-inverse: var(--brand-bright-yellow);
+  --color-logo-hq-on-inverse: var(--brand-light-blue);
+
   /* Focus — must stay at least 3:1 against every surface it lands on */
   --color-focus: var(--brand-primary);
   --color-focus-inverse: var(--brand-white);

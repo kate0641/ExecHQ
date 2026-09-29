@@ -170,7 +170,7 @@ export function ComponentCatalogue() {
                     ) : null}
                   </div>
                   <div
-                    className={`catalogue__stage catalogue__stage--${selected.surface}`}
+                    className={`catalogue__stage catalogue__stage--${variant.surface ?? selected.surface}`}
                   >
                     {variant.element}
                   </div>

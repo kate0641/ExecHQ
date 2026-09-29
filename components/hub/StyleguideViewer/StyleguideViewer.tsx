@@ -1,5 +1,6 @@
 import { Notice, type NoticeTone } from "@/components/onboarding/Notice";
 import { Badge, type FeedbackBadgeTone } from "@/components/primitives/Badge";
+import { Logo, type LogoTone } from "@/components/primitives/Logo";
 import { TextLink } from "@/components/primitives/TextLink";
 import { getHubPage } from "@/lib/hub-pages";
 import { Specimens } from "./Specimens";
@@ -317,6 +318,64 @@ function BrandColours({ tokens }: { tokens: Map<string, Token> }) {
   );
 }
 
+/** The two logo versions, and every background each one may sit on. */
+const LOGO_RULES: {
+  tone: LogoTone;
+  title: string;
+  role: string;
+  backgrounds: { token: string; name: string }[];
+}[] = [
+  {
+    tone: "dark",
+    title: "Dark logo",
+    role: "Gold and navy. Sits on stone and light blue.",
+    backgrounds: [
+      { token: "--brand-stone", name: "Stone" },
+      { token: "--brand-light-blue", name: "Light blue" },
+    ],
+  },
+  {
+    tone: "light",
+    title: "Light logo",
+    role: "Bright yellow and light blue. Sits on any dark color.",
+    backgrounds: [
+      { token: "--brand-navy", name: "Navy" },
+      { token: "--brand-slate", name: "Slate" },
+      { token: "--brand-dark-green", name: "Dark green" },
+      { token: "--brand-stone-900", name: "Stone 900" },
+    ],
+  },
+];
+
+function LogoRules() {
+  return (
+    <>
+      {LOGO_RULES.map((rule) => (
+        <div className="styleguide__group" key={rule.tone}>
+          <h3 className="styleguide__scale-title">{rule.title}</h3>
+          <p className="styleguide__group-note">{rule.role}</p>
+          <ul className="styleguide__logos">
+            {rule.backgrounds.map((background) => (
+              <li className="styleguide__step" key={background.token}>
+                <div
+                  className="styleguide__logo-stage"
+                  style={{ backgroundColor: `var(${background.token})` }}
+                >
+                  <Logo tone={rule.tone} size="xl" />
+                </div>
+                <div className="styleguide__step-body">
+                  <span className="styleguide__step-name">On {background.name.toLowerCase()}</span>
+                  <code className="styleguide__step-value">{background.token}</code>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </>
+  );
+}
+
 /** The five brand scales, in the order the page shows them, with what each is for. */
 const SCALES: { key: string; title: string; role: string }[] = [
   {
@@ -468,6 +527,18 @@ export function StyleguideViewer() {
   return (
     <StyleguideSections
       sections={[
+        {
+          id: "logo",
+          label: "Logo",
+          group: "Brand",
+          description: "Two versions of one logo. The dark logo sits on stone and light blue; the light logo sits on any dark color.",
+          source: "components/primitives/Logo",
+          content: (
+          <div className="styleguide-layout__card">
+            <LogoRules />
+          </div>
+          ),
+        },
         {
           id: "brand-colors",
           label: "Brand colors",

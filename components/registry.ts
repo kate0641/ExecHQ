@@ -15,6 +15,7 @@ import { buttonStates } from "./primitives/Button/Button.states";
 import { iconStates } from "./primitives/Icon/Icon.states";
 import { textLinkStates } from "./primitives/TextLink/TextLink.states";
 import { wordmarkStates } from "./primitives/Wordmark/Wordmark.states";
+import { logoStates } from "./primitives/Logo/Logo.states";
 import { inputStates } from "./form/Input/Input.states";
 import { toggleGroupStates } from "./form/ToggleGroup/ToggleGroup.states";
 import { micButtonStates } from "./form/MicButton/MicButton.states";
@@ -111,6 +112,7 @@ export const registry: RegisteredComponent[] = [
   iconStates,
   textLinkStates,
   wordmarkStates,
+  logoStates,
   inputStates,
   toggleGroupStates,
   micButtonStates,
