@@ -23,6 +23,11 @@ export const iconLinkStates = defineComponentStates({
   variants: [
     { label: "Profile — default", props: profile },
     { label: "Profile, current page", description: "On the Profile page itself.", props: { ...profile, current: true } },
+    {
+      label: "Profile, current page — closes it",
+      description: "On the Profile page, tapping it takes the reader back to where they were. Named “Close Profile”.",
+      props: { ...profile, current: true, onClose: () => {} },
+    },
     { label: "Profile — hover", props: { ...profile, demo: "hover" } },
     { label: "Profile — focus", props: { ...profile, demo: "focus" } },
     { label: "Profile — pressed", props: { ...profile, demo: "active" } },

@@ -16,7 +16,6 @@ export interface ConciergePanelProps {
   role?: string;
   newLabel?: string;
   closeLabel?: string;
-  privacy?: string;
   onNew?: () => void;
   onClose?: () => void;
   id?: string;
@@ -28,8 +27,8 @@ export interface ConciergePanelProps {
 
 /**
  * The Concierge's panel: the advisor's name at the top, the conversation, and
- * the composer at the foot, with the privacy line under it. What goes in it
- * is the concept's business; this is the frame.
+ * the composer at the foot. What goes in it is the concept's business; this
+ * is the frame.
  */
 export function ConciergePanel({
   mode = "docked",
@@ -40,7 +39,6 @@ export function ConciergePanel({
   role = "Your advisor",
   newLabel = "New",
   closeLabel = "Close the advisor",
-  privacy = "Private. Only you can see this conversation.",
   onNew,
   onClose,
   id,
@@ -82,7 +80,6 @@ export function ConciergePanel({
       <div className="concierge-panel__body">{children}</div>
       <div className="concierge-panel__foot">
         {footer}
-        <p className="concierge-panel__privacy">{privacy}</p>
       </div>
     </Tag>
   );

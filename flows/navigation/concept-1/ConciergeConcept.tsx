@@ -7,11 +7,10 @@ import { createPortal } from "react-dom";
 import { ChatComposer } from "@/components/chat/ChatComposer";
 import { ChatMessage } from "@/components/chat/ChatMessage";
 import { QuickReplies } from "@/components/chat/QuickReplies";
-import { AdvisorMark } from "@/components/chat/AdvisorMark";
 import { ConciergePanel } from "@/components/navigation/ConciergePanel";
 import { ConciergePill } from "@/components/navigation/ConciergePill";
 import { Icon, type IconName } from "@/components/primitives/Icon";
-import { LoopStatus } from "@/components/loop/LoopStatus";
+import { EntryLink } from "@/components/homepage/EntryLink";
 import {
   respond,
   suggestions,
@@ -22,7 +21,7 @@ import {
   type ConciergeEffect,
   type ConciergeReply,
 } from "@/lib/concierge";
-import { nextFollowUp } from "@/lib/loop";
+import { nextFollowUp, shortDate } from "@/lib/loop";
 import {
   currentSnapshot,
   getLoopState,
@@ -30,7 +29,7 @@ import {
   nextStepAfter,
   useLoop,
 } from "@/lib/loop-store";
-import type { NavDestination } from "@/lib/manifest";
+import { conceptHref, type NavDestination } from "@/lib/manifest";
 import { useViewport } from "@/lib/viewport-context";
 import { CONCIERGE_COPY as C } from "@/mock/concierge";
 import type { NavConceptProps } from "../types";
@@ -49,6 +48,7 @@ import type { NavConceptProps } from "../types";
  * changes the Loop, so Home, the statuses and the dot all follow.
  */
 
+const TOOLBOX = conceptHref("toolbox-flow", "concept-1");
 const PANEL_ID = "concierge-panel";
 const PILL_ID = "concierge-pill";
 /** How long he takes to reply. Instant under reduced motion. */
@@ -317,7 +317,6 @@ function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { m
       role={C.role}
       newLabel={C.newConversation}
       closeLabel={C.close}
-      privacy={C.privacy}
       onNew={chatting ? () => update({ messages: [], asked: undefined }) : undefined}
       onClose={() => closePanel()}
       className={chatting ? "is-chatting" : undefined}
@@ -356,7 +355,7 @@ function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { m
               setDraft("");
               send(value, goTo ? { kind: "go", flow: goTo.flowSlug } : undefined);
             }}
-          />
+        />
         </>
       }
     >
@@ -425,7 +424,7 @@ function Turn({ turn }: { turn: AdvisorTurn }) {
   );
 }
 
-/** Before anything is asked: where to go, the work in hand, and what to ask. */
+/** Before anything is asked: what to ask, the draft in hand, and where to go. */
 function Start({
   destinations,
   currentFlow,
@@ -439,9 +438,36 @@ function Start({
 }) {
   const { viewport } = useViewport();
   const loop = useLoop();
-  const work = loop.records.filter((r) => r.state !== "closed").slice(0, 3);
+  const resume = [...loop.records]
+    .filter((r) => r.state === "drafted" || r.state === "in-progress")
+    .sort((a, b) => (a.history.at(-1)!.on < b.history.at(-1)!.on ? 1 : -1))[0];
+  const resumeLast = resume?.history.at(-1);
   return (
     <div className="concierge-start">
+      <section aria-labelledby="concierge-ask">
+        <h2 id="concierge-ask" className="concierge-start__title">{C.askMe}</h2>
+        <ul className="concierge-suggest">
+          {suggestions(ctx).map((s) => (
+            <li key={s.label}>
+              <button type="button" className="concierge-suggest__item" onClick={() => onAsk(s)}>
+                {s.label}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {resume && resumeLast ? (
+        <EntryLink
+          href={TOOLBOX}
+          icon="draft"
+          eyebrow={C.resumeEyebrow}
+          title={resume.title}
+          detail={`${resumeLast.type === "drafted" ? "Drafted" : "Edited"} ${shortDate(resumeLast.on)}`}
+          onClick={() => viewport === "mobile" && closePanel(false)}
+        />
+      ) : null}
+
       <section aria-labelledby="concierge-goto">
         <h2 id="concierge-goto" className="concierge-start__title">{C.goTo}</h2>
         <ul className="concierge-dests">
@@ -462,55 +488,6 @@ function Start({
                   </>
                 ) : null}
               </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section aria-labelledby="concierge-work">
-        <h2 id="concierge-work" className="concierge-start__title">{C.yourWork}</h2>
-        <ul className="concierge-work">
-          {loop.followUp ? (
-            <li>
-              <button
-                type="button"
-                className="concierge-row"
-                onClick={() => onAsk({ label: C.suggest.followUp(loop.followUp!.name), action: { kind: "ask-follow-up" } })}
-              >
-                <span className="concierge-row__icon"><AdvisorMark size={20} /></span>
-                <span className="concierge-row__text">
-                  <span className="concierge-row__title">{C.followUpRow(loop.followUp.name)}</span>
-                  <span className="concierge-row__hint">{C.followUpRowHint}</span>
-                </span>
-              </button>
-            </li>
-          ) : null}
-          {work.map((r) => (
-            <li key={r.id}>
-              <Link
-                href={destinations.find((d) => d.flowSlug === "toolbox")?.href ?? "#"}
-                className="concierge-row"
-                onClick={() => viewport === "mobile" && closePanel(false)}
-              >
-                <span className="concierge-row__icon"><Icon name="document" size={20} /></span>
-                <span className="concierge-row__text">
-                  <span className="concierge-row__title">{r.title}</span>
-                  <LoopStatus record={r} />
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section aria-labelledby="concierge-ask">
-        <h2 id="concierge-ask" className="concierge-start__title">{C.askMe}</h2>
-        <ul className="concierge-suggest">
-          {suggestions(ctx).map((s) => (
-            <li key={s.label}>
-              <button type="button" className="concierge-suggest__item" onClick={() => onAsk(s)}>
-                {s.label}
-              </button>
             </li>
           ))}
         </ul>

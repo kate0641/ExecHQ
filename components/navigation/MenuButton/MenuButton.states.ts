@@ -20,7 +20,7 @@ export const menuButtonStates = defineComponentStates({
   },
   variants: [
     { label: "Closed — default", props: {} },
-    { label: "Open", description: "The icon turns to a close mark.", props: { expanded: true } },
+    { label: "Open", description: "The icon stays the same: tapping the page beside the menu closes it.", props: { expanded: true } },
     { label: "A follow-up is due", props: { followUpDue: true } },
     { label: "Closed — hover", props: { demo: "hover" } },
     { label: "Closed — focus", props: { demo: "focus" } },

@@ -3,8 +3,8 @@ import { NOT_AN_INPUT } from "@/components/not-applicable";
 import { navForChrome } from "@/lib/manifest";
 import { DrawerNav } from "./DrawerNav";
 
-const items = navForChrome("app");
-const account = { name: "Maya", email: "maya.chen@example.com" };
+const items = navForChrome("app").filter((item) => item.flowSlug !== "profile");
+const account = { name: "Maya", email: "maya.chen@example.com", href: "/profile/concept-1" };
 const lines = {
   homepage: "A question about your leadership story",
   plan: "Step up · Show the proof",
@@ -75,7 +75,7 @@ export const drawerNavStates = defineComponentStates({
       props: { items, current: "homepage", mode: "sidebar", lines, account, toggle: toggle(true), demo: { flowSlug: "plan", state: "focus" } },
     },
     {
-      label: "Sidebar — pressed on Profile",
+      label: "Sidebar — pressed on the account",
       props: { items, current: "homepage", mode: "sidebar", lines, account, toggle: toggle(true), demo: { flowSlug: "profile", state: "active" } },
     },
   ],

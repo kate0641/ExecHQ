@@ -72,20 +72,23 @@ function linesFor(loop: LoopView): Partial<Record<string, string>> {
     plan: lines.plan(plan.name, stage.title),
     toolbox: openDraft ? lines.toolboxOpen(openDraft.title) : lines.toolbox,
     "daily-briefing": lines.briefing(WEEKDAYS[new Date(`${loop.today}T00:00:00Z`).getUTCDay()]),
-    profile: loop.account.email,
   };
 }
 
 function useDrawerProps(props: NavConceptProps) {
   const loop = useLoop();
   return {
-    items: props.destinations,
+    items: props.destinations.filter((d) => d.flowSlug !== "profile"),
     current: props.currentFlow,
     label: props.label,
     lines: linesFor(loop),
     followUpDue: Boolean(loop.followUp),
     draftOpen: loop.records.some((r) => r.state === "drafted" || r.state === "in-progress"),
-    account: { name: loop.account.name, email: loop.account.email },
+    account: {
+      name: loop.account.name,
+      email: loop.account.email,
+      href: props.destinations.find((d) => d.flowSlug === "profile")?.href,
+    },
   };
 }
 

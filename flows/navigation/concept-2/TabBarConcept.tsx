@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { IconLink } from "@/components/navigation/IconLink";
 import { TabBar } from "@/components/navigation/TabBar";
@@ -75,18 +76,35 @@ export function TabBarNav({ destinations, currentFlow, label }: NavConceptProps)
   );
 }
 
+/** The page the reader was on before Profile, so tapping the icon on Profile
+ *  can put them back. Kept outside the component: each page renders its own
+ *  chrome, so the header remounts on every navigation. */
+let beforeProfile: string | null = null;
+
 /** Top right of the header: the pills on web, then the Profile icon. */
 export function TabBarHeaderEnd({ destinations, currentFlow, label }: NavConceptProps) {
   const { viewport } = useViewport();
   const signals = useLoopSignals();
   const profile = destinations.find((d) => d.flowSlug === "profile");
+  const pathname = usePathname();
+  const router = useRouter();
+  useEffect(() => {
+    if (currentFlow !== "profile") beforeProfile = pathname;
+  }, [currentFlow, pathname]);
+  const home = destinations[0]?.href;
   return (
     <>
       {viewport === "web" ? (
         <TabBar items={barItems(destinations)} current={currentFlow} layout="header" label={label} continuous {...signals} />
       ) : null}
       {profile ? (
-        <IconLink href={profile.href} label={profile.label} icon="person" current={currentFlow === "profile"} />
+        <IconLink
+          href={profile.href}
+          label={profile.label}
+          icon="person"
+          current={currentFlow === "profile"}
+          onClose={() => router.push(beforeProfile ?? home ?? "/")}
+        />
       ) : null}
     </>
   );

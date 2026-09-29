@@ -22,15 +22,12 @@ export const CONCIERGE_COPY = {
   placeholder: "Ask or go…",
   newConversation: "New",
   close: "Close the advisor",
-  privacy: "Private. Only you can see this conversation.",
   goHint: (label: string) => `Go to ${label}`,
 
   /** The empty panel's sections. */
   goTo: "Go to",
-  yourWork: "Your work",
+  resumeEyebrow: "Pick up where you left off",
   askMe: "Ask me",
-  followUpRow: (name: string) => `What came of ${name}?`,
-  followUpRowHint: "Tell me here, or answer on Home",
 
   /** Suggested questions, by what is going on. */
   suggest: {

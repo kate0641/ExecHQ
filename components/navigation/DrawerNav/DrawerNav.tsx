@@ -21,8 +21,9 @@ export interface DrawerNavProps {
   followUpDue?: boolean;
   /** A draft is still open: Toolbox shows the pencil with its tip filled. */
   draftOpen?: boolean;
-  /** The account, at the foot. */
-  account?: { name?: string; email: string };
+  /** The account, at the foot. With an `href` it is the way to Profile, which
+   *  is not in the list. */
+  account?: { name?: string; email: string; href?: string };
   /** The control that widens the rail or folds the sidebar. Only on `rail`
    *  and `sidebar`. */
   toggle?: { label: string; expanded: boolean; onClick: () => void };
@@ -39,7 +40,6 @@ const ICONS: Record<string, IconName> = {
   plan: "flag",
   toolbox: "pencil",
   "daily-briefing": "calendar",
-  profile: "person",
 };
 
 /**
@@ -116,16 +116,46 @@ export function DrawerNav({
         })}
       </ul>
 
-      {account ? (
-        <div className="drawer-nav__account">
-          <span className="drawer-nav__avatar" aria-hidden="true">{initial}</span>
-          <span className="drawer-nav__who">
-            {account.name ? <b>{account.name}</b> : null}
-            <span>{account.email}</span>
-          </span>
-        </div>
-      ) : null}
+      {account ? <Account account={account} current={current === "profile"} forced={demo?.flowSlug === "profile" ? `is-${demo.state}` : null} onNavigate={onNavigate} initial={initial} /> : null}
     </nav>
+  );
+}
+
+function Account({
+  account,
+  current,
+  forced,
+  initial,
+  onNavigate,
+}: {
+  account: NonNullable<DrawerNavProps["account"]>;
+  current: boolean;
+  forced: string | null;
+  initial: string;
+  onNavigate?: () => void;
+}) {
+  const content = (
+    <>
+      <span className="drawer-nav__avatar" aria-hidden="true">{initial}</span>
+      <span className="drawer-nav__who">
+        {account.name ? <b>{account.name}</b> : null}
+        <span>{account.email}</span>
+      </span>
+    </>
+  );
+  if (!account.href) return <div className="drawer-nav__account">{content}</div>;
+  const label = `Profile, ${account.name ?? account.email}`;
+  return (
+    <Link
+      href={account.href}
+      className={["drawer-nav__account", "is-link", current ? "is-current" : null, forced].filter(Boolean).join(" ")}
+      aria-label={label}
+      aria-current={current ? "page" : undefined}
+      title={label}
+      onClick={onNavigate}
+    >
+      {content}
+    </Link>
   );
 }
 

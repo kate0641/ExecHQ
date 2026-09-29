@@ -29,7 +29,7 @@ export const conciergePanelStates = defineComponentStates({
   status: "draft",
   flows: ["navigation"],
   description:
-    "The frame of Navigation Concept 1's advisor: his name, the conversation, the composer and the privacy line. A sheet over the phone; a panel docked beside the page on tablet and web.",
+    "The frame of Navigation Concept 1's advisor: his name, the conversation, and the composer. A sheet over the phone; a panel docked beside the page on tablet and web.",
   component: ConciergePanel,
   notApplicable: {
     disabled: "The advisor is always available.",

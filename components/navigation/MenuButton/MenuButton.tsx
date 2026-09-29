@@ -15,7 +15,8 @@ export interface MenuButtonProps {
 }
 
 /** Opens the navigation menu. Icon-only, with "Menu" as its accessible name
- *  and tooltip. */
+ *  and tooltip. It keeps its icon while the menu is open: the page stepping
+ *  aside is what is tapped to close it, so there is no close mark. */
 export function MenuButton({
   expanded = false,
   controls,
@@ -35,7 +36,7 @@ export function MenuButton({
       onClick={onClick}
       title="Menu"
     >
-      <Icon name={expanded ? "close" : "menu"} size={20} />
+      <Icon name="menu" size={20} />
       {followUpDue ? <span className="menu-button__dot" aria-hidden="true" /> : null}
       <span className="u-visually-hidden">
         Menu{followUpDue ? ", a follow-up is waiting" : ""}
