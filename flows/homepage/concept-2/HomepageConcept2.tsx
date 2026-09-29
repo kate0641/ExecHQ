@@ -5,31 +5,31 @@ import { AccountCard } from "@/components/homepage/AccountCard";
 import { BriefingCard } from "@/components/homepage/BriefingCard";
 import { BriefingEntry } from "@/components/homepage/BriefingEntry";
 import { FollowUpCard } from "@/components/homepage/FollowUpCard";
+import { LoopRow } from "@/components/homepage/LoopRow";
 import { NextStepCard } from "@/components/homepage/NextStepCard";
 import { ReadyCard } from "@/components/homepage/ReadyCard";
 import { RecentWork } from "@/components/homepage/RecentWork";
 import { SignalActivity } from "@/components/homepage/SignalActivity";
 import { TrendLine } from "@/components/homepage/TrendLine";
-import { addDays, aheadPhrase, dueFollowUps, shortDate, whenPhrase } from "@/lib/loop";
+import { addDays, aheadPhrase, dueFollowUps, shortDate, whenPhrase, type LoopRecord } from "@/lib/loop";
 import { loopActions, nextStepAfter, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
-import { signalActivity, signalOfRecord, signalOfStep, windowLabel, windowStart } from "@/lib/signals";
+import { signalActivity, signalOfStep, windowLabel, windowStart } from "@/lib/signals";
 import { closeBriefing, useBriefingClosed } from "@/lib/briefing-dismissal";
 import { ACCOUNTS_COPY as AC, LINKEDIN_STUB as LI, WEBSITE_STUB as WEB } from "@/mock/accounts-stub";
-import { BRIEFING_STUB as B, HOME_COPY } from "@/mock/homepage";
+import { BRIEFING_STUB as B, HOME_COPY, STAY_COPY as S } from "@/mock/homepage";
 import { ARTIFACT_KINDS, FOLLOW_UP_POLICY, OUTCOME_READBACK } from "@/mock/loop";
 import { ACTIONS, HORIZONS, SIGNAL_COPY as C, actionById } from "@/mock/plan-stub";
 
 /**
  * Homepage Concept 2 — Signals (Ledger).
  *
- * Today's Briefing opens the page, in a light card that closes until
- * tomorrow (decided 2026-09-29, replacing the greeting); then, signal
- * forward, the one signal the next action touches, in a dark
- * panel with its last seven days as a dated list of facts, and the action is
- * joined directly beneath it. If a follow-up is due, the follow-up takes that
- * place instead and names its signal. Then the other tracked signals, then
- * the Briefing, then the user's work.
+ * Top to bottom (decided 2026-09-29): today's Briefing, in a light card that
+ * closes until tomorrow; your next step, always, naming the signal it adds
+ * to; "Stay on track", everything waiting on her word — one follow-up or
+ * ready draft open, the rest as rows, and drafts only waiting as quiet
+ * lines; then the signals, the one the next step feeds first in the dark
+ * panel. Logging an outcome can change the next step above, and says so.
  *
  * Below the signals, in their own section and never in the next step, what
  * her LinkedIn and website say (Account cards, 2026-09-29): numbers with
@@ -54,6 +54,8 @@ function longDate(date: string): string {
   return `${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
 }
 
+const capitalise = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
+
 /** Moves focus to a heading once the card it names has replaced the last. */
 function focusSoon(id: string) {
   setTimeout(() => document.getElementById(id)?.focus(), 0);
@@ -65,120 +67,73 @@ export function HomepageConcept2() {
   const briefingClosed = useBriefingClosed(loop.today);
 
   const due = dueFollowUps(loop.records, loop.today);
-  const ready = loop.records.find((r) => r.state === "ready");
   const signals = signalActivity(loop.records, loop.today);
   const span = windowLabel(loop.today);
   const plan = loop.account.plan;
   // A plan chosen inside the window explains the quiet, so it says so.
   const quiet =
     plan.startedOn >= windowStart(loop.today) ? C.quietStarted(whenPhrase(plan.startedOn, loop.today)) : C.quiet;
-  const nameOf = (signalId?: string) => signals.find((s) => s.signal.id === signalId)?.signal.name;
   const forAction = (recordId: string) => {
     const action = ACTIONS.find((a) => a.artifactId === recordId);
     const horizon = HORIZONS.find((h) => h.id === action?.horizon);
     return action && horizon ? { lead: HOME_COPY.forAction(horizon.label), title: action.title } : undefined;
   };
 
-  /* The focal item: which signal leads, and the card joined beneath it. */
-  let focalSignal: string | undefined;
-  let eyebrow: string = C.focalEyebrow;
-  let card: React.ReactNode = null;
-  let after: React.ReactNode = null;
+  /* What's waiting on her word: due follow-ups, drafts ready but not marked
+     used, and drafts used and waiting for their check-back. */
+  const readyRecords = loop.records.filter((r) => r.state === "ready");
+  const waitingRecords = loop.records.filter(
+    (r) => (r.state === "used" || r.state === "waiting") && !due.includes(r)
+  );
+  const answered = loop.homeState === "just-answered" && loop.justAnswered
+    ? loop.records.find((r) => r.id === loop.justAnswered)
+    : undefined;
 
-  if (loop.homeState === "just-answered" && loop.justAnswered) {
-    const record = loop.records.find((r) => r.id === loop.justAnswered)!;
-    const outcome = record.outcome;
-    const waiting = due.filter((r) => r.id !== record.id);
-    let lead: string;
-    if (!outcome || outcome.type === "no-response-yet") {
-      const nextAsk = record.checkBackOn ?? addDays(loop.today, FOLLOW_UP_POLICY.rescheduleDays[0]);
-      lead = HOME_COPY.askAgain(record.name, aheadPhrase(nextAsk, loop.today));
-    } else {
-      lead = outcome.detail ? HOME_COPY.loggedDetail(outcome.detail) : HOME_COPY.loggedPlain(OUTCOME_READBACK[outcome.type]);
-    }
-    const step = outcome && outcome.type !== "no-response-yet" ? nextStepAfter(record) : loop.nextStep;
-    focalSignal = (step && signalOfStep(step.id)) ?? signalOfRecord(record.id);
-    if (!(step && signalOfStep(step.id))) eyebrow = C.answeredEyebrow;
-    card = (
-      <NextStepCard
-        lead={<p className="home-card__readback">{lead}</p>}
-        eyebrow="Next"
-        title={step?.title ?? "Pick your next step from your plan"}
-        why={{ now: step?.why }}
-        href={TOOLBOX}
-        stubbed
-        headingId="handoff-title"
-      />
-    );
-    if (waiting.length) {
-      after = (
-        <button
-          type="button"
-          className="link link--standalone home__another"
-          onClick={() => {
-            setShowing(waiting[0].id);
-            loopActions.moveOn();
-            focusSoon("follow-up-question");
-          }}
-        >
-          {HOME_COPY.another(waiting[0].name)}
-        </button>
-      );
-    }
-  } else if (due.length) {
-    // The follow-up takes the focal place and names its signal; no signal leads.
-    const record = due.find((r) => r.id === showing) ?? due[0];
-    const other = due.find((r) => r.id !== record.id);
-    const signalName = nameOf(signalOfRecord(record.id));
-    card = (
-      <FollowUpCard
-        record={record}
-        today={loop.today}
-        about={signalName ? { lead: C.followUpAbout, title: signalName } : undefined}
-        onSubmit={(answer) => {
-          loopActions.answer(record.id, { type: answer.type, detail: answer.detail || undefined });
-          setShowing(null);
-          focusSoon("handoff-title");
-        }}
-        another={
-          other
-            ? {
-                label: HOME_COPY.another(other.name),
-                onShow: () => {
-                  setShowing(other.id);
-                  focusSoon("follow-up-question");
-                },
-              }
-            : undefined
-        }
-      />
-    );
-  } else if (ready) {
-    focalSignal = signalOfRecord(ready.id);
-    card = (
-      <ReadyCard
-        record={ready}
-        about={forAction(ready.id)}
-        openHref={TOOLBOX}
-        checkBack={HOME_COPY.checkBack(ARTIFACT_KINDS[ready.kind].checkBackDays)}
-        onUsed={() => {
-          loopActions.markUsed(ready.id);
-          focusSoon("next-step-title");
-        }}
-      />
-    );
-  } else if (loop.nextStep) {
-    const step = loop.nextStep;
-    const action = actionById(step.id);
-    focalSignal = signalOfStep(step.id);
-    card = (
-      <NextStepCard
-        title={step.title}
-        why={action ? { this: action.whyThis, now: action.whyNow, you: action.whyYou } : { now: step.why }}
-        href={TOOLBOX}
-      />
-    );
-  }
+  /* Your next step: always shown. After a logged outcome it's the step that
+     outcome brings; otherwise the first recommendation whose work hasn't
+     reached the Loop yet, so it never repeats a row in "Stay on track". */
+  const outcome = answered?.outcome;
+  const updated = Boolean(answered && outcome && outcome.type !== "no-response-yet");
+  const step = updated
+    ? nextStepAfter(answered!)
+    : loop.recommendations.find((rec) => {
+        const artifactId = actionById(rec.id)?.artifactId;
+        const record = artifactId ? loop.records.find((r) => r.id === artifactId) : undefined;
+        return !record || record.state === "drafted" || record.state === "in-progress";
+      });
+  const action = step ? actionById(step.id) : undefined;
+  const focalSignal = step ? signalOfStep(step.id) : undefined;
+
+  /* Which item in "Stay on track" is open: the one she picked, else the
+     first follow-up due, else the first ready draft. The rest are rows. */
+  const openId =
+    showing && [...due, ...readyRecords].some((r) => r.id === showing)
+      ? showing
+      : answered
+        ? undefined
+        : (due[0] ?? readyRecords[0])?.id;
+  const openRecord = loop.records.find((r) => r.id === openId);
+  const readback = answered
+    ? !outcome || outcome.type === "no-response-yet"
+      ? HOME_COPY.askAgain(
+          answered.name,
+          aheadPhrase(answered.checkBackOn ?? addDays(loop.today, FOLLOW_UP_POLICY.rescheduleDays[0]), loop.today)
+        )
+      : outcome.detail
+        ? HOME_COPY.loggedDetail(outcome.detail)
+        : HOME_COPY.loggedPlain(OUTCOME_READBACK[outcome.type])
+    : undefined;
+  // Opening another row keeps the just-logged state, so the next step it
+  // brought stays in place while she answers the rest.
+  const openItem = (id: string) => {
+    setShowing(id);
+    const record = loop.records.find((r) => r.id === id);
+    focusSoon(record?.state === "ready" ? "ready-title" : "follow-up-question");
+  };
+  const usedLine = (r: LoopRecord) =>
+    `${capitalise(ARTIFACT_KINDS[r.kind].usedVerb)}${r.usedOn ? ` ${whenPhrase(r.usedOn, loop.today)}` : ""}. ${S.dueLine}`;
+  const nothingInLoop = !answered && !due.length && !readyRecords.length && !waitingRecords.length;
+  const anyUsed = loop.records.some((r) => r.usedOn);
 
   /* Her accounts, as Profile (or the dock) left them. */
   const linkedIn = loop.account.connections.find((c) => c.id === "linkedin");
@@ -204,40 +159,112 @@ export function HomepageConcept2() {
             closeLabel={B.close}
             onClose={() => {
               closeBriefing(loop.today);
-              focusSoon(focal ? "focal-signal" : "other-signals");
+              focusSoon(step ? "next-step-title" : "stay-heading");
             }}
           />
         )}
 
-        {focal ? (
-          <div className="signals-home__focus">
-            <SignalActivity
-              name={focal.signal.name}
-              entries={focal.entries}
-              quiet={quiet}
-              eyebrow={eyebrow}
-              window={span}
-              tone="focal"
-              today={loop.today}
-              headingLevel={2}
-              headingId="focal-signal"
-              keyLine={C.key}
-            />
-            {card}
+        {/* 2. Your next step: always here, whatever else is going on. */}
+        {step ? (
+          <NextStepCard
+            eyebrow={S.nextHeading}
+            lead={updated ? <p className="home-card__readback">{S.updated}</p> : undefined}
+            context={
+              focal ? (
+                <p className="home-card__adds">
+                  {S.addsTo} <b>{focal.signal.name}</b>
+                </p>
+              ) : undefined
+            }
+            title={step.title}
+            why={action ? { this: action.whyThis, now: action.whyNow, you: action.whyYou } : { now: step.why }}
+            href={TOOLBOX}
+            stubbed={updated}
+            headingId="next-step-title"
+          />
+        ) : null}
+
+        {/* 3. Stay on track: what's waiting on her word. */}
+        <section className="c2-section" aria-labelledby="stay-heading">
+          <div className="signals-home__intro">
+            <h2 className="signals-home__heading" id="stay-heading" tabIndex={-1}>
+              {S.heading}
+            </h2>
           </div>
-        ) : (
-          card
-        )}
-        {after}
+          {readback ? <p className="home-card__readback">{readback}</p> : null}
+          {openRecord?.state === "ready" ? (
+            <ReadyCard
+              record={openRecord}
+              about={forAction(openRecord.id)}
+              openHref={TOOLBOX}
+              checkBack={HOME_COPY.checkBack(ARTIFACT_KINDS[openRecord.kind].checkBackDays)}
+              onUsed={() => {
+                loopActions.markUsed(openRecord.id);
+                setShowing(null);
+                focusSoon("stay-heading");
+              }}
+            />
+          ) : openRecord ? (
+            <FollowUpCard
+              record={openRecord}
+              today={loop.today}
+              about={forAction(openRecord.id)}
+              onSubmit={(answer) => {
+                loopActions.answer(openRecord.id, { type: answer.type, detail: answer.detail || undefined });
+                setShowing(null);
+                focusSoon("next-step-title");
+              }}
+            />
+          ) : null}
+          {due.length + readyRecords.length + waitingRecords.length > (openRecord ? 1 : 0) ? (
+            <ul className="loop-rows">
+              {due
+                .filter((r) => r.id !== openId)
+                .map((r) => (
+                  <li key={r.id}>
+                    <LoopRow record={r} line={usedLine(r)} onOpen={() => openItem(r.id)} />
+                  </li>
+                ))}
+              {readyRecords
+                .filter((r) => r.id !== openId)
+                .map((r) => (
+                  <li key={r.id}>
+                    <LoopRow record={r} line={S.readyLine} onOpen={() => openItem(r.id)} />
+                  </li>
+                ))}
+              {waitingRecords.map((r) => (
+                <li key={r.id}>
+                  <LoopRow
+                    record={r}
+                    line={r.checkBackOn ? S.askOn(aheadPhrase(r.checkBackOn, loop.today)) : S.usedNoAsk}
+                  />
+                </li>
+              ))}
+            </ul>
+          ) : null}
+          {nothingInLoop ? <p className="c2-section__note">{anyUsed ? S.allLogged : S.empty}</p> : null}
+        </section>
 
         <section className="signals-home__others" aria-labelledby="other-signals">
           <div className="signals-home__intro">
             <h2 className="signals-home__heading" id="other-signals" tabIndex={-1}>
-              {focal ? C.othersHeading : C.allHeading}
+              {C.allHeading}
             </h2>
             <p className="signals-home__window">{span}</p>
             {focal ? null : <p className="signals-home__window">{C.key}</p>}
           </div>
+          {focal ? (
+            <SignalActivity
+              name={focal.signal.name}
+              entries={focal.entries}
+              quiet={quiet}
+              eyebrow={C.focalEyebrow}
+              tone="focal"
+              today={loop.today}
+              headingId="focal-signal"
+              keyLine={C.key}
+            />
+          ) : null}
           {others.map(({ signal, entries }) => (
             <SignalActivity
               key={signal.id}

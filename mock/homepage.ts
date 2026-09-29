@@ -279,3 +279,24 @@ export const BRIEFING_STUB = {
   open: "Read today’s Briefing",
   close: "Close today’s Briefing. It comes back tomorrow.",
 } as const;
+
+/* -----------------------------------------------------------------------------
+   CONCEPT 2 — YOUR NEXT STEP, THEN STAY ON TRACK
+   Decided 2026-09-29: under the Briefing is always the next step; under it,
+   "Stay on track" holds everything waiting on her word. The heading is one
+   string, so "The Loop" is a one-word swap if the client prefers it.
+   -------------------------------------------------------------------------- */
+
+export const STAY_COPY = {
+  nextHeading: "Your next step",
+  addsTo: "Adds to:",
+  /** Over a next step brought by an outcome she just logged. */
+  updated: "Updated from what you told us.",
+  heading: "Stay on track",
+  dueLine: "What came of it?",
+  readyLine: "Ready. Have you used it yet?",
+  askOn: (when: string) => `I’ll ask what came of it ${when}.`,
+  usedNoAsk: "Used. No check-back set.",
+  empty: "When you use something you’ve made, it shows here, so you can tell ExecHQ what came of it.",
+  allLogged: "Nothing waiting on you. Everything you’ve used has its outcome logged.",
+} as const;

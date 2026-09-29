@@ -26,6 +26,17 @@ export const nextStepCardStates = defineComponentStates({
   variants: [
     { label: "Why this, now, you — default", props: { title: a.title, why, href } },
     {
+      label: "With what it adds to",
+      description: "Homepage Concept 2 names the signal the step feeds, under the eyebrow.",
+      props: {
+        title: a.title,
+        why,
+        href,
+        context: h("p", { className: "home-card__adds" }, "Adds to: ", h("b", null, "Time with the people who decide")),
+        headingId: "nsc-context",
+      },
+    },
+    {
       label: "Reasons in one sentence",
       description: "Why this, why now and why you said as one line. Homepage Concept 1’s tray.",
       props: { title: a.title, whyLine: a.whyLine, href, eyebrow: "Next in short-term", headingId: "nsc-whyline" },

@@ -16,6 +16,8 @@ export interface NextStepCardProps {
   eyebrow?: string;
   /** What just happened, shown before the step: the just-answered readback. */
   lead?: ReactNode;
+  /** A line under the eyebrow, before the title: what the step adds to. */
+  context?: ReactNode;
   /** Marks the step as a stand-in until Sprint 3 connects the Plan. Always
    *  visible when set, so no reviewer mistakes it for a live recommendation. */
   stubbed?: boolean;
@@ -40,6 +42,7 @@ export function NextStepCard({
   actionLabel = "Start in the Toolbox",
   eyebrow = "Your next step",
   lead,
+  context,
   stubbed = false,
   stubbedLabel = "Stubbed · Sprint 3 connects this",
   titleHidden = false,
@@ -57,6 +60,7 @@ export function NextStepCard({
       <div className={stubbed ? "home-card__inset" : "home-card__stack"}>
         {stubbed ? <span className="home-card__stub">{stubbedLabel}</span> : null}
         <p className="home-card__eyebrow">{eyebrow}</p>
+        {context ? <div className="home-card__context">{context}</div> : null}
         <h2 className={titleHidden ? "u-visually-hidden" : "home-card__title"} id={headingId} tabIndex={-1}>
           {title}
         </h2>

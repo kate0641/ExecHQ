@@ -9584,6 +9584,99 @@ ol.signal__list {
   color: var(--color-text-inverse-muted);
 }
 
+/* Concept 2's sections: your next step, then stay on track. */
+
+.c2-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.c2-section__note {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.home-card__adds {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.home-card__adds b {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.loop-rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.loop-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  border: var(--border-width-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  text-align: left;
+}
+
+.loop-row--open {
+  border-color: var(--color-border);
+  background-color: var(--color-surface-raised);
+  transition: border-color var(--duration-fast) var(--easing-standard);
+}
+
+.loop-row--open:hover,
+.loop-row--open.is-hover {
+  border-color: var(--color-border-strong);
+}
+
+.loop-row--open:active,
+.loop-row--open.is-active {
+  background-color: var(--color-surface-hover);
+}
+
+.loop-row--open:focus-visible,
+.loop-row--open.is-focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.loop-row__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  min-width: 0;
+}
+
+.loop-row__text b {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.loop-row__text span {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.loop-row__go {
+  flex: none;
+  color: var(--color-text-muted);
+}
+
 /* What your accounts say (Concept 2): a card per connected account, below
    the signals and never in the next-step card. */
 
