@@ -5,17 +5,17 @@ import { HOME_STATES, type HomeStateId } from "@/mock/homepage";
 import { ACTIONS } from "@/mock/plan-stub";
 import { RingsHero } from "./RingsHero";
 
-const base = { planName: "Increase leadership scope", startHref: "/toolbox-flow/concept-1", planHref: "/plan/concept-1" };
-function forState(id: HomeStateId, week: number) {
+const base = { greeting: "Good morning, Maya", date: "Tuesday 20 October", planLine: "Step up", planName: "Increase leadership scope", startHref: "/toolbox-flow/concept-1", planHref: "/plan/concept-1" };
+function forState(id: HomeStateId) {
   const rings = ringsFor(HOME_STATES[id].records);
-  return { ...base, rings, next: nextToFill(rings), planLine: `Step up · Week ${week} of 12` };
+  return { ...base, rings, next: nextToFill(rings) };
 }
 const allDone = (() => {
   const rings = ringsFor(
     HOME_STATES["nothing-pending"].records,
     ACTIONS.filter((a) => a.id !== "scope-case")
   );
-  return { ...base, rings, next: nextToFill(rings), planLine: "Step up · Week 5 of 12" };
+  return { ...base, rings, next: nextToFill(rings) };
 })();
 
 export const ringsHeroStates = defineComponentStates({
@@ -37,25 +37,25 @@ export const ringsHeroStates = defineComponentStates({
     {
       label: "First return, a starting point — default",
       description: "Nearly empty rings, introduced as where the plan starts, not as a verdict.",
-      props: { ...forState("first-return", 1), startNote: "Four actions on your plan. Each segment fills when you use the work it asks for." },
+      props: { ...forState("first-return"), startNote: "Four actions on your plan. Each segment fills when you use the work it asks for." },
     },
-    { label: "Follow-up due, part confirmed", props: forState("follow-up-due", 3) },
-    { label: "Nothing pending, short and medium confirmed", props: forState("nothing-pending", 5) },
+    { label: "Follow-up due, part confirmed", props: forState("follow-up-due") },
+    { label: "Nothing pending, short and medium confirmed", props: forState("nothing-pending") },
     { label: "Every action confirmed", description: "No next action left: nothing celebrates, it just says so.", props: allDone },
-    { label: "A ring opened", props: { ...forState("follow-up-due", 3), open: "short" } },
+    { label: "A ring opened", props: { ...forState("follow-up-due"), open: "short" } },
     {
       label: "A long action title wraps",
       props: {
-        ...forState("first-return", 1),
+        ...forState("first-return"),
         next: (() => {
-          const f = forState("first-return", 1);
+          const f = forState("first-return");
           const n = f.next!;
           return { ...n, segment: { ...n.segment, action: { ...n.segment.action, title: "Use your leadership story to open your next 1:1 with your manager, before the planning cycle" } } };
         })(),
       },
     },
-    { label: "Ring — hover", props: { ...forState("follow-up-due", 3), demo: { horizon: "medium", state: "hover" } } },
-    { label: "Ring — focus", props: { ...forState("follow-up-due", 3), demo: { horizon: "short", state: "focus" } } },
-    { label: "Ring — pressed", props: { ...forState("follow-up-due", 3), demo: { horizon: "long", state: "active" } } },
+    { label: "Ring — hover", props: { ...forState("follow-up-due"), demo: { horizon: "medium", state: "hover" } } },
+    { label: "Ring — focus", props: { ...forState("follow-up-due"), demo: { horizon: "short", state: "focus" } } },
+    { label: "Ring — pressed", props: { ...forState("follow-up-due"), demo: { horizon: "long", state: "active" } } },
   ],
 });

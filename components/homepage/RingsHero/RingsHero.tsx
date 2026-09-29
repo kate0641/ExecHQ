@@ -7,7 +7,11 @@ export interface RingsHeroProps {
   rings: Ring[];
   /** The one action that fills the next segment, if any is left. */
   next?: { ring: Ring; segment: RingSegment };
-  /** "Step up · Week 3 of 12". */
+  /** "Good morning, Maya", at the head of the card, so the card is hers. */
+  greeting?: string;
+  /** Today, under the greeting: "Monday 5 October". */
+  date?: string;
+  /** The plan's name: "Step up". No week count: a plan has no end date. */
   planLine: string;
   /** The plan's formal name, beside it. */
   planName?: string;
@@ -96,6 +100,8 @@ function RingDrawing({ ring, nextId }: { ring: Ring; nextId?: string }) {
 export function RingsHero({
   rings,
   next,
+  greeting,
+  date,
   planLine,
   planName,
   startNote,
@@ -112,6 +118,12 @@ export function RingsHero({
       <h2 className="u-visually-hidden" id="rings-hero-heading">
         Your plan&rsquo;s actions
       </h2>
+      {greeting ? (
+        <p className="rings-hero__greeting">
+          <b>{greeting}</b>
+          {date ? <span>{date}</span> : null}
+        </p>
+      ) : null}
       <p className="rings-hero__meta">
         <span>{planLine}</span>
         {planName ? <span>{planName}</span> : null}

@@ -8,7 +8,7 @@ import { ReadyCard } from "@/components/homepage/ReadyCard";
 import { RecentWork } from "@/components/homepage/RecentWork";
 import { RingDetail } from "@/components/homepage/RingDetail";
 import { RingsHero } from "@/components/homepage/RingsHero";
-import { addDays, aheadPhrase, daysBetween, dueFollowUps, type LoopRecord } from "@/lib/loop";
+import { addDays, aheadPhrase, dueFollowUps, type LoopRecord } from "@/lib/loop";
 import { loopActions, nextStepAfter, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { nextToFill, ringOf, ringsFor } from "@/lib/rings";
@@ -53,7 +53,6 @@ export function HomepageConcept1() {
   const rings = ringsFor(loop.records);
   const next = nextToFill(rings);
   const plan = loop.account.plan;
-  const week = Math.min(plan.weeks, Math.floor(daysBetween(plan.startedOn, loop.today) / 7) + 1);
   const due = dueFollowUps(loop.records, loop.today);
   const ready = loop.records.find((r) => r.state === "ready");
   const openRing = rings.find((r) => r.horizon === open);
@@ -165,19 +164,12 @@ export function HomepageConcept1() {
     <div className="home">
       <h1 className="u-visually-hidden">Home</h1>
       <div className="home__lead">
-        <div className="home__greeting">
-          <span className="home__avatar" aria-hidden="true">
-            {loop.account.name?.charAt(0) ?? loop.account.email.charAt(0)}
-          </span>
-          <span>
-            <b>{C.greeting(loop.account.name ?? "")}</b>
-            <span>{longDate(loop.today)}</span>
-          </span>
-        </div>
         <RingsHero
           rings={rings}
           next={next}
-          planLine={C.planLine(plan.name, week, plan.weeks)}
+          greeting={C.greeting(loop.account.name ?? "")}
+          date={longDate(loop.today)}
+          planLine={plan.name}
           planName={plan.formalName}
           startNote={loop.homeState === "first-return" ? C.startNote : undefined}
           open={open}

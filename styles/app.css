@@ -3622,6 +3622,25 @@ ul.recent-work__list {
   padding: var(--space-lg);
 }
 
+.rings-hero__greeting {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  margin: 0;
+}
+
+.rings-hero__greeting b {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.rings-hero__greeting span {
+  font-size: var(--text-sm);
+  color: var(--color-text-inverse-muted);
+}
+
 .rings-hero__meta {
   display: flex;
   flex-wrap: wrap;
