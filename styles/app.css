@@ -11171,7 +11171,7 @@ ul.stage-actions__list {
   justify-content: center;
   gap: var(--space-sm);
   width: 100%;
-  min-height: 3rem;
+  min-height: 3.75rem;
   padding: 0 var(--space-lg);
   border: var(--border-width-thin) solid var(--color-border-strong);
   border-radius: var(--radius-pill);
@@ -11184,30 +11184,14 @@ ul.stage-actions__list {
   transition: background-color var(--duration-fast) var(--easing-standard);
 }
 
-.provider-button--apple {
-  border-color: var(--color-surface-inverse);
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
-}
-
 .provider-button:hover,
 .provider-button.is-hover {
   background-color: var(--color-surface-hover);
 }
 
-.provider-button--apple:hover,
-.provider-button--apple.is-hover {
-  background-color: var(--color-surface-inverse-hover);
-}
-
 .provider-button:active,
 .provider-button.is-active {
   background-color: var(--color-surface-sunken);
-}
-
-.provider-button--apple:active,
-.provider-button--apple.is-active {
-  background-color: var(--color-surface-inverse-active);
 }
 
 .provider-button:focus-visible,
@@ -11563,6 +11547,16 @@ ul.stage-actions__list {
   padding-top: var(--space-3xl);
 }
 
+/* Room kept for the email's notification to drop in above the heading. */
+.login__body--inbox {
+  padding-top: calc(var(--space-3xl) + 4rem);
+}
+
+[data-viewport="tablet"] .login__body--inbox,
+[data-viewport="web"] .login__body--inbox {
+  padding-top: calc(var(--space-4xl) + 4rem);
+}
+
 .login__intro {
   display: flex;
   flex-direction: column;
@@ -11595,6 +11589,18 @@ ul.stage-actions__list {
   margin: 0;
   color: var(--color-text-secondary);
   overflow-wrap: anywhere;
+}
+
+/* The header's wordmark stays above the glow that reaches up into it. */
+.chrome:has(.login) > .chrome__header {
+  position: relative;
+  z-index: 1;
+}
+
+/* The Log in button is as tall as the field above it. */
+.login__form .btn {
+  min-height: 3.75rem;
+  border-radius: var(--radius-pill);
 }
 
 .login__form {

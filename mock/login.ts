@@ -1,12 +1,12 @@
 /**
  * Words the Login concept uses, and the prototype's stand-ins for what a real
- * sign-in would receive.
+ * login would receive.
  *
  * Decisions on 2026-09-28: an emailed link is the main way in, with a 6-digit
- * code in the same email for signing in on another device. Google and Apple
+ * code in the same email for logging in on another device. Google and Apple
  * sit beside it, which reopens the brief's "personal email only" (flagged
  * below). The screen says the same thing whether or not an address has an
- * account, so it never reveals who is a member. After sign-in the reviewer
+ * account, so it never reveals who is a member. After login the reviewer
  * lands on Home.
  *
  * Nothing is sent. The email is drawn on screen so reviewers can see its
@@ -49,9 +49,9 @@ export const PROVIDER_ACCOUNTS: Record<Provider, ProviderAccount[]> = {
 export const LOGIN_COPY = {
   signIn: {
     kicker: "Welcome back",
-    heading: "Sign in to ExecHQ",
+    heading: "Log in to ExecHQ",
     emailLabel: "Your personal email",
-    keep: "Keep me signed in on this device",
+    keep: "Keep me logged in on this device",
     send: "Log in",
     or: "or",
     providers: { google: "Google", apple: "Apple" } satisfies Record<Provider, string>,
@@ -59,15 +59,15 @@ export const LOGIN_COPY = {
     newHere: "New to ExecHQ?",
     start: "Start here",
     privacy: "Private to you. Nothing here is visible to your employer.",
-    empty: "Enter your email address to get a sign-in link.",
+    empty: "Enter your email address to get a login link.",
     malformed: "That doesn’t look like an email address. Check it and try again.",
   },
 
   inbox: {
     heading: "Check your inbox",
     lede: (email: string) =>
-      `If there’s an account for ${email}, a sign-in link is on its way. It works for 15 minutes.`,
-    codeLabel: "Signing in on another device? Type the code from the email.",
+      `If there’s an account for ${email}, a login link is on its way. It works for 15 minutes.`,
+    codeLabel: "Logging in on another device? Type the code from the email.",
     codeName: "Six-digit code from the email",
     wrongCode: "That code doesn’t match. Check the latest email and try again.",
     resendIn: (seconds: number) => `Send it again in ${seconds}s`,
@@ -76,7 +76,7 @@ export const LOGIN_COPY = {
     otherAddress: "Use a different address",
     nothing: "Nothing arrived? Check your junk folder.",
     lostAccess: "Can’t get into that inbox?",
-    arrived: "New email from ExecHQ: Your sign-in link.",
+    arrived: "New email from ExecHQ: Your login link.",
   },
 
   /** The drawn email. The subject and preview say nothing about her career. */
@@ -84,13 +84,13 @@ export const LOGIN_COPY = {
     app: "Mail",
     back: "Inbox",
     from: "ExecHQ",
-    subject: "Your sign-in link",
+    subject: "Your login link",
     preview: "Here’s the link you asked for.",
     to: (email: string) => `to ${email} · now`,
-    button: "Sign in to ExecHQ",
-    codeLead: "Signing in on another device? Type this code instead:",
+    button: "Log in to ExecHQ",
+    codeLead: "Logging in on another device? Type this code instead:",
     footer:
-      "This link and code work for 15 minutes and only once. If you didn’t ask for them, you can ignore this email. No one can sign in without it.",
+      "This link and code work for 15 minutes and only once. If you didn’t ask for them, you can ignore this email. No one can log in without it.",
     tryExpired: "Open it again after 15 minutes",
     note: "The subject and preview say nothing about her career, so nothing private shows on a lock screen.",
     noteLabel: "Note",
@@ -98,14 +98,14 @@ export const LOGIN_COPY = {
 
   expired: {
     heading: "That link has expired",
-    lede: (email: string) => `Sign-in links work for 15 minutes and only once. We can send a new one to ${email}.`,
+    lede: (email: string) => `Login links work for 15 minutes and only once. We can send a new one to ${email}.`,
     send: "Send a new link",
   },
 
   otherAccount: {
     heading: "That’s a different account",
-    lede: "No ExecHQ account uses that address. Sign in with the email you used when you joined, or start fresh.",
-    back: "Sign in with my email",
+    lede: "No ExecHQ account uses that address. Log in with the email you used when you joined, or start fresh.",
+    back: "Log in with my email",
     fresh: "Start fresh",
   },
 
@@ -121,7 +121,7 @@ export const LOGIN_COPY = {
   },
 
   close: "Close",
-  signedIn: "Signed in.",
+  signedIn: "Logged in.",
 } as const;
 
 /** Open questions, shown on the page as flagged notes. */

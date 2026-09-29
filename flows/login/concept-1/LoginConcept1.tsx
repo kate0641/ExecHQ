@@ -337,7 +337,7 @@ export function LoginConcept1() {
           />
         </div>
       ) : null}
-      <div className="login__body">{body}</div>
+      <div className={["login__body", screen === "inbox" ? "login__body--inbox" : null].filter(Boolean).join(" ")}>{body}</div>
       <Sheet open={sheet !== null} onClose={() => setSheet(null)} label={sheetLabel} className={sheet === "email" ? "sheet--tall" : undefined}>
         {sheetContent()}
       </Sheet>

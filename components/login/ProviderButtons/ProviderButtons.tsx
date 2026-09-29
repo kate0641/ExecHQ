@@ -35,8 +35,8 @@ function Mark({ provider }: { provider: Provider }) {
 
 /**
  * Signing in through Google or Apple, the way each shows it elsewhere: a
- * full-width button with the mark and "Continue with …". Google's is light
- * with a hairline border; Apple's is solid.
+ * full-width button with the mark and "Continue with …". Both are light
+ * with a hairline border, so “Log in” stays the one loud button.
  */
 export function ProviderButtons({ onChoose, buttonClassName, disabled }: ProviderButtonsProps) {
   const names = LOGIN_COPY.signIn.providers;
