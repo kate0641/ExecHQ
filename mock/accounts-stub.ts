@@ -13,9 +13,13 @@
  */
 
 export const ACCOUNTS_COPY = {
-  heading: "What your accounts say",
-  sub: "Numbers from your accounts, as of the dates shown. Only you see this.",
-  subNotConnected: "Not connected yet. Only you would see this.",
+  heading: "What your signals say",
+  sub: "Where you started and where you are now, as of the dates shown. Only you see this.",
+  subNotConnected: "Nothing brought in yet. Only you would see this.",
+  baseline: "Where you started",
+  /** The column captions over a then-and-now pair. */
+  then: "Start",
+  now: "Now",
   asOfLinkedIn: (date: string) => `Uploaded ${date}`,
   asOfWebsite: (date: string) => `Read ${date}`,
   says: "What it suggests",
@@ -30,6 +34,9 @@ export const LINKEDIN_STUB = {
     { value: "6,820", label: "people reached", note: "4 posts" },
     { value: "31%", label: "director or above, planning post", note: "usually 14%" },
   ],
+  /** Where the followers were at the start of the chart, thirteen weeks
+   *  before the upload, and where they are now. */
+  baseline: { label: "Followers, 13 weeks ago", then: "1,247", now: "1,284" },
   /** Followers, weekly, oldest first: thirteen weeks to the upload. */
   followers: [1247, 1249, 1252, 1252, 1255, 1258, 1259, 1263, 1266, 1270, 1276, 1281, 1284],
   chartCaption: "Followers, weekly · last 90 days",
@@ -59,6 +66,8 @@ export const WEBSITE_STUB = {
     { value: "3×", label: "“campaign lead”", note: "0 on leading a team" },
     { value: "14 mo", label: "since it changed" },
   ],
+  /** Unchanged since she began: a baseline that has not moved says so. */
+  baseline: { label: "Mentions of leading a team", then: "0", now: "0", note: "Unchanged since you started" },
   says: "Your site calls you a “campaign lead” three times and never mentions leading a team. It still describes the job you’re moving on from.",
   tryThis: {
     title: "Open your About page with what you lead",
@@ -69,6 +78,76 @@ export const WEBSITE_STUB = {
     intro: "Give us your site’s address, and we’ll read its public pages to show how you describe yourself, and whether it matches where you’re heading.",
     shows: [],
     label: "Add your website",
+  },
+} as const;
+
+/* -----------------------------------------------------------------------------
+   YOUR PRESENCE: the four signals she adds herself, by decision on 2026-09-30
+   (podcast appearances, press mentions, speaking engagements, thought pieces).
+   Nothing is searched for: she adds a link or a note. Each has a baseline, the
+   count on the day her plan began, and moves only when she adds one, so what
+   the card shows is always her own record and never a score.
+   -------------------------------------------------------------------------- */
+
+export type PresenceKind = "podcast" | "press" | "speaking" | "writing";
+
+export interface PresenceItem {
+  id: string;
+  kind: PresenceKind;
+  title: string;
+  /** The show, publication, event or place it ran. */
+  where: string;
+  /** The day she added it. Counts on a given day include everything added by then. */
+  on: string;
+}
+
+export const PRESENCE_KINDS: Record<PresenceKind, { label: string; noun: string; nouns: string }> = {
+  podcast: { label: "Podcast appearances", noun: "appearance", nouns: "appearances" },
+  press: { label: "Press mentions", noun: "mention", nouns: "mentions" },
+  speaking: { label: "Speaking engagements", noun: "engagement", nouns: "engagements" },
+  writing: { label: "Thought pieces", noun: "piece", nouns: "pieces" },
+};
+
+export const PRESENCE_ORDER: readonly PresenceKind[] = ["podcast", "press", "speaking", "writing"];
+
+/** What she already had when her plan began: the baseline. */
+export const PRESENCE_BASELINE: Record<PresenceKind, number> = {
+  podcast: 1,
+  press: 2,
+  speaking: 1,
+  writing: 3,
+};
+
+/** What she has added since, oldest first. The five homepage states fall on
+ *  different days, so each shows a different count. */
+export const PRESENCE_ITEMS: readonly PresenceItem[] = [
+  { id: "w1", kind: "writing", title: "Why I review my plan every quarter", where: "LinkedIn article", on: "2026-10-09" },
+  { id: "p1", kind: "podcast", title: "Planning as a leadership skill", where: "The Modern CMO", on: "2026-10-17" },
+  { id: "s1", kind: "speaking", title: "Panel: planning for growth", where: "Growth Summit", on: "2026-10-29" },
+  { id: "r1", kind: "press", title: "Quoted on planning cycles", where: "Marketing Week", on: "2026-11-01" },
+];
+
+export const PRESENCE_STUB = {
+  name: "Your presence",
+  mark: "you",
+  asOf: (date: string) => `Since ${date}`,
+  /** The one line under the rows: what has moved, as a count and no more. */
+  summary: (added: number) =>
+    added === 0
+      ? "Nothing added since you started, so what you had then is your baseline."
+      : `${added} added since you started.`,
+  tryThis: {
+    title: "Pitch one show about planning as a leadership skill",
+    why: "Your story already says it, and you’ve been asked about it once on air.",
+    label: "Draft a pitch",
+  },
+  invite: {
+    intro: "Add a podcast, a mention in the press, a talk or a piece you’ve written, and this shows:",
+    shows: [
+      "how many of each you had when you started, and how many now",
+      "what you’ve added lately",
+    ],
+    label: "Add one",
   },
 } as const;
 

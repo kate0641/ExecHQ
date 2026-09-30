@@ -6,13 +6,21 @@ import { CheckIn } from "@/components/loop/CheckIn";
 import { BriefingCard } from "@/components/homepage/BriefingCard";
 import { LoopRow } from "@/components/homepage/LoopRow";
 import { NextStepCard } from "@/components/homepage/NextStepCard";
+import { PresenceCard } from "@/components/homepage/PresenceCard";
 import { TrendLine } from "@/components/homepage/TrendLine";
 import { addDays, aheadPhrase, dueFollowUps, shortDate, whenPhrase, type LoopRecord } from "@/lib/loop";
 import { loopActions, nextStepAfter, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
+import { presenceCounts } from "@/lib/presence";
 import { signalOfStep } from "@/lib/signals";
 import { closeBriefing, useBriefingClosed } from "@/lib/briefing-dismissal";
-import { ACCOUNTS_COPY as AC, LINKEDIN_STUB as LI, WEBSITE_STUB as WEB } from "@/mock/accounts-stub";
+import {
+  ACCOUNTS_COPY as AC,
+  LINKEDIN_STUB as LI,
+  PRESENCE_KINDS,
+  PRESENCE_STUB as PR,
+  WEBSITE_STUB as WEB,
+} from "@/mock/accounts-stub";
 import { BRIEFING_STUB as B, CHECKIN_COPY as CK, HOME_COPY, STAY_COPY as S } from "@/mock/homepage";
 import { ARTIFACT_KINDS, FOLLOW_UP_POLICY, OUTCOME_READBACK } from "@/mock/loop";
 import { ACTIONS, HORIZONS, actionById, signalById } from "@/mock/plan-stub";
@@ -31,7 +39,10 @@ import { ACTIONS, HORIZONS, actionById, signalById } from "@/mock/plan-stub";
  * After that, in their own section and never in the next step, what
  * her LinkedIn and website say (Account cards, 2026-09-29): numbers with
  * source and date, what they suggest, and one thing to try; or, not
- * connected, what connecting would show. Connections are Profile's, so
+ * connected, what connecting would show. Each card sets where she started
+ * beside where she is now (2026-09-30), and a last card, "Your presence",
+ * holds the four things she adds herself: podcast appearances, press
+ * mentions, speaking engagements and thought pieces. Connections are Profile's, so
  * connecting there shows here; the dock's toggle sets both at once. On web
  * it fills the right-hand column. There is no "Your work" list and no
  * second Briefing link (decided 2026-09-29).
@@ -154,6 +165,8 @@ export function HomepageConcept2() {
   const linkedIn = loop.account.connections.find((c) => c.id === "linkedin");
   const website = loop.account.connections.find((c) => c.id === "website");
   const anyConnected = Boolean(linkedIn?.connected || website?.connected);
+  const presence = presenceCounts(loop.today);
+  const presenceAdded = presence.reduce((sum, p) => sum + (p.now - p.then), 0);
 
   const focalName = focalSignal ? signalById(focalSignal)?.name : undefined;
 
@@ -301,6 +314,9 @@ export function HomepageConcept2() {
               mark={LI.mark}
               asOf={AC.asOfLinkedIn(shortDate(linkedIn.connectedOn))}
               stats={LI.stats}
+              baseline={LI.baseline}
+              thenLabel={AC.then}
+              nowLabel={AC.now}
               chart={
                 <TrendLine
                   values={LI.followers}
@@ -326,6 +342,9 @@ export function HomepageConcept2() {
               mark={WEB.mark}
               asOf={AC.asOfWebsite(shortDate(website.connectedOn))}
               stats={WEB.stats}
+              baseline={WEB.baseline}
+              thenLabel={AC.then}
+              nowLabel={AC.now}
               says={WEB.says}
               saysLabel={AC.says}
               tryThis={{ ...WEB.tryThis, href: TOOLBOX }}
@@ -335,6 +354,24 @@ export function HomepageConcept2() {
           ) : (
             <AccountCard name={WEB.name} mark={WEB.mark} invite={{ ...WEB.invite, href: PROFILE }} headingId="account-website" />
           )}
+          <PresenceCard
+            name={PR.name}
+            mark={PR.mark}
+            asOf={PR.asOf(shortDate(loop.account.plan.startedOn))}
+            thenLabel={AC.then}
+            nowLabel={AC.now}
+            rows={presence.map((p) => ({
+              id: p.kind,
+              label: PRESENCE_KINDS[p.kind].label,
+              then: p.then,
+              now: p.now,
+              latest: p.latest ? `${p.latest.title} · ${p.latest.where} · ${shortDate(p.latest.on)}` : undefined,
+            }))}
+            summary={PR.summary(presenceAdded)}
+            tryThis={{ ...PR.tryThis, href: TOOLBOX }}
+            tryLabel={AC.tryThis}
+            headingId="account-presence"
+          />
         </section>
       </div>
     </div>

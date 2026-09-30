@@ -2,7 +2,7 @@ import { createElement as h } from "react";
 import { TrendLine } from "@/components/homepage/TrendLine";
 import { defineComponentStates } from "@/components/types";
 import { CONTROLS_INSIDE, NOT_AN_INPUT } from "@/components/not-applicable";
-import { LINKEDIN_STUB as L, WEBSITE_STUB as W } from "@/mock/accounts-stub";
+import { ACCOUNTS_COPY as A, LINKEDIN_STUB as L, WEBSITE_STUB as W } from "@/mock/accounts-stub";
 import { AccountCard } from "./AccountCard";
 
 const toolbox = "/toolbox-flow/concept-1";
@@ -12,6 +12,9 @@ const linkedIn = {
   mark: L.mark,
   asOf: "Uploaded 18 Oct",
   stats: L.stats,
+  baseline: L.baseline,
+  thenLabel: A.then,
+  nowLabel: A.now,
   chart: h(TrendLine, {
     values: L.followers,
     labels: L.followers.map((_, i) => `Week ${i + 1}`),
@@ -28,7 +31,7 @@ export const accountCardStates = defineComponentStates({
   status: "draft",
   flows: ["homepage"],
   description:
-    "One connected account on Homepage Concept 2: source and date, three headline numbers, a chart, what they suggest, and one thing to try. Not connected, it says what connecting would show and links to Profile. Its own section, never the next-step card; says what changed, never why. Data stubbed until the Signal Picture in Sprint 3.",
+    "One connected account on Homepage Concept 2: source and date, three headline numbers, where she started beside where she is now, a chart, what they suggest, and one thing to try. Not connected, it says what connecting would show and links to Profile. Its own section, never the next-step card; says what changed, never why. Data stubbed until the Signal Picture in Sprint 3.",
   component: AccountCard,
   notApplicable: {
     ...CONTROLS_INSIDE,
@@ -40,7 +43,7 @@ export const accountCardStates = defineComponentStates({
     { label: "LinkedIn, connected — default", props: { ...linkedIn, headingId: "ac-li" } },
     {
       label: "Website, connected, no chart",
-      props: { name: W.name, mark: W.mark, asOf: "Read 12 Oct", stats: W.stats, says: W.says, tryThis: { ...W.tryThis, href: toolbox }, headingId: "ac-web" },
+      props: { name: W.name, mark: W.mark, asOf: "Read 12 Oct", stats: W.stats, baseline: W.baseline, thenLabel: A.then, nowLabel: A.now, says: W.says, tryThis: { ...W.tryThis, href: toolbox }, headingId: "ac-web" },
     },
     {
       label: "LinkedIn, not connected — empty",

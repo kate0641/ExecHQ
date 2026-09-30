@@ -17,6 +17,12 @@ export interface AccountCardProps {
    *  connected, because outside numbers go stale. */
   asOf?: string;
   stats?: readonly AccountStat[];
+  /** Where she started and where she is now, on the one number that best
+   *  shows it. A number that has not moved says so in `note`. */
+  baseline?: { label: string; then: string; now: string; note?: string };
+  /** The column captions over the pair. */
+  thenLabel?: string;
+  nowLabel?: string;
   /** A chart, such as a TrendLine. */
   chart?: ReactNode;
   /** What the numbers suggest about the user, in a sentence. */
@@ -33,8 +39,8 @@ export interface AccountCardProps {
 
 /**
  * One connected account on the homepage (Concept 2, Account cards): its
- * source and date, three headline numbers, a chart, what they suggest about
- * the user, and one thing to try. Not connected, it says what connecting
+ * source and date, three headline numbers, where she started beside where she
+ * is now, a chart, what they suggest about the user, and one thing to try. Not connected, it says what connecting
  * would show and links to where connections live.
  *
  * It sits in its own section, never in the next-step card. It says what
@@ -45,6 +51,9 @@ export function AccountCard({
   mark,
   asOf,
   stats = [],
+  baseline,
+  thenLabel = "Start",
+  nowLabel = "Now",
   chart,
   says,
   saysLabel = "What it suggests",
@@ -92,6 +101,23 @@ export function AccountCard({
                 </li>
               ))}
             </ul>
+          ) : null}
+          {baseline ? (
+            <p className="account-card__baseline">
+              <span className="account-card__baseline-label">{baseline.label}</span>
+              <span className="account-card__baseline-pair">
+                <span>
+                  <span className="u-visually-hidden">{thenLabel}: </span>
+                  {baseline.then}
+                </span>
+                <span aria-hidden="true">→</span>
+                <b>
+                  <span className="u-visually-hidden">{nowLabel}: </span>
+                  {baseline.now}
+                </b>
+              </span>
+              {baseline.note ? <span className="account-card__baseline-note">{baseline.note}</span> : null}
+            </p>
           ) : null}
           {chart}
           {says ? (
