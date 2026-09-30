@@ -3535,13 +3535,14 @@ ol.loop-track {
   outline-offset: var(--focus-ring-offset);
 }
 
+/* The lead read is the card's heading, set bold so it leads the reads below. */
 .briefing-card__lead {
-  font-family: var(--type-subheading-font);
-  font-size: var(--type-subheading-size);
-  font-weight: var(--type-subheading-weight);
-  line-height: var(--type-subheading-leading);
-  letter-spacing: var(--type-subheading-tracking);
-  word-spacing: var(--type-subheading-word-spacing);
+  font-family: var(--type-heading-font);
+  font-size: var(--type-heading-size);
+  font-weight: var(--weight-bold);
+  line-height: var(--type-heading-leading);
+  letter-spacing: var(--type-heading-tracking);
+  word-spacing: var(--type-heading-word-spacing);
   margin: 0;
   padding-right: var(--space-sm);
   text-wrap: balance;
