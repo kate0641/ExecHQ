@@ -38,6 +38,7 @@
   --brand-blue-600: #22609c;
   --brand-blue-700: #014472;
   --brand-blue-800: #002945;  /* palette: navy */
+  --brand-blue-850: #021f32;  /* halfway from navy to slate: deep navy behind a logo */
   --brand-blue-900: #03151f;  /* palette: slate — pressed navy, deep backgrounds */
 
   /* Green — light green at 300, dark green at 800. */
@@ -146,7 +147,7 @@
   --color-surface-inverse: var(--brand-primary);
   --color-surface-inverse-hover: var(--brand-primary-muted);
   --color-surface-inverse-active: var(--brand-primary-strong);
-  --color-surface-inverse-deep: var(--brand-slate);  /* the darkest navy, behind a logo on photography */
+  --color-surface-inverse-deep: var(--brand-blue-850);  /* deep navy, behind a logo on photography */
   --color-surface-hover: var(--brand-stone-200);
   --color-surface-active: var(--brand-stone-300);
   --color-surface-disabled: var(--brand-stone-200);
