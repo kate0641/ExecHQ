@@ -5445,29 +5445,63 @@ ol.ring-detail__timeline {
   background-color: var(--color-surface-inverse);
 }
 
-/* The hero carries a long-exposure photograph behind a slate veil: dark at the
-   top for the logo, clear through the middle where the light is, dark again
-   where the sheet rises. Move the picture with --welcome-image-x and -y. */
+/* The hero carries a long-exposure photograph, cut in two: its dark top, and
+   its band of orange light, with the streaky middle taken out and the two
+   halves blended together. Each half is a pseudo-element showing the same
+   picture at full width; --welcome-cut-from and -to are where the cut starts
+   and ends, as fractions of the picture's height. A slate veil keeps the logo
+   readable at the top and darkens the foot where the sheet rises. */
 .welcome__hero {
-  --welcome-image-x: 50%;
-  --welcome-image-y: 50%;
+  --welcome-cut-from: 0.36;
+  --welcome-cut-to: 0.54;
+  --welcome-blend: 64px;
+  --welcome-image-height: calc(100cqi * 1672 / 941); /* the picture's shape */
+  --welcome-image: url("./images/welcome-hero.webp");
+  position: relative;
+  isolation: isolate;
+  container-type: inline-size;
   display: flex;
   flex-direction: column;
   gap: var(--space-2xl);
   padding: var(--space-lg) var(--space-lg) var(--space-2xl);
   color: var(--color-text-inverse);
   background-color: var(--color-surface-inverse);
+  overflow: hidden;
+}
+
+.welcome__hero::before,
+.welcome__hero::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset-inline: 0;
+  background-repeat: no-repeat;
+  background-size: 100% auto, 100% var(--welcome-image-height);
+  pointer-events: none;
+}
+
+/* The top half: the picture from its top edge to the cut, fading out. */
+.welcome__hero::before {
+  top: 0;
+  height: calc(var(--welcome-cut-from) * var(--welcome-image-height) + var(--welcome-blend) / 2);
   background-image:
-    linear-gradient(
-      180deg,
-      var(--color-image-veil) 0%,
-      var(--color-image-veil-clear) 45%,
-      var(--color-image-veil-clear) 75%,
-      var(--color-image-veil) 100%
-    ),
-    url("./images/welcome-hero.webp");
-  background-size: cover;
-  background-position: var(--welcome-image-x) var(--welcome-image-y);
+    linear-gradient(180deg, var(--color-image-veil) 0%, var(--color-image-veil-clear) 60%),
+    var(--welcome-image);
+  background-size: 100% 100%, 100% var(--welcome-image-height);
+  background-position: 0 0, 0 0;
+  mask-image: linear-gradient(180deg, black calc(100% - var(--welcome-blend)), transparent);
+}
+
+/* The lower half: the picture from the end of the cut downwards, fading in. */
+.welcome__hero::after {
+  top: calc(var(--welcome-cut-from) * var(--welcome-image-height) - var(--welcome-blend) / 2);
+  bottom: 0;
+  background-image:
+    linear-gradient(180deg, var(--color-image-veil-clear) 70%, var(--color-image-veil) 100%),
+    var(--welcome-image);
+  background-size: 100% 100%, 100% var(--welcome-image-height);
+  background-position: 0 0, 0 calc(var(--welcome-blend) / 2 - var(--welcome-cut-to) * var(--welcome-image-height));
+  mask-image: linear-gradient(180deg, transparent, black var(--welcome-blend));
 }
 
 /* On the phone the picture takes the screen and the sheet sits at the foot,
