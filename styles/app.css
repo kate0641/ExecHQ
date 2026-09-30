@@ -9940,6 +9940,29 @@ ol.signal__list {
   transition: border-color var(--duration-fast) var(--easing-standard), transform var(--duration-fast) var(--easing-standard);
 }
 
+/* The Briefing is a dark card wherever it appears: navy, no outline. Its
+   colours switch to the inverse set here, so the text, links, dividers and
+   tiles inside follow without their own rules. */
+.briefing-card,
+.briefing-editorial,
+.briefing-entry {
+  --color-surface-raised: var(--color-surface-inverse);
+  --color-surface-sunken: var(--color-surface-inverse-hover);
+  --color-surface-hover: var(--color-surface-inverse-hover);
+  --color-text-primary: var(--color-text-inverse);
+  --color-text-secondary: var(--color-text-inverse-muted);
+  --color-text-muted: var(--color-text-inverse-muted);
+  --color-text-link: var(--color-text-inverse);
+  --color-text-link-hover: var(--color-accent-on-inverse);
+  --color-border: var(--color-border-inverse);
+  --color-border-subtle: var(--color-border-inverse);
+  --color-border-strong: var(--color-border-inverse);
+  --color-focus: var(--color-focus-inverse);
+  background-color: var(--color-surface-inverse);
+  border-color: transparent;
+  color: var(--color-text-inverse);
+}
+
 .briefing-editorial:hover,
 .briefing-editorial.is-hover {
   border-color: var(--color-border-strong);
