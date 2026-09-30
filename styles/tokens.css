@@ -79,8 +79,8 @@
      100, the platform's page. 900 is the near-black used in place of black:
      text, button labels, the device bezel. Steps between match the lightness
      text and borders need, so every pairing below passes. */
-  --brand-stone-50: #fdfdfc;   /* near-white: the page, on trial (option C) */
-  --brand-stone-75: #fbfaf7;   /* lighter stone: the page's alternative (option B) */
+  --brand-stone-50: #fdfdfc;   /* near-white: the page's cooler alternative (option C) */
+  --brand-stone-75: #fbfaf7;   /* lighter stone: the page (option B) */
   --brand-stone-100: #f7f6f1;  /* palette: stone */
   --brand-stone-200: #e7e4de;
   --brand-stone-300: #c7c4bd;
@@ -134,11 +134,12 @@
      ------------------------------------------------------------------------ */
 
   /* Surfaces */
-  /* The page is on trial at near-white (stone 50) to freshen the look; the
-     alternative is lighter stone (stone 75). Switch both lines together.
-     Cards and fields stay white on it. */
-  --color-canvas: var(--brand-stone-50);          /* behind the device frame */
-  --color-surface: var(--brand-stone-50);     /* default page surface */
+  /* The page is lighter stone (stone 75): fresher than stone 100, with enough
+     warmth left that cool cards, like the blue next-step card, stand out.
+     Near-white (stone 50) is the cooler alternative; switch both lines
+     together. Cards and fields stay white on it. */
+  --color-canvas: var(--brand-stone-75);          /* behind the device frame */
+  --color-surface: var(--brand-stone-75);     /* default page surface */
   --color-surface-raised: var(--brand-white);  /* cards and fields above the page */
   --color-surface-sunken: var(--brand-stone-200);  /* wells, inset areas, code blocks */
   --color-surface-muted: var(--brand-stone-200);
