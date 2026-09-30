@@ -2378,6 +2378,8 @@ export const GUIDE_C3 = {
     /** More than one picked: which to start from. */
     first: "Which matters most right now?",
     firstLede: "I\u2019ll start there, and keep the rest in view.",
+    /** Why the second question is asked, on its own: the first is already answered. */
+    firstWhy: "Your plan needs a first step. Starting from the one that matters most gives it a clear direction, and the rest stay in view.",
     why: "Everything I build points here. Pick all that are true, and I\u2019ll start with the one that matters most.",
     cta: "Continue",
   },

@@ -702,7 +702,6 @@ function AccountPage({ flow, frame, drawer, onDone }: PageProps) {
         <AnswerDrawer
           question={c.ask}
           questionId={frame.headingId}
-          kicker={c.kicker}
           open={open}
           onToggle={toggle(drawer)}
           primaryLabel={c.cta}
@@ -711,7 +710,6 @@ function AccountPage({ flow, frame, drawer, onDone }: PageProps) {
         >
           <Input
             label={c.ask}
-            labelHidden
             type="email"
             required
             autoComplete="email"
@@ -801,19 +799,16 @@ function DirectionPage({
     <GuidePage
       {...frame}
       kicker={c.kicker}
-      title={c.title}
-      lede={c.lede}
-      why={c.why}
+      title={asking ? c.first : c.title}
+      lede={asking ? c.firstLede : c.lede}
+      why={asking ? c.firstWhy : c.why}
       drawerOpen={open}
-      questionInDrawer={!asking}
       drawer={
         asking ? (
           <AnswerDrawer
             key="first"
             question={c.first}
             questionId={frame.headingId}
-            kicker={c.kicker}
-            lede={c.firstLede}
             step="2 of 2"
             open={open}
             onToggle={toggle(drawer)}
@@ -836,8 +831,6 @@ function DirectionPage({
             key="picks"
             question={c.title}
             questionId={frame.headingId}
-            kicker={c.kicker}
-            lede={c.lede}
             step={picks.length > 1 ? "1 of 2" : undefined}
             open={open}
             onToggle={toggle(drawer)}
@@ -911,14 +904,11 @@ function ReflectPage({
       primaryLabel={done ? GUIDE_C3.reflect.cta : undefined}
       onPrimary={onDone}
       drawerOpen={open}
-      questionInDrawer
       drawer={
         done ? undefined : (
           <AnswerDrawer
             question={copy.title}
             questionId={frame.headingId}
-            kicker={GUIDE_C3.reflect.kicker}
-            lede={copy.lede}
             open={open}
             onToggle={toggle(drawer)}
             peekStatus={value ? d.peekAnswered : d.peek}
@@ -994,13 +984,11 @@ function QuestionPage({
       primaryLabel={done ? c.cta : undefined}
       onPrimary={onDone}
       drawerOpen={open}
-      questionInDrawer
       drawer={
         done ? undefined : (
           <AnswerDrawer
             question={question.question}
             questionId={frame.headingId}
-            kicker={c.kicker}
             open={open}
             onToggle={toggle(drawer)}
             peekStatus={value ? d.peekAnswered : d.peek}
@@ -1091,7 +1079,6 @@ function ReadbackPage({ flow, frame, drawer, onDone }: PageProps) {
           <AnswerDrawer
             question={c.editLabel}
             questionId={frame.headingId}
-            kicker={c.kicker}
             open={open}
             onToggle={toggle(drawer)}
             primaryLabel={c.save}
@@ -1103,7 +1090,7 @@ function ReadbackPage({ flow, frame, drawer, onDone }: PageProps) {
             onSecondary={() => setAsked(false)}
             autoFocusField
           >
-            <Input label={c.editLabel} labelHidden multiline rows={4} value={draft} onChange={(event) => setDraft(event.target.value)} />
+            <Input label={c.editLabel} multiline rows={4} value={draft} onChange={(event) => setDraft(event.target.value)} />
           </AnswerDrawer>
         ) : undefined
       }
@@ -1239,7 +1226,6 @@ function SharpenPage({
           key={index}
           question={current.ask}
           questionId={frame.headingId}
-          kicker={c.sharpen.title}
           step={`${index + 1} of ${steps.length}`}
           open={open}
           onToggle={toggle(drawer)}
@@ -1254,7 +1240,6 @@ function SharpenPage({
         >
           <Input
             label={current.ask}
-            labelHidden
             placeholder={current.placeholder}
             multiline={last}
             rows={last ? 2 : undefined}

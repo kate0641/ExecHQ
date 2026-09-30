@@ -5,13 +5,12 @@ import { DeviceKeyboard } from "@/components/onboarding/DeviceKeyboard";
 import { Button } from "@/components/primitives/Button";
 
 export interface AnswerDrawerProps {
-  /** What is being asked. It lives here while the drawer is open, so the
-   *  question and the answer are one thing. */
+  /** What is being asked. It is said on the page, above the drawer, with the
+   *  reason for asking; here it names the drawer for assistive technology and
+   *  is what the folded bar says. */
   question: string;
-  /** Id for the question, so a page change can move focus to it. */
+  /** Id of the page's heading, which names the drawer. */
   questionId?: string;
-  kicker?: string;
-  lede?: string;
   /** Where in a stepped question, e.g. "1 of 3". */
   step?: string;
   /** Open, or folded down to a peek so the page behind can be read. */
@@ -35,10 +34,11 @@ export interface AnswerDrawerProps {
 const TEXT_FIELD = 'input:not([type="checkbox"]):not([type="radio"]):not([type="button"]), textarea';
 
 /**
- * Concept 3's answers come up in a drawer, by decision on 2026-09-24, and the
- * question comes with it: option 1 of three tried, so the question and the
- * answer are never apart. The page behind keeps where you are, what ExecHQ
- * knows and why it is asking.
+ * Concept 3's answers come up in a drawer, by decision on 2026-09-24. Since
+ * 2026-09-30 it holds only the answer: the question, what it is for and why
+ * ExecHQ is asking stay together on the page above it (option B of three
+ * tried). Where the drawer's field asks something more particular than the
+ * page's heading, the field's own label says so.
  *
  * The handle folds the drawer to a peek bar carrying the question, so the
  * whole page can be read; the bar brings it back. Both are real buttons, so
@@ -50,8 +50,6 @@ const TEXT_FIELD = 'input:not([type="checkbox"]):not([type="radio"]):not([type="
 export function AnswerDrawer({
   question,
   questionId,
-  kicker,
-  lede,
   step,
   open,
   onToggle,
@@ -140,16 +138,7 @@ export function AnswerDrawer({
           aria-label={foldLabel}
           onClick={onToggle}
         />
-        {kicker || step ? (
-          <div className="answer-drawer__head">
-            {kicker ? <p className="answer-drawer__kicker">{kicker}</p> : <span />}
-            {step ? <p className="answer-drawer__step">{step}</p> : null}
-          </div>
-        ) : null}
-        <p className="answer-drawer__q" id={questionId} tabIndex={-1}>
-          {question}
-        </p>
-        {lede ? <p className="answer-drawer__lede">{lede}</p> : null}
+        {step ? <p className="answer-drawer__step">{step}</p> : null}
         {children ? <div className="answer-drawer__body">{children}</div> : null}
         <div className="answer-drawer__actions">
           {secondaryLabel ? (

@@ -8786,6 +8786,12 @@ ol.ring-detail__timeline {
   color: var(--color-text-secondary);
 }
 
+/* With a drawer the reason follows the question directly, instead of sinking
+   to the foot of the page and leaving a gap between them. */
+.guide--drawer .guide__why {
+  margin-top: 0;
+}
+
 .guide__why + .guide__actions {
   margin-top: 0;
 }
@@ -9327,11 +9333,6 @@ ol.ring-detail__timeline {
   background-color: var(--color-surface-sunken);
 }
 
-.guide__title--context {
-  font-size: var(--text-lg);
-  color: var(--color-text-secondary);
-}
-
 /* What the user said, back on the page, with the way to change it. */
 .guide__said {
   display: flex;
@@ -9427,20 +9428,11 @@ ol.ring-detail__timeline {
 }
 
 .answer-drawer__grab:focus-visible,
-.answer-drawer__peek:focus-visible,
-.answer-drawer__q:focus-visible {
+.answer-drawer__peek:focus-visible {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
 }
 
-.answer-drawer__head {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: var(--space-sm);
-}
-
-.answer-drawer__kicker,
 .answer-drawer__step {
   font-family: var(--font-display);
   word-spacing: var(--font-display-word-spacing);
@@ -9448,24 +9440,6 @@ ol.ring-detail__timeline {
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  color: var(--color-text-secondary);
-}
-
-.answer-drawer__q {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-bold);
-  line-height: var(--leading-snug);
-  letter-spacing: var(--font-display-tracking-heading);
-  color: var(--color-text-primary);
-  text-wrap: balance;
-}
-
-.answer-drawer__lede {
-  margin-top: calc(-1 * var(--space-2xs));
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
   color: var(--color-text-secondary);
 }
 

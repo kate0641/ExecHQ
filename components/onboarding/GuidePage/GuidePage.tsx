@@ -27,14 +27,13 @@ export interface GuidePageProps {
   onSecondary?: () => void;
   /** The opening page: no progress, the title set large. */
   cover?: boolean;
-  /** An AnswerDrawer, pinned under the page. The page scrolls above it. */
+  /** An AnswerDrawer, pinned under the page. The page scrolls above it. The
+   *  heading, the lede and why the page is asking stay on the page, so the
+   *  question and its reason are read together; the drawer holds only the
+   *  answer. */
   drawer?: ReactNode;
-  /** Whether that drawer is open. While it is, the question lives in the
-   *  drawer, so the heading's id (where focus lands) is the drawer's. */
+  /** Whether that drawer is open. The page steps back behind it. */
   drawerOpen?: boolean;
-  /** The title is the question itself: hidden while the drawer holds it,
-   *  rather than said twice. Otherwise it steps back as context. */
-  questionInDrawer?: boolean;
   className?: string;
 }
 
@@ -43,6 +42,11 @@ export interface GuidePageProps {
  * briefing rather than a form, by decision on 2026-09-24: progress is said in
  * words, what ExecHQ has learned travels with the user, and every page says
  * why it is there in a margin note, in the same place each time.
+ *
+ * With a drawer, the question and its reason stay on the page together and
+ * the drawer holds only the answer, by decision on 2026-09-30 (option B of
+ * three tried: both in the drawer, both on the page, or the reason tucked
+ * into the drawer).
  */
 export function GuidePage({
   part,
@@ -65,17 +69,9 @@ export function GuidePage({
   cover = false,
   drawer,
   drawerOpen = false,
-  questionInDrawer = false,
   className,
 }: GuidePageProps) {
   const drawn = Boolean(drawer) && drawerOpen;
-  const titleClass = [
-    "guide__title",
-    drawn && questionInDrawer ? "u-visually-hidden" : null,
-    drawn && !questionInDrawer ? "guide__title--context" : null,
-  ]
-    .filter(Boolean)
-    .join(" ");
   const page = (
     <>
       {part && !cover ? (
@@ -102,10 +98,10 @@ export function GuidePage({
 
       <header className="guide__head">
         {kicker ? <p className="guide__kicker">{kicker}</p> : null}
-        <h1 className={titleClass} id={drawn ? undefined : headingId} tabIndex={-1}>
+        <h1 className="guide__title" id={headingId} tabIndex={-1}>
           {title}
         </h1>
-        {lede && !(drawn && questionInDrawer) ? <p className="guide__lede">{lede}</p> : null}
+        {lede ? <p className="guide__lede">{lede}</p> : null}
       </header>
 
       {children ? <div className="guide__body">{children}</div> : null}

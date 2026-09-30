@@ -8,8 +8,6 @@ const noop = () => {};
 const time = GUIDE_C3.reflect.time;
 const base = {
   question: time.title,
-  lede: time.lede,
-  kicker: GUIDE_C3.reflect.kicker,
   onToggle: noop,
   primaryLabel: GUIDE_C3.drawer.answer,
   onPrimary: noop,
@@ -21,11 +19,11 @@ export const answerDrawerStates = defineComponentStates({
   status: "draft",
   flows: ["onboarding"],
   description:
-    "Concept 3's drawer: the question and its answer together, with the page's context behind. Folds to a peek bar carrying the question; a drawn keyboard sits under it while a field has focus.",
+    "Concept 3's drawer: it holds only the answer, since the question, what it is for and why ExecHQ is asking stay together on the page above it. Folds to a peek bar carrying the question; a drawn keyboard sits under it while a field has focus.",
   component: AnswerDrawer,
   notApplicable: {
     ...CONTENT_INSIDE,
-    empty: "Always has its question.",
+    empty: "Always has something to answer.",
   },
   variants: [
     { label: "Open", props: { ...base, open: true, primaryDisabled: true } },
@@ -34,12 +32,10 @@ export const answerDrawerStates = defineComponentStates({
       props: {
         ...base,
         question: "What’s your current role?",
-        lede: undefined,
-        kicker: "What you do",
         step: "1 of 3",
         open: true,
         primaryLabel: GUIDE_C3.drawer.next,
-        children: createElement("input", { className: "field__control", "aria-label": "Your current role" }),
+        children: createElement("input", { className: "field__control", "aria-label": "What’s your current role?" }),
       },
     },
     { label: "Peek", props: { ...base, open: false, peekStatus: GUIDE_C3.drawer.peek } },

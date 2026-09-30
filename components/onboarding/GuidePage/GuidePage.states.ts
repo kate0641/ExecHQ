@@ -1,3 +1,6 @@
+import { createElement } from "react";
+import { ChipGroup } from "@/components/form/ChipGroup";
+import { AnswerDrawer } from "@/components/onboarding/AnswerDrawer";
 import { defineComponentStates } from "@/components/types";
 import { CONTENT_INSIDE } from "@/components/not-applicable";
 import { GUIDE_C3 } from "@/mock/onboarding";
@@ -11,7 +14,7 @@ export const guidePageStates = defineComponentStates({
   status: "draft",
   flows: ["onboarding"],
   description:
-    "One page of Concept 3, the guided onboarding: progress in words, what ExecHQ knows so far, the page, and a margin note saying why it is there.",
+    "One page of Concept 3, the guided onboarding: progress in words, what ExecHQ knows so far, the page, and a margin note saying why it is there. With an answer drawer, the question and its reason stay on the page and the drawer holds only the answer.",
   component: GuidePage,
   notApplicable: {
     ...CONTENT_INSIDE,
@@ -35,6 +38,39 @@ export const guidePageStates = defineComponentStates({
         why: GUIDE_C3.direction.why,
         primaryLabel: "Continue",
         onPrimary: noop,
+      },
+    },
+    {
+      label: "With the answer drawer",
+      description: "The question, what it is for and why it is asked stay together on the page; the drawer holds only the answer.",
+      props: {
+        part: GUIDE_C3.parts[1],
+        position: "1 of 4",
+        partIndex: 1,
+        partCount: GUIDE_C3.parts.length,
+        kicker: GUIDE_C3.direction.kicker,
+        title: GUIDE_C3.direction.title,
+        lede: GUIDE_C3.direction.lede,
+        why: GUIDE_C3.direction.why,
+        drawerOpen: true,
+        drawer: createElement(
+          AnswerDrawer,
+          {
+            question: GUIDE_C3.direction.title,
+            open: true,
+            onToggle: noop,
+            primaryLabel: GUIDE_C3.direction.cta,
+            onPrimary: noop,
+            primaryDisabled: true,
+          },
+          createElement(ChipGroup, {
+            label: GUIDE_C3.direction.title,
+            labelHidden: true,
+            options: ["C-suite in 3 years", "Take on more of a leadership role", "Be seen as an executive"],
+            value: [],
+            onChange: noop,
+          })
+        ),
       },
     },
     {
