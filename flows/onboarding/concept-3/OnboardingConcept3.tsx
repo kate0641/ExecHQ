@@ -41,6 +41,7 @@ import {
   SIGNALS_C1,
   builtFrom,
   checkEmail,
+  decidesPlanC3,
   earlyReasonFor,
   firstDraftFor,
   isSharpened,
@@ -53,7 +54,6 @@ import {
   recommendPlan,
   refinementFor,
   towardFor,
-  verdictC3,
   type PlanTemplate,
   type TailoredQuestion,
 } from "@/mock/onboarding";
@@ -66,9 +66,10 @@ import {
  * built, why each thing is asked, what a plan is and how each part helps. It
  * is paged, like Concept 1, and differs from it on purpose:
  *
- *  - It recommends as soon as it hears where the user wants to go, then tests
- *    that recommendation with every question after, rather than asking first
- *    and recommending at the end.
+ *  - It asks the one question that decides the plan (where the direction has
+ *    one), recommends once, and then asks the questions that make the plan
+ *    the user's own. The recommendation is never reversed by a later answer,
+ *    by decision on 2026-09-30.
  *  - It carries a file of what it has learned on every page, so "it
  *    remembers" is shown rather than claimed.
  *  - It reads like an advisor's briefing: progress in words, a margin note on
@@ -93,13 +94,14 @@ type PageId =
   | "signals"
   | "linkedin"
   | "direction"
+  | "decide"
   | "rec"
   | "reflect-time"
-  | "q-0"
+  | "t-0"
   | "reflect-ceo"
-  | "q-1"
+  | "t-1"
   | "reflect-conversation"
-  | "q-2"
+  | "t-2"
   | "readback"
   | "plan-intro"
   | "plan-start"
@@ -134,17 +136,19 @@ const PAGES: Page[] = [
   // LinkedIn's upload, reached from Signals: the steps and the picker.
   { id: "linkedin", label: "LinkedIn", step: "direction", offBar: true, aside: true },
   { id: "direction", label: "Direction", step: "direction" },
+  // The question that decides the plan comes first, so the recommendation is
+  // made once. Only some directions have one; the page is passed otherwise.
+  { id: "decide", label: "Deciding question", step: "refinement", offBar: true },
   { id: "rec", label: "Recommendation", step: "refinement" },
   { id: "reflect-time", label: "Reflection", step: "refinement" },
-  // The tailored questions, with two reflections between them. A direction
-  // can come with fewer than three questions; the missing pages are passed.
-  // Question, reflection, question, reflection: the two alternate whether a
-  // direction gets two questions or three.
-  { id: "q-0", label: "Questions", step: "refinement" },
+  // The questions that make the plan the user's own, each after a reflection.
+  // A direction can come with fewer than three; the missing questions, and
+  // the reflections that would have come before them, are passed.
+  { id: "t-0", label: "Questions", step: "refinement" },
   { id: "reflect-ceo", label: "Reflection 2", step: "refinement", offBar: true },
-  { id: "q-1", label: "Question 2", step: "refinement", offBar: true },
+  { id: "t-1", label: "Question 2", step: "refinement", offBar: true },
   { id: "reflect-conversation", label: "Reflection 3", step: "refinement", offBar: true },
-  { id: "q-2", label: "Question 3", step: "refinement", offBar: true },
+  { id: "t-2", label: "Question 3", step: "refinement", offBar: true },
   { id: "readback", label: "Read-back", step: "interpretation" },
   // The plan, taught a part at a time.
   { id: "plan-intro", label: "Your plan", step: "plan" },
@@ -213,15 +217,35 @@ export function OnboardingConcept3() {
     setMode("open");
   }
   const questions = refinementFor(a.direction ?? "");
+  /** The question that can change the plan, asked before it is recommended,
+   *  and the ones that only make it the user's own, asked after. */
+  const deciding = questions.filter((q) => decidesPlanC3(q.id));
+  const tailoring = questions.filter((q) => !decidesPlanC3(q.id));
   /** Pages this user never sees: questions their direction doesn't get, and
    *  pages reached only from another page. */
   const passed = (p: Page) =>
-    Boolean(p.aside) || (p.id.startsWith("q-") && Number(p.id.slice(2)) >= questions.length);
+    Boolean(p.aside) ||
+    (p.id === "decide" && deciding.length === 0) ||
+    (p.id.startsWith("t-") && Number(p.id.slice(2)) >= tailoring.length) ||
+    // A reflection only comes before a question, so two never run together.
+    (p.id === "reflect-ceo" && tailoring.length < 2) ||
+    (p.id === "reflect-conversation" && tailoring.length < 3);
   const next = () => {
     let i = at + 1;
     while (i < PAGES.length - 1 && passed(PAGES[i])) i++;
     goTo(PAGES[Math.min(i, PAGES.length - 1)].id);
   };
+  // Moving on runs in the same tick as the answer that decides which pages
+  // remain, so it can land on a page the new answer passes over (a direction
+  // with no deciding question, say). Move on from it once the answer is in.
+  const landedOnPassed = !PAGES[at].aside && passed(PAGES[at]);
+  const latestNext = useRef(next);
+  useEffect(() => {
+    latestNext.current = next;
+  });
+  useEffect(() => {
+    if (landedOnPassed) latestNext.current();
+  }, [landedOnPassed, pageId]);
 
   useStepNav(STEP_NAV, barEntry(pageId), (id) => {
     const target = PAGES[pageIndex(id as PageId)];
@@ -399,13 +423,15 @@ export function OnboardingConcept3() {
     case "rec": {
       const c = GUIDE_C3.rec;
       if (!plan) return null;
+      // Made once, from the direction and the question that decides it.
+      const made = recommendC3(direction, a.refinement);
       return (
         <GuidePage {...frame()} kicker={c.kicker} title={c.title} why={c.why} primaryLabel={c.cta} onPrimary={next}>
           <RecommendationCard
             lead={c.lead}
-            name={recommendPlan(direction).name}
-            formalName={recommendPlan(direction).formalName}
-            reason={earlyReasonFor(direction, recommendPlan(direction))}
+            name={made.plan.name}
+            formalName={made.plan.formalName}
+            reason={made.changedBy ? made.reason : earlyReasonFor(direction, made.plan)}
           />
           {alsoGoals.length ? (
             <p className="guide__next">{c.also(joinGoals(alsoGoals))}</p>
@@ -447,11 +473,11 @@ export function OnboardingConcept3() {
       );
     }
 
-    case "q-0":
-    case "q-1":
-    case "q-2": {
-      const index = Number(pageId.slice(2));
-      const question = questions[index];
+    case "decide":
+    case "t-0":
+    case "t-1":
+    case "t-2": {
+      const question = pageId === "decide" ? deciding[0] : tailoring[Number(pageId.slice(2))];
       if (!question) return null;
       return (
         <QuestionPage
@@ -460,7 +486,7 @@ export function OnboardingConcept3() {
           frame={frame()}
           drawer={{ mode, setMode }}
           question={question}
-          answered={questions.slice(0, index + 1).filter((q) => a.refinement[q.id]).length}
+          kicker={pageId === "decide" ? GUIDE_C3.decide.kicker : GUIDE_C3.questions.kicker}
           onDone={next}
         />
       );
@@ -938,25 +964,24 @@ function ReflectPage({
 }
 
 /**
- * One tailored question, which checks the recommendation. Answered in the
- * drawer; once answered, the page says at once whether the answer confirms
- * the recommendation or changes it. A typed answer is kept in the user's
- * words; it confirms rather than guesses at a change.
+ * One question, answered in the drawer, then on to the next page. Nothing is
+ * said back: a question that decides the plan is asked before the
+ * recommendation, so no answer reverses it, and the rest only make the plan
+ * the user's own. A typed answer is kept in the user's words.
  */
 function QuestionPage({
   flow,
   frame,
   drawer,
   question,
-  answered,
+  kicker,
   onDone,
 }: {
   flow: OnboardingFlow;
   frame: Frame;
   drawer: DrawerControl;
   question: TailoredQuestion;
-  /** How many of the questions so far have an answer, for the check count. */
-  answered: number;
+  kicker: string;
   onDone: () => void;
 }) {
   const { state, dispatch } = flow;
@@ -965,10 +990,6 @@ function QuestionPage({
   const value = state.answers.refinement[question.id];
   const option = question.options.find((o) => o.value === value);
   const [typed, setTyped] = useState(value && !option ? value : "");
-  const direction = state.answers.direction ?? "";
-  const now = recommendC3(direction, state.answers.refinement);
-  const change = value ? verdictC3(question.id, value) : undefined;
-  const done = drawer.mode === "done" && Boolean(value);
   const open = drawer.mode === "open";
 
   function answer(next: string) {
@@ -978,68 +999,51 @@ function QuestionPage({
   return (
     <GuidePage
       {...frame}
-      kicker={c.kicker}
+      kicker={kicker}
       title={question.question}
       why={c.why[question.id] ?? c.whyDefault}
-      primaryLabel={done ? c.cta : undefined}
-      onPrimary={onDone}
       drawerOpen={open}
       drawer={
-        done ? undefined : (
-          <AnswerDrawer
-            question={question.question}
-            questionId={frame.headingId}
-            open={open}
-            onToggle={toggle(drawer)}
-            peekStatus={value ? d.peekAnswered : d.peek}
-            primaryLabel={d.answer}
-            primaryDisabled={!value && !typed.trim()}
-            onPrimary={() => {
-              if (!option && typed.trim()) answer(typed.trim());
-              drawer.setMode("done");
+        <AnswerDrawer
+          question={question.question}
+          questionId={frame.headingId}
+          open={open}
+          onToggle={toggle(drawer)}
+          peekStatus={value ? d.peekAnswered : d.peek}
+          primaryLabel={d.next}
+          primaryDisabled={!value && !typed.trim()}
+          onPrimary={() => {
+            if (!option && typed.trim()) answer(typed.trim());
+            onDone();
+          }}
+          secondaryLabel={c.skip}
+          onSecondary={() => {
+            dispatch({ type: "note-skip", id: question.id });
+            onDone();
+          }}
+        >
+          <ChipGroup
+            label={question.question}
+            labelHidden
+            options={question.options.map((o) => o.label)}
+            value={option ? [option.label] : []}
+            onChange={(next) => {
+              const picked = question.options.find((o) => o.label === next[0]);
+              setTyped("");
+              answer(picked?.value ?? "");
             }}
-            secondaryLabel={c.skip}
-            onSecondary={() => {
-              dispatch({ type: "note-skip", id: question.id });
-              onDone();
-            }}
-          >
-            <ChipGroup
-              label={question.question}
-              labelHidden
-              options={question.options.map((o) => o.label)}
-              value={option ? [option.label] : []}
-              onChange={(next) => {
-                const picked = question.options.find((o) => o.label === next[0]);
-                setTyped("");
-                answer(picked?.value ?? "");
-              }}
-            />
-            <Input
-              label={c.typedLabel}
-              value={typed}
-              onChange={(event) => {
-                setTyped(event.target.value);
-                if (option) answer("");
-              }}
-            />
-          </AnswerDrawer>
-        )
-      }
-    >
-      {done ? (
-        <>
-          <Said value={option?.label ?? value} onChange={() => drawer.setMode("open")} />
-          <RecommendationCard
-            lead={change ? c.switchLead : c.confirmLead}
-            name={now.plan.name}
-            formalName={now.plan.formalName}
-            reason={change ? change.reason : (option?.heard ?? c.typedHeard)}
-            status={c.checked(answered)}
           />
-        </>
-      ) : null}
-    </GuidePage>
+          <Input
+            label={c.typedLabel}
+            value={typed}
+            onChange={(event) => {
+              setTyped(event.target.value);
+              if (option) answer("");
+            }}
+          />
+        </AnswerDrawer>
+      }
+    />
   );
 }
 

@@ -2386,12 +2386,12 @@ export const GUIDE_C3 = {
   rec: {
     kicker: "My recommendation",
     title: "Here\u2019s where I\u2019d start",
-    lead: "From that alone, I\u2019d start you on",
-    next: "Next, a few questions to check it. If your answers point somewhere else, I\u2019ll tell you.",
+    lead: "From what you\u2019ve told me, I\u2019d start you on",
+    next: "Next, a few quick questions to make it yours.",
     /** The other directions picked, said so they are not lost. */
     also: (goals: string) => `You also picked ${goals}. I\u2019ll keep that in view as your plan grows.`,
     why: "You should get a clear starting point, not a menu of options. I\u2019ll show you how I got there, and you can always change it.",
-    cta: "Check it with me",
+    cta: "Make it mine",
   },
   reflect: {
     kicker: "A question to sit with",
@@ -2415,30 +2415,32 @@ export const GUIDE_C3 = {
     },
     cta: "Continue",
   },
+  /** The question that decides the plan, asked before anything is recommended
+   *  (2026-09-30). Only some directions have one. */
+  decide: {
+    kicker: "Before I recommend anything",
+  },
+  /** The questions that make the plan the user\u2019s own, asked after it. */
   questions: {
-    kicker: "Checking my recommendation",
+    kicker: "Making it yours",
     typedLabel: "Or in your own words",
     skip: "Skip this one",
-    confirmLead: "Still my recommendation",
-    typedHeard: "Thanks. I\u2019ll keep that in your own words.",
-    switchLead: "That changes my mind. I\u2019d now start you on",
-    checked: (count: number) => `Checked against ${count} answer${count === 1 ? "" : "s"}`,
-    whyDefault: "Each answer either makes me surer of where to start, or changes it. You\u2019ll see which straight away.",
+    whyDefault: "Each answer shapes how your plan and your story are put, so they sound like you and not like anyone.",
     /** Why each question is asked, said plainly. */
     why: {
       "scope-kind": "A step up can mean more people, more of the business, or a different seat. Each needs a different case.",
       "scope-when": "The timeline sets the pace: a near-term move and a three-year climb start in different places.",
-      "scope-block": "What\u2019s in the way decides what to do first. It\u2019s the answer most likely to change my recommendation.",
+      "scope-block": "What\u2019s in the way decides what to do first, so I ask it before I recommend a plan.",
       "influence-where": "Influence is always over something. Knowing what tells me where your plan should push.",
       "influence-who": "Influence travels through people. Knowing whose backing matters most tells me where to start.",
-      "influence-block": "What\u2019s holding you back decides what to do first, and it can change where I\u2019d start you.",
+      "influence-block": "What\u2019s holding you back decides what to do first, so I ask it before I recommend a plan.",
       "presence-who": "Being seen means being seen by someone. The audience decides the kind of presence you build.",
       "presence-now": "How you\u2019re seen today is the starting line. The plan closes the gap between that and how you want to be seen.",
       "presence-where": "Where you show up today tells me what to build on, and what to start from scratch.",
       "moment-what": "Each kind of moment needs a different kind of preparation.",
       "moment-when": "The date sets how much there\u2019s time for, and what to leave out.",
       "moment-ready": "How ready you feel tells me whether to check your case or help you build it.",
-      "explore-why": "Why you want a change says a lot about where to look. It can change where I\u2019d start you.",
+      "explore-why": "Why you want a change says a lot about where to look, so I ask it before I recommend a plan.",
       "explore-keep": "What you\u2019d keep narrows the options to the ones worth testing.",
       "explore-when": "How soon decides how much testing there\u2019s time for.",
     } as Record<string, string>,
@@ -2677,9 +2679,11 @@ export function recommendC3(
   return result;
 }
 
-/** What one answer does to the recommendation: confirms it, or changes it. */
-export function verdictC3(questionId: string, value: string) {
-  return SWITCHES_C3[questionId]?.[value];
+/** Whether an answer to this question can change the plan. Those questions
+ *  are asked before the recommendation, so it is made once and stands; the
+ *  rest only make the plan the user\u2019s own and are asked after it. */
+export function decidesPlanC3(questionId: string): boolean {
+  return questionId in SWITCHES_C3;
 }
 
 /** Why a plan fits, said early, from the direction alone. */
