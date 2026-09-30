@@ -377,7 +377,7 @@
   --type-body-font: var(--font-body);
   --type-body-size: var(--text-md);
   --type-body-weight: var(--weight-regular);
-  --type-body-leading: var(--leading-normal);
+  --type-body-leading: var(--leading-relaxed);
   --type-body-tracking: var(--tracking-normal);
   --type-body-word-spacing: var(--word-spacing-normal);
 
@@ -385,7 +385,7 @@
   --type-body-sm-font: var(--font-body);
   --type-body-sm-size: var(--text-sm);
   --type-body-sm-weight: var(--weight-regular);
-  --type-body-sm-leading: var(--leading-normal);
+  --type-body-sm-leading: var(--leading-relaxed);
   --type-body-sm-tracking: var(--tracking-normal);
   --type-body-sm-word-spacing: var(--word-spacing-normal);
 
@@ -446,6 +446,11 @@
   --space-2xl: 3rem;     /* 48px */
   --space-3xl: 4rem;     /* 64px */
   --space-4xl: 6rem;     /* 96px */
+
+  /* The gap between paragraphs, or items, of body copy stacked in one place:
+     a card's reads, a list of what something shows. Not between a label and
+     the line under it, which stay close. */
+  --space-paragraph: var(--space-sm);
 
   /* ---------------------------------------------------------------------------
      RADII
