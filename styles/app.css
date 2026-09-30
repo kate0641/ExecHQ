@@ -5445,12 +5445,39 @@ ol.ring-detail__timeline {
   background-color: var(--color-surface-inverse);
 }
 
+/* The hero carries a long-exposure photograph behind a slate veil: dark at the
+   top for the logo, clear through the middle where the light is, dark again
+   where the sheet rises. Move the picture with --welcome-image-x and -y. */
 .welcome__hero {
+  --welcome-image-x: 50%;
+  --welcome-image-y: 50%;
   display: flex;
   flex-direction: column;
   gap: var(--space-2xl);
   padding: var(--space-lg) var(--space-lg) var(--space-2xl);
   color: var(--color-text-inverse);
+  background-color: var(--color-surface-inverse);
+  background-image:
+    linear-gradient(
+      180deg,
+      var(--color-image-veil) 0%,
+      var(--color-image-veil-clear) 45%,
+      var(--color-image-veil-clear) 75%,
+      var(--color-image-veil) 100%
+    ),
+    url("./images/welcome-hero.webp");
+  background-size: cover;
+  background-position: var(--welcome-image-x) var(--welcome-image-y);
+}
+
+/* On the phone the picture takes the screen and the sheet sits at the foot,
+   only as tall as what it holds. */
+[data-viewport="mobile"] .welcome__hero {
+  flex: 1;
+}
+
+[data-viewport="mobile"] .welcome__sheet {
+  flex: none;
 }
 
 .welcome__quote {

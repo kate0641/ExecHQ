@@ -151,6 +151,10 @@
   --color-surface-disabled: var(--brand-stone-200);
   --color-surface-selected: var(--brand-primary-soft); /* the item a detail pane is showing */
   --color-surface-feature: var(--brand-blue-100);  /* the card that says what to do next, on trial */
+  /* A veil of slate over photography, so text on it stays readable. The
+     image's own colour shows through where the veil is clear. */
+  --color-image-veil: rgb(3 21 31 / 0.6);
+  --color-image-veil-clear: rgb(3 21 31 / 0);
   --color-glow: var(--brand-secondary-soft);      /* the soft light behind sign in */
   --color-glow-fade: var(--brand-primary-soft);
 
