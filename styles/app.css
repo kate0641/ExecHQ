@@ -1089,7 +1089,7 @@ samp {
   background-color: var(--color-canvas);
 }
 
-[data-viewport="web"] .prototype__canvas {
+[data-viewport="web"] .prototype__canvas:not(:where([data-viewport="mobile"] *)) {
   padding: 0;
 }
 
@@ -1902,7 +1902,7 @@ ul.chrome__nav-list {
   background-color: var(--color-surface-hover);
 }
 
-[data-viewport="tablet"] .chrome__main {
+[data-viewport="tablet"] .chrome__main:not(:where([data-viewport="mobile"] *)) {
   padding: var(--space-lg) var(--space-lg);
 }
 
@@ -3829,7 +3829,7 @@ ul.recent-work__list {
   min-width: 0;
 }
 
-[data-viewport="web"] .home {
+[data-viewport="web"] .home:not(:where([data-viewport="mobile"] *)) {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
   align-items: start;
@@ -3885,8 +3885,8 @@ ul.recent-work__list {
   color: var(--color-text-inverse);
 }
 
-[data-viewport="tablet"] .rings-hero,
-[data-viewport="web"] .rings-hero {
+[data-viewport="tablet"] .rings-hero:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .rings-hero:not(:where([data-viewport="mobile"] *)) {
   padding: var(--space-lg);
 }
 
@@ -3966,8 +3966,8 @@ ul.rings-hero__row {
   overflow: visible;
 }
 
-[data-viewport="tablet"] .rings-hero__svg,
-[data-viewport="web"] .rings-hero__svg {
+[data-viewport="tablet"] .rings-hero__svg:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .rings-hero__svg:not(:where([data-viewport="mobile"] *)) {
   max-width: 6.5rem;
 }
 
@@ -4250,7 +4250,7 @@ ol.ring-detail__timeline {
 }
 
 [data-viewport="mobile"] .page,
-[data-viewport="tablet"] .page {
+[data-viewport="tablet"] .page:not(:where([data-viewport="mobile"] *)) {
   gap: var(--space-lg);
 }
 
@@ -4494,7 +4494,7 @@ ol.ring-detail__timeline {
 }
 
 [data-viewport="mobile"] .catalogue,
-[data-viewport="tablet"] .catalogue {
+[data-viewport="tablet"] .catalogue:not(:where([data-viewport="mobile"] *)) {
   grid-template-columns: 1fr;
 }
 
@@ -5417,8 +5417,8 @@ ol.ring-detail__timeline {
   min-width: 0;
 }
 
-[data-viewport="tablet"] .step-actions__row,
-[data-viewport="web"] .step-actions__row {
+[data-viewport="tablet"] .step-actions__row:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .step-actions__row:not(:where([data-viewport="mobile"] *)) {
   flex-direction: row;
 }
 
@@ -5513,34 +5513,34 @@ ol.ring-detail__timeline {
 }
 
 /* Tablet and web: panel on the left, sheet on the right. */
-[data-viewport="tablet"] .welcome,
-[data-viewport="web"] .welcome {
+[data-viewport="tablet"] .welcome:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .welcome:not(:where([data-viewport="mobile"] *)) {
   flex-direction: row;
 }
 
-[data-viewport="tablet"] .welcome__hero,
-[data-viewport="web"] .welcome__hero {
+[data-viewport="tablet"] .welcome__hero:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .welcome__hero:not(:where([data-viewport="mobile"] *)) {
   flex: 0 0 40%;
   justify-content: space-between;
   padding: var(--space-2xl) var(--space-xl);
 }
 
-[data-viewport="tablet"] .welcome__sheet,
-[data-viewport="web"] .welcome__sheet {
+[data-viewport="tablet"] .welcome__sheet:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .welcome__sheet:not(:where([data-viewport="mobile"] *)) {
   justify-content: center;
   padding: var(--space-2xl) var(--space-xl);
   border-radius: 0;
 }
 
-[data-viewport="tablet"] .welcome__body,
-[data-viewport="web"] .welcome__body {
+[data-viewport="tablet"] .welcome__body:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .welcome__body:not(:where([data-viewport="mobile"] *)) {
   flex: none;
 }
 
-[data-viewport="tablet"] .welcome__body,
-[data-viewport="tablet"] .welcome__sheet > .step-actions,
-[data-viewport="web"] .welcome__body,
-[data-viewport="web"] .welcome__sheet > .step-actions {
+[data-viewport="tablet"] .welcome__body:not(:where([data-viewport="mobile"] *)),
+[data-viewport="tablet"] .welcome__sheet > .step-actions:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .welcome__body:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .welcome__sheet > .step-actions:not(:where([data-viewport="mobile"] *)) {
   width: 100%;
   max-width: 28rem;
 }
@@ -5648,13 +5648,13 @@ ol.ring-detail__timeline {
   flex-direction: column;
 }
 
-[data-viewport="tablet"] .privacy-splash__actions,
-[data-viewport="web"] .privacy-splash__actions {
+[data-viewport="tablet"] .privacy-splash__actions:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .privacy-splash__actions:not(:where([data-viewport="mobile"] *)) {
   align-items: center;
 }
 
-[data-viewport="tablet"] .privacy-splash__actions .btn,
-[data-viewport="web"] .privacy-splash__actions .btn {
+[data-viewport="tablet"] .privacy-splash__actions .btn:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .privacy-splash__actions .btn:not(:where([data-viewport="mobile"] *)) {
   width: 100%;
   max-width: 24rem;
 }
@@ -6285,8 +6285,8 @@ ol.ring-detail__timeline {
   padding: var(--space-lg) var(--space-md) var(--space-2xl);
 }
 
-[data-viewport="tablet"] .wizard,
-[data-viewport="web"] .wizard {
+[data-viewport="tablet"] .wizard:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .wizard:not(:where([data-viewport="mobile"] *)) {
   padding: var(--space-2xl) var(--space-lg) var(--space-3xl);
   gap: var(--space-xl);
 }
@@ -6379,8 +6379,8 @@ ol.ring-detail__timeline {
    measure makes a single "Continue" look like a banner. Equal width only
    matters when there is something to be equal to. On mobile it stays full
    width, where a wide tap target is worth more than the proportion. */
-[data-viewport="tablet"] .step-actions__row > .btn:only-child,
-[data-viewport="web"] .step-actions__row > .btn:only-child {
+[data-viewport="tablet"] .step-actions__row > .btn:only-child:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .step-actions__row > .btn:only-child:not(:where([data-viewport="mobile"] *)) {
   flex: 0 0 auto;
 }
 
@@ -7200,8 +7200,8 @@ ol.ring-detail__timeline {
   padding: var(--space-md) var(--space-md) var(--space-2xl);
 }
 
-[data-viewport="tablet"] .canvas,
-[data-viewport="web"] .canvas {
+[data-viewport="tablet"] .canvas:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .canvas:not(:where([data-viewport="mobile"] *)) {
   padding: var(--space-2xl) var(--space-lg) var(--space-3xl);
   gap: var(--space-xl);
 }
@@ -8231,22 +8231,22 @@ ol.ring-detail__timeline {
 /* Wider screens: the sheet keeps to a reading width. On a tablet it still
    rises from the bottom; on the web, where nothing rises from the bottom of
    a window, it sits centred as a panel. */
-[data-viewport="tablet"] .sheet__panel,
-[data-viewport="web"] .sheet__panel {
+[data-viewport="tablet"] .sheet__panel:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .sheet__panel:not(:where([data-viewport="mobile"] *)) {
   max-width: var(--content-measure);
   margin-inline: auto;
 }
 
-[data-viewport="web"] .sheet {
+[data-viewport="web"] .sheet:not(:where([data-viewport="mobile"] *)) {
   justify-content: center;
   padding: var(--space-xl) var(--space-lg);
 }
 
-[data-viewport="web"] .sheet__panel {
+[data-viewport="web"] .sheet__panel:not(:where([data-viewport="mobile"] *)) {
   border-radius: var(--radius-xl);
 }
 
-[data-viewport="web"] .sheet__grab {
+[data-viewport="web"] .sheet__grab:not(:where([data-viewport="mobile"] *)) {
   display: none;
 }
 
@@ -8643,8 +8643,8 @@ ol.ring-detail__timeline {
   padding: var(--space-lg) var(--space-lg) var(--space-xl);
 }
 
-[data-viewport="tablet"] .guide,
-[data-viewport="web"] .guide {
+[data-viewport="tablet"] .guide:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .guide:not(:where([data-viewport="mobile"] *)) {
   padding: var(--space-2xl) var(--space-lg) var(--space-3xl);
   gap: var(--space-xl);
 }
@@ -9282,8 +9282,8 @@ ol.ring-detail__timeline {
   gap: 0;
 }
 
-[data-viewport="tablet"] .guide--drawer,
-[data-viewport="web"] .guide--drawer {
+[data-viewport="tablet"] .guide--drawer:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .guide--drawer:not(:where([data-viewport="mobile"] *)) {
   padding: 0;
   gap: 0;
 }
@@ -9377,8 +9377,8 @@ ol.ring-detail__timeline {
 }
 
 /* On a wider screen the drawer's contents keep to the reading width. */
-[data-viewport="tablet"] .answer-drawer,
-[data-viewport="web"] .answer-drawer {
+[data-viewport="tablet"] .answer-drawer:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .answer-drawer:not(:where([data-viewport="mobile"] *)) {
   padding-inline: max(var(--space-lg), calc((100% - var(--content-measure)) / 2));
 }
 
@@ -9503,7 +9503,7 @@ ol.ring-detail__timeline {
   background-color: var(--color-surface-muted);
 }
 
-[data-viewport="web"] .device-keyboard {
+[data-viewport="web"] .device-keyboard:not(:where([data-viewport="mobile"] *)) {
   display: none;
 }
 
@@ -11450,11 +11450,11 @@ ul.stage-actions__list {
 
 /* Web: the list and the detail side by side. The pane stays in view while
    the list scrolls. */
-[data-viewport="web"] .profile {
+[data-viewport="web"] .profile:not(:where([data-viewport="mobile"] *)) {
   max-width: 68rem;
 }
 
-[data-viewport="web"] .profile__layout {
+[data-viewport="web"] .profile__layout:not(:where([data-viewport="mobile"] *)) {
   display: grid;
   grid-template-columns: minmax(20rem, 26rem) minmax(0, 1fr);
   align-items: start;
@@ -12073,8 +12073,8 @@ ul.stage-actions__list {
   padding-top: calc(var(--space-3xl) + 4rem);
 }
 
-[data-viewport="tablet"] .login__body--inbox,
-[data-viewport="web"] .login__body--inbox {
+[data-viewport="tablet"] .login__body--inbox:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .login__body--inbox:not(:where([data-viewport="mobile"] *)) {
   padding-top: calc(var(--space-4xl) + 4rem);
 }
 
@@ -12178,8 +12178,8 @@ ul.stage-actions__list {
 /* The form is centred on the whole page; equal room above and below holds the
    privacy line, which sits at the very foot. */
 .login__body--centred,
-[data-viewport="tablet"] .login__body--centred,
-[data-viewport="web"] .login__body--centred {
+[data-viewport="tablet"] .login__body--centred:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .login__body--centred:not(:where([data-viewport="mobile"] *)) {
   padding-block: 4rem;
 }
 
@@ -12287,8 +12287,8 @@ ul.login__never {
   margin-top: var(--space-xs);
 }
 
-[data-viewport="tablet"] .login__body,
-[data-viewport="web"] .login__body {
+[data-viewport="tablet"] .login__body:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .login__body:not(:where([data-viewport="mobile"] *)) {
   padding-top: var(--space-4xl);
 }
 
@@ -12298,6 +12298,13 @@ ul.login__never {
   border-radius: var(--radius-pill);
   padding-inline: var(--space-lg);
 }
+
+/* Web and tablet rules in this file end in
+   :not(:where([data-viewport="mobile"] *)), so they skip anything inside a
+   phone frame. In the product a canvas is never inside another, so this
+   changes nothing there; it lets a phone-width preview sit on a web page, as
+   the type lab does, without taking the web layout. :where keeps the guard
+   from adding specificity. New web and tablet rules need the same ending. */
 
 /* Type lab — the type roles tried on real components. Controls on the left,
    a phone-width stack of components on the right; the controls override role
