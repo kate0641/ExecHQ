@@ -113,15 +113,11 @@ const DRAFT_EDIT = "draft";
 /** Skips are kept with the flow's other skips, under their own prefix. */
 const skipId = (field: SharpenField) => `positioning:${field}`;
 
-/** Signals: the sources, and what happened in the conversation about them. */
-type SignalId = "linkedin" | "website";
-const SIGNAL_IDS: SignalId[] = ["linkedin", "website"];
+/** Signals: LinkedIn is the only source, and what happened in the conversation about it. */
 type SignalEvent =
-  | { type: "pick"; id: SignalId }
   /** A file attached for LinkedIn; `ok` is false when it is not an export. */
   | { type: "file"; name: string; ok: boolean }
   | { type: "sent" }
-  | { type: "link"; id: SignalId; link: string }
   | { type: "end"; label: string };
 
 /** How long ExecHQ "types" before each message lands. */
@@ -686,47 +682,27 @@ export function OnboardingConcept2() {
   /* ---- Signals: which source, then bring it in. LinkedIn is an upload of
      the analytics spreadsheet the user exports, by decision on 2026-09-28:
      the steps arrive as a card, the file as the user's own message, and
-     ExecHQ says when it has been read. The website is added by link. What
-     is brought in, and what it is for, is said before anything is asked. */
+     ExecHQ says when it has been read. Only LinkedIn is asked for, by
+     decision on 2026-09-30, so there is no choice of source. What is
+     brought in, and what it is for, is said before anything is asked. */
   let attach: { label: string; onAttach: () => void } | undefined;
   if (inSignals) {
     const S = CHAT_C2.signals;
     const U = LINKEDIN_UPLOAD;
-    const title = (id: SignalId) => (id === "linkedin" ? S.linkedin : S.website);
-    const isOn = (id: SignalId) =>
-      id === "linkedin" ? linkedInIn(a.linkedin) : a.connections[id] === "connected" || Boolean(a.signalLinks[id]);
-    type Mode = "choose" | "more" | "upload" | "link-website" | "ended";
+    type Mode = "upload" | "ended";
     // Widened: the replay below sets it inside a callback, out of the checker's sight.
-    let mode = "choose" as Mode;
-    // What has been dealt with so far, as the thread replays: brought in, or
-    // (for LinkedIn) emailed for later. Each "anything else?" is asked from
-    // where the thread was, not from where it is now.
-    const dealt = new Set<SignalId>();
+    let mode = "upload" as Mode;
     const moveOn = (k: string) => {
-      if (SIGNAL_IDS.every((id) => dealt.has(id))) {
-        say(`${k}-all`, S.end);
-        mode = "ended";
-      } else {
-        say(`${k}-more`, S.more);
-        mode = "more";
-      }
+      say(`${k}-all`, S.end);
+      mode = "ended";
     };
-    say("sig-which", S.which);
+    say("sig-what", S.linkedinWhat);
+    say("sig-steps", <LinkedInSteps label={U.stepsLabel} steps={U.steps} linkNote={U.linkNote} />, true);
     signalLog.forEach((event, i) => {
       const k = `sig-${i}`;
       // The file finished reading here: said once, where the thread was.
       if (i === readyAt) say("sig-ready", S.ready);
-      if (event.type === "pick") {
-        said(k, title(event.id));
-        if (event.id === "linkedin") {
-          say(`${k}-what`, S.linkedinWhat);
-          say(`${k}-steps`, <LinkedInSteps label={U.stepsLabel} steps={U.steps} linkNote={U.linkNote} />, true);
-          mode = "upload";
-        } else {
-          say(`${k}-ask`, S.websiteAsk);
-          mode = "link-website";
-        }
-      } else if (event.type === "file") {
+      if (event.type === "file") {
         said(
           k,
           <span className="chat-file">
@@ -738,7 +714,6 @@ export function OnboardingConcept2() {
         );
         if (event.ok) {
           say(`${k}-reading`, S.reading);
-          dealt.add("linkedin");
           moveOn(k);
         } else {
           say(`${k}-wrong`, U.status.wrongFile);
@@ -747,51 +722,19 @@ export function OnboardingConcept2() {
       } else if (event.type === "sent") {
         said(k, S.emailSteps);
         say(`${k}-sent`, U.status.sent(a.email || "your email"));
-        dealt.add("linkedin");
-        moveOn(k);
-      } else if (event.type === "link") {
-        said(k, event.link);
-        say(`${k}-added`, S.added);
-        dealt.add(event.id);
         moveOn(k);
       } else {
         said(k, event.label);
-        say(`${k}-end`, SIGNAL_IDS.some(isOn) || a.linkedin.status === "sent" ? S.end : S.endNone);
+        say(`${k}-end`, linkedInIn(a.linkedin) || a.linkedin.status === "sent" ? S.end : S.endNone);
         mode = "ended";
       }
     });
     if (readyAt === signalLog.length) say("sig-ready", S.ready);
-    const left = SIGNAL_IDS.filter((id) => !dealt.has(id));
 
     const log = (event: SignalEvent) => setSignalLog((all) => [...all, event]);
     const finish = (label: string) => reply(() => log({ type: "end", label }));
-    const addLink = (id: SignalId) => (text: string) =>
-      reply(() => {
-        const link = text.trim();
-        if (!link) return;
-        dispatch({ type: "set-signal-link", id, link });
-        dispatch({ type: "set-connection", id, state: "connected" });
-        log({ type: "link", id, link });
-      });
 
-    if (mode === "choose" || mode === "more") {
-      const pick = (label: string) => {
-        const id = SIGNAL_IDS.find((source) => title(source) === label);
-        if (id) reply(() => log({ type: "pick", id }));
-        else finish(label);
-      };
-      ask = {
-        label: mode === "choose" ? S.which : S.more,
-        replies: [
-          ...left.map((id) => ({ label: title(id) })),
-          { label: mode === "choose" ? S.notNow : S.thatsAll, quiet: true },
-        ],
-        onReply: pick,
-        placeholder: S.which,
-        voice: { full: title(left[0] ?? "linkedin") },
-        onSend: pick,
-      };
-    } else if (mode === "upload") {
+    if (mode === "upload") {
       const choose = () => document.getElementById(fileInputId)?.click();
       attach = { label: S.attach, onAttach: choose };
       ask = {
@@ -810,15 +753,6 @@ export function OnboardingConcept2() {
         voice: { full: S.upload },
         // A typed message is not a file: the picker is the way to send one.
         onSend: choose,
-      };
-    } else if (mode === "link-website") {
-      ask = {
-        label: S.websiteAsk,
-        replies: [{ label: S.notNow, quiet: true }],
-        onReply: finish,
-        placeholder: S.websitePlaceholder,
-        voice: CHAT_C2.voice.website,
-        onSend: addLink("website"),
       };
     } else if (mode === "ended") {
       ask = {

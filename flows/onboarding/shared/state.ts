@@ -14,7 +14,6 @@ import {
  * as three different products.
  */
 
-export type ConnectionState = "offered" | "connected" | "declined" | "failed";
 export type PlanSource = "recommended" | "switched" | "custom";
 export type DirectionSource = "prompted" | "free";
 
@@ -99,10 +98,6 @@ export interface OnboardingAnswers {
   customPlanDraftSaved: boolean;
   artifactSaved: boolean;
   positioning: PositioningInputs;
-  connections: Record<string, ConnectionState>;
-  /** A pasted link for a signal source, keyed by source. Present means the
-   *  source was added by link rather than connected. The website only. */
-  signalLinks: Record<string, string>;
   /** The LinkedIn analytics export, uploaded by the user. */
   linkedin: LinkedInUpload;
 }
@@ -135,8 +130,6 @@ export const initialState: OnboardingState = {
     customPlanDraftSaved: false,
     artifactSaved: false,
     positioning: emptyPositioning,
-    connections: {},
-    signalLinks: {},
     linkedin: emptyLinkedIn,
   },
   refinementIndex: 0,
@@ -149,7 +142,6 @@ export type OnboardingAction =
   | { type: "set-invite-code"; code: string | null }
   | { type: "set-email"; email: string }
   | { type: "set-positioning"; patch: Partial<PositioningInputs> }
-  | { type: "set-signal-link"; id: string; link: string | null }
   | { type: "set-direction"; direction: string; source: DirectionSource }
   | { type: "edit-interpretation"; interpretation: string }
   | { type: "answer-refinement"; id: string; value: string }
@@ -165,7 +157,6 @@ export type OnboardingAction =
   | { type: "answer-custom-plan"; id: string; value: string }
   | { type: "exit-custom-plan" }
   | { type: "save-artifact" }
-  | { type: "set-connection"; id: string; state: ConnectionState }
   | { type: "set-linkedin"; patch: Partial<LinkedInUpload> }
   | { type: "next" }
   | { type: "back" }
@@ -225,13 +216,6 @@ export function makeReducer(refinementCount: number, customPlanCount: number) {
 
       case "set-email":
         return { ...state, answers: { ...state.answers, email: action.email } };
-
-      case "set-signal-link": {
-        const signalLinks = { ...state.answers.signalLinks };
-        if (action.link) signalLinks[action.id] = action.link;
-        else delete signalLinks[action.id];
-        return { ...state, answers: { ...state.answers, signalLinks } };
-      }
 
       case "set-positioning":
         return {
@@ -349,19 +333,6 @@ export function makeReducer(refinementCount: number, customPlanCount: number) {
         return {
           ...state,
           answers: { ...state.answers, linkedin: { ...state.answers.linkedin, ...action.patch } },
-        };
-
-      case "set-connection":
-        return {
-          ...state,
-          answers: {
-            ...state.answers,
-            connections: { ...state.answers.connections, [action.id]: action.state },
-          },
-          skipped:
-            action.state === "declined"
-              ? addSkip(state.skipped, action.id)
-              : state.skipped.filter((id) => id !== action.id),
         };
 
       case "next":

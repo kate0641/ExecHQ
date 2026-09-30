@@ -77,7 +77,7 @@ import {
  *    for the plan but are worth sitting with.
  *
  * Signals come early, straight after the privacy promise, by decision on
- * 2026-09-24: connecting LinkedIn or a website first means the first draft
+ * 2026-09-24: connecting LinkedIn first means the first draft
  * already sounds like the user. The promise comes first because it is the
  * first time the user is asked for their data.
  *
@@ -255,13 +255,6 @@ export function OnboardingConcept3() {
   const verdict = direction ? recommendC3(direction, a.refinement) : null;
   const chosen = planById(a.planId ?? "");
   const plan = chosen ?? verdict?.plan ?? null;
-  const connected = SIGNALS_C1.sources
-    .filter((source) =>
-      source.id === "linkedin"
-        ? linkedInIn(a.linkedin)
-        : a.connections[source.id] === "connected" || a.signalLinks[source.id]
-    )
-    .map((source) => source.title);
   const sharpened = isSharpened(a.positioning);
   const items: AdvisorFileItem[] = [];
   // The LinkedIn file is read while the user does the rest, so by the last
@@ -277,8 +270,6 @@ export function OnboardingConcept3() {
             ? GUIDE_C3.linkedin.fileEmpty
             : SIGNALS_C1.sources[0].imported,
     });
-  const others = connected.filter((title) => title !== "LinkedIn");
-  if (others.length) items.push({ label: "Signals", value: others.join(", ") });
   if (direction)
     items.push({
       label: "Where you’re going",
@@ -348,7 +339,7 @@ export function OnboardingConcept3() {
 
     case "signals": {
       const c = GUIDE_C3.signals;
-      const anyOn = connected.length > 0;
+      const anyOn = linkedInIn(a.linkedin);
       return (
         <GuidePage
           {...frame()}
@@ -359,20 +350,7 @@ export function OnboardingConcept3() {
           primaryLabel={anyOn ? c.done : c.skip}
           onPrimary={next}
         >
-          <SignalSources
-            connections={a.connections}
-            signalLinks={a.signalLinks}
-            linkedin={a.linkedin}
-            onOpenLinkedIn={() => goTo("linkedin")}
-            onAddLink={(id, link) => {
-              dispatch({ type: "set-signal-link", id, link });
-              dispatch({ type: "set-connection", id, state: "connected" });
-            }}
-            onDisconnect={(id) => {
-              dispatch({ type: "set-signal-link", id, link: null });
-              dispatch({ type: "set-connection", id, state: "declined" });
-            }}
-          />
+          <SignalSources linkedin={a.linkedin} onOpenLinkedIn={() => goTo("linkedin")} />
         </GuidePage>
       );
     }
@@ -649,7 +627,7 @@ export function OnboardingConcept3() {
             fixed
           />
           <PointList items={steps} numbered label={c.nextLabel} />
-          {connected.length ? null : <p className="guide__next">{c.signals}</p>}
+          {linkedInIn(a.linkedin) ? null : <p className="guide__next">{c.signals}</p>}
         </GuidePage>
       );
     }

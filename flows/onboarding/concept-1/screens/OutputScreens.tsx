@@ -95,8 +95,8 @@ export function SignalsScreen({ flow, step, total, headingId }: ScreenProps) {
   const { state, dispatch } = flow;
   const router = useRouter();
   const copy = SIGNALS_C1;
-  const { connections, signalLinks, linkedin } = state.answers;
-  const anyOn = linkedInIn(linkedin) || Boolean(signalLinks.website) || connections.website === "connected";
+  const { linkedin } = state.answers;
+  const anyOn = linkedInIn(linkedin);
   // LinkedIn's upload is a page of its own inside this screen, by decision on
   // 2026-09-28: four steps and a picker are too much for a sheet.
   const [uploading, setUploading] = useState(false);
@@ -157,20 +157,7 @@ export function SignalsScreen({ flow, step, total, headingId }: ScreenProps) {
       primaryVariant={anyOn ? "primary" : "secondary"}
       onPrimary={() => router.push(DONE_C1.homeHref)}
     >
-      <SignalSources
-        connections={connections}
-        signalLinks={signalLinks}
-        linkedin={linkedin}
-        onOpenLinkedIn={() => setUploading(true)}
-        onAddLink={(id, link) => {
-          dispatch({ type: "set-signal-link", id, link });
-          dispatch({ type: "set-connection", id, state: "connected" });
-        }}
-        onDisconnect={(id) => {
-          dispatch({ type: "set-signal-link", id, link: null });
-          dispatch({ type: "set-connection", id, state: "declined" });
-        }}
-      />
+      <SignalSources linkedin={linkedin} onOpenLinkedIn={() => setUploading(true)} />
     </WizardStep>
   );
 }

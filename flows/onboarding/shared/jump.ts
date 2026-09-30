@@ -91,8 +91,6 @@ export function jumpState(current: OnboardingState, step: OnboardingStep): Onboa
             approved: [...SAMPLE_ANSWERS.positioning.approved],
           }
       : initialState.answers.positioning,
-    connections: past("connect") ? was.connections : {},
-    signalLinks: past("connect") ? was.signalLinks : {},
     linkedin: past("connect") ? was.linkedin : initialState.answers.linkedin,
   };
 

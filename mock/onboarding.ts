@@ -963,7 +963,7 @@ export const DONE_C1 = {
   nextLabel: "Next on your plan",
   nextWhy: "Why now:",
   inviteTitle: "Build out your signals",
-  inviteBody: "Bring in your LinkedIn numbers to see how far your posts reach, or your website so your drafts sound like you. Optional, and you can do it anytime.",
+  inviteBody: "Bring in your LinkedIn numbers to see how far your posts reach. Optional, and you can do it anytime.",
   home: "Go to my homepage",
   signals: "Build out your signals",
   homeHref: "/homepage/concept-1",
@@ -991,12 +991,7 @@ export const SIGNALS_C1 = {
   title: "Build out your signals",
   hint: "Bring in what\u2019s already out there, and we\u2019ll use it to shape your plan and your drafts.",
   privacy: "Nothing is ever posted or shared. Disconnect anytime.",
-  connect: "Connect",
-  connected: "Connected",
-  close: "Close",
-  disconnect: "Disconnect",
   add: "Add",
-  cancel: "Cancel",
   skip: "Skip for now",
   done: "Done",
   sources: [
@@ -1012,20 +1007,6 @@ export const SIGNALS_C1 = {
       pasteLabel: "",
       linkLabel: "",
       placeholder: "",
-      canImport: false,
-    },
-    {
-      id: "website",
-      mark: "www",
-      title: "Personal website",
-      why: "So we can learn your voice from your own writing.",
-      imported: "The pages at your address",
-      use: "Used only to learn your voice.",
-      connectLabel: "",
-      connecting: "",
-      pasteLabel: "",
-      linkLabel: "Your website address",
-      placeholder: "https://",
       canImport: false,
     },
   ],
@@ -1280,7 +1261,7 @@ export function artifactFor(direction: string, interpretation?: string): Artifac
    -------------------------------------------------------------------------- */
 
 export interface ConnectOfferSpec {
-  id: "linkedin" | "website";
+  id: "linkedin";
   title: string;
   body: string;
   connectLabel: string;
@@ -1295,13 +1276,6 @@ export const CONNECT_OFFERS: ConnectOfferSpec[] = [
     title: "Add your LinkedIn metrics",
     body: "You enter them yourself, whenever you like. It sharpens later drafts. It changes nothing about the one you already have.",
     connectLabel: "Add metrics",
-    declineLabel: "Not now",
-  },
-  {
-    id: "website",
-    title: "Connect a personal website",
-    body: "Gives us your own writing to take the voice from. Useful later. Not needed for anything today.",
-    connectLabel: "Connect",
     declineLabel: "Not now",
   },
 ];
@@ -2269,15 +2243,11 @@ export const CHAT_C2 = {
   /** The ending: the win, then signals as an optional extra. */
   doneLead: "Saved. That\u2019s everything we needed today.",
   doneInvite:
-    "One more thing, if you like: build out your signals. Bring in your LinkedIn numbers or your website, and your plan and drafts start from how you already show up. It\u2019s optional, and you can do it anytime.",
+    "One more thing, if you like: build out your signals. Bring in your LinkedIn numbers, and your plan and drafts start from how you already show up. It\u2019s optional, and you can do it anytime.",
   doneSignals: "Build out my signals",
   doneHome: "Go to my homepage",
   signals: {
-    which: "Which would you like to connect?",
-    linkedin: "LinkedIn",
-    website: "My website",
     notNow: "Not now",
-    thatsAll: "That\u2019s all",
     /** LinkedIn is an upload, by decision on 2026-09-28: the analytics
      *  spreadsheet the user exports. It holds post performance and audience,
      *  so that is all this promises. */
@@ -2289,12 +2259,8 @@ export const CHAT_C2 = {
     reading: "Got it. I\u2019m reading it now, so carry on. I\u2019ll tell you when it\u2019s ready.",
     ready: `Your LinkedIn spreadsheet is ready: ${MOCK_LINKEDIN_CONTEXT.posts} posts and your audience, from ${MOCK_LINKEDIN_CONTEXT.range}.`,
     uploadPlaceholder: "Attach it here",
-    websiteAsk: "What\u2019s your website address? I\u2019ll learn your voice from the pages there, and use them for nothing else.",
-    websitePlaceholder: "https://",
-    added: "Added. I\u2019ll use it only to shape your drafts.",
-    more: "Anything else to connect?",
     end: "You\u2019re all set. Nothing is ever posted or shared, and you can disconnect anytime.",
-    endNone: "No problem. You can connect them anytime.",
+    endNone: "No problem. You can add it anytime.",
   },
   /** What the simulated mic "hears" for each kind of question. */
   voice: {
@@ -2311,7 +2277,6 @@ export const CHAT_C2 = {
     approve: { full: "Looks good" },
     asIs: { full: "Use it as it is" },
     signals: { full: "Build out my signals" },
-    website: { full: "https://mayachen.com" },
   },
 } as const;
 
@@ -2394,7 +2359,7 @@ export const GUIDE_C3 = {
   signals: {
     kicker: "Optional",
     title: "Want me to start from how you already show up?",
-    lede: "Bring in your LinkedIn numbers or your website, and I\u2019ll see how you already show up.",
+    lede: "Bring in your LinkedIn numbers, and I\u2019ll see how you already show up.",
     why: "Your posts show how far you already reach, and who you reach. That shapes your plan, and it\u2019s read while you carry on.",
     done: "Continue",
     skip: "Skip for now",
@@ -2656,7 +2621,7 @@ export const GUIDE_C3 = {
     thisWeek: "Done today",
     then: "Next",
     after: "After that",
-    signals: "You can bring in your LinkedIn numbers or your website anytime, so your plan and your drafts start from how you already show up.",
+    signals: "You can bring in your LinkedIn numbers anytime, so your plan and your drafts start from how you already show up.",
     why: "You\u2019ve done the hardest part: saying where you want to go. From here, the plan does the work with you.",
     home: "Go to my homepage",
   },
