@@ -42,3 +42,20 @@ export function recentlyAdded(today: string, items: readonly PresenceItem[] = PR
     .filter((item) => item.on >= since)
     .reverse();
 }
+
+const ORDINALS = ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"];
+
+/** "first", "second" … and "11th" once the words run out. */
+export function ordinal(n: number): string {
+  if (n >= 1 && n <= ORDINALS.length) return ORDINALS[n - 1];
+  const teens = n % 100 >= 11 && n % 100 <= 13;
+  return `${n}${teens ? "th" : (["th", "st", "nd", "rd"][n % 10] ?? "th")}`;
+}
+
+/** Which one of its kind an item is, counting what she had at the start: the
+ *  first thing she adds after having one already is her "second". `items` is
+ *  oldest first, as PRESENCE_ITEMS is. */
+export function nthOfKind(item: PresenceItem, items: readonly PresenceItem[] = PRESENCE_ITEMS): number {
+  const upTo = items.slice(0, items.findIndex((other) => other.id === item.id) + 1);
+  return PRESENCE_BASELINE[item.kind] + upTo.filter((other) => other.kind === item.kind).length;
+}

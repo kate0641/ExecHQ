@@ -30,7 +30,8 @@ export type IconName =
   | "sign-out"
   | "compass"
   | "mail"
-  | "briefing";
+  | "briefing"
+  | "spark";
 
 export interface IconProps {
   name: IconName;
@@ -214,6 +215,8 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <path d="M6.5 7h7M6.5 10h7M6.5 13h4" />
     </>
   ),
+  // A small four-pointed star: something worth a note has moved.
+  spark: <path d="M10 3c.7 4.2 2.8 6.3 7 7-4.2.7-6.3 2.8-7 7-.7-4.2-2.8-6.3-7-7 4.2-.7 6.3-2.8 7-7Z" />,
   // Going back to the start: an arrow turning back on itself.
   reset: (
     <>

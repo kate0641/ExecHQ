@@ -6,6 +6,7 @@ import { BriefingEditorial } from "@/components/homepage/BriefingEditorial";
 import { EntryLink } from "@/components/homepage/EntryLink";
 import { LoopRow } from "@/components/homepage/LoopRow";
 import { NextStepCard } from "@/components/homepage/NextStepCard";
+import { Spark } from "@/components/homepage/Spark";
 import { StageActions } from "@/components/homepage/StageActions";
 import { StageTrack } from "@/components/homepage/StageTrack";
 import { CheckIn } from "@/components/loop/CheckIn";
@@ -13,8 +14,10 @@ import { addDays, aheadPhrase, dueFollowUps, shortDate, whenPhrase, type LoopRec
 import { loopActions, nextStepAfter, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { presenceCounts } from "@/lib/presence";
+import { dismissSpark, useDismissedSparks } from "@/lib/spark-dismissal";
+import { sparksFor } from "@/lib/sparks";
 import { currentStageIndex } from "@/lib/rings";
-import { ACCOUNTS_COPY as AC, ACCOUNTS_ROWS as AR, LINKEDIN_STUB as LI, PRESENCE_KINDS, WEBSITE_STUB as WEB } from "@/mock/accounts-stub";
+import { ACCOUNTS_COPY as AC, ACCOUNTS_ROWS as AR, LINKEDIN_STUB as LI, PRESENCE_KINDS, SPARK_COPY as SP, WEBSITE_STUB as WEB } from "@/mock/accounts-stub";
 import { BRIEFING_STUB as B, CHECKIN_COPY as CK, CONCEPT3_COPY as C3, HOME_COPY as C, STAY_COPY as S } from "@/mock/homepage";
 import { ARTIFACT_KINDS, FOLLOW_UP_POLICY, OUTCOME_READBACK } from "@/mock/loop";
 import { ACTIONS, HORIZONS, ROADMAP, actionById } from "@/mock/plan-stub";
@@ -163,6 +166,7 @@ export function HomepageConcept3() {
 
   const linkedIn = loop.account.connections.find((c) => c.id === "linkedin");
   const website = loop.account.connections.find((c) => c.id === "website");
+  const sparks = sparksFor(loop.today, loop.account, useDismissedSparks());
 
   /* Where she started beside where she is now, for every signal she has
      brought in: the two accounts when connected, then the four she adds. */
@@ -310,9 +314,19 @@ export function HomepageConcept3() {
         {/* Her accounts, one row each: a finding and the one thing to try.
             Simpler than Concept 2's cards on purpose. */}
         <section className="c3-accounts" aria-labelledby="c3-accounts-heading">
-          <h2 className="c3-accounts__heading" id="c3-accounts-heading">
+          <h2 className="c3-accounts__heading" id="c3-accounts-heading" tabIndex={-1}>
             {AR.heading}
           </h2>
+          <Spark
+            items={sparks}
+            label={SP.label}
+            dismissLabel={SP.dismiss}
+            dismissName={SP.dismissNote}
+            onDismiss={(id) => {
+              dismissSpark(id);
+              focusSoon("c3-accounts-heading");
+            }}
+          />
           {linkedIn?.connected && linkedIn.connectedOn ? (
             <EntryLink
               href={TOOLBOX}

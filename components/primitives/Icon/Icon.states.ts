@@ -74,6 +74,7 @@ export const iconStates = defineComponentStates({
     { label: "Compass", description: "Her direction.", props: { name: "compass" } },
     { label: "Mail", props: { name: "mail" } },
     { label: "Briefing", description: "The Daily Briefing.", props: { name: "briefing" } },
+    { label: "Spark", description: "Something has moved, and is worth a note.", props: { name: "spark" } },
     { label: "Large — 32px", props: { name: "web", size: 32 } },
     { label: "Small — 14px", props: { name: "mobile", size: 14 } },
   ],

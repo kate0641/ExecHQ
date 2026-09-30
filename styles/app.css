@@ -10196,6 +10196,10 @@ ol.check-in__steps {
   gap: var(--space-xs);
 }
 
+.c3-accounts__heading:focus {
+  outline: none;
+}
+
 .c3-accounts__baseline {
   display: flex;
   flex-direction: column;
@@ -10569,6 +10573,70 @@ ul.account-card__shows {
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   color: var(--color-text-secondary);
+}
+
+/* Spark: a small note when something she can see has moved. Inline at the top
+   of the signals section; never blocks anything. */
+
+ul.spark {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.spark__note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-sm) var(--space-sm) var(--space-md);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-accent-soft);
+}
+
+.spark__mark {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  color: var(--color-text-primary);
+}
+
+.spark__text {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding-top: var(--space-3xs);
+}
+
+.spark__source {
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
+  display: block;
+  margin-bottom: var(--space-3xs);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.spark__text p {
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  letter-spacing: var(--type-body-sm-tracking);
+  word-spacing: var(--type-body-sm-word-spacing);
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.spark__note .btn {
+  flex: none;
 }
 
 /* Where she started beside where she is now, a row per signal (BaselineList),

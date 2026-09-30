@@ -151,6 +151,33 @@ export const PRESENCE_STUB = {
   },
 } as const;
 
+/* -----------------------------------------------------------------------------
+   THE SPARK: a small note when something she can see has moved, by decision
+   on 2026-09-30. It says what changed, names the thing, and stops: no
+   exclamation marks, no streaks, no 'well done', and never that her work
+   caused it. It appears inline at the top of the signals section, is
+   dismissed in one press, and is gone for good once dismissed.
+   -------------------------------------------------------------------------- */
+
+export const SPARK_COPY = {
+  label: "Recent movement",
+  dismiss: "Dismiss",
+  dismissNote: (text: string) => `Dismiss: ${text}`,
+  /** The small words above each note, by where it came from. */
+  source: {
+    linkedin: "LinkedIn",
+    podcast: "Podcast",
+    press: "Press",
+    speaking: "Speaking",
+    writing: "Writing",
+  },
+  linkedin: "Your planning post reached twice as many directors and above as usual.",
+  podcast: (where: string, ordinal: string) => `You’re on ${where}. That’s your ${ordinal} podcast appearance.`,
+  press: (where: string, ordinal: string) => `You’re in ${where}. That’s your ${ordinal} press mention.`,
+  speaking: (where: string, ordinal: string) => `You’re speaking at ${where}. That’s your ${ordinal} engagement.`,
+  writing: (title: string, ordinal: string) => `“${title}” is up. That’s your ${ordinal} piece.`,
+} as const;
+
 /* Concept 3's simpler version: one row per account, a finding and the one
    thing to try, no numbers grid or chart (decided 2026-09-29). */
 export const ACCOUNTS_ROWS = {

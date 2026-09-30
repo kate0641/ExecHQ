@@ -7,18 +7,22 @@ import { BriefingCard } from "@/components/homepage/BriefingCard";
 import { LoopRow } from "@/components/homepage/LoopRow";
 import { NextStepCard } from "@/components/homepage/NextStepCard";
 import { PresenceCard } from "@/components/homepage/PresenceCard";
+import { Spark } from "@/components/homepage/Spark";
 import { TrendLine } from "@/components/homepage/TrendLine";
 import { addDays, aheadPhrase, dueFollowUps, shortDate, whenPhrase, type LoopRecord } from "@/lib/loop";
 import { loopActions, nextStepAfter, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { presenceCounts } from "@/lib/presence";
 import { signalOfStep } from "@/lib/signals";
+import { dismissSpark, useDismissedSparks } from "@/lib/spark-dismissal";
+import { sparksFor } from "@/lib/sparks";
 import { closeBriefing, useBriefingClosed } from "@/lib/briefing-dismissal";
 import {
   ACCOUNTS_COPY as AC,
   LINKEDIN_STUB as LI,
   PRESENCE_KINDS,
   PRESENCE_STUB as PR,
+  SPARK_COPY as SP,
   WEBSITE_STUB as WEB,
 } from "@/mock/accounts-stub";
 import { BRIEFING_STUB as B, CHECKIN_COPY as CK, HOME_COPY, STAY_COPY as S } from "@/mock/homepage";
@@ -165,6 +169,7 @@ export function HomepageConcept2() {
   const linkedIn = loop.account.connections.find((c) => c.id === "linkedin");
   const website = loop.account.connections.find((c) => c.id === "website");
   const anyConnected = Boolean(linkedIn?.connected || website?.connected);
+  const sparks = sparksFor(loop.today, loop.account, useDismissedSparks());
   const presence = presenceCounts(loop.today);
   const presenceAdded = presence.reduce((sum, p) => sum + (p.now - p.then), 0);
 
@@ -303,11 +308,21 @@ export function HomepageConcept2() {
         {/* Her accounts: their own section, never part of the next step. */}
         <section className="accounts-home" aria-labelledby="accounts-heading">
           <div className="signals-home__intro">
-            <h2 className="signals-home__heading" id="accounts-heading">
+            <h2 className="signals-home__heading" id="accounts-heading" tabIndex={-1}>
               {AC.heading}
             </h2>
             <p className="signals-home__window">{anyConnected ? AC.sub : AC.subNotConnected}</p>
           </div>
+          <Spark
+            items={sparks}
+            label={SP.label}
+            dismissLabel={SP.dismiss}
+            dismissName={SP.dismissNote}
+            onDismiss={(id) => {
+              dismissSpark(id);
+              focusSoon("accounts-heading");
+            }}
+          />
           {linkedIn?.connected && linkedIn.connectedOn ? (
             <AccountCard
               name={LI.name}
