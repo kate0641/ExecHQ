@@ -109,15 +109,32 @@ h4,
 h5,
 h6 {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-tight);
+  letter-spacing: var(--font-display-tracking-heading);
   color: var(--color-text-primary);
   text-wrap: balance;
 }
 
-h1 { font-size: var(--text-3xl); }
-h2 { font-size: var(--text-2xl); }
+h1 {
+  font-family: var(--type-title-font);
+  font-size: var(--type-title-size);
+  font-weight: var(--type-title-weight);
+  line-height: var(--type-title-leading);
+  letter-spacing: var(--type-title-tracking);
+  word-spacing: var(--type-title-word-spacing);
+}
+
+h2 {
+  font-family: var(--type-heading-font);
+  font-size: var(--type-heading-size);
+  font-weight: var(--type-heading-weight);
+  line-height: var(--type-heading-leading);
+  letter-spacing: var(--type-heading-tracking);
+  word-spacing: var(--type-heading-word-spacing);
+}
+
 h3 { font-size: var(--text-xl); }
 h4 { font-size: var(--text-lg); }
 h5 { font-size: var(--text-md); }
@@ -144,34 +161,110 @@ samp {
   font-size: 0.9em;
 }
 
-/* Editorial voice. Libre Baskerville is deliberate and rare — pull quotes and
-   editorial moments only, never body copy. */
-.t-editorial {
-  font-family: var(--font-serif);
-  font-size: var(--text-lg);
-  line-height: var(--leading-relaxed);
-  letter-spacing: var(--tracking-normal);
+/* Type roles. Each class sets one role from styles/tokens.css; components
+   that cannot take a class set the same five properties from the role's
+   tokens. Libre Baskerville (editorial) is deliberate and rare — pull quotes
+   and editorial moments only, never body copy. */
+.t-display {
+  font-family: var(--type-display-font);
+  font-size: var(--type-display-size);
+  font-weight: var(--type-display-weight);
+  line-height: var(--type-display-leading);
+  letter-spacing: var(--type-display-tracking);
+  word-spacing: var(--type-display-word-spacing);
+}
+
+.t-title {
+  font-family: var(--type-title-font);
+  font-size: var(--type-title-size);
+  font-weight: var(--type-title-weight);
+  line-height: var(--type-title-leading);
+  letter-spacing: var(--type-title-tracking);
+  word-spacing: var(--type-title-word-spacing);
+}
+
+.t-heading {
+  font-family: var(--type-heading-font);
+  font-size: var(--type-heading-size);
+  font-weight: var(--type-heading-weight);
+  line-height: var(--type-heading-leading);
+  letter-spacing: var(--type-heading-tracking);
+  word-spacing: var(--type-heading-word-spacing);
+}
+
+.t-subheading {
+  font-family: var(--type-subheading-font);
+  font-size: var(--type-subheading-size);
+  font-weight: var(--type-subheading-weight);
+  line-height: var(--type-subheading-leading);
+  letter-spacing: var(--type-subheading-tracking);
+  word-spacing: var(--type-subheading-word-spacing);
+}
+
+.t-body {
+  font-family: var(--type-body-font);
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
+  line-height: var(--type-body-leading);
+  letter-spacing: var(--type-body-tracking);
+  word-spacing: var(--type-body-word-spacing);
+}
+
+.t-body-sm {
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  letter-spacing: var(--type-body-sm-tracking);
+  word-spacing: var(--type-body-sm-word-spacing);
+}
+
+.t-label {
+  font-family: var(--type-label-font);
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  line-height: var(--type-label-leading);
+  letter-spacing: var(--type-label-tracking);
+  word-spacing: var(--type-label-word-spacing);
+}
+
+.t-caption {
+  font-family: var(--type-caption-font);
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  line-height: var(--type-caption-leading);
+  letter-spacing: var(--type-caption-tracking);
+  word-spacing: var(--type-caption-word-spacing);
 }
 
 .t-eyebrow {
-  font-family: var(--font-display);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
   color: var(--color-text-muted);
 }
 
-.t-label {
-  font-family: var(--font-display);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
-  letter-spacing: var(--tracking-wide);
+.t-figure {
+  font-family: var(--type-figure-font);
+  font-size: var(--type-figure-size);
+  font-weight: var(--type-figure-weight);
+  line-height: var(--type-figure-leading);
+  letter-spacing: var(--type-figure-tracking);
+  word-spacing: var(--type-figure-word-spacing);
+  font-variant-numeric: tabular-nums;
 }
 
-.t-body-sm {
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
+.t-editorial {
+  font-family: var(--type-editorial-font);
+  font-size: var(--type-editorial-size);
+  font-weight: var(--type-editorial-weight);
+  line-height: var(--type-editorial-leading);
+  letter-spacing: var(--type-editorial-tracking);
+  word-spacing: var(--type-editorial-word-spacing);
 }
 
 .t-muted {
@@ -210,7 +303,9 @@ samp {
   border: var(--border-strong);
   border-radius: var(--radius-sm);
   font-family: var(--font-display);
-  font-weight: var(--weight-medium);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
+  font-weight: var(--weight-semibold);
   text-decoration: none;
   transform: translateY(calc(-100% - var(--space-lg)));
 }
@@ -259,6 +354,12 @@ samp {
 /* Button ------------------------------------------------------------------- */
 
 .btn {
+  font-family: var(--type-label-font);
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  line-height: 1;
+  letter-spacing: var(--type-label-tracking);
+  word-spacing: var(--type-label-word-spacing);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -266,11 +367,6 @@ samp {
   padding: var(--space-sm) var(--space-lg);
   border: var(--border-width-thin) solid transparent;
   border-radius: var(--radius-sm);
-  font-family: var(--font-display);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-wide);
-  line-height: 1;
   text-align: center;
   transition: background-color var(--duration-fast) var(--easing-standard),
     border-color var(--duration-fast) var(--easing-standard),
@@ -442,14 +538,21 @@ samp {
 .link--standalone {
   display: inline-block;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-weight: var(--weight-semibold);
   font-size: var(--text-sm);
-  letter-spacing: var(--tracking-wide);
+  letter-spacing: var(--font-display-tracking-label);
 }
 
 /* Badge -------------------------------------------------------------------- */
 
 .badge {
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   display: inline-flex;
   align-items: center;
   padding: var(--space-3xs) var(--space-xs);
@@ -457,10 +560,6 @@ samp {
   border-radius: var(--radius-pill);
   background-color: var(--color-surface-sunken);
   color: var(--color-text-secondary);
-  font-family: var(--font-display);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -551,6 +650,8 @@ samp {
   background-color: var(--color-surface-sunken);
   color: var(--color-text-primary);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-tight);
@@ -582,9 +683,12 @@ samp {
 }
 
 .field__label {
-  font-family: var(--font-display);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
+  font-family: var(--type-label-font);
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  line-height: var(--type-label-leading);
+  letter-spacing: var(--type-label-tracking);
+  word-spacing: var(--type-label-word-spacing);
   color: var(--color-text-primary);
 }
 
@@ -594,19 +698,29 @@ samp {
 }
 
 .field__hint {
-  font-size: var(--text-xs);
+  font-family: var(--type-caption-font);
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  line-height: var(--type-caption-leading);
+  letter-spacing: var(--type-caption-tracking);
+  word-spacing: var(--type-caption-word-spacing);
   color: var(--color-text-secondary);
   max-width: var(--content-measure);
 }
 
 .field__control {
+  font-family: var(--type-body-font);
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
+  line-height: var(--type-body-leading);
+  letter-spacing: var(--type-body-tracking);
+  word-spacing: var(--type-body-word-spacing);
   width: 100%;
   padding: var(--space-sm) var(--space-md);
   background-color: var(--color-surface-raised);
   border: var(--border-width-thin) solid var(--color-border-strong);
   border-radius: var(--radius-sm);
   color: var(--color-text-primary);
-  font-size: var(--text-md);
   transition: border-color var(--duration-fast) var(--easing-standard),
     box-shadow var(--duration-fast) var(--easing-standard);
 }
@@ -678,10 +792,14 @@ samp {
 }
 
 .field__error {
+  font-family: var(--type-caption-font);
+  font-size: var(--type-caption-size);
+  font-weight: var(--weight-semibold);
+  line-height: var(--type-caption-leading);
+  letter-spacing: var(--type-caption-tracking);
+  word-spacing: var(--type-caption-word-spacing);
   display: flex;
   gap: var(--space-2xs);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-medium);
   color: var(--color-feedback-danger-text);
 }
 
@@ -754,6 +872,7 @@ samp {
 .toggle-group__legend {
   padding: 0;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
@@ -785,8 +904,10 @@ samp {
   padding: var(--space-xs) var(--space-md);
   border-radius: var(--radius-xs);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-secondary);
   cursor: pointer;
   transition: background-color var(--duration-fast) var(--easing-standard),
@@ -968,7 +1089,7 @@ samp {
   background-color: var(--color-canvas);
 }
 
-[data-viewport="web"] .prototype__canvas {
+[data-viewport="web"] .prototype__canvas:not(:where([data-viewport="mobile"] *)) {
   padding: 0;
 }
 
@@ -1004,8 +1125,10 @@ samp {
   padding: var(--space-3xs) var(--space-xs);
   border-radius: var(--radius-sm);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-xs);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
   color: var(--color-text-secondary);
   white-space: nowrap;
@@ -1117,6 +1240,8 @@ samp {
   height: var(--device-statusbar-height);
   padding: 0 var(--space-lg);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
@@ -1139,6 +1264,13 @@ samp {
   /* Closes the sub-pixel seam where the white screen shows between the bar
      and a dark screen top. */
   box-shadow: 0 var(--border-width-thin) 0 var(--color-surface-inverse);
+}
+
+/* Behind the welcome's photograph the status bar takes the same deep slate,
+   so the dark runs unbroken to the top edge. */
+.device__screen:has(.welcome) > .device__statusbar--inverse {
+  background-color: var(--color-surface-inverse-deep);
+  box-shadow: 0 var(--border-width-thin) 0 var(--color-surface-inverse-deep);
 }
 
 .device__statusbar--inverse .device__statusbar-indicators {
@@ -1347,9 +1479,10 @@ samp {
 /* Two characters where an icon would sit: "N1", "D1", "W3", "M3". */
 .dock-picker__glyph {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-wide);
+  letter-spacing: var(--font-display-tracking-label);
   line-height: 1;
 }
 
@@ -1553,7 +1686,9 @@ samp {
 
 .flow-list__concept-link {
   font-family: var(--font-display);
-  font-weight: var(--weight-medium);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
+  font-weight: var(--weight-semibold);
 }
 
 .flow-list__concept-summary {
@@ -1604,26 +1739,60 @@ samp {
   border-bottom: var(--border-width-thin) solid var(--color-border);
 }
 
-/* Wordmark — the name set in type until the logo lands. Colour is inherited so
-   it works on either surface. */
+/* Wordmark — the logo, with an optional product line after it. The line
+   takes the surrounding text colour. */
 .wordmark {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
   font-family: var(--font-display);
-  font-weight: var(--weight-bold);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-tight);
-}
-
-.wordmark--md {
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-lg);
-}
-
-.wordmark--xl {
-  font-size: var(--text-3xl);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--font-display-tracking-heading);
 }
 
 .wordmark__suffix {
   font-weight: var(--weight-regular);
   opacity: 0.72;
+}
+
+/* Logo — the brand artwork. Its height sets its size; width follows. Each
+   version's colours are tokens, so the palette reaches it. */
+.logo {
+  display: inline-flex;
+  max-inline-size: 100%;
+}
+
+.logo__art {
+  display: block;
+  block-size: 100%;
+  inline-size: auto;
+  max-inline-size: 100%;
+}
+
+.logo--md {
+  block-size: var(--space-lg);
+}
+
+.logo--xl {
+  block-size: var(--space-3xl);
+}
+
+.logo--dark .logo__exec {
+  fill: var(--color-logo-exec);
+}
+
+.logo--dark .logo__hq {
+  fill: var(--color-logo-hq);
+}
+
+.logo--light .logo__exec {
+  fill: var(--color-logo-exec-on-inverse);
+}
+
+.logo--light .logo__hq {
+  fill: var(--color-logo-hq-on-inverse);
 }
 
 /* The navigation concept's wrapper. Takes no box, so the nav inside it is laid
@@ -1653,8 +1822,10 @@ ul.chrome__nav-list {
   padding-block: var(--space-sm);
   border-bottom: var(--border-width-medium) solid transparent;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-secondary);
   text-decoration: none;
 }
@@ -1738,7 +1909,7 @@ ul.chrome__nav-list {
   background-color: var(--color-surface-hover);
 }
 
-[data-viewport="tablet"] .chrome__main {
+[data-viewport="tablet"] .chrome__main:not(:where([data-viewport="mobile"] *)) {
   padding: var(--space-lg) var(--space-lg);
 }
 
@@ -1862,7 +2033,7 @@ ul.tab-bar__list {
   border-radius: var(--radius-pill);
   font-family: var(--font-body);
   font-size: var(--text-2xs);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-secondary);
   text-decoration: none;
   transition: color var(--duration-fast), transform var(--duration-fast), gap var(--duration-slow);
@@ -1929,6 +2100,8 @@ ul.tab-bar__list {
   position: absolute;
   inset: 8px 0 0;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-icon);
   font-weight: var(--weight-bold);
   line-height: 1;
@@ -2104,14 +2277,6 @@ ul.tab-bar__list {
   padding: 0 0 var(--space-sm) var(--space-sm);
 }
 
-.drawer-nav__wordmark {
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-bold);
-  letter-spacing: var(--tracking-tight);
-  color: var(--color-text-primary);
-}
-
 ul.drawer-nav__list {
   display: flex;
   flex-direction: column;
@@ -2246,6 +2411,8 @@ a.drawer-nav__account {
   border-radius: 50%;
   background-color: var(--color-surface-sunken);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-weight: var(--weight-bold);
   color: var(--color-text-primary);
 }
@@ -2352,7 +2519,7 @@ a.drawer-nav__account {
 
 .drawer-nav--rail .drawer-nav__label {
   font-size: var(--text-2xs);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: inherit;
 }
 
@@ -2502,6 +2669,8 @@ a.drawer-nav__account {
   background-color: var(--color-surface-inverse);
   color: var(--color-text-inverse);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
   font-weight: var(--weight-bold);
 }
@@ -2708,6 +2877,8 @@ a.drawer-nav__account {
 
 .concierge-panel__who b {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-md);
 }
 
@@ -2798,6 +2969,8 @@ a.drawer-nav__account {
 .concierge-start__title {
   margin: 0 0 var(--space-xs);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   color: var(--color-text-secondary);
@@ -2827,7 +3000,7 @@ ul.concierge-mini {
   padding: var(--space-sm) var(--space-2xs);
   border-radius: var(--radius-lg);
   font-size: var(--text-xs);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-secondary);
   text-decoration: none;
 }
@@ -2942,7 +3115,7 @@ ul.concierge-mini {
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-pill);
   font-size: var(--text-xs);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-secondary);
   text-decoration: none;
 }
@@ -2978,6 +3151,8 @@ ul.concierge-mini {
 
 .concierge-card b {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-md);
 }
 
@@ -3016,16 +3191,17 @@ ul.concierge-mini {
   gap: var(--space-md);
   padding: var(--space-md) var(--space-md) var(--space-lg);
   border-radius: var(--radius-xl);
-  background-color: var(--color-surface-sunken);
+  background-color: var(--color-surface-feature);
 }
 
 .home-card__title {
+  font-family: var(--type-heading-font);
+  font-size: var(--type-heading-size);
+  font-weight: var(--type-heading-weight);
+  line-height: var(--type-heading-leading);
+  letter-spacing: var(--type-heading-tracking);
+  word-spacing: var(--type-heading-word-spacing);
   margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-bold);
-  line-height: var(--leading-snug);
-  letter-spacing: var(--tracking-tight);
   color: var(--color-text-primary);
   text-wrap: balance;
 }
@@ -3035,10 +3211,13 @@ ul.concierge-mini {
 }
 
 .home-card__eyebrow {
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   margin: 0;
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--color-text-muted);
 }
@@ -3050,6 +3229,8 @@ ul.concierge-mini {
 
 .home-card__readback {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-lg);
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
@@ -3069,13 +3250,16 @@ ul.concierge-mini {
 }
 
 .home-card__stub {
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   align-self: flex-start;
   padding: var(--space-3xs) var(--space-sm);
   border: var(--border-width-thin) dashed var(--color-text-secondary);
   border-radius: var(--radius-pill);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--color-text-secondary);
 }
@@ -3092,12 +3276,17 @@ ul.concierge-mini {
 }
 
 .home-card__why div {
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  letter-spacing: var(--type-body-sm-tracking);
+  word-spacing: var(--type-body-sm-word-spacing);
   display: grid;
   grid-template-columns: 5.5rem 1fr;
   gap: var(--space-sm);
   padding: var(--space-sm) 0;
   border-top: var(--border-width-thin) solid var(--color-border);
-  font-size: var(--text-sm);
 }
 
 .home-card__why div:first-child {
@@ -3110,15 +3299,19 @@ ul.concierge-mini {
 
 .home-card__why dd {
   margin: 0;
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
 }
 
 /* The reasons as one sentence. */
 .home-card__whyline {
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  letter-spacing: var(--type-body-sm-tracking);
+  word-spacing: var(--type-body-sm-word-spacing);
   margin: 0;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
   color: var(--color-text-secondary);
 }
 
@@ -3280,8 +3473,8 @@ ol.loop-track {
 .briefing-card {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
-  padding: var(--space-sm) var(--space-sm) var(--space-md) var(--space-md);
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-sm) calc(var(--space-md) + var(--space-2xs)) var(--space-md);
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-xl);
   background-color: var(--color-surface-raised);
@@ -3342,31 +3535,44 @@ ol.loop-track {
   outline-offset: var(--focus-ring-offset);
 }
 
+/* The lead read is the card's heading, set bold so it leads the reads below. */
 .briefing-card__lead {
+  font-family: var(--type-heading-font);
+  font-size: var(--type-heading-size);
+  font-weight: var(--weight-bold);
+  line-height: var(--type-heading-leading);
+  letter-spacing: var(--type-heading-tracking);
+  word-spacing: var(--type-heading-word-spacing);
   margin: 0;
   padding-right: var(--space-sm);
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
   text-wrap: balance;
 }
 
 .briefing-card__why {
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  letter-spacing: var(--type-body-sm-tracking);
+  word-spacing: var(--type-body-sm-word-spacing);
   margin: 0;
-  font-size: var(--text-sm);
   color: var(--color-text-secondary);
 }
 
 ul.briefing-card__others {
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  letter-spacing: var(--type-body-sm-tracking);
+  word-spacing: var(--type-body-sm-word-spacing);
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xs);
-  margin: var(--space-2xs) 0 0;
-  padding: var(--space-xs) var(--space-sm) 0 0;
+  gap: var(--space-paragraph);
+  margin: 0;
+  padding: calc(var(--space-md) + var(--space-2xs)) var(--space-sm) 0 0; /* 20px: more room under the divider than above it */
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
   list-style: none;
-  font-size: var(--text-sm);
   color: var(--color-text-primary);
 }
 
@@ -3428,23 +3634,32 @@ ul.briefing-card__others {
 }
 
 .entry-link__eyebrow {
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
   color: var(--color-text-muted);
 }
 
 .entry-link__title {
-  font-family: var(--font-display);
-  font-size: var(--text-md);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
+  font-family: var(--type-subheading-font);
+  font-size: var(--type-subheading-size);
+  font-weight: var(--type-subheading-weight);
+  line-height: var(--type-subheading-leading);
+  letter-spacing: var(--type-subheading-tracking);
+  word-spacing: var(--type-subheading-word-spacing);
 }
 
 .entry-link__detail {
-  font-size: var(--text-sm);
-  line-height: var(--leading-snug);
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  letter-spacing: var(--type-body-sm-tracking);
+  word-spacing: var(--type-body-sm-word-spacing);
   color: var(--color-text-secondary);
 }
 
@@ -3464,6 +3679,8 @@ ul.briefing-card__others {
 .recent-work__heading {
   margin: 0;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-lg);
   font-weight: var(--weight-bold);
 }
@@ -3486,7 +3703,7 @@ ul.briefing-card__others {
   border-radius: var(--radius-pill);
   background-color: var(--color-surface-sunken);
   font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
 }
 
 .recent-work__chips button b {
@@ -3565,6 +3782,8 @@ ul.recent-work__list {
 .recent-work__title {
   grid-column: 1;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-md);
   font-weight: var(--weight-bold);
 }
@@ -3618,7 +3837,7 @@ ul.recent-work__list {
   min-width: 0;
 }
 
-[data-viewport="web"] .home {
+[data-viewport="web"] .home:not(:where([data-viewport="mobile"] *)) {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
   align-items: start;
@@ -3640,6 +3859,8 @@ ul.recent-work__list {
 .home__greeting b {
   display: block;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-lg);
   line-height: var(--leading-snug);
 }
@@ -3672,8 +3893,8 @@ ul.recent-work__list {
   color: var(--color-text-inverse);
 }
 
-[data-viewport="tablet"] .rings-hero,
-[data-viewport="web"] .rings-hero {
+[data-viewport="tablet"] .rings-hero:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .rings-hero:not(:where([data-viewport="mobile"] *)) {
   padding: var(--space-lg);
 }
 
@@ -3686,6 +3907,8 @@ ul.recent-work__list {
 
 .rings-hero__greeting b {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-xl);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
@@ -3751,8 +3974,8 @@ ul.rings-hero__row {
   overflow: visible;
 }
 
-[data-viewport="tablet"] .rings-hero__svg,
-[data-viewport="web"] .rings-hero__svg {
+[data-viewport="tablet"] .rings-hero__svg:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .rings-hero__svg:not(:where([data-viewport="mobile"] *)) {
   max-width: 6.5rem;
 }
 
@@ -3782,6 +4005,8 @@ ul.rings-hero__row {
 
 .rings-hero__name {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
   font-weight: var(--weight-bold);
 }
@@ -3857,6 +4082,8 @@ ul.rings-hero__row {
 .rings-hero__done {
   margin: 0;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-lg);
   font-weight: var(--weight-semibold);
 }
@@ -3875,6 +4102,8 @@ ul.rings-hero__row {
 .ring-detail__heading {
   margin: 0;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-md);
 }
 
@@ -3994,6 +4223,8 @@ ol.ring-detail__timeline {
 
 .destination-stub__heading {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-2xl);
   font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
@@ -4027,7 +4258,7 @@ ol.ring-detail__timeline {
 }
 
 [data-viewport="mobile"] .page,
-[data-viewport="tablet"] .page {
+[data-viewport="tablet"] .page:not(:where([data-viewport="mobile"] *)) {
   gap: var(--space-lg);
 }
 
@@ -4053,9 +4284,10 @@ ol.ring-detail__timeline {
 
 .placeholder__headline {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-xl);
   font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-tight);
+  letter-spacing: var(--font-display-tracking-heading);
 }
 
 .placeholder__title {
@@ -4135,9 +4367,10 @@ ol.ring-detail__timeline {
   padding-block: var(--space-2xs);
   border-bottom: var(--border-width-medium) solid transparent;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-wide);
+  letter-spacing: var(--font-display-tracking-label);
   color: var(--color-text-secondary);
   text-decoration: none;
 }
@@ -4195,9 +4428,10 @@ ol.ring-detail__timeline {
 
 .hub-tools__card-title {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-lg);
   font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-tight);
+  letter-spacing: var(--font-display-tracking-heading);
 }
 
 .hub-tools__card-description {
@@ -4268,7 +4502,7 @@ ol.ring-detail__timeline {
 }
 
 [data-viewport="mobile"] .catalogue,
-[data-viewport="tablet"] .catalogue {
+[data-viewport="tablet"] .catalogue:not(:where([data-viewport="mobile"] *)) {
   grid-template-columns: 1fr;
 }
 
@@ -4296,8 +4530,10 @@ ol.ring-detail__timeline {
 
 .catalogue__filter-label {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-xs);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-secondary);
 }
 
@@ -4358,8 +4594,10 @@ ol.ring-detail__timeline {
 
 .catalogue__item-name {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
 }
 
 .catalogue__item.is-selected .catalogue__item-name {
@@ -4430,6 +4668,8 @@ ol.ring-detail__timeline {
 .catalogue-problems__title {
   margin-bottom: var(--space-xs);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
 }
@@ -4465,6 +4705,8 @@ ol.ring-detail__timeline {
 
 .catalogue__variant-label {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
 }
@@ -4569,7 +4811,7 @@ ol.ring-detail__timeline {
 .styleguide-layout__group-label {
   padding-inline: var(--space-sm);
   font-size: var(--text-xs);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-muted);
 }
 
@@ -4687,9 +4929,10 @@ ol.ring-detail__timeline {
 .styleguide-layout__next {
   align-self: flex-end;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-wide);
+  letter-spacing: var(--font-display-tracking-label);
 }
 
 .styleguide {
@@ -4824,6 +5067,8 @@ ol.ring-detail__timeline {
 
 .styleguide__step-name {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
 }
@@ -4838,6 +5083,22 @@ ol.ring-detail__timeline {
 
 .styleguide__step-swatch--large {
   height: var(--space-4xl);
+}
+
+/* The logo on each background it may sit on. */
+.styleguide__logos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-xs);
+}
+
+.styleguide__logo-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl) var(--space-lg);
+  border-bottom: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
 /* Colour roles: compact rows — a chip, the token, and the step it lands on. */
@@ -4884,6 +5145,8 @@ ol.ring-detail__timeline {
   border-left-width: var(--border-width-thick);
   border-radius: var(--radius-sm);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
 }
@@ -4993,6 +5256,8 @@ ol.ring-detail__timeline {
   min-height: 96px;
   padding: var(--space-md);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   border: var(--border-width-thin) solid var(--color-border);
@@ -5069,10 +5334,12 @@ ol.ring-detail__timeline {
 }
 
 .step-header__title {
-  font-family: var(--font-display);
-  font-size: var(--text-2xl);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-tight);
+  font-family: var(--type-title-font);
+  font-size: var(--type-title-size);
+  font-weight: var(--type-title-weight);
+  line-height: var(--type-title-leading);
+  letter-spacing: var(--type-title-tracking);
+  word-spacing: var(--type-title-word-spacing);
   color: var(--color-text-primary);
   text-wrap: balance;
 }
@@ -5086,20 +5353,16 @@ ol.ring-detail__timeline {
 }
 
 .step-header__description {
+  font-family: var(--type-body-font);
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
+  line-height: var(--type-body-leading);
+  letter-spacing: var(--type-body-tracking);
+  word-spacing: var(--type-body-word-spacing);
   max-width: var(--content-measure);
-  font-size: var(--text-md);
-  line-height: var(--leading-normal);
   color: var(--color-text-secondary);
   /* Two short lines rather than a long one and a stranded word. */
   text-wrap: balance;
-}
-
-[data-viewport="mobile"] .step-header__title {
-  font-size: var(--text-xl);
-}
-
-[data-viewport="web"] .step-header__title {
-  font-size: var(--text-3xl);
 }
 
 .step-progress {
@@ -5162,8 +5425,8 @@ ol.ring-detail__timeline {
   min-width: 0;
 }
 
-[data-viewport="tablet"] .step-actions__row,
-[data-viewport="web"] .step-actions__row {
+[data-viewport="tablet"] .step-actions__row:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .step-actions__row:not(:where([data-viewport="mobile"] *)) {
   flex-direction: row;
 }
 
@@ -5190,20 +5453,93 @@ ol.ring-detail__timeline {
   background-color: var(--color-surface-inverse);
 }
 
+/* The hero carries a long-exposure photograph, cut in two: its dark top, and
+   its band of orange light, with the streaky middle taken out and the two
+   halves blended together. Each half is a pseudo-element showing the same
+   picture at full width; --welcome-cut-from and -to are where the cut starts
+   and ends, as fractions of the picture's height. --welcome-drop moves the
+   whole picture down, with plain navy above it fading into the photo. A slate
+   veil keeps the logo readable and darkens the foot where the sheet rises. */
 .welcome__hero {
+  --welcome-cut-from: 0.36;
+  --welcome-cut-to: 0.54;
+  --welcome-blend: 64px;
+  --welcome-drop: 130px;
+  --welcome-image-height: calc(100cqi * 1672 / 941); /* the picture's shape */
+  --welcome-image: url("./images/welcome-hero.webp");
+  position: relative;
+  isolation: isolate;
+  container-type: inline-size;
   display: flex;
   flex-direction: column;
   gap: var(--space-2xl);
-  padding: var(--space-lg) var(--space-lg) var(--space-2xl);
+  padding: var(--space-2xl) var(--space-lg);
   color: var(--color-text-inverse);
+  background-color: var(--color-surface-inverse-deep);
+  overflow: hidden;
+}
+
+.welcome__hero::before,
+.welcome__hero::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset-inline: 0;
+  background-repeat: no-repeat;
+  background-size: 100% auto, 100% var(--welcome-image-height);
+  pointer-events: none;
+}
+
+/* The top half: navy, fading into the picture from its top edge to the cut,
+   which fades out in turn. */
+.welcome__hero::before {
+  top: 0;
+  height: calc(var(--welcome-drop) + var(--welcome-cut-from) * var(--welcome-image-height) + var(--welcome-blend) / 2);
+  background-image:
+    linear-gradient(180deg, var(--color-image-veil) 0%, var(--color-image-veil-clear) 60%),
+    var(--welcome-image);
+  background-size: 100% 100%, 100% var(--welcome-image-height);
+  background-position: 0 0, 0 var(--welcome-drop);
+  mask-image: linear-gradient(
+    180deg,
+    transparent var(--welcome-drop),
+    black calc(var(--welcome-drop) + var(--welcome-blend) * 1.5),
+    black calc(100% - var(--welcome-blend)),
+    transparent
+  );
+}
+
+/* The lower half: the picture from the end of the cut downwards, fading in. */
+.welcome__hero::after {
+  top: calc(var(--welcome-drop) + var(--welcome-cut-from) * var(--welcome-image-height) - var(--welcome-blend) / 2);
+  bottom: 0;
+  background-image:
+    linear-gradient(180deg, var(--color-image-veil-clear) 70%, var(--color-image-veil) 100%),
+    var(--welcome-image);
+  background-size: 100% 100%, 100% var(--welcome-image-height);
+  background-position: 0 0, 0 calc(var(--welcome-blend) / 2 - var(--welcome-cut-to) * var(--welcome-image-height));
+  mask-image: linear-gradient(180deg, transparent, black var(--welcome-blend));
+}
+
+/* On the phone the picture takes the screen and the sheet sits at the foot,
+   only as tall as what it holds. */
+[data-viewport="mobile"] .welcome__hero {
+  flex: 1;
+}
+
+[data-viewport="mobile"] .welcome__sheet {
+  flex: none;
 }
 
 .welcome__quote {
+  font-family: var(--type-editorial-font);
+  font-size: var(--type-editorial-size);
+  font-weight: var(--type-editorial-weight);
+  line-height: var(--type-editorial-leading);
+  letter-spacing: var(--type-editorial-tracking);
+  word-spacing: var(--type-editorial-word-spacing);
   max-width: 22ch;
-  font-family: var(--font-serif);
-  font-size: var(--text-xl);
   font-style: italic;
-  line-height: var(--leading-snug);
   text-wrap: balance;
 }
 
@@ -5255,38 +5591,34 @@ ol.ring-detail__timeline {
 }
 
 /* Tablet and web: panel on the left, sheet on the right. */
-[data-viewport="tablet"] .welcome,
-[data-viewport="web"] .welcome {
+[data-viewport="tablet"] .welcome:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .welcome:not(:where([data-viewport="mobile"] *)) {
   flex-direction: row;
 }
 
-[data-viewport="tablet"] .welcome__hero,
-[data-viewport="web"] .welcome__hero {
+[data-viewport="tablet"] .welcome__hero:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .welcome__hero:not(:where([data-viewport="mobile"] *)) {
   flex: 0 0 40%;
   justify-content: space-between;
   padding: var(--space-2xl) var(--space-xl);
 }
 
-[data-viewport="web"] .welcome__quote {
-  font-size: var(--text-2xl);
-}
-
-[data-viewport="tablet"] .welcome__sheet,
-[data-viewport="web"] .welcome__sheet {
+[data-viewport="tablet"] .welcome__sheet:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .welcome__sheet:not(:where([data-viewport="mobile"] *)) {
   justify-content: center;
   padding: var(--space-2xl) var(--space-xl);
   border-radius: 0;
 }
 
-[data-viewport="tablet"] .welcome__body,
-[data-viewport="web"] .welcome__body {
+[data-viewport="tablet"] .welcome__body:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .welcome__body:not(:where([data-viewport="mobile"] *)) {
   flex: none;
 }
 
-[data-viewport="tablet"] .welcome__body,
-[data-viewport="tablet"] .welcome__sheet > .step-actions,
-[data-viewport="web"] .welcome__body,
-[data-viewport="web"] .welcome__sheet > .step-actions {
+[data-viewport="tablet"] .welcome__body:not(:where([data-viewport="mobile"] *)),
+[data-viewport="tablet"] .welcome__sheet > .step-actions:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .welcome__body:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .welcome__sheet > .step-actions:not(:where([data-viewport="mobile"] *)) {
   width: 100%;
   max-width: 28rem;
 }
@@ -5327,13 +5659,14 @@ ol.ring-detail__timeline {
 }
 
 .privacy-splash__title {
+  font-family: var(--type-display-font);
+  font-size: var(--type-display-size);
+  font-weight: var(--type-display-weight);
+  line-height: var(--type-display-leading);
+  letter-spacing: var(--type-display-tracking);
+  word-spacing: var(--type-display-word-spacing);
   display: flex;
   flex-direction: column;
-  font-family: var(--font-display);
-  font-size: var(--text-3xl);
-  font-weight: var(--weight-bold);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-tight);
   text-wrap: balance;
 }
 
@@ -5393,19 +5726,15 @@ ol.ring-detail__timeline {
   flex-direction: column;
 }
 
-[data-viewport="tablet"] .privacy-splash__actions,
-[data-viewport="web"] .privacy-splash__actions {
+[data-viewport="tablet"] .privacy-splash__actions:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .privacy-splash__actions:not(:where([data-viewport="mobile"] *)) {
   align-items: center;
 }
 
-[data-viewport="tablet"] .privacy-splash__actions .btn,
-[data-viewport="web"] .privacy-splash__actions .btn {
+[data-viewport="tablet"] .privacy-splash__actions .btn:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .privacy-splash__actions .btn:not(:where([data-viewport="mobile"] *)) {
   width: 100%;
   max-width: 24rem;
-}
-
-[data-viewport="web"] .privacy-splash__title {
-  font-size: var(--text-4xl);
 }
 
 /* --- Direction field ------------------------------------------------------ */
@@ -5420,8 +5749,9 @@ ol.ring-detail__timeline {
 .direction-field__prompts-label {
   margin-bottom: var(--space-xs);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-xs);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--color-text-muted);
@@ -5430,7 +5760,7 @@ ol.ring-detail__timeline {
 .direction-field__examples-list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xs);
+  gap: var(--space-paragraph);
   padding: 0;
   margin: 0;
   list-style: none;
@@ -5459,8 +5789,10 @@ ol.ring-detail__timeline {
 .direction-field__prompt {
   padding: var(--space-xs) var(--space-sm);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
   background-color: var(--color-surface);
   border: var(--border-strong);
@@ -5617,8 +5949,10 @@ ol.ring-detail__timeline {
   width: 100%;
   padding: var(--space-xs) var(--space-sm);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
   background-color: var(--color-surface);
   border: var(--border-strong);
@@ -5678,15 +6012,18 @@ ol.ring-detail__timeline {
   background-color: var(--color-surface-inverse);
   color: var(--color-text-inverse);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xs);
   font-weight: var(--weight-bold);
-  letter-spacing: var(--tracking-tight);
+  letter-spacing: var(--font-display-tracking-heading);
 }
 
 .advisor-note__who {
   display: flex;
   flex-direction: column;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
@@ -5695,7 +6032,7 @@ ol.ring-detail__timeline {
 
 .advisor-note__role {
   font-size: var(--text-xs);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-muted);
 }
 
@@ -5717,7 +6054,7 @@ ol.ring-detail__timeline {
 
 .advisor-note__closing {
   font-size: var(--text-md);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   line-height: var(--leading-normal);
   color: var(--color-text-primary);
 }
@@ -5740,8 +6077,10 @@ ol.ring-detail__timeline {
   gap: var(--space-2xs);
   padding: var(--space-3xs) 0;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
   text-decoration: underline;
   text-decoration-thickness: var(--border-width-thin);
@@ -5807,13 +6146,15 @@ ol.ring-detail__timeline {
 /* The label is an eyebrow set in the body face, so the display face stays for
    headings and primary UI. */
 .notice__head {
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   display: flex;
   align-items: center;
   gap: var(--space-xs);
-  font-family: var(--font-body);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--color-text-secondary);
 }
@@ -5830,15 +6171,22 @@ ol.ring-detail__timeline {
 }
 
 .notice__title {
-  font-family: var(--font-display);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
+  font-family: var(--type-label-font);
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  line-height: var(--type-label-leading);
+  letter-spacing: var(--type-label-tracking);
+  word-spacing: var(--type-label-word-spacing);
   color: var(--color-text-primary);
 }
 
 .notice__body {
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  letter-spacing: var(--type-body-sm-tracking);
+  word-spacing: var(--type-body-sm-word-spacing);
   color: var(--color-text-secondary);
 }
 
@@ -5939,6 +6287,8 @@ ol.ring-detail__timeline {
 
 .plan-card__name {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-lg);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
@@ -6013,8 +6363,8 @@ ol.ring-detail__timeline {
   padding: var(--space-lg) var(--space-md) var(--space-2xl);
 }
 
-[data-viewport="tablet"] .wizard,
-[data-viewport="web"] .wizard {
+[data-viewport="tablet"] .wizard:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .wizard:not(:where([data-viewport="mobile"] *)) {
   padding: var(--space-2xl) var(--space-lg) var(--space-3xl);
   gap: var(--space-xl);
 }
@@ -6107,8 +6457,8 @@ ol.ring-detail__timeline {
    measure makes a single "Continue" look like a banner. Equal width only
    matters when there is something to be equal to. On mobile it stays full
    width, where a wide tap target is worth more than the proportion. */
-[data-viewport="tablet"] .step-actions__row > .btn:only-child,
-[data-viewport="web"] .step-actions__row > .btn:only-child {
+[data-viewport="tablet"] .step-actions__row > .btn:only-child:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .step-actions__row > .btn:only-child:not(:where([data-viewport="mobile"] *)) {
   flex: 0 0 auto;
 }
 
@@ -6164,8 +6514,9 @@ ol.ring-detail__timeline {
   background-color: var(--color-surface-inverse);
   color: var(--color-text-inverse);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-weight: var(--weight-bold);
-  letter-spacing: var(--tracking-tight);
+  letter-spacing: var(--font-display-tracking-heading);
 }
 
 .chat__avatar {
@@ -6179,6 +6530,8 @@ ol.ring-detail__timeline {
   flex-direction: column;
   align-items: flex-start;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-tight);
@@ -6192,7 +6545,7 @@ ol.ring-detail__timeline {
 
 .chat__role {
   font-size: var(--text-xs);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-muted);
 }
 
@@ -6245,10 +6598,11 @@ ol.ring-detail__timeline {
 
 .chat-welcome__title {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xl);
   font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-tight);
+  letter-spacing: var(--font-display-tracking-heading);
   color: var(--color-text-primary);
   text-wrap: balance;
 }
@@ -6325,6 +6679,8 @@ ol.ring-detail__timeline {
   align-items: center;
   gap: var(--space-xs);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
@@ -6353,8 +6709,10 @@ ol.ring-detail__timeline {
 
 .chat-message__edit {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-xs);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-secondary);
   text-decoration: underline;
   text-underline-offset: 0.2em;
@@ -6439,11 +6797,13 @@ ol.ring-detail__timeline {
 }
 
 .chat-readback__close {
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
 }
 
 .chat-done__title {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-lg);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
@@ -6470,6 +6830,7 @@ ol.ring-detail__timeline {
 .plan-summary__eyebrow,
 .plan-summary__week-label {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
@@ -6479,6 +6840,8 @@ ol.ring-detail__timeline {
 
 .plan-summary__name {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-xl);
   font-weight: var(--weight-bold);
   line-height: var(--leading-snug);
@@ -6506,6 +6869,8 @@ ol.ring-detail__timeline {
 
 .plan-summary__week-title {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
@@ -6559,21 +6924,25 @@ ol.ring-detail__timeline {
 .plan-summary__window {
   display: block;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-xs);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-secondary);
 }
 
 .plan-summary__title {
   display: block;
   font-size: var(--text-md);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
 }
 
 .plan-summary__details {
   align-self: flex-start;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
@@ -6627,6 +6996,7 @@ ol.ring-detail__timeline {
 .draft-section__approved,
 .story-summary__heading {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
@@ -6657,6 +7027,8 @@ ol.ring-detail__timeline {
 .draft-section__title,
 .story-summary__title {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-lg);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
@@ -6698,6 +7070,8 @@ ol.ring-detail__timeline {
 
 .story-summary__status {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-xs);
   color: var(--color-text-secondary);
 }
@@ -6752,8 +7126,10 @@ ol.ring-detail__timeline {
   white-space: nowrap;
   padding: var(--space-xs) var(--space-sm);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
   background-color: var(--color-surface-raised);
   border: var(--border-strong);
@@ -6902,8 +7278,8 @@ ol.ring-detail__timeline {
   padding: var(--space-md) var(--space-md) var(--space-2xl);
 }
 
-[data-viewport="tablet"] .canvas,
-[data-viewport="web"] .canvas {
+[data-viewport="tablet"] .canvas:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .canvas:not(:where([data-viewport="mobile"] *)) {
   padding: var(--space-2xl) var(--space-lg) var(--space-3xl);
   gap: var(--space-xl);
 }
@@ -6996,8 +7372,10 @@ ol.ring-detail__timeline {
 
 .wizard__skip {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-secondary);
   background: none;
   border: 0;
@@ -7031,6 +7409,8 @@ ol.ring-detail__timeline {
 
 .builder-part__title {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
@@ -7063,7 +7443,7 @@ ol.ring-detail__timeline {
 .builder-known__tags > li {
   padding: var(--space-3xs) var(--space-xs);
   font-size: var(--text-xs);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
   background-color: var(--color-surface);
   border: var(--border-thin);
@@ -7141,6 +7521,7 @@ ol.ring-detail__timeline {
 .revision-chips__label {
   padding: 0;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
@@ -7160,8 +7541,10 @@ ol.ring-detail__timeline {
   gap: var(--space-2xs);
   padding: var(--space-xs) var(--space-sm);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
   background-color: var(--color-surface);
   border: var(--border-strong);
@@ -7212,8 +7595,10 @@ ol.ring-detail__timeline {
 .chip-group__label {
   padding: 0;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
 }
 
@@ -7231,8 +7616,10 @@ ol.ring-detail__timeline {
 .chip-group__chip {
   padding: var(--space-xs) var(--space-sm);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
   background-color: var(--color-surface);
   border: var(--border-strong);
@@ -7293,6 +7680,7 @@ ol.ring-detail__timeline {
 .builder-narrative__label,
 .builder-next__label {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
@@ -7320,8 +7708,10 @@ ol.ring-detail__timeline {
 .builder-output__edit-link {
   padding: var(--space-3xs) 0;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
   text-decoration: underline;
   text-decoration-thickness: var(--border-width-thin);
@@ -7368,8 +7758,10 @@ ol.ring-detail__timeline {
 .builder-export__links > button {
   padding: var(--space-3xs) 0;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
   text-decoration: underline;
   text-decoration-thickness: var(--border-width-thin);
@@ -7404,6 +7796,7 @@ ol.ring-detail__timeline {
 
 .story-draft__label {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
@@ -7420,7 +7813,7 @@ ol.ring-detail__timeline {
 .story-draft__uses ul {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xs);
+  gap: var(--space-paragraph);
   margin: 0;
   padding-left: var(--space-md);
   font-size: var(--text-sm);
@@ -7481,6 +7874,8 @@ ol.ring-detail__timeline {
   height: var(--space-lg);
   border-radius: var(--radius-pill);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-xs);
   font-weight: var(--weight-bold);
   color: var(--color-text-primary);
@@ -7559,6 +7954,8 @@ ol.ring-detail__timeline {
   border: var(--border-width-medium) solid var(--color-border-strong);
   border-radius: var(--radius-xs);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-2xs);
   font-weight: var(--weight-bold);
   color: var(--color-text-secondary);
@@ -7573,6 +7970,8 @@ ol.ring-detail__timeline {
 
 .linkedin-file__name {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
@@ -7652,7 +8051,7 @@ ol.ring-detail__timeline {
   align-items: center;
   gap: var(--space-sm);
   padding: var(--space-sm) var(--space-md);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
   background-color: var(--color-surface-sunken);
   border-radius: var(--radius-md);
@@ -7669,6 +8068,8 @@ ol.ring-detail__timeline {
 
 .done-invite__title {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
@@ -7725,6 +8126,8 @@ ol.ring-detail__timeline {
   background-color: var(--color-surface-inverse);
   color: var(--color-text-inverse);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-2xs);
   font-weight: var(--weight-bold);
 }
@@ -7738,6 +8141,8 @@ ol.ring-detail__timeline {
 
 .signal-list__title {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
@@ -7752,6 +8157,7 @@ ol.ring-detail__timeline {
 .signal-list__status {
   padding: var(--space-3xs) var(--space-xs);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xs);
   font-weight: var(--weight-bold);
   letter-spacing: var(--tracking-label);
@@ -7822,8 +8228,10 @@ ol.ring-detail__timeline {
   align-self: flex-start;
   padding: var(--space-3xs) 0;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
   text-decoration: underline;
   text-decoration-thickness: var(--border-width-thin);
@@ -7901,22 +8309,22 @@ ol.ring-detail__timeline {
 /* Wider screens: the sheet keeps to a reading width. On a tablet it still
    rises from the bottom; on the web, where nothing rises from the bottom of
    a window, it sits centred as a panel. */
-[data-viewport="tablet"] .sheet__panel,
-[data-viewport="web"] .sheet__panel {
+[data-viewport="tablet"] .sheet__panel:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .sheet__panel:not(:where([data-viewport="mobile"] *)) {
   max-width: var(--content-measure);
   margin-inline: auto;
 }
 
-[data-viewport="web"] .sheet {
+[data-viewport="web"] .sheet:not(:where([data-viewport="mobile"] *)) {
   justify-content: center;
   padding: var(--space-xl) var(--space-lg);
 }
 
-[data-viewport="web"] .sheet__panel {
+[data-viewport="web"] .sheet__panel:not(:where([data-viewport="mobile"] *)) {
   border-radius: var(--radius-xl);
 }
 
-[data-viewport="web"] .sheet__grab {
+[data-viewport="web"] .sheet__grab:not(:where([data-viewport="mobile"] *)) {
   display: none;
 }
 
@@ -7945,7 +8353,7 @@ ol.ring-detail__timeline {
 .plan-built__tags > li {
   padding: var(--space-3xs) var(--space-sm);
   font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
   background-color: var(--color-surface-sunken);
   border: var(--border-thin);
@@ -7970,6 +8378,7 @@ ol.ring-detail__timeline {
 
 .this-week__label {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
@@ -7979,6 +8388,8 @@ ol.ring-detail__timeline {
 
 .this-week__title {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-lg);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
@@ -8072,6 +8483,7 @@ ol.ring-detail__timeline {
 
 .plan-timeline__window {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
@@ -8082,8 +8494,10 @@ ol.ring-detail__timeline {
 .plan-timeline__title {
   margin-top: var(--space-3xs);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-md);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
   color: var(--color-text-secondary);
 }
@@ -8113,6 +8527,8 @@ ol.ring-detail__timeline {
 
 .plan-timeline__done b {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
 }
@@ -8136,8 +8552,10 @@ ol.ring-detail__timeline {
   align-self: flex-start;
   padding: var(--space-3xs) 0;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
   text-decoration: underline;
   text-decoration-thickness: var(--border-width-thin);
@@ -8203,6 +8621,7 @@ ol.ring-detail__timeline {
 
 .plan-stage__window {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
@@ -8212,6 +8631,8 @@ ol.ring-detail__timeline {
 
 .plan-stage__title {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-lg);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
@@ -8300,8 +8721,8 @@ ol.ring-detail__timeline {
   padding: var(--space-lg) var(--space-lg) var(--space-xl);
 }
 
-[data-viewport="tablet"] .guide,
-[data-viewport="web"] .guide {
+[data-viewport="tablet"] .guide:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .guide:not(:where([data-viewport="mobile"] *)) {
   padding: var(--space-2xl) var(--space-lg) var(--space-3xl);
   gap: var(--space-xl);
 }
@@ -8314,6 +8735,8 @@ ol.ring-detail__timeline {
 
 .guide__where {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-xs);
   color: var(--color-text-secondary);
 }
@@ -8356,6 +8779,7 @@ ol.ring-detail__timeline {
 
 .guide__kicker {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
@@ -8365,10 +8789,11 @@ ol.ring-detail__timeline {
 
 .guide__title {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xl);
   font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-tight);
+  letter-spacing: var(--font-display-tracking-heading);
   color: var(--color-text-primary);
   text-wrap: balance;
 }
@@ -8404,6 +8829,7 @@ ol.ring-detail__timeline {
 
 .guide__why-label {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
@@ -8471,6 +8897,8 @@ ol.ring-detail__timeline {
   gap: var(--space-xs);
   padding: var(--space-xs) var(--space-sm);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
   color: var(--color-text-primary);
   text-align: left;
@@ -8531,6 +8959,7 @@ ol.ring-detail__timeline {
 
 .advisor-file__list dt {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
@@ -8593,6 +9022,8 @@ ol.ring-detail__timeline {
   display: grid;
   place-items: center;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-xs);
   font-weight: var(--weight-bold);
   color: var(--color-text-inverse);
@@ -8602,6 +9033,8 @@ ol.ring-detail__timeline {
 
 .point-list__title {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
@@ -8630,6 +9063,7 @@ ol.ring-detail__timeline {
 
 .point-box__label {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
@@ -8638,7 +9072,7 @@ ol.ring-detail__timeline {
 }
 
 .point-box .point-list {
-  gap: var(--space-sm);
+  gap: var(--space-paragraph);
 }
 
 /* A reflection's answer: a pull quote, then a fact. */
@@ -8669,6 +9103,7 @@ ol.ring-detail__timeline {
 
 .reflection-reply__quote figcaption {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
@@ -8693,6 +9128,7 @@ ol.ring-detail__timeline {
 
 .reflection-reply__fact-label {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
@@ -8723,10 +9159,11 @@ ol.ring-detail__timeline {
 
 .recommendation__name {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xl);
   font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-tight);
+  letter-spacing: var(--font-display-tracking-heading);
   color: var(--color-text-primary);
 }
 
@@ -8744,6 +9181,8 @@ ol.ring-detail__timeline {
 
 .recommendation__status {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   color: var(--color-text-secondary);
@@ -8766,6 +9205,7 @@ ol.ring-detail__timeline {
 
 .guide__yours-label {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
@@ -8806,6 +9246,7 @@ ol.ring-detail__timeline {
 
 .guide__stage-when {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
@@ -8815,6 +9256,8 @@ ol.ring-detail__timeline {
 
 .guide__stage-title {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
@@ -8863,6 +9306,7 @@ ol.ring-detail__timeline {
 
 .good-example__label {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
@@ -8916,8 +9360,8 @@ ol.ring-detail__timeline {
   gap: 0;
 }
 
-[data-viewport="tablet"] .guide--drawer,
-[data-viewport="web"] .guide--drawer {
+[data-viewport="tablet"] .guide--drawer:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .guide--drawer:not(:where([data-viewport="mobile"] *)) {
   padding: 0;
   gap: 0;
 }
@@ -8960,6 +9404,7 @@ ol.ring-detail__timeline {
 .guide__said-label {
   display: block;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
@@ -8974,6 +9419,8 @@ ol.ring-detail__timeline {
 .guide__said-change {
   flex: none;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   color: var(--color-text-inverse);
@@ -9008,8 +9455,8 @@ ol.ring-detail__timeline {
 }
 
 /* On a wider screen the drawer's contents keep to the reading width. */
-[data-viewport="tablet"] .answer-drawer,
-[data-viewport="web"] .answer-drawer {
+[data-viewport="tablet"] .answer-drawer:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .answer-drawer:not(:where([data-viewport="mobile"] *)) {
   padding-inline: max(var(--space-lg), calc((100% - var(--content-measure)) / 2));
 }
 
@@ -9053,6 +9500,7 @@ ol.ring-detail__timeline {
 .answer-drawer__kicker,
 .answer-drawer__step {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
@@ -9062,10 +9510,11 @@ ol.ring-detail__timeline {
 
 .answer-drawer__q {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-xl);
   font-weight: var(--weight-bold);
   line-height: var(--leading-snug);
-  letter-spacing: var(--tracking-tight);
+  letter-spacing: var(--font-display-tracking-heading);
   color: var(--color-text-primary);
   text-wrap: balance;
 }
@@ -9110,6 +9559,8 @@ ol.ring-detail__timeline {
 
 .answer-drawer__peek-q {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
@@ -9130,7 +9581,7 @@ ol.ring-detail__timeline {
   background-color: var(--color-surface-muted);
 }
 
-[data-viewport="web"] .device-keyboard {
+[data-viewport="web"] .device-keyboard:not(:where([data-viewport="mobile"] *)) {
   display: none;
 }
 
@@ -9166,6 +9617,8 @@ ol.ring-detail__timeline {
 .device-keyboard__key.is-return {
   flex-basis: 22%;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   color: var(--color-text-inverse);
@@ -9209,6 +9662,8 @@ ol.ring-detail__timeline {
 .signals-home__heading {
   margin: 0;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-lg);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
@@ -9244,6 +9699,7 @@ ol.ring-detail__timeline {
 .signal__eyebrow {
   margin: 0;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
@@ -9259,6 +9715,8 @@ ol.ring-detail__timeline {
   margin: 0;
   color: inherit;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
@@ -9483,6 +9941,46 @@ ol.signal__list {
   transition: border-color var(--duration-fast) var(--easing-standard), transform var(--duration-fast) var(--easing-standard);
 }
 
+/* The Briefing is a dark card wherever it appears: navy, no outline. Its
+   colours switch to the inverse set here, so the text, links, dividers and
+   tiles inside follow without their own rules. */
+.briefing-card,
+.briefing-editorial,
+.briefing-entry {
+  --color-surface-raised: var(--color-surface-inverse);
+  --color-surface-sunken: var(--color-surface-inverse-hover);
+  --color-surface-hover: var(--color-surface-inverse-hover);
+  --color-text-primary: var(--color-text-inverse);
+  --color-text-secondary: var(--color-text-inverse-muted);
+  --color-text-muted: var(--color-text-inverse-muted);
+  --color-text-link: var(--color-text-inverse);
+  --color-text-link-hover: var(--color-accent-on-inverse);
+  --color-border: var(--color-border-inverse);
+  --color-border-subtle: var(--color-border-inverse);
+  --color-border-strong: var(--color-border-inverse);
+  --color-focus: var(--color-focus-inverse);
+  --color-surface-active: var(--color-surface-inverse-active);
+  /* The ring is composed at the root, so it is restated here for the
+     inverse focus colour to reach it. */
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+  background-color: var(--color-surface-inverse);
+  border-color: transparent;
+  color: var(--color-text-inverse);
+}
+
+/* The subtitle sits close under the headline it explains: 8px, not the
+   card's 12px. */
+.briefing-card__lead + .briefing-card__why {
+  margin-top: calc(-1 * var(--space-2xs));
+}
+
+/* On the Briefing card, its name and the lead read are in yellow. */
+.briefing-card__eyebrow b,
+.briefing-card__eyebrow svg,
+.briefing-card__lead {
+  color: var(--color-accent-on-inverse);
+}
+
 .briefing-editorial:hover,
 .briefing-editorial.is-hover {
   border-color: var(--color-border-strong);
@@ -9605,6 +10103,8 @@ ol.signal__list {
 .check-in__question {
   margin: 0;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-lg);
   font-weight: var(--weight-bold);
   line-height: var(--leading-snug);
@@ -9756,6 +10256,8 @@ ol.check-in__steps {
 .c3-accounts__heading {
   margin: 0;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-md);
   font-weight: var(--weight-bold);
 }
@@ -9775,8 +10277,13 @@ ol.check-in__steps {
 }
 
 .home-card__adds {
+  font-family: var(--type-caption-font);
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  line-height: var(--type-caption-leading);
+  letter-spacing: var(--type-caption-tracking);
+  word-spacing: var(--type-caption-word-spacing);
   margin: 0;
-  font-size: var(--text-xs);
   color: var(--color-text-muted);
 }
 
@@ -9839,6 +10346,8 @@ ol.check-in__steps {
 
 .loop-row__text b {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
 }
@@ -9880,35 +10389,47 @@ ol.check-in__steps {
 }
 
 .account-card__name {
+  font-family: var(--type-subheading-font);
+  font-size: var(--type-subheading-size);
+  font-weight: var(--type-subheading-weight);
+  line-height: var(--type-subheading-leading);
+  letter-spacing: var(--type-subheading-tracking);
+  word-spacing: var(--type-subheading-word-spacing);
   display: flex;
   align-items: center;
   gap: var(--space-xs);
   margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-md);
-  font-weight: var(--weight-bold);
 }
 
 .account-card__mark {
+  font-family: var(--type-caption-font);
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  line-height: var(--type-caption-leading);
+  letter-spacing: var(--type-caption-tracking);
+  word-spacing: var(--type-caption-word-spacing);
   display: grid;
   place-items: center;
   width: 28px;
   height: 28px;
   border-radius: var(--radius-sm);
   background-color: var(--color-surface-sunken);
-  font-size: var(--text-xs);
   color: var(--color-text-secondary);
 }
 
 .account-card__asof {
+  font-family: var(--type-caption-font);
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  line-height: var(--type-caption-leading);
+  letter-spacing: var(--type-caption-tracking);
+  word-spacing: var(--type-caption-word-spacing);
   display: inline-flex;
   align-items: center;
   min-height: 24px;
   padding: 0 var(--space-xs);
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-pill);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
   color: var(--color-text-secondary);
 }
 
@@ -9931,15 +10452,22 @@ ul.account-card__stats {
 }
 
 .account-card__stats b {
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
-  line-height: 1.1;
+  font-family: var(--type-figure-font);
+  font-size: var(--type-figure-size);
+  font-weight: var(--type-figure-weight);
+  line-height: var(--type-figure-leading);
+  letter-spacing: var(--type-figure-tracking);
+  word-spacing: var(--type-figure-word-spacing);
   font-variant-numeric: tabular-nums;
 }
 
 .account-card__stat-label {
-  font-size: var(--text-xs);
-  line-height: var(--leading-snug);
+  font-family: var(--type-caption-font);
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  line-height: var(--type-caption-leading);
+  letter-spacing: var(--type-caption-tracking);
+  word-spacing: var(--type-caption-word-spacing);
   color: var(--color-text-muted);
 }
 
@@ -9950,20 +10478,28 @@ ul.account-card__stats {
 }
 
 .account-card__says {
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  letter-spacing: var(--type-body-sm-tracking);
+  word-spacing: var(--type-body-sm-word-spacing);
   margin: 0;
   padding: var(--space-sm) var(--space-md);
   border-radius: var(--radius-md);
   background-color: var(--color-surface);
-  font-size: var(--text-sm);
 }
 
 .account-card__says span,
 .account-card__try-label {
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   display: block;
   margin-bottom: var(--space-3xs);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--color-text-muted);
 }
@@ -9978,24 +10514,36 @@ ul.account-card__stats {
 
 .account-card__try b {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-md);
   line-height: var(--leading-snug);
 }
 
 .account-card__try p,
 .account-card__text {
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  letter-spacing: var(--type-body-sm-tracking);
+  word-spacing: var(--type-body-sm-word-spacing);
   margin: 0;
-  font-size: var(--text-sm);
   color: var(--color-text-secondary);
 }
 
 ul.account-card__shows {
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  letter-spacing: var(--type-body-sm-tracking);
+  word-spacing: var(--type-body-sm-word-spacing);
   display: flex;
   flex-direction: column;
-  gap: var(--space-3xs);
+  gap: var(--space-paragraph);
   margin: 0;
   padding-left: var(--space-md);
-  font-size: var(--text-sm);
   color: var(--color-text-secondary);
 }
 
@@ -10103,6 +10651,7 @@ ul.account-card__shows {
 .stage-track__heading {
   margin: 0;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
@@ -10134,6 +10683,8 @@ ol.stage-track__list {
 
 .stage-track__n {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   font-variant-numeric: tabular-nums;
@@ -10142,6 +10693,8 @@ ol.stage-track__list {
 
 .stage-track__name {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-md);
   line-height: var(--leading-snug);
   color: var(--color-text-secondary);
@@ -10186,6 +10739,8 @@ ol.stage-track__list {
   border-radius: var(--radius-pill);
   background-color: var(--color-surface-inverse);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   color: var(--color-text-inverse);
@@ -10198,22 +10753,24 @@ ol.stage-track__list {
 }
 
 .stage-track__big-n {
+  font-family: var(--type-figure-font);
+  font-weight: var(--type-figure-weight);
+  letter-spacing: var(--type-figure-tracking);
+  word-spacing: var(--type-figure-word-spacing);
   flex: none;
-  font-family: var(--font-display);
-  font-size: var(--text-4xl);
-  font-weight: var(--weight-bold);
+  font-size: var(--type-figure-size-lg);
   font-variant-numeric: tabular-nums;
   line-height: 0.9;
-  letter-spacing: var(--tracking-tight);
 }
 
 .stage-track__big-name {
+  font-family: var(--type-title-font);
+  font-size: var(--type-title-size);
+  font-weight: var(--type-title-weight);
+  line-height: var(--type-title-leading);
+  letter-spacing: var(--type-title-tracking);
+  word-spacing: var(--type-title-word-spacing);
   min-width: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-2xl);
-  font-weight: var(--weight-bold);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-tight);
   text-wrap: balance;
 }
 
@@ -10222,11 +10779,6 @@ ol.stage-track__list {
   margin: var(--space-2xs) 0 0;
   font-size: var(--text-md);
   line-height: var(--leading-normal);
-}
-
-[data-viewport="tablet"] .stage-track__big-name,
-[data-viewport="web"] .stage-track__big-name {
-  font-size: var(--text-3xl);
 }
 
 /* StageActions ----------------------------------------------------------- */
@@ -10240,6 +10792,8 @@ ol.stage-track__list {
 .stage-actions__heading {
   margin: 0;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-lg);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
@@ -10312,6 +10866,8 @@ ul.stage-actions__list {
 
 .stage-actions__title {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
@@ -10351,6 +10907,8 @@ ul.stage-actions__list {
   background-color: var(--color-surface-inverse);
   color: var(--color-text-inverse);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-weight: var(--weight-bold);
   line-height: 1;
 }
@@ -10469,10 +11027,12 @@ ul.stage-actions__list {
 }
 
 .profile-header__name {
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-bold);
-  line-height: var(--leading-snug);
+  font-family: var(--type-heading-font);
+  font-size: var(--type-heading-size);
+  font-weight: var(--type-heading-weight);
+  line-height: var(--type-heading-leading);
+  letter-spacing: var(--type-heading-tracking);
+  word-spacing: var(--type-heading-word-spacing);
 }
 
 .profile-header__name--empty {
@@ -10480,8 +11040,13 @@ ul.stage-actions__list {
 }
 
 .profile-header__title {
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  letter-spacing: var(--type-body-sm-tracking);
+  word-spacing: var(--type-body-sm-word-spacing);
   overflow: hidden;
-  font-size: var(--text-sm);
   color: var(--color-text-muted);
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -10495,12 +11060,13 @@ ul.stage-actions__list {
 }
 
 .settings-group__label {
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   margin: 0 0 0 var(--space-2xs);
-  font-family: var(--font-display);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
-  line-height: var(--leading-snug);
   text-transform: uppercase;
   color: var(--color-text-muted);
 }
@@ -10548,21 +11114,34 @@ ul.stage-actions__list {
 }
 
 .settings-row__label {
-  font-weight: var(--weight-medium);
-  line-height: var(--leading-snug);
+  font-family: var(--type-subheading-font);
+  font-size: var(--type-subheading-size);
+  font-weight: var(--type-subheading-weight);
+  line-height: var(--type-subheading-leading);
+  letter-spacing: var(--type-subheading-tracking);
+  word-spacing: var(--type-subheading-word-spacing);
 }
 
 .settings-row__description {
-  font-size: var(--text-xs);
-  line-height: var(--leading-snug);
+  font-family: var(--type-caption-font);
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  line-height: var(--type-caption-leading);
+  letter-spacing: var(--type-caption-tracking);
+  word-spacing: var(--type-caption-word-spacing);
   color: var(--color-text-muted);
 }
 
 .settings-row__value {
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  letter-spacing: var(--type-body-sm-tracking);
+  word-spacing: var(--type-body-sm-word-spacing);
   flex: 0 1 auto;
   max-width: 50%;
   overflow: hidden;
-  font-size: var(--text-sm);
   color: var(--color-text-secondary);
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -10575,11 +11154,16 @@ ul.stage-actions__list {
 }
 
 .settings-row__later {
+  font-family: var(--type-caption-font);
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  line-height: var(--type-caption-leading);
+  letter-spacing: var(--type-caption-tracking);
+  word-spacing: var(--type-caption-word-spacing);
   flex: none;
   padding: var(--space-3xs) var(--space-xs);
   border: var(--border-width-thin) dashed var(--color-border-strong);
   border-radius: var(--radius-pill);
-  font-size: var(--text-xs);
   color: var(--color-text-muted);
   white-space: nowrap;
 }
@@ -10665,6 +11249,8 @@ ul.stage-actions__list {
 .detail-panel__heading {
   margin: 0;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-xl);
   font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
@@ -10810,6 +11396,7 @@ ul.stage-actions__list {
 .connection-shares__label {
   margin: 0;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
@@ -10865,6 +11452,8 @@ ul.stage-actions__list {
 
 .connection-upload__name {
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-weight: var(--weight-bold);
 }
 
@@ -10947,6 +11536,8 @@ ul.stage-actions__list {
 .profile__title {
   margin: 0;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-2xl);
   font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
@@ -10977,11 +11568,11 @@ ul.stage-actions__list {
 
 /* Web: the list and the detail side by side. The pane stays in view while
    the list scrolls. */
-[data-viewport="web"] .profile {
+[data-viewport="web"] .profile:not(:where([data-viewport="mobile"] *)) {
   max-width: 68rem;
 }
 
-[data-viewport="web"] .profile__layout {
+[data-viewport="web"] .profile__layout:not(:where([data-viewport="mobile"] *)) {
   display: grid;
   grid-template-columns: minmax(20rem, 26rem) minmax(0, 1fr);
   align-items: start;
@@ -11050,6 +11641,8 @@ ul.stage-actions__list {
 .profile-end__heading {
   margin: 0;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-2xl);
   font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
@@ -11173,6 +11766,8 @@ ul.stage-actions__list {
   border-radius: var(--radius-md);
   background-color: var(--color-surface-raised);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-xl);
   font-weight: var(--weight-bold);
 }
@@ -11212,7 +11807,7 @@ ul.stage-actions__list {
   color: var(--color-text-primary);
   font: inherit;
   font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   cursor: pointer;
   transition: background-color var(--duration-fast) var(--easing-standard);
 }
@@ -11359,7 +11954,7 @@ ul.stage-actions__list {
   background: none;
   color: var(--color-text-link);
   font: inherit;
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   cursor: pointer;
 }
 
@@ -11423,6 +12018,8 @@ ul.stage-actions__list {
   background-color: var(--color-surface-inverse);
   color: var(--color-text-inverse);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-xs);
   font-weight: var(--weight-bold);
 }
@@ -11448,6 +12045,7 @@ ul.stage-actions__list {
   border-radius: var(--radius-md);
   background-color: var(--color-surface);
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-2xl);
   font-weight: var(--weight-bold);
   letter-spacing: 0.18em;
@@ -11593,8 +12191,8 @@ ul.stage-actions__list {
   padding-top: calc(var(--space-3xl) + 4rem);
 }
 
-[data-viewport="tablet"] .login__body--inbox,
-[data-viewport="web"] .login__body--inbox {
+[data-viewport="tablet"] .login__body--inbox:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .login__body--inbox:not(:where([data-viewport="mobile"] *)) {
   padding-top: calc(var(--space-4xl) + 4rem);
 }
 
@@ -11607,6 +12205,8 @@ ul.stage-actions__list {
 .login__kicker {
   margin: 0;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   color: var(--color-text-secondary);
@@ -11615,10 +12215,11 @@ ul.stage-actions__list {
 .login__heading {
   margin: 0;
   font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-3xl);
   font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-tight);
+  letter-spacing: var(--font-display-tracking-heading);
   text-wrap: balance;
 }
 
@@ -11632,7 +12233,7 @@ ul.stage-actions__list {
   overflow-wrap: anywhere;
 }
 
-/* The header's wordmark stays above the glow that reaches up into it. */
+/* The header's logo stays above the glow that reaches up into it. */
 .chrome:has(.login) > .chrome__header {
   position: relative;
   z-index: 1;
@@ -11695,8 +12296,8 @@ ul.stage-actions__list {
 /* The form is centred on the whole page; equal room above and below holds the
    privacy line, which sits at the very foot. */
 .login__body--centred,
-[data-viewport="tablet"] .login__body--centred,
-[data-viewport="web"] .login__body--centred {
+[data-viewport="tablet"] .login__body--centred:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .login__body--centred:not(:where([data-viewport="mobile"] *)) {
   padding-block: 4rem;
 }
 
@@ -11804,8 +12405,8 @@ ul.login__never {
   margin-top: var(--space-xs);
 }
 
-[data-viewport="tablet"] .login__body,
-[data-viewport="web"] .login__body {
+[data-viewport="tablet"] .login__body:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .login__body:not(:where([data-viewport="mobile"] *)) {
   padding-top: var(--space-4xl);
 }
 
@@ -11814,4 +12415,156 @@ ul.login__never {
 .sheet .sign-in-email .btn {
   border-radius: var(--radius-pill);
   padding-inline: var(--space-lg);
+}
+
+/* Web and tablet rules in this file end in
+   :not(:where([data-viewport="mobile"] *)), so they skip anything inside a
+   phone frame. In the product a canvas is never inside another, so this
+   changes nothing there; it lets a phone-width preview sit on a web page, as
+   the type lab does, without taking the web layout. :where keeps the guard
+   from adding specificity. New web and tablet rules need the same ending. */
+
+/* Type lab — the type roles tried on real components. Controls on the left,
+   a phone-width stack of components on the right; the controls override role
+   tokens on .type-lab, so everything inside picks them up. */
+.type-lab {
+  container: type-lab / inline-size;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xl);
+  align-items: flex-start;
+}
+
+/* The controls keep the room their seven columns need; where the page is too
+   narrow for both, the phone wraps below instead of sliding under them. */
+.type-lab__controls {
+  flex: 1 1 44rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  min-width: 0;
+  overflow-x: auto;
+}
+
+/* Side by side, the controls stay in view while the phone scrolls past. */
+@container type-lab (min-width: 72rem) {
+  .type-lab__controls {
+    position: sticky;
+    top: var(--space-md);
+  }
+}
+
+.type-lab__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.type-lab__table th,
+.type-lab__table td {
+  padding: var(--space-2xs) var(--space-xs);
+  text-align: start;
+  vertical-align: middle;
+  border-bottom: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+.type-lab__table thead th {
+  font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.type-lab__table tbody th {
+  font-weight: var(--weight-regular);
+}
+
+.type-lab__role {
+  display: block;
+  font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.type-lab__job {
+  display: block;
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.type-lab__select {
+  width: 100%;
+  min-width: 5.5rem;
+  padding: var(--space-2xs) var(--space-xs);
+  font: inherit;
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-raised);
+  border: var(--border-width-thin) solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+}
+
+.type-lab__select.is-changed {
+  border-color: var(--color-focus);
+  box-shadow: inset 0 0 0 var(--border-width-thin) var(--color-focus);
+  font-weight: var(--weight-semibold);
+}
+
+.type-lab__select:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.type-lab__changes {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  padding: var(--space-md);
+  background-color: var(--color-surface-sunken);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+}
+
+.type-lab__none,
+.type-lab__changes-title {
+  color: var(--color-text-secondary);
+}
+
+.type-lab__changes-title {
+  font-weight: var(--weight-semibold);
+}
+
+.type-lab__change-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+.type-lab__phone {
+  flex: 0 0 var(--viewport-mobile-width);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  padding: var(--space-lg) var(--space-md);
+  background-color: var(--color-surface);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.type-lab__specimen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.type-lab__specimen-name {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  color: var(--color-text-muted);
 }

@@ -8,7 +8,7 @@ export const wordmarkStates = defineComponentStates({
   status: "draft",
   flows: ["onboarding"],
   description:
-    "The ExecHQ name set in the display face, standing in for the logo until one exists. Every appearance of the mark goes through this component, so the logo swaps in one place. Color is inherited, so it works on both surfaces.",
+    "The ExecHQ logo as the product shows it, with an optional product line after it. Every appearance of the mark goes through this component. Dark on stone and light blue, light on any dark surface.",
   component: Wordmark,
   notApplicable: {
     ...NOT_INTERACTIVE,
@@ -23,7 +23,8 @@ export const wordmarkStates = defineComponentStates({
     {
       label: "Extra large — welcome screen",
       description: "The first thing on the onboarding welcome, on the inverse surface.",
-      props: { size: "xl" },
+      surface: "inverse",
+      props: { size: "xl", tone: "light" },
     },
   ],
 });

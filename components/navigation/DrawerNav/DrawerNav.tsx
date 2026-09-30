@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Icon, type IconName } from "@/components/primitives/Icon";
+import { Wordmark } from "@/components/primitives/Wordmark";
 import type { NavDestination } from "@/lib/manifest";
 
 /** How the list is shown. The navigation concept picks one per viewport:
@@ -71,7 +72,7 @@ export function DrawerNav({
   return (
     <nav className={classes} aria-label={label} id={id}>
       <div className="drawer-nav__top">
-        {mode === "drawer" ? <span className="drawer-nav__wordmark">ExecHQ</span> : null}
+        {mode === "drawer" ? <Wordmark as="span" /> : null}
         {toggle ? (
           <button
             type="button"

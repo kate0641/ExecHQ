@@ -43,7 +43,7 @@ export interface IntroCardProps {
 export function IntroCard({ quote, className }: IntroCardProps) {
   return (
     <div className={["intro-card", className].filter(Boolean).join(" ")}>
-      <Wordmark size="xl" />
+      <Wordmark size="xl" tone="light" />
       <p className="intro-card__quote">{quote}</p>
     </div>
   );
