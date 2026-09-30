@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { BaselineList } from "@/components/homepage/BaselineList";
 import { BriefingEditorial } from "@/components/homepage/BriefingEditorial";
 import { EntryLink } from "@/components/homepage/EntryLink";
 import { LoopRow } from "@/components/homepage/LoopRow";
@@ -11,8 +12,9 @@ import { CheckIn } from "@/components/loop/CheckIn";
 import { addDays, aheadPhrase, dueFollowUps, shortDate, whenPhrase, type LoopRecord } from "@/lib/loop";
 import { loopActions, nextStepAfter, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
+import { presenceCounts } from "@/lib/presence";
 import { currentStageIndex } from "@/lib/rings";
-import { ACCOUNTS_ROWS as AR } from "@/mock/accounts-stub";
+import { ACCOUNTS_COPY as AC, ACCOUNTS_ROWS as AR, LINKEDIN_STUB as LI, PRESENCE_KINDS, WEBSITE_STUB as WEB } from "@/mock/accounts-stub";
 import { BRIEFING_STUB as B, CHECKIN_COPY as CK, CONCEPT3_COPY as C3, HOME_COPY as C, STAY_COPY as S } from "@/mock/homepage";
 import { ARTIFACT_KINDS, FOLLOW_UP_POLICY, OUTCOME_READBACK } from "@/mock/loop";
 import { ACTIONS, HORIZONS, ROADMAP, actionById } from "@/mock/plan-stub";
@@ -28,7 +30,10 @@ import { ACTIONS, HORIZONS, ROADMAP, actionById } from "@/mock/plan-stub";
  * beside them on web, today's Briefing as a page of reading (Editorial,
  * 2026-09-29: the lead headline in the serif, why it matters as a tag), and
  * what her LinkedIn and website say — one row each, a finding
- * and the one thing to try (2026-09-29; no "Your work" list).
+ * and the one thing to try (2026-09-29; no "Your work" list). Under them,
+ * where she started beside where she is now for every signal, including the
+ * four she adds herself: podcast appearances, press mentions, speaking
+ * engagements and thought pieces (2026-09-30).
  *
  * Kept apart from the Plan tab: only the current stage and what to do next.
  * No full roadmap detail, milestones or history; "See full plan" goes there.
@@ -158,6 +163,24 @@ export function HomepageConcept3() {
 
   const linkedIn = loop.account.connections.find((c) => c.id === "linkedin");
   const website = loop.account.connections.find((c) => c.id === "website");
+
+  /* Where she started beside where she is now, for every signal she has
+     brought in: the two accounts when connected, then the four she adds. */
+  const baselineRows = [
+    ...(linkedIn?.connected
+      ? [{ id: "linkedin", label: AR.baselineLinkedIn, then: LI.baseline.then, now: LI.baseline.now }]
+      : []),
+    ...(website?.connected
+      ? [{ id: "website", label: AR.baselineWebsite, then: WEB.baseline.then, now: WEB.baseline.now, latest: AR.baselineWebsiteNote }]
+      : []),
+    ...presenceCounts(loop.today).map((p) => ({
+      id: p.kind,
+      label: PRESENCE_KINDS[p.kind].label,
+      then: p.then,
+      now: p.now,
+      latest: p.latest ? `${p.latest.title} · ${p.latest.where} · ${shortDate(p.latest.on)}` : undefined,
+    })),
+  ];
 
   /* The stage's other actions: not the next step, and not anything open in
      "Stay on track". */
@@ -324,6 +347,13 @@ export function HomepageConcept3() {
               detail={AR.website.offDetail}
             />
           )}
+          <div className="c3-accounts__baseline">
+            <div className="c3-accounts__baseline-top">
+              <h3 className="c3-accounts__baseline-heading">{AR.baselineHeading}</h3>
+              <span className="account-card__asof">{AR.baselineAsOf(shortDate(loop.account.plan.startedOn))}</span>
+            </div>
+            <BaselineList rows={baselineRows} thenLabel={AC.then} nowLabel={AC.now} />
+          </div>
         </section>
       </div>
     </div>

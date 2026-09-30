@@ -1,16 +1,9 @@
 import Link from "next/link";
+import { BaselineList, type BaselineRow } from "@/components/homepage/BaselineList";
 import { Icon } from "@/components/primitives/Icon";
 
-export interface PresenceRow {
-  id: string;
-  /** "Podcast appearances". */
-  label: string;
-  /** The count on the day her plan began, and today. */
-  then: number;
-  now: number;
-  /** What she added last, if she has added any: "Planning as a leadership skill · The Modern CMO · 17 Oct". */
-  latest?: string;
-}
+/** One kind of presence: the same shape as any baseline row. */
+export type PresenceRow = BaselineRow;
 
 export interface PresenceCardProps {
   name: string;
@@ -84,34 +77,7 @@ export function PresenceCard({
         </>
       ) : (
         <>
-          <div className="presence-card__heads" aria-hidden="true">
-            <span />
-            <span className="presence-card__heads-pair">
-              <span>{thenLabel}</span>
-              <span>{nowLabel}</span>
-            </span>
-          </div>
-          <ul className="presence-card__rows">
-            {rows.map((row) => (
-              <li key={row.id} className="presence-card__row">
-                <span className="presence-card__label">{row.label}</span>
-                <span className="presence-card__counts">
-                  <span className="presence-card__then">
-                    <span className="u-visually-hidden">{thenLabel}: </span>
-                    {row.then}
-                  </span>
-                  <span className="presence-card__arrow" aria-hidden="true">
-                    →
-                  </span>
-                  <b className="presence-card__now">
-                    <span className="u-visually-hidden">{nowLabel}: </span>
-                    {row.now}
-                  </b>
-                </span>
-                {row.latest ? <span className="presence-card__latest">{row.latest}</span> : null}
-              </li>
-            ))}
-          </ul>
+          <BaselineList rows={rows} thenLabel={thenLabel} nowLabel={nowLabel} />
           {summary ? <p className="presence-card__summary">{summary}</p> : null}
           {tryThis ? (
             <div className="account-card__try">

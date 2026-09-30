@@ -154,7 +154,13 @@ export const PRESENCE_STUB = {
 /* Concept 3's simpler version: one row per account, a finding and the one
    thing to try, no numbers grid or chart (decided 2026-09-29). */
 export const ACCOUNTS_ROWS = {
-  heading: "What your accounts say",
+  heading: "What your signals say",
+  /** Where she started, for every signal at once. */
+  baselineHeading: "Where you started",
+  baselineAsOf: (date: string) => `Since ${date}`,
+  baselineLinkedIn: "LinkedIn followers",
+  baselineWebsite: "Website mentions of leading a team",
+  baselineWebsiteNote: "Unchanged since you started",
   linkedIn: {
     eyebrow: (date: string) => `LinkedIn · uploaded ${date}`,
     finding: "Your planning post reached twice as many directors and above as usual",
