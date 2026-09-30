@@ -84,6 +84,7 @@
   --brand-stone-75: #fbfaf7;   /* lighter stone: the page (option B) */
   --brand-stone-100: #f7f6f1;  /* palette: stone */
   --brand-stone-200: #e7e4de;
+  --brand-stone-250: #d7d4ce;  /* halfway from 200 to 300: the soft card edge */
   --brand-stone-300: #c7c4bd;
   --brand-stone-400: #8e8a83;
   --brand-stone-500: #68645e;
@@ -177,7 +178,7 @@
      the one to use on controls. It is 2.7:1 on stone 200, so a control inside
      a sunken well relies on its own fill for its edge. */
   --color-border-subtle: var(--brand-stone-200);
-  --color-border: var(--brand-stone-300);
+  --color-border: var(--brand-stone-250);  /* card edges and dividers: soft, so outlined cards sit easily beside unoutlined ones */
   --color-border-strong: var(--brand-stone-400);
   --color-border-inverse: var(--brand-blue-700);
 
