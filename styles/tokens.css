@@ -213,9 +213,10 @@
 
   /* Supporting palette in small places, so the stone doesn't read as sandy.
      Eyebrows are blue 600: 6.3:1 on the page, 5.9:1 on the blue next-step
-     card. Icon chips are light green with a dark green glyph (7.9:1). */
+     card. Icon chips are pale lime (green 200, a step lighter than the
+     palette light green) with a dark green glyph (8.9:1). */
   --color-eyebrow: var(--brand-secondary);
-  --color-icon-surface: var(--brand-light-green);
+  --color-icon-surface: var(--brand-green-200);
   --color-icon: var(--brand-dark-green);
 
   /* Logo — two versions, never recoloured beyond these. The dark logo (gold
