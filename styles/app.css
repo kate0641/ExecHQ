@@ -3474,7 +3474,7 @@ ol.loop-track {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-sm) var(--space-md) var(--space-md);
+  padding: var(--space-md) var(--space-sm) calc(var(--space-md) + var(--space-2xs)) var(--space-md);
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-xl);
   background-color: var(--color-surface-raised);
