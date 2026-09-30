@@ -9,7 +9,7 @@ export const sheetStates = defineComponentStates({
   name: "Sheet",
   group: "layout",
   status: "draft",
-  flows: ["onboarding"],
+  flows: ["onboarding", "homepage"],
   description:
     "A sheet that slides up over the phone screen rather than the browser window. It does the modal work itself: focus moves in and stays inside, Escape closes it, the screen behind goes inert, and focus returns to the opener. Shown in place here.",
   component: Sheet,

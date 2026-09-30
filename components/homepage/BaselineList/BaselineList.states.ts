@@ -44,6 +44,14 @@ export const baselineListStates = defineComponentStates({
       },
     },
     {
+      label: "Latest is a link",
+      description: "She gave a link, so the latest one is one too, and says it opens in a new tab.",
+      props: {
+        ...base,
+        rows: [{ ...moved[0], latestHref: "https://example.com/episode-212" }, moved[1]],
+      },
+    },
+    {
       label: "A long label and title wrap",
       props: {
         ...base,

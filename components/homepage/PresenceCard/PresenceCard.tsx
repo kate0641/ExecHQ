@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BaselineList, type BaselineRow } from "@/components/homepage/BaselineList";
+import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 
 /** One kind of presence: the same shape as any baseline row. */
@@ -20,6 +21,10 @@ export interface PresenceCardProps {
   /** One thing to try. */
   tryThis?: { title: string; why: string; label: string; href: string };
   tryLabel?: string;
+  /** Opens the add sheet. Shown under the rows, and in place of the link in
+   *  `invite`. */
+  onAdd?: () => void;
+  addLabel?: string;
   /** Nothing added and no baseline: what adding would show, and where to do it. */
   invite?: { intro: string; shows?: readonly string[]; label: string; href: string };
   headingId: string;
@@ -43,6 +48,8 @@ export function PresenceCard({
   nowLabel = "Now",
   rows = [],
   summary,
+  onAdd,
+  addLabel = "Add one",
   tryThis,
   tryLabel = "Try this",
   invite,
@@ -70,15 +77,26 @@ export function PresenceCard({
               ))}
             </ul>
           ) : null}
-          <Link href={invite.href} className="btn btn--secondary btn--md account-card__cta">
-            {invite.label}
-            <Icon name="chevron" size={16} />
-          </Link>
+          {onAdd ? (
+            <Button variant="secondary" className="account-card__cta" onClick={onAdd}>
+              {invite.label}
+            </Button>
+          ) : (
+            <Link href={invite.href} className="btn btn--secondary btn--md account-card__cta">
+              {invite.label}
+              <Icon name="chevron" size={16} />
+            </Link>
+          )}
         </>
       ) : (
         <>
           <BaselineList rows={rows} thenLabel={thenLabel} nowLabel={nowLabel} />
           {summary ? <p className="presence-card__summary">{summary}</p> : null}
+          {onAdd ? (
+            <Button variant="secondary" className="account-card__cta" onClick={onAdd}>
+              {addLabel}
+            </Button>
+          ) : null}
           {tryThis ? (
             <div className="account-card__try">
               <span className="account-card__try-label">{tryLabel}</span>

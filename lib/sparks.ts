@@ -16,8 +16,8 @@ export interface SparkNote {
   on: string;
 }
 
-function noteFor(item: PresenceItem): SparkNote {
-  const nth = ordinal(nthOfKind(item));
+function noteFor(item: PresenceItem, items: readonly PresenceItem[]): SparkNote {
+  const nth = ordinal(nthOfKind(item, items));
   const text =
     item.kind === "podcast"
       ? SPARK_COPY.podcast(item.where, nth)
@@ -34,8 +34,13 @@ function noteFor(item: PresenceItem): SparkNote {
  * added, or her LinkedIn numbers arriving. It says what changed and never
  * that her work caused it. Newest first, at most two, none already dismissed.
  */
-export function sparksFor(today: string, account: Account, dismissed: readonly string[]): SparkNote[] {
-  const notes = recentlyAdded(today).map(noteFor);
+export function sparksFor(
+  today: string,
+  account: Account,
+  dismissed: readonly string[],
+  items: readonly PresenceItem[]
+): SparkNote[] {
+  const notes = recentlyAdded(today, items).map((item) => noteFor(item, items));
 
   const linkedIn = account.connections.find((c) => c.id === "linkedin");
   if (linkedIn?.connected && linkedIn.connectedOn && linkedIn.connectedOn >= addDays(today, -6)) {

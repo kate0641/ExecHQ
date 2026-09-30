@@ -99,14 +99,40 @@ export interface PresenceItem {
   where: string;
   /** The day she added it. Counts on a given day include everything added by then. */
   on: string;
+  /** Where to find it, if she gave a link. */
+  link?: string;
 }
 
-export const PRESENCE_KINDS: Record<PresenceKind, { label: string; noun: string; nouns: string }> = {
-  podcast: { label: "Podcast appearances", noun: "appearance", nouns: "appearances" },
-  press: { label: "Press mentions", noun: "mention", nouns: "mentions" },
-  speaking: { label: "Speaking engagements", noun: "engagement", nouns: "engagements" },
-  writing: { label: "Thought pieces", noun: "piece", nouns: "pieces" },
+export const PRESENCE_KINDS: Record<
+  PresenceKind,
+  { label: string; noun: string; nouns: string; /** The chip in the add sheet. */ chip: string; /** The question about where it ran. */ whereLabel: string; wherePlaceholder: string }
+> = {
+  podcast: { label: "Podcast appearances", noun: "appearance", nouns: "appearances", chip: "Podcast", whereLabel: "Which show?", wherePlaceholder: "The Modern CMO" },
+  press: { label: "Press mentions", noun: "mention", nouns: "mentions", chip: "Press mention", whereLabel: "Which publication?", wherePlaceholder: "Marketing Week" },
+  speaking: { label: "Speaking engagements", noun: "engagement", nouns: "engagements", chip: "Talk", whereLabel: "Which event?", wherePlaceholder: "Growth Summit" },
+  writing: { label: "Thought pieces", noun: "piece", nouns: "pieces", chip: "Thought piece", whereLabel: "Where is it?", wherePlaceholder: "LinkedIn article" },
 };
+
+/** The add sheet: she adds these herself, with a note and, if she has one, a
+ *  link. Nothing is searched for and nothing leaves the browser. */
+export const ADD_COPY = {
+  title: "Add something you’ve done",
+  kindLabel: "What is it?",
+  noteLabel: "A title or a note",
+  noteHint: "Just enough for you to recognise it.",
+  linkLabel: "A link, if you have one",
+  linkPlaceholder: "https://",
+  submit: "Add",
+  cancel: "Cancel",
+  privacy: "Only you see this. Nothing is searched for or shared.",
+  errorKind: "Choose what it is.",
+  errorNote: "Add a title or a note.",
+  errorWhere: "Say where it ran.",
+  /** The button on the card that opens the sheet. */
+  open: "Add one",
+  /** Read out with the link on a latest item. */
+  opensNewTab: "(opens in a new tab)",
+} as const;
 
 export const PRESENCE_ORDER: readonly PresenceKind[] = ["podcast", "press", "speaking", "writing"];
 

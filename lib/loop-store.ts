@@ -19,6 +19,7 @@
 
 import { useMemo, useSyncExternalStore } from "react";
 import { reopenBriefing, useBriefingEverClosed } from "@/lib/briefing-dismissal";
+import { resetPresence, useAddedPresence } from "@/lib/presence-store";
 import { reopenSparks, useDismissedSparks } from "@/lib/spark-dismissal";
 import {
   abandonRecord,
@@ -184,6 +185,7 @@ export function resetLoop(): void {
   write({ snapshot: getLoopState().snapshot, changes: {} });
   reopenBriefing();
   reopenSparks();
+  resetPresence();
 }
 
 /** The next step offered once this record's outcome is logged. Stubbed. */
@@ -265,6 +267,7 @@ export function useLoop(): LoopView {
   const state = useSyncExternalStore(subscribeToLoop, getLoopState, getServerLoopState);
   const briefingClosed = useBriefingEverClosed();
   const sparksDismissed = useDismissedSparks().length > 0;
+  const presenceAdded = useAddedPresence().length > 0;
   return useMemo(() => {
     const snapshot = currentSnapshot(state);
     const followUp = nextFollowUp(snapshot.records, snapshot.today);
@@ -275,7 +278,7 @@ export function useLoop(): LoopView {
       lastWorkedOn: lastWorkedOn(snapshot.records),
       nextStep: snapshot.recommendations[0],
       changed: state.changes[state.snapshot] !== undefined,
-      anyChanged: Object.keys(state.changes).length > 0 || briefingClosed || sparksDismissed,
+      anyChanged: Object.keys(state.changes).length > 0 || briefingClosed || sparksDismissed || presenceAdded,
     };
-  }, [state, briefingClosed, sparksDismissed]);
+  }, [state, briefingClosed, sparksDismissed, presenceAdded]);
 }

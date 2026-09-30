@@ -6,18 +6,21 @@ import { BriefingEditorial } from "@/components/homepage/BriefingEditorial";
 import { EntryLink } from "@/components/homepage/EntryLink";
 import { LoopRow } from "@/components/homepage/LoopRow";
 import { NextStepCard } from "@/components/homepage/NextStepCard";
+import { AddPresenceSheet } from "@/components/homepage/AddPresenceSheet";
 import { Spark } from "@/components/homepage/Spark";
 import { StageActions } from "@/components/homepage/StageActions";
 import { StageTrack } from "@/components/homepage/StageTrack";
 import { CheckIn } from "@/components/loop/CheckIn";
+import { Button } from "@/components/primitives/Button";
 import { addDays, aheadPhrase, dueFollowUps, shortDate, whenPhrase, type LoopRecord } from "@/lib/loop";
 import { loopActions, nextStepAfter, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
-import { presenceCounts } from "@/lib/presence";
+import { presenceCounts, withAdded } from "@/lib/presence";
+import { addPresence, useAddedPresence } from "@/lib/presence-store";
 import { dismissSpark, useDismissedSparks } from "@/lib/spark-dismissal";
 import { sparksFor } from "@/lib/sparks";
 import { currentStageIndex } from "@/lib/rings";
-import { ACCOUNTS_COPY as AC, ACCOUNTS_ROWS as AR, LINKEDIN_STUB as LI, PRESENCE_KINDS, SPARK_COPY as SP, WEBSITE_STUB as WEB } from "@/mock/accounts-stub";
+import { ACCOUNTS_COPY as AC, ACCOUNTS_ROWS as AR, LINKEDIN_STUB as LI, PRESENCE_KINDS, ADD_COPY as ADD, SPARK_COPY as SP, WEBSITE_STUB as WEB } from "@/mock/accounts-stub";
 import { BRIEFING_STUB as B, CHECKIN_COPY as CK, CONCEPT3_COPY as C3, HOME_COPY as C, STAY_COPY as S } from "@/mock/homepage";
 import { ARTIFACT_KINDS, FOLLOW_UP_POLICY, OUTCOME_READBACK } from "@/mock/loop";
 import { ACTIONS, HORIZONS, ROADMAP, actionById } from "@/mock/plan-stub";
@@ -76,6 +79,9 @@ function focusSoon(id: string) {
 export function HomepageConcept3() {
   const loop = useLoop();
   const [showing, setShowing] = useState<string | null>(null);
+  const addedPresence = useAddedPresence();
+  const presenceItems = withAdded(addedPresence);
+  const [adding, setAdding] = useState(false);
 
   const plan = loop.account.plan;
   const current = currentStageIndex(loop.records, ROADMAP.length, ACTIONS, loop.tasks);
@@ -166,7 +172,7 @@ export function HomepageConcept3() {
 
   const linkedIn = loop.account.connections.find((c) => c.id === "linkedin");
   const website = loop.account.connections.find((c) => c.id === "website");
-  const sparks = sparksFor(loop.today, loop.account, useDismissedSparks());
+  const sparks = sparksFor(loop.today, loop.account, useDismissedSparks(), presenceItems);
 
   /* Where she started beside where she is now, for every signal she has
      brought in: the two accounts when connected, then the four she adds. */
@@ -177,12 +183,13 @@ export function HomepageConcept3() {
     ...(website?.connected
       ? [{ id: "website", label: AR.baselineWebsite, then: WEB.baseline.then, now: WEB.baseline.now, latest: AR.baselineWebsiteNote }]
       : []),
-    ...presenceCounts(loop.today).map((p) => ({
+    ...presenceCounts(loop.today, presenceItems).map((p) => ({
       id: p.kind,
       label: PRESENCE_KINDS[p.kind].label,
       then: p.then,
       now: p.now,
       latest: p.latest ? `${p.latest.title} · ${p.latest.where} · ${shortDate(p.latest.on)}` : undefined,
+      latestHref: p.latest?.link,
     })),
   ];
 
@@ -367,9 +374,20 @@ export function HomepageConcept3() {
               <span className="account-card__asof">{AR.baselineAsOf(shortDate(loop.account.plan.startedOn))}</span>
             </div>
             <BaselineList rows={baselineRows} thenLabel={AC.then} nowLabel={AC.now} />
+            <Button variant="secondary" className="account-card__cta" onClick={() => setAdding(true)}>
+              {ADD.open}
+            </Button>
           </div>
         </section>
       </div>
+      <AddPresenceSheet
+        open={adding}
+        onClose={() => setAdding(false)}
+        onAdd={(entry) => {
+          addPresence({ ...entry, on: loop.today });
+          setAdding(false);
+        }}
+      />
     </div>
   );
 }

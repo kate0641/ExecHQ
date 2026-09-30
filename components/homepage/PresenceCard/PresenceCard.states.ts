@@ -1,6 +1,6 @@
 import { defineComponentStates } from "@/components/types";
 import { CONTROLS_INSIDE, NOT_AN_INPUT } from "@/components/not-applicable";
-import { ACCOUNTS_COPY as AC, PRESENCE_STUB as P } from "@/mock/accounts-stub";
+import { ACCOUNTS_COPY as AC, ADD_COPY, PRESENCE_STUB as P } from "@/mock/accounts-stub";
 import { PresenceCard } from "./PresenceCard";
 
 const toolbox = "/toolbox-flow/concept-1";
@@ -45,7 +45,7 @@ export const presenceCardStates = defineComponentStates({
   variants: [
     {
       label: "Some added — default",
-      props: { ...base, rows: moved, summary: P.summary(4), tryThis: { ...P.tryThis, href: toolbox }, headingId: "pc-moved" },
+      props: { ...base, rows: moved, summary: P.summary(4), onAdd: () => {}, addLabel: ADD_COPY.open, tryThis: { ...P.tryThis, href: toolbox }, headingId: "pc-moved" },
     },
     {
       label: "Nothing added since the start",
@@ -54,8 +54,8 @@ export const presenceCardStates = defineComponentStates({
     },
     {
       label: "Nothing yet — empty",
-      description: "No baseline and nothing added: what adding would show, and the way to Profile.",
-      props: { name: P.name, mark: P.mark, invite: { ...P.invite, href: profile }, headingId: "pc-empty" },
+      description: "No baseline and nothing added: what adding would show, and a button that opens the add sheet.",
+      props: { name: P.name, mark: P.mark, onAdd: () => {}, invite: { ...P.invite, href: profile }, headingId: "pc-empty" },
     },
     {
       label: "A long title wraps",

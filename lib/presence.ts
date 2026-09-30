@@ -16,6 +16,11 @@ export interface PresenceCount {
   latest?: PresenceItem;
 }
 
+/** The stubbed record and what she has added herself, oldest first. */
+export function withAdded(added: readonly PresenceItem[]): PresenceItem[] {
+  return [...PRESENCE_ITEMS, ...added].sort((a, b) => (a.on < b.on ? -1 : a.on > b.on ? 1 : 0));
+}
+
 /** Everything she had added by `today`, oldest first. */
 export function addedBy(today: string, items: readonly PresenceItem[] = PRESENCE_ITEMS): PresenceItem[] {
   return items.filter((item) => item.on <= today);

@@ -60,7 +60,9 @@ export function Sheet({
     const opener = document.activeElement as HTMLElement | null;
     const content = host?.querySelector<HTMLElement>(".device__content");
     if (content) content.inert = true;
-    panel.current?.querySelector<HTMLElement>(FOCUSABLE)?.focus();
+    // Without scrolling: the device screen clips its content, so letting the
+    // browser scroll it to reveal the field would drag the sheet out of place.
+    panel.current?.querySelector<HTMLElement>(FOCUSABLE)?.focus({ preventScroll: true });
 
     function onKey(event: KeyboardEvent) {
       if (event.key === "Escape") {

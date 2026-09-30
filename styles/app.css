@@ -10639,6 +10639,36 @@ ul.spark {
   flex: none;
 }
 
+/* AddPresenceSheet: the form she adds a podcast, mention, talk or piece with. */
+
+.add-presence {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.add-presence__title {
+  margin: 0;
+  font-family: var(--type-subheading-font);
+  font-size: var(--type-subheading-size);
+  font-weight: var(--type-subheading-weight);
+  line-height: var(--type-subheading-leading);
+  letter-spacing: var(--type-subheading-tracking);
+  word-spacing: var(--type-subheading-word-spacing);
+}
+
+.add-presence__error {
+  margin: var(--space-2xs) 0 0;
+  font-size: var(--text-sm);
+  color: var(--color-danger);
+}
+
+.add-presence__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
 /* Where she started beside where she is now, a row per signal (BaselineList),
    and Your presence (Concept 2), which holds the four she adds herself. */
 
@@ -10702,6 +10732,13 @@ ul.baseline-list__rows {
   font-weight: var(--type-figure-weight);
   line-height: var(--type-figure-leading);
   color: var(--color-text-primary);
+}
+
+.baseline-list__latest a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width-thin);
+  text-underline-offset: 0.2em;
 }
 
 .baseline-list__latest {

@@ -7,12 +7,14 @@ import { BriefingCard } from "@/components/homepage/BriefingCard";
 import { LoopRow } from "@/components/homepage/LoopRow";
 import { NextStepCard } from "@/components/homepage/NextStepCard";
 import { PresenceCard } from "@/components/homepage/PresenceCard";
+import { AddPresenceSheet } from "@/components/homepage/AddPresenceSheet";
 import { Spark } from "@/components/homepage/Spark";
 import { TrendLine } from "@/components/homepage/TrendLine";
 import { addDays, aheadPhrase, dueFollowUps, shortDate, whenPhrase, type LoopRecord } from "@/lib/loop";
 import { loopActions, nextStepAfter, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
-import { presenceCounts } from "@/lib/presence";
+import { presenceCounts, withAdded } from "@/lib/presence";
+import { addPresence, useAddedPresence } from "@/lib/presence-store";
 import { signalOfStep } from "@/lib/signals";
 import { dismissSpark, useDismissedSparks } from "@/lib/spark-dismissal";
 import { sparksFor } from "@/lib/sparks";
@@ -22,6 +24,7 @@ import {
   LINKEDIN_STUB as LI,
   PRESENCE_KINDS,
   PRESENCE_STUB as PR,
+  ADD_COPY as ADD,
   SPARK_COPY as SP,
   WEBSITE_STUB as WEB,
 } from "@/mock/accounts-stub";
@@ -77,6 +80,9 @@ function focusSoon(id: string) {
 export function HomepageConcept2() {
   const loop = useLoop();
   const [showing, setShowing] = useState<string | null>(null);
+  const addedPresence = useAddedPresence();
+  const presenceItems = withAdded(addedPresence);
+  const [adding, setAdding] = useState(false);
   const briefingClosed = useBriefingClosed(loop.today);
 
   const due = dueFollowUps(loop.records, loop.today);
@@ -169,8 +175,8 @@ export function HomepageConcept2() {
   const linkedIn = loop.account.connections.find((c) => c.id === "linkedin");
   const website = loop.account.connections.find((c) => c.id === "website");
   const anyConnected = Boolean(linkedIn?.connected || website?.connected);
-  const sparks = sparksFor(loop.today, loop.account, useDismissedSparks());
-  const presence = presenceCounts(loop.today);
+  const sparks = sparksFor(loop.today, loop.account, useDismissedSparks(), presenceItems);
+  const presence = presenceCounts(loop.today, presenceItems);
   const presenceAdded = presence.reduce((sum, p) => sum + (p.now - p.then), 0);
 
   const focalName = focalSignal ? signalById(focalSignal)?.name : undefined;
@@ -381,14 +387,25 @@ export function HomepageConcept2() {
               then: p.then,
               now: p.now,
               latest: p.latest ? `${p.latest.title} · ${p.latest.where} · ${shortDate(p.latest.on)}` : undefined,
+              latestHref: p.latest?.link,
             }))}
             summary={PR.summary(presenceAdded)}
+            onAdd={() => setAdding(true)}
+            addLabel={ADD.open}
             tryThis={{ ...PR.tryThis, href: TOOLBOX }}
             tryLabel={AC.tryThis}
             headingId="account-presence"
           />
         </section>
       </div>
+      <AddPresenceSheet
+        open={adding}
+        onClose={() => setAdding(false)}
+        onAdd={(entry) => {
+          addPresence({ ...entry, on: loop.today });
+          setAdding(false);
+        }}
+      />
     </div>
   );
 }

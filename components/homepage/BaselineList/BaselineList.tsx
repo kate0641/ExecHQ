@@ -7,6 +7,8 @@ export interface BaselineRow {
   now: number | string;
   /** What she added last, if anything: "Planning as a leadership skill · The Modern CMO · 17 Oct". */
   latest?: string;
+  /** Where the latest one can be found, if she gave a link. */
+  latestHref?: string;
 }
 
 export interface BaselineListProps {
@@ -14,6 +16,8 @@ export interface BaselineListProps {
   /** Column captions over the pair. */
   thenLabel?: string;
   nowLabel?: string;
+  /** Read out after a link that opens in a new tab. */
+  newTabNote?: string;
   className?: string;
 }
 
@@ -23,7 +27,7 @@ export interface BaselineListProps {
  * twice rather than hiding. It is her own record, so it never reads as a
  * score or a target. Shared by Homepage Concepts 2 and 3.
  */
-export function BaselineList({ rows, thenLabel = "Start", nowLabel = "Now", className }: BaselineListProps) {
+export function BaselineList({ rows, thenLabel = "Start", nowLabel = "Now", newTabNote = "(opens in a new tab)", className }: BaselineListProps) {
   return (
     <div className={["baseline-list", className].filter(Boolean).join(" ")}>
       <div className="baseline-list__heads" aria-hidden="true">
@@ -50,7 +54,18 @@ export function BaselineList({ rows, thenLabel = "Start", nowLabel = "Now", clas
                 {row.now}
               </b>
             </span>
-            {row.latest ? <span className="baseline-list__latest">{row.latest}</span> : null}
+            {row.latest ? (
+              <span className="baseline-list__latest">
+                {row.latestHref ? (
+                  <a href={row.latestHref} target="_blank" rel="noopener noreferrer">
+                    {row.latest}
+                    <span className="u-visually-hidden"> {newTabNote}</span>
+                  </a>
+                ) : (
+                  row.latest
+                )}
+              </span>
+            ) : null}
           </li>
         ))}
       </ul>
