@@ -245,7 +245,7 @@ samp {
   letter-spacing: var(--type-eyebrow-tracking);
   word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-text-muted);
+  color: var(--color-eyebrow);
 }
 
 .t-figure {
@@ -3057,7 +3057,8 @@ ul.concierge-mini {
   width: 40px;
   height: 40px;
   border-radius: var(--radius-md);
-  background-color: var(--color-surface-sunken);
+  background-color: var(--color-icon-surface);
+  color: var(--color-icon);
 }
 
 .concierge-row__text {
@@ -3219,7 +3220,7 @@ ul.concierge-mini {
   word-spacing: var(--type-eyebrow-word-spacing);
   margin: 0;
   text-transform: uppercase;
-  color: var(--color-text-muted);
+  color: var(--color-eyebrow);
 }
 
 .home-card__readback {
@@ -3622,7 +3623,8 @@ ul.briefing-card__others {
   width: 40px;
   height: 40px;
   border-radius: var(--radius-md);
-  background-color: var(--color-surface-sunken);
+  background-color: var(--color-icon-surface);
+  color: var(--color-icon);
 }
 
 .entry-link__text {
@@ -3641,7 +3643,7 @@ ul.briefing-card__others {
   letter-spacing: var(--type-eyebrow-tracking);
   word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-text-muted);
+  color: var(--color-eyebrow);
 }
 
 .entry-link__title {
@@ -10374,8 +10376,8 @@ ol.check-in__steps {
   width: 28px;
   height: 28px;
   border-radius: var(--radius-sm);
-  background-color: var(--color-surface-sunken);
-  color: var(--color-text-secondary);
+  background-color: var(--color-icon-surface);
+  color: var(--color-icon);
 }
 
 .account-card__asof {
@@ -10462,7 +10464,7 @@ ul.account-card__stats {
   display: block;
   margin-bottom: var(--space-3xs);
   text-transform: uppercase;
-  color: var(--color-text-muted);
+  color: var(--color-eyebrow);
 }
 
 .account-card__try {
@@ -10843,7 +10845,7 @@ ul.baseline-list__rows {
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  color: var(--color-text-muted);
+  color: var(--color-eyebrow);
 }
 
 .stage-track__plan {
@@ -11255,7 +11257,7 @@ ul.stage-actions__list {
   word-spacing: var(--type-eyebrow-word-spacing);
   margin: 0 0 0 var(--space-2xs);
   text-transform: uppercase;
-  color: var(--color-text-muted);
+  color: var(--color-eyebrow);
 }
 
 .settings-group__rows {
