@@ -5460,11 +5460,14 @@ ol.ring-detail__timeline {
    whole picture down, with plain navy above it fading into the photo. A slate
    veil keeps the logo readable and darkens the foot where the sheet rises. */
 .welcome__hero {
-  --welcome-cut-from: 0.36;
-  --welcome-cut-to: 0.54;
+  --welcome-cut-from: 0.32;
+  --welcome-cut-to: 0.5;
   --welcome-blend: 64px;
   --welcome-drop: 130px;
-  --welcome-image-height: calc(100cqi * 1672 / 941); /* the picture's shape */
+  --welcome-bleed: 56px; /* room past both sides, so the wisp filter never pulls in an empty edge */
+  --welcome-pad-x: var(--space-lg);
+  --welcome-width: calc(100cqi + 2 * var(--welcome-pad-x)); /* the panel's full width */
+  --welcome-image-height: calc(var(--welcome-width) * 1672 / 941); /* the picture's shape at that width */
   --welcome-image: url("./images/welcome-hero.webp");
   position: relative;
   isolation: isolate;
@@ -5472,7 +5475,7 @@ ol.ring-detail__timeline {
   display: flex;
   flex-direction: column;
   gap: var(--space-2xl);
-  padding: var(--space-lg) var(--space-lg) var(--space-2xl);
+  padding: var(--space-lg) var(--welcome-pad-x) var(--space-2xl);
   color: var(--color-text-inverse);
   background-color: var(--color-surface-inverse-deep);
   overflow: hidden;
@@ -5483,9 +5486,9 @@ ol.ring-detail__timeline {
   content: "";
   position: absolute;
   z-index: -1;
-  inset-inline: 0;
+  inset-inline: calc(-1 * var(--welcome-bleed));
   background-repeat: no-repeat;
-  background-size: 100% auto, 100% var(--welcome-image-height);
+  filter: var(--welcome-filter, none);
   pointer-events: none;
 }
 
@@ -5494,11 +5497,13 @@ ol.ring-detail__timeline {
 .welcome__hero::before {
   top: 0;
   height: calc(var(--welcome-drop) + var(--welcome-cut-from) * var(--welcome-image-height) + var(--welcome-blend) / 2);
+  /* veil; the picture at the panel's width; a stretched copy filling the bleed */
   background-image:
     linear-gradient(180deg, var(--color-image-veil) 0%, var(--color-image-veil-clear) 60%),
+    var(--welcome-image),
     var(--welcome-image);
-  background-size: 100% 100%, 100% var(--welcome-image-height);
-  background-position: 0 0, 0 var(--welcome-drop);
+  background-size: 100% 100%, var(--welcome-width) var(--welcome-image-height), 100% var(--welcome-image-height);
+  background-position: 0 0, var(--welcome-bleed) var(--welcome-drop), 0 var(--welcome-drop);
   mask-image: linear-gradient(
     180deg,
     transparent var(--welcome-drop),
@@ -5514,10 +5519,21 @@ ol.ring-detail__timeline {
   bottom: 0;
   background-image:
     linear-gradient(180deg, var(--color-image-veil-clear) 70%, var(--color-image-veil) 100%),
+    var(--welcome-image),
     var(--welcome-image);
-  background-size: 100% 100%, 100% var(--welcome-image-height);
-  background-position: 0 0, 0 calc(var(--welcome-blend) / 2 - var(--welcome-cut-to) * var(--welcome-image-height));
+  background-size: 100% 100%, var(--welcome-width) var(--welcome-image-height), 100% var(--welcome-image-height);
+  background-position:
+    0 0,
+    var(--welcome-bleed) calc(var(--welcome-blend) / 2 - var(--welcome-cut-to) * var(--welcome-image-height)),
+    0 calc(var(--welcome-blend) / 2 - var(--welcome-cut-to) * var(--welcome-image-height));
   mask-image: linear-gradient(180deg, transparent, black var(--welcome-blend));
+}
+
+.welcome__filters {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
 }
 
 /* On the phone the picture takes the screen and the sheet sits at the foot,
@@ -5597,9 +5613,10 @@ ol.ring-detail__timeline {
 
 [data-viewport="tablet"] .welcome__hero:not(:where([data-viewport="mobile"] *)),
 [data-viewport="web"] .welcome__hero:not(:where([data-viewport="mobile"] *)) {
+  --welcome-pad-x: var(--space-xl);
   flex: 0 0 40%;
   justify-content: space-between;
-  padding: var(--space-2xl) var(--space-xl);
+  padding: var(--space-2xl) var(--welcome-pad-x);
 }
 
 [data-viewport="tablet"] .welcome__sheet:not(:where([data-viewport="mobile"] *)),

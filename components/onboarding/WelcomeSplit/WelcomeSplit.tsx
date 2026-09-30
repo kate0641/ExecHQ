@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useId, type CSSProperties, type ReactNode } from "react";
 import { Wordmark } from "@/components/primitives/Wordmark";
 import { StepActions } from "@/components/onboarding/StepActions";
 import { StepHeader } from "@/components/onboarding/StepHeader";
@@ -40,9 +40,22 @@ export function WelcomeSplit({
   primaryLabel,
   onPrimary,
 }: WelcomeSplitProps) {
+  // The photograph's streaks are bent into wisps by an SVG filter: slow noise
+  // pushes each part of the picture a little up or down, then a touch of blur
+  // smooths the photo's compression. Its id is unique per welcome.
+  const filterId = `welcome-wisp-${useId().replace(/:/g, "")}`;
+  const heroStyle = { "--welcome-filter": `url(#${filterId})` } as CSSProperties;
+
   return (
     <div className="welcome">
-      <div className="welcome__hero">
+      <svg className="welcome__filters" aria-hidden="true" focusable="false">
+        <filter id={filterId} x="-5%" y="-5%" width="110%" height="110%" colorInterpolationFilters="sRGB">
+          <feTurbulence type="fractalNoise" baseFrequency="0.006 0.016" numOctaves={2} seed={7} result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale={140} xChannelSelector="R" yChannelSelector="G" result="wisp" />
+          <feGaussianBlur in="wisp" stdDeviation={1.4} />
+        </filter>
+      </svg>
+      <div className="welcome__hero" style={heroStyle}>
         <Wordmark size="xl" tone="light" />
         <p className="welcome__quote">{quote}</p>
       </div>
