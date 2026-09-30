@@ -3570,7 +3570,7 @@ ul.briefing-card__others {
   flex-direction: column;
   gap: var(--space-paragraph);
   margin: 0;
-  padding: var(--space-lg) var(--space-sm) 0 0; /* more room under the divider than above it */
+  padding: calc(var(--space-md) + var(--space-2xs)) var(--space-sm) 0 0; /* 20px: more room under the divider than above it */
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
   list-style: none;
   color: var(--color-text-primary);
@@ -9962,6 +9962,12 @@ ol.signal__list {
   background-color: var(--color-surface-inverse);
   border-color: transparent;
   color: var(--color-text-inverse);
+}
+
+/* The subtitle sits close under the headline it explains: 8px, not the
+   card's 12px. */
+.briefing-card__lead + .briefing-card__why {
+  margin-top: calc(-1 * var(--space-2xs));
 }
 
 /* On the Briefing card, its name and the lead read are in yellow. */
