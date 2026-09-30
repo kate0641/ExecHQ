@@ -9959,6 +9959,10 @@ ol.signal__list {
   --color-border-subtle: var(--color-border-inverse);
   --color-border-strong: var(--color-border-inverse);
   --color-focus: var(--color-focus-inverse);
+  --color-surface-active: var(--color-surface-inverse-active);
+  /* The ring is composed at the root, so it is restated here for the
+     inverse focus colour to reach it. */
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
   background-color: var(--color-surface-inverse);
   border-color: transparent;
   color: var(--color-text-inverse);
