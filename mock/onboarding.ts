@@ -2286,13 +2286,15 @@ export const CHAT_C2 = {
 
 /**
  * Concept 3 explains as it goes, by decision on 2026-09-24: what ExecHQ is,
- * why each thing is asked, what a plan is and how each part helps. It
- * recommends early and tests the recommendation, carries a file of what it
- * has learned, and stops to make the user reflect.
+ * why each thing is asked, what a plan is and how each part helps. It asks
+ * what decides the plan, recommends once, then asks what makes it the user's
+ * own (2026-09-30), carries a file of what it has learned, and stops to make
+ * the user reflect.
  *
- * Credibility comes only from how the product is built; nothing here claims
- * outside proof. Facts are placeholders until sourced, and none ranks the
- * user: the pilot rules out rank and percentile.
+ * Credibility comes only from how the product is built. The one outside claim
+ * is the fun fact after each reflection: each is a real finding, with its
+ * source shown, and none ranks the user: the pilot rules out rank and
+ * percentile.
  */
 export const GUIDE_C3 = {
   from: "ExecHQ",
@@ -2408,8 +2410,9 @@ export const GUIDE_C3 = {
         "Then the question isn\u2019t effort, it\u2019s aim. Your plan makes sure the time you already give builds toward one thing.",
       ],
       fact: {
-        label: "Fun fact \u00b7 to be sourced",
-        text: "A sourced fact about how much time senior leaders spend on their own careers, compared with their teams\u2019. It must never rank the user.",
+        label: "Fun fact",
+        text: "Employees spend only about 1% of a typical working week on learning and development. That is around 24 minutes.",
+        source: "Bersin by Deloitte, \u201cMeet the Modern Learner\u201d",
       },
       why: "Careers move in the time you give them. Knowing yours sets the pace of your plan, so it asks for what you can actually do.",
     },
@@ -2459,8 +2462,9 @@ export const GUIDE_C3 = {
         "Then that\u2019s where we start. It\u2019s hard for anyone to back you if they don\u2019t know what you do.",
       ],
       fact: {
-        label: "Fun fact \u00b7 to be sourced",
-        text: "A sourced fact about how visible senior leaders\u2019 work is to the people who decide their next role. It must never rank the user.",
+        label: "Fun fact",
+        text: "In a survey of 3,213 professionals, nearly one in four said they sponsor someone at work. Of those, only 27% actually advocate for that person\u2019s promotion.",
+        source: "Center for Talent Innovation, 2019",
       },
       why: "Whether the people above you can say what you do decides a lot of what happens next. It\u2019s worth knowing where you stand.",
     },
@@ -2476,8 +2480,9 @@ export const GUIDE_C3 = {
         "Then your manager is guessing. The first thing your plan will do is give you the words to start that conversation.",
       ],
       fact: {
-        label: "Fun fact \u00b7 to be sourced",
-        text: "A sourced fact about how often senior leaders talk about their own development with their manager. It must never rank the user.",
+        label: "Fun fact",
+        text: "Only 20% of US employees strongly agree they have talked with their manager in the last six months about the steps they can take to reach their goals.",
+        source: "Gallup",
       },
       why: "The people who decide your next role can only back what they know you want.",
     },
@@ -2560,8 +2565,9 @@ export const GUIDE_C3 = {
         "That\u2019s what this next part is for. I\u2019ll draft it for you, from what you\u2019ve told me.",
       ],
       fact: {
-        label: "Fun fact \u00b7 to be sourced",
-        text: "A sourced fact about how quickly people form an impression of a leader they\u2019re meeting. It must never rank the user.",
+        label: "Fun fact",
+        text: "People judged a stranger\u2019s competence and trustworthiness after seeing their face for a tenth of a second, and those judgments closely matched the ones made with no time limit. More time mostly made them more confident.",
+        source: "Willis and Todorov, Psychological Science, 2006",
       },
       why: "Every next step, a promotion conversation, a post, an introduction, starts with this sentence.",
     },

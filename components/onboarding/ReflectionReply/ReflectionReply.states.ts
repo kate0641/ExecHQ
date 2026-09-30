@@ -11,16 +11,22 @@ export const reflectionReplyStates = defineComponentStates({
   status: "draft",
   flows: ["onboarding"],
   description:
-    "ExecHQ's answer to a reflection question as a pull quote, with a fact after it. Facts show as marked placeholders until they are sourced.",
+    "ExecHQ's answer to a reflection question as a pull quote, with a fact after it and where the fact comes from. A fact not yet sourced shows as a marked placeholder.",
   component: ReflectionReply,
   notApplicable: {
     ...NOT_INTERACTIVE,
     filled: NOT_AN_INPUT,
   },
   variants: [
+    { label: "With a sourced fact", props: { from: GUIDE_C3.from, text: time.replies[0], fact: time.fact } },
     {
       label: "With a fact to source",
-      props: { from: GUIDE_C3.from, text: time.replies[0], fact: { ...time.fact, placeholder: true } },
+      description: "Dashed, so an unsourced fact can never pass for finished copy.",
+      props: {
+        from: GUIDE_C3.from,
+        text: time.replies[0],
+        fact: { label: "Fun fact \u00b7 to be sourced", text: "A sourced fact about this goes here.", placeholder: true },
+      },
     },
     { label: "Reply only", props: { from: GUIDE_C3.from, text: time.replies[2] } },
   ],

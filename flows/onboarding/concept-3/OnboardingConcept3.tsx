@@ -953,7 +953,7 @@ function ReflectPage({
       {done && index >= 0 ? (
         <>
           <Said value={value!} onChange={() => drawer.setMode("open")} />
-          <ReflectionReply from={GUIDE_C3.from} text={copy.replies[index]} fact={{ ...copy.fact, placeholder: true }} />
+          <ReflectionReply from={GUIDE_C3.from} text={copy.replies[index]} fact={copy.fact} />
         </>
       ) : null}
     </GuidePage>

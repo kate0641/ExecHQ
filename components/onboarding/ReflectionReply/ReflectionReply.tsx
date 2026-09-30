@@ -2,8 +2,9 @@ export interface ReflectionReplyProps {
   /** Who is speaking, e.g. "ExecHQ". */
   from: string;
   text: string;
-  /** A fact to go with it. Until sourced, shown as a marked placeholder. */
-  fact?: { label: string; text: string; placeholder?: boolean };
+  /** A fact to go with it, with where it comes from. Until sourced, it is
+   *  shown as a marked placeholder. */
+  fact?: { label: string; text: string; source?: string; placeholder?: boolean };
   className?: string;
 }
 
@@ -27,6 +28,7 @@ export function ReflectionReply({ from, text, fact, className }: ReflectionReply
         <div className={["reflection-reply__fact", fact.placeholder ? "is-placeholder" : null].filter(Boolean).join(" ")}>
           <p className="reflection-reply__fact-label">{fact.label}</p>
           <p className="reflection-reply__fact-text">{fact.text}</p>
+          {fact.source ? <p className="reflection-reply__fact-source">{fact.source}</p> : null}
         </div>
       ) : null}
     </div>

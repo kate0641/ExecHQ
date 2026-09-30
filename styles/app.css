@@ -8792,6 +8792,12 @@ ol.ring-detail__timeline {
   margin-top: 0;
 }
 
+/* The page's main action sits at the foot of the page however short the
+   content is, not straight under it. */
+.guide__actions {
+  margin-top: auto;
+}
+
 .guide__why + .guide__actions {
   margin-top: 0;
 }
@@ -9089,6 +9095,12 @@ ol.ring-detail__timeline {
   font-size: var(--text-sm);
   line-height: var(--leading-normal);
   color: var(--color-text-secondary);
+}
+
+.reflection-reply__fact-source {
+  font-size: var(--text-xs);
+  line-height: var(--leading-normal);
+  color: var(--color-text-muted);
 }
 
 /* The recommendation, stated as one. */
