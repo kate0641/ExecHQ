@@ -146,6 +146,7 @@
   --color-surface-inverse: var(--brand-primary);
   --color-surface-inverse-hover: var(--brand-primary-muted);
   --color-surface-inverse-active: var(--brand-primary-strong);
+  --color-surface-inverse-deep: var(--brand-slate);  /* the darkest navy, behind a logo on photography */
   --color-surface-hover: var(--brand-stone-200);
   --color-surface-active: var(--brand-stone-300);
   --color-surface-disabled: var(--brand-stone-200);
