@@ -9963,6 +9963,13 @@ ol.signal__list {
   color: var(--color-text-inverse);
 }
 
+/* On the Briefing card, its name and the lead read are in yellow. */
+.briefing-card__eyebrow b,
+.briefing-card__eyebrow svg,
+.briefing-card__lead {
+  color: var(--color-accent-on-inverse);
+}
+
 .briefing-editorial:hover,
 .briefing-editorial.is-hover {
   border-color: var(--color-border-strong);
