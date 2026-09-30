@@ -1266,6 +1266,13 @@ samp {
   box-shadow: 0 var(--border-width-thin) 0 var(--color-surface-inverse);
 }
 
+/* Behind the welcome's photograph the status bar takes the same deep slate,
+   so the dark runs unbroken to the top edge. */
+.device__screen:has(.welcome) > .device__statusbar--inverse {
+  background-color: var(--color-surface-inverse-deep);
+  box-shadow: 0 var(--border-width-thin) 0 var(--color-surface-inverse-deep);
+}
+
 .device__statusbar--inverse .device__statusbar-indicators {
   color: inherit;
 }
@@ -5467,9 +5474,7 @@ ol.ring-detail__timeline {
   gap: var(--space-2xl);
   padding: var(--space-lg) var(--space-lg) var(--space-2xl);
   color: var(--color-text-inverse);
-  /* Navy where it meets the status bar, deepening to slate behind the logo. */
   background-color: var(--color-surface-inverse-deep);
-  background-image: linear-gradient(180deg, var(--color-surface-inverse) 0, var(--color-surface-inverse-deep) 72px);
   overflow: hidden;
 }
 
