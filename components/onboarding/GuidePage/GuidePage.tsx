@@ -32,8 +32,6 @@ export interface GuidePageProps {
    *  question and its reason are read together; the drawer holds only the
    *  answer. */
   drawer?: ReactNode;
-  /** Whether that drawer is open. The page steps back behind it. */
-  drawerOpen?: boolean;
   className?: string;
 }
 
@@ -68,10 +66,8 @@ export function GuidePage({
   onSecondary,
   cover = false,
   drawer,
-  drawerOpen = false,
   className,
 }: GuidePageProps) {
-  const drawn = Boolean(drawer) && drawerOpen;
   const page = (
     <>
       {part && !cover ? (
@@ -126,7 +122,7 @@ export function GuidePage({
     </>
   );
 
-  const classes = ["guide", cover ? "guide--cover" : null, drawer ? "guide--drawer" : null, drawn ? "is-drawn" : null, className]
+  const classes = ["guide", cover ? "guide--cover" : null, drawer ? "guide--drawer" : null, className]
     .filter(Boolean)
     .join(" ");
   if (!drawer) return <div className={classes}>{page}</div>;

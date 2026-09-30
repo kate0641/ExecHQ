@@ -9328,11 +9328,6 @@ ol.ring-detail__timeline {
   overflow-y: auto;
 }
 
-/* While the drawer is open the page steps back behind it. */
-.guide--drawer.is-drawn {
-  background-color: var(--color-surface-sunken);
-}
-
 /* What the user said, back on the page, with the way to change it. */
 .guide__said {
   display: flex;
@@ -9395,7 +9390,6 @@ ol.ring-detail__timeline {
   background-color: var(--color-surface);
   border-top: var(--border-thin);
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-  box-shadow: var(--shadow-drawer);
 }
 
 /* On a wider screen the drawer's contents keep to the reading width. */

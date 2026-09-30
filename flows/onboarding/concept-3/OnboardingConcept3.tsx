@@ -723,7 +723,6 @@ function AccountPage({ flow, frame, drawer, onDone }: PageProps) {
       title={c.title}
       lede={c.lede}
       why={c.why}
-      drawerOpen={open}
       drawer={
         <AnswerDrawer
           question={c.ask}
@@ -828,7 +827,6 @@ function DirectionPage({
       title={asking ? c.first : c.title}
       lede={asking ? c.firstLede : c.lede}
       why={asking ? c.firstWhy : c.why}
-      drawerOpen={open}
       drawer={
         asking ? (
           <AnswerDrawer
@@ -929,7 +927,6 @@ function ReflectPage({
       why={copy.why}
       primaryLabel={done ? GUIDE_C3.reflect.cta : undefined}
       onPrimary={onDone}
-      drawerOpen={open}
       drawer={
         done ? undefined : (
           <AnswerDrawer
@@ -1002,7 +999,6 @@ function QuestionPage({
       kicker={kicker}
       title={question.question}
       why={c.why[question.id] ?? c.whyDefault}
-      drawerOpen={open}
       drawer={
         <AnswerDrawer
           question={question.question}
@@ -1077,7 +1073,6 @@ function ReadbackPage({ flow, frame, drawer, onDone }: PageProps) {
         setAsked(true);
         drawer.setMode("open");
       }}
-      drawerOpen={open}
       drawer={
         showDrawer ? (
           <AnswerDrawer
@@ -1224,7 +1219,6 @@ function SharpenPage({
       title={c.sharpen.title}
       lede={c.sharpen.lede}
       why={c.sharpen.why}
-      drawerOpen={open}
       drawer={
         <AnswerDrawer
           key={index}

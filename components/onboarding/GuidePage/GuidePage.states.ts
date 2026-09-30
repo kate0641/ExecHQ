@@ -52,7 +52,6 @@ export const guidePageStates = defineComponentStates({
         title: GUIDE_C3.direction.title,
         lede: GUIDE_C3.direction.lede,
         why: GUIDE_C3.direction.why,
-        drawerOpen: true,
         drawer: createElement(
           AnswerDrawer,
           {
