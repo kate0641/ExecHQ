@@ -3184,7 +3184,7 @@ ul.concierge-mini {
   gap: var(--space-md);
   padding: var(--space-md) var(--space-md) var(--space-lg);
   border-radius: var(--radius-xl);
-  background-color: var(--color-surface-sunken);
+  background-color: var(--color-surface-feature);
 }
 
 .home-card__title {

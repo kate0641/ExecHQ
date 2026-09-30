@@ -149,6 +149,7 @@
   --color-surface-active: var(--brand-stone-300);
   --color-surface-disabled: var(--brand-stone-200);
   --color-surface-selected: var(--brand-primary-soft); /* the item a detail pane is showing */
+  --color-surface-feature: var(--brand-blue-100);  /* the card that says what to do next, on trial */
   --color-glow: var(--brand-secondary-soft);      /* the soft light behind sign in */
   --color-glow-fade: var(--brand-primary-soft);
 
