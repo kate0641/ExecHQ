@@ -5538,6 +5538,23 @@ ol.ring-detail__timeline {
   mask-image: linear-gradient(180deg, transparent, black var(--welcome-blend));
 }
 
+/* The photograph is off for now: the welcome is flat navy. Delete this rule
+   to bring the picture back; everything above still describes it. */
+.welcome__hero {
+  background-color: var(--color-surface-inverse);
+}
+
+.welcome__hero::before,
+.welcome__hero::after {
+  content: none;
+}
+
+/* With the photograph off, the status bar goes back to plain navy too. */
+.device__screen:has(.welcome) > .device__statusbar--inverse {
+  background-color: var(--color-surface-inverse);
+  box-shadow: 0 var(--border-width-thin) 0 var(--color-surface-inverse);
+}
+
 /* On the phone the picture takes the screen and the sheet sits at the foot,
    only as tall as what it holds. */
 [data-viewport="mobile"] .welcome__hero {
