@@ -731,7 +731,7 @@ samp {
   padding: var(--space-sm) var(--space-md);
   background-color: var(--color-surface-raised);
   border: var(--border-width-thin) solid var(--color-border-strong);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-field);
   color: var(--color-text-primary);
   transition: border-color var(--duration-fast) var(--easing-standard),
     box-shadow var(--duration-fast) var(--easing-standard);
@@ -850,7 +850,7 @@ samp {
 .field__control--pill {
   min-height: 3.75rem;
   padding: var(--space-lg) var(--space-lg) var(--space-xs);
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-field);
   box-shadow: var(--shadow-sm);
 }
 
@@ -12109,7 +12109,7 @@ ul.stage-actions__list {
   place-items: center;
   height: 3.5rem;
   border: var(--border-width-thin) solid var(--color-border-strong);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-field);
   background-color: var(--color-surface-raised);
   font-family: var(--font-display);
   word-spacing: var(--font-display-word-spacing);
