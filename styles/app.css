@@ -3346,7 +3346,7 @@ ul.concierge-mini {
   flex-direction: column;
   overflow: hidden;
   border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-card);
   background-color: var(--color-surface-raised);
   color: var(--color-text-primary);
 }
@@ -11413,7 +11413,7 @@ ul.stage-actions__list {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-card);
   background-color: var(--color-surface-raised);
   border: var(--border-width-thin) solid var(--color-border);
 }

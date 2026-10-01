@@ -519,6 +519,7 @@
   --radius-xl: 1.25rem;   /* 20px */
   --radius-pill: 999px;
   --radius-button: var(--radius-pill); /* only buttons are pills, so the shape means "press me" */
+  --radius-card: var(--radius-lg);      /* cards: 16, calm next to 10px fields, never rounder than needed */
   --radius-field: var(--radius-md);     /* text fields: squared at 10, so they never read as buttons */
   --radius-tag: var(--radius-sm);        /* labels that aren't buttons: tags, matching the icon chips */
   --radius-device-mobile: 2.75rem; /* 44px */
