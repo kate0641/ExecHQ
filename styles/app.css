@@ -1278,7 +1278,7 @@ samp {
   box-shadow: 0 var(--border-width-thin) 0 var(--color-surface-inverse);
 }
 
-/* Behind the welcome's photograph the status bar takes the same deep slate,
+/* Behind the welcome's photograph the status bar takes the same darkest navy,
    so the dark runs unbroken to the top edge. */
 .device__screen:has(.welcome) > .device__statusbar--inverse {
   background-color: var(--color-surface-inverse-deep);
@@ -5498,7 +5498,7 @@ ol.ring-detail__timeline {
    halves blended together. Each half is a pseudo-element showing the same
    picture at full width; --welcome-cut-from and -to are where the cut starts
    and ends, as fractions of the picture's height. --welcome-drop moves the
-   whole picture down, with plain navy above it fading into the photo. A slate
+   whole picture down, with plain navy above it fading into the photo. A darkest-navy
    veil keeps the logo readable and darkens the foot where the sheet rises. */
 .welcome__hero {
   --welcome-cut-from: 0.36;

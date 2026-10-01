@@ -21,7 +21,7 @@ export const logoStates = defineComponentStates({
     { label: "Dark — on stone", props: { tone: "dark" } },
     {
       label: "Light — on dark",
-      description: "On navy here; the same on slate, dark green or stone 900.",
+      description: "On navy here; the same on the darkest navy, dark green or stone 900.",
       surface: "inverse",
       props: { tone: "light" },
     },

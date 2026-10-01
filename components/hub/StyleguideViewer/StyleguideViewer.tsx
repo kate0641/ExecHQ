@@ -338,10 +338,10 @@ const LOGO_RULES: {
   {
     tone: "light",
     title: "Light logo",
-    role: "Bright yellow and light blue. Sits on a dark color, and in most cases on navy or slate: the logo stays in some form of navy. Dark green is the secondary choice; stone 900 is kept but largely unused for now.",
+    role: "Bright yellow and light blue. Sits on a dark color, and in most cases on navy or the darkest navy: the logo stays in some form of navy. Dark green is the secondary choice; stone 900 is kept but largely unused for now.",
     backgrounds: [
       { token: "--brand-navy", name: "Navy", use: "Primary" },
-      { token: "--brand-slate", name: "Slate", use: "Primary" },
+      { token: "--brand-blue-900", name: "Darkest navy", use: "Primary" },
       { token: "--brand-dark-green", name: "Dark green", use: "Secondary" },
       { token: "--brand-stone-900", name: "Stone 900", use: "Tertiary" },
     ],
@@ -385,7 +385,7 @@ const SCALES: { key: string; title: string; role: string }[] = [
   {
     key: "blue",
     title: "Blue",
-    role: "Navy (800) carries links, focus rings, dark panels and the approved badge. Slate (900) is its deep end: pressed navy and deep backgrounds. Light blue (200) is the soft secondary.",
+    role: "Navy (800) carries links, focus rings, dark panels and the approved badge. Blue 900, the darkest navy, is its deep end: pressed navy and deep backgrounds. Light blue (200) is the soft secondary.",
   },
   {
     key: "green",
@@ -583,7 +583,7 @@ export function StyleguideViewer() {
           id: "brand-colors",
           label: "Brand colors",
           group: "Color",
-          description: "The main colors, by role. Each sits on one of the scales below; all but slate at their exact palette value.",
+          description: "The main colors, by role. Each sits on one of the scales below at its exact palette value.",
           source: "styles/tokens.css",
           content: (
           <div className="styleguide-layout__card">
@@ -745,7 +745,7 @@ export function StyleguideViewer() {
           id: "shadows",
           label: "Shadows",
           group: "Layout",
-          description: "Depth, tinted with slate so it reads as depth rather than dirt.",
+          description: "Depth, tinted with the darkest navy so it reads as depth rather than dirt.",
           source: "styles/tokens.css",
           content: (
           <div className="styleguide-layout__card">
