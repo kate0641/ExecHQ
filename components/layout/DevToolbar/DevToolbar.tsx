@@ -11,6 +11,7 @@ import {
   type PointerEvent as ReactPointerEvent,
   type RefObject,
 } from "react";
+import { ColorSwitch } from "@/components/hub/ColorSwitch";
 import { NavPicker } from "@/components/hub/NavPicker";
 import { SnapshotPicker } from "@/components/hub/SnapshotPicker";
 import { ViewportToggle } from "@/components/hub/ViewportToggle";
@@ -250,6 +251,7 @@ export function DevToolbar({ hubOpen, onToggleHub, hubTriggerRef }: DevToolbarPr
           dock is folded away. */}
       <div className="devtools__content" id={contentId} hidden={collapsed}>
         <ViewportToggle />
+        <ColorSwitch />
 
         {/* Signed-in pages only; both render nothing elsewhere. */}
         <NavPicker />

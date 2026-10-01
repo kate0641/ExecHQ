@@ -1432,6 +1432,7 @@ samp {
 }
 
 .devtools__hub-button,
+.devtools__color,
 .devtools__collapse {
   display: grid;
   place-items: center;
@@ -1442,9 +1443,21 @@ samp {
 }
 
 .devtools__hub-button:hover,
+.devtools__color:hover:not(:disabled),
 .devtools__collapse:hover {
   background-color: var(--color-surface-hover);
   color: var(--color-text-primary);
+}
+
+/* Pressed means the brand colours are showing. */
+.devtools__color[aria-pressed="true"] {
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+}
+
+.devtools__color:disabled {
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
 }
 
 .devtools__hub-button[aria-expanded="true"] {
@@ -5482,6 +5495,7 @@ ol.ring-detail__timeline {
 .welcome__hero::before,
 .welcome__hero::after {
   content: "";
+  filter: var(--image-filter);
   position: absolute;
   z-index: -1;
   inset-inline: 0;

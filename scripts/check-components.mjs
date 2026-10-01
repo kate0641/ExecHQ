@@ -18,6 +18,7 @@ const COMPONENTS = join(ROOT, "components");
 
 /** Shell infrastructure, deliberately not in the catalogue. */
 const SHELL = new Set([
+  "hub/ColorSwitch",
   "hub/ComponentCatalogue",
   "hub/FlowList",
   "hub/HubNav",

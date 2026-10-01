@@ -28,6 +28,11 @@ export const iconStates = defineComponentStates({
     },
     { label: "Chevron", props: { name: "chevron" } },
     {
+      label: "Contrast",
+      description: "The colour switch in the dock: half the disc filled.",
+      props: { name: "contrast" },
+    },
+    {
       label: "Shield",
       description: "Privacy. Closed, because the promise is that nothing leaves.",
       props: { name: "shield" },

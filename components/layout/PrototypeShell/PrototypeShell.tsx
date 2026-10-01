@@ -6,6 +6,7 @@ import { DevToolbar } from "@/components/layout/DevToolbar";
 import { StepBar } from "@/components/layout/StepBar";
 import { HubPanel } from "@/components/hub/HubPanel";
 import { StepNavProvider, useStepNavValue } from "@/lib/step-nav";
+import { useColorMode } from "@/lib/color-mode";
 import { useViewport } from "@/lib/viewport-context";
 
 export interface PrototypeShellProps {
@@ -47,6 +48,8 @@ function ShellStepBar() {
 
 function PrototypeShellInner({ hubIndex, children }: PrototypeShellProps) {
   const { viewport } = useViewport();
+  // Keeps data-color on <html> in step with the dock's colour switch.
+  useColorMode();
   const [hubOpen, setHubOpen] = useState(false);
   const hubTriggerRef = useRef<HTMLButtonElement>(null);
   const closeHub = useCallback(() => setHubOpen(false), []);

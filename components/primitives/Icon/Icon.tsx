@@ -31,7 +31,8 @@ export type IconName =
   | "compass"
   | "mail"
   | "briefing"
-  | "spark";
+  | "spark"
+  | "contrast";
 
 export interface IconProps {
   name: IconName;
@@ -217,6 +218,13 @@ const PATHS: Record<IconName, React.ReactNode> = {
   ),
   // A small four-pointed star: something worth a note has moved.
   spark: <path d="M10 3c.7 4.2 2.8 6.3 7 7-4.2.7-6.3 2.8-7 7-.7-4.2-2.8-6.3-7-7 4.2-.7 6.3-2.8 7-7Z" />,
+  // Colour on or off: a disc, half of it filled.
+  contrast: (
+    <>
+      <circle cx="10" cy="10" r="7.5" />
+      <path d="M10 2.5a7.5 7.5 0 010 15z" fill="currentColor" />
+    </>
+  ),
   // Going back to the start: an arrow turning back on itself.
   reset: (
     <>

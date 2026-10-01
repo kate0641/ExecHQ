@@ -123,6 +123,16 @@ evaluated before colour.
   gold (accent), muted slate blue (secondary). Swapping it in must mean editing
   `styles/tokens.css` and nothing else.
 - Spacing, type scale, radii, border widths and shadows are tokenised the same way.
+- **The colour switch.** The brand palette is built, but the prototype opens in
+  greyscale so a reviewer judges structure before colour. The dock's switch
+  (`components/hub/ColorSwitch`, state in `lib/color-mode.tsx`) sets
+  `data-color="on"` on `<html>`; without it, the greyscale block at the foot of
+  `styles/tokens.css` redeclares the raw `--brand-*` scales as greys of the
+  same relative luminance, so contrast is unchanged, and restates the action
+  colour, shadow tint, photo veil and photo filter. Default is off. The hub and
+  showroom always show colour (the design-system page draws the palette), and
+  the switch is locked there. A new raw colour in `tokens.css` needs a grey in
+  that block; a new hue-only distinction needs a second cue.
 - Contrast currently passes easily in greyscale. **Re-verify every pair when navy
   and gold arrive** — gold on navy is the likely failure point.
 

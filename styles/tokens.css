@@ -158,6 +158,7 @@
      image's own colour shows through where the veil is clear. */
   --color-image-veil: rgb(3 21 31 / 0.6);
   --color-image-veil-clear: rgb(3 21 31 / 0);
+  --image-filter: none;  /* photography: greyscale when the colour switch is off */
   --color-glow: var(--brand-secondary-soft);      /* the soft light behind sign in */
   --color-glow-fade: var(--brand-primary-soft);
 
@@ -537,6 +538,86 @@
   --z-devtools: 40;
   --z-scrim: 50;
   --z-hub-panel: 60;
+}
+
+/* =============================================================================
+   COLOUR SWITCH — greyscale
+   -----------------------------------------------------------------------------
+   The prototype opens in greyscale so a reviewer judges structure and hierarchy
+   before colour. The dock's colour switch sets data-color="on" on <html> to show
+   the brand palette; "off" (the default) applies this block.
+
+   It redeclares the raw palette only. Each grey has the same relative luminance
+   as the colour it replaces, so every contrast ratio is exactly what it is in
+   colour, and the semantic tokens above follow without being touched. They
+   resolve on <html>, so this block has to sit on <html> too.
+
+   Three roles lean on hue alone and are restated below: the action colour (a
+   light grey would vanish on the page), the shadow tint and the photo veil.
+   ========================================================================== */
+:root:not([data-color="on"]) {
+  --brand-blue-100: #f3f3f3;
+  --brand-blue-200: #e0e0e0;
+  --brand-blue-300: #bdbdbd;
+  --brand-blue-400: #9e9e9e;
+  --brand-blue-500: #7d7d7d;
+  --brand-blue-600: #5e5e5e;
+  --brand-blue-700: #414141;
+  --brand-blue-800: #272727;
+  --brand-blue-850: #1d1d1d;
+  --brand-blue-900: #131313;
+  --brand-green-100: #f8f8f8;
+  --brand-green-200: #f0f0f0;
+  --brand-green-300: #e6e6e6;
+  --brand-green-400: #cbcbcb;
+  --brand-green-500: #a9a9a9;
+  --brand-green-600: #848484;
+  --brand-green-700: #636363;
+  --brand-green-800: #424242;
+  --brand-green-900: #2a2a2a;
+  --brand-yellow-100: #f7f7f7;
+  --brand-yellow-200: #efefef;
+  --brand-yellow-300: #e4e4e4;
+  --brand-yellow-400: #d6d6d6;
+  --brand-yellow-500: #b1b1b1;
+  --brand-yellow-600: #8c8c8c;
+  --brand-yellow-700: #686868;
+  --brand-yellow-800: #4d4d4d;
+  --brand-yellow-900: #323232;
+  --brand-orange-100: #f3f3f3;
+  --brand-orange-200: #e1e1e1;
+  --brand-orange-300: #c4c4c4;
+  --brand-orange-400: #a4a4a4;
+  --brand-orange-500: #878787;
+  --brand-orange-600: #6e6e6e;
+  --brand-orange-700: #585858;
+  --brand-orange-800: #444444;
+  --brand-orange-900: #2e2e2e;
+  --brand-stone-50: #fdfdfd;
+  --brand-stone-75: #fafafa;
+  --brand-stone-100: #f6f6f6;
+  --brand-stone-200: #e4e4e4;
+  --brand-stone-250: #d4d4d4;
+  --brand-stone-300: #c4c4c4;
+  --brand-stone-400: #8a8a8a;
+  --brand-stone-500: #646464;
+  --brand-stone-600: #515151;
+  --brand-stone-700: #3b3b3b;
+  --brand-stone-800: #212121;
+  --brand-stone-900: #0c0c0c;
+  --brand-white: #ffffff;
+
+  --shadow-rgb: 0 0 0;
+  --color-image-veil: rgb(0 0 0 / 0.6);
+  --color-image-veil-clear: rgb(0 0 0 / 0);
+  --image-filter: grayscale(1);
+
+  /* The action: a dark grey button with light text, so the thing to press still
+     stands apart from the page and from the other greys. */
+  --color-action: var(--brand-stone-800);
+  --color-action-hover: var(--brand-stone-700);
+  --color-action-active: var(--brand-stone-900);
+  --color-text-on-action: var(--brand-white);
 }
 
 /* On the phone canvas, the largest roles take their phone size. */

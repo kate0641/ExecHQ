@@ -28,7 +28,21 @@ export default function RootLayout({
   ].join(" ");
 
   return (
-    <html lang="en-GB" className={fontVariables}>
+    <html lang="en-GB" className={fontVariables} data-color="off" suppressHydrationWarning>
+      <head>
+        {/* Sets the colour mode before first paint so a reviewer who chose
+            colour does not see a flash of grey. Same rule as lib/color-mode.tsx:
+            greyscale unless colour was chosen, and always colour on the
+            prototype's own pages. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              '(function(){try{var p=location.pathname,own=p==="/"||p==="/showroom"||p.indexOf("/showroom/")===0;' +
+              'var on=own||localStorage.getItem("exechq.color")==="on";' +
+              'document.documentElement.dataset.color=on?"on":"off"}catch(e){}})()',
+          }}
+        />
+      </head>
       <body>
         <ViewportProvider>
           <a className="u-skip-link" href="#main">
