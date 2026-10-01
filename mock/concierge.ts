@@ -20,7 +20,7 @@ export const CONCIERGE_COPY = {
   role: "Your advisor",
   pillAsk: "Ask or go",
   placeholder: "Ask or go…",
-  newConversation: "New",
+  newConversation: "New chat",
   close: "Close the advisor",
   goHint: (label: string) => `Go to ${label}`,
 

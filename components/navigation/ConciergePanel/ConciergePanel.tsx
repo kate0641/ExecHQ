@@ -47,7 +47,7 @@ export function ConciergePanel({
   name = "ExecHQ",
   role = "Your advisor",
   whoInHead = true,
-  newLabel = "New",
+  newLabel = "New chat",
   closeLabel = "Close the advisor",
   onNew,
   onClose,

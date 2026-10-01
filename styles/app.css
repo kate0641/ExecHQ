@@ -1724,24 +1724,109 @@ samp {
 
 .flow-list__spec {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: baseline;
   gap: var(--space-2xs);
-  padding: var(--space-sm) var(--space-md);
-  background-color: var(--color-surface-sunken);
-  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
 }
 
-.flow-list__spec-content {
-  font-size: var(--text-xs);
-  line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
-  white-space: pre-wrap;
-}
-
-.flow-list__spec-empty,
-.flow-list__spec-path {
+.flow-list__spec-empty {
   font-size: var(--text-xs);
   color: var(--color-text-muted);
+}
+
+/* An interaction spec on its own page. */
+
+.spec-doc {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  max-width: var(--content-measure);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-normal);
+}
+
+.spec-doc h1,
+.spec-doc h2,
+.spec-doc h3,
+.spec-doc h4 {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking-heading);
+}
+
+.spec-doc h1 { font-size: var(--text-2xl); }
+.spec-doc h2 { margin-top: var(--space-lg); font-size: var(--text-xl); }
+.spec-doc h3 { margin-top: var(--space-md); font-size: var(--text-lg); }
+.spec-doc h4 { font-size: var(--text-md); }
+
+.spec-doc p,
+.spec-doc ul,
+.spec-doc ol {
+  margin: 0;
+}
+
+.spec-doc ul,
+.spec-doc ol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding-left: var(--space-lg);
+}
+
+.spec-doc ul { list-style: disc; }
+.spec-doc ol { list-style: decimal; }
+
+.spec-doc strong {
+  color: var(--color-text-primary);
+  font-weight: var(--weight-semibold);
+}
+
+.spec-doc code {
+  padding: 0 var(--space-2xs);
+  border-radius: var(--radius-xs);
+  background-color: var(--color-surface-sunken);
+  font-size: 0.9em;
+}
+
+.spec-doc__rule {
+  width: 100%;
+  margin: var(--space-md) 0 0;
+  border: 0;
+  border-top: var(--border-width-thin) solid var(--color-border);
+}
+
+/* Wide tables scroll inside their own box, never the page. */
+.spec-doc__table {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.spec-doc__table:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.spec-doc table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.spec-doc th,
+.spec-doc td {
+  padding: var(--space-xs) var(--space-sm);
+  border-bottom: var(--border-width-thin) solid var(--color-border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.spec-doc th {
+  color: var(--color-text-primary);
+  font-weight: var(--weight-semibold);
+  white-space: nowrap;
 }
 
 /* -----------------------------------------------------------------------------
@@ -2226,6 +2311,11 @@ ul.chrome__nav-list {
   color: var(--color-text-primary);
 }
 
+/* The card has no rule under its top bar. */
+.concierge-panel--card .concierge-panel__head {
+  border-bottom: 0;
+}
+
 .concierge-who {
   display: flex;
   flex: 1;
@@ -2257,6 +2347,7 @@ ul.chrome__nav-list {
 }
 
 .concierge-panel__new {
+  min-height: var(--button-target);
   padding: var(--space-2xs) var(--space-sm);
   border-radius: var(--radius-sm);
   font-size: var(--text-sm);
@@ -2277,8 +2368,8 @@ ul.chrome__nav-list {
 .concierge-panel__close {
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
+  width: var(--button-target);
+  height: var(--button-target);
   border-radius: var(--radius-md);
   color: var(--color-text-secondary);
   transition: background-color var(--duration-fast), transform var(--duration-fast);
@@ -2469,6 +2560,26 @@ ul.concierge-mini {
   outline-offset: var(--focus-ring-offset);
 }
 
+/* Every control in the panel is at least 44px each way (--button-target):
+   the composer's send button gets an invisible tap area, as .btn does, and
+   the quick replies are made that tall. */
+.concierge-panel .chat-composer__send {
+  position: relative;
+}
+
+.concierge-panel .chat-composer__send::after {
+  content: "";
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: var(--button-target);
+  height: var(--button-target);
+  transform: translate(-50%, -50%);
+}
+
+.concierge-panel .quick-replies__chip {
+  min-height: var(--button-target);
+}
+
 .concierge-mini {
   display: flex;
   gap: var(--space-2xs);
@@ -2477,6 +2588,7 @@ ul.concierge-mini {
 }
 
 .concierge-mini a {
+  min-height: var(--button-target);
   display: inline-flex;
   flex: none;
   align-items: center;
@@ -2534,6 +2646,7 @@ ul.concierge-mini {
 .concierge-go {
   display: flex;
   align-items: center;
+  min-height: var(--button-target);
   gap: var(--space-xs);
   padding: var(--space-xs) var(--space-sm);
   border-radius: var(--radius-md);

@@ -69,7 +69,7 @@ export default function HubPage() {
         </h2>
         <p className="hub__section-intro t-measure">
           Every flow from the manifest, with its concepts linked underneath and
-          its interaction spec in the slot beneath it. Adding a concept is one
+          a link to its interaction spec, which opens on its own page. Adding a concept is one
           entry in <code>prototype.config.ts</code>.
         </p>
         <FlowList specs={specs} headingLevel={4} />
