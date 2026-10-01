@@ -363,8 +363,10 @@ samp {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  position: relative;
   gap: var(--space-xs);
-  padding: var(--space-sm) var(--space-lg);
+  min-height: var(--button-height);
+  padding: 0 var(--button-padding-inline);
   border: var(--border-width-thin) solid transparent;
   border-radius: var(--radius-button);
   text-align: center;
@@ -373,6 +375,17 @@ samp {
     color var(--duration-fast) var(--easing-standard);
   /* A link dressed as a button reads as a button, not as linked text. */
   text-decoration: none;
+}
+
+/* The tap area: an invisible band, 44px tall, centred on the button, so a
+   compact button is as easy to hit as a full-size one (WCAG 2.5.8, and
+   Apple's 44pt). */
+.btn::after {
+  content: "";
+  position: absolute;
+  inset: 50% 0 auto;
+  height: max(100%, var(--button-target));
+  transform: translateY(-50%);
 }
 
 /* The label wraps an icon and its text. Icons are display: block from the
@@ -384,6 +397,7 @@ samp {
 }
 
 .btn--sm {
+  min-height: 0;
   padding: var(--space-xs) var(--space-sm);
   font-size: var(--text-xs);
   /* Small buttons carry short labels and often an icon beside them. Letting one
