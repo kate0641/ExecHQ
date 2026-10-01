@@ -324,7 +324,7 @@ const LOGO_RULES: {
   tone: LogoTone;
   title: string;
   role: string;
-  backgrounds: { token: string; name: string }[];
+  backgrounds: { token: string; name: string; use?: string }[];
 }[] = [
   {
     tone: "dark",
@@ -338,12 +338,12 @@ const LOGO_RULES: {
   {
     tone: "light",
     title: "Light logo",
-    role: "Bright yellow and light blue. Sits on any dark color.",
+    role: "Bright yellow and light blue. Sits on a dark color, and in most cases on navy or slate: the logo stays in some form of navy. Dark green is the secondary choice; stone 900 is kept but largely unused for now.",
     backgrounds: [
-      { token: "--brand-navy", name: "Navy" },
-      { token: "--brand-slate", name: "Slate" },
-      { token: "--brand-dark-green", name: "Dark green" },
-      { token: "--brand-stone-900", name: "Stone 900" },
+      { token: "--brand-navy", name: "Navy", use: "Primary" },
+      { token: "--brand-slate", name: "Slate", use: "Primary" },
+      { token: "--brand-dark-green", name: "Dark green", use: "Secondary" },
+      { token: "--brand-stone-900", name: "Stone 900", use: "Tertiary" },
     ],
   },
 ];
@@ -365,6 +365,9 @@ function LogoRules() {
                   <Logo tone={rule.tone} size="xl" />
                 </div>
                 <div className="styleguide__step-body">
+                  {background.use ? (
+                    <span className="styleguide__step-use">{background.use}</span>
+                  ) : null}
                   <span className="styleguide__step-name">On {background.name.toLowerCase()}</span>
                   <code className="styleguide__step-value">{background.token}</code>
                 </div>

@@ -38,7 +38,6 @@
   --brand-blue-600: #22609c;
   --brand-blue-700: #014472;
   --brand-blue-800: #002945;  /* palette: navy */
-  --brand-blue-850: #021f32;  /* halfway from navy to slate: deep navy behind a logo */
   --brand-blue-900: #03151f;  /* palette: slate — pressed navy, deep backgrounds */
 
   /* Green — light green at 300, dark green at 800. */
@@ -152,7 +151,7 @@
   --color-surface-inverse: var(--brand-primary);
   --color-surface-inverse-hover: var(--brand-primary-muted);
   --color-surface-inverse-active: var(--brand-primary-strong);
-  --color-surface-inverse-deep: var(--brand-blue-850);  /* deep navy, behind a logo on photography */
+  --color-surface-inverse-deep: var(--brand-slate);  /* slate (blue 900), behind a logo on photography */
   /* Progress — dark green, for "you've moved": your baseline against now,
      and small wins. Navy stays the main coloured card; green is never an
      action. Text on it: 9.1:1 (blue 100), muted 8.9:1 (green 200), eyebrow
@@ -619,7 +618,6 @@
   --brand-blue-600: #5e5e5e;
   --brand-blue-700: #414141;
   --brand-blue-800: #272727;
-  --brand-blue-850: #1d1d1d;
   --brand-blue-900: #131313;
   --brand-green-100: #f8f8f8;
   --brand-green-200: #f0f0f0;

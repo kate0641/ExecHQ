@@ -5123,6 +5123,16 @@ ol.ring-detail__timeline {
   margin-top: var(--space-xs);
 }
 
+/* How often a logo background is used: primary, secondary, tertiary. */
+.styleguide__step-use {
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
 .styleguide__logo-stage {
   display: flex;
   align-items: center;
