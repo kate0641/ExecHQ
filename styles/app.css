@@ -11281,6 +11281,8 @@ ul.stage-actions__list {
   box-shadow: var(--shadow-sm);
 }
 
+/* Two classes, so it outranks .settings-row's own border: 0 further down. */
+.settings-group__rows > .settings-row + .settings-row,
 .settings-group__rows > * + * {
   border-top: var(--border-subtle);
 }

@@ -181,7 +181,7 @@
   /* Borders — "strong" is 3.2:1 on the stone page and 3.4:1 on white, and is
      the one to use on controls. It is 3.1:1 on blue 100, so it still holds
      on a control inside a sunken well. */
-  --color-border-subtle: var(--brand-blue-100);
+  --color-border-subtle: var(--brand-stone-250);  /* dividers between rows: grey, the same soft edge as the cards (blue 100 vanished on white) */
   --color-border: var(--brand-stone-250);  /* card edges and dividers: soft, so outlined cards sit easily beside unoutlined ones */
   --color-border-strong: var(--brand-stone-400);
   --color-border-inverse: var(--brand-blue-700);
