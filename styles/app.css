@@ -3205,6 +3205,9 @@ ul.concierge-mini {
   padding: var(--space-md) var(--space-md) var(--space-lg);
   border-radius: var(--radius-xl);
   background-color: var(--color-surface-feature);
+  /* The same 2px white ring as the Spark, so the pale blue sits cleanly on
+     the stone. */
+  box-shadow: 0 0 0 2px var(--color-halo);
 }
 
 .home-card__title {
@@ -10620,7 +10623,7 @@ ul.spark {
   background-color: var(--color-surface-note);
   /* Not a shadow: a 2px white ring between the lime and the stone page, so
      the two colours stop buzzing where they meet. */
-  box-shadow: 0 0 0 2px var(--color-note-halo);
+  box-shadow: 0 0 0 2px var(--color-halo);
 }
 
 .spark__mark {
