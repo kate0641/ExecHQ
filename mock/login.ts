@@ -16,6 +16,7 @@
  */
 
 import { MAYA } from "@/mock/account";
+import { WELCOME } from "@/mock/onboarding";
 
 /** The code in the drawn email. The prototype accepts any six digits. */
 export const SIGN_IN_CODE = "482913";
@@ -49,6 +50,9 @@ export const PROVIDER_ACCOUNTS: Record<Provider, ProviderAccount[]> = {
 };
 
 export const LOGIN_COPY = {
+  /** What ExecHQ is, in the same words as the start of onboarding. */
+  welcome: { quote: WELCOME.quote, lede: WELCOME.lede },
+
   signIn: {
     kicker: "Welcome back",
     heading: "Log in to ExecHQ",

@@ -5090,6 +5090,52 @@ ol.ring-detail__timeline {
   text-decoration-thickness: var(--border-width-medium);
 }
 
+/* Login's welcome: a line at the foot of the sheet, and on the phone, after the
+   first screen, the dark panel shrinks to a band with the wordmark alone so
+   the form stays in reach. The sign-in email's notification drops in over the
+   top. */
+.welcome {
+  position: relative;
+}
+
+.welcome__foot {
+  display: flex;
+  flex-direction: column;
+}
+
+[data-viewport="mobile"] .welcome--compact .welcome__hero {
+  flex: none;
+  padding-bottom: var(--space-lg);
+}
+
+[data-viewport="mobile"] .welcome--compact .welcome__quote {
+  display: none;
+}
+
+[data-viewport="mobile"] .welcome--compact .welcome__sheet {
+  flex: 1;
+}
+
+.welcome > .login__notification {
+  position: absolute;
+  z-index: 3;
+  top: var(--space-md);
+  right: var(--space-md);
+  left: var(--space-md);
+}
+
+[data-viewport="web"] .welcome > .login__notification:not(:where([data-viewport="mobile"] *)) {
+  left: auto;
+  width: 24rem;
+}
+
+/* On the tablet, which stacks like the phone, the banner keeps a phone's
+   width and sits in the middle. */
+[data-viewport="tablet"] .welcome > .login__notification:not(:where([data-viewport="mobile"] *)) {
+  max-width: 24rem;
+  margin-inline: auto;
+}
+
 /* A class selector outranks the user agent's [hidden] rule. */
 .welcome__form [hidden] {
   display: none;
@@ -5126,6 +5172,72 @@ ol.ring-detail__timeline {
 [data-viewport="web"] .welcome__sheet > .step-actions:not(:where([data-viewport="mobile"] *)) {
   width: 100%;
   max-width: 28rem;
+}
+
+/* Login's welcome on the tablet: like the phone, the dark panel over the sheet,
+   with the sheet's content held to a phone-like column in the middle. Web keeps
+   the split. */
+[data-viewport="tablet"] .welcome--stacked:not(:where([data-viewport="mobile"] *)) {
+  flex-direction: column;
+}
+
+[data-viewport="tablet"] .welcome--stacked .welcome__hero:not(:where([data-viewport="mobile"] *)) {
+  flex: 0 0 18rem;
+  justify-content: flex-start;
+  gap: var(--space-xl);
+  padding: 5rem var(--space-xl) var(--space-xl);
+}
+
+[data-viewport="tablet"] .welcome--stacked .welcome__sheet:not(:where([data-viewport="mobile"] *)) {
+  flex: 1;
+  justify-content: flex-start;
+  padding: var(--space-xl) var(--space-xl) var(--space-xl);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+[data-viewport="tablet"] .welcome--compact.welcome--stacked .welcome__hero:not(:where([data-viewport="mobile"] *)) {
+  flex: none;
+  padding-bottom: var(--space-lg);
+}
+
+[data-viewport="tablet"] .welcome--compact.welcome--stacked .welcome__quote:not(:where([data-viewport="mobile"] *)) {
+  display: none;
+}
+
+[data-viewport="tablet"] .welcome--compact.welcome--stacked .welcome__sheet:not(:where([data-viewport="mobile"] *)) {
+  flex: 1;
+}
+
+/* Centred: the sheet's content in the middle of the sheet, held to one column,
+   with the foot at the bottom. On the phone the sheet is only as tall as its
+   content, so there is nothing to centre down; the column is still centred
+   across. */
+.welcome--centred .welcome__sheet {
+  align-items: center;
+}
+
+.welcome--centred .welcome__body,
+.welcome--centred .welcome__foot {
+  width: 100%;
+  max-width: 28rem;
+}
+
+[data-viewport="web"] .welcome--centred .welcome__sheet:not(:where([data-viewport="mobile"] *)) {
+  justify-content: flex-start;
+}
+
+[data-viewport="tablet"] .welcome--centred.welcome--stacked .welcome__body:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .welcome--centred .welcome__body:not(:where([data-viewport="mobile"] *)) {
+  margin-block: auto;
+}
+
+/* On web the dark panel holds the wordmark and the line together, in the
+   middle of the panel, across and down. */
+[data-viewport="web"] .welcome--centred .welcome__hero:not(:where([data-viewport="mobile"] *)) {
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xl);
+  text-align: center;
 }
 
 /* --- Privacy promise ------------------------------------------------------ */
@@ -11874,101 +11986,13 @@ ul.stage-actions__list {
   flex-direction: column;
 }
 
+/* The Log in button is as tall as the field above it. */
 .login {
-  position: relative;
-  isolation: isolate;
   display: flex;
-  flex: 1;
-  flex-direction: column;
-  width: 100%;
-  max-width: 26rem;
-  min-height: 100%;
-  margin-inline: auto;
-}
-
-/* The light blue glow, reaching out past the page's padding into the corner. */
-.login__glow {
-  position: absolute;
-  z-index: -1;
-  top: calc(-1 * var(--space-4xl));
-  left: calc(-1 * var(--space-4xl));
-  width: 22rem;
-  height: 22rem;
-  border-radius: 50%;
-  background: radial-gradient(circle at 45% 55%, var(--color-glow) 0%, var(--color-glow-fade) 55%, transparent 72%);
-  pointer-events: none;
-}
-
-.login__notification {
-  position: absolute;
-  z-index: 2;
-  top: calc(-1 * var(--space-md));
-  left: 0;
-  right: 0;
-}
-
-.login__body {
-  display: flex;
-  flex: 1;
   flex-direction: column;
   gap: var(--space-lg);
-  padding-top: var(--space-3xl);
 }
 
-/* Room kept for the email's notification to drop in above the heading. */
-.login__body--inbox {
-  padding-top: calc(var(--space-3xl) + 4rem);
-}
-
-[data-viewport="tablet"] .login__body--inbox:not(:where([data-viewport="mobile"] *)),
-[data-viewport="web"] .login__body--inbox:not(:where([data-viewport="mobile"] *)) {
-  padding-top: calc(var(--space-4xl) + 4rem);
-}
-
-.login__intro {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
-.login__kicker {
-  margin: 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-md);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-secondary);
-}
-
-.login__heading {
-  margin: 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-3xl);
-  font-weight: var(--weight-bold);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--font-display-tracking-heading);
-  text-wrap: balance;
-}
-
-.login__heading:focus {
-  outline: none;
-}
-
-.login__lede {
-  margin: 0;
-  color: var(--color-text-secondary);
-  overflow-wrap: anywhere;
-}
-
-/* The header's logo stays above the glow that reaches up into it. */
-.chrome:has(.login) > .chrome__header {
-  position: relative;
-  z-index: 1;
-}
-
-/* The Log in button is as tall as the field above it. */
 .login__form .btn {
   min-height: 3.75rem;
   border-radius: var(--radius-pill);
@@ -11998,43 +12022,10 @@ ul.stage-actions__list {
   background-color: var(--color-border);
 }
 
-.login__foot {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  margin-top: auto;
-  padding-top: var(--space-lg);
-}
-
 .login__small {
   margin: 0;
   font-size: var(--text-sm);
   color: var(--color-text-secondary);
-}
-
-/* The sign-in form sits in the middle of the page; the privacy line drops to
-   the foot. */
-.login__centre {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: center;
-  gap: var(--space-lg);
-}
-
-/* The form is centred on the whole page; equal room above and below holds the
-   privacy line, which sits at the very foot. */
-.login__body--centred,
-[data-viewport="tablet"] .login__body--centred:not(:where([data-viewport="mobile"] *)),
-[data-viewport="web"] .login__body--centred:not(:where([data-viewport="mobile"] *)) {
-  padding-block: 4rem;
-}
-
-.login__body--centred .login__privacy {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
 }
 
 .login__new {
@@ -12132,11 +12123,6 @@ ul.login__never {
 
 .sheet--tall .sheet__grab {
   margin-top: var(--space-xs);
-}
-
-[data-viewport="tablet"] .login__body:not(:where([data-viewport="mobile"] *)),
-[data-viewport="web"] .login__body:not(:where([data-viewport="mobile"] *)) {
-  padding-top: var(--space-4xl);
 }
 
 /* Open page rounds its buttons to match the pill fields. */
