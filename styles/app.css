@@ -10664,6 +10664,17 @@ ul.stage-actions__list {
   transition: background-color var(--duration-fast) var(--easing-standard);
 }
 
+/* The tap area: an invisible band 44px tall (--button-target), centred on the
+   switch, as .btn has, so the 32px switch is as easy to hit as any button. */
+.switch::after {
+  content: "";
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: max(100%, var(--button-target));
+  height: var(--button-target);
+  transform: translate(-50%, -50%);
+}
+
 .switch__thumb {
   position: absolute;
   top: var(--space-2xs);
