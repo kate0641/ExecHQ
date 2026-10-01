@@ -10617,7 +10617,7 @@ ul.spark {
   gap: var(--space-sm);
   padding: var(--space-sm) var(--space-sm) var(--space-sm) var(--space-md);
   border-radius: var(--radius-xl);
-  background-color: var(--color-accent-soft);
+  background-color: var(--color-surface-note);
 }
 
 .spark__mark {
