@@ -11281,10 +11281,16 @@ ul.stage-actions__list {
   box-shadow: var(--shadow-sm);
 }
 
-/* Two classes, so it outranks .settings-row's own border: 0 further down. */
+/* The divider between rows stops short of the card's edges, lined up with
+   the row's padding. It is drawn as a background line rather than a border,
+   so the row's hover fill still runs edge to edge. Two classes, so it
+   outranks .settings-row's own background further down. */
 .settings-group__rows > .settings-row + .settings-row,
 .settings-group__rows > * + * {
-  border-top: var(--border-subtle);
+  background-image: linear-gradient(var(--color-border-subtle), var(--color-border-subtle));
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: calc(100% - 2 * var(--space-md)) var(--border-width-thin);
 }
 
 .settings-row {
