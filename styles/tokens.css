@@ -410,10 +410,12 @@
   --type-heading-tracking: var(--font-display-tracking-heading);
   --type-heading-word-spacing: var(--font-display-word-spacing);
 
-  /* Subheading — an item in a list or card: a row, a link, a read. */
+  /* Subheading — an item in a list or card: a row, a link, a read. A clear
+     step below the heading (16 semibold against 22), so rows read as items
+     in a list, not as headings competing with the card above them. */
   --type-subheading-font: var(--font-display);
-  --type-subheading-size: var(--text-lg);
-  --type-subheading-weight: var(--weight-bold);
+  --type-subheading-size: var(--text-md);
+  --type-subheading-weight: var(--weight-semibold);
   --type-subheading-leading: var(--leading-snug);
   --type-subheading-tracking: var(--font-display-tracking);
   --type-subheading-word-spacing: var(--font-display-word-spacing);
