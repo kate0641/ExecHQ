@@ -1888,7 +1888,7 @@ ul.chrome__nav-list {
    with flex `order`. */
 [data-viewport="mobile"] .chrome__header {
   order: 1;
-  padding: var(--space-sm) var(--space-md);
+  padding: var(--space-sm) var(--space-screen-side);
 }
 
 [data-viewport="mobile"] .chrome__nav {
@@ -1901,7 +1901,7 @@ ul.chrome__nav-list {
 
 [data-viewport="mobile"] .chrome__main {
   order: 2;
-  padding: var(--space-lg) var(--space-md);
+  padding: var(--space-lg) var(--space-screen-side);
 }
 
 [data-viewport="mobile"] .chrome__footer {
@@ -2737,9 +2737,9 @@ a.drawer-nav__account {
 
 .concierge-host__pill {
   position: absolute;
-  right: var(--space-md);
+  right: var(--space-screen-side);
   bottom: var(--space-lg);
-  left: var(--space-md);
+  left: var(--space-screen-side);
   pointer-events: auto;
   transition: opacity var(--duration-base), transform var(--duration-slow) cubic-bezier(0.2, 0.8, 0.2, 1);
 }

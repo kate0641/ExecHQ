@@ -499,6 +499,9 @@
      the line under it, which stay close. */
   --space-paragraph: var(--space-sm);
 
+  /* SPACING ROLES — what a gap is for, so one change here moves it everywhere. */
+  --space-screen-side: var(--space-sm);  /* left and right of a phone screen: 12, so cards run wider */
+
   /* ---------------------------------------------------------------------------
      RADII
      ------------------------------------------------------------------------ */
