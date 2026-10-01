@@ -164,6 +164,7 @@
   /* A small "something moved" note (the Spark): lime 200, the quiet end of
      progress. Text on it: primary 17.2:1, muted 5.2:1. */
   --color-surface-note: var(--brand-green-200);
+  --color-note-halo: var(--brand-white);  /* a thin white ring that keeps the lime from shimmering against the stone */
   --color-surface-hover: var(--brand-blue-100);
   --color-surface-active: var(--brand-blue-200);
   --color-surface-disabled: var(--brand-blue-100);

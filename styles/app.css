@@ -10618,6 +10618,9 @@ ul.spark {
   padding: var(--space-sm) var(--space-sm) var(--space-sm) var(--space-md);
   border-radius: var(--radius-xl);
   background-color: var(--color-surface-note);
+  /* Not a shadow: a 2px white ring between the lime and the stone page, so
+     the two colours stop buzzing where they meet. */
+  box-shadow: 0 0 0 2px var(--color-note-halo);
 }
 
 .spark__mark {
