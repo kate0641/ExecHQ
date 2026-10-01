@@ -11209,10 +11209,9 @@ ul.stage-actions__list {
   gap: var(--space-md);
   width: 100%;
   padding: var(--space-md);
-  border: 0;
+  border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-lg);
   background-color: var(--color-surface-raised);
-  box-shadow: var(--shadow-sm);
   color: var(--color-text-primary);
   font: inherit;
   text-align: left;
@@ -11278,7 +11277,7 @@ ul.stage-actions__list {
   overflow: hidden;
   border-radius: var(--radius-lg);
   background-color: var(--color-surface-raised);
-  box-shadow: var(--shadow-sm);
+  border: var(--border-width-thin) solid var(--color-border);
 }
 
 /* The divider between rows stops short of the card's edges, lined up with
