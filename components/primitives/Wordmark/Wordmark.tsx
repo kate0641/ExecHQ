@@ -6,7 +6,7 @@ export interface WordmarkProps {
   /** `md` for chrome headers, `xl` where the wordmark is the first thing on a
    *  screen. */
   size?: WordmarkSize;
-  /** `dark` on stone and light blue, `light` on any dark surface. */
+  /** `dark` on stone and blue 100, `light` on any dark surface. */
   tone?: LogoTone;
   /** A product line after the name, e.g. "Enterprise". Set lighter. */
   suffix?: string;
@@ -20,7 +20,7 @@ export interface WordmarkProps {
  * product line after it.
  *
  * Every place the brand appears as a mark goes through here. The tone follows
- * the logo's rule: dark on stone and light blue, light on any dark surface.
+ * the logo's rule: dark on stone and blue 100, light on any dark surface.
  *
  * A paragraph rather than a heading: the wordmark names the product, not the
  * page, and a screen's h1 is what it is asking.

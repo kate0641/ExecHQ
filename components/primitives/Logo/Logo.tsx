@@ -2,7 +2,7 @@ export type LogoTone = "dark" | "light";
 export type LogoSize = "md" | "xl";
 
 export interface LogoProps {
-  /** `dark` (gold and navy) on stone and light blue; `light` (bright yellow
+  /** `dark` (gold and navy) on stone and blue 100; `light` (bright yellow
    *  and light blue) on any dark colour. */
   tone?: LogoTone;
   /** `md` for chrome headers, `xl` where the logo is the first thing on a

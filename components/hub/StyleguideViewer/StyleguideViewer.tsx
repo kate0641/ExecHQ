@@ -329,10 +329,10 @@ const LOGO_RULES: {
   {
     tone: "dark",
     title: "Dark logo",
-    role: "Gold and navy. Sits on stone and light blue.",
+    role: "Gold and navy. Sits on stone and blue 100. Not on light blue (blue 200): the gold falls to 4.2:1 there.",
     backgrounds: [
       { token: "--brand-stone", name: "Stone" },
-      { token: "--brand-light-blue", name: "Light blue" },
+      { token: "--brand-blue-100", name: "Blue 100" },
     ],
   },
   {
@@ -568,7 +568,7 @@ export function StyleguideViewer() {
           id: "logo",
           label: "Logo",
           group: "Brand",
-          description: "Two versions of one logo. The dark logo sits on stone and light blue; the light logo sits on any dark color.",
+          description: "Two versions of one logo. The dark logo sits on stone and blue 100; the light logo sits on any dark color.",
           source: "components/primitives/Logo",
           content: (
           <div className="styleguide-layout__card">
