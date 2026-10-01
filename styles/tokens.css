@@ -195,6 +195,21 @@
   --color-action-active: var(--brand-yellow-600);
   --color-text-on-action: var(--brand-stone-900);
 
+  /* Secondary action — light blue with navy text, no outline: the palette
+     light blue reads as a button on the page and on white cards without
+     competing with the yellow. Navy on it is 11.3:1, 8.0:1 on hover (blue
+     300) and 5.6:1 pressed (blue 400). As with the primary, the label
+     identifies the control, so the fill needs no edge. */
+  --color-action-secondary: var(--brand-blue-200);
+  --color-action-secondary-hover: var(--brand-blue-300);
+  --color-action-secondary-active: var(--brand-blue-400);
+  --color-text-on-action-secondary: var(--brand-primary);
+
+  /* Tags — small status words beside a heading, such as "Since 5 Oct".
+     Pale lime with dark green text (8.9:1), the same pair as the icon chips. */
+  --color-tag-surface: var(--brand-green-200);
+  --color-tag-text: var(--brand-dark-green);
+
   /* Danger — the destructive action: deleting the account, removing a
      connection. The red end of the orange scale. White on it is 7.0:1, and
      the fill is 6.4:1 against stone, so it needs no edge. */
@@ -474,6 +489,7 @@
   --radius-lg: 1rem;      /* 16px */
   --radius-xl: 1.25rem;   /* 20px */
   --radius-pill: 999px;
+  --radius-button: var(--radius-pill); /* every button is a pill */
   --radius-device-mobile: 2.75rem; /* 44px */
   --radius-device-tablet: 1.375rem; /* 22px */
 
@@ -507,7 +523,7 @@
      the stone page (1.4.11). Never below 1px, and keep the gap so the ring
      does not merge with 1px control borders. */
   --focus-ring-width: 1.5px;
-  --focus-ring-offset: 1px;
+  --focus-ring-offset: 2px; /* a clear gap, so the ring never merges with a filled button */
   --focus-ring: var(--focus-ring-width) solid var(--color-focus);
 
   /* ---------------------------------------------------------------------------
