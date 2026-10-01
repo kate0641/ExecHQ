@@ -10356,6 +10356,36 @@ ol.check-in__steps {
   background-color: var(--color-surface-raised);
 }
 
+/* Cards are outlined only when the whole card can be tapped. An account card
+   only holds a button, so it sits open on the page, with a divider under it
+   to keep the sections apart. */
+.account-card:not(.presence-card) {
+  padding: var(--space-2xs) 0 var(--space-lg);
+  border: 0;
+  border-bottom: var(--border-width-thin) solid var(--color-border);
+  border-radius: 0;
+  background-color: transparent;
+}
+
+/* Where you started against where you are now: progress, so dark green. The
+   tokens inside remap to read on it, the way the Briefing's do on navy. */
+.presence-card,
+.c3-accounts__baseline {
+  --color-surface-raised: var(--color-surface-progress);
+  --color-text-primary: var(--color-text-inverse);
+  --color-text-secondary: var(--color-text-on-progress-muted);
+  --color-text-muted: var(--color-text-on-progress-muted);
+  --color-border: var(--color-border-progress);
+  --color-border-subtle: var(--color-border-progress);
+  --border-subtle: var(--border-width-thin) solid var(--color-border-progress);
+  --color-eyebrow: var(--color-eyebrow-on-progress);
+  --color-focus: var(--color-focus-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+  border-color: transparent;
+  background-color: var(--color-surface-progress);
+  color: var(--color-text-inverse);
+}
+
 .account-card__top {
   display: flex;
   align-items: center;

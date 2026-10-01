@@ -153,6 +153,14 @@
   --color-surface-inverse-hover: var(--brand-primary-muted);
   --color-surface-inverse-active: var(--brand-primary-strong);
   --color-surface-inverse-deep: var(--brand-blue-850);  /* deep navy, behind a logo on photography */
+  /* Progress — dark green, for "you've moved": your baseline against now,
+     and small wins. Navy stays the main coloured card; green is never an
+     action. Text on it: 9.1:1 (blue 100), muted 8.9:1 (green 200), eyebrow
+     8.1:1 (light green). */
+  --color-surface-progress: var(--brand-dark-green);
+  --color-border-progress: var(--brand-green-700);
+  --color-text-on-progress-muted: var(--brand-green-200);
+  --color-eyebrow-on-progress: var(--brand-light-green);
   --color-surface-hover: var(--brand-blue-100);
   --color-surface-active: var(--brand-blue-200);
   --color-surface-disabled: var(--brand-blue-100);
