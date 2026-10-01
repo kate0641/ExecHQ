@@ -265,6 +265,7 @@
   /* Focus — must stay at least 3:1 against every surface it lands on */
   --color-focus: var(--brand-primary);
   --color-focus-inverse: var(--brand-white);
+  --color-field-focus: var(--brand-primary);  /* a field you are typing in: navy edge, 15:1 on white */
 
   /* Masks read only opacity, so this just needs to be solid. Used to fade
      scrolling content out at an edge. */

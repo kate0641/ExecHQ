@@ -754,8 +754,8 @@ samp {
 .field__control.is-focus {
   outline: var(--border-width-medium) solid transparent;
   outline-offset: calc(var(--border-width-medium) * -1);
-  border-color: var(--color-text-primary);
-  box-shadow: inset 0 0 0 var(--border-width-thin) var(--color-text-primary);
+  border-color: var(--color-field-focus);
+  box-shadow: inset 0 0 0 var(--border-width-thin) var(--color-field-focus);
 }
 
 .field__control:disabled {
