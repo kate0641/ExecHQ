@@ -11298,6 +11298,27 @@ ul.stage-actions__list {
   padding-bottom: var(--space-2xl);
 }
 
+/* Two columns of sections: they stack as one on mobile and tablet, and sit
+   side by side on web, Account and Notifications on the left, the rest on
+   the right. */
+.profile__column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  min-width: 0;
+}
+
+[data-viewport="web"] .profile:not(:where([data-viewport="mobile"] *)) {
+  max-width: 64rem;
+}
+
+[data-viewport="web"] .profile__list:not(:where([data-viewport="mobile"] *)) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: var(--space-2xl);
+}
+
 /* The page's sections, open on it. */
 .profile__section {
   min-width: 0;

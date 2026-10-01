@@ -265,54 +265,59 @@ export function ProfileConcept1() {
       <h1 className="profile__title">{C.title}</h1>
       <div className="profile__layout">
         <div className="profile__list">
-          <section className="profile__section" aria-labelledby="account-heading">
-            <AccountSummary account={account} onEdit={() => show("account")} />
-          </section>
-
-          <section className="profile__section" aria-labelledby="notifications-heading">
-            <NotificationsDetail
-              notify={account.notify}
-              onChange={(item, on) => {
-                const notify = { ...account.notify };
-                for (const topic of NOTIFY_TOPICS[item]) notify[topic] = { ...notify[topic], email: on };
-                loopActions.updateAccount({ notify });
-                const label = C.notifications.items[item].label;
-                announce(on ? C.notifications.savedOn(label) : C.notifications.savedOff(label));
-              }}
-            />
-          </section>
-
-          {account.org ? (
-            <section className="profile__section" aria-labelledby="organisation-heading">
-              <OrganisationDetail org={account.org} onLeave={() => {}} onRequestLeave={() => show("organisation")} />
+          <div className="profile__column">
+            <section className="profile__section" aria-labelledby="account-heading">
+              <AccountSummary account={account} onEdit={() => show("account")} />
             </section>
-          ) : null}
 
-          <section className="profile__section" aria-labelledby="data-heading">
-            <DetailPanel heading={C.groups.data} headingId="data-heading">
-              <SettingsGroup label={C.groups.data} headingLevel={3} hideLabel>
-                <SettingsRow
-                  kind="action"
-                  icon="download"
-                  label={R.export}
-                  value={downloading ? R.exportWorking : R.exportValue}
-                  busy={downloading}
-                  onAction={download}
-                />
-              </SettingsGroup>
-              {/* Set well apart from the download, so the two never read as alike. */}
-              <div className="profile__apart">
-                <SettingsGroup label={C.groups.delete} headingLevel={3} hideLabel>
-                  <SettingsRow icon="trash" label={R.delete} tone="danger" onOpen={() => show("delete")} />
+            <section className="profile__section" aria-labelledby="notifications-heading">
+              <NotificationsDetail
+                notify={account.notify}
+                onChange={(item, on) => {
+                  const notify = { ...account.notify };
+                  for (const topic of NOTIFY_TOPICS[item]) notify[topic] = { ...notify[topic], email: on };
+                  loopActions.updateAccount({ notify });
+                  const label = C.notifications.items[item].label;
+                  announce(on ? C.notifications.savedOn(label) : C.notifications.savedOff(label));
+                }}
+              />
+            </section>
+
+          </div>
+
+          <div className="profile__column">
+            {account.org ? (
+              <section className="profile__section" aria-labelledby="organisation-heading">
+                <OrganisationDetail org={account.org} onLeave={() => {}} onRequestLeave={() => show("organisation")} />
+              </section>
+            ) : null}
+
+            <section className="profile__section" aria-labelledby="data-heading">
+              <DetailPanel heading={C.groups.data} headingId="data-heading">
+                <SettingsGroup label={C.groups.data} headingLevel={3} hideLabel>
+                  <SettingsRow
+                    kind="action"
+                    icon="download"
+                    label={R.export}
+                    value={downloading ? R.exportWorking : R.exportValue}
+                    busy={downloading}
+                    onAction={download}
+                  />
                 </SettingsGroup>
-              </div>
-            </DetailPanel>
-          </section>
+                {/* Set well apart from the download, so the two never read as alike. */}
+                <div className="profile__apart">
+                  <SettingsGroup label={C.groups.delete} headingLevel={3} hideLabel>
+                    <SettingsRow icon="trash" label={R.delete} tone="danger" onOpen={() => show("delete")} />
+                  </SettingsGroup>
+                </div>
+              </DetailPanel>
+            </section>
 
-          <Button variant="secondary" fullWidth onClick={() => end("signed-out")}>
-            <Icon name="sign-out" size={16} />
-            {R.signOut}
-          </Button>
+            <Button variant="secondary" fullWidth onClick={() => end("signed-out")}>
+              <Icon name="sign-out" size={16} />
+              {R.signOut}
+            </Button>
+          </div>
         </div>
 
       </div>
