@@ -11,7 +11,7 @@ export const organisationDetailStates = defineComponentStates({
   status: "draft",
   flows: ["profile"],
   description:
-    "The organisation her account came through: who it is, her role, and in plain words what it can and never sees. Leaving asks once. PROVISIONAL what an organisation sees, flagged on the page.",
+    "The organisation her account came through: who it is, and in plain words what it sees (a summary of the whole group) and never sees (her personally). Leaving asks once.",
   component: OrganisationDetail,
   notApplicable: {
     hover: controls,
@@ -34,6 +34,6 @@ export const organisationDetailStates = defineComponentStates({
         headingId: "od-4",
       },
     },
-    { label: "In the web pane, no close", props: { org: MAYA.org, onLeave: noop, headingId: "od-5" } },
+    { label: "Open on the page, no close", props: { org: MAYA.org, onLeave: noop, onRequestLeave: noop, headingId: "od-5" } },
   ],
 });

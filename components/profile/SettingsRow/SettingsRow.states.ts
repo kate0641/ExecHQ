@@ -33,16 +33,18 @@ export const settingsRowStates = defineComponentStates({
       props: { label: R.direction, value: R.directionValue, onOpen: noop },
     },
     { label: "Without a value — none", props: { icon: "download", label: R.export, onOpen: noop } },
+    { label: "Action — default", description: "Does something at once, such as a download, so it has no chevron.", props: { kind: "action", icon: "download", label: R.export, value: R.exportValue, onAction: noop } },
+    { label: "Action — loading", description: "While it works: the value says so.", props: { kind: "action", icon: "download", label: R.export, value: R.exportWorking, onAction: noop, busy: true } },
     { label: "Danger", props: { icon: "trash", label: R.delete, tone: "danger", onOpen: noop } },
     { label: "Goes to a page", props: { icon: "flag", label: R.plan, value: R.planValue("Step up", "Increase leadership scope"), href: "/plan/concept-1" } },
     { label: "Read only", props: { kind: "static", icon: "mail", label: "Email", value: "maya.chen@example.com" } },
     {
       label: "Switch — on",
-      props: { kind: "switch", icon: "bell", label: "Quiet hours", description: PROFILE_COPY.notifications.quietOn, checked: true, onChange: noop },
+      props: { kind: "switch", icon: "bell", label: "Quiet hours", description: "No emails from 9pm to 7am. They are sent when quiet hours end.", checked: true, onChange: noop },
     },
     {
       label: "Switch — off",
-      props: { kind: "switch", icon: "bell", label: "Quiet hours", description: PROFILE_COPY.notifications.quietOff, checked: false, onChange: noop },
+      props: { kind: "switch", icon: "bell", label: "Quiet hours", description: "Off. Emails can arrive at any hour.", checked: false, onChange: noop },
     },
     {
       label: "Arrives later — unavailable",

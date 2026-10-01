@@ -141,11 +141,11 @@ export const MAYA: Account = {
     name: "Northgate Leadership Programme",
     role: "Member",
     joinedOn: "2026-09-14",
-    sees: ["That you are a member", "Totals across all members, with no names"],
+    sees: ["a summary of everyone in the group, as a whole"],
     never: [
-      "Your drafts, your Loop record, your connections or your plan",
-      "When you sign in, or what you open",
-      "Your name, your email or your current title",
+      "your name or email",
+      "your drafts, Loop record or plan",
+      "when you sign in or what you open",
     ],
   },
 };

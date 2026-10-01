@@ -43,6 +43,15 @@ export const settingsGroupStates = defineComponentStates({
       },
     },
     {
+      label: "Label hidden, under the section's own heading",
+      description: "The label stays for screen readers; the section above it already names the group.",
+      props: {
+        label: "Notifications",
+        hideLabel: true,
+        children: [row({ kind: "switch", icon: "bell", label: "Daily Briefing", checked: true, onChange: () => {} }, "h")],
+      },
+    },
+    {
       label: "A long label wraps",
       props: {
         label: "Everything ExecHQ sends to your personal email address",

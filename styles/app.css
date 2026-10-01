@@ -11298,35 +11298,14 @@ ul.stage-actions__list {
   padding-bottom: var(--space-2xl);
 }
 
-/* Web: the list and the detail side by side. The pane stays in view while
-   the list scrolls. */
-[data-viewport="web"] .profile:not(:where([data-viewport="mobile"] *)) {
-  max-width: 68rem;
+/* The page's sections, open on it. */
+.profile__section {
+  min-width: 0;
 }
 
-[data-viewport="web"] .profile__layout:not(:where([data-viewport="mobile"] *)) {
-  display: grid;
-  grid-template-columns: minmax(20rem, 26rem) minmax(0, 1fr);
-  align-items: start;
-  gap: var(--space-2xl);
-}
-
-.profile__pane {
-  position: sticky;
-  top: var(--space-lg);
-  padding: var(--space-xl);
-  border-radius: var(--radius-xl);
-  background-color: var(--color-surface-raised);
-  box-shadow: var(--shadow-sm);
-}
-
-.profile__pane .detail-panel {
-  max-width: var(--content-measure);
-}
-
-.profile__pane .connection-upload,
-.profile__pane .format-choice__option {
-  background-color: var(--color-surface);
+/* Delete account, held well away from the download beside it. */
+.profile__apart {
+  margin-top: var(--space-lg);
 }
 
 .profile-fact {
@@ -11387,20 +11366,6 @@ ul.stage-actions__list {
 .profile-end__body {
   margin: 0;
   color: var(--color-text-secondary);
-}
-
-/* In the web pane there is room beside a button, so it keeps to its label. */
-.profile__pane .detail-panel__actions {
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-.profile__pane .detail-panel__actions .btn--full,
-.profile__pane .detail-panel__form > .btn--full,
-.profile__pane .detail-panel > .btn--full {
-  display: inline-flex;
-  width: auto;
-  align-self: flex-start;
 }
 
 /* =============================================================================

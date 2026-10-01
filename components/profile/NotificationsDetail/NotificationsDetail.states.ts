@@ -3,8 +3,9 @@ import { MAYA } from "@/mock/account";
 import { NotificationsDetail } from "./NotificationsDetail";
 
 const noop = () => {};
-const base = { notify: MAYA.notify, cap: MAYA.followUpCap, quietHours: true, onNotify: noop, onCap: noop, onQuietHours: noop, onClose: noop };
-const controls = "Its controls are checkboxes, a segmented control and a switch, which show their own states.";
+const base = { notify: MAYA.notify, onChange: noop, onClose: noop };
+const controls = "Its controls are switches, which show their own states.";
+const off = { email: false, app: false };
 
 export const notificationsDetailStates = defineComponentStates({
   name: "NotificationsDetail",
@@ -12,7 +13,7 @@ export const notificationsDetailStates = defineComponentStates({
   status: "draft",
   flows: ["profile"],
   description:
-    "What reaches her and how: each topic by email and in the app, how often follow-ups may email her, and quiet hours. Every control takes effect at once. PROVISIONAL frequency cap, flagged on the page.",
+    "The only notifications there are: email, one switch for the plan and one for the Daily Briefing. ExecHQ is a website, so nothing else can reach her. Each takes effect at once.",
   component: NotificationsDetail,
   notApplicable: {
     hover: controls,
@@ -24,22 +25,28 @@ export const notificationsDetailStates = defineComponentStates({
     "long text": "Holds fixed copy and controls only; she types nothing.",
   },
   variants: [
-    { label: "Defaults, filled — default", props: { ...base, headingId: "nd-1" } },
+    { label: "Both on, filled — default", props: { ...base, headingId: "nd-1" } },
     {
       label: "Everything off — empty",
       props: {
         ...base,
-        notify: {
-          followUps: { email: false, app: false },
-          briefing: { email: false, app: false },
-          plan: { email: false, app: false },
-          news: { email: false, app: false },
-        },
-        quietHours: false,
+        notify: { followUps: off, briefing: off, plan: off, news: off },
         headingId: "nd-2",
       },
     },
-    { label: "Monthly, no quiet hours", props: { ...base, cap: "month", quietHours: false, headingId: "nd-3" } },
+    {
+      label: "Briefing only",
+      props: {
+        ...base,
+        notify: {
+          followUps: off,
+          briefing: { email: true, app: false },
+          plan: off,
+          news: off,
+        },
+        headingId: "nd-3",
+      },
+    },
     { label: "In the web pane, no close", props: { ...base, onClose: undefined, headingId: "nd-4" } },
   ],
 });

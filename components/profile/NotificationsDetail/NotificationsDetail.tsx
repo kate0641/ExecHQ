@@ -1,84 +1,57 @@
-"use client";
-
-import { Checkbox } from "@/components/form/Checkbox";
-import { ToggleGroup } from "@/components/form/ToggleGroup";
-import { Notice } from "@/components/onboarding/Notice";
-import type { Account, FollowUpCap, NotifyChannel, NotifyTopic } from "@/mock/account";
-import { PROFILE_COPY, PROFILE_PROVISIONAL } from "@/mock/profile";
+import type { Account, NotifyTopic } from "@/mock/account";
+import { PROFILE_COPY } from "@/mock/profile";
 import { DetailPanel } from "../DetailPanel";
 import { SettingsGroup } from "../SettingsGroup";
 import { SettingsRow } from "../SettingsRow";
 
+/** The two emails she can switch: the plan (Loop follow-ups and plan
+ *  reminders, which are one thing to her) and the Daily Briefing. */
+export type NotifyItem = "plan" | "briefing";
+
+/** The account topics each switch covers. */
+export const NOTIFY_TOPICS: Record<NotifyItem, NotifyTopic[]> = {
+  plan: ["followUps", "plan"],
+  briefing: ["briefing"],
+};
+
 export interface NotificationsDetailProps {
   notify: Account["notify"];
-  cap: FollowUpCap;
-  quietHours: boolean;
-  onNotify: (topic: NotifyTopic, channel: NotifyChannel, on: boolean) => void;
-  onCap: (cap: FollowUpCap) => void;
-  onQuietHours: (on: boolean) => void;
+  onChange: (item: NotifyItem, on: boolean) => void;
   onClose?: () => void;
   headingId?: string;
 }
 
 const C = PROFILE_COPY.notifications;
-const TOPICS = Object.keys(C.topics) as NotifyTopic[];
-const CHANNELS = Object.keys(C.channels) as NotifyChannel[];
-const CAPS = Object.keys(C.caps) as FollowUpCap[];
+const ITEMS = Object.keys(C.items) as NotifyItem[];
+
+/** A switch is on while anything it covers is still emailed. */
+const isOn = (notify: Account["notify"], item: NotifyItem) =>
+  NOTIFY_TOPICS[item].some((topic) => notify[topic].email);
 
 /**
- * What reaches her and how: each topic by email and in the app, how often a
- * follow-up may email her, and quiet hours. Every control takes effect at
- * once, with no save step. PROVISIONAL: the frequency cap is an open
- * question with the client, and the note says so.
+ * The only notifications there are: email, one switch for the plan and one
+ * for the Daily Briefing. ExecHQ is a website, so nothing else can reach her.
+ * Each takes effect at once, with no save step.
  */
 export function NotificationsDetail({
   notify,
-  cap,
-  quietHours,
-  onNotify,
-  onCap,
-  onQuietHours,
+  onChange,
   onClose,
   headingId = "notifications-heading",
 }: NotificationsDetailProps) {
   return (
-    <DetailPanel heading={C.heading} headingId={headingId} lead={C.lead} onClose={onClose}>
-      <div className="notify-topics">
-        {TOPICS.map((topic) => (
-          <fieldset key={topic} className="notify-topic">
-            <legend className="notify-topic__label">{C.topics[topic].label}</legend>
-            <p className="notify-topic__hint">{C.topics[topic].hint}</p>
-            <div className="notify-topic__channels">
-              {CHANNELS.map((channel) => (
-                <Checkbox
-                  key={channel}
-                  label={C.channels[channel]}
-                  checked={notify[topic][channel]}
-                  onChange={(event) => onNotify(topic, channel, event.target.checked)}
-                />
-              ))}
-            </div>
-          </fieldset>
+    <DetailPanel heading={C.heading} headingId={headingId} onClose={onClose}>
+      <SettingsGroup label={C.heading} headingLevel={3} hideLabel>
+        {ITEMS.map((item) => (
+          <SettingsRow
+            key={item}
+            kind="switch"
+            label={C.items[item].label}
+            description={C.items[item].hint}
+            checked={isOn(notify, item)}
+            onChange={(on) => onChange(item, on)}
+          />
         ))}
-      </div>
-      <ToggleGroup
-        label={C.capLabel}
-        options={CAPS.map((key) => ({ value: key, label: C.caps[key] }))}
-        value={cap}
-        onChange={(value) => onCap(value as FollowUpCap)}
-      />
-      <p className="notify-topic__hint">{C.capHint}</p>
-      <Notice tone="explain" label={PROFILE_PROVISIONAL.label}>
-        {PROFILE_PROVISIONAL.followUps}
-      </Notice>
-      <SettingsGroup label={C.quietLabel} headingLevel={3}>
-        <SettingsRow
-          kind="switch"
-          label={C.quietLabel}
-          description={quietHours ? C.quietOn : C.quietOff}
-          checked={quietHours}
-          onChange={onQuietHours}
-        />
       </SettingsGroup>
     </DetailPanel>
   );

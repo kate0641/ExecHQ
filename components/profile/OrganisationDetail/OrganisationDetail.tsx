@@ -1,18 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { Notice } from "@/components/onboarding/Notice";
 import { Button } from "@/components/primitives/Button";
-import { Icon } from "@/components/primitives/Icon";
 import type { Organisation } from "@/mock/account";
-import { PROFILE_COPY, PROFILE_PROVISIONAL } from "@/mock/profile";
+import { PROFILE_COPY } from "@/mock/profile";
 import { DetailPanel } from "../DetailPanel";
-import { dayMonthYear } from "../profile-dates";
 
 export interface OrganisationDetailProps {
   /** Undefined when she is not part of one. */
   org?: Organisation;
   onLeave: () => void;
+  /** Where the details sit open on the page, Leave hands the asking to the
+   *  caller (a small sheet) instead of swapping the page's content. */
+  onRequestLeave?: () => void;
   /** Catalogue only: open on the leave confirmation. */
   startConfirming?: boolean;
   onClose?: () => void;
@@ -21,14 +21,21 @@ export interface OrganisationDetailProps {
 
 const C = PROFILE_COPY.organisation;
 
+/** A few fragments as one short line, the first capitalised. */
+function sentence(parts: string[]): string {
+  const joined = parts.join("; ");
+  return `${joined.charAt(0).toUpperCase()}${joined.slice(1)}.`;
+}
+
 /**
  * The organisation her account came through, if any: who it is, her role,
- * and in plain words what it can and can never see. Leaving asks once.
- * PROVISIONAL: what an organisation sees is open with the client.
+ * and in plain words what it can and can never see: a summary of everyone in
+ * the group as a whole, never her personally. Leaving asks once.
  */
 export function OrganisationDetail({
   org,
   onLeave,
+  onRequestLeave,
   startConfirming = false,
   onClose,
   headingId = "organisation-heading",
@@ -61,44 +68,14 @@ export function OrganisationDetail({
   return (
     <DetailPanel heading={C.heading} headingId={headingId} lead={C.member(org.name)} onClose={onClose}>
       <div className="profile-fact">
-        <span className="profile-fact__label">{org.name}</span>
-        <span className="profile-fact__value">
-          {C.role}: {org.role}
-        </span>
-        <span className="profile-fact__hint">
-          {C.joined} {dayMonthYear(org.joinedOn)}
-        </span>
+        <span className="profile-fact__label">{C.sees}</span>
+        <span className="profile-fact__value">{sentence(org.sees)}</span>
       </div>
-      <section aria-labelledby={`${headingId}-sees`}>
-        <h3 className="profile-fact__label" id={`${headingId}-sees`}>
-          {C.sees}
-        </h3>
-        <ul className="detail-list">
-          {org.sees.map((line) => (
-            <li key={line}>
-              <Icon name="check" size={16} />
-              <span>{line}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
-      <section aria-labelledby={`${headingId}-never`}>
-        <h3 className="profile-fact__label" id={`${headingId}-never`}>
-          {C.never}
-        </h3>
-        <ul className="detail-list">
-          {org.never.map((line) => (
-            <li key={line}>
-              <Icon name="close" size={16} />
-              <span>{line}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
-      <Notice tone="explain" label={PROFILE_PROVISIONAL.label}>
-        {PROFILE_PROVISIONAL.organisation}
-      </Notice>
-      <Button variant="secondary" fullWidth onClick={() => setConfirming(true)}>
+      <div className="profile-fact">
+        <span className="profile-fact__label">{C.never}</span>
+        <span className="profile-fact__value">{sentence(org.never)}</span>
+      </div>
+      <Button variant="secondary" fullWidth onClick={onRequestLeave ?? (() => setConfirming(true))}>
         {C.leave}
       </Button>
     </DetailPanel>
