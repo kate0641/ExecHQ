@@ -1,1 +1,1 @@
-export { ConciergeNav, ConciergeHeaderCentre } from "./ConciergeConcept";
+export { ConciergeNav } from "./ConciergeConcept";

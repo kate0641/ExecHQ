@@ -10,7 +10,7 @@ export const conciergePillStates = defineComponentStates({
   status: "draft",
   flows: ["navigation"],
   description:
-    "Navigation Concept 1's way in: where you are, and “Ask or go”. It opens the advisor. Floating at the foot of the phone; in the header on tablet and web.",
+    "Navigation Concept 1's way in: where you are, and “Ask or go”. It opens the advisor. Floating above the foot of the screen on phone, tablet and web.",
   component: ConciergePill,
   notApplicable: {
     disabled: "The advisor is always available.",
@@ -21,16 +21,16 @@ export const conciergePillStates = defineComponentStates({
     "long text": "The destination is a one-word name from the manifest, and the prompt is fixed.",
   },
   variants: [
-    { label: "Header, on Home — default", props: { here: home } },
     {
-      label: "Floating, on the phone",
+      label: "On Home — default",
       description: "Sits over the foot of the page; the page leaves room for it.",
-      props: { here: { label: "Plan", icon: "flag" }, layout: "floating" },
+      props: { here: home },
     },
+    { label: "On Plan", props: { here: { label: "Plan", icon: "flag" } } },
     { label: "A follow-up is due", props: { here: home, followUpDue: true } },
     { label: "Open", description: "While the advisor is showing.", props: { here: home, expanded: true } },
-    { label: "Header — hover", props: { here: home, demo: "hover" } },
-    { label: "Header — focus", props: { here: home, demo: "focus" } },
-    { label: "Header — pressed", props: { here: home, demo: "active" } },
+    { label: "Hover", props: { here: home, demo: "hover" } },
+    { label: "Focus", props: { here: home, demo: "focus" } },
+    { label: "Pressed", props: { here: home, demo: "active" } },
   ],
 });

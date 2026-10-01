@@ -4,9 +4,9 @@ import { AdvisorMark } from "@/components/chat/AdvisorMark";
 import { Icon } from "@/components/primitives/Icon";
 
 export interface ConciergePanelProps {
-  /** `sheet` rises over the phone screen; `docked` stands beside the page on
-   *  tablet and web, which stays usable next to it. */
-  mode?: "sheet" | "docked";
+  /** `sheet` rises over the phone screen; `card` is the centred card the pill
+   *  grows into on tablet and web. */
+  mode?: "sheet" | "card";
   /** The conversation, or what to start with. */
   children: ReactNode;
   /** The composer and anything above it. */
@@ -30,13 +30,17 @@ export interface ConciergePanelProps {
   className?: string;
 }
 
+/** Open, the panel is modal on every viewport, so it is a dialog. (Not a
+ *  `<dialog>`, whose own positioning would fight the card's morph.) */
+const DIALOG = { role: "dialog", "aria-modal": true } as const;
+
 /**
  * The Concierge's panel: the advisor's name at the top, the conversation, and
  * the composer at the foot. What goes in it is the concept's business; this
  * is the frame.
  */
 export function ConciergePanel({
-  mode = "docked",
+  mode = "card",
   children,
   footer,
   label = "ExecHQ, your advisor",
@@ -51,8 +55,7 @@ export function ConciergePanel({
   demo,
   className,
 }: ConciergePanelProps) {
-  const Tag = mode === "sheet" ? "div" : "aside";
-  const panelRef = useRef<HTMLElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const drag = useRef<{ from: number; dy: number } | null>(null);
   // Before anything is asked, the sheet has no top bar: it closes by tapping
   // above it or pulling it down. The close button stays for keyboards and
@@ -78,12 +81,12 @@ export function ConciergePanel({
   }
 
   return (
-    <Tag
-      ref={panelRef as never}
+    <div
+      ref={panelRef}
       id={id}
       className={["concierge-panel", `concierge-panel--${mode}`, className].filter(Boolean).join(" ")}
       aria-label={label}
-      {...(mode === "sheet" ? { role: "dialog", "aria-modal": true } : {})}
+      {...DIALOG}
     >
       {mode === "sheet" ? (
         <span
@@ -118,7 +121,7 @@ export function ConciergePanel({
       <div className="concierge-panel__foot">
         {footer}
       </div>
-    </Tag>
+    </div>
   );
 }
 

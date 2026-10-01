@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import { ConciergeHeaderCentre, ConciergeNav } from "./concept-1";
+import { ConciergeNav } from "./concept-1";
 import type { NavConceptProps } from "./types";
 
 /** Where in the chrome a navigation concept can draw. */
@@ -28,7 +28,6 @@ export type BuiltNav = Partial<Record<NavPart, (props: NavConceptProps) => React
 const BUILT_NAVS: Record<string, BuiltNav> = {
   "concept-1": {
     nav: (props) => <ConciergeNav {...props} />,
-    headerCentre: (props) => <ConciergeHeaderCentre {...props} />,
   },
 };
 

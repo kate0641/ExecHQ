@@ -6,9 +6,6 @@ export interface ConciergePillProps {
   here: { label: string; icon: IconName };
   /** The prompt beside it. */
   ask?: string;
-  /** `floating` at the foot of the phone screen; `header` in the header on
-   *  tablet and web. */
-  layout?: "floating" | "header";
   /** A follow-up is due: the quiet dot. Never a count. */
   followUpDue?: boolean;
   expanded?: boolean;
@@ -29,7 +26,6 @@ export interface ConciergePillProps {
 export function ConciergePill({
   here,
   ask = "Ask or go",
-  layout = "header",
   followUpDue = false,
   expanded = false,
   controls,
@@ -42,12 +38,7 @@ export function ConciergePill({
     <button
       type="button"
       id={id}
-      className={[
-        "concierge-pill",
-        `concierge-pill--${layout}`,
-        demo ? `is-${demo}` : null,
-        className,
-      ].filter(Boolean).join(" ")}
+      className={["concierge-pill", demo ? `is-${demo}` : null, className].filter(Boolean).join(" ")}
       aria-expanded={expanded}
       aria-controls={controls}
       onClick={onClick}
