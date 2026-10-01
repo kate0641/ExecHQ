@@ -143,15 +143,19 @@
   --color-canvas: var(--brand-stone-75);          /* behind the device frame */
   --color-surface: var(--brand-stone-75);     /* default page surface */
   --color-surface-raised: var(--brand-white);  /* cards and fields above the page */
-  --color-surface-sunken: var(--brand-stone-200);  /* wells, inset areas, code blocks */
-  --color-surface-muted: var(--brand-stone-200);
+  /* The quiet surfaces are pale blues, not tan: stone 200 and 300 read as
+     sandy and dated. Quiet areas, wells and hover are blue 100;
+     pressed is blue 200, the palette light blue. Muted text is 5.3:1 on
+     blue 100; on pressed, secondary is the lightest text (6.0:1). */
+  --color-surface-sunken: var(--brand-blue-100);  /* wells, inset areas, code blocks */
+  --color-surface-muted: var(--brand-blue-100);
   --color-surface-inverse: var(--brand-primary);
   --color-surface-inverse-hover: var(--brand-primary-muted);
   --color-surface-inverse-active: var(--brand-primary-strong);
   --color-surface-inverse-deep: var(--brand-blue-850);  /* deep navy, behind a logo on photography */
-  --color-surface-hover: var(--brand-stone-200);
-  --color-surface-active: var(--brand-stone-300);
-  --color-surface-disabled: var(--brand-stone-200);
+  --color-surface-hover: var(--brand-blue-100);
+  --color-surface-active: var(--brand-blue-200);
+  --color-surface-disabled: var(--brand-blue-100);
   --color-surface-selected: var(--brand-primary-soft); /* the item a detail pane is showing */
   --color-surface-feature: var(--brand-blue-100);  /* the card that says what to do next, on trial */
   /* A veil of slate over photography, so text on it stays readable. The
@@ -162,8 +166,8 @@
   --color-glow-fade: var(--brand-primary-soft);
 
   /* Text — primary 18.0:1, secondary 7.4:1, muted 5.4:1 on --color-surface
-     (stone 100). Muted is 4.6:1 on stone 200 (sunken, muted, hover); not on
-     --color-surface-active, where secondary is the lightest text (4.6:1). */
+     (stone 100). Muted is 5.3:1 on blue 100 (sunken, muted, hover); not on
+     --color-surface-active, where secondary is the lightest text (6.0:1). */
   --color-text-primary: var(--brand-stone-900);
   --color-text-secondary: var(--brand-stone-600);
   --color-text-muted: var(--brand-stone-500);
@@ -175,9 +179,9 @@
   --color-text-link-hover: var(--brand-accent-strong);
 
   /* Borders — "strong" is 3.2:1 on the stone page and 3.4:1 on white, and is
-     the one to use on controls. It is 2.7:1 on stone 200, so a control inside
-     a sunken well relies on its own fill for its edge. */
-  --color-border-subtle: var(--brand-stone-200);
+     the one to use on controls. It is 3.1:1 on blue 100, so it still holds
+     on a control inside a sunken well. */
+  --color-border-subtle: var(--brand-blue-100);
   --color-border: var(--brand-stone-250);  /* card edges and dividers: soft, so outlined cards sit easily beside unoutlined ones */
   --color-border-strong: var(--brand-stone-400);
   --color-border-inverse: var(--brand-blue-700);
@@ -243,10 +247,10 @@
   --color-listening-pulse-end: rgb(var(--shadow-rgb) / 0);
 
   /* Status badges: draft, in-review, approved */
-  --color-status-draft-surface: var(--brand-stone-200);
+  --color-status-draft-surface: var(--brand-blue-100);
   --color-status-draft-text: var(--brand-stone-600);
-  --color-status-draft-border: var(--brand-stone-300);
-  --color-status-review-surface: var(--brand-stone-300);
+  --color-status-draft-border: var(--brand-blue-300);
+  --color-status-review-surface: var(--brand-blue-200);
   --color-status-review-text: var(--brand-stone-800);
   --color-status-review-border: var(--brand-stone-400);
   --color-status-approved-surface: var(--brand-primary);
