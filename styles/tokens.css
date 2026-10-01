@@ -489,7 +489,8 @@
   --radius-lg: 1rem;      /* 16px */
   --radius-xl: 1.25rem;   /* 20px */
   --radius-pill: 999px;
-  --radius-button: var(--radius-pill); /* every button is a pill */
+  --radius-button: var(--radius-pill); /* only buttons are pills, so the shape means "press me" */
+  --radius-tag: var(--radius-sm);        /* labels that aren't buttons: tags, matching the icon chips */
   --radius-device-mobile: 2.75rem; /* 44px */
   --radius-device-tablet: 1.375rem; /* 22px */
 

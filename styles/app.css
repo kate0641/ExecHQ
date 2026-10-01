@@ -10389,7 +10389,7 @@ ol.check-in__steps {
   align-items: center;
   min-height: 24px;
   padding: 0 var(--space-xs);
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-tag);
   background-color: var(--color-tag-surface);
   color: var(--color-tag-text);
 }
