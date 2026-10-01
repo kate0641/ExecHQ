@@ -245,7 +245,7 @@ samp {
   letter-spacing: var(--type-eyebrow-tracking);
   word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-text-muted);
+  color: var(--color-eyebrow);
 }
 
 .t-figure {
@@ -363,16 +363,29 @@ samp {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  position: relative;
   gap: var(--space-xs);
-  padding: var(--space-sm) var(--space-lg);
+  min-height: var(--button-height);
+  padding: 0 var(--button-padding-inline);
   border: var(--border-width-thin) solid transparent;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-button);
   text-align: center;
   transition: background-color var(--duration-fast) var(--easing-standard),
     border-color var(--duration-fast) var(--easing-standard),
     color var(--duration-fast) var(--easing-standard);
   /* A link dressed as a button reads as a button, not as linked text. */
   text-decoration: none;
+}
+
+/* The tap area: an invisible band, 44px tall, centred on the button, so a
+   compact button is as easy to hit as a full-size one (WCAG 2.5.8, and
+   Apple's 44pt). */
+.btn::after {
+  content: "";
+  position: absolute;
+  inset: 50% 0 auto;
+  height: max(100%, var(--button-target));
+  transform: translateY(-50%);
 }
 
 /* The label wraps an icon and its text. Icons are display: block from the
@@ -384,6 +397,7 @@ samp {
 }
 
 .btn--sm {
+  min-height: 0;
   padding: var(--space-xs) var(--space-sm);
   font-size: var(--text-xs);
   /* Small buttons carry short labels and often an icon beside them. Letting one
@@ -417,20 +431,18 @@ samp {
 }
 
 .btn--secondary {
-  background-color: var(--color-surface);
-  border-color: var(--color-border-strong);
-  color: var(--color-text-primary);
+  background-color: var(--color-action-secondary);
+  color: var(--color-text-on-action-secondary);
 }
 
 .btn--secondary:hover,
 .btn--secondary.is-hover {
-  background-color: var(--color-surface-hover);
-  border-color: var(--color-text-primary);
+  background-color: var(--color-action-secondary-hover);
 }
 
 .btn--secondary:active,
 .btn--secondary.is-active {
-  background-color: var(--color-surface-active);
+  background-color: var(--color-action-secondary-active);
 }
 
 .btn--ghost {
@@ -476,7 +488,7 @@ samp {
 
 .btn:disabled {
   background-color: var(--color-surface-disabled);
-  border-color: var(--color-border);
+  border-color: transparent;
   color: var(--color-text-disabled);
   cursor: not-allowed;
 }
@@ -742,8 +754,8 @@ samp {
 .field__control.is-focus {
   outline: var(--border-width-medium) solid transparent;
   outline-offset: calc(var(--border-width-medium) * -1);
-  border-color: var(--color-text-primary);
-  box-shadow: inset 0 0 0 var(--border-width-thin) var(--color-text-primary);
+  border-color: var(--color-field-focus);
+  box-shadow: inset 0 0 0 var(--border-width-thin) var(--color-field-focus);
 }
 
 .field__control:disabled {
@@ -2179,14 +2191,14 @@ ul.tab-bar__list {
   width: 40px;
   height: 40px;
   border-radius: var(--radius-pill);
-  color: var(--color-text-secondary);
+  color: var(--color-icon-default);
   transition: background-color var(--duration-fast), transform var(--duration-fast);
 }
 
 .icon-link:hover,
 .icon-link.is-hover {
   background-color: var(--color-surface-hover);
-  color: var(--color-text-primary);
+  color: var(--color-icon-default);
 }
 
 .icon-link:focus-visible,
@@ -2202,7 +2214,7 @@ ul.tab-bar__list {
 
 .icon-link.is-current {
   background-color: var(--color-secondary-soft);
-  color: var(--color-text-primary);
+  color: var(--color-icon-default);
 }
 
 /* Drawer — Navigation Concept 3 -------------------------------------------
@@ -2586,7 +2598,7 @@ a.drawer-nav__account {
   height: 44px;
   margin-left: calc(-1 * var(--space-sm));
   border-radius: var(--radius-md);
-  color: var(--color-text-primary);
+  color: var(--color-icon-default);
   transition: background-color var(--duration-fast), transform var(--duration-fast);
 }
 
@@ -3070,7 +3082,8 @@ ul.concierge-mini {
   width: 40px;
   height: 40px;
   border-radius: var(--radius-md);
-  background-color: var(--color-surface-sunken);
+  background-color: var(--color-icon-surface);
+  color: var(--color-icon);
 }
 
 .concierge-row__text {
@@ -3205,6 +3218,9 @@ ul.concierge-mini {
   padding: var(--space-md) var(--space-md) var(--space-lg);
   border-radius: var(--radius-xl);
   background-color: var(--color-surface-feature);
+  /* The same 2px white ring as the Spark, so the pale blue sits cleanly on
+     the stone. */
+  box-shadow: 0 0 0 2px var(--color-halo);
 }
 
 .home-card__title {
@@ -3232,7 +3248,7 @@ ul.concierge-mini {
   word-spacing: var(--type-eyebrow-word-spacing);
   margin: 0;
   text-transform: uppercase;
-  color: var(--color-text-muted);
+  color: var(--color-eyebrow);
 }
 
 .home-card__readback {
@@ -3635,7 +3651,8 @@ ul.briefing-card__others {
   width: 40px;
   height: 40px;
   border-radius: var(--radius-md);
-  background-color: var(--color-surface-sunken);
+  background-color: var(--color-icon-surface);
+  color: var(--color-icon);
 }
 
 .entry-link__text {
@@ -3654,7 +3671,7 @@ ul.briefing-card__others {
   letter-spacing: var(--type-eyebrow-tracking);
   word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-text-muted);
+  color: var(--color-eyebrow);
 }
 
 .entry-link__title {
@@ -3678,7 +3695,7 @@ ul.briefing-card__others {
 
 .entry-link__go {
   flex: none;
-  color: var(--color-text-muted);
+  color: var(--color-icon-default);
 }
 
 /* Recent work */
@@ -5533,6 +5550,23 @@ ol.ring-detail__timeline {
   background-size: 100% 100%, 100% var(--welcome-image-height);
   background-position: 0 0, 0 calc(var(--welcome-blend) / 2 - var(--welcome-cut-to) * var(--welcome-image-height));
   mask-image: linear-gradient(180deg, transparent, black var(--welcome-blend));
+}
+
+/* The photograph is off for now: the welcome is flat navy. Delete this rule
+   to bring the picture back; everything above still describes it. */
+.welcome__hero {
+  background-color: var(--color-surface-inverse);
+}
+
+.welcome__hero::before,
+.welcome__hero::after {
+  content: none;
+}
+
+/* With the photograph off, the status bar goes back to plain navy too. */
+.device__screen:has(.welcome) > .device__statusbar--inverse {
+  background-color: var(--color-surface-inverse);
+  box-shadow: 0 var(--border-width-thin) 0 var(--color-surface-inverse);
 }
 
 /* On the phone the picture takes the screen and the sheet sits at the foot,
@@ -10356,6 +10390,36 @@ ol.check-in__steps {
   background-color: var(--color-surface-raised);
 }
 
+/* Cards are outlined only when the whole card can be tapped. An account card
+   only holds a button, so it sits open on the page, with a divider under it
+   to keep the sections apart. */
+.account-card:not(.presence-card) {
+  padding: var(--space-2xs) 0 var(--space-lg);
+  border: 0;
+  border-bottom: var(--border-width-thin) solid var(--color-border);
+  border-radius: 0;
+  background-color: transparent;
+}
+
+/* Where you started against where you are now: progress, so dark green. The
+   tokens inside remap to read on it, the way the Briefing's do on navy. */
+.presence-card,
+.c3-accounts__baseline {
+  --color-surface-raised: var(--color-surface-progress);
+  --color-text-primary: var(--color-text-inverse);
+  --color-text-secondary: var(--color-text-on-progress-muted);
+  --color-text-muted: var(--color-text-on-progress-muted);
+  --color-border: var(--color-border-progress);
+  --color-border-subtle: var(--color-border-progress);
+  --border-subtle: var(--border-width-thin) solid var(--color-border-progress);
+  --color-eyebrow: var(--color-eyebrow-on-progress);
+  --color-focus: var(--color-focus-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+  border-color: transparent;
+  background-color: var(--color-surface-progress);
+  color: var(--color-text-inverse);
+}
+
 .account-card__top {
   display: flex;
   align-items: center;
@@ -10388,8 +10452,8 @@ ol.check-in__steps {
   width: 28px;
   height: 28px;
   border-radius: var(--radius-sm);
-  background-color: var(--color-surface-sunken);
-  color: var(--color-text-secondary);
+  background-color: var(--color-icon-surface);
+  color: var(--color-icon);
 }
 
 .account-card__asof {
@@ -10403,9 +10467,9 @@ ol.check-in__steps {
   align-items: center;
   min-height: 24px;
   padding: 0 var(--space-xs);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-pill);
-  color: var(--color-text-secondary);
+  border-radius: var(--radius-tag);
+  background-color: var(--color-tag-surface);
+  color: var(--color-tag-text);
 }
 
 ul.account-card__stats {
@@ -10476,7 +10540,7 @@ ul.account-card__stats {
   display: block;
   margin-bottom: var(--space-3xs);
   text-transform: uppercase;
-  color: var(--color-text-muted);
+  color: var(--color-eyebrow);
 }
 
 .account-card__try {
@@ -10587,7 +10651,10 @@ ul.spark {
   gap: var(--space-sm);
   padding: var(--space-sm) var(--space-sm) var(--space-sm) var(--space-md);
   border-radius: var(--radius-xl);
-  background-color: var(--color-accent-soft);
+  background-color: var(--color-surface-note);
+  /* Not a shadow: a 2px white ring between the lime and the stone page, so
+     the two colours stop buzzing where they meet. */
+  box-shadow: 0 0 0 2px var(--color-halo);
 }
 
 .spark__mark {
@@ -10857,7 +10924,7 @@ ul.baseline-list__rows {
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  color: var(--color-text-muted);
+  color: var(--color-eyebrow);
 }
 
 .stage-track__plan {
@@ -11209,10 +11276,9 @@ ul.stage-actions__list {
   gap: var(--space-md);
   width: 100%;
   padding: var(--space-md);
-  border: 0;
+  border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-lg);
   background-color: var(--color-surface-raised);
-  box-shadow: var(--shadow-sm);
   color: var(--color-text-primary);
   font: inherit;
   text-align: left;
@@ -11269,7 +11335,7 @@ ul.stage-actions__list {
   word-spacing: var(--type-eyebrow-word-spacing);
   margin: 0 0 0 var(--space-2xs);
   text-transform: uppercase;
-  color: var(--color-text-muted);
+  color: var(--color-eyebrow);
 }
 
 .settings-group__rows {
@@ -11278,11 +11344,19 @@ ul.stage-actions__list {
   overflow: hidden;
   border-radius: var(--radius-lg);
   background-color: var(--color-surface-raised);
-  box-shadow: var(--shadow-sm);
+  border: var(--border-width-thin) solid var(--color-border);
 }
 
+/* The divider between rows stops short of the card's edges, lined up with
+   the row's padding. It is drawn as a background line rather than a border,
+   so the row's hover fill still runs edge to edge. Two classes, so it
+   outranks .settings-row's own background further down. */
+.settings-group__rows > .settings-row + .settings-row,
 .settings-group__rows > * + * {
-  border-top: var(--border-subtle);
+  background-image: linear-gradient(var(--color-border-subtle), var(--color-border-subtle));
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: calc(100% - 2 * var(--space-md)) var(--border-width-thin);
 }
 
 .settings-row {
@@ -11303,7 +11377,7 @@ ul.stage-actions__list {
 .settings-row__icon {
   display: grid;
   flex: none;
-  color: var(--color-text-secondary);
+  color: var(--color-icon-default);
 }
 
 .settings-row__text {
@@ -11351,7 +11425,7 @@ ul.stage-actions__list {
 .settings-row__chevron {
   display: grid;
   flex: none;
-  color: var(--color-text-muted);
+  color: var(--color-icon-default);
 }
 
 .settings-row__later {

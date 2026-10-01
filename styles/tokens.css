@@ -143,15 +143,31 @@
   --color-canvas: var(--brand-stone-75);          /* behind the device frame */
   --color-surface: var(--brand-stone-75);     /* default page surface */
   --color-surface-raised: var(--brand-white);  /* cards and fields above the page */
-  --color-surface-sunken: var(--brand-stone-200);  /* wells, inset areas, code blocks */
-  --color-surface-muted: var(--brand-stone-200);
+  /* The quiet surfaces are pale blues, not tan: stone 200 and 300 read as
+     sandy and dated. Quiet areas, wells and hover are blue 100;
+     pressed is blue 200, the palette light blue. Muted text is 5.3:1 on
+     blue 100; on pressed, secondary is the lightest text (6.0:1). */
+  --color-surface-sunken: var(--brand-blue-100);  /* wells, inset areas, code blocks */
+  --color-surface-muted: var(--brand-blue-100);
   --color-surface-inverse: var(--brand-primary);
   --color-surface-inverse-hover: var(--brand-primary-muted);
   --color-surface-inverse-active: var(--brand-primary-strong);
   --color-surface-inverse-deep: var(--brand-blue-850);  /* deep navy, behind a logo on photography */
-  --color-surface-hover: var(--brand-stone-200);
-  --color-surface-active: var(--brand-stone-300);
-  --color-surface-disabled: var(--brand-stone-200);
+  /* Progress — dark green, for "you've moved": your baseline against now,
+     and small wins. Navy stays the main coloured card; green is never an
+     action. Text on it: 9.1:1 (blue 100), muted 8.9:1 (green 200), eyebrow
+     8.1:1 (light green). */
+  --color-surface-progress: var(--brand-dark-green);
+  --color-border-progress: var(--brand-green-700);
+  --color-text-on-progress-muted: var(--brand-green-200);
+  --color-eyebrow-on-progress: var(--brand-light-green);
+  /* A small "something moved" note (the Spark): lime 200, the quiet end of
+     progress. Text on it: primary 17.2:1, muted 5.2:1. */
+  --color-surface-note: var(--brand-green-200);
+  --color-halo: var(--brand-white);  /* a thin white ring that keeps a pale tint (lime 200, blue 100) from shimmering against the stone */
+  --color-surface-hover: var(--brand-blue-100);
+  --color-surface-active: var(--brand-blue-200);
+  --color-surface-disabled: var(--brand-blue-100);
   --color-surface-selected: var(--brand-primary-soft); /* the item a detail pane is showing */
   --color-surface-feature: var(--brand-blue-100);  /* the card that says what to do next, on trial */
   /* A veil of slate over photography, so text on it stays readable. The
@@ -163,8 +179,8 @@
   --color-glow-fade: var(--brand-primary-soft);
 
   /* Text — primary 18.0:1, secondary 7.4:1, muted 5.4:1 on --color-surface
-     (stone 100). Muted is 4.6:1 on stone 200 (sunken, muted, hover); not on
-     --color-surface-active, where secondary is the lightest text (4.6:1). */
+     (stone 100). Muted is 5.3:1 on blue 100 (sunken, muted, hover); not on
+     --color-surface-active, where secondary is the lightest text (6.0:1). */
   --color-text-primary: var(--brand-stone-900);
   --color-text-secondary: var(--brand-stone-600);
   --color-text-muted: var(--brand-stone-500);
@@ -176,9 +192,9 @@
   --color-text-link-hover: var(--brand-accent-strong);
 
   /* Borders — "strong" is 3.2:1 on the stone page and 3.4:1 on white, and is
-     the one to use on controls. It is 2.7:1 on stone 200, so a control inside
-     a sunken well relies on its own fill for its edge. */
-  --color-border-subtle: var(--brand-stone-200);
+     the one to use on controls. It is 3.1:1 on blue 100, so it still holds
+     on a control inside a sunken well. */
+  --color-border-subtle: var(--brand-stone-250);  /* dividers between rows: grey, the same soft edge as the cards (blue 100 vanished on white) */
   --color-border: var(--brand-stone-250);  /* card edges and dividers: soft, so outlined cards sit easily beside unoutlined ones */
   --color-border-strong: var(--brand-stone-400);
   --color-border-inverse: var(--brand-blue-700);
@@ -191,6 +207,21 @@
   --color-action-hover: var(--brand-yellow-500);
   --color-action-active: var(--brand-yellow-600);
   --color-text-on-action: var(--brand-stone-900);
+
+  /* Secondary action — light blue with navy text, no outline: the palette
+     light blue reads as a button on the page and on white cards without
+     competing with the yellow. Navy on it is 11.3:1, 8.0:1 on hover (blue
+     300) and 5.6:1 pressed (blue 400). As with the primary, the label
+     identifies the control, so the fill needs no edge. */
+  --color-action-secondary: var(--brand-blue-200);
+  --color-action-secondary-hover: var(--brand-blue-300);
+  --color-action-secondary-active: var(--brand-blue-400);
+  --color-text-on-action-secondary: var(--brand-primary);
+
+  /* Tags — small status words beside a heading, such as "Since 5 Oct".
+     Pale lime with dark green text (8.9:1), the same pair as the icon chips. */
+  --color-tag-surface: var(--brand-green-200);
+  --color-tag-text: var(--brand-dark-green);
 
   /* Danger — the destructive action: deleting the account, removing a
      connection. The red end of the orange scale. White on it is 7.0:1, and
@@ -212,6 +243,18 @@
   --color-secondary: var(--brand-secondary);
   --color-secondary-soft: var(--brand-secondary-soft);
 
+  /* Supporting palette in small places, so the stone doesn't read as sandy.
+     Eyebrows are blue 600: 6.3:1 on the page, 5.9:1 on the blue next-step
+     card. Icon chips are pale lime (green 200, a step lighter than the
+     palette light green) with a dark green glyph (8.9:1). */
+  --color-eyebrow: var(--brand-secondary);
+  --color-icon-surface: var(--brand-green-200);
+  --color-icon: var(--brand-dark-green);
+  /* Icons standing on their own (chevrons, menu and settings icons) are
+     navy, not ink, so they belong to the brand: 14:1 on the page. Icons in a
+     button take the label's colour; icons on navy keep their light colours. */
+  --color-icon-default: var(--brand-primary);
+
   /* Logo — two versions, never recoloured beyond these. The dark logo (gold
      "Exec", navy "HQ") sits on stone and light blue; the light logo (bright
      yellow "Exec", light blue "HQ") sits on any dark colour. */
@@ -223,6 +266,7 @@
   /* Focus — must stay at least 3:1 against every surface it lands on */
   --color-focus: var(--brand-primary);
   --color-focus-inverse: var(--brand-white);
+  --color-field-focus: var(--brand-primary);  /* a field you are typing in: navy edge, 15:1 on white */
 
   /* Masks read only opacity, so this just needs to be solid. Used to fade
      scrolling content out at an edge. */
@@ -236,10 +280,10 @@
   --color-listening-pulse-end: rgb(var(--shadow-rgb) / 0);
 
   /* Status badges: draft, in-review, approved */
-  --color-status-draft-surface: var(--brand-stone-200);
+  --color-status-draft-surface: var(--brand-blue-100);
   --color-status-draft-text: var(--brand-stone-600);
-  --color-status-draft-border: var(--brand-stone-300);
-  --color-status-review-surface: var(--brand-stone-300);
+  --color-status-draft-border: var(--brand-blue-300);
+  --color-status-review-surface: var(--brand-blue-200);
   --color-status-review-text: var(--brand-stone-800);
   --color-status-review-border: var(--brand-stone-400);
   --color-status-approved-surface: var(--brand-primary);
@@ -463,6 +507,8 @@
   --radius-lg: 1rem;      /* 16px */
   --radius-xl: 1.25rem;   /* 20px */
   --radius-pill: 999px;
+  --radius-button: var(--radius-pill); /* only buttons are pills, so the shape means "press me" */
+  --radius-tag: var(--radius-sm);        /* labels that aren't buttons: tags, matching the icon chips */
   --radius-device-mobile: 2.75rem; /* 44px */
   --radius-device-tablet: 1.375rem; /* 22px */
 
@@ -496,7 +542,7 @@
      the stone page (1.4.11). Never below 1px, and keep the gap so the ring
      does not merge with 1px control borders. */
   --focus-ring-width: 1.5px;
-  --focus-ring-offset: 1px;
+  --focus-ring-offset: 2px; /* a clear gap, so the ring never merges with a filled button */
   --focus-ring: var(--focus-ring-width) solid var(--color-focus);
 
   /* ---------------------------------------------------------------------------
@@ -512,6 +558,14 @@
   --device-bezel-mobile: 3px;
   --device-bezel-tablet: 6px;
   --device-statusbar-height: 44px;
+
+  /* Buttons — compact: 34px tall with 14px each side. The medium size,
+     38px with 16px sides, is the alternative; switch both lines together.
+     However small the button looks, its tap area stays 44px tall
+     (--button-target), the size Apple recommends for touch. */
+  --button-height: 34px;
+  --button-padding-inline: 14px;
+  --button-target: 44px;
   --dock-width: 38px;
   --dock-control: 30px;
   --hub-panel-width: 420px;
