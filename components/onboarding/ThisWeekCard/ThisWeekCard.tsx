@@ -16,13 +16,22 @@ export interface ThisWeekCardProps {
  */
 export function ThisWeekCard({ label, title, detail, whyLabel, why, className }: ThisWeekCardProps) {
   return (
-    <section className={["this-week", className].filter(Boolean).join(" ")} aria-label={label}>
-      <p className="this-week__label">{label}</p>
-      <p className="this-week__title">{title}</p>
-      <p className="this-week__detail">{detail}</p>
-      <p className="this-week__why">
-        <b>{whyLabel}</b> {why}
-      </p>
+    <section className={["feature-card", className].filter(Boolean).join(" ")} aria-label={label}>
+      <div className="feature-card__head feature-card__head--inverse">
+        <p className="feature-card__eyebrow">{label}</p>
+        <p className="feature-card__title">{title}</p>
+      </div>
+      <div className="feature-card__body">
+        <div className="feature-card__rows">
+          <div className="feature-card__row">
+            <p className="feature-card__text">{detail}</p>
+          </div>
+          <div className="feature-card__row">
+            <p className="feature-card__label">{whyLabel.replace(/:\s*$/, "")}</p>
+            <p className="feature-card__text">{why}</p>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

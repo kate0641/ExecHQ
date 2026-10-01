@@ -1901,7 +1901,7 @@ ul.chrome__nav-list {
 
 [data-viewport="mobile"] .chrome__main {
   order: 2;
-  padding: var(--space-lg) var(--space-screen-side);
+  padding: var(--space-screen-top) var(--space-screen-side);
 }
 
 [data-viewport="mobile"] .chrome__footer {
@@ -3329,6 +3329,116 @@ ul.concierge-mini {
 .home-card__why dd {
   margin: 0;
   font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+/* ---------------------------------------------------------------------------
+   Feature card — the two-tone pattern. A coloured head holding only an
+   eyebrow and a short title, over a white body that runs to the edges, with
+   rows split by hairlines and one action at the foot. Only for cards whose
+   head is an eyebrow and a title and nothing more; a card that needs more up
+   there gets its own design. Layered, but nothing rounded inside, so it reads
+   as considered rather than soft.
+   ------------------------------------------------------------------------ */
+
+.feature-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-raised);
+  color: var(--color-text-primary);
+}
+
+.feature-card__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-eyebrow-title);
+  padding: var(--space-feature-padding);
+  background-color: var(--color-surface-feature);
+}
+
+.feature-card__head--inverse {
+  background-color: var(--color-surface-inverse);
+}
+
+.feature-card__eyebrow {
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
+  margin: 0;
+  text-transform: uppercase;
+  color: var(--color-eyebrow);
+}
+
+.feature-card__head--inverse .feature-card__eyebrow {
+  color: var(--color-accent-on-inverse);
+}
+
+.feature-card__title {
+  font-family: var(--type-heading-font);
+  font-size: var(--type-heading-size);
+  font-weight: var(--type-heading-weight);
+  line-height: var(--type-heading-leading);
+  letter-spacing: var(--type-heading-tracking);
+  word-spacing: var(--type-heading-word-spacing);
+  margin: 0;
+  color: var(--color-text-primary);
+  text-wrap: balance;
+}
+
+.feature-card__title:focus {
+  outline: none;
+}
+
+.feature-card__head--inverse .feature-card__title {
+  color: var(--color-text-inverse);
+}
+
+.feature-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-2xs) var(--space-feature-padding) var(--space-feature-padding);
+}
+
+.feature-card__rows {
+  margin: 0;
+}
+
+.feature-card__row {
+  padding: var(--space-sm) 0;
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+.feature-card__row:first-child {
+  border-top: 0;
+}
+
+.feature-card__label {
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
+  margin: 0 0 var(--space-eyebrow-title);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.feature-card__text {
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  letter-spacing: var(--type-body-sm-tracking);
+  word-spacing: var(--type-body-sm-word-spacing);
+  margin: 0;
   color: var(--color-text-primary);
 }
 
@@ -8365,55 +8475,6 @@ ol.ring-detail__timeline {
   font-size: var(--text-sm);
   line-height: var(--leading-normal);
   color: var(--color-text-secondary);
-}
-
-.this-week {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2xs);
-  padding: var(--space-md);
-  border-radius: var(--radius-md);
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
-}
-
-.this-week__label {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--color-text-inverse-muted);
-}
-
-.this-week__title {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-}
-
-.this-week__detail {
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-inverse-muted);
-}
-
-.this-week__why {
-  margin-top: var(--space-2xs);
-  padding-top: var(--space-sm);
-  border-top: var(--border-width-thin) solid var(--color-border-inverse);
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-inverse-muted);
-}
-
-.this-week__why b {
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-inverse);
 }
 
 .plan-ahead {
