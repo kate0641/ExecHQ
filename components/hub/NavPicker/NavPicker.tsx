@@ -15,7 +15,8 @@ import { isNavBuilt } from "@/flows/navigation/registry";
  * other signed-in page it swaps the navigation in place. Either way the choice
  * is remembered (`lib/nav-choice.ts`).
  *
- * Only on signed-in pages, like the snapshot picker.
+ * Only on signed-in pages, like the snapshot picker. With a single concept
+ * left there is nothing to pick, so it draws nothing.
  */
 export function NavPicker() {
   const pathname = usePathname();
@@ -25,7 +26,7 @@ export function NavPicker() {
   const chosen = useNavChoice();
   const [announcement, setAnnouncement] = useState("");
 
-  if (flow?.chrome !== "app" || NAV_CONCEPTS.length === 0) return null;
+  if (flow?.chrome !== "app" || NAV_CONCEPTS.length < 2) return null;
 
   const onNavPage = flow.slug === NAVIGATION_FLOW;
   const value = onNavPage ? conceptSlug : chosen;

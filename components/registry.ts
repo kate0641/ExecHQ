@@ -65,10 +65,6 @@ import { chatComposerStates } from "./chat/ChatComposer/ChatComposer.states";
 import { chatWelcomeStates, introCardStates } from "./chat/ChatWelcome/ChatWelcome.states";
 import { loopStatusStates } from "./loop/LoopStatus/LoopStatus.states";
 import { destinationStubStates } from "./layout/DestinationStub/DestinationStub.states";
-import { tabBarStates } from "./navigation/TabBar/TabBar.states";
-import { iconLinkStates } from "./navigation/IconLink/IconLink.states";
-import { drawerNavStates } from "./navigation/DrawerNav/DrawerNav.states";
-import { menuButtonStates } from "./navigation/MenuButton/MenuButton.states";
 import { conciergePillStates } from "./navigation/ConciergePill/ConciergePill.states";
 import { conciergePanelStates } from "./navigation/ConciergePanel/ConciergePanel.states";
 import { loopTrackStates } from "./loop/LoopTrack/LoopTrack.states";
@@ -167,10 +163,6 @@ export const registry: RegisteredComponent[] = [
   introCardStates,
   loopStatusStates,
   destinationStubStates,
-  tabBarStates,
-  iconLinkStates,
-  drawerNavStates,
-  menuButtonStates,
   conciergePillStates,
   conciergePanelStates,
   loopTrackStates,

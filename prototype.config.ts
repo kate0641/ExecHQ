@@ -139,20 +139,9 @@ export const prototypeConfig: PrototypeConfig = {
         {
           slug: "concept-1",
           title: "Concept 1 — Concierge",
+          status: "approved",
           summary:
             "The onboarding advisor on every page: one box to go anywhere, log what happened, get ready, or talk it through.",
-        },
-        {
-          slug: "concept-2",
-          title: "Concept 2 — Tab bar",
-          summary:
-            "Home, Plan, Toolbox and Briefing in a bar whose pill glides and whose icons show something true. Profile in the top right.",
-        },
-        {
-          slug: "concept-3",
-          title: "Concept 3 — Drawer",
-          summary:
-            "A menu that makes the page step aside, a line of context under every destination, a rail on tablet and a sidebar on web.",
         },
       ],
     },
