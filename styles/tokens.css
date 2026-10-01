@@ -12,8 +12,9 @@
    The brand palette is five scales — blue, green, yellow, orange and stone,
    100 to 900 — holding the palette colours at their exact values. Blue 900,
    the darkest navy, ends the navy scale.
-   Only two half steps exist, and only for one job each: stone 75 is the page,
-   stone 250 is the divider between rows. No others, on any scale.
+   Half steps exist only where the whole steps leave a gap the UI needs
+   for balance, and are then free for broad use: stone 75 (a lighter page)
+   and stone 250 (soft edges for cards and dividers).
    Every text and control pairing below passes WCAG 2.2 AA. Pairs to avoid:
      - yellow 700 on navy (2.8:1) — use yellow 400 on navy instead
      - yellow 400 or orange 400 on white — use yellow 700 or orange 600
@@ -79,10 +80,10 @@
      100, the platform's page. 900 is the near-black used in place of black:
      text, button labels, the device bezel. Steps between match the lightness
      text and borders need, so every pairing below passes. */
-  --brand-stone-75: #fbfaf7;   /* half step, for the page and nothing else */
+  --brand-stone-75: #fbfaf7;   /* half step for balance: lighter than stone, for the page and beyond */
   --brand-stone-100: #f7f6f1;  /* palette: stone */
   --brand-stone-200: #e7e4de;
-  --brand-stone-250: #d7d4ce;  /* half step, for dividers between rows and nothing else */
+  --brand-stone-250: #d7d4ce;  /* half step for balance: soft edges, for cards, dividers and beyond */
   --brand-stone-300: #c7c4bd;
   --brand-stone-400: #8e8a83;
   --brand-stone-500: #68645e;
