@@ -2178,14 +2178,14 @@ ul.tab-bar__list {
   width: 40px;
   height: 40px;
   border-radius: var(--radius-pill);
-  color: var(--color-text-secondary);
+  color: var(--color-icon-default);
   transition: background-color var(--duration-fast), transform var(--duration-fast);
 }
 
 .icon-link:hover,
 .icon-link.is-hover {
   background-color: var(--color-surface-hover);
-  color: var(--color-text-primary);
+  color: var(--color-icon-default);
 }
 
 .icon-link:focus-visible,
@@ -2201,7 +2201,7 @@ ul.tab-bar__list {
 
 .icon-link.is-current {
   background-color: var(--color-secondary-soft);
-  color: var(--color-text-primary);
+  color: var(--color-icon-default);
 }
 
 /* Drawer — Navigation Concept 3 -------------------------------------------
@@ -2585,7 +2585,7 @@ a.drawer-nav__account {
   height: 44px;
   margin-left: calc(-1 * var(--space-sm));
   border-radius: var(--radius-md);
-  color: var(--color-text-primary);
+  color: var(--color-icon-default);
   transition: background-color var(--duration-fast), transform var(--duration-fast);
 }
 
@@ -3679,7 +3679,7 @@ ul.briefing-card__others {
 
 .entry-link__go {
   flex: none;
-  color: var(--color-text-muted);
+  color: var(--color-icon-default);
 }
 
 /* Recent work */
@@ -11303,7 +11303,7 @@ ul.stage-actions__list {
 .settings-row__icon {
   display: grid;
   flex: none;
-  color: var(--color-text-secondary);
+  color: var(--color-icon-default);
 }
 
 .settings-row__text {
@@ -11351,7 +11351,7 @@ ul.stage-actions__list {
 .settings-row__chevron {
   display: grid;
   flex: none;
-  color: var(--color-text-muted);
+  color: var(--color-icon-default);
 }
 
 .settings-row__later {

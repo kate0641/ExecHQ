@@ -237,6 +237,10 @@
   --color-eyebrow: var(--brand-secondary);
   --color-icon-surface: var(--brand-green-200);
   --color-icon: var(--brand-dark-green);
+  /* Icons standing on their own (chevrons, menu and settings icons) are
+     navy, not ink, so they belong to the brand: 14:1 on the page. Icons in a
+     button take the label's colour; icons on navy keep their light colours. */
+  --color-icon-default: var(--brand-primary);
 
   /* Logo — two versions, never recoloured beyond these. The dark logo (gold
      "Exec", navy "HQ") sits on stone and light blue; the light logo (bright
