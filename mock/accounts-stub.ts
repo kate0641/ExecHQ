@@ -192,9 +192,10 @@ export const PRESENCE_STUB = {
 
 /* -----------------------------------------------------------------------------
    THE SPARK: a small note when something she can see has moved, by decision
-   on 2026-09-30. It says what changed, names the thing, and stops: no
-   exclamation marks, no streaks, no 'well done', and never that her work
-   caused it. It appears inline at the top of the signals section, is
+   on 2026-09-30. It names the thing and says what changed. On 2026-10-02
+   Kate dropped the no-praise rule, so it is friendly now: a warm word and
+   an exclamation mark are fine. It still never says her work caused it,
+   and there are no streaks. It appears inline at the top of the signals section, is
    dismissed in one press, and is gone for good once dismissed.
    -------------------------------------------------------------------------- */
 
@@ -211,10 +212,10 @@ export const SPARK_COPY = {
     writing: "Writing",
   },
   linkedin: "Your planning post reached twice as many directors and above as usual.",
-  podcast: (where: string, ordinal: string) => `You’re on ${where}. That’s your ${ordinal} podcast appearance.`,
-  press: (where: string, ordinal: string) => `You’re in ${where}. That’s your ${ordinal} press mention.`,
-  speaking: (where: string, ordinal: string) => `You’re speaking at ${where}. That’s your ${ordinal} engagement.`,
-  writing: (title: string, ordinal: string) => `“${title}” is up. That’s your ${ordinal} piece.`,
+  podcast: (where: string, ordinal: string) => `Great job! You’re on ${where}, your ${ordinal} podcast appearance.`,
+  press: (where: string, ordinal: string) => `Great to see you in ${where}. That’s your ${ordinal} press mention.`,
+  speaking: (where: string, ordinal: string) => `Well done! You’re speaking at ${where}, your ${ordinal} engagement.`,
+  writing: (title: string, ordinal: string) => `“${title}” is up. Nicely done, that’s your ${ordinal} piece.`,
 } as const;
 
 /* Concept 3's simpler version: one row per account, a finding and the one

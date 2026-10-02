@@ -15,7 +15,7 @@ export const sparkStates = defineComponentStates({
   status: "draft",
   flows: ["homepage"],
   description:
-    "A small note at the top of the signals section when something she can see has moved, such as a podcast she added or her LinkedIn numbers arriving. It names the thing and stops: no exclamation marks, streaks or praise, and never that her work caused it. At most two, newest first, dismissed for good in one press. Data stubbed until the Signal Picture in Sprint 3.",
+    "A small note at the top of the signals section when something she can see has moved, such as a podcast she added or her LinkedIn numbers arriving. It names the thing and says so warmly, but never that her work caused it, and there are no streaks. At most two, newest first, dismissed for good in one press. Data stubbed until the Signal Picture in Sprint 3.",
   component: Spark,
   notApplicable: {
     ...CONTROLS_INSIDE,
