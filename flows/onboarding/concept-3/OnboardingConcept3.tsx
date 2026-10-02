@@ -660,6 +660,7 @@ export function OnboardingConcept3() {
           kicker={c.kicker}
           title={c.title}
           lede={c.lede}
+          className="guide--done"
           primaryLabel={c.home}
           onPrimary={() => router.push(DONE_C1.homeHref)}
         >

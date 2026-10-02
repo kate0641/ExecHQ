@@ -7447,6 +7447,16 @@ ol.ring-detail__timeline {
   margin-top: 0;
 }
 
+/* The last page: the list of what to do next sits in the middle of the space
+   between the heading and the button. */
+.guide--done .guide__body {
+  margin-block: auto;
+}
+
+.guide--done .guide__actions {
+  margin-top: 0;
+}
+
 /* An answered page can run long, so its action stays in reach at the foot. */
 .guide--answered .guide__actions {
   position: sticky;
