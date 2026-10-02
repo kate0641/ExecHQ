@@ -1846,7 +1846,7 @@ export const GUIDE_C3 = {
     change: "Change",
     back: "Back",
   },
-  file: { label: "What I know so far", added: "Added" },
+  file: { label: "What ExecHQ knows so far", added: "Added" },
   welcome: {
     wordmark: "ExecHQ",
     title: "Somewhere to work on what comes next.",
@@ -1857,7 +1857,7 @@ export const GUIDE_C3 = {
   about: {
     kicker: "What ExecHQ is",
     title: "Crafting a plan for your career and the work to carry it out",
-    lede: "ExecHQ is a private career advisor for senior professionals ready to grow, with no agenda but your own. It will tell you what a coach, a mentor, or a colleague might not.",
+    lede: "ExecHQ is a private career advisor for modern professionals ready to grow, with no agenda but your own. It will tell you what a coach, a mentor, or a colleague might not.",
     points: [
       {
         title: "A plan for where you want to go",
@@ -1891,20 +1891,20 @@ export const GUIDE_C3 = {
     lede: "Your plan and your story are saved to your account, so you can come back to them.",
     inviteShow: "I have an invite code",
     inviteHide: "I don\u2019t have a code",
-    why: "Everything you tell me builds on what came before. Your account is how I remember it, and how you come back to it.",
+    why: "Everything you tell ExecHQ builds on what came before. Your account is how it remembers, and how you come back to it.",
     cta: "Continue",
   },
   signals: {
     kicker: "Optional",
-    title: "Want me to start from how you already show up?",
-    lede: "Bring in your LinkedIn numbers, and I\u2019ll see how you already show up.",
+    title: "Want ExecHQ to start from how you already show up?",
+    lede: "Bring in your LinkedIn numbers, and ExecHQ will see how you already show up.",
     why: "Your posts show how far you already reach, and who you reach. That shapes your plan, and it\u2019s read while you carry on.",
     done: "Continue",
     skip: "Skip for now",
   },
   /** The LinkedIn upload page, reached from Signals. */
   linkedin: {
-    why: "Bringing it in now means it\u2019s read while you do the rest. By the end, I\u2019ll know how far your posts reach, and who they reach.",
+    why: "Bringing it in now means it\u2019s read while you do the rest. By the end, ExecHQ will know how far your posts reach, and who they reach.",
     /** How the summary file on the last page says a file with no posts. */
     fileEmpty: "No posts in the last year yet",
   },
@@ -1915,20 +1915,20 @@ export const GUIDE_C3 = {
     promptedLabel: "Or start with one of these",
     /** More than one picked: which to start from. */
     first: "Which matters most right now?",
-    firstLede: "I\u2019ll start there, and keep the rest in view.",
+    firstLede: "ExecHQ will start there, and keep the rest in view.",
     /** Why the second question is asked, on its own: the first is already answered. */
     firstWhy: "Your plan needs a first step. Starting from the one that matters most gives it a clear direction, and the rest stay in view.",
-    why: "Everything I build points here. Pick all that are true, and I\u2019ll start with the one that matters most.",
+    why: "Everything ExecHQ builds points here. Pick all that are true, and it will start with the one that matters most.",
     cta: "Continue",
   },
   rec: {
-    kicker: "My recommendation",
-    title: "Here\u2019s where I\u2019d start",
-    lead: "From what you\u2019ve told me, I\u2019d start you on",
+    kicker: "ExecHQ\u2019s recommendation",
+    title: "Here\u2019s where ExecHQ would start",
+    lead: "From what you\u2019ve shared, ExecHQ would start you on",
     next: "Next, a few quick questions to make it yours.",
     /** The other directions picked, said so they are not lost. */
-    also: (goals: string) => `You also picked ${goals}. I\u2019ll keep that in view as your plan grows.`,
-    why: "You should get a clear starting point, not a menu of options. I\u2019ll show you how I got there, and you can always change it.",
+    also: (goals: string) => `You also picked ${goals}. ExecHQ will keep that in view as your plan grows.`,
+    why: "You should get a clear starting point, not a menu of options. ExecHQ will show you how it got there, and you can always change it.",
     cta: "Make it mine",
   },
   reflect: {
@@ -1957,7 +1957,7 @@ export const GUIDE_C3 = {
   /** The question that decides the plan, asked before anything is recommended
    *  (2026-09-30). Only some directions have one. */
   decide: {
-    kicker: "Before I recommend anything",
+    kicker: "Before ExecHQ recommends anything",
   },
   /** The questions that make the plan the user\u2019s own, asked after it. */
   questions: {
@@ -1969,17 +1969,17 @@ export const GUIDE_C3 = {
     why: {
       "scope-kind": "A step up can mean more people, more of the business, or a different seat. Each needs a different case.",
       "scope-when": "The timeline sets the pace: a near-term move and a three-year climb start in different places.",
-      "scope-block": "What\u2019s in the way decides what to do first, so I ask it before I recommend a plan.",
-      "influence-where": "Influence is always over something. Knowing what tells me where your plan should push.",
-      "influence-who": "Influence travels through people. Knowing whose backing matters most tells me where to start.",
-      "influence-block": "What\u2019s holding you back decides what to do first, so I ask it before I recommend a plan.",
+      "scope-block": "What\u2019s in the way decides what to do first, so ExecHQ asks it before it recommends a plan.",
+      "influence-where": "Influence is always over something. Knowing what tells ExecHQ where your plan should push.",
+      "influence-who": "Influence travels through people. Knowing whose backing matters most tells ExecHQ where to start.",
+      "influence-block": "What\u2019s holding you back decides what to do first, so ExecHQ asks it before it recommends a plan.",
       "presence-who": "Being seen means being seen by someone. The audience decides the kind of presence you build.",
       "presence-now": "How you\u2019re seen today is the starting line. The plan closes the gap between that and how you want to be seen.",
-      "presence-where": "Where you show up today tells me what to build on, and what to start from scratch.",
+      "presence-where": "Where you show up today tells ExecHQ what to build on, and what to start from scratch.",
       "moment-what": "Each kind of moment needs a different kind of preparation.",
       "moment-when": "The date sets how much there\u2019s time for, and what to leave out.",
-      "moment-ready": "How ready you feel tells me whether to check your case or help you build it.",
-      "explore-why": "Why you want a change says a lot about where to look, so I ask it before I recommend a plan.",
+      "moment-ready": "How ready you feel tells ExecHQ whether to check your case or help you build it.",
+      "explore-why": "Why you want a change says a lot about where to look, so ExecHQ asks it before it recommends a plan.",
       "explore-keep": "What you\u2019d keep narrows the options to the ones worth testing.",
       "explore-when": "How soon decides how much testing there\u2019s time for.",
     } as Record<string, string>,
@@ -2024,11 +2024,11 @@ export const GUIDE_C3 = {
     },
   },
   readback: {
-    kicker: "What I heard",
-    title: "Here\u2019s what I heard",
-    recLead: "So I\u2019d start you on",
+    kicker: "What ExecHQ heard",
+    title: "Here\u2019s what ExecHQ heard",
+    recLead: "So ExecHQ would start you on",
     checked: "Checked against your answers",
-    why: "So you can check I\u2019ve understood you before I build anything on it. If I\u2019ve got something wrong, now is the time.",
+    why: "So you can check ExecHQ has understood you before it builds anything on it. If it has got something wrong, now is the time.",
     confirm: "That\u2019s right",
     change: "Change it",
     editLabel: "How would you put it?",
@@ -2041,17 +2041,17 @@ export const GUIDE_C3 = {
       title: "What a plan is",
       lede: "A plan is how you get from where you are to where you said you want to be. Yours has five parts. We\u2019ll go through each one, then it\u2019s yours.",
       why: "A plan you understand is a plan you\u2019ll follow. Each part has a job.",
-      cta: "Build it with me",
+      cta: "Build it together",
     },
     whatLabel: "What it is",
     helpsLabel: "How it helps",
     yoursLabel: "Yours",
-    builtFrom: "Built from what you told me",
+    builtFrom: "Built from what you shared",
     parts: [
       {
         id: "start",
         title: "Your starting point",
-        what: "The plan I recommend for where you want to go, and what it\u2019s built from.",
+        what: "The plan ExecHQ recommends for where you want to go, and what it\u2019s built from.",
         helps: "You start from something built for you, not a blank page.",
       },
       {
@@ -2075,7 +2075,7 @@ export const GUIDE_C3 = {
       {
         id: "grows",
         title: "It grows with you",
-        what: "Every draft you make and every conversation you log tells me what to do next.",
+        what: "Every draft you make and every conversation you log tells ExecHQ what to do next.",
         helps: "The plan gets sharper the more you use it, and it never runs out.",
       },
     ],
@@ -2085,7 +2085,7 @@ export const GUIDE_C3 = {
     others: "See other plans",
     use: "Use this plan",
     othersTitle: "The other plans",
-    othersLede: "Each one is built for a different kind of next step. My recommendation is marked.",
+    othersLede: "Each one is built for a different kind of next step. ExecHQ\u2019s recommendation is marked.",
     othersCta: "Use this one",
   },
   story: {
@@ -2096,9 +2096,9 @@ export const GUIDE_C3 = {
       label: "Your story, out loud",
       options: ["Yes, easily", "Roughly", "Not really"],
       replies: [
-        "Good. Then I\u2019ll put it in writing, and you can sharpen it from there.",
-        "That\u2019s the gap we\u2019ll close. I\u2019ll draft that sentence for you next.",
-        "That\u2019s what this next part is for. I\u2019ll draft it for you, from what you\u2019ve told me.",
+        "Good. Then ExecHQ will put it in writing, and you can sharpen it from there.",
+        "That\u2019s the gap we\u2019ll close. ExecHQ will draft that sentence for you next.",
+        "That\u2019s what this next part is for. ExecHQ will draft it for you, from what you\u2019ve shared.",
       ],
       fact: {
         label: "Fun fact",
@@ -2112,13 +2112,13 @@ export const GUIDE_C3 = {
     draft: {
       title: "Here\u2019s your first draft",
       ledes: {
-        "Yes, easily": "Good. Here it is in writing, from what you\u2019ve told me.",
-        Roughly: "You said you could say it roughly. Here\u2019s a start, from what you\u2019ve told me.",
-        "Not really": "Here\u2019s one to start from, built from what you\u2019ve told me.",
+        "Yes, easily": "Good. Here it is in writing, from what you\u2019ve shared.",
+        Roughly: "You said you could say it roughly. Here\u2019s a start, from what you\u2019ve shared.",
+        "Not really": "Here\u2019s one to start from, built from what you\u2019ve shared.",
       } as Record<string, string>,
-      lede: "Built from what you\u2019ve told me.",
+      lede: "Built from what you\u2019ve shared.",
       why: "You can use this today. Everything after this makes it sharper, and your plan picks up where it leaves off.",
-      sharpen: "Sharpen it with me",
+      sharpen: "Sharpen it together",
       sharpenAgain: "Sharpen it again",
       cta: "Save it and finish",
       writing: "Writing your first draft",
@@ -2160,7 +2160,7 @@ export const GUIDE_C3 = {
   done: {
     kicker: "You\u2019re set up",
     title: "You have a plan and your first story",
-    lede: "Both are saved, and nothing here is visible to anyone else. Here\u2019s everything I learned, and what happens next.",
+    lede: "Both are saved, and nothing here is visible to anyone else. Here\u2019s everything ExecHQ learned, and what happens next.",
     nextLabel: "What happens next",
     // The first thing on the plan is the story, which is now drafted; the
     // quick win after it comes next.
