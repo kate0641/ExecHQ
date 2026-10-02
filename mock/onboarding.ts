@@ -196,6 +196,9 @@ export function isNarrowedDirection(direction: string): boolean {
 
 const lowerFirst = (text: string) => text.charAt(0).toLowerCase() + text.slice(1);
 
+/** A sentence continued after "I": its first letter drops to lower case, unless it is an acronym or a name in capitals. */
+const softCase = (text: string) => (/^[A-Z][a-z]/.test(text) ? lowerFirst(text) : text);
+
 /** What "None of these? Show me more options" adds to the list above, in
  *  Concept 3. Each is keyed in the copy tables below the way the first five
  *  are, so a pick reads as well as they do. */
@@ -1861,7 +1864,7 @@ export function firstDraftFor(
     })
     .filter((line): line is string => Boolean(line));
   const result = facts.result.trim()
-    ? `Most recently, I ${withFullStop(facts.result.trim().replace(/^i\s+/i, ""))}`
+    ? `Most recently, I ${withFullStop(softCase(facts.result.trim().replace(/^i\s+/i, "")))}`
     : null;
   return [doingLine(facts), towardLine(direction), ...said, result]
     .filter(Boolean)
@@ -2067,7 +2070,7 @@ export const GUIDE_C3 = {
     change: "Change",
     back: "Back",
   },
-  file: { label: "What ExecHQ knows so far", added: "Added" },
+  file: { label: "What\u2019s saved", added: "Added" },
   welcome: {
     wordmark: "ExecHQ",
     title: "Somewhere to work on what comes next.",
@@ -2307,8 +2310,8 @@ typedReply: "Thank you. Whatever it\u2019s been, your plan gives you something s
 typedReply: "Thank you. ExecHQ will draft that sentence for you next, from what you\u2019ve shared.",
       fact: {
         label: "Worth knowing",
-        text: "People judged a stranger\u2019s competence and trustworthiness after seeing their face for a tenth of a second, and those judgments closely matched the ones made with no time limit. More time mostly made them more confident.",
-        source: "Willis and Todorov, Psychological Science, 2006",
+        text: "Only 46% of U.S. employees clearly know what is expected of them at work.",
+        source: "Gallup, 2025",
       },
       why: "Every next step, a promotion conversation, a post, an introduction, starts with this sentence.",
     },
@@ -2316,15 +2319,12 @@ typedReply: "Thank you. ExecHQ will draft that sentence for you next, from what 
      *  2026-09-28. Its lede answers the reflection before it. */
     draft: {
       title: "Here\u2019s your first draft",
-      ledes: {
-        "Yes, easily": "Good. Here it is in writing, from what you\u2019ve shared.",
-        Roughly: "You said you could say it roughly. Here\u2019s a start, from what you\u2019ve shared.",
-        "Not really": "Here\u2019s one to start from, built from what you\u2019ve shared.",
-      } as Record<string, string>,
-      lede: "Built from what you\u2019ve shared.",
+      /** Said from what the draft is built from: the role, scope and result
+       *  asked just before it, or only what was said earlier. */
+      ledeSharpened: "Written from what you\u2019ve shared, with the detail you added.",
+      ledeStart: "A start, from what you\u2019ve shared. Add your role and a result to say what you lead.",
       why: "You can use this today. Everything after this makes it sharper, and your plan picks up where it leaves off.",
-      sharpen: "Sharpen it together",
-      sharpenAgain: "Sharpen it again",
+      sharpen: "Add more detail",
       cta: "Save it and finish",
       writing: "Writing your first draft",
       /** How the summary file on the last page says the story. */
@@ -2336,7 +2336,7 @@ typedReply: "Thank you. ExecHQ will draft that sentence for you next, from what 
       title: "Three things only you know",
       lede: "Your role, what you\u2019re responsible for, and one result. Skip any you like.",
       why: "These are what turn where you\u2019re going into something you can say in a meeting.",
-      cta: "Update my draft",
+      cta: "Write my draft",
     },
     /** Each sharpen question, as the drawer asks it. */
     asks: {
@@ -2365,7 +2365,7 @@ typedReply: "Thank you. ExecHQ will draft that sentence for you next, from what 
   done: {
     kicker: "You\u2019re set up",
     title: "You have a plan and your first story",
-    lede: "Both are saved, and nothing here is visible to anyone else. Here\u2019s everything ExecHQ learned, and what happens next.",
+    lede: "Both are saved, and nothing here is visible to anyone else. Here\u2019s what happens next.",
     nextLabel: "What happens next",
     // The first thing on the plan is the story, which is now drafted; the
     // quick win after it comes next.

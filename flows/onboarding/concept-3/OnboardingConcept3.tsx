@@ -153,12 +153,13 @@ const PAGES: Page[] = [
   { id: "plan-others", label: "Other plans", step: "refinement", offBar: true, aside: true },
   { id: "plan-week", label: "Your plan", step: "plan" },
   { id: "plan-stages", label: "Stages", step: "plan", offBar: true },
-  // The story: a reflection, then a first draft written from what the user
-  // has said, by decision on 2026-09-28. Sharpening is optional, reached only
-  // from the draft. It replaces the builder's intro and four input pages.
+  // The story: a reflection, then three things only the user knows (each
+  // skippable), then the first draft, written from everything. Asking first
+  // means the draft can say what the user leads (2026-10-02, reversing the
+  // 2026-09-28 order of draft first and sharpen after).
   { id: "reflect-story", label: "Your story", step: "artifact" },
+  { id: "sharpen", label: "Three things", step: "artifact", offBar: true },
   { id: "draft", label: "First draft", step: "artifact" },
-  { id: "sharpen", label: "Sharpen", step: "artifact", offBar: true, aside: true },
   { id: "done", label: "Done", step: "complete" },
 ];
 /** An answer drawer's state: open, folded to a peek, or answered (gone). */
@@ -306,10 +307,15 @@ export function OnboardingConcept3() {
       target: decidesPlanC3(question.id) ? "decide" : (`t-${tailoring.indexOf(question)}` as PageId),
     });
   });
+  // What the user leaves with, saved: the plan, the story and, if it came in,
+  // the LinkedIn file. The answers behind them were shown on the plan page.
   const items: AdvisorFileItem[] = [];
-  // The LinkedIn file is read while the user does the rest, so by the last
-  // page it has usually finished: the file says what came in, or that it is
-  // still being read.
+  if (a.planId && at > pageIndex("plan-stages")) items.push({ label: "Your plan", value: plan?.name ?? "" });
+  if (a.artifactSaved)
+    items.push({
+      label: "Your story",
+      value: sharpened ? GUIDE_C3.story.draft.fileSharpened : GUIDE_C3.story.draft.fileDraft,
+    });
   if (linkedInIn(a.linkedin))
     items.push({
       label: "LinkedIn",
@@ -319,32 +325,6 @@ export function OnboardingConcept3() {
           : a.linkedin.status === "empty"
             ? GUIDE_C3.linkedin.fileEmpty
             : SIGNALS_C1.sources[0].imported,
-    });
-  if (direction)
-    items.push({
-      label: "Where you’re going",
-      value: alsoGoals.length ? `${direction}, and ${joinGoals(alsoGoals)}` : direction,
-    });
-  if (plan && at > pageIndex("rec")) items.push({ label: "Starting point", value: plan.name });
-  if (reflections.time) items.push({ label: GUIDE_C3.reflect.time.label, value: reflections.time });
-  questions.forEach((question) => {
-    const value = a.refinement[question.id];
-    if (!value) return;
-    const { chosen, typed } = parseAnswer(question, value);
-    items.push({
-      label: question.question,
-      value: [...chosen.map((o) => o.label), ...(typed ? [typed] : [])].join(", "),
-    });
-  });
-  if (reflections.ceo) items.push({ label: GUIDE_C3.reflect2.ceo.label, value: reflections.ceo });
-  if (reflections.conversation)
-    items.push({ label: GUIDE_C3.reflect2.conversation.label, value: reflections.conversation });
-  if (a.planId && at > pageIndex("plan-stages")) items.push({ label: "Your plan", value: plan?.name ?? "" });
-  if (reflections.story) items.push({ label: GUIDE_C3.story.reflect.label, value: reflections.story });
-  if (a.artifactSaved)
-    items.push({
-      label: "Your story",
-      value: sharpened ? GUIDE_C3.story.draft.fileSharpened : GUIDE_C3.story.draft.fileDraft,
     });
   /** Where the page sits. Progress and the running file were cut from the
    *  pages by decision on 2026-09-24; what ExecHQ learned is shown once, as
@@ -503,14 +483,7 @@ export function OnboardingConcept3() {
           copy={c}
           value={reflections[key]}
           onChange={(value) => setReflections((all) => ({ ...all, [key]: value }))}
-          onDone={
-            key === "story"
-              ? () => {
-                  flow.withDelay("drafting", () => {});
-                  next();
-                }
-              : next
-          }
+          onDone={next}
         />
       );
     }
@@ -623,7 +596,7 @@ export function OnboardingConcept3() {
           flow={flow}
           frame={frame()}
           plan={plan}
-          lede={c.ledes[reflections.story ?? ""] ?? c.lede}
+          lede={sharpened ? c.ledeSharpened : c.ledeStart}
           onSharpen={() => goTo("sharpen")}
           onSave={() => {
             dispatch({ type: "save-artifact" });
@@ -639,7 +612,10 @@ export function OnboardingConcept3() {
           flow={flow}
           frame={frame()}
           drawer={{ mode, setMode }}
-          onDone={() => goTo("draft")}
+          onDone={() => {
+            flow.withDelay("drafting", () => {});
+            goTo("draft");
+          }}
         />
       );
 
@@ -1221,7 +1197,7 @@ function DraftPage({
       primaryLabel={c.cta}
       primaryDisabled={editing}
       onPrimary={onSave}
-      secondaryLabel={sharpened ? c.sharpenAgain : c.sharpen}
+      secondaryLabel={c.sharpen}
       onSecondary={onSharpen}
     >
       <StoryDraft
