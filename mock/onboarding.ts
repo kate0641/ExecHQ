@@ -923,6 +923,7 @@ export const SIGNALS_C1 = {
   eyebrow: "Optional",
   title: "Build out your signals",
   hint: "Bring in what\u2019s already out there, and ExecHQ will use it to shape your plan and your drafts.",
+  later: "You\u2019ll be able to add other signals later.",
   privacy: "Nothing is posted or shared. Delete the file anytime.",
   skip: "Skip for now",
   done: "Done",
@@ -1895,7 +1896,7 @@ export const GUIDE_C3 = {
   signals: {
     kicker: "Optional",
     title: "Start from how you already show up",
-    lede: "ExecHQ reads how far your posts reach, and who they reach, so your plan starts from where you already are. About a minute, on a computer.",
+    lede: "ExecHQ reads how far your posts reach, and who they reach, so your plan starts from where you already are.",
     add: "Add LinkedIn numbers",
     done: "Continue",
     skip: "Skip for now",

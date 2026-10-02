@@ -6764,6 +6764,12 @@ ol.ring-detail__timeline {
 
 /* --- Ending and signals (Concept 1) --------------------------------------- */
 
+.signal-sources {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
 .signal-list {
   display: flex;
   flex-direction: column;
@@ -6777,10 +6783,6 @@ ol.ring-detail__timeline {
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: var(--space-sm);
-  padding: var(--space-md);
-  background-color: var(--color-surface-raised);
-  border: var(--border-subtle);
-  border-radius: var(--radius-md);
 }
 
 .signal-list__mark {
@@ -6832,6 +6834,12 @@ ol.ring-detail__timeline {
   background-color: var(--color-surface-inverse);
   border-radius: var(--radius-pill);
   cursor: pointer;
+}
+
+.signal-later {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
 }
 
 .signal-privacy {

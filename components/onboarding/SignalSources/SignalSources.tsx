@@ -59,6 +59,8 @@ export function SignalSources({ linkedin, onOpenLinkedIn, className }: SignalSou
         ))}
       </ul>
 
+      <p className="signal-later">{copy.later}</p>
+
       <p className="signal-privacy">
         <Icon name="lock" size={16} />
         {copy.privacy}
