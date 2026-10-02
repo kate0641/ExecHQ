@@ -124,7 +124,8 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <path d="M4.6 7.2h1.6M4.6 10h1.6" strokeWidth="1.3" />
     </>
   ),
-  chevron: <path d="M7 4l5 6-5 6" />,
+  // Sharper than a right angle (80°), so it points rather than leans.
+  chevron: <path d="M7.5 5.8l5 4.2-5 4.2" />,
   // Privacy. A closed shield, because the promise is that nothing leaves.
   shield: (
     <>
@@ -287,9 +288,9 @@ const PATHS: Record<IconName, React.ReactNode> = {
   // rules before a screen asks for them. Names say what an icon is, not what
   // it is for; a direction comes last.
   // ---------------------------------------------------------------------------
-  "chevron-left": <path d="M13 4l-5 6 5 6" />,
-  "chevron-up": <path d="M4 12.5l6-5 6 5" />,
-  "chevron-down": <path d="M4 7.5l6 5 6-5" />,
+  "chevron-left": <path d="M12.5 5.8l-5 4.2 5 4.2" />,
+  "chevron-up": <path d="M5.8 12.5l4.2-5 4.2 5" />,
+  "chevron-down": <path d="M5.8 7.5l4.2 5 4.2-5" />,
   "arrow-right": <path d="M3.5 10h13M11 4.5l5.5 5.5-5.5 5.5" />,
   "arrow-left": <path d="M16.5 10h-13M9 4.5 3.5 10 9 15.5" />,
   "arrow-up": <path d="M10 16.5v-13M4.5 9 10 3.5 15.5 9" />,
