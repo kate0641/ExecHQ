@@ -1,6 +1,4 @@
 import type { ReactElement } from "react";
-import { OnboardingConcept1 } from "./onboarding/concept-1";
-import { OnboardingConcept2 } from "./onboarding/concept-2";
 import { OnboardingConcept3 } from "./onboarding/concept-3";
 import { HomepageConcept1 } from "./homepage/concept-1";
 import { HomepageConcept2 } from "./homepage/concept-2";
@@ -24,8 +22,6 @@ import { LoginConcept1 } from "./login/concept-1";
  * scope is free and stable.
  */
 const BUILT_CONCEPTS: Record<string, ReactElement> = {
-  "onboarding/concept-1": <OnboardingConcept1 />,
-  "onboarding/concept-2": <OnboardingConcept2 />,
   "onboarding/concept-3": <OnboardingConcept3 />,
   "homepage/concept-1": <HomepageConcept1 />,
   "homepage/concept-2": <HomepageConcept2 />,

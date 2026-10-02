@@ -90,18 +90,6 @@ export const prototypeConfig: PrototypeConfig = {
         "The first ninety seconds: privacy promise, career direction, plan selection and one usable artifact — one continuous sequence, never a setup tool.",
       concepts: [
         {
-          slug: "concept-1",
-          title: "Concept 1 — Paged wizard",
-          summary:
-            "One decision per screen, explicit progress, nothing below the fold. The baseline.",
-        },
-        {
-          slug: "concept-2",
-          title: "Concept 2 — Conversational intake",
-          summary:
-            "One thread. Every question and answer stays on screen as the record.",
-        },
-        {
           slug: "concept-3",
           title: "Concept 3 — Guided",
           summary:

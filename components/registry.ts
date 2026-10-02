@@ -26,21 +26,13 @@ import { navPlaceholderStates } from "./layout/NavPlaceholder/NavPlaceholder.sta
 import { stepBarStates } from "./layout/StepBar/StepBar.states";
 import { sheetStates } from "./layout/Sheet/Sheet.states";
 import { stepHeaderStates } from "./onboarding/StepHeader/StepHeader.states";
-import { stepProgressStates } from "./onboarding/StepProgress/StepProgress.states";
 import { stepActionsStates } from "./onboarding/StepActions/StepActions.states";
-import { directionFieldStates } from "./onboarding/DirectionField/DirectionField.states";
 import { noticeStates } from "./onboarding/Notice/Notice.states";
 import { generatingStateStates } from "./onboarding/GeneratingState/GeneratingState.states";
 import { planTemplateCardStates } from "./onboarding/PlanTemplateCard/PlanTemplateCard.states";
-import { wizardStepStates } from "./onboarding/WizardStep/WizardStep.states";
 import { welcomeSplitStates } from "./onboarding/WelcomeSplit/WelcomeSplit.states";
-import { privacySplashStates } from "./onboarding/PrivacySplash/PrivacySplash.states";
-import { answerListStates } from "./onboarding/AnswerList/AnswerList.states";
-import { advisorNoteStates } from "./onboarding/AdvisorNote/AdvisorNote.states";
 import { thisWeekCardStates } from "./onboarding/ThisWeekCard/ThisWeekCard.states";
-import { planTimelineStates } from "./onboarding/PlanTimeline/PlanTimeline.states";
 import { storyTextStates } from "./onboarding/StoryText/StoryText.states";
-import { revisionChipsStates } from "./onboarding/RevisionChips/RevisionChips.states";
 import { answerDrawerStates } from "./onboarding/AnswerDrawer/AnswerDrawer.states";
 import { deviceKeyboardStates } from "./onboarding/DeviceKeyboard/DeviceKeyboard.states";
 import { goodExampleStates } from "./onboarding/GoodExample/GoodExample.states";
@@ -50,10 +42,6 @@ import { pointListStates } from "./onboarding/PointList/PointList.states";
 import { reflectionReplyStates } from "./onboarding/ReflectionReply/ReflectionReply.states";
 import { recommendationCardStates } from "./onboarding/RecommendationCard/RecommendationCard.states";
 import { signalSourcesStates } from "./onboarding/SignalSources/SignalSources.states";
-import { draftSectionStates } from "./onboarding/DraftSection/DraftSection.states";
-import { storySummaryCardStates } from "./onboarding/StorySummaryCard/StorySummaryCard.states";
-import { planSummaryCardStates } from "./onboarding/PlanSummaryCard/PlanSummaryCard.states";
-import { storyOutputsStates } from "./onboarding/StoryOutputs/StoryOutputs.states";
 import { storyDraftStates } from "./onboarding/StoryDraft/StoryDraft.states";
 import { linkedInStepsStates } from "./onboarding/LinkedInSteps/LinkedInSteps.states";
 import { linkedInUploadStates } from "./onboarding/LinkedInUpload/LinkedInUpload.states";
@@ -123,23 +111,13 @@ export const registry: RegisteredComponent[] = [
   stepBarStates,
   sheetStates,
   stepHeaderStates,
-  stepProgressStates,
   stepActionsStates,
-  directionFieldStates,
   noticeStates,
   generatingStateStates,
   planTemplateCardStates,
-  wizardStepStates,
   welcomeSplitStates,
-  privacySplashStates,
-  answerListStates,
-  advisorNoteStates,
   thisWeekCardStates,
-  planTimelineStates,
   storyTextStates,
-  revisionChipsStates,
-  planSummaryCardStates,
-  draftSectionStates,
   signalSourcesStates,
   guidePageStates,
   goodExampleStates,
@@ -149,8 +127,6 @@ export const registry: RegisteredComponent[] = [
   pointListStates,
   reflectionReplyStates,
   recommendationCardStates,
-  storySummaryCardStates,
-  storyOutputsStates,
   storyDraftStates,
   linkedInStepsStates,
   linkedInUploadStates,
