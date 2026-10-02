@@ -14,8 +14,9 @@ import { ACTIONS, HORIZONS, actionById } from "@/mock/plan-stub";
 
 /**
  * What she has in progress, under the map (Homepage Concept 4). The two
- * pieces Concept 2 settled, kept as they were: her next step with the three
- * reasons for it, then "Stay on track", everything waiting on her word.
+ * pieces Concept 2 settled: "Stay on track", everything waiting on her
+ * word, then her next step with the three reasons for it. Stay on track
+ * leads, and is left out on the first return, when nothing is waiting.
  *
  * One rule is new here. The next step is only ever something she has
  * started. An action she has not started shows on the map and leads to the
@@ -110,7 +111,81 @@ export function InProgress({ loop, rings }: { loop: LoopView; rings: MapRing[] }
   const nothingInLoop = !answered && !pendingTask && !due.length && !readyRecords.length && !waitingRecords.length;
   const anyUsed = loop.records.some((r) => r.usedOn);
 
-  return (
+  /* On the first return nothing is waiting on her word, so Stay on track is
+     left out. Otherwise it leads, above her next step. */
+  const first = loop.homeState === "first-return";
+  const stay = first ? null : (
+    <section className="c2-section" aria-labelledby="stay-heading">
+      <div className="signals-home__intro">
+        <h2 className="signals-home__heading" id="stay-heading" tabIndex={-1}>
+          {S.heading}
+        </h2>
+      </div>
+      {pendingTask && taskCheck ? (
+        <CheckIn
+          key={`task-${pendingTask.id}`}
+          task={taskCheck}
+          today={loop.today}
+          about={pendingTask.title}
+          layout="question"
+          answered={Boolean(taskCheck.outcome)}
+          readback={taskReadback}
+          onAnswer={(type) => loopActions.answerTask(pendingTask.id, type)}
+          onNote={(detail) => loopActions.noteTask(pendingTask.id, detail)}
+          headingId="check-in-task"
+        />
+      ) : null}
+      {checkRecord ? (
+        <CheckIn
+          key={checkRecord.id}
+          record={checkRecord}
+          today={loop.today}
+          about={forAction(checkRecord.id)?.title}
+          layout="question"
+          answered={checkRecord === answered}
+          readback={checkRecord === answered ? readback : undefined}
+          onUsed={() => {
+            loopActions.markUsed(checkRecord.id);
+            setShowing(null);
+            focusSoon("stay-heading");
+          }}
+          onAnswer={(type) => {
+            loopActions.answer(checkRecord.id, { type });
+            setShowing(null);
+            focusSoon("check-in-question");
+          }}
+          onNote={(detail) => loopActions.noteOutcome(checkRecord.id, detail)}
+        />
+      ) : null}
+      {rowCount ? (
+        <ul className="loop-rows">
+          {due
+            .filter((r) => r.id !== checkRecord?.id)
+            .map((r) => (
+              <li key={r.id}>
+                <LoopRow record={r} line={usedLine(r)} onOpen={() => openItem(r.id)} />
+              </li>
+            ))}
+          {readyRecords
+            .filter((r) => r.id !== checkRecord?.id)
+            .map((r) => (
+              <li key={r.id}>
+                <LoopRow record={r} line={S.readyLine} onOpen={() => openItem(r.id)} />
+              </li>
+            ))}
+          {waitingRecords
+            .filter((r) => r.id !== checkRecord?.id)
+            .map((r) => (
+              <li key={r.id}>
+                <LoopRow record={r} line={r.checkBackOn ? S.askOn(aheadPhrase(r.checkBackOn, loop.today)) : S.usedNoAsk} />
+              </li>
+            ))}
+        </ul>
+      ) : null}
+      {nothingInLoop ? <p className="c2-section__note">{anyUsed ? S.allLogged : S.empty}</p> : null}
+    </section>
+  );
+  const next = (
     <>
       {step ? (
         <NextStepCard
@@ -136,76 +211,13 @@ export function InProgress({ loop, rings }: { loop: LoopView; rings: MapRing[] }
       ) : (
         <p className="c2-section__note">{M.nothingInProgress}</p>
       )}
+  </>
+  );
 
-      <section className="c2-section" aria-labelledby="stay-heading">
-        <div className="signals-home__intro">
-          <h2 className="signals-home__heading" id="stay-heading" tabIndex={-1}>
-            {S.heading}
-          </h2>
-        </div>
-        {pendingTask && taskCheck ? (
-          <CheckIn
-            key={`task-${pendingTask.id}`}
-            task={taskCheck}
-            today={loop.today}
-            about={pendingTask.title}
-            layout="question"
-            answered={Boolean(taskCheck.outcome)}
-            readback={taskReadback}
-            onAnswer={(type) => loopActions.answerTask(pendingTask.id, type)}
-            onNote={(detail) => loopActions.noteTask(pendingTask.id, detail)}
-            headingId="check-in-task"
-          />
-        ) : null}
-        {checkRecord ? (
-          <CheckIn
-            key={checkRecord.id}
-            record={checkRecord}
-            today={loop.today}
-            about={forAction(checkRecord.id)?.title}
-            layout="question"
-            answered={checkRecord === answered}
-            readback={checkRecord === answered ? readback : undefined}
-            onUsed={() => {
-              loopActions.markUsed(checkRecord.id);
-              setShowing(null);
-              focusSoon("stay-heading");
-            }}
-            onAnswer={(type) => {
-              loopActions.answer(checkRecord.id, { type });
-              setShowing(null);
-              focusSoon("check-in-question");
-            }}
-            onNote={(detail) => loopActions.noteOutcome(checkRecord.id, detail)}
-          />
-        ) : null}
-        {rowCount ? (
-          <ul className="loop-rows">
-            {due
-              .filter((r) => r.id !== checkRecord?.id)
-              .map((r) => (
-                <li key={r.id}>
-                  <LoopRow record={r} line={usedLine(r)} onOpen={() => openItem(r.id)} />
-                </li>
-              ))}
-            {readyRecords
-              .filter((r) => r.id !== checkRecord?.id)
-              .map((r) => (
-                <li key={r.id}>
-                  <LoopRow record={r} line={S.readyLine} onOpen={() => openItem(r.id)} />
-                </li>
-              ))}
-            {waitingRecords
-              .filter((r) => r.id !== checkRecord?.id)
-              .map((r) => (
-                <li key={r.id}>
-                  <LoopRow record={r} line={r.checkBackOn ? S.askOn(aheadPhrase(r.checkBackOn, loop.today)) : S.usedNoAsk} />
-                </li>
-              ))}
-          </ul>
-        ) : null}
-        {nothingInLoop ? <p className="c2-section__note">{anyUsed ? S.allLogged : S.empty}</p> : null}
-      </section>
+  return (
+    <>
+      {stay}
+      {next}
     </>
   );
 }
