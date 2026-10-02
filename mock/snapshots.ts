@@ -38,12 +38,29 @@ export interface TaskCheck {
   dropped?: boolean;
 }
 
+/**
+ * What she decided about an action on the map (Homepage Concept 4): started
+ * it, skipped it (with why, if she said), or finished it and asked for a new
+ * one, which clears it from the ring. Nothing here changes a status in the
+ * Plan stub; the map reads the two together (`lib/map.ts`).
+ */
+export interface ActionChoice {
+  decision: "started" | "skipped" | "retired";
+  on: string;
+  reason?: string;
+  note?: string;
+}
+
 export interface SnapshotState {
   account: Account;
   records: LoopRecord[];
   recommendations: Recommendation[];
   /** Actions with no draft, by action id, once she's said something. */
   tasks?: Record<string, TaskCheck>;
+  /** Her decisions on the map's actions, by action id. */
+  choices?: Record<string, ActionChoice>;
+  /** The ids of the new actions she has asked for, in the order asked. */
+  asked?: string[];
   /** The record whose outcome was just recorded, for the hand-off. Cleared
    *  by the next move. */
   justAnswered?: string;

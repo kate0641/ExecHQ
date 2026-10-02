@@ -343,3 +343,43 @@ export const CHECKIN_COPY = {
   stepWaiting: "Waiting to hear",
   stepLogged: "Logged",
 } as const;
+
+/* -----------------------------------------------------------------------------
+   HOMEPAGE CONCEPT 4 — COMBINED. Written 2026-10-02 from Kate's notes on the
+   three concepts: a briefing callout, a map of rings, then what is in
+   progress, then Your Signal Picture.
+   -------------------------------------------------------------------------- */
+
+export const MAP_COPY = {
+  /** The one line that leads to the Briefing. It never says what is in it. */
+  briefing: (date: string) => `Read today’s briefing — ${date}`,
+  heading: "Your map",
+  hintPick: "Tap a ring to see what is in it.",
+  legend: { done: "Done", inProgress: "In progress", notStarted: "Not started" },
+  state: { done: "Done", inProgress: "In progress", notStarted: "Not started" },
+  /** What each row says it does when tapped. */
+  rowOpen: "Opens in your Plan",
+  rowRead: "Read why, then start or skip",
+  ringCount: (done: number, total: number) => (total === 0 ? "Nothing yet" : done === total ? "All done" : `${done} of ${total} done`),
+  ringEmpty: "Nothing on your map in this ring yet.",
+  panelHint: "Each one opens in your Plan.",
+  panelHintUnstarted: "Ones you have not started open to read about first.",
+  askNew: "Ask for a new one",
+  askNone: "Nothing new to suggest right now. Check back after your next step.",
+  added: (title: string) => `Added to your map: ${title}. Open it to start it or skip it.`,
+  sheet: {
+    where: (horizon: string, stage: number, stageTitle: string) => `${horizon} · Stage ${stage}, ${stageTitle}`,
+    start: "Start this",
+    notForMe: "Not for me",
+    close: "Close",
+    skipTitle: "Why not?",
+    reasonLabel: "Reason",
+    skipHint: "Optional. It helps ExecHQ suggest better ones.",
+    reasons: ["Not relevant now", "Already done", "Not my priority", "Something else"] as const,
+    noteLabel: "Anything to add?",
+    skip: "Skip this one",
+    back: "Back",
+  },
+  skipped: (title: string) => `Skipped: ${title}. It is off your map.`,
+  started: "Started.",
+} as const;

@@ -161,6 +161,12 @@ export const prototypeConfig: PrototypeConfig = {
           summary:
             "Plan forward: the roadmap as a table of contents, the current stage opened up with what it asks now, and the next step.",
         },
+        {
+          slug: "concept-4",
+          title: "Concept 4 — Combined",
+          summary:
+            "The three together: a line to today’s Briefing, a map of three rings, what is in progress, and Your Signal Picture.",
+        },
       ],
     },
     {
