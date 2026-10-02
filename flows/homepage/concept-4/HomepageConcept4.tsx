@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ActionSheet } from "@/components/homepage/ActionSheet";
 import { BriefingCallout } from "@/components/homepage/BriefingCallout";
 import { MapLegend, MapRings } from "@/components/homepage/MapRings";
+import { InProgress } from "./InProgress";
 import { MapPanel } from "@/components/homepage/MapPanel";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
@@ -56,51 +57,56 @@ export function HomepageConcept4() {
   return (
     <div className="map-home">
       <h1 className="u-visually-hidden">Home</h1>
-      <p className="map-home__greeting">
-        <b>{C.greeting(loop.account.name ?? "")}</b>
-        <span>{longDate(loop.today)}</span>
-      </p>
-      <BriefingCallout href={BRIEFING} label={M.briefing(ordinalDate(loop.today))} />
-      <section className="map-home__section" aria-labelledby="map-heading">
-        <h2 className="map-home__heading" id="map-heading">
-          {M.heading}
-        </h2>
-        <MapRings
-          rings={rings}
-          selected={selected}
-          panelId="map-panel"
-          onSelect={(h) => {
-            setSelected((current) => (current === h ? null : h));
-            setAnnounce("");
-          }}
-        />
-        <MapLegend />
-        {open ? (
-          <MapPanel
-            ring={open}
-            id="map-panel"
-            headingId="map-panel-heading"
-            planHref={PLAN}
-            onOpenAction={setSheetAction}
-            onAsk={
-              nextNewAction(open.horizon, loop.asked)
-                ? () => {
-                    const add = nextNewAction(open.horizon, loop.asked);
-                    loopActions.askForNew(
-                      open.segments.map((s) => s.action.id),
-                      add?.id
-                    );
-                    if (add) setAnnounce(M.added(add.title));
-                  }
-                : undefined
-            }
-            noneLeft={!nextNewAction(open.horizon, loop.asked)}
+      <div className="map-home__lead">
+        <p className="map-home__greeting">
+          <b>{C.greeting(loop.account.name ?? "")}</b>
+          <span>{longDate(loop.today)}</span>
+        </p>
+        <BriefingCallout href={BRIEFING} label={M.briefing(ordinalDate(loop.today))} />
+        <section className="map-home__section" aria-labelledby="map-heading">
+          <h2 className="map-home__heading" id="map-heading">
+            {M.heading}
+          </h2>
+          <MapRings
+            rings={rings}
+            selected={selected}
+            panelId="map-panel"
+            onSelect={(h) => {
+              setSelected((current) => (current === h ? null : h));
+              setAnnounce("");
+            }}
           />
-        ) : (
-          <p className="map-home__hint">{M.hintPick}</p>
-        )}
-        <output className="u-visually-hidden">{announce}</output>
-      </section>
+          <MapLegend />
+          {open ? (
+            <MapPanel
+              ring={open}
+              id="map-panel"
+              headingId="map-panel-heading"
+              planHref={PLAN}
+              onOpenAction={setSheetAction}
+              onAsk={
+                nextNewAction(open.horizon, loop.asked)
+                  ? () => {
+                      const add = nextNewAction(open.horizon, loop.asked);
+                      loopActions.askForNew(
+                        open.segments.map((s) => s.action.id),
+                        add?.id
+                      );
+                      if (add) setAnnounce(M.added(add.title));
+                    }
+                  : undefined
+              }
+              noneLeft={!nextNewAction(open.horizon, loop.asked)}
+            />
+          ) : (
+            <p className="map-home__hint">{M.hintPick}</p>
+          )}
+          <output className="u-visually-hidden">{announce}</output>
+        </section>
+      </div>
+      <div className="map-home__side">
+        <InProgress loop={loop} rings={rings} />
+      </div>
       <ActionSheet
         open={sheetAction !== null}
         action={sheetAction}

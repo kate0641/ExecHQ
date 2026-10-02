@@ -11801,3 +11801,26 @@ ul.map-panel__list {
   color: var(--color-text-secondary);
   text-align: center;
 }
+
+/* Concept 4's two columns on web: the map on the left; what is in progress
+   (and, below it, the Signal Picture) on the right. One column otherwise. */
+
+.map-home__lead,
+.map-home__side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  min-width: 0;
+}
+
+[data-viewport="web"] .map-home:not(:where([data-viewport="mobile"] *)) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-xl) var(--space-2xl);
+  max-width: 68rem;
+}
+
+[data-viewport="mobile"] .map-home {
+  padding-bottom: var(--space-lg);
+}
