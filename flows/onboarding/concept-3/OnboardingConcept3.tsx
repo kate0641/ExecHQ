@@ -989,6 +989,8 @@ function ReflectPage({
   onDone: () => void;
 }) {
   const index = copy.options.findIndex((option) => option === value);
+  // An answer that is none of the options was typed, in the user's own words.
+  const [typed, setTyped] = useState(value && index < 0 ? value : "");
   const d = GUIDE_C3.drawer;
   const done = drawer.mode === "done" && Boolean(value);
   const open = drawer.mode === "open";
@@ -1017,17 +1019,34 @@ function ReflectPage({
               label={copy.title}
               labelHidden
               options={copy.options}
+              equalWidth
               value={value ? [value] : []}
-              onChange={(next) => onChange(next[0] ?? "")}
+              onChange={(next) => {
+                setTyped("");
+                onChange(next[0] ?? "");
+              }}
+            />
+            <Input
+              label={GUIDE_C3.questions.typedLabel}
+              autoComplete="off"
+              value={typed}
+              onChange={(event) => {
+                setTyped(event.target.value);
+                onChange(event.target.value.trim());
+              }}
             />
           </AnswerDrawer>
         )
       }
     >
-      {done && index >= 0 ? (
+      {done ? (
         <>
           <Said value={value!} onChange={() => drawer.setMode("open")} />
-          <ReflectionReply from={GUIDE_C3.from} text={copy.replies[index]} fact={copy.fact} />
+          <ReflectionReply
+            from={GUIDE_C3.from}
+            text={index >= 0 ? copy.replies[index] : copy.typedReply}
+            fact={copy.fact}
+          />
         </>
       ) : null}
     </GuidePage>

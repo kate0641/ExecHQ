@@ -2088,6 +2088,7 @@ export const GUIDE_C3 = {
         "That\u2019s enough to move, if it\u2019s aimed. Your plan gives that time a direction, so it builds from one week to the next.",
         "Then the question isn\u2019t effort, it\u2019s aim. Your plan makes sure the time you already give builds toward one thing.",
       ],
+typedReply: "Thank you. That\u2019s a useful picture, and your plan will be built around the time you actually have.",
       fact: {
         label: "Fun fact",
         text: "Employees spend only about 1% of a typical working week on learning and development. That is around 24 minutes.",
@@ -2142,6 +2143,7 @@ export const GUIDE_C3 = {
         "Then the gap isn\u2019t your work, it\u2019s the telling. That\u2019s exactly what we\u2019ll build first.",
         "Then that\u2019s where we start. It\u2019s hard for anyone to back you if they don\u2019t know what you do.",
       ],
+typedReply: "Thank you. However they\u2019d put it, your plan is built to make what you do easy for others to say.",
       fact: {
         label: "Fun fact",
         text: "In a survey of 3,213 professionals, nearly one in four said they sponsor someone at work. Of those, only 27% actually advocate for that person\u2019s promotion.",
@@ -2160,6 +2162,7 @@ export const GUIDE_C3 = {
         "That\u2019s a long time for your manager to guess at what you want. Your plan puts that conversation back on the calendar, with something to say.",
         "Then your manager is guessing. The first thing your plan will do is give you the words to start that conversation.",
       ],
+typedReply: "Thank you. Whatever it\u2019s been, your plan gives you something specific to bring to the next conversation.",
       fact: {
         label: "Fun fact",
         text: "Only 20% of US employees strongly agree they have talked with their manager in the last six months about the steps they can take to reach their goals.",
@@ -2245,6 +2248,7 @@ export const GUIDE_C3 = {
         "That\u2019s the gap we\u2019ll close. ExecHQ will draft that sentence for you next.",
         "That\u2019s what this next part is for. ExecHQ will draft it for you, from what you\u2019ve shared.",
       ],
+typedReply: "Thank you. ExecHQ will draft that sentence for you next, from what you\u2019ve shared.",
       fact: {
         label: "Fun fact",
         text: "People judged a stranger\u2019s competence and trustworthiness after seeing their face for a tenth of a second, and those judgments closely matched the ones made with no time limit. More time mostly made them more confident.",
