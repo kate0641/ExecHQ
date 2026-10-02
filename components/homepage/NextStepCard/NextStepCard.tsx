@@ -59,6 +59,44 @@ export function NextStepCard({
     ["Why now", why.now],
     ["Why you", why.you],
   ].filter((row): row is [string, string] => Boolean(row[1]));
+  // The plain card — eyebrow and title on top, the reasons as rows below — is
+  // a feature card. Anything more above or around the title (a lead, a
+  // context line, a stub, a title shown elsewhere, the one-sentence reasons)
+  // keeps the earlier design until it is given one of its own.
+  const feature = !lead && !context && !stubbed && !titleHidden && !whyLine;
+  if (feature) {
+    return (
+      <section className={["feature-card", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
+        <div className="feature-card__head">
+          <p className="feature-card__eyebrow">{eyebrow}</p>
+          <h2 className="feature-card__title" id={headingId} tabIndex={-1}>
+            {title}
+          </h2>
+        </div>
+        <div className="feature-card__body">
+          {rows.length ? (
+            <dl className="feature-card__rows">
+              {rows.map(([term, text]) => (
+                <div className="feature-card__row" key={term}>
+                  <dt className="feature-card__label">{term}</dt>
+                  <dd className="feature-card__text">{text}</dd>
+                </div>
+              ))}
+            </dl>
+          ) : null}
+          <Link href={href} className="btn btn--primary btn--md btn--full">
+            {actionLabel}
+            <Icon name="chevron" size={16} />
+          </Link>
+          {secondary ? (
+            <Button variant="secondary" fullWidth onClick={secondary.onClick}>
+              {secondary.label}
+            </Button>
+          ) : null}
+        </div>
+      </section>
+    );
+  }
   return (
     <section className={["home-card", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
       {lead ? <div className="home-card__lead">{lead}</div> : null}

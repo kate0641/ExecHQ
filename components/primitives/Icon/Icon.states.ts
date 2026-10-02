@@ -23,7 +23,7 @@ export const iconStates = defineComponentStates({
     { label: "Web", props: { name: "web" } },
     {
       label: "Hub",
-      description: "The filled column shows which side the panel opens from.",
+      description: "Four staggered panels: the hub of every page in the prototype.",
       props: { name: "hub" },
     },
     { label: "Chevron", props: { name: "chevron" } },
@@ -59,7 +59,7 @@ export const iconStates = defineComponentStates({
     { label: "Close", props: { name: "close" } },
     {
       label: "Draft",
-      description: "The pencil with its tip filled in: a draft is open.",
+      description: "The pencil with a line under it, as if mid-writing: a draft is open.",
       props: { name: "draft" },
     },
     {

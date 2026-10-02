@@ -3,6 +3,7 @@ import { Badge, type FeedbackBadgeTone } from "@/components/primitives/Badge";
 import { Logo, type LogoTone } from "@/components/primitives/Logo";
 import { TextLink } from "@/components/primitives/TextLink";
 import { getHubPage } from "@/lib/hub-pages";
+import { IconGuide } from "./IconGuide";
 import { Specimens } from "./Specimens";
 import { StyleguideSections } from "./StyleguideSections";
 import { TypeLab, type TypeLabRole } from "./TypeLab";
@@ -324,26 +325,26 @@ const LOGO_RULES: {
   tone: LogoTone;
   title: string;
   role: string;
-  backgrounds: { token: string; name: string }[];
+  backgrounds: { token: string; name: string; use?: string }[];
 }[] = [
   {
     tone: "dark",
     title: "Dark logo",
-    role: "Gold and navy. Sits on stone and light blue.",
+    role: "Gold and navy. Sits on stone and blue 100. Not on light blue (blue 200): the gold falls to 4.2:1 there.",
     backgrounds: [
       { token: "--brand-stone", name: "Stone" },
-      { token: "--brand-light-blue", name: "Light blue" },
+      { token: "--brand-blue-100", name: "Blue 100" },
     ],
   },
   {
     tone: "light",
     title: "Light logo",
-    role: "Bright yellow and light blue. Sits on any dark color.",
+    role: "Bright yellow and light blue. Sits on a dark color, and in most cases on navy or the darkest navy: the logo stays in some form of navy. Dark green is the secondary choice; stone 900 is kept but largely unused for now.",
     backgrounds: [
-      { token: "--brand-navy", name: "Navy" },
-      { token: "--brand-slate", name: "Slate" },
-      { token: "--brand-dark-green", name: "Dark green" },
-      { token: "--brand-stone-900", name: "Stone 900" },
+      { token: "--brand-navy", name: "Navy", use: "Primary" },
+      { token: "--brand-blue-900", name: "Darkest navy", use: "Primary" },
+      { token: "--brand-dark-green", name: "Dark green", use: "Secondary" },
+      { token: "--brand-stone-900", name: "Stone 900", use: "Tertiary" },
     ],
   },
 ];
@@ -365,6 +366,9 @@ function LogoRules() {
                   <Logo tone={rule.tone} size="xl" />
                 </div>
                 <div className="styleguide__step-body">
+                  {background.use ? (
+                    <span className="styleguide__step-use">{background.use}</span>
+                  ) : null}
                   <span className="styleguide__step-name">On {background.name.toLowerCase()}</span>
                   <code className="styleguide__step-value">{background.token}</code>
                 </div>
@@ -382,7 +386,7 @@ const SCALES: { key: string; title: string; role: string }[] = [
   {
     key: "blue",
     title: "Blue",
-    role: "Navy (800) carries links, focus rings, dark panels and the approved badge. Slate (900) is its deep end: pressed navy and deep backgrounds. Light blue (200) is the soft secondary.",
+    role: "Navy (800) carries links, focus rings, dark panels and the approved badge. Blue 900, the darkest navy, is its deep end: pressed navy and deep backgrounds. Light blue (200) is the soft secondary.",
   },
   {
     key: "green",
@@ -480,9 +484,16 @@ const SURFACES: { token: string; role: string; inverse?: boolean }[] = [
   { token: "--color-canvas", role: "Behind the device frame." },
   { token: "--color-surface", role: "The default page: stone, the platform's own color." },
   { token: "--color-surface-raised", role: "Cards and fields above the page, in white." },
-  { token: "--color-surface-muted", role: "Quiet areas that still read as the page." },
-  { token: "--color-surface-sunken", role: "Wells, inset areas and code." },
+  { token: "--color-surface-sunken", role: "Wells and inset areas." },
+  { token: "--color-surface-feature", role: "The head of a two-tone feature card." },
+  { token: "--color-surface-hover", role: "Under a mouse, on web only. Never carries meaning." },
+  { token: "--color-surface-active", role: "Pressed: a row or button while it is tapped." },
+  { token: "--color-surface-selected", role: "The item a panel is showing. A step stronger than hover." },
+  { token: "--color-surface-disabled", role: "A control you can't use: warm stone, so it never looks tappable." },
   { token: "--color-surface-inverse", role: "The one dark moment on a screen.", inverse: true },
+  { token: "--color-surface-inverse-deep", role: "The darkest navy, behind the logo on photography.", inverse: true },
+  { token: "--color-surface-progress", role: "Dark green: you've moved. Never an action.", inverse: true },
+  { token: "--color-surface-note", role: "Lime: a small note that something moved." },
 ];
 
 const TYPE_ROLES: { font: string; token: string; role: string }[] = [
@@ -540,7 +551,11 @@ function typeLabRoles(tokens: Map<string, Token>): TypeLabRole[] {
 }
 
 export function StyleguideViewer() {
-  const allTokens = readTokens();
+  // The greyscale block at the foot of tokens.css restates some tokens for
+  // when colour is off; the page shows each token once, as first declared.
+  const allTokens = readTokens().filter(
+    (token, index, list) => list.findIndex((other) => other.name === token.name) === index
+  );
   const colourTokens = allTokens.filter(
     (token) =>
       (token.category === "palette" ||
@@ -568,7 +583,7 @@ export function StyleguideViewer() {
           id: "logo",
           label: "Logo",
           group: "Brand",
-          description: "Two versions of one logo. The dark logo sits on stone and light blue; the light logo sits on any dark color.",
+          description: "Two versions of one logo. The dark logo sits on stone and blue 100; the light logo sits on any dark color.",
           source: "components/primitives/Logo",
           content: (
           <div className="styleguide-layout__card">
@@ -580,7 +595,7 @@ export function StyleguideViewer() {
           id: "brand-colors",
           label: "Brand colors",
           group: "Color",
-          description: "The main colors, by role. Each sits on one of the scales below; all but slate at their exact palette value.",
+          description: "The main colors, by role. Each sits on one of the scales below at its exact palette value.",
           source: "styles/tokens.css",
           content: (
           <div className="styleguide-layout__card">
@@ -657,6 +672,18 @@ export function StyleguideViewer() {
           content: (
           <div className="styleguide-layout__card">
             <TypeLab roles={typeLabRoles(tokenMap)} />
+          </div>
+          ),
+        },
+        {
+          id: "icons",
+          label: "Icons",
+          group: "Icons",
+          description: "One hand-drawn library of 76 icons: the standard set most platforms need, drawn before a screen asks for them. One line, three sizes. Every icon here is the real Icon component, so this is the set as it ships.",
+          source: "components/primitives/Icon",
+          content: (
+          <div className="styleguide-layout__card">
+            <IconGuide />
           </div>
           ),
         },
@@ -742,7 +769,7 @@ export function StyleguideViewer() {
           id: "shadows",
           label: "Shadows",
           group: "Layout",
-          description: "Depth, tinted with slate so it reads as depth rather than dirt.",
+          description: "Depth, tinted with the darkest navy so it reads as depth rather than dirt.",
           source: "styles/tokens.css",
           content: (
           <div className="styleguide-layout__card">

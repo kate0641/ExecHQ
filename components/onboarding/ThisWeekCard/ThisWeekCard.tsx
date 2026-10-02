@@ -15,25 +15,36 @@ export interface ThisWeekCardProps {
 }
 
 /**
- * The one thing to do first, lifted out of the plan on a dark card so it is
- * the first thing read after the plan's name. It says what, a line of detail,
- * and why now. No effort estimate here: onboarding carries none.
+ * The one thing to do first, lifted out of the plan as a feature card: a dark
+ * head with the label and title, then the detail and why now, backed by a
+ * sourced figure where there is one. No effort estimate: onboarding carries none.
  */
 export function ThisWeekCard({ label, title, detail, whyLabel, why, fact, labelHidden, className }: ThisWeekCardProps) {
   return (
-    <section className={["this-week", className].filter(Boolean).join(" ")} aria-label={label}>
-      <p className={labelHidden ? "u-visually-hidden" : "this-week__label"}>{label}</p>
-      <p className="this-week__title">{title}</p>
-      <p className="this-week__detail">{detail}</p>
-      <p className="this-week__why">
-        <b>{whyLabel}</b> {why}
-      </p>
-      {fact ? (
-        <p className={["this-week__fact", fact.placeholder ? "is-placeholder" : null].filter(Boolean).join(" ")}>
-          {fact.text}
-          {fact.source ? <span className="this-week__source">{fact.source}</span> : null}
-        </p>
-      ) : null}
+    <section className={["feature-card", className].filter(Boolean).join(" ")} aria-label={label}>
+      <div className="feature-card__head feature-card__head--inverse">
+        <p className={labelHidden ? "u-visually-hidden" : "feature-card__eyebrow"}>{label}</p>
+        <p className="feature-card__title">{title}</p>
+      </div>
+      <div className="feature-card__body">
+        <div className="feature-card__rows">
+          <div className="feature-card__row">
+            <p className="feature-card__text">{detail}</p>
+          </div>
+          <div className="feature-card__row">
+            <p className="feature-card__label">{whyLabel.replace(/:\s*$/, "")}</p>
+            <p className="feature-card__text">{why}</p>
+          </div>
+          {fact ? (
+            <div className="feature-card__row">
+              <p className={["feature-card__fact", fact.placeholder ? "is-placeholder" : null].filter(Boolean).join(" ")}>
+                {fact.text}
+                {fact.source ? <span className="feature-card__source">{fact.source}</span> : null}
+              </p>
+            </div>
+          ) : null}
+        </div>
+      </div>
     </section>
   );
 }

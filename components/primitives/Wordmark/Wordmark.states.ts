@@ -8,7 +8,7 @@ export const wordmarkStates = defineComponentStates({
   status: "draft",
   flows: ["onboarding"],
   description:
-    "The ExecHQ logo as the product shows it, with an optional product line after it. Every appearance of the mark goes through this component. Dark on stone and light blue, light on any dark surface.",
+    "The ExecHQ logo as the product shows it, with an optional product line after it. Every appearance of the mark goes through this component. Dark on stone and blue 100, light on any dark surface.",
   component: Wordmark,
   notApplicable: {
     ...NOT_INTERACTIVE,

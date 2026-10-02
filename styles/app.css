@@ -731,7 +731,7 @@ samp {
   padding: var(--space-sm) var(--space-md);
   background-color: var(--color-surface-raised);
   border: var(--border-width-thin) solid var(--color-border-strong);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-field);
   color: var(--color-text-primary);
   transition: border-color var(--duration-fast) var(--easing-standard),
     box-shadow var(--duration-fast) var(--easing-standard);
@@ -850,7 +850,7 @@ samp {
 .field__control--pill {
   min-height: 3.75rem;
   padding: var(--space-lg) var(--space-lg) var(--space-xs);
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-field);
   box-shadow: var(--shadow-sm);
 }
 
@@ -1278,7 +1278,7 @@ samp {
   box-shadow: 0 var(--border-width-thin) 0 var(--color-surface-inverse);
 }
 
-/* Behind the welcome's photograph the status bar takes the same deep slate,
+/* Behind the welcome's photograph the status bar takes the same darkest navy,
    so the dark runs unbroken to the top edge. */
 .device__screen:has(.welcome) > .device__statusbar--inverse {
   background-color: var(--color-surface-inverse-deep);
@@ -1993,7 +1993,7 @@ ul.chrome__nav-list {
    with flex `order`. */
 [data-viewport="mobile"] .chrome__header {
   order: 1;
-  padding: var(--space-sm) var(--space-md);
+  padding: var(--space-sm) var(--space-screen-side);
 }
 
 [data-viewport="mobile"] .chrome__nav {
@@ -2006,7 +2006,7 @@ ul.chrome__nav-list {
 
 [data-viewport="mobile"] .chrome__main {
   order: 2;
-  padding: var(--space-lg) var(--space-md);
+  padding: var(--space-screen-top) var(--space-screen-side);
 }
 
 [data-viewport="mobile"] .chrome__footer {
@@ -2160,9 +2160,9 @@ ul.chrome__nav-list {
 
 .concierge-host__pill {
   position: absolute;
-  right: var(--space-md);
+  right: var(--space-screen-side);
   bottom: var(--space-lg);
-  left: var(--space-md);
+  left: var(--space-screen-side);
   pointer-events: auto;
   transition: opacity var(--duration-base), transform var(--duration-slow) cubic-bezier(0.2, 0.8, 0.2, 1);
 }
@@ -2807,6 +2807,142 @@ ul.concierge-mini {
   margin: 0;
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
+}
+
+/* ---------------------------------------------------------------------------
+   Feature card — the two-tone pattern. A coloured head holding only an
+   eyebrow and a short title, over a white body that runs to the edges, with
+   rows split by hairlines and one action at the foot. Only for cards whose
+   head is an eyebrow and a title and nothing more; a card that needs more up
+   there gets its own design. Layered, but nothing rounded inside, so it reads
+   as considered rather than soft.
+   ------------------------------------------------------------------------ */
+
+.feature-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+  color: var(--color-text-primary);
+}
+
+.feature-card__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-eyebrow-title);
+  padding: var(--space-feature-padding);
+  background-color: var(--color-surface-feature);
+}
+
+.feature-card__head--inverse {
+  background-color: var(--color-surface-inverse);
+}
+
+.feature-card__eyebrow {
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
+  margin: 0;
+  text-transform: uppercase;
+  color: var(--color-eyebrow);
+}
+
+.feature-card__head--inverse .feature-card__eyebrow {
+  color: var(--color-accent-on-inverse);
+}
+
+.feature-card__title {
+  font-family: var(--type-heading-font);
+  font-size: var(--type-heading-size);
+  font-weight: var(--type-heading-weight);
+  line-height: var(--type-heading-leading);
+  letter-spacing: var(--type-heading-tracking);
+  word-spacing: var(--type-heading-word-spacing);
+  margin: 0;
+  color: var(--color-text-primary);
+  text-wrap: balance;
+}
+
+.feature-card__title:focus {
+  outline: none;
+}
+
+.feature-card__head--inverse .feature-card__title {
+  color: var(--color-text-inverse);
+}
+
+.feature-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-2xs) var(--space-feature-padding) var(--space-feature-padding);
+}
+
+.feature-card__rows {
+  margin: 0;
+}
+
+.feature-card__row {
+  padding: var(--space-sm) 0;
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+.feature-card__row:first-child {
+  border-top: 0;
+}
+
+.feature-card__label {
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
+  margin: 0 0 var(--space-eyebrow-title);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.feature-card__text {
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  letter-spacing: var(--type-body-sm-tracking);
+  word-spacing: var(--type-body-sm-word-spacing);
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+/* A figure that backs the reason, on its own row below it, with where it
+   comes from beneath it. Where there is no real figure yet, a dashed box
+   marks the placeholder. */
+.feature-card__fact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  margin: 0;
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-primary);
+}
+
+.feature-card__fact.is-placeholder {
+  padding: var(--space-xs) var(--space-sm);
+  border: var(--border-width-thin) dashed var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
+}
+
+.feature-card__source {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
 }
 
 /* The reasons as one sentence. */
@@ -4230,7 +4366,7 @@ ol.ring-detail__timeline {
   align-items: flex-start;
   gap: var(--space-md);
   padding: var(--space-lg);
-  background-color: var(--color-surface-muted);
+  background-color: var(--color-surface-sunken);
   border: var(--border-width-thin) solid var(--color-border-subtle);
   border-radius: var(--radius-sm);
 }
@@ -4592,12 +4728,138 @@ ol.ring-detail__timeline {
   height: var(--space-4xl);
 }
 
+/* Icons: the set by name, the sizes, and where colour comes from. */
+.styleguide__icon-rules {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: var(--space-xs) 0 0;
+  padding-left: var(--space-lg);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+.styleguide__icons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr));
+  gap: var(--space-xs);
+  margin: var(--space-xs) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.styleguide__icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-md) var(--space-xs) var(--space-sm);
+  border: var(--border-width-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--color-icon-default);
+}
+
+.styleguide__icon-use {
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.styleguide__icon--in-use .styleguide__icon-use {
+  color: var(--color-eyebrow);
+}
+
+.styleguide__icons--quiet .styleguide__icon {
+  color: var(--color-text-muted);
+}
+
+.styleguide__icon-name {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.styleguide__icon-sizes,
+.styleguide__icon-colours {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  gap: var(--space-md);
+  margin: var(--space-xs) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.styleguide__icon-size {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+.styleguide__icon-size-stage {
+  display: grid;
+  place-items: center;
+  height: var(--space-3xl);
+  margin-bottom: var(--space-xs);
+  border: var(--border-width-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--color-icon-default);
+}
+
+.styleguide__icon-size .styleguide__token-note {
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+.styleguide__icon-colour {
+  display: grid;
+  place-items: center;
+  height: var(--space-3xl);
+  border-bottom: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+.styleguide__icon-chip {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+}
+
+.styleguide__icon-colour--default .styleguide__icon-chip {
+  color: var(--color-icon-default);
+}
+
+.styleguide__icon-colour--chip .styleguide__icon-chip {
+  background-color: var(--color-icon-surface);
+  color: var(--color-icon);
+}
+
+.styleguide__icon-colour--inverse {
+  background-color: var(--color-surface-inverse);
+}
+
+.styleguide__icon-colour--inverse .styleguide__icon-chip {
+  color: var(--color-text-inverse);
+}
+
 /* The logo on each background it may sit on. */
 .styleguide__logos {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
   gap: var(--space-md);
   margin-top: var(--space-xs);
+}
+
+/* How often a logo background is used: primary, secondary, tertiary. */
+.styleguide__step-use {
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
 }
 
 .styleguide__logo-stage {
@@ -4931,7 +5193,7 @@ ol.ring-detail__timeline {
    halves blended together. Each half is a pseudo-element showing the same
    picture at full width; --welcome-cut-from and -to are where the cut starts
    and ends, as fractions of the picture's height. --welcome-drop moves the
-   whole picture down, with plain navy above it fading into the photo. A slate
+   whole picture down, with plain navy above it fading into the photo. A darkest-navy
    veil keeps the logo readable and darkens the foot where the sheet rises. */
 .welcome__hero {
   --welcome-cut-from: 0.36;
@@ -7002,41 +7264,6 @@ ol.ring-detail__timeline {
   border-radius: var(--radius-pill);
 }
 
-.this-week {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2xs);
-  padding: var(--space-md);
-  border-radius: var(--radius-md);
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
-}
-
-.this-week__label {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--color-text-inverse-muted);
-}
-
-.this-week__title {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-}
-
-.this-week__detail {
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-inverse-muted);
-}
-
 .next-steps {
   display: flex;
   flex-direction: column;
@@ -7094,41 +7321,6 @@ ol.ring-detail__timeline {
   font-size: var(--text-xs);
   font-weight: var(--weight-regular);
   opacity: 0.8;
-}
-
-.this-week__fact {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3xs);
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-inverse);
-}
-
-.this-week__fact.is-placeholder {
-  padding: var(--space-xs) var(--space-sm);
-  border: var(--border-width-thin) dashed var(--color-border-inverse);
-  border-radius: var(--radius-sm);
-  color: var(--color-text-inverse-muted);
-}
-
-.this-week__source {
-  font-size: var(--text-xs);
-  color: var(--color-text-inverse-muted);
-}
-
-.this-week__why {
-  margin-top: var(--space-2xs);
-  padding-top: var(--space-sm);
-  border-top: var(--border-width-thin) solid var(--color-border-inverse);
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-inverse-muted);
-}
-
-.this-week__why b {
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-inverse);
 }
 
 .plan-ahead {
@@ -8226,7 +8418,7 @@ ol.ring-detail__timeline {
   flex-direction: column;
   gap: var(--space-xs);
   padding: var(--space-xs) var(--space-3xs) var(--space-xl);
-  background-color: var(--color-surface-muted);
+  background-color: var(--color-surface-sunken);
 }
 
 [data-viewport="web"] .device-keyboard:not(:where([data-viewport="mobile"] *)) {
@@ -10036,7 +10228,7 @@ ul.stage-actions__list {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-card);
   background-color: var(--color-surface-raised);
   border: var(--border-width-thin) solid var(--color-border);
 }
@@ -10718,7 +10910,7 @@ ul.stage-actions__list {
   place-items: center;
   height: 3.5rem;
   border: var(--border-width-thin) solid var(--color-border-strong);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-field);
   background-color: var(--color-surface-raised);
   font-family: var(--font-display);
   word-spacing: var(--font-display-word-spacing);
@@ -10754,7 +10946,7 @@ ul.stage-actions__list {
   justify-content: center;
   gap: var(--space-sm);
   width: 100%;
-  min-height: 3.75rem;
+  min-height: var(--button-height);
   padding: 0 var(--space-lg);
   border: var(--border-width-thin) solid var(--color-border-strong);
   border-radius: var(--radius-pill);
@@ -11107,8 +11299,9 @@ ul.stage-actions__list {
   gap: var(--space-lg);
 }
 
+/* The Log in button takes the standard button height, like Google and Apple. */
 .login__form .btn {
-  min-height: 3.75rem;
+  min-height: var(--button-height);
   border-radius: var(--radius-pill);
 }
 

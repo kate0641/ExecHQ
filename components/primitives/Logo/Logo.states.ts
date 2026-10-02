@@ -8,7 +8,7 @@ export const logoStates = defineComponentStates({
   status: "draft",
   flows: [],
   description:
-    "The ExecHQ logo, in two versions. Dark (gold and navy) sits on stone and light blue; light (bright yellow and light blue) sits on any dark color. Not yet in the product: the Wordmark still stands in for it.",
+    "The ExecHQ logo, in two versions. Dark (gold and navy) sits on stone and blue 100; light (bright yellow and light blue) sits on any dark color. Not yet in the product: the Wordmark still stands in for it.",
   component: Logo,
   notApplicable: {
     ...NOT_INTERACTIVE,
@@ -21,7 +21,7 @@ export const logoStates = defineComponentStates({
     { label: "Dark — on stone", props: { tone: "dark" } },
     {
       label: "Light — on dark",
-      description: "On navy here; the same on slate, dark green or stone 900.",
+      description: "On navy here; the same on the darkest navy, dark green or stone 900.",
       surface: "inverse",
       props: { tone: "light" },
     },
