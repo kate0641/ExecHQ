@@ -170,7 +170,12 @@ const PATHS: Record<IconName, React.ReactNode> = {
     </>
   ),
   // Attaching a file to a message: a paperclip.
-  attach: <path d="M14.5 9.5l-5.3 5.3a3.2 3.2 0 01-4.5-4.5l6-6a2.1 2.1 0 013 3l-5.9 5.9a1 1 0 01-1.5-1.5L11.6 6" />,
+  attach: (
+    // Drawn upright with clear room inside every loop, then turned 45°.
+    <g transform="rotate(45 10 10)">
+      <path d="M14.2 6.6v6a4.2 4.2 0 0 1-8.4 0V6.2a2.8 2.8 0 0 1 5.6 0v6a1.4 1.4 0 0 1-2.8 0V7.6" />
+    </g>
+  ),
   // A destination: where the plan is headed.
   flag: (
     <>
