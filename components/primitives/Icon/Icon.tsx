@@ -216,7 +216,7 @@ const PATHS: Record<IconName, React.ReactNode> = {
     <>
       <path d="M13.4 3.6l3 3L7.6 15.4 4 16l.6-3.6z" />
       <path d="M11.8 5.2l3 3" strokeWidth="1.3" />
-      <path d="M4 16l.6-3.6 3 3z" fill="currentColor" />
+      <path d="M4 16l.6-3.6 3 3z" fill="currentColor" stroke="none" />
     </>
   ),
   // A personal website: the web, as a globe.
