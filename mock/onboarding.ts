@@ -1857,28 +1857,27 @@ export const GUIDE_C3 = {
   about: {
     kicker: "What ExecHQ is",
     title: "Crafting a plan for your career and the work to carry it out",
-    lede: "ExecHQ is a private career advisor for modern professionals ready to grow, with no agenda but your own. It will tell you what a coach, a mentor, or a colleague might not.",
+    lede: "A private career advisor for modern professionals ready to grow, with no agenda but your own.",
     points: [
       {
         title: "A plan for where you want to go",
-        detail: "ExecHQ works with you to build a personalized plan, and the steps to get from where you are now to where you want to be. Steps are broken into short-, medium-, and long-term goals with clear benchmarks, not a list of forty tasks that get you nowhere.",
+        detail: "Short-, medium-, and long-term steps with clear benchmarks. Not a list of forty tasks that get you nowhere.",
       },
       {
         title: "Work done, not just advice",
-        detail: "Most steps come with something made for you to use: your story, your bio, the opener for your next conversation. Positioning statements, situation briefs, LinkedIn posts, and more. ExecHQ drafts them, you make them yours.",
+        detail: "Most steps come with artifacts made for you to use: ExecHQ drafts them, you make them yours.",
       },
       {
         title: "Something that grows with you",
-        detail: "Your plan grows and updates with you. As you finish steps, share what happened, or change direction, ExecHQ adjusts the plan to fit.",
+        detail: "Finish a step, share what happened, or change direction, and ExecHQ updates the plan.",
       },
     ],
-    beforeLabel: "Before we begin",
     before: [
       {
         title: "Private by design",
         detail: [
-          "Your work on ExecHQ is for your eyes only. Not your employer, not your manager, not the organization that invited you, and not anyone else.",
-          "Everything ExecHQ makes for you is yours to keep, edit, and export.",
+          "For your eyes only. Not your employer, not your manager, not anyone else.",
+          "Everything ExecHQ makes is yours to keep, edit, and export.",
         ],
       },
     ],

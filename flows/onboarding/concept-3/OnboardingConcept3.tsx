@@ -344,7 +344,7 @@ export function OnboardingConcept3() {
       return (
         <GuidePage {...frame()} kicker={c.kicker} title={c.title} lede={c.lede} primaryLabel={c.cta} onPrimary={next}>
           <PointList items={c.points} numbered />
-          <PointList items={c.before} label={c.beforeLabel} />
+          <PointList items={c.before} />
         </GuidePage>
       );
     }
