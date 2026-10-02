@@ -286,12 +286,12 @@ The list shrinks as steps are done. It never repeats what the person has just se
 
 ### 4.1 Page anatomy
 
-Every page after the Welcome is one **guide page**, in this order: a small label; the heading; an optional line; the page's own content; the **"Why this matters"** note; the actions. Where a page asks a question, its answers come up in a **drawer** pinned under the page.
+Every page after the Welcome is one **guide page**, in this order: a small label; the heading; an optional line; the page's own content; the **"Why this matters"** note; the actions. Where a page asks a question, its answers come up in a **drawer** pinned under the page on phone and tablet, and in a **card** beside the question on web.
 
 - **Heading.** One level-1 heading per page. When the page changes, focus moves to it.
 - **"Why this matters."** A short note saying why the page exists. It is shown before a question is answered and removed after (on reflections), and is left off pages where there is nothing being asked.
 - **Actions** sit at the foot. The primary is a filled button. A skip or alternative is a peer of the same size beside or beneath it, never a smaller link, so skipping reads as a real choice. Where a page's real action is in its body, the foot offers only a quiet way past it.
-- **Pinned.** The drawer's buttons stay pinned at its foot, and the **Continue** on an answered reflection stays in reach at the foot of the screen, so a long page never hides the way on.
+- **Pinned.** On phone and tablet the drawer's buttons stay pinned at its foot (on web, in the card, they sit just below the fields), and the **Continue** on an answered reflection stays in reach at the foot of the screen, so a long page never hides the way on.
 
 ### 4.2 The answer drawer
 
