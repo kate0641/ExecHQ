@@ -1,22 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import { AddPresenceSheet } from "@/components/homepage/AddPresenceSheet";
+import { BaselineForm } from "@/components/homepage/BaselineForm";
 import { SignalPicture } from "@/components/homepage/SignalPicture";
 import { ActionSheet } from "@/components/homepage/ActionSheet";
-import { BriefingCallout } from "@/components/homepage/BriefingCallout";
+import { BriefingEditorial } from "@/components/homepage/BriefingEditorial";
 import { MapLegend, MapRings } from "@/components/homepage/MapRings";
 import { InProgress } from "./InProgress";
 import { MapPanel } from "@/components/homepage/MapPanel";
+import { Button } from "@/components/primitives/Button";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { mapFor, nextNewAction } from "@/lib/map";
-import { hasBaseline, presenceCounts, withAdded } from "@/lib/presence";
-import { addPresence, useAddedPresence } from "@/lib/presence-store";
+import { hasBaseline, signalRows, withAdded } from "@/lib/presence";
+import { saveBaseline, useAddedPresence, useBaseline } from "@/lib/presence-store";
 import { dismissSpark, useDismissedSparks } from "@/lib/spark-dismissal";
 import { sparksFor } from "@/lib/sparks";
-import { PRESENCE_KINDS, PRESENCE_STUB as PR, SPARK_COPY as SP } from "@/mock/accounts-stub";
-import { HOME_COPY as C, MAP_COPY as M, SIGNAL_PICTURE_COPY as SPC } from "@/mock/homepage";
+import { BASELINE_COPY as BC, PRESENCE_STUB as PR, SPARK_COPY as SP } from "@/mock/accounts-stub";
+import { BRIEFING_STUB as B, HOME_COPY as C, MAP_COPY as M, SIGNAL_PICTURE_COPY as SPC } from "@/mock/homepage";
 import { shortDate } from "@/lib/loop";
 import type { Horizon, LandscapeAction } from "@/mock/plan-stub";
 
@@ -24,9 +25,9 @@ import type { Horizon, LandscapeAction } from "@/mock/plan-stub";
  * Homepage Concept 4 — Combined.
  *
  * Built from the three concepts on 2026-10-02, from Kate's notes. Top to
- * bottom: a line to today's Briefing; the map, three rings with what is in
- * each one under it; what she has in progress (Stage 3); and Your Signal
- * Picture, with a way into the detail on the Plan page (Stage 4).
+ * bottom: the map, three rings with what is in each one under it; what she
+ * has in progress; today's Briefing, as the editorial card; and Your Signal
+ * Picture, with a way into the detail on the Plan page.
  *
  * The map shows what she is on and what is still on it. An action she has
  * not started only opens to read about it, where she starts it or says it is
@@ -44,13 +45,10 @@ function longDate(date: string): string {
   return `${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
 }
 
-/** "October 2nd": the Briefing's day, the way it is said aloud. */
-function ordinalDate(date: string): string {
+/** "Mon 5 Oct": the Briefing's day, as the card's small print. */
+function shortDay(date: string): string {
   const d = new Date(`${date}T00:00:00Z`);
-  const n = d.getUTCDate();
-  const teen = n % 100 >= 11 && n % 100 <= 13;
-  const suffix = teen ? "th" : (({ 1: "st", 2: "nd", 3: "rd" } as Record<number, string>)[n % 10] ?? "th");
-  return `${MONTHS[d.getUTCMonth()]} ${n}${suffix}`;
+  return `${WEEKDAYS[d.getUTCDay()].slice(0, 3)} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()].slice(0, 3)}`;
 }
 
 export function HomepageConcept4() {
@@ -58,8 +56,9 @@ export function HomepageConcept4() {
   const [selected, setSelected] = useState<Horizon | null>(null);
   const [sheetAction, setSheetAction] = useState<LandscapeAction | null>(null);
   const [announce, setAnnounce] = useState("");
-  const [adding, setAdding] = useState(false);
+  const [skipped, setSkipped] = useState(false);
   const addedPresence = useAddedPresence();
+  const baseline = useBaseline();
   const dismissed = useDismissedSparks();
 
   const rings = mapFor({ records: loop.records, tasks: loop.tasks, choices: loop.choices, asked: loop.asked });
@@ -69,13 +68,8 @@ export function HomepageConcept4() {
      yet, so it is empty until she adds what she already has. */
   const items = withAdded(addedPresence);
   const seeded = loop.homeState !== "first-return";
-  const picture = hasBaseline(addedPresence, seeded);
-  const rows = presenceCounts(loop.today, items, seeded).map((p) => ({
-    id: p.kind,
-    label: PRESENCE_KINDS[p.kind].label,
-    then: p.then,
-    now: p.now,
-  }));
+  const picture = hasBaseline(baseline, seeded);
+  const rows = signalRows(loop.today, items, baseline, seeded, () => "").map(({ id, label, then, now }) => ({ id, label, then, now }));
   const note = sparksFor(loop.today, loop.account, dismissed, items).find((n) => n.id.startsWith("presence:"));
 
   return (
@@ -86,7 +80,6 @@ export function HomepageConcept4() {
           <b>{C.greeting(loop.account.name ?? "")}</b>
           <span>{longDate(loop.today)}</span>
         </p>
-        <BriefingCallout href={BRIEFING} label={M.briefing(ordinalDate(loop.today))} />
         <section className="map-home__section" aria-labelledby="map-heading">
           <h2 className="map-home__heading" id="map-heading">
             {M.heading}
@@ -130,6 +123,13 @@ export function HomepageConcept4() {
       </div>
       <div className="map-home__side">
         <InProgress loop={loop} rings={rings} />
+        <BriefingEditorial
+          href={BRIEFING}
+          heading={B.heading}
+          meta={B.meta(shortDay(loop.today), B.reads)}
+          lead={B.lead}
+          tag={B.tag}
+        />
         <SignalPicture
           name={SPC.heading}
           asOf={SPC.asOf(shortDate(loop.account.plan.startedOn))}
@@ -153,20 +153,27 @@ export function HomepageConcept4() {
           next={{ label: SPC.nextLabel, title: PR.tryThis.title, why: PR.tryThis.why }}
           planHref={PLAN}
           planLabel={SPC.planLabel}
-          empty={picture ? undefined : { ...SPC.empty, onAdd: () => setAdding(true) }}
+          empty={
+            picture ? undefined : skipped ? (
+              <>
+                <p className="account-card__text">{BC.skipped}</p>
+                <Button variant="secondary" className="account-card__cta" onClick={() => setSkipped(false)}>
+                  {BC.addBack}
+                </Button>
+              </>
+            ) : (
+              <BaselineForm
+                onSave={(b) => {
+                  saveBaseline(b);
+                  setAnnounce(BC.saved);
+                }}
+                onSkip={() => setSkipped(true)}
+              />
+            )
+          }
           headingId="signal-picture-heading"
         />
       </div>
-      <AddPresenceSheet
-        open={adding}
-        baseline
-        onClose={() => setAdding(false)}
-        onAdd={(entry) => {
-          addPresence({ ...entry, on: loop.today, baseline: true });
-          setAdding(false);
-          setAnnounce(SPC.added);
-        }}
-      />
       <ActionSheet
         open={sheetAction !== null}
         action={sheetAction}

@@ -165,7 +165,7 @@ export const prototypeConfig: PrototypeConfig = {
           slug: "concept-4",
           title: "Concept 4 — Combined",
           summary:
-            "The three together: a line to today’s Briefing, a map of three rings, what is in progress, and Your Signal Picture.",
+            "The three together: a map of three rings, what is in progress, today’s Briefing, and Your Signal Picture.",
         },
       ],
     },

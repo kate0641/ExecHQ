@@ -101,9 +101,6 @@ export interface PresenceItem {
   on: string;
   /** Where to find it, if she gave a link. */
   link?: string;
-  /** She added it as something she already had when she began, so it counts
-   *  toward where she started, not toward what has moved since. */
-  baseline?: boolean;
 }
 
 export const PRESENCE_KINDS: Record<
@@ -127,9 +124,6 @@ export const PRESENCE_KINDS: Record<
  *  link. Nothing is searched for and nothing leaves the browser. */
 export const ADD_COPY = {
   title: "Add something you’ve done",
-  /** The same sheet, opened to set where she started. */
-  titleBaseline: "Add something you already have",
-  submitBaseline: "Add to where I started",
   kindLabel: "What is it?",
   noteLabel: "A title or a note",
   noteHint: "Just enough for you to recognize it.",
@@ -192,9 +186,10 @@ export const PRESENCE_STUB = {
 
 /* -----------------------------------------------------------------------------
    THE SPARK: a small note when something she can see has moved, by decision
-   on 2026-09-30. It says what changed, names the thing, and stops: no
-   exclamation marks, no streaks, no 'well done', and never that her work
-   caused it. It appears inline at the top of the signals section, is
+   on 2026-09-30. It names the thing and says what changed. On 2026-10-02
+   Kate dropped the no-praise rule, so it is friendly now: a warm word and
+   an exclamation mark are fine. It still never says her work caused it,
+   and there are no streaks. It appears inline at the top of the signals section, is
    dismissed in one press, and is gone for good once dismissed.
    -------------------------------------------------------------------------- */
 
@@ -211,10 +206,10 @@ export const SPARK_COPY = {
     writing: "Writing",
   },
   linkedin: "Your planning post reached twice as many directors and above as usual.",
-  podcast: (where: string, ordinal: string) => `You’re on ${where}. That’s your ${ordinal} podcast appearance.`,
-  press: (where: string, ordinal: string) => `You’re in ${where}. That’s your ${ordinal} press mention.`,
-  speaking: (where: string, ordinal: string) => `You’re speaking at ${where}. That’s your ${ordinal} engagement.`,
-  writing: (title: string, ordinal: string) => `“${title}” is up. That’s your ${ordinal} piece.`,
+  podcast: (where: string, ordinal: string) => `Great job! You’re on ${where}, your ${ordinal} podcast appearance.`,
+  press: (where: string, ordinal: string) => `Great to see you in ${where}. That’s your ${ordinal} press mention.`,
+  speaking: (where: string, ordinal: string) => `Well done! You’re speaking at ${where}, your ${ordinal} engagement.`,
+  writing: (title: string, ordinal: string) => `“${title}” is up. Nicely done, that’s your ${ordinal} piece.`,
 } as const;
 
 /* Concept 3's simpler version: one row per account, a finding and the one
@@ -249,4 +244,33 @@ export const ACCOUNTS_ROWS = {
 export const DEMO_SOURCES = {
   linkedin: "LinkedIn analytics export, October 2026",
   website: "maya-chen.com",
+} as const;
+
+/* -----------------------------------------------------------------------------
+   WHERE SHE STARTS (Homepage Concept 4, decided 2026-10-02: "Quick counts").
+   On the first return the Signal Picture asks for a starting point in one
+   card: a stepper for each thing she can count, and a number for her LinkedIn
+   followers. All of it is typed by hand. Nothing is looked up or connected,
+   and zero is a fine answer.
+   -------------------------------------------------------------------------- */
+
+export const LINKEDIN_ROW_LABEL = "LinkedIn followers";
+
+export const BASELINE_COPY = {
+  intro: "Tell us where you are starting from. Rough is fine, and zero is a fine answer.",
+  linkedin: { label: LINKEDIN_ROW_LABEL, hint: "Look at your profile and type the number", placeholder: "e.g. 1,240" },
+  /** One row per thing she can count: the question's label and a line under it. */
+  kinds: {
+    podcast: { label: "Podcast appearances", hint: "Shows you have been a guest on" },
+    press: { label: "Press mentions", hint: "Quoted or featured" },
+    speaking: { label: "Talks you have given", hint: "Panels, keynotes, events" },
+    writing: { label: "Somewhere you publish", hint: "A newsletter, blog or articles, and how many pieces" },
+  },
+  save: "Save my starting point",
+  skip: "Skip for now",
+  privacy: "Only you see this. Nothing is looked up or shared.",
+  /** After she skips: one line, and a way back. */
+  skipped: "Add where you are starting from whenever you like, and this shows how far you have come.",
+  addBack: "Add my starting point",
+  saved: "Saved where you are starting from.",
 } as const;

@@ -45,7 +45,6 @@ export const addPresenceSheetStates = defineComponentStates({
       description: "Pressing Add with the form empty names each thing still missing.",
       props: { ...base, demo: { showErrors: true } },
     },
-    { label: "Open to set where she started", props: { ...base, baseline: true } },
     { label: "Closed", props: { ...base, open: false } },
   ],
 });

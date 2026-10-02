@@ -295,6 +295,8 @@ export const STAY_COPY = {
   /** Over a next step brought by an outcome she just logged. */
   updated: "Updated from what you told us.",
   heading: "Stay on track",
+  previous: "Previous card",
+  next: "Next card",
   dueLine: "What came of it?",
   readyLine: "Ready. Have you used it yet?",
   askOn: (when: string) => `I’ll ask what came of it ${when}.`,
@@ -351,8 +353,6 @@ export const CHECKIN_COPY = {
    -------------------------------------------------------------------------- */
 
 export const MAP_COPY = {
-  /** The one line that leads to the Briefing. It never says what is in it. */
-  briefing: (date: string) => `Read today’s briefing — ${date}`,
   heading: "Your map",
   /** Under the map when nothing on it has been started. */
   nothingInProgress: "Nothing in progress yet. Open a ring to read about what is on your map and start one.",
@@ -396,11 +396,4 @@ export const SIGNAL_PICTURE_COPY = {
   /** Over the one thing to try. It is a suggestion, so it does not link on. */
   nextLabel: "A next step",
   planLabel: "See the detail in your Plan",
-  added: "Added to where you started.",
-  /** Nothing entered yet: what it will show, and the one way to begin. */
-  empty: {
-    intro: "This is where you see what you have put out there, from where you started to where you are now. To begin, add what you already have.",
-    shows: ["A podcast you have been on", "A mention in the press", "A talk you have given", "Somewhere you publish, like a newsletter or a blog"],
-    label: "Add what you already have",
-  },
 } as const;

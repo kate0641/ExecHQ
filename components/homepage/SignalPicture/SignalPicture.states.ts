@@ -1,3 +1,5 @@
+import { createElement } from "react";
+import { BaselineForm } from "@/components/homepage/BaselineForm";
 import { defineComponentStates } from "@/components/types";
 import { NOT_AN_INPUT } from "@/components/not-applicable";
 import { presenceCounts, withAdded } from "@/lib/presence";
@@ -37,7 +39,7 @@ export const signalPictureStates = defineComponentStates({
   status: "draft",
   flows: ["homepage"],
   description:
-    "The foot of the homepage: where she started beside where she is now across what she has put out there, one note of what has moved, one thing to try next, and the way to the detail on the Plan page. All of it is entered by hand. With nothing entered it says what it will show and offers one way to begin.",
+    "The foot of the homepage: where she started beside where she is now across what she has put out there, one note of what has moved, one thing to try next, and the way to the detail on the Plan page. All of it is entered by hand. With nothing entered it asks where she is starting from, in one short form.",
   component: SignalPicture,
   notApplicable: {
     hover: "Its only controls are a Button and a link, which show their own states.",
@@ -51,7 +53,7 @@ export const signalPictureStates = defineComponentStates({
   variants: [
     { label: "Default — overview, a note and a next step", props: { ...base, spark } },
     { label: "No note — nothing has moved lately", props: base },
-    { label: "Empty — nothing entered yet", props: { ...base, rows: [], spark: undefined, next: undefined, empty: { ...C.empty, onAdd: noop } } },
+    { label: "Empty — asking where she is starting from", props: { ...base, rows: [], spark: undefined, next: undefined, empty: createElement(BaselineForm, { onSave: noop, onSkip: noop }) } },
     {
       label: "Long text — a long next step wraps",
       props: {

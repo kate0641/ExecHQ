@@ -11674,47 +11674,6 @@ ul.login__never {
   color: var(--color-eyebrow);
 }
 
-.briefing-callout {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-md);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
-  font-family: var(--type-subheading-font);
-  font-size: var(--text-base);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-  text-decoration: none;
-  transition: background-color var(--duration-fast);
-}
-
-.briefing-callout:hover,
-.briefing-callout.is-hover {
-  background-color: var(--color-surface-inverse-hover);
-}
-
-.briefing-callout:focus-visible,
-.briefing-callout.is-focus {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.briefing-callout:active,
-.briefing-callout.is-active {
-  background-color: var(--color-surface-inverse-active);
-}
-
-.briefing-callout__label {
-  flex: 1;
-  min-width: 0;
-}
-
-.briefing-callout__go {
-  flex: none;
-}
-
 /* The strip: three rings in a row, no card around them. */
 
 ul.map-rings {
@@ -12033,4 +11992,182 @@ ul.map-panel__list {
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
+}
+
+/* A row of cards to swipe or step through. */
+
+.card-carousel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+ul.card-carousel__track {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  gap: var(--space-sm);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  border-radius: var(--radius-xl);
+}
+
+.card-carousel__track::-webkit-scrollbar {
+  display: none;
+}
+
+.card-carousel__slide {
+  display: flex;
+  flex: 0 0 88%;
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+.card-carousel__slide:only-child {
+  flex-basis: 100%;
+}
+
+.card-carousel__slide > * {
+  flex: 1;
+  min-width: 0;
+}
+
+.card-carousel__controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.card-carousel__back {
+  transform: rotate(180deg);
+}
+
+.card-carousel__position {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.card-carousel__dots {
+  display: inline-flex;
+  gap: var(--space-2xs);
+}
+
+.card-carousel__dots i {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: var(--radius-pill);
+  border: var(--border-width-thin) solid var(--color-border-strong);
+}
+
+.card-carousel__dots i.is-now {
+  border-color: var(--color-surface-inverse);
+  background-color: var(--color-surface-inverse);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-carousel__track {
+    scroll-behavior: auto;
+  }
+}
+
+/* Where she starts: the Stepper and the form that holds it (BaselineForm). */
+
+.baseline-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.baseline-form__intro {
+  margin: 0;
+}
+
+.baseline-form__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding-top: var(--space-sm);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+.stepper__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  min-width: 0;
+}
+
+.stepper__text b {
+  font-family: var(--type-subheading-font);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.stepper__text span {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.stepper__control {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-3xs);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface);
+}
+
+.stepper__button {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-pill);
+  color: var(--color-text-link);
+  transition: background-color var(--duration-fast);
+}
+
+.stepper__button:hover:not(:disabled),
+.stepper__button.is-hover {
+  background-color: var(--color-surface-hover);
+}
+
+.stepper__button:focus-visible,
+.stepper__button.is-focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.stepper__button:active:not(:disabled),
+.stepper__button.is-active {
+  background-color: var(--color-surface-active);
+}
+
+.stepper__button:disabled {
+  color: var(--color-text-disabled);
+}
+
+.stepper__value {
+  min-width: 1.5rem;
+  text-align: center;
+  font-family: var(--type-subheading-font);
+  font-size: var(--text-md);
+  font-weight: var(--weight-bold);
 }

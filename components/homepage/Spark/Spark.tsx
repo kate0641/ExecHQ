@@ -22,9 +22,9 @@ export interface SparkProps {
 
 /**
  * A small note on the homepage when something she can see has moved: a
- * podcast she added, her LinkedIn numbers arriving. It is the platform
- * noticing, not cheering: it names the thing and stops, with no exclamation
- * marks, streaks or praise, and never says her work caused it.
+ * podcast she added, her LinkedIn numbers arriving. It names the thing
+ * and says so warmly (the no-praise rule was dropped on 2026-10-02), but
+ * never says her work caused it, and there are no streaks.
  *
  * It sits inline at the top of the signals section, never blocks anything,
  * and goes for good when dismissed. With nothing to note it is not there.
