@@ -457,12 +457,13 @@ const PATHS: Record<IconName, React.ReactNode> = {
   // The glass pinches in to a narrow neck, so it reads as a bulb, not a balloon.
   lightbulb: <path d="M8 14.5h4M8.5 17h3M8 14.5c0-1.6-3-3.1-3-6a5 5 0 0 1 10 0c0 2.9-3 4.4-3 6" />,
   // The i is a touch heavier than the circle, with clear space above the
-  // stem, so it holds its own at 16px.
+  // stem, so it holds its own at 16px. Centred: the same gap to the circle
+  // above the dot as below the stem.
   info: (
     <>
       <circle cx="10" cy="10" r="7.5" />
-      <path d="M10 9v4.8" strokeWidth="1.8" />
-      <path d="M10 5.8v.01" strokeWidth="2.3" />
+      <path d="M10 9.3v4.8" strokeWidth="1.8" />
+      <path d="M10 6.1v.01" strokeWidth="2.3" />
     </>
   ),
   warning: (
