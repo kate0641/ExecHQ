@@ -342,9 +342,8 @@ export function OnboardingConcept3() {
     case "about": {
       const c = GUIDE_C3.about;
       return (
-        <GuidePage {...frame()} kicker={c.kicker} title={c.title} primaryLabel={c.cta} onPrimary={next}>
+        <GuidePage {...frame()} kicker={c.kicker} title={c.title} lede={c.lede} primaryLabel={c.cta} onPrimary={next}>
           <PointList items={c.points} numbered />
-          <PointList items={c.built} label={c.builtLabel} />
         </GuidePage>
       );
     }
