@@ -1939,6 +1939,8 @@ export const GUIDE_C3 = {
     elseField: "Or in your own words",
     /** More than one picked: which to start from. */
     first: "Which matters most right now?",
+    /** The button after more than one is picked, naming the question it leads to. */
+    whichFirst: "Which matters most?",
     firstLede: "ExecHQ will start there, and keep the rest in view.",
     /** Why the second question is asked, on its own: the first is already answered. */
     firstWhy: "Your plan needs a first step. Starting from the one that matters most gives it a clear direction, and the rest stay in view.",

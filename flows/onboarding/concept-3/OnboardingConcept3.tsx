@@ -843,7 +843,6 @@ function DirectionPage({
             key="first"
             question={c.first}
             questionId={frame.headingId}
-            step="2 of 2"
             open={open}
             onToggle={toggle(drawer)}
             primaryLabel={d.continue}
@@ -856,6 +855,7 @@ function DirectionPage({
               label={c.first}
               labelHidden
               options={chosen}
+              equalWidth
               value={leadNow ? [leadNow] : []}
               onChange={(next) => setLead(next[0] ?? null)}
             />
@@ -865,11 +865,10 @@ function DirectionPage({
             key="picks"
             question={c.title}
             questionId={frame.headingId}
-            step={chosen.length > 1 ? "1 of 2" : undefined}
             open={open}
             onToggle={toggle(drawer)}
             peekStatus={chosen.length ? `${chosen.length} picked` : d.peek}
-            primaryLabel={chosen.length > 1 ? d.next : d.continue}
+            primaryLabel={chosen.length > 1 ? c.whichFirst : d.continue}
             primaryDisabled={!chosen.length}
             onPrimary={() => {
               if (chosen.length === 1) return finish(chosen[0]);
@@ -882,6 +881,7 @@ function DirectionPage({
               labelHidden
               options={options}
               value={picks}
+              equalWidth
               max={options.length}
               onChange={setPicks}
             />

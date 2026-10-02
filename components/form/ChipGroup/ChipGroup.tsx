@@ -17,6 +17,9 @@ export interface ChipGroupProps {
   /** How many may be chosen. 1 (the default) makes pressing another option
    *  replace the choice, and pressing the chosen one clear it. */
   max?: number;
+  /** Every chip the same width, one to a row, for options that are long
+   *  sentences rather than short tags. */
+  equalWidth?: boolean;
   className?: string;
 }
 
@@ -36,6 +39,7 @@ export function ChipGroup({
   value,
   onChange,
   max = 1,
+  equalWidth = false,
   className,
 }: ChipGroupProps) {
   const legendId = useId();
@@ -51,7 +55,7 @@ export function ChipGroup({
   }
 
   return (
-    <fieldset className={["chip-group", className].filter(Boolean).join(" ")}>
+    <fieldset className={["chip-group", equalWidth ? "chip-group--equal" : null, className].filter(Boolean).join(" ")}>
       <legend className={labelHidden ? "u-visually-hidden" : "chip-group__label"} id={legendId}>
         {label}
         {note ? <span className="chip-group__note"> {note}</span> : null}

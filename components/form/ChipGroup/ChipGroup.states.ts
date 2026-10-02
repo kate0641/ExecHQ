@@ -23,6 +23,18 @@ export const chipGroupStates = defineComponentStates({
       props: { label: team.label, options: team.options, value: ["11–50"], onChange: noop },
     },
     {
+      label: "Equal width",
+      description: "Long options, one to a row at the same width.",
+      props: {
+        label: "Where do you want to go next?",
+        options: ["Reach the C-suite within three years", "Take on a bigger leadership role", "Be seen as an executive"],
+        value: ["Be seen as an executive"],
+        max: 3,
+        equalWidth: true,
+        onChange: noop,
+      },
+    },
+    {
       label: "Multiple — at the limit", states: ["disabled", "filled"],
       description: "Three chosen of up to three: the rest are disabled.",
       props: {
