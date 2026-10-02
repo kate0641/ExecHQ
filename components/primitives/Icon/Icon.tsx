@@ -116,12 +116,13 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <path d="M6.5 17.5h7M10 14.5v3" />
     </>
   ),
-  // The hub panel opens from the left, so the glyph fills its left column.
+  // The hub of every page: four panels of different heights, staggered.
   hub: (
     <>
-      <rect x="2.5" y="3.5" width="15" height="13" rx="2" />
-      <path d="M8 3.5v13" />
-      <path d="M4.6 7.2h1.6M4.6 10h1.6" strokeWidth="1.3" />
+      <rect x="2.5" y="2.5" width="6.25" height="4" rx="1.6" />
+      <rect x="11.25" y="2.5" width="6.25" height="8.5" rx="1.6" />
+      <rect x="2.5" y="9" width="6.25" height="8.5" rx="1.6" />
+      <rect x="11.25" y="13.5" width="6.25" height="4" rx="1.6" />
     </>
   ),
   // Sharper than a right angle (80°), so it points rather than leans.
@@ -201,11 +202,12 @@ const PATHS: Record<IconName, React.ReactNode> = {
     </>
   ),
   menu: <path d="M3.5 6h13M3.5 10h13M3.5 14h13" />,
-  // A page with a side column: widening or folding a sidebar.
+  // A page with a narrow side rail and a fold arrow: widening or folding a
+  // sidebar. Drawn apart from the hub so the two never look alike.
   sidebar: (
     <>
       <rect x="2.5" y="3.5" width="15" height="13" rx="2" />
-      <path d="M8 3.5v13" />
+      <path d="M6.5 3.5v13M12.5 8l-2 2 2 2" />
     </>
   ),
   close: <path d="M5 5l10 10M15 5 5 15" />,
@@ -284,7 +286,7 @@ const PATHS: Record<IconName, React.ReactNode> = {
   // Going back to the start: an arrow turning back on itself.
   reset: (
     <>
-      <path d="M4.2 8.2A6 6 0 1 1 4 11.5" />
+      <path d="M4.2 8.2A6 6 0 1 1 4.91 13.18" />
       <path d="M3.5 4.2v4.3h4.3" />
     </>
   ),

@@ -23,7 +23,7 @@ export const iconStates = defineComponentStates({
     { label: "Web", props: { name: "web" } },
     {
       label: "Hub",
-      description: "The filled column shows which side the panel opens from.",
+      description: "Four staggered panels: the hub of every page in the prototype.",
       props: { name: "hub" },
     },
     { label: "Chevron", props: { name: "chevron" } },
