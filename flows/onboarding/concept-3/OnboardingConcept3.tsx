@@ -999,8 +999,10 @@ function ReflectPage({
       {...frame}
       kicker={GUIDE_C3.reflect.kicker}
       title={copy.title}
-      lede={copy.lede}
-      why={copy.why}
+      // Once answered, what the question is for and how to read it are said.
+      lede={done ? undefined : copy.lede}
+      why={done ? undefined : copy.why}
+      className={done ? "guide--answered" : undefined}
       primaryLabel={done ? GUIDE_C3.reflect.cta : undefined}
       onPrimary={onDone}
       drawer={

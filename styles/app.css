@@ -7367,6 +7367,14 @@ ol.ring-detail__timeline {
   margin-top: 0;
 }
 
+/* An answered page can run long, so its action stays in reach at the foot. */
+.guide--answered .guide__actions {
+  position: sticky;
+  bottom: 0;
+  padding-block: var(--space-sm);
+  background-color: var(--color-surface);
+}
+
 /* The cover: the promise, set large, in the middle of the page. */
 .guide--cover .guide__head {
   margin-top: auto;
@@ -7916,12 +7924,7 @@ ol.ring-detail__timeline {
   justify-content: space-between;
   align-items: baseline;
   gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-md);
-  border-radius: var(--radius-md);
-  color: var(--color-text-inverse);
-  background-color: var(--color-surface-inverse);
 }
-
 .guide__said-label {
   display: block;
   font-family: var(--font-display);
@@ -7930,11 +7933,12 @@ ol.ring-detail__timeline {
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  color: var(--color-text-inverse-muted);
+  color: var(--color-text-secondary);
 }
 
 .guide__said-value {
   font-size: var(--text-md);
+  color: var(--color-text-primary);
 }
 
 .guide__said-change {
@@ -7944,7 +7948,7 @@ ol.ring-detail__timeline {
   letter-spacing: var(--font-display-tracking);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
-  color: var(--color-text-inverse);
+  color: var(--color-text-primary);
   text-decoration: underline;
   text-underline-offset: 0.2em;
   cursor: pointer;
