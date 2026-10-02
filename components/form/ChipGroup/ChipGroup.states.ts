@@ -35,6 +35,21 @@ export const chipGroupStates = defineComponentStates({
       },
     },
     {
+      label: "With a line under each",
+      description: "Each option says a little more about itself.",
+      props: {
+        label: "Which matters most right now?",
+        options: ["Be seen as an executive", "Find my next move"],
+        details: {
+          "Be seen as an executive": "Read as an executive, not only a strong operator.",
+          "Find my next move": "Working out where to go before choosing.",
+        },
+        value: ["Find my next move"],
+        equalWidth: true,
+        onChange: noop,
+      },
+    },
+    {
       label: "Multiple — at the limit", states: ["disabled", "filled"],
       description: "Three chosen of up to three: the rest are disabled.",
       props: {

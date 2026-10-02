@@ -30,7 +30,10 @@ import {
 import { useStepNav } from "@/lib/step-nav";
 import {
   DIRECTION_MORE_C3,
+  DIRECTION_NARROWER_C3,
   DIRECTION_PROMPTS_C1,
+  baseDirection,
+  isNarrowedDirection,
   DONE_C1,
   DRAFT_C1,
   DRAFT_EXPORTS,
@@ -805,59 +808,99 @@ function DirectionPage({
   const promptFor = (text: string) => allPrompts.find((p) => p.label === text || p.text === text);
 
   // What was answered before, if the user comes back: the lead first, then the
-  // rest. Anything that is not one of the listed options was typed.
-  const earlier = state.answers.direction
-    ? [promptFor(state.answers.direction)?.label ?? state.answers.direction, ...also]
+  // rest. A narrower version stands for the option it came from; anything that
+  // is not one of the listed options was typed.
+  const earlierLead = state.answers.direction;
+  const earlier = earlierLead
+    ? [promptFor(baseDirection(earlierLead))?.label ?? earlierLead, ...also]
     : [];
   const typedBefore = earlier.find((item) => !promptFor(item)) ?? "";
   const [picks, setPicks] = useState<string[]>(earlier.filter((item) => promptFor(item)));
   const [typed, setTyped] = useState(typedBefore);
   const [more, setMore] = useState(earlier.some((item) => DIRECTION_MORE_C3.some((p) => p.label === item)));
-  const [lead, setLead] = useState<string | null>(earlier[0] ?? null);
+  // The second question's answer: a narrower version, or one of the typed
+  // words from the first question; or said afresh in its own field.
+  const [lead, setLead] = useState<string | null>(earlierLead && isNarrowedDirection(earlierLead) ? earlierLead : null);
+  const [leadTyped, setLeadTyped] = useState("");
   const [asking, setAsking] = useState(false);
+
   // Everything picked, in the order picked, with the typed answer counted once
   // it has something in it. Its field is always open.
   const typedText = typed.trim();
   const chosen = typedText ? [...picks, typedText] : picks;
-  const leadNow = lead && chosen.includes(lead) ? lead : chosen[0] ?? null;
+  // The picks that have narrower versions to offer; the typed words have none.
+  const narrowable = picks.filter((label) => DIRECTION_NARROWER_C3[promptFor(label)?.text ?? label]);
+  const leadNow = leadTyped.trim() || lead;
+  const optionsLeft = [...narrowable.flatMap((label) => DIRECTION_NARROWER_C3[promptFor(label)!.text]), ...(typedText ? [typedText] : [])];
+  const leadChosen = leadNow && (leadTyped.trim() || optionsLeft.includes(leadNow)) ? leadNow : null;
 
   function finish(first: string) {
+    const narrowed = isNarrowedDirection(first);
+    const parent = narrowed ? promptFor(baseDirection(first))?.label : first;
     const prompt = promptFor(first);
-    dispatch({ type: "set-direction", direction: prompt ? prompt.text : first, source: prompt ? "prompted" : "free" });
-    onAlso(chosen.filter((label) => label !== first));
+    dispatch({
+      type: "set-direction",
+      direction: prompt ? prompt.text : first,
+      source: narrowed || prompt ? "prompted" : "free",
+    });
+    onAlso(chosen.filter((label) => label !== parent));
     onDone();
   }
 
   const options = [...labels(DIRECTION_PROMPTS_C1), ...(more ? labels(DIRECTION_MORE_C3) : [])];
+  const several = chosen.length > 1;
   const open = drawer.mode === "open";
   return (
     <GuidePage
       {...frame}
       kicker={c.kicker}
-      title={asking ? c.first : c.title}
-      lede={asking ? c.firstLede : c.lede}
-      why={asking ? c.firstWhy : c.why}
+      title={asking ? (several ? c.first : c.narrowTitle) : c.title}
+      lede={asking ? (several ? c.firstLede : c.narrowLede) : c.lede}
+      why={asking ? (several ? c.firstWhy : c.narrowWhy) : c.why}
       drawer={
         asking ? (
           <AnswerDrawer
             key="first"
-            question={c.first}
+            question={several ? c.first : c.narrowTitle}
             questionId={frame.headingId}
             open={open}
             onToggle={toggle(drawer)}
             primaryLabel={d.continue}
-            primaryDisabled={!leadNow}
-            onPrimary={() => leadNow && finish(leadNow)}
+            primaryDisabled={!leadChosen}
+            onPrimary={() => leadChosen && finish(leadChosen)}
             secondaryLabel={d.back}
             onSecondary={() => setAsking(false)}
           >
-            <ChipGroup
-              label={c.first}
-              labelHidden
-              options={chosen}
-              equalWidth
-              value={leadNow ? [leadNow] : []}
-              onChange={(next) => setLead(next[0] ?? null)}
+            {narrowable.map((label) => (
+              <ChipGroup
+                key={label}
+                label={label}
+                options={DIRECTION_NARROWER_C3[promptFor(label)!.text]}
+                equalWidth
+                value={leadChosen && !leadTyped.trim() ? [leadChosen] : []}
+                onChange={(next) => {
+                  setLead(next[0] ?? null);
+                  setLeadTyped("");
+                }}
+              />
+            ))}
+            {typedText ? (
+              <ChipGroup
+                label={c.ownLabel}
+                options={[typedText]}
+                equalWidth
+                value={leadChosen === typedText && !leadTyped.trim() ? [typedText] : []}
+                onChange={(next) => {
+                  setLead(next[0] ?? null);
+                  setLeadTyped("");
+                }}
+              />
+            ) : null}
+            <Input
+              label={c.firstField}
+              autoComplete="off"
+              value={leadTyped}
+              onChange={(event) => setLeadTyped(event.target.value)}
             />
           </AnswerDrawer>
         ) : (
@@ -868,11 +911,11 @@ function DirectionPage({
             open={open}
             onToggle={toggle(drawer)}
             peekStatus={chosen.length ? `${chosen.length} picked` : d.peek}
-            primaryLabel={chosen.length > 1 ? c.whichFirst : d.continue}
+            primaryLabel={several ? c.whichFirst : narrowable.length ? c.narrow : d.continue}
             primaryDisabled={!chosen.length}
             onPrimary={() => {
-              if (chosen.length === 1) return finish(chosen[0]);
-              setLead(leadNow);
+              // Only the typed words picked: nothing to narrow.
+              if (!narrowable.length) return finish(chosen[0]);
               setAsking(true);
             }}
           >

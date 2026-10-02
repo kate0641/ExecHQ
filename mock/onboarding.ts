@@ -147,21 +147,63 @@ export const PROMPTED_DIRECTIONS: PromptedDirection[] = [
 export const DIRECTION_PROMPTS_C1: PromptedDirection[] = [
   // One per plan, so every plan is reachable from a prompt and none is
   // favoured. The field still takes any answer.
-  { id: "c-suite", label: "Reach the C-suite within three years", text: "Reach the C-suite within three years", blurb: "", need: "positioning" },
-  { id: "leadership", label: "Take on a bigger leadership role", text: "Take on a bigger leadership role", blurb: "", need: "influence" },
-  { id: "executive", label: "Be seen as an executive", text: "Be seen as an executive", blurb: "", need: "visibility" },
-  { id: "board", label: "Nail an upcoming board presentation", text: "Nail an upcoming board presentation", blurb: "", need: "preparation" },
-  { id: "next-move", label: "Find my next move", text: "Find my next move", blurb: "", need: "exploration" },
+  { id: "c-suite", label: "Reach the C-suite within three years", text: "Reach the C-suite within three years", blurb: "A seat at the top table, with a date on it.", need: "positioning" },
+  { id: "leadership", label: "Take on a bigger leadership role", text: "Take on a bigger leadership role", blurb: "More scope or a bigger remit, where you are.", need: "influence" },
+  { id: "executive", label: "Be seen as an executive", text: "Be seen as an executive", blurb: "Read as an executive, not only a strong operator.", need: "visibility" },
+  { id: "board", label: "Nail an upcoming board presentation", text: "Nail an upcoming board presentation", blurb: "A specific moment coming up that needs to land.", need: "preparation" },
+  { id: "next-move", label: "Find my next move", text: "Find my next move", blurb: "Working out where to go before choosing.", need: "exploration" },
 ];
+
+/** Narrowing it down, in Concept 3: two more specific versions of each option,
+ *  one tap to pick. Each starts with a verb, so it reads after "You want to"
+ *  in the read-back and after "I want to" in a draft. Every one keeps its
+ *  option's need, goal and plan; only the wording is more particular. */
+export const DIRECTION_NARROWER_C3: Record<string, [string, string]> = {
+  "Reach the C-suite within three years": [
+    "Become CEO or run a business unit",
+    "Become a functional chief, like CMO, CFO or CTO",
+  ],
+  "Take on a bigger leadership role": ["Run a larger team, or more teams", "Own a bigger area of the business"],
+  "Be seen as an executive": [
+    "Be seen as an executive by my own leadership",
+    "Be seen as an executive beyond my company",
+  ],
+  "Nail an upcoming board presentation": [
+    "Win the board\u2019s backing for a proposal",
+    "Present results and the plan ahead with confidence",
+  ],
+  "Find my next move": ["Move to a new company in my field", "Move into a different role or industry"],
+  "Lead a bigger organisation": ["Run a larger business or division", "Lead across more functions or regions"],
+  "Carry more weight where I am": ["Have more say in company decisions", "Be trusted with bigger, more visible work"],
+  "Get out of where I am": ["Leave my industry for something new", "Leave my company, but stay in my field"],
+  "I do not know yet": ["Understand why I\u2019ve hit a ceiling", "Explore what else is out there"],
+};
+
+const SPECIFIC_PARENT: Record<string, string> = Object.fromEntries(
+  Object.entries(DIRECTION_NARROWER_C3).flatMap(([parent, specifics]) => specifics.map((text) => [text, parent]))
+);
+
+/** The option a narrower version came from; anything else comes back as it
+ *  was. The plan, goal and questions all work from the option. */
+export function baseDirection(direction: string): string {
+  return SPECIFIC_PARENT[direction.trim()] ?? direction;
+}
+
+/** Whether a direction is one of the narrower versions. */
+export function isNarrowedDirection(direction: string): boolean {
+  return direction.trim() in SPECIFIC_PARENT;
+}
+
+const lowerFirst = (text: string) => text.charAt(0).toLowerCase() + text.slice(1);
 
 /** What "None of these? Show me more options" adds to the list above, in
  *  Concept 3. Each is keyed in the copy tables below the way the first five
  *  are, so a pick reads as well as they do. */
 export const DIRECTION_MORE_C3: PromptedDirection[] = [
-  { id: "bigger-org", label: "Lead a bigger organisation", text: "Lead a bigger organisation", blurb: "", need: "positioning" },
-  { id: "weigh-more", label: "Carry more weight where I am", text: "Carry more weight where I am", blurb: "", need: "influence" },
-  { id: "leaving", label: "Get out of where I am", text: "Get out of where I am", blurb: "", need: "exploration" },
-  { id: "unsure", label: "I do not know yet", text: "I do not know yet", blurb: "", need: "exploration" },
+  { id: "bigger-org", label: "Lead a bigger organisation", text: "Lead a bigger organisation", blurb: "A larger remit than the one you have now.", need: "positioning" },
+  { id: "weigh-more", label: "Carry more weight where I am", text: "Carry more weight where I am", blurb: "More say where you already are, without moving to get it.", need: "influence" },
+  { id: "leaving", label: "Get out of where I am", text: "Get out of where I am", blurb: "Out of where you are, before you have named what replaces it.", need: "exploration" },
+  { id: "unsure", label: "I do not know yet", text: "I do not know yet", blurb: "A ceiling you can feel but cannot put a title to.", need: "exploration" },
 ];
 
 /** What the simulated mic "hears". The prototype has no speech input, so the
@@ -178,7 +220,7 @@ export const VOICE_SAMPLE = {
 export function builtFrom(direction: string, answers: Record<string, string>): string[] {
   const text = direction.trim();
   // A prompt is shown whole; only a long typed or spoken answer is cut short.
-  const isPrompt = DIRECTION_PROMPTS_C1.some((prompt) => prompt.text === text);
+  const isPrompt = isNarrowedDirection(text) || DIRECTION_PROMPTS_C1.some((prompt) => prompt.text === text);
   const directionTag =
     isPrompt || text.length <= 40
       ? text
@@ -203,7 +245,7 @@ const PROMPT_TOWARD: Record<string, string> = {
 };
 
 export function towardFor(direction: string): string {
-  return PROMPT_TOWARD[direction.trim()] ?? "your goal";
+  return PROMPT_TOWARD[baseDirection(direction).trim()] ?? "your goal";
 }
 
 /** Concept 1's plan screen. */
@@ -246,8 +288,9 @@ const NEED_TESTS: { need: DirectionNeed; patterns: RegExp[] }[] = [
 ];
 
 export function interpretNeed(direction: string): DirectionNeed {
+  const text = baseDirection(direction);
   for (const test of NEED_TESTS) {
-    if (test.patterns.some((pattern) => pattern.test(direction))) return test.need;
+    if (test.patterns.some((pattern) => pattern.test(text))) return test.need;
   }
   return "positioning";
 }
@@ -542,6 +585,7 @@ function toSecondPerson(text: string): string {
 /** The opening of the read-back: the direction, in the user's own words. */
 function directionReadback(direction: string): string {
   const text = direction.trim();
+  if (isNarrowedDirection(text)) return `You want to ${lowerFirst(toSecondPerson(text))}.`;
   if (PROMPT_READBACK[text]) return PROMPT_READBACK[text];
   if (/^i\b|^i\u2019|^i'/i.test(text)) {
     const swapped = PRONOUNS.reduce((out, [pattern, to]) => out.replace(pattern, to), text);
@@ -1323,7 +1367,7 @@ const PROMPT_GOALS: Record<string, [string, string]> = {
 };
 
 export function goalFor(direction: string): Goal {
-  const typed = direction.trim().replace(/[.]$/, "");
+  const typed = baseDirection(direction).trim().replace(/[.]$/, "");
   const prompt = PROMPT_GOALS[typed];
   if (prompt) return { phrase: prompt[0], third: prompt[1] };
   if (/^i\b|^i’|^i'/i.test(typed)) {
@@ -1641,6 +1685,7 @@ function doingLine({ role, own }: SharpenFacts): string | null {
  *  toward. */
 function towardLine(direction: string): string {
   const typed = direction.trim().replace(/[.]$/, "");
+  if (isNarrowedDirection(typed)) return `I want to ${lowerFirst(typed)}.`;
   if (PROMPT_TOWARD_LINE[typed]) return PROMPT_TOWARD_LINE[typed];
   if (/^i\b|^i’|^i'/i.test(typed)) return withFullStop(sentenceCase(typed));
   return `I’m building toward ${typed}.`;
@@ -1939,8 +1984,15 @@ export const GUIDE_C3 = {
     elseField: "Or in your own words",
     /** More than one picked: which to start from. */
     first: "Which matters most right now?",
+    firstField: "Or say what matters most in your own words",
     /** The button after more than one is picked, naming the question it leads to. */
     whichFirst: "Which matters most?",
+    /** One option picked: the same page, narrowing it down. */
+    narrow: "Narrow it down",
+    narrowTitle: "Which is closest?",
+    narrowLede: "A little more detail gives ExecHQ a clearer first step.",
+    narrowWhy: "Your plan needs a first step. The more specific the starting point, the clearer that step is.",
+    ownLabel: "In your own words",
     firstLede: "ExecHQ will start there, and keep the rest in view.",
     /** Why the second question is asked, on its own: the first is already answered. */
     firstWhy: "Your plan needs a first step. Starting from the one that matters most gives it a clear direction, and the rest stay in view.",

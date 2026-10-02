@@ -6441,6 +6441,23 @@ ol.ring-detail__timeline {
   text-align: center;
 }
 
+.chip-group--detailed .chip-group__chip {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  text-align: left;
+  border-radius: var(--radius-lg);
+}
+
+.chip-group__detail {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-regular);
+  letter-spacing: normal;
+  word-spacing: normal;
+  opacity: 0.8;
+}
+
 .chip-group__chip {
   padding: var(--space-xs) var(--space-sm);
   font-family: var(--font-display);
