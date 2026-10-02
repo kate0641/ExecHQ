@@ -1252,7 +1252,25 @@ function DraftPage({
   const text = firstDraftFor(state.answers.direction ?? "", state.answers.refinement, draftFacts(inputs));
   const sharpened = isSharpened(inputs);
   return (
-    <GuidePage {...frame} kicker={GUIDE_C3.story.kicker} title={c.title} lede={lede} why={c.why}>
+    <GuidePage
+      {...frame}
+      kicker={GUIDE_C3.story.kicker}
+      title={c.title}
+      lede={lede}
+      why={c.why}
+      foot={
+        editing ? undefined : (
+          <NextSteps
+            label={c.next.label}
+            steps={[
+              { label: c.next.detail.label, detail: c.next.detail.detail, onChoose: onDetail },
+              { label: c.next.versions.label, detail: c.next.versions.detail, onChoose: onVersions },
+              { label: c.next.later.label, detail: c.next.later.detail, onChoose: onLater },
+            ]}
+          />
+        )
+      }
+    >
       <StoryDraft
         key={text}
         label={sharpened ? DRAFT_C1.sharpenedLabel : DRAFT_C1.label}
@@ -1266,16 +1284,6 @@ function DraftPage({
         uses={plan?.uses ?? []}
       />
       <ExportLinks actions={DRAFT_EXPORTS} />
-      {editing ? null : (
-        <NextSteps
-          label={c.next.label}
-          steps={[
-            { label: c.next.detail.label, detail: c.next.detail.detail, onChoose: onDetail },
-            { label: c.next.versions.label, detail: c.next.versions.detail, onChoose: onVersions },
-            { label: c.next.later.label, detail: c.next.later.detail, onChoose: onLater },
-          ]}
-        />
-      )}
     </GuidePage>
   );
 }

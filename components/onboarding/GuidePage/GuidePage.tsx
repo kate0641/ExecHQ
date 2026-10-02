@@ -26,6 +26,9 @@ export interface GuidePageProps {
   /** `secondary` where the page's real action is in its body and the foot only
    *  offers a way past it. */
   primaryVariant?: ButtonVariant;
+  /** Something else at the foot, in place of the primary and secondary
+   *  actions: a set of equal choices, say. */
+  foot?: ReactNode;
   /** A peer to the primary action, e.g. "Skip for now". */
   secondaryLabel?: string;
   onSecondary?: () => void;
@@ -67,6 +70,7 @@ export function GuidePage({
   onPrimary,
   primaryDisabled,
   primaryVariant,
+  foot,
   secondaryLabel,
   onSecondary,
   cover = false,
@@ -114,7 +118,9 @@ export function GuidePage({
         </aside>
       ) : null}
 
-      {primaryLabel ? (
+      {foot ? (
+        <div className="guide__actions">{foot}</div>
+      ) : primaryLabel ? (
         <StepActions
           className="guide__actions"
           primaryLabel={primaryLabel}

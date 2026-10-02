@@ -7062,16 +7062,28 @@ ol.ring-detail__timeline {
   list-style: none;
 }
 
+/* Outlined, on the page surface, so each reads as something to press and not
+   as a disabled grey control. */
 .next-steps .btn {
   height: auto;
-  padding-block: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  justify-content: flex-start;
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  border: var(--border-strong);
+  border-radius: var(--radius-lg);
+}
+
+.next-steps .btn:hover,
+.next-steps .btn.is-hover {
+  background-color: var(--color-surface-raised);
 }
 
 .next-steps__text {
   display: flex;
   flex-direction: column;
   gap: var(--space-3xs);
-  text-align: center;
+  text-align: left;
 }
 
 .next-steps__title {
