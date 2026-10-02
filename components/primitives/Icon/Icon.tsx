@@ -454,7 +454,8 @@ const PATHS: Record<IconName, React.ReactNode> = {
   // Bars as single lines floating just above the baseline, not boxes.
   "chart-bar": <path d="M3 17h14M6 14v-4M10 14V5M14 14V7.5" />,
   "trend-up": <path d="M3 14.5l4.5-4.5 3 3 6-6M12.5 7h4v4" />,
-  lightbulb: <path d="M7.5 14.5h5M8.3 17h3.4M7.5 14.5c0-1.6-2.5-3.1-2.5-6a5 5 0 0 1 10 0c0 2.9-2.5 4.4-2.5 6" />,
+  // The glass pinches in to a narrow neck, so it reads as a bulb, not a balloon.
+  lightbulb: <path d="M8 14.5h4M8.5 17h3M8 14.5c0-1.6-3-3.1-3-6a5 5 0 0 1 10 0c0 2.9-3 4.4-3 6" />,
   info: (
     <>
       <circle cx="10" cy="10" r="7.5" />
