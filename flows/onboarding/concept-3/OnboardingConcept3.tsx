@@ -488,13 +488,6 @@ export function OnboardingConcept3() {
           drawer={{ mode, setMode }}
           question={question}
           kicker={pageId === "decide" ? GUIDE_C3.decide.kicker : GUIDE_C3.questions.kicker}
-          // The deciding question says back the direction it follows from, and
-          // lets the user go and change it.
-          youSaid={
-            pageId === "decide" && direction
-              ? { value: direction, onChange: () => goTo("direction") }
-              : undefined
-          }
           onDone={next}
         />
       );
@@ -1074,7 +1067,6 @@ function QuestionPage({
   drawer,
   question,
   kicker,
-  youSaid,
   onDone,
 }: {
   flow: OnboardingFlow;
@@ -1082,7 +1074,6 @@ function QuestionPage({
   drawer: DrawerControl;
   question: TailoredQuestion;
   kicker: string;
-  youSaid?: { value: string; onChange: () => void };
   onDone: () => void;
 }) {
   const { state, dispatch } = flow;
@@ -1161,9 +1152,7 @@ function QuestionPage({
           />
         </AnswerDrawer>
       }
-    >
-      {youSaid ? <Said value={youSaid.value} onChange={youSaid.onChange} /> : null}
-    </GuidePage>
+    />
   );
 }
 
