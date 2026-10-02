@@ -226,8 +226,7 @@ export function builtFrom(direction: string, answers: Record<string, string>): s
       ? text
       : `${text.slice(0, 40).replace(/\s+\S*$/, "")}\u2026`;
   const labels = refinementFor(direction)
-    .map((question) => answerOptions(question).find((o) => o.value === answers[question.id])?.label)
-    .filter((label): label is string => Boolean(label));
+    .flatMap((question) => parseAnswer(question, answers[question.id]).chosen.map((option) => option.label));
   return [directionTag, ...labels].filter(Boolean);
 }
 
@@ -406,6 +405,9 @@ export interface TailoredQuestion extends RefinementQuestionSpec {
    *  any, the answer's place in the first-person draft lines follows `options`
    *  and then these, in order. */
   more?: HeardOption[];
+  /** More than one option may be chosen: the questions that decide the plan,
+   *  where several things can be in the way at once. */
+  multi?: boolean;
   /** Leave the question out when the direction already answers it. */
   skipIf?: RegExp[];
 }
@@ -449,6 +451,7 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
     },
     {
       id: "scope-block",
+      multi: true,
       question: "What\u2019s in the way?",
       hint: REFINEMENT_C1.instruction,
       options: opts("No clear path up", "Nobody sees my work", "I can\u2019t make my case", "Wrong company for it", "My boss isn\u2019t backing me").map(withHeard("Right now there\u2019s no clear path up, so part of the job is finding one, or making one.", "Right now nobody sees your work. The results are there; the people deciding just aren\u2019t looking at them.", "Right now you can\u2019t quite make your case. You know you\u2019re ready; it\u2019s putting it into words that\u2019s hard.", "You suspect you\u2019re in the wrong company for it, so the next step may not be where you are now.", "Your boss isn\u2019t backing you yet, so winning that support comes before anything else.")),
@@ -470,6 +473,7 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
     },
     {
       id: "influence-block",
+      multi: true,
       question: "What\u2019s holding you back?",
       hint: REFINEMENT_C1.instruction,
       options: opts("I\u2019m not in the room", "I\u2019m in the room but not heard", "Too junior on paper", "Politics", "Decisions are made before the meeting").map(withHeard("You\u2019re not in the room yet. The decisions that matter to you are made without you.", "You\u2019re in the room but not heard. You\u2019re there, but your view doesn\u2019t carry.", "You\u2019re too junior on paper. Your title undersells what you actually do.", "Politics is getting in the way. Being right isn\u2019t enough; you need people behind you.", "Decisions are made before the meeting, so your influence has to happen earlier, in the conversations that come first.")),
@@ -521,9 +525,11 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
   exploration: [
     {
       id: "explore-why",
+      multi: true,
       question: "What\u2019s making you want a change?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("Hit a ceiling", "Lost interest", "Industry is shrinking", "Life has changed").map(withHeard("You\u2019ve hit a ceiling where you are, and staying put isn\u2019t going to move it.", "You\u2019ve lost interest in the work, so this is about what you want to do, not just where.", "Your industry is shrinking, so moving is about staying ahead, not just a change of scene.", "Your life has changed, and your career needs to fit its new shape.")),
+      options: opts("Hit a ceiling", "Lost interest", "Industry is shrinking", "Life has changed", "Passed over for a role").map(withHeard("You\u2019ve hit a ceiling where you are, and staying put isn\u2019t going to move it.", "You\u2019ve lost interest in the work, so this is about what you want to do, not just where.", "Your industry is shrinking, so moving is about staying ahead, not just a change of scene.", "Your life has changed, and your career needs to fit its new shape.", "You were passed over, so this is about what comes next, not what was missed.")),
+      more: opts("New boss or reorganisation", "Better pay or flexibility", "The culture doesn\u2019t fit", "Ready for a new challenge").map(withHeard("A new boss or a reorganisation changed things, so part of this is rethinking where you stand.", "You want better pay or flexibility, so the next move has to deliver both.", "The culture doesn\u2019t fit you, so where you go matters as much as what you do.", "You\u2019re ready for a new challenge, so this is about growth, not escape.")),
     },
     {
       id: "explore-keep",
@@ -542,6 +548,34 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
 };
 
 /** The questions this direction gets, in order, minus any it already answers. */
+/** What an answer holds: the options chosen, in the order they were chosen,
+ *  and anything typed. Stored as one string so the shared flow needs no change:
+ *  option values joined by commas, then "|" and the typed words. Typed words
+ *  alone are stored as they were typed. */
+export interface ParsedAnswer {
+  chosen: HeardOption[];
+  typed: string;
+}
+
+export function parseAnswer(question: TailoredQuestion, raw: string | undefined): ParsedAnswer {
+  if (!raw) return { chosen: [], typed: "" };
+  const all = answerOptions(question);
+  const bar = raw.indexOf("|");
+  const head = bar >= 0 ? raw.slice(0, bar) : raw;
+  const values = head ? head.split(",") : [];
+  const chosen = values.map((v) => all.find((o) => o.value === v)).filter((o): o is HeardOption => Boolean(o));
+  if (chosen.length > 0 && chosen.length === values.length) {
+    return { chosen, typed: bar >= 0 ? raw.slice(bar + 1).trim() : "" };
+  }
+  return { chosen: [], typed: raw.trim() };
+}
+
+export function encodeAnswer(values: string[], typed: string): string {
+  const words = typed.trim().replace(/\|/g, "/");
+  if (!values.length) return words;
+  return values.join(",") + (words ? `|${words}` : "");
+}
+
 /** Every option a question can be answered with, shown or held back. */
 export function answerOptions(question: TailoredQuestion): HeardOption[] {
   return [...question.options, ...(question.more ?? [])];
@@ -616,11 +650,13 @@ function directionReadback(direction: string): string {
 export function readBack(direction: string, answers: Record<string, string>): string {
   const sentences = refinementFor(direction)
     .map((question) => {
-      const value = answers[question.id];
-      if (!value) return undefined;
+      const { chosen, typed } = parseAnswer(question, answers[question.id]);
       // A typed answer, rather than a chosen one, is said back in their words.
-      const option = answerOptions(question).find((o) => o.value === value);
-      return option ? option.heard : withFullStop(sentenceCase(toSecondPerson(value.trim())));
+      const said = [
+        ...chosen.map((option) => option.heard),
+        ...(typed ? [withFullStop(sentenceCase(toSecondPerson(typed)))] : []),
+      ];
+      return said.length ? said.join(" ") : undefined;
     })
     .filter((sentence): sentence is string => Boolean(sentence));
   return [directionReadback(direction), ...sentences].join(" ");
@@ -1664,6 +1700,11 @@ const SAID: Record<string, string[]> = {
     "I want work I care about again, not just a new place to do it.",
     "My industry is shrinking, and I want to move ahead of it.",
     "My life has changed, and I want a career that fits its new shape.",
+    "I was passed over, and I’m working out what comes next.",
+    "A new boss or a reorganisation changed things, and I’m rethinking where I stand.",
+    "I want better pay or flexibility, and the next move has to deliver both.",
+    "The culture doesn’t fit me, so where I go matters as much as what I do.",
+    "I’m ready for a new challenge.",
   ],
   "explore-keep": [
     "I’d keep my function. It’s the setting I want to change, not the work.",
@@ -1725,9 +1766,11 @@ export function firstDraftFor(
   facts: SharpenFacts
 ): string {
   const said = refinementFor(direction)
-    .map((question) => {
-      const index = answerOptions(question).findIndex((o) => o.value === answers[question.id]);
-      return index >= 0 ? SAID[question.id]?.[index] : undefined;
+    .flatMap((question) => {
+      const every = answerOptions(question);
+      return parseAnswer(question, answers[question.id]).chosen.map(
+        (option) => SAID[question.id]?.[every.findIndex((o) => o.value === option.value)]
+      );
     })
     .filter((line): line is string => Boolean(line));
   const result = facts.result.trim()
@@ -2064,6 +2107,7 @@ export const GUIDE_C3 = {
     kicker: "Making it yours",
     typedLabel: "Or in your own words",
     more: "None of these? Show me more options",
+    multiLede: "Pick as many as are true.",
     skip: "Skip this one",
     whyDefault: "Each answer shapes how your plan and your story are put, so they sound like you and not like anyone.",
     /** Why each question is asked, said plainly. */
@@ -2315,9 +2359,15 @@ export function recommendC3(
     reason: earlyReasonFor(direction, base),
   };
   for (const question of refinementFor(direction)) {
-    const change = SWITCHES_C3[question.id]?.[answers[question.id] ?? ""];
-    const plan = change ? PLAN_TEMPLATES.find((p) => p.id === change.planId) : undefined;
-    if (change && plan) result = { plan, reason: change.reason, changedBy: question.id };
+    // Several can be chosen: the first of them that changes the plan does.
+    for (const option of parseAnswer(question, answers[question.id]).chosen) {
+      const change = SWITCHES_C3[question.id]?.[option.value];
+      const plan = change ? PLAN_TEMPLATES.find((p) => p.id === change.planId) : undefined;
+      if (change && plan) {
+        result = { plan, reason: change.reason, changedBy: question.id };
+        break;
+      }
+    }
   }
   return result;
 }

@@ -47,6 +47,8 @@ import {
   checkEmail,
   answerOptions,
   decidesPlanC3,
+  encodeAnswer,
+  parseAnswer,
   earlyReasonFor,
   firstDraftFor,
   isSharpened,
@@ -308,8 +310,11 @@ export function OnboardingConcept3() {
   questions.forEach((question) => {
     const value = a.refinement[question.id];
     if (!value) return;
-    const label = answerOptions(question).find((o) => o.value === value)?.label ?? value;
-    items.push({ label: question.question, value: label });
+    const { chosen, typed } = parseAnswer(question, value);
+    items.push({
+      label: question.question,
+      value: [...chosen.map((o) => o.label), ...(typed ? [typed] : [])].join(", "),
+    });
   });
   if (reflections.ceo) items.push({ label: GUIDE_C3.reflect2.ceo.label, value: reflections.ceo });
   if (reflections.conversation)
@@ -1051,11 +1056,13 @@ function QuestionPage({
   const d = GUIDE_C3.drawer;
   const value = state.answers.refinement[question.id];
   const everyOption = answerOptions(question);
-  const option = everyOption.find((o) => o.value === value);
-  const [typed, setTyped] = useState(value && !option ? value : "");
+  const multi = Boolean(question.multi);
+  const parsed = parseAnswer(question, value);
+  const chosenValues = parsed.chosen.map((o) => o.value);
+  const [typed, setTyped] = useState(parsed.typed);
   // Held-back options come out when none of the first ones fit, or when an
   // answer chosen earlier is one of them.
-  const [more, setMore] = useState(Boolean(option && question.more?.includes(option)));
+  const [more, setMore] = useState(parsed.chosen.some((o) => question.more?.includes(o)));
   const open = drawer.mode === "open";
 
   function answer(next: string) {
@@ -1067,6 +1074,7 @@ function QuestionPage({
       {...frame}
       kicker={kicker}
       title={question.question}
+      lede={multi ? c.multiLede : undefined}
       why={c.why[question.id] ?? c.whyDefault}
       drawer={
         <AnswerDrawer
@@ -1076,9 +1084,10 @@ function QuestionPage({
           onToggle={toggle(drawer)}
           peekStatus={value ? d.peekAnswered : d.peek}
           primaryLabel={d.next}
-          primaryDisabled={!value && !typed.trim()}
+          primaryDisabled={!chosenValues.length && !typed.trim()}
           onPrimary={() => {
-            if (!option && typed.trim()) answer(typed.trim());
+            // A typed answer is kept with whatever was chosen, in the user's words.
+            answer(encodeAnswer(chosenValues, typed));
             onDone();
           }}
           secondaryLabel={c.skip}
@@ -1092,11 +1101,15 @@ function QuestionPage({
             labelHidden
             options={(more ? everyOption : question.options).map((o) => o.label)}
             equalWidth
-            value={option ? [option.label] : []}
+            max={multi ? everyOption.length : 1}
+            value={parsed.chosen.map((o) => o.label)}
             onChange={(next) => {
-              const picked = everyOption.find((o) => o.label === next[0]);
-              setTyped("");
-              answer(picked?.value ?? "");
+              const values = next
+                .map((label) => everyOption.find((o) => o.label === label)?.value)
+                .filter((v): v is string => Boolean(v));
+              // One answer, chosen or typed, unless several are asked for.
+              if (!multi) setTyped("");
+              answer(encodeAnswer(values, multi ? typed : ""));
             }}
           />
           {question.more && !more ? (
@@ -1109,7 +1122,7 @@ function QuestionPage({
             value={typed}
             onChange={(event) => {
               setTyped(event.target.value);
-              if (option) answer("");
+              answer(encodeAnswer(multi ? chosenValues : [], event.target.value));
             }}
           />
         </AnswerDrawer>
