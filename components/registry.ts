@@ -13,7 +13,6 @@ import { COMPONENT_GROUPS, type ComponentGroup, type RegisteredComponent } from 
 import { mapRingsStates } from "./homepage/MapRings/MapRings.states";
 import { mapPanelStates } from "./homepage/MapPanel/MapPanel.states";
 import { actionSheetStates } from "./homepage/ActionSheet/ActionSheet.states";
-import { briefingCalloutStates } from "./homepage/BriefingCallout/BriefingCallout.states";
 import { signalPictureStates } from "./homepage/SignalPicture/SignalPicture.states";
 import { badgeStates } from "./primitives/Badge/Badge.states";
 import { buttonStates } from "./primitives/Button/Button.states";
@@ -156,7 +155,6 @@ export const registry: RegisteredComponent[] = [
   signalPictureStates,
   mapPanelStates,
   actionSheetStates,
-  briefingCalloutStates,
   briefingCardStates,
   briefingEditorialStates,
   accountCardStates,

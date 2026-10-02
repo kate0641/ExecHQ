@@ -11481,47 +11481,6 @@ ul.login__never {
   color: var(--color-eyebrow);
 }
 
-.briefing-callout {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-md);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
-  font-family: var(--type-subheading-font);
-  font-size: var(--text-base);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-  text-decoration: none;
-  transition: background-color var(--duration-fast);
-}
-
-.briefing-callout:hover,
-.briefing-callout.is-hover {
-  background-color: var(--color-surface-inverse-hover);
-}
-
-.briefing-callout:focus-visible,
-.briefing-callout.is-focus {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.briefing-callout:active,
-.briefing-callout.is-active {
-  background-color: var(--color-surface-inverse-active);
-}
-
-.briefing-callout__label {
-  flex: 1;
-  min-width: 0;
-}
-
-.briefing-callout__go {
-  flex: none;
-}
-
 /* The strip: three rings in a row, no card around them. */
 
 ul.map-rings {

@@ -351,8 +351,6 @@ export const CHECKIN_COPY = {
    -------------------------------------------------------------------------- */
 
 export const MAP_COPY = {
-  /** The one line that leads to the Briefing. It never says what is in it. */
-  briefing: (date: string) => `Read today’s briefing — ${date}`,
   heading: "Your map",
   /** Under the map when nothing on it has been started. */
   nothingInProgress: "Nothing in progress yet. Open a ring to read about what is on your map and start one.",

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { AddPresenceSheet } from "@/components/homepage/AddPresenceSheet";
 import { SignalPicture } from "@/components/homepage/SignalPicture";
 import { ActionSheet } from "@/components/homepage/ActionSheet";
-import { BriefingCallout } from "@/components/homepage/BriefingCallout";
+import { BriefingEditorial } from "@/components/homepage/BriefingEditorial";
 import { MapLegend, MapRings } from "@/components/homepage/MapRings";
 import { InProgress } from "./InProgress";
 import { MapPanel } from "@/components/homepage/MapPanel";
@@ -16,7 +16,7 @@ import { addPresence, useAddedPresence } from "@/lib/presence-store";
 import { dismissSpark, useDismissedSparks } from "@/lib/spark-dismissal";
 import { sparksFor } from "@/lib/sparks";
 import { PRESENCE_KINDS, PRESENCE_STUB as PR, SPARK_COPY as SP } from "@/mock/accounts-stub";
-import { HOME_COPY as C, MAP_COPY as M, SIGNAL_PICTURE_COPY as SPC } from "@/mock/homepage";
+import { BRIEFING_STUB as B, HOME_COPY as C, MAP_COPY as M, SIGNAL_PICTURE_COPY as SPC } from "@/mock/homepage";
 import { shortDate } from "@/lib/loop";
 import type { Horizon, LandscapeAction } from "@/mock/plan-stub";
 
@@ -24,7 +24,7 @@ import type { Horizon, LandscapeAction } from "@/mock/plan-stub";
  * Homepage Concept 4 — Combined.
  *
  * Built from the three concepts on 2026-10-02, from Kate's notes. Top to
- * bottom: a line to today's Briefing; the map, three rings with what is in
+ * bottom: today's Briefing, as the editorial card; the map, three rings with what is in
  * each one under it; what she has in progress (Stage 3); and Your Signal
  * Picture, with a way into the detail on the Plan page (Stage 4).
  *
@@ -44,13 +44,10 @@ function longDate(date: string): string {
   return `${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
 }
 
-/** "October 2nd": the Briefing's day, the way it is said aloud. */
-function ordinalDate(date: string): string {
+/** "Mon 5 Oct": the Briefing's day, as the card's small print. */
+function shortDay(date: string): string {
   const d = new Date(`${date}T00:00:00Z`);
-  const n = d.getUTCDate();
-  const teen = n % 100 >= 11 && n % 100 <= 13;
-  const suffix = teen ? "th" : (({ 1: "st", 2: "nd", 3: "rd" } as Record<number, string>)[n % 10] ?? "th");
-  return `${MONTHS[d.getUTCMonth()]} ${n}${suffix}`;
+  return `${WEEKDAYS[d.getUTCDay()].slice(0, 3)} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()].slice(0, 3)}`;
 }
 
 export function HomepageConcept4() {
@@ -86,7 +83,13 @@ export function HomepageConcept4() {
           <b>{C.greeting(loop.account.name ?? "")}</b>
           <span>{longDate(loop.today)}</span>
         </p>
-        <BriefingCallout href={BRIEFING} label={M.briefing(ordinalDate(loop.today))} />
+        <BriefingEditorial
+        href={BRIEFING}
+        heading={B.heading}
+        meta={B.meta(shortDay(loop.today), B.reads)}
+        lead={B.lead}
+        tag={B.tag}
+      />
         <section className="map-home__section" aria-labelledby="map-heading">
           <h2 className="map-home__heading" id="map-heading">
             {M.heading}
