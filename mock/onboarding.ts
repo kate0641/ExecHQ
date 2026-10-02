@@ -71,19 +71,6 @@ export const PRIVACY = {
   action: "Understood",
 } as const;
 
-/** Concept 1's privacy screen: the same promise as PRIVACY, as short as it
- *  can be said. */
-export const PRIVACY_SPLASH = {
-  titleLead: "Private",
-  titleRest: "by design",
-  lines: ["We respect your data.", "It’s your eyes only."],
-  action: "Good to know",
-} as const;
-
-/* -----------------------------------------------------------------------------
-   DIRECTION
-   -------------------------------------------------------------------------- */
-
 export interface PromptedDirection {
   id: string;
   /** What the user sees on the selectable prompt. */
@@ -155,43 +142,6 @@ export const PROMPTED_DIRECTIONS: PromptedDirection[] = [
   },
 ];
 
-export const DIRECTION = {
-  prompt: "What would you like to move toward?",
-  hint: 'A role, a scope, an aspiration or a challenge. "CMO within three years" works here as well as "I want out of agency life".',
-  promptedLabel: "Or start from one of these",
-  placeholder: "",
-  examplesLabel: "Answers that work here",
-  /** Shown as static guidance, mixing both answer shapes on purpose. */
-  examples: [
-    "CMO within three years",
-    "I want out of agency life",
-    "More influence where I already am",
-  ],
-} as const;
-
-/** Concept 1's direction screen. Say it or type it: the prompts are short,
- *  concrete goals rather than categories, and work for any function. */
-export const DIRECTION_C1 = {
-  prompt: "Where do you want to go next?",
-  hint: "As specific or as loose as you like.",
-  promptedLabel: "Or start with",
-} as const;
-
-/** Concept 1's bridge into Direction, in the privacy splash's layout. It says
- *  why this question comes first, that a loose answer is as good a start as a
- *  precise one, and that the answer is not fixed. */
-export const DIRECTION_INTRO_C1 = {
-  titleLead: "First,",
-  titleRest: "where you\u2019re headed",
-  lines: [
-    "Maybe you know exactly what you\u2019re aiming for. Maybe it\u2019s just a feeling that it\u2019s time for more.",
-    "Either is a good place to start. We\u2019ll build your plan around it.",
-    "As your goals change, your plan changes with them.",
-  ],
-  action: "Let\u2019s start",
-  back: "Back to why we ask this",
-} as const;
-
 /** Tapping one puts its text in the field, still editable — "Promotion in the
  *  next year" can become "Promotion to VP in the next year". */
 export const DIRECTION_PROMPTS_C1: PromptedDirection[] = [
@@ -255,23 +205,6 @@ export const PLAN_C1 = {
   hideOthers: "Hide other plans",
   confirm: "Use this plan",
 } as const;
-
-/** Concept 1's interpretation screen. */
-export const INTERPRETATION_C1 = {
-  heading: "Here\u2019s what we heard",
-  hint: "Change anything that\u2019s off.",
-  from: "ExecHQ",
-  role: "Your advisor",
-  /** When every question was skipped, said inside the note. */
-  assumed: "You skipped the questions, so this is based on your goal alone. You can make it more specific later.",
-  bridge: "Next, we\u2019ll build a plan around this.",
-  edit: "Change it",
-  confirm: "That\u2019s right",
-} as const;
-
-/* -----------------------------------------------------------------------------
-   INTERPRETATION
-   -------------------------------------------------------------------------- */
 
 /** Keyword tests, most specific first. A crude stand-in for interpretation, but
  *  it does key off what the user actually typed, which is the point. */
@@ -1136,21 +1069,6 @@ export const CUSTOM_PLAN_STEPS: CustomPlanStepSpec[] = [
   },
 ];
 
-export const CUSTOM_PLAN_DRAFT_NAME = "Your own plan";
-
-/** The custom plan as an option in a set, for a concept that presents building
- *  your own as a peer of the five templates rather than as a way out of them. */
-export const CUSTOM_PLAN_OPTION: PlanTemplate = {
-  id: "custom",
-  name: "Build my own plan",
-  bestFor: "None of these is close enough to what you are actually doing.",
-  emphasis: "Four questions. You can leave at any point and keep the draft.",
-};
-
-/* -----------------------------------------------------------------------------
-   FIRST ACTION AND ARTIFACT
-   -------------------------------------------------------------------------- */
-
 export interface RecommendedAction {
   title: string;
   outcome: string;
@@ -1260,46 +1178,6 @@ export function artifactFor(direction: string, interpretation?: string): Artifac
    OPTIONAL CONNECTIONS
    -------------------------------------------------------------------------- */
 
-export interface ConnectOfferSpec {
-  id: "linkedin";
-  title: string;
-  body: string;
-  connectLabel: string;
-  declineLabel: string;
-}
-
-/** Offered only after the artifact exists. The body says what it improves, and
- *  never implies the draft they already have is worse without it. */
-export const CONNECT_OFFERS: ConnectOfferSpec[] = [
-  {
-    id: "linkedin",
-    title: "Add your LinkedIn metrics",
-    body: "You enter them yourself, whenever you like. It sharpens later drafts. It changes nothing about the one you already have.",
-    connectLabel: "Add metrics",
-    declineLabel: "Not now",
-  },
-];
-
-
-/** The failed-connection state. A connection can fail; that is a designed
- *  screen, not an unhandled case. */
-export const CONNECTION_FAILURE = {
-  title: "That did not connect",
-  body: "Nothing was sent and nothing was saved. You can try again, or carry on — your draft is unaffected.",
-  retryLabel: "Try again",
-  continueLabel: "Carry on without it",
-} as const;
-
-/* -----------------------------------------------------------------------------
-   POSITIONING BUILDER (Concept 1)
-   -------------------------------------------------------------------------- */
-
-/* The first artifact for every plan, in two pages: what goes in, then what
-   comes out. The outputs are the builder's four: the leadership narrative,
-   the executive bio in three lengths, an optional opener for a chosen
-   audience, and a recommended next use. Nothing is invented: what we know is
-   written in, and what only the user knows is a gap until they fill it. */
-
 export const POSITIONING_C1 = {
   tool: "Positioning Builder",
   buildTitle: "Let’s build your story",
@@ -1379,16 +1257,6 @@ export interface PositioningSource {
   audience: string;
 }
 
-/** The kind of opener each audience gets: a promotion-conversation opening
- *  for the people who decide on your next role, an introduction for the rest. */
-export const OPENER_KIND: Record<string, string> = {
-  "My manager": "Promotion conversation",
-  "The exec team": "Promotion conversation",
-  Recruiters: "Introduction",
-  "A board": "Introduction",
-  "My industry": "Introduction",
-};
-
 const GAPS = {
   role: "your current role",
   own: "what you’re responsible for",
@@ -1449,140 +1317,6 @@ export function goalFor(direction: string): Goal {
    (`reveals`), or the next general one from the set's pool. Chips hide the
    ones that contradict them (`excludes`); removing one removes what it
    brought. */
-
-export interface RevisionOption {
-  id: string;
-  label: string;
-  /** Offered beside this one once it is applied. */
-  reveals?: string[];
-  /** Hidden while any of these is applied. */
-  excludes?: string[];
-  /** Only has an effect once this is applied, so never offered before it. */
-  needs?: string;
-}
-
-export type OutputKind = "narrative" | "bio" | "opener";
-
-interface RevisionSet {
-  options: RevisionOption[];
-  /** The three offered from the start. */
-  start: string[];
-  /** Follow-ups in the order they are offered after a chip with nothing of
-   *  its own left to reveal. Anything else still hidden follows. */
-  pool: string[];
-}
-
-export const REVISIONS: Record<OutputKind, RevisionSet> = {
-  narrative: {
-    options: [
-      { id: "shorter", label: "Shorter", reveals: ["shortest"] },
-      { id: "shortest", label: "Even shorter", reveals: ["endAsk"], needs: "shorter" },
-      { id: "confident", label: "More confident", reveals: ["bold"], excludes: ["warm", "personal"] },
-      { id: "bold", label: "Bolder still", reveals: ["cut"], excludes: ["warm", "personal"], needs: "confident" },
-      { id: "cut", label: "Cut the qualifiers" },
-      { id: "warm", label: "Warmer", reveals: ["personal"], excludes: ["confident", "bold"] },
-      { id: "personal", label: "More personal", reveals: ["why"], excludes: ["confident", "bold"], needs: "warm" },
-      { id: "why", label: "Say why it matters" },
-      { id: "lead", label: "Lead with your result", reveals: ["impact"] },
-      { id: "impact", label: "Add the impact" },
-      { id: "asOne", label: "Read it as one", reveals: ["spoken"] },
-      { id: "spoken", label: "Make it easier to say" },
-      { id: "team", label: "Mention your team" },
-      { id: "endAsk", label: "End with what you want next" },
-    ],
-    start: ["shorter", "confident", "warm"],
-    pool: ["lead", "asOne", "team", "endAsk", "why", "cut", "impact", "spoken"],
-  },
-  bio: {
-    options: [
-      { id: "first", label: "Write it in first person", reveals: ["linkedin"] },
-      { id: "linkedin", label: "Shape it for LinkedIn", reveals: ["openTo"], needs: "first" },
-      { id: "openTo", label: "Say what you\u2019re open to", needs: "linkedin" },
-      { id: "formal", label: "More formal", reveals: ["title"], excludes: ["warm"] },
-      { id: "title", label: "Lead with your title" },
-      { id: "warm", label: "Warmer", reveals: ["enjoy"], excludes: ["formal"] },
-      { id: "enjoy", label: "Add what you enjoy" },
-      { id: "goal", label: "Add your goal", reveals: ["goalFirst"] },
-      { id: "goalFirst", label: "Put the goal first", needs: "goal" },
-      { id: "result", label: "Lead with your result" },
-      { id: "noTeam", label: "Leave out team size" },
-    ],
-    start: ["first", "formal", "warm"],
-    pool: ["goal", "result", "noTeam", "enjoy", "title"],
-  },
-  opener: {
-    options: [
-      { id: "shorter", label: "Shorter", reveals: ["essentials"] },
-      // Dropping the opening line leaves nothing for a change of tone to change.
-      { id: "essentials", label: "Just the essentials", excludes: ["soft", "direct"] },
-      { id: "direct", label: "More direct", reveals: ["nameWant"], excludes: ["soft", "essentials"] },
-      { id: "nameWant", label: "Name what you want" },
-      { id: "soft", label: "Softer", reveals: ["thank"], excludes: ["direct", "essentials"] },
-      { id: "thank", label: "Thank them first" },
-      { id: "ask", label: "End with a clear ask", reveals: ["time"] },
-      { id: "time", label: "Suggest a time", reveals: ["notes"], needs: "ask" },
-      { id: "notes", label: "Offer to send notes first" },
-      { id: "result", label: "Lead with your result" },
-      { id: "whyNow", label: "Say why now" },
-    ],
-    start: ["shorter", "direct", "ask"],
-    pool: ["soft", "result", "whyNow", "thank", "nameWant", "notes", "essentials"],
-  },
-};
-
-/**
- * The chips to show, in order. Three to start; each applied chip brings a
- * new one right beside it — its own follow-up, or the next general one, or
- * anything else still hidden — until everything has been offered. Chips ruled
- * out by an applied one, unavailable here, or without the chip they need are
- * never offered. Applied chips stay, to show as used.
- */
-export function visibleRevisions(
-  kind: OutputKind,
-  applied: readonly string[],
-  unavailable: readonly string[] = []
-): RevisionOption[] {
-  const { options, start, pool } = REVISIONS[kind];
-  const byId = new Map(options.map((option) => [option.id, option]));
-  const offerable = (id: string, list: string[]) => {
-    const option = byId.get(id);
-    if (!option || list.includes(id) || unavailable.includes(id)) return false;
-    if (option.needs && !applied.includes(option.needs)) return false;
-    return !option.excludes?.some((other) => applied.includes(other));
-  };
-
-  const list = start.filter((id) => offerable(id, []));
-  const order = [...pool, ...options.map((option) => option.id)];
-
-  for (const id of applied) {
-    const at = list.indexOf(id);
-    if (at === -1) continue;
-    const own = (byId.get(id)?.reveals ?? []).filter((r) => offerable(r, list));
-    const fresh = own.length ? own.slice(0, 1) : order.filter((r) => offerable(r, list)).slice(0, 1);
-    list.splice(at + 1, 0, ...fresh);
-  }
-  return list.map((id) => byId.get(id)!).filter(Boolean);
-}
-
-/** Applies a revision, or removes it and anything that was only on offer
- *  because of it. */
-export function toggleRevision(
-  kind: OutputKind,
-  applied: readonly string[],
-  id: string,
-  unavailable: readonly string[] = []
-): string[] {
-  if (!applied.includes(id)) return [...applied, id];
-  let next = applied.filter((item) => item !== id);
-  let changed = true;
-  while (changed) {
-    const shown = new Set(visibleRevisions(kind, next, unavailable).map((option) => option.id));
-    const kept = next.filter((item) => shown.has(item));
-    changed = kept.length !== next.length;
-    next = kept;
-  }
-  return next;
-}
 
 type Voice = "plain" | "confident" | "bold" | "warm" | "personal";
 
@@ -1750,183 +1484,6 @@ export function bioFor(
   if (withGoal && !on("goalFirst")) add(...goalLine);
   return out;
 }
-
-/** How an opener is put together for one audience: an opening line in three
- *  voices, the body, whether it names the goal, and its possible closes. */
-interface OpenerShape {
-  intro: { plain: string; direct: string; soft: string };
-  /** The middle. `withResult` is false when the result has moved to the
-   *  front, so it is never said twice. */
-  body: (s: Record<"role" | "own" | "result" | "strengths", StorySegment>, withResult: boolean) => StorySegment[];
-  goal: boolean;
-  close: { plain: string; direct?: string; ask: string; time: string };
-}
-
-const OPENERS: Record<string, OpenerShape> = {
-  "My manager": {
-    intro: {
-      plain: "I’d like to talk about what’s next for me.",
-      direct: "I want to talk about my next step.",
-      soft: "I’ve been thinking about what’s next for me, and I’d value your view.",
-    },
-    body: ({ role, own, result }, withResult) => [
-      text(" Today I’m "),
-      role,
-      text(", leading "),
-      own,
-      text("."),
-      ...(withResult ? [text(" Most recently, I "), result, text(".")] : []),
-    ],
-    goal: true,
-    close: {
-      plain: " I’d like us to plan how I get there.",
-      direct: " What would it take?",
-      ask: " Could we set time this month to map out the path?",
-      time: " Does thirty minutes next week work?",
-    },
-  },
-  "The exec team": {
-    intro: { plain: "Thanks for the time.", direct: "I’ll be brief.", soft: "Thank you for making the time." },
-    body: ({ own, result }, withResult) => [
-      text(" I lead "),
-      own,
-      text("."),
-      ...(withResult ? [text(" Most recently, I "), result, text(".")] : []),
-    ],
-    goal: false,
-    close: {
-      plain: " I’d like to share where I think I can take it next.",
-      direct: " Here’s where I can take it next.",
-      ask: " Could I bring you a proposal for what’s next?",
-      time: " I can have it to you by the end of the month.",
-    },
-  },
-  Recruiters: {
-    intro: { plain: "Thanks for reaching out.", direct: "Here’s where I am.", soft: "Thank you for thinking of me." },
-    body: ({ role, own, strengths }) => [text(" I’m "), role, text(", leading "), own, text(". I’m known for "), strengths, text(".")],
-    goal: true,
-    close: {
-      plain: "",
-      ask: " Could we find time to talk about what you’re seeing?",
-      time: " I have time on Thursday or Friday.",
-    },
-  },
-  "A board": {
-    intro: { plain: "Thank you for considering me.", direct: "Here’s what I’d bring.", soft: "I’m grateful for the chance to be considered." },
-    body: ({ role, strengths, result }, withResult) => [
-      text(" I’m "),
-      role,
-      text(". I’d bring "),
-      strengths,
-      text("."),
-      ...(withResult ? [text(" Most recently, I "), result, text(".")] : []),
-    ],
-    goal: false,
-    close: {
-      plain: "",
-      ask: " I’d welcome a conversation about where I could help most.",
-      time: " I’m available in the next two weeks.",
-    },
-  },
-  "My industry": {
-    intro: { plain: "Good to meet you.", direct: "Quick intro.", soft: "It’s lovely to connect." },
-    body: ({ own, strengths }) => [text(" I lead "), own, text(", and I’m known for "), strengths, text(".")],
-    goal: false,
-    close: {
-      plain: " I’d be glad to compare notes on what’s working.",
-      ask: " Would you be up for a coffee to compare notes?",
-      time: " I’m around most of next week.",
-    },
-  },
-};
-
-/** The optional opener for the chosen audience, or null for none. */
-export function openerFor(
-  inputs: PositioningSource,
-  goal: Goal,
-  applied: readonly string[] = []
-): { kind: string; segments: StorySegment[] } | null {
-  const kind = OPENER_KIND[inputs.audience];
-  const shape = OPENERS[inputs.audience];
-  if (!kind || !shape) return null;
-  const on = (id: string) => applied.includes(id);
-  const voice = on("direct") ? "direct" : on("soft") ? "soft" : "plain";
-  const result = slot(inputs.result, GAPS.result);
-  const segments: StorySegment[] = [];
-  if (on("thank")) segments.push(text("Thank you for the support so far. "));
-  // "Just the essentials" drops the opening line and gets straight to it.
-  if (!on("essentials")) segments.push(text(shape.intro[voice]));
-  if (on("result")) segments.push(text(" Most recently, I "), result, text("."));
-  if (!on("shorter")) {
-    segments.push(
-      ...shape.body(
-        {
-          role: slot(inputs.role, GAPS.role),
-          own: slot(inputs.own, GAPS.own),
-          result,
-          strengths: slot(strengthsOf(inputs), GAPS.strengths),
-        },
-        !on("result")
-      )
-    );
-  }
-  // "Name what you want" says the goal outright, even to an audience whose
-  // opener would otherwise leave it out.
-  if (shape.goal || on("nameWant")) {
-    segments.push(
-      text(
-        on("nameWant")
-          ? goal.own
-            ? ` ${goal.own}`
-            : ` What I want is ${goal.phrase}.`
-          : inputs.audience === "Recruiters"
-            ? ` I\u2019m open to conversations about ${goal.phrase}.`
-            : ` ${towardSentence(goal, "plain", false)}`
-      )
-    );
-  }
-  if (on("whyNow")) segments.push(text(" I\u2019d rather plan it together now than leave it to chance."));
-  if (on("ask")) {
-    segments.push(text(shape.close.ask));
-    if (on("time")) segments.push(text(shape.close.time));
-  } else {
-    segments.push(text((voice === "direct" && shape.close.direct) || shape.close.plain));
-  }
-  if (on("notes")) segments.push(text(" I can send a short note beforehand."));
-  return { kind, segments };
-}
-
-const AUDIENCE_NAMES: Record<string, string> = {
-  "My manager": "your manager",
-  "The exec team": "the exec team",
-  Recruiters: "recruiters",
-  "A board": "a board",
-  "My industry": "people in your industry",
-};
-
-/** The recommended next use, pointing at the plan's next stage. */
-export function nextUseFor(audience: string, nextStage: string | undefined): string {
-  const then = nextStage ? ` Your plan’s next step, “${nextStage}”, builds on it.` : "";
-  const who = AUDIENCE_NAMES[audience];
-  if (!who) {
-    return `Say the narrative out loud once this week, then use the short bio the next time you’re introduced.${then}`;
-  }
-  if (OPENER_KIND[audience] === "Promotion conversation") {
-    return `Use the opener to start your next conversation with ${who} about what’s next.${then}`;
-  }
-  return `Use the introduction the next time you reach out to ${who}, with the short bio attached.${then}`;
-}
-
-/* -----------------------------------------------------------------------------
-   FIRST DRAFT
-   -------------------------------------------------------------------------- */
-
-/* The story's first draft, written as soon as the plan is chosen, by decision
-   on 2026-09-28. Nothing is asked first: it is built from the direction and
-   the refinement answers alone, so a user who skipped everything still gets a
-   draft they can use. The pilot scope rules out unsupported claims, so the
-   draft says only what the user told us. Sharpening adds the three facts only
-   they know, and each one adds a sentence rather than filling a gap. */
 
 /** How each Concept 1 prompt opens the draft. */
 const PROMPT_TOWARD_LINE: Record<string, string> = {
@@ -2132,29 +1689,6 @@ export const DRAFT_EXPORTS = [
   { label: EXPORT_ACTIONS.downloadLabel, done: EXPORT_ACTIONS.downloaded },
   { label: EXPORT_ACTIONS.emailLabel, done: EXPORT_ACTIONS.emailed },
 ];
-
-/** Concept 1's sharpen page: the three facts, each optional. */
-export const SHARPEN_C1 = {
-  eyebrow: "Sharpen your story",
-  title: "Three things only you know",
-  hint: "Fill in what you like. Anything you leave out, we leave out.",
-  back: "Back to your draft",
-  update: "Update my draft",
-  rewrites: "Updating rewrites the draft, so changes you made by hand will be replaced.",
-} as const;
-
-/** An output as plain text, gaps in brackets: for editing and exporting. */
-export function segmentsToText(segments: StorySegment[]): string {
-  return segments.map((segment) => ("gap" in segment ? `[${segment.gap}]` : segment.text)).join("");
-}
-
-/* -----------------------------------------------------------------------------
-   CHAT (Concept 2)
-   -------------------------------------------------------------------------- */
-
-/* Concept 2 is a conversation from the first moment. It says Concept 1's
-   things in ExecHQ's own voice, so the logic is shared and only the telling
-   differs. */
 
 export const CHAT_C2 = {
   advisor: "ExecHQ",
