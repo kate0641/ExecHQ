@@ -1863,19 +1863,19 @@ export const GUIDE_C3 = {
       },
       {
         title: "Work done, not just advice",
-        detail: "Every step comes with something made: your story, your bio, the opener for your next conversation. Drafted for you to use.",
+        detail: "Every step comes with something made: your story, your bio, the opener for your next conversation. I draft it for you to use.",
       },
       {
         title: "A plan that changes as you do",
-        detail: "Tell it what happened and the plan adjusts. It remembers all of it, so you never start from scratch.",
+        detail: "Tell me what happened and I\u2019ll adjust the plan. I remember all of it, so you never start from scratch.",
       },
     ],
     builtLabel: "How it\u2019s built",
     built: [
       { title: "For senior managers through SVPs", detail: "And the decisions that come with those roles." },
       { title: "Private by design", detail: "Your eyes only. Nothing is ever posted or shared." },
-      { title: "No agenda", detail: "It tells you what a coach, a mentor or a colleague might not." },
-      { title: "Alongside your coach", detail: "It gives you both better information to work from." },
+      { title: "No agenda", detail: "I\u2019ll tell you what a coach, a mentor or a colleague might not." },
+      { title: "Alongside your coach", detail: "I give you both better information to work from." },
     ],
     cta: "Continue",
   },
