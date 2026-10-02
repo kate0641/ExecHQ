@@ -384,7 +384,9 @@ const PATHS: Record<IconName, React.ReactNode> = {
   // A short, open tail set in from the corner, so the bubble keeps its
   // bottom-left corner and the tail reads as an angle, not a line.
   message: <path d="M4.5 4h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-4l-4 2.5L6.5 15h-2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" />,
-  phone: <path d="M6.6 3.5h-2a1.1 1.1 0 0 0-1.1 1.2 13 13 0 0 0 11.8 11.8 1.1 1.1 0 0 0 1.2-1.1v-2l-3.3-1.4-1.6 1.6a9 9 0 0 1-4.3-4.3l1.6-1.6z" />,
+  // A wide, open bar between the ear and mouth pieces, each stepping in
+  // sharply where it meets the bar so both still read as pieces.
+  phone: <path d="M6.6 3.5h-2a1.1 1.1 0 0 0-1.1 1.2 13 13 0 0 0 11.8 11.8 1.1 1.1 0 0 0 1.2-1.1v-2l-2.9-1.8-1 1a14 14 0 0 1-4.3-4.3l1-1z" />,
   video: (
     <>
       <rect x="2.5" y="5.5" width="10" height="9" rx="2" />
