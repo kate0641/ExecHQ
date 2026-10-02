@@ -24,9 +24,9 @@ import type { Horizon, LandscapeAction } from "@/mock/plan-stub";
  * Homepage Concept 4 — Combined.
  *
  * Built from the three concepts on 2026-10-02, from Kate's notes. Top to
- * bottom: today's Briefing, as the editorial card; the map, three rings with what is in
- * each one under it; what she has in progress (Stage 3); and Your Signal
- * Picture, with a way into the detail on the Plan page (Stage 4).
+ * bottom: the map, three rings with what is in each one under it; what she
+ * has in progress; today's Briefing, as the editorial card; and Your Signal
+ * Picture, with a way into the detail on the Plan page.
  *
  * The map shows what she is on and what is still on it. An action she has
  * not started only opens to read about it, where she starts it or says it is
@@ -83,13 +83,6 @@ export function HomepageConcept4() {
           <b>{C.greeting(loop.account.name ?? "")}</b>
           <span>{longDate(loop.today)}</span>
         </p>
-        <BriefingEditorial
-        href={BRIEFING}
-        heading={B.heading}
-        meta={B.meta(shortDay(loop.today), B.reads)}
-        lead={B.lead}
-        tag={B.tag}
-      />
         <section className="map-home__section" aria-labelledby="map-heading">
           <h2 className="map-home__heading" id="map-heading">
             {M.heading}
@@ -133,6 +126,13 @@ export function HomepageConcept4() {
       </div>
       <div className="map-home__side">
         <InProgress loop={loop} rings={rings} />
+        <BriefingEditorial
+          href={BRIEFING}
+          heading={B.heading}
+          meta={B.meta(shortDay(loop.today), B.reads)}
+          lead={B.lead}
+          tag={B.tag}
+        />
         <SignalPicture
           name={SPC.heading}
           asOf={SPC.asOf(shortDate(loop.account.plan.startedOn))}
