@@ -456,10 +456,13 @@ const PATHS: Record<IconName, React.ReactNode> = {
   "trend-up": <path d="M3 14.5l4.5-4.5 3 3 6-6M12.5 7h4v4" />,
   // The glass pinches in to a narrow neck, so it reads as a bulb, not a balloon.
   lightbulb: <path d="M8 14.5h4M8.5 17h3M8 14.5c0-1.6-3-3.1-3-6a5 5 0 0 1 10 0c0 2.9-3 4.4-3 6" />,
+  // The i is a touch heavier than the circle, with clear space above the
+  // stem, so it holds its own at 16px.
   info: (
     <>
       <circle cx="10" cy="10" r="7.5" />
-      <path d="M10 9v4.8M10 6.3v.01" />
+      <path d="M10 9v4.8" strokeWidth="1.8" />
+      <path d="M10 5.8v.01" strokeWidth="2.3" />
     </>
   ),
   warning: (
