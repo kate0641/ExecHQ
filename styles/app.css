@@ -5257,6 +5257,18 @@ ol.ring-detail__timeline {
   color: var(--color-icon-default);
 }
 
+.styleguide__icon-use {
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.styleguide__icon--in-use .styleguide__icon-use {
+  color: var(--color-eyebrow);
+}
+
 .styleguide__icons--quiet .styleguide__icon {
   color: var(--color-text-muted);
 }

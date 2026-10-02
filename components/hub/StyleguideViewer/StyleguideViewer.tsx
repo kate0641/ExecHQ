@@ -672,7 +672,7 @@ export function StyleguideViewer() {
           id: "icons",
           label: "Icons",
           group: "Icons",
-          description: "One hand-drawn set, one line weight, three sizes. Every icon here is the real Icon component, so this is the set as it ships.",
+          description: "One hand-drawn library of 76 icons: the standard set most platforms need, drawn before a screen asks for them. One line, three sizes. Every icon here is the real Icon component, so this is the set as it ships.",
           source: "components/primitives/Icon",
           content: (
           <div className="styleguide-layout__card">

@@ -1,28 +1,55 @@
 import { Icon, type IconName } from "@/components/primitives/Icon";
 
-/** The product icons, grouped by what they are for. */
+/** The library: the standard set, grouped by what the icons are for. */
 const ICON_GROUPS: { title: string; note: string; names: IconName[] }[] = [
   {
-    title: "Getting around",
-    note: "Navigation, opening and closing.",
-    names: ["home", "briefing", "calendar", "person", "compass", "menu", "chevron", "close", "sign-out"],
+    title: "Navigation",
+    note: "Getting around, opening and closing.",
+    names: ["home", "menu", "close", "chevron", "chevron-left", "chevron-up", "chevron-down", "arrow-right", "arrow-left", "arrow-up", "arrow-down", "external-link", "more-horizontal", "more-vertical", "search", "filter"],
   },
   {
-    title: "Doing",
-    note: "Actions on the user's own work.",
-    names: ["pencil", "draft", "link", "attach", "download", "trash", "send", "mic", "check"],
+    title: "Actions",
+    note: "Doing something to the user's own work.",
+    names: ["plus", "minus", "check", "pencil", "trash", "copy", "share", "download", "upload", "refresh", "undo", "send", "attach", "link", "bookmark", "star", "settings", "sliders", "eye", "eye-off", "sign-in", "sign-out"],
   },
   {
-    title: "Things",
+    title: "Communication",
+    note: "Messages, calls and alerts.",
+    names: ["mail", "message", "bell", "phone", "mic", "video"],
+  },
+  {
+    title: "People and places",
+    note: "Who and where.",
+    names: ["person", "people", "person-add", "briefcase", "building", "pin", "globe", "compass"],
+  },
+  {
+    title: "Time and content",
     note: "What a row or card is about.",
-    names: ["document", "flag", "mail", "bell", "globe", "linkedin"],
+    names: ["calendar", "clock", "document", "folder", "image", "briefing", "book", "flag", "target", "chart-bar", "trend-up", "lightbulb"],
   },
   {
-    title: "Trust and brand",
-    note: "Privacy, and the advisor's own mark.",
-    names: ["lock", "shield", "spark"],
+    title: "Status",
+    note: "Feedback. Always with words beside it: an icon alone never carries the message.",
+    names: ["info", "warning", "error", "success", "help"],
+  },
+  {
+    title: "Security",
+    note: "Privacy and access.",
+    names: ["lock", "unlock", "shield", "key"],
+  },
+  {
+    title: "Brand",
+    note: "LinkedIn, and ExecHQ's own marks: the advisor's spark and the open draft.",
+    names: ["linkedin", "spark", "draft"],
   },
 ];
+
+/** On a screen today. Everything else is in the library, ready before it is needed. */
+const IN_USE = new Set<IconName>([
+  "home", "menu", "close", "chevron", "check", "pencil", "trash", "download", "send", "attach",
+  "link", "sign-out", "mail", "bell", "mic", "person", "globe", "calendar", "document",
+  "briefing", "flag", "lock", "linkedin", "spark", "draft",
+]);
 
 /** The dock and hub's own icons: part of the prototype, not the product. */
 const PROTOTYPE_ICONS: IconName[] = ["mobile", "tablet", "web", "hub", "contrast", "reset", "sidebar"];
@@ -52,11 +79,15 @@ const COLOURS: { label: string; token: string; className: string }[] = [
   },
 ];
 
-function IconTile({ name }: { name: IconName }) {
+function IconTile({ name, marked = false }: { name: IconName; marked?: boolean }) {
+  const inUse = marked && IN_USE.has(name);
   return (
-    <li className="styleguide__icon">
+    <li className={inUse ? "styleguide__icon styleguide__icon--in-use" : "styleguide__icon"}>
       <Icon name={name} size={24} />
       <code className="styleguide__icon-name">{name}</code>
+      {marked ? (
+        <span className="styleguide__icon-use">{inUse ? "In use" : "Library"}</span>
+      ) : null}
     </li>
   );
 }
@@ -76,7 +107,8 @@ export function IconGuide() {
           <li>One 1.5 line, round ends and corners, no fills except where a fill carries meaning (the open draft, the dock&apos;s color switch).</li>
           <li>Stroked in <code>currentColor</code>: an icon takes the color of what it sits in.</li>
           <li>Never on its own: every icon has a visible label, or a hidden one that screen readers read. The icon itself is hidden from them.</li>
-          <li>No icon libraries. A new icon is drawn to match this set.</li>
+          <li>No icon libraries. The library below is drawn ahead of need; a new icon is added here first, drawn to match, before any screen uses it.</li>
+          <li>Names say what an icon is, not what it is for (<code>trash</code>, not <code>delete-draft</code>), lowercase with hyphens, direction last (<code>arrow-left</code>).</li>
         </ul>
       </div>
 
@@ -86,7 +118,7 @@ export function IconGuide() {
           <p className="styleguide__group-note">{group.note}</p>
           <ul className="styleguide__icons">
             {group.names.map((name) => (
-              <IconTile name={name} key={name} />
+              <IconTile name={name} key={name} marked />
             ))}
           </ul>
         </div>

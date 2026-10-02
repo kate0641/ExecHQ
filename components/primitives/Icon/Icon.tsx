@@ -32,7 +32,56 @@ export type IconName =
   | "mail"
   | "briefing"
   | "spark"
-  | "contrast";
+  | "contrast"
+  | "chevron-left"
+  | "chevron-up"
+  | "chevron-down"
+  | "arrow-right"
+  | "arrow-left"
+  | "arrow-up"
+  | "arrow-down"
+  | "external-link"
+  | "more-horizontal"
+  | "more-vertical"
+  | "search"
+  | "filter"
+  | "plus"
+  | "minus"
+  | "copy"
+  | "share"
+  | "upload"
+  | "refresh"
+  | "undo"
+  | "bookmark"
+  | "star"
+  | "settings"
+  | "sliders"
+  | "eye"
+  | "eye-off"
+  | "sign-in"
+  | "message"
+  | "phone"
+  | "video"
+  | "people"
+  | "person-add"
+  | "briefcase"
+  | "building"
+  | "pin"
+  | "clock"
+  | "folder"
+  | "image"
+  | "book"
+  | "target"
+  | "chart-bar"
+  | "trend-up"
+  | "lightbulb"
+  | "info"
+  | "warning"
+  | "error"
+  | "success"
+  | "help"
+  | "unlock"
+  | "key";
 
 export interface IconProps {
   name: IconName;
@@ -230,6 +279,209 @@ const PATHS: Record<IconName, React.ReactNode> = {
     <>
       <path d="M4.2 8.2A6 6 0 1 1 4 11.5" />
       <path d="M3.5 4.2v4.3h4.3" />
+    </>
+  ),
+
+  // ---------------------------------------------------------------------------
+  // The library: the standard set most platforms need, drawn to the same
+  // rules before a screen asks for them. Names say what an icon is, not what
+  // it is for; a direction comes last.
+  // ---------------------------------------------------------------------------
+  "chevron-left": <path d="M13 4l-5 6 5 6" />,
+  "chevron-up": <path d="M4 12.5l6-5 6 5" />,
+  "chevron-down": <path d="M4 7.5l6 5 6-5" />,
+  "arrow-right": <path d="M3.5 10h13M11 4.5l5.5 5.5-5.5 5.5" />,
+  "arrow-left": <path d="M16.5 10h-13M9 4.5 3.5 10 9 15.5" />,
+  "arrow-up": <path d="M10 16.5v-13M4.5 9 10 3.5 15.5 9" />,
+  "arrow-down": <path d="M10 3.5v13M4.5 11l5.5 5.5 5.5-5.5" />,
+  // Leaving ExecHQ for somewhere else: out of the box, up and to the right.
+  "external-link": (
+    <>
+      <path d="M15.5 11.5v4a1.5 1.5 0 0 1-1.5 1.5H5a1.5 1.5 0 0 1-1.5-1.5V6A1.5 1.5 0 0 1 5 4.5h4" />
+      <path d="M12 3.5h4.5V8M16.5 3.5l-7 7" />
+    </>
+  ),
+  "more-horizontal": <path d="M5 10h.01M10 10h.01M15 10h.01" strokeWidth="2.2" />,
+  "more-vertical": <path d="M10 5h.01M10 10h.01M10 15h.01" strokeWidth="2.2" />,
+  search: (
+    <>
+      <circle cx="8.8" cy="8.8" r="5.3" />
+      <path d="M12.8 12.8l3.7 3.7" />
+    </>
+  ),
+  filter: <path d="M3.5 4.5h13l-5 6v5l-3 1.5v-6.5z" />,
+  plus: <path d="M10 4v12M4 10h12" />,
+  minus: <path d="M4 10h12" />,
+  copy: (
+    <>
+      <rect x="7" y="7" width="10.5" height="10.5" rx="2" />
+      <path d="M13 7V4.5a2 2 0 0 0-2-2H4.5a2 2 0 0 0-2 2V11a2 2 0 0 0 2 2H7" />
+    </>
+  ),
+  // Sharing out of the app: up, out of a tray.
+  share: (
+    <>
+      <path d="M7 7.5H5.5A1.5 1.5 0 0 0 4 9v7a1.5 1.5 0 0 0 1.5 1.5h9A1.5 1.5 0 0 0 16 16V9a1.5 1.5 0 0 0-1.5-1.5H13" />
+      <path d="M10 2.5v9M6.8 5.7 10 2.5l3.2 3.2" />
+    </>
+  ),
+  upload: <path d="M10 13V3M5.8 7.2 10 3l4.2 4.2M4 17h12" />,
+  refresh: (
+    <>
+      <path d="M4 10a6 6 0 0 1 10.6-3.8M16 10a6 6 0 0 1-10.6 3.8" />
+      <path d="M14.6 2.8v3.4h-3.4M5.4 17.2v-3.4h3.4" />
+    </>
+  ),
+  undo: <path d="M7.5 4.5 4 8l3.5 3.5M4 8h7.5a4.5 4.5 0 0 1 0 9H9" />,
+  bookmark: <path d="M5.5 3.5h9v14L10 14l-4.5 3.5z" />,
+  star: <path d="M10 2.9l1.82 4.89 5.22.22-4.09 3.25 1.4 5.03L10 13.4l-4.35 2.89 1.4-5.03-4.09-3.25 5.22-.22z" />,
+  settings: (
+    <>
+      <path d="M15.36 8.07 17.27 8.61 17.27 11.39 15.36 11.93 15.16 12.43 16.12 14.16 14.16 16.12 12.43 15.16 11.93 15.36 11.39 17.27 8.61 17.27 8.07 15.36 7.57 15.16 5.84 16.12 3.88 14.16 4.84 12.43 4.64 11.93 2.73 11.39 2.73 8.61 4.64 8.07 4.84 7.57 3.88 5.84 5.84 3.88 7.57 4.84 8.07 4.64 8.61 2.73 11.39 2.73 11.93 4.64 12.43 4.84 14.16 3.88 16.12 5.84 15.16 7.57Z" />
+      <circle cx="10" cy="10" r="2.4" />
+    </>
+  ),
+  sliders: (
+    <>
+      <path d="M3.5 6h6M13.5 6h3M3.5 14h3M10.5 14h6" />
+      <circle cx="11.5" cy="6" r="2" />
+      <circle cx="8.5" cy="14" r="2" />
+    </>
+  ),
+  // Show: an open eye. Used for showing a password.
+  eye: (
+    <>
+      <path d="M2.5 10S5.2 5 10 5s7.5 5 7.5 5-2.7 5-7.5 5-7.5-5-7.5-5z" />
+      <circle cx="10" cy="10" r="2.3" />
+    </>
+  ),
+  // Hide: the same eye, struck through.
+  "eye-off": (
+    <>
+      <path d="M2.5 10S5.2 5 10 5s7.5 5 7.5 5-2.7 5-7.5 5-7.5-5-7.5-5z" />
+      <circle cx="10" cy="10" r="2.3" />
+      <path d="M3.5 3.5l13 13" />
+    </>
+  ),
+  // Arriving: in through a door. The partner to sign-out.
+  "sign-in": (
+    <>
+      <path d="M11.5 3.5h4v13h-4" />
+      <path d="M8 6.5 11.5 10 8 13.5M11.5 10H3" />
+    </>
+  ),
+  message: <path d="M4.5 4h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H9l-3.5 2.8V15h-1a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" />,
+  phone: <path d="M6.6 3.5h-2a1.1 1.1 0 0 0-1.1 1.2 13 13 0 0 0 11.8 11.8 1.1 1.1 0 0 0 1.2-1.1v-2l-3.3-1.4-1.6 1.6a9 9 0 0 1-4.3-4.3l1.6-1.6z" />,
+  video: (
+    <>
+      <rect x="2.5" y="5.5" width="10" height="9" rx="2" />
+      <path d="M12.5 9l5-2.5v7l-5-2.5" />
+    </>
+  ),
+  people: (
+    <>
+      <circle cx="7.5" cy="7.2" r="2.8" />
+      <path d="M2.5 16.5c.7-2.6 2.7-4 5-4s4.3 1.4 5 4" />
+      <path d="M12.5 4.6a2.8 2.8 0 0 1 0 5.3M14.2 12.6c1.5.5 2.7 1.8 3.3 3.9" />
+    </>
+  ),
+  "person-add": (
+    <>
+      <circle cx="8" cy="7" r="3.2" />
+      <path d="M2.5 16.8c.9-3 3-4.6 5.5-4.6s4.6 1.6 5.5 4.6" />
+      <path d="M15.5 5.5v5M13 8h5" />
+    </>
+  ),
+  briefcase: (
+    <>
+      <rect x="2.5" y="6" width="15" height="10.5" rx="2" />
+      <path d="M7 6V4.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1V6M2.5 10.5h15" />
+    </>
+  ),
+  building: (
+    <>
+      <path d="M4 17.5V4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v13.5M13 8h2.5a1 1 0 0 1 1 1v8.5M2.5 17.5h15" />
+      <path d="M7 6.5h3M7 9.5h3M7 12.5h3" strokeWidth="1.3" />
+    </>
+  ),
+  pin: (
+    <>
+      <path d="M10 17.5s5.5-5 5.5-9.5a5.5 5.5 0 0 0-11 0c0 4.5 5.5 9.5 5.5 9.5z" />
+      <circle cx="10" cy="8" r="2" />
+    </>
+  ),
+  clock: (
+    <>
+      <circle cx="10" cy="10" r="7.5" />
+      <path d="M10 5.8V10l2.8 1.8" />
+    </>
+  ),
+  folder: <path d="M2.5 6A1.5 1.5 0 0 1 4 4.5h3.6l1.8 2H16A1.5 1.5 0 0 1 17.5 8v7.5A1.5 1.5 0 0 1 16 17H4a1.5 1.5 0 0 1-1.5-1.5z" />,
+  image: (
+    <>
+      <rect x="2.5" y="3.5" width="15" height="13" rx="2" />
+      <circle cx="7" cy="8" r="1.5" />
+      <path d="M2.8 14.5l4.2-4 3.5 3.3 2.3-2 4.4 3.9" />
+    </>
+  ),
+  book: <path d="M10 5.5C8.5 4.2 6 3.8 2.5 4v11.5c3.5-.2 6 .2 7.5 1.5 1.5-1.3 4-1.7 7.5-1.5V4c-3.5-.2-6 .2-7.5 1.5zM10 5.5V17" />,
+  target: (
+    <>
+      <circle cx="10" cy="10" r="7.5" />
+      <circle cx="10" cy="10" r="4.5" />
+      <circle cx="10" cy="10" r="1.5" />
+    </>
+  ),
+  "chart-bar": (
+    <>
+      <path d="M3 17h14" />
+      <rect x="4.5" y="9.5" width="2.5" height="5" rx=".6" />
+      <rect x="8.75" y="4.5" width="2.5" height="10" rx=".6" />
+      <rect x="13" y="7" width="2.5" height="7.5" rx=".6" />
+    </>
+  ),
+  "trend-up": <path d="M3 14.5l4.5-4.5 3 3 6-6M12.5 7h4v4" />,
+  lightbulb: <path d="M7.5 14.5h5M8.3 17h3.4M7.5 14.5c0-1.6-2.5-3.1-2.5-6a5 5 0 0 1 10 0c0 2.9-2.5 4.4-2.5 6" />,
+  info: (
+    <>
+      <circle cx="10" cy="10" r="7.5" />
+      <path d="M10 9v4.8M10 6.3v.01" />
+    </>
+  ),
+  warning: (
+    <>
+      <path d="M10 3.2l7.3 12.6a1 1 0 0 1-.9 1.5H3.6a1 1 0 0 1-.9-1.5z" />
+      <path d="M10 8v4M10 14.6v.01" />
+    </>
+  ),
+  error: (
+    <>
+      <circle cx="10" cy="10" r="7.5" />
+      <path d="M7.3 7.3l5.4 5.4M12.7 7.3l-5.4 5.4" />
+    </>
+  ),
+  success: (
+    <>
+      <circle cx="10" cy="10" r="7.5" />
+      <path d="M6.8 10.3l2.2 2.2 4.3-4.6" />
+    </>
+  ),
+  help: (
+    <>
+      <circle cx="10" cy="10" r="7.5" />
+      <path d="M7.8 7.9a2.3 2.3 0 0 1 4.4.9c0 1.5-2.2 2-2.2 3.3M10 14.4v.01" />
+    </>
+  ),
+  unlock: (
+    <>
+      <rect x="4" y="8.5" width="12" height="9" rx="2" />
+      <path d="M6.8 8.5V6.2a3.2 3.2 0 0 1 6.2-1.1" />
+    </>
+  ),
+  key: (
+    <>
+      <circle cx="7" cy="13" r="3.5" />
+      <path d="M9.5 10.5l7-7M14.5 5.5l2 2M12.5 7.5 14 9" />
     </>
   ),
 };
