@@ -264,7 +264,10 @@ None is the default, so leaving it for later is a real choice.
 **Longer versions.** Label **Toolbox · Positioning Builder.** Heading **Longer versions.** Line "The same story in three lengths, for different places: a line, a paragraph and the full bio."
 
 - A switch for **Short / Medium / Long** shows the same story at each length. A fact ExecHQ doesn't know yet is a **dashed gap** ("To add: your name"), never something made up.
-- When there are gaps: "The dashed parts are things ExecHQ doesn't know yet. Add them below, or add more detail to your story." and a drawer, **What's missing from your bio?**, asks for **Your name**, **How big is your team?** (five choices) and **What you're strongest at** (up to three of seven). **Update my bio** fills the gaps. **Add more detail** goes to the three questions above and returns here.
+- When there are gaps: "The dashed parts are things ExecHQ doesn't know yet. Add them with the fields, or add more detail to your story." (worded to be true on every viewport, since the fields are below the bio on phone and tablet and beside it on web) and a set of fields, **What's missing from your bio?**: **Your name**, **How big is your team?** (five choices) and **What you're strongest at** (up to three of seven). **Add more detail** goes to the three questions above and returns here.
+  - **On web the bio fills in as the fields are answered.** The fields sit right beside it, so there is no button: each answer is kept at once and the text changes as it is given. The card shows its question as a visible title, since the page's heading is far from it.
+  - **On phone and tablet the drawer covers the bio,** so **Update my bio** applies what was typed, and "Bio updated." is announced to screen readers.
+  - **The fields stay for as long as the person is on the page,** even once the last gap is filled, so they can change an answer.
 - **Copy, Download, Email it to me.**
 - Buttons: **Save it and finish** and **Back to my draft.**
 
@@ -538,6 +541,7 @@ These are settled. They are the specified behavior. The dates are when they were
 17. **The invite code is a required choice:** a code, or "I don't have a code." (2026-10-02)
 18. **The story build-out is the Toolbox, and the pages say so.** The draft, add-detail and longer-versions pages are labeled "Toolbox · Positioning Builder," the Toolbox is explained once on the first draft, and Done says "In your Toolbox" on the story steps that are left. Onboarding does not use the Toolbox's own frame or navigation. (2026-10-02)
 19. **Tablet is the phone layout; only web changes.** On web the answers sit in a card beside the question, with no bottom sheet and no drawn keyboard, and the Welcome splits as Login's does. (2026-10-02)
+20. **On web the longer versions fill in live,** beside their fields, with no button. On phone and tablet a button applies the answers. (2026-10-02)
 
 ---
 

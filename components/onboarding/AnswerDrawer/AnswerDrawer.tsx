@@ -27,6 +27,12 @@ export interface AnswerDrawerProps {
   onSecondary?: () => void;
   /** Focus the first text field on arrival, for a question that is only typed. */
   autoFocusField?: boolean;
+  /** A title for the card on web, where the answers sit beside the question
+   *  and the page's own heading is far from them. Not shown on phone or
+   *  tablet, where the drawer sits under the heading. */
+  webTitle?: string;
+  /** No buttons: the page acts on each answer as it is given. */
+  hideActions?: boolean;
   /** Return in a one-line field sends the answer. */
   className?: string;
 }
@@ -66,6 +72,8 @@ export function AnswerDrawer({
   secondaryLabel,
   onSecondary,
   autoFocusField = false,
+  webTitle,
+  hideActions = false,
   className,
 }: AnswerDrawerProps) {
   const panel = useRef<HTMLElement>(null);
@@ -143,19 +151,22 @@ export function AnswerDrawer({
           onClick={onToggle}
         />
         {step ? <p className="answer-drawer__step">{step}</p> : null}
+        {webTitle ? <p className="answer-drawer__title">{webTitle}</p> : null}
         {children ? <div className="answer-drawer__body">{children}</div> : null}
         {/* Pressing an action must not take focus from the field: that drops the
             keyboard, the drawer moves, and the press lands on nothing. */}
-        <div className="answer-drawer__actions">
-          {secondaryLabel ? (
-            <Button variant="ghost" onClick={onSecondary} onMouseDown={keepFocus}>
-              {secondaryLabel}
+        {hideActions ? null : (
+          <div className="answer-drawer__actions">
+            {secondaryLabel ? (
+              <Button variant="ghost" onClick={onSecondary} onMouseDown={keepFocus}>
+                {secondaryLabel}
+              </Button>
+            ) : null}
+            <Button variant="primary" onClick={onPrimary} onMouseDown={keepFocus} disabled={primaryDisabled}>
+              {primaryLabel}
             </Button>
-          ) : null}
-          <Button variant="primary" onClick={onPrimary} onMouseDown={keepFocus} disabled={primaryDisabled}>
-            {primaryLabel}
-          </Button>
-        </div>
+          </div>
+        )}
       </section>
       {typing ? (
         <DeviceKeyboard returnLabel={primaryLabel} onReturn={primaryDisabled ? undefined : onPrimary} />

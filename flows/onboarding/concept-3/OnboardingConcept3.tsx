@@ -1232,14 +1232,28 @@ function VersionsPage({
   const inputs = state.answers.positioning;
   const c = GUIDE_C3.story.versions;
   const p = POSITIONING_C1;
+  const { viewport } = useViewport();
+  // On web the fields sit right beside the bio, so it fills in as they are
+  // answered and there is no button. On phone and tablet the drawer covers
+  // the bio, so a button applies what was typed.
+  const live = viewport === "web";
   const [length, setLength] = useState<BioLength>("medium");
   const [name, setName] = useState(inputs.name);
   const [teamSize, setTeamSize] = useState(inputs.teamSize);
   const [strengths, setStrengths] = useState<string[]>(inputs.strengths);
+  const [updated, setUpdated] = useState(false);
   const goal = goalFor(state.answers.direction ?? "");
-  const segments = bioFor(inputs, goal, length);
+  const segments = bioFor(live ? { ...inputs, name: name.trim(), teamSize, strengths } : inputs, goal, length);
   const hasGaps = segments.some((segment) => "gap" in segment);
+  // The fields are offered if the bio had gaps on arrival, and stay for as
+  // long as the person is on the page, even once the last gap is filled.
+  const [offerFields] = useState(() => bioFor(inputs, goal, "long").some((segment) => "gap" in segment));
   const open = drawer.mode === "open";
+  /** A change to a field: kept at once on web. */
+  const change = (patch: { name?: string; teamSize?: string; strengths?: string[] }) => {
+    setUpdated(false);
+    if (live) dispatch({ type: "set-positioning", patch });
+  };
   return (
     <GuidePage
       {...frame}
@@ -1251,25 +1265,39 @@ function VersionsPage({
       secondaryLabel={c.back}
       onSecondary={onBack}
       drawer={
-        hasGaps ? (
+        offerFields ? (
           <AnswerDrawer
             question={c.fill.ask}
             questionId={frame.headingId}
             open={open}
             onToggle={toggle(drawer)}
             peekStatus={c.fill.peek}
+            webTitle={c.fill.ask}
+            hideActions={live}
             primaryLabel={c.fill.cta}
             onPrimary={() => {
               dispatch({ type: "set-positioning", patch: { name: name.trim(), teamSize, strengths } });
+              setUpdated(true);
               drawer.setMode("peek");
             }}
           >
-            <Input label={c.fill.name} autoComplete="name" value={name} onChange={(event) => setName(event.target.value)} />
+            <Input
+              label={c.fill.name}
+              autoComplete="name"
+              value={name}
+              onChange={(event) => {
+                setName(event.target.value);
+                change({ name: event.target.value.trim() });
+              }}
+            />
             <ChipGroup
               label={c.fill.team}
               options={p.team.options}
               value={teamSize ? [teamSize] : []}
-              onChange={(next) => setTeamSize(next[0] ?? "")}
+              onChange={(next) => {
+                setTeamSize(next[0] ?? "");
+                change({ teamSize: next[0] ?? "" });
+              }}
             />
             <ChipGroup
               label={c.fill.strengths}
@@ -1277,7 +1305,10 @@ function VersionsPage({
               options={p.strengths.options}
               value={strengths}
               max={p.strengths.max}
-              onChange={setStrengths}
+              onChange={(next) => {
+                setStrengths(next);
+                change({ strengths: next });
+              }}
             />
           </AnswerDrawer>
         ) : undefined
@@ -1291,6 +1322,7 @@ function VersionsPage({
         options={(Object.keys(p.lengths) as BioLength[]).map((key) => ({ value: key, label: p.lengths[key] }))}
       />
       <StoryText segments={segments} />
+      <output className="u-visually-hidden">{updated ? c.fill.updated : ""}</output>
       {hasGaps ? (
         <p className="guide__next">
           {c.gapNote}{" "}

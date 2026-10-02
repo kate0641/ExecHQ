@@ -8153,6 +8153,20 @@ ol.ring-detail__timeline {
   color: var(--color-text-secondary);
 }
 
+.answer-drawer__title {
+  display: none;
+}
+
+[data-viewport="web"] .answer-drawer__title:not(:where([data-viewport="mobile"] *)) {
+  display: block;
+  font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
 .answer-drawer__body {
   display: flex;
   flex-direction: column;
