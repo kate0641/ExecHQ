@@ -327,11 +327,12 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <path d="M13 4.4v.1a2 2 0 0 0-2-2H4.5a2 2 0 0 0-2 2V11a2 2 0 0 0 2 2" />
     </>
   ),
-  // Sharing out of the app: up, out of a tray.
+  // Sharing out of the app: up, out of a tray. The arrow sits high, with a
+  // narrow head, so it never touches the tray's open corners.
   share: (
     <>
       <path d="M7 7.5H5.5A1.5 1.5 0 0 0 4 9v7a1.5 1.5 0 0 0 1.5 1.5h9A1.5 1.5 0 0 0 16 16V9a1.5 1.5 0 0 0-1.5-1.5H13" />
-      <path d="M10 2.5v9M6.8 5.7 10 2.5l3.2 3.2" />
+      <path d="M10 2v8.5M7.4 4.6 10 2l2.6 2.6" />
     </>
   ),
   upload: <path d="M10 13V3M5.8 7.2 10 3l4.2 4.2M4 17h12" />,
