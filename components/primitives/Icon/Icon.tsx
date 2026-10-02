@@ -211,12 +211,12 @@ const PATHS: Record<IconName, React.ReactNode> = {
     </>
   ),
   close: <path d="M5 5l10 10M15 5 5 15" />,
-  // The pencil with its tip filled in: a draft is open, waiting for you.
+  // A draft that is open: drawn the same as the pencil for now, kept as its
+  // own name so it can take a mark of its own later.
   draft: (
     <>
       <path d="M13.4 3.6l3 3L7.6 15.4 4 16l.6-3.6z" />
       <path d="M11.8 5.2l3 3" strokeWidth="1.3" />
-      <path d="M4 16l.6-3.6 3 3z" fill="currentColor" stroke="none" />
     </>
   ),
   // A personal website: the web, as a globe.

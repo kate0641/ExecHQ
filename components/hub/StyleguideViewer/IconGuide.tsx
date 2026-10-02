@@ -39,7 +39,7 @@ const ICON_GROUPS: { title: string; note: string; names: IconName[] }[] = [
   },
   {
     title: "Brand",
-    note: "LinkedIn, and ExecHQ's own marks: the advisor's spark and the open draft.",
+    note: "LinkedIn, and ExecHQ's own marks: the advisor's spark and the open draft (the same drawing as the pencil for now).",
     names: ["linkedin", "spark", "draft"],
   },
 ];
@@ -104,7 +104,7 @@ export function IconGuide() {
         <h3 className="styleguide__scale-title">The line</h3>
         <ul className="styleguide__icon-rules">
           <li>Hand-drawn on a 20 × 20 grid, scaled to size.</li>
-          <li>One 1.5 line, round ends and corners, no fills except where a fill carries meaning (the open draft, the dock&apos;s color switch).</li>
+          <li>One 1.5 line, round ends and corners, no fills except where a fill carries meaning (the dock&apos;s color switch).</li>
           <li>Stroked in <code>currentColor</code>: an icon takes the color of what it sits in.</li>
           <li>Never on its own: every icon has a visible label, or a hidden one that screen readers read. The icon itself is hidden from them.</li>
           <li>No icon libraries. The library below is drawn ahead of need; a new icon is added here first, drawn to match, before any screen uses it.</li>
