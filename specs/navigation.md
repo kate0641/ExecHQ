@@ -192,7 +192,29 @@ Each of these changes real data (the Loop, section 7), so the effect shows up on
 | "What's next?" | States the next step on the plan and why, and offers "Open your plan" and "Go to Home". |
 | "How do I ask for more scope?" | Gives general advice (three points) and offers to talk it through. |
 | Anything about managers, stakeholders, influence, politics | Gives two practical points and asks who they are thinking of. |
-| Anything else | Says what he can and cannot do, and offers three suggestions. |
+| Anything he cannot act on | Answers in one of five ways, by what the person typed. See "When he cannot act on what was typed" below. |
+
+### When he cannot act on what was typed
+
+Some input matches nothing he can do. There are five kinds, and each gets its own reply, because a joke, a résumé request, a muddle and someone in trouble should not all get the same menu. His voice stays calm and short, he never says it is a prototype, and he never pretends to have understood.
+
+| Kind | What it is (examples) | What he does |
+| --- | --- | --- |
+| **Unclear** | Too short, or a muddle ("hmm", "asdf"). Anything he cannot place that is none of the kinds below | "I want to get this right, and I'm not sure what you're asking." then "Is it one of these?" and three tappable suggestions. |
+| **Off topic** | Not about the person's career or plan (the weather, a joke, general questions, "are you an AI?") | "That's outside what I'm here for. I stay with your career and your plan." then "Here's what I can do instead." and three suggestions. |
+| **Beyond him** | A career request he does not do (writing or editing a résumé or profile, finding jobs, negotiating salary, scheduling, sending an email for them) | "I can't do that yet. I don't write or edit résumés or profiles, search for jobs, or send anything for you." then "I can help with something close to it:" and three suggestions. |
+| **Danger or distress** | Self-harm, being unsafe or abused, panic ("I want to die", "I can't cope") | He does not coach it. "I'm sorry you're carrying this. It's more than I can help with, and you deserve someone who can." Then: "If you might be in danger, call 911. If you're thinking about hurting yourself, call or text 988, the Suicide & Crisis Lifeline, any time." Then: "Nothing you've said here is saved to your plan." One button, **Go to Home.** |
+| **Trouble at work** | Harassment, discrimination, bullying, retaliation, legal trouble | He does not advise. "I'm sorry that's happening. It's more than I can advise on, and it's worth talking to someone who can." Then: "For harassment or discrimination, an employment lawyer or the U.S. Equal Employment Opportunity Commission can tell you where you stand. If your employer has an employee assistance program, it's usually confidential." Then: "Nothing you've said here is saved to your plan or seen by anyone else." One button, **Go to Home.** |
+
+Rules:
+
+- **Care comes first.** Danger, distress and trouble at work are recognized before anything else, so "my boss is harassing me" is never read as a question about managers and answered with tips on influence.
+- **A muddle twice in a row stops the menu.** A second unclear message in a row gets "I'm still not catching it, and I don't want to guess." with two choices only: **What's next on my plan?** and **Go to Home.** He does not offer the same three suggestions again.
+- **A request he can name is always answered plainly.** Off topic and beyond-him requests are never met with "I'm not catching it," because he has understood them. He says what he cannot do, every time.
+- **A follow-up he cannot read is asked again,** with the outcome choices. If he has just asked what came of a follow-up and the answer does not read as an outcome, he asks again with the choices, so it is never treated as a miss.
+- **Nothing is logged.** Input he cannot act on never changes the Loop, never marks anything used and never creates a record. The reply stays in the conversation only, which follows the persistence rule in Decisions.
+- **The two care replies do not count as misses,** so a later muddle is not treated as a repeat.
+- **Tappable suggestions** are the first three of the usual suggestions (Suggested questions, in order, section 7).
 
 ### Logging an outcome
 
@@ -334,6 +356,7 @@ The prototype has no backend and no AI. These parts are faked and need real impl
 | --- | --- |
 | He understands by keyword matching (`understand` in `lib/concierge.ts`). | A language model with the user's account as context. The intents in section 6 are the minimum he must handle well, and "Go" must stay deterministic: a typed destination name must always navigate, never be interpreted. |
 | He replies from written answers (`mock/concierge.ts`). | Generated, in the voice described under Tone. Open advice stays within the scope in Decisions. |
+| He sorts input he cannot act on by keywords into five kinds. | A trained classifier, never keywords alone. Danger, distress and trouble at work must be caught reliably, and the wording of those two replies and the resources they name must be reviewed by a person before launch. The resources named are for the United States (911, 988 and the EEOC), which suits the pilot; other countries need their own. |
 | The typing indicator is a fixed 650ms. | Shown while the real response is pending, with a timeout and a plain failure message. |
 | The Loop is a local store. | A real record per user, with the dates and counts in section 7 computed on the server. |
 | The conversation lasts for the browser tab. | The signed-in session, cleared by New chat or sign-out (see Decisions). |
@@ -343,7 +366,8 @@ The prototype has no backend and no AI. These parts are faked and need real impl
 
 These are settled. They are the specified behavior.
 
-1. **Scope of advice.** The advisor gives open career advice, as well as acting on the user's record. It is limited to the topics in the table in section 6 (asking for more scope, working with managers and stakeholders, preparing a draft, and what has been done so far). Anything else gets the "what I can and cannot do" reply with three suggestions. Widening this later is a product change, not a bug fix.
+1. **Scope of advice.** The advisor gives open career advice, as well as acting on the user's record. It is limited to the topics in the table in section 6 (asking for more scope, working with managers and stakeholders, preparing a draft, and what has been done so far). Anything else gets one of the five replies in "When he cannot act on what was typed" (section 6). Widening the scope later is a product change, not a bug fix.
 2. **Persistence.** A conversation lasts for the signed-in session. It survives closing the panel and moving between pages, and it is cleared by New chat or by signing out. It does not carry to the next session.
 3. **The dot.** Only a due follow-up raises it (section 7). Nothing else, such as new briefings or plan changes, ever does.
-4. **Navigation never changes shape.** One pill and one panel on every viewport, with the surfaces above. There is no secondary navigation anywhere in the signed-in app.
+4. **He never guesses at what he cannot act on.** Five kinds of miss, each with its own reply; danger, distress and trouble at work get care and resources, not coaching; nothing he cannot act on is logged. (2026-10-02)
+5. **Navigation never changes shape.** One pill and one panel on every viewport, with the surfaces above. There is no secondary navigation anywhere in the signed-in app.

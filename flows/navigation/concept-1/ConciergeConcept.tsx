@@ -260,9 +260,21 @@ function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { m
     router.push(href);
   }
 
+  /** How many of his last turns, in a row, were misses. */
+  function recentMisses(): number {
+    let count = 0;
+    for (let i = state.messages.length - 1; i >= 0; i--) {
+      const m = state.messages[i];
+      if (m.from === "you") continue;
+      if (!m.turn.miss) break;
+      count++;
+    }
+    return count;
+  }
+
   function send(text: string, chosen?: ConciergeAction) {
     if (state.typing) return;
-    const action = chosen ?? understand(text, contextNow(destinations), state.asked);
+    const action = chosen ?? understand(text, contextNow(destinations), state.asked, recentMisses());
     const you: Message = { id: nextId++, from: "you", text };
     if (action.kind === "go") {
       const { turn, effect } = respond(action, contextNow(destinations));
