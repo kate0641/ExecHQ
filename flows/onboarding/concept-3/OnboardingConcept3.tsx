@@ -58,7 +58,6 @@ import {
   quickWinFor,
   readBack,
   recommendC3,
-  recommendPlan,
   refinementFor,
   towardFor,
   type PlanTemplate,
@@ -233,11 +232,13 @@ export function OnboardingConcept3() {
     // A reflection only comes before a question, so two never run together.
     (p.id === "reflect-ceo" && tailoring.length < 2) ||
     (p.id === "reflect-conversation" && tailoring.length < 3);
-  const next = () => {
-    let i = at + 1;
+  /** The page after `from`, passing over those this user never sees. */
+  const pageAfter = (from: PageId) => {
+    let i = pageIndex(from) + 1;
     while (i < PAGES.length - 1 && passed(PAGES[i])) i++;
-    goTo(PAGES[Math.min(i, PAGES.length - 1)].id);
+    return PAGES[Math.min(i, PAGES.length - 1)].id;
   };
+  const next = () => goTo(pageAfter(pageId));
   // Moving on runs in the same tick as the answer that decides which pages
   // remain, so it can land on a page the new answer passes over (a direction
   // with no deciding question, say). Move on from it once the answer is in.
@@ -557,7 +558,9 @@ export function OnboardingConcept3() {
           title={c.othersTitle}
           lede={c.othersLede}
           primaryLabel={c.othersCta}
-          onPrimary={() => goTo("rec")}
+          // Choosing another plan is choosing the plan: on to what follows the
+          // recommendation, not back to it.
+          onPrimary={() => goTo(pageAfter("rec"))}
         >
           <div className="plan-set" role="radiogroup" aria-label="Plans">
             {PLAN_TEMPLATES.map((template) => (
@@ -572,7 +575,7 @@ export function OnboardingConcept3() {
                   dispatch({
                     type: "select-plan",
                     planId,
-                    source: planId === recommendPlan(direction).id ? "recommended" : "switched",
+                    source: planId === verdict?.plan.id ? "recommended" : "switched",
                   })
                 }
               />
