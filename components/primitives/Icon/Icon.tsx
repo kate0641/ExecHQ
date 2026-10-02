@@ -129,7 +129,7 @@ const PATHS: Record<IconName, React.ReactNode> = {
   // Privacy. A closed shield, because the promise is that nothing leaves.
   shield: (
     <>
-      <path d="M10 2.5l6 2.2v4.6c0 3.6-2.4 6.5-6 8.2-3.6-1.7-6-4.6-6-8.2V4.7z" />
+      <path d="M10 2.5l6.8 2.2v4.6c0 3.6-2.9 6.5-6.8 8.2-3.9-1.7-6.8-4.6-6.8-8.2V4.7z" />
       <path d="M7.6 10.1l1.7 1.8 3.3-3.6" />
     </>
   ),
@@ -495,16 +495,17 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <path d="M10 14.4v.01" strokeWidth="2.3" />
     </>
   ),
+  // The shackle stops at the top right, well clear of the box.
   unlock: (
     <>
       <rect x="4" y="8.5" width="12" height="9" rx="2" />
-      <path d="M6.8 8.5V6.2a3.2 3.2 0 0 1 6.2-1.1" />
+      <path d="M6.8 8.5V6.2a3.2 3.2 0 0 1 5.46-2.26" />
     </>
   ),
   key: (
     <>
       <circle cx="7" cy="13" r="3.5" />
-      <path d="M9.5 10.5l7-7M14.5 5.5l2 2M12.5 7.5 14 9" />
+      <path d="M9.5 10.5l7-7M14.5 5.5l3 3M12.3 7.7l2.4 2.4" />
     </>
   ),
 };
