@@ -666,20 +666,6 @@ function directionReadback(direction: string): string {
  * Nothing is replaced with a stock sentence, so it can never contradict an
  * answer. What the plan does about it is the plan screen's job, not this one.
  */
-export function readBack(direction: string, answers: Record<string, string>): string {
-  const sentences = refinementFor(direction)
-    .map((question) => {
-      const { chosen, typed } = parseAnswer(question, answers[question.id]);
-      // A typed answer, rather than a chosen one, is said back in their words.
-      const said = [
-        ...chosen.map((option) => option.heard),
-        ...(typed ? [withFullStop(sentenceCase(toSecondPerson(typed)))] : []),
-      ];
-      return said.length ? said.join(" ") : undefined;
-    })
-    .filter((sentence): sentence is string => Boolean(sentence));
-  return [directionReadback(direction), ...sentences].join(" ");
-}
 
 /* -----------------------------------------------------------------------------
    PLANS
@@ -2255,22 +2241,13 @@ typedReply: "Thank you. Whatever it\u2019s been, your plan gives you something s
       why: "The people who decide your next role can only back what they know you want.",
     },
   },
-  readback: {
-    kicker: "What ExecHQ heard",
-    title: "Here\u2019s what ExecHQ heard",
-    recLead: "Your plan, tuned to what you said",
-    checked: "Checked against your answers",
-    why: "So you can check ExecHQ has understood you before it builds anything on it. If it has got something wrong, now is the time.",
-    confirm: "That\u2019s right",
-    change: "Change it",
-    editLabel: "How would you put it?",
-    save: "Save",
-    cancel: "Cancel",
-  },
   plan: {
     kicker: "Your plan",
     /** The first page of the plan, tuned to what the user said. */
     firstLede: "Here\u2019s your plan, tuned to what you\u2019ve said, one part at a time.",
+    /** The answers the plan is built from, each with a way back to change it. */
+    heardLabel: "Built from what you said",
+    heardDirection: "Where you\u2019re going",
     whatLabel: "What it is",
     helpsLabel: "How it helps",
     yoursLabel: "Yours",

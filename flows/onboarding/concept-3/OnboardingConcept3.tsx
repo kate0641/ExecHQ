@@ -56,7 +56,6 @@ import {
   looksLikeLinkedInExport,
   planById,
   quickWinFor,
-  readBack,
   recommendC3,
   refinementFor,
   towardFor,
@@ -108,7 +107,6 @@ type PageId =
   | "t-1"
   | "reflect-conversation"
   | "t-2"
-  | "readback"
   | "plan-others"
   | "plan-week"
   | "plan-stages"
@@ -152,7 +150,6 @@ const PAGES: Page[] = [
   { id: "t-1", label: "Question 2", step: "refinement", offBar: true },
   { id: "reflect-conversation", label: "Reflection 3", step: "refinement", offBar: true },
   { id: "t-2", label: "Question 3", step: "refinement", offBar: true },
-  { id: "readback", label: "Read-back", step: "interpretation" },
   // The plan was chosen on the recommendation. Here it is, tuned to what the
   // user said, a part at a time.
   { id: "plan-others", label: "Other plans", step: "refinement", offBar: true, aside: true },
@@ -238,7 +235,17 @@ export function OnboardingConcept3() {
     while (i < PAGES.length - 1 && passed(PAGES[i])) i++;
     return PAGES[Math.min(i, PAGES.length - 1)].id;
   };
-  const next = () => goTo(pageAfter(pageId));
+  // Set when the user goes back from the plan to change an answer: finishing
+  // that page brings them straight back to the plan.
+  const [returnTo, setReturnTo] = useState<PageId | null>(null);
+  const next = () => {
+    if (returnTo && returnTo !== pageId) {
+      setReturnTo(null);
+      goTo(returnTo);
+      return;
+    }
+    goTo(pageAfter(pageId));
+  };
   // Moving on runs in the same tick as the answer that decides which pages
   // remain, so it can land on a page the new answer passes over (a direction
   // with no deciding question, say). Move on from it once the answer is in.
@@ -252,6 +259,7 @@ export function OnboardingConcept3() {
   }, [landedOnPassed, pageId]);
 
   useStepNav(STEP_NAV, barEntry(pageId), (id) => {
+    setReturnTo(null);
     const target = PAGES[pageIndex(id as PageId)];
     flow.jumpTo(target.step);
     if (pageIndex(target.id) <= pageIndex("direction")) setAlsoGoals([]);
@@ -284,6 +292,24 @@ export function OnboardingConcept3() {
   const chosen = planById(a.planId ?? "");
   const plan = chosen ?? verdict?.plan ?? null;
   const sharpened = isSharpened(a.positioning);
+  // The answers the plan is built from, each with the page to change it on.
+  const heardRows: { label: string; value: string; target: PageId }[] = [];
+  if (direction)
+    heardRows.push({
+      label: GUIDE_C3.plan.heardDirection,
+      value: alsoGoals.length ? `${direction}, and ${joinGoals(alsoGoals)}` : direction,
+      target: "direction",
+    });
+  refinementFor(direction).forEach((question) => {
+    const { chosen: picked, typed } = parseAnswer(question, a.refinement[question.id]);
+    const value = [...picked.map((o) => o.label), ...(typed ? [typed] : [])].join(", ");
+    if (!value) return;
+    heardRows.push({
+      label: question.question,
+      value,
+      target: decidesPlanC3(question.id) ? "decide" : (`t-${tailoring.indexOf(question)}` as PageId),
+    });
+  });
   const items: AdvisorFileItem[] = [];
   // The LinkedIn file is read while the user does the rest, so by the last
   // page it has usually finished: the file says what came in, or that it is
@@ -512,9 +538,6 @@ export function OnboardingConcept3() {
       );
     }
 
-    case "readback":
-      return <ReadbackPage flow={flow} frame={frame()} drawer={{ mode, setMode }} onDone={next} />;
-
     case "plan-week":
     case "plan-stages":
     case "plan-done":
@@ -533,6 +556,24 @@ export function OnboardingConcept3() {
           primaryLabel={last ? c.continue : c.next}
           onPrimary={next}
         >
+          {pageId === "plan-week" && heardRows.length ? (
+            <section className="guide__heard-rows" aria-label={c.heardLabel}>
+              <p className="guide__yours-label">{c.heardLabel}</p>
+              {heardRows.map((row) => (
+                <Said
+                  key={row.label}
+                  label={row.label}
+                  value={row.value}
+                  onChange={() => {
+                    // A question changes in place and comes back here; a new
+                    // direction starts the questions again.
+                    if (row.target !== "direction") setReturnTo("plan-week");
+                    goTo(row.target);
+                  }}
+                />
+              ))}
+            </section>
+          ) : null}
           <PointList
             label={part.title}
             items={[
@@ -667,14 +708,19 @@ interface PageProps {
 const toggle = (drawer: DrawerControl) => () => drawer.setMode(drawer.mode === "open" ? "peek" : "open");
 
 /** What the user said, back on the page, with the way to change it. */
-function Said({ value, onChange }: { value: string; onChange: () => void }) {
+function Said({ value, onChange, label }: { value: string; onChange: () => void; label?: string }) {
   return (
     <div className="guide__said">
       <p>
-        <span className="guide__said-label">{GUIDE_C3.drawer.said}</span>
+        <span className="guide__said-label">{label ?? GUIDE_C3.drawer.said}</span>
         <span className="guide__said-value">{value}</span>
       </p>
-      <button type="button" className="guide__said-change" onClick={onChange}>
+      <button
+        type="button"
+        className="guide__said-change"
+        aria-label={label ? `${GUIDE_C3.drawer.change}: ${label}` : undefined}
+        onClick={onChange}
+      >
         {GUIDE_C3.drawer.change}
       </button>
     </div>
@@ -1144,73 +1190,6 @@ function QuestionPage({
         </AnswerDrawer>
       }
     />
-  );
-}
-
-/**
- * What ExecHQ heard, said back, with the recommendation as the answers left
- * it. "Change it" brings up the drawer to put it in the user's own words.
- */
-function ReadbackPage({ flow, frame, drawer, onDone }: PageProps) {
-  const { state, dispatch } = flow;
-  const c = GUIDE_C3.readback;
-  const direction = state.answers.direction ?? "";
-  const heard = state.answers.interpretation ?? readBack(direction, state.answers.refinement);
-  const now = recommendC3(direction, state.answers.refinement);
-  // The plan chosen on the recommendation, tuned by the answers since.
-  const chosenPlan = planById(state.answers.planId ?? "") ?? now.plan;
-  const [draft, setDraft] = useState(heard);
-  // No drawer until the user asks to change what was heard.
-  const [asked, setAsked] = useState(false);
-  const showDrawer = asked;
-  const open = asked && drawer.mode === "open";
-
-  return (
-    <GuidePage
-      {...frame}
-      kicker={c.kicker}
-      title={c.title}
-      why={c.why}
-      primaryLabel={showDrawer ? undefined : c.confirm}
-      onPrimary={onDone}
-      secondaryLabel={showDrawer ? undefined : c.change}
-      onSecondary={() => {
-        setDraft(heard);
-        setAsked(true);
-        drawer.setMode("open");
-      }}
-      drawer={
-        showDrawer ? (
-          <AnswerDrawer
-            question={c.editLabel}
-            questionId={frame.headingId}
-            open={open}
-            onToggle={toggle(drawer)}
-            primaryLabel={c.save}
-            onPrimary={() => {
-              dispatch({ type: "edit-interpretation", interpretation: draft.trim() || heard });
-              setAsked(false);
-            }}
-            secondaryLabel={c.cancel}
-            onSecondary={() => setAsked(false)}
-            autoFocusField
-          >
-            <Input label={c.editLabel} multiline rows={4} value={draft} onChange={(event) => setDraft(event.target.value)} />
-          </AnswerDrawer>
-        ) : undefined
-      }
-    >
-      <p className="guide__heard">{heard}</p>
-      <RecommendationCard
-        lead={c.recLead}
-        name={chosenPlan.name}
-        forWhom={planForWhom(chosenPlan)}
-        // What was heard sits just above, so the card gives a reason only when
-        // an answer sent the plan somewhere else.
-        reason={chosenPlan.id === now.plan.id && now.changedBy ? now.reason : undefined}
-        status={c.checked}
-      />
-    </GuidePage>
   );
 }
 

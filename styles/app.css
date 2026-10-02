@@ -7919,6 +7919,12 @@ ol.ring-detail__timeline {
 }
 
 /* What the user said, back on the page, with the way to change it. */
+.guide__heard-rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
 .guide__said {
   display: flex;
   justify-content: space-between;
