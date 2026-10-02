@@ -7037,6 +7037,27 @@ ol.ring-detail__timeline {
   color: var(--color-text-inverse-muted);
 }
 
+.this-week__fact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-inverse);
+}
+
+.this-week__fact.is-placeholder {
+  padding: var(--space-xs) var(--space-sm);
+  border: var(--border-width-thin) dashed var(--color-border-inverse);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-inverse-muted);
+}
+
+.this-week__source {
+  font-size: var(--text-xs);
+  color: var(--color-text-inverse-muted);
+}
+
 .this-week__why {
   margin-top: var(--space-2xs);
   padding-top: var(--space-sm);
@@ -7736,12 +7757,6 @@ ol.ring-detail__timeline {
 
 /* A plan part taught: what it is and how it helps (boxed), then the user's
    own, under a label. */
-.guide__yours {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
 .guide__yours-label {
   font-family: var(--font-display);
   word-spacing: var(--font-display-word-spacing);

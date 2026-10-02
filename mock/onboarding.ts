@@ -692,7 +692,15 @@ export interface PlanTemplate {
   /** The first thing to do. Always the draft the next screen builds, framed
    *  for this plan, so the promise is kept one tap later. No effort estimate:
    *  by decision on 2026-09-24, onboarding carries no time-to-complete. */
-  thisWeek?: { title: string; output: string; detail: string; why: string };
+  thisWeek?: {
+    title: string;
+    output: string;
+    detail: string;
+    why: string;
+    /** Data behind the reason. Real and sourced; until it is, a marked
+     *  placeholder that cannot be mistaken for copy. */
+    fact?: { text: string; source?: string; placeholder?: boolean };
+  };
   /** Where the first draft of the story can be used, for this plan. Three
    *  short ideas, shown under the draft. */
   uses?: string[];
@@ -721,6 +729,10 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
       output: "The story of what you lead",
       detail: "The version you\u2019d say out loud in a meeting. We\u2019ll write the first draft for you next.",
       why: "Every conversation about a bigger role starts with \u201cwhat do you lead?\u201d",
+      fact: {
+        text: "46% of professionals said they would not feel confident describing their achievements to their dream employer if they met them on the street.",
+        source: "LinkedIn @Work study",
+      },
     },
     uses: [
       "When someone asks what\u2019s next for you",
@@ -770,6 +782,10 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
       output: "How you describe yourself",
       detail: "The short version of who you are and what you stand for, in your words, not your employer\u2019s. We\u2019ll write the first draft for you next.",
       why: "Everything you say in public builds on it.",
+      fact: {
+        text: "Executive presence accounts for 26% of what it takes to get promoted.",
+        source: "Center for Talent Innovation, survey of 268 senior executives, 2012",
+      },
     },
     uses: [
       "When you\u2019re introduced at a meeting or event",
@@ -819,6 +835,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
       output: "The story you\u2019ll tell in the room",
       detail: "What you\u2019ve done, what you want, and why it should be you. We\u2019ll write the first draft for you next.",
       why: "It\u2019s the core of your case, and the thing you\u2019ll rehearse.",
+      fact: { text: "A sourced fact is needed here.", placeholder: true },
     },
     uses: [
       "As the first thing you say in the room",
@@ -868,6 +885,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
       output: "The story of what you own",
       detail: "What you\u2019re responsible for, in the words your leadership already uses. We\u2019ll write the first draft for you next.",
       why: "Your work gets heard when it\u2019s described in the terms decisions are made in.",
+      fact: { text: "A sourced fact is needed here.", placeholder: true },
     },
     uses: [
       "In your next update to your leadership",
@@ -917,6 +935,10 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
       output: "The story of what you\u2019re good at",
       detail: "What you do well, separated from where you\u2019ve done it. We\u2019ll write the first draft for you next.",
       why: "It shows which strengths go with you anywhere, before you choose where.",
+      fact: {
+        text: "People who use their strengths every day are six times as likely to be engaged at work.",
+        source: "Gallup, 2015",
+      },
     },
     uses: [
       "In a first coffee with someone in a field you\u2019re curious about",
@@ -2248,9 +2270,6 @@ typedReply: "Thank you. Whatever it\u2019s been, your plan gives you something s
     /** The answers the plan is built from, each with a way back to change it. */
     heardLabel: "Built from what you said",
     heardDirection: "Where you\u2019re going",
-    whatLabel: "What it is",
-    helpsLabel: "How it helps",
-    yoursLabel: "Yours",
     parts: [
       {
         id: "week",

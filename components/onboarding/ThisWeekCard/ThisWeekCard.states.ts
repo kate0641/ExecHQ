@@ -23,6 +23,16 @@ export const thisWeekCardStates = defineComponentStates({
       props: { label: PLAN_C1.thisWeek, whyLabel: PLAN_C1.why, ...first.thisWeek! },
     },
     {
+      label: "With the data behind it",
+      description: "The reason is backed by a sourced figure, with where it comes from.",
+      props: { label: PLAN_C1.thisWeek, whyLabel: PLAN_C1.why, labelHidden: true, ...first.thisWeek! },
+    },
+    {
+      label: "Fact still to find",
+      description: "A marked placeholder where a sourced figure is still needed.",
+      props: { label: PLAN_C1.thisWeek, whyLabel: PLAN_C1.why, ...moment.thisWeek! },
+    },
+    {
       label: "A different plan",
       props: { label: PLAN_C1.thisWeek, whyLabel: PLAN_C1.why, ...moment.thisWeek! },
     },

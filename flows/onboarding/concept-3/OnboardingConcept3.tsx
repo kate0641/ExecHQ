@@ -552,7 +552,7 @@ export function OnboardingConcept3() {
           {...frame()}
           kicker={c.kicker}
           title={part.title}
-          lede={pageId === "plan-week" ? c.firstLede : undefined}
+          lede={pageId === "plan-week" ? c.firstLede : part.helps}
           primaryLabel={last ? c.continue : c.next}
           onPrimary={next}
         >
@@ -574,17 +574,7 @@ export function OnboardingConcept3() {
               ))}
             </section>
           ) : null}
-          <PointList
-            label={part.title}
-            items={[
-              { title: c.whatLabel, detail: part.what },
-              { title: c.helpsLabel, detail: part.helps },
-            ]}
-          />
-          <section className="guide__yours" aria-label={c.yoursLabel}>
-            <p className="guide__yours-label">{c.yoursLabel}</p>
-            <PlanPart part={pageId} plan={plan} direction={direction} />
-          </section>
+          <PlanPart part={pageId} plan={plan} direction={direction} />
         </GuidePage>
       );
     }
@@ -1350,7 +1340,7 @@ function PlanPart({
   direction: string;
 }) {
   if (part === "plan-week")
-    return plan.thisWeek ? <ThisWeekCard label={PLAN_C1.thisWeek} whyLabel={PLAN_C1.why} {...plan.thisWeek} /> : null;
+    return plan.thisWeek ? <ThisWeekCard label={PLAN_C1.thisWeek} whyLabel={PLAN_C1.why} labelHidden {...plan.thisWeek} /> : null;
   if (part === "plan-stages")
     return (
       <div className="plan-ahead">
