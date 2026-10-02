@@ -572,12 +572,11 @@
   --device-bezel-tablet: 6px;
   --device-statusbar-height: 44px;
 
-  /* Buttons — compact: 34px tall with 14px each side. The medium size,
-     38px with 16px sides, is the alternative; switch both lines together.
-     However small the button looks, its tap area stays 44px tall
-     (--button-target), the size Apple recommends for touch. */
-  --button-height: 34px;
-  --button-padding-inline: 14px;
+  /* Buttons — 44px tall with 20px each side: the touch size Apple
+     recommends, so the button you see is the button you can tap. The tap
+     area never drops below --button-target, whatever the button's size. */
+  --button-height: 44px;
+  --button-padding-inline: 20px;
   --button-target: 44px;
   --dock-width: 38px;
   --dock-control: 30px;
