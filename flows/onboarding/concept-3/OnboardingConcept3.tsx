@@ -43,7 +43,6 @@ import {
   PLAN_C1,
   PLAN_TEMPLATES,
   SIGNALS_C1,
-  builtFrom,
   checkEmail,
   answerOptions,
   decidesPlanC3,
@@ -111,8 +110,6 @@ type PageId =
   | "reflect-conversation"
   | "t-2"
   | "readback"
-  | "plan-intro"
-  | "plan-start"
   | "plan-others"
   | "plan-week"
   | "plan-stages"
@@ -157,11 +154,10 @@ const PAGES: Page[] = [
   { id: "reflect-conversation", label: "Reflection 3", step: "refinement", offBar: true },
   { id: "t-2", label: "Question 3", step: "refinement", offBar: true },
   { id: "readback", label: "Read-back", step: "interpretation" },
-  // The plan, taught a part at a time.
-  { id: "plan-intro", label: "Your plan", step: "plan" },
-  { id: "plan-start", label: "Starting point", step: "plan", offBar: true },
-  { id: "plan-others", label: "Other plans", step: "plan", offBar: true, aside: true },
-  { id: "plan-week", label: "This week", step: "plan", offBar: true },
+  // The plan was chosen on the recommendation. Here it is, tuned to what the
+  // user said, a part at a time.
+  { id: "plan-others", label: "Other plans", step: "refinement", offBar: true, aside: true },
+  { id: "plan-week", label: "Your plan", step: "plan" },
   { id: "plan-stages", label: "Stages", step: "plan", offBar: true },
   { id: "plan-done", label: "Done when", step: "plan", offBar: true },
   { id: "plan-grows", label: "It grows", step: "plan", offBar: true },
@@ -190,7 +186,7 @@ function barEntry(id: PageId): PageId {
   for (let i = pageIndex(id); i >= 0; i--) if (!PAGES[i].offBar) return PAGES[i].id;
   return "welcome";
 }
-const PLAN_PARTS: PageId[] = ["plan-start", "plan-week", "plan-stages", "plan-done", "plan-grows"];
+const PLAN_PARTS: PageId[] = ["plan-week", "plan-stages", "plan-done", "plan-grows"];
 
 /** Pages whose answers live only in this concept, cleared when a jump lands
  *  on or before them. */
@@ -426,17 +422,39 @@ export function OnboardingConcept3() {
     case "rec": {
       const c = GUIDE_C3.rec;
       if (!plan) return null;
-      // Made once, from the direction and the question that decides it.
+      // Made once, from the direction and the question that decides it. The
+      // plan is chosen here: the questions after only make it the user's own.
       const made = recommendC3(direction, a.refinement);
+      const switched = plan.id !== made.plan.id;
+      const parts = GUIDE_C3.plan.parts;
+      const usePlan = () => {
+        dispatch({
+          type: "select-plan",
+          planId: plan.id,
+          source: switched ? "switched" : "recommended",
+        });
+        next();
+      };
       return (
-        <GuidePage {...frame()} kicker={c.kicker} title={made.plan.name} why={c.why} primaryLabel={c.cta} onPrimary={next}>
+        <GuidePage
+          {...frame()}
+          kicker={c.kicker}
+          title={plan.name}
+          why={c.why}
+          primaryLabel={c.cta}
+          onPrimary={usePlan}
+          secondaryLabel={c.others}
+          onSecondary={() => goTo("plan-others")}
+        >
           <RecommendationCard
-            forWhom={planForWhom(made.plan)}
-            reason={recommendationReasonC3(direction, a.refinement, made)}
+            forWhom={planForWhom(plan)}
+            reason={switched ? c.switched(made.plan.name) : recommendationReasonC3(direction, a.refinement, made)}
           />
           {alsoGoals.length ? (
             <p className="guide__next">{c.also(listGoals(alsoGoals), alsoGoals.length)}</p>
           ) : null}
+          <p className="guide__next">{c.whatIs}</p>
+          <PointList items={parts.map((part) => ({ title: part.title, detail: part.what }))} numbered />
           <p className="guide__next">{c.next}</p>
         </GuidePage>
       );
@@ -496,27 +514,6 @@ export function OnboardingConcept3() {
     case "readback":
       return <ReadbackPage flow={flow} frame={frame()} drawer={{ mode, setMode }} onDone={next} />;
 
-    case "plan-intro": {
-      const c = GUIDE_C3.plan;
-      return (
-        <GuidePage
-          {...frame()}
-          kicker={c.kicker}
-          title={c.intro.title}
-          lede={c.intro.lede}
-          why={c.intro.why}
-          primaryLabel={c.intro.cta}
-          onPrimary={next}
-        >
-          <PointList
-            numbered
-            items={c.parts.map((part) => ({ title: part.title, detail: part.what, helps: part.helps }))}
-          />
-        </GuidePage>
-      );
-    }
-
-    case "plan-start":
     case "plan-week":
     case "plan-stages":
     case "plan-done":
@@ -526,23 +523,14 @@ export function OnboardingConcept3() {
       const index = PLAN_PARTS.indexOf(pageId);
       const part = c.parts[index];
       const last = pageId === "plan-grows";
-      const usePlan = () => {
-        dispatch({
-          type: "select-plan",
-          planId: plan.id,
-          source: plan.id === recommendPlan(direction).id ? "recommended" : "switched",
-        });
-        next();
-      };
       return (
         <GuidePage
           {...frame()}
-          kicker={`${c.kicker} \u00b7 ${c.partOf(index)}`}
+          kicker={c.kicker}
           title={part.title}
-          primaryLabel={pageId === "plan-start" ? c.right : last ? c.use : c.next}
-          onPrimary={last ? usePlan : next}
-          secondaryLabel={pageId === "plan-start" ? c.others : undefined}
-          onSecondary={pageId === "plan-start" ? () => goTo("plan-others") : undefined}
+          lede={pageId === "plan-week" ? c.firstLede : undefined}
+          primaryLabel={last ? c.continue : c.next}
+          onPrimary={next}
         >
           <PointList
             label={part.title}
@@ -553,7 +541,7 @@ export function OnboardingConcept3() {
           />
           <section className="guide__yours" aria-label={c.yoursLabel}>
             <p className="guide__yours-label">{c.yoursLabel}</p>
-            <PlanPart part={pageId} plan={plan} direction={direction} refinement={a.refinement} />
+            <PlanPart part={pageId} plan={plan} direction={direction} />
           </section>
         </GuidePage>
       );
@@ -569,7 +557,7 @@ export function OnboardingConcept3() {
           title={c.othersTitle}
           lede={c.othersLede}
           primaryLabel={c.othersCta}
-          onPrimary={() => goTo("plan-start")}
+          onPrimary={() => goTo("rec")}
         >
           <div className="plan-set" role="radiogroup" aria-label="Plans">
             {PLAN_TEMPLATES.map((template) => (
@@ -1166,6 +1154,8 @@ function ReadbackPage({ flow, frame, drawer, onDone }: PageProps) {
   const direction = state.answers.direction ?? "";
   const heard = state.answers.interpretation ?? readBack(direction, state.answers.refinement);
   const now = recommendC3(direction, state.answers.refinement);
+  // The plan chosen on the recommendation, tuned by the answers since.
+  const chosenPlan = planById(state.answers.planId ?? "") ?? now.plan;
   const [draft, setDraft] = useState(heard);
   // No drawer until the user asks to change what was heard.
   const [asked, setAsked] = useState(false);
@@ -1210,11 +1200,11 @@ function ReadbackPage({ flow, frame, drawer, onDone }: PageProps) {
       <p className="guide__heard">{heard}</p>
       <RecommendationCard
         lead={c.recLead}
-        name={now.plan.name}
-        forWhom={planForWhom(now.plan)}
+        name={chosenPlan.name}
+        forWhom={planForWhom(chosenPlan)}
         // What was heard sits just above, so the card gives a reason only when
         // an answer sent the plan somewhere else.
-        reason={now.changedBy ? now.reason : undefined}
+        reason={chosenPlan.id === now.plan.id && now.changedBy ? now.reason : undefined}
         status={c.checked}
       />
     </GuidePage>
@@ -1372,28 +1362,11 @@ function PlanPart({
   part,
   plan,
   direction,
-  refinement,
 }: {
   part: PageId;
   plan: PlanTemplate;
   direction: string;
-  refinement: Record<string, string>;
 }) {
-  if (part === "plan-start")
-    return (
-      <div className="guide__plan-start">
-        <p className="recommendation__name">{plan.name}</p>
-        {plan.formalName ? <p className="recommendation__formal">{plan.formalName}</p> : null}
-        <div className="plan-built">
-          <p className="plan-built__label">{GUIDE_C3.plan.builtFrom}</p>
-          <ul className="plan-built__tags">
-            {builtFrom(direction, refinement).map((tag) => (
-              <li key={tag}>{tag}</li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    );
   if (part === "plan-week")
     return plan.thisWeek ? <ThisWeekCard label={PLAN_C1.thisWeek} whyLabel={PLAN_C1.why} {...plan.thisWeek} /> : null;
   if (part === "plan-stages")

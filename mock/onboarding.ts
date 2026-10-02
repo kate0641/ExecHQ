@@ -2151,7 +2151,12 @@ export const GUIDE_C3 = {
     also: (goals: string, count: number) =>
       `You also picked: ${goals}. ExecHQ will keep ${count > 1 ? "them" : "it"} in view as your plan grows.`,
     why: "You should get a clear starting point, not a menu of options. ExecHQ will show you how it got there, and you can always change it.",
-    cta: "Make it mine",
+    /** What a plan is, said where the plan is chosen. */
+    whatIs: "A plan is how you get from where you are to where you want to be. Yours has four parts.",
+    /** When the user chose a plan other than the recommended one. */
+    switched: (recommended: string) => `You chose this one instead. ExecHQ recommended ${recommended}.`,
+    cta: "Use this plan",
+    others: "See other plans",
   },
   reflect: {
     kicker: "A question to sit with",
@@ -2253,7 +2258,7 @@ typedReply: "Thank you. Whatever it\u2019s been, your plan gives you something s
   readback: {
     kicker: "What ExecHQ heard",
     title: "Here\u2019s what ExecHQ heard",
-    recLead: "So ExecHQ would start you on",
+    recLead: "Your plan, tuned to what you said",
     checked: "Checked against your answers",
     why: "So you can check ExecHQ has understood you before it builds anything on it. If it has got something wrong, now is the time.",
     confirm: "That\u2019s right",
@@ -2264,23 +2269,12 @@ typedReply: "Thank you. Whatever it\u2019s been, your plan gives you something s
   },
   plan: {
     kicker: "Your plan",
-    intro: {
-      title: "What a plan is",
-      lede: "A plan is how you get from where you are to where you said you want to be. Yours has five parts. We\u2019ll go through each one, then it\u2019s yours.",
-      why: "A plan you understand is a plan you\u2019ll follow. Each part has a job.",
-      cta: "Build it together",
-    },
+    /** The first page of the plan, tuned to what the user said. */
+    firstLede: "Here\u2019s your plan, tuned to what you\u2019ve said, one part at a time.",
     whatLabel: "What it is",
     helpsLabel: "How it helps",
     yoursLabel: "Yours",
-    builtFrom: "Built from what you shared",
     parts: [
-      {
-        id: "start",
-        title: "Your starting point",
-        what: "The plan ExecHQ recommends for where you want to go, and what it\u2019s built from.",
-        helps: "You start from something built for you, not a blank page.",
-      },
       {
         id: "week",
         title: "This week",
@@ -2306,9 +2300,8 @@ typedReply: "Thank you. Whatever it\u2019s been, your plan gives you something s
         helps: "The plan gets sharper the more you use it, and it never runs out.",
       },
     ],
-    partOf: (index: number) => `Part ${index + 1} of 5`,
     next: "Next part",
-    right: "This is right",
+    continue: "Continue",
     others: "See other plans",
     use: "Use this plan",
     othersTitle: "The other plans",
