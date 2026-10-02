@@ -32,6 +32,7 @@ import { generatingStateStates } from "./onboarding/GeneratingState/GeneratingSt
 import { planTemplateCardStates } from "./onboarding/PlanTemplateCard/PlanTemplateCard.states";
 import { welcomeSplitStates } from "./onboarding/WelcomeSplit/WelcomeSplit.states";
 import { thisWeekCardStates } from "./onboarding/ThisWeekCard/ThisWeekCard.states";
+import { nextStepsStates } from "./onboarding/NextSteps/NextSteps.states";
 import { storyTextStates } from "./onboarding/StoryText/StoryText.states";
 import { answerDrawerStates } from "./onboarding/AnswerDrawer/AnswerDrawer.states";
 import { deviceKeyboardStates } from "./onboarding/DeviceKeyboard/DeviceKeyboard.states";
@@ -117,6 +118,7 @@ export const registry: RegisteredComponent[] = [
   planTemplateCardStates,
   welcomeSplitStates,
   thisWeekCardStates,
+  nextStepsStates,
   storyTextStates,
   signalSourcesStates,
   guidePageStates,

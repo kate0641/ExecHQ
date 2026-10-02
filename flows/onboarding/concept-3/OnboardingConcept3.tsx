@@ -11,9 +11,12 @@ import { GeneratingState } from "@/components/onboarding/GeneratingState";
 import { GoodExample } from "@/components/onboarding/GoodExample";
 import { LinkedInUpload } from "@/components/onboarding/LinkedInUpload";
 import { StoryDraft } from "@/components/onboarding/StoryDraft";
+import { StoryText } from "@/components/onboarding/StoryText";
+import { ToggleGroup } from "@/components/form/ToggleGroup";
 import { PlanTemplateCard } from "@/components/onboarding/PlanTemplateCard";
 import { ThisWeekCard } from "@/components/onboarding/ThisWeekCard";
 import { GuidePage } from "@/components/onboarding/GuidePage";
+import { NextSteps } from "@/components/onboarding/NextSteps";
 import { Notice } from "@/components/onboarding/Notice";
 import { PointList } from "@/components/onboarding/PointList";
 import { RecommendationCard } from "@/components/onboarding/RecommendationCard";
@@ -36,6 +39,9 @@ import {
   isNarrowedDirection,
   DONE_C1,
   DRAFT_C1,
+  bioFor,
+  goalFor,
+  type BioLength,
   DRAFT_EXPORTS,
   GUIDE_C3,
   LINKEDIN_UPLOAD,
@@ -55,7 +61,6 @@ import {
   isValidInviteCode,
   looksLikeLinkedInExport,
   planById,
-  quickWinFor,
   recommendC3,
   refinementFor,
   towardFor,
@@ -113,6 +118,7 @@ type PageId =
   | "reflect-story"
   | "draft"
   | "sharpen"
+  | "versions"
   | "done";
 
 interface Page {
@@ -153,13 +159,14 @@ const PAGES: Page[] = [
   { id: "plan-others", label: "Other plans", step: "refinement", offBar: true, aside: true },
   { id: "plan-week", label: "Your plan", step: "plan" },
   { id: "plan-stages", label: "Stages", step: "plan", offBar: true },
-  // The story: a reflection, then three things only the user knows (each
-  // skippable), then the first draft, written from everything. Asking first
-  // means the draft can say what the user leads (2026-10-02, reversing the
-  // 2026-09-28 order of draft first and sharpen after).
+  // The story: a reflection, then a first draft written from what the user
+  // has said. After it the user chooses: add detail now, build longer
+  // versions, or save it and come back to either later (2026-10-02). The
+  // detail questions and the longer versions are reached only from the draft.
   { id: "reflect-story", label: "Your story", step: "artifact" },
-  { id: "sharpen", label: "Three things", step: "artifact", offBar: true },
   { id: "draft", label: "First draft", step: "artifact" },
+  { id: "sharpen", label: "Add detail", step: "artifact", offBar: true, aside: true },
+  { id: "versions", label: "Longer versions", step: "artifact", offBar: true, aside: true },
   { id: "done", label: "Done", step: "complete" },
 ];
 /** An answer drawer's state: open, folded to a peek, or answered (gone). */
@@ -235,6 +242,10 @@ export function OnboardingConcept3() {
   // Set when the user goes back from the plan to change an answer: finishing
   // that page brings them straight back to the plan.
   const [returnTo, setReturnTo] = useState<PageId | null>(null);
+  // Where the detail questions go back to: the draft, or the longer versions.
+  const [detailBack, setDetailBack] = useState<PageId>("draft");
+  // Whether the longer versions have been looked at, for the Done page.
+  const [builtVersions, setBuiltVersions] = useState(false);
   const next = () => {
     if (returnTo && returnTo !== pageId) {
       setReturnTo(null);
@@ -314,7 +325,11 @@ export function OnboardingConcept3() {
   if (a.artifactSaved)
     items.push({
       label: "Your story",
-      value: sharpened ? GUIDE_C3.story.draft.fileSharpened : GUIDE_C3.story.draft.fileDraft,
+      value: builtVersions
+        ? GUIDE_C3.story.versions.fileVersions
+        : sharpened
+          ? GUIDE_C3.story.draft.fileSharpened
+          : GUIDE_C3.story.draft.fileDraft,
     });
   if (linkedInIn(a.linkedin))
     items.push({
@@ -483,7 +498,14 @@ export function OnboardingConcept3() {
           copy={c}
           value={reflections[key]}
           onChange={(value) => setReflections((all) => ({ ...all, [key]: value }))}
-          onDone={next}
+          onDone={
+            key === "story"
+              ? () => {
+                  flow.withDelay("drafting", () => {});
+                  next();
+                }
+              : next
+          }
         />
       );
     }
@@ -591,17 +613,25 @@ export function OnboardingConcept3() {
             <GeneratingState label={c.writing} />
           </GuidePage>
         );
+      const saveAndFinish = () => {
+        dispatch({ type: "save-artifact" });
+        goTo("done");
+      };
       return (
         <DraftPage
           flow={flow}
           frame={frame()}
           plan={plan}
           lede={sharpened ? c.ledeSharpened : c.ledeStart}
-          onSharpen={() => goTo("sharpen")}
-          onSave={() => {
-            dispatch({ type: "save-artifact" });
-            goTo("done");
+          onDetail={() => {
+            setDetailBack("draft");
+            goTo("sharpen");
           }}
+          onVersions={() => {
+            setBuiltVersions(true);
+            goTo("versions");
+          }}
+          onLater={saveAndFinish}
         />
       );
     }
@@ -613,8 +643,28 @@ export function OnboardingConcept3() {
           frame={frame()}
           drawer={{ mode, setMode }}
           onDone={() => {
-            flow.withDelay("drafting", () => {});
-            goTo("draft");
+            // The draft is rewritten from what was added; the longer versions
+            // simply read it.
+            if (detailBack === "draft") flow.withDelay("drafting", () => {});
+            goTo(detailBack);
+          }}
+        />
+      );
+
+    case "versions":
+      return (
+        <VersionsPage
+          flow={flow}
+          frame={frame()}
+          drawer={{ mode, setMode }}
+          onDetail={() => {
+            setDetailBack("versions");
+            goTo("sharpen");
+          }}
+          onBack={() => goTo("draft")}
+          onSave={() => {
+            dispatch({ type: "save-artifact" });
+            goTo("done");
           }}
         />
       );
@@ -625,9 +675,20 @@ export function OnboardingConcept3() {
       // What was done today, the quick win that comes next (sharpening, or
       // the bio once the story is sharpened), then the plan's next stage.
       const steps: { title: string; detail: string }[] = [];
-      steps.push({ title: c.thisWeek, detail: sharpened ? DONE_C1.storySharpened : DONE_C1.storyDraft });
-      steps.push({ title: c.then, detail: quickWinFor(plan ?? undefined, sharpened).title });
-      if (stages[1]) steps.push({ title: c.after, detail: `${stages[1].window}: ${stages[1].title}` });
+      steps.push({
+        title: c.thisWeek,
+        detail: builtVersions ? c.doneVersions : sharpened ? DONE_C1.storySharpened : DONE_C1.storyDraft,
+      });
+      // What is left of the story comes first; once it is done, the plan's
+      // next stage does.
+      const left = !sharpened ? c.nextDetail : !builtVersions ? c.nextVersions : null;
+      if (left) {
+        steps.push({ title: c.then, detail: `${left.title}: ${left.detail}` });
+        if (stages[1]) steps.push({ title: c.after, detail: `${stages[1].window}: ${stages[1].title}` });
+      } else {
+        if (stages[1]) steps.push({ title: c.then, detail: `${stages[1].window}: ${stages[1].title}` });
+        if (stages[2]) steps.push({ title: c.after, detail: `${stages[2].window}: ${stages[2].title}` });
+      }
       return (
         <GuidePage
           headingId={headingId}
@@ -1163,23 +1224,26 @@ function draftFacts(inputs: PositioningInputs) {
 }
 
 /**
- * The first draft, written from what the user has said. Saving is the skip:
- * the draft is kept whichever way they go. Sharpening is the quieter action.
+ * The first draft, written from what the user has said. Under it, the ways
+ * on are equal choices, so leaving the rest for later reads as a real one:
+ * add detail now, build longer versions, or save it and come back.
  */
 function DraftPage({
   flow,
   frame,
   plan,
   lede,
-  onSharpen,
-  onSave,
+  onDetail,
+  onVersions,
+  onLater,
 }: {
   flow: OnboardingFlow;
   frame: Frame;
   plan: PlanTemplate | null;
   lede: string;
-  onSharpen: () => void;
-  onSave: () => void;
+  onDetail: () => void;
+  onVersions: () => void;
+  onLater: () => void;
 }) {
   const { state, dispatch } = flow;
   const inputs = state.answers.positioning;
@@ -1188,18 +1252,7 @@ function DraftPage({
   const text = firstDraftFor(state.answers.direction ?? "", state.answers.refinement, draftFacts(inputs));
   const sharpened = isSharpened(inputs);
   return (
-    <GuidePage
-      {...frame}
-      kicker={GUIDE_C3.story.kicker}
-      title={c.title}
-      lede={lede}
-      why={c.why}
-      primaryLabel={c.cta}
-      primaryDisabled={editing}
-      onPrimary={onSave}
-      secondaryLabel={c.sharpen}
-      onSecondary={onSharpen}
-    >
+    <GuidePage {...frame} kicker={GUIDE_C3.story.kicker} title={c.title} lede={lede} why={c.why}>
       <StoryDraft
         key={text}
         label={sharpened ? DRAFT_C1.sharpenedLabel : DRAFT_C1.label}
@@ -1212,6 +1265,113 @@ function DraftPage({
         usesLabel={DRAFT_C1.usesLabel}
         uses={plan?.uses ?? []}
       />
+      <ExportLinks actions={DRAFT_EXPORTS} />
+      {editing ? null : (
+        <NextSteps
+          label={c.next.label}
+          steps={[
+            { label: c.next.detail.label, detail: c.next.detail.detail, onChoose: onDetail },
+            { label: c.next.versions.label, detail: c.next.versions.detail, onChoose: onVersions },
+            { label: c.next.later.label, detail: c.next.later.detail, onChoose: onLater },
+          ]}
+        />
+      )}
+    </GuidePage>
+  );
+}
+
+/**
+ * The same story in three lengths. A fact ExecHQ doesn't know yet is a
+ * marked gap rather than something made up; the drawer asks for the few a
+ * bio needs that the draft didn't (name, team size, strengths), and "add more
+ * detail" covers the role and a result.
+ */
+function VersionsPage({
+  flow,
+  frame,
+  drawer,
+  onDetail,
+  onBack,
+  onSave,
+}: {
+  flow: OnboardingFlow;
+  frame: Frame;
+  drawer: DrawerControl;
+  onDetail: () => void;
+  onBack: () => void;
+  onSave: () => void;
+}) {
+  const { state, dispatch } = flow;
+  const inputs = state.answers.positioning;
+  const c = GUIDE_C3.story.versions;
+  const p = POSITIONING_C1;
+  const [length, setLength] = useState<BioLength>("medium");
+  const [name, setName] = useState(inputs.name);
+  const [teamSize, setTeamSize] = useState(inputs.teamSize);
+  const [strengths, setStrengths] = useState<string[]>(inputs.strengths);
+  const goal = goalFor(state.answers.direction ?? "");
+  const segments = bioFor(inputs, goal, length);
+  const hasGaps = segments.some((segment) => "gap" in segment);
+  const open = drawer.mode === "open";
+  return (
+    <GuidePage
+      {...frame}
+      kicker={GUIDE_C3.story.kicker}
+      title={c.title}
+      lede={c.lede}
+      primaryLabel={c.save}
+      onPrimary={onSave}
+      secondaryLabel={c.back}
+      onSecondary={onBack}
+      drawer={
+        hasGaps ? (
+          <AnswerDrawer
+            question={c.fill.ask}
+            questionId={frame.headingId}
+            open={open}
+            onToggle={toggle(drawer)}
+            peekStatus={c.fill.peek}
+            primaryLabel={c.fill.cta}
+            onPrimary={() => {
+              dispatch({ type: "set-positioning", patch: { name: name.trim(), teamSize, strengths } });
+              drawer.setMode("peek");
+            }}
+          >
+            <Input label={c.fill.name} autoComplete="name" value={name} onChange={(event) => setName(event.target.value)} />
+            <ChipGroup
+              label={c.fill.team}
+              options={p.team.options}
+              value={teamSize ? [teamSize] : []}
+              onChange={(next) => setTeamSize(next[0] ?? "")}
+            />
+            <ChipGroup
+              label={c.fill.strengths}
+              note={p.strengths.note}
+              options={p.strengths.options}
+              value={strengths}
+              max={p.strengths.max}
+              onChange={setStrengths}
+            />
+          </AnswerDrawer>
+        ) : undefined
+      }
+    >
+      <ToggleGroup
+        label={c.lengthLabel}
+        shape="chips"
+        value={length}
+        onChange={(next) => setLength(next as BioLength)}
+        options={(Object.keys(p.lengths) as BioLength[]).map((key) => ({ value: key, label: p.lengths[key] }))}
+      />
+      <StoryText segments={segments} />
+      {hasGaps ? (
+        <p className="guide__next">
+          {c.gapNote}{" "}
+          <button type="button" className="guide__said-change" onClick={onDetail}>
+            {GUIDE_C3.story.draft.sharpen}
+          </button>
+        </p>
+      ) : null}
       <ExportLinks actions={DRAFT_EXPORTS} />
     </GuidePage>
   );

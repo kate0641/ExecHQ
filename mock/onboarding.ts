@@ -2323,13 +2323,48 @@ typedReply: "Thank you. ExecHQ will draft that sentence for you next, from what 
        *  asked just before it, or only what was said earlier. */
       ledeSharpened: "Written from what you\u2019ve shared, with the detail you added.",
       ledeStart: "A start, from what you\u2019ve shared. Add your role and a result to say what you lead.",
-      why: "You can use this today. Everything after this makes it sharper, and your plan picks up where it leaves off.",
+      why: "You can use this today. Add detail or build longer versions now, or come back to them from your plan.",
       sharpen: "Add more detail",
+      /** The ways on from the draft, as equal choices. */
+      next: {
+        label: "What next?",
+        detail: {
+          label: "Add more detail",
+          detail: "Your role, what you\u2019re responsible for and a result, so it says what you lead.",
+        },
+        versions: {
+          label: "Build out longer versions",
+          detail: "Short, medium and long, for a bio, an introduction or LinkedIn.",
+        },
+        later: {
+          label: "Save it and come back later",
+          detail: "It\u2019s saved. Both of these wait for you as next steps on your plan.",
+        },
+      },
       cta: "Save it and finish",
       writing: "Writing your first draft",
       /** How the summary file on the last page says the story. */
       fileDraft: "First draft",
       fileSharpened: "Sharpened",
+    },
+    /** The longer versions: the same story in three lengths. */
+    versions: {
+      title: "Longer versions",
+      lede: "The same story in three lengths, for different places: a line, a paragraph and the full bio.",
+      lengthLabel: "Length",
+      gapNote: "The dashed parts are things ExecHQ doesn\u2019t know yet. Add them below, or add more detail to your story.",
+      fill: {
+        ask: "What\u2019s missing from your bio?",
+        name: "Your name",
+        team: "How big is your team?",
+        strengths: "What you\u2019re strongest at",
+        cta: "Update my bio",
+        peek: "Tap to add the rest",
+      },
+      save: "Save it and finish",
+      back: "Back to my draft",
+      /** How the summary file on the last page says the story. */
+      fileVersions: "Draft and longer versions",
     },
     /** Sharpening: the three facts, one at a time in the drawer. */
     sharpen: {
@@ -2372,6 +2407,16 @@ typedReply: "Thank you. ExecHQ will draft that sentence for you next, from what 
     thisWeek: "Done today",
     then: "Next",
     after: "After that",
+    /** The next step on the story, by what has been done. */
+    nextDetail: {
+      title: "Add more detail",
+      detail: "Add your role and one result, so your draft says what you lead.",
+    },
+    nextVersions: {
+      title: "Build longer versions",
+      detail: "Short, medium and long, built from your story and ready to send ahead of you.",
+    },
+    doneVersions: "Your story, with longer versions",
     signals: "You can bring in your LinkedIn numbers anytime, so your plan and your drafts start from how you already show up.",
     why: "You\u2019ve done the hardest part: saying where you want to go. From here, the plan does the work with you.",
     home: "Go to my homepage",

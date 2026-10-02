@@ -7037,6 +7037,53 @@ ol.ring-detail__timeline {
   color: var(--color-text-inverse-muted);
 }
 
+.next-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.next-steps__label {
+  font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.next-steps__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.next-steps .btn {
+  height: auto;
+  padding-block: var(--space-sm);
+}
+
+.next-steps__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  text-align: center;
+}
+
+.next-steps__title {
+  font-weight: var(--weight-semibold);
+}
+
+.next-steps__detail {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-regular);
+  opacity: 0.8;
+}
+
 .this-week__fact {
   display: flex;
   flex-direction: column;
