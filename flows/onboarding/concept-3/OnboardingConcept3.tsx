@@ -29,6 +29,7 @@ import {
 } from "@/flows/onboarding/shared";
 import { useStepNav } from "@/lib/step-nav";
 import {
+  DIRECTION_MORE_C3,
   DIRECTION_PROMPTS_C1,
   DONE_C1,
   DRAFT_C1,
@@ -799,18 +800,45 @@ function DirectionPage({
   const { state, dispatch } = flow;
   const c = GUIDE_C3.direction;
   const d = GUIDE_C3.drawer;
-  const current = DIRECTION_PROMPTS_C1.find((p) => p.text === state.answers.direction);
-  const [picks, setPicks] = useState<string[]>(current ? [current.label, ...also] : []);
-  const [lead, setLead] = useState<string | null>(current?.label ?? null);
+  const allPrompts = [...DIRECTION_PROMPTS_C1, ...DIRECTION_MORE_C3];
+  const labels = (list: typeof allPrompts) => list.map((p) => p.label);
+  const promptFor = (text: string) => allPrompts.find((p) => p.label === text || p.text === text);
+
+  // What was answered before, if the user comes back: the lead first, then the
+  // rest. Anything that is not one of the listed options was typed.
+  const earlier = state.answers.direction
+    ? [promptFor(state.answers.direction)?.label ?? state.answers.direction, ...also]
+    : [];
+  const typedBefore = earlier.find((item) => !promptFor(item)) ?? "";
+  const [picks, setPicks] = useState<string[]>(earlier.filter((item) => promptFor(item)));
+  const [elseOn, setElseOn] = useState(Boolean(typedBefore));
+  const [typed, setTyped] = useState(typedBefore);
+  const [more, setMore] = useState(earlier.some((item) => DIRECTION_MORE_C3.some((p) => p.label === item)));
+  const [lead, setLead] = useState<string | null>(earlier[0] ?? null);
   const [asking, setAsking] = useState(false);
+  // Choosing "Something else" puts the cursor in its field, as a person would
+  // expect; coming back to a typed answer does not.
+  const fieldBox = useRef<HTMLDivElement>(null);
+  const elseWas = useRef(elseOn);
+  useEffect(() => {
+    if (elseOn && !elseWas.current) fieldBox.current?.querySelector("input")?.focus();
+    elseWas.current = elseOn;
+  }, [elseOn]);
+
+  // Everything picked, in the order picked, with the typed answer counted once
+  // it has something in it.
+  const typedText = typed.trim();
+  const chosen = elseOn && typedText ? [...picks, typedText] : picks;
+  const leadNow = lead && chosen.includes(lead) ? lead : chosen[0] ?? null;
 
   function finish(first: string) {
-    const prompt = DIRECTION_PROMPTS_C1.find((p) => p.label === first)!;
-    dispatch({ type: "set-direction", direction: prompt.text, source: "prompted" });
-    onAlso(picks.filter((label) => label !== first));
+    const prompt = promptFor(first);
+    dispatch({ type: "set-direction", direction: prompt ? prompt.text : first, source: prompt ? "prompted" : "free" });
+    onAlso(chosen.filter((label) => label !== first));
     onDone();
   }
 
+  const options = [...labels(DIRECTION_PROMPTS_C1), ...(more ? labels(DIRECTION_MORE_C3) : []), c.elseLabel];
   const open = drawer.mode === "open";
   return (
     <GuidePage
@@ -829,16 +857,16 @@ function DirectionPage({
             open={open}
             onToggle={toggle(drawer)}
             primaryLabel={d.continue}
-            primaryDisabled={!lead || !picks.includes(lead)}
-            onPrimary={() => lead && finish(lead)}
+            primaryDisabled={!leadNow}
+            onPrimary={() => leadNow && finish(leadNow)}
             secondaryLabel={d.back}
             onSecondary={() => setAsking(false)}
           >
             <ChipGroup
               label={c.first}
               labelHidden
-              options={picks}
-              value={lead && picks.includes(lead) ? [lead] : []}
+              options={chosen}
+              value={leadNow ? [leadNow] : []}
               onChange={(next) => setLead(next[0] ?? null)}
             />
           </AnswerDrawer>
@@ -847,26 +875,44 @@ function DirectionPage({
             key="picks"
             question={c.title}
             questionId={frame.headingId}
-            step={picks.length > 1 ? "1 of 2" : undefined}
+            step={chosen.length > 1 ? "1 of 2" : undefined}
             open={open}
             onToggle={toggle(drawer)}
-            peekStatus={picks.length ? `${picks.length} picked` : d.peek}
-            primaryLabel={picks.length > 1 ? d.next : d.continue}
-            primaryDisabled={!picks.length}
+            peekStatus={chosen.length ? `${chosen.length} picked` : d.peek}
+            primaryLabel={chosen.length > 1 ? d.next : d.continue}
+            primaryDisabled={!chosen.length}
             onPrimary={() => {
-              if (picks.length === 1) return finish(picks[0]);
-              if (!lead || !picks.includes(lead)) setLead(picks[0]);
+              if (chosen.length === 1) return finish(chosen[0]);
+              setLead(leadNow);
               setAsking(true);
             }}
           >
             <ChipGroup
               label={c.title}
               labelHidden
-              options={DIRECTION_PROMPTS_C1.map((p) => p.label)}
-              value={picks}
-              max={DIRECTION_PROMPTS_C1.length}
-              onChange={setPicks}
+              options={options}
+              value={elseOn ? [...picks, c.elseLabel] : picks}
+              max={options.length}
+              onChange={(next) => {
+                setElseOn(next.includes(c.elseLabel));
+                setPicks(next.filter((label) => label !== c.elseLabel));
+              }}
             />
+            {elseOn ? (
+              <div ref={fieldBox}>
+                <Input
+                  label={c.elseField}
+                  autoComplete="off"
+                  value={typed}
+                  onChange={(event) => setTyped(event.target.value)}
+                />
+              </div>
+            ) : null}
+            {more ? null : (
+              <Button variant="ghost" size="sm" onClick={() => setMore(true)}>
+                {c.more}
+              </Button>
+            )}
           </AnswerDrawer>
         )
       }
@@ -876,7 +922,7 @@ function DirectionPage({
 
 /** "a, b and c", in lower case, for saying picked goals in a sentence. */
 function joinGoals(goals: string[]): string {
-  const said = goals.map((goal) => (goal.startsWith("C-suite") ? goal : goal.charAt(0).toLowerCase() + goal.slice(1)));
+  const said = goals.map((goal) => (/^C-suite|^I\b/.test(goal) ? goal : goal.charAt(0).toLowerCase() + goal.slice(1)));
   return said.length > 1 ? `${said.slice(0, -1).join(", ")} and ${said[said.length - 1]}` : said[0];
 }
 

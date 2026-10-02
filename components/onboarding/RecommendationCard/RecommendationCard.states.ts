@@ -24,7 +24,7 @@ export const recommendationCardStates = defineComponentStates({
         lead: GUIDE_C3.rec.lead,
         name: first.name,
         formalName: first.formalName,
-        reason: earlyReasonFor("C-suite in 3 years", first),
+        reason: earlyReasonFor("Reach the C-suite within three years", first),
       },
     },
     {

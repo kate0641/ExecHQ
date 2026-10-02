@@ -19,7 +19,7 @@ export const chatMessageStates = defineComponentStates({
   variants: [
     { label: "From ExecHQ — starts a run", props: { from: "advisor", lead: true, children: CHAT_C2.direction } },
     { label: "From ExecHQ — later in a run", props: { from: "advisor", children: CHAT_C2.directionHint } },
-    { label: "From you", props: { from: "you", children: "C-suite in 3 years", onEdit: () => {} } },
+    { label: "From you", props: { from: "you", children: "Reach the C-suite within three years", onEdit: () => {} } },
     { label: "Typing", states: ["loading"], props: { from: "advisor", lead: true, typing: true } },
     {
       label: "Card",

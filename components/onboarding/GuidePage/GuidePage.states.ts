@@ -65,7 +65,7 @@ export const guidePageStates = defineComponentStates({
           createElement(ChipGroup, {
             label: GUIDE_C3.direction.title,
             labelHidden: true,
-            options: ["C-suite in 3 years", "Take on more of a leadership role", "Be seen as an executive"],
+            options: ["Reach the C-suite within three years", "Take on a bigger leadership role", "Be seen as an executive"],
             value: [],
             onChange: noop,
           })

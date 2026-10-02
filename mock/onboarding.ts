@@ -147,11 +147,21 @@ export const PROMPTED_DIRECTIONS: PromptedDirection[] = [
 export const DIRECTION_PROMPTS_C1: PromptedDirection[] = [
   // One per plan, so every plan is reachable from a prompt and none is
   // favoured. The field still takes any answer.
-  { id: "c-suite", label: "C-suite in 3 years", text: "C-suite in 3 years", blurb: "", need: "positioning" },
-  { id: "leadership", label: "Take on more of a leadership role", text: "Take on more of a leadership role", blurb: "", need: "influence" },
+  { id: "c-suite", label: "Reach the C-suite within three years", text: "Reach the C-suite within three years", blurb: "", need: "positioning" },
+  { id: "leadership", label: "Take on a bigger leadership role", text: "Take on a bigger leadership role", blurb: "", need: "influence" },
   { id: "executive", label: "Be seen as an executive", text: "Be seen as an executive", blurb: "", need: "visibility" },
   { id: "board", label: "Nail an upcoming board presentation", text: "Nail an upcoming board presentation", blurb: "", need: "preparation" },
   { id: "next-move", label: "Find my next move", text: "Find my next move", blurb: "", need: "exploration" },
+];
+
+/** What "None of these? Show me more options" adds to the list above, in
+ *  Concept 3. Each is keyed in the copy tables below the way the first five
+ *  are, so a pick reads as well as they do. */
+export const DIRECTION_MORE_C3: PromptedDirection[] = [
+  { id: "bigger-org", label: "Lead a bigger organisation", text: "Lead a bigger organisation", blurb: "", need: "positioning" },
+  { id: "weigh-more", label: "Carry more weight where I am", text: "Carry more weight where I am", blurb: "", need: "influence" },
+  { id: "leaving", label: "Get out of where I am", text: "Get out of where I am", blurb: "", need: "exploration" },
+  { id: "unsure", label: "I do not know yet", text: "I do not know yet", blurb: "", need: "exploration" },
 ];
 
 /** What the simulated mic "hears". The prototype has no speech input, so the
@@ -181,11 +191,15 @@ export function builtFrom(direction: string, answers: Record<string, string>): s
 
 /** The goal the plan works toward, for "Stage by stage, toward …". */
 const PROMPT_TOWARD: Record<string, string> = {
-  "C-suite in 3 years": "the C-suite in 3 years",
-  "Take on more of a leadership role": "a bigger leadership role where you are",
+  "Reach the C-suite within three years": "the C-suite within three years",
+  "Take on a bigger leadership role": "a bigger leadership role where you are",
   "Be seen as an executive": "being seen as an executive",
   "Nail an upcoming board presentation": "your board presentation",
   "Find my next move": "your next move",
+  "Lead a bigger organisation": "a bigger organisation to lead",
+  "Carry more weight where I am": "more weight where you are",
+  "Get out of where I am": "a way out of where you are",
+  "I do not know yet": "your next step",
 };
 
 export function towardFor(direction: string): string {
@@ -486,11 +500,15 @@ export function refinementFor(direction: string): TailoredQuestion[] {
 
 /** How each Concept 1 prompt is said back, when it is used as written. */
 const PROMPT_READBACK: Record<string, string> = {
-  "C-suite in 3 years": "You want to reach the C-suite within three years.",
-  "Take on more of a leadership role": "You want to take on more of a leadership role where you are.",
+  "Reach the C-suite within three years": "You want to reach the C-suite within three years.",
+  "Take on a bigger leadership role": "You want to take on more of a leadership role where you are.",
   "Be seen as an executive": "You want to be seen as an executive.",
   "Nail an upcoming board presentation": "You want to nail an upcoming board presentation.",
   "Find my next move": "You\u2019re looking for your next move.",
+  "Lead a bigger organisation": "You want to lead a bigger organisation.",
+  "Carry more weight where I am": "You want to carry more weight where you are.",
+  "Get out of where I am": "You want out of where you are, and haven\u2019t yet named what comes next.",
+  "I do not know yet": "You\u2019re not sure yet where you\u2019re headed.",
 };
 
 /** First person to second, for saying a typed or spoken answer back. Crude
@@ -1293,11 +1311,15 @@ interface Goal {
 }
 
 const PROMPT_GOALS: Record<string, [string, string]> = {
-  "C-suite in 3 years": ["a C-suite role within three years", "a C-suite role within three years"],
-  "Take on more of a leadership role": ["a bigger leadership role where I am", "a bigger leadership role where they are"],
+  "Reach the C-suite within three years": ["a C-suite role within three years", "a C-suite role within three years"],
+  "Take on a bigger leadership role": ["a bigger leadership role where I am", "a bigger leadership role where they are"],
   "Be seen as an executive": ["being seen as an executive", "being seen as an executive"],
   "Nail an upcoming board presentation": ["a board presentation that lands", "a board presentation that lands"],
   "Find my next move": ["my next move", "their next move"],
+  "Lead a bigger organisation": ["leading a bigger organisation", "leading a bigger organisation"],
+  "Carry more weight where I am": ["more weight where I am", "more weight where they are"],
+  "Get out of where I am": ["a way out of where I am", "a way out of where they are"],
+  "I do not know yet": ["working out what\u2019s next for me", "working out what\u2019s next for them"],
 };
 
 export function goalFor(direction: string): Goal {
@@ -1485,11 +1507,15 @@ export function bioFor(
 
 /** How each Concept 1 prompt opens the draft. */
 const PROMPT_TOWARD_LINE: Record<string, string> = {
-  "C-suite in 3 years": "I’m building toward a C-suite role within the next three years.",
-  "Take on more of a leadership role": "I’m building toward a bigger leadership role where I am.",
+  "Reach the C-suite within three years": "I’m building toward a C-suite role within the next three years.",
+  "Take on a bigger leadership role": "I’m building toward a bigger leadership role where I am.",
   "Be seen as an executive": "I’m working on being seen as an executive.",
   "Nail an upcoming board presentation": "I have a board presentation ahead of me, and I want it to land.",
   "Find my next move": "I’m working out my next move.",
+  "Lead a bigger organisation": "I’m building toward leading a bigger organisation.",
+  "Carry more weight where I am": "I want more influence where I am.",
+  "Get out of where I am": "I’m ready to move on from where I am.",
+  "I do not know yet": "I’m not sure yet what comes next.",
 };
 
 /** Each refinement answer in the user's own voice, in the order of its
@@ -1909,6 +1935,9 @@ export const GUIDE_C3 = {
     title: "Where do you want to go next?",
     lede: "Pick as many as are true.",
     promptedLabel: "Or start with one of these",
+    more: "None of these? Show me more options",
+    elseLabel: "Something else",
+    elseField: "In your own words",
     /** More than one picked: which to start from. */
     first: "Which matters most right now?",
     firstLede: "ExecHQ will start there, and keep the rest in view.",
