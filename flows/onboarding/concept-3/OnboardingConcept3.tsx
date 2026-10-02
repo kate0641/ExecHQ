@@ -4,17 +4,20 @@ import { useEffect, useId, useRef, useState, type ComponentProps } from "react";
 import { useRouter } from "next/navigation";
 import { ChipGroup } from "@/components/form/ChipGroup";
 import { Input } from "@/components/form/Input";
-import { AdvisorFile, type AdvisorFileItem } from "@/components/onboarding/AdvisorFile";
 import { AnswerDrawer } from "@/components/onboarding/AnswerDrawer";
 import { ExportLinks } from "@/components/onboarding/ExportLinks";
 import { GeneratingState } from "@/components/onboarding/GeneratingState";
 import { GoodExample } from "@/components/onboarding/GoodExample";
 import { LinkedInUpload } from "@/components/onboarding/LinkedInUpload";
 import { StoryDraft } from "@/components/onboarding/StoryDraft";
+import { StoryText } from "@/components/onboarding/StoryText";
+import { ToggleGroup } from "@/components/form/ToggleGroup";
 import { PlanTemplateCard } from "@/components/onboarding/PlanTemplateCard";
 import { ThisWeekCard } from "@/components/onboarding/ThisWeekCard";
 import { GuidePage } from "@/components/onboarding/GuidePage";
+import { NextSteps } from "@/components/onboarding/NextSteps";
 import { Notice } from "@/components/onboarding/Notice";
+import { WelcomeSplit } from "@/components/onboarding/WelcomeSplit";
 import { PointList } from "@/components/onboarding/PointList";
 import { RecommendationCard } from "@/components/onboarding/RecommendationCard";
 import { ReflectionReply } from "@/components/onboarding/ReflectionReply";
@@ -28,30 +31,37 @@ import {
   type PositioningInputs,
 } from "@/flows/onboarding/shared";
 import { useStepNav } from "@/lib/step-nav";
+import { useViewport } from "@/lib/viewport-context";
 import {
+  DIRECTION_MORE_C3,
+  DIRECTION_NARROWER_C3,
   DIRECTION_PROMPTS_C1,
+  baseDirection,
+  isNarrowedDirection,
   DONE_C1,
   DRAFT_C1,
+  bioFor,
+  goalFor,
+  type BioLength,
   DRAFT_EXPORTS,
   GUIDE_C3,
   LINKEDIN_UPLOAD,
   POSITIONING_C1,
   PLAN_C1,
   PLAN_TEMPLATES,
-  SIGNALS_C1,
-  builtFrom,
   checkEmail,
+  answerOptions,
   decidesPlanC3,
-  earlyReasonFor,
+  encodeAnswer,
+  parseAnswer,
+  planForWhom,
+  recommendationReasonC3,
   firstDraftFor,
   isSharpened,
   isValidInviteCode,
   looksLikeLinkedInExport,
   planById,
-  quickWinFor,
-  readBack,
   recommendC3,
-  recommendPlan,
   refinementFor,
   towardFor,
   type PlanTemplate,
@@ -77,9 +87,10 @@ import {
  *  - It stops to make the user reflect, with questions that are not needed
  *    for the plan but are worth sitting with.
  *
- * Signals come early, straight after the privacy promise, by decision on
+ * Signals come early, straight after the account, by decision on
  * 2026-09-24: connecting LinkedIn first means the first draft
- * already sounds like the user. The promise comes first because it is the
+ * already sounds like the user. The privacy promise is said before that, on
+ * the page that says what ExecHQ is (2026-10-02), because signals are the
  * first time the user is asked for their data.
  *
  * Pages are this concept's own; each maps to the shared step it belongs to,
@@ -90,7 +101,6 @@ type PageId =
   | "welcome"
   | "about"
   | "account"
-  | "privacy"
   | "signals"
   | "linkedin"
   | "direction"
@@ -102,17 +112,13 @@ type PageId =
   | "t-1"
   | "reflect-conversation"
   | "t-2"
-  | "readback"
-  | "plan-intro"
-  | "plan-start"
   | "plan-others"
   | "plan-week"
   | "plan-stages"
-  | "plan-done"
-  | "plan-grows"
   | "reflect-story"
   | "draft"
   | "sharpen"
+  | "versions"
   | "done";
 
 interface Page {
@@ -131,7 +137,6 @@ const PAGES: Page[] = [
   { id: "welcome", label: "Welcome", step: "account" },
   { id: "about", label: "What ExecHQ is", step: "account" },
   { id: "account", label: "Account", step: "account" },
-  { id: "privacy", label: "Privacy", step: "privacy" },
   { id: "signals", label: "Signals", step: "direction" },
   // LinkedIn's upload, reached from Signals: the steps and the picker.
   { id: "linkedin", label: "LinkedIn", step: "direction", offBar: true, aside: true },
@@ -149,21 +154,19 @@ const PAGES: Page[] = [
   { id: "t-1", label: "Question 2", step: "refinement", offBar: true },
   { id: "reflect-conversation", label: "Reflection 3", step: "refinement", offBar: true },
   { id: "t-2", label: "Question 3", step: "refinement", offBar: true },
-  { id: "readback", label: "Read-back", step: "interpretation" },
-  // The plan, taught a part at a time.
-  { id: "plan-intro", label: "Your plan", step: "plan" },
-  { id: "plan-start", label: "Starting point", step: "plan", offBar: true },
-  { id: "plan-others", label: "Other plans", step: "plan", offBar: true, aside: true },
-  { id: "plan-week", label: "This week", step: "plan", offBar: true },
+  // The plan was chosen on the recommendation. Here it is, tuned to what the
+  // user said, a part at a time.
+  { id: "plan-others", label: "Other plans", step: "refinement", offBar: true, aside: true },
+  { id: "plan-week", label: "Your plan", step: "plan" },
   { id: "plan-stages", label: "Stages", step: "plan", offBar: true },
-  { id: "plan-done", label: "Done when", step: "plan", offBar: true },
-  { id: "plan-grows", label: "It grows", step: "plan", offBar: true },
   // The story: a reflection, then a first draft written from what the user
-  // has said, by decision on 2026-09-28. Sharpening is optional, reached only
-  // from the draft. It replaces the builder's intro and four input pages.
+  // has said. After it the user chooses: add detail now, build longer
+  // versions, or save it and come back to either later (2026-10-02). The
+  // detail questions and the longer versions are reached only from the draft.
   { id: "reflect-story", label: "Your story", step: "artifact" },
   { id: "draft", label: "First draft", step: "artifact" },
-  { id: "sharpen", label: "Sharpen", step: "artifact", offBar: true, aside: true },
+  { id: "sharpen", label: "Add detail", step: "artifact", offBar: true, aside: true },
+  { id: "versions", label: "Longer versions", step: "artifact", offBar: true, aside: true },
   { id: "done", label: "Done", step: "complete" },
 ];
 /** An answer drawer's state: open, folded to a peek, or answered (gone). */
@@ -183,7 +186,7 @@ function barEntry(id: PageId): PageId {
   for (let i = pageIndex(id); i >= 0; i--) if (!PAGES[i].offBar) return PAGES[i].id;
   return "welcome";
 }
-const PLAN_PARTS: PageId[] = ["plan-start", "plan-week", "plan-stages", "plan-done", "plan-grows"];
+const PLAN_PARTS: PageId[] = ["plan-week", "plan-stages"];
 
 /** Pages whose answers live only in this concept, cleared when a jump lands
  *  on or before them. */
@@ -204,7 +207,11 @@ export function OnboardingConcept3() {
   const [pageId, setPageId] = useState<PageId>("welcome");
   const [reflections, setReflections] = useState<Record<string, string>>({});
   // The current page's answer drawer: open, folded to a peek, or answered.
-  const [mode, setMode] = useState<DrawerMode>("open");
+  const [chosenMode, setMode] = useState<DrawerMode>("open");
+  const { viewport } = useViewport();
+  // On web the answers sit beside the question and there is no sheet to fold,
+  // so a drawer left folded on a phone reads as open there.
+  const mode: DrawerMode = viewport === "web" && chosenMode === "peek" ? "open" : chosenMode;
   // The other directions picked, beyond the one to start from.
   const [alsoGoals, setAlsoGoals] = useState<string[]>([]);
   const at = pageIndex(pageId);
@@ -230,10 +237,28 @@ export function OnboardingConcept3() {
     // A reflection only comes before a question, so two never run together.
     (p.id === "reflect-ceo" && tailoring.length < 2) ||
     (p.id === "reflect-conversation" && tailoring.length < 3);
-  const next = () => {
-    let i = at + 1;
+  /** The page after `from`, passing over those this user never sees. */
+  const pageAfter = (from: PageId) => {
+    let i = pageIndex(from) + 1;
     while (i < PAGES.length - 1 && passed(PAGES[i])) i++;
-    goTo(PAGES[Math.min(i, PAGES.length - 1)].id);
+    return PAGES[Math.min(i, PAGES.length - 1)].id;
+  };
+  // Set when the user goes back from the plan to change an answer: finishing
+  // that page brings them straight back to the plan.
+  const [returnTo, setReturnTo] = useState<PageId | null>(null);
+  // Where the detail questions go back to: the draft, or the longer versions.
+  const [detailBack, setDetailBack] = useState<PageId>("draft");
+  // Whether the longer versions have been looked at, for the Done page.
+  const [builtVersions, setBuiltVersions] = useState(false);
+  // The Toolbox is introduced once, on the first draft.
+  const [toolboxSeen, setToolboxSeen] = useState(false);
+  const next = () => {
+    if (returnTo && returnTo !== pageId) {
+      setReturnTo(null);
+      goTo(returnTo);
+      return;
+    }
+    goTo(pageAfter(pageId));
   };
   // Moving on runs in the same tick as the answer that decides which pages
   // remain, so it can land on a page the new answer passes over (a direction
@@ -248,6 +273,7 @@ export function OnboardingConcept3() {
   }, [landedOnPassed, pageId]);
 
   useStepNav(STEP_NAV, barEntry(pageId), (id) => {
+    setReturnTo(null);
     const target = PAGES[pageIndex(id as PageId)];
     flow.jumpTo(target.step);
     if (pageIndex(target.id) <= pageIndex("direction")) setAlsoGoals([]);
@@ -280,43 +306,24 @@ export function OnboardingConcept3() {
   const chosen = planById(a.planId ?? "");
   const plan = chosen ?? verdict?.plan ?? null;
   const sharpened = isSharpened(a.positioning);
-  const items: AdvisorFileItem[] = [];
-  // The LinkedIn file is read while the user does the rest, so by the last
-  // page it has usually finished: the file says what came in, or that it is
-  // still being read.
-  if (linkedInIn(a.linkedin))
-    items.push({
-      label: "LinkedIn",
-      value:
-        a.linkedin.status === "reading"
-          ? LINKEDIN_UPLOAD.short.reading
-          : a.linkedin.status === "empty"
-            ? GUIDE_C3.linkedin.fileEmpty
-            : SIGNALS_C1.sources[0].imported,
-    });
+  // The answers the plan is built from, each with the page to change it on.
+  const heardRows: { label: string; value: string; target: PageId }[] = [];
   if (direction)
-    items.push({
-      label: "Where you’re going",
+    heardRows.push({
+      label: GUIDE_C3.plan.heardDirection,
       value: alsoGoals.length ? `${direction}, and ${joinGoals(alsoGoals)}` : direction,
+      target: "direction",
     });
-  if (plan && at > pageIndex("rec")) items.push({ label: "Starting point", value: plan.name });
-  if (reflections.time) items.push({ label: GUIDE_C3.reflect.time.label, value: reflections.time });
-  questions.forEach((question) => {
-    const value = a.refinement[question.id];
+  refinementFor(direction).forEach((question) => {
+    const { chosen: picked, typed } = parseAnswer(question, a.refinement[question.id]);
+    const value = [...picked.map((o) => o.label), ...(typed ? [typed] : [])].join(", ");
     if (!value) return;
-    const label = question.options.find((o) => o.value === value)?.label ?? value;
-    items.push({ label: question.question, value: label });
-  });
-  if (reflections.ceo) items.push({ label: GUIDE_C3.reflect2.ceo.label, value: reflections.ceo });
-  if (reflections.conversation)
-    items.push({ label: GUIDE_C3.reflect2.conversation.label, value: reflections.conversation });
-  if (a.planId && at > pageIndex("plan-grows")) items.push({ label: "Your plan", value: plan?.name ?? "" });
-  if (reflections.story) items.push({ label: GUIDE_C3.story.reflect.label, value: reflections.story });
-  if (a.artifactSaved)
-    items.push({
-      label: "Your story",
-      value: sharpened ? GUIDE_C3.story.draft.fileSharpened : GUIDE_C3.story.draft.fileDraft,
+    heardRows.push({
+      label: question.question,
+      value,
+      target: decidesPlanC3(question.id) ? "decide" : (`t-${tailoring.indexOf(question)}` as PageId),
     });
+  });
   /** Where the page sits. Progress and the running file were cut from the
    *  pages by decision on 2026-09-24; what ExecHQ learned is shown once, as
    *  the summary on the last page. */
@@ -326,9 +333,24 @@ export function OnboardingConcept3() {
 
   switch (pageId) {
     case "welcome":
+      // On web the welcome splits, as Login's does: the wordmark and the line
+      // on a dark panel, the statement and the way in on the sheet.
+      if (viewport === "web")
+        return (
+          <WelcomeSplit
+            quote={GUIDE_C3.welcome.title}
+            title={GUIDE_C3.welcome.quote}
+            description={GUIDE_C3.welcome.lede}
+            headingId={headingId}
+            primaryLabel={GUIDE_C3.welcome.cta}
+            onPrimary={next}
+            centred
+          />
+        );
       return (
         <GuidePage
           cover
+          kicker={GUIDE_C3.welcome.wordmark}
           headingId={headingId}
           title={GUIDE_C3.welcome.title}
           lede={GUIDE_C3.welcome.lede}
@@ -342,9 +364,9 @@ export function OnboardingConcept3() {
     case "about": {
       const c = GUIDE_C3.about;
       return (
-        <GuidePage {...frame()} kicker={c.kicker} title={c.title} why={c.why} primaryLabel={c.cta} onPrimary={next}>
+        <GuidePage {...frame()} kicker={c.kicker} title={c.title} lede={c.lede} primaryLabel={c.cta} onPrimary={next}>
           <PointList items={c.points} numbered />
-          <PointList items={c.built} label={c.builtLabel} />
+          <PointList items={c.before} />
         </GuidePage>
       );
     }
@@ -352,27 +374,20 @@ export function OnboardingConcept3() {
     case "account":
       return <AccountPage flow={flow} frame={frame()} drawer={{ mode, setMode }} onDone={next} />;
 
-    case "privacy": {
-      const c = GUIDE_C3.privacy;
-      return (
-        <GuidePage {...frame()} kicker={c.kicker} title={c.title} why={c.why} primaryLabel={c.cta} onPrimary={next}>
-          <PointList items={c.points} />
-        </GuidePage>
-      );
-    }
-
     case "signals": {
       const c = GUIDE_C3.signals;
-      const anyOn = linkedInIn(a.linkedin);
+      // Handled: the file is in, or the steps were emailed for later.
+      const handled = linkedInIn(a.linkedin) || a.linkedin.status === "sent";
       return (
         <GuidePage
           {...frame()}
           kicker={c.kicker}
           title={c.title}
           lede={c.lede}
-          why={c.why}
-          primaryLabel={anyOn ? c.done : c.skip}
-          onPrimary={next}
+          primaryLabel={handled ? c.done : c.add}
+          onPrimary={handled ? next : () => goTo("linkedin")}
+          secondaryLabel={handled ? undefined : c.skip}
+          onSecondary={handled ? undefined : next}
         >
           <SignalSources linkedin={a.linkedin} onOpenLinkedIn={() => goTo("linkedin")} />
         </GuidePage>
@@ -380,7 +395,6 @@ export function OnboardingConcept3() {
     }
 
     case "linkedin": {
-      const c = GUIDE_C3.linkedin;
       const fileIn = linkedInIn(a.linkedin);
       return (
         <GuidePage
@@ -388,8 +402,8 @@ export function OnboardingConcept3() {
           kicker={LINKEDIN_UPLOAD.eyebrow}
           title={LINKEDIN_UPLOAD.title}
           lede={fileIn ? undefined : LINKEDIN_UPLOAD.lede}
-          why={c.why}
           primaryLabel={fileIn ? LINKEDIN_UPLOAD.done : LINKEDIN_UPLOAD.skip}
+          primaryVariant={fileIn ? undefined : "secondary"}
           onPrimary={() => goTo("signals")}
         >
           <LinkedInUpload
@@ -423,19 +437,39 @@ export function OnboardingConcept3() {
     case "rec": {
       const c = GUIDE_C3.rec;
       if (!plan) return null;
-      // Made once, from the direction and the question that decides it.
+      // Made once, from the direction and the question that decides it. The
+      // plan is chosen here: the questions after only make it the user's own.
       const made = recommendC3(direction, a.refinement);
+      const switched = plan.id !== made.plan.id;
+      const parts = GUIDE_C3.plan.parts;
+      const usePlan = () => {
+        dispatch({
+          type: "select-plan",
+          planId: plan.id,
+          source: switched ? "switched" : "recommended",
+        });
+        next();
+      };
       return (
-        <GuidePage {...frame()} kicker={c.kicker} title={c.title} why={c.why} primaryLabel={c.cta} onPrimary={next}>
+        <GuidePage
+          {...frame()}
+          kicker={c.kicker}
+          title={plan.name}
+          why={c.why}
+          primaryLabel={c.cta}
+          onPrimary={usePlan}
+          secondaryLabel={c.others}
+          onSecondary={() => goTo("plan-others")}
+        >
           <RecommendationCard
-            lead={c.lead}
-            name={made.plan.name}
-            formalName={made.plan.formalName}
-            reason={made.changedBy ? made.reason : earlyReasonFor(direction, made.plan)}
+            forWhom={planForWhom(plan)}
+            reason={switched ? c.switched(made.plan.name) : recommendationReasonC3(direction, a.refinement, made)}
           />
           {alsoGoals.length ? (
-            <p className="guide__next">{c.also(joinGoals(alsoGoals))}</p>
+            <p className="guide__next">{c.also(listGoals(alsoGoals), alsoGoals.length)}</p>
           ) : null}
+          <p className="guide__next">{c.whatIs}</p>
+          <PointList items={parts.map((part) => ({ title: part.title, detail: part.what }))} numbered />
           <p className="guide__next">{c.next}</p>
         </GuidePage>
       );
@@ -492,68 +526,41 @@ export function OnboardingConcept3() {
       );
     }
 
-    case "readback":
-      return <ReadbackPage flow={flow} frame={frame()} drawer={{ mode, setMode }} onDone={next} />;
-
-    case "plan-intro": {
-      const c = GUIDE_C3.plan;
-      return (
-        <GuidePage
-          {...frame()}
-          kicker={c.kicker}
-          title={c.intro.title}
-          lede={c.intro.lede}
-          why={c.intro.why}
-          primaryLabel={c.intro.cta}
-          onPrimary={next}
-        >
-          <PointList
-            numbered
-            items={c.parts.map((part) => ({ title: part.title, detail: part.what, helps: part.helps }))}
-          />
-        </GuidePage>
-      );
-    }
-
-    case "plan-start":
     case "plan-week":
-    case "plan-stages":
-    case "plan-done":
-    case "plan-grows": {
+    case "plan-stages": {
       if (!plan) return null;
       const c = GUIDE_C3.plan;
       const index = PLAN_PARTS.indexOf(pageId);
       const part = c.parts[index];
-      const last = pageId === "plan-grows";
-      const usePlan = () => {
-        dispatch({
-          type: "select-plan",
-          planId: plan.id,
-          source: plan.id === recommendPlan(direction).id ? "recommended" : "switched",
-        });
-        next();
-      };
+      const last = pageId === "plan-stages";
       return (
         <GuidePage
           {...frame()}
-          kicker={`${c.kicker} \u00b7 ${c.partOf(index)}`}
+          kicker={c.kicker}
           title={part.title}
-          primaryLabel={pageId === "plan-start" ? c.right : last ? c.use : c.next}
-          onPrimary={last ? usePlan : next}
-          secondaryLabel={pageId === "plan-start" ? c.others : undefined}
-          onSecondary={pageId === "plan-start" ? () => goTo("plan-others") : undefined}
+          lede={pageId === "plan-week" ? c.firstLede : part.helps}
+          primaryLabel={last ? c.continue : c.next}
+          onPrimary={next}
         >
-          <PointList
-            label={part.title}
-            items={[
-              { title: c.whatLabel, detail: part.what },
-              { title: c.helpsLabel, detail: part.helps },
-            ]}
-          />
-          <section className="guide__yours" aria-label={c.yoursLabel}>
-            <p className="guide__yours-label">{c.yoursLabel}</p>
-            <PlanPart part={pageId} plan={plan} direction={direction} refinement={a.refinement} />
-          </section>
+          {pageId === "plan-week" && heardRows.length ? (
+            <section className="guide__heard-rows" aria-label={c.heardLabel}>
+              <p className="guide__yours-label">{c.heardLabel}</p>
+              {heardRows.map((row) => (
+                <Said
+                  key={row.label}
+                  label={row.label}
+                  value={row.value}
+                  onChange={() => {
+                    // A question changes in place and comes back here; a new
+                    // direction starts the questions again.
+                    if (row.target !== "direction") setReturnTo("plan-week");
+                    goTo(row.target);
+                  }}
+                />
+              ))}
+            </section>
+          ) : null}
+          <PlanPart part={pageId} plan={plan} direction={direction} />
         </GuidePage>
       );
     }
@@ -568,7 +575,9 @@ export function OnboardingConcept3() {
           title={c.othersTitle}
           lede={c.othersLede}
           primaryLabel={c.othersCta}
-          onPrimary={() => goTo("plan-start")}
+          // Choosing another plan is choosing the plan: on to what follows the
+          // recommendation, not back to it.
+          onPrimary={() => goTo(pageAfter("rec"))}
         >
           <div className="plan-set" role="radiogroup" aria-label="Plans">
             {PLAN_TEMPLATES.map((template) => (
@@ -583,7 +592,7 @@ export function OnboardingConcept3() {
                   dispatch({
                     type: "select-plan",
                     planId,
-                    source: planId === recommendPlan(direction).id ? "recommended" : "switched",
+                    source: planId === verdict?.plan.id ? "recommended" : "switched",
                   })
                 }
               />
@@ -601,16 +610,30 @@ export function OnboardingConcept3() {
             <GeneratingState label={c.writing} />
           </GuidePage>
         );
+      const saveAndFinish = () => {
+        dispatch({ type: "save-artifact" });
+        goTo("done");
+      };
       return (
         <DraftPage
           flow={flow}
           frame={frame()}
           plan={plan}
-          lede={c.ledes[reflections.story ?? ""] ?? c.lede}
-          onSharpen={() => goTo("sharpen")}
-          onSave={() => {
-            dispatch({ type: "save-artifact" });
-            goTo("done");
+          lede={sharpened ? c.ledeSharpened : c.ledeStart}
+          intro={toolboxSeen ? undefined : GUIDE_C3.story.toolboxIntro}
+          onDetail={() => {
+            setToolboxSeen(true);
+            setDetailBack("draft");
+            goTo("sharpen");
+          }}
+          onVersions={() => {
+            setToolboxSeen(true);
+            setBuiltVersions(true);
+            goTo("versions");
+          }}
+          onLater={() => {
+            setToolboxSeen(true);
+            saveAndFinish();
           }}
         />
       );
@@ -622,38 +645,54 @@ export function OnboardingConcept3() {
           flow={flow}
           frame={frame()}
           drawer={{ mode, setMode }}
-          onDone={() => goTo("draft")}
+          onDone={() => {
+            // The draft is rewritten from what was added; the longer versions
+            // simply read it.
+            if (detailBack === "draft") flow.withDelay("drafting", () => {});
+            goTo(detailBack);
+          }}
+        />
+      );
+
+    case "versions":
+      return (
+        <VersionsPage
+          flow={flow}
+          frame={frame()}
+          drawer={{ mode, setMode }}
+          onDetail={() => {
+            setDetailBack("versions");
+            goTo("sharpen");
+          }}
+          onBack={() => goTo("draft")}
+          onSave={() => {
+            dispatch({ type: "save-artifact" });
+            goTo("done");
+          }}
         />
       );
 
     case "done": {
       const c = GUIDE_C3.done;
       const stages = plan?.stages ?? [];
-      // What was done today, the quick win that comes next (sharpening, or
-      // the bio once the story is sharpened), then the plan's next stage.
+      // What is left to do, in order: the rest of the story, then the plan's
+      // next stage, then the LinkedIn numbers if they have not come in.
       const steps: { title: string; detail: string }[] = [];
-      steps.push({ title: c.thisWeek, detail: sharpened ? DONE_C1.storySharpened : DONE_C1.storyDraft });
-      steps.push({ title: c.then, detail: quickWinFor(plan ?? undefined, sharpened).title });
-      if (stages[1]) steps.push({ title: c.after, detail: `${stages[1].window}: ${stages[1].title}` });
+      if (!sharpened) steps.push(c.nextDetail);
+      if (!builtVersions) steps.push(c.nextVersions);
+      if (stages[1]) steps.push({ title: stages[1].title, detail: stages[1].outcomes[0] ?? "" });
+      if (!linkedInIn(a.linkedin)) steps.push(c.nextSignals);
       return (
         <GuidePage
           headingId={headingId}
           kicker={c.kicker}
           title={c.title}
           lede={c.lede}
-          why={c.why}
+          className="guide--done"
           primaryLabel={c.home}
           onPrimary={() => router.push(DONE_C1.homeHref)}
         >
-          {/* The file, open: everything learned, as the summary. */}
-          <AdvisorFile
-            label={GUIDE_C3.file.label}
-            items={items}
-            open
-            fixed
-          />
           <PointList items={steps} numbered label={c.nextLabel} />
-          {linkedInIn(a.linkedin) ? null : <p className="guide__next">{c.signals}</p>}
         </GuidePage>
       );
     }
@@ -675,14 +714,19 @@ interface PageProps {
 const toggle = (drawer: DrawerControl) => () => drawer.setMode(drawer.mode === "open" ? "peek" : "open");
 
 /** What the user said, back on the page, with the way to change it. */
-function Said({ value, onChange }: { value: string; onChange: () => void }) {
+function Said({ value, onChange, label }: { value: string; onChange: () => void; label?: string }) {
   return (
     <div className="guide__said">
       <p>
-        <span className="guide__said-label">{GUIDE_C3.drawer.said}</span>
+        <span className="guide__said-label">{label ?? GUIDE_C3.drawer.said}</span>
         <span className="guide__said-value">{value}</span>
       </p>
-      <button type="button" className="guide__said-change" onClick={onChange}>
+      <button
+        type="button"
+        className="guide__said-change"
+        aria-label={label ? `${GUIDE_C3.drawer.change}: ${label}` : undefined}
+        onClick={onChange}
+      >
         {GUIDE_C3.drawer.change}
       </button>
     </div>
@@ -699,18 +743,32 @@ function AccountPage({ flow, frame, drawer, onDone }: PageProps) {
   const c = GUIDE_C3.account;
   const [email, setEmail] = useState(state.answers.email ?? "");
   const [code, setCode] = useState(state.answers.inviteCode ?? "");
-  const [showCode, setShowCode] = useState(Boolean(state.answers.inviteCode));
+  // The invite code is a required choice: a code, or "I don't have a code".
+  // Coming back to the page, an email already given means the choice was made.
+  const [choice, setChoice] = useState<"yes" | "no" | null>(
+    state.answers.inviteCode ? "yes" : state.answers.email ? "no" : null
+  );
   const [codeError, setCodeError] = useState(false);
   const [verdict, setVerdict] = useState<ReturnType<typeof checkEmail> | null>(null);
-  const codeId = useId();
+  const codeBox = useRef<HTMLDivElement>(null);
+
+  // Choosing "I have an invite code" puts the cursor in its field.
+  useEffect(() => {
+    if (choice === "yes" && !code) codeBox.current?.querySelector("input")?.focus();
+    // Only when the choice changes, not as the code is typed.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [choice]);
+
+  const hasCode = choice === "yes";
 
   function submit() {
-    const codeOk = !showCode || !code.trim() || isValidInviteCode(code);
+    if (!choice || (hasCode && !code.trim())) return;
+    const codeOk = !hasCode || isValidInviteCode(code);
     const check = checkEmail(email);
     setCodeError(!codeOk);
     setVerdict(check === "ok" ? null : check);
     if (!codeOk || check !== "ok") return;
-    dispatch({ type: "set-invite-code", code: showCode ? code.trim() || null : null });
+    dispatch({ type: "set-invite-code", code: hasCode ? code.trim() : null });
     dispatch({ type: "set-email", email: email.trim() });
     onDone();
   }
@@ -730,6 +788,7 @@ function AccountPage({ flow, frame, drawer, onDone }: PageProps) {
           open={open}
           onToggle={toggle(drawer)}
           primaryLabel={c.cta}
+          primaryDisabled={!choice || (hasCode && !code.trim())}
           onPrimary={submit}
           autoFocusField
         >
@@ -752,35 +811,33 @@ function AccountPage({ flow, frame, drawer, onDone }: PageProps) {
               setVerdict(null);
             }}
           />
-          <div className="guide__invite">
-            <Button
-              variant="ghost"
-              size="sm"
-              aria-expanded={showCode}
-              aria-controls={codeId}
-              onClick={() => {
-                setShowCode((shown) => !shown);
-                setCodeError(false);
-              }}
-            >
-              {showCode ? c.inviteHide : c.inviteShow}
-            </Button>
-          </div>
-          <div id={codeId} hidden={!showCode}>
-            <Input
-              label="Invite code"
-              autoComplete="off"
-              value={code}
-              onChange={(event) => {
-                setCode(event.target.value);
-                setCodeError(false);
-              }}
-            />
-          </div>
+          <ChipGroup
+            label={c.inviteAsk}
+            options={[c.inviteYes, c.inviteNo]}
+            equalWidth
+            value={choice ? [choice === "yes" ? c.inviteYes : c.inviteNo] : []}
+            onChange={(next) => {
+              setChoice(next[0] === c.inviteYes ? "yes" : next[0] === c.inviteNo ? "no" : null);
+              setCodeError(false);
+            }}
+          />
+          {hasCode ? (
+            <div ref={codeBox}>
+              <Input
+                label={c.inviteField}
+                autoComplete="off"
+                value={code}
+                onChange={(event) => {
+                  setCode(event.target.value);
+                  setCodeError(false);
+                }}
+              />
+            </div>
+          ) : null}
           {codeError ? (
-            <Notice tone="explain" title="We do not recognise that code" live>
-              Check it against the invitation you were sent. You can also continue without one — a
-              code only changes who pays, never what you get.
+            <Notice tone="explain" title="We do not recognize that code" live>
+              Check it against the invitation you were sent. If you don’t have one, choose “{c.inviteNo}”.
+              A code only changes who pays, never what you get.
             </Notice>
           ) : null}
         </AnswerDrawer>
@@ -807,74 +864,92 @@ function DirectionPage({
   const { state, dispatch } = flow;
   const c = GUIDE_C3.direction;
   const d = GUIDE_C3.drawer;
-  const current = DIRECTION_PROMPTS_C1.find((p) => p.text === state.answers.direction);
-  const [picks, setPicks] = useState<string[]>(current ? [current.label, ...also] : []);
-  const [lead, setLead] = useState<string | null>(current?.label ?? null);
+  const allPrompts = [...DIRECTION_PROMPTS_C1, ...DIRECTION_MORE_C3];
+  const labels = (list: typeof allPrompts) => list.map((p) => p.label);
+  const promptFor = (text: string) => allPrompts.find((p) => p.label === text || p.text === text);
+
+  // What was answered before, if the user comes back: the lead first, then the
+  // rest. A narrower version stands for the option it came from.
+  const earlierLead = state.answers.direction;
+  const earlier = earlierLead ? [promptFor(baseDirection(earlierLead))?.label ?? earlierLead, ...also] : [];
+  const [picks, setPicks] = useState<string[]>(earlier.filter((item) => promptFor(item)));
+  const [more, setMore] = useState(earlier.some((item) => DIRECTION_MORE_C3.some((p) => p.label === item)));
+  // The second question's answer: one of the narrower versions.
+  const [lead, setLead] = useState<string | null>(earlierLead && isNarrowedDirection(earlierLead) ? earlierLead : null);
   const [asking, setAsking] = useState(false);
 
+  // Every pick has two narrower versions to choose between.
+  const optionsLeft = picks.flatMap((label) => DIRECTION_NARROWER_C3[promptFor(label)!.text]);
+  const leadChosen = lead && optionsLeft.includes(lead) ? lead : null;
+
   function finish(first: string) {
-    const prompt = DIRECTION_PROMPTS_C1.find((p) => p.label === first)!;
-    dispatch({ type: "set-direction", direction: prompt.text, source: "prompted" });
-    onAlso(picks.filter((label) => label !== first));
+    const parent = promptFor(baseDirection(first))?.label;
+    dispatch({ type: "set-direction", direction: first, source: "prompted" });
+    onAlso(picks.filter((label) => label !== parent));
     onDone();
   }
 
+  const options = [...labels(DIRECTION_PROMPTS_C1), ...(more ? labels(DIRECTION_MORE_C3) : [])];
+  const several = picks.length > 1;
   const open = drawer.mode === "open";
   return (
     <GuidePage
       {...frame}
       kicker={c.kicker}
-      title={asking ? c.first : c.title}
-      lede={asking ? c.firstLede : c.lede}
-      why={asking ? c.firstWhy : c.why}
+      title={asking ? (several ? c.first : c.narrowTitle) : c.title}
+      lede={asking ? (several ? c.firstLede : c.narrowLede) : c.lede}
+      why={asking ? (several ? c.firstWhy : c.narrowWhy) : c.why}
       drawer={
         asking ? (
           <AnswerDrawer
             key="first"
-            question={c.first}
+            question={several ? c.first : c.narrowTitle}
             questionId={frame.headingId}
-            step="2 of 2"
             open={open}
             onToggle={toggle(drawer)}
             primaryLabel={d.continue}
-            primaryDisabled={!lead || !picks.includes(lead)}
-            onPrimary={() => lead && finish(lead)}
+            primaryDisabled={!leadChosen}
+            onPrimary={() => leadChosen && finish(leadChosen)}
             secondaryLabel={d.back}
             onSecondary={() => setAsking(false)}
           >
-            <ChipGroup
-              label={c.first}
-              labelHidden
-              options={picks}
-              value={lead && picks.includes(lead) ? [lead] : []}
-              onChange={(next) => setLead(next[0] ?? null)}
-            />
+            {picks.map((label) => (
+              <ChipGroup
+                key={label}
+                label={label}
+                options={DIRECTION_NARROWER_C3[promptFor(label)!.text]}
+                equalWidth
+                value={leadChosen ? [leadChosen] : []}
+                onChange={(next) => setLead(next[0] ?? null)}
+              />
+            ))}
           </AnswerDrawer>
         ) : (
           <AnswerDrawer
             key="picks"
             question={c.title}
             questionId={frame.headingId}
-            step={picks.length > 1 ? "1 of 2" : undefined}
             open={open}
             onToggle={toggle(drawer)}
             peekStatus={picks.length ? `${picks.length} picked` : d.peek}
-            primaryLabel={picks.length > 1 ? d.next : d.continue}
+            primaryLabel={several ? c.whichFirst : c.narrow}
             primaryDisabled={!picks.length}
-            onPrimary={() => {
-              if (picks.length === 1) return finish(picks[0]);
-              if (!lead || !picks.includes(lead)) setLead(picks[0]);
-              setAsking(true);
-            }}
+            onPrimary={() => setAsking(true)}
           >
             <ChipGroup
               label={c.title}
               labelHidden
-              options={DIRECTION_PROMPTS_C1.map((p) => p.label)}
+              options={options}
               value={picks}
-              max={DIRECTION_PROMPTS_C1.length}
+              equalWidth
+              max={options.length}
               onChange={setPicks}
             />
+            {more ? null : (
+              <Button variant="ghost" size="sm" onClick={() => setMore(true)}>
+                {c.more}
+              </Button>
+            )}
           </AnswerDrawer>
         )
       }
@@ -882,9 +957,14 @@ function DirectionPage({
   );
 }
 
+/** "A, B and C", as the user picked them. */
+function listGoals(goals: string[]): string {
+  return goals.length > 1 ? `${goals.slice(0, -1).join(", ")} and ${goals[goals.length - 1]}` : goals[0];
+}
+
 /** "a, b and c", in lower case, for saying picked goals in a sentence. */
 function joinGoals(goals: string[]): string {
-  const said = goals.map((goal) => (goal.startsWith("C-suite") ? goal : goal.charAt(0).toLowerCase() + goal.slice(1)));
+  const said = goals.map((goal) => (/^C-suite|^I\b/.test(goal) ? goal : goal.charAt(0).toLowerCase() + goal.slice(1)));
   return said.length > 1 ? `${said.slice(0, -1).join(", ")} and ${said[said.length - 1]}` : said[0];
 }
 
@@ -923,8 +1003,10 @@ function ReflectPage({
       {...frame}
       kicker={GUIDE_C3.reflect.kicker}
       title={copy.title}
-      lede={copy.lede}
-      why={copy.why}
+      // Once answered, what the question is for and how to read it are said.
+      lede={done ? undefined : copy.lede}
+      why={done ? undefined : copy.why}
+      className={done ? "guide--answered" : undefined}
       primaryLabel={done ? GUIDE_C3.reflect.cta : undefined}
       onPrimary={onDone}
       drawer={
@@ -943,6 +1025,7 @@ function ReflectPage({
               label={copy.title}
               labelHidden
               options={copy.options}
+              equalWidth
               value={value ? [value] : []}
               onChange={(next) => onChange(next[0] ?? "")}
             />
@@ -985,8 +1068,13 @@ function QuestionPage({
   const c = GUIDE_C3.questions;
   const d = GUIDE_C3.drawer;
   const value = state.answers.refinement[question.id];
-  const option = question.options.find((o) => o.value === value);
-  const [typed, setTyped] = useState(value && !option ? value : "");
+  const everyOption = answerOptions(question);
+  const multi = Boolean(question.multi);
+  const parsed = parseAnswer(question, value);
+  const chosenValues = parsed.chosen.map((o) => o.value);
+  // Held-back options come out when none of the first ones fit, or when an
+  // answer chosen earlier is one of them.
+  const [more, setMore] = useState(parsed.chosen.some((o) => question.more?.includes(o)));
   const open = drawer.mode === "open";
 
   function answer(next: string) {
@@ -998,6 +1086,7 @@ function QuestionPage({
       {...frame}
       kicker={kicker}
       title={question.question}
+      lede={multi ? c.multiLede : undefined}
       why={c.why[question.id] ?? c.whyDefault}
       drawer={
         <AnswerDrawer
@@ -1007,11 +1096,8 @@ function QuestionPage({
           onToggle={toggle(drawer)}
           peekStatus={value ? d.peekAnswered : d.peek}
           primaryLabel={d.next}
-          primaryDisabled={!value && !typed.trim()}
-          onPrimary={() => {
-            if (!option && typed.trim()) answer(typed.trim());
-            onDone();
-          }}
+          primaryDisabled={!chosenValues.length}
+          onPrimary={onDone}
           secondaryLabel={c.skip}
           onSecondary={() => {
             dispatch({ type: "note-skip", id: question.id });
@@ -1021,88 +1107,25 @@ function QuestionPage({
           <ChipGroup
             label={question.question}
             labelHidden
-            options={question.options.map((o) => o.label)}
-            value={option ? [option.label] : []}
+            options={(more ? everyOption : question.options).map((o) => o.label)}
+            equalWidth
+            max={multi ? everyOption.length : 1}
+            value={parsed.chosen.map((o) => o.label)}
             onChange={(next) => {
-              const picked = question.options.find((o) => o.label === next[0]);
-              setTyped("");
-              answer(picked?.value ?? "");
+              const values = next
+                .map((label) => everyOption.find((o) => o.label === label)?.value)
+                .filter((v): v is string => Boolean(v));
+              answer(encodeAnswer(values, ""));
             }}
           />
-          <Input
-            label={c.typedLabel}
-            value={typed}
-            onChange={(event) => {
-              setTyped(event.target.value);
-              if (option) answer("");
-            }}
-          />
+          {question.more && !more ? (
+            <Button variant="ghost" size="sm" onClick={() => setMore(true)}>
+              {c.more}
+            </Button>
+          ) : null}
         </AnswerDrawer>
       }
     />
-  );
-}
-
-/**
- * What ExecHQ heard, said back, with the recommendation as the answers left
- * it. "Change it" brings up the drawer to put it in the user's own words.
- */
-function ReadbackPage({ flow, frame, drawer, onDone }: PageProps) {
-  const { state, dispatch } = flow;
-  const c = GUIDE_C3.readback;
-  const direction = state.answers.direction ?? "";
-  const heard = state.answers.interpretation ?? readBack(direction, state.answers.refinement);
-  const now = recommendC3(direction, state.answers.refinement);
-  const [draft, setDraft] = useState(heard);
-  // No drawer until the user asks to change what was heard.
-  const [asked, setAsked] = useState(false);
-  const showDrawer = asked;
-  const open = asked && drawer.mode === "open";
-
-  return (
-    <GuidePage
-      {...frame}
-      kicker={c.kicker}
-      title={c.title}
-      why={c.why}
-      primaryLabel={showDrawer ? undefined : c.confirm}
-      onPrimary={onDone}
-      secondaryLabel={showDrawer ? undefined : c.change}
-      onSecondary={() => {
-        setDraft(heard);
-        setAsked(true);
-        drawer.setMode("open");
-      }}
-      drawer={
-        showDrawer ? (
-          <AnswerDrawer
-            question={c.editLabel}
-            questionId={frame.headingId}
-            open={open}
-            onToggle={toggle(drawer)}
-            primaryLabel={c.save}
-            onPrimary={() => {
-              dispatch({ type: "edit-interpretation", interpretation: draft.trim() || heard });
-              setAsked(false);
-            }}
-            secondaryLabel={c.cancel}
-            onSecondary={() => setAsked(false)}
-            autoFocusField
-          >
-            <Input label={c.editLabel} multiline rows={4} value={draft} onChange={(event) => setDraft(event.target.value)} />
-          </AnswerDrawer>
-        ) : undefined
-      }
-    >
-      <p className="guide__heard">{heard}</p>
-      <RecommendationCard
-        lead={c.recLead}
-        name={now.plan.name}
-        formalName={now.plan.formalName}
-        reason={now.reason}
-        status={c.checked}
-      />
-    </GuidePage>
   );
 }
 
@@ -1116,23 +1139,29 @@ function draftFacts(inputs: PositioningInputs) {
 }
 
 /**
- * The first draft, written from what the user has said. Saving is the skip:
- * the draft is kept whichever way they go. Sharpening is the quieter action.
+ * The first draft, written from what the user has said. Under it, the ways
+ * on are equal choices, so leaving the rest for later reads as a real one:
+ * add detail now, build longer versions, or save it and come back.
  */
 function DraftPage({
   flow,
   frame,
   plan,
   lede,
-  onSharpen,
-  onSave,
+  intro,
+  onDetail,
+  onVersions,
+  onLater,
 }: {
   flow: OnboardingFlow;
   frame: Frame;
   plan: PlanTemplate | null;
   lede: string;
-  onSharpen: () => void;
-  onSave: () => void;
+  /** Where this is, said once. */
+  intro?: string;
+  onDetail: () => void;
+  onVersions: () => void;
+  onLater: () => void;
 }) {
   const { state, dispatch } = flow;
   const inputs = state.answers.positioning;
@@ -1147,11 +1176,18 @@ function DraftPage({
       title={c.title}
       lede={lede}
       why={c.why}
-      primaryLabel={c.cta}
-      primaryDisabled={editing}
-      onPrimary={onSave}
-      secondaryLabel={sharpened ? c.sharpenAgain : c.sharpen}
-      onSecondary={onSharpen}
+      foot={
+        editing ? undefined : (
+          <NextSteps
+            label={c.next.label}
+            steps={[
+              { label: c.next.detail.label, detail: c.next.detail.detail, onChoose: onDetail },
+              { label: c.next.versions.label, detail: c.next.versions.detail, onChoose: onVersions },
+              { label: c.next.later.label, detail: c.next.later.detail, onChoose: onLater },
+            ]}
+          />
+        )
+      }
     >
       <StoryDraft
         key={text}
@@ -1165,6 +1201,136 @@ function DraftPage({
         usesLabel={DRAFT_C1.usesLabel}
         uses={plan?.uses ?? []}
       />
+      <ExportLinks actions={DRAFT_EXPORTS} />
+      {intro ? <p className="guide__next">{intro}</p> : null}
+    </GuidePage>
+  );
+}
+
+/**
+ * The same story in three lengths. A fact ExecHQ doesn't know yet is a
+ * marked gap rather than something made up; the drawer asks for the few a
+ * bio needs that the draft didn't (name, team size, strengths), and "add more
+ * detail" covers the role and a result.
+ */
+function VersionsPage({
+  flow,
+  frame,
+  drawer,
+  onDetail,
+  onBack,
+  onSave,
+}: {
+  flow: OnboardingFlow;
+  frame: Frame;
+  drawer: DrawerControl;
+  onDetail: () => void;
+  onBack: () => void;
+  onSave: () => void;
+}) {
+  const { state, dispatch } = flow;
+  const inputs = state.answers.positioning;
+  const c = GUIDE_C3.story.versions;
+  const p = POSITIONING_C1;
+  const { viewport } = useViewport();
+  // On web the fields sit right beside the bio, so it fills in as they are
+  // answered and there is no button. On phone and tablet the drawer covers
+  // the bio, so a button applies what was typed.
+  const live = viewport === "web";
+  const [length, setLength] = useState<BioLength>("medium");
+  const [name, setName] = useState(inputs.name);
+  const [teamSize, setTeamSize] = useState(inputs.teamSize);
+  const [strengths, setStrengths] = useState<string[]>(inputs.strengths);
+  const [updated, setUpdated] = useState(false);
+  const goal = goalFor(state.answers.direction ?? "");
+  const segments = bioFor(live ? { ...inputs, name: name.trim(), teamSize, strengths } : inputs, goal, length);
+  const hasGaps = segments.some((segment) => "gap" in segment);
+  // The fields are offered if the bio had gaps on arrival, and stay for as
+  // long as the person is on the page, even once the last gap is filled.
+  const [offerFields] = useState(() => bioFor(inputs, goal, "long").some((segment) => "gap" in segment));
+  const open = drawer.mode === "open";
+  /** A change to a field: kept at once on web. */
+  const change = (patch: { name?: string; teamSize?: string; strengths?: string[] }) => {
+    setUpdated(false);
+    if (live) dispatch({ type: "set-positioning", patch });
+  };
+  return (
+    <GuidePage
+      {...frame}
+      kicker={GUIDE_C3.story.kicker}
+      title={c.title}
+      lede={c.lede}
+      primaryLabel={c.save}
+      onPrimary={onSave}
+      secondaryLabel={c.back}
+      onSecondary={onBack}
+      drawer={
+        offerFields ? (
+          <AnswerDrawer
+            question={c.fill.ask}
+            questionId={frame.headingId}
+            open={open}
+            onToggle={toggle(drawer)}
+            peekStatus={c.fill.peek}
+            webTitle={c.fill.ask}
+            hideActions={live}
+            primaryLabel={c.fill.cta}
+            onPrimary={() => {
+              dispatch({ type: "set-positioning", patch: { name: name.trim(), teamSize, strengths } });
+              setUpdated(true);
+              drawer.setMode("peek");
+            }}
+          >
+            <Input
+              label={c.fill.name}
+              autoComplete="name"
+              value={name}
+              onChange={(event) => {
+                setName(event.target.value);
+                change({ name: event.target.value.trim() });
+              }}
+            />
+            <ChipGroup
+              label={c.fill.team}
+              options={p.team.options}
+              value={teamSize ? [teamSize] : []}
+              onChange={(next) => {
+                setTeamSize(next[0] ?? "");
+                change({ teamSize: next[0] ?? "" });
+              }}
+            />
+            <ChipGroup
+              label={c.fill.strengths}
+              note={p.strengths.note}
+              options={p.strengths.options}
+              value={strengths}
+              max={p.strengths.max}
+              onChange={(next) => {
+                setStrengths(next);
+                change({ strengths: next });
+              }}
+            />
+          </AnswerDrawer>
+        ) : undefined
+      }
+    >
+      <ToggleGroup
+        label={c.lengthLabel}
+        shape="chips"
+        value={length}
+        onChange={(next) => setLength(next as BioLength)}
+        options={(Object.keys(p.lengths) as BioLength[]).map((key) => ({ value: key, label: p.lengths[key] }))}
+      />
+      <StoryText segments={segments} />
+      <output className="u-visually-hidden">{updated ? c.fill.updated : ""}</output>
+      {hasGaps ? (
+        <p className="guide__next">
+          {c.gapNote}{" "}
+          <button type="button" className="guide__said-change" onClick={onDetail}>
+            {GUIDE_C3.story.draft.sharpen}
+          </button>
+        </p>
+      ) : null}
       <ExportLinks actions={DRAFT_EXPORTS} />
     </GuidePage>
   );
@@ -1257,30 +1423,13 @@ function PlanPart({
   part,
   plan,
   direction,
-  refinement,
 }: {
   part: PageId;
   plan: PlanTemplate;
   direction: string;
-  refinement: Record<string, string>;
 }) {
-  if (part === "plan-start")
-    return (
-      <div className="guide__plan-start">
-        <p className="recommendation__name">{plan.name}</p>
-        {plan.formalName ? <p className="recommendation__formal">{plan.formalName}</p> : null}
-        <div className="plan-built">
-          <p className="plan-built__label">{GUIDE_C3.plan.builtFrom}</p>
-          <ul className="plan-built__tags">
-            {builtFrom(direction, refinement).map((tag) => (
-              <li key={tag}>{tag}</li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    );
   if (part === "plan-week")
-    return plan.thisWeek ? <ThisWeekCard label={PLAN_C1.thisWeek} whyLabel={PLAN_C1.why} {...plan.thisWeek} /> : null;
+    return plan.thisWeek ? <ThisWeekCard label={PLAN_C1.thisWeek} whyLabel={PLAN_C1.why} labelHidden {...plan.thisWeek} /> : null;
   if (part === "plan-stages")
     return (
       <div className="plan-ahead">
@@ -1300,31 +1449,20 @@ function PlanPart({
                   <li key={outcome}>{outcome}</li>
                 ))}
               </ul>
+              {stage.done ? (
+                <p className="guide__stage-done">
+                  <b>{PLAN_C1.doneWhen}</b> {stage.done}
+                </p>
+              ) : null}
             </li>
           ))}
         </ol>
+        <p className="guide__next">
+          {plan.after} {PLAN_C1.grows}
+        </p>
       </div>
     );
-  if (part === "plan-done")
-    return (
-      <ol className="guide__done">
-        {plan.stages?.map((stage) => (
-          <li key={stage.title}>
-            <p className="guide__stage-title">{stage.title}</p>
-            <p>
-              <b>{PLAN_C1.doneWhen}</b> {stage.done}
-            </p>
-          </li>
-        ))}
-      </ol>
-    );
-  // It grows: the plan's open end, and what feeds it.
-  return (
-    <div className="guide__grows">
-      <p className="guide__heard">{plan.after}</p>
-      <p className="guide__grows-note">{PLAN_C1.grows}</p>
-    </div>
-  );
+  return null;
 }
 
 export default OnboardingConcept3;

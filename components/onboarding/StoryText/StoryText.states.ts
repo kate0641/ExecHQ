@@ -3,7 +3,7 @@ import { NOT_INTERACTIVE } from "@/components/not-applicable";
 import { bioFor, goalFor, narrativeFor } from "@/mock/onboarding";
 import { StoryText } from "./StoryText";
 
-const goal = goalFor("C-suite in 3 years");
+const goal = goalFor("Reach the C-suite within three years");
 const empty = { name: "", role: "", own: "", teamSize: "", strengths: [], result: "", audience: "" };
 const filled = {
   name: "Maya Chen",

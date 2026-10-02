@@ -3,7 +3,7 @@
  *
  * Maya is the PRD's pilot persona: a senior marketing leader whose direction
  * is "I want to move from running campaigns to leading a broader marketing
- * organisation", on the Increase Leadership Scope plan (`mock/plan-stub.ts`).
+ * organization", on the Increase Leadership Scope plan (`mock/plan-stub.ts`).
  *
  * By decision on 2026-09-28 these five states replace the Day one / Week
  * three / Month three snapshots. They are picked from the dock and are live:
@@ -342,4 +342,65 @@ export const CHECKIN_COPY = {
   stepNotYet: "Not yet",
   stepWaiting: "Waiting to hear",
   stepLogged: "Logged",
+} as const;
+
+/* -----------------------------------------------------------------------------
+   HOMEPAGE CONCEPT 4 — COMBINED. Written 2026-10-02 from Kate's notes on the
+   three concepts: a briefing callout, a map of rings, then what is in
+   progress, then Your Signal Picture.
+   -------------------------------------------------------------------------- */
+
+export const MAP_COPY = {
+  /** The one line that leads to the Briefing. It never says what is in it. */
+  briefing: (date: string) => `Read today’s briefing — ${date}`,
+  heading: "Your map",
+  /** Under the map when nothing on it has been started. */
+  nothingInProgress: "Nothing in progress yet. Open a ring to read about what is on your map and start one.",
+  hintPick: "Tap a ring to see what is in it.",
+  legend: { done: "Done", inProgress: "In progress", notStarted: "Not started" },
+  state: { done: "Done", inProgress: "In progress", notStarted: "Not started" },
+  /** What each row says it does when tapped. */
+  rowOpen: "Opens in your Plan",
+  rowRead: "Read why, then start or skip",
+  ringCount: (done: number, total: number) => (total === 0 ? "Nothing yet" : done === total ? "All done" : `${done} of ${total} done`),
+  ringEmpty: "Nothing on your map in this ring yet.",
+  panelHint: "Each one opens in your Plan.",
+  panelHintUnstarted: "Ones you have not started open to read about first.",
+  askNew: "Ask for a new one",
+  askNone: "Nothing new to suggest right now. Check back after your next step.",
+  added: (title: string) => `Added to your map: ${title}. Open it to start it or skip it.`,
+  sheet: {
+    where: (horizon: string, stage: number, stageTitle: string) => `${horizon} · Stage ${stage}, ${stageTitle}`,
+    start: "Start this",
+    notForMe: "Not for me",
+    close: "Close",
+    skipTitle: "Why not?",
+    reasonLabel: "Reason",
+    skipHint: "Optional. It helps ExecHQ suggest better ones.",
+    reasons: ["Not relevant now", "Already done", "Not my priority", "Something else"] as const,
+    noteLabel: "Anything to add?",
+    skip: "Skip this one",
+    back: "Back",
+  },
+  skipped: (title: string) => `Skipped: ${title}. It is off your map.`,
+  started: "Started.",
+} as const;
+
+/* Your Signal Picture, as it sits at the foot of Concept 4: a short overview
+   of where she started and where she is now, one note of what has moved, one
+   thing to try next, and the way to the detail on the Plan page. Everything
+   in it is something she entered herself. */
+export const SIGNAL_PICTURE_COPY = {
+  heading: "Your Signal Picture",
+  asOf: (date: string) => `Since ${date}`,
+  /** Over the one thing to try. It is a suggestion, so it does not link on. */
+  nextLabel: "A next step",
+  planLabel: "See the detail in your Plan",
+  added: "Added to where you started.",
+  /** Nothing entered yet: what it will show, and the one way to begin. */
+  empty: {
+    intro: "This is where you see what you have put out there, from where you started to where you are now. To begin, add what you already have.",
+    shows: ["A podcast you have been on", "A mention in the press", "A talk you have given", "Somewhere you publish, like a newsletter or a blog"],
+    label: "Add what you already have",
+  },
 } as const;

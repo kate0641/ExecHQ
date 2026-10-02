@@ -6,7 +6,7 @@ import { AdvisorFile } from "./AdvisorFile";
 const noop = () => {};
 const items = [
   { label: "Signals", value: "LinkedIn connected" },
-  { label: "Where you’re going", value: "C-suite in 3 years" },
+  { label: "Where you’re going", value: "Reach the C-suite within three years" },
   { label: "Starting point", value: "Step up" },
 ];
 

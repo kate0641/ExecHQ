@@ -1,6 +1,7 @@
 export interface PointListItem {
   title: string;
-  detail: string;
+  /** One paragraph, or several. */
+  detail: string | readonly string[];
   /** What it does for the user, said after the detail. */
   helps?: string;
 }
@@ -28,7 +29,11 @@ export function PointList({ items, numbered = false, label, helpsLabel = "How it
       {items.map((item) => (
         <li key={item.title}>
           <p className="point-list__title">{item.title}</p>
-          <p className="point-list__detail">{item.detail}</p>
+          {(typeof item.detail === "string" ? [item.detail] : item.detail).map((paragraph) => (
+            <p key={paragraph} className="point-list__detail">
+              {paragraph}
+            </p>
+          ))}
           {item.helps ? (
             <p className="point-list__helps">
               <b>{helpsLabel}</b> {item.helps}

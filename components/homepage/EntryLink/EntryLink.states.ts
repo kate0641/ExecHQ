@@ -8,7 +8,7 @@ const plan = {
   icon: "flag" as const,
   eyebrow: "Your plan",
   title: "Step up",
-  detail: "Toward leading a broader marketing organisation",
+  detail: "Toward leading a broader marketing organization",
 };
 
 export const entryLinkStates = defineComponentStates({
@@ -45,7 +45,7 @@ export const entryLinkStates = defineComponentStates({
     { label: "Title only", props: { ...plan, detail: undefined } },
     {
       label: "A long title wraps",
-      props: { ...plan, title: "Step up", detail: "Toward leading a broader marketing organisation across brand, product marketing and communications" },
+      props: { ...plan, title: "Step up", detail: "Toward leading a broader marketing organization across brand, product marketing and communications" },
     },
     { label: "Hover", props: { ...plan, demo: "hover" } },
     { label: "Focus", props: { ...plan, demo: "focus" } },

@@ -6,7 +6,7 @@
  * What the account holds follows the Sprint 2 brief's Profile contents:
  * personal email, first and last name, an optional current title, the selected
  * plan, the LinkedIn and website connections with exactly what each shares,
- * notification, frequency and permission settings, and the organisation she
+ * notification, frequency and permission settings, and the organization she
  * belongs to, if any. There is no employer or company field, by
  * rule. The current title was added on 2026-09-29 (Kate); like the rest, only
  * she sees it.
@@ -14,19 +14,19 @@
 
 export type ConnectionId = "linkedin" | "website";
 
-/** What ExecHQ can tell her about, and how it reaches her. */
-export type NotifyTopic = "followUps" | "briefing" | "plan" | "news";
-export type NotifyChannel = "email" | "app";
-export type FollowUpCap = "week" | "fortnight" | "month";
+/** What ExecHQ can email her about. Email is the only way it reaches her:
+ *  there are no app or push notifications, no frequency setting and no quiet
+ *  hours. */
+export type NotifyTopic = "followUps" | "briefing" | "plan";
 export type UseId = "loop" | "connections" | "drafts";
 
-/** The organisation she belongs to, if one gave her the account. It is never
- *  her employer's view of her: it holds what the organisation may see. */
-export interface Organisation {
+/** The organization she belongs to, if one gave her the account. It is never
+ *  her employer's view of her: it holds what the organization may see. */
+export interface Organization {
   name: string;
   role: string;
   joinedOn: string;
-  /** Exactly what the organisation can see, in plain words. */
+  /** Exactly what the organization can see, in plain words. */
   sees: string[];
   /** What it never sees. */
   never: string[];
@@ -57,7 +57,7 @@ export interface Account {
   /** Her direction, in her own words from onboarding. */
   direction: string;
   /** The same direction, short enough to follow "toward" on the homepage:
-   *  "leading a broader marketing organisation". Written by hand in the
+   *  "leading a broader marketing organization". Written by hand in the
    *  prototype; the product needs a way to make it from her words. */
   towardShort?: string;
   plan: {
@@ -68,17 +68,13 @@ export interface Account {
     startedOn: string;
   };
   connections: Connection[];
-  /** Which topics reach her, by email and in the app. Follow-ups off by
-   *  email means they only appear on Home. */
-  notify: Record<NotifyTopic, Record<NotifyChannel, boolean>>;
-  /** The most often a follow-up may email her. */
-  followUpCap: FollowUpCap;
-  /** No emails from 9pm to 7am; they wait until it ends. */
-  quietHours: boolean;
+  /** Which topics are emailed to her. Follow-ups off means they only appear
+   *  on Home. */
+  notify: Record<NotifyTopic, boolean>;
   /** What ExecHQ may draw on to suggest her next step. */
   uses: Record<UseId, boolean>;
-  /** Undefined when she is not part of an organisation. */
-  org?: Organisation;
+  /** Undefined when she is not part of an organization. */
+  org?: Organization;
 }
 
 /** "Maya Chen": first and last name together, whichever she has given. */
@@ -104,8 +100,8 @@ export const MAYA: Account = {
   lastName: "Chen",
   jobTitle: "Senior Director, Campaigns",
   direction:
-    "I want to move from running campaigns to leading a broader marketing organisation.",
-  towardShort: "leading a broader marketing organisation",
+    "I want to move from running campaigns to leading a broader marketing organization.",
+  towardShort: "leading a broader marketing organization",
   plan: {
     id: "leadership-scope",
     name: "Step up",
@@ -128,24 +124,17 @@ export const MAYA: Account = {
       shares: WEBSITE_SHARES,
     },
   ],
-  notify: {
-    followUps: { email: true, app: true },
-    briefing: { email: true, app: false },
-    plan: { email: true, app: true },
-    news: { email: false, app: false },
-  },
-  followUpCap: "week",
-  quietHours: true,
+  notify: { followUps: true, briefing: true, plan: true },
   uses: { loop: true, connections: true, drafts: true },
   org: {
     name: "Northgate Leadership Programme",
     role: "Member",
     joinedOn: "2026-09-14",
-    sees: ["That you are a member", "Totals across all members, with no names"],
+    sees: ["a summary of everyone in the group, as a whole"],
     never: [
-      "Your drafts, your Loop record, your connections or your plan",
-      "When you sign in, or what you open",
-      "Your name, your email or your current title",
+      "your name or email",
+      "your drafts, Loop record or plan",
+      "when you sign in or what you open",
     ],
   },
 };

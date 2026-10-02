@@ -10,6 +10,11 @@
  */
 import { COMPONENT_GROUPS, type ComponentGroup, type RegisteredComponent } from "./types";
 
+import { mapRingsStates } from "./homepage/MapRings/MapRings.states";
+import { mapPanelStates } from "./homepage/MapPanel/MapPanel.states";
+import { actionSheetStates } from "./homepage/ActionSheet/ActionSheet.states";
+import { briefingCalloutStates } from "./homepage/BriefingCallout/BriefingCallout.states";
+import { signalPictureStates } from "./homepage/SignalPicture/SignalPicture.states";
 import { badgeStates } from "./primitives/Badge/Badge.states";
 import { buttonStates } from "./primitives/Button/Button.states";
 import { iconStates } from "./primitives/Icon/Icon.states";
@@ -26,21 +31,14 @@ import { navPlaceholderStates } from "./layout/NavPlaceholder/NavPlaceholder.sta
 import { stepBarStates } from "./layout/StepBar/StepBar.states";
 import { sheetStates } from "./layout/Sheet/Sheet.states";
 import { stepHeaderStates } from "./onboarding/StepHeader/StepHeader.states";
-import { stepProgressStates } from "./onboarding/StepProgress/StepProgress.states";
 import { stepActionsStates } from "./onboarding/StepActions/StepActions.states";
-import { directionFieldStates } from "./onboarding/DirectionField/DirectionField.states";
 import { noticeStates } from "./onboarding/Notice/Notice.states";
 import { generatingStateStates } from "./onboarding/GeneratingState/GeneratingState.states";
 import { planTemplateCardStates } from "./onboarding/PlanTemplateCard/PlanTemplateCard.states";
-import { wizardStepStates } from "./onboarding/WizardStep/WizardStep.states";
 import { welcomeSplitStates } from "./onboarding/WelcomeSplit/WelcomeSplit.states";
-import { privacySplashStates } from "./onboarding/PrivacySplash/PrivacySplash.states";
-import { answerListStates } from "./onboarding/AnswerList/AnswerList.states";
-import { advisorNoteStates } from "./onboarding/AdvisorNote/AdvisorNote.states";
 import { thisWeekCardStates } from "./onboarding/ThisWeekCard/ThisWeekCard.states";
-import { planTimelineStates } from "./onboarding/PlanTimeline/PlanTimeline.states";
+import { nextStepsStates } from "./onboarding/NextSteps/NextSteps.states";
 import { storyTextStates } from "./onboarding/StoryText/StoryText.states";
-import { revisionChipsStates } from "./onboarding/RevisionChips/RevisionChips.states";
 import { answerDrawerStates } from "./onboarding/AnswerDrawer/AnswerDrawer.states";
 import { deviceKeyboardStates } from "./onboarding/DeviceKeyboard/DeviceKeyboard.states";
 import { goodExampleStates } from "./onboarding/GoodExample/GoodExample.states";
@@ -50,10 +48,6 @@ import { pointListStates } from "./onboarding/PointList/PointList.states";
 import { reflectionReplyStates } from "./onboarding/ReflectionReply/ReflectionReply.states";
 import { recommendationCardStates } from "./onboarding/RecommendationCard/RecommendationCard.states";
 import { signalSourcesStates } from "./onboarding/SignalSources/SignalSources.states";
-import { draftSectionStates } from "./onboarding/DraftSection/DraftSection.states";
-import { storySummaryCardStates } from "./onboarding/StorySummaryCard/StorySummaryCard.states";
-import { planSummaryCardStates } from "./onboarding/PlanSummaryCard/PlanSummaryCard.states";
-import { storyOutputsStates } from "./onboarding/StoryOutputs/StoryOutputs.states";
 import { storyDraftStates } from "./onboarding/StoryDraft/StoryDraft.states";
 import { linkedInStepsStates } from "./onboarding/LinkedInSteps/LinkedInSteps.states";
 import { linkedInUploadStates } from "./onboarding/LinkedInUpload/LinkedInUpload.states";
@@ -65,10 +59,6 @@ import { chatComposerStates } from "./chat/ChatComposer/ChatComposer.states";
 import { chatWelcomeStates, introCardStates } from "./chat/ChatWelcome/ChatWelcome.states";
 import { loopStatusStates } from "./loop/LoopStatus/LoopStatus.states";
 import { destinationStubStates } from "./layout/DestinationStub/DestinationStub.states";
-import { tabBarStates } from "./navigation/TabBar/TabBar.states";
-import { iconLinkStates } from "./navigation/IconLink/IconLink.states";
-import { drawerNavStates } from "./navigation/DrawerNav/DrawerNav.states";
-import { menuButtonStates } from "./navigation/MenuButton/MenuButton.states";
 import { conciergePillStates } from "./navigation/ConciergePill/ConciergePill.states";
 import { conciergePanelStates } from "./navigation/ConciergePanel/ConciergePanel.states";
 import { loopTrackStates } from "./loop/LoopTrack/LoopTrack.states";
@@ -102,7 +92,7 @@ import { exportDetailStates } from "./profile/ExportDetail/ExportDetail.states";
 import { deletionDetailStates } from "./profile/DeletionDetail/DeletionDetail.states";
 import { notificationsDetailStates } from "./profile/NotificationsDetail/NotificationsDetail.states";
 import { usesDetailStates } from "./profile/UsesDetail/UsesDetail.states";
-import { organisationDetailStates } from "./profile/OrganisationDetail/OrganisationDetail.states";
+import { organizationDetailStates } from "./profile/OrganizationDetail/OrganizationDetail.states";
 import { checkboxStates } from "./form/Checkbox/Checkbox.states";
 import { codeFieldStates } from "./form/CodeField/CodeField.states";
 import { providerButtonsStates } from "./login/ProviderButtons/ProviderButtons.states";
@@ -127,23 +117,14 @@ export const registry: RegisteredComponent[] = [
   stepBarStates,
   sheetStates,
   stepHeaderStates,
-  stepProgressStates,
   stepActionsStates,
-  directionFieldStates,
   noticeStates,
   generatingStateStates,
   planTemplateCardStates,
-  wizardStepStates,
   welcomeSplitStates,
-  privacySplashStates,
-  answerListStates,
-  advisorNoteStates,
   thisWeekCardStates,
-  planTimelineStates,
+  nextStepsStates,
   storyTextStates,
-  revisionChipsStates,
-  planSummaryCardStates,
-  draftSectionStates,
   signalSourcesStates,
   guidePageStates,
   goodExampleStates,
@@ -153,8 +134,6 @@ export const registry: RegisteredComponent[] = [
   pointListStates,
   reflectionReplyStates,
   recommendationCardStates,
-  storySummaryCardStates,
-  storyOutputsStates,
   storyDraftStates,
   linkedInStepsStates,
   linkedInUploadStates,
@@ -167,16 +146,17 @@ export const registry: RegisteredComponent[] = [
   introCardStates,
   loopStatusStates,
   destinationStubStates,
-  tabBarStates,
-  iconLinkStates,
-  drawerNavStates,
-  menuButtonStates,
   conciergePillStates,
   conciergePanelStates,
   loopTrackStates,
   nextStepCardStates,
   briefingEntryStates,
   entryLinkStates,
+  mapRingsStates,
+  signalPictureStates,
+  mapPanelStates,
+  actionSheetStates,
+  briefingCalloutStates,
   briefingCardStates,
   briefingEditorialStates,
   accountCardStates,
@@ -204,7 +184,7 @@ export const registry: RegisteredComponent[] = [
   deletionDetailStates,
   notificationsDetailStates,
   usesDetailStates,
-  organisationDetailStates,
+  organizationDetailStates,
   checkboxStates,
   codeFieldStates,
   providerButtonsStates,

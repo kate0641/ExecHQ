@@ -90,18 +90,6 @@ export const prototypeConfig: PrototypeConfig = {
         "The first ninety seconds: privacy promise, career direction, plan selection and one usable artifact — one continuous sequence, never a setup tool.",
       concepts: [
         {
-          slug: "concept-1",
-          title: "Concept 1 — Paged wizard",
-          summary:
-            "One decision per screen, explicit progress, nothing below the fold. The baseline.",
-        },
-        {
-          slug: "concept-2",
-          title: "Concept 2 — Conversational intake",
-          summary:
-            "One thread. Every question and answer stays on screen as the record.",
-        },
-        {
           slug: "concept-3",
           title: "Concept 3 — Guided",
           summary:
@@ -122,6 +110,7 @@ export const prototypeConfig: PrototypeConfig = {
         {
           slug: "concept-1",
           title: "Concept 1 — Open page",
+          status: "approved",
           summary:
             "A quiet white page: an emailed link or a code to sign in, Google and Apple beside it, and help when the inbox is out of reach.",
         },
@@ -139,20 +128,9 @@ export const prototypeConfig: PrototypeConfig = {
         {
           slug: "concept-1",
           title: "Concept 1 — Concierge",
+          status: "approved",
           summary:
             "The onboarding advisor on every page: one box to go anywhere, log what happened, get ready, or talk it through.",
-        },
-        {
-          slug: "concept-2",
-          title: "Concept 2 — Tab bar",
-          summary:
-            "Home, Plan, Toolbox and Briefing in a bar whose pill glides and whose icons show something true. Profile in the top right.",
-        },
-        {
-          slug: "concept-3",
-          title: "Concept 3 — Drawer",
-          summary:
-            "A menu that makes the page step aside, a line of context under every destination, a rail on tablet and a sidebar on web.",
         },
       ],
     },
@@ -183,6 +161,12 @@ export const prototypeConfig: PrototypeConfig = {
           summary:
             "Plan forward: the roadmap as a table of contents, the current stage opened up with what it asks now, and the next step.",
         },
+        {
+          slug: "concept-4",
+          title: "Concept 4 — Combined",
+          summary:
+            "The three together: a line to today’s Briefing, a map of three rings, what is in progress, and Your Signal Picture.",
+        },
       ],
     },
     {
@@ -197,6 +181,7 @@ export const prototypeConfig: PrototypeConfig = {
         {
           slug: "concept-1",
           title: "Concept 1 — Grouped",
+          status: "approved",
           summary:
             "Profile and settings on one page: labelled groups of rows, each ending in its current value. Details open in a sheet on mobile and tablet, beside the list on web.",
         },

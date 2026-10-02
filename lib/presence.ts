@@ -26,25 +26,41 @@ export function addedBy(today: string, items: readonly PresenceItem[] = PRESENCE
   return items.filter((item) => item.on <= today);
 }
 
-/** The baseline and today's count for every kind, in card order. */
-export function presenceCounts(today: string, items: readonly PresenceItem[] = PRESENCE_ITEMS): PresenceCount[] {
+/**
+ * The baseline and today's count for every kind, in card order. What she
+ * marked as already having when she began counts toward where she started.
+ * `seeded` is false on the first return, when nobody has entered a baseline
+ * yet and the prototype's own starting counts would be made up.
+ */
+export function presenceCounts(
+  today: string,
+  items: readonly PresenceItem[] = PRESENCE_ITEMS,
+  seeded = true
+): PresenceCount[] {
   const added = addedBy(today, items);
   return PRESENCE_ORDER.map((kind) => {
     const ofKind = added.filter((item) => item.kind === kind);
+    const then = (seeded ? PRESENCE_BASELINE[kind] : 0) + ofKind.filter((item) => item.baseline).length;
     return {
       kind,
-      then: PRESENCE_BASELINE[kind],
-      now: PRESENCE_BASELINE[kind] + ofKind.length,
-      latest: ofKind[ofKind.length - 1],
+      then,
+      now: then + ofKind.filter((item) => !item.baseline).length,
+      latest: ofKind.filter((item) => !item.baseline).at(-1),
     };
   });
+}
+
+/** Whether she has a baseline to show: the starting counts, or something she
+ *  entered herself. */
+export function hasBaseline(items: readonly PresenceItem[], seeded: boolean): boolean {
+  return seeded || items.some((item) => item.baseline);
 }
 
 /** Anything added within the last week, newest first. */
 export function recentlyAdded(today: string, items: readonly PresenceItem[] = PRESENCE_ITEMS): PresenceItem[] {
   const since = addDays(today, -6);
   return addedBy(today, items)
-    .filter((item) => item.on >= since)
+    .filter((item) => item.on >= since && !item.baseline)
     .reverse();
 }
 

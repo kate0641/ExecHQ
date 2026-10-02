@@ -101,6 +101,9 @@ export interface PresenceItem {
   on: string;
   /** Where to find it, if she gave a link. */
   link?: string;
+  /** She added it as something she already had when she began, so it counts
+   *  toward where she started, not toward what has moved since. */
+  baseline?: boolean;
 }
 
 export const PRESENCE_KINDS: Record<
@@ -110,16 +113,26 @@ export const PRESENCE_KINDS: Record<
   podcast: { label: "Podcast appearances", noun: "appearance", nouns: "appearances", chip: "Podcast", whereLabel: "Which show?", wherePlaceholder: "The Modern CMO" },
   press: { label: "Press mentions", noun: "mention", nouns: "mentions", chip: "Press mention", whereLabel: "Which publication?", wherePlaceholder: "Marketing Week" },
   speaking: { label: "Speaking engagements", noun: "engagement", nouns: "engagements", chip: "Talk", whereLabel: "Which event?", wherePlaceholder: "Growth Summit" },
-  writing: { label: "Thought pieces", noun: "piece", nouns: "pieces", chip: "Thought piece", whereLabel: "Where is it?", wherePlaceholder: "LinkedIn article" },
+  writing: {
+    label: "Writing you publish",
+    noun: "piece",
+    nouns: "pieces",
+    chip: "Something I publish",
+    whereLabel: "Where do you publish?",
+    wherePlaceholder: "My newsletter, Medium, LinkedIn",
+  },
 };
 
 /** The add sheet: she adds these herself, with a note and, if she has one, a
  *  link. Nothing is searched for and nothing leaves the browser. */
 export const ADD_COPY = {
   title: "Add something you’ve done",
+  /** The same sheet, opened to set where she started. */
+  titleBaseline: "Add something you already have",
+  submitBaseline: "Add to where I started",
   kindLabel: "What is it?",
   noteLabel: "A title or a note",
-  noteHint: "Just enough for you to recognise it.",
+  noteHint: "Just enough for you to recognize it.",
   linkLabel: "A link, if you have one",
   linkPlaceholder: "https://",
   submit: "Add",

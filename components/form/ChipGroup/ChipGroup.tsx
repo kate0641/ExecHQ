@@ -17,6 +17,12 @@ export interface ChipGroupProps {
   /** How many may be chosen. 1 (the default) makes pressing another option
    *  replace the choice, and pressing the chosen one clear it. */
   max?: number;
+  /** Every chip the same width, one to a row, for options that are long
+   *  sentences rather than short tags. */
+  equalWidth?: boolean;
+  /** A line under an option's label, by option. Sets the chips as stacked
+   *  cards, left-aligned, so a longer line has room. */
+  details?: Readonly<Record<string, string>>;
   className?: string;
 }
 
@@ -36,6 +42,8 @@ export function ChipGroup({
   value,
   onChange,
   max = 1,
+  equalWidth = false,
+  details,
   className,
 }: ChipGroupProps) {
   const legendId = useId();
@@ -51,7 +59,7 @@ export function ChipGroup({
   }
 
   return (
-    <fieldset className={["chip-group", className].filter(Boolean).join(" ")}>
+    <fieldset className={["chip-group", equalWidth ? "chip-group--equal" : null, details ? "chip-group--detailed" : null, className].filter(Boolean).join(" ")}>
       <legend className={labelHidden ? "u-visually-hidden" : "chip-group__label"} id={legendId}>
         {label}
         {note ? <span className="chip-group__note"> {note}</span> : null}
@@ -68,7 +76,14 @@ export function ChipGroup({
               disabled={full && !chosen}
               onClick={() => toggle(option)}
             >
-              {option}
+              {details?.[option] ? (
+                <>
+                  <span className="chip-group__title">{option}</span>
+                  <span className="chip-group__detail">{details[option]}</span>
+                </>
+              ) : (
+                option
+              )}
             </button>
           );
         })}

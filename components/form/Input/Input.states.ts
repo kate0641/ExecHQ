@@ -48,7 +48,7 @@ export const inputStates = defineComponentStates({
       label: "Empty state — placeholder",
       props: {
         label: "What would you like to move toward?",
-        placeholder: "I want to lead a larger marketing organisation",
+        placeholder: "I want to lead a larger marketing organization",
       },
     },
     {
@@ -70,7 +70,7 @@ export const inputStates = defineComponentStates({
         multiline: true,
         rows: 2,
         defaultValue:
-          "I want to lead a larger organisation, with a broader remit than I have now.",
+          "I want to lead a larger organization, with a broader remit than I have now.",
       },
     },
     {

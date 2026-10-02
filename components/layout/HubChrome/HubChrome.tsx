@@ -8,6 +8,9 @@ export interface HubChromeProps {
   /** Overrides the title from HUB_PAGES, where a page wants its own wording. */
   title?: string;
   intro?: ReactNode;
+  /** Leaves out the menu between the hub's pages and the footer line, for a
+   *  page that is a document rather than a tool (an interaction spec). */
+  bare?: boolean;
   children: ReactNode;
 }
 
@@ -18,7 +21,7 @@ export interface HubChromeProps {
  * Deliberately not the product's `AppChrome`: these are reference tools for
  * designing ExecHQ, not screens in it.
  */
-export function HubChrome({ page, title, intro, children }: HubChromeProps) {
+export function HubChrome({ page, title, intro, bare = false, children }: HubChromeProps) {
   const hubPage = getHubPage(page);
 
   return (
@@ -31,18 +34,20 @@ export function HubChrome({ page, title, intro, children }: HubChromeProps) {
         </p>
         <h1 className="hub__title">{title ?? hubPage.title}</h1>
         {intro ? <div className="hub__intro t-measure">{intro}</div> : null}
-        <HubNav current={page} />
+        {bare ? null : <HubNav current={page} />}
       </header>
 
       <main className="hub__main" id="main">
         {children}
       </main>
 
-      <footer className="hub__footer">
-        <p className="hub__footer-text">
-          Sprint 0 — shell only. Product screens are designed in sprints 1 to 5.
-        </p>
-      </footer>
+      {bare ? null : (
+        <footer className="hub__footer">
+          <p className="hub__footer-text">
+            Sprint 0 — shell only. Product screens are designed in sprints 1 to 5.
+          </p>
+        </footer>
+      )}
     </div>
   );
 }

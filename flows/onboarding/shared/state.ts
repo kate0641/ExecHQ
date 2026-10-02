@@ -226,17 +226,21 @@ export function makeReducer(refinementCount: number, customPlanCount: number) {
           },
         };
 
-      case "set-direction":
+      case "set-direction": {
+        const changed = action.direction !== state.answers.direction;
         return {
           ...state,
           answers: {
             ...state.answers,
             direction: action.direction,
             directionSource: action.source,
-            // A changed direction invalidates everything derived from it.
+            // A changed direction invalidates everything derived from it,
+            // including the plan chosen for the old one.
             interpretation: null,
+            ...(changed ? { planId: null, planSource: null } : {}),
           },
         };
+      }
 
       case "edit-interpretation":
         return {

@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import { linkedInIn, type LinkedInUpload } from "@/flows/onboarding/shared";
 import { LINKEDIN_UPLOAD, SIGNALS_C1 } from "@/mock/onboarding";
@@ -15,15 +14,14 @@ export interface SignalSourcesProps {
 }
 
 /**
- * The signal sources as rows, each with its status. LinkedIn is the only
+ * The signal sources as cards, each with its status. LinkedIn is the only
  * source, by decision on 2026-09-30: the personal website is no longer asked
  * for in onboarding.
  *
- * There is nothing to connect. The row opens the upload step, and shows the
- * file's progress: reading, then ready, or that the steps were emailed for
- * later. Nothing leaves the browser. Shared by Concept 1, where signals come
- * after the ending, and Concept 3, where they come right after the privacy
- * promise.
+ * There is nothing to connect. The page's own button opens the upload step;
+ * the card shows the file's progress once there is one: reading, then ready,
+ * or that the steps were emailed for later, and opens the step again to
+ * manage it. Nothing leaves the browser.
  */
 export function SignalSources({ linkedin, onOpenLinkedIn, className }: SignalSourcesProps) {
   const copy = SIGNALS_C1;
@@ -56,20 +54,12 @@ export function SignalSources({ linkedin, onOpenLinkedIn, className }: SignalSou
               >
                 {linkedInShort(linkedin)}
               </button>
-            ) : (
-              <Button
-                variant="secondary"
-                size="sm"
-                data-source={item.id}
-                onClick={onOpenLinkedIn}
-                aria-label={`${LINKEDIN_UPLOAD.upload}: ${item.title}`}
-              >
-                {copy.add}
-              </Button>
-            )}
+            ) : null}
           </li>
         ))}
       </ul>
+
+      <p className="signal-later">{copy.later}</p>
 
       <p className="signal-privacy">
         <Icon name="lock" size={16} />

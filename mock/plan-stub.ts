@@ -13,7 +13,9 @@
 
 export type Horizon = "short" | "medium" | "long";
 
-export type ActionStatus = "accepted" | "declined" | "deferred" | "completed";
+/** `suggested` is an action ExecHQ has put on the map that she has not started
+ *  or turned down (Homepage Concept 4). `deferred` reads the same way there. */
+export type ActionStatus = "accepted" | "declined" | "deferred" | "completed" | "suggested";
 
 export interface HorizonInfo {
   id: Horizon;
@@ -118,7 +120,7 @@ export const ACTIONS: LandscapeAction[] = [
     status: "accepted",
     whyThis: "It’s the clearest way to say what you lead, out loud, to the person who decides.",
     whyNow: "Your 1:1 with your manager is on Tuesday.",
-    whyYou: "You want to move from running campaigns to leading a broader marketing organisation.",
+    whyYou: "You want to move from running campaigns to leading a broader marketing organization.",
     whyLine: "Your 1:1 is on Tuesday, and saying what you lead out loud is the first step to the broader role you want.",
     artifactId: "story",
     signalId: "seen-as-leader",
@@ -186,7 +188,75 @@ export const ACTIONS: LandscapeAction[] = [
   },
 ];
 
-export const actionById = (id: string) => ACTIONS.find((a) => a.id === id);
+/**
+ * New actions to put on the map when she asks for one after a ring is
+ * complete (Homepage Concept 4). Stubbed: ranking and replacement are Sprint 3.
+ * Each is offered in the horizon she asked in, the first not yet offered.
+ */
+export const NEW_ACTIONS: LandscapeAction[] = [
+  {
+    id: "ask-manager-scope",
+    title: "Ask your manager what broader scope means to them",
+    horizon: "short",
+    status: "suggested",
+    whyThis: "You and your manager may mean different things by it, and hearing theirs shapes everything else.",
+    whyNow: "Your story is out, so the conversation is already open.",
+    whyYou: "You want a broader remit.",
+    whyLine: "Your story is out, and hearing what broader scope means to your manager shapes everything that follows.",
+    signalId: "decider-access",
+    stage: 1,
+  },
+  {
+    id: "share-result-up",
+    title: "Share one result with someone two levels up",
+    horizon: "short",
+    status: "suggested",
+    whyThis: "The people who decide on scope should see your work, not only hear about it.",
+    whyNow: "Planning season is when new work gets handed out.",
+    whyYou: "You said the results are there.",
+    whyLine: "Planning season is when new work gets handed out, and the people deciding should see a result, not only hear about it.",
+    signalId: "seen-as-leader",
+    stage: 1,
+  },
+  {
+    id: "sponsor-conversation",
+    title: "Plan your first conversation with the review’s sponsor",
+    horizon: "medium",
+    status: "suggested",
+    whyThis: "The sponsor decides who runs the review, so the first conversation matters.",
+    whyNow: "You are in the running for the review.",
+    whyYou: "Your manager already knows your planning work.",
+    whyLine: "The sponsor decides who runs the review, and you are already in the running, so the first conversation matters.",
+    signalId: "broader-remit",
+    stage: 2,
+  },
+  {
+    id: "map-decision-makers",
+    title: "Map who decides on a broader role",
+    horizon: "medium",
+    status: "suggested",
+    whyThis: "A broader role is decided by people you may not work with day to day.",
+    whyNow: "You have finished the work that gets you in the room.",
+    whyYou: "You want to lead a broader marketing organization.",
+    whyLine: "You have finished the work that gets you in the room, and knowing who decides on a broader role tells you who to be in front of.",
+    signalId: "decider-access",
+    stage: 2,
+  },
+  {
+    id: "name-successor",
+    title: "Name who could run your current team",
+    horizon: "long",
+    status: "suggested",
+    whyThis: "Being ready to move up includes showing who would take your place.",
+    whyNow: "Your case for scope is on paper.",
+    whyYou: "You want a broader role, which means leaving this one in good hands.",
+    whyLine: "Your case for scope is on paper, and showing who could run your team makes moving up an easy yes.",
+    signalId: "broader-remit",
+    stage: 3,
+  },
+];
+
+export const actionById = (id: string) => [...ACTIONS, ...NEW_ACTIONS].find((a) => a.id === id);
 export const signalById = (id: string) => SIGNALS.find((s) => s.id === id);
 
 /* -----------------------------------------------------------------------------

@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { StepActions } from "@/components/onboarding/StepActions";
+import type { ButtonVariant } from "@/components/primitives/Button";
 
 export interface GuidePageProps {
   /** Where the user is, in words: the part of onboarding, e.g. "About you". */
@@ -22,6 +23,12 @@ export interface GuidePageProps {
   primaryLabel?: string;
   onPrimary?: () => void;
   primaryDisabled?: boolean;
+  /** `secondary` where the page's real action is in its body and the foot only
+   *  offers a way past it. */
+  primaryVariant?: ButtonVariant;
+  /** Something else at the foot, in place of the primary and secondary
+   *  actions: a set of equal choices, say. */
+  foot?: ReactNode;
   /** A peer to the primary action, e.g. "Skip for now". */
   secondaryLabel?: string;
   onSecondary?: () => void;
@@ -62,6 +69,8 @@ export function GuidePage({
   primaryLabel,
   onPrimary,
   primaryDisabled,
+  primaryVariant,
+  foot,
   secondaryLabel,
   onSecondary,
   cover = false,
@@ -109,12 +118,15 @@ export function GuidePage({
         </aside>
       ) : null}
 
-      {primaryLabel ? (
+      {foot ? (
+        <div className="guide__actions">{foot}</div>
+      ) : primaryLabel ? (
         <StepActions
           className="guide__actions"
           primaryLabel={primaryLabel}
           onPrimary={onPrimary}
           primaryDisabled={primaryDisabled}
+          primaryVariant={primaryVariant}
           skipLabel={secondaryLabel}
           onSkip={onSecondary}
         />

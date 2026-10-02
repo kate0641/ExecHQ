@@ -25,6 +25,7 @@ const SHELL = new Set([
   "hub/HubPanel",
   "hub/NavPicker",
   "hub/SnapshotPicker",
+  "hub/SpecDocument",
   "hub/StyleguideViewer",
   "hub/ViewportToggle",
   "layout/AppChrome",

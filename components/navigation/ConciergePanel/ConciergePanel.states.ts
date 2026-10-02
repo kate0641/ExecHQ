@@ -29,7 +29,7 @@ export const conciergePanelStates = defineComponentStates({
   status: "draft",
   flows: ["navigation"],
   description:
-    "The frame of Navigation Concept 1's advisor: his name, the conversation, and the composer. A sheet over the phone; a panel docked beside the page on tablet and web.",
+    "The frame of Navigation Concept 1's advisor: his name, the conversation, and the composer. A sheet over the phone; a centred card on tablet and web, which the pill grows into.",
   component: ConciergePanel,
   notApplicable: {
     disabled: "The advisor is always available.",
@@ -38,8 +38,8 @@ export const conciergePanelStates = defineComponentStates({
   },
   variants: [
     {
-      label: "Docked, mid-conversation — default",
-      props: { mode: "docked", children: conversation, onNew: noop, onClose: noop },
+      label: "Card, mid-conversation — default",
+      props: { mode: "card", children: conversation, onNew: noop, onClose: noop },
     },
     {
       label: "Sheet, on the phone",
@@ -48,13 +48,13 @@ export const conciergePanelStates = defineComponentStates({
     {
       label: "Empty, a new conversation",
       description: "Before anything is asked. The concept puts destinations, your work and suggestions here.",
-      props: { mode: "docked", children: start, onClose: noop },
+      props: { mode: "card", children: start, onClose: noop },
     },
     {
       label: "Loading, while he writes",
       description: "The typing message, from ChatMessage.",
       props: {
-        mode: "docked",
+        mode: "card",
         children: [conversation[0], h(ChatMessage, { key: "t", from: "advisor", lead: true, typing: true })],
         onNew: noop,
         onClose: noop,
@@ -62,10 +62,10 @@ export const conciergePanelStates = defineComponentStates({
     },
     {
       label: "A long conversation scrolls",
-      props: { mode: "docked", children: long, onNew: noop, onClose: noop },
+      props: { mode: "card", children: long, onNew: noop, onClose: noop },
     },
-    { label: "Close — hover", props: { mode: "docked", children: conversation, onClose: noop, demo: "hover" } },
-    { label: "Close — focus", props: { mode: "docked", children: conversation, onClose: noop, demo: "focus" } },
-    { label: "Close — pressed", props: { mode: "docked", children: conversation, onClose: noop, demo: "active" } },
+    { label: "Close — hover", props: { mode: "card", children: conversation, onClose: noop, demo: "hover" } },
+    { label: "Close — focus", props: { mode: "card", children: conversation, onClose: noop, demo: "focus" } },
+    { label: "Close — pressed", props: { mode: "card", children: conversation, onClose: noop, demo: "active" } },
   ],
 });

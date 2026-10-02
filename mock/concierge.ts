@@ -20,7 +20,7 @@ export const CONCIERGE_COPY = {
   role: "Your advisor",
   pillAsk: "Ask or go",
   placeholder: "Ask or go…",
-  newConversation: "New",
+  newConversation: "New chat",
   close: "Close the advisor",
   goHint: (label: string) => `Go to ${label}`,
 
@@ -96,7 +96,7 @@ export const CONCIERGE_COPY = {
   scope: {
     lead: "Here’s how I’d approach it, from what you’ve told me.",
     list: [
-      "Ask for a piece of work before a title. A cross-functional project is the cleanest first step toward a broader organisation, and much easier to say yes to.",
+      "Ask for a piece of work before a title. A cross-functional project is the cleanest first step toward a broader organization, and much easier to say yes to.",
       "Bring the proof in writing. Your recent wins are your strongest case. Senior people decide on paper, even after a good conversation.",
       "Find out who else decides. Your manager may not decide alone. Ask who weighs in, and what they’d need to see.",
     ],
@@ -108,8 +108,42 @@ export const CONCIERGE_COPY = {
     "Second, make the work visible to them before the decision, not at it. A two-line note after each win does more than a big presentation later.",
     "Who are you thinking of? It stays between us.",
   ],
-  fallback: [
-    "I don’t have a written answer for that in this prototype. The real advisor answers from everything in your account.",
-    "Here I can take you anywhere, log what happened, mark something used, help you finish a draft, remind you what you’ve done, and talk through asking for more scope.",
-  ],
+
+  /**
+   * What he says when he can't act on what was typed. Five kinds, each with
+   * its own reply, because a joke, a résumé request, a muddle and someone in
+   * trouble should not all get the same menu. Nothing said here is written to
+   * the Loop or kept beyond the conversation.
+   */
+  miss: {
+    unclear: {
+      lead: "I want to get this right, and I’m not sure what you’re asking.",
+      ask: "Is it one of these?",
+    },
+    offTopic: {
+      lead: "That’s outside what I’m here for. I stay with your career and your plan.",
+      ask: "Here’s what I can do instead.",
+    },
+    beyond: {
+      lead: "I can’t do that yet. I don’t write or edit résumés or profiles, search for jobs, or send anything for you.",
+      ask: "I can help with something close to it:",
+    },
+    /** Repeated misses: he stops offering the same menu. */
+    again: {
+      lead: "I’m still not catching it, and I don’t want to guess.",
+      ask: "Two places to start from:",
+    },
+    /** Someone in danger or distress. He does not try to coach it. */
+    crisis: [
+      "I’m sorry you’re carrying this. It’s more than I can help with, and you deserve someone who can.",
+      "If you might be in danger, call 911. If you’re thinking about hurting yourself, call or text 988, the Suicide & Crisis Lifeline, any time.",
+      "Nothing you’ve said here is saved to your plan.",
+    ],
+    /** Harassment, discrimination or legal trouble at work. */
+    work: [
+      "I’m sorry that’s happening. It’s more than I can advise on, and it’s worth talking to someone who can.",
+      "For harassment or discrimination, an employment lawyer or the U.S. Equal Employment Opportunity Commission can tell you where you stand. If your employer has an employee assistance program, it’s usually confidential.",
+      "Nothing you’ve said here is saved to your plan or seen by anyone else.",
+    ],
+  },
 } as const;

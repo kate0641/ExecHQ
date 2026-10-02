@@ -2,7 +2,7 @@ import { defineComponentStates } from "@/components/types";
 import { PLAN_TEMPLATES, recommendPlan } from "@/mock/onboarding";
 import { PlanTemplateCard } from "./PlanTemplateCard";
 
-const recommended = recommendPlan("I want to lead a larger organisation");
+const recommended = recommendPlan("I want to lead a larger organization");
 
 export const planTemplateCardStates = defineComponentStates({
   name: "PlanTemplateCard",

@@ -19,15 +19,8 @@ import type { ConnectionId } from "@/mock/account";
  *  pane on web. */
 export type ProfileDetailId =
   | "account"
-  | "direction"
-  | "linkedin"
-  | "website"
-  | "notifications"
-  | "uses"
-  | "organisation"
-  | "export"
-  | "delete"
-  | "sign-out";
+  | "organization"
+  | "delete";
 
 export const PROFILE_COPY = {
   title: "Profile",
@@ -38,8 +31,9 @@ export const PROFILE_COPY = {
     you: "You",
     connections: "Connections",
     settings: "Settings",
-    organisation: "Organisation",
+    organization: "Organization",
     data: "Your data",
+    delete: "Delete account",
   },
 
   rows: {
@@ -53,30 +47,26 @@ export const PROFILE_COPY = {
     notificationsValue: (on: number) => `${on} on`,
     uses: "What ExecHQ uses",
     usesValue: (on: number, of: number) => `${on} of ${of}`,
-    organisation: "Membership",
-    noOrganisation: "None",
+    organization: "Membership",
+    noOrganization: "None",
     export: "Download your data",
+    exportValue: "PDF",
+    exportWorking: "Downloading…",
+    exportStarted: "Your data is downloading as a PDF.",
     delete: "Delete account",
     signOut: "Sign out",
   },
 
   notifications: {
     heading: "Notifications",
-    lead: "Choose what reaches you, and how. The subject line of an email never says what it is about.",
-    channels: { email: "Email", app: "In the app" },
-    topics: {
-      followUps: { label: "Loop follow-ups", hint: "One question after you use something." },
+    /** Email is the only way ExecHQ reaches a person, said on the page. */
+    lead: "ExecHQ sends these by email. There are no app or push notifications.",
+    items: {
+      plan: { label: "Plan and follow-ups", hint: "A question after you use something, and a nudge when a step is due." },
       briefing: { label: "Daily Briefing", hint: "Three reads, once a day." },
-      plan: { label: "Plan reminders", hint: "When a step is due to move." },
-      news: { label: "Product news", hint: "Occasional. Off unless you want it." },
     },
-    capLabel: "How often follow-ups can email you",
-    caps: { week: "Weekly", fortnight: "Fortnightly", month: "Monthly" },
-    capHint: "At most one follow-up email in that time. Anything else waits for you on Home.",
-    quietLabel: "Quiet hours",
-    quietOn: "No emails from 9pm to 7am. They are sent when quiet hours end.",
-    quietOff: "Off. Emails can arrive at any hour.",
-    saved: "Notifications updated.",
+    savedOn: (label: string) => `${label} emails: on.`,
+    savedOff: (label: string) => `${label} emails: off.`,
   },
 
   uses: {
@@ -92,33 +82,36 @@ export const PROFILE_COPY = {
     offNote: "With something off, your suggestions lean on less, so they may be more general.",
   },
 
-  organisation: {
-    heading: "Your organisation",
-    member: (name: string) => `Your account comes through ${name}. It is still yours: only you can open it.`,
-    role: "Your role",
+  organization: {
+    heading: "Your organization",
+    member: (name: string) => `${name} sees a summary of everyone in the group, as a whole. It never sees you personally.`,
     joined: "Joined",
     sees: "What they can see",
     never: "What they never see",
-    leave: "Leave organisation",
+    leave: "Leave organization",
     confirmHeading: (name: string) => `Leave ${name}?`,
-    confirmBody: "You keep your account and everything in it. They stop seeing that you are a member.",
+    confirmBody: "You keep your account and everything in it. You drop out of the group’s summary.",
     confirm: "Leave",
     keep: "Stay a member",
     left: (name: string) => `You left ${name}.`,
-    noneLead: "You are not part of an organisation. This account is yours alone.",
-    noneHint: "If a programme invites you, it will show up here, with exactly what it can see.",
+    noneLead: "You are not part of an organization. This account is yours alone.",
+    noneHint: "If a program invites you, it will show up here, with exactly what it can see.",
   },
 
   account: {
     heading: "Your account",
+    nameLabel: "Name",
+    edit: "Edit",
+    editHeading: "Edit your account",
     firstNameLabel: "First name",
     lastNameLabel: "Last name",
     titleLabel: "Current title (optional)",
     titleHint: "As you’d say it yourself. Never your employer.",
     firstNameMissing: "Add your first name.",
     lastNameMissing: "Add your last name.",
+    emailMissing: "Add your email.",
+    emailInvalid: "Check your email. It should look like name@example.com.",
     emailLabel: "Email",
-    emailHint: "Your personal email. It’s how you sign in.",
     save: "Save",
     cancel: "Cancel",
     saved: "Saved.",
@@ -190,7 +183,6 @@ export const PROFILE_COPY = {
       answers: "Your direction and onboarding answers",
       drafts: (count: number) => (count === 1 ? "Your draft" : `Your ${count} drafts`),
       loop: "Your Loop record",
-      connection: (label: string) => `Your ${label.toLowerCase()} connection and what it shared`,
     },
     copyFirst: "Want a copy first?",
     confirm: "Delete my account",
@@ -219,8 +211,5 @@ export const PROFILE_COPY = {
 export const PROFILE_PROVISIONAL = {
   label: "Open",
   export: "Format and scope are still to be decided with the client.",
-  delete: "Immediate or with a grace period is still to be decided. This copy assumes immediate.",
   revoke: "What revoking deletes needs confirming with the client.",
-  followUps: "“At most one a week” stands in for the frequency cap the brief asks for.",
-  organisation: "What an organisation may see is still to be decided with the client, and has to match the Enterprise Dashboard.",
 } as const;

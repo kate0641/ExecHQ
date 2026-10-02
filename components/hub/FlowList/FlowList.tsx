@@ -67,19 +67,15 @@ export function FlowList({ compact = false, specs, headingLevel = 3 }: FlowListP
                   </ul>
 
                   {compact ? null : (
-                    <div className="flow-list__spec">
-                      <p className="t-eyebrow">Interaction spec</p>
-                      {spec?.content ? (
-                        <pre className="flow-list__spec-content">{spec.content}</pre>
-                      ) : (
-                        <p className="flow-list__spec-empty">
-                          No spec file yet. Run <code>npm run sync:specs</code>.
-                        </p>
+                    <p className="flow-list__spec">
+                      <TextLink href={`/specs/${flow.slug}`} tone="standalone">
+                        Interaction spec
+                        <span className="u-visually-hidden"> for {flow.title}</span>
+                      </TextLink>
+                      {spec?.content && !/Not yet written\.\s*$/.test(spec.content) ? null : (
+                        <span className="flow-list__spec-empty"> · not yet written</span>
                       )}
-                      <p className="flow-list__spec-path">
-                        <code>{spec?.path ?? `specs/${flow.slug}.md`}</code>
-                      </p>
-                    </div>
+                    </p>
                   )}
                 </li>
               );

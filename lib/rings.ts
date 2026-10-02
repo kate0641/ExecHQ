@@ -21,13 +21,13 @@ type Tasks = Record<string, TaskCheck> | undefined;
 
 /** An action is done when the Loop confirms its draft, or, for an action
  *  with no draft, when she says she's done it (her word). */
-function isDone(action: LandscapeAction, records: LoopRecord[], tasks: Tasks): boolean {
+export function isDone(action: LandscapeAction, records: LoopRecord[], tasks: Tasks): boolean {
   const record = action.artifactId ? records.find((r) => r.id === action.artifactId) : undefined;
   return isConfirmed(record) || Boolean(!action.artifactId && tasks?.[action.id]?.doneOn && !tasks[action.id].dropped);
 }
 
 /** Accepted, and not set aside on her word. */
-function isLive(action: LandscapeAction, tasks: Tasks): boolean {
+export function isLive(action: LandscapeAction, tasks: Tasks): boolean {
   return action.status === "accepted" && !tasks?.[action.id]?.dropped;
 }
 

@@ -30,6 +30,16 @@ export interface OpenRowProps extends RowBase {
   disabled?: boolean;
 }
 
+/** Does something at once, with no detail to open: a download, say. The value
+ *  at the end says what it does, or that it is working. */
+export interface ActionRowProps extends RowBase {
+  kind: "action";
+  value?: string;
+  onAction: () => void;
+  /** It is working: the button says so to assistive technology. */
+  busy?: boolean;
+}
+
 /** A value that can be read here but is changed nowhere, e.g. the email. */
 export interface StaticRowProps extends RowBase {
   kind: "static";
@@ -50,12 +60,12 @@ export interface LaterRowProps extends RowBase {
   tag: string;
 }
 
-export type SettingsRowProps = OpenRowProps | StaticRowProps | SwitchRowProps | LaterRowProps;
+export type SettingsRowProps = OpenRowProps | ActionRowProps | StaticRowProps | SwitchRowProps | LaterRowProps;
 
 /**
  * One row of a SettingsGroup: an optional icon, a label, and whatever the row does
- * at its end — a value and a chevron, a switch, or a note that the setting
- * comes later.
+ * at its end — a value and a chevron, a switch, a value for an action that
+ * happens at once, or a note that the setting comes later.
  */
 export function SettingsRow(props: SettingsRowProps) {
   const labelId = useId();
@@ -111,6 +121,21 @@ export function SettingsRow(props: SettingsRowProps) {
         {text}
         <span className="settings-row__value">{props.value}</span>
       </div>
+    );
+  }
+
+  if (props.kind === "action") {
+    return (
+      <button
+        type="button"
+        className={classes.replace("settings-row--action", "settings-row--open settings-row--action")}
+        onClick={props.onAction}
+        aria-busy={props.busy ? "true" : undefined}
+      >
+        {mark}
+        {text}
+        {props.value ? <span className="settings-row__value">{props.value}</span> : null}
+      </button>
     );
   }
 

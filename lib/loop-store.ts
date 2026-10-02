@@ -50,7 +50,7 @@ import { homeStateOf, type HomeStateId } from "@/mock/homepage";
 const STORAGE_KEY = "exechq.loop";
 /** Bumped whenever the stored shape or the snapshots' starting data change,
  *  so an old save is dropped rather than half-read. */
-const STORAGE_VERSION = 4;
+const STORAGE_VERSION = 7;
 
 export interface LoopStoreState {
   snapshot: SnapshotId;
@@ -155,6 +155,8 @@ function update(change: (current: Snapshot) => Partial<SnapshotState>): void {
         recommendations: next.recommendations,
         justAnswered: next.justAnswered,
         tasks: next.tasks,
+        choices: next.choices,
+        asked: next.asked,
       },
     },
   });
@@ -238,6 +240,22 @@ export const loopActions = {
     }),
   /** Set the offered next step aside: the record closes, nothing else moves. */
   setNextStepAside: (id: string) => updateRecord(id, (r, today) => closeRecord(r, today)),
+  /* The map (Homepage Concept 4). Starting, skipping and asking for a new
+     action are her choices; none of them touches a record or a ring segment. */
+  startAction: (id: string) =>
+    update(({ choices, today }) => ({ choices: { ...choices, [id]: { decision: "started", on: today } } })),
+  skipAction: (id: string, why?: { reason?: string; note?: string }) =>
+    update(({ choices, today }) => ({
+      choices: { ...choices, [id]: { decision: "skipped", on: today, ...(why?.reason ? { reason: why.reason } : {}), ...(why?.note ? { note: why.note } : {}) } },
+    })),
+  /** A ring is complete: its finished actions leave it, and the next new
+   *  action for that horizon joins. Reports whether there was one to add. */
+  askForNew: (retire: string[], add: string | undefined) => {
+    update(({ choices, asked, today }) => {
+      const retired = Object.fromEntries(retire.map((id) => [id, { decision: "retired" as const, on: today }]));
+      return { choices: { ...choices, ...retired }, asked: add ? [...(asked ?? []), add] : asked };
+    });
+  },
   updateAccount: (change: Partial<Account>) =>
     update(({ account }) => ({ account: { ...account, ...change } })),
 };

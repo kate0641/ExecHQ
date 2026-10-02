@@ -17,7 +17,7 @@ export const chatComposerStates = defineComponentStates({
     {
       label: "With voice, typed",
       props: {
-        value: "C-suite in 3 years",
+        value: "Reach the C-suite within three years",
         onChange: noop,
         onSend: noop,
         voice: { listening: false, onToggle: noop },

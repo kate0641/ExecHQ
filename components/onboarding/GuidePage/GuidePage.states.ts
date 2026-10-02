@@ -65,11 +65,21 @@ export const guidePageStates = defineComponentStates({
           createElement(ChipGroup, {
             label: GUIDE_C3.direction.title,
             labelHidden: true,
-            options: ["C-suite in 3 years", "Take on more of a leadership role", "Be seen as an executive"],
+            options: ["Reach the C-suite within three years", "Take on a bigger leadership role", "Be seen as an executive"],
             value: [],
             onChange: noop,
           })
         ),
+      },
+    },
+    {
+      label: "Foot only offers a way past",
+      props: {
+        kicker: GUIDE_C3.signals.kicker,
+        title: GUIDE_C3.signals.title,
+        primaryLabel: GUIDE_C3.signals.skip,
+        primaryVariant: "secondary" as const,
+        onPrimary: noop,
       },
     },
     {
@@ -81,8 +91,8 @@ export const guidePageStates = defineComponentStates({
         partCount: GUIDE_C3.parts.length,
         kicker: GUIDE_C3.signals.kicker,
         title: GUIDE_C3.signals.title,
-        why: GUIDE_C3.signals.why,
-        primaryLabel: GUIDE_C3.signals.done,
+        lede: GUIDE_C3.signals.lede,
+        primaryLabel: GUIDE_C3.signals.add,
         onPrimary: noop,
         secondaryLabel: GUIDE_C3.signals.skip,
         onSecondary: noop,

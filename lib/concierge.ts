@@ -5,8 +5,8 @@
  * Two steps, both pure:
  *
  * - `understand` turns what the reviewer typed into an action, by keywords.
- *   Anything it can't place becomes `fallback`, which says honestly what the
- *   prototype can do.
+ *   Anything it can't place becomes a `miss`, of one of five kinds, each with
+ *   its own reply (see `classifyMiss`).
  * - `respond` turns an action into the advisor's next turn, plus the change
  *   to make, if any: going somewhere, or a real move on the Loop (answering
  *   a follow-up, marking something used, taking up the next step). The
@@ -60,7 +60,12 @@ export type ConciergeAction =
   | { kind: "next" }
   | { kind: "scope" }
   | { kind: "politics" }
-  | { kind: "fallback" };
+  /** Input he can't act on. `again` is true when the one before it was a
+   *  miss too, so he stops offering the same menu. */
+  | { kind: "miss"; miss: MissKind; again: boolean };
+
+/** The kinds of input he can't act on. */
+export type MissKind = "unclear" | "off-topic" | "beyond" | "crisis" | "work";
 
 export interface ConciergeReply {
   label: string;
@@ -74,6 +79,9 @@ export interface AdvisorTurn {
   after?: string[];
   card?: { title: string; body: string };
   replies?: ConciergeReply[];
+  /** Set when this turn answered input he couldn't act on, so a second miss
+   *  in a row is noticed. */
+  miss?: MissKind;
   /** He has just asked what came of the follow-up, so the next free-text
    *  message is read as the answer. */
   asked?: "follow-up";
@@ -128,9 +136,39 @@ function classify(t: string): OutcomeType | null {
   return null;
 }
 
-export function understand(raw: string, ctx: ConciergeContext, asked?: "follow-up"): ConciergeAction {
+/**
+ * Input he can't act on, sorted into five kinds. Someone in danger or trouble
+ * is caught before anything else, so "my boss is harassing me" is never read
+ * as a question about managers.
+ */
+const CRISIS = /\b(suicid\w*|kill myself|end it all|want to die|self.?harm|hurt(ing)? myself|hurt me|not safe|in danger|being abused|abuse[sd]?|panic attack|can.?t cope|can.?t go on|no reason to live)\b/;
+const WORK_TROUBLE = /\b(harass\w*|discriminat\w*|bull(y|ied|ying)|retaliat\w*|hostile|assault\w*|sexist|racist|lawsuit|lawyer|attorney|sue (them|my|the)|wrongful\w*|hr complaint|whistleblow\w*)\b/;
+const BEYOND = /\b(r[eé]sum[eé]|cv|cover letter|linkedin (post|profile|headline|summary|message)|salary|negotiat\w*|interview|job (search|offer|posting|board)|find me a job|apply (to|for)|recruiters?|referral|reference letter|book|schedule|calendar|send (an? )?(email|message)|email (him|her|them|my)|remind me)\b/;
+const OFF_TOPIC = /\b(weather|joke|poem|recipe|sports?|scores?|news|stocks?|crypto|bitcoin|movies?|music|song|translate|calculate|capital of|who (is|was) (the )?(president|prime)|tell me about (yourself|you)|are you (an? )?(ai|robot|human|real)|your name)\b/;
+
+export function classifyMiss(t: string, recentMisses: number): ConciergeAction {
+  if (CRISIS.test(t)) return { kind: "miss", miss: "crisis", again: false };
+  if (WORK_TROUBLE.test(t)) return { kind: "miss", miss: "work", again: false };
+  // A muddle twice in a row, and he stops offering the same list. A request he
+  // can name (off topic, or beyond him) always gets its own plain answer: the
+  // person has been understood, so "I'm not catching it" would be wrong.
+  if (BEYOND.test(t)) return { kind: "miss", miss: "beyond", again: false };
+  if (OFF_TOPIC.test(t)) return { kind: "miss", miss: "off-topic", again: false };
+  return { kind: "miss", miss: "unclear", again: recentMisses >= 1 };
+}
+
+export function understand(
+  raw: string,
+  ctx: ConciergeContext,
+  asked?: "follow-up",
+  /** How many of his last turns, in a row, were misses. */
+  recentMisses = 0
+): ConciergeAction {
   const t = raw.toLowerCase().trim().replace(/[.!?]+$/, "");
   const { records } = ctx.snapshot;
+
+  // Someone in danger or in trouble at work is never read as anything else.
+  if (CRISIS.test(t) || WORK_TROUBLE.test(t)) return classifyMiss(t, recentMisses);
 
   const place = t.match(/^(?:go(?: to)?|open|take me to|show me)?\s*(?:my\s+|the\s+)?(home(?:page)?|plan|toolbox|(?:daily )?briefing|profile|account|settings)$/);
   if (place) return { kind: "go", flow: PLACES[place[1]] };
@@ -166,7 +204,9 @@ export function understand(raw: string, ctx: ConciergeContext, asked?: "follow-u
   if (/\b(what.?s next|next step|next on|what should i do|what now)\b/.test(t)) return { kind: "next" };
   if (/\b(scope|promot|bigger role|ask for more|raise|title|remit)/.test(t)) return { kind: "scope" };
   if (/\b(manager|boss|stakeholder|difficult|politic|influence|peers?)\b/.test(t)) return { kind: "politics" };
-  return { kind: "fallback" };
+  // He asked how it went and could not tell: ask again, with the answers.
+  if (asked === "follow-up" && followUp) return { kind: "ask-follow-up" };
+  return classifyMiss(t, recentMisses);
 }
 
 /* -----------------------------------------------------------------------------
@@ -227,7 +267,7 @@ export function respond(
 
     case "answer": {
       const r = byId(ctx, action.recordId);
-      if (!r) return respond({ kind: "fallback" }, ctx);
+      if (!r) return respond({ kind: "miss", miss: "unclear", again: false }, ctx);
       const effect: ConciergeEffect = { kind: "answer", recordId: r.id, outcome: action.outcome, detail: action.detail };
       if (action.outcome === "no-response-yet") {
         const count = r.nothingYet + 1;
@@ -277,7 +317,7 @@ export function respond(
 
     case "check-back": {
       const r = byId(ctx, action.recordId);
-      if (!r) return respond({ kind: "fallback" }, ctx);
+      if (!r) return respond({ kind: "miss", miss: "unclear", again: false }, ctx);
       const kind = ARTIFACT_KINDS[r.kind];
       const replies: ConciergeReply[] = [
         { label: C.inDays(kind.checkBackDays), action: { kind: "mark-used", recordId: r.id, days: kind.checkBackDays } },
@@ -289,7 +329,7 @@ export function respond(
 
     case "mark-used": {
       const r = byId(ctx, action.recordId);
-      if (!r) return respond({ kind: "fallback" }, ctx);
+      if (!r) return respond({ kind: "miss", miss: "unclear", again: false }, ctx);
       const label = ARTIFACT_KINDS[r.kind].usedLabel;
       const text =
         action.days === null
@@ -401,8 +441,30 @@ export function respond(
     case "politics":
       return { turn: { paragraphs: [...C.politics] } };
 
-    case "fallback":
+    case "miss": {
+      const m = C.miss;
+      const home: ConciergeReply = { label: C.goHome, action: { kind: "go", flow: "homepage" } };
+      // Someone in danger or in trouble at work gets care, not a menu, and the
+      // turn is not counted as a miss. Nothing here changes the Loop.
+      if (action.miss === "crisis") return { turn: { paragraphs: [...m.crisis], replies: [home] } };
+      if (action.miss === "work") return { turn: { paragraphs: [...m.work], replies: [home] } };
+      // A second miss in a row: he stops offering the same list.
+      if (action.again) {
+        return {
+          turn: {
+            paragraphs: [m.again.lead, m.again.ask],
+            replies: [{ label: C.suggest.next, action: { kind: "next" } }, home],
+            miss: action.miss,
+          },
+        };
+      }
+      const copy = action.miss === "off-topic" ? m.offTopic : action.miss === "beyond" ? m.beyond : m.unclear;
+      return {
+        turn: { paragraphs: [copy.lead, copy.ask], replies: suggestions(ctx).slice(0, 3), miss: action.miss },
+      };
+    }
+
     default:
-      return { turn: { paragraphs: [...C.fallback], replies: suggestions(ctx).slice(0, 3) } };
+      return respond({ kind: "miss", miss: "unclear", again: false }, ctx);
   }
 }

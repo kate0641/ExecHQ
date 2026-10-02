@@ -12,9 +12,11 @@ import { MailNotification } from "@/components/login/MailNotification";
 import { ProviderButtons } from "@/components/login/ProviderButtons";
 import { SignInEmail } from "@/components/login/SignInEmail";
 import { Notice } from "@/components/onboarding/Notice";
+import { WelcomeSplit } from "@/components/onboarding/WelcomeSplit";
 import { DetailPanel } from "@/components/profile/DetailPanel";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
+import { useStatusBarTone } from "@/lib/device-tone";
 import { conceptHref } from "@/lib/manifest";
 import { MAYA } from "@/mock/account";
 import {
@@ -32,8 +34,12 @@ import {
 /**
  * Login Concept 1 — Open page.
  *
- * White and quiet: a light blue glow in the corner, a pill field, a full-width Log in button, and Google and Apple as
- * traditional buttons.
+ * The same welcome as the start of onboarding: a dark panel with the wordmark,
+ * one serif line and the promise, over (phone) or beside (tablet, web) a
+ * white sheet with the sign-in. A pill field, a full-width Log in button, and
+ * Google and Apple as traditional buttons, with a line about privacy at the
+ * foot. After the first screen the panel shrinks to a band on the phone, so
+ * the form stays in reach.
  *
  * A one-time code is the main way in. After it is asked for, the email
  * arrives as the phone's notification; tapping it opens the drawn email in a
@@ -54,6 +60,9 @@ type SheetId = Provider | "email" | "recovery" | "private" | null;
 
 export function LoginConcept1() {
   const router = useRouter();
+
+  // The dark panel runs to the top edge of the phone.
+  useStatusBarTone("inverse");
   const [screen, setScreen] = useState<Screen>("sign-in");
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState<string>();
@@ -194,18 +203,16 @@ export function LoginConcept1() {
             ? C.picker.heading(C.signIn.providers[sheet])
             : "";
 
-  let body: React.ReactNode;
+  /** What the sheet shows for the current screen. */
+  let view: { eyebrow?: string; title: string; description?: string; children: React.ReactNode; footer?: React.ReactNode };
 
   if (screen === "sign-in") {
-    body = (
-      <>
-        <div className="login__centre">
-          <div className="login__intro">
-            <p className="login__kicker">{C.signIn.kicker}</p>
-            <h1 className="login__heading" id={HEADING} tabIndex={-1}>
-              {C.signIn.heading}
-            </h1>
-          </div>
+    view = {
+      eyebrow: C.signIn.kicker,
+      title: C.signIn.heading,
+      description: C.welcome.lede,
+      children: (
+        <>
           <form
             className="login__form"
             noValidate
@@ -243,7 +250,9 @@ export function LoginConcept1() {
               {C.signIn.start}
             </Link>
           </p>
-        </div>
+        </>
+      ),
+      footer: (
         <p className="login__privacy">
           <Icon name="lock" size={16} />
           <span>{C.private.line}</span>{" "}
@@ -251,64 +260,56 @@ export function LoginConcept1() {
             {C.private.more}
           </button>
         </p>
-      </>
-    );
+      ),
+    };
   } else if (screen === "inbox") {
-    body = (
-      <>
-        <div className="login__intro">
-          <h1 className="login__heading" id={HEADING} tabIndex={-1}>
-            {C.inbox.heading}
-          </h1>
-          <p className="login__lede">{C.inbox.lede(sentTo)}</p>
-        </div>
-        <CodeField
-          label={C.inbox.codeLabel}
-          value={code}
-          onChange={(value) => {
-            setCode(value);
-                    // The prototype takes any six digits.
-            if (value.length === 6) signIn();
-          }}
-        />
-        <p className="login__actions">
-          {resendLeft > 0 ? (
-            <span className="login__small">{C.inbox.resendIn(resendLeft)}</span>
-          ) : (
-            <button
-              type="button"
-              className="login__link"
-              onClick={() => {
-                send(sentTo);
-                setMessage(C.inbox.resent);
-              }}
-            >
-              {C.inbox.resend}
+    view = {
+      title: C.inbox.heading,
+      description: C.inbox.lede(sentTo),
+      children: (
+        <>
+          <CodeField
+            label={C.inbox.codeLabel}
+            value={code}
+            onChange={(value) => {
+              setCode(value);
+              // The prototype takes any six digits.
+              if (value.length === 6) signIn();
+            }}
+          />
+          <p className="login__actions">
+            {resendLeft > 0 ? (
+              <span className="login__small">{C.inbox.resendIn(resendLeft)}</span>
+            ) : (
+              <button
+                type="button"
+                className="login__link"
+                onClick={() => {
+                  send(sentTo);
+                  setMessage(C.inbox.resent);
+                }}
+              >
+                {C.inbox.resend}
+              </button>
+            )}
+            <button type="button" className="login__link" onClick={() => setScreen("sign-in")}>
+              {C.inbox.otherAddress}
             </button>
-          )}
-          <button type="button" className="login__link" onClick={() => setScreen("sign-in")}>
-            {C.inbox.otherAddress}
-          </button>
-        </p>
-        <div className="login__foot">
+          </p>
           <p className="login__small">
             {C.inbox.nothing}{" "}
             <button type="button" className="login__link" onClick={() => setSheet("recovery")}>
               {C.inbox.lostAccess}
             </button>
           </p>
-        </div>
-      </>
-    );
+        </>
+      ),
+    };
   } else if (screen === "expired") {
-    body = (
-      <>
-        <div className="login__intro">
-          <h1 className="login__heading" id={HEADING} tabIndex={-1}>
-            {C.expired.heading}
-          </h1>
-          <p className="login__lede">{C.expired.lede(sentTo)}</p>
-        </div>
+    view = {
+      title: C.expired.heading,
+      description: C.expired.lede(sentTo),
+      children: (
         <div className="login__buttons">
           <Button fullWidth onClick={() => send(sentTo)}>
             {C.expired.send}
@@ -317,51 +318,62 @@ export function LoginConcept1() {
             {C.inbox.otherAddress}
           </button>
         </div>
-      </>
-    );
+      ),
+    };
   } else {
-    body = (
-      <>
-        <div className="login__intro">
-          <h1 className="login__heading" id={HEADING} tabIndex={-1}>
-            {C.otherAccount.heading}
-          </h1>
-          <p className="login__lede">{C.otherAccount.lede}</p>
-        </div>
-        <Notice tone="explain" label={LOGIN_PROVISIONAL.label}>
-          {otherWhy === "apple" ? LOGIN_PROVISIONAL.relay : LOGIN_PROVISIONAL.work}
-        </Notice>
-        <div className="login__buttons">
-          <Button fullWidth onClick={() => setScreen("sign-in")}>
-            {C.otherAccount.back}
-          </Button>
-          <Button variant="secondary" fullWidth onClick={() => router.push(ONBOARDING)}>
-            {C.otherAccount.fresh}
-          </Button>
-        </div>
-      </>
-    );
+    view = {
+      title: C.otherAccount.heading,
+      description: C.otherAccount.lede,
+      children: (
+        <>
+          <Notice tone="explain" label={LOGIN_PROVISIONAL.label}>
+            {otherWhy === "apple" ? LOGIN_PROVISIONAL.relay : LOGIN_PROVISIONAL.work}
+          </Notice>
+          <div className="login__buttons">
+            <Button fullWidth onClick={() => setScreen("sign-in")}>
+              {C.otherAccount.back}
+            </Button>
+            <Button variant="secondary" fullWidth onClick={() => router.push(ONBOARDING)}>
+              {C.otherAccount.fresh}
+            </Button>
+          </div>
+        </>
+      ),
+    };
   }
 
   return (
-    <div className="login">
-      <span className="login__glow" aria-hidden="true" />
-      {screen === "inbox" && arrived && sheet === null ? (
-        <div className="login__notification">
-          <MailNotification
-            from={C.email.from}
-            subject={C.email.subject}
-            preview={C.email.preview}
-            onOpen={() => setSheet("email")}
-          />
-        </div>
-      ) : null}
-      <div className={["login__body", screen === "inbox" ? "login__body--inbox" : null, screen === "sign-in" ? "login__body--centred" : null].filter(Boolean).join(" ")}>{body}</div>
+    <>
+      <WelcomeSplit
+        quote={C.welcome.quote}
+        eyebrow={view.eyebrow}
+        title={view.title}
+        description={view.description}
+        headingId={HEADING}
+        footer={view.footer}
+        compact={screen !== "sign-in"}
+        stackOnTablet
+        centred
+        overlay={
+          screen === "inbox" && arrived && sheet === null ? (
+            <div className="login__notification">
+              <MailNotification
+                from={C.email.from}
+                subject={C.email.subject}
+                preview={C.email.preview}
+                onOpen={() => setSheet("email")}
+              />
+            </div>
+          ) : null
+        }
+      >
+        <div className="login">{view.children}</div>
+      </WelcomeSplit>
       <Sheet open={sheet !== null} onClose={() => setSheet(null)} label={sheetLabel} className={sheet === "email" ? "sheet--tall" : undefined}>
         {sheetContent()}
       </Sheet>
       <output className="u-visually-hidden">{message}</output>
-    </div>
+    </>
   );
 }
 

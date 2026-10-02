@@ -37,10 +37,11 @@ import type { NavConceptProps } from "../types";
 /**
  * Navigation Concept 1 — Concierge.
  *
- * The onboarding advisor on every signed-in page. One pill, "Ask or go":
- * floating at the foot of the phone, in the middle of the header on tablet
- * and web. It opens a sheet over the phone, and a panel docked beside the
- * page on tablet and web, where the page stays usable next to him.
+ * The onboarding advisor on every signed-in page. One pill, "Ask or go",
+ * floating above the foot of the screen on phone, tablet and web. On the phone
+ * it opens a sheet that rises over the page. On tablet and web the pill grows
+ * into a centred card over a soft scrim, so it opens from where it sits and
+ * the page never moves.
  *
  * Type a destination and he takes you there. Type anything else and he
  * answers — scripted, from `lib/concierge.ts` — and what he does is real:
@@ -138,14 +139,13 @@ function applyEffect(effect: ConciergeEffect | undefined, go: (href: string) => 
    The pill
    -------------------------------------------------------------------------- */
 
-function Pill({ destinations, currentFlow, layout }: NavConceptProps & { layout: "floating" | "header" }) {
+function Pill({ destinations, currentFlow }: NavConceptProps) {
   const { open } = useConcierge();
   const loop = useLoop();
   const here = destinations.find((d) => d.flowSlug === currentFlow);
   return (
     <ConciergePill
       id={PILL_ID}
-      layout={layout}
       here={{ label: here?.label ?? "Home", icon: ICONS[currentFlow] ?? "home" }}
       ask={C.pillAsk}
       followUpDue={Boolean(loop.followUp)}
@@ -156,19 +156,12 @@ function Pill({ destinations, currentFlow, layout }: NavConceptProps & { layout:
   );
 }
 
-/** In the middle of the header, on tablet and web. */
-export function ConciergeHeaderCentre(props: NavConceptProps) {
-  const { viewport } = useViewport();
-  if (viewport === "mobile") return null;
-  return <Pill {...props} layout="header" />;
-}
-
 /* -----------------------------------------------------------------------------
    The panel
    -------------------------------------------------------------------------- */
 
-/** The floating pill and the sheet on mobile; the docked panel on tablet and
- *  web. Drawn on the device screen, over or beside the page. */
+/** The floating pill, and what it opens: a sheet on the phone, a card on
+ *  tablet and web. Drawn on the device screen, over the page. */
 export function ConciergeNav(props: NavConceptProps) {
   const { viewport } = useViewport();
   const concierge = useConcierge();
@@ -181,13 +174,13 @@ export function ConciergeNav(props: NavConceptProps) {
   }, []);
 
   // Tell the screen what is showing, so the page can leave room for the
-  // floating pill and make way for the docked panel. On mobile the open sheet
-  // is modal: the page behind is inert and Escape closes it.
+  // floating pill. Open, the sheet or card is modal: the page behind is inert
+  // and Escape closes it.
   useEffect(() => {
     if (!screen) return;
     screen.setAttribute("data-concierge", concierge.open ? "open" : "closed");
     const content = screen.querySelector<HTMLElement>(".device__content");
-    const modal = mobile && concierge.open;
+    const modal = concierge.open;
     if (content) content.inert = modal;
     if (!concierge.open) {
       if (returnFocus) document.getElementById(PILL_ID)?.focus();
@@ -197,7 +190,6 @@ export function ConciergeNav(props: NavConceptProps) {
     screen.querySelector<HTMLInputElement>(`#${PANEL_ID} .chat-composer__field`)?.focus();
     function onKey(event: KeyboardEvent) {
       if (event.key !== "Escape") return;
-      if (!modal && !screen!.querySelector(`#${PANEL_ID}`)?.contains(document.activeElement)) return;
       event.preventDefault();
       closePanel();
     }
@@ -206,7 +198,7 @@ export function ConciergeNav(props: NavConceptProps) {
       document.removeEventListener("keydown", onKey);
       if (content) content.inert = false;
     };
-  }, [screen, concierge.open, mobile]);
+  }, [screen, concierge.open]);
 
   useEffect(() => {
     return () => {
@@ -219,23 +211,19 @@ export function ConciergeNav(props: NavConceptProps) {
       <span ref={anchor} hidden />
       {screen
         ? createPortal(
-            <div className={`concierge-host concierge-host--${mobile ? "mobile" : "docked"}`}>
-              {mobile ? (
-                <>
-                  <div className="concierge-host__pill">
-                    <Pill {...props} layout="floating" />
-                  </div>
-                  <button
-                    type="button"
-                    className="concierge-host__scrim"
-                    tabIndex={-1}
-                    aria-hidden="true"
-                    onClick={() => closePanel()}
-                  />
-                </>
-              ) : null}
+            <div className={`concierge-host concierge-host--${mobile ? "mobile" : "card"}`}>
+              <div className="concierge-host__pill">
+                <Pill {...props} />
+              </div>
+              <button
+                type="button"
+                className="concierge-host__scrim"
+                tabIndex={-1}
+                aria-hidden="true"
+                onClick={() => closePanel()}
+              />
               <div className="concierge-host__panel" inert={!concierge.open}>
-                <Conversation {...props} mode={mobile ? "sheet" : "docked"} />
+                <Conversation {...props} mode={mobile ? "sheet" : "card"} />
               </div>
             </div>,
             screen
@@ -245,9 +233,8 @@ export function ConciergeNav(props: NavConceptProps) {
   );
 }
 
-function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { mode: "sheet" | "docked" }) {
+function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { mode: "sheet" | "card" }) {
   const router = useRouter();
-  const { viewport } = useViewport();
   const concierge = useConcierge();
   const loop = useLoop();
   const [draft, setDraft] = useState("");
@@ -268,14 +255,26 @@ function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { m
   }, [concierge.messages.length, concierge.typing]);
 
   function go(href: string) {
-    // On the phone the sheet makes way; docked, he stays beside the page.
-    if (viewport === "mobile") closePanel(false);
+    // The sheet or card makes way for the page he is taking you to.
+    closePanel(false);
     router.push(href);
+  }
+
+  /** How many of his last turns, in a row, were misses. */
+  function recentMisses(): number {
+    let count = 0;
+    for (let i = state.messages.length - 1; i >= 0; i--) {
+      const m = state.messages[i];
+      if (m.from === "you") continue;
+      if (!m.turn.miss) break;
+      count++;
+    }
+    return count;
   }
 
   function send(text: string, chosen?: ConciergeAction) {
     if (state.typing) return;
-    const action = chosen ?? understand(text, contextNow(destinations), state.asked);
+    const action = chosen ?? understand(text, contextNow(destinations), state.asked, recentMisses());
     const you: Message = { id: nextId++, from: "you", text };
     if (action.kind === "go") {
       const { turn, effect } = respond(action, contextNow(destinations));
@@ -370,7 +369,7 @@ function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { m
                     href={d.href}
                     className={d.flowSlug === currentFlow ? "is-current" : undefined}
                     aria-current={d.flowSlug === currentFlow ? "page" : undefined}
-                    onClick={() => viewport === "mobile" && closePanel(false)}
+                    onClick={() => closePanel(false)}
                   >
                     <Icon name={ICONS[d.flowSlug] ?? "home"} size={16} />
                     {d.label}
@@ -437,7 +436,6 @@ function Start({
   ctx: ConciergeContext;
   onAsk: (reply: ConciergeReply) => void;
 }) {
-  const { viewport } = useViewport();
   const loop = useLoop();
   const resume = [...loop.records]
     .filter((r) => r.state === "drafted" || r.state === "in-progress")
@@ -454,7 +452,7 @@ function Start({
                 href={d.href}
                 className={["concierge-dest", d.flowSlug === currentFlow ? "is-current" : null].filter(Boolean).join(" ")}
                 aria-current={d.flowSlug === currentFlow ? "page" : undefined}
-                onClick={() => viewport === "mobile" && closePanel(false)}
+                onClick={() => closePanel(false)}
               >
                 <Icon name={ICONS[d.flowSlug] ?? "home"} size={20} />
                 <span>{d.label}</span>
@@ -477,7 +475,7 @@ function Start({
           eyebrow={C.resumeEyebrow}
           title={resume.title}
           detail={`${resumeLast.type === "drafted" ? "Drafted" : "Edited"} ${shortDate(resumeLast.on)}`}
-          onClick={() => viewport === "mobile" && closePanel(false)}
+          onClick={() => closePanel(false)}
         />
       ) : null}
 
