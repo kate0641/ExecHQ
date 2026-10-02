@@ -307,8 +307,9 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <path d="M12 3.5h4.5V8M16.5 3.5l-7 7" />
     </>
   ),
-  "more-horizontal": <path d="M5 10h.01M10 10h.01M15 10h.01" strokeWidth="2.2" />,
-  "more-vertical": <path d="M10 5h.01M10 10h.01M10 15h.01" strokeWidth="2.2" />,
+  // Dots of 3, so they carry the same weight as the set's 1.5 lines.
+  "more-horizontal": <path d="M5 10h.01M10 10h.01M15 10h.01" strokeWidth="3" />,
+  "more-vertical": <path d="M10 5h.01M10 10h.01M10 15h.01" strokeWidth="3" />,
   search: (
     <>
       <circle cx="8.8" cy="8.8" r="5.3" />
