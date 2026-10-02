@@ -659,7 +659,7 @@ export function OnboardingConcept3() {
           headingId={headingId}
           kicker={c.kicker}
           title={c.title}
-          lede={c.lede(a.email)}
+          lede={c.lede}
           primaryLabel={c.home}
           onPrimary={() => router.push(DONE_C1.homeHref)}
         >

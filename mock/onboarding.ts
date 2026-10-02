@@ -2390,9 +2390,7 @@ typedReply: "Thank you. ExecHQ will draft that sentence for you next, from what 
   done: {
     kicker: "You\u2019re set up",
     title: "Your plan and story are saved",
-    /** Where it is saved, from the email the user gave. */
-    lede: (email: string | null) =>
-      `You\u2019ve done the hardest part: saying where you want to go. Saved to ${email ?? "your account"}, and nothing here is visible to anyone else.`,
+    lede: "You\u2019ve done the hardest part: saying where you want to go.",
     nextLabel: "What to do next",
     /** What is left of the story, by what has been done. */
     nextDetail: {
