@@ -143,7 +143,7 @@ const PATHS: Record<IconName, React.ReactNode> = {
   // Speaking an answer instead of typing it.
   mic: (
     <>
-      <rect x="7" y="2.5" width="6" height="10" rx="3" />
+      <rect x="7.75" y="2.5" width="4.5" height="10" rx="2.25" />
       <path d="M4.5 9.5a5.5 5.5 0 0011 0M10 15v2.5" />
     </>
   ),
