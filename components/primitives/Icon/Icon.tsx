@@ -343,7 +343,8 @@ const PATHS: Record<IconName, React.ReactNode> = {
   ),
   undo: <path d="M7.5 4.5 4 8l3.5 3.5M4 8h7.5a4.5 4.5 0 0 1 0 9H9" />,
   bookmark: <path d="M5.5 3.5h9v14L10 14l-4.5 3.5z" />,
-  star: <path d="M10 2.9l1.82 4.89 5.22.22-4.09 3.25 1.4 5.03L10 13.4l-4.35 2.89 1.4-5.03-4.09-3.25 5.22-.22z" />,
+  // A fuller body than a classic star, so its points are short, not spiky.
+  star: <path d="M10 3l2.23 4.33 4.81.78-3.43 3.46.74 4.82L10 14.2l-4.35 2.19.74-4.82-3.43-3.46 4.81-.78z" />,
   // Six slim teeth: reads as settings at 16px without blurring into a ring.
   settings: (
     <>
