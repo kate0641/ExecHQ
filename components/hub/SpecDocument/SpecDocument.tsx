@@ -8,8 +8,8 @@ export interface SpecDocumentProps {
 /**
  * Renders an interaction spec. A small markdown reader written for the specs
  * and nothing else, so the prototype needs no markdown package: headings,
- * paragraphs, bullet and numbered lists, tables, rules, and bold, italic and
- * code inside a line. Anything else shows as plain text.
+ * paragraphs, bullet and numbered lists, tables, rules, fenced blocks for
+ * diagrams, and bold, italic and code inside a line. Anything else shows as plain text.
  */
 export function SpecDocument({ source }: SpecDocumentProps) {
   // The page already carries the spec's title, so a leading "# Title" is dropped.
@@ -71,6 +71,23 @@ function renderBlocks(lines: string[]): ReactNode[] {
 
     if (isBlank(line)) {
       i += 1;
+      continue;
+    }
+
+    // A fenced block: shown exactly as written, for diagrams.
+    if (line.trim().startsWith("```")) {
+      const code: string[] = [];
+      i += 1;
+      while (i < lines.length && !lines[i].trim().startsWith("```")) {
+        code.push(lines[i]);
+        i += 1;
+      }
+      i += 1;
+      out.push(
+        <pre className="spec-doc__code" key={key++}>
+          <code>{code.join("\n")}</code>
+        </pre>
+      );
       continue;
     }
 
@@ -160,7 +177,8 @@ function renderBlocks(lines: string[]): ReactNode[] {
       !heading(lines[i]) &&
       !bullet(lines[i]) &&
       !numbered(lines[i]) &&
-      !isTableRow(lines[i])
+      !isTableRow(lines[i]) &&
+      !lines[i].trim().startsWith("```")
     ) {
       para.push(lines[i].trim());
       i += 1;

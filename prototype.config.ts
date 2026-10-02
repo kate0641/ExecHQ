@@ -122,6 +122,7 @@ export const prototypeConfig: PrototypeConfig = {
         {
           slug: "concept-1",
           title: "Concept 1 — Open page",
+          status: "approved",
           summary:
             "A quiet white page: an emailed link or a code to sign in, Google and Apple beside it, and help when the inbox is out of reach.",
         },
@@ -186,6 +187,7 @@ export const prototypeConfig: PrototypeConfig = {
         {
           slug: "concept-1",
           title: "Concept 1 — Grouped",
+          status: "approved",
           summary:
             "Profile and settings on one page: labelled groups of rows, each ending in its current value. Details open in a sheet on mobile and tablet, beside the list on web.",
         },

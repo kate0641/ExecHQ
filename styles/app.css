@@ -1791,6 +1791,26 @@ samp {
   font-size: 0.9em;
 }
 
+/* A diagram, as written. It scrolls inside its own box. */
+.spec-doc__code {
+  max-width: 100%;
+  margin: 0;
+  padding: var(--space-md);
+  overflow-x: auto;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface-sunken);
+  font-size: var(--text-xs);
+  line-height: var(--leading-normal);
+  color: var(--color-text-primary);
+}
+
+.spec-doc__code code {
+  padding: 0;
+  background: none;
+  font-size: inherit;
+  white-space: pre;
+}
+
 .spec-doc__rule {
   width: 100%;
   margin: var(--space-md) 0 0;
@@ -12088,6 +12108,36 @@ ul.login__never {
   text-decoration: underline;
   text-underline-offset: 0.2em;
   cursor: pointer;
+}
+
+/* The tap area: an invisible band 44px tall (--button-target) centred on the
+   link, as .btn has, so a line of text is as easy to hit as a button. */
+.login__link {
+  position: relative;
+}
+
+.login__link::after {
+  content: "";
+  position: absolute;
+  inset: 50% 0 auto;
+  height: max(100%, var(--button-target));
+  transform: translateY(-50%);
+}
+
+/* The "keep me logged in" row is 44px tall, and the whole row is its label. */
+.login__form .checkbox {
+  align-items: center;
+}
+
+.login__form .checkbox__box {
+  margin-top: 0;
+}
+
+.login__form .checkbox__label {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  min-height: var(--button-target);
 }
 
 .login__link:hover {
