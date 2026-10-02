@@ -336,11 +336,10 @@ const PATHS: Record<IconName, React.ReactNode> = {
     </>
   ),
   upload: <path d="M10 13V3M5.8 7.2 10 3l4.2 4.2M4 17h12" />,
+  // Each curve straightens into its corner, so the arrowheads' inner arms
+  // meet the line at an angle instead of running alongside it.
   refresh: (
-    <>
-      <path d="M4 10a6 6 0 0 1 10.6-3.8M16 10a6 6 0 0 1-10.6 3.8" />
-      <path d="M14.6 2.8v3.4h-3.4M5.4 17.2v-3.4h3.4" />
-    </>
+    <path d="M3.5 10a6.5 6.5 0 0 1 6.5-6.5c1.9 0 3.6.8 4.8 2.1l1.7 1.9M16.5 3.5v4h-4M16.5 10a6.5 6.5 0 0 1-6.5 6.5c-1.9 0-3.6-.8-4.8-2.1l-1.7-1.9M3.5 16.5v-4h4" />
   ),
   undo: <path d="M7.5 4.5 4 8l3.5 3.5M4 8h7.5a4.5 4.5 0 0 1 0 9H9" />,
   bookmark: <path d="M5.5 3.5h9v14L10 14l-4.5 3.5z" />,
