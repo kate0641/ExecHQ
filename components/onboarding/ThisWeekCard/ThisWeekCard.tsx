@@ -34,13 +34,15 @@ export function ThisWeekCard({ label, title, detail, whyLabel, why, fact, labelH
           <div className="feature-card__row">
             <p className="feature-card__label">{whyLabel.replace(/:\s*$/, "")}</p>
             <p className="feature-card__text">{why}</p>
-            {fact ? (
+          </div>
+          {fact ? (
+            <div className="feature-card__row">
               <p className={["feature-card__fact", fact.placeholder ? "is-placeholder" : null].filter(Boolean).join(" ")}>
                 {fact.text}
                 {fact.source ? <span className="feature-card__source">{fact.source}</span> : null}
               </p>
-            ) : null}
-          </div>
+            </div>
+          ) : null}
         </div>
       </div>
     </section>

@@ -2919,13 +2919,14 @@ ul.concierge-mini {
   color: var(--color-text-primary);
 }
 
-/* A figure that backs the reason, with where it comes from beneath it. Where
-   there is no real figure yet, a dashed box marks the placeholder. */
+/* A figure that backs the reason, on its own row below it, with where it
+   comes from beneath it. Where there is no real figure yet, a dashed box
+   marks the placeholder. */
 .feature-card__fact {
   display: flex;
   flex-direction: column;
   gap: var(--space-3xs);
-  margin: var(--space-xs) 0 0;
+  margin: 0;
   font-family: var(--type-body-sm-font);
   font-size: var(--type-body-sm-size);
   line-height: var(--type-body-sm-leading);
