@@ -18,7 +18,7 @@ export const pointListStates = defineComponentStates({
   },
   variants: [
     { label: "Numbered", props: { items: GUIDE_C3.about.points, numbered: true } },
-    { label: "Boxed", props: { items: GUIDE_C3.privacy.points, label: GUIDE_C3.privacy.kicker } },
+    { label: "Boxed", props: { items: GUIDE_C3.about.before, label: GUIDE_C3.about.beforeLabel } },
     {
       label: "With how it helps",
       props: {

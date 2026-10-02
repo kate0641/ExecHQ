@@ -1848,27 +1848,38 @@ export const GUIDE_C3 = {
   },
   file: { label: "What I know so far", added: "Added" },
   welcome: {
-    title: "From \u201cI\u2019d like to be\u201d to \u201cI\u2019m going to be\u201d.",
-    lede: "A private career advisor that doesn\u2019t just show you the way \u2014 it works for you to get there.",
-    quote: "Somewhere to work on what comes next.",
+    wordmark: "ExecHQ",
+    title: "Somewhere to work on what comes next.",
+    lede: "Your private career advisor that doesn\u2019t just show you the way \u2014 it works for you and with you to get you there.",
+    quote: "From \u201cI\u2019d like to be\u201d to \u201cI\u2019m going to be.\u201d",
     cta: "Get started",
   },
   about: {
     kicker: "What ExecHQ is",
-    title: "Your career plan, and the work to carry it out",
-    lede: "A private career advisor for senior managers through SVPs, with no agenda but yours. I\u2019ll tell you what a coach, a mentor or a colleague might not.",
+    title: "Crafting a plan for your career and the work to carry it out",
+    lede: "ExecHQ is a private career advisor for senior professionals ready to grow, with no agenda but your own. It will tell you what a coach, a mentor, or a colleague might not.",
     points: [
       {
         title: "A plan for where you want to go",
-        detail: "A few stages from where you are to where you want to be, with one thing to do this week at the front. Never a list of forty tasks.",
+        detail: "ExecHQ works with you to build a personalized plan, and the steps to get from where you are now to where you want to be. Steps are broken into short-, medium-, and long-term goals with clear benchmarks, not a list of forty tasks that get you nowhere.",
       },
       {
         title: "Work done, not just advice",
-        detail: "Every step comes with something made: your story, your bio, the opener for your next conversation. I draft it for you to use.",
+        detail: "Most steps come with something made for you to use: your story, your bio, the opener for your next conversation. Positioning statements, situation briefs, LinkedIn posts, and more. ExecHQ drafts them, you make them yours.",
       },
       {
-        title: "A plan that changes as you do",
-        detail: "Tell me what happened and I\u2019ll adjust the plan. I remember all of it, so you never start from scratch.",
+        title: "Something that grows with you",
+        detail: "Your plan grows and updates with you. As you finish steps, share what happened, or change direction, ExecHQ adjusts the plan to fit.",
+      },
+    ],
+    beforeLabel: "Before we begin",
+    before: [
+      {
+        title: "Private by design",
+        detail: [
+          "Your work on ExecHQ is for your eyes only. Not your employer, not your manager, not the organization that invited you, and not anyone else.",
+          "Everything ExecHQ makes for you is yours to keep, edit, and export.",
+        ],
       },
     ],
     cta: "Continue",
@@ -1882,17 +1893,6 @@ export const GUIDE_C3 = {
     inviteHide: "I don\u2019t have a code",
     why: "Everything you tell me builds on what came before. Your account is how I remember it, and how you come back to it.",
     cta: "Continue",
-  },
-  privacy: {
-    kicker: "Before you tell me anything",
-    title: "Private by design",
-    points: [
-      { title: "Your eyes only", detail: "Not your employer, not your manager, not anyone else." },
-      { title: "Nothing is posted or shared", detail: "Drafts stay drafts until you use them yourself." },
-      { title: "Yours to take away", detail: "Disconnect anything, anytime." },
-    ],
-    why: "Thinking out loud about your next move is hard to do at work. This is the one place built for it.",
-    cta: "Good to know",
   },
   signals: {
     kicker: "Optional",

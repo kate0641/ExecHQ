@@ -77,9 +77,10 @@ import {
  *  - It stops to make the user reflect, with questions that are not needed
  *    for the plan but are worth sitting with.
  *
- * Signals come early, straight after the privacy promise, by decision on
+ * Signals come early, straight after the account, by decision on
  * 2026-09-24: connecting LinkedIn first means the first draft
- * already sounds like the user. The promise comes first because it is the
+ * already sounds like the user. The privacy promise is said before that, on
+ * the page that says what ExecHQ is (2026-10-02), because signals are the
  * first time the user is asked for their data.
  *
  * Pages are this concept's own; each maps to the shared step it belongs to,
@@ -90,7 +91,6 @@ type PageId =
   | "welcome"
   | "about"
   | "account"
-  | "privacy"
   | "signals"
   | "linkedin"
   | "direction"
@@ -131,7 +131,6 @@ const PAGES: Page[] = [
   { id: "welcome", label: "Welcome", step: "account" },
   { id: "about", label: "What ExecHQ is", step: "account" },
   { id: "account", label: "Account", step: "account" },
-  { id: "privacy", label: "Privacy", step: "privacy" },
   { id: "signals", label: "Signals", step: "direction" },
   // LinkedIn's upload, reached from Signals: the steps and the picker.
   { id: "linkedin", label: "LinkedIn", step: "direction", offBar: true, aside: true },
@@ -329,6 +328,7 @@ export function OnboardingConcept3() {
       return (
         <GuidePage
           cover
+          kicker={GUIDE_C3.welcome.wordmark}
           headingId={headingId}
           title={GUIDE_C3.welcome.title}
           lede={GUIDE_C3.welcome.lede}
@@ -344,21 +344,13 @@ export function OnboardingConcept3() {
       return (
         <GuidePage {...frame()} kicker={c.kicker} title={c.title} lede={c.lede} primaryLabel={c.cta} onPrimary={next}>
           <PointList items={c.points} numbered />
+          <PointList items={c.before} label={c.beforeLabel} />
         </GuidePage>
       );
     }
 
     case "account":
       return <AccountPage flow={flow} frame={frame()} drawer={{ mode, setMode }} onDone={next} />;
-
-    case "privacy": {
-      const c = GUIDE_C3.privacy;
-      return (
-        <GuidePage {...frame()} kicker={c.kicker} title={c.title} why={c.why} primaryLabel={c.cta} onPrimary={next}>
-          <PointList items={c.points} />
-        </GuidePage>
-      );
-    }
 
     case "signals": {
       const c = GUIDE_C3.signals;
