@@ -828,47 +828,28 @@ function DirectionPage({
   const promptFor = (text: string) => allPrompts.find((p) => p.label === text || p.text === text);
 
   // What was answered before, if the user comes back: the lead first, then the
-  // rest. A narrower version stands for the option it came from; anything that
-  // is not one of the listed options was typed.
+  // rest. A narrower version stands for the option it came from.
   const earlierLead = state.answers.direction;
-  const earlier = earlierLead
-    ? [promptFor(baseDirection(earlierLead))?.label ?? earlierLead, ...also]
-    : [];
-  const typedBefore = earlier.find((item) => !promptFor(item)) ?? "";
+  const earlier = earlierLead ? [promptFor(baseDirection(earlierLead))?.label ?? earlierLead, ...also] : [];
   const [picks, setPicks] = useState<string[]>(earlier.filter((item) => promptFor(item)));
-  const [typed, setTyped] = useState(typedBefore);
   const [more, setMore] = useState(earlier.some((item) => DIRECTION_MORE_C3.some((p) => p.label === item)));
-  // The second question's answer: a narrower version, or one of the typed
-  // words from the first question; or said afresh in its own field.
+  // The second question's answer: one of the narrower versions.
   const [lead, setLead] = useState<string | null>(earlierLead && isNarrowedDirection(earlierLead) ? earlierLead : null);
-  const [leadTyped, setLeadTyped] = useState("");
   const [asking, setAsking] = useState(false);
 
-  // Everything picked, in the order picked, with the typed answer counted once
-  // it has something in it. Its field is always open.
-  const typedText = typed.trim();
-  const chosen = typedText ? [...picks, typedText] : picks;
-  // The picks that have narrower versions to offer; the typed words have none.
-  const narrowable = picks.filter((label) => DIRECTION_NARROWER_C3[promptFor(label)?.text ?? label]);
-  const leadNow = leadTyped.trim() || lead;
-  const optionsLeft = [...narrowable.flatMap((label) => DIRECTION_NARROWER_C3[promptFor(label)!.text]), ...(typedText ? [typedText] : [])];
-  const leadChosen = leadNow && (leadTyped.trim() || optionsLeft.includes(leadNow)) ? leadNow : null;
+  // Every pick has two narrower versions to choose between.
+  const optionsLeft = picks.flatMap((label) => DIRECTION_NARROWER_C3[promptFor(label)!.text]);
+  const leadChosen = lead && optionsLeft.includes(lead) ? lead : null;
 
   function finish(first: string) {
-    const narrowed = isNarrowedDirection(first);
-    const parent = narrowed ? promptFor(baseDirection(first))?.label : first;
-    const prompt = promptFor(first);
-    dispatch({
-      type: "set-direction",
-      direction: prompt ? prompt.text : first,
-      source: narrowed || prompt ? "prompted" : "free",
-    });
-    onAlso(chosen.filter((label) => label !== parent));
+    const parent = promptFor(baseDirection(first))?.label;
+    dispatch({ type: "set-direction", direction: first, source: "prompted" });
+    onAlso(picks.filter((label) => label !== parent));
     onDone();
   }
 
   const options = [...labels(DIRECTION_PROMPTS_C1), ...(more ? labels(DIRECTION_MORE_C3) : [])];
-  const several = chosen.length > 1;
+  const several = picks.length > 1;
   const open = drawer.mode === "open";
   return (
     <GuidePage
@@ -891,37 +872,16 @@ function DirectionPage({
             secondaryLabel={d.back}
             onSecondary={() => setAsking(false)}
           >
-            {narrowable.map((label) => (
+            {picks.map((label) => (
               <ChipGroup
                 key={label}
                 label={label}
                 options={DIRECTION_NARROWER_C3[promptFor(label)!.text]}
                 equalWidth
-                value={leadChosen && !leadTyped.trim() ? [leadChosen] : []}
-                onChange={(next) => {
-                  setLead(next[0] ?? null);
-                  setLeadTyped("");
-                }}
+                value={leadChosen ? [leadChosen] : []}
+                onChange={(next) => setLead(next[0] ?? null)}
               />
             ))}
-            {typedText ? (
-              <ChipGroup
-                label={c.ownLabel}
-                options={[typedText]}
-                equalWidth
-                value={leadChosen === typedText && !leadTyped.trim() ? [typedText] : []}
-                onChange={(next) => {
-                  setLead(next[0] ?? null);
-                  setLeadTyped("");
-                }}
-              />
-            ) : null}
-            <Input
-              label={c.firstField}
-              autoComplete="off"
-              value={leadTyped}
-              onChange={(event) => setLeadTyped(event.target.value)}
-            />
           </AnswerDrawer>
         ) : (
           <AnswerDrawer
@@ -930,14 +890,10 @@ function DirectionPage({
             questionId={frame.headingId}
             open={open}
             onToggle={toggle(drawer)}
-            peekStatus={chosen.length ? `${chosen.length} picked` : d.peek}
-            primaryLabel={several ? c.whichFirst : narrowable.length ? c.narrow : d.continue}
-            primaryDisabled={!chosen.length}
-            onPrimary={() => {
-              // Only the typed words picked: nothing to narrow.
-              if (!narrowable.length) return finish(chosen[0]);
-              setAsking(true);
-            }}
+            peekStatus={picks.length ? `${picks.length} picked` : d.peek}
+            primaryLabel={several ? c.whichFirst : c.narrow}
+            primaryDisabled={!picks.length}
+            onPrimary={() => setAsking(true)}
           >
             <ChipGroup
               label={c.title}
@@ -953,12 +909,6 @@ function DirectionPage({
                 {c.more}
               </Button>
             )}
-            <Input
-              label={c.elseField}
-              autoComplete="off"
-              value={typed}
-              onChange={(event) => setTyped(event.target.value)}
-            />
           </AnswerDrawer>
         )
       }
@@ -1004,8 +954,6 @@ function ReflectPage({
   onDone: () => void;
 }) {
   const index = copy.options.findIndex((option) => option === value);
-  // An answer that is none of the options was typed, in the user's own words.
-  const [typed, setTyped] = useState(value && index < 0 ? value : "");
   const d = GUIDE_C3.drawer;
   const done = drawer.mode === "done" && Boolean(value);
   const open = drawer.mode === "open";
@@ -1038,32 +986,16 @@ function ReflectPage({
               options={copy.options}
               equalWidth
               value={value ? [value] : []}
-              onChange={(next) => {
-                setTyped("");
-                onChange(next[0] ?? "");
-              }}
-            />
-            <Input
-              label={GUIDE_C3.questions.typedLabel}
-              autoComplete="off"
-              value={typed}
-              onChange={(event) => {
-                setTyped(event.target.value);
-                onChange(event.target.value.trim());
-              }}
+              onChange={(next) => onChange(next[0] ?? "")}
             />
           </AnswerDrawer>
         )
       }
     >
-      {done ? (
+      {done && index >= 0 ? (
         <>
           <Said value={value!} onChange={() => drawer.setMode("open")} />
-          <ReflectionReply
-            from={GUIDE_C3.from}
-            text={index >= 0 ? copy.replies[index] : copy.typedReply}
-            fact={copy.fact}
-          />
+          <ReflectionReply from={GUIDE_C3.from} text={copy.replies[index]} fact={copy.fact} />
         </>
       ) : null}
     </GuidePage>
@@ -1099,7 +1031,6 @@ function QuestionPage({
   const multi = Boolean(question.multi);
   const parsed = parseAnswer(question, value);
   const chosenValues = parsed.chosen.map((o) => o.value);
-  const [typed, setTyped] = useState(parsed.typed);
   // Held-back options come out when none of the first ones fit, or when an
   // answer chosen earlier is one of them.
   const [more, setMore] = useState(parsed.chosen.some((o) => question.more?.includes(o)));
@@ -1124,12 +1055,8 @@ function QuestionPage({
           onToggle={toggle(drawer)}
           peekStatus={value ? d.peekAnswered : d.peek}
           primaryLabel={d.next}
-          primaryDisabled={!chosenValues.length && !typed.trim()}
-          onPrimary={() => {
-            // A typed answer is kept with whatever was chosen, in the user's words.
-            answer(encodeAnswer(chosenValues, typed));
-            onDone();
-          }}
+          primaryDisabled={!chosenValues.length}
+          onPrimary={onDone}
           secondaryLabel={c.skip}
           onSecondary={() => {
             dispatch({ type: "note-skip", id: question.id });
@@ -1147,9 +1074,7 @@ function QuestionPage({
               const values = next
                 .map((label) => everyOption.find((o) => o.label === label)?.value)
                 .filter((v): v is string => Boolean(v));
-              // One answer, chosen or typed, unless several are asked for.
-              if (!multi) setTyped("");
-              answer(encodeAnswer(values, multi ? typed : ""));
+              answer(encodeAnswer(values, ""));
             }}
           />
           {question.more && !more ? (
@@ -1157,14 +1082,6 @@ function QuestionPage({
               {c.more}
             </Button>
           ) : null}
-          <Input
-            label={c.typedLabel}
-            value={typed}
-            onChange={(event) => {
-              setTyped(event.target.value);
-              answer(encodeAnswer(multi ? chosenValues : [], event.target.value));
-            }}
-          />
         </AnswerDrawer>
       }
     />

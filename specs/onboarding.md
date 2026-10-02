@@ -23,6 +23,7 @@ What it deliberately does not do:
 - **Score, rank or compare.** No answer, fact or plan ranks the person against anyone.
 - **Post or share anything.** Nothing leaves the person's account.
 - **Ask for more than it needs.** An email, a direction, a choice of plan and an answer to each reflection are the only required steps. Every other question can be skipped, and the person can come back to it.
+- **Ask the person to type an answer.** Every question is a choice. The only typing is the account email, an invite code, and refining the story (section 3.10).
 - **Show progress as a number.** There are no step counters or percentages in the flow.
 
 ### Where it appears
@@ -165,22 +166,20 @@ The first question that matters. The heading is **Where do you want to go next?*
 - Nail an upcoming board presentation
 - Find my next move
 
-Below them: **None of these? Show me more options** (adds four: Lead a bigger organisation; Carry more weight where I am; Get out of where I am; I do not know yet; the button then disappears), and an always-open field, **Or in your own words.** Words typed there count as one more pick. The drawer's peek bar says how many are picked. The button reads **Narrow it down** with one option from the list picked, **Which matters most?** with more than one, and **Continue** if only typed words were given, since there is nothing to narrow and it goes straight on.
+Below them: **None of these? Show me more options** (adds four: Lead a bigger organisation; Carry more weight where I am; Get out of where I am; I do not know yet; the button then disappears). The drawer's peek bar says how many are picked. The button reads **Narrow it down** with one option picked and **Which matters most?** with more than one. There is no field to type in: every answer is a choice.
 
-**Page two, narrowing.** Each option picked becomes a group of **two more specific versions**, to tap (Appendix A). One is chosen. Typed words from page one appear as their own choice. A field, **Or say what matters most in your own words**, stays open. With several picks the heading is **Which matters most right now?** and the line "ExecHQ will start there, and keep the rest in view." With one pick it is **Which is closest?** and "A little more detail gives ExecHQ a clearer first step."
+**Page two, narrowing.** Each option picked becomes a group of **two more specific versions**, to tap (Appendix A). One is chosen. With several picks the heading is **Which matters most right now?** and the line "ExecHQ will start there, and keep the rest in view." With one pick it is **Which is closest?** and "A little more detail gives ExecHQ a clearer first step."
 
 What is kept:
 
-- The chosen version becomes the person's direction, and reads back in their words. It stands for the option it came from: the plan, the goal and the questions all follow the option (section 5).
+- The chosen version becomes the person's direction, and is said back as they chose it. It stands for the option it came from: the plan, the goal and the questions all follow the option (section 5).
 - The other picks are kept as "also picked" and said again on the Recommendation.
-- Typed words are kept as typed.
 
 ### 3.6 What's in the way (the deciding question)
 
 For most directions, one question is asked before the recommendation, because its answer can change the plan. Label **Before ExecHQ recommends anything.** Its heading depends on the direction: **What's in the way?** (a bigger role), **What's holding you back?** (more weight where you are) or **What's making you want a change?** (finding a next move). The line is "Pick as many as are true."
 
 - Five options, multiple choice, and **None of these? Show me more options** (four more). See Appendix B.
-- The always-open **Or in your own words** field.
 - Buttons: **Next** and **Skip this one.** The person can skip.
 - Directions about a coming moment (a board presentation, a review) have no deciding question, and go straight to the Recommendation.
 
@@ -203,11 +202,11 @@ After the plan is chosen, up to three more questions make it the person's own. B
 
 Order, with up to three of each: **Reflection (time) → Question → Reflection (CEO) → Question → Reflection (manager) → Question.** A reflection is only ever asked before a question, so if a direction has fewer than three questions, the reflection that would have come before the missing question is left out too.
 
-**A reflection.** Label **A question to sit with.** Heading and line are the question. "Why this matters" is shown until it is answered. Four options (three for the story question) as equal-width buttons, plus the always-open **Or in your own words** field. **Answer** sends it. After answering:
+**A reflection.** Label **A question to sit with.** Heading and line are the question. "Why this matters" is shown until it is answered. Four options (three for the story question) as equal-width buttons. **Answer** sends it. After answering:
 
 - The line and the "Why this matters" note go away.
 - A quiet line shows **You said** with the answer and **Change.**
-- ExecHQ's reply appears as a pull quote in serif, one or two sentences, one reply per option, and a generic reply for typed words.
+- ExecHQ's reply appears as a pull quote in serif, one or two sentences, one reply per option.
 - A **Worth knowing** card gives a sourced fact (rules in 4.6).
 - **Continue** stays pinned at the foot.
 
@@ -220,7 +219,7 @@ The reflections are:
 | Manager | When did you last talk to your manager about what's next for you? | This month; In the last six months; Over a year ago; Never, really |
 | Story (step 10) | Could you say what you lead in one sentence, right now? | Yes, easily; Roughly; Not really |
 
-**The questions** use the same pattern as Direction and the deciding question: equal-width options, an open own-words field, five options and **None of these? Show me more options.** The **list-type** questions take several answers ("Pick as many as are true."). The **scale-type** questions, where each option is a point on a line, take one. Buttons: **Next** and **Skip this one.** The full list, by direction, is in Appendix B.
+**The questions** use the same pattern as Direction and the deciding question: equal-width options, five options and **None of these? Show me more options.** The **list-type** questions take several answers ("Pick as many as are true."). The **scale-type** questions, where each option is a point on a line, take one. Buttons: **Next** and **Skip this one.** The full list, by direction, is in Appendix B.
 
 ### 3.9 Your plan
 
@@ -300,10 +299,10 @@ Every page after the Welcome is one **guide page**, in this order: a small label
 
 ### 4.3 The answer pattern
 
-Used by Direction, the deciding question, the "Making it yours" questions and the reflections:
+Used by Direction, the deciding question, the "Making it yours" questions and the reflections. **The one place the person types is the account email and, if they have one, an invite code, and the details they add to refine their story** (3.10):
 
 1. **Options** are equal-width buttons, one to a row, never wrapping tags.
-2. **Own words** is an always-open field under the options. What is typed counts as an answer, and is kept in the person's words.
+2. **Choices only.** There is no field to type an answer in. Where the person's situation is not listed, **None of these? Show me more options** adds more, and **Skip this one** is always there.
 3. **Five options and a way to more.** Where the options are a list, five are shown and **None of these? Show me more options** adds four. It disappears once used.
 4. **Several or one.** List-type questions take as many as are true. Scale-type questions take one. Where one answer is expected, choosing another replaces the first.
 5. **A way past.** Questions have **Skip this one.** Only an email, a direction, and the reflections' answers are required.
@@ -311,7 +310,7 @@ Used by Direction, the deciding question, the "Making it yours" questions and th
 ### 4.4 Voice
 
 - **ExecHQ speaks in the third person.** "ExecHQ will draft that sentence for you next." The product never says "I".
-- **The person's own words stay in the first person:** the options they pick ("Find my next move"), their drafts, their typed answers.
+- **The person's own words stay in the first person:** the options they pick ("Find my next move"), their drafts, and the details they type to refine their story.
 - **"We" is not used** for ExecHQ. ("Before we begin" and similar inclusive uses were removed.)
 - **No pressure and no scoring.** Replies are warm and specific, never ranking.
 
@@ -350,7 +349,6 @@ Every direction has a **need.** The need picks the recommended plan.
 | exploration | Find your next direction |
 
 - An option from the list has its own need (Appendix A). Rewording an option, or choosing a narrower version, never changes it.
-- **Typed words** are matched to a need by meaning. The prototype uses keyword tests as a stand-in: a coming promotion conversation, review, board or interview is *preparation*; "I don't know", a ceiling, "out of" or "next move" is *exploration*; being seen or read as an executive is *visibility*; influence, weight or "where I am" is *influence*; leading, a bigger scope, the C-suite is *positioning*, which is also the default. Production uses real interpretation. The outcomes in this spec are the requirement, not the keywords.
 
 ### 5.2 Which questions are asked
 
@@ -364,7 +362,7 @@ The need also picks the questions (Appendix B). Each need has three, of which at
 | preparation | none | What's coming up? When is it? How ready do you feel? |
 | exploration | What's making you want a change? | What would you keep? How soon? |
 
-A question is left out when the person's own words already answer it (a date, or the moment itself).
+A question is left out when the wording of the direction already answers it (for example a named moment such as a board, or a date).
 
 ### 5.3 The question that can change the plan
 
@@ -381,7 +379,7 @@ If several answers are chosen, **the first one chosen that changes the plan deci
 
 ### 5.4 Several answers
 
-A question can hold several chosen options and typed words. Each chosen option adds its own sentence to what ExecHQ says back ("Right now nobody sees your work. The results are there…"), in the order chosen, and its own line to the first draft ("The results are there. My focus now is making sure the people who decide can see them."). Typed words are said back in the person's words, turned from "I" to "you."
+A question can hold several chosen options. Each chosen option adds its own sentence to what ExecHQ says back ("Right now nobody sees your work. The results are there…"), in the order chosen, and its own line to the first draft ("The results are there. My focus now is making sure the people who decide can see them.").
 
 ### 5.5 Choosing and changing the plan
 
@@ -463,7 +461,7 @@ Production must give every control a tappable area of at least 44px, drawn small
 ## 7. Accessibility (WCAG 2.2 AA)
 
 - **Headings.** One level-1 heading per page, in a sensible order. The small label above it is not a heading.
-- **Labels.** Every field and every group of options has a visible or accessible name. The own-words fields are labelled "Or in your own words."
+- **Labels.** Every field and every group of options has a visible or accessible name.
 - **Keyboard.** Everything works with a keyboard alone. Tab order follows reading order. Return sends a one-line answer. The drawn keyboard and its return key are decoration for sighted mouse users: hidden from assistive technology and out of the tab order.
 - **Focus** is visible on every control, and moves to the heading when the page changes.
 - **Contrast.** Text 4.5:1 and non-text 3:1 in greyscale and in colour. The dark card and the dark option buttons meet it.
@@ -502,7 +500,6 @@ Production must give every control a tappable area of at least 44px, drawn small
 | Any non-empty email is accepted. Any invite code is accepted. | Any address is accepted, as decided. The invite code is checked, and an unrecognised one shows the notice. |
 | Nothing is sent. "Email me these steps", "Email it to me" and "Download" confirm what they would do. | They send and download for real. |
 | The LinkedIn file is never read, only named. Reading is a timer. | The file is read and the figures are used for the plan and the drafts. |
-| Typed directions are matched to a need by keyword tests. | Typed directions are interpreted properly. |
 | The first draft, the versions and the replies are written from fixed templates. | They are written for the person (the generation approach is not specified here). |
 | A drawn keyboard appears under the drawer when a field has focus. | The real keyboard. The drawn one is not built. |
 | A step bar above the canvas jumps to any step, filling in sample answers, and a dock switches viewport and colour. | Neither exists. People move only forward, or back through **Change.** |
@@ -521,7 +518,7 @@ These are settled. They are the specified behaviour. The dates are when they wer
 4. **The question that can change the plan is asked before the recommendation,** so it is made once. (2026-09-30)
 5. **The read-back page is gone.** What ExecHQ heard is a list on the plan page, each row with a way to change it. A free-text edit that changed nothing downstream is removed. (2026-10-02)
 6. **The plan is two pages:** this week, then three stages with a finish line each. No part counters. A plan has no end date. (2026-10-02, 2026-09-29)
-7. **One answer pattern across the flow:** equal-width options, an open own-words field, five options and a way to more, several answers for lists and one for scales. (2026-10-02)
+7. **One answer pattern across the flow:** equal-width options, five options and a way to more, several answers for lists and one for scales. (2026-10-02)
 8. **Direction is two steps:** pick, then narrow each pick to one of two more specific versions. (2026-10-02)
 9. **The first draft comes first,** then a choice: add detail, build longer versions, or save and come back. The three detail questions are not put in front of the draft. (2026-10-02, reversing the order tried earlier that day)
 10. **Data is real or marked.** A figure is shown with its source, or as a placeholder. (2026-10-02)
@@ -530,6 +527,7 @@ These are settled. They are the specified behaviour. The dates are when they wer
 13. **Privacy is said once, on "What ExecHQ is,"** before anything personal is asked. (2026-10-02)
 14. **The Done page lists only what is left,** and does not repeat what the person has seen. (2026-10-02)
 15. **No step counters, percentages or scores** appear anywhere in the flow.
+16. **No open responses.** Every answer in onboarding is a choice. The only typing is the account email, an invite code, and refining the story (a role, what the person is responsible for, a result, a name for the bio, and editing the draft). (2026-10-02)
 
 ---
 

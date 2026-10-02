@@ -2133,12 +2133,9 @@ export const GUIDE_C3 = {
     kicker: "Where you\u2019re going",
     title: "Where do you want to go next?",
     lede: "Pick as many as are true.",
-    promptedLabel: "Or start with one of these",
     more: "None of these? Show me more options",
-    elseField: "Or in your own words",
     /** More than one picked: which to start from. */
     first: "Which matters most right now?",
-    firstField: "Or say what matters most in your own words",
     /** The button after more than one is picked, naming the question it leads to. */
     whichFirst: "Which matters most?",
     /** One option picked: the same page, narrowing it down. */
@@ -2146,7 +2143,6 @@ export const GUIDE_C3 = {
     narrowTitle: "Which is closest?",
     narrowLede: "A little more detail gives ExecHQ a clearer first step.",
     narrowWhy: "Your plan needs a first step. The more specific the starting point, the clearer that step is.",
-    ownLabel: "In your own words",
     firstLede: "ExecHQ will start there, and keep the rest in view.",
     /** Why the second question is asked, on its own: the first is already answered. */
     firstWhy: "Your plan needs a first step. Starting from the one that matters most gives it a clear direction, and the rest stay in view.",
@@ -2182,7 +2178,6 @@ export const GUIDE_C3 = {
         "That\u2019s enough to move, if it\u2019s aimed. Your plan gives that time a direction.",
         "Then the question isn\u2019t effort, it\u2019s aim. Your plan makes sure that time builds toward one thing.",
       ],
-typedReply: "Thank you. That\u2019s a useful picture, and your plan will be built around the time you actually have.",
       fact: {
         label: "Worth knowing",
         text: "Employees spend only about 1% of a typical working week on learning and development. That is around 24 minutes.",
@@ -2200,7 +2195,6 @@ typedReply: "Thank you. That\u2019s a useful picture, and your plan will be buil
   /** The questions that make the plan the user\u2019s own, asked after it. */
   questions: {
     kicker: "Making it yours",
-    typedLabel: "Or in your own words",
     more: "None of these? Show me more options",
     multiLede: "Pick as many as are true.",
     skip: "Skip this one",
@@ -2237,7 +2231,6 @@ typedReply: "Thank you. That\u2019s a useful picture, and your plan will be buil
         "Then the gap isn\u2019t your work, it\u2019s the telling. That\u2019s what ExecHQ builds first.",
         "Then that\u2019s where to start. It\u2019s hard for anyone to back you if they don\u2019t know what you do.",
       ],
-typedReply: "Thank you. However they\u2019d put it, your plan is built to make what you do easy for others to say.",
       fact: {
         label: "Worth knowing",
         text: "In a survey of 3,213 professionals, nearly one in four said they sponsor someone at work. Of those, only 27% actually advocate for that person\u2019s promotion.",
@@ -2256,7 +2249,6 @@ typedReply: "Thank you. However they\u2019d put it, your plan is built to make w
         "That\u2019s a long time for your manager to guess at what you want. Your plan puts that conversation back on the calendar, with something to say.",
         "Then your manager is guessing. Your plan\u2019s first job is to give you the words to start that conversation.",
       ],
-typedReply: "Thank you. Whatever it\u2019s been, your plan gives you something specific to bring to the next conversation.",
       fact: {
         label: "Worth knowing",
         text: "Only 20% of US employees strongly agree they have talked with their manager in the last six months about the steps they can take to reach their goals.",
@@ -2306,7 +2298,6 @@ typedReply: "Thank you. Whatever it\u2019s been, your plan gives you something s
         "That\u2019s the gap to close. ExecHQ will draft that sentence for you next.",
         "That\u2019s what this next part is for. ExecHQ will draft it from what you\u2019ve shared.",
       ],
-typedReply: "Thank you. ExecHQ will draft that sentence for you next, from what you\u2019ve shared.",
       fact: {
         label: "Worth knowing",
         text: "Only 46% of U.S. employees clearly know what is expected of them at work.",
