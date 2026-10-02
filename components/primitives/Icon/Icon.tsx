@@ -176,11 +176,12 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <path d="M14.2 6.6v6a4.2 4.2 0 0 1-8.4 0V6.2a2.8 2.8 0 0 1 5.6 0v6a1.4 1.4 0 0 1-2.8 0V7.6" />
     </g>
   ),
-  // A destination: where the plan is headed.
+  // A destination: where the plan is headed. The cloth waves once, low by
+  // the pole and rising to a notched tip.
   flag: (
     <>
       <path d="M5 17.5V3" />
-      <path d="M5 3.5h9.5l-2.2 3.2 2.2 3.3H5" />
+      <path d="M5 4c2.5 1.2 6-1.6 10.5 0l-1.9 3.5 1.7 3.5c-4.5-1.6-8 1.2-10.3 0" />
     </>
   ),
   // Home: the one place every page comes back to.
