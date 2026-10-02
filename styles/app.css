@@ -842,16 +842,14 @@ samp {
 /* Once there is something to show, the label steps up to the top edge and
    the value takes the middle. Needs a placeholder of one space on the field. */
 .field__pill:has(.field__control--pill:focus, .field__control--pill:not(:placeholder-shown)) .field__label--pill {
-  top: var(--space-2xs);
+  top: var(--space-xs);
   translate: 0;
   font-size: var(--text-xs);
 }
 
-/* 52px: a step taller than a button, with room for the label above the value. */
 .field__control--pill {
-  min-height: 3.25rem;
-  padding: var(--space-md-lg) var(--space-lg) var(--space-xs);
-  line-height: var(--leading-snug);
+  min-height: 3.75rem;
+  padding: var(--space-lg) var(--space-lg) var(--space-xs);
   border-radius: var(--radius-field);
   box-shadow: var(--shadow-sm);
 }
