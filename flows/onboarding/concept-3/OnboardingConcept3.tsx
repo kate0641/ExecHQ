@@ -45,6 +45,7 @@ import {
   SIGNALS_C1,
   builtFrom,
   checkEmail,
+  answerOptions,
   decidesPlanC3,
   earlyReasonFor,
   firstDraftFor,
@@ -307,7 +308,7 @@ export function OnboardingConcept3() {
   questions.forEach((question) => {
     const value = a.refinement[question.id];
     if (!value) return;
-    const label = question.options.find((o) => o.value === value)?.label ?? value;
+    const label = answerOptions(question).find((o) => o.value === value)?.label ?? value;
     items.push({ label: question.question, value: label });
   });
   if (reflections.ceo) items.push({ label: GUIDE_C3.reflect2.ceo.label, value: reflections.ceo });
@@ -1049,8 +1050,12 @@ function QuestionPage({
   const c = GUIDE_C3.questions;
   const d = GUIDE_C3.drawer;
   const value = state.answers.refinement[question.id];
-  const option = question.options.find((o) => o.value === value);
+  const everyOption = answerOptions(question);
+  const option = everyOption.find((o) => o.value === value);
   const [typed, setTyped] = useState(value && !option ? value : "");
+  // Held-back options come out when none of the first ones fit, or when an
+  // answer chosen earlier is one of them.
+  const [more, setMore] = useState(Boolean(option && question.more?.includes(option)));
   const open = drawer.mode === "open";
 
   function answer(next: string) {
@@ -1085,14 +1090,20 @@ function QuestionPage({
           <ChipGroup
             label={question.question}
             labelHidden
-            options={question.options.map((o) => o.label)}
+            options={(more ? everyOption : question.options).map((o) => o.label)}
+            equalWidth
             value={option ? [option.label] : []}
             onChange={(next) => {
-              const picked = question.options.find((o) => o.label === next[0]);
+              const picked = everyOption.find((o) => o.label === next[0]);
               setTyped("");
               answer(picked?.value ?? "");
             }}
           />
+          {question.more && !more ? (
+            <Button variant="ghost" size="sm" onClick={() => setMore(true)}>
+              {c.more}
+            </Button>
+          ) : null}
           <Input
             label={c.typedLabel}
             value={typed}

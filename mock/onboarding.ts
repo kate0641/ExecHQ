@@ -226,7 +226,7 @@ export function builtFrom(direction: string, answers: Record<string, string>): s
       ? text
       : `${text.slice(0, 40).replace(/\s+\S*$/, "")}\u2026`;
   const labels = refinementFor(direction)
-    .map((question) => question.options.find((o) => o.value === answers[question.id])?.label)
+    .map((question) => answerOptions(question).find((o) => o.value === answers[question.id])?.label)
     .filter((label): label is string => Boolean(label));
   return [directionTag, ...labels].filter(Boolean);
 }
@@ -400,7 +400,12 @@ export interface HeardOption extends RefinementOption {
 }
 
 export interface TailoredQuestion extends RefinementQuestionSpec {
+  /** The options shown first. */
   options: HeardOption[];
+  /** More options, shown when the user says none of these fit. Where there are
+   *  any, the answer's place in the first-person draft lines follows `options`
+   *  and then these, in order. */
+  more?: HeardOption[];
   /** Leave the question out when the direction already answers it. */
   skipIf?: RegExp[];
 }
@@ -446,7 +451,8 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       id: "scope-block",
       question: "What\u2019s in the way?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("No clear path up", "Nobody sees my work", "I can\u2019t make my case", "Wrong company for it").map(withHeard("Right now there\u2019s no clear path up, so part of the job is finding one, or making one.", "Right now nobody sees your work. The results are there; the people deciding just aren\u2019t looking at them.", "Right now you can\u2019t quite make your case. You know you\u2019re ready; it\u2019s putting it into words that\u2019s hard.", "You suspect you\u2019re in the wrong company for it, so the next step may not be where you are now.")),
+      options: opts("No clear path up", "Nobody sees my work", "I can\u2019t make my case", "Wrong company for it", "My boss isn\u2019t backing me").map(withHeard("Right now there\u2019s no clear path up, so part of the job is finding one, or making one.", "Right now nobody sees your work. The results are there; the people deciding just aren\u2019t looking at them.", "Right now you can\u2019t quite make your case. You know you\u2019re ready; it\u2019s putting it into words that\u2019s hard.", "You suspect you\u2019re in the wrong company for it, so the next step may not be where you are now.", "Your boss isn\u2019t backing you yet, so winning that support comes before anything else.")),
+      more: opts("The role I want is taken", "I don\u2019t have the experience yet", "A reorganisation has stalled things", "I don\u2019t know what it would take").map(withHeard("The role you want is already filled, so the path may need to go around it.", "You don\u2019t have all the experience yet, so the plan builds the missing proof.", "A reorganisation has stalled things, so the plan works with the change rather than waiting it out.", "You don\u2019t know what it would take, so finding that out comes first.")),
     },
   ],
   influence: [
@@ -466,7 +472,8 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       id: "influence-block",
       question: "What\u2019s holding you back?",
       hint: REFINEMENT_C1.instruction,
-      options: opts("I\u2019m not in the room", "I\u2019m in the room but not heard", "Too junior on paper", "Politics").map(withHeard("You\u2019re not in the room yet. The decisions that matter to you are made without you.", "You\u2019re in the room but not heard. You\u2019re there, but your view doesn\u2019t carry.", "You\u2019re too junior on paper. Your title undersells what you actually do.", "Politics is getting in the way. Being right isn\u2019t enough; you need people behind you.")),
+      options: opts("I\u2019m not in the room", "I\u2019m in the room but not heard", "Too junior on paper", "Politics", "Decisions are made before the meeting").map(withHeard("You\u2019re not in the room yet. The decisions that matter to you are made without you.", "You\u2019re in the room but not heard. You\u2019re there, but your view doesn\u2019t carry.", "You\u2019re too junior on paper. Your title undersells what you actually do.", "Politics is getting in the way. Being right isn\u2019t enough; you need people behind you.", "Decisions are made before the meeting, so your influence has to happen earlier, in the conversations that come first.")),
+      more: opts("I\u2019m seen as too operational", "The company moves slowly", "I don\u2019t know who really decides", "I\u2019m new here").map(withHeard("You\u2019re seen as too operational: valued for delivering, not for shaping direction.", "The company moves slowly, so influence is a long game and needs patience built in.", "You don\u2019t know who really decides, so mapping that comes first.", "You\u2019re new here, so building credibility is part of the job.")),
     },
   ],
   visibility: [
@@ -535,6 +542,11 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
 };
 
 /** The questions this direction gets, in order, minus any it already answers. */
+/** Every option a question can be answered with, shown or held back. */
+export function answerOptions(question: TailoredQuestion): HeardOption[] {
+  return [...question.options, ...(question.more ?? [])];
+}
+
 export function refinementFor(direction: string): TailoredQuestion[] {
   return REFINEMENT_BY_NEED[interpretNeed(direction)].filter(
     (question) => !question.skipIf?.some((pattern) => pattern.test(direction))
@@ -607,7 +619,7 @@ export function readBack(direction: string, answers: Record<string, string>): st
       const value = answers[question.id];
       if (!value) return undefined;
       // A typed answer, rather than a chosen one, is said back in their words.
-      const option = question.options.find((o) => o.value === value);
+      const option = answerOptions(question).find((o) => o.value === value);
       return option ? option.heard : withFullStop(sentenceCase(toSecondPerson(value.trim())));
     })
     .filter((sentence): sentence is string => Boolean(sentence));
@@ -1582,6 +1594,11 @@ const SAID: Record<string, string[]> = {
     "The results are there. My focus now is making sure the people who decide can see them.",
     "I know I’m ready. What I’m working on is making the case clearly.",
     "The next step may not be where I am now, and I’m open to that.",
+    "I need my boss behind me, so winning that support comes first.",
+    "The role I want is taken, so I’m looking for a way around it.",
+    "I’m still building the experience, and I want to show the proof.",
+    "A reorganisation has stalled things, and I’m working with the change.",
+    "I’m finding out what it would take.",
   ],
   "influence-where": [
     "I want more say in my team’s direction: setting it, not just delivering it.",
@@ -1600,6 +1617,11 @@ const SAID: Record<string, string[]> = {
     "I’m in the room. What I’m working on is making my view carry.",
     "My title undersells what I actually do.",
     "Being right isn’t enough here, so I’m building support behind my ideas.",
+    "Decisions are made before the meeting, so I’m working earlier, in the conversations that come first.",
+    "I’m seen as too operational, and I want to be known for shaping direction.",
+    "The company moves slowly, so I’m playing a longer game.",
+    "I’m finding out who really decides.",
+    "I’m new here, and I’m building credibility.",
   ],
   "presence-who": [
     "I want leaders in my company to see me as someone they’d promote, not just rely on.",
@@ -1704,7 +1726,7 @@ export function firstDraftFor(
 ): string {
   const said = refinementFor(direction)
     .map((question) => {
-      const index = question.options.findIndex((o) => o.value === answers[question.id]);
+      const index = answerOptions(question).findIndex((o) => o.value === answers[question.id]);
       return index >= 0 ? SAID[question.id]?.[index] : undefined;
     })
     .filter((line): line is string => Boolean(line));
@@ -2041,6 +2063,7 @@ export const GUIDE_C3 = {
   questions: {
     kicker: "Making it yours",
     typedLabel: "Or in your own words",
+    more: "None of these? Show me more options",
     skip: "Skip this one",
     whyDefault: "Each answer shapes how your plan and your story are put, so they sound like you and not like anyone.",
     /** Why each question is asked, said plainly. */
