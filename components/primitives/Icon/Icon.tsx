@@ -314,10 +314,11 @@ const PATHS: Record<IconName, React.ReactNode> = {
   filter: <path d="M3.5 5c0-.6.4-1 1-1h11c.6 0 1 .4 1 1 0 .3-.1.5-.3.7L12 10.5V15l-4 2v-6.5L3.8 5.7c-.2-.2-.3-.4-.3-.7z" />,
   plus: <path d="M10 4v12M4 10h12" />,
   minus: <path d="M4 10h12" />,
+  // The sheet behind stops short of the one in front, leaving a clear gap.
   copy: (
     <>
       <rect x="7" y="7" width="10.5" height="10.5" rx="2" />
-      <path d="M13 7V4.5a2 2 0 0 0-2-2H4.5a2 2 0 0 0-2 2V11a2 2 0 0 0 2 2H7" />
+      <path d="M13 4.4v.1a2 2 0 0 0-2-2H4.5a2 2 0 0 0-2 2V11a2 2 0 0 0 2 2" />
     </>
   ),
   // Sharing out of the app: up, out of a tray.
