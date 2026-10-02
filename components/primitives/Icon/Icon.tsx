@@ -220,7 +220,7 @@ const PATHS: Record<IconName, React.ReactNode> = {
   globe: (
     <>
       <circle cx="10" cy="10" r="7.5" />
-      <path d="M2.5 10h15M10 2.5c2.6 2.8 2.6 12.2 0 15M10 2.5c-2.6 2.8-2.6 12.2 0 15" />
+      <path d="M2.5 10h15M10 2.5c3.6 2.8 3.6 12.2 0 15M10 2.5c-3.6 2.8-3.6 12.2 0 15" />
     </>
   ),
   // LinkedIn, drawn as a rounded square with "in", not the brand mark.
