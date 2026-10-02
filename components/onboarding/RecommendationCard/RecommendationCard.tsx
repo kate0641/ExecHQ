@@ -6,7 +6,8 @@ export interface RecommendationCardProps {
   formalName?: string;
   /** When the plan is for: a sentence, under the name. */
   forWhom?: string;
-  reason: string;
+  /** Why this plan. Left out where the page has already said it. */
+  reason?: string;
   /** How sure ExecHQ is, said in words, e.g. "Checked against your answers". */
   status?: string;
   className?: string;
@@ -24,7 +25,7 @@ export function RecommendationCard({ lead, name, formalName, forWhom, reason, st
       {name ? <p className="recommendation__name">{name}</p> : null}
       {formalName ? <p className="recommendation__formal">{formalName}</p> : null}
       {forWhom ? <p className="recommendation__for">{forWhom}</p> : null}
-      <p className="recommendation__reason">{reason}</p>
+      {reason ? <p className="recommendation__reason">{reason}</p> : null}
       {status ? <p className="recommendation__status">{status}</p> : null}
     </div>
   );

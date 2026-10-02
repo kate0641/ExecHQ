@@ -1211,8 +1211,10 @@ function ReadbackPage({ flow, frame, drawer, onDone }: PageProps) {
       <RecommendationCard
         lead={c.recLead}
         name={now.plan.name}
-        formalName={now.plan.formalName}
-        reason={now.reason}
+        forWhom={planForWhom(now.plan)}
+        // What was heard sits just above, so the card gives a reason only when
+        // an answer sent the plan somewhere else.
+        reason={now.changedBy ? now.reason : undefined}
         status={c.checked}
       />
     </GuidePage>
