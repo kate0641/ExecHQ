@@ -6777,12 +6777,10 @@ ol.ring-detail__timeline {
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: var(--space-sm);
-  padding: var(--space-md) 0;
-  border-top: var(--border-subtle);
-}
-
-.signal-list > li:last-child {
-  border-bottom: var(--border-subtle);
+  padding: var(--space-md);
+  background-color: var(--color-surface-raised);
+  border: var(--border-subtle);
+  border-radius: var(--radius-md);
 }
 
 .signal-list__mark {

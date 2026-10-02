@@ -12,7 +12,7 @@ export const signalSourcesStates = defineComponentStates({
   status: "draft",
   flows: ["onboarding"],
   description:
-    "The signal sources as rows with their status. LinkedIn is the only source: its row opens the upload step and shows the file's progress.",
+    "The signal sources as cards with their status. LinkedIn is the only source: its card shows the file's progress once there is one, and opens the upload step to manage it.",
   component: SignalSources,
   variants: [
     { label: "Nothing connected", props: base },

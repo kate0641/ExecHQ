@@ -354,16 +354,18 @@ export function OnboardingConcept3() {
 
     case "signals": {
       const c = GUIDE_C3.signals;
-      const anyOn = linkedInIn(a.linkedin);
+      // Handled: the file is in, or the steps were emailed for later.
+      const handled = linkedInIn(a.linkedin) || a.linkedin.status === "sent";
       return (
         <GuidePage
           {...frame()}
           kicker={c.kicker}
           title={c.title}
           lede={c.lede}
-          why={c.why}
-          primaryLabel={anyOn ? c.done : c.skip}
-          onPrimary={next}
+          primaryLabel={handled ? c.done : c.add}
+          onPrimary={handled ? next : () => goTo("linkedin")}
+          secondaryLabel={handled ? undefined : c.skip}
+          onSecondary={handled ? undefined : next}
         >
           <SignalSources linkedin={a.linkedin} onOpenLinkedIn={() => goTo("linkedin")} />
         </GuidePage>
