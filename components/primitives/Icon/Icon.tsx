@@ -255,7 +255,7 @@ const PATHS: Record<IconName, React.ReactNode> = {
   compass: (
     <>
       <circle cx="10" cy="10" r="7.5" />
-      <path d="M12.9 7.1l-1.7 4.1-4.1 1.7 1.7-4.1z" />
+      <path d="M12.9 7.1 11.7 11.7 7.1 12.9 8.3 8.3z" />
     </>
   ),
   mail: (
