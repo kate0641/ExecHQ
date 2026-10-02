@@ -243,11 +243,13 @@
 
   /* Supporting palette in small places, so the stone doesn't read as sandy.
      Eyebrows are blue 600: 6.3:1 on the page, 5.9:1 on the blue next-step
-     card. Icon chips are pale lime (green 200, a step lighter than the
-     palette light green) with a dark green glyph (8.9:1). */
+     card. Icon chips are butter yellow (yellow 200) with a deep gold glyph
+     (yellow 800, 7.4:1): warm, tied to the gold in the logo, and pale enough
+     never to be mistaken for the bright yellow button. Lime is kept for
+     progress and the Spark. */
   --color-eyebrow: var(--brand-secondary);
-  --color-icon-surface: var(--brand-green-200);
-  --color-icon: var(--brand-dark-green);
+  --color-icon-surface: var(--brand-yellow-200);
+  --color-icon: var(--brand-yellow-800);
   /* Icons standing on their own (chevrons, menu and settings icons) are
      navy, not ink, so they belong to the brand: 14:1 on the page. Icons in a
      button take the label's colour; icons on navy keep their light colours. */
