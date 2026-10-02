@@ -310,7 +310,8 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <path d="M12.8 12.8l3.7 3.7" />
     </>
   ),
-  filter: <path d="M3.5 4.5h13l-5 6v5l-3 1.5v-6.5z" />,
+  // A funnel with a rounded top edge, so it matches the set's round ends.
+  filter: <path d="M3.5 5c0-.6.4-1 1-1h11c.6 0 1 .4 1 1 0 .3-.1.5-.3.7L12 10.5V15l-4 2v-6.5L3.8 5.7c-.2-.2-.3-.4-.3-.7z" />,
   plus: <path d="M10 4v12M4 10h12" />,
   minus: <path d="M4 10h12" />,
   copy: (
