@@ -251,10 +251,10 @@ export function towardFor(direction: string): string {
 export const PLAN_C1 = {
   eyebrow: "Your starting point",
   builtFrom: "Built from what you told us",
-  grows: "It sharpens as you go. Every draft you make and every conversation you log tells us what to do next.",
+  grows: "It sharpens as you go: every draft you make and every conversation you log tells ExecHQ what to do next.",
   thisWeek: "This week",
   why: "Why now:",
-  now: "Now",
+  now: "This week",
   doneWhen: "Done when:",
   others: "Not quite right? See other plans",
   hideOthers: "Hide other plans",
@@ -727,7 +727,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     thisWeek: {
       title: "Write the story of what you lead",
       output: "The story of what you lead",
-      detail: "The version you\u2019d say out loud in a meeting. We\u2019ll write the first draft for you next.",
+      detail: "The version you\u2019d say out loud in a meeting. ExecHQ will write the first draft for you next.",
       why: "Every conversation about a bigger role starts with \u201cwhat do you lead?\u201d",
       fact: {
         text: "46% of professionals said they would not feel confident describing their achievements to their dream employer if they met them on the street.",
@@ -740,7 +740,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
       "As the start of your LinkedIn About section",
     ],
     horizon: "Stage by stage",
-    after: "Once these stages are done, we\u2019ll plan the next stretch together, based on what worked and what didn\u2019t.",
+    after: "Once these stages are done, ExecHQ will plan the next stretch with you, based on what worked and what didn\u2019t.",
     stages: [
       {
         window: "First",
@@ -780,7 +780,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     thisWeek: {
       title: "Write how you describe yourself",
       output: "How you describe yourself",
-      detail: "The short version of who you are and what you stand for, in your words, not your employer\u2019s. We\u2019ll write the first draft for you next.",
+      detail: "The short version of who you are and what you stand for, in your words, not your employer\u2019s. ExecHQ will write the first draft for you next.",
       why: "Everything you say in public builds on it.",
       fact: {
         text: "Executive presence accounts for 26% of what it takes to get promoted.",
@@ -793,7 +793,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
       "Before you post or speak, to check it says the same thing",
     ],
     horizon: "Stage by stage",
-    after: "Once these stages are done, we\u2019ll plan the next stretch together, based on what worked and what didn\u2019t.",
+    after: "Once these stages are done, ExecHQ will plan the next stretch with you, based on what worked and what didn\u2019t.",
     stages: [
       {
         window: "First",
@@ -833,7 +833,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     thisWeek: {
       title: "Write the story you\u2019ll tell in the room",
       output: "The story you\u2019ll tell in the room",
-      detail: "What you\u2019ve done, what you want, and why it should be you. We\u2019ll write the first draft for you next.",
+      detail: "What you\u2019ve done, what you want, and why it should be you. ExecHQ will write the first draft for you next.",
       why: "It\u2019s the core of your case, and the thing you\u2019ll rehearse.",
       fact: { text: "A sourced fact is needed here.", placeholder: true },
     },
@@ -843,7 +843,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
       "In the note that sets up the meeting",
     ],
     horizon: "Between now and the moment",
-    after: "After the moment, we\u2019ll plan what\u2019s next together, based on how it went.",
+    after: "After the moment, ExecHQ will plan what\u2019s next with you, based on how it went.",
     stages: [
       {
         window: "This week",
@@ -883,7 +883,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     thisWeek: {
       title: "Write the story of what you own",
       output: "The story of what you own",
-      detail: "What you\u2019re responsible for, in the words your leadership already uses. We\u2019ll write the first draft for you next.",
+      detail: "What you\u2019re responsible for, in the words your leadership already uses. ExecHQ will write the first draft for you next.",
       why: "Your work gets heard when it\u2019s described in the terms decisions are made in.",
       fact: { text: "A sourced fact is needed here.", placeholder: true },
     },
@@ -893,7 +893,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
       "When you meet a peer from another team",
     ],
     horizon: "Stage by stage",
-    after: "Once these stages are done, we\u2019ll plan the next stretch together, based on what worked and what didn\u2019t.",
+    after: "Once these stages are done, ExecHQ will plan the next stretch with you, based on what worked and what didn\u2019t.",
     stages: [
       {
         window: "First",
@@ -933,7 +933,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     thisWeek: {
       title: "Write the story of what you\u2019re good at",
       output: "The story of what you\u2019re good at",
-      detail: "What you do well, separated from where you\u2019ve done it. We\u2019ll write the first draft for you next.",
+      detail: "What you do well, separated from where you\u2019ve done it. ExecHQ will write the first draft for you next.",
       why: "It shows which strengths go with you anywhere, before you choose where.",
       fact: {
         text: "People who use their strengths every day are six times as likely to be engaged at work.",
@@ -946,7 +946,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
       "As the start of your LinkedIn About section",
     ],
     horizon: "Stage by stage",
-    after: "Once these stages are done, we\u2019ll plan the next stretch together, based on what worked and what didn\u2019t.",
+    after: "Once these stages are done, ExecHQ will plan the next stretch with you, based on what worked and what didn\u2019t.",
     stages: [
       {
         window: "First",
@@ -2160,7 +2160,7 @@ export const GUIDE_C3 = {
       `You also picked: ${goals}. ExecHQ will keep ${count > 1 ? "them" : "it"} in view as your plan grows.`,
     why: "You should get a clear starting point, not a menu of options. ExecHQ will show you how it got there, and you can always change it.",
     /** What a plan is, said where the plan is chosen. */
-    whatIs: "A plan is how you get from where you are to where you want to be. Yours has four parts.",
+    whatIs: "A plan is how you get from where you are to where you want to be. Yours has two parts.",
     /** When the user chose a plan other than the recommended one. */
     switched: (recommended: string) => `You chose this one instead. ExecHQ recommended ${recommended}.`,
     cta: "Use this plan",
@@ -2280,20 +2280,8 @@ typedReply: "Thank you. Whatever it\u2019s been, your plan gives you something s
       {
         id: "stages",
         title: "Three stages",
-        what: "What your plan builds toward, in order.",
+        what: "What your plan builds toward, in order, each with a finish line. When they\u2019re done, ExecHQ plans the next stretch with you.",
         helps: "Each stage sets up the next, so the effort adds up.",
-      },
-      {
-        id: "done",
-        title: "Done when",
-        what: "A clear finish line for each stage.",
-        helps: "You can tell it\u2019s working, not just feel busy.",
-      },
-      {
-        id: "grows",
-        title: "It grows with you",
-        what: "Every draft you make and every conversation you log tells ExecHQ what to do next.",
-        helps: "The plan gets sharper the more you use it, and it never runs out.",
       },
     ],
     next: "Next part",

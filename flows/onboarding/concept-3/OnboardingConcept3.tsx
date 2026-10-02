@@ -110,8 +110,6 @@ type PageId =
   | "plan-others"
   | "plan-week"
   | "plan-stages"
-  | "plan-done"
-  | "plan-grows"
   | "reflect-story"
   | "draft"
   | "sharpen"
@@ -155,8 +153,6 @@ const PAGES: Page[] = [
   { id: "plan-others", label: "Other plans", step: "refinement", offBar: true, aside: true },
   { id: "plan-week", label: "Your plan", step: "plan" },
   { id: "plan-stages", label: "Stages", step: "plan", offBar: true },
-  { id: "plan-done", label: "Done when", step: "plan", offBar: true },
-  { id: "plan-grows", label: "It grows", step: "plan", offBar: true },
   // The story: a reflection, then a first draft written from what the user
   // has said, by decision on 2026-09-28. Sharpening is optional, reached only
   // from the draft. It replaces the builder's intro and four input pages.
@@ -182,7 +178,7 @@ function barEntry(id: PageId): PageId {
   for (let i = pageIndex(id); i >= 0; i--) if (!PAGES[i].offBar) return PAGES[i].id;
   return "welcome";
 }
-const PLAN_PARTS: PageId[] = ["plan-week", "plan-stages", "plan-done", "plan-grows"];
+const PLAN_PARTS: PageId[] = ["plan-week", "plan-stages"];
 
 /** Pages whose answers live only in this concept, cleared when a jump lands
  *  on or before them. */
@@ -343,7 +339,7 @@ export function OnboardingConcept3() {
   if (reflections.ceo) items.push({ label: GUIDE_C3.reflect2.ceo.label, value: reflections.ceo });
   if (reflections.conversation)
     items.push({ label: GUIDE_C3.reflect2.conversation.label, value: reflections.conversation });
-  if (a.planId && at > pageIndex("plan-grows")) items.push({ label: "Your plan", value: plan?.name ?? "" });
+  if (a.planId && at > pageIndex("plan-stages")) items.push({ label: "Your plan", value: plan?.name ?? "" });
   if (reflections.story) items.push({ label: GUIDE_C3.story.reflect.label, value: reflections.story });
   if (a.artifactSaved)
     items.push({
@@ -539,14 +535,12 @@ export function OnboardingConcept3() {
     }
 
     case "plan-week":
-    case "plan-stages":
-    case "plan-done":
-    case "plan-grows": {
+    case "plan-stages": {
       if (!plan) return null;
       const c = GUIDE_C3.plan;
       const index = PLAN_PARTS.indexOf(pageId);
       const part = c.parts[index];
-      const last = pageId === "plan-grows";
+      const last = pageId === "plan-stages";
       return (
         <GuidePage
           {...frame()}
@@ -1360,31 +1354,20 @@ function PlanPart({
                   <li key={outcome}>{outcome}</li>
                 ))}
               </ul>
+              {stage.done ? (
+                <p className="guide__stage-done">
+                  <b>{PLAN_C1.doneWhen}</b> {stage.done}
+                </p>
+              ) : null}
             </li>
           ))}
         </ol>
+        <p className="guide__next">
+          {plan.after} {PLAN_C1.grows}
+        </p>
       </div>
     );
-  if (part === "plan-done")
-    return (
-      <ol className="guide__done">
-        {plan.stages?.map((stage) => (
-          <li key={stage.title}>
-            <p className="guide__stage-title">{stage.title}</p>
-            <p>
-              <b>{PLAN_C1.doneWhen}</b> {stage.done}
-            </p>
-          </li>
-        ))}
-      </ol>
-    );
-  // It grows: the plan's open end, and what feeds it.
-  return (
-    <div className="guide__grows">
-      <p className="guide__heard">{plan.after}</p>
-      <p className="guide__grows-note">{PLAN_C1.grows}</p>
-    </div>
-  );
+  return null;
 }
 
 export default OnboardingConcept3;

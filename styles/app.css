@@ -7773,8 +7773,7 @@ ol.ring-detail__timeline {
   gap: var(--space-xs);
 }
 
-.guide__stages,
-.guide__done {
+.guide__stages{
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
@@ -7783,8 +7782,7 @@ ol.ring-detail__timeline {
   list-style: none;
 }
 
-.guide__stages > li,
-.guide__done > li {
+.guide__stages > li{
   display: flex;
   flex-direction: column;
   gap: var(--space-3xs);
@@ -7792,8 +7790,7 @@ ol.ring-detail__timeline {
   border-top: var(--border-subtle);
 }
 
-.guide__stages > li:first-child,
-.guide__done > li:first-child {
+.guide__stages > li:first-child{
   padding-top: 0;
   border-top: 0;
 }
@@ -7808,6 +7805,17 @@ ol.ring-detail__timeline {
   color: var(--color-text-secondary);
 }
 
+.guide__stage-done {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+.guide__stage-done b {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
 .guide__stage-title {
   font-family: var(--font-display);
   word-spacing: var(--font-display-word-spacing);
@@ -7820,28 +7828,6 @@ ol.ring-detail__timeline {
 .guide__stages ul {
   margin: 0;
   padding-left: var(--space-md);
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
-}
-
-.guide__done p {
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
-}
-
-.guide__done p b {
-  color: var(--color-text-primary);
-}
-
-.guide__grows {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.guide__grows-note {
   font-size: var(--text-sm);
   line-height: var(--leading-normal);
   color: var(--color-text-secondary);
