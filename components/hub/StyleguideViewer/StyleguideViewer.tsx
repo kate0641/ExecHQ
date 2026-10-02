@@ -484,9 +484,16 @@ const SURFACES: { token: string; role: string; inverse?: boolean }[] = [
   { token: "--color-canvas", role: "Behind the device frame." },
   { token: "--color-surface", role: "The default page: stone, the platform's own color." },
   { token: "--color-surface-raised", role: "Cards and fields above the page, in white." },
-  { token: "--color-surface-muted", role: "Quiet areas that still read as the page." },
-  { token: "--color-surface-sunken", role: "Wells, inset areas and code." },
+  { token: "--color-surface-sunken", role: "Wells and inset areas." },
+  { token: "--color-surface-feature", role: "The head of a two-tone feature card." },
+  { token: "--color-surface-hover", role: "Under a mouse, on web only. Never carries meaning." },
+  { token: "--color-surface-active", role: "Pressed: a row or button while it is tapped." },
+  { token: "--color-surface-selected", role: "The item a panel is showing. A step stronger than hover." },
+  { token: "--color-surface-disabled", role: "A control you can't use: warm stone, so it never looks tappable." },
   { token: "--color-surface-inverse", role: "The one dark moment on a screen.", inverse: true },
+  { token: "--color-surface-inverse-deep", role: "The darkest navy, behind the logo on photography.", inverse: true },
+  { token: "--color-surface-progress", role: "Dark green: you've moved. Never an action.", inverse: true },
+  { token: "--color-surface-note", role: "Lime: a small note that something moved." },
 ];
 
 const TYPE_ROLES: { font: string; token: string; role: string }[] = [

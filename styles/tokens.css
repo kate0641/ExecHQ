@@ -141,12 +141,12 @@
   --color-canvas: var(--brand-stone-75);          /* behind the device frame */
   --color-surface: var(--brand-stone-75);     /* default page surface */
   --color-surface-raised: var(--brand-white);  /* cards and fields above the page */
-  /* The quiet surfaces are pale blues, not tan: stone 200 and 300 read as
-     sandy and dated. Quiet areas, wells and hover are blue 100;
-     pressed is blue 200, the palette light blue. Muted text is 5.3:1 on
-     blue 100; on pressed, secondary is the lightest text (6.0:1). */
-  --color-surface-sunken: var(--brand-blue-100);  /* wells, inset areas, code blocks */
-  --color-surface-muted: var(--brand-blue-100);
+  /* The quiet surfaces are pale blues: wells and hover are blue 100;
+     pressed and selected are blue 200, the palette light blue. Disabled is
+     the one warm grey (stone 200), so a control you can't use never looks
+     like one you can. Muted text is 5.3:1 on blue 100; on blue 200,
+     secondary is the lightest text (6.0:1). */
+  --color-surface-sunken: var(--brand-blue-100);  /* wells and inset areas */
   --color-surface-inverse: var(--brand-primary);
   --color-surface-inverse-hover: var(--brand-primary-muted);
   --color-surface-inverse-active: var(--brand-primary-strong);
@@ -165,8 +165,8 @@
   --color-halo: var(--brand-white);  /* a thin white ring that keeps a pale tint (lime 200, blue 100) from shimmering against the stone */
   --color-surface-hover: var(--brand-blue-100);
   --color-surface-active: var(--brand-blue-200);
-  --color-surface-disabled: var(--brand-blue-100);
-  --color-surface-selected: var(--brand-primary-soft); /* the item a detail pane is showing */
+  --color-surface-disabled: var(--brand-stone-200);  /* grey: off, never tappable */
+  --color-surface-selected: var(--brand-blue-200); /* the item a detail pane is showing: a step stronger than hover */
   --color-surface-feature: var(--brand-blue-100);  /* the card that says what to do next, on trial */
   /* A veil of the darkest navy over photography, so text on it stays readable. The
      image's own colour shows through where the veil is clear. */
