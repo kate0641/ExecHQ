@@ -39,7 +39,7 @@ const ICON_GROUPS: { title: string; note: string; names: IconName[] }[] = [
   },
   {
     title: "Brand",
-    note: "LinkedIn, and ExecHQ's own marks: the advisor's spark and the open draft (the same drawing as the pencil for now).",
+    note: "LinkedIn, and ExecHQ's own marks: the advisor's spark and the open draft (the pencil, writing a line).",
     names: ["linkedin", "spark", "draft"],
   },
 ];

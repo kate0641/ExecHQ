@@ -57,7 +57,7 @@ export const iconStates = defineComponentStates({
     { label: "Close", props: { name: "close" } },
     {
       label: "Draft",
-      description: "A draft is open. Drawn the same as the pencil for now.",
+      description: "The pencil with a line under it, as if mid-writing: a draft is open.",
       props: { name: "draft" },
     },
     {
