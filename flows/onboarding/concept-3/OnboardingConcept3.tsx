@@ -4,7 +4,6 @@ import { useEffect, useId, useRef, useState, type ComponentProps } from "react";
 import { useRouter } from "next/navigation";
 import { ChipGroup } from "@/components/form/ChipGroup";
 import { Input } from "@/components/form/Input";
-import { AdvisorFile, type AdvisorFileItem } from "@/components/onboarding/AdvisorFile";
 import { AnswerDrawer } from "@/components/onboarding/AnswerDrawer";
 import { ExportLinks } from "@/components/onboarding/ExportLinks";
 import { GeneratingState } from "@/components/onboarding/GeneratingState";
@@ -48,7 +47,6 @@ import {
   POSITIONING_C1,
   PLAN_C1,
   PLAN_TEMPLATES,
-  SIGNALS_C1,
   checkEmail,
   answerOptions,
   decidesPlanC3,
@@ -318,29 +316,6 @@ export function OnboardingConcept3() {
       target: decidesPlanC3(question.id) ? "decide" : (`t-${tailoring.indexOf(question)}` as PageId),
     });
   });
-  // What the user leaves with, saved: the plan, the story and, if it came in,
-  // the LinkedIn file. The answers behind them were shown on the plan page.
-  const items: AdvisorFileItem[] = [];
-  if (a.planId && at > pageIndex("plan-stages")) items.push({ label: "Your plan", value: plan?.name ?? "" });
-  if (a.artifactSaved)
-    items.push({
-      label: "Your story",
-      value: builtVersions
-        ? GUIDE_C3.story.versions.fileVersions
-        : sharpened
-          ? GUIDE_C3.story.draft.fileSharpened
-          : GUIDE_C3.story.draft.fileDraft,
-    });
-  if (linkedInIn(a.linkedin))
-    items.push({
-      label: "LinkedIn",
-      value:
-        a.linkedin.status === "reading"
-          ? LINKEDIN_UPLOAD.short.reading
-          : a.linkedin.status === "empty"
-            ? GUIDE_C3.linkedin.fileEmpty
-            : SIGNALS_C1.sources[0].imported,
-    });
   /** Where the page sits. Progress and the running file were cut from the
    *  pages by decision on 2026-09-24; what ExecHQ learned is shown once, as
    *  the summary on the last page. */
@@ -672,42 +647,23 @@ export function OnboardingConcept3() {
     case "done": {
       const c = GUIDE_C3.done;
       const stages = plan?.stages ?? [];
-      // What was done today, the quick win that comes next (sharpening, or
-      // the bio once the story is sharpened), then the plan's next stage.
+      // What is left to do, in order: the rest of the story, then the plan's
+      // next stage, then the LinkedIn numbers if they have not come in.
       const steps: { title: string; detail: string }[] = [];
-      steps.push({
-        title: c.thisWeek,
-        detail: builtVersions ? c.doneVersions : sharpened ? DONE_C1.storySharpened : DONE_C1.storyDraft,
-      });
-      // What is left of the story comes first; once it is done, the plan's
-      // next stage does.
-      const left = !sharpened ? c.nextDetail : !builtVersions ? c.nextVersions : null;
-      if (left) {
-        steps.push({ title: c.then, detail: `${left.title}: ${left.detail}` });
-        if (stages[1]) steps.push({ title: c.after, detail: `${stages[1].window}: ${stages[1].title}` });
-      } else {
-        if (stages[1]) steps.push({ title: c.then, detail: `${stages[1].window}: ${stages[1].title}` });
-        if (stages[2]) steps.push({ title: c.after, detail: `${stages[2].window}: ${stages[2].title}` });
-      }
+      if (!sharpened) steps.push(c.nextDetail);
+      if (!builtVersions) steps.push(c.nextVersions);
+      if (stages[1]) steps.push({ title: stages[1].title, detail: stages[1].outcomes[0] ?? "" });
+      if (!linkedInIn(a.linkedin)) steps.push(c.nextSignals);
       return (
         <GuidePage
           headingId={headingId}
           kicker={c.kicker}
           title={c.title}
-          lede={c.lede}
-          why={c.why}
+          lede={c.lede(a.email)}
           primaryLabel={c.home}
           onPrimary={() => router.push(DONE_C1.homeHref)}
         >
-          {/* The file, open: everything learned, as the summary. */}
-          <AdvisorFile
-            label={GUIDE_C3.file.label}
-            items={items}
-            open
-            fixed
-          />
           <PointList items={steps} numbered label={c.nextLabel} />
-          {linkedInIn(a.linkedin) ? null : <p className="guide__next">{c.signals}</p>}
         </GuidePage>
       );
     }

@@ -2125,11 +2125,6 @@ export const GUIDE_C3 = {
     done: "Continue",
     skip: "Skip for now",
   },
-  /** The LinkedIn upload page, reached from Signals. */
-  linkedin: {
-    /** How the summary file on the last page says a file with no posts. */
-    fileEmpty: "No posts in the last year yet",
-  },
   direction: {
     kicker: "Where you\u2019re going",
     title: "Where do you want to go next?",
@@ -2343,9 +2338,6 @@ typedReply: "Thank you. ExecHQ will draft that sentence for you next, from what 
       },
       cta: "Save it and finish",
       writing: "Writing your first draft",
-      /** How the summary file on the last page says the story. */
-      fileDraft: "First draft",
-      fileSharpened: "Sharpened",
     },
     /** The longer versions: the same story in three lengths. */
     versions: {
@@ -2363,8 +2355,6 @@ typedReply: "Thank you. ExecHQ will draft that sentence for you next, from what 
       },
       save: "Save it and finish",
       back: "Back to my draft",
-      /** How the summary file on the last page says the story. */
-      fileVersions: "Draft and longer versions",
     },
     /** Sharpening: the three facts, one at a time in the drawer. */
     sharpen: {
@@ -2399,15 +2389,12 @@ typedReply: "Thank you. ExecHQ will draft that sentence for you next, from what 
   },
   done: {
     kicker: "You\u2019re set up",
-    title: "You have a plan and your first story",
-    lede: "Both are saved, and nothing here is visible to anyone else. Here\u2019s what happens next.",
-    nextLabel: "What happens next",
-    // The first thing on the plan is the story, which is now drafted; the
-    // quick win after it comes next.
-    thisWeek: "Done today",
-    then: "Next",
-    after: "After that",
-    /** The next step on the story, by what has been done. */
+    title: "Your plan and story are saved",
+    /** Where it is saved, from the email the user gave. */
+    lede: (email: string | null) =>
+      `You\u2019ve done the hardest part: saying where you want to go. Saved to ${email ?? "your account"}, and nothing here is visible to anyone else.`,
+    nextLabel: "What to do next",
+    /** What is left of the story, by what has been done. */
     nextDetail: {
       title: "Add more detail",
       detail: "Add your role and one result, so your draft says what you lead.",
@@ -2416,9 +2403,10 @@ typedReply: "Thank you. ExecHQ will draft that sentence for you next, from what 
       title: "Build longer versions",
       detail: "Short, medium and long, built from your story and ready to send ahead of you.",
     },
-    doneVersions: "Your story, with longer versions",
-    signals: "You can bring in your LinkedIn numbers anytime, so your plan and your drafts start from how you already show up.",
-    why: "You\u2019ve done the hardest part: saying where you want to go. From here, the plan does the work with you.",
+    nextSignals: {
+      title: "Bring in your LinkedIn numbers",
+      detail: "So your plan and your drafts start from how you already show up.",
+    },
     home: "Go to my homepage",
   },
 } as const;
