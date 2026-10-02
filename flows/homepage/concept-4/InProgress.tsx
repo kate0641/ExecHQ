@@ -1,15 +1,15 @@
 "use client";
 
-import { useState } from "react";
 import { LoopRow } from "@/components/homepage/LoopRow";
+import { CardCarousel, type CarouselItem } from "@/components/layout/CardCarousel";
 import { NextStepCard } from "@/components/homepage/NextStepCard";
 import { CheckIn } from "@/components/loop/CheckIn";
-import { addDays, aheadPhrase, dueFollowUps, whenPhrase, type LoopRecord } from "@/lib/loop";
+import { addDays, aheadPhrase, dueFollowUps, type LoopRecord } from "@/lib/loop";
 import { loopActions, nextStepAfter, type LoopView } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import type { MapRing } from "@/lib/map";
 import { CHECKIN_COPY as CK, HOME_COPY, MAP_COPY as M, STAY_COPY as S } from "@/mock/homepage";
-import { ARTIFACT_KINDS, FOLLOW_UP_POLICY, OUTCOME_READBACK } from "@/mock/loop";
+import { FOLLOW_UP_POLICY, OUTCOME_READBACK } from "@/mock/loop";
 import { ACTIONS, HORIZONS, actionById } from "@/mock/plan-stub";
 
 /**
@@ -25,16 +25,12 @@ import { ACTIONS, HORIZONS, actionById } from "@/mock/plan-stub";
 
 const TOOLBOX = conceptHref("toolbox-flow", "concept-1");
 
-const capitalise = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
-
 /** Moves focus to a heading once the card it names has replaced the last. */
 function focusSoon(id: string) {
   setTimeout(() => document.getElementById(id)?.focus(), 0);
 }
 
 export function InProgress({ loop, rings }: { loop: LoopView; rings: MapRing[] }) {
-  const [showing, setShowing] = useState<string | null>(null);
-
   const due = dueFollowUps(loop.records, loop.today);
   const forAction = (recordId: string) => {
     const action = ACTIONS.find((a) => a.artifactId === recordId);
@@ -64,13 +60,6 @@ export function InProgress({ loop, rings }: { loop: LoopView; rings: MapRing[] }
       });
   const stepAction = step ? actionById(step.id) : undefined;
 
-  const openId =
-    showing && [...due, ...readyRecords].some((r) => r.id === showing)
-      ? showing
-      : answered
-        ? undefined
-        : (due[0] ?? readyRecords[0])?.id;
-  const openRecord = loop.records.find((r) => r.id === openId);
   const readback = answered
     ? !outcome || outcome.type === "no-response-yet"
       ? HOME_COPY.askAgain(
@@ -97,19 +86,67 @@ export function InProgress({ loop, rings }: { loop: LoopView; rings: MapRing[] }
         : HOME_COPY.loggedPlain(OUTCOME_READBACK[taskCheck.outcome.type])
     : undefined;
 
-  const checkRecord = showing && openRecord ? openRecord : (answered ?? openRecord);
-  const rowCount =
-    due.filter((r) => r.id !== checkRecord?.id).length +
-    readyRecords.filter((r) => r.id !== checkRecord?.id).length +
-    waitingRecords.filter((r) => r.id !== checkRecord?.id).length;
-  const openItem = (id: string) => {
-    setShowing(id);
-    focusSoon("check-in-question");
-  };
-  const usedLine = (r: LoopRecord) =>
-    `${capitalise(ARTIFACT_KINDS[r.kind].usedVerb)}${r.usedOn ? ` ${whenPhrase(r.usedOn, loop.today)}` : ""}. ${S.dueLine}`;
-  const nothingInLoop = !answered && !pendingTask && !due.length && !readyRecords.length && !waitingRecords.length;
   const anyUsed = loop.records.some((r) => r.usedOn);
+
+  /* Each thing waiting on her word is a card, in this order: an action with
+     no draft she has done, what she has just answered, follow-ups due,
+     drafts ready, then drafts only waiting, which are quiet. */
+  const cards: CarouselItem[] = [];
+  if (pendingTask && taskCheck) {
+    cards.push({
+      id: `task-${pendingTask.id}`,
+      node: (
+        <CheckIn
+          task={taskCheck}
+          today={loop.today}
+          about={pendingTask.title}
+          layout="question"
+          answered={Boolean(taskCheck.outcome)}
+          readback={taskReadback}
+          onAnswer={(type) => loopActions.answerTask(pendingTask.id, type)}
+          onNote={(detail) => loopActions.noteTask(pendingTask.id, detail)}
+          headingId="check-in-task"
+        />
+      ),
+    });
+  }
+  const recordCard = (record: LoopRecord, isAnswered: boolean) => {
+    const headingId = `check-in-${record.id}`;
+    cards.push({
+      id: record.id,
+      node: (
+        <CheckIn
+          record={record}
+          today={loop.today}
+          about={forAction(record.id)?.title}
+          layout="question"
+          answered={isAnswered}
+          readback={isAnswered ? readback : undefined}
+          headingId={headingId}
+          onUsed={() => {
+            loopActions.markUsed(record.id);
+            focusSoon("stay-heading");
+          }}
+          onAnswer={(type) => {
+            loopActions.answer(record.id, { type });
+            focusSoon(headingId);
+          }}
+          onNote={(detail) => loopActions.noteOutcome(record.id, detail)}
+        />
+      ),
+    });
+  };
+  if (answered) recordCard(answered, true);
+  due.filter((r) => r.id !== answered?.id).forEach((r) => recordCard(r, false));
+  readyRecords.filter((r) => r.id !== answered?.id).forEach((r) => recordCard(r, false));
+  waitingRecords
+    .filter((r) => r.id !== answered?.id)
+    .forEach((r) =>
+      cards.push({
+        id: r.id,
+        node: <LoopRow record={r} line={r.checkBackOn ? S.askOn(aheadPhrase(r.checkBackOn, loop.today)) : S.usedNoAsk} />,
+      })
+    );
 
   /* On the first return nothing is waiting on her word, so Stay on track is
      left out. Otherwise it leads, above her next step. */
@@ -121,68 +158,8 @@ export function InProgress({ loop, rings }: { loop: LoopView; rings: MapRing[] }
           {S.heading}
         </h2>
       </div>
-      {pendingTask && taskCheck ? (
-        <CheckIn
-          key={`task-${pendingTask.id}`}
-          task={taskCheck}
-          today={loop.today}
-          about={pendingTask.title}
-          layout="question"
-          answered={Boolean(taskCheck.outcome)}
-          readback={taskReadback}
-          onAnswer={(type) => loopActions.answerTask(pendingTask.id, type)}
-          onNote={(detail) => loopActions.noteTask(pendingTask.id, detail)}
-          headingId="check-in-task"
-        />
-      ) : null}
-      {checkRecord ? (
-        <CheckIn
-          key={checkRecord.id}
-          record={checkRecord}
-          today={loop.today}
-          about={forAction(checkRecord.id)?.title}
-          layout="question"
-          answered={checkRecord === answered}
-          readback={checkRecord === answered ? readback : undefined}
-          onUsed={() => {
-            loopActions.markUsed(checkRecord.id);
-            setShowing(null);
-            focusSoon("stay-heading");
-          }}
-          onAnswer={(type) => {
-            loopActions.answer(checkRecord.id, { type });
-            setShowing(null);
-            focusSoon("check-in-question");
-          }}
-          onNote={(detail) => loopActions.noteOutcome(checkRecord.id, detail)}
-        />
-      ) : null}
-      {rowCount ? (
-        <ul className="loop-rows">
-          {due
-            .filter((r) => r.id !== checkRecord?.id)
-            .map((r) => (
-              <li key={r.id}>
-                <LoopRow record={r} line={usedLine(r)} onOpen={() => openItem(r.id)} />
-              </li>
-            ))}
-          {readyRecords
-            .filter((r) => r.id !== checkRecord?.id)
-            .map((r) => (
-              <li key={r.id}>
-                <LoopRow record={r} line={S.readyLine} onOpen={() => openItem(r.id)} />
-              </li>
-            ))}
-          {waitingRecords
-            .filter((r) => r.id !== checkRecord?.id)
-            .map((r) => (
-              <li key={r.id}>
-                <LoopRow record={r} line={r.checkBackOn ? S.askOn(aheadPhrase(r.checkBackOn, loop.today)) : S.usedNoAsk} />
-              </li>
-            ))}
-        </ul>
-      ) : null}
-      {nothingInLoop ? <p className="c2-section__note">{anyUsed ? S.allLogged : S.empty}</p> : null}
+      <CardCarousel label={S.heading} items={cards} previousLabel={S.previous} nextLabel={S.next} />
+      {cards.length === 0 ? <p className="c2-section__note">{anyUsed ? S.allLogged : S.empty}</p> : null}
     </section>
   );
   const next = (

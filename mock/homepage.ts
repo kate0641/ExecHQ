@@ -295,6 +295,8 @@ export const STAY_COPY = {
   /** Over a next step brought by an outcome she just logged. */
   updated: "Updated from what you told us.",
   heading: "Stay on track",
+  previous: "Previous card",
+  next: "Next card",
   dueLine: "What came of it?",
   readyLine: "Ready. Have you used it yet?",
   askOn: (when: string) => `I’ll ask what came of it ${when}.`,
