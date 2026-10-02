@@ -96,7 +96,7 @@ export const CONCIERGE_COPY = {
   scope: {
     lead: "Here’s how I’d approach it, from what you’ve told me.",
     list: [
-      "Ask for a piece of work before a title. A cross-functional project is the cleanest first step toward a broader organisation, and much easier to say yes to.",
+      "Ask for a piece of work before a title. A cross-functional project is the cleanest first step toward a broader organization, and much easier to say yes to.",
       "Bring the proof in writing. Your recent wins are your strongest case. Senior people decide on paper, even after a good conversation.",
       "Find out who else decides. Your manager may not decide alone. Ask who weighs in, and what they’d need to see.",
     ],

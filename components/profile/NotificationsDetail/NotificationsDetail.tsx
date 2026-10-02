@@ -26,7 +26,7 @@ const ITEMS = Object.keys(C.items) as NotifyItem[];
 
 /** A switch is on while anything it covers is still emailed. */
 const isOn = (notify: Account["notify"], item: NotifyItem) =>
-  NOTIFY_TOPICS[item].some((topic) => notify[topic].email);
+  NOTIFY_TOPICS[item].some((topic) => notify[topic]);
 
 /**
  * The only notifications there are: email, one switch for the plan and one
@@ -40,7 +40,7 @@ export function NotificationsDetail({
   headingId = "notifications-heading",
 }: NotificationsDetailProps) {
   return (
-    <DetailPanel heading={C.heading} headingId={headingId} onClose={onClose}>
+    <DetailPanel heading={C.heading} headingId={headingId} lead={C.lead} onClose={onClose}>
       <SettingsGroup label={C.heading} headingLevel={3} hideLabel>
         {ITEMS.map((item) => (
           <SettingsRow

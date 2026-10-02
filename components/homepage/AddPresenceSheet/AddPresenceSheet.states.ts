@@ -35,7 +35,7 @@ export const addPresenceSheetStates = defineComponentStates({
         demo: {
           kind: "speaking",
           title: "Keynote on why the quarterly planning review is the most underrated leadership habit, and what it took to make it stick across three teams",
-          where: "The International Conference on Marketing Leadership and Organisational Growth",
+          where: "The International Conference on Marketing Leadership and Organizational Growth",
           link: "https://example.com/events/international-conference-marketing-leadership/sessions/keynote-planning-review",
         },
       },

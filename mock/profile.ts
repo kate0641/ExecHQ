@@ -19,7 +19,7 @@ import type { ConnectionId } from "@/mock/account";
  *  pane on web. */
 export type ProfileDetailId =
   | "account"
-  | "organisation"
+  | "organization"
   | "delete";
 
 export const PROFILE_COPY = {
@@ -31,7 +31,7 @@ export const PROFILE_COPY = {
     you: "You",
     connections: "Connections",
     settings: "Settings",
-    organisation: "Organisation",
+    organization: "Organization",
     data: "Your data",
     delete: "Delete account",
   },
@@ -47,8 +47,8 @@ export const PROFILE_COPY = {
     notificationsValue: (on: number) => `${on} on`,
     uses: "What ExecHQ uses",
     usesValue: (on: number, of: number) => `${on} of ${of}`,
-    organisation: "Membership",
-    noOrganisation: "None",
+    organization: "Membership",
+    noOrganization: "None",
     export: "Download your data",
     exportValue: "PDF",
     exportWorking: "Downloading…",
@@ -59,6 +59,8 @@ export const PROFILE_COPY = {
 
   notifications: {
     heading: "Notifications",
+    /** Email is the only way ExecHQ reaches a person, said on the page. */
+    lead: "ExecHQ sends these by email. There are no app or push notifications.",
     items: {
       plan: { label: "Plan and follow-ups", hint: "A question after you use something, and a nudge when a step is due." },
       briefing: { label: "Daily Briefing", hint: "Three reads, once a day." },
@@ -80,20 +82,20 @@ export const PROFILE_COPY = {
     offNote: "With something off, your suggestions lean on less, so they may be more general.",
   },
 
-  organisation: {
-    heading: "Your organisation",
+  organization: {
+    heading: "Your organization",
     member: (name: string) => `${name} sees a summary of everyone in the group, as a whole. It never sees you personally.`,
     joined: "Joined",
     sees: "What they can see",
     never: "What they never see",
-    leave: "Leave organisation",
+    leave: "Leave organization",
     confirmHeading: (name: string) => `Leave ${name}?`,
     confirmBody: "You keep your account and everything in it. You drop out of the group’s summary.",
     confirm: "Leave",
     keep: "Stay a member",
     left: (name: string) => `You left ${name}.`,
-    noneLead: "You are not part of an organisation. This account is yours alone.",
-    noneHint: "If a programme invites you, it will show up here, with exactly what it can see.",
+    noneLead: "You are not part of an organization. This account is yours alone.",
+    noneHint: "If a program invites you, it will show up here, with exactly what it can see.",
   },
 
   account: {

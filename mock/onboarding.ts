@@ -28,7 +28,7 @@ export const WELCOME = {
   inviteHide: "I do not have a code",
 } as const;
 
-/** Codes an enterprise user might arrive with. The sponsoring organisation is
+/** Codes an enterprise user might arrive with. The sponsoring organization is
  *  deliberately not recorded: no employer name appears anywhere in the UI, and
  *  storing one here would invite a screen that shows it. */
 export const INVITE_CODES = ["EXEC-4821", "EXEC-7390", "EXEC-1155"] as const;
@@ -100,8 +100,8 @@ export type DirectionNeed =
 export const PROMPTED_DIRECTIONS: PromptedDirection[] = [
   {
     id: "bigger-org",
-    label: "Lead a bigger organisation",
-    text: "I want to lead a larger organisation, with a broader remit than I have now.",
+    label: "Lead a bigger organization",
+    text: "I want to lead a larger organization, with a broader remit than I have now.",
     blurb: "A larger remit than the one you have now.",
     need: "positioning",
   },
@@ -115,7 +115,7 @@ export const PROMPTED_DIRECTIONS: PromptedDirection[] = [
   {
     id: "weigh-more",
     label: "Carry more weight where I am",
-    text: "I want more influence in the organisation I am already in.",
+    text: "I want more influence in the organization I am already in.",
     blurb: "More say where you already are, without moving to get it.",
     need: "influence",
   },
@@ -173,7 +173,7 @@ export const DIRECTION_NARROWER_C3: Record<string, [string, string]> = {
     "Present results and the plan ahead with confidence",
   ],
   "Find my next move": ["Move to a new company in my field", "Move into a different role or industry"],
-  "Lead a bigger organisation": ["Run a larger business or division", "Lead across more functions or regions"],
+  "Lead a bigger organization": ["Run a larger business or division", "Lead across more functions or regions"],
   "Carry more weight where I am": ["Have more say in company decisions", "Be trusted with bigger, more visible work"],
   "Get out of where I am": ["Leave my industry for something new", "Leave my company, but stay in my field"],
   "I do not know yet": ["Understand why I\u2019ve hit a ceiling", "Explore what else is out there"],
@@ -203,7 +203,7 @@ const softCase = (text: string) => (/^[A-Z][a-z]/.test(text) ? lowerFirst(text) 
  *  Concept 3. Each is keyed in the copy tables below the way the first five
  *  are, so a pick reads as well as they do. */
 export const DIRECTION_MORE_C3: PromptedDirection[] = [
-  { id: "bigger-org", label: "Lead a bigger organisation", text: "Lead a bigger organisation", blurb: "A larger remit than the one you have now.", need: "positioning" },
+  { id: "bigger-org", label: "Lead a bigger organization", text: "Lead a bigger organization", blurb: "A larger remit than the one you have now.", need: "positioning" },
   { id: "weigh-more", label: "Carry more weight where I am", text: "Carry more weight where I am", blurb: "More say where you already are, without moving to get it.", need: "influence" },
   { id: "leaving", label: "Get out of where I am", text: "Get out of where I am", blurb: "Out of where you are, before you have named what replaces it.", need: "exploration" },
   { id: "unsure", label: "I do not know yet", text: "I do not know yet", blurb: "A ceiling you can feel but cannot put a title to.", need: "exploration" },
@@ -214,8 +214,8 @@ export const DIRECTION_MORE_C3: PromptedDirection[] = [
  *  field, or the addition after a prompt or something already typed. The full
  *  answer is the pilot scope's own example. */
 export const VOICE_SAMPLE = {
-  full: "I want to move from running campaigns to leading a broader marketing organisation.",
-  addition: "ideally leading a broader marketing organisation.",
+  full: "I want to move from running campaigns to leading a broader marketing organization.",
+  addition: "ideally leading a broader marketing organization.",
 } as const;
 
 /** What the plan was built from, as short tags: the direction, then each
@@ -240,7 +240,7 @@ const PROMPT_TOWARD: Record<string, string> = {
   "Be seen as an executive": "being seen as an executive",
   "Nail an upcoming board presentation": "your board presentation",
   "Find my next move": "your next move",
-  "Lead a bigger organisation": "a bigger organisation to lead",
+  "Lead a bigger organization": "a bigger organization to lead",
   "Carry more weight where I am": "more weight where you are",
   "Get out of where I am": "a way out of where you are",
   "I do not know yet": "your next step",
@@ -304,11 +304,11 @@ export function interpretNeed(direction: string): DirectionNeed {
 /** The one-sentence read-back, per need. Written to be shown back and edited. */
 const INTERPRETATIONS: Record<DirectionNeed, string> = {
   positioning:
-    "You want to lead a larger organisation, and you want the step up to be a scope change rather than a title change.",
+    "You want to lead a larger organization, and you want the step up to be a scope change rather than a title change.",
   visibility:
     "You want the people who make decisions about you to read you as an executive, not as a strong operator.",
   influence:
-    "You want more weight in the organisation you are already in, without moving to get it.",
+    "You want more weight in the organization you are already in, without moving to get it.",
   preparation:
     "You have a specific conversation coming up, and you want to walk into it prepared rather than hopeful.",
   exploration:
@@ -324,7 +324,7 @@ export function assumptionFor(direction: string): { statement: string; promise: 
   const need = interpretNeed(direction);
   const statements: Record<DirectionNeed, string> = {
     positioning:
-      "Based on your goal of leading a larger organisation, we have started with a concise leadership narrative.",
+      "Based on your goal of leading a larger organization, we have started with a concise leadership narrative.",
     visibility:
       "Based on wanting to be read differently, we have started with how you describe yourself.",
     influence:
@@ -465,7 +465,7 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       question: "What\u2019s in the way?",
       hint: REFINEMENT_C1.instruction,
       options: opts("No clear path up", "Nobody sees my work", "I can\u2019t make my case", "Wrong company for it", "My boss isn\u2019t backing me").map(withHeard("Right now there\u2019s no clear path up, so part of the job is finding one, or making one.", "Right now nobody sees your work. The results are there; the people deciding just aren\u2019t looking at them.", "Right now you can\u2019t quite make your case. You know you\u2019re ready; it\u2019s putting it into words that\u2019s hard.", "You suspect you\u2019re in the wrong company for it, so the next step may not be where you are now.", "Your boss isn\u2019t backing you yet, so winning that support comes before anything else.")),
-      more: opts("The role I want is taken", "I don\u2019t have the experience yet", "A reorganisation has stalled things", "I don\u2019t know what it would take").map(withHeard("The role you want is already filled, so the path may need to go around it.", "You don\u2019t have all the experience yet, so the plan builds the missing proof.", "A reorganisation has stalled things, so the plan works with the change rather than waiting it out.", "You don\u2019t know what it would take, so finding that out comes first.")),
+      more: opts("The role I want is taken", "I don\u2019t have the experience yet", "A reorganization has stalled things", "I don\u2019t know what it would take").map(withHeard("The role you want is already filled, so the path may need to go around it.", "You don\u2019t have all the experience yet, so the plan builds the missing proof.", "A reorganization has stalled things, so the plan works with the change rather than waiting it out.", "You don\u2019t know what it would take, so finding that out comes first.")),
     },
   ],
   influence: [
@@ -475,7 +475,7 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       question: "Where do you want more say?",
       hint: REFINEMENT_C1.instruction,
       options: opts("My team\u2019s direction", "Company strategy", "Budget and headcount", "Across other teams", "Hiring and promotions").map(withHeard("You want more say in your team\u2019s direction: setting it, not just delivering it.", "You want more say in company strategy: a voice in where the business goes, not only in how your part gets there.", "You want more say over budget and headcount, which is where influence becomes real.", "You want more say across other teams, beyond the part of the business you run.", "You want more say in hiring and promotions: who gets in and who moves up.")),
-      more: opts("Customers and partners", "What we make and sell", "How we’re organised", "Which projects get funded").map(withHeard("You want more say with customers and partners, where your reach goes beyond the company.", "You want more say in what the company makes and sells.", "You want more say in how the company is organised: structure, roles and who reports to whom.", "You want more say in which projects get funded, which is where priorities become real.")),
+      more: opts("Customers and partners", "What we make and sell", "How we’re organized", "Which projects get funded").map(withHeard("You want more say with customers and partners, where your reach goes beyond the company.", "You want more say in what the company makes and sells.", "You want more say in how the company is organized: structure, roles and who reports to whom.", "You want more say in which projects get funded, which is where priorities become real.")),
     },
     {
       id: "influence-who",
@@ -501,7 +501,7 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       question: "Who needs to see you differently?",
       hint: REFINEMENT_C1.instruction,
       options: opts("Leaders in my company", "My industry", "Recruiters and boards", "All of them", "Customers and clients").map(withHeard("Leaders in your company need to see you differently: as someone they\u2019d promote, not just rely on.", "Your industry needs to see you differently: known beyond your own company.", "Recruiters and boards need to see you differently: as someone on their shortlist.", "Everyone who matters needs to see you differently, inside your company and out.", "Customers and clients need to see you differently: as someone they’d trust with more.")),
-      more: opts("Peers at other companies", "Investors", "The press and conferences", "My own team").map(withHeard("Peers at other companies need to see you differently: as someone worth knowing.", "Investors need to see you differently: as someone who can carry the business.", "The press and conference organisers need to see you differently: as a voice worth hearing.", "Your own team needs to see you differently: as someone who leads, not just manages.")),
+      more: opts("Peers at other companies", "Investors", "The press and conferences", "My own team").map(withHeard("Peers at other companies need to see you differently: as someone worth knowing.", "Investors need to see you differently: as someone who can carry the business.", "The press and conference organizers need to see you differently: as a voice worth hearing.", "Your own team needs to see you differently: as someone who leads, not just manages.")),
     },
     {
       id: "presence-now",
@@ -526,7 +526,7 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       question: "What\u2019s coming up?",
       hint: REFINEMENT_C1.instruction,
       options: opts("Promotion conversation", "Performance review", "Board or exec presentation", "Negotiation or offer", "Job interview").map(withHeard("You have a promotion conversation coming up, and you want to walk in with a case, not a hope.", "You have a performance review coming up, and you want it to set up what\u2019s next, not just look back.", "You have a board or exec presentation coming up, the kind of moment people remember.", "You have a negotiation or offer coming up, where what you say in the moment matters.", "You have an interview coming up, where the first ten minutes decide the rest.")),
-      more: opts("Investor or client pitch", "A reorganisation", "A talk or keynote", "A difficult conversation").map(withHeard("You have a pitch coming up, where you’re asking someone to back you.", "A reorganisation is coming, and you want to be placed well in it.", "You have a talk or keynote coming up, in front of people you don’t know.", "You have a difficult conversation coming up, and you want to handle it well.")),
+      more: opts("Investor or client pitch", "A reorganization", "A talk or keynote", "A difficult conversation").map(withHeard("You have a pitch coming up, where you’re asking someone to back you.", "A reorganization is coming, and you want to be placed well in it.", "You have a talk or keynote coming up, in front of people you don’t know.", "You have a difficult conversation coming up, and you want to handle it well.")),
       skipIf: SAYS_WHAT_MOMENT,
     },
     {
@@ -552,7 +552,7 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       question: "What\u2019s making you want a change?",
       hint: REFINEMENT_C1.instruction,
       options: opts("Hit a ceiling", "Lost interest", "Industry is shrinking", "Life has changed", "Passed over for a role").map(withHeard("You\u2019ve hit a ceiling where you are, and staying put isn\u2019t going to move it.", "You\u2019ve lost interest in the work, so this is about what you want to do, not just where.", "Your industry is shrinking, so moving is about staying ahead, not just a change of scene.", "Your life has changed, and your career needs to fit its new shape.", "You were passed over, so this is about what comes next, not what was missed.")),
-      more: opts("New boss or reorganisation", "Better pay or flexibility", "The culture doesn\u2019t fit", "Ready for a new challenge").map(withHeard("A new boss or a reorganisation changed things, so part of this is rethinking where you stand.", "You want better pay or flexibility, so the next move has to deliver both.", "The culture doesn\u2019t fit you, so where you go matters as much as what you do.", "You\u2019re ready for a new challenge, so this is about growth, not escape.")),
+      more: opts("New boss or reorganization", "Better pay or flexibility", "The culture doesn\u2019t fit", "Ready for a new challenge").map(withHeard("A new boss or a reorganization changed things, so part of this is rethinking where you stand.", "You want better pay or flexibility, so the next move has to deliver both.", "The culture doesn\u2019t fit you, so where you go matters as much as what you do.", "You\u2019re ready for a new challenge, so this is about growth, not escape.")),
     },
     {
       id: "explore-keep",
@@ -620,7 +620,7 @@ const PROMPT_READBACK: Record<string, string> = {
   "Be seen as an executive": "You want to be seen as an executive.",
   "Nail an upcoming board presentation": "You want to nail an upcoming board presentation.",
   "Find my next move": "You\u2019re looking for your next move.",
-  "Lead a bigger organisation": "You want to lead a bigger organisation.",
+  "Lead a bigger organization": "You want to lead a bigger organization.",
   "Carry more weight where I am": "You want to carry more weight where you are.",
   "Get out of where I am": "You want out of where you are, and haven\u2019t yet named what comes next.",
   "I do not know yet": "You\u2019re not sure yet where you\u2019re headed.",
@@ -884,7 +884,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
   {
     id: "current-org",
     name: "Grow your influence where you are",
-    formalName: "Strengthen influence in the current organisation",
+    formalName: "Strengthen influence in the current organization",
     bestFor: "You want to grow where you already are.",
     emphasis: "Making your work visible, widening who knows it, and becoming the go-to.",
     thisWeek: {
@@ -998,13 +998,13 @@ const NEED_TO_PLAN: Record<DirectionNeed, string> = {
  *  description of the template. These are written as "you said X, so Y". */
 const RATIONALES: Record<DirectionNeed, string> = {
   positioning:
-    "You said you want a larger organisation and a broader remit, so this plan starts with the narrative and the evidence that the people deciding will ask for.",
+    "You said you want a larger organization and a broader remit, so this plan starts with the narrative and the evidence that the people deciding will ask for.",
   visibility:
     "You said you want to be read differently, so this plan starts with your positioning and the places it needs to show up.",
   influence:
-    "You said you want more weight where you already are, so this plan starts inside your organisation rather than outside it.",
+    "You said you want more weight where you already are, so this plan starts inside your organization rather than outside it.",
   preparation:
-    "You have a specific conversation ahead, so this plan works backward from that date instead of starting a general programme.",
+    "You have a specific conversation ahead, so this plan works backward from that date instead of starting a general program.",
   exploration:
     "You said you cannot name the next role yet, so this plan starts by clarifying the direction rather than assuming one.",
 };
@@ -1231,7 +1231,7 @@ export function firstAction(direction: string): RecommendedAction {
     influence:
       "You already have the relationships. What is missing is a consistent account of what you stand for.",
     preparation:
-      "You will be asked to summarise yourself in about ninety seconds. Better to have written it.",
+      "You will be asked to summarize yourself in about ninety seconds. Better to have written it.",
     exploration:
       "Before you can choose a direction you need to know what travels with you. That is this.",
   };
@@ -1267,7 +1267,7 @@ export interface Artifact {
 
 const ARTIFACT_OPENERS: Record<DirectionNeed, string> = {
   positioning:
-    "I lead marketing organisations where the brand is a commercial instrument rather than a cost line — building the team, the positioning and the operating rhythm that make demand predictable.",
+    "I lead marketing organizations where the brand is a commercial instrument rather than a cost line — building the team, the positioning and the operating rhythm that make demand predictable.",
   visibility:
     "I build the operating systems behind functions that are usually judged on output — and I can show the difference in the numbers rather than the deck.",
   influence:
@@ -1284,7 +1284,7 @@ const ARTIFACT_OPENERS: Record<DirectionNeed, string> = {
  * can be walked end to end, and it is not a design for that tool.
  *
  * `interpretation` is the user's edited direction sentence, where a concept
- * lets them rewrite it. Optional, so existing callers keep the old behaviour.
+ * lets them rewrite it. Optional, so existing callers keep the old behavior.
  */
 export function artifactFor(direction: string, interpretation?: string): Artifact {
   const need = interpretNeed(direction);
@@ -1442,7 +1442,7 @@ const PROMPT_GOALS: Record<string, [string, string]> = {
   "Be seen as an executive": ["being seen as an executive", "being seen as an executive"],
   "Nail an upcoming board presentation": ["a board presentation that lands", "a board presentation that lands"],
   "Find my next move": ["my next move", "their next move"],
-  "Lead a bigger organisation": ["leading a bigger organisation", "leading a bigger organisation"],
+  "Lead a bigger organization": ["leading a bigger organization", "leading a bigger organization"],
   "Carry more weight where I am": ["more weight where I am", "more weight where they are"],
   "Get out of where I am": ["a way out of where I am", "a way out of where they are"],
   "I do not know yet": ["working out what\u2019s next for me", "working out what\u2019s next for them"],
@@ -1601,7 +1601,7 @@ export function bioFor(
     else if (warm) add(text("I\u2019m "), role, text(", and I lead "), own, ...team, text("."));
     else add(text("I\u2019m "), role, text(", leading "), own, ...team, text("."));
     if (length !== "short") {
-      if (formal) add(text("I\u2019m recognised for "), strengths, text("."));
+      if (formal) add(text("I\u2019m recognized for "), strengths, text("."));
       else if (warm) add(text("People come to me for "), strengths, text("."));
       else add(text("I\u2019m known for "), strengths, text("."));
       if (!on("result")) add(...resultLine);
@@ -1618,10 +1618,10 @@ export function bioFor(
   const team = noTeam ? [] : [text(" "), slot(teamOf(inputs, "third"), GAPS.team)];
   if (on("title")) add(name, text(", "), role, text(formal ? ", is responsible for " : ", leads "), own, ...team, text("."));
   else if (formal) add(name, text(" serves as "), role, text(", with responsibility for "), own, ...team, text("."));
-  else if (warm) add(name, text(" is "), role, text(", leading "), own, ...team, text(", and puts people at the centre of the work."));
+  else if (warm) add(name, text(" is "), role, text(", leading "), own, ...team, text(", and puts people at the center of the work."));
   else add(name, text(" is "), role, text(", leading "), own, ...team, text("."));
   if (length !== "short") {
-    if (formal) add(later, text(" is recognised for "), strengths, text("."));
+    if (formal) add(later, text(" is recognized for "), strengths, text("."));
     else if (warm) add(text("Colleagues know "), later, text(" for "), strengths, text("."));
     else add(text("Known for "), strengths, text("."));
     if (!on("result")) add(...resultLine);
@@ -1638,7 +1638,7 @@ const PROMPT_TOWARD_LINE: Record<string, string> = {
   "Be seen as an executive": "I’m working on being seen as an executive.",
   "Nail an upcoming board presentation": "I have a board presentation ahead of me, and I want it to land.",
   "Find my next move": "I’m working out my next move.",
-  "Lead a bigger organisation": "I’m building toward leading a bigger organisation.",
+  "Lead a bigger organization": "I’m building toward leading a bigger organization.",
   "Carry more weight where I am": "I want more influence where I am.",
   "Get out of where I am": "I’m ready to move on from where I am.",
   "I do not know yet": "I’m not sure yet what comes next.",
@@ -1677,7 +1677,7 @@ const SAID: Record<string, string[]> = {
     "I need my boss behind me, so winning that support comes first.",
     "The role I want is taken, so I’m looking for a way around it.",
     "I’m still building the experience, and I want to show the proof.",
-    "A reorganisation has stalled things, and I’m working with the change.",
+    "A reorganization has stalled things, and I’m working with the change.",
     "I’m finding out what it would take.",
   ],
   "influence-where": [
@@ -1688,7 +1688,7 @@ const SAID: Record<string, string[]> = {
     "I want more say in hiring and promotions.",
     "I want more say with customers and partners.",
     "I want more say in what we make and sell.",
-    "I want more say in how we’re organised.",
+    "I want more say in how we’re organized.",
     "I want more say in which projects get funded.",
   ],
   "influence-who": [
@@ -1721,7 +1721,7 @@ const SAID: Record<string, string[]> = {
     "I want customers and clients to see me differently.",
     "I want peers at other companies to see me differently.",
     "I want investors to see me differently.",
-    "I want the press and conference organisers to see me differently.",
+    "I want the press and conference organizers to see me differently.",
     "I want my own team to see me differently.",
   ],
   "presence-now": [
@@ -1753,7 +1753,7 @@ const SAID: Record<string, string[]> = {
     "I have a negotiation coming up, where what I say in the moment matters.",
     "I have an interview coming up, and I want the first ten minutes to land.",
     "I have a pitch coming up.",
-    "A reorganisation is coming, and I want to be placed well.",
+    "A reorganization is coming, and I want to be placed well.",
     "I have a talk or keynote coming up.",
     "I have a difficult conversation coming up.",
   ],
@@ -1785,7 +1785,7 @@ const SAID: Record<string, string[]> = {
     "My industry is shrinking, and I want to move ahead of it.",
     "My life has changed, and I want a career that fits its new shape.",
     "I was passed over, and I’m working out what comes next.",
-    "A new boss or a reorganisation changed things, and I’m rethinking where I stand.",
+    "A new boss or a reorganization changed things, and I’m rethinking where I stand.",
     "I want better pay or flexibility, and the next move has to deliver both.",
     "The culture doesn’t fit me, so where I go matters as much as what I do.",
     "I’m ready for a new challenge.",

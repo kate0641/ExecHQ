@@ -119,7 +119,7 @@ export const ADD_COPY = {
   title: "Add something you’ve done",
   kindLabel: "What is it?",
   noteLabel: "A title or a note",
-  noteHint: "Just enough for you to recognise it.",
+  noteHint: "Just enough for you to recognize it.",
   linkLabel: "A link, if you have one",
   linkPlaceholder: "https://",
   submit: "Add",

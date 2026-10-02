@@ -5,7 +5,6 @@ import { NotificationsDetail } from "./NotificationsDetail";
 const noop = () => {};
 const base = { notify: MAYA.notify, onChange: noop, onClose: noop };
 const controls = "Its controls are switches, which show their own states.";
-const off = { email: false, app: false };
 
 export const notificationsDetailStates = defineComponentStates({
   name: "NotificationsDetail",
@@ -30,7 +29,7 @@ export const notificationsDetailStates = defineComponentStates({
       label: "Everything off — empty",
       props: {
         ...base,
-        notify: { followUps: off, briefing: off, plan: off, news: off },
+        notify: { followUps: false, briefing: false, plan: false },
         headingId: "nd-2",
       },
     },
@@ -38,12 +37,7 @@ export const notificationsDetailStates = defineComponentStates({
       label: "Briefing only",
       props: {
         ...base,
-        notify: {
-          followUps: off,
-          briefing: { email: true, app: false },
-          plan: off,
-          news: off,
-        },
+        notify: { followUps: false, briefing: true, plan: false },
         headingId: "nd-3",
       },
     },

@@ -1,6 +1,6 @@
 # Login — interaction spec
 
-Approved concept: **Concept 1 — Open page**, with the welcome from the start of onboarding as of 2026-10-01. It is written so a developer can build it without the prototype open. Where the prototype fakes something, production behaviour is stated under "Prototype versus production".
+Approved concept: **Concept 1 — Open page**, with the welcome from the start of onboarding as of 2026-10-01. It is written so a developer can build it without the prototype open. Where the prototype fakes something, production behavior is stated under "Prototype versus production".
 
 ---
 
@@ -36,7 +36,7 @@ In the sheet, top to bottom:
 
 1. **Welcome back** (small label), then the heading **Log in to ExecHQ**.
 2. **The promise:** "A private career advisor that takes you from "I'd like to be" to "I'm going to be". It doesn't just show you the way. It works for you to get you there." These are the exact words from the start of onboarding. They come from one place in the copy, so the two cannot drift apart.
-3. **Email field:** a pill-shaped field labelled "Your email".
+3. **Email field:** a pill-shaped field labeled "Your email".
 4. **Keep me logged in on this device:** a checkbox, ticked by default.
 5. **Log in:** a full-width primary button.
 6. **or**, with a thin line either side.
@@ -53,9 +53,9 @@ In the dark panel: the **ExecHQ wordmark** and the line **"Somewhere to work on 
 | Production breakpoint | Below 768px | 768px to 1199px | 1200px and up |
 | Prototype frame | 393px wide | 820px wide | Fills the window |
 | Arrangement | Dark panel on top, white sheet rising over it | Same as the phone | Dark panel on the left (40%), white sheet on the right |
-| Dark panel | Fills what the sheet leaves. Wordmark at the top, the line below it | A fixed 18rem (288px) tall. Wordmark starts 80px (5rem) from the top, the line below it | Full height. Wordmark and the line sit together in the middle of the panel, across and down, centred |
+| Dark panel | Fills what the sheet leaves. Wordmark at the top, the line below it | A fixed 18rem (288px) tall. Wordmark starts 80px (5rem) from the top, the line below it | Full height. Wordmark and the line sit together in the middle of the panel, across and down, centered |
 | Sheet | As tall as its content, at the foot of the screen, with rounded top corners (`--radius-xl`) | Fills the rest of the screen, with rounded top corners | Fills the right side, square-cornered |
-| Sheet content | One column, the width of the screen less 24px each side | One column, at most 28rem (448px), centred across the sheet and down it | One column, at most 28rem, centred across the sheet and down it |
+| Sheet content | One column, the width of the screen less 24px each side | One column, at most 28rem (448px), centered across the sheet and down it | One column, at most 28rem, centered across the sheet and down it |
 | Privacy line | At the foot of the sheet | At the foot of the sheet | At the foot of the sheet |
 
 The sign-in column is never wider than 28rem. On tablet and web the extra room is empty space, not wider fields.
@@ -96,7 +96,7 @@ The sheet shows:
 
 - Heading: **Enter your code.**
 - "If there's an account for {email}, we've sent a 6-digit code. It works for 10 minutes."
-- A row of six boxes labelled "Type the code from the email." (the boxes are one field, so a pasted code fills all six).
+- A row of six boxes labeled "Type the code from the email." (the boxes are one field, so a pasted code fills all six).
 - A line with **Send it again** and **Use a different address**.
 - "Nothing arrived? Check your junk folder. **Can't get into that inbox?**"
 
@@ -150,7 +150,7 @@ One button, **Got it**, closes it. This is the privacy statement a person sees a
 
 Every dialog on Login (the drawn email, the recovery dialog, the privacy dialog, and the provider windows) works the same way:
 
-- **Surface.** A sheet rising from the foot of the screen on phone and tablet, and a centred dialog on web. At most 85% of the screen's height (94% for the drawn email), and no wider than the reading width (68ch, `--content-measure`) on tablet and web.
+- **Surface.** A sheet rising from the foot of the screen on phone and tablet, and a centered dialog on web. At most 85% of the screen's height (94% for the drawn email), and no wider than the reading width (68ch, `--content-measure`) on tablet and web.
 - **Modal.** The page behind is made inert while it is open.
 - **Focus.** On open, focus moves to the first control in the dialog. Tab and Shift+Tab stay inside it. On close, focus returns to the control that opened it.
 - **Closing.** The × button, Escape, tapping outside, and the dialog's own button all close it.
@@ -188,7 +188,7 @@ Use the design tokens in the real build, never the raw numbers. The pixel values
 | Wrong tries before the code stops | 5 | none |
 | Focus ring | 1.5px solid, 2px offset | `--focus-ring`, `--focus-ring-offset` |
 
-All colours are tokens. No colour is hard-coded.
+All colors are tokens. No color is hard-coded.
 
 ### Touch targets
 
@@ -200,7 +200,7 @@ Every interactive control is at least **44 × 44px** (`--button-target`) on ever
 | Keep me logged in | The whole row is tappable and 44px tall; the label toggles the box |
 | Log in, Continue with Google, Continue with Apple | 60px tall, full column width |
 | Code boxes | 52px wide, 56px tall |
-| Text links (Start here, Learn more, Send it again, Use a different address, Can't get into that inbox?) | Drawn as text; each has an invisible tappable area 44px tall, centred on the line |
+| Text links (Start here, Learn more, Send it again, Use a different address, Can't get into that inbox?) | Drawn as text; each has an invisible tappable area 44px tall, centered on the line |
 | Send a new code, Log in with my email, Start fresh, dialog buttons | At least 44px tall, full width |
 | Dialog close (×) | Drawn small; its tappable area is 44 × 44px |
 
@@ -212,10 +212,10 @@ Two links never sit within 44px of each other vertically, so no two tappable are
 
 - **Headings.** One level-1 heading per screen (the screen's title), in a sensible order. The "Welcome back" label above it is not a heading.
 - **Labels.** Every field has a visible label. The code boxes have one group label ("Type the code from the email.") and a name ("Six-digit code from the email").
-- **Errors** sit directly under their field, are linked to it, mark it invalid and are announced. They do not rely on colour alone.
+- **Errors** sit directly under their field, are linked to it, mark it invalid and are announced. They do not rely on color alone.
 - **Keyboard.** Everything works with a keyboard alone. Tab order follows reading order: email, keep me logged in, Log in, Google, Apple, Start here, Learn more. Enter submits the email. Escape closes any dialog.
 - **Focus** is visible on every control, against the dark panel and the sheet. The heading takes focus when the screen changes.
-- **Contrast.** Text 4.5:1, non-text 3:1, on both the dark panel (the wordmark and the line) and the white sheet. The compact band and the full panel use the same colours.
+- **Contrast.** Text 4.5:1, non-text 3:1, on both the dark panel (the wordmark and the line) and the white sheet. The compact band and the full panel use the same colors.
 - **Privacy on the lock screen.** The email's subject and preview say nothing about the person's career. A screen reader hears the code digit by digit, not as one number.
 - **Provider buttons** carry their provider's name and mark; the mark is decorative.
 - **Dialogs** are modal and behave as in 3.8.
@@ -228,7 +228,7 @@ Two links never sit within 44px of each other vertically, so no two tappable are
 | Component | Role |
 | --- | --- |
 | `LoginConcept1` (in `flows/login/concept-1`) | The page: wires the screens, the dialogs and the sign-in together. |
-| `WelcomeSplit` | The dark panel and the sheet. It is the same component as onboarding's welcome. Login uses it without a single action, with a footer, with a compact option, stacked on tablet and centred. |
+| `WelcomeSplit` | The dark panel and the sheet. It is the same component as onboarding's welcome. Login uses it without a single action, with a footer, with a compact option, stacked on tablet and centered. |
 | `ProviderButtons` | Continue with Google and Continue with Apple. |
 | `AccountPicker` | Stand-in for a provider's own window (prototype). |
 | `CodeField` | The six code boxes as one field. |
@@ -253,7 +253,7 @@ Two links never sit within 44px of each other vertically, so no two tappable are
 
 ## 8. Decisions
 
-These are settled. They are the specified behaviour.
+These are settled. They are the specified behavior.
 
 1. **Three ways in:** an emailed code, Google and Apple. No password.
 2. **One welcome.** Login opens with the same dark panel, line and promise as the start of onboarding, so returning and new people see the same first moment.

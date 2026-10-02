@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { Button } from "@/components/primitives/Button";
-import type { Organisation } from "@/mock/account";
+import type { Organization } from "@/mock/account";
 import { PROFILE_COPY } from "@/mock/profile";
 import { DetailPanel } from "../DetailPanel";
 
-export interface OrganisationDetailProps {
+export interface OrganizationDetailProps {
   /** Undefined when she is not part of one. */
-  org?: Organisation;
+  org?: Organization;
   onLeave: () => void;
   /** Where the details sit open on the page, Leave hands the asking to the
    *  caller (a small sheet) instead of swapping the page's content. */
@@ -19,7 +19,7 @@ export interface OrganisationDetailProps {
   headingId?: string;
 }
 
-const C = PROFILE_COPY.organisation;
+const C = PROFILE_COPY.organization;
 
 /** A few fragments as one short line, the first capitalised. */
 function sentence(parts: string[]): string {
@@ -28,18 +28,18 @@ function sentence(parts: string[]): string {
 }
 
 /**
- * The organisation her account came through, if any: who it is, her role,
+ * The organization her account came through, if any: who it is, her role,
  * and in plain words what it can and can never see: a summary of everyone in
  * the group as a whole, never her personally. Leaving asks once.
  */
-export function OrganisationDetail({
+export function OrganizationDetail({
   org,
   onLeave,
   onRequestLeave,
   startConfirming = false,
   onClose,
-  headingId = "organisation-heading",
-}: OrganisationDetailProps) {
+  headingId = "organization-heading",
+}: OrganizationDetailProps) {
   const [confirming, setConfirming] = useState(startConfirming);
 
   if (!org) {
@@ -82,4 +82,4 @@ export function OrganisationDetail({
   );
 }
 
-export default OrganisationDetail;
+export default OrganizationDetail;

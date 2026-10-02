@@ -1,18 +1,18 @@
 import { defineComponentStates } from "@/components/types";
 import { MAYA } from "@/mock/account";
-import { OrganisationDetail } from "./OrganisationDetail";
+import { OrganizationDetail } from "./OrganizationDetail";
 
 const noop = () => {};
 const controls = "Its one control is a Button, which shows its own states.";
 
-export const organisationDetailStates = defineComponentStates({
-  name: "OrganisationDetail",
+export const organizationDetailStates = defineComponentStates({
+  name: "OrganizationDetail",
   group: "cards",
   status: "draft",
   flows: ["profile"],
   description:
-    "The organisation her account came through: who it is, and in plain words what it sees (a summary of the whole group) and never sees (her personally). Leaving asks once.",
-  component: OrganisationDetail,
+    "The organization her account came through: who it is, and in plain words what it sees (a summary of the whole group) and never sees (her personally). Leaving asks once.",
+  component: OrganizationDetail,
   notApplicable: {
     hover: controls,
     focus: controls,

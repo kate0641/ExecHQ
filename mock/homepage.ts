@@ -3,7 +3,7 @@
  *
  * Maya is the PRD's pilot persona: a senior marketing leader whose direction
  * is "I want to move from running campaigns to leading a broader marketing
- * organisation", on the Increase Leadership Scope plan (`mock/plan-stub.ts`).
+ * organization", on the Increase Leadership Scope plan (`mock/plan-stub.ts`).
  *
  * By decision on 2026-09-28 these five states replace the Day one / Week
  * three / Month three snapshots. They are picked from the dock and are live:

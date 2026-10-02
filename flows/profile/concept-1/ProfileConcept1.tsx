@@ -6,7 +6,7 @@ import { Sheet } from "@/components/layout/Sheet";
 import { DeletionDetail } from "@/components/profile/DeletionDetail";
 import { DetailPanel } from "@/components/profile/DetailPanel";
 import { NOTIFY_TOPICS, NotificationsDetail } from "@/components/profile/NotificationsDetail";
-import { OrganisationDetail } from "@/components/profile/OrganisationDetail";
+import { OrganizationDetail } from "@/components/profile/OrganizationDetail";
 import { SettingsGroup } from "@/components/profile/SettingsGroup";
 import { SettingsRow } from "@/components/profile/SettingsRow";
 import { Button } from "@/components/primitives/Button";
@@ -19,7 +19,7 @@ import { PROFILE_COPY as C, type ProfileDetailId } from "@/mock/profile";
  * Profile Concept 1 — Grouped.
  *
  * Profile and settings on one page, by decision on 2026-09-28: a settings
- * list in labelled groups, each row ending in its current value. On mobile
+ * list in labeled groups, each row ending in its current value. On mobile
  * and tablet a row opens its detail in a sheet; on web the list and the
  * detail sit side by side, with the account open to begin with.
  *
@@ -42,8 +42,8 @@ function headingOf(id: ProfileDetailId): string {
   switch (id) {
     case "account":
       return C.account.editHeading;
-    case "organisation":
-      return C.organisation.heading;
+    case "organization":
+      return C.organization.heading;
     case "delete":
       return C.delete.heading;
     default:
@@ -207,9 +207,9 @@ export function ProfileConcept1() {
             }}
           />
         );
-      case "organisation":
+      case "organization":
         return (
-          <OrganisationDetail
+          <OrganizationDetail
             org={account.org}
             startConfirming
             headingId={PANE_HEADING}
@@ -217,7 +217,7 @@ export function ProfileConcept1() {
             onLeave={() => {
               const name = account.org?.name ?? "";
               loopActions.updateAccount({ org: undefined });
-              announce(C.organisation.left(name));
+              announce(C.organization.left(name));
               close();
             }}
           />
@@ -275,7 +275,7 @@ export function ProfileConcept1() {
                 notify={account.notify}
                 onChange={(item, on) => {
                   const notify = { ...account.notify };
-                  for (const topic of NOTIFY_TOPICS[item]) notify[topic] = { ...notify[topic], email: on };
+                  for (const topic of NOTIFY_TOPICS[item]) notify[topic] = on;
                   loopActions.updateAccount({ notify });
                   const label = C.notifications.items[item].label;
                   announce(on ? C.notifications.savedOn(label) : C.notifications.savedOff(label));
@@ -287,8 +287,8 @@ export function ProfileConcept1() {
 
           <div className="profile__column">
             {account.org ? (
-              <section className="profile__section" aria-labelledby="organisation-heading">
-                <OrganisationDetail org={account.org} onLeave={() => {}} onRequestLeave={() => show("organisation")} />
+              <section className="profile__section" aria-labelledby="organization-heading">
+                <OrganizationDetail org={account.org} onLeave={() => {}} onRequestLeave={() => show("organization")} />
               </section>
             ) : null}
 

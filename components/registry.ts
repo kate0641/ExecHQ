@@ -87,7 +87,7 @@ import { exportDetailStates } from "./profile/ExportDetail/ExportDetail.states";
 import { deletionDetailStates } from "./profile/DeletionDetail/DeletionDetail.states";
 import { notificationsDetailStates } from "./profile/NotificationsDetail/NotificationsDetail.states";
 import { usesDetailStates } from "./profile/UsesDetail/UsesDetail.states";
-import { organisationDetailStates } from "./profile/OrganisationDetail/OrganisationDetail.states";
+import { organizationDetailStates } from "./profile/OrganizationDetail/OrganizationDetail.states";
 import { checkboxStates } from "./form/Checkbox/Checkbox.states";
 import { codeFieldStates } from "./form/CodeField/CodeField.states";
 import { providerButtonsStates } from "./login/ProviderButtons/ProviderButtons.states";
@@ -174,7 +174,7 @@ export const registry: RegisteredComponent[] = [
   deletionDetailStates,
   notificationsDetailStates,
   usesDetailStates,
-  organisationDetailStates,
+  organizationDetailStates,
   checkboxStates,
   codeFieldStates,
   providerButtonsStates,

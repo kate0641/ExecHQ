@@ -1,6 +1,6 @@
 # Onboarding — interaction spec
 
-Approved concept: **Concept 3 — Guided**, as refined on 2026-10-02. It is written so a developer can build it without the prototype open. Where the prototype fakes something, production behaviour is stated under "Prototype versus production", and what is still undecided is listed under "Open questions". Concepts 1 and 2 were not chosen and are archived on the `scratch` branch.
+Approved concept: **Concept 3 — Guided**, as refined on 2026-10-02. It is written so a developer can build it without the prototype open. Where the prototype fakes something, production behavior is stated under "Prototype versus production", and what is still undecided is listed under "Open questions". Concepts 1 and 2 were not chosen and are archived on the `scratch` branch.
 
 ---
 
@@ -122,7 +122,7 @@ The privacy promise is said here, before anything personal is asked. There is no
 Rules:
 
 - **Any address is accepted,** work or personal, by decision on 2026-09-22: the account is the person's and they can change the address whenever they like. An empty field shows "We need an email address to create the account."
-- **An invite code is optional.** A recognised code is kept. An unrecognised one shows the notice "We do not recognise that code. Check it against the invitation you were sent. You can also continue without one — a code only changes who pays, never what you get." The person can continue either way.
+- **An invite code is optional.** A recognized code is kept. An unrecognised one shows the notice "We do not recognize that code. Check it against the invitation you were sent. You can also continue without one — a code only changes who pays, never what you get." The person can continue either way.
 - **Continue sends the answer in one press,** with the keyboard up. Return on a real keyboard does the same.
 
 ### 3.4 Signals
@@ -166,7 +166,7 @@ The first question that matters. The heading is **Where do you want to go next?*
 - Nail an upcoming board presentation
 - Find my next move
 
-Below them: **None of these? Show me more options** (adds four: Lead a bigger organisation; Carry more weight where I am; Get out of where I am; I do not know yet; the button then disappears). The drawer's peek bar says how many are picked. The button reads **Narrow it down** with one option picked and **Which matters most?** with more than one. There is no field to type in: every answer is a choice.
+Below them: **None of these? Show me more options** (adds four: Lead a bigger organization; Carry more weight where I am; Get out of where I am; I do not know yet; the button then disappears). The drawer's peek bar says how many are picked. The button reads **Narrow it down** with one option picked and **Which matters most?** with more than one. There is no field to type in: every answer is a choice.
 
 **Page two, narrowing.** Each option picked becomes a group of **two more specific versions**, to tap (Appendix A). One is chosen. With several picks the heading is **Which matters most right now?** and the line "ExecHQ will start there, and keep the rest in view." With one pick it is **Which is closest?** and "A little more detail gives ExecHQ a clearer first step."
 
@@ -275,7 +275,7 @@ None is the default, so leaving it for later is a real choice.
   4. **Bring in your LinkedIn numbers,** if they have not come in.
 - Button **Go to my homepage.**
 
-The list shrinks as steps are done. It never repeats what the person has just seen, and it does not summarise their answers: the plan page already did.
+The list shrinks as steps are done. It never repeats what the person has just seen, and it does not summarize their answers: the plan page already did.
 
 ---
 
@@ -294,7 +294,7 @@ Every page after the Welcome is one **guide page**, in this order: a small label
 
 - **Open** by default when a page arrives. It carries only the answer; the question and its reason stay on the page above, so the two are read together.
 - **Fold.** A handle folds the drawer to a **peek bar** carrying the question and a status ("Tap to answer", "3 picked", "Answered"); the bar brings it back. Both are real buttons, so nothing needs dragging (WCAG 2.2 SC 2.5.7).
-- **The keyboard.** While a text field in the drawer has focus, a drawn phone keyboard sits under it, with its return key labelled with the drawer's button. Pressing the return key, pressing Return on a real keyboard, or pressing the drawer's own button all send the answer, and none of them first closes the keyboard. If drawer and keyboard together are taller than the screen, the drawer scrolls and its buttons stay pinned at its foot.
+- **The keyboard.** While a text field in the drawer has focus, a drawn phone keyboard sits under it, with its return key labeled with the drawer's button. Pressing the return key, pressing Return on a real keyboard, or pressing the drawer's own button all send the answer, and none of them first closes the keyboard. If drawer and keyboard together are taller than the screen, the drawer scrolls and its buttons stay pinned at its foot.
 - **One press.** Pressing a button in the drawer never takes focus from the field, so the press always lands.
 
 ### 4.3 The answer pattern
@@ -384,7 +384,7 @@ A question can hold several chosen options. Each chosen option adds its own sent
 ### 5.5 Choosing and changing the plan
 
 - The plan is chosen once, on the Recommendation. Choosing another plan from **See other plans** is the same act.
-- The questions after personalise the plan the person chose. They never change which plan it is.
+- The questions after personalize the plan the person chose. They never change which plan it is.
 - **Changing the direction clears the chosen plan,** because the old choice was for a different goal. Changing a question answer keeps it.
 - Jumping back is possible only through **Change** on the plan page. (The step bar is a prototype tool; see section 9.)
 
@@ -411,7 +411,7 @@ Use the design tokens in the real build, never the raw numbers. The pixel values
 | --- | --- | --- |
 | Phone frame (prototype) | 393 × 852px | none (fixed) |
 | Tablet frame (prototype) | 820 × 1180px | none (fixed) |
-| Content column | At most 68ch, centred | `--content-measure` |
+| Content column | At most 68ch, centered | `--content-measure` |
 | Page padding | 24px sides | `--space-lg` |
 | Gap between items on a page | 24px | `--space-lg` |
 | Option buttons | Full column width, one to a row | none |
@@ -421,16 +421,16 @@ Use the design tokens in the real build, never the raw numbers. The pixel values
 | LinkedIn file read | 8 seconds, in the background (prototype) | none |
 | Focus ring | 1.5px solid, 2px offset | `--focus-ring`, `--focus-ring-offset` |
 
-All colours, type, spacing, radii, borders and shadows are tokens. No colour is hard-coded. The product is built in greyscale first, with colour switched on from the dock.
+All colors, type, spacing, radii, borders and shadows are tokens. No color is hard-coded. The product is built in greyscale first, with color switched on from the dock.
 
 ### Layout by viewport
 
 | | Phone | Tablet | Web |
 | --- | --- | --- | --- |
 | Production breakpoint | Below 768px | 768px to 1199px | 1200px and up |
-| Arrangement | One column, the width of the screen less 24px each side | One column, centred, at the content measure | One column, centred, at the content measure |
+| Arrangement | One column, the width of the screen less 24px each side | One column, centered, at the content measure | One column, centered, at the content measure |
 | Drawer | Pinned under the page, full width | Pinned under the page; its contents keep to the reading width | Same as tablet |
-| Welcome | Statement vertically centred | Same | Same |
+| Welcome | Statement vertically centered | Same | Same |
 
 In the prototype, responsiveness follows the simulated device frame (`data-viewport`), never the browser window. Onboarding opens on the phone frame.
 
@@ -464,8 +464,8 @@ Production must give every control a tappable area of at least 44px, drawn small
 - **Labels.** Every field and every group of options has a visible or accessible name.
 - **Keyboard.** Everything works with a keyboard alone. Tab order follows reading order. Return sends a one-line answer. The drawn keyboard and its return key are decoration for sighted mouse users: hidden from assistive technology and out of the tab order.
 - **Focus** is visible on every control, and moves to the heading when the page changes.
-- **Contrast.** Text 4.5:1 and non-text 3:1 in greyscale and in colour. The dark card and the dark option buttons meet it.
-- **Not by colour alone.** A chosen option is shown by fill and by its pressed state, not colour. A placeholder fact is shown by a dashed border and its words.
+- **Contrast.** Text 4.5:1 and non-text 3:1 in greyscale and in color. The dark card and the dark option buttons meet it.
+- **Not by color alone.** A chosen option is shown by fill and by its pressed state, not color. A placeholder fact is shown by a dashed border and its words.
 - **Dragging is never the only way.** The drawer folds with a button.
 - **Pressed state.** Option buttons are toggle buttons with a pressed state, so a screen reader hears what is chosen.
 - **Errors** (an empty email, an unrecognised code, a wrong file) sit with their field and are announced.
@@ -502,7 +502,7 @@ Production must give every control a tappable area of at least 44px, drawn small
 | The LinkedIn file is never read, only named. Reading is a timer. | The file is read and the figures are used for the plan and the drafts. |
 | The first draft, the versions and the replies are written from fixed templates. | They are written for the person (the generation approach is not specified here). |
 | A drawn keyboard appears under the drawer when a field has focus. | The real keyboard. The drawn one is not built. |
-| A step bar above the canvas jumps to any step, filling in sample answers, and a dock switches viewport and colour. | Neither exists. People move only forward, or back through **Change.** |
+| A step bar above the canvas jumps to any step, filling in sample answers, and a dock switches viewport and color. | Neither exists. People move only forward, or back through **Change.** |
 | Plans, options and replies are the fixed content in Appendices A to C. | Content for more plans and options is a content decision (Open questions). |
 | Two plans' "Why now" data are placeholders. | Every figure is real and sourced before this ships. |
 
@@ -510,7 +510,7 @@ Production must give every control a tappable area of at least 44px, drawn small
 
 ## 10. Decisions
 
-These are settled. They are the specified behaviour. The dates are when they were made.
+These are settled. They are the specified behavior. The dates are when they were made.
 
 1. **Concept 3 is the onboarding.** (2026-10-02)
 2. **ExecHQ speaks in the third person,** and the person's own words stay in the first. (2026-10-02)
@@ -562,7 +562,7 @@ The first page shows the five **first options**. "None of these? Show me more op
 | Be seen as an executive | visibility | Be seen as an executive by my own leadership | Be seen as an executive beyond my company |
 | Nail an upcoming board presentation | preparation | Win the board’s backing for a proposal | Present results and the plan ahead with confidence |
 | Find my next move | exploration | Move to a new company in my field | Move into a different role or industry |
-| Lead a bigger organisation *(held back)* | positioning | Run a larger business or division | Lead across more functions or regions |
+| Lead a bigger organization *(held back)* | positioning | Run a larger business or division | Lead across more functions or regions |
 | Carry more weight where I am *(held back)* | influence | Have more say in company decisions | Be trusted with bigger, more visible work |
 | Get out of where I am *(held back)* | exploration | Leave my industry for something new | Leave my company, but stay in my field |
 | I do not know yet *(held back)* | exploration | Understand why I’ve hit a ceiling | Explore what else is out there |
@@ -577,13 +577,13 @@ The first page shows the five **first options**. "None of these? Show me more op
 | --- | --- | --- | --- | --- |
 | What kind of step up? | Multiple | Making it yours | Bigger team; Broader remit; A seat at the top table; A new title; More budget and say | A move to another company; A bigger P&L; Visibility with the board; A role that doesn’t exist yet |
 | When do you want to get there? | Single | Making it yours (skipped when the direction already says it) | Within a year; 1–2 years; 3+ years; No fixed timeline; When the right role opens | Within six months; In about five years; After my next promotion; Depends on the company |
-| What’s in the way? | Multiple | Deciding | No clear path up; Nobody sees my work; I can’t make my case; Wrong company for it; My boss isn’t backing me | The role I want is taken; I don’t have the experience yet; A reorganisation has stalled things; I don’t know what it would take |
+| What’s in the way? | Multiple | Deciding | No clear path up; Nobody sees my work; I can’t make my case; Wrong company for it; My boss isn’t backing me | The role I want is taken; I don’t have the experience yet; A reorganization has stalled things; I don’t know what it would take |
 
 **Need: influence**
 
 | Question | Kind | Asked | Options | Held back |
 | --- | --- | --- | --- | --- |
-| Where do you want more say? | Multiple | Making it yours | My team’s direction; Company strategy; Budget and headcount; Across other teams; Hiring and promotions | Customers and partners; What we make and sell; How we’re organised; Which projects get funded |
+| Where do you want more say? | Multiple | Making it yours | My team’s direction; Company strategy; Budget and headcount; Across other teams; Hiring and promotions | Customers and partners; What we make and sell; How we’re organized; Which projects get funded |
 | Who do you most need on side? | Multiple | Making it yours | My boss; My boss’s peers; The exec team; My own team; Peers across the company | The CEO; The board; Finance; People outside the company |
 | What’s holding you back? | Multiple | Deciding | I’m not in the room; I’m in the room but not heard; Too junior on paper; Politics; Decisions are made before the meeting | I’m seen as too operational; The company moves slowly; I don’t know who really decides; I’m new here |
 
@@ -599,7 +599,7 @@ The first page shows the five **first options**. "None of these? Show me more op
 
 | Question | Kind | Asked | Options | Held back |
 | --- | --- | --- | --- | --- |
-| What’s coming up? | Multiple | Making it yours (skipped when the direction already says it) | Promotion conversation; Performance review; Board or exec presentation; Negotiation or offer; Job interview | Investor or client pitch; A reorganisation; A talk or keynote; A difficult conversation |
+| What’s coming up? | Multiple | Making it yours (skipped when the direction already says it) | Promotion conversation; Performance review; Board or exec presentation; Negotiation or offer; Job interview | Investor or client pitch; A reorganization; A talk or keynote; A difficult conversation |
 | When is it? | Single | Making it yours (skipped when the direction already says it) | This week; This month; Next few months; Not scheduled yet; Tomorrow | In a day or two; In about six months; Next year; It depends on someone else |
 | How ready do you feel? | Single | Making it yours | Ready, want a check; Know what, not how; Not sure where to start; Dreading it; Nervous but prepared | Overprepared; Usually winging it; Worried about one person; Haven’t thought about it yet |
 
@@ -607,7 +607,7 @@ The first page shows the five **first options**. "None of these? Show me more op
 
 | Question | Kind | Asked | Options | Held back |
 | --- | --- | --- | --- | --- |
-| What’s making you want a change? | Multiple | Deciding | Hit a ceiling; Lost interest; Industry is shrinking; Life has changed; Passed over for a role | New boss or reorganisation; Better pay or flexibility; The culture doesn’t fit; Ready for a new challenge |
+| What’s making you want a change? | Multiple | Deciding | Hit a ceiling; Lost interest; Industry is shrinking; Life has changed; Passed over for a role | New boss or reorganization; Better pay or flexibility; The culture doesn’t fit; Ready for a new challenge |
 | What would you keep? | Multiple | Making it yours | My function; My industry; My seniority; Nothing in particular; My location | My team; My pay; My flexibility; My values |
 | How soon? | Single | Making it yours (skipped when the direction already says it) | Actively looking; Within a year; Just exploring; Not sure; When the right thing appears | Within three months; In a year or two; After something big at work; Only if the offer’s right |
 
@@ -618,5 +618,5 @@ The first page shows the five **first options**. "None of these? Show me more op
 | **Step up** (Increase leadership scope) | You’re ready for a bigger role and want the promotion or remit to match. | Write the story of what you lead | Every conversation about a bigger role starts with “what do you lead?” 46% of professionals said they would not feel confident describing their achievements to their dream employer if they met them on the street. — LinkedIn @Work study | First: Say what you lead; Next: Show the proof; Then: Get in front of the deciders |
 | **Build your executive presence** (Build executive presence) | You need to be seen, and to have a clear point of view. | Write how you describe yourself | Everything you say in public builds on it. Executive presence accounts for 26% of what it takes to get promoted. — Center for Talent Innovation, survey of 268 senior executives, 2012 | First: Decide what you stand for; Next: Say it in public; Then: Get invited |
 | **Get ready for a big moment** (Prepare for a career inflection point) | A promotion, review, board presentation or negotiation is coming up. | Write the story you’ll tell in the room | It’s the core of your case, and the thing you’ll rehearse. *Placeholder: a sourced fact is still needed.* | This week: Get the situation on paper; Before the date: Prepare your case; After: Capture what happened |
-| **Grow your influence where you are** (Strengthen influence in the current organisation) | You want to grow where you already are. | Write the story of what you own | Your work gets heard when it’s described in the terms decisions are made in. *Placeholder: a sourced fact is still needed.* | First: Make your work easy to see; Next: Widen who hears about it; Then: Become the go-to |
+| **Grow your influence where you are** (Strengthen influence in the current organization) | You want to grow where you already are. | Write the story of what you own | Your work gets heard when it’s described in the terms decisions are made in. *Placeholder: a sourced fact is still needed.* | First: Make your work easy to see; Next: Widen who hears about it; Then: Become the go-to |
 | **Find your next direction** (Explore and clarify a next direction) | You feel stuck but can’t yet name the next role. | Write the story of what you’re good at | It shows which strengths go with you anywhere, before you choose where. People who use their strengths every day are six times as likely to be engaged at work. — Gallup, 2015 | First: Work out what travels; Next: Test it cheaply; Then: Choose your direction |

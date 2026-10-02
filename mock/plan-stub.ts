@@ -118,7 +118,7 @@ export const ACTIONS: LandscapeAction[] = [
     status: "accepted",
     whyThis: "It’s the clearest way to say what you lead, out loud, to the person who decides.",
     whyNow: "Your 1:1 with your manager is on Tuesday.",
-    whyYou: "You want to move from running campaigns to leading a broader marketing organisation.",
+    whyYou: "You want to move from running campaigns to leading a broader marketing organization.",
     whyLine: "Your 1:1 is on Tuesday, and saying what you lead out loud is the first step to the broader role you want.",
     artifactId: "story",
     signalId: "seen-as-leader",

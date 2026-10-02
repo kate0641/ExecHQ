@@ -3,7 +3,7 @@
 Approved concept: **Concept 1 — Concierge** (approved 2026-10-01).
 Concepts 2 (Tab bar) and 3 (Drawer) were retired to the `scratch` branch and are not part of this spec.
 
-This document describes how the signed-in navigation looks, behaves and works, on phone, tablet and web, so a developer can build it without the prototype open. Where the prototype fakes something, the production behaviour is stated separately under "Prototype versus production".
+This document describes how the signed-in navigation looks, behaves and works, on phone, tablet and web, so a developer can build it without the prototype open. Where the prototype fakes something, the production behavior is stated separately under "Prototype versus production".
 
 ---
 
@@ -41,7 +41,7 @@ On every page whose flow uses the `app` chrome: Homepage, Profile, Plan, Toolbox
 ### Contents, left to right
 
 1. **"Where you are" chip.** A dark, pill-shaped chip with the current destination's icon and name ("Home", "Plan"…). It is the only wayfinding on the page, so it must always be correct. Visually hidden text reads "You're on" before the name.
-2. **Prompt.** The text "Ask or go", in muted text colour, truncating with an ellipsis if it ever runs out of room.
+2. **Prompt.** The text "Ask or go", in muted text color, truncating with an ellipsis if it ever runs out of room.
 3. **Follow-up dot** (only when a follow-up is due, see section 7). A small accent-coloured dot. Never a number. Visually hidden text reads "A follow-up is waiting".
 4. **Advisor mark.** The ExecHQ advisor mark, 20px, at the far right.
 
@@ -49,11 +49,11 @@ On every page whose flow uses the `app` chrome: Homepage, Profile, Plan, Toolbox
 
 | | Phone | Tablet and web |
 | --- | --- | --- |
-| Width | Full width minus 16px gutters (`--space-md`) each side | 480px, centred. Never wider than the screen minus 2 × `--space-xl`. |
+| Width | Full width minus 16px gutters (`--space-md`) each side | 480px, centered. Never wider than the screen minus 2 × `--space-xl`. |
 | Height | 58px | 58px |
 | Distance from the bottom of the screen | `--space-lg` (24px) | `--space-lg` (24px) |
 | Shape | Fully rounded (pill) | Fully rounded (pill) |
-| Surface | Surface colour with the large shadow (`--shadow-lg`), no border | Same |
+| Surface | Surface color with the large shadow (`--shadow-lg`), no border | Same |
 
 The pill is **fixed to the screen, not the page**: it stays in place while the page scrolls underneath it. It sits above page content.
 
@@ -61,10 +61,10 @@ The page reserves room for it. The page's main area has bottom padding of `--spa
 
 ### States
 
-| State | Behaviour |
+| State | Behavior |
 | --- | --- |
 | Default | As above. |
-| Hover | Shadow deepens to `--shadow-panel`. No colour change. |
+| Hover | Shadow deepens to `--shadow-panel`. No color change. |
 | Focus (keyboard) | The standard focus ring (`--focus-ring`, with `--focus-ring-offset`). Must be visible against both the page and the shadow. |
 | Pressed | Scales to 98%. |
 | Open | The pill fades out (opacity 0, no longer clickable, no longer focusable) while the panel is showing. See section 3. |
@@ -75,7 +75,7 @@ The page reserves room for it. The page's main area has bottom padding of `--spa
 
 ## 3. Opening and closing
 
-The same control opens a different surface depending on viewport. The conversation, content and behaviour inside are identical; only the container and its motion change.
+The same control opens a different surface depending on viewport. The conversation, content and behavior inside are identical; only the container and its motion change.
 
 ### Phone: a sheet that rises
 
@@ -96,12 +96,12 @@ How to close it on the phone:
 
 ### Tablet and web: the pill grows into a card
 
-This is the behaviour decided on 2026-10-01 (option "A · Rise"). It is a single continuous movement rather than a panel arriving from somewhere else.
+This is the behavior decided on 2026-10-01 (option "A · Rise"). It is a single continuous movement rather than a panel arriving from somewhere else.
 
 Closed to open, over 420ms, ease `cubic-bezier(0.2, 0.8, 0.2, 1)`:
 
 1. The card begins exactly where the pill is: same position, same 480 × 58 size, same fully rounded shape.
-2. It then widens to **600px**, rises to a height of **680px** (or the screen height minus 5rem, whichever is smaller), and its corners round off from the pill shape to `--radius-xl`. It stays centred and keeps its bottom edge at `--space-lg` from the bottom of the screen, so it grows upward.
+2. It then widens to **600px**, rises to a height of **680px** (or the screen height minus 5rem, whichever is smaller), and its corners round off from the pill shape to `--radius-xl`. It stays centered and keeps its bottom edge at `--space-lg` from the bottom of the screen, so it grows upward.
 3. At the same time the pill fades out underneath it (120ms) and the card's contents fade in (200ms, starting 160ms into the movement, so content never shows in a card that is still pill-shaped).
 4. A dim scrim (`--color-overlay`) fades in over the page behind the card (200ms).
 
@@ -292,7 +292,7 @@ Use the design tokens in the real build, never the raw numbers. The pixel values
 | Typing indicator | 650ms in the prototype (instant under reduced motion) | none |
 | Pause between "Here's your plan." and navigating | 350ms | none |
 
-All colours are tokens (`--color-surface`, `--color-text-muted`, `--color-surface-inverse` for the chip, `--color-accent` for the dot). No hard-coded colours.
+All colors are tokens (`--color-surface`, `--color-text-muted`, `--color-surface-inverse` for the chip, `--color-accent` for the dot). No hard-coded colors.
 
 ### Touch targets
 
@@ -308,7 +308,7 @@ Every interactive control in the pill and the panel is at least **44 × 44px** (
 | Resume card and suggested questions | At least 48px tall, full width |
 | Quick replies | At least 44px tall |
 | "Go to {destination}" button | At least 44px tall |
-| Send button | Drawn 32px; its tappable area is 44 × 44px, centred on it |
+| Send button | Drawn 32px; its tappable area is 44 × 44px, centered on it |
 
 Where a control is drawn smaller than 44px (only the send button), an invisible tappable area makes up the difference. It must not overlap another control's tappable area.
 
@@ -341,7 +341,7 @@ The prototype has no backend and no AI. These parts are faked and need real impl
 
 ### Decisions
 
-These are settled. They are the specified behaviour.
+These are settled. They are the specified behavior.
 
 1. **Scope of advice.** The advisor gives open career advice, as well as acting on the user's record. It is limited to the topics in the table in section 6 (asking for more scope, working with managers and stakeholders, preparing a draft, and what has been done so far). Anything else gets the "what I can and cannot do" reply with three suggestions. Widening this later is a product change, not a bug fix.
 2. **Persistence.** A conversation lasts for the signed-in session. It survives closing the panel and moving between pages, and it is cleared by New chat or by signing out. It does not carry to the next session.

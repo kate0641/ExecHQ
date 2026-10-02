@@ -13,7 +13,7 @@ export interface SettingsGroupProps {
 }
 
 /**
- * A labelled set of settings rows on one white card: You, Connections,
+ * A labeled set of settings rows on one white card: You, Connections,
  * Email, Briefing, Your data. The label is a real heading, so the page's
  * outline reads as its groups.
  */
