@@ -961,17 +961,16 @@ export const LINKEDIN_ANALYTICS_URL = "https://www.linkedin.com/analytics/creato
 export const LINKEDIN_UPLOAD = {
   eyebrow: "Optional \u00b7 LinkedIn",
   title: "Bring in your LinkedIn numbers",
-  lede: "A spreadsheet LinkedIn gives you, showing how far your posts reach and who sees them. It takes about a minute, on a computer.",
+  lede: "Export a spreadsheet from LinkedIn and add it here. About a minute, on a computer.",
   stepsLabel: "How to get it",
   steps: [
     [{ text: "Open " }, { link: "your LinkedIn analytics", href: LINKEDIN_ANALYTICS_URL }, { text: "." }],
     [{ text: "At the top, choose " }, { press: "Past 365 days" }, { text: "." }],
     [{ text: "Press " }, { press: "Export" }, { text: ", then " }, { press: "Confirm" }, { text: ". A spreadsheet downloads." }],
-    [{ text: "Upload it here." }],
   ] as UploadStepPart[][],
   linkNote: "Opens LinkedIn in a new tab",
   upload: "Upload the spreadsheet",
-  uploadHint: "The .xlsx file from step 3",
+  uploadHint: "The spreadsheet from step 3",
   chooseAgain: "Choose a different file",
   tryAgain: "Try again",
   noExport: "I don\u2019t see Export",
@@ -990,7 +989,6 @@ export const LINKEDIN_UPLOAD = {
   },
   /** Short status for a list row. */
   short: { reading: "Reading\u2026", ready: "Ready", empty: "Read", sent: "Steps sent" },
-  privacy: "Nothing is posted or shared. Delete the file anytime.",
   remove: "Remove it",
   done: "Continue",
   skip: "Not now",
@@ -1903,7 +1901,6 @@ export const GUIDE_C3 = {
   },
   /** The LinkedIn upload page, reached from Signals. */
   linkedin: {
-    why: "Bringing it in now means it\u2019s read while you do the rest. By the end, ExecHQ will know how far your posts reach, and who they reach.",
     /** How the summary file on the last page says a file with no posts. */
     fileEmpty: "No posts in the last year yet",
   },

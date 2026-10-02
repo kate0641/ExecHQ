@@ -97,7 +97,7 @@ export function LinkedInUpload({
           ) : null}
 
           <div className="linkedin-upload__pick">
-            <Button variant="secondary" fullWidth onClick={choose} aria-describedby={hintId}>
+            <Button variant="primary" fullWidth onClick={choose} aria-describedby={hintId}>
               {status === "wrong-file" || status === "failed" ? copy.tryAgain : copy.upload}
             </Button>
             <p className="linkedin-upload__hint" id={hintId}>
@@ -122,8 +122,6 @@ export function LinkedInUpload({
           {copy.chooseAgain}
         </Button>
       ) : null}
-
-      <p className="linkedin-upload__privacy">{copy.privacy}</p>
     </div>
   );
 }

@@ -73,6 +73,16 @@ export const guidePageStates = defineComponentStates({
       },
     },
     {
+      label: "Foot only offers a way past",
+      props: {
+        kicker: GUIDE_C3.signals.kicker,
+        title: GUIDE_C3.signals.title,
+        primaryLabel: GUIDE_C3.signals.skip,
+        primaryVariant: "secondary" as const,
+        onPrimary: noop,
+      },
+    },
+    {
       label: "With a second action",
       props: {
         part: GUIDE_C3.parts[0],

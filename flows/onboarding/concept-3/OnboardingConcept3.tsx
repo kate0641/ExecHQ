@@ -373,7 +373,6 @@ export function OnboardingConcept3() {
     }
 
     case "linkedin": {
-      const c = GUIDE_C3.linkedin;
       const fileIn = linkedInIn(a.linkedin);
       return (
         <GuidePage
@@ -381,8 +380,8 @@ export function OnboardingConcept3() {
           kicker={LINKEDIN_UPLOAD.eyebrow}
           title={LINKEDIN_UPLOAD.title}
           lede={fileIn ? undefined : LINKEDIN_UPLOAD.lede}
-          why={c.why}
           primaryLabel={fileIn ? LINKEDIN_UPLOAD.done : LINKEDIN_UPLOAD.skip}
+          primaryVariant={fileIn ? undefined : "secondary"}
           onPrimary={() => goTo("signals")}
         >
           <LinkedInUpload
