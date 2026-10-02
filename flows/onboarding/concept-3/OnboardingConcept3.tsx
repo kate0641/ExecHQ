@@ -244,6 +244,8 @@ export function OnboardingConcept3() {
   const [detailBack, setDetailBack] = useState<PageId>("draft");
   // Whether the longer versions have been looked at, for the Done page.
   const [builtVersions, setBuiltVersions] = useState(false);
+  // The Toolbox is introduced once, on the first draft.
+  const [toolboxSeen, setToolboxSeen] = useState(false);
   const next = () => {
     if (returnTo && returnTo !== pageId) {
       setReturnTo(null);
@@ -598,15 +600,21 @@ export function OnboardingConcept3() {
           frame={frame()}
           plan={plan}
           lede={sharpened ? c.ledeSharpened : c.ledeStart}
+          intro={toolboxSeen ? undefined : GUIDE_C3.story.toolboxIntro}
           onDetail={() => {
+            setToolboxSeen(true);
             setDetailBack("draft");
             goTo("sharpen");
           }}
           onVersions={() => {
+            setToolboxSeen(true);
             setBuiltVersions(true);
             goTo("versions");
           }}
-          onLater={saveAndFinish}
+          onLater={() => {
+            setToolboxSeen(true);
+            saveAndFinish();
+          }}
         />
       );
     }
@@ -1120,6 +1128,7 @@ function DraftPage({
   frame,
   plan,
   lede,
+  intro,
   onDetail,
   onVersions,
   onLater,
@@ -1128,6 +1137,8 @@ function DraftPage({
   frame: Frame;
   plan: PlanTemplate | null;
   lede: string;
+  /** Where this is, said once. */
+  intro?: string;
   onDetail: () => void;
   onVersions: () => void;
   onLater: () => void;
@@ -1171,6 +1182,7 @@ function DraftPage({
         uses={plan?.uses ?? []}
       />
       <ExportLinks actions={DRAFT_EXPORTS} />
+      {intro ? <p className="guide__next">{intro}</p> : null}
     </GuidePage>
   );
 }

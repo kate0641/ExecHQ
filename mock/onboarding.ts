@@ -2290,7 +2290,11 @@ export const GUIDE_C3 = {
     othersCta: "Use this one",
   },
   story: {
-    kicker: "Your story",
+    /** The story is made in the Toolbox, in its Positioning Builder, so the
+     *  pages say so. The reflection before it is still onboarding. */
+    kicker: "Toolbox \u00b7 Positioning Builder",
+    /** Said once, on the first draft: where this is, and where it will be. */
+    toolboxIntro: "This is the Toolbox, where ExecHQ makes your drafts. You\u2019ll find it any time from Ask or go.",
     reflect: {
       title: "Could you say what you lead in one sentence, right now?",
       lede: "Out loud, to someone who\u2019s never met you.",
@@ -2393,11 +2397,11 @@ export const GUIDE_C3 = {
     /** What is left of the story, by what has been done. */
     nextDetail: {
       title: "Add more detail",
-      detail: "Add your role and one result, so your draft says what you lead.",
+      detail: "In your Toolbox. Add your role and one result, so your draft says what you lead.",
     },
     nextVersions: {
       title: "Build longer versions",
-      detail: "Short, medium and long, built from your story and ready to send ahead of you.",
+      detail: "In your Toolbox. Short, medium and long, built from your story and ready to send ahead of you.",
     },
     nextSignals: {
       title: "Bring in your LinkedIn numbers",
