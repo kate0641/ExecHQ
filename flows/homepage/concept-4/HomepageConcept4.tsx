@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { AddPresenceSheet } from "@/components/homepage/AddPresenceSheet";
+import { SignalPicture } from "@/components/homepage/SignalPicture";
 import { ActionSheet } from "@/components/homepage/ActionSheet";
 import { BriefingCallout } from "@/components/homepage/BriefingCallout";
 import { MapLegend, MapRings } from "@/components/homepage/MapRings";
@@ -9,7 +11,13 @@ import { MapPanel } from "@/components/homepage/MapPanel";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { mapFor, nextNewAction } from "@/lib/map";
-import { HOME_COPY as C, MAP_COPY as M } from "@/mock/homepage";
+import { hasBaseline, presenceCounts, withAdded } from "@/lib/presence";
+import { addPresence, useAddedPresence } from "@/lib/presence-store";
+import { dismissSpark, useDismissedSparks } from "@/lib/spark-dismissal";
+import { sparksFor } from "@/lib/sparks";
+import { PRESENCE_KINDS, PRESENCE_STUB as PR, SPARK_COPY as SP } from "@/mock/accounts-stub";
+import { HOME_COPY as C, MAP_COPY as M, SIGNAL_PICTURE_COPY as SPC } from "@/mock/homepage";
+import { shortDate } from "@/lib/loop";
 import type { Horizon, LandscapeAction } from "@/mock/plan-stub";
 
 /**
@@ -50,9 +58,25 @@ export function HomepageConcept4() {
   const [selected, setSelected] = useState<Horizon | null>(null);
   const [sheetAction, setSheetAction] = useState<LandscapeAction | null>(null);
   const [announce, setAnnounce] = useState("");
+  const [adding, setAdding] = useState(false);
+  const addedPresence = useAddedPresence();
+  const dismissed = useDismissedSparks();
 
   const rings = mapFor({ records: loop.records, tasks: loop.tasks, choices: loop.choices, asked: loop.asked });
   const open = rings.find((r) => r.horizon === selected);
+
+  /* Your Signal Picture. On the first return nobody has entered a baseline
+     yet, so it is empty until she adds what she already has. */
+  const items = withAdded(addedPresence);
+  const seeded = loop.homeState !== "first-return";
+  const picture = hasBaseline(addedPresence, seeded);
+  const rows = presenceCounts(loop.today, items, seeded).map((p) => ({
+    id: p.kind,
+    label: PRESENCE_KINDS[p.kind].label,
+    then: p.then,
+    now: p.now,
+  }));
+  const note = sparksFor(loop.today, loop.account, dismissed, items).find((n) => n.id.startsWith("presence:"));
 
   return (
     <div className="map-home">
@@ -106,7 +130,43 @@ export function HomepageConcept4() {
       </div>
       <div className="map-home__side">
         <InProgress loop={loop} rings={rings} />
+        <SignalPicture
+          name={SPC.heading}
+          asOf={SPC.asOf(shortDate(loop.account.plan.startedOn))}
+          rows={rows}
+          thenLabel="Start"
+          nowLabel="Now"
+          spark={
+            note
+              ? {
+                  items: [{ id: note.id, source: note.source, text: note.text }],
+                  label: SP.label,
+                  dismissLabel: SP.dismiss,
+                  dismissName: SP.dismissNote,
+                  onDismiss: (id) => {
+                    dismissSpark(id);
+                    setAnnounce("");
+                  },
+                }
+              : undefined
+          }
+          next={{ label: SPC.nextLabel, title: PR.tryThis.title, why: PR.tryThis.why }}
+          planHref={PLAN}
+          planLabel={SPC.planLabel}
+          empty={picture ? undefined : { ...SPC.empty, onAdd: () => setAdding(true) }}
+          headingId="signal-picture-heading"
+        />
       </div>
+      <AddPresenceSheet
+        open={adding}
+        baseline
+        onClose={() => setAdding(false)}
+        onAdd={(entry) => {
+          addPresence({ ...entry, on: loop.today, baseline: true });
+          setAdding(false);
+          setAnnounce(SPC.added);
+        }}
+      />
       <ActionSheet
         open={sheetAction !== null}
         action={sheetAction}

@@ -31,6 +31,8 @@ export interface AddPresenceSheetProps {
   /** Render in place instead of over the device screen. For the catalogue. */
   inline?: boolean;
   demo?: AddPresenceDemo;
+  /** Opened to set where she started, not to add something new. */
+  baseline?: boolean;
 }
 
 /**
@@ -41,15 +43,15 @@ export interface AddPresenceSheetProps {
  *
  * It is opened fresh each time, so it never remembers the last thing added.
  */
-export function AddPresenceSheet({ open, onClose, onAdd, inline, demo }: AddPresenceSheetProps) {
+export function AddPresenceSheet({ open, onClose, onAdd, inline, demo, baseline }: AddPresenceSheetProps) {
   return (
-    <Sheet open={open} onClose={onClose} label={C.title} inline={inline}>
-      <AddForm onClose={onClose} onAdd={onAdd} demo={demo} />
+    <Sheet open={open} onClose={onClose} label={baseline ? C.titleBaseline : C.title} inline={inline}>
+      <AddForm onClose={onClose} onAdd={onAdd} demo={demo} baseline={baseline} />
     </Sheet>
   );
 }
 
-function AddForm({ onClose, onAdd, demo }: Pick<AddPresenceSheetProps, "onClose" | "onAdd" | "demo">) {
+function AddForm({ onClose, onAdd, demo, baseline }: Pick<AddPresenceSheetProps, "onClose" | "onAdd" | "demo" | "baseline">) {
   const [kind, setKind] = useState<PresenceKind | null>(demo?.kind ?? null);
   const [title, setTitle] = useState(demo?.title ?? "");
   const [where, setWhere] = useState(demo?.where ?? "");
@@ -71,7 +73,7 @@ function AddForm({ onClose, onAdd, demo }: Pick<AddPresenceSheetProps, "onClose"
 
   return (
     <form className="add-presence" onSubmit={submit} noValidate>
-      <h2 className="add-presence__title">{C.title}</h2>
+      <h2 className="add-presence__title">{baseline ? C.titleBaseline : C.title}</h2>
       <div>
         <ChipGroup
           label={C.kindLabel}
@@ -108,7 +110,7 @@ function AddForm({ onClose, onAdd, demo }: Pick<AddPresenceSheetProps, "onClose"
       />
       <div className="add-presence__actions">
         <Button type="submit" variant="primary" fullWidth>
-          {C.submit}
+          {baseline ? C.submitBaseline : C.submit}
         </Button>
         <Button type="button" variant="ghost" fullWidth onClick={onClose}>
           {C.cancel}

@@ -11824,3 +11824,20 @@ ul.map-panel__list {
 [data-viewport="mobile"] .map-home {
   padding-bottom: var(--space-lg);
 }
+
+/* The Plan, for now: its placeholder, then the detail behind Your Signal
+   Picture (Homepage Concept 4). */
+
+.plan-stub {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  max-width: var(--content-measure);
+  margin-inline: auto;
+}
+
+.plan-stub__signals {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
