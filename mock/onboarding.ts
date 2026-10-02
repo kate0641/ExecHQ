@@ -1936,8 +1936,7 @@ export const GUIDE_C3 = {
     lede: "Pick as many as are true.",
     promptedLabel: "Or start with one of these",
     more: "None of these? Show me more options",
-    elseLabel: "Something else",
-    elseField: "In your own words",
+    elseField: "Or in your own words",
     /** More than one picked: which to start from. */
     first: "Which matters most right now?",
     firstLede: "ExecHQ will start there, and keep the rest in view.",

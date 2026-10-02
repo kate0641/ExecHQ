@@ -811,24 +811,14 @@ function DirectionPage({
     : [];
   const typedBefore = earlier.find((item) => !promptFor(item)) ?? "";
   const [picks, setPicks] = useState<string[]>(earlier.filter((item) => promptFor(item)));
-  const [elseOn, setElseOn] = useState(Boolean(typedBefore));
   const [typed, setTyped] = useState(typedBefore);
   const [more, setMore] = useState(earlier.some((item) => DIRECTION_MORE_C3.some((p) => p.label === item)));
   const [lead, setLead] = useState<string | null>(earlier[0] ?? null);
   const [asking, setAsking] = useState(false);
-  // Choosing "Something else" puts the cursor in its field, as a person would
-  // expect; coming back to a typed answer does not.
-  const fieldBox = useRef<HTMLDivElement>(null);
-  const elseWas = useRef(elseOn);
-  useEffect(() => {
-    if (elseOn && !elseWas.current) fieldBox.current?.querySelector("input")?.focus();
-    elseWas.current = elseOn;
-  }, [elseOn]);
-
   // Everything picked, in the order picked, with the typed answer counted once
-  // it has something in it.
+  // it has something in it. Its field is always open.
   const typedText = typed.trim();
-  const chosen = elseOn && typedText ? [...picks, typedText] : picks;
+  const chosen = typedText ? [...picks, typedText] : picks;
   const leadNow = lead && chosen.includes(lead) ? lead : chosen[0] ?? null;
 
   function finish(first: string) {
@@ -838,7 +828,7 @@ function DirectionPage({
     onDone();
   }
 
-  const options = [...labels(DIRECTION_PROMPTS_C1), ...(more ? labels(DIRECTION_MORE_C3) : []), c.elseLabel];
+  const options = [...labels(DIRECTION_PROMPTS_C1), ...(more ? labels(DIRECTION_MORE_C3) : [])];
   const open = drawer.mode === "open";
   return (
     <GuidePage
@@ -891,28 +881,21 @@ function DirectionPage({
               label={c.title}
               labelHidden
               options={options}
-              value={elseOn ? [...picks, c.elseLabel] : picks}
+              value={picks}
               max={options.length}
-              onChange={(next) => {
-                setElseOn(next.includes(c.elseLabel));
-                setPicks(next.filter((label) => label !== c.elseLabel));
-              }}
+              onChange={setPicks}
             />
-            {elseOn ? (
-              <div ref={fieldBox}>
-                <Input
-                  label={c.elseField}
-                  autoComplete="off"
-                  value={typed}
-                  onChange={(event) => setTyped(event.target.value)}
-                />
-              </div>
-            ) : null}
             {more ? null : (
               <Button variant="ghost" size="sm" onClick={() => setMore(true)}>
                 {c.more}
               </Button>
             )}
+            <Input
+              label={c.elseField}
+              autoComplete="off"
+              value={typed}
+              onChange={(event) => setTyped(event.target.value)}
+            />
           </AnswerDrawer>
         )
       }
