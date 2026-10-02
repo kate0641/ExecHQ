@@ -7698,6 +7698,11 @@ ol.ring-detail__timeline {
   color: var(--color-text-secondary);
 }
 
+.recommendation__for {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
 .recommendation__reason {
   margin-top: var(--space-xs);
   font-size: var(--text-md);

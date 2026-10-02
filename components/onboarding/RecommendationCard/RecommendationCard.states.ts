@@ -1,6 +1,6 @@
 import { defineComponentStates } from "@/components/types";
 import { NOT_AN_INPUT, NOT_INTERACTIVE } from "@/components/not-applicable";
-import { GUIDE_C3, PLAN_TEMPLATES, earlyReasonFor } from "@/mock/onboarding";
+import { PLAN_TEMPLATES, planForWhom, recommendationReasonC3 } from "@/mock/onboarding";
 import { RecommendationCard } from "./RecommendationCard";
 
 const [first, presence] = PLAN_TEMPLATES;
@@ -19,21 +19,20 @@ export const recommendationCardStates = defineComponentStates({
   },
   variants: [
     {
-      label: "Early",
+      label: "From the direction",
       props: {
-        lead: GUIDE_C3.rec.lead,
-        name: first.name,
-        formalName: first.formalName,
-        reason: earlyReasonFor("Reach the C-suite within three years", first),
+        forWhom: planForWhom(first),
+        reason: recommendationReasonC3("Become CEO or run a business unit", {}, { reason: "" }).trim(),
       },
     },
     {
-      label: "With a status",
+      label: "Named, with a status",
       props: {
-        lead: GUIDE_C3.rec.lead,
+        lead: "ExecHQ would start you on",
         name: presence.name,
         formalName: presence.formalName,
-        reason: earlyReasonFor("Be seen as an executive", presence),
+        forWhom: planForWhom(presence),
+        reason: recommendationReasonC3("Be seen as an executive beyond my company", {}, { reason: "" }).trim(),
         status: "Checked against your answers",
       },
     },

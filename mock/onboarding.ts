@@ -2067,10 +2067,10 @@ export const GUIDE_C3 = {
   rec: {
     kicker: "ExecHQ\u2019s recommendation",
     title: "Here\u2019s where ExecHQ would start",
-    lead: "From what you\u2019ve shared, ExecHQ would start you on",
     next: "Next, a few quick questions to make it yours.",
     /** The other directions picked, said so they are not lost. */
-    also: (goals: string) => `You also picked ${goals}. ExecHQ will keep that in view as your plan grows.`,
+    also: (goals: string, count: number) =>
+      `You also picked: ${goals}. ExecHQ will keep ${count > 1 ? "them" : "it"} in view as your plan grows.`,
     why: "You should get a clear starting point, not a menu of options. ExecHQ will show you how it got there, and you can always change it.",
     cta: "Make it mine",
   },
@@ -2380,6 +2380,29 @@ export function decidesPlanC3(questionId: string): boolean {
 }
 
 /** Why a plan fits, said early, from the direction alone. */
+/** Why this plan, said from what the user has told ExecHQ: the direction they
+ *  narrowed to, then what is in their way, in their words. When an answer sent
+ *  the plan somewhere else, that reason is the one given. */
+export function recommendationReasonC3(
+  direction: string,
+  answers: Record<string, string>,
+  made: { reason: string; changedBy?: string }
+): string {
+  const where = directionReadback(direction);
+  if (made.changedBy) return `${where} ${made.reason}`;
+  for (const question of refinementFor(direction)) {
+    if (!decidesPlanC3(question.id)) continue;
+    const first = parseAnswer(question, answers[question.id]).chosen[0];
+    if (first) return `${where} ${first.heard} That\u2019s what this plan is for.`;
+  }
+  return where;
+}
+
+/** When the plan is for, as a sentence: the lead-in under the plan's name. */
+export function planForWhom(plan: PlanTemplate): string {
+  return `This plan is for when ${plan.bestFor.charAt(0).toLowerCase()}${plan.bestFor.slice(1)}`;
+}
+
 export function earlyReasonFor(direction: string, plan: PlanTemplate): string {
   const forWhom = plan.bestFor.charAt(0).toLowerCase() + plan.bestFor.slice(1);
   // Concept 3's directions are picked from a list, not typed, so "picked".

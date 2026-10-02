@@ -49,7 +49,8 @@ import {
   decidesPlanC3,
   encodeAnswer,
   parseAnswer,
-  earlyReasonFor,
+  planForWhom,
+  recommendationReasonC3,
   firstDraftFor,
   isSharpened,
   isValidInviteCode,
@@ -428,15 +429,13 @@ export function OnboardingConcept3() {
       // Made once, from the direction and the question that decides it.
       const made = recommendC3(direction, a.refinement);
       return (
-        <GuidePage {...frame()} kicker={c.kicker} title={c.title} why={c.why} primaryLabel={c.cta} onPrimary={next}>
+        <GuidePage {...frame()} kicker={c.kicker} title={made.plan.name} why={c.why} primaryLabel={c.cta} onPrimary={next}>
           <RecommendationCard
-            lead={c.lead}
-            name={made.plan.name}
-            formalName={made.plan.formalName}
-            reason={made.changedBy ? made.reason : earlyReasonFor(direction, made.plan)}
+            forWhom={planForWhom(made.plan)}
+            reason={recommendationReasonC3(direction, a.refinement, made)}
           />
           {alsoGoals.length ? (
-            <p className="guide__next">{c.also(joinGoals(alsoGoals))}</p>
+            <p className="guide__next">{c.also(listGoals(alsoGoals), alsoGoals.length)}</p>
           ) : null}
           <p className="guide__next">{c.next}</p>
         </GuidePage>
@@ -950,6 +949,11 @@ function DirectionPage({
       }
     />
   );
+}
+
+/** "A, B and C", as the user picked them. */
+function listGoals(goals: string[]): string {
+  return goals.length > 1 ? `${goals.slice(0, -1).join(", ")} and ${goals[goals.length - 1]}` : goals[0];
 }
 
 /** "a, b and c", in lower case, for saying picked goals in a sentence. */
