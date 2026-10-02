@@ -1855,11 +1855,20 @@ export const GUIDE_C3 = {
   },
   about: {
     kicker: "What ExecHQ is",
-    title: "An advisor that does the work with you",
+    title: "Your career plan, and the work to carry it out",
     points: [
-      { title: "It plans with you", detail: "A plan built around where you want to go, that sharpens as you go." },
-      { title: "It does the work with you", detail: "It drafts your story, your bio and your next conversation. Not advice to act on later." },
-      { title: "It remembers", detail: "Everything you tell it builds on what came before. You never start from scratch." },
+      {
+        title: "A plan for where you want to go",
+        detail: "A few stages from where you are to where you want to be, with one thing to do this week at the front. Never a list of forty tasks.",
+      },
+      {
+        title: "Work done, not just advice",
+        detail: "Every step comes with something made: your story, your bio, the opener for your next conversation. Drafted for you to use.",
+      },
+      {
+        title: "A plan that changes as you do",
+        detail: "Tell it what happened and the plan adjusts. It remembers all of it, so you never start from scratch.",
+      },
     ],
     builtLabel: "How it\u2019s built",
     built: [
@@ -1868,7 +1877,6 @@ export const GUIDE_C3 = {
       { title: "No agenda", detail: "It tells you what a coach, a mentor or a colleague might not." },
       { title: "Alongside your coach", detail: "It gives you both better information to work from." },
     ],
-    why: "You\u2019re trusting ExecHQ with your career. You should know exactly what it is before you tell it anything.",
     cta: "Continue",
   },
   account: {
