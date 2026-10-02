@@ -20,5 +20,6 @@ export const deviceKeyboardStates = defineComponentStates({
   variants: [
     { label: "Default", props: {} },
     { label: "Next", props: { returnLabel: "Next" } },
+    { label: "Return key pressable", props: { returnLabel: "Continue", onReturn: () => {} } },
   ],
 });

@@ -8060,6 +8060,12 @@ ol.ring-detail__timeline {
   box-shadow: 0 var(--border-width-thin) 0 var(--color-border-strong);
 }
 
+button.device-keyboard__key {
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
 .device-keyboard__key.is-wide {
   flex-basis: 12%;
   font-size: var(--text-sm);

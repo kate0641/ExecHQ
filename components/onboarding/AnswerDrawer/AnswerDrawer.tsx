@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
 import { DeviceKeyboard } from "@/components/onboarding/DeviceKeyboard";
 import { Button } from "@/components/primitives/Button";
 
@@ -31,6 +31,8 @@ export interface AnswerDrawerProps {
   className?: string;
 }
 
+const keepFocus = (event: MouseEvent) => event.preventDefault();
+
 const TEXT_FIELD = 'input:not([type="checkbox"]):not([type="radio"]):not([type="button"]), textarea';
 
 /**
@@ -45,7 +47,9 @@ const TEXT_FIELD = 'input:not([type="checkbox"]):not([type="radio"]):not([type="
  * nothing needs dragging (WCAG 2.2 SC 2.5.7).
  *
  * While a text field inside has focus, a drawn keyboard sits under the drawer,
- * as a real one would on a phone.
+ * as a real one would on a phone. Its return key sends the answer, as Return
+ * does, and pressing the drawer's own button does too without first closing
+ * the keyboard.
  */
 export function AnswerDrawer({
   question,
@@ -140,18 +144,22 @@ export function AnswerDrawer({
         />
         {step ? <p className="answer-drawer__step">{step}</p> : null}
         {children ? <div className="answer-drawer__body">{children}</div> : null}
+        {/* Pressing an action must not take focus from the field: that drops the
+            keyboard, the drawer moves, and the press lands on nothing. */}
         <div className="answer-drawer__actions">
           {secondaryLabel ? (
-            <Button variant="ghost" onClick={onSecondary}>
+            <Button variant="ghost" onClick={onSecondary} onMouseDown={keepFocus}>
               {secondaryLabel}
             </Button>
           ) : null}
-          <Button variant="primary" onClick={onPrimary} disabled={primaryDisabled}>
+          <Button variant="primary" onClick={onPrimary} onMouseDown={keepFocus} disabled={primaryDisabled}>
             {primaryLabel}
           </Button>
         </div>
       </section>
-      {typing ? <DeviceKeyboard returnLabel={primaryLabel} /> : null}
+      {typing ? (
+        <DeviceKeyboard returnLabel={primaryLabel} onReturn={primaryDisabled ? undefined : onPrimary} />
+      ) : null}
     </div>
   );
 }
