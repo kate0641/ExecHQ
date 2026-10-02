@@ -715,18 +715,32 @@ function AccountPage({ flow, frame, drawer, onDone }: PageProps) {
   const c = GUIDE_C3.account;
   const [email, setEmail] = useState(state.answers.email ?? "");
   const [code, setCode] = useState(state.answers.inviteCode ?? "");
-  const [showCode, setShowCode] = useState(Boolean(state.answers.inviteCode));
+  // The invite code is a required choice: a code, or "I don't have a code".
+  // Coming back to the page, an email already given means the choice was made.
+  const [choice, setChoice] = useState<"yes" | "no" | null>(
+    state.answers.inviteCode ? "yes" : state.answers.email ? "no" : null
+  );
   const [codeError, setCodeError] = useState(false);
   const [verdict, setVerdict] = useState<ReturnType<typeof checkEmail> | null>(null);
-  const codeId = useId();
+  const codeBox = useRef<HTMLDivElement>(null);
+
+  // Choosing "I have an invite code" puts the cursor in its field.
+  useEffect(() => {
+    if (choice === "yes" && !code) codeBox.current?.querySelector("input")?.focus();
+    // Only when the choice changes, not as the code is typed.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [choice]);
+
+  const hasCode = choice === "yes";
 
   function submit() {
-    const codeOk = !showCode || !code.trim() || isValidInviteCode(code);
+    if (!choice || (hasCode && !code.trim())) return;
+    const codeOk = !hasCode || isValidInviteCode(code);
     const check = checkEmail(email);
     setCodeError(!codeOk);
     setVerdict(check === "ok" ? null : check);
     if (!codeOk || check !== "ok") return;
-    dispatch({ type: "set-invite-code", code: showCode ? code.trim() || null : null });
+    dispatch({ type: "set-invite-code", code: hasCode ? code.trim() : null });
     dispatch({ type: "set-email", email: email.trim() });
     onDone();
   }
@@ -746,6 +760,7 @@ function AccountPage({ flow, frame, drawer, onDone }: PageProps) {
           open={open}
           onToggle={toggle(drawer)}
           primaryLabel={c.cta}
+          primaryDisabled={!choice || (hasCode && !code.trim())}
           onPrimary={submit}
           autoFocusField
         >
@@ -768,35 +783,33 @@ function AccountPage({ flow, frame, drawer, onDone }: PageProps) {
               setVerdict(null);
             }}
           />
-          <div className="guide__invite">
-            <Button
-              variant="ghost"
-              size="sm"
-              aria-expanded={showCode}
-              aria-controls={codeId}
-              onClick={() => {
-                setShowCode((shown) => !shown);
-                setCodeError(false);
-              }}
-            >
-              {showCode ? c.inviteHide : c.inviteShow}
-            </Button>
-          </div>
-          <div id={codeId} hidden={!showCode}>
-            <Input
-              label="Invite code"
-              autoComplete="off"
-              value={code}
-              onChange={(event) => {
-                setCode(event.target.value);
-                setCodeError(false);
-              }}
-            />
-          </div>
+          <ChipGroup
+            label={c.inviteAsk}
+            options={[c.inviteYes, c.inviteNo]}
+            equalWidth
+            value={choice ? [choice === "yes" ? c.inviteYes : c.inviteNo] : []}
+            onChange={(next) => {
+              setChoice(next[0] === c.inviteYes ? "yes" : next[0] === c.inviteNo ? "no" : null);
+              setCodeError(false);
+            }}
+          />
+          {hasCode ? (
+            <div ref={codeBox}>
+              <Input
+                label={c.inviteField}
+                autoComplete="off"
+                value={code}
+                onChange={(event) => {
+                  setCode(event.target.value);
+                  setCodeError(false);
+                }}
+              />
+            </div>
+          ) : null}
           {codeError ? (
-            <Notice tone="explain" title="We do not recognise that code" live>
-              Check it against the invitation you were sent. You can also continue without one — a
-              code only changes who pays, never what you get.
+            <Notice tone="explain" title="We do not recognize that code" live>
+              Check it against the invitation you were sent. If you don’t have one, choose “{c.inviteNo}”.
+              A code only changes who pays, never what you get.
             </Notice>
           ) : null}
         </AnswerDrawer>

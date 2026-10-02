@@ -22,7 +22,7 @@ What it deliberately does not do:
 - **Connect to anything.** In V1 there is nothing to connect: the only outside data is a LinkedIn analytics spreadsheet the person exports and uploads themselves.
 - **Score, rank or compare.** No answer, fact or plan ranks the person against anyone.
 - **Post or share anything.** Nothing leaves the person's account.
-- **Ask for more than it needs.** An email, a direction, a choice of plan and an answer to each reflection are the only required steps. Every other question can be skipped, and the person can come back to it.
+- **Ask for more than it needs.** An email, an invite code (or saying there is none), a direction, a choice of plan and an answer to each reflection are the only required steps. Every other question can be skipped, and the person can come back to it.
 - **Ask the person to type an answer.** Every question is a choice. The only typing is the account email, an invite code, and refining the story (section 3.10).
 - **Show progress as a number.** There are no step counters or percentages in the flow.
 
@@ -42,7 +42,7 @@ The prototype's step bar names twelve steps. A few pages are reached only from a
 | --- | --- | --- | --- |
 | 1 | Welcome | The opening statement | — |
 | 2 | What ExecHQ is | What it is, in one page, and the privacy promise | — |
-| 3 | Account | Email, and an invite code if they have one | Email |
+| 3 | Account | Email, and whether they have an invite code | Email, and an invite code or "I don't have a code" |
 | 4 | Signals | Optionally bring in LinkedIn numbers. *Aside:* the LinkedIn upload page | No |
 | 5 | Direction | Where the person wants to go: pick, then narrow it down | At least one pick |
 | 6 | Recommendation | A question about what is in the way (for most directions), then the recommended plan, chosen here. *Aside:* the other plans | Choose a plan |
@@ -117,12 +117,12 @@ The privacy promise is said here, before anything personal is asked. There is no
 
 - Label **Your account.** Heading: **First, somewhere to keep all this.** Line: "Your plan and your story are saved to your account, so you can come back to them."
 - "Why this matters": "Everything you tell ExecHQ builds on what came before. Your account is how it remembers, and how you come back to it."
-- The answer drawer asks **What's your email?** (one field, placeholder you@example.com), with a link **I have an invite code** that opens an invite code field ("I don't have a code" closes it). Button **Continue.**
+- The answer drawer asks **What's your email?** (one field, placeholder you@example.com), then **Do you have an invite code?** with two equal choices, **I have an invite code** and **I don't have a code.** Choosing the first opens an **Invite code** field and puts the cursor in it. Button **Continue.**
 
 Rules:
 
 - **Any address is accepted,** work or personal, by decision on 2026-09-22: the account is the person's and they can change the address whenever they like. An empty field shows "We need an email address to create the account."
-- **An invite code is optional.** A recognized code is kept. An unrecognised one shows the notice "We do not recognize that code. Check it against the invitation you were sent. You can also continue without one — a code only changes who pays, never what you get." The person can continue either way.
+- **The invite code is a required choice.** The person must say which: enter a code, or choose **I don't have a code.** **Continue** stays off until they have, and until a code is typed if they chose to have one. A recognized code is kept. An unrecognized one shows the notice "We do not recognize that code. Check it against the invitation you were sent. If you don't have one, choose "I don't have a code". A code only changes who pays, never what you get." Coming back to the page, the choice made is kept.
 - **Continue sends the answer in one press,** with the keyboard up. Return on a real keyboard does the same.
 
 ### 3.4 Signals
@@ -497,7 +497,7 @@ Production must give every control a tappable area of at least 44px, drawn small
 | Prototype | Production |
 | --- | --- |
 | Nothing is stored. Answers live in the page and are lost on reload. | The account is created and the flow can be resumed (see Open questions). |
-| Any non-empty email is accepted. Any invite code is accepted. | Any address is accepted, as decided. The invite code is checked, and an unrecognised one shows the notice. |
+| Any non-empty email is accepted. Any invite code is accepted, as long as one is typed or "I don't have a code" is chosen. | Any address is accepted, as decided. The invite code is checked, and an unrecognised one shows the notice. |
 | Nothing is sent. "Email me these steps", "Email it to me" and "Download" confirm what they would do. | They send and download for real. |
 | The LinkedIn file is never read, only named. Reading is a timer. | The file is read and the figures are used for the plan and the drafts. |
 | The first draft, the versions and the replies are written from fixed templates. | They are written for the person (the generation approach is not specified here). |
@@ -528,6 +528,7 @@ These are settled. They are the specified behavior. The dates are when they were
 14. **The Done page lists only what is left,** and does not repeat what the person has seen. (2026-10-02)
 15. **No step counters, percentages or scores** appear anywhere in the flow.
 16. **No open responses.** Every answer in onboarding is a choice. The only typing is the account email, an invite code, and refining the story (a role, what the person is responsible for, a result, a name for the bio, and editing the draft). (2026-10-02)
+17. **The invite code is a required choice:** a code, or "I don't have a code." (2026-10-02)
 
 ---
 

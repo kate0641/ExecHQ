@@ -2116,8 +2116,11 @@ export const GUIDE_C3 = {
     ask: "What\u2019s your email?",
     title: "First, somewhere to keep all this",
     lede: "Your plan and your story are saved to your account, so you can come back to them.",
-    inviteShow: "I have an invite code",
-    inviteHide: "I don\u2019t have a code",
+    /** Required: a code, or saying there isn\u2019t one. */
+    inviteAsk: "Do you have an invite code?",
+    inviteYes: "I have an invite code",
+    inviteNo: "I don\u2019t have a code",
+    inviteField: "Invite code",
     why: "Everything you tell ExecHQ builds on what came before. Your account is how it remembers, and how you come back to it.",
     cta: "Continue",
   },
