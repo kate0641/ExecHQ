@@ -401,11 +401,12 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <path d="M12.5 4.6a2.8 2.8 0 0 1 0 5.3M14.2 12.6c1.5.5 2.7 1.8 3.3 3.9" />
     </>
   ),
+  // The plus sits at the neck, where the head meets the shoulders.
   "person-add": (
     <>
       <circle cx="8" cy="7" r="3.2" />
       <path d="M2.5 16.8c.9-3 3-4.6 5.5-4.6s4.6 1.6 5.5 4.6" />
-      <path d="M15.5 5.5v5M13 8h5" />
+      <path d="M15.6 8.7v5M13.1 11.2h5" />
     </>
   ),
   briefcase: (
