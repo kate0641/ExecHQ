@@ -3,11 +3,10 @@
 import { useState } from "react";
 import { AddPresenceSheet } from "@/components/homepage/AddPresenceSheet";
 import { SignalPicture } from "@/components/homepage/SignalPicture";
-import { ActionSheet } from "@/components/homepage/ActionSheet";
 import { BriefingEditorial } from "@/components/homepage/BriefingEditorial";
 import { MapLegend, MapRings } from "@/components/homepage/MapRings";
 import { InProgress } from "./InProgress";
-import { MapPanel } from "@/components/homepage/MapPanel";
+import { MapRoundup } from "@/components/homepage/MapRoundup";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { mapFor, nextNewAction } from "@/lib/map";
@@ -18,7 +17,6 @@ import { sparksFor } from "@/lib/sparks";
 import { PRESENCE_KINDS, PRESENCE_STUB as PR, SPARK_COPY as SP } from "@/mock/accounts-stub";
 import { BRIEFING_STUB as B, HOME_COPY as C, MAP_COPY as M, SIGNAL_PICTURE_COPY as SPC } from "@/mock/homepage";
 import { shortDate } from "@/lib/loop";
-import type { Horizon, LandscapeAction } from "@/mock/plan-stub";
 
 /**
  * Homepage Concept 4 — Combined.
@@ -28,13 +26,13 @@ import type { Horizon, LandscapeAction } from "@/mock/plan-stub";
  * has in progress; today's Briefing, as the editorial card; and Your Signal
  * Picture, with a way into the detail on the Plan page.
  *
- * The map shows what she is on and what is still on it. An action she has
- * not started only opens to read about it, where she starts it or says it is
- * not for her; it never goes straight to a tool.
+ * The map is a glance (three rings that are not controls) with every action
+ * under it in a plain list. Each row leads to its place in the Plan, where
+ * she reads the context and starts an action or says it is not for her; none
+ * of them goes straight to a tool.
  */
 
 const PLAN = conceptHref("plan", "concept-1");
-const TOOLBOX = conceptHref("toolbox-flow", "concept-1");
 const BRIEFING = conceptHref("daily-briefing", "concept-1");
 const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -52,15 +50,12 @@ function shortDay(date: string): string {
 
 export function HomepageConcept4() {
   const loop = useLoop();
-  const [selected, setSelected] = useState<Horizon | null>(null);
-  const [sheetAction, setSheetAction] = useState<LandscapeAction | null>(null);
   const [announce, setAnnounce] = useState("");
   const [adding, setAdding] = useState(false);
   const addedPresence = useAddedPresence();
   const dismissed = useDismissedSparks();
 
   const rings = mapFor({ records: loop.records, tasks: loop.tasks, choices: loop.choices, asked: loop.asked });
-  const open = rings.find((r) => r.horizon === selected);
 
   /* Your Signal Picture. On the first return nobody has entered a baseline
      yet, so it is empty until she adds what she already has. */
@@ -87,40 +82,23 @@ export function HomepageConcept4() {
           <h2 className="map-home__heading" id="map-heading">
             {M.heading}
           </h2>
-          <MapRings
-            rings={rings}
-            selected={selected}
-            panelId="map-panel"
-            onSelect={(h) => {
-              setSelected((current) => (current === h ? null : h));
-              setAnnounce("");
-            }}
-          />
+          <MapRings rings={rings} />
           <MapLegend />
-          {open ? (
-            <MapPanel
-              ring={open}
-              id="map-panel"
-              headingId="map-panel-heading"
-              planHref={PLAN}
-              onOpenAction={setSheetAction}
-              onAsk={
-                nextNewAction(open.horizon, loop.asked)
-                  ? () => {
-                      const add = nextNewAction(open.horizon, loop.asked);
-                      loopActions.askForNew(
-                        open.segments.map((s) => s.action.id),
-                        add?.id
-                      );
-                      if (add) setAnnounce(M.added(add.title));
-                    }
-                  : undefined
-              }
-              noneLeft={!nextNewAction(open.horizon, loop.asked)}
-            />
-          ) : (
-            <p className="map-home__hint">{M.hintPick}</p>
-          )}
+          <MapRoundup
+            rings={rings}
+            hrefFor={(a) => `${PLAN}#action-${a.id}`}
+            lineFor={(s) => (s.state === "not-started" ? M.rowRead : M.rowOpen)}
+            idPrefix="map"
+            onAsk={(ring) => {
+              const add = nextNewAction(ring.horizon, loop.asked);
+              loopActions.askForNew(
+                ring.segments.map((s) => s.action.id),
+                add?.id
+              );
+              if (add) setAnnounce(M.added(add.title));
+            }}
+            noneLeft={(ring) => !nextNewAction(ring.horizon, loop.asked)}
+          />
           <output className="u-visually-hidden">{announce}</output>
         </section>
       </div>
@@ -168,21 +146,6 @@ export function HomepageConcept4() {
           addPresence({ ...entry, on: loop.today, baseline: true });
           setAdding(false);
           setAnnounce(SPC.added);
-        }}
-      />
-      <ActionSheet
-        open={sheetAction !== null}
-        action={sheetAction}
-        onClose={() => setSheetAction(null)}
-        startHref={TOOLBOX}
-        onStart={(a) => {
-          loopActions.startAction(a.id);
-          setSheetAction(null);
-        }}
-        onSkip={(a, why) => {
-          loopActions.skipAction(a.id, why);
-          setSheetAction(null);
-          setAnnounce(M.skipped(a.title));
         }}
       />
     </div>

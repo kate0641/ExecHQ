@@ -11493,40 +11493,13 @@ ul.map-rings {
 }
 
 .map-rings__ring {
-  --map-hole: var(--color-surface);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--space-2xs);
-  width: 100%;
   padding: var(--space-sm) var(--space-2xs);
-  border-radius: var(--radius-lg);
   color: var(--color-text-primary);
   text-align: center;
-  transition: background-color var(--duration-fast);
-}
-
-.map-rings__ring:hover,
-.map-rings__ring.is-hover {
-  --map-hole: var(--color-surface-hover);
-  background-color: var(--color-surface-hover);
-}
-
-.map-rings__ring[aria-expanded="true"] {
-  --map-hole: var(--color-surface-selected);
-  background-color: var(--color-surface-selected);
-}
-
-.map-rings__ring:focus-visible,
-.map-rings__ring.is-focus {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.map-rings__ring:active,
-.map-rings__ring.is-active {
-  --map-hole: var(--color-surface-active);
-  background-color: var(--color-surface-active);
 }
 
 .map-rings__draw {
@@ -11553,7 +11526,7 @@ ul.map-rings {
 }
 
 .map-rings__done { stroke: var(--color-surface-inverse); }
-.map-rings__hole { stroke: var(--map-hole); }
+.map-rings__hole { stroke: var(--color-surface); }
 .map-rings__not { stroke: var(--color-text-muted); }
 
 .map-rings__check {
@@ -11611,19 +11584,21 @@ p.map-legend {
 .map-legend__key--progress { border: 3px solid var(--color-surface-inverse); background-color: var(--color-surface); }
 .map-legend__key--not { border: 2px dashed var(--color-text-muted); }
 
-/* What is in the ring she tapped. */
+/* Every action on the map, grouped under its ring. An open list, no card. */
 
-.map-panel {
+.map-roundup {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
-  padding: var(--space-md);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-xl);
-  background-color: var(--color-surface-raised);
+  gap: var(--space-md);
 }
 
-.map-panel__heading {
+.map-roundup__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.map-roundup__heading {
   margin: 0;
   font-family: var(--type-subheading-font);
   font-size: var(--type-subheading-size);
@@ -11633,27 +11608,24 @@ p.map-legend {
   word-spacing: var(--type-subheading-word-spacing);
 }
 
-.map-panel__heading:focus {
-  outline: none;
-}
-
-.map-panel__hint {
+.map-roundup__empty {
   margin: 0;
   font-size: var(--text-sm);
   color: var(--color-text-secondary);
 }
 
-ul.map-panel__list {
+ul.map-roundup__list {
   margin: 0;
   padding: 0;
   list-style: none;
-}
-
-.map-panel__list li + li {
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
-.map-panel__row {
+.map-roundup__list li {
+  border-bottom: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+.map-roundup__row {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -11666,35 +11638,36 @@ ul.map-panel__list {
   border-radius: var(--radius-md);
 }
 
-.map-panel__row:hover .map-panel__text b {
+a.map-roundup__row:hover .map-roundup__text b,
+button.map-roundup__row:hover .map-roundup__text b {
   text-decoration: underline;
 }
 
-.map-panel__row:focus-visible {
+.map-roundup__row:focus-visible {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
 }
 
-.map-panel__text {
+.map-roundup__text {
   display: flex;
   flex-direction: column;
   gap: var(--space-3xs);
   min-width: 0;
 }
 
-.map-panel__text b {
+.map-roundup__text b {
   font-family: var(--type-subheading-font);
   font-size: var(--text-base);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
 }
 
-.map-panel__text span {
+.map-roundup__text span {
   font-size: var(--text-xs);
   color: var(--color-text-secondary);
 }
 
-.map-panel__state {
+.map-roundup__state {
   flex: none;
   padding: var(--space-3xs) var(--space-xs);
   border: var(--border-width-thin) solid var(--color-border-strong);
@@ -11705,18 +11678,18 @@ ul.map-panel__list {
   white-space: nowrap;
 }
 
-.map-panel__state--done {
+.map-roundup__state--done {
   border-color: var(--color-surface-inverse);
   background-color: var(--color-surface-inverse);
   color: var(--color-text-inverse);
 }
 
-.map-panel__state--in-progress {
+.map-roundup__state--in-progress {
   border-color: var(--color-surface-selected);
   background-color: var(--color-surface-selected);
 }
 
-.map-panel__state--not-started {
+.map-roundup__state--not-started {
   border-style: dashed;
 }
 
@@ -11754,12 +11727,6 @@ ul.map-panel__list {
   gap: var(--space-2xs);
 }
 
-.map-home__hint {
-  margin: 0;
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-  text-align: center;
-}
 
 /* Concept 4's two columns on web: the map on the left; what is in progress
    (and, below it, the Signal Picture) on the right. One column otherwise. */
@@ -11799,4 +11766,22 @@ ul.map-panel__list {
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
+}
+
+.plan-stub__map {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.plan-stub__heading {
+  margin: 0;
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
+  text-transform: uppercase;
+  color: var(--color-eyebrow);
 }
