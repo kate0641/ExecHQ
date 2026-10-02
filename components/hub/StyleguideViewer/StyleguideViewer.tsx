@@ -3,6 +3,7 @@ import { Badge, type FeedbackBadgeTone } from "@/components/primitives/Badge";
 import { Logo, type LogoTone } from "@/components/primitives/Logo";
 import { TextLink } from "@/components/primitives/TextLink";
 import { getHubPage } from "@/lib/hub-pages";
+import { IconGuide } from "./IconGuide";
 import { Specimens } from "./Specimens";
 import { StyleguideSections } from "./StyleguideSections";
 import { TypeLab, type TypeLabRole } from "./TypeLab";
@@ -543,7 +544,11 @@ function typeLabRoles(tokens: Map<string, Token>): TypeLabRole[] {
 }
 
 export function StyleguideViewer() {
-  const allTokens = readTokens();
+  // The greyscale block at the foot of tokens.css restates some tokens for
+  // when colour is off; the page shows each token once, as first declared.
+  const allTokens = readTokens().filter(
+    (token, index, list) => list.findIndex((other) => other.name === token.name) === index
+  );
   const colourTokens = allTokens.filter(
     (token) =>
       (token.category === "palette" ||
@@ -660,6 +665,18 @@ export function StyleguideViewer() {
           content: (
           <div className="styleguide-layout__card">
             <TypeLab roles={typeLabRoles(tokenMap)} />
+          </div>
+          ),
+        },
+        {
+          id: "icons",
+          label: "Icons",
+          group: "Icons",
+          description: "One hand-drawn set, one line weight, three sizes. Every icon here is the real Icon component, so this is the set as it ships.",
+          source: "components/primitives/Icon",
+          content: (
+          <div className="styleguide-layout__card">
+            <IconGuide />
           </div>
           ),
         },

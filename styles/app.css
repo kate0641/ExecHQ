@@ -5225,6 +5225,110 @@ ol.ring-detail__timeline {
   height: var(--space-4xl);
 }
 
+/* Icons: the set by name, the sizes, and where colour comes from. */
+.styleguide__icon-rules {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: var(--space-xs) 0 0;
+  padding-left: var(--space-lg);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+.styleguide__icons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr));
+  gap: var(--space-xs);
+  margin: var(--space-xs) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.styleguide__icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-md) var(--space-xs) var(--space-sm);
+  border: var(--border-width-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--color-icon-default);
+}
+
+.styleguide__icons--quiet .styleguide__icon {
+  color: var(--color-text-muted);
+}
+
+.styleguide__icon-name {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.styleguide__icon-sizes,
+.styleguide__icon-colours {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  gap: var(--space-md);
+  margin: var(--space-xs) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.styleguide__icon-size {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+.styleguide__icon-size-stage {
+  display: grid;
+  place-items: center;
+  height: var(--space-3xl);
+  margin-bottom: var(--space-xs);
+  border: var(--border-width-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--color-icon-default);
+}
+
+.styleguide__icon-size .styleguide__token-note {
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+.styleguide__icon-colour {
+  display: grid;
+  place-items: center;
+  height: var(--space-3xl);
+  border-bottom: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+.styleguide__icon-chip {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+}
+
+.styleguide__icon-colour--default .styleguide__icon-chip {
+  color: var(--color-icon-default);
+}
+
+.styleguide__icon-colour--chip .styleguide__icon-chip {
+  background-color: var(--color-icon-surface);
+  color: var(--color-icon);
+}
+
+.styleguide__icon-colour--inverse {
+  background-color: var(--color-surface-inverse);
+}
+
+.styleguide__icon-colour--inverse .styleguide__icon-chip {
+  color: var(--color-text-inverse);
+}
+
 /* The logo on each background it may sit on. */
 .styleguide__logos {
   display: grid;
