@@ -1,9 +1,17 @@
 import { mapRingText, type MapRing, type MapState } from "@/lib/map";
 import { Icon } from "@/components/primitives/Icon";
 import { MAP_COPY as C } from "@/mock/homepage";
+import type { Horizon } from "@/mock/plan-stub";
 
 export interface MapRingsProps {
   rings: MapRing[];
+  /** The ring whose list is open below. None: no ring is pressed. */
+  selected?: Horizon | null;
+  onSelect: (horizon: Horizon) => void;
+  /** The id of the list a ring opens, for aria-controls. */
+  panelId?: string;
+  /** Catalogue only: shows one ring in a state a static page can't reach. */
+  demo?: { horizon: Horizon; state: "hover" | "focus" | "active" };
   className?: string;
 }
 
@@ -72,26 +80,34 @@ function Drawing({ ring }: { ring: MapRing }) {
 
 /**
  * The strip at the top of the homepage: one ring per horizon, one segment per
- * action on her map. It is a glance, not a control: the list under it says
- * what each action is and leads to the Plan. A ring with every action done
+ * action on her map. Tapping a ring opens its list below, so the strip stays
+ * three rings however many actions there are. A ring with every action done
  * carries a check.
  */
-export function MapRings({ rings, className }: MapRingsProps) {
+export function MapRings({ rings, selected, onSelect, panelId, demo, className }: MapRingsProps) {
   return (
     <ul className={["map-rings", className].filter(Boolean).join(" ")}>
       {rings.map((ring) => (
-        <li key={ring.horizon} className="map-rings__ring">
-          <span className="u-visually-hidden">{mapRingText(ring)}</span>
-          <span className="map-rings__draw">
-            <Drawing ring={ring} />
-            {ring.complete ? (
-              <span className="map-rings__check" aria-hidden="true">
-                <Icon name="check" size={12} />
-              </span>
-            ) : null}
-          </span>
-          <span className="map-rings__name" aria-hidden="true">{ring.label}</span>
-          <span className="map-rings__count" aria-hidden="true">{C.ringCount(ring.done, ring.segments.length)}</span>
+        <li key={ring.horizon}>
+          <button
+            type="button"
+            className={["map-rings__ring", demo?.horizon === ring.horizon ? `is-${demo.state}` : null].filter(Boolean).join(" ")}
+            aria-expanded={selected === ring.horizon}
+            aria-controls={panelId}
+            aria-label={mapRingText(ring)}
+            onClick={() => onSelect(ring.horizon)}
+          >
+            <span className="map-rings__draw">
+              <Drawing ring={ring} />
+              {ring.complete ? (
+                <span className="map-rings__check" aria-hidden="true">
+                  <Icon name="check" size={12} />
+                </span>
+              ) : null}
+            </span>
+            <span className="map-rings__name" aria-hidden="true">{ring.label}</span>
+            <span className="map-rings__count" aria-hidden="true">{C.ringCount(ring.done, ring.segments.length)}</span>
+          </button>
         </li>
       ))}
     </ul>

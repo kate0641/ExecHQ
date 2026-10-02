@@ -354,15 +354,16 @@ export const MAP_COPY = {
   heading: "Your map",
   /** Under the map when nothing on it has been started. */
   nothingInProgress: "Nothing in progress yet. Open a ring to read about what is on your map and start one.",
+  hintPick: "Tap a ring to see what is in it.",
   legend: { done: "Done", inProgress: "In progress", notStarted: "Not started" },
   state: { done: "Done", inProgress: "In progress", notStarted: "Not started" },
   /** What each row says it does when tapped. */
-  rowOpen: "See it in your Plan",
+  rowOpen: "Opens in your Plan",
   rowRead: "Read why, then start or skip",
-  /** On the Plan page, an action she is on leads to its tool. */
-  rowContinue: "Continue in the Toolbox",
   ringCount: (done: number, total: number) => (total === 0 ? "Nothing yet" : done === total ? "All done" : `${done} of ${total} done`),
   ringEmpty: "Nothing on your map in this ring yet.",
+  panelHint: "Each one opens in your Plan.",
+  panelHintUnstarted: "Ones you have not started open to read about first.",
   askNew: "Ask for a new one",
   askNone: "Nothing new to suggest right now. Check back after your next step.",
   added: (title: string) => `Added to your map: ${title}. Open it to start it or skip it.`,
