@@ -7975,6 +7975,55 @@ ol.ring-detail__timeline {
   gap: 0;
 }
 
+/* Web: the answers sit beside the question, in a card, not in a sheet under
+   it. There is room for both, so the sheet, its fold handle and its peek bar
+   are not needed, and a person on a computer uses their own keyboard. Phone
+   and tablet keep the sheet. */
+[data-viewport="web"] .guide--drawer:not(:where([data-viewport="mobile"] *)) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
+  column-gap: var(--space-2xl);
+  width: 100%;
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: var(--space-2xl) var(--space-lg);
+  overflow-y: auto;
+}
+
+[data-viewport="web"] .guide--drawer:not(:where([data-viewport="mobile"] *)) .guide__page {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+}
+
+[data-viewport="web"] .guide--drawer:not(:where([data-viewport="mobile"] *)) .answer-drawer__wrap {
+  position: sticky;
+  top: 0;
+}
+
+[data-viewport="web"] .guide--drawer:not(:where([data-viewport="mobile"] *)) .answer-drawer {
+  padding: var(--space-lg);
+  background-color: var(--color-surface-raised);
+  border: var(--border-subtle);
+  border-radius: var(--radius-xl);
+}
+
+/* In the card there is nothing to scroll under, so the buttons sit where the
+   fields end instead of being pinned. */
+[data-viewport="web"] .guide--drawer:not(:where([data-viewport="mobile"] *)) .answer-drawer__actions {
+  position: static;
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+}
+
+[data-viewport="web"] .answer-drawer__grab:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .device-keyboard:not(:where([data-viewport="mobile"] *)) {
+  display: none;
+}
+
 .guide__page {
   flex: 1;
   min-height: 0;

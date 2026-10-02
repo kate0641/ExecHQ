@@ -17,6 +17,7 @@ import { ThisWeekCard } from "@/components/onboarding/ThisWeekCard";
 import { GuidePage } from "@/components/onboarding/GuidePage";
 import { NextSteps } from "@/components/onboarding/NextSteps";
 import { Notice } from "@/components/onboarding/Notice";
+import { WelcomeSplit } from "@/components/onboarding/WelcomeSplit";
 import { PointList } from "@/components/onboarding/PointList";
 import { RecommendationCard } from "@/components/onboarding/RecommendationCard";
 import { ReflectionReply } from "@/components/onboarding/ReflectionReply";
@@ -30,6 +31,7 @@ import {
   type PositioningInputs,
 } from "@/flows/onboarding/shared";
 import { useStepNav } from "@/lib/step-nav";
+import { useViewport } from "@/lib/viewport-context";
 import {
   DIRECTION_MORE_C3,
   DIRECTION_NARROWER_C3,
@@ -205,7 +207,11 @@ export function OnboardingConcept3() {
   const [pageId, setPageId] = useState<PageId>("welcome");
   const [reflections, setReflections] = useState<Record<string, string>>({});
   // The current page's answer drawer: open, folded to a peek, or answered.
-  const [mode, setMode] = useState<DrawerMode>("open");
+  const [chosenMode, setMode] = useState<DrawerMode>("open");
+  const { viewport } = useViewport();
+  // On web the answers sit beside the question and there is no sheet to fold,
+  // so a drawer left folded on a phone reads as open there.
+  const mode: DrawerMode = viewport === "web" && chosenMode === "peek" ? "open" : chosenMode;
   // The other directions picked, beyond the one to start from.
   const [alsoGoals, setAlsoGoals] = useState<string[]>([]);
   const at = pageIndex(pageId);
@@ -327,6 +333,20 @@ export function OnboardingConcept3() {
 
   switch (pageId) {
     case "welcome":
+      // On web the welcome splits, as Login's does: the wordmark and the line
+      // on a dark panel, the statement and the way in on the sheet.
+      if (viewport === "web")
+        return (
+          <WelcomeSplit
+            quote={GUIDE_C3.welcome.title}
+            title={GUIDE_C3.welcome.quote}
+            description={GUIDE_C3.welcome.lede}
+            headingId={headingId}
+            primaryLabel={GUIDE_C3.welcome.cta}
+            onPrimary={next}
+            centred
+          />
+        );
       return (
         <GuidePage
           cover

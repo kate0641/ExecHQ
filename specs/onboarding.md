@@ -100,6 +100,8 @@ The cover. A large statement on the page surface.
 
 The same wordmark and line open Login, so a returning person and a new one see one product.
 
+**On web the Welcome splits,** as Login's does. A dark panel on the left (40% of the width) carries the **ExecHQ** wordmark and, in italic serif, "Somewhere to work on what comes next." The sheet on the right carries the heading **From "I'd like to be" to "I'm going to be."**, the line "Your private career advisor that doesn't just show you the way — it works for you and with you to get you there.", and **Get started**, centered across and down the sheet. Phone and tablet keep the cover above.
+
 ### 3.2 What ExecHQ is
 
 - Label **What ExecHQ is.** Heading: **Crafting a plan for your career and the work to carry it out.**
@@ -293,9 +295,10 @@ Every page after the Welcome is one **guide page**, in this order: a small label
 
 ### 4.2 The answer drawer
 
+- **On web the drawer is a card** beside the question (section 6), always open, with no handle, peek bar or drawn keyboard. Everything else here describes phone and tablet.
 - **Open** by default when a page arrives. It carries only the answer; the question and its reason stay on the page above, so the two are read together.
-- **Fold.** A handle folds the drawer to a **peek bar** carrying the question and a status ("Tap to answer", "3 picked", "Answered"); the bar brings it back. Both are real buttons, so nothing needs dragging (WCAG 2.2 SC 2.5.7).
-- **The keyboard.** While a text field in the drawer has focus, a drawn phone keyboard sits under it, with its return key labeled with the drawer's button. Pressing the return key, pressing Return on a real keyboard, or pressing the drawer's own button all send the answer, and none of them first closes the keyboard. If drawer and keyboard together are taller than the screen, the drawer scrolls and its buttons stay pinned at its foot.
+- **Fold (phone and tablet).** A handle folds the drawer to a **peek bar** carrying the question and a status ("Tap to answer", "3 picked", "Answered"); the bar brings it back. Both are real buttons, so nothing needs dragging (WCAG 2.2 SC 2.5.7).
+- **The keyboard (phone and tablet).** While a text field in the drawer has focus, a drawn phone keyboard sits under it, with its return key labeled with the drawer's button. Pressing the return key, pressing Return on a real keyboard, or pressing the drawer's own button all send the answer, and none of them first closes the keyboard. If drawer and keyboard together are taller than the screen, the drawer scrolls and its buttons stay pinned at its foot.
 - **One press.** Pressing a button in the drawer never takes focus from the field, so the press always lands.
 
 ### 4.3 The answer pattern
@@ -429,9 +432,12 @@ All colors, type, spacing, radii, borders and shadows are tokens. No color is ha
 | | Phone | Tablet | Web |
 | --- | --- | --- | --- |
 | Production breakpoint | Below 768px | 768px to 1199px | 1200px and up |
-| Arrangement | One column, the width of the screen less 24px each side | One column, centered, at the content measure | One column, centered, at the content measure |
-| Drawer | Pinned under the page, full width | Pinned under the page; its contents keep to the reading width | Same as tablet |
-| Welcome | Statement vertically centered | Same | Same |
+| Arrangement | One column, the width of the screen less 24px each side | **The same as the phone:** one column, centered, at the content measure | Two columns on any page with answers: the question on the left, the answers on the right. Other pages are one column, centered, at the content measure |
+| Answers | A **drawer** pinned under the page, full width | The same drawer, its contents kept to the reading width | A **card** beside the question, at most 64rem (1024px) across both columns, with 24px padding and rounded corners (`--radius-xl`). No sheet, fold handle or peek bar. The card stays in view while the left column scrolls |
+| Drawn keyboard | Under the drawer while a field has focus | Same as the phone | None. A person on a computer uses their own keyboard |
+| Welcome | The cover, vertically centered | Same as the phone | Split: a dark panel and a sheet side by side (3.1) |
+
+**Tablet is the phone layout.** It does not get a layout of its own: the content simply stays at the reading width in the wider frame. Only web changes arrangement, because only web has the room to put the question and its answers side by side.
 
 In the prototype, responsiveness follows the simulated device frame (`data-viewport`), never the browser window. Onboarding opens on the phone frame.
 
@@ -502,7 +508,7 @@ Production must give every control a tappable area of at least 44px, drawn small
 | Nothing is sent. "Email me these steps", "Email it to me" and "Download" confirm what they would do. | They send and download for real. |
 | The LinkedIn file is never read, only named. Reading is a timer. | The file is read and the figures are used for the plan and the drafts. |
 | The first draft, the versions and the replies are written from fixed templates. | They are written for the person (the generation approach is not specified here). |
-| A drawn keyboard appears under the drawer when a field has focus. | The real keyboard. The drawn one is not built. |
+| A drawn keyboard appears under the drawer on the phone and tablet frames when a field has focus. | The real keyboard. The drawn one is not built. On web the prototype draws none. |
 | A step bar above the canvas jumps to any step, filling in sample answers, and a dock switches viewport and color. | Neither exists. People move only forward, or back through **Change.** |
 | Plans, options and replies are the fixed content in Appendices A to C. | Content for more plans and options is a content decision (Open questions). |
 | Two plans' "Why now" data are placeholders. | Every figure is real and sourced before this ships. |
@@ -531,6 +537,7 @@ These are settled. They are the specified behavior. The dates are when they were
 16. **No open responses.** Every answer in onboarding is a choice. The only typing is the account email, an invite code, and refining the story (a role, what the person is responsible for, a result, a name for the bio, and editing the draft). (2026-10-02)
 17. **The invite code is a required choice:** a code, or "I don't have a code." (2026-10-02)
 18. **The story build-out is the Toolbox, and the pages say so.** The draft, add-detail and longer-versions pages are labeled "Toolbox · Positioning Builder," the Toolbox is explained once on the first draft, and Done says "In your Toolbox" on the story steps that are left. Onboarding does not use the Toolbox's own frame or navigation. (2026-10-02)
+19. **Tablet is the phone layout; only web changes.** On web the answers sit in a card beside the question, with no bottom sheet and no drawn keyboard, and the Welcome splits as Login's does. (2026-10-02)
 
 ---
 
