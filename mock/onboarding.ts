@@ -291,6 +291,10 @@ const NEED_TESTS: { need: DirectionNeed; patterns: RegExp[] }[] = [
 
 export function interpretNeed(direction: string): DirectionNeed {
   const text = baseDirection(direction);
+  // An option from the list has its own need, so rewording it can never change
+  // the plan. Only typed words go through the keyword tests.
+  const listed = [...DIRECTION_PROMPTS_C1, ...DIRECTION_MORE_C3].find((option) => option.text === text.trim());
+  if (listed) return listed.need;
   for (const test of NEED_TESTS) {
     if (test.patterns.some((pattern) => pattern.test(text))) return test.need;
   }
