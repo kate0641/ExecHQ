@@ -14,6 +14,8 @@ import { mapRingsStates } from "./homepage/MapRings/MapRings.states";
 import { mapPanelStates } from "./homepage/MapPanel/MapPanel.states";
 import { actionSheetStates } from "./homepage/ActionSheet/ActionSheet.states";
 import { cardCarouselStates } from "./layout/CardCarousel/CardCarousel.states";
+import { stepperStates } from "./form/Stepper/Stepper.states";
+import { baselineFormStates } from "./homepage/BaselineForm/BaselineForm.states";
 import { signalPictureStates } from "./homepage/SignalPicture/SignalPicture.states";
 import { badgeStates } from "./primitives/Badge/Badge.states";
 import { buttonStates } from "./primitives/Button/Button.states";
@@ -155,6 +157,8 @@ export const registry: RegisteredComponent[] = [
   mapRingsStates,
   cardCarouselStates,
   signalPictureStates,
+  stepperStates,
+  baselineFormStates,
   mapPanelStates,
   actionSheetStates,
   briefingCardStates,

@@ -1,7 +1,7 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { BaselineList, type BaselineRow } from "@/components/homepage/BaselineList";
 import { Spark, type SparkProps } from "@/components/homepage/Spark";
-import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 
 export interface SignalPictureProps {
@@ -18,9 +18,9 @@ export interface SignalPictureProps {
   /** The way to the detail on the Plan page. */
   planHref: string;
   planLabel: string;
-  /** Nothing entered yet: what the picture will show and the one way to
-   *  begin. In place of the rows. */
-  empty?: { intro: string; shows: readonly string[]; label: string; onAdd: () => void };
+  /** Nothing entered yet: what stands in place of the rows, the form that asks
+   *  where she is starting from. */
+  empty?: ReactNode;
   headingId: string;
   className?: string;
 }
@@ -31,7 +31,7 @@ export interface SignalPictureProps {
  * It is her own record, entered by hand, so nothing in it is a score or a
  * target. The detail, and the way to add more, is on the Plan page.
  *
- * With nothing entered it says what it would show and offers one way in.
+ * With nothing entered it asks where she is starting from.
  */
 export function SignalPicture({
   name,
@@ -56,17 +56,7 @@ export function SignalPicture({
         {asOf && !empty ? <span className="account-card__asof">{asOf}</span> : null}
       </div>
       {empty ? (
-        <>
-          <p className="account-card__text">{empty.intro}</p>
-          <ul className="account-card__shows">
-            {empty.shows.map((line) => (
-              <li key={line}>{line}</li>
-            ))}
-          </ul>
-          <Button variant="secondary" className="account-card__cta" onClick={empty.onAdd}>
-            {empty.label}
-          </Button>
-        </>
+        empty
       ) : (
         <>
           <BaselineList rows={rows} thenLabel={thenLabel} nowLabel={nowLabel} />

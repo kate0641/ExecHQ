@@ -20,6 +20,8 @@ export type IconName =
   | "person"
   | "menu"
   | "close"
+  | "plus"
+  | "minus"
   | "draft"
   | "sidebar"
   | "globe"
@@ -153,6 +155,8 @@ const PATHS: Record<IconName, React.ReactNode> = {
     </>
   ),
   close: <path d="M5 5l10 10M15 5 5 15" />,
+  plus: <path d="M10 4v12M4 10h12" />,
+  minus: <path d="M4 10h12" />,
   // The pencil with its tip filled in: a draft is open, waiting for you.
   draft: (
     <>

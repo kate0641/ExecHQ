@@ -2,17 +2,19 @@
 
 import { useState } from "react";
 import { AddPresenceSheet } from "@/components/homepage/AddPresenceSheet";
+import { BaselineForm } from "@/components/homepage/BaselineForm";
+import { SignalPicture } from "@/components/homepage/SignalPicture";
 import { PresenceCard } from "@/components/homepage/PresenceCard";
 import { Spark } from "@/components/homepage/Spark";
 import { DestinationStub } from "@/components/layout/DestinationStub";
 import { shortDate } from "@/lib/loop";
 import { useLoop } from "@/lib/loop-store";
 import { conceptHref, getFlow } from "@/lib/manifest";
-import { hasBaseline, presenceCounts, withAdded } from "@/lib/presence";
-import { addPresence, useAddedPresence } from "@/lib/presence-store";
+import { hasBaseline, signalRows, withAdded } from "@/lib/presence";
+import { addPresence, saveBaseline, useAddedPresence, useBaseline } from "@/lib/presence-store";
 import { dismissSpark, useDismissedSparks } from "@/lib/spark-dismissal";
 import { sparksFor } from "@/lib/sparks";
-import { ADD_COPY as ADD, PRESENCE_KINDS, PRESENCE_STUB as PR, SPARK_COPY as SP, ACCOUNTS_COPY as AC } from "@/mock/accounts-stub";
+import { ADD_COPY as ADD, PRESENCE_STUB as PR, SPARK_COPY as SP, ACCOUNTS_COPY as AC } from "@/mock/accounts-stub";
 import { SIGNAL_PICTURE_COPY as SPC } from "@/mock/homepage";
 
 /**
@@ -30,15 +32,16 @@ export function PlanConcept1() {
   const loop = useLoop();
   const stub = getFlow("plan")?.stub;
   const addedPresence = useAddedPresence();
+  const baseline = useBaseline();
   const dismissed = useDismissedSparks();
   const [adding, setAdding] = useState(false);
 
   const items = withAdded(addedPresence);
   const seeded = loop.homeState !== "first-return";
-  const picture = hasBaseline(addedPresence, seeded);
-  const counts = presenceCounts(loop.today, items, seeded);
+  const picture = hasBaseline(baseline, seeded);
+  const rows = signalRows(loop.today, items, baseline, seeded, (item) => `${item.title} · ${item.where} · ${shortDate(item.on)}`);
   const notes = sparksFor(loop.today, loop.account, dismissed, items).filter((n) => n.id.startsWith("presence:"));
-  const added = counts.reduce((sum, p) => sum + (p.now - p.then), 0);
+  const added = items.filter((item) => item.on <= loop.today).length;
 
   return (
     <div className="plan-stub">
@@ -54,34 +57,36 @@ export function PlanConcept1() {
           dismissName={SP.dismissNote}
           onDismiss={(id) => dismissSpark(id)}
         />
-        <PresenceCard
-          name={SPC.heading}
-          mark={PR.mark}
-          asOf={PR.asOf(shortDate(loop.account.plan.startedOn))}
-          thenLabel={AC.then}
-          nowLabel={AC.now}
-          rows={counts.map((p) => ({
-            id: p.kind,
-            label: PRESENCE_KINDS[p.kind].label,
-            then: p.then,
-            now: p.now,
-            latest: p.latest ? `${p.latest.title} · ${p.latest.where} · ${shortDate(p.latest.on)}` : undefined,
-            latestHref: p.latest?.link,
-          }))}
-          summary={PR.summary(added)}
-          onAdd={() => setAdding(true)}
-          addLabel={picture ? ADD.open : SPC.empty.label}
-          tryThis={picture ? { ...PR.tryThis, href: conceptHref("toolbox-flow", "concept-1") } : undefined}
-          tryLabel={AC.tryThis}
-          headingId="plan-signals-card"
-        />
+        {picture ? (
+          <PresenceCard
+            name={SPC.heading}
+            mark={PR.mark}
+            asOf={PR.asOf(shortDate(loop.account.plan.startedOn))}
+            thenLabel={AC.then}
+            nowLabel={AC.now}
+            rows={rows}
+            summary={PR.summary(added)}
+            onAdd={() => setAdding(true)}
+            addLabel={ADD.open}
+            tryThis={{ ...PR.tryThis, href: conceptHref("toolbox-flow", "concept-1") }}
+            tryLabel={AC.tryThis}
+            headingId="plan-signals-card"
+          />
+        ) : (
+          <SignalPicture
+            name={SPC.heading}
+            planHref={conceptHref("plan", "concept-1")}
+            planLabel={SPC.planLabel}
+            empty={<BaselineForm onSave={saveBaseline} />}
+            headingId="plan-signals-card"
+          />
+        )}
       </section>
       <AddPresenceSheet
         open={adding}
-        baseline={!picture}
         onClose={() => setAdding(false)}
         onAdd={(entry) => {
-          addPresence({ ...entry, on: loop.today, baseline: !picture });
+          addPresence({ ...entry, on: loop.today });
           setAdding(false);
         }}
       />

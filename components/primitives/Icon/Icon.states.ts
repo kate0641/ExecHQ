@@ -27,6 +27,8 @@ export const iconStates = defineComponentStates({
       props: { name: "hub" },
     },
     { label: "Chevron", props: { name: "chevron" } },
+    { label: "Plus", props: { name: "plus" } },
+    { label: "Minus", props: { name: "minus" } },
     {
       label: "Contrast",
       description: "The colour switch in the dock: half the disc filled.",

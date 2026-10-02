@@ -1,6 +1,9 @@
 import { addDays } from "@/lib/loop";
 import {
+  LINKEDIN_ROW_LABEL,
+  LINKEDIN_STUB,
   PRESENCE_BASELINE,
+  PRESENCE_KINDS,
   PRESENCE_ITEMS,
   PRESENCE_ORDER,
   type PresenceItem,
@@ -26,41 +29,90 @@ export function addedBy(today: string, items: readonly PresenceItem[] = PRESENCE
   return items.filter((item) => item.on <= today);
 }
 
+/** Where she said she is starting from, in her own words: counts of what she
+ *  has already done, and her LinkedIn followers if she typed them. */
+export interface Baseline {
+  counts: Record<PresenceKind, number>;
+  followers?: number;
+}
+
 /**
  * The baseline and today's count for every kind, in card order. What she
- * marked as already having when she began counts toward where she started.
- * `seeded` is false on the first return, when nobody has entered a baseline
- * yet and the prototype's own starting counts would be made up.
+ * saved as her starting point is where she started; without one, the
+ * prototype's own starting counts stand in, except on the first return, when
+ * `seeded` is false and nobody has entered anything yet.
  */
 export function presenceCounts(
   today: string,
   items: readonly PresenceItem[] = PRESENCE_ITEMS,
+  baseline: Baseline | null = null,
   seeded = true
 ): PresenceCount[] {
   const added = addedBy(today, items);
   return PRESENCE_ORDER.map((kind) => {
     const ofKind = added.filter((item) => item.kind === kind);
-    const then = (seeded ? PRESENCE_BASELINE[kind] : 0) + ofKind.filter((item) => item.baseline).length;
-    return {
-      kind,
-      then,
-      now: then + ofKind.filter((item) => !item.baseline).length,
-      latest: ofKind.filter((item) => !item.baseline).at(-1),
-    };
+    const then = baseline ? baseline.counts[kind] : seeded ? PRESENCE_BASELINE[kind] : 0;
+    return { kind, then, now: then + ofKind.length, latest: ofKind[ofKind.length - 1] };
   });
 }
 
-/** Whether she has a baseline to show: the starting counts, or something she
- *  entered herself. */
-export function hasBaseline(items: readonly PresenceItem[], seeded: boolean): boolean {
-  return seeded || items.some((item) => item.baseline);
+/** Whether she has a starting point to show: one she saved, or the
+ *  prototype's own. */
+export function hasBaseline(baseline: Baseline | null, seeded: boolean): boolean {
+  return seeded || baseline !== null;
+}
+
+/** One row of the Signal Picture: where she started beside where she is. */
+export interface SignalRow {
+  id: string;
+  label: string;
+  then: number | string;
+  now: number | string;
+  latest?: string;
+  latestHref?: string;
+}
+
+/**
+ * Every row of her Signal Picture: LinkedIn followers first, when she gave
+ * a number, or in the prototype's own record; then what she has done. The
+ * followers are typed by hand, never read from LinkedIn, so they stay as
+ * she said until she says otherwise.
+ */
+export function signalRows(
+  today: string,
+  items: readonly PresenceItem[],
+  baseline: Baseline | null,
+  seeded: boolean,
+  describe: (item: PresenceItem) => string
+): SignalRow[] {
+  const rows: SignalRow[] = [];
+  if (baseline ? baseline.followers !== undefined : seeded) {
+    const typed = baseline?.followers;
+    rows.push({
+      id: "linkedin",
+      label: LINKEDIN_ROW_LABEL,
+      then: typed !== undefined ? typed.toLocaleString("en-US") : LINKEDIN_STUB.baseline.then,
+      now: typed !== undefined ? typed.toLocaleString("en-US") : LINKEDIN_STUB.baseline.now,
+    });
+  }
+  for (const p of presenceCounts(today, items, baseline, seeded)) {
+    rows.push({
+      id: p.kind,
+      label: PRESENCE_KINDS[p.kind].label,
+      then: p.then,
+      now: p.now,
+      latest: p.latest ? describe(p.latest) : undefined,
+      latestHref: p.latest?.link,
+    });
+  }
+  return rows;
 }
 
 /** Anything added within the last week, newest first. */
 export function recentlyAdded(today: string, items: readonly PresenceItem[] = PRESENCE_ITEMS): PresenceItem[] {
   const since = addDays(today, -6);
   return addedBy(today, items)
-    .filter((item) => item.on >= since && !item.baseline)
+    .filter((item) => item.on >= since)
     .reverse();
 }
 

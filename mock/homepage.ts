@@ -396,11 +396,4 @@ export const SIGNAL_PICTURE_COPY = {
   /** Over the one thing to try. It is a suggestion, so it does not link on. */
   nextLabel: "A next step",
   planLabel: "See the detail in your Plan",
-  added: "Added to where you started.",
-  /** Nothing entered yet: what it will show, and the one way to begin. */
-  empty: {
-    intro: "This is where you see what you have put out there, from where you started to where you are now. To begin, add what you already have.",
-    shows: ["A podcast you have been on", "A mention in the press", "A talk you have given", "Somewhere you publish, like a newsletter or a blog"],
-    label: "Add what you already have",
-  },
 } as const;
