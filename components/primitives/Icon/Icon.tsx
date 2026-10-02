@@ -466,10 +466,12 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <path d="M10 6.1v.01" strokeWidth="2.3" />
     </>
   ),
+  // A softly rounded peak; the dot matches the info i's.
   warning: (
     <>
-      <path d="M10 3.2l7.3 12.6a1 1 0 0 1-.9 1.5H3.6a1 1 0 0 1-.9-1.5z" />
-      <path d="M10 8v4M10 14.6v.01" />
+      <path d="M9.25 4.5Q10 3.2 10.75 4.5l6.55 11.3a1 1 0 0 1-.9 1.5H3.6a1 1 0 0 1-.9-1.5z" />
+      <path d="M10 8v4" />
+      <path d="M10 14.6v.01" strokeWidth="2.3" />
     </>
   ),
   error: (
@@ -484,10 +486,13 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <path d="M6.8 10.3l2.2 2.2 4.3-4.6" />
     </>
   ),
+  // The question mark stops a little short, leaving a clear gap above its
+  // dot, which matches the info i's.
   help: (
     <>
       <circle cx="10" cy="10" r="7.5" />
-      <path d="M7.8 7.9a2.3 2.3 0 0 1 4.4.9c0 1.5-2.2 2-2.2 3.3M10 14.4v.01" />
+      <path d="M7.8 7.9a2.3 2.3 0 0 1 4.4.9c0 1.4-2.2 1.8-2.2 2.8" />
+      <path d="M10 14.4v.01" strokeWidth="2.3" />
     </>
   ),
   unlock: (
