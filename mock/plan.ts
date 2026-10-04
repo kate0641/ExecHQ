@@ -28,7 +28,14 @@ export interface RoadmapStep {
   outcomes: string[];
   /** Not shown in onboarding's version of this plan. */
   added?: boolean;
+  /** The suggested pace, in weeks. A suggestion that moves as she does, never
+   *  a deadline (decided 2026-10-04, replacing 2026-09-29's "no end date"). */
+  weeks: number;
 }
+
+/** Every stage is four weeks until the plans say otherwise. "Get ready for a
+ *  big moment" really runs to the date of the moment, which is open. */
+export const STAGE_WEEKS = 4;
 
 const ADDED_STAGES: Record<string, { at: number; stage: RoadmapStep }> = {
   "leadership-scope": {
@@ -38,6 +45,7 @@ const ADDED_STAGES: Record<string, { at: number; stage: RoadmapStep }> = {
       milestone: "You’ve asked for the broader role, with your record behind you.",
       outcomes: ["A documented case for broader scope", "The ask, made to the person who decides"],
       added: true,
+      weeks: STAGE_WEEKS,
     },
   },
   "executive-presence": {
@@ -47,6 +55,7 @@ const ADDED_STAGES: Record<string, { at: number; stage: RoadmapStep }> = {
       milestone: "You have a rhythm you can keep up, and you know which rooms keep inviting you.",
       outcomes: ["A rhythm for publishing and speaking that fits your week", "A short list of what is working"],
       added: true,
+      weeks: STAGE_WEEKS,
     },
   },
   "inflection-point": {
@@ -56,6 +65,7 @@ const ADDED_STAGES: Record<string, { at: number; stage: RoadmapStep }> = {
       milestone: "You’ve said the hard parts out loud to someone who will push back.",
       outcomes: ["The two or three conversations that matter, practised", "Answers to the questions you least want"],
       added: true,
+      weeks: STAGE_WEEKS,
     },
   },
   "current-org": {
@@ -65,6 +75,7 @@ const ADDED_STAGES: Record<string, { at: number; stage: RoadmapStep }> = {
       milestone: "You’ve put two openings in front of leadership, in terms they care about.",
       outcomes: ["Two internal opportunities, written as the business sees them"],
       added: true,
+      weeks: STAGE_WEEKS,
     },
   },
   explore: {
@@ -74,6 +85,7 @@ const ADDED_STAGES: Record<string, { at: number; stage: RoadmapStep }> = {
       milestone: "You can say in a minute why your next direction follows from what you’ve done.",
       outcomes: ["A short story of where you’re headed that holds up with strangers"],
       added: true,
+      weeks: STAGE_WEEKS,
     },
   },
 };
@@ -85,6 +97,7 @@ export function roadmapFor(planId: string): RoadmapStep[] {
     title: s.title,
     milestone: s.done ?? "",
     outcomes: s.outcomes,
+    weeks: STAGE_WEEKS,
   }));
   const extra = ADDED_STAGES[planId];
   if (extra) base.splice(extra.at, 0, extra.stage);
@@ -655,3 +668,40 @@ export const NARRATIVE_COPY = {
   openStep: "Open this step",
   none: "No next move yet. Your plan offers one when it fits.",
 } as const;
+
+/* -----------------------------------------------------------------------------
+   THE DIRECTION, AND HER OWN CALENDAR (Concept 1 tweak, 2026-10-04)
+   Her direction is hers to change at any time, and changing it never changes
+   her plan on its own. Her calendar holds what she adds herself, by hand: V1
+   has no connections, so nothing syncs from Google or Outlook.
+   -------------------------------------------------------------------------- */
+
+export const DIRECTION_COPY = {
+  heading: "Your direction",
+  fromOnboarding: "In your words, from when you started. You can change it any time.",
+  edited: "Edited by you.",
+  editLabel: "Edit",
+  fieldLabel: "Where are you headed?",
+  fieldHint: "In your own words. Change it whenever it changes.",
+  save: "Save",
+  cancel: "Cancel",
+  saved: "Saved. Your plan stays as it is.",
+  mayChange: "If this points somewhere new, you can change your plan from the roadmap.",
+  errorEmpty: "Say a little about where you’re headed.",
+} as const;
+
+/** Something she put on her own calendar. Plan steps are separate: they come
+ *  from the plan and carry their own dates. */
+export interface CalendarItem {
+  id: string;
+  title: string;
+  /** The day, as YYYY-MM-DD. */
+  date: string;
+  note?: string;
+}
+
+/** What her calendar holds before she changes it: two things she told us about. */
+export const CALENDAR_SEED: CalendarItem[] = [
+  { id: "seed-1", title: "Growth Summit panel", date: "2026-10-29", note: "Panel: planning for growth" },
+  { id: "seed-2", title: "Leadership forum talk proposal due", date: "2026-11-13" },
+];

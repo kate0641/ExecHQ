@@ -26,6 +26,8 @@ export interface RoadmapChoices {
   /** She said "Not yet" while her work pointed at this stage. */
   snoozedAt: number | null;
   history: PlanChange[];
+  /** The day she finished each stage she has finished, so the windows after it move. */
+  finishedOn?: Record<number, LoopDate>;
 }
 
 export interface PlanRoadmapProps {
@@ -134,6 +136,7 @@ export function PlanRoadmap({
       startedOn: today,
       confirmed: 0,
       snoozedAt: null,
+      finishedOn: {},
     });
     setOpen(new Set());
     setSwitching(false);
@@ -236,7 +239,7 @@ export function PlanRoadmap({
                       variant="primary"
                       size="sm"
                       onClick={() => {
-                        update({ confirmed: suggest });
+                        update({ confirmed: suggest, finishedOn: { ...kept.finishedOn, [current]: today } });
                         requestAnimationFrame(() => document.getElementById(`${uid}-head-${suggest}`)?.focus());
                       }}
                     >

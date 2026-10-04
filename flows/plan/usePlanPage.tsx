@@ -5,6 +5,7 @@ import { BaselineForm } from "@/components/homepage/BaselineForm";
 import { PresenceCard } from "@/components/homepage/PresenceCard";
 import { SignalPicture } from "@/components/homepage/SignalPicture";
 import { Spark } from "@/components/homepage/Spark";
+import { DirectionCard } from "@/components/plan/DirectionCard";
 import { ActionSteps } from "@/components/plan/ActionSteps";
 import { PlanNarrative } from "@/components/plan/PlanNarrative";
 import { PlanRoadmap } from "@/components/plan/PlanRoadmap";
@@ -131,7 +132,7 @@ export function usePlanPage() {
       planId={planId}
       startedOn={choices?.startedOn ?? loop.account.plan.startedOn}
       today={loop.today}
-      rationale={recommendPlan(loop.account.direction).rationale ?? ""}
+      rationale={recommendPlan(start.account.direction).rationale ?? ""}
       evidenceStage={currentStageIndex(loop.records, roadmapFor(loop.account.plan.id).length, ACTIONS, loop.tasks)}
       startStage={currentStageIndex(start.records, roadmapFor(loop.account.plan.id).length, ACTIONS, start.tasks)}
       choices={choices}
@@ -140,6 +141,17 @@ export function usePlanPage() {
     >
       {opts.children}
     </PlanRoadmap>
+  );
+
+  // Her direction is hers to change at any time. It never changes her plan, and the plan's
+  // reason stays the one she was given, so the hand-written "toward" line is cleared.
+  const direction = (
+    <DirectionCard
+      key={`direction-${loop.id}`}
+      direction={loop.account.direction}
+      edited={loop.account.direction !== start.account.direction}
+      onSave={(text) => loopActions.updateAccount({ direction: text, towardShort: undefined })}
+    />
   );
 
   const note = switchedTo ? <p className="plan-stub__note">{RM.stepsStub}</p> : null;
@@ -236,5 +248,5 @@ export function usePlanPage() {
     />
   );
 
-  return { steps, roadmap, note, narrative: narrativeNode, momentum, picture, started, sheet };
+  return { direction, steps, roadmap, note, narrative: narrativeNode, momentum, picture, started, sheet };
 }

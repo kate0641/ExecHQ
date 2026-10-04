@@ -18,6 +18,7 @@ export function PlanConcept1() {
       concept="c1"
       main={
         <>
+          {p.direction}
           {p.steps}
           {p.narrative}
         </>
