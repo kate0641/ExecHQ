@@ -31,6 +31,7 @@ import {
   type DeclineReason,
 } from "@/mock/plan";
 import type { Horizon } from "@/mock/plan-stub";
+import { NEXT_STEP_AFTER } from "@/mock/snapshots";
 
 /** A decline for wrong timing comes back once after this many days. */
 export const WRONG_TIMING_RETURNS_AFTER_DAYS = 14;
@@ -289,4 +290,41 @@ function refill(state: PlanState, gone: ActionStep, reason: DeclineReason | unde
     state: offer(state, pick, true),
     replacement: { step: pick, heard, offerRecord: reason === "already-done" ? true : undefined },
   };
+}
+
+/* -----------------------------------------------------------------------------
+   THE LOOP
+   -------------------------------------------------------------------------- */
+
+export interface Arrival {
+  /** The step that was done. */
+  from: ActionStep;
+  replacement: Replacement;
+}
+
+/**
+ * Brings the Plan in line with the Loop. A step that is done (its artifact
+ * reached used, sent or published, or she said she did it) leaves the Plan and
+ * the next one is offered at once. When the outcome has just been recorded,
+ * the next one is the one the hand-off names, tied to what she reported.
+ */
+export function reconcile(
+  state: PlanState,
+  isDone: (step: ActionStep) => boolean,
+  answered?: { recordId: string; reported?: string },
+): { state: PlanState; arrivals: Arrival[] } {
+  let current = state;
+  const arrivals: Arrival[] = [];
+  for (const step of liveSteps(state)) {
+    if (!isDone(step) || !current.shown.includes(step.id)) continue;
+    const handsOffTo =
+      answered && step.artifactId === answered.recordId ? NEXT_STEP_AFTER[answered.recordId]?.id : undefined;
+    const move =
+      handsOffTo && stepById(handsOffTo)
+        ? handOff(current, step.id, handsOffTo, answered?.reported)
+        : complete(current, step.id);
+    current = move.state;
+    if (move.replacement) arrivals.push({ from: step, replacement: move.replacement });
+  }
+  return { state: current, arrivals };
 }

@@ -316,3 +316,62 @@ export const PLAN_COPY = {
     "limit-reached": "That’s enough changes for one visit. Your plan will offer another next time.",
   },
 } as const;
+
+/* -----------------------------------------------------------------------------
+   COPY FOR THE ACTION STEPS
+   Plain words, no guilt. Declining never asks "Are you sure?"; the reason is
+   optional and one tap. Nothing here scores, ranks or praises.
+   -------------------------------------------------------------------------- */
+
+export const KIND_LABELS: Record<StepKind, string> = {
+  artifact: "Write something",
+  context: "Add to what ExecHQ knows",
+  opportunity: "Prepare for a moment",
+  reading: "Read",
+};
+
+export const TIMING_OPTIONS = ["This week", "Next week", "This month", "Later"] as const;
+export const SCOPE_OPTIONS = { "as-is": "As planned", lighter: "A lighter version" } as const;
+
+export const STEP_COPY = {
+  heading: "Your next steps",
+  /** Said plainly, a count of real places, never progress toward a number. */
+  inUse: (n: number, max: number) => `${n} of ${max} places in use`,
+  horizonInUse: (n: number, max: number) => `${n} of ${max}`,
+  horizonLabels: { short: "Short-term", medium: "Medium-term", long: "Long-term milestone" } as Record<Horizon, string>,
+  roomFree: "A place is free. Your plan offers the next step when one fits.",
+  accept: "Accept",
+  start: (tool?: string) => (tool ? `Start in ${tool}` : "Start"),
+  stubbedStart: "Opens in a later sprint",
+  stubbedNote: "Stubbed · Sprint 4",
+  markDone: "I’ve done this",
+  change: "Change this step",
+  later: "Do it later",
+  decline: "Not for me",
+  edit: "Change timing or scope",
+  moves: "Moves",
+  effort: "Effort",
+  doneWhen: "Done when",
+  offered: "Offered",
+  accepted: "Accepted",
+  edited: (timing?: string, lighter?: boolean) =>
+    [timing, lighter ? "Lighter version" : undefined].filter(Boolean).join(" · "),
+  declinePrompt: "Say why, if you like. One tap.",
+  declineNoReason: "Not for me, no reason",
+  deferPrompt: "Bring it back on",
+  deferConfirm: "Do it later",
+  timing: "When",
+  scope: "How much",
+  save: "Save",
+  cancel: "Cancel",
+  recordIt: "Add it to your record",
+  keepWorkload: "Keep what I have",
+  keepWorkloadHint: "Nothing new is offered until you turn this off.",
+  announce: {
+    declined: (title: string) => `Declined: ${title}.`,
+    deferred: (title: string) => `Deferred: ${title}.`,
+    completed: (title: string) => `Done: ${title}.`,
+    replacedBy: (title: string) => `Now offered: ${title}.`,
+    nothingNew: "Nothing new offered.",
+  },
+} as const;

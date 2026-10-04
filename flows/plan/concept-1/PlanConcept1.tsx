@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ActionSteps } from "@/components/plan/ActionSteps";
 import { AddPresenceSheet } from "@/components/homepage/AddPresenceSheet";
 import { BaselineForm } from "@/components/homepage/BaselineForm";
 import { SignalPicture } from "@/components/homepage/SignalPicture";
@@ -8,7 +9,8 @@ import { PresenceCard } from "@/components/homepage/PresenceCard";
 import { Spark } from "@/components/homepage/Spark";
 import { DestinationStub } from "@/components/layout/DestinationStub";
 import { shortDate } from "@/lib/loop";
-import { useLoop } from "@/lib/loop-store";
+import { isDone as isActionDone } from "@/lib/rings";
+import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref, getFlow } from "@/lib/manifest";
 import { hasBaseline, signalRows, withAdded } from "@/lib/presence";
 import { addPresence, saveBaseline, useAddedPresence, useBaseline } from "@/lib/presence-store";
@@ -46,6 +48,18 @@ export function PlanConcept1() {
   return (
     <div className="plan-stub">
       {stub ? <DestinationStub heading={stub.heading} body={stub.body} sprint={3} /> : null}
+      <ActionSteps
+        key={loop.id}
+        today={loop.today}
+        startHref={conceptHref("toolbox-flow", "concept-1")}
+        isDone={(step) => isActionDone(step, loop.records, loop.tasks)}
+        answered={
+          loop.justAnswered
+            ? { recordId: loop.justAnswered, reported: loop.records.find((r) => r.id === loop.justAnswered)?.outcome?.detail }
+            : undefined
+        }
+        onComplete={(step) => loopActions.completeTask(step.id)}
+      />
       <section className="plan-stub__signals" aria-labelledby="plan-signals-heading">
         <h2 className="u-visually-hidden" id="plan-signals-heading">
           Your signals
