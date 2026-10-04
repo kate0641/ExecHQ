@@ -12436,3 +12436,380 @@ fieldset.step-card__panel {
   margin: 0;
   border: 0;
 }
+
+/* -----------------------------------------------------------------------------
+   ROADMAP (Plan, Sprint 3)
+   Stages are an order, never a schedule or a ladder: no lock, no level, no bar.
+   Position is carried by the words ("You are here", "Done") and the order.
+   -------------------------------------------------------------------------- */
+.roadmap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.roadmap__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2xs) var(--space-md);
+}
+
+.roadmap__heading,
+.templates__heading {
+  margin: 0;
+  font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.roadmap__plan,
+.roadmap__why,
+.roadmap__after {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+.roadmap__plan b {
+  color: var(--color-text-primary);
+}
+
+.roadmap__why span,
+.roadmap__after span,
+.roadmap__label {
+  font-weight: var(--weight-semibold);
+}
+
+ol.roadmap__stages {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: var(--border-thin);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-raised);
+}
+
+.roadmap__stage {
+  border-top: var(--border-subtle);
+}
+
+.roadmap__stage:first-child {
+  border-top: 0;
+}
+
+.roadmap__stage.is-current {
+  background-color: var(--color-surface-feature);
+}
+
+.roadmap__stage:first-child.is-current {
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.roadmap__stage:last-child.is-current {
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+.roadmap__stage:only-child.is-current {
+  border-radius: var(--radius-lg);
+}
+
+.roadmap__toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  border: 0;
+  background: none;
+  color: var(--color-text-primary);
+  font: inherit;
+  text-align: start;
+}
+
+button.roadmap__toggle {
+  cursor: pointer;
+}
+
+button.roadmap__toggle:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.roadmap__toggle:focus-visible,
+.roadmap__toggle.is-focus {
+  outline: var(--focus-ring);
+  outline-offset: calc(var(--focus-ring-offset) * -1);
+}
+
+.roadmap__toggle.is-hover {
+  background-color: var(--color-surface-hover);
+}
+
+.roadmap__n {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.roadmap__name {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.is-current .roadmap__name {
+  font-size: var(--text-lg);
+}
+
+.roadmap__chip {
+  padding: var(--space-3xs) var(--space-xs);
+  border: var(--border-width-medium) solid var(--color-text-primary);
+  border-radius: var(--radius-tag);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+}
+
+.roadmap__done {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.roadmap__body[hidden] {
+  display: none;
+}
+
+.roadmap__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+  padding: 0 var(--space-md) var(--space-md);
+}
+
+.roadmap__label {
+  margin: var(--space-2xs) 0 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.roadmap__milestone {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+ul.roadmap__outcomes,
+ul.roadmap__carry {
+  margin: 0;
+  padding-inline-start: var(--space-md);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+.roadmap__advance {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: 0 var(--space-md) var(--space-md);
+  padding: var(--space-sm);
+  border: var(--border-width-medium) solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-raised);
+}
+
+.roadmap__advance-title {
+  margin: 0;
+  font-weight: var(--weight-semibold);
+}
+
+.roadmap__advance-body {
+  margin: 0;
+  font-size: var(--text-sm);
+}
+
+.roadmap__advance-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.roadmap__history-title {
+  margin: 0 0 var(--space-2xs);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.roadmap__history ul {
+  margin: 0;
+  padding-inline-start: var(--space-md);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.roadmap__foot {
+  display: flex;
+}
+
+.roadmap__switch {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.roadmap__switch-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+}
+
+.roadmap__switch-intro {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+ul.roadmap__plans {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.roadmap__plan-option {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  width: 100%;
+  padding: var(--space-sm);
+  border: var(--border-thin);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-raised);
+  color: var(--color-text-primary);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.roadmap__plan-option:hover:not(:disabled) {
+  background-color: var(--color-surface-hover);
+}
+
+.roadmap__plan-option:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.roadmap__plan-option:disabled {
+  cursor: default;
+  background-color: var(--color-surface-disabled);
+  color: var(--color-text-secondary);
+}
+
+.roadmap__plan-name {
+  font-weight: var(--weight-semibold);
+}
+
+.roadmap__plan-for,
+.roadmap__plan-current {
+  font-size: var(--text-sm);
+}
+
+.roadmap__plan-current {
+  font-weight: var(--weight-semibold);
+}
+
+/* The all-plans reference */
+.templates {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.templates__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.templates__plan {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-md);
+  border: var(--border-thin);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+}
+
+.templates__name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+}
+
+.templates__formal,
+.templates__for,
+.templates__milestone {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+ol.templates__stages {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.templates__stage-name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+  margin: 0;
+  font-weight: var(--weight-semibold);
+}
+
+.templates__milestone b {
+  color: var(--color-text-primary);
+}
+
+ul.templates__outcomes {
+  margin: var(--space-2xs) 0 0;
+  padding-inline-start: var(--space-md);
+  font-size: var(--text-sm);
+}
+
+[data-viewport="web"] .templates__list,
+[data-viewport="tablet"] .templates__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  align-items: start;
+}
+
+.plan-stub__note {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}

@@ -124,17 +124,19 @@ export interface ActionStep extends LandscapeAction {
   done: string;
   /** The Plan area it moves: the signal's id in `mock/plan-stub.ts`. */
   area: string;
+  /** What its Start button says, when "Start" would be wrong. */
+  startLabel?: string;
   /** The Toolbox tool it opens, where there is one. */
   toolboxTool?: string;
   /** Needs a later sprint to be real. */
   stubbed?: boolean;
 }
 
-type Meta = Pick<ActionStep, "kind" | "effort" | "effortText" | "done"> & Partial<Pick<ActionStep, "channel" | "toolboxTool">>;
+type Meta = Pick<ActionStep, "kind" | "effort" | "effortText" | "done"> & Partial<Pick<ActionStep, "channel" | "toolboxTool" | "startLabel">>;
 
 /** What the Sprint 2 stub does not say about its actions. */
 const META: Record<string, Meta> = {
-  "use-story": { kind: "opportunity", effort: 1, effortText: "A conversation, plus five minutes to say how it went", done: "You’ve used your story in the 1:1." },
+  "use-story": { kind: "opportunity", effort: 1, effortText: "A conversation, plus five minutes to say how it went", done: "You’ve used your story in the 1:1, and said so.", startLabel: "Open your story" },
   "brief-manager": { kind: "artifact", effort: 2, effortText: "About an hour", done: "Your brief is marked used or sent.", toolboxTool: "Situation Brief" },
   "add-wins": { kind: "context", effort: 1, effortText: "About five minutes", done: "Three accomplishments are on your Signal Background." },
   "q1-review": { kind: "artifact", effort: 2, effortText: "An hour or two", done: "Your pitch is marked sent.", toolboxTool: "Pitch Builder" },
@@ -150,6 +152,24 @@ const META: Record<string, Meta> = {
 /** Steps the Sprint 2 stub does not have. They exist so that a decline has
  *  somewhere to go, and so a channel can be avoided. */
 const NEW_STEPS: ActionStep[] = [
+  {
+    id: "bio",
+    title: "Write your bio",
+    horizon: "short",
+    status: "suggested",
+    whyThis: "It’s what goes ahead of you: to a recruiter, an event, a new boss.",
+    whyNow: "Your story is written, so the bio is the same words, shorter.",
+    whyYou: "You want to be seen as a leader, not only an operator.",
+    whyLine: "Your story is written, and your bio is what goes ahead of you to a recruiter, an event or a new boss.",
+    signalId: "seen-as-leader",
+    area: "seen-as-leader",
+    stage: 0,
+    kind: "artifact",
+    effort: 1,
+    effortText: "About 20 minutes",
+    done: "Your bio is marked used or published.",
+    toolboxTool: "Positioning Builder",
+  },
   {
     id: "stakeholder-map",
     title: "Build a stakeholder message map for the workstream",
@@ -259,6 +279,7 @@ export const ACTION_QUEUE: ActionStep[] = [
   ...ACTIONS.filter((a) => a.status === "accepted").map(withMeta),
   withMeta(ACTIONS.find((a) => a.id === "add-wins")!),
   withMeta(NEW_ACTIONS.find((a) => a.id === "ask-manager-scope")!),
+  NEW_STEPS.find((a) => a.id === "bio")!,
   NEW_STEPS.find((a) => a.id === "stakeholder-map")!,
   NEW_STEPS.find((a) => a.id === "linkedin-post")!,
   withMeta(NEW_ACTIONS.find((a) => a.id === "share-result-up")!),
@@ -269,6 +290,22 @@ export const ACTION_QUEUE: ActionStep[] = [
   NEW_STEPS.find((a) => a.id === "pitch-podcast")!,
   NEW_STEPS.find((a) => a.id === "speaking-proposal")!,
   withMeta(NEW_ACTIONS.find((a) => a.id === "name-successor")!),
+];
+
+/** The Loop's next-step ids (`NEXT_STEP_AFTER` in `mock/snapshots.ts`) where a
+ *  step here has another id. */
+export const HANDOFF_STEP: Record<string, string> = { "review-sponsor": "sponsor-conversation" };
+
+/**
+ * What an outcome she reports points to, read from her words. A stand-in for
+ * the model: the first rule that matches wins. The brief's test case is Maya
+ * reporting that her manager asked her to lead a cross-functional workstream,
+ * which must offer the stakeholder message map. With no match, the Loop's own
+ * next step for that artifact applies (`NEXT_STEP_AFTER`).
+ */
+export const HANDOFF_RULES: { says: RegExp; stepId: string }[] = [
+  { says: /\b(workstream|cross-functional|lead the)\b/i, stepId: "stakeholder-map" },
+  { says: /\b(sponsor|review)\b/i, stepId: "sponsor-conversation" },
 ];
 
 export const stepById = (id: string): ActionStep | undefined => ACTION_QUEUE.find((s) => s.id === id);
@@ -374,4 +411,50 @@ export const STEP_COPY = {
     replacedBy: (title: string) => `Now offered: ${title}.`,
     nothingNew: "Nothing new offered.",
   },
+} as const;
+
+/* -----------------------------------------------------------------------------
+   COPY FOR THE ROADMAP
+   Stages describe work, not achievement: no "unlocked", no "level", no "complete
+   3 more to advance". A stage advances only when she says so.
+   -------------------------------------------------------------------------- */
+
+export const ROADMAP_COPY = {
+  heading: "Your roadmap",
+  whyThis: "Why this plan",
+  stageOf: (n: number, total: number) => `Stage ${n} of ${total}`,
+  here: "You are here",
+  done: "Done",
+  finishing: "Finishing looks like",
+  outcomes: "By the end you’ll have",
+  seeAll: (n: number) => `See all ${n} stages`,
+  seeLess: "Show less",
+  /** Not in onboarding's version of the plan, so a reviewer can find it. */
+  addedNote: "Not shown in onboarding yet",
+  advance: {
+    title: "You’ve done what this stage asks.",
+    body: (next: string) => `The next stage is “${next}”. Move on when you’re ready.`,
+    move: (next: string) => `Move to ${next}`,
+    notYet: "Not yet",
+  },
+  after: "After the last stage",
+  changePlan: "Change plan",
+  switchTitle: "Change your plan",
+  switchIntro: "Pick the plan that fits where you are now.",
+  current: "Your current plan",
+  carriesOver: [
+    "Everything you’ve made, every Loop record and everything on your Signal Picture stays.",
+    "Your next steps are chosen again for the new plan.",
+    "Your current plan stays in your history.",
+  ],
+  switchTo: (name: string) => `Switch to ${name}`,
+  back: "Back",
+  close: "Close",
+  earlier: "Earlier plans",
+  earlierLine: (name: string, from: string, to: string, stage: string) =>
+    `${name} · ${from} to ${to} · left at ${stage}`,
+  switchedOn: (date: string) => `You chose this plan on ${date}.`,
+  customPlan: "Want something that fits none of these? Building your own plan is designed in Sprint 1.",
+  /** Only Step up has next steps written in the prototype. */
+  stepsStub: "Stubbed · next steps for this plan are written in Sprint 4. Maya’s steps are for Step up.",
 } as const;

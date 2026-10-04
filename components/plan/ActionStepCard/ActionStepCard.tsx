@@ -98,7 +98,8 @@ export function ActionStepCard({
   const Heading = `h${headingLevel}` as "h3" | "h4";
   const titleId = `${uid}-title`;
   const area = signalById(step.area)?.name;
-  const hasDraft = step.kind === "artifact";
+  // Done by the Loop when it has a draft; on her word when it has none.
+  const hasDraft = step.kind === "artifact" || Boolean(step.artifactId);
   const stateClass = demoState ? `is-${demoState}` : undefined;
 
   // Opening a panel puts the keyboard inside it.
@@ -182,7 +183,7 @@ export function ActionStepCard({
             </Button>
           ) : hasDraft || step.toolboxTool ? (
             <Link href={startHref} className={["btn btn--primary btn--md", stateClass].filter(Boolean).join(" ")}>
-              {C.start(step.toolboxTool)}
+              {step.startLabel ?? C.start(step.toolboxTool)}
               <Icon name="chevron" size={16} />
             </Link>
           ) : null

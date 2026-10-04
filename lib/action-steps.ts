@@ -26,6 +26,8 @@ import {
   LIVE_LIMITS,
   PLAN_COPY,
   CHANNELS,
+  HANDOFF_RULES,
+  HANDOFF_STEP,
   stepById,
   type ActionStep,
   type DeclineReason,
@@ -317,8 +319,10 @@ export function reconcile(
   const arrivals: Arrival[] = [];
   for (const step of liveSteps(state)) {
     if (!isDone(step) || !current.shown.includes(step.id)) continue;
-    const handsOffTo =
-      answered && step.artifactId === answered.recordId ? NEXT_STEP_AFTER[answered.recordId]?.id : undefined;
+    const mine = answered && step.artifactId === answered.recordId;
+    const byWords = mine ? HANDOFF_RULES.find((r) => answered.reported && r.says.test(answered.reported))?.stepId : undefined;
+    const named = mine ? NEXT_STEP_AFTER[answered.recordId]?.id : undefined;
+    const handsOffTo = byWords ?? (named ? (HANDOFF_STEP[named] ?? named) : undefined);
     const move =
       handsOffTo && stepById(handsOffTo)
         ? handOff(current, step.id, handsOffTo, answered?.reported)

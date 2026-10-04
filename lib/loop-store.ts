@@ -45,6 +45,7 @@ import {
   type SnapshotId,
   type SnapshotState,
 } from "@/mock/snapshots";
+import { resetRoadmap, useRoadmapChanged } from "@/lib/plan-store";
 import { homeStateOf, type HomeStateId } from "@/mock/homepage";
 
 const STORAGE_KEY = "exechq.loop";
@@ -188,6 +189,7 @@ export function resetLoop(): void {
   reopenBriefing();
   reopenSparks();
   resetPresence();
+  resetRoadmap();
 }
 
 /** The next step offered once this record's outcome is logged. Stubbed. */
@@ -287,6 +289,7 @@ export function useLoop(): LoopView {
   const sparksDismissed = useDismissedSparks().length > 0;
   const presenceAdded = useAddedPresence().length > 0;
   const baselineSaved = useBaseline() !== null;
+  const roadmapChanged = useRoadmapChanged();
   return useMemo(() => {
     const snapshot = currentSnapshot(state);
     const followUp = nextFollowUp(snapshot.records, snapshot.today);
@@ -297,7 +300,7 @@ export function useLoop(): LoopView {
       lastWorkedOn: lastWorkedOn(snapshot.records),
       nextStep: snapshot.recommendations[0],
       changed: state.changes[state.snapshot] !== undefined,
-      anyChanged: Object.keys(state.changes).length > 0 || briefingClosed || sparksDismissed || presenceAdded || baselineSaved,
+      anyChanged: Object.keys(state.changes).length > 0 || briefingClosed || sparksDismissed || presenceAdded || baselineSaved || roadmapChanged,
     };
-  }, [state, briefingClosed, sparksDismissed, presenceAdded, baselineSaved]);
+  }, [state, briefingClosed, sparksDismissed, presenceAdded, baselineSaved, roadmapChanged]);
 }

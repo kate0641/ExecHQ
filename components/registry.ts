@@ -103,6 +103,8 @@ import { signInEmailStates } from "./login/SignInEmail/SignInEmail.states";
 import { accountPickerStates } from "./login/AccountPicker/AccountPicker.states";
 import { actionStepCardStates } from "./plan/ActionStepCard/ActionStepCard.states";
 import { actionStepsStates } from "./plan/ActionSteps/ActionSteps.states";
+import { planRoadmapStates } from "./plan/PlanRoadmap/PlanRoadmap.states";
+import { templateRoadmapsStates } from "./plan/TemplateRoadmaps/TemplateRoadmaps.states";
 
 export const registry: RegisteredComponent[] = [
   badgeStates,
@@ -199,6 +201,8 @@ export const registry: RegisteredComponent[] = [
   accountPickerStates,
   actionStepCardStates,
   actionStepsStates,
+  planRoadmapStates,
+  templateRoadmapsStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */
