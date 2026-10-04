@@ -41,10 +41,29 @@ export function stageWindows(input: {
     const start = index === 0 ? startedOn : addDays(out[index - 1].end, 1);
     const planned = addDays(start, stage.weeks * 7 - 1);
     const finished = finishedOn[index];
-    // A stage she finished ends the day she said so, and never before it began.
-    const end = finished ? (finished < start ? start : finished) : planned;
+    // A stage she finished ends the day she said so, and never before it began. A stage
+    // she is already past, with no day recorded, ends no later than today, so the windows
+    // after it begin where she is and not weeks ahead of her.
+    const end = finished
+      ? finished < start
+        ? start
+        : finished
+      : index < current
+        ? planned < today
+          ? planned
+          : today < start
+            ? start
+            : today
+        : planned;
+    // A stage she said she finished is done, even while it is still the one she is in.
     const status: StageStatus =
-      index < current ? "done" : index === current ? "current" : index === recommended ? "recommended" : "later";
+      finished !== undefined || index < current
+        ? "done"
+        : index === current
+          ? "current"
+          : index === recommended
+            ? "recommended"
+            : "later";
     out.push({
       index,
       title: stage.title,

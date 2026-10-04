@@ -1,11 +1,12 @@
 "use client";
 
 import { useId, useState, type ReactNode } from "react";
-import { Sheet } from "@/components/layout/Sheet";
+import { PlanSwitchSheet } from "@/components/plan/PlanSwitchSheet";
 import { Badge } from "@/components/primitives/Badge";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import { shortDate, type LoopDate } from "@/lib/loop";
+import { switchPlan } from "@/lib/roadmap-choices";
 import { PLAN_TEMPLATES } from "@/mock/onboarding";
 import { ROADMAP_COPY as C, roadmapFor } from "@/mock/plan";
 
@@ -28,6 +29,10 @@ export interface RoadmapChoices {
   history: PlanChange[];
   /** The day she finished each stage she has finished, so the windows after it move. */
   finishedOn?: Record<number, LoopDate>;
+  /** The stage recommended next, waiting for her to start it. */
+  recommended?: number | null;
+  /** She said "Not yet" to the recommendation. The stage stays marked as next. */
+  nextDismissed?: boolean;
 }
 
 export interface PlanRoadmapProps {
@@ -110,7 +115,6 @@ export function PlanRoadmap({
   const [showAll, setShowAll] = useState(!compact || demoOpen === "all");
   const [open, setOpen] = useState<Set<number>>(new Set());
   const [switching, setSwitching] = useState(demoOpen === "switch" || demoOpen === "confirm");
-  const [picked, setPicked] = useState<string | null>(demoOpen === "confirm" ? "executive-presence" : null);
 
   const template = PLAN_TEMPLATES.find((p) => p.id === planId);
   const stages = roadmapFor(planId);
@@ -130,17 +134,9 @@ export function PlanRoadmap({
     });
 
   function switchTo(id: string) {
-    update({
-      history: [...history, { planId, startedOn, endedOn: today, atStage: current }],
-      planId: id,
-      startedOn: today,
-      confirmed: 0,
-      snoozedAt: null,
-      finishedOn: {},
-    });
+    update(switchPlan(kept, id, today, current));
     setOpen(new Set());
     setSwitching(false);
-    setPicked(null);
     onChangePlan?.(id);
   }
 
@@ -293,57 +289,14 @@ export function PlanRoadmap({
         </Button>
       </div>
 
-      <Sheet open={switching} onClose={() => { setSwitching(false); setPicked(null); }} label={C.switchTitle} inline={demoOpen !== undefined}>
-        <div className="roadmap__switch">
-          <h2 className="roadmap__switch-title">{C.switchTitle}</h2>
-          {picked === null ? (
-            <>
-              <p className="roadmap__switch-intro">{C.switchIntro}</p>
-              <ul className="roadmap__plans">
-                {PLAN_TEMPLATES.map((p) => (
-                  <li key={p.id}>
-                    <button
-                      type="button"
-                      className="roadmap__plan-option"
-                      disabled={p.id === planId}
-                      onClick={() => setPicked(p.id)}
-                    >
-                      <span className="roadmap__plan-name">{p.name}</span>
-                      <span className="roadmap__plan-for">{p.bestFor}</span>
-                      {p.id === planId ? <span className="roadmap__plan-current">{C.current}</span> : null}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-              <p className="roadmap__switch-intro">{C.customPlan}</p>
-            </>
-          ) : (
-            <>
-              <p className="roadmap__switch-intro">
-                <b>{PLAN_TEMPLATES.find((p) => p.id === picked)?.name}</b>
-              </p>
-              <ul className="roadmap__carry">
-                {C.carriesOver.map((line) => (
-                  <li key={line}>{line}</li>
-                ))}
-              </ul>
-              <div className="roadmap__advance-actions">
-                <Button variant="primary" onClick={() => switchTo(picked)}>
-                  {C.switchTo(PLAN_TEMPLATES.find((p) => p.id === picked)?.name ?? "")}
-                </Button>
-                <Button variant="ghost" onClick={() => setPicked(null)}>
-                  {C.back}
-                </Button>
-              </div>
-            </>
-          )}
-          {picked === null ? (
-            <Button variant="ghost" onClick={() => setSwitching(false)}>
-              {C.close}
-            </Button>
-          ) : null}
-        </div>
-      </Sheet>
+      <PlanSwitchSheet
+        open={switching}
+        onClose={() => setSwitching(false)}
+        currentPlanId={planId}
+        onSwitch={switchTo}
+        inline={demoOpen !== undefined}
+        demoPicked={demoOpen === "confirm" ? "executive-presence" : undefined}
+      />
     </section>
   );
 }

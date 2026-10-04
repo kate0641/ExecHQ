@@ -9,6 +9,7 @@ import { DirectionCard } from "@/components/plan/DirectionCard";
 import { ActionSteps } from "@/components/plan/ActionSteps";
 import { PlanNarrative } from "@/components/plan/PlanNarrative";
 import { PlanRoadmap } from "@/components/plan/PlanRoadmap";
+import { RoadmapAgenda } from "@/components/plan/RoadmapAgenda";
 import { PlanSignalPicture } from "@/components/plan/PlanSignalPicture";
 import { SignalEntrySheet, type EntryValues } from "@/components/plan/SignalEntrySheet";
 import { initialPlanState, liveSteps } from "@/lib/action-steps";
@@ -17,7 +18,7 @@ import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { momentumEvents } from "@/lib/momentum";
 import { buildNarrative } from "@/lib/narrative";
-import { saveRoadmap, saveSteps, useRoadmapChoices, useSavedSteps } from "@/lib/plan-store";
+import { saveRoadmap, saveSteps, useCalendar, useRoadmapChoices, useSavedSteps } from "@/lib/plan-store";
 import { hasBaseline, signalRows, withAdded } from "@/lib/presence";
 import { addPresence, removePresence, saveBaseline, updatePresence, useAddedPresence, useBaseline } from "@/lib/presence-store";
 import { currentStageIndex, isDone as isActionDone } from "@/lib/rings";
@@ -154,6 +155,23 @@ export function usePlanPage() {
     />
   );
 
+  // The roadmap as an Agenda (Concept 1): the same choices as the roadmap, laid out by stage.
+  const calendar = useCalendar(loop.id);
+  const agenda = (
+    <RoadmapAgenda
+      key={`agenda-${loop.id}`}
+      planId={planId}
+      startedOn={choices?.startedOn ?? loop.account.plan.startedOn}
+      today={loop.today}
+      rationale={recommendPlan(start.account.direction).rationale ?? ""}
+      evidenceStage={currentStageIndex(loop.records, roadmapFor(loop.account.plan.id).length, ACTIONS, loop.tasks)}
+      startStage={currentStageIndex(start.records, roadmapFor(loop.account.plan.id).length, ACTIONS, start.tasks)}
+      choices={choices}
+      onChoices={(next) => saveRoadmap(loop.id, next)}
+      items={calendar}
+    />
+  );
+
   const note = switchedTo ? <p className="plan-stub__note">{RM.stepsStub}</p> : null;
 
   const narrativeNode = <PlanNarrative key={`narrative-${loop.id}`} narrative={narrative} onOpenStep={openStep} />;
@@ -248,5 +266,5 @@ export function usePlanPage() {
     />
   );
 
-  return { direction, steps, roadmap, note, narrative: narrativeNode, momentum, picture, started, sheet };
+  return { direction, steps, roadmap, agenda, note, narrative: narrativeNode, momentum, picture, started, sheet };
 }

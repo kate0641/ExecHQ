@@ -705,3 +705,38 @@ export const CALENDAR_SEED: CalendarItem[] = [
   { id: "seed-1", title: "Growth Summit panel", date: "2026-10-29", note: "Panel: planning for growth" },
   { id: "seed-2", title: "Leadership forum talk proposal due", date: "2026-11-13" },
 ];
+
+/* -----------------------------------------------------------------------------
+   THE ROADMAP AS AN AGENDA (Concept 1)
+   Stages stacked as cards, each with its period, what finishing looks like and
+   what she has on her calendar inside it. Periods are a suggested pace: they
+   move as she does and are never a deadline.
+   -------------------------------------------------------------------------- */
+
+export const AGENDA_COPY = {
+  summary: (stages: number, weeks: number, from: string, to: string) =>
+    `${stages} stages · about ${weeks} weeks · ${from} to ${to}`,
+  pace: "A suggested pace, not a deadline. The windows move as you do. When you finish a stage, we recommend the next one.",
+  stageOf: (n: number, total: number) => `Stage ${n} of ${total}`,
+  about: (weeks: number) => `about ${weeks} week${weeks === 1 ? "" : "s"}`,
+  states: { current: "You are here", done: "Done", recommended: "Recommended next" },
+  finishing: "Finishing looks like",
+  outcomes: "By the end you’ll have",
+  nothingYet: "Nothing on your calendar in this stage yet.",
+  finish: "I’ve finished this stage",
+  thenNext: (n: number, name: string) => `Then we’ll recommend Stage ${n}, ${name}.`,
+  thenAfter: "Then we’ll plan the next stretch with you, from what worked and what didn’t.",
+  suggestTitle: "You’ve done what this stage asks.",
+  suggestBody: "Mark it finished and we’ll recommend the next stage. Or keep going.",
+  markFinished: "Mark stage finished",
+  notYet: "Not yet",
+  pastPace: "You’re past the suggested pace for this stage. That’s fine. Finish it when you’re ready.",
+  recommendedTitle: (n: number, name: string) => `Stage ${n}: ${name}`,
+  recommendedBody: (period: string, weeks: number) => `Suggested ${period} · about ${weeks} weeks.`,
+  start: "Start this stage",
+  allDone: "That’s every stage.",
+  allDoneBody: "ExecHQ plans the next stretch with you, from what worked and what didn’t.",
+  outside: "Outside the stage windows",
+  yours: "Yours",
+  step: "Step from your plan",
+} as const;

@@ -4,9 +4,9 @@ import { PlanPage } from "../PlanPage";
 import { usePlanPage } from "../usePlanPage";
 
 /**
- * Plan, Concept 1 — Steps forward. The next steps lead: the five live steps by
- * horizon, then what changed. Momentum, the roadmap (current stage, the rest
- * one step away) and the Signal Picture sit beside them on web.
+ * Plan, Concept 1 — Steps forward. The direction and the next steps lead, then what
+ * changed. Momentum, the roadmap as an Agenda (the stage she is in open, the rest
+ * one tap away) and the Signal Picture sit beside them on web.
  *
  * For the person who opens the Plan to act. The roadmap is context, not the
  * way in.
@@ -26,7 +26,7 @@ export function PlanConcept1() {
       side={
         <>
           {p.momentum}
-          {p.roadmap({ compact: true })}
+          {p.agenda}
           {p.note}
           {p.picture}
           {p.started}
