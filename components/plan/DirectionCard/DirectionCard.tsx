@@ -144,9 +144,9 @@ export function DirectionCard({
             <output className="direction__note">
               <b>{C.saved}</b> {C.mayChange}
             </output>
-          ) : (
-            <p className="direction__note">{edited ? C.edited : C.fromOnboarding}</p>
-          )}
+          ) : edited ? (
+            <p className="direction__note">{C.edited}</p>
+          ) : null}
         </>
       )}
     </section>

@@ -683,7 +683,6 @@ export const NARRATIVE_COPY = {
 
 export const DIRECTION_COPY = {
   heading: "Your direction",
-  fromOnboarding: "In your words, from when you started. You can change it any time.",
   edited: "Edited by you.",
   editLabel: "Edit",
   fieldLabel: "Where are you headed?",
