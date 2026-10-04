@@ -53,10 +53,15 @@ export interface ActionStepCardProps {
   /** She says she has done it. Only for a step with no draft. */
   onComplete: () => void;
   onRecord?: () => void;
+  /** The compact card, for the swiping row: the outcome, the area, when and how much effort, and why now
+   *  on the card, with why this, why you, what counts as done and what it opens behind Details. */
+  compact?: boolean;
   /** Heading level, so the card sits right in the page outline. */
   headingLevel?: 3 | 4;
   /** Catalogue only: opens with this panel showing. */
   demoPanel?: StepPanel;
+  /** Catalogue only: the compact card opens with its details showing. */
+  demoDetails?: boolean;
   /** Catalogue only: shows the primary button in a state props cannot reach. */
   demoState?: "hover" | "focus" | "active";
   id?: string;
@@ -91,14 +96,17 @@ export function ActionStepCard({
   onEdit,
   onComplete,
   onRecord,
+  compact = false,
   headingLevel = 3,
   demoPanel,
+  demoDetails,
   demoState,
   id,
   className,
 }: ActionStepCardProps) {
   const uid = useId();
   const [more, setMore] = useState(Boolean(demoPanel));
+  const [details, setDetails] = useState(Boolean(demoDetails));
   const [panel, setPanel] = useState<StepPanel | null>(demoPanel ?? null);
   const panelRef = useRef<HTMLFieldSetElement>(null);
   const Heading = `h${headingLevel}` as "h3" | "h4";
@@ -118,6 +126,215 @@ export function ActionStepCard({
   const [date, setDate] = useState(addDays(today, 7));
 
   const edited = C.edited(undefined, edit?.scope === "lighter");
+
+  const moreBlock = (
+      <div className="step-card__more" id={`${uid}-more`} hidden={!more}>
+        {panel === null ? (
+          <div className="step-card__menu">
+            <Button variant="secondary" size="sm" onClick={() => setPanel("defer")}>
+              {C.later}
+            </Button>
+            <Button variant="secondary" size="sm" onClick={() => setPanel("edit")}>
+              {C.edit}
+            </Button>
+            <Button variant="secondary" size="sm" onClick={() => setPanel("decline")}>
+              {C.decline}
+            </Button>
+          </div>
+        ) : null}
+
+        {panel === "decline" ? (
+          <fieldset className="step-card__panel" ref={panelRef}>
+            <legend className="u-visually-hidden">{C.decline}</legend>
+            <p className="step-card__prompt">{C.declinePrompt}</p>
+            <div className="step-card__reasons">
+              {DECLINE_REASONS.map((reason) => (
+                <Button key={reason.id} variant="secondary" size="sm" onClick={() => onDecline(reason.id)}>
+                  {reason.label}
+                </Button>
+              ))}
+            </div>
+            <Button variant="ghost" size="sm" onClick={() => onDecline(undefined)}>
+              {C.declineNoReason}
+            </Button>
+            <Button variant="ghost" size="sm" onClick={() => setPanel(null)}>
+              {C.cancel}
+            </Button>
+          </fieldset>
+        ) : null}
+
+        {panel === "defer" ? (
+          <fieldset className="step-card__panel" ref={panelRef}>
+            <legend className="u-visually-hidden">{C.later}</legend>
+            <Input
+              label={C.deferPrompt}
+              type="date"
+              min={addDays(today, 1)}
+              value={date}
+              onChange={(event) => setDate(event.target.value)}
+            />
+            <div className="step-card__panel-actions">
+              <Button variant="primary" size="sm" disabled={date <= today} onClick={() => onDefer(date)}>
+                {C.deferConfirm}
+              </Button>
+              <Button variant="ghost" size="sm" onClick={() => setPanel(null)}>
+                {C.cancel}
+              </Button>
+            </div>
+          </fieldset>
+        ) : null}
+
+        {panel === "edit" ? (
+          <fieldset className="step-card__panel" ref={panelRef}>
+            <legend className="u-visually-hidden">{C.edit}</legend>
+            <Input
+              label={C.timing}
+              type="date"
+              min={today}
+              value={moveTo}
+              onChange={(event) => setMoveTo(event.target.value)}
+              hint={C.dateHint}
+            />
+            <ChipGroup
+              label={C.scope}
+              options={Object.values(SCOPE_OPTIONS)}
+              value={scope}
+              onChange={setScope}
+            />
+            <div className="step-card__panel-actions">
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={() => {
+                  onEdit({
+                    date: moveTo && moveTo >= today ? moveTo : undefined,
+                    scope: scope[0] === SCOPE_OPTIONS.lighter ? "lighter" : "as-is",
+                  });
+                  setPanel(null);
+                  setMore(false);
+                }}
+              >
+                {C.save}
+              </Button>
+              <Button variant="ghost" size="sm" onClick={() => setPanel(null)}>
+                {C.cancel}
+              </Button>
+            </div>
+          </fieldset>
+        ) : null}
+      </div>
+  );
+
+  const startButton = accepted ? (
+    step.stubbed ? (
+      <Button variant="primary" size="sm" disabled className={stateClass}>
+        {C.stubbedStart}
+      </Button>
+    ) : hasDraft || step.toolboxTool ? (
+      <Link href={startHref} className={["btn btn--primary btn--sm", stateClass].filter(Boolean).join(" ")}>
+        {step.startLabel ?? C.start(step.toolboxTool)}
+        <Icon name="chevron" size={16} />
+      </Link>
+    ) : (
+      <Button variant="primary" size="sm" onClick={onComplete} className={stateClass}>
+        {C.markDone}
+      </Button>
+    )
+  ) : (
+    <Button variant="primary" size="sm" onClick={onAccept} className={stateClass}>
+      {C.accept}
+    </Button>
+  );
+
+  if (compact) {
+    return (
+      <article
+        id={id}
+        className={["step-card", "step-card--compact", `step-card--${step.horizon}`, className].filter(Boolean).join(" ")}
+        aria-labelledby={titleId}
+      >
+        {heard ? (
+          <p className="step-card__heard">
+            <Icon name="check" size={14} />
+            <span>{heard}</span>
+          </p>
+        ) : null}
+        <div className="step-card__tags">
+          <span className={`step-card__hz step-card__hz--${step.horizon}`}>{C.horizonLabels[step.horizon]}</span>
+          {step.stubbed ? <Badge tone="sprint">{C.stubbedNote}</Badge> : null}
+          <span className="step-card__state">{accepted ? C.accepted : C.offered}</span>
+        </div>
+        <Heading className="step-card__title" id={titleId} tabIndex={-1}>
+          {step.title}
+        </Heading>
+        <p className="step-card__line">
+          <b>{C.youllHave}</b> {step.outcome}
+        </p>
+        {area ? (
+          <p className="step-card__line">
+            <b>{C.moves}</b> {area}
+          </p>
+        ) : null}
+        {onDate ? (
+          <p className="step-card__when">
+            <Icon name="calendar" size={14} />
+            <span>
+              {suggested ? C.whenSuggested(dayLabel(onDate)) : C.whenOn(dayLabel(onDate))} · {step.effortText}
+            </span>
+          </p>
+        ) : null}
+        <p className="step-card__line">
+          <b>{C.whyNowLabel}</b> {step.whyNow}
+        </p>
+        {edited ? <p className="step-card__edited">{edited}</p> : null}
+        {offerRecord && onRecord ? (
+          <Button variant="secondary" size="sm" onClick={onRecord}>
+            {C.recordIt}
+          </Button>
+        ) : null}
+        {details ? (
+          <dl className="step-card__panel step-card__details">
+            <div className="step-card__row">
+              <dt>Why this</dt>
+              <dd>{step.whyThis}</dd>
+            </div>
+            <div className="step-card__row">
+              <dt>Why you</dt>
+              <dd>{step.whyYou}</dd>
+            </div>
+            <div className="step-card__row">
+              <dt>{C.doneWhen}</dt>
+              <dd>{step.done}</dd>
+            </div>
+            <div className="step-card__row">
+              <dt>{C.opensIn}</dt>
+              <dd>{step.toolboxTool ? C.opensInTool(step.toolboxTool) : C.opensInNothing}</dd>
+            </div>
+          </dl>
+        ) : null}
+        <div className="step-card__actions">
+          {startButton}
+          <Button variant="secondary" size="sm" aria-expanded={details} onClick={() => setDetails((open) => !open)}>
+            {details ? C.hideDetails : C.details}
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            aria-expanded={more}
+            aria-controls={`${uid}-more`}
+            onClick={() => {
+              setMore((open) => !open);
+              if (more) setPanel(null);
+            }}
+          >
+            {C.change}
+            <Icon name={more ? "chevron-up" : "chevron-down"} size={16} />
+          </Button>
+        </div>
+        {moreBlock}
+      </article>
+    );
+  }
 
   return (
     <article
@@ -220,101 +437,7 @@ export function ActionStepCard({
         </Button>
       </div>
 
-      <div className="step-card__more" id={`${uid}-more`} hidden={!more}>
-        {panel === null ? (
-          <div className="step-card__menu">
-            <Button variant="secondary" size="sm" onClick={() => setPanel("defer")}>
-              {C.later}
-            </Button>
-            <Button variant="secondary" size="sm" onClick={() => setPanel("edit")}>
-              {C.edit}
-            </Button>
-            <Button variant="secondary" size="sm" onClick={() => setPanel("decline")}>
-              {C.decline}
-            </Button>
-          </div>
-        ) : null}
-
-        {panel === "decline" ? (
-          <fieldset className="step-card__panel" ref={panelRef}>
-            <legend className="u-visually-hidden">{C.decline}</legend>
-            <p className="step-card__prompt">{C.declinePrompt}</p>
-            <div className="step-card__reasons">
-              {DECLINE_REASONS.map((reason) => (
-                <Button key={reason.id} variant="secondary" size="sm" onClick={() => onDecline(reason.id)}>
-                  {reason.label}
-                </Button>
-              ))}
-            </div>
-            <Button variant="ghost" size="sm" onClick={() => onDecline(undefined)}>
-              {C.declineNoReason}
-            </Button>
-            <Button variant="ghost" size="sm" onClick={() => setPanel(null)}>
-              {C.cancel}
-            </Button>
-          </fieldset>
-        ) : null}
-
-        {panel === "defer" ? (
-          <fieldset className="step-card__panel" ref={panelRef}>
-            <legend className="u-visually-hidden">{C.later}</legend>
-            <Input
-              label={C.deferPrompt}
-              type="date"
-              min={addDays(today, 1)}
-              value={date}
-              onChange={(event) => setDate(event.target.value)}
-            />
-            <div className="step-card__panel-actions">
-              <Button variant="primary" size="sm" disabled={date <= today} onClick={() => onDefer(date)}>
-                {C.deferConfirm}
-              </Button>
-              <Button variant="ghost" size="sm" onClick={() => setPanel(null)}>
-                {C.cancel}
-              </Button>
-            </div>
-          </fieldset>
-        ) : null}
-
-        {panel === "edit" ? (
-          <fieldset className="step-card__panel" ref={panelRef}>
-            <legend className="u-visually-hidden">{C.edit}</legend>
-            <Input
-              label={C.timing}
-              type="date"
-              min={today}
-              value={moveTo}
-              onChange={(event) => setMoveTo(event.target.value)}
-              hint={C.dateHint}
-            />
-            <ChipGroup
-              label={C.scope}
-              options={Object.values(SCOPE_OPTIONS)}
-              value={scope}
-              onChange={setScope}
-            />
-            <div className="step-card__panel-actions">
-              <Button
-                variant="primary"
-                size="sm"
-                onClick={() => {
-                  onEdit({
-                    date: moveTo && moveTo >= today ? moveTo : undefined,
-                    scope: scope[0] === SCOPE_OPTIONS.lighter ? "lighter" : "as-is",
-                  });
-                  setPanel(null);
-                  setMore(false);
-                }}
-              >
-                {C.save}
-              </Button>
-              <Button variant="ghost" size="sm" onClick={() => setPanel(null)}>
-                {C.cancel}
-              </Button>
-            </div>
-          </fieldset>
-        ) : null}
-      </div>
+      {moreBlock}
     </article>
   );
 }

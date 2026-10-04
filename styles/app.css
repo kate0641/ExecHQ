@@ -14005,3 +14005,138 @@ ul.pcal__items {
   background-color: transparent;
   border: var(--border-width-medium) solid var(--color-text-primary);
 }
+
+/* The compact step card, for the swiping row (Concept 1). */
+.step-card--compact {
+  height: 100%;
+}
+
+.step-card__hz {
+  display: inline-block;
+  padding: var(--space-3xs) var(--space-xs);
+  border-radius: var(--radius-tag);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.step-card__hz--short { background-color: var(--color-horizon-short); }
+.step-card__hz--medium { background-color: var(--color-horizon-medium); }
+.step-card__hz--long { background-color: var(--color-horizon-long); }
+
+.step-card__line {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+.step-card__line b {
+  margin-inline-end: var(--space-2xs);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.step-card--compact .step-card__when {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+}
+
+dl.step-card__details {
+  gap: var(--space-xs);
+  margin: 0;
+}
+
+.step-card--compact .step-card__actions {
+  margin-top: auto;
+}
+
+/* The swiping row: a fixed card width where there is room, and the horizon marks between the dots. */
+.card-carousel--fixed {
+  container-type: inline-size;
+}
+
+@container (min-width: 36rem) {
+  .card-carousel--fixed .card-carousel__slide {
+    flex-basis: 21rem;
+  }
+
+  .card-carousel--fixed .card-carousel__slide:only-child {
+    flex-basis: 21rem;
+  }
+}
+
+.card-carousel__dots b {
+  width: var(--border-width-thin);
+  height: 0.75rem;
+  margin-inline: var(--space-3xs);
+  background-color: var(--color-border-strong);
+}
+
+.steps-free {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-2xs);
+  min-height: 10rem;
+  padding: var(--space-md);
+  border: var(--border-width-thin) dashed var(--color-border-strong);
+  border-radius: var(--radius-card);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+.steps-free b {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  color: var(--color-text-primary);
+}
+
+.steps-free:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.steps__jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.steps__jump button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  min-height: 2.125rem;
+  padding: var(--space-3xs) var(--space-sm);
+  border: var(--border-thin);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-raised);
+  color: var(--color-text-primary);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  cursor: pointer;
+}
+
+.steps__jump button[aria-current="true"] {
+  border-color: var(--color-text-primary);
+  background-color: var(--color-surface-feature);
+}
+
+.steps__jump button:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.steps__jump small {
+  font-weight: var(--weight-regular);
+  color: var(--color-text-secondary);
+}

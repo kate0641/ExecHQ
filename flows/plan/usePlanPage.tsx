@@ -120,9 +120,10 @@ export function usePlanPage() {
     accepted: (step) => stepState.decisions[step.id]?.decision === "accepted",
   });
 
-  const steps = (
+  const stepsFor = (layout: "list" | "carousel") => (
     <ActionSteps
-      key={`steps-${stepsKey}`}
+      key={`steps-${layout}-${stepsKey}`}
+      layout={layout}
       today={loop.today}
       initial={switchedTo ? { ...initialPlanState(loop.today), shown: [], decisions: {} } : undefined}
       startHref={conceptHref("toolbox-flow", "concept-1")}
@@ -137,6 +138,9 @@ export function usePlanPage() {
       onState={(state) => setLiveState((prev) => (prev?.key === stepsKey && prev.state === state ? prev : { key: stepsKey, state }))}
     />
   );
+
+  const steps = stepsFor("list");
+  const stepsCarousel = stepsFor("carousel");
 
   const roadmap = (opts: { compact?: boolean; children?: ReactNode } = {}) => (
     <PlanRoadmap
@@ -354,7 +358,7 @@ export function usePlanPage() {
     />
   );
 
-  return { direction, directionCompass, steps, roadmap, agenda, calendar, roadmapPair, note, narrative: narrativeNode, momentum, picture, started, sheet: (
+  return { direction, directionCompass, steps, stepsCarousel, roadmap, agenda, calendar, roadmapPair, note, narrative: narrativeNode, momentum, picture, started, sheet: (
       <>
         {sheet}
         {calendarSheet}

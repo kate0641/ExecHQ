@@ -56,6 +56,15 @@ export const actionStepsStates = defineComponentStates({
       props: { today, startHref, initial: declinedPodcast },
     },
     {
+      label: "Swiping row — five in one row, in order",
+      description: "Concept 1: compact cards in a swipe-or-step row, short-term to long-term, with chips that jump to a horizon and the free place at the end.",
+      props: { today, startHref, initial: start, layout: "carousel", headingId: "as-row" },
+    },
+    {
+      label: "Swiping row — empty, a place is free",
+      props: { today, startHref, initial: justOne, layout: "carousel", demoEmpty: { medium: "nothing-suitable" }, headingId: "as-row-empty" },
+    },
+    {
       label: "Kept her current workload",
       props: { today, startHref, initial: keepWorkload(start) },
     },

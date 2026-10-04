@@ -17,7 +17,7 @@ export function PlanConcept1() {
     <PlanPage
       concept="c1"
       lead={p.direction}
-      main={p.steps}
+      main={p.stepsCarousel}
       wide={p.roadmapPair}
       side={
         <>

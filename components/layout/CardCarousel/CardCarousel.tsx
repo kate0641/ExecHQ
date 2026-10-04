@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { Fragment, useEffect, useRef, useState, type ReactNode } from "react";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 
@@ -8,6 +8,8 @@ export interface CarouselItem {
   /** Stable, so a card keeps its place and state while others change. */
   id: string;
   node: ReactNode;
+  /** Cards in the same group sit together: a mark in the dots shows where one group ends. */
+  group?: string;
 }
 
 export interface CardCarouselProps {
@@ -18,6 +20,12 @@ export interface CardCarouselProps {
   nextLabel?: string;
   /** Read out and shown between the buttons: "2 of 3". */
   position?: (current: number, total: number) => string;
+  /** Where to take the track, by card id. A new `n` takes it there again, even to the same card. */
+  goTo?: { id: string; n: number };
+  /** Told which card the track has settled on. */
+  onCurrent?: (id: string, index: number) => void;
+  /** A fixed card width where there is room, in place of most of the row. */
+  fixed?: boolean;
   className?: string;
 }
 
@@ -37,6 +45,9 @@ export function CardCarousel({
   previousLabel = "Previous",
   nextLabel = "Next",
   position = (current, total) => `${current} of ${total}`,
+  goTo,
+  onCurrent,
+  fixed = false,
   className,
 }: CardCarouselProps) {
   const track = useRef<HTMLUListElement>(null);
@@ -50,6 +61,18 @@ export function CardCarousel({
     track.current?.scrollTo({ left: 0 });
   }, [firstId]);
 
+  // Taken to a card by someone else, such as a horizon she picked.
+  const wanted = goTo?.n;
+  useEffect(() => {
+    if (!goTo) return;
+    const el = track.current;
+    const index = items.findIndex((item) => item.id === goTo.id);
+    const slide = el?.children[index] as HTMLElement | undefined;
+    if (el && slide) el.scrollTo({ left: slide.offsetLeft - el.offsetLeft });
+    // Only a new request moves the track.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [wanted]);
+
   if (total === 0) return null;
 
   /** The card whose left edge is nearest the track's. */
@@ -62,6 +85,7 @@ export function CardCarousel({
       0
     );
     setCurrent(nearest);
+    if (nearest !== current) onCurrent?.(items[nearest]?.id ?? "", nearest);
   }
 
   function go(to: number) {
@@ -72,7 +96,7 @@ export function CardCarousel({
   }
 
   return (
-    <section className={["card-carousel", className].filter(Boolean).join(" ")} aria-roledescription="carousel" aria-label={label}>
+    <section className={["card-carousel", fixed ? "card-carousel--fixed" : null, className].filter(Boolean).join(" ")} aria-roledescription="carousel" aria-label={label}>
       <ul className="card-carousel__track" ref={track} onScroll={settle}>
         {items.map((item, i) => (
           <li key={item.id} className="card-carousel__slide" aria-roledescription="slide" aria-label={position(i + 1, total)}>
@@ -88,7 +112,10 @@ export function CardCarousel({
           <span className="card-carousel__position" aria-live="polite">
             <span className="card-carousel__dots" aria-hidden="true">
               {items.map((item, i) => (
-                <i key={item.id} className={i === current ? "is-now" : undefined} />
+                <Fragment key={item.id}>
+                  {i > 0 && item.group !== undefined && items[i - 1].group !== item.group ? <b /> : null}
+                  <i className={i === current ? "is-now" : undefined} />
+                </Fragment>
               ))}
             </span>
             {position(current + 1, total)}

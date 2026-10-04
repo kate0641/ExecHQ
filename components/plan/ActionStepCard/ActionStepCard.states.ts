@@ -81,6 +81,32 @@ export const actionStepCardStates = defineComponentStates({
       props: { ...base, step: brief, date: "2026-10-27", demoPanel: "edit", edit: { scope: "lighter" } },
     },
     {
+      label: "Compact — for the swiping row, offered",
+      description: "The outcome, the plan area, the day and effort, and why now on the card. Why this, why you, what counts as done and what it opens are behind Details.",
+      props: { ...base, step: ask, accepted: false, compact: true, date: "2026-10-23", suggested: true },
+    },
+    {
+      label: "Compact — accepted, starts in its Toolbox workflow",
+      props: { ...base, step: brief, compact: true, date: "2026-10-22" },
+    },
+    {
+      label: "Compact — details open",
+      props: { ...base, step: brief, compact: true, date: "2026-10-22", demoDetails: true },
+    },
+    {
+      label: "Compact — a step with no workflow: she says it’s done",
+      props: { ...base, step: stepById("add-wins")!, compact: true, date: "2026-10-23", suggested: true },
+    },
+    {
+      label: "Compact — a long title wraps",
+      props: {
+        ...base,
+        step: { ...brief, title: "Brief your manager on the cross-functional planning workstream before Thursday’s check-in with finance and sales operations" },
+        compact: true,
+        date: "2026-10-22",
+      },
+    },
+    {
       label: "A long title wraps",
       props: {
         ...base,

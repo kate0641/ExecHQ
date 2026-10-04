@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { CardCarousel, type CarouselItem } from "@/components/layout/CardCarousel";
 import { ActionStepCard } from "@/components/plan/ActionStepCard";
 import { Switch } from "@/components/form/Switch";
 import {
@@ -21,7 +22,7 @@ import {
   type PlanState,
 } from "@/lib/action-steps";
 import type { LoopDate } from "@/lib/loop";
-import { LIVE_LIMITS, MAX_LIVE, PLAN_COPY, STEP_COPY as C, type ActionStep } from "@/mock/plan";
+import { LIVE_LIMITS, MAX_LIVE, PLAN_COPY, STEP_COPY as C, stepById, type ActionStep } from "@/mock/plan";
 import { HORIZONS, type Horizon } from "@/mock/plan-stub";
 
 interface Note {
@@ -51,6 +52,9 @@ export interface ActionStepsProps {
   onComplete?: (step: ActionStep) => void;
   /** Told whenever the steps on her Plan change, so the Calendar shows the same ones. */
   onState?: (state: PlanState) => void;
+  /** `list` is a column of cards by horizon (Concepts 2 and 3). `carousel` is one swiping row of compact
+   *  cards in order, short-term to long-term, with chips that jump to a horizon (Concept 1). */
+  layout?: "list" | "carousel";
   /** Her choices kept between visits. Without it they last until she leaves. */
   persist?: { saved?: SavedSteps; onChange: (steps: SavedSteps) => void };
   /** Catalogue only: a card opens with this panel showing. */
@@ -79,6 +83,7 @@ export function ActionSteps({
   onComplete,
   persist,
   onState,
+  layout = "list",
   demoPanel,
   demoEmpty,
   headingId = "action-steps-heading",
@@ -109,6 +114,9 @@ export function ActionSteps({
   });
   const [message, setMessage] = useState("");
   const focus = useRef<string | null>(null);
+  // The swiping row: where something asked it to go, and which horizon it has settled on.
+  const [goTo, setGoTo] = useState<{ id: string; n: number } | undefined>();
+  const [here, setHere] = useState<Horizon>("short");
 
   // A step done in the Loop leaves, and the next is offered. Worked out while
   // rendering, once per change, so nothing flashes.
@@ -153,16 +161,128 @@ export function ActionSteps({
       setEmpties((e) => ({ ...e, [from.horizon]: undefined }));
       setMessage(`${said} ${C.announce.replacedBy(r.step.title)}`);
       focus.current = `step-${r.step.id}`;
+      setGoTo((g) => ({ id: r.step.id, n: (g?.n ?? 0) + 1 }));
     } else if (r) {
       setEmpties((e) => ({ ...e, [from.horizon]: r.empty }));
       setMessage(`${said} ${C.announce.nothingNew}`);
       focus.current = `steps-empty-${from.horizon}`;
+      setGoTo((g) => ({ id: `free-${from.horizon}`, n: (g?.n ?? 0) + 1 }));
     } else {
       setMessage(said);
     }
   }
 
   const live = liveSteps(state);
+
+  function renderCard(step: ActionStep, opts: { compact?: boolean; headingLevel: 3 | 4; first?: boolean }) {
+    return (
+      <ActionStepCard
+        key={step.id}
+        id={`step-${step.id}`}
+        step={step}
+        compact={opts.compact}
+        accepted={state.decisions[step.id]?.decision === "accepted"}
+        edit={state.edits[step.id]}
+        date={stepDay(state, step).date}
+        suggested={stepDay(state, step).suggested}
+        heard={notes[step.id]?.heard}
+        offerRecord={notes[step.id]?.offerRecord}
+        startHref={startHref}
+        today={state.today}
+        headingLevel={opts.headingLevel}
+        demoPanel={demoPanel && opts.first ? demoPanel : undefined}
+        onAccept={() => setState((s) => accept(s, step.id))}
+        onDecline={(reason) => apply(decline(state, step.id, reason), step, C.announce.declined(step.title))}
+        onDefer={(on) => apply(defer(state, step.id, on), step, C.announce.deferred(step.title))}
+        onEdit={(change) => setState((s) => editStep(s, step.id, change))}
+        onComplete={() => {
+          onComplete?.(step);
+          apply(complete(state, step.id), step, C.announce.completed(step.title));
+        }}
+        onRecord={() => setNotes((n) => ({ ...n, [step.id]: { ...n[step.id], offerRecord: false } }))}
+      />
+    );
+  }
+
+  if (layout === "carousel") {
+    // One row, in order: short-term, then medium, then the long-term milestone. A free place ends it.
+    const cards: CarouselItem[] = HORIZONS.flatMap((h) =>
+      liveIn(state, h.id).map((step, i) => ({
+        id: step.id,
+        group: h.id,
+        node: renderCard(step, { compact: true, headingLevel: 3, first: h.id === "short" && i === 0 }),
+      }))
+    );
+    const withRoom = HORIZONS.filter((h) => liveIn(state, h.id).length < LIVE_LIMITS[h.id]);
+    const freeHorizon = withRoom.find((h) => empties[h.id]) ?? withRoom[0];
+    if (freeHorizon) {
+      cards.push({
+        id: `free-${freeHorizon.id}`,
+        group: freeHorizon.id,
+        node: (
+          <div className="steps-free" id={`steps-empty-${freeHorizon.id}`} tabIndex={-1}>
+            <b>{C.freePlace}</b>
+            <span>{empties[freeHorizon.id] ? PLAN_COPY.empty[empties[freeHorizon.id]!] : C.roomFree}</span>
+          </div>
+        ),
+      });
+    }
+    const horizonOf = (id: string): Horizon =>
+      (id.startsWith("free-") ? (id.slice(5) as Horizon) : stepById(id)?.horizon) ?? "short";
+    return (
+      <section className={["steps", "steps--carousel", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
+        <div className="steps__head">
+          <h2 className="steps__heading" id={headingId}>
+            {C.heading}
+          </h2>
+          <p className="steps__count">{C.inUse(live.length, MAX_LIVE)}</p>
+        </div>
+        <output className="u-visually-hidden">{message}</output>
+        <ul className="steps__jump" aria-label={C.jumpLabel}>
+          {HORIZONS.map((h) => {
+            const here0 = liveIn(state, h.id)[0];
+            return here0 ? (
+              <li key={h.id}>
+                <button
+                  type="button"
+                  aria-current={here === h.id}
+                  onClick={() => setGoTo((g) => ({ id: here0.id, n: (g?.n ?? 0) + 1 }))}
+                >
+                  {C.horizonShort[h.id]}
+                  <small>{liveIn(state, h.id).length}</small>
+                </button>
+              </li>
+            ) : null;
+          })}
+        </ul>
+        <CardCarousel
+          fixed
+          label={C.heading}
+          items={cards}
+          previousLabel={C.previousStep}
+          nextLabel={C.nextStep}
+          goTo={goTo}
+          onCurrent={(id) => setHere(horizonOf(id))}
+        />
+        <div className="steps__hold">
+          <Switch
+            checked={state.holdWorkload}
+            onChange={(on) => setState((s) => keepWorkload(s, on))}
+            aria-labelledby="steps-hold-label"
+            aria-describedby="steps-hold-hint"
+          />
+          <div>
+            <p className="steps__hold-label" id="steps-hold-label">
+              {C.keepWorkload}
+            </p>
+            <p className="steps__hold-hint" id="steps-hold-hint">
+              {C.keepWorkloadHint}
+            </p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className={["steps", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
@@ -190,32 +310,7 @@ export function ActionSteps({
               </p>
             </div>
             <div className="steps__cards">
-              {steps.map((step) => (
-                <ActionStepCard
-                  key={step.id}
-                  id={`step-${step.id}`}
-                  step={step}
-                  accepted={state.decisions[step.id]?.decision === "accepted"}
-                  edit={state.edits[step.id]}
-                  date={stepDay(state, step).date}
-                  suggested={stepDay(state, step).suggested}
-                  heard={notes[step.id]?.heard}
-                  offerRecord={notes[step.id]?.offerRecord}
-                  startHref={startHref}
-                  today={state.today}
-                  headingLevel={4}
-                  demoPanel={demoPanel && step.id === steps[0].id ? demoPanel : undefined}
-                  onAccept={() => setState((s) => accept(s, step.id))}
-                  onDecline={(reason) => apply(decline(state, step.id, reason), step, C.announce.declined(step.title))}
-                  onDefer={(on) => apply(defer(state, step.id, on), step, C.announce.deferred(step.title))}
-                  onEdit={(change) => setState((s) => editStep(s, step.id, change))}
-                  onComplete={() => {
-                    onComplete?.(step);
-                    apply(complete(state, step.id), step, C.announce.completed(step.title));
-                  }}
-                  onRecord={() => setNotes((n) => ({ ...n, [step.id]: { ...n[step.id], offerRecord: false } }))}
-                />
-              ))}
+              {steps.map((step, i) => renderCard(step, { headingLevel: 4, first: i === 0 }))}
               {room > 0 ? (
                 <p className="steps__free" id={`steps-empty-${h.id}`} tabIndex={-1}>
                   {emptyReason ? PLAN_COPY.empty[emptyReason] : C.roomFree}

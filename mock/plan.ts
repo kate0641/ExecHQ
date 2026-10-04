@@ -128,6 +128,8 @@ export const CHANNELS: Record<Channel, { label: string; phrase: string }> = {
 export type Effort = 1 | 2 | 3;
 
 export interface ActionStep extends LandscapeAction {
+  /** What she will have when it is done, in a sentence that starts after "You'll have". */
+  outcome: string;
   kind: StepKind;
   channel?: Channel;
   effort: Effort;
@@ -145,6 +147,27 @@ export interface ActionStep extends LandscapeAction {
   /** Needs a later sprint to be real. */
   stubbed?: boolean;
 }
+
+/** What each step leaves her with. */
+const OUTCOMES: Record<string, string> = {
+  "use-story": "You’ve said what you lead, out loud, to the person who decides.",
+  "brief-manager": "A one-page brief your manager can read before Thursday.",
+  "add-wins": "Three recent accomplishments your drafts can draw on.",
+  "q1-review": "Your name is in for the Q1 planning review.",
+  "cross-functional": "One cross-functional initiative you could lead.",
+  "scope-case": "A documented case for broader scope, ready for the planning cycle.",
+  "ask-manager-scope": "You know what broader scope means to your manager.",
+  "share-result-up": "One of your results in front of someone two levels up.",
+  "sponsor-conversation": "A plan for your first conversation with the review’s sponsor.",
+  "map-decision-makers": "A short list of who decides on a broader role.",
+  "name-successor": "A name for who could run your team when you move up.",
+  "stakeholder-map": "A message map for each team on the workstream.",
+  "bio": "A short, medium and long bio, ready to send.",
+  "linkedin-post": "A post saying what you lead, published.",
+  "pitch-podcast": "A pitch to a podcast the people above you follow, sent.",
+  "speaking-proposal": "A talk proposal for the leadership forum, sent.",
+  "read-briefing": "You know what is moving in your field this week.",
+};
 
 type Meta = Pick<ActionStep, "kind" | "effort" | "effortText" | "done"> & Partial<Pick<ActionStep, "channel" | "toolboxTool" | "startLabel">>;
 
@@ -168,6 +191,7 @@ const META: Record<string, Meta> = {
 const NEW_STEPS: ActionStep[] = [
   {
     id: "bio",
+    outcome: OUTCOMES["bio"],
     title: "Write your bio",
     horizon: "short",
     status: "suggested",
@@ -186,6 +210,7 @@ const NEW_STEPS: ActionStep[] = [
   },
   {
     id: "stakeholder-map",
+    outcome: OUTCOMES["stakeholder-map"],
     title: "Build a stakeholder message map for the workstream",
     horizon: "short",
     status: "suggested",
@@ -203,6 +228,7 @@ const NEW_STEPS: ActionStep[] = [
   },
   {
     id: "linkedin-post",
+    outcome: OUTCOMES["linkedin-post"],
     title: "Post what you lead on LinkedIn",
     horizon: "short",
     status: "suggested",
@@ -222,6 +248,7 @@ const NEW_STEPS: ActionStep[] = [
   },
   {
     id: "pitch-podcast",
+    outcome: OUTCOMES["pitch-podcast"],
     title: "Pitch yourself to a podcast the people above you follow",
     horizon: "medium",
     status: "suggested",
@@ -241,6 +268,7 @@ const NEW_STEPS: ActionStep[] = [
   },
   {
     id: "speaking-proposal",
+    outcome: OUTCOMES["speaking-proposal"],
     title: "Draft a talk proposal for the leadership forum",
     horizon: "medium",
     status: "suggested",
@@ -260,6 +288,7 @@ const NEW_STEPS: ActionStep[] = [
   },
   {
     id: "read-briefing",
+    outcome: OUTCOMES["read-briefing"],
     title: "Read today’s Briefing",
     horizon: "short",
     status: "suggested",
@@ -280,6 +309,7 @@ const NEW_STEPS: ActionStep[] = [
 
 const withMeta = (a: LandscapeAction): ActionStep => ({
   ...a,
+  outcome: OUTCOMES[a.id],
   ...META[a.id],
   area: a.signalId ?? "seen-as-leader",
 });
@@ -389,6 +419,11 @@ export const STEP_COPY = {
   inUse: (n: number, max: number) => `${n} of ${max} places in use`,
   horizonInUse: (n: number, max: number) => `${n} of ${max}`,
   horizonLabels: { short: "Short-term", medium: "Medium-term", long: "Long-term milestone" } as Record<Horizon, string>,
+  freePlace: "A place is free",
+  jumpLabel: "Jump to a horizon",
+  horizonShort: { short: "Short-term", medium: "Medium-term", long: "Long-term" } as Record<Horizon, string>,
+  previousStep: "Previous step",
+  nextStep: "Next step",
   roomFree: "A place is free. Your plan offers the next step when one fits.",
   accept: "Accept",
   start: (tool?: string) => (tool ? `Start in ${tool}` : "Start"),
@@ -400,6 +435,14 @@ export const STEP_COPY = {
   decline: "Not for me",
   edit: "Change timing or scope",
   moves: "Moves",
+  /** The compact card, for the swiping row. */
+  youllHave: "You’ll have",
+  whyNowLabel: "Why now",
+  details: "Details",
+  hideDetails: "Hide",
+  opensIn: "Opens in",
+  opensInTool: (tool: string) => `${tool} (Toolbox)`,
+  opensInNothing: "Nothing to open. You tell us when you have done it.",
   effort: "Effort",
   doneWhen: "Done when",
   offered: "Offered",
