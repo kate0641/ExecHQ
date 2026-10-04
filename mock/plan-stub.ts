@@ -68,9 +68,11 @@ export interface LandscapeAction {
 }
 
 /**
- * A stage of the roadmap. No dates and no week windows: by decision on
- * 2026-09-29 a plan has no end date, so stages are an order, not a schedule.
- * The current one is the first with an accepted action the Loop hasn't
+ * A stage of the roadmap, as Sprint 2 left it, with no dates. Since 2026-10-04
+ * the Plan gives each stage a suggested period (a pace that moves as she does,
+ * never a deadline; `lib/roadmap-dates.ts`), replacing the 2026-09-29 decision
+ * that a plan has no end date. This stub carries none: the Plan reads
+ * `mock/plan.ts`. The current one is the first with an accepted action the Loop hasn't
  * confirmed (`currentStageIndex` in `lib/rings.ts`).
  */
 export interface RoadmapStage {

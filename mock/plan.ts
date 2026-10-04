@@ -15,9 +15,10 @@ import { ACTIONS, NEW_ACTIONS, type Horizon, type LandscapeAction } from "@/mock
    user already saw three of them, so the two screens cannot disagree. The
    brief proposes three to four stages; `ADDED_STAGES` supplies the fourth,
    marked `added` so a reviewer can see what onboarding does not yet show.
-   No dates and no windows of time: a plan has no end date (2026-09-29), so
-   stages are an order, never a schedule. Stages describe work, not
-   achievement: nothing unlocks and nothing is levelled.
+   Each stage has a suggested period (`weeks`), a pace that moves as she does and
+   is never a deadline: this replaces 2026-09-29's "no end date" (decided
+   2026-10-04), and the plan still carries on after the last stage. Stages
+   describe work, not achievement: nothing unlocks and nothing is levelled.
    -------------------------------------------------------------------------- */
 
 export interface RoadmapStep {

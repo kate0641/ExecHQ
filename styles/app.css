@@ -13584,22 +13584,22 @@ ul.pcal__legend {
 }
 
 .pcal__key--1,
-.pcal__cell--1 {
+.pcal__cell.pcal__cell--1 {
   background-color: var(--color-stage-1);
 }
 
 .pcal__key--2,
-.pcal__cell--2 {
+.pcal__cell.pcal__cell--2 {
   background-color: var(--color-stage-2);
 }
 
 .pcal__key--3,
-.pcal__cell--3 {
+.pcal__cell.pcal__cell--3 {
   background-color: var(--color-stage-3);
 }
 
 .pcal__key--4,
-.pcal__cell--4 {
+.pcal__cell.pcal__cell--4 {
   background-color: var(--color-stage-4);
 }
 

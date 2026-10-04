@@ -1,5 +1,7 @@
 # Sprint 3 — The Plan: review notes
 
+_Updated 4 October 2026 for the Concept 1 tweak: see section 8._
+
 For the Wednesday presentation and the Thursday client review. Written 4 October 2026 from the built prototype. Everything below is in `main`; nothing is pushed yet.
 
 ## 1. Say this at kickoff
@@ -95,3 +97,27 @@ The dock's scenario picker (1–5) shows the Plan at one, sixteen, eighteen and 
 - **No statuses changed.** Every concept and component is still `draft`.
 - **No model.** Ranking, narrative and the label rules are mock stand-ins.
 - **Monthly and quarterly reviews, the custom-plan wizard, IC versus management paths, the Toolbox flows beyond the stub:** out of scope per the brief.
+
+## 8. Concept 1 tweak: roadmap as a calendar, her direction, stage periods
+
+Built after the first review, on Plan Concept 1 only (Concepts 2 and 3 still use the earlier roadmap). Chosen from three options: **C, the Agenda, with A, the Calendar, beside it.**
+
+**What changed**
+- **Her direction** sits at the top, in her own words, editable at any time. Saving never changes her plan ("Saved. Your plan stays as it is"), and "Why this plan" keeps the reason she was given.
+- **The roadmap is an Agenda:** stage cards with a suggested period, what finishing looks like, and what is on her calendar inside each stage. The stage she is in is open and the rest are one tap away.
+- **The Calendar** is a month grid with the stages tinted across it, her own items (added by hand, with edit and delete), and her plan steps. On a phone it is a switch beside the Agenda; on tablet and web the two sit side by side and stay linked. The grid is one tab stop with arrow-key navigation.
+- **Finishing a stage recommends the next.** She can say she has finished at any time, or her work can suggest it. Starting the next stage moves the later windows. "Not yet" leaves the next stage marked and never nags.
+- **Plan steps are on the calendar** as a suggested day, pinned when she accepts, movable with a date picker.
+
+**Decision reversed: periods against "no end date."** On 29 September we decided a plan has no end date and stages are an order, not a schedule. Periods reverse that. They are a suggested pace that moves as she does, never a deadline, and the plan carries on after the last stage. If the periods are firmer in the product, it changes the "past the suggested pace" wording and nothing else.
+
+**Open items**
+| # | Decision | Recommendation |
+| --- | --- | --- |
+| 13 | Onboarding still shows stages with no lengths, so onboarding and the Plan disagree | Show the periods in onboarding too, once this concept is approved |
+| 14 | "Get ready for a big moment" runs to the date of the moment, not four weeks | Tie its stage windows to that date |
+| 15 | A step's suggested day is a mock rule (an event it is tied to, else its horizon) | Replace with the real timing when the model exists |
+| 16 | Her calendar is manual only; V1 has no connections, so nothing syncs from Google or Outlook | Keep for V1 |
+| 17 | The Calendar covers only the months the plan and her items cover | Keep; it is a roadmap view, not a general calendar |
+| 18 | In greyscale the stage tints are close, so the start markers (S1, S2) and the legend carry the stages | Check the tints once the real palette lands |
+| 19 | The homepage still works out its own current stage and does not see her confirmed stage or her calendar | Reconcile when a homepage concept is chosen |

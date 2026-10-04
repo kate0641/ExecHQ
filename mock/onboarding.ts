@@ -711,8 +711,10 @@ export interface PlanTemplate {
   /** Where the first draft of the story can be used, for this plan. Three
    *  short ideas, shown under the draft. */
   uses?: string[];
-  /** How the stages run, e.g. "Stage by stage". Never a length: by decision
-   *  on 2026-09-29 a plan has no end date. */
+  /** How the stages run, e.g. "Stage by stage". Never a length here: onboarding
+   *  kept the 2026-09-29 decision that a plan has no end date. The Plan has shown
+   *  each stage's suggested period since 2026-10-04; whether onboarding should
+   *  too is open. */
   horizon?: string;
   /** The open end after the last stage: the plan keeps going. */
   after?: string;

@@ -239,7 +239,7 @@ export function usePlanPage() {
 
   const calendarSheet = (
     <CalendarItemSheet
-      key={calEntry ? (calEntry.mode === "edit" ? calEntry.item.id : `add-${calEntry.date}`) : "closed"}
+      key={calEntry ? (calEntry.mode === "edit" ? `cal-${calEntry.item.id}` : `cal-add-${calEntry.date}`) : "cal-closed"}
       open={calEntry !== null}
       onClose={() => setCalEntry(null)}
       onSave={saveItem}
@@ -327,7 +327,7 @@ export function usePlanPage() {
 
   const sheet = (
     <SignalEntrySheet
-      key={entry ? (entry.mode === "edit" ? entry.item.id : `add-${entry.fromRecord ?? ""}`) : "closed"}
+      key={entry ? (entry.mode === "edit" ? `signal-${entry.item.id}` : `signal-add-${entry.fromRecord ?? ""}`) : "signal-closed"}
       open={entry !== null}
       onClose={() => setEntry(null)}
       onSave={saveEntry}
