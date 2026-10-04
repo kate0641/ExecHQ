@@ -14045,11 +14045,6 @@ ul.pcal__items {
   gap: var(--space-2xs);
 }
 
-dl.step-card__details {
-  gap: var(--space-xs);
-  margin: 0;
-}
-
 .step-card--compact .step-card__actions {
   margin-top: auto;
 }

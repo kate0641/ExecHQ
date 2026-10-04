@@ -30,8 +30,8 @@ export const actionStepCardStates = defineComponentStates({
     empty: "A card always holds a step. A free place is shown by the ActionSteps list.",
   },
   variants: [
-    { label: "Offered, suggested for a day — default", props: { ...base, step: ask, accepted: false, date: "2026-10-23", suggested: true } },
-    { label: "Accepted, on the day it is pinned to", props: { ...base, step: brief, date: "2026-10-22" } },
+    { label: "Offered, timing in words — default", props: { ...base, step: ask, accepted: false, date: "2026-10-23", } },
+    { label: "Accepted, on the day she chose", props: { ...base, step: brief, date: "2026-10-22", chosenDay: "2026-10-22" } },
     {
       label: "Accepted, no draft: she says when it’s done",
       props: { ...base, step: stepById("add-wins")! },
@@ -82,20 +82,16 @@ export const actionStepCardStates = defineComponentStates({
     },
     {
       label: "Compact — for the swiping row, offered",
-      description: "The outcome, the plan area, the day and effort, and why now on the card. Why this, why you, what counts as done and what it opens are behind Details.",
-      props: { ...base, step: ask, accepted: false, compact: true, date: "2026-10-23", suggested: true },
+      description: "Everything on the card, nothing behind a button: the outcome, the plan area, when (in words until she chooses a day) and effort, why this, why now, why you, and what counts as done, with the link into the product as the main button.",
+      props: { ...base, step: ask, accepted: false, compact: true, date: "2026-10-23", },
     },
     {
       label: "Compact — accepted, starts in its Toolbox workflow",
       props: { ...base, step: brief, compact: true, date: "2026-10-22" },
     },
     {
-      label: "Compact — details open",
-      props: { ...base, step: brief, compact: true, date: "2026-10-22", demoDetails: true },
-    },
-    {
       label: "Compact — a step with no workflow: she says it’s done",
-      props: { ...base, step: stepById("add-wins")!, compact: true, date: "2026-10-23", suggested: true },
+      props: { ...base, step: stepById("add-wins")!, compact: true, date: "2026-10-23", },
     },
     {
       label: "Compact — a long title wraps",

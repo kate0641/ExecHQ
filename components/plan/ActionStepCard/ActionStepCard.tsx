@@ -15,6 +15,7 @@ import {
   KIND_LABELS,
   SCOPE_OPTIONS,
   STEP_COPY as C,
+  timingWords,
   type ActionStep,
   type DeclineReason,
 } from "@/mock/plan";
@@ -34,9 +35,10 @@ export interface ActionStepCardProps {
   accepted: boolean;
   /** Her edit to its scope, shown as a line she can see she made. */
   edit?: Pick<StepEdit, "scope">;
-  /** The day it sits on her calendar. Only suggested until she accepts it or moves it. */
+  /** The day it sits on her calendar, which the date field in "Change timing or scope" starts from. */
   date?: LoopDate;
-  suggested?: boolean;
+  /** The day she chose for it. Only then does the card say a day; until then it says when in words. */
+  chosenDay?: LoopDate;
   /** Says her last answer was heard: "A lighter one this time." */
   heard?: string;
   /** She said it was already done: offer to add it to her record. */
@@ -53,15 +55,14 @@ export interface ActionStepCardProps {
   /** She says she has done it. Only for a step with no draft. */
   onComplete: () => void;
   onRecord?: () => void;
-  /** The compact card, for the swiping row: the outcome, the area, when and how much effort, and why now
-   *  on the card, with why this, why you, what counts as done and what it opens behind Details. */
+  /** The compact card, for the swiping row. Everything is on the card, nothing behind a button: the
+   *  outcome, the area, when and how much effort, why this, why now, why you, what counts as done, and the
+   *  link into the product as its main button. */
   compact?: boolean;
   /** Heading level, so the card sits right in the page outline. */
   headingLevel?: 3 | 4;
   /** Catalogue only: opens with this panel showing. */
   demoPanel?: StepPanel;
-  /** Catalogue only: the compact card opens with its details showing. */
-  demoDetails?: boolean;
   /** Catalogue only: shows the primary button in a state props cannot reach. */
   demoState?: "hover" | "focus" | "active";
   id?: string;
@@ -85,7 +86,7 @@ export function ActionStepCard({
   accepted,
   edit,
   date: onDate,
-  suggested,
+  chosenDay,
   heard,
   offerRecord,
   startHref,
@@ -99,14 +100,12 @@ export function ActionStepCard({
   compact = false,
   headingLevel = 3,
   demoPanel,
-  demoDetails,
   demoState,
   id,
   className,
 }: ActionStepCardProps) {
   const uid = useId();
   const [more, setMore] = useState(Boolean(demoPanel));
-  const [details, setDetails] = useState(Boolean(demoDetails));
   const [panel, setPanel] = useState<StepPanel | null>(demoPanel ?? null);
   const panelRef = useRef<HTMLFieldSetElement>(null);
   const Heading = `h${headingLevel}` as "h3" | "h4";
@@ -275,16 +274,23 @@ export function ActionStepCard({
             <b>{C.moves}</b> {area}
           </p>
         ) : null}
-        {onDate ? (
-          <p className="step-card__when">
-            <Icon name="calendar" size={14} />
-            <span>
-              {suggested ? C.whenSuggested(dayLabel(onDate)) : C.whenOn(dayLabel(onDate))} · {step.effortText}
-            </span>
-          </p>
-        ) : null}
+        <p className="step-card__when">
+          <Icon name="calendar" size={14} />
+          <span>
+            {chosenDay ? C.whenOn(dayLabel(chosenDay)) : timingWords(step)} · {step.effortText}
+          </span>
+        </p>
+        <p className="step-card__line">
+          <b>{C.whyThis}</b> {step.whyThis}
+        </p>
         <p className="step-card__line">
           <b>{C.whyNowLabel}</b> {step.whyNow}
+        </p>
+        <p className="step-card__line">
+          <b>{C.whyYouLabel}</b> {step.whyYou}
+        </p>
+        <p className="step-card__line">
+          <b>{C.doneWhen}</b> {step.done}
         </p>
         {edited ? <p className="step-card__edited">{edited}</p> : null}
         {offerRecord && onRecord ? (
@@ -292,31 +298,8 @@ export function ActionStepCard({
             {C.recordIt}
           </Button>
         ) : null}
-        {details ? (
-          <dl className="step-card__panel step-card__details">
-            <div className="step-card__row">
-              <dt>Why this</dt>
-              <dd>{step.whyThis}</dd>
-            </div>
-            <div className="step-card__row">
-              <dt>Why you</dt>
-              <dd>{step.whyYou}</dd>
-            </div>
-            <div className="step-card__row">
-              <dt>{C.doneWhen}</dt>
-              <dd>{step.done}</dd>
-            </div>
-            <div className="step-card__row">
-              <dt>{C.opensIn}</dt>
-              <dd>{step.toolboxTool ? C.opensInTool(step.toolboxTool) : C.opensInNothing}</dd>
-            </div>
-          </dl>
-        ) : null}
         <div className="step-card__actions">
           {startButton}
-          <Button variant="secondary" size="sm" aria-expanded={details} onClick={() => setDetails((open) => !open)}>
-            {details ? C.hideDetails : C.details}
-          </Button>
           <Button
             variant="ghost"
             size="sm"
@@ -364,9 +347,7 @@ export function ActionStepCard({
           <span>{C.moves}</span> {area}
         </p>
       ) : null}
-      {onDate ? (
-        <p className="step-card__when">{suggested ? C.whenSuggested(dayLabel(onDate)) : C.whenOn(dayLabel(onDate))}</p>
-      ) : null}
+      <p className="step-card__when">{chosenDay ? C.whenOn(dayLabel(chosenDay)) : timingWords(step)}</p>
       {edited ? <p className="step-card__edited">{edited}</p> : null}
 
       <dl className="step-card__why">

@@ -66,8 +66,9 @@ export interface PlanState {
   replaced: Partial<Record<Horizon, number>>;
   /** She chose to keep her current workload: nothing is replaced. */
   holdWorkload: boolean;
-  /** Her edits to a step's scope. */
-  edits: Record<string, { scope?: "lighter" | "as-is" }>;
+  /** Her edits to a step: its scope, and the day she chose for it. The card says a day only once she
+   *  has chosen one; until then it says when in words. */
+  edits: Record<string, { scope?: "lighter" | "as-is"; day?: LoopDate }>;
   /** The day each step she has accepted, or moved, sits on her calendar. A step with no
    *  day here is only suggested one (`lib/step-dates.ts`). Absent in older saved state. */
   dates?: Record<string, LoopDate>;
@@ -143,7 +144,7 @@ export function edit(state: PlanState, id: string, change: { scope?: "lighter" |
   const { date, ...rest } = change;
   return {
     ...state,
-    edits: { ...state.edits, [id]: { ...state.edits[id], ...rest } },
+    edits: { ...state.edits, [id]: { ...state.edits[id], ...rest, ...(date ? { day: date } : {}) } },
     dates: date ? { ...state.dates, [id]: date } : state.dates,
   };
 }

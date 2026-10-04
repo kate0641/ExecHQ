@@ -184,7 +184,7 @@ export function ActionSteps({
         accepted={state.decisions[step.id]?.decision === "accepted"}
         edit={state.edits[step.id]}
         date={stepDay(state, step).date}
-        suggested={stepDay(state, step).suggested}
+        chosenDay={state.edits[step.id]?.day}
         heard={notes[step.id]?.heard}
         offerRecord={notes[step.id]?.offerRecord}
         startHref={startHref}

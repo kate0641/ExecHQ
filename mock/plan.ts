@@ -437,20 +437,17 @@ export const STEP_COPY = {
   moves: "Moves",
   /** The compact card, for the swiping row. */
   youllHave: "You’ll have",
+  whyThis: "Why this",
   whyNowLabel: "Why now",
-  details: "Details",
-  hideDetails: "Hide",
-  opensIn: "Opens in",
-  opensInTool: (tool: string) => `${tool} (Toolbox)`,
-  opensInNothing: "Nothing to open. You tell us when you have done it.",
+  whyYouLabel: "Why you",
   effort: "Effort",
   doneWhen: "Done when",
   offered: "Offered",
   accepted: "Accepted",
   edited: (moved?: string, lighter?: boolean) =>
     [moved, lighter ? "Lighter version" : undefined].filter(Boolean).join(" · "),
-  /** Where the step sits on her calendar: a suggestion until she accepts it. */
-  whenSuggested: (day: string) => `Suggested for ${day}`,
+  /** Where the step sits on her calendar. A day is shown only once it is hers: she accepted the step or
+   *  moved it. Until then the card says when in words (`timingWords`). */
   whenOn: (day: string) => `On ${day}`,
   movedTo: (day: string) => `Moved to ${day}`,
   declinePrompt: "Say why, if you like. One tap.",
@@ -883,3 +880,23 @@ export const DIRECTION_PLAN_COPY = {
   here: "You are here",
   stage: (n: number, total: number, title: string) => `Stage ${n} of ${total} · ${title}`,
 } as const;
+
+/**
+ * When a step is suggested, said in words, because most suggested days are not real: a date on every
+ * card reads as a deadline. The steps tied to something she told us name it. The rest follow their
+ * horizon. Once she accepts a step or moves it, the card shows that day instead.
+ */
+const TIMING_WORDS: Record<string, string> = {
+  "use-story": "At your 1:1 on Tuesday",
+  "brief-manager": "Before Thursday’s check-in",
+  "q1-review": "By the end of the month",
+  "scope-case": "Before the January planning cycle",
+};
+
+const HORIZON_TIMING_WORDS: Record<Horizon, string> = {
+  short: "This week",
+  medium: "In the next few weeks",
+  long: "This quarter",
+};
+
+export const timingWords = (step: { id: string; horizon: Horizon }): string => TIMING_WORDS[step.id] ?? HORIZON_TIMING_WORDS[step.horizon];
