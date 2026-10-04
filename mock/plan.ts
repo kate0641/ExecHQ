@@ -834,3 +834,10 @@ export const STEP_TIMING: Record<string, StepTiming> = {
 
 /** Days from today a step is suggested for when nothing ties it to a day, by horizon. */
 export const HORIZON_OFFSET_DAYS: Record<Horizon, number> = { short: 3, medium: 14, long: 60 };
+
+/** The compass variant of the direction card (Concept 2): the plan she is on and where she is in it. */
+export const DIRECTION_PLAN_COPY = {
+  plan: "Your plan",
+  here: "You are here",
+  stage: (n: number, total: number, title: string) => `Stage ${n} of ${total} · ${title}`,
+} as const;

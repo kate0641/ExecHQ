@@ -4,7 +4,7 @@ import { PlanPage } from "../PlanPage";
 import { usePlanPage } from "../usePlanPage";
 
 /**
- * Plan, Concept 2 — Road forward. The roadmap leads: where she is on it, what
+ * Plan, Concept 2 — Road forward. The roadmap leads, under a compass card that holds her direction, her plan and her stage: where she is on it, what
  * finishing the stage looks like, and that stage's next steps opened up inside
  * it. What changed, Momentum and the Signal Picture sit beside it on web.
  *
@@ -16,6 +16,7 @@ export function PlanConcept2() {
   return (
     <PlanPage
       concept="c2"
+      lead={p.directionCompass}
       main={
         <>
           {p.roadmap({ children: p.steps })}

@@ -31,8 +31,8 @@ import { dismissSpark, useDismissedSparks } from "@/lib/spark-dismissal";
 import { sparksFor } from "@/lib/sparks";
 import { ADD_COPY as ADD, PRESENCE_STUB as PR, SPARK_COPY as SP, ACCOUNTS_COPY as AC } from "@/mock/accounts-stub";
 import { SIGNAL_PICTURE_COPY as SPC } from "@/mock/homepage";
-import { recommendPlan } from "@/mock/onboarding";
-import { ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
+import { PLAN_TEMPLATES, recommendPlan } from "@/mock/onboarding";
+import { DIRECTION_PLAN_COPY as DP, ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
 import { ACTIONS } from "@/mock/plan-stub";
 import { SNAPSHOTS } from "@/mock/snapshots";
 import type { CalendarItem } from "@/mock/plan";
@@ -155,17 +155,6 @@ export function usePlanPage() {
     </PlanRoadmap>
   );
 
-  // Her direction is hers to change at any time. It never changes her plan, and the plan's
-  // reason stays the one she was given, so the hand-written "toward" line is cleared.
-  const direction = (
-    <DirectionCard
-      key={`direction-${loop.id}`}
-      direction={loop.account.direction}
-      edited={loop.account.direction !== start.account.direction}
-      onSave={(text) => loopActions.updateAccount({ direction: text, towardShort: undefined })}
-    />
-  );
-
   // The roadmap as an Agenda and a Calendar (Concept 1): one plan, one set of windows, one day in view.
   const calendarItems = useCalendar(loop.id);
   const day = picked?.scenario === loop.id ? picked.day : loop.today;
@@ -248,6 +237,28 @@ export function usePlanPage() {
       initial={calEntry?.mode === "edit" ? calEntry.item : calEntry?.mode === "add" ? { date: calEntry.date } : undefined}
     />
   );
+
+  // Her direction is hers to change at any time. It never changes her plan, and the plan's
+  // reason stays the one she was given, so the hand-written "toward" line is cleared.
+  // Concept 1 sets it as a statement; Concept 2 as a compass that also names her plan and stage.
+  const directionFor = (variant: "statement" | "compass") => {
+    const here = windows.find((w) => w.status === "current") ?? windows[windows.length - 1];
+    return (
+      <DirectionCard
+        key={`direction-${variant}-${loop.id}`}
+        variant={variant}
+        direction={loop.account.direction}
+        edited={loop.account.direction !== start.account.direction}
+        plan={{
+          name: PLAN_TEMPLATES.find((p) => p.id === planId)?.name ?? "",
+          stage: here ? DP.stage(here.index + 1, windows.length, here.title) : "",
+        }}
+        onSave={(text) => loopActions.updateAccount({ direction: text, towardShort: undefined })}
+      />
+    );
+  };
+  const direction = directionFor("statement");
+  const directionCompass = directionFor("compass");
 
   const note = switchedTo ? <p className="plan-stub__note">{RM.stepsStub}</p> : null;
 
@@ -343,7 +354,7 @@ export function usePlanPage() {
     />
   );
 
-  return { direction, steps, roadmap, agenda, calendar, roadmapPair, note, narrative: narrativeNode, momentum, picture, started, sheet: (
+  return { direction, directionCompass, steps, roadmap, agenda, calendar, roadmapPair, note, narrative: narrativeNode, momentum, picture, started, sheet: (
       <>
         {sheet}
         {calendarSheet}

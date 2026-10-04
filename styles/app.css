@@ -13271,16 +13271,20 @@ ul.narrative__lines {
 }
 
 /* -----------------------------------------------------------------------------
-   DIRECTION (Plan, Concept 1)
+   DIRECTION (Plan)
+   Statement (Concept 1): her words set large between two rules, no card, so the
+   words are the design. Compass (Concept 2): a navy card that also says which plan
+   she is on and where in it.
    -------------------------------------------------------------------------- */
 .direction {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
-  padding: var(--space-md);
-  border: var(--border-thin);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
+  gap: var(--space-sm);
+}
+
+.direction--statement {
+  padding-block: var(--space-md-lg);
+  border-block: var(--border-width-thin) solid var(--color-text-primary);
 }
 
 .direction__top {
@@ -13294,7 +13298,7 @@ ul.narrative__lines {
   margin: 0;
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-text-secondary);
 }
@@ -13308,6 +13312,18 @@ ul.narrative__lines {
   line-height: var(--leading-snug);
 }
 
+.direction--statement .direction__text {
+  font-family: var(--font-serif);
+  word-spacing: normal;
+  font-size: var(--text-xl);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-normal);
+}
+
+[data-viewport="web"] .direction--statement .direction__text {
+  font-size: var(--text-2xl);
+}
+
 .direction__note {
   margin: 0;
   font-size: var(--text-sm);
@@ -13317,6 +13333,88 @@ ul.narrative__lines {
 
 .direction__note b {
   color: var(--color-text-primary);
+}
+
+/* A quiet text link, so the words stay the loudest thing. */
+.direction--statement .direction__top .direction__edit {
+  padding-inline: var(--space-2xs);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.direction--compass {
+  padding: var(--space-md-lg);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+}
+
+.direction--compass .direction__heading,
+.direction--compass .direction__note,
+.direction--compass .field__hint,
+.direction--compass .field__label {
+  color: var(--color-text-inverse-muted);
+}
+
+.direction--compass .direction__text,
+.direction--compass .direction__note b,
+.direction--compass .field__label {
+  color: var(--color-text-inverse);
+}
+
+.direction--compass .direction__edit {
+  color: var(--color-text-inverse);
+  border: var(--border-width-thin) solid var(--color-border-inverse);
+}
+
+.direction--compass .direction__edit:hover {
+  background-color: var(--color-border-inverse);
+}
+
+.direction--compass .field__error {
+  color: var(--color-text-inverse);
+}
+
+/* The primary button is dark in this palette, so on the navy card it turns light. */
+.direction--compass .btn--primary {
+  background-color: var(--color-text-inverse);
+  color: var(--color-surface-inverse);
+}
+
+.direction--compass .btn--primary:hover {
+  background-color: var(--color-text-inverse-muted);
+}
+
+.direction--compass .btn--ghost {
+  color: var(--color-text-inverse);
+}
+
+dl.direction__plan {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xs);
+  margin: var(--space-2xs) 0 0;
+  padding-top: var(--space-sm);
+  border-top: var(--border-width-thin) solid var(--color-border-inverse);
+}
+
+.direction__plan dt {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-text-inverse-muted);
+}
+
+.direction__plan dd {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+}
+
+[data-viewport="web"] dl.direction__plan {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .direction__form {

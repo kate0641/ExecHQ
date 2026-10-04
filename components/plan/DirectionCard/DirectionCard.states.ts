@@ -3,6 +3,7 @@ import { DirectionCard } from "./DirectionCard";
 
 const noop = () => {};
 const direction = "I want to move from running campaigns to leading a broader marketing organization.";
+const plan = { name: "Step up", stage: "Stage 2 of 4 · Show the proof" };
 
 export const directionCardStates = defineComponentStates({
   name: "DirectionCard",
@@ -10,7 +11,7 @@ export const directionCardStates = defineComponentStates({
   status: "draft",
   flows: ["plan"],
   description:
-    "Where she says she is headed, in her own words, at the top of the Plan, and editable at any time. Changing it never changes her plan on its own: saving says so, and points to Change plan if what she wrote now points somewhere new.",
+    "Where she says she is headed, in her own words, at the top of the Plan, and editable at any time. Set as a statement (Concept 1: her words large between two rules, no card) or as a compass (Concept 2: a navy card that also names her plan and her stage). Changing it never changes her plan on its own: saving says so, and points to Change plan if what she wrote now points somewhere new.",
   component: DirectionCard,
   notApplicable: {
     hover: "Its one control is a Button, which shows its own states.",
@@ -21,7 +22,7 @@ export const directionCardStates = defineComponentStates({
     empty: "She always has a direction from onboarding.",
   },
   variants: [
-    { label: "Her direction, from onboarding — default", props: { direction, onSave: noop, headingId: "dc-default" } },
+    { label: "Statement — her direction, from onboarding — default", props: { direction, onSave: noop, headingId: "dc-default" } },
     {
       label: "Edited by her",
       props: { direction: "I want to lead a CMO-level marketing team.", edited: true, onSave: noop, headingId: "dc-edited" },
@@ -36,6 +37,33 @@ export const directionCardStates = defineComponentStates({
           "I want to move from running campaigns to leading a broader marketing organization, with a seat in the planning conversations about budget and headcount, within the next two planning cycles.",
         onSave: noop,
         headingId: "dc-long",
+      },
+    },
+    {
+      label: "Compass — her direction, plan and stage",
+      props: { direction, variant: "compass", plan, onSave: noop, headingId: "dc-compass" },
+    },
+    {
+      label: "Compass — editing, text chosen",
+      props: { direction, variant: "compass", plan, onSave: noop, demoEditing: true, headingId: "dc-compass-edit" },
+    },
+    {
+      label: "Compass — saved, and the plan stays as it is",
+      props: { direction, variant: "compass", plan, onSave: noop, demoSaved: true, headingId: "dc-compass-saved" },
+    },
+    {
+      label: "Compass — error, nothing written",
+      props: { direction: "", variant: "compass", plan, onSave: noop, demoEditing: true, demoError: true, headingId: "dc-compass-error" },
+    },
+    {
+      label: "Compass — a long direction wraps",
+      props: {
+        direction:
+          "I want to move from running campaigns to leading a broader marketing organization, with a seat in the planning conversations about budget and headcount, within the next two planning cycles.",
+        variant: "compass",
+        plan,
+        onSave: noop,
+        headingId: "dc-compass-long",
       },
     },
   ],
