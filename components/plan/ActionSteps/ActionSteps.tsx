@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { CardCarousel, type CarouselItem } from "@/components/layout/CardCarousel";
 import { ActionStepCard } from "@/components/plan/ActionStepCard";
-import { Switch } from "@/components/form/Switch";
 import {
   accept,
   decline,
@@ -12,7 +11,6 @@ import {
   edit as editStep,
   stepDay,
   initialPlanState,
-  keepWorkload,
   liveIn,
   newVisit,
   liveSteps,
@@ -264,22 +262,6 @@ export function ActionSteps({
           goTo={goTo}
           onCurrent={(id) => setHere(horizonOf(id))}
         />
-        <div className="steps__hold">
-          <Switch
-            checked={state.holdWorkload}
-            onChange={(on) => setState((s) => keepWorkload(s, on))}
-            aria-labelledby="steps-hold-label"
-            aria-describedby="steps-hold-hint"
-          />
-          <div>
-            <p className="steps__hold-label" id="steps-hold-label">
-              {C.keepWorkload}
-            </p>
-            <p className="steps__hold-hint" id="steps-hold-hint">
-              {C.keepWorkloadHint}
-            </p>
-          </div>
-        </div>
       </section>
     );
   }
@@ -320,23 +302,6 @@ export function ActionSteps({
           </section>
         );
       })}
-
-      <div className="steps__hold">
-        <Switch
-          checked={state.holdWorkload}
-          onChange={(on) => setState((s) => keepWorkload(s, on))}
-          aria-labelledby="steps-hold-label"
-          aria-describedby="steps-hold-hint"
-        />
-        <div>
-          <p className="steps__hold-label" id="steps-hold-label">
-            {C.keepWorkload}
-          </p>
-          <p className="steps__hold-hint" id="steps-hold-hint">
-            {C.keepWorkloadHint}
-          </p>
-        </div>
-      </div>
     </section>
   );
 }

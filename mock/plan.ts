@@ -393,7 +393,6 @@ export const PLAN_COPY = {
   /** The slot stays empty; each line says why and what she can do. Never a verdict. */
   empty: {
     "nothing-suitable": "Nothing else fits this horizon right now. Your plan will offer the next one as you go.",
-    "kept-workload": "You’ve kept your current workload. Nothing new until you say.",
     "limit-reached": "That’s enough changes for one visit. Your plan will offer another next time.",
   },
 } as const;
@@ -463,8 +462,6 @@ export const STEP_COPY = {
   save: "Save",
   cancel: "Cancel",
   recordIt: "Add it to your record",
-  keepWorkload: "Keep what I have",
-  keepWorkloadHint: "Nothing new is offered until you turn this off.",
   announce: {
     declined: (title: string) => `Declined: ${title}.`,
     deferred: (title: string) => `Deferred: ${title}.`,

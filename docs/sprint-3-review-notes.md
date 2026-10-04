@@ -62,7 +62,7 @@ The brief captures six reasons and says declining is never penalised, but not wh
 
 Every replacement carries its own why this / why now / why you, and is never the same type, area and channel as what left, so a second decline is heard.
 
-**No conveyor belt.** One replacement per horizon per visit, then the place stays empty and says so. "Keep what I have" stops replacement altogether. Empty places say why: nothing suitable, kept workload, or limit reached for this visit.
+**No conveyor belt.** One replacement per horizon per visit, then the place stays empty and says so. Empty places say why: nothing suitable, or limit reached for this visit.
 
 This is also where the homepage rejection point lands: a rejected step changes what comes next, visibly.
 
@@ -120,4 +120,5 @@ Built after the first review, on Plan Concept 1 only (Concepts 2 and 3 still use
 | 16 | Her calendar is manual only; V1 has no connections, so nothing syncs from Google or Outlook | Keep for V1 |
 | 17 | The Calendar covers only the months the plan and her items cover | Keep; it is a roadmap view, not a general calendar |
 | 18 | In greyscale the stage tints are close, so the start markers (S1, S2) and the legend carry the stages | Check the tints once the real palette lands |
+| 20 | The "Keep what I have" workload switch was removed on 4 October, so the brief's "the user can always choose to keep their current workload" has no control. Declining and the one-per-visit cap are the only brakes | Say so when presenting, or restore the switch in the step Edit panel if the criterion must be met |
 | 19 | The homepage still works out its own current stage and does not see her confirmed stage or her calendar | Reconcile when a homepage concept is chosen |

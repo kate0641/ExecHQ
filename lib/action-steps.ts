@@ -16,7 +16,6 @@
  * - Declining a channel avoids it for good, not only for the next pick.
  * - Replacement is capped: one per horizon per visit. After that the slot
  *   stays empty and says so, so repeated declines cannot become a conveyor belt.
- * - She can always keep her current workload; then nothing is replaced.
  * - Declining and deferring are never counted against her anywhere.
  */
 
@@ -66,8 +65,6 @@ export interface PlanState {
   avoidChannels: ActionStep["channel"][];
   /** Replacements made in each horizon this visit. */
   replaced: Partial<Record<Horizon, number>>;
-  /** She chose to keep her current workload: nothing is replaced. */
-  holdWorkload: boolean;
   /** Her edits to a step: the day she chose, how long she says it will take, what done means to her, and
    *  her own words. The card says a day only once she has chosen one; until then it says when in words. */
   edits: Record<string, { scope?: "lighter" | "as-is"; day?: LoopDate; note?: string; effort?: string; done?: string }>;
@@ -110,7 +107,7 @@ export function initialPlanState(today: LoopDate): PlanState {
       decisions[step.id] = { decision: "declined", on: today, reason: "not-relevant" };
     }
   }
-  return { today, shown, decisions, avoidChannels: [], replaced: {}, holdWorkload: false, edits: {}, dates };
+  return { today, shown, decisions, avoidChannels: [], replaced: {}, edits: {}, dates };
 }
 
 export const liveSteps = (state: PlanState): ActionStep[] =>
@@ -155,10 +152,6 @@ export function edit(state: PlanState, id: string, change: { scope?: "lighter" |
 export function stepDay(state: PlanState, step: Pick<ActionStep, "id" | "horizon">): { date: LoopDate; suggested: boolean } {
   const pinned = state.dates?.[step.id];
   return { date: pinned ?? suggestedDate(step, state.today), suggested: !pinned };
-}
-
-export function keepWorkload(state: PlanState, hold = true): PlanState {
-  return { ...state, holdWorkload: hold };
 }
 
 /** Starts a new visit: the per-visit replacement count goes back to nothing. */
@@ -208,7 +201,6 @@ export function complete(state: PlanState, id: string, prefer?: string): Move {
     dates: withoutDate(state.dates, id),
     decisions: { ...state.decisions, [id]: { decision: "completed", on: state.today } },
   };
-  if (next.holdWorkload) return { state: next, replacement: emptyOf("kept-workload") };
   const preferred = prefer ? stepById(prefer) : undefined;
   const pick =
     preferred && eligible(next, preferred) ? preferred : candidates(next, step.horizon)[0];
@@ -272,7 +264,6 @@ function offer(state: PlanState, step: ActionStep, replaced = false): PlanState 
 
 /** Fills the slot a decline or deferral freed, by the reason given. */
 function refill(state: PlanState, gone: ActionStep, reason: DeclineReason | undefined): Move {
-  if (state.holdWorkload) return { state, replacement: emptyOf("kept-workload") };
   if ((state.replaced[gone.horizon] ?? 0) >= MAX_REPLACEMENTS_PER_HORIZON) {
     return { state, replacement: emptyOf("limit-reached") };
   }

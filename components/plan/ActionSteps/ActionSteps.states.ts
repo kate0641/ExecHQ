@@ -1,6 +1,6 @@
 import { defineComponentStates } from "@/components/types";
 import { NOT_AN_INPUT } from "@/components/not-applicable";
-import { decline, initialPlanState, keepWorkload } from "@/lib/action-steps";
+import { decline, initialPlanState } from "@/lib/action-steps";
 import { ActionSteps } from "./ActionSteps";
 
 const today = "2026-10-20";
@@ -23,7 +23,7 @@ export const actionStepsStates = defineComponentStates({
   status: "draft",
   flows: ["plan"],
   description:
-    "The Plan’s next steps: never more than five, across three horizons (short-term up to three, medium-term one, long-term milestone one), each with its reasons. The limit shows as a count and as free places, never a bar. A decline fills its place at once from the ranked queue, shaped by the reason given, or says why nothing did. Operable: accept, decline with a reason, do later, change, mark done, keep what I have.",
+    "The Plan’s next steps: never more than five, across three horizons (short-term up to three, medium-term one, long-term milestone one), each with its reasons. The limit shows as a count and as free places, never a bar. A decline fills its place at once from the ranked queue, shaped by the reason given, or says why nothing did. Operable: accept, decline with a reason, do later, change, mark done.",
   component: ActionSteps,
   notApplicable: {
     hover: "Its controls are the cards’ buttons, which show their own states.",
@@ -63,10 +63,6 @@ export const actionStepsStates = defineComponentStates({
     {
       label: "Swiping row — empty, a place is free",
       props: { today, startHref, initial: justOne, layout: "carousel", demoEmpty: { medium: "nothing-suitable" }, headingId: "as-row-empty" },
-    },
-    {
-      label: "Kept her current workload",
-      props: { today, startHref, initial: keepWorkload(start) },
     },
   ],
 });
