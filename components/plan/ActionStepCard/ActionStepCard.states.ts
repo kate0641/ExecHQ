@@ -90,6 +90,11 @@ export const actionStepCardStates = defineComponentStates({
       props: { ...base, step: brief, compact: true, date: "2026-10-22" },
     },
     {
+      label: "Compact — changing: the card is taken over by the questions",
+      description: "A quiet text link opens it. It takes over the whole card, asks what she wants to do, then a few plain questions and a free-type box for her reasons.",
+      props: { ...base, step: brief, compact: true, date: "2026-10-22", demoChanging: true },
+    },
+    {
       label: "Compact — a step with no workflow: she says it’s done",
       props: { ...base, step: stepById("add-wins")!, compact: true, date: "2026-10-23", },
     },

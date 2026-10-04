@@ -53,6 +53,8 @@ export interface Decision {
   returnsOn?: LoopDate;
   /** It has been offered again once; never a second time, and no reminder. */
   resurfaced?: boolean;
+  /** What she wrote about why, in her own words. Kept for the advisor and never shown back unasked. */
+  note?: string;
 }
 
 export interface PlanState {
@@ -68,7 +70,7 @@ export interface PlanState {
   holdWorkload: boolean;
   /** Her edits to a step: its scope, and the day she chose for it. The card says a day only once she
    *  has chosen one; until then it says when in words. */
-  edits: Record<string, { scope?: "lighter" | "as-is"; day?: LoopDate }>;
+  edits: Record<string, { scope?: "lighter" | "as-is"; day?: LoopDate; note?: string }>;
   /** The day each step she has accepted, or moved, sits on her calendar. A step with no
    *  day here is only suggested one (`lib/step-dates.ts`). Absent in older saved state. */
   dates?: Record<string, LoopDate>;
@@ -140,7 +142,7 @@ export function accept(state: PlanState, id: string): PlanState {
 }
 
 /** Scope changed, or she moved the step to another day; the step stays on her Plan. */
-export function edit(state: PlanState, id: string, change: { scope?: "lighter" | "as-is"; date?: LoopDate }): PlanState {
+export function edit(state: PlanState, id: string, change: { scope?: "lighter" | "as-is"; date?: LoopDate; note?: string }): PlanState {
   const { date, ...rest } = change;
   return {
     ...state,
@@ -164,14 +166,14 @@ export function newVisit(state: PlanState, today: LoopDate): PlanState {
   return { ...state, today, replaced: {} };
 }
 
-export function decline(state: PlanState, id: string, reason?: DeclineReason): Move {
+export function decline(state: PlanState, id: string, reason?: DeclineReason, note?: string): Move {
   const step = stepById(id);
   if (!step || !state.shown.includes(id)) return { state };
   let next: PlanState = { ...state, shown: without(state.shown, id), dates: withoutDate(state.dates, id) };
   // Wrong timing is the one reason that is about when, not whether: it comes
   // back once, later.
   const returnsOn = reason === "wrong-timing" ? addDays(state.today, WRONG_TIMING_RETURNS_AFTER_DAYS) : undefined;
-  next.decisions = { ...next.decisions, [id]: { decision: "declined", on: state.today, reason, returnsOn } };
+  next.decisions = { ...next.decisions, [id]: { decision: "declined", on: state.today, reason, returnsOn, note } };
   // A channel she is uncomfortable with is avoided from here on.
   if (reason === "uncomfortable-channel" && step.channel && !next.avoidChannels.includes(step.channel)) {
     next = { ...next, avoidChannels: [...next.avoidChannels, step.channel] };
@@ -179,7 +181,7 @@ export function decline(state: PlanState, id: string, reason?: DeclineReason): M
   return refill(next, step, reason);
 }
 
-export function defer(state: PlanState, id: string, returnsOn?: LoopDate): Move {
+export function defer(state: PlanState, id: string, returnsOn?: LoopDate, note?: string): Move {
   const step = stepById(id);
   if (!step || !state.shown.includes(id)) return { state };
   const on = returnsOn ?? addDays(state.today, DEFAULT_DEFER_DAYS);
@@ -187,7 +189,7 @@ export function defer(state: PlanState, id: string, returnsOn?: LoopDate): Move 
     ...state,
     shown: without(state.shown, id),
     dates: withoutDate(state.dates, id),
-    decisions: { ...state.decisions, [id]: { decision: "deferred", on: state.today, returnsOn: on } },
+    decisions: { ...state.decisions, [id]: { decision: "deferred", on: state.today, returnsOn: on, note } },
   };
   return refill(next, step, undefined);
 }

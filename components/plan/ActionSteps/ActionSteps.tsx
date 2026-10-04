@@ -192,8 +192,8 @@ export function ActionSteps({
         headingLevel={opts.headingLevel}
         demoPanel={demoPanel && opts.first ? demoPanel : undefined}
         onAccept={() => setState((s) => accept(s, step.id))}
-        onDecline={(reason) => apply(decline(state, step.id, reason), step, C.announce.declined(step.title))}
-        onDefer={(on) => apply(defer(state, step.id, on), step, C.announce.deferred(step.title))}
+        onDecline={(reason, note) => apply(decline(state, step.id, reason, note), step, C.announce.declined(step.title))}
+        onDefer={(on, note) => apply(defer(state, step.id, on, note), step, C.announce.deferred(step.title))}
         onEdit={(change) => setState((s) => editStep(s, step.id, change))}
         onComplete={() => {
           onComplete?.(step);

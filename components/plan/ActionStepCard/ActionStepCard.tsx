@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
+import { StepChangePanel } from "@/components/plan/StepChangePanel";
 import { ChipGroup } from "@/components/form/ChipGroup";
 import { Input } from "@/components/form/Input";
 import { Badge } from "@/components/primitives/Badge";
@@ -14,6 +15,7 @@ import {
   DECLINE_REASONS,
   KIND_LABELS,
   SCOPE_OPTIONS,
+  CHANGE_COPY as CH,
   STEP_COPY as C,
   timingWords,
   type ActionStep,
@@ -25,6 +27,8 @@ export type StepPanel = "decline" | "defer" | "edit";
 
 export interface StepEdit {
   scope?: "lighter" | "as-is";
+  /** What she wrote about why, in her own words. */
+  note?: string;
   /** The day she moved it to. */
   date?: LoopDate;
 }
@@ -49,8 +53,8 @@ export interface ActionStepCardProps {
   today: LoopDate;
   onAccept: () => void;
   /** She declined, with a reason if she gave one. Never asks to confirm. */
-  onDecline: (reason?: DeclineReason) => void;
-  onDefer: (returnsOn: LoopDate) => void;
+  onDecline: (reason?: DeclineReason, note?: string) => void;
+  onDefer: (returnsOn: LoopDate, note?: string) => void;
   onEdit: (change: StepEdit) => void;
   /** She says she has done it. Only for a step with no draft. */
   onComplete: () => void;
@@ -63,6 +67,8 @@ export interface ActionStepCardProps {
   headingLevel?: 3 | 4;
   /** Catalogue only: opens with this panel showing. */
   demoPanel?: StepPanel;
+  /** Catalogue only: the compact card opens already taken over by the change questions. */
+  demoChanging?: boolean;
   /** Catalogue only: shows the primary button in a state props cannot reach. */
   demoState?: "hover" | "focus" | "active";
   id?: string;
@@ -100,12 +106,16 @@ export function ActionStepCard({
   compact = false,
   headingLevel = 3,
   demoPanel,
+  demoChanging,
   demoState,
   id,
   className,
 }: ActionStepCardProps) {
   const uid = useId();
   const [more, setMore] = useState(Boolean(demoPanel));
+  const [changing, setChanging] = useState(Boolean(demoChanging));
+  const linkRef = useRef<HTMLButtonElement>(null);
+  const restoreFocus = useRef(false);
   const [panel, setPanel] = useState<StepPanel | null>(demoPanel ?? null);
   const panelRef = useRef<HTMLFieldSetElement>(null);
   const Heading = `h${headingLevel}` as "h3" | "h4";
@@ -114,6 +124,14 @@ export function ActionStepCard({
   // Done by the Loop when it has a draft; on her word when it has none.
   const hasDraft = step.kind === "artifact" || Boolean(step.artifactId);
   const stateClass = demoState ? `is-${demoState}` : undefined;
+
+  // Closing the change questions puts the keyboard back on the link that opened them.
+  useEffect(() => {
+    if (!changing && restoreFocus.current) {
+      restoreFocus.current = false;
+      linkRef.current?.focus();
+    }
+  });
 
   // Opening a panel puts the keyboard inside it.
   useEffect(() => {
@@ -245,6 +263,35 @@ export function ActionStepCard({
     </Button>
   );
 
+  if (compact && changing) {
+    // It takes over the whole card, in place, so the row does not shift.
+    const done = () => setChanging(false);
+    return (
+      <article
+        id={id}
+        className={["step-card", "step-card--compact", "step-card--changing", `step-card--${step.horizon}`, className].filter(Boolean).join(" ")}
+        aria-label={step.title}
+      >
+        <StepChangePanel
+          title={step.title}
+          today={today}
+          date={onDate}
+          onDecline={(reason, note) => onDecline(reason, note)}
+          onDefer={(on, note) => onDefer(on, note)}
+          onEdit={(change) => {
+            onEdit(change);
+            done();
+          }}
+          onClose={() => {
+            done();
+            // Put the keyboard back where she was, once the card is back.
+            restoreFocus.current = true;
+          }}
+        />
+      </article>
+    );
+  }
+
   if (compact) {
     return (
       <article
@@ -275,10 +322,7 @@ export function ActionStepCard({
           </p>
         ) : null}
         <p className="step-card__when">
-          <Icon name="calendar" size={14} />
-          <span>
-            {chosenDay ? C.whenOn(dayLabel(chosenDay)) : timingWords(step)} · {step.effortText}
-          </span>
+          {chosenDay ? C.whenOn(dayLabel(chosenDay)) : timingWords(step)} · {step.effortText}
         </p>
         <p className="step-card__line">
           <b>{C.whyThis}</b> {step.whyThis}
@@ -300,24 +344,14 @@ export function ActionStepCard({
         ) : null}
         <div className="step-card__actions">
           {startButton}
-          <Button
-            variant="ghost"
-            size="sm"
-            aria-expanded={more}
-            aria-controls={`${uid}-more`}
-            onClick={() => {
-              setMore((open) => !open);
-              if (more) setPanel(null);
-            }}
-          >
-            {C.change}
-            <Icon name={more ? "chevron-up" : "chevron-down"} size={16} />
-          </Button>
+          <button type="button" className="step-card__textlink" onClick={() => setChanging(true)} ref={linkRef}>
+            {CH.link}
+          </button>
         </div>
-        {moreBlock}
       </article>
     );
   }
+
 
   return (
     <article

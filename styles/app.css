@@ -14135,3 +14135,123 @@ ul.pcal__items {
   font-weight: var(--weight-regular);
   color: var(--color-text-secondary);
 }
+
+/* A quiet text link: a secondary path under the main button, never a second button. */
+.step-card__textlink {
+  padding: var(--space-2xs) var(--space-3xs);
+  border: 0;
+  background: none;
+  color: var(--color-text-link);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.step-card__textlink:hover {
+  color: var(--color-text-link-hover);
+}
+
+.step-card__textlink:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.step-card--compact .step-card__actions {
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+/* What takes over the card when she changes a step. */
+.step-card--changing {
+  gap: var(--space-sm);
+}
+
+.step-change {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.step-change__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+.step-change__title {
+  margin: 0;
+  font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+}
+
+.step-change__title:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.step-change__step,
+.step-change__question {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+.step-change__question {
+  color: var(--color-text-primary);
+  font-weight: var(--weight-semibold);
+}
+
+ul.step-change__options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step-change__option {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  border: var(--border-thin);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.step-change__option:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.step-change__option:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.step-change__option-label {
+  font-weight: var(--weight-semibold);
+}
+
+.step-change__option-hint {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.step-change__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+}

@@ -114,6 +114,7 @@ import { planSwitchSheetStates } from "./plan/PlanSwitchSheet/PlanSwitchSheet.st
 import { roadmapAgendaStates } from "./plan/RoadmapAgenda/RoadmapAgenda.states";
 import { planCalendarStates } from "./plan/PlanCalendar/PlanCalendar.states";
 import { calendarItemSheetStates } from "./plan/CalendarItemSheet/CalendarItemSheet.states";
+import { stepChangePanelStates } from "./plan/StepChangePanel/StepChangePanel.states";
 import { templateRoadmapsStates } from "./plan/TemplateRoadmaps/TemplateRoadmaps.states";
 
 export const registry: RegisteredComponent[] = [
@@ -220,6 +221,7 @@ export const registry: RegisteredComponent[] = [
   planNarrativeStates,
   directionCardStates,
   planSwitchSheetStates,
+  stepChangePanelStates,
   roadmapAgendaStates,
   planCalendarStates,
   calendarItemSheetStates,

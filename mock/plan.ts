@@ -900,3 +900,43 @@ const HORIZON_TIMING_WORDS: Record<Horizon, string> = {
 };
 
 export const timingWords = (step: { id: string; horizon: Horizon }): string => TIMING_WORDS[step.id] ?? HORIZON_TIMING_WORDS[step.horizon];
+
+/* -----------------------------------------------------------------------------
+   CHANGING A STEP (the compact card)
+   A quiet text link under the main button takes over the whole card with a few
+   plain questions, then a free-type box for her reasons. Nothing here asks "are
+   you sure?" and nothing counts against her. What she writes is kept for the
+   advisor and never shown back unasked.
+   -------------------------------------------------------------------------- */
+
+export const CHANGE_COPY = {
+  link: "Change this step",
+  title: "Change this step",
+  question: "What would you like to do?",
+  options: {
+    decline: { label: "Not for me", hint: "Take it off your plan. Nothing here counts against you." },
+    later: { label: "Do it later", hint: "Bring it back on a day you pick." },
+    change: { label: "Change the timing or how much", hint: "Keep it, but on your terms." },
+  },
+  keep: "Keep it as it is",
+  back: "Back",
+  /* Not for me */
+  declineReason: "What’s the main reason?",
+  declineReasonHint: "Pick one if it fits. You can skip this.",
+  declineNote: "Anything you’d like us to know?",
+  declineNoteHint: "In your own words. It helps ExecHQ choose what comes next. Only you see it.",
+  declineSubmit: "Take it off my plan",
+  /* Do it later */
+  laterWhen: "Bring it back on",
+  laterWhenHint: "We offer it once on that day, with no reminder before.",
+  laterNote: "What’s changed?",
+  laterNoteHint: "Optional. In your own words.",
+  laterSubmit: "Do it later",
+  /* Change the timing or how much */
+  changeWhen: "A day that suits you",
+  changeWhenHint: "Optional. It goes on your calendar.",
+  changeScope: "How much?",
+  changeNote: "What’s making you change it?",
+  changeNoteHint: "Optional. In your own words.",
+  changeSubmit: "Save changes",
+} as const;
