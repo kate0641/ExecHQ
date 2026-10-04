@@ -30,8 +30,8 @@ export const actionStepCardStates = defineComponentStates({
     empty: "A card always holds a step. A free place is shown by the ActionSteps list.",
   },
   variants: [
-    { label: "Offered, short-term — default", props: { ...base, step: ask, accepted: false } },
-    { label: "Accepted, with a draft to make", props: { ...base, step: brief } },
+    { label: "Offered, suggested for a day — default", props: { ...base, step: ask, accepted: false, date: "2026-10-23", suggested: true } },
+    { label: "Accepted, on the day it is pinned to", props: { ...base, step: brief, date: "2026-10-22" } },
     {
       label: "Accepted, no draft: she says when it’s done",
       props: { ...base, step: stepById("add-wins")! },
@@ -77,8 +77,8 @@ export const actionStepCardStates = defineComponentStates({
     },
     { label: "Do it later: pick a date", props: { ...base, step: brief, demoPanel: "defer" } },
     {
-      label: "Change timing or scope — lighter version chosen",
-      props: { ...base, step: brief, demoPanel: "edit", edit: { timing: "Next week", scope: "lighter" } },
+      label: "Change timing or scope — a day and a lighter version chosen",
+      props: { ...base, step: brief, date: "2026-10-27", demoPanel: "edit", edit: { scope: "lighter" } },
     },
     {
       label: "A long title wraps",

@@ -13890,3 +13890,20 @@ ul.pcal__items {
 [data-viewport="web"] .plan-page--c1 .plan-page__main { grid-area: main; }
 [data-viewport="web"] .plan-page--c1 .plan-page__side { grid-area: side; }
 [data-viewport="web"] .plan-page--c1 .plan-page__wide { grid-area: wide; }
+
+.step-card__when {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.pcal__chip--step {
+  border-inline-start-color: var(--color-border-strong);
+  border-style: dashed;
+  border-inline-start-style: solid;
+}
+
+.pcal__dots i.pcal__dot--step {
+  background-color: transparent;
+  border: var(--border-width-medium) solid var(--color-text-primary);
+}

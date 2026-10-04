@@ -33,6 +33,7 @@ import {
   type DeclineReason,
 } from "@/mock/plan";
 import type { Horizon } from "@/mock/plan-stub";
+import { suggestedDate } from "@/lib/step-dates";
 import { NEXT_STEP_AFTER } from "@/mock/snapshots";
 
 /** A decline for wrong timing comes back once after this many days. */
@@ -65,8 +66,11 @@ export interface PlanState {
   replaced: Partial<Record<Horizon, number>>;
   /** She chose to keep her current workload: nothing is replaced. */
   holdWorkload: boolean;
-  /** Her edits to a step's timing or scope. */
-  edits: Record<string, { timing?: string; scope?: "lighter" | "as-is" }>;
+  /** Her edits to a step's scope. */
+  edits: Record<string, { scope?: "lighter" | "as-is" }>;
+  /** The day each step she has accepted, or moved, sits on her calendar. A step with no
+   *  day here is only suggested one (`lib/step-dates.ts`). Absent in older saved state. */
+  dates?: Record<string, LoopDate>;
 }
 
 export type EmptyReason = keyof typeof PLAN_COPY.empty;
@@ -91,17 +95,19 @@ export interface Move {
 export function initialPlanState(today: LoopDate): PlanState {
   const decisions: Record<string, Decision> = {};
   const shown: string[] = [];
+  const dates: Record<string, LoopDate> = {};
   for (const step of ACTION_QUEUE) {
     if (step.status === "accepted") {
       shown.push(step.id);
       decisions[step.id] = { decision: "accepted", on: today };
+      dates[step.id] = suggestedDate(step, today);
     } else if (step.status === "deferred") {
       decisions[step.id] = { decision: "deferred", on: today, returnsOn: addDays(today, DEFAULT_DEFER_DAYS) };
     } else if (step.status === "declined") {
       decisions[step.id] = { decision: "declined", on: today, reason: "not-relevant" };
     }
   }
-  return { today, shown, decisions, avoidChannels: [], replaced: {}, holdWorkload: false, edits: {} };
+  return { today, shown, decisions, avoidChannels: [], replaced: {}, holdWorkload: false, edits: {}, dates };
 }
 
 export const liveSteps = (state: PlanState): ActionStep[] =>
@@ -119,14 +125,33 @@ export const hasRoom = (state: PlanState, horizon: Horizon): boolean =>
    -------------------------------------------------------------------------- */
 
 const without = (shown: string[], id: string) => shown.filter((s) => s !== id);
+const withoutDate = (dates: PlanState["dates"], id: string) => {
+  if (!dates) return dates;
+  return Object.fromEntries(Object.entries(dates).filter(([key]) => key !== id));
+};
 
+/** Accepting a step pins the day it was suggested for onto her calendar. */
 export function accept(state: PlanState, id: string): PlanState {
-  return { ...state, decisions: { ...state.decisions, [id]: { decision: "accepted", on: state.today } } };
+  const step = stepById(id);
+  const dates = { ...state.dates };
+  if (step && !dates[id]) dates[id] = suggestedDate(step, state.today);
+  return { ...state, decisions: { ...state.decisions, [id]: { decision: "accepted", on: state.today } }, dates };
 }
 
-/** Timing or scope changed; the step stays where it is. */
-export function edit(state: PlanState, id: string, change: PlanState["edits"][string]): PlanState {
-  return { ...state, edits: { ...state.edits, [id]: { ...state.edits[id], ...change } } };
+/** Scope changed, or she moved the step to another day; the step stays on her Plan. */
+export function edit(state: PlanState, id: string, change: { scope?: "lighter" | "as-is"; date?: LoopDate }): PlanState {
+  const { date, ...rest } = change;
+  return {
+    ...state,
+    edits: { ...state.edits, [id]: { ...state.edits[id], ...rest } },
+    dates: date ? { ...state.dates, [id]: date } : state.dates,
+  };
+}
+
+/** The day a step is on her calendar, and whether it is only suggested. */
+export function stepDay(state: PlanState, step: Pick<ActionStep, "id" | "horizon">): { date: LoopDate; suggested: boolean } {
+  const pinned = state.dates?.[step.id];
+  return { date: pinned ?? suggestedDate(step, state.today), suggested: !pinned };
 }
 
 export function keepWorkload(state: PlanState, hold = true): PlanState {
@@ -141,7 +166,7 @@ export function newVisit(state: PlanState, today: LoopDate): PlanState {
 export function decline(state: PlanState, id: string, reason?: DeclineReason): Move {
   const step = stepById(id);
   if (!step || !state.shown.includes(id)) return { state };
-  let next: PlanState = { ...state, shown: without(state.shown, id) };
+  let next: PlanState = { ...state, shown: without(state.shown, id), dates: withoutDate(state.dates, id) };
   // Wrong timing is the one reason that is about when, not whether: it comes
   // back once, later.
   const returnsOn = reason === "wrong-timing" ? addDays(state.today, WRONG_TIMING_RETURNS_AFTER_DAYS) : undefined;
@@ -160,6 +185,7 @@ export function defer(state: PlanState, id: string, returnsOn?: LoopDate): Move 
   const next: PlanState = {
     ...state,
     shown: without(state.shown, id),
+    dates: withoutDate(state.dates, id),
     decisions: { ...state.decisions, [id]: { decision: "deferred", on: state.today, returnsOn: on } },
   };
   return refill(next, step, undefined);
@@ -176,6 +202,7 @@ export function complete(state: PlanState, id: string, prefer?: string): Move {
   const next: PlanState = {
     ...state,
     shown: without(state.shown, id),
+    dates: withoutDate(state.dates, id),
     decisions: { ...state.decisions, [id]: { decision: "completed", on: state.today } },
   };
   if (next.holdWorkload) return { state: next, replacement: emptyOf("kept-workload") };

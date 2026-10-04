@@ -7,12 +7,16 @@ import { Icon } from "@/components/primitives/Icon";
 import { WEEKDAYS_SHORT, longDay, monthGrid, monthKey, monthLabel, monthOf, shiftMonth, type Month } from "@/lib/calendar";
 import { addDays, shortDate, type LoopDate } from "@/lib/loop";
 import { stageAt, type StageWindow } from "@/lib/roadmap-dates";
-import { CALENDAR_COPY as C, type CalendarItem } from "@/mock/plan";
+import { CALENDAR_COPY as C, type CalendarItem, type CalendarStep } from "@/mock/plan";
 
 export interface PlanCalendarProps {
   windows: StageWindow[];
   /** What she put on her own calendar. */
   items: CalendarItem[];
+  /** Her plan steps, on the day each is suggested for or pinned to. Read-only here. */
+  steps?: CalendarStep[];
+  /** Takes her to a step's card, where she moves or accepts it. */
+  onOpenStep?: (stepId: string) => void;
   today: LoopDate;
   /** The day in view, shared with the Agenda: picking one here opens its stage there. */
   selected: LoopDate;
@@ -40,6 +44,8 @@ export interface PlanCalendarProps {
 export function PlanCalendar({
   windows,
   items,
+  steps = [],
+  onOpenStep,
   today,
   selected,
   onSelect,
@@ -62,7 +68,7 @@ export function PlanCalendar({
   }
 
   // The months she can move between: what the plan and her items cover.
-  const dates = [windows[0]?.start, windows[windows.length - 1]?.end, ...items.map((i) => i.date), today].filter(Boolean) as LoopDate[];
+  const dates = [windows[0]?.start, windows[windows.length - 1]?.end, ...items.map((i) => i.date), ...steps.map((i) => i.date), today].filter(Boolean) as LoopDate[];
   const first = monthOf(dates.reduce((a, b) => (a < b ? a : b)));
   const last = monthOf(dates.reduce((a, b) => (a > b ? a : b)));
   const index = (m: Month) => m.y * 12 + m.m;
@@ -71,6 +77,12 @@ export function PlanCalendar({
 
   const grid = monthGrid(month);
   const itemsOn = (date: LoopDate) => items.filter((i) => i.date === date);
+  const stepsOn = (date: LoopDate) => steps.filter((i) => i.date === date);
+  /** What shows on a day, hers first. The kind is carried in words and in the mark, never colour. */
+  const entriesOn = (date: LoopDate) => [
+    ...itemsOn(date).map((i) => ({ id: i.id, title: i.title, kind: "yours" as const })),
+    ...stepsOn(date).map((i) => ({ id: i.id, title: i.title, kind: "step" as const })),
+  ];
   const inView = selected >= grid[0] && selected <= grid[grid.length - 1] && monthKey(monthOf(selected)) === monthKey(month);
   const tabStop = inView ? selected : grid.find((d) => monthKey(monthOf(d)) === monthKey(month)) ?? grid[0];
 
@@ -102,6 +114,7 @@ export function PlanCalendar({
 
   const stage = stageAt(windows, selected);
   const day = itemsOn(selected);
+  const daySteps = stepsOn(selected);
   const [asking, setAsking] = useState<string | null>(demoDelete ? (day[0]?.id ?? null) : null);
 
   return (
@@ -140,7 +153,7 @@ export function PlanCalendar({
         ))}
         {grid.map((date) => {
           const s = stageAt(windows, date);
-          const here = itemsOn(date);
+          const here = entriesOn(date);
           const outside = monthKey(monthOf(date)) !== monthKey(month);
           const starts = s >= 0 && windows[s].start === date;
           const label = [
@@ -183,7 +196,7 @@ export function PlanCalendar({
                 ) : null}
               </span>
               {here.slice(0, 2).map((i) => (
-                <span className="pcal__chip" key={i.id} aria-hidden="true">
+                <span className={`pcal__chip pcal__chip--${i.kind}`} key={`${i.kind}-${i.id}`} aria-hidden="true">
                   {i.title}
                 </span>
               ))}
@@ -195,7 +208,7 @@ export function PlanCalendar({
               {here.length ? (
                 <span className="pcal__dots" aria-hidden="true">
                   {here.map((i) => (
-                    <i key={i.id} />
+                    <i className={`pcal__dot--${i.kind}`} key={`${i.kind}-${i.id}`} />
                   ))}
                 </span>
               ) : null}
@@ -217,8 +230,23 @@ export function PlanCalendar({
             C.outside
           )}
         </p>
-        {day.length ? (
+        {day.length || daySteps.length ? (
           <ul className="pcal__items">
+            {daySteps.map((step) => (
+              <li className="pcal__item" key={step.id}>
+                <span className="pcal__tag">
+                  {C.step} · {step.suggested ? C.suggested : C.pinned}
+                </span>
+                <span className="pcal__item-title">{step.title}</span>
+                {onOpenStep ? (
+                  <span className="pcal__item-actions">
+                    <Button variant="ghost" size="sm" onClick={() => onOpenStep(step.id)}>
+                      {C.openStep}
+                    </Button>
+                  </span>
+                ) : null}
+              </li>
+            ))}
             {day.map((item) => (
               <li className="pcal__item" key={item.id}>
                 <span className="pcal__tag">{C.yours}</span>

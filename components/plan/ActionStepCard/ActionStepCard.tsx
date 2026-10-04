@@ -7,6 +7,7 @@ import { Input } from "@/components/form/Input";
 import { Badge } from "@/components/primitives/Badge";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
+import { dayLabel } from "@/lib/calendar";
 import { addDays, type LoopDate } from "@/lib/loop";
 import {
   CHANNELS,
@@ -14,7 +15,6 @@ import {
   KIND_LABELS,
   SCOPE_OPTIONS,
   STEP_COPY as C,
-  TIMING_OPTIONS,
   type ActionStep,
   type DeclineReason,
 } from "@/mock/plan";
@@ -23,16 +23,20 @@ import { signalById } from "@/mock/plan-stub";
 export type StepPanel = "decline" | "defer" | "edit";
 
 export interface StepEdit {
-  timing?: string;
   scope?: "lighter" | "as-is";
+  /** The day she moved it to. */
+  date?: LoopDate;
 }
 
 export interface ActionStepCardProps {
   step: ActionStep;
   /** She has accepted it. Until then it is offered, and Accept comes first. */
   accepted: boolean;
-  /** Her edits to its timing or scope, shown as a line she can see she made. */
-  edit?: StepEdit;
+  /** Her edit to its scope, shown as a line she can see she made. */
+  edit?: Pick<StepEdit, "scope">;
+  /** The day it sits on her calendar. Only suggested until she accepts it or moves it. */
+  date?: LoopDate;
+  suggested?: boolean;
   /** Says her last answer was heard: "A lighter one this time." */
   heard?: string;
   /** She said it was already done: offer to add it to her record. */
@@ -75,6 +79,8 @@ export function ActionStepCard({
   step,
   accepted,
   edit,
+  date: onDate,
+  suggested,
   heard,
   offerRecord,
   startHref,
@@ -107,11 +113,11 @@ export function ActionStepCard({
     if (panel && !demoPanel) panelRef.current?.querySelector<HTMLElement>("button, input")?.focus();
   }, [panel, demoPanel]);
 
-  const [timing, setTiming] = useState<string[]>(edit?.timing ? [edit.timing] : []);
+  const [moveTo, setMoveTo] = useState<string>(onDate ?? "");
   const [scope, setScope] = useState<string[]>(edit?.scope === "lighter" ? [SCOPE_OPTIONS.lighter] : []);
   const [date, setDate] = useState(addDays(today, 7));
 
-  const edited = C.edited(edit?.timing, edit?.scope === "lighter");
+  const edited = C.edited(undefined, edit?.scope === "lighter");
 
   return (
     <article
@@ -140,6 +146,9 @@ export function ActionStepCard({
         <p className="step-card__moves">
           <span>{C.moves}</span> {area}
         </p>
+      ) : null}
+      {onDate ? (
+        <p className="step-card__when">{suggested ? C.whenSuggested(dayLabel(onDate)) : C.whenOn(dayLabel(onDate))}</p>
       ) : null}
       {edited ? <p className="step-card__edited">{edited}</p> : null}
 
@@ -270,7 +279,14 @@ export function ActionStepCard({
         {panel === "edit" ? (
           <fieldset className="step-card__panel" ref={panelRef}>
             <legend className="u-visually-hidden">{C.edit}</legend>
-            <ChipGroup label={C.timing} options={TIMING_OPTIONS} value={timing} onChange={setTiming} />
+            <Input
+              label={C.timing}
+              type="date"
+              min={today}
+              value={moveTo}
+              onChange={(event) => setMoveTo(event.target.value)}
+              hint={C.dateHint}
+            />
             <ChipGroup
               label={C.scope}
               options={Object.values(SCOPE_OPTIONS)}
@@ -283,7 +299,7 @@ export function ActionStepCard({
                 size="sm"
                 onClick={() => {
                   onEdit({
-                    timing: timing[0],
+                    date: moveTo && moveTo >= today ? moveTo : undefined,
                     scope: scope[0] === SCOPE_OPTIONS.lighter ? "lighter" : "as-is",
                   });
                   setPanel(null);

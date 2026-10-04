@@ -53,6 +53,20 @@ export const planCalendarStates = defineComponentStates({
       },
     },
     {
+      label: "Plan steps on the calendar — one pinned, one suggested",
+      description: "A step is only suggested a day until she accepts it or moves it. Marked in words and by a hollow dot, never colour alone.",
+      props: {
+        ...base,
+        selected: "2026-10-22",
+        steps: [
+          { id: "brief-manager", title: "Brief your manager before Thursday’s check-in", date: "2026-10-22", suggested: false },
+          { id: "ask-manager-scope", title: "Ask your manager what broader scope means to them", date: "2026-10-23", suggested: true },
+        ],
+        onOpenStep: noop,
+        headingId: "pc-steps",
+      },
+    },
+    {
       label: "Deleting — asks first",
       props: { ...base, demoDelete: true, headingId: "pc-delete" },
     },

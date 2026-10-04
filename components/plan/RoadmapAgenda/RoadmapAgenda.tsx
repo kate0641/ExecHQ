@@ -9,7 +9,7 @@ import { shortDate, type LoopDate } from "@/lib/loop";
 import { dismissNext, finishStage, startNext, switchPlan } from "@/lib/roadmap-choices";
 import { periodLabel, roadmapWindows, totalWeeks, type StageWindow } from "@/lib/roadmap-dates";
 import { PLAN_TEMPLATES } from "@/mock/onboarding";
-import { AGENDA_COPY as A, CALENDAR_COPY as CAL, ROADMAP_COPY as C, roadmapFor, type CalendarItem } from "@/mock/plan";
+import { AGENDA_COPY as A, CALENDAR_COPY as CAL, ROADMAP_COPY as C, roadmapFor, type CalendarItem, type CalendarStep } from "@/mock/plan";
 
 export interface RoadmapAgendaProps {
   planId: string;
@@ -26,6 +26,8 @@ export interface RoadmapAgendaProps {
   onChoices?: (next: RoadmapChoices) => void;
   /** What she put on her own calendar, shown in the stage it falls in. */
   items?: CalendarItem[];
+  /** Her plan steps, shown in the stage each day falls in. */
+  steps?: CalendarStep[];
   /** The day in view, shared with the Calendar: its stage opens here and its items are marked. */
   selected?: LoopDate;
   /** She picked a day by opening one of her items. */
@@ -67,6 +69,7 @@ export function RoadmapAgenda({
   choices,
   onChoices,
   items = [],
+  steps = [],
   selected,
   onSelectDay,
   onAdd,
@@ -194,7 +197,12 @@ export function RoadmapAgenda({
             total={windows.length}
             milestone={stages[w.index].milestone}
             outcomes={stages[w.index].outcomes}
-            items={items.filter((i) => i.date >= w.start && i.date <= w.end).sort((a, b) => (a.date < b.date ? -1 : 1))}
+            items={[
+              ...items.map((i) => ({ ...i, kind: "yours" as const })),
+              ...steps.map((i) => ({ id: i.id, title: i.title, date: i.date, kind: "step" as const, suggested: i.suggested })),
+            ]
+              .filter((i) => i.date >= w.start && i.date <= w.end)
+              .sort((a, b) => (a.date < b.date ? -1 : 1))}
             today={today}
             selected={selected}
             onSelectDay={onSelectDay}
@@ -252,7 +260,9 @@ export function RoadmapAgenda({
   );
 }
 
-function Row({ item, selected, onSelectDay }: { item: CalendarItem; selected?: LoopDate; onSelectDay?: (date: LoopDate) => void }) {
+type AgendaEntry = CalendarItem & { kind?: "yours" | "step"; suggested?: boolean };
+
+function Row({ item, selected, onSelectDay }: { item: AgendaEntry; selected?: LoopDate; onSelectDay?: (date: LoopDate) => void }) {
   const p = dateParts(item.date);
   return (
     <li className={["rma__row", item.date === selected ? "is-selected" : null].filter(Boolean).join(" ")}>
@@ -263,7 +273,7 @@ function Row({ item, selected, onSelectDay }: { item: CalendarItem; selected?: L
         </span>
       </div>
       <div className="rma__what">
-        <span className="rma__tag">{A.yours}</span>
+        <span className="rma__tag">{item.kind === "step" ? `${A.step}${item.suggested ? ` · ${CAL.suggested}` : ""}` : A.yours}</span>
         {onSelectDay ? (
           <button type="button" className="rma__item rma__item--button" aria-pressed={item.date === selected} onClick={() => onSelectDay(item.date)}>
             {item.title}
@@ -292,7 +302,7 @@ function StageCard({
   total: number;
   milestone: string;
   outcomes: string[];
-  items: CalendarItem[];
+  items: AgendaEntry[];
   today: LoopDate;
   selected?: LoopDate;
   onSelectDay?: (date: LoopDate) => void;

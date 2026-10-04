@@ -14,7 +14,7 @@ import { CalendarItemSheet, type ItemValues } from "@/components/plan/CalendarIt
 import { PlanCalendar } from "@/components/plan/PlanCalendar";
 import { PlanSignalPicture } from "@/components/plan/PlanSignalPicture";
 import { SignalEntrySheet, type EntryValues } from "@/components/plan/SignalEntrySheet";
-import { initialPlanState, liveSteps } from "@/lib/action-steps";
+import { initialPlanState, liveSteps, stepDay, type PlanState } from "@/lib/action-steps";
 import { shortDate } from "@/lib/loop";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
@@ -57,6 +57,8 @@ export function usePlanPage() {
     { mode: "add"; initial?: Partial<EntryValues>; fromRecord?: string } | { mode: "edit"; item: PictureItem } | null
   >(null);
   const [offerDismissed, setOfferDismissed] = useState(false);
+  // The steps on her Plan as the list shows them, hand-offs included, for the Calendar and the narrative.
+  const [liveState, setLiveState] = useState<{ key: string; state: PlanState } | null>(null);
   // The day in view, shared by the Agenda and the Calendar; today until she picks one.
   const [picked, setPicked] = useState<{ scenario: string; day: string } | null>(null);
   const [calEntry, setCalEntry] = useState<{ mode: "add"; date: string } | { mode: "edit"; item: CalendarItem } | null>(null);
@@ -107,7 +109,7 @@ export function usePlanPage() {
   }
 
   // The narrative reads her live steps, as she has left them.
-  const stepState = savedSteps?.state ?? (switchedTo ? { ...initialPlanState(loop.today), shown: [], decisions: {} } : initialPlanState(loop.today));
+  const stepState = (liveState?.key === stepsKey ? liveState.state : undefined) ?? savedSteps?.state ?? (switchedTo ? { ...initialPlanState(loop.today), shown: [], decisions: {} } : initialPlanState(loop.today));
   const live = liveSteps(stepState).filter((s) => !isActionDone(s, loop.records, loop.tasks));
   const narrative = buildNarrative({
     events: momentumEvents(loop.records, loop.tasks),
@@ -132,6 +134,7 @@ export function usePlanPage() {
       }
       onComplete={(step) => loopActions.completeTask(step.id)}
       persist={{ saved: savedSteps, onChange: (next) => saveSteps(stepsKey, next) }}
+      onState={(state) => setLiveState((prev) => (prev?.key === stepsKey && prev.state === state ? prev : { key: stepsKey, state }))}
     />
   );
 
@@ -175,6 +178,8 @@ export function usePlanPage() {
     today: loop.today,
   });
   const selectDay = (date: string) => setPicked({ scenario: loop.id, day: date });
+  // Her live steps on her calendar: suggested for a day until she accepts one or moves it.
+  const stepEntries = live.map((step) => ({ id: step.id, title: step.title, ...stepDay(stepState, step) }));
 
   const agenda = (
     <RoadmapAgenda
@@ -188,6 +193,7 @@ export function usePlanPage() {
       choices={choices}
       onChoices={(next) => saveRoadmap(loop.id, next)}
       items={calendarItems}
+      steps={stepEntries}
       selected={day}
       onSelectDay={selectDay}
       onAdd={(date) => setCalEntry({ mode: "add", date })}
@@ -199,6 +205,8 @@ export function usePlanPage() {
       key={`calendar-${loop.id}`}
       windows={windows}
       items={calendarItems}
+      steps={stepEntries}
+      onOpenStep={openStep}
       today={loop.today}
       selected={day}
       onSelect={selectDay}

@@ -47,3 +47,9 @@ export function longDay(date: LoopDate): string {
   const d = new Date(`${date}T00:00:00Z`);
   return `${["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][d.getUTCDay()]} ${d.getUTCDate()} ${MONTH_NAMES[d.getUTCMonth()]}`;
 }
+
+/** "Tue 27 Oct". */
+export function dayLabel(date: LoopDate): string {
+  const d = new Date(`${date}T00:00:00Z`);
+  return `${["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][d.getUTCDay()]} ${d.getUTCDate()} ${MONTH_NAMES[d.getUTCMonth()].slice(0, 3)}`;
+}

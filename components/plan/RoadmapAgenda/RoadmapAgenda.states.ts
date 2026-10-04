@@ -70,6 +70,19 @@ export const roadmapAgendaStates = defineComponentStates({
         headingId: "ra-last",
       },
     },
+    {
+      label: "Her plan steps inside the stages",
+      description: "A step is marked Suggested until she accepts it or moves it to a day.",
+      props: {
+        ...base,
+        steps: [
+          { id: "brief-manager", title: "Brief your manager before Thursday’s check-in", date: "2026-10-22", suggested: false },
+          { id: "ask-manager-scope", title: "Ask your manager what broader scope means to them", date: "2026-10-23", suggested: true },
+          { id: "scope-case", title: "Build a documented case for broader scope", date: "2027-01-11", suggested: true },
+        ],
+        headingId: "ra-steps",
+      },
+    },
     { label: "Empty — nothing on her calendar", props: { ...base, items: [], headingId: "ra-empty" } },
     {
       label: "Something outside every window",

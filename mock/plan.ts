@@ -380,7 +380,6 @@ export const KIND_LABELS: Record<StepKind, string> = {
   reading: "Read",
 };
 
-export const TIMING_OPTIONS = ["This week", "Next week", "This month", "Later"] as const;
 export const SCOPE_OPTIONS = { "as-is": "As planned", lighter: "A lighter version" } as const;
 
 export const STEP_COPY = {
@@ -404,13 +403,18 @@ export const STEP_COPY = {
   doneWhen: "Done when",
   offered: "Offered",
   accepted: "Accepted",
-  edited: (timing?: string, lighter?: boolean) =>
-    [timing, lighter ? "Lighter version" : undefined].filter(Boolean).join(" · "),
+  edited: (moved?: string, lighter?: boolean) =>
+    [moved, lighter ? "Lighter version" : undefined].filter(Boolean).join(" · "),
+  /** Where the step sits on her calendar: a suggestion until she accepts it. */
+  whenSuggested: (day: string) => `Suggested for ${day}`,
+  whenOn: (day: string) => `On ${day}`,
+  movedTo: (day: string) => `Moved to ${day}`,
   declinePrompt: "Say why, if you like. One tap.",
   declineNoReason: "Not for me, no reason",
   deferPrompt: "Bring it back on",
   deferConfirm: "Do it later",
   timing: "When",
+  dateHint: "A day that suits you. It shows on your calendar.",
   scope: "How much",
   save: "Save",
   cancel: "Cancel",
@@ -700,6 +704,15 @@ export interface CalendarItem {
   note?: string;
 }
 
+/** A plan step as the calendar and the agenda show it: read-only there, since she changes a step
+ *  from its card. `suggested` until she accepts it or moves it. */
+export interface CalendarStep {
+  id: string;
+  title: string;
+  date: string;
+  suggested: boolean;
+}
+
 /** What her calendar holds before she changes it: two things she told us about. */
 export const CALENDAR_SEED: CalendarItem[] = [
   { id: "seed-1", title: "Growth Summit panel", date: "2026-10-29", note: "Panel: planning for growth" },
@@ -763,6 +776,9 @@ export const CALENDAR_COPY = {
   addTo: (day: string) => `Add to ${day}`,
   yours: "Yours",
   step: "Step from your plan",
+  suggested: "Suggested",
+  pinned: "On your plan",
+  openStep: "Open this step",
   edit: "Edit",
   delete: "Delete",
   deleteAsk: "Delete this?",
@@ -791,3 +807,29 @@ export const ITEM_COPY = {
   errorWhat: "Say what it is.",
   errorWhen: "Pick a date.",
 } as const;
+
+/* -----------------------------------------------------------------------------
+   WHEN A STEP FALLS ON HER CALENDAR (Concept 1 tweak)
+   A step has a window in the product (1 to 7 days, 8 to 30, a quarter), not a
+   date. It gets a suggested day from its window, or from the event it is tied
+   to, and shows on her calendar marked "Suggested". Accepting it pins that day;
+   she can move it to any day she likes. Nothing here is a deadline.
+   -------------------------------------------------------------------------- */
+
+export type StepTiming =
+  | { kind: "weekday"; /** 0 Sunday to 6 Saturday. The next one, today if it is today. */ dow: number }
+  | { kind: "monthEnd" }
+  | { kind: "fixed"; date: string };
+
+/** The steps tied to something she told us about: her 1:1 on Tuesday, the check-in on Thursday,
+ *  nominations closing at the end of the month, the planning cycle in January. The rest follow
+ *  their horizon. */
+export const STEP_TIMING: Record<string, StepTiming> = {
+  "use-story": { kind: "weekday", dow: 2 },
+  "brief-manager": { kind: "weekday", dow: 4 },
+  "q1-review": { kind: "monthEnd" },
+  "scope-case": { kind: "fixed", date: "2027-01-11" },
+};
+
+/** Days from today a step is suggested for when nothing ties it to a day, by horizon. */
+export const HORIZON_OFFSET_DAYS: Record<Horizon, number> = { short: 3, medium: 14, long: 60 };

@@ -9,6 +9,7 @@ import {
   defer,
   complete,
   edit as editStep,
+  stepDay,
   initialPlanState,
   keepWorkload,
   liveIn,
@@ -48,6 +49,8 @@ export interface ActionStepsProps {
   answered?: { recordId: string; reported?: string };
   /** She marked a step done on her word; the Loop is told. */
   onComplete?: (step: ActionStep) => void;
+  /** Told whenever the steps on her Plan change, so the Calendar shows the same ones. */
+  onState?: (state: PlanState) => void;
   /** Her choices kept between visits. Without it they last until she leaves. */
   persist?: { saved?: SavedSteps; onChange: (steps: SavedSteps) => void };
   /** Catalogue only: a card opens with this panel showing. */
@@ -75,6 +78,7 @@ export function ActionSteps({
   answered,
   onComplete,
   persist,
+  onState,
   demoPanel,
   demoEmpty,
   headingId = "action-steps-heading",
@@ -86,6 +90,11 @@ export function ActionSteps({
   );
   const [notes, setNotes] = useState<Record<string, Note>>(persist?.saved?.notes ?? {});
   const [empties, setEmpties] = useState<Partial<Record<Horizon, EmptyReason>>>(persist?.saved?.empties ?? demoEmpty ?? {});
+
+  // Whoever shows these steps elsewhere hears of every change, hand-offs included.
+  useEffect(() => {
+    onState?.(state);
+  });
 
   // Keep her choices, but only once they differ from how the page opened.
   const kept = useRef<string | null>(null);
@@ -188,6 +197,8 @@ export function ActionSteps({
                   step={step}
                   accepted={state.decisions[step.id]?.decision === "accepted"}
                   edit={state.edits[step.id]}
+                  date={stepDay(state, step).date}
+                  suggested={stepDay(state, step).suggested}
                   heard={notes[step.id]?.heard}
                   offerRecord={notes[step.id]?.offerRecord}
                   startHref={startHref}
