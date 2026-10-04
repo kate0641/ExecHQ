@@ -1222,7 +1222,9 @@ samp {
   display: flex;
   flex-direction: column;
   width: 100%;
-  overflow: hidden;
+  /* Clip, never hide: a hidden box can still be scrolled by focus and scrollIntoView, which drags the
+     page and the advisor's panel out of place. Only .device__content scrolls. */
+  overflow: clip;
   background-color: var(--color-device-screen);
 }
 
