@@ -6,18 +6,18 @@ import { Stepper } from "@/components/form/Stepper";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import type { Baseline } from "@/lib/presence";
-import { BASELINE_COPY as C, PRESENCE_ORDER, type PresenceKind } from "@/mock/accounts-stub";
+import { BASELINE_COPY as C, PRESENCE_ORDER, type CountedKind } from "@/mock/accounts-stub";
 
 export interface BaselineFormProps {
   onSave: (baseline: Baseline) => void;
   /** Leaves it for later. Omitted where skipping makes no sense. */
   onSkip?: () => void;
   /** Catalogue only: fills the form. */
-  demo?: { counts?: Partial<Record<PresenceKind, number>>; followers?: string };
+  demo?: { counts?: Partial<Record<CountedKind, number>>; followers?: string };
   className?: string;
 }
 
-const NONE: Record<PresenceKind, number> = { podcast: 0, press: 0, speaking: 0, writing: 0 };
+const NONE: Record<CountedKind, number> = { podcast: 0, press: 0, speaking: 0, writing: 0 };
 
 /**
  * Where she says she is starting from, in one card: a stepper for each thing
@@ -26,7 +26,7 @@ const NONE: Record<PresenceKind, number> = { podcast: 0, press: 0, speaking: 0, 
  * and zero is a fine answer. The followers are optional.
  */
 export function BaselineForm({ onSave, onSkip, demo, className }: BaselineFormProps) {
-  const [counts, setCounts] = useState<Record<PresenceKind, number>>({ ...NONE, ...demo?.counts });
+  const [counts, setCounts] = useState<Record<CountedKind, number>>({ ...NONE, ...demo?.counts });
   const [followers, setFollowers] = useState(demo?.followers ?? "");
 
   function submit(event: FormEvent) {

@@ -458,3 +458,99 @@ export const ROADMAP_COPY = {
   /** Only Step up has next steps written in the prototype. */
   stepsStub: "Stubbed · next steps for this plan are written in Sprint 4. Maya’s steps are for Step up.",
 } as const;
+
+/* -----------------------------------------------------------------------------
+   THE SIGNAL PICTURE
+   A private, factual record. Not scored and not compared. Two sources, always
+   labelled in words (not by colour alone): what ExecHQ recorded, and what she
+   added. Nothing in it becomes a number, a percentage or a grade.
+   -------------------------------------------------------------------------- */
+
+export type EntryTypeId = "published" | "spoke" | "podcast" | "press" | "other";
+
+/** The activity types she can report, and how each is kept. Three fields only:
+ *  the type, the date, and an optional link or note. */
+export const ENTRY_TYPES: { id: EntryTypeId; label: string; kind: "writing" | "speaking" | "podcast" | "press" | "other" }[] = [
+  { id: "published", label: "Published", kind: "writing" },
+  { id: "spoke", label: "Spoke", kind: "speaking" },
+  { id: "podcast", label: "Podcast appearance", kind: "podcast" },
+  { id: "press", label: "Press mention", kind: "press" },
+  { id: "other", label: "Something else", kind: "other" },
+];
+
+export const entryTypeOfKind = (kind: string) => ENTRY_TYPES.find((t) => t.kind === kind) ?? ENTRY_TYPES[4];
+
+/** Where an outside activity belongs on her plan when she did not say. A
+ *  stand-in rule: for Step up every outside channel is about being seen as a
+ *  leader. When she adds from an artifact, that artifact's area wins. */
+export const DEFAULT_AREA = "seen-as-leader";
+export const OTHER_AREA = "elsewhere";
+export const OTHER_AREA_NAME = "Elsewhere on your plan";
+
+export const WINDOWS = [7, 30, 90] as const;
+export type WindowDays = (typeof WINDOWS)[number];
+
+/** Direction needs a full window behind it: the last half against the half before. */
+export type Direction = "building" | "steady" | "quieter";
+
+export const SIGNAL_PICTURE_COPY = {
+  heading: "Your Signal Picture",
+  /** The homepage’s starting-point counts, kept under the new picture until the homepage is chosen. */
+  startedHeading: "Where you started",
+  intro: "A private record of what moved. Not scored, and not compared with anyone.",
+  recorded: "Recorded in ExecHQ",
+  added: "You added",
+  key: "Recorded in ExecHQ happened here. You added is what you told us.",
+  windowLabel: "Time window",
+  windows: { 7: "7 days", 30: "30 days", 90: "90 days" } as Record<WindowDays, string>,
+  /** Honest about how little there is, never an empty chart. */
+  thin: (days: number, window: number) =>
+    `You have ${days} day${days === 1 ? "" : "s"} of history. The ${window}-day view fills in as you go.`,
+  thinNow: "What you have so far:",
+  empty: "Nothing recorded yet. Your first draft will show up here, and so will anything you add yourself.",
+  quiet: (window: number) => `Nothing recorded in the last ${window} days.`,
+  add: "Add something you did",
+  /** Counts of real items, kept apart by source. */
+  counts: (recorded: number, added: number) =>
+    [recorded ? `${recorded} recorded in ExecHQ` : "", added ? `${added} you added` : ""].filter(Boolean).join(" · "),
+  direction: {
+    building: "building",
+    steady: "unchanged",
+    quieter: "quieter lately",
+  } as Record<Direction, string>,
+  directionLine: (area: string, word: string) => `${area}: ${word}`,
+  behind: "See what’s behind this",
+  hideBehind: "Hide",
+  from: (date: string) => date,
+  edit: "Edit",
+  delete: "Delete",
+  deleteAsk: "Delete this entry?",
+  deleteYes: "Delete",
+  deleteNo: "Keep it",
+  offer: (title: string) => `You marked “${title}” published. Add it to your record?`,
+  offerYes: "Add it",
+  offerNo: "Not now",
+  editedNote: "Edited by you",
+  openLink: "Open link",
+  opensNewTab: "(opens in a new tab)",
+  did: (title: string) => `Did: ${title}`,
+  /** Which plan area an item moves, in the seven-day list where it is not grouped. */
+  areaOf: (name: string) => `Moves: ${name}`,
+} as const;
+
+export const ENTRY_COPY = {
+  title: "Add something you did",
+  editTitle: "Edit what you added",
+  typeLabel: "What did you do?",
+  dateLabel: "When was it?",
+  noteLabel: "A link or a note",
+  noteHint: "Optional. Just enough for you to recognise it.",
+  notePlaceholder: "https://",
+  save: "Add",
+  saveEdit: "Save",
+  cancel: "Cancel",
+  privacy: "Only you see this. Nothing is searched for or shared.",
+  errorType: "Choose what it was.",
+  errorDate: "Say when it happened.",
+  errorFuture: "That date hasn’t happened yet.",
+} as const;

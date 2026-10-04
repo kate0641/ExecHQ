@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { ActionSteps } from "@/components/plan/ActionSteps";
 import { PlanRoadmap } from "@/components/plan/PlanRoadmap";
-import { AddPresenceSheet } from "@/components/homepage/AddPresenceSheet";
+import { PlanSignalPicture } from "@/components/plan/PlanSignalPicture";
+import { SignalEntrySheet, type EntryValues } from "@/components/plan/SignalEntrySheet";
 import { BaselineForm } from "@/components/homepage/BaselineForm";
 import { SignalPicture } from "@/components/homepage/SignalPicture";
 import { PresenceCard } from "@/components/homepage/PresenceCard";
@@ -16,11 +17,13 @@ import { currentStageIndex, isDone as isActionDone } from "@/lib/rings";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref, getFlow } from "@/lib/manifest";
 import { hasBaseline, signalRows, withAdded } from "@/lib/presence";
-import { addPresence, saveBaseline, useAddedPresence, useBaseline } from "@/lib/presence-store";
+import { addPresence, removePresence, saveBaseline, updatePresence, useAddedPresence, useBaseline } from "@/lib/presence-store";
+import { addedItems, historyDays, offerFor, recordedItems, type PictureItem } from "@/lib/signal-picture";
 import { dismissSpark, useDismissedSparks } from "@/lib/spark-dismissal";
+import { signalOfRecord } from "@/lib/signals";
 import { sparksFor } from "@/lib/sparks";
 import { SNAPSHOTS } from "@/mock/snapshots";
-import { ROADMAP_COPY as RM, roadmapFor } from "@/mock/plan";
+import { ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
 import { ACTIONS } from "@/mock/plan-stub";
 import { recommendPlan } from "@/mock/onboarding";
 import { ADD_COPY as ADD, PRESENCE_STUB as PR, SPARK_COPY as SP, ACCOUNTS_COPY as AC } from "@/mock/accounts-stub";
@@ -43,7 +46,11 @@ export function PlanConcept1() {
   const addedPresence = useAddedPresence();
   const baseline = useBaseline();
   const dismissed = useDismissedSparks();
-  const [adding, setAdding] = useState(false);
+  // The entry flow: adding something new (from the button, or from an offer), or editing one.
+  const [entry, setEntry] = useState<
+    { mode: "add"; initial?: Partial<EntryValues>; fromRecord?: string } | { mode: "edit"; item: PictureItem } | null
+  >(null);
+  const [offerDismissed, setOfferDismissed] = useState(false);
   // What she decided about the roadmap: kept per scenario, so it survives leaving the page.
   const choices = useRoadmapChoices(loop.id);
   // Next steps are written for Step up only; another plan starts with none.
@@ -53,15 +60,41 @@ export function PlanConcept1() {
   const items = withAdded(addedPresence);
   const seeded = loop.homeState !== "first-return";
   const picture = hasBaseline(baseline, seeded);
-  const rows = signalRows(loop.today, items, baseline, seeded, (item) => `${item.title} · ${item.where} · ${shortDate(item.on)}`);
+  const rows = signalRows(loop.today, items, baseline, seeded, (item) => [item.note ?? item.title, item.where, shortDate(item.on)].filter(Boolean).join(" · "));
   const notes = sparksFor(loop.today, loop.account, dismissed, items).filter((n) => n.id.startsWith("presence:"));
   const added = items.filter((item) => item.on <= loop.today).length;
+  const pictureItems = [...recordedItems(loop.records, loop.tasks), ...addedItems(items, loop.today)];
+  const offer = offerDismissed ? undefined : offerFor(loop.records, items, loop.today);
+  const editing = entry?.mode === "edit" ? items.find((i) => i.id === entry.item.id) : undefined;
+
+  function saveEntry(values: EntryValues) {
+    const type = ENTRY_TYPES.find((t) => t.id === values.type) ?? ENTRY_TYPES[4];
+    const isLink = values.text ? /^https?:\/\//i.test(values.text) : false;
+    const fields = {
+      kind: type.kind,
+      title: type.label,
+      where: "",
+      happenedOn: values.on,
+      link: isLink ? values.text : undefined,
+      note: values.text && !isLink ? values.text : undefined,
+    };
+    if (entry?.mode === "edit") updatePresence(entry.item.id, fields);
+    else {
+      addPresence({
+        ...fields,
+        on: loop.today,
+        area: entry?.fromRecord ? signalOfRecord(entry.fromRecord) : undefined,
+        fromRecord: entry?.fromRecord,
+      });
+    }
+    setEntry(null);
+  }
 
   return (
     <div className="plan-stub">
       {stub ? <DestinationStub heading={stub.heading} body={stub.body} sprint={3} /> : null}
       <ActionSteps
-        key={`${loop.id}-${switchedTo}`}
+        key={`steps-${loop.id}-${switchedTo}`}
         today={loop.today}
         initial={switchedTo ? { ...initialPlanState(loop.today), shown: [], decisions: {} } : undefined}
         startHref={conceptHref("toolbox-flow", "concept-1")}
@@ -74,7 +107,7 @@ export function PlanConcept1() {
         onComplete={(step) => loopActions.completeTask(step.id)}
       />
       <PlanRoadmap
-        key={`${loop.id}`}
+        key={`roadmap-${loop.id}`}
         planId={loop.account.plan.id}
         startedOn={loop.account.plan.startedOn}
         today={loop.today}
@@ -86,9 +119,23 @@ export function PlanConcept1() {
         compact
       />
       {switchedTo ? <p className="plan-stub__note">{RM.stepsStub}</p> : null}
+      <PlanSignalPicture
+        key={`picture-${loop.id}`}
+        items={pictureItems}
+        today={loop.today}
+        history={historyDays(loop.account.plan.startedOn, loop.today)}
+        onAdd={() => setEntry({ mode: "add" })}
+        onEdit={(item) => setEntry({ mode: "edit", item })}
+        onDelete={(item) => removePresence(item.id)}
+        offer={offer}
+        onAcceptOffer={() =>
+          offer && setEntry({ mode: "add", initial: { type: "published", on: offer.usedOn }, fromRecord: offer.recordId })
+        }
+        onDismissOffer={() => setOfferDismissed(true)}
+      />
       <section className="plan-stub__signals" aria-labelledby="plan-signals-heading">
         <h2 className="u-visually-hidden" id="plan-signals-heading">
-          Your signals
+          {SPIC.startedHeading}
         </h2>
         <Spark
           items={notes}
@@ -99,14 +146,14 @@ export function PlanConcept1() {
         />
         {picture ? (
           <PresenceCard
-            name={SPC.heading}
+            name={SPIC.startedHeading}
             mark={PR.mark}
             asOf={PR.asOf(shortDate(loop.account.plan.startedOn))}
             thenLabel={AC.then}
             nowLabel={AC.now}
             rows={rows}
             summary={PR.summary(added)}
-            onAdd={() => setAdding(true)}
+            onAdd={() => setEntry({ mode: "add" })}
             addLabel={ADD.open}
             tryThis={{ ...PR.tryThis, href: conceptHref("toolbox-flow", "concept-1") }}
             tryLabel={AC.tryThis}
@@ -114,7 +161,7 @@ export function PlanConcept1() {
           />
         ) : (
           <SignalPicture
-            name={SPC.heading}
+            name={SPIC.startedHeading}
             planHref={conceptHref("plan", "concept-1")}
             planLabel={SPC.planLabel}
             empty={<BaselineForm onSave={saveBaseline} />}
@@ -122,13 +169,20 @@ export function PlanConcept1() {
           />
         )}
       </section>
-      <AddPresenceSheet
-        open={adding}
-        onClose={() => setAdding(false)}
-        onAdd={(entry) => {
-          addPresence({ ...entry, on: loop.today });
-          setAdding(false);
-        }}
+      <SignalEntrySheet
+        key={entry ? (entry.mode === "edit" ? entry.item.id : `add-${entry.fromRecord ?? ""}`) : "closed"}
+        open={entry !== null}
+        onClose={() => setEntry(null)}
+        onSave={saveEntry}
+        today={loop.today}
+        editing={entry?.mode === "edit"}
+        initial={
+          entry?.mode === "edit" && editing
+            ? { type: entryTypeOfKind(editing.kind).id, on: editing.happenedOn ?? editing.on, text: editing.link ?? editing.note }
+            : entry?.mode === "add"
+              ? entry.initial
+              : undefined
+        }
       />
     </div>
   );

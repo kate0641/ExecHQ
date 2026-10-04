@@ -89,7 +89,10 @@ export const WEBSITE_STUB = {
    the card shows is always her own record and never a score.
    -------------------------------------------------------------------------- */
 
-export type PresenceKind = "podcast" | "press" | "speaking" | "writing";
+/** The four she keeps a count of, and "other": anything else she did that the
+ *  Signal Picture should remember, which no count tracks. */
+export type PresenceKind = "podcast" | "press" | "speaking" | "writing" | "other";
+export type CountedKind = Exclude<PresenceKind, "other">;
 
 export interface PresenceItem {
   id: string;
@@ -101,6 +104,15 @@ export interface PresenceItem {
   on: string;
   /** Where to find it, if she gave a link. */
   link?: string;
+  /** The day it happened, when that is not the day she added it. The Signal
+   *  Picture's windows run on this. */
+  happenedOn?: string;
+  /** A note in her words, in place of a title. */
+  note?: string;
+  /** The plan area it belongs to, when she added it from an artifact. */
+  area?: string;
+  /** The Loop record it was added from, when she was offered to add it. */
+  fromRecord?: string;
 }
 
 export const PRESENCE_KINDS: Record<
@@ -110,6 +122,7 @@ export const PRESENCE_KINDS: Record<
   podcast: { label: "Podcast appearances", noun: "appearance", nouns: "appearances", chip: "Podcast", whereLabel: "Which show?", wherePlaceholder: "The Modern CMO" },
   press: { label: "Press mentions", noun: "mention", nouns: "mentions", chip: "Press mention", whereLabel: "Which publication?", wherePlaceholder: "Marketing Week" },
   speaking: { label: "Speaking engagements", noun: "engagement", nouns: "engagements", chip: "Talk", whereLabel: "Which event?", wherePlaceholder: "Growth Summit" },
+  other: { label: "Something else", noun: "item", nouns: "items", chip: "Something else", whereLabel: "Where was it?", wherePlaceholder: "" },
   writing: {
     label: "Writing you publish",
     noun: "piece",
@@ -141,10 +154,10 @@ export const ADD_COPY = {
   opensNewTab: "(opens in a new tab)",
 } as const;
 
-export const PRESENCE_ORDER: readonly PresenceKind[] = ["podcast", "press", "speaking", "writing"];
+export const PRESENCE_ORDER: readonly CountedKind[] = ["podcast", "press", "speaking", "writing"];
 
 /** What she already had when her plan began: the baseline. */
-export const PRESENCE_BASELINE: Record<PresenceKind, number> = {
+export const PRESENCE_BASELINE: Record<CountedKind, number> = {
   podcast: 1,
   press: 2,
   speaking: 1,
@@ -204,7 +217,9 @@ export const SPARK_COPY = {
     press: "Press",
     speaking: "Speaking",
     writing: "Writing",
+    other: "Something you added",
   },
+  other: (what: string) => `Added: ${what}.`,
   linkedin: "Your planning post reached twice as many directors and above as usual.",
   podcast: (where: string, ordinal: string) => `Great job! You’re on ${where}, your ${ordinal} podcast appearance.`,
   press: (where: string, ordinal: string) => `Great to see you in ${where}. That’s your ${ordinal} press mention.`,

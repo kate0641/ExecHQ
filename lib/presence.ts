@@ -7,6 +7,7 @@ import {
   PRESENCE_ITEMS,
   PRESENCE_ORDER,
   type PresenceItem,
+  type CountedKind,
   type PresenceKind,
 } from "@/mock/accounts-stub";
 
@@ -32,7 +33,7 @@ export function addedBy(today: string, items: readonly PresenceItem[] = PRESENCE
 /** Where she said she is starting from, in her own words: counts of what she
  *  has already done, and her LinkedIn followers if she typed them. */
 export interface Baseline {
-  counts: Record<PresenceKind, number>;
+  counts: Record<CountedKind, number>;
   followers?: number;
 }
 
@@ -130,5 +131,5 @@ export function ordinal(n: number): string {
  *  oldest first, as PRESENCE_ITEMS is. */
 export function nthOfKind(item: PresenceItem, items: readonly PresenceItem[] = PRESENCE_ITEMS): number {
   const upTo = items.slice(0, items.findIndex((other) => other.id === item.id) + 1);
-  return PRESENCE_BASELINE[item.kind] + upTo.filter((other) => other.kind === item.kind).length;
+  return (item.kind === "other" ? 0 : PRESENCE_BASELINE[item.kind]) + upTo.filter((other) => other.kind === item.kind).length;
 }

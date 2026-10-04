@@ -48,9 +48,23 @@ function subscribe(listener: () => void): () => void {
   return () => listeners.delete(listener);
 }
 
-/** Adds one, dated `on`. */
-export function addPresence(item: Omit<PresenceItem, "id">): void {
-  write([...get(), { ...item, id: `added-${get().length + 1}` }]);
+/** Adds one, dated `on`. Returns its id. */
+export function addPresence(item: Omit<PresenceItem, "id">): string {
+  const next = Math.max(0, ...get().map((i) => Number(i.id.replace("added-", "")) || 0)) + 1;
+  const id = `added-${next}`;
+  write([...get(), { ...item, id }]);
+  return id;
+}
+
+/** Changes what she added. Only her own entries can change: the prototype's
+ *  earlier record is scenario data, not hers to edit. */
+export function updatePresence(id: string, patch: Partial<Omit<PresenceItem, "id">>): void {
+  write(get().map((item) => (item.id === id ? { ...item, ...patch } : item)));
+}
+
+/** Deletes one she added. */
+export function removePresence(id: string): void {
+  write(get().filter((item) => item.id !== id));
 }
 
 /** Takes everything she added away, and the starting point she saved. The

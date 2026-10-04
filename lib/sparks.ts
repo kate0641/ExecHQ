@@ -19,13 +19,17 @@ export interface SparkNote {
 function noteFor(item: PresenceItem, items: readonly PresenceItem[]): SparkNote {
   const nth = ordinal(nthOfKind(item, items));
   const text =
-    item.kind === "podcast"
+    item.kind !== "writing" && item.kind !== "other" && !item.where
+      ? SPARK_COPY.other(item.note ?? item.title)
+      : item.kind === "podcast"
       ? SPARK_COPY.podcast(item.where, nth)
       : item.kind === "press"
         ? SPARK_COPY.press(item.where, nth)
         : item.kind === "speaking"
           ? SPARK_COPY.speaking(item.where, nth)
-          : SPARK_COPY.writing(item.title, nth);
+          : item.kind === "writing"
+            ? SPARK_COPY.writing(item.title, nth)
+            : SPARK_COPY.other(item.note ?? item.title);
   return { id: `presence:${item.id}`, source: SPARK_COPY.source[item.kind], text, on: item.on };
 }
 

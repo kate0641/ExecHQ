@@ -12813,3 +12813,190 @@ ul.templates__outcomes {
   font-size: var(--text-sm);
   color: var(--color-text-secondary);
 }
+
+/* -----------------------------------------------------------------------------
+   SIGNAL PICTURE (Plan, Sprint 3)
+   Private, factual, never scored. The source of every item is said in words
+   and carries a mark, so it never rests on colour. No gauges, bars or rings.
+   -------------------------------------------------------------------------- */
+.signal-picture {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.signal-picture__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.signal-picture__heading {
+  margin: 0;
+  font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.signal-picture__intro,
+.signal-picture__key,
+.signal-picture__thin,
+.signal-picture__thin-now,
+.signal-picture__empty,
+.signal-picture__counts,
+.signal-picture__where {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+.signal-picture__thin,
+.signal-picture__empty {
+  padding: var(--space-sm) var(--space-md);
+  border: var(--border-width-thin) dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+}
+
+.signal-picture__offer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  border: var(--border-width-medium) solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-raised);
+}
+
+.signal-picture__offer p {
+  margin: 0;
+}
+
+.signal-picture__areas {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.signal-picture__group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+}
+
+.signal-picture__area {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+ul.signal-picture__list {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: var(--border-thin);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-raised);
+}
+
+.signal-picture__item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+  padding: var(--space-sm) var(--space-md);
+  border-top: var(--border-subtle);
+}
+
+.signal-picture__item:first-child {
+  border-top: 0;
+}
+
+.signal-picture__item-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.signal-picture__source {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.signal-picture__source--added {
+  color: var(--color-text-primary);
+}
+
+.signal-picture__date {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.signal-picture__text {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+.signal-picture__text--quote {
+  font-style: italic;
+}
+
+.signal-picture__row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.signal-picture__ask {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.entry-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.entry-form__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+}
+
+.entry-form__error {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  margin: var(--space-2xs) 0 0;
+  font-size: var(--text-sm);
+}
+
+.entry-form__privacy {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.entry-form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}

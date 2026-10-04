@@ -50,7 +50,7 @@ export function signalOfStep(stepId: string): string | undefined {
 }
 
 /** Every fact one artifact's history gives, oldest first. */
-function entriesFor(record: LoopRecord): SignalActivityEntry[] {
+export function entriesFor(record: LoopRecord): SignalActivityEntry[] {
   const out: SignalActivityEntry[] = [];
   const lastEdit = record.history.filter((e) => e.type === "edited").at(-1);
   for (const event of record.history) {
