@@ -8,7 +8,8 @@
  */
 
 import { addDays, daysBetween, shortDate, type LoopDate } from "@/lib/loop";
-import type { RoadmapStep } from "@/mock/plan";
+import { roadmapFor, type RoadmapStep } from "@/mock/plan";
+import type { RoadmapChoices } from "@/components/plan/PlanRoadmap";
 
 export type StageStatus = "done" | "current" | "recommended" | "later";
 
@@ -91,4 +92,33 @@ export function periodLabel(w: Pick<StageWindow, "start" | "end">): string {
 export function totalWeeks(windows: StageWindow[]): number {
   if (!windows.length) return 0;
   return Math.max(1, Math.round((daysBetween(windows[0].start, windows[windows.length - 1].end) + 1) / 7));
+}
+
+/**
+ * The windows for her plan as she has left it: her choices if she has made any,
+ * and otherwise the plan she started on and the stage her work puts her in. The
+ * Agenda, the Calendar and the sheet that adds to it all read this, so they
+ * agree on where every stage falls.
+ */
+export function roadmapWindows(input: {
+  planId: string;
+  startedOn: LoopDate;
+  choices?: RoadmapChoices;
+  /** The stage her work says she is in, and the one the scenario began in. */
+  evidenceStage: number;
+  startStage?: number;
+  today: LoopDate;
+}): StageWindow[] {
+  const { choices, today } = input;
+  const planId = choices?.planId ?? input.planId;
+  const stages = roadmapFor(planId);
+  const current = Math.min(choices?.confirmed ?? input.startStage ?? input.evidenceStage, stages.length - 1);
+  return stageWindows({
+    stages,
+    startedOn: choices?.startedOn ?? input.startedOn,
+    current,
+    finishedOn: choices?.finishedOn,
+    recommended: choices?.recommended ?? null,
+    today,
+  });
 }

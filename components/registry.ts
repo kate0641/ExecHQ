@@ -112,6 +112,8 @@ import { planNarrativeStates } from "./plan/PlanNarrative/PlanNarrative.states";
 import { directionCardStates } from "./plan/DirectionCard/DirectionCard.states";
 import { planSwitchSheetStates } from "./plan/PlanSwitchSheet/PlanSwitchSheet.states";
 import { roadmapAgendaStates } from "./plan/RoadmapAgenda/RoadmapAgenda.states";
+import { planCalendarStates } from "./plan/PlanCalendar/PlanCalendar.states";
+import { calendarItemSheetStates } from "./plan/CalendarItemSheet/CalendarItemSheet.states";
 import { templateRoadmapsStates } from "./plan/TemplateRoadmaps/TemplateRoadmaps.states";
 
 export const registry: RegisteredComponent[] = [
@@ -219,6 +221,8 @@ export const registry: RegisteredComponent[] = [
   directionCardStates,
   planSwitchSheetStates,
   roadmapAgendaStates,
+  planCalendarStates,
+  calendarItemSheetStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */

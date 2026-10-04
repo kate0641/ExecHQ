@@ -13540,3 +13540,353 @@ ul.rma__agenda {
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
 }
+
+/* -----------------------------------------------------------------------------
+   THE CALENDAR (Plan, Concept 1)
+   A month with the stages tinted across it. A tint is never the only cue: each
+   stage's first day says so, the legend names the stages, and the day panel says
+   which stage a day is in. On a narrow pane the items become dots.
+   -------------------------------------------------------------------------- */
+.pcal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  container-type: inline-size;
+  min-width: 0;
+}
+
+.pcal__heading {
+  margin: 0;
+  font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+ul.pcal__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pcal__key {
+  display: inline-block;
+  padding: var(--space-3xs) var(--space-xs);
+  border-radius: var(--radius-tag);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.pcal__key--1,
+.pcal__cell--1 {
+  background-color: var(--color-stage-1);
+}
+
+.pcal__key--2,
+.pcal__cell--2 {
+  background-color: var(--color-stage-2);
+}
+
+.pcal__key--3,
+.pcal__cell--3 {
+  background-color: var(--color-stage-3);
+}
+
+.pcal__key--4,
+.pcal__cell--4 {
+  background-color: var(--color-stage-4);
+}
+
+.pcal__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.pcal__month {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+}
+
+.pcal__grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--space-3xs);
+}
+
+.pcal__dow {
+  padding-bottom: var(--space-3xs);
+  text-align: center;
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.pcal__cell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  min-width: 0;
+  min-height: 5.25rem;
+  padding: var(--space-2xs);
+  border: var(--border-width-medium) solid transparent;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface-raised);
+  color: var(--color-text-primary);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.pcal__cell.is-outside {
+  opacity: 0.5;
+}
+
+.pcal__cell.is-today {
+  border-color: var(--color-text-primary);
+}
+
+.pcal__cell.is-selected {
+  outline: var(--focus-ring);
+  outline-offset: 0;
+}
+
+.pcal__cell:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.pcal__n {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2xs);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+}
+
+.pcal__start {
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.03em;
+}
+
+.pcal__chip {
+  display: block;
+  overflow: hidden;
+  padding: 0 var(--space-2xs);
+  border: var(--border-thin);
+  border-inline-start: var(--border-width-thick) solid var(--color-text-primary);
+  border-radius: var(--radius-xs);
+  background-color: var(--color-surface-raised);
+  font-size: var(--text-xs);
+  line-height: var(--leading-snug);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.pcal__more {
+  font-size: var(--text-2xs);
+  color: var(--color-text-secondary);
+}
+
+.pcal__dots {
+  display: none;
+  flex-wrap: wrap;
+  gap: var(--space-3xs);
+}
+
+.pcal__dots i {
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border-radius: 50%;
+  background-color: var(--color-text-primary);
+}
+
+@container (max-width: 32.5rem) {
+  .pcal__cell {
+    min-height: 3.25rem;
+  }
+
+  .pcal__chip,
+  .pcal__more {
+    display: none;
+  }
+
+  .pcal__dots {
+    display: flex;
+  }
+}
+
+.pcal__day {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-md);
+  border: var(--border-thin);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-raised);
+}
+
+.pcal__day-title {
+  margin: 0;
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+}
+
+.pcal__small {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+ul.pcal__items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pcal__item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3xs);
+}
+
+.pcal__tag {
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.pcal__item-title {
+  font-weight: var(--weight-semibold);
+}
+
+.pcal__item-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.pcal__ask {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.rma__row.is-selected {
+  border-radius: var(--radius-sm);
+  outline: var(--border-width-medium) solid var(--color-text-primary);
+  outline-offset: var(--space-2xs);
+}
+
+.rma__item--button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-sm);
+  text-align: start;
+  text-decoration: underline;
+  text-decoration-color: var(--color-border-strong);
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.rma__item--button:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* The roadmap's Agenda and Calendar: a switch on a phone, side by side beyond it. */
+.rpair {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  min-width: 0;
+}
+
+.rpair__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs);
+}
+
+.rpair__panes {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-lg);
+  align-items: start;
+}
+
+.rpair__agenda,
+.rpair__cal {
+  min-width: 0;
+}
+
+[data-viewport="mobile"] .rpair[data-pane="agenda"] .rpair__cal,
+[data-viewport="mobile"] .rpair[data-pane="calendar"] .rpair__agenda {
+  display: none;
+}
+
+[data-viewport="tablet"] .rpair__switch,
+[data-viewport="web"] .rpair__switch {
+  display: none;
+}
+
+[data-viewport="tablet"] .rpair__bar,
+[data-viewport="web"] .rpair__bar {
+  justify-content: flex-end;
+}
+
+[data-viewport="tablet"] .rpair__panes,
+[data-viewport="web"] .rpair__panes {
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+}
+
+[data-viewport="web"] .rpair__cal {
+  position: sticky;
+  top: var(--space-sm);
+}
+
+.plan-page__wide {
+  min-width: 0;
+}
+
+/* Steps forward: the direction leads, the steps and what changed beside each other, and the
+   roadmap's Agenda and Calendar across the full width below. */
+[data-viewport="web"] .plan-page--c1 {
+  grid-template-areas:
+    "title title"
+    "lead lead"
+    "main side"
+    "wide wide";
+}
+
+[data-viewport="web"] .plan-page--c1 .plan-page__title { grid-area: title; }
+[data-viewport="web"] .plan-page--c1 .plan-page__lead { grid-area: lead; }
+[data-viewport="web"] .plan-page--c1 .plan-page__main { grid-area: main; }
+[data-viewport="web"] .plan-page--c1 .plan-page__side { grid-area: side; }
+[data-viewport="web"] .plan-page--c1 .plan-page__wide { grid-area: wide; }

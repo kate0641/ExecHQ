@@ -10,6 +10,8 @@ import { ActionSteps } from "@/components/plan/ActionSteps";
 import { PlanNarrative } from "@/components/plan/PlanNarrative";
 import { PlanRoadmap } from "@/components/plan/PlanRoadmap";
 import { RoadmapAgenda } from "@/components/plan/RoadmapAgenda";
+import { CalendarItemSheet, type ItemValues } from "@/components/plan/CalendarItemSheet";
+import { PlanCalendar } from "@/components/plan/PlanCalendar";
 import { PlanSignalPicture } from "@/components/plan/PlanSignalPicture";
 import { SignalEntrySheet, type EntryValues } from "@/components/plan/SignalEntrySheet";
 import { initialPlanState, liveSteps } from "@/lib/action-steps";
@@ -18,7 +20,8 @@ import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { momentumEvents } from "@/lib/momentum";
 import { buildNarrative } from "@/lib/narrative";
-import { saveRoadmap, saveSteps, useCalendar, useRoadmapChoices, useSavedSteps } from "@/lib/plan-store";
+import { roadmapWindows } from "@/lib/roadmap-dates";
+import { saveCalendar, saveRoadmap, saveSteps, useCalendar, useRoadmapChoices, useSavedSteps } from "@/lib/plan-store";
 import { hasBaseline, signalRows, withAdded } from "@/lib/presence";
 import { addPresence, removePresence, saveBaseline, updatePresence, useAddedPresence, useBaseline } from "@/lib/presence-store";
 import { currentStageIndex, isDone as isActionDone } from "@/lib/rings";
@@ -32,7 +35,9 @@ import { recommendPlan } from "@/mock/onboarding";
 import { ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
 import { ACTIONS } from "@/mock/plan-stub";
 import { SNAPSHOTS } from "@/mock/snapshots";
+import type { CalendarItem } from "@/mock/plan";
 import { PlanMomentum } from "./PlanMomentum";
+import { RoadmapPair } from "./RoadmapPair";
 
 /**
  * Everything the Plan page is made of, built once, so the three concepts differ
@@ -52,6 +57,9 @@ export function usePlanPage() {
     { mode: "add"; initial?: Partial<EntryValues>; fromRecord?: string } | { mode: "edit"; item: PictureItem } | null
   >(null);
   const [offerDismissed, setOfferDismissed] = useState(false);
+  // The day in view, shared by the Agenda and the Calendar; today until she picks one.
+  const [picked, setPicked] = useState<{ scenario: string; day: string } | null>(null);
+  const [calEntry, setCalEntry] = useState<{ mode: "add"; date: string } | { mode: "edit"; item: CalendarItem } | null>(null);
 
   const choices = useRoadmapChoices(loop.id);
   // Next steps are written for Step up only; another plan starts with none.
@@ -155,8 +163,19 @@ export function usePlanPage() {
     />
   );
 
-  // The roadmap as an Agenda (Concept 1): the same choices as the roadmap, laid out by stage.
-  const calendar = useCalendar(loop.id);
+  // The roadmap as an Agenda and a Calendar (Concept 1): one plan, one set of windows, one day in view.
+  const calendarItems = useCalendar(loop.id);
+  const day = picked?.scenario === loop.id ? picked.day : loop.today;
+  const windows = roadmapWindows({
+    planId: loop.account.plan.id,
+    startedOn: loop.account.plan.startedOn,
+    choices,
+    evidenceStage: currentStageIndex(loop.records, roadmapFor(loop.account.plan.id).length, ACTIONS, loop.tasks),
+    startStage: currentStageIndex(start.records, roadmapFor(loop.account.plan.id).length, ACTIONS, start.tasks),
+    today: loop.today,
+  });
+  const selectDay = (date: string) => setPicked({ scenario: loop.id, day: date });
+
   const agenda = (
     <RoadmapAgenda
       key={`agenda-${loop.id}`}
@@ -168,7 +187,57 @@ export function usePlanPage() {
       startStage={currentStageIndex(start.records, roadmapFor(loop.account.plan.id).length, ACTIONS, start.tasks)}
       choices={choices}
       onChoices={(next) => saveRoadmap(loop.id, next)}
-      items={calendar}
+      items={calendarItems}
+      selected={day}
+      onSelectDay={selectDay}
+      onAdd={(date) => setCalEntry({ mode: "add", date })}
+    />
+  );
+
+  const calendar = (
+    <PlanCalendar
+      key={`calendar-${loop.id}`}
+      windows={windows}
+      items={calendarItems}
+      today={loop.today}
+      selected={day}
+      onSelect={selectDay}
+      onAdd={(date) => setCalEntry({ mode: "add", date })}
+      onEdit={(item) => setCalEntry({ mode: "edit", item })}
+      onDelete={(item) =>
+        saveCalendar(
+          loop.id,
+          calendarItems.filter((i) => i.id !== item.id)
+        )
+      }
+    />
+  );
+
+  const roadmapPair = <RoadmapPair agenda={agenda} calendar={calendar} onAdd={() => setCalEntry({ mode: "add", date: day })} />;
+
+  function saveItem(values: ItemValues) {
+    if (calEntry?.mode === "edit") {
+      const id = calEntry.item.id;
+      saveCalendar(
+        loop.id,
+        calendarItems.map((i) => (i.id === id ? { ...i, ...values } : i))
+      );
+    } else {
+      saveCalendar(loop.id, [...calendarItems, { id: `item-${Date.now()}`, ...values }]);
+    }
+    selectDay(values.date);
+    setCalEntry(null);
+  }
+
+  const calendarSheet = (
+    <CalendarItemSheet
+      key={calEntry ? (calEntry.mode === "edit" ? calEntry.item.id : `add-${calEntry.date}`) : "closed"}
+      open={calEntry !== null}
+      onClose={() => setCalEntry(null)}
+      onSave={saveItem}
+      windows={windows}
+      editing={calEntry?.mode === "edit"}
+      initial={calEntry?.mode === "edit" ? calEntry.item : calEntry?.mode === "add" ? { date: calEntry.date } : undefined}
     />
   );
 
@@ -266,5 +335,10 @@ export function usePlanPage() {
     />
   );
 
-  return { direction, steps, roadmap, agenda, note, narrative: narrativeNode, momentum, picture, started, sheet };
+  return { direction, steps, roadmap, agenda, calendar, roadmapPair, note, narrative: narrativeNode, momentum, picture, started, sheet: (
+      <>
+        {sheet}
+        {calendarSheet}
+      </>
+    ) };
 }

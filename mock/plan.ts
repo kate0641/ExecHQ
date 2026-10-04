@@ -740,3 +740,54 @@ export const AGENDA_COPY = {
   yours: "Yours",
   step: "Step from your plan",
 } as const;
+
+/* -----------------------------------------------------------------------------
+   THE CALENDAR
+   -------------------------------------------------------------------------- */
+
+export const CALENDAR_COPY = {
+  heading: "Your calendar",
+  legend: "Stages",
+  legendItem: (n: number, name: string) => `${n} · ${name}`,
+  prev: "Previous month",
+  next: "Next month",
+  gridHint: "Use the arrow keys to move between days.",
+  today: "today",
+  stageStart: (n: number) => `Stage ${n} starts`,
+  inStage: (n: number) => `stage ${n}`,
+  items: (n: number) => `${n} item${n === 1 ? "" : "s"}`,
+  more: (n: number) => `+${n} more`,
+  outside: "Outside the roadmap’s windows",
+  nothingDay: "Nothing on this day.",
+  add: "Add to my calendar",
+  addTo: (day: string) => `Add to ${day}`,
+  yours: "Yours",
+  step: "Step from your plan",
+  edit: "Edit",
+  delete: "Delete",
+  deleteAsk: "Delete this?",
+  deleteYes: "Delete",
+  deleteNo: "Keep it",
+  agenda: "Agenda",
+  calendar: "Calendar",
+  view: "View",
+  addStage: "Add to this stage",
+  manualOnly: "Only you add to this. Nothing syncs from another calendar.",
+} as const;
+
+export const ITEM_COPY = {
+  title: "Add to your calendar",
+  editTitle: "Edit your item",
+  whatLabel: "What is it?",
+  whatPlaceholder: "Lunch with the CMO",
+  whenLabel: "When?",
+  noteLabel: "A note",
+  noteHint: "Optional.",
+  save: "Add",
+  saveEdit: "Save",
+  cancel: "Cancel",
+  inStage: (n: number, name: string) => `That falls in Stage ${n}, ${name}.`,
+  outsideStage: "That is outside the roadmap’s windows. It will still be on your calendar.",
+  errorWhat: "Say what it is.",
+  errorWhen: "Pick a date.",
+} as const;

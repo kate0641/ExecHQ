@@ -16,19 +16,15 @@ export function PlanConcept1() {
   return (
     <PlanPage
       concept="c1"
-      main={
-        <>
-          {p.direction}
-          {p.steps}
-          {p.narrative}
-        </>
-      }
+      lead={p.direction}
+      main={p.steps}
+      wide={p.roadmapPair}
       side={
         <>
+          {p.narrative}
           {p.momentum}
-          {p.agenda}
-          {p.note}
           {p.picture}
+          {p.note}
           {p.started}
         </>
       }
