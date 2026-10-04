@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import { Badge } from "@/components/primitives/Badge";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
@@ -24,6 +24,8 @@ export interface PlanCalendarProps {
   onAdd: (date: LoopDate) => void;
   onEdit: (item: CalendarItem) => void;
   onDelete: (item: CalendarItem) => void;
+  /** Sits right under the heading: the switch between the Agenda and the Calendar, and Add. */
+  controls?: ReactNode;
   /** Catalogue only: the first item asks whether to delete. */
   demoDelete?: boolean;
   headingId?: string;
@@ -53,12 +55,15 @@ export function PlanCalendar({
   onEdit,
   onDelete,
   demoDelete,
+  controls,
   headingId = "plan-calendar",
   className,
 }: PlanCalendarProps) {
   const uid = useId();
   const root = useRef<HTMLDivElement>(null);
   const moved = useRef(false);
+  const dayPanel = useRef<HTMLElement>(null);
+  const scrollToDay = useRef(false);
   const [month, setMonth] = useState<Month>(() => monthOf(selected));
   const [seen, setSeen] = useState(selected);
   // Picking a day somewhere else (the Agenda) brings its month into view.
@@ -86,12 +91,27 @@ export function PlanCalendar({
   const inView = selected >= grid[0] && selected <= grid[grid.length - 1] && monthKey(monthOf(selected)) === monthKey(month);
   const tabStop = inView ? selected : grid.find((d) => monthKey(monthOf(d)) === monthKey(month)) ?? grid[0];
 
+  // After a tap the day's panel is where the answer is, so bring it into view.
+  useEffect(() => {
+    if (!scrollToDay.current) return;
+    scrollToDay.current = false;
+    dayPanel.current?.scrollIntoView({ block: "nearest" });
+  });
+
   // After an arrow key the selection has moved; put the keyboard on its day.
   useEffect(() => {
     if (!moved.current) return;
     moved.current = false;
     root.current?.querySelector<HTMLElement>(`[data-date="${selected}"]`)?.focus();
   });
+
+  /** Moving to another month moves the selection with it, so the panel below always matches the grid:
+   *  today if it is in that month, otherwise the first day. */
+  function changeMonth(by: number) {
+    const target = shiftMonth(month, by);
+    setMonth(target);
+    onSelect(monthKey(monthOf(today)) === monthKey(target) ? today : `${monthKey(target)}-01`);
+  }
 
   function onKey(event: KeyboardEvent) {
     const step: Record<string, number> = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -7, ArrowDown: 7 };
@@ -122,6 +142,7 @@ export function PlanCalendar({
       <h2 className="pcal__heading" id={headingId}>
         {C.heading}
       </h2>
+      {controls}
       <ul className="pcal__legend" aria-label={C.legend}>
         {windows.map((w) => (
           <li key={w.index}>
@@ -131,13 +152,13 @@ export function PlanCalendar({
       </ul>
 
       <div className="pcal__nav">
-        <Button variant="secondary" size="sm" disabled={!canPrev} onClick={() => setMonth(shiftMonth(month, -1))} aria-label={C.prev}>
+        <Button variant="secondary" size="sm" disabled={!canPrev} onClick={() => changeMonth(-1)} aria-label={C.prev}>
           <Icon name="chevron-left" size={16} />
         </Button>
         <h3 className="pcal__month" aria-live="polite">
           {monthLabel(month)}
         </h3>
-        <Button variant="secondary" size="sm" disabled={!canNext} onClick={() => setMonth(shiftMonth(month, 1))} aria-label={C.next}>
+        <Button variant="secondary" size="sm" disabled={!canNext} onClick={() => changeMonth(1)} aria-label={C.next}>
           <Icon name="chevron" size={16} />
         </Button>
       </div>
@@ -184,11 +205,14 @@ export function PlanCalendar({
               aria-current={date === today ? "date" : undefined}
               aria-pressed={date === selected}
               aria-describedby={`${uid}-hint`}
-              onClick={() => onSelect(date)}
+              onClick={() => {
+                scrollToDay.current = true;
+                onSelect(date);
+              }}
               onKeyDown={onKey}
             >
               <span className="pcal__n">
-                <span aria-hidden="true">{Number(date.slice(8, 10))}</span>
+                <span className="pcal__num" aria-hidden="true">{Number(date.slice(8, 10))}</span>
                 {starts ? (
                   <span className="pcal__start" aria-hidden="true">
                     S{s + 1}
@@ -217,7 +241,7 @@ export function PlanCalendar({
         })}
       </div>
 
-      <section className="pcal__day" aria-labelledby={`${uid}-day`}>
+      <section className="pcal__day" aria-labelledby={`${uid}-day`} ref={dayPanel}>
         <h3 className="pcal__day-title" id={`${uid}-day`}>
           {longDay(selected)}
         </h3>

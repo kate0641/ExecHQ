@@ -174,7 +174,7 @@ export function usePlanPage() {
   // Her live steps on her calendar: suggested for a day until she accepts one or moves it.
   const stepEntries = live.map((step) => ({ id: step.id, title: step.title, ...stepDay(stepState, step) }));
 
-  const agenda = (
+  const agendaWith = (controls?: ReactNode) => (
     <RoadmapAgenda
       key={`agenda-${loop.id}`}
       planId={planId}
@@ -190,10 +190,11 @@ export function usePlanPage() {
       selected={day}
       onSelectDay={selectDay}
       onAdd={(date) => setCalEntry({ mode: "add", date })}
+      controls={controls}
     />
   );
 
-  const calendar = (
+  const calendarWith = (controls?: ReactNode) => (
     <PlanCalendar
       key={`calendar-${loop.id}`}
       windows={windows}
@@ -211,10 +212,13 @@ export function usePlanPage() {
           calendarItems.filter((i) => i.id !== item.id)
         )
       }
+      controls={controls}
     />
   );
 
-  const roadmapPair = <RoadmapPair agenda={agenda} calendar={calendar} onAdd={() => setCalEntry({ mode: "add", date: day })} />;
+  const agenda = agendaWith();
+  const calendar = calendarWith();
+  const roadmapPair = <RoadmapPair agenda={agendaWith} calendar={calendarWith} onAdd={() => setCalEntry({ mode: "add", date: day })} />;
 
   function saveItem(values: ItemValues) {
     if (calEntry?.mode === "edit") {

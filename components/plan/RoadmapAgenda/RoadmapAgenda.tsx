@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useState, type ReactNode } from "react";
 import { PlanSwitchSheet } from "@/components/plan/PlanSwitchSheet";
 import type { PlanChange, RoadmapChoices } from "@/components/plan/PlanRoadmap";
 import { Badge } from "@/components/primitives/Badge";
@@ -34,6 +34,8 @@ export interface RoadmapAgendaProps {
   onSelectDay?: (date: LoopDate) => void;
   /** She wants to add something to a stage, on a day inside it. */
   onAdd?: (date: LoopDate) => void;
+  /** Sits right under the heading: the switch between the Agenda and the Calendar, and Add. */
+  controls?: ReactNode;
   /** Told when she switches plan, so the page can choose new next steps. */
   onChangePlan?: (planId: string) => void;
   /** Catalogue only. */
@@ -73,6 +75,7 @@ export function RoadmapAgenda({
   selected,
   onSelectDay,
   onAdd,
+  controls,
   onChangePlan,
   demoOpen,
   demoHistory,
@@ -120,6 +123,7 @@ export function RoadmapAgenda({
           {template?.formalName ? <span> · {template.formalName}</span> : null}
         </p>
       </div>
+      {controls}
       <div className="rma__summary">
         <p className="rma__line">
           {A.summary(windows.length, totalWeeks(windows), shortDate(windows[0].start), shortDate(windows[windows.length - 1].end))}

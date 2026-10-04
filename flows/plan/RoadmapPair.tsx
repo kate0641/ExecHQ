@@ -11,11 +11,19 @@ import { CALENDAR_COPY as C } from "@/mock/plan";
  * Calendar beside it. On a phone she switches between them; on a tablet or web
  * they sit side by side and stay linked. "Add to my calendar" is always in reach.
  */
-export function RoadmapPair({ agenda, calendar, onAdd }: { agenda: ReactNode; calendar: ReactNode; onAdd: () => void }) {
+export function RoadmapPair({
+  agenda,
+  calendar,
+  onAdd,
+}: {
+  /** Each pane puts the controls right under its own heading. */
+  agenda: (controls: ReactNode) => ReactNode;
+  calendar: (controls: ReactNode) => ReactNode;
+  onAdd: () => void;
+}) {
   const [pane, setPane] = useState<"agenda" | "calendar">("agenda");
-  return (
-    <div className="rpair" data-pane={pane}>
-      <div className="rpair__bar">
+  const controls = (
+    <div className="rpair__bar">
         <div className="rpair__switch">
           <ToggleGroup
             label={C.view}
@@ -30,14 +38,17 @@ export function RoadmapPair({ agenda, calendar, onAdd }: { agenda: ReactNode; ca
             onChange={(v) => setPane(v === "calendar" ? "calendar" : "agenda")}
           />
         </div>
-        <Button variant="secondary" size="sm" onClick={onAdd}>
-          <Icon name="plus" size={14} />
-          {C.add}
-        </Button>
-      </div>
+      <Button variant="secondary" size="sm" onClick={onAdd}>
+        <Icon name="plus" size={14} />
+        {C.add}
+      </Button>
+    </div>
+  );
+  return (
+    <div className="rpair" data-pane={pane}>
       <div className="rpair__panes">
-        <div className="rpair__agenda">{agenda}</div>
-        <div className="rpair__cal">{calendar}</div>
+        <div className="rpair__agenda">{agenda(controls)}</div>
+        <div className="rpair__cal">{calendar(controls)}</div>
       </div>
     </div>
   );
