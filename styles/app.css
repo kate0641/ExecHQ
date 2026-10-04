@@ -14255,3 +14255,110 @@ ul.step-change__options {
   align-items: center;
   gap: var(--space-sm);
 }
+
+/* The compact card in two tiers: a tinted zone for what it is and when and how long, then the reasons and the finish line. */
+.step-card--tiered {
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.step-card__glance {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md) var(--space-md);
+  background-color: var(--color-surface-feature);
+}
+
+.step-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md) var(--space-md);
+}
+
+.step-card__outcome {
+  margin: 0;
+  font-size: var(--text-md);
+  line-height: var(--leading-snug);
+}
+
+dl.step-card__when-how {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-sm);
+  margin: var(--space-3xs) 0 0;
+}
+
+.step-card__when-how dt {
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.step-card__when-how dd {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+ul.step-card__whys {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step-card__whys li {
+  display: grid;
+  grid-template-columns: 0.5rem minmax(0, 1fr);
+  column-gap: var(--space-xs);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+.step-card__whys li::before {
+  content: "";
+  width: 0.375rem;
+  height: 0.375rem;
+  margin-top: 0.5rem;
+  border-radius: 50%;
+  background-color: var(--color-text-primary);
+  grid-row: 1;
+}
+
+.step-card__whys li > span {
+  grid-column: 2;
+}
+
+.step-card__whys b {
+  font-weight: var(--weight-semibold);
+}
+
+.step-card__finish {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-sunken);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+.step-card__finish b {
+  font-weight: var(--weight-semibold);
+}
+
+.step-card__finish svg {
+  flex: none;
+  margin-top: 0.125rem;
+}

@@ -437,6 +437,8 @@ export const STEP_COPY = {
   moves: "Moves",
   /** The compact card, for the swiping row. */
   youllHave: "You’ll have",
+  whenLabel: "When",
+  howLongLabel: "How long",
   whyThis: "Why this",
   whyNowLabel: "Why now",
   whyYouLabel: "Why you",

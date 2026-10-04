@@ -293,65 +293,85 @@ export function ActionStepCard({
   }
 
   if (compact) {
+    // Two tiers. Above: what it is and when and for how long, on a tinted zone. Below: why, and where it ends.
     return (
       <article
         id={id}
-        className={["step-card", "step-card--compact", `step-card--${step.horizon}`, className].filter(Boolean).join(" ")}
+        className={["step-card", "step-card--compact", "step-card--tiered", `step-card--${step.horizon}`, className].filter(Boolean).join(" ")}
         aria-labelledby={titleId}
       >
-        {heard ? (
-          <p className="step-card__heard">
-            <Icon name="check" size={14} />
-            <span>{heard}</span>
-          </p>
-        ) : null}
-        <div className="step-card__tags">
-          <span className={`step-card__hz step-card__hz--${step.horizon}`}>{C.horizonLabels[step.horizon]}</span>
-          {step.stubbed ? <Badge tone="sprint">{C.stubbedNote}</Badge> : null}
-          <span className="step-card__state">{accepted ? C.accepted : C.offered}</span>
+        <div className="step-card__glance">
+          {heard ? (
+            <p className="step-card__heard">
+              <Icon name="check" size={14} />
+              <span>{heard}</span>
+            </p>
+          ) : null}
+          <div className="step-card__tags">
+            <span className={`step-card__hz step-card__hz--${step.horizon}`}>{C.horizonLabels[step.horizon]}</span>
+            {step.stubbed ? <Badge tone="sprint">{C.stubbedNote}</Badge> : null}
+            <span className="step-card__state">{accepted ? C.accepted : C.offered}</span>
+          </div>
+          <Heading className="step-card__title" id={titleId} tabIndex={-1}>
+            {step.title}
+          </Heading>
+          <p className="step-card__outcome">{step.outcome}</p>
+          {area ? (
+            <p className="step-card__line">
+              <b>{C.moves}</b> {area}
+            </p>
+          ) : null}
+          <dl className="step-card__when-how">
+            <div>
+              <dt>{C.whenLabel}</dt>
+              <dd>{chosenDay ? C.whenOn(dayLabel(chosenDay)) : timingWords(step)}</dd>
+            </div>
+            <div>
+              <dt>{C.howLongLabel}</dt>
+              <dd>{step.effortText}</dd>
+            </div>
+          </dl>
         </div>
-        <Heading className="step-card__title" id={titleId} tabIndex={-1}>
-          {step.title}
-        </Heading>
-        <p className="step-card__line">
-          <b>{C.youllHave}</b> {step.outcome}
-        </p>
-        {area ? (
-          <p className="step-card__line">
-            <b>{C.moves}</b> {area}
+        <div className="step-card__body">
+          <ul className="step-card__whys">
+            <li>
+              <span>
+                <b>{C.whyThis}</b> {step.whyThis}
+              </span>
+            </li>
+            <li>
+              <span>
+                <b>{C.whyNowLabel}</b> {step.whyNow}
+              </span>
+            </li>
+            <li>
+              <span>
+                <b>{C.whyYouLabel}</b> {step.whyYou}
+              </span>
+            </li>
+          </ul>
+          <p className="step-card__finish">
+            <Icon name="check" size={16} />
+            <span>
+              <b>{C.doneWhen}</b> {step.done}
+            </span>
           </p>
-        ) : null}
-        <p className="step-card__when">
-          {chosenDay ? C.whenOn(dayLabel(chosenDay)) : timingWords(step)} · {step.effortText}
-        </p>
-        <p className="step-card__line">
-          <b>{C.whyThis}</b> {step.whyThis}
-        </p>
-        <p className="step-card__line">
-          <b>{C.whyNowLabel}</b> {step.whyNow}
-        </p>
-        <p className="step-card__line">
-          <b>{C.whyYouLabel}</b> {step.whyYou}
-        </p>
-        <p className="step-card__line">
-          <b>{C.doneWhen}</b> {step.done}
-        </p>
-        {edited ? <p className="step-card__edited">{edited}</p> : null}
-        {offerRecord && onRecord ? (
-          <Button variant="secondary" size="sm" onClick={onRecord}>
-            {C.recordIt}
-          </Button>
-        ) : null}
-        <div className="step-card__actions">
-          {startButton}
-          <button type="button" className="step-card__textlink" onClick={() => setChanging(true)} ref={linkRef}>
-            {CH.link}
-          </button>
+          {edited ? <p className="step-card__edited">{edited}</p> : null}
+          {offerRecord && onRecord ? (
+            <Button variant="secondary" size="sm" onClick={onRecord}>
+              {C.recordIt}
+            </Button>
+          ) : null}
+          <div className="step-card__actions">
+            {startButton}
+            <button type="button" className="step-card__textlink" onClick={() => setChanging(true)} ref={linkRef}>
+              {CH.link}
+            </button>
+          </div>
         </div>
       </article>
     );
   }
-
 
   return (
     <article
