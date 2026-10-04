@@ -100,12 +100,12 @@ The dock's scenario picker (1–5) shows the Plan at one, sixteen, eighteen and 
 
 ## 8. Concept 1 tweak: roadmap as a calendar, her direction, stage periods
 
-Built after the first review, on Plan Concept 1 only (Concepts 2 and 3 still use the earlier roadmap). Chosen from three options: **C, the Agenda, with A, the Calendar, beside it.**
+Built after the first review. Chosen from three options: **C, the Agenda, with A, the Calendar, beside it.** Since split: the Agenda stays on Concept 1 (under the next steps) and the Calendar moved to Concept 2 (beside the roadmap on web, below the road on a phone). Concept 3 still uses the earlier roadmap.
 
 **What changed**
 - **Her direction** sits at the top, in her own words, editable at any time. Saving never changes her plan ("Saved. Your plan stays as it is"), and "Why this plan" keeps the reason she was given.
 - **The roadmap is an Agenda:** stage cards with a suggested period, what finishing looks like, and what is on her calendar inside each stage. The stage she is in is open and the rest are one tap away.
-- **The Calendar** is a month grid with the stages tinted across it, her own items (added by hand, with edit and delete), and her plan steps. On a phone it is a switch beside the Agenda; on tablet and web the two sit side by side and stay linked. The grid is one tab stop with arrow-key navigation.
+- **The Calendar** is a month grid with the stages tinted across it, her own items (added by hand, with edit and delete), and her plan steps. It is on Concept 2 only, with its own Add button; the Agenda no longer links to it. The grid is one tab stop with arrow-key navigation.
 - **Finishing a stage recommends the next.** She can say she has finished at any time, or her work can suggest it. Starting the next stage moves the later windows. "Not yet" leaves the next stage marked and never nags.
 - **Plan steps are on the calendar** as a suggested day, pinned when she accepts, movable with a date picker.
 

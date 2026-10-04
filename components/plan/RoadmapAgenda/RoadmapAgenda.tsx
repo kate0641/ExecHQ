@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState, type ReactNode } from "react";
+import { useId, useState } from "react";
 import { PlanSwitchSheet } from "@/components/plan/PlanSwitchSheet";
 import type { PlanChange, RoadmapChoices } from "@/components/plan/PlanRoadmap";
 import { Badge } from "@/components/primitives/Badge";
@@ -28,14 +28,8 @@ export interface RoadmapAgendaProps {
   items?: CalendarItem[];
   /** Her plan steps, shown in the stage each day falls in. */
   steps?: CalendarStep[];
-  /** The day in view, shared with the Calendar: its stage opens here and its items are marked. */
-  selected?: LoopDate;
-  /** She picked a day by opening one of her items. */
-  onSelectDay?: (date: LoopDate) => void;
   /** She wants to add something to a stage, on a day inside it. */
   onAdd?: (date: LoopDate) => void;
-  /** Sits right under the heading: the switch between the Agenda and the Calendar, and Add. */
-  controls?: ReactNode;
   /** Told when she switches plan, so the page can choose new next steps. */
   onChangePlan?: (planId: string) => void;
   /** Catalogue only. */
@@ -72,10 +66,7 @@ export function RoadmapAgenda({
   onChoices,
   items = [],
   steps = [],
-  selected,
-  onSelectDay,
   onAdd,
-  controls,
   onChangePlan,
   demoOpen,
   demoHistory,
@@ -123,7 +114,6 @@ export function RoadmapAgenda({
           {template?.formalName ? <span> · {template.formalName}</span> : null}
         </p>
       </div>
-      {controls}
       <div className="rma__summary">
         <p className="rma__line">
           {A.summary(windows.length, totalWeeks(windows), shortDate(windows[0].start), shortDate(windows[windows.length - 1].end))}
@@ -208,8 +198,6 @@ export function RoadmapAgenda({
               .filter((i) => i.date >= w.start && i.date <= w.end)
               .sort((a, b) => (a.date < b.date ? -1 : 1))}
             today={today}
-            selected={selected}
-            onSelectDay={onSelectDay}
             onAdd={onAdd}
           />
         ))}
@@ -223,7 +211,7 @@ export function RoadmapAgenda({
               .filter((i) => !windows.some((w) => i.date >= w.start && i.date <= w.end))
               .sort((a, b) => (a.date < b.date ? -1 : 1))
               .map((i) => (
-                <Row key={i.id} item={i} selected={selected} onSelectDay={onSelectDay} />
+                <Row key={i.id} item={i} />
               ))}
           </ul>
         </section>
@@ -266,10 +254,10 @@ export function RoadmapAgenda({
 
 type AgendaEntry = CalendarItem & { kind?: "yours" | "step"; suggested?: boolean };
 
-function Row({ item, selected, onSelectDay }: { item: AgendaEntry; selected?: LoopDate; onSelectDay?: (date: LoopDate) => void }) {
+function Row({ item }: { item: AgendaEntry }) {
   const p = dateParts(item.date);
   return (
-    <li className={["rma__row", item.date === selected ? "is-selected" : null].filter(Boolean).join(" ")}>
+    <li className="rma__row">
       <div className="rma__date">
         <b>{p.day}</b>
         <span>
@@ -278,13 +266,7 @@ function Row({ item, selected, onSelectDay }: { item: AgendaEntry; selected?: Lo
       </div>
       <div className="rma__what">
         <span className="rma__tag">{item.kind === "step" ? `${A.step}${item.suggested ? ` · ${CAL.suggested}` : ""}` : A.yours}</span>
-        {onSelectDay ? (
-          <button type="button" className="rma__item rma__item--button" aria-pressed={item.date === selected} onClick={() => onSelectDay(item.date)}>
-            {item.title}
-          </button>
-        ) : (
-          <span className="rma__item">{item.title}</span>
-        )}
+        <span className="rma__item">{item.title}</span>
         {item.note ? <span className="rma__small">{item.note}</span> : null}
       </div>
     </li>
@@ -298,8 +280,6 @@ function StageCard({
   outcomes,
   items,
   today,
-  selected,
-  onSelectDay,
   onAdd,
 }: {
   w: StageWindow;
@@ -308,14 +288,11 @@ function StageCard({
   outcomes: string[];
   items: AgendaEntry[];
   today: LoopDate;
-  selected?: LoopDate;
-  onSelectDay?: (date: LoopDate) => void;
   onAdd?: (date: LoopDate) => void;
 }) {
-  const holdsSelected = selected !== undefined && selected >= w.start && selected <= w.end;
   const label = w.status === "later" ? null : A.states[w.status];
   return (
-    <details className={["rma__card", w.status === "current" ? "is-current" : null].filter(Boolean).join(" ")} open={w.status === "current" || holdsSelected}>
+    <details className={["rma__card", w.status === "current" ? "is-current" : null].filter(Boolean).join(" ")} open={w.status === "current"}>
       <summary className="rma__summary-row">
         <span className="rma__card-top">
           <Badge tone="neutral">{A.stageOf(w.index + 1, total)}</Badge>
@@ -342,7 +319,7 @@ function StageCard({
         {items.length ? (
           <ul className="rma__agenda">
             {items.map((i) => (
-              <Row key={i.id} item={i} selected={selected} onSelectDay={onSelectDay} />
+              <Row key={i.id} item={i} />
             ))}
           </ul>
         ) : (

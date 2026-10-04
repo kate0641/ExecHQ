@@ -4,12 +4,12 @@ import { PlanPage } from "../PlanPage";
 import { usePlanPage } from "../usePlanPage";
 
 /**
- * Plan, Concept 1 — Steps forward. The direction and the next steps lead, then what
- * changed. Momentum, the roadmap as an Agenda (the stage she is in open, the rest
- * one tap away) and the Signal Picture sit beside them on web.
+ * Plan, Concept 1 — Steps forward. The direction and the next steps lead, with the
+ * roadmap as an Agenda under them (the stage she is in open, the rest one tap
+ * away). What changed, Momentum and the Signal Picture sit beside them on web.
  *
  * For the person who opens the Plan to act. The roadmap is context, not the
- * way in.
+ * way in. The Calendar is on Concept 2.
  */
 export function PlanConcept1() {
   const p = usePlanPage();
@@ -17,14 +17,18 @@ export function PlanConcept1() {
     <PlanPage
       concept="c1"
       lead={p.direction}
-      main={p.stepsCarousel}
-      wide={p.roadmapPair}
+      main={
+        <>
+          {p.stepsCarousel}
+          {p.agenda}
+          {p.note}
+        </>
+      }
       side={
         <>
           {p.narrative}
           {p.momentum}
           {p.picture}
-          {p.note}
           {p.started}
         </>
       }

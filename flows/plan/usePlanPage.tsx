@@ -6,6 +6,8 @@ import { PresenceCard } from "@/components/homepage/PresenceCard";
 import { SignalPicture } from "@/components/homepage/SignalPicture";
 import { Spark } from "@/components/homepage/Spark";
 import { DirectionCard } from "@/components/plan/DirectionCard";
+import { Button } from "@/components/primitives/Button";
+import { Icon } from "@/components/primitives/Icon";
 import { ActionSteps } from "@/components/plan/ActionSteps";
 import { PlanNarrative } from "@/components/plan/PlanNarrative";
 import { PlanRoadmap } from "@/components/plan/PlanRoadmap";
@@ -32,12 +34,11 @@ import { sparksFor } from "@/lib/sparks";
 import { ADD_COPY as ADD, PRESENCE_STUB as PR, SPARK_COPY as SP, ACCOUNTS_COPY as AC } from "@/mock/accounts-stub";
 import { SIGNAL_PICTURE_COPY as SPC } from "@/mock/homepage";
 import { PLAN_TEMPLATES, recommendPlan } from "@/mock/onboarding";
-import { DIRECTION_PLAN_COPY as DP, ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
+import { CALENDAR_COPY as CAL, DIRECTION_PLAN_COPY as DP, ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
 import { ACTIONS } from "@/mock/plan-stub";
 import { SNAPSHOTS } from "@/mock/snapshots";
 import type { CalendarItem } from "@/mock/plan";
 import { PlanMomentum } from "./PlanMomentum";
-import { RoadmapPair } from "./RoadmapPair";
 
 /**
  * Everything the Plan page is made of, built once, so the three concepts differ
@@ -174,7 +175,8 @@ export function usePlanPage() {
   // Her live steps on her calendar: suggested for a day until she accepts one or moves it.
   const stepEntries = live.map((step) => ({ id: step.id, title: step.title, ...stepDay(stepState, step) }));
 
-  const agendaWith = (controls?: ReactNode) => (
+  // Concept 1: the roadmap as an Agenda. She can add something to a stage from its card.
+  const agenda = (
     <RoadmapAgenda
       key={`agenda-${loop.id}`}
       planId={planId}
@@ -187,14 +189,12 @@ export function usePlanPage() {
       onChoices={(next) => saveRoadmap(loop.id, next)}
       items={calendarItems}
       steps={stepEntries}
-      selected={day}
-      onSelectDay={selectDay}
       onAdd={(date) => setCalEntry({ mode: "add", date })}
-      controls={controls}
     />
   );
 
-  const calendarWith = (controls?: ReactNode) => (
+  // Concept 2: the Calendar, with Add right under its heading.
+  const calendar = (
     <PlanCalendar
       key={`calendar-${loop.id}`}
       windows={windows}
@@ -212,13 +212,16 @@ export function usePlanPage() {
           calendarItems.filter((i) => i.id !== item.id)
         )
       }
-      controls={controls}
+      controls={
+        <div>
+          <Button variant="secondary" size="sm" onClick={() => setCalEntry({ mode: "add", date: day })}>
+            <Icon name="plus" size={14} />
+            {CAL.add}
+          </Button>
+        </div>
+      }
     />
   );
-
-  const agenda = agendaWith();
-  const calendar = calendarWith();
-  const roadmapPair = <RoadmapPair agenda={agendaWith} calendar={calendarWith} onAdd={() => setCalEntry({ mode: "add", date: day })} />;
 
   function saveItem(values: ItemValues) {
     if (calEntry?.mode === "edit") {
@@ -362,7 +365,7 @@ export function usePlanPage() {
     />
   );
 
-  return { direction, directionCompass, steps, stepsCarousel, roadmap, agenda, calendar, roadmapPair, note, narrative: narrativeNode, momentum, picture, started, sheet: (
+  return { direction, directionCompass, steps, stepsCarousel, roadmap, agenda, calendar, note, narrative: narrativeNode, momentum, picture, started, sheet: (
       <>
         {sheet}
         {calendarSheet}
