@@ -12,6 +12,7 @@ import {
   initialPlanState,
   keepWorkload,
   liveIn,
+  newVisit,
   liveSteps,
   reconcile,
   type EmptyReason,
@@ -21,6 +22,18 @@ import {
 import type { LoopDate } from "@/lib/loop";
 import { LIVE_LIMITS, MAX_LIVE, PLAN_COPY, STEP_COPY as C, type ActionStep } from "@/mock/plan";
 import { HORIZONS, type Horizon } from "@/mock/plan-stub";
+
+interface Note {
+  heard?: string;
+  offerRecord?: boolean;
+}
+
+/** What the page keeps between visits. */
+export interface SavedSteps {
+  state: PlanState;
+  notes: Record<string, Note>;
+  empties: Partial<Record<Horizon, EmptyReason>>;
+}
 
 export interface ActionStepsProps {
   today: LoopDate;
@@ -35,17 +48,14 @@ export interface ActionStepsProps {
   answered?: { recordId: string; reported?: string };
   /** She marked a step done on her word; the Loop is told. */
   onComplete?: (step: ActionStep) => void;
+  /** Her choices kept between visits. Without it they last until she leaves. */
+  persist?: { saved?: SavedSteps; onChange: (steps: SavedSteps) => void };
   /** Catalogue only: a card opens with this panel showing. */
   demoPanel?: "decline" | "defer" | "edit";
   /** Catalogue only: a horizon opens saying why nothing fills its free place. */
   demoEmpty?: Partial<Record<Horizon, EmptyReason>>;
   headingId?: string;
   className?: string;
-}
-
-interface Note {
-  heard?: string;
-  offerRecord?: boolean;
 }
 
 /**
@@ -64,14 +74,30 @@ export function ActionSteps({
   isDone = () => false,
   answered,
   onComplete,
+  persist,
   demoPanel,
   demoEmpty,
   headingId = "action-steps-heading",
   className,
 }: ActionStepsProps) {
-  const [state, setState] = useState<PlanState>(() => initial ?? initialPlanState(today));
-  const [notes, setNotes] = useState<Record<string, Note>>({});
-  const [empties, setEmpties] = useState<Partial<Record<Horizon, EmptyReason>>>(demoEmpty ?? {});
+  // A new visit starts the replacement count again; everything else she decided stays.
+  const [state, setState] = useState<PlanState>(() =>
+    persist?.saved ? newVisit(persist.saved.state, today) : initial ?? initialPlanState(today)
+  );
+  const [notes, setNotes] = useState<Record<string, Note>>(persist?.saved?.notes ?? {});
+  const [empties, setEmpties] = useState<Partial<Record<Horizon, EmptyReason>>>(persist?.saved?.empties ?? demoEmpty ?? {});
+
+  // Keep her choices, but only once they differ from how the page opened.
+  const kept = useRef<string | null>(null);
+  useEffect(() => {
+    if (!persist) return;
+    const json = JSON.stringify({ state, notes, empties });
+    if (kept.current === null) kept.current = json;
+    else if (json !== kept.current) {
+      kept.current = json;
+      persist.onChange({ state, notes, empties });
+    }
+  });
   const [message, setMessage] = useState("");
   const focus = useRef<string | null>(null);
 

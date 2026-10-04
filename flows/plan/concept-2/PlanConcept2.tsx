@@ -1,0 +1,39 @@
+"use client";
+
+import { PlanPage } from "../PlanPage";
+import { usePlanPage } from "../usePlanPage";
+
+/**
+ * Plan, Concept 2 — Road forward. The roadmap leads: where she is on it, what
+ * finishing the stage looks like, and that stage's next steps opened up inside
+ * it. What changed, Momentum and the Signal Picture sit beside it on web.
+ *
+ * For the person who wants to know where this is heading before deciding what
+ * to do. The steps are the stage's work, not a separate list.
+ */
+export function PlanConcept2() {
+  const p = usePlanPage();
+  return (
+    <PlanPage
+      concept="c2"
+      main={
+        <>
+          {p.roadmap({ children: p.steps })}
+          {p.note}
+        </>
+      }
+      side={
+        <>
+          {p.narrative}
+          {p.momentum}
+          {p.picture}
+          {p.started}
+        </>
+      }
+    >
+      {p.sheet}
+    </PlanPage>
+  );
+}
+
+export default PlanConcept2;

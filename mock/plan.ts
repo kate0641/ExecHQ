@@ -628,3 +628,30 @@ export const MOMENTUM_COPY = {
     note: "Prototype scaffolding. The label difference is the 90-day view, and a three-week pilot cannot show it.",
   },
 } as const;
+
+/* -----------------------------------------------------------------------------
+   WHAT CHANGED / WHAT NEXT
+   Two to four plain sentences on what moved, then one next best move. Every
+   sentence traces to recorded items, shown one tap away. No causal claims: it
+   says what happened and what she logged, never that one thing led to another.
+   -------------------------------------------------------------------------- */
+
+export const NARRATIVE_COPY = {
+  heading: "What changed",
+  basis: "What this is based on",
+  hideBasis: "Hide",
+  thin: (days: number) =>
+    `You have ${days} day${days === 1 ? "" : "s"} of history, so there is not much to read yet. This fills in as you go.`,
+  nothing: "Nothing is recorded yet. Your first draft will show up here.",
+  window: (history: number, days: number) => (history >= days ? `Over the past ${days} days` : `In your ${history} day${history === 1 ? "" : "s"} so far`),
+  did: (lead: string, parts: string[]) =>
+    `${lead}, you ${parts.length > 1 ? `${parts.slice(0, -1).join(", ")} and ${parts.at(-1)}` : parts[0]}.`,
+  completed: (n: number) => `completed ${n} action${n === 1 ? "" : "s"}`,
+  artifacts: (n: number) => `created or used ${n} artifact${n === 1 ? "" : "s"}`,
+  outcomes: (n: number) => `updated ${n} outcome${n === 1 ? "" : "s"}`,
+  added: (n: number, kinds: string) => `You added ${n} thing${n === 1 ? "" : "s"} yourself: ${kinds}.`,
+  logged: (quote: string) => `You logged: “${quote}”`,
+  next: "Your next best move",
+  openStep: "Open this step",
+  none: "No next move yet. Your plan offers one when it fits.",
+} as const;

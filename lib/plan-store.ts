@@ -1,12 +1,14 @@
 /**
- * What she has decided about her roadmap: which stage she confirmed, whether
- * she said "Not yet" to moving on, and any plan she switched to, with the
- * plans she left. Kept per scenario, so each of the dock's scenarios keeps its
- * own choices.
+ * What she has decided on the Plan, kept per scenario so each of the dock's
+ * scenarios keeps its own choices and they survive leaving the page:
  *
- * The stage her work points to comes from the Loop; this is only what she
- * said about it. Nothing here advances a stage: a stage moves when she
- * confirms.
+ *  - the roadmap: the stage she confirmed, whether she said "Not yet" to
+ *    moving on, and any plan she switched to, with the plans she left;
+ *  - the next steps: what she accepted, declined, deferred, changed or did,
+ *    the channels she asked not to see, and what filled each place.
+ *
+ * What her work points to comes from the Loop; this is only what she said
+ * about it. Nothing here advances a stage or counts a decline against her.
  *
  * An external store read through useSyncExternalStore and mirrored to
  * localStorage, like presence and the Briefing, and undone by the dock's
@@ -15,35 +17,39 @@
 
 import { useSyncExternalStore } from "react";
 import type { RoadmapChoices } from "@/components/plan/PlanRoadmap";
+import type { SavedSteps } from "@/components/plan/ActionSteps";
 
-export type { RoadmapChoices };
+export type { RoadmapChoices, SavedSteps };
 
-type All = Record<string, RoadmapChoices>;
+interface Store {
+  roadmap: Record<string, RoadmapChoices>;
+  steps: Record<string, SavedSteps>;
+}
 
-const STORAGE_KEY = "exechq-plan-roadmap";
-const NONE: All = {};
+const STORAGE_KEY = "exechq-plan";
+const EMPTY: Store = { roadmap: {}, steps: {} };
 
-let cached: All | undefined;
+let cached: Store | undefined;
 const listeners = new Set<() => void>();
 
-function read(): All {
+function read(): Store {
   try {
-    const parsed: unknown = JSON.parse(window.localStorage.getItem(STORAGE_KEY) ?? "{}");
-    return parsed && typeof parsed === "object" ? (parsed as All) : NONE;
+    const parsed = JSON.parse(window.localStorage.getItem(STORAGE_KEY) ?? "null") as Partial<Store> | null;
+    return parsed && typeof parsed === "object" ? { roadmap: parsed.roadmap ?? {}, steps: parsed.steps ?? {} } : EMPTY;
   } catch {
-    return NONE;
+    return EMPTY;
   }
 }
 
-function get(): All {
+function get(): Store {
   if (cached === undefined) cached = read();
   return cached;
 }
 
-function write(next: All): void {
+function write(next: Store): void {
   cached = next;
   try {
-    if (Object.keys(next).length === 0) window.localStorage.removeItem(STORAGE_KEY);
+    if (Object.keys(next.roadmap).length + Object.keys(next.steps).length === 0) window.localStorage.removeItem(STORAGE_KEY);
     else window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
   } catch {
     // Not being able to persist is not worth failing over.
@@ -57,21 +63,30 @@ function subscribe(listener: () => void): () => void {
 }
 
 export function saveRoadmap(scenario: string, choices: RoadmapChoices): void {
-  write({ ...get(), [scenario]: choices });
+  write({ ...get(), roadmap: { ...get().roadmap, [scenario]: choices } });
 }
 
-/** Undoes every roadmap choice. The dock's reset calls this. */
+export function saveSteps(key: string, steps: SavedSteps): void {
+  write({ ...get(), steps: { ...get().steps, [key]: steps } });
+}
+
+/** Undoes every choice on the Plan. The dock's reset calls this. */
 export function resetRoadmap(): void {
-  write(NONE);
+  write(EMPTY);
 }
 
-/** Her choices in this scenario, or undefined if she has made none. */
+/** Her roadmap choices in this scenario, or undefined if she has made none. */
 export function useRoadmapChoices(scenario: string): RoadmapChoices | undefined {
-  const all = useSyncExternalStore(subscribe, get, () => NONE);
-  return all[scenario];
+  return useSyncExternalStore(subscribe, get, () => EMPTY).roadmap[scenario];
 }
 
-/** Whether she has made any roadmap choice, so the dock's reset knows. */
+/** Her saved next steps for this scenario and plan, or undefined. */
+export function useSavedSteps(key: string): SavedSteps | undefined {
+  return useSyncExternalStore(subscribe, get, () => EMPTY).steps[key];
+}
+
+/** Whether she has made any choice on the Plan, so the dock's reset knows. */
 export function useRoadmapChanged(): boolean {
-  return Object.keys(useSyncExternalStore(subscribe, get, () => NONE)).length > 0;
+  const all = useSyncExternalStore(subscribe, get, () => EMPTY);
+  return Object.keys(all.roadmap).length + Object.keys(all.steps).length > 0;
 }

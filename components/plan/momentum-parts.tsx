@@ -28,7 +28,7 @@ export function MomentumWindows({ value, onChange }: { value: WindowDays; onChan
 }
 
 /** The events behind a figure or a label, so nothing is a bare number. */
-export function Behind({ events, open: initial = false }: { events: MomentumEvent[]; open?: boolean }) {
+export function Behind({ events, open: initial = false }: { events: Pick<MomentumEvent, "id" | "text" | "on">[]; open?: boolean }) {
   const [open, setOpen] = useState(initial);
   const id = useId();
   if (events.length === 0) return null;

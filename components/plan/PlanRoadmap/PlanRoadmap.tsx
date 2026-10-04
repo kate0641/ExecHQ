@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useState, type ReactNode } from "react";
 import { Sheet } from "@/components/layout/Sheet";
 import { Badge } from "@/components/primitives/Badge";
 import { Button } from "@/components/primitives/Button";
@@ -48,6 +48,8 @@ export interface PlanRoadmapProps {
   compact?: boolean;
   /** Told when she switches, so the page can choose new next steps. */
   onChangePlan?: (planId: string) => void;
+  /** What sits inside the stage she is in: that stage's next steps. */
+  children?: ReactNode;
   /** Catalogue only. */
   demoOpen?: "all" | "switch" | "confirm";
   demoConfirmed?: number;
@@ -78,6 +80,7 @@ export function PlanRoadmap({
   choices,
   onChoices,
   compact = false,
+  children,
   onChangePlan,
   demoOpen,
   demoConfirmed,
@@ -245,6 +248,7 @@ export function PlanRoadmap({
                   </div>
                 </aside>
               ) : null}
+              {isCurrent && children ? <div className="roadmap__stage-content">{children}</div> : null}
             </li>
           );
         })}

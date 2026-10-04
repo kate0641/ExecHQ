@@ -5,6 +5,8 @@ import { HomepageConcept2 } from "./homepage/concept-2";
 import { HomepageConcept3 } from "./homepage/concept-3";
 import { HomepageConcept4 } from "./homepage/concept-4";
 import { PlanConcept1 } from "./plan/concept-1";
+import { PlanConcept2 } from "./plan/concept-2";
+import { PlanConcept3 } from "./plan/concept-3";
 import { PlanTemplates } from "./plan/templates";
 import { ProfileConcept1 } from "./profile/concept-1";
 import { LoginConcept1 } from "./login/concept-1";
@@ -31,6 +33,8 @@ const BUILT_CONCEPTS: Record<string, ReactElement> = {
   "homepage/concept-3": <HomepageConcept3 />,
   "homepage/concept-4": <HomepageConcept4 />,
   "plan/concept-1": <PlanConcept1 />,
+  "plan/concept-2": <PlanConcept2 />,
+  "plan/concept-3": <PlanConcept3 />,
   "plan/templates": <PlanTemplates />,
   "profile/concept-1": <ProfileConcept1 />,
   "login/concept-1": <LoginConcept1 />,
