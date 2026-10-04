@@ -13000,3 +13000,142 @@ ul.signal-picture__list {
   flex-wrap: wrap;
   gap: var(--space-xs);
 }
+
+/* -----------------------------------------------------------------------------
+   MOMENTUM (Plan, Sprint 3)
+   Counts of real things, in words. No gauge, bar, ring, percentage or streak.
+   -------------------------------------------------------------------------- */
+.momentum {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.momentum__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.momentum__heading {
+  margin: 0;
+  font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.momentum__intro,
+.momentum__thin,
+.momentum__basis,
+.momentum__rule {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+.momentum__thin {
+  padding: var(--space-sm) var(--space-md);
+  border: var(--border-width-thin) dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+}
+
+ul.momentum__figures {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: var(--border-thin);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-raised);
+}
+
+.momentum__figure {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3xs);
+  padding: var(--space-sm) var(--space-md);
+  border-top: var(--border-subtle);
+}
+
+.momentum__figure:first-child {
+  border-top: 0;
+}
+
+.momentum__count,
+.momentum__sentence {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.momentum__label {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+}
+
+.momentum__next {
+  margin: 0;
+  font-size: var(--text-sm);
+}
+
+.momentum__next span {
+  font-weight: var(--weight-semibold);
+}
+
+.momentum__behind {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+  gap: var(--space-2xs);
+}
+
+ul.momentum__events {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  margin: 0;
+  padding-inline-start: var(--space-md);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+.momentum__events[hidden] {
+  display: none;
+}
+
+.momentum__event-date {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.momentum-scaffold {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  border: var(--border-width-thin) dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+}
+
+.momentum-scaffold p {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.momentum-scaffold__title {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}

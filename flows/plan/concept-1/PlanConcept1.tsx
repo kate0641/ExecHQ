@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ActionSteps } from "@/components/plan/ActionSteps";
 import { PlanRoadmap } from "@/components/plan/PlanRoadmap";
+import { PlanMomentum } from "../PlanMomentum";
 import { PlanSignalPicture } from "@/components/plan/PlanSignalPicture";
 import { SignalEntrySheet, type EntryValues } from "@/components/plan/SignalEntrySheet";
 import { BaselineForm } from "@/components/homepage/BaselineForm";
@@ -105,6 +106,13 @@ export function PlanConcept1() {
             : undefined
         }
         onComplete={(step) => loopActions.completeTask(step.id)}
+      />
+      <PlanMomentum
+        key={`momentum-${loop.id}`}
+        records={loop.records}
+        tasks={loop.tasks}
+        today={loop.today}
+        startedOn={loop.account.plan.startedOn}
       />
       <PlanRoadmap
         key={`roadmap-${loop.id}`}

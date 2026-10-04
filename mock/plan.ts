@@ -554,3 +554,77 @@ export const ENTRY_COPY = {
   errorDate: "Say when it happened.",
   errorFuture: "That date hasn’t happened yet.",
 } as const;
+
+/* -----------------------------------------------------------------------------
+   MOMENTUM: two concepts, for reviewers to choose between
+   The PRD contradicts itself. The Loop section says "completed action" and
+   "Plan progress"; the Plan section specifies an indicator labelled building,
+   steady or needs attention. Concept A reads the Plan section, Concept B the
+   Loop section. What separates them is the 90-day label, which a three-week
+   pilot cannot produce, so usage cannot decide this: it has to be
+   concept-tested in sessions.
+   -------------------------------------------------------------------------- */
+
+export type MomentumFigure = "completed" | "artifact" | "outcome";
+export type MomentumLabel = "building" | "steady" | "attention";
+export type LabelWording = "candid" | "soft";
+
+/**
+ * PLACEHOLDER. D&T have not given the thresholds that define building, steady
+ * and needs attention (an open question in the brief), so this reads the
+ * three counted figures in the last 45 days against the 45 before, and calls
+ * a gap of more than `band` either way. Replace with D&T's definition.
+ */
+export const MOMENTUM_LABEL_RULE = { band: 1 } as const;
+
+export const MOMENTUM_COPY = {
+  headingA: "Momentum",
+  headingB: "Plan progress",
+  intro: "What you’ve done on your plan. Nothing is scored, and nothing is compared with anyone.",
+  windowLabel: "Time window",
+  figures: {
+    completed: (n: number) => `${n} completed action${n === 1 ? "" : "s"}`,
+    artifact: (n: number) => `${n} artifact${n === 1 ? "" : "s"} created or used`,
+    outcome: (n: number) => `${n} outcome${n === 1 ? "" : "s"} updated`,
+  } as Record<MomentumFigure, (n: number) => string>,
+  behind: "What’s behind this",
+  hideBehind: "Hide",
+  nothingBehind: "Nothing in this window.",
+  /** Concept A, 30 days. Only steps she took on count: a declined or deferred
+   *  step is never in it. */
+  followThrough: (done: number, taken: number) =>
+    `You completed ${done} of the ${taken} step${taken === 1 ? "" : "s"} you took on.`,
+  followThroughNone: "You haven’t taken on any steps yet.",
+  /** Concept B, 30 days: the same counts against the 30 days before, in plain words. */
+  compared: (now: number, before: number, noun: string) =>
+    `${now} ${noun} in the last 30 days, and ${before} in the 30 days before.`,
+  comparedNouns: { completed: "completed actions", artifact: "artifacts created or used", outcome: "outcomes updated" } as Record<MomentumFigure, string>,
+  noEarlier: (days: number) => `You have ${days} days of history, so there is nothing earlier to compare yet.`,
+  /** Thin history, said plainly. */
+  thin: (days: number, window: number) =>
+    `You have ${days} day${days === 1 ? "" : "s"} of history. The ${window}-day view fills in as you go.`,
+  thinLabel: (days: number) =>
+    `You have ${days} day${days === 1 ? "" : "s"} of history. The 90-day label fills in as you go, and until it does there is no label to give.`,
+  soFar: "So far:",
+  /** The 90-day labels, and the softer wording to test them against. */
+  labels: {
+    candid: { building: "Building", steady: "Steady", attention: "Needs attention" },
+    soft: { building: "Building", steady: "Steady", attention: "Quieter lately" },
+  } as Record<LabelWording, Record<MomentumLabel, string>>,
+  /** What each label says it is based on, so it never reads as a grade. */
+  labelBasis: (label: string) =>
+    `${label}, from what you completed, made and logged in the last 90 days. It is not a grade, and it does not say your work caused any result.`,
+  nextMove: "Your next move",
+  placeholderRule: "Placeholder rule · D&T to define",
+  scaffold: {
+    heading: "Reviewing Momentum",
+    concept: "Concept",
+    a: "A · Labeled trend",
+    b: "B · Counts only",
+    wording: "Label wording",
+    candid: "Needs attention",
+    soft: "Quieter lately",
+    history: "Show 95 days of history",
+    note: "Prototype scaffolding. The label difference is the 90-day view, and a three-week pilot cannot show it.",
+  },
+} as const;
