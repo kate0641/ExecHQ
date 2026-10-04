@@ -307,21 +307,19 @@ export function ActionStepCard({
               <span>{heard}</span>
             </p>
           ) : null}
-          <div className="step-card__tags">
-            <span className={`step-card__hz step-card__hz--${step.horizon}`}>{C.horizonLabels[step.horizon]}</span>
+          <p className="step-card__eyebrow">
+            {C.horizonLabels[step.horizon]}
+            {/* Whether she has taken it on is said by the main button; a screen reader gets it here too. */}
+            <span className="u-visually-hidden"> · {accepted ? C.accepted : C.offered}</span>
             {step.stubbed ? <Badge tone="sprint">{C.stubbedNote}</Badge> : null}
-            <span className="step-card__state">{accepted ? C.accepted : C.offered}</span>
-          </div>
+          </p>
           <Heading className="step-card__title" id={titleId} tabIndex={-1}>
             {step.title}
           </Heading>
           <p className="step-card__outcome">{step.outcome}</p>
-          {area ? (
-            <p className="step-card__line">
-              <b>{C.moves}</b> {area}
-            </p>
-          ) : null}
-          <dl className="step-card__when-how">
+        </div>
+        <div className="step-card__facts-zone">
+          <dl className="step-card__facts-panel">
             <div>
               <dt>{C.whenLabel}</dt>
               <dd>{chosenDay ? C.whenOn(dayLabel(chosenDay)) : timingWords(step)}</dd>
@@ -330,6 +328,12 @@ export function ActionStepCard({
               <dt>{C.howLongLabel}</dt>
               <dd>{step.effortText}</dd>
             </div>
+            {area ? (
+              <div>
+                <dt>{C.moves}</dt>
+                <dd>{area}</dd>
+              </div>
+            ) : null}
           </dl>
         </div>
         <div className="step-card__body">
