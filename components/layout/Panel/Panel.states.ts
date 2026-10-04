@@ -20,7 +20,7 @@ export const panelStates = defineComponentStates({
     {
       label: "Default",
       props: {
-        title: "Active Landscape",
+        title: "Action steps",
         headingLevel: 3,
         children: "Panel body content sits here.",
       },
@@ -31,7 +31,7 @@ export const panelStates = defineComponentStates({
         eyebrow: "Sprint 3",
         title: "Plan",
         headingLevel: 3,
-        description: "Roadmap, Active Landscape and plan progress in one place.",
+        description: "Roadmap, action steps and plan progress in one place.",
         children: "Panel body content sits here.",
       },
     },

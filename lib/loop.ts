@@ -86,7 +86,7 @@ export interface LoopRecord {
    *  the follow-up question, so it must sound right after "You used…". */
   name: string;
   createdOn: LoopDate;
-  /** The Active Landscape recommendation it came from, if any. */
+  /** The action step recommendation it came from, if any. */
   recommendation?: string;
   state: LoopState;
   /** How the user said they'd use it, when they marked it ready. */

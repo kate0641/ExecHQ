@@ -1,5 +1,5 @@
 // TEMPORARY. Sprint 3 designs the Plan and replaces this file.
-// Nothing outside /mock may hard-code Plan or Active Landscape data.
+// Nothing outside /mock may hard-code Plan or action-step data.
 
 /**
  * The Plan, stubbed: Maya's roadmap on Increase Leadership Scope, her Active

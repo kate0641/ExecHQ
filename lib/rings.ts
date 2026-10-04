@@ -1,5 +1,5 @@
 /**
- * The rings of Homepage Concept 1: one per Active Landscape horizon, one
+ * The rings of Homepage Concept 1: one per action-step horizon, one
  * segment per accepted action in it.
  *
  * The rules, from the concept brief, and not optional:
@@ -9,7 +9,7 @@
  *   else fills it — no checkbox, no "done" button.
  * - Declined and deferred actions are left out of the ring entirely. They
  *   never show as empty or missed segments.
- * - The rings read the current Active Landscape, not a calendar period, so
+ * - The rings read the current action steps, not a calendar period, so
  *   nothing resets on a clock.
  */
 

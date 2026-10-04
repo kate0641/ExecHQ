@@ -193,7 +193,7 @@ export const prototypeConfig: PrototypeConfig = {
       sprint: 3,
       chrome: "app",
       description:
-        "Roadmap, Active Landscape and plan progress in one place. Factual, never a score.",
+        "Roadmap, action steps and plan progress in one place. Factual, never a score.",
       stub: {
         heading: "Your plan",
         body: "Where your plan will live: the road ahead, what\u2019s next on it, and what you\u2019ve done so far.",
@@ -201,8 +201,27 @@ export const prototypeConfig: PrototypeConfig = {
       concepts: [
         {
           slug: "concept-1",
-          title: "Concept 1",
-          summary: "Roadmap and Active Landscape.",
+          title: "Concept 1 — Steps forward",
+          summary:
+            "Action steps lead: the five live steps by horizon, then the Signal Picture and Momentum. The roadmap is one step away.",
+        },
+        {
+          slug: "concept-2",
+          title: "Concept 2 — Road forward",
+          summary:
+            "The roadmap leads: where she is on it and what finishing the stage looks like, with that stage’s action steps opened up beneath.",
+        },
+        {
+          slug: "concept-3",
+          title: "Concept 3 — Record forward",
+          summary:
+            "What changed leads: the narrative and the Signal Picture, ending in one next move that opens the matching action step.",
+        },
+        {
+          slug: "templates",
+          title: "All five plans",
+          summary:
+            "Reference, not a concept: the roadmap of every plan template, stage by stage, to review the wording in one place.",
         },
       ],
     },

@@ -1,0 +1,318 @@
+// Sprint 3's Plan data. The roadmaps for the five templates, and the ranked
+// queue the action steps are drawn from. Nothing outside /mock may hard-code
+// Plan or action-step data.
+//
+// `mock/plan-stub.ts` stays as Sprint 2 left it: the homepage reads it and the
+// homepage concept is not chosen yet. This file builds on it, so the words of
+// an action are written once.
+
+import { PLAN_TEMPLATES, type PlanTemplate } from "@/mock/onboarding";
+import { ACTIONS, NEW_ACTIONS, type Horizon, type LandscapeAction } from "@/mock/plan-stub";
+
+/* -----------------------------------------------------------------------------
+   ROADMAPS
+   Each template's stages come from onboarding (`PLAN_TEMPLATES`), where the
+   user already saw three of them, so the two screens cannot disagree. The
+   brief proposes three to four stages; `ADDED_STAGES` supplies the fourth,
+   marked `added` so a reviewer can see what onboarding does not yet show.
+   No dates and no windows of time: a plan has no end date (2026-09-29), so
+   stages are an order, never a schedule. Stages describe work, not
+   achievement: nothing unlocks and nothing is levelled.
+   -------------------------------------------------------------------------- */
+
+export interface RoadmapStep {
+  title: string;
+  /** What finishing the stage looks like: a concrete, checkable sign. */
+  milestone: string;
+  /** What the user will have by the end of it. */
+  outcomes: string[];
+  /** Not shown in onboarding's version of this plan. */
+  added?: boolean;
+}
+
+const ADDED_STAGES: Record<string, { at: number; stage: RoadmapStep }> = {
+  "leadership-scope": {
+    at: 3,
+    stage: {
+      title: "Make the case",
+      milestone: "You’ve asked for the broader role, with your record behind you.",
+      outcomes: ["A documented case for broader scope", "The ask, made to the person who decides"],
+      added: true,
+    },
+  },
+  "executive-presence": {
+    at: 3,
+    stage: {
+      title: "Keep it going",
+      milestone: "You have a rhythm you can keep up, and you know which rooms keep inviting you.",
+      outcomes: ["A rhythm for publishing and speaking that fits your week", "A short list of what is working"],
+      added: true,
+    },
+  },
+  "inflection-point": {
+    at: 2,
+    stage: {
+      title: "Rehearse the conversations",
+      milestone: "You’ve said the hard parts out loud to someone who will push back.",
+      outcomes: ["The two or three conversations that matter, practised", "Answers to the questions you least want"],
+      added: true,
+    },
+  },
+  "current-org": {
+    at: 3,
+    stage: {
+      title: "Frame the opportunities",
+      milestone: "You’ve put two openings in front of leadership, in terms they care about.",
+      outcomes: ["Two internal opportunities, written as the business sees them"],
+      added: true,
+    },
+  },
+  explore: {
+    at: 2,
+    stage: {
+      title: "Build the story that travels",
+      milestone: "You can say in a minute why your next direction follows from what you’ve done.",
+      outcomes: ["A short story of where you’re headed that holds up with strangers"],
+      added: true,
+    },
+  },
+};
+
+/** The roadmap for a template: onboarding's stages, plus the one the brief adds. */
+export function roadmapFor(planId: string): RoadmapStep[] {
+  const template: PlanTemplate | undefined = PLAN_TEMPLATES.find((p) => p.id === planId);
+  const base: RoadmapStep[] = (template?.stages ?? []).map((s) => ({
+    title: s.title,
+    milestone: s.done ?? "",
+    outcomes: s.outcomes,
+  }));
+  const extra = ADDED_STAGES[planId];
+  if (extra) base.splice(extra.at, 0, extra.stage);
+  return base;
+}
+
+/* -----------------------------------------------------------------------------
+   ACTION STEPS
+   -------------------------------------------------------------------------- */
+
+/** The brief's four recommendation types. */
+export type StepKind = "artifact" | "context" | "opportunity" | "reading";
+
+/** The presence channels a step can run through. Only the channels a user can
+ *  report on, plus none: a conversation with a manager has no channel. */
+export type Channel = "linkedin" | "content" | "speaking" | "podcast" | "press";
+
+export const CHANNELS: Record<Channel, { label: string; phrase: string }> = {
+  linkedin: { label: "LinkedIn", phrase: "LinkedIn" },
+  content: { label: "Published writing", phrase: "published writing" },
+  speaking: { label: "Speaking", phrase: "speaking" },
+  podcast: { label: "Podcasts", phrase: "podcasts" },
+  press: { label: "Press", phrase: "press" },
+};
+
+/** 1 is a few minutes to half an hour, 3 is several sittings. */
+export type Effort = 1 | 2 | 3;
+
+export interface ActionStep extends LandscapeAction {
+  kind: StepKind;
+  channel?: Channel;
+  effort: Effort;
+  /** The estimate in words. */
+  effortText: string;
+  /** What counts as done. An artifact step is done when its artifact reaches
+   *  used, sent or published in the Loop; any other when she marks it done. */
+  done: string;
+  /** The Plan area it moves: the signal's id in `mock/plan-stub.ts`. */
+  area: string;
+  /** The Toolbox tool it opens, where there is one. */
+  toolboxTool?: string;
+  /** Needs a later sprint to be real. */
+  stubbed?: boolean;
+}
+
+type Meta = Pick<ActionStep, "kind" | "effort" | "effortText" | "done"> & Partial<Pick<ActionStep, "channel" | "toolboxTool">>;
+
+/** What the Sprint 2 stub does not say about its actions. */
+const META: Record<string, Meta> = {
+  "use-story": { kind: "opportunity", effort: 1, effortText: "A conversation, plus five minutes to say how it went", done: "You’ve used your story in the 1:1." },
+  "brief-manager": { kind: "artifact", effort: 2, effortText: "About an hour", done: "Your brief is marked used or sent.", toolboxTool: "Situation Brief" },
+  "add-wins": { kind: "context", effort: 1, effortText: "About five minutes", done: "Three accomplishments are on your Signal Background." },
+  "q1-review": { kind: "artifact", effort: 2, effortText: "An hour or two", done: "Your pitch is marked sent.", toolboxTool: "Pitch Builder" },
+  "cross-functional": { kind: "context", effort: 2, effortText: "An hour of looking around", done: "You’ve named one initiative." },
+  "scope-case": { kind: "artifact", effort: 3, effortText: "Several sittings", done: "Your case is marked used or sent.", toolboxTool: "Positioning Builder" },
+  "ask-manager-scope": { kind: "opportunity", effort: 1, effortText: "A short conversation", done: "You’ve asked, and said what they answered." },
+  "share-result-up": { kind: "opportunity", effort: 1, effortText: "About 20 minutes", done: "A result has reached someone two levels up." },
+  "sponsor-conversation": { kind: "opportunity", effort: 2, effortText: "An hour to prepare", done: "You’ve had the conversation, or marked it done." },
+  "map-decision-makers": { kind: "context", effort: 2, effortText: "About an hour", done: "You’ve named who decides." },
+  "name-successor": { kind: "context", effort: 2, effortText: "A short think, then a conversation", done: "You’ve named someone." },
+};
+
+/** Steps the Sprint 2 stub does not have. They exist so that a decline has
+ *  somewhere to go, and so a channel can be avoided. */
+const NEW_STEPS: ActionStep[] = [
+  {
+    id: "stakeholder-map",
+    title: "Build a stakeholder message map for the workstream",
+    horizon: "short",
+    status: "suggested",
+    whyThis: "Leading across teams starts with knowing what each one needs to hear.",
+    whyNow: "You’ve been asked to lead the workstream.",
+    whyYou: "You said the assignment requires cross-functional influence.",
+    whyLine: "You’ve been asked to lead the workstream, and a message map shows what each team needs to hear from you.",
+    signalId: "broader-remit",
+    area: "broader-remit",
+    stage: 1,
+    kind: "artifact",
+    effort: 2,
+    effortText: "About an hour",
+    done: "Your message map is marked used or sent.",
+  },
+  {
+    id: "linkedin-post",
+    title: "Post what you lead on LinkedIn",
+    horizon: "short",
+    status: "suggested",
+    whyThis: "The people who decide on scope look you up before they talk to you.",
+    whyNow: "Your leadership story is already written.",
+    whyYou: "You want to be seen as a leader, not only an operator.",
+    whyLine: "Your story is already written, and a short post is the first thing people see when they look you up.",
+    signalId: "seen-as-leader",
+    area: "seen-as-leader",
+    stage: 1,
+    kind: "artifact",
+    channel: "linkedin",
+    effort: 1,
+    effortText: "About 20 minutes",
+    done: "Your post is marked published.",
+    toolboxTool: "Thought Leadership Builder",
+  },
+  {
+    id: "pitch-podcast",
+    title: "Pitch yourself to a podcast the people above you follow",
+    horizon: "medium",
+    status: "suggested",
+    whyThis: "A conversation on a show your deciders listen to reaches them without a meeting.",
+    whyNow: "Your story and your pitch are both written.",
+    whyYou: "You want to be known beyond your own team.",
+    whyLine: "Your story and pitch are written, and a show the people above you follow reaches them without a meeting.",
+    signalId: "seen-as-leader",
+    area: "seen-as-leader",
+    stage: 2,
+    kind: "artifact",
+    channel: "podcast",
+    effort: 2,
+    effortText: "An hour or two",
+    done: "Your pitch is marked sent.",
+    toolboxTool: "Pitch Builder",
+  },
+  {
+    id: "speaking-proposal",
+    title: "Draft a talk proposal for the leadership forum",
+    horizon: "medium",
+    status: "suggested",
+    whyThis: "A talk puts your point of view in front of senior people at once.",
+    whyNow: "The forum’s call for proposals is open.",
+    whyYou: "You said the results are there, and a talk is where they get heard.",
+    whyLine: "The forum’s call for proposals is open, and a talk puts your results in front of senior people at once.",
+    signalId: "seen-as-leader",
+    area: "seen-as-leader",
+    stage: 2,
+    kind: "artifact",
+    channel: "speaking",
+    effort: 3,
+    effortText: "Several sittings",
+    done: "Your proposal is marked sent.",
+    toolboxTool: "Pitch Builder",
+  },
+  {
+    id: "read-briefing",
+    title: "Read today’s Briefing",
+    horizon: "short",
+    status: "suggested",
+    whyThis: "It names what is moving in your field this week.",
+    whyNow: "It is the quietest part of the day to read it.",
+    whyYou: "You said you want to speak to what leaders are worried about.",
+    whyLine: "Today’s Briefing names what is moving in your field, and you said you want to speak to what leaders are worried about.",
+    signalId: "seen-as-leader",
+    area: "seen-as-leader",
+    stage: 1,
+    kind: "reading",
+    effort: 1,
+    effortText: "Five minutes",
+    done: "You’ve read it.",
+    stubbed: true,
+  },
+];
+
+const withMeta = (a: LandscapeAction): ActionStep => ({
+  ...a,
+  ...META[a.id],
+  area: a.signalId ?? "seen-as-leader",
+});
+
+/**
+ * The ranked queue, best first. Ranking is mock: the real model-driven ranking
+ * is out of scope (`ranked queue comes from /mock in the prototype`). The
+ * order within a horizon is the order they are offered in.
+ */
+export const ACTION_QUEUE: ActionStep[] = [
+  ...ACTIONS.filter((a) => a.status === "accepted").map(withMeta),
+  withMeta(ACTIONS.find((a) => a.id === "add-wins")!),
+  withMeta(NEW_ACTIONS.find((a) => a.id === "ask-manager-scope")!),
+  NEW_STEPS.find((a) => a.id === "stakeholder-map")!,
+  NEW_STEPS.find((a) => a.id === "linkedin-post")!,
+  withMeta(NEW_ACTIONS.find((a) => a.id === "share-result-up")!),
+  NEW_STEPS.find((a) => a.id === "read-briefing")!,
+  withMeta(ACTIONS.find((a) => a.id === "cross-functional")!),
+  withMeta(NEW_ACTIONS.find((a) => a.id === "sponsor-conversation")!),
+  withMeta(NEW_ACTIONS.find((a) => a.id === "map-decision-makers")!),
+  NEW_STEPS.find((a) => a.id === "pitch-podcast")!,
+  NEW_STEPS.find((a) => a.id === "speaking-proposal")!,
+  withMeta(NEW_ACTIONS.find((a) => a.id === "name-successor")!),
+];
+
+export const stepById = (id: string): ActionStep | undefined => ACTION_QUEUE.find((s) => s.id === id);
+
+/** How many may be live at once. Five in all, by the brief. */
+export const LIVE_LIMITS: Record<Horizon, number> = { short: 3, medium: 1, long: 1 };
+export const MAX_LIVE = 5;
+
+/* -----------------------------------------------------------------------------
+   DECLINING
+   -------------------------------------------------------------------------- */
+
+export type DeclineReason =
+  | "not-relevant"
+  | "wrong-timing"
+  | "too-much-effort"
+  | "uncomfortable-channel"
+  | "already-done"
+  | "other";
+
+/** The reason picker: optional, one tap, no "are you sure?". */
+export const DECLINE_REASONS: { id: DeclineReason; label: string }[] = [
+  { id: "not-relevant", label: "Not relevant" },
+  { id: "wrong-timing", label: "Wrong timing" },
+  { id: "too-much-effort", label: "Too much effort" },
+  { id: "uncomfortable-channel", label: "Uncomfortable channel" },
+  { id: "already-done", label: "Already done" },
+  { id: "other", label: "Other" },
+];
+
+export const PLAN_COPY = {
+  /** What a decline does, said back with the replacement: the answer was heard. */
+  heard: {
+    "not-relevant": "Something different from the last one.",
+    "wrong-timing": (on: string) => `The last one comes back ${on}.`,
+    "too-much-effort": "A lighter one this time.",
+    "uncomfortable-channel": (phrase: string) => `Nothing on ${phrase}, from here on.`,
+    "already-done": "Add it to your record, so it counts.",
+    other: "Something different from the last one.",
+  },
+  /** The slot stays empty; each line says why and what she can do. Never a verdict. */
+  empty: {
+    "nothing-suitable": "Nothing else fits this horizon right now. Your plan will offer the next one as you go.",
+    "kept-workload": "You’ve kept your current workload. Nothing new until you say.",
+    "limit-reached": "That’s enough changes for one visit. Your plan will offer another next time.",
+  },
+} as const;

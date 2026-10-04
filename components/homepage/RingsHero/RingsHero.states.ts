@@ -48,7 +48,7 @@ export const ringsHeroStates = defineComponentStates({
   status: "draft",
   flows: ["homepage"],
   description:
-    "Homepage Concept 1’s focal point, Merged: one card with the greeting, the plan and where it’s heading, three rings (one per Active Landscape horizon) and a tray holding what the moment asks for, its notch on the ring it belongs to. A segment fills only when the Loop confirms the work; filled segments are solid, unfilled hollow, the next outlined in the accent. Each ring reads out as text.",
+    "Homepage Concept 1’s focal point, Merged: one card with the greeting, the plan and where it’s heading, three rings (one per action-step horizon) and a tray holding what the moment asks for, its notch on the ring it belongs to. A segment fills only when the Loop confirms the work; filled segments are solid, unfilled hollow, the next outlined in the accent. Each ring reads out as text.",
   component: RingsHero,
   notApplicable: {
     disabled: "Every ring can always be opened.",

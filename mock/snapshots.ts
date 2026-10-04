@@ -17,7 +17,7 @@ import type { LoopRecord, OutcomeType } from "@/lib/loop";
 
 export type SnapshotId = HomeStateId;
 
-/** An Active Landscape recommendation, stubbed: ranking and replacement are
+/** An action step recommendation, stubbed: ranking and replacement are
  *  Sprint 3. The first in a list is the one next step. */
 export interface Recommendation {
   id: string;
