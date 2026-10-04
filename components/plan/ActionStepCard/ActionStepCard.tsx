@@ -27,8 +27,12 @@ export type StepPanel = "decline" | "defer" | "edit";
 
 export interface StepEdit {
   scope?: "lighter" | "as-is";
-  /** What she wrote about why, in her own words. */
+  /** What she wrote, in her own words. */
   note?: string;
+  /** How long she says it will take her. */
+  effort?: string;
+  /** What done means to her. */
+  done?: string;
   /** The day she moved it to. */
   date?: LoopDate;
 }
@@ -38,7 +42,7 @@ export interface ActionStepCardProps {
   /** She has accepted it. Until then it is offered, and Accept comes first. */
   accepted: boolean;
   /** Her edit to its scope, shown as a line she can see she made. */
-  edit?: Pick<StepEdit, "scope">;
+  edit?: Pick<StepEdit, "scope" | "effort" | "done">;
   /** The day it sits on her calendar, which the date field in "Change timing or scope" starts from. */
   date?: LoopDate;
   /** The day she chose for it. Only then does the card say a day; until then it says when in words. */
@@ -121,6 +125,9 @@ export function ActionStepCard({
   const Heading = `h${headingLevel}` as "h3" | "h4";
   const titleId = `${uid}-title`;
   const area = signalById(step.area)?.name;
+  // Her own estimate and her own definition of done replace ours on the card once she has set them.
+  const effortText = edit?.effort ?? step.effortText;
+  const doneText = edit?.done ?? step.done;
   // Done by the Loop when it has a draft; on her word when it has none.
   const hasDraft = step.kind === "artifact" || Boolean(step.artifactId);
   const stateClass = demoState ? `is-${demoState}` : undefined;
@@ -142,7 +149,7 @@ export function ActionStepCard({
   const [scope, setScope] = useState<string[]>(edit?.scope === "lighter" ? [SCOPE_OPTIONS.lighter] : []);
   const [date, setDate] = useState(addDays(today, 7));
 
-  const edited = C.edited(undefined, edit?.scope === "lighter");
+  const edited = edit?.effort || edit?.done || chosenDay || edit?.scope === "lighter" ? C.editedByYou : undefined;
 
   const moreBlock = (
       <div className="step-card__more" id={`${uid}-more`} hidden={!more}>
@@ -265,7 +272,7 @@ export function ActionStepCard({
 
   if (compact && changing) {
     // It takes over the whole card, in place, so the row does not shift.
-    const done = () => setChanging(false);
+    const closePanel = () => setChanging(false);
     return (
       <article
         id={id}
@@ -276,14 +283,15 @@ export function ActionStepCard({
           title={step.title}
           today={today}
           date={onDate}
-          onDecline={(reason, note) => onDecline(reason, note)}
-          onDefer={(on, note) => onDefer(on, note)}
+          effortText={effortText}
+          done={doneText}
+          onReplace={(reason, note) => onDecline(reason, note)}
           onEdit={(change) => {
             onEdit(change);
-            done();
+            closePanel();
           }}
           onClose={() => {
-            done();
+            closePanel();
             // Put the keyboard back where she was, once the card is back.
             restoreFocus.current = true;
           }}
@@ -326,7 +334,7 @@ export function ActionStepCard({
             </div>
             <div>
               <dt>{C.howLongLabel}</dt>
-              <dd>{step.effortText}</dd>
+              <dd>{effortText}</dd>
             </div>
             {area ? (
               <div>
@@ -357,7 +365,7 @@ export function ActionStepCard({
           <p className="step-card__finish">
             <Icon name="check" size={16} />
             <span>
-              <b>{C.doneWhen}</b> {step.done}
+              <b>{C.doneWhen}</b> {doneText}
             </span>
           </p>
           {edited ? <p className="step-card__edited">{edited}</p> : null}
@@ -426,11 +434,11 @@ export function ActionStepCard({
       <dl className="step-card__facts">
         <div>
           <dt>{C.effort}</dt>
-          <dd>{step.effortText}</dd>
+          <dd>{effortText}</dd>
         </div>
         <div>
           <dt>{C.doneWhen}</dt>
-          <dd>{step.done}</dd>
+          <dd>{doneText}</dd>
         </div>
       </dl>
 

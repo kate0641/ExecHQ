@@ -448,6 +448,7 @@ export const STEP_COPY = {
   accepted: "Accepted",
   edited: (moved?: string, lighter?: boolean) =>
     [moved, lighter ? "Lighter version" : undefined].filter(Boolean).join(" · "),
+  editedByYou: "Edited by you",
   /** Where the step sits on her calendar. A day is shown only once it is hers: she accepted the step or
    *  moved it. Until then the card says when in words (`timingWords`). */
   whenOn: (day: string) => `On ${day}`,
@@ -912,33 +913,30 @@ export const timingWords = (step: { id: string; horizon: Horizon }): string => T
    -------------------------------------------------------------------------- */
 
 export const CHANGE_COPY = {
-  link: "Change this step",
-  title: "Change this step",
+  link: "Edit",
+  title: "Edit this step",
   question: "What would you like to do?",
   options: {
-    decline: { label: "Not for me", hint: "Take it off your plan. Nothing here counts against you." },
-    later: { label: "Do it later", hint: "Bring it back on a day you pick." },
-    change: { label: "Change the timing or how much", hint: "Keep it, but on your terms." },
+    edit: { label: "Change the details", hint: "When, how long it will take you, or what counts as done." },
+    replace: { label: "Ask for a different step", hint: "Tell us why, and we’ll offer another." },
   },
   keep: "Keep it as it is",
   back: "Back",
-  /* Not for me */
-  declineReason: "What’s the main reason?",
-  declineReasonHint: "Pick one if it fits. You can skip this.",
-  declineNote: "Anything you’d like us to know?",
-  declineNoteHint: "In your own words. It helps ExecHQ choose what comes next. Only you see it.",
-  declineSubmit: "Take it off my plan",
-  /* Do it later */
-  laterWhen: "Bring it back on",
-  laterWhenHint: "We offer it once on that day, with no reminder before.",
-  laterNote: "What’s changed?",
-  laterNoteHint: "Optional. In your own words.",
-  laterSubmit: "Do it later",
-  /* Change the timing or how much */
-  changeWhen: "A day that suits you",
-  changeWhenHint: "Optional. It goes on your calendar.",
-  changeScope: "How much?",
-  changeNote: "What’s making you change it?",
-  changeNoteHint: "Optional. In your own words.",
-  changeSubmit: "Save changes",
+  /* Edit this step */
+  editWhen: "When",
+  editWhenHint: "A day that suits you. It goes on your calendar. Leave it empty to keep it as it is.",
+  editHowLong: "How long will it take you?",
+  editHowLongHint: "Your own estimate. Leave it if ours is right.",
+  howLongOptions: ["A few minutes", "About an hour", "An hour or two", "Several sittings"],
+  editDone: "What counts as done?",
+  editDoneHint: "In your own words. It starts as ours.",
+  editNote: "Anything you’d like us to know?",
+  editNoteHint: "Optional. Only you see it.",
+  editSubmit: "Save changes",
+  /* Ask for a different step */
+  replaceReason: "What’s the main reason?",
+  replaceReasonHint: "Pick one if it fits. You can skip this.",
+  replaceNote: "What would you like instead?",
+  replaceNoteHint: "In your own words. It helps ExecHQ choose the next step. Only you see it.",
+  replaceSubmit: "Ask for a different step",
 } as const;
