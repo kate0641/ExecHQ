@@ -272,7 +272,7 @@ export const DEMO_SOURCES = {
 export const LINKEDIN_ROW_LABEL = "LinkedIn followers";
 
 export const BASELINE_COPY = {
-  intro: "Tell us where you are starting from. Rough is fine, and zero is a fine answer.",
+  intro: "Your Signal Picture is a private record of how your visibility changes. Tell us where you are now, so you can see your progress at the end of each stage. A rough guess, even zero, is fine.",
   linkedin: { label: LINKEDIN_ROW_LABEL, hint: "Look at your profile and type the number", placeholder: "e.g. 1,240" },
   /** One row per thing she can count: the question's label and a line under it. */
   kinds: {
@@ -283,7 +283,6 @@ export const BASELINE_COPY = {
   },
   save: "Save my starting point",
   skip: "Skip for now",
-  privacy: "Only you see this. Nothing is looked up or shared.",
   /** After she skips: one line, and a way back. */
   skipped: "Add where you are starting from whenever you like, and this shows how far you have come.",
   addBack: "Add my starting point",

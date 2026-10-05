@@ -4,7 +4,6 @@ import { useState, type FormEvent } from "react";
 import { Input } from "@/components/form/Input";
 import { Stepper } from "@/components/form/Stepper";
 import { Button } from "@/components/primitives/Button";
-import { Icon } from "@/components/primitives/Icon";
 import type { Baseline } from "@/lib/presence";
 import { BASELINE_COPY as C, PRESENCE_ORDER, type CountedKind } from "@/mock/accounts-stub";
 
@@ -65,10 +64,6 @@ export function BaselineForm({ onSave, onSkip, demo, className }: BaselineFormPr
           </Button>
         ) : null}
       </div>
-      <p className="signal-privacy">
-        <Icon name="lock" size={16} />
-        {C.privacy}
-      </p>
     </form>
   );
 }
