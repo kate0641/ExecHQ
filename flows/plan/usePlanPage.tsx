@@ -2,6 +2,7 @@
 
 import { useState, type ReactNode } from "react";
 import { BaselineForm } from "@/components/homepage/BaselineForm";
+import { UpdateNowSheet } from "@/components/homepage/UpdateNowSheet";
 import { PresenceCard } from "@/components/homepage/PresenceCard";
 import { SignalPicture } from "@/components/homepage/SignalPicture";
 import { Spark } from "@/components/homepage/Spark";
@@ -24,15 +25,14 @@ import { momentumEvents } from "@/lib/momentum";
 import { buildNarrative } from "@/lib/narrative";
 import { roadmapWindows } from "@/lib/roadmap-dates";
 import { saveCalendar, saveRoadmap, saveSteps, useCalendar, useRoadmapChoices, useSavedSteps } from "@/lib/plan-store";
-import { hasBaseline, signalRows, withAdded } from "@/lib/presence";
-import { addPresence, removePresence, saveBaseline, updatePresence, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
+import { hasBaseline, presenceCounts, signalRows, withAdded, type Baseline } from "@/lib/presence";
+import { addPresence, removePresence, saveBaseline, saveCurrent, updatePresence, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
 import { currentStageIndex, isDone as isActionDone } from "@/lib/rings";
 import { addedItems, historyDays, offerFor, recordedItems, type PictureItem } from "@/lib/signal-picture";
 import { signalOfRecord } from "@/lib/signals";
 import { dismissSpark, useDismissedSparks } from "@/lib/spark-dismissal";
 import { sparksFor } from "@/lib/sparks";
-import { ADD_COPY as ADD, PRESENCE_STUB as PR, SPARK_COPY as SP, ACCOUNTS_COPY as AC } from "@/mock/accounts-stub";
-import { SIGNAL_PICTURE_COPY as SPC } from "@/mock/homepage";
+import { ADD_COPY as ADD, NOW_COPY as NC, PRESENCE_STUB as PR, SPARK_COPY as SP, ACCOUNTS_COPY as AC } from "@/mock/accounts-stub";
 import { PLAN_TEMPLATES, recommendPlan } from "@/mock/onboarding";
 import { CALENDAR_COPY as CAL, DIRECTION_PLAN_COPY as DP, ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
 import { ACTIONS } from "@/mock/plan-stub";
@@ -54,6 +54,7 @@ export function usePlanPage() {
   const addedPresence = useAddedPresence();
   const baseline = useBaseline();
   const current = useCurrent();
+  const [updating, setUpdating] = useState(false);
   const dismissed = useDismissedSparks();
   const [entry, setEntry] = useState<
     { mode: "add"; initial?: Partial<EntryValues>; fromRecord?: string } | { mode: "edit"; item: PictureItem } | null
@@ -308,21 +309,36 @@ export function usePlanPage() {
     [item.note ?? item.title, item.where, shortDate(item.on)].filter(Boolean).join(" · "),
     current
   );
+  /* What the update form opens on: where she last said she is, else the
+     counts the rows already show. */
+  const nowStart: Baseline = {
+    counts: Object.fromEntries(
+      presenceCounts(loop.today, items, baseline, seeded, current).map((p) => [p.kind, p.now])
+    ) as Baseline["counts"],
+    ...((current?.followers ?? baseline?.followers) !== undefined
+      ? { followers: (current?.followers ?? baseline?.followers) as number }
+      : {}),
+  };
   const sparks = sparksFor(loop.today, loop.account, dismissed, items).filter((n) => n.id.startsWith("presence:"));
   const addedCount = items.filter((item) => item.on <= loop.today).length;
+  /* The notes on what has moved, kept apart from the card so a page can put
+     them right under its heading. */
+  const sparkNode = (
+    <Spark
+      items={sparks}
+      label={SP.label}
+      dismissLabel={SP.dismiss}
+      dismissName={SP.dismissNote}
+      onDismiss={(id) => dismissSpark(id)}
+    />
+  );
   const started = (
     <section className="plan-stub__signals" aria-labelledby="plan-signals-heading">
       <h2 className="u-visually-hidden" id="plan-signals-heading">
         {SPIC.startedHeading}
       </h2>
-      <Spark
-        items={sparks}
-        label={SP.label}
-        dismissLabel={SP.dismiss}
-        dismissName={SP.dismissNote}
-        onDismiss={(id) => dismissSpark(id)}
-      />
       {hasBaseline(baseline, seeded) ? (
+        <>
         <PresenceCard
           name={SPIC.startedHeading}
           mark={PR.mark}
@@ -337,11 +353,13 @@ export function usePlanPage() {
           tryLabel={AC.tryThis}
           headingId="plan-signals-card"
         />
+        <button type="button" className="link link--standalone signal-picture__links" onClick={() => setUpdating(true)}>
+          {NC.open}
+        </button>
+        </>
       ) : (
         <SignalPicture
           name={SPIC.startedHeading}
-          planHref={conceptHref("plan", "concept-1")}
-          planLabel={SPC.planLabel}
           empty={<BaselineForm onSave={saveBaseline} />}
           headingId="plan-signals-card"
         />
@@ -367,9 +385,23 @@ export function usePlanPage() {
     />
   );
 
-  return { direction, directionCompass, steps, stepsCarousel, roadmap, agenda, calendar, note, narrative: narrativeNode, momentum, picture, started, sheet: (
+  const updateNow = (
+    <UpdateNowSheet
+      key={updating ? "update-now-open" : "update-now-closed"}
+      open={updating}
+      initial={nowStart}
+      onClose={() => setUpdating(false)}
+      onSave={(now) => {
+        saveCurrent({ ...now, on: loop.today });
+        setUpdating(false);
+      }}
+    />
+  );
+
+  return { direction, directionCompass, steps, stepsCarousel, roadmap, agenda, calendar, note, narrative: narrativeNode, momentum, picture, started, sparkNode, sheet: (
       <>
         {sheet}
+        {updateNow}
         {calendarSheet}
       </>
     ) };

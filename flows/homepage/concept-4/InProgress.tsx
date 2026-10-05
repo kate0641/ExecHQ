@@ -2,35 +2,25 @@
 
 import { LoopRow } from "@/components/homepage/LoopRow";
 import { CardCarousel, type CarouselItem } from "@/components/layout/CardCarousel";
-import { NextStepCard } from "@/components/homepage/NextStepCard";
 import { CheckIn } from "@/components/loop/CheckIn";
 import { addDays, aheadPhrase, dueFollowUps, type LoopRecord } from "@/lib/loop";
-import { loopActions, nextStepAfter, type LoopView } from "@/lib/loop-store";
-import { conceptHref } from "@/lib/manifest";
-import type { MapRing } from "@/lib/map";
-import { CHECKIN_COPY as CK, HOME_COPY, MAP_COPY as M, STAY_COPY as S } from "@/mock/homepage";
+import { loopActions, type LoopView } from "@/lib/loop-store";
+import { CHECKIN_COPY as CK, HOME_COPY, STAY_COPY as S } from "@/mock/homepage";
 import { FOLLOW_UP_POLICY, OUTCOME_READBACK } from "@/mock/loop";
-import { ACTIONS, HORIZONS, actionById } from "@/mock/plan-stub";
+import { ACTIONS, HORIZONS } from "@/mock/plan-stub";
 
 /**
- * What she has in progress, under the map (Homepage Concept 4). The two
- * pieces Concept 2 settled: "Stay on track", everything waiting on her
- * word, then her next step with the three reasons for it. Stay on track
- * leads, and is left out on the first return, when nothing is waiting.
- *
- * One rule is new here. The next step is only ever something she has
- * started. An action she has not started shows on the map and leads to the
- * Plan, so it never appears here as a way to jump straight to a tool.
+ * Stay on track, under the map (Homepage Concept 4): everything waiting on
+ * her word. Her next step is not here; it is the card under the rings. Left
+ * out on the first return, when nothing is waiting.
  */
-
-const TOOLBOX = conceptHref("toolbox-flow", "concept-1");
 
 /** Moves focus to a heading once the card it names has replaced the last. */
 function focusSoon(id: string) {
   setTimeout(() => document.getElementById(id)?.focus(), 0);
 }
 
-export function InProgress({ loop, rings }: { loop: LoopView; rings: MapRing[] }) {
+export function InProgress({ loop }: { loop: LoopView }) {
   const due = dueFollowUps(loop.records, loop.today);
   const forAction = (recordId: string) => {
     const action = ACTIONS.find((a) => a.artifactId === recordId);
@@ -43,23 +33,7 @@ export function InProgress({ loop, rings }: { loop: LoopView; rings: MapRing[] }
   const answered =
     loop.homeState === "just-answered" && loop.justAnswered ? loop.records.find((r) => r.id === loop.justAnswered) : undefined;
 
-  /* Her next step: after a logged outcome, the step that brings; otherwise
-     the first recommendation she has started whose work has not reached the
-     Loop yet. Never one she has not started, or has skipped. */
-  const inProgress = new Set(rings.flatMap((r) => r.segments.filter((s) => s.state === "in-progress").map((s) => s.action.id)));
   const outcome = answered?.outcome;
-  const updated = Boolean(answered && outcome && outcome.type !== "no-response-yet");
-  const step = updated
-    ? nextStepAfter(answered!)
-    : loop.recommendations.find((rec) => {
-        const action = actionById(rec.id);
-        if (action && !inProgress.has(action.id)) return false;
-        const record = action?.artifactId ? loop.records.find((r) => r.id === action.artifactId) : undefined;
-        if (loop.tasks?.[rec.id]) return false;
-        return !record || record.state === "drafted" || record.state === "in-progress";
-      });
-  const stepAction = step ? actionById(step.id) : undefined;
-
   const readback = answered
     ? !outcome || outcome.type === "no-response-yet"
       ? HOME_COPY.askAgain(
@@ -162,39 +136,5 @@ export function InProgress({ loop, rings }: { loop: LoopView; rings: MapRing[] }
       {cards.length === 0 ? <p className="c2-section__note">{anyUsed ? S.allLogged : S.empty}</p> : null}
     </section>
   );
-  const next = (
-    <>
-      {step ? (
-        <NextStepCard
-          eyebrow={S.nextHeading}
-          lead={updated ? <p className="home-card__readback">{S.updated}</p> : undefined}
-          title={step.title}
-          why={stepAction ? { this: stepAction.whyThis, now: stepAction.whyNow, you: stepAction.whyYou } : { now: step.why }}
-          href={TOOLBOX}
-          stubbed={updated}
-          headingId="next-step-title"
-          secondary={
-            stepAction && !stepAction.artifactId && !updated
-              ? {
-                  label: CK.markDone,
-                  onClick: () => {
-                    loopActions.completeTask(step.id);
-                    focusSoon("check-in-task");
-                  },
-                }
-              : undefined
-          }
-        />
-      ) : (
-        <p className="c2-section__note">{M.nothingInProgress}</p>
-      )}
-  </>
-  );
-
-  return (
-    <>
-      {stay}
-      {next}
-    </>
-  );
+  return stay;
 }

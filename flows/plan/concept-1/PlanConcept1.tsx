@@ -6,7 +6,7 @@ import { usePlanPage } from "../usePlanPage";
 /**
  * Plan, Concept 1 — Steps forward. The direction and the next steps lead, with the
  * roadmap as an Agenda under them (the stage she is in open, the rest one tap
- * away). What changed, Momentum and the Signal Picture sit beside them on web.
+ * away). What changed sits beside them on web. The Signal Picture and Momentum have their own page.
  *
  * For the person who opens the Plan to act. The roadmap is context, not the
  * way in. The Calendar is on Concept 2.
@@ -27,9 +27,6 @@ export function PlanConcept1() {
       side={
         <>
           {p.narrative}
-          {p.momentum}
-          {p.picture}
-          {p.started}
         </>
       }
     >

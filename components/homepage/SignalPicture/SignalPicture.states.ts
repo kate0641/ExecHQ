@@ -3,7 +3,6 @@ import { BaselineForm } from "@/components/homepage/BaselineForm";
 import { defineComponentStates } from "@/components/types";
 import { NOT_AN_INPUT } from "@/components/not-applicable";
 import { presenceCounts, withAdded } from "@/lib/presence";
-import { NOW_COPY as N } from "@/mock/accounts-stub";
 import { SIGNAL_PICTURE_COPY as C } from "@/mock/homepage";
 import { PRESENCE_KINDS, PRESENCE_STUB, SPARK_COPY } from "@/mock/accounts-stub";
 import { SignalPicture } from "./SignalPicture";
@@ -22,10 +21,8 @@ const base = {
   thenLabel: "Start",
   nowLabel: "Now",
   next: { label: C.nextLabel, title: PRESENCE_STUB.tryThis.title, why: PRESENCE_STUB.tryThis.why, href: "/toolbox-flow/concept-1", actionLabel: C.nextAction },
-  onUpdate: noop,
-  updateLabel: N.open,
-  planHref: "/plan/concept-1",
-  planLabel: C.planLabel,
+  detailHref: "/signals/concept-1",
+  detailLabel: C.detailLabel,
   headingId: "signal-picture-demo",
 };
 const spark = {
@@ -42,7 +39,7 @@ export const signalPictureStates = defineComponentStates({
   status: "draft",
   flows: ["homepage"],
   description:
-    "The foot of the homepage: where she started beside where she is now across what she has put out there, one note of what has moved, one thing to try next, and the way to the detail on the Plan page. All of it is entered by hand. With nothing entered it asks where she is starting from, in one short form.",
+    "The foot of the homepage: where she started beside where she is now across what she has put out there, one note of what has moved, one thing to try next. All of it is entered by hand. With nothing entered it asks where she is starting from, in one short form.",
   component: SignalPicture,
   notApplicable: {
     hover: "Its only controls are a Button and a link, which show their own states.",

@@ -357,6 +357,16 @@ export const MAP_COPY = {
   /** Under the map when nothing on it has been started. */
   nothingInProgress: "Nothing in progress yet. Open a ring to read about what is on your map and start one.",
   hintPick: "Tap a ring to see what is in it.",
+  /** The eyebrow over a step she has not started yet. */
+  suggestedIn: (horizon: string) => `Suggested in ${horizon.toLowerCase()}`,
+  ringComplete: (horizon: string) => `Every ${horizon.toLowerCase()} action is done.`,
+  stepDone: (title: string) => `Done: ${title}`,
+  stepDoneNote: "Nice work. Your Plan shows where this leaves you, and new actions come once everything in this stage is done.",
+  ringCompleteNote: "New actions come with your plan's next stage.",
+  seePlan: "See your Plan",
+  /** The text link under the map. */
+  planLink: "See your Plan",
+  showing: (horizon: string) => `Showing the next step in ${horizon.toLowerCase()}.`,
   legend: { done: "Done", inProgress: "In progress", notStarted: "Not started" },
   state: { done: "Done", inProgress: "In progress", notStarted: "Not started" },
   /** What each row says it does when tapped. */
@@ -397,5 +407,6 @@ export const SIGNAL_PICTURE_COPY = {
   nextLabel: "A next step",
   /** Opens the step in the Toolbox. */
   nextAction: "Start in the Toolbox",
-  planLabel: "See the detail in your Plan",
+  /** The text link to the Signal Picture page. */
+  detailLabel: "See your full Signal Picture",
 } as const;

@@ -2,7 +2,6 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { BaselineList, type BaselineRow } from "@/components/homepage/BaselineList";
 import { Spark, type SparkProps } from "@/components/homepage/Spark";
-import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 
 export interface SignalPictureProps {
@@ -16,12 +15,9 @@ export interface SignalPictureProps {
   spark?: SparkProps;
   /** The one thing to try next, with the way to start it in the Toolbox. */
   next?: { label: string; title: string; why: string; href: string; actionLabel: string };
-  /** Opens where she says where she is now. Omitted when there is nothing to update. */
-  onUpdate?: () => void;
-  updateLabel?: string;
-  /** The way to the detail on the Plan page. */
-  planHref: string;
-  planLabel: string;
+  /** The way to the full Signal Picture page, as a text link under the rows. */
+  detailHref?: string;
+  detailLabel?: string;
   /** Nothing entered yet: what stands in place of the rows, the form that asks
    *  where she is starting from. */
   empty?: ReactNode;
@@ -33,7 +29,7 @@ export interface SignalPictureProps {
  * A short overview of what she has put out there: where she started beside
  * where she is now, one note of what has moved, and one thing to try next.
  * It is her own record, entered by hand, so nothing in it is a score or a
- * target. The detail, and the way to add more, is on the Plan page.
+ * target.
  *
  * With nothing entered it asks where she is starting from.
  */
@@ -45,10 +41,8 @@ export function SignalPicture({
   nowLabel,
   spark,
   next,
-  onUpdate,
-  updateLabel,
-  planHref,
-  planLabel,
+  detailHref,
+  detailLabel,
   empty,
   headingId,
   className,
@@ -65,13 +59,13 @@ export function SignalPicture({
         empty
       ) : (
         <>
-          <BaselineList rows={rows} thenLabel={thenLabel} nowLabel={nowLabel} />
-          {onUpdate ? (
-            <Button variant="secondary" className="account-card__cta" onClick={onUpdate}>
-              {updateLabel}
-            </Button>
-          ) : null}
           {spark ? <Spark {...spark} /> : null}
+          <BaselineList rows={rows} thenLabel={thenLabel} nowLabel={nowLabel} />
+          {detailHref ? (
+            <Link href={detailHref} className="link link--standalone signal-picture__links">
+              {detailLabel}
+            </Link>
+          ) : null}
           {next ? (
             <div className="account-card__try">
               <span className="account-card__try-label">{next.label}</span>
@@ -83,10 +77,6 @@ export function SignalPicture({
               </Link>
             </div>
           ) : null}
-          <Link href={planHref} className="btn btn--secondary btn--md account-card__cta">
-            {planLabel}
-            <Icon name="chevron" size={16} />
-          </Link>
         </>
       )}
     </section>

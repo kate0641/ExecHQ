@@ -1,26 +1,27 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
-import { UpdateNowSheet } from "@/components/homepage/UpdateNowSheet";
 import { BaselineForm } from "@/components/homepage/BaselineForm";
 import { SignalPicture } from "@/components/homepage/SignalPicture";
-import { ActionSheet } from "@/components/homepage/ActionSheet";
 import { BriefingEditorial } from "@/components/homepage/BriefingEditorial";
-import { MapLegend, MapRings } from "@/components/homepage/MapRings";
+import { MapRings } from "@/components/homepage/MapRings";
 import { InProgress } from "./InProgress";
-import { MapPanel } from "@/components/homepage/MapPanel";
+import { nextStepOf } from "./nextStep";
+import { NextStepCard } from "@/components/homepage/NextStepCard";
 import { Button } from "@/components/primitives/Button";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
-import { mapFor, nextNewAction } from "@/lib/map";
-import { hasBaseline, presenceCounts, signalRows, withAdded, type Baseline } from "@/lib/presence";
-import { saveBaseline, saveCurrent, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
+import { mapFor } from "@/lib/map";
+import { hasBaseline, signalRows, withAdded } from "@/lib/presence";
+import { saveBaseline, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
 import { dismissSpark, useDismissedSparks } from "@/lib/spark-dismissal";
 import { sparksFor } from "@/lib/sparks";
-import { BASELINE_COPY as BC, NOW_COPY as NC, PRESENCE_STUB as PR, SPARK_COPY as SP } from "@/mock/accounts-stub";
+import { BASELINE_COPY as BC, PRESENCE_STUB as PR, SPARK_COPY as SP } from "@/mock/accounts-stub";
 import { BRIEFING_STUB as B, HOME_COPY as C, MAP_COPY as M, SIGNAL_PICTURE_COPY as SPC } from "@/mock/homepage";
 import { shortDate } from "@/lib/loop";
-import type { Horizon, LandscapeAction } from "@/mock/plan-stub";
+import { CHECKIN_COPY as CK } from "@/mock/homepage";
+import type { Horizon } from "@/mock/plan-stub";
 
 /**
  * Homepage Concept 4 — Combined.
@@ -36,6 +37,7 @@ import type { Horizon, LandscapeAction } from "@/mock/plan-stub";
  */
 
 const PLAN = conceptHref("plan", "concept-1");
+const SIGNALS = conceptHref("signals", "concept-1");
 const TOOLBOX = conceptHref("toolbox-flow", "concept-1");
 const BRIEFING = conceptHref("daily-briefing", "concept-1");
 const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -54,18 +56,93 @@ function shortDay(date: string): string {
 
 export function HomepageConcept4() {
   const loop = useLoop();
-  const [selected, setSelected] = useState<Horizon | null>(null);
-  const [sheetAction, setSheetAction] = useState<LandscapeAction | null>(null);
+  /* A ring she tapped, kept only for the state it was tapped in, so a new
+     moment (or the dock's switcher) opens on her next step again. */
+  const [picked, setPicked] = useState<{ horizon: Horizon; state: string } | null>(null);
   const [announce, setAnnounce] = useState("");
   const [skipped, setSkipped] = useState(false);
   const addedPresence = useAddedPresence();
   const baseline = useBaseline();
   const current = useCurrent();
-  const [updating, setUpdating] = useState(false);
   const dismissed = useDismissedSparks();
 
   const rings = mapFor({ records: loop.records, tasks: loop.tasks, choices: loop.choices, asked: loop.asked });
-  const open = rings.find((r) => r.horizon === selected);
+  const { step, stepAction, updated, done } = nextStepOf(loop, rings);
+  const home: Horizon = stepAction?.horizon ?? done?.horizon ?? (rings.find((r) => r.segments.length && !r.complete) ?? rings.find((r) => r.segments.length) ?? rings[0]).horizon;
+  const selected = picked && picked.state === loop.homeState ? picked.horizon : home;
+  const open = rings.find((r) => r.horizon === selected)!;
+
+  /* The card under the rings is the selected ring's next step: the one she
+     is on if it is that ring's, else the first she has started in it, else
+     the first still to start. Start in the Toolbox opens it either way. */
+  const ringAction =
+    open.segments.find((s) => s.state === "in-progress") ?? open.segments.find((s) => s.state === "not-started");
+  const toStep = step && stepAction?.horizon === selected;
+  const justDone = updated && done?.horizon === selected;
+  const card = justDone ? (
+    <div className="map-tray__box">
+      <p>
+        <b>{M.stepDone(done!.title)}</b>
+      </p>
+      <p>{M.stepDoneNote}</p>
+      <Link href={PLAN} className="btn btn--secondary btn--md btn--full">
+        {M.seePlan}
+      </Link>
+    </div>
+  ) : toStep ? (
+    <NextStepCard
+      eyebrow={C.nextIn(open.label)}
+      title={step.title}
+      why={stepAction ? { this: stepAction.whyThis, now: stepAction.whyNow, you: stepAction.whyYou } : { now: step.why }}
+      href={TOOLBOX}
+      headingId="next-step-title"
+      secondary={
+        stepAction && !stepAction.artifactId
+          ? {
+              label: CK.markDone,
+              onClick: () => {
+                loopActions.completeTask(step.id);
+                setTimeout(() => document.getElementById("check-in-task")?.focus(), 0);
+              },
+            }
+          : undefined
+      }
+    />
+  ) : ringAction ? (
+    <NextStepCard
+      eyebrow={ringAction.state === "in-progress" ? C.nextIn(open.label) : M.suggestedIn(open.label)}
+      title={ringAction.action.title}
+      why={{ this: ringAction.action.whyThis, now: ringAction.action.whyNow, you: ringAction.action.whyYou }}
+      href={TOOLBOX}
+      headingId="ring-step-title"
+      onAction={() => {
+        if (ringAction.state === "not-started") loopActions.startAction(ringAction.action.id);
+      }}
+      secondary={
+        ringAction.state === "in-progress" && !ringAction.action.artifactId
+          ? {
+              label: CK.markDone,
+              onClick: () => {
+                loopActions.completeTask(ringAction.action.id);
+                setTimeout(() => document.getElementById("check-in-task")?.focus(), 0);
+              },
+            }
+          : undefined
+      }
+    />
+  ) : (
+    <div className="map-tray__box">
+      <p>{open.segments.length ? M.ringComplete(open.label) : M.ringEmpty}</p>
+      {open.complete ? (
+        <>
+          <p>{M.ringCompleteNote}</p>
+          <Link href={PLAN} className="btn btn--secondary btn--md btn--full">
+            {M.seePlan}
+          </Link>
+        </>
+      ) : null}
+    </div>
+  );
 
   /* Your Signal Picture. On the first return nobody has entered a baseline
      yet, so it is empty until she adds what she already has. */
@@ -73,13 +150,6 @@ export function HomepageConcept4() {
   const seeded = loop.homeState !== "first-return";
   const picture = hasBaseline(baseline, seeded);
   const rows = signalRows(loop.today, items, baseline, seeded, () => "", current).map(({ id, label, then, now }) => ({ id, label, then, now }));
-  /* What the update form opens on: where she last said she is, else her start,
-     else what the rows already show. */
-  const nowCounts = presenceCounts(loop.today, items, baseline, seeded, current);
-  const nowStart: Baseline = {
-    counts: Object.fromEntries(nowCounts.map((p) => [p.kind, p.now])) as Baseline["counts"],
-    ...((current?.followers ?? baseline?.followers) !== undefined ? { followers: (current?.followers ?? baseline?.followers) as number } : {}),
-  };
   const note = sparksFor(loop.today, loop.account, dismissed, items).find((n) => n.id.startsWith("presence:"));
 
   return (
@@ -97,42 +167,23 @@ export function HomepageConcept4() {
           <MapRings
             rings={rings}
             selected={selected}
-            panelId="map-panel"
+            panelId="map-tray"
+            legend
             onSelect={(h) => {
-              setSelected((current) => (current === h ? null : h));
-              setAnnounce("");
+              setPicked(h === home ? null : { horizon: h, state: loop.homeState });
+              setAnnounce(h === selected ? "" : M.showing(rings.find((r) => r.horizon === h)!.label));
             }}
-          />
-          <MapLegend />
-          {open ? (
-            <MapPanel
-              ring={open}
-              id="map-panel"
-              headingId="map-panel-heading"
-              planHref={PLAN}
-              onOpenAction={setSheetAction}
-              onAsk={
-                nextNewAction(open.horizon, loop.asked)
-                  ? () => {
-                      const add = nextNewAction(open.horizon, loop.asked);
-                      loopActions.askForNew(
-                        open.segments.map((s) => s.action.id),
-                        add?.id
-                      );
-                      if (add) setAnnounce(M.added(add.title));
-                    }
-                  : undefined
-              }
-              noneLeft={!nextNewAction(open.horizon, loop.asked)}
-            />
-          ) : (
-            <p className="map-home__hint">{M.hintPick}</p>
-          )}
+          >
+            {card}
+          </MapRings>
+          <Link href={PLAN} className="link link--standalone map-home__plan">
+            {M.planLink}
+          </Link>
           <output className="u-visually-hidden">{announce}</output>
         </section>
       </div>
       <div className="map-home__side">
-        <InProgress loop={loop} rings={rings} />
+        <InProgress loop={loop} />
         <BriefingEditorial
           href={BRIEFING}
           heading={B.heading}
@@ -161,10 +212,8 @@ export function HomepageConcept4() {
               : undefined
           }
           next={{ label: SPC.nextLabel, title: PR.tryThis.title, why: PR.tryThis.why, href: TOOLBOX, actionLabel: SPC.nextAction }}
-          onUpdate={() => setUpdating(true)}
-          updateLabel={NC.open}
-          planHref={PLAN}
-          planLabel={SPC.planLabel}
+          detailHref={SIGNALS}
+          detailLabel={SPC.detailLabel}
           empty={
             picture ? undefined : skipped ? (
               <>
@@ -186,31 +235,6 @@ export function HomepageConcept4() {
           headingId="signal-picture-heading"
         />
       </div>
-      <UpdateNowSheet
-        open={updating}
-        initial={nowStart}
-        onClose={() => setUpdating(false)}
-        onSave={(now) => {
-          saveCurrent({ ...now, on: loop.today });
-          setUpdating(false);
-          setAnnounce(NC.saved);
-        }}
-      />
-      <ActionSheet
-        open={sheetAction !== null}
-        action={sheetAction}
-        onClose={() => setSheetAction(null)}
-        startHref={TOOLBOX}
-        onStart={(a) => {
-          loopActions.startAction(a.id);
-          setSheetAction(null);
-        }}
-        onSkip={(a, why) => {
-          loopActions.skipAction(a.id, why);
-          setSheetAction(null);
-          setAnnounce(M.skipped(a.title));
-        }}
-      />
     </div>
   );
 }

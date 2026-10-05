@@ -4,10 +4,11 @@
  *
  * - `done`: the Loop confirms it, or she said so (the same test the rings of
  *   Concept 1 use, `isDone` in `lib/rings.ts`). Nothing else fills a segment.
- * - `in-progress`: she has taken it up.
+ * - `in-progress`: she has taken it up: pressed Start, or work on it is already
+ *   in the Loop. Accepting it into her plan does not count.
  * - `not-started`: ExecHQ has suggested it and she has neither started it nor
- *   turned it down. It is shown, and it only leads to the Plan to read about,
- *   where she starts it or says it is not for her.
+ *   turned it down, including one she accepted into her plan and has not touched.
+ *   Starting it from the card under the rings makes it in progress.
  *
  * A skipped action leaves the map. A finished one stays until she asks for a
  * new one, which clears the finished ring.
@@ -54,8 +55,13 @@ function stateOf(action: LandscapeAction, input: MapInput): MapState | undefined
   if (choice?.decision === "skipped" || choice?.decision === "retired") return undefined;
   if (input.tasks?.[action.id]?.dropped) return undefined;
   if (isDone(action, input.records, input.tasks)) return "done";
-  if (choice?.decision === "started" || action.status === "accepted") return "in-progress";
-  if (action.status === "deferred" || action.status === "suggested") return "not-started";
+  /* In progress is only what she has taken up: she pressed Start, or there is
+     already work on it in the Loop (a draft, or a task she has begun). Being
+     in her plan is not enough, so an action she accepted and has not touched
+     is still not started. */
+  const record = action.artifactId ? input.records.find((r) => r.id === action.artifactId) : undefined;
+  if (choice?.decision === "started" || record || input.tasks?.[action.id]) return "in-progress";
+  if (action.status === "accepted" || action.status === "deferred" || action.status === "suggested") return "not-started";
   return undefined;
 }
 

@@ -5,8 +5,9 @@ import { usePlanPage } from "../usePlanPage";
 
 /**
  * Plan, Concept 3 — Record forward. What changed leads, across the top, and
- * ends in one next move that opens the matching step. The Signal Picture and
- * Momentum are the wide column; the next steps and the roadmap sit beside them.
+ * ends in one next move that opens the matching step. The next steps are the
+ * wide column and the roadmap sits beside them. The Signal Picture and
+ * Momentum have their own page.
  *
  * For the person who wants to see that acting adds up before they act again.
  */
@@ -16,18 +17,11 @@ export function PlanConcept3() {
     <PlanPage
       concept="c3"
       lead={p.narrative}
-      main={
-        <>
-          {p.picture}
-          {p.momentum}
-        </>
-      }
+      main={p.steps}
       side={
         <>
-          {p.steps}
           {p.roadmap({ compact: true })}
           {p.note}
-          {p.started}
         </>
       }
     >

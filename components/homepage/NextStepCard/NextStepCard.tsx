@@ -13,6 +13,8 @@ export interface NextStepCardProps {
   /** Where it starts: its Toolbox flow. Stubbed until Sprint 4. */
   href: string;
   actionLabel?: string;
+  /** Runs when she follows the main link, e.g. to mark the step started. */
+  onAction?: () => void;
   /** A line above the title, e.g. "Your next step". */
   eyebrow?: string;
   /** What just happened, shown before the step: the just-answered readback. */
@@ -44,6 +46,7 @@ export function NextStepCard({
   whyLine,
   href,
   actionLabel = "Start in the Toolbox",
+  onAction,
   eyebrow = "Your next step",
   lead,
   context,
@@ -84,7 +87,7 @@ export function NextStepCard({
               ))}
             </dl>
           ) : null}
-          <Link href={href} className="btn btn--primary btn--md btn--full">
+          <Link href={href} className="btn btn--primary btn--md btn--full" onClick={onAction}>
             {actionLabel}
             <Icon name="chevron" size={16} />
           </Link>
@@ -120,7 +123,7 @@ export function NextStepCard({
           </dl>
         ) : null}
       </div>
-      <Link href={href} className="btn btn--primary btn--md btn--full">
+      <Link href={href} className="btn btn--primary btn--md btn--full" onClick={onAction}>
         {actionLabel}
         <Icon name="chevron" size={16} />
       </Link>

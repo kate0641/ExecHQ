@@ -9463,6 +9463,10 @@ ul.account-card__shows {
   color: var(--color-text-secondary);
 }
 
+.signal-picture__links {
+  align-self: flex-start;
+}
+
 .account-card__cta {
   align-self: flex-start;
   margin-top: var(--space-2xs);
@@ -11692,6 +11696,58 @@ ul.login__never {
   color: var(--color-eyebrow);
 }
 
+/* The tray under the rings: the selected ring's next step. Its notch points
+   up at that ring; --at is the ring's place in the row, from 0, and the tray
+   and the row share a width, so its centre is at (2 × at + 1) / 6. */
+
+.map-rings-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.map-tray {
+  position: relative;
+  margin-top: var(--space-2xs);
+}
+
+.map-tray__notch {
+  position: absolute;
+  top: calc(-1 * var(--space-xs));
+  left: calc(100% * (var(--at) * 2 + 1) / 6);
+  width: var(--space-md);
+  height: var(--space-md);
+  border-top: var(--border-width-thin) solid var(--color-border);
+  border-left: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-xs);
+  background-color: var(--color-surface-feature);
+  transform: translateX(-50%) rotate(45deg);
+  transition: left var(--duration-base) var(--easing-standard);
+}
+
+/* A note in place of a card (a ring that is empty or finished): the same
+   raised surface, so the notch still belongs to something. */
+.map-tray__box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-feature);
+  color: var(--color-text-primary);
+}
+
+.map-tray__box > p {
+  margin: 0;
+}
+
+.map-tray .feature-card,
+.map-tray .home-card {
+  position: relative;
+}
+
 /* The strip: three rings in a row, no card around them. */
 
 ul.map-rings {
@@ -11723,7 +11779,7 @@ ul.map-rings {
   background-color: var(--color-surface-hover);
 }
 
-.map-rings__ring[aria-expanded="true"] {
+.map-rings__ring[aria-pressed="true"] {
   --map-hole: var(--color-surface-selected);
   background-color: var(--color-surface-selected);
 }
@@ -11813,13 +11869,14 @@ p.map-legend {
 
 .map-legend__key {
   display: inline-block;
-  width: 0.75rem;
-  height: 0.75rem;
+  /* A short segment, like the arcs in the rings, not a dot. */
+  width: 1.25rem;
+  height: 0.625rem;
   border-radius: var(--radius-pill);
 }
 
 .map-legend__key--done { background-color: var(--color-surface-inverse); }
-.map-legend__key--progress { border: 3px solid var(--color-surface-inverse); background-color: var(--color-surface); }
+.map-legend__key--progress { border: 2px solid var(--color-surface-inverse); background-color: var(--color-surface); }
 .map-legend__key--not { border: 2px dashed var(--color-text-muted); }
 
 /* What is in the ring she tapped. */
@@ -11963,6 +12020,10 @@ ul.map-panel__list {
   display: flex;
   flex-direction: column;
   gap: var(--space-2xs);
+}
+
+.map-home__plan {
+  align-self: flex-start;
 }
 
 .map-home__hint {
@@ -13285,6 +13346,68 @@ ul.narrative__lines {
 /* Record forward: the wide column holds the record, the side the next steps. */
 [data-viewport="web"] .plan-page--c3 .plan-page__main,
 [data-viewport="web"] .plan-page--c3 .plan-page__side {
+  grid-row: 3;
+}
+
+/* The Signal Picture page: the same frame as the Plan's, with its own widths
+   per concept. Picture first and Momentum first both give the wide column to
+   their lead; Side by side runs a lead across the top and
+   splits the rest evenly. */
+
+.signals-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  max-width: var(--content-measure);
+  margin-inline: auto;
+}
+
+.signals-page__title {
+  margin: 0;
+  font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+}
+
+.signals-page__lead,
+.signals-page__main,
+.signals-page__side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  min-width: 0;
+}
+
+[data-viewport="web"] .signals-page {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  align-items: start;
+  column-gap: var(--space-xl);
+  max-width: 76rem;
+}
+
+[data-viewport="web"] .signals-page--c3 {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+[data-viewport="web"] .signals-page__title,
+[data-viewport="web"] .signals-page__lead {
+  grid-column: 1 / -1;
+}
+
+[data-viewport="web"] .signals-page__main {
+  grid-column: 1;
+}
+
+[data-viewport="web"] .signals-page__side {
+  grid-column: 2;
+}
+
+[data-viewport="web"] .signals-page--c3 .signals-page__main,
+[data-viewport="web"] .signals-page--c3 .signals-page__side {
   grid-row: 3;
 }
 

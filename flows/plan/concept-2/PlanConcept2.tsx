@@ -8,7 +8,7 @@ import { usePlanPage } from "../usePlanPage";
  * her direction, her plan and her stage: where she is on it, what finishing the
  * stage looks like, and that stage's next steps opened up inside it. Beside it
  * on web, the Calendar (her own items and her steps on their days), then what
- * changed, Momentum and the Signal Picture.
+ * changed. The Signal Picture and Momentum have their own page.
  *
  * For the person who wants to know where this is heading before deciding what
  * to do. The steps are the stage's work, not a separate list.
@@ -29,9 +29,6 @@ export function PlanConcept2() {
         <>
           {p.calendar}
           {p.narrative}
-          {p.momentum}
-          {p.picture}
-          {p.started}
         </>
       }
     >

@@ -60,6 +60,7 @@ const GO_MS = 350;
 const ICONS: Record<string, IconName> = {
   homepage: "home",
   plan: "flag",
+  signals: "trend-up",
   toolbox: "pencil",
   "daily-briefing": "calendar",
   profile: "person",

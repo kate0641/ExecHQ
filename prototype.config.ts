@@ -203,25 +203,57 @@ export const prototypeConfig: PrototypeConfig = {
           slug: "concept-1",
           title: "Concept 1 — Steps forward",
           summary:
-            "Action steps lead: the five live steps by horizon, then the Signal Picture and Momentum. The roadmap is one step away.",
+            "Action steps lead: the five live steps by horizon, then the roadmap as an Agenda. What changed sits beside them.",
         },
         {
           slug: "concept-2",
           title: "Concept 2 — Road forward",
           summary:
-            "The roadmap leads: where she is on it and what finishing the stage looks like, with that stage’s action steps opened up beneath.",
+            "The roadmap leads: where she is on it and what finishing the stage looks like, with that stage’s action steps opened up beneath. The Calendar and what changed sit beside it.",
         },
         {
           slug: "concept-3",
           title: "Concept 3 — Record forward",
           summary:
-            "What changed leads: the narrative and the Signal Picture, ending in one next move that opens the matching action step.",
+            "What changed leads, ending in one next move that opens the matching action step. The steps and the roadmap sit beneath it.",
         },
         {
           slug: "templates",
           title: "All five plans",
           summary:
             "Reference, not a concept: the roadmap of every plan template, stage by stage, to review the wording in one place.",
+        },
+      ],
+    },
+    {
+      slug: "signals",
+      title: "Signal Picture",
+      sprint: 3,
+      chrome: "app",
+      description:
+        "The home of the Signal Picture and Momentum: what she has put out there, where she started beside where she is now, and how her follow-through is going. Factual, never a score.",
+      stub: {
+        heading: "Your Signal Picture",
+        body: "Where your Signal Picture and Momentum will live.",
+      },
+      concepts: [
+        {
+          slug: "concept-1",
+          title: "Concept 1 — Picture first",
+          summary:
+            "The Signal Picture leads, with where she started and sparks above her record, and Momentum beside it.",
+        },
+        {
+          slug: "concept-2",
+          title: "Concept 2 — Momentum first",
+          summary:
+            "Momentum leads, wide, and the Signal Picture sits beside it with where she started beneath.",
+        },
+        {
+          slug: "concept-3",
+          title: "Concept 3 — Side by side",
+          summary:
+            "Where she started and what has moved lead across the top; the Signal Picture and Momentum sit as equals beneath.",
         },
       ],
     },
@@ -299,6 +331,7 @@ export const prototypeConfig: PrototypeConfig = {
   appNav: [
     { flowSlug: "homepage", label: "Home" },
     { flowSlug: "plan", label: "Plan" },
+    { flowSlug: "signals", label: "Signals" },
     { flowSlug: "toolbox", label: "Toolbox" },
     { flowSlug: "daily-briefing", label: "Briefing" },
     { flowSlug: "profile", label: "Profile" },

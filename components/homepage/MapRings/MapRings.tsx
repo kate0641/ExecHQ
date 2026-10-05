@@ -1,3 +1,4 @@
+import type { CSSProperties, ReactNode } from "react";
 import { mapRingText, type MapRing, type MapState } from "@/lib/map";
 import { Icon } from "@/components/primitives/Icon";
 import { MAP_COPY as C } from "@/mock/homepage";
@@ -8,8 +9,14 @@ export interface MapRingsProps {
   /** The ring whose list is open below. None: no ring is pressed. */
   selected?: Horizon | null;
   onSelect: (horizon: Horizon) => void;
-  /** The id of the list a ring opens, for aria-controls. */
+  /** The id of the tray a ring shows, for aria-controls. */
   panelId?: string;
+  /** What the tray under the rings shows: the card for the selected ring. Its
+   *  notch points up at that ring, so the card and the rings read as one.
+   *  Omitted: no tray. */
+  children?: ReactNode;
+  /** Draws the key above the rings, so it is read before the rings are. */
+  legend?: boolean;
   /** Catalogue only: shows one ring in a state a static page can't reach. */
   demo?: { horizon: Horizon; state: "hover" | "focus" | "active" };
   className?: string;
@@ -80,19 +87,24 @@ function Drawing({ ring }: { ring: MapRing }) {
 
 /**
  * The strip at the top of the homepage: one ring per horizon, one segment per
- * action on her map. Tapping a ring opens its list below, so the strip stays
- * three rings however many actions there are. A ring with every action done
+ * action on her map. Tapping a ring shows that ring's next step in a card
+ * under the strip, its notch pointing at the ring, so the strip stays three
+ * rings however many actions there are. A ring with every action done
  * carries a check.
  */
-export function MapRings({ rings, selected, onSelect, panelId, demo, className }: MapRingsProps) {
+export function MapRings({ rings, selected, onSelect, panelId, children, legend, demo, className }: MapRingsProps) {
+  const at = rings.findIndex((r) => r.horizon === selected);
   return (
+    <div className="map-rings-wrap">
+    {legend ? <MapLegend /> : null}
     <ul className={["map-rings", className].filter(Boolean).join(" ")}>
       {rings.map((ring) => (
         <li key={ring.horizon}>
           <button
             type="button"
             className={["map-rings__ring", demo?.horizon === ring.horizon ? `is-${demo.state}` : null].filter(Boolean).join(" ")}
-            aria-expanded={selected === ring.horizon}
+            aria-pressed={selected === ring.horizon}
+            data-selected={selected === ring.horizon ? "true" : undefined}
             aria-controls={panelId}
             aria-label={mapRingText(ring)}
             onClick={() => onSelect(ring.horizon)}
@@ -111,6 +123,13 @@ export function MapRings({ rings, selected, onSelect, panelId, demo, className }
         </li>
       ))}
     </ul>
+    {children ? (
+      <div className="map-tray" id={panelId}>
+        {at >= 0 ? <span className="map-tray__notch" style={{ "--at": at } as CSSProperties} aria-hidden="true" /> : null}
+        {children}
+      </div>
+    ) : null}
+    </div>
   );
 }
 

@@ -103,6 +103,9 @@ const PLACES: Record<string, string> = {
   home: "homepage",
   homepage: "homepage",
   plan: "plan",
+  signals: "signals",
+  "signal picture": "signals",
+  momentum: "signals",
   toolbox: "toolbox",
   briefing: "daily-briefing",
   "daily briefing": "daily-briefing",
@@ -170,7 +173,7 @@ export function understand(
   // Someone in danger or in trouble at work is never read as anything else.
   if (CRISIS.test(t) || WORK_TROUBLE.test(t)) return classifyMiss(t, recentMisses);
 
-  const place = t.match(/^(?:go(?: to)?|open|take me to|show me)?\s*(?:my\s+|the\s+)?(home(?:page)?|plan|toolbox|(?:daily )?briefing|profile|account|settings)$/);
+  const place = t.match(/^(?:go(?: to)?|open|take me to|show me)?\s*(?:my\s+|the\s+)?(home(?:page)?|plan|signals|signal picture|momentum|toolbox|(?:daily )?briefing|profile|account|settings)$/);
   if (place) return { kind: "go", flow: PLACES[place[1]] };
 
   const followUp = ctx.followUp;
