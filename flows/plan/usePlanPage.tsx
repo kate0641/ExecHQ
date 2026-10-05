@@ -25,7 +25,7 @@ import { buildNarrative } from "@/lib/narrative";
 import { roadmapWindows } from "@/lib/roadmap-dates";
 import { saveCalendar, saveRoadmap, saveSteps, useCalendar, useRoadmapChoices, useSavedSteps } from "@/lib/plan-store";
 import { hasBaseline, signalRows, withAdded } from "@/lib/presence";
-import { addPresence, removePresence, saveBaseline, updatePresence, useAddedPresence, useBaseline } from "@/lib/presence-store";
+import { addPresence, removePresence, saveBaseline, updatePresence, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
 import { currentStageIndex, isDone as isActionDone } from "@/lib/rings";
 import { addedItems, historyDays, offerFor, recordedItems, type PictureItem } from "@/lib/signal-picture";
 import { signalOfRecord } from "@/lib/signals";
@@ -53,6 +53,7 @@ export function usePlanPage() {
   const loop = useLoop();
   const addedPresence = useAddedPresence();
   const baseline = useBaseline();
+  const current = useCurrent();
   const dismissed = useDismissedSparks();
   const [entry, setEntry] = useState<
     { mode: "add"; initial?: Partial<EntryValues>; fromRecord?: string } | { mode: "edit"; item: PictureItem } | null
@@ -304,7 +305,8 @@ export function usePlanPage() {
 
   // The homepage's starting-point counts, kept until the homepage concept is chosen.
   const rows = signalRows(loop.today, items, baseline, seeded, (item) =>
-    [item.note ?? item.title, item.where, shortDate(item.on)].filter(Boolean).join(" · ")
+    [item.note ?? item.title, item.where, shortDate(item.on)].filter(Boolean).join(" · "),
+    current
   );
   const sparks = sparksFor(loop.today, loop.account, dismissed, items).filter((n) => n.id.startsWith("presence:"));
   const addedCount = items.filter((item) => item.on <= loop.today).length;

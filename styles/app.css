@@ -9595,6 +9595,22 @@ ul.spark {
   word-spacing: var(--type-subheading-word-spacing);
 }
 
+.update-now {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.update-now__title {
+  margin: 0;
+  font-family: var(--type-subheading-font);
+  font-size: var(--type-subheading-size);
+  font-weight: var(--type-subheading-weight);
+  line-height: var(--type-subheading-leading);
+  letter-spacing: var(--type-subheading-tracking);
+  word-spacing: var(--type-subheading-word-spacing);
+}
+
 .add-presence__error {
   margin: var(--space-2xs) 0 0;
   font-size: var(--text-sm);

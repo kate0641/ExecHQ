@@ -3,6 +3,7 @@ import { BaselineForm } from "@/components/homepage/BaselineForm";
 import { defineComponentStates } from "@/components/types";
 import { NOT_AN_INPUT } from "@/components/not-applicable";
 import { presenceCounts, withAdded } from "@/lib/presence";
+import { NOW_COPY as N } from "@/mock/accounts-stub";
 import { SIGNAL_PICTURE_COPY as C } from "@/mock/homepage";
 import { PRESENCE_KINDS, PRESENCE_STUB, SPARK_COPY } from "@/mock/accounts-stub";
 import { SignalPicture } from "./SignalPicture";
@@ -20,7 +21,9 @@ const base = {
   rows,
   thenLabel: "Start",
   nowLabel: "Now",
-  next: { label: C.nextLabel, title: PRESENCE_STUB.tryThis.title, why: PRESENCE_STUB.tryThis.why },
+  next: { label: C.nextLabel, title: PRESENCE_STUB.tryThis.title, why: PRESENCE_STUB.tryThis.why, href: "/toolbox-flow/concept-1", actionLabel: C.nextAction },
+  onUpdate: noop,
+  updateLabel: N.open,
   planHref: "/plan/concept-1",
   planLabel: C.planLabel,
   headingId: "signal-picture-demo",

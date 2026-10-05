@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { BaselineList, type BaselineRow } from "@/components/homepage/BaselineList";
 import { Spark, type SparkProps } from "@/components/homepage/Spark";
+import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 
 export interface SignalPictureProps {
@@ -13,8 +14,11 @@ export interface SignalPictureProps {
   nowLabel?: string;
   /** The one note of what has moved lately. Omitted when nothing has. */
   spark?: SparkProps;
-  /** The one thing to try next. A suggestion, so it does not link on. */
-  next?: { label: string; title: string; why: string };
+  /** The one thing to try next, with the way to start it in the Toolbox. */
+  next?: { label: string; title: string; why: string; href: string; actionLabel: string };
+  /** Opens where she says where she is now. Omitted when there is nothing to update. */
+  onUpdate?: () => void;
+  updateLabel?: string;
   /** The way to the detail on the Plan page. */
   planHref: string;
   planLabel: string;
@@ -41,6 +45,8 @@ export function SignalPicture({
   nowLabel,
   spark,
   next,
+  onUpdate,
+  updateLabel,
   planHref,
   planLabel,
   empty,
@@ -60,12 +66,21 @@ export function SignalPicture({
       ) : (
         <>
           <BaselineList rows={rows} thenLabel={thenLabel} nowLabel={nowLabel} />
+          {onUpdate ? (
+            <Button variant="secondary" className="account-card__cta" onClick={onUpdate}>
+              {updateLabel}
+            </Button>
+          ) : null}
           {spark ? <Spark {...spark} /> : null}
           {next ? (
             <div className="account-card__try">
               <span className="account-card__try-label">{next.label}</span>
               <b>{next.title}</b>
               <p>{next.why}</p>
+              <Link href={next.href} className="btn btn--secondary btn--md account-card__cta">
+                {next.actionLabel}
+                <Icon name="chevron" size={16} />
+              </Link>
             </div>
           ) : null}
           <Link href={planHref} className="btn btn--secondary btn--md account-card__cta">

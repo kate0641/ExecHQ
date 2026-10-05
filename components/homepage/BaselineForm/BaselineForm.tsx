@@ -11,6 +11,12 @@ export interface BaselineFormProps {
   onSave: (baseline: Baseline) => void;
   /** Leaves it for later. Omitted where skipping makes no sense. */
   onSkip?: () => void;
+  /** What the numbers start at. Empty when she is first saying. */
+  initial?: Baseline;
+  /** Words for a form that is not the first ask. Each falls back to the first. */
+  intro?: string;
+  saveLabel?: string;
+  skipLabel?: string;
   /** Catalogue only: fills the form. */
   demo?: { counts?: Partial<Record<CountedKind, number>>; followers?: string };
   className?: string;
@@ -24,9 +30,9 @@ const NONE: Record<CountedKind, number> = { podcast: 0, press: 0, speaking: 0, w
  * by hand. Nothing is looked up, so there is nothing to connect or explain,
  * and zero is a fine answer. The followers are optional.
  */
-export function BaselineForm({ onSave, onSkip, demo, className }: BaselineFormProps) {
-  const [counts, setCounts] = useState<Record<CountedKind, number>>({ ...NONE, ...demo?.counts });
-  const [followers, setFollowers] = useState(demo?.followers ?? "");
+export function BaselineForm({ onSave, onSkip, initial, intro, saveLabel, skipLabel, demo, className }: BaselineFormProps) {
+  const [counts, setCounts] = useState<Record<CountedKind, number>>({ ...NONE, ...initial?.counts, ...demo?.counts });
+  const [followers, setFollowers] = useState(demo?.followers ?? (initial?.followers !== undefined ? initial.followers.toLocaleString("en-US") : ""));
 
   function submit(event: FormEvent) {
     event.preventDefault();
@@ -36,7 +42,7 @@ export function BaselineForm({ onSave, onSkip, demo, className }: BaselineFormPr
 
   return (
     <form className={["baseline-form", className].filter(Boolean).join(" ")} onSubmit={submit} noValidate>
-      <p className="baseline-form__intro">{C.intro}</p>
+      <p className="baseline-form__intro">{intro ?? C.intro}</p>
       <Input
         label={C.linkedin.label}
         hint={C.linkedin.hint}
@@ -56,11 +62,11 @@ export function BaselineForm({ onSave, onSkip, demo, className }: BaselineFormPr
       ))}
       <div className="baseline-form__actions">
         <Button type="submit" variant="primary" fullWidth>
-          {C.save}
+          {saveLabel ?? C.save}
         </Button>
         {onSkip ? (
           <Button type="button" variant="ghost" fullWidth onClick={onSkip}>
-            {C.skip}
+            {skipLabel ?? C.skip}
           </Button>
         ) : null}
       </div>

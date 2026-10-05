@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { UpdateNowSheet } from "@/components/homepage/UpdateNowSheet";
 import { BaselineForm } from "@/components/homepage/BaselineForm";
 import { SignalPicture } from "@/components/homepage/SignalPicture";
 import { ActionSheet } from "@/components/homepage/ActionSheet";
@@ -12,11 +13,11 @@ import { Button } from "@/components/primitives/Button";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { mapFor, nextNewAction } from "@/lib/map";
-import { hasBaseline, signalRows, withAdded } from "@/lib/presence";
-import { saveBaseline, useAddedPresence, useBaseline } from "@/lib/presence-store";
+import { hasBaseline, presenceCounts, signalRows, withAdded, type Baseline } from "@/lib/presence";
+import { saveBaseline, saveCurrent, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
 import { dismissSpark, useDismissedSparks } from "@/lib/spark-dismissal";
 import { sparksFor } from "@/lib/sparks";
-import { BASELINE_COPY as BC, PRESENCE_STUB as PR, SPARK_COPY as SP } from "@/mock/accounts-stub";
+import { BASELINE_COPY as BC, NOW_COPY as NC, PRESENCE_STUB as PR, SPARK_COPY as SP } from "@/mock/accounts-stub";
 import { BRIEFING_STUB as B, HOME_COPY as C, MAP_COPY as M, SIGNAL_PICTURE_COPY as SPC } from "@/mock/homepage";
 import { shortDate } from "@/lib/loop";
 import type { Horizon, LandscapeAction } from "@/mock/plan-stub";
@@ -59,6 +60,8 @@ export function HomepageConcept4() {
   const [skipped, setSkipped] = useState(false);
   const addedPresence = useAddedPresence();
   const baseline = useBaseline();
+  const current = useCurrent();
+  const [updating, setUpdating] = useState(false);
   const dismissed = useDismissedSparks();
 
   const rings = mapFor({ records: loop.records, tasks: loop.tasks, choices: loop.choices, asked: loop.asked });
@@ -69,7 +72,14 @@ export function HomepageConcept4() {
   const items = withAdded(addedPresence);
   const seeded = loop.homeState !== "first-return";
   const picture = hasBaseline(baseline, seeded);
-  const rows = signalRows(loop.today, items, baseline, seeded, () => "").map(({ id, label, then, now }) => ({ id, label, then, now }));
+  const rows = signalRows(loop.today, items, baseline, seeded, () => "", current).map(({ id, label, then, now }) => ({ id, label, then, now }));
+  /* What the update form opens on: where she last said she is, else her start,
+     else what the rows already show. */
+  const nowCounts = presenceCounts(loop.today, items, baseline, seeded, current);
+  const nowStart: Baseline = {
+    counts: Object.fromEntries(nowCounts.map((p) => [p.kind, p.now])) as Baseline["counts"],
+    ...((current?.followers ?? baseline?.followers) !== undefined ? { followers: (current?.followers ?? baseline?.followers) as number } : {}),
+  };
   const note = sparksFor(loop.today, loop.account, dismissed, items).find((n) => n.id.startsWith("presence:"));
 
   return (
@@ -150,7 +160,9 @@ export function HomepageConcept4() {
                 }
               : undefined
           }
-          next={{ label: SPC.nextLabel, title: PR.tryThis.title, why: PR.tryThis.why }}
+          next={{ label: SPC.nextLabel, title: PR.tryThis.title, why: PR.tryThis.why, href: TOOLBOX, actionLabel: SPC.nextAction }}
+          onUpdate={() => setUpdating(true)}
+          updateLabel={NC.open}
           planHref={PLAN}
           planLabel={SPC.planLabel}
           empty={
@@ -174,6 +186,16 @@ export function HomepageConcept4() {
           headingId="signal-picture-heading"
         />
       </div>
+      <UpdateNowSheet
+        open={updating}
+        initial={nowStart}
+        onClose={() => setUpdating(false)}
+        onSave={(now) => {
+          saveCurrent({ ...now, on: loop.today });
+          setUpdating(false);
+          setAnnounce(NC.saved);
+        }}
+      />
       <ActionSheet
         open={sheetAction !== null}
         action={sheetAction}

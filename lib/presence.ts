@@ -37,6 +37,12 @@ export interface Baseline {
   followers?: number;
 }
 
+/** Where she says she is now: the same counts as the baseline, as of the day
+ *  she said it. Anything she adds after that day counts on top of it. */
+export interface Current extends Baseline {
+  on: string;
+}
+
 /**
  * The baseline and today's count for every kind, in card order. What she
  * saved as her starting point is where she started; without one, the
@@ -47,13 +53,16 @@ export function presenceCounts(
   today: string,
   items: readonly PresenceItem[] = PRESENCE_ITEMS,
   baseline: Baseline | null = null,
-  seeded = true
+  seeded = true,
+  current: Current | null = null
 ): PresenceCount[] {
   const added = addedBy(today, items);
   return PRESENCE_ORDER.map((kind) => {
     const ofKind = added.filter((item) => item.kind === kind);
     const then = baseline ? baseline.counts[kind] : seeded ? PRESENCE_BASELINE[kind] : 0;
-    return { kind, then, now: then + ofKind.length, latest: ofKind[ofKind.length - 1] };
+    /* What she said she has now, plus what she added since saying it. */
+    const now = current ? current.counts[kind] + ofKind.filter((item) => item.on > current.on).length : then + ofKind.length;
+    return { kind, then, now, latest: ofKind[ofKind.length - 1] };
   });
 }
 
@@ -84,19 +93,23 @@ export function signalRows(
   items: readonly PresenceItem[],
   baseline: Baseline | null,
   seeded: boolean,
-  describe: (item: PresenceItem) => string
+  describe: (item: PresenceItem) => string,
+  current: Current | null = null
 ): SignalRow[] {
   const rows: SignalRow[] = [];
-  if (baseline ? baseline.followers !== undefined : seeded) {
-    const typed = baseline?.followers;
+  const typed = baseline?.followers;
+  const typedNow = current?.followers;
+  if (baseline ? typed !== undefined || typedNow !== undefined : seeded || typedNow !== undefined) {
+    const fmt = (n: number) => n.toLocaleString("en-US");
+    const then = typed !== undefined ? fmt(typed) : baseline ? "–" : LINKEDIN_STUB.baseline.then;
     rows.push({
       id: "linkedin",
       label: LINKEDIN_ROW_LABEL,
-      then: typed !== undefined ? typed.toLocaleString("en-US") : LINKEDIN_STUB.baseline.then,
-      now: typed !== undefined ? typed.toLocaleString("en-US") : LINKEDIN_STUB.baseline.now,
+      then,
+      now: typedNow !== undefined ? fmt(typedNow) : typed !== undefined ? fmt(typed) : LINKEDIN_STUB.baseline.now,
     });
   }
-  for (const p of presenceCounts(today, items, baseline, seeded)) {
+  for (const p of presenceCounts(today, items, baseline, seeded, current)) {
     rows.push({
       id: p.kind,
       label: PRESENCE_KINDS[p.kind].label,

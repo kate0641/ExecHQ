@@ -393,7 +393,9 @@ export const MAP_COPY = {
 export const SIGNAL_PICTURE_COPY = {
   heading: "Your Signal Picture",
   asOf: (date: string) => `Since ${date}`,
-  /** Over the one thing to try. It is a suggestion, so it does not link on. */
+  /** Over the one thing to try. */
   nextLabel: "A next step",
+  /** Opens the step in the Toolbox. */
+  nextAction: "Start in the Toolbox",
   planLabel: "See the detail in your Plan",
 } as const;

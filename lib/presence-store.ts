@@ -9,7 +9,7 @@
  */
 
 import { useSyncExternalStore } from "react";
-import type { Baseline } from "@/lib/presence";
+import type { Baseline, Current } from "@/lib/presence";
 import type { PresenceItem } from "@/mock/accounts-stub";
 
 const STORAGE_KEY = "exechq-presence-added";
@@ -72,6 +72,7 @@ export function removePresence(id: string): void {
 export function resetPresence(): void {
   write(NONE);
   writeBaseline(null);
+  writeCurrent(null);
 }
 
 /* Where she said she is starting from: one record, kept the same way. */
@@ -123,4 +124,51 @@ export function useBaseline(): Baseline | null {
 /** What she has added, oldest first. */
 export function useAddedPresence(): readonly PresenceItem[] {
   return useSyncExternalStore(subscribe, get, () => NONE);
+}
+
+/* Where she says she is now: one record, kept the same way, saved over the
+   last one each time she updates it. */
+
+const CURRENT_KEY = "exechq-presence-current";
+let cachedCurrent: Current | null | undefined;
+const currentListeners = new Set<() => void>();
+
+function readCurrent(): Current | null {
+  try {
+    const raw = window.localStorage.getItem(CURRENT_KEY);
+    return raw ? (JSON.parse(raw) as Current) : null;
+  } catch {
+    return null;
+  }
+}
+
+function getCurrent(): Current | null {
+  if (cachedCurrent === undefined) cachedCurrent = readCurrent();
+  return cachedCurrent;
+}
+
+function writeCurrent(next: Current | null): void {
+  cachedCurrent = next;
+  try {
+    if (next === null) window.localStorage.removeItem(CURRENT_KEY);
+    else window.localStorage.setItem(CURRENT_KEY, JSON.stringify(next));
+  } catch {
+    // Not being able to persist is not worth failing over.
+  }
+  for (const listener of currentListeners) listener();
+}
+
+function subscribeCurrent(listener: () => void): () => void {
+  currentListeners.add(listener);
+  return () => currentListeners.delete(listener);
+}
+
+/** Saves where she is now, as of `on`. Her starting point does not change. */
+export function saveCurrent(current: Current): void {
+  writeCurrent(current);
+}
+
+/** Where she last said she is now, or null if she has not updated it. */
+export function useCurrent(): Current | null {
+  return useSyncExternalStore(subscribeCurrent, getCurrent, () => null);
 }
