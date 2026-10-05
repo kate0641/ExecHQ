@@ -20,19 +20,20 @@ The reasoning: ExecHQ users are senior and time-poor. One box that does all four
 
 ### Destinations
 
-Five, in this order. They come from the manifest's `appNav` and must not be hard-coded in the component.
+Six, in this order. They come from the manifest's `appNav` and must not be hard-coded in the component. Signals was added on 2026-10-05, when the Signal Picture and Momentum moved off the Plan to a page of their own.
 
 1. Home (`homepage`)
 2. Plan (`plan`)
-3. Toolbox (`toolbox`)
-4. Briefing (`daily-briefing`)
-5. Profile (`profile`)
+3. Signals (`signals`): the Signal Picture and Momentum
+4. Toolbox (`toolbox`)
+5. Briefing (`daily-briefing`)
+6. Profile (`profile`)
 
 Toolbox flow (the artifact builder) is a sub-flow of Toolbox and is not a destination.
 
 ### Where it appears
 
-On every page whose flow uses the `app` chrome: Homepage, Profile, Plan, Toolbox, Toolbox flow and Daily Briefing. It does **not** appear on Onboarding or Login (`minimal` chrome) or on the Enterprise Dashboard (`enterprise` chrome, its own navigation).
+On every page whose flow uses the `app` chrome: Homepage, Profile, Plan, Signal Picture, Toolbox, Toolbox flow and Daily Briefing. It does **not** appear on Onboarding or Login (`minimal` chrome) or on the Enterprise Dashboard (`enterprise` chrome, its own navigation).
 
 ---
 
@@ -140,13 +141,13 @@ Layout, top to bottom, identical on the sheet and the card:
 
 Three sections:
 
-1. **Go to.** A row of the five destinations, each an icon above its name, as equal-width buttons. The current destination is shown filled (dark). Home shows the quiet accent dot when a follow-up is due. Selecting one goes there and closes the panel.
+1. **Go to.** One row of the six destinations, each an icon above its name, as equal-width buttons. The row never wraps: the buttons share the width evenly however many destinations there are, so a seventh would narrow them rather than start a second line. On the phone each is about 54px wide, which fits the longest label ("Toolbox", "Briefing") at the small text size. The current destination is shown filled (dark). Home shows the quiet accent dot when a follow-up is due. Selecting one goes there and closes the panel.
 2. **Pick up where you left off.** Shown only if there is a draft or in-progress artifact. It is one card: the artifact's title, and "Drafted 5 Oct" or "Edited 5 Oct" (the most recent record of those two kinds, by latest history entry). Selecting it opens the Toolbox flow and closes the panel. If nothing is open, the section is absent entirely (no empty state).
 3. **Ask me.** The advisor's mark, name and role, then up to four suggested questions as full-width buttons. Which four depends on the user's situation (section 7).
 
 ### Conversation (after the first message)
 
-- A compact row of the five destinations stays at the top of the thread as small pills (current one filled), so a destination is always one tap away without ending the conversation. The row scrolls sideways if it overflows.
+- A compact row of the six destinations stays at the top of the thread as small pills (current one filled), so a destination is always one tap away without ending the conversation. The row scrolls sideways if it overflows.
 - Messages: the user's on the right, the advisor's on the left. The advisor's first message in a run shows his mark. Consecutive advisor messages group.
 - While the advisor is "typing", a typing indicator shows in place of his message. In the prototype this is 650ms; it is instant under reduced motion. In production it should show for as long as the real response takes.
 - An advisor turn can contain: paragraphs, a numbered list, closing paragraphs, and a card (title plus body, used for "Next on your plan: …").
@@ -159,7 +160,7 @@ Three sections:
 
 ### Intent: going somewhere
 
-Typing any of these goes to the destination, with or without "go to", "open", "take me to", "show me", "my" or "the": home, homepage, plan, toolbox, briefing, daily briefing, profile, account, settings. ("Account" and "settings" go to Profile.) The advisor replies with a short line first ("Here's your plan."), waits 350ms, then navigates, and the panel closes.
+Typing any of these goes to the destination, with or without "go to", "open", "take me to", "show me", "my" or "the": home, homepage, plan, signals, signal picture, momentum, toolbox, briefing, daily briefing, profile, account, settings. ("Account" and "settings" go to Profile; "signal picture" and "momentum" go to Signals.) The advisor replies with a short line first ("Here's your plan."), waits 350ms, then navigates, and the panel closes.
 
 ---
 
@@ -325,7 +326,7 @@ Every interactive control in the pill and the panel is at least **44 × 44px** (
 | Pill | 58px tall; full width on the phone, 480px on tablet and web |
 | Close (×) | 44 × 44px |
 | New chat | At least 44px tall |
-| Destination buttons (start screen) | About 83 × 67px |
+| Destination buttons (start screen) | About 54 × 67px on the phone, where six share one row; wider on tablet and web. Never narrower than 44px. |
 | Compact destination row (in a conversation) | At least 44px tall |
 | Resume card and suggested questions | At least 48px tall, full width |
 | Quick replies | At least 44px tall |
@@ -371,3 +372,4 @@ These are settled. They are the specified behavior.
 3. **The dot.** Only a due follow-up raises it (section 7). Nothing else, such as new briefings or plan changes, ever does.
 4. **He never guesses at what he cannot act on.** Five kinds of miss, each with its own reply; danger, distress and trouble at work get care and resources, not coaching; nothing he cannot act on is logged. (2026-10-02)
 5. **Navigation never changes shape.** One pill and one panel on every viewport, with the surfaces above. There is no secondary navigation anywhere in the signed-in app.
+6. **Six destinations, one row.** Signals joined the destinations on 2026-10-05, after the Signal Picture and Momentum moved off the Plan to a page of their own. The start screen's destination row stays on one line however many destinations there are, so the phone's row narrows each button rather than wrapping (section 2 and the touch-target table in section 9 give the sizes).
