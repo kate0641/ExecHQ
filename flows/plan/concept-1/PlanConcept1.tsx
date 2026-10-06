@@ -4,7 +4,7 @@ import { PlanPage } from "../PlanPage";
 import { usePlanPage } from "../usePlanPage";
 
 /**
- * Plan, Concept 1 — Steps forward. The direction and the next steps lead, with the
+ * Plan, Concept 1 — Steps forward. What her plan is, and the next steps, lead, with the
  * roadmap as an Agenda under them (the stage she is in open, the rest one tap
  * away). What changed sits beside them on web. The Signal Picture and Momentum have their own page.
  *
@@ -16,7 +16,7 @@ export function PlanConcept1() {
   return (
     <PlanPage
       concept="c1"
-      lead={p.direction}
+      lead={p.planHeader}
       main={
         <>
           {p.stepsCarousel}

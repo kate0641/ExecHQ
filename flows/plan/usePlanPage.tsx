@@ -12,6 +12,7 @@ import { DirectionCard } from "@/components/plan/DirectionCard";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import { ActionSteps } from "@/components/plan/ActionSteps";
+import { PlanHeader } from "@/components/plan/PlanHeader";
 import { PlanNarrative } from "@/components/plan/PlanNarrative";
 import { PlanRoadmap } from "@/components/plan/PlanRoadmap";
 import { RoadmapAgenda } from "@/components/plan/RoadmapAgenda";
@@ -44,7 +45,7 @@ import {
   WEBSITE_STUB as WEB,
 } from "@/mock/accounts-stub";
 import { PLAN_TEMPLATES, recommendPlan } from "@/mock/onboarding";
-import { CALENDAR_COPY as CAL, DIRECTION_PLAN_COPY as DP, ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
+import { CALENDAR_COPY as CAL, EDIT_FLOW_HREF, DIRECTION_PLAN_COPY as DP, ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
 import { ACTIONS } from "@/mock/plan-stub";
 import { SNAPSHOTS } from "@/mock/snapshots";
 import type { CalendarItem } from "@/mock/plan";
@@ -283,6 +284,19 @@ export function usePlanPage() {
   const direction = directionFor("statement");
   const directionCompass = directionFor("compass");
 
+  // Concept 1: what her plan is, in a line, with Edit opening the detail and the edit flow.
+  const planHeader = (
+    <PlanHeader
+      key={`plan-header-${loop.id}-${planId}`}
+      planId={planId}
+      rationale={recommendPlan(start.account.direction).rationale ?? ""}
+      stage={Math.max(0, windows.findIndex((w) => w.status === "current"))}
+      direction={loop.account.direction}
+      edited={loop.account.direction !== start.account.direction}
+      editHref={EDIT_FLOW_HREF}
+    />
+  );
+
   const note = switchedTo ? <p className="plan-stub__note">{RM.stepsStub}</p> : null;
 
   const narrativeNode = <PlanNarrative key={`narrative-${loop.id}`} narrative={narrative} onOpenStep={openStep} />;
@@ -475,7 +489,7 @@ export function usePlanPage() {
     />
   );
 
-  return { direction, directionCompass, steps, stepsCarousel, roadmap, agenda, calendar, note, narrative: narrativeNode, momentum, picture, started, accounts, sparkNode, sheet: (
+  return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, agenda, calendar, note, narrative: narrativeNode, momentum, picture, started, accounts, sparkNode, sheet: (
       <>
         {sheet}
         {updateNow}

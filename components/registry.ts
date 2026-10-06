@@ -106,6 +106,8 @@ import { momentumLabeledStates } from "./plan/MomentumLabeled/MomentumLabeled.st
 import { momentumCountsStates } from "./plan/MomentumCounts/MomentumCounts.states";
 import { planNarrativeStates } from "./plan/PlanNarrative/PlanNarrative.states";
 import { directionCardStates } from "./plan/DirectionCard/DirectionCard.states";
+import { planHeaderStates } from "./plan/PlanHeader/PlanHeader.states";
+import { planDetailSheetStates } from "./plan/PlanDetailSheet/PlanDetailSheet.states";
 import { planSwitchSheetStates } from "./plan/PlanSwitchSheet/PlanSwitchSheet.states";
 import { roadmapAgendaStates } from "./plan/RoadmapAgenda/RoadmapAgenda.states";
 import { planCalendarStates } from "./plan/PlanCalendar/PlanCalendar.states";
@@ -212,6 +214,8 @@ export const registry: RegisteredComponent[] = [
   momentumCountsStates,
   planNarrativeStates,
   directionCardStates,
+  planHeaderStates,
+  planDetailSheetStates,
   planSwitchSheetStates,
   stepChangePanelStates,
   roadmapAgendaStates,
