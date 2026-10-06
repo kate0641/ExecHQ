@@ -11730,6 +11730,9 @@ ul.login__never {
   background-color: var(--color-surface-feature);
   transform: translateX(-50%) rotate(45deg);
   transition: left var(--duration-base) var(--easing-standard);
+  /* Above the card, so its lower half covers the card's top edge and the
+     notch and the card read as one shape. */
+  z-index: 1;
 }
 
 /* A note in place of a card (a ring that is empty or finished): the same
