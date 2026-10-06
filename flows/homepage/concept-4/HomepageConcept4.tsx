@@ -183,14 +183,18 @@ export function HomepageConcept4() {
         </section>
       </div>
       <div className="map-home__side">
-        <InProgress loop={loop} />
-        <BriefingEditorial
-          href={BRIEFING}
-          heading={B.heading}
-          meta={B.meta(shortDay(loop.today), B.reads)}
-          lead={B.lead}
-          tag={B.tag}
-        />
+        <div className="map-home__stay">
+          <InProgress loop={loop} />
+        </div>
+        <div className="map-home__briefing">
+          <BriefingEditorial
+            href={BRIEFING}
+            heading={B.heading}
+            meta={B.meta(shortDay(loop.today), B.reads)}
+            lead={B.lead}
+            tag={B.tag}
+          />
+        </div>
         <SignalPicture
           name={SPC.heading}
           asOf={SPC.asOf(shortDate(loop.account.plan.startedOn))}

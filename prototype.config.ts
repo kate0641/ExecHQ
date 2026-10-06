@@ -164,8 +164,9 @@ export const prototypeConfig: PrototypeConfig = {
         {
           slug: "concept-4",
           title: "Concept 4 — Combined",
+          status: "approved",
           summary:
-            "The three together: a map of three rings, what is in progress, today’s Briefing, and Your Signal Picture.",
+            "The three together: a map of three rings with the next step under it, Stay on track, today’s Briefing, and Your Signal Picture.",
         },
       ],
     },

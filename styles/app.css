@@ -11805,9 +11805,12 @@ ul.map-rings {
   max-width: 5.5rem;
 }
 
-[data-viewport="tablet"] .map-rings__draw:not(:where([data-viewport="mobile"] *)),
+[data-viewport="tablet"] .map-rings__draw:not(:where([data-viewport="mobile"] *)) {
+  max-width: 8.5rem;
+}
+
 [data-viewport="web"] .map-rings__draw:not(:where([data-viewport="mobile"] *)) {
-  max-width: 7rem;
+  max-width: 9.5rem;
 }
 
 .map-rings__svg {
@@ -12035,8 +12038,12 @@ ul.map-panel__list {
   text-align: center;
 }
 
-/* Concept 4's two columns on web: the map on the left; what is in progress
-   (and, below it, the Signal Picture) on the right. One column otherwise. */
+/* Concept 4 on web: the greeting, then the briefing across the full width,
+   then the map on the left (about 70%) beside what is in progress and the
+   Signal Picture on the right (about 30%). The two wrappers dissolve so
+   their children place on the one grid. Tablet and mobile stay one column,
+   in the order the page is written: map, in progress, briefing, Signal
+   Picture. */
 
 .map-home__lead,
 .map-home__side {
@@ -12046,12 +12053,51 @@ ul.map-panel__list {
   min-width: 0;
 }
 
+[data-viewport="tablet"] .map-home:not(:where([data-viewport="mobile"] *)) {
+  max-width: 46rem;
+}
+
 [data-viewport="web"] .map-home:not(:where([data-viewport="mobile"] *)) {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
   align-items: start;
-  gap: var(--space-xl) var(--space-2xl);
-  max-width: 68rem;
+  gap: var(--space-lg) var(--space-2xl);
+  max-width: 76rem;
+}
+
+[data-viewport="web"] .map-home:not(:where([data-viewport="mobile"] *)) .map-home__lead,
+[data-viewport="web"] .map-home:not(:where([data-viewport="mobile"] *)) .map-home__side {
+  display: contents;
+}
+
+[data-viewport="web"] .map-home:not(:where([data-viewport="mobile"] *)) .map-home__greeting {
+  grid-column: 1 / -1;
+  grid-row: 1;
+}
+
+[data-viewport="web"] .map-home:not(:where([data-viewport="mobile"] *)) .map-home__briefing {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+
+[data-viewport="web"] .map-home:not(:where([data-viewport="mobile"] *)) .map-home__lead > .map-home__section {
+  grid-column: 1;
+  grid-row: 3;
+}
+
+/* Stay on track runs the full width under the map and the Signal Picture. */
+[data-viewport="web"] .map-home:not(:where([data-viewport="mobile"] *)) .map-home__stay {
+  grid-column: 1 / -1;
+  grid-row: 4;
+}
+
+[data-viewport="web"] .map-home:not(:where([data-viewport="mobile"] *)) .map-home__side > :not(.map-home__briefing):not(.map-home__stay) {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+.map-home__stay:empty {
+  display: none;
 }
 
 [data-viewport="mobile"] .map-home {
