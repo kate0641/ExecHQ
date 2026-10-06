@@ -11685,7 +11685,7 @@ ul.login__never {
   background-position: bottom;
   background-size: 100% var(--home-header-height);
   background-repeat: no-repeat;
-  color: var(--color-text-primary);
+  color: var(--color-text-inverse);
 }
 
 [data-viewport="mobile"] .map-home__greeting {
@@ -11710,15 +11710,25 @@ ul.login__never {
 .device__screen:has(.map-home) {
   --home-header-band: calc(var(--device-statusbar-height) + 2.5rem);
   --home-header-height: var(--home-header-band);
-  --home-header-wash:
+  /* The warm jewel wash, kept ready while the team decides between it and
+     navy. To bring it back, point --home-header-wash at it and set the
+     greeting's text back to the primary colour. */
+  --home-header-jewel:
     radial-gradient(ellipse 26% 65% at 50% 100%, var(--color-ring-complete-light), transparent),
     radial-gradient(ellipse 58% 150% at 50% 100%, var(--color-ring-complete-mid), color-mix(in srgb, var(--color-ring-complete-core) 75%, transparent) 30%, color-mix(in srgb, var(--color-ring-complete-core) 30%, transparent) 60%, transparent 95%),
     radial-gradient(ellipse 95% 240% at 50% 100%, var(--color-ring-complete-light) 15%, var(--color-ring-complete-edge) 55%, var(--color-ring-complete-deep) 85%, var(--color-ring-complete-edge) 100%);
+  /* For now, navy. */
+  --home-header-wash: linear-gradient(var(--color-surface-inverse), var(--color-surface-inverse));
 }
 
 .device--mobile > .device__screen:has(.map-home) {
   --home-header-band: 2.5rem;
   --home-header-height: calc(var(--device-statusbar-height) + var(--home-header-band));
+}
+
+.device__screen:has(.map-home) > .device__statusbar,
+.device__screen:has(.map-home) > .device__statusbar .device__statusbar-indicators {
+  color: var(--color-text-inverse);
 }
 
 .device__screen:has(.map-home) > .device__statusbar {
@@ -11745,7 +11755,7 @@ ul.login__never {
 
 .map-home__greeting span {
   font-size: var(--text-sm);
-  color: var(--color-text-secondary);
+  color: var(--color-text-inverse-muted);
 }
 
 /* With motion allowed, the greeting comes first, then the date gently takes
