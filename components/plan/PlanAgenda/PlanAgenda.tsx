@@ -4,12 +4,11 @@ import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AdvisorMark } from "@/components/chat/AdvisorMark";
-import { Input } from "@/components/form/Input";
-import { Sheet } from "@/components/layout/Sheet";
+import { AddToPlanSheet } from "@/components/plan/AddToPlanSheet";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import type { LoopDate } from "@/lib/loop";
-import { timeChoices, whenWords } from "@/lib/time-words";
+import { whenWords } from "@/lib/time-words";
 import { PLAN_AGENDA_COPY as A, STEP_ANSWERS, STEP_QUESTIONS, type ActionStep, type StepQuestion } from "@/mock/plan";
 
 export interface AgendaStage {
@@ -93,10 +92,7 @@ export function PlanAgenda({
   useEffect(() => {
     setScreen(anchor.current?.closest<HTMLElement>(".device__screen") ?? null);
   }, []);
-  const [draft, setDraft] = useState("");
-  const [when, setWhen] = useState(0);
   const [note, setNote] = useState("");
-  const choices = timeChoices(today);
 
   function toggleStage(index: number) {
     if (open === index) {
@@ -114,21 +110,6 @@ export function PlanAgenda({
     items
       .filter((i) => i.stage === index)
       .sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
-
-  function submit() {
-    const title = draft.trim();
-    if (!title) return;
-    const choice = choices[Math.min(when, choices.length - 1)];
-    const at = onAdd({ title, date: choice.date });
-    setDraft("");
-    setAdding(false);
-    // Show her where it went: that stage opens, and the page says so.
-    if (typeof at === "number") {
-      setOpen(at);
-      setStep(null);
-      setNote(A.added(stages[at]?.title ?? "", choice.label));
-    }
-  }
 
   return (
     <section className={["agenda", `agenda--${variant}`, className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
@@ -217,40 +198,22 @@ export function PlanAgenda({
         );
         return screen ? createPortal(button, screen) : button;
       })()}
-      <Sheet open={adding} onClose={() => setAdding(false)} label={A.addLabel} inline={demoAdding}>
-        <form
-          className="agenda__add"
-          onSubmit={(event) => {
-            event.preventDefault();
-            submit();
-          }}
-        >
-          <h3 className="agenda__add-title">{A.addLabel}</h3>
-          <Input
-            label={A.addTitle}
-            autoComplete="off"
-            placeholder={A.addPlaceholder}
-            value={draft}
-            onChange={(event) => setDraft(event.target.value)}
-          />
-          <fieldset className="agenda__whens">
-            <legend className="agenda__legend">{A.addWhen}</legend>
-            {choices.map((c, i) => (
-              <button key={c.bucket} type="button" className="agenda__chip" aria-pressed={when === i} onClick={() => setWhen(i)}>
-                {c.label}
-              </button>
-            ))}
-          </fieldset>
-          <div className="agenda__actions">
-            <Button type="submit" variant="primary" disabled={!draft.trim()}>
-              {A.addSubmit}
-            </Button>
-            <Button variant="ghost" onClick={() => setAdding(false)}>
-              {A.addCancel}
-            </Button>
-          </div>
-        </form>
-      </Sheet>
+      <AddToPlanSheet
+        open={adding}
+        onClose={() => setAdding(false)}
+        today={today}
+        inline={demoAdding}
+        onAdd={({ title, date, label }) => {
+          const at = onAdd({ title, date });
+          setAdding(false);
+          // Show her where it went: that stage opens, and the page says so.
+          if (typeof at === "number") {
+            setOpen(at);
+            setStep(null);
+            setNote(A.added(stages[at]?.title ?? "", label));
+          }
+        }}
+      />
     </section>
   );
 }

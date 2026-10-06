@@ -14,6 +14,7 @@ import { Icon } from "@/components/primitives/Icon";
 import { ActionSteps } from "@/components/plan/ActionSteps";
 import { ToggleGroup } from "@/components/form/ToggleGroup";
 import { PlanAgenda, type AgendaItem } from "@/components/plan/PlanAgenda";
+import { PlanGuided } from "@/components/plan/PlanGuided";
 import { PlanHeader } from "@/components/plan/PlanHeader";
 import { PlanNarrative } from "@/components/plan/PlanNarrative";
 import { PlanRoadmap } from "@/components/plan/PlanRoadmap";
@@ -22,7 +23,7 @@ import { CalendarItemSheet, type ItemValues } from "@/components/plan/CalendarIt
 import { PlanCalendar } from "@/components/plan/PlanCalendar";
 import { PlanSignalPicture } from "@/components/plan/PlanSignalPicture";
 import { SignalEntrySheet, type EntryValues } from "@/components/plan/SignalEntrySheet";
-import { accept, complete, initialPlanState, liveSteps, stepDay, type PlanState } from "@/lib/action-steps";
+import { accept, complete, decline, edit as editStep, initialPlanState, liveSteps, stepDay, type PlanState } from "@/lib/action-steps";
 import { askConcierge } from "@/flows/navigation/concept-1/ConciergeConcept";
 import { setAgendaLayout, useAgendaLayout } from "@/lib/agenda-choice";
 import { addDays, shortDate } from "@/lib/loop";
@@ -32,7 +33,7 @@ import { momentumEvents } from "@/lib/momentum";
 import { buildNarrative } from "@/lib/narrative";
 import { planSparks } from "@/lib/plan-sparks";
 import { roadmapWindows, stageAt } from "@/lib/roadmap-dates";
-import { whenWords } from "@/lib/time-words";
+import { timeChoices, whenWords } from "@/lib/time-words";
 import { saveCalendar, saveRoadmap, saveSteps, useCalendar, useRoadmapChoices, useSavedSteps } from "@/lib/plan-store";
 import { hasBaseline, presenceCounts, signalRows, withAdded, type Baseline } from "@/lib/presence";
 import { addPresence, removePresence, saveBaseline, saveCurrent, updatePresence, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
@@ -51,7 +52,8 @@ import {
   WEBSITE_STUB as WEB,
 } from "@/mock/accounts-stub";
 import { PLAN_TEMPLATES, recommendPlan } from "@/mock/onboarding";
-import { CALENDAR_COPY as CAL, EDIT_FLOW_HREF, PLAN_AGENDA_COPY as AG, STEP_QUESTIONS, DIRECTION_PLAN_COPY as DP, ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
+import type { ActionStep } from "@/mock/plan";
+import { CALENDAR_COPY as CAL, EDIT_FLOW_HREF, PLAN_AGENDA_COPY as AG, STEP_QUESTIONS, type GuidedAnswer, DIRECTION_PLAN_COPY as DP, ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
 import { ACTIONS } from "@/mock/plan-stub";
 import { SNAPSHOTS } from "@/mock/snapshots";
 import type { CalendarItem } from "@/mock/plan";
@@ -293,6 +295,46 @@ export function usePlanPage() {
         onAdd={addToPlan}
       />
     </div>
+  );
+
+  // Concept 3: the guided check-in. The moves are her live steps as they stand when she arrives, one page
+  // each. Answering changes her plan for real, by the same rules as the step cards.
+  const guidedStages = windows.map((w) => ({ title: w.title, status: w.status }));
+  const guidedSparks = timelineSparks.byStage
+    .flat()
+    .sort((a, b) => (a.on < b.on ? -1 : a.on > b.on ? 1 : 0))
+    .slice(-6);
+  function answerStep(step: ActionStep, answer: GuidedAnswer) {
+    const hasDraft = step.kind === "artifact" || Boolean(step.artifactId);
+    if (answer === "done") {
+      // A step with a draft is done when the draft is used or sent: that is the Toolbox's to say.
+      if (!hasDraft) {
+        loopActions.completeTask(step.id);
+        keepSteps(complete(stepState, step.id).state);
+      }
+    } else if (answer === "plan") {
+      keepSteps(editStep(accept(stepState, step.id), step.id, { date: timeChoices(loop.today)[0].date }));
+    } else if (answer === "small") {
+      keepSteps(editStep(stepState, step.id, { scope: "lighter" }));
+    } else {
+      keepSteps(decline(stepState, step.id, undefined).state);
+    }
+  }
+  const guided = (
+    <PlanGuided
+      key={`guided-${loop.id}-${planId}`}
+      planName={PLAN_TEMPLATES.find((p) => p.id === planId)?.name ?? ""}
+      stageIndex={Math.max(0, windows.findIndex((w) => w.status === "current"))}
+      stages={guidedStages}
+      moves={live}
+      whenOf={(step) => whenWords(stepDay(stepState, step).date, loop.today)}
+      today={loop.today}
+      startHref={conceptHref("toolbox-flow", "concept-1")}
+      sparks={guidedSparks}
+      onAnswer={answerStep}
+      onStart={(step) => keepSteps(accept(stepState, step.id))}
+      onAdd={addToPlan}
+    />
   );
 
   // Concept 2: the Calendar, with Add right under its heading.
@@ -578,7 +620,7 @@ export function usePlanPage() {
     />
   );
 
-  return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, agenda, calendar, note, narrative: narrativeNode, momentum, picture, started, accounts, sparkNode, sheet: (
+  return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, agenda, guided, calendar, note, narrative: narrativeNode, momentum, picture, started, accounts, sparkNode, sheet: (
       <>
         {sheet}
         {updateNow}

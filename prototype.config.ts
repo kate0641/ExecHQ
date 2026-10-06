@@ -197,9 +197,9 @@ export const prototypeConfig: PrototypeConfig = {
         },
         {
           slug: "concept-3",
-          title: "Concept 3 — Record forward",
+          title: "Concept 3 — Guided check-in",
           summary:
-            "What changed leads, ending in one next move that opens the matching action step. The steps and the roadmap sit beneath it.",
+            "A guided check-in, built from onboarding’s page and answer drawer: one move at a time, with where she is with it as the answer. Answering changes her plan and comes back as a short reply. The road and adding her own items slide up as sheets.",
         },
         {
           slug: "templates",

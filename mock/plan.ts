@@ -1084,3 +1084,50 @@ export const PLAN_AGENDA_COPY = {
     stack: "Stack",
   },
 } as const;
+
+/* -----------------------------------------------------------------------------
+   THE GUIDED CHECK-IN (Concept 3 rework, 2026-10-06)
+   The Plan as a short run of pages, one move each, as onboarding asks one question at a time:
+   the page says the move and why it matters, and the drawer holds where she is with it. Her
+   answer changes her plan for real, and comes back as a short reply in the serif voice.
+   -------------------------------------------------------------------------- */
+export type GuidedAnswer = "done" | "plan" | "small" | "pass";
+
+export const GUIDED_COPY = {
+  kicker: (n: number, total: number, when: string) => `Move ${n} of ${total} · ${when}`,
+  question: "Where are you with this?",
+  peek: "Tap to answer",
+  answers: [
+    { id: "done", label: "I’ve done it", hint: "It counts toward this stage" },
+    { id: "plan", label: "I’ll do it this week", hint: "It goes in your week" },
+    { id: "small", label: "Make it smaller", hint: "A lighter version of the same move" },
+    { id: "pass", label: "Not for me", hint: "ExecHQ offers a different step" },
+  ] as { id: GuidedAnswer; label: string; hint: string }[],
+  /** What ExecHQ says back. It says what happened and what moved, never why. */
+  reply: (step: { outcome: string }, answer: GuidedAnswer, o: { stage: string; hasDraft: boolean }) =>
+    ({
+      done: o.hasDraft
+        ? "It counts once your draft is marked used or sent. Open it to say so, and it counts toward this stage."
+        : `${step.outcome} That counts toward this stage, ${o.stage}.`,
+      plan: "Good. It is in your week, and ExecHQ will ask you how it went.",
+      small:
+        "Here is a lighter version. Do only the first part, and leave the rest for later. ExecHQ keeps it on your plan at the smaller size.",
+      pass: "That is fine. ExecHQ offers a different step in its place, and will not offer this one again.",
+    })[answer],
+  next: "Next move",
+  seeRoad: "See the road",
+  road: "The road ahead",
+  roadIntro: "A suggested pace, not a deadline.",
+  here: "You are here",
+  changed: "What changed",
+  noChanges: "Nothing has changed yet.",
+  after: "Then ExecHQ builds the next stage, from what worked and what didn’t.",
+  lastKicker: "The road ahead",
+  lastTitle: "That’s this stretch of the plan.",
+  lastLede: "Here is where your plan stands.",
+  again: "Go through them again",
+  add: "Add to your plan",
+  noneTitle: "Nothing to answer right now.",
+  noneLede: "Your plan offers the next move when one fits.",
+  close: "Close",
+} as const;
