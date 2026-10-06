@@ -5,6 +5,7 @@ import { CardCarousel, type CarouselItem } from "@/components/layout/CardCarouse
 import { ActionStepCard } from "@/components/plan/ActionStepCard";
 import {
   accept,
+  applyCapacity,
   decline,
   defer,
   complete,
@@ -13,6 +14,7 @@ import {
   initialPlanState,
   liveIn,
   newVisit,
+  liveLimit,
   liveSteps,
   reconcile,
   type EmptyReason,
@@ -20,7 +22,7 @@ import {
   type PlanState,
 } from "@/lib/action-steps";
 import type { LoopDate } from "@/lib/loop";
-import { LIVE_LIMITS, PLAN_COPY, STEP_COPY as C, stepById, type ActionStep } from "@/mock/plan";
+import { CAPACITY_COPY, LIVE_LIMITS, PLAN_COPY, STEP_COPY as C, capacityStepsOf, stepById, type ActionStep, type CapacityLevel } from "@/mock/plan";
 import { HORIZONS, type Horizon } from "@/mock/plan-stub";
 
 interface Note {
@@ -53,6 +55,9 @@ export interface ActionStepsProps {
   /** `list` is a column of cards by horizon (Concepts 2 and 3). `carousel` is one swiping row of compact
    *  cards in order, short-term to long-term, with chips that jump to a horizon (Concept 1). */
   layout?: "list" | "carousel";
+  /** How much she can take on right now, and whether she is holding it. When it changes, steps are set
+   *  aside or one more is offered, and a line says which. Without it there are up to five. */
+  capacity?: { level: CapacityLevel; hold: boolean };
   /** Her choices kept between visits. Without it they last until she leaves. */
   persist?: { saved?: SavedSteps; onChange: (steps: SavedSteps) => void };
   /** Catalogue only: a card opens with this panel showing. */
@@ -81,6 +86,7 @@ export function ActionSteps({
   onComplete,
   persist,
   onState,
+  capacity,
   layout = "list",
   demoPanel,
   demoEmpty,
@@ -88,11 +94,31 @@ export function ActionSteps({
   className,
 }: ActionStepsProps) {
   // A new visit starts the replacement count again; everything else she decided stays.
-  const [state, setState] = useState<PlanState>(() =>
-    persist?.saved ? newVisit(persist.saved.state, today) : initial ?? initialPlanState(today)
-  );
+  const [state, setState] = useState<PlanState>(() => {
+    const base = persist?.saved ? newVisit(persist.saved.state, today) : initial ?? initialPlanState(today);
+    // What she said she can take on applies as the page opens, quietly: nothing is offered and no note is made.
+    return capacity ? applyCapacity(base, capacityStepsOf(capacity.level), capacity.hold, { offer: false }).state : base;
+  });
   const [notes, setNotes] = useState<Record<string, Note>>(persist?.saved?.notes ?? {});
   const [empties, setEmpties] = useState<Partial<Record<Horizon, EmptyReason>>>(persist?.saved?.empties ?? demoEmpty ?? {});
+
+  const [capacityNote, setCapacityNote] = useState("");
+  const capKey = capacity ? `${capacity.level}:${capacity.hold}` : "";
+  const [capSeen, setCapSeen] = useState(capKey);
+  if (capKey !== capSeen) {
+    setCapSeen(capKey);
+    if (capacity) {
+      const n = capacityStepsOf(capacity.level);
+      const result = applyCapacity(state, n, capacity.hold);
+      setState(result.state);
+      if (result.setAside.length) setCapacityNote(CAPACITY_COPY.setAside(result.setAside.length, n));
+      else if (result.offered) {
+        setCapacityNote(CAPACITY_COPY.roomForOne);
+        const offered = result.offered;
+        setNotes((existing) => ({ ...existing, [offered.id]: { heard: CAPACITY_COPY.roomForOne } }));
+      } else setCapacityNote("");
+    }
+  }
 
   // Whoever shows these steps elsewhere hears of every change, hand-offs included.
   useEffect(() => {
@@ -219,6 +245,7 @@ export function ActionSteps({
           </h2>
         </div>
         <output className="u-visually-hidden">{message}</output>
+        {capacityNote ? <p className="steps__note">{capacityNote}</p> : null}
         <ul className="steps__jump" aria-label={C.jumpLabel}>
           {HORIZONS.map((h) => {
             const here0 = liveIn(state, h.id)[0];
@@ -250,6 +277,14 @@ export function ActionSteps({
     );
   }
 
+  let freeLeft = Math.max(0, liveLimit(state) - state.shown.length);
+  const roomOf = {} as Record<Horizon, number>;
+  for (const h of HORIZONS) {
+    const r = Math.max(0, Math.min(LIVE_LIMITS[h.id] - liveIn(state, h.id).length, freeLeft));
+    roomOf[h.id] = r;
+    freeLeft -= r;
+  }
+
   return (
     <section className={["steps", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
       <div className="steps__head">
@@ -258,10 +293,12 @@ export function ActionSteps({
         </h2>
       </div>
       <output className="u-visually-hidden">{message}</output>
+      {capacityNote ? <p className="steps__note">{capacityNote}</p> : null}
 
       {HORIZONS.map((h) => {
         const steps = liveIn(state, h.id);
-        const room = LIVE_LIMITS[h.id] - steps.length;
+        // A free place only shows where there is room inside what she said she can take on.
+        const room = roomOf[h.id];
         const emptyReason = empties[h.id];
         const labelId = `steps-${h.id}`;
         return (
@@ -278,7 +315,7 @@ export function ActionSteps({
               {steps.map((step, i) => renderCard(step, { headingLevel: 4, first: i === 0 }))}
               {room > 0 ? (
                 <p className="steps__free" id={`steps-empty-${h.id}`} tabIndex={-1}>
-                  {emptyReason ? PLAN_COPY.empty[emptyReason] : C.roomFree}
+                  {state.hold ? PLAN_COPY.empty.holding : emptyReason ? PLAN_COPY.empty[emptyReason] : C.roomFree}
                 </p>
               ) : null}
             </div>

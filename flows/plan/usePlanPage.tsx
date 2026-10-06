@@ -21,6 +21,7 @@ import { PlanRoadmap } from "@/components/plan/PlanRoadmap";
 import { RoadmapTimeline } from "@/components/plan/RoadmapTimeline";
 import { CalendarItemSheet, type ItemValues } from "@/components/plan/CalendarItemSheet";
 import { PlanCalendar } from "@/components/plan/PlanCalendar";
+import { CapacityControl } from "@/components/plan/CapacityControl";
 import { PlanSignalPicture, type SignalPictureVariant } from "@/components/plan/PlanSignalPicture";
 import { SignalEntrySheet, type EntryValues } from "@/components/plan/SignalEntrySheet";
 import { accept, complete, decline, edit as editStep, initialPlanState, liveSteps, stepDay, type PlanState } from "@/lib/action-steps";
@@ -38,7 +39,8 @@ import { saveCalendar, saveRoadmap, saveSteps, useCalendar, useRoadmapChoices, u
 import { addedSummary, hasBaseline, presenceCounts, signalRows, withAdded } from "@/lib/presence";
 import { addPresence, removePresence, saveBaseline, saveCurrent, updatePresence, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
 import { currentStageIndex, isDone as isActionDone } from "@/lib/rings";
-import { addedItems, historyDays, nextOutsideStep, offerFor, recordedItems, type PictureItem } from "@/lib/signal-picture";
+import { setCapacity, useCapacity } from "@/lib/capacity-store";
+import { addedItems, historyDays, offerFor, recordedItems, type PictureItem } from "@/lib/signal-picture";
 import { ACTIVITY_OF_CHANNEL, ACTIVITY_TYPES } from "@/mock/plan";
 import { signalOfRecord } from "@/lib/signals";
 import { dismissSpark, useDismissedSparks } from "@/lib/spark-dismissal";
@@ -71,6 +73,7 @@ export function usePlanPage() {
   const loop = useLoop();
   const agendaLayout = useAgendaLayout();
   const addedPresence = useAddedPresence();
+  const capacity = useCapacity();
   const baseline = useBaseline();
   const current = useCurrent();
   // The LinkedIn export she may add under her starting numbers. In the prototype only its name is kept, and "reading" is a timer.
@@ -155,10 +158,11 @@ export function usePlanPage() {
     accepted: (step) => stepState.decisions[step.id]?.decision === "accepted",
   });
 
-  const stepsFor = (layout: "list" | "carousel") => (
+  const stepsFor = (layout: "list" | "carousel", withCapacity = false) => (
     <ActionSteps
       key={`steps-${layout}-${stepsKey}`}
       layout={layout}
+      capacity={withCapacity ? capacity : undefined}
       today={loop.today}
       initial={switchedTo ? { ...initialPlanState(loop.today), shown: [], decisions: {} } : undefined}
       startHref={conceptHref("toolbox-flow", "concept-1")}
@@ -176,6 +180,17 @@ export function usePlanPage() {
 
   const steps = stepsFor("list");
   const stepsCarousel = stepsFor("carousel");
+  // Plan Concept 4: the Active Landscape as a list by horizon, inside what she said she can take on.
+  const stepsWithCapacity = stepsFor("list", true);
+  const capacityControl = (
+    <CapacityControl
+      level={capacity.level}
+      hold={capacity.hold}
+      live={live.length}
+      onLevel={(level) => setCapacity({ level })}
+      onHold={(hold) => setCapacity({ hold })}
+    />
+  );
 
   const roadmap = (opts: { compact?: boolean; children?: ReactNode } = {}) => (
     <PlanRoadmap
@@ -468,10 +483,12 @@ export function usePlanPage() {
   /* Until she has said where she started, the page asks that and nothing else:
      the picture would only repeat the page's title over an empty record. */
   /* Her next step as the path draws it: only one that would add a circle, so
-     work inside the organisation is not shown here. It carries the plan's own
+     work inside the organisation is not shown here. It is read from her live
+     steps, so it is always one the landscape shows. It carries the plan's own
      reason, the kind of activity it adds one to, and whether she has started it. */
   const pathStep = (() => {
-    const step = nextOutsideStep(loop.records, loop.tasks);
+    // The first live step that runs through an outside channel: the same steps the landscape shows.
+    const step = live.find((x) => x.channel);
     if (!step || !step.channel) return undefined;
     const record = step.artifactId ? loop.records.find((r) => r.id === step.artifactId) : undefined;
     const lane = ACTIVITY_TYPES.find((a) => a.id === ACTIVITY_OF_CHANNEL[step.channel!])?.label ?? "";
@@ -536,7 +553,7 @@ export function usePlanPage() {
       onDismiss={(id) => dismissSpark(id)}
     />
   );
-  const started = (
+  const startedOf = (withTry: boolean) => (
     <section className="plan-stub__signals" aria-labelledby="plan-signals-heading">
       <h2 className="u-visually-hidden" id="plan-signals-heading">
         {SPIC.startedHeading}
@@ -552,7 +569,7 @@ export function usePlanPage() {
           summary={addedSummary(items, loop.today)}
           onAdd={() => setEntry({ mode: "add" })}
           addLabel={ADD.open}
-          tryThis={{ ...PR.tryThis, href: conceptHref("toolbox-flow", "concept-1") }}
+          tryThis={withTry ? { ...PR.tryThis, href: conceptHref("toolbox-flow", "concept-1") } : undefined}
           tryLabel={AC.tryThis}
           headingId="plan-signals-card"
         />
@@ -577,6 +594,9 @@ export function usePlanPage() {
     </section>
   );
 
+  const started = startedOf(true);
+  const startedPlain = startedOf(false);
+
   const sheet = (
     <SignalEntrySheet
       key={entry ? (entry.mode === "edit" ? `signal-${entry.item.id}` : `signal-add-${entry.fromRecord ?? ""}`) : "signal-closed"}
@@ -595,7 +615,7 @@ export function usePlanPage() {
     />
   );
 
-  return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, agenda, guided, calendar, note, narrative: narrativeNode, momentum, momentumOf, pictureOf, started, hasStarted: hasBaseline(baseline, seeded), sparkNode, sheet: (
+  return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, agenda, guided, calendar, note, narrative: narrativeNode, momentum, momentumOf, pictureOf, started, startedPlain, capacityControl, stepsWithCapacity, hasStarted: hasBaseline(baseline, seeded), sparkNode, sheet: (
       <>
         {sheet}
         {calendarSheet}

@@ -202,6 +202,12 @@ export const prototypeConfig: PrototypeConfig = {
             "A guided check-in, built from onboarding’s page and answer drawer: one move at a time, with where she is with it as the answer. Answering changes her plan and comes back as a short reply. The road and adding her own items slide up as sheets.",
         },
         {
+          slug: "concept-4",
+          title: "Concept 4 — Plan and signals",
+          summary:
+            "The Active Landscape leads: how much she can take on (remembered between visits), then up to five live steps with their reasons and answers. Under it, in order: Momentum, how she has grown, what came of it, and where she started. Every next step on the page is one of the live steps.",
+        },
+        {
           slug: "templates",
           title: "All five plans",
           summary:

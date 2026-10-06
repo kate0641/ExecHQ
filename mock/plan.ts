@@ -392,6 +392,8 @@ export const PLAN_COPY = {
   },
   /** The slot stays empty; each line says why and what she can do. Never a verdict. */
   empty: {
+    holding: "You are holding your workload, so nothing new is offered. Lift it whenever you like.",
+    "at-capacity": "That is what you said you can take on right now, so nothing new is offered.",
     "nothing-suitable": "Nothing else fits this horizon right now. Your plan will offer the next one as you go.",
     "limit-reached": "That’s enough changes for one visit. Your plan will offer another next time.",
   },
@@ -402,6 +404,26 @@ export const PLAN_COPY = {
    Plain words, no guilt. Declining never asks "Are you sure?"; the reason is
    optional and one tap. Nothing here scores, ranks or praises.
    -------------------------------------------------------------------------- */
+
+/** How much she can take on right now: how many live steps. Five is the most there is. */
+export type CapacityLevel = "light" | "steady" | "full";
+export const CAPACITY_LEVELS: { id: CapacityLevel; label: string; steps: number }[] = [
+  { id: "light", label: "Light", steps: 3 },
+  { id: "steady", label: "Steady", steps: 4 },
+  { id: "full", label: "Full", steps: 5 },
+];
+export const capacityStepsOf = (level: CapacityLevel): number => CAPACITY_LEVELS.find((l) => l.id === level)?.steps ?? 4;
+
+export const CAPACITY_COPY = {
+  heading: "How much can you take on right now?",
+  levelLabel: "Capacity",
+  hold: "Hold my workload: offer nothing new",
+  live: (n: number) => (n === 1 ? "1 live step" : `${n} live steps`),
+  atMost: "Never more than five.",
+  setAside: (n: number, to: number) =>
+    `Your plan holds ${to} right now. ${n === 1 ? "One step is" : `${n} steps are`} set aside, not lost, and nothing is counted against you.`,
+  roomForOne: "You have room for one more.",
+} as const;
 
 export const KIND_LABELS: Record<StepKind, string> = {
   artifact: "Write something",
