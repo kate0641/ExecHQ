@@ -243,31 +243,10 @@
      yellow heart sitting low, a pale blue deepening towards the edge, and
      white light at the top. (Named for the finished ring, where it began.) */
   --color-ring-complete-core: var(--brand-yellow-300);
-  --color-ring-complete-mid: color-mix(in srgb, var(--brand-orange-300), var(--brand-orange-400));  /* a deeper peach, between 300 and 400 */
+  --color-ring-complete-mid: var(--brand-orange-300);
   --color-ring-complete-edge: var(--brand-blue-200);
   --color-ring-complete-deep: var(--brand-blue-300);
   --color-ring-complete-light: var(--brand-white);
-
-  /* The sky behind Home's greeting on the phone, one set for each time of
-     day. Day is the soft jewel above. Each has a heart (light, core, mid)
-     rising from the bottom edge, and an edge and a deep tone around it. At
-     night a small warm ember glows at the bottom edge of the navy. */
-  --color-sky-dawn-light: var(--brand-yellow-100);
-  --color-sky-dawn-core: var(--brand-orange-200);
-  --color-sky-dawn-mid: var(--brand-yellow-300);
-  --color-sky-dawn-edge: var(--brand-blue-200);
-  --color-sky-dawn-deep: var(--brand-blue-300);
-  --color-sky-dusk-light: var(--brand-yellow-200);
-  --color-sky-dusk-core: var(--brand-orange-300);
-  --color-sky-dusk-mid: var(--brand-orange-400);
-  --color-sky-dusk-edge: var(--brand-blue-300);
-  --color-sky-dusk-deep: var(--brand-blue-300);
-  --color-sky-night-glow: color-mix(in srgb, var(--brand-orange-400) 60%, var(--brand-blue-800));  /* dimmed, so the light date on it stays readable */
-  --color-sky-night-light: var(--brand-blue-700);
-  --color-sky-night-core: var(--brand-blue-700);
-  --color-sky-night-mid: var(--brand-blue-600);
-  --color-sky-night-edge: var(--brand-blue-800);
-  --color-sky-night-deep: var(--brand-blue-900);
 
   /* Danger — the destructive action: deleting the account, removing a
      connection. The red end of the orange scale. White on it is 7.0:1, and

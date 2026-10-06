@@ -11688,53 +11688,10 @@ ul.login__never {
 .device__screen:has(.map-home) {
   --home-header-band: 2.5rem;
   --home-header-height: calc(var(--device-statusbar-height) + var(--home-header-band));
-  --sky-light: var(--color-ring-complete-light);
-  --sky-core: var(--color-ring-complete-core);
-  --sky-mid: var(--color-ring-complete-mid);
-  --sky-edge: var(--color-ring-complete-edge);
-  --sky-deep: var(--color-ring-complete-deep);
-  --sky-glow: var(--sky-light);
   --home-header-wash:
-    radial-gradient(ellipse 26% 65% at 50% 100%, var(--sky-glow), transparent),
-    radial-gradient(ellipse 58% 150% at 50% 100%, var(--sky-mid), color-mix(in srgb, var(--sky-core) 75%, transparent) 30%, color-mix(in srgb, var(--sky-core) 30%, transparent) 60%, transparent 95%),
-    radial-gradient(ellipse 95% 240% at 50% 100%, var(--sky-light) 15%, var(--sky-edge) 55%, var(--sky-deep) 85%, var(--sky-edge) 100%);
-}
-
-/* The same sky at the other times of day. */
-.device__screen:has(.map-home__greeting[data-sky="dawn"]) {
-  --sky-light: var(--color-sky-dawn-light);
-  --sky-core: var(--color-sky-dawn-core);
-  --sky-mid: var(--color-sky-dawn-mid);
-  --sky-edge: var(--color-sky-dawn-edge);
-  --sky-deep: var(--color-sky-dawn-deep);
-}
-
-.device__screen:has(.map-home__greeting[data-sky="dusk"]) {
-  --sky-light: var(--color-sky-dusk-light);
-  --sky-core: var(--color-sky-dusk-core);
-  --sky-mid: var(--color-sky-dusk-mid);
-  --sky-edge: var(--color-sky-dusk-edge);
-  --sky-deep: var(--color-sky-dusk-deep);
-}
-
-.device__screen:has(.map-home__greeting[data-sky="night"]) {
-  --sky-glow: var(--color-sky-night-glow);
-  --sky-light: var(--color-sky-night-light);
-  --sky-core: var(--color-sky-night-core);
-  --sky-mid: var(--color-sky-night-mid);
-  --sky-edge: var(--color-sky-night-edge);
-  --sky-deep: var(--color-sky-night-deep);
-}
-
-/* At night the greeting and the status bar turn light. */
-.device__screen:has(.map-home__greeting[data-sky="night"]) > .device__statusbar,
-.device__screen:has(.map-home__greeting[data-sky="night"]) > .device__statusbar .device__statusbar-indicators,
-[data-viewport="mobile"] .map-home__greeting[data-sky="night"] {
-  color: var(--color-text-inverse);
-}
-
-[data-viewport="mobile"] .map-home__greeting[data-sky="night"] span {
-  color: var(--color-text-inverse-muted);
+    radial-gradient(ellipse 26% 65% at 50% 100%, var(--color-ring-complete-light), transparent),
+    radial-gradient(ellipse 58% 150% at 50% 100%, var(--color-ring-complete-mid), color-mix(in srgb, var(--color-ring-complete-core) 75%, transparent) 30%, color-mix(in srgb, var(--color-ring-complete-core) 30%, transparent) 60%, transparent 95%),
+    radial-gradient(ellipse 95% 240% at 50% 100%, var(--color-ring-complete-light) 15%, var(--color-ring-complete-edge) 55%, var(--color-ring-complete-deep) 85%, var(--color-ring-complete-edge) 100%);
 }
 
 .device__screen:has(.map-home) > .device__statusbar {
@@ -11816,8 +11773,7 @@ ul.login__never {
   }
 
   /* Once it takes the greeting's place, the date is the greeting's colour. */
-  [data-viewport="mobile"] .map-home__greeting span,
-  [data-viewport="mobile"] .map-home__greeting[data-sky="night"] span {
+  [data-viewport="mobile"] .map-home__greeting span {
     color: inherit;
   }
 }
