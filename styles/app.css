@@ -14283,6 +14283,48 @@ ul.pcal__items {
   }
 }
 
+/* The strip: one thin bar split into a part for each card. The parts are buttons with a 24px target. */
+.card-carousel__strip {
+  flex: 1;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: var(--space-2xs);
+  min-width: 0;
+}
+
+.card-carousel__strip button {
+  display: flex;
+  align-items: center;
+  height: 1.5rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.card-carousel__strip button:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.card-carousel__strip i {
+  display: block;
+  width: 100%;
+  height: var(--space-2xs);
+  border-radius: var(--radius-xs);
+  background-color: var(--color-border);
+}
+
+.card-carousel__strip button:hover i {
+  background-color: var(--color-border-strong);
+}
+
+.card-carousel__strip button.is-now i {
+  height: var(--space-xs);
+  background-color: var(--color-text-primary);
+}
+
 .card-carousel__dots b {
   width: var(--border-width-thin);
   height: 0.75rem;

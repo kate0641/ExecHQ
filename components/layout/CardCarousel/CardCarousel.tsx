@@ -26,6 +26,10 @@ export interface CardCarouselProps {
   onCurrent?: (id: string, index: number) => void;
   /** A fixed card width where there is room, in place of most of the row. */
   fixed?: boolean;
+  /** How the place in the row is shown between the buttons. `dots` is a dot for each card and the
+   *  count in words; `strip` is one thin bar split into a part for each card, each part a way to
+   *  jump to that card, with the count said to assistive technology only. */
+  indicator?: "dots" | "strip";
   className?: string;
 }
 
@@ -48,6 +52,7 @@ export function CardCarousel({
   goTo,
   onCurrent,
   fixed = false,
+  indicator = "dots",
   className,
 }: CardCarouselProps) {
   const track = useRef<HTMLUListElement>(null);
@@ -109,17 +114,39 @@ export function CardCarousel({
           <Button variant="secondary" size="sm" aria-label={previousLabel} disabled={current === 0} onClick={() => go(current - 1)}>
             <Icon name="chevron" size={16} className="card-carousel__back" />
           </Button>
-          <span className="card-carousel__position" aria-live="polite">
-            <span className="card-carousel__dots" aria-hidden="true">
-              {items.map((item, i) => (
-                <Fragment key={item.id}>
-                  {i > 0 && item.group !== undefined && items[i - 1].group !== item.group ? <b /> : null}
-                  <i className={i === current ? "is-now" : undefined} />
-                </Fragment>
-              ))}
+          {indicator === "strip" ? (
+            <>
+              <div className="card-carousel__strip">
+                {items.map((item, i) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className={i === current ? "is-now" : undefined}
+                    aria-label={position(i + 1, total)}
+                    aria-current={i === current ? "true" : undefined}
+                    onClick={() => go(i)}
+                  >
+                    <i />
+                  </button>
+                ))}
+              </div>
+              <span className="u-visually-hidden" aria-live="polite">
+                {position(current + 1, total)}
+              </span>
+            </>
+          ) : (
+            <span className="card-carousel__position" aria-live="polite">
+              <span className="card-carousel__dots" aria-hidden="true">
+                {items.map((item, i) => (
+                  <Fragment key={item.id}>
+                    {i > 0 && item.group !== undefined && items[i - 1].group !== item.group ? <b /> : null}
+                    <i className={i === current ? "is-now" : undefined} />
+                  </Fragment>
+                ))}
+              </span>
+              {position(current + 1, total)}
             </span>
-            {position(current + 1, total)}
-          </span>
+          )}
           <Button variant="secondary" size="sm" aria-label={nextLabel} disabled={current === total - 1} onClick={() => go(current + 1)}>
             <Icon name="chevron" size={16} />
           </Button>

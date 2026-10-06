@@ -238,6 +238,7 @@ export function ActionSteps({
         </ul>
         <CardCarousel
           fixed
+          indicator="strip"
           label={C.heading}
           items={cards}
           previousLabel={C.previousStep}
