@@ -207,7 +207,6 @@ export function usePlanPage() {
       planId={planId}
       startedOn={choices?.startedOn ?? loop.account.plan.startedOn}
       today={loop.today}
-      rationale={recommendPlan(start.account.direction).rationale ?? ""}
       evidenceStage={currentStageIndex(loop.records, roadmapFor(loop.account.plan.id).length, ACTIONS, loop.tasks)}
       startStage={currentStageIndex(start.records, roadmapFor(loop.account.plan.id).length, ACTIONS, start.tasks)}
       choices={choices}

@@ -13632,7 +13632,7 @@ dl.direction__plan {
   gap: var(--space-md);
 }
 
-.rtl__summary {
+.rtl__head {
   display: flex;
   flex-direction: column;
   gap: var(--space-2xs);

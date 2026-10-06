@@ -764,7 +764,7 @@ export const AGENDA_COPY = {
   summary: (stages: number, weeks: number) => `${stages} stages · about ${weeks} weeks`,
   /** When a stage is aimed at, in words: where its suggested end falls. */
   suggested: (when: string) => `Aim for: ${when.toLowerCase()}`,
-  pace: "A suggested pace, not a deadline. The stages move as you do. When you finish one, we recommend the next.",
+  pace: "A suggested pace, not a deadline.",
   stageOf: (n: number, total: number) => `Stage ${n} of ${total}`,
   about: (weeks: number) => `about ${weeks} week${weeks === 1 ? "" : "s"}`,
   states: { current: "You are here", done: "Done", recommended: "Recommended next" },
@@ -1008,7 +1008,6 @@ export const SPARK_NOTES = {
 } as const;
 
 export const TIMELINE_COPY = {
-  intro: "The draft you started with, and how it has changed with you.",
   earlierTitle: (name: string) => `First draft: ${name}`,
   earlierNow: "Where you were",
   earlierSetAside: "Set aside",

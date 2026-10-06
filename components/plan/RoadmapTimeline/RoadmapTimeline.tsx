@@ -6,7 +6,7 @@ import { Badge } from "@/components/primitives/Badge";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import { dayLabel } from "@/lib/calendar";
-import { shortDate, type LoopDate } from "@/lib/loop";
+import type { LoopDate } from "@/lib/loop";
 import { NO_SPARKS, type PlanSpark, type TimelineSparks } from "@/lib/plan-sparks";
 import { dismissNext, finishStage, startNext } from "@/lib/roadmap-choices";
 import { roadmapWindows, totalWeeks, type StageWindow } from "@/lib/roadmap-dates";
@@ -26,8 +26,6 @@ export interface RoadmapTimelineProps {
   planId: string;
   startedOn: LoopDate;
   today: LoopDate;
-  /** Why this plan, tied to what she said in onboarding. */
-  rationale: string;
   /** The stage her work says she is in, from 0. The timeline suggests finishing it. */
   evidenceStage: number;
   /** The stage she was in when the scenario began. */
@@ -65,7 +63,6 @@ export function RoadmapTimeline({
   planId: initialPlanId,
   startedOn: initialStartedOn,
   today,
-  rationale,
   evidenceStage,
   startStage,
   choices,
@@ -156,22 +153,12 @@ export function RoadmapTimeline({
 
   return (
     <section className={["rtl", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
-      <div className="roadmap__head">
+      <div className="rtl__head">
         <h2 className="roadmap__heading" id={headingId}>
           {C.heading}
         </h2>
-        <p className="roadmap__plan">
-          <b>{template?.name}</b>
-          {template?.formalName ? <span> · {template.formalName}</span> : null}
-        </p>
-      </div>
-      <div className="rtl__summary">
         <p className="rtl__line">{A.summary(windows.length, totalWeeks(windows))}</p>
-        <p className="rtl__small">{T.intro}</p>
         <p className="rtl__small">{A.pace}</p>
-        <p className="roadmap__why">
-          <span>{C.whyThis}</span> {switched ? C.switchedOn(shortDate(startedOn)) : rationale}
-        </p>
       </div>
 
       {history.map((h, i) => (

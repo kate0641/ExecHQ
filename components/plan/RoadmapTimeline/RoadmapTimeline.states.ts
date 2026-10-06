@@ -8,8 +8,6 @@ const base = {
   planId: "leadership-scope",
   startedOn: "2026-10-05",
   today: "2026-10-20",
-  rationale:
-    "You said you want a larger organization and a broader remit, so this plan starts with the narrative and the evidence that the people deciding will ask for.",
   evidenceStage: 0,
   items: CALENDAR_SEED,
 };
@@ -159,15 +157,6 @@ export const roadmapTimelineStates = defineComponentStates({
         ...base,
         sparks: sparks([[spark("k", "direction", N.directionKept, "2026-10-18")], ...empty(3)]),
         headingId: "rt-kept",
-      },
-    },
-    {
-      label: "A long reason wraps",
-      props: {
-        ...base,
-        rationale:
-          "You said you want a larger organization and a broader remit, that you are two levels below the people who decide, that the planning cycle starts next month, and that your manager has never seen your results written down, so this plan starts with the narrative and the evidence that the people deciding will ask for.",
-        headingId: "rt-long",
       },
     },
   ],
