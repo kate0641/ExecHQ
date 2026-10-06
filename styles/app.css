@@ -14463,6 +14463,22 @@ ul.step-change__options {
 }
 
 /* The horizon, as one line of plain text above the title. */
+.step-card__glance-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-xs);
+}
+
+.step-card__glance-top .step-card__eyebrow {
+  padding-top: var(--space-2xs);
+}
+
+.step-card__edit-wrap {
+  flex: none;
+  margin: calc(var(--space-2xs) * -1) calc(var(--space-2xs) * -1) 0 0;
+}
+
 .step-card__eyebrow {
   display: flex;
   flex-wrap: wrap;
@@ -14607,8 +14623,9 @@ ul.step-card__whys {
   line-height: var(--leading-tight);
 }
 
-/* A quiet text link, so the plan's name stays the loudest thing. */
-.plan-header__top .plan-header__edit {
+/* A quiet text link, so the plan's name stays the loudest thing. The next-step cards use the same one. */
+.plan-header__top .plan-header__edit,
+.step-card__glance-top .step-card__edit {
   flex: none;
   padding-inline: var(--space-2xs);
   text-decoration: underline;

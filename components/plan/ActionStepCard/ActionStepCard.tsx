@@ -117,7 +117,7 @@ export function ActionStepCard({
   const uid = useId();
   const [more, setMore] = useState(Boolean(demoPanel));
   const [changing, setChanging] = useState(Boolean(demoChanging));
-  const linkRef = useRef<HTMLButtonElement>(null);
+  const linkRef = useRef<HTMLDivElement>(null);
   const restoreFocus = useRef(false);
   const [panel, setPanel] = useState<StepPanel | null>(demoPanel ?? null);
   const panelRef = useRef<HTMLFieldSetElement>(null);
@@ -135,7 +135,7 @@ export function ActionStepCard({
   useEffect(() => {
     if (!changing && restoreFocus.current) {
       restoreFocus.current = false;
-      linkRef.current?.focus();
+      linkRef.current?.querySelector("button")?.focus();
     }
   });
 
@@ -317,12 +317,21 @@ export function ActionStepCard({
               <span>{heard}</span>
             </p>
           ) : null}
-          <p className="step-card__eyebrow">
-            {C.horizonLabels[step.horizon]}
-            {/* Whether she has taken it on is said by the main button; a screen reader gets it here too. */}
-            <span className="u-visually-hidden"> · {accepted ? C.accepted : C.offered}</span>
-            {step.stubbed ? <Badge tone="sprint">{C.stubbedNote}</Badge> : null}
-          </p>
+          <div className="step-card__glance-top">
+            <p className="step-card__eyebrow">
+              {C.horizonLabels[step.horizon]}
+              {/* Whether she has taken it on is said by the main button; a screen reader gets it here too. */}
+              <span className="u-visually-hidden"> · {accepted ? C.accepted : C.offered}</span>
+              {step.stubbed ? <Badge tone="sprint">{C.stubbedNote}</Badge> : null}
+            </p>
+            {/* The same plain Edit link as the plan's own, at the top right. */}
+            <div className="step-card__edit-wrap" ref={linkRef}>
+              <Button className="step-card__edit" variant="ghost" size="sm" aria-label={`${CH.link}: ${step.title}`} onClick={() => setChanging(true)}>
+                <Icon name="pencil" size={14} />
+                {CH.link}
+              </Button>
+            </div>
+          </div>
           <Heading className="step-card__title" id={titleId} tabIndex={-1}>
             {step.title}
           </Heading>
@@ -378,9 +387,6 @@ export function ActionStepCard({
           ) : null}
           <div className="step-card__actions">
             {startButton}
-            <button type="button" className="step-card__textlink" onClick={() => setChanging(true)} ref={linkRef}>
-              {CH.link}
-            </button>
           </div>
         </div>
       </article>
