@@ -2899,6 +2899,17 @@ ul.concierge-mini {
   padding: var(--space-2xs) var(--space-feature-padding) var(--space-feature-padding);
 }
 
+/* A short note in the body in place of the reasons. */
+.feature-card__note {
+  margin: 0;
+  padding-block: var(--space-sm) var(--space-xs);
+}
+
+/* A card that is only its header ends at the navy. */
+.feature-card__head--inverse:only-child {
+  padding-bottom: var(--space-feature-padding);
+}
+
 .feature-card__rows {
   margin: 0;
 }

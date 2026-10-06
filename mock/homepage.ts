@@ -361,6 +361,7 @@ export const MAP_COPY = {
   suggestedIn: (horizon: string) => `Suggested in ${horizon.toLowerCase()}`,
   ringComplete: (horizon: string) => `Every ${horizon.toLowerCase()} action is done.`,
   stepDone: (title: string) => `Done: ${title}`,
+  doneIn: (horizon: string) => `Done in ${horizon.toLowerCase()}`,
   stepDoneNote: "Nice work. Your Plan shows where this leaves you, and new actions come once everything in this stage is done.",
   ringCompleteNote: "New actions come with your plan's next stage.",
   seePlan: "See your Plan",
