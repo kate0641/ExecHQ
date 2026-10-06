@@ -12389,6 +12389,19 @@ ul.card-carousel__track {
 
 .card-carousel__slide > .loop-row > .loop-status {
   order: -1;
+  /* Where it stands, as the card's eyebrow rather than a pill, so it can't
+     be mistaken for a button. */
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
+  text-transform: uppercase;
+  color: var(--color-eyebrow);
 }
 
 .card-carousel__slide > .loop-row > .loop-row__text {
