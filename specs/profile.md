@@ -91,7 +91,7 @@ Shown **only** if the person's account came through an organization. Someone who
 For a member it shows:
 
 - **Lead:** "{Organization name} sees a summary of everyone in the group, as a whole. Your own details stay yours."
-- **What stays private:** "Your name and email. Your direction, drafts, progress record and plan." Two short sentences, in this order.
+- **What stays private:** "Your name, email and role. Your direction, drafts, progress record and plan." Two short sentences, in this order.
 - **Leave organization** (full-width secondary button), which opens the leave dialog (section 4.2).
 
 The rule behind it: an organization sees one summary of everyone in the group together, on the Enterprise Dashboard. It never sees any individual's data. There is no minimum group size: the summary is shown however many members there are. The copy on this page must match what the Enterprise Dashboard actually shows. If one changes, the other changes in the same release.
