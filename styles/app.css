@@ -11666,32 +11666,59 @@ ul.login__never {
 }
 
 .map-home__greeting {
+  /* How far the page's own padding sits from the screen's top edge; the
+     band reaches back over it. Set per viewport below. */
+  --home-reach-top: var(--space-xl);
   display: flex;
   flex-direction: column;
-  gap: var(--space-3xs);
-  margin: 0;
-  /* The greeting is its own section at the top of the page, centred, with
-     only a short run of colour below the date. */
+  justify-content: center;
   align-items: center;
+  gap: var(--space-3xs);
+  /* The greeting is a band across the whole screen at the top of Home, on
+     every viewport: from the screen's top edge, edge to edge, past the
+     page's padding and its centred column. */
+  margin: calc(-1 * var(--home-reach-top)) calc((100% - 100cqi) / 2) 0;
+  min-height: var(--home-header-band);
   padding: var(--space-xs) var(--space-feature-padding);
   text-align: center;
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
+  background-image: var(--home-header-wash);
+  background-position: bottom;
+  background-size: 100% var(--home-header-height);
+  background-repeat: no-repeat;
+  color: var(--color-text-primary);
 }
 
-/* On the phone the header is a soft wash, not navy: the soft jewel as a
-   glow rising from the middle of the header's bottom edge, a bright warm
-   heart where it is cut off, pale blue deepening around it. The status bar and the greeting
+[data-viewport="mobile"] .map-home__greeting {
+  --home-reach-top: var(--space-screen-top);
+}
+
+[data-viewport="tablet"] .map-home__greeting:not(:where([data-viewport="mobile"] *)) {
+  --home-reach-top: var(--space-lg);
+}
+
+/* The band is measured against the whole screen. */
+.device__content:has(.map-home) {
+  container-type: inline-size;
+}
+
+/* The header is a soft wash: the soft jewel as a glow rising from the middle
+   of the band's bottom edge, a bright warm heart where it is cut off, pale
+   blue deepening around it. On the phone the status bar and the greeting
    share one wash, each showing its own slice of it, so it runs unbroken from
-   the top of the screen to the bottom of the greeting. */
+   the top of the screen to the bottom of the greeting. Tablet and web have no
+   status bar, so the band alone is as tall as the phone's two together. */
 .device__screen:has(.map-home) {
-  --home-header-band: 2.5rem;
-  --home-header-height: calc(var(--device-statusbar-height) + var(--home-header-band));
+  --home-header-band: calc(var(--device-statusbar-height) + 2.5rem);
+  --home-header-height: var(--home-header-band);
   --home-header-wash:
     radial-gradient(ellipse 26% 65% at 50% 100%, var(--color-ring-complete-light), transparent),
     radial-gradient(ellipse 58% 150% at 50% 100%, var(--color-ring-complete-mid), color-mix(in srgb, var(--color-ring-complete-core) 75%, transparent) 30%, color-mix(in srgb, var(--color-ring-complete-core) 30%, transparent) 60%, transparent 95%),
     radial-gradient(ellipse 95% 240% at 50% 100%, var(--color-ring-complete-light) 15%, var(--color-ring-complete-edge) 55%, var(--color-ring-complete-deep) 85%, var(--color-ring-complete-edge) 100%);
+}
+
+.device--mobile > .device__screen:has(.map-home) {
+  --home-header-band: 2.5rem;
+  --home-header-height: calc(var(--device-statusbar-height) + var(--home-header-band));
 }
 
 .device__screen:has(.map-home) > .device__statusbar {
@@ -11701,31 +11728,10 @@ ul.login__never {
   background-repeat: no-repeat;
 }
 
-[data-viewport="mobile"] .map-home__greeting {
-  justify-content: center;
-  min-height: var(--home-header-band);
-  background-image: var(--home-header-wash);
-  background-position: bottom;
-  background-size: 100% var(--home-header-height);
-  background-repeat: no-repeat;
-  color: var(--color-text-primary);
-}
-
-[data-viewport="mobile"] .map-home__greeting span {
-  color: var(--color-text-secondary);
-}
-
-/* For now Home has no wordmark header on the phone: the greeting band is
-   the top of the screen, and its wash runs on up behind the status bar. */
-[data-viewport="mobile"] .chrome:has(.map-home) > .chrome__header {
+/* For now Home has no wordmark header: the greeting band is the top of the
+   screen (and on the phone its wash runs on up behind the status bar). */
+.chrome:has(.map-home) > .chrome__header {
   display: none;
-}
-
-/* On the phone it runs the full width of the screen, from under the header. */
-[data-viewport="mobile"] .map-home__greeting {
-  margin: calc(-1 * var(--space-screen-top)) calc(-1 * var(--space-screen-side)) 0;
-  padding-inline: var(--space-screen-side);
-  border-radius: 0;
 }
 
 .map-home__greeting b {
@@ -11739,7 +11745,7 @@ ul.login__never {
 
 .map-home__greeting span {
   font-size: var(--text-sm);
-  color: var(--color-text-inverse-muted);
+  color: var(--color-text-secondary);
 }
 
 /* With motion allowed, the greeting comes first, then the date gently takes
