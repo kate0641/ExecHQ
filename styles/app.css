@@ -9031,18 +9031,10 @@ ol.signal__list {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2xs) var(--space-md);
-}
-
-/* The lesser answers are quiet text: smaller, lighter and grey, so they read
-   after the main answers rather than over them. */
-.check-in__quiet .link,
-.check-in__answers--yes .link {
-  font-family: var(--type-body-sm-font);
-  font-size: var(--type-body-sm-size);
-  font-weight: var(--weight-regular);
-  letter-spacing: normal;
-  word-spacing: normal;
-  color: var(--color-text-secondary);
+  /* The lesser answers sit apart, under a hairline, in smaller type. */
+  padding-top: var(--space-sm);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+  font-size: var(--text-sm);
 }
 
 /* The main answers are quiet outlined pills, so a card of choices reads as
