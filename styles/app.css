@@ -8956,6 +8956,9 @@ ol.signal__list {
   font-weight: var(--weight-regular);
   line-height: var(--type-caption-leading);
   color: var(--color-text-secondary);
+  /* A hairline sets the context apart from the question under it. */
+  padding-bottom: var(--space-sm);
+  border-bottom: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
 .check-in__about b {
