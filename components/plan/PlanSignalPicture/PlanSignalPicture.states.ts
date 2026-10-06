@@ -28,6 +28,16 @@ const nextByActivity = {
   podcast: next,
 };
 
+const pathNext = {
+  title: "Pitch Trade Weekly a short guest piece",
+  why: "They already quoted you, and a guest piece is the natural next thing.",
+  adds: "Press",
+  href: "/toolbox-flow/concept-1",
+  started: false,
+  onStart: noop,
+};
+const path = { variant: "path" as const, nextStep: pathNext, startedOn: "2026-10-05" };
+
 const base = { items, today, history: 16, next, nextByActivity, onAdd: noop, onEdit: noop, onDelete: noop };
 
 /** Items placed to read "building", "unchanged" and "quieter" over ninety days. */
@@ -140,6 +150,33 @@ export const planSignalPictureStates = defineComponentStates({
     {
       label: "Impact under each item — no next action",
       props: { ...base, next: undefined, headingId: "psp-nonext" },
+    },
+    {
+      label: "Path — a month in, her next step ahead",
+      description: "A circle for each month, sized by how much she added, and her next step as the dashed circle at the end. Tap a circle to see what is in it.",
+      props: { ...base, ...path, headingId: "pp-month" },
+    },
+    {
+      label: "Path — ninety days",
+      props: { ...base, ...path, items: ninety, today: "2026-12-20", history: 95, startedOn: "2026-09-22", headingId: "pp-90" },
+    },
+    {
+      label: "Path — next step started, half full",
+      props: { ...base, ...path, nextStep: { ...pathNext, started: true }, headingId: "pp-started" },
+    },
+    {
+      label: "Path — next step inside the organisation",
+      description: "It adds no circle, and says so.",
+      props: { ...base, ...path, nextStep: { ...pathNext, title: "Brief your manager before Thursday’s check-in", why: "Your check-in is on Thursday and your story is ready to use.", adds: null }, headingId: "pp-inside" },
+    },
+    {
+      label: "Path — her first days, empty",
+      description: "No circles yet, and it says what will appear.",
+      props: { ...base, ...path, items: [], today: "2026-10-07", history: 3, headingId: "pp-empty" },
+    },
+    {
+      label: "Path — no next step",
+      props: { ...base, ...path, nextStep: undefined, headingId: "pp-none" },
     },
     {
       label: "Empty — nothing recorded yet",

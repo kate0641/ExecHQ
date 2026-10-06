@@ -22,7 +22,7 @@ export function SignalsConcept1() {
       main={
         <>
           {p.started}
-          {p.pictureOf("items")}
+          {p.pictureOf("path")}
         </>
       }
       side={p.momentumOf("dial")}

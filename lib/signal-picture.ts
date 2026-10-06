@@ -253,3 +253,37 @@ export function nextActionFor(
   );
   return step ? { stepId: step.id, title: step.title, areaId: step.area } : undefined;
 }
+
+export interface GrowthMonth {
+  /** "Jul". */
+  label: string;
+  /** Her things from outside the organisation that month, oldest first. */
+  items: PictureItem[];
+}
+
+const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+/**
+ * One entry for each calendar month from the month her plan began to the
+ * month of today, each holding what she added or ExecHQ recorded outside the
+ * organisation in it. A month with nothing is still there, empty, never
+ * skipped. Work inside the organisation is Momentum's to count, so it is not
+ * a circle here.
+ */
+export function growthMonths(items: PictureItem[], startedOn: LoopDate, today: LoopDate): GrowthMonth[] {
+  const first = new Date(`${startedOn}T00:00:00`);
+  const last = new Date(`${today}T00:00:00`);
+  const out: GrowthMonth[] = [];
+  const index = new Map<string, GrowthMonth>();
+  for (let m = new Date(first.getFullYear(), first.getMonth(), 1); m <= last; m = new Date(m.getFullYear(), m.getMonth() + 1, 1)) {
+    const month = { label: MONTH_NAMES[m.getMonth()], items: [] as PictureItem[] };
+    index.set(`${m.getFullYear()}-${m.getMonth()}`, month);
+    out.push(month);
+  }
+  for (const item of [...items].sort((a, b) => (a.on < b.on ? -1 : 1))) {
+    if (item.activity === "inside" || item.on < startedOn || item.on > today) continue;
+    const d = new Date(`${item.on}T00:00:00`);
+    index.get(`${d.getFullYear()}-${d.getMonth()}`)?.items.push(item);
+  }
+  return out;
+}

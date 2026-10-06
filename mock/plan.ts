@@ -588,6 +588,22 @@ export const SIGNAL_PICTURE_COPY = {
   recorded: "Recorded in ExecHQ",
   added: "You added",
   key: "Recorded in ExecHQ happened here. You added is what you told us.",
+  /** The path variant: how she has grown, a circle for each month, with her next step ahead. */
+  growth: {
+    heading: "How you’ve grown",
+    intro: "Your own record since you started. Not scored, and not compared with anyone.",
+    tap: "Tap a circle to see what is in it.",
+    nothing: "Nothing added yet. What you add shows here, and your picture grows.",
+    next: "Next",
+    nextLabel: "Your next step",
+    adds: (lane: string) => `Doing it adds one to ${lane}.`,
+    addsNone: "It is work inside your organisation, so it adds no circle.",
+    start: "Start in the Toolbox",
+    keep: "Keep working on it",
+    started: "Started. It shows here when you finish it.",
+    month: (name: string, n: number) => `${name}: ${n} ${n === 1 ? "thing" : "things"}`,
+    quiet: (name: string) => `${name}: nothing added`,
+  },
   windowLabel: "Time window",
   /** Which span the picture shows. She does not choose: her history does. */
   windowHeading: { 7: "Last 7 days", 30: "Last 30 days", 90: "Last 90 days" } as Record<WindowDays, string>,

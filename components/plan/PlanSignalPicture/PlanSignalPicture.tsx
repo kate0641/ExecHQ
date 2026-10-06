@@ -9,6 +9,7 @@ import {
   areaName,
   byActivity,
   directionOf,
+  growthMonths,
   impactsIn,
   inWindow,
   newestFirst,
@@ -25,7 +26,20 @@ import { SIGNAL_PICTURE_COPY as C, type ActivityType, type WindowDays } from "@/
  *  - summary: three short lines for the window (what you did, what it led to,
  *    next action), with the items behind a tap.
  *  - areas: one card per kind of activity, each with its own next action. */
-export type SignalPictureVariant = "items" | "summary" | "areas";
+export type SignalPictureVariant = "items" | "summary" | "areas" | "path";
+
+/** Her next step, as the path draws it: the next circle, and why. */
+export interface PathNextStep {
+  title: string;
+  /** Why this step now, in the plan's own words. */
+  why: string;
+  /** The kind of activity it would add one to, or none for work inside the organisation. */
+  adds: string | null;
+  href: string;
+  /** She has pressed Start or there is work on it: the circle is half full. */
+  started: boolean;
+  onStart: () => void;
+}
 
 export interface PictureNext {
   title: string;
@@ -46,6 +60,9 @@ export interface PlanSignalPictureProps {
   onAcceptOffer?: () => void;
   onDismissOffer?: () => void;
   variant?: SignalPictureVariant;
+  /** The path variant: the day her plan began, and her next step. */
+  startedOn?: LoopDate;
+  nextStep?: PathNextStep;
   /** The next action for the whole picture. */
   next?: PictureNext;
   /** The next action for one kind of activity, where she has one. */
@@ -78,6 +95,8 @@ export function PlanSignalPicture({
   onAcceptOffer,
   onDismissOffer,
   variant = "items",
+  startedOn,
+  nextStep,
   next,
   nextByActivity,
   demoDelete,
@@ -88,6 +107,25 @@ export function PlanSignalPicture({
   const days: WindowDays = history >= 90 ? 90 : history >= 30 ? 30 : 7;
   const full = windowIsFull(history, days);
   const visible = inWindow(items, today, days);
+
+  if (variant === "path") {
+    return (
+      <PathPicture
+        items={items}
+        today={today}
+        startedOn={startedOn ?? today}
+        nextStep={nextStep}
+        offer={offer}
+        onAcceptOffer={onAcceptOffer}
+        onDismissOffer={onDismissOffer}
+        onEdit={onEdit}
+        onDelete={onDelete}
+        demoDelete={demoDelete}
+        headingId={headingId}
+        className={className}
+      />
+    );
+  }
 
   return (
     <section className={["signal-picture", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
@@ -184,6 +222,156 @@ export function PlanSignalPicture({
           {C.add}
         </Button>
       </div>
+    </section>
+  );
+}
+
+/* The path: a line through time, a circle for each month sized by how much she added, and her next step as the next circle. Drawn in a 361 by 140 box and placed by percent, so it scales with the card. */
+const PATH_W = 361;
+const PATH_H = 140;
+const pct = (value: number, of: number) => `${Math.round((value / of) * 1000) / 10}%`;
+
+function PathPicture({
+  items,
+  today,
+  startedOn,
+  nextStep,
+  offer,
+  onAcceptOffer,
+  onDismissOffer,
+  onEdit,
+  onDelete,
+  demoDelete,
+  headingId,
+  className,
+}: {
+  items: PictureItem[];
+  today: LoopDate;
+  startedOn: LoopDate;
+  nextStep?: PathNextStep;
+  offer?: Offer;
+  onAcceptOffer?: () => void;
+  onDismissOffer?: () => void;
+  onEdit: PlanSignalPictureProps["onEdit"];
+  onDelete: PlanSignalPictureProps["onDelete"];
+  demoDelete?: boolean;
+  headingId: string;
+  className?: string;
+}) {
+  const G = C.growth;
+  const months = growthMonths(items, startedOn, today);
+  const [open, setOpen] = useState<number | null>(null);
+  const gap = (PATH_W - 110) / Math.max(months.length, 1);
+  const dots = months.map((m, i) => {
+    const n = m.items.length;
+    const x = 40 + i * gap + gap / 2;
+    const y = 56 + (i % 2 ? 8 : -8);
+    return { ...m, n, x, y, r: n ? 12 + 7 * Math.sqrt(n) : 5 };
+  });
+  const nx = PATH_W - 40;
+  const ny = 56;
+  let line = `M10 ${dots[0]?.y ?? ny}`;
+  let px = 10;
+  let py = dots[0]?.y ?? ny;
+  for (const d of dots) {
+    const mx = (px + d.x) / 2;
+    line += ` C${mx} ${py}, ${mx} ${d.y}, ${d.x} ${d.y}`;
+    px = d.x;
+    py = d.y;
+  }
+  const ahead = `M${px} ${py} C${(px + nx) / 2} ${py}, ${(px + nx) / 2} ${ny}, ${nx - 16} ${ny}`;
+  const opened = open !== null ? dots[open] : undefined;
+  const total = items.filter((i) => i.activity !== "inside" && i.on >= startedOn && i.on <= today).length;
+
+  return (
+    <section className={["growth-path", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
+      <div className="signal-picture__head">
+        <h2 className="signal-picture__heading" id={headingId}>
+          {G.heading}
+        </h2>
+        <p className="signal-picture__intro">{G.intro}</p>
+      </div>
+
+      {offer ? (
+        <aside className="signal-picture__offer" aria-label={C.add}>
+          <p>{C.offer(offer.title)}</p>
+          <div className="signal-picture__row-actions">
+            <Button variant="primary" size="sm" onClick={onAcceptOffer}>
+              {C.offerYes}
+            </Button>
+            <Button variant="ghost" size="sm" onClick={onDismissOffer}>
+              {C.offerNo}
+            </Button>
+          </div>
+        </aside>
+      ) : null}
+
+      <div className="growth-path__figure">
+        <svg className="growth-path__svg" viewBox={`0 0 ${PATH_W} ${PATH_H}`} aria-hidden="true">
+          <path className="growth-path__line" d={line} />
+          <path className="growth-path__ahead" d={ahead} />
+        </svg>
+        {dots.map((d, i) =>
+          d.n ? (
+            <button
+              key={i}
+              type="button"
+              className={["growth-path__dot", open === i ? "is-open" : ""].filter(Boolean).join(" ")}
+              style={{ left: pct(d.x, PATH_W), top: pct(d.y, PATH_H), width: `${d.r * 2}px`, height: `${d.r * 2}px` }}
+              aria-pressed={open === i}
+              aria-label={G.month(d.label, d.n)}
+              onClick={() => setOpen(open === i ? null : i)}
+            >
+              {d.n}
+            </button>
+          ) : (
+            <span key={i} className="growth-path__quiet" style={{ left: pct(d.x, PATH_W), top: pct(d.y, PATH_H) }}>
+              <span className="u-visually-hidden">{G.quiet(d.label)}</span>
+            </span>
+          )
+        )}
+        {dots.map((d, i) => (
+          <span key={`l${i}`} className="growth-path__month" style={{ left: pct(d.x, PATH_W) }} aria-hidden="true">
+            {d.label}
+          </span>
+        ))}
+        {nextStep ? (
+          <>
+            <span
+              className={["growth-path__next", nextStep.started ? "is-started" : ""].filter(Boolean).join(" ")}
+              style={{ left: pct(nx, PATH_W), top: pct(ny, PATH_H) }}
+            >
+              <span className="u-visually-hidden">{`${G.nextLabel}: ${nextStep.title}`}</span>
+            </span>
+            <span className="growth-path__month growth-path__month--next" style={{ left: pct(nx, PATH_W) }} aria-hidden="true">
+              {G.next}
+            </span>
+          </>
+        ) : null}
+      </div>
+
+      {opened ? (
+        <ul className="signal-picture__list">
+          {opened.items.map((item) => (
+            <Row key={item.id} item={item} onEdit={onEdit} onDelete={onDelete} showImpact demoDelete={demoDelete && item.editable} />
+          ))}
+        </ul>
+      ) : (
+        <p className="signal-picture__counts">{total ? G.tap : G.nothing}</p>
+      )}
+
+      {nextStep ? (
+        <section className="signal-picture__next" aria-label={G.nextLabel}>
+          <h3 className="signal-picture__label">{G.nextLabel}</h3>
+          <p className="signal-picture__next-title">{nextStep.title}</p>
+          <p className="signal-picture__counts">{nextStep.why}</p>
+          <p className="signal-picture__counts">{nextStep.adds ? G.adds(nextStep.adds) : G.addsNone}</p>
+          <Link href={nextStep.href} className="btn btn--primary btn--md" onClick={nextStep.onStart}>
+            {nextStep.started ? G.keep : G.start}
+          </Link>
+          {nextStep.started ? <p className="signal-picture__counts">{G.started}</p> : null}
+        </section>
+      ) : null}
     </section>
   );
 }
