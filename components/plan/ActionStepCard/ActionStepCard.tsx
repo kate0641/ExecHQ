@@ -4,11 +4,10 @@ import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import { StepChangePanel } from "@/components/plan/StepChangePanel";
 import { ChipGroup } from "@/components/form/ChipGroup";
-import { Input } from "@/components/form/Input";
 import { Badge } from "@/components/primitives/Badge";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
-import { dayLabel } from "@/lib/calendar";
+import { bucketOf, timeChoices, whenWords } from "@/lib/time-words";
 import { addDays, type LoopDate } from "@/lib/loop";
 import {
   CHANNELS,
@@ -147,7 +146,10 @@ export function ActionStepCard({
 
   const [moveTo, setMoveTo] = useState<string>(onDate ?? "");
   const [scope, setScope] = useState<string[]>(edit?.scope === "lighter" ? [SCOPE_OPTIONS.lighter] : []);
-  const [date, setDate] = useState(addDays(today, 7));
+  // When she asks for it back, or moves it: a stretch of time in words, which stands for a day underneath.
+  const [date, setDate] = useState("");
+  const laterChoices = timeChoices(today, addDays(today, 1));
+  const moveChoices = timeChoices(today);
 
   const edited = edit?.effort || edit?.done || chosenDay || edit?.scope === "lighter" ? C.editedByYou : undefined;
 
@@ -190,15 +192,14 @@ export function ActionStepCard({
         {panel === "defer" ? (
           <fieldset className="step-card__panel" ref={panelRef}>
             <legend className="u-visually-hidden">{C.later}</legend>
-            <Input
+            <ChipGroup
               label={C.deferPrompt}
-              type="date"
-              min={addDays(today, 1)}
-              value={date}
-              onChange={(event) => setDate(event.target.value)}
+              options={laterChoices.map((c) => c.label)}
+              value={laterChoices.filter((c) => c.date === date).map((c) => c.label)}
+              onChange={(next) => setDate(laterChoices.find((c) => c.label === next[0])?.date ?? "")}
             />
             <div className="step-card__panel-actions">
-              <Button variant="primary" size="sm" disabled={date <= today} onClick={() => onDefer(date)}>
+              <Button variant="primary" size="sm" disabled={!date} onClick={() => onDefer(date)}>
                 {C.deferConfirm}
               </Button>
               <Button variant="ghost" size="sm" onClick={() => setPanel(null)}>
@@ -211,13 +212,14 @@ export function ActionStepCard({
         {panel === "edit" ? (
           <fieldset className="step-card__panel" ref={panelRef}>
             <legend className="u-visually-hidden">{C.edit}</legend>
-            <Input
+            <ChipGroup
               label={C.timing}
-              type="date"
-              min={today}
-              value={moveTo}
-              onChange={(event) => setMoveTo(event.target.value)}
-              hint={C.dateHint}
+              options={moveChoices.map((c) => c.label)}
+              value={moveChoices.filter((c) => moveTo && c.bucket === bucketOf(moveTo, today)).map((c) => c.label)}
+              onChange={(next) => {
+                const picked = moveChoices.find((c) => c.label === next[0]);
+                if (picked && !(moveTo && picked.bucket === bucketOf(moveTo, today))) setMoveTo(picked.date);
+              }}
             />
             <ChipGroup
               label={C.scope}
@@ -330,7 +332,7 @@ export function ActionStepCard({
           <dl className="step-card__facts-panel">
             <div>
               <dt>{C.whenLabel}</dt>
-              <dd>{chosenDay ? C.whenOn(dayLabel(chosenDay)) : timingWords(step)}</dd>
+              <dd>{chosenDay ? whenWords(chosenDay, today) : timingWords(step)}</dd>
             </div>
             <div>
               <dt>{C.howLongLabel}</dt>
@@ -413,7 +415,7 @@ export function ActionStepCard({
           <span>{C.moves}</span> {area}
         </p>
       ) : null}
-      <p className="step-card__when">{chosenDay ? C.whenOn(dayLabel(chosenDay)) : timingWords(step)}</p>
+      <p className="step-card__when">{chosenDay ? whenWords(chosenDay, today) : timingWords(step)}</p>
       {edited ? <p className="step-card__edited">{edited}</p> : null}
 
       <dl className="step-card__why">

@@ -13772,28 +13772,7 @@ ul.rma__agenda {
 }
 
 .rma__row {
-  display: grid;
-  grid-template-columns: 3rem minmax(0, 1fr);
-  gap: var(--space-sm);
-  align-items: start;
-}
-
-.rma__date {
-  text-align: center;
-  line-height: 1.1;
-}
-
-.rma__date b {
   display: block;
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
-}
-
-.rma__date span {
-  font-size: var(--text-2xs);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
 }
 
 .rma__what {

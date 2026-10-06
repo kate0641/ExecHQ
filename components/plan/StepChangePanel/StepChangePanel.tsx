@@ -5,6 +5,7 @@ import { ChipGroup } from "@/components/form/ChipGroup";
 import { Input } from "@/components/form/Input";
 import { Button } from "@/components/primitives/Button";
 import type { LoopDate } from "@/lib/loop";
+import { bucketOf, timeChoices } from "@/lib/time-words";
 import { CHANGE_COPY as C, DECLINE_REASONS, type DeclineReason } from "@/mock/plan";
 
 export type ChangeScreen = "choose" | "edit" | "replace";
@@ -13,7 +14,7 @@ export interface StepChangePanelProps {
   /** The step, so she knows which one she is editing. */
   title: string;
   today: LoopDate;
-  /** The day the step is on her calendar, where the date field starts. */
+  /** The day the step is on her calendar, which the choice of when starts from. */
   date?: LoopDate;
   /** How long we think it takes, and what we say counts as done: where those fields start. */
   effortText: string;
@@ -58,6 +59,8 @@ export function StepChangePanel({
 }: StepChangePanelProps) {
   const [screen, setScreen] = useState<ChangeScreen>(demoScreen ?? "choose");
   const [dayOn, setDayOn] = useState<string>(date ?? "");
+  // When, in words: each stands for a day on her calendar.
+  const whenChoices = timeChoices(today);
   const [howLong, setHowLong] = useState<string[]>(C.howLongOptions.includes(effortText as never) ? [effortText] : []);
   const [doneText, setDoneText] = useState(done);
   const [reason, setReason] = useState<string[]>(demoFilled ? ["Too much effort"] : []);
@@ -102,13 +105,15 @@ export function StepChangePanel({
 
       {screen === "edit" ? (
         <>
-          <Input
+          <ChipGroup
             label={C.editWhen}
-            hint={C.editWhenHint}
-            type="date"
-            min={today}
-            value={dayOn}
-            onChange={(event) => setDayOn(event.target.value)}
+            note={C.editWhenHint}
+            options={whenChoices.map((c) => c.label)}
+            value={whenChoices.filter((c) => dayOn && c.bucket === bucketOf(dayOn, today)).map((c) => c.label)}
+            onChange={(next) => {
+              const picked = whenChoices.find((c) => c.label === next[0]);
+              if (picked && !(dayOn && picked.bucket === bucketOf(dayOn, today))) setDayOn(picked.date);
+            }}
           />
           <ChipGroup label={C.editHowLong} note={C.editHowLongHint} options={C.howLongOptions} value={howLong} onChange={setHowLong} />
           <Input

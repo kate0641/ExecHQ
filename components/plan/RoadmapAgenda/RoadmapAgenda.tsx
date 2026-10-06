@@ -6,8 +6,10 @@ import type { PlanChange, RoadmapChoices } from "@/components/plan/PlanRoadmap";
 import { Badge } from "@/components/primitives/Badge";
 import { Button } from "@/components/primitives/Button";
 import { shortDate, type LoopDate } from "@/lib/loop";
+import { dayLabel } from "@/lib/calendar";
 import { dismissNext, finishStage, startNext, switchPlan } from "@/lib/roadmap-choices";
-import { periodLabel, roadmapWindows, totalWeeks, type StageWindow } from "@/lib/roadmap-dates";
+import { roadmapWindows, totalWeeks, type StageWindow } from "@/lib/roadmap-dates";
+import { whenWords } from "@/lib/time-words";
 import { PLAN_TEMPLATES } from "@/mock/onboarding";
 import { AGENDA_COPY as A, CALENDAR_COPY as CAL, ROADMAP_COPY as C, roadmapFor, type CalendarItem, type CalendarStep } from "@/mock/plan";
 
@@ -38,12 +40,6 @@ export interface RoadmapAgendaProps {
   headingId?: string;
   className?: string;
 }
-
-const DOW = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-const dateParts = (date: LoopDate) => {
-  const d = new Date(`${date}T00:00:00Z`);
-  return { day: d.getUTCDate(), dow: DOW[d.getUTCDay()], month: shortDate(date).split(" ")[1] };
-};
 
 /**
  * The roadmap as an Agenda: the stages stacked as cards, each with its
@@ -116,7 +112,7 @@ export function RoadmapAgenda({
       </div>
       <div className="rma__summary">
         <p className="rma__line">
-          {A.summary(windows.length, totalWeeks(windows), shortDate(windows[0].start), shortDate(windows[windows.length - 1].end))}
+          {A.summary(windows.length, totalWeeks(windows))}
         </p>
         <p className="rma__pace">{A.pace}</p>
         <p className="roadmap__why">
@@ -129,7 +125,7 @@ export function RoadmapAgenda({
           <div className="rma__here-top">
             <span className="rma__pill">{A.states.current}</span>
             <span className="rma__small">
-              {A.stageOf(here.index + 1, windows.length)} · {periodLabel(here)}
+              {A.stageOf(here.index + 1, windows.length)} · {A.suggested(whenWords(here.end, today))}
             </span>
           </div>
           <p className="rma__here-name">{here.title}</p>
@@ -163,7 +159,7 @@ export function RoadmapAgenda({
           <span className="rma__pill">{A.states.recommended}</span>
           <p className="rma__here-name">{A.recommendedTitle(next.index + 1, next.title)}</p>
           <p className="rma__small">
-            {A.recommendedBody(periodLabel(next), next.weeks)} {stages[next.index].milestone}
+            {A.recommendedBody(whenWords(next.end, today), next.weeks)} {stages[next.index].milestone}
           </p>
           <div className="roadmap__advance-actions">
             <Button variant="primary" size="sm" onClick={() => update(startNext(kept))}>
@@ -211,7 +207,7 @@ export function RoadmapAgenda({
               .filter((i) => !windows.some((w) => i.date >= w.start && i.date <= w.end))
               .sort((a, b) => (a.date < b.date ? -1 : 1))
               .map((i) => (
-                <Row key={i.id} item={i} />
+                <Row key={i.id} item={i} today={today} />
               ))}
           </ul>
         </section>
@@ -254,18 +250,15 @@ export function RoadmapAgenda({
 
 type AgendaEntry = CalendarItem & { kind?: "yours" | "step"; suggested?: boolean };
 
-function Row({ item }: { item: AgendaEntry }) {
-  const p = dateParts(item.date);
+function Row({ item, today }: { item: AgendaEntry; today: LoopDate }) {
+  // A step from her plan says when in words. What she put there herself keeps the day she chose.
+  const when = item.kind === "step" ? whenWords(item.date, today) : dayLabel(item.date);
   return (
     <li className="rma__row">
-      <div className="rma__date">
-        <b>{p.day}</b>
-        <span>
-          {p.dow} {p.month}
-        </span>
-      </div>
       <div className="rma__what">
-        <span className="rma__tag">{item.kind === "step" ? `${A.step}${item.suggested ? ` · ${CAL.suggested}` : ""}` : A.yours}</span>
+        <span className="rma__tag">
+          {item.kind === "step" ? `${A.step}${item.suggested ? ` · ${CAL.suggested}` : ""}` : A.yours} · {when}
+        </span>
         <span className="rma__item">{item.title}</span>
         {item.note ? <span className="rma__small">{item.note}</span> : null}
       </div>
@@ -300,8 +293,7 @@ function StageCard({
         </span>
         <span className="rma__card-name">{w.title}</span>
         <span className="rma__small">
-          {periodLabel(w)}
-          {w.status === "done" ? "" : ` · ${A.about(w.weeks)}`}
+          {w.status === "done" ? A.states.done : `${A.suggested(whenWords(w.end, today))} · ${A.about(w.weeks)}`}
         </span>
       </summary>
       <div className="rma__card-body">
@@ -319,7 +311,7 @@ function StageCard({
         {items.length ? (
           <ul className="rma__agenda">
             {items.map((i) => (
-              <Row key={i.id} item={i} />
+              <Row key={i.id} item={i} today={today} />
             ))}
           </ul>
         ) : (

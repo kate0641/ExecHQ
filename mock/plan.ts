@@ -448,16 +448,12 @@ export const STEP_COPY = {
   edited: (moved?: string, lighter?: boolean) =>
     [moved, lighter ? "Lighter version" : undefined].filter(Boolean).join(" · "),
   editedByYou: "Edited by you",
-  /** Where the step sits on her calendar. A day is shown only once it is hers: she accepted the step or
-   *  moved it. Until then the card says when in words (`timingWords`). */
-  whenOn: (day: string) => `On ${day}`,
-  movedTo: (day: string) => `Moved to ${day}`,
+  /** When a step is shown in words (`timingWords`, or `whenWords` once she has moved it), never as a day. */
   declinePrompt: "Say why, if you like. One tap.",
   declineNoReason: "Not for me, no reason",
-  deferPrompt: "Bring it back on",
+  deferPrompt: "Bring it back",
   deferConfirm: "Do it later",
   timing: "When",
-  dateHint: "A day that suits you. It shows on your calendar.",
   scope: "How much",
   save: "Save",
   cancel: "Cancel",
@@ -767,8 +763,9 @@ export const CALENDAR_SEED: CalendarItem[] = [
    -------------------------------------------------------------------------- */
 
 export const AGENDA_COPY = {
-  summary: (stages: number, weeks: number, from: string, to: string) =>
-    `${stages} stages · about ${weeks} weeks · ${from} to ${to}`,
+  summary: (stages: number, weeks: number) => `${stages} stages · about ${weeks} weeks`,
+  /** When a stage is aimed at, in words: where its suggested end falls. */
+  suggested: (when: string) => `Aim for: ${when.toLowerCase()}`,
   pace: "A suggested pace, not a deadline. The windows move as you do. When you finish a stage, we recommend the next one.",
   stageOf: (n: number, total: number) => `Stage ${n} of ${total}`,
   about: (weeks: number) => `about ${weeks} week${weeks === 1 ? "" : "s"}`,
@@ -785,7 +782,7 @@ export const AGENDA_COPY = {
   notYet: "Not yet",
   pastPace: "You’re past the suggested pace for this stage. That’s fine. Finish it when you’re ready.",
   recommendedTitle: (n: number, name: string) => `Stage ${n}: ${name}`,
-  recommendedBody: (period: string, weeks: number) => `Suggested ${period} · about ${weeks} weeks.`,
+  recommendedBody: (when: string, weeks: number) => `Aim for ${when.toLowerCase()} · about ${weeks} weeks.`,
   start: "Start this stage",
   allDone: "That’s every stage.",
   allDoneBody: "ExecHQ plans the next stretch with you, from what worked and what didn’t.",
@@ -921,7 +918,7 @@ export const CHANGE_COPY = {
   back: "Back",
   /* Edit this step */
   editWhen: "When",
-  editWhenHint: "A day that suits you. It goes on your calendar. Leave it empty to keep it as it is.",
+  editWhenHint: "When suits you. It shows on your calendar.",
   editHowLong: "How long will it take you?",
   editHowLongHint: "Your own estimate. Leave it if ours is right.",
   howLongOptions: ["A few minutes", "About an hour", "An hour or two", "Several sittings"],
