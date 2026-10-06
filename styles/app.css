@@ -13294,7 +13294,6 @@ ul.momentum__figures {
   border-top: 0;
 }
 
-.momentum__count,
 .momentum__stage {
   display: flex;
   flex-direction: column;
@@ -13309,6 +13308,10 @@ ul.momentum__figures {
   padding-top: 0;
 }
 
+.momentum__stage > ul.momentum__figures {
+  align-self: stretch;
+}
+
 .momentum__stage-title {
   margin: 0;
   font-family: var(--font-display);
@@ -13317,6 +13320,7 @@ ul.momentum__figures {
   line-height: var(--leading-snug);
 }
 
+.momentum__count,
 .momentum__sentence {
   margin: 0;
   font-family: var(--font-display);
