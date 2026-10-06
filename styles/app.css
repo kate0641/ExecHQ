@@ -12373,6 +12373,42 @@ ul.card-carousel__track {
   scroll-snap-align: start;
 }
 
+/* A row that is only waiting, in the Stay on track row of cards, is laid out
+   like the question cards beside it: where it stands at the top, a hairline,
+   then what it is and what happens next, from the top of the card down. */
+.card-carousel__slide > .loop-row {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border-color: var(--color-border);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-raised);
+}
+
+.card-carousel__slide > .loop-row > .loop-status {
+  order: -1;
+}
+
+.card-carousel__slide > .loop-row > .loop-row__text {
+  align-self: stretch;
+  gap: var(--space-2xs);
+  padding-top: var(--space-sm);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+.card-carousel__slide > .loop-row .loop-row__text b {
+  font-family: var(--type-subheading-font);
+  font-size: var(--type-subheading-size);
+  font-weight: var(--type-subheading-weight);
+  line-height: var(--type-subheading-leading);
+}
+
+.card-carousel__slide > .loop-row .loop-row__text span {
+  font-size: var(--text-sm);
+}
+
 .card-carousel__slide:only-child {
   flex-basis: 100%;
 }
