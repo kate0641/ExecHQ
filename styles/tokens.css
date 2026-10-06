@@ -31,7 +31,6 @@
      ------------------------------------------------------------------------ */
 
   /* Blue — light blue at 200, navy at 800, the darkest navy at 900. */
-  --brand-blue-75: #f3f6ff;   /* half step for balance: lighter than blue 100, for the page */
   --brand-blue-100: #eff3ff;
   --brand-blue-200: #d4e0ff;  /* palette: light blue */
   --brand-blue-300: #a6beef;
@@ -140,7 +139,7 @@
      Near-white (stone 50) is the cooler alternative; switch both lines
      together. Cards and fields stay white on it. */
   --color-canvas: var(--brand-stone-75);          /* behind the device frame */
-  --color-surface: var(--brand-blue-75);     /* default page surface: the lightest blue (stone 75 before 2026-10-06) */
+  --color-surface: var(--brand-stone-75);     /* default page surface */
   --color-surface-raised: var(--brand-white);  /* cards and fields above the page */
   /* The quiet surfaces are pale blues: wells and hover are blue 100;
      pressed and selected are blue 200, the palette light blue. Disabled is
@@ -651,7 +650,6 @@
    light grey would vanish on the page), the shadow tint and the photo veil.
    ========================================================================== */
 :root:not([data-color="on"]) {
-  --brand-blue-75: #f6f6f6;
   --brand-blue-100: #f3f3f3;
   --brand-blue-200: #e0e0e0;
   --brand-blue-300: #bdbdbd;

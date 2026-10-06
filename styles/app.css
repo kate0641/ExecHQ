@@ -11689,7 +11689,6 @@ ul.login__never {
   background-position: bottom;
   background-size: 100% var(--home-header-height);
   background-repeat: no-repeat;
-  border-bottom: var(--border-width-thin) solid var(--color-border-subtle);
   color: var(--color-text-primary);
 }
 
@@ -11722,8 +11721,9 @@ ul.login__never {
     radial-gradient(ellipse 26% 65% at 50% 100%, var(--color-ring-complete-light), transparent),
     radial-gradient(ellipse 58% 150% at 50% 100%, var(--color-ring-complete-mid), color-mix(in srgb, var(--color-ring-complete-core) 75%, transparent) 30%, color-mix(in srgb, var(--color-ring-complete-core) 30%, transparent) 60%, transparent 95%),
     radial-gradient(ellipse 95% 240% at 50% 100%, var(--color-ring-complete-light) 15%, var(--color-ring-complete-edge) 55%, var(--color-ring-complete-deep) 85%, var(--color-ring-complete-edge) 100%);
-  /* For now, the page's own colour, closed off by a hairline. */
-  --home-header-wash: linear-gradient(var(--color-surface), var(--color-surface));
+  /* Light blue (blue 200). The navy and the warm jewel wash are on hold
+     while the team decides. */
+  --home-header-wash: linear-gradient(var(--color-surface-selected), var(--color-surface-selected));
 }
 
 .device--mobile > .device__screen:has(.map-home) {
@@ -11736,20 +11736,6 @@ ul.login__never {
   background-position: top;
   background-size: 100% var(--home-header-height);
   background-repeat: no-repeat;
-}
-
-/* Home's cards have no outline: they sit on the light blue page by their
-   white alone. */
-.map-home :is(.feature-card, .map-tray__box, .account-card, .check-in) {
-  border-color: transparent;
-}
-
-.map-home .map-rings__ring[aria-pressed="true"] {
-  box-shadow: none;
-}
-
-.map-home .map-tray:has(.feature-card__head--inverse) .feature-card {
-  border-top-color: transparent;
 }
 
 /* For now Home has no wordmark header: the greeting band is the top of the
