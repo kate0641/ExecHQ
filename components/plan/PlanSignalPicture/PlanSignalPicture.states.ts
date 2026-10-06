@@ -165,9 +165,9 @@ export const planSignalPictureStates = defineComponentStates({
       props: { ...base, ...path, nextStep: { ...pathNext, started: true }, headingId: "pp-started" },
     },
     {
-      label: "Path — next step inside the organisation",
-      description: "It adds no circle, and says so.",
-      props: { ...base, ...path, nextStep: { ...pathNext, title: "Brief your manager before Thursday’s check-in", why: "Your check-in is on Thursday and your story is ready to use.", adds: null }, headingId: "pp-inside" },
+      label: "Path — the reason for the next step open",
+      description: "One tap away, in the plan's own words. It never says the step will cause a result.",
+      props: { ...base, ...path, demoWhy: true, headingId: "pp-why" },
     },
     {
       label: "Path — her first days, empty",

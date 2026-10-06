@@ -232,6 +232,16 @@ export function impactsIn(items: PictureItem[], today: LoopDate, days: number): 
     .map((i) => ({ id: i.id, text: i.impact as string, of: i.text, on: i.on }));
 }
 
+/**
+ * The next step that would add a circle to the growth path: the first one she
+ * has accepted and not finished that runs through a channel she can be seen
+ * on, such as a pitch, a talk or a post. Work inside the organisation never
+ * qualifies, so it is not shown on the path.
+ */
+export function nextOutsideStep(records: LoopRecord[], tasks: Record<string, TaskCheck> | undefined) {
+  return ACTION_QUEUE.find((s) => s.status === "accepted" && s.channel !== undefined && !isDone(s, records, tasks));
+}
+
 export interface NextAction {
   stepId: string;
   title: string;

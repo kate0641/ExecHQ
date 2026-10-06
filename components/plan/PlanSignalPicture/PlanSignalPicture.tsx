@@ -33,8 +33,8 @@ export interface PathNextStep {
   title: string;
   /** Why this step now, in the plan's own words. */
   why: string;
-  /** The kind of activity it would add one to, or none for work inside the organisation. */
-  adds: string | null;
+  /** The kind of activity it would add one to. Only steps that add a circle are shown. */
+  adds: string;
   href: string;
   /** She has pressed Start or there is work on it: the circle is half full. */
   started: boolean;
@@ -69,6 +69,8 @@ export interface PlanSignalPictureProps {
   nextByActivity?: Partial<Record<ActivityType, PictureNext>>;
   /** Catalogue only: a row opens asking whether to delete. */
   demoDelete?: boolean;
+  /** Catalogue only: the next step's reason is open. */
+  demoWhy?: boolean;
   headingId?: string;
   className?: string;
 }
@@ -100,6 +102,7 @@ export function PlanSignalPicture({
   next,
   nextByActivity,
   demoDelete,
+  demoWhy,
   headingId = "plan-signal-picture",
   className,
 }: PlanSignalPictureProps) {
@@ -121,6 +124,7 @@ export function PlanSignalPicture({
         onEdit={onEdit}
         onDelete={onDelete}
         demoDelete={demoDelete}
+        demoWhy={demoWhy}
         headingId={headingId}
         className={className}
       />
@@ -242,6 +246,7 @@ function PathPicture({
   onEdit,
   onDelete,
   demoDelete,
+  demoWhy,
   headingId,
   className,
 }: {
@@ -255,12 +260,14 @@ function PathPicture({
   onEdit: PlanSignalPictureProps["onEdit"];
   onDelete: PlanSignalPictureProps["onDelete"];
   demoDelete?: boolean;
+  demoWhy?: boolean;
   headingId: string;
   className?: string;
 }) {
   const G = C.growth;
   const months = growthMonths(items, startedOn, today);
   const [open, setOpen] = useState<number | null>(null);
+  const [why, setWhy] = useState(false);
   const gap = (PATH_W - 110) / Math.max(months.length, 1);
   const dots = months.map((m, i) => {
     const n = m.items.length;
@@ -361,16 +368,20 @@ function PathPicture({
       )}
 
       {nextStep ? (
-        <section className="signal-picture__next" aria-label={G.nextLabel}>
-          <h3 className="signal-picture__label">{G.nextLabel}</h3>
-          <p className="signal-picture__next-title">{nextStep.title}</p>
-          <p className="signal-picture__counts">{nextStep.why}</p>
-          <p className="signal-picture__counts">{nextStep.adds ? G.adds(nextStep.adds) : G.addsNone}</p>
-          <Link href={nextStep.href} className="btn btn--primary btn--md" onClick={nextStep.onStart}>
-            {nextStep.started ? G.keep : G.start}
-          </Link>
-          {nextStep.started ? <p className="signal-picture__counts">{G.started}</p> : null}
-        </section>
+        <div className="growth-path__caption">
+          <p>
+            <b>{G.nextCaption}</b> {nextStep.title}. {G.adds(nextStep.adds)}
+          </p>
+          <div className="growth-path__actions">
+            <Link href={nextStep.href} className="link" onClick={nextStep.onStart}>
+              {nextStep.started ? G.keep : G.start}
+            </Link>
+            <Button variant="ghost" size="sm" aria-expanded={why || demoWhy} onClick={() => setWhy((w) => !w)}>
+              {G.why}
+            </Button>
+          </div>
+          {why || demoWhy ? <p className="signal-picture__counts">{nextStep.why}</p> : null}
+        </div>
       ) : null}
     </section>
   );

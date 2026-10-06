@@ -38,8 +38,8 @@ import { saveCalendar, saveRoadmap, saveSteps, useCalendar, useRoadmapChoices, u
 import { addedSummary, hasBaseline, signalRows, withAdded } from "@/lib/presence";
 import { addPresence, removePresence, saveBaseline, saveCurrent, updatePresence, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
 import { currentStageIndex, isDone as isActionDone } from "@/lib/rings";
-import { addedItems, historyDays, nextActionFor, offerFor, recordedItems, type PictureItem } from "@/lib/signal-picture";
-import { ACTION_QUEUE, ACTIVITY_OF_CHANNEL, ACTIVITY_TYPES, type ActivityType } from "@/mock/plan";
+import { addedItems, historyDays, nextActionFor, nextOutsideStep, offerFor, recordedItems, type PictureItem } from "@/lib/signal-picture";
+import { ACTIVITY_OF_CHANNEL, ACTIVITY_TYPES, type ActivityType } from "@/mock/plan";
 import { signalOfRecord } from "@/lib/signals";
 import { dismissSpark, useDismissedSparks } from "@/lib/spark-dismissal";
 import { sparksFor } from "@/lib/sparks";
@@ -476,18 +476,18 @@ export function usePlanPage() {
   ) as Partial<Record<ActivityType, { title: string; href: string }>>;
   /* Until she has said where she started, the page asks that and nothing else:
      the picture would only repeat the page's title over an empty record. */
-  /* Her next step as the path draws it: the plan's own reason, the kind of
-     activity it would add one to, and whether she has started it. */
+  /* Her next step as the path draws it: only one that would add a circle, so
+     work inside the organisation is not shown here. It carries the plan's own
+     reason, the kind of activity it adds one to, and whether she has started it. */
   const pathStep = (() => {
-    const n = nextActionFor(loop.records, loop.tasks);
-    const step = n ? ACTION_QUEUE.find((x) => x.id === n.stepId) : undefined;
-    if (!n || !step) return undefined;
+    const step = nextOutsideStep(loop.records, loop.tasks);
+    if (!step || !step.channel) return undefined;
     const record = step.artifactId ? loop.records.find((r) => r.id === step.artifactId) : undefined;
-    const lane = step.channel ? ACTIVITY_TYPES.find((a) => a.id === ACTIVITY_OF_CHANNEL[step.channel!])?.label : undefined;
+    const lane = ACTIVITY_TYPES.find((a) => a.id === ACTIVITY_OF_CHANNEL[step.channel!])?.label ?? "";
     return {
       title: step.title,
       why: step.whyNow || step.whyThis,
-      adds: lane ?? null,
+      adds: lane,
       href: toolboxHref,
       started: loop.choices?.[step.id]?.decision === "started" || Boolean(record) || Boolean(loop.tasks?.[step.id]),
       onStart: () => loopActions.startAction(step.id),
