@@ -14980,3 +14980,364 @@ ol.plan-detail__stages {
   align-items: center;
   gap: var(--space-sm);
 }
+
+/* -----------------------------------------------------------------------------
+   THE AGENDA (Plan, Concept 2)
+   A drawer for each stage and only the one she is on open. Headings sets each stage as a big
+   name on a line; Stack sets them as overlapping cards in the stage colours.
+   -------------------------------------------------------------------------- */
+.agenda {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.agenda__heading {
+  margin: 0;
+  font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+output.agenda__note {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+output.agenda__note:empty {
+  display: none;
+}
+
+.agenda__stages {
+  display: flex;
+  flex-direction: column;
+}
+
+h3.agenda__stage-head {
+  margin: 0;
+}
+
+.agenda__stage-button {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.agenda__stage-button:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.agenda__stage-name {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  font-weight: var(--weight-bold, 700);
+}
+
+.agenda__eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.agenda__when {
+  flex: none;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.agenda__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.agenda__small {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+.agenda__small b {
+  color: var(--color-text-primary);
+  font-weight: var(--weight-semibold);
+}
+
+ul.agenda__list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.agenda__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding-block: var(--space-sm);
+  border-top: var(--border-subtle);
+}
+
+.agenda__item:first-child {
+  border-top: 0;
+}
+
+.agenda__line {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  gap: var(--space-xs);
+  align-items: baseline;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.agenda__line.is-static {
+  cursor: default;
+}
+
+.agenda__line:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.agenda__pill {
+  justify-self: start;
+  padding: var(--space-3xs) var(--space-xs);
+  border-radius: var(--radius-tag);
+  background-color: var(--color-surface-sunken);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+.agenda__title {
+  font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.agenda__yours {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.agenda__reveal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  align-items: flex-start;
+  padding-inline-start: calc(5.5rem + var(--space-xs));
+}
+
+fieldset.agenda__chips,
+fieldset.agenda__whens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.agenda__chip {
+  min-height: 2.25rem;
+  padding: var(--space-xs) var(--space-sm);
+  border: var(--border-width-thin) solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-raised);
+  color: var(--color-text-primary);
+  font: inherit;
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+
+.agenda__chip:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.agenda__chip[aria-pressed="true"] {
+  background-color: var(--color-surface-inverse);
+  border-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+}
+
+.agenda__chip:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.agenda__add {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding-top: var(--space-sm);
+  border-top: var(--border-subtle);
+}
+
+.agenda__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+/* Headings: a big name on a line, the open one with its steps beneath. */
+.agenda--headings .agenda__stage {
+  border-top: var(--border-width-thin) solid var(--color-border-strong);
+}
+
+.agenda--headings .agenda__stage-button {
+  padding-block: var(--space-md);
+}
+
+.agenda--headings .agenda__stage-name {
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
+}
+
+.agenda--headings .agenda__stage.is-open .agenda__stage-button {
+  padding-bottom: var(--space-xs);
+}
+
+.agenda--headings .agenda__body {
+  padding-bottom: var(--space-md);
+}
+
+[data-viewport="web"] .agenda--headings .agenda__stage-name {
+  font-size: var(--text-2xl);
+}
+
+/* Stack: cards that overlap, each in its stage colour, the open one grown to hold its steps. */
+.agenda--stack .agenda__stages {
+  isolation: isolate;
+}
+
+.agenda--stack .agenda__stage {
+  position: relative;
+  margin-top: calc(var(--space-md) * -1);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  box-shadow: 0 calc(var(--border-width-medium) * -1) 0 var(--color-surface);
+}
+
+.agenda--stack .agenda__stage:first-child {
+  margin-top: 0;
+}
+
+.agenda--stack .agenda__stage:last-child {
+  border-radius: var(--radius-xl);
+}
+
+.agenda--stack .agenda__stage--0 { background-color: var(--color-stage-1); z-index: 1; }
+.agenda--stack .agenda__stage--1 { background-color: var(--color-stage-2); z-index: 2; }
+.agenda--stack .agenda__stage--2 { background-color: var(--color-stage-3); z-index: 3; }
+.agenda--stack .agenda__stage--3 { background-color: var(--color-stage-4); z-index: 4; }
+
+.agenda--stack .agenda__stage-button {
+  align-items: center;
+  padding: var(--space-md) var(--space-md) var(--space-lg);
+}
+
+.agenda--stack .agenda__stage.is-open .agenda__stage-button {
+  padding-bottom: var(--space-sm);
+}
+
+.agenda--stack .agenda__stage-name {
+  font-size: var(--text-lg);
+  line-height: var(--leading-snug);
+}
+
+.agenda--stack .agenda__when {
+  padding: var(--space-3xs) var(--space-xs);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-raised);
+  color: var(--color-text-primary);
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: var(--text-sm);
+}
+
+.agenda--stack .agenda__body {
+  padding: 0 var(--space-sm) var(--space-lg);
+}
+
+.agenda--stack .agenda__small {
+  padding-inline: var(--space-xs);
+  color: var(--color-text-primary);
+}
+
+.agenda--stack ul.agenda__list {
+  gap: var(--space-xs);
+}
+
+.agenda--stack .agenda__item {
+  padding: var(--space-sm);
+  border: 0;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-raised);
+}
+
+.agenda--stack .agenda__line {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.agenda--stack .agenda__line .agenda__pill {
+  order: 2;
+  background: none;
+  padding: 0;
+}
+
+.agenda--stack .agenda__line .agenda__title {
+  order: 1;
+}
+
+.agenda--stack .agenda__reveal {
+  padding-inline-start: 0;
+}
+
+.agenda--stack .agenda__add {
+  margin-inline: var(--space-xs);
+  padding: var(--space-sm);
+  border: 0;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-raised);
+}
+
+.agenda--stack .agenda__body > div:last-child:not(.agenda__add) {
+  padding-inline: var(--space-xs);
+}

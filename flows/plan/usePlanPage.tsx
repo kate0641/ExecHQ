@@ -12,6 +12,8 @@ import { DirectionCard } from "@/components/plan/DirectionCard";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import { ActionSteps } from "@/components/plan/ActionSteps";
+import { ToggleGroup } from "@/components/form/ToggleGroup";
+import { PlanAgenda, type AgendaItem } from "@/components/plan/PlanAgenda";
 import { PlanHeader } from "@/components/plan/PlanHeader";
 import { PlanNarrative } from "@/components/plan/PlanNarrative";
 import { PlanRoadmap } from "@/components/plan/PlanRoadmap";
@@ -20,14 +22,17 @@ import { CalendarItemSheet, type ItemValues } from "@/components/plan/CalendarIt
 import { PlanCalendar } from "@/components/plan/PlanCalendar";
 import { PlanSignalPicture } from "@/components/plan/PlanSignalPicture";
 import { SignalEntrySheet, type EntryValues } from "@/components/plan/SignalEntrySheet";
-import { initialPlanState, liveSteps, stepDay, type PlanState } from "@/lib/action-steps";
+import { accept, complete, initialPlanState, liveSteps, stepDay, type PlanState } from "@/lib/action-steps";
+import { askConcierge } from "@/flows/navigation/concept-1/ConciergeConcept";
+import { setAgendaLayout, useAgendaLayout } from "@/lib/agenda-choice";
 import { addDays, shortDate } from "@/lib/loop";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { momentumEvents } from "@/lib/momentum";
 import { buildNarrative } from "@/lib/narrative";
 import { planSparks } from "@/lib/plan-sparks";
-import { roadmapWindows } from "@/lib/roadmap-dates";
+import { roadmapWindows, stageAt } from "@/lib/roadmap-dates";
+import { whenWords } from "@/lib/time-words";
 import { saveCalendar, saveRoadmap, saveSteps, useCalendar, useRoadmapChoices, useSavedSteps } from "@/lib/plan-store";
 import { hasBaseline, presenceCounts, signalRows, withAdded, type Baseline } from "@/lib/presence";
 import { addPresence, removePresence, saveBaseline, saveCurrent, updatePresence, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
@@ -46,7 +51,7 @@ import {
   WEBSITE_STUB as WEB,
 } from "@/mock/accounts-stub";
 import { PLAN_TEMPLATES, recommendPlan } from "@/mock/onboarding";
-import { CALENDAR_COPY as CAL, EDIT_FLOW_HREF, DIRECTION_PLAN_COPY as DP, ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
+import { CALENDAR_COPY as CAL, EDIT_FLOW_HREF, PLAN_AGENDA_COPY as AG, STEP_QUESTIONS, DIRECTION_PLAN_COPY as DP, ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
 import { ACTIONS } from "@/mock/plan-stub";
 import { SNAPSHOTS } from "@/mock/snapshots";
 import type { CalendarItem } from "@/mock/plan";
@@ -63,6 +68,7 @@ import { PlanMomentum } from "./PlanMomentum";
  */
 export function usePlanPage() {
   const loop = useLoop();
+  const agendaLayout = useAgendaLayout();
   const addedPresence = useAddedPresence();
   const baseline = useBaseline();
   const current = useCurrent();
@@ -216,6 +222,77 @@ export function usePlanPage() {
       sparks={timelineSparks}
       onAdd={(date) => setCalEntry({ mode: "add", date })}
     />
+  );
+
+  // Concept 2: the roadmap as an agenda. A step is its title and a way to start; every question about
+  // it opens the chat. What she adds goes on her calendar, in the stage the day falls in.
+  const stageOfDay = (date: string) => {
+    const at = stageAt(windows, date);
+    return at >= 0 ? at : date < windows[0].start ? 0 : windows.length - 1;
+  };
+  const agendaStages = windows.map((w) => ({
+    index: w.index,
+    title: w.title,
+    when: whenWords(w.end, loop.today),
+    finishing: roadmapFor(planId)[w.index]?.milestone ?? "",
+    status: w.status,
+  }));
+  const agendaItems: AgendaItem[] = [
+    ...live.map((step) => {
+      const day = stepDay(stepState, step);
+      return {
+        id: step.id,
+        stage: stageOfDay(day.date),
+        title: step.title,
+        date: day.date,
+        kind: "step" as const,
+        step,
+        accepted: stepState.decisions[step.id]?.decision === "accepted",
+      };
+    }),
+    ...calendarItems.map((item) => ({ id: item.id, stage: stageOfDay(item.date), title: item.title, date: item.date, kind: "yours" as const })),
+  ];
+  /** Something she added herself goes on her calendar; the agenda opens the stage it fell in. */
+  function addToPlan({ title, date }: { title: string; date: string }) {
+    // A new id from the ones she has, so it is the same on every render.
+    const next = Math.max(0, ...calendarItems.map((i) => Number(i.id.split("-").pop()) || 0)) + 1;
+    saveCalendar(loop.id, [...calendarItems, { id: `agenda-${next}`, title, date }]);
+    return stageOfDay(date);
+  }
+  const keepSteps = (next: PlanState) => saveSteps(stepsKey, { state: next, notes: savedSteps?.notes ?? {}, empties: savedSteps?.empties ?? {} });
+  const agenda = (
+    <div className="plan-agenda-wrap" key={`agenda-${loop.id}-${planId}`}>
+      <div className="momentum-scaffold">
+        <p className="momentum-scaffold__title">{AG.scaffold.heading}</p>
+        <ToggleGroup
+          label={AG.scaffold.heading}
+          labelHidden
+          shape="pill"
+          size="sm"
+          options={[
+            { value: "headings", label: AG.scaffold.headings },
+            { value: "stack", label: AG.scaffold.stack },
+          ]}
+          value={agendaLayout}
+          onChange={(v) => setAgendaLayout(v === "stack" ? "stack" : "headings")}
+        />
+      </div>
+      <PlanAgenda
+        key={`${agendaLayout}-${stepsKey}`}
+        variant={agendaLayout}
+        stages={agendaStages}
+        items={agendaItems}
+        today={loop.today}
+        startHref={conceptHref("toolbox-flow", "concept-1")}
+        onAsk={(step, q) => askConcierge(STEP_QUESTIONS.find((x) => x.id === q)?.label ?? "", { kind: "step-question", stepId: step.id, q })}
+        onAccept={(step) => keepSteps(accept(stepState, step.id))}
+        onComplete={(step) => {
+          loopActions.completeTask(step.id);
+          keepSteps(complete(stepState, step.id).state);
+        }}
+        onAdd={addToPlan}
+      />
+    </div>
   );
 
   // Concept 2: the Calendar, with Add right under its heading.
@@ -501,7 +578,7 @@ export function usePlanPage() {
     />
   );
 
-  return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, calendar, note, narrative: narrativeNode, momentum, picture, started, accounts, sparkNode, sheet: (
+  return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, agenda, calendar, note, narrative: narrativeNode, momentum, picture, started, accounts, sparkNode, sheet: (
       <>
         {sheet}
         {updateNow}

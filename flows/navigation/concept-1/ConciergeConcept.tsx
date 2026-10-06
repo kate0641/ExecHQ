@@ -96,6 +96,17 @@ function subscribe(listener: () => void) {
 const SERVER_STATE: ConciergeState = { open: false, messages: [], typing: false };
 const useConcierge = () => useSyncExternalStore(subscribe, () => state, () => SERVER_STATE);
 
+/**
+ * Opens the chat on a question, from anywhere on the page: a step's "Why now?", say. The question
+ * is queued and the panel's own conversation asks it once it is open, so it is answered the same
+ * way as anything she types.
+ */
+let queued: { label: string; action: ConciergeAction } | null = null;
+export function askConcierge(label: string, action: ConciergeAction): void {
+  queued = { label, action };
+  update({ open: true });
+}
+
 /** Whether focus should go back to the pill when the panel closes. */
 let returnFocus = false;
 function closePanel(focusPill = true) {
@@ -300,6 +311,16 @@ function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { m
   function choose(reply: ConciergeReply) {
     send(reply.label, reply.action);
   }
+
+  // A question asked from the page: put it to him once the panel is open.
+  useEffect(() => {
+    if (!concierge.open || !queued) return;
+    const { label, action } = queued;
+    queued = null;
+    send(label, action);
+    // send reads the live conversation, so it is not a dependency.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [concierge.open]);
 
   // Typing a place offers to go straight there.
   const typed = draft.trim().toLowerCase().replace(/^(go to|open)\s+/, "");

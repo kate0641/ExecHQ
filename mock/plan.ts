@@ -1021,3 +1021,61 @@ export const TIMELINE_COPY = {
   moreSparks: (n: number) => `${n} more`,
   sparksLabel: "What changed on this stage",
 } as const;
+
+/* -----------------------------------------------------------------------------
+   A STEP'S QUESTIONS (Concept 2 rework, 2026-10-06)
+   On Concept 2 a step is its title and a way to start. Everything else the card
+   used to carry is a question she can ask, and the advisor answers it in the
+   chat from the same fields. Asking never changes the step.
+   -------------------------------------------------------------------------- */
+export type StepQuestion = "why" | "now" | "you" | "effort" | "done" | "moves";
+
+export const STEP_QUESTIONS: { id: StepQuestion; label: string }[] = [
+  { id: "why", label: "Why this step?" },
+  { id: "now", label: "Why now?" },
+  { id: "you", label: "Why me?" },
+  { id: "effort", label: "How long will it take?" },
+  { id: "done", label: "What counts as done?" },
+  { id: "moves", label: "What does it move?" },
+];
+
+const lower = (text: string) => text.charAt(0).toLowerCase() + text.slice(1).replace(/\.$/, "");
+
+export const STEP_ANSWERS = {
+  why: (step: { whyThis: string }) => step.whyThis,
+  now: (step: { whyNow: string }) => step.whyNow,
+  you: (step: { whyYou: string }) => step.whyYou,
+  effort: (step: { effortText: string }) => `Plan on ${lower(step.effortText)}.`,
+  done: (step: { done: string }) => `It counts as done when ${lower(step.done)}.`,
+  moves: (area?: string) => (area ? `It moves “${area}”.` : "It is not tied to one of your signals, so it moves your plan as a whole."),
+  go: "Open it whenever you’re ready.",
+} as const;
+
+/* -----------------------------------------------------------------------------
+   THE AGENDA (Concept 2 rework, 2026-10-06)
+   The roadmap as an agenda: a drawer for each stage, only the one she is on open, and
+   in it her steps and what she added herself, each with a time in words.
+   -------------------------------------------------------------------------- */
+export const PLAN_AGENDA_COPY = {
+  heading: "Your roadmap",
+  stageOf: (n: number, total: number) => `Stage ${n} of ${total}`,
+  finishing: "Finishing looks like",
+  yours: "Yours",
+  done: "Done",
+  askLabel: "Ask about this step",
+  getStarted: "Get started",
+  doneIt: "I’ve done this",
+  addLabel: "Add to your plan",
+  addTitle: "What is it?",
+  addPlaceholder: "A talk, a meeting, a deadline",
+  addWhen: "When",
+  addSubmit: "Add to my plan",
+  addCancel: "Cancel",
+  added: (stage: string, when: string) => `Added to ${stage}, ${when.toLowerCase()}.`,
+  nothing: "Nothing in this stage yet.",
+  scaffold: {
+    heading: "Prototype only: choose the roadmap layout",
+    headings: "Headings",
+    stack: "Stack",
+  },
+} as const;

@@ -22,6 +22,8 @@ import {
   OUTCOME_READBACK,
 } from "@/mock/loop";
 import { CONCIERGE_COPY as C } from "@/mock/concierge";
+import { STEP_ANSWERS, STEP_QUESTIONS, stepById, type StepQuestion } from "@/mock/plan";
+import { signalById } from "@/mock/plan-stub";
 import {
   addDays,
   aheadPhrase,
@@ -60,6 +62,8 @@ export type ConciergeAction =
   | { kind: "next" }
   | { kind: "scope" }
   | { kind: "politics" }
+  /** A question about one of her next steps, asked from the Plan. */
+  | { kind: "step-question"; stepId: string; q: StepQuestion }
   /** Input he can't act on. `again` is true when the one before it was a
    *  miss too, so he stops offering the same menu. */
   | { kind: "miss"; miss: MissKind; again: boolean };
@@ -443,6 +447,34 @@ export function respond(
 
     case "politics":
       return { turn: { paragraphs: [...C.politics] } };
+
+    case "step-question": {
+      const step = stepById(action.stepId);
+      if (!step) return respond({ kind: "miss", miss: "unclear", again: false }, ctx);
+      const answer =
+        action.q === "why"
+          ? STEP_ANSWERS.why(step)
+          : action.q === "now"
+            ? STEP_ANSWERS.now(step)
+            : action.q === "you"
+              ? STEP_ANSWERS.you(step)
+              : action.q === "effort"
+                ? STEP_ANSWERS.effort(step)
+                : action.q === "done"
+                  ? STEP_ANSWERS.done(step)
+                  : STEP_ANSWERS.moves(signalById(step.area ?? "")?.name);
+      return {
+        turn: {
+          paragraphs: [answer],
+          replies: [
+            ...STEP_QUESTIONS.filter((q) => q.id !== action.q)
+              .slice(0, 3)
+              .map((q) => ({ label: q.label, action: { kind: "step-question", stepId: action.stepId, q: q.id } as ConciergeAction })),
+            { label: C.openPlan, action: { kind: "go", flow: "plan" } },
+          ],
+        },
+      };
+    }
 
     case "miss": {
       const m = C.miss;

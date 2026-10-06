@@ -193,7 +193,7 @@ export const prototypeConfig: PrototypeConfig = {
           slug: "concept-2",
           title: "Concept 2 — Road forward",
           summary:
-            "The roadmap leads: where she is on it and what finishing the stage looks like, with that stage’s action steps opened up beneath. The Calendar and what changed sit beside it.",
+            "What her plan is leads, then the roadmap as an agenda: a drawer for each stage, only the one she is on open. A step is its title, with its questions as chat prompts and a way to start; what she adds herself sits in the stage it falls in. A switch for review chooses Headings or Stack.",
         },
         {
           slug: "concept-3",
