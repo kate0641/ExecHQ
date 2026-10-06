@@ -30,6 +30,14 @@ export const signalEntrySheetStates = defineComponentStates({
       label: "Editing — a podcast with a link",
       props: { ...base, editing: true, initial: { type: "podcast", on: "2026-10-17", text: "https://example.com/modern-cmo" } },
     },
+    {
+      label: "Editing — with what came of it",
+      props: {
+        ...base,
+        editing: true,
+        initial: { type: "podcast", on: "2026-10-17", text: "https://example.com/modern-cmo", impact: "Two people wrote to me afterwards about their own planning cycles." },
+      },
+    },
     { label: "Error — nothing chosen, no date", props: { ...base, demoErrors: true } },
     {
       label: "A long note wraps",

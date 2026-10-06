@@ -109,6 +109,9 @@ export interface PresenceItem {
   happenedOn?: string;
   /** A note in her words, in place of a title. */
   note?: string;
+  /** What came of it, in her words. Typed by her, never worked out: a reply,
+   *  a comment, an invitation. The Signal Picture shows it as hers. */
+  impact?: string;
   /** The plan area it belongs to, when she added it from an artifact. */
   area?: string;
   /** The Loop record it was added from, when she was offered to add it. */
@@ -179,9 +182,9 @@ export const PRESENCE_BASELINE: Record<CountedKind, number> = {
  *  different days, so each shows a different count. */
 export const PRESENCE_ITEMS: readonly PresenceItem[] = [
   { id: "w1", kind: "writing", title: "Why I review my plan every quarter", where: "LinkedIn article", on: "2026-10-09" },
-  { id: "p1", kind: "podcast", title: "Planning as a leadership skill", where: "The Modern CMO", on: "2026-10-17" },
+  { id: "p1", kind: "podcast", title: "Planning as a leadership skill", where: "The Modern CMO", on: "2026-10-17", impact: "Two people wrote to me afterwards about their own planning cycles." },
   { id: "s1", kind: "speaking", title: "Panel: planning for growth", where: "Growth Summit", on: "2026-10-29" },
-  { id: "r1", kind: "press", title: "Quoted on planning cycles", where: "Marketing Week", on: "2026-11-01" },
+  { id: "r1", kind: "press", title: "Quoted on planning cycles", where: "Marketing Week", on: "2026-11-01", impact: "My manager forwarded it to the leadership team." },
 ];
 
 export const PRESENCE_STUB = {

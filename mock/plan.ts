@@ -539,6 +539,37 @@ export const DEFAULT_AREA = "seen-as-leader";
 export const OTHER_AREA = "elsewhere";
 export const OTHER_AREA_NAME = "Elsewhere on your plan";
 
+/** What kind of activity an item is, for the Signal Picture's 30 and 90 day
+ *  views: the way she would say it, not the plan area it moves. "Inside" is
+ *  work that stays in the organisation, a conversation with a manager. */
+export type ActivityType = "publishing" | "speaking" | "podcast" | "press" | "inside" | "other";
+
+export const ACTIVITY_TYPES: { id: ActivityType; label: string }[] = [
+  { id: "publishing", label: "Publishing" },
+  { id: "speaking", label: "Speaking" },
+  { id: "podcast", label: "Podcasts" },
+  { id: "press", label: "Press" },
+  { id: "inside", label: "Inside your organisation" },
+  { id: "other", label: "Something else" },
+];
+
+/** A step's presence channel, as an activity type. LinkedIn and content are both publishing. */
+export const ACTIVITY_OF_CHANNEL: Record<Channel, ActivityType> = {
+  linkedin: "publishing",
+  content: "publishing",
+  speaking: "speaking",
+  podcast: "podcast",
+  press: "press",
+};
+
+/** What a kind of artifact is, when no step says: writing is publishing, and the rest stays inside. */
+export const ACTIVITY_OF_ARTIFACT: Record<string, ActivityType> = {
+  "thought-leadership": "publishing",
+  pitch: "inside",
+  positioning: "inside",
+  "situation-brief": "inside",
+};
+
 export const WINDOWS = [7, 30, 90] as const;
 export type WindowDays = (typeof WINDOWS)[number];
 
@@ -583,6 +614,11 @@ export const SIGNAL_PICTURE_COPY = {
   offerYes: "Add it",
   offerNo: "Not now",
   editedNote: "Edited by you",
+  impactHeading: "What came of it",
+  impactNone: "Nothing reported yet.",
+  impactAdd: "Add what came of it",
+  windowImpactNone: (window: number) =>
+    `Nothing reported back from the last ${window} days yet. Add what came of something you did and it shows here.`,
   openLink: "Open link",
   opensNewTab: "(opens in a new tab)",
   did: (title: string) => `Did: ${title}`,
@@ -598,6 +634,8 @@ export const ENTRY_COPY = {
   noteLabel: "A link or a note",
   noteHint: "Optional. Just enough for you to recognise it.",
   notePlaceholder: "https://",
+  impactLabel: "What came of it?",
+  impactHint: "Optional. A reply, a comment, an invitation, or nothing yet. In your words.",
   save: "Add",
   saveEdit: "Save",
   cancel: "Cancel",

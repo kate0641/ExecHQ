@@ -118,6 +118,7 @@ export function usePlanPage() {
       happenedOn: values.on,
       link: isLink ? values.text : undefined,
       note: values.text && !isLink ? values.text : undefined,
+      impact: values.impact,
     };
     if (entry?.mode === "edit") updatePresence(entry.item.id, fields);
     else {
@@ -607,7 +608,7 @@ export function usePlanPage() {
       editing={entry?.mode === "edit"}
       initial={
         entry?.mode === "edit" && editing
-          ? { type: entryTypeOfKind(editing.kind).id, on: editing.happenedOn ?? editing.on, text: editing.link ?? editing.note }
+          ? { type: entryTypeOfKind(editing.kind).id, on: editing.happenedOn ?? editing.on, text: editing.link ?? editing.note, impact: editing.impact }
           : entry?.mode === "add"
             ? entry.initial
             : undefined

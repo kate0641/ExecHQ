@@ -15,6 +15,8 @@ export interface EntryValues {
   on: LoopDate;
   /** A link or a note, in her words. Optional. */
   text?: string;
+  /** What came of it, in her words. Optional. */
+  impact?: string;
 }
 
 export interface SignalEntrySheetProps {
@@ -34,8 +36,8 @@ export interface SignalEntrySheetProps {
 }
 
 /**
- * The entry flow for something she did outside ExecHQ: three fields, the type,
- * the date, and an optional link or note. Nothing is searched for and nothing
+ * The entry flow for something she did outside ExecHQ: four fields, the type,
+ * the date, and an optional link or note and what came of it. Nothing is searched for and nothing
  * leaves the browser. It opens fresh each time, and is offered at the moment it
  * is relevant, never kept as a standing form.
  */
@@ -51,6 +53,7 @@ function EntryForm({ onClose, onSave, today, initial, editing, demoErrors }: Omi
   const [type, setType] = useState<EntryTypeId | null>(initial?.type ?? null);
   const [on, setOn] = useState<string>(initial?.on ?? (demoErrors ? "" : today));
   const [text, setText] = useState(initial?.text ?? "");
+  const [impact, setImpact] = useState(initial?.impact ?? "");
   const [tried, setTried] = useState(Boolean(demoErrors));
 
   const errors = {
@@ -62,7 +65,7 @@ function EntryForm({ onClose, onSave, today, initial, editing, demoErrors }: Omi
     event.preventDefault();
     setTried(true);
     if (!type || errors.on) return;
-    onSave({ type, on, text: text.trim() || undefined });
+    onSave({ type, on, text: text.trim() || undefined, impact: impact.trim() || undefined });
   }
 
   return (
@@ -95,6 +98,12 @@ function EntryForm({ onClose, onSave, today, initial, editing, demoErrors }: Omi
         placeholder={C.notePlaceholder}
         value={text}
         onChange={(event) => setText(event.target.value)}
+      />
+      <Input
+        label={C.impactLabel}
+        hint={C.impactHint}
+        value={impact}
+        onChange={(event) => setImpact(event.target.value)}
       />
       <p className="entry-form__privacy">{C.privacy}</p>
       <div className="entry-form__actions">

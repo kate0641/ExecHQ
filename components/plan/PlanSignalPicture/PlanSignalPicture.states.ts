@@ -17,6 +17,7 @@ const items: PictureItem[] = [
     text: "Spoke on a panel about hiring",
     on: "2026-11-02",
     areaId: "seen-as-leader",
+    activity: "speaking",
     tag: "Spoke",
     editable: true,
   },
@@ -30,6 +31,7 @@ const spread = (id: string, areaId: string, source: PictureItem["source"], on: s
   text,
   on,
   areaId,
+  activity: source === "added" ? "publishing" : "inside",
   editable: false,
 });
 const ninety: PictureItem[] = [
@@ -115,6 +117,7 @@ export const planSignalPictureStates = defineComponentStates({
             text: "Spoke on a panel about planning for growth at the Growth Summit with the heads of marketing from three other firms, followed by a long conversation about how targets are set across teams",
             on: "2026-11-02",
             areaId: "seen-as-leader",
+            activity: "speaking",
             tag: "Spoke",
             editable: true,
           },
