@@ -243,7 +243,7 @@
      yellow heart sitting low, a pale blue deepening towards the edge, and
      white light at the top. (Named for the finished ring, where it began.) */
   --color-ring-complete-core: var(--brand-yellow-300);
-  --color-ring-complete-mid: var(--brand-orange-300);
+  --color-ring-complete-mid: color-mix(in srgb, var(--brand-orange-300), var(--brand-orange-400));  /* a deeper peach, between 300 and 400 */
   --color-ring-complete-edge: var(--brand-blue-200);
   --color-ring-complete-deep: var(--brand-blue-300);
   --color-ring-complete-light: var(--brand-white);
@@ -260,7 +260,7 @@
   --color-sky-dusk-light: var(--brand-yellow-200);
   --color-sky-dusk-core: var(--brand-orange-300);
   --color-sky-dusk-mid: var(--brand-orange-400);
-  --color-sky-dusk-edge: var(--brand-blue-200);
+  --color-sky-dusk-edge: color-mix(in srgb, var(--brand-blue-100), var(--brand-blue-200));  /* a touch darker than the palest blue */
   --color-sky-dusk-deep: var(--brand-blue-300);
   --color-sky-night-glow: color-mix(in srgb, var(--brand-orange-400) 60%, var(--brand-blue-800));  /* dimmed, so the light date on it stays readable */
   --color-sky-night-light: var(--brand-blue-700);
