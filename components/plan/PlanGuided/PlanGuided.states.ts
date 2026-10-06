@@ -34,7 +34,7 @@ export const planGuidedStates = defineComponentStates({
   status: "draft",
   flows: ["plan"],
   description:
-    "The Plan as a guided check-in, built from onboarding's own parts. A short run of pages, one move each: the page says the move and why it matters, and a drawer holds where she is with it (done, in her week, smaller, or not for her), with the way to start. Answering changes her plan for real and comes back as a short reply in the serif voice, then the next move. The last page says where the plan stands. The road and adding something of her own slide up as sheets from the strip at the top. There is no list of steps on the page.",
+    "The Plan as a guided check-in, built from onboarding's own parts. A short run of pages, one move each: the page says the move and why it matters, and a drawer holds where she is with it: the way to start (which is also her answer that she is working on it), done, I’ll do it when it is due, or not for me (which asks why, one optional tap). Answering changes her plan for real and comes back as a short reply in the serif voice, then the next move. The last page says where the plan stands. The road and adding something of her own slide up as sheets from the strip at the top. There is no list of steps on the page.",
   component: PlanGuided,
   notApplicable: {
     hover: "Its controls are chips and Buttons, which show their own states.",
@@ -49,8 +49,13 @@ export const planGuidedStates = defineComponentStates({
     { label: "First move — the drawer open — default", props: base },
     { label: "The drawer folded to a peek", props: { ...base, demoFolded: true } },
     { label: "Answered: done — the reply, then the next move", props: { ...base, demoAnswered: { "use-story": "done" } } },
-    { label: "Answered: made smaller", props: { ...base, demoPage: 1, demoAnswered: { "brief-manager": "small" } } },
-    { label: "Answered: not for her", props: { ...base, demoPage: 2, demoAnswered: { "q1-review": "pass" } } },
+    { label: "Answered: I’ll do it, on her plan for its time", props: { ...base, demoPage: 1, demoAnswered: { "brief-manager": "plan" } } },
+    { label: "Not for me: asking why, one optional tap", props: { ...base, demoPage: 2, demoAnswered: { "q1-review": "pass" } } },
+    {
+      label: "Not for me: after the reason, what was offered in its place",
+      props: { ...base, demoPage: 2, demoAnswered: { "q1-review": "pass" }, demoPassed: { "q1-review": "A lighter one this time. Now offered: Add three recent accomplishments." } },
+    },
+    { label: "A draft is under way: the start button says keep working on it", props: { ...base, workingOn: () => true } },
     { label: "A move with no tool starts by putting it in her week", props: { ...base, moves: [stepById("add-wins")!, ...moves], demoPage: 0 } },
     { label: "The road, slid up from the strip", props: { ...base, demoRoad: true } },
     { label: "The last page — where the plan stands", props: { ...base, demoPage: 4 } },

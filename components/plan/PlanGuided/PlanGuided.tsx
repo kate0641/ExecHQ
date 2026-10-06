@@ -11,7 +11,7 @@ import { ReflectionReply } from "@/components/onboarding/ReflectionReply";
 import { Button } from "@/components/primitives/Button";
 import type { LoopDate } from "@/lib/loop";
 import type { PlanSpark } from "@/lib/plan-sparks";
-import { PLAN_AGENDA_COPY as AG, GUIDED_COPY as G, stepById, type ActionStep, type GuidedAnswer } from "@/mock/plan";
+import { PLAN_AGENDA_COPY as AG, DECLINE_REASONS, GUIDED_COPY as G, stepById, type ActionStep, type DeclineReason, type GuidedAnswer } from "@/mock/plan";
 
 export interface GuidedStage {
   title: string;
@@ -30,8 +30,11 @@ export interface PlanGuidedProps {
   startHref: string;
   /** What changed on her plan, newest last. */
   sparks: PlanSpark[];
-  /** She answered a move: the page changes her plan to match. */
-  onAnswer: (step: ActionStep, answer: GuidedAnswer) => void;
+  /** She answered a move: the page changes her plan to match. For "not for me", the reason she gave, if any.
+   *  Returns a line to add to the reply, such as what was offered in its place. */
+  onAnswer: (step: ActionStep, answer: GuidedAnswer, reason?: DeclineReason) => string | void;
+  /** She has a draft under way for this move, so starting it is going on with it. */
+  workingOn?: (step: ActionStep) => boolean;
   /** She took a move on, to start it. */
   onStart: (step: ActionStep) => void;
   /** She added something of her own. Says which stage it fell in. */
@@ -39,6 +42,7 @@ export interface PlanGuidedProps {
   /** Catalogue only. */
   demoPage?: number;
   demoAnswered?: Record<string, GuidedAnswer>;
+  demoPassed?: Record<string, string>;
   demoRoad?: boolean;
   demoFolded?: boolean;
   className?: string;
@@ -63,10 +67,12 @@ export function PlanGuided({
   startHref,
   sparks,
   onAnswer,
+  workingOn,
   onStart,
   onAdd,
   demoPage,
   demoAnswered,
+  demoPassed,
   demoRoad,
   demoFolded,
   className,
@@ -74,6 +80,8 @@ export function PlanGuided({
   const headingId = useId();
   const [page, setPage] = useState(demoPage ?? 0);
   const [answered, setAnswered] = useState<Record<string, GuidedAnswer>>(demoAnswered ?? {});
+  // "Not for me" asks why before it acts, one optional tap; the line says what was offered in its place.
+  const [passedLine, setPassedLine] = useState<Record<string, string>>(demoPassed ?? {});
   const [open, setOpen] = useState(!demoFolded);
   const [road, setRoad] = useState(Boolean(demoRoad));
   const [adding, setAdding] = useState(false);
@@ -195,31 +203,43 @@ export function PlanGuided({
 
   const step = moves[page];
   const answer = answered[step.id];
+  const reasoned = passedLine[step.id] !== undefined;
+  const asking = answer === "pass" && !reasoned;
   const hasDraft = step.kind === "artifact" || Boolean(step.artifactId);
   const tool = hasDraft || Boolean(step.toolboxTool);
-  const label = step.startLabel ?? (step.toolboxTool ? `Start in ${step.toolboxTool}` : "Get started");
-  const options = G.answers.map((a) => a.label);
-  const details = Object.fromEntries(G.answers.map((a) => [a.label, a.hint]));
+  const when = whenOf(step);
+  const started = Boolean(workingOn?.(step));
+  const label = started ? G.working : (step.startLabel ?? (step.toolboxTool ? `Start in ${step.toolboxTool}` : "Get started"));
+  const answers = G.answers(when, hasDraft);
+  const details = Object.fromEntries(answers.map((a) => [a.label, a.hint]));
   const choose = (id: GuidedAnswer) => {
     if (!frozen) setFrozen(live.map((s) => s.id));
-    onAnswer(step, id);
+    // Not for me waits for its reason; the other two act now.
+    const extra = id === "pass" ? undefined : onAnswer(step, id);
     setAnswered((all) => ({ ...all, [step.id]: id }));
+    if (extra) setPassedLine((all) => ({ ...all, [step.id]: extra }));
     setOpen(true);
   };
+  const pass = (reason?: DeclineReason) => {
+    const extra = onAnswer(step, "pass", reason);
+    setPassedLine((all) => ({ ...all, [step.id]: extra ?? "" }));
+  };
+  const done = Boolean(answer) && !asking;
+  const replyText = answer ? G.reply(step, answer, { stage: stage?.title ?? "", hasDraft, when }) : "";
 
   return (
     <>
       <GuidePage
         {...top}
         key={step.id}
-        kicker={G.kicker(page + 1, moves.length, whenOf(step))}
+        kicker={G.kicker(page + 1, moves.length, when)}
         headingId={headingId}
         title={step.title}
         lede={step.whyLine}
         why={step.whyThis}
         className={["plan-guided", className].filter(Boolean).join(" ")}
-        primaryLabel={answer ? (page + 1 < moves.length ? G.next : G.seeRoad) : undefined}
-        onPrimary={answer ? () => (setPage(page + 1), setOpen(true)) : undefined}
+        primaryLabel={done ? (page + 1 < moves.length ? G.next : G.seeRoad) : undefined}
+        onPrimary={done ? () => (setPage(page + 1), setOpen(true)) : undefined}
         drawer={
           answer ? undefined : (
             <AnswerDrawer
@@ -232,33 +252,49 @@ export function PlanGuided({
               onPrimary={() => undefined}
               hideActions
             >
-              <ChipGroup
-                label={G.question}
-                labelHidden
-                options={options}
-                value={[]}
-                equalWidth
-                details={details}
-                onChange={(next) => {
-                  const picked = G.answers.find((a) => a.label === next[0]);
-                  if (picked) choose(picked.id);
-                }}
-              />
               {tool ? (
                 <Link href={startHref} className="btn btn--primary btn--md btn--full" onClick={() => onStart(step)}>
                   {label}
                 </Link>
               ) : (
-                // A step with no tool is started by putting it in her week.
+                // A step with no tool is started by putting it on her plan for its time.
                 <Button variant="primary" fullWidth onClick={() => choose("plan")}>
                   {label}
                 </Button>
               )}
+              <ChipGroup
+                label={G.question}
+                labelHidden
+                options={answers.map((a) => a.label)}
+                value={[]}
+                equalWidth
+                details={details}
+                onChange={(next) => {
+                  const picked = answers.find((a) => a.label === next[0]);
+                  if (picked) choose(picked.id);
+                }}
+              />
             </AnswerDrawer>
           )
         }
       >
-        {answer ? <ReflectionReply from="ExecHQ" text={G.reply(step, answer, { stage: stage?.title ?? "", hasDraft })} /> : null}
+        {answer ? <ReflectionReply from="ExecHQ" text={asking ? replyText : answer === "pass" ? [G.passed, passedLine[step.id]].filter(Boolean).join(" ") : replyText} /> : null}
+        {asking ? (
+          <div className="plan-guided__reasons">
+            <ChipGroup
+              label={G.reasonLabel}
+              options={DECLINE_REASONS.map((r) => r.label)}
+              value={[]}
+              onChange={(next) => {
+                const picked = DECLINE_REASONS.find((r) => r.label === next[0]);
+                if (picked) pass(picked.id);
+              }}
+            />
+            <Button variant="ghost" size="sm" onClick={() => pass(undefined)}>
+              {G.noReason}
+            </Button>
+          </div>
+        ) : null}
         {note ? <output className="plan-guided__note">{note}</output> : null}
       </GuidePage>
       {sheets}

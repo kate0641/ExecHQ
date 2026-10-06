@@ -15475,6 +15475,13 @@ fieldset.agenda__whens {
   margin-inline-start: auto;
 }
 
+.plan-guided__reasons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-sm);
+}
+
 .plan-guided__note {
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);

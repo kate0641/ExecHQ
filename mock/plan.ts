@@ -1091,29 +1091,34 @@ export const PLAN_AGENDA_COPY = {
    the page says the move and why it matters, and the drawer holds where she is with it. Her
    answer changes her plan for real, and comes back as a short reply in the serif voice.
    -------------------------------------------------------------------------- */
-export type GuidedAnswer = "done" | "plan" | "small" | "pass";
+export type GuidedAnswer = "done" | "plan" | "pass";
 
 export const GUIDED_COPY = {
   kicker: (n: number, total: number, when: string) => `Move ${n} of ${total} · ${when}`,
   question: "Where are you with this?",
   peek: "Tap to answer",
-  answers: [
-    { id: "done", label: "I’ve done it", hint: "It counts toward this stage" },
-    { id: "plan", label: "I’ll do it this week", hint: "It goes in your week" },
-    { id: "small", label: "Make it smaller", hint: "A lighter version of the same move" },
-    { id: "pass", label: "Not for me", hint: "ExecHQ offers a different step" },
-  ] as { id: GuidedAnswer; label: string; hint: string }[],
+  /** The three answers. Working on it is the start button, which opens the step. */
+  answers: (when: string, hasDraft: boolean) =>
+    [
+      { id: "done", label: hasDraft ? "I’ve used it" : "I’ve done it", hint: "It counts toward this stage" },
+      { id: "plan", label: `I’ll do it ${when.toLowerCase()}`, hint: "It goes on your plan for then" },
+      { id: "pass", label: "Not for me", hint: "ExecHQ offers a different step" },
+    ] as { id: GuidedAnswer; label: string; hint: string }[],
+  /** The start button, which is also her answer that she is working on it. */
+  working: "Keep working on it",
   /** What ExecHQ says back. It says what happened and what moved, never why. */
-  reply: (step: { outcome: string }, answer: GuidedAnswer, o: { stage: string; hasDraft: boolean }) =>
+  reply: (step: { outcome: string }, answer: GuidedAnswer, o: { stage: string; hasDraft: boolean; when: string }) =>
     ({
       done: o.hasDraft
         ? "It counts once your draft is marked used or sent. Open it to say so, and it counts toward this stage."
         : `${step.outcome} That counts toward this stage, ${o.stage}.`,
-      plan: "Good. It is in your week, and ExecHQ will ask you how it went.",
-      small:
-        "Here is a lighter version. Do only the first part, and leave the rest for later. ExecHQ keeps it on your plan at the smaller size.",
-      pass: "That is fine. ExecHQ offers a different step in its place, and will not offer this one again.",
+      plan: `Good. It is on your plan for ${o.when.toLowerCase()}, and ExecHQ will ask you how it went.`,
+      pass: "Say why, if you like. One tap, and it shapes what ExecHQ offers next.",
     })[answer],
+  /** After the reason, or none. */
+  passed: "That is fine. ExecHQ will not offer this one again.",
+  noReason: "Skip, no reason",
+  reasonLabel: "Why not?",
   next: "Next move",
   seeRoad: "See the road",
   road: "The road ahead",

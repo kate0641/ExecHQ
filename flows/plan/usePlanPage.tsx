@@ -23,7 +23,7 @@ import { CalendarItemSheet, type ItemValues } from "@/components/plan/CalendarIt
 import { PlanCalendar } from "@/components/plan/PlanCalendar";
 import { PlanSignalPicture } from "@/components/plan/PlanSignalPicture";
 import { SignalEntrySheet, type EntryValues } from "@/components/plan/SignalEntrySheet";
-import { accept, complete, decline, edit as editStep, initialPlanState, liveSteps, stepDay, type PlanState } from "@/lib/action-steps";
+import { accept, complete, decline, initialPlanState, liveSteps, stepDay, type PlanState } from "@/lib/action-steps";
 import { askConcierge } from "@/flows/navigation/concept-1/ConciergeConcept";
 import { setAgendaLayout, useAgendaLayout } from "@/lib/agenda-choice";
 import { addDays, shortDate } from "@/lib/loop";
@@ -33,7 +33,7 @@ import { momentumEvents } from "@/lib/momentum";
 import { buildNarrative } from "@/lib/narrative";
 import { planSparks } from "@/lib/plan-sparks";
 import { roadmapWindows, stageAt } from "@/lib/roadmap-dates";
-import { timeChoices, whenWords } from "@/lib/time-words";
+import { whenWords } from "@/lib/time-words";
 import { saveCalendar, saveRoadmap, saveSteps, useCalendar, useRoadmapChoices, useSavedSteps } from "@/lib/plan-store";
 import { hasBaseline, presenceCounts, signalRows, withAdded, type Baseline } from "@/lib/presence";
 import { addPresence, removePresence, saveBaseline, saveCurrent, updatePresence, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
@@ -53,7 +53,7 @@ import {
 } from "@/mock/accounts-stub";
 import { PLAN_TEMPLATES, recommendPlan } from "@/mock/onboarding";
 import type { ActionStep } from "@/mock/plan";
-import { CALENDAR_COPY as CAL, EDIT_FLOW_HREF, PLAN_AGENDA_COPY as AG, STEP_QUESTIONS, type GuidedAnswer, DIRECTION_PLAN_COPY as DP, ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
+import { CALENDAR_COPY as CAL, EDIT_FLOW_HREF, PLAN_AGENDA_COPY as AG, STEP_QUESTIONS, type DeclineReason, type GuidedAnswer, DIRECTION_PLAN_COPY as DP, ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
 import { ACTIONS } from "@/mock/plan-stub";
 import { SNAPSHOTS } from "@/mock/snapshots";
 import type { CalendarItem } from "@/mock/plan";
@@ -304,7 +304,7 @@ export function usePlanPage() {
     .flat()
     .sort((a, b) => (a.on < b.on ? -1 : a.on > b.on ? 1 : 0))
     .slice(-6);
-  function answerStep(step: ActionStep, answer: GuidedAnswer) {
+  function answerStep(step: ActionStep, answer: GuidedAnswer, reason?: DeclineReason): string | void {
     const hasDraft = step.kind === "artifact" || Boolean(step.artifactId);
     if (answer === "done") {
       // A step with a draft is done when the draft is used or sent: that is the Toolbox's to say.
@@ -313,13 +313,21 @@ export function usePlanPage() {
         keepSteps(complete(stepState, step.id).state);
       }
     } else if (answer === "plan") {
-      keepSteps(editStep(accept(stepState, step.id), step.id, { date: timeChoices(loop.today)[0].date }));
-    } else if (answer === "small") {
-      keepSteps(editStep(stepState, step.id, { scope: "lighter" }));
+      // Accepting pins the day the step is suggested for, which the words say.
+      keepSteps(accept(stepState, step.id));
     } else {
-      keepSteps(decline(stepState, step.id, undefined).state);
+      // Not for me, and why if she said: the reason shapes what is offered in its place.
+      const move = decline(stepState, step.id, reason);
+      keepSteps(move.state);
+      const r = move.replacement;
+      return r && "step" in r ? [r.heard, `Now offered: ${r.step.title}.`].filter(Boolean).join(" ") : r ? r.message : undefined;
     }
   }
+  /** She has a draft for this step that is not yet used or sent. */
+  const workingOn = (step: ActionStep) => {
+    const record = step.artifactId ? loop.records.find((r) => r.id === step.artifactId) : undefined;
+    return Boolean(record && ["drafted", "in-progress", "ready"].includes(record.state));
+  };
   const guided = (
     <PlanGuided
       key={`guided-${loop.id}-${planId}`}
@@ -332,6 +340,7 @@ export function usePlanPage() {
       startHref={conceptHref("toolbox-flow", "concept-1")}
       sparks={guidedSparks}
       onAnswer={answerStep}
+      workingOn={workingOn}
       onStart={(step) => keepSteps(accept(stepState, step.id))}
       onAdd={addToPlan}
     />
