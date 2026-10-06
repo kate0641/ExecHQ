@@ -20,22 +20,27 @@ import {
   type PictureItem,
 } from "@/lib/signal-picture";
 import { shortDate, type LoopDate } from "@/lib/loop";
-import { SIGNAL_PICTURE_COPY as C, type ActivityType, type WindowDays } from "@/mock/plan";
+import { PRESENCE_CARD_COPY } from "@/mock/accounts-stub";
+import { ACTIVITY_TYPES, SIGNAL_PICTURE_COPY as C, type ActivityType, type WindowDays } from "@/mock/plan";
 
 /** How the picture shows what came of things and what to do next.
  *  - items: what came of it sits under each thing she did; one next action at the foot.
+ *  - map: where she shows up, a dot for each thing in four equal territories,
+ *    with her followers above and her next step as a dashed dot.
  *  - cameof: only what she says came of the things she did, in her words,
  *    with what it followed. No next action and no add button: the page has those.
  *  - areas: one card per kind of activity, each with its own next action. */
-export type SignalPictureVariant = "items" | "cameof" | "areas" | "path";
+export type SignalPictureVariant = "items" | "cameof" | "areas" | "path" | "map";
 
 /** Her next step, as the path draws it: the next circle, and why. */
 export interface PathNextStep {
   title: string;
   /** Why this step now, in the plan's own words. */
   why: string;
-  /** The kind of activity it would add one to. Only steps that add a circle are shown. */
+  /** The kind of activity it would add one to, in words. Only steps that add a circle are shown. */
   adds: string;
+  /** The same, as the kind the map puts its dot under. */
+  activity?: ActivityType;
   href: string;
   /** She has pressed Start or there is work on it: the circle is half full. */
   started: boolean;
@@ -61,9 +66,14 @@ export interface PlanSignalPictureProps {
   onAcceptOffer?: () => void;
   onDismissOffer?: () => void;
   variant?: SignalPictureVariant;
-  /** The path variant: the day her plan began, and her next step. */
+  /** The path and map variants: the day her plan began, and her next step. */
   startedOn?: LoopDate;
   nextStep?: PathNextStep;
+  /** The map variant: her followers, what she had of each kind when she started, and a suggestion. */
+  hero?: { label: string; now: string | number; then: string | number };
+  before?: Partial<Record<ActivityType, number>>;
+  tryThis?: { title: string; why: string; label: string; href: string };
+  tryLabel?: string;
   /** The next action for the whole picture. */
   next?: PictureNext;
   /** The next action for one kind of activity, where she has one. */
@@ -100,6 +110,10 @@ export function PlanSignalPicture({
   variant = "items",
   startedOn,
   nextStep,
+  hero,
+  before,
+  tryThis,
+  tryLabel,
   next,
   nextByActivity,
   demoDelete,
@@ -111,6 +125,28 @@ export function PlanSignalPicture({
   const days: WindowDays = history >= 90 ? 90 : history >= 30 ? 30 : 7;
   const full = windowIsFull(history, days);
   const visible = inWindow(items, today, days);
+
+  if (variant === "map") {
+    return (
+      <MapPicture
+        items={items}
+        today={today}
+        startedOn={startedOn ?? today}
+        hero={hero}
+        before={before}
+        nextStep={nextStep}
+        tryThis={tryThis}
+        tryLabel={tryLabel}
+        onAdd={onAdd}
+        onEdit={onEdit}
+        onDelete={onDelete}
+        demoDelete={demoDelete}
+        demoWhy={demoWhy}
+        headingId={headingId}
+        className={className}
+      />
+    );
+  }
 
   if (variant === "cameof") {
     return (
@@ -272,7 +308,6 @@ function PathPicture({
   const G = C.growth;
   const months = growthMonths(items, startedOn, today);
   const [open, setOpen] = useState<number | null>(null);
-  const [why, setWhy] = useState(false);
   const gap = (PATH_W - 110) / Math.max(months.length, 1);
   const dots = months.map((m, i) => {
     const n = m.items.length;
@@ -372,23 +407,199 @@ function PathPicture({
         <p className="signal-picture__counts">{total ? G.tap : G.nothing}</p>
       )}
 
-      {nextStep ? (
-        <div className="growth-path__caption">
-          <p>
-            <b>{G.nextCaption}</b> {nextStep.title}. {G.adds(nextStep.adds)}
-          </p>
-          <div className="growth-path__actions">
-            <Link href={nextStep.href} className="link" onClick={nextStep.onStart}>
-              {nextStep.started ? G.keep : G.start}
-            </Link>
-            <Button variant="ghost" size="sm" aria-expanded={why || demoWhy} onClick={() => setWhy((w) => !w)}>
-              {G.why}
-            </Button>
-          </div>
-          {why || demoWhy ? <p className="signal-picture__counts">{nextStep.why}</p> : null}
-        </div>
-      ) : null}
+      {nextStep ? <NextCaption nextStep={nextStep} demoWhy={demoWhy} /> : null}
     </section>
+  );
+}
+
+/* The map: four equal territories, a dot for each thing in each. Hollow is what she had when she started, filled is what she has added since, dashed is her next step. A territory is never smaller or behind, and none has a target. */
+const MAP_TERRITORIES: ActivityType[] = ["publishing", "speaking", "podcast", "press"];
+
+function MapPicture({
+  items,
+  today,
+  startedOn,
+  hero,
+  before,
+  nextStep,
+  tryThis,
+  tryLabel,
+  onAdd,
+  onEdit,
+  onDelete,
+  demoDelete,
+  demoWhy,
+  headingId,
+  className,
+}: {
+  items: PictureItem[];
+  today: LoopDate;
+  startedOn: LoopDate;
+  hero?: PlanSignalPictureProps["hero"];
+  before?: PlanSignalPictureProps["before"];
+  nextStep?: PathNextStep;
+  tryThis?: PlanSignalPictureProps["tryThis"];
+  tryLabel?: string;
+  onAdd: () => void;
+  onEdit: PlanSignalPictureProps["onEdit"];
+  onDelete: PlanSignalPictureProps["onDelete"];
+  demoDelete?: boolean;
+  demoWhy?: boolean;
+  headingId: string;
+  className?: string;
+}) {
+  const G = C.map;
+  const [open, setOpen] = useState<string | null>(null);
+  const since = items
+    .filter((i) => i.on >= startedOn && i.on <= today)
+    .sort((a, b) => (a.on < b.on ? -1 : a.on > b.on ? 1 : 0));
+  const elseItems = since.filter((i) => i.activity === "other");
+  const territories = [
+    ...MAP_TERRITORIES.map((id) => ({ id, label: ACTIVITY_TYPES.find((t) => t.id === id)?.label ?? id })),
+    ...(elseItems.length ? [{ id: "other" as ActivityType, label: G.something }] : []),
+  ];
+  const gain = hero ? Number(String(hero.now).replace(/,/g, "")) - Number(String(hero.then).replace(/,/g, "")) : 0;
+  const opened = since.find((i) => i.id === open);
+
+  return (
+    <div className={["map", className].filter(Boolean).join(" ")}>
+      <section className="map__card" aria-labelledby={headingId}>
+        <div className="signal-picture__head">
+          <h2 className="signal-picture__heading" id={headingId}>
+            {G.heading}
+          </h2>
+          <p className="signal-picture__intro">{G.intro}</p>
+        </div>
+        {hero ? (
+          <div className="presence-clean__hero">
+            <span className="presence-clean__hero-label">{hero.label}</span>
+            <span className="presence-clean__hero-now">{hero.now}</span>
+            <span className="presence-clean__hero-sub">
+              {gain > 0 ? (
+                <>
+                  {PRESENCE_CARD_COPY.was(String(hero.then))} · <b>{PRESENCE_CARD_COPY.up(gain.toLocaleString("en-US"))}</b>
+                </>
+              ) : (
+                PRESENCE_CARD_COPY.sameAsStart(String(hero.then))
+              )}
+            </span>
+          </div>
+        ) : null}
+        <div className="map__grid">
+          {territories.map((t) => {
+            const had = t.id === "other" ? 0 : (before?.[t.id] ?? 0);
+            const added = since.filter((i) => i.activity === t.id);
+            const nextHere = nextStep?.activity === t.id;
+            const total = had + added.length;
+            return (
+              <section
+                key={t.id}
+                className={["map__territory", had + added.length + (nextHere ? 1 : 0) === 0 ? "is-empty" : "", t.id === "other" ? "map__territory--wide" : ""]
+                  .filter(Boolean)
+                  .join(" ")}
+                aria-label={t.label}
+              >
+                <div className="map__head">
+                  <h3 className="map__label">{t.label}</h3>
+                  <span className="map__count">
+                    {had} → {total}
+                  </span>
+                </div>
+                <ul className="map__dots">
+                  {had ? (
+                    <li className="map__before">
+                      <span className="u-visually-hidden">{G.before(had)}</span>
+                      {Array.from({ length: had }, (_, i) => (
+                        <span key={i} className="map__dot map__dot--before" aria-hidden="true" />
+                      ))}
+                    </li>
+                  ) : null}
+                  {added.map((item) => (
+                    <li key={item.id}>
+                      <button
+                        type="button"
+                        className={["map__dot", "map__dot--since", open === item.id ? "is-open" : ""].filter(Boolean).join(" ")}
+                        aria-pressed={open === item.id}
+                        aria-label={`${item.text}, ${shortDate(item.on)}`}
+                        onClick={() => setOpen(open === item.id ? null : item.id)}
+                      />
+                    </li>
+                  ))}
+                  {nextHere && nextStep ? (
+                    <li>
+                      <span className={["map__dot", "map__dot--next", nextStep.started ? "is-started" : ""].filter(Boolean).join(" ")}>
+                        <span className="u-visually-hidden">{`${C.growth.nextLabel}: ${nextStep.title}`}</span>
+                      </span>
+                    </li>
+                  ) : null}
+                </ul>
+              </section>
+            );
+          })}
+        </div>
+        <ul className="map__key">
+          <li>
+            <span className="map__dot map__dot--before map__dot--key" aria-hidden="true" />
+            {G.keyBefore}
+          </li>
+          <li>
+            <span className="map__dot map__dot--since map__dot--key" aria-hidden="true" />
+            {G.keySince}
+          </li>
+          {nextStep ? (
+            <li>
+              <span className="map__dot map__dot--next map__dot--key" aria-hidden="true" />
+              {G.keyNext}
+            </li>
+          ) : null}
+        </ul>
+        {opened ? (
+          <ul className="signal-picture__list">
+            <Row item={opened} onEdit={onEdit} onDelete={onDelete} showImpact demoDelete={demoDelete && opened.editable} />
+          </ul>
+        ) : (
+          <p className="signal-picture__counts">{since.length ? G.tap : G.empty}</p>
+        )}
+        {nextStep ? <NextCaption nextStep={nextStep} demoWhy={demoWhy} /> : null}
+        <Button variant="secondary" className="presence-clean__add" onClick={onAdd}>
+          <Icon name="plus" size={14} />
+          {G.add}
+        </Button>
+      </section>
+      {tryThis ? (
+        <section className="presence-clean__try" aria-label={tryLabel ?? "Try this"}>
+          <span className="presence-clean__try-label">{tryLabel ?? "Try this"}</span>
+          <b>{tryThis.title}</b>
+          <p>{tryThis.why}</p>
+          <Link href={tryThis.href} className="btn btn--primary btn--md">
+            {tryThis.label}
+            <Icon name="chevron" size={16} />
+          </Link>
+        </section>
+      ) : null}
+    </div>
+  );
+}
+
+/** The next step as a short caption: what it is, what it adds, Start, and Why one tap away. */
+function NextCaption({ nextStep, demoWhy }: { nextStep: PathNextStep; demoWhy?: boolean }) {
+  const G = C.growth;
+  const [why, setWhy] = useState(false);
+  return (
+    <div className="growth-path__caption">
+      <p>
+        <b>{G.nextCaption}</b> {nextStep.title}. {G.adds(nextStep.adds)}
+      </p>
+      <div className="growth-path__actions">
+        <Link href={nextStep.href} className="link" onClick={nextStep.onStart}>
+          {nextStep.started ? G.keep : G.start}
+        </Link>
+        <Button variant="ghost" size="sm" aria-expanded={why || demoWhy} onClick={() => setWhy((w) => !w)}>
+          {G.why}
+        </Button>
+      </div>
+      {why || demoWhy ? <p className="signal-picture__counts">{nextStep.why}</p> : null}
+    </div>
   );
 }
 

@@ -643,6 +643,19 @@ export const SIGNAL_PICTURE_COPY = {
   countLine: (name: string, n: number) => `${name} ${n}`,
   impactNone: "Nothing reported yet.",
   impactAdd: "Add what came of it",
+  /** The map variant: where she shows up, a dot for each thing, four equal territories. */
+  map: {
+    heading: "Where you show up",
+    intro: "Every thing you did is one dot. Hollow is what you had when you started; filled is what you have added since.",
+    before: (n: number) => `${n} before you started`,
+    tap: "Tap a filled dot to see what it was.",
+    empty: "Nothing added yet. What you add shows here as new dots.",
+    add: "Add",
+    keyBefore: "Before you started",
+    keySince: "Added since",
+    keyNext: "Your next step",
+    something: "Something else",
+  },
   /** The block that shows only what she says came of the things she did. */
   cameOf: {
     heading: "What came of it",

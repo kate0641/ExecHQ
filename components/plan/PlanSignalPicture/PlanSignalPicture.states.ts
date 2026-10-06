@@ -36,6 +36,20 @@ const pathNext = {
   started: false,
   onStart: noop,
 };
+const mapBase = {
+  variant: "map" as const,
+  startedOn: "2026-10-05",
+  hero: { label: "LinkedIn followers", now: "1,284", then: "1,247" },
+  before: { publishing: 3, speaking: 1, podcast: 1, press: 2 },
+  nextStep: { ...pathNext, activity: "press" as const },
+  tryThis: {
+    title: "Pitch one show about planning as a leadership skill",
+    why: "Your story already says it, and you’ve been asked about it once on air.",
+    label: "Draft a pitch",
+    href: "/toolbox-flow/concept-1",
+  },
+  tryLabel: "Try this",
+};
 const path = { variant: "path" as const, nextStep: pathNext, startedOn: "2026-10-05" };
 
 const base = { items, today, history: 16, next, nextByActivity, onAdd: noop, onEdit: noop, onDelete: noop };
@@ -190,6 +204,41 @@ export const planSignalPictureStates = defineComponentStates({
     {
       label: "Came of it — deleting what she added asks first",
       props: { ...base, variant: "cameof", startedOn: "2026-10-05", demoDelete: true, headingId: "pc-came-delete" },
+    },
+    {
+      label: "Map — where she shows up, a month in",
+      description: "Four equal territories, a dot for each thing. Hollow is what she had when she started, filled is what she has added since, and the dashed dot is her next step. No territory is smaller or behind, and none has a target.",
+      props: { ...base, ...mapBase, headingId: "pm-month" },
+    },
+    {
+      label: "Map — next step started, half full",
+      props: { ...base, ...mapBase, nextStep: { ...mapBase.nextStep, started: true }, headingId: "pm-started" },
+    },
+    {
+      label: "Map — the reason for the next step open",
+      props: { ...base, ...mapBase, demoWhy: true, headingId: "pm-why" },
+    },
+    {
+      label: "Map — no next step",
+      props: { ...base, ...mapBase, nextStep: undefined, headingId: "pm-none" },
+    },
+    {
+      label: "Map — her first days, empty",
+      description: "Hollow dots for what she started with, and nothing filled yet. It says how new dots will show.",
+      props: { ...base, ...mapBase, items: [], today: "2026-10-07", history: 3, hero: { ...mapBase.hero, now: "1,247" }, headingId: "pm-empty" },
+    },
+    {
+      label: "Map — something else she added",
+      description: "A fifth territory appears only when she has added something that fits none of the four.",
+      props: {
+        ...base,
+        ...mapBase,
+        items: [
+          ...items,
+          { id: "added-7", source: "added", text: "Judged a hackathon", on: "2026-11-01", areaId: "seen-as-leader", activity: "other", tag: "Something else", editable: true },
+        ],
+        headingId: "pm-else",
+      },
     },
     {
       label: "Empty — nothing recorded yet",

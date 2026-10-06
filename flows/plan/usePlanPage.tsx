@@ -35,7 +35,7 @@ import { planSparks } from "@/lib/plan-sparks";
 import { roadmapWindows, stageAt } from "@/lib/roadmap-dates";
 import { whenWords } from "@/lib/time-words";
 import { saveCalendar, saveRoadmap, saveSteps, useCalendar, useRoadmapChoices, useSavedSteps } from "@/lib/plan-store";
-import { addedSummary, hasBaseline, signalRows, withAdded } from "@/lib/presence";
+import { addedSummary, hasBaseline, presenceCounts, signalRows, withAdded } from "@/lib/presence";
 import { addPresence, removePresence, saveBaseline, saveCurrent, updatePresence, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
 import { currentStageIndex, isDone as isActionDone } from "@/lib/rings";
 import { addedItems, historyDays, nextActionFor, nextOutsideStep, offerFor, recordedItems, type PictureItem } from "@/lib/signal-picture";
@@ -488,11 +488,25 @@ export function usePlanPage() {
       title: step.title,
       why: step.whyNow || step.whyThis,
       adds: lane,
+      activity: ACTIVITY_OF_CHANNEL[step.channel!],
       href: toolboxHref,
       started: loop.choices?.[step.id]?.decision === "started" || Boolean(record) || Boolean(loop.tasks?.[step.id]),
       onStart: () => loopActions.startAction(step.id),
     };
   })();
+  /* What the map needs besides the record: her followers, what she had of each
+     kind when she started, and the suggestion. Read when the map is drawn. */
+  const mapProps = () => {
+    const counts = presenceCounts(loop.today, items, baseline, seeded, current);
+    const then = (kind: string) => counts.find((c) => c.kind === kind)?.then ?? 0;
+    const follower = rows.find((r) => r.id === "linkedin");
+    return {
+      hero: follower ? { label: follower.label, now: follower.now, then: follower.then } : undefined,
+      before: { publishing: then("writing"), speaking: then("speaking"), podcast: then("podcast"), press: then("press") },
+      tryThis: { ...PR.tryThis, href: toolboxHref },
+      tryLabel: AC.tryThis,
+    };
+  };
   const pictureOf = (variant: SignalPictureVariant) =>
     !hasBaseline(baseline, seeded) ? null : (
     <PlanSignalPicture
@@ -500,6 +514,7 @@ export function usePlanPage() {
       variant={variant}
       startedOn={loop.account.plan.startedOn}
       nextStep={pathStep}
+      {...(variant === "map" ? mapProps() : {})}
       next={nextOf()}
       nextByActivity={nextByActivity}
       items={pictureItems}
@@ -593,7 +608,7 @@ export function usePlanPage() {
     />
   );
 
-  return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, agenda, guided, calendar, note, narrative: narrativeNode, momentum, momentumOf, picture, pictureOf, started, sparkNode, sheet: (
+  return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, agenda, guided, calendar, note, narrative: narrativeNode, momentum, momentumOf, picture, pictureOf, started, hasStarted: hasBaseline(baseline, seeded), sparkNode, sheet: (
       <>
         {sheet}
         {calendarSheet}
