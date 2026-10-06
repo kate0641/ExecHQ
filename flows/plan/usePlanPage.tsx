@@ -468,7 +468,10 @@ export function usePlanPage() {
   const nextByActivity = Object.fromEntries(
     ACTIVITY_TYPES.map((a) => [a.id, nextOf(a.id)]).filter(([, n]) => n)
   ) as Partial<Record<ActivityType, { title: string; href: string }>>;
-  const pictureOf = (variant: SignalPictureVariant) => (
+  /* Until she has said where she started, the page asks that and nothing else:
+     the picture would only repeat the page's title over an empty record. */
+  const pictureOf = (variant: SignalPictureVariant) =>
+    !hasBaseline(baseline, seeded) ? null : (
     <PlanSignalPicture
       key={`picture-${loop.id}-${variant}`}
       variant={variant}
