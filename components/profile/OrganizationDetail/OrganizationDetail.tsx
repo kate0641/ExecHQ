@@ -23,8 +23,7 @@ const C = PROFILE_COPY.organization;
 
 /** A few fragments as one short line, the first capitalised. */
 function sentence(parts: string[]): string {
-  const joined = parts.join("; ");
-  return `${joined.charAt(0).toUpperCase()}${joined.slice(1)}.`;
+  return parts.map((part) => `${part.charAt(0).toUpperCase()}${part.slice(1)}.`).join(" ");
 }
 
 /**
@@ -67,10 +66,6 @@ export function OrganizationDetail({
 
   return (
     <DetailPanel heading={C.heading} headingId={headingId} lead={C.member(org.name)} onClose={onClose}>
-      <div className="profile-fact">
-        <span className="profile-fact__label">{C.sees}</span>
-        <span className="profile-fact__value">{sentence(org.sees)}</span>
-      </div>
       <div className="profile-fact">
         <span className="profile-fact__label">{C.never}</span>
         <span className="profile-fact__value">{sentence(org.never)}</span>

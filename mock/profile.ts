@@ -84,10 +84,9 @@ export const PROFILE_COPY = {
 
   organization: {
     heading: "Your organization",
-    member: (name: string) => `${name} sees a summary of everyone in the group, as a whole. It never sees you personally.`,
+    member: (name: string) => `${name} sees a summary of everyone in the group, as a whole. Your own details stay yours.`,
     joined: "Joined",
-    sees: "What they can see",
-    never: "What they never see",
+    never: "What stays private",
     leave: "Leave organization",
     confirmHeading: (name: string) => `Leave ${name}?`,
     confirmBody: "You keep your account and everything in it. You drop out of the group’s summary.",

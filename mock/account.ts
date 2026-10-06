@@ -132,9 +132,8 @@ export const MAYA: Account = {
     joinedOn: "2026-09-14",
     sees: ["a summary of everyone in the group, as a whole"],
     never: [
-      "your name or email",
-      "your drafts, Loop record or plan",
-      "when you sign in or what you open",
+      "your name and email",
+      "your direction, drafts, progress record and plan",
     ],
   },
 };
