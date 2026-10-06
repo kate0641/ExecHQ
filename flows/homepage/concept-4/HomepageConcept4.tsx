@@ -150,7 +150,7 @@ export function HomepageConcept4() {
   const seeded = loop.homeState !== "first-return";
   const picture = hasBaseline(baseline, seeded);
   const rows = signalRows(loop.today, items, baseline, seeded, () => "", current).map(({ id, label, then, now }) => ({ id, label, then, now }));
-  const note = sparksFor(loop.today, loop.account, dismissed, items).find((n) => n.id.startsWith("presence:"));
+  const note = sparksFor(loop.today, dismissed, items).find((n) => n.id.startsWith("presence:"));
 
   return (
     <div className="map-home">

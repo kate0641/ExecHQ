@@ -1,5 +1,3 @@
-import type { Account } from "@/mock/account";
-
 import { nthOfKind, ordinal, recentlyAdded } from "@/lib/presence";
 import { SPARK_COPY, type PresenceItem } from "@/mock/accounts-stub";
 
@@ -40,7 +38,6 @@ function noteFor(item: PresenceItem, items: readonly PresenceItem[]): SparkNote 
  */
 export function sparksFor(
   today: string,
-  account: Account,
   dismissed: readonly string[],
   items: readonly PresenceItem[]
 ): SparkNote[] {

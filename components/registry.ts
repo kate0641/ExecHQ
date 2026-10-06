@@ -69,11 +69,9 @@ import { nextStepCardStates } from "./homepage/NextStepCard/NextStepCard.states"
 import { briefingEntryStates } from "./homepage/BriefingEntry/BriefingEntry.states";
 import { entryLinkStates } from "./homepage/EntryLink/EntryLink.states";
 import { briefingEditorialStates } from "./homepage/BriefingEditorial/BriefingEditorial.states";
-import { accountCardStates } from "./homepage/AccountCard/AccountCard.states";
 import { sparkStates } from "./homepage/Spark/Spark.states";
 import { baselineListStates } from "./homepage/BaselineList/BaselineList.states";
 import { presenceCardStates } from "./homepage/PresenceCard/PresenceCard.states";
-import { trendLineStates } from "./homepage/TrendLine/TrendLine.states";
 import { loopRowStates } from "./homepage/LoopRow/LoopRow.states";
 import { checkInStates } from "./loop/CheckIn/CheckIn.states";
 import { recentWorkStates } from "./homepage/RecentWork/RecentWork.states";
@@ -85,11 +83,8 @@ import { profileHeaderStates } from "./profile/ProfileHeader/ProfileHeader.state
 import { settingsGroupStates } from "./profile/SettingsGroup/SettingsGroup.states";
 import { settingsRowStates } from "./profile/SettingsRow/SettingsRow.states";
 import { detailPanelStates } from "./profile/DetailPanel/DetailPanel.states";
-import { connectionDetailStates } from "./profile/ConnectionDetail/ConnectionDetail.states";
-import { exportDetailStates } from "./profile/ExportDetail/ExportDetail.states";
 import { deletionDetailStates } from "./profile/DeletionDetail/DeletionDetail.states";
 import { notificationsDetailStates } from "./profile/NotificationsDetail/NotificationsDetail.states";
-import { usesDetailStates } from "./profile/UsesDetail/UsesDetail.states";
 import { organizationDetailStates } from "./profile/OrganizationDetail/OrganizationDetail.states";
 import { checkboxStates } from "./form/Checkbox/Checkbox.states";
 import { codeFieldStates } from "./form/CodeField/CodeField.states";
@@ -179,11 +174,9 @@ export const registry: RegisteredComponent[] = [
   mapPanelStates,
   actionSheetStates,
   briefingEditorialStates,
-  accountCardStates,
   presenceCardStates,
   baselineListStates,
   sparkStates,
-  trendLineStates,
   loopRowStates,
   checkInStates,
   recentWorkStates,
@@ -195,11 +188,8 @@ export const registry: RegisteredComponent[] = [
   settingsGroupStates,
   settingsRowStates,
   detailPanelStates,
-  connectionDetailStates,
-  exportDetailStates,
   deletionDetailStates,
   notificationsDetailStates,
-  usesDetailStates,
   organizationDetailStates,
   checkboxStates,
   codeFieldStates,

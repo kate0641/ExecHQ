@@ -1,6 +1,6 @@
 import { defineComponentStates } from "@/components/types";
 import { CONTROLS_INSIDE, NOT_AN_INPUT } from "@/components/not-applicable";
-import { ACCOUNTS_COPY as AC, ADD_COPY, PRESENCE_STUB as P } from "@/mock/accounts-stub";
+import { COUNT_COPY as AC, ADD_COPY, PRESENCE_STUB as P } from "@/mock/accounts-stub";
 import { PresenceCard } from "./PresenceCard";
 
 const toolbox = "/toolbox-flow/concept-1";

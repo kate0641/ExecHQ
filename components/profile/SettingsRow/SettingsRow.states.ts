@@ -18,14 +18,14 @@ export const settingsRowStates = defineComponentStates({
     error: "A row reports no error itself; the detail it opens shows its own.",
   },
   variants: [
-    { label: "Opens a detail — default", props: { icon: "globe", label: "Website", value: R.connected, onOpen: noop } },
-    { label: "Opens a detail — hover", props: { icon: "globe", label: "Website", value: R.connected, onOpen: noop, className: "is-hover" } },
-    { label: "Opens a detail — focus", props: { icon: "globe", label: "Website", value: R.connected, onOpen: noop, className: "is-focus" } },
-    { label: "Opens a detail — active", props: { icon: "globe", label: "Website", value: R.connected, onOpen: noop, className: "is-active" } },
+    { label: "Opens a detail — default", props: { icon: "bell", label: R.notifications, value: R.notificationsValue(2), onOpen: noop } },
+    { label: "Opens a detail — hover", props: { icon: "bell", label: R.notifications, value: R.notificationsValue(2), onOpen: noop, className: "is-hover" } },
+    { label: "Opens a detail — focus", props: { icon: "bell", label: R.notifications, value: R.notificationsValue(2), onOpen: noop, className: "is-focus" } },
+    { label: "Opens a detail — active", props: { icon: "bell", label: R.notifications, value: R.notificationsValue(2), onOpen: noop, className: "is-active" } },
     {
       label: "Current in the web pane — selected",
       description: "On web, the row whose detail is showing beside the list.",
-      props: { icon: "linkedin", label: "LinkedIn", value: R.notConnected, onOpen: noop, current: true },
+      props: { icon: "bell", label: R.notifications, value: R.notificationsValue(2), onOpen: noop, current: true },
     },
     {
       label: "Without an icon",
@@ -51,7 +51,7 @@ export const settingsRowStates = defineComponentStates({
       description: "A setting a later sprint designs. Not a control: it says when it comes.",
       props: { kind: "later", icon: "briefing", label: "Publishers you follow", tag: "With the Briefing" },
     },
-    { label: "Opens a detail — disabled", props: { icon: "globe", label: "Website", value: R.connected, disabled: true } },
+    { label: "Opens a detail — disabled", props: { icon: "bell", label: R.notifications, value: R.notificationsValue(2), disabled: true } },
     {
       label: "A long value is cut short",
       props: { icon: "globe", label: "Website", value: "maya-chen-marketing-leadership.example.com", onOpen: noop },

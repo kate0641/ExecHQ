@@ -47,7 +47,7 @@ import {
   ADD_COPY as ADD,
   PRESENCE_STUB as PR,
   SPARK_COPY as SP,
-  ACCOUNTS_COPY as AC,
+  COUNT_COPY as AC,
 } from "@/mock/accounts-stub";
 import { PLAN_TEMPLATES, recommendPlan } from "@/mock/onboarding";
 import type { ActionStep } from "@/mock/plan";
@@ -522,7 +522,7 @@ export function usePlanPage() {
     [item.note ?? item.title, item.where, shortDate(item.on)].filter(Boolean).join(" · "),
     current
   );
-  const sparks = sparksFor(loop.today, loop.account, dismissed, items).filter((n) => n.id.startsWith("presence:"));
+  const sparks = sparksFor(loop.today, dismissed, items).filter((n) => n.id.startsWith("presence:"));
   /* The notes on what has moved, kept apart from the card so a page can put
      them right under its heading. */
   const sparkNode = (

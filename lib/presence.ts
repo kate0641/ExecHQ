@@ -1,7 +1,7 @@
 import { addDays } from "@/lib/loop";
 import {
   LINKEDIN_ROW_LABEL,
-  LINKEDIN_STUB,
+  LINKEDIN_START,
   PRESENCE_BASELINE,
   PRESENCE_KINDS,
   PRESENCE_ITEMS,
@@ -104,12 +104,12 @@ export function signalRows(
   const typedNow = current?.followers;
   if (baseline ? typed !== undefined || typedNow !== undefined : seeded || typedNow !== undefined) {
     const fmt = (n: number) => n.toLocaleString("en-US");
-    const then = typed !== undefined ? fmt(typed) : baseline ? "–" : LINKEDIN_STUB.baseline.then;
+    const then = typed !== undefined ? fmt(typed) : baseline ? "–" : LINKEDIN_START.then;
     rows.push({
       id: "linkedin",
       label: LINKEDIN_ROW_LABEL,
       then,
-      now: typedNow !== undefined ? fmt(typedNow) : typed !== undefined ? fmt(typed) : LINKEDIN_STUB.baseline.now,
+      now: typedNow !== undefined ? fmt(typedNow) : typed !== undefined ? fmt(typed) : LINKEDIN_START.now,
     });
   }
   for (const p of presenceCounts(today, items, baseline, seeded, current)) {

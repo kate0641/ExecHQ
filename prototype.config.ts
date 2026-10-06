@@ -159,7 +159,7 @@ export const prototypeConfig: PrototypeConfig = {
       chrome: "app",
       privacyFooter: false,
       description:
-        "Direction, signal background, connections and settings — all optional, none of it a completion gate.",
+        "Direction, signal background and settings — all optional, none of it a completion gate.",
       concepts: [
         {
           slug: "concept-1",

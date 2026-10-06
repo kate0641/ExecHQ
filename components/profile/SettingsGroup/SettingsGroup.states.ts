@@ -23,12 +23,12 @@ export const settingsGroupStates = defineComponentStates({
   },
   variants: [
     {
-      label: "Connections — default",
+      label: "Settings — default",
       props: {
-        label: PROFILE_COPY.groups.connections,
+        label: PROFILE_COPY.groups.settings,
         children: [
-          row({ icon: "linkedin", label: "LinkedIn", value: R.notConnected }, "l"),
-          row({ icon: "globe", label: "Website", value: R.connected }, "w"),
+          row({ icon: "bell", label: R.notifications, value: R.notificationsValue(2) }, "n"),
+          row({ icon: "globe", label: R.organization, value: R.noOrganization }, "o"),
         ],
       },
     },
