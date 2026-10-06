@@ -11767,7 +11767,6 @@ ul.map-rings {
 }
 
 .map-rings__ring {
-  --map-hole: var(--color-surface);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11782,13 +11781,11 @@ ul.map-rings {
 
 .map-rings__ring:hover,
 .map-rings__ring.is-hover {
-  --map-hole: var(--color-surface-hover);
   background-color: var(--color-surface-hover);
 }
 
 .map-rings__ring[aria-pressed="true"] {
-  --map-hole: var(--color-surface-selected);
-  background-color: var(--color-surface-selected);
+  background-color: var(--color-surface-feature);
 }
 
 .map-rings__ring:focus-visible,
@@ -11799,7 +11796,6 @@ ul.map-rings {
 
 .map-rings__ring:active,
 .map-rings__ring.is-active {
-  --map-hole: var(--color-surface-active);
   background-color: var(--color-surface-active);
 }
 
@@ -11829,9 +11825,10 @@ ul.map-rings {
   fill: none;
 }
 
-.map-rings__done { stroke: var(--color-surface-inverse); }
-.map-rings__hole { stroke: var(--map-hole); }
-.map-rings__not { stroke: var(--color-text-muted); }
+.map-rings__done { stroke: var(--color-ring-done); }
+.map-rings__track { stroke: var(--color-ring-track); }
+/* --fade is how far along the in-progress band a slice sits, 0% to 100%. */
+.map-rings__fade { stroke: color-mix(in srgb, var(--color-ring-progress-end) var(--fade), var(--color-ring-progress-start)); }
 
 .map-rings__check {
   position: absolute;
@@ -11842,8 +11839,9 @@ ul.map-rings {
   width: 1.5rem;
   height: 1.5rem;
   border-radius: var(--radius-pill);
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
+  background-color: var(--color-tag-surface);
+  box-shadow: 0 0 0 var(--border-width-thick) var(--color-halo);
+  color: var(--color-tag-text);
 }
 
 .map-rings__name {
@@ -11879,15 +11877,15 @@ p.map-legend {
 
 .map-legend__key {
   display: inline-block;
-  /* A short segment, like the arcs in the rings, not a dot. */
+  /* A short segment with square ends, like the arcs in the rings. */
   width: 1.25rem;
-  height: 0.625rem;
-  border-radius: var(--radius-pill);
+  height: 0.5rem;
+  border-radius: 0;
 }
 
-.map-legend__key--done { background-color: var(--color-surface-inverse); }
-.map-legend__key--progress { border: 2px solid var(--color-surface-inverse); background-color: var(--color-surface); }
-.map-legend__key--not { border: 2px dashed var(--color-text-muted); }
+.map-legend__key--done { background-color: var(--color-ring-done); }
+.map-legend__key--progress { background-image: linear-gradient(90deg, var(--color-ring-progress-start), var(--color-ring-progress-end)); }
+.map-legend__key--not { background-color: var(--color-ring-track); }
 
 /* What is in the ring she tapped. */
 

@@ -227,6 +227,15 @@
   --color-tag-surface: var(--brand-green-200);
   --color-tag-text: var(--brand-dark-green);
 
+  /* The Progress Tracker rings. Done is a solid band; in progress fades along
+     the ring from the done colour to a pale end, so it reads as still
+     filling; not started is the pale track. On trial: navy to blue 200 (blue
+     300 is the fallback end); dark green to lime (green 200) may be tried. */
+  --color-ring-done: var(--brand-navy);
+  --color-ring-progress-start: var(--brand-navy);
+  --color-ring-progress-end: var(--brand-blue-200);
+  --color-ring-track: var(--brand-stone-200);
+
   /* Danger — the destructive action: deleting the account, removing a
      connection. The red end of the orange scale. White on it is 7.0:1, and
      the fill is 6.4:1 against stone, so it needs no edge. */
