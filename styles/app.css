@@ -13689,7 +13689,7 @@ dl.direction__plan {
   margin: 0;
 }
 
-.ol.rtl__stages {
+ol.rtl__stages {
   position: relative;
   display: flex;
   flex-direction: column;
