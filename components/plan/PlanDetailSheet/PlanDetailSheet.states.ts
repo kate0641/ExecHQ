@@ -20,7 +20,7 @@ export const planDetailSheetStates = defineComponentStates({
   status: "draft",
   flows: ["plan"],
   description:
-    "More about her plan and her direction, opened from Edit on the Plan: the plan and why she has it, the stages with the one she is in marked, and her direction in her own words. It edits nothing itself. Change my direction starts the onboarding questions again, with her answers kept, and she chooses her plan at the end.",
+    "More about her plan and her direction, opened from Edit on the Plan: the plan and why she has it, the stages with the one she is in marked, and her direction in her own words. It edits nothing itself. Change my direction starts the onboarding questions again, and she chooses her plan at the end.",
   component: PlanDetailSheet,
   notApplicable: {
     ...CONTROLS_INSIDE,

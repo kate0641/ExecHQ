@@ -2553,3 +2553,21 @@ export const SAMPLE_ANSWERS = {
     approved: ["sharpen", "story"],
   },
 } as const;
+
+/* -----------------------------------------------------------------------------
+   CHANGING HER DIRECTION, FROM THE PLAN (2026-10-06)
+   Edit on the Plan starts Concept 3 again at the direction, without the account,
+   the privacy promise, the signals, the story and the ending: she already has them.
+   She chooses her plan at the end, and the same one is a fine answer.
+   -------------------------------------------------------------------------- */
+export const EDIT_FLOW_COPY = {
+  part: "Changing your direction",
+  cancel: "Cancel",
+  /** On the direction page: what it says now, and keeping it. */
+  now: (direction: string) => `Right now it says: \u201c${direction}\u201d`,
+  keep: "Keep it as it is",
+  /** The last page of the flow. */
+  save: "Save my plan",
+  /** Where she lands. */
+  backTo: "/plan/concept-1",
+} as const;

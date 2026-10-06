@@ -28,7 +28,7 @@ export interface PlanDetailSheetProps {
  * More about her plan and her direction, with the way into changing it. It shows the plan
  * and why she has it, the stages with the one she is in marked, and her direction in her own
  * words. It never edits anything itself: "Change my direction" starts the onboarding questions
- * again, with her answers kept, and she chooses her plan at the end.
+ * again, and she chooses her plan at the end.
  */
 export function PlanDetailSheet({ open, onClose, planId, rationale, stage, direction, edited, editHref, inline }: PlanDetailSheetProps) {
   const template = PLAN_TEMPLATES.find((p) => p.id === planId);

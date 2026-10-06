@@ -289,7 +289,7 @@ export function usePlanPage() {
     <PlanHeader
       key={`plan-header-${loop.id}-${planId}`}
       planId={planId}
-      rationale={recommendPlan(start.account.direction).rationale ?? ""}
+      rationale={switchedTo ? RM.switchedOn(shortDate(choices?.startedOn ?? loop.today)) : (recommendPlan(start.account.direction).rationale ?? "")}
       stage={Math.max(0, windows.findIndex((w) => w.status === "current"))}
       direction={loop.account.direction}
       edited={loop.account.direction !== start.account.direction}

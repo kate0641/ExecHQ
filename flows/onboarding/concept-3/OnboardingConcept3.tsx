@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type ComponentProps } from "react";
-import { useRouter } from "next/navigation";
+import { Suspense, useEffect, useId, useRef, useState, type ComponentProps } from "react";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ChipGroup } from "@/components/form/ChipGroup";
 import { Input } from "@/components/form/Input";
 import { AnswerDrawer } from "@/components/onboarding/AnswerDrawer";
@@ -30,6 +31,9 @@ import {
   type OnboardingStep,
   type PositioningInputs,
 } from "@/flows/onboarding/shared";
+import { loopActions, useLoop } from "@/lib/loop-store";
+import { roadmapAfterEdit } from "@/lib/plan-edit";
+import { saveRoadmap, useRoadmapChoices } from "@/lib/plan-store";
 import { useStepNav } from "@/lib/step-nav";
 import { useViewport } from "@/lib/viewport-context";
 import {
@@ -40,6 +44,7 @@ import {
   isNarrowedDirection,
   DONE_C1,
   DRAFT_C1,
+  EDIT_FLOW_COPY,
   bioFor,
   goalFor,
   type BioLength,
@@ -177,9 +182,12 @@ interface DrawerControl {
 }
 
 /** What every page is handed about where it sits. */
-type Frame = Pick<ComponentProps<typeof GuidePage>, "headingId">;
+type Frame = Pick<ComponentProps<typeof GuidePage>, "headingId" | "part" | "file">;
 
 const STEP_NAV = PAGES.filter((page) => !page.offBar).map((page) => ({ id: page.id, label: page.label }));
+/** Changing her direction from the Plan: the direction, the recommendation, the questions and the plan. */
+const EDIT_PAGES: PageId[] = ["direction", "rec", "reflect-time", "t-0", "plan-week"];
+const EDIT_STEP_NAV = STEP_NAV.filter((entry) => EDIT_PAGES.includes(entry.id as PageId));
 const pageIndex = (id: PageId) => PAGES.findIndex((page) => page.id === id);
 /** The step bar entry a page falls under: itself, or the last one before it. */
 function barEntry(id: PageId): PageId {
@@ -197,14 +205,33 @@ const REFLECTION_PAGES: Partial<Record<PageId, string>> = {
   "reflect-story": "story",
 };
 
+/**
+ * Concept 3, or its edit mode: `?edit=1` (from Edit on the Plan) opens it on the direction and
+ * ends on the plan, saving what she chose. Everything in between is the same pages.
+ */
 export function OnboardingConcept3() {
+  return (
+    <Suspense fallback={null}>
+      <OnboardingEntry />
+    </Suspense>
+  );
+}
+
+function OnboardingEntry() {
+  const editing = useSearchParams().has("edit");
+  return <OnboardingGuide key={editing ? "edit" : "new"} edit={editing} />;
+}
+
+function OnboardingGuide({ edit }: { edit: boolean }) {
   const flow = useOnboardingFlow();
+  const loop = useLoop();
+  const roadmapChoices = useRoadmapChoices(loop.id);
   const { state, dispatch } = flow;
   const a = state.answers;
   const headingId = useId();
   const router = useRouter();
 
-  const [pageId, setPageId] = useState<PageId>("welcome");
+  const [pageId, setPageId] = useState<PageId>(edit ? "direction" : "welcome");
   const [reflections, setReflections] = useState<Record<string, string>>({});
   // The current page's answer drawer: open, folded to a peek, or answered.
   const [chosenMode, setMode] = useState<DrawerMode>("open");
@@ -272,7 +299,7 @@ export function OnboardingConcept3() {
     if (landedOnPassed) latestNext.current();
   }, [landedOnPassed, pageId]);
 
-  useStepNav(STEP_NAV, barEntry(pageId), (id) => {
+  useStepNav(edit ? EDIT_STEP_NAV : STEP_NAV, barEntry(pageId), (id) => {
     setReturnTo(null);
     const target = PAGES[pageIndex(id as PageId)];
     flow.jumpTo(target.step);
@@ -328,7 +355,24 @@ export function OnboardingConcept3() {
    *  pages by decision on 2026-09-24; what ExecHQ learned is shown once, as
    *  the summary on the last page. */
   function frame(): Frame {
-    return { headingId };
+    if (!edit) return { headingId };
+    return {
+      headingId,
+      part: EDIT_FLOW_COPY.part,
+      file: (
+        <Link href={EDIT_FLOW_COPY.backTo} className="link">
+          {EDIT_FLOW_COPY.cancel}
+        </Link>
+      ),
+    };
+  }
+
+  /** Saves what she chose and takes her back to her plan: her direction, and her plan if it is another. */
+  function finishEdit() {
+    loopActions.updateAccount({ direction: direction || loop.account.direction, towardShort: undefined });
+    const switched = plan ? roadmapAfterEdit(loop, roadmapChoices, plan.id) : null;
+    if (switched) saveRoadmap(loop.id, switched);
+    router.push(EDIT_FLOW_COPY.backTo);
   }
 
   switch (pageId) {
@@ -431,6 +475,7 @@ export function OnboardingConcept3() {
           also={alsoGoals}
           onAlso={setAlsoGoals}
           onDone={next}
+          current={edit ? loop.account.direction : undefined}
         />
       );
 
@@ -539,8 +584,8 @@ export function OnboardingConcept3() {
           kicker={c.kicker}
           title={part.title}
           lede={pageId === "plan-week" ? c.firstLede : part.helps}
-          primaryLabel={last ? c.continue : c.next}
-          onPrimary={next}
+          primaryLabel={last ? (edit ? EDIT_FLOW_COPY.save : c.continue) : c.next}
+          onPrimary={last && edit ? finishEdit : next}
         >
           {pageId === "plan-week" && heardRows.length ? (
             <section className="guide__heard-rows" aria-label={c.heardLabel}>
@@ -860,7 +905,8 @@ function DirectionPage({
   also,
   onAlso,
   onDone,
-}: PageProps & { also: string[]; onAlso: (goals: string[]) => void }) {
+  current,
+}: PageProps & { also: string[]; onAlso: (goals: string[]) => void; current?: string }) {
   const { state, dispatch } = flow;
   const c = GUIDE_C3.direction;
   const d = GUIDE_C3.drawer;
@@ -899,6 +945,28 @@ function DirectionPage({
       title={asking ? (several ? c.first : c.narrowTitle) : c.title}
       lede={asking ? (several ? c.firstLede : c.narrowLede) : c.lede}
       why={asking ? (several ? c.firstWhy : c.narrowWhy) : c.why}
+      // Changing it from the Plan: what it says now, and a way to keep it.
+      {...(current && !asking
+        ? {
+            children: (
+              <>
+                <p className="guide__next">{EDIT_FLOW_COPY.now(current)}</p>
+                <div>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => {
+                      dispatch({ type: "set-direction", direction: current, source: "free" });
+                      onDone();
+                    }}
+                  >
+                    {EDIT_FLOW_COPY.keep}
+                  </Button>
+                </div>
+              </>
+            ),
+          }
+        : {})}
       drawer={
         asking ? (
           <AnswerDrawer

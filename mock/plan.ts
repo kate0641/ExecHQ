@@ -962,7 +962,7 @@ export const PLAN_DETAIL_COPY = {
   youAreHere: "You are here",
   direction: "Your direction",
   edited: "Edited by you.",
-  how: "Changing your direction takes you through the questions again, with your answers kept. At the end you choose your plan, and you can keep this one. Everything you have done stays.",
+  how: "Changing your direction takes you through the questions again. At the end you choose your plan, and you can keep this one. Everything you have done stays.",
   change: "Change my direction",
   close: "Close",
 } as const;
