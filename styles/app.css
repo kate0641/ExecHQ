@@ -11664,6 +11664,18 @@ ul.login__never {
   flex-direction: column;
   gap: var(--space-3xs);
   margin: 0;
+  /* The greeting is its own navy section at the top of the page. */
+  padding: var(--space-lg) var(--space-feature-padding);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+}
+
+/* On the phone it runs the full width of the screen, from under the header. */
+[data-viewport="mobile"] .map-home__greeting {
+  margin: calc(-1 * var(--space-screen-top)) calc(-1 * var(--space-screen-side)) 0;
+  padding-inline: var(--space-screen-side);
+  border-radius: 0;
 }
 
 .map-home__greeting b {
@@ -11677,7 +11689,7 @@ ul.login__never {
 
 .map-home__greeting span {
   font-size: var(--text-sm);
-  color: var(--color-text-secondary);
+  color: var(--color-text-inverse-muted);
 }
 
 .map-home__section {
