@@ -3,13 +3,14 @@
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { AdvisorMark } from "@/components/chat/AdvisorMark";
 import { Input } from "@/components/form/Input";
 import { Sheet } from "@/components/layout/Sheet";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import type { LoopDate } from "@/lib/loop";
 import { timeChoices, whenWords } from "@/lib/time-words";
-import { PLAN_AGENDA_COPY as A, STEP_QUESTIONS, type ActionStep, type StepQuestion } from "@/mock/plan";
+import { PLAN_AGENDA_COPY as A, STEP_ANSWERS, STEP_QUESTIONS, type ActionStep, type StepQuestion } from "@/mock/plan";
 
 export interface AgendaStage {
   index: number;
@@ -287,31 +288,41 @@ function StepItem({
       </button>
       {open ? (
         <div className="agenda__reveal">
-          <fieldset className="agenda__chips">
-            <legend className="u-visually-hidden">{A.askLabel}</legend>
-            {STEP_QUESTIONS.map((q) => (
-              <button key={q.id} type="button" className="agenda__chip" onClick={() => onAsk(step, q.id)}>
-                {q.label}
-              </button>
-            ))}
-          </fieldset>
           {step.stubbed ? (
-            <Button variant="primary" size="sm" disabled>
+            <Button variant="primary" fullWidth disabled>
               {label}
             </Button>
           ) : tool ? (
-            <Link href={startHref} className="btn btn--primary btn--sm" onClick={() => !item.accepted && onAccept(step)}>
+            <Link href={startHref} className="btn btn--primary btn--md btn--full agenda__cta" onClick={() => !item.accepted && onAccept(step)}>
               {label}
             </Link>
           ) : item.accepted ? (
-            <Button variant="primary" size="sm" onClick={() => onComplete(step)}>
+            <Button variant="primary" fullWidth className="agenda__cta" onClick={() => onComplete(step)}>
               {A.doneIt}
             </Button>
           ) : (
-            <Button variant="primary" size="sm" onClick={() => onAccept(step)}>
+            <Button variant="primary" fullWidth className="agenda__cta" onClick={() => onAccept(step)}>
               {A.getStarted}
             </Button>
           )}
+          <div className="agenda__ask">
+            <p className="agenda__ask-label">
+              <AdvisorMark size={14} />
+              {A.askLabel}
+            </p>
+            <ul className="agenda__ask-list">
+              {STEP_QUESTIONS.map((q) => (
+                <li key={q.id}>
+                  <button type="button" className="agenda__ask-row" onClick={() => onAsk(step, q.id)}>
+                    <span className="agenda__ask-q">{q.label}</span>
+                    {q.id === "why" ? <span className="agenda__ask-t">{STEP_ANSWERS.teaseWhy(step)}</span> : null}
+                    {q.id === "take" ? <span className="agenda__ask-t">{STEP_ANSWERS.teaseTake(step)}</span> : null}
+                    <Icon name="chevron" size={16} className="agenda__ask-go" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       ) : null}
     </li>

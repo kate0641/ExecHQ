@@ -451,25 +451,20 @@ export function respond(
     case "step-question": {
       const step = stepById(action.stepId);
       if (!step) return respond({ kind: "miss", miss: "unclear", again: false }, ctx);
-      const answer =
+      const paragraphs =
         action.q === "why"
-          ? STEP_ANSWERS.why(step)
-          : action.q === "now"
-            ? STEP_ANSWERS.now(step)
-            : action.q === "you"
-              ? STEP_ANSWERS.you(step)
-              : action.q === "effort"
-                ? STEP_ANSWERS.effort(step)
-                : action.q === "done"
-                  ? STEP_ANSWERS.done(step)
-                  : STEP_ANSWERS.moves(signalById(step.area ?? "")?.name);
+          ? STEP_ANSWERS.why(step, signalById(step.area ?? "")?.name)
+          : action.q === "take"
+            ? STEP_ANSWERS.take(step)
+            : [STEP_ANSWERS.else(step.title)];
       return {
         turn: {
-          paragraphs: [answer],
+          paragraphs,
           replies: [
-            ...STEP_QUESTIONS.filter((q) => q.id !== action.q)
-              .slice(0, 3)
-              .map((q) => ({ label: q.label, action: { kind: "step-question", stepId: action.stepId, q: q.id } as ConciergeAction })),
+            ...STEP_QUESTIONS.filter((q) => q.id !== action.q && q.id !== "else").map((q) => ({
+              label: q.label,
+              action: { kind: "step-question", stepId: action.stepId, q: q.id } as ConciergeAction,
+            })),
             { label: C.openPlan, action: { kind: "go", flow: "plan" } },
           ],
         },

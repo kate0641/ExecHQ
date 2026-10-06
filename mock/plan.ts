@@ -1028,27 +1028,32 @@ export const TIMELINE_COPY = {
    used to carry is a question she can ask, and the advisor answers it in the
    chat from the same fields. Asking never changes the step.
    -------------------------------------------------------------------------- */
-export type StepQuestion = "why" | "now" | "you" | "effort" | "done" | "moves";
+export type StepQuestion = "why" | "take" | "else";
 
+/** Three ways in: why it is here, what it takes, and anything else. Each opens the chat. */
 export const STEP_QUESTIONS: { id: StepQuestion; label: string }[] = [
   { id: "why", label: "Why this step?" },
-  { id: "now", label: "Why now?" },
-  { id: "you", label: "Why me?" },
-  { id: "effort", label: "How long will it take?" },
-  { id: "done", label: "What counts as done?" },
-  { id: "moves", label: "What does it move?" },
+  { id: "take", label: "What will it take?" },
+  { id: "else", label: "Ask something else" },
 ];
 
 const lower = (text: string) => text.charAt(0).toLowerCase() + text.slice(1).replace(/\.$/, "");
+const upper = (text: string) => text.charAt(0).toUpperCase() + text.slice(1).replace(/\.$/, "");
 
 export const STEP_ANSWERS = {
-  why: (step: { whyThis: string }) => step.whyThis,
-  now: (step: { whyNow: string }) => step.whyNow,
-  you: (step: { whyYou: string }) => step.whyYou,
-  effort: (step: { effortText: string }) => `Plan on ${lower(step.effortText)}.`,
-  done: (step: { done: string }) => `It counts as done when ${lower(step.done)}.`,
-  moves: (area?: string) => (area ? `It moves “${area}”.` : "It is not tied to one of your signals, so it moves your plan as a whole."),
-  go: "Open it whenever you’re ready.",
+  /** Why this, why now, why her, and what it moves: one answer. */
+  why: (step: { whyThis: string; whyNow: string; whyYou: string }, area?: string) => [
+    step.whyThis,
+    step.whyNow,
+    step.whyYou,
+    area ? `It moves “${area}”.` : "It is not tied to one of your signals, so it moves your plan as a whole.",
+  ],
+  /** How long it will take, and what counts as done: one answer. */
+  take: (step: { effortText: string; done: string }) => [`Plan on ${lower(step.effortText)}.`, `It counts as done when ${lower(step.done)}.`],
+  else: (title: string) => `What would you like to know about “${title}”?`,
+  /** The first line of an answer, shown on the step before she asks. */
+  teaseWhy: (step: { whyLine?: string; whyNow: string }) => step.whyLine ?? step.whyNow,
+  teaseTake: (step: { effortText: string; done: string }) => `${upper(step.effortText)}. Done when ${lower(step.done)}.`,
 } as const;
 
 /* -----------------------------------------------------------------------------
@@ -1062,7 +1067,7 @@ export const PLAN_AGENDA_COPY = {
   finishing: "Finishing looks like",
   yours: "Yours",
   done: "Done",
-  askLabel: "Ask about this step",
+  askLabel: "Ask ExecHQ",
   getStarted: "Get started",
   doneIt: "I’ve done this",
   addLabel: "Add to your plan",
