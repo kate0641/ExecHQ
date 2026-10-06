@@ -13959,6 +13959,45 @@ ol.rtl__rail::before {
   gap: var(--space-sm);
 }
 
+/* Any other stage opens in place, to the same card. The whole row is the button. */
+.rtl__peek > summary {
+  list-style: none;
+  cursor: pointer;
+  align-items: center;
+  min-height: 2rem;
+}
+
+.rtl__peek > summary::-webkit-details-marker {
+  display: none;
+}
+
+.rtl__peek > summary:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.rtl__peek > summary .rtl__line-name {
+  flex: 1;
+}
+
+.rtl__peek-mark {
+  flex: none;
+  color: var(--color-text-secondary);
+  transform: rotate(90deg);
+}
+
+.rtl__peek[open] .rtl__peek-mark {
+  transform: rotate(-90deg);
+}
+
+.rtl__peek-card {
+  margin-top: var(--space-xs);
+}
+
+.rtl__point .rtl__now.rtl__peek-card .rtl__name {
+  color: var(--color-text-primary);
+}
+
 .rtl__point.is-done .rtl__name {
   color: var(--color-text-secondary);
 }

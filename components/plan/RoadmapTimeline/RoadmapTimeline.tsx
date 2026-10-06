@@ -40,6 +40,8 @@ export interface RoadmapTimelineProps {
   sparks?: TimelineSparks;
   /** She wants to add something to a stage, on a day inside it. */
   onAdd?: (date: LoopDate) => void;
+  /** Catalogue only: stages, by index, that open to their card. */
+  demoOpen?: number[];
   headingId?: string;
   className?: string;
 }
@@ -71,6 +73,7 @@ export function RoadmapTimeline({
   steps = [],
   sparks = NO_SPARKS,
   onAdd,
+  demoOpen,
   headingId = "roadmap-timeline",
   className,
 }: RoadmapTimelineProps) {
@@ -198,13 +201,43 @@ export function RoadmapTimeline({
                     {actionsFor(w)}
                   </div>
                 ) : (
-                  <div className="rtl__row-head">
-                    <span className="rtl__line-name">
-                      <span className="rtl__name">{w.title}</span>
-                      {w.status === "recommended" ? <span className="rtl__pill">{A.states.recommended}</span> : null}
-                    </span>
-                    <span className="rtl__when">{w.status === "done" ? A.states.done : whenWords(w.end, today)}</span>
-                  </div>
+                  // Any other stage opens in place to the same card, so she can read it without moving on to it.
+                  <details className="rtl__peek" open={demoOpen?.includes(w.index) || undefined}>
+                    <summary className="rtl__row-head">
+                      <span className="rtl__line-name">
+                        <span className="rtl__name">{w.title}</span>
+                        {w.status === "recommended" ? <span className="rtl__pill">{A.states.recommended}</span> : null}
+                      </span>
+                      <span className="rtl__when">{w.status === "done" ? A.states.done : whenWords(w.end, today)}</span>
+                      <Icon name="chevron" size={14} className="rtl__peek-mark" />
+                    </summary>
+                    <div className="rtl__now rtl__now--next rtl__peek-card">
+                      <div className="rtl__now-head">
+                        <p className="rtl__eyebrow">
+                          {A.stageOf(w.index + 1, windows.length)}
+                          {w.status === "done" ? ` · ${A.states.done}` : ""}
+                        </p>
+                        <h3 className="rtl__name">{w.title}</h3>
+                        {w.status === "done" ? null : (
+                          <p className="rtl__small">
+                            {A.suggested(whenWords(w.end, today))} · {A.about(w.weeks)}
+                          </p>
+                        )}
+                      </div>
+                      <p className="rtl__finishing">
+                        <b>{A.finishing}</b> {stages[w.index].milestone}
+                      </p>
+                      <p className="rtl__finishing">
+                        <b>{A.outcomes}</b>
+                      </p>
+                      <ul className="roadmap__outcomes">
+                        {stages[w.index].outcomes.map((o) => (
+                          <li key={o}>{o}</li>
+                        ))}
+                      </ul>
+                      <StageEntries w={w} items={entries(w)} today={today} onAdd={onAdd} />
+                    </div>
+                  </details>
                 )}
               </li>
               <SparkPoints sparks={stageSparks(w)} />

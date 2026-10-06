@@ -131,6 +131,21 @@ export const roadmapTimelineStates = defineComponentStates({
         headingId: "rt-steps",
       },
     },
+    {
+      label: "Another stage opened: a later stage read in place",
+      description: "Any stage that is not the one she is on opens to its card when tapped, so she can read it without moving on to it.",
+      props: { ...base, demoOpen: [2], headingId: "rt-peek" },
+    },
+    {
+      label: "A finished stage opened",
+      props: {
+        ...base,
+        choices: { ...choices, confirmed: 1, finishedOn: { 0: "2026-10-20" }, recommended: null },
+        onChoices: noop,
+        demoOpen: [0],
+        headingId: "rt-peek-done",
+      },
+    },
     { label: "Empty — nothing on her calendar", props: { ...base, items: [], headingId: "rt-empty" } },
     {
       label: "After a direction change: the first draft stays above, with a spark where it changed",
