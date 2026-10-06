@@ -123,7 +123,7 @@ export const prototypeConfig: PrototypeConfig = {
       chrome: "app",
       description:
         "How the signed-in app is structured and moved through on web, tablet and mobile. Each concept is reviewed on the homepage.",
-      navCanvas: { flowSlug: "homepage", conceptSlug: "concept-1" },
+      navCanvas: { flowSlug: "homepage", conceptSlug: "concept-4" },
       concepts: [
         {
           slug: "concept-1",
@@ -144,29 +144,11 @@ export const prototypeConfig: PrototypeConfig = {
         "The signed-in landing surface: current direction, what to do next, and the way into the Plan, Toolbox and Briefing.",
       concepts: [
         {
-          slug: "concept-1",
-          title: "Concept 1 — Rings",
-          summary:
-            "Task forward: three rings for the actions Maya has accepted, and the one action that fills the next segment.",
-        },
-        {
-          slug: "concept-2",
-          title: "Concept 2 — Stay on track",
-          summary:
-            "Day forward: today’s Briefing, then Maya’s next step, then everything waiting on her word, then what her LinkedIn and website say.",
-        },
-        {
-          slug: "concept-3",
-          title: "Concept 3 — Plan",
-          summary:
-            "Plan forward: the roadmap as a table of contents, the current stage opened up with what it asks now, and the next step.",
-        },
-        {
           slug: "concept-4",
           title: "Concept 4 — Combined",
           status: "approved",
           summary:
-            "The three together: a map of three rings with the next step under it, Stay on track, today’s Briefing, and Your Signal Picture.",
+            "A map of three rings with the next step under it, Stay on track, today’s Briefing, and Your Signal Picture.",
         },
       ],
     },

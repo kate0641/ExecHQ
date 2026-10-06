@@ -67,10 +67,8 @@ import { loopTrackStates } from "./loop/LoopTrack/LoopTrack.states";
 import { nextStepCardStates } from "./homepage/NextStepCard/NextStepCard.states";
 import { briefingEntryStates } from "./homepage/BriefingEntry/BriefingEntry.states";
 import { entryLinkStates } from "./homepage/EntryLink/EntryLink.states";
-import { briefingCardStates } from "./homepage/BriefingCard/BriefingCard.states";
 import { briefingEditorialStates } from "./homepage/BriefingEditorial/BriefingEditorial.states";
 import { accountCardStates } from "./homepage/AccountCard/AccountCard.states";
-import { addPresenceSheetStates } from "./homepage/AddPresenceSheet/AddPresenceSheet.states";
 import { updateNowSheetStates } from "./homepage/UpdateNowSheet/UpdateNowSheet.states";
 import { sparkStates } from "./homepage/Spark/Spark.states";
 import { baselineListStates } from "./homepage/BaselineList/BaselineList.states";
@@ -79,11 +77,8 @@ import { trendLineStates } from "./homepage/TrendLine/TrendLine.states";
 import { loopRowStates } from "./homepage/LoopRow/LoopRow.states";
 import { checkInStates } from "./loop/CheckIn/CheckIn.states";
 import { recentWorkStates } from "./homepage/RecentWork/RecentWork.states";
-import { ringsHeroStates } from "./homepage/RingsHero/RingsHero.states";
 import { ringDetailStates } from "./homepage/RingDetail/RingDetail.states";
 import { signalActivityStates } from "./homepage/SignalActivity/SignalActivity.states";
-import { stageTrackStates } from "./homepage/StageTrack/StageTrack.states";
-import { stageActionsStates } from "./homepage/StageActions/StageActions.states";
 import { monogramStates } from "./primitives/Monogram/Monogram.states";
 import { switchStates } from "./form/Switch/Switch.states";
 import { profileHeaderStates } from "./profile/ProfileHeader/ProfileHeader.states";
@@ -177,23 +172,18 @@ export const registry: RegisteredComponent[] = [
   baselineFormStates,
   mapPanelStates,
   actionSheetStates,
-  briefingCardStates,
   briefingEditorialStates,
   accountCardStates,
   presenceCardStates,
   baselineListStates,
   sparkStates,
-  addPresenceSheetStates,
   updateNowSheetStates,
   trendLineStates,
   loopRowStates,
   checkInStates,
   recentWorkStates,
-  ringsHeroStates,
   ringDetailStates,
   signalActivityStates,
-  stageTrackStates,
-  stageActionsStates,
   monogramStates,
   switchStates,
   profileHeaderStates,
