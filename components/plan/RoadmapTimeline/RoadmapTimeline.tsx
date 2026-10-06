@@ -201,7 +201,8 @@ export function RoadmapTimeline({
                     {actionsFor(w)}
                   </div>
                 ) : (
-                  // Any other stage opens in place to the same card, so she can read it without moving on to it.
+                  // Any other stage opens in place: the card grows around its own title, so she can read it
+                  // without moving on to it.
                   <details className="rtl__peek" open={demoOpen?.includes(w.index) || undefined}>
                     <summary className="rtl__row-head">
                       <span className="rtl__line-name">
@@ -209,21 +210,12 @@ export function RoadmapTimeline({
                         {w.status === "recommended" ? <span className="rtl__pill">{A.states.recommended}</span> : null}
                       </span>
                       <span className="rtl__when">{w.status === "done" ? A.states.done : whenWords(w.end, today)}</span>
-                      <Icon name="chevron" size={14} className="rtl__peek-mark" />
                     </summary>
-                    <div className="rtl__now rtl__now--next rtl__peek-card">
-                      <div className="rtl__now-head">
-                        <p className="rtl__eyebrow">
-                          {A.stageOf(w.index + 1, windows.length)}
-                          {w.status === "done" ? ` · ${A.states.done}` : ""}
-                        </p>
-                        <h3 className="rtl__name">{w.title}</h3>
-                        {w.status === "done" ? null : (
-                          <p className="rtl__small">
-                            {A.suggested(whenWords(w.end, today))} · {A.about(w.weeks)}
-                          </p>
-                        )}
-                      </div>
+                    <div className="rtl__peek-body">
+                      <p className="rtl__small">
+                        {A.stageOf(w.index + 1, windows.length)}
+                        {w.status === "done" ? "" : ` · ${A.suggested(whenWords(w.end, today))} · ${A.about(w.weeks)}`}
+                      </p>
                       <p className="rtl__finishing">
                         <b>{A.finishing}</b> {stages[w.index].milestone}
                       </p>

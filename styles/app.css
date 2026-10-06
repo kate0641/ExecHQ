@@ -13959,7 +13959,7 @@ ol.rtl__rail::before {
   gap: var(--space-sm);
 }
 
-/* Any other stage opens in place, to the same card. The whole row is the button. */
+/* Any other stage opens in place: the whole row is the button, and the card grows around its title. */
 .rtl__peek > summary {
   list-style: none;
   cursor: pointer;
@@ -13980,22 +13980,33 @@ ol.rtl__rail::before {
   flex: 1;
 }
 
-.rtl__peek-mark {
-  flex: none;
-  color: var(--color-text-secondary);
-  transform: rotate(90deg);
+.rtl__peek[open] {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border: var(--border-width-medium) solid var(--color-text-primary);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
 }
 
-.rtl__peek[open] .rtl__peek-mark {
-  transform: rotate(-90deg);
+.rtl__peek[open] > summary .rtl__name {
+  font-size: var(--text-lg);
 }
 
-.rtl__peek-card {
-  margin-top: var(--space-xs);
+.rtl__peek-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
 }
 
-.rtl__point .rtl__now.rtl__peek-card .rtl__name {
+.rtl__point .rtl__peek[open] .rtl__name {
   color: var(--color-text-primary);
+}
+
+/* The node drops to sit beside the title inside the card. */
+.rtl__point:has(.rtl__peek[open])::before {
+  inset-block-start: var(--space-md);
 }
 
 .rtl__point.is-done .rtl__name {
