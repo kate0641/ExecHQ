@@ -17,6 +17,8 @@
  * - Replacement is capped: one per horizon per visit. After that the slot
  *   stays empty and says so, so repeated declines cannot become a conveyor belt.
  * - Declining and deferring are never counted against her anywhere.
+ * - A step that recurs (the weekly reflection) is eligible again seven days
+ *   after she last did it, and nothing counts the weeks she did not.
  * - How many she takes on is hers to say (capacity: three, four or five), and
  *   "hold my workload" means nothing new is offered. Neither is ever counted
  *   against her, and lowering it sets steps aside, not away.
@@ -254,6 +256,8 @@ function eligible(state: PlanState, step: ActionStep): boolean {
   if (step.channel && state.avoidChannels.includes(step.channel)) return false;
   const d = state.decisions[step.id];
   if (!d) return true;
+  // A weekly step comes round again once a week after she last did it, and is never a miss.
+  if (step.recurs === "weekly" && d.decision === "completed") return addDays(d.on, 7) <= state.today;
   const returns = d.decision === "deferred" || (d.decision === "declined" && d.returnsOn !== undefined);
   return returns && d.returnsOn !== undefined && d.returnsOn <= state.today && !d.resurfaced;
 }
@@ -351,10 +355,12 @@ export function applyCapacity(
   const setAside: ActionStep[] = [];
   // Set aside the ones she has not accepted first, then the last in order.
   if (next.shown.length > limit) {
+    // Not-yet-accepted first, then the short horizon before the milestones, then the last in order.
+    const rank = (id: string) => ["short", "medium", "long"].indexOf(stepById(id)?.horizon ?? "short");
     const order = [...next.shown].sort((a, b) => {
       const acceptedA = next.decisions[a]?.decision === "accepted" ? 1 : 0;
       const acceptedB = next.decisions[b]?.decision === "accepted" ? 1 : 0;
-      return acceptedA - acceptedB || next.shown.indexOf(b) - next.shown.indexOf(a);
+      return acceptedA - acceptedB || rank(a) - rank(b) || next.shown.indexOf(b) - next.shown.indexOf(a);
     });
     const leaving = order.slice(0, next.shown.length - limit);
     const decisions = { ...next.decisions };

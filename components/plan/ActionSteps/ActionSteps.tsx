@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { CardCarousel, type CarouselItem } from "@/components/layout/CardCarousel";
 import { ActionStepCard } from "@/components/plan/ActionStepCard";
+import { QuestionSheet } from "@/components/plan/QuestionSheet";
+import { ReflectionSheet, type ReflectionValues } from "@/components/plan/ReflectionSheet";
 import {
   accept,
   applyCapacity,
@@ -22,7 +24,7 @@ import {
   type PlanState,
 } from "@/lib/action-steps";
 import type { LoopDate } from "@/lib/loop";
-import { CAPACITY_COPY, LIVE_LIMITS, PLAN_COPY, STEP_COPY as C, capacityStepsOf, stepById, type ActionStep, type CapacityLevel } from "@/mock/plan";
+import { ANSWER_COPY, CAPACITY_COPY, LIVE_LIMITS, PLAN_COPY, STEP_COPY as C, capacityStepsOf, stepById, type ActionStep, type CapacityLevel } from "@/mock/plan";
 import { HORIZONS, type Horizon } from "@/mock/plan-stub";
 
 interface Note {
@@ -50,6 +52,12 @@ export interface ActionStepsProps {
   answered?: { recordId: string; reported?: string };
   /** She marked a step done on her word; the Loop is told. */
   onComplete?: (step: ActionStep) => void;
+  /** What she did this week, in words, for the weekly reflection to choose from. */
+  things?: readonly string[];
+  /** She answered a question step: file it. The step is finished and the next is offered. */
+  onQuestion?: (step: ActionStep, answer: string) => void;
+  /** She wrote this week's reflection: file it. */
+  onReflection?: (step: ActionStep, values: ReflectionValues) => void;
   /** Told whenever the steps on her Plan change, so the Calendar shows the same ones. */
   onState?: (state: PlanState) => void;
   /** `list` is a column of cards by horizon (Concepts 2 and 3). `carousel` is one swiping row of compact
@@ -87,6 +95,9 @@ export function ActionSteps({
   persist,
   onState,
   capacity,
+  things = [],
+  onQuestion,
+  onReflection,
   layout = "list",
   demoPanel,
   demoEmpty,
@@ -103,6 +114,7 @@ export function ActionSteps({
   const [empties, setEmpties] = useState<Partial<Record<Horizon, EmptyReason>>>(persist?.saved?.empties ?? demoEmpty ?? {});
 
   const [capacityNote, setCapacityNote] = useState("");
+  const [answering, setAnswering] = useState<string | null>(null);
   const capKey = capacity ? `${capacity.level}:${capacity.hold}` : "";
   const [capSeen, setCapSeen] = useState(capKey);
   if (capKey !== capSeen) {
@@ -179,6 +191,7 @@ export function ActionSteps({
 
   function apply(move: Move, from: ActionStep, said: string) {
     setState(move.state);
+    setCapacityNote("");
     const r = move.replacement;
     if (r && "step" in r) {
       setNotes((n) => ({ ...n, [r.step.id]: { heard: r.heard, offerRecord: r.offerRecord } }));
@@ -218,6 +231,14 @@ export function ActionSteps({
         onDecline={(reason, note) => apply(decline(state, step.id, reason, note), step, C.announce.declined(step.title))}
         onDefer={(on, note) => apply(defer(state, step.id, on, note), step, C.announce.deferred(step.title))}
         onEdit={(change) => setState((s) => editStep(s, step.id, change))}
+        onAnswer={
+          step.answer
+            ? () => {
+                setState((s) => accept(s, step.id));
+                setAnswering(step.id);
+              }
+            : undefined
+        }
         onComplete={() => {
           onComplete?.(step);
           apply(complete(state, step.id), step, C.announce.completed(step.title));
@@ -226,6 +247,40 @@ export function ActionSteps({
       />
     );
   }
+
+  const answeringStep = answering ? stepById(answering) : undefined;
+  const sheets = answeringStep ? (
+    answeringStep.answer === "question" && answeringStep.question ? (
+      <QuestionSheet
+        key={answeringStep.id}
+        open
+        onClose={() => setAnswering(null)}
+        prompt={answeringStep.question.prompt}
+        options={answeringStep.question.options}
+        onSave={(answer) => {
+          const step = answeringStep;
+          onQuestion?.(step, answer);
+          setAnswering(null);
+          apply(complete(state, step.id), step, C.announce.completed(step.title));
+          setCapacityNote(answer === ANSWER_COPY.question.notSureAnswer ? ANSWER_COPY.question.notSure : ANSWER_COPY.question.told(answer));
+        }}
+      />
+    ) : answeringStep.answer === "reflection" ? (
+      <ReflectionSheet
+        key={answeringStep.id}
+        open
+        onClose={() => setAnswering(null)}
+        things={things}
+        onSave={(values) => {
+          const step = answeringStep;
+          onReflection?.(step, values);
+          setAnswering(null);
+          apply(complete(state, step.id), step, C.announce.completed(step.title));
+          setCapacityNote(ANSWER_COPY.reflection.saved);
+        }}
+      />
+    ) : null
+  ) : null;
 
   if (layout === "carousel") {
     // One row, in order: short-term, then medium, then the long-term milestone. A free place is not drawn.
@@ -273,6 +328,7 @@ export function ActionSteps({
           goTo={goTo}
           onCurrent={(id) => setHere(horizonOf(id))}
         />
+        {sheets}
       </section>
     );
   }
@@ -322,6 +378,7 @@ export function ActionSteps({
           </section>
         );
       })}
+      {sheets}
     </section>
   );
 }

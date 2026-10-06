@@ -37,6 +37,7 @@ export function PlanConcept4() {
           {p.momentumOf("dial")}
           {p.pictureOf("path")}
           {p.pictureOf("cameof")}
+          {p.toldUs}
           {p.startedPlain}
         </>
       }

@@ -22,12 +22,13 @@ import { RoadmapTimeline } from "@/components/plan/RoadmapTimeline";
 import { CalendarItemSheet, type ItemValues } from "@/components/plan/CalendarItemSheet";
 import { PlanCalendar } from "@/components/plan/PlanCalendar";
 import { CapacityControl } from "@/components/plan/CapacityControl";
+import { ToldUs } from "@/components/plan/ToldUs";
 import { PlanSignalPicture, type SignalPictureVariant } from "@/components/plan/PlanSignalPicture";
 import { SignalEntrySheet, type EntryValues } from "@/components/plan/SignalEntrySheet";
 import { accept, complete, decline, edit as editStep, initialPlanState, liveSteps, stepDay, type PlanState } from "@/lib/action-steps";
 import { askConcierge } from "@/flows/navigation/concept-1/ConciergeConcept";
 import { setAgendaLayout, useAgendaLayout } from "@/lib/agenda-choice";
-import { shortDate } from "@/lib/loop";
+import { addDays, shortDate } from "@/lib/loop";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { momentumEvents } from "@/lib/momentum";
@@ -39,6 +40,7 @@ import { saveCalendar, saveRoadmap, saveSteps, useCalendar, useRoadmapChoices, u
 import { addedSummary, hasBaseline, presenceCounts, signalRows, withAdded } from "@/lib/presence";
 import { addPresence, removePresence, saveBaseline, saveCurrent, updatePresence, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
 import { currentStageIndex, isDone as isActionDone } from "@/lib/rings";
+import { answerEvents, saveQuestionAnswer, saveReflection, useAnswers } from "@/lib/answers-store";
 import { setCapacity, useCapacity } from "@/lib/capacity-store";
 import { addedItems, historyDays, offerFor, recordedItems, type PictureItem } from "@/lib/signal-picture";
 import { ACTIVITY_OF_CHANNEL, ACTIVITY_TYPES } from "@/mock/plan";
@@ -74,6 +76,7 @@ export function usePlanPage() {
   const agendaLayout = useAgendaLayout();
   const addedPresence = useAddedPresence();
   const capacity = useCapacity();
+  const answers = useAnswers();
   const baseline = useBaseline();
   const current = useCurrent();
   // The LinkedIn export she may add under her starting numbers. In the prototype only its name is kept, and "reading" is a timer.
@@ -150,7 +153,7 @@ export function usePlanPage() {
   const stepState = (liveState?.key === stepsKey ? liveState.state : undefined) ?? savedSteps?.state ?? (switchedTo ? { ...initialPlanState(loop.today), shown: [], decisions: {} } : initialPlanState(loop.today));
   const live = liveSteps(stepState).filter((s) => !isActionDone(s, loop.records, loop.tasks));
   const narrative = buildNarrative({
-    events: momentumEvents(loop.records, loop.tasks),
+    events: [...momentumEvents(loop.records, loop.tasks), ...answerEvents(answers)],
     items: pictureItems,
     history,
     today: loop.today,
@@ -158,11 +161,22 @@ export function usePlanPage() {
     accepted: (step) => stepState.decisions[step.id]?.decision === "accepted",
   });
 
+  // What she did in the last seven days, to choose from in the weekly reflection.
+  const weekThings = pictureItems
+    .filter((i) => !i.quote && i.on > addDays(loop.today, -7) && i.on <= loop.today)
+    .sort((a, b) => (a.on < b.on ? 1 : a.on > b.on ? -1 : 0))
+    .slice(0, 6)
+    .map((i) => `${["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][new Date(`${i.on}T00:00:00`).getDay()]} · ${i.text}`);
   const stepsFor = (layout: "list" | "carousel", withCapacity = false) => (
     <ActionSteps
       key={`steps-${layout}-${stepsKey}`}
       layout={layout}
       capacity={withCapacity ? capacity : undefined}
+      things={weekThings}
+      onQuestion={(step, answer) =>
+        step.question && saveQuestionAnswer({ stepId: step.id, label: step.question.label, answer, on: loop.today })
+      }
+      onReflection={(_step, values) => saveReflection({ on: loop.today, ...values })}
       today={loop.today}
       initial={switchedTo ? { ...initialPlanState(loop.today), shown: [], decisions: {} } : undefined}
       startHref={conceptHref("toolbox-flow", "concept-1")}
@@ -233,7 +247,7 @@ export function usePlanPage() {
     startedOn: loop.account.plan.startedOn,
     today: loop.today,
     steps: stepState,
-    events: momentumEvents(loop.records, loop.tasks),
+    events: [...momentumEvents(loop.records, loop.tasks), ...answerEvents(answers)],
     added: pictureItems.filter((i) => i.source === "added").map((i) => ({ id: i.id, text: i.text, on: i.on })),
   });
   const timeline = (
@@ -471,6 +485,7 @@ export function usePlanPage() {
     <PlanMomentum
       key={`momentum-${loop.id}-${variant}`}
       variant={variant}
+      extra={answerEvents(answers)}
       records={loop.records}
       tasks={loop.tasks}
       today={loop.today}
@@ -522,6 +537,9 @@ export function usePlanPage() {
       variant={variant}
       startedOn={loop.account.plan.startedOn}
       nextStep={pathStep}
+      extraCame={answers.reflections.flatMap((r, i) =>
+        r.linkText && r.came ? [{ id: `reflection:${r.on}:${i}`, did: r.linkText.replace(/^[A-Za-z]{3} · /, ""), on: r.on, came: r.came }] : []
+      )}
       {...(variant === "map" ? mapProps() : {})}
       items={pictureItems}
       today={loop.today}
@@ -594,6 +612,7 @@ export function usePlanPage() {
     </section>
   );
 
+  const toldUs = <ToldUs rows={answers.questions.map((q) => ({ label: q.label, answer: q.answer }))} />;
   const started = startedOf(true);
   const startedPlain = startedOf(false);
 
@@ -615,7 +634,7 @@ export function usePlanPage() {
     />
   );
 
-  return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, agenda, guided, calendar, note, narrative: narrativeNode, momentum, momentumOf, pictureOf, started, startedPlain, capacityControl, stepsWithCapacity, hasStarted: hasBaseline(baseline, seeded), sparkNode, sheet: (
+  return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, agenda, guided, calendar, note, narrative: narrativeNode, momentum, momentumOf, pictureOf, toldUs, started, startedPlain, capacityControl, stepsWithCapacity, hasStarted: hasBaseline(baseline, seeded), sparkNode, sheet: (
       <>
         {sheet}
         {calendarSheet}

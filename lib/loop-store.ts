@@ -19,6 +19,7 @@
 
 import { useMemo, useSyncExternalStore } from "react";
 import { reopenBriefing, useBriefingEverClosed } from "@/lib/briefing-dismissal";
+import { resetAnswers } from "@/lib/answers-store";
 import { resetCapacity } from "@/lib/capacity-store";
 import { resetPresence, useAddedPresence, useBaseline } from "@/lib/presence-store";
 import { reopenSparks, useDismissedSparks } from "@/lib/spark-dismissal";
@@ -192,6 +193,7 @@ export function resetLoop(): void {
   resetPresence();
   resetRoadmap();
   resetCapacity();
+  resetAnswers();
 }
 
 /** The next step offered once this record's outcome is logged. Stubbed. */

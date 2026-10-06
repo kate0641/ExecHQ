@@ -51,6 +51,8 @@ export interface PlanSignalPictureProps {
   before?: Partial<Record<ActivityType, number>>;
   tryThis?: { title: string; why: string; label: string; href: string };
   tryLabel?: string;
+  /** The cameof variant: what she said came of things in her weekly reflections, joined to the rows. */
+  extraCame?: CameOfRow[];
   /** Catalogue only: a row opens asking whether to delete. */
   demoDelete?: boolean;
   /** Catalogue only: the next step's reason is open. */
@@ -84,6 +86,7 @@ export function PlanSignalPicture({
   before,
   tryThis,
   tryLabel,
+  extraCame,
   demoDelete,
   demoWhy,
   headingId = "plan-signal-picture",
@@ -117,6 +120,7 @@ export function PlanSignalPicture({
         items={items}
         today={today}
         startedOn={startedOn ?? today}
+        extra={extraCame}
         onEdit={onEdit}
         onDelete={onDelete}
         demoDelete={demoDelete}
@@ -492,6 +496,7 @@ function CameOf({
   items,
   today,
   startedOn,
+  extra = [],
   onEdit,
   onDelete,
   demoDelete,
@@ -501,6 +506,7 @@ function CameOf({
   items: PictureItem[];
   today: LoopDate;
   startedOn: LoopDate;
+  extra?: CameOfRow[];
   onEdit: PlanSignalPictureProps["onEdit"];
   onDelete: PlanSignalPictureProps["onDelete"];
   demoDelete?: boolean;
@@ -509,7 +515,7 @@ function CameOf({
 }) {
   const G = C.cameOf;
   const [all, setAll] = useState(false);
-  const rows = cameOfRows(items, startedOn, today);
+  const rows = [...cameOfRows(items, startedOn, today), ...extra].sort((a, b) => (a.on < b.on ? 1 : a.on > b.on ? -1 : 0));
   const shown = all ? rows : rows.slice(0, 5);
   return (
     <section className={["came-of", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>

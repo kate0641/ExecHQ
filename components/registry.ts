@@ -15,6 +15,9 @@ import { mapPanelStates } from "./homepage/MapPanel/MapPanel.states";
 import { actionSheetStates } from "./homepage/ActionSheet/ActionSheet.states";
 import { cardCarouselStates } from "./layout/CardCarousel/CardCarousel.states";
 import { stepperStates } from "./form/Stepper/Stepper.states";
+import { questionSheetStates } from "./plan/QuestionSheet/QuestionSheet.states";
+import { reflectionSheetStates } from "./plan/ReflectionSheet/ReflectionSheet.states";
+import { toldUsStates } from "./plan/ToldUs/ToldUs.states";
 import { capacityControlStates } from "./plan/CapacityControl/CapacityControl.states";
 import { baselineFormStates } from "./homepage/BaselineForm/BaselineForm.states";
 import { linkedInMoreStates } from "./homepage/LinkedInMore/LinkedInMore.states";
@@ -172,6 +175,9 @@ export const registry: RegisteredComponent[] = [
   stepperStates,
   baselineFormStates,
   capacityControlStates,
+  questionSheetStates,
+  reflectionSheetStates,
+  toldUsStates,
   linkedInMoreStates,
   mapPanelStates,
   actionSheetStates,

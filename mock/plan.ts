@@ -146,6 +146,12 @@ export interface ActionStep extends LandscapeAction {
   toolboxTool?: string;
   /** Needs a later sprint to be real. */
   stubbed?: boolean;
+  /** How it is finished: by answering a question or writing a reflection, in a sheet, not the Toolbox. */
+  answer?: "question" | "reflection";
+  /** For a question step: what it asks, what the answer is filed under, and the answers on offer. */
+  question?: { prompt: string; label: string; options: readonly string[] };
+  /** It comes round again, at most once in this time, and is never shown as missed. */
+  recurs?: "weekly";
 }
 
 /** What each step leaves her with. */
@@ -167,6 +173,10 @@ const OUTCOMES: Record<string, string> = {
   "pitch-podcast": "A pitch to a podcast the people above you follow, sent.",
   "speaking-proposal": "A talk proposal for the leadership forum, sent.",
   "read-briefing": "You know what is moving in your field this week.",
+  reflect: "This week in your own words, so the next step can follow from it.",
+  "q-who-decides": "Your plan knows who decides on a broader role.",
+  "q-known-for": "Your plan knows what you want to be known for.",
+  "q-time": "Your plan knows how much time you can give.",
 };
 
 type Meta = Pick<ActionStep, "kind" | "effort" | "effortText" | "done"> & Partial<Pick<ActionStep, "channel" | "toolboxTool" | "startLabel">>;
@@ -305,6 +315,102 @@ const NEW_STEPS: ActionStep[] = [
     done: "You’ve read it.",
     stubbed: true,
   },
+  {
+    id: "reflect",
+    outcome: OUTCOMES["reflect"],
+    title: "Write this week’s reflection",
+    horizon: "short",
+    status: "accepted",
+    whyThis: "It turns what happened this week into what to do next.",
+    whyNow: "A week is a good size to look back on, and it takes ten minutes.",
+    whyYou: "You said you want your plan to follow what actually happens.",
+    whyLine: "A short look back at your week turns what happened into what to do next.",
+    signalId: "seen-as-leader",
+    area: "seen-as-leader",
+    stage: 1,
+    kind: "context",
+    effort: 1,
+    effortText: "About ten minutes",
+    done: "You’ve written it, or skipped what you did not want to say.",
+    answer: "reflection",
+    recurs: "weekly",
+    startLabel: "Write it",
+  },
+  {
+    id: "q-who-decides",
+    outcome: OUTCOMES["q-who-decides"],
+    title: "Who decides on broader scope at your company?",
+    horizon: "short",
+    status: "suggested",
+    whyThis: "It sharpens who your pitch should reach.",
+    whyNow: "Your next steps lean on knowing who to talk to.",
+    whyYou: "You want a broader remit and named who you report to.",
+    whyLine: "Knowing who decides on broader scope sharpens who your pitch should reach.",
+    signalId: "broader-remit",
+    area: "broader-remit",
+    stage: 1,
+    kind: "context",
+    effort: 1,
+    effortText: "Two minutes",
+    done: "You’ve answered, or said you are not sure yet.",
+    answer: "question",
+    question: {
+      prompt: "Who decides on broader scope at your company?",
+      label: "Who decides",
+      options: ["My manager", "My manager and a senior leader", "A committee", "I am not sure yet"],
+    },
+    startLabel: "Answer it",
+  },
+  {
+    id: "q-known-for",
+    outcome: OUTCOMES["q-known-for"],
+    title: "What do you most want to be known for in the next year?",
+    horizon: "short",
+    status: "suggested",
+    whyThis: "It tells your plan which story to lead with.",
+    whyNow: "Your drafts all start from it.",
+    whyYou: "You said you want to be seen as a leader, not only an operator.",
+    whyLine: "What you want to be known for tells your plan which story to lead with.",
+    signalId: "seen-as-leader",
+    area: "seen-as-leader",
+    stage: 1,
+    kind: "context",
+    effort: 1,
+    effortText: "Two minutes",
+    done: "You’ve answered.",
+    answer: "question",
+    question: {
+      prompt: "What do you most want to be known for in the next year?",
+      label: "Known for",
+      options: ["Leading across teams", "Strategy", "Growing people", "Turning around a result"],
+    },
+    startLabel: "Answer it",
+  },
+  {
+    id: "q-time",
+    outcome: OUTCOMES["q-time"],
+    title: "How much time can you give to a pitch or a post each week?",
+    horizon: "short",
+    status: "suggested",
+    whyThis: "It sets how big the next step should be.",
+    whyNow: "Your plan is about to offer a writing step.",
+    whyYou: "You said your weeks are full.",
+    whyLine: "How much time you can give sets how big your next step should be.",
+    signalId: "broader-remit",
+    area: "broader-remit",
+    stage: 1,
+    kind: "context",
+    effort: 1,
+    effortText: "Two minutes",
+    done: "You’ve answered.",
+    answer: "question",
+    question: {
+      prompt: "How much time can you give to a pitch or a post each week?",
+      label: "Time a week",
+      options: ["Under an hour", "An hour or two", "Half a day"],
+    },
+    startLabel: "Answer it",
+  },
 ];
 
 const withMeta = (a: LandscapeAction): ActionStep => ({
@@ -321,10 +427,14 @@ const withMeta = (a: LandscapeAction): ActionStep => ({
  */
 export const ACTION_QUEUE: ActionStep[] = [
   ...ACTIONS.filter((a) => a.status === "accepted").map(withMeta),
+  NEW_STEPS.find((a) => a.id === "reflect")!,
   withMeta(ACTIONS.find((a) => a.id === "add-wins")!),
   withMeta(NEW_ACTIONS.find((a) => a.id === "ask-manager-scope")!),
   NEW_STEPS.find((a) => a.id === "bio")!,
+  NEW_STEPS.find((a) => a.id === "q-who-decides")!,
   NEW_STEPS.find((a) => a.id === "stakeholder-map")!,
+  NEW_STEPS.find((a) => a.id === "q-known-for")!,
+  NEW_STEPS.find((a) => a.id === "q-time")!,
   NEW_STEPS.find((a) => a.id === "linkedin-post")!,
   withMeta(NEW_ACTIONS.find((a) => a.id === "share-result-up")!),
   NEW_STEPS.find((a) => a.id === "read-briefing")!,
@@ -423,6 +533,42 @@ export const CAPACITY_COPY = {
   setAside: (n: number, to: number) =>
     `Your plan holds ${to} right now. ${n === 1 ? "One step is" : `${n} steps are`} set aside, not lost, and nothing is counted against you.`,
   roomForOne: "You have room for one more.",
+} as const;
+
+/** The sheets that finish a question step and the weekly reflection. Optional all the way down. */
+export const ANSWER_COPY = {
+  question: {
+    pickLabel: "Pick one",
+    pickNote: "It is optional, and you can skip it.",
+    otherLabel: "Something else",
+    otherHint: "In your own words.",
+    save: "Save my answer",
+    notNow: "Not now",
+    told: (answer: string) => `You told us: ${answer}. Your next steps lean that way.`,
+    notSure: "Noted. Your plan can help you find out.",
+    notSureAnswer: "I am not sure yet",
+  },
+  reflection: {
+    title: "This week",
+    intro: "Three short questions. Each one is optional.",
+    movedLabel: "What moved this week?",
+    movedNote: "Pick any. They are what you did.",
+    nothingThisWeek: "Nothing recorded this week yet. You can still say what is on your mind.",
+    cameLabel: "Which one came to something?",
+    cameField: "What came of it?",
+    cameHint: "A reply, a comment, an invitation, or nothing yet. In your words.",
+    blockField: "What is in the way?",
+    blockHint: "One line. Kept for your advisor, and never shown back unasked.",
+    save: "Save my reflection",
+    notNow: "Not now",
+    saved: "Saved. See you next week.",
+  },
+  toldUs: {
+    heading: "What you’ve told us",
+    empty: "Nothing yet. Your answers to your plan’s questions show here, in your words.",
+  },
+  answerIt: "Answer it",
+  writeIt: "Write it",
 } as const;
 
 export const KIND_LABELS: Record<StepKind, string> = {

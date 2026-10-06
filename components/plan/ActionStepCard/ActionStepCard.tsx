@@ -10,6 +10,7 @@ import { Icon } from "@/components/primitives/Icon";
 import { bucketOf, timeChoices, whenWords } from "@/lib/time-words";
 import { addDays, type LoopDate } from "@/lib/loop";
 import {
+  ANSWER_COPY,
   CHANNELS,
   DECLINE_REASONS,
   KIND_LABELS,
@@ -61,6 +62,8 @@ export interface ActionStepCardProps {
   onEdit: (change: StepEdit) => void;
   /** She says she has done it. Only for a step with no draft. */
   onComplete: () => void;
+  /** A question or reflection step opens its sheet in place of the Toolbox. Answering it accepts it. */
+  onAnswer?: () => void;
   onRecord?: () => void;
   /** The compact card, for the swiping row. Everything is on the card, nothing behind a button: the
    *  outcome, the area, when and how much effort, why this, why now, why you, what counts as done, and the
@@ -105,6 +108,7 @@ export function ActionStepCard({
   onDefer,
   onEdit,
   onComplete,
+  onAnswer,
   onRecord,
   compact = false,
   headingLevel = 3,
@@ -251,7 +255,14 @@ export function ActionStepCard({
       </div>
   );
 
-  const startButton = accepted ? (
+  const answerButton =
+    step.answer && onAnswer ? (
+      <Button variant="primary" size="sm" onClick={onAnswer} className={stateClass}>
+        {step.answer === "reflection" ? ANSWER_COPY.writeIt : ANSWER_COPY.answerIt}
+      </Button>
+    ) : null;
+
+  const startButton = answerButton ?? (accepted ? (
     step.stubbed ? (
       <Button variant="primary" size="sm" disabled className={stateClass}>
         {C.stubbedStart}
@@ -270,7 +281,7 @@ export function ActionStepCard({
     <Button variant="primary" size="sm" onClick={onAccept} className={stateClass}>
       {C.accept}
     </Button>
-  );
+  ));
 
   if (compact && changing) {
     // It takes over the whole card, in place, so the row does not shift.
@@ -457,7 +468,11 @@ export function ActionStepCard({
       ) : null}
 
       <div className="step-card__actions">
-        {accepted ? (
+        {step.answer && onAnswer ? (
+          <Button variant="primary" onClick={onAnswer} className={stateClass}>
+            {step.answer === "reflection" ? ANSWER_COPY.writeIt : ANSWER_COPY.answerIt}
+          </Button>
+        ) : accepted ? (
           step.stubbed ? (
             <Button variant="primary" disabled className={stateClass}>
               {C.stubbedStart}
@@ -473,7 +488,7 @@ export function ActionStepCard({
             {C.accept}
           </Button>
         )}
-        {accepted && !hasDraft ? (
+        {accepted && !hasDraft && !step.answer ? (
           <Button variant="secondary" onClick={onComplete}>
             {C.markDone}
           </Button>
