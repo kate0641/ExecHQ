@@ -11671,6 +11671,12 @@ ul.login__never {
   color: var(--color-text-inverse);
 }
 
+/* For now Home has no wordmark header on the phone: the greeting band is
+   the top of the screen, and runs on up behind the status bar. */
+[data-viewport="mobile"] .chrome:has(.map-home) > .chrome__header {
+  display: none;
+}
+
 /* On the phone it runs the full width of the screen, from under the header. */
 [data-viewport="mobile"] .map-home__greeting {
   margin: calc(-1 * var(--space-screen-top)) calc(-1 * var(--space-screen-side)) 0;
