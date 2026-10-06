@@ -142,35 +142,29 @@ export function CheckIn({
     )
   ) : null;
 
+  /* With one clear "yes", the other answers sit beside it as quiet text,
+     in the same row, rather than in a section of their own. */
   const answerButtons = todo ? (
-    <>
-      <div className="check-in__answers">
-        <Button size="sm" onClick={onDone}>
-          {C.taskDone}
-        </Button>
-      </div>
-      <div className="check-in__quiet">
-        <button type="button" className="link link--standalone" onClick={() => setLater(true)}>
-          {C.notYet}
-        </button>
-        <button type="button" className="link link--standalone" onClick={onDrop}>
-          {C.taskDrop}
-        </button>
-      </div>
-    </>
+    <div className="check-in__answers check-in__answers--yes">
+      <Button size="sm" onClick={onDone}>
+        {C.taskDone}
+      </Button>
+      <button type="button" className="link link--standalone" onClick={() => setLater(true)}>
+        {C.notYet}
+      </button>
+      <button type="button" className="link link--standalone" onClick={onDrop}>
+        {C.taskDrop}
+      </button>
+    </div>
   ) : ready ? (
-    <>
-      <div className="check-in__answers">
-        <Button size="sm" onClick={onUsed}>
-          {C.used(usedVerb)}
-        </Button>
-      </div>
-      <div className="check-in__quiet">
-        <button type="button" className="link link--standalone" onClick={() => setLater(true)}>
-          {C.notYet}
-        </button>
-      </div>
-    </>
+    <div className="check-in__answers check-in__answers--yes">
+      <Button size="sm" onClick={onUsed}>
+        {C.used(usedVerb)}
+      </Button>
+      <button type="button" className="link link--standalone" onClick={() => setLater(true)}>
+        {C.notYet}
+      </button>
+    </div>
   ) : (
     <>
       <div className="check-in__answers">
@@ -299,14 +293,7 @@ export function CheckIn({
     <section className={["check-in", "check-in--question", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
       {about ? (
         <p className="check-in__about">
-          <span className="check-in__dots" aria-hidden="true">
-            {[0, 1, 2].map((i) => (
-              <i key={i} className={i < at ? "is-done" : i === at ? "is-now" : undefined} />
-            ))}
-          </span>
-          <span>
-            {C.aboutFor}: <b>{about}</b>
-          </span>
+          {C.aboutFor}: {about}
         </p>
       ) : null}
       {done ? (

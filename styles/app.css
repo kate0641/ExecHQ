@@ -8947,9 +8947,30 @@ ol.signal__list {
   color: var(--color-text-muted);
 }
 
+/* In the question card the context is one quiet caption above the question:
+   what it's about, not a second heading. */
+.check-in--question .check-in__about {
+  display: block;
+  font-family: var(--type-caption-font);
+  font-size: var(--type-caption-size);
+  font-weight: var(--weight-regular);
+  line-height: var(--type-caption-leading);
+  color: var(--color-text-secondary);
+}
+
 .check-in__about b {
   font-weight: var(--weight-semibold);
   color: var(--color-text-secondary);
+}
+
+/* The note under a question hangs close to it. */
+.check-in__question + .check-in__sub {
+  margin-top: calc(-1 * var(--space-2xs));
+}
+
+/* A single "yes" with quiet text answers beside it. */
+.check-in__answers--yes {
+  gap: var(--space-xs) var(--space-md);
 }
 
 .check-in__dots {
