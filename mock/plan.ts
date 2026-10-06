@@ -637,16 +637,18 @@ export const SIGNAL_PICTURE_COPY = {
   offerNo: "Not now",
   editedNote: "Edited by you",
   impactHeading: "What came of it",
-  didLabel: "What you did",
-  ledLabel: "What it led to",
   nextLabel: "Next action",
   nextStart: "Start in the Toolbox",
   after: (what: string) => `After: ${what}`,
   countLine: (name: string, n: number) => `${name} ${n}`,
   impactNone: "Nothing reported yet.",
   impactAdd: "Add what came of it",
-  windowImpactNone: (window: number) =>
-    `Nothing reported back from the last ${window} days yet. Add what came of something you did and it shows here.`,
+  /** The block that shows only what she says came of the things she did. */
+  cameOf: {
+    heading: "What came of it",
+    intro: "What you told us came of the things you did, in your words. Nothing is worked out for you.",
+    none: "Nothing reported yet. When you add what came of something you did, it shows here.",
+  },
   openLink: "Open link",
   opensNewTab: "(opens in a new tab)",
   did: (title: string) => `Did: ${title}`,

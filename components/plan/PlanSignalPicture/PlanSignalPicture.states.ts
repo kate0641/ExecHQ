@@ -102,34 +102,6 @@ export const planSignalPictureStates = defineComponentStates({
       props: { ...base, items: ninety, today: "2026-12-20", history: 95, headingId: "psp-90" },
     },
     {
-      label: "Summary first — seven days",
-      description: "What she did, what it led to and the next action, in three lines. The items sit behind a tap.",
-      props: { ...base, variant: "summary", headingId: "psp-sum7" },
-    },
-    {
-      label: "Summary first — thirty days",
-      props: { ...base, variant: "summary", history: 35, headingId: "psp-sum30" },
-    },
-    {
-      label: "Summary first — ninety days",
-      props: { ...base, variant: "summary", items: ninety, today: "2026-12-20", history: 95, headingId: "psp-sum90" },
-    },
-    {
-      label: "Summary first — nothing reported came of it",
-      description: "Says so, and says how to add it. It never guesses at an impact.",
-      props: {
-        ...base,
-        variant: "summary",
-        items: items.map((i) => ({ ...i, impact: undefined })),
-        history: 35,
-        headingId: "psp-sum-none",
-      },
-    },
-    {
-      label: "Summary first — no next action",
-      props: { ...base, variant: "summary", next: undefined, headingId: "psp-sum-nonext" },
-    },
-    {
       label: "By activity — seven days",
       description: "One card for each kind of activity, each with its own next action when she has one.",
       props: { ...base, variant: "areas", headingId: "psp-act7" },
@@ -177,6 +149,16 @@ export const planSignalPictureStates = defineComponentStates({
     {
       label: "Path — no next step",
       props: { ...base, ...path, nextStep: undefined, headingId: "pp-none" },
+    },
+    {
+      label: "Came of it — what she reported",
+      description: "Only what she says came of the things she did, in her words, each with what it followed. No next action and no add button: the page has those.",
+      props: { ...base, variant: "cameof", startedOn: "2026-10-05", headingId: "pc-came" },
+    },
+    {
+      label: "Came of it — nothing reported yet",
+      description: "Says so, and how it will show. It never guesses at a result.",
+      props: { ...base, variant: "cameof", startedOn: "2026-10-05", items: items.map((i) => ({ ...i, impact: undefined })), headingId: "pc-came-none" },
     },
     {
       label: "Empty — nothing recorded yet",

@@ -18,15 +18,15 @@ import {
   type Offer,
   type PictureItem,
 } from "@/lib/signal-picture";
-import { shortDate, type LoopDate } from "@/lib/loop";
+import { daysBetween, shortDate, type LoopDate } from "@/lib/loop";
 import { SIGNAL_PICTURE_COPY as C, type ActivityType, type WindowDays } from "@/mock/plan";
 
 /** How the picture shows what came of things and what to do next.
  *  - items: what came of it sits under each thing she did; one next action at the foot.
- *  - summary: three short lines for the window (what you did, what it led to,
- *    next action), with the items behind a tap.
+ *  - cameof: only what she says came of the things she did, in her words,
+ *    with what it followed. No next action and no add button: the page has those.
  *  - areas: one card per kind of activity, each with its own next action. */
-export type SignalPictureVariant = "items" | "summary" | "areas" | "path";
+export type SignalPictureVariant = "items" | "cameof" | "areas" | "path";
 
 /** Her next step, as the path draws it: the next circle, and why. */
 export interface PathNextStep {
@@ -111,6 +111,10 @@ export function PlanSignalPicture({
   const full = windowIsFull(history, days);
   const visible = inWindow(items, today, days);
 
+  if (variant === "cameof") {
+    return <CameOf items={items} today={today} startedOn={startedOn ?? today} headingId={headingId} className={className} />;
+  }
+
   if (variant === "path") {
     return (
       <PathPicture
@@ -159,17 +163,6 @@ export function PlanSignalPicture({
 
       {items.length === 0 ? (
         <p className="signal-picture__empty">{C.empty}</p>
-      ) : variant === "summary" ? (
-        <Summary
-          visible={visible}
-          today={today}
-          days={days}
-          full={full}
-          next={next}
-          onEdit={onEdit}
-          onDelete={onDelete}
-          demoDelete={demoDelete}
-        />
       ) : variant === "areas" ? (
         visible.length ? (
           <div className="signal-picture__areas">
@@ -414,86 +407,44 @@ function NextCard({ next }: { next?: PictureNext }) {
   );
 }
 
-/** What she reported came of things, in her words, each with the thing it followed. */
-function Impacts({ visible, today, days }: { visible: PictureItem[]; today: LoopDate; days: number }) {
-  const impacts = impactsIn(visible, today, days);
-  if (impacts.length === 0) return <p className="signal-picture__impact-none">{C.windowImpactNone(days)}</p>;
-  return (
-    <ul className="signal-picture__impacts">
-      {impacts.map((i) => (
-        <li key={i.id}>
-          <span className="signal-picture__text">{i.text}</span>
-          <span className="signal-picture__date">{C.after(i.of)}</span>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-/** What she did in the window, as a line of counts or, over ninety days, of directions. */
-function didLine(visible: PictureItem[], today: LoopDate, days: number, full: boolean): string {
-  const groups = byActivity(visible);
-  /* Work inside the organisation is Momentum's to count; it leads here only when it is all there is. */
-  const outside = groups.filter((g) => g.activity !== "inside");
-  return (outside.length ? outside : groups)
-    .map((g) => {
-      const all = [...g.recorded, ...g.added];
-      return days === 90 && full
-        ? C.directionLine(g.name, C.direction[directionOf(all, today, 90)])
-        : C.countLine(g.name, all.length);
-    })
-    .join(" · ");
-}
-
-function Summary({
-  visible,
+/** What she says came of the things she did, in her words, each with the thing it followed. */
+function CameOf({
+  items,
   today,
-  days,
-  full,
-  next,
-  onEdit,
-  onDelete,
-  demoDelete,
+  startedOn,
+  headingId,
+  className,
 }: {
-  visible: PictureItem[];
+  items: PictureItem[];
   today: LoopDate;
-  days: number;
-  full: boolean;
-  next?: PictureNext;
-  onEdit: PlanSignalPictureProps["onEdit"];
-  onDelete: PlanSignalPictureProps["onDelete"];
-  demoDelete?: boolean;
+  startedOn: LoopDate;
+  headingId: string;
+  className?: string;
 }) {
-  const [open, setOpen] = useState(false);
-  const behindId = useId();
-  if (visible.length === 0) return <p className="signal-picture__empty">{C.quiet(days)}</p>;
+  const G = C.cameOf;
+  const since = items.filter((i) => i.on >= startedOn && i.on <= today);
+  const impacts = impactsIn(since, today, Math.max(daysBetween(startedOn, today) + 1, 1));
   return (
-    <>
-      <div className="signal-picture__summary">
-        <div>
-          <h3 className="signal-picture__label">{C.didLabel}</h3>
-          <p className="signal-picture__text">{didLine(visible, today, days, full)}</p>
-        </div>
-        <div>
-          <h3 className="signal-picture__label">{C.ledLabel}</h3>
-          <Impacts visible={visible} today={today} days={days} />
-        </div>
-        <NextCard next={next} />
+    <section className={["came-of", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
+      <div className="signal-picture__head">
+        <h2 className="signal-picture__heading" id={headingId}>
+          {G.heading}
+        </h2>
+        <p className="signal-picture__intro">{G.intro}</p>
       </div>
-      <div className="signal-picture__behind">
-        <Button variant="ghost" size="sm" aria-expanded={open} aria-controls={behindId} onClick={() => setOpen((o) => !o)}>
-          {open ? C.hideBehind : C.behind}
-          <Icon name={open ? "chevron-up" : "chevron-down"} size={16} />
-        </Button>
-        {open ? (
-          <ul className="signal-picture__list" id={behindId}>
-            {newestFirst(visible).map((item) => (
-              <Row key={item.id} item={item} onEdit={onEdit} onDelete={onDelete} demoDelete={demoDelete && item.editable} />
-            ))}
-          </ul>
-        ) : null}
-      </div>
-    </>
+      {impacts.length ? (
+        <ul className="signal-picture__impacts">
+          {impacts.map((i) => (
+            <li key={i.id}>
+              <span className="signal-picture__text">{i.text}</span>
+              <span className="signal-picture__date">{C.after(i.of)}</span>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="signal-picture__empty">{G.none}</p>
+      )}
+    </section>
   );
 }
 

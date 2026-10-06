@@ -13105,26 +13105,8 @@ ul.signal-picture__impacts {
   line-height: var(--leading-snug);
 }
 
-.signal-picture__summary {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-  padding: var(--space-md);
-  border: var(--border-thin);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface-raised);
-}
 
-.signal-picture__behind {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-xs);
-}
 
-.signal-picture__behind > .signal-picture__list {
-  align-self: stretch;
-}
 
 .signal-picture__group--card {
   align-self: stretch;
@@ -13655,6 +13637,12 @@ ul.narrative__lines {
 }
 
 /* A concept with nothing to say up top leaves an empty lead; it takes no gap. */
+/* Concept 2: the notes sit quietly under the title, with no card. */
+.signals-page--c2 .spark__note {
+  padding-block: var(--space-2xs);
+  background-color: transparent;
+}
+
 .signals-page__lead:empty {
   display: none;
 }
