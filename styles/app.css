@@ -11735,6 +11735,20 @@ ul.login__never {
   z-index: 1;
 }
 
+/* Under the next-step card the notch is a plain navy triangle, its base
+   flush with the top of the card's navy header, so its points meet the
+   card's edge. It overlaps the card by the border's width to cover it. */
+.map-tray:has(.feature-card__head--inverse) .map-tray__notch {
+  top: calc(var(--border-width-thin) - var(--space-xs));
+  width: var(--space-md);
+  height: var(--space-xs);
+  border: 0;
+  border-radius: 0;
+  background-color: var(--color-surface-inverse);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  transform: translateX(-50%);
+}
+
 /* A note in place of a card (a ring that is empty or finished): the same
    raised surface, so the notch still belongs to something. */
 .map-tray__box {
@@ -11845,8 +11859,8 @@ ul.map-rings {
   width: 74%;
   height: 74%;
   border-radius: var(--radius-pill);
-  /* A faint lime glow that starts at the ring and fades in towards the check. */
-  background-image: radial-gradient(circle closest-side, transparent 35%, var(--color-tag-surface));
+  /* A faint glow that starts at the ring and fades in towards the check. */
+  background-image: radial-gradient(circle closest-side, transparent 35%, var(--color-ring-complete-glow));
   color: var(--color-ring-done);
   transform: translate(-50%, -50%);
 }

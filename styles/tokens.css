@@ -239,6 +239,8 @@
      edge, or pale lime. */
   --color-ring-selected: var(--brand-white);
   --color-ring-selected-edge: var(--brand-stone-250);
+  /* The faint glow inside a finished ring, from the ring in to the check. */
+  --color-ring-complete-glow: var(--brand-green-200);
 
   /* Danger — the destructive action: deleting the account, removing a
      connection. The red end of the orange scale. White on it is 7.0:1, and
