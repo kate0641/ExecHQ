@@ -248,6 +248,25 @@
   --color-ring-complete-deep: var(--brand-blue-300);
   --color-ring-complete-light: var(--brand-white);
 
+  /* The sky behind Home's greeting on the phone, one set for each time of
+     day. Day is the soft jewel above. Each has a heart (light, core, mid)
+     rising from the bottom edge, and an edge and a deep tone around it. */
+  --color-sky-dawn-light: var(--brand-white);
+  --color-sky-dawn-core: var(--brand-orange-200);
+  --color-sky-dawn-mid: var(--brand-orange-300);
+  --color-sky-dawn-edge: var(--brand-blue-200);
+  --color-sky-dawn-deep: var(--brand-blue-300);
+  --color-sky-dusk-light: var(--brand-yellow-200);
+  --color-sky-dusk-core: var(--brand-orange-300);
+  --color-sky-dusk-mid: var(--brand-orange-400);
+  --color-sky-dusk-edge: var(--brand-blue-300);
+  --color-sky-dusk-deep: var(--brand-blue-400);
+  --color-sky-night-light: var(--brand-blue-600);
+  --color-sky-night-core: var(--brand-blue-700);
+  --color-sky-night-mid: var(--brand-blue-600);
+  --color-sky-night-edge: var(--brand-blue-800);
+  --color-sky-night-deep: var(--brand-blue-900);
+
   /* Danger — the destructive action: deleting the account, removing a
      connection. The red end of the orange scale. White on it is 7.0:1, and
      the fill is 6.4:1 against stone, so it needs no edge. */

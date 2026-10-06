@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { BaselineForm } from "@/components/homepage/BaselineForm";
 import { SignalPicture } from "@/components/homepage/SignalPicture";
 import { BriefingEditorial } from "@/components/homepage/BriefingEditorial";
@@ -43,6 +43,21 @@ const BRIEFING = conceptHref("daily-briefing", "concept-1");
 const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
+/** The sky behind the greeting follows the hour she opens Home: dawn from
+ *  5, day from 8, dusk from 17 and night from 20. */
+type Sky = "dawn" | "day" | "dusk" | "night";
+function skyAt(hour: number): Sky {
+  if (hour >= 5 && hour < 8) return "dawn";
+  if (hour >= 8 && hour < 17) return "day";
+  if (hour >= 17 && hour < 20) return "dusk";
+  return "night";
+}
+
+/* The hour is read when Home is drawn; nothing re-draws it as time passes. */
+function noSubscription(): () => void {
+  return () => {};
+}
+
 function longDate(date: string): string {
   const d = new Date(`${date}T00:00:00Z`);
   return `${WEEKDAYS[d.getUTCDay()]}, ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
@@ -61,6 +76,9 @@ export function HomepageConcept4() {
   const [picked, setPicked] = useState<{ horizon: Horizon; state: string } | null>(null);
   const [announce, setAnnounce] = useState("");
   const [skipped, setSkipped] = useState(false);
+  /* Read from her clock in the browser; the server, which has no clock of
+     hers, draws day. */
+  const sky = useSyncExternalStore(noSubscription, () => skyAt(new Date().getHours()), () => "day" as Sky);
   const addedPresence = useAddedPresence();
   const baseline = useBaseline();
   const current = useCurrent();
@@ -156,7 +174,7 @@ export function HomepageConcept4() {
     <div className="map-home">
       <h1 className="u-visually-hidden">Home</h1>
       <div className="map-home__lead">
-        <p className="map-home__greeting">
+        <p className="map-home__greeting" data-sky={sky}>
           <b>{C.greeting(loop.account.name ?? "")}</b>
           <span>{longDate(loop.today)}</span>
         </p>
