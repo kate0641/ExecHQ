@@ -2844,6 +2844,12 @@ ul.concierge-mini {
   background-color: var(--color-surface-inverse);
 }
 
+/* A card with a navy header takes navy for its top edge, so no grey line
+   runs along the top of the navy. */
+.feature-card:has(> .feature-card__head--inverse) {
+  border-top-color: var(--color-surface-inverse);
+}
+
 .feature-card__eyebrow {
   font-family: var(--type-eyebrow-font);
   font-size: var(--type-eyebrow-size);
@@ -11809,13 +11815,15 @@ ul.login__never {
   z-index: 1;
 }
 
-/* Under the next-step card the notch is a plain navy triangle, its base
-   flush with the top of the card's navy header, so its points meet the
-   card's edge. It overlaps the card by the border's width to cover it. */
+/* Under the next-step card the notch and the card are one navy shape: a
+   plain triangle whose base runs on into the header, its points on the
+   card's edge. The base sinks a few pixels into the card, past its top
+   edge, so no seam can show between the two. */
 .map-tray:has(.feature-card__head--inverse) .map-tray__notch {
-  top: calc(var(--border-width-thin) - var(--space-xs));
-  width: var(--space-md);
-  height: var(--space-xs);
+  --sink: var(--space-3xs);
+  top: calc(-1 * var(--space-xs));
+  width: calc(var(--space-md) + var(--sink) * 2);
+  height: calc(var(--space-xs) + var(--sink));
   border: 0;
   border-radius: 0;
   background-color: var(--color-surface-inverse);
