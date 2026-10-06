@@ -1,12 +1,10 @@
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";
-import { AccountCard } from "@/components/homepage/AccountCard";
 import { BaselineForm } from "@/components/homepage/BaselineForm";
 import { LinkedInMore } from "@/components/homepage/LinkedInMore";
 import type { LinkedInStatus } from "@/flows/onboarding/shared";
 import { LINKEDIN_READ_MS, looksLikeLinkedInExport } from "@/mock/onboarding";
-import { TrendLine } from "@/components/homepage/TrendLine";
 import { UpdateNowSheet } from "@/components/homepage/UpdateNowSheet";
 import { PresenceCard } from "@/components/homepage/PresenceCard";
 import { SignalPicture } from "@/components/homepage/SignalPicture";
@@ -29,7 +27,7 @@ import { SignalEntrySheet, type EntryValues } from "@/components/plan/SignalEntr
 import { accept, complete, decline, edit as editStep, initialPlanState, liveSteps, stepDay, type PlanState } from "@/lib/action-steps";
 import { askConcierge } from "@/flows/navigation/concept-1/ConciergeConcept";
 import { setAgendaLayout, useAgendaLayout } from "@/lib/agenda-choice";
-import { addDays, shortDate } from "@/lib/loop";
+import { shortDate } from "@/lib/loop";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { momentumEvents } from "@/lib/momentum";
@@ -48,12 +46,10 @@ import { dismissSpark, useDismissedSparks } from "@/lib/spark-dismissal";
 import { sparksFor } from "@/lib/sparks";
 import {
   ADD_COPY as ADD,
-  LINKEDIN_STUB as LI,
   NOW_COPY as NC,
   PRESENCE_STUB as PR,
   SPARK_COPY as SP,
   ACCOUNTS_COPY as AC,
-  WEBSITE_STUB as WEB,
 } from "@/mock/accounts-stub";
 import { PLAN_TEMPLATES, recommendPlan } from "@/mock/onboarding";
 import type { ActionStep } from "@/mock/plan";
@@ -567,69 +563,6 @@ export function usePlanPage() {
     </section>
   );
 
-  /* Her LinkedIn and her website, as Homepage Concept 2 drew them: numbers
-     with their source and date, where she started beside where she is, what
-     they suggest and one thing to try; or, not connected, what connecting
-     would show. Moved here from that concept on 2026-10-06. PROVISIONAL: the
-     numbers come from connected accounts, which V1 does not have. */
-  const linkedIn = loop.account.connections.find((c) => c.id === "linkedin");
-  const website = loop.account.connections.find((c) => c.id === "website");
-  const anyConnected = Boolean(linkedIn?.connected || website?.connected);
-  const toolbox = conceptHref("toolbox-flow", "concept-1");
-  /* Nothing brought in: no section, and no invitation. V1 has no connections. */
-  const accounts = anyConnected ? (
-    <section className="accounts-home" aria-labelledby="accounts-heading">
-      <div className="signals-home__intro">
-        <h2 className="signals-home__heading" id="accounts-heading" tabIndex={-1}>
-          {AC.heading}
-        </h2>
-        <p className="signals-home__window">{AC.sub}</p>
-      </div>
-      {linkedIn?.connected && linkedIn.connectedOn ? (
-        <AccountCard
-          name={LI.name}
-          mark={LI.mark}
-          asOf={AC.asOfLinkedIn(shortDate(linkedIn.connectedOn))}
-          stats={LI.stats}
-          baseline={LI.baseline}
-          thenLabel={AC.then}
-          nowLabel={AC.now}
-          chart={
-            <TrendLine
-              values={LI.followers}
-              labels={LI.followers.map(
-                (_, i) => `Week of ${shortDate(addDays(linkedIn.connectedOn!, -(LI.followers.length - 1 - i) * 7))}`
-              )}
-              caption={LI.chartCaption}
-              summary={LI.chartSummary}
-            />
-          }
-          says={LI.says}
-          saysLabel={AC.says}
-          tryThis={{ ...LI.tryThis, href: toolbox }}
-          tryLabel={AC.tryThis}
-          headingId="account-linkedin"
-        />
-      ) : null /* Not brought in: the upload under her starting numbers is the one invitation. */}
-      {website?.connected && website.connectedOn ? (
-        <AccountCard
-          name={WEB.name}
-          mark={WEB.mark}
-          asOf={AC.asOfWebsite(shortDate(website.connectedOn))}
-          stats={WEB.stats}
-          baseline={WEB.baseline}
-          thenLabel={AC.then}
-          nowLabel={AC.now}
-          says={WEB.says}
-          saysLabel={AC.says}
-          tryThis={{ ...WEB.tryThis, href: toolbox }}
-          tryLabel={AC.tryThis}
-          headingId="account-website"
-        />
-      ) : null}
-    </section>
-  ) : null;
-
   const sheet = (
     <SignalEntrySheet
       key={entry ? (entry.mode === "edit" ? `signal-${entry.item.id}` : `signal-add-${entry.fromRecord ?? ""}`) : "signal-closed"}
@@ -661,7 +594,7 @@ export function usePlanPage() {
     />
   );
 
-  return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, agenda, guided, calendar, note, narrative: narrativeNode, momentum, picture, pictureOf, started, accounts, sparkNode, sheet: (
+  return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, agenda, guided, calendar, note, narrative: narrativeNode, momentum, picture, pictureOf, started, sparkNode, sheet: (
       <>
         {sheet}
         {updateNow}
