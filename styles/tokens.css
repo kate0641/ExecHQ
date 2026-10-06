@@ -235,6 +235,10 @@
   --color-ring-progress-start: var(--brand-navy);
   --color-ring-progress-end: var(--brand-blue-200);
   --color-ring-track: var(--brand-stone-200);
+  /* The panel behind the ring that's chosen. On trial: white with a soft
+     edge, or pale lime. */
+  --color-ring-selected: var(--brand-white);
+  --color-ring-selected-edge: var(--brand-stone-250);
 
   /* Danger — the destructive action: deleting the account, removing a
      connection. The red end of the orange scale. White on it is 7.0:1, and

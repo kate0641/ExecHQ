@@ -168,7 +168,6 @@ export function HomepageConcept4() {
             rings={rings}
             selected={selected}
             panelId="map-tray"
-            legend
             onSelect={(h) => {
               setPicked(h === home ? null : { horizon: h, state: loop.homeState });
               setAnnounce(h === selected ? "" : M.showing(rings.find((r) => r.horizon === h)!.label));

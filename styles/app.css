@@ -11785,7 +11785,8 @@ ul.map-rings {
 }
 
 .map-rings__ring[aria-pressed="true"] {
-  background-color: var(--color-surface-feature);
+  background-color: var(--color-ring-selected);
+  box-shadow: inset 0 0 0 var(--border-width-thin) var(--color-ring-selected-edge);
 }
 
 .map-rings__ring:focus-visible,
@@ -11830,18 +11831,29 @@ ul.map-rings {
 /* --fade is how far along the in-progress band a slice sits, 0% to 100%. */
 .map-rings__fade { stroke: color-mix(in srgb, var(--color-ring-progress-end) var(--fade), var(--color-ring-progress-start)); }
 
+/* A finished ring carries its check in the middle, where the ring frames it. */
 .map-rings__check {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 50%;
+  left: 50%;
   display: grid;
   place-items: center;
+  /* Fills the hole of the ring: 74 of the drawing's 100 units across. */
+  width: 74%;
+  height: 74%;
+  border-radius: var(--radius-pill);
+  /* A faint lime glow that starts at the ring and fades in towards the check. */
+  background-image: radial-gradient(circle closest-side, transparent 35%, var(--color-tag-surface));
+  color: var(--color-ring-done);
+  transform: translate(-50%, -50%);
+}
+
+/* A larger, heavier check than the icon set's own, so it holds its own
+   inside the navy ring. */
+.map-rings__check svg {
   width: 1.5rem;
   height: 1.5rem;
-  border-radius: var(--radius-pill);
-  background-color: var(--color-tag-surface);
-  box-shadow: 0 0 0 var(--border-width-thick) var(--color-halo);
-  color: var(--color-tag-text);
+  stroke-width: 2.4;
 }
 
 .map-rings__name {
