@@ -576,14 +576,14 @@ export function usePlanPage() {
   const website = loop.account.connections.find((c) => c.id === "website");
   const anyConnected = Boolean(linkedIn?.connected || website?.connected);
   const toolbox = conceptHref("toolbox-flow", "concept-1");
-  const profile = conceptHref("profile", "concept-1");
-  const accounts = (
+  /* Nothing brought in: no section, and no invitation. V1 has no connections. */
+  const accounts = anyConnected ? (
     <section className="accounts-home" aria-labelledby="accounts-heading">
       <div className="signals-home__intro">
         <h2 className="signals-home__heading" id="accounts-heading" tabIndex={-1}>
           {AC.heading}
         </h2>
-        <p className="signals-home__window">{anyConnected ? AC.sub : AC.subNotConnected}</p>
+        <p className="signals-home__window">{AC.sub}</p>
       </div>
       {linkedIn?.connected && linkedIn.connectedOn ? (
         <AccountCard
@@ -626,11 +626,9 @@ export function usePlanPage() {
           tryLabel={AC.tryThis}
           headingId="account-website"
         />
-      ) : (
-        <AccountCard name={WEB.name} mark={WEB.mark} invite={{ ...WEB.invite, href: profile }} headingId="account-website" />
-      )}
+      ) : null}
     </section>
-  );
+  ) : null;
 
   const sheet = (
     <SignalEntrySheet
