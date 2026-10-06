@@ -13651,13 +13651,6 @@ dl.direction__plan {
   color: var(--color-text-secondary);
 }
 
-.rtl__card-top {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-xs);
-}
-
 .rtl__name {
   margin: 0;
   font-family: var(--font-display);
@@ -13688,56 +13681,6 @@ dl.direction__plan {
   margin: 0;
 }
 
-ol.rtl__stages {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-  margin: 0;
-  padding: 0 0 0 var(--space-lg);
-  list-style: none;
-}
-
-/* The rail the stages hang from. A stage's node says where it is, and the words beside it say it too. */
-ol.rtl__stages::before,
-.rtl__earlier-stages::before {
-  content: "";
-  position: absolute;
-  inset-block: var(--space-sm);
-  inset-inline-start: calc(var(--space-sm) - var(--border-width-medium) / 2);
-  border-inline-start: var(--border-width-medium) solid var(--color-border-strong);
-}
-
-.rtl__stage {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
-.rtl__stage::before {
-  content: "";
-  position: absolute;
-  inset-block-start: var(--space-md);
-  inset-inline-start: calc(var(--space-lg) * -1 + var(--space-3xs));
-  width: var(--space-sm);
-  height: var(--space-sm);
-  border: var(--border-width-medium) solid var(--color-border-strong);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface);
-}
-
-.rtl__stage.is-done::before {
-  background-color: var(--color-border-strong);
-}
-
-.rtl__stage.is-current::before,
-.rtl__stage.is-recommended::before {
-  border-color: var(--color-text-primary);
-  background-color: var(--color-text-primary);
-}
-
-.rtl__now,
 .rtl__earlier-title {
   margin: 0;
   font-family: var(--font-display);
@@ -13762,7 +13705,7 @@ ol.rtl__earlier-stages {
   flex-direction: column;
   gap: var(--space-2xs);
   margin: 0;
-  padding: 0 0 0 var(--space-lg);
+  padding: 0;
   list-style: none;
 }
 
@@ -13858,49 +13801,12 @@ ul.rtl__spark-list {
   margin-bottom: var(--space-2xs);
 }
 
-.rtl__card {
-  border: var(--border-thin);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
-  overflow: hidden;
-}
-
-.rtl__stage.is-current .rtl__card {
-  border: var(--border-width-medium) solid var(--color-text-primary);
-}
-
-.rtl__summary-row {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2xs);
-  padding: var(--space-sm) var(--space-md);
-  cursor: pointer;
-  list-style: none;
-}
-
-.rtl__summary-row::-webkit-details-marker {
-  display: none;
-}
-
-.rtl__summary-row:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: calc(var(--focus-ring-offset) * -1);
-}
-
 .rtl__name {
   font-family: var(--font-display);
   word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
-}
-
-.rtl__card-body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  padding: var(--space-sm) var(--space-md) var(--space-md);
-  border-top: var(--border-subtle);
 }
 
 .rtl__finishing {
@@ -13936,6 +13842,117 @@ ul.rtl__agenda {
 .rtl__item {
   font-weight: var(--weight-semibold);
   font-size: var(--text-sm);
+}
+
+/* Now, next and later. Only the stage she is on carries weight. */
+.rtl__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.rtl__eyebrow {
+  margin: 0;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.rtl__now {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border: var(--border-width-medium) solid var(--color-text-primary);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+}
+
+.rtl__now-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+.rtl__now .rtl__name {
+  margin: 0;
+  font-size: var(--text-lg);
+}
+
+.rtl__fold > summary {
+  cursor: pointer;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.rtl__fold > summary:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.rtl__fold[open] > summary {
+  margin-bottom: var(--space-xs);
+}
+
+.rtl__fold ul.rtl__agenda {
+  margin-top: 0;
+}
+
+ul.rtl__lines {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rtl__lines > li {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding-block: var(--space-xs);
+  border-top: var(--border-subtle);
+}
+
+.rtl__lines > li:first-child {
+  border-top: 0;
+}
+
+.rtl__line-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.rtl__line-name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+.rtl__when {
+  flex: none;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.rtl__group > .rtl__line-row {
+  padding: var(--space-sm) var(--space-md);
+  border: var(--border-thin);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+}
+
+.rtl__done .rtl__line-name .rtl__name {
+  color: var(--color-text-secondary);
 }
 
 /* -----------------------------------------------------------------------------

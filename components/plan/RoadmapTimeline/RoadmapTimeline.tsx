@@ -2,7 +2,6 @@
 
 import { useId, useState, type ReactNode } from "react";
 import type { RoadmapChoices } from "@/components/plan/PlanRoadmap";
-import { Badge } from "@/components/primitives/Badge";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import { dayLabel } from "@/lib/calendar";
@@ -49,10 +48,11 @@ export interface RoadmapTimelineProps {
 const SHOWN = 3;
 
 /**
- * The roadmap as a timeline: the draft she started with, stage by stage down a rail, and on it
- * little sparks that say what happened and how her plan moved with her. The stage she is in is
- * open and the rest are one tap away. A plan she has left stays above as the draft she began
- * with, with a spark where it changed, and the plan she is on carries on beneath it.
+ * The roadmap as Now, Next and Later. The stage she is on is one full card: what it is, when to
+ * aim for, what finishing looks like, what she will have, and the sparks that say what happened
+ * and how her plan moved. The stage after it is one line, later stages are plain lines, and
+ * stages she has finished fold into a count. A plan she has left stays above as the draft she
+ * started with, with a spark where it changed.
  *
  * Times are words (this month, next quarter), never days, and a stage's pace is a suggestion that
  * moves as she does, never a deadline. She can say she has finished a stage whenever she likes,
@@ -103,7 +103,7 @@ export function RoadmapTimeline({
       .filter((i) => i.date >= w.start && i.date <= w.end)
       .sort((a, b) => (a.date < b.date ? -1 : 1));
 
-  /** What she can do on the stage she is in, or on the one recommended next. */
+  /** What she can do on the stage she is on, or on the one recommended next. */
   function actionsFor(w: StageWindow): ReactNode {
     if (w.status === "current")
       return (
@@ -129,27 +129,27 @@ export function RoadmapTimeline({
               </Button>
             </div>
           )}
-          <p className="rtl__small">
-            {w.index < windows.length - 1 ? A.thenNext(w.index + 2, windows[w.index + 1].title) : A.thenAfter}
-          </p>
         </>
       );
-    if (w.status === "recommended" && !kept.nextDismissed)
-      return (
-        <>
-          <p className="rtl__small">{A.recommendedBody(whenWords(w.end, today), w.weeks)}</p>
-          <div className="roadmap__advance-actions">
-            <Button variant="primary" size="sm" onClick={() => update(startNext(kept))}>
-              {A.start}
-            </Button>
-            <Button variant="ghost" size="sm" onClick={() => update(dismissNext(kept))}>
-              {A.notYet}
-            </Button>
-          </div>
-        </>
-      );
-    return null;
+    return (
+      <div className="roadmap__advance-actions">
+        <Button variant="primary" size="sm" onClick={() => update(startNext(kept))}>
+          {A.start}
+        </Button>
+        <Button variant="ghost" size="sm" onClick={() => update(dismissNext(kept))}>
+          {A.notYet}
+        </Button>
+      </div>
+    );
   }
+
+  const done = windows.filter((w) => w.status === "done");
+  const next = windows.find((w) => w.status === "recommended") ?? (here ? windows[here.index + 1] : undefined);
+  const later = windows.filter((w) => w.status === "later" && w !== next);
+  const recommended = next?.status === "recommended" && !kept.nextDismissed;
+  const stageSparks = (w: StageWindow) => sparks.byStage[w.index] ?? [];
+  // The stage she has just finished says so beside the one recommended next, where it matters, and not only in the fold.
+  const justDone = next?.status === "recommended" ? done[done.length - 1] : undefined;
 
   return (
     <section className={["rtl", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
@@ -165,31 +165,92 @@ export function RoadmapTimeline({
         <EarlierPlan key={`${uid}-earlier-${i}`} planId={h.planId} atStage={h.atStage} sparks={sparks.afterEarlier[i] ?? []} />
       ))}
 
-      {switched ? <h3 className="rtl__now">{T.nowTitle(template?.name ?? "")}</h3> : null}
+      {here ? (
+        <section className="rtl__group" aria-label={T.now}>
+          <p className="rtl__eyebrow">
+            {T.now} · {A.stageOf(here.index + 1, windows.length)}
+          </p>
+          <div className="rtl__now">
+            <div className="rtl__now-head">
+              <h3 className="rtl__name">{here.title}</h3>
+              <p className="rtl__small">
+                {A.suggested(whenWords(here.end, today))} · {A.about(here.weeks)}
+              </p>
+            </div>
+            <p className="rtl__finishing">
+              <b>{A.finishing}</b> {stages[here.index].milestone}
+            </p>
+            <details className="rtl__fold">
+              <summary>{T.haveLabel}</summary>
+              <ul className="roadmap__outcomes">
+                {stages[here.index].outcomes.map((o) => (
+                  <li key={o}>{o}</li>
+                ))}
+              </ul>
+            </details>
+            <StageEntries w={here} items={entries(here)} today={today} onAdd={onAdd} />
+            {actionsFor(here)}
+            <Sparks sparks={stageSparks(here)} />
+          </div>
+        </section>
+      ) : null}
 
-      <ol className="rtl__stages">
-        {windows.map((w) => (
-          <StageItem
-            key={`${uid}-${w.index}`}
-            w={w}
-            total={windows.length}
-            milestone={stages[w.index].milestone}
-            outcomes={stages[w.index].outcomes}
-            items={entries(w)}
-            sparks={sparks.byStage[w.index] ?? []}
-            today={today}
-            onAdd={onAdd}
-          >
-            {actionsFor(w)}
-          </StageItem>
-        ))}
-      </ol>
+      {next ? (
+        <section className="rtl__group" aria-label={T.next}>
+          <p className="rtl__eyebrow">
+            {T.next} · {A.stageOf(next.index + 1, windows.length)}
+          </p>
+          {recommended ? (
+            <div className="rtl__now">
+              <div className="rtl__now-head">
+                <h3 className="rtl__name">{next.title}</h3>
+                <p className="rtl__small">{A.recommendedBody(whenWords(next.end, today), next.weeks)}</p>
+              </div>
+              <p className="rtl__finishing">
+                <b>{A.finishing}</b> {stages[next.index].milestone}
+              </p>
+              {actionsFor(next)}
+            </div>
+          ) : (
+            <StageLine w={next} today={today} recommended={next.status === "recommended"} />
+          )}
+          <Sparks sparks={[...(justDone ? stageSparks(justDone) : []), ...stageSparks(next)]} />
+        </section>
+      ) : null}
+
+      {later.length ? (
+        <section className="rtl__group" aria-label={T.later}>
+          <p className="rtl__eyebrow">{T.later}</p>
+          <ul className="rtl__lines">
+            {later.map((w) => (
+              <li key={`${uid}-${w.index}`}>
+                <StageLine w={w} today={today} />
+                <Sparks sparks={stageSparks(w)} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       {finished ? (
         <div className="rtl__end">
           <p className="rtl__name">{A.allDone}</p>
           <p className="rtl__small">{template?.after ?? A.allDoneBody}</p>
         </div>
+      ) : null}
+
+      {done.length ? (
+        <details className="rtl__fold rtl__done">
+          <summary>{T.doneCount(done.length)}</summary>
+          <ul className="rtl__lines">
+            {done.map((w) => (
+              <li key={`${uid}-${w.index}`}>
+                <StageLine w={w} today={today} />
+                <Sparks sparks={w === justDone ? [] : stageSparks(w)} />
+              </li>
+            ))}
+          </ul>
+        </details>
       ) : null}
     </section>
   );
@@ -256,89 +317,50 @@ function SparkNote({ spark }: { spark: PlanSpark }) {
 
 type Entry = CalendarItem & { kind?: "yours" | "step"; suggested?: boolean };
 
-function EntryRow({ item, today }: { item: Entry; today: LoopDate }) {
-  // A step from her plan says when in words. What she put there herself keeps the day she chose.
-  const when = item.kind === "step" ? whenWords(item.date, today) : dayLabel(item.date);
+/** A stage in one line: its name, and when to aim for it in words. */
+function StageLine({ w, today, recommended }: { w: StageWindow; today: LoopDate; recommended?: boolean }) {
   return (
-    <li className="rtl__row">
-      <span className="rtl__tag">
-        {item.kind === "step" ? `${A.step}${item.suggested ? ` · ${CAL.suggested}` : ""}` : A.yours} · {when}
+    <div className="rtl__line-row">
+      <span className="rtl__line-name">
+        <span className="rtl__name">{w.title}</span>
+        {recommended ? <span className="rtl__pill">{A.states.recommended}</span> : null}
       </span>
-      <span className="rtl__item">{item.title}</span>
-      {item.note ? <span className="rtl__small">{item.note}</span> : null}
-    </li>
+      <span className="rtl__when">{w.status === "done" ? A.states.done : whenWords(w.end, today)}</span>
+    </div>
   );
 }
 
-function StageItem({
-  w,
-  total,
-  milestone,
-  outcomes,
-  items,
-  sparks,
-  today,
-  onAdd,
-  children,
-}: {
-  w: StageWindow;
-  total: number;
-  milestone: string;
-  outcomes: string[];
-  items: Entry[];
-  sparks: PlanSpark[];
-  today: LoopDate;
-  onAdd?: (date: LoopDate) => void;
-  children?: ReactNode;
-}) {
-  const label = w.status === "later" ? null : A.states[w.status];
-  const open = w.status === "current" || (w.status === "recommended" && Boolean(children));
+/** What is on her calendar inside the stage she is on, folded away, with the way to add to it. */
+function StageEntries({ w, items, today, onAdd }: { w: StageWindow; items: Entry[]; today: LoopDate; onAdd?: (date: LoopDate) => void }) {
+  if (!items.length && !onAdd) return null;
   return (
-    <li className={["rtl__stage", `is-${w.status}`].join(" ")} aria-current={w.status === "current" ? "step" : undefined}>
-      <details className="rtl__card" open={open}>
-        <summary className="rtl__summary-row">
-          <span className="rtl__card-top">
-            <Badge tone="neutral">{A.stageOf(w.index + 1, total)}</Badge>
-            {label ? <span className={w.status === "done" ? "rtl__pill rtl__pill--quiet" : "rtl__pill"}>{label}</span> : null}
-          </span>
-          <span className="rtl__name">{w.title}</span>
-          <span className="rtl__small">
-            {w.status === "done" ? A.states.done : `${A.suggested(whenWords(w.end, today))} · ${A.about(w.weeks)}`}
-          </span>
-        </summary>
-        <div className="rtl__body">
-          {children}
-          <p className="rtl__finishing">
-            <b>{A.finishing}</b> {milestone}
-          </p>
-          <p className="rtl__finishing">
-            <b>{A.outcomes}</b>
-          </p>
-          <ul className="roadmap__outcomes">
-            {outcomes.map((o) => (
-              <li key={o}>{o}</li>
-            ))}
-          </ul>
-          {items.length ? (
-            <ul className="rtl__agenda">
-              {items.map((i) => (
-                <EntryRow key={i.id} item={i} today={today} />
-              ))}
-            </ul>
-          ) : (
-            <p className="rtl__small">{A.nothingYet}</p>
-          )}
-          {onAdd ? (
-            <div>
-              <Button variant="secondary" size="sm" onClick={() => onAdd(today >= w.start && today <= w.end ? today : w.start)}>
-                {CAL.addStage}
-              </Button>
-            </div>
-          ) : null}
+    <details className="rtl__fold">
+      <summary>{items.length ? T.calendarCount(items.length) : T.calendarEmpty}</summary>
+      {items.length ? (
+        <ul className="rtl__agenda">
+          {items.map((item) => (
+            <li className="rtl__row" key={item.id}>
+              <span className="rtl__tag">
+                {item.kind === "step" ? `${A.step}${item.suggested ? ` · ${CAL.suggested}` : ""}` : A.yours} ·{" "}
+                {/* A step from her plan says when in words. What she put there herself keeps the day she chose. */}
+                {item.kind === "step" ? whenWords(item.date, today) : dayLabel(item.date)}
+              </span>
+              <span className="rtl__item">{item.title}</span>
+              {item.note ? <span className="rtl__small">{item.note}</span> : null}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="rtl__small">{A.nothingYet}</p>
+      )}
+      {onAdd ? (
+        <div>
+          <Button variant="secondary" size="sm" onClick={() => onAdd(today >= w.start && today <= w.end ? today : w.start)}>
+            {CAL.addStage}
+          </Button>
         </div>
-      </details>
-      <Sparks sparks={sparks} />
-    </li>
+      ) : null}
+    </details>
   );
 }
 

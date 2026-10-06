@@ -30,7 +30,7 @@ export const roadmapTimelineStates = defineComponentStates({
   status: "draft",
   flows: ["plan"],
   description:
-    "The roadmap as a timeline: the draft she started with, stage by stage down a rail, with little sparks that say what happened and how her plan moved with her. The stage she is in is open and the rest are one tap away. Times are words, never days, and a stage's pace is a suggestion that moves as she does. She can finish a stage whenever she likes, and when her work says she has, it offers to mark it. Finishing recommends the next stage; she starts it or says “Not yet”. A plan she has left stays above as the draft she began with, with a spark where it changed.",
+    "The roadmap as Now, Next and Later. The stage she is on is one full card (when to aim for, what finishing looks like, what she will have, what is on her calendar in it, and the sparks that say what happened and how her plan moved). The next stage is one line, later stages are plain lines, and finished stages fold into a count. Times are words, never days, and the pace is a suggestion that moves as she does. She can finish a stage whenever she likes, and when her work says she has, it offers to mark it. Finishing recommends the next stage; she starts it or says “Not yet”. A plan she has left stays above as the draft she began with, with a spark where it changed.",
   component: RoadmapTimeline,
   notApplicable: {
     ...CONTROLS_INSIDE,
@@ -79,8 +79,8 @@ export const roadmapTimelineStates = defineComponentStates({
       props: { ...base, startStage: 0, evidenceStage: 1, headingId: "rt-suggest" },
     },
     {
-      label: "Finished early: the next stage is recommended",
-      description: "Finishing on the 20th pulls the later stages earlier, and a spark says so.",
+      label: "Finished early: one stage done, the next is recommended",
+      description: "The finished stage folds into “1 done”, with its spark. Finishing on the 20th pulls the later stages earlier.",
       props: {
         ...base,
         choices: { ...choices, confirmed: 0, finishedOn: { 0: "2026-10-20" }, recommended: 1 },
@@ -119,7 +119,7 @@ export const roadmapTimelineStates = defineComponentStates({
       },
     },
     {
-      label: "Her plan steps inside the stages",
+      label: "Her plan steps and her own items, folded in the stage she is on",
       description: "A step says when in words, and is marked Suggested until she accepts it or moves it.",
       props: {
         ...base,

@@ -1008,6 +1008,13 @@ export const SPARK_NOTES = {
 } as const;
 
 export const TIMELINE_COPY = {
+  now: "Now",
+  next: "Next",
+  later: "Later",
+  haveLabel: "What you’ll have",
+  doneCount: (n: number) => `${n} done`,
+  calendarCount: (n: number) => `On your calendar in this stage (${n})`,
+  calendarEmpty: "Add to this stage",
   earlierTitle: (name: string) => `First draft: ${name}`,
   earlierNow: "Where you were",
   earlierSetAside: "Set aside",
