@@ -11680,18 +11680,18 @@ ul.login__never {
   color: var(--color-text-inverse);
 }
 
-/* On the phone the header is a soft wash, not navy: the soft jewel, a warm
-   heart just below the middle, pale blue deepening to the sides and light
-   catching the top. The status bar and the greeting
+/* On the phone the header is a soft wash, not navy: the soft jewel as a
+   glow rising from the middle of the header's bottom edge, a bright warm
+   heart where it is cut off, pale blue deepening around it. The status bar and the greeting
    share one wash, each showing its own slice of it, so it runs unbroken from
    the top of the screen to the bottom of the greeting. */
 .device__screen:has(.map-home) {
   --home-header-band: 2.5rem;
   --home-header-height: calc(var(--device-statusbar-height) + var(--home-header-band));
   --home-header-wash:
-    radial-gradient(ellipse 45% 60% at 50% 0%, color-mix(in srgb, var(--color-ring-complete-light) 85%, transparent), transparent),
-    radial-gradient(ellipse 42% 130% at 46% 70%, var(--color-ring-complete-mid), color-mix(in srgb, var(--color-ring-complete-core) 85%, transparent) 30%, transparent 62%),
-    radial-gradient(ellipse 75% 170% at 50% 50%, var(--color-ring-complete-light) 30%, var(--color-ring-complete-edge) 85%, var(--color-ring-complete-deep));
+    radial-gradient(ellipse 26% 65% at 50% 100%, var(--color-ring-complete-light), transparent),
+    radial-gradient(ellipse 58% 150% at 50% 100%, var(--color-ring-complete-mid), color-mix(in srgb, var(--color-ring-complete-core) 75%, transparent) 30%, color-mix(in srgb, var(--color-ring-complete-core) 30%, transparent) 60%, transparent 95%),
+    radial-gradient(ellipse 95% 240% at 50% 100%, var(--color-ring-complete-light) 15%, var(--color-ring-complete-edge) 55%, var(--color-ring-complete-deep) 85%, var(--color-ring-complete-edge) 100%);
 }
 
 .device__screen:has(.map-home) > .device__statusbar {
