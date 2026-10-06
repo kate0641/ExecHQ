@@ -1008,6 +1008,9 @@ export const SPARK_NOTES = {
 } as const;
 
 export const TIMELINE_COPY = {
+  /** After the last stage: the plan does not end there. */
+  afterTitle: "Then ExecHQ builds the next stage",
+  afterBody: "As you finish these stages, ExecHQ builds the next one for your plan with you, from what worked and what didn’t.",
   haveLabel: "What you’ll have",
   calendarCount: (n: number) => `On your calendar in this stage (${n})`,
   calendarEmpty: "Add to this stage",

@@ -175,6 +175,7 @@ export const prototypeConfig: PrototypeConfig = {
       title: "Plan",
       sprint: 3,
       chrome: "app",
+      privacyFooter: false,
       description:
         "Roadmap, action steps and plan progress in one place. Factual, never a score.",
       stub: {
@@ -186,7 +187,7 @@ export const prototypeConfig: PrototypeConfig = {
           slug: "concept-1",
           title: "Concept 1 — Steps forward",
           summary:
-            "Action steps lead: the five live steps by horizon, then the roadmap as an Agenda. What changed sits beside them.",
+            "What her plan is leads, then the next steps in a swiping row. The roadmap is a timeline of the draft she started with, with sparks for what changed, and it sits beside them on web.",
         },
         {
           slug: "concept-2",

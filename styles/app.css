@@ -13952,6 +13952,21 @@ ol.rtl__rail::before {
   background-color: var(--color-surface-note);
 }
 
+/* After the last stage the rail runs on, to a dashed node: the plan keeps going. */
+.rtl__point--after {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+.rtl__point--after .rtl__name {
+  margin: 0;
+}
+
+.rtl__point--after::before {
+  border-style: dashed;
+}
+
 .rtl__row-head {
   display: flex;
   align-items: baseline;
