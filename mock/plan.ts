@@ -577,17 +577,12 @@ export const ACTIVITY_OF_ARTIFACT: Record<string, ActivityType> = {
 export const WINDOWS = [7, 30, 90] as const;
 export type WindowDays = (typeof WINDOWS)[number];
 
-/** Direction needs a full window behind it: the last half against the half before. */
-export type Direction = "building" | "steady" | "quieter";
-
 export const SIGNAL_PICTURE_COPY = {
   heading: "Your Signal Picture",
   /** The homepage’s starting-point counts, kept under the new picture until the homepage is chosen. */
   startedHeading: "Where you started",
-  intro: "A private record of what moved. Not scored, and not compared with anyone.",
   recorded: "Recorded in ExecHQ",
   added: "You added",
-  key: "Recorded in ExecHQ happened here. You added is what you told us.",
   /** The path variant: how she has grown, a circle for each month, with her next step ahead. */
   growth: {
     heading: "How you’ve grown",
@@ -604,29 +599,7 @@ export const SIGNAL_PICTURE_COPY = {
     month: (name: string, n: number) => `${name}: ${n} ${n === 1 ? "thing" : "things"}`,
     quiet: (name: string) => `${name}: nothing added`,
   },
-  windowLabel: "Time window",
-  /** Which span the picture shows. She does not choose: her history does. */
-  windowHeading: { 7: "Last 7 days", 30: "Last 30 days", 90: "Last 90 days" } as Record<WindowDays, string>,
-  windows: { 7: "7 days", 30: "30 days", 90: "90 days" } as Record<WindowDays, string>,
-  /** Honest about how little there is, never an empty chart. */
-  thin: (days: number, window: number) =>
-    `You have ${days} day${days === 1 ? "" : "s"} of history. The ${window}-day view fills in as you go.`,
-  thinNow: "What you have so far:",
-  empty: "Nothing recorded yet. Your first draft will show up here, and so will anything you add yourself.",
-  quiet: (window: number) => `Nothing recorded in the last ${window} days.`,
   add: "Add something you did",
-  /** Counts of real items, kept apart by source. */
-  counts: (recorded: number, added: number) =>
-    [recorded ? `${recorded} recorded in ExecHQ` : "", added ? `${added} you added` : ""].filter(Boolean).join(" · "),
-  direction: {
-    building: "building",
-    steady: "unchanged",
-    quieter: "quieter lately",
-  } as Record<Direction, string>,
-  directionLine: (area: string, word: string) => `${area}: ${word}`,
-  behind: "See what’s behind this",
-  hideBehind: "Hide",
-  from: (date: string) => date,
   edit: "Edit",
   delete: "Delete",
   deleteAsk: "Delete this entry?",
@@ -635,13 +608,8 @@ export const SIGNAL_PICTURE_COPY = {
   offer: (title: string) => `You marked “${title}” published. Add it to your record?`,
   offerYes: "Add it",
   offerNo: "Not now",
-  editedNote: "Edited by you",
   impactHeading: "What came of it",
   nextLabel: "Next action",
-  nextStart: "Start in the Toolbox",
-  after: (what: string) => `After: ${what}`,
-  countLine: (name: string, n: number) => `${name} ${n}`,
-  impactNone: "Nothing reported yet.",
   impactAdd: "Add what came of it",
   /** The map variant: where she shows up, a dot for each thing, four equal territories. */
   map: {
@@ -669,10 +637,7 @@ export const SIGNAL_PICTURE_COPY = {
   },
   openLink: "Open link",
   opensNewTab: "(opens in a new tab)",
-  did: (title: string) => `Did: ${title}`,
-  /** Which plan area an item moves, in the seven-day list where it is not grouped. */
-  areaOf: (name: string) => `Moves: ${name}`,
-} as const;
+  did: (title: string) => `Did: ${title}`,} as const;
 
 export const ENTRY_COPY = {
   title: "Add something you did",

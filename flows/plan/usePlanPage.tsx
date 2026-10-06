@@ -38,8 +38,8 @@ import { saveCalendar, saveRoadmap, saveSteps, useCalendar, useRoadmapChoices, u
 import { addedSummary, hasBaseline, presenceCounts, signalRows, withAdded } from "@/lib/presence";
 import { addPresence, removePresence, saveBaseline, saveCurrent, updatePresence, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
 import { currentStageIndex, isDone as isActionDone } from "@/lib/rings";
-import { addedItems, historyDays, nextActionFor, nextOutsideStep, offerFor, recordedItems, type PictureItem } from "@/lib/signal-picture";
-import { ACTIVITY_OF_CHANNEL, ACTIVITY_TYPES, type ActivityType } from "@/mock/plan";
+import { addedItems, historyDays, nextOutsideStep, offerFor, recordedItems, type PictureItem } from "@/lib/signal-picture";
+import { ACTIVITY_OF_CHANNEL, ACTIVITY_TYPES } from "@/mock/plan";
 import { signalOfRecord } from "@/lib/signals";
 import { dismissSpark, useDismissedSparks } from "@/lib/spark-dismissal";
 import { sparksFor } from "@/lib/sparks";
@@ -464,16 +464,7 @@ export function usePlanPage() {
   );
   const momentum = momentumOf("list");
 
-  /* The next action under the picture is Momentum's next move: the first step
-     she has accepted and not finished, overall and for each kind of activity. */
   const toolboxHref = conceptHref("toolbox-flow", "concept-1");
-  const nextOf = (activity?: ActivityType) => {
-    const n = nextActionFor(loop.records, loop.tasks, activity);
-    return n ? { title: n.title, href: toolboxHref } : undefined;
-  };
-  const nextByActivity = Object.fromEntries(
-    ACTIVITY_TYPES.map((a) => [a.id, nextOf(a.id)]).filter(([, n]) => n)
-  ) as Partial<Record<ActivityType, { title: string; href: string }>>;
   /* Until she has said where she started, the page asks that and nothing else:
      the picture would only repeat the page's title over an empty record. */
   /* Her next step as the path draws it: only one that would add a circle, so
@@ -515,11 +506,8 @@ export function usePlanPage() {
       startedOn={loop.account.plan.startedOn}
       nextStep={pathStep}
       {...(variant === "map" ? mapProps() : {})}
-      next={nextOf()}
-      nextByActivity={nextByActivity}
       items={pictureItems}
       today={loop.today}
-      history={history}
       onAdd={() => setEntry({ mode: "add" })}
       onEdit={(item) => setEntry({ mode: "edit", item })}
       onDelete={(item) => removePresence(item.id)}
@@ -530,7 +518,6 @@ export function usePlanPage() {
       onDismissOffer={() => setOfferDismissed(true)}
     />
   );
-  const picture = pictureOf("items");
 
   // The homepage's starting-point counts, kept until the homepage concept is chosen.
   const rows = signalRows(loop.today, items, baseline, seeded, (item) =>
@@ -608,7 +595,7 @@ export function usePlanPage() {
     />
   );
 
-  return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, agenda, guided, calendar, note, narrative: narrativeNode, momentum, momentumOf, picture, pictureOf, started, hasStarted: hasBaseline(baseline, seeded), sparkNode, sheet: (
+  return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, agenda, guided, calendar, note, narrative: narrativeNode, momentum, momentumOf, pictureOf, started, hasStarted: hasBaseline(baseline, seeded), sparkNode, sheet: (
       <>
         {sheet}
         {calendarSheet}

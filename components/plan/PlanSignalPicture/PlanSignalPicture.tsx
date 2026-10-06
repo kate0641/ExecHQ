@@ -1,38 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { useId, useState } from "react";
+import { useState } from "react";
 import { Badge } from "@/components/primitives/Badge";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
-import {
-  areaName,
-  byActivity,
-  cameOfRows,
-  directionOf,
-  growthMonths,
-  inWindow,
-  newestFirst,
-  windowIsFull,
-  type ActivityGroup,
-  type CameOfRow,
-  type Offer,
-  type PictureItem,
-} from "@/lib/signal-picture";
+import { cameOfRows, growthMonths, type CameOfRow, type Offer, type PictureItem } from "@/lib/signal-picture";
 import { shortDate, type LoopDate } from "@/lib/loop";
 import { PRESENCE_CARD_COPY } from "@/mock/accounts-stub";
-import { ACTIVITY_TYPES, SIGNAL_PICTURE_COPY as C, type ActivityType, type WindowDays } from "@/mock/plan";
+import { ACTIVITY_TYPES, SIGNAL_PICTURE_COPY as C, type ActivityType } from "@/mock/plan";
 
-/** How the picture shows what came of things and what to do next.
- *  - items: what came of it sits under each thing she did; one next action at the foot.
+/** How the picture draws her record. Each Signals concept has its own, and none ranks or scores her.
+ *  - path: a line through time with a circle for each month, her next step ahead.
  *  - map: where she shows up, a dot for each thing in four equal territories,
  *    with her followers above and her next step as a dashed dot.
- *  - cameof: only what she says came of the things she did, in her words,
- *    with what it followed. No next action and no add button: the page has those.
- *  - areas: one card per kind of activity, each with its own next action. */
-export type SignalPictureVariant = "items" | "cameof" | "areas" | "path" | "map";
+ *  - cameof: a row for each thing, what she did pointing at what she says came
+ *    of it, in her words. No next action and no add button: the page has those. */
+export type SignalPictureVariant = "path" | "map" | "cameof";
 
-/** Her next step, as the path draws it: the next circle, and why. */
 export interface PathNextStep {
   title: string;
   /** Why this step now, in the plan's own words. */
@@ -47,17 +32,9 @@ export interface PathNextStep {
   onStart: () => void;
 }
 
-export interface PictureNext {
-  title: string;
-  /** Where Start goes: the Toolbox. */
-  href: string;
-}
-
 export interface PlanSignalPictureProps {
   items: PictureItem[];
   today: LoopDate;
-  /** Days of record she has. A window longer than this says so. */
-  history: number;
   onAdd: () => void;
   onEdit: (item: PictureItem) => void;
   onDelete: (item: PictureItem) => void;
@@ -65,7 +42,7 @@ export interface PlanSignalPictureProps {
   offer?: Offer;
   onAcceptOffer?: () => void;
   onDismissOffer?: () => void;
-  variant?: SignalPictureVariant;
+  variant: SignalPictureVariant;
   /** The path and map variants: the day her plan began, and her next step. */
   startedOn?: LoopDate;
   nextStep?: PathNextStep;
@@ -74,10 +51,6 @@ export interface PlanSignalPictureProps {
   before?: Partial<Record<ActivityType, number>>;
   tryThis?: { title: string; why: string; label: string; href: string };
   tryLabel?: string;
-  /** The next action for the whole picture. */
-  next?: PictureNext;
-  /** The next action for one kind of activity, where she has one. */
-  nextByActivity?: Partial<Record<ActivityType, PictureNext>>;
   /** Catalogue only: a row opens asking whether to delete. */
   demoDelete?: boolean;
   /** Catalogue only: the next step's reason is open. */
@@ -87,12 +60,10 @@ export interface PlanSignalPictureProps {
 }
 
 /**
- * A private, factual record of what moved, embedded in the Plan. Each item
- * says in words where it came from, "Recorded in ExecHQ" or "You added", and
- * the two are never folded into one count without that label. Seven days is
- * each item; thirty groups them by plan area, with the channel as a tag; ninety
- * is the direction of travel for each area, with what is behind it one tap
- * away. A window with too little history says so, and shows what there is.
+ * Her private, factual record of what moved, drawn the way each Signals
+ * concept draws it. Where an item came from is said in words, and a thing she
+ * did is never folded into a count without its label. What came of a thing is
+ * only ever her own words, never worked out for her.
  *
  * Nothing here is a number she could mistake for a score: no percentage,
  * grade, gauge or rank, and nothing compared with anyone.
@@ -100,32 +71,24 @@ export interface PlanSignalPictureProps {
 export function PlanSignalPicture({
   items,
   today,
-  history,
   onAdd,
   onEdit,
   onDelete,
   offer,
   onAcceptOffer,
   onDismissOffer,
-  variant = "items",
+  variant,
   startedOn,
   nextStep,
   hero,
   before,
   tryThis,
   tryLabel,
-  next,
-  nextByActivity,
   demoDelete,
   demoWhy,
   headingId = "plan-signal-picture",
   className,
 }: PlanSignalPictureProps) {
-  /* She does not pick a window: her history decides it, like Momentum. Each wider view holds the items of the narrower one. */
-  const days: WindowDays = history >= 90 ? 90 : history >= 30 ? 30 : 7;
-  const full = windowIsFull(history, days);
-  const visible = inWindow(items, today, days);
-
   if (variant === "map") {
     return (
       <MapPicture
@@ -163,111 +126,22 @@ export function PlanSignalPicture({
     );
   }
 
-  if (variant === "path") {
-    return (
-      <PathPicture
-        items={items}
-        today={today}
-        startedOn={startedOn ?? today}
-        nextStep={nextStep}
-        offer={offer}
-        onAcceptOffer={onAcceptOffer}
-        onDismissOffer={onDismissOffer}
-        onEdit={onEdit}
-        onDelete={onDelete}
-        demoDelete={demoDelete}
-        demoWhy={demoWhy}
-        headingId={headingId}
-        className={className}
-      />
-    );
-  }
-
   return (
-    <section className={["signal-picture", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
-      <div className="signal-picture__head">
-        <h2 className="signal-picture__heading" id={headingId}>
-          {C.heading}
-        </h2>
-        <p className="signal-picture__intro">{C.intro}</p>
-        <p className="signal-picture__key">{C.key}</p>
-      </div>
-
-      {offer ? (
-        <aside className="signal-picture__offer" aria-label={C.add}>
-          <p>{C.offer(offer.title)}</p>
-          <div className="signal-picture__row-actions">
-            <Button variant="primary" size="sm" onClick={onAcceptOffer}>
-              {C.offerYes}
-            </Button>
-            <Button variant="ghost" size="sm" onClick={onDismissOffer}>
-              {C.offerNo}
-            </Button>
-          </div>
-        </aside>
-      ) : null}
-
-      {items.length ? <p className="signal-picture__window">{full ? C.windowHeading[days] : C.thinNow}</p> : null}
-
-      {items.length === 0 ? (
-        <p className="signal-picture__empty">{C.empty}</p>
-      ) : variant === "areas" ? (
-        visible.length ? (
-          <div className="signal-picture__areas">
-            {byActivity(visible).map((group) => (
-              <ActivityCard
-                key={group.activity}
-                group={group}
-                today={today}
-                days={days}
-                full={full}
-                next={nextByActivity?.[group.activity]}
-                onEdit={onEdit}
-                onDelete={onDelete}
-                demoDelete={demoDelete}
-              />
-            ))}
-          </div>
-        ) : (
-          <p className="signal-picture__empty">{C.quiet(days)}</p>
-        )
-      ) : days === 7 ? (
-        visible.length ? (
-          <>
-            <ul className="signal-picture__list">
-              {newestFirst(visible).map((item) => (
-                <Row key={item.id} item={item} onEdit={onEdit} onDelete={onDelete} showImpact demoDelete={demoDelete && item.editable} />
-              ))}
-            </ul>
-            <NextCard next={next} />
-          </>
-        ) : (
-          <p className="signal-picture__empty">{C.quiet(7)}</p>
-        )
-      ) : visible.length ? (
-        <>
-          <div className="signal-picture__areas">
-            {byActivity(visible).map((group) =>
-              days === 90 && full ? (
-                <Direction key={group.activity} group={group} today={today} onEdit={onEdit} onDelete={onDelete} />
-              ) : (
-                <Group key={group.activity} group={group} onEdit={onEdit} onDelete={onDelete} />
-              )
-            )}
-          </div>
-          <NextCard next={next} />
-        </>
-      ) : (
-        <p className="signal-picture__empty">{C.quiet(days)}</p>
-      )}
-
-      <div>
-        <Button variant="secondary" size="sm" onClick={onAdd}>
-          <Icon name="plus" size={14} />
-          {C.add}
-        </Button>
-      </div>
-    </section>
+    <PathPicture
+      items={items}
+      today={today}
+      startedOn={startedOn ?? today}
+      nextStep={nextStep}
+      offer={offer}
+      onAcceptOffer={onAcceptOffer}
+      onDismissOffer={onDismissOffer}
+      onEdit={onEdit}
+      onDelete={onDelete}
+      demoDelete={demoDelete}
+      demoWhy={demoWhy}
+      headingId={headingId}
+      className={className}
+    />
   );
 }
 
@@ -613,23 +487,6 @@ function Source({ source }: { source: PictureItem["source"] }) {
   );
 }
 
-/** The one thing to do next, with Start opening the Toolbox. */
-function NextCard({ next }: { next?: PictureNext }) {
-  const id = useId();
-  if (!next) return null;
-  return (
-    <section className="signal-picture__next" aria-labelledby={id}>
-      <h3 className="signal-picture__label" id={id}>
-        {C.nextLabel}
-      </h3>
-      <p className="signal-picture__next-title">{next.title}</p>
-      <Link href={next.href} className="btn btn--primary btn--md">
-        {C.nextStart}
-      </Link>
-    </section>
-  );
-}
-
 /** A row for each thing she did and what she says came of it: what she did in a dark block that points at her words. A thing with no reply shows a quiet dashed block, never a miss. */
 function CameOf({
   items,
@@ -741,130 +598,16 @@ function CameOfRowView({
   );
 }
 
-function ActivityCard({
-  group,
-  today,
-  days,
-  full,
-  next,
-  onEdit,
-  onDelete,
-  demoDelete,
-}: {
-  group: ActivityGroup;
-  today: LoopDate;
-  days: number;
-  full: boolean;
-  next?: PictureNext;
-  onEdit: PlanSignalPictureProps["onEdit"];
-  onDelete: PlanSignalPictureProps["onDelete"];
-  demoDelete?: boolean;
-}) {
-  const id = useId();
-  const all = [...group.recorded, ...group.added];
-  const word = days === 90 && full ? C.direction[directionOf(all, today, 90)] : undefined;
-  return (
-    <section className="signal-picture__group signal-picture__group--card" aria-labelledby={id}>
-      <h3 className="signal-picture__area" id={id}>
-        {word ? C.directionLine(group.name, word) : group.name}
-      </h3>
-      <p className="signal-picture__counts">{C.counts(group.recorded.length, group.added.length)}</p>
-      <ul className="signal-picture__list">
-        {all.map((item) => (
-          <Row key={item.id} item={item} onEdit={onEdit} onDelete={onDelete} showImpact demoDelete={demoDelete && item.editable} />
-        ))}
-      </ul>
-      <NextCard next={next} />
-    </section>
-  );
-}
-
-function Group({
-  group,
-  onEdit,
-  onDelete,
-}: {
-  group: ActivityGroup;
-  onEdit: PlanSignalPictureProps["onEdit"];
-  onDelete: PlanSignalPictureProps["onDelete"];
-}) {
-  const id = useId();
-  return (
-    <section className="signal-picture__group" aria-labelledby={id}>
-      <h3 className="signal-picture__area" id={id}>
-        {group.name}
-      </h3>
-      <p className="signal-picture__counts">{C.counts(group.recorded.length, group.added.length)}</p>
-      <ul className="signal-picture__list">
-        {[...group.recorded, ...group.added].map((item) => (
-          <Row key={item.id} item={item} onEdit={onEdit} onDelete={onDelete} showImpact />
-        ))}
-      </ul>
-    </section>
-  );
-}
-
-function Direction({
-  group,
-  today,
-  onEdit,
-  onDelete,
-}: {
-  group: ActivityGroup;
-  today: LoopDate;
-  onEdit: PlanSignalPictureProps["onEdit"];
-  onDelete: PlanSignalPictureProps["onDelete"];
-}) {
-  const id = useId();
-  const [open, setOpen] = useState(false);
-  const all = [...group.recorded, ...group.added];
-  const word = C.direction[directionOf(all, today, 90)];
-  const impacts = all.filter((i) => i.impact);
-  return (
-    <section className="signal-picture__group" aria-labelledby={id}>
-      <h3 className="signal-picture__area" id={id}>
-        {C.directionLine(group.name, word)}
-      </h3>
-      {impacts.length ? (
-        <ul className="signal-picture__impacts">
-          {impacts.map((i) => (
-            <li key={i.id}>
-              <span className="signal-picture__text">{i.impact}</span>
-              <span className="signal-picture__date">{C.after(i.text)}</span>
-            </li>
-          ))}
-        </ul>
-      ) : null}
-      <Button variant="ghost" size="sm" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
-        {open ? C.hideBehind : C.behind}
-        <Icon name={open ? "chevron-up" : "chevron-down"} size={16} />
-      </Button>
-      {open ? (
-        <>
-          <p className="signal-picture__counts">{C.counts(group.recorded.length, group.added.length)}</p>
-          <ul className="signal-picture__list">
-            {all.map((item) => (
-              <Row key={item.id} item={item} onEdit={onEdit} onDelete={onDelete} />
-            ))}
-          </ul>
-        </>
-      ) : null}
-    </section>
-  );
-}
-
 function Row({
   item,
   onEdit,
   onDelete,
-  showArea,
   showImpact,
   demoDelete,
 }: {
   item: PictureItem;
   onEdit: PlanSignalPictureProps["onEdit"];
   onDelete: PlanSignalPictureProps["onDelete"];
-  showArea?: boolean;
   /** Under the item, what she said came of it, or a way to add it. */
   showImpact?: boolean;
   demoDelete?: boolean;
@@ -885,7 +628,6 @@ function Row({
           {C.openLink} <span className="u-visually-hidden">{C.opensNewTab}</span>
         </a>
       ) : null}
-      {showArea ? <p className="signal-picture__where">{C.areaOf(areaName(item.areaId))}</p> : null}
       {showImpact && item.impact ? (
         <p className="signal-picture__impact">
           <span className="signal-picture__label">{C.impactHeading}</span>

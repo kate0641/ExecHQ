@@ -224,21 +224,21 @@ export const prototypeConfig: PrototypeConfig = {
       concepts: [
         {
           slug: "concept-1",
-          title: "Concept 1 — Picture first",
+          title: "Concept 1 — How you've grown",
           summary:
-            "The Signal Picture leads, with where she started and sparks above her record, and Momentum beside it.",
+            "A path through time: where she started, a circle for each month, her next step ahead, and Momentum as a dial beside it.",
         },
         {
           slug: "concept-2",
           title: "Concept 2 — Momentum first",
           summary:
-            "Momentum leads, wide, and the Signal Picture sits beside it with where she started beneath.",
+            "This week leads as seven day circles, then what came of the things she did, then where she started.",
         },
         {
           slug: "concept-3",
-          title: "Concept 3 — Side by side",
+          title: "Concept 3 — Where you show up",
           summary:
-            "Where she started and what has moved lead across the top; the Signal Picture and Momentum sit as equals beneath.",
+            "Four equal territories with a dot for each thing, hollow for what she had and filled for what she has added, and Momentum's bars beside it.",
         },
       ],
     },
