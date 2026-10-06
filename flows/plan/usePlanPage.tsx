@@ -1,8 +1,11 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { AccountCard } from "@/components/homepage/AccountCard";
 import { BaselineForm } from "@/components/homepage/BaselineForm";
+import { LinkedInMore } from "@/components/homepage/LinkedInMore";
+import type { LinkedInStatus } from "@/flows/onboarding/shared";
+import { LINKEDIN_READ_MS, looksLikeLinkedInExport } from "@/mock/onboarding";
 import { TrendLine } from "@/components/homepage/TrendLine";
 import { UpdateNowSheet } from "@/components/homepage/UpdateNowSheet";
 import { PresenceCard } from "@/components/homepage/PresenceCard";
@@ -76,6 +79,13 @@ export function usePlanPage() {
   const baseline = useBaseline();
   const current = useCurrent();
   const [updating, setUpdating] = useState(false);
+  // The LinkedIn export she may add under her starting numbers. In the prototype only its name is kept, and "reading" is a timer.
+  const [liExport, setLiExport] = useState<{ fileName: string | null; status: LinkedInStatus }>({ fileName: null, status: "none" });
+  useEffect(() => {
+    if (liExport.status !== "reading") return;
+    const read = setTimeout(() => setLiExport((l) => ({ ...l, status: "ready" })), LINKEDIN_READ_MS);
+    return () => clearTimeout(read);
+  }, [liExport.status, liExport.fileName]);
   const dismissed = useDismissedSparks();
   const [entry, setEntry] = useState<
     { mode: "add"; initial?: Partial<EntryValues>; fromRecord?: string } | { mode: "edit"; item: PictureItem } | null
@@ -539,7 +549,18 @@ export function usePlanPage() {
       ) : (
         <SignalPicture
           name={SPIC.startedHeading}
-          empty={<BaselineForm onSave={saveBaseline} />}
+          empty={
+            <BaselineForm onSave={saveBaseline}>
+              <LinkedInMore
+                status={liExport.status}
+                fileName={liExport.fileName}
+                onChoose={(fileName) =>
+                  setLiExport({ fileName, status: looksLikeLinkedInExport(fileName) ? "reading" : "wrong-file" })
+                }
+                onSendSteps={() => setLiExport((l) => ({ ...l, status: "sent" }))}
+              />
+            </BaselineForm>
+          }
           headingId="plan-signals-card"
         />
       )}

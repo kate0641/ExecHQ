@@ -16,6 +16,7 @@ import { actionSheetStates } from "./homepage/ActionSheet/ActionSheet.states";
 import { cardCarouselStates } from "./layout/CardCarousel/CardCarousel.states";
 import { stepperStates } from "./form/Stepper/Stepper.states";
 import { baselineFormStates } from "./homepage/BaselineForm/BaselineForm.states";
+import { linkedInMoreStates } from "./homepage/LinkedInMore/LinkedInMore.states";
 import { signalPictureStates } from "./homepage/SignalPicture/SignalPicture.states";
 import { badgeStates } from "./primitives/Badge/Badge.states";
 import { buttonStates } from "./primitives/Button/Button.states";
@@ -175,6 +176,7 @@ export const registry: RegisteredComponent[] = [
   signalPictureStates,
   stepperStates,
   baselineFormStates,
+  linkedInMoreStates,
   mapPanelStates,
   actionSheetStates,
   briefingEditorialStates,

@@ -285,6 +285,13 @@ export const DEMO_SOURCES = {
 
 export const LINKEDIN_ROW_LABEL = "LinkedIn followers";
 
+/** The invitation under the starting numbers: the onboarding's LinkedIn upload, for later or now. */
+export const LINKEDIN_MORE_COPY = {
+  title: "Add more LinkedIn data",
+  body: "Optional. Your LinkedIn analytics export shows how your posts and audience are doing. Add it now, or any time later.",
+  open: "Upload my LinkedIn export",
+} as const;
+
 export const BASELINE_COPY = {
   intro: "Your Signal Picture is a private record of how your visibility changes. Tell us where you are now, so you can see your progress at the end of each stage. A rough guess, even zero, is fine.",
   linkedin: { label: LINKEDIN_ROW_LABEL, hint: "Look at your profile and type the number", placeholder: "e.g. 1,240" },

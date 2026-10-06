@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState, type FormEvent, type ReactNode } from "react";
 import { Input } from "@/components/form/Input";
 import { Stepper } from "@/components/form/Stepper";
 import { Button } from "@/components/primitives/Button";
@@ -19,6 +19,8 @@ export interface BaselineFormProps {
   skipLabel?: string;
   /** Catalogue only: fills the form. */
   demo?: { counts?: Partial<Record<CountedKind, number>>; followers?: string };
+  /** Something optional between the numbers and the buttons. */
+  children?: ReactNode;
   className?: string;
 }
 
@@ -30,7 +32,7 @@ const NONE: Record<CountedKind, number> = { podcast: 0, press: 0, speaking: 0, w
  * by hand. Nothing is looked up, so there is nothing to connect or explain,
  * and zero is a fine answer. The followers are optional.
  */
-export function BaselineForm({ onSave, onSkip, initial, intro, saveLabel, skipLabel, demo, className }: BaselineFormProps) {
+export function BaselineForm({ onSave, onSkip, initial, intro, saveLabel, skipLabel, demo, children, className }: BaselineFormProps) {
   const [counts, setCounts] = useState<Record<CountedKind, number>>({ ...NONE, ...initial?.counts, ...demo?.counts });
   const [followers, setFollowers] = useState(demo?.followers ?? (initial?.followers !== undefined ? initial.followers.toLocaleString("en-US") : ""));
 
@@ -60,6 +62,7 @@ export function BaselineForm({ onSave, onSkip, initial, intro, saveLabel, skipLa
           onChange={(value) => setCounts((current) => ({ ...current, [kind]: value }))}
         />
       ))}
+      {children}
       <div className="baseline-form__actions">
         <Button type="submit" variant="primary" fullWidth>
           {saveLabel ?? C.save}
