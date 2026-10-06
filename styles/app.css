@@ -11859,8 +11859,13 @@ ul.map-rings {
   width: 74%;
   height: 74%;
   border-radius: var(--radius-pill);
-  /* A faint glow that starts at the ring and fades in towards the check. */
-  background-image: radial-gradient(circle closest-side, transparent 35%, var(--color-ring-complete-glow));
+  /* A soft glow of three colours: a warm core sitting low and to the left,
+     peach drifting up and right, and a cool edge where it meets the ring. */
+  background-color: var(--color-surface-raised);
+  background-image:
+    radial-gradient(circle at 40% 62%, var(--color-ring-complete-core), transparent 52%),
+    radial-gradient(circle at 64% 36%, var(--color-ring-complete-mid), transparent 58%),
+    radial-gradient(circle closest-side, transparent 50%, var(--color-ring-complete-edge));
   color: var(--color-ring-done);
   transform: translate(-50%, -50%);
 }
