@@ -652,21 +652,20 @@ samp {
    Sentence case rather than the badge's capitals, because the labels are plain
    verbs ("Sent", "Waiting to hear") and read as words, not as tags. */
 
+/* Where a piece of work stands, set as an eyebrow (blue uppercase, with its
+   glyph) rather than a pill, so it can never be mistaken for a button. */
 .loop-status {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2xs);
-  padding: var(--space-3xs) var(--space-xs);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface-sunken);
-  color: var(--color-text-primary);
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
+  text-transform: uppercase;
+  color: var(--color-eyebrow);
   white-space: nowrap;
 }
 
@@ -682,7 +681,6 @@ samp {
 /* Finished work steps back, so what is still open reads first. */
 .loop-status--done,
 .loop-status--set-aside {
-  background-color: var(--color-surface);
   color: var(--color-text-secondary);
 }
 
@@ -12389,19 +12387,6 @@ ul.card-carousel__track {
 
 .card-carousel__slide > .loop-row > .loop-status {
   order: -1;
-  /* Where it stands, as the card's eyebrow rather than a pill, so it can't
-     be mistaken for a button. */
-  padding: 0;
-  border: 0;
-  background: none;
-  font-family: var(--type-eyebrow-font);
-  font-size: var(--type-eyebrow-size);
-  font-weight: var(--type-eyebrow-weight);
-  line-height: var(--type-eyebrow-leading);
-  letter-spacing: var(--type-eyebrow-tracking);
-  word-spacing: var(--type-eyebrow-word-spacing);
-  text-transform: uppercase;
-  color: var(--color-eyebrow);
 }
 
 .card-carousel__slide > .loop-row > .loop-row__text {
