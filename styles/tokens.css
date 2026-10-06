@@ -252,9 +252,9 @@
      day. Day is the soft jewel above. Each has a heart (light, core, mid)
      rising from the bottom edge, and an edge and a deep tone around it. At
      night a small warm ember glows at the bottom edge of the navy. */
-  --color-sky-dawn-light: var(--brand-white);
+  --color-sky-dawn-light: var(--brand-yellow-100);
   --color-sky-dawn-core: var(--brand-orange-200);
-  --color-sky-dawn-mid: var(--brand-orange-300);
+  --color-sky-dawn-mid: var(--brand-yellow-300);
   --color-sky-dawn-edge: var(--brand-blue-200);
   --color-sky-dawn-deep: var(--brand-blue-300);
   --color-sky-dusk-light: var(--brand-yellow-200);
