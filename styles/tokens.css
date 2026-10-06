@@ -239,21 +239,14 @@
      edge, or pale lime. */
   --color-ring-selected: var(--brand-white);
   --color-ring-selected-edge: var(--brand-stone-250);
-  /* The glow inside a finished ring, cut like a soft jewel: a warm peach and
-     yellow heart sitting low, a pale blue deepening towards the ring, and
-     white light at the rim and the top that gives it a surface. */
+  /* The soft jewel, used for Home's header on the phone: a warm peach and
+     yellow heart sitting low, a pale blue deepening towards the edge, and
+     white light at the top. (Named for the finished ring, where it began.) */
   --color-ring-complete-core: var(--brand-yellow-300);
   --color-ring-complete-mid: var(--brand-orange-300);
   --color-ring-complete-edge: var(--brand-blue-200);
   --color-ring-complete-deep: var(--brand-blue-300);
   --color-ring-complete-light: var(--brand-white);
-
-  /* Home's header on the phone: a soft wash behind the greeting and the
-     status bar, warm peach low on the left and a cool blue up on the right. */
-  --color-header-glow-warm: var(--brand-orange-300);
-  --color-header-glow-cool: var(--brand-blue-300);
-  --color-header-wash-warm: var(--brand-orange-200);
-  --color-header-wash-cool: var(--brand-blue-100);
 
   /* Danger — the destructive action: deleting the account, removing a
      connection. The red end of the orange scale. White on it is 7.0:1, and

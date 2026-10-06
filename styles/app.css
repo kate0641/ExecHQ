@@ -11680,17 +11680,18 @@ ul.login__never {
   color: var(--color-text-inverse);
 }
 
-/* On the phone the header is a soft wash, not navy: a warm peach glow low on
-   the left and a cool blue up on the right. The status bar and the greeting
+/* On the phone the header is a soft wash, not navy: the soft jewel, a warm
+   heart just below the middle, pale blue deepening to the sides and light
+   catching the top. The status bar and the greeting
    share one wash, each showing its own slice of it, so it runs unbroken from
    the top of the screen to the bottom of the greeting. */
 .device__screen:has(.map-home) {
   --home-header-band: 2.5rem;
   --home-header-height: calc(var(--device-statusbar-height) + var(--home-header-band));
   --home-header-wash:
-    radial-gradient(ellipse 70% 140% at 22% 100%, var(--color-header-glow-warm), transparent 75%),
-    radial-gradient(ellipse 65% 150% at 92% 0%, var(--color-header-glow-cool), transparent 80%),
-    linear-gradient(100deg, var(--color-header-wash-warm), var(--color-header-wash-cool));
+    radial-gradient(ellipse 45% 60% at 50% 0%, color-mix(in srgb, var(--color-ring-complete-light) 85%, transparent), transparent),
+    radial-gradient(ellipse 42% 130% at 46% 70%, var(--color-ring-complete-mid), color-mix(in srgb, var(--color-ring-complete-core) 85%, transparent) 30%, transparent 62%),
+    radial-gradient(ellipse 75% 170% at 50% 50%, var(--color-ring-complete-light) 30%, var(--color-ring-complete-edge) 85%, var(--color-ring-complete-deep));
 }
 
 .device__screen:has(.map-home) > .device__statusbar {
@@ -11976,21 +11977,8 @@ ul.map-rings {
   left: 50%;
   display: grid;
   place-items: center;
-  /* Fills the hole of the ring: 74 of the drawing's 100 units across. */
-  width: 74%;
-  height: 74%;
-  border-radius: var(--radius-pill);
-  /* A soft jewel: light catching the top, a warm heart sitting just low of
-     centre, pale blue deepening towards the ring, and a bright rim inside the
-     ring that gives the fill a surface. */
-  background-color: var(--color-ring-complete-light);
-  background-image:
-    radial-gradient(ellipse 45% 26% at 50% 16%, color-mix(in srgb, var(--color-ring-complete-light) 85%, transparent), transparent),
-    radial-gradient(circle at 46% 60%, var(--color-ring-complete-mid), color-mix(in srgb, var(--color-ring-complete-core) 85%, transparent) 30%, transparent 58%),
-    radial-gradient(circle closest-side, var(--color-ring-complete-light) 30%, var(--color-ring-complete-edge) 85%, var(--color-ring-complete-deep));
-  box-shadow:
-    inset 0 0 var(--space-2xs) var(--space-3xs) color-mix(in srgb, var(--color-ring-complete-light) 95%, transparent),
-    inset 0 0 var(--space-sm) var(--space-2xs) color-mix(in srgb, var(--color-ring-complete-light) 45%, transparent);
+  width: 1.75rem;
+  height: 1.75rem;
   color: var(--color-ring-done);
   transform: translate(-50%, -50%);
 }
