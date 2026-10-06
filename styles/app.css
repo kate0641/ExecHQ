@@ -11693,8 +11693,9 @@ ul.login__never {
   --sky-mid: var(--color-ring-complete-mid);
   --sky-edge: var(--color-ring-complete-edge);
   --sky-deep: var(--color-ring-complete-deep);
+  --sky-glow: var(--sky-light);
   --home-header-wash:
-    radial-gradient(ellipse 26% 65% at 50% 100%, var(--sky-light), transparent),
+    radial-gradient(ellipse 26% 65% at 50% 100%, var(--sky-glow), transparent),
     radial-gradient(ellipse 58% 150% at 50% 100%, var(--sky-mid), color-mix(in srgb, var(--sky-core) 75%, transparent) 30%, color-mix(in srgb, var(--sky-core) 30%, transparent) 60%, transparent 95%),
     radial-gradient(ellipse 95% 240% at 50% 100%, var(--sky-light) 15%, var(--sky-edge) 55%, var(--sky-deep) 85%, var(--sky-edge) 100%);
 }
@@ -11717,6 +11718,7 @@ ul.login__never {
 }
 
 .device__screen:has(.map-home__greeting[data-sky="night"]) {
+  --sky-glow: var(--color-sky-night-glow);
   --sky-light: var(--color-sky-night-light);
   --sky-core: var(--color-sky-night-core);
   --sky-mid: var(--color-sky-night-mid);
