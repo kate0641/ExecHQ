@@ -214,6 +214,7 @@ export const prototypeConfig: PrototypeConfig = {
       title: "Signal Picture",
       sprint: 3,
       chrome: "app",
+      privacyFooter: false,
       description:
         "The home of the Signal Picture and Momentum: what she has put out there, where she started beside where she is now, and how her follow-through is going. Factual, never a score.",
       stub: {
