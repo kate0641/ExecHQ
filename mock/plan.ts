@@ -589,6 +589,8 @@ export const SIGNAL_PICTURE_COPY = {
   added: "You added",
   key: "Recorded in ExecHQ happened here. You added is what you told us.",
   windowLabel: "Time window",
+  /** Which span the picture shows. She does not choose: her history does. */
+  windowHeading: { 7: "Last 7 days", 30: "Last 30 days", 90: "Last 90 days" } as Record<WindowDays, string>,
   windows: { 7: "7 days", 30: "30 days", 90: "90 days" } as Record<WindowDays, string>,
   /** Honest about how little there is, never an empty chart. */
   thin: (days: number, window: number) =>

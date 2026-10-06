@@ -28,7 +28,7 @@ const nextByActivity = {
   podcast: next,
 };
 
-const base = { items, today, history: 30, next, nextByActivity, onAdd: noop, onEdit: noop, onDelete: noop };
+const base = { items, today, history: 16, next, nextByActivity, onAdd: noop, onEdit: noop, onDelete: noop };
 
 /** Items placed to read "building", "unchanged" and "quieter" over ninety days. */
 const spread = (
@@ -64,7 +64,7 @@ export const planSignalPictureStates = defineComponentStates({
   status: "draft",
   flows: ["plan"],
   description:
-    "A private, factual record of what moved, in the Plan. Every item says in words where it came from, “Recorded in ExecHQ” or “You added”, and the two are never folded into one count without the label. Seven days shows each item; thirty groups them by plan area with the channel as a tag; ninety shows the direction for each area, with what is behind it one tap away. A window with too little history says so and shows what there is. Nothing in it is a score, percentage or grade.",
+    "A private, factual record of what moved, in the Plan. Every item says in words where it came from, “Recorded in ExecHQ” or “You added”, and the two are never folded into one count without the label. Seven days shows each item; thirty groups them by plan area with the channel as a tag; ninety shows the direction for each area, with what is behind it one tap away. Her history decides the window she sees: 7 days at first, 30 days from a month in, 90 days from three months in. Nothing in it is a score, percentage or grade.",
   component: PlanSignalPicture,
   notApplicable: {
     hover: "Its controls are Buttons and a ToggleGroup, which show their own states.",
@@ -78,23 +78,18 @@ export const planSignalPictureStates = defineComponentStates({
   variants: [
     { label: "Seven days, both sources — default", props: base },
     {
-      label: "Thirty days, grouped by plan area",
-      props: { ...base, initialWindow: 30, headingId: "psp-30" },
+      label: "Her first days — what she has so far",
+      description: "No window to pick: her history decides it. Under a week it says what she has so far, and no more.",
+      props: { ...base, today: "2026-10-20", history: 3, headingId: "psp-first" },
     },
     {
-      label: "Thirty days, thin history",
-      description: "Sixteen days of record: it says so and shows what there is.",
-      props: { ...base, today: "2026-10-20", history: 16, initialWindow: 30, headingId: "psp-thin30" },
+      label: "At 30 days, grouped by activity",
+      props: { ...base, history: 35, headingId: "psp-30" },
     },
     {
-      label: "Ninety days, thin history",
-      description: "A pilot user never fills this window. It says so instead of drawing a trend.",
-      props: { ...base, initialWindow: 90, headingId: "psp-thin90" },
-    },
-    {
-      label: "Ninety days, direction by activity",
+      label: "At 90 days, direction by activity",
       description: "Needs the whole window behind it. Each line is a word, never a number, with what she reported under it.",
-      props: { ...base, items: ninety, today: "2026-12-20", history: 95, initialWindow: 90, headingId: "psp-90" },
+      props: { ...base, items: ninety, today: "2026-12-20", history: 95, headingId: "psp-90" },
     },
     {
       label: "Summary first — seven days",
@@ -103,11 +98,11 @@ export const planSignalPictureStates = defineComponentStates({
     },
     {
       label: "Summary first — thirty days",
-      props: { ...base, variant: "summary", initialWindow: 30, headingId: "psp-sum30" },
+      props: { ...base, variant: "summary", history: 35, headingId: "psp-sum30" },
     },
     {
       label: "Summary first — ninety days",
-      props: { ...base, variant: "summary", items: ninety, today: "2026-12-20", history: 95, initialWindow: 90, headingId: "psp-sum90" },
+      props: { ...base, variant: "summary", items: ninety, today: "2026-12-20", history: 95, headingId: "psp-sum90" },
     },
     {
       label: "Summary first — nothing reported came of it",
@@ -116,7 +111,7 @@ export const planSignalPictureStates = defineComponentStates({
         ...base,
         variant: "summary",
         items: items.map((i) => ({ ...i, impact: undefined })),
-        initialWindow: 30,
+        history: 35,
         headingId: "psp-sum-none",
       },
     },
@@ -131,16 +126,16 @@ export const planSignalPictureStates = defineComponentStates({
     },
     {
       label: "By activity — thirty days",
-      props: { ...base, variant: "areas", initialWindow: 30, headingId: "psp-act30" },
+      props: { ...base, variant: "areas", history: 35, headingId: "psp-act30" },
     },
     {
       label: "By activity — ninety days",
-      props: { ...base, variant: "areas", items: ninety, today: "2026-12-20", history: 95, initialWindow: 90, headingId: "psp-act90" },
+      props: { ...base, variant: "areas", items: ninety, today: "2026-12-20", history: 95, headingId: "psp-act90" },
     },
     {
       label: "Impact under each item — thirty days",
       description: "What she typed sits under what she did. An entry she added with nothing yet offers a way to add it.",
-      props: { ...base, initialWindow: 30, headingId: "psp-impact30" },
+      props: { ...base, history: 35, headingId: "psp-impact30" },
     },
     {
       label: "Impact under each item — no next action",
@@ -152,7 +147,7 @@ export const planSignalPictureStates = defineComponentStates({
     },
     {
       label: "Empty — a quiet seven days",
-      props: { ...base, today: "2027-01-20", history: 108, headingId: "psp-quiet" },
+      props: { ...base, today: "2027-01-20", history: 16, headingId: "psp-quiet" },
     },
     {
       label: "Offer after a piece is published",

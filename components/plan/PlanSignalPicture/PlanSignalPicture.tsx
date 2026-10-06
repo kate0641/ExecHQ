@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useId, useState } from "react";
-import { ToggleGroup } from "@/components/form/ToggleGroup";
 import { Badge } from "@/components/primitives/Badge";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
@@ -19,7 +18,7 @@ import {
   type PictureItem,
 } from "@/lib/signal-picture";
 import { shortDate, type LoopDate } from "@/lib/loop";
-import { SIGNAL_PICTURE_COPY as C, WINDOWS, type ActivityType, type WindowDays } from "@/mock/plan";
+import { SIGNAL_PICTURE_COPY as C, type ActivityType, type WindowDays } from "@/mock/plan";
 
 /** How the picture shows what came of things and what to do next.
  *  - items: what came of it sits under each thing she did; one next action at the foot.
@@ -46,7 +45,6 @@ export interface PlanSignalPictureProps {
   offer?: Offer;
   onAcceptOffer?: () => void;
   onDismissOffer?: () => void;
-  initialWindow?: WindowDays;
   variant?: SignalPictureVariant;
   /** The next action for the whole picture. */
   next?: PictureNext;
@@ -79,7 +77,6 @@ export function PlanSignalPicture({
   offer,
   onAcceptOffer,
   onDismissOffer,
-  initialWindow = 7,
   variant = "items",
   next,
   nextByActivity,
@@ -87,7 +84,8 @@ export function PlanSignalPicture({
   headingId = "plan-signal-picture",
   className,
 }: PlanSignalPictureProps) {
-  const [days, setDays] = useState<WindowDays>(initialWindow);
+  /* She does not pick a window: her history decides it, like Momentum. Each wider view holds the items of the narrower one. */
+  const days: WindowDays = history >= 90 ? 90 : history >= 30 ? 30 : 7;
   const full = windowIsFull(history, days);
   const visible = inWindow(items, today, days);
 
@@ -115,17 +113,7 @@ export function PlanSignalPicture({
         </aside>
       ) : null}
 
-      <ToggleGroup
-        label={C.windowLabel}
-        labelHidden
-        shape="pill"
-        size="sm"
-        options={WINDOWS.map((w) => ({ value: String(w), label: C.windows[w] }))}
-        value={String(days)}
-        onChange={(v) => setDays(Number(v) as WindowDays)}
-      />
-
-      {!full ? <p className="signal-picture__thin">{C.thin(history, days)}</p> : null}
+      {items.length ? <p className="signal-picture__window">{full ? C.windowHeading[days] : C.thinNow}</p> : null}
 
       {items.length === 0 ? (
         <p className="signal-picture__empty">{C.empty}</p>
@@ -176,7 +164,6 @@ export function PlanSignalPicture({
       ) : visible.length ? (
         <>
           <div className="signal-picture__areas">
-            {!full ? <p className="signal-picture__thin-now">{C.thinNow}</p> : null}
             {byActivity(visible).map((group) =>
               days === 90 && full ? (
                 <Direction key={group.activity} group={group} today={today} onEdit={onEdit} onDelete={onDelete} />
