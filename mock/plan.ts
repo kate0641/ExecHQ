@@ -719,6 +719,26 @@ export const MOMENTUM_COPY = {
   consistencyNone: (weeks: number) => `No completed action in the last ${weeks} weeks yet.`,
   weekTo: (to: string, done: number) => `to ${to}: ${done} completed`,
   placeholderRule: "Placeholder rule · D&T to define",
+  /** The pictures. Words come with each one. */
+  dial: {
+    aria: (days: number) => `A ring with one tick for each of the last ${days} days. A longer dark tick is a day she did something.`,
+    legend: "Each tick is one day. A longer dark tick is a day you did something. Today is the tick just before the top, in gold.",
+    legendFuture: "The dots are days still to come.",
+    day: (n: number) => `Day ${n}`,
+    ofPlan: "of your plan",
+    weeksOf: (active: number, weeks: number) => `${active} of ${weeks}`,
+    weeksCap: "weeks you completed something",
+    last90: "last 90 days",
+  },
+  week: {
+    heading: "This week",
+    legend: "A dark circle is a day you did something. A dashed circle is a day still to come.",
+    did: "you did something",
+    none: "nothing recorded",
+    notYet: "not yet",
+    nothing: "Nothing yet this week.",
+  },
+  barLabels: { completed: "Completed actions", artifact: "Artifacts created or used", outcome: "Outcomes updated" } as Record<MomentumFigure, string>,
   /** Her first week: what she has done so far, as plain lines, and what comes next. No counts, so no zeros. */
   soFarHeading: "So far",
   soFarNone: "Nothing yet. Your first draft will show up here.",

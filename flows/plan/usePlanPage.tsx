@@ -57,6 +57,7 @@ import { CALENDAR_COPY as CAL, EDIT_FLOW_HREF, PLAN_AGENDA_COPY as AG, STEP_QUES
 import { ACTIONS } from "@/mock/plan-stub";
 import { SNAPSHOTS } from "@/mock/snapshots";
 import type { CalendarItem } from "@/mock/plan";
+import type { MomentumVariant } from "@/components/plan/MomentumLabeled";
 import { PlanMomentum } from "./PlanMomentum";
 
 /**
@@ -448,15 +449,17 @@ export function usePlanPage() {
 
   const narrativeNode = <PlanNarrative key={`narrative-${loop.id}`} narrative={narrative} onOpenStep={openStep} />;
 
-  const momentum = (
+  const momentumOf = (variant: MomentumVariant) => (
     <PlanMomentum
-      key={`momentum-${loop.id}`}
+      key={`momentum-${loop.id}-${variant}`}
+      variant={variant}
       records={loop.records}
       tasks={loop.tasks}
       today={loop.today}
       startedOn={loop.account.plan.startedOn}
     />
   );
+  const momentum = momentumOf("list");
 
   /* The next action under the picture is Momentum's next move: the first step
      she has accepted and not finished, overall and for each kind of activity. */
@@ -597,7 +600,7 @@ export function usePlanPage() {
     />
   );
 
-  return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, agenda, guided, calendar, note, narrative: narrativeNode, momentum, picture, pictureOf, started, sparkNode, sheet: (
+  return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, agenda, guided, calendar, note, narrative: narrativeNode, momentum, momentumOf, picture, pictureOf, started, sparkNode, sheet: (
       <>
         {sheet}
         {updateNow}

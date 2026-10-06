@@ -81,6 +81,59 @@ export const momentumLabeledStates = defineComponentStates({
       },
     },
     {
+      label: "Dial — three days in",
+      description: "A ring with one tick a day. Days she has not reached are dots. The middle says what day she is on, with no zeros.",
+      props: { ...base, variant: "dial", history: 3, events: WEEKLY.slice(-2), follow: noFollow, headingId: "md-3" },
+    },
+    {
+      label: "Dial — ten days in",
+      props: { ...base, variant: "dial", history: 10, events: WEEKLY, follow: noFollow, headingId: "md-10" },
+    },
+    {
+      label: "Dial — at 30 days, weeks she completed something",
+      props: { ...base, variant: "dial", history: 35, events: WEEKLY, headingId: "md-30" },
+    },
+    {
+      label: "Dial — at 90 days, building",
+      description: "The ring holds ninety days. The label sits in the middle with its basis beneath.",
+      props: { ...base, variant: "dial", events: [...BUILDING, ...WEEKLY], headingId: "md-90b" },
+    },
+    {
+      label: "Dial — at 90 days, needs attention",
+      props: { ...base, variant: "dial", events: QUIETER, follow: noFollow, headingId: "md-90n" },
+    },
+    {
+      label: "Week — this week, with activity",
+      description: "Only this week, so it is a weekly thing: seven circles, a dark one for each day she did something.",
+      props: { ...base, variant: "week", events: WEEKLY, headingId: "mw-1" },
+    },
+    {
+      label: "Week — her first days, the rest dashed",
+      props: { ...base, variant: "week", history: 3, events: WEEKLY.slice(-2), headingId: "mw-3" },
+    },
+    {
+      label: "Week — empty, nothing yet this week",
+      description: "Quiet, never a miss: the circles stay neutral.",
+      props: { ...base, variant: "week", events: [], headingId: "mw-empty" },
+    },
+    {
+      label: "Bars — three days in",
+      props: { ...base, variant: "bars", history: 3, events: WEEKLY.slice(-2), follow: noFollow, headingId: "mb-3" },
+    },
+    {
+      label: "Bars — ten days in",
+      description: "The three counts as a bar and a pill. A longer bar is a larger count; there is no scale and no percentage.",
+      props: { ...base, variant: "bars", history: 10, events: WEEKLY, follow: noFollow, headingId: "mb-10" },
+    },
+    {
+      label: "Bars — at 30 days",
+      props: { ...base, variant: "bars", history: 35, events: WEEKLY, headingId: "mb-30" },
+    },
+    {
+      label: "Bars — at 90 days, building",
+      props: { ...base, variant: "bars", events: [...BUILDING, ...WEEKLY], headingId: "mb-90" },
+    },
+    {
       label: "A long event wraps in the first week",
       props: {
         ...base,

@@ -25,7 +25,7 @@ export function SignalsConcept1() {
           {p.pictureOf("items")}
         </>
       }
-      side={p.momentum}
+      side={p.momentumOf("dial")}
     >
       {p.sheet}
     </SignalsPage>

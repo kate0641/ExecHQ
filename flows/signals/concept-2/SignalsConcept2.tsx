@@ -17,7 +17,7 @@ export function SignalsConcept2() {
     <SignalsPage
       concept="c2"
       lead={p.sparkNode}
-      main={p.momentum}
+      main={p.momentumOf("week")}
       side={
         <>
           {p.pictureOf("summary")}

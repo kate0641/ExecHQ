@@ -13416,6 +13416,182 @@ ul.momentum__events {
   color: var(--color-text-secondary);
 }
 
+/* Momentum's pictures: the dial, the week's circles and the pill bars. */
+.dial-mid {
+  position: relative;
+  align-self: center;
+  width: min(100%, 20rem);
+  aspect-ratio: 1;
+}
+
+.dial-ring {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.dial-ring__tick {
+  stroke-linecap: round;
+}
+
+.dial-ring__tick--on {
+  stroke: var(--color-surface-inverse);
+}
+
+.dial-ring__tick--off {
+  stroke: var(--color-border-strong);
+}
+
+.dial-ring__tick--today {
+  stroke: var(--color-action);
+}
+
+.dial-ring__future {
+  fill: var(--color-border-strong);
+}
+
+.dial-mid__text {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: var(--space-3xs);
+  padding: 0 22%;
+  text-align: center;
+}
+
+.dial-mid__big,
+.dial-mid__cap {
+  margin: 0;
+}
+
+.dial-mid__big {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+}
+
+.dial-mid__big--word {
+  font-size: var(--text-2xl);
+}
+
+.dial-mid__cap {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+.day-circles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  align-self: stretch;
+}
+
+.day-circles ol {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.day-circles__dot {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background-color: var(--color-border);
+}
+
+.day-circles__dot.is-on {
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+}
+
+.day-circles__dot.is-future {
+  background-color: transparent;
+  border: var(--border-width-thin) dashed var(--color-border-strong);
+}
+
+.day-circles__dot.is-today {
+  box-shadow:
+    0 0 0 var(--space-3xs) var(--color-surface),
+    0 0 0 var(--space-2xs) var(--color-action);
+}
+
+.day-circles__letters {
+  text-align: center;
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+ul.pill-bars {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  align-self: stretch;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pill-bar {
+  display: grid;
+  grid-template-columns: var(--bar, 50%) 3.9rem 1.1rem;
+  align-items: stretch;
+  height: 3.9rem;
+}
+
+.pill-bar--completed {
+  --tone: var(--color-surface-inverse);
+  --on: var(--color-text-inverse);
+}
+
+.pill-bar--artifact {
+  --tone: var(--color-action-secondary);
+  --on: var(--color-text-on-action-secondary);
+}
+
+.pill-bar--outcome {
+  --tone: var(--color-action);
+  --on: var(--color-text-on-action);
+}
+
+.pill-bar__rect,
+.pill-bar__pill,
+.pill-bar__tip {
+  background-color: var(--tone);
+  color: var(--on);
+}
+
+.pill-bar__rect {
+  display: grid;
+  align-content: center;
+  min-width: 0;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.pill-bar__pill {
+  display: grid;
+  place-items: center;
+  margin-left: -1px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+}
+
+.pill-bar__tip {
+  clip-path: polygon(0 12%, 100% 50%, 0 88%);
+}
+
 /* -----------------------------------------------------------------------------
    WHAT CHANGED (Plan, Sprint 3)
    A reading, not a card from the Briefing: no image, no byline, no pull quote.
