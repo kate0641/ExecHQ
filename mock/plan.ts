@@ -944,7 +944,7 @@ export const CHANGE_COPY = {
    -------------------------------------------------------------------------- */
 
 export const PLAN_HEADER_COPY = {
-  label: "Your plan is",
+  label: "Your plan",
   edit: "Edit",
   editName: (plan: string) => `Edit ${plan}`,
   /** The one line: what the plan is built around, from the template's own emphasis. */

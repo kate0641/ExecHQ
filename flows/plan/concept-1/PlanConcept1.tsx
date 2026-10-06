@@ -17,6 +17,7 @@ export function PlanConcept1() {
   return (
     <PlanPage
       concept="c1"
+      showTitle={false}
       lead={p.planHeader}
       main={
         <>

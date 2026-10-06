@@ -8,12 +8,15 @@ import type { ReactNode } from "react";
  */
 export function PlanPage({
   concept,
+  showTitle = true,
   lead,
   main,
   side,
   children,
 }: {
   concept: "c1" | "c2" | "c3";
+  /** False when the lead carries the page's heading itself (Concept 1: the plan's name). */
+  showTitle?: boolean;
   lead?: ReactNode;
   main?: ReactNode;
   side?: ReactNode;
@@ -22,7 +25,7 @@ export function PlanPage({
 }) {
   return (
     <div className={`plan-page plan-page--${concept}`}>
-      <h1 className="plan-page__title">Your plan</h1>
+      {showTitle ? <h1 className="plan-page__title">Your plan</h1> : null}
       {lead ? <div className="plan-page__lead">{lead}</div> : null}
       {main ? <div className="plan-page__main">{main}</div> : null}
       {side ? <div className="plan-page__side">{side}</div> : null}

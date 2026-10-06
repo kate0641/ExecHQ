@@ -7,6 +7,8 @@ const base = {
   stage: 1,
   direction: "I want to move from running campaigns to leading a broader marketing organization.",
   editHref: "/onboarding/concept-3?edit=1",
+  // Several headers on one page: only the page itself has an h1.
+  asPageTitle: false,
 };
 
 export const planHeaderStates = defineComponentStates({
@@ -15,7 +17,7 @@ export const planHeaderStates = defineComponentStates({
   status: "draft",
   flows: ["plan"],
   description:
-    "Says what her plan is before her next steps: its name and one line on what it is built around, with Edit beside the name. Edit opens the detail, where she sees her direction and starts the flow that changes it.",
+    "Says what her plan is before her next steps, and is the page\u2019s heading: \u201cYour plan\u201d as a small label, the plan\u2019s name large with a plain Edit link beside it, one line on what it is built around, and where she is in it. Edit opens the detail, where she sees her direction and starts the flow that changes it.",
   component: PlanHeader,
   notApplicable: {
     hover: "Its one control is a Button, which shows its own states.",
@@ -34,6 +36,7 @@ export const planHeaderStates = defineComponentStates({
       label: "Long text — the longest plan name and line wrap",
       props: { ...base, planId: "explore", headingId: "ph-long" },
     },
+    { label: "Later stage — more of the strip filled", props: { ...base, stage: 2, headingId: "ph-later" } },
     { label: "Detail open", props: { ...base, demoOpen: true, headingId: "ph-open" } },
   ],
 });

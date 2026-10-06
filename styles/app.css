@@ -14618,7 +14618,7 @@ ul.step-card__whys {
 
 .plan-header__top {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
   gap: var(--space-sm);
 }
@@ -14628,16 +14628,63 @@ ul.step-card__whys {
   font-family: var(--font-display);
   word-spacing: var(--font-display-word-spacing);
   letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-xl);
+  font-size: var(--text-2xl);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-tight);
 }
 
+/* A quiet text link, so the plan's name stays the loudest thing. */
+.plan-header__top .plan-header__edit {
+  flex: none;
+  padding-inline: var(--space-2xs);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .plan-header__line {
   margin: 0;
-  font-size: var(--text-md);
+  font-size: var(--text-sm);
   line-height: var(--leading-normal);
   color: var(--color-text-secondary);
+}
+
+.plan-header__where {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-top: var(--space-2xs);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.plan-header__where p {
+  margin: 0;
+}
+
+.plan-header__where b {
+  color: var(--color-text-primary);
+  font-weight: var(--weight-semibold);
+}
+
+.plan-header__segments {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: var(--space-2xs);
+}
+
+.plan-header__segments i {
+  height: var(--space-2xs);
+  border-radius: var(--radius-xs);
+  background-color: var(--color-border);
+}
+
+.plan-header__segments i.is-on {
+  background-color: var(--color-text-primary);
+}
+
+[data-viewport="web"] .plan-header__name {
+  font-size: var(--text-3xl);
 }
 
 .plan-detail {
