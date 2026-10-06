@@ -11726,11 +11726,7 @@ ul.login__never {
   --sky-deep: var(--color-sky-night-deep);
 }
 
-/* At night the greeting and the status bar turn light. At dusk only the
-   status bar does: it sits on the dark blue corners, the greeting on the
-   warm heart. */
-.device__screen:has(.map-home__greeting[data-sky="dusk"]) > .device__statusbar,
-.device__screen:has(.map-home__greeting[data-sky="dusk"]) > .device__statusbar .device__statusbar-indicators,
+/* At night the greeting and the status bar turn light. */
 .device__screen:has(.map-home__greeting[data-sky="night"]) > .device__statusbar,
 .device__screen:has(.map-home__greeting[data-sky="night"]) > .device__statusbar .device__statusbar-indicators,
 [data-viewport="mobile"] .map-home__greeting[data-sky="night"] {
