@@ -15459,6 +15459,18 @@ fieldset.agenda__whens {
   padding-bottom: var(--space-4xl);
 }
 
+/* While the drawer is open it is the whole foot of the screen, so the pill steps aside. Folded to a
+   peek, or once she has answered, the pill is back. */
+.device__screen:has(.plan-guided .answer-drawer:not(.is-peek)) .concierge-host__pill {
+  opacity: 0;
+  transform: translateY(16px);
+  pointer-events: none;
+}
+
+.device__screen:has(.concierge-host) .chrome__main:has(> .plan-guided):has(.answer-drawer:not(.is-peek)) {
+  padding-bottom: 0;
+}
+
 .plan-guided__road {
   margin-inline-start: auto;
 }
