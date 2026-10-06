@@ -11701,6 +11701,59 @@ ul.login__never {
   color: var(--color-text-inverse-muted);
 }
 
+/* With motion allowed, the greeting comes first, then the date gently takes
+   its place: the greeting lifts and fades out as the date rises and fades in,
+   in the same spot and the same size. Both stay in the page for screen
+   readers. Without motion, the date stays as the line under the greeting. */
+@media (prefers-reduced-motion: no-preference) {
+  .map-home__greeting {
+    display: grid;
+    place-items: center;
+  }
+
+  .map-home__greeting b,
+  .map-home__greeting span {
+    grid-area: 1 / 1;
+  }
+
+  .map-home__greeting span {
+    font-family: var(--font-display);
+    word-spacing: var(--font-display-word-spacing);
+    letter-spacing: var(--font-display-tracking);
+    font-size: var(--text-xl);
+    font-weight: var(--weight-semibold);
+    line-height: var(--leading-snug);
+    color: var(--color-text-inverse);
+    animation: map-greeting-in 600ms var(--easing-standard) 2400ms both;
+  }
+
+  .map-home__greeting b {
+    animation: map-greeting-out 500ms var(--easing-exit) 2200ms both;
+  }
+}
+
+@keyframes map-greeting-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--space-xs)));
+  }
+}
+
+@keyframes map-greeting-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-xs));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .map-home__section {
   display: flex;
   flex-direction: column;
