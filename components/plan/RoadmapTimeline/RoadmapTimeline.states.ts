@@ -159,5 +159,20 @@ export const roadmapTimelineStates = defineComponentStates({
         headingId: "rt-kept",
       },
     },
+    {
+      label: "Long text — a long item on her calendar wraps",
+      props: {
+        ...base,
+        items: [
+          {
+            id: "long",
+            title: "Present the planning cycle proposal to the leadership team and take questions on headcount and budget",
+            date: "2026-10-27",
+            note: "Bring the three-year view, the one-page summary and the evidence for the broader remit you are asking for.",
+          },
+        ],
+        headingId: "rt-long",
+      },
+    },
   ],
 });
