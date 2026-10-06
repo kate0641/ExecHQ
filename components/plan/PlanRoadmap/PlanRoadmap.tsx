@@ -33,6 +33,8 @@ export interface RoadmapChoices {
   recommended?: number | null;
   /** She said "Not yet" to the recommendation. The stage stays marked as next. */
   nextDismissed?: boolean;
+  /** Each time she changed her direction from the Plan, and whether her plan moved with it. */
+  directionEdits?: { on: LoopDate; switched: boolean }[];
 }
 
 export interface PlanRoadmapProps {

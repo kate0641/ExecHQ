@@ -16,7 +16,9 @@ import { SNAPSHOTS } from "@/mock/snapshots";
 export function roadmapAfterEdit(
   loop: Pick<LoopView, "id" | "records" | "tasks" | "today" | "account">,
   choices: RoadmapChoices | undefined,
-  planId: string
+  planId: string,
+  /** She changed the words of her direction, not only her plan. */
+  directionChanged: boolean
 ): RoadmapChoices | null {
   const kept: RoadmapChoices = choices ?? {
     planId: loop.account.plan.id,
@@ -24,11 +26,14 @@ export function roadmapAfterEdit(
     snoozedAt: null,
     history: [],
   };
-  if (kept.planId === planId) return null;
+  const switched = kept.planId !== planId;
+  if (!switched && !directionChanged) return null;
+  const edits = [...(kept.directionEdits ?? []), { on: loop.today, switched }];
+  if (!switched) return { ...kept, directionEdits: edits };
   const stages = roadmapFor(kept.planId);
   const start = SNAPSHOTS[loop.id];
   const evidence = currentStageIndex(loop.records, stages.length, ACTIONS, loop.tasks);
   const began = currentStageIndex(start.records, stages.length, ACTIONS, start.tasks);
   const at = Math.min(kept.confirmed ?? began ?? evidence, stages.length - 1);
-  return switchPlan(kept, planId, loop.today, at);
+  return { ...switchPlan(kept, planId, loop.today, at), directionEdits: edits };
 }

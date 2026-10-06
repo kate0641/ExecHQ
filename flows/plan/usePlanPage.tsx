@@ -15,7 +15,7 @@ import { ActionSteps } from "@/components/plan/ActionSteps";
 import { PlanHeader } from "@/components/plan/PlanHeader";
 import { PlanNarrative } from "@/components/plan/PlanNarrative";
 import { PlanRoadmap } from "@/components/plan/PlanRoadmap";
-import { RoadmapAgenda } from "@/components/plan/RoadmapAgenda";
+import { RoadmapTimeline } from "@/components/plan/RoadmapTimeline";
 import { CalendarItemSheet, type ItemValues } from "@/components/plan/CalendarItemSheet";
 import { PlanCalendar } from "@/components/plan/PlanCalendar";
 import { PlanSignalPicture } from "@/components/plan/PlanSignalPicture";
@@ -26,6 +26,7 @@ import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { momentumEvents } from "@/lib/momentum";
 import { buildNarrative } from "@/lib/narrative";
+import { planSparks } from "@/lib/plan-sparks";
 import { roadmapWindows } from "@/lib/roadmap-dates";
 import { saveCalendar, saveRoadmap, saveSteps, useCalendar, useRoadmapChoices, useSavedSteps } from "@/lib/plan-store";
 import { hasBaseline, presenceCounts, signalRows, withAdded, type Baseline } from "@/lib/presence";
@@ -188,10 +189,21 @@ export function usePlanPage() {
   // Her live steps on her calendar: suggested for a day until she accepts one or moves it.
   const stepEntries = live.map((step) => ({ id: step.id, title: step.title, ...stepDay(stepState, step) }));
 
-  // Concept 1: the roadmap as an Agenda. She can add something to a stage from its card.
-  const agenda = (
-    <RoadmapAgenda
-      key={`agenda-${loop.id}`}
+  // Concept 1: the roadmap as a timeline of the draft she started with, with sparks for what has changed.
+  // She can add something to a stage from its card.
+  const timelineSparks = planSparks({
+    windows,
+    choices,
+    planId: loop.account.plan.id,
+    startedOn: loop.account.plan.startedOn,
+    today: loop.today,
+    steps: stepState,
+    events: momentumEvents(loop.records, loop.tasks),
+    added: pictureItems.filter((i) => i.source === "added").map((i) => ({ id: i.id, text: i.text, on: i.on })),
+  });
+  const timeline = (
+    <RoadmapTimeline
+      key={`timeline-${loop.id}`}
       planId={planId}
       startedOn={choices?.startedOn ?? loop.account.plan.startedOn}
       today={loop.today}
@@ -202,6 +214,7 @@ export function usePlanPage() {
       onChoices={(next) => saveRoadmap(loop.id, next)}
       items={calendarItems}
       steps={stepEntries}
+      sparks={timelineSparks}
       onAdd={(date) => setCalEntry({ mode: "add", date })}
     />
   );
@@ -489,7 +502,7 @@ export function usePlanPage() {
     />
   );
 
-  return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, agenda, calendar, note, narrative: narrativeNode, momentum, picture, started, accounts, sparkNode, sheet: (
+  return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, calendar, note, narrative: narrativeNode, momentum, picture, started, accounts, sparkNode, sheet: (
       <>
         {sheet}
         {updateNow}

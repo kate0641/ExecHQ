@@ -766,7 +766,7 @@ export const AGENDA_COPY = {
   summary: (stages: number, weeks: number) => `${stages} stages · about ${weeks} weeks`,
   /** When a stage is aimed at, in words: where its suggested end falls. */
   suggested: (when: string) => `Aim for: ${when.toLowerCase()}`,
-  pace: "A suggested pace, not a deadline. The windows move as you do. When you finish a stage, we recommend the next one.",
+  pace: "A suggested pace, not a deadline. The stages move as you do. When you finish one, we recommend the next.",
   stageOf: (n: number, total: number) => `Stage ${n} of ${total}`,
   about: (weeks: number) => `about ${weeks} week${weeks === 1 ? "" : "s"}`,
   states: { current: "You are here", done: "Done", recommended: "Recommended next" },
@@ -966,3 +966,55 @@ export const PLAN_DETAIL_COPY = {
 
 /** Where the edit flow starts: the onboarding questions, pre-filled, ending back on the Plan. */
 export const EDIT_FLOW_HREF = "/onboarding/concept-3?edit=1";
+
+/* -----------------------------------------------------------------------------
+   THE ROADMAP TIMELINE AND ITS SPARKS (Concept 1 rework, 2026-10-06)
+   The roadmap is the draft she started with, and the sparks on it say what
+   happened and how her plan moved. They say what happened, never that one
+   thing caused another, and they carry no days: a time is said in words.
+   -------------------------------------------------------------------------- */
+export const SPARK_NOTES = {
+  labels: {
+    stage: "Stage finished",
+    pace: "Pace",
+    direction: "Your direction",
+    plan: "Plan changed",
+    step: "Your steps",
+    record: "In ExecHQ",
+    signal: "Signal Picture",
+  },
+  finished: (stage: string, weeks: number, next?: string) => {
+    const when =
+      weeks === 0
+        ? `You finished ${stage} about when the draft said.`
+        : weeks < 0
+          ? `You finished ${stage} ${-weeks} week${weeks === -1 ? "" : "s"} ahead of the draft.`
+          : `You finished ${stage} ${weeks} week${weeks === 1 ? "" : "s"} after the draft.`;
+    const moved = next
+      ? weeks === 0
+        ? ` ${next} stays where it was.`
+        : ` ${next} moved ${weeks < 0 ? "up" : "back"} with you.`
+      : " That was the last stage, and the plan carries on.";
+    return when + moved;
+  },
+  pastPace: "This stage is running past the draft’s pace. The stages after it have moved back with you. There is no deadline.",
+  completed: (title: string) => `You finished “${title}”. It counts toward this stage.`,
+  declined: (title: string) => `You passed on “${title}”. ExecHQ offered a different step in its place.`,
+  deferred: (title: string, when?: string) => `You put off “${title}”.${when ? ` It comes back ${when.toLowerCase()}.` : ""}`,
+  recorded: (text: string) => `${text}.`,
+  added: (text: string) => `You added to your Signal Picture: ${text}.`,
+  directionKept: "You updated your direction. Your plan stayed as it was.",
+  directionMoved: (from: string, to: string) =>
+    `You changed your direction, and your plan moved from ${from} to ${to}. ${from} stays above as the draft you started with.`,
+  planMoved: (from: string, to: string) => `You changed plan, from ${from} to ${to}. ${from} stays above as the draft you started with.`,
+} as const;
+
+export const TIMELINE_COPY = {
+  intro: "The draft you started with, and how it has changed with you.",
+  earlierTitle: (name: string) => `First draft: ${name}`,
+  earlierNow: "Where you were",
+  earlierSetAside: "Set aside",
+  nowTitle: (name: string) => `Now: ${name}`,
+  moreSparks: (n: number) => `${n} more`,
+  sparksLabel: "What changed on this stage",
+} as const;

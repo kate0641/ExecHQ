@@ -369,9 +369,10 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
 
   /** Saves what she chose and takes her back to her plan: her direction, and her plan if it is another. */
   function finishEdit() {
-    loopActions.updateAccount({ direction: direction || loop.account.direction, towardShort: undefined });
-    const switched = plan ? roadmapAfterEdit(loop, roadmapChoices, plan.id) : null;
-    if (switched) saveRoadmap(loop.id, switched);
+    const said = direction || loop.account.direction;
+    loopActions.updateAccount({ direction: said, towardShort: undefined });
+    const next = roadmapAfterEdit(loop, roadmapChoices, plan?.id ?? loop.account.plan.id, said !== loop.account.direction);
+    if (next) saveRoadmap(loop.id, next);
     router.push(EDIT_FLOW_COPY.backTo);
   }
 
