@@ -2875,7 +2875,9 @@ ul.concierge-mini {
   word-spacing: var(--type-heading-word-spacing);
   margin: 0;
   color: var(--color-text-primary);
-  text-wrap: balance;
+  /* Fill each line before wrapping, keeping only a lone last word off its
+     own line; balancing left the first line short with space to spare. */
+  text-wrap: pretty;
 }
 
 .feature-card__title:focus {
