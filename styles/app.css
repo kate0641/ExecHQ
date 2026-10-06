@@ -2841,6 +2841,8 @@ ul.concierge-mini {
 }
 
 .feature-card__head--inverse {
+  /* A shorter run of navy under the title. */
+  padding-bottom: var(--space-md);
   background-color: var(--color-surface-inverse);
 }
 
