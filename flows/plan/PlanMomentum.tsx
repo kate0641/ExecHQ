@@ -1,8 +1,6 @@
 "use client";
 
-import { Switch } from "@/components/form/Switch";
 import { ToggleGroup } from "@/components/form/ToggleGroup";
-import { MomentumCounts } from "@/components/plan/MomentumCounts";
 import { MomentumLabeled } from "@/components/plan/MomentumLabeled";
 import { followThrough, momentumEvents } from "@/lib/momentum";
 import { setMomentumChoice, useMomentumChoice } from "@/lib/momentum-choice";
@@ -21,14 +19,15 @@ export interface PlanMomentumProps {
 }
 
 /**
- * Momentum on the Plan: Concept A or Concept B, one at a time, so reviewers
- * choose between them rather than refine one. The control above is prototype
- * scaffolding, not product, and says so.
+ * Momentum on the Plan: the labeled trend, built up as her history grows. The
+ * control above only lets a reviewer see the later stages; it is prototype
+ * scaffolding, not product, and says so. Concept B (counts only) stays in the
+ * catalogue and is no longer shown here.
  */
 export function PlanMomentum({ records, tasks, today, startedOn }: PlanMomentumProps) {
   const choice = useMomentumChoice();
   const events = momentumEvents(records, tasks);
-  const history = choice.longHistory ? 95 : historyDays(startedOn, today);
+  const history = choice.history === "ninety" ? 95 : choice.history === "thirty" ? 35 : historyDays(startedOn, today);
   const next = ACTION_QUEUE.find((s) => s.status === "accepted" && !isDone(s, records, tasks));
   const nextMove = next ? { title: next.title, href: conceptHref("toolbox-flow", "concept-1") } : undefined;
 
@@ -37,17 +36,18 @@ export function PlanMomentum({ records, tasks, today, startedOn }: PlanMomentumP
       <div className="momentum-scaffold">
         <p className="momentum-scaffold__title">{C.scaffold.heading}</p>
         <ToggleGroup
-          label={C.scaffold.concept}
+          label={C.scaffold.history}
           shape="pill"
           size="sm"
           options={[
-            { value: "a", label: C.scaffold.a },
-            { value: "b", label: C.scaffold.b },
+            { value: "actual", label: C.scaffold.historyActual },
+            { value: "thirty", label: C.scaffold.historyThirty },
+            { value: "ninety", label: C.scaffold.historyNinety },
           ]}
-          value={choice.concept}
-          onChange={(v) => setMomentumChoice({ concept: v === "b" ? "b" : "a" })}
+          value={choice.history}
+          onChange={(v) => setMomentumChoice({ history: v === "ninety" ? "ninety" : v === "thirty" ? "thirty" : "actual" })}
         />
-        {choice.concept === "a" ? (
+        {history >= 90 ? (
           <ToggleGroup
             label={C.scaffold.wording}
             shape="pill"
@@ -60,28 +60,16 @@ export function PlanMomentum({ records, tasks, today, startedOn }: PlanMomentumP
             onChange={(v) => setMomentumChoice({ wording: v === "soft" ? "soft" : "candid" })}
           />
         ) : null}
-        <div className="steps__hold">
-          <Switch
-            checked={choice.longHistory}
-            onChange={(on) => setMomentumChoice({ longHistory: on })}
-            aria-labelledby="momentum-history-label"
-          />
-          <p id="momentum-history-label">{C.scaffold.history}</p>
-        </div>
         <p>{C.scaffold.note}</p>
       </div>
-      {choice.concept === "a" ? (
-        <MomentumLabeled
-          events={events}
-          today={today}
-          history={history}
-          follow={followThrough(records, tasks, events, today, 30)}
-          nextMove={nextMove}
-          wording={choice.wording}
-        />
-      ) : (
-        <MomentumCounts events={events} today={today} history={history} />
-      )}
+      <MomentumLabeled
+        events={events}
+        today={today}
+        history={history}
+        follow={followThrough(records, tasks, events, today, 30)}
+        nextMove={nextMove}
+        wording={choice.wording}
+      />
     </div>
   );
 }

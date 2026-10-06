@@ -1,9 +1,7 @@
 /**
- * Which Momentum concept a reviewer is looking at, and two switches for the
- * test. Prototype scaffolding, not product: Concept A and Concept B are shown
- * one at a time on the Plan so reviewers choose between them, and the
- * switches show what a three-week pilot cannot (a 90-day history, and the
- * softer wording for the label).
+ * How much history a reviewer is looking at, and the wording for the
+ * test. Prototype scaffolding, not product: it shows what a three-week pilot
+ * cannot (the 30-day and 90-day views, and the softer wording for the label).
  *
  * A tiny external store read through useSyncExternalStore and mirrored to
  * localStorage, like the viewport and the navigation choice.
@@ -13,25 +11,31 @@ import { useSyncExternalStore } from "react";
 import type { LabelWording } from "@/mock/plan";
 
 export interface MomentumChoice {
-  concept: "a" | "b";
   wording: LabelWording;
-  /** Show the Plan as if she had ninety-five days of history. */
-  longHistory: boolean;
+  /** How much history to show the Plan with: what she really has, or as if
+   *  she had five weeks (the 30-day view) or ninety-five days (the label). */
+  history: "actual" | "thirty" | "ninety";
 }
 
 const STORAGE_KEY = "exechq.momentum-choice";
-const DEFAULT: MomentumChoice = { concept: "a", wording: "candid", longHistory: false };
+const DEFAULT: MomentumChoice = { wording: "candid", history: "actual" };
 
 const listeners = new Set<() => void>();
 let cached: MomentumChoice | undefined;
 
 function read(): MomentumChoice {
   try {
-    const parsed = JSON.parse(window.localStorage.getItem(STORAGE_KEY) ?? "null") as Partial<MomentumChoice> | null;
+    const parsed = JSON.parse(window.localStorage.getItem(STORAGE_KEY) ?? "null") as
+      | (Partial<MomentumChoice> & { longHistory?: boolean })
+      | null;
     return {
-      concept: parsed?.concept === "b" ? "b" : "a",
       wording: parsed?.wording === "soft" ? "soft" : "candid",
-      longHistory: parsed?.longHistory === true,
+      history:
+        parsed?.history === "thirty" || parsed?.history === "ninety"
+          ? parsed.history
+          : parsed?.longHistory === true
+            ? "ninety"
+            : "actual",
     };
   } catch {
     return DEFAULT;

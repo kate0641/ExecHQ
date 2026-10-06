@@ -1,17 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { Behind, Figures, MomentumWindows } from "@/components/plan/momentum-parts";
+import { Behind, Figures } from "@/components/plan/momentum-parts";
 import { Icon } from "@/components/primitives/Icon";
-import { inMomentumWindow, momentumLabel, type MomentumEvent } from "@/lib/momentum";
-import type { LoopDate } from "@/lib/loop";
-import { MOMENTUM_COPY as C, type LabelWording, type WindowDays } from "@/mock/plan";
+import { inMomentumWindow, momentumLabel, weeklyConsistency, type MomentumEvent } from "@/lib/momentum";
+import { shortDate, type LoopDate } from "@/lib/loop";
+import { MOMENTUM_COPY as C, type LabelWording } from "@/mock/plan";
 
 export interface MomentumLabeledProps {
   events: MomentumEvent[];
   today: LoopDate;
-  /** Days of record she has. The 90-day label needs all ninety. */
+  /** Days of record she has. It decides what she sees: the last 7 days from
+   *  the start, the last 30 days added at 30, the 90-day label at 90. */
   history: number;
   /** Her follow-through against the plan, for the 30-day view. */
   follow: { done: number; taken: number; items: MomentumEvent[] };
@@ -20,7 +20,6 @@ export interface MomentumLabeledProps {
   /** "Needs attention" is the riskiest phrase in the sprint, tested against a
    *  softer one. */
   wording?: LabelWording;
-  initialWindow?: WindowDays;
   /** Catalogue only: opens the first figure to show what is behind it. */
   demoOpen?: boolean;
   headingId?: string;
@@ -28,16 +27,19 @@ export interface MomentumLabeledProps {
 }
 
 /**
- * Momentum, Concept A: a labeled trend. Seven days is counts; thirty is how
- * far she followed through on the steps she took on; ninety is a label,
- * building, steady or needs attention, with the activity behind it one tap
- * away and the next move beside it.
+ * Momentum: a transparent trend of her execution, built up as her history
+ * grows. She never picks a window. From the start she sees the last 7 days:
+ * actions completed, artifacts created or used, outcomes updated. At 30 days
+ * the last 30 days leads, with how steadily she completed actions week by
+ * week and how far she got on the steps she took on, and the 7 days stay
+ * beneath it. At 90 days a label leads, building, steady or needs attention,
+ * with its basis stated and the next move beside it, and the earlier views
+ * stay beneath. Every section has the activity behind it one tap away.
  *
- * The label is a word with its basis stated, never a grade. It needs the whole
- * ninety days; with less, it says so and gives none. Its thresholds are a
- * placeholder until D&T define them, and the card says so. Declined and
- * deferred steps are never in it, and it never says her activity caused a
- * result.
+ * Nothing is a score, rank or grade, nothing is compared with anyone, and the
+ * label never says her activity caused a result. Its thresholds are a
+ * placeholder until D&T define them. Declined and deferred steps are never in
+ * any of it.
  */
 export function MomentumLabeled({
   events,
@@ -46,14 +48,29 @@ export function MomentumLabeled({
   follow,
   nextMove,
   wording = "candid",
-  initialWindow = 7,
   demoOpen,
   headingId = "momentum-a",
   className,
 }: MomentumLabeledProps) {
-  const [days, setDays] = useState<WindowDays>(initialWindow);
-  const range = inMomentumWindow(events, today, days);
-  const label = days === 90 && history >= 90 ? C.labels[wording][momentumLabel(events, today)] : null;
+  const has30 = history >= 30;
+  const has90 = history >= 90;
+  const label = has90 ? C.labels[wording][momentumLabel(events, today)] : null;
+  const week = weeklyConsistency(events, today);
+  const weeks = week.weeks.map((w) => ({
+    id: `week-${w.to}`,
+    on: w.from,
+    text: C.weekTo(shortDate(w.to), w.done),
+  }));
+
+  const next = nextMove ? (
+    <p className="momentum__next">
+      <span>{C.nextMove}</span>{" "}
+      <Link href={nextMove.href} className="link">
+        {nextMove.title}
+        <Icon name="chevron" size={14} />
+      </Link>
+    </p>
+  ) : null;
 
   return (
     <section className={["momentum", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
@@ -63,51 +80,45 @@ export function MomentumLabeled({
         </h2>
         <p className="momentum__intro">{C.intro}</p>
       </div>
-      <MomentumWindows value={days} onChange={setDays} />
 
-      {days === 7 ? (
-        <Figures events={range} openFirst={demoOpen} />
-      ) : days === 30 ? (
-        <>
-          {history < 30 ? <p className="momentum__thin">{C.thin(history, 30)}</p> : null}
-          <p className="momentum__sentence">
-            {follow.taken ? C.followThrough(follow.done, follow.taken) : C.followThroughNone}
-          </p>
-          <Behind events={follow.items} />
-        </>
-      ) : label ? (
-        <>
+      {label ? (
+        <section className="momentum__stage" aria-labelledby={`${headingId}-90`}>
+          <h3 className="momentum__stage-title" id={`${headingId}-90`}>
+            {C.sectionHeading[90]}
+          </h3>
           <p className="momentum__label">
             <span className="u-visually-hidden">90-day label: </span>
             {label}
           </p>
           <p className="momentum__basis">{C.labelBasis(label)}</p>
-          {nextMove ? (
-            <p className="momentum__next">
-              <span>{C.nextMove}</span>{" "}
-              <Link href={nextMove.href} className="link">
-                {nextMove.title}
-                <Icon name="chevron" size={14} />
-              </Link>
-            </p>
-          ) : null}
-          <Behind events={range} />
+          {next}
+          <Behind events={inMomentumWindow(events, today, 90)} />
           <p className="momentum__rule">{C.placeholderRule}</p>
-        </>
-      ) : (
-        <>
-          <p className="momentum__thin">{C.thinLabel(history)}</p>
-          {nextMove ? (
-            <p className="momentum__next">
-              <span>{C.nextMove}</span>{" "}
-              <Link href={nextMove.href} className="link">
-                {nextMove.title}
-                <Icon name="chevron" size={14} />
-              </Link>
-            </p>
-          ) : null}
-        </>
-      )}
+        </section>
+      ) : null}
+
+      {has30 ? (
+        <section className="momentum__stage" aria-labelledby={`${headingId}-30`}>
+          <h3 className="momentum__stage-title" id={`${headingId}-30`}>
+            {C.sectionHeading[30]}
+          </h3>
+          <p className="momentum__sentence">
+            {week.active ? C.consistency(week.active, week.weeks.length) : C.consistencyNone(week.weeks.length)}
+          </p>
+          <Behind events={weeks} />
+          <p className="momentum__sentence">{follow.taken ? C.followThrough(follow.done, follow.taken) : C.followThroughNone}</p>
+          <Behind events={follow.items} />
+        </section>
+      ) : null}
+
+      <section className="momentum__stage" aria-labelledby={`${headingId}-7`}>
+        <h3 className="momentum__stage-title" id={`${headingId}-7`}>
+          {C.sectionHeading[7]}
+        </h3>
+        {history < 7 ? <p className="momentum__thin">{C.thin(history, 7)}</p> : null}
+        <Figures events={inMomentumWindow(events, today, 7)} openFirst={demoOpen} />
+        {has30 ? null : next}
+      </section>
     </section>
   );
 }

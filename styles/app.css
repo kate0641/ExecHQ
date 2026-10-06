@@ -13295,6 +13295,28 @@ ul.momentum__figures {
 }
 
 .momentum__count,
+.momentum__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  padding-top: var(--space-md);
+  border-top: var(--border-subtle);
+}
+
+.momentum__stage:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.momentum__stage-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
 .momentum__sentence {
   margin: 0;
   font-family: var(--font-display);

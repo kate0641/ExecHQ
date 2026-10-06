@@ -711,6 +711,13 @@ export const MOMENTUM_COPY = {
   labelBasis: (label: string) =>
     `${label}, from what you completed, made and logged in the last 90 days. It is not a grade, and it does not say your work caused any result.`,
   nextMove: "Your next move",
+  /** The sections she sees as her history grows: the newest leads. Nobody chooses a window. */
+  sectionHeading: { 7: "Last 7 days", 30: "Last 30 days", 90: "Last 90 days" } as Record<WindowDays, string>,
+  /** The 30-day view: how steadily she completed actions, week by week. */
+  consistency: (active: number, weeks: number) =>
+    `You completed something in ${active} of the last ${weeks} weeks.`,
+  consistencyNone: (weeks: number) => `No completed action in the last ${weeks} weeks yet.`,
+  weekTo: (to: string, done: number) => `to ${to}: ${done} completed`,
   placeholderRule: "Placeholder rule · D&T to define",
   scaffold: {
     heading: "Reviewing Momentum",
@@ -720,8 +727,11 @@ export const MOMENTUM_COPY = {
     wording: "Label wording",
     candid: "Needs attention",
     soft: "Quieter lately",
-    history: "Show 95 days of history",
-    note: "Prototype scaffolding. The label difference is the 90-day view, and a three-week pilot cannot show it.",
+    history: "How long she has used it",
+    historyActual: "Actual",
+    historyThirty: "5 weeks",
+    historyNinety: "95 days",
+    note: "Prototype scaffolding. She does not choose a window: the views build up as her history grows, at 7, 30 and 90 days. A three-week pilot cannot show the last two.",
   },
 } as const;
 

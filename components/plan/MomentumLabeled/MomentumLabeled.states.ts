@@ -1,9 +1,10 @@
 import { defineComponentStates } from "@/components/types";
 import { NOT_AN_INPUT } from "@/components/not-applicable";
-import { BUILDING, FOLLOW, NEXT_MOVE, QUIETER, STEADY, TODAY, ev } from "@/components/plan/momentum-fixtures";
+import { BUILDING, FOLLOW, NEXT_MOVE, QUIETER, STEADY, TODAY, WEEKLY, ev } from "@/components/plan/momentum-fixtures";
 import { MomentumLabeled } from "./MomentumLabeled";
 
 const base = { events: BUILDING, today: TODAY, history: 95, follow: FOLLOW, nextMove: NEXT_MOVE };
+const noFollow = { done: 0, taken: 0, items: [] };
 
 export const momentumLabeledStates = defineComponentStates({
   name: "MomentumLabeled",
@@ -11,7 +12,7 @@ export const momentumLabeledStates = defineComponentStates({
   status: "draft",
   flows: ["plan"],
   description:
-    "Momentum, Concept A: a labeled trend. Seven days is counts, thirty is how far she followed through on the steps she took on, ninety is a label (building, steady or needs attention) with the activity behind it one tap away and the next move beside it. The label is a word with its basis stated, never a grade; with less than ninety days of history it says so and gives none. Thresholds are a placeholder until D&T define them. Declined and deferred steps are never in it.",
+    "Momentum: a transparent trend, built up as her history grows. She never picks a window. From the start she sees the last 7 days (actions completed, artifacts created or used, outcomes updated). At 30 days the last 30 days leads, with how many of the last four weeks held a completed action and how far she got on the steps she took on, and the 7 days stay beneath. At 90 days a label (building, steady or needs attention) leads, with its basis and the next move, and the earlier views stay beneath. Every section has the activity behind it one tap away. Nothing is a score, rank or grade. Thresholds are a placeholder until D&T define them. Declined and deferred steps are never in it.",
   component: MomentumLabeled,
   notApplicable: {
     hover: "Its controls are Buttons and a ToggleGroup, which show their own states.",
@@ -23,37 +24,53 @@ export const momentumLabeledStates = defineComponentStates({
     filled: NOT_AN_INPUT,
   },
   variants: [
-    { label: "Seven days, counts — default", props: { ...base, headingId: "ma-7" } },
-    { label: "Seven days, first figure open", props: { ...base, demoOpen: true, headingId: "ma-open" } },
-    { label: "Thirty days, follow-through against the plan", props: { ...base, initialWindow: 30, headingId: "ma-30" } },
     {
-      label: "Thirty days, thin history",
-      props: { ...base, history: 16, initialWindow: 30, headingId: "ma-30t" },
+      label: "From the start — three days in",
+      description: "Only the last 7 days, and it says how little there is so far.",
+      props: { ...base, history: 3, events: WEEKLY.slice(0, 2), follow: noFollow, headingId: "ma-3" },
     },
     {
-      label: "Ninety days, thin history — no label",
-      description: "A pilot user never fills this window, so there is no label to give.",
-      props: { ...base, history: 30, initialWindow: 90, headingId: "ma-90t" },
-    },
-    { label: "Ninety days — building", props: { ...base, initialWindow: 90, headingId: "ma-90b" } },
-    {
-      label: "Ninety days — steady",
-      props: { ...base, events: STEADY, initialWindow: 90, headingId: "ma-90s" },
+      label: "Under 30 days — the last 7 days only — default",
+      props: { ...base, history: 16, events: WEEKLY, follow: noFollow, headingId: "ma-16" },
     },
     {
-      label: "Ninety days — needs attention, paired with the next move",
+      label: "Under 30 days — first figure open",
+      props: { ...base, history: 16, events: WEEKLY, follow: noFollow, demoOpen: true, headingId: "ma-open" },
+    },
+    {
+      label: "At 30 days — consistency and follow-through, the 7 days beneath",
+      description: "Completed something in three of the last four weeks, and three of the four steps she took on.",
+      props: { ...base, history: 35, events: WEEKLY, headingId: "ma-30" },
+    },
+    {
+      label: "At 30 days — a quiet month",
+      description: "No completed action in four weeks. It says so plainly and does not frame it as a miss.",
+      props: { ...base, history: 35, events: QUIETER, follow: noFollow, headingId: "ma-30q" },
+    },
+    { label: "At 90 days — building", props: { ...base, events: [...BUILDING, ...WEEKLY], headingId: "ma-90b" } },
+    {
+      label: "At 90 days — steady",
+      props: { ...base, events: STEADY, headingId: "ma-90s" },
+    },
+    {
+      label: "At 90 days — needs attention, paired with the next move",
       description: "The riskiest phrase in the sprint. It always comes with what to do.",
-      props: { ...base, events: QUIETER, initialWindow: 90, headingId: "ma-90n" },
+      props: { ...base, events: QUIETER, follow: noFollow, headingId: "ma-90n" },
     },
     {
-      label: "Ninety days — quieter lately, the softer wording",
-      props: { ...base, events: QUIETER, wording: "soft", initialWindow: 90, headingId: "ma-90q" },
+      label: "At 90 days — quieter lately, the softer wording",
+      props: { ...base, events: QUIETER, follow: noFollow, wording: "soft", headingId: "ma-90q" },
     },
-    { label: "Empty — nothing yet", props: { ...base, events: [], follow: { done: 0, taken: 0, items: [] }, headingId: "ma-empty" } },
+    {
+      label: "At 90 days — no next move",
+      props: { ...base, events: BUILDING, nextMove: undefined, headingId: "ma-90x" },
+    },
+    { label: "Empty — nothing yet", props: { ...base, history: 1, events: [], follow: noFollow, headingId: "ma-empty" } },
     {
       label: "A long event wraps",
       props: {
         ...base,
+        history: 16,
         events: [ev("completed", "2026-12-30", "Put yourself forward to lead the cross-functional Q1 planning review for marketing, sales operations and finance together", "long")],
         demoOpen: true,
         headingId: "ma-long",
