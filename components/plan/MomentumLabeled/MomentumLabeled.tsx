@@ -28,8 +28,11 @@ export interface MomentumLabeledProps {
 
 /**
  * Momentum: a transparent trend of her execution, built up as her history
- * grows. She never picks a window. From the start she sees the last 7 days:
- * actions completed, artifacts created or used, outcomes updated. At 30 days
+ * grows. She never picks a window. In her first week there are no counts, so
+ * no zeros: it lists what she has done so far, says her first 7-day view comes
+ * once she has been here a week, and gives her next move. From 7 days she sees
+ * the last 7 days: actions completed, artifacts created or used, outcomes
+ * updated. At 30 days
  * the last 30 days leads, with how steadily she completed actions week by
  * week and how far she got on the steps she took on, and the 7 days stay
  * beneath it. At 90 days a label leads, building, steady or needs attention,
@@ -56,6 +59,7 @@ export function MomentumLabeled({
   const has90 = history >= 90;
   const label = has90 ? C.labels[wording][momentumLabel(events, today)] : null;
   const week = weeklyConsistency(events, today);
+  const sinceStart = inMomentumWindow(events, today, Math.max(history, 1));
   const weeks = week.weeks.map((w) => ({
     id: `week-${w.to}`,
     on: w.from,
@@ -111,14 +115,34 @@ export function MomentumLabeled({
         </section>
       ) : null}
 
-      <section className="momentum__stage" aria-labelledby={`${headingId}-7`}>
-        <h3 className="momentum__stage-title" id={`${headingId}-7`}>
-          {C.sectionHeading[7]}
-        </h3>
-        {history < 7 ? <p className="momentum__thin">{C.thin(history, 7)}</p> : null}
-        <Figures events={inMomentumWindow(events, today, 7)} openFirst={demoOpen} />
-        {has30 ? null : next}
-      </section>
+      {history < 7 ? (
+        <section className="momentum__stage" aria-labelledby={`${headingId}-so-far`}>
+          <h3 className="momentum__stage-title" id={`${headingId}-so-far`}>
+            {C.soFarHeading}
+          </h3>
+          {sinceStart.length ? (
+            <ul className="momentum__events momentum__events--shown">
+              {[...sinceStart].reverse().map((e) => (
+                <li key={e.id}>
+                  <span className="momentum__event-date">{shortDate(e.on)}</span> {e.text}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="momentum__thin">{C.soFarNone}</p>
+          )}
+          <p className="momentum__basis">{C.firstWeek}</p>
+          {next}
+        </section>
+      ) : (
+        <section className="momentum__stage" aria-labelledby={`${headingId}-7`}>
+          <h3 className="momentum__stage-title" id={`${headingId}-7`}>
+            {C.sectionHeading[7]}
+          </h3>
+          <Figures events={inMomentumWindow(events, today, 7)} openFirst={demoOpen} />
+          {has30 ? null : next}
+        </section>
+      )}
     </section>
   );
 }

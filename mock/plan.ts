@@ -719,6 +719,10 @@ export const MOMENTUM_COPY = {
   consistencyNone: (weeks: number) => `No completed action in the last ${weeks} weeks yet.`,
   weekTo: (to: string, done: number) => `to ${to}: ${done} completed`,
   placeholderRule: "Placeholder rule · D&T to define",
+  /** Her first week: what she has done so far, as plain lines, and what comes next. No counts, so no zeros. */
+  soFarHeading: "So far",
+  soFarNone: "Nothing yet. Your first draft will show up here.",
+  firstWeek: "Your first 7-day view arrives once you have been here a week.",
 } as const;
 
 /* -----------------------------------------------------------------------------
