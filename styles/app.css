@@ -2844,6 +2844,8 @@ ul.concierge-mini {
   background-color: var(--color-surface-inverse);
 }
 
+
+
 /* A card with a navy header takes navy for its top edge, so no grey line
    runs along the top of the navy. */
 .feature-card:has(> .feature-card__head--inverse) {
@@ -11687,7 +11689,8 @@ ul.login__never {
   background-position: bottom;
   background-size: 100% var(--home-header-height);
   background-repeat: no-repeat;
-  color: var(--color-text-inverse);
+  border-bottom: var(--border-width-thin) solid var(--color-border-subtle);
+  color: var(--color-text-primary);
 }
 
 [data-viewport="mobile"] .map-home__greeting {
@@ -11719,8 +11722,8 @@ ul.login__never {
     radial-gradient(ellipse 26% 65% at 50% 100%, var(--color-ring-complete-light), transparent),
     radial-gradient(ellipse 58% 150% at 50% 100%, var(--color-ring-complete-mid), color-mix(in srgb, var(--color-ring-complete-core) 75%, transparent) 30%, color-mix(in srgb, var(--color-ring-complete-core) 30%, transparent) 60%, transparent 95%),
     radial-gradient(ellipse 95% 240% at 50% 100%, var(--color-ring-complete-light) 15%, var(--color-ring-complete-edge) 55%, var(--color-ring-complete-deep) 85%, var(--color-ring-complete-edge) 100%);
-  /* For now, navy. */
-  --home-header-wash: linear-gradient(var(--color-surface-inverse), var(--color-surface-inverse));
+  /* For now, the page's own colour, closed off by a hairline. */
+  --home-header-wash: linear-gradient(var(--color-surface), var(--color-surface));
 }
 
 .device--mobile > .device__screen:has(.map-home) {
@@ -11728,16 +11731,25 @@ ul.login__never {
   --home-header-height: calc(var(--device-statusbar-height) + var(--home-header-band));
 }
 
-.device__screen:has(.map-home) > .device__statusbar,
-.device__screen:has(.map-home) > .device__statusbar .device__statusbar-indicators {
-  color: var(--color-text-inverse);
-}
-
 .device__screen:has(.map-home) > .device__statusbar {
   background-image: var(--home-header-wash);
   background-position: top;
   background-size: 100% var(--home-header-height);
   background-repeat: no-repeat;
+}
+
+/* Home's cards have no outline: they sit on the light blue page by their
+   white alone. */
+.map-home :is(.feature-card, .map-tray__box, .account-card, .check-in) {
+  border-color: transparent;
+}
+
+.map-home .map-rings__ring[aria-pressed="true"] {
+  box-shadow: none;
+}
+
+.map-home .map-tray:has(.feature-card__head--inverse) .feature-card {
+  border-top-color: transparent;
 }
 
 /* For now Home has no wordmark header: the greeting band is the top of the
@@ -11757,7 +11769,7 @@ ul.login__never {
 
 .map-home__greeting span {
   font-size: var(--text-sm);
-  color: var(--color-text-inverse-muted);
+  color: var(--color-text-secondary);
 }
 
 /* With motion allowed, the greeting comes first, then the date gently takes
