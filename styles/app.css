@@ -12371,6 +12371,13 @@ ul.card-carousel__track {
 
 .baseline-form__intro {
   margin: 0;
+  /* An introduction, not a headline: the small body size, in the secondary
+     colour, under the section's title. */
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
 }
 
 .baseline-form__actions {
@@ -12395,26 +12402,36 @@ ul.card-carousel__track {
   min-width: 0;
 }
 
+/* The label and hint match a text field's, so a stepper sits evenly beside
+   one in a form. */
 .stepper__text b {
-  font-family: var(--type-subheading-font);
-  font-size: var(--text-base);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
+  font-family: var(--type-label-font);
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  line-height: var(--type-label-leading);
+  letter-spacing: var(--type-label-tracking);
+  word-spacing: var(--type-label-word-spacing);
 }
 
 .stepper__text span {
-  font-size: var(--text-xs);
+  font-family: var(--type-caption-font);
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  line-height: var(--type-caption-leading);
+  letter-spacing: var(--type-caption-tracking);
+  word-spacing: var(--type-caption-word-spacing);
   color: var(--color-text-secondary);
 }
 
+/* The control is a light-blue pill, like the secondary buttons. */
 .stepper__control {
   display: inline-flex;
   flex: none;
   align-items: center;
   gap: var(--space-3xs);
-  border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-pill);
-  background-color: var(--color-surface);
+  background-color: var(--color-action-secondary);
+  color: var(--color-text-on-action-secondary);
 }
 
 .stepper__button {
@@ -12423,13 +12440,13 @@ ul.card-carousel__track {
   width: 2.5rem;
   height: 2.5rem;
   border-radius: var(--radius-pill);
-  color: var(--color-text-link);
+  color: var(--color-text-on-action-secondary);
   transition: background-color var(--duration-fast);
 }
 
 .stepper__button:hover:not(:disabled),
 .stepper__button.is-hover {
-  background-color: var(--color-surface-hover);
+  background-color: var(--color-action-secondary-hover);
 }
 
 .stepper__button:focus-visible,
@@ -12440,7 +12457,7 @@ ul.card-carousel__track {
 
 .stepper__button:active:not(:disabled),
 .stepper__button.is-active {
-  background-color: var(--color-surface-active);
+  background-color: var(--color-action-secondary-active);
 }
 
 .stepper__button:disabled {
