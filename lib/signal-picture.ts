@@ -297,3 +297,46 @@ export function growthMonths(items: PictureItem[], startedOn: LoopDate, today: L
   }
   return out;
 }
+
+export interface CameOfRow {
+  id: string;
+  /** What she did, as the picture names it. */
+  did: string;
+  /** The day it happened. */
+  on: LoopDate;
+  /** What she says came of it, in her words. Absent when she has not said. */
+  came?: string;
+  /** The entry behind it when she added it herself, so she can edit it. */
+  item?: PictureItem;
+}
+
+/**
+ * A row for each thing she did and what she says came of it, newest first.
+ *  - Things she added from outside ExecHQ (published, spoke, a podcast, press)
+ *    always get a row, with her note of what came of it or none yet.
+ *  - A Loop record she has used gets a row when she has logged an outcome in
+ *    her own words, or when she has said it went out and nothing has come yet.
+ * Drafting, editing and anything not yet used never appears: nothing came of
+ * it yet, and Momentum counts it. Her words are never changed or scored.
+ */
+export function cameOfRows(items: PictureItem[], startedOn: LoopDate, today: LoopDate): CameOfRow[] {
+  const since = items.filter((i) => i.on >= startedOn && i.on <= today);
+  const rows: CameOfRow[] = [];
+  for (const item of since.filter((i) => i.source === "added")) {
+    rows.push({ id: item.id, did: item.text, on: item.on, came: item.impact, item });
+  }
+  const byRecord = new Map<string, PictureItem[]>();
+  for (const item of since.filter((i) => i.source === "recorded" && !i.id.startsWith("task:"))) {
+    const key = item.id.split(":")[0];
+    byRecord.set(key, [...(byRecord.get(key) ?? []), item]);
+  }
+  for (const [key, group] of byRecord) {
+    const said = group.filter((i) => i.quote);
+    const used = group.filter((i) => !i.quote && i.tag);
+    /* The first thing she said about it is that she used it; later lines are follow-ups. */
+    const did = used.sort((a, b) => (a.on < b.on ? -1 : 1))[0];
+    if (!did) continue;
+    rows.push({ id: `record:${key}`, did: did.text, on: did.on, came: said.sort((a, b) => (a.on < b.on ? 1 : -1))[0]?.text });
+  }
+  return rows.sort((a, b) => (a.on < b.on ? 1 : a.on > b.on ? -1 : 0));
+}

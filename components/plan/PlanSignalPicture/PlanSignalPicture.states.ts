@@ -151,14 +151,45 @@ export const planSignalPictureStates = defineComponentStates({
       props: { ...base, ...path, nextStep: undefined, headingId: "pp-none" },
     },
     {
-      label: "Came of it — what she reported",
-      description: "Only what she says came of the things she did, in her words, each with what it followed. No next action and no add button: the page has those.",
+      label: "Came of it — a row for each thing",
+      description: "What she did in a dark block that points at what she says came of it, in her words. A thing with no reply shows a quiet dashed block, never a miss. No next action and no add button: the page has those.",
       props: { ...base, variant: "cameof", startedOn: "2026-10-05", headingId: "pc-came" },
     },
     {
-      label: "Came of it — nothing reported yet",
-      description: "Says so, and how it will show. It never guesses at a result.",
+      label: "Came of it — nothing reported on any of it",
+      description: "Every thing shows with the quiet block. It never guesses at a result.",
       props: { ...base, variant: "cameof", startedOn: "2026-10-05", items: items.map((i) => ({ ...i, impact: undefined })), headingId: "pc-came-none" },
+    },
+    {
+      label: "Came of it — nothing at all yet, empty",
+      description: "Nothing she did yet, so it says how it will show.",
+      props: { ...base, variant: "cameof", startedOn: "2026-10-05", items: [], today: "2026-10-07", history: 3, headingId: "pc-came-empty" },
+    },
+    {
+      label: "Came of it — a long reply wraps",
+      props: {
+        ...base,
+        variant: "cameof",
+        startedOn: "2026-10-05",
+        items: [
+          {
+            id: "added-9",
+            source: "added",
+            text: "Spoke on a panel about planning for growth at the Growth Summit with three other heads of marketing",
+            on: "2026-11-02",
+            areaId: "seen-as-leader",
+            activity: "speaking",
+            impact:
+              "Three people from the audience asked for an introduction to my head of planning, and one invited me to speak at their offsite in the spring.",
+            editable: true,
+          },
+        ],
+        headingId: "pc-came-long",
+      },
+    },
+    {
+      label: "Came of it — deleting what she added asks first",
+      props: { ...base, variant: "cameof", startedOn: "2026-10-05", demoDelete: true, headingId: "pc-came-delete" },
     },
     {
       label: "Empty — nothing recorded yet",

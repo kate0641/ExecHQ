@@ -648,6 +648,11 @@ export const SIGNAL_PICTURE_COPY = {
     heading: "What came of it",
     intro: "What you told us came of the things you did, in your words. Nothing is worked out for you.",
     none: "Nothing reported yet. When you add what came of something you did, it shows here.",
+    /** A thing she did with no reply: neutral, never a miss. */
+    noReply: "Nothing reported yet",
+    cameOfIt: "What came of it: ",
+    more: (n: number) => `Show ${n} more`,
+    fewer: "Show fewer",
   },
   openLink: "Open link",
   opensNewTab: "(opens in a new tab)",

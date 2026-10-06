@@ -8,17 +8,18 @@ import { Icon } from "@/components/primitives/Icon";
 import {
   areaName,
   byActivity,
+  cameOfRows,
   directionOf,
   growthMonths,
-  impactsIn,
   inWindow,
   newestFirst,
   windowIsFull,
   type ActivityGroup,
+  type CameOfRow,
   type Offer,
   type PictureItem,
 } from "@/lib/signal-picture";
-import { daysBetween, shortDate, type LoopDate } from "@/lib/loop";
+import { shortDate, type LoopDate } from "@/lib/loop";
 import { SIGNAL_PICTURE_COPY as C, type ActivityType, type WindowDays } from "@/mock/plan";
 
 /** How the picture shows what came of things and what to do next.
@@ -112,7 +113,18 @@ export function PlanSignalPicture({
   const visible = inWindow(items, today, days);
 
   if (variant === "cameof") {
-    return <CameOf items={items} today={today} startedOn={startedOn ?? today} headingId={headingId} className={className} />;
+    return (
+      <CameOf
+        items={items}
+        today={today}
+        startedOn={startedOn ?? today}
+        onEdit={onEdit}
+        onDelete={onDelete}
+        demoDelete={demoDelete}
+        headingId={headingId}
+        className={className}
+      />
+    );
   }
 
   if (variant === "path") {
@@ -407,23 +419,30 @@ function NextCard({ next }: { next?: PictureNext }) {
   );
 }
 
-/** What she says came of the things she did, in her words, each with the thing it followed. */
+/** A row for each thing she did and what she says came of it: what she did in a dark block that points at her words. A thing with no reply shows a quiet dashed block, never a miss. */
 function CameOf({
   items,
   today,
   startedOn,
+  onEdit,
+  onDelete,
+  demoDelete,
   headingId,
   className,
 }: {
   items: PictureItem[];
   today: LoopDate;
   startedOn: LoopDate;
+  onEdit: PlanSignalPictureProps["onEdit"];
+  onDelete: PlanSignalPictureProps["onDelete"];
+  demoDelete?: boolean;
   headingId: string;
   className?: string;
 }) {
   const G = C.cameOf;
-  const since = items.filter((i) => i.on >= startedOn && i.on <= today);
-  const impacts = impactsIn(since, today, Math.max(daysBetween(startedOn, today) + 1, 1));
+  const [all, setAll] = useState(false);
+  const rows = cameOfRows(items, startedOn, today);
+  const shown = all ? rows : rows.slice(0, 5);
   return (
     <section className={["came-of", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
       <div className="signal-picture__head">
@@ -432,19 +451,82 @@ function CameOf({
         </h2>
         <p className="signal-picture__intro">{G.intro}</p>
       </div>
-      {impacts.length ? (
-        <ul className="signal-picture__impacts">
-          {impacts.map((i) => (
-            <li key={i.id}>
-              <span className="signal-picture__text">{i.text}</span>
-              <span className="signal-picture__date">{C.after(i.of)}</span>
-            </li>
-          ))}
-        </ul>
+      {rows.length ? (
+        <>
+          <ul className="came-of__rows">
+            {shown.map((row) => (
+              <CameOfRowView key={row.id} row={row} onEdit={onEdit} onDelete={onDelete} demoDelete={demoDelete} />
+            ))}
+          </ul>
+          {rows.length > 5 ? (
+            <Button variant="ghost" size="sm" aria-expanded={all} onClick={() => setAll((v) => !v)}>
+              {all ? G.fewer : G.more(rows.length - 5)}
+            </Button>
+          ) : null}
+        </>
       ) : (
         <p className="signal-picture__empty">{G.none}</p>
       )}
     </section>
+  );
+}
+
+function CameOfRowView({
+  row,
+  onEdit,
+  onDelete,
+  demoDelete,
+}: {
+  row: CameOfRow;
+  onEdit: PlanSignalPictureProps["onEdit"];
+  onDelete: PlanSignalPictureProps["onDelete"];
+  demoDelete?: boolean;
+}) {
+  const G = C.cameOf;
+  const [asking, setAsking] = useState(Boolean(demoDelete && row.item?.editable));
+  const item = row.item;
+  return (
+    <li className={["came-of__row", row.came ? "" : "is-quiet"].filter(Boolean).join(" ")}>
+      <div className="came-of__flow">
+        <div className="came-of__did">
+          <span className="came-of__date">{shortDate(row.on)}</span>
+          {row.did}
+        </div>
+        <span className="came-of__tip" aria-hidden="true" />
+        <div className="came-of__reply">
+          {row.came ? (
+            <>
+              <span className="u-visually-hidden">{G.cameOfIt}</span>
+              {row.came}
+            </>
+          ) : (
+            G.noReply
+          )}
+        </div>
+      </div>
+      {item?.editable ? (
+        asking ? (
+          <div className="signal-picture__row-actions">
+            <span className="signal-picture__ask">{C.deleteAsk}</span>
+            <Button variant="secondary" size="sm" onClick={() => onDelete(item)}>
+              {C.deleteYes}
+            </Button>
+            <Button variant="ghost" size="sm" onClick={() => setAsking(false)}>
+              {C.deleteNo}
+            </Button>
+          </div>
+        ) : (
+          <div className="signal-picture__row-actions">
+            <Button variant="ghost" size="sm" onClick={() => onEdit(item)}>
+              {C.edit}
+            </Button>
+            <Button variant="ghost" size="sm" onClick={() => setAsking(true)}>
+              {C.delete}
+            </Button>
+          </div>
+        )
+      ) : null}
+    </li>
   );
 }
 

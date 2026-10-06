@@ -12795,6 +12795,90 @@ ul.templates__outcomes {
 }
 
 /* How you've grown: a line through time, a circle for each month, her next step as the next circle. */
+/* What came of it: a row for each thing, what she did pointing at her own words. */
+ul.came-of__rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.came-of {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.came-of__row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.came-of__flow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--space-sm) minmax(0, 1.25fr);
+  align-items: stretch;
+}
+
+.came-of__did,
+.came-of__reply {
+  padding: var(--space-xs) var(--space-sm);
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+}
+
+.came-of__did {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+  font-weight: var(--weight-semibold);
+}
+
+.came-of__date {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-regular);
+  color: var(--color-text-inverse-muted);
+}
+
+.came-of__tip {
+  background-color: var(--color-surface-inverse);
+  clip-path: polygon(0 12%, 100% 50%, 0 88%);
+}
+
+.came-of__reply {
+  margin-left: var(--space-3xs);
+  border: var(--border-width-medium) solid var(--color-action);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-feature);
+}
+
+.came-of__row.is-quiet .came-of__did {
+  border: var(--border-width-thin) dashed var(--color-border-strong);
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  font-weight: var(--weight-medium);
+}
+
+.came-of__row.is-quiet .came-of__date {
+  color: var(--color-text-muted);
+}
+
+.came-of__row.is-quiet .came-of__tip {
+  background-color: transparent;
+}
+
+.came-of__row.is-quiet .came-of__reply {
+  border: var(--border-width-thin) dashed var(--color-border-strong);
+  background-color: transparent;
+  color: var(--color-text-muted);
+}
+
 .growth-path {
   display: flex;
   flex-direction: column;
