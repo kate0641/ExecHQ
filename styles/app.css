@@ -13342,6 +13342,11 @@ ul.momentum__figures {
   font-size: var(--text-sm);
 }
 
+.momentum__next svg {
+  display: inline;
+  vertical-align: middle;
+}
+
 .momentum__next span {
   font-weight: var(--weight-semibold);
 }

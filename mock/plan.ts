@@ -708,8 +708,8 @@ export const MOMENTUM_COPY = {
     soft: { building: "Building", steady: "Steady", attention: "Quieter lately" },
   } as Record<LabelWording, Record<MomentumLabel, string>>,
   /** What each label says it is based on, so it never reads as a grade. */
-  labelBasis: (label: string) =>
-    `${label}, from what you completed, made and logged in the last 90 days. It is not a grade, and it does not say your work caused any result.`,
+  labelBasis:
+    "From what you completed, made and logged in the last 90 days. It is not a grade, and it does not say your work caused any result.",
   nextMove: "Your next move",
   /** The sections she sees as her history grows: the newest leads. Nobody chooses a window. */
   sectionHeading: { 7: "Last 7 days", 30: "Last 30 days", 90: "Last 90 days" } as Record<WindowDays, string>,

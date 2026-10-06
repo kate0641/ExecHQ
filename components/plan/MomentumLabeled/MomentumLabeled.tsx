@@ -90,7 +90,7 @@ export function MomentumLabeled({
             <span className="u-visually-hidden">90-day label: </span>
             {label}
           </p>
-          <p className="momentum__basis">{C.labelBasis(label)}</p>
+          <p className="momentum__basis">{C.labelBasis}</p>
           {next}
           <Behind events={inMomentumWindow(events, today, 90)} />
           <p className="momentum__rule">{C.placeholderRule}</p>
