@@ -610,9 +610,7 @@ export function usePlanPage() {
           tryLabel={AC.tryThis}
           headingId="account-linkedin"
         />
-      ) : (
-        <AccountCard name={LI.name} mark={LI.mark} invite={{ ...LI.invite, href: profile }} headingId="account-linkedin" />
-      )}
+      ) : null /* Not brought in: the upload under her starting numbers is the one invitation. */}
       {website?.connected && website.connectedOn ? (
         <AccountCard
           name={WEB.name}
