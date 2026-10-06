@@ -20,7 +20,7 @@ import {
   type PlanState,
 } from "@/lib/action-steps";
 import type { LoopDate } from "@/lib/loop";
-import { LIVE_LIMITS, MAX_LIVE, PLAN_COPY, STEP_COPY as C, stepById, type ActionStep } from "@/mock/plan";
+import { LIVE_LIMITS, PLAN_COPY, STEP_COPY as C, stepById, type ActionStep } from "@/mock/plan";
 import { HORIZONS, type Horizon } from "@/mock/plan-stub";
 
 interface Note {
@@ -57,7 +57,7 @@ export interface ActionStepsProps {
   persist?: { saved?: SavedSteps; onChange: (steps: SavedSteps) => void };
   /** Catalogue only: a card opens with this panel showing. */
   demoPanel?: "decline" | "defer" | "edit";
-  /** Catalogue only: a horizon opens saying why nothing fills its free place. */
+  /** Catalogue only (list layout): a horizon opens saying why nothing fills its free place. */
   demoEmpty?: Partial<Record<Horizon, EmptyReason>>;
   headingId?: string;
   className?: string;
@@ -65,8 +65,8 @@ export interface ActionStepsProps {
 
 /**
  * The Plan's next steps: never more than five, three horizons, each step with
- * its reasons. The limit shows in the layout (a count, and a free place where
- * there is room), not as a bar toward anything.
+ * its reasons. The limit shows in the list as a free place where there is room,
+ * not as a count or a bar toward anything. The swiping row draws no free place.
  *
  * It holds the Plan state (`lib/action-steps.ts`) and applies each move. A
  * decline fills its place at once, or says why nothing did. Nothing here
@@ -163,14 +163,13 @@ export function ActionSteps({
     } else if (r) {
       setEmpties((e) => ({ ...e, [from.horizon]: r.empty }));
       setMessage(`${said} ${C.announce.nothingNew}`);
-      focus.current = `steps-empty-${from.horizon}`;
-      setGoTo((g) => ({ id: `free-${from.horizon}`, n: (g?.n ?? 0) + 1 }));
+      // The carousel draws no free place, so focus goes to the heading when a card leaves with nothing in its place.
+      focus.current = layout === "carousel" ? headingId : `steps-empty-${from.horizon}`;
+      if (layout !== "carousel") setGoTo((g) => ({ id: `free-${from.horizon}`, n: (g?.n ?? 0) + 1 }));
     } else {
       setMessage(said);
     }
   }
-
-  const live = liveSteps(state);
 
   function renderCard(step: ActionStep, opts: { compact?: boolean; headingLevel: 3 | 4; first?: boolean }) {
     return (
@@ -203,7 +202,7 @@ export function ActionSteps({
   }
 
   if (layout === "carousel") {
-    // One row, in order: short-term, then medium, then the long-term milestone. A free place ends it.
+    // One row, in order: short-term, then medium, then the long-term milestone. A free place is not drawn.
     const cards: CarouselItem[] = HORIZONS.flatMap((h) =>
       liveIn(state, h.id).map((step, i) => ({
         id: step.id,
@@ -211,29 +210,13 @@ export function ActionSteps({
         node: renderCard(step, { compact: true, headingLevel: 3, first: h.id === "short" && i === 0 }),
       }))
     );
-    const withRoom = HORIZONS.filter((h) => liveIn(state, h.id).length < LIVE_LIMITS[h.id]);
-    const freeHorizon = withRoom.find((h) => empties[h.id]) ?? withRoom[0];
-    if (freeHorizon) {
-      cards.push({
-        id: `free-${freeHorizon.id}`,
-        group: freeHorizon.id,
-        node: (
-          <div className="steps-free" id={`steps-empty-${freeHorizon.id}`} tabIndex={-1}>
-            <b>{C.freePlace}</b>
-            <span>{empties[freeHorizon.id] ? PLAN_COPY.empty[empties[freeHorizon.id]!] : C.roomFree}</span>
-          </div>
-        ),
-      });
-    }
-    const horizonOf = (id: string): Horizon =>
-      (id.startsWith("free-") ? (id.slice(5) as Horizon) : stepById(id)?.horizon) ?? "short";
+    const horizonOf = (id: string): Horizon => stepById(id)?.horizon ?? "short";
     return (
       <section className={["steps", "steps--carousel", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
         <div className="steps__head">
-          <h2 className="steps__heading" id={headingId}>
+          <h2 className="steps__heading" id={headingId} tabIndex={-1}>
             {C.heading}
           </h2>
-          <p className="steps__count">{C.inUse(live.length, MAX_LIVE)}</p>
         </div>
         <output className="u-visually-hidden">{message}</output>
         <ul className="steps__jump" aria-label={C.jumpLabel}>
@@ -272,7 +255,6 @@ export function ActionSteps({
         <h2 className="steps__heading" id={headingId}>
           {C.heading}
         </h2>
-        <p className="steps__count">{C.inUse(live.length, MAX_LIVE)}</p>
       </div>
       <output className="u-visually-hidden">{message}</output>
 

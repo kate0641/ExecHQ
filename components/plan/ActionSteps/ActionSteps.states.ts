@@ -23,7 +23,7 @@ export const actionStepsStates = defineComponentStates({
   status: "draft",
   flows: ["plan"],
   description:
-    "The Plan’s next steps: never more than five, across three horizons (short-term up to three, medium-term one, long-term milestone one), each with its reasons. The limit shows as a count and as free places, never a bar. A decline fills its place at once from the ranked queue, shaped by the reason given, or says why nothing did. Operable: accept, decline with a reason, do later, change, mark done.",
+    "The Plan’s next steps: never more than five, across three horizons (short-term up to three, medium-term one, long-term milestone one), each with its reasons. The limit shows as free places in the list, never as a count or a bar, and the swiping row draws none. A decline fills its place at once from the ranked queue, shaped by the reason given, or says why nothing did. Operable: accept, decline with a reason, do later, change, mark done.",
   component: ActionSteps,
   notApplicable: {
     hover: "Its controls are the cards’ buttons, which show their own states.",
@@ -57,12 +57,13 @@ export const actionStepsStates = defineComponentStates({
     },
     {
       label: "Swiping row — five in one row, in order",
-      description: "Concept 1: compact cards in a swipe-or-step row, short-term to long-term, with chips that jump to a horizon and the free place at the end.",
+      description: "Concept 1: compact cards in a swipe-or-step row, short-term to long-term, with chips that jump to a horizon. A free place is not drawn.",
       props: { today, startHref, initial: start, layout: "carousel", headingId: "as-row" },
     },
     {
-      label: "Swiping row — empty, a place is free",
-      props: { today, startHref, initial: justOne, layout: "carousel", demoEmpty: { medium: "nothing-suitable" }, headingId: "as-row-empty" },
+      label: "Swiping row — empty places are not drawn",
+      description: "With only one step, the row holds only that step. There is no empty card after it.",
+      props: { today, startHref, initial: justOne, layout: "carousel", headingId: "as-row-empty" },
     },
   ],
 });

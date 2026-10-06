@@ -12330,7 +12330,6 @@ ul.card-carousel__track {
   line-height: var(--leading-snug);
 }
 
-.steps__count,
 .steps__group-meta {
   margin: 0;
   font-size: var(--text-sm);
@@ -14272,31 +14271,6 @@ ul.pcal__items {
   height: 0.75rem;
   margin-inline: var(--space-3xs);
   background-color: var(--color-border-strong);
-}
-
-.steps-free {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: var(--space-2xs);
-  min-height: 10rem;
-  padding: var(--space-md);
-  border: var(--border-width-thin) dashed var(--color-border-strong);
-  border-radius: var(--radius-card);
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
-}
-
-.steps-free b {
-  font-family: var(--font-display);
-  font-size: var(--text-md);
-  color: var(--color-text-primary);
-}
-
-.steps-free:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
 }
 
 .steps__jump {

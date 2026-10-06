@@ -415,10 +415,8 @@ export const SCOPE_OPTIONS = { "as-is": "As planned", lighter: "A lighter versio
 export const STEP_COPY = {
   heading: "Your next steps",
   /** Said plainly, a count of real places, never progress toward a number. */
-  inUse: (n: number, max: number) => `${n} of ${max} places in use`,
   horizonInUse: (n: number, max: number) => `${n} of ${max}`,
   horizonLabels: { short: "Short-term", medium: "Medium-term", long: "Long-term milestone" } as Record<Horizon, string>,
-  freePlace: "A place is free",
   jumpLabel: "Jump to a horizon",
   horizonShort: { short: "Short-term", medium: "Medium-term", long: "Long-term" } as Record<Horizon, string>,
   previousStep: "Previous step",
