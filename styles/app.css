@@ -13416,26 +13416,6 @@ ul.momentum__events {
   color: var(--color-text-secondary);
 }
 
-.momentum-scaffold {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  padding: var(--space-sm) var(--space-md);
-  border: var(--border-width-thin) dashed var(--color-border-strong);
-  border-radius: var(--radius-md);
-  font-size: var(--text-sm);
-}
-
-.momentum-scaffold p {
-  margin: 0;
-  color: var(--color-text-secondary);
-}
-
-.momentum-scaffold__title {
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-primary);
-}
-
 /* -----------------------------------------------------------------------------
    WHAT CHANGED (Plan, Sprint 3)
    A reading, not a card from the Briefing: no image, no byline, no pull quote.

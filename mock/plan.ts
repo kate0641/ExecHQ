@@ -719,20 +719,6 @@ export const MOMENTUM_COPY = {
   consistencyNone: (weeks: number) => `No completed action in the last ${weeks} weeks yet.`,
   weekTo: (to: string, done: number) => `to ${to}: ${done} completed`,
   placeholderRule: "Placeholder rule · D&T to define",
-  scaffold: {
-    heading: "Reviewing Momentum",
-    concept: "Concept",
-    a: "A · Labeled trend",
-    b: "B · Counts only",
-    wording: "Label wording",
-    candid: "Needs attention",
-    soft: "Quieter lately",
-    history: "How long she has used it",
-    historyActual: "Actual",
-    historyThirty: "5 weeks",
-    historyNinety: "95 days",
-    note: "Prototype scaffolding. She does not choose a window: the views build up as her history grows, at 7, 30 and 90 days. A three-week pilot cannot show the last two.",
-  },
 } as const;
 
 /* -----------------------------------------------------------------------------
