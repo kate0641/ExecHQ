@@ -248,6 +248,13 @@
   --color-ring-complete-deep: var(--brand-blue-300);
   --color-ring-complete-light: var(--brand-white);
 
+  /* Home's header on the phone: a soft wash behind the greeting and the
+     status bar, warm peach low on the left and a cool blue up on the right. */
+  --color-header-glow-warm: var(--brand-orange-300);
+  --color-header-glow-cool: var(--brand-blue-300);
+  --color-header-wash-warm: var(--brand-orange-200);
+  --color-header-wash-cool: var(--brand-blue-100);
+
   /* Danger — the destructive action: deleting the account, removing a
      connection. The red end of the orange scale. White on it is 7.0:1, and
      the fill is 6.4:1 against stone, so it needs no edge. */

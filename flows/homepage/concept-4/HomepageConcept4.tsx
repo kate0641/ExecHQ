@@ -11,7 +11,6 @@ import { nextStepOf } from "./nextStep";
 import { NextStepCard } from "@/components/homepage/NextStepCard";
 import { Button } from "@/components/primitives/Button";
 import { loopActions, useLoop } from "@/lib/loop-store";
-import { useStatusBarTone } from "@/lib/device-tone";
 import { conceptHref } from "@/lib/manifest";
 import { mapFor } from "@/lib/map";
 import { hasBaseline, signalRows, withAdded } from "@/lib/presence";
@@ -56,8 +55,6 @@ function shortDay(date: string): string {
 }
 
 export function HomepageConcept4() {
-  /* The greeting's navy runs up behind the phone's status bar. */
-  useStatusBarTone("inverse");
   const loop = useLoop();
   /* A ring she tapped, kept only for the state it was tapped in, so a new
      moment (or the dock's switcher) opens on her next step again. */

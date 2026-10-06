@@ -11670,8 +11670,8 @@ ul.login__never {
   flex-direction: column;
   gap: var(--space-3xs);
   margin: 0;
-  /* The greeting is its own navy section at the top of the page, centred,
-     with only a short run of navy below the date. */
+  /* The greeting is its own section at the top of the page, centred, with
+     only a short run of colour below the date. */
   align-items: center;
   padding: var(--space-xs) var(--space-feature-padding);
   text-align: center;
@@ -11680,8 +11680,42 @@ ul.login__never {
   color: var(--color-text-inverse);
 }
 
+/* On the phone the header is a soft wash, not navy: a warm peach glow low on
+   the left and a cool blue up on the right. The status bar and the greeting
+   share one wash, each showing its own slice of it, so it runs unbroken from
+   the top of the screen to the bottom of the greeting. */
+.device__screen:has(.map-home) {
+  --home-header-band: 2.5rem;
+  --home-header-height: calc(var(--device-statusbar-height) + var(--home-header-band));
+  --home-header-wash:
+    radial-gradient(ellipse 70% 140% at 22% 100%, var(--color-header-glow-warm), transparent 75%),
+    radial-gradient(ellipse 65% 150% at 92% 0%, var(--color-header-glow-cool), transparent 80%),
+    linear-gradient(100deg, var(--color-header-wash-warm), var(--color-header-wash-cool));
+}
+
+.device__screen:has(.map-home) > .device__statusbar {
+  background-image: var(--home-header-wash);
+  background-position: top;
+  background-size: 100% var(--home-header-height);
+  background-repeat: no-repeat;
+}
+
+[data-viewport="mobile"] .map-home__greeting {
+  justify-content: center;
+  min-height: var(--home-header-band);
+  background-image: var(--home-header-wash);
+  background-position: bottom;
+  background-size: 100% var(--home-header-height);
+  background-repeat: no-repeat;
+  color: var(--color-text-primary);
+}
+
+[data-viewport="mobile"] .map-home__greeting span {
+  color: var(--color-text-secondary);
+}
+
 /* For now Home has no wordmark header on the phone: the greeting band is
-   the top of the screen, and runs on up behind the status bar. */
+   the top of the screen, and its wash runs on up behind the status bar. */
 [data-viewport="mobile"] .chrome:has(.map-home) > .chrome__header {
   display: none;
 }
@@ -11729,12 +11763,17 @@ ul.login__never {
     font-size: var(--text-lg);
     font-weight: var(--weight-semibold);
     line-height: var(--leading-snug);
-    color: var(--color-text-inverse);
+    color: inherit;
     animation: map-greeting-in 600ms var(--easing-standard) 4200ms both;
   }
 
   .map-home__greeting b {
     animation: map-greeting-out 500ms var(--easing-exit) 4000ms both;
+  }
+
+  /* Once it takes the greeting's place, the date is the greeting's colour. */
+  [data-viewport="mobile"] .map-home__greeting span {
+    color: inherit;
   }
 }
 
