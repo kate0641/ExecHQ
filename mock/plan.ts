@@ -530,6 +530,10 @@ export const ENTRY_TYPES: { id: EntryTypeId; label: string; kind: "writing" | "s
   { id: "other", label: "Something else", kind: "other" },
 ];
 
+/** The one thing she can add that is a number, not an event: her LinkedIn followers, as of a day. */
+export const FOLLOWERS_CHOICE = { id: "followers", label: "My LinkedIn followers" } as const;
+export type EntryChoice = EntryTypeId | typeof FOLLOWERS_CHOICE.id;
+
 export const entryTypeOfKind = (kind: string) => ENTRY_TYPES.find((t) => t.kind === kind) ?? ENTRY_TYPES[4];
 
 /** Where an outside activity belongs on her plan when she did not say. A
@@ -640,6 +644,11 @@ export const ENTRY_COPY = {
   noteLabel: "A link or a note",
   noteHint: "Optional. Just enough for you to recognise it.",
   notePlaceholder: "https://",
+  followersLabel: "How many followers now?",
+  followersHint: "Look at your profile and type the number.",
+  followersPlaceholder: "e.g. 1,310",
+  followersDateLabel: "As of when?",
+  errorFollowers: "Type a whole number, such as 1,310.",
   impactLabel: "What came of it?",
   impactHint: "Optional. A reply, a comment, an invitation, or nothing yet. In your words.",
   save: "Add",

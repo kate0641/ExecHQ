@@ -70,7 +70,6 @@ import { briefingEntryStates } from "./homepage/BriefingEntry/BriefingEntry.stat
 import { entryLinkStates } from "./homepage/EntryLink/EntryLink.states";
 import { briefingEditorialStates } from "./homepage/BriefingEditorial/BriefingEditorial.states";
 import { accountCardStates } from "./homepage/AccountCard/AccountCard.states";
-import { updateNowSheetStates } from "./homepage/UpdateNowSheet/UpdateNowSheet.states";
 import { sparkStates } from "./homepage/Spark/Spark.states";
 import { baselineListStates } from "./homepage/BaselineList/BaselineList.states";
 import { presenceCardStates } from "./homepage/PresenceCard/PresenceCard.states";
@@ -184,7 +183,6 @@ export const registry: RegisteredComponent[] = [
   presenceCardStates,
   baselineListStates,
   sparkStates,
-  updateNowSheetStates,
   trendLineStates,
   loopRowStates,
   checkInStates,

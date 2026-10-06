@@ -5,7 +5,6 @@ import { BaselineForm } from "@/components/homepage/BaselineForm";
 import { LinkedInMore } from "@/components/homepage/LinkedInMore";
 import type { LinkedInStatus } from "@/flows/onboarding/shared";
 import { LINKEDIN_READ_MS, looksLikeLinkedInExport } from "@/mock/onboarding";
-import { UpdateNowSheet } from "@/components/homepage/UpdateNowSheet";
 import { PresenceCard } from "@/components/homepage/PresenceCard";
 import { SignalPicture } from "@/components/homepage/SignalPicture";
 import { Spark } from "@/components/homepage/Spark";
@@ -36,7 +35,7 @@ import { planSparks } from "@/lib/plan-sparks";
 import { roadmapWindows, stageAt } from "@/lib/roadmap-dates";
 import { whenWords } from "@/lib/time-words";
 import { saveCalendar, saveRoadmap, saveSteps, useCalendar, useRoadmapChoices, useSavedSteps } from "@/lib/plan-store";
-import { hasBaseline, presenceCounts, signalRows, withAdded, type Baseline } from "@/lib/presence";
+import { hasBaseline, signalRows, withAdded } from "@/lib/presence";
 import { addPresence, removePresence, saveBaseline, saveCurrent, updatePresence, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
 import { currentStageIndex, isDone as isActionDone } from "@/lib/rings";
 import { addedItems, historyDays, nextActionFor, offerFor, recordedItems, type PictureItem } from "@/lib/signal-picture";
@@ -46,7 +45,6 @@ import { dismissSpark, useDismissedSparks } from "@/lib/spark-dismissal";
 import { sparksFor } from "@/lib/sparks";
 import {
   ADD_COPY as ADD,
-  NOW_COPY as NC,
   PRESENCE_STUB as PR,
   SPARK_COPY as SP,
   ACCOUNTS_COPY as AC,
@@ -75,7 +73,6 @@ export function usePlanPage() {
   const addedPresence = useAddedPresence();
   const baseline = useBaseline();
   const current = useCurrent();
-  const [updating, setUpdating] = useState(false);
   // The LinkedIn export she may add under her starting numbers. In the prototype only its name is kept, and "reading" is a timer.
   const [liExport, setLiExport] = useState<{ fileName: string | null; status: LinkedInStatus }>({ fileName: null, status: "none" });
   useEffect(() => {
@@ -117,6 +114,12 @@ export function usePlanPage() {
   }
 
   function saveEntry(values: EntryValues) {
+    // Her followers are a number as of a day, not an event: only the Now column moves.
+    if (values.type === "followers") {
+      saveCurrent({ ...current, followers: values.followers, on: values.on });
+      setEntry(null);
+      return;
+    }
     const type = ENTRY_TYPES.find((t) => t.id === values.type) ?? ENTRY_TYPES[4];
     const isLink = values.text ? /^https?:\/\//i.test(values.text) : false;
     const fields = {
@@ -500,16 +503,6 @@ export function usePlanPage() {
     [item.note ?? item.title, item.where, shortDate(item.on)].filter(Boolean).join(" · "),
     current
   );
-  /* What the update form opens on: where she last said she is, else the
-     counts the rows already show. */
-  const nowStart: Baseline = {
-    counts: Object.fromEntries(
-      presenceCounts(loop.today, items, baseline, seeded, current).map((p) => [p.kind, p.now])
-    ) as Baseline["counts"],
-    ...((current?.followers ?? baseline?.followers) !== undefined
-      ? { followers: (current?.followers ?? baseline?.followers) as number }
-      : {}),
-  };
   const sparks = sparksFor(loop.today, loop.account, dismissed, items).filter((n) => n.id.startsWith("presence:"));
   const addedCount = items.filter((item) => item.on <= loop.today).length;
   /* The notes on what has moved, kept apart from the card so a page can put
@@ -529,7 +522,6 @@ export function usePlanPage() {
         {SPIC.startedHeading}
       </h2>
       {hasBaseline(baseline, seeded) ? (
-        <>
         <PresenceCard
           name={SPIC.startedHeading}
           mark={PR.mark}
@@ -544,10 +536,6 @@ export function usePlanPage() {
           tryLabel={AC.tryThis}
           headingId="plan-signals-card"
         />
-        <button type="button" className="link link--standalone signal-picture__links" onClick={() => setUpdating(true)}>
-          {NC.open}
-        </button>
-        </>
       ) : (
         <SignalPicture
           name={SPIC.startedHeading}
@@ -587,23 +575,9 @@ export function usePlanPage() {
     />
   );
 
-  const updateNow = (
-    <UpdateNowSheet
-      key={updating ? "update-now-open" : "update-now-closed"}
-      open={updating}
-      initial={nowStart}
-      onClose={() => setUpdating(false)}
-      onSave={(now) => {
-        saveCurrent({ ...now, on: loop.today });
-        setUpdating(false);
-      }}
-    />
-  );
-
   return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, agenda, guided, calendar, note, narrative: narrativeNode, momentum, momentumOf, picture, pictureOf, started, sparkNode, sheet: (
       <>
         {sheet}
-        {updateNow}
         {calendarSheet}
       </>
     ) };

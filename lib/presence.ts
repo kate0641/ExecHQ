@@ -39,7 +39,10 @@ export interface Baseline {
 
 /** Where she says she is now: the same counts as the baseline, as of the day
  *  she said it. Anything she adds after that day counts on top of it. */
-export interface Current extends Baseline {
+export interface Current {
+  /** The counts she said, if she said them. Counts now come from what she adds, so this is only ever set by an older save. */
+  counts?: Baseline["counts"];
+  followers?: number;
   on: string;
 }
 
@@ -61,7 +64,7 @@ export function presenceCounts(
     const ofKind = added.filter((item) => item.kind === kind);
     const then = baseline ? baseline.counts[kind] : seeded ? PRESENCE_BASELINE[kind] : 0;
     /* What she said she has now, plus what she added since saying it. */
-    const now = current ? current.counts[kind] + ofKind.filter((item) => item.on > current.on).length : then + ofKind.length;
+    const now = current?.counts ? current.counts[kind] + ofKind.filter((item) => item.on > current.on).length : then + ofKind.length;
     return { kind, then, now, latest: ofKind[ofKind.length - 1] };
   });
 }

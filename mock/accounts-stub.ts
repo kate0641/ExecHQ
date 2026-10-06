@@ -152,20 +152,9 @@ export const ADD_COPY = {
   errorNote: "Add a title or a note.",
   errorWhere: "Say where it ran.",
   /** The button on the card that opens the sheet. */
-  open: "Add one",
+  open: "Add",
   /** Read out with the link on a latest item. */
   opensNewTab: "(opens in a new tab)",
-} as const;
-
-/** Updating where she is now, after she has set her starting point. */
-export const NOW_COPY = {
-  /** The button under the picture. */
-  open: "Update where you are now",
-  title: "Where are you now?",
-  intro: "Change any number that has moved. Your starting point stays as it was.",
-  save: "Save where I am now",
-  cancel: "Cancel",
-  saved: "Updated where you are now.",
 } as const;
 
 export const PRESENCE_ORDER: readonly CountedKind[] = ["podcast", "press", "speaking", "writing"];
