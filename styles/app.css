@@ -15203,12 +15203,61 @@ fieldset.agenda__whens {
   outline-offset: var(--focus-ring-offset);
 }
 
+/* The add button floats over the phone's screen, above the Ask or go pill, and the sheet slides up from it. */
+.agenda__fab {
+  position: absolute;
+  inset-inline-end: var(--space-screen-side);
+  inset-block-end: calc(var(--space-lg) + 3.5rem + var(--space-sm));
+  z-index: 15;
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border: 0;
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+  box-shadow: var(--shadow-lg);
+  cursor: pointer;
+  transition: opacity var(--duration-base);
+}
+
+.agenda__fab:hover {
+  background-color: var(--color-surface-inverse-hover);
+}
+
+.agenda__fab:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.agenda__fab--inline {
+  position: static;
+  align-self: flex-end;
+}
+
+.device__screen[data-concierge="open"] .agenda__fab {
+  opacity: 0;
+  pointer-events: none;
+}
+
 .agenda__add {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-  padding-top: var(--space-sm);
-  border-top: var(--border-subtle);
+}
+
+.agenda__add-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+}
+
+.agenda__legend {
+  margin-bottom: var(--space-xs);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
 }
 
 .agenda__actions {
@@ -15330,14 +15379,3 @@ fieldset.agenda__whens {
   padding-inline-start: 0;
 }
 
-.agenda--stack .agenda__add {
-  margin-inline: var(--space-xs);
-  padding: var(--space-sm);
-  border: 0;
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface-raised);
-}
-
-.agenda--stack .agenda__body > div:last-child:not(.agenda__add) {
-  padding-inline: var(--space-xs);
-}

@@ -1,9 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { Input } from "@/components/form/Input";
+import { Sheet } from "@/components/layout/Sheet";
 import { Button } from "@/components/primitives/Button";
+import { Icon } from "@/components/primitives/Icon";
 import type { LoopDate } from "@/lib/loop";
 import { timeChoices, whenWords } from "@/lib/time-words";
 import { PLAN_AGENDA_COPY as A, STEP_QUESTIONS, type ActionStep, type StepQuestion } from "@/mock/plan";
@@ -83,6 +86,12 @@ export function PlanAgenda({
   const [open, setOpen] = useState<number | null>(demoStage !== undefined ? demoStage : here?.index ?? 0);
   const [step, setStep] = useState<string | null>(demoStep !== undefined ? demoStep : firstStep(open ?? 0));
   const [adding, setAdding] = useState(Boolean(demoAdding));
+  // The add button floats over the phone's screen, above the Ask or go pill, so it is drawn there.
+  const anchor = useRef<HTMLSpanElement>(null);
+  const [screen, setScreen] = useState<HTMLElement | null>(null);
+  useEffect(() => {
+    setScreen(anchor.current?.closest<HTMLElement>(".device__screen") ?? null);
+  }, []);
   const [draft, setDraft] = useState("");
   const [when, setWhen] = useState(0);
   const [note, setNote] = useState("");
@@ -186,59 +195,61 @@ export function PlanAgenda({
                   ) : (
                     <p className="agenda__small">{A.nothing}</p>
                   )}
-                  {adding || variant === "headings" ? (
-                    <form
-                      className="agenda__add"
-                      onSubmit={(event) => {
-                        event.preventDefault();
-                        submit();
-                      }}
-                    >
-                      <Input
-                        label={A.addLabel}
-                        autoComplete="off"
-                        placeholder={A.addPlaceholder}
-                        value={draft}
-                        onChange={(event) => setDraft(event.target.value)}
-                      />
-                      <fieldset className="agenda__whens">
-                        <legend className="u-visually-hidden">{A.addWhen}</legend>
-                        {choices.map((c, i) => (
-                          <button
-                            key={c.bucket}
-                            type="button"
-                            className="agenda__chip"
-                            aria-pressed={when === i}
-                            onClick={() => setWhen(i)}
-                          >
-                            {c.label}
-                          </button>
-                        ))}
-                      </fieldset>
-                      <div className="agenda__actions">
-                        <Button type="submit" variant="primary" size="sm" disabled={!draft.trim()}>
-                          {A.addSubmit}
-                        </Button>
-                        {variant === "stack" ? (
-                          <Button variant="ghost" size="sm" onClick={() => setAdding(false)}>
-                            {A.addCancel}
-                          </Button>
-                        ) : null}
-                      </div>
-                    </form>
-                  ) : (
-                    <div>
-                      <Button variant="secondary" size="sm" onClick={() => setAdding(true)}>
-                        {A.addLabel}
-                      </Button>
-                    </div>
-                  )}
                 </div>
               ) : null}
             </section>
           );
         })}
       </div>
+      <span ref={anchor} hidden />
+      {(() => {
+        const button = (
+          <button
+            type="button"
+            className={["agenda__fab", screen ? null : "agenda__fab--inline"].filter(Boolean).join(" ")}
+            aria-label={A.addLabel}
+            aria-haspopup="dialog"
+            onClick={() => setAdding(true)}
+          >
+            <Icon name="plus" size={24} />
+          </button>
+        );
+        return screen ? createPortal(button, screen) : button;
+      })()}
+      <Sheet open={adding} onClose={() => setAdding(false)} label={A.addLabel} inline={demoAdding}>
+        <form
+          className="agenda__add"
+          onSubmit={(event) => {
+            event.preventDefault();
+            submit();
+          }}
+        >
+          <h3 className="agenda__add-title">{A.addLabel}</h3>
+          <Input
+            label={A.addTitle}
+            autoComplete="off"
+            placeholder={A.addPlaceholder}
+            value={draft}
+            onChange={(event) => setDraft(event.target.value)}
+          />
+          <fieldset className="agenda__whens">
+            <legend className="agenda__legend">{A.addWhen}</legend>
+            {choices.map((c, i) => (
+              <button key={c.bucket} type="button" className="agenda__chip" aria-pressed={when === i} onClick={() => setWhen(i)}>
+                {c.label}
+              </button>
+            ))}
+          </fieldset>
+          <div className="agenda__actions">
+            <Button type="submit" variant="primary" disabled={!draft.trim()}>
+              {A.addSubmit}
+            </Button>
+            <Button variant="ghost" onClick={() => setAdding(false)}>
+              {A.addCancel}
+            </Button>
+          </div>
+        </form>
+      </Sheet>
     </section>
   );
 }
