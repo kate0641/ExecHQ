@@ -46,7 +46,7 @@ const MONTHS = ["January", "February", "March", "April", "May", "June", "July", 
 
 function longDate(date: string): string {
   const d = new Date(`${date}T00:00:00Z`);
-  return `${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
+  return `${WEEKDAYS[d.getUTCDay()]}, ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
 }
 
 /** "Mon 5 Oct": the Briefing's day, as the card's small print. */

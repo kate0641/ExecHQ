@@ -11691,7 +11691,7 @@ ul.login__never {
   font-family: var(--font-display);
   word-spacing: var(--font-display-word-spacing);
   letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-xl);
+  font-size: var(--text-lg);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
 }
@@ -11720,15 +11720,15 @@ ul.login__never {
     font-family: var(--font-display);
     word-spacing: var(--font-display-word-spacing);
     letter-spacing: var(--font-display-tracking);
-    font-size: var(--text-xl);
+    font-size: var(--text-lg);
     font-weight: var(--weight-semibold);
     line-height: var(--leading-snug);
     color: var(--color-text-inverse);
-    animation: map-greeting-in 600ms var(--easing-standard) 2400ms both;
+    animation: map-greeting-in 600ms var(--easing-standard) 4200ms both;
   }
 
   .map-home__greeting b {
-    animation: map-greeting-out 500ms var(--easing-exit) 2200ms both;
+    animation: map-greeting-out 500ms var(--easing-exit) 4000ms both;
   }
 }
 
