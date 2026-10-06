@@ -165,7 +165,7 @@ export function PlanSignalPicture({
           <>
             <ul className="signal-picture__list">
               {newestFirst(visible).map((item) => (
-                <Row key={item.id} item={item} onEdit={onEdit} onDelete={onDelete} showArea showImpact demoDelete={demoDelete && item.editable} />
+                <Row key={item.id} item={item} onEdit={onEdit} onDelete={onDelete} showImpact demoDelete={demoDelete && item.editable} />
               ))}
             </ul>
             <NextCard next={next} />
@@ -302,7 +302,7 @@ function Summary({
         {open ? (
           <ul className="signal-picture__list" id={behindId}>
             {newestFirst(visible).map((item) => (
-              <Row key={item.id} item={item} onEdit={onEdit} onDelete={onDelete} showArea demoDelete={demoDelete && item.editable} />
+              <Row key={item.id} item={item} onEdit={onEdit} onDelete={onDelete} demoDelete={demoDelete && item.editable} />
             ))}
           </ul>
         ) : null}

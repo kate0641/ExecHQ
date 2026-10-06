@@ -13191,6 +13191,10 @@ ul.signal-picture__impacts {
   border: 0;
 }
 
+.signal-picture__group--card .signal-picture__item {
+  padding-inline: 0;
+}
+
 .entry-form {
   display: flex;
   flex-direction: column;
