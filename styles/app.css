@@ -8976,13 +8976,13 @@ ol.signal__list {
 
 .check-in__question {
   margin: 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-bold);
-  line-height: var(--leading-snug);
-  text-wrap: balance;
+  font-family: var(--type-subheading-font);
+  font-size: var(--type-subheading-size);
+  font-weight: var(--type-subheading-weight);
+  line-height: var(--type-subheading-leading);
+  letter-spacing: var(--type-subheading-tracking);
+  word-spacing: var(--type-subheading-word-spacing);
+  text-wrap: pretty;
 }
 
 .check-in__question:focus,
@@ -9009,6 +9009,22 @@ ol.signal__list {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2xs) var(--space-md);
+  /* The lesser answers sit apart, under a hairline, in smaller type. */
+  padding-top: var(--space-sm);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+  font-size: var(--text-sm);
+}
+
+/* The main answers are quiet outlined pills, so a card of choices reads as
+   one set. Yellow stays for a single "yes, done" answer. */
+.check-in__answers .btn--secondary {
+  border: var(--border-width-thin) solid var(--color-border-strong);
+  background-color: var(--color-surface-raised);
+  color: var(--color-text-primary);
+}
+
+.check-in__answers .btn--secondary:hover {
+  background-color: var(--color-surface-hover);
 }
 
 .check-in__readback {
