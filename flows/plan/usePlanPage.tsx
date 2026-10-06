@@ -21,7 +21,7 @@ import { PlanRoadmap } from "@/components/plan/PlanRoadmap";
 import { RoadmapTimeline } from "@/components/plan/RoadmapTimeline";
 import { CalendarItemSheet, type ItemValues } from "@/components/plan/CalendarItemSheet";
 import { PlanCalendar } from "@/components/plan/PlanCalendar";
-import { PlanSignalPicture } from "@/components/plan/PlanSignalPicture";
+import { PlanSignalPicture, type SignalPictureVariant } from "@/components/plan/PlanSignalPicture";
 import { SignalEntrySheet, type EntryValues } from "@/components/plan/SignalEntrySheet";
 import { accept, complete, decline, edit as editStep, initialPlanState, liveSteps, stepDay, type PlanState } from "@/lib/action-steps";
 import { askConcierge } from "@/flows/navigation/concept-1/ConciergeConcept";
@@ -38,7 +38,8 @@ import { saveCalendar, saveRoadmap, saveSteps, useCalendar, useRoadmapChoices, u
 import { hasBaseline, presenceCounts, signalRows, withAdded, type Baseline } from "@/lib/presence";
 import { addPresence, removePresence, saveBaseline, saveCurrent, updatePresence, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
 import { currentStageIndex, isDone as isActionDone } from "@/lib/rings";
-import { addedItems, historyDays, offerFor, recordedItems, type PictureItem } from "@/lib/signal-picture";
+import { addedItems, historyDays, nextActionFor, offerFor, recordedItems, type PictureItem } from "@/lib/signal-picture";
+import { ACTIVITY_TYPES, type ActivityType } from "@/mock/plan";
 import { signalOfRecord } from "@/lib/signals";
 import { dismissSpark, useDismissedSparks } from "@/lib/spark-dismissal";
 import { sparksFor } from "@/lib/sparks";
@@ -451,9 +452,22 @@ export function usePlanPage() {
     />
   );
 
-  const picture = (
+  /* The next action under the picture is Momentum's next move: the first step
+     she has accepted and not finished, overall and for each kind of activity. */
+  const toolboxHref = conceptHref("toolbox-flow", "concept-1");
+  const nextOf = (activity?: ActivityType) => {
+    const n = nextActionFor(loop.records, loop.tasks, activity);
+    return n ? { title: n.title, href: toolboxHref } : undefined;
+  };
+  const nextByActivity = Object.fromEntries(
+    ACTIVITY_TYPES.map((a) => [a.id, nextOf(a.id)]).filter(([, n]) => n)
+  ) as Partial<Record<ActivityType, { title: string; href: string }>>;
+  const pictureOf = (variant: SignalPictureVariant) => (
     <PlanSignalPicture
-      key={`picture-${loop.id}`}
+      key={`picture-${loop.id}-${variant}`}
+      variant={variant}
+      next={nextOf()}
+      nextByActivity={nextByActivity}
       items={pictureItems}
       today={loop.today}
       history={history}
@@ -467,6 +481,7 @@ export function usePlanPage() {
       onDismissOffer={() => setOfferDismissed(true)}
     />
   );
+  const picture = pictureOf("items");
 
   // The homepage's starting-point counts, kept until the homepage concept is chosen.
   const rows = signalRows(loop.today, items, baseline, seeded, (item) =>
@@ -629,7 +644,7 @@ export function usePlanPage() {
     />
   );
 
-  return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, agenda, guided, calendar, note, narrative: narrativeNode, momentum, picture, started, accounts, sparkNode, sheet: (
+  return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, agenda, guided, calendar, note, narrative: narrativeNode, momentum, picture, pictureOf, started, accounts, sparkNode, sheet: (
       <>
         {sheet}
         {updateNow}

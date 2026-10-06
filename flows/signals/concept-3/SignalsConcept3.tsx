@@ -14,7 +14,7 @@ import { SignalsPage } from "../SignalsPage";
 export function SignalsConcept3() {
   const p = usePlanPage();
   return (
-    <SignalsPage concept="c3" lead={<>{p.sparkNode}{p.started}</>} main={p.picture} side={p.momentum}>
+    <SignalsPage concept="c3" lead={<>{p.sparkNode}{p.started}</>} main={p.pictureOf("areas")} side={p.momentum}>
       {p.sheet}
     </SignalsPage>
   );

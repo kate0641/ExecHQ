@@ -22,27 +22,40 @@ const items: PictureItem[] = [
     editable: true,
   },
 ];
-const base = { items, today, history: 30, onAdd: noop, onEdit: noop, onDelete: noop };
+const next = { title: "Pitch yourself to a podcast the people above you follow", href: "/toolbox-flow/concept-1" };
+const nextByActivity = {
+  publishing: { title: "Post what you lead on LinkedIn", href: "/toolbox-flow/concept-1" },
+  podcast: next,
+};
+
+const base = { items, today, history: 30, next, nextByActivity, onAdd: noop, onEdit: noop, onDelete: noop };
 
 /** Items placed to read "building", "unchanged" and "quieter" over ninety days. */
-const spread = (id: string, areaId: string, source: PictureItem["source"], on: string, text: string): PictureItem => ({
+const spread = (
+  id: string,
+  activity: PictureItem["activity"],
+  source: PictureItem["source"],
+  on: string,
+  text: string,
+  impact?: string
+): PictureItem => ({
   id,
   source,
   text,
   on,
-  areaId,
-  activity: source === "added" ? "publishing" : "inside",
+  areaId: "seen-as-leader",
+  activity,
+  impact,
   editable: false,
 });
 const ninety: PictureItem[] = [
-  spread("a", "seen-as-leader", "added", "2026-12-14", "Published a post on planning"),
-  spread("b", "seen-as-leader", "recorded", "2026-12-18", "Drafted your leadership story"),
-  spread("c", "seen-as-leader", "added", "2026-12-20", "Spoke at the planning forum"),
-  spread("d", "seen-as-leader", "recorded", "2026-10-30", "Finished your story"),
-  spread("e", "broader-remit", "recorded", "2026-10-20", "Sent your pitch for the Q1 planning review"),
-  spread("f", "broader-remit", "recorded", "2026-12-12", "Drafted your case for broader scope"),
-  spread("g", "decider-access", "recorded", "2026-10-10", "Briefed your manager before your check-in"),
-  spread("h", "decider-access", "recorded", "2026-10-25", "Used your brief with your manager"),
+  spread("a", "publishing", "added", "2026-10-02", "Published a post on planning"),
+  spread("b", "publishing", "added", "2026-11-12", "Published a post on reviews", "A peer asked to reuse it in a team meeting."),
+  spread("c", "publishing", "recorded", "2026-12-04", "Drafted your leadership story"),
+  spread("d", "publishing", "added", "2026-12-18", "Published a post on planning cycles"),
+  spread("e", "speaking", "added", "2026-10-20", "Spoke at the planning forum"),
+  spread("f", "speaking", "added", "2026-12-12", "Spoke on a panel on hiring", "Two people asked for the slides."),
+  spread("g", "press", "added", "2026-10-10", "Quoted on planning cycles"),
 ];
 
 export const planSignalPictureStates = defineComponentStates({
@@ -79,13 +92,63 @@ export const planSignalPictureStates = defineComponentStates({
       props: { ...base, initialWindow: 90, headingId: "psp-thin90" },
     },
     {
-      label: "Ninety days, direction by plan area",
-      description: "Needs the whole window behind it. Each line is a word, never a number.",
+      label: "Ninety days, direction by activity",
+      description: "Needs the whole window behind it. Each line is a word, never a number, with what she reported under it.",
       props: { ...base, items: ninety, today: "2026-12-20", history: 95, initialWindow: 90, headingId: "psp-90" },
     },
     {
+      label: "Summary first — seven days",
+      description: "What she did, what it led to and the next action, in three lines. The items sit behind a tap.",
+      props: { ...base, variant: "summary", headingId: "psp-sum7" },
+    },
+    {
+      label: "Summary first — thirty days",
+      props: { ...base, variant: "summary", initialWindow: 30, headingId: "psp-sum30" },
+    },
+    {
+      label: "Summary first — ninety days",
+      props: { ...base, variant: "summary", items: ninety, today: "2026-12-20", history: 95, initialWindow: 90, headingId: "psp-sum90" },
+    },
+    {
+      label: "Summary first — nothing reported came of it",
+      description: "Says so, and says how to add it. It never guesses at an impact.",
+      props: {
+        ...base,
+        variant: "summary",
+        items: items.map((i) => ({ ...i, impact: undefined })),
+        initialWindow: 30,
+        headingId: "psp-sum-none",
+      },
+    },
+    {
+      label: "Summary first — no next action",
+      props: { ...base, variant: "summary", next: undefined, headingId: "psp-sum-nonext" },
+    },
+    {
+      label: "By activity — seven days",
+      description: "One card for each kind of activity, each with its own next action when she has one.",
+      props: { ...base, variant: "areas", headingId: "psp-act7" },
+    },
+    {
+      label: "By activity — thirty days",
+      props: { ...base, variant: "areas", initialWindow: 30, headingId: "psp-act30" },
+    },
+    {
+      label: "By activity — ninety days",
+      props: { ...base, variant: "areas", items: ninety, today: "2026-12-20", history: 95, initialWindow: 90, headingId: "psp-act90" },
+    },
+    {
+      label: "Impact under each item — thirty days",
+      description: "What she typed sits under what she did. An entry she added with nothing yet offers a way to add it.",
+      props: { ...base, initialWindow: 30, headingId: "psp-impact30" },
+    },
+    {
+      label: "Impact under each item — no next action",
+      props: { ...base, next: undefined, headingId: "psp-nonext" },
+    },
+    {
       label: "Empty — nothing recorded yet",
-      props: { ...base, items: [], today: "2026-10-05", history: 1, headingId: "psp-empty" },
+      props: { ...base, items: [], today: "2026-10-05", history: 1, next: undefined, headingId: "psp-empty" },
     },
     {
       label: "Empty — a quiet seven days",
@@ -118,6 +181,7 @@ export const planSignalPictureStates = defineComponentStates({
             on: "2026-11-02",
             areaId: "seen-as-leader",
             activity: "speaking",
+            impact: "Three people from the audience asked for an introduction to my head of planning, and one invited me to speak at their offsite in the spring.",
             tag: "Spoke",
             editable: true,
           },

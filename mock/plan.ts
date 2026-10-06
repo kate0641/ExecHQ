@@ -615,6 +615,12 @@ export const SIGNAL_PICTURE_COPY = {
   offerNo: "Not now",
   editedNote: "Edited by you",
   impactHeading: "What came of it",
+  didLabel: "What you did",
+  ledLabel: "What it led to",
+  nextLabel: "Next action",
+  nextStart: "Start in the Toolbox",
+  after: (what: string) => `After: ${what}`,
+  countLine: (name: string, n: number) => `${name} ${n}`,
   impactNone: "Nothing reported yet.",
   impactAdd: "Add what came of it",
   windowImpactNone: (window: number) =>

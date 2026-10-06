@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useId, useState } from "react";
 import { ToggleGroup } from "@/components/form/ToggleGroup";
 import { Badge } from "@/components/primitives/Badge";
@@ -7,17 +8,31 @@ import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import {
   areaName,
-  byArea,
+  byActivity,
   directionOf,
+  impactsIn,
   inWindow,
   newestFirst,
   windowIsFull,
-  type AreaGroup,
+  type ActivityGroup,
   type Offer,
   type PictureItem,
 } from "@/lib/signal-picture";
 import { shortDate, type LoopDate } from "@/lib/loop";
-import { SIGNAL_PICTURE_COPY as C, WINDOWS, type WindowDays } from "@/mock/plan";
+import { SIGNAL_PICTURE_COPY as C, WINDOWS, type ActivityType, type WindowDays } from "@/mock/plan";
+
+/** How the picture shows what came of things and what to do next.
+ *  - items: what came of it sits under each thing she did; one next action at the foot.
+ *  - summary: three short lines for the window (what you did, what it led to,
+ *    next action), with the items behind a tap.
+ *  - areas: one card per kind of activity, each with its own next action. */
+export type SignalPictureVariant = "items" | "summary" | "areas";
+
+export interface PictureNext {
+  title: string;
+  /** Where Start goes: the Toolbox. */
+  href: string;
+}
 
 export interface PlanSignalPictureProps {
   items: PictureItem[];
@@ -32,6 +47,11 @@ export interface PlanSignalPictureProps {
   onAcceptOffer?: () => void;
   onDismissOffer?: () => void;
   initialWindow?: WindowDays;
+  variant?: SignalPictureVariant;
+  /** The next action for the whole picture. */
+  next?: PictureNext;
+  /** The next action for one kind of activity, where she has one. */
+  nextByActivity?: Partial<Record<ActivityType, PictureNext>>;
   /** Catalogue only: a row opens asking whether to delete. */
   demoDelete?: boolean;
   headingId?: string;
@@ -60,6 +80,9 @@ export function PlanSignalPicture({
   onAcceptOffer,
   onDismissOffer,
   initialWindow = 7,
+  variant = "items",
+  next,
+  nextByActivity,
   demoDelete,
   headingId = "plan-signal-picture",
   className,
@@ -106,30 +129,64 @@ export function PlanSignalPicture({
 
       {items.length === 0 ? (
         <p className="signal-picture__empty">{C.empty}</p>
+      ) : variant === "summary" ? (
+        <Summary
+          visible={visible}
+          today={today}
+          days={days}
+          full={full}
+          next={next}
+          onEdit={onEdit}
+          onDelete={onDelete}
+          demoDelete={demoDelete}
+        />
+      ) : variant === "areas" ? (
+        visible.length ? (
+          <div className="signal-picture__areas">
+            {byActivity(visible).map((group) => (
+              <ActivityCard
+                key={group.activity}
+                group={group}
+                today={today}
+                days={days}
+                full={full}
+                next={nextByActivity?.[group.activity]}
+                onEdit={onEdit}
+                onDelete={onDelete}
+                demoDelete={demoDelete}
+              />
+            ))}
+          </div>
+        ) : (
+          <p className="signal-picture__empty">{C.quiet(days)}</p>
+        )
       ) : days === 7 ? (
         visible.length ? (
-          <ul className="signal-picture__list">
-            {newestFirst(visible).map((item) => (
-              <Row key={item.id} item={item} onEdit={onEdit} onDelete={onDelete} showArea demoDelete={demoDelete && item.editable} />
-            ))}
-          </ul>
+          <>
+            <ul className="signal-picture__list">
+              {newestFirst(visible).map((item) => (
+                <Row key={item.id} item={item} onEdit={onEdit} onDelete={onDelete} showArea showImpact demoDelete={demoDelete && item.editable} />
+              ))}
+            </ul>
+            <NextCard next={next} />
+          </>
         ) : (
           <p className="signal-picture__empty">{C.quiet(7)}</p>
         )
-      ) : days === 90 && full ? (
-        <div className="signal-picture__areas">
-          {byArea(visible).map((group) => (
-            <Direction key={group.areaId} group={group} today={today} onEdit={onEdit} onDelete={onDelete} />
-          ))}
-          {visible.length === 0 ? <p className="signal-picture__empty">{C.quiet(90)}</p> : null}
-        </div>
       ) : visible.length ? (
-        <div className="signal-picture__areas">
-          {!full ? <p className="signal-picture__thin-now">{C.thinNow}</p> : null}
-          {byArea(visible).map((group) => (
-            <Group key={group.areaId} group={group} onEdit={onEdit} onDelete={onDelete} />
-          ))}
-        </div>
+        <>
+          <div className="signal-picture__areas">
+            {!full ? <p className="signal-picture__thin-now">{C.thinNow}</p> : null}
+            {byActivity(visible).map((group) =>
+              days === 90 && full ? (
+                <Direction key={group.activity} group={group} today={today} onEdit={onEdit} onDelete={onDelete} />
+              ) : (
+                <Group key={group.activity} group={group} onEdit={onEdit} onDelete={onDelete} />
+              )
+            )}
+          </div>
+          <NextCard next={next} />
+        </>
       ) : (
         <p className="signal-picture__empty">{C.quiet(days)}</p>
       )}
@@ -154,12 +211,150 @@ function Source({ source }: { source: PictureItem["source"] }) {
   );
 }
 
+/** The one thing to do next, with Start opening the Toolbox. */
+function NextCard({ next }: { next?: PictureNext }) {
+  const id = useId();
+  if (!next) return null;
+  return (
+    <section className="signal-picture__next" aria-labelledby={id}>
+      <h3 className="signal-picture__label" id={id}>
+        {C.nextLabel}
+      </h3>
+      <p className="signal-picture__next-title">{next.title}</p>
+      <Link href={next.href} className="btn btn--primary btn--md">
+        {C.nextStart}
+      </Link>
+    </section>
+  );
+}
+
+/** What she reported came of things, in her words, each with the thing it followed. */
+function Impacts({ visible, today, days }: { visible: PictureItem[]; today: LoopDate; days: number }) {
+  const impacts = impactsIn(visible, today, days);
+  if (impacts.length === 0) return <p className="signal-picture__impact-none">{C.windowImpactNone(days)}</p>;
+  return (
+    <ul className="signal-picture__impacts">
+      {impacts.map((i) => (
+        <li key={i.id}>
+          <span className="signal-picture__text">{i.text}</span>
+          <span className="signal-picture__date">{C.after(i.of)}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/** What she did in the window, as a line of counts or, over ninety days, of directions. */
+function didLine(visible: PictureItem[], today: LoopDate, days: number, full: boolean): string {
+  const groups = byActivity(visible);
+  /* Work inside the organisation is Momentum's to count; it leads here only when it is all there is. */
+  const outside = groups.filter((g) => g.activity !== "inside");
+  return (outside.length ? outside : groups)
+    .map((g) => {
+      const all = [...g.recorded, ...g.added];
+      return days === 90 && full
+        ? C.directionLine(g.name, C.direction[directionOf(all, today, 90)])
+        : C.countLine(g.name, all.length);
+    })
+    .join(" · ");
+}
+
+function Summary({
+  visible,
+  today,
+  days,
+  full,
+  next,
+  onEdit,
+  onDelete,
+  demoDelete,
+}: {
+  visible: PictureItem[];
+  today: LoopDate;
+  days: number;
+  full: boolean;
+  next?: PictureNext;
+  onEdit: PlanSignalPictureProps["onEdit"];
+  onDelete: PlanSignalPictureProps["onDelete"];
+  demoDelete?: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+  const behindId = useId();
+  if (visible.length === 0) return <p className="signal-picture__empty">{C.quiet(days)}</p>;
+  return (
+    <>
+      <div className="signal-picture__summary">
+        <div>
+          <h3 className="signal-picture__label">{C.didLabel}</h3>
+          <p className="signal-picture__text">{didLine(visible, today, days, full)}</p>
+        </div>
+        <div>
+          <h3 className="signal-picture__label">{C.ledLabel}</h3>
+          <Impacts visible={visible} today={today} days={days} />
+        </div>
+        <NextCard next={next} />
+      </div>
+      <div className="signal-picture__behind">
+        <Button variant="ghost" size="sm" aria-expanded={open} aria-controls={behindId} onClick={() => setOpen((o) => !o)}>
+          {open ? C.hideBehind : C.behind}
+          <Icon name={open ? "chevron-up" : "chevron-down"} size={16} />
+        </Button>
+        {open ? (
+          <ul className="signal-picture__list" id={behindId}>
+            {newestFirst(visible).map((item) => (
+              <Row key={item.id} item={item} onEdit={onEdit} onDelete={onDelete} showArea demoDelete={demoDelete && item.editable} />
+            ))}
+          </ul>
+        ) : null}
+      </div>
+    </>
+  );
+}
+
+function ActivityCard({
+  group,
+  today,
+  days,
+  full,
+  next,
+  onEdit,
+  onDelete,
+  demoDelete,
+}: {
+  group: ActivityGroup;
+  today: LoopDate;
+  days: number;
+  full: boolean;
+  next?: PictureNext;
+  onEdit: PlanSignalPictureProps["onEdit"];
+  onDelete: PlanSignalPictureProps["onDelete"];
+  demoDelete?: boolean;
+}) {
+  const id = useId();
+  const all = [...group.recorded, ...group.added];
+  const word = days === 90 && full ? C.direction[directionOf(all, today, 90)] : undefined;
+  return (
+    <section className="signal-picture__group signal-picture__group--card" aria-labelledby={id}>
+      <h3 className="signal-picture__area" id={id}>
+        {word ? C.directionLine(group.name, word) : group.name}
+      </h3>
+      <p className="signal-picture__counts">{C.counts(group.recorded.length, group.added.length)}</p>
+      <ul className="signal-picture__list">
+        {all.map((item) => (
+          <Row key={item.id} item={item} onEdit={onEdit} onDelete={onDelete} showImpact demoDelete={demoDelete && item.editable} />
+        ))}
+      </ul>
+      <NextCard next={next} />
+    </section>
+  );
+}
+
 function Group({
   group,
   onEdit,
   onDelete,
 }: {
-  group: AreaGroup;
+  group: ActivityGroup;
   onEdit: PlanSignalPictureProps["onEdit"];
   onDelete: PlanSignalPictureProps["onDelete"];
 }) {
@@ -172,7 +367,7 @@ function Group({
       <p className="signal-picture__counts">{C.counts(group.recorded.length, group.added.length)}</p>
       <ul className="signal-picture__list">
         {[...group.recorded, ...group.added].map((item) => (
-          <Row key={item.id} item={item} onEdit={onEdit} onDelete={onDelete} />
+          <Row key={item.id} item={item} onEdit={onEdit} onDelete={onDelete} showImpact />
         ))}
       </ul>
     </section>
@@ -185,19 +380,31 @@ function Direction({
   onEdit,
   onDelete,
 }: {
-  group: AreaGroup;
+  group: ActivityGroup;
   today: LoopDate;
   onEdit: PlanSignalPictureProps["onEdit"];
   onDelete: PlanSignalPictureProps["onDelete"];
 }) {
   const id = useId();
   const [open, setOpen] = useState(false);
-  const word = C.direction[directionOf([...group.recorded, ...group.added], today, 90)];
+  const all = [...group.recorded, ...group.added];
+  const word = C.direction[directionOf(all, today, 90)];
+  const impacts = all.filter((i) => i.impact);
   return (
     <section className="signal-picture__group" aria-labelledby={id}>
       <h3 className="signal-picture__area" id={id}>
         {C.directionLine(group.name, word)}
       </h3>
+      {impacts.length ? (
+        <ul className="signal-picture__impacts">
+          {impacts.map((i) => (
+            <li key={i.id}>
+              <span className="signal-picture__text">{i.impact}</span>
+              <span className="signal-picture__date">{C.after(i.text)}</span>
+            </li>
+          ))}
+        </ul>
+      ) : null}
       <Button variant="ghost" size="sm" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
         {open ? C.hideBehind : C.behind}
         <Icon name={open ? "chevron-up" : "chevron-down"} size={16} />
@@ -206,7 +413,7 @@ function Direction({
         <>
           <p className="signal-picture__counts">{C.counts(group.recorded.length, group.added.length)}</p>
           <ul className="signal-picture__list">
-            {[...group.recorded, ...group.added].map((item) => (
+            {all.map((item) => (
               <Row key={item.id} item={item} onEdit={onEdit} onDelete={onDelete} />
             ))}
           </ul>
@@ -221,12 +428,15 @@ function Row({
   onEdit,
   onDelete,
   showArea,
+  showImpact,
   demoDelete,
 }: {
   item: PictureItem;
   onEdit: PlanSignalPictureProps["onEdit"];
   onDelete: PlanSignalPictureProps["onDelete"];
   showArea?: boolean;
+  /** Under the item, what she said came of it, or a way to add it. */
+  showImpact?: boolean;
   demoDelete?: boolean;
 }) {
   const [asking, setAsking] = useState(Boolean(demoDelete));
@@ -246,6 +456,17 @@ function Row({
         </a>
       ) : null}
       {showArea ? <p className="signal-picture__where">{C.areaOf(areaName(item.areaId))}</p> : null}
+      {showImpact && item.impact ? (
+        <p className="signal-picture__impact">
+          <span className="signal-picture__label">{C.impactHeading}</span>
+          {item.impact}
+        </p>
+      ) : null}
+      {showImpact && !item.impact && item.editable ? (
+        <Button variant="ghost" size="sm" onClick={() => onEdit(item)}>
+          {C.impactAdd}
+        </Button>
+      ) : null}
       {item.editable ? (
         asking ? (
           <div className="signal-picture__row-actions">

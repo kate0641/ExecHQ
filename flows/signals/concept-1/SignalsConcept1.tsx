@@ -22,7 +22,7 @@ export function SignalsConcept1() {
         <>
           {p.started}
           {p.accounts}
-          {p.picture}
+          {p.pictureOf("items")}
         </>
       }
       side={p.momentum}

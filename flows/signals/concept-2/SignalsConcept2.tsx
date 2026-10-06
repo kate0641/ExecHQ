@@ -20,7 +20,7 @@ export function SignalsConcept2() {
       main={p.momentum}
       side={
         <>
-          {p.picture}
+          {p.pictureOf("summary")}
           {p.started}
         </>
       }
