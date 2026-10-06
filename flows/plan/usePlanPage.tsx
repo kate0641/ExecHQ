@@ -35,7 +35,7 @@ import { planSparks } from "@/lib/plan-sparks";
 import { roadmapWindows, stageAt } from "@/lib/roadmap-dates";
 import { whenWords } from "@/lib/time-words";
 import { saveCalendar, saveRoadmap, saveSteps, useCalendar, useRoadmapChoices, useSavedSteps } from "@/lib/plan-store";
-import { hasBaseline, signalRows, withAdded } from "@/lib/presence";
+import { addedSummary, hasBaseline, signalRows, withAdded } from "@/lib/presence";
 import { addPresence, removePresence, saveBaseline, saveCurrent, updatePresence, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
 import { currentStageIndex, isDone as isActionDone } from "@/lib/rings";
 import { addedItems, historyDays, nextActionFor, offerFor, recordedItems, type PictureItem } from "@/lib/signal-picture";
@@ -504,7 +504,6 @@ export function usePlanPage() {
     current
   );
   const sparks = sparksFor(loop.today, loop.account, dismissed, items).filter((n) => n.id.startsWith("presence:"));
-  const addedCount = items.filter((item) => item.on <= loop.today).length;
   /* The notes on what has moved, kept apart from the card so a page can put
      them right under its heading. */
   const sparkNode = (
@@ -529,7 +528,7 @@ export function usePlanPage() {
           thenLabel={AC.then}
           nowLabel={AC.now}
           rows={rows}
-          summary={PR.summary(addedCount)}
+          summary={addedSummary(items, loop.today)}
           onAdd={() => setEntry({ mode: "add" })}
           addLabel={ADD.open}
           tryThis={{ ...PR.tryThis, href: conceptHref("toolbox-flow", "concept-1") }}

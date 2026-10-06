@@ -149,3 +149,30 @@ export function nthOfKind(item: PresenceItem, items: readonly PresenceItem[] = P
   const upTo = items.slice(0, items.findIndex((other) => other.id === item.id) + 1);
   return (item.kind === "other" ? 0 : PRESENCE_BASELINE[item.kind]) + upTo.filter((other) => other.kind === item.kind).length;
 }
+
+const SUMMARY_PHRASES: Record<string, [string, string]> = {
+  podcast: ["podcast appearance", "podcast appearances"],
+  press: ["press mention", "press mentions"],
+  speaking: ["talk", "talks"],
+  writing: ["piece you published", "pieces you published"],
+  other: ["other thing", "other things"],
+};
+
+/**
+ * What she has added since she started, as a sentence of counts by kind:
+ * "1 podcast appearance, 1 press mention and 2 pieces you published."
+ * Empty when she has added nothing.
+ */
+export function addedSummary(items: readonly PresenceItem[], today: string): string {
+  const added = items.filter((item) => item.on <= today);
+  const parts = Object.keys(SUMMARY_PHRASES)
+    .map((kind) => {
+      const n = added.filter((item) => item.kind === kind).length;
+      const [one, many] = SUMMARY_PHRASES[kind];
+      return n ? `${n} ${n === 1 ? one : many}` : "";
+    })
+    .filter(Boolean);
+  if (parts.length === 0) return "";
+  const list = parts.length > 1 ? `${parts.slice(0, -1).join(", ")} and ${parts.at(-1)}` : parts[0];
+  return `${list}.`;
+}

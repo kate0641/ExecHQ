@@ -176,15 +176,23 @@ export const PRESENCE_ITEMS: readonly PresenceItem[] = [
   { id: "r1", kind: "press", title: "Quoted on planning cycles", where: "Marketing Week", on: "2026-11-01", impact: "My manager forwarded it to the leadership team." },
 ];
 
+/** The Where you started card: words for the parts of it. */
+export const PRESENCE_CARD_COPY = {
+  counts: "Counts",
+  addedHeading: "Added since you started",
+  /** Under the heading when she has added nothing. */
+  addedNone: "Nothing yet. What you add shows here, and the counts move.",
+  /** The hero's line under her followers. */
+  sameAsStart: (then: string) => `Same as when you started, ${then}`,
+  was: (then: string) => `was ${then}`,
+  up: (n: string) => `up ${n}`,
+  changeLabel: "Change",
+} as const;
+
 export const PRESENCE_STUB = {
   name: "Your presence",
   mark: "you",
   asOf: (date: string) => `Since ${date}`,
-  /** The one line under the rows: what has moved, as a count and no more. */
-  summary: (added: number) =>
-    added === 0
-      ? "Nothing added since you started, so what you had then is your baseline."
-      : `${added} added since you started.`,
   tryThis: {
     title: "Pitch one show about planning as a leadership skill",
     why: "Your story already says it, and you’ve been asked about it once on air.",
