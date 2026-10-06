@@ -11664,8 +11664,11 @@ ul.login__never {
   flex-direction: column;
   gap: var(--space-3xs);
   margin: 0;
-  /* The greeting is its own navy section at the top of the page. */
-  padding: var(--space-lg) var(--space-feature-padding);
+  /* The greeting is its own navy section at the top of the page, centred,
+     with only a short run of navy below the date. */
+  align-items: center;
+  padding: var(--space-lg) var(--space-feature-padding) var(--space-sm);
+  text-align: center;
   border-radius: var(--radius-card);
   background-color: var(--color-surface-inverse);
   color: var(--color-text-inverse);
