@@ -96,7 +96,7 @@ export function nextNewAction(horizon: Horizon, asked: string[] | undefined): La
 /** The ring's text equivalent, read in place of the drawing. */
 export function mapRingText(ring: MapRing): string {
   const n = ring.segments.length;
-  if (n === 0) return `${ring.label}: nothing on your map yet.`;
+  if (n === 0) return `${ring.label}: nothing in your Progress Tracker yet.`;
   const inProgress = ring.segments.filter((s) => s.state === "in-progress").length;
   const notStarted = ring.segments.filter((s) => s.state === "not-started").length;
   const parts = [`${ring.done} done`, `${inProgress} in progress`, `${notStarted} not started`].filter((p) => !p.startsWith("0 ") || p === `${ring.done} done`);
