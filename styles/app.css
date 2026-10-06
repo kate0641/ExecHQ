@@ -11952,12 +11952,12 @@ ul.map-rings {
   transform: translate(-50%, -50%);
 }
 
-/* A larger, heavier check than the icon set's own, so it holds its own
+/* A larger check than the icon set's own, a touch heavier, so it holds its own
    inside the navy ring. */
 .map-rings__check svg {
   width: 1.5rem;
   height: 1.5rem;
-  stroke-width: 2.4;
+  stroke-width: 1.8;
 }
 
 .map-rings__name {
