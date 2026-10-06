@@ -11667,7 +11667,7 @@ ul.login__never {
   /* The greeting is its own navy section at the top of the page, centred,
      with only a short run of navy below the date. */
   align-items: center;
-  padding: var(--space-xs) var(--space-feature-padding) var(--space-sm);
+  padding: var(--space-xs) var(--space-feature-padding);
   text-align: center;
   border-radius: var(--radius-card);
   background-color: var(--color-surface-inverse);
