@@ -260,8 +260,8 @@
   --color-sky-dusk-light: var(--brand-yellow-200);
   --color-sky-dusk-core: var(--brand-orange-300);
   --color-sky-dusk-mid: var(--brand-orange-400);
-  --color-sky-dusk-edge: var(--brand-blue-200);
-  --color-sky-dusk-deep: var(--brand-blue-300);
+  --color-sky-dusk-edge: var(--brand-blue-600);
+  --color-sky-dusk-deep: var(--brand-blue-800);
   --color-sky-night-glow: color-mix(in srgb, var(--brand-orange-400) 60%, var(--brand-blue-800));  /* dimmed, so the light date on it stays readable */
   --color-sky-night-light: var(--brand-blue-700);
   --color-sky-night-core: var(--brand-blue-700);
