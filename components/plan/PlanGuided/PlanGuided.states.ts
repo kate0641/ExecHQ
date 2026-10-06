@@ -24,6 +24,7 @@ const base = {
   startHref: "/toolbox-flow/concept-1",
   sparks,
   onAnswer: noop,
+  onTalk: noop,
   onStart: noop,
   onAdd: noop,
 };
@@ -34,7 +35,7 @@ export const planGuidedStates = defineComponentStates({
   status: "draft",
   flows: ["plan"],
   description:
-    "The Plan as a guided check-in, built from onboarding's own parts. A short run of pages, one move each: the page says the move and why it matters, and a drawer holds where she is with it: the way to start (which is also her answer that she is working on it), done, I’ll do it when it is due, or not for me (which asks why, one optional tap). Answering changes her plan for real and comes back as a short reply in the serif voice, then the next move. The last page says where the plan stands. The road and adding something of her own slide up as sheets from the strip at the top. There is no list of steps on the page.",
+    "The Plan as a guided check-in, built from onboarding's own parts. A short run of pages, one move each: the page says the move and why it matters, and a drawer holds where she is with it: the way to start (which is also her answer that she is working on it), I’ll do it when it is due, talk it through (which opens the chat on the move), or not for me (which asks why, one optional tap). Answering changes her plan for real and comes back as a short reply in the serif voice, then the next move. The last page says where the plan stands. The road and adding something of her own slide up as sheets from the strip at the top. There is no list of steps on the page.",
   component: PlanGuided,
   notApplicable: {
     hover: "Its controls are chips and Buttons, which show their own states.",
@@ -48,7 +49,7 @@ export const planGuidedStates = defineComponentStates({
   variants: [
     { label: "First move — the drawer open — default", props: base },
     { label: "The drawer folded to a peek", props: { ...base, demoFolded: true } },
-    { label: "Answered: done — the reply, then the next move", props: { ...base, demoAnswered: { "use-story": "done" } } },
+    { label: "Answered: I’ll do it — the reply, then the next move", props: { ...base, demoAnswered: { "use-story": "plan" } } },
     { label: "Answered: I’ll do it, on her plan for its time", props: { ...base, demoPage: 1, demoAnswered: { "brief-manager": "plan" } } },
     { label: "Not for me: asking why, one optional tap", props: { ...base, demoPage: 2, demoAnswered: { "q1-review": "pass" } } },
     {

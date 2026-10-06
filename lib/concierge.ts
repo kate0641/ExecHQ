@@ -456,11 +456,28 @@ export function respond(
           ? STEP_ANSWERS.why(step, signalById(step.area ?? "")?.name)
           : action.q === "take"
             ? STEP_ANSWERS.take(step)
-            : [STEP_ANSWERS.else(step.title)];
+            : action.q === "stuck"
+              ? [STEP_ANSWERS.stuck]
+              : action.q === "big"
+                ? [STEP_ANSWERS.big]
+                : action.q === "begin"
+                  ? [STEP_ANSWERS.begin(step.outcome)]
+                  : [STEP_ANSWERS.else(step.title)];
+      const stuck: ConciergeReply[] = [
+        { label: "It feels too big", action: { kind: "step-question", stepId: action.stepId, q: "big" } },
+        { label: "I don’t know where to start", action: { kind: "step-question", stepId: action.stepId, q: "begin" } },
+        ...STEP_QUESTIONS.filter((q) => q.id === "why" || q.id === "take").map((q) => ({
+          label: q.label,
+          action: { kind: "step-question", stepId: action.stepId, q: q.id } as ConciergeAction,
+        })),
+      ];
       return {
         turn: {
           paragraphs,
-          replies: [
+          replies:
+            action.q === "stuck"
+              ? stuck
+              : [
             ...STEP_QUESTIONS.filter((q) => q.id !== action.q && q.id !== "else").map((q) => ({
               label: q.label,
               action: { kind: "step-question", stepId: action.stepId, q: q.id } as ConciergeAction,

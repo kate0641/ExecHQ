@@ -1028,7 +1028,7 @@ export const TIMELINE_COPY = {
    used to carry is a question she can ask, and the advisor answers it in the
    chat from the same fields. Asking never changes the step.
    -------------------------------------------------------------------------- */
-export type StepQuestion = "why" | "take" | "else";
+export type StepQuestion = "why" | "take" | "else" | "stuck" | "big" | "begin";
 
 /** Three ways in: why it is here, what it takes, and anything else. Each opens the chat. */
 export const STEP_QUESTIONS: { id: StepQuestion; label: string }[] = [
@@ -1051,6 +1051,10 @@ export const STEP_ANSWERS = {
   /** How long it will take, and what counts as done: one answer. */
   take: (step: { effortText: string; done: string }) => [`Plan on ${lower(step.effortText)}.`, `It counts as done when ${lower(step.done)}.`],
   else: (title: string) => `What would you like to know about “${title}”?`,
+  /** She said she wants to talk it through: what is in the way? */
+  stuck: "What’s getting in the way? Pick one, or tell me in your own words.",
+  big: "Try a lighter version: do only the first part, and leave the rest for later.",
+  begin: (outcome: string) => `Start from where you want to end up: ${outcome.charAt(0).toLowerCase()}${outcome.slice(1)} Open it, write the first line, and stop there.`,
   /** The first line of an answer, shown on the step before she asks. */
   teaseWhy: (step: { whyLine?: string; whyNow: string }) => step.whyLine ?? step.whyNow,
   teaseTake: (step: { effortText: string; done: string }) => `${upper(step.effortText)}. Done when ${lower(step.done)}.`,
@@ -1091,27 +1095,26 @@ export const PLAN_AGENDA_COPY = {
    the page says the move and why it matters, and the drawer holds where she is with it. Her
    answer changes her plan for real, and comes back as a short reply in the serif voice.
    -------------------------------------------------------------------------- */
-export type GuidedAnswer = "done" | "plan" | "pass";
+export type GuidedAnswer = "plan" | "talk" | "pass";
 
 export const GUIDED_COPY = {
   kicker: (n: number, total: number, when: string) => `Move ${n} of ${total} · ${when}`,
   question: "Where are you with this?",
   peek: "Tap to answer",
-  /** The three answers. Working on it is the start button, which opens the step. */
-  answers: (when: string, hasDraft: boolean) =>
+  /** The answers. Working on it is the start button, which opens the step. */
+  answers: (when: string) =>
     [
-      { id: "done", label: hasDraft ? "I’ve used it" : "I’ve done it", hint: "It counts toward this stage" },
       { id: "plan", label: `I’ll do it ${when.toLowerCase()}`, hint: "It goes on your plan for then" },
+      { id: "talk", label: "Talk it through", hint: "Ask ExecHQ what’s in the way" },
       { id: "pass", label: "Not for me", hint: "ExecHQ offers a different step" },
     ] as { id: GuidedAnswer; label: string; hint: string }[],
+  /** Moving it: the time words she can choose instead. */
+  changeWhen: "Change when",
   /** The start button, which is also her answer that she is working on it. */
   working: "Keep working on it",
   /** What ExecHQ says back. It says what happened and what moved, never why. */
-  reply: (step: { outcome: string }, answer: GuidedAnswer, o: { stage: string; hasDraft: boolean; when: string }) =>
+  reply: (answer: Exclude<GuidedAnswer, "talk">, o: { when: string }) =>
     ({
-      done: o.hasDraft
-        ? "It counts once your draft is marked used or sent. Open it to say so, and it counts toward this stage."
-        : `${step.outcome} That counts toward this stage, ${o.stage}.`,
       plan: `Good. It is on your plan for ${o.when.toLowerCase()}, and ExecHQ will ask you how it went.`,
       pass: "Say why, if you like. One tap, and it shapes what ExecHQ offers next.",
     })[answer],

@@ -23,7 +23,7 @@ import { CalendarItemSheet, type ItemValues } from "@/components/plan/CalendarIt
 import { PlanCalendar } from "@/components/plan/PlanCalendar";
 import { PlanSignalPicture } from "@/components/plan/PlanSignalPicture";
 import { SignalEntrySheet, type EntryValues } from "@/components/plan/SignalEntrySheet";
-import { accept, complete, decline, initialPlanState, liveSteps, stepDay, type PlanState } from "@/lib/action-steps";
+import { accept, complete, decline, edit as editStep, initialPlanState, liveSteps, stepDay, type PlanState } from "@/lib/action-steps";
 import { askConcierge } from "@/flows/navigation/concept-1/ConciergeConcept";
 import { setAgendaLayout, useAgendaLayout } from "@/lib/agenda-choice";
 import { addDays, shortDate } from "@/lib/loop";
@@ -304,20 +304,18 @@ export function usePlanPage() {
     .flat()
     .sort((a, b) => (a.on < b.on ? -1 : a.on > b.on ? 1 : 0))
     .slice(-6);
-  function answerStep(step: ActionStep, answer: GuidedAnswer, reason?: DeclineReason): string | void {
-    const hasDraft = step.kind === "artifact" || Boolean(step.artifactId);
-    if (answer === "done") {
-      // A step with a draft is done when the draft is used or sent: that is the Toolbox's to say.
-      if (!hasDraft) {
-        loopActions.completeTask(step.id);
-        keepSteps(complete(stepState, step.id).state);
-      }
-    } else if (answer === "plan") {
-      // Accepting pins the day the step is suggested for, which the words say.
-      keepSteps(accept(stepState, step.id));
+  function answerStep(
+    step: ActionStep,
+    answer: Exclude<GuidedAnswer, "talk">,
+    o?: { reason?: DeclineReason; date?: string }
+  ): string | void {
+    if (answer === "plan") {
+      // Accepting pins the day the step is suggested for, which the words say. Or the day she chose instead.
+      const accepted = accept(stepState, step.id);
+      keepSteps(o?.date ? editStep(accepted, step.id, { date: o.date }) : accepted);
     } else {
       // Not for me, and why if she said: the reason shapes what is offered in its place.
-      const move = decline(stepState, step.id, reason);
+      const move = decline(stepState, step.id, o?.reason);
       keepSteps(move.state);
       const r = move.replacement;
       return r && "step" in r ? [r.heard, `Now offered: ${r.step.title}.`].filter(Boolean).join(" ") : r ? r.message : undefined;
@@ -340,6 +338,7 @@ export function usePlanPage() {
       startHref={conceptHref("toolbox-flow", "concept-1")}
       sparks={guidedSparks}
       onAnswer={answerStep}
+      onTalk={(step) => askConcierge("Talk it through", { kind: "step-question", stepId: step.id, q: "stuck" })}
       workingOn={workingOn}
       onStart={(step) => keepSteps(accept(stepState, step.id))}
       onAdd={addToPlan}

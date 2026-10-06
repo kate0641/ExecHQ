@@ -10,6 +10,7 @@ import { GuidePage } from "@/components/onboarding/GuidePage";
 import { ReflectionReply } from "@/components/onboarding/ReflectionReply";
 import { Button } from "@/components/primitives/Button";
 import type { LoopDate } from "@/lib/loop";
+import { timeChoices } from "@/lib/time-words";
 import type { PlanSpark } from "@/lib/plan-sparks";
 import { PLAN_AGENDA_COPY as AG, DECLINE_REASONS, GUIDED_COPY as G, stepById, type ActionStep, type DeclineReason, type GuidedAnswer } from "@/mock/plan";
 
@@ -32,7 +33,9 @@ export interface PlanGuidedProps {
   sparks: PlanSpark[];
   /** She answered a move: the page changes her plan to match. For "not for me", the reason she gave, if any.
    *  Returns a line to add to the reply, such as what was offered in its place. */
-  onAnswer: (step: ActionStep, answer: GuidedAnswer, reason?: DeclineReason) => string | void;
+  onAnswer: (step: ActionStep, answer: Exclude<GuidedAnswer, "talk">, o?: { reason?: DeclineReason; date?: LoopDate }) => string | void;
+  /** She wants to talk it through: the page opens the chat on the move. Nothing about her plan changes. */
+  onTalk: (step: ActionStep) => void;
   /** She has a draft under way for this move, so starting it is going on with it. */
   workingOn?: (step: ActionStep) => boolean;
   /** She took a move on, to start it. */
@@ -67,6 +70,7 @@ export function PlanGuided({
   startHref,
   sparks,
   onAnswer,
+  onTalk,
   workingOn,
   onStart,
   onAdd,
@@ -81,6 +85,9 @@ export function PlanGuided({
   const [page, setPage] = useState(demoPage ?? 0);
   const [answered, setAnswered] = useState<Record<string, GuidedAnswer>>(demoAnswered ?? {});
   // "Not for me" asks why before it acts, one optional tap; the line says what was offered in its place.
+  const [picking, setPicking] = useState(false);
+  // The time she chose instead of the step's own, in words.
+  const [chosenWhen, setChosenWhen] = useState<Record<string, string>>({});
   const [passedLine, setPassedLine] = useState<Record<string, string>>(demoPassed ?? {});
   const [open, setOpen] = useState(!demoFolded);
   const [road, setRoad] = useState(Boolean(demoRoad));
@@ -207,25 +214,29 @@ export function PlanGuided({
   const asking = answer === "pass" && !reasoned;
   const hasDraft = step.kind === "artifact" || Boolean(step.artifactId);
   const tool = hasDraft || Boolean(step.toolboxTool);
-  const when = whenOf(step);
+  const when = chosenWhen[step.id] ?? whenOf(step);
   const started = Boolean(workingOn?.(step));
   const label = started ? G.working : (step.startLabel ?? (step.toolboxTool ? `Start in ${step.toolboxTool}` : "Get started"));
-  const answers = G.answers(when, hasDraft);
+  const answers = G.answers(whenOf(step));
   const details = Object.fromEntries(answers.map((a) => [a.label, a.hint]));
-  const choose = (id: GuidedAnswer) => {
+  const settle = (id: Exclude<GuidedAnswer, "talk">, o?: { date?: LoopDate; label?: string }) => {
     if (!frozen) setFrozen(live.map((s) => s.id));
-    // Not for me waits for its reason; the other two act now.
-    const extra = id === "pass" ? undefined : onAnswer(step, id);
+    // Not for me waits for its reason; putting it on her plan acts now.
+    const extra = id === "pass" ? undefined : onAnswer(step, id, { date: o?.date });
+    if (o?.label) setChosenWhen((all) => ({ ...all, [step.id]: o.label as string }));
     setAnswered((all) => ({ ...all, [step.id]: id }));
     if (extra) setPassedLine((all) => ({ ...all, [step.id]: extra }));
+    setPicking(false);
     setOpen(true);
   };
+  const choose = (id: GuidedAnswer) => (id === "talk" ? onTalk(step) : settle(id));
   const pass = (reason?: DeclineReason) => {
-    const extra = onAnswer(step, "pass", reason);
+    const extra = onAnswer(step, "pass", { reason });
     setPassedLine((all) => ({ ...all, [step.id]: extra ?? "" }));
   };
   const done = Boolean(answer) && !asking;
-  const replyText = answer ? G.reply(step, answer, { stage: stage?.title ?? "", hasDraft, when }) : "";
+  const replyText = answer && answer !== "talk" ? G.reply(answer, { when }) : "";
+  const choices = timeChoices(today);
 
   return (
     <>
@@ -274,6 +285,21 @@ export function PlanGuided({
                   if (picked) choose(picked.id);
                 }}
               />
+              {picking ? (
+                <ChipGroup
+                  label={G.changeWhen}
+                  options={choices.map((c) => c.label)}
+                  value={[]}
+                  onChange={(next) => {
+                    const picked = choices.find((c) => c.label === next[0]);
+                    if (picked) settle("plan", { date: picked.date, label: picked.label });
+                  }}
+                />
+              ) : (
+                <Button variant="ghost" size="sm" onClick={() => setPicking(true)}>
+                  {G.changeWhen}
+                </Button>
+              )}
             </AnswerDrawer>
           )
         }
