@@ -40,8 +40,8 @@ export interface RoadmapTimelineProps {
   sparks?: TimelineSparks;
   /** She wants to add something to a stage, on a day inside it. */
   onAdd?: (date: LoopDate) => void;
-  /** Catalogue only: stages, by index, that open to their card. */
-  demoOpen?: number[];
+  /** Catalogue only: the stage, by index, that opens to its card. */
+  demoOpen?: number;
   headingId?: string;
   className?: string;
 }
@@ -78,6 +78,8 @@ export function RoadmapTimeline({
   className,
 }: RoadmapTimelineProps) {
   const uid = useId();
+  // The one other stage open to its card. The stage she is on is always open, and only one more at a time.
+  const [peek, setPeek] = useState<number | null>(demoOpen ?? null);
   const [local, setLocal] = useState<RoadmapChoices>({
     planId: initialPlanId,
     startedOn: initialStartedOn,
@@ -201,10 +203,17 @@ export function RoadmapTimeline({
                     {actionsFor(w)}
                   </div>
                 ) : (
-                  // Any other stage opens in place: the card grows around its own title, so she can read it
-                  // without moving on to it.
-                  <details className="rtl__peek" open={demoOpen?.includes(w.index) || undefined}>
-                    <summary className="rtl__row-head">
+                  // Any other stage opens in place, one at a time: the card grows around its own title, so she can
+                  // read it without moving on to it.
+                  <details className="rtl__peek" open={peek === w.index}>
+                    <summary
+                      className="rtl__row-head"
+                      onClick={(event) => {
+                        // The page holds what is open, so opening one closes the last.
+                        event.preventDefault();
+                        setPeek(peek === w.index ? null : w.index);
+                      }}
+                    >
                       <span className="rtl__line-name">
                         <span className="rtl__name">{w.title}</span>
                         {w.status === "recommended" ? <span className="rtl__pill">{A.states.recommended}</span> : null}
