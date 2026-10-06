@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState, type ReactNode } from "react";
+import { Fragment, useId, useState, type ReactNode } from "react";
 import type { RoadmapChoices } from "@/components/plan/PlanRoadmap";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
@@ -48,11 +48,11 @@ export interface RoadmapTimelineProps {
 const SHOWN = 3;
 
 /**
- * The roadmap as Now, Next and Later. The stage she is on is one full card: what it is, when to
- * aim for, what finishing looks like, what she will have, and the sparks that say what happened
- * and how her plan moved. The stage after it is one line, later stages are plain lines, and
- * stages she has finished fold into a count. A plan she has left stays above as the draft she
- * started with, with a spark where it changed.
+ * The roadmap as a timeline down a rail. Every stage is a point on it: a finished stage is quiet,
+ * the stage she is on is a filled card with what finishing looks like and what she can do, and the
+ * ones after it are a name and a time in words. Sparks sit on the same rail, after the stage they
+ * happened in, each saying what happened and how her plan moved with it. A plan she has left stays
+ * above as the draft she started with, with a spark where it changed.
  *
  * Times are words (this month, next quarter), never days, and a stage's pace is a suggestion that
  * moves as she does, never a deadline. She can say she has finished a stage whenever she likes,
@@ -143,13 +143,9 @@ export function RoadmapTimeline({
     );
   }
 
-  const done = windows.filter((w) => w.status === "done");
-  const next = windows.find((w) => w.status === "recommended") ?? (here ? windows[here.index + 1] : undefined);
-  const later = windows.filter((w) => w.status === "later" && w !== next);
-  const recommended = next?.status === "recommended" && !kept.nextDismissed;
+  const next = windows.find((w) => w.status === "recommended");
+  const recommended = next !== undefined && !kept.nextDismissed;
   const stageSparks = (w: StageWindow) => sparks.byStage[w.index] ?? [];
-  // The stage she has just finished says so beside the one recommended next, where it matters, and not only in the fold.
-  const justDone = next?.status === "recommended" ? done[done.length - 1] : undefined;
 
   return (
     <section className={["rtl", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
@@ -165,92 +161,63 @@ export function RoadmapTimeline({
         <EarlierPlan key={`${uid}-earlier-${i}`} planId={h.planId} atStage={h.atStage} sparks={sparks.afterEarlier[i] ?? []} />
       ))}
 
-      {here ? (
-        <section className="rtl__group" aria-label={T.now}>
-          <p className="rtl__eyebrow">
-            {T.now} · {A.stageOf(here.index + 1, windows.length)}
-          </p>
-          <div className="rtl__now">
-            <div className="rtl__now-head">
-              <h3 className="rtl__name">{here.title}</h3>
-              <p className="rtl__small">
-                {A.suggested(whenWords(here.end, today))} · {A.about(here.weeks)}
-              </p>
-            </div>
-            <p className="rtl__finishing">
-              <b>{A.finishing}</b> {stages[here.index].milestone}
-            </p>
-            <details className="rtl__fold">
-              <summary>{T.haveLabel}</summary>
-              <ul className="roadmap__outcomes">
-                {stages[here.index].outcomes.map((o) => (
-                  <li key={o}>{o}</li>
-                ))}
-              </ul>
-            </details>
-            <StageEntries w={here} items={entries(here)} today={today} onAdd={onAdd} />
-            {actionsFor(here)}
-            <Sparks sparks={stageSparks(here)} />
-          </div>
-        </section>
-      ) : null}
-
-      {next ? (
-        <section className="rtl__group" aria-label={T.next}>
-          <p className="rtl__eyebrow">
-            {T.next} · {A.stageOf(next.index + 1, windows.length)}
-          </p>
-          {recommended ? (
-            <div className="rtl__now">
-              <div className="rtl__now-head">
-                <h3 className="rtl__name">{next.title}</h3>
-                <p className="rtl__small">{A.recommendedBody(whenWords(next.end, today), next.weeks)}</p>
-              </div>
-              <p className="rtl__finishing">
-                <b>{A.finishing}</b> {stages[next.index].milestone}
-              </p>
-              {actionsFor(next)}
-            </div>
-          ) : (
-            <StageLine w={next} today={today} recommended={next.status === "recommended"} />
-          )}
-          <Sparks sparks={[...(justDone ? stageSparks(justDone) : []), ...stageSparks(next)]} />
-        </section>
-      ) : null}
-
-      {later.length ? (
-        <section className="rtl__group" aria-label={T.later}>
-          <p className="rtl__eyebrow">{T.later}</p>
-          <ul className="rtl__lines">
-            {later.map((w) => (
-              <li key={`${uid}-${w.index}`}>
-                <StageLine w={w} today={today} />
-                <Sparks sparks={stageSparks(w)} />
+      <ol className="rtl__rail">
+        {windows.map((w) => {
+          const isNow = w.status === "current";
+          const isNext = w.status === "recommended" && recommended;
+          return (
+            <Fragment key={`${uid}-${w.index}`}>
+              <li className={["rtl__point", `is-${w.status}`, isNow || isNext ? "has-card" : null].filter(Boolean).join(" ")} aria-current={isNow ? "step" : undefined}>
+                {isNow || isNext ? (
+                  <div className={isNow ? "rtl__now" : "rtl__now rtl__now--next"}>
+                    <div className="rtl__now-head">
+                      <p className="rtl__eyebrow">
+                        {A.stageOf(w.index + 1, windows.length)} · {isNow ? A.states.current : A.states.recommended}
+                      </p>
+                      <h3 className="rtl__name">{w.title}</h3>
+                      <p className="rtl__small">
+                        {isNow ? `${A.suggested(whenWords(w.end, today))} · ${A.about(w.weeks)}` : A.recommendedBody(whenWords(w.end, today), w.weeks)}
+                      </p>
+                    </div>
+                    <p className="rtl__finishing">
+                      <b>{A.finishing}</b> {stages[w.index].milestone}
+                    </p>
+                    {isNow ? (
+                      <>
+                        <details className="rtl__fold">
+                          <summary>{T.haveLabel}</summary>
+                          <ul className="roadmap__outcomes">
+                            {stages[w.index].outcomes.map((o) => (
+                              <li key={o}>{o}</li>
+                            ))}
+                          </ul>
+                        </details>
+                        <StageEntries w={w} items={entries(w)} today={today} onAdd={onAdd} />
+                      </>
+                    ) : null}
+                    {actionsFor(w)}
+                  </div>
+                ) : (
+                  <div className="rtl__row-head">
+                    <span className="rtl__line-name">
+                      <span className="rtl__name">{w.title}</span>
+                      {w.status === "recommended" ? <span className="rtl__pill">{A.states.recommended}</span> : null}
+                    </span>
+                    <span className="rtl__when">{w.status === "done" ? A.states.done : whenWords(w.end, today)}</span>
+                  </div>
+                )}
               </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
+              <SparkPoints sparks={stageSparks(w)} />
+            </Fragment>
+          );
+        })}
+      </ol>
 
       {finished ? (
         <div className="rtl__end">
           <p className="rtl__name">{A.allDone}</p>
           <p className="rtl__small">{template?.after ?? A.allDoneBody}</p>
         </div>
-      ) : null}
-
-      {done.length ? (
-        <details className="rtl__fold rtl__done">
-          <summary>{T.doneCount(done.length)}</summary>
-          <ul className="rtl__lines">
-            {done.map((w) => (
-              <li key={`${uid}-${w.index}`}>
-                <StageLine w={w} today={today} />
-                <Sparks sparks={w === justDone ? [] : stageSparks(w)} />
-              </li>
-            ))}
-          </ul>
-        </details>
       ) : null}
     </section>
   );
@@ -284,7 +251,7 @@ function Sparks({ sparks }: { sparks: PlanSpark[] }) {
     <section className="rtl__sparks" aria-label={T.sparksLabel}>
       <ul className="rtl__spark-list">
         {shown.map((s) => (
-          <SparkNote key={s.id} spark={s} />
+          <SparkNote key={s.id} spark={s} as="li" />
         ))}
       </ul>
       {rest.length ? (
@@ -292,7 +259,7 @@ function Sparks({ sparks }: { sparks: PlanSpark[] }) {
           <summary>{T.moreSparks(rest.length)}</summary>
           <ul className="rtl__spark-list">
             {rest.map((s) => (
-              <SparkNote key={s.id} spark={s} />
+              <SparkNote key={s.id} spark={s} as="li" />
             ))}
           </ul>
         </details>
@@ -301,9 +268,9 @@ function Sparks({ sparks }: { sparks: PlanSpark[] }) {
   );
 }
 
-function SparkNote({ spark }: { spark: PlanSpark }) {
+function SparkNote({ spark, as: Tag = "div" }: { spark: PlanSpark; as?: "div" | "li" }) {
   return (
-    <li className="rtl__spark">
+    <Tag className="rtl__spark">
       <span className="rtl__spark-mark" aria-hidden="true">
         <Icon name="spark" size={16} />
       </span>
@@ -311,22 +278,37 @@ function SparkNote({ spark }: { spark: PlanSpark }) {
         <span className="rtl__spark-label">{spark.label}</span>
         <p>{spark.text}</p>
       </div>
-    </li>
+    </Tag>
   );
 }
 
 type Entry = CalendarItem & { kind?: "yours" | "step"; suggested?: boolean };
 
-/** A stage in one line: its name, and when to aim for it in words. */
-function StageLine({ w, today, recommended }: { w: StageWindow; today: LoopDate; recommended?: boolean }) {
+/** Sparks as points on the rail, after the stage they happened in. A few show; the rest fold into "n more". */
+function SparkPoints({ sparks }: { sparks: PlanSpark[] }) {
+  if (!sparks.length) return null;
+  const shown = sparks.slice(0, SHOWN);
+  const rest = sparks.slice(SHOWN);
   return (
-    <div className="rtl__line-row">
-      <span className="rtl__line-name">
-        <span className="rtl__name">{w.title}</span>
-        {recommended ? <span className="rtl__pill">{A.states.recommended}</span> : null}
-      </span>
-      <span className="rtl__when">{w.status === "done" ? A.states.done : whenWords(w.end, today)}</span>
-    </div>
+    <>
+      {shown.map((spark) => (
+        <li className="rtl__point rtl__point--spark" key={spark.id}>
+          <SparkNote spark={spark} />
+        </li>
+      ))}
+      {rest.length ? (
+        <li className="rtl__point rtl__point--spark">
+          <details className="rtl__more">
+            <summary>{T.moreSparks(rest.length)}</summary>
+            <ul className="rtl__spark-list">
+              {rest.map((spark) => (
+                <SparkNote key={spark.id} spark={spark} as="li" />
+              ))}
+            </ul>
+          </details>
+        </li>
+      ) : null}
+    </>
   );
 }
 

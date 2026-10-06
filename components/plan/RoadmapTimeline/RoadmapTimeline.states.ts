@@ -30,7 +30,7 @@ export const roadmapTimelineStates = defineComponentStates({
   status: "draft",
   flows: ["plan"],
   description:
-    "The roadmap as Now, Next and Later. The stage she is on is one full card (when to aim for, what finishing looks like, what she will have, what is on her calendar in it, and the sparks that say what happened and how her plan moved). The next stage is one line, later stages are plain lines, and finished stages fold into a count. Times are words, never days, and the pace is a suggestion that moves as she does. She can finish a stage whenever she likes, and when her work says she has, it offers to mark it. Finishing recommends the next stage; she starts it or says “Not yet”. A plan she has left stays above as the draft she began with, with a spark where it changed.",
+    "The roadmap as a timeline down a rail. Every stage is a point on it: a finished stage is quiet, the stage she is on is a filled card (when to aim for, what finishing looks like, what she will have, what is on her calendar in it), and the ones after it are a name and a time in words. Sparks are points on the same rail, after the stage they happened in, each saying what happened and how her plan moved. Times are words, never days, and the pace is a suggestion that moves as she does. She can finish a stage whenever she likes, and when her work says she has, it offers to mark it. Finishing recommends the next stage; she starts it or says “Not yet”. A plan she has left stays above as the draft she began with, with a spark where it changed.",
   component: RoadmapTimeline,
   notApplicable: {
     ...CONTROLS_INSIDE,
@@ -41,7 +41,7 @@ export const roadmapTimelineStates = defineComponentStates({
   variants: [
     { label: "Step up, in stage one — default, no sparks yet", props: { ...base, headingId: "rt-default" } },
     {
-      label: "Sparks on the stage she is in",
+      label: "Sparks on the rail, after the stage they happened in",
       description: "A step finished, a step passed on, something recorded: what happened and how the plan moved, never why.",
       props: {
         ...base,
@@ -57,7 +57,7 @@ export const roadmapTimelineStates = defineComponentStates({
       },
     },
     {
-      label: "More sparks than fit: the rest fold away",
+      label: "More sparks than fit: the rest fold into “n more”",
       props: {
         ...base,
         sparks: sparks([
@@ -79,8 +79,8 @@ export const roadmapTimelineStates = defineComponentStates({
       props: { ...base, startStage: 0, evidenceStage: 1, headingId: "rt-suggest" },
     },
     {
-      label: "Finished early: one stage done, the next is recommended",
-      description: "The finished stage folds into “1 done”, with its spark. Finishing on the 20th pulls the later stages earlier.",
+      label: "Finished early: the next stage is recommended",
+      description: "The finished stage goes quiet, its spark follows it on the rail, and the next stage is a card with Start and Not yet.",
       props: {
         ...base,
         choices: { ...choices, confirmed: 0, finishedOn: { 0: "2026-10-20" }, recommended: 1 },
