@@ -45,13 +45,39 @@ const MONTHS = ["January", "February", "March", "April", "May", "June", "July", 
 
 function longDate(date: string): string {
   const d = new Date(`${date}T00:00:00Z`);
-  return `${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
+  return `${WEEKDAYS[d.getUTCDay()]}, ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
 }
 
 /** "Mon 5 Oct": the Briefing's day, as the card's small print. */
 function shortDay(date: string): string {
   const d = new Date(`${date}T00:00:00Z`);
   return `${WEEKDAYS[d.getUTCDay()].slice(0, 3)} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()].slice(0, 3)}`;
+}
+
+/**
+ * A note in the tray under the rings (a step just done, a ring all done, an
+ * empty ring), in the same card as the next step: the eyebrow and title on
+ * navy, and the note and the way to the Plan on white.
+ */
+function NoteCard({ eyebrow, title, note }: { eyebrow: string; title: string; note?: string }) {
+  return (
+    <section className="feature-card" aria-labelledby="ring-note-title">
+      <div className="feature-card__head feature-card__head--inverse">
+        <p className="feature-card__eyebrow">{eyebrow}</p>
+        <h2 className="feature-card__title" id="ring-note-title" tabIndex={-1}>
+          {title}
+        </h2>
+      </div>
+      {note ? (
+        <div className="feature-card__body">
+          <p className="feature-card__note">{note}</p>
+          <Link href={PLAN} className="btn btn--secondary btn--md btn--full">
+            {M.seePlan}
+          </Link>
+        </div>
+      ) : null}
+    </section>
+  );
 }
 
 export function HomepageConcept4() {
@@ -80,15 +106,7 @@ export function HomepageConcept4() {
   const toStep = step && stepAction?.horizon === selected;
   const justDone = updated && done?.horizon === selected;
   const card = justDone ? (
-    <div className="map-tray__box">
-      <p>
-        <b>{M.stepDone(done!.title)}</b>
-      </p>
-      <p>{M.stepDoneNote}</p>
-      <Link href={PLAN} className="btn btn--secondary btn--md btn--full">
-        {M.seePlan}
-      </Link>
-    </div>
+    <NoteCard eyebrow={M.doneIn(open.label)} title={done!.title} note={M.stepDoneNote} />
   ) : toStep ? (
     <NextStepCard
       eyebrow={C.nextIn(open.label)}
@@ -130,18 +148,10 @@ export function HomepageConcept4() {
           : undefined
       }
     />
+  ) : open.complete ? (
+    <NoteCard eyebrow={open.label} title={M.ringComplete(open.label)} note={M.ringCompleteNote} />
   ) : (
-    <div className="map-tray__box">
-      <p>{open.segments.length ? M.ringComplete(open.label) : M.ringEmpty}</p>
-      {open.complete ? (
-        <>
-          <p>{M.ringCompleteNote}</p>
-          <Link href={PLAN} className="btn btn--secondary btn--md btn--full">
-            {M.seePlan}
-          </Link>
-        </>
-      ) : null}
-    </div>
+    <NoteCard eyebrow={open.label} title={M.ringEmpty} />
   );
 
   /* Your Signal Picture. On the first return nobody has entered a baseline
@@ -168,7 +178,6 @@ export function HomepageConcept4() {
             rings={rings}
             selected={selected}
             panelId="map-tray"
-            legend
             onSelect={(h) => {
               setPicked(h === home ? null : { horizon: h, state: loop.homeState });
               setAnnounce(h === selected ? "" : M.showing(rings.find((r) => r.horizon === h)!.label));
@@ -208,6 +217,7 @@ export function HomepageConcept4() {
                   label: SP.label,
                   dismissLabel: SP.dismiss,
                   dismissName: SP.dismissNote,
+                  tone: "celebrate",
                   onDismiss: (id) => {
                     dismissSpark(id);
                     setAnnounce("");

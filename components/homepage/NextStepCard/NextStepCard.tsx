@@ -70,7 +70,8 @@ export function NextStepCard({
   if (feature) {
     return (
       <section className={["feature-card", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
-        <div className="feature-card__head">
+        {/* Navy, not pale blue: the next step is the page's main callout. */}
+        <div className="feature-card__head feature-card__head--inverse">
           <p className="feature-card__eyebrow">{eyebrow}</p>
           <h2 className="feature-card__title" id={headingId} tabIndex={-1}>
             {title}

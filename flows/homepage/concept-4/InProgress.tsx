@@ -132,7 +132,7 @@ export function InProgress({ loop }: { loop: LoopView }) {
           {S.heading}
         </h2>
       </div>
-      <CardCarousel label={S.heading} items={cards} previousLabel={S.previous} nextLabel={S.next} />
+      <CardCarousel label={S.heading} items={cards} arrows={false} />
       {cards.length === 0 ? <p className="c2-section__note">{anyUsed ? S.allLogged : S.empty}</p> : null}
     </section>
   );
