@@ -256,6 +256,14 @@
   --color-danger-active: var(--brand-orange-900);
   --color-text-on-danger: var(--brand-white);
 
+  /* Outcome dots — a small coloured dot on each main answer to "what came of
+     it?": green went well, yellow mixed, red not the way she hoped. A faster
+     read only; the words carry the meaning, so the dots are hidden from
+     screen readers and greyscale still reads. */
+  --color-outcome-positive: var(--brand-green-500);
+  --color-outcome-neutral: var(--brand-yellow-400);
+  --color-outcome-negative: var(--brand-orange-600);
+
   /* Accent — gold yellow, for small accents on light: the active nav
      underline, the privacy lock, link hover. */
   --color-accent: var(--brand-accent);

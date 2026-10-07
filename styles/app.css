@@ -9082,6 +9082,18 @@ ol.signal__list {
   background-color: var(--color-surface-hover);
 }
 
+/* A small coloured dot before each main answer, for a faster read. */
+.check-in__dot {
+  flex: none;
+  width: var(--space-xs);
+  height: var(--space-xs);
+  border-radius: var(--radius-pill);
+}
+
+.check-in__dot--positive { background-color: var(--color-outcome-positive); }
+.check-in__dot--neutral { background-color: var(--color-outcome-neutral); }
+.check-in__dot--negative { background-color: var(--color-outcome-negative); }
+
 /* Once answered, the read-back takes the question's place and its type,
    with no box of its own inside the card. */
 .check-in__readback {
