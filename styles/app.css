@@ -9785,9 +9785,9 @@ ul.baseline-list__rows {
 }
 
 .baseline-list__label {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--type-body-font);
+  word-spacing: var(--type-body-word-spacing);
+  letter-spacing: var(--type-body-tracking);
   font-size: var(--text-md);
   line-height: var(--leading-snug);
 }
