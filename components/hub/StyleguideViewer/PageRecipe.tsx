@@ -38,9 +38,9 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         uses: [".card--reads", "--color-border-subtle"],
       },
       {
-        rule: "At most one dark block on a screen, and only for the one thing to do next.",
-        why: "Navy is the anchor. Two anchors compete; a settings page like Profile needs none.",
-        from: "Home",
+        rule: "At most one dark block on a screen, and only for the one thing to do next, or where she is.",
+        why: "Navy is the anchor. Two anchors compete; a settings page like Profile needs none. In the advisor panel the only navy is the destination she is on, so her own messages are light blue.",
+        from: "Home, Navigation",
         uses: ["--color-surface-inverse"],
       },
     ],
@@ -103,9 +103,9 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
     note: "Only buttons are pills, so the shape means \"press me\".",
     rules: [
       {
-        rule: "Yellow is the one main action on a screen. Light blue is everything secondary.",
-        why: "One clear next move. Still open: whether light blue and yellow are distinct enough side by side.",
-        from: "Home",
+        rule: "Yellow is the one main action on a screen. Light blue is everything secondary, including the advisor's reply buttons. No white outlined buttons.",
+        why: "One clear next move, and a button looks the same wherever it appears. Still open: whether light blue and yellow are distinct enough side by side.",
+        from: "Home, Navigation",
         uses: ["--color-action", "--radius-button"],
       },
       {
@@ -163,6 +163,8 @@ const PAGES: { page: string; date: string; added: string[] }[] = [
       "A list of choices is one card with hairlines, not a stack of boxes.",
       "Grey eyebrows label groups inside a panel (Go to, Ask me).",
       "Kulim Park out of the chat: advisor name, reply chips and the where-you-are chip are Inter.",
+      "Reply buttons are the light-blue secondary; her messages are light blue, not navy.",
+      "A label is dropped when the thing above already introduces the list (Ask me, under the advisor's name).",
     ],
   },
 ];

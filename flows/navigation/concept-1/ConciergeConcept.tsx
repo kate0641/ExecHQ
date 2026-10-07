@@ -503,7 +503,10 @@ function Start({
 
       <section aria-labelledby="concierge-ask">
         <AdvisorWho name={C.name} role={C.role} className="concierge-start__who" />
-        <h2 id="concierge-ask" className="concierge-start__title">{C.askMe}</h2>
+        {/* Not shown: the advisor's name already introduces the questions
+            (designer, 2026-10-07). Kept for screen readers, which name the
+            section by it. */}
+        <h2 id="concierge-ask" className="u-visually-hidden">{C.askMe}</h2>
         <ul className="concierge-suggest">
           {suggestions(ctx).map((s) => (
             <li key={s.label}>
