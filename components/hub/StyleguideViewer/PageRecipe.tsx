@@ -130,10 +130,10 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         from: "Navigation",
       },
       {
-        rule: "One even gap between every message, 16px. Paragraphs inside an answer sit 12px apart; numbered steps keep their numbers.",
-        why: "Bigger gaps between turns broke the conversation apart; no gaps inside an answer made it one block.",
+        rule: "One even gap between every message, 24px, the same above and below each of hers. Paragraphs and cards inside an answer sit 16px apart; numbered steps keep their numbers.",
+        why: "16px between turns felt tight, and uneven gaps around her messages made a card look attached to the wrong turn; no gaps inside an answer made it one block.",
         from: "Navigation",
-        uses: ["--space-md", "--space-sm", "--leading-relaxed"],
+        uses: ["--space-lg", "--space-md", "--leading-relaxed"],
       },
       {
         rule: "A row of choices that is not a button row is quiet text tabs, the current one underlined in navy.",
@@ -192,7 +192,8 @@ const PAGES: { page: string; date: string; added: string[] }[] = [
       "Grey eyebrows label groups inside a panel (Go to, Ask me).",
       "Kulim Park out of the chat: advisor name, reply chips and the where-you-are chip are Inter.",
       "Reply buttons are the light-blue secondary; her messages are light blue, not navy.",
-      "Chat streamlined: slim header, destinations as text tabs, 16px between messages, full-pill field, replies at the left.",
+      "Chat streamlined: slim header, destinations as text tabs, 24px between messages, full-pill field, replies at the left.",
+      "On the phone, close sits in the sheet's corner and New chat ends the header row; the destination tabs run to the sheet's edges so the next one peeks out.",
       "Say a thing once: a label is dropped when something above already says it (Ask me under the advisor's name; the name above each of his messages, under the panel's header).",
     ],
   },
