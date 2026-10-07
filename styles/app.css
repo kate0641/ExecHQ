@@ -114,7 +114,6 @@ h6 {
   line-height: var(--leading-tight);
   letter-spacing: var(--font-display-tracking-heading);
   color: var(--color-text-primary);
-  text-wrap: balance;
 }
 
 h1 {
@@ -141,7 +140,6 @@ h5 { font-size: var(--text-md); }
 h6 { font-size: var(--text-sm); }
 
 p {
-  text-wrap: pretty;
 }
 
 a {
@@ -2717,7 +2715,6 @@ ul.concierge-mini {
   word-spacing: var(--type-heading-word-spacing);
   margin: 0;
   color: var(--color-text-primary);
-  text-wrap: balance;
 }
 
 .home-card__title:focus {
@@ -2883,9 +2880,6 @@ ul.concierge-mini {
   word-spacing: var(--type-heading-word-spacing);
   margin: 0;
   color: var(--color-text-primary);
-  /* Fill each line before wrapping, keeping only a lone last word off its
-     own line; balancing left the first line short with space to spare. */
-  text-wrap: pretty;
 }
 
 .feature-card__title:focus {
@@ -3218,7 +3212,6 @@ ol.loop-track {
   word-spacing: var(--type-heading-word-spacing);
   margin: 0;
   padding-right: var(--space-sm);
-  text-wrap: balance;
 }
 
 .briefing-card__why {
@@ -5141,7 +5134,6 @@ ol.ring-detail__timeline {
   letter-spacing: var(--type-title-tracking);
   word-spacing: var(--type-title-word-spacing);
   color: var(--color-text-primary);
-  text-wrap: balance;
 }
 
 /* The heading is a focus target on a step change, so it must show a ring even
@@ -5162,7 +5154,6 @@ ol.ring-detail__timeline {
   max-width: var(--content-measure);
   color: var(--color-text-secondary);
   /* Two short lines rather than a long one and a stranded word. */
-  text-wrap: balance;
 }
 
 .step-progress {
@@ -5324,7 +5315,6 @@ ol.ring-detail__timeline {
   word-spacing: var(--type-editorial-word-spacing);
   max-width: 22ch;
   font-style: italic;
-  text-wrap: balance;
 }
 
 .welcome__sheet {
@@ -6088,7 +6078,6 @@ ol.ring-detail__timeline {
   line-height: var(--leading-tight);
   letter-spacing: var(--font-display-tracking-heading);
   color: var(--color-text-primary);
-  text-wrap: balance;
 }
 
 .chat-welcome__title:focus-visible {
@@ -6108,7 +6097,6 @@ ol.ring-detail__timeline {
   font-size: var(--text-md);
   line-height: var(--leading-normal);
   color: var(--color-text-secondary);
-  text-wrap: balance;
 }
 
 /* What the welcome folds into: the record of who you are talking to. */
@@ -6788,7 +6776,6 @@ ol.ring-detail__timeline {
   font-size: var(--text-md);
   line-height: var(--leading-relaxed);
   color: var(--color-text-primary);
-  text-wrap: pretty;
   white-space: pre-line;
 }
 
@@ -7606,7 +7593,6 @@ ol.ring-detail__timeline {
   line-height: var(--leading-tight);
   letter-spacing: var(--font-display-tracking-heading);
   color: var(--color-text-primary);
-  text-wrap: balance;
 }
 
 .guide__title:focus-visible {
@@ -8597,7 +8583,6 @@ button.device-keyboard__key {
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
-  text-wrap: balance;
 }
 
 .signal--focal .signal__name {
@@ -8903,7 +8888,6 @@ ol.signal__list {
   font-weight: var(--weight-serif-medium);
   color: var(--color-text-primary);
   line-height: var(--leading-normal);
-  text-wrap: balance;
 }
 
 .briefing-editorial__foot {
@@ -9032,7 +9016,6 @@ ol.signal__list {
   line-height: var(--type-subheading-leading);
   letter-spacing: var(--type-subheading-tracking);
   word-spacing: var(--type-subheading-word-spacing);
-  text-wrap: pretty;
 }
 
 .check-in__question:focus,
@@ -9103,7 +9086,6 @@ ol.signal__list {
   line-height: var(--type-subheading-leading);
   letter-spacing: var(--type-subheading-tracking);
   word-spacing: var(--type-subheading-word-spacing);
-  text-wrap: pretty;
 }
 
 .check-in__add {
@@ -10012,7 +9994,6 @@ ol.stage-track__list {
   letter-spacing: var(--type-title-tracking);
   word-spacing: var(--type-title-word-spacing);
   min-width: 0;
-  text-wrap: balance;
 }
 
 .stage-track__asks {
@@ -10113,7 +10094,6 @@ ul.stage-actions__list {
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
   /* Avoids a lone last word, like "in" from "check-in". */
-  text-wrap: pretty;
 }
 
 .stage-actions__meta {
@@ -10513,7 +10493,6 @@ ul.stage-actions__list {
   font-size: var(--text-xl);
   font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
-  text-wrap: balance;
 }
 
 .detail-panel__heading:focus {
