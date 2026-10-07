@@ -9822,7 +9822,9 @@ ul.baseline-list__rows {
 
 .baseline-list__now {
   font-family: var(--type-figure-font);
-  font-size: var(--type-figure-size);
+  /* 14px, so the serif digits stand as tall as the 16px Inter ones beside
+     them: the figure face, not a bigger number, sets Now apart. */
+  font-size: var(--text-sm);
   font-weight: var(--type-figure-weight);
   line-height: var(--type-figure-leading);
   color: var(--color-text-primary);
