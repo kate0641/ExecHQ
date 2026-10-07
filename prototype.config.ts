@@ -92,6 +92,7 @@ export const prototypeConfig: PrototypeConfig = {
         {
           slug: "concept-3",
           title: "Concept 3 — Guided",
+          status: "approved",
           summary:
             "Explains as it goes: what ExecHQ is, why each thing is asked, and what a plan is. Asks what decides the plan first, recommends once, then asks what makes it hers.",
         },
