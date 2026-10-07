@@ -9831,6 +9831,8 @@ ul.baseline-list__rows {
   margin: 0;
   padding: 0;
   list-style: none;
+  /* A hairline under the last row closes the table off from what follows. */
+  border-bottom: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
 .baseline-list__row {
