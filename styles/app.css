@@ -2739,10 +2739,13 @@ ul.concierge-mini {
   margin-left: 0;
 }
 
+/* The row runs to the sheet's edges, so the last tab that doesn't fit is cut
+   by the edge of the sheet and peeks out, showing there is more to scroll. */
 ul.concierge-mini {
   display: flex;
   gap: var(--space-lg);
-  margin-bottom: var(--space-md);
+  margin: 0 calc(-1 * var(--space-lg)) var(--space-md);
+  padding: 0 var(--space-lg);
   border-bottom: var(--border-width-thin) solid var(--color-border-subtle);
   overflow-x: auto;
   scrollbar-width: none;
