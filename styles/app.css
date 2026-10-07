@@ -12139,16 +12139,60 @@ ul.login__never {
     font-weight: var(--weight-semibold);
     line-height: var(--leading-snug);
     color: inherit;
-    animation: map-greeting-in 600ms var(--easing-standard) 4200ms both;
+    animation: map-greeting-date-loop 9s var(--easing-standard) infinite both;
   }
 
   .map-home__greeting b {
-    animation: map-greeting-out 500ms var(--easing-exit) 4000ms both;
+    animation: map-greeting-hello-loop 9s var(--easing-standard) infinite both;
   }
 
   /* Once it takes the greeting's place, the date is the greeting's colour. */
   [data-viewport="mobile"] .map-home__greeting span {
     color: inherit;
+  }
+}
+
+/* For now the two take turns on a loop, so a review shows both (designer,
+   2026-10-07): about 4s of greeting, then about 4s of date, crossfading each
+   way. The product plays it once (map-greeting-out and -in below); restore
+   those before handoff, since a loop that runs forever needs a pause control
+   (WCAG 2.2.2). */
+@keyframes map-greeting-hello-loop {
+  0%,
+  44% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  50%,
+  93% {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--space-xs)));
+  }
+  93.01% {
+    opacity: 0;
+    transform: translateY(var(--space-xs));
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes map-greeting-date-loop {
+  0%,
+  46% {
+    opacity: 0;
+    transform: translateY(var(--space-xs));
+  }
+  53%,
+  89% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  95%,
+  100% {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--space-xs)));
   }
 }
 
