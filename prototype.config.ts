@@ -191,16 +191,10 @@ export const prototypeConfig: PrototypeConfig = {
             "What her plan is leads, then the next steps in a swiping row. The roadmap is a timeline of the draft she started with, with sparks for what changed, and it sits beside them on web.",
         },
         {
-          slug: "concept-2",
-          title: "Concept 2 — Road forward",
-          summary:
-            "What her plan is leads, then the roadmap as an agenda: a drawer for each stage, only the one she is on open. A step is its title, with its questions as chat prompts and a way to start; what she adds herself sits in the stage it falls in. A switch for review chooses Headings or Stack.",
-        },
-        {
           slug: "concept-3",
           title: "Concept 3 — Guided check-in",
           summary:
-            "A guided check-in, built from onboarding’s page and answer drawer: one move at a time, with where she is with it as the answer. Answering changes her plan and comes back as a short reply. The road and adding her own items slide up as sheets.",
+            "A guided check-in, built from onboarding’s page and answer drawer: one move at a time, with where she is with it as the answer. Answering changes her plan and comes back as a short reply. Under the move is the roadmap, a stack of stage cards, which shows when she folds the drawer; adding her own items slides up as a sheet.",
         },
         {
           slug: "templates",

@@ -1184,11 +1184,6 @@ export const PLAN_AGENDA_COPY = {
   addCancel: "Cancel",
   added: (stage: string, when: string) => `Added to ${stage}, ${when.toLowerCase()}.`,
   nothing: "Nothing in this stage yet.",
-  scaffold: {
-    heading: "Prototype only: choose the roadmap layout",
-    headings: "Headings",
-    stack: "Stack",
-  },
 } as const;
 
 /* -----------------------------------------------------------------------------

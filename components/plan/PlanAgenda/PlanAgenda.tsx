@@ -36,8 +36,6 @@ export interface PlanAgendaProps {
   stages: AgendaStage[];
   items: AgendaItem[];
   today: LoopDate;
-  /** How the stages are set. `headings` is a big name on a line; `stack` is overlapping cards in the stage colours. */
-  variant?: "headings" | "stack";
   /** Where Get started goes for a step with a draft or a tool. */
   startHref: string;
   /** She asked about a step: the page opens the chat on it. */
@@ -70,7 +68,6 @@ export function PlanAgenda({
   stages,
   items,
   today,
-  variant = "headings",
   startHref,
   onAsk,
   onAccept,
@@ -115,7 +112,7 @@ export function PlanAgenda({
       .sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
 
   return (
-    <section className={["agenda", `agenda--${variant}`, className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
+    <section className={["agenda", "agenda--stack", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
       <div className="agenda__head">
         <h2 className="agenda__heading" id={headingId}>
           {A.heading}
@@ -137,7 +134,7 @@ export function PlanAgenda({
               <h3 className="agenda__stage-head">
                 <button type="button" className="agenda__stage-button" aria-expanded={isOpen} onClick={() => toggleStage(stage.index)}>
                   <span className="agenda__stage-name">
-                    {variant === "stack" ? <span className="agenda__eyebrow">{A.stageOf(stage.index + 1, stages.length)}</span> : null}
+                    <span className="agenda__eyebrow">{A.stageOf(stage.index + 1, stages.length)}</span>
                     {stage.title}
                   </span>
                   <span className="agenda__when">{stage.status === "done" ? A.done : stage.when}</span>
@@ -146,7 +143,6 @@ export function PlanAgenda({
               {isOpen ? (
                 <div className="agenda__body">
                   <p className="agenda__small">
-                    {variant === "headings" ? `${A.stageOf(stage.index + 1, stages.length)} · ` : ""}
                     <b>{A.finishing}</b> {stage.finishing}
                   </p>
                   {list.length ? (

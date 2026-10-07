@@ -14,7 +14,6 @@ import { DirectionCard } from "@/components/plan/DirectionCard";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import { ActionSteps } from "@/components/plan/ActionSteps";
-import { ToggleGroup } from "@/components/form/ToggleGroup";
 import { PlanAgenda, type AgendaItem } from "@/components/plan/PlanAgenda";
 import { PlanGuided } from "@/components/plan/PlanGuided";
 import { PlanHeader } from "@/components/plan/PlanHeader";
@@ -30,7 +29,6 @@ import { ReportDrawer, type ReportValues } from "@/components/plan/ReportDrawer"
 import { SignalEntrySheet, type EntryValues } from "@/components/plan/SignalEntrySheet";
 import { accept, complete, decline, edit as editStep, initialPlanState, liveSteps, stepDay, type PlanState } from "@/lib/action-steps";
 import { askConcierge } from "@/flows/navigation/concept-1/ConciergeConcept";
-import { setAgendaLayout, useAgendaLayout } from "@/lib/agenda-choice";
 import { shortDate } from "@/lib/loop";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
@@ -58,7 +56,7 @@ import {
 } from "@/mock/accounts-stub";
 import { PLAN_TEMPLATES, recommendPlan } from "@/mock/onboarding";
 import type { ActionStep, StepQuestion } from "@/mock/plan";
-import { CALENDAR_COPY as CAL, EDIT_FLOW_HREF, PLAN_AGENDA_COPY as AG, CARD_QUESTIONS, STEP_QUESTIONS, type DeclineReason, type GuidedAnswer, DIRECTION_PLAN_COPY as DP, ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
+import { CALENDAR_COPY as CAL, EDIT_FLOW_HREF, CARD_QUESTIONS, STEP_QUESTIONS, type DeclineReason, type GuidedAnswer, DIRECTION_PLAN_COPY as DP, ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
 import { ACTIONS } from "@/mock/plan-stub";
 import { SNAPSHOTS } from "@/mock/snapshots";
 import type { CalendarItem } from "@/mock/plan";
@@ -76,7 +74,6 @@ import { PlanMomentum } from "./PlanMomentum";
  */
 export function usePlanPage() {
   const loop = useLoop();
-  const agendaLayout = useAgendaLayout();
   const addedPresence = useAddedPresence();
   const baseline = useBaseline();
   const current = useCurrent();
@@ -279,7 +276,7 @@ export function usePlanPage() {
     />
   );
 
-  // Concept 2: the roadmap as an agenda. A step is its title and a way to start; every question about
+  // The roadmap as an agenda (Concept 3, under the move). A step is its title and a way to start; every question about
   // it opens the chat. What she adds goes on her calendar, in the stage the day falls in.
   const stageOfDay = (date: string) => {
     const at = stageAt(windows, date);
@@ -315,7 +312,7 @@ export function usePlanPage() {
     return stageOfDay(date);
   }
   const keepSteps = (next: PlanState) => saveSteps(stepsKey, { state: next, notes: savedSteps?.notes ?? {}, empties: savedSteps?.empties ?? {} });
-  // The agenda as Concept 2 reads it; Concept 3 shows the same agenda, in Stack, under its move.
+  // The agenda, as Concept 3 shows it under its move.
   const agendaProps = {
     stages: agendaStages,
     items: agendaItems,
@@ -329,26 +326,6 @@ export function usePlanPage() {
     },
     onAdd: addToPlan,
   };
-  const agenda = (
-    <div className="plan-agenda-wrap" key={`agenda-${loop.id}-${planId}`}>
-      <div className="momentum-scaffold">
-        <p className="momentum-scaffold__title">{AG.scaffold.heading}</p>
-        <ToggleGroup
-          label={AG.scaffold.heading}
-          labelHidden
-          shape="pill"
-          size="sm"
-          options={[
-            { value: "headings", label: AG.scaffold.headings },
-            { value: "stack", label: AG.scaffold.stack },
-          ]}
-          value={agendaLayout}
-          onChange={(v) => setAgendaLayout(v === "stack" ? "stack" : "headings")}
-        />
-      </div>
-      <PlanAgenda key={`${agendaLayout}-${stepsKey}`} variant={agendaLayout} {...agendaProps} />
-    </div>
-  );
 
   // Concept 3: the guided check-in. The moves are her live steps as they stand when she arrives, one page
   // each, with the roadmap under the move. Answering changes her plan for real, by the same rules as the step cards.
@@ -396,7 +373,7 @@ export function usePlanPage() {
       onStart={(step) => keepSteps(accept(stepState, step.id))}
       onAdd={addToPlan}
       // The move is already said above it, with its way to start, so the stage opens on its list.
-      roadmap={<PlanAgenda key={`stack-${stepsKey}`} variant="stack" openFirstStep={false} {...agendaProps} />}
+      roadmap={<PlanAgenda key={`agenda-${stepsKey}`} openFirstStep={false} {...agendaProps} />}
     />
   );
 
@@ -637,7 +614,7 @@ export function usePlanPage() {
     />
   );
 
-  return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, agenda, guided, calendar, note, narrative: narrativeNode, momentum, momentumOf, pictureOf, started, sparkNode, sheet: (
+  return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, guided, calendar, note, narrative: narrativeNode, momentum, momentumOf, pictureOf, started, sparkNode, sheet: (
       <>
         {sheet}
         <ReportDrawer

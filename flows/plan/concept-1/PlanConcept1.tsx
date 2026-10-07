@@ -9,8 +9,7 @@ import { usePlanPage } from "../usePlanPage";
  * how her plan moved with her; on web it sits beside the steps. There is no separate "What
  * changed": the sparks are it. The Signal Picture and Momentum have their own page.
  *
- * For the person who opens the Plan to act. The roadmap is context, not the way in. The
- * Calendar is on Concept 2.
+ * For the person who opens the Plan to act. The roadmap is context, not the way in.
  */
 export function PlanConcept1() {
   const p = usePlanPage();

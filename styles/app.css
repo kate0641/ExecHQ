@@ -16249,32 +16249,6 @@ fieldset.agenda__whens {
   gap: var(--space-sm);
 }
 
-/* Headings: a big name on a line, the open one with its steps beneath. */
-.agenda--headings .agenda__stage {
-  border-top: var(--border-width-thin) solid var(--color-border-strong);
-}
-
-.agenda--headings .agenda__stage-button {
-  padding-block: var(--space-md);
-}
-
-.agenda--headings .agenda__stage-name {
-  font-size: var(--text-xl);
-  line-height: var(--leading-tight);
-}
-
-.agenda--headings .agenda__stage.is-open .agenda__stage-button {
-  padding-bottom: var(--space-xs);
-}
-
-.agenda--headings .agenda__body {
-  padding-bottom: var(--space-md);
-}
-
-[data-viewport="web"] .agenda--headings .agenda__stage-name {
-  font-size: var(--text-2xl);
-}
-
 /* Stack: cards that overlap, each in its stage colour, the open one grown to hold its steps. */
 .agenda--stack .agenda__stages {
   isolation: isolate;

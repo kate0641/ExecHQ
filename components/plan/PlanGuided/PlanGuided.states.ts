@@ -16,7 +16,7 @@ const sparks = [
   { id: "s1", kind: "step" as const, label: "Your steps", text: "You put off “Add three recent accomplishments”. It comes back next week.", on: "2026-10-05" },
   { id: "s2", kind: "record" as const, label: "In ExecHQ", text: "Drafted your leadership story.", on: "2026-10-06" },
 ];
-// The roadmap under the move: the same agenda Concept 2 has, in Stack, with its first step closed.
+// The roadmap under the move: the Plan agenda, with its first step closed.
 const finishing = [
   "You can describe your scope in a sentence, and your bio is ready to send.",
   "Your manager has seen your three wins, in writing.",
@@ -24,7 +24,6 @@ const finishing = [
   "You’ve asked for the broader role, with your record behind you.",
 ];
 const roadmap = createElement(PlanAgenda, {
-  variant: "stack",
   openFirstStep: false,
   headingId: "pg-roadmap",
   stages: stages.map((s, index) => ({ index, title: s.title, when: ["Next month", "Next month", "This quarter", "Next quarter"][index], finishing: finishing[index], status: s.status })),
@@ -63,7 +62,7 @@ export const planGuidedStates = defineComponentStates({
   status: "draft",
   flows: ["plan"],
   description:
-    "The Plan as a guided check-in, built from onboarding's own parts. A short run of pages, one move each: the page says the move and why it matters, and a drawer holds where she is with it: the way to start (which is also her answer that she is working on it), I’ll do it when it is due, talk it through (which opens the chat on the move), or not for me (which asks why, one optional tap). Answering changes her plan for real and comes back as a short reply in the serif voice, then the next move. The last page says where the plan stands. The roadmap (the Plan agenda, in Stack) sits on the page under the move: the open drawer covers it, and folding the drawer shows the whole road. Adding something of her own slides up as a sheet.",
+    "The Plan as a guided check-in, built from onboarding's own parts. A short run of pages, one move each: the page says the move and why it matters, and a drawer holds where she is with it: the way to start (which is also her answer that she is working on it), I’ll do it when it is due, talk it through (which opens the chat on the move), or not for me (which asks why, one optional tap). Answering changes her plan for real and comes back as a short reply in the serif voice, then the next move. The last page says where the plan stands. The roadmap (the Plan agenda) sits on the page under the move: the open drawer covers it, and folding the drawer shows the whole road. Adding something of her own slides up as a sheet.",
   component: PlanGuided,
   notApplicable: {
     hover: "Its controls are chips and Buttons, which show their own states.",
