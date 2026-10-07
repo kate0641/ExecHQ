@@ -1,3 +1,5 @@
+import { createElement } from "react";
+import { PlanAgenda } from "@/components/plan/PlanAgenda";
 import { defineComponentStates } from "@/components/types";
 import { stepById } from "@/mock/plan";
 import { PlanGuided } from "./PlanGuided";
@@ -14,6 +16,32 @@ const sparks = [
   { id: "s1", kind: "step" as const, label: "Your steps", text: "You put off “Add three recent accomplishments”. It comes back next week.", on: "2026-10-05" },
   { id: "s2", kind: "record" as const, label: "In ExecHQ", text: "Drafted your leadership story.", on: "2026-10-06" },
 ];
+// The roadmap under the move: the same agenda Concept 2 has, in Stack, with its first step closed.
+const finishing = [
+  "You can describe your scope in a sentence, and your bio is ready to send.",
+  "Your manager has seen your three wins, in writing.",
+  "You know who decides on the role, and what they need to see from you.",
+  "You’ve asked for the broader role, with your record behind you.",
+];
+const roadmap = createElement(PlanAgenda, {
+  variant: "stack",
+  openFirstStep: false,
+  headingId: "pg-roadmap",
+  stages: stages.map((s, index) => ({ index, title: s.title, when: ["Next month", "Next month", "This quarter", "Next quarter"][index], finishing: finishing[index], status: s.status })),
+  items: [
+    { id: "use-story", stage: 0, title: moves[0].title, date: "2026-10-13", kind: "step", step: moves[0], accepted: true },
+    { id: "brief-manager", stage: 0, title: moves[1].title, date: "2026-10-08", kind: "step", step: moves[1] },
+    { id: "yours-1", stage: 0, title: "Growth Summit panel", date: "2026-10-29", kind: "yours" },
+    { id: "q1-review", stage: 2, title: moves[2].title, date: "2026-10-30", kind: "step", step: moves[2] },
+    { id: "scope-case", stage: 3, title: moves[3].title, date: "2027-01-11", kind: "step", step: moves[3] },
+  ],
+  today: "2026-10-06",
+  startHref: "/toolbox-flow/concept-1",
+  onAsk: noop,
+  onAccept: noop,
+  onComplete: noop,
+  onAdd: noop,
+});
 const base = {
   planName: "Step up",
   stageIndex: 0,
@@ -35,7 +63,7 @@ export const planGuidedStates = defineComponentStates({
   status: "draft",
   flows: ["plan"],
   description:
-    "The Plan as a guided check-in, built from onboarding's own parts. A short run of pages, one move each: the page says the move and why it matters, and a drawer holds where she is with it: the way to start (which is also her answer that she is working on it), I’ll do it when it is due, talk it through (which opens the chat on the move), or not for me (which asks why, one optional tap). Answering changes her plan for real and comes back as a short reply in the serif voice, then the next move. The last page says where the plan stands. The road and adding something of her own slide up as sheets from the strip at the top. There is no list of steps on the page.",
+    "The Plan as a guided check-in, built from onboarding's own parts. A short run of pages, one move each: the page says the move and why it matters, and a drawer holds where she is with it: the way to start (which is also her answer that she is working on it), I’ll do it when it is due, talk it through (which opens the chat on the move), or not for me (which asks why, one optional tap). Answering changes her plan for real and comes back as a short reply in the serif voice, then the next move. The last page says where the plan stands. The roadmap (the Plan agenda, in Stack) sits on the page under the move: the open drawer covers it, and folding the drawer shows the whole road. Adding something of her own slides up as a sheet.",
   component: PlanGuided,
   notApplicable: {
     hover: "Its controls are chips and Buttons, which show their own states.",
@@ -49,6 +77,7 @@ export const planGuidedStates = defineComponentStates({
   variants: [
     { label: "First move — the drawer open — default", props: base },
     { label: "The drawer folded to a peek", props: { ...base, demoFolded: true } },
+    { label: "Folded, with the roadmap under the move", props: { ...base, demoFolded: true, roadmap } },
     { label: "Answered: I’ll do it — the reply, then the next move", props: { ...base, demoAnswered: { "use-story": "plan" } } },
     { label: "Answered: I’ll do it, on her plan for its time", props: { ...base, demoPage: 1, demoAnswered: { "brief-manager": "plan" } } },
     { label: "Not for me: asking why, one optional tap", props: { ...base, demoPage: 2, demoAnswered: { "q1-review": "pass" } } },
@@ -58,7 +87,6 @@ export const planGuidedStates = defineComponentStates({
     },
     { label: "A draft is under way: the start button says keep working on it", props: { ...base, workingOn: () => true } },
     { label: "A move with no tool starts by putting it in her week", props: { ...base, moves: [stepById("add-wins")!, ...moves], demoPage: 0 } },
-    { label: "The road, slid up from the strip", props: { ...base, demoRoad: true } },
     { label: "The last page — where the plan stands", props: { ...base, demoPage: 4 } },
     { label: "Empty — nothing to answer right now", props: { ...base, moves: [] } },
     {

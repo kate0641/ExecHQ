@@ -1216,11 +1216,6 @@ export const GUIDED_COPY = {
   reasonLabel: "Why not?",
   next: "Next move",
   seeRoad: "See the road",
-  road: "The road ahead",
-  roadIntro: "A suggested pace, not a deadline.",
-  here: "You are here",
-  changed: "What changed",
-  noChanges: "Nothing has changed yet.",
   after: "Then ExecHQ builds the next stage, from what worked and what didn’t.",
   lastKicker: "The road ahead",
   lastTitle: "That’s this stretch of the plan.",
@@ -1229,5 +1224,4 @@ export const GUIDED_COPY = {
   add: "Add to your plan",
   noneTitle: "Nothing to answer right now.",
   noneLede: "Your plan offers the next move when one fits.",
-  close: "Close",
 } as const;

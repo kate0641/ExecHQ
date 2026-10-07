@@ -48,6 +48,8 @@ export interface PlanAgendaProps {
   onComplete: (step: ActionStep) => void;
   /** She added something of her own, to a day the words stand for. Says which stage it fell in. */
   onAdd: (item: { title: string; date: LoopDate }) => number | void;
+  /** Whether the open stage opens on its first step. Off where the step is already said elsewhere on the page. */
+  openFirstStep?: boolean;
   /** Catalogue only. */
   demoStage?: number | null;
   demoStep?: string | null;
@@ -74,6 +76,7 @@ export function PlanAgenda({
   onAccept,
   onComplete,
   onAdd,
+  openFirstStep = true,
   demoStage,
   demoStep,
   demoAdding,
@@ -84,7 +87,7 @@ export function PlanAgenda({
   const here = stages.find((s) => s.status === "current") ?? stages.find((s) => s.status === "recommended") ?? stages[0];
   const firstStep = (stage: number) => items.find((i) => i.stage === stage && i.kind === "step")?.id ?? null;
   const [open, setOpen] = useState<number | null>(demoStage !== undefined ? demoStage : here?.index ?? 0);
-  const [step, setStep] = useState<string | null>(demoStep !== undefined ? demoStep : firstStep(open ?? 0));
+  const [step, setStep] = useState<string | null>(demoStep !== undefined ? demoStep : openFirstStep ? firstStep(open ?? 0) : null);
   const [adding, setAdding] = useState(Boolean(demoAdding));
   // The add button floats over the phone's screen, above the Ask or go pill, so it is drawn there.
   const anchor = useRef<HTMLSpanElement>(null);

@@ -57,7 +57,7 @@ import {
   BASELINE_COPY as BC,
 } from "@/mock/accounts-stub";
 import { PLAN_TEMPLATES, recommendPlan } from "@/mock/onboarding";
-import type { ActionStep } from "@/mock/plan";
+import type { ActionStep, StepQuestion } from "@/mock/plan";
 import { CALENDAR_COPY as CAL, EDIT_FLOW_HREF, PLAN_AGENDA_COPY as AG, STEP_QUESTIONS, type DeclineReason, type GuidedAnswer, DIRECTION_PLAN_COPY as DP, ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
 import { ACTIONS } from "@/mock/plan-stub";
 import { SNAPSHOTS } from "@/mock/snapshots";
@@ -314,6 +314,20 @@ export function usePlanPage() {
     return stageOfDay(date);
   }
   const keepSteps = (next: PlanState) => saveSteps(stepsKey, { state: next, notes: savedSteps?.notes ?? {}, empties: savedSteps?.empties ?? {} });
+  // The agenda as Concept 2 reads it; Concept 3 shows the same agenda, in Stack, under its move.
+  const agendaProps = {
+    stages: agendaStages,
+    items: agendaItems,
+    today: loop.today,
+    startHref: conceptHref("toolbox-flow", "concept-1"),
+    onAsk: (step: ActionStep, q: StepQuestion) => askConcierge(STEP_QUESTIONS.find((x) => x.id === q)?.label ?? "", { kind: "step-question", stepId: step.id, q }),
+    onAccept: (step: ActionStep) => keepSteps(accept(stepState, step.id)),
+    onComplete: (step: ActionStep) => {
+      loopActions.completeTask(step.id);
+      keepSteps(complete(stepState, step.id).state);
+    },
+    onAdd: addToPlan,
+  };
   const agenda = (
     <div className="plan-agenda-wrap" key={`agenda-${loop.id}-${planId}`}>
       <div className="momentum-scaffold">
@@ -331,26 +345,12 @@ export function usePlanPage() {
           onChange={(v) => setAgendaLayout(v === "stack" ? "stack" : "headings")}
         />
       </div>
-      <PlanAgenda
-        key={`${agendaLayout}-${stepsKey}`}
-        variant={agendaLayout}
-        stages={agendaStages}
-        items={agendaItems}
-        today={loop.today}
-        startHref={conceptHref("toolbox-flow", "concept-1")}
-        onAsk={(step, q) => askConcierge(STEP_QUESTIONS.find((x) => x.id === q)?.label ?? "", { kind: "step-question", stepId: step.id, q })}
-        onAccept={(step) => keepSteps(accept(stepState, step.id))}
-        onComplete={(step) => {
-          loopActions.completeTask(step.id);
-          keepSteps(complete(stepState, step.id).state);
-        }}
-        onAdd={addToPlan}
-      />
+      <PlanAgenda key={`${agendaLayout}-${stepsKey}`} variant={agendaLayout} {...agendaProps} />
     </div>
   );
 
   // Concept 3: the guided check-in. The moves are her live steps as they stand when she arrives, one page
-  // each. Answering changes her plan for real, by the same rules as the step cards.
+  // each, with the roadmap under the move. Answering changes her plan for real, by the same rules as the step cards.
   const guidedStages = windows.map((w) => ({ title: w.title, status: w.status }));
   const guidedSparks = timelineSparks.byStage
     .flat()
@@ -394,6 +394,8 @@ export function usePlanPage() {
       workingOn={workingOn}
       onStart={(step) => keepSteps(accept(stepState, step.id))}
       onAdd={addToPlan}
+      // The move is already said above it, with its way to start, so the stage opens on its list.
+      roadmap={<PlanAgenda key={`stack-${stepsKey}`} variant="stack" openFirstStep={false} {...agendaProps} />}
     />
   );
 

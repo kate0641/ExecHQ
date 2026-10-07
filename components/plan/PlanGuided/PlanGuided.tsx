@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { ChipGroup } from "@/components/form/ChipGroup";
-import { Sheet } from "@/components/layout/Sheet";
 import { AddToPlanSheet } from "@/components/plan/AddToPlanSheet";
 import { AnswerDrawer } from "@/components/onboarding/AnswerDrawer";
 import { GuidePage } from "@/components/onboarding/GuidePage";
@@ -42,11 +41,12 @@ export interface PlanGuidedProps {
   onStart: (step: ActionStep) => void;
   /** She added something of her own. Says which stage it fell in. */
   onAdd: (item: { title: string; date: LoopDate }) => number | void;
+  /** The roadmap, read under the move. Always on the page; the open drawer covers it until she folds it. */
+  roadmap?: ReactNode;
   /** Catalogue only. */
   demoPage?: number;
   demoAnswered?: Record<string, GuidedAnswer>;
   demoPassed?: Record<string, string>;
-  demoRoad?: boolean;
   demoFolded?: boolean;
   className?: string;
 }
@@ -55,8 +55,8 @@ export interface PlanGuidedProps {
  * The Plan as a guided check-in, built from onboarding's own parts: a page that says one move and why
  * it matters, and a drawer that holds where she is with it. Answering changes her plan for real
  * (done, put in her week, made smaller, or passed on) and comes back as a short reply in the serif
- * voice, then the next move. The last page says where the plan stands. The road, and adding something
- * of her own, slide up as sheets from the strip at the top.
+ * voice, then the next move. The last page says where the plan stands. The roadmap sits on the page under
+ * the move, so folding the drawer shows the whole road; adding something of her own slides up as a sheet.
  *
  * Nothing here is a list she scans: one move at a time, the way onboarding asks one question at a time.
  */
@@ -76,8 +76,8 @@ export function PlanGuided({
   onAdd,
   demoPage,
   demoAnswered,
+  roadmap,
   demoPassed,
-  demoRoad,
   demoFolded,
   className,
 }: PlanGuidedProps) {
@@ -90,7 +90,6 @@ export function PlanGuided({
   const [chosenWhen, setChosenWhen] = useState<Record<string, string>>({});
   const [passedLine, setPassedLine] = useState<Record<string, string>>(demoPassed ?? {});
   const [open, setOpen] = useState(!demoFolded);
-  const [road, setRoad] = useState(Boolean(demoRoad));
   const [adding, setAdding] = useState(false);
   const [note, setNote] = useState("");
   const first = useRef(true);
@@ -115,55 +114,10 @@ export function PlanGuided({
     position: `${AG.stageOf(stageIndex + 1, stages.length)}${stage ? ` · ${stage.title}` : ""}`,
     partIndex: stageIndex,
     partCount: stages.length,
-    file: (
-      <button type="button" className="link plan-guided__road" onClick={() => setRoad(true)}>
-        {G.road}
-      </button>
-    ),
+    after: roadmap,
   };
   const sheets = (
     <>
-      <Sheet open={road} onClose={() => setRoad(false)} label={G.road} inline={demoRoad}>
-        <div className="plan-guided__sheet">
-          <h2 className="plan-guided__sheet-title">{G.road}</h2>
-          <p className="plan-guided__small">{G.roadIntro}</p>
-          <ol className="plan-guided__stages">
-            {stages.map((s, i) => (
-              <li key={s.title} className={i === stageIndex ? "is-current" : undefined} aria-current={i === stageIndex ? "step" : undefined}>
-                <span>{s.title}</span>
-                {i === stageIndex ? <b>{G.here}</b> : null}
-              </li>
-            ))}
-          </ol>
-          <div>
-            <h3 className="plan-guided__label">{G.changed}</h3>
-            {sparks.length ? (
-              <ul className="plan-guided__sparks">
-                {sparks.map((s) => (
-                  <li key={s.id}>{s.text}</li>
-                ))}
-              </ul>
-            ) : (
-              <p className="plan-guided__small">{G.noChanges}</p>
-            )}
-          </div>
-          <p className="plan-guided__small">{G.after}</p>
-          <div className="plan-guided__actions">
-            <Button
-              variant="secondary"
-              onClick={() => {
-                setRoad(false);
-                setAdding(true);
-              }}
-            >
-              {G.add}
-            </Button>
-            <Button variant="ghost" onClick={() => setRoad(false)}>
-              {G.close}
-            </Button>
-          </div>
-        </div>
-      </Sheet>
       <AddToPlanSheet
         open={adding}
         onClose={() => setAdding(false)}

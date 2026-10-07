@@ -39,6 +39,9 @@ export interface GuidePageProps {
    *  question and its reason are read together; the drawer holds only the
    *  answer. */
   drawer?: ReactNode;
+  /** Something read after the page's own work is done, under its actions: the
+   *  Plan's roadmap under the move, say. It scrolls with the page. */
+  after?: ReactNode;
   className?: string;
 }
 
@@ -75,6 +78,7 @@ export function GuidePage({
   onSecondary,
   cover = false,
   drawer,
+  after,
   className,
 }: GuidePageProps) {
   const page = (
@@ -131,6 +135,8 @@ export function GuidePage({
           onSkip={onSecondary}
         />
       ) : null}
+
+      {after ? <div className="guide__after">{after}</div> : null}
     </>
   );
 
