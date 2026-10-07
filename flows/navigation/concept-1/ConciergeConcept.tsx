@@ -393,7 +393,6 @@ function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { m
                     aria-current={d.flowSlug === currentFlow ? "page" : undefined}
                     onClick={() => closePanel(false)}
                   >
-                    <Icon name={ICONS[d.flowSlug] ?? "home"} size={16} />
                     {d.label}
                   </Link>
                 </li>

@@ -116,6 +116,29 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
     ],
   },
   {
+    title: "Chat",
+    note: "The advisor should feel like a chat app on a phone: the conversation, and little else.",
+    rules: [
+      {
+        rule: "No rules, boxes or outlined chips around the conversation. The header is the mark, the name, New chat and close.",
+        why: "Layers of chrome above the first message made the panel feel clunky next to Claude or ChatGPT on mobile.",
+        from: "Navigation",
+      },
+      {
+        rule: "One even gap between every message, 16px. Paragraphs inside an answer sit 12px apart; numbered steps keep their numbers.",
+        why: "Bigger gaps between turns broke the conversation apart; no gaps inside an answer made it one block.",
+        from: "Navigation",
+        uses: ["--space-md", "--space-sm", "--leading-relaxed"],
+      },
+      {
+        rule: "A row of choices that is not a button row is quiet text tabs, the current one underlined in navy.",
+        why: "Destinations stay in reach while chatting without competing with the replies.",
+        from: "Navigation",
+        uses: ["--type-label-*", "--border-width-medium"],
+      },
+    ],
+  },
+  {
     title: "Spacing",
     note: "Gaps are named for their job.",
     rules: [
@@ -164,6 +187,7 @@ const PAGES: { page: string; date: string; added: string[] }[] = [
       "Grey eyebrows label groups inside a panel (Go to, Ask me).",
       "Kulim Park out of the chat: advisor name, reply chips and the where-you-are chip are Inter.",
       "Reply buttons are the light-blue secondary; her messages are light blue, not navy.",
+      "Chat streamlined: slim header, destinations as text tabs, 16px between messages, full-pill field, replies at the left.",
       "Say a thing once: a label is dropped when something above already says it (Ask me under the advisor's name; the name above each of his messages, under the panel's header).",
     ],
   },
