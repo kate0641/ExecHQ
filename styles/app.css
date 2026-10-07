@@ -12834,8 +12834,6 @@ ul.card-carousel__track {
   flex: none;
   align-items: center;
   gap: var(--space-3xs);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-action-secondary);
   color: var(--color-text-on-action-secondary);
 }
 
