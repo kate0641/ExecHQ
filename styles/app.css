@@ -15620,7 +15620,7 @@ ul.step-change__options {
   color: var(--color-text-secondary);
 }
 
-/* The facts, in their own outlined panel with the labels in a column. */
+/* When, as a plain line under the glance: a label and its words, no container. */
 .step-card__facts-zone {
   padding: var(--space-sm) var(--space-md) 0;
 }
@@ -15630,14 +15630,11 @@ dl.step-card__facts-panel {
   flex-direction: column;
   gap: var(--space-xs);
   margin: 0;
-  padding: var(--space-sm);
-  border: var(--border-thin);
-  border-radius: var(--radius-md);
 }
 
 .step-card__facts-panel > div {
   display: grid;
-  grid-template-columns: 4.75rem minmax(0, 1fr);
+  grid-template-columns: auto minmax(0, 1fr);
   gap: var(--space-xs);
   align-items: baseline;
 }
@@ -15692,7 +15689,8 @@ ul.step-card__tiles {
 
 .step-card__tile {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   min-height: 3.5rem;
   padding: var(--space-sm);
@@ -15704,7 +15702,7 @@ ul.step-card__tiles {
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
-  text-align: left;
+  text-align: center;
   cursor: pointer;
 }
 
