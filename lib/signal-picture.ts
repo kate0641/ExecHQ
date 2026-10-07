@@ -224,6 +224,8 @@ export interface CameOfRow {
   came?: string;
   /** The entry behind it when she added it herself, so she can edit it. */
   item?: PictureItem;
+  /** The Loop record behind it, when the Loop made it. */
+  recordId?: string;
 }
 
 /**
@@ -252,7 +254,7 @@ export function cameOfRows(items: PictureItem[], startedOn: LoopDate, today: Loo
     /* The first thing she said about it is that she used it; later lines are follow-ups. */
     const did = used.sort((a, b) => (a.on < b.on ? -1 : 1))[0];
     if (!did) continue;
-    rows.push({ id: `record:${key}`, did: did.text, on: did.on, came: said.sort((a, b) => (a.on < b.on ? 1 : -1))[0]?.text });
+    rows.push({ id: `record:${key}`, recordId: key, did: did.text, on: did.on, came: said.sort((a, b) => (a.on < b.on ? 1 : -1))[0]?.text });
   }
   return rows.sort((a, b) => (a.on < b.on ? 1 : a.on > b.on ? -1 : 0));
 }

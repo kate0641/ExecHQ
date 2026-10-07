@@ -100,7 +100,7 @@ export const momentumLabeledStates = defineComponentStates({
     },
     {
       label: "Week — this week, with activity",
-      description: "Only this week, so it is a weekly thing: seven circles, a dark one for each day she did something.",
+      description: "Always the calendar week, Sunday to Saturday, so it is a weekly thing that starts afresh each Sunday: seven circles, a dark one for each day she did something, and a dashed one for each day still to come.",
       props: { ...base, variant: "week", events: WEEKLY, headingId: "mw-1" },
     },
     {

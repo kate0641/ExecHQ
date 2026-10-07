@@ -58,18 +58,21 @@ export function DialRing({ events, today, days, history }: { events: MomentumEve
   );
 }
 
-/** Seven circles, the last seven days ending today: dark where she did
- *  something, dashed for days she has not reached. Beneath, a letter for each
- *  weekday. */
+/** Seven circles for the calendar week that holds today, Sunday to Saturday, so
+ *  the week is always the same seven days and starts afresh each Sunday: dark
+ *  where she did something, dashed for days still to come or before her plan
+ *  began. Beneath, a letter for each weekday. */
 export function DayCircles({ events, today, history }: { events: MomentumEvent[]; today: LoopDate; history: number }) {
-  const days = Array.from({ length: 7 }, (_, i) => 6 - i);
+  const sinceSunday = new Date(`${today}T00:00:00`).getDay();
+  // Days ago, left to right: Sunday is sinceSunday days back, Saturday is as many days ahead as are left.
+  const days = Array.from({ length: 7 }, (_, i) => sinceSunday - i);
   const has = new Set(events.map((e) => dayOf(e, today)));
   return (
     <div className="day-circles">
       <ol className="day-circles__row">
         {days.map((d) => {
           const date = shortDate(addBack(today, d));
-          const future = d >= history;
+          const future = d < 0 || d >= history;
           const on = has.has(d) && !future;
           return (
             <li

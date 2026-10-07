@@ -118,6 +118,11 @@ export const planSignalPictureStates = defineComponentStates({
       props: { ...base, variant: "cameof", startedOn: "2026-10-05", items: items.map((i) => ({ ...i, impact: undefined })), headingId: "pc-came-none" },
     },
     {
+      label: "Came of it — the quiet block is tappable, to report",
+      description: "Where a thing has no reply, the dashed block can be tapped and says so. It opens a drawer to say what came of it.",
+      props: { ...base, variant: "cameof", startedOn: "2026-10-05", items: items.map((i) => ({ ...i, impact: undefined })), onReport: noop, headingId: "pc-came-report" },
+    },
+    {
       label: "Came of it — nothing at all yet, empty",
       description: "Nothing she did yet, so it says how it will show.",
       props: { ...base, variant: "cameof", startedOn: "2026-10-05", items: [], today: "2026-10-07", headingId: "pc-came-empty" },

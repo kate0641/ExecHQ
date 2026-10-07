@@ -32,6 +32,8 @@ export interface PlanSignalPictureProps {
   today: LoopDate;
   onEdit: (item: PictureItem) => void;
   onDelete: (item: PictureItem) => void;
+  /** The "Nothing reported yet" box on a row is tappable, and says which row. Only the "cameof" variant has one. */
+  onReport?: (row: CameOfRow) => void;
   /** A moment to offer the entry flow: a piece she has just published. */
   offer?: Offer;
   onAcceptOffer?: () => void;
@@ -62,6 +64,7 @@ export function PlanSignalPicture({
   today,
   onEdit,
   onDelete,
+  onReport,
   offer,
   onAcceptOffer,
   onDismissOffer,
@@ -81,6 +84,7 @@ export function PlanSignalPicture({
         startedOn={startedOn ?? today}
         onEdit={onEdit}
         onDelete={onDelete}
+        onReport={onReport}
         demoDelete={demoDelete}
         headingId={headingId}
         className={className}
@@ -287,6 +291,7 @@ function CameOf({
   startedOn,
   onEdit,
   onDelete,
+  onReport,
   demoDelete,
   headingId,
   className,
@@ -296,6 +301,7 @@ function CameOf({
   startedOn: LoopDate;
   onEdit: PlanSignalPictureProps["onEdit"];
   onDelete: PlanSignalPictureProps["onDelete"];
+  onReport?: PlanSignalPictureProps["onReport"];
   demoDelete?: boolean;
   headingId: string;
   className?: string;
@@ -316,7 +322,7 @@ function CameOf({
         <>
           <ul className="came-of__rows">
             {shown.map((row) => (
-              <CameOfRowView key={row.id} row={row} onEdit={onEdit} onDelete={onDelete} demoDelete={demoDelete} />
+              <CameOfRowView key={row.id} row={row} onEdit={onEdit} onDelete={onDelete} onReport={onReport} demoDelete={demoDelete} />
             ))}
           </ul>
           {rows.length > 5 ? (
@@ -336,11 +342,13 @@ function CameOfRowView({
   row,
   onEdit,
   onDelete,
+  onReport,
   demoDelete,
 }: {
   row: CameOfRow;
   onEdit: PlanSignalPictureProps["onEdit"];
   onDelete: PlanSignalPictureProps["onDelete"];
+  onReport?: PlanSignalPictureProps["onReport"];
   demoDelete?: boolean;
 }) {
   const G = C.cameOf;
@@ -354,16 +362,19 @@ function CameOfRowView({
           {row.did}
         </div>
         <span className="came-of__tip" aria-hidden="true" />
-        <div className="came-of__reply">
-          {row.came ? (
-            <>
-              <span className="u-visually-hidden">{G.cameOfIt}</span>
-              {row.came}
-            </>
-          ) : (
-            G.noReply
-          )}
-        </div>
+        {row.came ? (
+          <div className="came-of__reply">
+            <span className="u-visually-hidden">{G.cameOfIt}</span>
+            {row.came}
+          </div>
+        ) : onReport ? (
+          <button type="button" className="came-of__reply came-of__reply--ask" onClick={() => onReport(row)}>
+            {G.noReply}
+            <span className="came-of__ask-hint">{G.report}</span>
+          </button>
+        ) : (
+          <div className="came-of__reply">{G.noReply}</div>
+        )}
       </div>
       {item?.editable ? (
         asking ? (

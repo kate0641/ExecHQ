@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 import { Behind, Figures } from "@/components/plan/momentum-parts";
 import { DayCircles, DialRing } from "@/components/plan/momentum-visuals";
 import { Icon } from "@/components/primitives/Icon";
-import { inMomentumWindow, momentumLabel, weeklyConsistency, type MomentumEvent } from "@/lib/momentum";
+import { inCalendarWeek, inMomentumWindow, momentumLabel, weeklyConsistency, type MomentumEvent } from "@/lib/momentum";
 import { shortDate, type LoopDate } from "@/lib/loop";
 import { MOMENTUM_COPY as C, type LabelWording, type MomentumFigure } from "@/mock/plan";
 
@@ -135,9 +135,9 @@ export function MomentumLabeled({
     </section>
   );
 
-  /* This week only: seven circles, the counts in words, her next move. */
+  /* This week only, Sunday to Saturday: seven circles, the counts in words, her next move. */
   if (variant === "week") {
-    const thisWeek = inMomentumWindow(events, today, 7);
+    const thisWeek = inCalendarWeek(events, today);
     return wrap(
       <section className="momentum__stage" aria-labelledby={`${headingId}-week`}>
         <h3 className="momentum__stage-title" id={`${headingId}-week`}>
@@ -146,10 +146,7 @@ export function MomentumLabeled({
         <DayCircles events={thisWeek} today={today} history={history} />
         <p className="momentum__basis">{C.week.legend}</p>
         {thisWeek.length ? (
-          <>
-            <p className="momentum__basis">{countsLine(thisWeek)}</p>
-            <Behind events={thisWeek} open={demoOpen} />
-          </>
+          <p className="momentum__basis">{countsLine(thisWeek)}</p>
         ) : (
           <p className="momentum__thin">{C.week.nothing}</p>
         )}

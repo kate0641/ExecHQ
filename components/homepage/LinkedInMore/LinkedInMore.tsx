@@ -30,7 +30,6 @@ export interface LinkedInMoreProps {
 export function LinkedInMore({ status, fileName, email, onChoose, onSendSteps, demoOpen, className }: LinkedInMoreProps) {
   const id = useId();
   const [opened, setOpened] = useState(false);
-  const [folded, setFolded] = useState(false);
   const open = opened || Boolean(demoOpen);
   const hasFile = status === "reading" || status === "ready" || status === "empty";
   const fileStatus = status === "reading" ? LINKEDIN_UPLOAD.status.reading : status === "empty" ? LINKEDIN_UPLOAD.status.empty : LINKEDIN_UPLOAD.status.ready;
@@ -40,10 +39,7 @@ export function LinkedInMore({ status, fileName, email, onChoose, onSendSteps, d
         {C.title}
       </h3>
       <p className="linkedin-more__body">{C.body}</p>
-      <button type="button" className="link link--standalone linkedin-more__open" onClick={() => {
-          setFolded(false);
-          setOpened(true);
-        }}>
+      <button type="button" className="link link--standalone linkedin-more__open" onClick={() => setOpened(true)}>
         {C.open}
       </button>
       {hasFile && !open ? (
@@ -51,7 +47,7 @@ export function LinkedInMore({ status, fileName, email, onChoose, onSendSteps, d
           {fileName} · {fileStatus}
         </output>
       ) : null}
-      <Drawer open={open} folded={folded} onToggle={() => setFolded((f) => !f)} label={C.title} inline={demoOpen}>
+      <Drawer open={open} onClose={() => setOpened(false)} label={C.title} inline={demoOpen}>
         <div className="linkedin-more__drawer">
           <h2 className="linkedin-more__drawer-title">{C.title}</h2>
           <LinkedInUpload status={status} fileName={fileName} email={email} onChoose={onChoose} onSendSteps={onSendSteps} />

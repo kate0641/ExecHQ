@@ -207,6 +207,11 @@ export const loopActions = {
     updateRecord(id, (r, today) => markUsed(r, today, answers)),
   answer: (id: string, answer: { type: OutcomeType; detail?: string; notes?: string }) =>
     updateRecord(id, (r, today) => answerFollowUp(r, today, answer), id),
+  /** She says, from her Signal Picture, what came of something she used: the same answer as the
+   *  check-in, without the "just answered" moment that belongs to the homepage. If an outcome is
+   *  already logged it only takes her words. */
+  report: (id: string, answer: { type: OutcomeType; detail?: string }) =>
+    updateRecord(id, (r, today) => (r.outcome ? { ...r, outcome: { ...r.outcome, detail: answer.detail } } : answerFollowUp(r, today, answer))),
   /* Actions with no draft, on her word. Doing one ends "just answered". */
   completeTask: (id: string) =>
     update(({ tasks, today }) => ({ tasks: { ...tasks, [id]: { doneOn: today } }, justAnswered: undefined })),

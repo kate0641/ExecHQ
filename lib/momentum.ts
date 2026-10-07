@@ -60,6 +60,13 @@ export function inMomentumWindow(events: MomentumEvent[], today: LoopDate, days:
   return events.filter((e) => e.on >= from && e.on <= end);
 }
 
+/** Events in the calendar week that holds today: Sunday through Saturday, so the week is always the same seven days. */
+export function inCalendarWeek(events: MomentumEvent[], today: LoopDate): MomentumEvent[] {
+  const sinceSunday = new Date(`${today}T00:00:00`).getDay();
+  const from = addDays(today, -sinceSunday);
+  return events.filter((e) => e.on >= from && e.on <= today);
+}
+
 export const ofFigure = (events: MomentumEvent[], figure: MomentumFigure) => events.filter((e) => e.figure === figure);
 
 /** Her follow-through against the plan, for the window: the steps she took on

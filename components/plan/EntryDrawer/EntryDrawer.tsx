@@ -48,14 +48,12 @@ const CHOICES = [...ENTRY_TYPES, FOLLOWERS_CHOICE];
  * wants to add more, so one thing is as quick as it always was and several
  * need no other route. Rows she leaves empty are ignored, and each is checked
  * against her picture so she is not asked to add what is already there. It
- * comes up as a drawer she can fold to look at her picture while she fills it
+ * comes up as a drawer she can leave open and read her picture beside while she fills it
  * in. Nothing is looked up and nothing leaves the browser.
  */
 export function EntryDrawer({ open, onClose, onSave, today, existing, initial, inline, demoRows, demoErrors }: EntryDrawerProps) {
-  // Folded starts afresh each time it opens: the page gives it a new key.
-  const [folded, setFolded] = useState(false);
   return (
-    <Drawer open={open} folded={folded} onToggle={() => setFolded((f) => !f)} label={B.title} inline={inline}>
+    <Drawer open={open} onClose={onClose} label={B.title} inline={inline}>
       <EntryForm onClose={onClose} onSave={onSave} today={today} existing={existing} initial={initial} demoRows={demoRows} demoErrors={demoErrors} />
     </Drawer>
   );

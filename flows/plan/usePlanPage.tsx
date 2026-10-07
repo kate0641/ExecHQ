@@ -24,6 +24,7 @@ import { CalendarItemSheet, type ItemValues } from "@/components/plan/CalendarIt
 import { PlanCalendar } from "@/components/plan/PlanCalendar";
 import { PlanSignalPicture, type SignalPictureVariant } from "@/components/plan/PlanSignalPicture";
 import { EntryDrawer } from "@/components/plan/EntryDrawer";
+import { ReportDrawer, type ReportValues } from "@/components/plan/ReportDrawer";
 import { SignalEntrySheet, type EntryValues } from "@/components/plan/SignalEntrySheet";
 import { accept, complete, decline, edit as editStep, initialPlanState, liveSteps, stepDay, type PlanState } from "@/lib/action-steps";
 import { askConcierge } from "@/flows/navigation/concept-1/ConciergeConcept";
@@ -40,7 +41,7 @@ import { saveCalendar, saveRoadmap, saveSteps, useCalendar, useRoadmapChoices, u
 import { addedSummary, hasBaseline, signalRows, withAdded } from "@/lib/presence";
 import { addPresence, removePresence, saveBaseline, saveCurrent, updatePresence, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
 import { currentStageIndex, isDone as isActionDone } from "@/lib/rings";
-import { addedItems, historyDays, newlyRecorded, nextOutsideStep, offerFor, recordedItems, type PictureItem } from "@/lib/signal-picture";
+import { addedItems, historyDays, newlyRecorded, type CameOfRow, nextOutsideStep, offerFor, recordedItems, type PictureItem } from "@/lib/signal-picture";
 import { ACTIVITY_OF_CHANNEL, ACTIVITY_TYPES } from "@/mock/plan";
 import { signalOfRecord } from "@/lib/signals";
 import { hideSignal, markNoticed, useSignalNotices } from "@/lib/signal-notices";
@@ -90,6 +91,8 @@ export function usePlanPage() {
   // Adding opens the drawer, and may start from a piece she has just published; editing opens the sheet.
   const [adding, setAdding] = useState<{ initial?: Partial<EntryValues>; fromRecord?: string } | null>(null);
   const [editingItem, setEditingItem] = useState<PictureItem | null>(null);
+  // The row whose "Nothing reported yet" she tapped: the report drawer is for it.
+  const [reporting, setReporting] = useState<CameOfRow | null>(null);
   const [offerDismissed, setOfferDismissed] = useState(false);
   // The steps on her Plan as the list shows them, hand-offs included, for the Calendar and the narrative.
   const [liveState, setLiveState] = useState<{ key: string; state: PlanState } | null>(null);
@@ -160,6 +163,14 @@ export function usePlanPage() {
       fromRecord = undefined;
     }
     setAdding(null);
+  }
+
+  /** What came of something, in her words. A thing she added keeps it on the thing; a thing the Loop made takes it as its outcome. */
+  function saveReport(values: ReportValues) {
+    if (reporting?.item) updatePresence(reporting.item.id, { impact: values.text });
+    else if (reporting?.recordId && values.tone) loopActions.report(reporting.recordId, { type: values.tone, detail: values.text || undefined });
+    else if (reporting?.recordId) loopActions.report(reporting.recordId, { type: "neutral", detail: values.text || undefined });
+    setReporting(null);
   }
 
   /** Editing one thing she added. */
@@ -519,6 +530,7 @@ export function usePlanPage() {
       items={pictureItems}
       today={loop.today}
       onEdit={(item) => setEditingItem(item)}
+      onReport={(row) => setReporting(row)}
       onDelete={(item) => removePresence(item.id)}
       offer={offer}
       onAcceptOffer={() =>
@@ -616,6 +628,15 @@ export function usePlanPage() {
   return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, agenda, guided, calendar, note, narrative: narrativeNode, momentum, momentumOf, pictureOf, started, sparkNode, sheet: (
       <>
         {sheet}
+        <ReportDrawer
+          key={reporting ? `report-${reporting.id}` : "report-closed"}
+          open={reporting !== null}
+          onClose={() => setReporting(null)}
+          onSave={saveReport}
+          did={reporting?.did ?? ""}
+          on={reporting?.on ?? loop.today}
+          asksTone={Boolean(reporting?.recordId && !loop.records.find((r) => r.id === reporting.recordId)?.outcome)}
+        />
         <EntryDrawer
           key={adding ? `entry-${adding.fromRecord ?? "new"}` : "entry-closed"}
           open={adding !== null}

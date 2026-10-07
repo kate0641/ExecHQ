@@ -618,6 +618,8 @@ export const SIGNAL_PICTURE_COPY = {
     none: "Nothing reported yet. When you add what came of something you did, it shows here.",
     /** A thing she did with no reply: neutral, never a miss. */
     noReply: "Nothing reported yet",
+    /** Said under it when she can tap it. */
+    report: "Tap to report",
     cameOfIt: "What came of it: ",
     more: (n: number) => `Show ${n} more`,
     fewer: "Show fewer",
@@ -625,6 +627,20 @@ export const SIGNAL_PICTURE_COPY = {
   openLink: "Open link",
   opensNewTab: "(opens in a new tab)",
   did: (title: string) => `Did: ${title}`,} as const;
+
+/** The drawer she reports what came of something in. */
+export const REPORT_COPY = {
+  title: "What came of it?",
+  toneLabel: "How did it go?",
+  textLabel: "What came of it, in your words",
+  textHint: "Just enough for you to recognise it.",
+  textHintOptional: "Optional.",
+  errorText: "Write a line about what came of it.",
+  errorTone: "Choose how it went.",
+  save: "Save",
+  cancel: "Cancel",
+  privacy: "Only you see this. It is kept as you wrote it.",
+} as const;
 
 /** The drawer she adds things in: one row at first, more when she wants them. */
 export const ENTRY_DRAWER_COPY = {
