@@ -261,7 +261,7 @@
      read only; the words carry the meaning, so the dots are hidden from
      screen readers and greyscale still reads. */
   --color-outcome-positive: var(--brand-green-500);
-  --color-outcome-neutral: var(--brand-yellow-400);
+  --color-outcome-neutral: var(--brand-yellow-500);
   --color-outcome-negative: var(--brand-orange-600);
 
   /* Accent — gold yellow, for small accents on light: the active nav

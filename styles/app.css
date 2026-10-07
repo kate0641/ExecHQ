@@ -9073,6 +9073,9 @@ ol.signal__list {
 /* The main answers are quiet outlined pills, so a card of choices reads as
    one set. Yellow stays for a single "yes, done" answer. */
 .check-in__answers .btn--secondary {
+  /* A little less to each side than a full button, so on a phone the first
+     two answers share a line and the three take two lines, not three. */
+  padding-inline: var(--space-md);
   border: var(--border-width-thin) solid var(--color-border-strong);
   background-color: var(--color-surface-raised);
   color: var(--color-text-primary);
