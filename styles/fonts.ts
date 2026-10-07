@@ -30,7 +30,7 @@ export const displayFont = Kulim_Park({
 export const serifFont = Libre_Baskerville({
   subsets: ["latin"],
   display: "swap",
-  weight: ["400", "700"],
+  weight: ["400", "500", "700"],
   style: ["normal", "italic"],
   variable: "--font-serif-face",
 });

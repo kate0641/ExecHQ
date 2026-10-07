@@ -8854,8 +8854,7 @@ ol.signal__list {
 /* On the Briefing card, its name and the lead read are in yellow. */
 .briefing-card__eyebrow b,
 .briefing-card__eyebrow svg,
-.briefing-card__lead,
-.briefing-editorial__lead {
+.briefing-card__lead {
   color: var(--color-accent-on-inverse);
 }
 
@@ -8897,10 +8896,12 @@ ol.signal__list {
   color: var(--color-text-muted);
 }
 
+/* The headline in white on the navy, a step heavier than regular. */
 .briefing-editorial__lead {
   font-family: var(--font-serif);
   font-size: var(--text-lg);
-  font-weight: var(--weight-regular);
+  font-weight: var(--weight-serif-medium);
+  color: var(--color-text-primary);
   line-height: var(--leading-normal);
   text-wrap: balance;
 }
@@ -8912,16 +8913,11 @@ ol.signal__list {
   gap: var(--space-sm);
 }
 
+/* What the read is for, as quiet text with no pill. */
 .briefing-editorial__tag {
-  display: inline-flex;
-  align-items: center;
-  min-height: 24px;
-  padding: 0 var(--space-sm);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-tag-surface);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
-  color: var(--color-tag-text);
+  color: var(--color-text-secondary);
 }
 
 .briefing-editorial__go {

@@ -389,6 +389,7 @@
 
   --weight-regular: 400;
   --weight-semibold: 600;
+  --weight-serif-medium: 500; /* Libre Baskerville only: Kulim Park and the roles have no 500 */
   --weight-bold: 700;
 
   --tracking-tight: -0.02em;
