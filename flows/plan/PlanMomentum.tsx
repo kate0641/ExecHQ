@@ -1,7 +1,7 @@
 "use client";
 
 import { MomentumLabeled, type MomentumVariant } from "@/components/plan/MomentumLabeled";
-import { followThrough, momentumEvents, type MomentumEvent } from "@/lib/momentum";
+import { followThrough, momentumEvents } from "@/lib/momentum";
 import { historyDays } from "@/lib/signal-picture";
 import { isDone } from "@/lib/rings";
 import type { LoopRecord } from "@/lib/loop";
@@ -16,8 +16,6 @@ export interface PlanMomentumProps {
   startedOn: string;
   /** How it is drawn: each Signals concept shows its own. */
   variant?: MomentumVariant;
-  /** Completed actions that are not steps in the Loop: answers and reflections. */
-  extra?: MomentumEvent[];
 }
 
 /**
@@ -25,8 +23,8 @@ export interface PlanMomentumProps {
  * reviewer's state switcher sets how much history she has; there is no control
  * here. Concept B (counts only) stays in the catalogue and is not shown.
  */
-export function PlanMomentum({ records, tasks, today, startedOn, variant, extra = [] }: PlanMomentumProps) {
-  const events = [...momentumEvents(records, tasks), ...extra].sort((a, b) => (a.on < b.on ? -1 : a.on > b.on ? 1 : 0));
+export function PlanMomentum({ records, tasks, today, startedOn, variant }: PlanMomentumProps) {
+  const events = momentumEvents(records, tasks);
   const history = historyDays(startedOn, today);
   const next = ACTION_QUEUE.find((s) => s.status === "accepted" && !isDone(s, records, tasks));
   const nextMove = next ? { title: next.title, href: conceptHref("toolbox-flow", "concept-1") } : undefined;

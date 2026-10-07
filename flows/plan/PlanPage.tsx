@@ -14,7 +14,7 @@ export function PlanPage({
   side,
   children,
 }: {
-  concept: "c1" | "c2" | "c3" | "c4";
+  concept: "c1" | "c2" | "c3";
   /** False when the lead carries the page's heading itself (Concept 1: the plan's name). */
   showTitle?: boolean;
   lead?: ReactNode;

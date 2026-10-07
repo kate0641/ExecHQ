@@ -21,14 +21,12 @@ import { PlanRoadmap } from "@/components/plan/PlanRoadmap";
 import { RoadmapTimeline } from "@/components/plan/RoadmapTimeline";
 import { CalendarItemSheet, type ItemValues } from "@/components/plan/CalendarItemSheet";
 import { PlanCalendar } from "@/components/plan/PlanCalendar";
-import { CapacityControl } from "@/components/plan/CapacityControl";
-import { ToldUs } from "@/components/plan/ToldUs";
 import { PlanSignalPicture, type SignalPictureVariant } from "@/components/plan/PlanSignalPicture";
 import { SignalEntrySheet, type EntryValues } from "@/components/plan/SignalEntrySheet";
 import { accept, complete, decline, edit as editStep, initialPlanState, liveSteps, stepDay, type PlanState } from "@/lib/action-steps";
 import { askConcierge } from "@/flows/navigation/concept-1/ConciergeConcept";
 import { setAgendaLayout, useAgendaLayout } from "@/lib/agenda-choice";
-import { addDays, shortDate } from "@/lib/loop";
+import { shortDate } from "@/lib/loop";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { momentumEvents } from "@/lib/momentum";
@@ -37,12 +35,10 @@ import { planSparks } from "@/lib/plan-sparks";
 import { roadmapWindows, stageAt } from "@/lib/roadmap-dates";
 import { whenWords } from "@/lib/time-words";
 import { saveCalendar, saveRoadmap, saveSteps, useCalendar, useRoadmapChoices, useSavedSteps } from "@/lib/plan-store";
-import { addedSummary, hasBaseline, presenceCounts, signalRows, withAdded } from "@/lib/presence";
+import { addedSummary, hasBaseline, signalRows, withAdded } from "@/lib/presence";
 import { addPresence, removePresence, saveBaseline, saveCurrent, updatePresence, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
 import { currentStageIndex, isDone as isActionDone } from "@/lib/rings";
-import { answerEvents, saveQuestionAnswer, saveReflection, useAnswers } from "@/lib/answers-store";
-import { setCapacity, useCapacity } from "@/lib/capacity-store";
-import { addedItems, historyDays, offerFor, recordedItems, type PictureItem } from "@/lib/signal-picture";
+import { addedItems, historyDays, nextOutsideStep, offerFor, recordedItems, type PictureItem } from "@/lib/signal-picture";
 import { ACTIVITY_OF_CHANNEL, ACTIVITY_TYPES } from "@/mock/plan";
 import { signalOfRecord } from "@/lib/signals";
 import { dismissSpark, useDismissedSparks } from "@/lib/spark-dismissal";
@@ -75,8 +71,6 @@ export function usePlanPage() {
   const loop = useLoop();
   const agendaLayout = useAgendaLayout();
   const addedPresence = useAddedPresence();
-  const capacity = useCapacity();
-  const answers = useAnswers();
   const baseline = useBaseline();
   const current = useCurrent();
   // The LinkedIn export she may add under her starting numbers. In the prototype only its name is kept, and "reading" is a timer.
@@ -153,7 +147,7 @@ export function usePlanPage() {
   const stepState = (liveState?.key === stepsKey ? liveState.state : undefined) ?? savedSteps?.state ?? (switchedTo ? { ...initialPlanState(loop.today), shown: [], decisions: {} } : initialPlanState(loop.today));
   const live = liveSteps(stepState).filter((s) => !isActionDone(s, loop.records, loop.tasks));
   const narrative = buildNarrative({
-    events: [...momentumEvents(loop.records, loop.tasks), ...answerEvents(answers)],
+    events: momentumEvents(loop.records, loop.tasks),
     items: pictureItems,
     history,
     today: loop.today,
@@ -161,22 +155,10 @@ export function usePlanPage() {
     accepted: (step) => stepState.decisions[step.id]?.decision === "accepted",
   });
 
-  // What she did in the last seven days, to choose from in the weekly reflection.
-  const weekThings = pictureItems
-    .filter((i) => !i.quote && i.on > addDays(loop.today, -7) && i.on <= loop.today)
-    .sort((a, b) => (a.on < b.on ? 1 : a.on > b.on ? -1 : 0))
-    .slice(0, 6)
-    .map((i) => `${["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][new Date(`${i.on}T00:00:00`).getDay()]} · ${i.text}`);
-  const stepsFor = (layout: "list" | "carousel", withCapacity = false) => (
+  const stepsFor = (layout: "list" | "carousel") => (
     <ActionSteps
       key={`steps-${layout}-${stepsKey}`}
       layout={layout}
-      capacity={withCapacity ? capacity : undefined}
-      things={weekThings}
-      onQuestion={(step, answer) =>
-        step.question && saveQuestionAnswer({ stepId: step.id, label: step.question.label, answer, on: loop.today })
-      }
-      onReflection={(_step, values) => saveReflection({ on: loop.today, ...values })}
       today={loop.today}
       initial={switchedTo ? { ...initialPlanState(loop.today), shown: [], decisions: {} } : undefined}
       startHref={conceptHref("toolbox-flow", "concept-1")}
@@ -194,17 +176,6 @@ export function usePlanPage() {
 
   const steps = stepsFor("list");
   const stepsCarousel = stepsFor("carousel");
-  // Plan Concept 4: the Active Landscape as a list by horizon, inside what she said she can take on.
-  const stepsWithCapacity = stepsFor("list", true);
-  const capacityControl = (
-    <CapacityControl
-      level={capacity.level}
-      hold={capacity.hold}
-      live={live.length}
-      onLevel={(level) => setCapacity({ level })}
-      onHold={(hold) => setCapacity({ hold })}
-    />
-  );
 
   const roadmap = (opts: { compact?: boolean; children?: ReactNode } = {}) => (
     <PlanRoadmap
@@ -247,7 +218,7 @@ export function usePlanPage() {
     startedOn: loop.account.plan.startedOn,
     today: loop.today,
     steps: stepState,
-    events: [...momentumEvents(loop.records, loop.tasks), ...answerEvents(answers)],
+    events: momentumEvents(loop.records, loop.tasks),
     added: pictureItems.filter((i) => i.source === "added").map((i) => ({ id: i.id, text: i.text, on: i.on })),
   });
   const timeline = (
@@ -485,7 +456,6 @@ export function usePlanPage() {
     <PlanMomentum
       key={`momentum-${loop.id}-${variant}`}
       variant={variant}
-      extra={answerEvents(answers)}
       records={loop.records}
       tasks={loop.tasks}
       today={loop.today}
@@ -498,12 +468,10 @@ export function usePlanPage() {
   /* Until she has said where she started, the page asks that and nothing else:
      the picture would only repeat the page's title over an empty record. */
   /* Her next step as the path draws it: only one that would add a circle, so
-     work inside the organisation is not shown here. It is read from her live
-     steps, so it is always one the landscape shows. It carries the plan's own
+     work inside the organisation is not shown here. It carries the plan's own
      reason, the kind of activity it adds one to, and whether she has started it. */
   const pathStep = (() => {
-    // The first live step that runs through an outside channel: the same steps the landscape shows.
-    const step = live.find((x) => x.channel);
+    const step = nextOutsideStep(loop.records, loop.tasks);
     if (!step || !step.channel) return undefined;
     const record = step.artifactId ? loop.records.find((r) => r.id === step.artifactId) : undefined;
     const lane = ACTIVITY_TYPES.find((a) => a.id === ACTIVITY_OF_CHANNEL[step.channel!])?.label ?? "";
@@ -511,25 +479,11 @@ export function usePlanPage() {
       title: step.title,
       why: step.whyNow || step.whyThis,
       adds: lane,
-      activity: ACTIVITY_OF_CHANNEL[step.channel!],
       href: toolboxHref,
       started: loop.choices?.[step.id]?.decision === "started" || Boolean(record) || Boolean(loop.tasks?.[step.id]),
       onStart: () => loopActions.startAction(step.id),
     };
   })();
-  /* What the map needs besides the record: her followers, what she had of each
-     kind when she started, and the suggestion. Read when the map is drawn. */
-  const mapProps = () => {
-    const counts = presenceCounts(loop.today, items, baseline, seeded, current);
-    const then = (kind: string) => counts.find((c) => c.kind === kind)?.then ?? 0;
-    const follower = rows.find((r) => r.id === "linkedin");
-    return {
-      hero: follower ? { label: follower.label, now: follower.now, then: follower.then } : undefined,
-      before: { publishing: then("writing"), speaking: then("speaking"), podcast: then("podcast"), press: then("press") },
-      tryThis: { ...PR.tryThis, href: toolboxHref },
-      tryLabel: AC.tryThis,
-    };
-  };
   const pictureOf = (variant: SignalPictureVariant) =>
     !hasBaseline(baseline, seeded) ? null : (
     <PlanSignalPicture
@@ -537,13 +491,8 @@ export function usePlanPage() {
       variant={variant}
       startedOn={loop.account.plan.startedOn}
       nextStep={pathStep}
-      extraCame={answers.reflections.flatMap((r, i) =>
-        r.linkText && r.came ? [{ id: `reflection:${r.on}:${i}`, did: r.linkText.replace(/^[A-Za-z]{3} · /, ""), on: r.on, came: r.came }] : []
-      )}
-      {...(variant === "map" ? mapProps() : {})}
       items={pictureItems}
       today={loop.today}
-      onAdd={() => setEntry({ mode: "add" })}
       onEdit={(item) => setEntry({ mode: "edit", item })}
       onDelete={(item) => removePresence(item.id)}
       offer={offer}
@@ -571,7 +520,7 @@ export function usePlanPage() {
       onDismiss={(id) => dismissSpark(id)}
     />
   );
-  const startedOf = (withTry: boolean) => (
+  const started = (
     <section className="plan-stub__signals" aria-labelledby="plan-signals-heading">
       <h2 className="u-visually-hidden" id="plan-signals-heading">
         {SPIC.startedHeading}
@@ -587,7 +536,7 @@ export function usePlanPage() {
           summary={addedSummary(items, loop.today)}
           onAdd={() => setEntry({ mode: "add" })}
           addLabel={ADD.open}
-          tryThis={withTry ? { ...PR.tryThis, href: conceptHref("toolbox-flow", "concept-1") } : undefined}
+          tryThis={{ ...PR.tryThis, href: conceptHref("toolbox-flow", "concept-1") }}
           tryLabel={AC.tryThis}
           headingId="plan-signals-card"
         />
@@ -612,10 +561,6 @@ export function usePlanPage() {
     </section>
   );
 
-  const toldUs = <ToldUs rows={answers.questions.map((q) => ({ label: q.label, answer: q.answer }))} />;
-  const started = startedOf(true);
-  const startedPlain = startedOf(false);
-
   const sheet = (
     <SignalEntrySheet
       key={entry ? (entry.mode === "edit" ? `signal-${entry.item.id}` : `signal-add-${entry.fromRecord ?? ""}`) : "signal-closed"}
@@ -634,7 +579,7 @@ export function usePlanPage() {
     />
   );
 
-  return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, agenda, guided, calendar, note, narrative: narrativeNode, momentum, momentumOf, pictureOf, toldUs, started, startedPlain, capacityControl, stepsWithCapacity, hasStarted: hasBaseline(baseline, seeded), sparkNode, sheet: (
+  return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, agenda, guided, calendar, note, narrative: narrativeNode, momentum, momentumOf, pictureOf, started, sparkNode, sheet: (
       <>
         {sheet}
         {calendarSheet}

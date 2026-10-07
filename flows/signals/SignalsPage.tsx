@@ -14,7 +14,7 @@ export function SignalsPage({
   side,
   children,
 }: {
-  concept: "c1" | "c2" | "c3";
+  concept: "c1" | "c2";
   lead?: ReactNode;
   main?: ReactNode;
   side?: ReactNode;

@@ -17,6 +17,7 @@ import { addDays, daysBetween, type LoopDate, type LoopRecord } from "@/lib/loop
 import { entriesFor, signalOfRecord } from "@/lib/signals";
 import type { PresenceItem } from "@/mock/accounts-stub";
 import {
+  ACTION_QUEUE,
   ACTIVITY_OF_ARTIFACT,
   ACTIVITY_OF_CHANNEL,
   DEFAULT_AREA,
@@ -27,6 +28,7 @@ import {
   type ActivityType,
 } from "@/mock/plan";
 import { ACTIONS } from "@/mock/plan-stub";
+import { isDone } from "@/lib/rings";
 import type { TaskCheck } from "@/mock/snapshots";
 
 export type Source = "recorded" | "added";
@@ -139,6 +141,16 @@ export function offerFor(records: LoopRecord[], presence: readonly PresenceItem[
       !presence.some((p) => p.fromRecord === r.id)
   );
   return record && record.usedOn ? { recordId: record.id, title: record.title, usedOn: record.usedOn } : undefined;
+}
+
+/**
+ * The next step that would add a circle to the growth path: the first one she
+ * has accepted and not finished that runs through a channel she can be seen
+ * on, such as a pitch, a talk or a post. Work inside the organisation never
+ * qualifies, so it is not shown on the path.
+ */
+export function nextOutsideStep(records: LoopRecord[], tasks: Record<string, TaskCheck> | undefined) {
+  return ACTION_QUEUE.find((s) => s.status === "accepted" && s.channel !== undefined && !isDone(s, records, tasks));
 }
 
 export interface GrowthMonth {

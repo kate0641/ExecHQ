@@ -117,23 +117,6 @@ export const momentumLabeledStates = defineComponentStates({
       props: { ...base, variant: "week", events: [], headingId: "mw-empty" },
     },
     {
-      label: "Bars — three days in",
-      props: { ...base, variant: "bars", history: 3, events: WEEKLY.slice(-2), follow: noFollow, headingId: "mb-3" },
-    },
-    {
-      label: "Bars — ten days in",
-      description: "The three counts as a bar and a pill. A longer bar is a larger count; there is no scale and no percentage.",
-      props: { ...base, variant: "bars", history: 10, events: WEEKLY, follow: noFollow, headingId: "mb-10" },
-    },
-    {
-      label: "Bars — at 30 days",
-      props: { ...base, variant: "bars", history: 35, events: WEEKLY, headingId: "mb-30" },
-    },
-    {
-      label: "Bars — at 90 days, building",
-      props: { ...base, variant: "bars", events: [...BUILDING, ...WEEKLY], headingId: "mb-90" },
-    },
-    {
       label: "A long event wraps in the first week",
       props: {
         ...base,

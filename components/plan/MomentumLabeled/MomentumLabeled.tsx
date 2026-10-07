@@ -3,7 +3,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Behind, Figures } from "@/components/plan/momentum-parts";
-import { DayCircles, DialRing, PillBars } from "@/components/plan/momentum-visuals";
+import { DayCircles, DialRing } from "@/components/plan/momentum-visuals";
 import { Icon } from "@/components/primitives/Icon";
 import { inMomentumWindow, momentumLabel, weeklyConsistency, type MomentumEvent } from "@/lib/momentum";
 import { shortDate, type LoopDate } from "@/lib/loop";
@@ -16,9 +16,8 @@ import { MOMENTUM_COPY as C, type LabelWording, type MomentumFigure } from "@/mo
  *  - dial: a ring of one tick for each day, with the one thing that matters in
  *    the middle, and the words beneath.
  *  - week: this week only, as seven day circles.
- *  - bars: the three counts as a bar and a pill, with the words around them.
  */
-export type MomentumVariant = "list" | "dial" | "week" | "bars";
+export type MomentumVariant = "list" | "dial" | "week";
 
 export interface MomentumLabeledProps {
   events: MomentumEvent[];
@@ -205,33 +204,6 @@ export function MomentumLabeled({
           </section>
         )}
       </>
-    );
-  }
-
-  if (variant === "bars") {
-    if (history < 7) return wrap(soFar);
-    const window = has90 ? 90 : has30 ? 30 : 7;
-    const inWindow = inMomentumWindow(events, today, window);
-    return wrap(
-      <section className="momentum__stage" aria-labelledby={`${headingId}-bars`}>
-        <h3 className="momentum__stage-title" id={`${headingId}-bars`}>
-          {C.sectionHeading[window as 7 | 30 | 90]}
-        </h3>
-        {label ? (
-          <>
-            <p className="momentum__label">
-              <span className="u-visually-hidden">90-day label: </span>
-              {label}
-            </p>
-            <p className="momentum__basis">{C.labelBasis}</p>
-          </>
-        ) : null}
-        {has30 ? <p className="momentum__sentence">{consistency}</p> : null}
-        <PillBars events={inWindow} />
-        <Behind events={inWindow} open={demoOpen} />
-        {next}
-        {has90 ? <p className="momentum__rule">{C.placeholderRule}</p> : null}
-      </section>
     );
   }
 

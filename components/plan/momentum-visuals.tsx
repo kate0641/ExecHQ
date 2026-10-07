@@ -1,7 +1,7 @@
 import { daysBetween, shortDate, type LoopDate } from "@/lib/loop";
 import { Icon } from "@/components/primitives/Icon";
 import type { MomentumEvent } from "@/lib/momentum";
-import { MOMENTUM_COPY as C, type MomentumFigure } from "@/mock/plan";
+import { MOMENTUM_COPY as C } from "@/mock/plan";
 
 /**
  * The drawings Momentum can wear. Each is a plain picture of real events:
@@ -96,37 +96,4 @@ function addBack(today: LoopDate, days: number): LoopDate {
   x.setDate(x.getDate() - days);
   const pad = (n: number) => String(n).padStart(2, "0");
   return `${x.getFullYear()}-${pad(x.getMonth() + 1)}-${pad(x.getDate())}`;
-}
-
-/** The three counts as a bar and a pill. Length grows with the count and stops
- *  at a fixed width: there is no axis, no scale and no percentage. */
-export function PillBars({ events }: { events: MomentumEvent[] }) {
-  const figures: { figure: MomentumFigure; tone: "completed" | "artifact" | "outcome" }[] = [
-    { figure: "completed", tone: "completed" },
-    { figure: "artifact", tone: "artifact" },
-    { figure: "outcome", tone: "outcome" },
-  ];
-  return (
-    <ul className="pill-bars">
-      {figures.map(({ figure, tone }) => {
-        const n = events.filter((e) => e.figure === figure).length;
-        return (
-          <li
-            key={figure}
-            className={`pill-bar pill-bar--${tone}`}
-            style={{ ["--bar" as string]: `${Math.min(26 + Math.min(n, 6) * 6, 62)}%` }}
-            aria-label={`${C.barLabels[figure]}: ${n}`}
-          >
-            <span className="pill-bar__rect" aria-hidden="true">
-              {C.barLabels[figure]}
-            </span>
-            <span className="pill-bar__pill" aria-hidden="true">
-              {n}
-            </span>
-            <span className="pill-bar__tip" aria-hidden="true" />
-          </li>
-        );
-      })}
-    </ul>
-  );
 }
