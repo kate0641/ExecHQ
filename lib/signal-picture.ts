@@ -95,6 +95,33 @@ export function recordedItems(records: LoopRecord[], tasks?: Record<string, Task
   return out;
 }
 
+/**
+ * What ExecHQ recorded for her in the last week that she has not hidden,
+ * newest first: the things the page tells her it added, so she is not left to
+ * wonder whether she added them herself.
+ */
+export function newlyRecorded(recorded: readonly PictureItem[], today: LoopDate, hidden: readonly string[]): PictureItem[] {
+  const since = addDays(today, -7);
+  return recorded
+    .filter((i) => i.source === "recorded" && i.on > since && i.on <= today && !hidden.includes(i.id))
+    .sort((a, b) => (a.on < b.on ? 1 : a.on > b.on ? -1 : 0));
+}
+
+/**
+ * Things already in her picture that may be what she is about to add: the same
+ * kind of thing, within three days of the date she gave, closest first. Not
+ * "something else", which is too loose to say. Used to ask "is it this one?"
+ * before she adds a second copy of what ExecHQ recorded or she added earlier.
+ */
+export function likelyDuplicates(items: readonly PictureItem[], kind: string, on: LoopDate, ignoreId?: string): PictureItem[] {
+  const activity = activityOfKind(kind);
+  if (activity === "other") return [];
+  return items
+    .filter((i) => i.id !== ignoreId && i.activity === activity && Math.abs(daysBetween(i.on, on)) <= 3)
+    .sort((a, b) => Math.abs(daysBetween(a.on, on)) - Math.abs(daysBetween(b.on, on)))
+    .slice(0, 2);
+}
+
 /** What she added: the earlier record and anything she has entered since. */
 export function addedItems(presence: readonly PresenceItem[], today: LoopDate): PictureItem[] {
   return presence

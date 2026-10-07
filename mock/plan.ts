@@ -626,6 +626,19 @@ export const SIGNAL_PICTURE_COPY = {
   opensNewTab: "(opens in a new tab)",
   did: (title: string) => `Did: ${title}`,} as const;
 
+/** The drawer she adds things in: one row at first, more when she wants them. */
+export const ENTRY_DRAWER_COPY = {
+  title: "Add what you did",
+  rowName: (n: number) => `Thing ${n}`,
+  addRow: "Add another thing",
+  remove: "Remove this row",
+  leaveOut: "Leave this one out",
+  save: (n: number) => (n > 1 ? `Add ${n} things` : "Add"),
+  cancel: "Cancel",
+  errorNone: "Fill in a row: what it was and when.",
+  rowError: "Choose what it was, and a date that is not in the future.",
+} as const;
+
 export const ENTRY_COPY = {
   title: "Add something you did",
   editTitle: "Edit what you added",
@@ -634,6 +647,11 @@ export const ENTRY_COPY = {
   noteLabel: "A link or a note",
   noteHint: "Optional. Just enough for you to recognise it.",
   notePlaceholder: "https://",
+  /** Shown while she adds, when the same kind of thing is already in her picture. */
+  sameRecorded: (text: string, when: string) => `ExecHQ already recorded this on ${when}: “${text}”.`,
+  sameAdded: (text: string, when: string) => `You already added this on ${when}: “${text}”.`,
+  sameIs: "That’s the one",
+  sameNot: "If it is a different one, add it as normal.",
   followersLabel: "How many followers now?",
   followersHint: "Look at your profile and type the number.",
   followersPlaceholder: "e.g. 1,310",
@@ -710,6 +728,7 @@ export const MOMENTUM_COPY = {
   labelBasis:
     "From what you completed, made and logged in the last 90 days. It is not a grade, and it does not say your work caused any result.",
   nextMove: "Your next move",
+  nextMoveAction: "Start",
   /** The sections she sees as her history grows: the newest leads. Nobody chooses a window. */
   sectionHeading: { 7: "Last 7 days", 30: "Last 30 days", 90: "Last 90 days" } as Record<WindowDays, string>,
   /** The 30-day view: how steadily she completed actions, week by week. */
@@ -721,13 +740,10 @@ export const MOMENTUM_COPY = {
   /** The pictures. Words come with each one. */
   dial: {
     aria: (days: number) => `A ring with one tick for each of the last ${days} days. A longer dark tick is a day she did something.`,
-    legend: "Each tick is one day. A longer dark tick is a day you did something. Today is the tick just before the top, in gold.",
-    legendFuture: "The dots are days still to come.",
+    legend: (hasFuture: boolean) =>
+      `One tick for each of the past 30 days. A taller tick is a day you did something. Today is the thick gold one.${hasFuture ? " Dots are days still to come." : ""}`,
     day: (n: number) => `Day ${n}`,
     ofPlan: "of your plan",
-    weeksOf: (active: number, weeks: number) => `${active} of ${weeks}`,
-    weeksCap: "weeks you completed something",
-    last90: "last 90 days",
   },
   week: {
     heading: "This week",
@@ -740,7 +756,6 @@ export const MOMENTUM_COPY = {
   /** Her first week: what she has done so far, as plain lines, and what comes next. No counts, so no zeros. */
   soFarHeading: "So far",
   soFarNone: "Nothing yet. Your first draft will show up here.",
-  firstWeek: "Your first 7-day view arrives once you have been here a week.",
 } as const;
 
 /* -----------------------------------------------------------------------------

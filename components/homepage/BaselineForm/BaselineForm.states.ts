@@ -1,3 +1,4 @@
+import { createElement } from "react";
 import { defineComponentStates } from "@/components/types";
 import { CONTROLS_INSIDE } from "@/components/not-applicable";
 import { BaselineForm } from "./BaselineForm";
@@ -22,6 +23,16 @@ export const baselineFormStates = defineComponentStates({
   variants: [
     { label: "Empty — default", props: base },
     { label: "Filled in", props: { ...base, demo: { followers: "1,240", counts: { podcast: 1, press: 2, speaking: 1, writing: 3 } } } },
+    {
+      label: "Something under the buttons",
+      description: "A block under the save and skip buttons, such as the invitation to add LinkedIn data.",
+      props: { ...base, after: createElement("p", null, "Add more LinkedIn data") },
+    },
     { label: "Without a skip", props: { onSave: noop } },
+    {
+      label: "Start at zero offered",
+      description: "The first visit to the Signal Picture: she can mark her starting point herself, or leave it and be marked at zero.",
+      props: { ...base, intro: "Your Signal Picture is a private record of how your visibility changes. Tell us where you are now, so you can see your progress at the end of each stage. Mark your starting point yourself, or we will mark you at zero.", skipLabel: "Start me at zero" },
+    },
   ],
 });

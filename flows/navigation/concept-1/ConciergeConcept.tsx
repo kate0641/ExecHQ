@@ -30,6 +30,7 @@ import {
   useLoop,
 } from "@/lib/loop-store";
 import { conceptHref, type NavDestination } from "@/lib/manifest";
+import { useNewSignals } from "@/lib/new-signals";
 import { useViewport } from "@/lib/viewport-context";
 import { CONCIERGE_COPY as C } from "@/mock/concierge";
 import type { NavConceptProps } from "../types";
@@ -154,6 +155,7 @@ function applyEffect(effect: ConciergeEffect | undefined, go: (href: string) => 
 function Pill({ destinations, currentFlow }: NavConceptProps) {
   const { open } = useConcierge();
   const loop = useLoop();
+  const newSignals = useNewSignals();
   const here = destinations.find((d) => d.flowSlug === currentFlow);
   return (
     <ConciergePill
@@ -161,6 +163,7 @@ function Pill({ destinations, currentFlow }: NavConceptProps) {
       here={{ label: here?.label ?? "Home", icon: ICONS[currentFlow] ?? "home" }}
       ask={C.pillAsk}
       followUpDue={Boolean(loop.followUp)}
+      newSignals={newSignals && currentFlow !== "signals"}
       expanded={open}
       controls={PANEL_ID}
       onClick={() => (open ? closePanel() : update({ open: true }))}
@@ -459,6 +462,7 @@ function Start({
   onAsk: (reply: ConciergeReply) => void;
 }) {
   const loop = useLoop();
+  const newSignals = useNewSignals();
   const resume = [...loop.records]
     .filter((r) => r.state === "drafted" || r.state === "in-progress")
     .sort((a, b) => (a.history.at(-1)!.on < b.history.at(-1)!.on ? 1 : -1))[0];
@@ -482,6 +486,12 @@ function Start({
                   <>
                     <span className="concierge-dest__dot" aria-hidden="true" />
                     <span className="u-visually-hidden">, a follow-up is waiting</span>
+                  </>
+                ) : null}
+                {d.flowSlug === "signals" && newSignals && currentFlow !== "signals" ? (
+                  <>
+                    <span className="concierge-dest__dot" aria-hidden="true" />
+                    <span className="u-visually-hidden">, new in your Signal Picture</span>
                   </>
                 ) : null}
               </Link>

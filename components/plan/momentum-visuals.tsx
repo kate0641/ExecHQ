@@ -18,10 +18,10 @@ const point = (cx: number, cy: number, r: number, deg: number): [number, number]
 };
 const round = (n: number) => Math.round(n * 10) / 10;
 
-/** A ring with one tick for each day: longer where she did more, gold for today,
+/** A ring with one tick for each day: longer where she did more, gold and
+ *  thicker for today (so it is not told apart by colour alone),
  *  and dots for days she has not reached yet. */
 export function DialRing({ events, today, days, history }: { events: MomentumEvent[]; today: LoopDate; days: number; history: number }) {
-  const dense = days > 40;
   const perDay = new Map<number, number>();
   for (const e of events) perDay.set(dayOf(e, today), (perDay.get(dayOf(e, today)) ?? 0) + 1);
   const marks = Array.from({ length: days }, (_, i) => {
@@ -32,7 +32,7 @@ export function DialRing({ events, today, days, history }: { events: MomentumEve
       return <circle key={i} className="dial-ring__future" cx={round(x)} cy={round(y)} r={1.6} />;
     }
     const n = perDay.get(d) ?? 0;
-    const len = (n ? (dense ? 16 : 22) : dense ? 8 : 12) + Math.min(n, 3) * (n ? (dense ? 5 : 8) : 0);
+    const len = (n ? 22 : 12) + Math.min(n, 3) * (n ? 8 : 0);
     const [x1, y1] = point(160, 160, 150, deg);
     const [x2, y2] = point(160, 160, 150 - len, deg);
     const tone = d === 0 ? "dial-ring__tick--today" : n ? "dial-ring__tick--on" : "dial-ring__tick--off";
@@ -44,7 +44,7 @@ export function DialRing({ events, today, days, history }: { events: MomentumEve
         y1={round(y1)}
         x2={round(x2)}
         y2={round(y2)}
-        strokeWidth={dense ? 2 : 3.2}
+        strokeWidth={3.2 * (d === 0 ? 1.8 : 1)}
       />
     );
   });

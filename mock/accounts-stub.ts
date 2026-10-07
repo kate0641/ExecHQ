@@ -152,6 +152,10 @@ export const PRESENCE_STUB = {
 
 export const SPARK_COPY = {
   label: "Recent movement",
+  /** A signal ExecHQ recorded for her, so she knows it did not come from her. */
+  recordedSource: "Added for you",
+  recorded: (what: string) => `ExecHQ recorded: ${what}`,
+  hide: "Not right? Hide it",
   dismiss: "Dismiss",
   dismissNote: (text: string) => `Dismiss: ${text}`,
   /** The small words above each note, by where it came from. */
@@ -184,6 +188,7 @@ export const LINKEDIN_MORE_COPY = {
   title: "Add more LinkedIn data",
   body: "Optional. Your LinkedIn analytics export shows how your posts and audience are doing. Add it now, or any time later.",
   open: "Upload my LinkedIn export",
+  close: "Done",
 } as const;
 
 export const BASELINE_COPY = {
@@ -198,6 +203,9 @@ export const BASELINE_COPY = {
   },
   save: "Save my starting point",
   skip: "Skip for now",
+  /** The first Signals visit: the intro says she may leave it, and then she starts at zero. */
+  introZero: "Your Signal Picture is a private record of how your visibility changes. Tell us where you are now, so you can see your progress at the end of each stage. Mark your starting point yourself, or we will mark you at zero.",
+  zeroSkip: "Start me at zero",
   /** After she skips: one line, and a way back. */
   skipped: "Add where you are starting from whenever you like, and this shows how far you have come.",
   addBack: "Add my starting point",

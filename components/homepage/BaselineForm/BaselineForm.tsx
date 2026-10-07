@@ -21,6 +21,8 @@ export interface BaselineFormProps {
   demo?: { counts?: Partial<Record<CountedKind, number>>; followers?: string };
   /** Something optional between the numbers and the buttons. */
   children?: ReactNode;
+  /** Something optional under the buttons. */
+  after?: ReactNode;
   className?: string;
 }
 
@@ -32,7 +34,7 @@ const NONE: Record<CountedKind, number> = { podcast: 0, press: 0, speaking: 0, w
  * by hand. Nothing is looked up, so there is nothing to connect or explain,
  * and zero is a fine answer. The followers are optional.
  */
-export function BaselineForm({ onSave, onSkip, initial, intro, saveLabel, skipLabel, demo, children, className }: BaselineFormProps) {
+export function BaselineForm({ onSave, onSkip, initial, intro, saveLabel, skipLabel, demo, children, after, className }: BaselineFormProps) {
   const [counts, setCounts] = useState<Record<CountedKind, number>>({ ...NONE, ...initial?.counts, ...demo?.counts });
   const [followers, setFollowers] = useState(demo?.followers ?? (initial?.followers !== undefined ? initial.followers.toLocaleString("en-US") : ""));
 
@@ -73,6 +75,7 @@ export function BaselineForm({ onSave, onSkip, initial, intro, saveLabel, skipLa
           </Button>
         ) : null}
       </div>
+      {after}
     </form>
   );
 }

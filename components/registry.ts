@@ -33,6 +33,8 @@ import { placeholderStateStates } from "./layout/PlaceholderState/PlaceholderSta
 import { navPlaceholderStates } from "./layout/NavPlaceholder/NavPlaceholder.states";
 import { stepBarStates } from "./layout/StepBar/StepBar.states";
 import { sheetStates } from "./layout/Sheet/Sheet.states";
+import { drawerStates } from "./layout/Drawer/Drawer.states";
+import { entryDrawerStates } from "./plan/EntryDrawer/EntryDrawer.states";
 import { stepHeaderStates } from "./onboarding/StepHeader/StepHeader.states";
 import { stepActionsStates } from "./onboarding/StepActions/StepActions.states";
 import { noticeStates } from "./onboarding/Notice/Notice.states";
@@ -129,6 +131,7 @@ export const registry: RegisteredComponent[] = [
   navPlaceholderStates,
   stepBarStates,
   sheetStates,
+  drawerStates,
   stepHeaderStates,
   stepActionsStates,
   noticeStates,
@@ -202,6 +205,7 @@ export const registry: RegisteredComponent[] = [
   planRoadmapStates,
   templateRoadmapsStates,
   planSignalPictureStates,
+  entryDrawerStates,
   signalEntrySheetStates,
   momentumLabeledStates,
   momentumCountsStates,

@@ -27,7 +27,7 @@ export function PlanMomentum({ records, tasks, today, startedOn, variant }: Plan
   const events = momentumEvents(records, tasks);
   const history = historyDays(startedOn, today);
   const next = ACTION_QUEUE.find((s) => s.status === "accepted" && !isDone(s, records, tasks));
-  const nextMove = next ? { title: next.title, href: conceptHref("toolbox-flow", "concept-1") } : undefined;
+  const nextMove = next ? { title: next.title, why: next.whyNow || next.whyThis, href: conceptHref("toolbox-flow", "concept-1") } : undefined;
 
   return (
     <div className="plan-momentum">

@@ -12,7 +12,7 @@ export const momentumLabeledStates = defineComponentStates({
   status: "draft",
   flows: ["plan"],
   description:
-    "Momentum: a transparent trend, built up as her history grows. She never picks a window. In her first week there are no counts, so no zeros: it lists what she has done so far, says her first 7-day view comes once she has been here a week, and gives her next move. From 7 days she sees the last 7 days (actions completed, artifacts created or used, outcomes updated). At 30 days the last 30 days leads, with how many of the last four weeks held a completed action and how far she got on the steps she took on, and the 7 days stay beneath. At 90 days a label (building, steady or needs attention) leads, with its basis and the next move, and the earlier views stay beneath. Every section has the activity behind it one tap away. Nothing is a score, rank or grade. Thresholds are a placeholder until D&T define them. Declined and deferred steps are never in it.",
+    "Momentum: a transparent trend, built up as her history grows. She never picks a window. In her first week there are no counts, so no zeros: it lists what she has done so far, and gives her next move. From 7 days she sees the last 7 days (actions completed, artifacts created or used, outcomes updated). At 30 days the last 30 days leads, with how many of the last four weeks held a completed action and how far she got on the steps she took on, and the 7 days stay beneath. At 90 days a label (building, steady or needs attention) leads, with its basis and the next move, and the earlier views stay beneath. Every section has the activity behind it one tap away. Nothing is a score, rank or grade. Thresholds are a placeholder until D&T define them. Declined and deferred steps are never in it.",
   component: MomentumLabeled,
   notApplicable: {
     hover: "Its controls are Buttons and a ToggleGroup, which show their own states.",
@@ -26,7 +26,7 @@ export const momentumLabeledStates = defineComponentStates({
   variants: [
     {
       label: "From the start — three days in",
-      description: "No counts, so no zeros: what she has done so far as plain lines, when her first 7-day view comes, and her next move.",
+      description: "No counts, so no zeros: what she has done so far as plain lines, and her next move.",
       props: { ...base, history: 3, events: WEEKLY.slice(-2), follow: noFollow, headingId: "ma-3" },
     },
     {
@@ -82,7 +82,7 @@ export const momentumLabeledStates = defineComponentStates({
     },
     {
       label: "Dial — three days in",
-      description: "A ring with one tick a day. Days she has not reached are dots. The middle says what day she is on, with no zeros.",
+      description: "A ring with one tick a day. Days she has not reached are dots. The middle always says what day of her plan she is on.",
       props: { ...base, variant: "dial", history: 3, events: WEEKLY.slice(-2), follow: noFollow, headingId: "md-3" },
     },
     {
@@ -90,17 +90,13 @@ export const momentumLabeledStates = defineComponentStates({
       props: { ...base, variant: "dial", history: 10, events: WEEKLY, follow: noFollow, headingId: "md-10" },
     },
     {
-      label: "Dial — at 30 days, weeks she completed something",
+      label: "Dial — past 30 days, the middle still says her day",
       props: { ...base, variant: "dial", history: 35, events: WEEKLY, headingId: "md-30" },
     },
     {
-      label: "Dial — at 90 days, building",
-      description: "The ring holds ninety days. The label sits in the middle with its basis beneath.",
+      label: "Dial — past 90 days, still the past 30",
+      description: "The ring never grows: it is always the past thirty days, however long she has been here. The longer reading is not drawn on the dial.",
       props: { ...base, variant: "dial", events: [...BUILDING, ...WEEKLY], headingId: "md-90b" },
-    },
-    {
-      label: "Dial — at 90 days, needs attention",
-      props: { ...base, variant: "dial", events: QUIETER, follow: noFollow, headingId: "md-90n" },
     },
     {
       label: "Week — this week, with activity",

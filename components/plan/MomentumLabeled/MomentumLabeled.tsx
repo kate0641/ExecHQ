@@ -28,7 +28,7 @@ export interface MomentumLabeledProps {
   /** Her follow-through against the plan, for the 30-day view. */
   follow: { done: number; taken: number; items: MomentumEvent[] };
   /** The label is always paired with the next move, so she sees what to do. */
-  nextMove?: { title: string; href: string };
+  nextMove?: { title: string; why?: string; href: string };
   /** "Needs attention" is the riskiest phrase in the sprint, tested against a
    *  softer one. */
   wording?: LabelWording;
@@ -42,8 +42,7 @@ export interface MomentumLabeledProps {
 /**
  * Momentum: a transparent trend of her execution, built up as her history
  * grows. She never picks a window. In her first week there are no counts, so
- * no zeros: it lists what she has done so far, says her first 7-day view comes
- * once she has been here a week, and gives her next move. From 7 days she sees
+ * no zeros: it lists what she has done so far and gives her next move. From 7 days she sees
  * the last 7 days: actions completed, artifacts created or used, outcomes
  * updated. At 30 days the last 30 days leads, with how steadily she completed
  * actions week by week and how far she got on the steps she took on, and the 7
@@ -81,16 +80,18 @@ export function MomentumLabeled({
   }));
 
   const next = nextMove ? (
-    <p className="momentum__next">
-      <span>{C.nextMove}</span>{" "}
-      <Link href={nextMove.href} className="link">
-        {nextMove.title}
-        <Icon name="chevron" size={14} />
+    <section className="presence-clean__try" aria-label={C.nextMove}>
+      <span className="presence-clean__try-label">{C.nextMove}</span>
+      <b>{nextMove.title}</b>
+      {nextMove.why ? <p>{nextMove.why}</p> : null}
+      <Link href={nextMove.href} className="btn btn--primary btn--md">
+        {C.nextMoveAction}
+        <Icon name="chevron" size={16} />
       </Link>
-    </p>
+    </section>
   ) : null;
 
-  /** Her first week: what she has done so far, and when the 7-day view comes. */
+  /** Her first week: what she has done so far. */
   const soFar = (
     <section className="momentum__stage" aria-labelledby={`${headingId}-so-far`}>
       <h3 className="momentum__stage-title" id={`${headingId}-so-far`}>
@@ -107,7 +108,6 @@ export function MomentumLabeled({
       ) : (
         <p className="momentum__thin">{C.soFarNone}</p>
       )}
-      <p className="momentum__basis">{C.firstWeek}</p>
       {next}
     </section>
   );
@@ -159,20 +159,11 @@ export function MomentumLabeled({
   }
 
   if (variant === "dial") {
-    const days = has90 ? 90 : 30;
+    // Always the past 30 days: the ring does not change size as she stays.
+    const days = 30;
     const inRing = inMomentumWindow(events, today, days);
     const thisWeek = inMomentumWindow(events, today, 7);
-    const middle = has90 ? (
-      <>
-        <p className="dial-mid__big dial-mid__big--word">{label}</p>
-        <p className="dial-mid__cap">{C.dial.last90}</p>
-      </>
-    ) : has30 && week.active ? (
-      <>
-        <p className="dial-mid__big">{C.dial.weeksOf(week.active, week.weeks.length)}</p>
-        <p className="dial-mid__cap">{C.dial.weeksCap}</p>
-      </>
-    ) : (
+    const middle = (
       <>
         <p className="dial-mid__big">{C.dial.day(history)}</p>
         <p className="dial-mid__cap">{C.dial.ofPlan}</p>
@@ -185,22 +176,19 @@ export function MomentumLabeled({
           <div className="dial-mid__text">{middle}</div>
         </div>
         <p className="momentum__basis">
-          {C.dial.legend}
-          {history < days ? ` ${C.dial.legendFuture}` : ""}
+          {C.dial.legend(history < days)}
         </p>
         {history < 7 ? (
           soFar
         ) : (
           <section className="momentum__stage" aria-labelledby={`${headingId}-dial`}>
             <h3 className="momentum__stage-title" id={`${headingId}-dial`}>
-              {C.sectionHeading[has90 ? 90 : has30 ? 30 : 7]}
+              {C.sectionHeading[has30 ? 30 : 7]}
             </h3>
-            {has90 ? <p className="momentum__basis">{C.labelBasis}</p> : null}
             {has30 ? <p className="momentum__sentence">{consistency}</p> : null}
-            <p className="momentum__basis">{countsLine(has90 ? inRing : has30 ? inMomentumWindow(events, today, 30) : thisWeek)}</p>
-            <Behind events={has90 ? inRing : has30 ? inMomentumWindow(events, today, 30) : thisWeek} open={demoOpen} />
+            <p className="momentum__basis">{countsLine(has30 ? inRing : thisWeek)}</p>
+            <Behind events={has30 ? inRing : thisWeek} open={demoOpen} />
             {next}
-            {has90 ? <p className="momentum__rule">{C.placeholderRule}</p> : null}
           </section>
         )}
       </>

@@ -60,4 +60,4 @@ export const FOLLOW = {
   ],
 };
 
-export const NEXT_MOVE = { title: "Build a stakeholder message map for the workstream", href: "/toolbox-flow/concept-1" };
+export const NEXT_MOVE = { title: "Build a stakeholder message map for the workstream", why: "Leading across teams starts with knowing what each one needs to hear.", href: "/toolbox-flow/concept-1" };

@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import { BaselineForm } from "@/components/homepage/BaselineForm";
 import { LinkedInMore } from "@/components/homepage/LinkedInMore";
@@ -22,6 +23,7 @@ import { RoadmapTimeline } from "@/components/plan/RoadmapTimeline";
 import { CalendarItemSheet, type ItemValues } from "@/components/plan/CalendarItemSheet";
 import { PlanCalendar } from "@/components/plan/PlanCalendar";
 import { PlanSignalPicture, type SignalPictureVariant } from "@/components/plan/PlanSignalPicture";
+import { EntryDrawer } from "@/components/plan/EntryDrawer";
 import { SignalEntrySheet, type EntryValues } from "@/components/plan/SignalEntrySheet";
 import { accept, complete, decline, edit as editStep, initialPlanState, liveSteps, stepDay, type PlanState } from "@/lib/action-steps";
 import { askConcierge } from "@/flows/navigation/concept-1/ConciergeConcept";
@@ -38,9 +40,10 @@ import { saveCalendar, saveRoadmap, saveSteps, useCalendar, useRoadmapChoices, u
 import { addedSummary, hasBaseline, signalRows, withAdded } from "@/lib/presence";
 import { addPresence, removePresence, saveBaseline, saveCurrent, updatePresence, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
 import { currentStageIndex, isDone as isActionDone } from "@/lib/rings";
-import { addedItems, historyDays, nextOutsideStep, offerFor, recordedItems, type PictureItem } from "@/lib/signal-picture";
+import { addedItems, historyDays, newlyRecorded, nextOutsideStep, offerFor, recordedItems, type PictureItem } from "@/lib/signal-picture";
 import { ACTIVITY_OF_CHANNEL, ACTIVITY_TYPES } from "@/mock/plan";
 import { signalOfRecord } from "@/lib/signals";
+import { hideSignal, markNoticed, useSignalNotices } from "@/lib/signal-notices";
 import { dismissSpark, useDismissedSparks } from "@/lib/spark-dismissal";
 import { sparksFor } from "@/lib/sparks";
 import {
@@ -48,6 +51,7 @@ import {
   PRESENCE_STUB as PR,
   SPARK_COPY as SP,
   COUNT_COPY as AC,
+  BASELINE_COPY as BC,
 } from "@/mock/accounts-stub";
 import { PLAN_TEMPLATES, recommendPlan } from "@/mock/onboarding";
 import type { ActionStep } from "@/mock/plan";
@@ -81,9 +85,11 @@ export function usePlanPage() {
     return () => clearTimeout(read);
   }, [liExport.status, liExport.fileName]);
   const dismissed = useDismissedSparks();
-  const [entry, setEntry] = useState<
-    { mode: "add"; initial?: Partial<EntryValues>; fromRecord?: string } | { mode: "edit"; item: PictureItem } | null
-  >(null);
+  const notices = useSignalNotices();
+  const onSignals = usePathname().startsWith("/signals");
+  // Adding opens the drawer, and may start from a piece she has just published; editing opens the sheet.
+  const [adding, setAdding] = useState<{ initial?: Partial<EntryValues>; fromRecord?: string } | null>(null);
+  const [editingItem, setEditingItem] = useState<PictureItem | null>(null);
   const [offerDismissed, setOfferDismissed] = useState(false);
   // The steps on her Plan as the list shows them, hand-offs included, for the Calendar and the narrative.
   const [liveState, setLiveState] = useState<{ key: string; state: PlanState } | null>(null);
@@ -101,10 +107,18 @@ export function usePlanPage() {
 
   const items = withAdded(addedPresence);
   const seeded = loop.homeState !== "first-return";
-  const pictureItems = [...recordedItems(loop.records, loop.tasks), ...addedItems(items, loop.today)];
+  const recorded = recordedItems(loop.records, loop.tasks).filter((i) => !notices.hidden.includes(i.id));
+  const pictureItems = [...recorded, ...addedItems(items, loop.today)];
+  /* What ExecHQ recorded in the last week, so she can tell it from what she added. */
+  const freshRecorded = newlyRecorded(recorded, loop.today, notices.hidden);
+  const freshKey = freshRecorded.map((i) => i.id).join("|");
+  // Being on the Signal Picture is seeing them: the dot on the navigation clears.
+  useEffect(() => {
+    if (onSignals && freshKey) markNoticed(freshKey.split("|"));
+  }, [onSignals, freshKey]);
   const history = historyDays(loop.account.plan.startedOn, loop.today);
   const offer = offerDismissed ? undefined : offerFor(loop.records, items, loop.today);
-  const editing = entry?.mode === "edit" ? items.find((i) => i.id === entry.item.id) : undefined;
+  const editing = editingItem ? items.find((i) => i.id === editingItem.id) : undefined;
 
   /** Takes her to a step on the page and puts the keyboard on it. */
   function openStep(stepId: string) {
@@ -113,16 +127,11 @@ export function usePlanPage() {
     node?.querySelector<HTMLElement>("h3, h4")?.focus();
   }
 
-  function saveEntry(values: EntryValues) {
-    // Her followers are a number as of a day, not an event: only the Now column moves.
-    if (values.type === "followers") {
-      saveCurrent({ ...current, followers: values.followers, on: values.on });
-      setEntry(null);
-      return;
-    }
+  /** What an entry becomes when it is saved: the same for one and for several. */
+  function fieldsOf(values: { type: string; on: string; text?: string; impact?: string }) {
     const type = ENTRY_TYPES.find((t) => t.id === values.type) ?? ENTRY_TYPES[4];
     const isLink = values.text ? /^https?:\/\//i.test(values.text) : false;
-    const fields = {
+    return {
       kind: type.kind,
       title: type.label,
       where: "",
@@ -131,16 +140,32 @@ export function usePlanPage() {
       note: values.text && !isLink ? values.text : undefined,
       impact: values.impact,
     };
-    if (entry?.mode === "edit") updatePresence(entry.item.id, fields);
-    else {
+  }
+
+  /** Everything she filled in the drawer. A piece she had just published belongs to the first thing that is not a number. */
+  function saveRows(rows: EntryValues[]) {
+    let fromRecord = adding?.fromRecord;
+    for (const row of rows) {
+      // Her followers are a number as of a day, not an event: only the Now column moves.
+      if (row.type === "followers") {
+        saveCurrent({ ...current, followers: row.followers, on: row.on });
+        continue;
+      }
       addPresence({
-        ...fields,
+        ...fieldsOf(row),
         on: loop.today,
-        area: entry?.fromRecord ? signalOfRecord(entry.fromRecord) : undefined,
-        fromRecord: entry?.fromRecord,
+        area: fromRecord ? signalOfRecord(fromRecord) : undefined,
+        fromRecord,
       });
+      fromRecord = undefined;
     }
-    setEntry(null);
+    setAdding(null);
+  }
+
+  /** Editing one thing she added. */
+  function saveEdit(values: EntryValues) {
+    if (editingItem) updatePresence(editingItem.id, fieldsOf(values));
+    setEditingItem(null);
   }
 
   // The narrative reads her live steps, as she has left them.
@@ -493,11 +518,11 @@ export function usePlanPage() {
       nextStep={pathStep}
       items={pictureItems}
       today={loop.today}
-      onEdit={(item) => setEntry({ mode: "edit", item })}
+      onEdit={(item) => setEditingItem(item)}
       onDelete={(item) => removePresence(item.id)}
       offer={offer}
       onAcceptOffer={() =>
-        offer && setEntry({ mode: "add", initial: { type: "published", on: offer.usedOn }, fromRecord: offer.recordId })
+        offer && setAdding({ initial: { type: "published", on: offer.usedOn }, fromRecord: offer.recordId })
       }
       onDismissOffer={() => setOfferDismissed(true)}
     />
@@ -508,7 +533,10 @@ export function usePlanPage() {
     [item.note ?? item.title, item.where, shortDate(item.on)].filter(Boolean).join(" · "),
     current
   );
-  const sparks = sparksFor(loop.today, dismissed, items).filter((n) => n.id.startsWith("presence:"));
+  const recordedNotes = freshRecorded
+    .map((i) => ({ id: `recorded:${i.id}`, source: SP.recordedSource, text: SP.recorded(i.text), on: i.on, actionLabel: SP.hide }))
+    .filter((n) => !dismissed.includes(n.id));
+  const sparks = [...recordedNotes, ...sparksFor(loop.today, dismissed, items).filter((n) => n.id.startsWith("presence:"))].slice(0, 3);
   /* The notes on what has moved, kept apart from the card so a page can put
      them right under its heading. */
   const sparkNode = (
@@ -518,6 +546,7 @@ export function usePlanPage() {
       dismissLabel={SP.dismiss}
       dismissName={SP.dismissNote}
       onDismiss={(id) => dismissSpark(id)}
+      onAction={(id) => hideSignal(id.replace(/^recorded:/, ""))}
     />
   );
   const started = (
@@ -534,7 +563,7 @@ export function usePlanPage() {
           nowLabel={AC.now}
           rows={rows}
           summary={addedSummary(items, loop.today)}
-          onAdd={() => setEntry({ mode: "add" })}
+          onAdd={() => setAdding({})}
           addLabel={ADD.open}
           tryThis={{ ...PR.tryThis, href: conceptHref("toolbox-flow", "concept-1") }}
           tryLabel={AC.tryThis}
@@ -544,16 +573,22 @@ export function usePlanPage() {
         <SignalPicture
           name={SPIC.startedHeading}
           empty={
-            <BaselineForm onSave={saveBaseline}>
-              <LinkedInMore
-                status={liExport.status}
-                fileName={liExport.fileName}
-                onChoose={(fileName) =>
-                  setLiExport({ fileName, status: looksLikeLinkedInExport(fileName) ? "reading" : "wrong-file" })
-                }
-                onSendSteps={() => setLiExport((l) => ({ ...l, status: "sent" }))}
-              />
-            </BaselineForm>
+            <BaselineForm
+              onSave={saveBaseline}
+              onSkip={() => saveBaseline({ counts: { podcast: 0, press: 0, speaking: 0, writing: 0 } })}
+              intro={BC.introZero}
+              skipLabel={BC.zeroSkip}
+              after={
+                <LinkedInMore
+                  status={liExport.status}
+                  fileName={liExport.fileName}
+                  onChoose={(fileName) =>
+                    setLiExport({ fileName, status: looksLikeLinkedInExport(fileName) ? "reading" : "wrong-file" })
+                  }
+                  onSendSteps={() => setLiExport((l) => ({ ...l, status: "sent" }))}
+                />
+              }
+            />
           }
           headingId="plan-signals-card"
         />
@@ -561,20 +596,19 @@ export function usePlanPage() {
     </section>
   );
 
+
   const sheet = (
     <SignalEntrySheet
-      key={entry ? (entry.mode === "edit" ? `signal-${entry.item.id}` : `signal-add-${entry.fromRecord ?? ""}`) : "signal-closed"}
-      open={entry !== null}
-      onClose={() => setEntry(null)}
-      onSave={saveEntry}
+      key={editingItem ? `signal-${editingItem.id}` : "signal-closed"}
+      open={editingItem !== null}
+      onClose={() => setEditingItem(null)}
+      onSave={saveEdit}
       today={loop.today}
-      editing={entry?.mode === "edit"}
+      editing
       initial={
-        entry?.mode === "edit" && editing
+        editing
           ? { type: entryTypeOfKind(editing.kind).id, on: editing.happenedOn ?? editing.on, text: editing.link ?? editing.note, impact: editing.impact }
-          : entry?.mode === "add"
-            ? entry.initial
-            : undefined
+          : undefined
       }
     />
   );
@@ -582,6 +616,15 @@ export function usePlanPage() {
   return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, agenda, guided, calendar, note, narrative: narrativeNode, momentum, momentumOf, pictureOf, started, sparkNode, sheet: (
       <>
         {sheet}
+        <EntryDrawer
+          key={adding ? `entry-${adding.fromRecord ?? "new"}` : "entry-closed"}
+          open={adding !== null}
+          onClose={() => setAdding(null)}
+          onSave={saveRows}
+          today={loop.today}
+          existing={pictureItems}
+          initial={adding?.initial}
+        />
         {calendarSheet}
       </>
     ) };
