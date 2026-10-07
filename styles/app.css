@@ -2422,20 +2422,26 @@ ul.chrome__nav-list {
    with the content's left edge. */
 .concierge-panel--sheet .concierge-panel__head:not(.concierge-panel__head--bare) {
   /* Only the part of the two 44px buttons that hangs below the grab strip
-     (12px + the 5px bar + 16px), so scrolling content never slides under them. */
-  min-height: calc(var(--button-target) - var(--space-sm) - 5px - var(--space-md));
+     (12px + the 5px bar + 16px), 4px lower than the strip's top, so scrolling content never slides under them. */
+  min-height: calc(var(--button-target) + var(--space-2xs) - var(--space-sm) - 5px - var(--space-md));
   padding: 0;
+}
+
+/* The tabs sit a hair closer to the corner buttons than the body's usual top
+   padding would put them (designer, 2026-10-07). */
+.concierge-panel--sheet .concierge-panel__head:not(.concierge-panel__head--bare) + .concierge-panel__body ul.concierge-mini {
+  margin-top: calc(-1 * var(--space-xs));
 }
 
 .concierge-panel--sheet .concierge-panel__head:not(.concierge-panel__head--bare) .concierge-panel__close {
   position: absolute;
-  top: 0;
+  top: var(--space-2xs);
   right: var(--space-xs);
 }
 
 .concierge-panel--sheet .concierge-panel__head:not(.concierge-panel__head--bare) .concierge-panel__new {
   position: absolute;
-  top: 0;
+  top: var(--space-2xs);
   left: calc(var(--space-lg) - var(--space-sm));
 }
 
