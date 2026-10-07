@@ -9813,7 +9813,11 @@ ul.baseline-list__rows {
 }
 
 .baseline-list__counts > .baseline-list__arrow {
-  text-align: center;
+  /* The library's arrow, centred in its column and on the row. */
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  color: var(--color-text-muted);
 }
 
 .baseline-list__now {

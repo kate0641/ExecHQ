@@ -1,3 +1,5 @@
+import { Icon } from "@/components/primitives/Icon";
+
 export interface BaselineRow {
   id: string;
   /** "Podcast appearances", "LinkedIn followers". */
@@ -47,7 +49,7 @@ export function BaselineList({ rows, thenLabel = "Start", nowLabel = "Now", newT
                 {row.then}
               </span>
               <span className="baseline-list__arrow" aria-hidden="true">
-                →
+                <Icon name="arrow-right" size={16} />
               </span>
               <b className="baseline-list__now">
                 <span className="u-visually-hidden">{nowLabel}: </span>
