@@ -1,6 +1,6 @@
 import { defineComponentStates } from "@/components/types";
 import { CONTENT_INSIDE, NOT_INTERACTIVE } from "@/components/not-applicable";
-import { ACCOUNTS_COPY as AC } from "@/mock/accounts-stub";
+import { COUNT_COPY as AC } from "@/mock/accounts-stub";
 import { BaselineList } from "./BaselineList";
 
 const moved = [

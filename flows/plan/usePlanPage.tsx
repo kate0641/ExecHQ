@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
-import { AccountCard } from "@/components/homepage/AccountCard";
+import { useEffect, useState, type ReactNode } from "react";
 import { BaselineForm } from "@/components/homepage/BaselineForm";
-import { TrendLine } from "@/components/homepage/TrendLine";
-import { UpdateNowSheet } from "@/components/homepage/UpdateNowSheet";
+import { LinkedInMore } from "@/components/homepage/LinkedInMore";
+import type { LinkedInStatus } from "@/flows/onboarding/shared";
+import { LINKEDIN_READ_MS, looksLikeLinkedInExport } from "@/mock/onboarding";
 import { PresenceCard } from "@/components/homepage/PresenceCard";
 import { SignalPicture } from "@/components/homepage/SignalPicture";
 import { Spark } from "@/components/homepage/Spark";
@@ -14,15 +14,18 @@ import { Icon } from "@/components/primitives/Icon";
 import { ActionSteps } from "@/components/plan/ActionSteps";
 import { ToggleGroup } from "@/components/form/ToggleGroup";
 import { PlanAgenda, type AgendaItem } from "@/components/plan/PlanAgenda";
+import { PlanGuided } from "@/components/plan/PlanGuided";
 import { PlanHeader } from "@/components/plan/PlanHeader";
 import { PlanNarrative } from "@/components/plan/PlanNarrative";
 import { PlanRoadmap } from "@/components/plan/PlanRoadmap";
 import { RoadmapTimeline } from "@/components/plan/RoadmapTimeline";
 import { CalendarItemSheet, type ItemValues } from "@/components/plan/CalendarItemSheet";
 import { PlanCalendar } from "@/components/plan/PlanCalendar";
-import { PlanSignalPicture } from "@/components/plan/PlanSignalPicture";
+import { CapacityControl } from "@/components/plan/CapacityControl";
+import { ToldUs } from "@/components/plan/ToldUs";
+import { PlanSignalPicture, type SignalPictureVariant } from "@/components/plan/PlanSignalPicture";
 import { SignalEntrySheet, type EntryValues } from "@/components/plan/SignalEntrySheet";
-import { accept, complete, initialPlanState, liveSteps, stepDay, type PlanState } from "@/lib/action-steps";
+import { accept, complete, decline, edit as editStep, initialPlanState, liveSteps, stepDay, type PlanState } from "@/lib/action-steps";
 import { askConcierge } from "@/flows/navigation/concept-1/ConciergeConcept";
 import { setAgendaLayout, useAgendaLayout } from "@/lib/agenda-choice";
 import { addDays, shortDate } from "@/lib/loop";
@@ -34,27 +37,29 @@ import { planSparks } from "@/lib/plan-sparks";
 import { roadmapWindows, stageAt } from "@/lib/roadmap-dates";
 import { whenWords } from "@/lib/time-words";
 import { saveCalendar, saveRoadmap, saveSteps, useCalendar, useRoadmapChoices, useSavedSteps } from "@/lib/plan-store";
-import { hasBaseline, presenceCounts, signalRows, withAdded, type Baseline } from "@/lib/presence";
+import { addedSummary, hasBaseline, presenceCounts, signalRows, withAdded } from "@/lib/presence";
 import { addPresence, removePresence, saveBaseline, saveCurrent, updatePresence, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
 import { currentStageIndex, isDone as isActionDone } from "@/lib/rings";
+import { answerEvents, saveQuestionAnswer, saveReflection, useAnswers } from "@/lib/answers-store";
+import { setCapacity, useCapacity } from "@/lib/capacity-store";
 import { addedItems, historyDays, offerFor, recordedItems, type PictureItem } from "@/lib/signal-picture";
+import { ACTIVITY_OF_CHANNEL, ACTIVITY_TYPES } from "@/mock/plan";
 import { signalOfRecord } from "@/lib/signals";
 import { dismissSpark, useDismissedSparks } from "@/lib/spark-dismissal";
 import { sparksFor } from "@/lib/sparks";
 import {
   ADD_COPY as ADD,
-  LINKEDIN_STUB as LI,
-  NOW_COPY as NC,
   PRESENCE_STUB as PR,
   SPARK_COPY as SP,
-  ACCOUNTS_COPY as AC,
-  WEBSITE_STUB as WEB,
+  COUNT_COPY as AC,
 } from "@/mock/accounts-stub";
 import { PLAN_TEMPLATES, recommendPlan } from "@/mock/onboarding";
-import { CALENDAR_COPY as CAL, EDIT_FLOW_HREF, PLAN_AGENDA_COPY as AG, STEP_QUESTIONS, DIRECTION_PLAN_COPY as DP, ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
+import type { ActionStep } from "@/mock/plan";
+import { CALENDAR_COPY as CAL, EDIT_FLOW_HREF, PLAN_AGENDA_COPY as AG, STEP_QUESTIONS, type DeclineReason, type GuidedAnswer, DIRECTION_PLAN_COPY as DP, ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
 import { ACTIONS } from "@/mock/plan-stub";
 import { SNAPSHOTS } from "@/mock/snapshots";
 import type { CalendarItem } from "@/mock/plan";
+import type { MomentumVariant } from "@/components/plan/MomentumLabeled";
 import { PlanMomentum } from "./PlanMomentum";
 
 /**
@@ -70,9 +75,17 @@ export function usePlanPage() {
   const loop = useLoop();
   const agendaLayout = useAgendaLayout();
   const addedPresence = useAddedPresence();
+  const capacity = useCapacity();
+  const answers = useAnswers();
   const baseline = useBaseline();
   const current = useCurrent();
-  const [updating, setUpdating] = useState(false);
+  // The LinkedIn export she may add under her starting numbers. In the prototype only its name is kept, and "reading" is a timer.
+  const [liExport, setLiExport] = useState<{ fileName: string | null; status: LinkedInStatus }>({ fileName: null, status: "none" });
+  useEffect(() => {
+    if (liExport.status !== "reading") return;
+    const read = setTimeout(() => setLiExport((l) => ({ ...l, status: "ready" })), LINKEDIN_READ_MS);
+    return () => clearTimeout(read);
+  }, [liExport.status, liExport.fileName]);
   const dismissed = useDismissedSparks();
   const [entry, setEntry] = useState<
     { mode: "add"; initial?: Partial<EntryValues>; fromRecord?: string } | { mode: "edit"; item: PictureItem } | null
@@ -107,6 +120,12 @@ export function usePlanPage() {
   }
 
   function saveEntry(values: EntryValues) {
+    // Her followers are a number as of a day, not an event: only the Now column moves.
+    if (values.type === "followers") {
+      saveCurrent({ ...current, followers: values.followers, on: values.on });
+      setEntry(null);
+      return;
+    }
     const type = ENTRY_TYPES.find((t) => t.id === values.type) ?? ENTRY_TYPES[4];
     const isLink = values.text ? /^https?:\/\//i.test(values.text) : false;
     const fields = {
@@ -116,6 +135,7 @@ export function usePlanPage() {
       happenedOn: values.on,
       link: isLink ? values.text : undefined,
       note: values.text && !isLink ? values.text : undefined,
+      impact: values.impact,
     };
     if (entry?.mode === "edit") updatePresence(entry.item.id, fields);
     else {
@@ -133,7 +153,7 @@ export function usePlanPage() {
   const stepState = (liveState?.key === stepsKey ? liveState.state : undefined) ?? savedSteps?.state ?? (switchedTo ? { ...initialPlanState(loop.today), shown: [], decisions: {} } : initialPlanState(loop.today));
   const live = liveSteps(stepState).filter((s) => !isActionDone(s, loop.records, loop.tasks));
   const narrative = buildNarrative({
-    events: momentumEvents(loop.records, loop.tasks),
+    events: [...momentumEvents(loop.records, loop.tasks), ...answerEvents(answers)],
     items: pictureItems,
     history,
     today: loop.today,
@@ -141,10 +161,22 @@ export function usePlanPage() {
     accepted: (step) => stepState.decisions[step.id]?.decision === "accepted",
   });
 
-  const stepsFor = (layout: "list" | "carousel") => (
+  // What she did in the last seven days, to choose from in the weekly reflection.
+  const weekThings = pictureItems
+    .filter((i) => !i.quote && i.on > addDays(loop.today, -7) && i.on <= loop.today)
+    .sort((a, b) => (a.on < b.on ? 1 : a.on > b.on ? -1 : 0))
+    .slice(0, 6)
+    .map((i) => `${["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][new Date(`${i.on}T00:00:00`).getDay()]} · ${i.text}`);
+  const stepsFor = (layout: "list" | "carousel", withCapacity = false) => (
     <ActionSteps
       key={`steps-${layout}-${stepsKey}`}
       layout={layout}
+      capacity={withCapacity ? capacity : undefined}
+      things={weekThings}
+      onQuestion={(step, answer) =>
+        step.question && saveQuestionAnswer({ stepId: step.id, label: step.question.label, answer, on: loop.today })
+      }
+      onReflection={(_step, values) => saveReflection({ on: loop.today, ...values })}
       today={loop.today}
       initial={switchedTo ? { ...initialPlanState(loop.today), shown: [], decisions: {} } : undefined}
       startHref={conceptHref("toolbox-flow", "concept-1")}
@@ -162,6 +194,17 @@ export function usePlanPage() {
 
   const steps = stepsFor("list");
   const stepsCarousel = stepsFor("carousel");
+  // Plan Concept 4: the Active Landscape as a list by horizon, inside what she said she can take on.
+  const stepsWithCapacity = stepsFor("list", true);
+  const capacityControl = (
+    <CapacityControl
+      level={capacity.level}
+      hold={capacity.hold}
+      live={live.length}
+      onLevel={(level) => setCapacity({ level })}
+      onHold={(hold) => setCapacity({ hold })}
+    />
+  );
 
   const roadmap = (opts: { compact?: boolean; children?: ReactNode } = {}) => (
     <PlanRoadmap
@@ -204,7 +247,7 @@ export function usePlanPage() {
     startedOn: loop.account.plan.startedOn,
     today: loop.today,
     steps: stepState,
-    events: momentumEvents(loop.records, loop.tasks),
+    events: [...momentumEvents(loop.records, loop.tasks), ...answerEvents(answers)],
     added: pictureItems.filter((i) => i.source === "added").map((i) => ({ id: i.id, text: i.text, on: i.on })),
   });
   const timeline = (
@@ -293,6 +336,54 @@ export function usePlanPage() {
         onAdd={addToPlan}
       />
     </div>
+  );
+
+  // Concept 3: the guided check-in. The moves are her live steps as they stand when she arrives, one page
+  // each. Answering changes her plan for real, by the same rules as the step cards.
+  const guidedStages = windows.map((w) => ({ title: w.title, status: w.status }));
+  const guidedSparks = timelineSparks.byStage
+    .flat()
+    .sort((a, b) => (a.on < b.on ? -1 : a.on > b.on ? 1 : 0))
+    .slice(-6);
+  function answerStep(
+    step: ActionStep,
+    answer: Exclude<GuidedAnswer, "talk">,
+    o?: { reason?: DeclineReason; date?: string }
+  ): string | void {
+    if (answer === "plan") {
+      // Accepting pins the day the step is suggested for, which the words say. Or the day she chose instead.
+      const accepted = accept(stepState, step.id);
+      keepSteps(o?.date ? editStep(accepted, step.id, { date: o.date }) : accepted);
+    } else {
+      // Not for me, and why if she said: the reason shapes what is offered in its place.
+      const move = decline(stepState, step.id, o?.reason);
+      keepSteps(move.state);
+      const r = move.replacement;
+      return r && "step" in r ? [r.heard, `Now offered: ${r.step.title}.`].filter(Boolean).join(" ") : r ? r.message : undefined;
+    }
+  }
+  /** She has a draft for this step that is not yet used or sent. */
+  const workingOn = (step: ActionStep) => {
+    const record = step.artifactId ? loop.records.find((r) => r.id === step.artifactId) : undefined;
+    return Boolean(record && ["drafted", "in-progress", "ready"].includes(record.state));
+  };
+  const guided = (
+    <PlanGuided
+      key={`guided-${loop.id}-${planId}`}
+      planName={PLAN_TEMPLATES.find((p) => p.id === planId)?.name ?? ""}
+      stageIndex={Math.max(0, windows.findIndex((w) => w.status === "current"))}
+      stages={guidedStages}
+      moves={live}
+      whenOf={(step) => whenWords(stepDay(stepState, step).date, loop.today)}
+      today={loop.today}
+      startHref={conceptHref("toolbox-flow", "concept-1")}
+      sparks={guidedSparks}
+      onAnswer={answerStep}
+      onTalk={(step) => askConcierge("Talk it through", { kind: "step-question", stepId: step.id, q: "stuck" })}
+      workingOn={workingOn}
+      onStart={(step) => keepSteps(accept(stepState, step.id))}
+      onAdd={addToPlan}
+    />
   );
 
   // Concept 2: the Calendar, with Add right under its heading.
@@ -390,22 +481,68 @@ export function usePlanPage() {
 
   const narrativeNode = <PlanNarrative key={`narrative-${loop.id}`} narrative={narrative} onOpenStep={openStep} />;
 
-  const momentum = (
+  const momentumOf = (variant: MomentumVariant) => (
     <PlanMomentum
-      key={`momentum-${loop.id}`}
+      key={`momentum-${loop.id}-${variant}`}
+      variant={variant}
+      extra={answerEvents(answers)}
       records={loop.records}
       tasks={loop.tasks}
       today={loop.today}
       startedOn={loop.account.plan.startedOn}
     />
   );
+  const momentum = momentumOf("list");
 
-  const picture = (
+  const toolboxHref = conceptHref("toolbox-flow", "concept-1");
+  /* Until she has said where she started, the page asks that and nothing else:
+     the picture would only repeat the page's title over an empty record. */
+  /* Her next step as the path draws it: only one that would add a circle, so
+     work inside the organisation is not shown here. It is read from her live
+     steps, so it is always one the landscape shows. It carries the plan's own
+     reason, the kind of activity it adds one to, and whether she has started it. */
+  const pathStep = (() => {
+    // The first live step that runs through an outside channel: the same steps the landscape shows.
+    const step = live.find((x) => x.channel);
+    if (!step || !step.channel) return undefined;
+    const record = step.artifactId ? loop.records.find((r) => r.id === step.artifactId) : undefined;
+    const lane = ACTIVITY_TYPES.find((a) => a.id === ACTIVITY_OF_CHANNEL[step.channel!])?.label ?? "";
+    return {
+      title: step.title,
+      why: step.whyNow || step.whyThis,
+      adds: lane,
+      activity: ACTIVITY_OF_CHANNEL[step.channel!],
+      href: toolboxHref,
+      started: loop.choices?.[step.id]?.decision === "started" || Boolean(record) || Boolean(loop.tasks?.[step.id]),
+      onStart: () => loopActions.startAction(step.id),
+    };
+  })();
+  /* What the map needs besides the record: her followers, what she had of each
+     kind when she started, and the suggestion. Read when the map is drawn. */
+  const mapProps = () => {
+    const counts = presenceCounts(loop.today, items, baseline, seeded, current);
+    const then = (kind: string) => counts.find((c) => c.kind === kind)?.then ?? 0;
+    const follower = rows.find((r) => r.id === "linkedin");
+    return {
+      hero: follower ? { label: follower.label, now: follower.now, then: follower.then } : undefined,
+      before: { publishing: then("writing"), speaking: then("speaking"), podcast: then("podcast"), press: then("press") },
+      tryThis: { ...PR.tryThis, href: toolboxHref },
+      tryLabel: AC.tryThis,
+    };
+  };
+  const pictureOf = (variant: SignalPictureVariant) =>
+    !hasBaseline(baseline, seeded) ? null : (
     <PlanSignalPicture
-      key={`picture-${loop.id}`}
+      key={`picture-${loop.id}-${variant}`}
+      variant={variant}
+      startedOn={loop.account.plan.startedOn}
+      nextStep={pathStep}
+      extraCame={answers.reflections.flatMap((r, i) =>
+        r.linkText && r.came ? [{ id: `reflection:${r.on}:${i}`, did: r.linkText.replace(/^[A-Za-z]{3} · /, ""), on: r.on, came: r.came }] : []
+      )}
+      {...(variant === "map" ? mapProps() : {})}
       items={pictureItems}
       today={loop.today}
-      history={history}
       onAdd={() => setEntry({ mode: "add" })}
       onEdit={(item) => setEntry({ mode: "edit", item })}
       onDelete={(item) => removePresence(item.id)}
@@ -422,18 +559,7 @@ export function usePlanPage() {
     [item.note ?? item.title, item.where, shortDate(item.on)].filter(Boolean).join(" · "),
     current
   );
-  /* What the update form opens on: where she last said she is, else the
-     counts the rows already show. */
-  const nowStart: Baseline = {
-    counts: Object.fromEntries(
-      presenceCounts(loop.today, items, baseline, seeded, current).map((p) => [p.kind, p.now])
-    ) as Baseline["counts"],
-    ...((current?.followers ?? baseline?.followers) !== undefined
-      ? { followers: (current?.followers ?? baseline?.followers) as number }
-      : {}),
-  };
-  const sparks = sparksFor(loop.today, loop.account, dismissed, items).filter((n) => n.id.startsWith("presence:"));
-  const addedCount = items.filter((item) => item.on <= loop.today).length;
+  const sparks = sparksFor(loop.today, dismissed, items).filter((n) => n.id.startsWith("presence:"));
   /* The notes on what has moved, kept apart from the card so a page can put
      them right under its heading. */
   const sparkNode = (
@@ -445,13 +571,12 @@ export function usePlanPage() {
       onDismiss={(id) => dismissSpark(id)}
     />
   );
-  const started = (
+  const startedOf = (withTry: boolean) => (
     <section className="plan-stub__signals" aria-labelledby="plan-signals-heading">
       <h2 className="u-visually-hidden" id="plan-signals-heading">
         {SPIC.startedHeading}
       </h2>
       {hasBaseline(baseline, seeded) ? (
-        <>
         <PresenceCard
           name={SPIC.startedHeading}
           mark={PR.mark}
@@ -459,93 +584,37 @@ export function usePlanPage() {
           thenLabel={AC.then}
           nowLabel={AC.now}
           rows={rows}
-          summary={PR.summary(addedCount)}
+          summary={addedSummary(items, loop.today)}
           onAdd={() => setEntry({ mode: "add" })}
           addLabel={ADD.open}
-          tryThis={{ ...PR.tryThis, href: conceptHref("toolbox-flow", "concept-1") }}
+          tryThis={withTry ? { ...PR.tryThis, href: conceptHref("toolbox-flow", "concept-1") } : undefined}
           tryLabel={AC.tryThis}
           headingId="plan-signals-card"
         />
-        <button type="button" className="link link--standalone signal-picture__links" onClick={() => setUpdating(true)}>
-          {NC.open}
-        </button>
-        </>
       ) : (
         <SignalPicture
           name={SPIC.startedHeading}
-          empty={<BaselineForm onSave={saveBaseline} />}
+          empty={
+            <BaselineForm onSave={saveBaseline}>
+              <LinkedInMore
+                status={liExport.status}
+                fileName={liExport.fileName}
+                onChoose={(fileName) =>
+                  setLiExport({ fileName, status: looksLikeLinkedInExport(fileName) ? "reading" : "wrong-file" })
+                }
+                onSendSteps={() => setLiExport((l) => ({ ...l, status: "sent" }))}
+              />
+            </BaselineForm>
+          }
           headingId="plan-signals-card"
         />
       )}
     </section>
   );
 
-  /* Her LinkedIn and her website, as Homepage Concept 2 drew them: numbers
-     with their source and date, where she started beside where she is, what
-     they suggest and one thing to try; or, not connected, what connecting
-     would show. Moved here from that concept on 2026-10-06. PROVISIONAL: the
-     numbers come from connected accounts, which V1 does not have. */
-  const linkedIn = loop.account.connections.find((c) => c.id === "linkedin");
-  const website = loop.account.connections.find((c) => c.id === "website");
-  const anyConnected = Boolean(linkedIn?.connected || website?.connected);
-  const toolbox = conceptHref("toolbox-flow", "concept-1");
-  const profile = conceptHref("profile", "concept-1");
-  const accounts = (
-    <section className="accounts-home" aria-labelledby="accounts-heading">
-      <div className="signals-home__intro">
-        <h2 className="signals-home__heading" id="accounts-heading" tabIndex={-1}>
-          {AC.heading}
-        </h2>
-        <p className="signals-home__window">{anyConnected ? AC.sub : AC.subNotConnected}</p>
-      </div>
-      {linkedIn?.connected && linkedIn.connectedOn ? (
-        <AccountCard
-          name={LI.name}
-          mark={LI.mark}
-          asOf={AC.asOfLinkedIn(shortDate(linkedIn.connectedOn))}
-          stats={LI.stats}
-          baseline={LI.baseline}
-          thenLabel={AC.then}
-          nowLabel={AC.now}
-          chart={
-            <TrendLine
-              values={LI.followers}
-              labels={LI.followers.map(
-                (_, i) => `Week of ${shortDate(addDays(linkedIn.connectedOn!, -(LI.followers.length - 1 - i) * 7))}`
-              )}
-              caption={LI.chartCaption}
-              summary={LI.chartSummary}
-            />
-          }
-          says={LI.says}
-          saysLabel={AC.says}
-          tryThis={{ ...LI.tryThis, href: toolbox }}
-          tryLabel={AC.tryThis}
-          headingId="account-linkedin"
-        />
-      ) : (
-        <AccountCard name={LI.name} mark={LI.mark} invite={{ ...LI.invite, href: profile }} headingId="account-linkedin" />
-      )}
-      {website?.connected && website.connectedOn ? (
-        <AccountCard
-          name={WEB.name}
-          mark={WEB.mark}
-          asOf={AC.asOfWebsite(shortDate(website.connectedOn))}
-          stats={WEB.stats}
-          baseline={WEB.baseline}
-          thenLabel={AC.then}
-          nowLabel={AC.now}
-          says={WEB.says}
-          saysLabel={AC.says}
-          tryThis={{ ...WEB.tryThis, href: toolbox }}
-          tryLabel={AC.tryThis}
-          headingId="account-website"
-        />
-      ) : (
-        <AccountCard name={WEB.name} mark={WEB.mark} invite={{ ...WEB.invite, href: profile }} headingId="account-website" />
-      )}
-    </section>
-  );
+  const toldUs = <ToldUs rows={answers.questions.map((q) => ({ label: q.label, answer: q.answer }))} />;
+  const started = startedOf(true);
+  const startedPlain = startedOf(false);
 
   const sheet = (
     <SignalEntrySheet
@@ -557,7 +626,7 @@ export function usePlanPage() {
       editing={entry?.mode === "edit"}
       initial={
         entry?.mode === "edit" && editing
-          ? { type: entryTypeOfKind(editing.kind).id, on: editing.happenedOn ?? editing.on, text: editing.link ?? editing.note }
+          ? { type: entryTypeOfKind(editing.kind).id, on: editing.happenedOn ?? editing.on, text: editing.link ?? editing.note, impact: editing.impact }
           : entry?.mode === "add"
             ? entry.initial
             : undefined
@@ -565,23 +634,9 @@ export function usePlanPage() {
     />
   );
 
-  const updateNow = (
-    <UpdateNowSheet
-      key={updating ? "update-now-open" : "update-now-closed"}
-      open={updating}
-      initial={nowStart}
-      onClose={() => setUpdating(false)}
-      onSave={(now) => {
-        saveCurrent({ ...now, on: loop.today });
-        setUpdating(false);
-      }}
-    />
-  );
-
-  return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, agenda, calendar, note, narrative: narrativeNode, momentum, picture, started, accounts, sparkNode, sheet: (
+  return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, agenda, guided, calendar, note, narrative: narrativeNode, momentum, momentumOf, pictureOf, toldUs, started, startedPlain, capacityControl, stepsWithCapacity, hasStarted: hasBaseline(baseline, seeded), sparkNode, sheet: (
       <>
         {sheet}
-        {updateNow}
         {calendarSheet}
       </>
     ) };

@@ -28,7 +28,7 @@ export const detailPanelStates = defineComponentStates({
     { label: "In the web pane, no close", props: { heading: PROFILE_COPY.signOut.heading, children: body } },
     {
       label: "A long heading wraps",
-      props: { heading: "Remove your personal website and everything it shared?", onClose: () => {}, lead: "A line under the heading." },
+      props: { heading: "Leave your organization?", onClose: () => {}, lead: "A line under the heading." },
     },
   ],
 });

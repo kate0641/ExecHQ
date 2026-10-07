@@ -159,7 +159,7 @@ export const prototypeConfig: PrototypeConfig = {
       chrome: "app",
       privacyFooter: false,
       description:
-        "Direction, signal background, connections and settings — all optional, none of it a completion gate.",
+        "Direction, signal background and settings — all optional, none of it a completion gate.",
       concepts: [
         {
           slug: "concept-1",
@@ -197,9 +197,15 @@ export const prototypeConfig: PrototypeConfig = {
         },
         {
           slug: "concept-3",
-          title: "Concept 3 — Record forward",
+          title: "Concept 3 — Guided check-in",
           summary:
-            "What changed leads, ending in one next move that opens the matching action step. The steps and the roadmap sit beneath it.",
+            "A guided check-in, built from onboarding’s page and answer drawer: one move at a time, with where she is with it as the answer. Answering changes her plan and comes back as a short reply. The road and adding her own items slide up as sheets.",
+        },
+        {
+          slug: "concept-4",
+          title: "Concept 4 — Plan and signals",
+          summary:
+            "The Active Landscape leads: how much she can take on (remembered between visits), then up to five live steps with their reasons and answers. Under it, in order: Momentum, how she has grown, what came of it, and where she started. Every next step on the page is one of the live steps.",
         },
         {
           slug: "templates",
@@ -214,6 +220,7 @@ export const prototypeConfig: PrototypeConfig = {
       title: "Signal Picture",
       sprint: 3,
       chrome: "app",
+      privacyFooter: false,
       description:
         "The home of the Signal Picture and Momentum: what she has put out there, where she started beside where she is now, and how her follow-through is going. Factual, never a score.",
       stub: {
@@ -223,21 +230,21 @@ export const prototypeConfig: PrototypeConfig = {
       concepts: [
         {
           slug: "concept-1",
-          title: "Concept 1 — Picture first",
+          title: "Concept 1 — How you've grown",
           summary:
-            "The Signal Picture leads, with where she started and sparks above her record, and Momentum beside it.",
+            "A path through time: where she started, a circle for each month, her next step ahead, and Momentum as a dial beside it.",
         },
         {
           slug: "concept-2",
           title: "Concept 2 — Momentum first",
           summary:
-            "Momentum leads, wide, and the Signal Picture sits beside it with where she started beneath.",
+            "This week leads as seven day circles, then what came of the things she did, then where she started.",
         },
         {
           slug: "concept-3",
-          title: "Concept 3 — Side by side",
+          title: "Concept 3 — Where you show up",
           summary:
-            "Where she started and what has moved lead across the top; the Signal Picture and Momentum sit as equals beneath.",
+            "Four equal territories with a dot for each thing, hollow for what she had and filled for what she has added, and Momentum's bars beside it.",
         },
       ],
     },

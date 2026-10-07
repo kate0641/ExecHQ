@@ -4,16 +4,12 @@
  *
  * Profile and settings are one page, by decision on 2026-09-28. The account
  * itself is Maya's, read from the Loop (`mock/account.ts`, through the
- * snapshot), so what is connected depends on the homepage state picked in the
- * dock, and every change made here is kept the way Loop changes are.
+ * snapshot), and every change made here is kept the way Loop changes are.
  *
  * Copy marked `provisional` answers a question the Sprint 2 brief leaves open
- * with the client: export format and scope, deletion timing, what revoking a
- * connection removes, and the follow-up frequency cap. Each shows on the page
+ * with the client: export format and scope, deletion timing and the follow-up frequency cap. Each shows on the page
  * as a flagged note, so reviewers read it as a placeholder.
  */
-
-import type { ConnectionId } from "@/mock/account";
 
 /** Every row that opens something: a sheet on mobile and tablet, the detail
  *  pane on web. */
@@ -29,7 +25,6 @@ export const PROFILE_COPY = {
 
   groups: {
     you: "You",
-    connections: "Connections",
     settings: "Settings",
     organization: "Organization",
     data: "Your data",
@@ -41,12 +36,8 @@ export const PROFILE_COPY = {
     directionValue: "In your words",
     plan: "Plan",
     planValue: (name: string, formalName: string) => `${name} · ${formalName}`,
-    connected: "Connected",
-    notConnected: "Not connected",
     notifications: "Notifications",
     notificationsValue: (on: number) => `${on} on`,
-    uses: "What ExecHQ uses",
-    usesValue: (on: number, of: number) => `${on} of ${of}`,
     organization: "Membership",
     noOrganization: "None",
     export: "Download your data",
@@ -67,19 +58,6 @@ export const PROFILE_COPY = {
     },
     savedOn: (label: string) => `${label} emails: on.`,
     savedOff: (label: string) => `${label} emails: off.`,
-  },
-
-  uses: {
-    heading: "What ExecHQ uses",
-    lead: "Switch off anything you would rather it left alone. Drafts you have already made stay as they are.",
-    items: {
-      loop: { label: "Your Loop record", hint: "What you used, and what came of it." },
-      connections: { label: "Your connections", hint: "LinkedIn and your website, as each one lists." },
-      drafts: { label: "Your drafts", hint: "To tune what it suggests next." },
-    },
-    savedOn: (label: string) => `${label}: on.`,
-    savedOff: (label: string) => `${label}: off.`,
-    offNote: "With something off, your suggestions lean on less, so they may be more general.",
   },
 
   organization: {
@@ -123,35 +101,6 @@ export const PROFILE_COPY = {
     toPlan: "Go to your Plan",
   },
 
-  connection: {
-    shares: "What it shares",
-    wouldShare: "What it would share",
-    since: (source: string, on: string) => `${source} · since ${on}`,
-    connect: (label: string) => `Connect ${label}`,
-    remove: (label: string) => `Remove ${label}`,
-    confirmHeading: (label: string) => `Remove ${label}?`,
-    confirmBody: (source: string) =>
-      `ExecHQ stops using ${source} and deletes what it took from it. Drafts you’ve already made stay as they are.`,
-    keep: "Keep it",
-    connectedToast: (label: string) => `${label} connected.`,
-    removedToast: (label: string) => `${label} removed.`,
-    why: {
-      linkedin: "So we can see how far your posts reach, and who they reach.",
-      website: "So we can learn your voice from your own writing.",
-    } satisfies Record<ConnectionId, string>,
-    upload: "Upload the spreadsheet",
-    uploadHint: "The .xlsx file from LinkedIn’s analytics export",
-    sample: "Use a sample file",
-    sampleSource: "LinkedIn analytics export, October 2026",
-    wrongFile:
-      "That doesn’t look like a LinkedIn analytics export. It should be the .xlsx file. Try again, or leave it for now.",
-    siteLabel: "Your website address",
-    sitePlaceholder: "https://",
-    siteExample: "mayachen.com",
-    badSite: "That doesn’t look like a web address. Check it and try again, for example mayachen.com.",
-    connectSite: "Connect website",
-  },
-
   export: {
     heading: "Download your data",
     body: "One file with everything you’ve made here and everything you told us happened.",
@@ -160,7 +109,6 @@ export const PROFILE_COPY = {
         titles.length === 1 ? `Your draft: ${titles[0]}` : `Your ${titles.length} drafts: ${titles.join(", ")}`,
       loop: "Your Loop record: every status and outcome, with dates",
       answers: "Your direction and your onboarding answers",
-      connections: "Your connections, and what each one shared",
     },
     formatLabel: "File format",
     formats: {

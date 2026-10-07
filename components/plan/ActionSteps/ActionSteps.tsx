@@ -3,8 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import { CardCarousel, type CarouselItem } from "@/components/layout/CardCarousel";
 import { ActionStepCard } from "@/components/plan/ActionStepCard";
+import { QuestionSheet } from "@/components/plan/QuestionSheet";
+import { ReflectionSheet, type ReflectionValues } from "@/components/plan/ReflectionSheet";
 import {
   accept,
+  applyCapacity,
   decline,
   defer,
   complete,
@@ -13,6 +16,7 @@ import {
   initialPlanState,
   liveIn,
   newVisit,
+  liveLimit,
   liveSteps,
   reconcile,
   type EmptyReason,
@@ -20,7 +24,7 @@ import {
   type PlanState,
 } from "@/lib/action-steps";
 import type { LoopDate } from "@/lib/loop";
-import { LIVE_LIMITS, PLAN_COPY, STEP_COPY as C, stepById, type ActionStep } from "@/mock/plan";
+import { ANSWER_COPY, CAPACITY_COPY, LIVE_LIMITS, PLAN_COPY, STEP_COPY as C, capacityStepsOf, stepById, type ActionStep, type CapacityLevel } from "@/mock/plan";
 import { HORIZONS, type Horizon } from "@/mock/plan-stub";
 
 interface Note {
@@ -48,11 +52,20 @@ export interface ActionStepsProps {
   answered?: { recordId: string; reported?: string };
   /** She marked a step done on her word; the Loop is told. */
   onComplete?: (step: ActionStep) => void;
+  /** What she did this week, in words, for the weekly reflection to choose from. */
+  things?: readonly string[];
+  /** She answered a question step: file it. The step is finished and the next is offered. */
+  onQuestion?: (step: ActionStep, answer: string) => void;
+  /** She wrote this week's reflection: file it. */
+  onReflection?: (step: ActionStep, values: ReflectionValues) => void;
   /** Told whenever the steps on her Plan change, so the Calendar shows the same ones. */
   onState?: (state: PlanState) => void;
   /** `list` is a column of cards by horizon (Concepts 2 and 3). `carousel` is one swiping row of compact
    *  cards in order, short-term to long-term, with chips that jump to a horizon (Concept 1). */
   layout?: "list" | "carousel";
+  /** How much she can take on right now, and whether she is holding it. When it changes, steps are set
+   *  aside or one more is offered, and a line says which. Without it there are up to five. */
+  capacity?: { level: CapacityLevel; hold: boolean };
   /** Her choices kept between visits. Without it they last until she leaves. */
   persist?: { saved?: SavedSteps; onChange: (steps: SavedSteps) => void };
   /** Catalogue only: a card opens with this panel showing. */
@@ -81,6 +94,10 @@ export function ActionSteps({
   onComplete,
   persist,
   onState,
+  capacity,
+  things = [],
+  onQuestion,
+  onReflection,
   layout = "list",
   demoPanel,
   demoEmpty,
@@ -88,11 +105,32 @@ export function ActionSteps({
   className,
 }: ActionStepsProps) {
   // A new visit starts the replacement count again; everything else she decided stays.
-  const [state, setState] = useState<PlanState>(() =>
-    persist?.saved ? newVisit(persist.saved.state, today) : initial ?? initialPlanState(today)
-  );
+  const [state, setState] = useState<PlanState>(() => {
+    const base = persist?.saved ? newVisit(persist.saved.state, today) : initial ?? initialPlanState(today);
+    // What she said she can take on applies as the page opens, quietly: nothing is offered and no note is made.
+    return capacity ? applyCapacity(base, capacityStepsOf(capacity.level), capacity.hold, { offer: false }).state : base;
+  });
   const [notes, setNotes] = useState<Record<string, Note>>(persist?.saved?.notes ?? {});
   const [empties, setEmpties] = useState<Partial<Record<Horizon, EmptyReason>>>(persist?.saved?.empties ?? demoEmpty ?? {});
+
+  const [capacityNote, setCapacityNote] = useState("");
+  const [answering, setAnswering] = useState<string | null>(null);
+  const capKey = capacity ? `${capacity.level}:${capacity.hold}` : "";
+  const [capSeen, setCapSeen] = useState(capKey);
+  if (capKey !== capSeen) {
+    setCapSeen(capKey);
+    if (capacity) {
+      const n = capacityStepsOf(capacity.level);
+      const result = applyCapacity(state, n, capacity.hold);
+      setState(result.state);
+      if (result.setAside.length) setCapacityNote(CAPACITY_COPY.setAside(result.setAside.length, n));
+      else if (result.offered) {
+        setCapacityNote(CAPACITY_COPY.roomForOne);
+        const offered = result.offered;
+        setNotes((existing) => ({ ...existing, [offered.id]: { heard: CAPACITY_COPY.roomForOne } }));
+      } else setCapacityNote("");
+    }
+  }
 
   // Whoever shows these steps elsewhere hears of every change, hand-offs included.
   useEffect(() => {
@@ -153,6 +191,7 @@ export function ActionSteps({
 
   function apply(move: Move, from: ActionStep, said: string) {
     setState(move.state);
+    setCapacityNote("");
     const r = move.replacement;
     if (r && "step" in r) {
       setNotes((n) => ({ ...n, [r.step.id]: { heard: r.heard, offerRecord: r.offerRecord } }));
@@ -192,6 +231,14 @@ export function ActionSteps({
         onDecline={(reason, note) => apply(decline(state, step.id, reason, note), step, C.announce.declined(step.title))}
         onDefer={(on, note) => apply(defer(state, step.id, on, note), step, C.announce.deferred(step.title))}
         onEdit={(change) => setState((s) => editStep(s, step.id, change))}
+        onAnswer={
+          step.answer
+            ? () => {
+                setState((s) => accept(s, step.id));
+                setAnswering(step.id);
+              }
+            : undefined
+        }
         onComplete={() => {
           onComplete?.(step);
           apply(complete(state, step.id), step, C.announce.completed(step.title));
@@ -200,6 +247,40 @@ export function ActionSteps({
       />
     );
   }
+
+  const answeringStep = answering ? stepById(answering) : undefined;
+  const sheets = answeringStep ? (
+    answeringStep.answer === "question" && answeringStep.question ? (
+      <QuestionSheet
+        key={answeringStep.id}
+        open
+        onClose={() => setAnswering(null)}
+        prompt={answeringStep.question.prompt}
+        options={answeringStep.question.options}
+        onSave={(answer) => {
+          const step = answeringStep;
+          onQuestion?.(step, answer);
+          setAnswering(null);
+          apply(complete(state, step.id), step, C.announce.completed(step.title));
+          setCapacityNote(answer === ANSWER_COPY.question.notSureAnswer ? ANSWER_COPY.question.notSure : ANSWER_COPY.question.told(answer));
+        }}
+      />
+    ) : answeringStep.answer === "reflection" ? (
+      <ReflectionSheet
+        key={answeringStep.id}
+        open
+        onClose={() => setAnswering(null)}
+        things={things}
+        onSave={(values) => {
+          const step = answeringStep;
+          onReflection?.(step, values);
+          setAnswering(null);
+          apply(complete(state, step.id), step, C.announce.completed(step.title));
+          setCapacityNote(ANSWER_COPY.reflection.saved);
+        }}
+      />
+    ) : null
+  ) : null;
 
   if (layout === "carousel") {
     // One row, in order: short-term, then medium, then the long-term milestone. A free place is not drawn.
@@ -219,6 +300,7 @@ export function ActionSteps({
           </h2>
         </div>
         <output className="u-visually-hidden">{message}</output>
+        {capacityNote ? <p className="steps__note">{capacityNote}</p> : null}
         <ul className="steps__jump" aria-label={C.jumpLabel}>
           {HORIZONS.map((h) => {
             const here0 = liveIn(state, h.id)[0];
@@ -246,8 +328,17 @@ export function ActionSteps({
           goTo={goTo}
           onCurrent={(id) => setHere(horizonOf(id))}
         />
+        {sheets}
       </section>
     );
+  }
+
+  let freeLeft = Math.max(0, liveLimit(state) - state.shown.length);
+  const roomOf = {} as Record<Horizon, number>;
+  for (const h of HORIZONS) {
+    const r = Math.max(0, Math.min(LIVE_LIMITS[h.id] - liveIn(state, h.id).length, freeLeft));
+    roomOf[h.id] = r;
+    freeLeft -= r;
   }
 
   return (
@@ -258,10 +349,12 @@ export function ActionSteps({
         </h2>
       </div>
       <output className="u-visually-hidden">{message}</output>
+      {capacityNote ? <p className="steps__note">{capacityNote}</p> : null}
 
       {HORIZONS.map((h) => {
         const steps = liveIn(state, h.id);
-        const room = LIVE_LIMITS[h.id] - steps.length;
+        // A free place only shows where there is room inside what she said she can take on.
+        const room = roomOf[h.id];
         const emptyReason = empties[h.id];
         const labelId = `steps-${h.id}`;
         return (
@@ -278,13 +371,14 @@ export function ActionSteps({
               {steps.map((step, i) => renderCard(step, { headingLevel: 4, first: i === 0 }))}
               {room > 0 ? (
                 <p className="steps__free" id={`steps-empty-${h.id}`} tabIndex={-1}>
-                  {emptyReason ? PLAN_COPY.empty[emptyReason] : C.roomFree}
+                  {state.hold ? PLAN_COPY.empty.holding : emptyReason ? PLAN_COPY.empty[emptyReason] : C.roomFree}
                 </p>
               ) : null}
             </div>
           </section>
         );
       })}
+      {sheets}
     </section>
   );
 }

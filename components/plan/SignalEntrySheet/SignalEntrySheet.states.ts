@@ -11,7 +11,7 @@ export const signalEntrySheetStates = defineComponentStates({
   status: "draft",
   flows: ["plan"],
   description:
-    "How she tells ExecHQ about something she did outside it: three fields, what it was, when, and an optional link or note. Nothing is searched for and nothing leaves the browser. It opens fresh each time and is offered at the moment it is relevant, never kept as a standing form. The same sheet edits what she added.",
+    "How she tells ExecHQ about something she did outside it: what it was, when, an optional link or note, and what came of it. It also takes her LinkedIn followers, a number as of a day, which only moves the Now column. Nothing is searched for and nothing leaves the browser. It opens fresh each time and is offered at the moment it is relevant, never kept as a standing form. The same sheet edits what she added.",
   component: SignalEntrySheet,
   notApplicable: {
     ...CONTROLS_INSIDE,
@@ -29,6 +29,23 @@ export const signalEntrySheetStates = defineComponentStates({
     {
       label: "Editing — a podcast with a link",
       props: { ...base, editing: true, initial: { type: "podcast", on: "2026-10-17", text: "https://example.com/modern-cmo" } },
+    },
+    {
+      label: "Editing — with what came of it",
+      props: {
+        ...base,
+        editing: true,
+        initial: { type: "podcast", on: "2026-10-17", text: "https://example.com/modern-cmo", impact: "Two people wrote to me afterwards about their own planning cycles." },
+      },
+    },
+    {
+      label: "Followers — a number and the day it is from",
+      description: "Her LinkedIn followers are a number as of a day, not an event, so the sheet swaps the note for a number. Only the Now column moves.",
+      props: { ...base, initial: { type: "followers", on: "2026-11-03", followers: 1310 } },
+    },
+    {
+      label: "Error — followers is not a whole number",
+      props: { ...base, demoErrors: true, initial: { type: "followers", on: "2026-11-03" }, },
     },
     { label: "Error — nothing chosen, no date", props: { ...base, demoErrors: true } },
     {

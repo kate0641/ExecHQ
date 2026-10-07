@@ -39,6 +39,17 @@ export const QUIETER: MomentumEvent[] = [
   ev("outcome", "2026-11-12", "Your story: it went well"),
 ];
 
+/** Completed actions in three of the last four weeks, for the 30-day section. */
+export const WEEKLY: MomentumEvent[] = [
+  ev("artifact", "2026-12-02", "Drafted your pitch"),
+  ev("completed", "2026-12-08", "Use your leadership story in your next 1:1"),
+  ev("completed", "2026-12-16", "Brief your manager before Thursday’s check-in"),
+  ev("completed", "2026-12-18", "Put yourself forward for the Q1 planning review"),
+  ev("outcome", "2026-12-22", "Your story: it went well"),
+  ev("completed", "2026-12-30", "Share the result with your manager’s manager"),
+  ev("artifact", "2026-12-30", "Sent your pitch"),
+];
+
 export const FOLLOW = {
   done: 3,
   taken: 4,

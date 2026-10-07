@@ -88,3 +88,27 @@ export function momentumLabel(events: MomentumEvent[], today: LoopDate): Momentu
   const gap = later - earlier;
   return gap > MOMENTUM_LABEL_RULE.band ? "building" : gap < -MOMENTUM_LABEL_RULE.band ? "attention" : "steady";
 }
+
+export interface MomentumWeek {
+  /** First and last day of the seven, today included in the latest. */
+  from: LoopDate;
+  to: LoopDate;
+  done: number;
+}
+
+/**
+ * How steadily she completed actions over the last four weeks: each week is
+ * seven days, the latest ending today, and a week counts when it holds at
+ * least one completed action. A count of weeks, never a streak, and a quiet
+ * week is not framed as a miss.
+ */
+export function weeklyConsistency(events: MomentumEvent[], today: LoopDate, weeks = 4): { weeks: MomentumWeek[]; active: number } {
+  const out: MomentumWeek[] = [];
+  for (let w = weeks - 1; w >= 0; w--) {
+    const to = addDays(today, -7 * w);
+    const from = addDays(to, -6);
+    const done = events.filter((e) => e.figure === "completed" && e.on >= from && e.on <= to).length;
+    out.push({ from, to, done });
+  }
+  return { weeks: out, active: out.filter((w) => w.done > 0).length };
+}

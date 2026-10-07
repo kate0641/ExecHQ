@@ -19,6 +19,8 @@
 
 import { useMemo, useSyncExternalStore } from "react";
 import { reopenBriefing, useBriefingEverClosed } from "@/lib/briefing-dismissal";
+import { resetAnswers } from "@/lib/answers-store";
+import { resetCapacity } from "@/lib/capacity-store";
 import { resetPresence, useAddedPresence, useBaseline } from "@/lib/presence-store";
 import { reopenSparks, useDismissedSparks } from "@/lib/spark-dismissal";
 import {
@@ -51,7 +53,7 @@ import { homeStateOf, type HomeStateId } from "@/mock/homepage";
 const STORAGE_KEY = "exechq.loop";
 /** Bumped whenever the stored shape or the snapshots' starting data change,
  *  so an old save is dropped rather than half-read. */
-const STORAGE_VERSION = 9;
+const STORAGE_VERSION = 10;
 
 export interface LoopStoreState {
   snapshot: SnapshotId;
@@ -190,6 +192,8 @@ export function resetLoop(): void {
   reopenSparks();
   resetPresence();
   resetRoadmap();
+  resetCapacity();
+  resetAnswers();
 }
 
 /** The next step offered once this record's outcome is logged. Stubbed. */

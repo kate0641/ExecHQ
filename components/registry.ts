@@ -15,7 +15,12 @@ import { mapPanelStates } from "./homepage/MapPanel/MapPanel.states";
 import { actionSheetStates } from "./homepage/ActionSheet/ActionSheet.states";
 import { cardCarouselStates } from "./layout/CardCarousel/CardCarousel.states";
 import { stepperStates } from "./form/Stepper/Stepper.states";
+import { questionSheetStates } from "./plan/QuestionSheet/QuestionSheet.states";
+import { reflectionSheetStates } from "./plan/ReflectionSheet/ReflectionSheet.states";
+import { toldUsStates } from "./plan/ToldUs/ToldUs.states";
+import { capacityControlStates } from "./plan/CapacityControl/CapacityControl.states";
 import { baselineFormStates } from "./homepage/BaselineForm/BaselineForm.states";
+import { linkedInMoreStates } from "./homepage/LinkedInMore/LinkedInMore.states";
 import { signalPictureStates } from "./homepage/SignalPicture/SignalPicture.states";
 import { badgeStates } from "./primitives/Badge/Badge.states";
 import { buttonStates } from "./primitives/Button/Button.states";
@@ -68,12 +73,9 @@ import { nextStepCardStates } from "./homepage/NextStepCard/NextStepCard.states"
 import { briefingEntryStates } from "./homepage/BriefingEntry/BriefingEntry.states";
 import { entryLinkStates } from "./homepage/EntryLink/EntryLink.states";
 import { briefingEditorialStates } from "./homepage/BriefingEditorial/BriefingEditorial.states";
-import { accountCardStates } from "./homepage/AccountCard/AccountCard.states";
-import { updateNowSheetStates } from "./homepage/UpdateNowSheet/UpdateNowSheet.states";
 import { sparkStates } from "./homepage/Spark/Spark.states";
 import { baselineListStates } from "./homepage/BaselineList/BaselineList.states";
 import { presenceCardStates } from "./homepage/PresenceCard/PresenceCard.states";
-import { trendLineStates } from "./homepage/TrendLine/TrendLine.states";
 import { loopRowStates } from "./homepage/LoopRow/LoopRow.states";
 import { checkInStates } from "./loop/CheckIn/CheckIn.states";
 import { recentWorkStates } from "./homepage/RecentWork/RecentWork.states";
@@ -85,11 +87,8 @@ import { profileHeaderStates } from "./profile/ProfileHeader/ProfileHeader.state
 import { settingsGroupStates } from "./profile/SettingsGroup/SettingsGroup.states";
 import { settingsRowStates } from "./profile/SettingsRow/SettingsRow.states";
 import { detailPanelStates } from "./profile/DetailPanel/DetailPanel.states";
-import { connectionDetailStates } from "./profile/ConnectionDetail/ConnectionDetail.states";
-import { exportDetailStates } from "./profile/ExportDetail/ExportDetail.states";
 import { deletionDetailStates } from "./profile/DeletionDetail/DeletionDetail.states";
 import { notificationsDetailStates } from "./profile/NotificationsDetail/NotificationsDetail.states";
-import { usesDetailStates } from "./profile/UsesDetail/UsesDetail.states";
 import { organizationDetailStates } from "./profile/OrganizationDetail/OrganizationDetail.states";
 import { checkboxStates } from "./form/Checkbox/Checkbox.states";
 import { codeFieldStates } from "./form/CodeField/CodeField.states";
@@ -109,6 +108,8 @@ import { directionCardStates } from "./plan/DirectionCard/DirectionCard.states";
 import { planHeaderStates } from "./plan/PlanHeader/PlanHeader.states";
 import { planDetailSheetStates } from "./plan/PlanDetailSheet/PlanDetailSheet.states";
 import { planSwitchSheetStates } from "./plan/PlanSwitchSheet/PlanSwitchSheet.states";
+import { addToPlanSheetStates } from "./plan/AddToPlanSheet/AddToPlanSheet.states";
+import { planGuidedStates } from "./plan/PlanGuided/PlanGuided.states";
 import { planAgendaStates } from "./plan/PlanAgenda/PlanAgenda.states";
 import { roadmapTimelineStates } from "./plan/RoadmapTimeline/RoadmapTimeline.states";
 import { planCalendarStates } from "./plan/PlanCalendar/PlanCalendar.states";
@@ -173,15 +174,17 @@ export const registry: RegisteredComponent[] = [
   signalPictureStates,
   stepperStates,
   baselineFormStates,
+  capacityControlStates,
+  questionSheetStates,
+  reflectionSheetStates,
+  toldUsStates,
+  linkedInMoreStates,
   mapPanelStates,
   actionSheetStates,
   briefingEditorialStates,
-  accountCardStates,
   presenceCardStates,
   baselineListStates,
   sparkStates,
-  updateNowSheetStates,
-  trendLineStates,
   loopRowStates,
   checkInStates,
   recentWorkStates,
@@ -193,11 +196,8 @@ export const registry: RegisteredComponent[] = [
   settingsGroupStates,
   settingsRowStates,
   detailPanelStates,
-  connectionDetailStates,
-  exportDetailStates,
   deletionDetailStates,
   notificationsDetailStates,
-  usesDetailStates,
   organizationDetailStates,
   checkboxStates,
   codeFieldStates,
@@ -219,6 +219,8 @@ export const registry: RegisteredComponent[] = [
   planDetailSheetStates,
   planSwitchSheetStates,
   stepChangePanelStates,
+  addToPlanSheetStates,
+  planGuidedStates,
   planAgendaStates,
   roadmapTimelineStates,
   planCalendarStates,

@@ -1,7 +1,7 @@
 import { addDays } from "@/lib/loop";
 import {
   LINKEDIN_ROW_LABEL,
-  LINKEDIN_STUB,
+  LINKEDIN_START,
   PRESENCE_BASELINE,
   PRESENCE_KINDS,
   PRESENCE_ITEMS,
@@ -39,7 +39,10 @@ export interface Baseline {
 
 /** Where she says she is now: the same counts as the baseline, as of the day
  *  she said it. Anything she adds after that day counts on top of it. */
-export interface Current extends Baseline {
+export interface Current {
+  /** The counts she said, if she said them. Counts now come from what she adds, so this is only ever set by an older save. */
+  counts?: Baseline["counts"];
+  followers?: number;
   on: string;
 }
 
@@ -61,7 +64,7 @@ export function presenceCounts(
     const ofKind = added.filter((item) => item.kind === kind);
     const then = baseline ? baseline.counts[kind] : seeded ? PRESENCE_BASELINE[kind] : 0;
     /* What she said she has now, plus what she added since saying it. */
-    const now = current ? current.counts[kind] + ofKind.filter((item) => item.on > current.on).length : then + ofKind.length;
+    const now = current?.counts ? current.counts[kind] + ofKind.filter((item) => item.on > current.on).length : then + ofKind.length;
     return { kind, then, now, latest: ofKind[ofKind.length - 1] };
   });
 }
@@ -101,12 +104,12 @@ export function signalRows(
   const typedNow = current?.followers;
   if (baseline ? typed !== undefined || typedNow !== undefined : seeded || typedNow !== undefined) {
     const fmt = (n: number) => n.toLocaleString("en-US");
-    const then = typed !== undefined ? fmt(typed) : baseline ? "–" : LINKEDIN_STUB.baseline.then;
+    const then = typed !== undefined ? fmt(typed) : baseline ? "–" : LINKEDIN_START.then;
     rows.push({
       id: "linkedin",
       label: LINKEDIN_ROW_LABEL,
       then,
-      now: typedNow !== undefined ? fmt(typedNow) : typed !== undefined ? fmt(typed) : LINKEDIN_STUB.baseline.now,
+      now: typedNow !== undefined ? fmt(typedNow) : typed !== undefined ? fmt(typed) : LINKEDIN_START.now,
     });
   }
   for (const p of presenceCounts(today, items, baseline, seeded, current)) {
@@ -145,4 +148,31 @@ export function ordinal(n: number): string {
 export function nthOfKind(item: PresenceItem, items: readonly PresenceItem[] = PRESENCE_ITEMS): number {
   const upTo = items.slice(0, items.findIndex((other) => other.id === item.id) + 1);
   return (item.kind === "other" ? 0 : PRESENCE_BASELINE[item.kind]) + upTo.filter((other) => other.kind === item.kind).length;
+}
+
+const SUMMARY_PHRASES: Record<string, [string, string]> = {
+  podcast: ["podcast appearance", "podcast appearances"],
+  press: ["press mention", "press mentions"],
+  speaking: ["talk", "talks"],
+  writing: ["piece you published", "pieces you published"],
+  other: ["other thing", "other things"],
+};
+
+/**
+ * What she has added since she started, as a sentence of counts by kind:
+ * "1 podcast appearance, 1 press mention and 2 pieces you published."
+ * Empty when she has added nothing.
+ */
+export function addedSummary(items: readonly PresenceItem[], today: string): string {
+  const added = items.filter((item) => item.on <= today);
+  const parts = Object.keys(SUMMARY_PHRASES)
+    .map((kind) => {
+      const n = added.filter((item) => item.kind === kind).length;
+      const [one, many] = SUMMARY_PHRASES[kind];
+      return n ? `${n} ${n === 1 ? one : many}` : "";
+    })
+    .filter(Boolean);
+  if (parts.length === 0) return "";
+  const list = parts.length > 1 ? `${parts.slice(0, -1).join(", ")} and ${parts.at(-1)}` : parts[0];
+  return `${list}.`;
 }

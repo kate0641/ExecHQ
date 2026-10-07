@@ -1,5 +1,3 @@
-import type { Account } from "@/mock/account";
-import { addDays } from "@/lib/loop";
 import { nthOfKind, ordinal, recentlyAdded } from "@/lib/presence";
 import { SPARK_COPY, type PresenceItem } from "@/mock/accounts-stub";
 
@@ -40,21 +38,10 @@ function noteFor(item: PresenceItem, items: readonly PresenceItem[]): SparkNote 
  */
 export function sparksFor(
   today: string,
-  account: Account,
   dismissed: readonly string[],
   items: readonly PresenceItem[]
 ): SparkNote[] {
   const notes = recentlyAdded(today, items).map((item) => noteFor(item, items));
-
-  const linkedIn = account.connections.find((c) => c.id === "linkedin");
-  if (linkedIn?.connected && linkedIn.connectedOn && linkedIn.connectedOn >= addDays(today, -6)) {
-    notes.push({
-      id: `linkedin:${linkedIn.connectedOn}`,
-      source: SPARK_COPY.source.linkedin,
-      text: SPARK_COPY.linkedin,
-      on: linkedIn.connectedOn,
-    });
-  }
 
   return notes
     .filter((note) => !dismissed.includes(note.id))

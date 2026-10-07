@@ -16,7 +16,7 @@
  * matches. Dates follow Maya's journey, starting Monday 5 October 2026.
  */
 
-import { MAYA, withConnection, type Account } from "@/mock/account";
+import { MAYA } from "@/mock/account";
 import { ACTIONS, type LandscapeAction } from "@/mock/plan-stub";
 import type { Recommendation, Snapshot } from "@/mock/snapshots";
 import {
@@ -95,8 +95,6 @@ const accepted = (ids: string[]) =>
    THE FIVE STATES
    -------------------------------------------------------------------------- */
 
-const withSite = (account: Account) => withConnection(account, "website", "2026-10-09", "mayachen.com");
-
 export const HOME_STATES: Record<HomeStateId, Snapshot> = {
   "first-return": {
     id: "first-return",
@@ -113,7 +111,7 @@ export const HOME_STATES: Record<HomeStateId, Snapshot> = {
     label: "Follow-up due",
     summary: "Two waiting on outcomes: her story and her pitch.",
     today: "2026-10-20",
-    account: withSite(MAYA),
+    account: MAYA,
     records: [storyUsed(), pitchSent(), startEditing(brief(), "2026-10-19")],
     recommendations: accepted(["brief-manager", "scope-case"]),
   },
@@ -123,7 +121,7 @@ export const HOME_STATES: Record<HomeStateId, Snapshot> = {
     label: "Ready, not used",
     summary: "Her check-in brief is ready but not marked used.",
     today: "2026-10-22",
-    account: withSite(MAYA),
+    account: MAYA,
     records: [
       closeRecord(
         answerFollowUp(storyUsed(), "2026-10-20", {
@@ -144,7 +142,7 @@ export const HOME_STATES: Record<HomeStateId, Snapshot> = {
     label: "Nothing pending",
     summary: "No follow-ups. Her last artifact and her next step.",
     today: "2026-11-03",
-    account: withConnection(withSite(MAYA), "linkedin", "2026-10-27", "LinkedIn analytics export, October 2026"),
+    account: MAYA,
     records: [
       closeRecord(
         answerFollowUp(storyUsed(), "2026-10-20", {
@@ -177,7 +175,7 @@ export const HOME_STATES: Record<HomeStateId, Snapshot> = {
     label: "Just answered",
     summary: "An outcome just recorded, and the hand-off to what’s next.",
     today: "2026-10-20",
-    account: withSite(MAYA),
+    account: MAYA,
     records: [
       answerFollowUp(storyUsed(), "2026-10-20", {
         type: "positive",
