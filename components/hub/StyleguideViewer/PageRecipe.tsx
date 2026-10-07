@@ -125,7 +125,7 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
     note: "The advisor should feel like a chat app on a phone: the conversation, and little else.",
     rules: [
       {
-        rule: "No rules, boxes or outlined chips around the conversation. The header is just New chat and close, with no mark or name; the sheet is plainly the advisor.",
+        rule: "No rules, boxes or outlined chips around the conversation. The header is just New chat and close, with no mark or name; on the phone they sit in the top corners, level with the grab bar.",
         why: "Layers of chrome above the first message made the panel feel clunky next to Claude or ChatGPT on mobile.",
         from: "Navigation",
       },
@@ -193,7 +193,7 @@ const PAGES: { page: string; date: string; added: string[] }[] = [
       "Kulim Park out of the chat: advisor name, reply chips and the where-you-are chip are Inter.",
       "Reply buttons are the light-blue secondary; her messages are light blue, not navy.",
       "Chat streamlined: slim header, destinations as text tabs, 24px between messages, full-pill field, replies at the left.",
-      "On the phone, close sits in the sheet's corner and New chat ends the header row; the destination tabs run to the sheet's edges so the next one peeks out.",
+      "On the phone, New chat and close sit in the sheet's top corners with no header row; the destination tabs run to the sheet's edges so the next one peeks out.",
       "Say a thing once: a label is dropped when something above already says it (Ask me under the advisor's name; the name above each of his messages, under the panel's header).",
     ],
   },

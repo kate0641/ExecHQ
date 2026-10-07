@@ -2416,11 +2416,15 @@ ul.chrome__nav-list {
   color: var(--color-text-primary);
 }
 
-/* On the phone sheet, Close sits in the sheet's top-right corner, level with
-   the grab bar, and New chat takes the end of the header row. The row starts
-   below Close's 44px tap area so the two never overlap. */
+/* On the phone sheet, the header has no row of its own: New chat sits in the
+   top-left corner and Close in the top-right, both level with the grab bar,
+   and the conversation starts right under them. New chat's text lines up
+   with the content's left edge. */
 .concierge-panel--sheet .concierge-panel__head:not(.concierge-panel__head--bare) {
-  padding-top: var(--space-sm);
+  /* Only the part of the two 44px buttons that hangs below the grab strip
+     (12px + the 5px bar + 16px), so scrolling content never slides under them. */
+  min-height: calc(var(--button-target) - var(--space-sm) - 5px - var(--space-md));
+  padding: 0;
 }
 
 .concierge-panel--sheet .concierge-panel__head:not(.concierge-panel__head--bare) .concierge-panel__close {
@@ -2429,10 +2433,15 @@ ul.chrome__nav-list {
   right: var(--space-xs);
 }
 
+.concierge-panel--sheet .concierge-panel__head:not(.concierge-panel__head--bare) .concierge-panel__new {
+  position: absolute;
+  top: 0;
+  left: calc(var(--space-lg) - var(--space-sm));
+}
+
 /* No mark or name in the header (designer, 2026-10-07): the sheet is plainly
-   the advisor, so the row holds only New chat. "ExecHQ, Your advisor" is
-   still there for screen readers, and the empty slot keeps New chat at the
-   right. */
+   the advisor. "ExecHQ, Your advisor" is still there for screen
+   readers. */
 .concierge-panel__head .concierge-who > :not(.concierge-panel__who) {
   display: none;
 }
