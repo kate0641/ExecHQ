@@ -35,6 +35,11 @@ export const cardCarouselStates = defineComponentStates({
       description: "The place in the row as one thin bar. The count is said to assistive technology only.",
       props: { label: "Waiting on you (strip)", items: three, indicator: "strip" },
     },
+    {
+      label: "No arrows — the dots are the controls",
+      description: "Previous and Next are left out. Each dot jumps to its card; the count is said to assistive technology only.",
+      props: { label: "Waiting on you (no arrows)", items: three, arrows: false },
+    },
     { label: "One card — no controls", props: { label: "Waiting on you (one)", items: three.slice(0, 1) } },
     {
       label: "Disabled — Previous at the first card",

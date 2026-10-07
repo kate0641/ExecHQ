@@ -30,6 +30,10 @@ export interface CardCarouselProps {
    *  count in words; `strip` is one thin bar split into a part for each card, each part a way to
    *  jump to that card, with the count said to assistive technology only. */
   indicator?: "dots" | "strip";
+  /** Previous and Next either side. Without them the dots are the controls:
+   *  each one jumps to its card, and the count is said to assistive
+   *  technology only. */
+  arrows?: boolean;
   className?: string;
 }
 
@@ -53,6 +57,7 @@ export function CardCarousel({
   onCurrent,
   fixed = false,
   indicator = "dots",
+  arrows = true,
   className,
 }: CardCarouselProps) {
   const track = useRef<HTMLUListElement>(null);
@@ -109,7 +114,28 @@ export function CardCarousel({
           </li>
         ))}
       </ul>
-      {total > 1 ? (
+      {total > 1 && !arrows ? (
+        <div className="card-carousel__controls card-carousel__controls--dots">
+          <div className="card-carousel__dots card-carousel__dots--buttons">
+            {items.map((item, i) => (
+              <Fragment key={item.id}>
+                {i > 0 && item.group !== undefined && items[i - 1].group !== item.group ? <b aria-hidden="true" /> : null}
+                <button
+                  type="button"
+                  aria-label={position(i + 1, total)}
+                  aria-current={i === current ? "true" : undefined}
+                  onClick={() => go(i)}
+                >
+                  <i className={i === current ? "is-now" : undefined} />
+                </button>
+              </Fragment>
+            ))}
+          </div>
+          <span className="u-visually-hidden" aria-live="polite">
+            {position(current + 1, total)}
+          </span>
+        </div>
+      ) : total > 1 ? (
         <div className="card-carousel__controls">
           <Button variant="secondary" size="sm" aria-label={previousLabel} disabled={current === 0} onClick={() => go(current - 1)}>
             <Icon name="chevron" size={16} className="card-carousel__back" />

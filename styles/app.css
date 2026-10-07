@@ -114,7 +114,6 @@ h6 {
   line-height: var(--leading-tight);
   letter-spacing: var(--font-display-tracking-heading);
   color: var(--color-text-primary);
-  text-wrap: balance;
 }
 
 h1 {
@@ -141,7 +140,6 @@ h5 { font-size: var(--text-md); }
 h6 { font-size: var(--text-sm); }
 
 p {
-  text-wrap: pretty;
 }
 
 a {
@@ -549,11 +547,17 @@ samp {
 
 .link--standalone {
   display: inline-block;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
+  font-family: var(--type-label-font);
+  word-spacing: var(--type-label-word-spacing);
   font-weight: var(--weight-semibold);
   font-size: var(--text-sm);
-  letter-spacing: var(--font-display-tracking-label);
+  letter-spacing: var(--type-label-tracking);
+}
+
+/* A link drawn on a button sits flush with the text around it: no inset
+   at its sides, so it lines up with the buttons and text above. */
+button.link {
+  padding-inline: 0;
 }
 
 /* Badge -------------------------------------------------------------------- */
@@ -652,21 +656,20 @@ samp {
    Sentence case rather than the badge's capitals, because the labels are plain
    verbs ("Sent", "Waiting to hear") and read as words, not as tags. */
 
+/* Where a piece of work stands, set as an eyebrow (blue uppercase, with its
+   glyph) rather than a pill, so it can never be mistaken for a button. */
 .loop-status {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2xs);
-  padding: var(--space-3xs) var(--space-xs);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface-sunken);
-  color: var(--color-text-primary);
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
+  text-transform: uppercase;
+  color: var(--color-eyebrow);
   white-space: nowrap;
 }
 
@@ -682,7 +685,6 @@ samp {
 /* Finished work steps back, so what is still open reads first. */
 .loop-status--done,
 .loop-status--set-aside {
-  background-color: var(--color-surface);
   color: var(--color-text-secondary);
 }
 
@@ -2713,7 +2715,6 @@ ul.concierge-mini {
   word-spacing: var(--type-heading-word-spacing);
   margin: 0;
   color: var(--color-text-primary);
-  text-wrap: balance;
 }
 
 .home-card__title:focus {
@@ -2841,7 +2842,17 @@ ul.concierge-mini {
 }
 
 .feature-card__head--inverse {
+  /* A shorter run of navy under the title. */
+  padding-bottom: var(--space-md);
   background-color: var(--color-surface-inverse);
+}
+
+
+
+/* A card with a navy header takes navy for its top edge, so no grey line
+   runs along the top of the navy. */
+.feature-card:has(> .feature-card__head--inverse) {
+  border-top-color: var(--color-surface-inverse);
 }
 
 .feature-card__eyebrow {
@@ -2869,7 +2880,6 @@ ul.concierge-mini {
   word-spacing: var(--type-heading-word-spacing);
   margin: 0;
   color: var(--color-text-primary);
-  text-wrap: balance;
 }
 
 .feature-card__title:focus {
@@ -2885,6 +2895,17 @@ ul.concierge-mini {
   flex-direction: column;
   gap: var(--space-xs);
   padding: var(--space-2xs) var(--space-feature-padding) var(--space-feature-padding);
+}
+
+/* A short note in the body in place of the reasons. */
+.feature-card__note {
+  margin: 0;
+  padding-block: var(--space-sm) var(--space-xs);
+}
+
+/* A card that is only its header ends at the navy. */
+.feature-card__head--inverse:only-child {
+  padding-bottom: var(--space-feature-padding);
 }
 
 .feature-card__rows {
@@ -3191,7 +3212,6 @@ ol.loop-track {
   word-spacing: var(--type-heading-word-spacing);
   margin: 0;
   padding-right: var(--space-sm);
-  text-wrap: balance;
 }
 
 .briefing-card__why {
@@ -5114,7 +5134,6 @@ ol.ring-detail__timeline {
   letter-spacing: var(--type-title-tracking);
   word-spacing: var(--type-title-word-spacing);
   color: var(--color-text-primary);
-  text-wrap: balance;
 }
 
 /* The heading is a focus target on a step change, so it must show a ring even
@@ -5135,7 +5154,6 @@ ol.ring-detail__timeline {
   max-width: var(--content-measure);
   color: var(--color-text-secondary);
   /* Two short lines rather than a long one and a stranded word. */
-  text-wrap: balance;
 }
 
 .step-progress {
@@ -5297,7 +5315,6 @@ ol.ring-detail__timeline {
   word-spacing: var(--type-editorial-word-spacing);
   max-width: 22ch;
   font-style: italic;
-  text-wrap: balance;
 }
 
 .welcome__sheet {
@@ -6061,7 +6078,6 @@ ol.ring-detail__timeline {
   line-height: var(--leading-tight);
   letter-spacing: var(--font-display-tracking-heading);
   color: var(--color-text-primary);
-  text-wrap: balance;
 }
 
 .chat-welcome__title:focus-visible {
@@ -6081,7 +6097,6 @@ ol.ring-detail__timeline {
   font-size: var(--text-md);
   line-height: var(--leading-normal);
   color: var(--color-text-secondary);
-  text-wrap: balance;
 }
 
 /* What the welcome folds into: the record of who you are talking to. */
@@ -6761,7 +6776,6 @@ ol.ring-detail__timeline {
   font-size: var(--text-md);
   line-height: var(--leading-relaxed);
   color: var(--color-text-primary);
-  text-wrap: pretty;
   white-space: pre-line;
 }
 
@@ -7579,7 +7593,6 @@ ol.ring-detail__timeline {
   line-height: var(--leading-tight);
   letter-spacing: var(--font-display-tracking-heading);
   color: var(--color-text-primary);
-  text-wrap: balance;
 }
 
 .guide__title:focus-visible {
@@ -8570,7 +8583,6 @@ button.device-keyboard__key {
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
-  text-wrap: balance;
 }
 
 .signal--focal .signal__name {
@@ -8796,7 +8808,8 @@ ol.signal__list {
    tiles inside follow without their own rules. */
 .briefing-card,
 .briefing-editorial,
-.briefing-entry {
+.briefing-entry,
+.spark--celebrate .spark__note {
   --color-surface-raised: var(--color-surface-inverse);
   --color-surface-sunken: var(--color-surface-inverse-hover);
   --color-surface-hover: var(--color-surface-inverse-hover);
@@ -8869,12 +8882,13 @@ ol.signal__list {
   color: var(--color-text-muted);
 }
 
+/* The headline in white on the navy, a step heavier than regular. */
 .briefing-editorial__lead {
   font-family: var(--font-serif);
   font-size: var(--text-lg);
-  font-weight: var(--weight-regular);
+  font-weight: var(--weight-serif-medium);
+  color: var(--color-text-primary);
   line-height: var(--leading-normal);
-  text-wrap: balance;
 }
 
 .briefing-editorial__foot {
@@ -8884,13 +8898,8 @@ ol.signal__list {
   gap: var(--space-sm);
 }
 
+/* What the read is for, as quiet text with no pill. */
 .briefing-editorial__tag {
-  display: inline-flex;
-  align-items: center;
-  min-height: 24px;
-  padding: 0 var(--space-sm);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface-sunken);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   color: var(--color-text-secondary);
@@ -8923,9 +8932,59 @@ ol.signal__list {
   color: var(--color-text-muted);
 }
 
+/* In the question card the context is one quiet caption above the question:
+   what it's about, not a second heading. */
+/* A little more air between the parts of a question card: context,
+   question, answers, the lesser answers. */
+.check-in--question {
+  gap: var(--space-md);
+}
+
+/* The answers sit centred between the question and the footer, with equal
+   space above and below. */
+.check-in--question > .check-in__answers {
+  margin-block: auto;
+}
+
+/* On trial: everything in the question card centred. */
+.check-in--question {
+  text-align: center;
+}
+
+.check-in--question > .check-in__answers {
+  justify-content: center;
+}
+
+/* The two lesser answers sit at opposite ends of the footer. */
+.check-in--question > .check-in__quiet {
+  justify-content: space-between;
+}
+
+.check-in--question .check-in__about {
+  display: block;
+  font-family: var(--type-caption-font);
+  font-size: var(--type-caption-size);
+  font-weight: var(--weight-regular);
+  line-height: var(--type-caption-leading);
+  color: var(--color-text-secondary);
+  /* A hairline sets the context apart from the question under it. */
+  padding-bottom: var(--space-sm);
+  border-bottom: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
 .check-in__about b {
   font-weight: var(--weight-semibold);
   color: var(--color-text-secondary);
+}
+
+/* The note under a question hangs close to it. */
+.check-in__question + .check-in__sub {
+  margin-top: calc(-1 * var(--space-2xs));
+}
+
+/* A single "yes" with quiet text answers beside it. */
+.check-in__answers--yes {
+  gap: var(--space-xs) var(--space-md);
 }
 
 .check-in__dots {
@@ -8952,13 +9011,12 @@ ol.signal__list {
 
 .check-in__question {
   margin: 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-bold);
-  line-height: var(--leading-snug);
-  text-wrap: balance;
+  font-family: var(--type-subheading-font);
+  font-size: var(--type-subheading-size);
+  font-weight: var(--type-subheading-weight);
+  line-height: var(--type-subheading-leading);
+  letter-spacing: var(--type-subheading-tracking);
+  word-spacing: var(--type-subheading-word-spacing);
 }
 
 .check-in__question:focus,
@@ -8984,33 +9042,82 @@ ol.signal__list {
 .check-in__quiet {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2xs) var(--space-md);
+  gap: var(--space-2xs) var(--space-lg);
+  /* The lesser answers sit apart at the foot of the card, under a hairline,
+     spaced like the context line at its head. */
+  padding-top: var(--space-sm);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+  font-size: var(--text-sm);
 }
 
+/* The main answers are quiet outlined pills, so a card of choices reads as
+   one set. Yellow stays for a single "yes, done" answer. */
+.check-in__answers .btn--secondary {
+  /* A little less to each side than a full button, so on a phone the first
+     two answers share a line and the three take two lines, not three. */
+  padding-inline: var(--space-md);
+  border: var(--border-width-thin) solid var(--color-border-strong);
+  background-color: var(--color-surface-raised);
+  color: var(--color-text-primary);
+}
+
+.check-in__answers .btn--secondary:hover {
+  background-color: var(--color-surface-hover);
+}
+
+/* A small coloured dot before each main answer, for a faster read. */
+.check-in__dot {
+  flex: none;
+  width: var(--space-sm);
+  height: var(--space-sm);
+  border-radius: var(--radius-pill);
+}
+
+.check-in__dot--positive { background-color: var(--color-outcome-positive); }
+.check-in__dot--neutral { background-color: var(--color-outcome-neutral); }
+.check-in__dot--negative { background-color: var(--color-outcome-negative); }
+
+/* Once answered, the read-back takes the question's place and its type,
+   with no box of its own inside the card. */
 .check-in__readback {
   margin: 0;
-  padding: var(--space-xs) var(--space-sm);
-  border-radius: var(--radius-md);
-  background-color: var(--color-surface);
-  font-size: var(--text-sm);
+  font-family: var(--type-subheading-font);
+  font-size: var(--type-subheading-size);
+  font-weight: var(--type-subheading-weight);
+  line-height: var(--type-subheading-leading);
+  letter-spacing: var(--type-subheading-tracking);
+  word-spacing: var(--type-subheading-word-spacing);
 }
 
 .check-in__add {
   align-self: flex-start;
 }
 
+/* In the centred question card, a link on its own sits centred under the
+   read-back, in line with it. */
+.check-in--question .check-in__add {
+  align-self: center;
+}
+
 .check-in__note {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xs);
+  /* Room between the question, the box and its buttons. */
+  gap: var(--space-xs);
+}
+
+.check-in__note > .check-in__row {
+  margin-top: var(--space-xs);
 }
 
 .check-in__note-label {
   display: flex;
   flex-direction: column;
   gap: var(--space-2xs);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
+  font-family: var(--type-caption-font);
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  line-height: var(--type-caption-leading);
   color: var(--color-text-secondary);
 }
 
@@ -9453,13 +9560,8 @@ ol.check-in__steps {
   line-height: var(--type-caption-leading);
   letter-spacing: var(--type-caption-tracking);
   word-spacing: var(--type-caption-word-spacing);
-  display: inline-flex;
-  align-items: center;
-  min-height: 24px;
-  padding: 0 var(--space-xs);
-  border-radius: var(--radius-tag);
-  background-color: var(--color-tag-surface);
-  color: var(--color-tag-text);
+  /* A caption beside the heading, not a tag: plain grey text, no fill. */
+  color: var(--color-text-secondary);
 }
 
 .account-card__stat-label {
@@ -9496,15 +9598,19 @@ ol.check-in__steps {
   display: flex;
   flex-direction: column;
   gap: var(--space-2xs);
-  padding-top: var(--space-sm);
-  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+  /* A white card, outlined like the other cards on the page. */
+  padding: var(--space-md);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-raised);
 }
 
 .account-card__try b {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--type-subheading-font);
+  word-spacing: var(--type-subheading-word-spacing);
+  letter-spacing: var(--type-subheading-tracking);
   font-size: var(--text-md);
+  font-weight: var(--type-subheading-weight);
   line-height: var(--leading-snug);
 }
 
@@ -9613,6 +9719,60 @@ ul.spark {
   flex: none;
 }
 
+/* Celebrate (Homepage): a navy card, no mark. The first sentence is a yellow
+   headline with the source beside it and an × at the end; the rest sits
+   close under it. Navy takes the inverse colours set with the Briefing. */
+.spark--celebrate .spark__note {
+  display: block;
+  padding: var(--space-sm) var(--space-sm) var(--space-md) var(--space-md);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-inverse);
+  box-shadow: none;
+}
+
+.spark__head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  column-gap: var(--space-xs);
+}
+
+.spark__headline {
+  margin: 0;
+  font-family: var(--type-subheading-font);
+  font-size: var(--type-subheading-size);
+  font-weight: var(--type-subheading-weight);
+  line-height: var(--type-subheading-leading);
+  letter-spacing: var(--type-subheading-tracking);
+  word-spacing: var(--type-subheading-word-spacing);
+  color: var(--color-accent-on-inverse);
+}
+
+.spark--celebrate .spark__source {
+  display: inline;
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.spark__note .spark__close {
+  align-self: center;
+  margin-left: auto;
+  padding: var(--space-2xs);
+  color: var(--color-text-primary);
+}
+
+.spark__body {
+  margin: var(--space-2xs) 0 0;
+  padding-right: var(--space-xs);
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  letter-spacing: var(--type-body-sm-tracking);
+  word-spacing: var(--type-body-sm-word-spacing);
+  color: var(--color-text-primary);
+}
+
 /* AddPresenceSheet: the form she adds a podcast, mention, talk or piece with. */
 
 .add-presence {
@@ -9663,7 +9823,7 @@ ul.spark {
 .baseline-list__heads-pair {
   display: flex;
   justify-content: space-between;
-  padding: 0 var(--space-3xs);
+  padding: 0 var(--space-2xs) 0 var(--space-3xs);
 }
 
 ul.baseline-list__rows {
@@ -9672,6 +9832,8 @@ ul.baseline-list__rows {
   margin: 0;
   padding: 0;
   list-style: none;
+  /* A hairline under the last row closes the table off from what follows. */
+  border-bottom: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
 .baseline-list__row {
@@ -9679,32 +9841,53 @@ ul.baseline-list__rows {
   grid-template-columns: minmax(0, 1fr) 9.5rem;
   align-items: baseline;
   gap: var(--space-3xs) var(--space-sm);
-  padding: var(--space-xs) 0;
+  /* Room to breathe between the lines: 12px above and below each row. */
+  padding: var(--space-sm) 0;
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
 .baseline-list__label {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--type-body-font);
+  word-spacing: var(--type-body-word-spacing);
+  letter-spacing: var(--type-body-tracking);
   font-size: var(--text-md);
   line-height: var(--leading-snug);
 }
 
+/* Start, arrow and now sit in fixed columns, so the arrows line up down the
+   list whatever the numbers, and the larger "now" figure has room at the
+   right edge. */
 .baseline-list__counts {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--space-xl) minmax(0, 1fr);
   align-items: baseline;
-  justify-content: space-between;
-  padding: 0 var(--space-3xs);
+  padding: 0 var(--space-2xs) 0 var(--space-3xs);
   font-variant-numeric: tabular-nums;
   color: var(--color-text-secondary);
 }
 
+.baseline-list__counts > * {
+  text-align: right;
+}
+
+.baseline-list__counts > .baseline-list__then {
+  text-align: left;
+}
+
+.baseline-list__counts > .baseline-list__arrow {
+  /* The library's arrow, centred in its column and on the row. */
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  color: var(--color-text-muted);
+}
+
 .baseline-list__now {
-  font-family: var(--type-figure-font);
-  font-size: var(--type-figure-size);
-  font-weight: var(--type-figure-weight);
-  line-height: var(--type-figure-leading);
+  /* The same face and size as Start, a step heavier and in ink. */
+  font-family: var(--type-body-font);
+  font-size: var(--type-body-size);
+  font-weight: var(--weight-semibold);
+  line-height: var(--type-body-leading);
   color: var(--color-text-primary);
 }
 
@@ -9878,7 +10061,6 @@ ol.stage-track__list {
   letter-spacing: var(--type-title-tracking);
   word-spacing: var(--type-title-word-spacing);
   min-width: 0;
-  text-wrap: balance;
 }
 
 .stage-track__asks {
@@ -9979,7 +10161,6 @@ ul.stage-actions__list {
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
   /* Avoids a lone last word, like "in" from "check-in". */
-  text-wrap: pretty;
 }
 
 .stage-actions__meta {
@@ -10379,7 +10560,6 @@ ul.stage-actions__list {
   font-size: var(--text-xl);
   font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
-  text-wrap: balance;
 }
 
 .detail-panel__heading:focus {
@@ -11448,17 +11628,85 @@ ul.login__never {
 }
 
 .map-home__greeting {
+  /* How far the page's own padding sits from the screen's top edge; the
+     band reaches back over it. Set per viewport below. */
+  --home-reach-top: var(--space-xl);
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: var(--space-3xs);
-  margin: 0;
+  /* The greeting is a band across the whole screen at the top of Home, on
+     every viewport: from the screen's top edge, edge to edge, past the
+     page's padding and its centred column. */
+  margin: calc(-1 * var(--home-reach-top)) calc((100% - 100cqi) / 2) 0;
+  min-height: var(--home-header-band);
+  padding: var(--space-xs) var(--space-feature-padding);
+  text-align: center;
+  background-image: var(--home-header-wash);
+  background-position: bottom;
+  background-size: 100% var(--home-header-height);
+  background-repeat: no-repeat;
+  color: var(--color-text-primary);
+}
+
+[data-viewport="mobile"] .map-home__greeting {
+  --home-reach-top: var(--space-screen-top);
+}
+
+[data-viewport="tablet"] .map-home__greeting:not(:where([data-viewport="mobile"] *)) {
+  --home-reach-top: var(--space-lg);
+}
+
+/* The band is measured against the whole screen. */
+.device__content:has(.map-home) {
+  container-type: inline-size;
+}
+
+/* The header is a soft wash: the soft jewel as a glow rising from the middle
+   of the band's bottom edge, a bright warm heart where it is cut off, pale
+   blue deepening around it. On the phone the status bar and the greeting
+   share one wash, each showing its own slice of it, so it runs unbroken from
+   the top of the screen to the bottom of the greeting. Tablet and web have no
+   status bar, so the band alone is as tall as the phone's two together. */
+.device__screen:has(.map-home) {
+  --home-header-band: calc(var(--device-statusbar-height) + 2.5rem);
+  --home-header-height: var(--home-header-band);
+  /* The warm jewel wash, kept ready while the team decides between it and
+     navy. To bring it back, point --home-header-wash at it and set the
+     greeting's text back to the primary colour. */
+  --home-header-jewel:
+    radial-gradient(ellipse 26% 65% at 50% 100%, var(--color-ring-complete-light), transparent),
+    radial-gradient(ellipse 58% 150% at 50% 100%, var(--color-ring-complete-mid), color-mix(in srgb, var(--color-ring-complete-core) 75%, transparent) 30%, color-mix(in srgb, var(--color-ring-complete-core) 30%, transparent) 60%, transparent 95%),
+    radial-gradient(ellipse 95% 240% at 50% 100%, var(--color-ring-complete-light) 15%, var(--color-ring-complete-edge) 55%, var(--color-ring-complete-deep) 85%, var(--color-ring-complete-edge) 100%);
+  /* Light blue (blue 200). The navy and the warm jewel wash are on hold
+     while the team decides. */
+  --home-header-wash: linear-gradient(var(--color-surface-selected), var(--color-surface-selected));
+}
+
+.device--mobile > .device__screen:has(.map-home) {
+  --home-header-band: 2.5rem;
+  --home-header-height: calc(var(--device-statusbar-height) + var(--home-header-band));
+}
+
+.device__screen:has(.map-home) > .device__statusbar {
+  background-image: var(--home-header-wash);
+  background-position: top;
+  background-size: 100% var(--home-header-height);
+  background-repeat: no-repeat;
+}
+
+/* For now Home has no wordmark header: the greeting band is the top of the
+   screen (and on the phone its wash runs on up behind the status bar). */
+.chrome:has(.map-home) > .chrome__header {
+  display: none;
 }
 
 .map-home__greeting b {
   font-family: var(--font-display);
   word-spacing: var(--font-display-word-spacing);
   letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-xl);
+  font-size: var(--text-lg);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
 }
@@ -11468,6 +11716,64 @@ ul.login__never {
   color: var(--color-text-secondary);
 }
 
+/* With motion allowed, the greeting comes first, then the date gently takes
+   its place: the greeting lifts and fades out as the date rises and fades in,
+   in the same spot and the same size. Both stay in the page for screen
+   readers. Without motion, the date stays as the line under the greeting. */
+@media (prefers-reduced-motion: no-preference) {
+  .map-home__greeting {
+    display: grid;
+    place-items: center;
+  }
+
+  .map-home__greeting b,
+  .map-home__greeting span {
+    grid-area: 1 / 1;
+  }
+
+  .map-home__greeting span {
+    font-family: var(--font-display);
+    word-spacing: var(--font-display-word-spacing);
+    letter-spacing: var(--font-display-tracking);
+    font-size: var(--text-lg);
+    font-weight: var(--weight-semibold);
+    line-height: var(--leading-snug);
+    color: inherit;
+    animation: map-greeting-in 600ms var(--easing-standard) 4200ms both;
+  }
+
+  .map-home__greeting b {
+    animation: map-greeting-out 500ms var(--easing-exit) 4000ms both;
+  }
+
+  /* Once it takes the greeting's place, the date is the greeting's colour. */
+  [data-viewport="mobile"] .map-home__greeting span {
+    color: inherit;
+  }
+}
+
+@keyframes map-greeting-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--space-xs)));
+  }
+}
+
+@keyframes map-greeting-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-xs));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .map-home__section {
   display: flex;
   flex-direction: column;
@@ -11475,16 +11781,20 @@ ul.login__never {
   min-width: 0;
 }
 
-.map-home__heading {
+/* Home's section headings (the map, Stay on track and the Signal Picture)
+   share the heading role, so each section has a real title and the small
+   blue eyebrow is left to name the cards inside them. */
+.map-home__heading,
+.map-home .signals-home__heading,
+.map-home .signal-picture .account-card__name {
   margin: 0;
-  font-family: var(--type-eyebrow-font);
-  font-size: var(--type-eyebrow-size);
-  font-weight: var(--type-eyebrow-weight);
-  line-height: var(--type-eyebrow-leading);
-  letter-spacing: var(--type-eyebrow-tracking);
-  word-spacing: var(--type-eyebrow-word-spacing);
-  text-transform: uppercase;
-  color: var(--color-eyebrow);
+  font-family: var(--type-heading-font);
+  font-size: var(--type-heading-size);
+  font-weight: var(--type-heading-weight);
+  line-height: var(--type-heading-leading);
+  letter-spacing: var(--type-heading-tracking);
+  word-spacing: var(--type-heading-word-spacing);
+  color: var(--color-text-primary);
 }
 
 /* The tray under the rings: the selected ring's next step. Its notch points
@@ -11514,6 +11824,25 @@ ul.login__never {
   background-color: var(--color-surface-feature);
   transform: translateX(-50%) rotate(45deg);
   transition: left var(--duration-base) var(--easing-standard);
+  /* Above the card, so its lower half covers the card's top edge and the
+     notch and the card read as one shape. */
+  z-index: 1;
+}
+
+/* Under the next-step card the notch and the card are one navy shape: a
+   plain triangle whose base runs on into the header, its points on the
+   card's edge. The base sinks a few pixels into the card, past its top
+   edge, so no seam can show between the two. */
+.map-tray:has(.feature-card__head--inverse) .map-tray__notch {
+  --sink: var(--space-3xs);
+  top: calc(-1 * var(--space-xs));
+  width: calc(var(--space-md) + var(--sink) * 2);
+  height: calc(var(--space-xs) + var(--sink));
+  border: 0;
+  border-radius: 0;
+  background-color: var(--color-surface-inverse);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  transform: translateX(-50%);
 }
 
 /* A note in place of a card (a ring that is empty or finished): the same
@@ -11551,7 +11880,6 @@ ul.map-rings {
 }
 
 .map-rings__ring {
-  --map-hole: var(--color-surface);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11566,13 +11894,12 @@ ul.map-rings {
 
 .map-rings__ring:hover,
 .map-rings__ring.is-hover {
-  --map-hole: var(--color-surface-hover);
   background-color: var(--color-surface-hover);
 }
 
 .map-rings__ring[aria-pressed="true"] {
-  --map-hole: var(--color-surface-selected);
-  background-color: var(--color-surface-selected);
+  background-color: var(--color-ring-selected);
+  box-shadow: inset 0 0 0 var(--border-width-thin) var(--color-ring-selected-edge);
 }
 
 .map-rings__ring:focus-visible,
@@ -11583,7 +11910,6 @@ ul.map-rings {
 
 .map-rings__ring:active,
 .map-rings__ring.is-active {
-  --map-hole: var(--color-surface-active);
   background-color: var(--color-surface-active);
 }
 
@@ -11613,21 +11939,30 @@ ul.map-rings {
   fill: none;
 }
 
-.map-rings__done { stroke: var(--color-surface-inverse); }
-.map-rings__hole { stroke: var(--map-hole); }
-.map-rings__not { stroke: var(--color-text-muted); }
+.map-rings__done { stroke: var(--color-ring-done); }
+.map-rings__track { stroke: var(--color-ring-track); }
+/* --fade is how far along the in-progress band a slice sits, 0% to 100%. */
+.map-rings__fade { stroke: color-mix(in srgb, var(--color-ring-progress-end) var(--fade), var(--color-ring-progress-start)); }
 
+/* A finished ring carries its check in the middle, where the ring frames it. */
 .map-rings__check {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 50%;
+  left: 50%;
   display: grid;
   place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  color: var(--color-ring-done);
+  transform: translate(-50%, -50%);
+}
+
+/* A larger check than the icon set's own, a touch heavier, so it holds its own
+   inside the navy ring. */
+.map-rings__check svg {
   width: 1.5rem;
   height: 1.5rem;
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
+  stroke-width: 1.8;
 }
 
 .map-rings__name {
@@ -11663,15 +11998,15 @@ p.map-legend {
 
 .map-legend__key {
   display: inline-block;
-  /* A short segment, like the arcs in the rings, not a dot. */
+  /* A short segment with square ends, like the arcs in the rings. */
   width: 1.25rem;
-  height: 0.625rem;
-  border-radius: var(--radius-pill);
+  height: 0.5rem;
+  border-radius: 0;
 }
 
-.map-legend__key--done { background-color: var(--color-surface-inverse); }
-.map-legend__key--progress { border: 2px solid var(--color-surface-inverse); background-color: var(--color-surface); }
-.map-legend__key--not { border: 2px dashed var(--color-text-muted); }
+.map-legend__key--done { background-color: var(--color-ring-done); }
+.map-legend__key--progress { background-image: linear-gradient(90deg, var(--color-ring-progress-start), var(--color-ring-progress-end)); }
+.map-legend__key--not { background-color: var(--color-ring-track); }
 
 /* What is in the ring she tapped. */
 
@@ -11943,6 +12278,42 @@ ul.card-carousel__track {
   scroll-snap-align: start;
 }
 
+/* A row that is only waiting, in the Stay on track row of cards, is laid out
+   like the question cards beside it: where it stands at the top, a hairline,
+   then what it is and what happens next, from the top of the card down. */
+.card-carousel__slide > .loop-row {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border-color: var(--color-border);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-raised);
+}
+
+.card-carousel__slide > .loop-row > .loop-status {
+  order: -1;
+}
+
+.card-carousel__slide > .loop-row > .loop-row__text {
+  align-self: stretch;
+  gap: var(--space-2xs);
+  padding-top: var(--space-sm);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+.card-carousel__slide > .loop-row .loop-row__text b {
+  font-family: var(--type-subheading-font);
+  font-size: var(--type-subheading-size);
+  font-weight: var(--type-subheading-weight);
+  line-height: var(--type-subheading-leading);
+}
+
+.card-carousel__slide > .loop-row .loop-row__text span {
+  font-size: var(--text-sm);
+}
+
 .card-carousel__slide:only-child {
   flex-basis: 100%;
 }
@@ -11961,6 +12332,31 @@ ul.card-carousel__track {
 
 .card-carousel__back {
   transform: rotate(180deg);
+}
+
+/* Previous and next are a matching pair of quiet outlined circles. At either
+   end the one that can't go further fades to a hairline, rather than turning
+   a different colour. */
+.card-carousel__controls > .btn {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: var(--border-width-thin) solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-raised);
+  color: var(--color-text-primary);
+}
+
+.card-carousel__controls > .btn:hover:not(:disabled) {
+  background-color: var(--color-surface-hover);
+}
+
+.card-carousel__controls > .btn:disabled {
+  border-color: var(--color-border-subtle);
+  background-color: transparent;
+  color: var(--color-text-disabled);
 }
 
 .card-carousel__position {
@@ -11986,6 +12382,33 @@ ul.card-carousel__track {
 .card-carousel__dots i.is-now {
   border-color: var(--color-surface-inverse);
   background-color: var(--color-surface-inverse);
+}
+
+/* No arrows: the dots sit centred and are the controls. Each is a 24px
+   target around its small dot (WCAG 2.5.8). */
+.card-carousel__controls--dots {
+  justify-content: center;
+}
+
+.card-carousel__dots--buttons {
+  gap: 0;
+}
+
+.card-carousel__dots--buttons button {
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.card-carousel__dots--buttons button:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: calc(-1 * var(--space-3xs));
+  border-radius: var(--radius-pill);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -12042,6 +12465,13 @@ ul.card-carousel__track {
 
 .baseline-form__intro {
   margin: 0;
+  /* An introduction, not a headline: the small body size, in the secondary
+     colour, under the section's title. */
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
 }
 
 .baseline-form__actions {
@@ -12066,24 +12496,37 @@ ul.card-carousel__track {
   min-width: 0;
 }
 
+/* The label and hint match a text field's, so a stepper sits evenly beside
+   one in a form. */
 .stepper__text b {
-  font-family: var(--type-subheading-font);
-  font-size: var(--text-base);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
+  font-family: var(--type-label-font);
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  line-height: var(--type-label-leading);
+  letter-spacing: var(--type-label-tracking);
+  word-spacing: var(--type-label-word-spacing);
 }
 
 .stepper__text span {
-  font-size: var(--text-xs);
+  font-family: var(--type-caption-font);
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  line-height: var(--type-caption-leading);
+  letter-spacing: var(--type-caption-tracking);
+  word-spacing: var(--type-caption-word-spacing);
   color: var(--color-text-secondary);
 }
 
+/* The control is a light-blue pill, like the secondary buttons. */
 .stepper__control {
   /* No pill around the control: the minus and plus are the buttons. */
   display: inline-flex;
   flex: none;
   align-items: center;
   gap: var(--space-3xs);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-action-secondary);
+  color: var(--color-text-on-action-secondary);
 }
 
 .stepper__button {
@@ -12093,13 +12536,13 @@ ul.card-carousel__track {
   width: var(--button-target);
   height: var(--button-target);
   border-radius: var(--radius-pill);
-  color: var(--color-text-link);
+  color: var(--color-text-on-action-secondary);
   transition: background-color var(--duration-fast);
 }
 
 .stepper__button:hover:not(:disabled),
 .stepper__button.is-hover {
-  background-color: var(--color-surface-hover);
+  background-color: var(--color-action-secondary-hover);
 }
 
 .stepper__button:focus-visible,
@@ -12110,7 +12553,7 @@ ul.card-carousel__track {
 
 .stepper__button:active:not(:disabled),
 .stepper__button.is-active {
-  background-color: var(--color-surface-active);
+  background-color: var(--color-action-secondary-active);
 }
 
 .stepper__button:disabled {
