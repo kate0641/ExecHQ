@@ -4,6 +4,7 @@ import { Logo, type LogoTone } from "@/components/primitives/Logo";
 import { TextLink } from "@/components/primitives/TextLink";
 import { getHubPage } from "@/lib/hub-pages";
 import { IconGuide } from "./IconGuide";
+import { PageRecipe } from "./PageRecipe";
 import { Specimens } from "./Specimens";
 import { StyleguideSections } from "./StyleguideSections";
 import { TypeLab, type TypeLabRole } from "./TypeLab";
@@ -579,6 +580,18 @@ export function StyleguideViewer() {
   return (
     <StyleguideSections
       sections={[
+        {
+          id: "page-recipe",
+          label: "How a page is built",
+          group: "Start here",
+          description: "The rules each designed page has settled, and the page each came from. Every new page starts from these and adds what it learns, so the system gets better with each one.",
+          source: "components/hub/StyleguideViewer/PageRecipe.tsx · shared classes in styles/app.css",
+          content: (
+          <div className="styleguide-layout__card">
+            <PageRecipe />
+          </div>
+          ),
+        },
         {
           id: "logo",
           label: "Logo",
