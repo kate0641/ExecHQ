@@ -28,6 +28,9 @@ export const CONCIERGE_COPY = {
   goTo: "Go to",
   resumeEyebrow: "Pick up where you left off",
   askMe: "Ask me",
+  /** His first message, which opens every conversation. Placeholder wording
+   *  for Kate to write (designer, 2026-10-07). */
+  hello: (name: string) => `Hi ${name}. Pick up where you left off, or ask me anything about your plan.`,
 
   /** Suggested questions, by what is going on. */
   suggest: {

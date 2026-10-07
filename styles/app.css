@@ -2793,7 +2793,7 @@ ul.concierge-mini {
 ul.concierge-mini {
   display: flex;
   gap: var(--space-lg);
-  margin: 0 calc(-1 * var(--space-lg)) var(--space-md);
+  margin: 0 calc(-1 * var(--space-lg)) var(--space-lg);
   padding: 0 var(--space-lg);
   border-bottom: var(--border-width-thin) solid var(--color-border-subtle);
   overflow-x: auto;
@@ -2818,6 +2818,18 @@ ul.concierge-mini {
   letter-spacing: var(--type-label-tracking);
   color: var(--color-text-secondary);
   text-decoration: none;
+}
+
+/* A follow-up is waiting on Home: the accent dot the icon tiles carried,
+   after the word. */
+.concierge-mini__dot {
+  width: 6px;
+  height: 6px;
+  margin-left: var(--space-2xs);
+  align-self: flex-start;
+  margin-top: var(--space-sm);
+  border-radius: 50%;
+  background-color: var(--color-accent);
 }
 
 .concierge-mini a:hover {
