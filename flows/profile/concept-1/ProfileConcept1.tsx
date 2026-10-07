@@ -71,13 +71,15 @@ function AccountSummary({ account, onEdit }: { account: Account; onEdit: () => v
           <span className="u-visually-hidden"> your account</span>
         </Button>
       </div>
-      <div className="profile-fact">
-        <span className="profile-fact__label">{C.account.nameLabel}</span>
-        <span className="profile-fact__value">{fullName(account) || C.noName}</span>
-      </div>
-      <div className="profile-fact">
-        <span className="profile-fact__label">{C.account.emailLabel}</span>
-        <span className="profile-fact__value">{account.email}</span>
+      <div className="card card--reads">
+        <div className="profile-fact">
+          <span className="profile-fact__label">{C.account.nameLabel}</span>
+          <span className="profile-fact__value">{fullName(account) || C.noName}</span>
+        </div>
+        <div className="profile-fact">
+          <span className="profile-fact__label">{C.account.emailLabel}</span>
+          <span className="profile-fact__value">{account.email}</span>
+        </div>
       </div>
     </div>
   );

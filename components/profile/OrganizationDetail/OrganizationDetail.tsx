@@ -66,13 +66,15 @@ export function OrganizationDetail({
 
   return (
     <DetailPanel heading={C.heading} headingId={headingId} lead={C.member(org.name)} onClose={onClose}>
-      <div className="profile-fact">
-        <span className="profile-fact__label">{C.never}</span>
-        <span className="profile-fact__value">{sentence(org.never)}</span>
+      <div className="card">
+        <div className="profile-fact">
+          <span className="profile-fact__label">{C.never}</span>
+          <span className="profile-fact__value">{sentence(org.never)}</span>
+        </div>
+        <Button variant="secondary" fullWidth onClick={onRequestLeave ?? (() => setConfirming(true))}>
+          {C.leave}
+        </Button>
       </div>
-      <Button variant="secondary" fullWidth onClick={onRequestLeave ?? (() => setConfirming(true))}>
-        {C.leave}
-      </Button>
     </DetailPanel>
   );
 }
