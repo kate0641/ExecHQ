@@ -2801,6 +2801,14 @@ ul.concierge-mini {
   margin-top: var(--space-sm);
 }
 
+/* The same distance above and below every one of her messages. The first
+   line of an answer follows the hidden "ExecHQ:" label, so it takes no
+   paragraph gap from it, and its half-leading is trimmed so the words, not
+   the line box, sit 16px under her bubble. */
+.concierge-thread .chat-message--advisor .chat-message__body > .u-visually-hidden + * {
+  margin-top: calc((1em - 1lh) / 2);
+}
+
 /* Her messages: a soft, fully rounded bubble. */
 .concierge-thread .chat-message--you .chat-message__body {
   padding: var(--space-xs) var(--space-md);
