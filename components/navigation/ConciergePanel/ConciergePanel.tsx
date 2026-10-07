@@ -9,6 +9,9 @@ export interface ConciergePanelProps {
   mode?: "sheet" | "card";
   /** The conversation, or what to start with. */
   children: ReactNode;
+  /** Above the advisor's head, held in place while the conversation scrolls: the way to the
+   *  product's places, once she is talking. */
+  top?: ReactNode;
   /** The composer and anything above it. */
   footer?: ReactNode;
   /** The panel's accessible name. */
@@ -42,6 +45,7 @@ const DIALOG = { role: "dialog", "aria-modal": true } as const;
 export function ConciergePanel({
   mode = "card",
   children,
+  top,
   footer,
   label = "ExecHQ, your advisor",
   name = "ExecHQ",
@@ -98,6 +102,7 @@ export function ConciergePanel({
           onPointerCancel={onUp}
         />
       ) : null}
+      {top ? <div className="concierge-panel__top">{top}</div> : null}
       <div className={["concierge-panel__head", bare ? "concierge-panel__head--bare" : null].filter(Boolean).join(" ")}>
         {whoInHead ? <AdvisorWho name={name} role={role} /> : <span className="concierge-panel__who" />}
         {onNew ? (

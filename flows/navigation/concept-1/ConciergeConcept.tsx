@@ -345,6 +345,26 @@ function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { m
       onNew={chatting ? () => update({ messages: [], asked: undefined }) : undefined}
       onClose={() => closePanel()}
       className={chatting ? "is-chatting" : undefined}
+      // Talking, the way to the product's places sits above the advisor's head, then the chat.
+      top={
+        chatting ? (
+          <ul className="concierge-mini" aria-label={C.goTo}>
+            {destinations.map((d) => (
+              <li key={d.flowSlug}>
+                <Link
+                  href={d.href}
+                  className={d.flowSlug === currentFlow ? "is-current" : undefined}
+                  aria-current={d.flowSlug === currentFlow ? "page" : undefined}
+                  onClick={() => closePanel(false)}
+                >
+                  <Icon name={ICONS[d.flowSlug] ?? "home"} size={16} />
+                  {d.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        ) : undefined
+      }
       footer={
         <>
           {replies.length ? (
@@ -387,21 +407,6 @@ function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { m
       <div className="concierge-body" ref={bodyRef}>
         {chatting ? (
           <>
-            <ul className="concierge-mini" aria-label={C.goTo}>
-              {destinations.map((d) => (
-                <li key={d.flowSlug}>
-                  <Link
-                    href={d.href}
-                    className={d.flowSlug === currentFlow ? "is-current" : undefined}
-                    aria-current={d.flowSlug === currentFlow ? "page" : undefined}
-                    onClick={() => closePanel(false)}
-                  >
-                    <Icon name={ICONS[d.flowSlug] ?? "home"} size={16} />
-                    {d.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
             <div className="concierge-thread" role="log" aria-label="Conversation">
               {concierge.messages.map((m, i) => {
                 const prev = concierge.messages[i - 1];

@@ -29,7 +29,7 @@ export const conciergePanelStates = defineComponentStates({
   status: "draft",
   flows: ["navigation"],
   description:
-    "The frame of Navigation Concept 1's advisor: his name, the conversation, and the composer. A sheet over the phone; a centred card on tablet and web, which the pill grows into.",
+    "The frame of Navigation Concept 1's advisor: an optional row above (the way to the product's places, once she is talking), his name, the conversation, and the composer. A sheet over the phone; a centred card on tablet and web, which the pill grows into.",
   component: ConciergePanel,
   notApplicable: {
     disabled: "The advisor is always available.",
@@ -44,6 +44,23 @@ export const conciergePanelStates = defineComponentStates({
     {
       label: "Sheet, on the phone",
       props: { mode: "sheet", children: conversation, onNew: noop, onClose: noop },
+    },
+    {
+      label: "Sheet, with the places above the head",
+      description: "Once she is talking, the concept puts the way to the product's places above the advisor's head, held while the chat scrolls.",
+      props: {
+        mode: "sheet",
+        top: h(
+          "ul",
+          { className: "concierge-mini", "aria-label": "Go to" },
+          ["Home", "Plan", "Signals", "Toolbox", "Briefing"].map((label) =>
+            h("li", { key: label }, h("a", { href: "#", className: label === "Plan" ? "is-current" : undefined }, label))
+          )
+        ),
+        children: conversation,
+        onNew: noop,
+        onClose: noop,
+      },
     },
     {
       label: "Empty, a new conversation",
