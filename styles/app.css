@@ -2341,6 +2341,7 @@ ul.chrome__nav-list {
 /* The panel. */
 
 .concierge-panel {
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -2398,6 +2399,19 @@ ul.chrome__nav-list {
   gap: var(--space-sm);
   padding: var(--space-xs) var(--space-md) 0 var(--space-lg);
   color: var(--color-text-primary);
+}
+
+/* On the phone sheet, Close sits in the sheet's top-right corner, level with
+   the grab bar, and New chat takes the end of the header row. The row starts
+   below Close's 44px tap area so the two never overlap. */
+.concierge-panel--sheet .concierge-panel__head:not(.concierge-panel__head--bare) {
+  padding-top: var(--space-sm);
+}
+
+.concierge-panel--sheet .concierge-panel__head:not(.concierge-panel__head--bare) .concierge-panel__close {
+  position: absolute;
+  top: 0;
+  right: var(--space-xs);
 }
 
 /* In the header, the advisor is just his mark and name; "Your advisor" is
