@@ -12829,6 +12829,7 @@ ul.card-carousel__track {
 
 /* The control is a light-blue pill, like the secondary buttons. */
 .stepper__control {
+  /* No pill around the control: the minus and plus are the buttons. */
   display: inline-flex;
   flex: none;
   align-items: center;
@@ -12841,8 +12842,9 @@ ul.card-carousel__track {
 .stepper__button {
   display: grid;
   place-items: center;
-  width: 2.5rem;
-  height: 2.5rem;
+  /* 44px, the full tap size (WCAG 2.5.8, Apple's 44pt). */
+  width: var(--button-target);
+  height: var(--button-target);
   border-radius: var(--radius-pill);
   color: var(--color-text-on-action-secondary);
   transition: background-color var(--duration-fast);
