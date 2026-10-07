@@ -2790,7 +2790,10 @@ ul.concierge-mini {
   border-radius: var(--radius-xl);
 }
 
-.concierge-list {
+/* An indented list: the numbers sit inside the text's margin and the lines
+   indent after them, never hanging out past the padding (designer,
+   2026-10-07). Element and class, to outrank the ol[class] reset. */
+ol.concierge-list {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);

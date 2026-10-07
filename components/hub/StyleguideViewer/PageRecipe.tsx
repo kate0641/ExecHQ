@@ -91,6 +91,11 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         uses: [".read", "--type-eyebrow-*", "--color-text-secondary"],
       },
       {
+        rule: "Lists are indented: numbers or bullets sit inside the text's margin and the lines indent after them. Nothing hangs past the padding.",
+        why: "Hanging numbers in the advisor's answers ran out past the edge every other line respects.",
+        from: "Navigation",
+      },
+      {
         rule: "Body copy at 1.7 leading with a 12px gap between paragraphs. Captions are 13px regular.",
         why: "Text-heavy screens get lighter through rhythm, never by cutting the copy.",
         from: "Home",
