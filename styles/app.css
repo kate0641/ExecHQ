@@ -12432,6 +12432,31 @@ ul.card-carousel__track {
   transform: rotate(180deg);
 }
 
+/* Previous and next are a matching pair of quiet outlined circles. At either
+   end the one that can't go further fades to a hairline, rather than turning
+   a different colour. */
+.card-carousel__controls > .btn {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: var(--border-width-thin) solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-raised);
+  color: var(--color-text-primary);
+}
+
+.card-carousel__controls > .btn:hover:not(:disabled) {
+  background-color: var(--color-surface-hover);
+}
+
+.card-carousel__controls > .btn:disabled {
+  border-color: var(--color-border-subtle);
+  background-color: transparent;
+  color: var(--color-text-disabled);
+}
+
 .card-carousel__position {
   display: flex;
   align-items: center;
