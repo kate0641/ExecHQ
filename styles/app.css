@@ -2429,8 +2429,23 @@ ul.chrome__nav-list {
   right: var(--space-xs);
 }
 
-/* In the header, the advisor is just his mark and name; "Your advisor" is
-   there for screen readers. */
+/* No mark or name in the header (designer, 2026-10-07): the sheet is plainly
+   the advisor, so the row holds only New chat. "ExecHQ, Your advisor" is
+   still there for screen readers, and the empty slot keeps New chat at the
+   right. */
+.concierge-panel__head .concierge-who > :not(.concierge-panel__who) {
+  display: none;
+}
+
+.concierge-panel__head .concierge-panel__who {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .concierge-panel__head .concierge-panel__who span {
   position: absolute;
   width: 1px;

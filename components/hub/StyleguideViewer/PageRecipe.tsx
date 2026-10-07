@@ -125,7 +125,7 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
     note: "The advisor should feel like a chat app on a phone: the conversation, and little else.",
     rules: [
       {
-        rule: "No rules, boxes or outlined chips around the conversation. The header is the mark, the name, New chat and close.",
+        rule: "No rules, boxes or outlined chips around the conversation. The header is just New chat and close, with no mark or name; the sheet is plainly the advisor.",
         why: "Layers of chrome above the first message made the panel feel clunky next to Claude or ChatGPT on mobile.",
         from: "Navigation",
       },
