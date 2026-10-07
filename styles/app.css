@@ -9111,6 +9111,12 @@ ol.signal__list {
   align-self: flex-start;
 }
 
+/* In the centred question card, a link on its own sits centred under the
+   read-back, in line with it. */
+.check-in--question .check-in__add {
+  align-self: center;
+}
+
 .check-in__note {
   display: flex;
   flex-direction: column;
