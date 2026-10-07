@@ -12079,20 +12079,19 @@ ul.card-carousel__track {
 }
 
 .stepper__control {
+  /* No pill around the control: the minus and plus are the buttons. */
   display: inline-flex;
   flex: none;
   align-items: center;
   gap: var(--space-3xs);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface);
 }
 
 .stepper__button {
   display: grid;
   place-items: center;
-  width: 2.5rem;
-  height: 2.5rem;
+  /* 44px, the full tap size (WCAG 2.5.8, Apple's 44pt). */
+  width: var(--button-target);
+  height: var(--button-target);
   border-radius: var(--radius-pill);
   color: var(--color-text-link);
   transition: background-color var(--duration-fast);
