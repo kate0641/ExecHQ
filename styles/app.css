@@ -2509,9 +2509,13 @@ ul.chrome__nav-list {
   color: var(--color-text-secondary);
 }
 
+/* A flat link, not a button (designer, 2026-10-07): like .link--quiet, no
+   fill on hover, only the text darkening and an underline. */
 .concierge-panel__new:hover {
-  background-color: var(--color-surface-hover);
   color: var(--color-text-primary);
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width-thin);
+  text-underline-offset: 0.2em;
 }
 
 .concierge-panel__new:focus-visible {
