@@ -130,10 +130,10 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         from: "Navigation",
       },
       {
-        rule: "One even gap between every message, 24px, the same above and below each of hers. Paragraphs and cards inside an answer sit 16px apart; numbered steps keep their numbers.",
+        rule: "One even gap between every message, 24px, the same above and below each of hers. Answers are set like Claude's chat: 1.55 leading, paragraphs and cards 12px apart; numbered steps keep their numbers.",
         why: "16px between turns felt tight, and uneven gaps around her messages made a card look attached to the wrong turn; no gaps inside an answer made it one block.",
         from: "Navigation",
-        uses: ["--space-lg", "--space-md", "--leading-relaxed"],
+        uses: ["--space-lg", "--space-sm", "--leading-normal"],
       },
       {
         rule: "A row of choices that is not a button row is quiet text tabs, the current one underlined in navy.",

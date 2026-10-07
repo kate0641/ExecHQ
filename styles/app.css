@@ -2839,12 +2839,14 @@ ul.concierge-mini {
 }
 
 /* His answers: room between paragraphs, and numbered steps kept numbered. */
+/* Set like Claude's own chat (designer, 2026-10-07): 1.55 leading and 12px
+   between paragraphs, tighter than the page's 1.7 body copy. */
 .concierge-thread .chat-message__body {
-  line-height: var(--leading-relaxed);
+  line-height: var(--leading-normal);
 }
 
 .concierge-thread .chat-message--advisor .chat-message__body > * + * {
-  margin-top: var(--space-md);
+  margin-top: var(--space-sm);
 }
 
 /* The same distance above and below every one of her messages. The first
