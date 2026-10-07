@@ -364,6 +364,7 @@
 
   --text-2xs: 0.6875rem; /* 11px — badges, meta */
   --text-xs: 0.75rem;    /* 12px */
+  --text-xs-plus: 0.8125rem; /* 13px — hints and captions, a step up from 12 for reading on a phone */
   --text-sm: 0.875rem;   /* 14px */
   --text-md: 1rem;       /* 16px — body default */
   --text-lg: 1.125rem;   /* 18px */
@@ -441,12 +442,12 @@
   /* Subheading — an item in a list or card: a row, a link, a read. A clear
      step below the heading (16 semibold against 22), so rows read as items
      in a list, not as headings competing with the card above them. */
-  --type-subheading-font: var(--font-display);
+  --type-subheading-font: var(--font-body);
   --type-subheading-size: var(--text-md);
   --type-subheading-weight: var(--weight-semibold);
   --type-subheading-leading: var(--leading-snug);
-  --type-subheading-tracking: var(--font-display-tracking);
-  --type-subheading-word-spacing: var(--font-display-word-spacing);
+  --type-subheading-tracking: var(--tracking-normal);
+  --type-subheading-word-spacing: var(--word-spacing-normal);
 
   /* Body — reading text. */
   --type-body-font: var(--font-body);
@@ -465,29 +466,29 @@
   --type-body-sm-word-spacing: var(--word-spacing-normal);
 
   /* Label — the words on controls: buttons, field labels, tabs. */
-  --type-label-font: var(--font-display);
+  --type-label-font: var(--font-body);
   --type-label-size: var(--text-sm);
   --type-label-weight: var(--weight-semibold);
   --type-label-leading: var(--leading-snug);
-  --type-label-tracking: var(--font-display-tracking-label);
-  --type-label-word-spacing: var(--font-display-word-spacing);
+  --type-label-tracking: var(--tracking-normal);
+  --type-label-word-spacing: var(--word-spacing-normal);
 
   /* Caption — metadata: dates, hints, counts, status. */
   --type-caption-font: var(--font-body);
-  --type-caption-size: var(--text-xs);
-  --type-caption-weight: var(--weight-semibold);
+  --type-caption-size: var(--text-xs-plus);
+  --type-caption-weight: var(--weight-regular);
   --type-caption-leading: var(--leading-snug);
   --type-caption-tracking: var(--tracking-normal);
   --type-caption-word-spacing: var(--word-spacing-normal);
 
   /* Eyebrow — the small capitals above a heading, and badges. Always
      uppercase; the case is set with the role in styles/app.css. */
-  --type-eyebrow-font: var(--font-display);
+  --type-eyebrow-font: var(--font-body);
   --type-eyebrow-size: var(--text-xs);
   --type-eyebrow-weight: var(--weight-semibold);
   --type-eyebrow-leading: var(--leading-snug);
   --type-eyebrow-tracking: var(--tracking-label);
-  --type-eyebrow-word-spacing: var(--font-display-word-spacing);
+  --type-eyebrow-word-spacing: var(--word-spacing-normal);
 
   /* Figure — numbers shown as data: follower counts, percentages, the stage
      number. Libre Baskerville, so figures read as considered, not as UI. */
