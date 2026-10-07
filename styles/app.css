@@ -9085,8 +9085,8 @@ ol.signal__list {
 /* A small coloured dot before each main answer, for a faster read. */
 .check-in__dot {
   flex: none;
-  width: var(--space-xs);
-  height: var(--space-xs);
+  width: var(--space-sm);
+  height: var(--space-sm);
   border-radius: var(--radius-pill);
 }
 
