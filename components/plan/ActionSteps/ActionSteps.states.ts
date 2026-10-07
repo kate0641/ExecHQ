@@ -57,7 +57,7 @@ export const actionStepsStates = defineComponentStates({
     },
     {
       label: "Swiping row — five in one row, in order",
-      description: "Concept 1: compact cards in a swipe-or-step row, short-term to long-term, with chips that jump to a horizon. A free place is not drawn.",
+      description: "Concept 1: compact cards in a swipe-or-step row, short-term to long-term. A free place is not drawn.",
       props: { today, startHref, initial: start, layout: "carousel", headingId: "as-row" },
     },
     {

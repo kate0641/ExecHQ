@@ -15441,46 +15441,6 @@ ul.pcal__items {
   background-color: var(--color-border-strong);
 }
 
-.steps__jump {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-xs);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.steps__jump button {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2xs);
-  min-height: 2.125rem;
-  padding: var(--space-3xs) var(--space-sm);
-  border: var(--border-thin);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface-raised);
-  color: var(--color-text-primary);
-  font: inherit;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  cursor: pointer;
-}
-
-.steps__jump button[aria-current="true"] {
-  border-color: var(--color-text-primary);
-  background-color: var(--color-surface-feature);
-}
-
-.steps__jump button:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.steps__jump small {
-  font-weight: var(--weight-regular);
-  color: var(--color-text-secondary);
-}
-
 /* A quiet text link: a secondary path under the main button, never a second button. */
 .step-card__textlink {
   padding: var(--space-2xs) var(--space-3xs);

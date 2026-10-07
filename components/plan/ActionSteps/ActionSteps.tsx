@@ -20,7 +20,7 @@ import {
   type PlanState,
 } from "@/lib/action-steps";
 import type { LoopDate } from "@/lib/loop";
-import { LIVE_LIMITS, PLAN_COPY, STEP_COPY as C, stepById, type ActionStep } from "@/mock/plan";
+import { LIVE_LIMITS, PLAN_COPY, STEP_COPY as C, type ActionStep } from "@/mock/plan";
 import { HORIZONS, type Horizon } from "@/mock/plan-stub";
 
 interface Note {
@@ -51,7 +51,7 @@ export interface ActionStepsProps {
   /** Told whenever the steps on her Plan change, so the Calendar shows the same ones. */
   onState?: (state: PlanState) => void;
   /** `list` is a column of cards by horizon (Concepts 2 and 3). `carousel` is one swiping row of compact
-   *  cards in order, short-term to long-term, with chips that jump to a horizon (Concept 1). */
+   *  cards in order, short-term to long-term (Concept 1). */
   layout?: "list" | "carousel";
   /** Her choices kept between visits. Without it they last until she leaves. */
   persist?: { saved?: SavedSteps; onChange: (steps: SavedSteps) => void };
@@ -112,9 +112,8 @@ export function ActionSteps({
   });
   const [message, setMessage] = useState("");
   const focus = useRef<string | null>(null);
-  // The swiping row: where something asked it to go, and which horizon it has settled on.
+  // The swiping row: where something asked it to go.
   const [goTo, setGoTo] = useState<{ id: string; n: number } | undefined>();
-  const [here, setHere] = useState<Horizon>("short");
 
   // A step done in the Loop leaves, and the next is offered. Worked out while
   // rendering, once per change, so nothing flashes.
@@ -210,7 +209,6 @@ export function ActionSteps({
         node: renderCard(step, { compact: true, headingLevel: 3, first: h.id === "short" && i === 0 }),
       }))
     );
-    const horizonOf = (id: string): Horizon => stepById(id)?.horizon ?? "short";
     return (
       <section className={["steps", "steps--carousel", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
         <div className="steps__head">
@@ -219,23 +217,6 @@ export function ActionSteps({
           </h2>
         </div>
         <output className="u-visually-hidden">{message}</output>
-        <ul className="steps__jump" aria-label={C.jumpLabel}>
-          {HORIZONS.map((h) => {
-            const here0 = liveIn(state, h.id)[0];
-            return here0 ? (
-              <li key={h.id}>
-                <button
-                  type="button"
-                  aria-current={here === h.id}
-                  onClick={() => setGoTo((g) => ({ id: here0.id, n: (g?.n ?? 0) + 1 }))}
-                >
-                  {C.horizonShort[h.id]}
-                  <small>{liveIn(state, h.id).length}</small>
-                </button>
-              </li>
-            ) : null;
-          })}
-        </ul>
         <CardCarousel
           fixed
           indicator="strip"
@@ -244,7 +225,6 @@ export function ActionSteps({
           previousLabel={C.previousStep}
           nextLabel={C.nextStep}
           goTo={goTo}
-          onCurrent={(id) => setHere(horizonOf(id))}
         />
       </section>
     );

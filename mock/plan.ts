@@ -417,8 +417,6 @@ export const STEP_COPY = {
   /** Said plainly, a count of real places, never progress toward a number. */
   horizonInUse: (n: number, max: number) => `${n} of ${max}`,
   horizonLabels: { short: "Short-term", medium: "Medium-term", long: "Long-term milestone" } as Record<Horizon, string>,
-  jumpLabel: "Jump to a horizon",
-  horizonShort: { short: "Short-term", medium: "Medium-term", long: "Long-term" } as Record<Horizon, string>,
   previousStep: "Previous step",
   nextStep: "Next step",
   roomFree: "A place is free. Your plan offers the next step when one fits.",
