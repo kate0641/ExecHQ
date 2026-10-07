@@ -217,6 +217,7 @@ export function HomepageConcept4() {
                   label: SP.label,
                   dismissLabel: SP.dismiss,
                   dismissName: SP.dismissNote,
+                  tone: "celebrate",
                   onDismiss: (id) => {
                     dismissSpark(id);
                     setAnnounce("");

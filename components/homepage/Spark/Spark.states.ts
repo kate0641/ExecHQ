@@ -39,6 +39,15 @@ export const sparkStates = defineComponentStates({
       },
     },
     {
+      label: "Celebrate — navy, headline and an ×",
+      description: "On the Homepage: a navy card with no mark. The first sentence is the yellow headline beside the source; the × dismisses it.",
+      props: { ...base, items: [podcast], tone: "celebrate" },
+    },
+    {
+      label: "Celebrate — two notes",
+      props: { ...base, items: [press, speaking], tone: "celebrate" },
+    },
+    {
       label: "Nothing to note — empty",
       description: "It is simply not there: no heading, no placeholder.",
       props: { ...base, items: [] },

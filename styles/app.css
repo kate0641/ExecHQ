@@ -8808,7 +8808,8 @@ ol.signal__list {
    tiles inside follow without their own rules. */
 .briefing-card,
 .briefing-editorial,
-.briefing-entry {
+.briefing-entry,
+.spark--celebrate .spark__note {
   --color-surface-raised: var(--color-surface-inverse);
   --color-surface-sunken: var(--color-surface-inverse-hover);
   --color-surface-hover: var(--color-surface-inverse-hover);
@@ -9712,6 +9713,60 @@ ul.spark {
 
 .spark__note .btn {
   flex: none;
+}
+
+/* Celebrate (Homepage): a navy card, no mark. The first sentence is a yellow
+   headline with the source beside it and an × at the end; the rest sits
+   close under it. Navy takes the inverse colours set with the Briefing. */
+.spark--celebrate .spark__note {
+  display: block;
+  padding: var(--space-sm) var(--space-sm) var(--space-md) var(--space-md);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-inverse);
+  box-shadow: none;
+}
+
+.spark__head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  column-gap: var(--space-xs);
+}
+
+.spark__headline {
+  margin: 0;
+  font-family: var(--type-subheading-font);
+  font-size: var(--type-subheading-size);
+  font-weight: var(--type-subheading-weight);
+  line-height: var(--type-subheading-leading);
+  letter-spacing: var(--type-subheading-tracking);
+  word-spacing: var(--type-subheading-word-spacing);
+  color: var(--color-accent-on-inverse);
+}
+
+.spark--celebrate .spark__source {
+  display: inline;
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.spark__note .spark__close {
+  align-self: center;
+  margin-left: auto;
+  padding: var(--space-2xs);
+  color: var(--color-text-primary);
+}
+
+.spark__body {
+  margin: var(--space-2xs) 0 0;
+  padding-right: var(--space-xs);
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  letter-spacing: var(--type-body-sm-tracking);
+  word-spacing: var(--type-body-sm-word-spacing);
+  color: var(--color-text-primary);
 }
 
 /* AddPresenceSheet: the form she adds a podcast, mention, talk or piece with. */
