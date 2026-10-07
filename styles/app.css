@@ -269,6 +269,72 @@ samp {
   color: var(--color-text-secondary);
 }
 
+/* -----------------------------------------------------------------------------
+   SHARED PATTERNS — lifted from one page so the next starts with them. Each
+   came from a decision on a real screen; /showroom/design-system#page-recipe
+   lists them and the page they came from.
+   -------------------------------------------------------------------------- */
+
+/* The card (from Home, 2026-10-06): the raised surface on the page, a soft
+   edge, no shadow. One per job; never a card inside a card. */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-paragraph);
+  padding: var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+}
+
+/* A card of reads: each child is one read, split from the next by a
+   hairline instead of a box. */
+.card--reads {
+  gap: 0;
+  padding-block: 0;
+}
+
+.card--reads > * {
+  padding-block: var(--space-card-padding);
+}
+
+.card--reads > * + * {
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+/* A read (from Home's "Why this / Why now / Why you"): a grey eyebrow naming
+   it, then the words. Grey, not the blue eyebrow, because it labels what is
+   under it rather than introducing a heading. */
+.read {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-eyebrow-title);
+  margin: 0;
+}
+
+.read__label {
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.read__value {
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  letter-spacing: var(--type-body-sm-tracking);
+  word-spacing: var(--type-body-sm-word-spacing);
+  margin: 0;
+  color: var(--color-text-primary);
+  overflow-wrap: anywhere;
+}
+
 .t-measure {
   max-width: var(--content-measure);
 }
@@ -4627,6 +4693,112 @@ ol.ring-detail__timeline {
 
 .styleguide__group-note {
   font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+/* How a page is built (the design system's page recipe). */
+.page-recipe {
+  display: flex;
+  flex-direction: column;
+}
+
+/* The specimen sits on the page colour at phone width, as a page would. */
+.page-recipe__specimen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-between-cards);
+  max-width: 393px;
+  margin-top: var(--space-xs);
+  padding: var(--space-lg) var(--space-screen-side);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface);
+}
+
+.page-recipe__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.page-recipe__heading {
+  margin: 0;
+  font-family: var(--type-heading-font);
+  font-size: var(--type-heading-size-phone);
+  font-weight: var(--type-heading-weight);
+  line-height: var(--type-heading-leading);
+  letter-spacing: var(--type-heading-tracking);
+  word-spacing: var(--type-heading-word-spacing);
+  color: var(--color-text-primary);
+}
+
+.page-recipe__lead {
+  margin: 0;
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
+}
+
+.page-recipe__rules,
+.page-recipe__pages {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin: var(--space-xs) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.page-recipe__rule,
+.page-recipe__page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  max-width: var(--content-measure);
+}
+
+.page-recipe__rule-text {
+  margin: 0;
+  font-family: var(--type-subheading-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-subheading-weight);
+  line-height: var(--leading-snug);
+}
+
+.page-recipe__why {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+.page-recipe__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2xs) var(--space-xs);
+  margin: 0;
+}
+
+.page-recipe__from {
+  font-family: var(--type-caption-font);
+  font-size: var(--type-caption-size);
+  font-weight: var(--weight-regular);
+  color: var(--color-text-muted);
+}
+
+.page-recipe__use {
+  padding: 0 var(--space-2xs);
+  border-radius: var(--radius-xs);
+  background-color: var(--color-surface-sunken);
+  font-size: var(--text-xs);
+}
+
+.page-recipe__added {
+  margin: 0;
+  padding-left: var(--space-md);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
   color: var(--color-text-secondary);
 }
 
@@ -10554,12 +10726,16 @@ ul.stage-actions__list {
 
 .detail-panel__heading {
   margin: 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-bold);
-  line-height: var(--leading-tight);
+  font-family: var(--type-heading-font);
+  font-size: var(--type-heading-size);
+  font-weight: var(--type-heading-weight);
+  line-height: var(--type-heading-leading);
+  letter-spacing: var(--type-heading-tracking);
+  word-spacing: var(--type-heading-word-spacing);
+}
+
+[data-viewport="mobile"] .detail-panel__heading {
+  font-size: var(--type-heading-size-phone);
 }
 
 .detail-panel__heading:focus {
@@ -10579,8 +10755,12 @@ ul.stage-actions__list {
 .detail-panel__lead,
 .detail-panel__body {
   margin: 0;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  letter-spacing: var(--type-body-sm-tracking);
+  word-spacing: var(--type-body-sm-word-spacing);
   color: var(--color-text-secondary);
 }
 
@@ -10689,20 +10869,31 @@ ul.stage-actions__list {
 
 .profile__title {
   margin: 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-2xl);
-  font-weight: var(--weight-bold);
-  line-height: var(--leading-tight);
+  font-family: var(--type-title-font);
+  font-size: var(--type-title-size);
+  font-weight: var(--type-title-weight);
+  line-height: var(--type-title-leading);
+  letter-spacing: var(--type-title-tracking);
+  word-spacing: var(--type-title-word-spacing);
 }
 
+[data-viewport="mobile"] .profile__title {
+  font-size: var(--type-title-size-phone);
+}
+
+/* Sections sit further apart than the heading, line and card inside each,
+   so the page reads as groups (the page recipe's section rhythm). */
 .profile__layout,
 .profile__list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-lg);
+  gap: var(--space-xl);
   min-width: 0;
+}
+
+/* Inside a section on the page: heading, the line under it, then the card. */
+.profile__section .detail-panel {
+  gap: var(--space-sm);
 }
 
 /* The follow-up note belongs to the Email group, so it sits close under it. */
@@ -10726,7 +10917,7 @@ ul.stage-actions__list {
 .profile__column {
   display: flex;
   flex-direction: column;
-  gap: var(--space-lg);
+  gap: var(--space-xl);
   min-width: 0;
 }
 
@@ -10754,20 +10945,35 @@ ul.stage-actions__list {
 .profile-fact {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3xs);
+  gap: var(--space-eyebrow-title);
 }
 
 .profile-fact__label {
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
 }
 
 .profile-fact__value {
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  letter-spacing: var(--type-body-sm-tracking);
+  word-spacing: var(--type-body-sm-word-spacing);
   overflow-wrap: anywhere;
 }
 
 .profile-fact__hint {
-  font-size: var(--text-xs);
+  font-family: var(--type-caption-font);
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  line-height: var(--type-caption-leading);
   color: var(--color-text-muted);
 }
 
