@@ -9606,10 +9606,11 @@ ol.check-in__steps {
 }
 
 .account-card__try b {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--type-subheading-font);
+  word-spacing: var(--type-subheading-word-spacing);
+  letter-spacing: var(--type-subheading-tracking);
   font-size: var(--text-md);
+  font-weight: var(--type-subheading-weight);
   line-height: var(--leading-snug);
 }
 
