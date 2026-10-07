@@ -348,21 +348,9 @@ function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { m
       // Talking, the way to the product's places sits above the advisor's head, then the chat.
       top={
         chatting ? (
-          <ul className="concierge-mini" aria-label={C.goTo}>
-            {destinations.map((d) => (
-              <li key={d.flowSlug}>
-                <Link
-                  href={d.href}
-                  className={d.flowSlug === currentFlow ? "is-current" : undefined}
-                  aria-current={d.flowSlug === currentFlow ? "page" : undefined}
-                  onClick={() => closePanel(false)}
-                >
-                  <Icon name={ICONS[d.flowSlug] ?? "home"} size={16} />
-                  {d.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <nav aria-label={C.goTo}>
+            <Places destinations={destinations} currentFlow={currentFlow} />
+          </nav>
         ) : undefined
       }
       footer={
@@ -455,6 +443,41 @@ function Turn({ turn }: { turn: AdvisorTurn }) {
 }
 
 /** Before anything is asked: where to go, the draft in hand, then the advisor and what to ask. */
+/** The product's places, with their icons, in one row however many there are. A dot says something waits. */
+function Places({ destinations, currentFlow }: { destinations: NavDestination[]; currentFlow: string }) {
+  const loop = useLoop();
+  const newSignals = useNewSignals();
+  return (
+    <ul className="concierge-dests">
+      {destinations.map((d) => (
+        <li key={d.flowSlug}>
+          <Link
+            href={d.href}
+            className={["concierge-dest", d.flowSlug === currentFlow ? "is-current" : null].filter(Boolean).join(" ")}
+            aria-current={d.flowSlug === currentFlow ? "page" : undefined}
+            onClick={() => closePanel(false)}
+          >
+            <Icon name={ICONS[d.flowSlug] ?? "home"} size={20} />
+            <span>{d.label}</span>
+            {d.flowSlug === "homepage" && loop.followUp ? (
+              <>
+                <span className="concierge-dest__dot" aria-hidden="true" />
+                <span className="u-visually-hidden">, a follow-up is waiting</span>
+              </>
+            ) : null}
+            {d.flowSlug === "signals" && newSignals && currentFlow !== "signals" ? (
+              <>
+                <span className="concierge-dest__dot" aria-hidden="true" />
+                <span className="u-visually-hidden">, new in your Signal Picture</span>
+              </>
+            ) : null}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function Start({
   destinations,
   currentFlow,
@@ -467,7 +490,6 @@ function Start({
   onAsk: (reply: ConciergeReply) => void;
 }) {
   const loop = useLoop();
-  const newSignals = useNewSignals();
   const resume = [...loop.records]
     .filter((r) => r.state === "drafted" || r.state === "in-progress")
     .sort((a, b) => (a.history.at(-1)!.on < b.history.at(-1)!.on ? 1 : -1))[0];
@@ -476,33 +498,7 @@ function Start({
     <div className="concierge-start">
       <section aria-labelledby="concierge-goto">
         <h2 id="concierge-goto" className="concierge-start__title">{C.goTo}</h2>
-        <ul className="concierge-dests">
-          {destinations.map((d) => (
-            <li key={d.flowSlug}>
-              <Link
-                href={d.href}
-                className={["concierge-dest", d.flowSlug === currentFlow ? "is-current" : null].filter(Boolean).join(" ")}
-                aria-current={d.flowSlug === currentFlow ? "page" : undefined}
-                onClick={() => closePanel(false)}
-              >
-                <Icon name={ICONS[d.flowSlug] ?? "home"} size={20} />
-                <span>{d.label}</span>
-                {d.flowSlug === "homepage" && loop.followUp ? (
-                  <>
-                    <span className="concierge-dest__dot" aria-hidden="true" />
-                    <span className="u-visually-hidden">, a follow-up is waiting</span>
-                  </>
-                ) : null}
-                {d.flowSlug === "signals" && newSignals && currentFlow !== "signals" ? (
-                  <>
-                    <span className="concierge-dest__dot" aria-hidden="true" />
-                    <span className="u-visually-hidden">, new in your Signal Picture</span>
-                  </>
-                ) : null}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <Places destinations={destinations} currentFlow={currentFlow} />
       </section>
 
       {resume && resumeLast ? (

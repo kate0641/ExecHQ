@@ -2528,8 +2528,7 @@ ul.chrome__nav-list {
 
 ul.concierge-dests,
 ul.concierge-work,
-ul.concierge-suggest,
-ul.concierge-mini {
+ul.concierge-suggest {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -2646,7 +2645,6 @@ ul.concierge-mini {
 .concierge-dest:focus-visible,
 .concierge-row:focus-visible,
 .concierge-suggest__item:focus-visible,
-.concierge-mini a:focus-visible,
 .concierge-go:focus-visible {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
@@ -2672,38 +2670,11 @@ ul.concierge-mini {
   min-height: var(--button-target);
 }
 
-.concierge-mini {
-  display: flex;
-  gap: var(--space-2xs);
-  overflow-x: auto;
-}
-
 /* Above the advisor's head: the way to the product's places, held while the chat scrolls. */
 .concierge-panel__top {
   flex: none;
   padding: var(--space-xs) var(--space-lg) var(--space-sm);
   border-bottom: var(--border-width-thin) solid var(--color-border);
-}
-
-.concierge-mini a {
-  min-height: var(--button-target);
-  display: inline-flex;
-  flex: none;
-  align-items: center;
-  gap: var(--space-2xs);
-  padding: var(--space-2xs) var(--space-sm);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-pill);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-secondary);
-  text-decoration: none;
-}
-
-.concierge-mini a.is-current {
-  border-color: var(--color-surface-inverse);
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
 }
 
 .concierge-thread {

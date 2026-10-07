@@ -52,9 +52,9 @@ export const conciergePanelStates = defineComponentStates({
         mode: "sheet",
         top: h(
           "ul",
-          { className: "concierge-mini", "aria-label": "Go to" },
+          { className: "concierge-dests", "aria-label": "Go to" },
           ["Home", "Plan", "Signals", "Toolbox", "Briefing"].map((label) =>
-            h("li", { key: label }, h("a", { href: "#", className: label === "Plan" ? "is-current" : undefined }, label))
+            h("li", { key: label }, h("a", { href: "#", className: label === "Plan" ? "concierge-dest is-current" : "concierge-dest" }, label))
           )
         ),
         children: conversation,
