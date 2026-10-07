@@ -9821,12 +9821,11 @@ ul.baseline-list__rows {
 }
 
 .baseline-list__now {
-  font-family: var(--type-figure-font);
-  /* 14px, so the serif digits stand as tall as the 16px Inter ones beside
-     them: the figure face, not a bigger number, sets Now apart. */
-  font-size: var(--text-sm);
-  font-weight: var(--type-figure-weight);
-  line-height: var(--type-figure-leading);
+  /* The same face and size as Start, a step heavier and in ink. */
+  font-family: var(--type-body-font);
+  font-size: var(--type-body-size);
+  font-weight: var(--weight-semibold);
+  line-height: var(--type-body-leading);
   color: var(--color-text-primary);
 }
 
