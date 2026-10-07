@@ -82,7 +82,7 @@ export const actionStepCardStates = defineComponentStates({
     },
     {
       label: "Compact — for the swiping row, offered",
-      description: "Everything on the card, nothing behind a button: the outcome, the plan area, when (in words until she chooses a day) and effort, why this, why now, why you, and what counts as done, with the link into the product as the main button.",
+      description: "The outcome and when (in words until she chooses a day) on the card; why this, why now, why me, what it moves, how long and when it is done are a 2 × 3 grid of questions under “Ask ExecHQ”, each opening the chat on its answer. The link into the product is the main button.",
       props: { ...base, step: ask, accepted: false, compact: true, date: "2026-10-23", },
     },
     {

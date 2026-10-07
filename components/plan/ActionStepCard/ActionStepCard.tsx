@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
+import { AdvisorMark } from "@/components/chat/AdvisorMark";
 import { StepChangePanel } from "@/components/plan/StepChangePanel";
 import { ChipGroup } from "@/components/form/ChipGroup";
 import { Badge } from "@/components/primitives/Badge";
@@ -10,6 +11,7 @@ import { Icon } from "@/components/primitives/Icon";
 import { bucketOf, timeChoices, whenWords } from "@/lib/time-words";
 import { addDays, type LoopDate } from "@/lib/loop";
 import {
+  CARD_QUESTIONS,
   CHANNELS,
   DECLINE_REASONS,
   KIND_LABELS,
@@ -18,6 +20,7 @@ import {
   STEP_COPY as C,
   timingWords,
   type ActionStep,
+  type CardQuestion,
   type DeclineReason,
 } from "@/mock/plan";
 import { signalById } from "@/mock/plan-stub";
@@ -62,10 +65,12 @@ export interface ActionStepCardProps {
   /** She says she has done it. Only for a step with no draft. */
   onComplete: () => void;
   onRecord?: () => void;
-  /** The compact card, for the swiping row. Everything is on the card, nothing behind a button: the
-   *  outcome, the area, when and how much effort, why this, why now, why you, what counts as done, and the
-   *  link into the product as its main button. */
+  /** The compact card, for the swiping row: the outcome, when, a grid of questions she can ask about
+   *  it, and the link into the product as its main button. */
   compact?: boolean;
+  /** Compact card: she asked one of its questions. The page opens the chat on it, with her own
+   *  estimate and her own done if she set them. */
+  onAsk?: (question: CardQuestion, mine: { effort?: string; done?: string }) => void;
   /** Heading level, so the card sits right in the page outline. */
   headingLevel?: 3 | 4;
   /** Catalogue only: opens with this panel showing. */
@@ -107,6 +112,7 @@ export function ActionStepCard({
   onComplete,
   onRecord,
   compact = false,
+  onAsk,
   headingLevel = 3,
   demoPanel,
   demoChanging,
@@ -303,7 +309,7 @@ export function ActionStepCard({
   }
 
   if (compact) {
-    // Two tiers. Above: what it is and when and for how long, on a tinted zone. Below: why, and where it ends.
+    // Two tiers. Above: what it is, on a tinted zone, then when. Below: the questions she can ask, and the way in.
     return (
       <article
         id={id}
@@ -343,42 +349,29 @@ export function ActionStepCard({
               <dt>{C.whenLabel}</dt>
               <dd>{chosenDay ? whenWords(chosenDay, today) : timingWords(step)}</dd>
             </div>
-            <div>
-              <dt>{C.howLongLabel}</dt>
-              <dd>{effortText}</dd>
-            </div>
-            {area ? (
-              <div>
-                <dt>{C.moves}</dt>
-                <dd>{area}</dd>
-              </div>
-            ) : null}
           </dl>
         </div>
         <div className="step-card__body">
-          <ul className="step-card__whys">
-            <li>
-              <span>
-                <b>{C.whyThis}</b> {step.whyThis}
-              </span>
-            </li>
-            <li>
-              <span>
-                <b>{C.whyNowLabel}</b> {step.whyNow}
-              </span>
-            </li>
-            <li>
-              <span>
-                <b>{C.whyYouLabel}</b> {step.whyYou}
-              </span>
-            </li>
-          </ul>
-          <p className="step-card__finish">
-            <Icon name="check" size={16} />
-            <span>
-              <b>{C.doneWhen}</b> {doneText}
-            </span>
-          </p>
+          {/* Why, what it moves, how long and when it is done are questions she asks: each opens the chat. */}
+          <div className="step-card__ask">
+            <p className="step-card__ask-label" id={`${uid}-ask`}>
+              <AdvisorMark size={14} />
+              {C.askLabel}
+            </p>
+            <ul className="step-card__tiles" aria-labelledby={`${uid}-ask`}>
+              {CARD_QUESTIONS.map((q) => (
+                <li key={q.id}>
+                  <button
+                    type="button"
+                    className="step-card__tile"
+                    onClick={() => onAsk?.(q.id, { effort: edit?.effort, done: edit?.done })}
+                  >
+                    {q.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
           {edited ? <p className="step-card__edited">{edited}</p> : null}
           {offerRecord && onRecord ? (
             <Button variant="secondary" size="sm" onClick={onRecord}>

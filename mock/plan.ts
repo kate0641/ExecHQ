@@ -431,12 +431,8 @@ export const STEP_COPY = {
   edit: "Change timing or scope",
   moves: "Moves",
   /** The compact card, for the swiping row. */
-  youllHave: "You’ll have",
   whenLabel: "When",
-  howLongLabel: "How long",
-  whyThis: "Why this",
-  whyNowLabel: "Why now",
-  whyYouLabel: "Why you",
+  askLabel: "Ask ExecHQ",
   effort: "Effort",
   doneWhen: "Done when",
   offered: "Offered",
@@ -1118,7 +1114,18 @@ export const TIMELINE_COPY = {
    used to carry is a question she can ask, and the advisor answers it in the
    chat from the same fields. Asking never changes the step.
    -------------------------------------------------------------------------- */
-export type StepQuestion = "why" | "take" | "else" | "stuck" | "big" | "begin";
+export type StepQuestion = "why" | "take" | "else" | "stuck" | "big" | "begin" | CardQuestion;
+
+/** Concept 1's step card (2026-10-07): one question per tile, in her voice, each answered on its own. */
+export type CardQuestion = "this" | "now" | "me" | "moves" | "long" | "done";
+export const CARD_QUESTIONS: { id: CardQuestion; label: string }[] = [
+  { id: "this", label: "Why this?" },
+  { id: "now", label: "Why now?" },
+  { id: "me", label: "Why me?" },
+  { id: "moves", label: "What does it move?" },
+  { id: "long", label: "How long will it take?" },
+  { id: "done", label: "When am I done?" },
+];
 
 /** Three ways in: why it is here, what it takes, and anything else. Each opens the chat. */
 export const STEP_QUESTIONS: { id: StepQuestion; label: string }[] = [
@@ -1145,6 +1152,11 @@ export const STEP_ANSWERS = {
   stuck: "What’s getting in the way? Pick one, or tell me in your own words.",
   big: "Try a lighter version: do only the first part, and leave the rest for later.",
   begin: (outcome: string) => `Start from where you want to end up: ${outcome.charAt(0).toLowerCase()}${outcome.slice(1)} Open it, write the first line, and stop there.`,
+  /** Concept 1's card questions, one fact each. Her own estimate and her own done replace ours. */
+  moves: (area?: string) =>
+    area ? `“${upper(area)}.” That’s the signal this step feeds on your plan.` : "It isn’t tied to one of your signals, so it moves your plan as a whole.",
+  long: (effort: string) => `Plan on ${lower(effort)}.`,
+  done: (done: string) => `It counts as done when ${lower(done)}.`,
   /** The first line of an answer, shown on the step before she asks. */
   teaseWhy: (step: { whyLine?: string; whyNow: string }) => step.whyLine ?? step.whyNow,
   teaseTake: (step: { effortText: string; done: string }) => `${upper(step.effortText)}. Done when ${lower(step.done)}.`,

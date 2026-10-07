@@ -20,7 +20,7 @@ import {
   type PlanState,
 } from "@/lib/action-steps";
 import type { LoopDate } from "@/lib/loop";
-import { LIVE_LIMITS, PLAN_COPY, STEP_COPY as C, type ActionStep } from "@/mock/plan";
+import { LIVE_LIMITS, PLAN_COPY, STEP_COPY as C, type ActionStep, type CardQuestion } from "@/mock/plan";
 import { HORIZONS, type Horizon } from "@/mock/plan-stub";
 
 interface Note {
@@ -48,6 +48,8 @@ export interface ActionStepsProps {
   answered?: { recordId: string; reported?: string };
   /** She marked a step done on her word; the Loop is told. */
   onComplete?: (step: ActionStep) => void;
+  /** Carousel: she asked a question on a step's card. The page opens the chat on it. */
+  onAsk?: (step: ActionStep, question: CardQuestion, mine: { effort?: string; done?: string }) => void;
   /** Told whenever the steps on her Plan change, so the Calendar shows the same ones. */
   onState?: (state: PlanState) => void;
   /** `list` is a column of cards by horizon (Concepts 2 and 3). `carousel` is one swiping row of compact
@@ -79,6 +81,7 @@ export function ActionSteps({
   isDone = () => false,
   answered,
   onComplete,
+  onAsk,
   persist,
   onState,
   layout = "list",
@@ -177,6 +180,7 @@ export function ActionSteps({
         id={`step-${step.id}`}
         step={step}
         compact={opts.compact}
+        onAsk={onAsk ? (q, mine) => onAsk(step, q, mine) : undefined}
         accepted={state.decisions[step.id]?.decision === "accepted"}
         edit={state.edits[step.id]}
         date={stepDay(state, step).date}

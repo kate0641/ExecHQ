@@ -15657,63 +15657,68 @@ dl.step-card__facts-panel {
   line-height: var(--leading-snug);
 }
 
-
-
-
-ul.step-card__whys {
+/* The questions she can ask about the step (Concept 1, 2026-10-07): a 2 × 3 grid of equal tiles,
+   each opening the chat on its answer. */
+.step-card__ask {
   display: flex;
   flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.step-card__ask-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  margin: 0;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+ul.step-card__tiles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-xs);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.step-card__whys li {
-  display: grid;
-  grid-template-columns: 0.5rem minmax(0, 1fr);
-  column-gap: var(--space-xs);
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-}
-
-.step-card__whys li::before {
-  content: "";
-  width: 0.375rem;
-  height: 0.375rem;
-  margin-top: 0.5rem;
-  border-radius: 50%;
-  background-color: var(--color-text-primary);
-  grid-row: 1;
-}
-
-.step-card__whys li > span {
-  grid-column: 2;
-}
-
-.step-card__whys b {
-  font-weight: var(--weight-semibold);
-}
-
-.step-card__finish {
+.step-card__tiles li {
   display: flex;
-  align-items: flex-start;
-  gap: var(--space-xs);
-  margin: 0;
-  padding: var(--space-xs) var(--space-sm);
+}
+
+.step-card__tile {
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+  min-height: 3.5rem;
+  padding: var(--space-sm);
+  border: var(--border-thin);
   border-radius: var(--radius-md);
-  background-color: var(--color-surface-sunken);
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  font: inherit;
   font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-}
-
-.step-card__finish b {
   font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+  text-align: left;
+  cursor: pointer;
 }
 
-.step-card__finish svg {
-  flex: none;
-  margin-top: 0.125rem;
+.step-card__tile:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.step-card__tile:active {
+  background-color: var(--color-surface-active);
+}
+
+.step-card__tile:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
 }
 
 /* -----------------------------------------------------------------------------

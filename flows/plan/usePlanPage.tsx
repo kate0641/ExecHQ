@@ -58,7 +58,7 @@ import {
 } from "@/mock/accounts-stub";
 import { PLAN_TEMPLATES, recommendPlan } from "@/mock/onboarding";
 import type { ActionStep, StepQuestion } from "@/mock/plan";
-import { CALENDAR_COPY as CAL, EDIT_FLOW_HREF, PLAN_AGENDA_COPY as AG, STEP_QUESTIONS, type DeclineReason, type GuidedAnswer, DIRECTION_PLAN_COPY as DP, ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
+import { CALENDAR_COPY as CAL, EDIT_FLOW_HREF, PLAN_AGENDA_COPY as AG, CARD_QUESTIONS, STEP_QUESTIONS, type DeclineReason, type GuidedAnswer, DIRECTION_PLAN_COPY as DP, ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
 import { ACTIONS } from "@/mock/plan-stub";
 import { SNAPSHOTS } from "@/mock/snapshots";
 import type { CalendarItem } from "@/mock/plan";
@@ -209,6 +209,7 @@ export function usePlanPage() {
           : undefined
       }
       onComplete={(step) => loopActions.completeTask(step.id)}
+      onAsk={(step, q, mine) => askConcierge(CARD_QUESTIONS.find((x) => x.id === q)?.label ?? "", { kind: "step-question", stepId: step.id, q, mine })}
       persist={{ saved: savedSteps, onChange: (next) => saveSteps(stepsKey, next) }}
       onState={(state) => setLiveState((prev) => (prev?.key === stepsKey && prev.state === state ? prev : { key: stepsKey, state }))}
     />
