@@ -2700,6 +2700,13 @@ ul.concierge-mini {
   min-height: var(--button-target);
 }
 
+/* No name above the advisor's messages in the panel: the panel's header
+   already says who is talking (designer, 2026-10-07). Screen readers still
+   hear the name, from the hidden text inside each message. */
+.concierge-panel .chat-message__from {
+  display: none;
+}
+
 .concierge-mini {
   display: flex;
   gap: var(--space-2xs);

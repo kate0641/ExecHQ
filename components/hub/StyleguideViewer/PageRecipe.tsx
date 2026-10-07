@@ -164,7 +164,7 @@ const PAGES: { page: string; date: string; added: string[] }[] = [
       "Grey eyebrows label groups inside a panel (Go to, Ask me).",
       "Kulim Park out of the chat: advisor name, reply chips and the where-you-are chip are Inter.",
       "Reply buttons are the light-blue secondary; her messages are light blue, not navy.",
-      "A label is dropped when the thing above already introduces the list (Ask me, under the advisor's name).",
+      "Say a thing once: a label is dropped when something above already says it (Ask me under the advisor's name; the name above each of his messages, under the panel's header).",
     ],
   },
 ];
