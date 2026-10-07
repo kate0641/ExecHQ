@@ -1313,6 +1313,21 @@ button.link {
   overflow-y: auto;
 }
 
+/* No scroll bars inside the phone or tablet, as on a real device: the
+   desktop's bar sat over the right edge of the design being reviewed
+   (designer, 2026-10-07). Trackpad, wheel, touch and keyboard still scroll. */
+.device--mobile .device__screen,
+.device--mobile .device__screen *,
+.device--tablet .device__screen,
+.device--tablet .device__screen * {
+  scrollbar-width: none;
+}
+
+.device--mobile .device__screen ::-webkit-scrollbar,
+.device--tablet .device__screen ::-webkit-scrollbar {
+  display: none;
+}
+
 .device__statusbar {
   position: relative;
   display: flex;
