@@ -32,9 +32,9 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         uses: ["--color-surface", "--color-surface-raised", "--color-border", ".card"],
       },
       {
-        rule: "Never a card inside a card. Inside a card, split things with a hairline.",
-        why: "Nested rounded boxes read as bubbly; hairlines and type read as considered.",
-        from: "Home, Profile",
+        rule: "Never a card inside a card, and never a stack of boxes for a list. One card holds the list; a hairline splits each item.",
+        why: "Nested or stacked rounded boxes read as bubbly; hairlines and type read as considered. Navigation's suggested questions were four boxes; now they are one card.",
+        from: "Home, Profile, Navigation",
         uses: [".card--reads", "--color-border-subtle"],
       },
       {
@@ -74,8 +74,8 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
     rules: [
       {
         rule: "Kulim Park is for display, title and heading. Labels, eyebrows, subheadings, body and captions are Inter.",
-        why: "Kulim gives the page its voice in a few places; Inter keeps everything else calm and easy to read.",
-        from: "Home",
+        why: "Kulim gives the page its voice in a few places; Inter keeps everything else calm and easy to read. This covers the advisor's name, the where-you-are chip and chat replies too.",
+        from: "Home, Navigation",
         uses: ["--type-label-font", "--type-eyebrow-font", "--type-subheading-font"],
       },
       {
@@ -86,8 +86,8 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
       },
       {
         rule: "A labelled read inside a card is a grey eyebrow, then the words. Blue eyebrows introduce a heading; grey ones label a read.",
-        why: "Why this / Why now / Why you on Home; Name and Email on Profile. One look for one job.",
-        from: "Home, Profile",
+        why: "Why this / Why now / Why you on Home; Name and Email on Profile; Go to and Ask me in the advisor panel. One look for one job.",
+        from: "Home, Profile, Navigation",
         uses: [".read", "--type-eyebrow-*", "--color-text-secondary"],
       },
       {
@@ -154,6 +154,15 @@ const PAGES: { page: string; date: string; added: string[] }[] = [
       "Home's card and read lifted into shared classes: .card, .card--reads, .read.",
       "The section rule: heading on the page, line, then the card.",
       "Section rhythm: 32px between sections, 12px inside.",
+    ],
+  },
+  {
+    page: "Navigation",
+    date: "7 October 2026",
+    added: [
+      "A list of choices is one card with hairlines, not a stack of boxes.",
+      "Grey eyebrows label groups inside a panel (Go to, Ask me).",
+      "Kulim Park out of the chat: advisor name, reply chips and the where-you-are chip are Inter.",
     ],
   },
 ];

@@ -2190,9 +2190,9 @@ ul.chrome__nav-list {
   border-radius: var(--radius-pill);
   background-color: var(--color-surface-inverse);
   color: var(--color-text-inverse);
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--type-label-font);
+  word-spacing: var(--type-label-word-spacing);
+  letter-spacing: var(--type-label-tracking);
   font-size: var(--text-sm);
   font-weight: var(--weight-bold);
 }
@@ -2425,9 +2425,9 @@ ul.chrome__nav-list {
 }
 
 .concierge-panel__who b {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--type-label-font);
+  word-spacing: var(--type-label-word-spacing);
+  letter-spacing: var(--type-label-tracking);
   font-size: var(--text-md);
 }
 
@@ -2516,13 +2516,17 @@ ul.chrome__nav-list {
   gap: var(--space-lg);
 }
 
+/* "Go to" and "Ask me": the grey eyebrow that labels what is under it, as
+   on Home's reads (the page recipe). */
 .concierge-start__title {
   margin: 0 0 var(--space-xs);
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
+  text-transform: uppercase;
   color: var(--color-text-secondary);
 }
 
@@ -2578,10 +2582,23 @@ ul.concierge-mini {
 }
 
 .concierge-work,
+/* The suggested questions: one card, a hairline between them, rather than a
+   stack of outlined boxes (the page recipe: never box what a hairline can
+   split). */
 .concierge-suggest {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  overflow: hidden;
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+}
+
+.concierge-suggest > li + li {
+  background-image: linear-gradient(var(--color-border-subtle), var(--color-border-subtle));
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: calc(100% - 2 * var(--space-md)) var(--border-width-thin);
 }
 
 .concierge-row {
@@ -2631,16 +2648,27 @@ ul.concierge-mini {
 }
 
 .concierge-suggest__item {
+  display: flex;
+  align-items: center;
   width: 100%;
+  min-height: var(--button-target);
   padding: var(--space-sm) var(--space-md);
-  border: var(--border-width-thin) solid var(--color-border-strong);
-  border-radius: var(--radius-lg);
-  font-size: var(--text-sm);
+  border: 0;
+  background: none;
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  line-height: var(--leading-snug);
+  color: var(--color-text-primary);
   text-align: left;
 }
 
 .concierge-suggest__item:hover {
-  border-color: var(--color-text-primary);
+  background-color: var(--color-surface-hover);
+}
+
+/* Inside the card's clipped edge, so the focus ring is drawn inward. */
+.concierge-suggest .concierge-suggest__item:focus-visible {
+  outline-offset: calc(-1 * var(--focus-ring-width));
 }
 
 .concierge-dest:focus-visible,
@@ -2724,9 +2752,9 @@ ul.concierge-mini {
 }
 
 .concierge-card b {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--type-label-font);
+  word-spacing: var(--type-label-word-spacing);
+  letter-spacing: var(--type-label-tracking);
   font-size: var(--text-md);
 }
 
@@ -6322,9 +6350,9 @@ ol.ring-detail__timeline {
   display: flex;
   align-items: center;
   gap: var(--space-xs);
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--type-label-font);
+  word-spacing: var(--type-label-word-spacing);
+  letter-spacing: var(--type-label-tracking);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
@@ -6352,9 +6380,9 @@ ol.ring-detail__timeline {
 }
 
 .chat-message__edit {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--type-label-font);
+  word-spacing: var(--type-label-word-spacing);
+  letter-spacing: var(--type-label-tracking);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   color: var(--color-text-secondary);
@@ -6468,9 +6496,9 @@ ol.ring-detail__timeline {
 .quick-replies__chip {
   white-space: nowrap;
   padding: var(--space-xs) var(--space-sm);
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--type-label-font);
+  word-spacing: var(--type-label-word-spacing);
+  letter-spacing: var(--type-label-tracking);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
