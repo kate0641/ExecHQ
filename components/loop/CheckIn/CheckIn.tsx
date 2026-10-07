@@ -169,7 +169,7 @@ export function CheckIn({
     <>
       <div className="check-in__answers">
         {MAIN.map((type) => (
-          <Button key={type} size="sm" variant="secondary" onClick={() => onAnswer(type)}>
+          <Button key={type} size="md" variant="secondary" onClick={() => onAnswer(type)}>
             <span className={`check-in__dot check-in__dot--${type}`} aria-hidden="true" />
             {labelOf(type)}
           </Button>
