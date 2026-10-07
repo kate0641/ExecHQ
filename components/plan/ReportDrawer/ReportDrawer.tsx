@@ -56,7 +56,7 @@ function ReportForm({ onClose, onSave, did, on, asksTone, demoErrors }: Omit<Rep
   const [tried, setTried] = useState(Boolean(demoErrors));
   const errors = {
     tone: asksTone && !tone ? C.errorTone : undefined,
-    text: !asksTone && !text.trim() ? C.errorText : undefined,
+    text: !text.trim() ? C.errorText : undefined,
   };
 
   function submit(event: FormEvent) {
@@ -89,7 +89,7 @@ function ReportForm({ onClose, onSave, did, on, asksTone, demoErrors }: Omit<Rep
       ) : null}
       <Input
         label={C.textLabel}
-        hint={asksTone ? C.textHintOptional : C.textHint}
+        hint={C.textHint}
         multiline
         rows={3}
         value={text}

@@ -634,7 +634,6 @@ export const REPORT_COPY = {
   toneLabel: "How did it go?",
   textLabel: "What came of it, in your words",
   textHint: "Just enough for you to recognise it.",
-  textHintOptional: "Optional.",
   errorText: "Write a line about what came of it.",
   errorTone: "Choose how it went.",
   save: "Save",
