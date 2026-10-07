@@ -9049,12 +9049,17 @@ ol.signal__list {
   background-color: var(--color-surface-hover);
 }
 
+/* Once answered, the read-back takes the question's place and its type,
+   with no box of its own inside the card. */
 .check-in__readback {
   margin: 0;
-  padding: var(--space-xs) var(--space-sm);
-  border-radius: var(--radius-md);
-  background-color: var(--color-surface);
-  font-size: var(--text-sm);
+  font-family: var(--type-subheading-font);
+  font-size: var(--type-subheading-size);
+  font-weight: var(--type-subheading-weight);
+  line-height: var(--type-subheading-leading);
+  letter-spacing: var(--type-subheading-tracking);
+  word-spacing: var(--type-subheading-word-spacing);
+  text-wrap: pretty;
 }
 
 .check-in__add {
