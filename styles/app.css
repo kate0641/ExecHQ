@@ -9577,13 +9577,8 @@ ol.check-in__steps {
   line-height: var(--type-caption-leading);
   letter-spacing: var(--type-caption-tracking);
   word-spacing: var(--type-caption-word-spacing);
-  display: inline-flex;
-  align-items: center;
-  min-height: 24px;
-  padding: 0 var(--space-xs);
-  border-radius: var(--radius-tag);
-  background-color: var(--color-tag-surface);
-  color: var(--color-tag-text);
+  /* A caption beside the heading, not a tag: plain grey text, no fill. */
+  color: var(--color-text-secondary);
 }
 
 .account-card__stat-label {
