@@ -9069,7 +9069,12 @@ ol.signal__list {
 .check-in__note {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xs);
+  /* Room between the question, the box and its buttons. */
+  gap: var(--space-xs);
+}
+
+.check-in__note > .check-in__row {
+  margin-top: var(--space-xs);
 }
 
 .check-in__note-label {
@@ -9716,7 +9721,7 @@ ul.spark {
 .baseline-list__heads-pair {
   display: flex;
   justify-content: space-between;
-  padding: 0 var(--space-3xs);
+  padding: 0 var(--space-2xs) 0 var(--space-3xs);
 }
 
 ul.baseline-list__rows {
@@ -9744,13 +9749,28 @@ ul.baseline-list__rows {
   line-height: var(--leading-snug);
 }
 
+/* Start, arrow and now sit in fixed columns, so the arrows line up down the
+   list whatever the numbers, and the larger "now" figure has room at the
+   right edge. */
 .baseline-list__counts {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--space-xl) minmax(0, 1fr);
   align-items: baseline;
-  justify-content: space-between;
-  padding: 0 var(--space-3xs);
+  padding: 0 var(--space-2xs) 0 var(--space-3xs);
   font-variant-numeric: tabular-nums;
   color: var(--color-text-secondary);
+}
+
+.baseline-list__counts > * {
+  text-align: right;
+}
+
+.baseline-list__counts > .baseline-list__then {
+  text-align: left;
+}
+
+.baseline-list__counts > .baseline-list__arrow {
+  text-align: center;
 }
 
 .baseline-list__now {
