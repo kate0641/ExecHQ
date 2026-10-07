@@ -36,6 +36,7 @@ import { sheetStates } from "./layout/Sheet/Sheet.states";
 import { drawerStates } from "./layout/Drawer/Drawer.states";
 import { entryDrawerStates } from "./plan/EntryDrawer/EntryDrawer.states";
 import { reportDrawerStates } from "./plan/ReportDrawer/ReportDrawer.states";
+import { linkedInPictureStates } from "./plan/LinkedInPicture/LinkedInPicture.states";
 import { stepHeaderStates } from "./onboarding/StepHeader/StepHeader.states";
 import { stepActionsStates } from "./onboarding/StepActions/StepActions.states";
 import { noticeStates } from "./onboarding/Notice/Notice.states";
@@ -208,6 +209,7 @@ export const registry: RegisteredComponent[] = [
   planSignalPictureStates,
   entryDrawerStates,
   reportDrawerStates,
+  linkedInPictureStates,
   signalEntrySheetStates,
   momentumLabeledStates,
   momentumCountsStates,

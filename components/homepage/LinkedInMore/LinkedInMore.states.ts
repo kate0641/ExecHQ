@@ -21,9 +21,10 @@ export const linkedInMoreStates = defineComponentStates({
   variants: [
     { label: "Empty — closed, nothing uploaded — default", props: base },
     { label: "Open — the drawer with the steps and the upload", props: { ...base, demoOpen: true } },
-    { label: "Reading the file — the drawer closed, one line under the link", props: { ...base, status: "reading", fileName: "Content_2025-10-01_2026-10-01_Jane.xlsx" } },
+    { label: "Reading the file — the drawer closed, no link while it reads", props: { ...base, status: "reading", fileName: "Content_2025-10-01_2026-10-01_Jane.xlsx" } },
     { label: "Reading the file — in the drawer", props: { ...base, demoOpen: true, status: "reading", fileName: "Content_2025-10-01_2026-10-01_Jane.xlsx" } },
-    { label: "Filled — read, ready, the drawer closed", props: { ...base, status: "ready", fileName: "Content_2025-10-01_2026-10-01_Jane.xlsx" } },
+    { label: "Filled — read and ready: it says what she has, and the link says newer", props: { ...base, status: "ready", fileName: "Content_2025-10-01_2026-10-01_Jane.xlsx" } },
+    { label: "Read, with no posts in it", props: { ...base, status: "empty", fileName: "Content_2025-10-01_2026-10-01_Jane.xlsx" } },
     { label: "Error — not a LinkedIn export", props: { ...base, demoOpen: true, status: "wrong-file", fileName: "notes.docx" } },
     { label: "Steps emailed", props: { ...base, demoOpen: true, status: "sent", email: "jane@example.com" } },
   ],

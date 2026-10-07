@@ -4,7 +4,8 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import { BaselineForm } from "@/components/homepage/BaselineForm";
 import { LinkedInMore } from "@/components/homepage/LinkedInMore";
-import type { LinkedInStatus } from "@/flows/onboarding/shared";
+import { useLinkedInExport, setLinkedInExport } from "@/lib/linkedin-store";
+import { LINKEDIN_EXPORT, SEEDED_EXPORT } from "@/mock/linkedin-export";
 import { LINKEDIN_READ_MS, looksLikeLinkedInExport } from "@/mock/onboarding";
 import { PresenceCard } from "@/components/homepage/PresenceCard";
 import { SignalPicture } from "@/components/homepage/SignalPicture";
@@ -24,6 +25,7 @@ import { CalendarItemSheet, type ItemValues } from "@/components/plan/CalendarIt
 import { PlanCalendar } from "@/components/plan/PlanCalendar";
 import { PlanSignalPicture, type SignalPictureVariant } from "@/components/plan/PlanSignalPicture";
 import { EntryDrawer } from "@/components/plan/EntryDrawer";
+import { LinkedInPicture } from "@/components/plan/LinkedInPicture";
 import { ReportDrawer, type ReportValues } from "@/components/plan/ReportDrawer";
 import { SignalEntrySheet, type EntryValues } from "@/components/plan/SignalEntrySheet";
 import { accept, complete, decline, edit as editStep, initialPlanState, liveSteps, stepDay, type PlanState } from "@/lib/action-steps";
@@ -79,12 +81,14 @@ export function usePlanPage() {
   const baseline = useBaseline();
   const current = useCurrent();
   // The LinkedIn export she may add under her starting numbers. In the prototype only its name is kept, and "reading" is a timer.
-  const [liExport, setLiExport] = useState<{ fileName: string | null; status: LinkedInStatus }>({ fileName: null, status: "none" });
+  // It stays across pages. After the first visit she has been here a while, so an export is already in.
+  const storedExport = useLinkedInExport();
+  const liExport = storedExport.status === "none" && loop.homeState !== "first-return" ? SEEDED_EXPORT : storedExport;
   useEffect(() => {
-    if (liExport.status !== "reading") return;
-    const read = setTimeout(() => setLiExport((l) => ({ ...l, status: "ready" })), LINKEDIN_READ_MS);
+    if (storedExport.status !== "reading") return;
+    const read = setTimeout(() => setLinkedInExport((l) => ({ ...l, status: "ready" })), LINKEDIN_READ_MS);
     return () => clearTimeout(read);
-  }, [liExport.status, liExport.fileName]);
+  }, [storedExport.status, storedExport.fileName]);
   const dismissed = useDismissedSparks();
   const notices = useSignalNotices();
   const onSignals = usePathname().startsWith("/signals");
@@ -561,12 +565,23 @@ export function usePlanPage() {
       onAction={(id) => hideSignal(id.replace(/^recorded:/, ""))}
     />
   );
+  /* The upload stays: on the first visit it sits under the starting-point form, and after that under
+     where she started, so "any time later" is true. Once a file is read, what it says is drawn below. */
+  const linkedIn = (
+    <LinkedInMore
+      status={liExport.status}
+      fileName={liExport.fileName}
+      onChoose={(fileName) => setLinkedInExport({ fileName, status: looksLikeLinkedInExport(fileName) ? "reading" : "wrong-file" })}
+      onSendSteps={() => setLinkedInExport((l) => ({ ...l, status: "sent" }))}
+    />
+  );
   const started = (
     <section className="plan-stub__signals" aria-labelledby="plan-signals-heading">
       <h2 className="u-visually-hidden" id="plan-signals-heading">
         {SPIC.startedHeading}
       </h2>
       {hasBaseline(baseline, seeded) ? (
+        <>
         <PresenceCard
           name={SPIC.startedHeading}
           mark={PR.mark}
@@ -581,6 +596,9 @@ export function usePlanPage() {
           tryLabel={AC.tryThis}
           headingId="plan-signals-card"
         />
+        {linkedIn}
+        {liExport.status === "ready" ? <LinkedInPicture data={LINKEDIN_EXPORT} /> : null}
+        </>
       ) : (
         <SignalPicture
           name={SPIC.startedHeading}
@@ -590,16 +608,7 @@ export function usePlanPage() {
               onSkip={() => saveBaseline({ counts: { podcast: 0, press: 0, speaking: 0, writing: 0 } })}
               intro={BC.introZero}
               skipLabel={BC.zeroSkip}
-              after={
-                <LinkedInMore
-                  status={liExport.status}
-                  fileName={liExport.fileName}
-                  onChoose={(fileName) =>
-                    setLiExport({ fileName, status: looksLikeLinkedInExport(fileName) ? "reading" : "wrong-file" })
-                  }
-                  onSendSteps={() => setLiExport((l) => ({ ...l, status: "sent" }))}
-                />
-              }
+              after={linkedIn}
             />
           }
           headingId="plan-signals-card"

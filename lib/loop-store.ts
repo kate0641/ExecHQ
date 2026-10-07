@@ -21,6 +21,7 @@ import { useMemo, useSyncExternalStore } from "react";
 import { reopenBriefing, useBriefingEverClosed } from "@/lib/briefing-dismissal";
 import { resetPresence, useAddedPresence, useBaseline } from "@/lib/presence-store";
 import { reopenSparks, useDismissedSparks } from "@/lib/spark-dismissal";
+import { resetLinkedInExport } from "@/lib/linkedin-store";
 import { resetSignalNotices } from "@/lib/signal-notices";
 import {
   abandonRecord,
@@ -190,6 +191,7 @@ export function resetLoop(): void {
   reopenBriefing();
   reopenSparks();
   resetSignalNotices();
+  resetLinkedInExport();
   resetPresence();
   resetRoadmap();
 }

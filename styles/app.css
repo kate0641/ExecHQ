@@ -12740,12 +12740,6 @@ ul.card-carousel__track {
   cursor: pointer;
 }
 
-.linkedin-more__file {
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-  overflow-wrap: anywhere;
-}
-
 .linkedin-more__drawer {
   display: flex;
   flex-direction: column;
@@ -16540,4 +16534,364 @@ ul.plan-guided__sparks {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-sm);
+}
+
+/* -----------------------------------------------------------------------------
+   YOUR LINKEDIN, FROM YOUR EXPORT (Signals)
+   Three rows, each a figure with its shape in miniature. Tap one and its full
+   chart opens beneath it; one is open at a time. One hue throughout. Marks are
+   thin, the grid is a hairline, text wears text tokens.
+   -------------------------------------------------------------------------- */
+.li-picture {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-raised);
+}
+
+.li-picture__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+.li-picture__heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.li-picture__intro,
+.li-picture__empty {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.li-rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.li-row {
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+.li-row:first-child {
+  border-top: 0;
+}
+
+.li-row__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto auto;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  min-height: 4rem;
+  padding-block: var(--space-xs);
+  text-align: left;
+  cursor: pointer;
+}
+
+.li-row__head:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-md);
+}
+
+.li-row__label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  min-width: 0;
+}
+
+.li-row__label b {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+}
+
+.li-row__label span {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.li-row__value {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  font-variant-numeric: tabular-nums;
+}
+
+.li-row__chevron {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 2px solid var(--color-text-muted);
+  border-bottom: 2px solid var(--color-text-muted);
+  transform: rotate(45deg);
+  transition: transform var(--duration-fast) var(--easing-standard);
+}
+
+.li-row.is-open .li-row__chevron {
+  transform: rotate(-135deg);
+}
+
+.li-row__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding-bottom: var(--space-md);
+}
+
+.li-spark {
+  width: 5.25rem;
+  height: 1.75rem;
+}
+
+.li-spark__line {
+  fill: none;
+  stroke: var(--color-surface-inverse);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.li-spark__end,
+.li-spark__bar {
+  fill: var(--color-surface-inverse);
+}
+
+.li-caption {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.li-line {
+  position: relative;
+  border-radius: var(--radius-md);
+  touch-action: pan-y;
+}
+
+.li-line:has(.li-line__scrub:focus-visible) {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.li-line__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* A real range control, laid over the plot and unseen: keyboard and touch use it. */
+.li-line__scrub {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: crosshair;
+}
+
+.li-grid {
+  stroke: var(--color-border-subtle);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.li-axis {
+  fill: var(--color-text-muted);
+  font-family: var(--font-body);
+  font-size: 11px;
+}
+
+.li-line__area {
+  fill: color-mix(in srgb, var(--color-surface-inverse) 10%, transparent);
+}
+
+.li-line__path {
+  fill: none;
+  stroke: var(--color-surface-inverse);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.li-dot {
+  fill: var(--color-surface-inverse);
+}
+
+.li-dot-ring {
+  fill: var(--color-surface-raised);
+}
+
+.li-value {
+  fill: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.li-cross {
+  stroke: var(--color-border-strong);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.li-tip {
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-2xs) var(--space-xs);
+  border: var(--border-width-thin) solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-md);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.li-tip--start {
+  transform: none;
+}
+
+.li-tip--mid {
+  transform: translateX(-50%);
+}
+
+.li-tip--end {
+  transform: translateX(-100%);
+}
+
+.li-tip strong {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.li-tip span {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.li-columns {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--li-months, 13), minmax(0, 1fr));
+  height: 8.25rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.li-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.li-col:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-sm);
+}
+
+.li-col__plot {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  padding-top: var(--space-md);
+  border-bottom: var(--border-width-thin) solid var(--color-border);
+}
+
+.li-col__bar {
+  display: block;
+  width: min(1.125rem, 70%);
+  border-radius: var(--radius-xs) var(--radius-xs) 0 0;
+  background-color: var(--color-surface-inverse);
+  transition: background-color var(--duration-fast) var(--easing-standard);
+}
+
+.li-col:hover .li-col__bar,
+.li-col.is-active .li-col__bar {
+  background-color: color-mix(in srgb, var(--color-surface-inverse) 72%, var(--color-surface-raised));
+}
+
+.li-col__value {
+  position: absolute;
+  top: 0;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.li-col__label {
+  margin-top: var(--space-3xs);
+  font-size: var(--text-xs);
+  line-height: 1.2;
+  color: var(--color-text-muted);
+}
+
+.li-top__list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.li-top__item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding-block: var(--space-xs);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+.li-top__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  min-width: 0;
+}
+
+.li-top__text b {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.li-top__text span {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.li-top__value {
+  flex: none;
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
 }

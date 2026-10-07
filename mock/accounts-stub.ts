@@ -189,6 +189,12 @@ export const LINKEDIN_MORE_COPY = {
   body: "Optional. Your LinkedIn analytics export shows how your posts and audience are doing. Add it now, or any time later.",
   open: "Upload my LinkedIn export",
   close: "Done",
+  /** Once a file is in, it is no longer an invitation: it says what she has, and what another upload does. */
+  titleAdded: "Your LinkedIn export",
+  bodyReading: "Reading it now. Carry on, and it will be ready when you need it.",
+  bodyReady: (file: string) => `Added from ${file}. Upload a newer one whenever you like and it will replace this.`,
+  bodyEmpty: (file: string) => `Added from ${file}. It had no posts in the last year. Upload a newer one whenever you like and it will replace this.`,
+  openAgain: "Upload a newer export",
 } as const;
 
 export const BASELINE_COPY = {
