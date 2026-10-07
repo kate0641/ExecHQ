@@ -9835,7 +9835,8 @@ ul.baseline-list__rows {
   grid-template-columns: minmax(0, 1fr) 9.5rem;
   align-items: baseline;
   gap: var(--space-3xs) var(--space-sm);
-  padding: var(--space-xs) 0;
+  /* Room to breathe between the lines: 12px above and below each row. */
+  padding: var(--space-sm) 0;
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
