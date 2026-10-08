@@ -20,6 +20,7 @@
 import { useMemo, useSyncExternalStore } from "react";
 import { reopenBriefing, useBriefingEverClosed } from "@/lib/briefing-dismissal";
 import { closeDirection } from "@/lib/direction-open";
+import { resetCheckIns } from "@/lib/stage-checkins";
 import { resetPresence, useAddedPresence, useBaseline } from "@/lib/presence-store";
 import { reopenSparks, useDismissedSparks } from "@/lib/spark-dismissal";
 import { resetLinkedInExport } from "@/lib/linkedin-store";
@@ -191,6 +192,7 @@ export function resetLoop(): void {
   write({ snapshot: getLoopState().snapshot, changes: {} });
   reopenBriefing();
   closeDirection();
+  resetCheckIns();
   reopenSparks();
   resetSignalNotices();
   resetLinkedInExport();

@@ -14,6 +14,7 @@ import { ActionSteps } from "@/components/plan/ActionSteps";
 import { PlanAgenda, type AgendaItem } from "@/components/plan/PlanAgenda";
 import { PlanGuided } from "@/components/plan/PlanGuided";
 import { PlanDetailLink } from "@/components/plan/PlanDetailLink";
+import { StageCheckIn, type CheckInItem } from "@/components/plan/StageCheckIn";
 import { PlanDirection } from "@/components/plan/PlanDirection";
 import { PlanHeader } from "@/components/plan/PlanHeader";
 import { RoadmapTimeline } from "@/components/plan/RoadmapTimeline";
@@ -25,7 +26,7 @@ import { ReportDrawer, type ReportValues } from "@/components/plan/ReportDrawer"
 import { SignalEntrySheet, type EntryValues } from "@/components/plan/SignalEntrySheet";
 import { accept, complete, decline, edit as editStep, initialPlanState, liveSteps, stepDay, type PlanState } from "@/lib/action-steps";
 import { askConcierge } from "@/flows/navigation/concept-1/ConciergeConcept";
-import { shortDate } from "@/lib/loop";
+import { shortDate, type OutcomeType } from "@/lib/loop";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { momentumEvents } from "@/lib/momentum";
@@ -33,6 +34,7 @@ import { planSparks } from "@/lib/plan-sparks";
 import { roadmapWindows, stageAt } from "@/lib/roadmap-dates";
 import { whenWords } from "@/lib/time-words";
 import { saveCalendar, saveRoadmap, saveSteps, useCalendar, useRoadmapChoices, useSavedSteps } from "@/lib/plan-store";
+import { checkInKey, saveCheckIn, useCheckIns } from "@/lib/stage-checkins";
 import { addedSummary, hasBaseline, signalRows, withAdded } from "@/lib/presence";
 import { addPresence, removePresence, saveBaseline, saveCurrent, updatePresence, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
 import { currentStageIndex, isDone as isActionDone } from "@/lib/rings";
@@ -51,7 +53,7 @@ import {
 } from "@/mock/accounts-stub";
 import { PLAN_TEMPLATES, recommendPlan } from "@/mock/onboarding";
 import type { ActionStep, StepQuestion } from "@/mock/plan";
-import { EDIT_FLOW_HREF, CARD_QUESTIONS, STEP_QUESTIONS, type DeclineReason, type GuidedAnswer, ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
+import { ACTION_QUEUE, EDIT_FLOW_HREF, STAGE_CHECKIN_COPY, CARD_QUESTIONS, STEP_QUESTIONS, type DeclineReason, type GuidedAnswer, ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
 import { ACTIONS } from "@/mock/plan-stub";
 import { SNAPSHOTS } from "@/mock/snapshots";
 import type { CalendarItem } from "@/mock/plan";
@@ -90,9 +92,12 @@ export function usePlanPage() {
   const [offerDismissed, setOfferDismissed] = useState(false);
   // The steps on her Plan as the row shows them, hand-offs included, for the roadmap and the check-in.
   const [liveState, setLiveState] = useState<{ key: string; state: PlanState } | null>(null);
+  // The stage check-in she is reading back, kept on screen after her answers are saved until she moves on.
+  const [checkInShowing, setCheckInShowing] = useState<string | null>(null);
   const [calEntry, setCalEntry] = useState<{ mode: "add"; date: string } | { mode: "edit"; item: CalendarItem } | null>(null);
 
   const choices = useRoadmapChoices(loop.id);
+  const checkIns = useCheckIns(loop.id);
   // Next steps are written for Step up only; another plan starts with none.
   const switchedTo = choices?.history.length ? choices.planId : null;
   const stepsKey = `${loop.id}:${switchedTo ?? "base"}`;
@@ -322,7 +327,90 @@ export function usePlanPage() {
     edited: loop.account.direction !== start.account.direction,
     editHref: EDIT_FLOW_HREF,
   };
-  const guided = (
+  // The stage check-in. ExecHQ decides a stage is finished, from her work; the most recent finished stage
+  // she has not checked in on (or put off) opens the check-in in place of the moves. Older ones stay history.
+  const lastDone = [...windows].reverse().find((w) => w.status === "done");
+  const dueKey = lastDone && !checkIns[checkInKey(planId, lastDone.index)] ? checkInKey(planId, lastDone.index) : null;
+  // The one being read back belongs to this scenario only: switching scenarios leaves it behind.
+  const showingKey = checkInShowing?.startsWith(`${loop.id}|`) ? checkInShowing.slice(loop.id.length + 1) : null;
+  const checkInStage = windows.find((w) => checkInKey(planId, w.index) === (showingKey ?? dueKey));
+  /** What she did in a stage: her steps from it, done or passed on, and what she added while it ran. */
+  function didInStage(stage: number): CheckInItem[] {
+    const w = windows[stage];
+    const steps = ACTION_QUEUE.filter((step) => step.stage === stage).flatMap((step): CheckInItem[] => {
+      if (stepState.decisions[step.id]?.decision === "declined") {
+        return [{ id: step.id, from: "step", title: step.title, what: "", passed: true, asksTone: false }];
+      }
+      if (!isActionDone(step, loop.records, loop.tasks)) return [];
+      const record = step.artifactId ? loop.records.find((r) => r.id === step.artifactId) : undefined;
+      if (record) {
+        const said = record.outcome && (record.outcome.type !== "no-response-yet" || record.outcome.detail);
+        return [{
+          id: step.id,
+          from: "execHQ",
+          title: record.title,
+          what: record.usedOn ? STAGE_CHECKIN_COPY.used(shortDate(record.usedOn)) : step.title,
+          feedback: said ? { tone: record.outcome?.type, words: record.outcome?.detail } : undefined,
+          asksTone: true,
+        }];
+      }
+      const task = loop.tasks?.[step.id];
+      return [{
+        id: step.id,
+        from: "step",
+        title: step.title,
+        what: task?.doneOn ? STAGE_CHECKIN_COPY.done(shortDate(task.doneOn)) : "",
+        feedback: task?.outcome ? { tone: task.outcome.type, words: task.outcome.detail } : undefined,
+        asksTone: true,
+      }];
+    });
+    // What she added herself while the stage ran. Only what she added can take her words; the rest is listed as it is.
+    const added = pictureItems
+      .filter((i) => i.source === "added" && w && i.on >= w.start && i.on <= w.end)
+      .map((i): CheckInItem => ({
+        id: i.id,
+        from: "you",
+        title: i.text,
+        what: STAGE_CHECKIN_COPY.added(shortDate(i.on)),
+        feedback: i.impact ? { words: i.impact } : i.editable ? undefined : {},
+        asksTone: false,
+      }));
+    return [...steps, ...added];
+  }
+  /** What came of a thing, from the check-in: kept on the thing itself, as "What came of it?" does. */
+  function reportFromCheckIn(item: CheckInItem, answer: { tone?: OutcomeType; words?: string }) {
+    if (item.from === "you") {
+      if (answer.words) updatePresence(item.id, { impact: answer.words });
+      return;
+    }
+    const step = ACTION_QUEUE.find((s) => s.id === item.id);
+    if (step?.artifactId) loopActions.report(step.artifactId, { type: answer.tone ?? "neutral", detail: answer.words });
+    else if (answer.tone) {
+      loopActions.answerTask(item.id, answer.tone);
+      if (answer.words) loopActions.noteTask(item.id, answer.words);
+    }
+  }
+  const stageCheckIn = checkInStage ? (
+    <StageCheckIn
+      key={`checkin-${loop.id}-${planId}-${checkInStage.index}`}
+      stageIndex={checkInStage.index}
+      stageCount={windows.length}
+      stageTitle={checkInStage.title}
+      milestone={roadmapFor(planId)[checkInStage.index]?.milestone ?? ""}
+      nextStageTitle={windows[checkInStage.index + 1]?.title}
+      items={didInStage(checkInStage.index)}
+      onReport={reportFromCheckIn}
+      onSave={(answers) => {
+        const key = checkInKey(planId, checkInStage.index);
+        setCheckInShowing(`${loop.id}|${key}`);
+        saveCheckIn(loop.id, key, { status: "done", on: loop.today, ...answers, words: answers.words?.trim() || undefined });
+      }}
+      onLater={() => saveCheckIn(loop.id, checkInKey(planId, checkInStage.index), { status: "later", on: loop.today })}
+      onContinue={() => setCheckInShowing(null)}
+    />
+  ) : null;
+
+  const guided = stageCheckIn ?? (
     <PlanGuided
       key={`guided-${loop.id}-${planId}`}
       planName={PLAN_TEMPLATES.find((p) => p.id === planId)?.name ?? ""}

@@ -1006,6 +1006,81 @@ export const PLAN_DIRECTION_COPY = {
   more: "See your plan",
 } as const;
 
+/**
+ * The stage check-in (Plan Concept 3). ExecHQ decides a stage is finished, from her work, and asks how it
+ * went before it builds on it: what came of anything she has not said yet, whether she got what finishing
+ * looks like, and how she feels about her plan now. Every part can be skipped, and "Later" is always there.
+ */
+export const STAGE_CHECKIN_COPY = {
+  part: "Stage check-in",
+  introKicker: (n: number, of: number) => `Stage ${n} of ${of} · Finished`,
+  introTitle: (stage: string) => `You finished ${stage}`,
+  introLede: "Here’s what you did. Before ExecHQ builds on it, tell it how it went.",
+  introQuestion: "Check in on this stage?",
+  introNote: (unreported: number) =>
+    `${unreported ? `${unreported === 1 ? "One thing" : `${unreported} things`} to hear about, then how the stage went.` : "How the stage went."} About two minutes. You can skip any of it.`,
+  start: "Start the check-in",
+  later: "Later",
+  nothingDone: "Nothing from this stage is in ExecHQ yet.",
+  // What she did, by where it came from.
+  fromSteps: "Your steps",
+  fromExecHQ: "In ExecHQ",
+  fromYou: "Yours",
+  passed: "You passed on it",
+  unreported: "Not reported yet",
+  used: (on: string) => `Used ${on}`,
+  done: (on: string) => `Done ${on}`,
+  added: (on: string) => `Added ${on}`,
+  // One page per thing she has not said what came of.
+  itemTitle: "What came of it?",
+  itemWhyLabel: "Why ExecHQ asks",
+  itemWhy: "What worked here decides what the next stage leans on.",
+  toneLabel: "How did it go?",
+  wordsLabel: "What came of it, in your words",
+  wordsHint: "Optional.",
+  next: "Next",
+  skipOne: "Skip this one",
+  // Whether she got what finishing looks like.
+  milestoneKicker: (stage: string) => stage,
+  milestoneTitle: "Did you get what finishing looks like?",
+  milestoneWhyLabel: "Finishing looks like",
+  milestoneQuestion: "Where did you land?",
+  milestones: [
+    { id: "yes", label: "Yes" },
+    { id: "partly", label: "Partly" },
+    { id: "not-yet", label: "Not yet" },
+  ],
+  skip: "Skip",
+  // How she feels about her plan now.
+  feelingKicker: "Before the next stage",
+  feelingTitle: "How are you feeling about your plan now?",
+  feelingLede: "However it went is useful. ExecHQ shapes what comes next around it.",
+  feelingQuestion: "Right now I’m feeling…",
+  feelings: [
+    { id: "more-sure", label: "More sure of it" },
+    { id: "same", label: "About the same" },
+    { id: "less-sure", label: "Less sure" },
+    { id: "stuck", label: "Stuck" },
+  ],
+  feelingWordsLabel: "Anything ExecHQ should know?",
+  privacy: "Only you see this. It is kept as you wrote it.",
+  seeStage: "See your stage",
+  // The read-back.
+  summaryKicker: (stage: string) => `Your check-in · ${stage}`,
+  summaryTitle: "Your stage, in your words",
+  replySteady: (next: string | undefined) =>
+    next ? `Thanks. ${next} is next, and its first steps build on what went well here.` : "Thanks. ExecHQ builds what comes next on what went well here.",
+  replyUnsure: "Thanks for saying so. What comes next starts smaller, and you can talk any of it through first.",
+  didHeading: "What you did",
+  stillOpen: (n: number) => `${n === 1 ? "One thing is" : `${n} things are`} still unreported. You can tell ExecHQ later, from the thing itself.`,
+  wentHeading: "How the stage went",
+  milestoneLabel: "Finishing looks like",
+  feelingLabel: "How you’re feeling",
+  notAnswered: "Not answered",
+  onTo: (next: string | undefined) => (next ? `On to ${next}` : "Back to your plan"),
+  change: "Change an answer",
+} as const;
+
 /** Where the edit flow starts: the onboarding questions, pre-filled, ending back on the Plan. */
 export const EDIT_FLOW_HREF = "/onboarding/concept-3?edit=1";
 

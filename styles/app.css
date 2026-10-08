@@ -15737,6 +15737,90 @@ fieldset.agenda__whens {
   margin-top: var(--space-xl);
 }
 
+/* The stage check-in (Plan Concept 3): what she did in a finished stage, one card a thing, with what she
+   has said in her words and a quiet mark on what she has not. */
+.stage-checkin__did {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stage-checkin__thing {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  padding: var(--space-sm) var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-raised);
+}
+
+.stage-checkin__from {
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.stage-checkin__title {
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.stage-checkin__what,
+.stage-checkin__said {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.stage-checkin__said b {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.stage-checkin__said q {
+  font-family: var(--font-serif);
+  color: var(--color-text-primary);
+}
+
+.stage-checkin__pending {
+  align-self: flex-start;
+  margin-top: var(--space-3xs);
+  padding: 0 var(--space-xs);
+  border: var(--border-width-thin) dashed var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.stage-checkin__none,
+.stage-checkin__note {
+  margin: 0;
+  font-size: var(--text-xs-plus);
+  color: var(--color-text-secondary);
+}
+
+.stage-checkin__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-top: var(--space-lg);
+}
+
+.stage-checkin__heading {
+  margin: 0;
+  font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+}
+
 .plan-guided__reasons {
   display: flex;
   flex-direction: column;
