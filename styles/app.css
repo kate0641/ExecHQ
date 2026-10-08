@@ -13702,16 +13702,20 @@ ul.momentum__events {
   list-style: none;
 }
 
+/* A past day with nothing in it is a thin outline, so it reads as empty; a day she did something is
+   filled; a day still to come is dashed. */
 .day-circles__dot {
   display: grid;
   place-items: center;
   aspect-ratio: 1;
   border-radius: 50%;
-  background-color: var(--color-border);
+  background-color: transparent;
+  border: var(--border-width-thin) solid var(--color-border-strong);
 }
 
 .day-circles__dot.is-on {
   background-color: var(--color-surface-inverse);
+  border-color: var(--color-surface-inverse);
   color: var(--color-text-inverse);
 }
 
