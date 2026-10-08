@@ -5552,6 +5552,30 @@ ol.ring-detail__timeline {
   margin-inline: auto;
 }
 
+/* Onboarding's code page: the email's notification over the top of the
+   page, as on Login. */
+.guide:has(> .guide__overlay) {
+  position: relative;
+}
+
+.guide__overlay {
+  position: absolute;
+  z-index: 3;
+  top: var(--space-md);
+  right: var(--space-md);
+  left: var(--space-md);
+}
+
+[data-viewport="web"] .guide__overlay:not(:where([data-viewport="mobile"] *)) {
+  left: auto;
+  width: 24rem;
+}
+
+[data-viewport="tablet"] .guide__overlay:not(:where([data-viewport="mobile"] *)) {
+  max-width: 24rem;
+  margin-inline: auto;
+}
+
 /* A class selector outranks the user agent's [hidden] rule. */
 .welcome__form [hidden] {
   display: none;
@@ -11330,7 +11354,8 @@ ul.stage-actions__list {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .login__notification .mail-notification {
+  .login__notification .mail-notification,
+  .guide__overlay .mail-notification {
     animation: notification-drop 0.35s var(--easing-standard);
   }
 }

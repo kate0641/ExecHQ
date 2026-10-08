@@ -2,6 +2,7 @@ import { defineComponentStates } from "@/components/types";
 import { FIXED_CONTENT, NOT_AN_INPUT } from "@/components/not-applicable";
 import { MAYA } from "@/mock/account";
 import { SIGN_IN_CODE } from "@/mock/login";
+import { GUIDE_C3 } from "@/mock/onboarding";
 import { SignInEmail } from "./SignInEmail";
 
 const noop = () => {};
@@ -11,7 +12,7 @@ export const signInEmailStates = defineComponentStates({
   name: "SignInEmail",
   group: "cards",
   status: "draft",
-  flows: ["login"],
+  flows: ["login", "onboarding"],
   description:
     "The sign-in email drawn as a message in a mail app: neutral subject and the one-time code. No button: she types the code into ExecHQ.",
   component: SignInEmail,
@@ -29,6 +30,10 @@ export const signInEmailStates = defineComponentStates({
     {
       label: "A long address wraps",
       props: { email: "maya.alexandra.chen-whitfield@example.com", code: SIGN_IN_CODE, onBack: noop, headingId: "sie-2" },
+    },
+    {
+      label: "Confirming an address at sign-up",
+      props: { email: MAYA.email, code: SIGN_IN_CODE, onBack: noop, headingId: "sie-3", message: GUIDE_C3.verify.email },
     },
   ],
 });

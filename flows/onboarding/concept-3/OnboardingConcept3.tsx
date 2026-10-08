@@ -4,7 +4,14 @@ import { Suspense, useEffect, useId, useRef, useState, type ComponentProps } fro
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ChipGroup } from "@/components/form/ChipGroup";
+import { CodeField } from "@/components/form/CodeField";
 import { Input } from "@/components/form/Input";
+import { Sheet } from "@/components/layout/Sheet";
+import { AccountPicker } from "@/components/login/AccountPicker";
+import { MailNotification } from "@/components/login/MailNotification";
+import { ProviderButtons } from "@/components/login/ProviderButtons";
+import { SignInEmail } from "@/components/login/SignInEmail";
+import { DetailPanel } from "@/components/profile/DetailPanel";
 import { AnswerDrawer } from "@/components/onboarding/AnswerDrawer";
 import { ExportLinks } from "@/components/onboarding/ExportLinks";
 import { GeneratingState } from "@/components/onboarding/GeneratingState";
@@ -26,6 +33,7 @@ import { SignalSources } from "@/components/onboarding/SignalSources";
 import { Button } from "@/components/primitives/Button";
 import {
   useOnboardingFlow,
+  type AccountRoute,
   linkedInIn,
   type OnboardingFlow,
   type OnboardingStep,
@@ -54,6 +62,7 @@ import {
   POSITIONING_C1,
   PLAN_C1,
   PLAN_TEMPLATES,
+  SIGNUP_PROVIDER_ACCOUNTS,
   checkEmail,
   answerOptions,
   decidesPlanC3,
@@ -72,6 +81,14 @@ import {
   type PlanTemplate,
   type TailoredQuestion,
 } from "@/mock/onboarding";
+import {
+  EMAIL_DELAY_MS,
+  LOGIN_COPY,
+  LOGIN_PROVISIONAL,
+  RESEND_SECONDS,
+  SIGN_IN_CODE,
+  type Provider,
+} from "@/mock/login";
 
 /**
  * Concept 3 — the guided onboarding.
@@ -106,6 +123,7 @@ type PageId =
   | "welcome"
   | "about"
   | "account"
+  | "verify"
   | "signals"
   | "linkedin"
   | "direction"
@@ -142,6 +160,9 @@ const PAGES: Page[] = [
   { id: "welcome", label: "Welcome", step: "account" },
   { id: "about", label: "What ExecHQ is", step: "account" },
   { id: "account", label: "Account", step: "account" },
+  // The emailed code, for a typed address only: Google and Apple have
+  // confirmed theirs, so Account moves past it (2026-10-08).
+  { id: "verify", label: "Check your email", step: "account", offBar: true, aside: true },
   { id: "signals", label: "Signals", step: "direction" },
   // LinkedIn's upload, reached from Signals: the steps and the picker.
   { id: "linkedin", label: "LinkedIn", step: "direction", offBar: true, aside: true },
@@ -417,7 +438,25 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
     }
 
     case "account":
-      return <AccountPage flow={flow} frame={frame()} drawer={{ mode, setMode }} onDone={next} />;
+      return (
+        <AccountPage
+          flow={flow}
+          frame={frame()}
+          drawer={{ mode, setMode }}
+          onDone={(confirmed) => (confirmed ? next() : goTo("verify"))}
+        />
+      );
+
+    case "verify":
+      return (
+        <VerifyPage
+          flow={flow}
+          frame={frame()}
+          drawer={{ mode, setMode }}
+          onDone={next}
+          onOtherAddress={() => goTo("account")}
+        />
+      );
 
     case "signals": {
       const c = GUIDE_C3.signals;
@@ -780,15 +819,25 @@ function Said({ value, onChange, label }: { value: string; onChange: () => void;
 }
 
 /**
- * The account: email, and an invite code for those who have one. Same rules
- * as Concept 1: any address, and a code only changes who pays. Typed, so the
- * drawer opens with the field focused and the keyboard up.
+ * The account: Google or Apple, or an email, and an invite code for those who
+ * have one. Same rules as Concept 1: any address, and a code only changes who
+ * pays. A typed address is confirmed by a code on the next page; Google and
+ * Apple, as on Login, have confirmed theirs, so `onDone` says which it was.
  */
-function AccountPage({ flow, frame, drawer, onDone }: PageProps) {
+function AccountPage({
+  flow,
+  frame,
+  drawer,
+  onDone,
+}: Omit<PageProps, "onDone"> & { onDone: (confirmed: boolean) => void }) {
   const { state, dispatch } = flow;
   const c = GUIDE_C3.account;
+  const names = LOGIN_COPY.signIn.providers;
   const [email, setEmail] = useState(state.answers.email ?? "");
   const [code, setCode] = useState(state.answers.inviteCode ?? "");
+  // Google or Apple, once an account is picked in its window.
+  const [route, setRoute] = useState<AccountRoute>(state.answers.accountRoute ?? "email");
+  const [picker, setPicker] = useState<Provider | null>(null);
   // The invite code is a required choice: a code, or "I don't have a code".
   // Coming back to the page, an email already given means the choice was made.
   const [choice, setChoice] = useState<"yes" | "no" | null>(
@@ -797,6 +846,15 @@ function AccountPage({ flow, frame, drawer, onDone }: PageProps) {
   const [codeError, setCodeError] = useState(false);
   const [verdict, setVerdict] = useState<ReturnType<typeof checkEmail> | null>(null);
   const codeBox = useRef<HTMLDivElement>(null);
+  const emailBox = useRef<HTMLDivElement>(null);
+  // Set by Change on a Google or Apple address: the field it gives way to
+  // takes the cursor, so focus is not lost with the button.
+  const refocus = useRef(false);
+  useEffect(() => {
+    if (route !== "email" || !refocus.current) return;
+    refocus.current = false;
+    emailBox.current?.querySelector("input")?.focus();
+  }, [route]);
 
   // Choosing "I have an invite code" puts the cursor in its field.
   useEffect(() => {
@@ -806,6 +864,7 @@ function AccountPage({ flow, frame, drawer, onDone }: PageProps) {
   }, [choice]);
 
   const hasCode = choice === "yes";
+  const via = route === "email" ? null : route;
 
   function submit() {
     if (!choice || (hasCode && !code.trim())) return;
@@ -814,81 +873,241 @@ function AccountPage({ flow, frame, drawer, onDone }: PageProps) {
     setCodeError(!codeOk);
     setVerdict(check === "ok" ? null : check);
     if (!codeOk || check !== "ok") return;
+    const address = email.trim();
+    // Confirmed already: Google or Apple, or the address the code confirmed.
+    const confirmed = via !== null || (state.answers.emailVerified && state.answers.email === address);
     dispatch({ type: "set-invite-code", code: hasCode ? code.trim() : null });
-    dispatch({ type: "set-email", email: email.trim() });
-    onDone();
+    dispatch({ type: "set-email", email: address, route });
+    onDone(confirmed);
   }
 
   const open = drawer.mode === "open";
   return (
-    <GuidePage
-      {...frame}
-      kicker={c.kicker}
-      title={c.title}
-      lede={c.lede}
-      why={c.why}
-      drawer={
-        <AnswerDrawer
-          question={c.ask}
-          questionId={frame.headingId}
-          open={open}
-          onToggle={toggle(drawer)}
-          primaryLabel={c.cta}
-          primaryDisabled={!choice || (hasCode && !code.trim())}
-          onPrimary={submit}
-          autoFocusField
-        >
-          <Input
-            label={c.ask}
-            type="email"
-            required
-            autoComplete="email"
-            placeholder="you@example.com"
-            value={email}
-            error={
-              verdict === "empty"
-                ? "We need an email address to create the account."
-                : verdict === "malformed"
-                  ? "That does not look like an email address."
-                  : undefined
-            }
-            onChange={(event) => {
-              setEmail(event.target.value);
-              setVerdict(null);
-            }}
-          />
-          <ChipGroup
-            label={c.inviteAsk}
-            options={[c.inviteYes, c.inviteNo]}
-            equalWidth
-            value={choice ? [choice === "yes" ? c.inviteYes : c.inviteNo] : []}
-            onChange={(next) => {
-              setChoice(next[0] === c.inviteYes ? "yes" : next[0] === c.inviteNo ? "no" : null);
-              setCodeError(false);
-            }}
-          />
-          {hasCode ? (
-            <div ref={codeBox}>
-              <Input
-                label={c.inviteField}
-                autoComplete="off"
-                value={code}
-                onChange={(event) => {
-                  setCode(event.target.value);
-                  setCodeError(false);
+    <>
+      <GuidePage
+        {...frame}
+        kicker={c.kicker}
+        title={c.title}
+        lede={c.lede}
+        why={c.why}
+        drawer={
+          <AnswerDrawer
+            question={c.ask}
+            questionId={frame.headingId}
+            open={open}
+            onToggle={toggle(drawer)}
+            primaryLabel={c.cta}
+            primaryDisabled={!choice || (hasCode && !code.trim())}
+            onPrimary={submit}
+            autoFocusField={via === null}
+          >
+            {via ? (
+              <Said
+                label={c.viaLabel(names[via])}
+                value={email}
+                onChange={() => {
+                  refocus.current = true;
+                  setRoute("email");
+                  setEmail("");
                 }}
               />
-            </div>
-          ) : null}
-          {codeError ? (
-            <Notice tone="explain" title="We do not recognize that code" live>
-              Check it against the invitation you were sent. If you don’t have one, choose “{c.inviteNo}”.
-              A code only changes who pays, never what you get.
-            </Notice>
-          ) : null}
-        </AnswerDrawer>
-      }
-    />
+            ) : (
+              <>
+                <ProviderButtons onChoose={setPicker} />
+                <p className="login__or">{c.or}</p>
+                <div ref={emailBox}>
+                  <Input
+                    label={c.ask}
+                    type="email"
+                    required
+                    autoComplete="email"
+                    placeholder="you@example.com"
+                    value={email}
+                    error={
+                      verdict === "empty"
+                        ? "We need an email address to create the account."
+                        : verdict === "malformed"
+                          ? "That does not look like an email address."
+                          : undefined
+                    }
+                    onChange={(event) => {
+                      setEmail(event.target.value);
+                      setVerdict(null);
+                    }}
+                  />
+                </div>
+              </>
+            )}
+            <ChipGroup
+              label={c.inviteAsk}
+              options={[c.inviteYes, c.inviteNo]}
+              equalWidth
+              value={choice ? [choice === "yes" ? c.inviteYes : c.inviteNo] : []}
+              onChange={(next) => {
+                setChoice(next[0] === c.inviteYes ? "yes" : next[0] === c.inviteNo ? "no" : null);
+                setCodeError(false);
+              }}
+            />
+            {hasCode ? (
+              <div ref={codeBox}>
+                <Input
+                  label={c.inviteField}
+                  autoComplete="off"
+                  value={code}
+                  onChange={(event) => {
+                    setCode(event.target.value);
+                    setCodeError(false);
+                  }}
+                />
+              </div>
+            ) : null}
+            {codeError ? (
+              <Notice tone="explain" title="We do not recognize that code" live>
+                Check it against the invitation you were sent. If you don’t have one, choose “{c.inviteNo}”.
+                A code only changes who pays, never what you get.
+              </Notice>
+            ) : null}
+          </AnswerDrawer>
+        }
+      />
+      <Sheet
+        open={picker !== null}
+        onClose={() => setPicker(null)}
+        label={picker ? LOGIN_COPY.picker.heading(names[picker]) : ""}
+      >
+        {picker ? (
+          <DetailPanel
+            heading={LOGIN_COPY.picker.heading(names[picker])}
+            headingId="account-picker-heading"
+            lead={c.pickerLede(names[picker])}
+            onClose={() => setPicker(null)}
+          >
+            <AccountPicker
+              accounts={SIGNUP_PROVIDER_ACCOUNTS[picker]}
+              onChoose={(account) => {
+                const picked = SIGNUP_PROVIDER_ACCOUNTS[picker].find((a) => a.id === account.id);
+                if (!picked) return;
+                setEmail(picked.email);
+                setVerdict(null);
+                setRoute(picker);
+                setPicker(null);
+              }}
+            />
+            <p className="login__small">{LOGIN_PROVISIONAL.marks}</p>
+          </DetailPanel>
+        ) : null}
+      </Sheet>
+    </>
+  );
+}
+
+/**
+ * Confirming a typed address: the same 6-digit code as Login, emailed and
+ * typed here. The email arrives a moment later as the phone's notification;
+ * tapping it opens the drawn email. The prototype takes any six digits.
+ */
+function VerifyPage({ flow, frame, drawer, onDone, onOtherAddress }: PageProps & { onOtherAddress: () => void }) {
+  const { state, dispatch } = flow;
+  const c = GUIDE_C3.verify;
+  const email = state.answers.email ?? "";
+  const [code, setCode] = useState("");
+  const [arrived, setArrived] = useState(false);
+  const [reading, setReading] = useState(false);
+  const [resendLeft, setResendLeft] = useState(RESEND_SECONDS);
+  const [message, setMessage] = useState("");
+
+  // The email arrives a moment after it is sent, and again after a resend.
+  useEffect(() => {
+    if (arrived) return;
+    const timer = window.setTimeout(() => {
+      setArrived(true);
+      setMessage(c.arrived);
+    }, EMAIL_DELAY_MS);
+    return () => window.clearTimeout(timer);
+  }, [arrived, c.arrived]);
+
+  // The resend waits a little, so it cannot be pressed over and over.
+  useEffect(() => {
+    if (resendLeft <= 0) return;
+    const timer = window.setTimeout(() => setResendLeft((n) => n - 1), 1000);
+    return () => window.clearTimeout(timer);
+  }, [resendLeft]);
+
+  function confirm() {
+    if (code.length !== 6) return;
+    dispatch({ type: "verify-email" });
+    onDone();
+  }
+
+  return (
+    <>
+      <GuidePage
+        {...frame}
+        kicker={c.kicker}
+        title={c.title}
+        lede={c.lede(email)}
+        why={c.why}
+        overlay={
+          arrived && !reading ? (
+            <MailNotification
+              from={LOGIN_COPY.email.from}
+              subject={c.email.subject}
+              preview={c.email.preview}
+              onOpen={() => setReading(true)}
+            />
+          ) : null
+        }
+        drawer={
+          <AnswerDrawer
+            question={c.ask}
+            questionId={frame.headingId}
+            open={drawer.mode === "open"}
+            onToggle={toggle(drawer)}
+            primaryLabel={c.cta}
+            primaryDisabled={code.length !== 6}
+            onPrimary={confirm}
+            autoFocusField
+          >
+            <CodeField label={c.ask} value={code} onChange={setCode} />
+            <p className="login__actions">
+              {resendLeft > 0 ? (
+                <span className="login__small">{c.resendIn(resendLeft)}</span>
+              ) : (
+                <button
+                  type="button"
+                  className="login__link"
+                  onClick={() => {
+                    setCode("");
+                    setArrived(false);
+                    setReading(false);
+                    setResendLeft(RESEND_SECONDS);
+                    setMessage(c.resent);
+                  }}
+                >
+                  {c.resend}
+                </button>
+              )}
+              <button type="button" className="login__link" onClick={onOtherAddress}>
+                {c.otherAddress}
+              </button>
+            </p>
+            <p className="login__small">{c.nothing}</p>
+          </AnswerDrawer>
+        }
+      />
+      <Sheet open={reading} onClose={() => setReading(false)} label={c.email.subject} className="sheet--tall">
+        {reading ? (
+          <SignInEmail
+            email={email}
+            code={SIGN_IN_CODE}
+            message={c.email}
+            headingId="verify-email-heading"
+            onBack={() => setReading(false)}
+          />
+        ) : null}
+      </Sheet>
+      <output className="u-visually-hidden">{message}</output>
+    </>
   );
 }
 
