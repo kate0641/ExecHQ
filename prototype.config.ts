@@ -193,6 +193,7 @@ export const prototypeConfig: PrototypeConfig = {
         {
           slug: "concept-3",
           title: "Concept 3 — Guided check-in",
+          status: "approved",
           summary:
             "A guided check-in, built from onboarding’s page and answer drawer: one move at a time, with where she is with it as the answer. Answering changes her plan and comes back as a short reply. Under the move is the roadmap, a stack of stage cards, which shows when she folds the drawer; adding her own items slides up as a sheet.",
         },
@@ -226,6 +227,7 @@ export const prototypeConfig: PrototypeConfig = {
         {
           slug: "concept-2",
           title: "Concept 2 — Momentum first",
+          status: "approved",
           summary:
             "This week leads as seven day circles, then what came of the things she did, then where she started.",
         },
