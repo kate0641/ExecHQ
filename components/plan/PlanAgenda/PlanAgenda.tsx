@@ -88,6 +88,14 @@ export function PlanAgenda({
   const firstStep = (stage: number) => items.find((i) => i.stage === stage && i.kind === "step")?.id ?? null;
   const [open, setOpen] = useState<number | null>(demoStage !== undefined ? demoStage : here?.index ?? 0);
   const [step, setStep] = useState<string | null>(demoStep !== undefined ? demoStep : openFirstStep ? firstStep(open ?? 0) : null);
+  // The first paint is the server's, which cannot see what she has saved, so where she is can change once her
+  // plan loads (a stage she finished, say). Follow it there, as the page would have opened on it.
+  const [hereSeen, setHereSeen] = useState(here?.index);
+  if (demoStage === undefined && here && here.index !== hereSeen) {
+    setHereSeen(here.index);
+    setOpen(here.index);
+    setStep(openFirstStep ? firstStep(here.index) : null);
+  }
   const [adding, setAdding] = useState(Boolean(demoAdding));
   // The add button floats over the phone's screen, above the Ask or go pill, so it is drawn there.
   const anchor = useRef<HTMLSpanElement>(null);
@@ -178,7 +186,7 @@ export function PlanAgenda({
                       )}
                     </ul>
                   ) : (
-                    <p className="agenda__small">{A.nothing}</p>
+                    <p className="agenda__small">{stage.status === "done" ? A.nothingDone : A.nothing}</p>
                   )}
                 </div>
               ) : null}

@@ -235,6 +235,10 @@ export function usePlanPage() {
     const at = stageAt(windows, date);
     return at >= 0 ? at : date < windows[0].start ? 0 : windows.length - 1;
   };
+  // A step still to do belongs to where she is, never to a stage she has finished. Her work can put her past a
+  // stage while its suggested window still runs to today, so a step dated today would otherwise land in it.
+  const firstOpenStage = Math.max(0, windows.findIndex((w) => w.status !== "done"));
+  const stageOfStep = (date: string) => Math.max(stageOfDay(date), windows.every((w) => w.status === "done") ? windows.length - 1 : firstOpenStage);
   const agendaStages = windows.map((w) => ({
     index: w.index,
     title: w.title,
@@ -247,7 +251,7 @@ export function usePlanPage() {
       const day = stepDay(stepState, step);
       return {
         id: step.id,
-        stage: stageOfDay(day.date),
+        stage: stageOfStep(day.date),
         title: step.title,
         date: day.date,
         kind: "step" as const,
