@@ -1,7 +1,7 @@
 "use client";
 
-import { MomentumLabeled, type MomentumVariant } from "@/components/plan/MomentumLabeled";
-import { followThrough, momentumEvents, type AddedSignal } from "@/lib/momentum";
+import { MomentumLabeled } from "@/components/plan/MomentumLabeled";
+import { momentumEvents, type AddedSignal } from "@/lib/momentum";
 import { historyDays } from "@/lib/signal-picture";
 import { isDone } from "@/lib/rings";
 import type { LoopRecord } from "@/lib/loop";
@@ -16,16 +16,13 @@ export interface PlanMomentumProps {
   signals?: AddedSignal[];
   today: string;
   startedOn: string;
-  /** How it is drawn: each Signals concept shows its own. */
-  variant?: MomentumVariant;
 }
 
 /**
- * Momentum on the Plan: the labeled trend, built up as her history grows. The
- * reviewer's state switcher sets how much history she has; there is no control
- * here. Concept B (counts only) stays in the catalogue and is not shown.
+ * Momentum on the Signal Picture, read from her Loop, her plan and what she added: this week, and her
+ * next move, the next step she took on that is not done.
  */
-export function PlanMomentum({ records, tasks, signals, today, startedOn, variant }: PlanMomentumProps) {
+export function PlanMomentum({ records, tasks, signals, today, startedOn }: PlanMomentumProps) {
   const events = momentumEvents(records, tasks, signals);
   const history = historyDays(startedOn, today);
   const next = ACTION_QUEUE.find((s) => s.status === "accepted" && !isDone(s, records, tasks));
@@ -37,9 +34,7 @@ export function PlanMomentum({ records, tasks, signals, today, startedOn, varian
         events={events}
         today={today}
         history={history}
-        follow={followThrough(records, tasks, events, today, 30)}
         nextMove={nextMove}
-        variant={variant}
       />
     </div>
   );

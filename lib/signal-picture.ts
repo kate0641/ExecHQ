@@ -17,7 +17,6 @@ import { addDays, daysBetween, type LoopDate, type LoopRecord } from "@/lib/loop
 import { entriesFor, signalOfRecord } from "@/lib/signals";
 import type { PresenceItem } from "@/mock/accounts-stub";
 import {
-  ACTION_QUEUE,
   ACTIVITY_OF_ARTIFACT,
   ACTIVITY_OF_CHANNEL,
   DEFAULT_AREA,
@@ -28,7 +27,6 @@ import {
   type ActivityType,
 } from "@/mock/plan";
 import { ACTIONS } from "@/mock/plan-stub";
-import { isDone } from "@/lib/rings";
 import type { TaskCheck } from "@/mock/snapshots";
 
 export type Source = "recorded" | "added";
@@ -146,75 +144,6 @@ export function addedItems(presence: readonly PresenceItem[], today: LoopDate): 
 /** Days of record she has: from the day her plan began, today included. */
 export function historyDays(startedOn: LoopDate, today: LoopDate): number {
   return Math.max(1, daysBetween(startedOn, today) + 1);
-}
-
-export interface Offer {
-  recordId: string;
-  title: string;
-  usedOn: LoopDate;
-}
-
-/**
- * The moment to offer her the entry flow: a piece she has just marked
- * published, which she may want to add with its link. At most one, none
- * already added from it, and only while it is fresh. It is an offer, never a
- * standing form.
- */
-export function offerFor(records: LoopRecord[], presence: readonly PresenceItem[], today: LoopDate): Offer | undefined {
-  const fresh = addDays(today, -2);
-  const record = records.find(
-    (r) =>
-      r.kind === "thought-leadership" &&
-      r.usedOn !== undefined &&
-      r.usedOn >= fresh &&
-      r.usedOn <= today &&
-      !presence.some((p) => p.fromRecord === r.id)
-  );
-  return record && record.usedOn ? { recordId: record.id, title: record.title, usedOn: record.usedOn } : undefined;
-}
-
-/**
- * The next step that would add a circle to the growth path: the first one she
- * has accepted and not finished that runs through a channel she can be seen
- * on, such as a pitch, a talk or a post. Work inside the organisation never
- * qualifies, so it is not shown on the path.
- */
-export function nextOutsideStep(records: LoopRecord[], tasks: Record<string, TaskCheck> | undefined) {
-  return ACTION_QUEUE.find((s) => s.status === "accepted" && s.channel !== undefined && !isDone(s, records, tasks));
-}
-
-export interface GrowthMonth {
-  /** "Jul". */
-  label: string;
-  /** Her things from outside the organisation that month, oldest first. */
-  items: PictureItem[];
-}
-
-const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-/**
- * One entry for each calendar month from the month her plan began to the
- * month of today, each holding what she added or ExecHQ recorded outside the
- * organisation in it. A month with nothing is still there, empty, never
- * skipped. Work inside the organisation is Momentum's to count, so it is not
- * a circle here.
- */
-export function growthMonths(items: PictureItem[], startedOn: LoopDate, today: LoopDate): GrowthMonth[] {
-  const first = new Date(`${startedOn}T00:00:00`);
-  const last = new Date(`${today}T00:00:00`);
-  const out: GrowthMonth[] = [];
-  const index = new Map<string, GrowthMonth>();
-  for (let m = new Date(first.getFullYear(), first.getMonth(), 1); m <= last; m = new Date(m.getFullYear(), m.getMonth() + 1, 1)) {
-    const month = { label: MONTH_NAMES[m.getMonth()], items: [] as PictureItem[] };
-    index.set(`${m.getFullYear()}-${m.getMonth()}`, month);
-    out.push(month);
-  }
-  for (const item of [...items].sort((a, b) => (a.on < b.on ? -1 : 1))) {
-    if (item.activity === "inside" || item.on < startedOn || item.on > today) continue;
-    const d = new Date(`${item.on}T00:00:00`);
-    index.get(`${d.getFullYear()}-${d.getMonth()}`)?.items.push(item);
-  }
-  return out;
 }
 
 export interface CameOfRow {

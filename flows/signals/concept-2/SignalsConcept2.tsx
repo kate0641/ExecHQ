@@ -23,10 +23,10 @@ export function SignalsConcept2() {
   return (
     <SignalsPage
       concept="c2"
-      lead={p.momentumOf("week")}
+      lead={p.momentum}
       main={
         <>
-          {p.pictureOf("cameof")}
+          {p.cameOf}
           {web ? p.linkedInView : null}
         </>
       }

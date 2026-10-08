@@ -15,7 +15,7 @@ import { PlanDetailLink } from "@/components/plan/PlanDetailLink";
 import { StageCheckIn, type CheckInItem } from "@/components/plan/StageCheckIn";
 import { CheckInRecap } from "@/components/plan/CheckInRecap";
 import { PlanDirection } from "@/components/plan/PlanDirection";
-import { PlanSignalPicture, type SignalPictureVariant } from "@/components/plan/PlanSignalPicture";
+import { PlanSignalPicture } from "@/components/plan/PlanSignalPicture";
 import { EntryDrawer } from "@/components/plan/EntryDrawer";
 import { LinkedInPicture } from "@/components/plan/LinkedInPicture";
 import { ReportDrawer, type ReportValues } from "@/components/plan/ReportDrawer";
@@ -35,8 +35,7 @@ import { applyCheckIn } from "@/lib/check-in-effects";
 import { addedSummary, hasBaseline, signalRows, withAdded } from "@/lib/presence";
 import { addPresence, removePresence, saveBaseline, saveCurrent, updatePresence, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
 import { currentStageIndex, isDone as isActionDone } from "@/lib/rings";
-import { addedItems, newlyRecorded, type CameOfRow, nextOutsideStep, offerFor, recordedItems, type PictureItem } from "@/lib/signal-picture";
-import { ACTIVITY_OF_CHANNEL, ACTIVITY_TYPES } from "@/mock/plan";
+import { addedItems, newlyRecorded, type CameOfRow, recordedItems, type PictureItem } from "@/lib/signal-picture";
 import { signalOfRecord } from "@/lib/signals";
 import { markNoticed, useSignalNotices } from "@/lib/signal-notices";
 import {
@@ -50,7 +49,6 @@ import type { ActionStep, StepQuestion } from "@/mock/plan";
 import { ACTION_QUEUE, GAP_STEP, stepById, EDIT_FLOW_HREF, STAGE_CHECKIN_COPY, STEP_QUESTIONS, type DeclineReason, type GuidedAnswer, ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
 import { ACTIONS } from "@/mock/plan-stub";
 import { SNAPSHOTS } from "@/mock/snapshots";
-import type { MomentumVariant } from "@/components/plan/MomentumLabeled";
 import { PlanMomentum } from "./PlanMomentum";
 
 /**
@@ -81,7 +79,6 @@ export function usePlanPage() {
   const [editingItem, setEditingItem] = useState<PictureItem | null>(null);
   // The row whose "Nothing reported yet" she tapped: the report drawer is for it.
   const [reporting, setReporting] = useState<CameOfRow | null>(null);
-  const [offerDismissed, setOfferDismissed] = useState(false);
   // The stage check-in on screen when it is not simply due: one she is reading back after saving, or one she
   // opened from its stage in the roadmap. It belongs to the scenario it was opened in.
   const [checkInShowing, setCheckInShowing] = useState<{ scenario: string; key: string; startAt: "start" | "summary"; fromRoadmap?: boolean } | null>(null);
@@ -106,7 +103,6 @@ export function usePlanPage() {
   useEffect(() => {
     if (onSignals && freshKey) markNoticed(freshKey.split("|"));
   }, [onSignals, freshKey]);
-  const offer = offerDismissed ? undefined : offerFor(loop.records, items, loop.today);
   const editing = editingItem ? items.find((i) => i.id === editingItem.id) : undefined;
 
   /** What an entry becomes when it is saved: the same for one and for several. */
@@ -471,10 +467,10 @@ export function usePlanPage() {
     />
   );
 
-  const momentumOf = (variant: MomentumVariant) => (
+  // Momentum: her week, counted from her plan, her work in ExecHQ, and the signals she added.
+  const momentum = (
     <PlanMomentum
-      key={`momentum-${loop.id}-${variant}`}
-      variant={variant}
+      key={`momentum-${loop.id}`}
       records={loop.records}
       tasks={loop.tasks}
       signals={pictureItems.filter((i) => i.source === "added").map((i) => ({ id: i.id, text: i.text, on: i.on }))}
@@ -483,43 +479,16 @@ export function usePlanPage() {
     />
   );
 
-  const toolboxHref = conceptHref("toolbox-flow", "concept-1");
-  /* Until she has said where she started, the page asks that and nothing else:
-     the picture would only repeat the page's title over an empty record. */
-  /* Her next step as the path draws it: only one that would add a circle, so
-     work inside the organisation is not shown here. It carries the plan's own
-     reason, the kind of activity it adds one to, and whether she has started it. */
-  const pathStep = (() => {
-    const step = nextOutsideStep(loop.records, loop.tasks);
-    if (!step || !step.channel) return undefined;
-    const record = step.artifactId ? loop.records.find((r) => r.id === step.artifactId) : undefined;
-    const lane = ACTIVITY_TYPES.find((a) => a.id === ACTIVITY_OF_CHANNEL[step.channel!])?.label ?? "";
-    return {
-      title: step.title,
-      why: step.whyNow || step.whyThis,
-      adds: lane,
-      href: toolboxHref,
-      started: loop.choices?.[step.id]?.decision === "started" || Boolean(record) || Boolean(loop.tasks?.[step.id]),
-      onStart: () => loopActions.startAction(step.id),
-    };
-  })();
-  const pictureOf = (variant: SignalPictureVariant) =>
-    !hasBaseline(baseline, seeded) ? null : (
+  // What came of what she did. Until she has said where she started, the page asks that and nothing else.
+  const cameOf = !hasBaseline(baseline, seeded) ? null : (
     <PlanSignalPicture
-      key={`picture-${loop.id}-${variant}`}
-      variant={variant}
+      key={`picture-${loop.id}`}
       startedOn={loop.account.plan.startedOn}
-      nextStep={pathStep}
       items={pictureItems}
       today={loop.today}
       onEdit={(item) => setEditingItem(item)}
       onReport={(row) => setReporting(row)}
       onDelete={(item) => removePresence(item.id)}
-      offer={offer}
-      onAcceptOffer={() =>
-        offer && setAdding({ initial: { type: "published", on: offer.usedOn }, fromRecord: offer.recordId })
-      }
-      onDismissOffer={() => setOfferDismissed(true)}
     />
   );
 
@@ -601,7 +570,7 @@ export function usePlanPage() {
     />
   );
 
-  return { guided, momentumOf, pictureOf, started, startedOf, linkedInView, sheet: (
+  return { guided, momentum, cameOf, started, startedOf, linkedInView, sheet: (
       <>
         {sheet}
         <ReportDrawer
