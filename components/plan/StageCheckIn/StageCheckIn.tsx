@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { ChipGroup } from "@/components/form/ChipGroup";
 import { Input } from "@/components/form/Input";
 import { AnswerDrawer } from "@/components/onboarding/AnswerDrawer";
 import { GuidePage } from "@/components/onboarding/GuidePage";
 import { ReflectionReply } from "@/components/onboarding/ReflectionReply";
 import type { OutcomeType } from "@/lib/loop";
+import { useViewport } from "@/lib/viewport-context";
 import type { MilestoneAnswer, StageFeeling } from "@/lib/stage-checkins";
 import { OUTCOME_OPTIONS } from "@/mock/loop";
 import { STAGE_CHECKIN_COPY as C } from "@/mock/plan";
@@ -63,6 +64,9 @@ export interface StageCheckInProps {
   /** Opened from the roadmap rather than with the page: the heading takes focus at once, and leaving goes back
    *  to her plan rather than on to the next stage, which she is already in. */
   focusOnOpen?: boolean;
+  /** Beside every page on the web: her direction and the roadmap, as the moves have them, so nothing moves
+   *  when the check-in opens. Not shown on a phone or a tablet, where the page is the check-in alone. */
+  aside?: ReactNode;
   /** Catalogue only: which page, and her answers so far. */
   demoPage?: number;
   demoAnswers?: StageCheckInAnswers;
@@ -93,6 +97,7 @@ export function StageCheckIn({
   saved,
   startAt = "start",
   focusOnOpen,
+  aside,
   demoPage,
   demoAnswers,
   demoFolded,
@@ -125,7 +130,8 @@ export function StageCheckIn({
     if (pages[page + 1] === "summary") onSave(answers);
     go(page + 1);
   };
-  const top = { part: C.part, position: stageTitle, partIndex: page, partCount: pages.length, headingId };
+  const web = useViewport().viewport === "web";
+  const top = { part: C.part, position: stageTitle, partIndex: page, partCount: pages.length, headingId, after: web ? aside : undefined };
   const classes = ["stage-checkin", "plan-guided", className].filter(Boolean).join(" ");
   const unreported = items.filter((i) => !i.passed && !i.feedback).length;
   const label = <T extends string>(list: readonly { id: T; label: string }[], id?: T) => list.find((o) => o.id === id)?.label;
@@ -165,6 +171,7 @@ export function StageCheckIn({
         drawer={
           <AnswerDrawer
             question={C.introQuestion}
+            webTitle={C.introQuestion}
             questionId={headingId}
             open={open}
             onToggle={() => setOpen(!open)}
@@ -202,6 +209,7 @@ export function StageCheckIn({
         drawer={
           <AnswerDrawer
             question={item.asksTone ? C.toneLabel : C.wordsLabel}
+            webTitle={item.asksTone ? C.toneLabel : C.wordsLabel}
             questionId={headingId}
             open={open}
             onToggle={() => setOpen(!open)}
@@ -250,6 +258,7 @@ export function StageCheckIn({
         drawer={
           <AnswerDrawer
             question={C.milestoneQuestion}
+            webTitle={C.milestoneQuestion}
             questionId={headingId}
             open={open}
             onToggle={() => setOpen(!open)}
@@ -286,6 +295,7 @@ export function StageCheckIn({
         drawer={
           <AnswerDrawer
             question={C.feelingQuestion}
+            webTitle={C.feelingQuestion}
             questionId={headingId}
             open={open}
             onToggle={() => setOpen(!open)}

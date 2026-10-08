@@ -415,6 +415,36 @@ export function usePlanPage() {
       if (answer.words) loopActions.noteTask(item.id, answer.words);
     }
   }
+  // Her check-in on each finished stage, in the roadmap: read back when done, a way in when put off.
+  const checkInNote = (index: number) => {
+    const key = checkInKey(planId, index);
+    const saved = checkIns[key];
+    if (!saved || (windows[index]?.status !== "done" && index !== reopenStage)) return null;
+    return (
+      <CheckInRecap
+        status={saved.status}
+        milestone={saved.milestone}
+        feeling={saved.feeling}
+        words={saved.words}
+        onOpen={() => setCheckInShowing({ scenario: loop.id, key, startAt: saved.status === "done" ? "summary" : "start", fromRoadmap: true })}
+      />
+    );
+  };
+  // Her direction sits above the road it leads to, and opens like an accordion. The way into her
+  // whole plan, the same detail Concept 1's Edit opens, sits beside the roadmap's heading. Under the move
+  // in the check-in, and beside every page of the stage check-in on the web.
+  const roadmap = (
+    <div className="plan-road">
+      <PlanDirection direction={loop.account.direction} />
+      <PlanAgenda
+        key={`agenda-${stepsKey}`}
+        openFirstStep={false}
+        stageNote={checkInNote}
+        action={<PlanDetailLink key={`plan-detail-${loop.id}-${planId}`} {...planDetail} />}
+        {...agendaProps}
+      />
+    </div>
+  );
   const stageCheckIn = checkInStage ? (
     <StageCheckIn
       key={`checkin-${loop.id}-${planId}-${checkInStage.index}`}
@@ -460,23 +490,9 @@ export function usePlanPage() {
       offeredAgain={Boolean(savedCheckIn?.again?.length)}
       startAt={showing?.startAt}
       focusOnOpen={showing?.fromRoadmap}
+      aside={roadmap}
     />
   ) : null;
-  // Her check-in on each finished stage, in the roadmap: read back when done, a way in when put off.
-  const checkInNote = (index: number) => {
-    const key = checkInKey(planId, index);
-    const saved = checkIns[key];
-    if (!saved || (windows[index]?.status !== "done" && index !== reopenStage)) return null;
-    return (
-      <CheckInRecap
-        status={saved.status}
-        milestone={saved.milestone}
-        feeling={saved.feeling}
-        words={saved.words}
-        onOpen={() => setCheckInShowing({ scenario: loop.id, key, startAt: saved.status === "done" ? "summary" : "start", fromRoadmap: true })}
-      />
-    );
-  };
 
   const hereIndex = windows.findIndex((w) => w.status === "current");
   const unsureAt = (index: number) => {
@@ -504,20 +520,7 @@ export function usePlanPage() {
       onStart={(step) => keepSteps(accept(stepState, step.id))}
       onAdd={addToPlan}
       // The move is already said above it, with its way to start, so the stage opens on its list.
-      // Her direction sits above the road it leads to, and opens like an accordion. The way into her
-      // whole plan, the same detail Concept 1's Edit opens, sits beside the roadmap's heading.
-      roadmap={
-        <div className="plan-road">
-          <PlanDirection direction={loop.account.direction} />
-          <PlanAgenda
-            key={`agenda-${stepsKey}`}
-            openFirstStep={false}
-            stageNote={checkInNote}
-            action={<PlanDetailLink key={`plan-detail-${loop.id}-${planId}`} {...planDetail} />}
-            {...agendaProps}
-          />
-        </div>
-      }
+      roadmap={roadmap}
     />
   );
 

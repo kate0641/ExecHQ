@@ -213,6 +213,7 @@ export function PlanGuided({
           answer ? undefined : (
             <AnswerDrawer
               question={G.question}
+              webTitle={G.question}
               questionId={headingId}
               open={open}
               onToggle={() => setOpen(!open)}

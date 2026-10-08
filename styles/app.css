@@ -14109,6 +14109,53 @@ ul.momentum__events {
   grid-column: 2;
 }
 
+/* Signal Picture Concept 2 on the web (option C, 2026-10-08): this week and the next move side by side
+   across the top, then what came of it, the wider, beside where she started. What ExecHQ added for her
+   reads as one list rather than a card each. */
+[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) {
+  max-width: 65rem;
+  column-gap: var(--space-2xl);
+}
+
+[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .signals-page__lead {
+  padding-bottom: var(--space-xl);
+  border-bottom: var(--border-subtle);
+}
+
+[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .momentum__stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 24rem;
+  column-gap: var(--space-2xl);
+  align-items: end;
+}
+
+[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .momentum__stage > * {
+  grid-column: 1;
+}
+
+[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .momentum__stage > .presence-clean__try {
+  grid-column: 2;
+  grid-row: 1 / span 6;
+  align-self: end;
+}
+
+[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .spark {
+  gap: 0;
+  border: var(--border-subtle);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+}
+
+[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .spark .spark__note {
+  border-radius: 0;
+  box-shadow: none;
+  padding: var(--space-sm) var(--space-md);
+}
+
+[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .spark .spark__note + .spark__note {
+  border-top: var(--border-subtle);
+}
+
 /* -----------------------------------------------------------------------------
    THE ROADMAP AS AN AGENDA (Plan, Concept 1)
    Stages stacked as cards with their periods and what she has inside them.
@@ -15788,6 +15835,54 @@ fieldset.agenda__whens {
 /* Adding on the web: a plain button at the foot of the road. */
 .agenda__add {
   align-self: flex-start;
+}
+
+/* Plan Concept 3 on the web (option B, 2026-10-08): the page and its answers read top to bottom on the
+   left, and her direction with the roadmap sits on the right, sticky, the same on every page, the
+   stage check-in included, so nothing moves from one page to the next. The page's own parts become the
+   grid's items; the answers lose the card and read as part of the page, under their question. */
+[data-viewport="web"] .guide.plan-guided:not(:where([data-viewport="mobile"] *)) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 26rem;
+  grid-auto-rows: auto;
+  align-items: start;
+  column-gap: var(--space-3xl);
+  row-gap: 0;
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: var(--space-2xl) var(--space-lg) var(--space-4xl);
+  overflow-y: auto;
+}
+
+[data-viewport="web"] .guide.plan-guided:not(:where([data-viewport="mobile"] *)) > .guide__page {
+  display: contents;
+}
+
+[data-viewport="web"] .guide.plan-guided:not(:where([data-viewport="mobile"] *)) :is(.guide__top, .guide__head, .guide__body, .guide__why, .guide__actions, .answer-drawer__wrap) {
+  grid-column: 1;
+  margin-bottom: var(--space-lg);
+}
+
+[data-viewport="web"] .guide.plan-guided:not(:where([data-viewport="mobile"] *)) .guide__after {
+  grid-column: 2;
+  grid-row: 1 / span 12;
+  position: sticky;
+  top: 0;
+  margin-top: 0;
+}
+
+[data-viewport="web"] .guide.plan-guided:not(:where([data-viewport="mobile"] *)) .answer-drawer__wrap {
+  position: static;
+  margin-top: var(--space-md);
+}
+
+[data-viewport="web"] .guide.plan-guided:not(:where([data-viewport="mobile"] *)) .answer-drawer {
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 /* The roadmap under the move, set apart from the move by space alone. */
