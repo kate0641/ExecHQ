@@ -10,16 +10,12 @@ import { LINKEDIN_READ_MS, looksLikeLinkedInExport } from "@/mock/onboarding";
 import { PresenceCard } from "@/components/homepage/PresenceCard";
 import { SignalPicture } from "@/components/homepage/SignalPicture";
 import { Spark } from "@/components/homepage/Spark";
-import { ActionSteps } from "@/components/plan/ActionSteps";
 import { PlanAgenda, type AgendaItem } from "@/components/plan/PlanAgenda";
 import { PlanGuided } from "@/components/plan/PlanGuided";
 import { PlanDetailLink } from "@/components/plan/PlanDetailLink";
 import { StageCheckIn, type CheckInItem } from "@/components/plan/StageCheckIn";
 import { CheckInRecap } from "@/components/plan/CheckInRecap";
 import { PlanDirection } from "@/components/plan/PlanDirection";
-import { PlanHeader } from "@/components/plan/PlanHeader";
-import { RoadmapTimeline } from "@/components/plan/RoadmapTimeline";
-import { CalendarItemSheet, type ItemValues } from "@/components/plan/CalendarItemSheet";
 import { PlanSignalPicture, type SignalPictureVariant } from "@/components/plan/PlanSignalPicture";
 import { EntryDrawer } from "@/components/plan/EntryDrawer";
 import { LinkedInPicture } from "@/components/plan/LinkedInPicture";
@@ -34,7 +30,7 @@ import { momentumEvents } from "@/lib/momentum";
 import { planSparks } from "@/lib/plan-sparks";
 import { roadmapWindows, stageAt } from "@/lib/roadmap-dates";
 import { whenWords } from "@/lib/time-words";
-import { saveCalendar, saveRoadmap, saveSteps, useCalendar, useRoadmapChoices, useSavedSteps } from "@/lib/plan-store";
+import { saveCalendar, saveSteps, useCalendar, useRoadmapChoices, useSavedSteps } from "@/lib/plan-store";
 import { checkInKey, saveCheckIn, useCheckIns } from "@/lib/stage-checkins";
 import { applyCheckIn } from "@/lib/check-in-effects";
 import { addedSummary, hasBaseline, signalRows, withAdded } from "@/lib/presence";
@@ -55,10 +51,9 @@ import {
 } from "@/mock/accounts-stub";
 import { PLAN_TEMPLATES, recommendPlan } from "@/mock/onboarding";
 import type { ActionStep, StepQuestion } from "@/mock/plan";
-import { ACTION_QUEUE, GAP_STEP, stepById, EDIT_FLOW_HREF, STAGE_CHECKIN_COPY, CARD_QUESTIONS, STEP_QUESTIONS, type DeclineReason, type GuidedAnswer, ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
+import { ACTION_QUEUE, GAP_STEP, stepById, EDIT_FLOW_HREF, STAGE_CHECKIN_COPY, STEP_QUESTIONS, type DeclineReason, type GuidedAnswer, ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
 import { ACTIONS } from "@/mock/plan-stub";
 import { SNAPSHOTS } from "@/mock/snapshots";
-import type { CalendarItem } from "@/mock/plan";
 import type { MomentumVariant } from "@/components/plan/MomentumLabeled";
 import { PlanMomentum } from "./PlanMomentum";
 
@@ -92,12 +87,9 @@ export function usePlanPage() {
   // The row whose "Nothing reported yet" she tapped: the report drawer is for it.
   const [reporting, setReporting] = useState<CameOfRow | null>(null);
   const [offerDismissed, setOfferDismissed] = useState(false);
-  // The steps on her Plan as the row shows them, hand-offs included, for the roadmap and the check-in.
-  const [liveState, setLiveState] = useState<{ key: string; state: PlanState } | null>(null);
   // The stage check-in on screen when it is not simply due: one she is reading back after saving, or one she
   // opened from its stage in the roadmap. It belongs to the scenario it was opened in.
   const [checkInShowing, setCheckInShowing] = useState<{ scenario: string; key: string; startAt: "start" | "summary"; fromRoadmap?: boolean } | null>(null);
-  const [calEntry, setCalEntry] = useState<{ mode: "add"; date: string } | { mode: "edit"; item: CalendarItem } | null>(null);
 
   const choices = useRoadmapChoices(loop.id);
   const checkIns = useCheckIns(loop.id);
@@ -172,29 +164,8 @@ export function usePlanPage() {
   }
 
   // Her live steps, as she has left them.
-  const stepState = (liveState?.key === stepsKey ? liveState.state : undefined) ?? savedSteps?.state ?? (switchedTo ? { ...initialPlanState(loop.today), shown: [], decisions: {} } : initialPlanState(loop.today));
+  const stepState = savedSteps?.state ?? (switchedTo ? { ...initialPlanState(loop.today), shown: [], decisions: {} } : initialPlanState(loop.today));
   const live = liveSteps(stepState).filter((s) => !isActionDone(s, loop.records, loop.tasks));
-  // Concept 1: her next steps, in a swiping row.
-  const stepsCarousel = (
-    <ActionSteps
-      key={`steps-carousel-${stepsKey}`}
-      layout="carousel"
-      today={loop.today}
-      initial={switchedTo ? { ...initialPlanState(loop.today), shown: [], decisions: {} } : undefined}
-      startHref={conceptHref("toolbox-flow", "concept-1")}
-      isDone={(step) => isActionDone(step, loop.records, loop.tasks)}
-      answered={
-        loop.justAnswered
-          ? { recordId: loop.justAnswered, reported: loop.records.find((r) => r.id === loop.justAnswered)?.outcome?.detail }
-          : undefined
-      }
-      onComplete={(step) => loopActions.completeTask(step.id)}
-      onAsk={(step, q, mine) => askConcierge(CARD_QUESTIONS.find((x) => x.id === q)?.label ?? "", { kind: "step-question", stepId: step.id, q, mine })}
-      persist={{ saved: savedSteps, onChange: (next) => saveSteps(stepsKey, next) }}
-      onState={(state) => setLiveState((prev) => (prev?.key === stepsKey && prev.state === state ? prev : { key: stepsKey, state }))}
-    />
-  );
-
   // One plan, one set of stage windows, for the timeline, the agenda and the check-in.
   const calendarItems = useCalendar(loop.id);
   // A stage she said she has not finished yet, at her check-in, stays open until the step aimed at what's
@@ -224,8 +195,6 @@ export function usePlanPage() {
     startStage: currentStageIndex(start.records, roadmapFor(loop.account.plan.id).length, ACTIONS, start.tasks),
     today: loop.today,
   });
-  // Her live steps on her calendar: suggested for a day until she accepts one or moves it.
-  const stepEntries = live.map((step) => ({ id: step.id, title: step.title, ...stepDay(stepState, step) }));
 
   // Concept 1: the roadmap as a timeline of the draft she started with, with sparks for what has changed.
   // She can add something to a stage from its card.
@@ -239,23 +208,6 @@ export function usePlanPage() {
     events: momentumEvents(loop.records, loop.tasks),
     added: pictureItems.filter((i) => i.source === "added").map((i) => ({ id: i.id, text: i.text, on: i.on })),
   });
-  const timeline = (
-    <RoadmapTimeline
-      key={`timeline-${loop.id}`}
-      planId={planId}
-      startedOn={choices?.startedOn ?? loop.account.plan.startedOn}
-      today={loop.today}
-      evidenceStage={currentStageIndex(loop.records, roadmapFor(loop.account.plan.id).length, ACTIONS, loop.tasks)}
-      startStage={currentStageIndex(start.records, roadmapFor(loop.account.plan.id).length, ACTIONS, start.tasks)}
-      choices={choices}
-      onChoices={(next) => saveRoadmap(loop.id, next)}
-      items={calendarItems}
-      steps={stepEntries}
-      sparks={timelineSparks}
-      onAdd={(date) => setCalEntry({ mode: "add", date })}
-    />
-  );
-
   // The roadmap as an agenda (Concept 3, under the move). A step is its title and a way to start; every question about
   // it opens the chat. What she adds goes on her calendar, in the stage the day falls in.
   const stageOfDay = (date: string) => {
@@ -524,38 +476,6 @@ export function usePlanPage() {
     />
   );
 
-  function saveItem(values: ItemValues) {
-    if (calEntry?.mode === "edit") {
-      const id = calEntry.item.id;
-      saveCalendar(
-        loop.id,
-        calendarItems.map((i) => (i.id === id ? { ...i, ...values } : i))
-      );
-    } else {
-      saveCalendar(loop.id, [...calendarItems, { id: `item-${Date.now()}`, ...values }]);
-    }
-    setCalEntry(null);
-  }
-
-  const calendarSheet = (
-    <CalendarItemSheet
-      key={calEntry ? (calEntry.mode === "edit" ? `cal-${calEntry.item.id}` : `cal-add-${calEntry.date}`) : "cal-closed"}
-      open={calEntry !== null}
-      onClose={() => setCalEntry(null)}
-      onSave={saveItem}
-      windows={windows}
-      editing={calEntry?.mode === "edit"}
-      initial={calEntry?.mode === "edit" ? calEntry.item : calEntry?.mode === "add" ? { date: calEntry.date } : undefined}
-    />
-  );
-
-  // Concept 1: what her plan is, in a line, with Edit opening the detail and the edit flow.
-  const planHeader = (
-    <PlanHeader key={`plan-header-${loop.id}-${planId}`} {...planDetail} />
-  );
-
-  const note = switchedTo ? <p className="plan-stub__note">{RM.stepsStub}</p> : null;
-
   const momentumOf = (variant: MomentumVariant) => (
     <PlanMomentum
       key={`momentum-${loop.id}-${variant}`}
@@ -697,7 +617,7 @@ export function usePlanPage() {
     />
   );
 
-  return { planHeader, stepsCarousel, timeline, guided, note, momentumOf, pictureOf, started, sparkNode, sheet: (
+  return { guided, momentumOf, pictureOf, started, sparkNode, sheet: (
       <>
         {sheet}
         <ReportDrawer
@@ -718,7 +638,6 @@ export function usePlanPage() {
           existing={pictureItems}
           initial={adding?.initial}
         />
-        {calendarSheet}
       </>
     ) };
 }

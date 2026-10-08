@@ -13986,65 +13986,6 @@ ul.momentum__events {
   color: var(--color-text-secondary);
 }
 
-/* -----------------------------------------------------------------------------
-   THE PLAN PAGE (Sprint 3)
-   One column on a phone and a tablet, in the order written. On web the lead
-   runs across the top and the main and side groups sit beside each other.
-   -------------------------------------------------------------------------- */
-.plan-page {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-  max-width: var(--content-measure);
-  margin-inline: auto;
-}
-
-.plan-page__title {
-  margin: 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-2xl);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
-}
-
-.plan-page__lead,
-.plan-page__main,
-.plan-page__side {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-  min-width: 0;
-}
-
-[data-viewport="web"] .plan-page {
-  display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-  align-items: start;
-  column-gap: var(--space-xl);
-  max-width: 76rem;
-}
-
-[data-viewport="web"] .plan-page__title,
-[data-viewport="web"] .plan-page__lead {
-  grid-column: 1 / -1;
-}
-
-[data-viewport="web"] .plan-page__main {
-  grid-column: 1;
-}
-
-[data-viewport="web"] .plan-page__side {
-  grid-column: 2;
-}
-
-/* Record forward: the wide column holds the record, the side the next steps. */
-[data-viewport="web"] .plan-page--c3 .plan-page__main,
-[data-viewport="web"] .plan-page--c3 .plan-page__side {
-  grid-row: 3;
-}
-
 /* The Signal Picture page: the same frame as the Plan's, with its own widths
    per concept. Picture first and Momentum first both give the wide column to
    their lead; Side by side runs a lead across the top and
@@ -15009,43 +14950,7 @@ ul.step-card__tiles {
   outline-offset: var(--focus-ring-offset);
 }
 
-/* -----------------------------------------------------------------------------
-   THE PLAN HEADER AND ITS DETAIL (Concept 1)
-   -------------------------------------------------------------------------- */
-.plan-header {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
-.plan-header__label {
-  margin: 0;
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-}
-
-.plan-header__top {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--space-sm);
-}
-
-.plan-header__name {
-  margin: 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-2xl);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
-}
-
-/* A quiet text link, so the plan's name stays the loudest thing. The next-step cards use the same one. */
-.plan-header__top .plan-header__edit,
+/* A quiet text link on the next-step card, so the step's title stays the loudest thing. */
 .step-card__glance-top .step-card__edit {
   flex: none;
   padding-inline: var(--space-2xs);
@@ -15053,52 +14958,9 @@ ul.step-card__tiles {
   text-underline-offset: 3px;
 }
 
-.plan-header__line {
-  margin: 0;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
-}
-
-.plan-header__where {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  margin-top: var(--space-2xs);
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-}
-
-.plan-header__where p {
-  margin: 0;
-}
-
-.plan-header__where b {
-  color: var(--color-text-primary);
-  font-weight: var(--weight-semibold);
-}
-
-.plan-header__segments {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
-  gap: var(--space-2xs);
-}
-
-.plan-header__segments i {
-  height: var(--space-2xs);
-  border-radius: var(--radius-xs);
-  background-color: var(--color-border);
-}
-
-.plan-header__segments i.is-on {
-  background-color: var(--color-text-primary);
-}
-
-[data-viewport="web"] .plan-header__name {
-  font-size: var(--text-3xl);
-}
-
+/* -----------------------------------------------------------------------------
+   THE PLAN DETAIL (the sheet See your plan opens)
+   -------------------------------------------------------------------------- */
 /* Plan Concept 3: the road under the move, her direction above the roadmap. */
 .plan-road {
   display: flex;

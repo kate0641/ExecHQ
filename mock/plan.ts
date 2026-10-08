@@ -999,20 +999,11 @@ export const CHANGE_COPY = {
 } as const;
 
 /* -----------------------------------------------------------------------------
-   THE PLAN HEADER AND ITS DETAIL (Concept 1 rework, 2026-10-06)
-   The page says what her plan is, in a line, before her next steps. Edit opens
-   the detail: the plan, where she is on it and her direction, with the way into
-   the edit flow. Her direction is changed there, by the onboarding questions
-   again, not typed in place.
+   THE PLAN DETAIL (2026-10-06)
+   See your plan opens the detail: the plan, where she is on it and her
+   direction, with the way into the edit flow. Her direction is changed there,
+   by the onboarding questions again, not typed in place.
    -------------------------------------------------------------------------- */
-
-export const PLAN_HEADER_COPY = {
-  label: "Your plan",
-  edit: "Edit",
-  editName: (plan: string) => `Edit ${plan}`,
-  /** The one line: what the plan is built around, from the template's own emphasis. */
-  line: (emphasis: string) => `Built around ${emphasis.charAt(0).toLowerCase()}${emphasis.slice(1)}`,
-} as const;
 
 export const PLAN_DETAIL_COPY = {
   title: "Your plan and your direction",
