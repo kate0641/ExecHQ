@@ -38,7 +38,7 @@ export const settingsGroupStates = defineComponentStates({
         label: PROFILE_COPY.groups.you,
         children: [
           row({ label: R.direction, value: R.directionValue, onOpen: () => {} }, "d"),
-          row({ label: R.plan, value: R.planValue("Step up", "Increase leadership scope"), href: "/plan/concept-1" }, "p"),
+          row({ label: R.plan, value: R.planValue("Step up", "Increase leadership scope"), href: "/plan/concept-3" }, "p"),
         ],
       },
     },

@@ -36,7 +36,7 @@ import type { Horizon } from "@/mock/plan-stub";
  * not for her; it never goes straight to a tool.
  */
 
-const PLAN = conceptHref("plan", "concept-1");
+const PLAN = conceptHref("plan", "concept-3");
 const SIGNALS = conceptHref("signals", "concept-1");
 const TOOLBOX = conceptHref("toolbox-flow", "concept-1");
 const BRIEFING = conceptHref("daily-briefing", "concept-1");

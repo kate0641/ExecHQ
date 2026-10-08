@@ -1,7 +1,6 @@
 import type { ReactElement } from "react";
 import { OnboardingConcept3 } from "./onboarding/concept-3";
 import { HomepageConcept4 } from "./homepage/concept-4";
-import { PlanConcept1 } from "./plan/concept-1";
 import { PlanConcept3 } from "./plan/concept-3";
 import { PlanTemplates } from "./plan/templates";
 import { SignalsConcept1 } from "./signals/concept-1";
@@ -27,7 +26,6 @@ import { LoginConcept1 } from "./login/concept-1";
 const BUILT_CONCEPTS: Record<string, ReactElement> = {
   "onboarding/concept-3": <OnboardingConcept3 />,
   "homepage/concept-4": <HomepageConcept4 />,
-  "plan/concept-1": <PlanConcept1 />,
   "plan/concept-3": <PlanConcept3 />,
   "plan/templates": <PlanTemplates />,
   "signals/concept-1": <SignalsConcept1 />,

@@ -185,12 +185,6 @@ export const prototypeConfig: PrototypeConfig = {
       },
       concepts: [
         {
-          slug: "concept-1",
-          title: "Concept 1 — Steps forward",
-          summary:
-            "What her plan is leads, then the next steps in a swiping row. The roadmap is a timeline of the draft she started with, with sparks for what changed, and it sits beside them on web.",
-        },
-        {
           slug: "concept-3",
           title: "Concept 3 — Guided check-in",
           status: "approved",

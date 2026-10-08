@@ -4,7 +4,7 @@ import { BRIEFING_STUB } from "@/mock/homepage";
 import { EntryLink } from "./EntryLink";
 
 const plan = {
-  href: "/plan/concept-1",
+  href: "/plan/concept-3",
   icon: "flag" as const,
   eyebrow: "Your plan",
   title: "Step up",
