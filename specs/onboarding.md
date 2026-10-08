@@ -145,6 +145,11 @@ Reached only from Account, for a typed address, by decision on 2026-10-08. It ha
 - **Send it again** clears the cells, sends a new email (it arrives the same way) and announces "Sent again."
 - Continue confirms the address and goes on to Signals.
 
+**Wrong and expired codes** use Login's screens, by decision on 2026-10-08:
+
+- **A wrong code.** Continue with six digits that are not the emailed code keeps the person on the page and shows Login's error under the cells: "That code doesn't match. Check the latest email and try again." The cells are marked invalid and the error is announced. Typing again clears it.
+- **An expired code.** The page becomes Login's expired screen, still labeled **Your account**, with no drawer: heading **That code has expired**, line "Codes work for 10 minutes and only once. ExecHQ can send a new one to {email}." (Login's line, in onboarding's voice.) Button **Send a new code**, which brings the code page back with empty cells, the 30-second wait restarted and the new email on its way, and announces "Sent again." Under it, **Use a different address**, back to Account. Focus moves to the heading each way. In the prototype it is reached from the drawn email's **Open it again after 10 minutes**, as on Login.
+
 ### 3.4 Signals
 
 - Label **Optional.** Heading: **Start from how you already show up.** Line: "ExecHQ reads how far your posts reach, and who they reach, so your plan starts from where you already are."
@@ -532,7 +537,7 @@ Production must give every control a tappable area of at least 44px, drawn small
 | Nothing is stored. Answers live in the page and are lost on reload. | The account is created and the flow can be resumed (see Open questions). |
 | Any non-empty email is accepted. Any invite code is accepted, as long as one is typed or "I don't have a code" is chosen. | Any address is accepted, as decided. The invite code is checked, and an unrecognised one shows the notice. |
 | Google and Apple open a drawn stand-in for their pickers, with marks in one colour. | Their own sign-in windows, with the buttons drawn to Google's and Apple's brand rules. |
-| No email is sent. The code email is drawn on screen; any six digits confirm the address, and codes never expire. | A real code is emailed, works once for 10 minutes, and a wrong or expired one shows an error with the field. |
+| No email is sent. The code email is drawn on screen; only its code confirms the address. A code expires only when the email's "Open it again after 10 minutes" is pressed. | A real code is emailed and works once, for 10 minutes. A wrong one shows the error with the cells; an expired one shows the expired screen. |
 | Nothing is sent. "Email me these steps", "Email it to me" and "Download" confirm what they would do. | They send and download for real. |
 | The LinkedIn file is never read, only named. Reading is a timer. | The file is read and the figures are used for the plan and the drafts. |
 | The first draft, the versions and the replies are written from fixed templates. | They are written for the person (the generation approach is not specified here). |
@@ -567,7 +572,7 @@ These are settled. They are the specified behavior. The dates are when they were
 18. **The story build-out is the Toolbox, and the pages say so.** The draft, add-detail and longer-versions pages are labeled "Toolbox · Positioning Builder," the Toolbox is explained once on the first draft, and Done says "In your Toolbox" on the story steps that are left. Onboarding does not use the Toolbox's own frame or navigation. (2026-10-02)
 19. **Tablet is the phone layout; only web changes.** On web the answers sit in a card beside the question, with no bottom sheet and no drawn keyboard, and the Welcome splits as Login's does. (2026-10-02)
 20. **On web the longer versions fill in live,** beside their fields, with no button. On phone and tablet a button applies the answers. (2026-10-02)
-21. **Google and Apple sign up on Account,** the same buttons as Login's, and any account they give is accepted. A typed email is confirmed on a page of its own by a 6-digit code, the same as Login's; Google and Apple pass it, because they have confirmed the address already. (2026-10-08)
+21. **Google and Apple sign up on Account,** the same buttons as Login's, and any account they give is accepted. A typed email is confirmed on a page of its own by a 6-digit code, the same as Login's; Google and Apple pass it, because they have confirmed the address already. A wrong or expired code uses Login's screens: the error under the cells, and **That code has expired** with **Send a new code**. (2026-10-08)
 
 ---
 
@@ -577,7 +582,7 @@ These are not decided. They need an answer before this is built.
 
 1. **Two plans have no sourced "Why now" data:** Get ready for a big moment and Grow your influence where you are. The Step up figure (LinkedIn @Work study, 46%) needs its original date and sample confirmed.
 2. **Tap targets.** Most controls are 30 to 40px. They need a 44px tappable area (section 6).
-3. **What a wrong or expired code does at sign-up.** The prototype takes any six digits. The words for a wrong code and an expired one are Login's, but whether onboarding uses the same screens, and how many tries are allowed, is not decided. Linking an Apple relay address to the person's real one later is open, as on Login.
+3. **How many tries a code allows** before a new one must be sent, here and on Login, is not decided. Linking an Apple relay address to the person's real one later is open, as on Login.
 4. **What the invite code does.** The notice says a code "only changes who pays." What the code is, who issues it and how it is checked is not specified.
 5. **Leaving part-way.** Whether a person who leaves can return to where they were, and what is kept, is not designed.
 6. **Reflections cannot be skipped.** Every other question can. Whether that is intended is not decided.

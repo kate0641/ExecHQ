@@ -1004,13 +1004,17 @@ function AccountPage({
 /**
  * Confirming a typed address: the same 6-digit code as Login, emailed and
  * typed here. The email arrives a moment later as the phone's notification;
- * tapping it opens the drawn email. The prototype takes any six digits.
+ * tapping it opens the drawn email. Login's wrong and expired code screens
+ * are used here too (2026-10-08): only the code in the email confirms the
+ * address, and the email's "open it again later" shows the code expired.
  */
 function VerifyPage({ flow, frame, drawer, onDone, onOtherAddress }: PageProps & { onOtherAddress: () => void }) {
   const { state, dispatch } = flow;
   const c = GUIDE_C3.verify;
   const email = state.answers.email ?? "";
   const [code, setCode] = useState("");
+  const [wrong, setWrong] = useState(false);
+  const [expired, setExpired] = useState(false);
   const [arrived, setArrived] = useState(false);
   const [reading, setReading] = useState(false);
   const [resendLeft, setResendLeft] = useState(RESEND_SECONDS);
@@ -1018,13 +1022,13 @@ function VerifyPage({ flow, frame, drawer, onDone, onOtherAddress }: PageProps &
 
   // The email arrives a moment after it is sent, and again after a resend.
   useEffect(() => {
-    if (arrived) return;
+    if (arrived || expired) return;
     const timer = window.setTimeout(() => {
       setArrived(true);
       setMessage(c.arrived);
     }, EMAIL_DELAY_MS);
     return () => window.clearTimeout(timer);
-  }, [arrived, c.arrived]);
+  }, [arrived, expired, c.arrived]);
 
   // The resend waits a little, so it cannot be pressed over and over.
   useEffect(() => {
@@ -1033,11 +1037,54 @@ function VerifyPage({ flow, frame, drawer, onDone, onOtherAddress }: PageProps &
     return () => window.clearTimeout(timer);
   }, [resendLeft]);
 
+  // Expired and back is a change of screen, so focus goes to its heading.
+  const wasExpired = useRef(expired);
+  useEffect(() => {
+    if (wasExpired.current === expired) return;
+    wasExpired.current = expired;
+    if (frame.headingId) document.getElementById(frame.headingId)?.focus();
+  }, [expired, frame.headingId]);
+
   function confirm() {
     if (code.length !== 6) return;
+    if (code !== SIGN_IN_CODE) {
+      setWrong(true);
+      return;
+    }
     dispatch({ type: "verify-email" });
     onDone();
   }
+
+  /** A new code: the cells cleared, and the email on its way again. */
+  function send() {
+    setCode("");
+    setWrong(false);
+    setExpired(false);
+    setArrived(false);
+    setReading(false);
+    setResendLeft(RESEND_SECONDS);
+  }
+
+  // Login's expired screen: no code to type, a new one to send.
+  if (expired)
+    return (
+      <>
+        <GuidePage
+          {...frame}
+          kicker={c.kicker}
+          title={LOGIN_COPY.expired.heading}
+          lede={c.expiredLede(email)}
+          primaryLabel={LOGIN_COPY.expired.send}
+          onPrimary={() => {
+            send();
+            setMessage(c.resent);
+          }}
+          secondaryLabel={c.otherAddress}
+          onSecondary={onOtherAddress}
+        />
+        <output className="u-visually-hidden">{message}</output>
+      </>
+    );
 
   return (
     <>
@@ -1068,7 +1115,15 @@ function VerifyPage({ flow, frame, drawer, onDone, onOtherAddress }: PageProps &
             onPrimary={confirm}
             autoFocusField
           >
-            <CodeField label={c.ask} value={code} onChange={setCode} />
+            <CodeField
+              label={c.ask}
+              value={code}
+              error={wrong ? LOGIN_COPY.inbox.wrongCode : undefined}
+              onChange={(value) => {
+                setCode(value);
+                setWrong(false);
+              }}
+            />
             <p className="login__actions">
               {resendLeft > 0 ? (
                 <span className="login__small">{c.resendIn(resendLeft)}</span>
@@ -1077,10 +1132,7 @@ function VerifyPage({ flow, frame, drawer, onDone, onOtherAddress }: PageProps &
                   type="button"
                   className="login__link"
                   onClick={() => {
-                    setCode("");
-                    setArrived(false);
-                    setReading(false);
-                    setResendLeft(RESEND_SECONDS);
+                    send();
                     setMessage(c.resent);
                   }}
                 >
@@ -1103,6 +1155,10 @@ function VerifyPage({ flow, frame, drawer, onDone, onOtherAddress }: PageProps &
             message={c.email}
             headingId="verify-email-heading"
             onBack={() => setReading(false)}
+            onExpired={() => {
+              setReading(false);
+              setExpired(true);
+            }}
           />
         ) : null}
       </Sheet>

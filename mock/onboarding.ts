@@ -2149,6 +2149,10 @@ export const GUIDE_C3 = {
     otherAddress: "Use a different address",
     nothing: "Nothing arrived? Check your junk folder.",
     arrived: "New email from ExecHQ: Confirm your email.",
+    /** Login's expired screen, in onboarding's voice (2026-10-08). The wrong
+     *  code's words and the screen's heading and button are Login's own. */
+    expiredLede: (email: string) =>
+      `Codes work for 10 minutes and only once. ExecHQ can send a new one to ${email}.`,
     cta: "Continue",
     /** The drawn email. Neutral, like Login's: nothing about her career. */
     email: {
