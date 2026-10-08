@@ -738,7 +738,6 @@ export const MOMENTUM_COPY = {
   },
   week: {
     heading: "This week",
-    legend: "A dark circle is a day you did something. A dashed circle is a day still to come.",
     did: "you did something",
     none: "nothing recorded",
     notYet: "not yet",

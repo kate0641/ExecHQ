@@ -144,7 +144,6 @@ export function MomentumLabeled({
           {C.week.heading}
         </h3>
         <DayCircles events={thisWeek} today={today} history={history} />
-        <p className="momentum__basis">{C.week.legend}</p>
         {thisWeek.length ? (
           <p className="momentum__basis">{countsLine(thisWeek)}</p>
         ) : (
