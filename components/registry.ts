@@ -108,6 +108,7 @@ import { planDetailLinkStates } from "./plan/PlanDetailLink/PlanDetailLink.state
 import { addToPlanSheetStates } from "./plan/AddToPlanSheet/AddToPlanSheet.states";
 import { planGuidedStates } from "./plan/PlanGuided/PlanGuided.states";
 import { stageCheckInStates } from "./plan/StageCheckIn/StageCheckIn.states";
+import { checkInRecapStates } from "./plan/CheckInRecap/CheckInRecap.states";
 import { planAgendaStates } from "./plan/PlanAgenda/PlanAgenda.states";
 import { roadmapTimelineStates } from "./plan/RoadmapTimeline/RoadmapTimeline.states";
 import { calendarItemSheetStates } from "./plan/CalendarItemSheet/CalendarItemSheet.states";
@@ -216,6 +217,7 @@ export const registry: RegisteredComponent[] = [
   addToPlanSheetStates,
   planGuidedStates,
   stageCheckInStates,
+  checkInRecapStates,
   planAgendaStates,
   roadmapTimelineStates,
   calendarItemSheetStates,

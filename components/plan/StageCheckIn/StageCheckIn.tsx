@@ -54,6 +54,13 @@ export interface StageCheckInProps {
   onLater: () => void;
   /** She is done reading it back. */
   onContinue: () => void;
+  /** Her answers from before, when she comes back to a check-in she has done. */
+  saved?: StageCheckInAnswers;
+  /** Where it opens: at the start, or on the read-back of one she has done. */
+  startAt?: "start" | "summary";
+  /** Opened from the roadmap rather than with the page: the heading takes focus at once, and leaving goes back
+   *  to her plan rather than on to the next stage, which she is already in. */
+  focusOnOpen?: boolean;
   /** Catalogue only: which page, and her answers so far. */
   demoPage?: number;
   demoAnswers?: StageCheckInAnswers;
@@ -80,6 +87,9 @@ export function StageCheckIn({
   onSave,
   onLater,
   onContinue,
+  saved,
+  startAt = "start",
+  focusOnOpen,
   demoPage,
   demoAnswers,
   demoFolded,
@@ -89,13 +99,13 @@ export function StageCheckIn({
   // The things to ask about are fixed when it opens, so answering one never moves the pages.
   const [asking] = useState(() => items.filter((i) => !i.passed && !i.feedback).map((i) => i.id));
   const pages = ["intro", ...asking.map((id) => `item:${id}`), "milestone", "feeling", "summary"];
-  const [page, setPage] = useState(Math.min(demoPage ?? 0, pages.length - 1));
+  const [page, setPage] = useState(Math.min(demoPage ?? (startAt === "summary" ? pages.length - 1 : 0), pages.length - 1));
   const [open, setOpen] = useState(!demoFolded);
   const [drafts, setDrafts] = useState<Record<string, { tone?: OutcomeType; words: string }>>({});
-  const [answers, setAnswers] = useState<StageCheckInAnswers>(demoAnswers ?? {});
-  const first = useRef(true);
+  const [answers, setAnswers] = useState<StageCheckInAnswers>(demoAnswers ?? saved ?? {});
+  // Focus goes to the new page's heading, never on first paint unless she opened it from the roadmap.
+  const first = useRef(!focusOnOpen);
 
-  // Focus goes to the new page's heading, never on first paint.
   useEffect(() => {
     if (first.current) {
       first.current = false;
@@ -315,7 +325,7 @@ export function StageCheckIn({
       kicker={C.summaryKicker(stageTitle)}
       title={C.summaryTitle}
       className={classes}
-      primaryLabel={C.onTo(nextStageTitle)}
+      primaryLabel={focusOnOpen ? C.onTo(undefined) : C.onTo(nextStageTitle)}
       onPrimary={onContinue}
       secondaryLabel={C.change}
       onSecondary={() => go(pages.indexOf("milestone"))}

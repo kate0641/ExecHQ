@@ -50,6 +50,8 @@ export interface PlanAgendaProps {
   openFirstStep?: boolean;
   /** Something beside the heading, such as the way into her whole plan. */
   action?: ReactNode;
+  /** Something on a stage under its name, shown whether the stage is open or not: her check-in on a finished one, say. */
+  stageNote?: (index: number) => ReactNode;
   /** Catalogue only. */
   demoStage?: number | null;
   demoStep?: string | null;
@@ -77,6 +79,7 @@ export function PlanAgenda({
   onAdd,
   openFirstStep = true,
   action,
+  stageNote,
   demoStage,
   demoStep,
   demoAdding,
@@ -152,6 +155,7 @@ export function PlanAgenda({
                   <span className="agenda__when">{stage.status === "done" ? A.done : stage.when}</span>
                 </button>
               </h3>
+              {stageNote?.(stage.index) ? <div className="agenda__stage-note">{stageNote(stage.index)}</div> : null}
               {isOpen ? (
                 <div className="agenda__body">
                   <p className="agenda__small">

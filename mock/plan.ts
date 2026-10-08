@@ -1079,6 +1079,12 @@ export const STAGE_CHECKIN_COPY = {
   notAnswered: "Not answered",
   onTo: (next: string | undefined) => (next ? `On to ${next}` : "Back to your plan"),
   change: "Change an answer",
+  // On the finished stage in the roadmap, afterwards.
+  recapLabel: "Your check-in",
+  recapLanded: "Where you landed",
+  recapOpen: "See your check-in",
+  recapLater: "Tell ExecHQ how this stage went, and it builds on what worked.",
+  recapStart: "Check in on this stage",
 } as const;
 
 /** Where the edit flow starts: the onboarding questions, pre-filled, ending back on the Plan. */

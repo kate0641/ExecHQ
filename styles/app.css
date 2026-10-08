@@ -15666,6 +15666,18 @@ fieldset.agenda__whens {
   font-size: var(--text-sm);
 }
 
+/* A note on a stage under its name, such as her check-in on a finished one. The next card in the stack
+   overlaps the foot of this one, so the note keeps the same room under it as the stage's own head does. */
+.agenda--stack .agenda__stage-note {
+  margin-top: calc(var(--space-sm) * -1);
+  padding: 0 var(--space-sm) var(--space-lg);
+}
+
+.agenda--stack .agenda__stage.is-open .agenda__stage-note {
+  margin-top: 0;
+  padding-bottom: var(--space-sm);
+}
+
 .agenda--stack .agenda__body {
   padding: 0 var(--space-sm) var(--space-lg);
 }
@@ -15735,6 +15747,81 @@ fieldset.agenda__whens {
 /* The roadmap under the move, set apart from the move by space alone. */
 .plan-guided .guide__after {
   margin-top: var(--space-xl);
+}
+
+/* Her check-in on a finished stage, in the roadmap: read back, or a way in when she put it off. */
+.checkin-recap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-card-padding);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-raised);
+}
+
+.checkin-recap__label {
+  margin: 0;
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.checkin-recap__answers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs) var(--space-lg);
+  margin: 0;
+}
+
+.checkin-recap__answers dt {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.checkin-recap__answers dd {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.checkin-recap__words,
+.checkin-recap__text {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+.checkin-recap__words {
+  font-family: var(--font-serif);
+}
+
+.checkin-recap__open {
+  min-height: 2.75rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-text-primary);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.checkin-recap__open:hover,
+.checkin-recap.is-hover .checkin-recap__open {
+  text-decoration-thickness: var(--border-width-medium);
+}
+
+.checkin-recap.is-focus .checkin-recap__open {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-xs);
 }
 
 /* The stage check-in (Plan Concept 3): what she did in a finished stage, one card a thing, with what she

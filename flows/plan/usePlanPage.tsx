@@ -15,6 +15,7 @@ import { PlanAgenda, type AgendaItem } from "@/components/plan/PlanAgenda";
 import { PlanGuided } from "@/components/plan/PlanGuided";
 import { PlanDetailLink } from "@/components/plan/PlanDetailLink";
 import { StageCheckIn, type CheckInItem } from "@/components/plan/StageCheckIn";
+import { CheckInRecap } from "@/components/plan/CheckInRecap";
 import { PlanDirection } from "@/components/plan/PlanDirection";
 import { PlanHeader } from "@/components/plan/PlanHeader";
 import { RoadmapTimeline } from "@/components/plan/RoadmapTimeline";
@@ -92,8 +93,9 @@ export function usePlanPage() {
   const [offerDismissed, setOfferDismissed] = useState(false);
   // The steps on her Plan as the row shows them, hand-offs included, for the roadmap and the check-in.
   const [liveState, setLiveState] = useState<{ key: string; state: PlanState } | null>(null);
-  // The stage check-in she is reading back, kept on screen after her answers are saved until she moves on.
-  const [checkInShowing, setCheckInShowing] = useState<string | null>(null);
+  // The stage check-in on screen when it is not simply due: one she is reading back after saving, or one she
+  // opened from its stage in the roadmap. It belongs to the scenario it was opened in.
+  const [checkInShowing, setCheckInShowing] = useState<{ scenario: string; key: string; startAt: "start" | "summary"; fromRoadmap?: boolean } | null>(null);
   const [calEntry, setCalEntry] = useState<{ mode: "add"; date: string } | { mode: "edit"; item: CalendarItem } | null>(null);
 
   const choices = useRoadmapChoices(loop.id);
@@ -331,9 +333,10 @@ export function usePlanPage() {
   // she has not checked in on (or put off) opens the check-in in place of the moves. Older ones stay history.
   const lastDone = [...windows].reverse().find((w) => w.status === "done");
   const dueKey = lastDone && !checkIns[checkInKey(planId, lastDone.index)] ? checkInKey(planId, lastDone.index) : null;
-  // The one being read back belongs to this scenario only: switching scenarios leaves it behind.
-  const showingKey = checkInShowing?.startsWith(`${loop.id}|`) ? checkInShowing.slice(loop.id.length + 1) : null;
-  const checkInStage = windows.find((w) => checkInKey(planId, w.index) === (showingKey ?? dueKey));
+  // The one opened by hand belongs to this scenario only: switching scenarios leaves it behind.
+  const showing = checkInShowing?.scenario === loop.id ? checkInShowing : null;
+  const checkInStage = windows.find((w) => checkInKey(planId, w.index) === (showing?.key ?? dueKey));
+  const savedCheckIn = checkInStage ? checkIns[checkInKey(planId, checkInStage.index)] : undefined;
   /** What she did in a stage: her steps from it, done or passed on, and what she added while it ran. */
   function didInStage(stage: number): CheckInItem[] {
     const w = windows[stage];
@@ -402,13 +405,35 @@ export function usePlanPage() {
       onReport={reportFromCheckIn}
       onSave={(answers) => {
         const key = checkInKey(planId, checkInStage.index);
-        setCheckInShowing(`${loop.id}|${key}`);
+        setCheckInShowing({ scenario: loop.id, key, startAt: "summary" });
         saveCheckIn(loop.id, key, { status: "done", on: loop.today, ...answers, words: answers.words?.trim() || undefined });
       }}
-      onLater={() => saveCheckIn(loop.id, checkInKey(planId, checkInStage.index), { status: "later", on: loop.today })}
+      onLater={() => {
+        // Putting off one she has already done keeps her answers.
+        if (savedCheckIn?.status !== "done") saveCheckIn(loop.id, checkInKey(planId, checkInStage.index), { status: "later", on: loop.today });
+        setCheckInShowing(null);
+      }}
       onContinue={() => setCheckInShowing(null)}
+      saved={savedCheckIn?.status === "done" ? savedCheckIn : undefined}
+      startAt={showing?.startAt}
+      focusOnOpen={showing?.fromRoadmap}
     />
   ) : null;
+  // Her check-in on each finished stage, in the roadmap: read back when done, a way in when put off.
+  const checkInNote = (index: number) => {
+    const key = checkInKey(planId, index);
+    const saved = checkIns[key];
+    if (!saved || windows[index]?.status !== "done") return null;
+    return (
+      <CheckInRecap
+        status={saved.status}
+        milestone={saved.milestone}
+        feeling={saved.feeling}
+        words={saved.words}
+        onOpen={() => setCheckInShowing({ scenario: loop.id, key, startAt: saved.status === "done" ? "summary" : "start", fromRoadmap: true })}
+      />
+    );
+  };
 
   const guided = stageCheckIn ?? (
     <PlanGuided
@@ -435,6 +460,7 @@ export function usePlanPage() {
           <PlanAgenda
             key={`agenda-${stepsKey}`}
             openFirstStep={false}
+            stageNote={checkInNote}
             action={<PlanDetailLink key={`plan-detail-${loop.id}-${planId}`} {...planDetail} />}
             {...agendaProps}
           />
