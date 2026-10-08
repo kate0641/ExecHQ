@@ -144,11 +144,8 @@ export function MomentumLabeled({
           {C.week.heading}
         </h3>
         <DayCircles events={thisWeek} today={today} history={history} />
-        {thisWeek.length ? (
-          <p className="momentum__basis">{countsLine(thisWeek)}</p>
-        ) : (
-          <p className="momentum__thin">{C.week.nothing}</p>
-        )}
+        {/* An empty week says so in its circles alone; the next move follows. */}
+        {thisWeek.length ? <p className="momentum__basis">{countsLine(thisWeek)}</p> : null}
         {next}
       </section>
     );

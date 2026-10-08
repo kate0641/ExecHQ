@@ -741,7 +741,6 @@ export const MOMENTUM_COPY = {
     did: "you did something",
     none: "nothing recorded",
     notYet: "not yet",
-    nothing: "Nothing yet this week.",
   },
   /** Her first week: what she has done so far, as plain lines, and what comes next. No counts, so no zeros. */
   soFarHeading: "So far",
