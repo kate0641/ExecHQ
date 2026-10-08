@@ -213,12 +213,6 @@ export const prototypeConfig: PrototypeConfig = {
       },
       concepts: [
         {
-          slug: "concept-1",
-          title: "Concept 1 — How you've grown",
-          summary:
-            "A path through time: where she started, a circle for each month, her next step ahead, and Momentum as a dial beside it.",
-        },
-        {
           slug: "concept-2",
           title: "Concept 2 — Momentum first",
           status: "approved",

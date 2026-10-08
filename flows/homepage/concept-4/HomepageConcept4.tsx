@@ -37,7 +37,7 @@ import type { Horizon } from "@/mock/plan-stub";
  */
 
 const PLAN = conceptHref("plan", "concept-3");
-const SIGNALS = conceptHref("signals", "concept-1");
+const SIGNALS = conceptHref("signals", "concept-2");
 const TOOLBOX = conceptHref("toolbox-flow", "concept-1");
 const BRIEFING = conceptHref("daily-briefing", "concept-1");
 const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
