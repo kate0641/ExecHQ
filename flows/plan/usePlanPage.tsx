@@ -538,7 +538,10 @@ export function usePlanPage() {
       onSendSteps={() => setLinkedInExport((l) => ({ ...l, status: "sent" }))}
     />
   );
-  const started = (
+  // What her LinkedIn export says, once one is read. Under where she started on a phone and a tablet; on
+  // the web, Signals Concept 2 sets it beside, under what came of it, so the two columns stay even.
+  const linkedInView = liExport.status === "ready" ? <LinkedInPicture data={LINKEDIN_EXPORT} /> : null;
+  const startedOf = (withLinkedInView: boolean) => (
     <section className="plan-stub__signals" aria-labelledby="plan-signals-heading">
       <h2 className="u-visually-hidden" id="plan-signals-heading">
         {SPIC.startedHeading}
@@ -560,7 +563,7 @@ export function usePlanPage() {
           headingId="plan-signals-card"
         />
         {linkedIn}
-        {liExport.status === "ready" ? <LinkedInPicture data={LINKEDIN_EXPORT} /> : null}
+        {withLinkedInView ? linkedInView : null}
         </>
       ) : (
         <SignalPicture
@@ -579,6 +582,7 @@ export function usePlanPage() {
       )}
     </section>
   );
+  const started = startedOf(true);
 
 
   const sheet = (
@@ -597,7 +601,7 @@ export function usePlanPage() {
     />
   );
 
-  return { guided, momentumOf, pictureOf, started, sheet: (
+  return { guided, momentumOf, pictureOf, started, startedOf, linkedInView, sheet: (
       <>
         {sheet}
         <ReportDrawer

@@ -1,6 +1,7 @@
 "use client";
 
 import { usePlanPage } from "@/flows/plan/usePlanPage";
+import { useViewport } from "@/lib/viewport-context";
 import { SignalsPage } from "../SignalsPage";
 
 /**
@@ -16,12 +17,20 @@ import { SignalsPage } from "../SignalsPage";
  */
 export function SignalsConcept2() {
   const p = usePlanPage();
+  // On the web, what her LinkedIn export says sits under what came of it rather than under where she
+  // started, so the two columns run about the same length. Phone and tablet keep the order written.
+  const web = useViewport().viewport === "web";
   return (
     <SignalsPage
       concept="c2"
       lead={p.momentumOf("week")}
-      main={p.pictureOf("cameof")}
-      side={p.started}
+      main={
+        <>
+          {p.pictureOf("cameof")}
+          {web ? p.linkedInView : null}
+        </>
+      }
+      side={p.startedOf(!web)}
     >
       {p.sheet}
     </SignalsPage>

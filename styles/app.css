@@ -13813,11 +13813,17 @@ ul.momentum__events {
   border-bottom: var(--border-subtle);
 }
 
+/* The band splits where the columns under it do, so the next move sits over where she started. */
 [data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .momentum__stage {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 24rem;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
   column-gap: var(--space-2xl);
-  align-items: end;
+  align-items: start;
+}
+
+/* On the web each day is up to 4rem, so the week fills more of its column. */
+[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .day-circles ol {
+  grid-template-columns: repeat(7, minmax(0, 4rem));
 }
 
 [data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .momentum__stage > * {
@@ -13827,7 +13833,8 @@ ul.momentum__events {
 [data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .momentum__stage > .presence-clean__try {
   grid-column: 2;
   grid-row: 1 / span 6;
-  align-self: end;
+  align-self: start;
+  margin-top: 0;
 }
 
 [data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .spark {
