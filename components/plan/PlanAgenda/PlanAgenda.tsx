@@ -8,6 +8,7 @@ import { AddToPlanSheet } from "@/components/plan/AddToPlanSheet";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import type { LoopDate } from "@/lib/loop";
+import { useViewport } from "@/lib/viewport-context";
 import { whenWords } from "@/lib/time-words";
 import { PLAN_AGENDA_COPY as A, STEP_ANSWERS, STEP_QUESTIONS, type ActionStep, type StepQuestion } from "@/mock/plan";
 
@@ -87,6 +88,7 @@ export function PlanAgenda({
   className,
 }: PlanAgendaProps) {
   const uid = useId();
+  const web = useViewport().viewport === "web";
   const here = stages.find((s) => s.status === "current") ?? stages.find((s) => s.status === "recommended") ?? stages[0];
   const firstStep = (stage: number) => items.find((i) => i.stage === stage && i.kind === "step")?.id ?? null;
   const [open, setOpen] = useState<number | null>(demoStage !== undefined ? demoStage : here?.index ?? 0);
@@ -199,7 +201,13 @@ export function PlanAgenda({
         })}
       </div>
       <span ref={anchor} hidden />
-      {(() => {
+      {web ? (
+        // On the web nothing floats at the edge of a window: adding is a plain button at the foot of the road.
+        <Button className="agenda__add" variant="secondary" size="sm" aria-haspopup="dialog" onClick={() => setAdding(true)}>
+          <Icon name="plus" size={16} />
+          {A.addLabel}
+        </Button>
+      ) : (() => {
         const button = (
           <button
             type="button"

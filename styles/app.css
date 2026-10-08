@@ -7466,6 +7466,27 @@ ol.ring-detail__timeline {
   display: none;
 }
 
+/* The drawer on wider screens. It still sits beside the page and leaves it usable. On a tablet it rises
+   from the bottom, kept to a reading width like the sheet. On the web, where nothing rises from the bottom
+   of a window, it floats at the bottom right at that width, so the page stays readable beside it. */
+[data-viewport="tablet"] .drawer__panel:not(:where([data-viewport="mobile"] *)) {
+  width: 100%;
+  max-width: calc(var(--content-measure) + 2 * var(--space-lg));
+  margin-inline: auto;
+}
+
+[data-viewport="web"] .drawer:not(:where([data-viewport="mobile"] *)):not(.drawer--inline) {
+  align-items: flex-end;
+  padding: var(--space-lg);
+}
+
+[data-viewport="web"] .drawer__panel:not(:where([data-viewport="mobile"] *)) {
+  width: min(100%, 30rem);
+  max-height: min(80vh, 44rem);
+  border: var(--border-thin);
+  border-radius: var(--radius-xl);
+}
+
 /* --- Starting plan (Concept 1) --------------------------------------------- */
 
 .plan-built {
@@ -13923,9 +13944,12 @@ ul.momentum__events {
   align-self: stretch;
 }
 
+/* Each day is at most 3.5rem across: on a phone the row fills the width, and on a tablet or the web it
+   stays a row of days rather than seven large discs. */
 .day-circles ol {
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(7, minmax(0, 3.5rem));
+  justify-content: start;
   gap: var(--space-xs);
   margin: 0;
   padding: 0;
@@ -15742,6 +15766,28 @@ fieldset.agenda__whens {
 /* Folded, the peek bar sits above the pill, so the add button rises clear of both. */
 .device__screen:has(.plan-guided .answer-drawer.is-peek) .agenda__fab {
   inset-block-end: calc(var(--space-4xl) + var(--space-3xl) + var(--space-lg));
+}
+
+/* On the web the answer drawer is a card beside the page, never the foot of the screen, so the pill
+   stays where it is and the page keeps its room for it. */
+[data-viewport="web"] .device__screen:has(.plan-guided .answer-drawer:not(.is-peek)) .concierge-host__pill:not(:where([data-viewport="mobile"] *)) {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+/* The card host centres its pill; keep that, without the step down. */
+[data-viewport="web"] .device__screen:has(.plan-guided .answer-drawer:not(.is-peek)) .concierge-host--card .concierge-host__pill:not(:where([data-viewport="mobile"] *)) {
+  transform: translateX(-50%);
+}
+
+[data-viewport="web"] .device__screen:has(.concierge-host) .chrome__main:has(> .plan-guided):not(:where([data-viewport="mobile"] *)) {
+  padding-bottom: var(--space-4xl);
+}
+
+/* Adding on the web: a plain button at the foot of the road. */
+.agenda__add {
+  align-self: flex-start;
 }
 
 /* The roadmap under the move, set apart from the move by space alone. */
