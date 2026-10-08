@@ -1,8 +1,10 @@
 /**
- * Momentum: what she has done on her plan, as counts, read from the Loop.
+ * Momentum: her week in motion, as counts: what she did on her plan, in
+ * ExecHQ, and on her Signal Picture.
  *
- * Three figures, each a count of real events with the events behind it:
- * completed actions, artifacts created or used, outcomes updated. A step she
+ * Four figures, each a count of real events with the events behind it:
+ * completed actions, artifacts created or used, outcomes updated, and signals
+ * she added to her Signal Picture herself. A step she
  * declined or deferred is in none of them and is never counted against her.
  *
  * There is no composite score, rank, percentile or streak, and nothing here
@@ -26,8 +28,15 @@ export interface MomentumEvent {
 
 const cap = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
 
-/** Every counted event the Loop holds, oldest first. */
-export function momentumEvents(records: LoopRecord[], tasks?: Record<string, TaskCheck>): MomentumEvent[] {
+/** Something she added to her Signal Picture herself: a talk, a post, a mention. */
+export interface AddedSignal {
+  id: string;
+  text: string;
+  on: LoopDate;
+}
+
+/** Every counted event, oldest first: the Loop's, and the signals she added. */
+export function momentumEvents(records: LoopRecord[], tasks?: Record<string, TaskCheck>, signals: AddedSignal[] = []): MomentumEvent[] {
   const out: MomentumEvent[] = [];
   for (const record of records) {
     record.history.forEach((event, i) => {
@@ -50,6 +59,7 @@ export function momentumEvents(records: LoopRecord[], tasks?: Record<string, Tas
     const on = record?.usedOn ?? record?.outcome?.on ?? tasks?.[step.id]?.doneOn;
     if (on) out.push({ id: `done:${step.id}`, figure: "completed", text: step.title, on });
   }
+  for (const signal of signals) out.push({ id: `signal:${signal.id}`, figure: "signal", text: signal.text, on: signal.on });
   return out.sort((a, b) => (a.on < b.on ? -1 : a.on > b.on ? 1 : 0));
 }
 

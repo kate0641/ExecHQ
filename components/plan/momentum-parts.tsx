@@ -49,9 +49,9 @@ export function Behind({ events, open: initial = false }: { events: Pick<Momentu
   );
 }
 
-/** The three figures for a set of events: each a count in words, with what is behind it. */
+/** The four figures for a set of events: each a count in words, with what is behind it. */
 export function Figures({ events, openFirst }: { events: MomentumEvent[]; openFirst?: boolean }) {
-  const figures: MomentumFigure[] = ["completed", "artifact", "outcome"];
+  const figures: MomentumFigure[] = ["completed", "artifact", "outcome", "signal"];
   return (
     <ul className="momentum__figures">
       {figures.map((figure, i) => {

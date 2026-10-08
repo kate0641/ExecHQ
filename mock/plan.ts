@@ -668,7 +668,7 @@ export const ENTRY_COPY = {
    concept-tested in sessions.
    -------------------------------------------------------------------------- */
 
-export type MomentumFigure = "completed" | "artifact" | "outcome";
+export type MomentumFigure = "completed" | "artifact" | "outcome" | "signal";
 export type MomentumLabel = "building" | "steady" | "attention";
 export type LabelWording = "candid" | "soft";
 
@@ -683,12 +683,13 @@ export const MOMENTUM_LABEL_RULE = { band: 1 } as const;
 export const MOMENTUM_COPY = {
   headingA: "Momentum",
   headingB: "Plan progress",
-  intro: "What you’ve done on your plan. Nothing is scored, and nothing is compared with anyone.",
+  intro: "Your week in motion: plan steps, drafts and outcomes, and the signals you add.",
   windowLabel: "Time window",
   figures: {
     completed: (n: number) => `${n} completed action${n === 1 ? "" : "s"}`,
     artifact: (n: number) => `${n} artifact${n === 1 ? "" : "s"} created or used`,
     outcome: (n: number) => `${n} outcome${n === 1 ? "" : "s"} updated`,
+    signal: (n: number) => `${n} signal${n === 1 ? "" : "s"} added`,
   } as Record<MomentumFigure, (n: number) => string>,
   behind: "What’s behind this",
   hideBehind: "Hide",
@@ -701,7 +702,7 @@ export const MOMENTUM_COPY = {
   /** Concept B, 30 days: the same counts against the 30 days before, in plain words. */
   compared: (now: number, before: number, noun: string) =>
     `${now} ${noun} in the last 30 days, and ${before} in the 30 days before.`,
-  comparedNouns: { completed: "completed actions", artifact: "artifacts created or used", outcome: "outcomes updated" } as Record<MomentumFigure, string>,
+  comparedNouns: { completed: "completed actions", artifact: "artifacts created or used", outcome: "outcomes updated", signal: "signals added" } as Record<MomentumFigure, string>,
   noEarlier: (days: number) => `You have ${days} days of history, so there is nothing earlier to compare yet.`,
   /** Thin history, said plainly. */
   thin: (days: number, window: number) =>

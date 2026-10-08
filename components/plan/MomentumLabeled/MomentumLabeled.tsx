@@ -112,7 +112,7 @@ export function MomentumLabeled({
     </section>
   );
 
-  const figures: MomentumFigure[] = ["completed", "artifact", "outcome"];
+  const figures: MomentumFigure[] = ["completed", "artifact", "outcome", "signal"];
   const countsLine = (list: MomentumEvent[]) =>
     figures
       .map((f) => ({ f, n: list.filter((e) => e.figure === f).length }))

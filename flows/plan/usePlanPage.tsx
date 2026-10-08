@@ -482,6 +482,7 @@ export function usePlanPage() {
       variant={variant}
       records={loop.records}
       tasks={loop.tasks}
+      signals={pictureItems.filter((i) => i.source === "added").map((i) => ({ id: i.id, text: i.text, on: i.on }))}
       today={loop.today}
       startedOn={loop.account.plan.startedOn}
     />
