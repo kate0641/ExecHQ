@@ -188,10 +188,11 @@ export function StageCheckIn({
     const draft = drafts[item.id] ?? { words: "" };
     const ready = item.asksTone ? Boolean(draft.tone) : Boolean(draft.words.trim());
     const setDraft = (patch: Partial<typeof draft>) => setDrafts((all) => ({ ...all, [item.id]: { ...draft, ...patch } }));
+    // The key goes before the spread: after it, JSX falls back to createElement and React warns about the children.
     return (
       <GuidePage
-        {...top}
         key={item.id}
+        {...top}
         kicker={`${item.from === "execHQ" ? C.fromExecHQ : item.from === "you" ? C.fromYou : C.fromSteps} · ${item.what}`}
         title={C.itemTitle}
         lede={`${item.title}.`}

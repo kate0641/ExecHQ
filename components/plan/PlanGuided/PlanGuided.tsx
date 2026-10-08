@@ -197,9 +197,10 @@ export function PlanGuided({
 
   return (
     <>
+      {/* The key goes before the spread: after it, JSX falls back to createElement and React warns about the children. */}
       <GuidePage
-        {...top}
         key={step.id}
+        {...top}
         kicker={G.kicker(page + 1, moves.length, when)}
         headingId={headingId}
         title={step.title}
