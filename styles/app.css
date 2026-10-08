@@ -13544,7 +13544,7 @@ ul.momentum__figures {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--space-xs);
+  gap: var(--space-md);
   padding-top: var(--space-md);
   border-top: var(--border-subtle);
 }
@@ -13552,6 +13552,8 @@ ul.momentum__figures {
 /* The stage lines its children up at the start; the next-move card fills the width. */
 .momentum__stage > .presence-clean__try {
   align-self: stretch;
+  /* The next move is its own thing, not the next line of the counts. */
+  margin-top: var(--space-xs);
 }
 
 .momentum__stage:first-of-type {
