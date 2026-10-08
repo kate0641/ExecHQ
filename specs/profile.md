@@ -21,7 +21,7 @@ What it deliberately does not hold:
 - **Current title or role.** It lives on the Plan page, beside the person's direction.
 - **Connections** (LinkedIn, website). V1 has no connections. Everything is entered by hand.
 - **Direction and plan.** They live on the Plan page.
-- **Password.** Sign-in is by an emailed link, so there is no password to manage.
+- **Password.** Sign-in is by a one-time code sent by email, so there is no password to manage.
 - **In-app or push notifications.** ExecHQ is a website, so email is the only way it reaches a person.
 
 ### Where it appears
@@ -174,7 +174,7 @@ Buttons: **Delete my account** (danger, full width) and **Keep my account** (sec
 
 ### 4.5 Sign out
 
-One tap on **Sign out** signs the person out immediately. There is no confirmation, because signing out is easy to undo. The person lands on the signed-out screen: "You're signed out. We'll email you a link when you want to sign back in." with a **Sign back in** button, which goes to Login.
+One tap on **Sign out** signs the person out immediately. There is no confirmation, because signing out is easy to undo. The person lands on the signed-out screen: "You're signed out. We'll email you a login code when you want to sign back in." with a **Sign back in** button, which goes to Login.
 
 ### 4.6 Dialogs, in general
 
