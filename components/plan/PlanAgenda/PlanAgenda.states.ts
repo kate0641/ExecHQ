@@ -1,3 +1,4 @@
+import { createElement } from "react";
 import { defineComponentStates } from "@/components/types";
 import { stepById } from "@/mock/plan";
 import type { AgendaItem, AgendaStage } from "./PlanAgenda";
@@ -45,6 +46,10 @@ export const planAgendaStates = defineComponentStates({
   variants: [
     { label: "First stage and first step open — default", props: { ...base, headingId: "pa-h-default" } },
     { label: "Another stage opened", props: { ...base, demoStage: 1, demoStep: "add-wins", headingId: "pa-h-other" } },
+    {
+      label: "With a link beside the heading",
+      props: { ...base, action: createElement("button", { type: "button", className: "plan-detail-link" }, "See your plan"), headingId: "pa-h-action" },
+    },
     { label: "Every stage closed", props: { ...base, demoStage: null, demoStep: null, headingId: "pa-h-closed" } },
     { label: "Empty — nothing in the stage yet", props: { ...base, items: items.filter((i) => i.stage !== 3), demoStage: 3, demoStep: null, headingId: "pa-h-empty" } },
     {

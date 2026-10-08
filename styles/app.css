@@ -15035,32 +15035,19 @@ ul.step-card__tiles {
   gap: var(--space-lg);
 }
 
-/* Plan Concept 3: her direction at the head of the road under the move. The head row folds the quote away
-   and keeps "See your plan", which opens the plan detail. */
+/* Plan Concept 3: her direction above the road. "Your direction" and a chevron open it like an accordion,
+   to her words in a card. */
 .plan-direction {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
-  padding: var(--space-sm) var(--space-card-padding);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-card);
-  background: var(--color-surface-raised);
-  color: var(--color-text-primary);
-}
-
-.plan-direction.is-open {
-  padding-bottom: var(--space-card-padding);
 }
 
 .plan-direction__head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-sm);
+  margin: 0;
 }
 
-.plan-direction__toggle,
-.plan-direction__more {
+.plan-direction__toggle {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2xs);
@@ -15069,17 +15056,11 @@ ul.step-card__tiles {
   padding: 0;
   border: 0;
   background: none;
-  color: inherit;
-  font: inherit;
-  cursor: pointer;
-}
-
-.plan-direction__toggle {
-  font-size: var(--text-xs);
+  color: var(--color-text-primary);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
   font-weight: var(--weight-semibold);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
+  cursor: pointer;
 }
 
 .plan-direction__toggle .icon {
@@ -15090,24 +15071,23 @@ ul.step-card__tiles {
   transform: rotate(180deg);
 }
 
-.plan-direction__more {
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-}
-
 .plan-direction__toggle:hover,
-.plan-direction__toggle.is-hover,
-.plan-direction__more:hover,
-.plan-direction__more.is-hover {
+.plan-direction__toggle.is-hover {
   text-decoration: underline;
   text-underline-offset: 0.2em;
 }
 
-.plan-direction__toggle.is-focus,
-.plan-direction__more.is-focus {
+.plan-direction__toggle.is-focus {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
   border-radius: var(--radius-xs);
+}
+
+.plan-direction__card {
+  padding: var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-raised);
 }
 
 .plan-direction__quote {
@@ -15121,6 +15101,36 @@ ul.step-card__tiles {
   .plan-direction__toggle .icon {
     transition: none;
   }
+}
+
+/* "See your plan" beside the roadmap's heading: opens the plan detail. */
+.plan-detail-link {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-2xs);
+  min-height: 2.75rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-text-primary);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  cursor: pointer;
+}
+
+.plan-detail-link:hover,
+.plan-detail-link.is-hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.plan-detail-link.is-focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-xs);
 }
 
 .plan-detail {
@@ -15236,6 +15246,13 @@ ol.plan-detail__stages {
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
+}
+
+.agenda__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
 }
 
 .agenda__heading {

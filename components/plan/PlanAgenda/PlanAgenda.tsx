@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { AdvisorMark } from "@/components/chat/AdvisorMark";
 import { AddToPlanSheet } from "@/components/plan/AddToPlanSheet";
@@ -48,6 +48,8 @@ export interface PlanAgendaProps {
   onAdd: (item: { title: string; date: LoopDate }) => number | void;
   /** Whether the open stage opens on its first step. Off where the step is already said elsewhere on the page. */
   openFirstStep?: boolean;
+  /** Something beside the heading, such as the way into her whole plan. */
+  action?: ReactNode;
   /** Catalogue only. */
   demoStage?: number | null;
   demoStep?: string | null;
@@ -74,6 +76,7 @@ export function PlanAgenda({
   onComplete,
   onAdd,
   openFirstStep = true,
+  action,
   demoStage,
   demoStep,
   demoAdding,
@@ -117,6 +120,7 @@ export function PlanAgenda({
         <h2 className="agenda__heading" id={headingId}>
           {A.heading}
         </h2>
+        {action}
       </div>
       <output className="agenda__note" aria-live="polite">
         {note}

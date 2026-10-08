@@ -1,15 +1,15 @@
 /**
- * Whether her direction is folded away at the head of the road on Plan
- * Concept 3. Folding it is remembered on her device until she opens it again.
+ * Whether her direction is open above the road on Plan Concept 3. It starts
+ * closed; opening it is remembered on her device until she closes it again.
  *
  * An external store read through useSyncExternalStore and mirrored to
  * localStorage, like the Briefing's, and undone by the dock's reset. The
- * server always renders it open, as does a browser without storage.
+ * server always renders it closed, as does a browser without storage.
  */
 
 import { useSyncExternalStore } from "react";
 
-const STORAGE_KEY = "exechq-direction-folded";
+const STORAGE_KEY = "exechq-direction-open";
 
 let cached: boolean | undefined;
 const listeners = new Set<() => void>();
@@ -43,17 +43,17 @@ function subscribe(listener: () => void): () => void {
   return () => listeners.delete(listener);
 }
 
-/** Folds her direction away, or opens it again. */
-export function setDirectionFolded(folded: boolean): void {
-  write(folded);
+/** Opens her direction, or closes it again. */
+export function setDirectionOpen(open: boolean): void {
+  write(open);
 }
 
-/** Opens it again. The dock's reset calls this. */
-export function unfoldDirection(): void {
+/** Closes it. The dock's reset calls this. */
+export function closeDirection(): void {
   write(false);
 }
 
-/** True when she has folded her direction away. */
-export function useDirectionFolded(): boolean {
+/** True when she has opened her direction. */
+export function useDirectionOpen(): boolean {
   return useSyncExternalStore(subscribe, get, () => false);
 }

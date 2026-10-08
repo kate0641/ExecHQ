@@ -1000,8 +1000,8 @@ export const PLAN_DETAIL_COPY = {
   close: "Close",
 } as const;
 
-/** Plan Concept 3: her direction at the head of the road under the move, opening the plan detail. */
-export const PLAN_DIRECTION_CARD_COPY = {
+/** Plan Concept 3: her direction above the road, opening like an accordion, and the way into the plan detail. */
+export const PLAN_DIRECTION_COPY = {
   label: "Your direction",
   more: "See your plan",
 } as const;

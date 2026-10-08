@@ -13,7 +13,8 @@ import { Spark } from "@/components/homepage/Spark";
 import { ActionSteps } from "@/components/plan/ActionSteps";
 import { PlanAgenda, type AgendaItem } from "@/components/plan/PlanAgenda";
 import { PlanGuided } from "@/components/plan/PlanGuided";
-import { PlanDirectionCard } from "@/components/plan/PlanDirectionCard";
+import { PlanDetailLink } from "@/components/plan/PlanDetailLink";
+import { PlanDirection } from "@/components/plan/PlanDirection";
 import { PlanHeader } from "@/components/plan/PlanHeader";
 import { RoadmapTimeline } from "@/components/plan/RoadmapTimeline";
 import { CalendarItemSheet, type ItemValues } from "@/components/plan/CalendarItemSheet";
@@ -308,7 +309,7 @@ export function usePlanPage() {
     const record = step.artifactId ? loop.records.find((r) => r.id === step.artifactId) : undefined;
     return Boolean(record && ["drafted", "in-progress", "ready"].includes(record.state));
   };
-  // What the plan detail reads: Concept 1's header and Concept 3's direction card open the same sheet.
+  // What the plan detail reads: Concept 1's header and Concept 3's See your plan open the same sheet.
   const planDetail = {
     planId,
     rationale: switchedTo ? RM.switchedOn(shortDate(choices?.startedOn ?? loop.today)) : (recommendPlan(start.account.direction).rationale ?? ""),
@@ -334,11 +335,17 @@ export function usePlanPage() {
       onStart={(step) => keepSteps(accept(stepState, step.id))}
       onAdd={addToPlan}
       // The move is already said above it, with its way to start, so the stage opens on its list.
-      // Her direction heads the road it leads to, and opens the plan detail.
+      // Her direction sits above the road it leads to, and opens like an accordion. The way into her
+      // whole plan, the same detail Concept 1's Edit opens, sits beside the roadmap's heading.
       roadmap={
         <div className="plan-road">
-          <PlanDirectionCard key={`direction-${loop.id}-${planId}`} {...planDetail} />
-          <PlanAgenda key={`agenda-${stepsKey}`} openFirstStep={false} {...agendaProps} />
+          <PlanDirection direction={loop.account.direction} />
+          <PlanAgenda
+            key={`agenda-${stepsKey}`}
+            openFirstStep={false}
+            action={<PlanDetailLink key={`plan-detail-${loop.id}-${planId}`} {...planDetail} />}
+            {...agendaProps}
+          />
         </div>
       }
     />
