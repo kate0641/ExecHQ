@@ -46,6 +46,9 @@ export function BaselineForm({ onSave, onSkip, initial, intro, saveLabel, skipLa
 
   return (
     <form className={["baseline-form", className].filter(Boolean).join(" ")} onSubmit={submit} noValidate>
+      {/* Two groups: what to read and type, and what to count. They lay nothing out themselves; a page with
+          room sets them side by side (the Signal Picture's first visit on the web). */}
+      <div className="baseline-form__about">
       <p className="baseline-form__intro">{intro ?? C.intro}</p>
       <Input
         label={C.linkedin.label}
@@ -55,6 +58,8 @@ export function BaselineForm({ onSave, onSkip, initial, intro, saveLabel, skipLa
         value={followers}
         onChange={(event) => setFollowers(event.target.value)}
       />
+      </div>
+      <div className="baseline-form__counts">
       {PRESENCE_ORDER.map((kind) => (
         <Stepper
           key={kind}
@@ -74,6 +79,7 @@ export function BaselineForm({ onSave, onSkip, initial, intro, saveLabel, skipLa
             {skipLabel ?? C.skip}
           </Button>
         ) : null}
+      </div>
       </div>
       {after}
     </form>

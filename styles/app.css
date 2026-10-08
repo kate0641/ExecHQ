@@ -12703,6 +12703,12 @@ ul.card-carousel__track {
   gap: var(--space-md);
 }
 
+/* The two groups lay nothing out on their own: their parts are the form's. */
+.baseline-form__about,
+.baseline-form__counts {
+  display: contents;
+}
+
 .linkedin-more {
   display: flex;
   flex-direction: column;
@@ -13852,6 +13858,49 @@ ul.momentum__events {
 
 [data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .spark .spark__note + .spark__note {
   border-top: var(--border-subtle);
+}
+
+/* Any Signal Picture on the web: when the wide column has nothing in it, the other one takes the width,
+   so nothing sits beside an empty space. */
+[data-viewport="web"] .signals-page:not(:where([data-viewport="mobile"] *)) > .signals-page__main:empty {
+  display: none;
+}
+
+[data-viewport="web"] .signals-page:has(> .signals-page__main:empty):not(:where([data-viewport="mobile"] *)) > .signals-page__side {
+  grid-column: 1 / -1;
+}
+
+/* Her first visit on the web (option 1, 2026-10-08): the starting point has the width, as a two-column
+   form. What to read and type, and the LinkedIn export, on the left; what to count and the buttons on the
+   right. Once she saves, the page has its usual two columns again. */
+[data-viewport="web"] .signals-page:has(> .signals-page__main:empty):not(:where([data-viewport="mobile"] *)) .baseline-form {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  column-gap: var(--space-3xl);
+  row-gap: var(--space-lg);
+  align-items: start;
+}
+
+[data-viewport="web"] .signals-page:has(> .signals-page__main:empty):not(:where([data-viewport="mobile"] *)) .baseline-form__about,
+[data-viewport="web"] .signals-page:has(> .signals-page__main:empty):not(:where([data-viewport="mobile"] *)) .baseline-form__counts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+[data-viewport="web"] .signals-page:has(> .signals-page__main:empty):not(:where([data-viewport="mobile"] *)) .baseline-form__about {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+[data-viewport="web"] .signals-page:has(> .signals-page__main:empty):not(:where([data-viewport="mobile"] *)) .baseline-form > :not(.baseline-form__about, .baseline-form__counts) {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+[data-viewport="web"] .signals-page:has(> .signals-page__main:empty):not(:where([data-viewport="mobile"] *)) .baseline-form__counts {
+  grid-column: 2;
+  grid-row: 1 / span 2;
 }
 
 /* -----------------------------------------------------------------------------
