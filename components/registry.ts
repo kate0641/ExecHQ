@@ -98,21 +98,15 @@ import { signInEmailStates } from "./login/SignInEmail/SignInEmail.states";
 import { accountPickerStates } from "./login/AccountPicker/AccountPicker.states";
 import { actionStepCardStates } from "./plan/ActionStepCard/ActionStepCard.states";
 import { actionStepsStates } from "./plan/ActionSteps/ActionSteps.states";
-import { planRoadmapStates } from "./plan/PlanRoadmap/PlanRoadmap.states";
 import { planSignalPictureStates } from "./plan/PlanSignalPicture/PlanSignalPicture.states";
 import { signalEntrySheetStates } from "./plan/SignalEntrySheet/SignalEntrySheet.states";
 import { momentumLabeledStates } from "./plan/MomentumLabeled/MomentumLabeled.states";
-import { momentumCountsStates } from "./plan/MomentumCounts/MomentumCounts.states";
-import { planNarrativeStates } from "./plan/PlanNarrative/PlanNarrative.states";
-import { directionCardStates } from "./plan/DirectionCard/DirectionCard.states";
 import { planHeaderStates } from "./plan/PlanHeader/PlanHeader.states";
 import { planDetailSheetStates } from "./plan/PlanDetailSheet/PlanDetailSheet.states";
-import { planSwitchSheetStates } from "./plan/PlanSwitchSheet/PlanSwitchSheet.states";
 import { addToPlanSheetStates } from "./plan/AddToPlanSheet/AddToPlanSheet.states";
 import { planGuidedStates } from "./plan/PlanGuided/PlanGuided.states";
 import { planAgendaStates } from "./plan/PlanAgenda/PlanAgenda.states";
 import { roadmapTimelineStates } from "./plan/RoadmapTimeline/RoadmapTimeline.states";
-import { planCalendarStates } from "./plan/PlanCalendar/PlanCalendar.states";
 import { calendarItemSheetStates } from "./plan/CalendarItemSheet/CalendarItemSheet.states";
 import { stepChangePanelStates } from "./plan/StepChangePanel/StepChangePanel.states";
 import { templateRoadmapsStates } from "./plan/TemplateRoadmaps/TemplateRoadmaps.states";
@@ -204,7 +198,6 @@ export const registry: RegisteredComponent[] = [
   accountPickerStates,
   actionStepCardStates,
   actionStepsStates,
-  planRoadmapStates,
   templateRoadmapsStates,
   planSignalPictureStates,
   entryDrawerStates,
@@ -212,18 +205,13 @@ export const registry: RegisteredComponent[] = [
   linkedInPictureStates,
   signalEntrySheetStates,
   momentumLabeledStates,
-  momentumCountsStates,
-  planNarrativeStates,
-  directionCardStates,
   planHeaderStates,
   planDetailSheetStates,
-  planSwitchSheetStates,
   stepChangePanelStates,
   addToPlanSheetStates,
   planGuidedStates,
   planAgendaStates,
   roadmapTimelineStates,
-  planCalendarStates,
   calendarItemSheetStates,
 ];
 

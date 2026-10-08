@@ -768,51 +768,10 @@ export const MOMENTUM_COPY = {
 } as const;
 
 /* -----------------------------------------------------------------------------
-   WHAT CHANGED / WHAT NEXT
-   Two to four plain sentences on what moved, then one next best move. Every
-   sentence traces to recorded items, shown one tap away. No causal claims: it
-   says what happened and what she logged, never that one thing led to another.
-   -------------------------------------------------------------------------- */
-
-export const NARRATIVE_COPY = {
-  heading: "What changed",
-  basis: "What this is based on",
-  hideBasis: "Hide",
-  thin: (days: number) =>
-    `You have ${days} day${days === 1 ? "" : "s"} of history, so there is not much to read yet. This fills in as you go.`,
-  nothing: "Nothing is recorded yet. Your first draft will show up here.",
-  window: (history: number, days: number) => (history >= days ? `Over the past ${days} days` : `In your ${history} day${history === 1 ? "" : "s"} so far`),
-  did: (lead: string, parts: string[]) =>
-    `${lead}, you ${parts.length > 1 ? `${parts.slice(0, -1).join(", ")} and ${parts.at(-1)}` : parts[0]}.`,
-  completed: (n: number) => `completed ${n} action${n === 1 ? "" : "s"}`,
-  artifacts: (n: number) => `created or used ${n} artifact${n === 1 ? "" : "s"}`,
-  outcomes: (n: number) => `updated ${n} outcome${n === 1 ? "" : "s"}`,
-  added: (n: number, kinds: string) => `You added ${n} thing${n === 1 ? "" : "s"} yourself: ${kinds}.`,
-  logged: (quote: string) => `You logged: “${quote}”`,
-  next: "Your next best move",
-  openStep: "Open this step",
-  none: "No next move yet. Your plan offers one when it fits.",
-} as const;
-
-/* -----------------------------------------------------------------------------
-   THE DIRECTION, AND HER OWN CALENDAR (Concept 1 tweak, 2026-10-04)
-   Her direction is hers to change at any time, and changing it never changes
-   her plan on its own. Her calendar holds what she adds herself, by hand: V1
+   HER OWN CALENDAR (Concept 1 tweak, 2026-10-04)
+   Her calendar holds what she adds herself, by hand: V1
    has no connections, so nothing syncs from Google or Outlook.
    -------------------------------------------------------------------------- */
-
-export const DIRECTION_COPY = {
-  heading: "Your direction",
-  edited: "Edited by you.",
-  editLabel: "Edit",
-  fieldLabel: "Where are you headed?",
-  fieldHint: "In your own words. Change it whenever it changes.",
-  save: "Save",
-  cancel: "Cancel",
-  saved: "Saved. Your plan stays as it is.",
-  mayChange: "If this points somewhere new, you can change your plan from the roadmap.",
-  errorEmpty: "Say a little about where you’re headed.",
-} as const;
 
 /** Something she put on her own calendar. Plan steps are separate: they come
  *  from the plan and carry their own dates. */
@@ -954,13 +913,6 @@ export const STEP_TIMING: Record<string, StepTiming> = {
 
 /** Days from today a step is suggested for when nothing ties it to a day, by horizon. */
 export const HORIZON_OFFSET_DAYS: Record<Horizon, number> = { short: 3, medium: 14, long: 60 };
-
-/** The compass variant of the direction card (Concept 2): the plan she is on and where she is in it. */
-export const DIRECTION_PLAN_COPY = {
-  plan: "Your plan",
-  here: "You are here",
-  stage: (n: number, total: number, title: string) => `Stage ${n} of ${total} · ${title}`,
-} as const;
 
 /**
  * When a step is suggested, said in words, because most suggested days are not real: a date on every

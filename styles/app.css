@@ -2890,8 +2890,6 @@ ul.concierge-suggest {
   background-color: var(--color-surface-inverse);
 }
 
-
-
 /* A card with a navy header takes navy for its top edge, so no grey line
    runs along the top of the navy. */
 .feature-card:has(> .feature-card__head--inverse) {
@@ -5346,7 +5344,7 @@ ol.ring-detail__timeline {
    line, and a white sheet with the welcome and the ask. Full-bleed, so the
    chrome's own padding is dropped around it. */
 
-.chrome__main:has(> .welcome){
+.chrome__main:has(> .welcome) {
   display: flex;
   flex-direction: column;
   padding: 0;
@@ -8269,7 +8267,7 @@ ol.ring-detail__timeline {
   gap: var(--space-xs);
 }
 
-.guide__stages{
+.guide__stages {
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
@@ -8278,7 +8276,7 @@ ol.ring-detail__timeline {
   list-style: none;
 }
 
-.guide__stages > li{
+.guide__stages > li {
   display: flex;
   flex-direction: column;
   gap: var(--space-3xs);
@@ -8286,7 +8284,7 @@ ol.ring-detail__timeline {
   border-top: var(--border-subtle);
 }
 
-.guide__stages > li:first-child{
+.guide__stages > li:first-child {
   padding-top: 0;
   border-top: 0;
 }
@@ -10911,7 +10909,6 @@ ul.stage-actions__list {
   margin-top: var(--space-2xs);
 }
 
-
 /* --- The Profile page (Concept 1, Grouped) --------------------------------- */
 .profile {
   display: flex;
@@ -13099,17 +13096,6 @@ fieldset.step-card__panel {
   border: 0;
 }
 
-/* -----------------------------------------------------------------------------
-   ROADMAP (Plan, Sprint 3)
-   Stages are an order, never a schedule or a ladder: no lock, no level, no bar.
-   Position is carried by the words ("You are here", "Done") and the order.
-   -------------------------------------------------------------------------- */
-.roadmap {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-
 .roadmap__head {
   display: flex;
   flex-wrap: wrap;
@@ -13129,153 +13115,7 @@ fieldset.step-card__panel {
   line-height: var(--leading-snug);
 }
 
-.roadmap__plan,
-.roadmap__why,
-.roadmap__after {
-  margin: 0;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
-}
-
-.roadmap__plan b {
-  color: var(--color-text-primary);
-}
-
-.roadmap__why span,
-.roadmap__after span,
-.roadmap__label {
-  font-weight: var(--weight-semibold);
-}
-
-ol.roadmap__stages {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  border: var(--border-thin);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface-raised);
-}
-
-.roadmap__stage {
-  border-top: var(--border-subtle);
-}
-
-.roadmap__stage:first-child {
-  border-top: 0;
-}
-
-.roadmap__stage.is-current {
-  background-color: var(--color-surface-feature);
-}
-
-.roadmap__stage:first-child.is-current {
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-}
-
-.roadmap__stage:last-child.is-current {
-  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-}
-
-.roadmap__stage:only-child.is-current {
-  border-radius: var(--radius-lg);
-}
-
-.roadmap__toggle {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  width: 100%;
-  padding: var(--space-sm) var(--space-md);
-  border: 0;
-  background: none;
-  color: var(--color-text-primary);
-  font: inherit;
-  text-align: start;
-}
-
-button.roadmap__toggle {
-  cursor: pointer;
-}
-
-button.roadmap__toggle:hover {
-  background-color: var(--color-surface-hover);
-}
-
-.roadmap__toggle:focus-visible,
-.roadmap__toggle.is-focus {
-  outline: var(--focus-ring);
-  outline-offset: calc(var(--focus-ring-offset) * -1);
-}
-
-.roadmap__toggle.is-hover {
-  background-color: var(--color-surface-hover);
-}
-
-.roadmap__n {
-  font-family: var(--font-display);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-secondary);
-}
-
-.roadmap__name {
-  flex: 1;
-  min-width: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-md);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-}
-
-.is-current .roadmap__name {
-  font-size: var(--text-lg);
-}
-
-.roadmap__chip {
-  padding: var(--space-3xs) var(--space-xs);
-  border: var(--border-width-medium) solid var(--color-text-primary);
-  border-radius: var(--radius-tag);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-}
-
-.roadmap__done {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2xs);
-  font-size: var(--text-xs);
-  color: var(--color-text-secondary);
-}
-
-.roadmap__body[hidden] {
-  display: none;
-}
-
-.roadmap__body {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-2xs);
-  padding: 0 var(--space-md) var(--space-md);
-}
-
-.roadmap__label {
-  margin: var(--space-2xs) 0 0;
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-}
-
-.roadmap__milestone {
-  margin: 0;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-}
-
-ul.roadmap__outcomes,
-ul.roadmap__carry {
+ul.roadmap__outcomes {
   margin: 0;
   padding-inline-start: var(--space-md);
   font-size: var(--text-sm);
@@ -13307,94 +13147,6 @@ ul.roadmap__carry {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-xs);
-}
-
-.roadmap__history-title {
-  margin: 0 0 var(--space-2xs);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-}
-
-.roadmap__history ul {
-  margin: 0;
-  padding-inline-start: var(--space-md);
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-}
-
-.roadmap__foot {
-  display: flex;
-}
-
-.roadmap__switch {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.roadmap__switch-title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-semibold);
-}
-
-.roadmap__switch-intro {
-  margin: 0;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-}
-
-ul.roadmap__plans {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.roadmap__plan-option {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3xs);
-  width: 100%;
-  padding: var(--space-sm);
-  border: var(--border-thin);
-  border-radius: var(--radius-md);
-  background-color: var(--color-surface-raised);
-  color: var(--color-text-primary);
-  font: inherit;
-  text-align: start;
-  cursor: pointer;
-}
-
-.roadmap__plan-option:hover:not(:disabled) {
-  background-color: var(--color-surface-hover);
-}
-
-.roadmap__plan-option:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.roadmap__plan-option:disabled {
-  cursor: default;
-  background-color: var(--color-surface-disabled);
-  color: var(--color-text-secondary);
-}
-
-.roadmap__plan-name {
-  font-weight: var(--weight-semibold);
-}
-
-.roadmap__plan-for,
-.roadmap__plan-current {
-  font-size: var(--text-sm);
-}
-
-.roadmap__plan-current {
-  font-weight: var(--weight-semibold);
 }
 
 /* The all-plans reference */
@@ -14211,77 +13963,6 @@ ul.momentum__events {
 }
 
 /* -----------------------------------------------------------------------------
-   WHAT CHANGED (Plan, Sprint 3)
-   A reading, not a card from the Briefing: no image, no byline, no pull quote.
-   -------------------------------------------------------------------------- */
-.narrative {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-
-.narrative__heading {
-  margin: 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-}
-
-ul.narrative__lines {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.narrative__line {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-3xs);
-}
-
-.narrative__text {
-  margin: 0;
-  font-size: var(--text-md);
-  line-height: var(--leading-normal);
-}
-
-.narrative__next {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-xs);
-  padding: var(--space-md);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-feature);
-}
-
-.narrative__next-label {
-  margin: 0;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-secondary);
-}
-
-.narrative__next-title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-}
-
-.roadmap__stage-content {
-  padding: 0 var(--space-md) var(--space-md);
-}
-
-/* -----------------------------------------------------------------------------
    THE PLAN PAGE (Sprint 3)
    One column on a phone and a tablet, in the order written. On web the lead
    runs across the top and the main and side groups sit beside each other.
@@ -14402,169 +14083,6 @@ ul.narrative__lines {
 
 [data-viewport="web"] .signals-page__side {
   grid-column: 2;
-}
-
-/* -----------------------------------------------------------------------------
-   DIRECTION (Plan)
-   Statement (Concept 1): her words set large between two rules, no card, so the
-   words are the design. Compass (Concept 2): a navy card that also says which plan
-   she is on and where in it.
-   -------------------------------------------------------------------------- */
-.direction {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.direction--statement {
-  padding-block: var(--space-md-lg);
-  border-block: var(--border-width-thin) solid var(--color-text-primary);
-}
-
-.direction__top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-sm);
-}
-
-.direction__heading {
-  margin: 0;
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-}
-
-.direction__text {
-  margin: 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-}
-
-.direction--statement .direction__text {
-  font-family: var(--font-serif);
-  word-spacing: normal;
-  font-size: var(--text-xl);
-  font-weight: var(--weight-regular);
-  line-height: var(--leading-normal);
-}
-
-[data-viewport="web"] .direction--statement .direction__text {
-  font-size: var(--text-2xl);
-}
-
-.direction__note {
-  margin: 0;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
-}
-
-.direction__note b {
-  color: var(--color-text-primary);
-}
-
-/* A quiet text link, so the words stay the loudest thing. */
-.direction--statement .direction__top .direction__edit {
-  padding-inline: var(--space-2xs);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.direction--compass {
-  padding: var(--space-md-lg);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
-}
-
-.direction--compass .direction__heading,
-.direction--compass .direction__note,
-.direction--compass .field__hint,
-.direction--compass .field__label {
-  color: var(--color-text-inverse-muted);
-}
-
-.direction--compass .direction__text,
-.direction--compass .direction__note b,
-.direction--compass .field__label {
-  color: var(--color-text-inverse);
-}
-
-.direction--compass .direction__edit {
-  color: var(--color-text-inverse);
-  border: var(--border-width-thin) solid var(--color-border-inverse);
-}
-
-.direction--compass .direction__edit:hover {
-  background-color: var(--color-border-inverse);
-}
-
-.direction--compass .field__error {
-  color: var(--color-text-inverse);
-}
-
-/* The primary button is dark in this palette, so on the navy card it turns light. */
-.direction--compass .btn--primary {
-  background-color: var(--color-text-inverse);
-  color: var(--color-surface-inverse);
-}
-
-.direction--compass .btn--primary:hover {
-  background-color: var(--color-text-inverse-muted);
-}
-
-.direction--compass .btn--ghost {
-  color: var(--color-text-inverse);
-}
-
-dl.direction__plan {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-xs);
-  margin: var(--space-2xs) 0 0;
-  padding-top: var(--space-sm);
-  border-top: var(--border-width-thin) solid var(--color-border-inverse);
-}
-
-.direction__plan dt {
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--color-text-inverse-muted);
-}
-
-.direction__plan dd {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-md);
-  font-weight: var(--weight-semibold);
-}
-
-[data-viewport="web"] dl.direction__plan {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.direction__form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
-
-
-
-
-.direction__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-xs);
 }
 
 /* -----------------------------------------------------------------------------
@@ -15041,269 +14559,6 @@ ol.rtl__rail::before {
 .rtl__now--next .rtl__name {
   color: var(--color-text-primary);
 }
-/* -----------------------------------------------------------------------------
-   THE CALENDAR (Plan, Concept 1)
-   A month with the stages tinted across it. A tint is never the only cue: each
-   stage's first day says so, the legend names the stages, and the day panel says
-   which stage a day is in. On a narrow pane the items become dots.
-   -------------------------------------------------------------------------- */
-.pcal {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  container-type: inline-size;
-  min-width: 0;
-}
-
-.pcal__heading {
-  margin: 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-}
-
-ul.pcal__legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2xs);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.pcal__key {
-  display: inline-block;
-  padding: var(--space-3xs) var(--space-xs);
-  border-radius: var(--radius-tag);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-primary);
-}
-
-.pcal__key--1,
-.pcal__cell.pcal__cell--1 {
-  background-color: var(--color-stage-1);
-}
-
-.pcal__key--2,
-.pcal__cell.pcal__cell--2 {
-  background-color: var(--color-stage-2);
-}
-
-.pcal__key--3,
-.pcal__cell.pcal__cell--3 {
-  background-color: var(--color-stage-3);
-}
-
-.pcal__key--4,
-.pcal__cell.pcal__cell--4 {
-  background-color: var(--color-stage-4);
-}
-
-.pcal__nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-sm);
-}
-
-.pcal__month {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-}
-
-.pcal__grid {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: var(--space-3xs);
-}
-
-.pcal__dow {
-  padding-bottom: var(--space-3xs);
-  text-align: center;
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-}
-
-.pcal__cell {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3xs);
-  min-width: 0;
-  min-height: 5.25rem;
-  padding: var(--space-2xs);
-  border: var(--border-width-medium) solid transparent;
-  border-radius: var(--radius-sm);
-  background-color: var(--color-surface-raised);
-  color: var(--color-text-primary);
-  font: inherit;
-  text-align: start;
-  cursor: pointer;
-}
-
-.pcal__cell.is-outside {
-  opacity: 0.5;
-}
-
-/* Today is its date in a filled circle; the day she picked is the outlined box. Two different marks,
-   so they never read as the same thing. */
-.pcal__cell.is-today .pcal__num {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 1.375rem;
-  height: 1.375rem;
-  padding-inline: var(--space-3xs);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-text-primary);
-  color: var(--color-surface-raised);
-}
-
-.pcal__cell.is-selected {
-  border-color: var(--color-text-primary);
-  outline: var(--focus-ring);
-  outline-offset: 0;
-}
-
-.pcal__cell:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.pcal__n {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-2xs);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-}
-
-.pcal__start {
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-bold);
-  letter-spacing: 0.03em;
-}
-
-.pcal__chip {
-  display: block;
-  overflow: hidden;
-  padding: 0 var(--space-2xs);
-  border: var(--border-thin);
-  border-inline-start: var(--border-width-thick) solid var(--color-text-primary);
-  border-radius: var(--radius-xs);
-  background-color: var(--color-surface-raised);
-  font-size: var(--text-xs);
-  line-height: var(--leading-snug);
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.pcal__more {
-  font-size: var(--text-2xs);
-  color: var(--color-text-secondary);
-}
-
-.pcal__dots {
-  display: none;
-  flex-wrap: wrap;
-  gap: var(--space-3xs);
-}
-
-.pcal__dots i {
-  width: 0.4375rem;
-  height: 0.4375rem;
-  border-radius: 50%;
-  background-color: var(--color-text-primary);
-}
-
-@container (max-width: 32.5rem) {
-  .pcal__cell {
-    min-height: 3.25rem;
-  }
-
-  .pcal__chip,
-  .pcal__more {
-    display: none;
-  }
-
-  .pcal__dots {
-    display: flex;
-  }
-}
-
-.pcal__day {
-  /* Room under it for the floating bar at the foot of the phone, so scrolling to it shows all of it. */
-  scroll-margin-bottom: 6rem;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  padding: var(--space-md);
-  border: var(--border-thin);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface-raised);
-}
-
-.pcal__day-title {
-  margin: 0;
-  font-size: var(--text-md);
-  font-weight: var(--weight-semibold);
-}
-
-.pcal__small {
-  margin: 0;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
-}
-
-ul.pcal__items {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.pcal__item {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-3xs);
-}
-
-.pcal__tag {
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-}
-
-.pcal__item-title {
-  font-weight: var(--weight-semibold);
-}
-
-.pcal__item-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-xs);
-}
-
-.pcal__ask {
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-}
 
 .step-card__when {
   margin: 0;
@@ -15311,23 +14566,10 @@ ul.pcal__items {
   font-weight: var(--weight-semibold);
 }
 
-.pcal__chip--step {
-  border-inline-start-color: var(--color-border-strong);
-  border-style: dashed;
-  border-inline-start-style: solid;
-}
-
-.pcal__dots i.pcal__dot--step {
-  background-color: transparent;
-  border: var(--border-width-medium) solid var(--color-text-primary);
-}
-
 /* The compact step card, for the swiping row (Concept 1). */
 .step-card--compact {
   height: 100%;
 }
-
-
 
 .step-card__line {
   margin: 0;
@@ -16331,7 +15573,6 @@ fieldset.agenda__whens {
 .agenda--stack .agenda__line .agenda__title {
   order: 1;
 }
-
 
 /* -----------------------------------------------------------------------------
    THE GUIDED CHECK-IN (Plan, Concept 3)

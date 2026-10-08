@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState } from "react";
 import { BaselineForm } from "@/components/homepage/BaselineForm";
 import { LinkedInMore } from "@/components/homepage/LinkedInMore";
 import { useLinkedInExport, setLinkedInExport } from "@/lib/linkedin-store";
@@ -10,18 +10,12 @@ import { LINKEDIN_READ_MS, looksLikeLinkedInExport } from "@/mock/onboarding";
 import { PresenceCard } from "@/components/homepage/PresenceCard";
 import { SignalPicture } from "@/components/homepage/SignalPicture";
 import { Spark } from "@/components/homepage/Spark";
-import { DirectionCard } from "@/components/plan/DirectionCard";
-import { Button } from "@/components/primitives/Button";
-import { Icon } from "@/components/primitives/Icon";
 import { ActionSteps } from "@/components/plan/ActionSteps";
 import { PlanAgenda, type AgendaItem } from "@/components/plan/PlanAgenda";
 import { PlanGuided } from "@/components/plan/PlanGuided";
 import { PlanHeader } from "@/components/plan/PlanHeader";
-import { PlanNarrative } from "@/components/plan/PlanNarrative";
-import { PlanRoadmap } from "@/components/plan/PlanRoadmap";
 import { RoadmapTimeline } from "@/components/plan/RoadmapTimeline";
 import { CalendarItemSheet, type ItemValues } from "@/components/plan/CalendarItemSheet";
-import { PlanCalendar } from "@/components/plan/PlanCalendar";
 import { PlanSignalPicture, type SignalPictureVariant } from "@/components/plan/PlanSignalPicture";
 import { EntryDrawer } from "@/components/plan/EntryDrawer";
 import { LinkedInPicture } from "@/components/plan/LinkedInPicture";
@@ -33,7 +27,6 @@ import { shortDate } from "@/lib/loop";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { momentumEvents } from "@/lib/momentum";
-import { buildNarrative } from "@/lib/narrative";
 import { planSparks } from "@/lib/plan-sparks";
 import { roadmapWindows, stageAt } from "@/lib/roadmap-dates";
 import { whenWords } from "@/lib/time-words";
@@ -41,7 +34,7 @@ import { saveCalendar, saveRoadmap, saveSteps, useCalendar, useRoadmapChoices, u
 import { addedSummary, hasBaseline, signalRows, withAdded } from "@/lib/presence";
 import { addPresence, removePresence, saveBaseline, saveCurrent, updatePresence, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
 import { currentStageIndex, isDone as isActionDone } from "@/lib/rings";
-import { addedItems, historyDays, newlyRecorded, type CameOfRow, nextOutsideStep, offerFor, recordedItems, type PictureItem } from "@/lib/signal-picture";
+import { addedItems, newlyRecorded, type CameOfRow, nextOutsideStep, offerFor, recordedItems, type PictureItem } from "@/lib/signal-picture";
 import { ACTIVITY_OF_CHANNEL, ACTIVITY_TYPES } from "@/mock/plan";
 import { signalOfRecord } from "@/lib/signals";
 import { hideSignal, markNoticed, useSignalNotices } from "@/lib/signal-notices";
@@ -56,7 +49,7 @@ import {
 } from "@/mock/accounts-stub";
 import { PLAN_TEMPLATES, recommendPlan } from "@/mock/onboarding";
 import type { ActionStep, StepQuestion } from "@/mock/plan";
-import { CALENDAR_COPY as CAL, EDIT_FLOW_HREF, CARD_QUESTIONS, STEP_QUESTIONS, type DeclineReason, type GuidedAnswer, DIRECTION_PLAN_COPY as DP, ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
+import { EDIT_FLOW_HREF, CARD_QUESTIONS, STEP_QUESTIONS, type DeclineReason, type GuidedAnswer, ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
 import { ACTIONS } from "@/mock/plan-stub";
 import { SNAPSHOTS } from "@/mock/snapshots";
 import type { CalendarItem } from "@/mock/plan";
@@ -64,13 +57,11 @@ import type { MomentumVariant } from "@/components/plan/MomentumLabeled";
 import { PlanMomentum } from "./PlanMomentum";
 
 /**
- * Everything the Plan page is made of, built once, so the three concepts differ
- * only in what they put first and how they lay it out. Each concept is the
- * same parts in another order: that is what a reviewer is choosing between.
+ * Everything the Plan and Signals pages are made of, built once, so the concepts
+ * differ only in what they put first and how they lay it out.
  *
  * It holds the page's state: her entry flow, her roadmap choices and her next
- * steps (kept per scenario in `lib/plan-store`), and the narrative that reads
- * them.
+ * steps (kept per scenario in `lib/plan-store`).
  */
 export function usePlanPage() {
   const loop = useLoop();
@@ -95,10 +86,8 @@ export function usePlanPage() {
   // The row whose "Nothing reported yet" she tapped: the report drawer is for it.
   const [reporting, setReporting] = useState<CameOfRow | null>(null);
   const [offerDismissed, setOfferDismissed] = useState(false);
-  // The steps on her Plan as the list shows them, hand-offs included, for the Calendar and the narrative.
+  // The steps on her Plan as the row shows them, hand-offs included, for the roadmap and the check-in.
   const [liveState, setLiveState] = useState<{ key: string; state: PlanState } | null>(null);
-  // The day in view, shared by the Agenda and the Calendar; today until she picks one.
-  const [picked, setPicked] = useState<{ scenario: string; day: string } | null>(null);
   const [calEntry, setCalEntry] = useState<{ mode: "add"; date: string } | { mode: "edit"; item: CalendarItem } | null>(null);
 
   const choices = useRoadmapChoices(loop.id);
@@ -120,16 +109,8 @@ export function usePlanPage() {
   useEffect(() => {
     if (onSignals && freshKey) markNoticed(freshKey.split("|"));
   }, [onSignals, freshKey]);
-  const history = historyDays(loop.account.plan.startedOn, loop.today);
   const offer = offerDismissed ? undefined : offerFor(loop.records, items, loop.today);
   const editing = editingItem ? items.find((i) => i.id === editingItem.id) : undefined;
-
-  /** Takes her to a step on the page and puts the keyboard on it. */
-  function openStep(stepId: string) {
-    const node = document.getElementById(`step-${stepId}`);
-    node?.scrollIntoView({ block: "center" });
-    node?.querySelector<HTMLElement>("h3, h4")?.focus();
-  }
 
   /** What an entry becomes when it is saved: the same for one and for several. */
   function fieldsOf(values: { type: string; on: string; text?: string; impact?: string }) {
@@ -180,22 +161,14 @@ export function usePlanPage() {
     setEditingItem(null);
   }
 
-  // The narrative reads her live steps, as she has left them.
+  // Her live steps, as she has left them.
   const stepState = (liveState?.key === stepsKey ? liveState.state : undefined) ?? savedSteps?.state ?? (switchedTo ? { ...initialPlanState(loop.today), shown: [], decisions: {} } : initialPlanState(loop.today));
   const live = liveSteps(stepState).filter((s) => !isActionDone(s, loop.records, loop.tasks));
-  const narrative = buildNarrative({
-    events: momentumEvents(loop.records, loop.tasks),
-    items: pictureItems,
-    history,
-    today: loop.today,
-    steps: live,
-    accepted: (step) => stepState.decisions[step.id]?.decision === "accepted",
-  });
-
-  const stepsFor = (layout: "list" | "carousel") => (
+  // Concept 1: her next steps, in a swiping row.
+  const stepsCarousel = (
     <ActionSteps
-      key={`steps-${layout}-${stepsKey}`}
-      layout={layout}
+      key={`steps-carousel-${stepsKey}`}
+      layout="carousel"
       today={loop.today}
       initial={switchedTo ? { ...initialPlanState(loop.today), shown: [], decisions: {} } : undefined}
       startHref={conceptHref("toolbox-flow", "concept-1")}
@@ -212,29 +185,8 @@ export function usePlanPage() {
     />
   );
 
-  const steps = stepsFor("list");
-  const stepsCarousel = stepsFor("carousel");
-
-  const roadmap = (opts: { compact?: boolean; children?: ReactNode } = {}) => (
-    <PlanRoadmap
-      key={`roadmap-${loop.id}`}
-      planId={planId}
-      startedOn={choices?.startedOn ?? loop.account.plan.startedOn}
-      today={loop.today}
-      rationale={recommendPlan(start.account.direction).rationale ?? ""}
-      evidenceStage={currentStageIndex(loop.records, roadmapFor(loop.account.plan.id).length, ACTIONS, loop.tasks)}
-      startStage={currentStageIndex(start.records, roadmapFor(loop.account.plan.id).length, ACTIONS, start.tasks)}
-      choices={choices}
-      onChoices={(next) => saveRoadmap(loop.id, next)}
-      compact={opts.compact}
-    >
-      {opts.children}
-    </PlanRoadmap>
-  );
-
-  // The roadmap as an Agenda and a Calendar (Concept 1): one plan, one set of windows, one day in view.
+  // One plan, one set of stage windows, for the timeline, the agenda and the check-in.
   const calendarItems = useCalendar(loop.id);
-  const day = picked?.scenario === loop.id ? picked.day : loop.today;
   const windows = roadmapWindows({
     planId: loop.account.plan.id,
     startedOn: loop.account.plan.startedOn,
@@ -243,7 +195,6 @@ export function usePlanPage() {
     startStage: currentStageIndex(start.records, roadmapFor(loop.account.plan.id).length, ACTIONS, start.tasks),
     today: loop.today,
   });
-  const selectDay = (date: string) => setPicked({ scenario: loop.id, day: date });
   // Her live steps on her calendar: suggested for a day until she accepts one or moves it.
   const stepEntries = live.map((step) => ({ id: step.id, title: step.title, ...stepDay(stepState, step) }));
 
@@ -377,36 +328,6 @@ export function usePlanPage() {
     />
   );
 
-  // Concept 2: the Calendar, with Add right under its heading.
-  const calendar = (
-    <PlanCalendar
-      key={`calendar-${loop.id}`}
-      windows={windows}
-      items={calendarItems}
-      steps={stepEntries}
-      onOpenStep={openStep}
-      today={loop.today}
-      selected={day}
-      onSelect={selectDay}
-      onAdd={(date) => setCalEntry({ mode: "add", date })}
-      onEdit={(item) => setCalEntry({ mode: "edit", item })}
-      onDelete={(item) =>
-        saveCalendar(
-          loop.id,
-          calendarItems.filter((i) => i.id !== item.id)
-        )
-      }
-      controls={
-        <div>
-          <Button variant="secondary" size="sm" onClick={() => setCalEntry({ mode: "add", date: day })}>
-            <Icon name="plus" size={14} />
-            {CAL.add}
-          </Button>
-        </div>
-      }
-    />
-  );
-
   function saveItem(values: ItemValues) {
     if (calEntry?.mode === "edit") {
       const id = calEntry.item.id;
@@ -417,7 +338,6 @@ export function usePlanPage() {
     } else {
       saveCalendar(loop.id, [...calendarItems, { id: `item-${Date.now()}`, ...values }]);
     }
-    selectDay(values.date);
     setCalEntry(null);
   }
 
@@ -432,28 +352,6 @@ export function usePlanPage() {
       initial={calEntry?.mode === "edit" ? calEntry.item : calEntry?.mode === "add" ? { date: calEntry.date } : undefined}
     />
   );
-
-  // Her direction is hers to change at any time. It never changes her plan, and the plan's
-  // reason stays the one she was given, so the hand-written "toward" line is cleared.
-  // Concept 1 sets it as a statement; Concept 2 as a compass that also names her plan and stage.
-  const directionFor = (variant: "statement" | "compass") => {
-    const here = windows.find((w) => w.status === "current") ?? windows[windows.length - 1];
-    return (
-      <DirectionCard
-        key={`direction-${variant}-${loop.id}`}
-        variant={variant}
-        direction={loop.account.direction}
-        edited={loop.account.direction !== start.account.direction}
-        plan={{
-          name: PLAN_TEMPLATES.find((p) => p.id === planId)?.name ?? "",
-          stage: here ? DP.stage(here.index + 1, windows.length, here.title) : "",
-        }}
-        onSave={(text) => loopActions.updateAccount({ direction: text, towardShort: undefined })}
-      />
-    );
-  };
-  const direction = directionFor("statement");
-  const directionCompass = directionFor("compass");
 
   // Concept 1: what her plan is, in a line, with Edit opening the detail and the edit flow.
   const planHeader = (
@@ -470,8 +368,6 @@ export function usePlanPage() {
 
   const note = switchedTo ? <p className="plan-stub__note">{RM.stepsStub}</p> : null;
 
-  const narrativeNode = <PlanNarrative key={`narrative-${loop.id}`} narrative={narrative} onOpenStep={openStep} />;
-
   const momentumOf = (variant: MomentumVariant) => (
     <PlanMomentum
       key={`momentum-${loop.id}-${variant}`}
@@ -482,7 +378,6 @@ export function usePlanPage() {
       startedOn={loop.account.plan.startedOn}
     />
   );
-  const momentum = momentumOf("list");
 
   const toolboxHref = conceptHref("toolbox-flow", "concept-1");
   /* Until she has said where she started, the page asks that and nothing else:
@@ -614,7 +509,7 @@ export function usePlanPage() {
     />
   );
 
-  return { direction, directionCompass, planHeader, steps, stepsCarousel, roadmap, timeline, guided, calendar, note, narrative: narrativeNode, momentum, momentumOf, pictureOf, started, sparkNode, sheet: (
+  return { planHeader, stepsCarousel, timeline, guided, note, momentumOf, pictureOf, started, sparkNode, sheet: (
       <>
         {sheet}
         <ReportDrawer

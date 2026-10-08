@@ -6,7 +6,7 @@
  * No days: when a note needs a time it says it in words.
  */
 
-import type { RoadmapChoices } from "@/components/plan/PlanRoadmap";
+import type { RoadmapChoices } from "@/lib/roadmap-choices";
 import type { PlanState } from "@/lib/action-steps";
 import { addDays, daysBetween, type LoopDate } from "@/lib/loop";
 import type { MomentumEvent } from "@/lib/momentum";

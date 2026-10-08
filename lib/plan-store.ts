@@ -16,7 +16,7 @@
  */
 
 import { useSyncExternalStore } from "react";
-import type { RoadmapChoices } from "@/components/plan/PlanRoadmap";
+import type { RoadmapChoices } from "@/lib/roadmap-choices";
 import type { SavedSteps } from "@/components/plan/ActionSteps";
 import { CALENDAR_SEED, type CalendarItem } from "@/mock/plan";
 

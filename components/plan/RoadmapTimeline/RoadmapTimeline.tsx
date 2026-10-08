@@ -1,7 +1,7 @@
 "use client";
 
 import { Fragment, useId, useState, type ReactNode } from "react";
-import type { RoadmapChoices } from "@/components/plan/PlanRoadmap";
+import type { RoadmapChoices } from "@/lib/roadmap-choices";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import { dayLabel } from "@/lib/calendar";
