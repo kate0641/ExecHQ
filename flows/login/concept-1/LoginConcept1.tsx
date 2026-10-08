@@ -26,6 +26,7 @@ import {
   PROVIDER_ACCOUNTS,
   RESEND_SECONDS,
   SIGN_IN_CODE,
+  WRONG_CODE_TRIES,
   looksLikeEmail,
   type Provider,
   type ProviderAccount,
@@ -69,6 +70,10 @@ export function LoginConcept1() {
   const [keep, setKeep] = useState(true);
   const [sentTo, setSentTo] = useState(MAYA.email);
   const [code, setCode] = useState("");
+  // Wrong tries on this code, and whether the last one was wrong.
+  const [tries, setTries] = useState(0);
+  const [wrong, setWrong] = useState(false);
+  const codeBox = useRef<HTMLDivElement>(null);
   const [arrived, setArrived] = useState(false);
   const [resendLeft, setResendLeft] = useState(0);
   const [sheet, setSheet] = useState<SheetId>(null);
@@ -105,6 +110,8 @@ export function LoginConcept1() {
   function send(to: string) {
     setSentTo(to);
     setCode("");
+    setTries(0);
+    setWrong(false);
     setArrived(false);
     setResendLeft(RESEND_SECONDS);
     setSheet(null);
@@ -268,15 +275,33 @@ export function LoginConcept1() {
       description: C.inbox.lede(sentTo),
       children: (
         <>
-          <CodeField
-            label={C.inbox.codeLabel}
-            value={code}
-            onChange={(value) => {
-              setCode(value);
-              // The prototype takes any six digits.
-              if (value.length === 6) signIn();
-            }}
-          />
+          <div ref={codeBox}>
+            <CodeField
+              label={C.inbox.codeLabel}
+              value={code}
+              error={wrong ? C.inbox.wrongCode : undefined}
+              onChange={(value) => {
+                setCode(value);
+                setWrong(false);
+                if (value.length < 6) return;
+                if (value === SIGN_IN_CODE) {
+                  signIn();
+                  return;
+                }
+                // Wrong: the boxes clear and the cursor goes back to the
+                // first. After five, the code stops working.
+                const used = tries + 1;
+                setTries(used);
+                setCode("");
+                if (used >= WRONG_CODE_TRIES) {
+                  setScreen("expired");
+                  return;
+                }
+                setWrong(true);
+                codeBox.current?.querySelector("input")?.focus();
+              }}
+            />
+          </div>
           <p className="login__actions">
             {resendLeft > 0 ? (
               <span className="login__small">{C.inbox.resendIn(resendLeft)}</span>

@@ -87,6 +87,7 @@ import {
   LOGIN_PROVISIONAL,
   RESEND_SECONDS,
   SIGN_IN_CODE,
+  WRONG_CODE_TRIES,
   type Provider,
 } from "@/mock/login";
 
@@ -1006,7 +1007,8 @@ function AccountPage({
  * typed here. The email arrives a moment later as the phone's notification;
  * tapping it opens the drawn email. Login's wrong and expired code screens
  * are used here too (2026-10-08): only the code in the email confirms the
- * address, and the email's "open it again later" shows the code expired.
+ * address, five wrong tries or the email's "open it again later" show the
+ * code expired.
  */
 function VerifyPage({ flow, frame, drawer, onDone, onOtherAddress }: PageProps & { onOtherAddress: () => void }) {
   const { state, dispatch } = flow;
@@ -1014,7 +1016,9 @@ function VerifyPage({ flow, frame, drawer, onDone, onOtherAddress }: PageProps &
   const email = state.answers.email ?? "";
   const [code, setCode] = useState("");
   const [wrong, setWrong] = useState(false);
+  const [tries, setTries] = useState(0);
   const [expired, setExpired] = useState(false);
+  const codeBox = useRef<HTMLDivElement>(null);
   const [arrived, setArrived] = useState(false);
   const [reading, setReading] = useState(false);
   const [resendLeft, setResendLeft] = useState(RESEND_SECONDS);
@@ -1048,7 +1052,17 @@ function VerifyPage({ flow, frame, drawer, onDone, onOtherAddress }: PageProps &
   function confirm() {
     if (code.length !== 6) return;
     if (code !== SIGN_IN_CODE) {
+      // As on Login: the boxes clear and the cursor goes back to the first.
+      // After five wrong tries the code stops working.
+      const used = tries + 1;
+      setTries(used);
+      setCode("");
+      if (used >= WRONG_CODE_TRIES) {
+        setExpired(true);
+        return;
+      }
       setWrong(true);
+      codeBox.current?.querySelector("input")?.focus();
       return;
     }
     dispatch({ type: "verify-email" });
@@ -1059,6 +1073,7 @@ function VerifyPage({ flow, frame, drawer, onDone, onOtherAddress }: PageProps &
   function send() {
     setCode("");
     setWrong(false);
+    setTries(0);
     setExpired(false);
     setArrived(false);
     setReading(false);
@@ -1115,15 +1130,17 @@ function VerifyPage({ flow, frame, drawer, onDone, onOtherAddress }: PageProps &
             onPrimary={confirm}
             autoFocusField
           >
-            <CodeField
-              label={c.ask}
-              value={code}
-              error={wrong ? LOGIN_COPY.inbox.wrongCode : undefined}
-              onChange={(value) => {
-                setCode(value);
-                setWrong(false);
-              }}
-            />
+            <div ref={codeBox}>
+              <CodeField
+                label={c.ask}
+                value={code}
+                error={wrong ? LOGIN_COPY.inbox.wrongCode : undefined}
+                onChange={(value) => {
+                  setCode(value);
+                  setWrong(false);
+                }}
+              />
+            </div>
             <p className="login__actions">
               {resendLeft > 0 ? (
                 <span className="login__small">{c.resendIn(resendLeft)}</span>
