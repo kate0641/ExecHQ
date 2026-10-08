@@ -15035,32 +15035,72 @@ ul.step-card__tiles {
   gap: var(--space-lg);
 }
 
-/* Plan Concept 3: her direction above the road. "Your direction" and a chevron open it like an accordion,
-   to her words in a card. */
+/* Plan Concept 3: her direction above the road, as a soft row. Closed, her words are cut to one line;
+   the row opens like an accordion and lets them run. */
 .plan-direction {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-sunken);
 }
 
 .plan-direction__head {
   margin: 0;
+  font: inherit;
 }
 
 .plan-direction__toggle {
-  display: inline-flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  gap: var(--space-2xs);
-  min-height: 2.75rem;
+  gap: var(--space-sm);
+  width: 100%;
   margin: 0;
-  padding: 0;
+  padding: var(--space-sm) var(--space-card-padding);
   border: 0;
+  border-radius: var(--radius-card);
   background: none;
   color: var(--color-text-primary);
-  font-family: var(--font-display);
-  font-size: var(--text-md);
-  font-weight: var(--weight-semibold);
+  font: inherit;
+  text-align: left;
   cursor: pointer;
+}
+
+.plan-direction__toggle:hover,
+.plan-direction__toggle.is-hover {
+  background: var(--color-surface-hover);
+}
+
+.plan-direction__toggle.is-focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.plan-direction__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  min-width: 0;
+}
+
+.plan-direction__label {
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.plan-direction__quote {
+  overflow: hidden;
+  font-family: var(--font-serif);
+  font-size: var(--text-md);
+  line-height: var(--leading-normal);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.plan-direction.is-open .plan-direction__quote {
+  overflow: visible;
+  white-space: normal;
 }
 
 .plan-direction__toggle .icon {
@@ -15069,32 +15109,6 @@ ul.step-card__tiles {
 
 .plan-direction.is-open .plan-direction__toggle .icon {
   transform: rotate(180deg);
-}
-
-.plan-direction__toggle:hover,
-.plan-direction__toggle.is-hover {
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-}
-
-.plan-direction__toggle.is-focus {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-  border-radius: var(--radius-xs);
-}
-
-.plan-direction__card {
-  padding: var(--space-card-padding);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-card);
-  background: var(--color-surface-raised);
-}
-
-.plan-direction__quote {
-  margin: 0;
-  font-family: var(--font-serif);
-  font-size: var(--text-md);
-  line-height: var(--leading-normal);
 }
 
 @media (prefers-reduced-motion: reduce) {

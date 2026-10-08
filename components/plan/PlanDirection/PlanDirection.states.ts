@@ -20,8 +20,8 @@ export const planDirectionStates = defineComponentStates({
     filled: "Not an input: it only reads her direction.",
   },
   variants: [
-    { label: "Default — closed", props: { direction, demoOpen: false } },
-    { label: "Open — her direction in a card", props: { direction, demoOpen: true } },
+    { label: "Default — closed, her first line cut off", props: { direction, demoOpen: false } },
+    { label: "Open — her words in full", props: { direction, demoOpen: true } },
     { label: "Hover", props: { direction, demoOpen: false, demoState: "hover" } },
     { label: "Focus", props: { direction, demoOpen: false, demoState: "focus" } },
     {

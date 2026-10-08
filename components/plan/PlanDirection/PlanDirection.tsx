@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useState } from "react";
 import { Icon } from "@/components/primitives/Icon";
 import { setDirectionOpen, useDirectionOpen } from "@/lib/direction-open";
 import { PLAN_DIRECTION_COPY as C } from "@/mock/plan";
@@ -16,16 +16,16 @@ export interface PlanDirectionProps {
 }
 
 /**
- * Her direction, above the road it leads to. "Your direction" with a chevron opens it like an
- * accordion, to her words quoted in a card. It starts closed, and opening it is remembered on her
- * device. The way into her whole plan sits beside the roadmap's heading, not here.
+ * Her direction, above the road it leads to, as a soft row: "Your direction" small, then the first
+ * line of her words in the serif, cut off, and a chevron. The whole row opens it like an accordion,
+ * letting her words run in full. It starts closed, and opening it is remembered on her device. The way
+ * into her whole plan sits beside the roadmap's heading, not here.
  */
 export function PlanDirection({ direction, demoOpen, demoState, className }: PlanDirectionProps) {
   const stored = useDirectionOpen();
   // The catalogue's variants set it themselves and leave what her device remembers alone.
   const [demoOpenNow, setDemoOpenNow] = useState(demoOpen);
   const open = demoOpenNow ?? stored;
-  const bodyId = useId();
 
   function toggle() {
     if (demoOpenNow !== undefined) setDemoOpenNow(!open);
@@ -39,18 +39,17 @@ export function PlanDirection({ direction, demoOpen, demoState, className }: Pla
           type="button"
           className={["plan-direction__toggle", demoState ? `is-${demoState}` : null].filter(Boolean).join(" ")}
           aria-expanded={open}
-          aria-controls={bodyId}
           onClick={toggle}
         >
-          {C.label}
+          <span className="plan-direction__text">
+            <span className="plan-direction__label">{C.label}</span>
+            {/* So a screen reader says the label and her words apart. */}
+            <span className="u-visually-hidden">: </span>
+            <q className="plan-direction__quote">{direction}</q>
+          </span>
           <Icon name="chevron-down" size={16} />
         </button>
       </h2>
-      <div className="plan-direction__card" id={bodyId} hidden={!open}>
-        <p className="plan-direction__quote">
-          <q>{direction}</q>
-        </p>
-      </div>
     </section>
   );
 }
