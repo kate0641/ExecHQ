@@ -52,7 +52,7 @@ import {
  */
 
 const HOME = conceptHref("homepage", "concept-4");
-const ONBOARDING = conceptHref("onboarding", "concept-1");
+const ONBOARDING = conceptHref("onboarding", "concept-3");
 const HEADING = "login-heading";
 
 type Screen = "sign-in" | "inbox" | "expired" | "other-account";
