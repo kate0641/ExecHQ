@@ -9,7 +9,6 @@ import { LINKEDIN_EXPORT, SEEDED_EXPORT } from "@/mock/linkedin-export";
 import { LINKEDIN_READ_MS, looksLikeLinkedInExport } from "@/mock/onboarding";
 import { PresenceCard } from "@/components/homepage/PresenceCard";
 import { SignalPicture } from "@/components/homepage/SignalPicture";
-import { Spark } from "@/components/homepage/Spark";
 import { PlanAgenda, type AgendaItem } from "@/components/plan/PlanAgenda";
 import { PlanGuided } from "@/components/plan/PlanGuided";
 import { PlanDetailLink } from "@/components/plan/PlanDetailLink";
@@ -39,13 +38,10 @@ import { currentStageIndex, isDone as isActionDone } from "@/lib/rings";
 import { addedItems, newlyRecorded, type CameOfRow, nextOutsideStep, offerFor, recordedItems, type PictureItem } from "@/lib/signal-picture";
 import { ACTIVITY_OF_CHANNEL, ACTIVITY_TYPES } from "@/mock/plan";
 import { signalOfRecord } from "@/lib/signals";
-import { hideSignal, markNoticed, useSignalNotices } from "@/lib/signal-notices";
-import { dismissSpark, useDismissedSparks } from "@/lib/spark-dismissal";
-import { sparksFor } from "@/lib/sparks";
+import { markNoticed, useSignalNotices } from "@/lib/signal-notices";
 import {
   ADD_COPY as ADD,
   PRESENCE_STUB as PR,
-  SPARK_COPY as SP,
   COUNT_COPY as AC,
   BASELINE_COPY as BC,
 } from "@/mock/accounts-stub";
@@ -78,7 +74,6 @@ export function usePlanPage() {
     const read = setTimeout(() => setLinkedInExport((l) => ({ ...l, status: "ready" })), LINKEDIN_READ_MS);
     return () => clearTimeout(read);
   }, [storedExport.status, storedExport.fileName]);
-  const dismissed = useDismissedSparks();
   const notices = useSignalNotices();
   const onSignals = usePathname().startsWith("/signals");
   // Adding opens the drawer, and may start from a piece she has just published; editing opens the sheet.
@@ -533,22 +528,6 @@ export function usePlanPage() {
     [item.note ?? item.title, item.where, shortDate(item.on)].filter(Boolean).join(" · "),
     current
   );
-  const recordedNotes = freshRecorded
-    .map((i) => ({ id: `recorded:${i.id}`, source: SP.recordedSource, text: SP.recorded(i.text), on: i.on, actionLabel: SP.hide }))
-    .filter((n) => !dismissed.includes(n.id));
-  const sparks = [...recordedNotes, ...sparksFor(loop.today, dismissed, items).filter((n) => n.id.startsWith("presence:"))].slice(0, 3);
-  /* The notes on what has moved, kept apart from the card so a page can put
-     them right under its heading. */
-  const sparkNode = (
-    <Spark
-      items={sparks}
-      label={SP.label}
-      dismissLabel={SP.dismiss}
-      dismissName={SP.dismissNote}
-      onDismiss={(id) => dismissSpark(id)}
-      onAction={(id) => hideSignal(id.replace(/^recorded:/, ""))}
-    />
-  );
   /* The upload stays: on the first visit it sits under the starting-point form, and after that under
      where she started, so "any time later" is true. Once a file is read, what it says is drawn below. */
   const linkedIn = (
@@ -618,7 +597,7 @@ export function usePlanPage() {
     />
   );
 
-  return { guided, momentumOf, pictureOf, started, sparkNode, sheet: (
+  return { guided, momentumOf, pictureOf, started, sheet: (
       <>
         {sheet}
         <ReportDrawer

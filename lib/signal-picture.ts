@@ -74,6 +74,9 @@ export function recordedItems(records: LoopRecord[], tasks?: Record<string, Task
     const areaId = signalOfRecord(record.id) ?? OTHER_AREA;
     const activity = activityOfRecord(record);
     entriesFor(record).forEach((entry, i) => {
+      // Only what she put out in the world is a signal: drafting, working on or readying something in
+      // ExecHQ is not, so those stay off her picture. What she used, sent or published, and what came of it, stays.
+      if (entry.source === "observed") return;
       out.push({
         id: `${record.id}:${i}`,
         source: "recorded",
