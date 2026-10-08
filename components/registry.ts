@@ -96,8 +96,6 @@ import { providerButtonsStates } from "./login/ProviderButtons/ProviderButtons.s
 import { mailNotificationStates } from "./login/MailNotification/MailNotification.states";
 import { signInEmailStates } from "./login/SignInEmail/SignInEmail.states";
 import { accountPickerStates } from "./login/AccountPicker/AccountPicker.states";
-import { actionStepCardStates } from "./plan/ActionStepCard/ActionStepCard.states";
-import { actionStepsStates } from "./plan/ActionSteps/ActionSteps.states";
 import { planSignalPictureStates } from "./plan/PlanSignalPicture/PlanSignalPicture.states";
 import { signalEntrySheetStates } from "./plan/SignalEntrySheet/SignalEntrySheet.states";
 import { momentumLabeledStates } from "./plan/MomentumLabeled/MomentumLabeled.states";
@@ -110,8 +108,6 @@ import { stageCheckInStates } from "./plan/StageCheckIn/StageCheckIn.states";
 import { checkInRecapStates } from "./plan/CheckInRecap/CheckInRecap.states";
 import { planAgendaStates } from "./plan/PlanAgenda/PlanAgenda.states";
 import { roadmapTimelineStates } from "./plan/RoadmapTimeline/RoadmapTimeline.states";
-import { calendarItemSheetStates } from "./plan/CalendarItemSheet/CalendarItemSheet.states";
-import { stepChangePanelStates } from "./plan/StepChangePanel/StepChangePanel.states";
 import { templateRoadmapsStates } from "./plan/TemplateRoadmaps/TemplateRoadmaps.states";
 
 export const registry: RegisteredComponent[] = [
@@ -199,8 +195,6 @@ export const registry: RegisteredComponent[] = [
   mailNotificationStates,
   signInEmailStates,
   accountPickerStates,
-  actionStepCardStates,
-  actionStepsStates,
   templateRoadmapsStates,
   planSignalPictureStates,
   entryDrawerStates,
@@ -211,14 +205,12 @@ export const registry: RegisteredComponent[] = [
   planDetailSheetStates,
   planDirectionStates,
   planDetailLinkStates,
-  stepChangePanelStates,
   addToPlanSheetStates,
   planGuidedStates,
   stageCheckInStates,
   checkInRecapStates,
   planAgendaStates,
   roadmapTimelineStates,
-  calendarItemSheetStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */

@@ -439,52 +439,6 @@ export const KIND_LABELS: Record<StepKind, string> = {
 
 export const SCOPE_OPTIONS = { "as-is": "As planned", lighter: "A lighter version" } as const;
 
-export const STEP_COPY = {
-  heading: "Your next steps",
-  /** Said plainly, a count of real places, never progress toward a number. */
-  horizonInUse: (n: number, max: number) => `${n} of ${max}`,
-  horizonLabels: { short: "Short-term", medium: "Medium-term", long: "Long-term milestone" } as Record<Horizon, string>,
-  previousStep: "Previous step",
-  nextStep: "Next step",
-  roomFree: "A place is free. Your plan offers the next step when one fits.",
-  accept: "Accept",
-  start: (tool?: string) => (tool ? `Start in ${tool}` : "Start"),
-  stubbedStart: "Opens in a later sprint",
-  stubbedNote: "Stubbed · Sprint 4",
-  markDone: "I’ve done this",
-  change: "Change this step",
-  later: "Do it later",
-  decline: "Not for me",
-  edit: "Change timing or scope",
-  moves: "Moves",
-  /** The compact card, for the swiping row. */
-  whenLabel: "When",
-  askLabel: "Ask ExecHQ",
-  effort: "Effort",
-  doneWhen: "Done when",
-  offered: "Offered",
-  accepted: "Accepted",
-  edited: (moved?: string, lighter?: boolean) =>
-    [moved, lighter ? "Lighter version" : undefined].filter(Boolean).join(" · "),
-  editedByYou: "Edited by you",
-  /** When a step is shown in words (`timingWords`, or `whenWords` once she has moved it), never as a day. */
-  declinePrompt: "Say why, if you like. One tap.",
-  declineNoReason: "Not for me, no reason",
-  deferPrompt: "Bring it back",
-  deferConfirm: "Do it later",
-  timing: "When",
-  scope: "How much",
-  save: "Save",
-  cancel: "Cancel",
-  recordIt: "Add it to your record",
-  announce: {
-    declined: (title: string) => `Declined: ${title}.`,
-    deferred: (title: string) => `Deferred: ${title}.`,
-    completed: (title: string) => `Done: ${title}.`,
-    replacedBy: (title: string) => `Now offered: ${title}.`,
-    nothingNew: "Nothing new offered.",
-  },
-} as const;
 
 /* -----------------------------------------------------------------------------
    COPY FOR THE ROADMAP
@@ -898,22 +852,6 @@ export const CALENDAR_COPY = {
   manualOnly: "Only you add to this. Nothing syncs from another calendar.",
 } as const;
 
-export const ITEM_COPY = {
-  title: "Add to your calendar",
-  editTitle: "Edit your item",
-  whatLabel: "What is it?",
-  whatPlaceholder: "Lunch with the CMO",
-  whenLabel: "When?",
-  noteLabel: "A note",
-  noteHint: "Optional.",
-  save: "Add",
-  saveEdit: "Save",
-  cancel: "Cancel",
-  inStage: (n: number, name: string) => `That falls in Stage ${n}, ${name}.`,
-  outsideStage: "That is outside the roadmap’s windows. It will still be on your calendar.",
-  errorWhat: "Say what it is.",
-  errorWhen: "Pick a date.",
-} as const;
 
 /* -----------------------------------------------------------------------------
    WHEN A STEP FALLS ON HER CALENDAR (Concept 1 tweak)
@@ -969,34 +907,6 @@ export const timingWords = (step: { id: string; horizon: Horizon }): string => T
    advisor and never shown back unasked.
    -------------------------------------------------------------------------- */
 
-export const CHANGE_COPY = {
-  link: "Edit",
-  title: "Edit this step",
-  question: "What would you like to do?",
-  options: {
-    edit: { label: "Change the details", hint: "When, how long it will take you, or what counts as done." },
-    replace: { label: "Ask for a different step", hint: "Tell us why, and we’ll offer another." },
-  },
-  keep: "Keep it as it is",
-  back: "Back",
-  /* Edit this step */
-  editWhen: "When",
-  editWhenHint: "When suits you. It shows on your calendar.",
-  editHowLong: "How long will it take you?",
-  editHowLongHint: "Your own estimate. Leave it if ours is right.",
-  howLongOptions: ["A few minutes", "About an hour", "An hour or two", "Several sittings"],
-  editDone: "What counts as done?",
-  editDoneHint: "In your own words. It starts as ours.",
-  editNote: "Anything you’d like us to know?",
-  editNoteHint: "Optional. Only you see it.",
-  editSubmit: "Save changes",
-  /* Ask for a different step */
-  replaceReason: "What’s the main reason?",
-  replaceReasonHint: "Pick one if it fits. You can skip this.",
-  replaceNote: "What would you like instead?",
-  replaceNoteHint: "In your own words. It helps ExecHQ choose the next step. Only you see it.",
-  replaceSubmit: "Ask for a different step",
-} as const;
 
 /* -----------------------------------------------------------------------------
    THE PLAN DETAIL (2026-10-06)
