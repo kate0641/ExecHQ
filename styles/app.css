@@ -15885,6 +15885,21 @@ fieldset.agenda__whens {
   box-shadow: none;
 }
 
+/* Plan on a tablet: while the drawer is open it reaches up to the page's last line, Why this matters,
+   instead of leaving the roadmap showing through a gap. The roadmap is covered while the drawer is open
+   anyway, so it steps out until she folds the drawer, and comes back with the peek bar. */
+[data-viewport="tablet"] .guide--drawer.plan-guided:has(.answer-drawer:not(.is-peek)):not(:where([data-viewport="mobile"] *)) .guide__page {
+  flex: 0 1 auto;
+}
+
+[data-viewport="tablet"] .guide--drawer.plan-guided:has(.answer-drawer:not(.is-peek)):not(:where([data-viewport="mobile"] *)) .guide__after {
+  display: none;
+}
+
+[data-viewport="tablet"] .guide--drawer.plan-guided:has(.answer-drawer:not(.is-peek)):not(:where([data-viewport="mobile"] *)) :is(.answer-drawer__wrap, .answer-drawer) {
+  flex: 1 1 auto;
+}
+
 /* The roadmap under the move, set apart from the move by space alone. */
 .plan-guided .guide__after {
   margin-top: var(--space-xl);
