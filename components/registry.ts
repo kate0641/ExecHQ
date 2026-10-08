@@ -103,6 +103,7 @@ import { signalEntrySheetStates } from "./plan/SignalEntrySheet/SignalEntrySheet
 import { momentumLabeledStates } from "./plan/MomentumLabeled/MomentumLabeled.states";
 import { planHeaderStates } from "./plan/PlanHeader/PlanHeader.states";
 import { planDetailSheetStates } from "./plan/PlanDetailSheet/PlanDetailSheet.states";
+import { planDirectionCardStates } from "./plan/PlanDirectionCard/PlanDirectionCard.states";
 import { addToPlanSheetStates } from "./plan/AddToPlanSheet/AddToPlanSheet.states";
 import { planGuidedStates } from "./plan/PlanGuided/PlanGuided.states";
 import { planAgendaStates } from "./plan/PlanAgenda/PlanAgenda.states";
@@ -207,6 +208,7 @@ export const registry: RegisteredComponent[] = [
   momentumLabeledStates,
   planHeaderStates,
   planDetailSheetStates,
+  planDirectionCardStates,
   stepChangePanelStates,
   addToPlanSheetStates,
   planGuidedStates,

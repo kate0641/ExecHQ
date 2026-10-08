@@ -1000,6 +1000,12 @@ export const PLAN_DETAIL_COPY = {
   close: "Close",
 } as const;
 
+/** Plan Concept 3: her direction at the head of the road under the move, opening the plan detail. */
+export const PLAN_DIRECTION_CARD_COPY = {
+  label: "Your direction",
+  more: "See your plan",
+} as const;
+
 /** Where the edit flow starts: the onboarding questions, pre-filled, ending back on the Plan. */
 export const EDIT_FLOW_HREF = "/onboarding/concept-3?edit=1";
 

@@ -15028,6 +15028,69 @@ ul.step-card__tiles {
   font-size: var(--text-3xl);
 }
 
+/* Plan Concept 3: the road under the move, her direction above the roadmap. */
+.plan-road {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+/* Plan Concept 3: her direction at the head of the road under the move. One button: it opens the plan detail. */
+.plan-direction {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  width: 100%;
+  padding: var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-raised);
+  color: var(--color-text-primary);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.plan-direction:hover,
+.plan-direction.is-hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-border-strong);
+}
+
+.plan-direction:active,
+.plan-direction.is-active {
+  background: var(--color-surface-active);
+}
+
+.plan-direction:focus-visible,
+.plan-direction.is-focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-card);
+}
+
+.plan-direction__label {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.plan-direction__quote {
+  font-family: var(--font-serif);
+  font-size: var(--text-md);
+  line-height: var(--leading-normal);
+}
+
+.plan-direction__more {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
 .plan-detail {
   display: flex;
   flex-direction: column;

@@ -13,6 +13,7 @@ import { Spark } from "@/components/homepage/Spark";
 import { ActionSteps } from "@/components/plan/ActionSteps";
 import { PlanAgenda, type AgendaItem } from "@/components/plan/PlanAgenda";
 import { PlanGuided } from "@/components/plan/PlanGuided";
+import { PlanDirectionCard } from "@/components/plan/PlanDirectionCard";
 import { PlanHeader } from "@/components/plan/PlanHeader";
 import { RoadmapTimeline } from "@/components/plan/RoadmapTimeline";
 import { CalendarItemSheet, type ItemValues } from "@/components/plan/CalendarItemSheet";
@@ -307,6 +308,15 @@ export function usePlanPage() {
     const record = step.artifactId ? loop.records.find((r) => r.id === step.artifactId) : undefined;
     return Boolean(record && ["drafted", "in-progress", "ready"].includes(record.state));
   };
+  // What the plan detail reads: Concept 1's header and Concept 3's direction card open the same sheet.
+  const planDetail = {
+    planId,
+    rationale: switchedTo ? RM.switchedOn(shortDate(choices?.startedOn ?? loop.today)) : (recommendPlan(start.account.direction).rationale ?? ""),
+    stage: Math.max(0, windows.findIndex((w) => w.status === "current")),
+    direction: loop.account.direction,
+    edited: loop.account.direction !== start.account.direction,
+    editHref: EDIT_FLOW_HREF,
+  };
   const guided = (
     <PlanGuided
       key={`guided-${loop.id}-${planId}`}
@@ -324,7 +334,13 @@ export function usePlanPage() {
       onStart={(step) => keepSteps(accept(stepState, step.id))}
       onAdd={addToPlan}
       // The move is already said above it, with its way to start, so the stage opens on its list.
-      roadmap={<PlanAgenda key={`agenda-${stepsKey}`} openFirstStep={false} {...agendaProps} />}
+      // Her direction heads the road it leads to, and opens the plan detail.
+      roadmap={
+        <div className="plan-road">
+          <PlanDirectionCard key={`direction-${loop.id}-${planId}`} {...planDetail} />
+          <PlanAgenda key={`agenda-${stepsKey}`} openFirstStep={false} {...agendaProps} />
+        </div>
+      }
     />
   );
 
@@ -355,15 +371,7 @@ export function usePlanPage() {
 
   // Concept 1: what her plan is, in a line, with Edit opening the detail and the edit flow.
   const planHeader = (
-    <PlanHeader
-      key={`plan-header-${loop.id}-${planId}`}
-      planId={planId}
-      rationale={switchedTo ? RM.switchedOn(shortDate(choices?.startedOn ?? loop.today)) : (recommendPlan(start.account.direction).rationale ?? "")}
-      stage={Math.max(0, windows.findIndex((w) => w.status === "current"))}
-      direction={loop.account.direction}
-      edited={loop.account.direction !== start.account.direction}
-      editHref={EDIT_FLOW_HREF}
-    />
+    <PlanHeader key={`plan-header-${loop.id}-${planId}`} {...planDetail} />
   );
 
   const note = switchedTo ? <p className="plan-stub__note">{RM.stepsStub}</p> : null;
