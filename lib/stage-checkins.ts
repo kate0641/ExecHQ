@@ -28,6 +28,8 @@ export interface StageCheckIn {
   feeling?: StageFeeling;
   /** Anything ExecHQ should know, in her words. */
   words?: string;
+  /** Steps she had passed on that this check-in brought back for another look. */
+  again?: string[];
 }
 
 /** By scenario, then by `<planId>:<stage index>`. */
@@ -85,3 +87,8 @@ export function useCheckIns(scenario: string): Record<string, StageCheckIn> {
   return useSyncExternalStore(subscribe, get, () => EMPTY)[scenario] ?? NONE;
 }
 const NONE: Record<string, StageCheckIn> = {};
+
+/** True when any check-in is saved in any scenario: something the dock's reset can undo. */
+export function useAnyCheckIns(): boolean {
+  return Object.keys(useSyncExternalStore(subscribe, get, () => EMPTY)).length > 0;
+}

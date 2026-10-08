@@ -354,6 +354,33 @@ export const HANDOFF_RULES: { says: RegExp; stepId: string }[] = [
 
 export const stepById = (id: string): ActionStep | undefined => ACTION_QUEUE.find((s) => s.id === id);
 
+/* -----------------------------------------------------------------------------
+   WHAT A STAGE CHECK-IN CHANGES (Plan Concept 3). Mock: in the product the
+   model chooses these from what she said. Step up only; another plan has none.
+   -------------------------------------------------------------------------- */
+
+/** Steps ExecHQ rates important: passed on once, they are offered once more at her next stage check-in.
+ *  Passed on twice, no step is ever offered again. */
+export const IMPORTANT_STEPS: readonly string[] = ["add-wins", "cross-functional", "ask-manager-scope"];
+
+/** For each stage, by index, the step aimed at what finishing it looks like: offered first when she says she
+ *  only partly got there, or not yet. */
+export const GAP_STEP: Readonly<Record<number, string>> = {
+  0: "bio",
+  1: "add-wins",
+  2: "map-decision-makers",
+  3: "scope-case",
+};
+
+/** A different way at the same thing, for a step that did not go the way she hoped. Never the same step again. */
+export const OTHER_WAY_STEP: Readonly<Record<string, string>> = {
+  "use-story": "linkedin-post",
+  "brief-manager": "share-result-up",
+  "add-wins": "share-result-up",
+  "q1-review": "sponsor-conversation",
+  "scope-case": "map-decision-makers",
+};
+
 /** How many may be live at once. Five in all, by the brief. */
 export const LIVE_LIMITS: Record<Horizon, number> = { short: 3, medium: 1, long: 1 };
 export const MAX_LIVE = 5;
@@ -1068,9 +1095,6 @@ export const STAGE_CHECKIN_COPY = {
   // The read-back.
   summaryKicker: (stage: string) => `Your check-in · ${stage}`,
   summaryTitle: "Your stage, in your words",
-  replySteady: (next: string | undefined) =>
-    next ? `Thanks. ${next} is next, and its first steps build on what went well here.` : "Thanks. ExecHQ builds what comes next on what went well here.",
-  replyUnsure: "Thanks for saying so. What comes next starts smaller, and you can talk any of it through first.",
   didHeading: "What you did",
   stillOpen: (n: number) => `${n === 1 ? "One thing is" : `${n} things are`} still unreported. You can tell ExecHQ later, from the thing itself.`,
   wentHeading: "How the stage went",
@@ -1085,6 +1109,19 @@ export const STAGE_CHECKIN_COPY = {
   recapOpen: "See your check-in",
   recapLater: "Tell ExecHQ how this stage went, and it builds on what worked.",
   recapStart: "Check in on this stage",
+  // What the check-in changes, said on the step it changed and in the read-back.
+  heardGapPartly: "You said you partly got what finishing looks like. This picks up what’s still missing.",
+  heardGapNotYet: "You said not yet, so the stage stays open. This is aimed at what’s missing.",
+  heardOtherWay: (title: string) => `“${title}” didn’t go the way you hoped. This is a different way at it.`,
+  heardAgain: "You passed on this before. Worth another look?",
+  replyThanks: "Thanks.",
+  replyThanksUnsure: "Thanks for saying so.",
+  replyYes: (next: string | undefined) => (next ? `${next} is next, and it builds on what went well here.` : "What comes next builds on what went well here."),
+  replyPartly: (next: string | undefined) => (next ? `${next} is next. Its first step picks up what’s still missing here.` : "Your next step picks up what’s still missing here."),
+  replyNotYet: "Then this stage stays open, with a step aimed at what’s missing.",
+  replyUnsureMore: "From here it’s one step at a time, and you can talk any of it through first.",
+  replyOtherWay: "Where something didn’t go the way you hoped, there’s a different way at it on your plan.",
+  replyAgain: "And one thing you passed on is back for another look.",
 } as const;
 
 /** Where the edit flow starts: the onboarding questions, pre-filled, ending back on the Plan. */

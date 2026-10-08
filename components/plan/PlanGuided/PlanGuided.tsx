@@ -41,6 +41,8 @@ export interface PlanGuidedProps {
   onStart: (step: ActionStep) => void;
   /** She added something of her own. Says which stage it fell in. */
   onAdd: (item: { title: string; date: LoopDate }) => number | void;
+  /** Why a move is on her plan, when something she said brought it there: "You passed on this before." */
+  heardOf?: (step: ActionStep) => string | undefined;
   /** The roadmap, read under the move. Always on the page; the open drawer covers it until she folds it. */
   roadmap?: ReactNode;
   /** Catalogue only. */
@@ -74,6 +76,7 @@ export function PlanGuided({
   workingOn,
   onStart,
   onAdd,
+  heardOf,
   demoPage,
   demoAnswered,
   roadmap,
@@ -258,6 +261,7 @@ export function PlanGuided({
           )
         }
       >
+        {!answer && heardOf?.(step) ? <p className="plan-guided__heard">{heardOf(step)}</p> : null}
         {answer ? <ReflectionReply from="ExecHQ" text={asking ? replyText : answer === "pass" ? [G.passed, passedLine[step.id]].filter(Boolean).join(" ") : replyText} /> : null}
         {asking ? (
           <div className="plan-guided__reasons">

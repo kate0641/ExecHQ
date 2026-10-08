@@ -61,6 +61,10 @@ export const stageCheckInStates = defineComponentStates({
       label: "The read-back when she is stuck: what comes next starts smaller",
       props: { ...base, demoPage: 5, demoAnswers: { milestone: "not-yet" as const, feeling: "stuck" as const, words: "Busy quarter, hard to find time." } },
     },
+    {
+      label: "The read-back after Not yet: the stage stays open, and something passed on is back",
+      props: { ...base, items: reported, demoPage: 3, offeredAgain: true, demoAnswers: { milestone: "not-yet" as const, feeling: "same" as const } },
+    },
     { label: "Everything already reported: straight to how the stage went", props: { ...base, items: reported } },
     { label: "Empty — nothing from the stage in ExecHQ", props: { ...base, items: [] } },
     {

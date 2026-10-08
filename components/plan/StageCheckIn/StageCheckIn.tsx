@@ -54,6 +54,8 @@ export interface StageCheckInProps {
   onLater: () => void;
   /** She is done reading it back. */
   onContinue: () => void;
+  /** Something she passed on before is back on her plan for another look: the read-back says so. */
+  offeredAgain?: boolean;
   /** Her answers from before, when she comes back to a check-in she has done. */
   saved?: StageCheckInAnswers;
   /** Where it opens: at the start, or on the read-back of one she has done. */
@@ -87,6 +89,7 @@ export function StageCheckIn({
   onSave,
   onLater,
   onContinue,
+  offeredAgain,
   saved,
   startAt = "start",
   focusOnOpen,
@@ -316,21 +319,33 @@ export function StageCheckIn({
     );
   }
 
-  // The read-back.
+  // The read-back. The reply says what her answers changed: the milestone first, then how she feels, then
+  // a different way at anything that did not go the way she hoped, then anything offered again.
   const unsure = answers.feeling === "stuck" || answers.feeling === "less-sure";
   const words = answers.words?.trim();
+  const notHoped = items.some((i) => asking.includes(i.id) && i.feedback?.tone === "negative");
+  const reply = [
+    unsure ? C.replyThanksUnsure : C.replyThanks,
+    answers.milestone === "not-yet" ? C.replyNotYet : answers.milestone === "partly" ? C.replyPartly(nextStageTitle) : C.replyYes(nextStageTitle),
+    unsure ? C.replyUnsureMore : null,
+    notHoped ? C.replyOtherWay : null,
+    offeredAgain ? C.replyAgain : null,
+  ]
+    .filter(Boolean)
+    .join(" ");
   return (
     <GuidePage
       {...top}
       kicker={C.summaryKicker(stageTitle)}
       title={C.summaryTitle}
       className={classes}
-      primaryLabel={focusOnOpen ? C.onTo(undefined) : C.onTo(nextStageTitle)}
+      // Not on to the next stage when she is already in it, or when she said this one is not finished yet.
+      primaryLabel={focusOnOpen || answers.milestone === "not-yet" ? C.onTo(undefined) : C.onTo(nextStageTitle)}
       onPrimary={onContinue}
       secondaryLabel={C.change}
       onSecondary={() => go(pages.indexOf("milestone"))}
     >
-      <ReflectionReply from="ExecHQ" text={unsure ? C.replyUnsure : C.replySteady(nextStageTitle)} />
+      <ReflectionReply from="ExecHQ" text={reply} />
       <section className="stage-checkin__section" aria-labelledby={`${headingId}-did`}>
         <h2 className="stage-checkin__heading" id={`${headingId}-did`}>
           {C.didHeading}

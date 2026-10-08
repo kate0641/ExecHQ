@@ -17,6 +17,7 @@
  * - Replacement is capped: one per horizon per visit. After that the slot
  *   stays empty and says so, so repeated declines cannot become a conveyor belt.
  * - Declining and deferring are never counted against her anywhere.
+ * - A step she has passed on twice is never offered again, by any route.
  */
 
 import { addDays, datePhrase, type LoopDate } from "@/lib/loop";
@@ -71,7 +72,13 @@ export interface PlanState {
   /** The day each step she has accepted, or moved, sits on her calendar. A step with no
    *  day here is only suggested one (`lib/step-dates.ts`). Absent in older saved state. */
   dates?: Record<string, LoopDate>;
+  /** How many times she has passed on each step. Two, and it is never offered again. Absent in older saved state. */
+  passes?: Record<string, number>;
 }
+
+/** Passed on this many times, a step is never offered again. */
+export const MAX_PASSES = 2;
+export const passedOut = (state: PlanState, id: string): boolean => (state.passes?.[id] ?? 0) >= MAX_PASSES;
 
 export type EmptyReason = keyof typeof PLAN_COPY.empty;
 
@@ -96,6 +103,7 @@ export function initialPlanState(today: LoopDate): PlanState {
   const decisions: Record<string, Decision> = {};
   const shown: string[] = [];
   const dates: Record<string, LoopDate> = {};
+  const passes: Record<string, number> = {};
   for (const step of ACTION_QUEUE) {
     if (step.status === "accepted") {
       shown.push(step.id);
@@ -105,9 +113,10 @@ export function initialPlanState(today: LoopDate): PlanState {
       decisions[step.id] = { decision: "deferred", on: today, returnsOn: addDays(today, DEFAULT_DEFER_DAYS) };
     } else if (step.status === "declined") {
       decisions[step.id] = { decision: "declined", on: today, reason: "not-relevant" };
+      passes[step.id] = 1;
     }
   }
-  return { today, shown, decisions, avoidChannels: [], replaced: {}, edits: {}, dates };
+  return { today, shown, decisions, avoidChannels: [], replaced: {}, edits: {}, dates, passes };
 }
 
 export const liveSteps = (state: PlanState): ActionStep[] =>
@@ -162,7 +171,12 @@ export function newVisit(state: PlanState, today: LoopDate): PlanState {
 export function decline(state: PlanState, id: string, reason?: DeclineReason, note?: string): Move {
   const step = stepById(id);
   if (!step || !state.shown.includes(id)) return { state };
-  let next: PlanState = { ...state, shown: without(state.shown, id), dates: withoutDate(state.dates, id) };
+  let next: PlanState = {
+    ...state,
+    shown: without(state.shown, id),
+    dates: withoutDate(state.dates, id),
+    passes: { ...state.passes, [id]: (state.passes?.[id] ?? 0) + 1 },
+  };
   // Wrong timing is the one reason that is about when, not whether: it comes
   // back once, later.
   const returnsOn = reason === "wrong-timing" ? addDays(state.today, WRONG_TIMING_RETURNS_AFTER_DAYS) : undefined;
@@ -238,6 +252,7 @@ const emptyOf = (reason: EmptyReason): Replacement => ({ empty: reason, message:
  *  whose date has come, offered again once. */
 function eligible(state: PlanState, step: ActionStep): boolean {
   if (state.shown.includes(step.id)) return false;
+  if (passedOut(state, step.id)) return false;
   if (step.channel && state.avoidChannels.includes(step.channel)) return false;
   const d = state.decisions[step.id];
   if (!d) return true;

@@ -20,7 +20,7 @@
 import { useMemo, useSyncExternalStore } from "react";
 import { reopenBriefing, useBriefingEverClosed } from "@/lib/briefing-dismissal";
 import { closeDirection } from "@/lib/direction-open";
-import { resetCheckIns } from "@/lib/stage-checkins";
+import { resetCheckIns, useAnyCheckIns } from "@/lib/stage-checkins";
 import { resetPresence, useAddedPresence, useBaseline } from "@/lib/presence-store";
 import { reopenSparks, useDismissedSparks } from "@/lib/spark-dismissal";
 import { resetLinkedInExport } from "@/lib/linkedin-store";
@@ -303,6 +303,7 @@ export function useLoop(): LoopView {
   const presenceAdded = useAddedPresence().length > 0;
   const baselineSaved = useBaseline() !== null;
   const roadmapChanged = useRoadmapChanged();
+  const checkInsSaved = useAnyCheckIns();
   return useMemo(() => {
     const snapshot = currentSnapshot(state);
     const followUp = nextFollowUp(snapshot.records, snapshot.today);
@@ -313,7 +314,7 @@ export function useLoop(): LoopView {
       lastWorkedOn: lastWorkedOn(snapshot.records),
       nextStep: snapshot.recommendations[0],
       changed: state.changes[state.snapshot] !== undefined,
-      anyChanged: Object.keys(state.changes).length > 0 || briefingClosed || sparksDismissed || presenceAdded || baselineSaved || roadmapChanged,
+      anyChanged: Object.keys(state.changes).length > 0 || briefingClosed || sparksDismissed || presenceAdded || baselineSaved || roadmapChanged || checkInsSaved,
     };
-  }, [state, briefingClosed, sparksDismissed, presenceAdded, baselineSaved, roadmapChanged]);
+  }, [state, briefingClosed, sparksDismissed, presenceAdded, baselineSaved, roadmapChanged, checkInsSaved]);
 }

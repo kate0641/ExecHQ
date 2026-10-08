@@ -36,6 +36,7 @@ import { roadmapWindows, stageAt } from "@/lib/roadmap-dates";
 import { whenWords } from "@/lib/time-words";
 import { saveCalendar, saveRoadmap, saveSteps, useCalendar, useRoadmapChoices, useSavedSteps } from "@/lib/plan-store";
 import { checkInKey, saveCheckIn, useCheckIns } from "@/lib/stage-checkins";
+import { applyCheckIn } from "@/lib/check-in-effects";
 import { addedSummary, hasBaseline, signalRows, withAdded } from "@/lib/presence";
 import { addPresence, removePresence, saveBaseline, saveCurrent, updatePresence, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
 import { currentStageIndex, isDone as isActionDone } from "@/lib/rings";
@@ -54,7 +55,7 @@ import {
 } from "@/mock/accounts-stub";
 import { PLAN_TEMPLATES, recommendPlan } from "@/mock/onboarding";
 import type { ActionStep, StepQuestion } from "@/mock/plan";
-import { ACTION_QUEUE, EDIT_FLOW_HREF, STAGE_CHECKIN_COPY, CARD_QUESTIONS, STEP_QUESTIONS, type DeclineReason, type GuidedAnswer, ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
+import { ACTION_QUEUE, GAP_STEP, stepById, EDIT_FLOW_HREF, STAGE_CHECKIN_COPY, CARD_QUESTIONS, STEP_QUESTIONS, type DeclineReason, type GuidedAnswer, ENTRY_TYPES, ROADMAP_COPY as RM, SIGNAL_PICTURE_COPY as SPIC, entryTypeOfKind, roadmapFor } from "@/mock/plan";
 import { ACTIONS } from "@/mock/plan-stub";
 import { SNAPSHOTS } from "@/mock/snapshots";
 import type { CalendarItem } from "@/mock/plan";
@@ -196,10 +197,29 @@ export function usePlanPage() {
 
   // One plan, one set of stage windows, for the timeline, the agenda and the check-in.
   const calendarItems = useCalendar(loop.id);
+  // A stage she said she has not finished yet, at her check-in, stays open until the step aimed at what's
+  // missing is done. Read from her answer, so changing it changes this back.
+  const reopenStage = Object.entries(checkIns)
+    .filter(([key, c]) => key.startsWith(`${planId}:`) && c.status === "done" && c.milestone === "not-yet")
+    .map(([key]) => Number(key.split(":").pop()))
+    .filter((stage) => {
+      const gap = stepById(GAP_STEP[stage] ?? "");
+      return gap ? !isActionDone(gap, loop.records, loop.tasks) : false;
+    })
+    .sort((a, b) => b - a)[0];
+  const openChoices =
+    reopenStage === undefined
+      ? choices
+      : {
+          ...(choices ?? { planId, startedOn: loop.account.plan.startedOn, snoozedAt: null, history: [] }),
+          confirmed: reopenStage,
+          finishedOn: Object.fromEntries(Object.entries(choices?.finishedOn ?? {}).filter(([i]) => Number(i) !== reopenStage)),
+          recommended: null,
+        };
   const windows = roadmapWindows({
     planId: loop.account.plan.id,
     startedOn: loop.account.plan.startedOn,
-    choices,
+    choices: openChoices,
     evidenceStage: currentStageIndex(loop.records, roadmapFor(loop.account.plan.id).length, ACTIONS, loop.tasks),
     startStage: currentStageIndex(start.records, roadmapFor(loop.account.plan.id).length, ACTIONS, start.tasks),
     today: loop.today,
@@ -332,7 +352,9 @@ export function usePlanPage() {
   // The stage check-in. ExecHQ decides a stage is finished, from her work; the most recent finished stage
   // she has not checked in on (or put off) opens the check-in in place of the moves. Older ones stay history.
   const lastDone = [...windows].reverse().find((w) => w.status === "done");
-  const dueKey = lastDone && !checkIns[checkInKey(planId, lastDone.index)] ? checkInKey(planId, lastDone.index) : null;
+  // Never one behind a stage she has already checked in on, such as one she said is not finished yet.
+  const checkedLater = lastDone ? windows.some((w) => w.index > lastDone.index && checkIns[checkInKey(planId, w.index)]) : false;
+  const dueKey = lastDone && !checkedLater && !checkIns[checkInKey(planId, lastDone.index)] ? checkInKey(planId, lastDone.index) : null;
   // The one opened by hand belongs to this scenario only: switching scenarios leaves it behind.
   const showing = checkInShowing?.scenario === loop.id ? checkInShowing : null;
   const checkInStage = windows.find((w) => checkInKey(planId, w.index) === (showing?.key ?? dueKey));
@@ -406,7 +428,27 @@ export function usePlanPage() {
       onSave={(answers) => {
         const key = checkInKey(planId, checkInStage.index);
         setCheckInShowing({ scenario: loop.id, key, startAt: "summary" });
-        saveCheckIn(loop.id, key, { status: "done", on: loop.today, ...answers, words: answers.words?.trim() || undefined });
+        // What she said changes her plan: a step at the gap, a different way at what didn't go as hoped, and
+        // an important step she passed on, once more. Steps are written for Step up only.
+        let again = savedCheckIn?.again ?? [];
+        if (!switchedTo) {
+          const notHoped = didInStage(checkInStage.index)
+            .filter((i) => i.from !== "you" && i.feedback?.tone === "negative")
+            .map((i) => i.id);
+          const effect = applyCheckIn(stepState, {
+            stage: checkInStage.index,
+            milestone: answers.milestone,
+            notHoped,
+            isDone: (id) => {
+              const step = stepById(id);
+              return step ? isActionDone(step, loop.records, loop.tasks) : false;
+            },
+          });
+          const heard = Object.fromEntries(Object.entries(effect.heard).map(([id, line]) => [id, { heard: line }]));
+          saveSteps(stepsKey, { state: effect.state, notes: { ...savedSteps?.notes, ...heard }, empties: savedSteps?.empties ?? {} });
+          again = [...again, ...Object.keys(effect.heard).filter((id) => effect.heard[id] === STAGE_CHECKIN_COPY.heardAgain)];
+        }
+        saveCheckIn(loop.id, key, { status: "done", on: loop.today, ...answers, words: answers.words?.trim() || undefined, again });
       }}
       onLater={() => {
         // Putting off one she has already done keeps her answers.
@@ -415,6 +457,7 @@ export function usePlanPage() {
       }}
       onContinue={() => setCheckInShowing(null)}
       saved={savedCheckIn?.status === "done" ? savedCheckIn : undefined}
+      offeredAgain={Boolean(savedCheckIn?.again?.length)}
       startAt={showing?.startAt}
       focusOnOpen={showing?.fromRoadmap}
     />
@@ -423,7 +466,7 @@ export function usePlanPage() {
   const checkInNote = (index: number) => {
     const key = checkInKey(planId, index);
     const saved = checkIns[key];
-    if (!saved || windows[index]?.status !== "done") return null;
+    if (!saved || (windows[index]?.status !== "done" && index !== reopenStage)) return null;
     return (
       <CheckInRecap
         status={saved.status}
@@ -435,13 +478,22 @@ export function usePlanPage() {
     );
   };
 
+  const hereIndex = windows.findIndex((w) => w.status === "current");
+  const unsureAt = (index: number) => {
+    const c = checkIns[checkInKey(planId, index)];
+    return c?.status === "done" && (c.feeling === "stuck" || c.feeling === "less-sure");
+  };
+  const oneAtATime = hereIndex >= 0 && (unsureAt(hereIndex) || unsureAt(hereIndex - 1));
+
   const guided = stageCheckIn ?? (
     <PlanGuided
       key={`guided-${loop.id}-${planId}`}
       planName={PLAN_TEMPLATES.find((p) => p.id === planId)?.name ?? ""}
       stageIndex={Math.max(0, windows.findIndex((w) => w.status === "current"))}
       stages={guidedStages}
-      moves={live}
+      // Stuck or less sure at her last check-in: one step at a time while the stage after it runs.
+      moves={oneAtATime ? live.slice(0, 1) : live}
+      heardOf={(step) => savedSteps?.notes?.[step.id]?.heard}
       whenOf={(step) => whenWords(stepDay(stepState, step).date, loop.today)}
       today={loop.today}
       startHref={conceptHref("toolbox-flow", "concept-1")}

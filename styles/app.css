@@ -15908,6 +15908,16 @@ fieldset.agenda__whens {
   font-weight: var(--weight-semibold);
 }
 
+/* Why a move is on her plan, when something she said at a stage check-in brought it there. */
+.plan-guided__heard {
+  margin: 0;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-sunken);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
 .plan-guided__reasons {
   display: flex;
   flex-direction: column;

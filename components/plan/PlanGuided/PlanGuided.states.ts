@@ -84,6 +84,10 @@ export const planGuidedStates = defineComponentStates({
       label: "Not for me: after the reason, what was offered in its place",
       props: { ...base, demoPage: 2, demoAnswered: { "q1-review": "pass" }, demoPassed: { "q1-review": "A lighter one this time. Now offered: Add three recent accomplishments." } },
     },
+    {
+      label: "Brought back by her stage check-in: why it is here",
+      props: { ...base, heardOf: (step: { id: string }) => (step.id === "use-story" ? "You passed on this before. Worth another look?" : undefined) },
+    },
     { label: "A draft is under way: the start button says keep working on it", props: { ...base, workingOn: () => true } },
     { label: "A move with no tool starts by putting it in her week", props: { ...base, moves: [stepById("add-wins")!, ...moves], demoPage: 0 } },
     { label: "The last page — where the plan stands", props: { ...base, demoPage: 4 } },
