@@ -22,8 +22,8 @@ What it deliberately does not do:
 - **Connect to anything.** In V1 there is nothing to connect: the only outside data is a LinkedIn analytics spreadsheet the person exports and uploads themselves.
 - **Score, rank or compare.** No answer, fact or plan ranks the person against anyone.
 - **Post or share anything.** Nothing leaves the person's account.
-- **Ask for more than it needs.** An email, an invite code (or saying there is none), a direction, a choice of plan and an answer to each reflection are the only required steps. Every other question can be skipped, and the person can come back to it.
-- **Ask the person to type an answer.** Every question is a choice. The only typing is the account email, an invite code, and refining the story (section 3.10).
+- **Ask for more than it needs.** An email (typed and confirmed, or from Google or Apple), an invite code (or saying there is none), a direction, a choice of plan and an answer to each reflection are the only required steps. Every other question can be skipped, and the person can come back to it.
+- **Ask the person to type an answer.** Every question is a choice. The only typing is the account email, its 6-digit confirmation code, an invite code, and refining the story (section 3.10).
 - **Show progress as a number.** There are no step counters or percentages in the flow.
 
 ### Where it appears
@@ -42,7 +42,7 @@ The prototype's step bar names twelve steps. A few pages are reached only from a
 | --- | --- | --- | --- |
 | 1 | Welcome | The opening statement | — |
 | 2 | What ExecHQ is | What it is, in one page, and the privacy promise | — |
-| 3 | Account | Email, and whether they have an invite code | Email, and an invite code or "I don't have a code" |
+| 3 | Account | Google, Apple or an email, and whether they have an invite code. *Aside:* Check your email, for a typed address | An email, confirmed by its code or by Google or Apple, and an invite code or "I don't have a code" |
 | 4 | Signals | Optionally bring in LinkedIn numbers. *Aside:* the LinkedIn upload page | No |
 | 5 | Direction | Where the person wants to go: pick, then narrow it down | At least one pick |
 | 6 | Recommendation | A question about what is in the way (for most directions), then the recommended plan, chosen here. *Aside:* the other plans | Choose a plan |
@@ -54,8 +54,12 @@ The prototype's step bar names twelve steps. A few pages are reached only from a
 | 12 | Done | What is saved and what to do next | — |
 
 ```
-Welcome ─▶ What ExecHQ is ─▶ Account ─▶ Signals ──(Add)──▶ LinkedIn upload ─┐
-                                           │◀───────────────────────────────┘
+Welcome ─▶ What ExecHQ is ─▶ Account ──(typed email)──▶ Check your email ─┐
+                                │ (Google or Apple)                         │
+                                ▼                                           │
+                             Signals ◀──────────────────────────────────────┘
+                                │ ──(Add)──▶ LinkedIn upload ─┐
+                                │◀────────────────────────────┘
                                            ▼
                                        Direction ─▶ Narrow it down ─┐
                                                                     ▼
@@ -119,13 +123,27 @@ The privacy promise is said here, before anything personal is asked. There is no
 
 - Label **Your account.** Heading: **First, somewhere to keep all this.** Line: "Your plan and your story are saved to your account, so you can come back to them."
 - "Why this matters": "Everything you tell ExecHQ builds on what came before. Your account is how it remembers, and how you come back to it."
-- The answer drawer asks **What's your email?** (one field, placeholder you@example.com), then **Do you have an invite code?** with two equal choices, **I have an invite code** and **I don't have a code.** Choosing the first opens an **Invite code** field and puts the cursor in it. Button **Continue.**
+- The answer drawer opens with **Continue with Google** and **Continue with Apple**, the same buttons as Login's, then a divider reading "or", then **What's your email?** (one field, placeholder you@example.com). Under them, **Do you have an invite code?** with two equal choices, **I have an invite code** and **I don't have a code.** Choosing the first opens an **Invite code** field and puts the cursor in it. Button **Continue.**
+- **Google or Apple** opens that provider's own account picker (a stand-in in the prototype, as on Login). Once an account is picked, the buttons, the divider and the field give way to one line: a small label **With Google** (or **With Apple**), the address, and **Change.** Change brings the buttons and an empty field back, with the cursor in the field. The invite-code question stays, and is still required.
 
 Rules:
 
-- **Any address is accepted,** work or personal, by decision on 2026-09-22: the account is the person's and they can change the address whenever they like. An empty field shows "We need an email address to create the account."
-- **The invite code is a required choice.** The person must say which: enter a code, or choose **I don't have a code.** **Continue** stays off until they have, and until a code is typed if they chose to have one. A recognized code is kept. An unrecognized one shows the notice "We do not recognize that code. Check it against the invitation you were sent. If you don't have one, choose "I don't have a code". A code only changes who pays, never what you get." Coming back to the page, the choice made is kept.
+- **Any address is accepted,** work or personal, by decision on 2026-09-22: the account is the person's and they can change the address whenever they like. That holds for Google and Apple too: a work Google account and Apple's **Hide my email** relay address both make an account, with no warning. An empty field shows "We need an email address to create the account."
+- **The invite code is a required choice.** The person must say which: enter a code, or choose **I don't have a code.** **Continue** stays off until they have, and until a code is typed if they chose to have one. A recognized code is kept. An unrecognized one shows the notice "We do not recognize that code. Check it against the invitation you were sent. If you don't have one, choose "I don't have a code". A code only changes who pays, never what you get." Coming back to the page, the choice made is kept, and so is the way in (Google, Apple or a typed email).
 - **Continue sends the answer in one press,** with the keyboard up. Return on a real keyboard does the same.
+- **Where Continue goes.** With Google or Apple, the address is already confirmed, so Continue goes straight to Signals. With a typed address it goes to **Check your email** (3.3a), unless that same address has already been confirmed in this session.
+
+### 3.3a Check your email
+
+Reached only from Account, for a typed address, by decision on 2026-10-08. It has no step of its own on the step bar. The code works the same way as Login's (see the Login spec).
+
+- Label **Your account.** Heading: **Check your email.** Line: "ExecHQ has sent a 6-digit code to {email}. It works for 10 minutes."
+- "Why this matters": "So the account is yours: only someone with your inbox can open it, and it's where your plan and your story come back to you."
+- The answer drawer asks **Type the code from the email.** with six code cells (one real field, so pasting and the phone's code suggestion work). Under it, a row with **Send it again** (after a 30-second wait, shown as "Send it again in 29s") and **Use a different address**, which goes back to Account with the address in its field. Then "Nothing arrived? Check your junk folder." Button **Continue**, off until six digits are typed.
+- **The email arrives** about 1.6 seconds after the page opens, as the phone's own notification over the top of the page: **ExecHQ**, **Confirm your email**, "Here's the code to finish setting up." Its arrival is announced politely. Tapping it opens the email in a sheet: subject **Confirm your email**, the line "Type this code in ExecHQ to confirm your email:", the code large, and "This code works for 10 minutes and only once. If you didn't ask for it, you can ignore this email." **Inbox** closes it.
+- **The subject and preview say nothing about the person's career,** so nothing private shows on a lock screen, the same rule as Login's email.
+- **Send it again** clears the cells, sends a new email (it arrives the same way) and announces "Sent again."
+- Continue confirms the address and goes on to Signals.
 
 ### 3.4 Signals
 
@@ -306,7 +324,7 @@ Every page after the Welcome is one **guide page**, in this order: a small label
 
 ### 4.3 The answer pattern
 
-Used by Direction, the deciding question, the "Making it yours" questions and the reflections. **The one place the person types is the account email and, if they have one, an invite code, and the details they add to refine their story** (3.10):
+Used by Direction, the deciding question, the "Making it yours" questions and the reflections. **The one place the person types is the account email and its code, and, if they have one, an invite code, and the details they add to refine their story** (3.10):
 
 1. **Options** are equal-width buttons, one to a row, never wrapping tags.
 2. **Choices only.** There is no field to type an answer in. Where the person's situation is not listed, **None of these? Show me more options** adds more, and **Skip this one** is always there.
@@ -424,6 +442,9 @@ Use the design tokens in the real build, never the raw numbers. The pixel values
 | Option buttons | Full column width, one to a row | none |
 | Drawer top corners | 20px | `--radius-xl` |
 | Drawn keyboard | Four rows, about 256px tall | none (fixed) |
+| Code email arrives | 1.6 seconds after the page opens (prototype) | none |
+| Wait before "Send it again" | 30 seconds | none |
+| Email notification | Inset 16px from the top and sides; on web, 24rem wide at the top right | `--space-md` |
 | Generating state | 1.1 seconds (prototype) | none |
 | LinkedIn file read | 8 seconds, in the background (prototype) | none |
 | Focus ring | 1.5px solid, 2px offset | `--focus-ring`, `--focus-ring-offset` |
@@ -492,6 +513,8 @@ Production must give every control a tappable area of at least 44px, drawn small
 | `GuidePage` | The page: label, heading, line, content, "Why this matters", actions, and the drawer. |
 | `AnswerDrawer`, `DeviceKeyboard` | The drawer that carries the answer, and the drawn keyboard. |
 | `ChipGroup`, `Input`, `ToggleGroup` | The options (equal-width, single or several), the fields, and the length switch. |
+| `ProviderButtons`, `AccountPicker` | Continue with Google and Apple, and the stand-in for each provider's picker. Shared with Login. |
+| `CodeField`, `MailNotification`, `SignInEmail`, `Sheet` | The six code cells, the email's notification (carried by `GuidePage`'s overlay), the drawn email with onboarding's wording, and the sheet it opens in. Shared with Login. |
 | `PointList`, `RecommendationCard`, `ReflectionReply` | Numbered points and the private promise; the plan card; the pull-quote reply and its fact. |
 | `ThisWeekCard`, `StoryDraft`, `StoryText`, `ExportLinks`, `NextSteps` | The task card with its data; the editable draft; the story with its gaps; Copy, Download and Email; the "What next?" choices. |
 | `SignalSources`, `LinkedInUpload`, `LinkedInSteps` | The LinkedIn row, and the upload page and its steps. |
@@ -508,6 +531,8 @@ Production must give every control a tappable area of at least 44px, drawn small
 | --- | --- |
 | Nothing is stored. Answers live in the page and are lost on reload. | The account is created and the flow can be resumed (see Open questions). |
 | Any non-empty email is accepted. Any invite code is accepted, as long as one is typed or "I don't have a code" is chosen. | Any address is accepted, as decided. The invite code is checked, and an unrecognised one shows the notice. |
+| Google and Apple open a drawn stand-in for their pickers, with marks in one colour. | Their own sign-in windows, with the buttons drawn to Google's and Apple's brand rules. |
+| No email is sent. The code email is drawn on screen; any six digits confirm the address, and codes never expire. | A real code is emailed, works once for 10 minutes, and a wrong or expired one shows an error with the field. |
 | Nothing is sent. "Email me these steps", "Email it to me" and "Download" confirm what they would do. | They send and download for real. |
 | The LinkedIn file is never read, only named. Reading is a timer. | The file is read and the figures are used for the plan and the drafts. |
 | The first draft, the versions and the replies are written from fixed templates. | They are written for the person (the generation approach is not specified here). |
@@ -542,6 +567,7 @@ These are settled. They are the specified behavior. The dates are when they were
 18. **The story build-out is the Toolbox, and the pages say so.** The draft, add-detail and longer-versions pages are labeled "Toolbox · Positioning Builder," the Toolbox is explained once on the first draft, and Done says "In your Toolbox" on the story steps that are left. Onboarding does not use the Toolbox's own frame or navigation. (2026-10-02)
 19. **Tablet is the phone layout; only web changes.** On web the answers sit in a card beside the question, with no bottom sheet and no drawn keyboard, and the Welcome splits as Login's does. (2026-10-02)
 20. **On web the longer versions fill in live,** beside their fields, with no button. On phone and tablet a button applies the answers. (2026-10-02)
+21. **Google and Apple sign up on Account,** the same buttons as Login's, and any account they give is accepted. A typed email is confirmed on a page of its own by a 6-digit code, the same as Login's; Google and Apple pass it, because they have confirmed the address already. (2026-10-08)
 
 ---
 
@@ -551,7 +577,7 @@ These are not decided. They need an answer before this is built.
 
 1. **Two plans have no sourced "Why now" data:** Get ready for a big moment and Grow your influence where you are. The Step up figure (LinkedIn @Work study, 46%) needs its original date and sample confirmed.
 2. **Tap targets.** Most controls are 30 to 40px. They need a 44px tappable area (section 6).
-3. **How the account is made and signed in to.** The email is asked here, but nothing says whether it is verified at this point or only on the person's next sign-in by the emailed code (see the Login spec).
+3. **What a wrong or expired code does at sign-up.** The prototype takes any six digits. The words for a wrong code and an expired one are Login's, but whether onboarding uses the same screens, and how many tries are allowed, is not decided. Linking an Apple relay address to the person's real one later is open, as on Login.
 4. **What the invite code does.** The notice says a code "only changes who pays." What the code is, who issues it and how it is checked is not specified.
 5. **Leaving part-way.** Whether a person who leaves can return to where they were, and what is kept, is not designed.
 6. **Reflections cannot be skipped.** Every other question can. Whether that is intended is not decided.
