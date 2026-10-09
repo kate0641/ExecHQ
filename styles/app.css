@@ -12132,8 +12132,10 @@ ul.login__never {
   --sky-ring: var(--color-sky-day-ring);
   /* Day's yellow reaches further than dawn's and dusk's peach. */
   --sky-ring-size: 80% 170%;
+  /* and its peach is a small core (designer, 2026-10-09: less peach). */
+  --sky-heart-size: 18% 42%;
   --home-header-wash:
-    radial-gradient(ellipse 30% 70% at 50% 100%, var(--sky-heart), transparent),
+    radial-gradient(ellipse var(--sky-heart-size) at 50% 100%, var(--sky-heart), transparent),
     radial-gradient(ellipse var(--sky-ring-size) at 50% 100%, var(--sky-ring), transparent 70%),
     linear-gradient(var(--sky-blue), var(--sky-blue));
 }
@@ -12145,6 +12147,7 @@ ul.login__never {
   --sky-heart: var(--color-sky-heart-light);
   --sky-ring: var(--color-sky-heart-warm);
   --sky-ring-size: 60% 140%;
+  --sky-heart-size: 30% 70%;
 }
 
 .device__screen:has(.map-home__greeting[data-sky="dusk"]) {
@@ -12152,6 +12155,7 @@ ul.login__never {
   --sky-heart: var(--color-sky-heart-light);
   --sky-ring: var(--color-sky-heart-warm);
   --sky-ring-size: 60% 140%;
+  --sky-heart-size: 30% 70%;
 }
 
 /* Night: darkest navy at the top fading down to a blue glow, a brighter
