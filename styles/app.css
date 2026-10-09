@@ -9327,10 +9327,9 @@ ol.signal__list {
 
 /* Light through a window: soft patches of white drifting over the
    photograph, under the fade. Only position and opacity move, so the phone's
-   graphics chip does the work. For now it loops so the motion can be judged
-   (designer, 2026-10-09); before handoff it plays once for about 5 seconds,
-   since a loop that runs on needs a pause control (WCAG 2.2.2). Still with
-   reduced motion. */
+   graphics chip does the work. It plays once, for 5 seconds when Home
+   opens, then rests: anything that moves on its own for longer needs a
+   pause control (WCAG 2.2.2). Still with reduced motion. */
 .briefing-editorial__light {
   position: absolute;
   inset: 0 0 auto;
@@ -9357,20 +9356,21 @@ ol.signal__list {
 @media (prefers-reduced-motion: no-preference) {
   /* The photograph sways very slowly underneath. */
   .briefing-editorial--cover::before {
-    animation: cover-photo-drift 20s ease-in-out infinite;
+    animation: cover-photo-drift 5s ease-in-out both;
   }
 
   .briefing-editorial__light > span {
-    animation: cover-flicker 6s ease-in-out infinite;
+    animation: cover-flicker 4.2s ease-in-out both;
   }
 
-  .briefing-editorial__light > span:nth-child(2) { animation-duration: 7.5s; animation-delay: -2.5s; }
-  .briefing-editorial__light > span:nth-child(3) { animation-duration: 9s; animation-delay: -5s; }
+  /* Once through, staggered, all done by 5 seconds. */
+  .briefing-editorial__light > span:nth-child(2) { animation-duration: 4.4s; animation-delay: 0.3s; }
+  .briefing-editorial__light > span:nth-child(3) { animation-duration: 4.2s; animation-delay: 0.8s; }
 }
 
 @keyframes cover-photo-drift {
-  0%, 100% { transform: scale(1.1) translate(0, 0); }
-  50% { transform: scale(1.14) translate(-2%, 1%); }
+  0% { transform: scale(1.14) translate(-2%, 1%); }
+  100% { transform: scale(1.1) translate(0, 0); }
 }
 
 /* An uneven glint: brightens, dips, catches again, with a slight shift. */
@@ -9413,6 +9413,26 @@ ol.signal__list {
   font-weight: var(--weight-serif-medium);
   color: var(--color-text-primary);
   line-height: var(--leading-normal);
+}
+
+/* On the cover, the name and date sit at the top on the pale photograph,
+   in dark green (designer, 2026-10-09). */
+.briefing-editorial--cover .briefing-editorial__top {
+  position: absolute;
+  top: var(--space-md);
+  left: var(--space-md);
+  right: var(--space-md);
+}
+
+.briefing-editorial--cover .briefing-editorial__heading,
+.briefing-editorial--cover .briefing-editorial__meta {
+  color: var(--color-text-on-cover);
+}
+
+/* On the cover the headline is a step larger (designer, 2026-10-09). */
+.briefing-editorial--cover .briefing-editorial__lead {
+  font-size: var(--text-xl);
+  line-height: var(--leading-snug);
 }
 
 .briefing-editorial__foot {
