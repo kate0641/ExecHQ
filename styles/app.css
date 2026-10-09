@@ -9325,6 +9325,66 @@ ol.signal__list {
     );
 }
 
+/* Light through a window: soft patches of white drifting over the
+   photograph, under the fade. Only position and opacity move, so the phone's
+   graphics chip does the work. For now it loops so the motion can be judged
+   (designer, 2026-10-09); before handoff it plays once for about 5 seconds,
+   since a loop that runs on needs a pause control (WCAG 2.2.2). Still with
+   reduced motion. */
+.briefing-editorial__light {
+  position: absolute;
+  inset: 0 0 auto;
+  height: calc(var(--briefing-cover-height) + var(--space-lg));
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.briefing-editorial__light::before,
+.briefing-editorial__light::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--color-cover-light) 90%, transparent), transparent);
+  opacity: 0;
+}
+
+.briefing-editorial__light::before {
+  width: 55%;
+  height: 70%;
+  top: 5%;
+  left: 10%;
+}
+
+.briefing-editorial__light::after {
+  width: 40%;
+  height: 55%;
+  top: 20%;
+  left: 55%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .briefing-editorial__light::before {
+    animation: cover-light-a 11s ease-in-out infinite;
+  }
+
+  .briefing-editorial__light::after {
+    animation: cover-light-b 14s ease-in-out infinite;
+  }
+}
+
+@keyframes cover-light-a {
+  0%, 100% { opacity: 0.1; transform: translate(-10%, 10%) scale(0.9); }
+  35% { opacity: 1; transform: translate(25%, 0) scale(1.1); }
+  65% { opacity: 0.5; transform: translate(45%, 15%) scale(1); }
+}
+
+@keyframes cover-light-b {
+  0%, 100% { opacity: 0.8; transform: translate(10%, 0) scale(1); }
+  40% { opacity: 0.1; transform: translate(-40%, 15%) scale(1.15); }
+  70% { opacity: 1; transform: translate(-20%, -10%) scale(1); }
+}
+
 .briefing-editorial__top {
   display: flex;
   flex-wrap: wrap;

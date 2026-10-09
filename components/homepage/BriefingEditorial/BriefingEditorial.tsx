@@ -42,6 +42,7 @@ export function BriefingEditorial({
       href={href}
       className={["briefing-editorial", cover ? "briefing-editorial--cover" : null, demo ? `is-${demo}` : null, className].filter(Boolean).join(" ")}
     >
+      {cover ? <span className="briefing-editorial__light" aria-hidden="true" /> : null}
       <span className="briefing-editorial__top">
         <span className="briefing-editorial__heading">{heading}</span>
         <span className="briefing-editorial__meta">{meta}</span>
