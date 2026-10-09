@@ -12134,13 +12134,10 @@ ul.login__never {
     linear-gradient(var(--sky-blue), var(--sky-blue));
 }
 
-/* Dawn's blue deepens outward, from blue 100 around the heart to blue 200
-   at the corners, so it stays paler than day but reads bluer at the edge. */
+/* Dawn uses day's blue for now (designer, 2026-10-09), kept as its own
+   token so the two can part later. */
 .device__screen:has(.map-home__greeting[data-sky="dawn"]) {
-  --home-header-wash:
-    radial-gradient(ellipse 30% 70% at 50% 100%, var(--color-sky-heart-light), transparent),
-    radial-gradient(ellipse 60% 140% at 50% 100%, var(--color-sky-heart-warm), transparent 70%),
-    radial-gradient(ellipse 95% 240% at 50% 100%, var(--color-sky-dawn) 15%, var(--color-sky-dawn-outer) 55%);
+  --sky-blue: var(--color-sky-dawn);
 }
 
 .device__screen:has(.map-home__greeting[data-sky="dusk"]) {
