@@ -12132,7 +12132,7 @@ ul.login__never {
   --sky-ring: var(--color-sky-day-ring);
   /* Day's yellow reaches further than dawn's and dusk's peach. */
   --sky-ring-size: 80% 170%;
-  /* and its peach is a small core (designer, 2026-10-09: less peach). */
+  /* and its bright core is small. */
   --sky-heart-size: 18% 42%;
   --home-header-wash:
     radial-gradient(ellipse var(--sky-heart-size) at 50% 100%, var(--sky-heart), transparent),

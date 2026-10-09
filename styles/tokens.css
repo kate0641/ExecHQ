@@ -255,9 +255,9 @@
      blue glow, with a little lime low on the horizon. */
   --color-sky-heart-light: var(--brand-yellow-200);
   --color-sky-heart-warm: var(--brand-orange-300);
-  /* Day turns the heart inside out: peach at the centre, yellow around it,
-     then the blue (designer, 2026-10-09). */
-  --color-sky-day-heart: var(--brand-orange-300);
+  /* Day's heart is all yellow: the bright yellow at the centre, a softer
+     yellow around it, then the blue (designer, 2026-10-09). */
+  --color-sky-day-heart: var(--brand-yellow-400);
   --color-sky-day-ring: var(--brand-yellow-300);
   --color-sky-dawn: var(--brand-blue-200);  /* day's blue for now (designer, 2026-10-09) */
   --color-sky-day: var(--brand-blue-300);  /* deeper than dawn (designer, 2026-10-09) */
