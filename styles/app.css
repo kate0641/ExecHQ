@@ -13137,23 +13137,94 @@ ul.card-carousel__track {
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
-/* A small mark in a lime chip, before a row's label (Home's Signal Picture). */
-.icon-chip {
-  display: grid;
+/* A number typed into a lime tile, with what it counts beside it (Home's
+   Signal Picture). The tile is the field. Its pale fill alone is too faint
+   against white to read as somewhere to type (WCAG 1.4.11), so a dark green
+   underline marks it, thickening on hover. */
+.number-tile {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding-top: var(--space-sm);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+/* The followers come first, straight under the introduction. */
+.baseline-form__about .number-tile {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.number-tile__field {
   flex: none;
-  place-items: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: var(--radius-md);
+  width: 3.5rem;
+  height: var(--button-target);
+  padding: 0 var(--space-2xs);
+  border: 0;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  box-shadow: inset 0 calc(-1 * var(--border-width-medium)) 0 var(--color-icon);
   background-color: var(--color-icon-surface);
   color: var(--color-icon);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
 }
 
-.stepper--icon {
-  justify-content: flex-start;
+.number-tile--wide .number-tile__field {
+  width: 7.5rem;
 }
 
-.stepper--icon .stepper__text {
+.number-tile__field::placeholder {
+  color: color-mix(in srgb, var(--color-icon) 55%, transparent);
+  opacity: 1;
+}
+
+.number-tile__field:hover,
+.number-tile.is-hover .number-tile__field {
+  box-shadow: inset 0 calc(-1 * var(--border-width-thick)) 0 var(--color-icon);
+}
+
+.number-tile__field:focus-visible,
+.number-tile.is-focus .number-tile__field {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.number-tile__field:disabled {
+  background-color: var(--color-surface-disabled);
+  box-shadow: none;
+  color: var(--color-text-muted);
+}
+
+.number-tile__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  min-width: 0;
+}
+
+.number-tile__text label {
+  font-family: var(--type-label-font);
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  line-height: var(--type-label-leading);
+  letter-spacing: var(--type-label-tracking);
+  word-spacing: var(--type-label-word-spacing);
+}
+
+.number-tile__text span {
+  font-family: var(--type-caption-font);
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  line-height: var(--type-caption-leading);
+  letter-spacing: var(--type-caption-tracking);
+  word-spacing: var(--type-caption-word-spacing);
+  color: var(--color-text-secondary);
+}
+
+.stepper__text {
   flex: 1;
 }
 

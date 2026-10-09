@@ -283,7 +283,7 @@ export function HomepageConcept4() {
                   setAnnounce(BC.saved);
                 }}
                 onSkip={() => setSkipped(true)}
-                icons
+                fields="tiles"
                 saveVariant="secondary"
               />
             )

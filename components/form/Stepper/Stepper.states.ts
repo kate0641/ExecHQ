@@ -20,7 +20,6 @@ export const stepperStates = defineComponentStates({
   },
   variants: [
     { label: "Default — one", props: base },
-    { label: "With an icon — a lime chip before the label, as on Home", props: { ...base, icon: "mic" as const } },
     { label: "Empty — at zero, minus switched off", props: { ...base, value: 0 } },
     { label: "Disabled — at the largest, plus switched off", props: { ...base, value: 99, max: 99 } },
     { label: "Long text — a long label and hint wrap", props: { ...base, label: "Somewhere you publish, such as a newsletter, a blog or articles", hint: "A newsletter, blog or articles, and how many pieces you have put out so far" } },

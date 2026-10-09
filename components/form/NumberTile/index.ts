@@ -1,0 +1,1 @@
+export { NumberTile } from "./NumberTile";
