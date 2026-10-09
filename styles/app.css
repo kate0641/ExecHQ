@@ -13430,9 +13430,8 @@ ul.templates__outcomes {
   color: var(--color-text-secondary);
 }
 
-/* On Home the Signal Picture is a two-tone card (designer, 2026-10-09): its
-   title in a light-blue head, everything else on a white body below, as the
-   feature card does. */
+/* On Home the Signal Picture is a plain white card (designer, 2026-10-09):
+   outlined, with no coloured head. */
 .map-home .signal-picture--card.account-card {
   gap: var(--space-md);
   padding: 0 0 var(--space-feature-padding);
@@ -13443,8 +13442,12 @@ ul.templates__outcomes {
 }
 
 .map-home .signal-picture--card > .account-card__top {
-  padding: var(--space-feature-padding);
-  background-color: var(--color-surface-feature);
+  padding: var(--space-feature-padding) var(--space-feature-padding) 0;
+}
+
+/* A clear pause between the last number and the save. */
+.map-home .signal-picture--card .baseline-form__actions {
+  margin-top: var(--space-md);
 }
 
 .map-home .signal-picture--card > :not(.account-card__top) {
