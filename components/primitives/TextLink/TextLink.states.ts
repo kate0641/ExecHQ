@@ -18,14 +18,14 @@ export const textLinkStates = defineComponentStates({
     filled: NOT_AN_INPUT,
   },
   variants: [
-    { label: "Default", props: { href: "/plan/concept-1", children: "Open the Plan" } },
+    { label: "Default", props: { href: "/plan/concept-3", children: "Open the Plan" } },
     {
       label: "Default — hover",
-      props: { href: "/plan/concept-1", children: "Open the Plan", className: "is-hover" },
+      props: { href: "/plan/concept-3", children: "Open the Plan", className: "is-hover" },
     },
     {
       label: "Default — focus",
-      props: { href: "/plan/concept-1", children: "Open the Plan", className: "is-focus" },
+      props: { href: "/plan/concept-3", children: "Open the Plan", className: "is-focus" },
     },
     {
       label: "Quiet",

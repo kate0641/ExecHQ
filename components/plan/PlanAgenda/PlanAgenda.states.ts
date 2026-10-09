@@ -1,3 +1,4 @@
+import { createElement } from "react";
 import { defineComponentStates } from "@/components/types";
 import { stepById } from "@/mock/plan";
 import type { AgendaItem, AgendaStage } from "./PlanAgenda";
@@ -32,7 +33,7 @@ export const planAgendaStates = defineComponentStates({
   status: "draft",
   flows: ["plan"],
   description:
-    "The roadmap as an agenda: a drawer for each stage, and only the stage she is on open. In it each step is a title with a time in words; the one she is on opens to the questions she can ask about it (each opens the chat) and the way to start. What she adds herself sits in the stage it falls in, marked as hers. Only one stage is open at a time, and one step in it. Two layouts are shown for review: Headings (a big name on a line) and Stack (overlapping cards in the stage colours).",
+    "The roadmap as an agenda: a drawer for each stage, and only the stage she is on open. In it each step is a title with a time in words; the one she is on opens to the questions she can ask about it (each opens the chat) and the way to start. What she adds herself sits in the stage it falls in, marked as hers. Only one stage is open at a time, and one step in it. The stages are overlapping cards in the stage colours. Shown under the move on Plan Concept 3.",
   component: PlanAgenda,
   notApplicable: {
     hover: "Its controls are Buttons and chips, which show their own states.",
@@ -43,12 +44,16 @@ export const planAgendaStates = defineComponentStates({
     filled: "The add field is a text field, which shows its own filled state.",
   },
   variants: [
-    { label: "Headings — first stage and first step open — default", props: { ...base, headingId: "pa-h-default" } },
-    { label: "Headings — another stage opened", props: { ...base, demoStage: 1, demoStep: "add-wins", headingId: "pa-h-other" } },
-    { label: "Headings — every stage closed", props: { ...base, demoStage: null, demoStep: null, headingId: "pa-h-closed" } },
-    { label: "Headings — empty, nothing in the stage yet", props: { ...base, items: items.filter((i) => i.stage !== 3), demoStage: 3, demoStep: null, headingId: "pa-h-empty" } },
+    { label: "First stage and first step open — default", props: { ...base, headingId: "pa-h-default" } },
+    { label: "Another stage opened", props: { ...base, demoStage: 1, demoStep: "add-wins", headingId: "pa-h-other" } },
     {
-      label: "Headings — long text wraps",
+      label: "With a link beside the heading",
+      props: { ...base, action: createElement("button", { type: "button", className: "plan-detail-link" }, "See your plan"), headingId: "pa-h-action" },
+    },
+    { label: "Every stage closed", props: { ...base, demoStage: null, demoStep: null, headingId: "pa-h-closed" } },
+    { label: "Empty — nothing in the stage yet", props: { ...base, items: items.filter((i) => i.stage !== 3), demoStage: 3, demoStep: null, headingId: "pa-h-empty" } },
+    {
+      label: "Long text wraps",
       props: {
         ...base,
         items: [
@@ -58,9 +63,8 @@ export const planAgendaStates = defineComponentStates({
         headingId: "pa-h-long",
       },
     },
-    { label: "Stack — first stage and first step open", props: { ...base, variant: "stack", headingId: "pa-s-default" } },
-    { label: "Stack — another stage opened", props: { ...base, variant: "stack", demoStage: 2, demoStep: "q1-review", headingId: "pa-s-other" } },
-    { label: "Stack — adding something of her own", props: { ...base, variant: "stack", demoAdding: true, headingId: "pa-s-add" } },
+    { label: "Another stage opened, deeper in", props: { ...base, demoStage: 2, demoStep: "q1-review", headingId: "pa-s-other" } },
+    { label: "Adding something of her own", props: { ...base, demoAdding: true, headingId: "pa-s-add" } },
     {
       label: "Disabled — Add waits for a title",
       description: "The Add button is off until she has written what it is.",

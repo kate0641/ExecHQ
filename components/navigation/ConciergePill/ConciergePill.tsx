@@ -8,6 +8,8 @@ export interface ConciergePillProps {
   ask?: string;
   /** A follow-up is due: the quiet dot. Never a count. */
   followUpDue?: boolean;
+  /** ExecHQ recorded something for her that she has not seen yet: the same quiet dot. */
+  newSignals?: boolean;
   expanded?: boolean;
   /** The id of the panel it opens. */
   controls?: string;
@@ -27,6 +29,7 @@ export function ConciergePill({
   here,
   ask = "Ask or go",
   followUpDue = false,
+  newSignals = false,
   expanded = false,
   controls,
   onClick,
@@ -52,10 +55,13 @@ export function ConciergePill({
         </span>
       </span>
       <span className="concierge-pill__ask">{ask}</span>
-      {followUpDue ? (
+      {followUpDue || newSignals ? (
         <>
           <span className="concierge-pill__dot" aria-hidden="true" />
-          <span className="u-visually-hidden">. A follow-up is waiting</span>
+          <span className="u-visually-hidden">
+            {followUpDue ? ". A follow-up is waiting" : ""}
+            {newSignals ? ". New in your Signal Picture" : ""}
+          </span>
         </>
       ) : null}
       <AdvisorMark size={20} className="concierge-pill__mark" />

@@ -85,7 +85,7 @@ This is also where the homepage rejection point lands: a rejected step changes w
 
 ## 6. Where to look
 
-Open `/plan/concept-1`, `/plan/concept-2` and `/plan/concept-3` (the three layouts), `/plan/templates` (all five roadmaps), and the component catalogue for each state: ActionStepCard, ActionSteps, PlanRoadmap, TemplateRoadmaps, PlanSignalPicture, SignalEntrySheet, MomentumLabeled, MomentumCounts, PlanNarrative.
+Open `/plan/concept-1` and `/plan/concept-3` (Concept 2 was retired to `scratch` on 2026-10-07), `/plan/templates` (all five roadmaps), and the component catalogue for each state: ActionStepCard, ActionSteps, PlanRoadmap, TemplateRoadmaps, PlanSignalPicture, SignalEntrySheet, MomentumLabeled, MomentumCounts, PlanNarrative.
 
 The dock's scenario picker (1–5) shows the Plan at one, sixteen, eighteen and thirty days of history. The 90-day view needs the reviewer switch.
 

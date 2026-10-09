@@ -243,7 +243,7 @@ Two links never sit within 44px of each other vertically, so no two tappable are
 | Prototype | Production |
 | --- | --- |
 | Nothing is sent. The email arrives as a drawn notification 1.6 seconds later. | A real email is sent. The person opens their own mail app. |
-| Any six digits are accepted. | The code is checked: right, wrong (5 tries), or expired (10 minutes). |
+| Only the code in the drawn email (482913) signs in. A wrong one shows the error and clears the boxes, and the fifth shows the code expired, as in production. A code expires on time only when the email's "Open it again after 10 minutes" is pressed. | The code is checked: right, wrong (5 tries), or expired (10 minutes). |
 | A stand-in window plays Google's and Apple's pickers, offering a matching and a non-matching account each. | The provider's own window opens and returns an address. |
 | Sign-in goes to Home in whatever state the dock picked. | Sign-in goes to Home with the person's real account. |
 | Nothing is stored. Sign-in lasts only while the page is open. | "Keep me logged in" sets how long the sign-in lasts (30 days, or until the browser closes). |

@@ -7,8 +7,35 @@
  * she starts it or says "Not yet". Switching plans keeps everything she made.
  */
 
-import type { RoadmapChoices } from "@/components/plan/PlanRoadmap";
 import type { LoopDate } from "@/lib/loop";
+
+/** A plan she left, and where she was in it. */
+export interface PlanChange {
+  planId: string;
+  startedOn: LoopDate;
+  endedOn: LoopDate;
+  /** The stage she was in when she left, from 0. */
+  atStage: number;
+}
+
+/** What she has decided about the roadmap. */
+export interface RoadmapChoices {
+  planId: string;
+  startedOn: LoopDate;
+  /** The stage she confirmed, from 0. Unset: the stage she started in. */
+  confirmed?: number;
+  /** She said "Not yet" while her work pointed at this stage. */
+  snoozedAt: number | null;
+  history: PlanChange[];
+  /** The day she finished each stage she has finished, so the windows after it move. */
+  finishedOn?: Record<number, LoopDate>;
+  /** The stage recommended next, waiting for her to start it. */
+  recommended?: number | null;
+  /** She said "Not yet" to the recommendation. The stage stays marked as next. */
+  nextDismissed?: boolean;
+  /** Each time she changed her direction from the Plan, and whether her plan moved with it. */
+  directionEdits?: { on: LoopDate; switched: boolean }[];
+}
 
 /** She finished the stage she is in. The next one is recommended, not started. */
 export function finishStage(

@@ -21,7 +21,7 @@ const base = {
   thenLabel: "Start",
   nowLabel: "Now",
   next: { label: C.nextLabel, title: PRESENCE_STUB.tryThis.title, why: PRESENCE_STUB.tryThis.why, href: "/toolbox-flow/concept-1", actionLabel: C.nextAction },
-  detailHref: "/signals/concept-1",
+  detailHref: "/signals/concept-2",
   detailLabel: C.detailLabel,
   headingId: "signal-picture-demo",
 };

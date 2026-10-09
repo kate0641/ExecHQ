@@ -39,6 +39,11 @@ export interface GuidePageProps {
    *  question and its reason are read together; the drawer holds only the
    *  answer. */
   drawer?: ReactNode;
+  /** Something read after the page's own work is done, under its actions: the
+   *  Plan's roadmap under the move, say. It scrolls with the page. */
+  after?: ReactNode;
+  /** Drawn over the top of the page: an email's notification arriving. */
+  overlay?: ReactNode;
   className?: string;
 }
 
@@ -75,6 +80,8 @@ export function GuidePage({
   onSecondary,
   cover = false,
   drawer,
+  after,
+  overlay,
   className,
 }: GuidePageProps) {
   const page = (
@@ -131,15 +138,25 @@ export function GuidePage({
           onSkip={onSecondary}
         />
       ) : null}
+
+      {after ? <div className="guide__after">{after}</div> : null}
     </>
   );
 
   const classes = ["guide", cover ? "guide--cover" : null, drawer ? "guide--drawer" : null, className]
     .filter(Boolean)
     .join(" ");
-  if (!drawer) return <div className={classes}>{page}</div>;
+  const over = overlay ? <div className="guide__overlay">{overlay}</div> : null;
+  if (!drawer)
+    return (
+      <div className={classes}>
+        {over}
+        {page}
+      </div>
+    );
   return (
     <div className={classes}>
+      {over}
       <div className="guide__page">{page}</div>
       {drawer}
     </div>

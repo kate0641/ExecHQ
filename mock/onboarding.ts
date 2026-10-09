@@ -11,6 +11,9 @@
  * holds content and the lookups that pick between it.
  */
 
+import { MAYA } from "@/mock/account";
+import type { Provider, ProviderAccount } from "@/mock/login";
+
 /* -----------------------------------------------------------------------------
    ENTRY
    -------------------------------------------------------------------------- */
@@ -2125,6 +2128,40 @@ export const GUIDE_C3 = {
     inviteField: "Invite code",
     why: "Everything you tell ExecHQ builds on what came before. Your account is how it remembers, and how you come back to it.",
     cta: "Continue",
+    /** Google and Apple, as on Login, by decision on 2026-10-08. */
+    or: "or",
+    viaLabel: (name: string) => `With ${name}`,
+    pickerLede: (name: string) =>
+      `In the product, ${name}\u2019s own window opens here. This stands in for it.`,
+  },
+  /** Confirming a typed address, by decision on 2026-10-08: a 6-digit code,
+   *  the same as Login's. Google and Apple have confirmed it already, so
+   *  they pass this page. */
+  verify: {
+    kicker: "Your account",
+    title: "Check your email",
+    lede: (email: string) => `ExecHQ has sent a 6-digit code to ${email}. It works for 10 minutes.`,
+    ask: "Type the code from the email.",
+    why: "So the account is yours: only someone with your inbox can open it, and it\u2019s where your plan and your story come back to you.",
+    resendIn: (seconds: number) => `Send it again in ${seconds}s`,
+    resend: "Send it again",
+    resent: "Sent again.",
+    otherAddress: "Use a different address",
+    nothing: "Nothing arrived? Check your junk folder.",
+    arrived: "New email from ExecHQ: Confirm your email.",
+    /** Login's expired screen, in onboarding's voice (2026-10-08). The wrong
+     *  code's words and the screen's heading and button are Login's own. */
+    expiredLede: (email: string) =>
+      `Codes work for 10 minutes and only once. ExecHQ can send a new one to ${email}.`,
+    cta: "Continue",
+    /** The drawn email. Neutral, like Login's: nothing about her career. */
+    email: {
+      subject: "Confirm your email",
+      preview: "Here\u2019s the code to finish setting up.",
+      codeLead: "Type this code in ExecHQ to confirm your email:",
+      footer:
+        "This code works for 10 minutes and only once. If you didn\u2019t ask for it, you can ignore this email.",
+    },
   },
   signals: {
     kicker: "Optional",
@@ -2569,5 +2606,33 @@ export const EDIT_FLOW_COPY = {
   /** The last page of the flow. */
   save: "Save my plan",
   /** Where she lands. */
-  backTo: "/plan/concept-1",
+  backTo: "/plan/concept-3",
 } as const;
+
+/**
+ * What Google's and Apple's pickers offer at sign-up. Any address makes an
+ * account (2026-09-22), so a work Google account and Apple's relay address
+ * both go through; they are here so reviewers can see what each gives.
+ */
+export const SIGNUP_PROVIDER_ACCOUNTS: Record<Provider, (ProviderAccount & { email: string })[]> = {
+  google: [
+    { id: "personal", title: MAYA.email, detail: "Personal Google account", email: MAYA.email, matches: true },
+    {
+      id: "work",
+      title: "maya.chen@northwind.example",
+      detail: "Work: her employer\u2019s Google account",
+      email: "maya.chen@northwind.example",
+      matches: true,
+    },
+  ],
+  apple: [
+    { id: "share", title: "Share my email", detail: MAYA.email, email: MAYA.email, matches: true },
+    {
+      id: "hide",
+      title: "Hide my email",
+      detail: "Apple makes up a relay address",
+      email: "k7p2xq9m4d@privaterelay.appleid.com",
+      matches: true,
+    },
+  ],
+};

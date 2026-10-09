@@ -18,8 +18,12 @@
 import { MAYA } from "@/mock/account";
 import { WELCOME } from "@/mock/onboarding";
 
-/** The code in the drawn email. The prototype accepts any six digits. */
+/** The code in the drawn email. Only this code signs in (2026-10-08), so
+ *  the wrong-code error can be seen. */
 export const SIGN_IN_CODE = "482913";
+
+/** Wrong tries before a code stops working and shows as expired. */
+export const WRONG_CODE_TRIES = 5;
 
 /** How long the resend waits, in seconds. Short, so reviewers can try it. */
 export const RESEND_SECONDS = 30;
@@ -74,7 +78,7 @@ export const LOGIN_COPY = {
       `If there’s an account for ${email}, we’ve sent a 6-digit code. It works for 10 minutes.`,
     codeLabel: "Type the code from the email.",
     codeName: "Six-digit code from the email",
-    /** Not shown in the prototype, which takes any code; the CodeField catalogue entry uses it. */
+    /** Under the boxes after a wrong code. */
     wrongCode: "That code doesn’t match. Check the latest email and try again.",
     resendIn: (seconds: number) => `Send it again in ${seconds}s`,
     resend: "Send it again",

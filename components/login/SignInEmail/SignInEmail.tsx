@@ -9,9 +9,10 @@ export interface SignInEmailProps {
   /** Opens the code again once it has expired. */
   onExpired?: () => void;
   headingId?: string;
+  /** Other words for the same email, e.g. confirming an address at sign-up.
+   *  Defaults to the login code's. */
+  message?: Partial<Record<"subject" | "preview" | "codeLead" | "footer", string>>;
 }
-
-const C = LOGIN_COPY.email;
 
 /**
  * The login email itself, drawn as a message in a mail app: a neutral
@@ -19,7 +20,8 @@ const C = LOGIN_COPY.email;
  * is no button: she types the code into ExecHQ. Nothing in it says anything
  * about the person's career.
  */
-export function SignInEmail({ email, code, onBack, onExpired, headingId = "sign-in-email" }: SignInEmailProps) {
+export function SignInEmail({ email, code, onBack, onExpired, headingId = "sign-in-email", message }: SignInEmailProps) {
+  const C = { ...LOGIN_COPY.email, ...message };
   const spaced = `${code.slice(0, 3)} ${code.slice(3)}`;
   return (
     <article className="sign-in-email" aria-labelledby={headingId}>

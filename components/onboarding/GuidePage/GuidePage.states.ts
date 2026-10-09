@@ -1,8 +1,10 @@
 import { createElement } from "react";
 import { ChipGroup } from "@/components/form/ChipGroup";
+import { MailNotification } from "@/components/login/MailNotification";
 import { AnswerDrawer } from "@/components/onboarding/AnswerDrawer";
 import { defineComponentStates } from "@/components/types";
 import { CONTENT_INSIDE } from "@/components/not-applicable";
+import { LOGIN_COPY } from "@/mock/login";
 import { GUIDE_C3 } from "@/mock/onboarding";
 import { GuidePage } from "./GuidePage";
 
@@ -96,6 +98,20 @@ export const guidePageStates = defineComponentStates({
         onPrimary: noop,
         secondaryLabel: GUIDE_C3.signals.skip,
         onSecondary: noop,
+      },
+    },
+    {
+      label: "With a notification over it",
+      description: "The code email arriving on the page that asks for it, drawn as the phone's own notification.",
+      props: {
+        kicker: GUIDE_C3.verify.kicker,
+        title: GUIDE_C3.verify.title,
+        lede: GUIDE_C3.verify.lede("maya.chen@example.com"),
+        overlay: createElement(MailNotification, {
+          from: LOGIN_COPY.email.from,
+          subject: GUIDE_C3.verify.email.subject,
+          preview: GUIDE_C3.verify.email.preview,
+        }),
       },
     },
   ],

@@ -92,6 +92,7 @@ export const prototypeConfig: PrototypeConfig = {
         {
           slug: "concept-3",
           title: "Concept 3 — Guided",
+          status: "approved",
           summary:
             "Explains as it goes: what ExecHQ is, why each thing is asked, and what a plan is. Asks what decides the plan first, recommends once, then asks what makes it hers.",
         },
@@ -184,28 +185,11 @@ export const prototypeConfig: PrototypeConfig = {
       },
       concepts: [
         {
-          slug: "concept-1",
-          title: "Concept 1 — Steps forward",
-          summary:
-            "What her plan is leads, then the next steps in a swiping row. The roadmap is a timeline of the draft she started with, with sparks for what changed, and it sits beside them on web.",
-        },
-        {
-          slug: "concept-2",
-          title: "Concept 2 — Road forward",
-          summary:
-            "What her plan is leads, then the roadmap as an agenda: a drawer for each stage, only the one she is on open. A step is its title, with its questions as chat prompts and a way to start; what she adds herself sits in the stage it falls in. A switch for review chooses Headings or Stack.",
-        },
-        {
           slug: "concept-3",
           title: "Concept 3 — Guided check-in",
+          status: "approved",
           summary:
-            "A guided check-in, built from onboarding’s page and answer drawer: one move at a time, with where she is with it as the answer. Answering changes her plan and comes back as a short reply. The road and adding her own items slide up as sheets.",
-        },
-        {
-          slug: "concept-4",
-          title: "Concept 4 — Plan and signals",
-          summary:
-            "The Active Landscape leads: how much she can take on (remembered between visits), then up to five live steps with their reasons and answers. Under it, in order: Momentum, how she has grown, what came of it, and where she started. Every next step on the page is one of the live steps.",
+            "A guided check-in, built from onboarding’s page and answer drawer: one move at a time, with where she is with it as the answer. Answering changes her plan and comes back as a short reply. Under the move is the roadmap, a stack of stage cards, which shows when she folds the drawer; adding her own items slides up as a sheet.",
         },
         {
           slug: "templates",
@@ -229,22 +213,11 @@ export const prototypeConfig: PrototypeConfig = {
       },
       concepts: [
         {
-          slug: "concept-1",
-          title: "Concept 1 — How you've grown",
-          summary:
-            "A path through time: where she started, a circle for each month, her next step ahead, and Momentum as a dial beside it.",
-        },
-        {
           slug: "concept-2",
           title: "Concept 2 — Momentum first",
+          status: "approved",
           summary:
             "This week leads as seven day circles, then what came of the things she did, then where she started.",
-        },
-        {
-          slug: "concept-3",
-          title: "Concept 3 — Where you show up",
-          summary:
-            "Four equal territories with a dot for each thing, hollow for what she had and filled for what she has added, and Momentum's bars beside it.",
         },
       ],
     },

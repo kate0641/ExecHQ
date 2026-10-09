@@ -36,7 +36,7 @@ export const settingsRowStates = defineComponentStates({
     { label: "Action — default", description: "Does something at once, such as a download, so it has no chevron.", props: { kind: "action", icon: "download", label: R.export, value: R.exportValue, onAction: noop } },
     { label: "Action — loading", description: "While it works: the value says so.", props: { kind: "action", icon: "download", label: R.export, value: R.exportWorking, onAction: noop, busy: true } },
     { label: "Danger", props: { icon: "trash", label: R.delete, tone: "danger", onOpen: noop } },
-    { label: "Goes to a page", props: { icon: "flag", label: R.plan, value: R.planValue("Step up", "Increase leadership scope"), href: "/plan/concept-1" } },
+    { label: "Goes to a page", props: { icon: "flag", label: R.plan, value: R.planValue("Step up", "Increase leadership scope"), href: "/plan/concept-3" } },
     { label: "Read only", props: { kind: "static", icon: "mail", label: "Email", value: "maya.chen@example.com" } },
     {
       label: "Switch — on",

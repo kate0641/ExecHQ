@@ -15,10 +15,6 @@ import { mapPanelStates } from "./homepage/MapPanel/MapPanel.states";
 import { actionSheetStates } from "./homepage/ActionSheet/ActionSheet.states";
 import { cardCarouselStates } from "./layout/CardCarousel/CardCarousel.states";
 import { stepperStates } from "./form/Stepper/Stepper.states";
-import { questionSheetStates } from "./plan/QuestionSheet/QuestionSheet.states";
-import { reflectionSheetStates } from "./plan/ReflectionSheet/ReflectionSheet.states";
-import { toldUsStates } from "./plan/ToldUs/ToldUs.states";
-import { capacityControlStates } from "./plan/CapacityControl/CapacityControl.states";
 import { baselineFormStates } from "./homepage/BaselineForm/BaselineForm.states";
 import { linkedInMoreStates } from "./homepage/LinkedInMore/LinkedInMore.states";
 import { signalPictureStates } from "./homepage/SignalPicture/SignalPicture.states";
@@ -37,6 +33,10 @@ import { placeholderStateStates } from "./layout/PlaceholderState/PlaceholderSta
 import { navPlaceholderStates } from "./layout/NavPlaceholder/NavPlaceholder.states";
 import { stepBarStates } from "./layout/StepBar/StepBar.states";
 import { sheetStates } from "./layout/Sheet/Sheet.states";
+import { drawerStates } from "./layout/Drawer/Drawer.states";
+import { entryDrawerStates } from "./plan/EntryDrawer/EntryDrawer.states";
+import { reportDrawerStates } from "./plan/ReportDrawer/ReportDrawer.states";
+import { linkedInPictureStates } from "./plan/LinkedInPicture/LinkedInPicture.states";
 import { stepHeaderStates } from "./onboarding/StepHeader/StepHeader.states";
 import { stepActionsStates } from "./onboarding/StepActions/StepActions.states";
 import { noticeStates } from "./onboarding/Notice/Notice.states";
@@ -96,25 +96,18 @@ import { providerButtonsStates } from "./login/ProviderButtons/ProviderButtons.s
 import { mailNotificationStates } from "./login/MailNotification/MailNotification.states";
 import { signInEmailStates } from "./login/SignInEmail/SignInEmail.states";
 import { accountPickerStates } from "./login/AccountPicker/AccountPicker.states";
-import { actionStepCardStates } from "./plan/ActionStepCard/ActionStepCard.states";
-import { actionStepsStates } from "./plan/ActionSteps/ActionSteps.states";
-import { planRoadmapStates } from "./plan/PlanRoadmap/PlanRoadmap.states";
 import { planSignalPictureStates } from "./plan/PlanSignalPicture/PlanSignalPicture.states";
 import { signalEntrySheetStates } from "./plan/SignalEntrySheet/SignalEntrySheet.states";
 import { momentumLabeledStates } from "./plan/MomentumLabeled/MomentumLabeled.states";
-import { momentumCountsStates } from "./plan/MomentumCounts/MomentumCounts.states";
-import { planNarrativeStates } from "./plan/PlanNarrative/PlanNarrative.states";
-import { directionCardStates } from "./plan/DirectionCard/DirectionCard.states";
-import { planHeaderStates } from "./plan/PlanHeader/PlanHeader.states";
 import { planDetailSheetStates } from "./plan/PlanDetailSheet/PlanDetailSheet.states";
-import { planSwitchSheetStates } from "./plan/PlanSwitchSheet/PlanSwitchSheet.states";
+import { planDirectionStates } from "./plan/PlanDirection/PlanDirection.states";
+import { planDetailLinkStates } from "./plan/PlanDetailLink/PlanDetailLink.states";
 import { addToPlanSheetStates } from "./plan/AddToPlanSheet/AddToPlanSheet.states";
 import { planGuidedStates } from "./plan/PlanGuided/PlanGuided.states";
+import { stageCheckInStates } from "./plan/StageCheckIn/StageCheckIn.states";
+import { checkInRecapStates } from "./plan/CheckInRecap/CheckInRecap.states";
 import { planAgendaStates } from "./plan/PlanAgenda/PlanAgenda.states";
 import { roadmapTimelineStates } from "./plan/RoadmapTimeline/RoadmapTimeline.states";
-import { planCalendarStates } from "./plan/PlanCalendar/PlanCalendar.states";
-import { calendarItemSheetStates } from "./plan/CalendarItemSheet/CalendarItemSheet.states";
-import { stepChangePanelStates } from "./plan/StepChangePanel/StepChangePanel.states";
 import { templateRoadmapsStates } from "./plan/TemplateRoadmaps/TemplateRoadmaps.states";
 
 export const registry: RegisteredComponent[] = [
@@ -133,6 +126,7 @@ export const registry: RegisteredComponent[] = [
   navPlaceholderStates,
   stepBarStates,
   sheetStates,
+  drawerStates,
   stepHeaderStates,
   stepActionsStates,
   noticeStates,
@@ -174,10 +168,6 @@ export const registry: RegisteredComponent[] = [
   signalPictureStates,
   stepperStates,
   baselineFormStates,
-  capacityControlStates,
-  questionSheetStates,
-  reflectionSheetStates,
-  toldUsStates,
   linkedInMoreStates,
   mapPanelStates,
   actionSheetStates,
@@ -205,26 +195,22 @@ export const registry: RegisteredComponent[] = [
   mailNotificationStates,
   signInEmailStates,
   accountPickerStates,
-  actionStepCardStates,
-  actionStepsStates,
-  planRoadmapStates,
   templateRoadmapsStates,
   planSignalPictureStates,
+  entryDrawerStates,
+  reportDrawerStates,
+  linkedInPictureStates,
   signalEntrySheetStates,
   momentumLabeledStates,
-  momentumCountsStates,
-  planNarrativeStates,
-  directionCardStates,
-  planHeaderStates,
   planDetailSheetStates,
-  planSwitchSheetStates,
-  stepChangePanelStates,
+  planDirectionStates,
+  planDetailLinkStates,
   addToPlanSheetStates,
   planGuidedStates,
+  stageCheckInStates,
+  checkInRecapStates,
   planAgendaStates,
   roadmapTimelineStates,
-  planCalendarStates,
-  calendarItemSheetStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */

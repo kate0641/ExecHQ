@@ -7,6 +7,8 @@ export interface SparkItem {
   source: string;
   /** What moved, in a sentence that names the thing and stops. */
   text: string;
+  /** A second, quieter button beside the dismiss: "Hide it". */
+  actionLabel?: string;
 }
 
 export interface SparkProps {
@@ -17,6 +19,8 @@ export interface SparkProps {
   /** The name of one dismiss button: "Dismiss: You’re on The Modern CMO." */
   dismissName: (text: string) => string;
   onDismiss: (id: string) => void;
+  /** What the item's `actionLabel` button does. */
+  onAction?: (id: string) => void;
   /** `note` is the quiet default. `celebrate` is a navy card with no mark:
    *  the first sentence is a yellow headline beside the source, the rest sits
    *  under it, and an × dismisses it (Homepage). */
@@ -40,7 +44,7 @@ function splitFirst(text: string): [string, string] {
  * It sits inline at the top of the signals section, never blocks anything,
  * and goes for good when dismissed. With nothing to note it is not there.
  */
-export function Spark({ items, label, dismissLabel, dismissName, onDismiss, tone = "note", className }: SparkProps) {
+export function Spark({ items, label, dismissLabel, dismissName, onDismiss, onAction, tone = "note", className }: SparkProps) {
   if (items.length === 0) return null;
   if (tone === "celebrate") {
     return (
@@ -74,9 +78,16 @@ export function Spark({ items, label, dismissLabel, dismissName, onDismiss, tone
             <span className="spark__source">{item.source}</span>
             <p>{item.text}</p>
           </div>
-          <Button variant="ghost" size="sm" aria-label={dismissName(item.text)} onClick={() => onDismiss(item.id)}>
-            {dismissLabel}
-          </Button>
+          <div className="spark__actions">
+            {item.actionLabel && onAction ? (
+              <Button variant="ghost" size="sm" aria-label={`${item.actionLabel}: ${item.text}`} onClick={() => onAction(item.id)}>
+                {item.actionLabel}
+              </Button>
+            ) : null}
+            <Button variant="ghost" size="sm" aria-label={dismissName(item.text)} onClick={() => onDismiss(item.id)}>
+              {dismissLabel}
+            </Button>
+          </div>
         </li>
       ))}
     </ul>

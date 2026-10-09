@@ -19,10 +19,12 @@
 
 import { useMemo, useSyncExternalStore } from "react";
 import { reopenBriefing, useBriefingEverClosed } from "@/lib/briefing-dismissal";
-import { resetAnswers } from "@/lib/answers-store";
-import { resetCapacity } from "@/lib/capacity-store";
+import { closeDirection } from "@/lib/direction-open";
+import { resetCheckIns, useAnyCheckIns } from "@/lib/stage-checkins";
 import { resetPresence, useAddedPresence, useBaseline } from "@/lib/presence-store";
 import { reopenSparks, useDismissedSparks } from "@/lib/spark-dismissal";
+import { resetLinkedInExport } from "@/lib/linkedin-store";
+import { resetSignalNotices } from "@/lib/signal-notices";
 import {
   abandonRecord,
   answerFollowUp,
@@ -189,11 +191,13 @@ export function selectSnapshot(snapshot: SnapshotId): void {
 export function resetLoop(): void {
   write({ snapshot: getLoopState().snapshot, changes: {} });
   reopenBriefing();
+  closeDirection();
+  resetCheckIns();
   reopenSparks();
+  resetSignalNotices();
+  resetLinkedInExport();
   resetPresence();
   resetRoadmap();
-  resetCapacity();
-  resetAnswers();
 }
 
 /** The next step offered once this record's outcome is logged. Stubbed. */
@@ -209,6 +213,11 @@ export const loopActions = {
     updateRecord(id, (r, today) => markUsed(r, today, answers)),
   answer: (id: string, answer: { type: OutcomeType; detail?: string; notes?: string }) =>
     updateRecord(id, (r, today) => answerFollowUp(r, today, answer), id),
+  /** She says, from her Signal Picture, what came of something she used: the same answer as the
+   *  check-in, without the "just answered" moment that belongs to the homepage. If an outcome is
+   *  already logged it only takes her words. */
+  report: (id: string, answer: { type: OutcomeType; detail?: string }) =>
+    updateRecord(id, (r, today) => (r.outcome ? { ...r, outcome: { ...r.outcome, detail: answer.detail } } : answerFollowUp(r, today, answer))),
   /* Actions with no draft, on her word. Doing one ends "just answered". */
   completeTask: (id: string) =>
     update(({ tasks, today }) => ({ tasks: { ...tasks, [id]: { doneOn: today } }, justAnswered: undefined })),
@@ -294,6 +303,7 @@ export function useLoop(): LoopView {
   const presenceAdded = useAddedPresence().length > 0;
   const baselineSaved = useBaseline() !== null;
   const roadmapChanged = useRoadmapChanged();
+  const checkInsSaved = useAnyCheckIns();
   return useMemo(() => {
     const snapshot = currentSnapshot(state);
     const followUp = nextFollowUp(snapshot.records, snapshot.today);
@@ -304,7 +314,7 @@ export function useLoop(): LoopView {
       lastWorkedOn: lastWorkedOn(snapshot.records),
       nextStep: snapshot.recommendations[0],
       changed: state.changes[state.snapshot] !== undefined,
-      anyChanged: Object.keys(state.changes).length > 0 || briefingClosed || sparksDismissed || presenceAdded || baselineSaved || roadmapChanged,
+      anyChanged: Object.keys(state.changes).length > 0 || briefingClosed || sparksDismissed || presenceAdded || baselineSaved || roadmapChanged || checkInsSaved,
     };
-  }, [state, briefingClosed, sparksDismissed, presenceAdded, baselineSaved, roadmapChanged]);
+  }, [state, briefingClosed, sparksDismissed, presenceAdded, baselineSaved, roadmapChanged, checkInsSaved]);
 }

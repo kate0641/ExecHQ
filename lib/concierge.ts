@@ -22,7 +22,7 @@ import {
   OUTCOME_READBACK,
 } from "@/mock/loop";
 import { CONCIERGE_COPY as C } from "@/mock/concierge";
-import { STEP_ANSWERS, STEP_QUESTIONS, stepById, type StepQuestion } from "@/mock/plan";
+import { CARD_QUESTIONS, STEP_ANSWERS, STEP_QUESTIONS, stepById, type StepQuestion } from "@/mock/plan";
 import { signalById } from "@/mock/plan-stub";
 import {
   addDays,
@@ -63,7 +63,7 @@ export type ConciergeAction =
   | { kind: "scope" }
   | { kind: "politics" }
   /** A question about one of her next steps, asked from the Plan. */
-  | { kind: "step-question"; stepId: string; q: StepQuestion }
+  | { kind: "step-question"; stepId: string; q: StepQuestion; mine?: { effort?: string; done?: string } }
   /** Input he can't act on. `again` is true when the one before it was a
    *  miss too, so he stops offering the same menu. */
   | { kind: "miss"; miss: MissKind; again: boolean };
@@ -451,8 +451,21 @@ export function respond(
     case "step-question": {
       const step = stepById(action.stepId);
       if (!step) return respond({ kind: "miss", miss: "unclear", again: false }, ctx);
-      const paragraphs =
-        action.q === "why"
+      const card = CARD_QUESTIONS.some((q) => q.id === action.q);
+      const effort = action.mine?.effort ?? step.effortText;
+      const done = action.mine?.done ?? step.done;
+      // Concept 1's card questions: one fact each, her own estimate and done where she set them.
+      const cardAnswer: Partial<Record<StepQuestion, string>> = {
+        this: step.whyThis,
+        now: step.whyNow,
+        me: step.whyYou,
+        moves: STEP_ANSWERS.moves(signalById(step.area ?? "")?.name),
+        long: STEP_ANSWERS.long(effort),
+        done: STEP_ANSWERS.done(done),
+      };
+      const paragraphs = card
+        ? [cardAnswer[action.q] ?? ""]
+        : action.q === "why"
           ? STEP_ANSWERS.why(step, signalById(step.area ?? "")?.name)
           : action.q === "take"
             ? STEP_ANSWERS.take(step)
@@ -477,7 +490,16 @@ export function respond(
           replies:
             action.q === "stuck"
               ? stuck
-              : [
+              : card
+                ? [
+                    // The other card questions, so she can keep asking.
+                    ...CARD_QUESTIONS.filter((q) => q.id !== action.q).map((q) => ({
+                      label: q.label,
+                      action: { kind: "step-question", stepId: action.stepId, q: q.id, mine: action.mine } as ConciergeAction,
+                    })),
+                    { label: C.openPlan, action: { kind: "go", flow: "plan" } },
+                  ]
+                : [
             ...STEP_QUESTIONS.filter((q) => q.id !== action.q && q.id !== "else").map((q) => ({
               label: q.label,
               action: { kind: "step-question", stepId: action.stepId, q: q.id } as ConciergeAction,

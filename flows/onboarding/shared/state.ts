@@ -15,6 +15,9 @@ import {
  */
 
 export type PlanSource = "recommended" | "switched" | "custom";
+/** How the account was made: a typed email, confirmed by a code, or Google
+ *  or Apple, which have confirmed the address already. */
+export type AccountRoute = "email" | "google" | "apple";
 export type DirectionSource = "prompted" | "free";
 
 /**
@@ -84,6 +87,11 @@ export const emptyPositioning: PositioningInputs = {
 export interface OnboardingAnswers {
   inviteCode: string | null;
   email: string | null;
+  /** How the email was given. Null until the account step is answered. */
+  accountRoute: AccountRoute | null;
+  /** True once the address is confirmed: by the emailed code, or by Google or
+   *  Apple. Changing the address unconfirms it. */
+  emailVerified: boolean;
   direction: string | null;
   directionSource: DirectionSource | null;
   /** The read-back sentence. Editable, so it is stored rather than derived. */
@@ -120,6 +128,8 @@ export const initialState: OnboardingState = {
   answers: {
     inviteCode: null,
     email: null,
+    accountRoute: null,
+    emailVerified: false,
     direction: null,
     directionSource: null,
     interpretation: null,
@@ -140,7 +150,9 @@ export const initialState: OnboardingState = {
 
 export type OnboardingAction =
   | { type: "set-invite-code"; code: string | null }
-  | { type: "set-email"; email: string }
+  | { type: "set-email"; email: string; route: AccountRoute }
+  /** The emailed code was typed. */
+  | { type: "verify-email" }
   | { type: "set-positioning"; patch: Partial<PositioningInputs> }
   | { type: "set-direction"; direction: string; source: DirectionSource }
   | { type: "edit-interpretation"; interpretation: string }
@@ -214,8 +226,20 @@ export function makeReducer(refinementCount: number, customPlanCount: number) {
       case "set-invite-code":
         return { ...state, answers: { ...state.answers, inviteCode: action.code } };
 
-      case "set-email":
-        return { ...state, answers: { ...state.answers, email: action.email } };
+      // Google and Apple confirm the address themselves. A typed one stays
+      // confirmed only if it is the address already confirmed.
+      case "set-email": {
+        const was = state.answers;
+        const verified =
+          action.route !== "email" || (was.emailVerified && was.email === action.email);
+        return {
+          ...state,
+          answers: { ...was, email: action.email, accountRoute: action.route, emailVerified: verified },
+        };
+      }
+
+      case "verify-email":
+        return { ...state, answers: { ...state.answers, emailVerified: true } };
 
       case "set-positioning":
         return {

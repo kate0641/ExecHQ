@@ -60,6 +60,8 @@ export function jumpState(current: OnboardingState, step: OnboardingStep): Onboa
     ...initialState.answers,
     inviteCode: past("account") ? was.inviteCode : null,
     email: past("account") ? (was.email ?? SAMPLE_ANSWERS.email) : null,
+    accountRoute: past("account") ? (was.accountRoute ?? "email") : null,
+    emailVerified: past("account"),
     direction,
     directionSource: past("direction")
       ? hasDirection

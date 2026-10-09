@@ -13,6 +13,7 @@ export {
   initialState,
   makeReducer,
   progressStep,
+  type AccountRoute,
   type DirectionSource,
   type LinkedInStatus,
   type LinkedInUpload,

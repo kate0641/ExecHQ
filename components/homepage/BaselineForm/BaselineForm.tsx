@@ -21,6 +21,8 @@ export interface BaselineFormProps {
   demo?: { counts?: Partial<Record<CountedKind, number>>; followers?: string };
   /** Something optional between the numbers and the buttons. */
   children?: ReactNode;
+  /** Something optional under the buttons. */
+  after?: ReactNode;
   className?: string;
 }
 
@@ -32,7 +34,7 @@ const NONE: Record<CountedKind, number> = { podcast: 0, press: 0, speaking: 0, w
  * by hand. Nothing is looked up, so there is nothing to connect or explain,
  * and zero is a fine answer. The followers are optional.
  */
-export function BaselineForm({ onSave, onSkip, initial, intro, saveLabel, skipLabel, demo, children, className }: BaselineFormProps) {
+export function BaselineForm({ onSave, onSkip, initial, intro, saveLabel, skipLabel, demo, children, after, className }: BaselineFormProps) {
   const [counts, setCounts] = useState<Record<CountedKind, number>>({ ...NONE, ...initial?.counts, ...demo?.counts });
   const [followers, setFollowers] = useState(demo?.followers ?? (initial?.followers !== undefined ? initial.followers.toLocaleString("en-US") : ""));
 
@@ -44,6 +46,9 @@ export function BaselineForm({ onSave, onSkip, initial, intro, saveLabel, skipLa
 
   return (
     <form className={["baseline-form", className].filter(Boolean).join(" ")} onSubmit={submit} noValidate>
+      {/* Two groups: what to read and type, and what to count. They lay nothing out themselves; a page with
+          room sets them side by side (the Signal Picture's first visit on the web). */}
+      <div className="baseline-form__about">
       <p className="baseline-form__intro">{intro ?? C.intro}</p>
       <Input
         label={C.linkedin.label}
@@ -53,6 +58,8 @@ export function BaselineForm({ onSave, onSkip, initial, intro, saveLabel, skipLa
         value={followers}
         onChange={(event) => setFollowers(event.target.value)}
       />
+      </div>
+      <div className="baseline-form__counts">
       {PRESENCE_ORDER.map((kind) => (
         <Stepper
           key={kind}
@@ -73,6 +80,8 @@ export function BaselineForm({ onSave, onSkip, initial, intro, saveLabel, skipLa
           </Button>
         ) : null}
       </div>
+      </div>
+      {after}
     </form>
   );
 }

@@ -9,7 +9,7 @@
 
 import { addDays, daysBetween, shortDate, type LoopDate } from "@/lib/loop";
 import { roadmapFor, type RoadmapStep } from "@/mock/plan";
-import type { RoadmapChoices } from "@/components/plan/PlanRoadmap";
+import type { RoadmapChoices } from "@/lib/roadmap-choices";
 
 export type StageStatus = "done" | "current" | "recommended" | "later";
 

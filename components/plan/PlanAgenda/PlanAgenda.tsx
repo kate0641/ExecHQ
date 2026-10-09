@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { AdvisorMark } from "@/components/chat/AdvisorMark";
 import { AddToPlanSheet } from "@/components/plan/AddToPlanSheet";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import type { LoopDate } from "@/lib/loop";
+import { useViewport } from "@/lib/viewport-context";
 import { whenWords } from "@/lib/time-words";
 import { PLAN_AGENDA_COPY as A, STEP_ANSWERS, STEP_QUESTIONS, type ActionStep, type StepQuestion } from "@/mock/plan";
 
@@ -36,8 +37,6 @@ export interface PlanAgendaProps {
   stages: AgendaStage[];
   items: AgendaItem[];
   today: LoopDate;
-  /** How the stages are set. `headings` is a big name on a line; `stack` is overlapping cards in the stage colours. */
-  variant?: "headings" | "stack";
   /** Where Get started goes for a step with a draft or a tool. */
   startHref: string;
   /** She asked about a step: the page opens the chat on it. */
@@ -48,6 +47,12 @@ export interface PlanAgendaProps {
   onComplete: (step: ActionStep) => void;
   /** She added something of her own, to a day the words stand for. Says which stage it fell in. */
   onAdd: (item: { title: string; date: LoopDate }) => number | void;
+  /** Whether the open stage opens on its first step. Off where the step is already said elsewhere on the page. */
+  openFirstStep?: boolean;
+  /** Something beside the heading, such as the way into her whole plan. */
+  action?: ReactNode;
+  /** Something on a stage under its name, shown whether the stage is open or not: her check-in on a finished one, say. */
+  stageNote?: (index: number) => ReactNode;
   /** Catalogue only. */
   demoStage?: number | null;
   demoStep?: string | null;
@@ -68,12 +73,14 @@ export function PlanAgenda({
   stages,
   items,
   today,
-  variant = "headings",
   startHref,
   onAsk,
   onAccept,
   onComplete,
   onAdd,
+  openFirstStep = true,
+  action,
+  stageNote,
   demoStage,
   demoStep,
   demoAdding,
@@ -81,10 +88,19 @@ export function PlanAgenda({
   className,
 }: PlanAgendaProps) {
   const uid = useId();
+  const web = useViewport().viewport === "web";
   const here = stages.find((s) => s.status === "current") ?? stages.find((s) => s.status === "recommended") ?? stages[0];
   const firstStep = (stage: number) => items.find((i) => i.stage === stage && i.kind === "step")?.id ?? null;
   const [open, setOpen] = useState<number | null>(demoStage !== undefined ? demoStage : here?.index ?? 0);
-  const [step, setStep] = useState<string | null>(demoStep !== undefined ? demoStep : firstStep(open ?? 0));
+  const [step, setStep] = useState<string | null>(demoStep !== undefined ? demoStep : openFirstStep ? firstStep(open ?? 0) : null);
+  // The first paint is the server's, which cannot see what she has saved, so where she is can change once her
+  // plan loads (a stage she finished, say). Follow it there, as the page would have opened on it.
+  const [hereSeen, setHereSeen] = useState(here?.index);
+  if (demoStage === undefined && here && here.index !== hereSeen) {
+    setHereSeen(here.index);
+    setOpen(here.index);
+    setStep(openFirstStep ? firstStep(here.index) : null);
+  }
   const [adding, setAdding] = useState(Boolean(demoAdding));
   // The add button floats over the phone's screen, above the Ask or go pill, so it is drawn there.
   const anchor = useRef<HTMLSpanElement>(null);
@@ -112,11 +128,12 @@ export function PlanAgenda({
       .sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
 
   return (
-    <section className={["agenda", `agenda--${variant}`, className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
+    <section className={["agenda", "agenda--stack", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
       <div className="agenda__head">
         <h2 className="agenda__heading" id={headingId}>
           {A.heading}
         </h2>
+        {action}
       </div>
       <output className="agenda__note" aria-live="polite">
         {note}
@@ -134,16 +151,16 @@ export function PlanAgenda({
               <h3 className="agenda__stage-head">
                 <button type="button" className="agenda__stage-button" aria-expanded={isOpen} onClick={() => toggleStage(stage.index)}>
                   <span className="agenda__stage-name">
-                    {variant === "stack" ? <span className="agenda__eyebrow">{A.stageOf(stage.index + 1, stages.length)}</span> : null}
+                    <span className="agenda__eyebrow">{A.stageOf(stage.index + 1, stages.length)}</span>
                     {stage.title}
                   </span>
                   <span className="agenda__when">{stage.status === "done" ? A.done : stage.when}</span>
                 </button>
               </h3>
+              {stageNote?.(stage.index) ? <div className="agenda__stage-note">{stageNote(stage.index)}</div> : null}
               {isOpen ? (
                 <div className="agenda__body">
                   <p className="agenda__small">
-                    {variant === "headings" ? `${A.stageOf(stage.index + 1, stages.length)} · ` : ""}
                     <b>{A.finishing}</b> {stage.finishing}
                   </p>
                   {list.length ? (
@@ -175,7 +192,7 @@ export function PlanAgenda({
                       )}
                     </ul>
                   ) : (
-                    <p className="agenda__small">{A.nothing}</p>
+                    <p className="agenda__small">{stage.status === "done" ? A.nothingDone : A.nothing}</p>
                   )}
                 </div>
               ) : null}
@@ -184,7 +201,13 @@ export function PlanAgenda({
         })}
       </div>
       <span ref={anchor} hidden />
-      {(() => {
+      {web ? (
+        // On the web nothing floats at the edge of a window: adding is a plain button at the foot of the road.
+        <Button className="agenda__add" variant="secondary" size="sm" aria-haspopup="dialog" onClick={() => setAdding(true)}>
+          <Icon name="plus" size={16} />
+          {A.addLabel}
+        </Button>
+      ) : (() => {
         const button = (
           <button
             type="button"

@@ -72,6 +72,9 @@ export function recordedItems(records: LoopRecord[], tasks?: Record<string, Task
     const areaId = signalOfRecord(record.id) ?? OTHER_AREA;
     const activity = activityOfRecord(record);
     entriesFor(record).forEach((entry, i) => {
+      // Only what she put out in the world is a signal: drafting, working on or readying something in
+      // ExecHQ is not, so those stay off her picture. What she used, sent or published, and what came of it, stays.
+      if (entry.source === "observed") return;
       out.push({
         id: `${record.id}:${i}`,
         source: "recorded",
@@ -91,6 +94,33 @@ export function recordedItems(records: LoopRecord[], tasks?: Record<string, Task
     out.push({ id: `task:${id}`, source: "recorded", text: C.did(step.title), on: task.doneOn, areaId: step.area, activity: step.channel ? ACTIVITY_OF_CHANNEL[step.channel] : "inside", editable: false });
   }
   return out;
+}
+
+/**
+ * What ExecHQ recorded for her in the last week that she has not hidden,
+ * newest first: the things the page tells her it added, so she is not left to
+ * wonder whether she added them herself.
+ */
+export function newlyRecorded(recorded: readonly PictureItem[], today: LoopDate, hidden: readonly string[]): PictureItem[] {
+  const since = addDays(today, -7);
+  return recorded
+    .filter((i) => i.source === "recorded" && i.on > since && i.on <= today && !hidden.includes(i.id))
+    .sort((a, b) => (a.on < b.on ? 1 : a.on > b.on ? -1 : 0));
+}
+
+/**
+ * Things already in her picture that may be what she is about to add: the same
+ * kind of thing, within three days of the date she gave, closest first. Not
+ * "something else", which is too loose to say. Used to ask "is it this one?"
+ * before she adds a second copy of what ExecHQ recorded or she added earlier.
+ */
+export function likelyDuplicates(items: readonly PictureItem[], kind: string, on: LoopDate, ignoreId?: string): PictureItem[] {
+  const activity = activityOfKind(kind);
+  if (activity === "other") return [];
+  return items
+    .filter((i) => i.id !== ignoreId && i.activity === activity && Math.abs(daysBetween(i.on, on)) <= 3)
+    .sort((a, b) => Math.abs(daysBetween(a.on, on)) - Math.abs(daysBetween(b.on, on)))
+    .slice(0, 2);
 }
 
 /** What she added: the earlier record and anything she has entered since. */
@@ -116,65 +146,6 @@ export function historyDays(startedOn: LoopDate, today: LoopDate): number {
   return Math.max(1, daysBetween(startedOn, today) + 1);
 }
 
-export interface Offer {
-  recordId: string;
-  title: string;
-  usedOn: LoopDate;
-}
-
-/**
- * The moment to offer her the entry flow: a piece she has just marked
- * published, which she may want to add with its link. At most one, none
- * already added from it, and only while it is fresh. It is an offer, never a
- * standing form.
- */
-export function offerFor(records: LoopRecord[], presence: readonly PresenceItem[], today: LoopDate): Offer | undefined {
-  const fresh = addDays(today, -2);
-  const record = records.find(
-    (r) =>
-      r.kind === "thought-leadership" &&
-      r.usedOn !== undefined &&
-      r.usedOn >= fresh &&
-      r.usedOn <= today &&
-      !presence.some((p) => p.fromRecord === r.id)
-  );
-  return record && record.usedOn ? { recordId: record.id, title: record.title, usedOn: record.usedOn } : undefined;
-}
-
-export interface GrowthMonth {
-  /** "Jul". */
-  label: string;
-  /** Her things from outside the organisation that month, oldest first. */
-  items: PictureItem[];
-}
-
-const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-/**
- * One entry for each calendar month from the month her plan began to the
- * month of today, each holding what she added or ExecHQ recorded outside the
- * organisation in it. A month with nothing is still there, empty, never
- * skipped. Work inside the organisation is Momentum's to count, so it is not
- * a circle here.
- */
-export function growthMonths(items: PictureItem[], startedOn: LoopDate, today: LoopDate): GrowthMonth[] {
-  const first = new Date(`${startedOn}T00:00:00`);
-  const last = new Date(`${today}T00:00:00`);
-  const out: GrowthMonth[] = [];
-  const index = new Map<string, GrowthMonth>();
-  for (let m = new Date(first.getFullYear(), first.getMonth(), 1); m <= last; m = new Date(m.getFullYear(), m.getMonth() + 1, 1)) {
-    const month = { label: MONTH_NAMES[m.getMonth()], items: [] as PictureItem[] };
-    index.set(`${m.getFullYear()}-${m.getMonth()}`, month);
-    out.push(month);
-  }
-  for (const item of [...items].sort((a, b) => (a.on < b.on ? -1 : 1))) {
-    if (item.activity === "inside" || item.on < startedOn || item.on > today) continue;
-    const d = new Date(`${item.on}T00:00:00`);
-    index.get(`${d.getFullYear()}-${d.getMonth()}`)?.items.push(item);
-  }
-  return out;
-}
-
 export interface CameOfRow {
   id: string;
   /** What she did, as the picture names it. */
@@ -185,6 +156,8 @@ export interface CameOfRow {
   came?: string;
   /** The entry behind it when she added it herself, so she can edit it. */
   item?: PictureItem;
+  /** The Loop record behind it, when the Loop made it. */
+  recordId?: string;
 }
 
 /**
@@ -213,7 +186,7 @@ export function cameOfRows(items: PictureItem[], startedOn: LoopDate, today: Loo
     /* The first thing she said about it is that she used it; later lines are follow-ups. */
     const did = used.sort((a, b) => (a.on < b.on ? -1 : 1))[0];
     if (!did) continue;
-    rows.push({ id: `record:${key}`, did: did.text, on: did.on, came: said.sort((a, b) => (a.on < b.on ? 1 : -1))[0]?.text });
+    rows.push({ id: `record:${key}`, recordId: key, did: did.text, on: did.on, came: said.sort((a, b) => (a.on < b.on ? 1 : -1))[0]?.text });
   }
   return rows.sort((a, b) => (a.on < b.on ? 1 : a.on > b.on ? -1 : 0));
 }

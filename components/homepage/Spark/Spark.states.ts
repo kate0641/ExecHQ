@@ -7,7 +7,9 @@ const podcast = { id: "presence:p1", source: S.source.podcast, text: S.podcast("
 const speaking = { id: "presence:s1", source: S.source.speaking, text: S.speaking("Growth Summit", "second") };
 const press = { id: "presence:r1", source: S.source.press, text: S.press("Marketing Week", "third") };
 
-const base = { label: S.label, dismissLabel: S.dismiss, dismissName: S.dismissNote, onDismiss: () => {} };
+const recorded = { id: "recorded:r1", source: S.recordedSource, text: S.recorded("Pitched Trade Weekly a short guest piece"), actionLabel: S.hide };
+
+const base = { label: S.label, dismissLabel: S.dismiss, dismissName: S.dismissNote, onDismiss: () => {}, onAction: () => {} };
 
 export const sparkStates = defineComponentStates({
   name: "Spark",
@@ -26,6 +28,11 @@ export const sparkStates = defineComponentStates({
   variants: [
     { label: "One note — default", props: { ...base, items: [podcast] } },
     { label: "Two notes", props: { ...base, items: [press, speaking] } },
+    {
+      label: "Added for you — with a way to hide it",
+      description: "On the Signal Picture, when ExecHQ recorded something she did not add herself. It says so, and if the system got it wrong she can hide it from her picture.",
+      props: { ...base, items: [recorded, press] },
+    },
     {
       label: "A long note wraps",
       props: {

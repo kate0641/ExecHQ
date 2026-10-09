@@ -2427,12 +2427,6 @@ ul.chrome__nav-list {
   padding: 0;
 }
 
-/* The tabs sit a hair closer to the corner buttons than the body's usual top
-   padding would put them (designer, 2026-10-07). */
-.concierge-panel--sheet .concierge-panel__head:not(.concierge-panel__head--bare) + .concierge-panel__body ul.concierge-mini {
-  margin-top: calc(-1 * var(--space-xs));
-}
-
 .concierge-panel--sheet .concierge-panel__head:not(.concierge-panel__head--bare) .concierge-panel__close {
   position: absolute;
   top: var(--space-2xs);
@@ -2599,8 +2593,7 @@ ul.chrome__nav-list {
 
 ul.concierge-dests,
 ul.concierge-work,
-ul.concierge-suggest,
-ul.concierge-mini {
+ul.concierge-suggest {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -2741,7 +2734,6 @@ ul.concierge-mini {
 .concierge-dest:focus-visible,
 .concierge-row:focus-visible,
 .concierge-suggest__item:focus-visible,
-.concierge-mini a:focus-visible,
 .concierge-go:focus-visible {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
@@ -2767,78 +2759,11 @@ ul.concierge-mini {
   min-height: var(--button-target);
 }
 
-/* No name above the advisor's messages in the panel: the panel's header
-   already says who is talking (designer, 2026-10-07). Screen readers still
-   hear the name, from the hidden text inside each message. */
-.concierge-panel .chat-message__from {
-  display: none;
-}
-
-/* Streamlined, like a chat app on a phone: no rule under the header or above
-   the field, the field a full pill, and replies starting at the left under
-   the answer they belong to (designer, 2026-10-07). */
-.concierge-panel .chat-composer {
-  padding: var(--space-xs);
-  padding-left: var(--space-md);
-  border-radius: var(--radius-pill);
-  box-shadow: var(--shadow-sm);
-}
-
-.concierge-panel .quick-replies > li:first-child {
-  margin-left: 0;
-}
-
-/* The row runs to the sheet's edges, so the last tab that doesn't fit is cut
-   by the edge of the sheet and peeks out, showing there is more to scroll. */
-ul.concierge-mini {
-  display: flex;
-  gap: var(--space-lg);
-  margin: 0 calc(-1 * var(--space-lg)) var(--space-lg);
-  padding: 0 var(--space-lg);
-  border-bottom: var(--border-width-thin) solid var(--color-border-subtle);
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.concierge-mini::-webkit-scrollbar {
-  display: none;
-}
-
-/* The destinations while chatting: a quiet row of text tabs, the page she is
-   on underlined in navy, rather than a row of outlined chips (designer,
-   2026-10-07: the chips made the chat feel clunky). */
-.concierge-mini a {
-  min-height: var(--button-target);
-  display: inline-flex;
+/* Above the advisor's head: the way to the product's places, held while the chat scrolls. */
+.concierge-panel__top {
   flex: none;
-  align-items: center;
-  font-family: var(--type-label-font);
-  font-size: var(--type-label-size);
-  font-weight: var(--type-label-weight);
-  letter-spacing: var(--type-label-tracking);
-  color: var(--color-text-secondary);
-  text-decoration: none;
-}
-
-/* A follow-up is waiting on Home: the accent dot the icon tiles carried,
-   after the word. */
-.concierge-mini__dot {
-  width: 6px;
-  height: 6px;
-  margin-left: var(--space-2xs);
-  align-self: flex-start;
-  margin-top: var(--space-sm);
-  border-radius: 50%;
-  background-color: var(--color-accent);
-}
-
-.concierge-mini a:hover {
-  color: var(--color-text-primary);
-}
-
-.concierge-mini a.is-current {
-  color: var(--color-text-primary);
-  box-shadow: inset 0 calc(-1 * var(--border-width-medium)) 0 var(--color-surface-inverse);
+  padding: var(--space-xs) var(--space-lg) var(--space-sm);
+  border-bottom: var(--border-width-thin) solid var(--color-border);
 }
 
 /* One even gap between every message, his and hers: 28px, so the chat
@@ -3098,8 +3023,6 @@ ol.concierge-list {
   padding-bottom: var(--space-md);
   background-color: var(--color-surface-inverse);
 }
-
-
 
 /* A card with a navy header takes navy for its top edge, so no grey line
    runs along the top of the navy. */
@@ -5555,7 +5478,7 @@ ol.ring-detail__timeline {
    line, and a white sheet with the welcome and the ask. Full-bleed, so the
    chrome's own padding is dropped around it. */
 
-.chrome__main:has(> .welcome){
+.chrome__main:has(> .welcome) {
   display: flex;
   flex-direction: column;
   padding: 0;
@@ -5759,6 +5682,30 @@ ol.ring-detail__timeline {
 /* On the tablet, which stacks like the phone, the banner keeps a phone's
    width and sits in the middle. */
 [data-viewport="tablet"] .welcome > .login__notification:not(:where([data-viewport="mobile"] *)) {
+  max-width: 24rem;
+  margin-inline: auto;
+}
+
+/* Onboarding's code page: the email's notification over the top of the
+   page, as on Login. */
+.guide:has(> .guide__overlay) {
+  position: relative;
+}
+
+.guide__overlay {
+  position: absolute;
+  z-index: 3;
+  top: var(--space-md);
+  right: var(--space-md);
+  left: var(--space-md);
+}
+
+[data-viewport="web"] .guide__overlay:not(:where([data-viewport="mobile"] *)) {
+  left: auto;
+  width: 24rem;
+}
+
+[data-viewport="tablet"] .guide__overlay:not(:where([data-viewport="mobile"] *)) {
   max-width: 24rem;
   margin-inline: auto;
 }
@@ -7585,6 +7532,75 @@ ol.ring-detail__timeline {
   }
 }
 
+/* The drawer: up from the foot of the screen, with the page behind left alone. */
+.drawer {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: var(--z-scrim);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  /* Only the panel takes the pointer; the page above it stays usable. */
+  pointer-events: none;
+}
+
+.drawer--inline {
+  position: relative;
+  min-height: 18rem;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background-color: var(--color-surface-sunken);
+}
+
+.drawer__panel {
+  pointer-events: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  max-height: 70vh;
+  padding: var(--space-2xs) var(--space-lg) var(--space-lg);
+  overflow-y: auto;
+  color: var(--color-text-primary);
+  background-color: var(--color-surface);
+  border-top: var(--border-thin);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  box-shadow: var(--shadow-lg);
+}
+
+.device__screen .drawer__panel {
+  max-height: 70%;
+}
+
+.drawer__grab {
+  align-self: center;
+  display: grid;
+  place-items: center;
+  width: var(--space-3xl);
+  height: var(--space-lg);
+  cursor: pointer;
+}
+
+.drawer__grab::before {
+  content: "";
+  width: var(--space-2xl);
+  height: var(--space-2xs);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-border-strong);
+}
+
+.drawer__grab:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .drawer .drawer__panel {
+    animation: sheet-up 0.24s var(--easing-standard);
+  }
+}
+
 @keyframes sheet-up {
   from {
     translate: 0 100%;
@@ -7614,6 +7630,27 @@ ol.ring-detail__timeline {
 
 [data-viewport="web"] .sheet__grab:not(:where([data-viewport="mobile"] *)) {
   display: none;
+}
+
+/* The drawer on wider screens. It still sits beside the page and leaves it usable. On a tablet it rises
+   from the bottom, kept to a reading width like the sheet. On the web, where nothing rises from the bottom
+   of a window, it floats at the bottom right at that width, so the page stays readable beside it. */
+[data-viewport="tablet"] .drawer__panel:not(:where([data-viewport="mobile"] *)) {
+  width: 100%;
+  max-width: calc(var(--content-measure) + 2 * var(--space-lg));
+  margin-inline: auto;
+}
+
+[data-viewport="web"] .drawer:not(:where([data-viewport="mobile"] *)):not(.drawer--inline) {
+  align-items: flex-end;
+  padding: var(--space-lg);
+}
+
+[data-viewport="web"] .drawer__panel:not(:where([data-viewport="mobile"] *)) {
+  width: min(100%, 30rem);
+  max-height: min(80vh, 44rem);
+  border: var(--border-thin);
+  border-radius: var(--radius-xl);
 }
 
 /* --- Starting plan (Concept 1) --------------------------------------------- */
@@ -8417,7 +8454,7 @@ ol.ring-detail__timeline {
   gap: var(--space-xs);
 }
 
-.guide__stages{
+.guide__stages {
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
@@ -8426,7 +8463,7 @@ ol.ring-detail__timeline {
   list-style: none;
 }
 
-.guide__stages > li{
+.guide__stages > li {
   display: flex;
   flex-direction: column;
   gap: var(--space-3xs);
@@ -8434,7 +8471,7 @@ ol.ring-detail__timeline {
   border-top: var(--border-subtle);
 }
 
-.guide__stages > li:first-child{
+.guide__stages > li:first-child {
   padding-top: 0;
   border-top: 0;
 }
@@ -10085,6 +10122,14 @@ ul.spark {
   flex: none;
 }
 
+/* More than one button: stacked at the end, so a long note keeps its width. */
+.spark__actions {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
 /* Celebrate (Homepage): a navy card, no mark. The first sentence is a yellow
    headline with the source beside it and an × at the end; the rest sits
    close under it. Navy takes the inverse colours set with the Briefing. */
@@ -11051,7 +11096,6 @@ ul.stage-actions__list {
   margin-top: var(--space-2xs);
 }
 
-
 /* --- The Profile page (Concept 1, Grouped) --------------------------------- */
 .profile {
   display: flex;
@@ -11452,7 +11496,8 @@ ul.stage-actions__list {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .login__notification .mail-notification {
+  .login__notification .mail-notification,
+  .guide__overlay .mail-notification {
     animation: notification-drop 0.35s var(--easing-standard);
   }
 }
@@ -12869,6 +12914,12 @@ ul.card-carousel__track {
   gap: var(--space-md);
 }
 
+/* The two groups lay nothing out on their own: their parts are the form's. */
+.baseline-form__about,
+.baseline-form__counts {
+  display: contents;
+}
+
 .linkedin-more {
   display: flex;
   flex-direction: column;
@@ -12892,19 +12943,26 @@ ul.card-carousel__track {
   color: var(--color-text-secondary);
 }
 
-.linkedin-more__details > summary {
+.linkedin-more__open {
+  align-self: flex-start;
   min-height: var(--target-min, 2.75rem);
-  display: flex;
-  align-items: center;
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-link);
+  padding-block: 0;
+  background: none;
+  border: 0;
   cursor: pointer;
 }
 
-.linkedin-more__details[open] > summary {
-  margin-bottom: var(--space-sm);
+.linkedin-more__drawer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.linkedin-more__drawer-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
 }
 
 .baseline-form__intro {
@@ -13017,395 +13075,6 @@ ul.card-carousel__track {
    cards are plain, medium-term has a heavier edge, the long-term milestone sits
    on the feature surface. Not the Briefing's card pattern.
    -------------------------------------------------------------------------- */
-.steps {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-}
-
-.steps__head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--space-2xs) var(--space-md);
-}
-
-.steps__heading {
-  margin: 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-}
-
-.steps__group-meta {
-  margin: 0;
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-}
-
-.steps__group {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.steps__group-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--space-3xs) var(--space-md);
-}
-
-.steps__group-title {
-  margin: 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-}
-
-.steps__cards {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-between-cards);
-}
-
-.answer-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-
-.answer-form__title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-}
-
-.answer-form__intro {
-  margin: 0;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
-}
-
-.answer-form__actions {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
-.told-us {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.told-us__heading {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-}
-
-.told-us__list {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-}
-
-.told-us__row {
-  display: grid;
-  grid-template-columns: 6.5rem minmax(0, 1fr);
-  gap: var(--space-sm);
-  padding-block: var(--space-xs);
-  border-bottom: var(--border-width-thin) solid var(--color-border);
-}
-
-.told-us__row dt {
-  font-size: var(--text-xs);
-  letter-spacing: var(--tracking-widest);
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-  font-weight: var(--weight-semibold);
-  padding-top: var(--space-3xs);
-}
-
-.told-us__row dd {
-  margin: 0;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-}
-
-.told-us__empty {
-  margin: 0;
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-}
-
-.capacity {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  padding: var(--space-md);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface-raised);
-}
-
-.capacity__heading {
-  margin: 0;
-  font-size: var(--text-xs);
-  letter-spacing: var(--tracking-widest);
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-  font-weight: var(--weight-semibold);
-}
-
-.capacity__hold {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-}
-
-.capacity__hold p,
-.capacity__live {
-  margin: 0;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-}
-
-.capacity__live {
-  color: var(--color-text-secondary);
-}
-
-.steps__note {
-  margin: 0;
-  padding: var(--space-sm) var(--space-md);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-md);
-  background-color: var(--color-surface-feature);
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-}
-
-.steps__free {
-  margin: 0;
-  padding: var(--space-md);
-  border: var(--border-width-thin) dashed var(--color-border-strong);
-  border-radius: var(--radius-card);
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
-}
-
-.steps__free:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.steps__hold {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-sm);
-}
-
-.steps__hold p {
-  margin: 0;
-}
-
-.steps__hold-label {
-  font-weight: var(--weight-semibold);
-}
-
-.steps__hold-hint {
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-}
-
-.step-card {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  padding: var(--space-card-padding);
-  border: var(--border-thin);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
-  color: var(--color-text-primary);
-}
-
-.step-card--medium {
-  border-inline-start: var(--border-width-thick) solid var(--color-border-strong);
-}
-
-.step-card--long {
-  background-color: var(--color-surface-feature);
-}
-
-.step-card__heard {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2xs);
-  margin: 0;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-secondary);
-}
-
-.step-card__tags {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2xs);
-}
-
-.step-card__state {
-  margin-inline-start: auto;
-  font-size: var(--text-xs);
-  color: var(--color-text-secondary);
-}
-
-.step-card__title {
-  margin: 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-}
-
-.step-card--long .step-card__title {
-  font-size: var(--text-xl);
-}
-
-.step-card__title:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.step-card__moves,
-.step-card__edited {
-  margin: 0;
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-}
-
-.step-card__moves span {
-  font-weight: var(--weight-semibold);
-}
-
-.step-card__why,
-.step-card__facts {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  margin: 0;
-}
-
-.step-card__row,
-.step-card__facts > div {
-  display: grid;
-  grid-template-columns: 5.5rem 1fr;
-  gap: var(--space-xs);
-}
-
-.step-card__why dt,
-.step-card__facts dt {
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-secondary);
-}
-
-.step-card__why dd,
-.step-card__facts dd {
-  margin: 0;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-}
-
-.step-card__facts {
-  padding-top: var(--space-sm);
-  border-top: var(--border-subtle);
-}
-
-.step-card__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-xs);
-}
-
-.step-card__more[hidden] {
-  display: none;
-}
-
-.step-card__menu,
-.step-card__reasons,
-.step-card__panel-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-xs);
-}
-
-.step-card__panel {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-sm);
-  padding: var(--space-sm);
-  border-radius: var(--radius-md);
-  background-color: var(--color-surface-sunken);
-}
-
-.step-card__prompt {
-  margin: 0;
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-}
-
-[data-viewport="mobile"] .step-card__row,
-[data-viewport="mobile"] .step-card__facts > div {
-  grid-template-columns: 1fr;
-  gap: var(--space-3xs);
-}
-
-[data-viewport="mobile"] .step-card__actions > .btn {
-  flex: 1 1 100%;
-}
-
-[data-viewport="web"] .steps__group--short .steps__cards,
-[data-viewport="tablet"] .steps__group--short .steps__cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
-  align-items: start;
-}
-
-fieldset.step-card__panel {
-  min-width: 0;
-  margin: 0;
-  border: 0;
-}
-
-/* -----------------------------------------------------------------------------
-   ROADMAP (Plan, Sprint 3)
-   Stages are an order, never a schedule or a ladder: no lock, no level, no bar.
-   Position is carried by the words ("You are here", "Done") and the order.
-   -------------------------------------------------------------------------- */
-.roadmap {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
 
 .roadmap__head {
   display: flex;
@@ -13426,153 +13095,7 @@ fieldset.step-card__panel {
   line-height: var(--leading-snug);
 }
 
-.roadmap__plan,
-.roadmap__why,
-.roadmap__after {
-  margin: 0;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
-}
-
-.roadmap__plan b {
-  color: var(--color-text-primary);
-}
-
-.roadmap__why span,
-.roadmap__after span,
-.roadmap__label {
-  font-weight: var(--weight-semibold);
-}
-
-ol.roadmap__stages {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  border: var(--border-thin);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface-raised);
-}
-
-.roadmap__stage {
-  border-top: var(--border-subtle);
-}
-
-.roadmap__stage:first-child {
-  border-top: 0;
-}
-
-.roadmap__stage.is-current {
-  background-color: var(--color-surface-feature);
-}
-
-.roadmap__stage:first-child.is-current {
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-}
-
-.roadmap__stage:last-child.is-current {
-  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-}
-
-.roadmap__stage:only-child.is-current {
-  border-radius: var(--radius-lg);
-}
-
-.roadmap__toggle {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  width: 100%;
-  padding: var(--space-sm) var(--space-md);
-  border: 0;
-  background: none;
-  color: var(--color-text-primary);
-  font: inherit;
-  text-align: start;
-}
-
-button.roadmap__toggle {
-  cursor: pointer;
-}
-
-button.roadmap__toggle:hover {
-  background-color: var(--color-surface-hover);
-}
-
-.roadmap__toggle:focus-visible,
-.roadmap__toggle.is-focus {
-  outline: var(--focus-ring);
-  outline-offset: calc(var(--focus-ring-offset) * -1);
-}
-
-.roadmap__toggle.is-hover {
-  background-color: var(--color-surface-hover);
-}
-
-.roadmap__n {
-  font-family: var(--font-display);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-secondary);
-}
-
-.roadmap__name {
-  flex: 1;
-  min-width: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-md);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-}
-
-.is-current .roadmap__name {
-  font-size: var(--text-lg);
-}
-
-.roadmap__chip {
-  padding: var(--space-3xs) var(--space-xs);
-  border: var(--border-width-medium) solid var(--color-text-primary);
-  border-radius: var(--radius-tag);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-}
-
-.roadmap__done {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2xs);
-  font-size: var(--text-xs);
-  color: var(--color-text-secondary);
-}
-
-.roadmap__body[hidden] {
-  display: none;
-}
-
-.roadmap__body {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-2xs);
-  padding: 0 var(--space-md) var(--space-md);
-}
-
-.roadmap__label {
-  margin: var(--space-2xs) 0 0;
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-}
-
-.roadmap__milestone {
-  margin: 0;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-}
-
-ul.roadmap__outcomes,
-ul.roadmap__carry {
+ul.roadmap__outcomes {
   margin: 0;
   padding-inline-start: var(--space-md);
   font-size: var(--text-sm);
@@ -13604,94 +13127,6 @@ ul.roadmap__carry {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-xs);
-}
-
-.roadmap__history-title {
-  margin: 0 0 var(--space-2xs);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-}
-
-.roadmap__history ul {
-  margin: 0;
-  padding-inline-start: var(--space-md);
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-}
-
-.roadmap__foot {
-  display: flex;
-}
-
-.roadmap__switch {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.roadmap__switch-title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-semibold);
-}
-
-.roadmap__switch-intro {
-  margin: 0;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-}
-
-ul.roadmap__plans {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.roadmap__plan-option {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3xs);
-  width: 100%;
-  padding: var(--space-sm);
-  border: var(--border-thin);
-  border-radius: var(--radius-md);
-  background-color: var(--color-surface-raised);
-  color: var(--color-text-primary);
-  font: inherit;
-  text-align: start;
-  cursor: pointer;
-}
-
-.roadmap__plan-option:hover:not(:disabled) {
-  background-color: var(--color-surface-hover);
-}
-
-.roadmap__plan-option:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.roadmap__plan-option:disabled {
-  cursor: default;
-  background-color: var(--color-surface-disabled);
-  color: var(--color-text-secondary);
-}
-
-.roadmap__plan-name {
-  font-weight: var(--weight-semibold);
-}
-
-.roadmap__plan-for,
-.roadmap__plan-current {
-  font-size: var(--text-sm);
-}
-
-.roadmap__plan-current {
-  font-weight: var(--weight-semibold);
 }
 
 /* The all-plans reference */
@@ -13800,143 +13235,6 @@ ul.templates__outcomes {
   line-height: var(--leading-snug);
 }
 
-/* Where you show up: four equal territories, a dot for each thing. */
-.map {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-
-.map__card {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-  padding: var(--space-md);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-xl);
-  background-color: var(--color-surface-raised);
-}
-
-.map__grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-sm);
-}
-
-.map__territory {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  padding: var(--space-sm);
-  border: var(--border-width-thin) solid var(--color-border-strong);
-  border-radius: var(--radius-lg);
-}
-
-.map__territory.is-empty {
-  border-style: dashed;
-}
-
-.map__territory--wide {
-  grid-column: 1 / -1;
-}
-
-.map__head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--space-xs);
-}
-
-.map__label {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-}
-
-.map__count {
-  font-size: var(--text-xs);
-  color: var(--color-text-muted);
-  font-variant-numeric: tabular-nums;
-}
-
-ul.map__dots {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2xs);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  min-height: 1.25rem;
-}
-
-.map__before {
-  display: contents;
-}
-
-.map__dot {
-  display: block;
-  box-sizing: border-box;
-  width: 1.25rem;
-  height: 1.25rem;
-  flex: none;
-  padding: 0;
-  border-radius: 50%;
-}
-
-.map__dot--before {
-  border: var(--border-width-medium) solid var(--color-border-strong);
-  background-color: transparent;
-}
-
-.map__dot--since {
-  border: 0;
-  background-color: var(--color-surface-inverse);
-  cursor: pointer;
-}
-
-button.map__dot--since.is-open {
-  outline: var(--focus-ring-width) solid var(--color-focus);
-  outline-offset: var(--space-3xs);
-}
-
-.map__dot--next {
-  border: var(--border-width-medium) dashed var(--color-surface-inverse);
-  background-color: transparent;
-}
-
-.map__dot--next.is-started {
-  background-image: linear-gradient(to top, var(--color-surface-inverse) 50%, transparent 50%);
-}
-
-ul.map__key {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2xs) var(--space-md);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-size: var(--text-xs);
-  color: var(--color-text-secondary);
-}
-
-.map__key li {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-xs);
-}
-
-.map__dot--key {
-  width: 0.875rem;
-  height: 0.875rem;
-}
-
-/* Concept 3: the notes sit quietly under the title, with no card. */
-.signals-page--c3 .spark__note {
-  padding-block: var(--space-2xs);
-  background-color: transparent;
-}
-
 /* How you've grown: a line through time, a circle for each month, her next step as the next circle. */
 /* What came of it: a row for each thing, what she did pointing at her own words. */
 ul.came-of__rows {
@@ -14022,118 +13320,41 @@ ul.came-of__rows {
   color: var(--color-text-muted);
 }
 
-.growth-path {
+/* "Nothing reported yet", when she can tap it to report. */
+.came-of__reply--ask {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
-}
-
-.growth-path__figure {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 361 / 140;
-}
-
-.growth-path__svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-.growth-path__line,
-.growth-path__ahead {
-  fill: none;
-}
-
-.growth-path__line {
-  stroke: var(--color-border-strong);
-  stroke-width: 1.8;
-}
-
-.growth-path__ahead {
-  stroke: var(--color-surface-inverse);
-  stroke-width: 2;
-  stroke-dasharray: 4 4;
-}
-
-.growth-path__dot,
-.growth-path__quiet,
-.growth-path__next {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-}
-
-.growth-path__dot {
-  display: grid;
-  place-items: center;
-  padding: 0;
-  border: 0;
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
-  font-family: var(--font-display);
+  align-items: flex-start;
+  gap: var(--space-3xs);
+  min-height: var(--target-min, 2.75rem);
+  font: inherit;
   font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
+  text-align: left;
   cursor: pointer;
 }
 
-.growth-path__dot.is-open {
-  outline: var(--focus-ring-width) solid var(--color-focus);
-  outline-offset: var(--space-3xs);
-}
-
-.growth-path__quiet {
-  width: 0.625rem;
-  height: 0.625rem;
-  background-color: var(--color-border-strong);
-}
-
-.growth-path__next {
-  width: 2rem;
-  height: 2rem;
-  border: var(--border-width-medium) dashed var(--color-surface-inverse);
-}
-
-.growth-path__next.is-started {
-  background-image: linear-gradient(to top, var(--color-surface-inverse) 50%, transparent 50%);
-}
-
-.growth-path__caption {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2xs);
-}
-
-.growth-path__caption p {
-  margin: 0;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-}
-
-.growth-path__actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-sm);
-}
-
-.growth-path__month {
-  position: absolute;
-  bottom: 0;
-  transform: translateX(-50%);
+.came-of__ask-hint {
   font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-link);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.came-of__row.is-quiet .came-of__reply--ask:hover,
+.came-of__row.is-quiet .came-of__reply--ask.is-hover {
+  border-color: var(--color-text-secondary);
   color: var(--color-text-secondary);
 }
 
-.growth-path__month--next {
-  bottom: 1.1rem;
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-primary);
-}.signal-picture__intro,
-.signal-picture__empty,
-.signal-picture__counts {
+.came-of__reply--ask:focus-visible,
+.came-of__reply--ask.is-focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.signal-picture__intro,
+.signal-picture__empty {
   margin: 0;
   font-size: var(--text-sm);
   line-height: var(--leading-normal);
@@ -14142,80 +13363,6 @@ ul.came-of__rows {
   padding: var(--space-sm) var(--space-md);
   border: var(--border-width-thin) dashed var(--color-border-strong);
   border-radius: var(--radius-md);
-}
-
-.signal-picture__offer {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  padding: var(--space-sm) var(--space-md);
-  border: var(--border-width-medium) solid var(--color-border-strong);
-  border-radius: var(--radius-md);
-  background-color: var(--color-surface-raised);
-}
-
-.signal-picture__offer p {
-  margin: 0;
-}
-
-ul.signal-picture__list {
-  display: flex;
-  flex-direction: column;
-  align-self: stretch;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  border: var(--border-thin);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface-raised);
-}
-
-.signal-picture__item {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-2xs);
-  padding: var(--space-sm) var(--space-md);
-  border-top: var(--border-subtle);
-}
-
-.signal-picture__item:first-child {
-  border-top: 0;
-}
-
-.signal-picture__item-top {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-xs);
-}
-
-.signal-picture__source {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2xs);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-secondary);
-}
-
-.signal-picture__source--added {
-  color: var(--color-text-primary);
-}
-
-.signal-picture__date {
-  font-size: var(--text-xs);
-  color: var(--color-text-secondary);
-}
-
-.signal-picture__text {
-  margin: 0;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-}
-
-.signal-picture__text--quote {
-  font-style: italic;
 }
 
 .signal-picture__row-actions {
@@ -14230,27 +13377,6 @@ ul.signal-picture__list {
   font-weight: var(--weight-semibold);
 }
 
-.signal-picture__label {
-  display: block;
-  margin: 0 0 var(--space-3xs);
-  font-family: var(--font-body);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-}
-
-.signal-picture__impact {
-  align-self: stretch;
-  margin: 0;
-  padding-top: var(--space-xs);
-  border-top: var(--border-width-thin) dashed var(--color-border);
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
-}
-
 .entry-form {
   display: flex;
   flex-direction: column;
@@ -14262,6 +13388,80 @@ ul.signal-picture__list {
   font-family: var(--font-display);
   font-size: var(--text-xl);
   font-weight: var(--weight-semibold);
+}
+
+.entry-drawer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.entry-drawer__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+}
+
+.entry-drawer__more {
+  align-self: flex-start;
+  min-height: var(--target-min, 2.75rem);
+  padding-block: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+ol.entry-drawer__rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.entry-drawer__row {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border: var(--border-width-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+}
+
+.entry-drawer__row > .btn {
+  align-self: flex-start;
+}
+
+.entry-drawer__row-name {
+  margin: 0;
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  font-weight: var(--weight-semibold);
+}
+
+.entry-form__same {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-raised);
+}
+
+.entry-form__same p {
+  margin: 0;
+  font-size: var(--text-sm);
+}
+
+.entry-form__same .entry-form__same-hint {
+  color: var(--color-text-secondary);
 }
 
 .entry-form__error {
@@ -14311,61 +13511,32 @@ ul.signal-picture__list {
 }
 
 .momentum__intro,
-.momentum__thin,
-.momentum__basis,
-.momentum__rule {
+.momentum__basis {
   margin: 0;
   font-size: var(--text-sm);
   line-height: var(--leading-normal);
   color: var(--color-text-secondary);
 }
 
-.momentum__thin {
-  padding: var(--space-sm) var(--space-md);
-  border: var(--border-width-thin) dashed var(--color-border-strong);
-  border-radius: var(--radius-md);
-}
-
-ul.momentum__figures {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  border: var(--border-thin);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface-raised);
-}
-
-.momentum__figure {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-3xs);
-  padding: var(--space-sm) var(--space-md);
-  border-top: var(--border-subtle);
-}
-
-.momentum__figure:first-child {
-  border-top: 0;
-}
-
 .momentum__stage {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--space-xs);
+  gap: var(--space-md);
   padding-top: var(--space-md);
   border-top: var(--border-subtle);
+}
+
+/* The stage lines its children up at the start; the next-move card fills the width. */
+.momentum__stage > .presence-clean__try {
+  align-self: stretch;
+  /* The next move is its own thing, not the next line of the counts. */
+  margin-top: var(--space-xs);
 }
 
 .momentum__stage:first-of-type {
   border-top: 0;
   padding-top: 0;
-}
-
-.momentum__stage > ul.momentum__figures {
-  align-self: stretch;
 }
 
 .momentum__stage-title {
@@ -14376,129 +13547,7 @@ ul.momentum__figures {
   line-height: var(--leading-snug);
 }
 
-.momentum__count,
-.momentum__sentence {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-md);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-}
-
-.momentum__label {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-2xl);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
-}
-
-.momentum__next {
-  margin: 0;
-  font-size: var(--text-sm);
-}
-
-.momentum__next svg {
-  display: inline;
-  vertical-align: middle;
-}
-
-.momentum__next span {
-  font-weight: var(--weight-semibold);
-}
-
-.momentum__behind {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  align-self: stretch;
-  gap: var(--space-2xs);
-}
-
-ul.momentum__events {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2xs);
-  margin: 0;
-  padding-inline-start: var(--space-md);
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-}
-
-.momentum__events[hidden] {
-  display: none;
-}
-
-.momentum__event-date {
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-secondary);
-}
-
 /* Momentum's pictures: the dial, the week's circles and the pill bars. */
-.dial-mid {
-  position: relative;
-  align-self: center;
-  width: min(100%, 20rem);
-  aspect-ratio: 1;
-}
-
-.dial-ring {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-.dial-ring__tick {
-  stroke-linecap: round;
-}
-
-.dial-ring__tick--on {
-  stroke: var(--color-surface-inverse);
-}
-
-.dial-ring__tick--off {
-  stroke: var(--color-border-strong);
-}
-
-.dial-ring__tick--today {
-  stroke: var(--color-action);
-}
-
-.dial-ring__future {
-  fill: var(--color-border-strong);
-}
-
-.dial-mid__text {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-content: center;
-  gap: var(--space-3xs);
-  padding: 0 22%;
-  text-align: center;
-}
-
-.dial-mid__big,
-.dial-mid__cap {
-  margin: 0;
-}
-
-.dial-mid__big {
-  font-family: var(--font-display);
-  font-size: var(--text-4xl);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
-}
-
-.dial-mid__big--word {
-  font-size: var(--text-2xl);
-}
-
-.dial-mid__cap {
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
-}
 
 .day-circles {
   display: flex;
@@ -14507,25 +13556,32 @@ ul.momentum__events {
   align-self: stretch;
 }
 
+/* Each day is at most 3.5rem across: on a phone the row fills the width, and on a tablet or the web it
+   stays a row of days rather than seven large discs. */
 .day-circles ol {
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(7, minmax(0, 3.5rem));
+  justify-content: start;
   gap: var(--space-xs);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
+/* A past day with nothing in it is a thin outline, so it reads as empty; a day she did something is
+   filled; a day still to come is dashed. */
 .day-circles__dot {
   display: grid;
   place-items: center;
   aspect-ratio: 1;
   border-radius: 50%;
-  background-color: var(--color-border);
+  background-color: transparent;
+  border: var(--border-width-thin) solid var(--color-border-strong);
 }
 
 .day-circles__dot.is-on {
   background-color: var(--color-surface-inverse);
+  border-color: var(--color-surface-inverse);
   color: var(--color-text-inverse);
 }
 
@@ -14544,200 +13600,6 @@ ul.momentum__events {
   text-align: center;
   font-size: var(--text-xs);
   color: var(--color-text-secondary);
-}
-
-ul.pill-bars {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  align-self: stretch;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.pill-bar {
-  display: grid;
-  grid-template-columns: var(--bar, 50%) 3.9rem 1.1rem;
-  align-items: stretch;
-  height: 3.9rem;
-}
-
-.pill-bar--completed {
-  --tone: var(--color-surface-inverse);
-  --on: var(--color-text-inverse);
-}
-
-.pill-bar--artifact {
-  --tone: var(--color-action-secondary);
-  --on: var(--color-text-on-action-secondary);
-}
-
-.pill-bar--outcome {
-  --tone: var(--color-action);
-  --on: var(--color-text-on-action);
-}
-
-.pill-bar__rect,
-.pill-bar__pill,
-.pill-bar__tip {
-  background-color: var(--tone);
-  color: var(--on);
-}
-
-.pill-bar__rect {
-  display: grid;
-  align-content: center;
-  min-width: 0;
-  padding: var(--space-xs) var(--space-sm);
-  border-radius: var(--radius-md) 0 0 var(--radius-md);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-}
-
-.pill-bar__pill {
-  display: grid;
-  place-items: center;
-  margin-left: -1px;
-  border-radius: var(--radius-pill);
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-semibold);
-}
-
-.pill-bar__tip {
-  clip-path: polygon(0 12%, 100% 50%, 0 88%);
-}
-
-/* -----------------------------------------------------------------------------
-   WHAT CHANGED (Plan, Sprint 3)
-   A reading, not a card from the Briefing: no image, no byline, no pull quote.
-   -------------------------------------------------------------------------- */
-.narrative {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-
-.narrative__heading {
-  margin: 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-}
-
-ul.narrative__lines {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.narrative__line {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-3xs);
-}
-
-.narrative__text {
-  margin: 0;
-  font-size: var(--text-md);
-  line-height: var(--leading-normal);
-}
-
-.narrative__next {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-xs);
-  padding: var(--space-md);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-feature);
-}
-
-.narrative__next-label {
-  margin: 0;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-secondary);
-}
-
-.narrative__next-title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-}
-
-.roadmap__stage-content {
-  padding: 0 var(--space-md) var(--space-md);
-}
-
-/* -----------------------------------------------------------------------------
-   THE PLAN PAGE (Sprint 3)
-   One column on a phone and a tablet, in the order written. On web the lead
-   runs across the top and the main and side groups sit beside each other.
-   -------------------------------------------------------------------------- */
-.plan-page {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-  max-width: var(--content-measure);
-  margin-inline: auto;
-}
-
-.plan-page__title {
-  margin: 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-2xl);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
-}
-
-.plan-page__lead,
-.plan-page__main,
-.plan-page__side {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-  min-width: 0;
-}
-
-[data-viewport="web"] .plan-page {
-  display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-  align-items: start;
-  column-gap: var(--space-xl);
-  max-width: 76rem;
-}
-
-[data-viewport="web"] .plan-page__title,
-[data-viewport="web"] .plan-page__lead {
-  grid-column: 1 / -1;
-}
-
-[data-viewport="web"] .plan-page__main {
-  grid-column: 1;
-}
-
-[data-viewport="web"] .plan-page__side {
-  grid-column: 2;
-}
-
-/* Record forward: the wide column holds the record, the side the next steps. */
-[data-viewport="web"] .plan-page--c3 .plan-page__main,
-[data-viewport="web"] .plan-page--c3 .plan-page__side {
-  grid-row: 3;
 }
 
 /* The Signal Picture page: the same frame as the Plan's, with its own widths
@@ -14791,10 +13653,6 @@ ul.narrative__lines {
   max-width: 76rem;
 }
 
-[data-viewport="web"] .signals-page--c3 {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-}
-
 [data-viewport="web"] .signals-page__title,
 [data-viewport="web"] .signals-page__lead {
   grid-column: 1 / -1;
@@ -14808,172 +13666,101 @@ ul.narrative__lines {
   grid-column: 2;
 }
 
-[data-viewport="web"] .signals-page--c3 .signals-page__main,
-[data-viewport="web"] .signals-page--c3 .signals-page__side {
-  grid-row: 3;
+/* Signal Picture Concept 2 on the web (option C, 2026-10-08): this week and the next move side by side
+   across the top, then what came of it, the wider, beside where she started. What ExecHQ added for her
+   reads as one list rather than a card each. */
+[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) {
+  max-width: 65rem;
+  column-gap: var(--space-2xl);
 }
 
-/* -----------------------------------------------------------------------------
-   DIRECTION (Plan)
-   Statement (Concept 1): her words set large between two rules, no card, so the
-   words are the design. Compass (Concept 2): a navy card that also says which plan
-   she is on and where in it.
-   -------------------------------------------------------------------------- */
-.direction {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
+[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .signals-page__lead {
+  padding-bottom: var(--space-xl);
+  border-bottom: var(--border-subtle);
 }
 
-.direction--statement {
-  padding-block: var(--space-md-lg);
-  border-block: var(--border-width-thin) solid var(--color-text-primary);
-}
-
-.direction__top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-sm);
-}
-
-.direction__heading {
-  margin: 0;
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-}
-
-.direction__text {
-  margin: 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-}
-
-.direction--statement .direction__text {
-  font-family: var(--font-serif);
-  word-spacing: normal;
-  font-size: var(--text-xl);
-  font-weight: var(--weight-regular);
-  line-height: var(--leading-normal);
-}
-
-[data-viewport="web"] .direction--statement .direction__text {
-  font-size: var(--text-2xl);
-}
-
-.direction__note {
-  margin: 0;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
-}
-
-.direction__note b {
-  color: var(--color-text-primary);
-}
-
-/* A quiet text link, so the words stay the loudest thing. */
-.direction--statement .direction__top .direction__edit {
-  padding-inline: var(--space-2xs);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.direction--compass {
-  padding: var(--space-md-lg);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
-}
-
-.direction--compass .direction__heading,
-.direction--compass .direction__note,
-.direction--compass .field__hint,
-.direction--compass .field__label {
-  color: var(--color-text-inverse-muted);
-}
-
-.direction--compass .direction__text,
-.direction--compass .direction__note b,
-.direction--compass .field__label {
-  color: var(--color-text-inverse);
-}
-
-.direction--compass .direction__edit {
-  color: var(--color-text-inverse);
-  border: var(--border-width-thin) solid var(--color-border-inverse);
-}
-
-.direction--compass .direction__edit:hover {
-  background-color: var(--color-border-inverse);
-}
-
-.direction--compass .field__error {
-  color: var(--color-text-inverse);
-}
-
-/* The primary button is dark in this palette, so on the navy card it turns light. */
-.direction--compass .btn--primary {
-  background-color: var(--color-text-inverse);
-  color: var(--color-surface-inverse);
-}
-
-.direction--compass .btn--primary:hover {
-  background-color: var(--color-text-inverse-muted);
-}
-
-.direction--compass .btn--ghost {
-  color: var(--color-text-inverse);
-}
-
-dl.direction__plan {
+/* The band splits where the columns under it do, so the next move sits over where she started. */
+[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .momentum__stage {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-xs);
-  margin: var(--space-2xs) 0 0;
-  padding-top: var(--space-sm);
-  border-top: var(--border-width-thin) solid var(--color-border-inverse);
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  column-gap: var(--space-2xl);
+  align-items: start;
 }
 
-.direction__plan dt {
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--color-text-inverse-muted);
+/* On the web each day is up to 4rem, so the week fills more of its column. */
+[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .day-circles ol {
+  grid-template-columns: repeat(7, minmax(0, 4rem));
 }
 
-.direction__plan dd {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-md);
-  font-weight: var(--weight-semibold);
+[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .momentum__stage > * {
+  grid-column: 1;
 }
 
-[data-viewport="web"] dl.direction__plan {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .momentum__stage > .presence-clean__try {
+  grid-column: 2;
+  grid-row: 1 / span 6;
+  align-self: start;
+  margin-top: 0;
 }
 
-.direction__form {
+[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .spark {
+  gap: 0;
+  border: var(--border-subtle);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+}
+
+[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .spark .spark__note {
+  border-radius: 0;
+  box-shadow: none;
+  padding: var(--space-sm) var(--space-md);
+}
+
+[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .spark .spark__note + .spark__note {
+  border-top: var(--border-subtle);
+}
+
+/* Any Signal Picture on the web: when the wide column has nothing in it, the other one takes the width,
+   so nothing sits beside an empty space. */
+[data-viewport="web"] .signals-page:not(:where([data-viewport="mobile"] *)) > .signals-page__main:empty {
+  display: none;
+}
+
+[data-viewport="web"] .signals-page:has(> .signals-page__main:empty):not(:where([data-viewport="mobile"] *)) > .signals-page__side {
+  grid-column: 1 / -1;
+}
+
+/* Her first visit on the web (option 1, 2026-10-08): the starting point has the width, as a two-column
+   form. What to read and type, and the LinkedIn export, on the left; what to count and the buttons on the
+   right. Once she saves, the page has its usual two columns again. */
+[data-viewport="web"] .signals-page:has(> .signals-page__main:empty):not(:where([data-viewport="mobile"] *)) .baseline-form {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  column-gap: var(--space-3xl);
+  row-gap: var(--space-lg);
+  align-items: start;
+}
+
+[data-viewport="web"] .signals-page:has(> .signals-page__main:empty):not(:where([data-viewport="mobile"] *)) .baseline-form__about,
+[data-viewport="web"] .signals-page:has(> .signals-page__main:empty):not(:where([data-viewport="mobile"] *)) .baseline-form__counts {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: var(--space-md);
 }
 
+[data-viewport="web"] .signals-page:has(> .signals-page__main:empty):not(:where([data-viewport="mobile"] *)) .baseline-form__about {
+  grid-column: 1;
+  grid-row: 1;
+}
 
+[data-viewport="web"] .signals-page:has(> .signals-page__main:empty):not(:where([data-viewport="mobile"] *)) .baseline-form > :not(.baseline-form__about, .baseline-form__counts) {
+  grid-column: 1;
+  grid-row: 2;
+}
 
-
-
-.direction__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-xs);
+[data-viewport="web"] .signals-page:has(> .signals-page__main:empty):not(:where([data-viewport="mobile"] *)) .baseline-form__counts {
+  grid-column: 2;
+  grid-row: 1 / span 2;
 }
 
 /* -----------------------------------------------------------------------------
@@ -15450,318 +14237,8 @@ ol.rtl__rail::before {
 .rtl__now--next .rtl__name {
   color: var(--color-text-primary);
 }
-/* -----------------------------------------------------------------------------
-   THE CALENDAR (Plan, Concept 1)
-   A month with the stages tinted across it. A tint is never the only cue: each
-   stage's first day says so, the legend names the stages, and the day panel says
-   which stage a day is in. On a narrow pane the items become dots.
-   -------------------------------------------------------------------------- */
-.pcal {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  container-type: inline-size;
-  min-width: 0;
-}
-
-.pcal__heading {
-  margin: 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-}
-
-ul.pcal__legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2xs);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.pcal__key {
-  display: inline-block;
-  padding: var(--space-3xs) var(--space-xs);
-  border-radius: var(--radius-tag);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-primary);
-}
-
-.pcal__key--1,
-.pcal__cell.pcal__cell--1 {
-  background-color: var(--color-stage-1);
-}
-
-.pcal__key--2,
-.pcal__cell.pcal__cell--2 {
-  background-color: var(--color-stage-2);
-}
-
-.pcal__key--3,
-.pcal__cell.pcal__cell--3 {
-  background-color: var(--color-stage-3);
-}
-
-.pcal__key--4,
-.pcal__cell.pcal__cell--4 {
-  background-color: var(--color-stage-4);
-}
-
-.pcal__nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-sm);
-}
-
-.pcal__month {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-}
-
-.pcal__grid {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: var(--space-3xs);
-}
-
-.pcal__dow {
-  padding-bottom: var(--space-3xs);
-  text-align: center;
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-}
-
-.pcal__cell {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3xs);
-  min-width: 0;
-  min-height: 5.25rem;
-  padding: var(--space-2xs);
-  border: var(--border-width-medium) solid transparent;
-  border-radius: var(--radius-sm);
-  background-color: var(--color-surface-raised);
-  color: var(--color-text-primary);
-  font: inherit;
-  text-align: start;
-  cursor: pointer;
-}
-
-.pcal__cell.is-outside {
-  opacity: 0.5;
-}
-
-/* Today is its date in a filled circle; the day she picked is the outlined box. Two different marks,
-   so they never read as the same thing. */
-.pcal__cell.is-today .pcal__num {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 1.375rem;
-  height: 1.375rem;
-  padding-inline: var(--space-3xs);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-text-primary);
-  color: var(--color-surface-raised);
-}
-
-.pcal__cell.is-selected {
-  border-color: var(--color-text-primary);
-  outline: var(--focus-ring);
-  outline-offset: 0;
-}
-
-.pcal__cell:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.pcal__n {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-2xs);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-}
-
-.pcal__start {
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-bold);
-  letter-spacing: 0.03em;
-}
-
-.pcal__chip {
-  display: block;
-  overflow: hidden;
-  padding: 0 var(--space-2xs);
-  border: var(--border-thin);
-  border-inline-start: var(--border-width-thick) solid var(--color-text-primary);
-  border-radius: var(--radius-xs);
-  background-color: var(--color-surface-raised);
-  font-size: var(--text-xs);
-  line-height: var(--leading-snug);
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.pcal__more {
-  font-size: var(--text-2xs);
-  color: var(--color-text-secondary);
-}
-
-.pcal__dots {
-  display: none;
-  flex-wrap: wrap;
-  gap: var(--space-3xs);
-}
-
-.pcal__dots i {
-  width: 0.4375rem;
-  height: 0.4375rem;
-  border-radius: 50%;
-  background-color: var(--color-text-primary);
-}
-
-@container (max-width: 32.5rem) {
-  .pcal__cell {
-    min-height: 3.25rem;
-  }
-
-  .pcal__chip,
-  .pcal__more {
-    display: none;
-  }
-
-  .pcal__dots {
-    display: flex;
-  }
-}
-
-.pcal__day {
-  /* Room under it for the floating bar at the foot of the phone, so scrolling to it shows all of it. */
-  scroll-margin-bottom: 6rem;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  padding: var(--space-md);
-  border: var(--border-thin);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface-raised);
-}
-
-.pcal__day-title {
-  margin: 0;
-  font-size: var(--text-md);
-  font-weight: var(--weight-semibold);
-}
-
-.pcal__small {
-  margin: 0;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
-}
-
-ul.pcal__items {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.pcal__item {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-3xs);
-}
-
-.pcal__tag {
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-}
-
-.pcal__item-title {
-  font-weight: var(--weight-semibold);
-}
-
-.pcal__item-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-xs);
-}
-
-.pcal__ask {
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-}
-
-.step-card__when {
-  margin: 0;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-}
-
-.pcal__chip--step {
-  border-inline-start-color: var(--color-border-strong);
-  border-style: dashed;
-  border-inline-start-style: solid;
-}
-
-.pcal__dots i.pcal__dot--step {
-  background-color: transparent;
-  border: var(--border-width-medium) solid var(--color-text-primary);
-}
 
 /* The compact step card, for the swiping row (Concept 1). */
-.step-card--compact {
-  height: 100%;
-}
-
-
-
-.step-card__line {
-  margin: 0;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-}
-
-.step-card__line b {
-  margin-inline-end: var(--space-2xs);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-}
-
-.step-card--compact .step-card__when {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2xs);
-}
-
-.step-card--compact .step-card__actions {
-  margin-top: auto;
-}
 
 /* The swiping row: a fixed card width where there is room, and the horizon marks between the dots. */
 .card-carousel--fixed {
@@ -15827,409 +14304,141 @@ ul.pcal__items {
   background-color: var(--color-border-strong);
 }
 
-.steps__jump {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-xs);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.steps__jump button {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2xs);
-  min-height: 2.125rem;
-  padding: var(--space-3xs) var(--space-sm);
-  border: var(--border-thin);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface-raised);
-  color: var(--color-text-primary);
-  font: inherit;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  cursor: pointer;
-}
-
-.steps__jump button[aria-current="true"] {
-  border-color: var(--color-text-primary);
-  background-color: var(--color-surface-feature);
-}
-
-.steps__jump button:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.steps__jump small {
-  font-weight: var(--weight-regular);
-  color: var(--color-text-secondary);
-}
-
 /* A quiet text link: a secondary path under the main button, never a second button. */
-.step-card__textlink {
-  padding: var(--space-2xs) var(--space-3xs);
-  border: 0;
-  background: none;
-  color: var(--color-text-link);
-  font: inherit;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  cursor: pointer;
-}
-
-.step-card__textlink:hover {
-  color: var(--color-text-link-hover);
-}
-
-.step-card__textlink:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.step-card--compact .step-card__actions {
-  align-items: center;
-  gap: var(--space-sm);
-}
 
 /* What takes over the card when she changes a step. */
-.step-card--changing {
+
+/* The compact card in two tiers: a tinted zone for what it is and when and how long, then the reasons and the finish line. */
+
+/* The horizon, as one line of plain text above the title. */
+
+/* When, as a plain line under the glance: a label and its words, no container. */
+
+/* The questions she can ask about the step (Concept 1, 2026-10-07): a 2 × 3 grid of equal tiles,
+   each opening the chat on its answer. */
+
+/* A quiet text link on the next-step card, so the step's title stays the loudest thing. */
+
+/* -----------------------------------------------------------------------------
+   THE PLAN DETAIL (the sheet See your plan opens)
+   -------------------------------------------------------------------------- */
+/* Plan Concept 3: the road under the move, her direction above the roadmap. */
+.plan-road {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+/* Plan Concept 3: her direction above the road, as a soft row. Closed, her words are cut to one line;
+   the row opens like an accordion and lets them run. */
+.plan-direction {
+  border-radius: var(--radius-card);
+  background: var(--color-surface-sunken);
+}
+
+.plan-direction__head {
+  margin: 0;
+  font: inherit;
+}
+
+.plan-direction__toggle {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
   gap: var(--space-sm);
-}
-
-.step-change {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-
-.step-change__head {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3xs);
-}
-
-.step-change__title {
-  margin: 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-}
-
-.step-change__title:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.step-change__step,
-.step-change__question {
-  margin: 0;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
-}
-
-.step-change__question {
-  color: var(--color-text-primary);
-  font-weight: var(--weight-semibold);
-}
-
-ul.step-change__options {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.step-change__option {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3xs);
   width: 100%;
-  padding: var(--space-sm) var(--space-md);
-  border: var(--border-thin);
-  border-radius: var(--radius-md);
-  background-color: var(--color-surface);
+  margin: 0;
+  padding: var(--space-sm) var(--space-card-padding);
+  border: 0;
+  border-radius: var(--radius-card);
+  background: none;
   color: var(--color-text-primary);
   font: inherit;
-  text-align: start;
+  text-align: left;
   cursor: pointer;
 }
 
-.step-change__option:hover {
-  background-color: var(--color-surface-hover);
+.plan-direction__toggle:hover,
+.plan-direction__toggle.is-hover {
+  background: var(--color-surface-hover);
 }
 
-.step-change__option:focus-visible {
+.plan-direction__toggle.is-focus {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
 }
 
-.step-change__option-label {
-  font-weight: var(--weight-semibold);
-}
-
-.step-change__option-hint {
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-}
-
-.step-change__actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-sm);
-}
-
-/* The compact card in two tiers: a tinted zone for what it is and when and how long, then the reasons and the finish line. */
-.step-card--tiered {
-  gap: 0;
-  padding: 0;
-  overflow: hidden;
-}
-
-.step-card__glance {
+.plan-direction__text {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
-  padding: var(--space-sm) var(--space-md) var(--space-md);
-  background-color: var(--color-surface-feature);
+  gap: var(--space-3xs);
+  min-width: 0;
 }
 
-.step-card__body {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-md) var(--space-md);
-}
-
-.step-card__outcome {
-  margin: 0;
-  font-size: var(--text-md);
-  line-height: var(--leading-snug);
-}
-
-/* The horizon, as one line of plain text above the title. */
-.step-card__glance-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--space-xs);
-}
-
-.step-card__glance-top .step-card__eyebrow {
-  padding-top: var(--space-2xs);
-}
-
-.step-card__edit-wrap {
-  flex: none;
-  margin: calc(var(--space-2xs) * -1) calc(var(--space-2xs) * -1) 0 0;
-}
-
-.step-card__eyebrow {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-xs);
-  margin: 0;
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-}
-
-/* The facts, in their own outlined panel with the labels in a column. */
-.step-card__facts-zone {
-  padding: var(--space-sm) var(--space-md) 0;
-}
-
-dl.step-card__facts-panel {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  margin: 0;
-  padding: var(--space-sm);
-  border: var(--border-thin);
-  border-radius: var(--radius-md);
-}
-
-.step-card__facts-panel > div {
-  display: grid;
-  grid-template-columns: 4.75rem minmax(0, 1fr);
-  gap: var(--space-xs);
-  align-items: baseline;
-}
-
-.step-card__facts-panel dt {
+.plan-direction__label {
   font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-}
-
-.step-card__facts-panel dd {
-  margin: 0;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-}
-
-
-
-
-ul.step-card__whys {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.step-card__whys li {
-  display: grid;
-  grid-template-columns: 0.5rem minmax(0, 1fr);
-  column-gap: var(--space-xs);
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-}
-
-.step-card__whys li::before {
-  content: "";
-  width: 0.375rem;
-  height: 0.375rem;
-  margin-top: 0.5rem;
-  border-radius: 50%;
-  background-color: var(--color-text-primary);
-  grid-row: 1;
-}
-
-.step-card__whys li > span {
-  grid-column: 2;
-}
-
-.step-card__whys b {
-  font-weight: var(--weight-semibold);
-}
-
-.step-card__finish {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-xs);
-  margin: 0;
-  padding: var(--space-xs) var(--space-sm);
-  border-radius: var(--radius-md);
-  background-color: var(--color-surface-sunken);
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-}
-
-.step-card__finish b {
-  font-weight: var(--weight-semibold);
-}
-
-.step-card__finish svg {
-  flex: none;
-  margin-top: 0.125rem;
-}
-
-/* -----------------------------------------------------------------------------
-   THE PLAN HEADER AND ITS DETAIL (Concept 1)
-   -------------------------------------------------------------------------- */
-.plan-header {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
-.plan-header__label {
-  margin: 0;
-  font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-text-secondary);
 }
 
-.plan-header__top {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--space-sm);
-}
-
-.plan-header__name {
-  margin: 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-2xl);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
-}
-
-/* A quiet text link, so the plan's name stays the loudest thing. The next-step cards use the same one. */
-.plan-header__top .plan-header__edit,
-.step-card__glance-top .step-card__edit {
-  flex: none;
-  padding-inline: var(--space-2xs);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.plan-header__line {
-  margin: 0;
-  font-size: var(--text-sm);
+.plan-direction__quote {
+  overflow: hidden;
+  font-family: var(--font-serif);
+  font-size: var(--text-md);
   line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
-.plan-header__where {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  margin-top: var(--space-2xs);
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
+.plan-direction.is-open .plan-direction__quote {
+  overflow: visible;
+  white-space: normal;
 }
 
-.plan-header__where p {
-  margin: 0;
+.plan-direction__toggle .icon {
+  transition: transform var(--duration-fast) ease;
 }
 
-.plan-header__where b {
-  color: var(--color-text-primary);
-  font-weight: var(--weight-semibold);
+.plan-direction.is-open .plan-direction__toggle .icon {
+  transform: rotate(180deg);
 }
 
-.plan-header__segments {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
+@media (prefers-reduced-motion: reduce) {
+  .plan-direction__toggle .icon {
+    transition: none;
+  }
+}
+
+/* "See your plan" beside the roadmap's heading: opens the plan detail. */
+.plan-detail-link {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
   gap: var(--space-2xs);
+  min-height: 2.75rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-text-primary);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  cursor: pointer;
 }
 
-.plan-header__segments i {
-  height: var(--space-2xs);
+.plan-detail-link:hover,
+.plan-detail-link.is-hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.plan-detail-link.is-focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
   border-radius: var(--radius-xs);
-  background-color: var(--color-border);
-}
-
-.plan-header__segments i.is-on {
-  background-color: var(--color-text-primary);
-}
-
-[data-viewport="web"] .plan-header__name {
-  font-size: var(--text-3xl);
 }
 
 .plan-detail {
@@ -16345,6 +14554,13 @@ ol.plan-detail__stages {
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
+}
+
+.agenda__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
 }
 
 .agenda__heading {
@@ -16695,32 +14911,6 @@ fieldset.agenda__whens {
   gap: var(--space-sm);
 }
 
-/* Headings: a big name on a line, the open one with its steps beneath. */
-.agenda--headings .agenda__stage {
-  border-top: var(--border-width-thin) solid var(--color-border-strong);
-}
-
-.agenda--headings .agenda__stage-button {
-  padding-block: var(--space-md);
-}
-
-.agenda--headings .agenda__stage-name {
-  font-size: var(--text-xl);
-  line-height: var(--leading-tight);
-}
-
-.agenda--headings .agenda__stage.is-open .agenda__stage-button {
-  padding-bottom: var(--space-xs);
-}
-
-.agenda--headings .agenda__body {
-  padding-bottom: var(--space-md);
-}
-
-[data-viewport="web"] .agenda--headings .agenda__stage-name {
-  font-size: var(--text-2xl);
-}
-
 /* Stack: cards that overlap, each in its stage colour, the open one grown to hold its steps. */
 .agenda--stack .agenda__stages {
   isolation: isolate;
@@ -16770,6 +14960,18 @@ fieldset.agenda__whens {
   font-size: var(--text-sm);
 }
 
+/* A note on a stage under its name, such as her check-in on a finished one. The next card in the stack
+   overlaps the foot of this one, so the note keeps the same room under it as the stage's own head does. */
+.agenda--stack .agenda__stage-note {
+  margin-top: calc(var(--space-sm) * -1);
+  padding: 0 var(--space-sm) var(--space-lg);
+}
+
+.agenda--stack .agenda__stage.is-open .agenda__stage-note {
+  margin-top: 0;
+  padding-bottom: var(--space-sm);
+}
+
 .agenda--stack .agenda__body {
   padding: 0 var(--space-sm) var(--space-lg);
 }
@@ -16804,7 +15006,6 @@ fieldset.agenda__whens {
   order: 1;
 }
 
-
 /* -----------------------------------------------------------------------------
    THE GUIDED CHECK-IN (Plan, Concept 3)
    Onboarding's page and drawer, used for the Plan. The page fills the screen, so the floating pill
@@ -16826,8 +15027,274 @@ fieldset.agenda__whens {
   padding-bottom: 0;
 }
 
-.plan-guided__road {
-  margin-inline-start: auto;
+/* The roadmap's add button steps aside with the pill. Hidden, not faded, so it leaves the tab order
+   while the drawer covers the roadmap. */
+.device__screen:has(.plan-guided .answer-drawer:not(.is-peek)) .agenda__fab {
+  visibility: hidden;
+}
+
+/* Folded, the peek bar sits above the pill, so the add button rises clear of both. */
+.device__screen:has(.plan-guided .answer-drawer.is-peek) .agenda__fab {
+  inset-block-end: calc(var(--space-4xl) + var(--space-3xl) + var(--space-lg));
+}
+
+/* On the web the answer drawer is a card beside the page, never the foot of the screen, so the pill
+   stays where it is and the page keeps its room for it. */
+[data-viewport="web"] .device__screen:has(.plan-guided .answer-drawer:not(.is-peek)) .concierge-host__pill:not(:where([data-viewport="mobile"] *)) {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+/* The card host centres its pill; keep that, without the step down. */
+[data-viewport="web"] .device__screen:has(.plan-guided .answer-drawer:not(.is-peek)) .concierge-host--card .concierge-host__pill:not(:where([data-viewport="mobile"] *)) {
+  transform: translateX(-50%);
+}
+
+[data-viewport="web"] .device__screen:has(.concierge-host) .chrome__main:has(> .plan-guided):not(:where([data-viewport="mobile"] *)) {
+  padding-bottom: var(--space-4xl);
+}
+
+/* Adding on the web: a plain button at the foot of the road. */
+.agenda__add {
+  align-self: flex-start;
+}
+
+/* Plan Concept 3 on the web (option B, 2026-10-08): the page and its answers read top to bottom on the
+   left, and her direction with the roadmap sits on the right, sticky, the same on every page, the
+   stage check-in included, so nothing moves from one page to the next. The page's own parts become the
+   grid's items; the answers lose the card and read as part of the page, under their question. */
+[data-viewport="web"] .guide.plan-guided:not(:where([data-viewport="mobile"] *)) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 26rem;
+  grid-auto-rows: auto;
+  align-items: start;
+  column-gap: var(--space-3xl);
+  row-gap: 0;
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: var(--space-2xl) var(--space-lg) var(--space-4xl);
+  overflow-y: auto;
+}
+
+[data-viewport="web"] .guide.plan-guided:not(:where([data-viewport="mobile"] *)) > .guide__page {
+  display: contents;
+}
+
+[data-viewport="web"] .guide.plan-guided:not(:where([data-viewport="mobile"] *)) :is(.guide__top, .guide__head, .guide__body, .guide__why, .guide__actions, .answer-drawer__wrap) {
+  grid-column: 1;
+  margin-bottom: var(--space-lg);
+}
+
+[data-viewport="web"] .guide.plan-guided:not(:where([data-viewport="mobile"] *)) .guide__after {
+  grid-column: 2;
+  grid-row: 1 / span 12;
+  position: sticky;
+  top: 0;
+  margin-top: 0;
+}
+
+[data-viewport="web"] .guide.plan-guided:not(:where([data-viewport="mobile"] *)) .answer-drawer__wrap {
+  position: static;
+  margin-top: var(--space-md);
+}
+
+[data-viewport="web"] .guide.plan-guided:not(:where([data-viewport="mobile"] *)) .answer-drawer {
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Plan on a tablet: while the drawer is open it reaches up to the page's last line, Why this matters,
+   instead of leaving the roadmap showing through a gap. The roadmap is covered while the drawer is open
+   anyway, so it steps out until she folds the drawer, and comes back with the peek bar. */
+[data-viewport="tablet"] .guide--drawer.plan-guided:has(.answer-drawer:not(.is-peek)):not(:where([data-viewport="mobile"] *)) .guide__page {
+  flex: 0 1 auto;
+}
+
+[data-viewport="tablet"] .guide--drawer.plan-guided:has(.answer-drawer:not(.is-peek)):not(:where([data-viewport="mobile"] *)) .guide__after {
+  display: none;
+}
+
+[data-viewport="tablet"] .guide--drawer.plan-guided:has(.answer-drawer:not(.is-peek)):not(:where([data-viewport="mobile"] *)) :is(.answer-drawer__wrap, .answer-drawer) {
+  flex: 1 1 auto;
+}
+
+/* The roadmap under the move, set apart from the move by space alone. */
+.plan-guided .guide__after {
+  margin-top: var(--space-xl);
+}
+
+/* Her check-in on a finished stage, in the roadmap: read back, or a way in when she put it off. */
+.checkin-recap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-card-padding);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-raised);
+}
+
+.checkin-recap__label {
+  margin: 0;
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.checkin-recap__answers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs) var(--space-lg);
+  margin: 0;
+}
+
+.checkin-recap__answers dt {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.checkin-recap__answers dd {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.checkin-recap__words,
+.checkin-recap__text {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+.checkin-recap__words {
+  font-family: var(--font-serif);
+}
+
+.checkin-recap__open {
+  min-height: 2.75rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-text-primary);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.checkin-recap__open:hover,
+.checkin-recap.is-hover .checkin-recap__open {
+  text-decoration-thickness: var(--border-width-medium);
+}
+
+.checkin-recap.is-focus .checkin-recap__open {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-xs);
+}
+
+/* The stage check-in (Plan Concept 3): what she did in a finished stage, one card a thing, with what she
+   has said in her words and a quiet mark on what she has not. */
+.stage-checkin__did {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stage-checkin__thing {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  padding: var(--space-sm) var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-raised);
+}
+
+.stage-checkin__from {
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.stage-checkin__title {
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.stage-checkin__what,
+.stage-checkin__said {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.stage-checkin__said b {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.stage-checkin__said q {
+  font-family: var(--font-serif);
+  color: var(--color-text-primary);
+}
+
+.stage-checkin__pending {
+  align-self: flex-start;
+  margin-top: var(--space-3xs);
+  padding: 0 var(--space-xs);
+  border: var(--border-width-thin) dashed var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.stage-checkin__none,
+.stage-checkin__note {
+  margin: 0;
+  font-size: var(--text-xs-plus);
+  color: var(--color-text-secondary);
+}
+
+.stage-checkin__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-top: var(--space-lg);
+}
+
+.stage-checkin__heading {
+  margin: 0;
+  font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+}
+
+/* Why a move is on her plan, when something she said at a stage check-in brought it there. */
+.plan-guided__heard {
+  margin: 0;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-sunken);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
 }
 
 .plan-guided__reasons {
@@ -16840,63 +15307,6 @@ fieldset.agenda__whens {
 .plan-guided__note {
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
-}
-
-.plan-guided__sheet {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-
-.plan-guided__sheet-title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-semibold);
-}
-
-.plan-guided__small {
-  margin: 0;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
-}
-
-.plan-guided__label {
-  margin: 0 0 var(--space-xs);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-}
-
-ol.plan-guided__stages {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.plan-guided__stages li {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--space-sm);
-  padding: var(--space-xs) var(--space-sm);
-  border: var(--border-thin);
-  border-radius: var(--radius-md);
-  font-size: var(--text-sm);
-}
-
-.plan-guided__stages li.is-current {
-  border-color: var(--color-text-primary);
-  background-color: var(--color-surface-raised);
-}
-
-.plan-guided__stages li b {
-  font-size: var(--text-xs);
 }
 
 ul.plan-guided__sparks {
@@ -16916,8 +15326,362 @@ ul.plan-guided__sparks {
   line-height: var(--leading-normal);
 }
 
-.plan-guided__actions {
+/* -----------------------------------------------------------------------------
+   YOUR LINKEDIN, FROM YOUR EXPORT (Signals)
+   Three rows, each a figure with its shape in miniature. Tap one and its full
+   chart opens beneath it; one is open at a time. One hue throughout. Marks are
+   thin, the grid is a hairline, text wears text tokens.
+   -------------------------------------------------------------------------- */
+.li-picture {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-raised);
+}
+
+.li-picture__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+.li-picture__heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.li-picture__intro,
+.li-picture__empty {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.li-rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.li-row {
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+.li-row:first-child {
+  border-top: 0;
+}
+
+.li-row__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto auto;
+  align-items: center;
   gap: var(--space-sm);
+  width: 100%;
+  min-height: 4rem;
+  padding-block: var(--space-xs);
+  text-align: left;
+  cursor: pointer;
+}
+
+.li-row__head:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-md);
+}
+
+.li-row__label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  min-width: 0;
+}
+
+.li-row__label b {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+}
+
+.li-row__label span {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.li-row__value {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  font-variant-numeric: tabular-nums;
+}
+
+.li-row__chevron {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 2px solid var(--color-text-muted);
+  border-bottom: 2px solid var(--color-text-muted);
+  transform: rotate(45deg);
+  transition: transform var(--duration-fast) var(--easing-standard);
+}
+
+.li-row.is-open .li-row__chevron {
+  transform: rotate(-135deg);
+}
+
+.li-row__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding-bottom: var(--space-md);
+}
+
+.li-spark {
+  width: 5.25rem;
+  height: 1.75rem;
+}
+
+.li-spark__line {
+  fill: none;
+  stroke: var(--color-surface-inverse);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.li-spark__end,
+.li-spark__bar {
+  fill: var(--color-surface-inverse);
+}
+
+.li-caption {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.li-line {
+  position: relative;
+  border-radius: var(--radius-md);
+  touch-action: pan-y;
+}
+
+.li-line:has(.li-line__scrub:focus-visible) {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.li-line__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* A real range control, laid over the plot and unseen: keyboard and touch use it. */
+.li-line__scrub {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: crosshair;
+}
+
+.li-grid {
+  stroke: var(--color-border-subtle);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.li-axis {
+  fill: var(--color-text-muted);
+  font-family: var(--font-body);
+  font-size: 11px;
+}
+
+.li-line__area {
+  fill: color-mix(in srgb, var(--color-surface-inverse) 10%, transparent);
+}
+
+.li-line__path {
+  fill: none;
+  stroke: var(--color-surface-inverse);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.li-dot {
+  fill: var(--color-surface-inverse);
+}
+
+.li-dot-ring {
+  fill: var(--color-surface-raised);
+}
+
+.li-value {
+  fill: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.li-cross {
+  stroke: var(--color-border-strong);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.li-tip {
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-2xs) var(--space-xs);
+  border: var(--border-width-thin) solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-md);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.li-tip--start {
+  transform: none;
+}
+
+.li-tip--mid {
+  transform: translateX(-50%);
+}
+
+.li-tip--end {
+  transform: translateX(-100%);
+}
+
+.li-tip strong {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.li-tip span {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.li-columns {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--li-months, 13), minmax(0, 1fr));
+  height: 8.25rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.li-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.li-col:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-sm);
+}
+
+.li-col__plot {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  padding-top: var(--space-md);
+  border-bottom: var(--border-width-thin) solid var(--color-border);
+}
+
+.li-col__bar {
+  display: block;
+  width: min(1.125rem, 70%);
+  border-radius: var(--radius-xs) var(--radius-xs) 0 0;
+  background-color: var(--color-surface-inverse);
+  transition: background-color var(--duration-fast) var(--easing-standard);
+}
+
+.li-col:hover .li-col__bar,
+.li-col.is-active .li-col__bar {
+  background-color: color-mix(in srgb, var(--color-surface-inverse) 72%, var(--color-surface-raised));
+}
+
+.li-col__value {
+  position: absolute;
+  top: 0;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.li-col__label {
+  margin-top: var(--space-3xs);
+  font-size: var(--text-xs);
+  line-height: 1.2;
+  color: var(--color-text-muted);
+}
+
+.li-top__list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.li-top__item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding-block: var(--space-xs);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+.li-top__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  min-width: 0;
+}
+
+.li-top__text b {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.li-top__text span {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.li-top__value {
+  flex: none;
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
 }

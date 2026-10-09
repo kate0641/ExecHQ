@@ -141,11 +141,11 @@ export const PROFILE_COPY = {
 
   signOut: {
     heading: "Sign out?",
-    body: (email: string) => `Next time, we’ll email a sign-in link to ${email}.`,
+    body: (email: string) => `Next time, we’ll email a login code to ${email}.`,
     confirm: "Sign out",
     stay: "Stay signed in",
     doneHeading: "You’re signed out",
-    doneBody: "We’ll email you a link when you want to sign back in.",
+    doneBody: "We’ll email you a login code when you want to sign back in.",
     back: "Sign back in",
   },
 

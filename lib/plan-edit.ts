@@ -5,7 +5,7 @@
  * the new one starts today, with what she made kept.
  */
 
-import type { RoadmapChoices } from "@/components/plan/PlanRoadmap";
+import type { RoadmapChoices } from "@/lib/roadmap-choices";
 import { switchPlan } from "@/lib/roadmap-choices";
 import { currentStageIndex } from "@/lib/rings";
 import type { LoopView } from "@/lib/loop-store";

@@ -28,6 +28,11 @@ export const conciergePillStates = defineComponentStates({
     },
     { label: "On Plan", props: { here: { label: "Plan", icon: "flag" } } },
     { label: "A follow-up is due", props: { here: home, followUpDue: true } },
+    {
+      label: "New in the Signal Picture",
+      description: "ExecHQ recorded something for her that she has not seen yet: the same quiet dot as a follow-up, never a count.",
+      props: { here: home, newSignals: true },
+    },
     { label: "Open", description: "While the advisor is showing.", props: { here: home, expanded: true } },
     { label: "Hover", props: { here: home, demo: "hover" } },
     { label: "Focus", props: { here: home, demo: "focus" } },

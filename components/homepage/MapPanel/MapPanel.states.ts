@@ -13,7 +13,7 @@ const doneShort = {
   done: short.segments.length,
   complete: true,
 };
-const base = { ring: short, id: "map-panel-demo", planHref: "/plan/concept-1", onOpenAction: noop };
+const base = { ring: short, id: "map-panel-demo", planHref: "/plan/concept-3", onOpenAction: noop };
 
 export const mapPanelStates = defineComponentStates({
   name: "MapPanel",

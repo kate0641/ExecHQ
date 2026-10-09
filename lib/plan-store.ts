@@ -16,11 +16,25 @@
  */
 
 import { useSyncExternalStore } from "react";
-import type { RoadmapChoices } from "@/components/plan/PlanRoadmap";
-import type { SavedSteps } from "@/components/plan/ActionSteps";
+import type { RoadmapChoices } from "@/lib/roadmap-choices";
+import type { EmptyReason, PlanState } from "@/lib/action-steps";
+import type { Horizon } from "@/mock/plan-stub";
 import { CALENDAR_SEED, type CalendarItem } from "@/mock/plan";
 
-export type { RoadmapChoices, SavedSteps };
+export type { RoadmapChoices };
+
+/** Why a step is on her plan, when something she said brought it there, and whether to offer it as hers. */
+interface StepNote {
+  heard?: string;
+  offerRecord?: boolean;
+}
+
+/** Her steps as she has left them, kept between visits. */
+export interface SavedSteps {
+  state: PlanState;
+  notes: Record<string, StepNote>;
+  empties: Partial<Record<Horizon, EmptyReason>>;
+}
 
 interface Store {
   roadmap: Record<string, RoadmapChoices>;

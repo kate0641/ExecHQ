@@ -12,7 +12,7 @@ export interface TemplateRoadmapsProps {
 /**
  * Every plan template, stage by stage, on one page: for reviewing the wording
  * of the five roadmaps together. Reference, not a screen of the product; the
- * real roadmap is `PlanRoadmap`. A stage the brief adds that onboarding does
+ * real roadmap is `RoadmapTimeline` (Concept 1) and `PlanAgenda` (Concept 3). A stage the brief adds that onboarding does
  * not show yet is marked, so it is easy to find.
  */
 export function TemplateRoadmaps({ only, headingId = "template-roadmaps", className }: TemplateRoadmapsProps) {

@@ -146,12 +146,6 @@ export interface ActionStep extends LandscapeAction {
   toolboxTool?: string;
   /** Needs a later sprint to be real. */
   stubbed?: boolean;
-  /** How it is finished: by answering a question or writing a reflection, in a sheet, not the Toolbox. */
-  answer?: "question" | "reflection";
-  /** For a question step: what it asks, what the answer is filed under, and the answers on offer. */
-  question?: { prompt: string; label: string; options: readonly string[] };
-  /** It comes round again, at most once in this time, and is never shown as missed. */
-  recurs?: "weekly";
 }
 
 /** What each step leaves her with. */
@@ -173,10 +167,6 @@ const OUTCOMES: Record<string, string> = {
   "pitch-podcast": "A pitch to a podcast the people above you follow, sent.",
   "speaking-proposal": "A talk proposal for the leadership forum, sent.",
   "read-briefing": "You know what is moving in your field this week.",
-  reflect: "This week in your own words, so the next step can follow from it.",
-  "q-who-decides": "Your plan knows who decides on a broader role.",
-  "q-known-for": "Your plan knows what you want to be known for.",
-  "q-time": "Your plan knows how much time you can give.",
 };
 
 type Meta = Pick<ActionStep, "kind" | "effort" | "effortText" | "done"> & Partial<Pick<ActionStep, "channel" | "toolboxTool" | "startLabel">>;
@@ -315,102 +305,6 @@ const NEW_STEPS: ActionStep[] = [
     done: "You’ve read it.",
     stubbed: true,
   },
-  {
-    id: "reflect",
-    outcome: OUTCOMES["reflect"],
-    title: "Write this week’s reflection",
-    horizon: "short",
-    status: "accepted",
-    whyThis: "It turns what happened this week into what to do next.",
-    whyNow: "A week is a good size to look back on, and it takes ten minutes.",
-    whyYou: "You said you want your plan to follow what actually happens.",
-    whyLine: "A short look back at your week turns what happened into what to do next.",
-    signalId: "seen-as-leader",
-    area: "seen-as-leader",
-    stage: 1,
-    kind: "context",
-    effort: 1,
-    effortText: "About ten minutes",
-    done: "You’ve written it, or skipped what you did not want to say.",
-    answer: "reflection",
-    recurs: "weekly",
-    startLabel: "Write it",
-  },
-  {
-    id: "q-who-decides",
-    outcome: OUTCOMES["q-who-decides"],
-    title: "Who decides on broader scope at your company?",
-    horizon: "short",
-    status: "suggested",
-    whyThis: "It sharpens who your pitch should reach.",
-    whyNow: "Your next steps lean on knowing who to talk to.",
-    whyYou: "You want a broader remit and named who you report to.",
-    whyLine: "Knowing who decides on broader scope sharpens who your pitch should reach.",
-    signalId: "broader-remit",
-    area: "broader-remit",
-    stage: 1,
-    kind: "context",
-    effort: 1,
-    effortText: "Two minutes",
-    done: "You’ve answered, or said you are not sure yet.",
-    answer: "question",
-    question: {
-      prompt: "Who decides on broader scope at your company?",
-      label: "Who decides",
-      options: ["My manager", "My manager and a senior leader", "A committee", "I am not sure yet"],
-    },
-    startLabel: "Answer it",
-  },
-  {
-    id: "q-known-for",
-    outcome: OUTCOMES["q-known-for"],
-    title: "What do you most want to be known for in the next year?",
-    horizon: "short",
-    status: "suggested",
-    whyThis: "It tells your plan which story to lead with.",
-    whyNow: "Your drafts all start from it.",
-    whyYou: "You said you want to be seen as a leader, not only an operator.",
-    whyLine: "What you want to be known for tells your plan which story to lead with.",
-    signalId: "seen-as-leader",
-    area: "seen-as-leader",
-    stage: 1,
-    kind: "context",
-    effort: 1,
-    effortText: "Two minutes",
-    done: "You’ve answered.",
-    answer: "question",
-    question: {
-      prompt: "What do you most want to be known for in the next year?",
-      label: "Known for",
-      options: ["Leading across teams", "Strategy", "Growing people", "Turning around a result"],
-    },
-    startLabel: "Answer it",
-  },
-  {
-    id: "q-time",
-    outcome: OUTCOMES["q-time"],
-    title: "How much time can you give to a pitch or a post each week?",
-    horizon: "short",
-    status: "suggested",
-    whyThis: "It sets how big the next step should be.",
-    whyNow: "Your plan is about to offer a writing step.",
-    whyYou: "You said your weeks are full.",
-    whyLine: "How much time you can give sets how big your next step should be.",
-    signalId: "broader-remit",
-    area: "broader-remit",
-    stage: 1,
-    kind: "context",
-    effort: 1,
-    effortText: "Two minutes",
-    done: "You’ve answered.",
-    answer: "question",
-    question: {
-      prompt: "How much time can you give to a pitch or a post each week?",
-      label: "Time a week",
-      options: ["Under an hour", "An hour or two", "Half a day"],
-    },
-    startLabel: "Answer it",
-  },
 ];
 
 const withMeta = (a: LandscapeAction): ActionStep => ({
@@ -427,14 +321,10 @@ const withMeta = (a: LandscapeAction): ActionStep => ({
  */
 export const ACTION_QUEUE: ActionStep[] = [
   ...ACTIONS.filter((a) => a.status === "accepted").map(withMeta),
-  NEW_STEPS.find((a) => a.id === "reflect")!,
   withMeta(ACTIONS.find((a) => a.id === "add-wins")!),
   withMeta(NEW_ACTIONS.find((a) => a.id === "ask-manager-scope")!),
   NEW_STEPS.find((a) => a.id === "bio")!,
-  NEW_STEPS.find((a) => a.id === "q-who-decides")!,
   NEW_STEPS.find((a) => a.id === "stakeholder-map")!,
-  NEW_STEPS.find((a) => a.id === "q-known-for")!,
-  NEW_STEPS.find((a) => a.id === "q-time")!,
   NEW_STEPS.find((a) => a.id === "linkedin-post")!,
   withMeta(NEW_ACTIONS.find((a) => a.id === "share-result-up")!),
   NEW_STEPS.find((a) => a.id === "read-briefing")!,
@@ -463,6 +353,33 @@ export const HANDOFF_RULES: { says: RegExp; stepId: string }[] = [
 ];
 
 export const stepById = (id: string): ActionStep | undefined => ACTION_QUEUE.find((s) => s.id === id);
+
+/* -----------------------------------------------------------------------------
+   WHAT A STAGE CHECK-IN CHANGES (Plan Concept 3). Mock: in the product the
+   model chooses these from what she said. Step up only; another plan has none.
+   -------------------------------------------------------------------------- */
+
+/** Steps ExecHQ rates important: passed on once, they are offered once more at her next stage check-in.
+ *  Passed on twice, no step is ever offered again. */
+export const IMPORTANT_STEPS: readonly string[] = ["add-wins", "cross-functional", "ask-manager-scope"];
+
+/** For each stage, by index, the step aimed at what finishing it looks like: offered first when she says she
+ *  only partly got there, or not yet. */
+export const GAP_STEP: Readonly<Record<number, string>> = {
+  0: "bio",
+  1: "add-wins",
+  2: "map-decision-makers",
+  3: "scope-case",
+};
+
+/** A different way at the same thing, for a step that did not go the way she hoped. Never the same step again. */
+export const OTHER_WAY_STEP: Readonly<Record<string, string>> = {
+  "use-story": "linkedin-post",
+  "brief-manager": "share-result-up",
+  "add-wins": "share-result-up",
+  "q1-review": "sponsor-conversation",
+  "scope-case": "map-decision-makers",
+};
 
 /** How many may be live at once. Five in all, by the brief. */
 export const LIVE_LIMITS: Record<Horizon, number> = { short: 3, medium: 1, long: 1 };
@@ -502,8 +419,6 @@ export const PLAN_COPY = {
   },
   /** The slot stays empty; each line says why and what she can do. Never a verdict. */
   empty: {
-    holding: "You are holding your workload, so nothing new is offered. Lift it whenever you like.",
-    "at-capacity": "That is what you said you can take on right now, so nothing new is offered.",
     "nothing-suitable": "Nothing else fits this horizon right now. Your plan will offer the next one as you go.",
     "limit-reached": "That’s enough changes for one visit. Your plan will offer another next time.",
   },
@@ -515,62 +430,6 @@ export const PLAN_COPY = {
    optional and one tap. Nothing here scores, ranks or praises.
    -------------------------------------------------------------------------- */
 
-/** How much she can take on right now: how many live steps. Five is the most there is. */
-export type CapacityLevel = "light" | "steady" | "full";
-export const CAPACITY_LEVELS: { id: CapacityLevel; label: string; steps: number }[] = [
-  { id: "light", label: "Light", steps: 3 },
-  { id: "steady", label: "Steady", steps: 4 },
-  { id: "full", label: "Full", steps: 5 },
-];
-export const capacityStepsOf = (level: CapacityLevel): number => CAPACITY_LEVELS.find((l) => l.id === level)?.steps ?? 4;
-
-export const CAPACITY_COPY = {
-  heading: "How much can you take on right now?",
-  levelLabel: "Capacity",
-  hold: "Hold my workload: offer nothing new",
-  live: (n: number) => (n === 1 ? "1 live step" : `${n} live steps`),
-  atMost: "Never more than five.",
-  setAside: (n: number, to: number) =>
-    `Your plan holds ${to} right now. ${n === 1 ? "One step is" : `${n} steps are`} set aside, not lost, and nothing is counted against you.`,
-  roomForOne: "You have room for one more.",
-} as const;
-
-/** The sheets that finish a question step and the weekly reflection. Optional all the way down. */
-export const ANSWER_COPY = {
-  question: {
-    pickLabel: "Pick one",
-    pickNote: "It is optional, and you can skip it.",
-    otherLabel: "Something else",
-    otherHint: "In your own words.",
-    save: "Save my answer",
-    notNow: "Not now",
-    told: (answer: string) => `You told us: ${answer}. Your next steps lean that way.`,
-    notSure: "Noted. Your plan can help you find out.",
-    notSureAnswer: "I am not sure yet",
-  },
-  reflection: {
-    title: "This week",
-    intro: "Three short questions. Each one is optional.",
-    movedLabel: "What moved this week?",
-    movedNote: "Pick any. They are what you did.",
-    nothingThisWeek: "Nothing recorded this week yet. You can still say what is on your mind.",
-    cameLabel: "Which one came to something?",
-    cameField: "What came of it?",
-    cameHint: "A reply, a comment, an invitation, or nothing yet. In your words.",
-    blockField: "What is in the way?",
-    blockHint: "One line. Kept for your advisor, and never shown back unasked.",
-    save: "Save my reflection",
-    notNow: "Not now",
-    saved: "Saved. See you next week.",
-  },
-  toldUs: {
-    heading: "What you’ve told us",
-    empty: "Nothing yet. Your answers to your plan’s questions show here, in your words.",
-  },
-  answerIt: "Answer it",
-  writeIt: "Write it",
-} as const;
-
 export const KIND_LABELS: Record<StepKind, string> = {
   artifact: "Write something",
   context: "Add to what ExecHQ knows",
@@ -580,58 +439,6 @@ export const KIND_LABELS: Record<StepKind, string> = {
 
 export const SCOPE_OPTIONS = { "as-is": "As planned", lighter: "A lighter version" } as const;
 
-export const STEP_COPY = {
-  heading: "Your next steps",
-  /** Said plainly, a count of real places, never progress toward a number. */
-  horizonInUse: (n: number, max: number) => `${n} of ${max}`,
-  horizonLabels: { short: "Short-term", medium: "Medium-term", long: "Long-term milestone" } as Record<Horizon, string>,
-  jumpLabel: "Jump to a horizon",
-  horizonShort: { short: "Short-term", medium: "Medium-term", long: "Long-term" } as Record<Horizon, string>,
-  previousStep: "Previous step",
-  nextStep: "Next step",
-  roomFree: "A place is free. Your plan offers the next step when one fits.",
-  accept: "Accept",
-  start: (tool?: string) => (tool ? `Start in ${tool}` : "Start"),
-  stubbedStart: "Opens in a later sprint",
-  stubbedNote: "Stubbed · Sprint 4",
-  markDone: "I’ve done this",
-  change: "Change this step",
-  later: "Do it later",
-  decline: "Not for me",
-  edit: "Change timing or scope",
-  moves: "Moves",
-  /** The compact card, for the swiping row. */
-  youllHave: "You’ll have",
-  whenLabel: "When",
-  howLongLabel: "How long",
-  whyThis: "Why this",
-  whyNowLabel: "Why now",
-  whyYouLabel: "Why you",
-  effort: "Effort",
-  doneWhen: "Done when",
-  offered: "Offered",
-  accepted: "Accepted",
-  edited: (moved?: string, lighter?: boolean) =>
-    [moved, lighter ? "Lighter version" : undefined].filter(Boolean).join(" · "),
-  editedByYou: "Edited by you",
-  /** When a step is shown in words (`timingWords`, or `whenWords` once she has moved it), never as a day. */
-  declinePrompt: "Say why, if you like. One tap.",
-  declineNoReason: "Not for me, no reason",
-  deferPrompt: "Bring it back",
-  deferConfirm: "Do it later",
-  timing: "When",
-  scope: "How much",
-  save: "Save",
-  cancel: "Cancel",
-  recordIt: "Add it to your record",
-  announce: {
-    declined: (title: string) => `Declined: ${title}.`,
-    deferred: (title: string) => `Deferred: ${title}.`,
-    completed: (title: string) => `Done: ${title}.`,
-    replacedBy: (title: string) => `Now offered: ${title}.`,
-    nothingNew: "Nothing new offered.",
-  },
-} as const;
 
 /* -----------------------------------------------------------------------------
    COPY FOR THE ROADMAP
@@ -751,47 +558,15 @@ export const SIGNAL_PICTURE_COPY = {
   startedHeading: "Where you started",
   recorded: "Recorded in ExecHQ",
   added: "You added",
-  /** The path variant: how she has grown, a circle for each month, with her next step ahead. */
-  growth: {
-    heading: "How you’ve grown",
-    intro: "Your own record since you started. Not scored, and not compared with anyone.",
-    tap: "Tap a circle to see what is in it.",
-    nothing: "Nothing added yet. What you add shows here, and your picture grows.",
-    next: "Next",
-    nextLabel: "Your next step",
-    nextCaption: "Next:",
-    adds: (lane: string) => `Adds one to ${lane}.`,
-    why: "Why this step",
-    start: "Start in the Toolbox",
-    keep: "Keep working on it",
-    month: (name: string, n: number) => `${name}: ${n} ${n === 1 ? "thing" : "things"}`,
-    quiet: (name: string) => `${name}: nothing added`,
-  },
   add: "Add something you did",
   edit: "Edit",
   delete: "Delete",
   deleteAsk: "Delete this entry?",
   deleteYes: "Delete",
   deleteNo: "Keep it",
-  offer: (title: string) => `You marked “${title}” published. Add it to your record?`,
-  offerYes: "Add it",
-  offerNo: "Not now",
   impactHeading: "What came of it",
   nextLabel: "Next action",
   impactAdd: "Add what came of it",
-  /** The map variant: where she shows up, a dot for each thing, four equal territories. */
-  map: {
-    heading: "Where you show up",
-    intro: "Every thing you did is one dot. Hollow is what you had when you started; filled is what you have added since.",
-    before: (n: number) => `${n} before you started`,
-    tap: "Tap a filled dot to see what it was.",
-    empty: "Nothing added yet. What you add shows here as new dots.",
-    add: "Add",
-    keyBefore: "Before you started",
-    keySince: "Added since",
-    keyNext: "Your next step",
-    something: "Something else",
-  },
   /** The block that shows only what she says came of the things she did. */
   cameOf: {
     heading: "What came of it",
@@ -799,6 +574,8 @@ export const SIGNAL_PICTURE_COPY = {
     none: "Nothing reported yet. When you add what came of something you did, it shows here.",
     /** A thing she did with no reply: neutral, never a miss. */
     noReply: "Nothing reported yet",
+    /** Said under it when she can tap it. */
+    report: "Tap to report",
     cameOfIt: "What came of it: ",
     more: (n: number) => `Show ${n} more`,
     fewer: "Show fewer",
@@ -806,6 +583,32 @@ export const SIGNAL_PICTURE_COPY = {
   openLink: "Open link",
   opensNewTab: "(opens in a new tab)",
   did: (title: string) => `Did: ${title}`,} as const;
+
+/** The drawer she reports what came of something in. */
+export const REPORT_COPY = {
+  title: "What came of it?",
+  toneLabel: "How did it go?",
+  textLabel: "What came of it, in your words",
+  textHint: "Just enough for you to recognise it.",
+  errorText: "Write a line about what came of it.",
+  errorTone: "Choose how it went.",
+  save: "Save",
+  cancel: "Cancel",
+  privacy: "Only you see this. It is kept as you wrote it.",
+} as const;
+
+/** The drawer she adds things in: one row at first, more when she wants them. */
+export const ENTRY_DRAWER_COPY = {
+  title: "Add what you did",
+  rowName: (n: number) => `Thing ${n}`,
+  addRow: "Add another thing",
+  remove: "Remove this row",
+  leaveOut: "Leave this one out",
+  save: (n: number) => (n > 1 ? `Add ${n} things` : "Add"),
+  cancel: "Cancel",
+  errorNone: "Fill in a row: what it was and when.",
+  rowError: "Choose what it was, and a date that is not in the future.",
+} as const;
 
 export const ENTRY_COPY = {
   title: "Add something you did",
@@ -815,6 +618,11 @@ export const ENTRY_COPY = {
   noteLabel: "A link or a note",
   noteHint: "Optional. Just enough for you to recognise it.",
   notePlaceholder: "https://",
+  /** Shown while she adds, when the same kind of thing is already in her picture. */
+  sameRecorded: (text: string, when: string) => `ExecHQ already recorded this on ${when}: “${text}”.`,
+  sameAdded: (text: string, when: string) => `You already added this on ${when}: “${text}”.`,
+  sameIs: "That’s the one",
+  sameNot: "If it is a different one, add it as normal.",
   followersLabel: "How many followers now?",
   followersHint: "Look at your profile and type the number.",
   followersPlaceholder: "e.g. 1,310",
@@ -832,145 +640,37 @@ export const ENTRY_COPY = {
 } as const;
 
 /* -----------------------------------------------------------------------------
-   MOMENTUM: two concepts, for reviewers to choose between
-   The PRD contradicts itself. The Loop section says "completed action" and
-   "Plan progress"; the Plan section specifies an indicator labelled building,
-   steady or needs attention. Concept A reads the Plan section, Concept B the
-   Loop section. What separates them is the 90-day label, which a three-week
-   pilot cannot produce, so usage cannot decide this: it has to be
-   concept-tested in sessions.
+   MOMENTUM (Signal Picture Concept 2, 2026-10-08)
+   Her week in motion: this week as seven day circles, the counts in words, and
+   her next move. Nothing is a score, and nothing is compared with anyone.
    -------------------------------------------------------------------------- */
 
-export type MomentumFigure = "completed" | "artifact" | "outcome";
-export type MomentumLabel = "building" | "steady" | "attention";
-export type LabelWording = "candid" | "soft";
-
-/**
- * PLACEHOLDER. D&T have not given the thresholds that define building, steady
- * and needs attention (an open question in the brief), so this reads the
- * three counted figures in the last 45 days against the 45 before, and calls
- * a gap of more than `band` either way. Replace with D&T's definition.
- */
-export const MOMENTUM_LABEL_RULE = { band: 1 } as const;
+export type MomentumFigure = "completed" | "artifact" | "outcome" | "signal";
 
 export const MOMENTUM_COPY = {
-  headingA: "Momentum",
-  headingB: "Plan progress",
-  intro: "What you’ve done on your plan. Nothing is scored, and nothing is compared with anyone.",
-  windowLabel: "Time window",
+  heading: "Momentum",
+  intro: "Your week in motion: plan steps, drafts and outcomes, and the signals you add.",
   figures: {
     completed: (n: number) => `${n} completed action${n === 1 ? "" : "s"}`,
     artifact: (n: number) => `${n} artifact${n === 1 ? "" : "s"} created or used`,
     outcome: (n: number) => `${n} outcome${n === 1 ? "" : "s"} updated`,
+    signal: (n: number) => `${n} signal${n === 1 ? "" : "s"} added`,
   } as Record<MomentumFigure, (n: number) => string>,
-  behind: "What’s behind this",
-  hideBehind: "Hide",
-  nothingBehind: "Nothing in this window.",
-  /** Concept A, 30 days. Only steps she took on count: a declined or deferred
-   *  step is never in it. */
-  followThrough: (done: number, taken: number) =>
-    `You completed ${done} of the ${taken} step${taken === 1 ? "" : "s"} you took on.`,
-  followThroughNone: "You haven’t taken on any steps yet.",
-  /** Concept B, 30 days: the same counts against the 30 days before, in plain words. */
-  compared: (now: number, before: number, noun: string) =>
-    `${now} ${noun} in the last 30 days, and ${before} in the 30 days before.`,
-  comparedNouns: { completed: "completed actions", artifact: "artifacts created or used", outcome: "outcomes updated" } as Record<MomentumFigure, string>,
-  noEarlier: (days: number) => `You have ${days} days of history, so there is nothing earlier to compare yet.`,
-  /** Thin history, said plainly. */
-  thin: (days: number, window: number) =>
-    `You have ${days} day${days === 1 ? "" : "s"} of history. The ${window}-day view fills in as you go.`,
-  thinLabel: (days: number) =>
-    `You have ${days} day${days === 1 ? "" : "s"} of history. The 90-day label fills in as you go, and until it does there is no label to give.`,
-  soFar: "So far:",
-  /** The 90-day labels, and the softer wording to test them against. */
-  labels: {
-    candid: { building: "Building", steady: "Steady", attention: "Needs attention" },
-    soft: { building: "Building", steady: "Steady", attention: "Quieter lately" },
-  } as Record<LabelWording, Record<MomentumLabel, string>>,
-  /** What each label says it is based on, so it never reads as a grade. */
-  labelBasis:
-    "From what you completed, made and logged in the last 90 days. It is not a grade, and it does not say your work caused any result.",
   nextMove: "Your next move",
-  /** The sections she sees as her history grows: the newest leads. Nobody chooses a window. */
-  sectionHeading: { 7: "Last 7 days", 30: "Last 30 days", 90: "Last 90 days" } as Record<WindowDays, string>,
-  /** The 30-day view: how steadily she completed actions, week by week. */
-  consistency: (active: number, weeks: number) =>
-    `You completed something in ${active} of the last ${weeks} weeks.`,
-  consistencyNone: (weeks: number) => `No completed action in the last ${weeks} weeks yet.`,
-  weekTo: (to: string, done: number) => `to ${to}: ${done} completed`,
-  placeholderRule: "Placeholder rule · D&T to define",
-  /** The pictures. Words come with each one. */
-  dial: {
-    aria: (days: number) => `A ring with one tick for each of the last ${days} days. A longer dark tick is a day she did something.`,
-    legend: "Each tick is one day. A longer dark tick is a day you did something. Today is the tick just before the top, in gold.",
-    legendFuture: "The dots are days still to come.",
-    day: (n: number) => `Day ${n}`,
-    ofPlan: "of your plan",
-    weeksOf: (active: number, weeks: number) => `${active} of ${weeks}`,
-    weeksCap: "weeks you completed something",
-    last90: "last 90 days",
-  },
+  nextMoveAction: "Start",
   week: {
     heading: "This week",
-    legend: "A dark circle is a day you did something. A dashed circle is a day still to come.",
     did: "you did something",
     none: "nothing recorded",
     notYet: "not yet",
-    nothing: "Nothing yet this week.",
   },
-  barLabels: { completed: "Completed actions", artifact: "Artifacts created or used", outcome: "Outcomes updated" } as Record<MomentumFigure, string>,
-  /** Her first week: what she has done so far, as plain lines, and what comes next. No counts, so no zeros. */
-  soFarHeading: "So far",
-  soFarNone: "Nothing yet. Your first draft will show up here.",
-  firstWeek: "Your first 7-day view arrives once you have been here a week.",
 } as const;
 
 /* -----------------------------------------------------------------------------
-   WHAT CHANGED / WHAT NEXT
-   Two to four plain sentences on what moved, then one next best move. Every
-   sentence traces to recorded items, shown one tap away. No causal claims: it
-   says what happened and what she logged, never that one thing led to another.
-   -------------------------------------------------------------------------- */
-
-export const NARRATIVE_COPY = {
-  heading: "What changed",
-  basis: "What this is based on",
-  hideBasis: "Hide",
-  thin: (days: number) =>
-    `You have ${days} day${days === 1 ? "" : "s"} of history, so there is not much to read yet. This fills in as you go.`,
-  nothing: "Nothing is recorded yet. Your first draft will show up here.",
-  window: (history: number, days: number) => (history >= days ? `Over the past ${days} days` : `In your ${history} day${history === 1 ? "" : "s"} so far`),
-  did: (lead: string, parts: string[]) =>
-    `${lead}, you ${parts.length > 1 ? `${parts.slice(0, -1).join(", ")} and ${parts.at(-1)}` : parts[0]}.`,
-  completed: (n: number) => `completed ${n} action${n === 1 ? "" : "s"}`,
-  artifacts: (n: number) => `created or used ${n} artifact${n === 1 ? "" : "s"}`,
-  outcomes: (n: number) => `updated ${n} outcome${n === 1 ? "" : "s"}`,
-  added: (n: number, kinds: string) => `You added ${n} thing${n === 1 ? "" : "s"} yourself: ${kinds}.`,
-  logged: (quote: string) => `You logged: “${quote}”`,
-  next: "Your next best move",
-  openStep: "Open this step",
-  none: "No next move yet. Your plan offers one when it fits.",
-} as const;
-
-/* -----------------------------------------------------------------------------
-   THE DIRECTION, AND HER OWN CALENDAR (Concept 1 tweak, 2026-10-04)
-   Her direction is hers to change at any time, and changing it never changes
-   her plan on its own. Her calendar holds what she adds herself, by hand: V1
+   HER OWN CALENDAR (Concept 1 tweak, 2026-10-04)
+   Her calendar holds what she adds herself, by hand: V1
    has no connections, so nothing syncs from Google or Outlook.
    -------------------------------------------------------------------------- */
-
-export const DIRECTION_COPY = {
-  heading: "Your direction",
-  edited: "Edited by you.",
-  editLabel: "Edit",
-  fieldLabel: "Where are you headed?",
-  fieldHint: "In your own words. Change it whenever it changes.",
-  save: "Save",
-  cancel: "Cancel",
-  saved: "Saved. Your plan stays as it is.",
-  mayChange: "If this points somewhere new, you can change your plan from the roadmap.",
-  errorEmpty: "Say a little about where you’re headed.",
-} as const;
 
 /** Something she put on her own calendar. Plan steps are separate: they come
  *  from the plan and carry their own dates. */
@@ -1070,22 +770,6 @@ export const CALENDAR_COPY = {
   manualOnly: "Only you add to this. Nothing syncs from another calendar.",
 } as const;
 
-export const ITEM_COPY = {
-  title: "Add to your calendar",
-  editTitle: "Edit your item",
-  whatLabel: "What is it?",
-  whatPlaceholder: "Lunch with the CMO",
-  whenLabel: "When?",
-  noteLabel: "A note",
-  noteHint: "Optional.",
-  save: "Add",
-  saveEdit: "Save",
-  cancel: "Cancel",
-  inStage: (n: number, name: string) => `That falls in Stage ${n}, ${name}.`,
-  outsideStage: "That is outside the roadmap’s windows. It will still be on your calendar.",
-  errorWhat: "Say what it is.",
-  errorWhen: "Pick a date.",
-} as const;
 
 /* -----------------------------------------------------------------------------
    WHEN A STEP FALLS ON HER CALENDAR (Concept 1 tweak)
@@ -1112,13 +796,6 @@ export const STEP_TIMING: Record<string, StepTiming> = {
 
 /** Days from today a step is suggested for when nothing ties it to a day, by horizon. */
 export const HORIZON_OFFSET_DAYS: Record<Horizon, number> = { short: 3, medium: 14, long: 60 };
-
-/** The compass variant of the direction card (Concept 2): the plan she is on and where she is in it. */
-export const DIRECTION_PLAN_COPY = {
-  plan: "Your plan",
-  here: "You are here",
-  stage: (n: number, total: number, title: string) => `Stage ${n} of ${total} · ${title}`,
-} as const;
 
 /**
  * When a step is suggested, said in words, because most suggested days are not real: a date on every
@@ -1148,50 +825,13 @@ export const timingWords = (step: { id: string; horizon: Horizon }): string => T
    advisor and never shown back unasked.
    -------------------------------------------------------------------------- */
 
-export const CHANGE_COPY = {
-  link: "Edit",
-  title: "Edit this step",
-  question: "What would you like to do?",
-  options: {
-    edit: { label: "Change the details", hint: "When, how long it will take you, or what counts as done." },
-    replace: { label: "Ask for a different step", hint: "Tell us why, and we’ll offer another." },
-  },
-  keep: "Keep it as it is",
-  back: "Back",
-  /* Edit this step */
-  editWhen: "When",
-  editWhenHint: "When suits you. It shows on your calendar.",
-  editHowLong: "How long will it take you?",
-  editHowLongHint: "Your own estimate. Leave it if ours is right.",
-  howLongOptions: ["A few minutes", "About an hour", "An hour or two", "Several sittings"],
-  editDone: "What counts as done?",
-  editDoneHint: "In your own words. It starts as ours.",
-  editNote: "Anything you’d like us to know?",
-  editNoteHint: "Optional. Only you see it.",
-  editSubmit: "Save changes",
-  /* Ask for a different step */
-  replaceReason: "What’s the main reason?",
-  replaceReasonHint: "Pick one if it fits. You can skip this.",
-  replaceNote: "What would you like instead?",
-  replaceNoteHint: "In your own words. It helps ExecHQ choose the next step. Only you see it.",
-  replaceSubmit: "Ask for a different step",
-} as const;
 
 /* -----------------------------------------------------------------------------
-   THE PLAN HEADER AND ITS DETAIL (Concept 1 rework, 2026-10-06)
-   The page says what her plan is, in a line, before her next steps. Edit opens
-   the detail: the plan, where she is on it and her direction, with the way into
-   the edit flow. Her direction is changed there, by the onboarding questions
-   again, not typed in place.
+   THE PLAN DETAIL (2026-10-06)
+   See your plan opens the detail: the plan, where she is on it and her
+   direction, with the way into the edit flow. Her direction is changed there,
+   by the onboarding questions again, not typed in place.
    -------------------------------------------------------------------------- */
-
-export const PLAN_HEADER_COPY = {
-  label: "Your plan",
-  edit: "Edit",
-  editName: (plan: string) => `Edit ${plan}`,
-  /** The one line: what the plan is built around, from the template's own emphasis. */
-  line: (emphasis: string) => `Built around ${emphasis.charAt(0).toLowerCase()}${emphasis.slice(1)}`,
-} as const;
 
 export const PLAN_DETAIL_COPY = {
   title: "Your plan and your direction",
@@ -1204,6 +844,103 @@ export const PLAN_DETAIL_COPY = {
   how: "Changing your direction takes you through the questions again. At the end you choose your plan, and you can keep this one. Everything you have done stays.",
   change: "Change my direction",
   close: "Close",
+} as const;
+
+/** Plan Concept 3: her direction above the road, opening like an accordion, and the way into the plan detail. */
+export const PLAN_DIRECTION_COPY = {
+  label: "Your direction",
+  more: "See your plan",
+} as const;
+
+/**
+ * The stage check-in (Plan Concept 3). ExecHQ decides a stage is finished, from her work, and asks how it
+ * went before it builds on it: what came of anything she has not said yet, whether she got what finishing
+ * looks like, and how she feels about her plan now. Every part can be skipped, and "Later" is always there.
+ */
+export const STAGE_CHECKIN_COPY = {
+  part: "Stage check-in",
+  introKicker: (n: number, of: number) => `Stage ${n} of ${of} · Finished`,
+  introTitle: (stage: string) => `You finished ${stage}`,
+  introLede: "Here’s what you did. Before ExecHQ builds on it, tell it how it went.",
+  introQuestion: "Check in on this stage?",
+  introNote: (unreported: number) =>
+    `${unreported ? `${unreported === 1 ? "One thing" : `${unreported} things`} to hear about, then how the stage went.` : "How the stage went."} About two minutes. You can skip any of it.`,
+  start: "Start the check-in",
+  later: "Later",
+  nothingDone: "Nothing from this stage is in ExecHQ yet.",
+  // What she did, by where it came from.
+  fromSteps: "Your steps",
+  fromExecHQ: "In ExecHQ",
+  fromYou: "Yours",
+  passed: "You passed on it",
+  unreported: "Not reported yet",
+  used: (on: string) => `Used ${on}`,
+  done: (on: string) => `Done ${on}`,
+  added: (on: string) => `Added ${on}`,
+  // One page per thing she has not said what came of.
+  itemTitle: "What came of it?",
+  itemWhyLabel: "Why ExecHQ asks",
+  itemWhy: "What worked here decides what the next stage leans on.",
+  toneLabel: "How did it go?",
+  wordsLabel: "What came of it, in your words",
+  wordsHint: "Optional.",
+  next: "Next",
+  skipOne: "Skip this one",
+  // Whether she got what finishing looks like.
+  milestoneKicker: (stage: string) => stage,
+  milestoneTitle: "Did you get what finishing looks like?",
+  milestoneWhyLabel: "Finishing looks like",
+  milestoneQuestion: "Where did you land?",
+  milestones: [
+    { id: "yes", label: "Yes" },
+    { id: "partly", label: "Partly" },
+    { id: "not-yet", label: "Not yet" },
+  ],
+  skip: "Skip",
+  // How she feels about her plan now.
+  feelingKicker: "Before the next stage",
+  feelingTitle: "How are you feeling about your plan now?",
+  feelingLede: "However it went is useful. ExecHQ shapes what comes next around it.",
+  feelingQuestion: "Right now I’m feeling…",
+  feelings: [
+    { id: "more-sure", label: "More sure of it" },
+    { id: "same", label: "About the same" },
+    { id: "less-sure", label: "Less sure" },
+    { id: "stuck", label: "Stuck" },
+  ],
+  feelingWordsLabel: "Anything ExecHQ should know?",
+  privacy: "Only you see this. It is kept as you wrote it.",
+  seeStage: "See your stage",
+  // The read-back.
+  summaryKicker: (stage: string) => `Your check-in · ${stage}`,
+  summaryTitle: "Your stage, in your words",
+  didHeading: "What you did",
+  stillOpen: (n: number) => `${n === 1 ? "One thing is" : `${n} things are`} still unreported. You can tell ExecHQ later, from the thing itself.`,
+  wentHeading: "How the stage went",
+  milestoneLabel: "Finishing looks like",
+  feelingLabel: "How you’re feeling",
+  notAnswered: "Not answered",
+  onTo: (next: string | undefined) => (next ? `On to ${next}` : "Back to your plan"),
+  change: "Change an answer",
+  // On the finished stage in the roadmap, afterwards.
+  recapLabel: "Your check-in",
+  recapLanded: "Where you landed",
+  recapOpen: "See your check-in",
+  recapLater: "Tell ExecHQ how this stage went, and it builds on what worked.",
+  recapStart: "Check in on this stage",
+  // What the check-in changes, said on the step it changed and in the read-back.
+  heardGapPartly: "You said you partly got what finishing looks like. This picks up what’s still missing.",
+  heardGapNotYet: "You said not yet, so the stage stays open. This is aimed at what’s missing.",
+  heardOtherWay: (title: string) => `“${title}” didn’t go the way you hoped. This is a different way at it.`,
+  heardAgain: "You passed on this before. Worth another look?",
+  replyThanks: "Thanks.",
+  replyThanksUnsure: "Thanks for saying so.",
+  replyYes: (next: string | undefined) => (next ? `${next} is next, and it builds on what went well here.` : "What comes next builds on what went well here."),
+  replyPartly: (next: string | undefined) => (next ? `${next} is next. Its first step picks up what’s still missing here.` : "Your next step picks up what’s still missing here."),
+  replyNotYet: "Then this stage stays open, with a step aimed at what’s missing.",
+  replyUnsureMore: "From here it’s one step at a time, and you can talk any of it through first.",
+  replyOtherWay: "Where something didn’t go the way you hoped, there’s a different way at it on your plan.",
+  replyAgain: "And one thing you passed on is back for another look.",
 } as const;
 
 /** Where the edit flow starts: the onboarding questions, pre-filled, ending back on the Plan. */
@@ -1272,7 +1009,18 @@ export const TIMELINE_COPY = {
    used to carry is a question she can ask, and the advisor answers it in the
    chat from the same fields. Asking never changes the step.
    -------------------------------------------------------------------------- */
-export type StepQuestion = "why" | "take" | "else" | "stuck" | "big" | "begin";
+export type StepQuestion = "why" | "take" | "else" | "stuck" | "big" | "begin" | CardQuestion;
+
+/** Concept 1's step card (2026-10-07): one question per tile, in her voice, each answered on its own. */
+export type CardQuestion = "this" | "now" | "me" | "moves" | "long" | "done";
+export const CARD_QUESTIONS: { id: CardQuestion; label: string }[] = [
+  { id: "this", label: "Why this?" },
+  { id: "now", label: "Why now?" },
+  { id: "me", label: "Why me?" },
+  { id: "moves", label: "What does it move?" },
+  { id: "long", label: "How long will it take?" },
+  { id: "done", label: "When am I done?" },
+];
 
 /** Three ways in: why it is here, what it takes, and anything else. Each opens the chat. */
 export const STEP_QUESTIONS: { id: StepQuestion; label: string }[] = [
@@ -1299,6 +1047,11 @@ export const STEP_ANSWERS = {
   stuck: "What’s getting in the way? Pick one, or tell me in your own words.",
   big: "Try a lighter version: do only the first part, and leave the rest for later.",
   begin: (outcome: string) => `Start from where you want to end up: ${outcome.charAt(0).toLowerCase()}${outcome.slice(1)} Open it, write the first line, and stop there.`,
+  /** Concept 1's card questions, one fact each. Her own estimate and her own done replace ours. */
+  moves: (area?: string) =>
+    area ? `“${upper(area)}.” That’s the signal this step feeds on your plan.` : "It isn’t tied to one of your signals, so it moves your plan as a whole.",
+  long: (effort: string) => `Plan on ${lower(effort)}.`,
+  done: (done: string) => `It counts as done when ${lower(done)}.`,
   /** The first line of an answer, shown on the step before she asks. */
   teaseWhy: (step: { whyLine?: string; whyNow: string }) => step.whyLine ?? step.whyNow,
   teaseTake: (step: { effortText: string; done: string }) => `${upper(step.effortText)}. Done when ${lower(step.done)}.`,
@@ -1326,11 +1079,7 @@ export const PLAN_AGENDA_COPY = {
   addCancel: "Cancel",
   added: (stage: string, when: string) => `Added to ${stage}, ${when.toLowerCase()}.`,
   nothing: "Nothing in this stage yet.",
-  scaffold: {
-    heading: "Prototype only: choose the roadmap layout",
-    headings: "Headings",
-    stack: "Stack",
-  },
+  nothingDone: "Nothing left to do in this stage.",
 } as const;
 
 /* -----------------------------------------------------------------------------
@@ -1368,11 +1117,6 @@ export const GUIDED_COPY = {
   reasonLabel: "Why not?",
   next: "Next move",
   seeRoad: "See the road",
-  road: "The road ahead",
-  roadIntro: "A suggested pace, not a deadline.",
-  here: "You are here",
-  changed: "What changed",
-  noChanges: "Nothing has changed yet.",
   after: "Then ExecHQ builds the next stage, from what worked and what didn’t.",
   lastKicker: "The road ahead",
   lastTitle: "That’s this stretch of the plan.",
@@ -1381,5 +1125,4 @@ export const GUIDED_COPY = {
   add: "Add to your plan",
   noneTitle: "Nothing to answer right now.",
   noneLede: "Your plan offers the next move when one fits.",
-  close: "Close",
 } as const;

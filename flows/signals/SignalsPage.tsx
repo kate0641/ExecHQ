@@ -1,8 +1,7 @@
 import type { ReactNode } from "react";
 
 /**
- * The frame the three Signal Picture concepts share: a heading, then up to
- * three groups of sections. On a phone and a tablet the groups run in the
+ * The Signal Picture's frame: a heading, then up to three groups of sections. On a phone and a tablet the groups run in the
  * order written, one column. On web, `lead` runs across the top and `main`
  * and `side` sit beside each other, so a concept chooses what gets the wide
  * column.
@@ -14,7 +13,7 @@ export function SignalsPage({
   side,
   children,
 }: {
-  concept: "c1" | "c2" | "c3";
+  concept: "c2";
   lead?: ReactNode;
   main?: ReactNode;
   side?: ReactNode;

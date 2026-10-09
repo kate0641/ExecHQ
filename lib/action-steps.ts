@@ -17,18 +17,13 @@
  * - Replacement is capped: one per horizon per visit. After that the slot
  *   stays empty and says so, so repeated declines cannot become a conveyor belt.
  * - Declining and deferring are never counted against her anywhere.
- * - A step that recurs (the weekly reflection) is eligible again seven days
- *   after she last did it, and nothing counts the weeks she did not.
- * - How many she takes on is hers to say (capacity: three, four or five), and
- *   "hold my workload" means nothing new is offered. Neither is ever counted
- *   against her, and lowering it sets steps aside, not away.
+ * - A step she has passed on twice is never offered again, by any route.
  */
 
 import { addDays, datePhrase, type LoopDate } from "@/lib/loop";
 import {
   ACTION_QUEUE,
   LIVE_LIMITS,
-  MAX_LIVE,
   PLAN_COPY,
   CHANNELS,
   HANDOFF_RULES,
@@ -77,11 +72,13 @@ export interface PlanState {
   /** The day each step she has accepted, or moved, sits on her calendar. A step with no
    *  day here is only suggested one (`lib/step-dates.ts`). Absent in older saved state. */
   dates?: Record<string, LoopDate>;
-  /** How many live steps she says she can take on right now, three to five. Absent means five. */
-  capacity?: number;
-  /** She is holding her workload: nothing new is offered until she lifts it. */
-  hold?: boolean;
+  /** How many times she has passed on each step. Two, and it is never offered again. Absent in older saved state. */
+  passes?: Record<string, number>;
 }
+
+/** Passed on this many times, a step is never offered again. */
+export const MAX_PASSES = 2;
+export const passedOut = (state: PlanState, id: string): boolean => (state.passes?.[id] ?? 0) >= MAX_PASSES;
 
 export type EmptyReason = keyof typeof PLAN_COPY.empty;
 
@@ -106,6 +103,7 @@ export function initialPlanState(today: LoopDate): PlanState {
   const decisions: Record<string, Decision> = {};
   const shown: string[] = [];
   const dates: Record<string, LoopDate> = {};
+  const passes: Record<string, number> = {};
   for (const step of ACTION_QUEUE) {
     if (step.status === "accepted") {
       shown.push(step.id);
@@ -115,9 +113,10 @@ export function initialPlanState(today: LoopDate): PlanState {
       decisions[step.id] = { decision: "deferred", on: today, returnsOn: addDays(today, DEFAULT_DEFER_DAYS) };
     } else if (step.status === "declined") {
       decisions[step.id] = { decision: "declined", on: today, reason: "not-relevant" };
+      passes[step.id] = 1;
     }
   }
-  return { today, shown, decisions, avoidChannels: [], replaced: {}, edits: {}, dates };
+  return { today, shown, decisions, avoidChannels: [], replaced: {}, edits: {}, dates, passes };
 }
 
 export const liveSteps = (state: PlanState): ActionStep[] =>
@@ -126,12 +125,9 @@ export const liveSteps = (state: PlanState): ActionStep[] =>
 export const liveIn = (state: PlanState, horizon: Horizon): ActionStep[] =>
   liveSteps(state).filter((s) => s.horizon === horizon);
 
-/** The most live steps she wants right now: what she said, and never more than five. */
-export const liveLimit = (state: PlanState): number => Math.min(MAX_LIVE, state.capacity ?? MAX_LIVE);
-
-/** Whether a horizon has room for another live step: inside its own limit and inside what she can take on. */
+/** Whether a horizon has room for another live step. */
 export const hasRoom = (state: PlanState, horizon: Horizon): boolean =>
-  liveIn(state, horizon).length < LIVE_LIMITS[horizon] && state.shown.length < liveLimit(state);
+  liveIn(state, horizon).length < LIVE_LIMITS[horizon];
 
 /* -----------------------------------------------------------------------------
    MOVES
@@ -175,7 +171,12 @@ export function newVisit(state: PlanState, today: LoopDate): PlanState {
 export function decline(state: PlanState, id: string, reason?: DeclineReason, note?: string): Move {
   const step = stepById(id);
   if (!step || !state.shown.includes(id)) return { state };
-  let next: PlanState = { ...state, shown: without(state.shown, id), dates: withoutDate(state.dates, id) };
+  let next: PlanState = {
+    ...state,
+    shown: without(state.shown, id),
+    dates: withoutDate(state.dates, id),
+    passes: { ...state.passes, [id]: (state.passes?.[id] ?? 0) + 1 },
+  };
   // Wrong timing is the one reason that is about when, not whether: it comes
   // back once, later.
   const returnsOn = reason === "wrong-timing" ? addDays(state.today, WRONG_TIMING_RETURNS_AFTER_DAYS) : undefined;
@@ -214,8 +215,6 @@ export function complete(state: PlanState, id: string, prefer?: string): Move {
     dates: withoutDate(state.dates, id),
     decisions: { ...state.decisions, [id]: { decision: "completed", on: state.today } },
   };
-  if (next.hold) return { state: next, replacement: emptyOf("holding") };
-  if (next.shown.length >= liveLimit(next)) return { state: next, replacement: emptyOf("at-capacity") };
   const preferred = prefer ? stepById(prefer) : undefined;
   const pick =
     preferred && eligible(next, preferred) ? preferred : candidates(next, step.horizon)[0];
@@ -253,11 +252,10 @@ const emptyOf = (reason: EmptyReason): Replacement => ({ empty: reason, message:
  *  whose date has come, offered again once. */
 function eligible(state: PlanState, step: ActionStep): boolean {
   if (state.shown.includes(step.id)) return false;
+  if (passedOut(state, step.id)) return false;
   if (step.channel && state.avoidChannels.includes(step.channel)) return false;
   const d = state.decisions[step.id];
   if (!d) return true;
-  // A weekly step comes round again once a week after she last did it, and is never a miss.
-  if (step.recurs === "weekly" && d.decision === "completed") return addDays(d.on, 7) <= state.today;
   const returns = d.decision === "deferred" || (d.decision === "declined" && d.returnsOn !== undefined);
   return returns && d.returnsOn !== undefined && d.returnsOn <= state.today && !d.resurfaced;
 }
@@ -281,8 +279,6 @@ function offer(state: PlanState, step: ActionStep, replaced = false): PlanState 
 
 /** Fills the slot a decline or deferral freed, by the reason given. */
 function refill(state: PlanState, gone: ActionStep, reason: DeclineReason | undefined): Move {
-  if (state.hold) return { state, replacement: emptyOf("holding") };
-  if (state.shown.length >= liveLimit(state)) return { state, replacement: emptyOf("at-capacity") };
   if ((state.replaced[gone.horizon] ?? 0) >= MAX_REPLACEMENTS_PER_HORIZON) {
     return { state, replacement: emptyOf("limit-reached") };
   }
@@ -332,60 +328,6 @@ function refill(state: PlanState, gone: ActionStep, reason: DeclineReason | unde
     state: offer(state, pick, true),
     replacement: { step: pick, heard, offerRecord: reason === "already-done" ? true : undefined },
   };
-}
-
-/* -----------------------------------------------------------------------------
-   CAPACITY
-   -------------------------------------------------------------------------- */
-
-/**
- * She says how much she can take on, or holds her workload. Lowering it sets
- * the last steps aside: they go back to the queue as if never decided, so they
- * can come round again, and nothing is recorded against her. Raising it offers
- * one more, never fills every place. Holding offers nothing.
- */
-export function applyCapacity(
-  state: PlanState,
-  capacity: number,
-  hold: boolean,
-  options: { offer?: boolean } = {},
-): { state: PlanState; setAside: ActionStep[]; offered?: ActionStep } {
-  const limit = Math.min(MAX_LIVE, capacity);
-  let next: PlanState = { ...state, capacity: limit, hold };
-  const setAside: ActionStep[] = [];
-  // Set aside the ones she has not accepted first, then the last in order.
-  if (next.shown.length > limit) {
-    // Not-yet-accepted first, then the short horizon before the milestones, then the last in order.
-    const rank = (id: string) => ["short", "medium", "long"].indexOf(stepById(id)?.horizon ?? "short");
-    const order = [...next.shown].sort((a, b) => {
-      const acceptedA = next.decisions[a]?.decision === "accepted" ? 1 : 0;
-      const acceptedB = next.decisions[b]?.decision === "accepted" ? 1 : 0;
-      return acceptedA - acceptedB || rank(a) - rank(b) || next.shown.indexOf(b) - next.shown.indexOf(a);
-    });
-    const leaving = order.slice(0, next.shown.length - limit);
-    const decisions = { ...next.decisions };
-    let dates = next.dates;
-    for (const id of leaving) {
-      delete decisions[id];
-      dates = withoutDate(dates, id);
-      const step = stepById(id);
-      if (step) setAside.push(step);
-    }
-    next = { ...next, shown: next.shown.filter((id) => !leaving.includes(id)), decisions, dates };
-  }
-  let offered: ActionStep | undefined;
-  if (options.offer !== false && !hold && next.shown.length < limit) {
-    for (const horizon of ["short", "medium", "long"] as Horizon[]) {
-      if (liveIn(next, horizon).length >= LIVE_LIMITS[horizon]) continue;
-      const pick = candidates(next, horizon).find((c) => !setAside.some((s) => s.id === c.id));
-      if (pick) {
-        offered = pick;
-        break;
-      }
-    }
-    if (offered) next = offer(next, offered);
-  }
-  return { state: next, setAside, offered };
 }
 
 /* -----------------------------------------------------------------------------

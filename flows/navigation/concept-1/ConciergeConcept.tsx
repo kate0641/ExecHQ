@@ -7,7 +7,7 @@ import { createPortal } from "react-dom";
 import { ChatComposer } from "@/components/chat/ChatComposer";
 import { ChatMessage } from "@/components/chat/ChatMessage";
 import { QuickReplies } from "@/components/chat/QuickReplies";
-import { ConciergePanel } from "@/components/navigation/ConciergePanel";
+import { AdvisorWho, ConciergePanel } from "@/components/navigation/ConciergePanel";
 import { ConciergePill } from "@/components/navigation/ConciergePill";
 import { Icon, type IconName } from "@/components/primitives/Icon";
 import { EntryLink } from "@/components/homepage/EntryLink";
@@ -30,6 +30,7 @@ import {
   useLoop,
 } from "@/lib/loop-store";
 import { conceptHref, type NavDestination } from "@/lib/manifest";
+import { useNewSignals } from "@/lib/new-signals";
 import { useViewport } from "@/lib/viewport-context";
 import { CONCIERGE_COPY as C } from "@/mock/concierge";
 import type { NavConceptProps } from "../types";
@@ -154,6 +155,7 @@ function applyEffect(effect: ConciergeEffect | undefined, go: (href: string) => 
 function Pill({ destinations, currentFlow }: NavConceptProps) {
   const { open } = useConcierge();
   const loop = useLoop();
+  const newSignals = useNewSignals();
   const here = destinations.find((d) => d.flowSlug === currentFlow);
   return (
     <ConciergePill
@@ -161,6 +163,7 @@ function Pill({ destinations, currentFlow }: NavConceptProps) {
       here={{ label: here?.label ?? "Home", icon: ICONS[currentFlow] ?? "home" }}
       ask={C.pillAsk}
       followUpDue={Boolean(loop.followUp)}
+      newSignals={newSignals && currentFlow !== "signals"}
       expanded={open}
       controls={PANEL_ID}
       onClick={() => (open ? closePanel() : update({ open: true }))}
@@ -328,12 +331,7 @@ function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { m
     typed.length > 1 ? destinations.find((d) => d.label.toLowerCase().startsWith(typed)) : undefined;
 
   const last = concierge.messages[concierge.messages.length - 1];
-  // Before anything is asked, the suggested questions are his first replies.
-  const replies = !chatting
-    ? suggestions(ctx)
-    : !concierge.typing && last?.from === "advisor"
-      ? last.turn.replies ?? []
-      : [];
+  const replies = !concierge.typing && last?.from === "advisor" ? last.turn.replies ?? [] : [];
 
   return (
     <ConciergePanel
@@ -341,16 +339,25 @@ function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { m
       mode={mode}
       name={C.name}
       role={C.role}
+      whoInHead={chatting}
       newLabel={C.newConversation}
       closeLabel={C.close}
       onNew={chatting ? () => update({ messages: [], asked: undefined }) : undefined}
       onClose={() => closePanel()}
       className={chatting ? "is-chatting" : undefined}
+      // Talking, the way to the product's places sits above the advisor's head, then the chat.
+      top={
+        chatting ? (
+          <nav aria-label={C.goTo}>
+            <Places destinations={destinations} currentFlow={currentFlow} />
+          </nav>
+        ) : undefined
+      }
       footer={
         <>
           {replies.length ? (
             <QuickReplies
-              label={chatting ? "Answers" : C.askMe}
+              label="Answers"
               replies={replies.map((r) => ({ label: r.label }))}
               onChoose={(label) => {
                 const reply = replies.find((r) => r.label === label);
@@ -386,43 +393,24 @@ function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { m
       }
     >
       <div className="concierge-body" ref={bodyRef}>
-        {/* One shape before and after the first question: the destinations as
-            text tabs, then the conversation, which he opens (designer,
-            2026-10-07: the start screen felt separate from the chat). */}
-        <ul className="concierge-mini" aria-label={C.goTo}>
-          {destinations.map((d) => (
-            <li key={d.flowSlug}>
-              <Link
-                href={d.href}
-                className={d.flowSlug === currentFlow ? "is-current" : undefined}
-                aria-current={d.flowSlug === currentFlow ? "page" : undefined}
-                onClick={() => closePanel(false)}
-              >
-                {d.label}
-                {d.flowSlug === "homepage" && loop.followUp ? (
-                  <>
-                    <span className="concierge-mini__dot" aria-hidden="true" />
-                    <span className="u-visually-hidden">, a follow-up is waiting</span>
-                  </>
-                ) : null}
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <div className="concierge-thread" role="log" aria-label="Conversation">
-          <Opening />
-          {concierge.messages.map((m, i) => {
-            if (m.from === "you") return <ChatMessage key={m.id} from="you">{m.text}</ChatMessage>;
-            // His opening counts as the turn before the first message.
-            const prev = concierge.messages[i - 1];
-            return (
-              <ChatMessage key={m.id} from="advisor" lead={Boolean(prev) && prev.from !== "advisor"} card={Boolean(m.turn.card)}>
-                <Turn turn={m.turn} />
-              </ChatMessage>
-            );
-          })}
-          {concierge.typing ? <ChatMessage from="advisor" lead typing /> : null}
-        </div>
+        {chatting ? (
+          <>
+            <div className="concierge-thread" role="log" aria-label="Conversation">
+              {concierge.messages.map((m, i) => {
+                const prev = concierge.messages[i - 1];
+                if (m.from === "you") return <ChatMessage key={m.id} from="you">{m.text}</ChatMessage>;
+                return (
+                  <ChatMessage key={m.id} from="advisor" lead={prev?.from !== "advisor"} card={Boolean(m.turn.card)}>
+                    <Turn turn={m.turn} />
+                  </ChatMessage>
+                );
+              })}
+              {concierge.typing ? <ChatMessage from="advisor" lead typing /> : null}
+            </div>
+          </>
+        ) : (
+          <Start destinations={destinations} currentFlow={currentFlow} ctx={ctx} onAsk={choose} />
+        )}
       </div>
     </ConciergePanel>
   );
@@ -454,17 +442,65 @@ function Turn({ turn }: { turn: AdvisorTurn }) {
   );
 }
 
-/** His first message, which opens every conversation: a line from him and,
- *  when there is one, the draft in hand to pick up. */
-function Opening() {
+/** Before anything is asked: where to go, the draft in hand, then the advisor and what to ask. */
+/** The product's places, with their icons, in one row however many there are. A dot says something waits. */
+function Places({ destinations, currentFlow }: { destinations: NavDestination[]; currentFlow: string }) {
+  const loop = useLoop();
+  const newSignals = useNewSignals();
+  return (
+    <ul className="concierge-dests">
+      {destinations.map((d) => (
+        <li key={d.flowSlug}>
+          <Link
+            href={d.href}
+            className={["concierge-dest", d.flowSlug === currentFlow ? "is-current" : null].filter(Boolean).join(" ")}
+            aria-current={d.flowSlug === currentFlow ? "page" : undefined}
+            onClick={() => closePanel(false)}
+          >
+            <Icon name={ICONS[d.flowSlug] ?? "home"} size={20} />
+            <span>{d.label}</span>
+            {d.flowSlug === "homepage" && loop.followUp ? (
+              <>
+                <span className="concierge-dest__dot" aria-hidden="true" />
+                <span className="u-visually-hidden">, a follow-up is waiting</span>
+              </>
+            ) : null}
+            {d.flowSlug === "signals" && newSignals && currentFlow !== "signals" ? (
+              <>
+                <span className="concierge-dest__dot" aria-hidden="true" />
+                <span className="u-visually-hidden">, new in your Signal Picture</span>
+              </>
+            ) : null}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function Start({
+  destinations,
+  currentFlow,
+  ctx,
+  onAsk,
+}: {
+  destinations: NavDestination[];
+  currentFlow: string;
+  ctx: ConciergeContext;
+  onAsk: (reply: ConciergeReply) => void;
+}) {
   const loop = useLoop();
   const resume = [...loop.records]
     .filter((r) => r.state === "drafted" || r.state === "in-progress")
     .sort((a, b) => (a.history.at(-1)!.on < b.history.at(-1)!.on ? 1 : -1))[0];
   const resumeLast = resume?.history.at(-1);
   return (
-    <ChatMessage from="advisor" lead card={Boolean(resume && resumeLast)}>
-      <p>{C.hello(loop.account.name ?? "")}</p>
+    <div className="concierge-start">
+      <section aria-labelledby="concierge-goto">
+        <h2 id="concierge-goto" className="concierge-start__title">{C.goTo}</h2>
+        <Places destinations={destinations} currentFlow={currentFlow} />
+      </section>
+
       {resume && resumeLast ? (
         <EntryLink
           href={TOOLBOX}
@@ -475,6 +511,20 @@ function Opening() {
           onClick={() => closePanel(false)}
         />
       ) : null}
-    </ChatMessage>
+
+      <section aria-labelledby="concierge-ask">
+        <AdvisorWho name={C.name} role={C.role} className="concierge-start__who" />
+        <h2 id="concierge-ask" className="concierge-start__title">{C.askMe}</h2>
+        <ul className="concierge-suggest">
+          {suggestions(ctx).map((s) => (
+            <li key={s.label}>
+              <button type="button" className="concierge-suggest__item" onClick={() => onAsk(s)}>
+                {s.label}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </div>
   );
 }
