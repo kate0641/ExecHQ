@@ -13145,7 +13145,9 @@ ul.card-carousel__track {
   align-items: center;
   justify-content: space-between;
   gap: var(--space-sm);
-  padding-top: var(--space-sm);
+  /* The same as the form's gap under each row, so every field sits midway
+     between the lines above and below it. */
+  padding-top: var(--space-md);
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
@@ -13430,8 +13432,9 @@ ul.templates__outcomes {
   color: var(--color-text-secondary);
 }
 
-/* On Home the Signal Picture is a plain white card (designer, 2026-10-09):
-   outlined, with no coloured head. */
+/* On Home the Signal Picture is a two-tone card (designer, 2026-10-09): its
+   title in a soft blue head, everything else on a white body below, as the
+   feature card does. */
 .map-home .signal-picture--card.account-card {
   gap: var(--space-md);
   padding: 0 0 var(--space-feature-padding);
@@ -13442,7 +13445,8 @@ ul.templates__outcomes {
 }
 
 .map-home .signal-picture--card > .account-card__top {
-  padding: var(--space-feature-padding) var(--space-feature-padding) 0;
+  padding: var(--space-feature-padding);
+  background-color: var(--color-surface-feature);
 }
 
 /* A clear pause between the last number and the save. */
