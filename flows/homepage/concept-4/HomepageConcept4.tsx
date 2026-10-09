@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { BaselineForm } from "@/components/homepage/BaselineForm";
 import { SignalPicture } from "@/components/homepage/SignalPicture";
 import { BriefingEditorial } from "@/components/homepage/BriefingEditorial";
@@ -48,6 +48,43 @@ function longDate(date: string): string {
   return `${WEEKDAYS[d.getUTCDay()]}, ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
 }
 
+/** The sky behind the greeting follows the hour she opens Home: dawn from
+ *  5, day from 9, dusk from 17 and night from 20. */
+type Sky = "dawn" | "day" | "dusk" | "night";
+const SKIES: Sky[] = ["dawn", "day", "dusk", "night"];
+function skyAt(hour: number): Sky {
+  if (hour >= 5 && hour < 9) return "dawn";
+  if (hour >= 9 && hour < 17) return "day";
+  if (hour >= 17 && hour < 20) return "dusk";
+  return "night";
+}
+
+/** The greeting's part of the day: morning until noon, afternoon until 5pm,
+ *  then evening, shared by dusk and night. */
+type Part = "morning" | "afternoon" | "evening";
+function partAt(hour: number): Part {
+  if (hour >= 5 && hour < 12) return "morning";
+  if (hour >= 12 && hour < 17) return "afternoon";
+  return "evening";
+}
+
+/** Her clock, read when Home is drawn, as "sky part". For review,
+ *  ?sky=dawn (day, dusk, night) in the address shows that sky at any hour,
+ *  with a greeting that belongs to it. */
+function currentMoment(): string {
+  const hour = new Date().getHours();
+  const asked = SKIES.find((s) => s === new URLSearchParams(window.location.search).get("sky"));
+  if (!asked) return `${skyAt(hour)} ${partAt(hour)}`;
+  const part: Part =
+    asked === "dawn" ? "morning" : asked === "day" ? (skyAt(hour) === "day" ? partAt(hour) : "afternoon") : "evening";
+  return `${asked} ${part}`;
+}
+
+/* Nothing re-draws the sky as time passes. */
+function noSubscription(): () => void {
+  return () => {};
+}
+
 /** "Mon 5 Oct": the Briefing's day, as the card's small print. */
 function shortDay(date: string): string {
   const d = new Date(`${date}T00:00:00Z`);
@@ -82,6 +119,8 @@ function NoteCard({ eyebrow, title, note }: { eyebrow: string; title: string; no
 
 export function HomepageConcept4() {
   const loop = useLoop();
+  /* The server, which has no clock of hers, draws a day morning. */
+  const [sky, part] = useSyncExternalStore(noSubscription, currentMoment, () => "day morning").split(" ") as [Sky, Part];
   /* A ring she tapped, kept only for the state it was tapped in, so a new
      moment (or the dock's switcher) opens on her next step again. */
   const [picked, setPicked] = useState<{ horizon: Horizon; state: string } | null>(null);
@@ -166,8 +205,8 @@ export function HomepageConcept4() {
     <div className="map-home">
       <h1 className="u-visually-hidden">Home</h1>
       <div className="map-home__lead">
-        <p className="map-home__greeting">
-          <b>{C.greeting(loop.account.name ?? "")}</b>
+        <p className="map-home__greeting" data-sky={sky}>
+          <b>{C.greeting(loop.account.name ?? "", part)}</b>
           <span>{longDate(loop.today)}</span>
         </p>
         <section className="map-home__section" aria-labelledby="map-heading">

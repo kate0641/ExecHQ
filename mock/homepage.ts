@@ -223,7 +223,9 @@ export function homeStateOf(snapshot: Pick<Snapshot, "records" | "justAnswered">
 /** What the homepage says around the shared components. Advisor voice: no
  *  "Welcome back!", no counts of what's waiting. */
 export const HOME_COPY = {
-  greeting: (name: string) => `Good morning, ${name}`,
+  /** By the hour she opens Home: morning until noon, afternoon until 5pm,
+   *  evening through dusk and night (designer, 2026-10-09). */
+  greeting: (name: string, part: "morning" | "afternoon" | "evening") => `Good ${part}, ${name}`,
   toward: (where: string) => `toward ${where}`,
   allDone: "Every action on your plan is in hand.",
   /** Over a ring's next action, whether it's the moment's or a ring picked. */

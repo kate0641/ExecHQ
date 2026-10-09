@@ -32,15 +32,15 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         uses: ["--color-surface", "--color-surface-raised", "--color-border", ".card"],
       },
       {
-        rule: "Never a card inside a card. Inside a card, split things with a hairline.",
-        why: "Nested rounded boxes read as bubbly; hairlines and type read as considered.",
-        from: "Home, Profile",
+        rule: "Never a card inside a card, and never a stack of boxes for a list. One card holds the list; a hairline splits each item.",
+        why: "Nested or stacked rounded boxes read as bubbly; hairlines and type read as considered. Navigation's suggested questions were four boxes; now they are one card.",
+        from: "Home, Profile, Navigation",
         uses: [".card--reads", "--color-border-subtle"],
       },
       {
-        rule: "At most one dark block on a screen, and only for the one thing to do next.",
-        why: "Navy is the anchor. Two anchors compete; a settings page like Profile needs none.",
-        from: "Home",
+        rule: "At most one dark block on a screen, and only for the one thing to do next, or where she is.",
+        why: "Navy is the anchor. Two anchors compete; a settings page like Profile needs none. In the advisor panel the only navy is the destination she is on, so her own messages are light blue.",
+        from: "Home, Navigation",
         uses: ["--color-surface-inverse"],
       },
     ],
@@ -74,8 +74,8 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
     rules: [
       {
         rule: "Kulim Park is for display, title and heading. Labels, eyebrows, subheadings, body and captions are Inter.",
-        why: "Kulim gives the page its voice in a few places; Inter keeps everything else calm and easy to read.",
-        from: "Home",
+        why: "Kulim gives the page its voice in a few places; Inter keeps everything else calm and easy to read. This covers the advisor's name, the where-you-are chip and chat replies too.",
+        from: "Home, Navigation",
         uses: ["--type-label-font", "--type-eyebrow-font", "--type-subheading-font"],
       },
       {
@@ -86,9 +86,14 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
       },
       {
         rule: "A labelled read inside a card is a grey eyebrow, then the words. Blue eyebrows introduce a heading; grey ones label a read.",
-        why: "Why this / Why now / Why you on Home; Name and Email on Profile. One look for one job.",
-        from: "Home, Profile",
+        why: "Why this / Why now / Why you on Home; Name and Email on Profile; Go to and Ask me in the advisor panel. One look for one job.",
+        from: "Home, Profile, Navigation",
         uses: [".read", "--type-eyebrow-*", "--color-text-secondary"],
+      },
+      {
+        rule: "Lists are indented: numbers or bullets sit inside the text's margin and the lines indent after them. Nothing hangs past the padding.",
+        why: "Hanging numbers in the advisor's answers ran out past the edge every other line respects.",
+        from: "Navigation",
       },
       {
         rule: "Body copy at 1.7 leading with a 12px gap between paragraphs. Captions are 13px regular.",
@@ -103,15 +108,38 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
     note: "Only buttons are pills, so the shape means \"press me\".",
     rules: [
       {
-        rule: "Yellow is the one main action on a screen. Light blue is everything secondary.",
-        why: "One clear next move. Still open: whether light blue and yellow are distinct enough side by side.",
-        from: "Home",
+        rule: "Yellow is the one main action on a screen. Light blue is everything secondary, including the advisor's reply buttons. No white outlined buttons.",
+        why: "One clear next move, and a button looks the same wherever it appears. Still open: whether light blue and yellow are distinct enough side by side.",
+        from: "Home, Navigation",
         uses: ["--color-action", "--radius-button"],
       },
       {
         rule: "Hover never carries meaning. Every tap target is at least 44px.",
         why: "ExecHQ is used on a phone first.",
         from: "Home",
+      },
+    ],
+  },
+  {
+    title: "Chat",
+    note: "The advisor should feel like a chat app on a phone: the conversation, and little else.",
+    rules: [
+      {
+        rule: "No rules, boxes or outlined chips around the conversation. The header is just New chat and close, with no mark or name; on the phone they sit in the top corners, level with the grab bar.",
+        why: "Layers of chrome above the first message made the panel feel clunky next to Claude or ChatGPT on mobile.",
+        from: "Navigation",
+      },
+      {
+        rule: "One even gap between every message, 28px, the same above and below each of hers. Answers are set like Claude's chat: 1.55 leading, paragraphs and cards 12px apart; numbered steps keep their numbers.",
+        why: "16px and then 24px between turns felt tight, and uneven gaps around her messages made a card look attached to the wrong turn; no gaps inside an answer made it one block.",
+        from: "Navigation",
+        uses: ["--space-lg", "--space-2xs", "--space-sm", "--leading-normal"],
+      },
+      {
+        rule: "The product's places are one row of icon tiles, all six in view, the one she is on in navy. While she chats the row stays put above the conversation.",
+        why: "Destinations stay in reach while chatting. Kate's icon row was kept over text tabs (designer, 2026-10-09).",
+        from: "Navigation",
+        uses: ["--color-surface-inverse"],
       },
     ],
   },
@@ -154,6 +182,20 @@ const PAGES: { page: string; date: string; added: string[] }[] = [
       "Home's card and read lifted into shared classes: .card, .card--reads, .read.",
       "The section rule: heading on the page, line, then the card.",
       "Section rhythm: 32px between sections, 12px inside.",
+    ],
+  },
+  {
+    page: "Navigation",
+    date: "7 October 2026",
+    added: [
+      "A list of choices is one card with hairlines, not a stack of boxes.",
+      "Grey eyebrows label groups inside a panel (Go to, Ask me).",
+      "Kulim Park out of the chat: advisor name, reply chips and the where-you-are chip are Inter.",
+      "Reply buttons are the light-blue secondary; her messages are light blue, not navy.",
+      "Chat streamlined: slim header, 28px between messages, full-pill field, replies at the left.",
+      "On the phone, New chat and close sit in the sheet's top corners with no header row.",
+      "Say a thing once: a label is dropped when something above already says it (the advisor's name above each of his messages, under the panel's header).",
+      "The places stay Kate's row of icon tiles, pinned above the chat (2026-10-09); text tabs were tried and set aside.",
     ],
   },
 ];
