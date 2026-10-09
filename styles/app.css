@@ -12128,9 +12128,11 @@ ul.login__never {
      dusk: one warm heart rising from the bottom edge in a blue that deepens
      through the day. Day is the default, and what the server draws. */
   --sky-blue: var(--color-sky-day);
+  --sky-heart: var(--color-sky-day-heart);
+  --sky-ring: var(--color-sky-day-ring);
   --home-header-wash:
-    radial-gradient(ellipse 30% 70% at 50% 100%, var(--color-sky-heart-light), transparent),
-    radial-gradient(ellipse 60% 140% at 50% 100%, var(--color-sky-heart-warm), transparent 70%),
+    radial-gradient(ellipse 30% 70% at 50% 100%, var(--sky-heart), transparent),
+    radial-gradient(ellipse 60% 140% at 50% 100%, var(--sky-ring), transparent 70%),
     linear-gradient(var(--sky-blue), var(--sky-blue));
 }
 
@@ -12138,10 +12140,14 @@ ul.login__never {
    token so the two can part later. */
 .device__screen:has(.map-home__greeting[data-sky="dawn"]) {
   --sky-blue: var(--color-sky-dawn);
+  --sky-heart: var(--color-sky-heart-light);
+  --sky-ring: var(--color-sky-heart-warm);
 }
 
 .device__screen:has(.map-home__greeting[data-sky="dusk"]) {
   --sky-blue: var(--color-sky-dusk);
+  --sky-heart: var(--color-sky-heart-light);
+  --sky-ring: var(--color-sky-heart-warm);
 }
 
 /* Night: darkest navy at the top fading down to a blue glow, a brighter
