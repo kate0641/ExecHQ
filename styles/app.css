@@ -13449,6 +13449,11 @@ ul.templates__outcomes {
   background-color: var(--color-surface-feature);
 }
 
+/* A clear pause between the introduction and the first number. */
+.map-home .signal-picture--card .baseline-form__intro {
+  margin-bottom: var(--space-sm);
+}
+
 /* A clear pause between the last number and the save. */
 .map-home .signal-picture--card .baseline-form__actions {
   margin-top: var(--space-md);
