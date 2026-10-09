@@ -12124,9 +12124,41 @@ ul.login__never {
     radial-gradient(ellipse 26% 65% at 50% 100%, var(--color-ring-complete-light), transparent),
     radial-gradient(ellipse 58% 150% at 50% 100%, var(--color-ring-complete-mid), color-mix(in srgb, var(--color-ring-complete-core) 75%, transparent) 30%, color-mix(in srgb, var(--color-ring-complete-core) 30%, transparent) 60%, transparent 95%),
     radial-gradient(ellipse 95% 240% at 50% 100%, var(--color-ring-complete-light) 15%, var(--color-ring-complete-edge) 55%, var(--color-ring-complete-deep) 85%, var(--color-ring-complete-edge) 100%);
-  /* Light blue (blue 200). The navy and the warm jewel wash are on hold
-     while the team decides. */
-  --home-header-wash: linear-gradient(var(--color-surface-selected), var(--color-surface-selected));
+  /* The sky follows the time of day (designer, 2026-10-09). Dawn, day and
+     dusk: one warm heart rising from the bottom edge in a blue that deepens
+     through the day. Day is the default, and what the server draws. */
+  --sky-blue: var(--color-sky-day);
+  --home-header-wash:
+    radial-gradient(ellipse 30% 70% at 50% 100%, var(--color-sky-heart-light), transparent),
+    radial-gradient(ellipse 60% 140% at 50% 100%, var(--color-sky-heart-warm), transparent 70%),
+    linear-gradient(var(--sky-blue), var(--sky-blue));
+}
+
+.device__screen:has(.map-home__greeting[data-sky="dawn"]) {
+  --sky-blue: var(--color-sky-dawn);
+}
+
+.device__screen:has(.map-home__greeting[data-sky="dusk"]) {
+  --sky-blue: var(--color-sky-dusk);
+}
+
+/* Night: darkest navy at the top fading down to a blue glow, a brighter
+   spark at its heart, and lime low on the horizon, under the date rather
+   than behind it so the light date keeps its contrast. */
+.device__screen:has(.map-home__greeting[data-sky="night"]) {
+  --home-header-wash:
+    radial-gradient(ellipse 50% 28% at 50% 100%, color-mix(in srgb, var(--color-sky-night-horizon) 50%, transparent), transparent),
+    radial-gradient(ellipse 22% 35% at 50% 100%, var(--color-sky-night-spark), transparent),
+    radial-gradient(ellipse 60% 140% at 50% 100%, var(--color-sky-night-glow), transparent 75%),
+    linear-gradient(var(--color-sky-night-top), var(--color-sky-night) 60%, var(--color-sky-night-low));
+}
+
+/* At night the status bar and the greeting turn light. */
+.device__screen:has(.map-home__greeting[data-sky="night"]) > .device__statusbar,
+.device__screen:has(.map-home__greeting[data-sky="night"]) > .device__statusbar .device__statusbar-indicators,
+.map-home__greeting[data-sky="night"],
+.map-home__greeting[data-sky="night"] span {
+  color: var(--color-text-inverse);
 }
 
 .device--mobile > .device__screen:has(.map-home) {

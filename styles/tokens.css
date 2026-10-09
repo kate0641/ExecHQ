@@ -248,6 +248,23 @@
   --color-ring-complete-deep: var(--brand-blue-300);
   --color-ring-complete-light: var(--brand-white);
 
+  /* The sky behind Home's greeting, one for each time of day (designer,
+     2026-10-09: direction B). Dawn, day and dusk share one warm heart rising
+     from the band's bottom edge, in a blue that deepens through the day.
+     Night is the top of a sky after sunset: darkest navy fading down to a
+     blue glow, with a little lime low on the horizon. */
+  --color-sky-heart-light: var(--brand-yellow-200);
+  --color-sky-heart-warm: var(--brand-orange-300);
+  --color-sky-dawn: var(--brand-blue-100);
+  --color-sky-day: var(--brand-blue-200);
+  --color-sky-dusk: var(--brand-blue-300);
+  --color-sky-night-top: var(--brand-blue-900);
+  --color-sky-night: var(--brand-blue-800);
+  --color-sky-night-low: var(--brand-blue-700);
+  --color-sky-night-glow: var(--brand-blue-600);
+  --color-sky-night-spark: var(--brand-blue-500);
+  --color-sky-night-horizon: var(--brand-green-300);
+
   /* Danger — the destructive action: deleting the account, removing a
      connection. The red end of the orange scale. White on it is 7.0:1, and
      the fill is 6.4:1 against stone, so it needs no edge. */

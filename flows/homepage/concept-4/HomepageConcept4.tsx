@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { BaselineForm } from "@/components/homepage/BaselineForm";
 import { SignalPicture } from "@/components/homepage/SignalPicture";
 import { BriefingEditorial } from "@/components/homepage/BriefingEditorial";
@@ -48,6 +48,29 @@ function longDate(date: string): string {
   return `${WEEKDAYS[d.getUTCDay()]}, ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
 }
 
+/** The sky behind the greeting follows the hour she opens Home: dawn from
+ *  5, day from 8, dusk from 17 and night from 20. */
+type Sky = "dawn" | "day" | "dusk" | "night";
+const SKIES: Sky[] = ["dawn", "day", "dusk", "night"];
+function skyAt(hour: number): Sky {
+  if (hour >= 5 && hour < 8) return "dawn";
+  if (hour >= 8 && hour < 17) return "day";
+  if (hour >= 17 && hour < 20) return "dusk";
+  return "night";
+}
+
+/** Her clock, read when Home is drawn. For review, ?sky=dawn (day, dusk,
+ *  night) in the address shows that sky at any hour. */
+function currentSky(): Sky {
+  const asked = new URLSearchParams(window.location.search).get("sky");
+  return SKIES.find((s) => s === asked) ?? skyAt(new Date().getHours());
+}
+
+/* Nothing re-draws the sky as time passes. */
+function noSubscription(): () => void {
+  return () => {};
+}
+
 /** "Mon 5 Oct": the Briefing's day, as the card's small print. */
 function shortDay(date: string): string {
   const d = new Date(`${date}T00:00:00Z`);
@@ -82,6 +105,8 @@ function NoteCard({ eyebrow, title, note }: { eyebrow: string; title: string; no
 
 export function HomepageConcept4() {
   const loop = useLoop();
+  /* The server, which has no clock of hers, draws day. */
+  const sky = useSyncExternalStore(noSubscription, currentSky, () => "day" as Sky);
   /* A ring she tapped, kept only for the state it was tapped in, so a new
      moment (or the dock's switcher) opens on her next step again. */
   const [picked, setPicked] = useState<{ horizon: Horizon; state: string } | null>(null);
@@ -166,7 +191,7 @@ export function HomepageConcept4() {
     <div className="map-home">
       <h1 className="u-visually-hidden">Home</h1>
       <div className="map-home__lead">
-        <p className="map-home__greeting">
+        <p className="map-home__greeting" data-sky={sky}>
           <b>{C.greeting(loop.account.name ?? "")}</b>
           <span>{longDate(loop.today)}</span>
         </p>
