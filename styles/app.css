@@ -9264,6 +9264,49 @@ ol.signal__list {
   outline-offset: var(--focus-ring-offset);
 }
 
+/* With a cover: a photograph across the top of a taller card, fading into
+   the navy, and the words in white on the navy below it (designer,
+   2026-10-09). The picture is decoration, so it lives in CSS. */
+.briefing-editorial--cover {
+  --briefing-cover-height: 9.5rem;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  justify-content: flex-end;
+  min-height: 15rem;
+  padding-top: var(--briefing-cover-height);
+  /* No border, so the photograph runs right to the card's edge. */
+  border: 0;
+  /* Every word on it is white. */
+  --color-text-secondary: var(--color-text-inverse);
+  --color-text-muted: var(--color-text-inverse);
+}
+
+.briefing-editorial--cover::before,
+.briefing-editorial--cover::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.briefing-editorial--cover::before {
+  height: calc(var(--briefing-cover-height) + var(--space-xl));
+  background: url("./images/briefing-cover.jpg") center 45% / cover no-repeat;
+  filter: var(--image-filter);
+}
+
+/* The photograph melts into the navy before the words begin. */
+.briefing-editorial--cover::after {
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent calc(var(--briefing-cover-height) * 0.35),
+    var(--color-surface-inverse) calc(var(--briefing-cover-height) + var(--space-sm))
+  );
+}
+
 .briefing-editorial__top {
   display: flex;
   flex-wrap: wrap;

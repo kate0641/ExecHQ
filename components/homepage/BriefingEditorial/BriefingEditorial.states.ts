@@ -22,6 +22,7 @@ export const briefingEditorialStates = defineComponentStates({
   },
   variants: [
     { label: "Lead read with why it matters — default", props: base },
+    { label: "With a cover image", description: "A photograph across the top fading into the navy; the words in white on the navy below. On Home.", props: { ...base, cover: true } },
     { label: "No read touches the plan", description: "Without a tag, the headline stands alone.", props: { ...base, tag: undefined } },
     { label: "A long headline wraps", props: { ...base, lead: "How planning season decides who gets new work, and why the people who ask early usually get it" } },
     { label: "Hover", props: { ...base, demo: "hover" } },

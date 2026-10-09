@@ -12,6 +12,9 @@ export interface BriefingEditorialProps {
   /** Why it matters to the user, short enough for a tag: "For your Q1
    *  planning review". Left out when no read touches the plan. */
   tag?: string;
+  /** A photograph across the top that fades into the navy, with the words
+   *  in white on the navy below it (designer, 2026-10-09). */
+  cover?: boolean;
   /** Catalogue only: shows a state a static page can't reach. */
   demo?: "hover" | "focus" | "active";
   className?: string;
@@ -30,13 +33,14 @@ export function BriefingEditorial({
   meta,
   lead,
   tag,
+  cover,
   demo,
   className,
 }: BriefingEditorialProps) {
   return (
     <Link
       href={href}
-      className={["briefing-editorial", demo ? `is-${demo}` : null, className].filter(Boolean).join(" ")}
+      className={["briefing-editorial", cover ? "briefing-editorial--cover" : null, demo ? `is-${demo}` : null, className].filter(Boolean).join(" ")}
     >
       <span className="briefing-editorial__top">
         <span className="briefing-editorial__heading">{heading}</span>
