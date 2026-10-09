@@ -9268,7 +9268,7 @@ ol.signal__list {
    the navy, and the words in white on the navy below it (designer,
    2026-10-09). The picture is decoration, so it lives in CSS. */
 .briefing-editorial--cover {
-  --briefing-cover-height: 9.5rem;
+  --briefing-cover-height: 12rem;
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -9277,6 +9277,7 @@ ol.signal__list {
   padding-top: var(--briefing-cover-height);
   /* No border, so the photograph runs right to the card's edge. */
   border: 0;
+  background-color: var(--color-surface-briefing-cover);
   /* Every word on it is white. */
   --color-text-secondary: var(--color-text-inverse);
   --color-text-muted: var(--color-text-inverse);
@@ -9292,18 +9293,19 @@ ol.signal__list {
 }
 
 .briefing-editorial--cover::before {
-  height: calc(var(--briefing-cover-height) + var(--space-xl));
-  background: url("./images/briefing-cover.jpg") center 45% / cover no-repeat;
+  /* The whole width of the picture, from its top, so little is cropped. */
+  bottom: 0;
+  background: url("./images/briefing-cover.jpg") top center / 100% auto no-repeat;
   filter: var(--image-filter);
 }
 
-/* The photograph melts into the navy before the words begin. */
+/* The photograph melts into the dark green before the words begin. */
 .briefing-editorial--cover::after {
   bottom: 0;
   background: linear-gradient(
     to bottom,
-    transparent calc(var(--briefing-cover-height) * 0.35),
-    var(--color-surface-inverse) calc(var(--briefing-cover-height) + var(--space-sm))
+    transparent calc(var(--briefing-cover-height) * 0.7),
+    var(--color-surface-briefing-cover) calc(var(--briefing-cover-height) + var(--space-sm))
   );
 }
 
