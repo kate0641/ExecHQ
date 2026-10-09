@@ -9299,14 +9299,30 @@ ol.signal__list {
   filter: var(--image-filter);
 }
 
-/* The photograph melts into the dark green before the words begin. */
+/* The photograph melts into the dark green before the words begin. The
+   fade is eased (many soft steps, not one straight ramp, which leaves a
+   visible line), and two soft swells of green rise from the bottom at
+   different heights, so its edge is uneven like the picture rather than a
+   level horizon. */
 .briefing-editorial--cover::after {
+  --cover-green: var(--color-surface-briefing-cover);
+  --fade-from: calc(var(--briefing-cover-height) * 0.45);
+  --fade-to: calc(var(--briefing-cover-height) + var(--space-sm));
   bottom: 0;
-  background: linear-gradient(
-    to bottom,
-    transparent calc(var(--briefing-cover-height) * 0.7),
-    var(--color-surface-briefing-cover) calc(var(--briefing-cover-height) + var(--space-sm))
-  );
+  background:
+    radial-gradient(ellipse 70% 38% at 18% calc(var(--fade-to) - var(--space-lg)), color-mix(in srgb, var(--cover-green) 55%, transparent), transparent 70%),
+    radial-gradient(ellipse 60% 30% at 85% calc(var(--fade-to) - var(--space-xs)), color-mix(in srgb, var(--cover-green) 45%, transparent), transparent 70%),
+    linear-gradient(
+      to bottom,
+      transparent var(--fade-from),
+      color-mix(in srgb, var(--cover-green) 4%, transparent) calc(var(--fade-from) + (var(--fade-to) - var(--fade-from)) * 0.15),
+      color-mix(in srgb, var(--cover-green) 14%, transparent) calc(var(--fade-from) + (var(--fade-to) - var(--fade-from)) * 0.3),
+      color-mix(in srgb, var(--cover-green) 30%, transparent) calc(var(--fade-from) + (var(--fade-to) - var(--fade-from)) * 0.45),
+      color-mix(in srgb, var(--cover-green) 50%, transparent) calc(var(--fade-from) + (var(--fade-to) - var(--fade-from)) * 0.6),
+      color-mix(in srgb, var(--cover-green) 70%, transparent) calc(var(--fade-from) + (var(--fade-to) - var(--fade-from)) * 0.75),
+      color-mix(in srgb, var(--cover-green) 87%, transparent) calc(var(--fade-from) + (var(--fade-to) - var(--fade-from)) * 0.9),
+      var(--cover-green) var(--fade-to)
+    );
 }
 
 .briefing-editorial__top {
