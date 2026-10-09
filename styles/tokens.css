@@ -262,6 +262,11 @@
   --color-sky-dawn: var(--brand-blue-200);  /* day's blue for now (designer, 2026-10-09) */
   --color-sky-day: var(--brand-blue-300);  /* deeper than dawn (designer, 2026-10-09) */
   --color-sky-dusk: var(--brand-blue-300);
+  /* Dusk is a setting sun (designer, 2026-10-09): an orange centre in peach,
+     a lighter blue ring round it, a deeper blue at the edges. */
+  --color-sky-dusk-heart: var(--brand-orange-400);
+  --color-sky-dusk-ring: var(--brand-orange-300);
+  --color-sky-dusk-outer: var(--brand-blue-600);
   --color-sky-night-top: var(--brand-blue-900);
   --color-sky-night: var(--brand-blue-800);
   --color-sky-night-low: var(--brand-blue-700);

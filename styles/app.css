@@ -12150,12 +12150,13 @@ ul.login__never {
   --sky-heart-size: 30% 70%;
 }
 
+/* Dusk is a setting sun: an orange centre in peach, a lighter blue ring
+   round it, and a deeper blue reaching in from the edges. */
 .device__screen:has(.map-home__greeting[data-sky="dusk"]) {
-  --sky-blue: var(--color-sky-dusk);
-  --sky-heart: var(--color-sky-heart-light);
-  --sky-ring: var(--color-sky-heart-warm);
-  --sky-ring-size: 60% 140%;
-  --sky-heart-size: 30% 70%;
+  --home-header-wash:
+    radial-gradient(ellipse 26% 60% at 50% 100%, var(--color-sky-dusk-heart), transparent),
+    radial-gradient(ellipse 60% 140% at 50% 100%, var(--color-sky-dusk-ring), transparent 70%),
+    radial-gradient(ellipse 80% 200% at 50% 100%, var(--color-sky-dusk) 35%, var(--color-sky-dusk-outer) 80%);
 }
 
 /* Night: darkest navy at the top fading down to a blue glow, a brighter
