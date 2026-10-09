@@ -9350,20 +9350,25 @@ ol.signal__list {
 }
 
 .briefing-editorial__light::before {
-  width: 55%;
-  height: 70%;
-  top: 5%;
-  left: 10%;
+  width: 60%;
+  height: 75%;
+  top: 30%;
+  left: 5%;
 }
 
 .briefing-editorial__light::after {
-  width: 40%;
-  height: 55%;
-  top: 20%;
-  left: 55%;
+  width: 45%;
+  height: 60%;
+  top: 40%;
+  left: 50%;
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  /* The photograph itself drifts slowly, so its own white shapes move. */
+  .briefing-editorial--cover::before {
+    animation: cover-photo-drift 16s ease-in-out infinite;
+  }
+
   .briefing-editorial__light::before {
     animation: cover-light-a 11s ease-in-out infinite;
   }
@@ -9371,6 +9376,12 @@ ol.signal__list {
   .briefing-editorial__light::after {
     animation: cover-light-b 14s ease-in-out infinite;
   }
+}
+
+@keyframes cover-photo-drift {
+  0%, 100% { transform: scale(1.12) translate(0, 0); }
+  33% { transform: scale(1.18) translate(-4%, 2%); }
+  66% { transform: scale(1.14) translate(4%, -1%); }
 }
 
 @keyframes cover-light-a {
