@@ -9340,60 +9340,53 @@ ol.signal__list {
   pointer-events: none;
 }
 
-.briefing-editorial__light::before,
-.briefing-editorial__light::after {
-  content: "";
+/* Five soft patches of light, each flickering on its own uneven rhythm and
+   barely moving, like sun glinting through leaves. Never more than about one
+   flash a second, and never a hard flash (WCAG 2.3.1). */
+.briefing-editorial__light > span {
   position: absolute;
   border-radius: 50%;
   background: radial-gradient(closest-side, color-mix(in srgb, var(--color-cover-light) 90%, transparent), transparent);
-  opacity: 0;
+  opacity: 0.3;
 }
 
-.briefing-editorial__light::before {
-  width: 60%;
-  height: 75%;
-  top: 30%;
-  left: 5%;
-}
-
-.briefing-editorial__light::after {
-  width: 45%;
-  height: 60%;
-  top: 40%;
-  left: 50%;
-}
+.briefing-editorial__light > span:nth-child(1) { width: 40%; height: 55%; top: 20%; left: 4%; }
+.briefing-editorial__light > span:nth-child(2) { width: 30%; height: 45%; top: 45%; left: 30%; }
+.briefing-editorial__light > span:nth-child(3) { width: 35%; height: 50%; top: 10%; left: 52%; }
+.briefing-editorial__light > span:nth-child(4) { width: 28%; height: 40%; top: 50%; left: 66%; }
+.briefing-editorial__light > span:nth-child(5) { width: 25%; height: 35%; top: 30%; left: 80%; }
 
 @media (prefers-reduced-motion: no-preference) {
-  /* The photograph itself drifts slowly, so its own white shapes move. */
+  /* The photograph sways very slowly underneath. */
   .briefing-editorial--cover::before {
-    animation: cover-photo-drift 16s ease-in-out infinite;
+    animation: cover-photo-drift 20s ease-in-out infinite;
   }
 
-  .briefing-editorial__light::before {
-    animation: cover-light-a 11s ease-in-out infinite;
+  .briefing-editorial__light > span {
+    animation: cover-flicker 3.1s ease-in-out infinite;
   }
 
-  .briefing-editorial__light::after {
-    animation: cover-light-b 14s ease-in-out infinite;
-  }
+  .briefing-editorial__light > span:nth-child(2) { animation-duration: 2.3s; animation-delay: -0.8s; }
+  .briefing-editorial__light > span:nth-child(3) { animation-duration: 3.7s; animation-delay: -1.9s; }
+  .briefing-editorial__light > span:nth-child(4) { animation-duration: 2.7s; animation-delay: -0.4s; }
+  .briefing-editorial__light > span:nth-child(5) { animation-duration: 4.3s; animation-delay: -2.6s; }
 }
 
 @keyframes cover-photo-drift {
-  0%, 100% { transform: scale(1.12) translate(0, 0); }
-  33% { transform: scale(1.18) translate(-4%, 2%); }
-  66% { transform: scale(1.14) translate(4%, -1%); }
+  0%, 100% { transform: scale(1.1) translate(0, 0); }
+  50% { transform: scale(1.14) translate(-2%, 1%); }
 }
 
-@keyframes cover-light-a {
-  0%, 100% { opacity: 0.1; transform: translate(-10%, 10%) scale(0.9); }
-  35% { opacity: 1; transform: translate(25%, 0) scale(1.1); }
-  65% { opacity: 0.5; transform: translate(45%, 15%) scale(1); }
-}
-
-@keyframes cover-light-b {
-  0%, 100% { opacity: 0.8; transform: translate(10%, 0) scale(1); }
-  40% { opacity: 0.1; transform: translate(-40%, 15%) scale(1.15); }
-  70% { opacity: 1; transform: translate(-20%, -10%) scale(1); }
+/* An uneven glint: brightens, dips, catches again, with a slight shift. */
+@keyframes cover-flicker {
+  0%, 100% { opacity: 0.2; transform: translate(0, 0); }
+  12% { opacity: 0.85; }
+  22% { opacity: 0.35; transform: translate(2%, -1%); }
+  34% { opacity: 0.75; }
+  50% { opacity: 0.15; transform: translate(-1%, 2%); }
+  63% { opacity: 0.9; }
+  78% { opacity: 0.3; transform: translate(1%, 0); }
+  88% { opacity: 0.6; }
 }
 
 .briefing-editorial__top {
