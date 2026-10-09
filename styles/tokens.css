@@ -258,9 +258,9 @@
   /* Day turns the heart inside out: peach at the centre, yellow around it,
      then the blue (designer, 2026-10-09). */
   --color-sky-day-heart: var(--brand-orange-300);
-  --color-sky-day-ring: var(--brand-yellow-200);
+  --color-sky-day-ring: var(--brand-yellow-300);
   --color-sky-dawn: var(--brand-blue-200);  /* day's blue for now (designer, 2026-10-09) */
-  --color-sky-day: var(--brand-blue-200);
+  --color-sky-day: var(--brand-blue-300);  /* deeper than dawn (designer, 2026-10-09) */
   --color-sky-dusk: var(--brand-blue-300);
   --color-sky-night-top: var(--brand-blue-900);
   --color-sky-night: var(--brand-blue-800);
