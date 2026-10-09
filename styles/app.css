@@ -12210,8 +12210,8 @@ ul.login__never {
   color: var(--color-text-secondary);
 }
 
-/* With motion allowed, the greeting holds for about 7 seconds (designer,
-   2026-10-09: 4 felt too quick), then the date gently takes its place: the greeting lifts and fades out as the date rises and fades in,
+/* With motion allowed, the greeting holds for 5 seconds (designer,
+   2026-10-09), then the date gently takes its place: the greeting lifts and fades out as the date rises and fades in,
    in the same spot and the same size. Both stay in the page for screen
    readers. Without motion, the date stays as the line under the greeting. */
 @media (prefers-reduced-motion: no-preference) {
@@ -12233,11 +12233,11 @@ ul.login__never {
     font-weight: var(--weight-semibold);
     line-height: var(--leading-snug);
     color: inherit;
-    animation: map-greeting-in 600ms var(--easing-standard) 7200ms both;
+    animation: map-greeting-in 600ms var(--easing-standard) 5200ms both;
   }
 
   .map-home__greeting b {
-    animation: map-greeting-out 500ms var(--easing-exit) 7000ms both;
+    animation: map-greeting-out 500ms var(--easing-exit) 5000ms both;
   }
 
   /* Once it takes the greeting's place, the date is the greeting's colour. */
