@@ -256,6 +256,7 @@
   --color-sky-heart-light: var(--brand-yellow-200);
   --color-sky-heart-warm: var(--brand-orange-300);
   --color-sky-dawn: var(--brand-blue-100);
+  --color-sky-dawn-outer: var(--brand-blue-200);  /* dawn's outer ring, a touch bluer (designer, 2026-10-09) */
   --color-sky-day: var(--brand-blue-200);
   --color-sky-dusk: var(--brand-blue-300);
   --color-sky-night-top: var(--brand-blue-900);
