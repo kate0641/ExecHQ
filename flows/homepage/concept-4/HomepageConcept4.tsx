@@ -59,11 +59,25 @@ function skyAt(hour: number): Sky {
   return "night";
 }
 
-/** Her clock, read when Home is drawn. For review, ?sky=dawn (day, dusk,
- *  night) in the address shows that sky at any hour. */
-function currentSky(): Sky {
-  const asked = new URLSearchParams(window.location.search).get("sky");
-  return SKIES.find((s) => s === asked) ?? skyAt(new Date().getHours());
+/** The greeting's part of the day: morning until noon, afternoon until 5pm,
+ *  then evening, shared by dusk and night. */
+type Part = "morning" | "afternoon" | "evening";
+function partAt(hour: number): Part {
+  if (hour >= 5 && hour < 12) return "morning";
+  if (hour >= 12 && hour < 17) return "afternoon";
+  return "evening";
+}
+
+/** Her clock, read when Home is drawn, as "sky part". For review,
+ *  ?sky=dawn (day, dusk, night) in the address shows that sky at any hour,
+ *  with a greeting that belongs to it. */
+function currentMoment(): string {
+  const hour = new Date().getHours();
+  const asked = SKIES.find((s) => s === new URLSearchParams(window.location.search).get("sky"));
+  if (!asked) return `${skyAt(hour)} ${partAt(hour)}`;
+  const part: Part =
+    asked === "dawn" ? "morning" : asked === "day" ? (skyAt(hour) === "day" ? partAt(hour) : "afternoon") : "evening";
+  return `${asked} ${part}`;
 }
 
 /* Nothing re-draws the sky as time passes. */
@@ -105,8 +119,8 @@ function NoteCard({ eyebrow, title, note }: { eyebrow: string; title: string; no
 
 export function HomepageConcept4() {
   const loop = useLoop();
-  /* The server, which has no clock of hers, draws day. */
-  const sky = useSyncExternalStore(noSubscription, currentSky, () => "day" as Sky);
+  /* The server, which has no clock of hers, draws a day morning. */
+  const [sky, part] = useSyncExternalStore(noSubscription, currentMoment, () => "day morning").split(" ") as [Sky, Part];
   /* A ring she tapped, kept only for the state it was tapped in, so a new
      moment (or the dock's switcher) opens on her next step again. */
   const [picked, setPicked] = useState<{ horizon: Horizon; state: string } | null>(null);
@@ -192,7 +206,7 @@ export function HomepageConcept4() {
       <h1 className="u-visually-hidden">Home</h1>
       <div className="map-home__lead">
         <p className="map-home__greeting" data-sky={sky}>
-          <b>{C.greeting(loop.account.name ?? "")}</b>
+          <b>{C.greeting(loop.account.name ?? "", part)}</b>
           <span>{longDate(loop.today)}</span>
         </p>
         <section className="map-home__section" aria-labelledby="map-heading">
