@@ -1,17 +1,17 @@
 import { defineComponentStates } from "@/components/types";
-import { NumberTile } from "./NumberTile";
+import { NumberField } from "./NumberField";
 
 const noop = () => {};
 const base = { label: "Podcast appearances", hint: "Shows you have been a guest on", value: "", onChange: noop };
 
-export const numberTileStates = defineComponentStates({
-  name: "NumberTile",
+export const numberFieldStates = defineComponentStates({
+  name: "NumberField",
   group: "form controls",
   status: "draft",
   flows: ["homepage"],
   description:
-    "A number she types into a lime tile, with what it counts beside it. The tile is the field; a dark green underline marks it as somewhere to type. Used for the Signal Picture's starting numbers on Home.",
-  component: NumberTile,
+    "A number she types, with what it counts beside it: label and hint on the left, a short standard text field on the right. Used for the Signal Picture's starting numbers on Home.",
+  component: NumberField,
   notApplicable: {
     loading: "Written from local data: there is nothing to wait for.",
     error: "Any whole number is a fine answer, and anything else is simply not kept.",

@@ -4,7 +4,7 @@ import { useState, type FormEvent, type ReactNode } from "react";
 import { Input } from "@/components/form/Input";
 import { Stepper } from "@/components/form/Stepper";
 import { Button } from "@/components/primitives/Button";
-import { NumberTile } from "@/components/form/NumberTile";
+import { NumberField } from "@/components/form/NumberField";
 import type { Baseline } from "@/lib/presence";
 import { BASELINE_COPY as C, PRESENCE_ORDER, type CountedKind } from "@/mock/accounts-stub";
 
@@ -18,9 +18,9 @@ export interface BaselineFormProps {
   intro?: string;
   saveLabel?: string;
   skipLabel?: string;
-  /** `tiles`: every number is typed into a lime tile beside its label, with
-   *  no plus and minus (Home). `steppers` is the default. */
-  fields?: "steppers" | "tiles";
+  /** `typed`: every number is typed into a short text field beside its
+   *  label, with no plus and minus (Home). `steppers` is the default. */
+  fields?: "steppers" | "typed";
   /** Secondary where another button on the screen is already the main one
    *  (Home, under Start in the Toolbox). */
   saveVariant?: "primary" | "secondary";
@@ -68,8 +68,8 @@ export function BaselineForm({ onSave, onSkip, initial, intro, saveLabel, skipLa
           room sets them side by side (the Signal Picture's first visit on the web). */}
       <div className="baseline-form__about">
       <p className="baseline-form__intro">{intro ?? C.intro}</p>
-      {fields === "tiles" ? (
-        <NumberTile
+      {fields === "typed" ? (
+        <NumberField
           label={C.linkedin.label}
           hint={C.linkedin.hint}
           placeholder={C.linkedin.placeholder}
@@ -83,8 +83,8 @@ export function BaselineForm({ onSave, onSkip, initial, intro, saveLabel, skipLa
       </div>
       <div className="baseline-form__counts">
       {PRESENCE_ORDER.map((kind) =>
-        fields === "tiles" ? (
-          <NumberTile
+        fields === "typed" ? (
+          <NumberField
             key={kind}
             label={C.kinds[kind].label}
             hint={C.kinds[kind].hint}

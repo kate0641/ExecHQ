@@ -2,7 +2,7 @@
 
 import { useId } from "react";
 
-export interface NumberTileProps {
+export interface NumberFieldProps {
   /** What is being counted. Always required: every control is labelled. */
   label: string;
   /** A line under the label: what counts. */
@@ -20,18 +20,23 @@ export interface NumberTileProps {
 }
 
 /**
- * A number she types into a lime tile, with what it counts beside it: the
- * tile is the field. An underline in dark green marks it as somewhere to type,
- * since the pale fill alone is too faint against white to read as a control.
- * Only digits are kept.
+ * A number she types, with what it counts beside it: the label and hint on the
+ * left, a short standard text field on the right. Only digits (and commas) are
+ * kept, and a phone shows its number pad.
  */
-export function NumberTile({ label, hint, value, onChange, placeholder = "0", size = "compact", disabled, demo, className }: NumberTileProps) {
+export function NumberField({ label, hint, value, onChange, placeholder = "0", size = "compact", disabled, demo, className }: NumberFieldProps) {
   const id = useId();
   return (
-    <div className={["number-tile", `number-tile--${size}`, demo ? `is-${demo}` : null, className].filter(Boolean).join(" ")}>
+    <div className={["number-field", `number-field--${size}`, className].filter(Boolean).join(" ")}>
+      <span className="number-field__text">
+        <label htmlFor={id} id={`${id}-label`}>
+          {label}
+        </label>
+        {hint ? <span id={`${id}-hint`}>{hint}</span> : null}
+      </span>
       <input
         id={id}
-        className="number-tile__field"
+        className={["field__control", "number-field__field", demo ? `is-${demo}` : null].filter(Boolean).join(" ")}
         type="text"
         inputMode="numeric"
         autoComplete="off"
@@ -42,14 +47,8 @@ export function NumberTile({ label, hint, value, onChange, placeholder = "0", si
         aria-describedby={hint ? `${id}-hint` : undefined}
         onChange={(event) => onChange(event.target.value.replace(/[^0-9,]/g, ""))}
       />
-      <span className="number-tile__text">
-        <label htmlFor={id} id={`${id}-label`}>
-          {label}
-        </label>
-        {hint ? <span id={`${id}-hint`}>{hint}</span> : null}
-      </span>
     </div>
   );
 }
 
-export default NumberTile;
+export default NumberField;
