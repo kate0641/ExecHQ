@@ -47,8 +47,6 @@ export function BriefingEditorial({
           <span />
           <span />
           <span />
-          <span />
-          <span />
         </span>
       ) : null}
       <span className="briefing-editorial__top">

@@ -9340,7 +9340,7 @@ ol.signal__list {
   pointer-events: none;
 }
 
-/* Five soft patches of light, each flickering on its own uneven rhythm and
+/* Three soft patches of light, each flickering on its own uneven rhythm and
    barely moving, like sun glinting through leaves. Never more than about one
    flash a second, and never a hard flash (WCAG 2.3.1). */
 .briefing-editorial__light > span {
@@ -9350,11 +9350,9 @@ ol.signal__list {
   opacity: 0.3;
 }
 
-.briefing-editorial__light > span:nth-child(1) { width: 40%; height: 55%; top: 20%; left: 4%; }
-.briefing-editorial__light > span:nth-child(2) { width: 30%; height: 45%; top: 45%; left: 30%; }
-.briefing-editorial__light > span:nth-child(3) { width: 35%; height: 50%; top: 10%; left: 52%; }
-.briefing-editorial__light > span:nth-child(4) { width: 28%; height: 40%; top: 50%; left: 66%; }
-.briefing-editorial__light > span:nth-child(5) { width: 25%; height: 35%; top: 30%; left: 80%; }
+.briefing-editorial__light > span:nth-child(1) { width: 42%; height: 58%; top: 22%; left: 6%; }
+.briefing-editorial__light > span:nth-child(2) { width: 36%; height: 50%; top: 12%; left: 50%; }
+.briefing-editorial__light > span:nth-child(3) { width: 30%; height: 45%; top: 45%; left: 68%; }
 
 @media (prefers-reduced-motion: no-preference) {
   /* The photograph sways very slowly underneath. */
@@ -9363,13 +9361,11 @@ ol.signal__list {
   }
 
   .briefing-editorial__light > span {
-    animation: cover-flicker 3.1s ease-in-out infinite;
+    animation: cover-flicker 6s ease-in-out infinite;
   }
 
-  .briefing-editorial__light > span:nth-child(2) { animation-duration: 2.3s; animation-delay: -0.8s; }
-  .briefing-editorial__light > span:nth-child(3) { animation-duration: 3.7s; animation-delay: -1.9s; }
-  .briefing-editorial__light > span:nth-child(4) { animation-duration: 2.7s; animation-delay: -0.4s; }
-  .briefing-editorial__light > span:nth-child(5) { animation-duration: 4.3s; animation-delay: -2.6s; }
+  .briefing-editorial__light > span:nth-child(2) { animation-duration: 7.5s; animation-delay: -2.5s; }
+  .briefing-editorial__light > span:nth-child(3) { animation-duration: 9s; animation-delay: -5s; }
 }
 
 @keyframes cover-photo-drift {
