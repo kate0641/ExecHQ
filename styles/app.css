@@ -9416,7 +9416,7 @@ ol.signal__list {
 }
 
 /* On the cover, the name and date sit at the top on the pale photograph,
-   in dark green (designer, 2026-10-09). */
+   in the page's near-black (designer, 2026-10-09). */
 .briefing-editorial--cover .briefing-editorial__top {
   position: absolute;
   top: var(--space-md);

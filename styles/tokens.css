@@ -180,7 +180,7 @@
      and the card is dark green below it (designer, 2026-10-09). White on it
      is 9.1:1. */
   --color-surface-briefing-cover: var(--brand-dark-green);
-  --color-text-on-cover: var(--brand-dark-green);  /* labels on the pale top of the cover photograph */
+  --color-text-on-cover: var(--brand-stone-900);  /* labels on the pale top of the cover photograph: the page's own near-black */
   --color-cover-light: var(--brand-white);  /* soft light drifting over the cover photograph */
   --color-image-veil: rgb(3 21 31 / 0.6);
   --color-image-veil-clear: rgb(3 21 31 / 0);
