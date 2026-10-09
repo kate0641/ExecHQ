@@ -13137,6 +13137,37 @@ ul.card-carousel__track {
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
+/* A small mark in a lime chip, before a row's label (Home's Signal Picture). */
+.icon-chip {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--radius-md);
+  background-color: var(--color-icon-surface);
+  color: var(--color-icon);
+}
+
+.stepper--icon {
+  justify-content: flex-start;
+}
+
+.stepper--icon .stepper__text {
+  flex: 1;
+}
+
+.baseline-form__with-icon {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+}
+
+.baseline-form__with-icon > :last-child {
+  flex: 1;
+  min-width: 0;
+}
+
 .stepper__text {
   display: flex;
   flex-direction: column;
@@ -13352,6 +13383,27 @@ ul.templates__outcomes {
   margin: 0;
   font-size: var(--text-sm);
   color: var(--color-text-secondary);
+}
+
+/* On Home the Signal Picture is a two-tone card (designer, 2026-10-09): its
+   title in a light-blue head, everything else on a white body below, as the
+   feature card does. */
+.map-home .signal-picture--card.account-card {
+  gap: var(--space-md);
+  padding: 0 0 var(--space-feature-padding);
+  overflow: hidden;
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+}
+
+.map-home .signal-picture--card > .account-card__top {
+  padding: var(--space-feature-padding);
+  background-color: var(--color-surface-feature);
+}
+
+.map-home .signal-picture--card > :not(.account-card__top) {
+  margin-inline: var(--space-feature-padding);
 }
 
 /* -----------------------------------------------------------------------------

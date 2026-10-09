@@ -1,13 +1,15 @@
 "use client";
 
 import { useId } from "react";
-import { Icon } from "@/components/primitives/Icon";
+import { Icon, type IconName } from "@/components/primitives/Icon";
 
 export interface StepperProps {
   /** What is being counted. Always required: every control is labelled. */
   label: string;
   /** A line under the label: what counts. */
   hint?: string;
+  /** A small mark in a lime chip before the label (Home's Signal Picture). */
+  icon?: IconName;
   value: number;
   onChange: (next: number) => void;
   min?: number;
@@ -23,12 +25,17 @@ export interface StepperProps {
  * number is read out as it changes, and the minus is switched off at the
  * minimum so zero is a clear floor, not a mistake to correct.
  */
-export function Stepper({ label, hint, value, onChange, min = 0, max = 99, demo, className }: StepperProps) {
+export function Stepper({ label, hint, icon, value, onChange, min = 0, max = 99, demo, className }: StepperProps) {
   const id = useId();
   const cls = (button: "less" | "more") =>
     ["stepper__button", demo?.button === button ? `is-${demo.state}` : null].filter(Boolean).join(" ");
   return (
-    <div className={["stepper", className].filter(Boolean).join(" ")}>
+    <div className={["stepper", icon ? "stepper--icon" : null, className].filter(Boolean).join(" ")}>
+      {icon ? (
+        <span className="icon-chip" aria-hidden="true">
+          <Icon name={icon} size={18} />
+        </span>
+      ) : null}
       <span className="stepper__text">
         <b id={`${id}-label`}>{label}</b>
         {hint ? <span id={`${id}-hint`}>{hint}</span> : null}

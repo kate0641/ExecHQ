@@ -283,10 +283,13 @@ export function HomepageConcept4() {
                   setAnnounce(BC.saved);
                 }}
                 onSkip={() => setSkipped(true)}
+                icons
+                saveVariant="secondary"
               />
             )
           }
           headingId="signal-picture-heading"
+          className="signal-picture--card"
         />
       </div>
     </div>
