@@ -180,6 +180,12 @@
      and the card is dark green below it (designer, 2026-10-09). White on it
      is 9.1:1. */
   --color-surface-briefing-cover: var(--brand-dark-green);
+  /* The steps the cover photograph passes through on its way into the dark
+     green: the photograph's own lime and mid greens first, so the fade blends
+     in tone instead of laying a dark band over the light. */
+  --color-cover-fade-1: var(--brand-green-400);
+  --color-cover-fade-2: var(--brand-green-600);
+  --color-cover-fade-3: var(--brand-green-700);
   --color-text-on-cover: var(--brand-stone-900);  /* labels on the pale top of the cover photograph: the page's own near-black */
   --color-cover-light: var(--brand-white);  /* soft light drifting over the cover photograph */
   --color-image-veil: rgb(3 21 31 / 0.6);
