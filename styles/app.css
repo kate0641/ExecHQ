@@ -13455,9 +13455,8 @@ ul.templates__outcomes {
   color: var(--color-text-secondary);
 }
 
-/* On Home the Signal Picture is a two-tone card (designer, 2026-10-09): its
-   title in a soft blue head, everything else on a white body below, as the
-   feature card does. */
+/* On Home the Signal Picture is a two-tone card: its title in a navy head,
+   everything else on a white body below, as the feature card does. */
 .map-home .signal-picture--card.account-card {
   gap: var(--space-md);
   padding: 0 0 var(--space-feature-padding);
@@ -13469,7 +13468,16 @@ ul.templates__outcomes {
 
 .map-home .signal-picture--card > .account-card__top {
   padding: var(--space-feature-padding);
-  background-color: var(--color-surface-feature);
+  background-color: var(--color-surface-inverse);
+}
+
+/* The head is navy with the title in white (designer, 2026-10-10). */
+.map-home .signal-picture--card > .account-card__top .account-card__name {
+  color: var(--color-text-inverse);
+}
+
+.map-home .signal-picture--card.account-card {
+  border-top-color: var(--color-surface-inverse);
 }
 
 /* A clear pause between the introduction and the first number. */
