@@ -9341,22 +9341,33 @@ ol.signal__list {
   pointer-events: none;
 }
 
-/* Three soft patches of light, each flickering on its own uneven rhythm and
-   barely moving, like sun glinting through leaves. Never more than about one
-   flash a second, and never a hard flash (WCAG 2.3.1). */
+/* Dappled light: three soft patches of light and two of shade, each
+   flickering on its own uneven rhythm with a little drift, like sun through
+   leaves. Never more than about one flash a second, and never a hard flash
+   (WCAG 2.3.1). */
 .briefing-editorial__light > span {
   position: absolute;
   border-radius: 50%;
-  background: radial-gradient(closest-side, color-mix(in srgb, var(--color-cover-light) 90%, transparent), transparent);
-  opacity: 0.3;
+  background: radial-gradient(closest-side, var(--color-cover-light), transparent);
+  opacity: 0.25;
 }
 
-.briefing-editorial__light > span:nth-child(1) { width: 42%; height: 58%; top: 22%; left: 6%; }
-.briefing-editorial__light > span:nth-child(2) { width: 36%; height: 50%; top: 12%; left: 50%; }
-.briefing-editorial__light > span:nth-child(3) { width: 30%; height: 45%; top: 45%; left: 68%; }
+.briefing-editorial__light > span:nth-child(1) { width: 50%; height: 70%; top: 15%; left: 2%; }
+.briefing-editorial__light > span:nth-child(2) { width: 42%; height: 60%; top: 5%; left: 48%; }
+.briefing-editorial__light > span:nth-child(3) { width: 36%; height: 55%; top: 40%; left: 62%; }
+
+/* The shade: the card's own dark green, softly, kept below the name and
+   date so their contrast holds. */
+.briefing-editorial__light > span:nth-child(n + 4) {
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--color-surface-briefing-cover) 45%, transparent), transparent);
+  opacity: 0;
+}
+
+.briefing-editorial__light > span:nth-child(4) { width: 45%; height: 60%; top: 25%; left: 28%; }
+.briefing-editorial__light > span:nth-child(5) { width: 35%; height: 50%; top: 38%; left: 70%; }
 
 @media (prefers-reduced-motion: no-preference) {
-  /* The photograph sways very slowly underneath. */
+  /* The photograph sways underneath. */
   .briefing-editorial--cover::before {
     animation: cover-photo-drift 5s ease-in-out both;
   }
@@ -9368,23 +9379,32 @@ ol.signal__list {
   /* Once through, staggered, all done by 5 seconds. */
   .briefing-editorial__light > span:nth-child(2) { animation-duration: 4.4s; animation-delay: 0.3s; }
   .briefing-editorial__light > span:nth-child(3) { animation-duration: 4.2s; animation-delay: 0.8s; }
+  .briefing-editorial__light > span:nth-child(4) { animation-name: cover-shade; animation-duration: 4.6s; animation-delay: 0.2s; }
+  .briefing-editorial__light > span:nth-child(5) { animation-name: cover-shade; animation-duration: 4s; animation-delay: 0.9s; }
 }
 
 @keyframes cover-photo-drift {
-  0% { transform: scale(1.14) translate(-2%, 1%); }
+  0% { transform: scale(1.2) translate(-5%, 2%); }
   100% { transform: scale(1.1) translate(0, 0); }
 }
 
-/* An uneven glint: brightens, dips, catches again, with a slight shift. */
+/* An uneven glint: brightens fully, dips away, catches again, drifting. */
 @keyframes cover-flicker {
-  0%, 100% { opacity: 0.2; transform: translate(0, 0); }
-  12% { opacity: 0.85; }
-  22% { opacity: 0.35; transform: translate(2%, -1%); }
-  34% { opacity: 0.75; }
-  50% { opacity: 0.15; transform: translate(-1%, 2%); }
-  63% { opacity: 0.9; }
-  78% { opacity: 0.3; transform: translate(1%, 0); }
-  88% { opacity: 0.6; }
+  0%, 100% { opacity: 0.25; transform: translate(0, 0); }
+  14% { opacity: 1; transform: translate(3%, -2%); }
+  28% { opacity: 0.1; transform: translate(6%, 0); }
+  44% { opacity: 0.95; transform: translate(4%, 3%); }
+  60% { opacity: 0.05; transform: translate(-2%, 4%); }
+  76% { opacity: 0.85; transform: translate(-4%, 1%); }
+  90% { opacity: 0.2; }
+}
+
+/* Shade passing over, out of step with the light. */
+@keyframes cover-shade {
+  0%, 100% { opacity: 0; transform: translate(0, 0); }
+  25% { opacity: 1; transform: translate(-6%, 3%); }
+  50% { opacity: 0.2; transform: translate(-3%, -2%); }
+  72% { opacity: 0.9; transform: translate(4%, 2%); }
 }
 
 .briefing-editorial__top {
