@@ -12380,16 +12380,22 @@ ul.login__never {
   --sky-top-core: var(--color-sky-night-spark);
   --sky-top-fade: linear-gradient(
     var(--color-sky-night),
-    var(--color-sky-night-low) 15%,
-    var(--color-sky-night-glow) 35%,
-    var(--color-sky-night-fade-mid) 55%,
-    var(--color-sky-night-fade-low) 75%,
+    var(--color-sky-night) 30%,
+    var(--color-sky-night-low) 55%,
+    var(--color-sky-night-glow) 75%,
+    var(--color-sky-night-fade-mid) 90%,
     var(--color-surface)
   );
 }
 
-/* At night the section's heading sits on the blue, so it is white. */
-.device__screen:has(.map-home__greeting[data-sky="night"]) .map-home__heading {
+/* At night the section's heading and the rings not chosen sit on the
+   blue, so their words are light. The chosen ring keeps its white tile. */
+.device__screen:has(.map-home__greeting[data-sky="night"]) .map-home__heading,
+.device__screen:has(.map-home__greeting[data-sky="night"]) .map-rings__ring:not([aria-pressed="true"]) .map-rings__name {
+  color: var(--color-text-inverse);
+}
+
+.device__screen:has(.map-home__greeting[data-sky="night"]) .map-rings__ring:not([aria-pressed="true"]) .map-rings__count {
   color: var(--color-text-inverse);
 }
 

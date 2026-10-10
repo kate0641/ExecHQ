@@ -283,7 +283,6 @@
   --color-sky-night-horizon: var(--brand-green-300);
   /* Night's fade down the page when the sky glows from the top (trial). */
   --color-sky-night-fade-mid: var(--brand-blue-400);
-  --color-sky-night-fade-low: var(--brand-blue-200);
 
   /* Danger — the destructive action: deleting the account, removing a
      connection. The red end of the orange scale. White on it is 7.0:1, and
