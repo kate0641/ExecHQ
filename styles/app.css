@@ -12347,6 +12347,7 @@ ul.login__never {
   --sky-top-edge: var(--color-sky-day);
   --sky-top-ring: var(--color-sky-day-top-ring);
   --sky-top-core: var(--color-sky-day-top-core);
+  --sky-top-core-size: 75% 32%;
   --home-sky-full:
     radial-gradient(ellipse var(--sky-top-core-size, 55% 24%) at 50% 0, var(--sky-top-core), transparent),
     radial-gradient(ellipse var(--sky-top-ring-size, 110% 45%) at 50% 0, var(--sky-top-ring), transparent 80%),
@@ -12371,12 +12372,14 @@ ul.login__never {
 
 .device__screen:has(.map-home__greeting[data-sky="dawn"]) {
   --sky-top-edge: var(--color-sky-dawn);
+  --sky-top-core-size: 55% 24%;
   --sky-top-ring: var(--color-sky-heart-warm);
   --sky-top-core: var(--color-sky-heart-light);
 }
 
 .device__screen:has(.map-home__greeting[data-sky="dusk"]) {
   --sky-top-edge: var(--color-sky-dusk-edge-top);
+  --sky-top-core-size: 55% 24%;
   --sky-top-ring: var(--color-sky-dusk-top-ring);
   --sky-top-core: var(--color-sky-dusk-top-core);
 }
@@ -12402,21 +12405,26 @@ ul.login__never {
     in oklab,
     var(--color-sky-night) 0%,
     var(--color-sky-night) 30%,
-    color-mix(in oklab, var(--color-sky-night) 90%, var(--color-sky-night-fade-mid)) 33.2%,
-    color-mix(in oklab, var(--color-sky-night) 65%, var(--color-sky-night-fade-mid)) 36.4%,
-    color-mix(in oklab, var(--color-sky-night) 35%, var(--color-sky-night-fade-mid)) 39.6%,
-    color-mix(in oklab, var(--color-sky-night) 10%, var(--color-sky-night-fade-mid)) 42.8%,
-    var(--color-sky-night-fade-mid) 46%,
-    color-mix(in oklab, var(--color-sky-night-fade-mid) 90%, var(--color-sky-night-fade-low)) 48.8%,
-    color-mix(in oklab, var(--color-sky-night-fade-mid) 65%, var(--color-sky-night-fade-low)) 51.6%,
-    color-mix(in oklab, var(--color-sky-night-fade-mid) 35%, var(--color-sky-night-fade-low)) 54.4%,
-    color-mix(in oklab, var(--color-sky-night-fade-mid) 10%, var(--color-sky-night-fade-low)) 57.2%,
-    var(--color-sky-night-fade-low) 60%,
-    color-mix(in oklab, var(--color-sky-night-fade-low) 90%, var(--color-surface)) 64.0%,
-    color-mix(in oklab, var(--color-sky-night-fade-low) 65%, var(--color-surface)) 68.0%,
-    color-mix(in oklab, var(--color-sky-night-fade-low) 35%, var(--color-surface)) 72.0%,
-    color-mix(in oklab, var(--color-sky-night-fade-low) 10%, var(--color-surface)) 76.0%,
-    var(--color-surface) 80%
+    color-mix(in oklab, var(--color-sky-night) 90%, var(--color-sky-night-fade-mid)) 32.4%,
+    color-mix(in oklab, var(--color-sky-night) 65%, var(--color-sky-night-fade-mid)) 34.8%,
+    color-mix(in oklab, var(--color-sky-night) 35%, var(--color-sky-night-fade-mid)) 37.2%,
+    color-mix(in oklab, var(--color-sky-night) 10%, var(--color-sky-night-fade-mid)) 39.6%,
+    var(--color-sky-night-fade-mid) 42%,
+    color-mix(in oklab, var(--color-sky-night-fade-mid) 90%, var(--color-sky-night-fade-low)) 44.8%,
+    color-mix(in oklab, var(--color-sky-night-fade-mid) 65%, var(--color-sky-night-fade-low)) 47.6%,
+    color-mix(in oklab, var(--color-sky-night-fade-mid) 35%, var(--color-sky-night-fade-low)) 50.4%,
+    color-mix(in oklab, var(--color-sky-night-fade-mid) 10%, var(--color-sky-night-fade-low)) 53.2%,
+    var(--color-sky-night-fade-low) 56%,
+    color-mix(in oklab, var(--color-sky-night-fade-low) 90%, var(--color-sky-night-fade-end)) 58.8%,
+    color-mix(in oklab, var(--color-sky-night-fade-low) 65%, var(--color-sky-night-fade-end)) 61.6%,
+    color-mix(in oklab, var(--color-sky-night-fade-low) 35%, var(--color-sky-night-fade-end)) 64.4%,
+    color-mix(in oklab, var(--color-sky-night-fade-low) 10%, var(--color-sky-night-fade-end)) 67.2%,
+    var(--color-sky-night-fade-end) 70%,
+    color-mix(in oklab, var(--color-sky-night-fade-end) 90%, var(--color-surface)) 73.2%,
+    color-mix(in oklab, var(--color-sky-night-fade-end) 65%, var(--color-surface)) 76.4%,
+    color-mix(in oklab, var(--color-sky-night-fade-end) 35%, var(--color-surface)) 79.6%,
+    color-mix(in oklab, var(--color-sky-night-fade-end) 10%, var(--color-surface)) 82.8%,
+    var(--color-surface) 86%
   );
 }
 

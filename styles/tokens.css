@@ -277,12 +277,12 @@
   --color-sky-dusk-edge-top: var(--brand-blue-400);
   /* Each sky radiates from the top in three melting layers, as dawn does
      (designer, 2026-10-10): a centre, a ring round it, the sky beyond. */
-  --color-sky-day-top-core: var(--brand-yellow-100);  /* a very faint yellow centre */
-  --color-sky-day-top-ring: var(--brand-yellow-300);
+  --color-sky-day-top-core: var(--brand-yellow-300);  /* a golden centre (designer, 2026-10-10) */
+  --color-sky-day-top-ring: var(--brand-yellow-200);
   --color-sky-dusk-top-core: var(--brand-yellow-400);
   --color-sky-dusk-top-ring: var(--brand-orange-400);
-  --color-sky-night-top-core: var(--brand-blue-500);
-  --color-sky-night-top-ring: var(--brand-blue-600);  /* dusk at the top of the screen when the sky is turned the other way up (trial): dark text holds 6.9:1 */
+  --color-sky-night-top-core: var(--brand-blue-900);  /* the darkest navy at the centre (designer, 2026-10-10) */
+  --color-sky-night-top-ring: var(--brand-blue-800);  /* dusk at the top of the screen when the sky is turned the other way up (trial): dark text holds 6.9:1 */
   --color-sky-night-top: var(--brand-blue-900);
   --color-sky-night: var(--brand-blue-800);
   --color-sky-night-low: var(--brand-blue-700);
@@ -290,9 +290,10 @@
   --color-sky-night-spark: var(--brand-blue-500);
   --color-sky-night-horizon: var(--brand-green-300);
   /* Night's fade down the page when the sky glows from the top (trial). */
-  /* Night's fade down the page, through its own blues. */
-  --color-sky-night-fade-mid: var(--brand-blue-400);
-  --color-sky-night-fade-low: var(--brand-blue-200);
+  /* Night's fade down the page: through blue into lime at the bottom. */
+  --color-sky-night-fade-mid: var(--brand-blue-600);
+  --color-sky-night-fade-low: var(--brand-green-200);
+  --color-sky-night-fade-end: var(--brand-green-100);
 
   /* Danger — the destructive action: deleting the account, removing a
      connection. The red end of the orange scale. White on it is 7.0:1, and
