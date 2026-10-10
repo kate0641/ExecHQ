@@ -9296,7 +9296,9 @@ ol.signal__list {
 .briefing-editorial--cover::before {
   /* The whole width of the picture, from its top, so little is cropped. */
   bottom: 0;
-  background: url("./images/briefing-cover.jpg") top center / 100% auto no-repeat;
+  /* Covers the whole card, so the picture carries faintly on behind the
+     words under the see-through green. */
+  background: url("./images/briefing-cover.jpg") top center / cover no-repeat;
   filter: var(--image-filter);
 }
 
@@ -9307,6 +9309,7 @@ ol.signal__list {
    level horizon. */
 .briefing-editorial--cover::after {
   --cover-green: var(--color-surface-briefing-cover);
+  --cover-floor: 85%;
   /* The photograph stays clear for its light top (about 85px), then a
      shorter fade carries it into the green. */
   --fade-from: calc(var(--briefing-cover-height) * 0.56);
@@ -9323,8 +9326,10 @@ ol.signal__list {
       color-mix(in srgb, var(--cover-green) 30%, transparent) calc(var(--fade-from) + (var(--fade-to) - var(--fade-from)) * 0.45),
       color-mix(in srgb, var(--cover-green) 50%, transparent) calc(var(--fade-from) + (var(--fade-to) - var(--fade-from)) * 0.6),
       color-mix(in srgb, var(--cover-green) 70%, transparent) calc(var(--fade-from) + (var(--fade-to) - var(--fade-from)) * 0.75),
-      color-mix(in srgb, var(--cover-green) 87%, transparent) calc(var(--fade-from) + (var(--fade-to) - var(--fade-from)) * 0.9),
-      var(--cover-green) var(--fade-to)
+      color-mix(in srgb, var(--cover-green) 80%, transparent) calc(var(--fade-from) + (var(--fade-to) - var(--fade-from)) * 0.9),
+      /* Not quite solid: the picture shows faintly through the green under
+         the words (designer, 2026-10-10). */
+      color-mix(in srgb, var(--cover-green) var(--cover-floor), transparent) var(--fade-to)
     );
 }
 
