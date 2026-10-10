@@ -12376,16 +12376,18 @@ ul.login__never {
    mixing navy into the stone, which turns grey (designer, 2026-10-10). */
 .device__screen:has(.map-home__greeting[data-sky="night"]) {
   --sky-top-edge: var(--color-sky-night);
-  --sky-top-ring: var(--color-sky-night-glow);
-  --sky-top-core: var(--color-sky-night-spark);
+  /* A dim glow at the top, so the top of the screen reads as night. */
+  --sky-top-ring: var(--color-sky-night);
+  --sky-top-core: var(--color-sky-night-low);
   /* Darkest navy at the top, lightening fast, so the rings sit on light
      blue where the navy rings stay clear (designer, 2026-10-10). */
   --sky-top-fade: linear-gradient(
     var(--color-sky-night-top),
-    var(--color-sky-night) 18%,
-    var(--color-sky-night-glow) 37%,
-    var(--color-sky-night-fade-mid) 48%,
-    var(--color-sky-night-fade-low) 64%,
+    var(--color-sky-night-top) 12%,
+    var(--color-sky-night) 26%,
+    var(--color-sky-night-low) 35%,
+    var(--color-sky-night-fade-mid) 46%,
+    var(--color-sky-night-fade-low) 58%,
     var(--color-surface)
   );
 }
