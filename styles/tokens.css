@@ -282,8 +282,11 @@
   --color-sky-night-spark: var(--brand-blue-500);
   --color-sky-night-horizon: var(--brand-green-300);
   /* Night's fade down the page when the sky glows from the top (trial). */
-  --color-sky-night-fade-mid: var(--brand-blue-300);
-  --color-sky-night-fade-low: var(--brand-blue-200);
+  /* Night eases into the warmth of dawn behind the rings (trial): blue
+     400, then dawn's peach and its palest orange. */
+  --color-sky-night-fade-mid: var(--brand-blue-400);
+  --color-sky-night-fade-low: var(--brand-orange-200);
+  --color-sky-night-fade-warm: var(--brand-orange-100);
 
   /* Danger — the destructive action: deleting the account, removing a
      connection. The red end of the orange scale. White on it is 7.0:1, and
