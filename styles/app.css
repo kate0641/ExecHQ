@@ -12378,24 +12378,21 @@ ul.login__never {
   --sky-top-edge: var(--color-sky-night);
   --sky-top-ring: var(--color-sky-night-glow);
   --sky-top-core: var(--color-sky-night-spark);
+  /* Darkest navy at the top, lightening fast, so the rings sit on light
+     blue where the navy rings stay clear (designer, 2026-10-10). */
   --sky-top-fade: linear-gradient(
-    var(--color-sky-night),
-    var(--color-sky-night) 30%,
-    var(--color-sky-night-low) 55%,
-    var(--color-sky-night-glow) 75%,
-    var(--color-sky-night-fade-mid) 90%,
+    var(--color-sky-night-top),
+    var(--color-sky-night) 18%,
+    var(--color-sky-night-glow) 37%,
+    var(--color-sky-night-fade-mid) 48%,
+    var(--color-sky-night-fade-low) 64%,
     var(--color-surface)
   );
 }
 
-/* At night the section's heading and the rings not chosen sit on the
-   blue, so their words are light. The chosen ring keeps its white tile. */
-.device__screen:has(.map-home__greeting[data-sky="night"]) .map-home__heading,
-.device__screen:has(.map-home__greeting[data-sky="night"]) .map-rings__ring:not([aria-pressed="true"]) .map-rings__name {
-  color: var(--color-text-inverse);
-}
-
-.device__screen:has(.map-home__greeting[data-sky="night"]) .map-rings__ring:not([aria-pressed="true"]) .map-rings__count {
+/* At night the section's heading sits on the deeper blue, so it is white;
+   the rings below sit on light blue and keep their dark words. */
+.device__screen:has(.map-home__greeting[data-sky="night"]) .map-home__heading {
   color: var(--color-text-inverse);
 }
 
