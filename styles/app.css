@@ -12334,6 +12334,105 @@ ul.login__never {
     linear-gradient(var(--color-sky-night-top), var(--color-sky-night) 60%, var(--color-sky-night-low));
 }
 
+
+/* Trial (designer, 2026-10-10): the sky turned the other way up. Its glow
+   sits at the very top of the screen, round the camera and the status bar,
+   and it fades down through the date and behind the rings into the page,
+   about halfway down the next-step card's navy head. One gradient, painted
+   in three slices (status bar, band, and a tail under the band) that line
+   up as one. */
+.device__screen:has(.map-home) {
+  --home-sky-tail: 18.25rem;
+  --home-sky-total: calc(var(--home-header-height) + var(--home-sky-tail));
+  --sky-top-edge: var(--color-sky-day);
+  --sky-top-ring: var(--color-sky-day-ring);
+  --sky-top-core: var(--color-sky-day-heart);
+  --home-sky-full:
+    radial-gradient(ellipse 55% 24% at 50% 0, var(--sky-top-core), transparent),
+    radial-gradient(ellipse 110% 45% at 50% 0, var(--sky-top-ring), transparent 80%),
+    var(--sky-top-fade);
+  --sky-top-fade: linear-gradient(
+    var(--sky-top-edge),
+    var(--sky-top-edge) 12%,
+    color-mix(in srgb, var(--sky-top-edge) 60%, var(--color-surface)) 42%,
+    color-mix(in srgb, var(--sky-top-edge) 20%, var(--color-surface)) 72%,
+    var(--color-surface)
+  );
+}
+
+.device__screen:has(.map-home__greeting[data-sky="dawn"]) {
+  --sky-top-edge: var(--color-sky-dawn);
+  --sky-top-ring: var(--color-sky-heart-warm);
+  --sky-top-core: var(--color-sky-heart-light);
+}
+
+.device__screen:has(.map-home__greeting[data-sky="dusk"]) {
+  --sky-top-edge: var(--color-sky-dusk-edge-top);
+  --sky-top-ring: var(--color-sky-dusk-ring);
+  --sky-top-core: var(--color-sky-dusk-heart);
+}
+
+/* Night fades down through the blues, navy to light blue, rather than
+   mixing navy into the stone, which turns grey (designer, 2026-10-10). */
+.device__screen:has(.map-home__greeting[data-sky="night"]) {
+  --sky-top-edge: var(--color-sky-night);
+  --sky-top-ring: var(--color-sky-night-glow);
+  --sky-top-core: var(--color-sky-night-spark);
+  --sky-top-fade: linear-gradient(
+    var(--color-sky-night),
+    var(--color-sky-night-low) 15%,
+    var(--color-sky-night-glow) 35%,
+    var(--color-sky-night-fade-mid) 55%,
+    var(--color-sky-night-fade-low) 75%,
+    var(--color-surface)
+  );
+}
+
+/* At night the section's heading sits on the blue, so it is white. */
+.device__screen:has(.map-home__greeting[data-sky="night"]) .map-home__heading {
+  color: var(--color-text-inverse);
+}
+
+.device__screen:has(.map-home) > .device__statusbar,
+.device__screen:has(.map-home) .map-home__greeting {
+  background-image: var(--home-sky-full);
+  background-size: 100% var(--home-sky-total);
+  background-repeat: no-repeat;
+}
+
+.device__screen:has(.map-home) > .device__statusbar {
+  background-position: 0 0;
+}
+
+.device__screen:has(.map-home) .map-home__greeting {
+  background-position: 0 calc(var(--home-header-band) - var(--home-header-height));
+}
+
+/* The tail under the band, behind the rings. The section is its own layer,
+   so the tail sits behind the rings but in front of the page. */
+.map-home__lead {
+  isolation: isolate;
+}
+
+.map-home__greeting {
+  position: relative;
+}
+
+.map-home__greeting::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: var(--home-sky-tail);
+  z-index: -1;
+  pointer-events: none;
+  background-image: var(--home-sky-full);
+  background-size: 100% var(--home-sky-total);
+  background-position: 0 calc(-1 * var(--home-header-height));
+  background-repeat: no-repeat;
+}
+
 /* At night the status bar and the greeting turn light. */
 .device__screen:has(.map-home__greeting[data-sky="night"]) > .device__statusbar,
 .device__screen:has(.map-home__greeting[data-sky="night"]) > .device__statusbar .device__statusbar-indicators,
@@ -12348,9 +12447,9 @@ ul.login__never {
 }
 
 .device__screen:has(.map-home) > .device__statusbar {
-  background-image: var(--home-header-wash);
-  background-position: top;
-  background-size: 100% var(--home-header-height);
+  background-image: var(--home-sky-full);
+  background-position: 0 0;
+  background-size: 100% var(--home-sky-total);
   background-repeat: no-repeat;
 }
 
@@ -12599,6 +12698,8 @@ ul.map-rings {
 
 .map-rings__done { stroke: var(--color-ring-done); }
 .map-rings__track { stroke: var(--color-ring-track); }
+/* Over the sky, the rings not chosen draw their track in white (trial). */
+.map-home .map-rings__ring:not([aria-pressed="true"]) .map-rings__track { stroke: var(--color-ring-track-on-sky); }
 /* --fade is how far along the in-progress band a slice sits, 0% to 100%. */
 .map-rings__fade { stroke: color-mix(in srgb, var(--color-ring-progress-end) var(--fade), var(--color-ring-progress-start)); }
 
