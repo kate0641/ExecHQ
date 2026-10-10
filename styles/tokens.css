@@ -274,7 +274,15 @@
   --color-sky-dusk-heart: var(--brand-orange-400);
   --color-sky-dusk-ring: var(--brand-orange-300);
   --color-sky-dusk-outer: var(--brand-blue-600);
-  --color-sky-dusk-edge-top: var(--brand-blue-400);  /* dusk at the top of the screen when the sky is turned the other way up (trial): dark text holds 6.9:1 */
+  --color-sky-dusk-edge-top: var(--brand-blue-400);
+  /* Each sky radiates from the top in three melting layers, as dawn does
+     (designer, 2026-10-10): a centre, a ring round it, the sky beyond. */
+  --color-sky-day-top-core: var(--brand-white);
+  --color-sky-day-top-ring: var(--brand-yellow-300);
+  --color-sky-dusk-top-core: var(--brand-yellow-400);
+  --color-sky-dusk-top-ring: var(--brand-orange-400);
+  --color-sky-night-top-core: var(--brand-blue-500);
+  --color-sky-night-top-ring: var(--brand-blue-600);  /* dusk at the top of the screen when the sky is turned the other way up (trial): dark text holds 6.9:1 */
   --color-sky-night-top: var(--brand-blue-900);
   --color-sky-night: var(--brand-blue-800);
   --color-sky-night-low: var(--brand-blue-700);

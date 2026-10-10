@@ -12345,11 +12345,11 @@ ul.login__never {
   --home-sky-tail: 18.25rem;
   --home-sky-total: calc(var(--home-header-height) + var(--home-sky-tail));
   --sky-top-edge: var(--color-sky-day);
-  --sky-top-ring: var(--color-sky-day-ring);
-  --sky-top-core: var(--color-sky-day-heart);
+  --sky-top-ring: var(--color-sky-day-top-ring);
+  --sky-top-core: var(--color-sky-day-top-core);
   --home-sky-full:
-    radial-gradient(ellipse 55% 24% at 50% 0, var(--sky-top-core), transparent),
-    radial-gradient(ellipse 110% 45% at 50% 0, var(--sky-top-ring), transparent 80%),
+    radial-gradient(ellipse var(--sky-top-core-size, 55% 24%) at 50% 0, var(--sky-top-core), transparent),
+    radial-gradient(ellipse var(--sky-top-ring-size, 110% 45%) at 50% 0, var(--sky-top-ring), transparent 80%),
     var(--sky-top-fade);
   /* An eased fade from the sky's blue into the page, blended in oklab. */
   --sky-top-fade: linear-gradient(
@@ -12377,17 +12377,20 @@ ul.login__never {
 
 .device__screen:has(.map-home__greeting[data-sky="dusk"]) {
   --sky-top-edge: var(--color-sky-dusk-edge-top);
-  --sky-top-ring: var(--color-sky-dusk-ring);
-  --sky-top-core: var(--color-sky-dusk-heart);
+  --sky-top-ring: var(--color-sky-dusk-top-ring);
+  --sky-top-core: var(--color-sky-dusk-top-core);
 }
 
 /* Night fades down through the blues, navy to light blue, rather than
    mixing navy into the stone, which turns grey (designer, 2026-10-10). */
 .device__screen:has(.map-home__greeting[data-sky="night"]) {
   --sky-top-edge: var(--color-sky-night);
-  /* A dim glow at the top, so the top of the screen reads as night. */
-  --sky-top-ring: var(--color-sky-night);
-  --sky-top-core: var(--color-sky-night-low);
+  /* The same three melting layers as dawn, in night's blues. */
+  --sky-top-ring: var(--color-sky-night-top-ring);
+  --sky-top-core: var(--color-sky-night-top-core);
+  /* Its bright centre stays up by the camera, above the white date. */
+  --sky-top-core-size: 45% 13%;
+  --sky-top-ring-size: 150% 62%;
   /* Darkest navy at the top, easing behind the rings into the warmth of
      dawn, peach and the palest orange, where the navy rings and their pale
      blue tails both stay clear (designer, 2026-10-10, trial). */
