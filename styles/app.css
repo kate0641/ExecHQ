@@ -13459,7 +13459,10 @@ ul.templates__outcomes {
    everything else on a white body below, as the feature card does. */
 .map-home .signal-picture--card.account-card {
   gap: var(--space-md);
-  padding: 0 0 var(--space-feature-padding);
+  /* Skip for now is a 44px tap target, so its words sit 14px above the
+     button's foot; a short pad leaves them as far from the card's bottom as
+     the title is from its top (designer, 2026-10-10). */
+  padding: 0 0 var(--space-xs);
   overflow: hidden;
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-card);
