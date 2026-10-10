@@ -1530,6 +1530,7 @@ button.link {
 
 .devtools__hub-button,
 .devtools__color,
+.devtools__replay,
 .devtools__collapse {
   display: grid;
   place-items: center;
@@ -1541,6 +1542,7 @@ button.link {
 
 .devtools__hub-button:hover,
 .devtools__color:hover:not(:disabled),
+.devtools__replay:hover,
 .devtools__collapse:hover {
   background-color: var(--color-surface-hover);
   color: var(--color-text-primary);
