@@ -9270,12 +9270,11 @@ ol.signal__list {
    the navy, and the words in white on the navy below it (designer,
    2026-10-09). The picture is decoration, so it lives in CSS. */
 .briefing-editorial--cover {
-  --briefing-cover-height: 12rem;
+  --briefing-cover-height: 9.5rem;
   position: relative;
   isolation: isolate;
   overflow: hidden;
   justify-content: flex-end;
-  min-height: 15rem;
   padding-top: var(--briefing-cover-height);
   /* No border, so the photograph runs right to the card's edge. */
   border: 0;
@@ -9308,7 +9307,9 @@ ol.signal__list {
    level horizon. */
 .briefing-editorial--cover::after {
   --cover-green: var(--color-surface-briefing-cover);
-  --fade-from: calc(var(--briefing-cover-height) * 0.45);
+  /* The photograph stays clear for its light top (about 85px), then a
+     shorter fade carries it into the green. */
+  --fade-from: calc(var(--briefing-cover-height) * 0.56);
   --fade-to: calc(var(--briefing-cover-height) + var(--space-sm));
   bottom: 0;
   background:
