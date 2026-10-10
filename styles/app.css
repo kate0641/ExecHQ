@@ -13474,9 +13474,10 @@ ul.templates__outcomes {
   background-color: var(--color-surface-inverse);
 }
 
-/* The head is navy with the title in white (designer, 2026-10-10). */
+/* The head is navy with the title in the yellow used on navy, as the
+   next-step card's eyebrow (designer, 2026-10-10). */
 .map-home .signal-picture--card > .account-card__top .account-card__name {
-  color: var(--color-text-inverse);
+  color: var(--color-accent-on-inverse);
 }
 
 .map-home .signal-picture--card.account-card {
