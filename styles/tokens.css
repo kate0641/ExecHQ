@@ -277,7 +277,7 @@
   --color-sky-dusk-edge-top: var(--brand-blue-400);
   /* Each sky radiates from the top in three melting layers, as dawn does
      (designer, 2026-10-10): a centre, a ring round it, the sky beyond. */
-  --color-sky-day-top-core: var(--brand-white);
+  --color-sky-day-top-core: var(--brand-yellow-100);  /* a very faint yellow centre */
   --color-sky-day-top-ring: var(--brand-yellow-300);
   --color-sky-dusk-top-core: var(--brand-yellow-400);
   --color-sky-dusk-top-ring: var(--brand-orange-400);
@@ -290,11 +290,9 @@
   --color-sky-night-spark: var(--brand-blue-500);
   --color-sky-night-horizon: var(--brand-green-300);
   /* Night's fade down the page when the sky glows from the top (trial). */
-  /* Night eases into the warmth of dawn behind the rings (trial): blue
-     400, then dawn's peach and its palest orange. */
+  /* Night's fade down the page, through its own blues. */
   --color-sky-night-fade-mid: var(--brand-blue-400);
-  --color-sky-night-fade-low: var(--brand-orange-200);
-  --color-sky-night-fade-warm: var(--brand-orange-100);
+  --color-sky-night-fade-low: var(--brand-blue-200);
 
   /* Danger — the destructive action: deleting the account, removing a
      connection. The red end of the orange scale. White on it is 7.0:1, and
