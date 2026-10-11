@@ -25,6 +25,8 @@ export interface SparkProps {
    *  the first sentence is a yellow headline beside the source, the rest sits
    *  under it, and an × dismisses it (Homepage). */
   tone?: "note" | "celebrate";
+  /** Dismiss with an × rather than the word (Home's Signal Picture strip). */
+  closeIcon?: boolean;
   className?: string;
 }
 
@@ -44,7 +46,7 @@ function splitFirst(text: string): [string, string] {
  * It sits inline at the top of the signals section, never blocks anything,
  * and goes for good when dismissed. With nothing to note it is not there.
  */
-export function Spark({ items, label, dismissLabel, dismissName, onDismiss, onAction, tone = "note", className }: SparkProps) {
+export function Spark({ items, label, dismissLabel, dismissName, onDismiss, onAction, tone = "note", closeIcon, className }: SparkProps) {
   if (items.length === 0) return null;
   if (tone === "celebrate") {
     return (
@@ -84,8 +86,14 @@ export function Spark({ items, label, dismissLabel, dismissName, onDismiss, onAc
                 {item.actionLabel}
               </Button>
             ) : null}
-            <Button variant="ghost" size="sm" aria-label={dismissName(item.text)} onClick={() => onDismiss(item.id)}>
-              {dismissLabel}
+            <Button
+              variant="ghost"
+              size="sm"
+              className={closeIcon ? "spark__close" : undefined}
+              aria-label={dismissName(item.text)}
+              onClick={() => onDismiss(item.id)}
+            >
+              {closeIcon ? <Icon name="close" size={20} /> : dismissLabel}
             </Button>
           </div>
         </li>

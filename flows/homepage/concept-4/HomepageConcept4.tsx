@@ -282,6 +282,7 @@ export function HomepageConcept4() {
                   label: SP.label,
                   dismissLabel: SP.dismiss,
                   dismissName: SP.dismissNote,
+                  closeIcon: true,
                   onDismiss: (id) => {
                     dismissSpark(id);
                     setAnnounce("");

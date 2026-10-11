@@ -13649,6 +13649,19 @@ ul.templates__outcomes {
   color: var(--color-text-inverse-muted);
 }
 
+/* The note of what has moved is a lime strip straight under the navy head,
+   edge to edge, not a box inside the card (designer, 2026-10-11). */
+.map-home .signal-picture--card > ul.spark {
+  margin-inline: 0;
+  margin-top: calc(-1 * var(--space-md));
+}
+
+.map-home .signal-picture--card .spark__note {
+  border-radius: 0;
+  box-shadow: none;
+  padding-inline: var(--space-feature-padding) var(--space-xs);
+}
+
 /* A clear pause between the introduction and the first number. */
 .map-home .signal-picture--card .baseline-form__intro {
   margin-bottom: var(--space-sm);
