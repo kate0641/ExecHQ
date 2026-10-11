@@ -49,6 +49,10 @@ export interface Flow {
    *  Onboarding, whose first screen carries the wordmark itself; a header
    *  repeating it on every later step would only take room from the question. */
   header?: boolean;
+  /** The navigation item this flow sits under, when it is not one itself:
+   *  the Toolbox flow is reached from the Toolbox, so the navigation says
+   *  Toolbox while she is in a tool. */
+  navAs?: string;
   /** One line shown under the flow in the hub. */
   description: string;
   /** What a signed-in destination shows until its sprint designs it: a
@@ -258,6 +262,7 @@ export const prototypeConfig: PrototypeConfig = {
       title: "Toolbox artifact flow",
       sprint: 4,
       chrome: "app",
+      navAs: "toolbox",
       description:
         "Producing an artifact end to end: gather context, generate an editable draft, revise, export, and enter the Loop.",
       concepts: [

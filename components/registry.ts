@@ -132,6 +132,8 @@ import { artifactActionsStates } from "./toolbox/ArtifactActions/ArtifactActions
 import { libraryFiltersStates } from "./toolbox/LibraryFilters/LibraryFilters.states";
 import { libraryGroupStates } from "./toolbox/LibraryGroup/LibraryGroup.states";
 import { libraryEmptyStates } from "./toolbox/LibraryEmpty/LibraryEmpty.states";
+import { workspacePanelStates } from "./toolbox/WorkspacePanel/WorkspacePanel.states";
+import { pinnedDraftStates } from "./toolbox/PinnedDraft/PinnedDraft.states";
 export const registry: RegisteredComponent[] = [
   badgeStates,
   buttonStates,
@@ -255,6 +257,8 @@ export const registry: RegisteredComponent[] = [
   libraryFiltersStates,
   libraryGroupStates,
   libraryEmptyStates,
+  workspacePanelStates,
+  pinnedDraftStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */

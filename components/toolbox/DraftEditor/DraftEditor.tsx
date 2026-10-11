@@ -22,6 +22,8 @@ export interface DraftEditorProps {
   intro?: string;
   /** A revision is being written: the draft waits under a status. */
   revising?: string;
+  /** Lets a page move focus to the draft once it is written. */
+  id?: string;
   /** Opens a section in an editing state (catalogue). */
   preview?: { editing: string; error?: boolean };
   className?: string;
@@ -113,6 +115,7 @@ export function DraftEditor({
   intro,
   revising,
   preview,
+  id,
   className,
 }: DraftEditorProps) {
   const [editing, setEditing] = useState<string | null>(preview?.editing ?? null);
@@ -120,7 +123,12 @@ export function DraftEditor({
   const open = draftQuestions(sections).filter((q) => !answers[q] && !sections.some((s) => edits[s.id] && s.segments.some((g) => isQuestion(g) && g.question === q)));
 
   return (
-    <article className={["draft-editor", revising ? "is-revising" : null, className].filter(Boolean).join(" ")} aria-label={label}>
+    <article
+      className={["draft-editor", revising ? "is-revising" : null, className].filter(Boolean).join(" ")}
+      aria-label={label}
+      id={id}
+      tabIndex={id ? -1 : undefined}
+    >
       <div className="draft-editor__top">
         <span className="draft-editor__label">{label}</span>
         {header}

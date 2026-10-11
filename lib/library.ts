@@ -20,6 +20,8 @@ export interface LibraryItem {
   /** The action step it serves, by title. */
   step?: string;
   readId?: string;
+  /** The artifact it was made from, by title, when she reused one. */
+  reusedFrom?: string;
   versions: number;
   preview: string;
   /** The last day anything happened to it. */
@@ -41,6 +43,7 @@ export function libraryItems(records: readonly LoopRecord[], extra: Readonly<Rec
         areaName: SIGNALS.find((s) => s.id === area)?.name,
         step: meta?.planStepId ? stepById(meta.planStepId)?.title : record.recommendation,
         readId: meta?.readId,
+        reusedFrom: meta?.reusedFrom ? records.find((r) => r.id === meta.reusedFrom)?.title : undefined,
         versions: meta?.versions ?? 1,
         preview: meta?.preview ?? "",
         lastOn: lastTouched(record),

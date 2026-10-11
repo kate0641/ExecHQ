@@ -87,11 +87,17 @@ export const toolboxActions = {
     const state = get();
     write({ ...state, drafts: { ...state.drafts, [id]: draft } });
   },
-  /** A revision, or a version brought back: always a new version. */
-  addVersion: (id: string, version: Omit<DraftVersion, "n">) =>
+  /** A revision, or a version brought back: always a new version. A version
+   *  brought back keeps the edits she had made to it. */
+  addVersion: (id: string, version: Omit<DraftVersion, "n">, edits?: Record<string, string>) =>
     updateDraft(id, (d) => {
       const n = d.versions.length + 1;
-      return { versions: [...d.versions, { ...version, n }], showing: n, meta: { ...d.meta, versions: n } };
+      return {
+        versions: [...d.versions, { ...version, n }],
+        showing: n,
+        meta: { ...d.meta, versions: n },
+        edits: edits ? { ...d.edits, [n]: edits } : d.edits,
+      };
     }),
   show: (id: string, n: number) => updateDraft(id, () => ({ showing: n })),
   editSection: (id: string, section: string, text: string) =>

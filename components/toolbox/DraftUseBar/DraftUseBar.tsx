@@ -13,6 +13,10 @@ export interface DraftUseBarProps {
   onCopy: () => void;
   onExport?: (format: "PDF" | "Word") => void;
   onMarkReady: () => void;
+  /** Once ready: she used it ("Mark published"). ExecHQ asks what came of it later. */
+  onMarkUsed?: () => void;
+  /** Leaves Mark ready out, where the page has its own (Concept 1's bar). */
+  noStatus?: boolean;
   /** Opens having just copied (catalogue). */
   justCopied?: boolean;
   className?: string;
@@ -23,7 +27,7 @@ export interface DraftUseBarProps {
  * "Copy to post on LinkedIn"), export it where that is in scope, and mark it
  * ready. ExecHQ never posts or sends anything; the words say so.
  */
-export function DraftUseBar({ kind, ready = false, onCopy, onExport, onMarkReady, justCopied = false, className }: DraftUseBarProps) {
+export function DraftUseBar({ kind, ready = false, onCopy, onExport, onMarkReady, onMarkUsed, noStatus = false, justCopied = false, className }: DraftUseBarProps) {
   const [message, setMessage] = useState(justCopied ? C.copied : "");
   const exportable = C.exportable[kind] && onExport;
   return (
@@ -63,16 +67,15 @@ export function DraftUseBar({ kind, ready = false, onCopy, onExport, onMarkReady
             </Button>
           </>
         ) : null}
-        {ready ? (
-          <span className="draft-use__ready">
-            <Icon name="check" size={16} />
-            {C.ready}
-          </span>
+        {noStatus ? null : ready ? (
+          onMarkUsed ? (
+            <Button onClick={onMarkUsed}>{C.markUsed(kind)}</Button>
+          ) : null
         ) : (
           <Button onClick={onMarkReady}>{C.markReady}</Button>
         )}
       </div>
-      <output className="draft-use__message">{message}</output>
+      <output className="draft-use__message">{message || (ready && !noStatus ? C.ready : "")}</output>
     </div>
   );
 }

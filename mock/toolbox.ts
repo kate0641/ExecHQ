@@ -19,7 +19,7 @@
  *   "Post to LinkedIn".
  */
 
-import type { ArtifactKind } from "@/mock/loop";
+import { ARTIFACT_KINDS, type ArtifactKind } from "@/mock/loop";
 
 /* -----------------------------------------------------------------------------
    THE FOUR TOOLS
@@ -172,6 +172,36 @@ export const TL_INPUTS_FROM_BRIEFING: readonly ToolInput[] = [
   },
 ];
 
+/** Thought Leadership Builder opened from the Toolbox or a plan step: no
+ *  read to respond to, so what it is about is asked, unless the step says. */
+export const TL_INPUTS_DIRECT: readonly ToolInput[] = [
+  TL_INPUTS_FROM_BRIEFING[0],
+  {
+    id: "topic",
+    label: "What is it about?",
+    hint: "A few words. ExecHQ shapes the rest with you.",
+    kind: "text",
+    placeholder: "What planning season taught me about scope",
+  },
+  TL_INPUTS_FROM_BRIEFING[2],
+  TL_INPUTS_FROM_BRIEFING[3],
+  TL_INPUTS_FROM_BRIEFING[1],
+  TL_INPUTS_FROM_BRIEFING[4],
+];
+
+/** The plan step's own words, when Thought Leadership Builder opens from it. */
+export const TL_TOPIC_FROM_STEP: Record<string, string> = {
+  "linkedin-post": "What I lead, and where it is going",
+};
+
+/** A read's own opening for the post: why the article's point matters, in
+ *  ExecHQ's framing. Read ids from `mock/briefing.ts`. */
+export const READ_OPENINGS: Record<string, string> = {
+  "planning-season": "Most new remits are handed out before anyone posts a role. They are decided in the plan.",
+  "widen-a-remit": "When a marketing remit grows, the question changes from whether the work worked to whether people would follow you again.",
+  "passed-over": "Being reliable can keep you exactly where you are.",
+};
+
 /** What Maya types in the hand-off, for a catalogue variant that is filled. */
 export const TL_MAYA_ANSWERS: Record<string, string> = {
   pov: "The plan is where scope gets decided, so I would rather help write it than wait to see what it says.",
@@ -192,6 +222,8 @@ export const INPUT_COPY = {
   heading: "What this draft needs",
   known: "ExecHQ already has these. Change anything that isn’t right.",
   asked: "Only you can answer these.",
+  /** When everything left to ask is optional. */
+  askedOptional: "Add this if you want to.",
   optional: "Optional",
   edit: "Edit",
   keep: "Keep this",
@@ -282,6 +314,39 @@ export const TL_VERSIONS: readonly DraftVersion[] = [
   { n: 2, when: "Mon 5 Oct, 9:20", what: "Shorter, more direct", sections: POST_V2 },
 ];
 
+export const FLOW_COPY = {
+  back: "Toolbox",
+  backLabel: "Back to the Toolbox",
+  /** Every change is kept as she goes. */
+  saved: "Saved in your library",
+  step: (n: number, of: number) => `Step ${n} of ${of}`,
+  next: "Next",
+  previous: "Back",
+  write: "Write my first draft",
+  /** Concept 1: the step that shows what ExecHQ already has. */
+  knownStep: "Check what ExecHQ has",
+  revise: "Revise",
+  versions: "Versions",
+  inputs: "Inputs",
+  /** Concept 2's peek bar. */
+  peek: "Inputs, changes and versions",
+  showPanel: "Open",
+  hidePanel: "Close",
+  /** Concept 3: the pinned card before and after the first draft. */
+  pinnedEmpty: "Your draft builds here as you answer.",
+  showDraft: "Show draft",
+  hideDraft: "Hide draft",
+  /** Concept 3's opening line, with what she said was coming up. */
+  momentLine: (moment: string) => `You said: “${moment}”`,
+  /** A tool other than Thought Leadership Builder, until the chosen concept
+   *  is built out for all four (Sprint 4 stage 5). A reviewer's note. */
+  laterTool: "This tool’s steps are designed once a Toolbox concept is chosen. Thought Leadership Builder shows how they will work.",
+  reusedFrom: (title: string) => `Started from ${title}`,
+  newTitle: (title: string) => `${title}, new version`,
+  postTitle: (about: string) => `Post: ${about}`,
+  postName: "your post",
+} as const;
+
 export const DRAFT_COPY = {
   /** Never "your post": it is a draft until she marks it ready. */
   label: (n: number) => (n === 1 ? "First draft" : `Draft, version ${n}`),
@@ -342,6 +407,8 @@ export const VERSION_COPY = {
   view: "View",
   restore: "Bring this back",
   restored: (n: number) => `Version ${n} is back, saved as a new version. Nothing was lost.`,
+  /** What a version brought back says it is, in the list. */
+  restoredWhat: (n: number) => `Version ${n}, brought back`,
   count: (n: number) => (n === 1 ? "1 version" : `${n} versions`),
 } as const;
 
@@ -364,6 +431,9 @@ export const USE_COPY = {
   exportWord: "Download as Word",
   exported: (format: string) => `Downloading as ${format}.`,
   markReady: "Mark ready",
+  /** "Mark published", "Mark sent", "Mark used". */
+  markUsed: (kind: ArtifactKind) => `Mark ${ARTIFACT_KINDS[kind].usedLabel.toLowerCase()}`,
+  used: (kind: ArtifactKind) => `Marked ${ARTIFACT_KINDS[kind].usedLabel.toLowerCase()}. ExecHQ will ask what came of it.`,
   ready: "Marked ready. ExecHQ will ask what came of it once you use it.",
   /** Where she can export, by kind: copy for every output, PDF and Word for
    *  the Situation Brief, bios and long-form articles (brief's proposed answer). */
@@ -408,6 +478,8 @@ export interface ArtifactMeta {
   preview: string;
   /** Made in onboarding: the positioning statement, first in the library. */
   fromOnboarding?: boolean;
+  /** The artifact it was made from, when she reused one. */
+  reusedFrom?: string;
 }
 
 /** The artifacts the homepage's five states already hold. */

@@ -4,7 +4,7 @@ import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import { TOOL_ICONS } from "@/components/toolbox/ToolPicker/ToolPicker";
 import { editedWords, type LibraryItem } from "@/lib/library";
-import { LIBRARY_COPY as C } from "@/mock/toolbox";
+import { FLOW_COPY, LIBRARY_COPY as C } from "@/mock/toolbox";
 
 export interface LibraryRowProps {
   item: LibraryItem;
@@ -63,6 +63,12 @@ export function LibraryRow({ item, today, href, onMore, onClose, buildOutHref, h
           </>
         ) : null}
       </p>
+      {item.reusedFrom ? (
+        <p className="library-row__link">
+          <Icon name="copy" size={14} />
+          {FLOW_COPY.reusedFrom(item.reusedFrom)}
+        </p>
+      ) : null}
       {item.readId ? (
         <p className="library-row__link">
           <Icon name="briefing" size={14} />

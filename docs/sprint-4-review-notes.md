@@ -44,7 +44,28 @@ Built once, in the catalogue (`/showroom/components`), for all four tools and al
 - **DraftUseBar.** Copy, worded for what she'll do ("Copy to post on LinkedIn"); PDF and Word only where they are in scope; Mark ready.
 - **The Loop status for a closed artifact now reads "Closed", not "Done"**, everywhere it appears.
 
+## 3a. The Toolbox concepts (stage 4)
+
+Every concept leads with the four tools and puts the library below, per the 11 October amendment. Each pairs a Toolbox page (`/toolbox/concept-N`) with a tool flow (`/toolbox-flow/concept-N`). Thought Leadership Builder runs end to end in all three; the other three tools show their use case and a note until a concept is chosen.
+
+| Concept | Tools | Library | Making a draft |
+| --- | --- | --- | --- |
+| 1 — Tool cards (safe) | 2×2 tiles, one row wider | Filter chips by tool and status | One question per screen ("Step 2 of 3"), then the draft full screen with Revise, Copy and Mark ready in a fixed bar |
+| 2 — Starter row (safe) | One scrolling row of chips | Grouped by plan area, collapsible | The draft full screen; inputs, revisions and versions in a panel pulled up from a peek bar (side panel on desktop) |
+| 3 — Start from the moment (wild card) | "What's coming up?" picks the tool, with the tools as shortcut chips | A timeline by week | An interview, one question per screen, with the draft pinned above as a card that fills in as she answers (side by side on desktop) |
+
+**How the pieces connect.**
+- **The Briefing hand-off** lands in whichever Toolbox concept was opened last (Concept 1 to begin with).
+- **The first draft creates the Loop record**, and the address moves to the artifact, so leaving at any point finds the draft in the library where she left it.
+- **Opening an artifact goes straight to its draft** in every concept.
+- **Inside a tool, the "Ask or go" pill steps aside on phone and tablet**, and the navigation says Toolbox.
+
 ## 4. Decisions made while building (working, not settled)
+
+- **Concept 3 matches a few kinds of moment** (a review or meeting, a pitch or talk, a post or article, an introduction or bio) and says which tool it picked before starting. Anything else asks "Which of these fits?".
+- **Any artifact can be closed at any time**, and closing something that is waiting to hear stops its follow-ups.
+- **Use as a starting point** makes a new draft from the latest version, labelled with what it started from.
+- **Revisions are made without a model.** "Shorter" drops ExecHQ's framing but keeps her words and the questions; "Longer" adds a question for her, never a fact.
 
 - **At least three publishers.** The brief gives no minimum; three matches three reads a day.
 - **The suggested set** leans towards leadership titles because of Maya's direction, with one marketing title.

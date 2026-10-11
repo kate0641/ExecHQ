@@ -20,6 +20,11 @@ export interface InputPanelProps {
   showErrors?: boolean;
   /** Leaves the heading out, where the page already has one. */
   noHeading?: boolean;
+  /** The button's words where it moves on rather than writes: "Next", in a
+   *  guided flow that asks one thing a screen. */
+  submitLabel?: string;
+  /** Leaves out "You don't need anything else to start" (not the last step). */
+  hideNote?: boolean;
   className?: string;
 }
 
@@ -88,6 +93,8 @@ export function InputPanel({
   writing = false,
   showErrors = false,
   noHeading = false,
+  submitLabel,
+  hideNote = false,
   className,
 }: InputPanelProps) {
   const [tried, setTried] = useState(showErrors);
@@ -111,7 +118,7 @@ export function InputPanel({
 
       {asked.length ? (
         <section className="input-panel__group" aria-label={C.asked}>
-          <p className="input-panel__lead">{C.asked}</p>
+          <p className="input-panel__lead">{asked.every((input) => input.optional) ? C.askedOptional : C.asked}</p>
           {asked.map((input) =>
             input.kind === "choice" ? (
               <ChipGroup
@@ -149,9 +156,9 @@ export function InputPanel({
             if (missing.length === 0) onWrite();
           }}
         >
-          {writing ? C.writing : C.write}
+          {writing ? C.writing : (submitLabel ?? C.write)}
         </Button>
-        <p className="input-panel__note">{C.notNeeded}</p>
+        {hideNote ? null : <p className="input-panel__note">{C.notNeeded}</p>}
       </div>
     </div>
   );
