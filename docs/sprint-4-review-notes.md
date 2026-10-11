@@ -31,7 +31,20 @@ All three share the same first visit, reads, reason lines and actions, so the co
 
 **Choosing publishers.** The choice is shared across all three concepts. The dock's reset puts the first visit back.
 
-## 3. Decisions made while building (working, not settled)
+## 3. The shared Toolbox pieces (stage 3)
+
+Built once, in the catalogue (`/showroom/components`), for all four tools and all three Toolbox concepts:
+
+- **ToolUseCase.** One sentence on what the tool makes, one on when to use it, what she'll need, and the step on her plan it serves.
+- **InputPanel.** What ExecHQ already knows arrives filled in, says where it came from ("From your plan", "From your direction") and can be edited. Only what only she can answer is asked.
+- **EnricherCard.** Offered inside the flow, and never a gate. "Not now" is as easy as adding it.
+- **DraftEditor.** Always called a draft. Her words are in full ink; ExecHQ's wording is quieter, with a dotted underline, and there's a key. What only she knows is a dashed question in the text, gathered under the draft to answer, never invented. Any part can be rewritten, and is then hers.
+- **RevisionControls.** Voice, specificity, length, audience and emphasis, one tap each, plus a line in her own words.
+- **VersionHistory.** Every change is saved. Bringing a version back saves it as a new version, so nothing is lost.
+- **DraftUseBar.** Copy, worded for what she'll do ("Copy to post on LinkedIn"); PDF and Word only where they are in scope; Mark ready.
+- **The Loop status for a closed artifact now reads "Closed", not "Done"**, everywhere it appears.
+
+## 4. Decisions made while building (working, not settled)
 
 - **At least three publishers.** The brief gives no minimum; three matches three reads a day.
 - **The suggested set** leans towards leadership titles because of Maya's direction, with one marketing title.
@@ -45,13 +58,14 @@ All three share the same first visit, reads, reason lines and actions, so the co
 - **The Briefing email is now off by default** (Profile → Notifications), as the brief says. It sends at 8 am, local time.
 - **Profile has a new "Daily Briefing" group with a Publishers row.** Concepts 2 and 3 link to it. Profile is approved, so this is a change to an approved page.
 
-## 4. Open questions for the client
+## 5. Open questions for the client
 
 1. **Choosing your own passage (Concept 3, web) needs the whole article inside ExecHQ, and so a licence from each publisher.** A pre-chosen passage is a short quote with its source, which does not need one. If licences are out of scope for the pilot, Concept 3 keeps only the pre-chosen passage.
 2. **Who chooses Concept 3's passage, and who writes its note?** In the pilot's rules-based curation that is either an editor or a model reading the article. Both carry a cost the brief does not price.
 3. **Should the homepage card change with the chosen concept?** It stays as approved for now and opens whichever concept is chosen.
+4. **Telling ExecHQ's wording from hers.** The brief requires that generated framing can be told apart from what she supplied. The draft does this with ink and a dotted underline. Should the mark stay on the copied text? Copy currently takes plain text, with no marks.
 
-## 5. Working decisions from the brief's open questions
+## 6. Working decisions from the brief's open questions
 
 Taken as working answers on 11 October. Confirm with the client:
 

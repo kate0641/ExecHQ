@@ -16493,3 +16493,514 @@ ul.plan-guided__sparks {
 .briefing-sheet .sheet__panel {
   overflow-y: auto;
 }
+
+/* ===========================================================================
+   TOOLBOX: THE SHARED WORKFLOW (Sprint 4)
+   One pattern for all four tools: use case, inputs, draft, revise, versions,
+   copy or export. The tools differ in words, not in these parts.
+   ======================================================================== */
+
+/* --- Use case ------------------------------------------------------------- */
+
+.tool-use-case {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.tool-use-case__name {
+  margin: 0;
+  font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+}
+
+.tool-use-case__name:focus {
+  outline: none;
+}
+
+.tool-use-case__makes {
+  margin: 0;
+  font-size: var(--text-md);
+  line-height: var(--leading-normal);
+}
+
+.tool-use-case__when {
+  margin: 0;
+  color: var(--color-text-secondary);
+  line-height: var(--leading-normal);
+}
+
+.tool-use-case__facts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+}
+
+.tool-use-case__fact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+.tool-use-case__fact-label,
+.input-panel__known-label,
+.draft-editor__label,
+.enricher__eyebrow {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.tool-use-case__needs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  margin: 0;
+  padding-left: var(--space-md);
+  font-size: var(--text-sm);
+}
+
+.tool-use-case__plan {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+/* --- Inputs ---------------------------------------------------------------- */
+
+.input-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.input-panel__heading {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+}
+
+.input-panel__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.input-panel__lead {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+/* What ExecHQ already knows: read like a fact, not a form. */
+.input-panel__known {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-sunken);
+}
+
+.input-panel__known.is-editing {
+  gap: var(--space-xs);
+  align-items: flex-start;
+}
+
+.input-panel__known.is-editing .field {
+  align-self: stretch;
+}
+
+.input-panel__known-value {
+  line-height: var(--leading-normal);
+}
+
+.input-panel__known-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.input-panel__source {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.input-panel__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.input-panel__note {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+/* --- Enricher -------------------------------------------------------------- */
+
+.enricher {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding: var(--space-sm) var(--space-md);
+  border: var(--border-width-thin) dashed var(--color-border-strong);
+  border-radius: var(--radius-card);
+}
+
+.enricher__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3xs);
+}
+
+.enricher__title {
+  margin: 0;
+  font-weight: var(--weight-semibold);
+}
+
+.enricher__why {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.enricher__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  padding-top: var(--space-2xs);
+}
+
+.enricher--added {
+  flex-direction: row;
+  align-items: center;
+  margin: 0;
+  border-style: solid;
+  border-color: var(--color-border);
+  font-size: var(--text-sm);
+}
+
+/* --- The draft ------------------------------------------------------------- */
+
+.draft-editor {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.draft-editor__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs) var(--space-sm);
+}
+
+.draft-editor__intro {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+/* The key: a second cue beside each word, never colour alone. */
+.draft-editor__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs) var(--space-md);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.draft-editor__key::before {
+  content: "Aa";
+  display: inline-block;
+  margin-right: var(--space-3xs);
+  font-family: var(--font-serif);
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+}
+
+.draft-editor__key--exechq::before {
+  text-decoration: underline dotted var(--color-text-secondary);
+  text-decoration-thickness: var(--border-width-medium);
+  text-underline-offset: 0.25em;
+  color: var(--color-text-secondary);
+}
+
+.draft-editor__key--question::before {
+  content: "?";
+  padding: 0 var(--space-2xs);
+  border: var(--border-width-thin) dashed var(--color-border-strong);
+  border-radius: var(--radius-xs);
+  font-family: var(--font-body);
+}
+
+.draft-editor__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+}
+
+.draft-editor.is-revising .draft-editor__body {
+  opacity: 0.5;
+}
+
+.draft-editor__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.draft-editor__section + .draft-editor__section {
+  padding-top: var(--space-md);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+.draft-editor__section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  min-height: var(--button-target);
+}
+
+.draft-editor__section-heading {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.draft-editor__text {
+  margin: 0;
+  font-family: var(--font-serif);
+  word-spacing: var(--word-spacing-normal);
+  font-size: var(--text-md);
+  line-height: var(--leading-relaxed);
+  white-space: pre-line;
+}
+
+.draft-editor__you {
+  color: var(--color-text-primary);
+}
+
+.draft-editor__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding-left: var(--space-md);
+  white-space: normal;
+}
+
+/* ExecHQ's wording: a dotted underline and a quieter ink, so it reads as a
+   suggestion beside her own words. */
+.draft-editor__exechq {
+  color: var(--color-text-secondary);
+  text-decoration: underline dotted var(--color-border-strong);
+  text-decoration-thickness: var(--border-width-medium);
+  text-underline-offset: 0.3em;
+}
+
+.draft-editor__question {
+  padding: 0 var(--space-2xs);
+  border: var(--border-width-thin) dashed var(--color-border-strong);
+  border-radius: var(--radius-xs);
+  background-color: var(--color-surface-sunken);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.draft-editor__edited {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.draft-editor__editing,
+.draft-editor__gaps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.draft-editor__edit-actions {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.draft-editor__gaps {
+  padding: var(--space-md);
+  border: var(--border-width-thin) dashed var(--color-border-strong);
+  border-radius: var(--radius-card);
+}
+
+.draft-editor__gaps-heading {
+  margin: 0;
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+}
+
+.draft-editor__gaps-lead {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.draft-editor__gap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xs);
+}
+
+.draft-editor__gap .field {
+  align-self: stretch;
+}
+
+/* --- Revising -------------------------------------------------------------- */
+
+.revision-controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.revision-controls__heading,
+.version-history__heading {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+}
+
+.revision-controls__options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+/* --- Versions -------------------------------------------------------------- */
+
+.version-history {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.version-history__lead {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.version-history__list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.version-history__item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) 0;
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+.version-history__n {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: var(--border-width-thin) solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.version-history__item.is-showing .version-history__n {
+  border-color: var(--color-text-primary);
+  background-color: var(--color-text-primary);
+  color: var(--color-surface-raised);
+}
+
+.version-history__text {
+  display: flex;
+  flex-direction: column;
+}
+
+.version-history__what {
+  font-weight: var(--weight-semibold);
+}
+
+.version-history__when,
+.version-history__showing {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.version-history__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--space-2xs);
+}
+
+/* --- Using it -------------------------------------------------------------- */
+
+.draft-use {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.draft-use__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.draft-use__ready {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.draft-use__message {
+  display: block;
+  min-height: 1.25em;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}

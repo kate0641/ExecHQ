@@ -118,6 +118,13 @@ import { passageNoteStates } from "./briefing/PassageNote/PassageNote.states";
 import { sourceLabelStates } from "./briefing/SourceLabel/SourceLabel.states";
 import { readCounterStates } from "./briefing/ReadCounter/ReadCounter.states";
 import { briefingEndStates } from "./briefing/BriefingEnd/BriefingEnd.states";
+import { toolUseCaseStates } from "./toolbox/ToolUseCase/ToolUseCase.states";
+import { inputPanelStates } from "./toolbox/InputPanel/InputPanel.states";
+import { enricherCardStates } from "./toolbox/EnricherCard/EnricherCard.states";
+import { draftEditorStates } from "./toolbox/DraftEditor/DraftEditor.states";
+import { revisionControlsStates } from "./toolbox/RevisionControls/RevisionControls.states";
+import { versionHistoryStates } from "./toolbox/VersionHistory/VersionHistory.states";
+import { draftUseBarStates } from "./toolbox/DraftUseBar/DraftUseBar.states";
 export const registry: RegisteredComponent[] = [
   badgeStates,
   buttonStates,
@@ -227,6 +234,13 @@ export const registry: RegisteredComponent[] = [
   sourceLabelStates,
   readCounterStates,
   briefingEndStates,
+  toolUseCaseStates,
+  inputPanelStates,
+  enricherCardStates,
+  draftEditorStates,
+  revisionControlsStates,
+  versionHistoryStates,
+  draftUseBarStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */
