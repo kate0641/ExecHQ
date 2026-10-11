@@ -41,10 +41,6 @@ export interface Flow {
   chrome: NavChrome;
   /** Locks the viewport toggle to web width and disables Mobile and Tablet. */
   webOnly?: boolean;
-  /** The standing privacy line in the chrome footer. Defaults to shown. Turned
-   *  off for Onboarding, where a dedicated privacy screen makes the same promise
-   *  properly and a permanent footer repeating it in small type weakens it. */
-  privacyFooter?: boolean;
   /** The chrome header carrying the wordmark. Defaults to shown. Turned off for
    *  Onboarding, whose first screen carries the wordmark itself; a header
    *  repeating it on every later step would only take room from the question. */
@@ -88,7 +84,6 @@ export const prototypeConfig: PrototypeConfig = {
       title: "Onboarding",
       sprint: 1,
       chrome: "minimal",
-      privacyFooter: false,
       header: false,
       description:
         "The first ninety seconds: privacy promise, career direction, plan selection and one usable artifact — one continuous sequence, never a setup tool.",
@@ -108,7 +103,6 @@ export const prototypeConfig: PrototypeConfig = {
       sprint: 2,
       chrome: "minimal",
       header: false,
-      privacyFooter: false,
       description:
         "Returning to a private account. Personal email only; no employer visible anywhere.",
       concepts: [
@@ -144,7 +138,6 @@ export const prototypeConfig: PrototypeConfig = {
       title: "Homepage",
       sprint: 2,
       chrome: "app",
-      privacyFooter: false,
       description:
         "The signed-in landing surface: current direction, what to do next, and the way into the Plan, Toolbox and Briefing.",
       concepts: [
@@ -162,7 +155,6 @@ export const prototypeConfig: PrototypeConfig = {
       title: "Profile",
       sprint: 2,
       chrome: "app",
-      privacyFooter: false,
       description:
         "Direction, signal background and settings — all optional, none of it a completion gate.",
       concepts: [
@@ -180,7 +172,6 @@ export const prototypeConfig: PrototypeConfig = {
       title: "Plan",
       sprint: 3,
       chrome: "app",
-      privacyFooter: false,
       description:
         "Roadmap, action steps and plan progress in one place. Factual, never a score.",
       stub: {
@@ -208,7 +199,6 @@ export const prototypeConfig: PrototypeConfig = {
       title: "Signal Picture",
       sprint: 3,
       chrome: "app",
-      privacyFooter: false,
       description:
         "The home of the Signal Picture and Momentum: what she has put out there, where she started beside where she is now, and how her follow-through is going. Factual, never a score.",
       stub: {

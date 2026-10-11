@@ -2046,18 +2046,6 @@ ul.chrome__nav-list {
   padding: var(--space-xl) var(--space-lg);
 }
 
-.chrome__footer {
-  padding: var(--space-md) var(--space-lg);
-  border-top: var(--border-width-thin) solid var(--color-border);
-}
-
-.chrome__footer-text {
-  max-width: var(--viewport-web-max);
-  margin-inline: auto;
-  font-size: var(--text-xs);
-  color: var(--color-text-muted);
-}
-
 /* Mobile: the primary nav becomes a bottom tab bar. It stays before `main` in
    the DOM — reading order is navigation then content — and is moved visually
    with flex `order`. */
@@ -2077,10 +2065,6 @@ ul.chrome__nav-list {
 [data-viewport="mobile"] .chrome__main {
   order: 2;
   padding: var(--space-screen-top) var(--space-screen-side);
-}
-
-[data-viewport="mobile"] .chrome__footer {
-  order: 4;
 }
 
 [data-viewport="mobile"] .chrome__nav-list {
