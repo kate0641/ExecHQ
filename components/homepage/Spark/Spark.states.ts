@@ -28,7 +28,7 @@ export const sparkStates = defineComponentStates({
   variants: [
     { label: "One note — default", props: { ...base, items: [podcast] } },
     { label: "Two notes", props: { ...base, items: [press, speaking] } },
-    { label: "Dismissed with an ×, Congratulations before the source — as in Home's Signal Picture", props: { ...base, items: [press], closeIcon: true, kicker: S.kicker } },
+    { label: "Dismissed with an ×, Great job before the source — as in Home's Signal Picture", props: { ...base, items: [press], closeIcon: true, kicker: S.kicker } },
     {
       label: "Added for you — with a way to hide it",
       description: "On the Signal Picture, when ExecHQ recorded something she did not add herself. It says so, and if the system got it wrong she can hide it from her picture.",

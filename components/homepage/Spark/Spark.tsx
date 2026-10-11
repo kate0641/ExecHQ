@@ -27,7 +27,7 @@ export interface SparkProps {
   tone?: "note" | "celebrate";
   /** Dismiss with an × rather than the word (Home's Signal Picture strip). */
   closeIcon?: boolean;
-  /** A word before the source, set off by a dot: "Congratulations · Press". */
+  /** A word before the source, set off by a dot: "Great job · Press". */
   kicker?: string;
   className?: string;
 }
