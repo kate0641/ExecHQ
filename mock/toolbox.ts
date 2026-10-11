@@ -472,6 +472,16 @@ export const USE_COPY = {
 export const USE_CASE_COPY = {
   needsHeading: "You’ll need",
   planHeading: "On your plan",
+  /** Under the first choice, when her plan step chose it (option C). */
+  fromPlan: "Chosen from your plan step. Change it if it’s not right.",
+  goesWith: "Goes with this",
+  /** The button, once the first choice says what it makes. */
+  startWith: (kind: ArtifactKind, choice: string): string => {
+    const c = choice.toLowerCase();
+    if (kind === "pitch") return `Start a ${c} pitch`;
+    if (kind === "thought-leadership") return c === "linkedin post" ? "Start a post" : `Start a ${c}`;
+    return TOOLS[kind].start;
+  },
   /** When she came from a read: the source arrives with her. */
   fromBriefing: "Started from today’s Briefing",
 } as const;
@@ -842,4 +852,30 @@ export const POSITIONING_COPY = {
     what: "Bios and narrative refreshed from your statement",
   },
   nextUse: "Use the short bio wherever you are introduced, and the narrative to open your next conversation about scope.",
+} as const;
+
+/* -----------------------------------------------------------------------------
+   GOES WITH THIS (the use case screen, option C)
+   At most two pieces of work this draws on or leads to, each with one small
+   action. Her positioning statement nearly always appears: every tool draws
+   on it. Descriptions say what each is for, never what it will achieve.
+   -------------------------------------------------------------------------- */
+
+export const GOES_WITH = {
+  /** Her statement, as other tools draw on it, by the tool being opened. */
+  drawsOn: {
+    pitch: "Your pitch draws on it for who you are.",
+    "situation-brief": "Your opening statement draws on it.",
+    "thought-leadership": "Your post draws on it for what you lead.",
+    positioning: "",
+  } as Record<ArtifactKind, string>,
+  /** The work that uses her statement, from Positioning Builder. */
+  usesStatement: "Uses your statement. Refresh it when your statement changes.",
+  lastPitch: "Your last pitch. Start from it instead of a blank page.",
+  waiting: "Still waiting to hear. Worth raising in the conversation.",
+  todaysRead: "Write about today’s read, with it as your source.",
+  todaysReadStatus: "Today’s Briefing",
+  open: "Open",
+  reuse: "Use as a start",
+  startFrom: "Start from it",
 } as const;

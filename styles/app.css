@@ -16681,13 +16681,58 @@ ul.plan-guided__sparks {
   gap: var(--space-sm);
 }
 
+/* Web: the drawing beside the decision, held in view as the decision scrolls. */
+[data-viewport="web"] .tool-use-case {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-xl);
+}
+
+/* On a phone and tablet the drawing is kept short, so the start button stays
+   on the first screen. */
+.tool-use-case__picture {
+  display: grid;
+  place-items: center;
+  height: 8.5rem;
+  padding: var(--space-sm);
+  border: var(--border-width-thin) solid var(--illustration-card-border);
+  border-radius: var(--radius-xl);
+  background-color: var(--illustration-card);
+}
+
+.tool-use-case__picture .tool-illustration {
+  width: auto;
+  height: 100%;
+}
+
+[data-viewport="web"] .tool-use-case__picture {
+  position: sticky;
+  top: var(--space-md);
+  height: auto;
+  aspect-ratio: 1 / 1;
+  max-width: 100%;
+}
+
+[data-viewport="web"] .tool-use-case__picture .tool-illustration {
+  width: 70%;
+  height: auto;
+}
+
+.tool-use-case__decide {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  min-width: 0;
+}
+
 .tool-use-case__name {
   margin: 0;
   font-family: var(--font-display);
   word-spacing: var(--font-display-word-spacing);
   letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-2xl);
-  font-weight: var(--weight-semibold);
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
 }
 
@@ -16701,54 +16746,68 @@ ul.plan-guided__sparks {
   line-height: var(--leading-normal);
 }
 
-.tool-use-case__when {
+.tool-use-case__when,
+.tool-use-case__needs {
   margin: 0;
-  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
   line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
 }
 
-.tool-use-case__facts {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  padding: var(--space-card-padding);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
-}
-
-.tool-use-case__fact {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3xs);
-}
-
-.tool-use-case__fact-label,
-.input-panel__known-label,
-.draft-editor__label,
-.enricher__eyebrow {
-  font-size: var(--text-xs);
+.tool-use-case__needs-label,
+.tool-use-case__plan-label {
   font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.tool-use-case__plan {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: var(--space-sm);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-raised);
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+}
+
+.tool-use-case__plan-label {
+  display: block;
+  font-size: var(--text-xs);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--color-text-secondary);
 }
 
-.tool-use-case__needs {
+.tool-use-case__choice {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3xs);
-  margin: 0;
-  padding-left: var(--space-md);
-  font-size: var(--text-sm);
+  gap: var(--space-2xs);
 }
 
-.tool-use-case__plan {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2xs);
-  font-size: var(--text-sm);
+.tool-use-case__from-plan {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.tool-use-case__goes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-top: var(--space-xs);
+  padding-top: var(--space-sm);
+  border-top: var(--border-width-thin) solid var(--color-text-primary);
+}
+
+.tool-use-case__goes-heading {
+  margin: 0;
+  font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
 }
 
 /* --- Inputs ---------------------------------------------------------------- */

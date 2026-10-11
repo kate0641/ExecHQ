@@ -60,6 +60,8 @@ Every concept leads with the four tools and puts the library below, per the 11 O
 - **Opening an artifact goes straight to its draft** in every concept.
 - **Inside a tool, the "Ask or go" pill steps aside on phone and tablet**, and the navigation says Toolbox.
 
+**The first screen of every tool (option C, chosen 11 October).** The tool's detailed drawing, then the decision: its name set large, what it makes, when to use it, what she'll need, the plan step, and the tool's first question beside one button that says what it will make ("Start a podcast pitch"). What her plan step already says is chosen for her and marked. Concepts 1 and 2 then don't ask that question again; Concept 3 keeps its own interview opening. Under the button, "Goes with this": at most two pieces of her work, each with one action (her statement, which every tool draws on; her last pitch to start from; a pitch still waiting to hear; today's read).
+
 ## 4. Decisions made while building (working, not settled)
 
 - **Concept 3 matches a few kinds of moment** (a review or meeting, a pitch or talk, a post or article, an introduction or bio) and says which tool it picked before starting. Anything else asks "Which of these fits?".

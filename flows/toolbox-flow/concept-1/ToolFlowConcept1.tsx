@@ -48,7 +48,11 @@ function GuidedSteps() {
     );
   }
 
-  const total = f.asked.length + 1;
+  // The use case screen asks the tool's first question beside its button, so
+  // the steps after it leave that one out.
+  const asked = f.notFirst(f.asked);
+  const rest = f.notFirst(f.rest);
+  const total = asked.length + 1;
   const go = (next: number) => {
     setError(undefined);
     setAt(next);
@@ -59,10 +63,7 @@ function GuidedSteps() {
     return (
       <div className="tool-flow tool-flow--guided">
         {f.header}
-        {f.useCase}
-        <Button fullWidth onClick={() => go(0)}>
-          {f.tool.start}
-        </Button>
+        {f.useCase({ onStart: () => go(0) })}
       </div>
     );
   }
@@ -73,8 +74,8 @@ function GuidedSteps() {
     </Button>
   );
 
-  if (at < f.asked.length) {
-    const input = f.asked[at];
+  if (at < asked.length) {
+    const input = asked[at];
     return (
       <div className="tool-flow tool-flow--guided">
         {f.header}
@@ -112,7 +113,7 @@ function GuidedSteps() {
     <div className="tool-flow tool-flow--guided">
       {f.header}
       <StepHeader eyebrow={C.step(total, total)} title={C.knownStep} id={STEP_HEADING} />
-      {f.inputPanel(f.rest)}
+      {f.inputPanel(rest)}
       <div className="tool-flow__step-actions">{back}</div>
     </div>
   );

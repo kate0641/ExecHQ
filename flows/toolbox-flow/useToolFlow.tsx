@@ -6,6 +6,9 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Input } from "@/components/form/Input";
 import { Button } from "@/components/primitives/Button";
 import { EnricherCard } from "@/components/toolbox/EnricherCard";
+import { List, type ListItemData } from "@/components/layout/List";
+import { TOOL_ICONS } from "@/components/toolbox/ToolPicker/ToolPicker";
+import { respondHref } from "@/lib/briefing-store";
 import { fullName } from "@/mock/account";
 import { SourceLabel } from "@/components/briefing/SourceLabel";
 import { LoopStatus } from "@/components/loop/LoopStatus";
@@ -16,7 +19,7 @@ import { InputPanel } from "@/components/toolbox/InputPanel";
 import { RevisionControls, type RevisionChoice } from "@/components/toolbox/RevisionControls/RevisionControls";
 import { ToolUseCase } from "@/components/toolbox/ToolUseCase";
 import { VersionHistory } from "@/components/toolbox/VersionHistory";
-import { addDays, aheadPhrase, createRecord, daysBetween, datePhrase, shortDate } from "@/lib/loop";
+import { addDays, aheadPhrase, createRecord, daysBetween, datePhrase, shortDate, type LoopRecord } from "@/lib/loop";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { briefDraft, draftText, firstDraft, pitchDraft, positioningDraft, revise, revisionLabel, statementOnly } from "@/lib/toolbox-draft";
@@ -38,6 +41,8 @@ import {
   ENRICHERS,
   STEP_PREFILLS,
   TOOL_COPY,
+  GOES_WITH,
+  USE_CASE_COPY,
   REVISION_COPY,
   USE_COPY,
   TL_INPUTS_DIRECT,
@@ -212,6 +217,10 @@ export function useToolFlow(concept: FlowConcept) {
    *  ExecHQ already knows, and anything optional, go on one last screen. */
   const asked = inputs.filter((i) => !(i.source && i.kind !== "choice") && !i.optional);
   const rest = inputs.filter((i) => !asked.includes(i));
+  /** The tool's first question, which the use case screen asks beside its
+   *  button (option C), so Concepts 1 and 2 do not ask it again. */
+  const firstChoice = inputs.find((i) => i.kind === "choice");
+  const notFirst = (list: readonly ToolInput[]) => list.filter((i) => i !== firstChoice);
   const [writing, setWriting] = useState(false);
 
   function write() {
@@ -331,12 +340,88 @@ export function useToolFlow(concept: FlowConcept) {
     </div>
   ) : null;
 
-  const useCase: ReactNode = (
+  /** What this work goes with: at most two pieces she already has, each with
+   *  one action. Her statement nearly always, since every tool draws on it. */
+  const goesWith = (): ReactNode => {
+    const flowHref = conceptHref("toolbox-flow", concept);
+    const rows: ListItemData[] = [];
+    const statement = loop.records.find((r) => r.kind === "positioning");
+    const recordRow = (r: LoopRecord, note: string, action: string, href: string): ListItemData => ({
+      id: r.id,
+      primary: r.title,
+      secondary: (
+        <>
+          <LoopStatus record={r} detail={false} className="library__status" /> {note}
+        </>
+      ),
+      leading: { type: "icon", name: TOOL_ICONS[r.kind] },
+      trailing: {
+        actions: (
+          <Link href={href} className="btn btn--secondary btn--sm">
+            {action}
+            <span className="u-visually-hidden"> {r.title}</span>
+          </Link>
+        ),
+      },
+    });
+    if (kind === "positioning") {
+      loop.records
+        .filter((r) => r.kind !== "positioning" && r.state !== "closed")
+        .slice(0, 2)
+        .forEach((r) => rows.push(recordRow(r, GOES_WITH.usesStatement, GOES_WITH.open, `${flowHref}?artifact=${r.id}`)));
+    } else {
+      if (statement) rows.push(recordRow(statement, GOES_WITH.drawsOn[kind], GOES_WITH.open, `${flowHref}?artifact=${statement.id}`));
+      if (kind === "pitch") {
+        const last = loop.records.find((r) => r.kind === "pitch");
+        if (last) rows.push(recordRow(last, GOES_WITH.lastPitch, GOES_WITH.reuse, `${flowHref}?reuse=${last.id}`));
+      } else if (kind === "situation-brief") {
+        const waiting = loop.records.find((r) => r.state === "waiting" && r.kind !== "situation-brief");
+        if (waiting) rows.push(recordRow(waiting, GOES_WITH.waiting, GOES_WITH.open, `${flowHref}?artifact=${waiting.id}`));
+      } else if (kind === "thought-leadership" && !read) {
+        const lead = TODAYS_READS[0];
+        rows.unshift({
+          id: lead.id,
+          primary: lead.title,
+          secondary: `${GOES_WITH.todaysReadStatus} · ${GOES_WITH.todaysRead}`,
+          leading: { type: "icon", name: "briefing" },
+          trailing: {
+            actions: (
+              <Link href={respondHref(lead.id, undefined, concept)} className="btn btn--secondary btn--sm">
+                {GOES_WITH.startFrom}
+                <span className="u-visually-hidden"> {lead.title}</span>
+              </Link>
+            ),
+          },
+        });
+      }
+    }
+    const shown = rows.slice(0, 2);
+    return shown.length ? <List items={shown} label={USE_CASE_COPY.goesWith} dividers="full" /> : null;
+  };
+
+  /** Whether her plan step chose the first answer, and it still stands. */
+  const choiceFromPlan = Boolean(firstChoice && fromStep[firstChoice.id] && valueOf(firstChoice.id) === fromStep[firstChoice.id]);
+
+  const useCase = (options: { onStart?: () => void; noStart?: boolean } = {}): ReactNode => (
     <ToolUseCase
       tool={tool}
       planStep={step?.title}
       source={source}
-      noStart
+      choice={
+        firstChoice
+          ? {
+              label: firstChoice.label,
+              options: firstChoice.options ?? [],
+              value: valueOf(firstChoice.id),
+              onChange: (value) => setValue(firstChoice.id, value),
+              note: choiceFromPlan ? USE_CASE_COPY.fromPlan : undefined,
+            }
+          : undefined
+      }
+      startLabel={firstChoice && valueOf(firstChoice.id) ? USE_CASE_COPY.startWith(kind, valueOf(firstChoice.id)) : undefined}
+      onStart={options.onStart}
+      noStart={options.noStart ?? !options.onStart}
+      goesWith={goesWith()}
       headingLevel={1}
       headingId={TOOL_TITLE_ID}
     />
@@ -587,6 +672,8 @@ export function useToolFlow(concept: FlowConcept) {
     inputs,
     asked,
     rest,
+    firstChoice,
+    notFirst,
     valueOf,
     setValue,
     write,

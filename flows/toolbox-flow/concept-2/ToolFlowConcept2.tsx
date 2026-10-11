@@ -35,7 +35,8 @@ function Workspace() {
             ))}
         </dl>
       )
-    : f.inputPanel();
+    : // The first question is on the use case screen above, so the panel leaves it out.
+      f.inputPanel(f.notFirst(f.inputs));
 
   const tabs = hasDraft
     ? [
@@ -57,7 +58,7 @@ function Workspace() {
           </>
         ) : (
           <>
-            {f.useCase}
+            {f.useCase({ noStart: true })}
             <p className="tool-flow__placeholder">{C.pinnedEmpty}</p>
           </>
         )}
