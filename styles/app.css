@@ -12726,6 +12726,14 @@ ul.map-rings {
 
 .map-rings__done { stroke: var(--color-ring-done); }
 .map-rings__track { stroke: var(--color-ring-track); }
+/* Over the sky, the rings not chosen carry the faintest white edge, so
+   they sit on the sky rather than in it (designer, 2026-10-11, trial). */
+.map-home .map-rings__ring:not([aria-pressed="true"]) .map-rings__svg {
+  filter:
+    drop-shadow(0 0 0.5px var(--color-halo))
+    drop-shadow(0 0 1px color-mix(in srgb, var(--color-halo) 70%, transparent));
+}
+
 /* Over the sky, the rings not chosen draw their track in white (trial). */
 .map-home .map-rings__ring:not([aria-pressed="true"]) .map-rings__track { stroke: var(--color-ring-track-on-sky); }
 /* --fade is how far along the in-progress band a slice sits, 0% to 100%. */
