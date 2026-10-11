@@ -281,8 +281,8 @@
   --color-sky-day-top-ring: var(--brand-yellow-200);
   --color-sky-dusk-top-core: var(--brand-yellow-400);
   --color-sky-dusk-top-ring: var(--brand-orange-400);
-  --color-sky-night-top-core: var(--brand-blue-800);  /* dark navy where day has its golden centre (designer, 2026-10-11) */
-  --color-sky-night-top-ring: var(--brand-blue-700);  /* dusk at the top of the screen when the sky is turned the other way up (trial): dark text holds 6.9:1 */
+  --color-sky-night-top-core: var(--brand-blue-900);  /* the darkest navy where day has its golden centre (designer, 2026-10-11) */
+  --color-sky-night-top-ring: var(--brand-blue-800);
   --color-sky-night-top: var(--brand-blue-900);
   --color-sky-night: var(--brand-blue-800);
   --color-sky-night-low: var(--brand-blue-700);
