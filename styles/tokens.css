@@ -710,6 +710,16 @@
   /* Cast upward, so each card reads as lying over the one before it. */
   --deck-shadow: 0 calc(-1 * var(--space-2xs)) var(--space-md) rgb(var(--shadow-rgb) / 0.1);
 
+  /* Briefing Concept 2's picture panels: stand-ins for article images until
+     image rights are settled, one tint per read with the publisher named. */
+  --briefing-picture-1: var(--brand-blue-300);
+  --briefing-picture-1-ink: var(--brand-blue-700);
+  --briefing-picture-2: var(--brand-yellow-300);
+  --briefing-picture-2-ink: var(--brand-yellow-800);
+  --briefing-picture-3: var(--brand-stone-300);
+  --briefing-picture-3-ink: var(--brand-stone-700);
+  --briefing-picture-stripe: var(--color-surface-raised);
+
   /* ---------------------------------------------------------------------------
      LISTS — rows of items (components/layout/List): one or two lines, a
      leading icon, avatar or checkbox, and trailing badges, metadata or

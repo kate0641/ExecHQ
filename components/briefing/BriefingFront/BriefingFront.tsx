@@ -1,0 +1,82 @@
+import { Icon } from "@/components/primitives/Icon";
+import { BriefingPicture } from "@/components/briefing/BriefingPicture";
+import { BRIEFING_COPY as C, publisherName, type BriefingRead } from "@/mock/briefing";
+
+export interface BriefingFrontProps {
+  reads: readonly BriefingRead[];
+  onOpen: (index: number) => void;
+  isRead?: (id: string) => boolean;
+  headingLevel?: 2 | 3;
+  /** Catalogue only: shows the lead in a state a static page can't reach. */
+  demo?: "hover" | "focus" | "active";
+  className?: string;
+}
+
+const place = (i: number) => ((i % 3) + 1) as 1 | 2 | 3;
+
+/**
+ * Briefing Concept 2's front page, after a news app (option A, chosen 11
+ * October): the first read as the lead story with a big picture, the other
+ * two as rows with a small one. Every story carries why it is here. There are
+ * only ever three, all on the first screen; no topic tabs, no counts, no
+ * times. Each story opens its read.
+ *
+ * On web the lead takes the left and the rows the right.
+ */
+export function BriefingFront({ reads, onOpen, isRead, headingLevel = 2, demo, className }: BriefingFrontProps) {
+  const Heading = `h${headingLevel}` as const;
+  const [lead, ...rest] = reads;
+
+  const byline = (read: BriefingRead) => (
+    <span className="briefing-front2__pub">
+      <span>{publisherName(read.publisherId)}</span>
+      {isRead?.(read.id) ? (
+        <span className="briefing-front2__read">
+          <Icon name="check" size={12} />
+          {C.read.readState}
+        </span>
+      ) : null}
+    </span>
+  );
+  const why = (read: BriefingRead) => (
+    <span className="briefing-front2__why">
+      <span className="briefing-front2__why-label">{C.read.reasonLabel}: </span>
+      {read.reason}
+    </span>
+  );
+
+  return (
+    <div className={["briefing-front2", className].filter(Boolean).join(" ")}>
+      <article className={["briefing-front2__lead", demo ? `is-${demo}` : null].filter(Boolean).join(" ")}>
+        <BriefingPicture place={1} publisher={publisherName(lead.publisherId)} size="lead" />
+        {byline(lead)}
+        <Heading className="briefing-front2__headline briefing-front2__headline--lead">
+          <button type="button" className="briefing-front2__open" onClick={() => onOpen(0)}>
+            {lead.title}
+          </button>
+        </Heading>
+        {why(lead)}
+      </article>
+      <ul className="briefing-front2__rows">
+        {rest.map((read, j) => (
+          <li key={read.id}>
+            <article className="briefing-front2__row">
+              <span className="briefing-front2__text">
+                {byline(read)}
+                <Heading className="briefing-front2__headline">
+                  <button type="button" className="briefing-front2__open" onClick={() => onOpen(j + 1)}>
+                    {read.title}
+                  </button>
+                </Heading>
+                {why(read)}
+              </span>
+              <BriefingPicture place={place(j + 1)} publisher={publisherName(read.publisherId)} size="thumb" />
+            </article>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default BriefingFront;

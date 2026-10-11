@@ -7,6 +7,8 @@ export interface BriefingReaderProps {
   read: BriefingRead;
   /** The read's actions (`ReadActions`). */
   actions?: ReactNode;
+  /** Above the headline: the article's picture (Concept 2, `BriefingPicture`). */
+  picture?: ReactNode;
   onClose?: () => void;
   headingId?: string;
   className?: string;
@@ -18,10 +20,11 @@ export interface BriefingReaderProps {
  * under it. Opening it counts as reading it. In the product the article is
  * read on the publisher's site; ExecHQ never shows the whole of it.
  */
-export function BriefingReader({ read, actions, onClose, headingId, className }: BriefingReaderProps) {
+export function BriefingReader({ read, actions, picture, onClose, headingId, className }: BriefingReaderProps) {
   const publisher = publisherName(read.publisherId);
   return (
     <div className={["brief-reader", className].filter(Boolean).join(" ")}>
+      {picture}
       <div className="brief-reader__head">
         <span className="brief-reader__publisher">{publisher}</span>
         {onClose ? (

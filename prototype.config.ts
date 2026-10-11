@@ -293,9 +293,9 @@ export const prototypeConfig: PrototypeConfig = {
         },
         {
           slug: "concept-2",
-          title: "Concept 2 — One at a time",
+          title: "Concept 2 — News app",
           summary:
-            "One read fills the screen, 1 of 3 at the top and Next in the thumb zone, then That’s today’s three.",
+            "A front page like a news app: the lead story with a big picture, two rows with small ones, each saying why it is here. A story opens a reader screen with a bar at the foot: Back, Relevant, Not for me, Save, Write a post.",
         },
         {
           slug: "concept-3",

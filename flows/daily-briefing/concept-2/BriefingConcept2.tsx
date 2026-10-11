@@ -2,93 +2,98 @@
 
 import { useState } from "react";
 import { BriefingEnd } from "@/components/briefing/BriefingEnd";
-import { BriefingReadCard } from "@/components/briefing/BriefingReadCard";
+import { BriefingFront } from "@/components/briefing/BriefingFront";
+import { BriefingPicture } from "@/components/briefing/BriefingPicture";
 import { BriefingReader } from "@/components/briefing/BriefingReader";
 import { ReadCounter } from "@/components/briefing/ReadCounter";
+import { ReaderBar } from "@/components/briefing/ReaderBar";
 import { Button } from "@/components/primitives/Button";
 import { briefingActions } from "@/lib/briefing-store";
-import { BRIEFING_COPY as C } from "@/mock/briefing";
+import { useViewport } from "@/lib/viewport-context";
+import { BRIEFING_COPY as C, publisherName } from "@/mock/briefing";
 import { focusSoon, TITLE_ID, useBriefingPage } from "../useBriefingPage";
 
 const READ_HEADING = "briefing-read-heading";
-const END_HEADING = "briefing-end";
 
 /**
- * Daily Briefing, Concept 2 — One at a time. One of the two safe concepts,
- * native to the phone.
+ * Daily Briefing, Concept 2 — the news app (option A, chosen 11 October). One
+ * of the two safe concepts.
  *
- * One read fills the screen with "1 of 3" at the top and Next in the bottom
- * thumb zone: a tap, not a swipe. Next counts the read as seen. A quiet Back
- * and "See all three" sit beside the count, so Next is never the only way
- * through. After the third, the last screen says "That's today's three." On
- * web the read is a centred card with the count and Next in the same places.
+ * A front page as a news app opens on: the first read as the lead story with
+ * a big picture, the other two as rows with a small one, each with why it is
+ * here, then "That's today's three". Each story opens a reader screen: "1
+ * of 3", the picture, the read, Next, and a bar (Back, Relevant, Not for me,
+ * Save, Write a post) in the Ask or go pill's place: along the foot of a
+ * phone, floating on tablet and web. On web the lead takes the left of the
+ * front page.
  *
+ * It keeps the Briefing's limits: only ever three, no topic tabs, no counts,
+ * no times. The pictures are stand-ins until image rights are settled.
  * Publishers are changed in Profile.
  */
 export function BriefingConcept2() {
   const p = useBriefingPage();
-  const [at, setAt] = useState(0);
+  const phone = useViewport().viewport === "mobile";
+  const [at, setAt] = useState<number | null>(null);
   if (p.firstVisit) return p.firstVisit;
 
   const total = p.reads.length;
-  const go = (next: number) => {
+  /** Opens a read (reading it), or goes back to the front page. */
+  const go = (next: number | null) => {
+    const from = at;
+    if (next !== null) {
+      briefingActions.markRead(p.reads[next].id);
+      p.completeStep();
+    }
     setAt(next);
-    // Each read starts from the top of the screen, as a new page would.
     setTimeout(() => document.getElementById(TITLE_ID)?.scrollIntoView({ block: "start" }), 0);
-    focusSoon(next >= total ? END_HEADING : READ_HEADING);
+    if (next !== null) focusSoon(READ_HEADING);
+    else setTimeout(() => document.querySelectorAll<HTMLElement>(".briefing-front2__open")[from ?? 0]?.focus(), 0);
   };
 
-  if (at >= total) {
+  if (at === null) {
     return (
-      <div className="briefing-page briefing-page--one">
+      <div className="briefing-page briefing-page--news">
         {p.header}
-        <div className="briefing-one">
-          <ReadCounter at={total} of={total} onBack={() => go(total - 1)} className="briefing-one__counter" />
-          <BriefingEnd layout="screen" headingId={END_HEADING}>
-            <ul className="brief-end__reads">
-              {p.reads.map((read, i) => (
-                <li key={read.id}>
-                  <BriefingReadCard read={read} layout="row" headingLevel={3} isRead={p.stateOf(read.id).read} onOpen={() => go(i)} />
-                </li>
-              ))}
-            </ul>
-            <div className="brief-end__links">
-              {p.savedLink}
-              {p.publishersInProfile}
-            </div>
-          </BriefingEnd>
-        </div>
+        <BriefingFront reads={p.reads} onOpen={go} isRead={(id) => Boolean(p.stateOf(id).read)} />
+        <BriefingEnd allRead={p.allRead} headingId="briefing-end">
+          <div className="brief-end__links">
+            {p.savedLink}
+            {p.publishersInProfile}
+          </div>
+        </BriefingEnd>
         {p.sheet}
       </div>
     );
   }
 
   const read = p.reads[at];
+  const s = p.stateOf(read.id);
+  const ack = s.relevance === "yes" ? C.relevance.ackYes : s.relevance === "no" ? C.relevance.ackNo : null;
   return (
-    <div className="briefing-page briefing-page--one">
+    <div className="briefing-page briefing-page--news briefing-page--reading">
       {p.header}
-      <div className="briefing-one">
-        <ReadCounter
-          at={at + 1}
-          of={total}
-          onBack={at > 0 ? () => go(at - 1) : undefined}
-          onToEnd={() => go(total)}
-          className="briefing-one__counter"
-        />
-        <BriefingReader read={read} headingId={READ_HEADING} actions={p.actionsFor(read)} className="briefing-one__read" />
-        <div className="briefing-one__next">
-          <Button
-            fullWidth
-            onClick={() => {
-              briefingActions.markRead(read.id);
-              p.completeStep();
-              go(at + 1);
-            }}
-          >
-            {C.oneAtATime.next}
-          </Button>
-        </div>
-      </div>
+      <ReadCounter at={at + 1} of={total} />
+      <BriefingReader
+        read={read}
+        headingId={READ_HEADING}
+        picture={<BriefingPicture place={((at % 3) + 1) as 1 | 2 | 3} publisher={publisherName(read.publisherId)} size="reader" />}
+        actions={ack ? <p className="briefing-news__ack">{ack}</p> : undefined}
+      />
+      <Button fullWidth onClick={() => go(at + 1 < total ? at + 1 : null)}>
+        {at + 1 < total ? C.oneAtATime.nextRead(publisherName(p.reads[at + 1].publisherId)) : C.oneAtATime.finish}
+      </Button>
+      <ReaderBar
+        title={read.title}
+        onBack={() => go(null)}
+        relevance={s.relevance}
+        onRelevance={(r) => p.setRelevance(read.id, r)}
+        saved={Boolean(s.saved)}
+        onSave={(v) => p.setSaved(read.id, v)}
+        respondHref={p.respond(read.id)}
+        onRespond={p.completeStep}
+        docked={phone}
+      />
       {p.sheet}
     </div>
   );

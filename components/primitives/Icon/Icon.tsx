@@ -53,6 +53,8 @@ export type IconName =
   | "refresh"
   | "undo"
   | "bookmark"
+  | "thumb-up"
+  | "thumb-down"
   | "star"
   | "settings"
   | "sliders"
@@ -346,6 +348,9 @@ const PATHS: Record<IconName, React.ReactNode> = {
   ),
   undo: <path d="M7.5 4.5 4 8l3.5 3.5M4 8h7.5a4.5 4.5 0 0 1 0 9H9" />,
   bookmark: <path d="M5.5 3.5h9v14L10 14l-4.5 3.5z" />,
+  // Relevance feedback on a Briefing read: worth it, or not for me.
+  "thumb-up": <path d="M6.5 9 9.5 3.5a1.7 1.7 0 0 1 2.3 2.1L11 8.5h4.3a1.5 1.5 0 0 1 1.5 1.8l-1.2 5.4a1.5 1.5 0 0 1-1.5 1.3H6.5zM3.5 9h3v8h-3z" />,
+  "thumb-down": <path d="M13.5 11l-3 5.5a1.7 1.7 0 0 1-2.3-2.1L9 11.5H4.7a1.5 1.5 0 0 1-1.5-1.8l1.2-5.4a1.5 1.5 0 0 1 1.5-1.3h7.6zM16.5 11h-3V3h3z" />,
   // A fuller body than a classic star, so its points are short, not spiky.
   star: <path d="M10 3l2.23 4.33 4.81.78-3.43 3.46.74 4.82L10 14.2l-4.35 2.19.74-4.82-3.43-3.46 4.81-.78z" />,
   // Six slim teeth: reads as settings at 16px without blurring into a ring.

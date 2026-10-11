@@ -210,8 +210,25 @@ export const BRIEFING_COPY = {
   oneAtATime: {
     count: (n: number, of: number) => `${n} of ${of}`,
     next: "Next",
+    /** Concept 2's news-app reader: the next read by its publisher. */
+    nextRead: (publisher: string) => `Next: ${publisher}`,
+    /** After the third read: back to the front page. */
+    finish: "That’s today’s three",
+    front: "Today’s three",
     back: "Back",
     toEnd: "See all three",
+  },
+
+  /* --- Concept 2: the reader's action bar --------------------------------- */
+  bar: {
+    label: "Actions for this read",
+    back: "Back",
+    relevant: "Relevant",
+    notForMe: "Not for me",
+    save: "Save",
+    saved: "Saved",
+    post: "Post",
+    postFull: "Write a post about this",
   },
 
   /* --- Concept 1: the deck ---------------------------------------------- */

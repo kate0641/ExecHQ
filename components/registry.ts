@@ -137,6 +137,9 @@ import { listStates } from "./layout/List/List.states";
 import { toolIllustrationStates } from "./toolbox/ToolIllustration/ToolIllustration.states";
 import { libraryFolderStates } from "./toolbox/LibraryFolder/LibraryFolder.states";
 import { briefingDeckStates } from "./briefing/BriefingDeck/BriefingDeck.states";
+import { briefingPictureStates } from "./briefing/BriefingPicture/BriefingPicture.states";
+import { briefingFrontStates } from "./briefing/BriefingFront/BriefingFront.states";
+import { readerBarStates } from "./briefing/ReaderBar/ReaderBar.states";
 export const registry: RegisteredComponent[] = [
   badgeStates,
   buttonStates,
@@ -265,6 +268,9 @@ export const registry: RegisteredComponent[] = [
   toolIllustrationStates,
   libraryFolderStates,
   briefingDeckStates,
+  briefingPictureStates,
+  briefingFrontStates,
+  readerBarStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */

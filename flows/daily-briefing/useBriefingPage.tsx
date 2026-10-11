@@ -7,7 +7,7 @@ import { BriefingReadCard } from "@/components/briefing/BriefingReadCard";
 import { PublisherPicker } from "@/components/briefing/PublisherPicker";
 import { ReadActions } from "@/components/briefing/ReadActions";
 import { Sheet } from "@/components/layout/Sheet";
-import { briefingActions, respondHref, useBriefing, type ReadState } from "@/lib/briefing-store";
+import { briefingActions, respondHref, useBriefing, type ReadState, type Relevance } from "@/lib/briefing-store";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { READ_BRIEFING_STEP } from "@/lib/toolbox-links";
 import { useToolbox } from "@/lib/toolbox-store";
@@ -197,10 +197,23 @@ export function useBriefingPage() {
     </>
   );
 
+  /** Save and relevance with what they did said in the live region, for
+   *  pages with their own controls (Concept 2's reader bar). */
+  const setSaved = (id: string, saved: boolean) => {
+    briefingActions.setSaved(id, saved);
+    setMessage(saved ? C.read.savedNotice : C.read.unsavedNotice);
+  };
+  const setRelevance = (id: string, relevance: Relevance | undefined) => {
+    briefingActions.setRelevance(id, relevance);
+    setMessage(relevance === "yes" ? C.relevance.ackYes : relevance === "no" ? C.relevance.ackNo : "");
+  };
+
   return {
     reads,
     respond,
     completeStep,
+    setSaved,
+    setRelevance,
     stateOf,
     allRead,
     header,
