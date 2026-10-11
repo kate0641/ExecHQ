@@ -627,6 +627,29 @@
   --content-measure: 68ch;
 
   /* ---------------------------------------------------------------------------
+     MENUS — the dropdown menu's floating panel (components/form/DropdownMenu).
+     Built on the surface, border, hover and shadow roles, so a palette
+     change reaches it with no edit here.
+     ------------------------------------------------------------------------ */
+  --menu-surface: var(--color-surface-raised);
+  --menu-border: var(--color-border);
+  --menu-item-hover: var(--color-surface-hover);
+  --menu-item-active: var(--color-surface-active);
+  --menu-item-text: var(--color-text-primary);
+  --menu-item-disabled: var(--color-text-disabled);
+  --menu-separator: var(--color-border-subtle);
+  --menu-shadow: var(--shadow-lg);
+  --menu-radius: var(--radius-md);
+  --menu-padding: var(--space-2xs);
+  --menu-item-padding-block: var(--space-xs);
+  --menu-item-padding-inline: var(--space-sm);
+  --menu-item-gap: var(--space-xs);
+  --menu-min-width: 15rem;
+  --menu-max-width: 20rem;
+  /* Space kept between the panel and the edge of the screen it opens in. */
+  --menu-edge: var(--space-xs);
+
+  /* ---------------------------------------------------------------------------
      MOTION — every transition must be disabled under prefers-reduced-motion
      ------------------------------------------------------------------------ */
   --duration-fast: 120ms;
@@ -639,6 +662,8 @@
      ELEVATION ORDER
      ------------------------------------------------------------------------ */
   --z-sticky: 10;
+  /* A dropdown menu sits over sticky bars, under the dock and any scrim. */
+  --z-menu: 30;
   --z-devtools: 40;
   --z-scrim: 50;
   --z-hub-panel: 60;
