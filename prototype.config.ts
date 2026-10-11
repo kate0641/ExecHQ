@@ -231,7 +231,7 @@ export const prototypeConfig: PrototypeConfig = {
           slug: "concept-1",
           title: "Concept 1 — Tool cards",
           summary:
-            "The four tools as tiles, 2×2 on a phone; the library below filtered by tool and status. Tools open as guided steps.",
+            "The tool for her next plan step leads with its drawing (a bento on tablet and web, one row and three icons on a phone); the library below filtered by tool and status. Tools open as guided steps.",
         },
         {
           slug: "concept-2",

@@ -676,6 +676,18 @@
   --menu-edge: var(--space-xs);
 
   /* ---------------------------------------------------------------------------
+     ILLUSTRATIONS — the tools' line drawings (components/toolbox/
+     ToolIllustration), one drawing at three levels of detail: navy line on a
+     pale blue card, a lighter blue shade under the detailed level. Built on
+     the brand scales, so greyscale and the palette both reach them.
+     ------------------------------------------------------------------------ */
+  --illustration-ink: var(--brand-blue-800);
+  --illustration-shade: var(--brand-blue-300);
+  --illustration-paper: var(--color-surface-raised);
+  --illustration-card: var(--color-surface-feature);
+  --illustration-card-border: var(--brand-blue-200);
+
+  /* ---------------------------------------------------------------------------
      LISTS — rows of items (components/layout/List): one or two lines, a
      leading icon, avatar or checkbox, and trailing badges, metadata or
      actions. Built on the type roles, so a type change reaches them.

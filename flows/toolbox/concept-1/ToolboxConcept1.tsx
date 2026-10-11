@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 import { DropdownMenu, type MenuEntry } from "@/components/form/DropdownMenu";
-import { ToolPicker } from "@/components/toolbox/ToolPicker";
+import { ToolPicker, type ToolLead } from "@/components/toolbox/ToolPicker";
+import { useLoop } from "@/lib/loop-store";
+import { useToolboxLinks } from "@/lib/toolbox-links";
+import { useViewport } from "@/lib/viewport-context";
+import { PLAN_AGENDA_COPY, stepById } from "@/mock/plan";
 import type { LibraryItem } from "@/lib/library";
 import type { ArtifactKind } from "@/mock/loop";
 import { LIBRARY_COPY, STATUS_FILTERS, TOOL_ORDER, TOOLS } from "@/mock/toolbox";
@@ -33,16 +37,41 @@ function matches(item: LibraryItem, f: Filters): boolean {
  * Toolbox, Concept 1 — Tool cards and guided steps. One of the two safe
  * concepts.
  *
- * On a phone the four tools are a 2×2 grid of compact tiles, each with its
- * name and a few words on what it makes: short enough that the first library
- * items show above the fold. Wider, the tiles become one row of four. The
+ * The tool her next plan step needs leads (option C, chosen 11 October): on
+ * tablet and web a bento, the lead tall with the detailed drawing and the
+ * step it serves, the other three around it; on a phone the lead is one row
+ * and the other three are icons under it, so the library starts on the first
+ * screen. With no step that needs a tool, the four are equal tiles. The
  * library below filters from two menus side by side, tool and status (with
  * whether closed work shows), each a plain list with its counts, newest
  * first. A
  * tool opens as guided steps, one question a screen.
  */
+/** The tool her next plan step needs: the first step on her plan that makes
+ *  something with a tool. None, and the four tools are equal. */
+function useLead(): ToolLead | undefined {
+  const loop = useLoop();
+  const links = useToolboxLinks();
+  for (const rec of loop.recommendations) {
+    const step = stepById(rec.id);
+    const kind = TOOL_ORDER.find((k) => TOOLS[k].name === step?.toolboxTool);
+    if (step && kind) {
+      return {
+        kind,
+        step: step.title,
+        href: links.forStep(step.id),
+        action: links.hasDraft(step.id) ? PLAN_AGENDA_COPY.openDraft : TOOLS[kind].start,
+      };
+    }
+  }
+  return undefined;
+}
+
 export function ToolboxConcept1() {
   const p = useToolboxPage("concept-1");
+  const lead = useLead();
+  // On a phone the lead is one row, so the library starts on the first screen.
+  const compact = useViewport().viewport === "mobile";
   const [f, setF] = useState<Filters>(NONE);
   const shown = p.found.filter((i) => matches(i, f));
 
@@ -91,7 +120,7 @@ export function ToolboxConcept1() {
   return (
     <div className="toolbox-page toolbox-page--c1">
       {p.header}
-      <ToolPicker layout="tiles" hrefFor={(kind) => p.toolHref(kind)} />
+      <ToolPicker layout="lead" lead={lead} compact={compact} hrefFor={(kind) => p.toolHref(kind)} />
       <section className="library" aria-labelledby={p.libraryId}>
         {p.libraryHeader}
         {p.empty ?? (

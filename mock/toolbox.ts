@@ -596,6 +596,8 @@ export const LIBRARY_COPY = {
 export const TOOLBOX_PAGE = {
   title: "Toolbox",
   lead: "Four ways to make your next draft.",
+  /** Over the tool her next plan step needs (Concept 1). */
+  nextOnPlan: "Next on your plan",
   toolsLabel: "Tools",
   /** Concept 3. */
   moment: {
