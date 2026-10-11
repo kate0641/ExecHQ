@@ -269,8 +269,21 @@ export const prototypeConfig: PrototypeConfig = {
       concepts: [
         {
           slug: "concept-1",
-          title: "Concept 1",
-          summary: "Three reads worth your time.",
+          title: "Concept 1 — Front page",
+          summary:
+            "The lead read as one large card, the other two as rows under it, all three in about one scroll. Publishers are changed on the page.",
+        },
+        {
+          slug: "concept-2",
+          title: "Concept 2 — One at a time",
+          summary:
+            "One read fills the screen, 1 of 3 at the top and Next in the thumb zone, then That’s today’s three.",
+        },
+        {
+          slug: "concept-3",
+          title: "Concept 3 — Annotated",
+          summary:
+            "The wild card: each read has one highlighted passage with ExecHQ’s note; tap it to respond in Thought Leadership Builder.",
         },
       ],
     },

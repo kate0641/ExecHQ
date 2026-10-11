@@ -6,6 +6,9 @@ import { PlanTemplates } from "./plan/templates";
 import { SignalsConcept2 } from "./signals/concept-2";
 import { ProfileConcept1 } from "./profile/concept-1";
 import { LoginConcept1 } from "./login/concept-1";
+import { BriefingConcept1 } from "./daily-briefing/concept-1";
+import { BriefingConcept2 } from "./daily-briefing/concept-2";
+import { BriefingConcept3 } from "./daily-briefing/concept-3";
 
 /**
  * Concept pages that have been built.
@@ -30,6 +33,9 @@ const BUILT_CONCEPTS: Record<string, ReactElement> = {
   "signals/concept-2": <SignalsConcept2 />,
   "profile/concept-1": <ProfileConcept1 />,
   "login/concept-1": <LoginConcept1 />,
+  "daily-briefing/concept-1": <BriefingConcept1 />,
+  "daily-briefing/concept-2": <BriefingConcept2 />,
+  "daily-briefing/concept-3": <BriefingConcept3 />,
 };
 
 /** Every built concept, as manifest slugs, in the order they are listed above. */

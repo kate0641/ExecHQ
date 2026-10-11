@@ -16,6 +16,7 @@
 export type ProfileDetailId =
   | "account"
   | "organization"
+  | "publishers"
   | "delete";
 
 export const PROFILE_COPY = {
@@ -28,6 +29,8 @@ export const PROFILE_COPY = {
     settings: "Settings",
     organization: "Organization",
     data: "Your data",
+    /** Sprint 4: where her Briefing's reads come from. */
+    briefing: "Daily Briefing",
     delete: "Delete account",
   },
 
@@ -38,6 +41,8 @@ export const PROFILE_COPY = {
     planValue: (name: string, formalName: string) => `${name} · ${formalName}`,
     notifications: "Notifications",
     notificationsValue: (on: number) => `${on} on`,
+    publishers: "Publishers",
+    publishersValue: (n: number) => (n === 0 ? "Not chosen yet" : `${n} chosen`),
     organization: "Membership",
     noOrganization: "None",
     export: "Download your data",

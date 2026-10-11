@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Input } from "@/components/form/Input";
 import { Sheet } from "@/components/layout/Sheet";
+import { PublisherPicker } from "@/components/briefing/PublisherPicker";
 import { DeletionDetail } from "@/components/profile/DeletionDetail";
 import { DetailPanel } from "@/components/profile/DetailPanel";
 import { NOTIFY_TOPICS, NotificationsDetail } from "@/components/profile/NotificationsDetail";
@@ -11,7 +12,9 @@ import { SettingsGroup } from "@/components/profile/SettingsGroup";
 import { SettingsRow } from "@/components/profile/SettingsRow";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
+import { briefingActions, useBriefing } from "@/lib/briefing-store";
 import { loopActions, useLoop } from "@/lib/loop-store";
+import { BRIEFING_COPY } from "@/mock/briefing";
 import { fullName, type Account } from "@/mock/account";
 import { PROFILE_COPY as C, type ProfileDetailId } from "@/mock/profile";
 
@@ -44,6 +47,8 @@ function headingOf(id: ProfileDetailId): string {
       return C.account.editHeading;
     case "organization":
       return C.organization.heading;
+    case "publishers":
+      return BRIEFING_COPY.settings.publishersHeading;
     case "delete":
       return C.delete.heading;
     default:
@@ -167,6 +172,7 @@ function AccountDetail({
 export function ProfileConcept1() {
   const loop = useLoop();
   const account = loop.account;
+  const publishers = useBriefing().publishers ?? [];
 
   /** The sheet that is open, on every viewport. */
   const [open, setOpen] = useState<ProfileDetailId | null>(null);
@@ -220,6 +226,20 @@ export function ProfileConcept1() {
               const name = account.org?.name ?? "";
               loopActions.updateAccount({ org: undefined });
               announce(C.organization.left(name));
+              close();
+            }}
+          />
+        );
+      case "publishers":
+        return (
+          <PublisherPicker
+            mode="settings"
+            chosen={publishers}
+            headingId={PANE_HEADING}
+            onCancel={onClose}
+            onDone={(ids) => {
+              briefingActions.choosePublishers(ids);
+              announce(BRIEFING_COPY.settings.publishersSaved);
               close();
             }}
           />
@@ -285,6 +305,20 @@ export function ProfileConcept1() {
               />
             </section>
 
+            {/* Sprint 4: where her Briefing's reads come from. Changed here in
+                Briefing Concepts 2 and 3; Concept 1 changes them on the page. */}
+            <section className="profile__section" aria-labelledby="briefing-settings-heading">
+              <DetailPanel heading={C.groups.briefing} headingId="briefing-settings-heading">
+                <SettingsGroup label={C.groups.briefing} headingLevel={3} hideLabel>
+                  <SettingsRow
+                    icon="briefing"
+                    label={R.publishers}
+                    value={R.publishersValue(publishers.length)}
+                    onOpen={() => show("publishers")}
+                  />
+                </SettingsGroup>
+              </DetailPanel>
+            </section>
           </div>
 
           <div className="profile__column">
