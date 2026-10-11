@@ -79,11 +79,23 @@ Every concept leads with the four tools and puts the library below, per the 11 O
 - **The Briefing email is now off by default** (Profile → Notifications), as the brief says. It sends at 8 am, local time.
 - **Profile has a new "Daily Briefing" group with a Publishers row.** Concepts 2 and 3 link to it. Profile is approved, so this is a change to an approved page.
 
+## 4a. Stage 5: all four tools, and the links in
+
+- **All four tools work in all three Toolbox concepts**, through one shared engine, so choosing a concept doesn't mean rebuilding them.
+- **Situation Brief:** with a date, the follow-up "Did this create a next step?" lands the day after the meeting.
+- **Pitch Builder:** the follow-up draft lives on the same artifact. "Mark sent" takes an optional target and date.
+- **Positioning Builder:** her onboarding statement opens as the same artifact (version 1); it is never copied. Changing the statement offers a refresh of the bios and narrative; it never forces one.
+- **Direct paths.** Every link into the Toolbox from the Plan, the homepage, the Concierge and the Signal Picture goes through one helper (`lib/toolbox-links.ts`). A step that already has a draft opens it, and the Plan's button then says "Open your draft". A step that makes something opens its tool with the step's facts filled in.
+- **"Read today's Briefing" is live.** It opens the Briefing marked as coming from the Plan, and is done once she reads one item or starts a post from one. Opened any other way, the Plan doesn't change.
+- **Approved pages changed in behaviour, not layout:** the homepage's next step, Plan Concept 3's step buttons, and the Concierge's "Pick up where you left off".
+
 ## 5. Open questions for the client
 
 1. **Choosing your own passage (Concept 3, web) needs the whole article inside ExecHQ, and so a licence from each publisher.** A pre-chosen passage is a short quote with its source, which does not need one. If licences are out of scope for the pilot, Concept 3 keeps only the pre-chosen passage.
 2. **Who chooses Concept 3's passage, and who writes its note?** In the pilot's rules-based curation that is either an editor or a model reading the article. Both carry a cost the brief does not price.
 3. **Should the homepage card change with the chosen concept?** It stays as approved for now and opens whichever concept is chosen.
+5. **The homepage's "Start in the Toolbox" button** now opens the existing draft when there is one, but keeps its approved wording. Should it say "Open your draft" in that case, as the Plan's button does?
+6. **Building out a closed artifact.** Positioning Builder lets her build out her story even when it is Closed (dock state 3). Should that reopen it as a draft, or be blocked?
 4. **Telling ExecHQ's wording from hers.** The brief requires that generated framing can be told apart from what she supplied. The draft does this with ink and a dotted underline. Should the mark stay on the copied text? Copy currently takes plain text, with no marks.
 
 ## 6. Working decisions from the brief's open questions

@@ -24,7 +24,7 @@ import { accept, complete, decline, edit as editStep, initialPlanState, liveStep
 import { askConcierge } from "@/flows/navigation/concept-1/ConciergeConcept";
 import { shortDate, type OutcomeType } from "@/lib/loop";
 import { loopActions, useLoop } from "@/lib/loop-store";
-import { conceptHref } from "@/lib/manifest";
+import { useToolboxLinks } from "@/lib/toolbox-links";
 import { momentumEvents } from "@/lib/momentum";
 import { planSparks } from "@/lib/plan-sparks";
 import { roadmapWindows, stageAt } from "@/lib/roadmap-dates";
@@ -60,6 +60,7 @@ import { PlanMomentum } from "./PlanMomentum";
  */
 export function usePlanPage() {
   const loop = useLoop();
+  const links = useToolboxLinks();
   const addedPresence = useAddedPresence();
   const baseline = useBaseline();
   const current = useCurrent();
@@ -244,7 +245,8 @@ export function usePlanPage() {
     stages: agendaStages,
     items: agendaItems,
     today: loop.today,
-    startHref: conceptHref("toolbox-flow", "concept-1"),
+    startHref: (step: ActionStep) => links.forStep(step.id),
+    hasDraftFor: (step: ActionStep) => links.hasDraft(step.id),
     onAsk: (step: ActionStep, q: StepQuestion) => askConcierge(STEP_QUESTIONS.find((x) => x.id === q)?.label ?? "", { kind: "step-question", stepId: step.id, q }),
     onAccept: (step: ActionStep) => keepSteps(accept(stepState, step.id)),
     onComplete: (step: ActionStep) => {
@@ -455,7 +457,8 @@ export function usePlanPage() {
       heardOf={(step) => savedSteps?.notes?.[step.id]?.heard}
       whenOf={(step) => whenWords(stepDay(stepState, step).date, loop.today)}
       today={loop.today}
-      startHref={conceptHref("toolbox-flow", "concept-1")}
+      startHref={(step) => links.forStep(step.id)}
+      hasDraftFor={(step) => links.hasDraft(step.id)}
       sparks={guidedSparks}
       onAnswer={answerStep}
       onTalk={(step) => askConcierge("Talk it through", { kind: "step-question", stepId: step.id, q: "stuck" })}
@@ -527,7 +530,7 @@ export function usePlanPage() {
           summary={addedSummary(items, loop.today)}
           onAdd={() => setAdding({})}
           addLabel={ADD.open}
-          tryThis={{ ...PR.tryThis, href: conceptHref("toolbox-flow", "concept-1") }}
+          tryThis={{ ...PR.tryThis, href: links.forStep("pitch-podcast") }}
           tryLabel={AC.tryThis}
           headingId="plan-signals-card"
         />

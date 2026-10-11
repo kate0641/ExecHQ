@@ -5,7 +5,7 @@ import { momentumEvents, type AddedSignal } from "@/lib/momentum";
 import { historyDays } from "@/lib/signal-picture";
 import { isDone } from "@/lib/rings";
 import type { LoopRecord } from "@/lib/loop";
-import { conceptHref } from "@/lib/manifest";
+import { useToolboxLinks } from "@/lib/toolbox-links";
 import { ACTION_QUEUE } from "@/mock/plan";
 import type { TaskCheck } from "@/mock/snapshots";
 
@@ -23,10 +23,11 @@ export interface PlanMomentumProps {
  * next move, the next step she took on that is not done.
  */
 export function PlanMomentum({ records, tasks, signals, today, startedOn }: PlanMomentumProps) {
+  const links = useToolboxLinks();
   const events = momentumEvents(records, tasks, signals);
   const history = historyDays(startedOn, today);
   const next = ACTION_QUEUE.find((s) => s.status === "accepted" && !isDone(s, records, tasks));
-  const nextMove = next ? { title: next.title, why: next.whyNow || next.whyThis, href: conceptHref("toolbox-flow", "concept-1") } : undefined;
+  const nextMove = next ? { title: next.title, why: next.whyNow || next.whyThis, href: links.forStep(next.id) } : undefined;
 
   return (
     <div className="plan-momentum">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useState, useSyncExternalStore, type ReactNode } from "react";
 import Link from "next/link";
 import { BriefingReader } from "@/components/briefing/BriefingReader";
 import { BriefingReadCard } from "@/components/briefing/BriefingReadCard";
@@ -8,7 +8,8 @@ import { PublisherPicker } from "@/components/briefing/PublisherPicker";
 import { ReadActions } from "@/components/briefing/ReadActions";
 import { Sheet } from "@/components/layout/Sheet";
 import { briefingActions, respondHref, useBriefing, type ReadState } from "@/lib/briefing-store";
-import { useLoop } from "@/lib/loop-store";
+import { loopActions, useLoop } from "@/lib/loop-store";
+import { READ_BRIEFING_STEP } from "@/lib/toolbox-links";
 import { useToolbox } from "@/lib/toolbox-store";
 import { BRIEFING_COPY as C, publisherName, TODAYS_READS, type BriefingRead } from "@/mock/briefing";
 
@@ -16,6 +17,9 @@ export const PROFILE_HREF = "/profile/concept-1";
 export const TITLE_ID = "briefing-title";
 
 const DATE = new Intl.DateTimeFormat("en-GB", { weekday: "long", day: "numeric", month: "long", timeZone: "UTC" });
+
+/** The address does not change while the page is open, so nothing to watch. */
+const noSubscribe = () => () => {};
 
 /** Moves focus to an element once it is on screen: a heading after the page
  *  changes under her, so a screen reader starts from the new top. */
@@ -40,6 +44,20 @@ export function useBriefingPage() {
   const toolboxConcept = useToolbox().concept ?? "concept-1";
   const respond = (readId: string, from?: "passage" | "selection") => respondHref(readId, from, toolboxConcept);
 
+  // Opened from the Plan's "Read today's Briefing": reading one item, or
+  // starting a post from one, completes the step. Opened any other way, the
+  // Plan does not change.
+  const fromPlan = useSyncExternalStore(
+    noSubscribe,
+    () => new URLSearchParams(window.location.search).get("from") === "plan",
+    () => false
+  );
+  const completeStep = () => {
+    if (!fromPlan || loop.tasks?.[READ_BRIEFING_STEP]?.doneOn) return;
+    loopActions.completeTask(READ_BRIEFING_STEP);
+    setMessage(C.stepDone);
+  };
+
   const reads = TODAYS_READS;
   const stateOf = (id: string): ReadState => state.reads[id] ?? {};
   const allRead = reads.every((r) => stateOf(r.id).read);
@@ -52,6 +70,7 @@ export function useBriefingPage() {
   /** Opening a read counts as reading it. */
   function openRead(id: string) {
     briefingActions.markRead(id);
+    completeStep();
     setOpen({ kind: "read", id });
   }
 
@@ -67,10 +86,18 @@ export function useBriefingPage() {
           announceSave(next);
         }}
         isRead={Boolean(s.read)}
-        onMarkRead={options.markRead ? (next) => briefingActions.markRead(read.id, next) : undefined}
+        onMarkRead={
+          options.markRead
+            ? (next) => {
+                briefingActions.markRead(read.id, next);
+                if (next) completeStep();
+              }
+            : undefined
+        }
         relevance={s.relevance}
         onRelevance={(next) => briefingActions.setRelevance(read.id, next)}
         respondHref={options.noRespond ? undefined : respond(read.id)}
+        onRespond={completeStep}
         compact={options.compact}
         onOpen={options.compact ? () => openRead(read.id) : undefined}
       />
@@ -173,6 +200,7 @@ export function useBriefingPage() {
   return {
     reads,
     respond,
+    completeStep,
     stateOf,
     allRead,
     header,

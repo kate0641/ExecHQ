@@ -27,7 +27,11 @@ export interface PlanGuidedProps {
   /** When a move is, in words. */
   whenOf: (step: ActionStep) => string;
   today: LoopDate;
-  startHref: string;
+  /** Where a step starts: one address, or one per step (its tool, its
+   *  artifact, or the Briefing for the reading step). */
+  startHref: string | ((step: ActionStep) => string);
+  /** True when the step already has a draft: its button opens it. */
+  hasDraftFor?: (step: ActionStep) => boolean;
   /** What changed on her plan, newest last. */
   sparks: PlanSpark[];
   /** She answered a move: the page changes her plan to match. For "not for me", the reason she gave, if any.
@@ -70,6 +74,7 @@ export function PlanGuided({
   whenOf,
   today,
   startHref,
+  hasDraftFor,
   sparks,
   onAnswer,
   onTalk,
@@ -170,10 +175,12 @@ export function PlanGuided({
   const reasoned = passedLine[step.id] !== undefined;
   const asking = answer === "pass" && !reasoned;
   const hasDraft = step.kind === "artifact" || Boolean(step.artifactId);
-  const tool = hasDraft || Boolean(step.toolboxTool);
+  // The reading step opens the Briefing, so it starts with a link too.
+  const tool = hasDraft || Boolean(step.toolboxTool) || step.kind === "reading";
+  const href = typeof startHref === "function" ? startHref(step) : startHref;
   const when = chosenWhen[step.id] ?? whenOf(step);
   const started = Boolean(workingOn?.(step));
-  const label = started ? G.working : (step.startLabel ?? (step.toolboxTool ? `Start in ${step.toolboxTool}` : "Get started"));
+  const label = started ? G.working : hasDraftFor?.(step) ? AG.openDraft : (step.startLabel ?? (step.toolboxTool ? `Start in ${step.toolboxTool}` : "Get started"));
   const answers = G.answers(whenOf(step));
   const details = Object.fromEntries(answers.map((a) => [a.label, a.hint]));
   const settle = (id: Exclude<GuidedAnswer, "talk">, o?: { date?: LoopDate; label?: string }) => {
@@ -223,7 +230,7 @@ export function PlanGuided({
               hideActions
             >
               {tool ? (
-                <Link href={startHref} className="btn btn--primary btn--md btn--full" onClick={() => onStart(step)}>
+                <Link href={href} className="btn btn--primary btn--md btn--full" onClick={() => onStart(step)}>
                   {label}
                 </Link>
               ) : (

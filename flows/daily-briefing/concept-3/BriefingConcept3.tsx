@@ -16,7 +16,7 @@ const C = BRIEFING_COPY.passage;
 /** Web only: the standfirst stands in for the article's text, and selecting
  *  some of it offers a response to that selection. The pre-highlighted
  *  passage stays, so the keyboard and a phone have the same way in. */
-function OwnSelection({ read, href }: { read: BriefingRead; href: string }) {
+function OwnSelection({ read, href, onRespond }: { read: BriefingRead; href: string; onRespond: () => void }) {
   const [selected, setSelected] = useState(false);
   const text = useRef<HTMLParagraphElement>(null);
   useEffect(() => {
@@ -38,7 +38,7 @@ function OwnSelection({ read, href }: { read: BriefingRead; href: string }) {
       </p>
       {selected ? (
         <div className="briefing-annotated__selection">
-          <Link href={href} className="btn btn--secondary btn--sm">
+          <Link href={href} className="btn btn--secondary btn--sm" onClick={onRespond}>
             <Icon name="pencil" size={16} />
             {C.selection}
           </Link>
@@ -76,7 +76,7 @@ export function BriefingConcept3() {
           <li key={read.id} className="briefing-annotated__item">
             <BriefingReadCard read={read} layout="stack" isRead={p.stateOf(read.id).read} onOpen={() => p.openRead(read.id)}>
               <PassageNote read={read} placement={web ? "margin" : "inline"} onOpen={() => setPassageOf(read)} />
-              {web ? <OwnSelection read={read} href={p.respond(read.id, "selection")} /> : null}
+              {web ? <OwnSelection read={read} href={p.respond(read.id, "selection")} onRespond={p.completeStep} /> : null}
               {p.actionsFor(read, { noRespond: true })}
             </BriefingReadCard>
           </li>
@@ -99,7 +99,7 @@ export function BriefingConcept3() {
                 {BRIEFING_COPY.respond.sourceLine(passageOf.title, publisherName(passageOf.publisherId))}
               </figcaption>
             </figure>
-            <Link href={p.respond(passageOf.id, "passage")} className="btn btn--primary btn--md btn--full">
+            <Link href={p.respond(passageOf.id, "passage")} className="btn btn--primary btn--md btn--full" onClick={p.completeStep}>
               {C.respond}
             </Link>
             <p className="passage-sheet__hint">{C.respondHint}</p>

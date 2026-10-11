@@ -81,6 +81,7 @@ export function BriefingConcept2() {
             fullWidth
             onClick={() => {
               briefingActions.markRead(read.id);
+              p.completeStep();
               go(at + 1);
             }}
           >

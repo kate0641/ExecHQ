@@ -38,7 +38,11 @@ export interface PlanAgendaProps {
   items: AgendaItem[];
   today: LoopDate;
   /** Where Get started goes for a step with a draft or a tool. */
-  startHref: string;
+  /** Where a step starts: one address, or one per step (its tool, its
+   *  artifact, or the Briefing for the reading step). */
+  startHref: string | ((step: ActionStep) => string);
+  /** True when the step already has a draft: its button opens it. */
+  hasDraftFor?: (step: ActionStep) => boolean;
   /** She asked about a step: the page opens the chat on it. */
   onAsk: (step: ActionStep, question: StepQuestion) => void;
   /** She took a step on. */
@@ -74,6 +78,7 @@ export function PlanAgenda({
   items,
   today,
   startHref,
+  hasDraftFor,
   onAsk,
   onAccept,
   onComplete,
@@ -183,6 +188,7 @@ export function PlanAgenda({
                             open={step === item.id}
                             today={today}
                             startHref={startHref}
+                            hasDraftFor={hasDraftFor}
                             onToggle={() => setStep(step === item.id ? null : item.id)}
                             onAsk={onAsk}
                             onAccept={onAccept}
@@ -248,6 +254,7 @@ function StepItem({
   open,
   today,
   startHref,
+  hasDraftFor,
   onToggle,
   onAsk,
   onAccept,
@@ -257,15 +264,18 @@ function StepItem({
   step: ActionStep;
   open: boolean;
   today: LoopDate;
-  startHref: string;
+  startHref: string | ((step: ActionStep) => string);
+  hasDraftFor?: (step: ActionStep) => boolean;
   onToggle: () => void;
   onAsk: (step: ActionStep, question: StepQuestion) => void;
   onAccept: (step: ActionStep) => void;
   onComplete: (step: ActionStep) => void;
 }) {
   const hasDraft = step.kind === "artifact" || Boolean(step.artifactId);
-  const tool = hasDraft || Boolean(step.toolboxTool);
-  const label = step.startLabel ?? (step.toolboxTool ? `Start in ${step.toolboxTool}` : A.getStarted);
+  // The reading step opens the Briefing, so it starts with a link too.
+  const tool = hasDraft || Boolean(step.toolboxTool) || step.kind === "reading";
+  const href = typeof startHref === "function" ? startHref(step) : startHref;
+  const label = hasDraftFor?.(step) ? A.openDraft : (step.startLabel ?? (step.toolboxTool ? `Start in ${step.toolboxTool}` : A.getStarted));
   return (
     <li className="agenda__item" id={`step-${step.id}`}>
       <button type="button" className="agenda__line" aria-expanded={open} onClick={onToggle}>
@@ -279,7 +289,7 @@ function StepItem({
               {label}
             </Button>
           ) : tool ? (
-            <Link href={startHref} className="btn btn--primary btn--md btn--full agenda__cta" onClick={() => !item.accepted && onAccept(step)}>
+            <Link href={href} className="btn btn--primary btn--md btn--full agenda__cta" onClick={() => !item.accepted && onAccept(step)}>
               {label}
             </Link>
           ) : item.accepted ? (
