@@ -12731,8 +12731,13 @@ ul.map-rings {
 .map-home .map-rings__ring:not([aria-pressed="true"]) .map-rings__svg {
   /* A soft glow rather than a line: no crisp layer, a wider, fainter blur. */
   filter:
-    drop-shadow(0 0 2px color-mix(in srgb, var(--color-halo) 75%, transparent))
-    drop-shadow(0 0 4px color-mix(in srgb, var(--color-halo) 35%, transparent));
+    drop-shadow(0 0 2px color-mix(in srgb, var(--ring-lift, var(--color-halo)) 75%, transparent))
+    drop-shadow(0 0 4px color-mix(in srgb, var(--ring-lift, var(--color-halo)) 35%, transparent));
+}
+
+/* On dawn's pale sky a white glow vanishes, so it is a soft light blue. */
+.device__screen:has(.map-home__greeting[data-sky="dawn"]) {
+  --ring-lift: var(--color-ring-lift-pale);
 }
 
 /* Over the sky, the rings not chosen draw their track in white (trial). */
