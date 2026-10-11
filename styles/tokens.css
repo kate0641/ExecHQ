@@ -290,8 +290,7 @@
   --color-sky-night-spark: var(--brand-blue-500);
   --color-sky-night-horizon: var(--brand-green-300);
   /* Night's fade down the page when the sky glows from the top (trial). */
-  /* Night's sky beyond the navy centre, as day's, fading out to light lime. */
-  --color-sky-night-edge: var(--brand-blue-300);
+  /* Night fades out to light lime. */
   --color-sky-night-fade-end: var(--brand-green-100);
 
   /* Danger — the destructive action: deleting the account, removing a
