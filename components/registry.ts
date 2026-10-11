@@ -136,6 +136,7 @@ import { dropdownMenuStates } from "./form/DropdownMenu/DropdownMenu.states";
 import { listStates } from "./layout/List/List.states";
 import { toolIllustrationStates } from "./toolbox/ToolIllustration/ToolIllustration.states";
 import { libraryFolderStates } from "./toolbox/LibraryFolder/LibraryFolder.states";
+import { briefingDeckStates } from "./briefing/BriefingDeck/BriefingDeck.states";
 export const registry: RegisteredComponent[] = [
   badgeStates,
   buttonStates,
@@ -263,6 +264,7 @@ export const registry: RegisteredComponent[] = [
   pinnedDraftStates,
   toolIllustrationStates,
   libraryFolderStates,
+  briefingDeckStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */

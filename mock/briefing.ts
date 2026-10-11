@@ -214,6 +214,13 @@ export const BRIEFING_COPY = {
     toEnd: "See all three",
   },
 
+  /* --- Concept 1: the deck ---------------------------------------------- */
+  deck: {
+    /** Read before a strip's headline: pressing it brings that read forward. */
+    show: "Show",
+    label: "Today’s three reads",
+  },
+
   /* --- Concept C: the highlighted passage --------------------------------- */
   passage: {
     label: "A passage for you",

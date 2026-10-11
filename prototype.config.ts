@@ -289,7 +289,7 @@ export const prototypeConfig: PrototypeConfig = {
           slug: "concept-1",
           title: "Concept 1 — Front page",
           summary:
-            "The lead read as one large card, the other two as rows under it, all three in about one scroll. Publishers are changed on the page.",
+            "Today’s three as a stack of cards: one open in full, the other two as strips that open in their place. Publishers are changed on the page.",
         },
         {
           slug: "concept-2",

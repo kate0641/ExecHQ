@@ -697,6 +697,20 @@
   --folder-radius: var(--radius-sm);
 
   /* ---------------------------------------------------------------------------
+     BRIEFING DECK — today's three reads as a stack of cards (components/
+     briefing/BriefingDeck), one tint for each place in the day's set. The
+     publisher's name is always on the card, so the tint is never the only cue.
+     ------------------------------------------------------------------------ */
+  --deck-tint-1: var(--brand-blue-200);
+  --deck-tint-2: var(--brand-yellow-200);
+  --deck-tint-3: var(--brand-stone-200);
+  --deck-edge: var(--color-border-strong);
+  --deck-overlap: var(--space-sm);
+  --deck-radius: var(--radius-xl);
+  /* Cast upward, so each card reads as lying over the one before it. */
+  --deck-shadow: 0 calc(-1 * var(--space-2xs)) var(--space-md) rgb(var(--shadow-rgb) / 0.1);
+
+  /* ---------------------------------------------------------------------------
      LISTS — rows of items (components/layout/List): one or two lines, a
      leading icon, avatar or checkbox, and trailing badges, metadata or
      actions. Built on the type roles, so a type change reaches them.

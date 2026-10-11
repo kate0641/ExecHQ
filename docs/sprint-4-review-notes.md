@@ -20,7 +20,7 @@ All three share the same first visit, reads, reason lines and actions, so the co
 
 | Concept | Route | Kind | In one line |
 | --- | --- | --- | --- |
-| 1 — Front page | `/daily-briefing/concept-1` | Safe | The lead read as one large dark card, the other two as rows under it, all three in about one scroll. On web the lead takes the left two-thirds. Publishers are changed on the page. |
+| 1 — Front page | `/daily-briefing/concept-1` | Safe | Today's three as a stack of cards (option B, chosen 11 October): one open in full, the other two as strips tucked against it that open in their place, each saying "1 of 3". The same on every screen. Publishers are changed on the page. |
 | 2 — One at a time | `/daily-briefing/concept-2` | Safe | One read fills the screen, with "1 of 3" at the top and Next in the thumb zone (a tap, not a swipe), then a last screen: "That's today's three." On web it's a centred card. |
 | 3 — Annotated | `/daily-briefing/concept-3` | Wild card | Each read has one highlighted passage with ExecHQ's note on it. Tapping the passage opens a sheet with "Respond to this". On web the note moves into the margin and she can select her own passage. |
 
