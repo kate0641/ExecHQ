@@ -39,8 +39,9 @@ function matches(item: LibraryItem, f: Filters): boolean {
  * On a phone the four tools are a 2×2 grid of compact tiles, each with its
  * name and a few words on what it makes: short enough that the first library
  * items show above the fold. Wider, the tiles become one row of four. The
- * library below filters from one Filter menu (tool, status and plan area, each
- * a submenu with its counts, and whether closed work shows), newest first. A
+ * library below filters from three menus side by side (tool, status with
+ * whether closed work shows, and plan area), each a plain list with its
+ * counts, newest first. A
  * tool opens as guided steps, one question a screen.
  */
 export function ToolboxConcept1() {
@@ -53,13 +54,6 @@ export function ToolboxConcept1() {
   const set = (change: Partial<Filters>) => setF((current) => ({ ...current, ...change }));
 
   const on = [f.tool !== ALL, f.status !== ALL, f.area !== ALL, !f.showClosed].filter(Boolean).length;
-  const summary = [
-    f.tool !== ALL ? TOOLS[f.tool as ArtifactKind].name : null,
-    f.status !== ALL ? STATUS_FILTERS.find((s) => s.id === f.status)?.label : null,
-    f.area !== ALL ? SIGNALS.find((s) => s.id === f.area)?.name : null,
-    f.showClosed ? null : F.closedHidden,
-  ].filter((part): part is string => Boolean(part));
-
   const radios = (key: "tool" | "status" | "area", label: string, options: { value: string; label: string }[]): MenuEntry => ({
     type: "radio-group",
     id: key,
@@ -73,35 +67,35 @@ export function ToolboxConcept1() {
     }),
   });
 
-  const label = (key: "tool" | "status" | "area", fallback: string, names: Record<string, string>) =>
-    f[key] === ALL ? undefined : names[f[key]] ?? fallback;
+  const toolName = f.tool === ALL ? undefined : TOOLS[f.tool as ArtifactKind].name;
+  const statusName = f.status === ALL ? undefined : STATUS_FILTERS.find((s) => s.id === f.status)?.label;
+  const areaName = f.area === ALL ? undefined : SIGNALS.find((s) => s.id === f.area)?.name;
 
-  const entries: MenuEntry[] = [
+  /** One menu per filter, each a plain list: no menu inside a menu. The
+   *  button says what is chosen. */
+  const menus: { id: string; label: string; chosen?: string; entries: MenuEntry[] }[] = [
     {
-      type: "submenu",
       id: "tool",
       label: F.tool,
-      hint: label("tool", "", Object.fromEntries(TOOL_ORDER.map((k) => [k, TOOLS[k].name]))),
-      items: [radios("tool", F.tool, TOOL_ORDER.map((k) => ({ value: k, label: TOOLS[k].name })))],
+      chosen: toolName,
+      entries: [radios("tool", F.tool, TOOL_ORDER.map((k) => ({ value: k, label: TOOLS[k].name })))],
     },
     {
-      type: "submenu",
       id: "status",
       label: F.status,
-      hint: label("status", "", Object.fromEntries(STATUS_FILTERS.map((s) => [s.id, s.label]))),
-      items: [radios("status", F.status, STATUS_FILTERS.map((s) => ({ value: s.id, label: s.label })))],
+      chosen: statusName ?? (f.showClosed ? undefined : F.closedHidden),
+      entries: [
+        radios("status", F.status, STATUS_FILTERS.map((s) => ({ value: s.id, label: s.label }))),
+        { type: "separator", id: "sep" },
+        { type: "checkbox", id: "closed", label: F.showClosed, checked: f.showClosed, onCheckedChange: (checked) => set({ showClosed: checked }) },
+      ],
     },
     {
-      type: "submenu",
       id: "area",
       label: F.area,
-      hint: label("area", "", Object.fromEntries(SIGNALS.map((s) => [s.id, s.name]))),
-      items: [radios("area", F.area, SIGNALS.map((s) => ({ value: s.id, label: s.name })))],
+      chosen: areaName,
+      entries: [radios("area", F.area, SIGNALS.map((s) => ({ value: s.id, label: s.name })))],
     },
-    { type: "separator", id: "sep-1" },
-    { type: "checkbox", id: "closed", label: F.showClosed, checked: f.showClosed, onCheckedChange: (checked) => set({ showClosed: checked }) },
-    { type: "separator", id: "sep-2" },
-    { type: "item", id: "clear", label: F.clear, icon: "close", disabled: on === 0, onSelect: () => setF(NONE) },
   ];
 
   return (
@@ -113,14 +107,21 @@ export function ToolboxConcept1() {
         {p.empty ?? (
           <>
             <div className="library__filter">
-              <DropdownMenu label={F.button} icon="filter" badge={on ? String(on) : undefined} srSuffix={on ? F.on(on) : undefined} entries={entries} />
+              <fieldset className="library__filter-menus">
+                <legend className="u-visually-hidden">{F.button}</legend>
+                {menus.map((m) => (
+                  <DropdownMenu
+                    key={m.id}
+                    label={m.chosen ? F.chosen(m.label, m.chosen) : m.label}
+                    entries={m.entries}
+                    className={m.chosen ? "is-set" : undefined}
+                  />
+                ))}
+              </fieldset>
               {on ? (
-                <p className="library__filter-summary">
-                  {F.showing(summary)}{" "}
-                  <button type="button" className="library__clear" onClick={() => setF(NONE)}>
-                    {F.clear}
-                  </button>
-                </p>
+                <button type="button" className="library__clear" onClick={() => setF(NONE)}>
+                  {F.clear}
+                </button>
               ) : null}
             </div>
             {p.noMatch}

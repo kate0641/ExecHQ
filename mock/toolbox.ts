@@ -530,13 +530,12 @@ export const LIBRARY_COPY = {
     tool: "Tool",
     status: "Status",
     area: "Plan area",
-    /** Concept 1's menu. */
-    button: "Filter",
-    on: (n: number) => (n === 1 ? ", 1 filter on" : `, ${n} filters on`),
+    /** Concept 1's three menus, as a group. */
+    button: "Filter your library",
+    /** A menu's button once something is chosen: "Tool: Pitch Builder". */
+    chosen: (filter: string, choice: string) => `${filter}: ${choice}`,
     showClosed: "Show closed",
     clear: "Clear filters",
-    /** Under the button, while filters are on. */
-    showing: (parts: string[]) => `Showing ${parts.join(", ")}`,
     closedHidden: "closed hidden",
     noneMatch: "Nothing in your library matches these filters.",
   },
