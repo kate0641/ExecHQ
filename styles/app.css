@@ -12481,18 +12481,11 @@ ul.login__never {
   background-repeat: no-repeat;
 }
 
-/* As she scrolls, the status bar blends from the top of the sky into the
-   sky's middle colour, reaching it as the section heading comes up under
-   it (--sky-scrolled runs 0 to 1), so the glow never hangs over the page
-   and there is no jump. */
+/* As she scrolls, the status bar's slice of sky scrolls with the page, so
+   the status bar and the sky under it stay one sky with no edge, and holds
+   once the sky's middle colour reaches it (--sky-scrolled, in px). */
 .device__screen:has(.map-home) > .device__statusbar {
-  background-image:
-    linear-gradient(
-      color-mix(in srgb, var(--sky-top-edge) calc(var(--sky-scrolled, 0) * 100%), transparent),
-      color-mix(in srgb, var(--sky-top-edge) calc(var(--sky-scrolled, 0) * 100%), transparent)
-    ),
-    var(--home-sky-full);
-  background-size: 100% 100%, 100% var(--home-sky-total);
+  background-position: 0 calc(-1 * var(--sky-scrolled, 0px));
 }
 
 /* For now Home has no wordmark header: the greeting band is the top of the
@@ -13660,6 +13653,28 @@ ul.templates__outcomes {
   border-radius: 0;
   box-shadow: none;
   padding-inline: var(--space-feature-padding) var(--space-xs);
+}
+
+/* The × is small and quiet: a lighter grey. */
+.map-home .signal-picture--card .spark__note .spark__close {
+  color: var(--color-text-muted);
+}
+
+/* Drawn smaller than the sparkle (16px to its 18px), so its line is
+   thickened to match: both show about 1.35px. */
+.map-home .signal-picture--card .spark__note .spark__close svg {
+  stroke-width: 1.7;
+}
+
+/* The sparkle lines up with the left edge of the rows below. */
+.map-home .signal-picture--card .spark__mark {
+  width: auto;
+  place-items: center start;
+  /* The drawing sits a hair inside its box; pull it back to the edge. */
+  margin-left: calc(-1 * var(--space-3xs));
+  /* One eyebrow line tall, level with it, so the sparkle centres on PRESS. */
+  height: calc(var(--type-eyebrow-size) * var(--type-eyebrow-leading));
+  margin-top: calc(var(--space-3xs) / 2);
 }
 
 /* A clear pause between the introduction and the first number. */

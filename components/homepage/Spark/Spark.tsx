@@ -93,7 +93,7 @@ export function Spark({ items, label, dismissLabel, dismissName, onDismiss, onAc
               aria-label={dismissName(item.text)}
               onClick={() => onDismiss(item.id)}
             >
-              {closeIcon ? <Icon name="close" size={20} /> : dismissLabel}
+              {closeIcon ? <Icon name="close" size={16} /> : dismissLabel}
             </Button>
           </div>
         </li>
