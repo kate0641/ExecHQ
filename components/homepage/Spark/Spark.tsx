@@ -27,6 +27,8 @@ export interface SparkProps {
   tone?: "note" | "celebrate";
   /** Dismiss with an × rather than the word (Home's Signal Picture strip). */
   closeIcon?: boolean;
+  /** A word before the source, set off by a dot: "Congratulations · Press". */
+  kicker?: string;
   className?: string;
 }
 
@@ -46,7 +48,7 @@ function splitFirst(text: string): [string, string] {
  * It sits inline at the top of the signals section, never blocks anything,
  * and goes for good when dismissed. With nothing to note it is not there.
  */
-export function Spark({ items, label, dismissLabel, dismissName, onDismiss, onAction, tone = "note", closeIcon, className }: SparkProps) {
+export function Spark({ items, label, dismissLabel, dismissName, onDismiss, onAction, tone = "note", closeIcon, kicker, className }: SparkProps) {
   if (items.length === 0) return null;
   if (tone === "celebrate") {
     return (
@@ -77,7 +79,16 @@ export function Spark({ items, label, dismissLabel, dismissName, onDismiss, onAc
             <Icon name="spark" size={18} />
           </span>
           <div className="spark__text">
-            <span className="spark__source">{item.source}</span>
+            <span className="spark__source">
+              {kicker ? (
+                <>
+                  {kicker}
+                  <span aria-hidden="true"> · </span>
+                  <span className="u-visually-hidden">, </span>
+                </>
+              ) : null}
+              {item.source}
+            </span>
             <p>{item.text}</p>
           </div>
           <div className="spark__actions">

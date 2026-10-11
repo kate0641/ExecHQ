@@ -157,6 +157,9 @@ export const SPARK_COPY = {
   recorded: (what: string) => `ExecHQ recorded: ${what}`,
   hide: "Not right? Hide it",
   dismiss: "Dismiss",
+  /** Before the source on Home's Signal Picture strip: "Congratulations · Press".
+   *  The designer's wording (2026-10-11), for Kate to confirm. */
+  kicker: "Congratulations",
   dismissNote: (text: string) => `Dismiss: ${text}`,
   /** The small words above each note, by where it came from. */
   source: {
