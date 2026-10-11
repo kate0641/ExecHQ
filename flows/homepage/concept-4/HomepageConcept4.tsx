@@ -314,6 +314,7 @@ export function HomepageConcept4() {
           }
           headingId="signal-picture-heading"
           className="signal-picture--card"
+          nextOutside
         />
       </div>
     </div>

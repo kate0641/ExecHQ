@@ -1,6 +1,9 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { BaselineList, type BaselineRow } from "@/components/homepage/BaselineList";
+import {
+  BaselineList,
+  type BaselineRow,
+} from "@/components/homepage/BaselineList";
 import { Spark, type SparkProps } from "@/components/homepage/Spark";
 import { Icon } from "@/components/primitives/Icon";
 
@@ -14,7 +17,16 @@ export interface SignalPictureProps {
   /** The one note of what has moved lately. Omitted when nothing has. */
   spark?: SparkProps;
   /** The one thing to try next, with the way to start it in the Toolbox. */
-  next?: { label: string; title: string; why: string; href: string; actionLabel: string };
+  next?: {
+    label: string;
+    title: string;
+    why: string;
+    href: string;
+    actionLabel: string;
+  };
+  /** The next step sits under the card, on its own, instead of inside it
+   *  (Home, where the Signal Picture is a card). */
+  nextOutside?: boolean;
   /** The way to the full Signal Picture page, as a text link under the rows. */
   detailHref?: string;
   detailLabel?: string;
@@ -46,40 +58,63 @@ export function SignalPicture({
   empty,
   headingId,
   className,
+  nextOutside,
 }: SignalPictureProps) {
+  const nextStep = next ? (
+    <div className="account-card__try">
+      <span className="account-card__try-label">{next.label}</span>
+      <b>{next.title}</b>
+      <p>{next.why}</p>
+      <Link
+        href={next.href}
+        className="btn btn--secondary btn--md account-card__cta"
+      >
+        {next.actionLabel}
+        <Icon name="chevron" size={16} />
+      </Link>
+    </div>
+  ) : null;
+
   return (
-    <section className={["account-card", "signal-picture", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
-      <div className="account-card__top">
-        <h2 className="account-card__name" id={headingId}>
-          {name}
-        </h2>
-        {asOf && !empty ? <span className="account-card__asof">{asOf}</span> : null}
-      </div>
-      {empty ? (
-        empty
-      ) : (
-        <>
-          {spark ? <Spark {...spark} /> : null}
-          <BaselineList rows={rows} thenLabel={thenLabel} nowLabel={nowLabel} />
-          {detailHref ? (
-            <Link href={detailHref} className="link link--standalone signal-picture__links">
-              {detailLabel}
-            </Link>
+    <>
+      <section
+        className={["account-card", "signal-picture", className]
+          .filter(Boolean)
+          .join(" ")}
+        aria-labelledby={headingId}
+      >
+        <div className="account-card__top">
+          <h2 className="account-card__name" id={headingId}>
+            {name}
+          </h2>
+          {asOf && !empty ? (
+            <span className="account-card__asof">{asOf}</span>
           ) : null}
-          {next ? (
-            <div className="account-card__try">
-              <span className="account-card__try-label">{next.label}</span>
-              <b>{next.title}</b>
-              <p>{next.why}</p>
-              <Link href={next.href} className="btn btn--secondary btn--md account-card__cta">
-                {next.actionLabel}
-                <Icon name="chevron" size={16} />
+        </div>
+        {empty ? (
+          empty
+        ) : (
+          <>
+            {spark ? <Spark {...spark} /> : null}
+            <BaselineList
+              rows={rows}
+              thenLabel={thenLabel}
+              nowLabel={nowLabel}
+            />
+            {detailHref ? (
+              <Link
+                href={detailHref}
+                className="link link--standalone signal-picture__links"
+              >
+                {detailLabel}
               </Link>
-            </div>
-          ) : null}
-        </>
-      )}
-    </section>
+            ) : null}
+            {next && !nextOutside ? nextStep : null}
+          </>
+        )}
+      </section>
+      {next && nextOutside && !empty ? nextStep : null}
+    </>
   );
 }
 
