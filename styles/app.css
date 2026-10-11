@@ -16786,6 +16786,13 @@ ul.plan-guided__sparks {
   min-height: var(--button-target);
 }
 
+.draft-editor__section-actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-3xs);
+}
+
 .draft-editor__section-heading {
   margin: 0;
   font-size: var(--text-sm);
@@ -18194,4 +18201,59 @@ ul.plan-guided__sparks {
   word-spacing: var(--word-spacing-normal);
   line-height: var(--leading-relaxed);
   color: var(--color-text-secondary);
+}
+
+/* --- Positioning Builder ------------------------------------------------------ */
+
+/* Her statement from onboarding, carried onto the first screen. */
+.tool-flow__carried {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  padding: var(--space-sm) var(--space-md);
+  border-left: var(--border-width-medium) solid var(--color-accent);
+  background-color: var(--color-surface-sunken);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.tool-flow__carried-label {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.tool-flow__carried-text {
+  margin: 0;
+  font-family: var(--font-serif);
+  word-spacing: var(--word-spacing-normal);
+  line-height: var(--leading-normal);
+}
+
+/* Offered, never forced, when her statement changes. */
+.tool-flow__refresh {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding: var(--space-sm) var(--space-md);
+  border: var(--border-width-thin) solid var(--color-border-strong);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+}
+
+.tool-flow__refresh-heading {
+  margin: 0;
+  font-weight: var(--weight-semibold);
+}
+
+.tool-flow__refresh-body {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.tool-flow__refresh-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  padding-top: var(--space-2xs);
 }

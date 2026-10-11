@@ -100,6 +100,8 @@ export const toolboxActions = {
       };
     }),
   show: (id: string, n: number) => updateDraft(id, () => ({ showing: n })),
+  /** Its first line in the library, when the part it shows changes. */
+  setPreview: (id: string, preview: string) => updateDraft(id, (d) => ({ meta: { ...d.meta, preview } })),
   editSection: (id: string, section: string, text: string) =>
     updateDraft(id, (d) => ({ edits: { ...d.edits, [d.showing]: { ...d.edits[d.showing], [section]: text } } })),
   answer: (id: string, question: string, text: string) =>

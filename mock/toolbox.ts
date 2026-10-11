@@ -353,6 +353,13 @@ export const DRAFT_COPY = {
   /** Never "your post": it is a draft until she marks it ready. */
   label: (n: number) => (n === 1 ? "First draft" : `Draft, version ${n}`),
   intro: "Here is a first draft of your post. Change anything; it is yours.",
+  /** By tool: never "your bio", always a first draft until she marks it ready. */
+  introFor: {
+    positioning: "Here is a first draft of your bios and narrative, built on your statement. Change anything; it is yours.",
+    pitch: "Here is a first draft of your pitch, with its follow-up. Change anything; it is yours.",
+    "situation-brief": "Here is a first draft of your brief. Change anything; it is yours.",
+    "thought-leadership": "Here is a first draft of your post. Change anything; it is yours.",
+  } as Record<ArtifactKind, string>,
   legendYou: "Your words",
   legendExechq: "ExecHQ’s wording",
   legendQuestion: "A question only you can answer",
@@ -431,6 +438,9 @@ export const USE_COPY = {
   export: "Export",
   exportPdf: "Download as PDF",
   exportWord: "Download as Word",
+  /** On one output, where space is short. */
+  pdfShort: "PDF",
+  wordShort: "Word",
   exported: (format: string) => `Downloading as ${format}.`,
   markReady: "Mark ready",
   /** "Mark published", "Mark sent", "Mark used". */
@@ -722,4 +732,64 @@ export const TOOL_COPY = {
   },
   /** Situation Brief: when a date is known, the follow-up lands after it. */
   askAfter: (when: string) => `ExecHQ will ask “Did this create a next step?” ${when}.`,
+} as const;
+
+/* -----------------------------------------------------------------------------
+   POSITIONING BUILDER (stage 5b)
+   The full builder around the onboarding statement. Her statement opens here
+   as the same artifact, with its history: never a copy. Every other output
+   draws on it. Changing the statement offers, never forces, a refresh of the
+   bios and narrative.
+   -------------------------------------------------------------------------- */
+
+/** What Positioning Builder asks. The statement, her role and where she is
+ *  headed are known; only what she is known for is asked. The values that
+ *  depend on her account are filled in by the flow. */
+export const POSITIONING_INPUTS: readonly ToolInput[] = [
+  { id: "statement", label: "Your positioning statement", kind: "long", source: "onboarding" },
+  { id: "role", label: "Your role, as you’d say it", kind: "text", source: "plan" },
+  { id: "toward", label: "Where you’re headed", kind: "text", source: "direction" },
+  {
+    id: "knownFor",
+    label: "What are you known for?",
+    hint: "What colleagues would say you’re the person for. A line is enough.",
+    kind: "long",
+    placeholder: "Getting teams that don’t report to me to plan as one",
+  },
+  { id: "strengths", label: "Strengths you’d want named", kind: "text", optional: true, placeholder: "Calm in a hard room; turning data into a decision" },
+  {
+    id: "context",
+    label: "An introduction for a particular moment",
+    kind: "choice",
+    optional: true,
+    options: ["A promotion conversation", "An executive introduction", "A conference program"],
+  },
+];
+
+/** The enricher, once she adds it: one more input on the same screen. */
+export const WINS_INPUT: ToolInput = {
+  id: "wins",
+  label: "Three recent accomplishments",
+  hint: "One a line. Leave out names and numbers you can’t share.",
+  kind: "long",
+  optional: true,
+};
+
+export const POSITIONING_COPY = {
+  fromOnboarding: "Your statement from onboarding",
+  onboardingVersion: "Your statement, from onboarding",
+  builtOut: "Built out in Positioning Builder",
+  intro: "Here is a first draft of your bios and narrative, built on your statement. Change anything; it is yours.",
+  copySection: (name: string) => `Copy ${name.toLowerCase()}`,
+  copied: (name: string) => `${name} copied.`,
+  /** Offered when she changes her statement. Never automatic. */
+  refresh: {
+    heading: "Your statement changed.",
+    body: "Your bios and narrative still say the old one. Refresh them to match?",
+    yes: "Refresh them",
+    no: "Keep them as they are",
+    done: "Refreshed, as a new version. The earlier one is still there.",
+    what: "Bios and narrative refreshed from your statement",
+  },
+  nextUse: "Use the short bio wherever you are introduced, and the narrative to open your next conversation about scope.",
 } as const;

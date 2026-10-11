@@ -58,7 +58,7 @@ export function useToolboxPage(concept: "concept-1" | "concept-2" | "concept-3")
         item={item}
         today={loop.today}
         href={artifactHref(item.record.id)}
-        buildOutHref={item.fromOnboarding ? `${toolHref("positioning")}&artifact=${item.record.id}` : undefined}
+        buildOutHref={item.fromOnboarding ? artifactHref(item.record.id) : undefined}
         onMore={() => setOpen(item.record.id)}
         onClose={() => {
           loopActions.close(item.record.id);

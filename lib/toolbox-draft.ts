@@ -239,3 +239,79 @@ export function briefDraft(v: Record<string, string>, when?: string): DraftSecti
     },
   ];
 }
+
+/* -----------------------------------------------------------------------------
+   POSITIONING BUILDER
+   -------------------------------------------------------------------------- */
+
+const INTRO_OPENINGS: Record<string, string> = {
+  "A promotion conversation": "I’d like to talk about what comes next for me. ",
+  "An executive introduction": "Thank you for making the time. ",
+  "A conference program": "",
+};
+
+/** Her statement, carried from onboarding, then bios in three lengths, the
+ *  leadership narrative, an introduction for the moment she chose, and what
+ *  to use it for next. Bios use her name, never a pronoun ExecHQ assumed. */
+export function positioningDraft(v: Record<string, string>, name: string): DraftSection[] {
+  const first = name.split(" ")[0] || name;
+  const statement = v.statement?.trim();
+  const role = v.role?.trim();
+  const known = v.knownFor?.trim();
+  const toward = v.toward?.trim();
+  const wins = v.wins?.trim();
+  const strengths = v.strengths?.trim();
+  const roleSeg = role ? you(role) : ask("What is your role?");
+  // Mid-sentence, her words take a small first letter, unless they start with
+  // "I" or a name in capitals ("CRM", "EMEA").
+  const midSentence = (t: string) => (/^[A-Z][a-z]/.test(t) && !/^I\b/.test(t) ? t[0].toLowerCase() + t.slice(1) : t).replace(/[.]$/, "");
+  const knownSeg = known ? you(midSentence(known)) : ask("What are you known for?");
+
+  const short: DraftSegment[] = [you(name), ex(" is "), roleSeg, ex(", known for "), knownSeg, ex(". ")];
+  const medium: DraftSegment[] = [
+    ...short,
+    ex(`${first} is building toward `),
+    toward ? you(midSentence(toward)) : ask("Where are you headed?"),
+    ex(". "),
+    wins ? you(sentence(wins.split("\n")[0])) : ask("Which result would you put in the second line?"),
+  ];
+  const long: DraftSegment[] = [
+    ...medium,
+    ex(" "),
+    ...(wins && wins.split("\n").length > 1 ? [you(sentence(wins.split("\n").slice(1).join(" ")))] : []),
+    ...(strengths ? [ex("Colleagues name "), you(strengths.replace(/[.]$/, "")), ex(" as what they rely on. ")] : []),
+    ...(statement ? [ex(`In ${first}’s words: “`), you(statement.replace(/\s+$/, "")), ex("” ")] : []),
+    ask("What came before your current role?"),
+    ex(" "),
+    ask("Anything you’d like people to know outside work?"),
+  ];
+
+  const sections: DraftSection[] = [
+    { id: "statement", heading: "Positioning statement", segments: [statement ? you(statement) : ask("What is your positioning statement?")] },
+    { id: "bio-short", heading: "Short bio", segments: short },
+    { id: "bio-medium", heading: "Medium bio", segments: medium },
+    { id: "bio-long", heading: "Long bio", segments: long },
+    {
+      id: "narrative",
+      heading: "Leadership narrative",
+      segments: [...(statement ? [you(sentence(statement))] : []), ex("What I do: "), roleSeg, ex(". What I am known for: "), knownSeg, ex(". What I am building toward: "), toward ? you(toward.replace(/[.]$/, "")) : ask("Where are you headed?"), ex(".")],
+    },
+  ];
+  if (v.context) {
+    sections.push({
+      id: "intro",
+      heading: `Introduction for ${v.context.replace(/^(a|an) /i, "").toLowerCase()}`,
+      segments:
+        v.context === "A conference program"
+          ? [...short, ex(`${first} will speak on `), ask("What is the session about?")]
+          : [ex(INTRO_OPENINGS[v.context] ?? ""), ...(statement ? [you(sentence(statement))] : []), ex("I’m known for "), knownSeg, ex(", and I’m building toward "), toward ? you(toward.replace(/[.]$/, "")) : ask("Where are you headed?"), ex(".")],
+    });
+  }
+  sections.push({ id: "next-use", heading: "Recommended next use", segments: [ex("Use the short bio wherever you are introduced, and the narrative to open your next conversation about scope.")] });
+  return sections;
+}
+
+/** The statement alone, as onboarding left it: the artifact's first version. */
+export function statementOnly(statement: string): DraftSection[] {
+  return [{ id: "statement", heading: "Positioning statement", segments: [you(statement)] }];
+}

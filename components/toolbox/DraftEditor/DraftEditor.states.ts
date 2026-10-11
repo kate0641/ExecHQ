@@ -1,13 +1,17 @@
-import { createElement, Fragment } from "react";
+import { createElement, Fragment, type ComponentProps } from "react";
 import { defineComponentStates } from "@/components/types";
 import { LoopStatus } from "@/components/loop/LoopStatus";
 import { SourceLabel } from "@/components/briefing/SourceLabel";
 import { createRecord } from "@/lib/loop";
+import { positioningDraft } from "@/lib/toolbox-draft";
+import { Button } from "@/components/primitives/Button";
 import { TODAYS_READS } from "@/mock/briefing";
 import { DRAFT_COPY, REVISION_COPY, TL_VERSIONS } from "@/mock/toolbox";
 import { DraftEditor } from "./DraftEditor";
 
 const noop = () => {};
+/** A ghost button's props; its words go in as children. */
+const ghost = { variant: "ghost", size: "sm" } as ComponentProps<typeof Button>;
 const [v1, v2] = TL_VERSIONS;
 const record = createRecord({ id: "tl-post", kind: "thought-leadership", title: "Post: planning season", name: "your post", on: "2026-10-05" });
 const header = createElement(LoopStatus, { record });
@@ -34,6 +38,26 @@ export const draftEditorStates = defineComponentStates({
     { label: "Editing a section", props: { ...base, preview: { editing: "post" } } },
     { label: "Saved empty — error", props: { ...base, preview: { editing: "post", error: true } } },
     { label: "Revising — loading, edit unavailable", props: { ...base, label: DRAFT_COPY.label(2), sections: v2.sections, revising: REVISION_COPY.revising }, states: ["disabled"] },
+    {
+      label: "Positioning Builder: Copy, PDF and Word on each part",
+      description: "Each output can be used on its own.",
+      props: {
+        ...base,
+        label: DRAFT_COPY.label(2),
+        intro: DRAFT_COPY.introFor.positioning,
+        sections: positioningDraft(
+          { statement: "I want to move from running campaigns to leading a broader marketing organization.", role: "Senior Director, Campaigns", toward: "leading a broader marketing organization", knownFor: "Getting teams that don’t report to me to plan as one" },
+          "Maya Chen"
+        ),
+        sectionActions: (section) =>
+          createElement(
+            Fragment,
+            null,
+            createElement(Button, ghost, "Copy"),
+            section.id.startsWith("bio") ? createElement(Button, ghost, "PDF") : null
+          ),
+      },
+    },
     { label: "Version 2, long text wraps", props: { ...base, label: DRAFT_COPY.label(2), sections: v2.sections, intro: undefined } },
   ],
 });

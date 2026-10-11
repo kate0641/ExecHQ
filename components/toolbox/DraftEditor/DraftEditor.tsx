@@ -22,6 +22,9 @@ export interface DraftEditorProps {
   intro?: string;
   /** A revision is being written: the draft waits under a status. */
   revising?: string;
+  /** Beside each section's Edit: its own Copy or Export, where each output
+   *  is used on its own (Positioning Builder's bios). */
+  sectionActions?: (section: DraftSection) => ReactNode;
   /** Lets a page move focus to the draft once it is written. */
   id?: string;
   /** Opens a section in an editing state (catalogue). */
@@ -115,6 +118,7 @@ export function DraftEditor({
   intro,
   revising,
   preview,
+  sectionActions,
   id,
   className,
 }: DraftEditorProps) {
@@ -152,10 +156,13 @@ export function DraftEditor({
               <div className="draft-editor__section-head">
                 {section.heading ? <h3 className="draft-editor__section-heading">{section.heading}</h3> : <span />}
                 {editing === section.id ? null : (
-                  <Button variant="ghost" size="sm" onClick={() => setEditing(section.id)} disabled={Boolean(revising)}>
-                    {C.edit}
-                    <span className="u-visually-hidden"> {name}</span>
-                  </Button>
+                  <span className="draft-editor__section-actions">
+                    {sectionActions?.(section)}
+                    <Button variant="ghost" size="sm" onClick={() => setEditing(section.id)} disabled={Boolean(revising)}>
+                      {C.edit}
+                      <span className="u-visually-hidden"> {name}</span>
+                    </Button>
+                  </span>
                 )}
               </div>
               {editing === section.id ? (
