@@ -35,11 +35,7 @@ export function ToolboxConcept2() {
             <div className="library__groups">
               {groups.map((g) => (
                 <LibraryGroup key={g.id} heading={g.name} count={g.items.length} layout="section">
-                  <ul className="library__list">
-                    {g.items.map((item) => (
-                      <li key={item.record.id}>{p.row(item, { hideArea: true, headingLevel: 4 })}</li>
-                    ))}
-                  </ul>
+                  {p.list(g.items, { hideArea: true })}
                 </LibraryGroup>
               ))}
             </div>

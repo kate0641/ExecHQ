@@ -17300,20 +17300,6 @@ ul.plan-guided__sparks {
   color: var(--color-text-secondary);
 }
 
-.library__list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-[data-viewport="web"] .toolbox-page--c1 .library__list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
 .library__groups,
 .library__timeline {
   display: flex;
@@ -17338,118 +17324,6 @@ ul.plan-guided__sparks {
   cursor: pointer;
 }
 
-/* --- A library row ---------------------------------------------------------- */
-
-.library-row {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2xs);
-  padding: var(--space-sm) var(--space-md);
-  padding-right: calc(var(--space-md) + var(--button-target));
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
-}
-
-.library-row.is-closed {
-  background-color: transparent;
-}
-
-.library-row__top {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2xs) var(--space-sm);
-}
-
-.library-row__tool {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-3xs);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-secondary);
-}
-
-.library-row__title {
-  margin: 0;
-  font-size: var(--text-md);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-}
-
-.library-row__open {
-  color: var(--color-text-primary);
-  text-decoration: none;
-}
-
-.library-row__open:hover,
-.library-row__open.is-hover {
-  text-decoration: underline;
-  text-underline-offset: 0.15em;
-}
-
-.library-row__open:focus-visible,
-.library-row__open.is-focus {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-  border-radius: var(--radius-xs);
-}
-
-.library-row__open:active,
-.library-row__open.is-active {
-  color: var(--color-text-secondary);
-}
-
-.library-row__preview {
-  margin: 0;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-  font-family: var(--font-serif);
-  word-spacing: var(--word-spacing-normal);
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
-}
-
-.library-row__meta,
-.library-row__link {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-3xs) var(--space-2xs);
-  margin: 0;
-  font-size: var(--text-xs);
-  color: var(--color-text-secondary);
-}
-
-.library-row__invite,
-.library-row__suggest {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-xs);
-  margin-top: var(--space-2xs);
-  padding: var(--space-sm);
-  border-radius: var(--radius-md);
-  background-color: var(--color-surface-sunken);
-}
-
-.library-row__invite-text,
-.library-row__suggest-text {
-  margin: 0;
-  font-size: var(--text-sm);
-}
-
-.library-row__more {
-  position: absolute;
-  top: var(--space-2xs);
-  right: var(--space-2xs);
-}
-
 /* --- Filter (Concept 1) ------------------------------------------------------- */
 
 .library__filter {
@@ -17457,6 +17331,11 @@ ul.plan-guided__sparks {
   flex-wrap: wrap;
   align-items: center;
   gap: var(--space-xs) var(--space-sm);
+}
+
+.library__status {
+  margin-right: var(--space-3xs);
+  vertical-align: baseline;
 }
 
 .library__filter-menus {
@@ -18506,6 +18385,366 @@ ul.plan-guided__sparks {
 @media (prefers-reduced-motion: reduce) {
   .dropdown__trigger,
   .dropdown__chevron {
+    transition: none;
+  }
+}
+
+/* ===========================================================================
+   LIST — rows of one or two lines, from the LISTS tokens. Plain, selectable
+   or reorderable. A row with a link is one target: the primary line's link
+   is stretched over it, and the row's own actions sit above that.
+   ======================================================================== */
+
+.list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list--framed {
+  border: var(--border-width-thin) solid var(--list-border);
+  border-radius: var(--list-radius);
+  background-color: var(--list-surface);
+  overflow: hidden;
+}
+
+.list__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--list-item-gap);
+  min-height: var(--button-target);
+  padding: var(--list-item-padding-block) var(--list-item-padding-inline);
+  transition: background-color var(--duration-fast) var(--easing-standard);
+}
+
+.list__item--two {
+  align-items: flex-start;
+}
+
+/* Dividers between rows, across the row or past the leading element. */
+.list--dividers-full .list__item + .list__item {
+  border-top: var(--border-width-thin) solid var(--list-divider);
+}
+
+.list--dividers-inset .list__item + .list__item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: var(--list-divider-inset);
+  border-top: var(--border-width-thin) solid var(--list-divider);
+}
+
+.list--reorderable.list--dividers-inset .list__item + .list__item::before {
+  left: calc(var(--list-divider-inset) + var(--button-target));
+}
+
+/* A row with a link: the whole row opens it. */
+.list__item--link:hover,
+.list__item--link.is-hover {
+  background-color: var(--list-item-hover);
+}
+
+.list__item--link:active,
+.list__item--link.is-active {
+  background-color: var(--list-item-active);
+}
+
+.list__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.list__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.list__link:focus-visible {
+  outline: none;
+}
+
+.list__link:focus-visible::after,
+.list__item.is-focus .list__link::after {
+  outline: var(--focus-ring);
+  outline-offset: calc(-1 * var(--focus-ring-width));
+}
+
+.list__link:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+/* --- Leading ------------------------------------------------------------- */
+
+.list__leading {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--list-leading-size);
+  height: var(--list-leading-size);
+}
+
+.list__leading--icon {
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-sunken);
+  color: var(--color-text-secondary);
+}
+
+.list__leading--avatar {
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-inverse);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-inverse);
+}
+
+.list__checkbox {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: 0;
+  accent-color: var(--color-text-primary);
+}
+
+.list__checkbox:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.list__check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: var(--border-width-medium) solid var(--color-border-strong);
+  border-radius: var(--radius-xs);
+}
+
+.list__check.is-on {
+  border-color: var(--color-text-primary);
+  background-color: var(--color-text-primary);
+  color: var(--color-surface-raised);
+}
+
+/* --- Text ---------------------------------------------------------------- */
+
+.list__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  min-width: 0;
+}
+
+.list__primary {
+  font-family: var(--list-primary-font);
+  font-size: var(--list-primary-size);
+  font-weight: var(--list-primary-weight);
+  line-height: var(--list-primary-leading);
+  color: var(--color-text-primary);
+}
+
+.list__secondary {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  font-family: var(--list-secondary-font);
+  font-size: var(--list-secondary-size);
+  line-height: var(--list-secondary-leading);
+  color: var(--list-secondary-color);
+}
+
+/* --- Trailing ------------------------------------------------------------ */
+
+.list__trailing {
+  display: inline-flex;
+  flex: none;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2xs) var(--space-xs);
+  max-width: 50%;
+}
+
+.list__meta {
+  font-size: var(--list-meta-size);
+  font-variant-numeric: tabular-nums;
+  color: var(--list-meta-color);
+}
+
+/* Actions sit above the row's stretched link, so they get their own press. */
+.list__actions,
+.list__handle,
+.list__nudge {
+  position: relative;
+  z-index: 1;
+}
+
+.list__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3xs);
+}
+
+/* --- Selectable ---------------------------------------------------------- */
+
+.list--selectable .list__item {
+  padding: 0;
+}
+
+.list__option {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--list-item-gap);
+  min-height: var(--button-target);
+  padding: var(--list-item-padding-block) var(--list-item-padding-inline);
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.list__item--two .list__option {
+  align-items: flex-start;
+}
+
+.list__option:hover,
+.list__item.is-hover .list__option {
+  background-color: var(--list-item-hover);
+}
+
+.list__option:active,
+.list__item.is-active .list__option {
+  background-color: var(--list-item-active);
+}
+
+.list__option[aria-pressed="true"] {
+  background-color: var(--list-item-selected);
+}
+
+.list__option:focus-visible,
+.list__item.is-focus .list__option {
+  outline: var(--focus-ring);
+  outline-offset: calc(-1 * var(--focus-ring-width));
+}
+
+.list__option:disabled {
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+
+.list__option:disabled .list__primary,
+.list__option:disabled .list__secondary {
+  color: var(--color-text-disabled);
+}
+
+.list__tick {
+  flex: none;
+  align-self: center;
+}
+
+/* --- Reorderable --------------------------------------------------------- */
+
+.list--reorderable .list__item {
+  padding-left: var(--space-2xs);
+}
+
+.list__handle {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--button-target);
+  height: var(--button-target);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--color-text-secondary);
+  cursor: grab;
+  touch-action: none;
+}
+
+.list__handle:hover {
+  background-color: var(--list-item-hover);
+}
+
+.list__handle:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: calc(-1 * var(--focus-ring-width));
+}
+
+.list__handle[aria-pressed="true"] {
+  cursor: grabbing;
+  background-color: var(--list-item-selected);
+  color: var(--color-text-primary);
+}
+
+/* The row she is holding lifts off the list. */
+.list__item.is-held {
+  z-index: 2;
+  background-color: var(--list-surface);
+  box-shadow: var(--shadow-md);
+}
+
+.list__nudge {
+  display: inline-flex;
+  flex: none;
+  flex-direction: column;
+}
+
+.list__nudge-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* 24px: the smallest target WCAG 2.2 AA allows (SC 2.5.8). */
+  width: 1.75rem;
+  height: 1.5rem;
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.list__nudge-button:hover {
+  background-color: var(--list-item-hover);
+}
+
+.list__nudge-button:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: calc(-1 * var(--focus-ring-width));
+}
+
+.list__nudge-button:disabled {
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+
+.list__nudge-up {
+  transform: rotate(-90deg);
+}
+
+.list__nudge-down {
+  transform: rotate(90deg);
+}
+
+.list__item.is-disabled .list__primary,
+.list__item.is-disabled .list__secondary {
+  color: var(--color-text-disabled);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .list__item {
     transition: none;
   }
 }

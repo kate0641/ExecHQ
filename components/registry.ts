@@ -127,13 +127,13 @@ import { versionHistoryStates } from "./toolbox/VersionHistory/VersionHistory.st
 import { draftUseBarStates } from "./toolbox/DraftUseBar/DraftUseBar.states";
 import { toolPickerStates } from "./toolbox/ToolPicker/ToolPicker.states";
 import { momentStartStates } from "./toolbox/MomentStart/MomentStart.states";
-import { libraryRowStates } from "./toolbox/LibraryRow/LibraryRow.states";
 import { artifactActionsStates } from "./toolbox/ArtifactActions/ArtifactActions.states";
 import { libraryGroupStates } from "./toolbox/LibraryGroup/LibraryGroup.states";
 import { libraryEmptyStates } from "./toolbox/LibraryEmpty/LibraryEmpty.states";
 import { workspacePanelStates } from "./toolbox/WorkspacePanel/WorkspacePanel.states";
 import { pinnedDraftStates } from "./toolbox/PinnedDraft/PinnedDraft.states";
 import { dropdownMenuStates } from "./form/DropdownMenu/DropdownMenu.states";
+import { listStates } from "./layout/List/List.states";
 export const registry: RegisteredComponent[] = [
   badgeStates,
   buttonStates,
@@ -151,6 +151,7 @@ export const registry: RegisteredComponent[] = [
   navPlaceholderStates,
   stepBarStates,
   sheetStates,
+  listStates,
   drawerStates,
   stepHeaderStates,
   stepActionsStates,
@@ -253,7 +254,6 @@ export const registry: RegisteredComponent[] = [
   draftUseBarStates,
   toolPickerStates,
   momentStartStates,
-  libraryRowStates,
   artifactActionsStates,
   libraryGroupStates,
   libraryEmptyStates,

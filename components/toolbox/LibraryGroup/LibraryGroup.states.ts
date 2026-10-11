@@ -1,12 +1,13 @@
 import { createElement } from "react";
 import { defineComponentStates } from "@/components/types";
 import { CONTENT_INSIDE } from "@/components/not-applicable";
-import { LibraryRow } from "@/components/toolbox/LibraryRow";
-import { BRIEF_READY, EXAMPLE_TODAY } from "@/components/toolbox/library-examples";
+import { List } from "@/components/layout/List";
 import { LibraryGroup } from "./LibraryGroup";
 
-const noop = () => {};
-const row = createElement(LibraryRow, { item: BRIEF_READY, today: EXAMPLE_TODAY, href: "/toolbox-flow/concept-2?artifact=x", onMore: noop, hideArea: true, headingLevel: 4 });
+const row = createElement(List, {
+  label: "Library",
+  items: [{ id: "brief", primary: "Brief for your manager check-in", secondary: "Situation Brief · Last changed today · 3 versions", leading: { type: "icon", name: "document" }, href: "/toolbox-flow/concept-2?artifact=check-in-brief" }],
+});
 
 export const libraryGroupStates = defineComponentStates({
   name: "LibraryGroup",

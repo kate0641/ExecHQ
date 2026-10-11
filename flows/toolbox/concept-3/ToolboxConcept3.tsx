@@ -48,11 +48,7 @@ export function ToolboxConcept3() {
             <div className="library__timeline">
               {[...weeks.entries()].map(([start, items]) => (
                 <LibraryGroup key={start} heading={weekLabel(start, p.today)} count={items.length} layout="week">
-                  <ul className="library__list">
-                    {items.map((item) => (
-                      <li key={item.record.id}>{p.row(item, { headingLevel: 4 })}</li>
-                    ))}
-                  </ul>
+                  {p.list(items)}
                 </LibraryGroup>
               ))}
             </div>

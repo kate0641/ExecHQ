@@ -650,6 +650,35 @@
   --menu-edge: var(--space-xs);
 
   /* ---------------------------------------------------------------------------
+     LISTS — rows of items (components/layout/List): one or two lines, a
+     leading icon, avatar or checkbox, and trailing badges, metadata or
+     actions. Built on the type roles, so a type change reaches them.
+     ------------------------------------------------------------------------ */
+  --list-surface: var(--color-surface-raised);
+  --list-border: var(--color-border);
+  --list-radius: var(--radius-card);
+  --list-divider: var(--color-border-subtle);
+  --list-item-hover: var(--color-surface-hover);
+  --list-item-active: var(--color-surface-active);
+  --list-item-selected: var(--color-surface-selected);
+  --list-item-padding-block: var(--space-sm);
+  --list-item-padding-inline: var(--space-md);
+  --list-item-gap: var(--space-sm);
+  --list-leading-size: 2.25rem;
+  /* Where an inset divider starts: past the leading element. */
+  --list-divider-inset: calc(var(--list-item-padding-inline) + var(--list-leading-size) + var(--list-item-gap));
+  --list-primary-font: var(--type-subheading-font);
+  --list-primary-size: var(--type-subheading-size);
+  --list-primary-weight: var(--type-subheading-weight);
+  --list-primary-leading: var(--type-subheading-leading);
+  --list-secondary-font: var(--type-body-sm-font);
+  --list-secondary-size: var(--type-body-sm-size);
+  --list-secondary-leading: var(--leading-snug);
+  --list-secondary-color: var(--color-text-secondary);
+  --list-meta-size: var(--type-caption-size);
+  --list-meta-color: var(--color-text-secondary);
+
+  /* ---------------------------------------------------------------------------
      MOTION — every transition must be disabled under prefers-reduced-motion
      ------------------------------------------------------------------------ */
   --duration-fast: 120ms;

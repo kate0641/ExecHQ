@@ -116,11 +116,7 @@ export function ToolboxConcept1() {
             </div>
             {p.noMatch}
             {shown.length === 0 && !p.noMatch ? <p className="library__no-match">{F.noneMatch}</p> : null}
-            <ul className="library__list">
-              {shown.map((item) => (
-                <li key={item.record.id}>{p.row(item)}</li>
-              ))}
-            </ul>
+            {p.list(shown)}
           </>
         )}
       </section>

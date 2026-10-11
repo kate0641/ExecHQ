@@ -5,13 +5,17 @@ import { Input } from "@/components/form/Input";
 import { Sheet } from "@/components/layout/Sheet";
 import { ArtifactActions } from "@/components/toolbox/ArtifactActions";
 import { LibraryEmpty } from "@/components/toolbox/LibraryEmpty";
-import { LibraryRow } from "@/components/toolbox/LibraryRow";
-import { searchLibrary, libraryItems, type LibraryItem } from "@/lib/library";
+import { List, type ListItemData } from "@/components/layout/List";
+import { LoopStatus } from "@/components/loop/LoopStatus";
+import { Button } from "@/components/primitives/Button";
+import { Icon } from "@/components/primitives/Icon";
+import { TOOL_ICONS } from "@/components/toolbox/ToolPicker/ToolPicker";
+import { editedWords, searchLibrary, libraryItems, type LibraryItem } from "@/lib/library";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { draftMeta, toolboxActions, useToolbox } from "@/lib/toolbox-store";
 import type { ArtifactKind } from "@/mock/loop";
-import { LIBRARY_COPY as C, TOOLBOX_PAGE, USE_COPY } from "@/mock/toolbox";
+import { FLOW_COPY, LIBRARY_COPY as C, TOOLBOX_PAGE, USE_COPY } from "@/mock/toolbox";
 
 export const TITLE_ID = "toolbox-title";
 const LIBRARY_ID = "library-heading";
@@ -51,24 +55,70 @@ export function useToolboxPage(concept: "concept-1" | "concept-2" | "concept-3")
 
   const close = () => setOpen(null);
 
-  function row(item: LibraryItem, options: { hideArea?: boolean; headingLevel?: 3 | 4 } = {}): ReactNode {
-    return (
-      <LibraryRow
-        key={item.record.id}
-        item={item}
-        today={loop.today}
-        href={artifactHref(item.record.id)}
-        buildOutHref={item.fromOnboarding ? artifactHref(item.record.id) : undefined}
-        onMore={() => setOpen(item.record.id)}
-        onClose={() => {
-          loopActions.close(item.record.id);
-          setMessage(C.closed(item.record.title));
-        }}
-        hideArea={options.hideArea}
-        headingLevel={options.headingLevel}
-      />
-    );
+  /** One artifact as a list row: the tool's icon, the title (which opens
+   *  it), a second line with the tool, when it last changed, how many
+   *  versions and where it came from, and its Loop status. */
+  function itemOf(item: LibraryItem, options: { hideArea?: boolean }): ListItemData {
+    const { record } = item;
+    const source = item.reusedFrom
+      ? FLOW_COPY.reusedFrom(item.reusedFrom)
+      : item.readId
+        ? C.fromRead
+        : item.step
+          ? C.forStep(item.step)
+          : undefined;
+    const second = [
+      item.tool,
+      C.edited(editedWords(item, loop.today)),
+      C.versions(item.versions),
+      options.hideArea ? undefined : item.areaName,
+      source,
+      // Her onboarding statement, not yet built out: opening it builds it out.
+      item.fromOnboarding && record.state !== "closed" ? C.statementInvite : undefined,
+      record.state === "outcome" ? C.closeSuggest : undefined,
+    ].filter(Boolean);
+    return {
+      id: record.id,
+      primary: record.title,
+      // The status leads the second line, so on a phone the title keeps the
+      // width and only the menu sits at the end.
+      secondary: (
+        <>
+          <LoopStatus record={record} detail={false} className="library__status" />
+          {" "}
+          {second.join(" · ")}
+        </>
+      ),
+      href: artifactHref(record.id),
+      leading: { type: "icon", name: TOOL_ICONS[record.kind] },
+      trailing: {
+        actions: (
+          <>
+            {record.state === "outcome" ? (
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => {
+                  loopActions.close(record.id);
+                  setMessage(C.closed(record.title));
+                }}
+              >
+                {C.actions.close}
+                <span className="u-visually-hidden"> {record.title}</span>
+              </Button>
+            ) : null}
+            <Button variant="ghost" size="sm" onClick={() => setOpen(record.id)} aria-label={C.actions.more(record.title)}>
+              <Icon name="menu" size={16} />
+            </Button>
+          </>
+        ),
+      },
+    };
   }
+
+  /** Library rows as a list, one or two lines each, divided. */
+  const list = (items: readonly LibraryItem[], options: { hideArea?: boolean } = {}): ReactNode =>
+    items.length ? <List items={items.map((i) => itemOf(i, options))} label={C.heading} dividers="full" className="library__rows" /> : null;
 
   const header = (
     <header className="toolbox-page__header">
@@ -160,7 +210,7 @@ export function useToolboxPage(concept: "concept-1" | "concept-2" | "concept-3")
     found,
     query,
     toolHref,
-    row,
+    list,
     header,
     libraryHeader,
     libraryId: LIBRARY_ID,
