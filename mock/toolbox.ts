@@ -32,6 +32,8 @@ export interface ToolUseCase {
   makes: string;
   /** A few words, for a tile: "Bios and your narrative". */
   short: string;
+  /** The name in a word or two, under an icon where four share one row. */
+  label: string;
   /** One sentence: when to use it. */
   when: string;
   /** What she will need, short. Things ExecHQ already has are said so. */
@@ -45,6 +47,7 @@ export interface ToolUseCase {
 export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
   positioning: {
     kind: "positioning",
+    label: "Positioning",
     name: "Positioning Builder",
     makes: "Your positioning statement, a bio in three lengths and a leadership narrative, in your words.",
     short: "Your statement, bios and narrative",
@@ -55,6 +58,7 @@ export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
   },
   pitch: {
     kind: "pitch",
+    label: "Pitch",
     name: "Pitch Builder",
     makes: "A pitch to a conference, a podcast or an editor, with subject lines and the follow-up already drafted.",
     short: "Pitches for stages, shows and press",
@@ -65,6 +69,7 @@ export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
   },
   "situation-brief": {
     kind: "situation-brief",
+    label: "Brief",
     name: "Situation Brief",
     makes: "A one-page brief for a moment that matters: what you want from it, what you will say, what they will ask.",
     short: "One page before a moment that matters",
@@ -75,6 +80,7 @@ export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
   },
   "thought-leadership": {
     kind: "thought-leadership",
+    label: "Thought leadership",
     name: "Thought Leadership Builder",
     makes: "A LinkedIn post or an article in your voice, from your own idea, a step on your plan or something you read.",
     short: "A post or article in your voice",
@@ -630,6 +636,15 @@ export const STATUS_FILTERS: readonly { id: string; label: string; states: reado
   { id: "outcome", label: "Outcome logged", states: ["outcome"] },
   { id: "closed", label: "Closed", states: ["closed"] },
 ];
+
+/** Concept 2's groups: when she last touched it, newest first. */
+export const TOUCHED_GROUPS = {
+  today: "Today",
+  yesterday: "Yesterday",
+  thisWeek: "Earlier this week",
+  lastWeek: "Last week",
+  earlier: "Earlier",
+} as const;
 
 /** Concept 3's timeline, grouped by the week of each artifact's last change. */
 export const WEEK_LABELS = {

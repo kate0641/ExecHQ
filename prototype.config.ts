@@ -237,7 +237,7 @@ export const prototypeConfig: PrototypeConfig = {
           slug: "concept-2",
           title: "Concept 2 — Starter row",
           summary:
-            "The tools as one scrolling row of chips; the library grouped by plan area. Tools open as a document workspace.",
+            "The tools as one row of four icons; the library grouped by when each was last touched. Tools open as a document workspace.",
         },
         {
           slug: "concept-3",

@@ -15,10 +15,12 @@ export interface ToolPickerProps {
   hrefFor: (kind: ArtifactKind) => string;
   /**
    * - `tiles`: a 2×2 grid on a phone, one row of four wider (Concept 1).
-   * - `chips`: one row of chips that scrolls sideways, so the library gets
-   *   almost the whole first screen (Concepts 2 and 3).
+   * - `chips`: one row of chips that scrolls sideways.
+   * - `icons`: one row of four that fits the width, each an icon over a short
+   *   name, so nothing scrolls and the library keeps the first screen
+   *   (Concept 2).
    */
-  layout: "tiles" | "chips";
+  layout: "tiles" | "chips" | "icons";
   /** The group's accessible name. */
   label?: string;
   /** Catalogue only: shows the first tool in a state a static page can't reach. */
@@ -28,7 +30,8 @@ export interface ToolPickerProps {
 
 /**
  * The four tools, always at the top of the Toolbox. A tile carries the tool's
- * name and a few words on what it makes; a chip, the name alone.
+ * name and a few words on what it makes; a chip, the name alone; an icon
+ * option, the icon over a short name.
  */
 export function ToolPicker({ hrefFor, layout, label = "Tools", demo, className }: ToolPickerProps) {
   return (
@@ -42,9 +45,24 @@ export function ToolPicker({ hrefFor, layout, label = "Tools", demo, className }
                 href={hrefFor(kind)}
                 className={["tool-picker__tool", i === 0 && demo ? `is-${demo}` : null].filter(Boolean).join(" ")}
               >
-                <Icon name={TOOL_ICONS[kind]} size={layout === "tiles" ? 20 : 16} className="tool-picker__icon" />
-                <span className="tool-picker__name">{tool.name}</span>
-                {layout === "tiles" ? <span className="tool-picker__short">{tool.short}</span> : null}
+                {layout === "icons" ? (
+                  <>
+                    <span className="tool-picker__badge" aria-hidden="true">
+                      <Icon name={TOOL_ICONS[kind]} size={20} />
+                    </span>
+                    {/* The short name shows; the full one is what is read. */}
+                    <span className="tool-picker__name" aria-hidden="true">
+                      {tool.label}
+                    </span>
+                    <span className="u-visually-hidden">{tool.name}</span>
+                  </>
+                ) : (
+                  <>
+                    <Icon name={TOOL_ICONS[kind]} size={layout === "tiles" ? 20 : 16} className="tool-picker__icon" />
+                    <span className="tool-picker__name">{tool.name}</span>
+                    {layout === "tiles" ? <span className="tool-picker__short">{tool.short}</span> : null}
+                  </>
+                )}
               </Link>
             </li>
           );
