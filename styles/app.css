@@ -13672,6 +13672,7 @@ ul.templates__outcomes {
   place-items: center start;
   /* The drawing sits a hair inside its box; pull it back to the edge. */
   margin-left: calc(-1 * var(--space-3xs));
+  color: var(--color-icon-default);
   /* One eyebrow line tall, level with it, so the sparkle centres on PRESS. */
   height: calc(var(--type-eyebrow-size) * var(--type-eyebrow-leading));
   margin-top: calc(var(--space-3xs) / 2);
