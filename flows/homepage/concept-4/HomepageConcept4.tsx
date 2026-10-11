@@ -20,6 +20,7 @@ import { sparksFor } from "@/lib/sparks";
 import { BASELINE_COPY as BC, PRESENCE_STUB as PR, SPARK_COPY as SP } from "@/mock/accounts-stub";
 import { BRIEFING_STUB as B, HOME_COPY as C, MAP_COPY as M, SIGNAL_PICTURE_COPY as SPC } from "@/mock/homepage";
 import { shortDate } from "@/lib/loop";
+import { SKIES, pickedSky, subscribeSky, type Sky } from "@/components/hub/SnapshotPicker/sky-store";
 import { CHECKIN_COPY as CK } from "@/mock/homepage";
 import type { Horizon } from "@/mock/plan-stub";
 
@@ -50,8 +51,6 @@ function longDate(date: string): string {
 
 /** The sky behind the greeting follows the hour she opens Home: dawn from
  *  5, day from 9, dusk from 17 and night from 20. */
-type Sky = "dawn" | "day" | "dusk" | "night";
-const SKIES: Sky[] = ["dawn", "day", "dusk", "night"];
 function skyAt(hour: number): Sky {
   if (hour >= 5 && hour < 9) return "dawn";
   if (hour >= 9 && hour < 17) return "day";
@@ -68,22 +67,19 @@ function partAt(hour: number): Part {
   return "evening";
 }
 
-/** Her clock, read when Home is drawn, as "sky part". For review,
- *  ?sky=dawn (day, dusk, night) in the address shows that sky at any hour,
- *  with a greeting that belongs to it. */
+/** Her clock, read when Home is drawn, as "sky part". For review, the
+ *  dock's sky switcher, or ?sky=dawn (day, dusk, night) in the address, shows
+ *  that sky at any hour, with a greeting that belongs to it. */
 function currentMoment(): string {
   const hour = new Date().getHours();
-  const asked = SKIES.find((s) => s === new URLSearchParams(window.location.search).get("sky"));
+  const asked = pickedSky() ?? SKIES.find((s) => s === new URLSearchParams(window.location.search).get("sky"));
   if (!asked) return `${skyAt(hour)} ${partAt(hour)}`;
   const part: Part =
     asked === "dawn" ? "morning" : asked === "day" ? (skyAt(hour) === "day" ? partAt(hour) : "afternoon") : "evening";
   return `${asked} ${part}`;
 }
 
-/* Nothing re-draws the sky as time passes. */
-function noSubscription(): () => void {
-  return () => {};
-}
+/* Nothing re-draws the sky as time passes; only the dock's switcher does. */
 
 /** "Mon 5 Oct": the Briefing's day, as the card's small print. */
 function shortDay(date: string): string {
@@ -145,7 +141,7 @@ export function HomepageConcept4() {
       screen.style.removeProperty("--sky-scrolled");
     };
   }, []);
-  const [sky, part] = useSyncExternalStore(noSubscription, currentMoment, () => "day morning").split(" ") as [Sky, Part];
+  const [sky, part] = useSyncExternalStore(subscribeSky, currentMoment, () => "day morning").split(" ") as [Sky, Part];
   /* A ring she tapped, kept only for the state it was tapped in, so a new
      moment (or the dock's switcher) opens on her next step again. */
   const [picked, setPicked] = useState<{ horizon: Horizon; state: string } | null>(null);
