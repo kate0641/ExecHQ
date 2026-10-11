@@ -18,7 +18,7 @@ export interface MapRingsProps {
   /** Draws the key above the rings, so it is read before the rings are. */
   legend?: boolean;
   /** Catalogue only: shows one ring in a state a static page can't reach. */
-  demo?: { horizon: Horizon; state: "hover" | "focus" | "active" };
+  demo?: { horizon: Horizon; state: "focus" | "active" };
   className?: string;
 }
 

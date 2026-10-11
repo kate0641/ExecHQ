@@ -12677,11 +12677,6 @@ ul.map-rings {
   transition: background-color var(--duration-fast);
 }
 
-.map-rings__ring:hover,
-.map-rings__ring.is-hover {
-  background-color: var(--color-surface-hover);
-}
-
 .map-rings__ring[aria-pressed="true"] {
   background-color: var(--color-ring-selected);
   box-shadow: inset 0 0 0 var(--border-width-thin) var(--color-ring-selected-edge);
