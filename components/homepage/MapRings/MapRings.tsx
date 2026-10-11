@@ -50,8 +50,9 @@ function Segment({ from, to, state }: { from: number; to: number; state: MapStat
   if (state === "not-started") return <path className="map-rings__track" d={arc(from, to)} strokeWidth={W} />;
   const count = Math.max(8, Math.round((to - from) / SLICE));
   const step = (to - from) / count;
+  /* Grouped, so the in-progress band can glow as one shape. */
   return (
-    <>
+    <g className="map-rings__fades">
       {Array.from({ length: count }, (_, i) => (
         <path
           key={i}
@@ -62,7 +63,7 @@ function Segment({ from, to, state }: { from: number; to: number; state: MapStat
           style={{ "--fade": `${Math.round((i / (count - 1)) * 100)}%` } as CSSProperties}
         />
       ))}
-    </>
+    </g>
   );
 }
 

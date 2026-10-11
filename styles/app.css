@@ -12728,11 +12728,19 @@ ul.map-rings {
 .map-rings__track { stroke: var(--color-ring-track); }
 /* Over the sky, the rings not chosen carry the faintest white edge, so
    they sit on the sky rather than in it (designer, 2026-10-11, trial). */
-.map-home .map-rings__ring:not([aria-pressed="true"]) .map-rings__svg {
-  /* A soft glow rather than a line: no crisp layer, a wider, fainter blur. */
+/* A soft glow rather than a line, set per piece: the in-progress gradient
+   always glows white; done and empty pieces take --ring-lift, which is
+   light blue at dawn and white on the other skies (designer, 2026-10-11). */
+.map-home .map-rings__ring:not([aria-pressed="true"]) :is(.map-rings__done, .map-rings__track) {
   filter:
     drop-shadow(0 0 2px color-mix(in srgb, var(--ring-lift, var(--color-halo)) 75%, transparent))
     drop-shadow(0 0 4px color-mix(in srgb, var(--ring-lift, var(--color-halo)) 35%, transparent));
+}
+
+.map-home .map-rings__ring:not([aria-pressed="true"]) .map-rings__fades {
+  filter:
+    drop-shadow(0 0 2px color-mix(in srgb, var(--color-halo) 75%, transparent))
+    drop-shadow(0 0 4px color-mix(in srgb, var(--color-halo) 35%, transparent));
 }
 
 /* On dawn's pale sky a white glow vanishes, so it is a soft light blue. */
@@ -13625,6 +13633,11 @@ ul.templates__outcomes {
 
 .map-home .signal-picture--card.account-card {
   border-top-color: var(--color-surface-inverse);
+}
+
+/* The date beside the title sits on the navy too. */
+.map-home .signal-picture--card > .account-card__top .account-card__asof {
+  color: var(--color-text-inverse-muted);
 }
 
 /* A clear pause between the introduction and the first number. */
