@@ -30,7 +30,7 @@ function glyphFor(record: LoopRecord): Glyph {
  * The shape for each state, on a 12×12 grid in currentColor. It fills in as
  * the artifact moves through the Loop: dashed while a draft, a full ring once
  * ready, half full once used, a clock while waiting, solid once the outcome is
- * in, a ring with a tick when done. A second cue beside the word, never
+ * in, a ring with a tick once closed. A second cue beside the word, never
  * instead of it, so status never depends on colour (WCAG 2.2 SC 1.4.1).
  */
 const GLYPHS: Record<Glyph, React.ReactNode> = {
@@ -65,11 +65,11 @@ const GLYPHS: Record<Glyph, React.ReactNode> = {
 
 /**
  * An artifact's place in the Loop: the one status treatment used identically
- * everywhere an artifact appears (Home, Toolbox, the archive later).
+ * everywhere an artifact appears (Home, the Plan, the Toolbox and its library).
  *
  * It reads its label from the record through `lib/loop.ts`, so it cannot say
  * anything the Loop would not: "Draft", "Ready to use", "Sent", "Published",
- * "Waiting to hear", "Outcome logged", "Done". It is a label, not a control.
+ * "Waiting to hear", "Outcome logged", "Closed". It is a label, not a control.
  * Whatever answers a follow-up sits beside it.
  */
 export function LoopStatus({ record, detail = true, srPrefix = "Status:", className }: LoopStatusProps) {

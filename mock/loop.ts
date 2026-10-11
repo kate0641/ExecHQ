@@ -65,7 +65,9 @@ export const STATE_LABELS = {
   ready: "Ready to use",
   waiting: "Waiting to hear",
   outcome: "Outcome logged",
-  closed: "Done",
+  /** "Closed" means no further action is needed. Never "Done" or
+   *  "Complete": the Sprint 4 brief keeps those for action steps. */
+  closed: "Closed",
 } as const;
 
 /** A second line some states carry, where the label alone would hide a
