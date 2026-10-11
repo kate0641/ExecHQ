@@ -19,9 +19,10 @@
  * Mock content is written to the standard real curation will have to meet,
  * because the brief names generic reason lines as the feature's main risk.
  *
- * STAND-INS: the publishers are real, so the picker reads as it would in the
- * product. The three reads are not: their headlines and summaries are written
- * for Maya and are not real articles from those publishers.
+ * STAND-INS: every publisher here is invented, by decision on 2026-10-11, so
+ * nothing invented (headlines, standfirsts, the quoted passages Concept C
+ * highlights) is put in a real publisher's mouth on a public site. In the
+ * product the list is real publications.
  */
 
 /* -----------------------------------------------------------------------------
@@ -45,24 +46,24 @@ export const PUBLISHER_GROUPS: { id: PublisherGroupId; label: string }[] = [
 ];
 
 export const PUBLISHERS: Publisher[] = [
-  { id: "hbr", name: "Harvard Business Review", group: "leadership" },
-  { id: "mit-smr", name: "MIT Sloan Management Review", group: "leadership" },
-  { id: "mckinsey", name: "McKinsey Quarterly", group: "leadership" },
-  { id: "sb", name: "strategy+business", group: "leadership" },
-  { id: "ft", name: "Financial Times", group: "business" },
-  { id: "economist", name: "The Economist", group: "business" },
-  { id: "wsj", name: "The Wall Street Journal", group: "business" },
-  { id: "fortune", name: "Fortune", group: "business" },
-  { id: "marketing-week", name: "Marketing Week", group: "marketing" },
-  { id: "ad-age", name: "Ad Age", group: "marketing" },
-  { id: "the-drum", name: "The Drum", group: "marketing" },
-  { id: "fast-company", name: "Fast Company", group: "marketing" },
+  { id: "marlow", name: "Marlow Management Review", group: "leadership" },
+  { id: "calder", name: "The Calder Quarterly", group: "leadership" },
+  { id: "ridgeline", name: "Ridgeline Leadership Journal", group: "leadership" },
+  { id: "kestrel", name: "Kestrel Strategy Notes", group: "leadership" },
+  { id: "halden", name: "Halden Business Daily", group: "business" },
+  { id: "arden", name: "Arden Financial", group: "business" },
+  { id: "thornbury", name: "The Thornbury Report", group: "business" },
+  { id: "grayson", name: "Grayson Weekly", group: "business" },
+  { id: "fieldwork", name: "Fieldwork Marketing Weekly", group: "marketing" },
+  { id: "brandline", name: "Brandline", group: "marketing" },
+  { id: "tessel", name: "Tessel Media Review", group: "marketing" },
+  { id: "oakmont", name: "The Oakmont CMO Letter", group: "marketing" },
 ];
 
 /** The suggested set for Maya: leadership-heavy, because her direction is
  *  about leading an organization, with one marketing title so her own field
  *  is still in it. Proposed, from her direction, not from any data. */
-export const SUGGESTED_PUBLISHERS = ["hbr", "mit-smr", "mckinsey", "ft", "marketing-week"];
+export const SUGGESTED_PUBLISHERS = ["marlow", "calder", "ridgeline", "halden", "fieldwork"];
 
 /** The fewest she can choose. Three reads a day need room to choose from.
  *  Proposed: the brief does not set a number. */
@@ -91,35 +92,51 @@ export interface BriefingRead {
   /** Two or three sentences on what it says, shown when she opens it. In the
    *  product this is the publisher's own standfirst, not ExecHQ's summary. */
   standfirst: string;
+  /** Concept C: one passage from the article, highlighted, that she can tap
+   *  to respond to. A short quote with its source, which the product can show
+   *  without a licence for the whole article. */
+  passage: string;
+  /** Concept C: ExecHQ's note on that passage: why this part, for her. The
+   *  reason line says why the read is here; this says why this sentence. */
+  note: string;
 }
 
 export const TODAYS_READS: BriefingRead[] = [
   {
     id: "planning-season",
     title: "How planning season decides who gets new work",
-    publisherId: "hbr",
+    publisherId: "marlow",
     reason: "You lead the planning workstream, and the Q1 review is where new scope gets handed out.",
     groundedIn: "plan",
     standfirst:
       "Annual planning is where most new remits are assigned, often before any role is posted. The leaders who get them are usually the ones already shaping the plan, not the ones waiting to be asked.",
+    passage:
+      "The remit goes to whoever has already described the problem it solves, usually in the planning document itself.",
+    note: "You are writing part of that document. This is the part to bring to the Q1 review.",
   },
   {
     id: "widen-a-remit",
     title: "What chief marketing officers look for when they widen a remit",
-    publisherId: "mckinsey",
+    publisherId: "calder",
     reason: "You want to lead a broader marketing organization, and this is how the people who decide that think about it.",
     groundedIn: "direction",
     standfirst:
       "When a marketing remit grows, the people deciding look less at campaign results and more at how a leader runs work they do not own. Cross-functional judgment is the signal they say they look for first.",
+    passage:
+      "The question is no longer whether the campaigns worked, but whether the teams around them would follow the same leader again.",
+    note: "The workstream puts you across teams now. That is the evidence this describes.",
   },
   {
     id: "passed-over",
     title: "Why strong operators get passed over for scope, and what changes it",
-    publisherId: "mit-smr",
+    publisherId: "ridgeline",
     reason: "You said you want to be seen as a leader, not only as the person who delivers.",
     groundedIn: "direction",
     standfirst:
       "Reliable delivery can keep a leader in the role they already do well. The shift comes from naming the problems they would take on next, out loud, to the people who assign them.",
+    passage:
+      "Nobody hands new scope to the person they cannot spare. They hand it to the person who has said what they would do with it.",
+    note: "Your leadership story already says what you would take on. This is the case for saying it out loud.",
   },
 ];
 
@@ -186,9 +203,34 @@ export const BRIEFING_COPY = {
     sourceLine: (title: string, publisher: string) => `${title}, ${publisher}`,
   },
 
+  /* --- Concept B: one at a time ----------------------------------------- */
+  oneAtATime: {
+    count: (n: number, of: number) => `${n} of ${of}`,
+    next: "Next",
+    back: "Back",
+    toEnd: "See all three",
+  },
+
+  /* --- Concept C: the highlighted passage --------------------------------- */
+  passage: {
+    label: "A passage for you",
+    noteLabel: "ExecHQ’s note",
+    tapHint: "Tap the passage to respond to it.",
+    sheetHeading: "This passage",
+    respond: "Respond to this",
+    respondHint: "Opens Thought Leadership Builder with this passage and its article as your source.",
+    /** Web only: her own selection, where the full text is shown. In the
+     *  product that needs the whole article in ExecHQ, and so a licence from
+     *  the publisher: a review note (docs/sprint-4-review-notes.md), never
+     *  said on the page. */
+    selection: "Respond to your selection",
+  },
+
   /* --- End of the day's set ----------------------------------------------- */
   end: {
     heading: "That’s today’s three.",
+    /** Concept A, once all three have been opened. */
+    allRead: "You’ve read today’s three.",
     body: "Tomorrow’s arrive in the morning.",
   },
 
@@ -204,7 +246,13 @@ export const BRIEFING_COPY = {
     publishersHeading: "Your publishers",
     publishersValue: (n: number) => `${n} chosen`,
     changePublishers: "Change publishers",
+    save: "Save",
+    cancel: "Cancel",
     publishersSaved: "Saved. Tomorrow’s reads come from these.",
+    /** Concept A's line under the three: where they come from, and Change. */
+    fromLine: (names: string[]) =>
+      names.length <= 2 ? `From ${names.join(" and ")}` : `From ${names[0]}, ${names[1]} and ${names.length - 2} more`,
+    inProfile: "Change publishers in Profile",
     emailLabel: "Email me the Briefing",
     /** Off by default, per the brief. The 8 am send is from the 8 Oct
      *  notifications sheet. */

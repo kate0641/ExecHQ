@@ -19,6 +19,7 @@
 
 import { useMemo, useSyncExternalStore } from "react";
 import { reopenBriefing, useBriefingEverClosed } from "@/lib/briefing-dismissal";
+import { resetBriefing, useBriefingChanged } from "@/lib/briefing-store";
 import { closeDirection } from "@/lib/direction-open";
 import { resetCheckIns, useAnyCheckIns } from "@/lib/stage-checkins";
 import { resetPresence, useAddedPresence, useBaseline } from "@/lib/presence-store";
@@ -191,6 +192,7 @@ export function selectSnapshot(snapshot: SnapshotId): void {
 export function resetLoop(): void {
   write({ snapshot: getLoopState().snapshot, changes: {} });
   reopenBriefing();
+  resetBriefing();
   closeDirection();
   resetCheckIns();
   reopenSparks();
@@ -304,6 +306,7 @@ export function useLoop(): LoopView {
   const baselineSaved = useBaseline() !== null;
   const roadmapChanged = useRoadmapChanged();
   const checkInsSaved = useAnyCheckIns();
+  const briefingChanged = useBriefingChanged();
   return useMemo(() => {
     const snapshot = currentSnapshot(state);
     const followUp = nextFollowUp(snapshot.records, snapshot.today);
@@ -314,7 +317,7 @@ export function useLoop(): LoopView {
       lastWorkedOn: lastWorkedOn(snapshot.records),
       nextStep: snapshot.recommendations[0],
       changed: state.changes[state.snapshot] !== undefined,
-      anyChanged: Object.keys(state.changes).length > 0 || briefingClosed || sparksDismissed || presenceAdded || baselineSaved || roadmapChanged || checkInsSaved,
+      anyChanged: Object.keys(state.changes).length > 0 || briefingClosed || sparksDismissed || presenceAdded || baselineSaved || roadmapChanged || checkInsSaved || briefingChanged,
     };
-  }, [state, briefingClosed, sparksDismissed, presenceAdded, baselineSaved, roadmapChanged, checkInsSaved]);
+  }, [state, briefingClosed, sparksDismissed, presenceAdded, baselineSaved, roadmapChanged, checkInsSaved, briefingChanged]);
 }

@@ -110,6 +110,14 @@ import { planAgendaStates } from "./plan/PlanAgenda/PlanAgenda.states";
 import { roadmapTimelineStates } from "./plan/RoadmapTimeline/RoadmapTimeline.states";
 import { templateRoadmapsStates } from "./plan/TemplateRoadmaps/TemplateRoadmaps.states";
 
+import { briefingReadCardStates } from "./briefing/BriefingReadCard/BriefingReadCard.states";
+import { readActionsStates } from "./briefing/ReadActions/ReadActions.states";
+import { briefingReaderStates } from "./briefing/BriefingReader/BriefingReader.states";
+import { publisherPickerStates } from "./briefing/PublisherPicker/PublisherPicker.states";
+import { passageNoteStates } from "./briefing/PassageNote/PassageNote.states";
+import { sourceLabelStates } from "./briefing/SourceLabel/SourceLabel.states";
+import { readCounterStates } from "./briefing/ReadCounter/ReadCounter.states";
+import { briefingEndStates } from "./briefing/BriefingEnd/BriefingEnd.states";
 export const registry: RegisteredComponent[] = [
   badgeStates,
   buttonStates,
@@ -211,6 +219,14 @@ export const registry: RegisteredComponent[] = [
   checkInRecapStates,
   planAgendaStates,
   roadmapTimelineStates,
+  briefingReadCardStates,
+  readActionsStates,
+  briefingReaderStates,
+  publisherPickerStates,
+  passageNoteStates,
+  sourceLabelStates,
+  readCounterStates,
+  briefingEndStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */
