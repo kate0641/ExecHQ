@@ -135,6 +135,7 @@ import { pinnedDraftStates } from "./toolbox/PinnedDraft/PinnedDraft.states";
 import { dropdownMenuStates } from "./form/DropdownMenu/DropdownMenu.states";
 import { listStates } from "./layout/List/List.states";
 import { toolIllustrationStates } from "./toolbox/ToolIllustration/ToolIllustration.states";
+import { libraryFolderStates } from "./toolbox/LibraryFolder/LibraryFolder.states";
 export const registry: RegisteredComponent[] = [
   badgeStates,
   buttonStates,
@@ -261,6 +262,7 @@ export const registry: RegisteredComponent[] = [
   workspacePanelStates,
   pinnedDraftStates,
   toolIllustrationStates,
+  libraryFolderStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */

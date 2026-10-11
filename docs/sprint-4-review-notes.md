@@ -51,7 +51,7 @@ Every concept leads with the four tools and puts the library below, per the 11 O
 | Concept | Tools | Library | Making a draft |
 | --- | --- | --- | --- |
 | 1 — Tool cards (safe) | The next plan step's tool leads with its detailed drawing: a bento on tablet and web, one row plus three icons on a phone (option C, chosen 11 October). Drawings are placeholders for design | Two menus side by side (Tool, and Status with Show closed), each a plain list with counts; Clear filters under them | One question per screen ("Step 2 of 3"), then the draft full screen with Revise, Copy and Mark ready in a fixed bar |
-| 2 — Starter row (safe) | One row of four icons, each over a short name; nothing scrolls | Grouped by last touched (Today, Yesterday, Earlier this week, Last week, Earlier), collapsible | The draft full screen; inputs, revisions and versions in a panel pulled up from a peek bar (side panel on desktop) |
+| 2 — Starter row (safe) | One row of four icons, each over a short name; nothing scrolls | Four folders, one per tool, filed by ExecHQ (option A, chosen 11 October): each shows how many, where they stand and its last change, and opens to its list, newest first. On tablet and web the folders sit beside the open one's list. Search lists matches across all folders | The draft full screen; inputs, revisions and versions in a panel pulled up from a peek bar (side panel on desktop) |
 | 3 — Start from the moment (wild card) | "What's coming up?" picks the tool, with the tools as shortcut chips | A timeline by week | An interview, one question per screen, with the draft pinned above as a card that fills in as she answers (side by side on desktop) |
 
 **How the pieces connect.**

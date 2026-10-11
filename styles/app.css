@@ -19162,3 +19162,210 @@ ul.plan-guided__sparks {
     transition: none;
   }
 }
+
+/* ===========================================================================
+   LIBRARY FOLDERS (Toolbox Concept 2, option A) — one folder per tool, from
+   the folder tokens: a tab at the top left joined to the body, a tint per
+   tool, the tool's name and drawing on every folder.
+   ======================================================================== */
+
+.library-folder--positioning { --folder-tint: var(--folder-positioning); }
+.library-folder--pitch { --folder-tint: var(--folder-pitch); }
+.library-folder--situation-brief { --folder-tint: var(--folder-situation-brief); }
+.library-folder--thought-leadership { --folder-tint: var(--folder-thought-leadership); }
+
+.library-folder {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  margin: var(--space-sm) 0 0;
+  padding: var(--space-sm);
+  border: var(--border-width-thin) solid var(--folder-edge);
+  border-radius: 0 var(--folder-radius) var(--folder-radius) var(--folder-radius);
+  background-color: var(--folder-tint);
+  font: inherit;
+  color: var(--color-text-primary);
+  text-align: left;
+}
+
+/* The tab: a strip raised above the top left, its right edge cut on a slant. */
+.library-folder::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--border-width-thin));
+  top: calc(-1 * var(--space-sm));
+  width: 46%;
+  height: var(--space-sm);
+  border: var(--border-width-thin) solid var(--folder-edge);
+  border-bottom: 0;
+  border-radius: var(--folder-radius) 0 0 0;
+  background-color: var(--folder-tint);
+  clip-path: polygon(0 0, 78% 0, 100% 100%, 0 100%);
+}
+
+/* Joins the tab to the body, over the body's top border. */
+.library-folder::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: calc(-1 * var(--border-width-thin));
+  width: calc(46% - 2 * var(--border-width-thin));
+  height: calc(2 * var(--border-width-thin));
+  background-color: var(--folder-tint);
+}
+
+.library-folder--button {
+  min-height: 7.5rem;
+  cursor: pointer;
+}
+
+.library-folder--button:hover,
+.library-folder--button.is-hover {
+  border-color: var(--color-text-primary);
+}
+
+.library-folder--button:hover::before,
+.library-folder--button.is-hover::before {
+  border-color: var(--color-text-primary);
+}
+
+.library-folder--button:active,
+.library-folder--button.is-active {
+  transform: translateY(1px);
+}
+
+.library-folder--button:focus-visible,
+.library-folder--button.is-focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* The folder open beside the list (web) reads as chosen: a heavier edge. */
+.library-folder.is-current {
+  box-shadow: 0 0 0 var(--border-width-thin) var(--color-text-primary);
+  border-color: var(--color-text-primary);
+}
+
+.library-folder.is-current::before {
+  border-color: var(--color-text-primary);
+}
+
+.library-folder--header {
+  margin-bottom: 0;
+}
+
+.library-folder--header:focus {
+  outline: none;
+}
+
+.library-folder__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-xs);
+}
+
+.library-folder__name {
+  font-family: var(--font-display);
+  letter-spacing: var(--font-display-tracking);
+  word-spacing: var(--font-display-word-spacing);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.library-folder--header .library-folder__name {
+  font-size: var(--text-lg);
+}
+
+.library-folder__summary {
+  font-family: var(--font-body);
+  letter-spacing: var(--tracking-normal);
+  word-spacing: var(--word-spacing-normal);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-snug);
+  color: var(--color-text-primary);
+}
+
+.library-folder__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs);
+  margin-top: auto;
+}
+
+.library-folder__date {
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.library-folder__go {
+  flex: none;
+}
+
+/* --- The folders, and an open one ------------------------------------------- */
+
+.library-folders {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-sm) var(--space-xs);
+}
+
+/* Tablet and web: the folders in a column beside the open one's list. */
+.library-folders-split {
+  display: grid;
+  grid-template-columns: minmax(0, 17rem) minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-lg);
+}
+
+.library-folders-split .library-folders {
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-md);
+}
+
+.library-folder-open {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  min-width: 0;
+}
+
+.library-folder-open__back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  align-self: flex-start;
+  min-height: var(--button-target);
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-link);
+  cursor: pointer;
+}
+
+.library-folder-open__back:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.library-folder-open__empty,
+.library__results {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .library-folder--button:active {
+    transform: none;
+  }
+}

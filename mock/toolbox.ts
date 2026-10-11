@@ -572,6 +572,31 @@ export const LIBRARY_COPY = {
     more: (title: string) => `More for ${title}`,
   },
   closeSuggest: "You’ve said what came of it. Close it?",
+  /** Concept 2's folders: one per tool, filed by ExecHQ. */
+  folders: {
+    names: {
+      positioning: "Positioning",
+      pitch: "Pitches",
+      "situation-brief": "Briefs",
+      "thought-leadership": "Posts",
+    } as Record<ArtifactKind, string>,
+    lastChange: (date: string) => `Last change ${date}`,
+    empty: "Nothing here yet",
+    emptyBody: (tool: string) => `Anything you make in ${tool} is filed here.`,
+    back: "Library",
+    open: (name: string) => `Open ${name}`,
+    results: (n: number, q: string) => (n === 1 ? `1 match for “${q}”` : `${n} matches for “${q}”`),
+    /** One part of a folder's counts, by status filter id, in the Loop's words. */
+    count: (status: string, n: number): string =>
+      ({
+        draft: `${n} draft${n === 1 ? "" : "s"}`,
+        ready: `${n} ready to use`,
+        used: `${n} used, sent or published`,
+        waiting: `${n} waiting to hear`,
+        outcome: `${n} with an outcome logged`,
+        closed: `${n} closed`,
+      })[status] ?? `${n}`,
+  },
   closed: (title: string) => `${title} is closed. It stays in your library.`,
   deleteConfirm: {
     heading: (title: string) => `Delete ${title}?`,
