@@ -12729,9 +12729,10 @@ ul.map-rings {
 /* Over the sky, the rings not chosen carry the faintest white edge, so
    they sit on the sky rather than in it (designer, 2026-10-11, trial). */
 .map-home .map-rings__ring:not([aria-pressed="true"]) .map-rings__svg {
+  /* A soft glow rather than a line: no crisp layer, a wider, fainter blur. */
   filter:
-    drop-shadow(0 0 0.5px var(--color-halo))
-    drop-shadow(0 0 1px color-mix(in srgb, var(--color-halo) 70%, transparent));
+    drop-shadow(0 0 2px color-mix(in srgb, var(--color-halo) 75%, transparent))
+    drop-shadow(0 0 4px color-mix(in srgb, var(--color-halo) 35%, transparent));
 }
 
 /* Over the sky, the rings not chosen draw their track in white (trial). */
