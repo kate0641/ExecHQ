@@ -458,7 +458,7 @@ function Places({ destinations, currentFlow }: { destinations: NavDestination[];
             onClick={() => closePanel(false)}
           >
             <Icon name={ICONS[d.flowSlug] ?? "home"} size={20} />
-            <span>{d.label}</span>
+            <span className="u-bold-hold" data-label={d.label}>{d.label}</span>
             {d.flowSlug === "homepage" && loop.followUp ? (
               <>
                 <span className="concierge-dest__dot" aria-hidden="true" />

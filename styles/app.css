@@ -12778,26 +12778,6 @@ ul.map-rings {
   line-height: var(--leading-snug);
 }
 
-/* The chosen ring's name steps up a weight, so the choice is said by the
-   type as well as the tile (designer, 2026-10-11). The bold width is held
-   in reserve, so nothing shifts when the weight changes. */
-.map-rings__name {
-  display: inline-grid;
-}
-
-.map-rings__name::after {
-  content: attr(data-label);
-  grid-area: 1 / 1;
-  height: 0;
-  overflow: hidden;
-  visibility: hidden;
-  font-weight: var(--weight-bold);
-}
-
-.map-rings__ring[aria-pressed="true"] .map-rings__name {
-  font-weight: var(--weight-bold);
-}
-
 .map-rings__count {
   font-size: var(--text-xs);
   line-height: var(--leading-snug);
@@ -16145,4 +16125,32 @@ ul.plan-guided__sparks {
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   font-variant-numeric: tabular-nums;
+}
+
+
+/* -----------------------------------------------------------------------------
+   SELECTED STEPS UP A WEIGHT (designer, 2026-10-11)
+   Across the product, the label of whatever is chosen or current — a ring,
+   a chip, a nav item, a step — steps up to bold, so the choice is said by
+   the type as well as by colour. Each label sits in .u-bold-hold, which
+   holds its bold width in reserve, so nothing shifts when the choice moves.
+   -------------------------------------------------------------------------- */
+.u-bold-hold {
+  display: inline-grid;
+}
+
+.u-bold-hold::after {
+  content: attr(data-label);
+  grid-area: 1 / 1;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  font-weight: var(--weight-bold);
+}
+
+:is([aria-pressed="true"], [aria-current]:not([aria-current="false"]), .is-current) > .u-bold-hold,
+[aria-pressed="true"] .chip-group__title.u-bold-hold,
+.map-rings__ring[aria-pressed="true"] .u-bold-hold,
+.settings-row[aria-current="true"] .u-bold-hold {
+  font-weight: var(--weight-bold);
 }

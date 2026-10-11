@@ -53,7 +53,7 @@ export function PlanDetailSheet({ open, onClose, planId, rationale, stage, direc
           <ol className="plan-detail__stages">
             {stages.map((s, i) => (
               <li key={s.title} className={i === stage ? "is-current" : undefined} aria-current={i === stage ? "step" : undefined}>
-                <span>{s.title}</span>
+                <span className="u-bold-hold" data-label={s.title}>{s.title}</span>
                 {i === stage ? <b className="plan-detail__here">{C.youAreHere}</b> : null}
               </li>
             ))}

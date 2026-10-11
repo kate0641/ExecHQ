@@ -84,7 +84,7 @@ export function SettingsRow(props: SettingsRowProps) {
   const text = (
     <span className="settings-row__text">
       <span className="settings-row__label" id={labelId}>
-        {label}
+        <span className="u-bold-hold" data-label={label}>{label}</span>
       </span>
       {description ? (
         <span className="settings-row__description" id={descriptionId}>

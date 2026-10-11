@@ -67,7 +67,7 @@ export function AppChrome({ flow, children, navConcept }: AppChromeProps) {
                     className="chrome__nav-link"
                     aria-current={isCurrent ? "page" : undefined}
                   >
-                    {item.label}
+                    <span className="u-bold-hold" data-label={item.label}>{item.label}</span>
                   </Link>
                 </li>
               );

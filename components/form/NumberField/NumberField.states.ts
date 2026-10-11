@@ -15,6 +15,7 @@ export const numberFieldStates = defineComponentStates({
   notApplicable: {
     loading: "Written from local data: there is nothing to wait for.",
     error: "Any whole number is a fine answer, and anything else is simply not kept.",
+    active: "A text field has no pressed state: tapping it simply puts the cursor in.",
   },
   variants: [
     { label: "Empty — default", props: base },
