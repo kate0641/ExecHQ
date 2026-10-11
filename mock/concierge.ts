@@ -32,7 +32,8 @@ export const CONCIERGE_COPY = {
   /** Suggested questions, by what is going on. */
   suggest: {
     followUp: (name: string) => `Tell you what came of ${name}`,
-    prep: (name: string) => `Help me finish ${name}`,
+    // The draft's name is his ("your check-in brief"); this is her asking.
+    prep: (name: string) => `Help me finish ${name.replace(/^your /, "my ")}`,
     next: "What’s next on my plan?",
     scope: "How do I ask for more scope?",
     recall: "What have I done so far?",
