@@ -128,15 +128,15 @@ export function HomepageConcept4() {
     const screen = home?.closest<HTMLElement>(".device__screen");
     const scroller = home?.closest<HTMLElement>(".device__content");
     if (!home || !screen || !scroller) return;
-    /* 0 at the top, 1 once the sky's middle colour has scrolled up under
-       the status bar, about when the section heading reaches it: the status
-       bar blends over that whole distance, never in one jump. */
+    /* How far the sky has scrolled up under the status bar, stopping once
+       its middle colour is there, about when the rings reach it. */
     const update = () => {
-      const heading = home.querySelector<HTMLElement>(".map-home__heading");
-      const reach = Math.max(60, (heading?.getBoundingClientRect().top ?? 0) - scroller.getBoundingClientRect().top + scroller.scrollTop);
-      const t = Math.min(1, Math.max(0, scroller.scrollTop / reach));
-      /* Eased in and out, so the change starts and settles softly. */
-      screen.style.setProperty("--sky-scrolled", String(t * t * (3 - 2 * t)));
+      /* The rings' top is about where the sky's middle colour sits. */
+      const rings = home.querySelector<HTMLElement>(".map-rings");
+      const reach = Math.max(60, (rings?.getBoundingClientRect().top ?? 0) - scroller.getBoundingClientRect().top + scroller.scrollTop);
+      /* The status bar's slice of sky moves with the page, so the two stay
+         one sky, and stops once the middle colour reaches it. */
+      screen.style.setProperty("--sky-scrolled", `${Math.min(reach, Math.max(0, scroller.scrollTop))}px`);
     };
     update();
     scroller.addEventListener("scroll", update, { passive: true });
