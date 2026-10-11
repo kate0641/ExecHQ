@@ -9388,6 +9388,13 @@ ol.signal__list {
     animation: cover-flicker 4.2s ease-in-out both;
   }
 
+  /* Held on its first frame until the card is in view and she pauses on it
+     (BriefingEditorial sets data-play). */
+  .briefing-editorial--cover:not([data-play])::before,
+  .briefing-editorial--cover:not([data-play]) .briefing-editorial__light > span {
+    animation-play-state: paused;
+  }
+
   /* Once through, staggered, all done by 5 seconds. */
   .briefing-editorial__light > span:nth-child(2) { animation-duration: 4.4s; animation-delay: 0.3s; }
   .briefing-editorial__light > span:nth-child(3) { animation-duration: 4.2s; animation-delay: 0.8s; }
