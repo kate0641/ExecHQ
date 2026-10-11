@@ -9,6 +9,7 @@ import { ReadActions } from "@/components/briefing/ReadActions";
 import { Sheet } from "@/components/layout/Sheet";
 import { briefingActions, respondHref, useBriefing, type ReadState } from "@/lib/briefing-store";
 import { useLoop } from "@/lib/loop-store";
+import { useToolbox } from "@/lib/toolbox-store";
 import { BRIEFING_COPY as C, publisherName, TODAYS_READS, type BriefingRead } from "@/mock/briefing";
 
 export const PROFILE_HREF = "/profile/concept-1";
@@ -35,6 +36,9 @@ export function useBriefingPage() {
   const state = useBriefing();
   const [open, setOpen] = useState<Open>(null);
   const [message, setMessage] = useState("");
+  // The hand-off lands in the Toolbox concept the reviewer last opened.
+  const toolboxConcept = useToolbox().concept ?? "concept-1";
+  const respond = (readId: string, from?: "passage" | "selection") => respondHref(readId, from, toolboxConcept);
 
   const reads = TODAYS_READS;
   const stateOf = (id: string): ReadState => state.reads[id] ?? {};
@@ -66,7 +70,7 @@ export function useBriefingPage() {
         onMarkRead={options.markRead ? (next) => briefingActions.markRead(read.id, next) : undefined}
         relevance={s.relevance}
         onRelevance={(next) => briefingActions.setRelevance(read.id, next)}
-        respondHref={options.noRespond ? undefined : respondHref(read.id)}
+        respondHref={options.noRespond ? undefined : respond(read.id)}
         compact={options.compact}
         onOpen={options.compact ? () => openRead(read.id) : undefined}
       />
@@ -168,6 +172,7 @@ export function useBriefingPage() {
 
   return {
     reads,
+    respond,
     stateOf,
     allRead,
     header,

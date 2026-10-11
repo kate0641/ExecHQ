@@ -381,3 +381,103 @@ export const USE_CASE_COPY = {
   /** When she came from a read: the source arrives with her. */
   fromBriefing: "Started from today’s Briefing",
 } as const;
+
+/* -----------------------------------------------------------------------------
+   THE LIBRARY
+   Every artifact she has made, whichever tool or entry point made it. It reads
+   her Loop records, so the library, the Plan and the homepage always show the
+   same status. What the Loop does not hold (the plan area, the step it serves,
+   how many versions, a first line to search) is here, by record id.
+   -------------------------------------------------------------------------- */
+
+export interface ArtifactMeta {
+  /** Plan area: an id from `SIGNALS` in `mock/plan-stub.ts`. */
+  area?: string;
+  /** The action step it serves. */
+  planStepId?: string;
+  /** The Briefing read it started from (`mock/briefing.ts`). */
+  readId?: string;
+  versions: number;
+  /** Its first line, for the row and for search. */
+  preview: string;
+  /** Made in onboarding: the positioning statement, first in the library. */
+  fromOnboarding?: boolean;
+}
+
+/** The artifacts the homepage's five states already hold. */
+export const LIBRARY_SEED: Record<string, ArtifactMeta> = {
+  story: {
+    area: "seen-as-leader",
+    planStepId: "use-story",
+    versions: 2,
+    preview: "I want to move from running campaigns to leading a broader marketing organization.",
+    fromOnboarding: true,
+  },
+  "check-in-brief": {
+    area: "decider-access",
+    planStepId: "brief-manager",
+    versions: 3,
+    preview: "Objective: leave Thursday’s check-in with the planning workstream agreed as mine.",
+  },
+  pitch: {
+    area: "broader-remit",
+    planStepId: "q1-review",
+    versions: 2,
+    preview: "I’d like to put myself forward to lead marketing’s part of the Q1 planning review.",
+  },
+};
+
+export const LIBRARY_COPY = {
+  heading: "Library",
+  lead: "Everything you’ve made, wherever you started it.",
+  count: (n: number) => (n === 1 ? "1 artifact" : `${n} artifacts`),
+  search: "Search your library",
+  searchHint: "Searches titles and what they say.",
+  noMatch: (q: string) => `Nothing in your library mentions “${q}”.`,
+  clearSearch: "Clear search",
+  filters: {
+    all: "All",
+    tool: "Tool",
+    status: "Status",
+    area: "Plan area",
+  },
+  /** "Last changed today", "Last changed on Tuesday". */
+  edited: (when: string) => `Last changed ${when}`,
+  versions: (n: number) => (n === 1 ? "1 version" : `${n} versions`),
+  /** The link back to where it came from, on the row. */
+  forStep: (title: string) => `For: ${title}`,
+  fromRead: "Started from today’s Briefing",
+  /** The one-sentence statement from onboarding, first in her library. */
+  statementInvite: "Build it out in Positioning Builder: a bio in three lengths and your leadership narrative.",
+  statementAction: "Build it out",
+  otherArea: "Not tied to your plan",
+  /** Only someone who left onboarding before saving sees this. It points to
+   *  her first action step, never to a blank state. */
+  empty: {
+    heading: "Nothing here yet",
+    body: "Your first draft starts from the first step on your plan.",
+  },
+  actions: {
+    open: "Open",
+    reuse: "Use as a starting point",
+    reuseHint: "Makes a new draft from this one. This one stays as it is.",
+    export: "Export",
+    close: "Close",
+    closeHint: "No further action needed. It stays in your library.",
+    delete: "Delete",
+    more: (title: string) => `More for ${title}`,
+  },
+  closeSuggest: "You’ve said what came of it. Close it?",
+  closed: (title: string) => `${title} is closed. It stays in your library.`,
+  deleteConfirm: {
+    heading: (title: string) => `Delete ${title}?`,
+    /** States exactly what else goes, once. */
+    body: (signalItems: number) =>
+      signalItems === 0
+        ? "This deletes the draft and its record in ExecHQ. It can’t be undone."
+        : `This deletes the draft, its record in ExecHQ, and ${signalItems === 1 ? "1 item" : `${signalItems} items`} on your Signal Picture. It can’t be undone.`,
+    confirm: "Delete",
+    keep: "Keep it",
+    done: (title: string) => `${title} is deleted.`,
+  },
+} as const;

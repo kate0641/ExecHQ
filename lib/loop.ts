@@ -195,8 +195,10 @@ const ACTIONS: Record<LoopState, LoopAction[]> = {
   drafted: ["edit", "ready", "use", "abandon"],
   "in-progress": ["edit", "ready", "use", "abandon"],
   ready: ["edit", "use", "abandon"],
-  used: ["answer"],
-  waiting: ["answer"],
+  // Sprint 4: she can close any artifact at any time. Closing one that is out
+  // in the world stops its follow-ups; a draft is set aside instead.
+  used: ["answer", "close"],
+  waiting: ["answer", "close"],
   outcome: ["close"],
   closed: [],
 };
@@ -310,12 +312,14 @@ export function answerFollowUp(
   return { ...recorded, state: "outcome" };
 }
 
-/** Nothing more to do: the next step was taken up or set aside. */
+/** Nothing more to do: the next step was taken up or set aside, or she
+ *  closed it herself. Nothing is asked about it again. */
 export function closeRecord(record: LoopRecord, on: LoopDate): LoopRecord {
   assertCan(record, "close");
   return {
     ...record,
     state: "closed",
+    checkBackOn: undefined,
     history: [...record.history, { type: "closed", on, reason: "done" }],
   };
 }

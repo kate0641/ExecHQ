@@ -20,6 +20,7 @@
 import { useMemo, useSyncExternalStore } from "react";
 import { reopenBriefing, useBriefingEverClosed } from "@/lib/briefing-dismissal";
 import { resetBriefing, useBriefingChanged } from "@/lib/briefing-store";
+import { resetToolbox, useToolboxChanged } from "@/lib/toolbox-store";
 import { closeDirection } from "@/lib/direction-open";
 import { resetCheckIns, useAnyCheckIns } from "@/lib/stage-checkins";
 import { resetPresence, useAddedPresence, useBaseline } from "@/lib/presence-store";
@@ -28,6 +29,7 @@ import { resetLinkedInExport } from "@/lib/linkedin-store";
 import { resetSignalNotices } from "@/lib/signal-notices";
 import {
   abandonRecord,
+  availableActions,
   answerFollowUp,
   closeRecord,
   lastWorkedOn,
@@ -193,6 +195,7 @@ export function resetLoop(): void {
   write({ snapshot: getLoopState().snapshot, changes: {} });
   reopenBriefing();
   resetBriefing();
+  resetToolbox();
   closeDirection();
   resetCheckIns();
   reopenSparks();
@@ -273,6 +276,17 @@ export const loopActions = {
       return { choices: { ...choices, ...retired }, asked: add ? [...(asked ?? []), add] : asked };
     });
   },
+  /* The Toolbox (Sprint 4). A Loop record exists from the moment the first
+     draft does, so the library, the Plan and the homepage all see it. */
+  create: (record: LoopRecord) =>
+    update(({ records }) => ({ records: records.some((r) => r.id === record.id) ? records : [...records, record] })),
+  /** She closes it from the library, at any time: a draft is set aside,
+   *  anything used stops being asked about. */
+  close: (id: string) =>
+    updateRecord(id, (r, today) => (availableActions(r).includes("close") ? closeRecord(r, today) : abandonRecord(r, today))),
+  /** Deletes it, with its Loop record and the Signal Picture items its
+   *  history gave. */
+  remove: (id: string) => update(({ records }) => ({ records: records.filter((r) => r.id !== id) })),
   updateAccount: (change: Partial<Account>) =>
     update(({ account }) => ({ account: { ...account, ...change } })),
 };
@@ -307,6 +321,7 @@ export function useLoop(): LoopView {
   const roadmapChanged = useRoadmapChanged();
   const checkInsSaved = useAnyCheckIns();
   const briefingChanged = useBriefingChanged();
+  const toolboxChanged = useToolboxChanged();
   return useMemo(() => {
     const snapshot = currentSnapshot(state);
     const followUp = nextFollowUp(snapshot.records, snapshot.today);
@@ -317,7 +332,7 @@ export function useLoop(): LoopView {
       lastWorkedOn: lastWorkedOn(snapshot.records),
       nextStep: snapshot.recommendations[0],
       changed: state.changes[state.snapshot] !== undefined,
-      anyChanged: Object.keys(state.changes).length > 0 || briefingClosed || sparksDismissed || presenceAdded || baselineSaved || roadmapChanged || checkInsSaved || briefingChanged,
+      anyChanged: Object.keys(state.changes).length > 0 || briefingClosed || sparksDismissed || presenceAdded || baselineSaved || roadmapChanged || checkInsSaved || briefingChanged || toolboxChanged,
     };
-  }, [state, briefingClosed, sparksDismissed, presenceAdded, baselineSaved, roadmapChanged, checkInsSaved, briefingChanged]);
+  }, [state, briefingClosed, sparksDismissed, presenceAdded, baselineSaved, roadmapChanged, checkInsSaved, briefingChanged, toolboxChanged]);
 }

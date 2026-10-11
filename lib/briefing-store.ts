@@ -103,9 +103,11 @@ export function useBriefingChanged(): boolean {
  * Where "Write a post about this" goes: Thought Leadership Builder, carrying
  * the read as its source, and the passage when she started from one (Concept
  * C). The hand-off is the one connection between the Briefing and the Toolbox.
+ * It lands in the Toolbox concept the reviewer last opened, so any Briefing
+ * concept can be reviewed with any Toolbox concept.
  */
-export function respondHref(readId: string, from?: "passage" | "selection"): string {
+export function respondHref(readId: string, from?: "passage" | "selection", concept = "concept-1"): string {
   const params = new URLSearchParams({ source: "briefing", read: readId });
   if (from) params.set("from", from);
-  return `/toolbox-flow/concept-1?${params.toString()}`;
+  return `/toolbox-flow/${concept}?${params.toString()}`;
 }
