@@ -133,35 +133,35 @@ export function useBriefingPage() {
     <>
       <output className="u-visually-hidden">{message}</output>
       <Sheet open={open !== null} onClose={close} label={sheetLabel} className="briefing-sheet">
-      {openRecord ? (
-        <BriefingReader read={openRecord} onClose={close} actions={actionsFor(openRecord, { markRead: true })} />
-      ) : open?.kind === "saved" ? (
-        <div className="briefing-saved">
-          <h2 className="briefing-saved__heading">{C.savedReads.heading}</h2>
-          {saved.length ? (
-            <ul className="briefing-saved__list">
-              {saved.map((read) => (
-                <li key={read.id}>
-                  <BriefingReadCard read={read} layout="row" headingLevel={3} isRead={stateOf(read.id).read} onOpen={() => openRead(read.id)} />
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="briefing-saved__empty">{C.savedReads.empty}</p>
-          )}
-        </div>
-      ) : open?.kind === "publishers" ? (
-        <PublisherPicker
-          mode="settings"
-          chosen={publishers}
-          onCancel={close}
-          onDone={(ids) => {
-            briefingActions.choosePublishers(ids);
-            setMessage(C.settings.publishersSaved);
-            close();
-          }}
-        />
-      ) : null}
+        {openRecord ? (
+          <BriefingReader read={openRecord} onClose={close} actions={actionsFor(openRecord, { markRead: true })} />
+        ) : open?.kind === "saved" ? (
+          <div className="briefing-saved">
+            <h2 className="briefing-saved__heading">{C.savedReads.heading}</h2>
+            {saved.length ? (
+              <ul className="briefing-saved__list">
+                {saved.map((read) => (
+                  <li key={read.id}>
+                    <BriefingReadCard read={read} layout="row" headingLevel={3} isRead={stateOf(read.id).read} onOpen={() => openRead(read.id)} />
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="briefing-saved__empty">{C.savedReads.empty}</p>
+            )}
+          </div>
+        ) : open?.kind === "publishers" ? (
+          <PublisherPicker
+            mode="settings"
+            chosen={publishers}
+            onCancel={close}
+            onDone={(ids) => {
+              briefingActions.choosePublishers(ids);
+              setMessage(C.settings.publishersSaved);
+              close();
+            }}
+          />
+        ) : null}
       </Sheet>
     </>
   );
