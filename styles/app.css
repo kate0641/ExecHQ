@@ -12481,6 +12481,12 @@ ul.login__never {
   background-repeat: no-repeat;
 }
 
+/* Scrolled, the status bar takes the sky's middle colour instead of the
+   top of the sky, so the glow does not hang over the page. */
+.device__screen[data-scrolled]:has(.map-home) > .device__statusbar {
+  background-image: linear-gradient(var(--sky-top-edge), var(--sky-top-edge));
+}
+
 /* For now Home has no wordmark header: the greeting band is the top of the
    screen (and on the phone its wash runs on up behind the status bar). */
 .chrome:has(.map-home) > .chrome__header {

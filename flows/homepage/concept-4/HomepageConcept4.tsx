@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { BaselineForm } from "@/components/homepage/BaselineForm";
 import { SignalPicture } from "@/components/homepage/SignalPicture";
 import { BriefingEditorial } from "@/components/homepage/BriefingEditorial";
@@ -120,6 +120,22 @@ function NoteCard({ eyebrow, title, note }: { eyebrow: string; title: string; no
 export function HomepageConcept4() {
   const loop = useLoop();
   /* The server, which has no clock of hers, draws a day morning. */
+  /* Once she scrolls, the status bar stops showing the top of the sky and
+     takes the sky's middle colour (designer, 2026-10-11). */
+  const homeRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const home = homeRef.current;
+    const screen = home?.closest<HTMLElement>(".device__screen");
+    const scroller = home?.closest<HTMLElement>(".device__content");
+    if (!screen || !scroller) return;
+    const update = () => screen.toggleAttribute("data-scrolled", scroller.scrollTop > 4);
+    update();
+    scroller.addEventListener("scroll", update, { passive: true });
+    return () => {
+      scroller.removeEventListener("scroll", update);
+      screen.removeAttribute("data-scrolled");
+    };
+  }, []);
   const [sky, part] = useSyncExternalStore(noSubscription, currentMoment, () => "day morning").split(" ") as [Sky, Part];
   /* A ring she tapped, kept only for the state it was tapped in, so a new
      moment (or the dock's switcher) opens on her next step again. */
@@ -202,7 +218,7 @@ export function HomepageConcept4() {
   const note = sparksFor(loop.today, dismissed, items).find((n) => n.id.startsWith("presence:"));
 
   return (
-    <div className="map-home">
+    <div className="map-home" ref={homeRef}>
       <h1 className="u-visually-hidden">Home</h1>
       <div className="map-home__lead">
         <p className="map-home__greeting" data-sky={sky}>
