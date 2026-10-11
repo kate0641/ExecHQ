@@ -14,7 +14,7 @@ import { useToolboxPage } from "../useToolboxPage";
  * short name, so nothing scrolls and the library keeps almost the whole
  * first screen. The library is grouped by when she last touched each
  * artifact (today, yesterday, earlier this week, last week, earlier) in
- * sections that open and close. Opening a tool or an artifact shows the
+ * sections that open and close, the latest open to begin with. Opening a tool or an artifact shows the
  * draft full screen, with inputs and revisions in a sheet pulled up from a
  * peek bar (the side panel on desktop).
  */
@@ -45,8 +45,9 @@ export function ToolboxConcept2() {
           <>
             {p.noMatch}
             <div className="library__groups">
-              {groups.map((g) => (
-                <LibraryGroup key={g.id} heading={g.name} count={g.items.length} layout="section">
+              {/* Only the latest group starts open; the rest wait to be opened. */}
+              {groups.map((g, i) => (
+                <LibraryGroup key={g.id} heading={g.name} count={g.items.length} layout="section" startOpen={i === 0}>
                   {p.list(g.items)}
                 </LibraryGroup>
               ))}
