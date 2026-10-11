@@ -4,7 +4,6 @@ import { Suspense, useState } from "react";
 import { StepHeader } from "@/components/onboarding/StepHeader";
 import { Button } from "@/components/primitives/Button";
 import { PinnedDraft } from "@/components/toolbox/PinnedDraft";
-import { draftText, firstDraft } from "@/lib/toolbox-draft";
 import { useViewport } from "@/lib/viewport-context";
 import { DRAFT_COPY, FLOW_COPY as C, INPUT_COPY } from "@/mock/toolbox";
 import { QuestionStep } from "../QuestionStep";
@@ -29,25 +28,17 @@ function Interview() {
   };
 
   // The draft fills in as she answers: her words in, ExecHQ's framing round them.
-  const live = hasDraft
-    ? undefined
-    : draftText(
-        firstDraft(
-          { format: f.valueOf("format"), topic: f.valueOf("topic"), pov: f.valueOf("pov"), example: f.valueOf("example"), cta: f.valueOf("cta") },
-          f.read?.id,
-          f.passage
-        ).slice(0, 1)
-      );
+  const live = hasDraft || !f.answered ? undefined : f.livePreview();
 
   const pinned = (
     <PinnedDraft
       label={hasDraft && f.version ? DRAFT_COPY.label(f.version.n) : DRAFT_COPY.label(1)}
-      preview={hasDraft && f.draft ? f.draft.meta.preview : f.valueOf("pov") ? live : undefined}
+      preview={hasDraft && f.draft ? f.draft.meta.preview : live}
       expanded={expanded || (hasDraft && web)}
       onToggle={() => setExpanded(!expanded)}
       side={web}
     >
-      {hasDraft ? f.draftEditor : f.valueOf("pov") ? <p className="pinned-draft__live">{live}</p> : undefined}
+      {hasDraft ? f.draftEditor : live ? <p className="pinned-draft__live">{live}</p> : undefined}
     </PinnedDraft>
   );
 

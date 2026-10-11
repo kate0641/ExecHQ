@@ -85,8 +85,10 @@ export function revisionLabel(choice: RevisionChoice, followUp: string): string 
  *  keeps her words and the questions; longer adds a question for her, never
  *  a fact; leading with her example moves it to the front. */
 export function revise(sections: readonly DraftSection[], choice: RevisionChoice): DraftSection[] {
+  // The main piece: the post, the pitch, or the first section of a brief.
+  const main = sections.find((s) => s.id === "post" || s.id === "pitch")?.id ?? sections.find((s) => !s.list)?.id;
   return sections.map((section) => {
-    if (section.id !== "post") return section;
+    if (section.id !== main) return section;
     let segments = [...section.segments];
     const isEx = (s: DraftSegment) => "by" in s && s.by === "exechq";
     if (choice.length === "Shorter") {
@@ -114,4 +116,126 @@ export function draftText(sections: readonly DraftSection[], edits: Record<strin
       return section.heading ? `${section.heading}\n${text}` : text;
     })
     .join("\n\n");
+}
+
+/* -----------------------------------------------------------------------------
+   PITCH BUILDER
+   -------------------------------------------------------------------------- */
+
+/** A pitch, its subject lines, a short and an expanded version, the angle
+ *  and why now, and the follow-up, all on the same artifact so the Loop shows
+ *  one pitch with one history. */
+export function pitchDraft(v: Record<string, string>): DraftSection[] {
+  const angle = v.angle?.trim() ?? "";
+  const target = v.target?.trim();
+  const kind = (v.type || "Speaking").toLowerCase();
+  const said = (text: string) => (text ? [you(sentence(text))] : []);
+  const angleOrAsk = angle ? you(angle) : ask("What would you talk about?");
+  return [
+    {
+      id: "subjects",
+      heading: "Subject lines",
+      list: true,
+      segments: [
+        angleOrAsk,
+        ex(`A ${kind === "press" ? "story" : kind === "podcast" ? "conversation" : "session"} idea${target ? ` for ${target}` : ""}`),
+        ex("From someone doing the work, not watching it"),
+      ],
+    },
+    {
+      id: "pitch",
+      heading: "Pitch",
+      segments: [
+        ex("Hi "),
+        ask("Who are you writing to?"),
+        ex(`, I’d like to suggest ${kind === "podcast" ? "a conversation" : kind === "press" ? "a story" : "a session"}${target ? ` for ${target}` : ""} on `),
+        angleOrAsk,
+        ex(". "),
+        ...said(v.proof ?? ""),
+        ex("It matters now because "),
+        ask("Why does this matter to their audience this month?"),
+        ex(" I can send a short outline."),
+      ],
+    },
+    {
+      id: "expanded",
+      heading: "Expanded version",
+      segments: [
+        ex("The three points I’d cover: "),
+        ask("What are the three points you would cover?"),
+        ex(" "),
+        ...said(v.links ?? ""),
+        ex("I can work to your format and length."),
+      ],
+    },
+    {
+      id: "angle",
+      heading: "Angle and why now",
+      segments: [angleOrAsk, ex(". Why now: "), ask("What makes this timely?")],
+    },
+    {
+      id: "follow-up",
+      heading: "Follow-up, if you hear nothing in a week",
+      segments: [ex("Hi, following up on my note about "), angleOrAsk, ex(". Happy to fit your schedule, or to suggest someone else on my team if the timing is wrong.")],
+    },
+  ];
+}
+
+/* -----------------------------------------------------------------------------
+   SITUATION BRIEF
+   -------------------------------------------------------------------------- */
+
+/** One page for a moment that matters: objective, context, key messages,
+ *  evidence, likely questions and the decision asked for; then the opening
+ *  statement and the follow-up email. */
+export function briefDraft(v: Record<string, string>, when?: string): DraftSection[] {
+  const objective = v.objective?.trim();
+  const audience = v.audience?.trim();
+  const evidence = v.evidence?.trim();
+  return [
+    { id: "objective", heading: "Objective", segments: [objective ? you(sentence(objective)) : ask("What do you want to come out of it?")] },
+    {
+      id: "context",
+      heading: "Context",
+      segments: [
+        ex(`${v.type ? v.type[0].toUpperCase() + v.type.slice(1) : "The meeting"}${when ? ` ${when}` : ""}, with `),
+        audience ? you(audience) : ask("Who will be there?"),
+        ex(". "),
+        ask("What has happened so far that they need to know?"),
+      ],
+    },
+    {
+      id: "messages",
+      heading: "Key messages",
+      list: true,
+      segments: [ex("Where things stand, in a sentence"), ex("What you are asking for, and why you"), ask("What is the one thing they must remember?")],
+    },
+    {
+      id: "evidence",
+      heading: "Supporting evidence",
+      list: true,
+      segments: evidence ? [you(evidence), ask("Is there a result you can point to?")] : [ask("What result can you point to?"), ask("Who else would back this up?")],
+    },
+    {
+      id: "questions",
+      heading: "Likely questions",
+      list: true,
+      segments: [ex("What does this take from your current work?"), ex("Why now, and not next quarter?"), ex("Who else is affected?")],
+    },
+    {
+      id: "decision",
+      heading: "Decision or next step asked for",
+      segments: objective ? [ex("I’d like us to agree: "), you(sentence(objective))] : [ask("What decision or next step do you want?")],
+    },
+    {
+      id: "opening",
+      heading: "Opening statement",
+      segments: [ex("Thank you for the time. I’d like to leave today with one thing agreed: "), objective ? you(sentence(objective)) : ask("What do you want agreed?")],
+    },
+    {
+      id: "email",
+      heading: "Follow-up email",
+      segments: [ex("Thank you for today. As we agreed, "), ask("What did you agree?"), ex(" I’ll come back to you by "), ask("When?"), ex(".")],
+    },
+  ];
 }

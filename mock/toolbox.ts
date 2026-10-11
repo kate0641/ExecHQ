@@ -107,7 +107,7 @@ export interface ToolInput {
   label: string;
   /** A line under the label, when the label alone is not enough. */
   hint?: string;
-  kind: "text" | "long" | "choice";
+  kind: "text" | "long" | "choice" | "date";
   options?: readonly string[];
   /** What ExecHQ already knows. Shown filled in and editable. */
   value?: string;
@@ -342,6 +342,8 @@ export const FLOW_COPY = {
    *  is built out for all four (Sprint 4 stage 5). A reviewer's note. */
   laterTool: "This tool’s steps are designed once a Toolbox concept is chosen. Thought Leadership Builder shows how they will work.",
   reusedFrom: (title: string) => `Started from ${title}`,
+  /** A version she kept before the Toolbox existed. */
+  yourEdits: "Your edits",
   newTitle: (title: string) => `${title}, new version`,
   postTitle: (about: string) => `Post: ${about}`,
   postName: "your post",
@@ -616,4 +618,108 @@ export const WEEK_LABELS = {
   thisWeek: "This week",
   lastWeek: "Last week",
   weekOf: (date: string) => `Week of ${date}`,
+} as const;
+
+/* -----------------------------------------------------------------------------
+   PITCH BUILDER AND SITUATION BRIEF (stage 5)
+   The same shared workflow, with each tool's own questions. What a plan step
+   already says arrives filled in, marked "From your plan".
+   -------------------------------------------------------------------------- */
+
+export const PITCH_INPUTS: readonly ToolInput[] = [
+  { id: "type", label: "What are you pitching for?", kind: "choice", options: ["Speaking", "Podcast", "Press"] },
+  {
+    id: "target",
+    label: "Who are you pitching?",
+    hint: "The event, show or outlet, if you know it.",
+    kind: "text",
+    optional: true,
+    placeholder: "The Growth Summit",
+  },
+  {
+    id: "angle",
+    label: "What would you talk about?",
+    hint: "The topic, in a line, as you’d say it to the person deciding.",
+    kind: "text",
+    placeholder: "How planning season decides who gets new work",
+  },
+  {
+    id: "proof",
+    label: "One or two things you can prove",
+    hint: "Something you led or delivered. Leave out what you can’t share.",
+    kind: "long",
+    placeholder: "I lead our planning workstream across marketing, sales and product.",
+  },
+  {
+    id: "audience",
+    label: "Who is it for?",
+    kind: "text",
+    value: "Marketing and commercial leaders",
+    source: "direction",
+  },
+  { id: "links", label: "Links or earlier talks", kind: "text", optional: true, placeholder: "A post, a recording, a past talk" },
+];
+
+export const BRIEF_INPUTS: readonly ToolInput[] = [
+  { id: "type", label: "What is the moment?", kind: "choice", options: ["A review", "A board meeting", "A negotiation", "An executive conversation"] },
+  { id: "date", label: "When is it?", hint: "If you know. ExecHQ asks how it went after it.", kind: "date", optional: true },
+  {
+    id: "objective",
+    label: "What do you want to come out of it?",
+    hint: "The decision or next step you’d count as a good result.",
+    kind: "long",
+    placeholder: "Agreement that I lead the planning workstream",
+  },
+  { id: "audience", label: "Who will be there?", kind: "text", placeholder: "My manager" },
+  {
+    id: "evidence",
+    label: "Anything to draw on",
+    hint: "Evidence, risks, notes you already have. Paste them in.",
+    kind: "long",
+    optional: true,
+  },
+];
+
+/** What a plan step already says, by step id: those inputs arrive filled in. */
+export const STEP_PREFILLS: Record<string, Record<string, string>> = {
+  "brief-manager": { type: "An executive conversation", audience: "My manager" },
+  "pitch-podcast": { type: "Podcast" },
+  "speaking-proposal": { type: "Speaking", target: "The leadership forum" },
+  "q1-review": { type: "Speaking", target: "The Q1 planning review" },
+  "linkedin-post": { topic: "What I lead, and where it is going" },
+  bio: {},
+};
+
+/** Maya's artifacts made before the Toolbox existed (the homepage states):
+ *  what she gave each, so opening one goes straight to its draft. */
+export const SEED_INPUTS: Record<string, Record<string, string>> = {
+  "check-in-brief": {
+    type: "An executive conversation",
+    objective: "Leave Thursday’s check-in with the planning workstream agreed as mine.",
+    audience: "My manager",
+  },
+  pitch: {
+    type: "Speaking",
+    target: "The Q1 planning review",
+    angle: "Leading marketing’s part of the Q1 planning review",
+    proof: "I run campaigns across three regions, and I’m leading our planning workstream.",
+  },
+};
+
+export const TOOL_COPY = {
+  briefTitle: (type: string) => `Brief for ${type.replace(/^(a|an) /i, "your ").toLowerCase()}`,
+  briefName: "your brief",
+  pitchTitle: (target: string) => `Pitch for ${target}`,
+  pitchName: "your pitch",
+  onePage: "Exports as one page.",
+  /** Pitch Builder: marking it sent, with an optional target and date. */
+  sent: {
+    heading: "Mark it sent",
+    to: "Sent to",
+    on: "When",
+    confirm: "Mark sent",
+    cancel: "Not yet",
+  },
+  /** Situation Brief: when a date is known, the follow-up lands after it. */
+  askAfter: (when: string) => `ExecHQ will ask “Did this create a next step?” ${when}.`,
 } as const;

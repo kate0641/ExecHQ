@@ -135,6 +135,7 @@ export function InputPanel({
                 hint={input.hint}
                 placeholder={input.placeholder}
                 value={valueOf(input)}
+                type={input.kind === "date" ? "date" : undefined}
                 multiline={input.kind === "long"}
                 rows={3}
                 error={tried && missing.includes(input) ? C.missing : undefined}

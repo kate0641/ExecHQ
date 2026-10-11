@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { Input } from "@/components/form/Input";
+import { Button } from "@/components/primitives/Button";
 import { SourceLabel } from "@/components/briefing/SourceLabel";
 import { LoopStatus } from "@/components/loop/LoopStatus";
 import { Icon } from "@/components/primitives/Icon";
@@ -12,22 +14,27 @@ import { InputPanel } from "@/components/toolbox/InputPanel";
 import { RevisionControls, type RevisionChoice } from "@/components/toolbox/RevisionControls/RevisionControls";
 import { ToolUseCase } from "@/components/toolbox/ToolUseCase";
 import { VersionHistory } from "@/components/toolbox/VersionHistory";
-import { createRecord, shortDate } from "@/lib/loop";
+import { addDays, aheadPhrase, createRecord, daysBetween, datePhrase, shortDate } from "@/lib/loop";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
-import { draftText, firstDraft, revise, revisionLabel } from "@/lib/toolbox-draft";
+import { briefDraft, draftText, firstDraft, pitchDraft, revise, revisionLabel } from "@/lib/toolbox-draft";
 import { toolboxActions, useToolbox, type DraftState } from "@/lib/toolbox-store";
 import { TODAYS_READS } from "@/mock/briefing";
 import type { ArtifactKind } from "@/mock/loop";
 import { stepById } from "@/mock/plan";
 import {
+  BRIEF_INPUTS,
   DRAFT_COPY,
+  INPUT_COPY,
   FLOW_COPY as C,
   LIBRARY_SEED,
+  PITCH_INPUTS,
+  SEED_INPUTS,
+  STEP_PREFILLS,
+  TOOL_COPY,
   REVISION_COPY,
   TL_INPUTS_DIRECT,
   TL_INPUTS_FROM_BRIEFING,
-  TL_TOPIC_FROM_STEP,
   TOOLS,
   VERSION_COPY,
   type ToolInput,
@@ -49,8 +56,45 @@ function stamp(today: string): string {
   return `${DAY.format(new Date(`${today}T00:00:00Z`))} ${shortDate(today)}, ${now.getHours()}:${String(now.getMinutes()).padStart(2, "0")}`;
 }
 
+/** The kind of moment, from what she said, for the Situation Brief. */
+function momentType(text: string): string | undefined {
+  if (/board/i.test(text)) return "A board meeting";
+  if (/negotiat/i.test(text)) return "A negotiation";
+  if (/review/i.test(text)) return "A review";
+  if (/conversation|1:1|check-?in|meeting/i.test(text)) return "An executive conversation";
+  return undefined;
+}
+
+/** The kind of pitch, from what she said. */
+function pitchType(text: string): string | undefined {
+  if (/podcast|show|episode/i.test(text)) return "Podcast";
+  if (/press|editor|journalist|article/i.test(text)) return "Press";
+  if (/conference|panel|talk|speak|keynote|summit|forum/i.test(text)) return "Speaking";
+  return undefined;
+}
+
+/** "on Thursday", "on 3 November": when a brief's moment is. */
+function whenWords(date: string | undefined, today: string): string | undefined {
+  if (!date) return undefined;
+  return date >= today ? aheadPhrase(date, today) : datePhrase(date);
+}
+
+/** A tool's first draft, from what she gave it. */
+function buildDraft(kind: ArtifactKind, v: Record<string, string>, today: string, readId?: string, passage?: string) {
+  if (kind === "pitch") return pitchDraft(v);
+  if (kind === "situation-brief") return briefDraft(v, whenWords(v.date, today));
+  return firstDraft({ format: v.format, topic: v.topic, pov: v.pov, example: v.example, audience: v.audience, cta: v.cta }, readId, passage);
+}
+
+/** Its title in the library. */
+function titleFor(kind: ArtifactKind, v: Record<string, string>, about: string): { title: string; name: string } {
+  if (kind === "pitch") return { title: TOOL_COPY.pitchTitle(v.target || v.angle || "a stage"), name: TOOL_COPY.pitchName };
+  if (kind === "situation-brief") return { title: TOOL_COPY.briefTitle(v.type || "your next meeting"), name: TOOL_COPY.briefName };
+  return { title: C.postTitle(about), name: C.postName };
+}
+
 /**
- * Everything the three Toolbox flows share for Thought Leadership Builder:
+ * Everything the three Toolbox flows share, for every tool:
  * where she came from (a Briefing read, a plan step, the Toolbox, the
  * library), what it asks, the first draft and its Loop record, revising,
  * versions, copy and mark ready. Each concept lays it out its own way.
@@ -101,14 +145,33 @@ export function useToolFlow(concept: FlowConcept) {
     router.replace(`${conceptHref("toolbox-flow", concept)}?artifact=${id}`);
   }, [reuseId, toolbox.drafts, loop.records, loop.today, router, concept]);
 
-  /** A tool other than Thought Leadership Builder, or one of her artifacts
-   *  made before the Toolbox existed: designed once a concept is chosen. */
-  const later = kind !== "thought-leadership" || (artifactId !== undefined && !draft) || (reuseId !== undefined && !toolbox.drafts[reuseId]);
+  /** Positioning Builder (built out in stage 5b), or an artifact with nothing
+   *  to open: designed once a concept is chosen. */
+  const seedInputs = artifactId && !draft ? SEED_INPUTS[artifactId] : undefined;
+  const later =
+    kind === "positioning" || (artifactId !== undefined && !draft && !seedInputs) || (reuseId !== undefined && !toolbox.drafts[reuseId]);
 
-  const inputs: readonly ToolInput[] = (read ? TL_INPUTS_FROM_BRIEFING : TL_INPUTS_DIRECT).map((input) =>
-    input.id === "topic" && (step || moment)
-      ? { ...input, value: step ? (TL_TOPIC_FROM_STEP[step.id] ?? step.title) : moment, source: step ? "plan" : undefined }
-      : input
+  /** What each tool asks. What a plan step already says, or what she said was
+   *  coming up, arrives filled in. */
+  const baseInputs: readonly ToolInput[] =
+    kind === "pitch" ? PITCH_INPUTS : kind === "situation-brief" ? BRIEF_INPUTS : read ? TL_INPUTS_FROM_BRIEFING : TL_INPUTS_DIRECT;
+  // What she said was coming up is a topic for a post, but for a brief or a
+  // pitch it only says what kind of moment it is; the rest is still asked.
+  const guessed = moment ? (kind === "pitch" ? pitchType(moment) : kind === "situation-brief" ? momentType(moment) : undefined) : undefined;
+  const fromMoment: Record<string, string> = moment
+    ? kind === "thought-leadership"
+      ? { topic: moment }
+      : guessed
+        ? { type: guessed }
+        : {}
+    : {};
+  const fromStep = step ? (STEP_PREFILLS[step.id] ?? (kind === "thought-leadership" ? { topic: step.title } : {})) : {};
+  const inputs: readonly ToolInput[] = baseInputs.map((input) =>
+    fromStep[input.id]
+      ? { ...input, value: fromStep[input.id], source: input.kind === "choice" ? undefined : ("plan" as const) }
+      : fromMoment[input.id]
+        ? { ...input, value: fromMoment[input.id] }
+        : input
   );
   const [values, setValues] = useState<Record<string, string>>({});
   const valueOf = (id: string) => values[id] ?? inputs.find((i) => i.id === id)?.value ?? "";
@@ -122,27 +185,25 @@ export function useToolFlow(concept: FlowConcept) {
   function write() {
     setWriting(true);
     window.setTimeout(() => {
-      const id = `post-${Date.now().toString(36)}`;
-      const sections = firstDraft(
-        { format: valueOf("format"), topic: valueOf("topic"), pov: valueOf("pov"), example: valueOf("example"), audience: valueOf("audience"), cta: valueOf("cta") },
-        read?.id,
-        passage
-      );
+      const id = `${kind === "thought-leadership" ? "post" : kind}-${Date.now().toString(36)}`;
+      const v = Object.fromEntries(inputs.map((i) => [i.id, valueOf(i.id)]));
+      const sections = buildDraft(kind, v, loop.today, read?.id, passage);
       const about = read ? read.title : valueOf("topic") || tool.name;
-      loopActions.create(createRecord({ id, kind, title: C.postTitle(about), name: C.postName, on: loop.today, recommendation: step?.title }));
+      const { title, name } = titleFor(kind, v, about);
+      loopActions.create(createRecord({ id, kind, title, name, on: loop.today, recommendation: step?.title }));
       toolboxActions.saveDraft(id, {
         meta: {
           area: step?.area ?? "seen-as-leader",
           planStepId: step?.id,
           readId: read?.id,
           versions: 1,
-          preview: draftText(sections.slice(0, 1)).split("\n")[0],
+          preview: draftText(sections.slice(0, 1)).replace(/^.*\n/, "").split("\n")[0],
         },
         versions: [{ n: 1, when: stamp(loop.today), what: DRAFT_COPY.label(1), sections }],
         showing: 1,
         edits: {},
         answers: {},
-        inputs: Object.fromEntries(inputs.map((i) => [i.id, valueOf(i.id)])),
+        inputs: v,
         passage,
       });
       setWriting(false);
@@ -150,6 +211,28 @@ export function useToolFlow(concept: FlowConcept) {
       focusSoon(DRAFT_LABEL_ID);
     }, 900);
   }
+
+  // Her artifacts from before the Toolbox open straight into their draft:
+  // made once, from what she gave them, with as many versions as she kept.
+  useEffect(() => {
+    if (!artifactId || draft || !seedInputs || !record) return;
+    const seed = LIBRARY_SEED[artifactId];
+    const sections = buildDraft(record.kind, seedInputs, loop.today);
+    const count = seed?.versions ?? 1;
+    toolboxActions.saveDraft(artifactId, {
+      meta: seed ?? { versions: count, preview: "" },
+      versions: Array.from({ length: count }, (_, i) => ({
+        n: i + 1,
+        when: shortDate(record.createdOn),
+        what: i === 0 ? DRAFT_COPY.label(1) : C.yourEdits,
+        sections,
+      })),
+      showing: count,
+      edits: {},
+      answers: {},
+      inputs: seedInputs,
+    });
+  }, [artifactId, draft, seedInputs, record, loop.today]);
 
   /* --- The draft, once there is one ------------------------------------- */
 
@@ -276,16 +359,61 @@ export function useToolFlow(concept: FlowConcept) {
     }
   };
 
+  // A brief with a date: the follow-up lands the day after it, however early
+  // she marks it used. Otherwise the kind's default.
+  const briefDate = kind === "situation-brief" ? draft?.inputs.date : undefined;
+  const checkBack = (on: string) => (briefDate && briefDate >= on ? daysBetween(on, briefDate) + 1 : undefined);
+
+  const [sending, setSending] = useState(false);
+  const [sentTo, setSentTo] = useState<string | null>(null);
+  const [sentOn, setSentOn] = useState<string | null>(null);
+
+  const sentForm: ReactNode =
+    sending && record ? (
+      <form
+        className="tool-flow__sent"
+        onSubmit={(event) => {
+          event.preventDefault();
+          const on = sentOn || loop.today;
+          loopActions.markUsed(record.id, { channel: (sentTo ?? draft?.inputs.target ?? "").trim() || undefined }, on <= loop.today ? on : loop.today);
+          setSending(false);
+        }}
+      >
+        <h2 className="tool-flow__sent-heading">{TOOL_COPY.sent.heading}</h2>
+        <Input label={`${TOOL_COPY.sent.to} (${INPUT_COPY.optional.toLowerCase()})`} value={sentTo ?? draft?.inputs.target ?? ""} onChange={(e) => setSentTo(e.target.value)} />
+        <Input label={TOOL_COPY.sent.on} type="date" value={sentOn ?? loop.today} max={loop.today} onChange={(e) => setSentOn(e.target.value)} />
+        <div className="tool-flow__sent-actions">
+          <Button type="submit">{TOOL_COPY.sent.confirm}</Button>
+          <Button variant="ghost" onClick={() => setSending(false)}>
+            {TOOL_COPY.sent.cancel}
+          </Button>
+        </div>
+      </form>
+    ) : null;
+
   const useBar = (options: { noStatus?: boolean } = {}): ReactNode =>
     record ? (
-      <DraftUseBar
-        kind={record.kind}
-        ready={record.state !== "drafted" && record.state !== "in-progress"}
-        onCopy={copy}
-        onMarkReady={() => loopActions.markReady(record.id)}
-        onMarkUsed={record.state === "ready" ? () => loopActions.markUsed(record.id) : undefined}
-        noStatus={options.noStatus}
-      />
+      <>
+        <DraftUseBar
+          kind={record.kind}
+          ready={record.state !== "drafted" && record.state !== "in-progress"}
+          onCopy={copy}
+          onExport={() => undefined}
+          onMarkReady={() => loopActions.markReady(record.id, checkBack(loop.today) ? { checkBackDays: checkBack(loop.today) } : undefined)}
+          onMarkUsed={
+            record.state === "ready" && !sending
+              ? () => (record.kind === "pitch" ? setSending(true) : loopActions.markUsed(record.id, checkBack(loop.today) ? { checkBackDays: checkBack(loop.today) } : undefined))
+              : undefined
+          }
+          noStatus={options.noStatus}
+          note={
+            record.kind === "situation-brief"
+              ? [TOOL_COPY.onePage, briefDate ? TOOL_COPY.askAfter(aheadPhrase(addDays(briefDate, 1), loop.today)) : ""].filter(Boolean).join(" ")
+              : undefined
+          }
+        />
+        {sentForm}
+      </>
     ) : null;
 
   /** Reviewer's note for a tool designed later this sprint. */
@@ -299,8 +427,18 @@ export function useToolFlow(concept: FlowConcept) {
     </div>
   ) : null;
 
+  /** Concept 3: the draft as it would be from what she has said so far, and
+   *  whether she has said anything yet. */
+  const answered = asked.some((i) => valueOf(i.id).trim() && !i.value);
+  const livePreview = (): string =>
+    draftText(buildDraft(kind, Object.fromEntries(inputs.map((i) => [i.id, valueOf(i.id)])), loop.today, read?.id, passage).slice(0, kind === "situation-brief" ? 2 : 1))
+      .replace(/^[A-Z][^\n]*\n/, "");
+
   return {
     concept,
+    kind,
+    answered,
+    livePreview,
     loop,
     tool,
     read,

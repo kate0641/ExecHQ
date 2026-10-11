@@ -37,6 +37,7 @@ export function QuestionStep({
           labelHidden
           placeholder={input.placeholder}
           value={value}
+          type={input.kind === "date" ? "date" : undefined}
           multiline={input.kind === "long"}
           rows={4}
           error={error}

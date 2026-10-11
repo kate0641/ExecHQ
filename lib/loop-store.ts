@@ -214,8 +214,10 @@ export const loopActions = {
   edit: (id: string) => updateRecord(id, (r, today) => startEditing(r, today)),
   markReady: (id: string, answers?: Parameters<typeof markReady>[2]) =>
     updateRecord(id, (r, today) => markReady(r, today, answers)),
-  markUsed: (id: string, answers?: Parameters<typeof markUsed>[2]) =>
-    updateRecord(id, (r, today) => markUsed(r, today, answers)),
+  /** `on` is the day she says she used it, when it was not today (a pitch
+   *  sent on Monday, marked on Wednesday). */
+  markUsed: (id: string, answers?: Parameters<typeof markUsed>[2], on?: string) =>
+    updateRecord(id, (r, today) => markUsed(r, on ?? today, answers)),
   answer: (id: string, answer: { type: OutcomeType; detail?: string; notes?: string }) =>
     updateRecord(id, (r, today) => answerFollowUp(r, today, answer), id),
   /** She says, from her Signal Picture, what came of something she used: the same answer as the
