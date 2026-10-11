@@ -143,7 +143,7 @@ export const ACTIONS: LandscapeAction[] = [
   },
   {
     id: "add-wins",
-    title: "Add three recent accomplishments",
+    title: "Add 3 recent accomplishments",
     horizon: "short",
     status: "deferred",
     whyThis: "Every draft after this one gets sharper.",

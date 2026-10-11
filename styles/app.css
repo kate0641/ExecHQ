@@ -3067,6 +3067,17 @@ ol.concierge-list {
   color: var(--color-text-inverse);
 }
 
+/* Text in a navy header never runs past one line (designer, 2026-10-11).
+   If copy grows too long it is cut with an ellipsis, so the overflow shows
+   at once in review and the copy gets shortened, rather than the header
+   quietly growing. The full title stays available to screen readers. */
+.feature-card__head--inverse :is(.feature-card__eyebrow, .feature-card__title),
+.map-home .signal-picture--card > .account-card__top .account-card__name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .feature-card__body {
   display: flex;
   flex-direction: column;
