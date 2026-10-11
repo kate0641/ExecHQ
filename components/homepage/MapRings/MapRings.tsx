@@ -124,7 +124,7 @@ export function MapRings({ rings, selected, onSelect, panelId, children, legend,
                 </span>
               ) : null}
             </span>
-            <span className="map-rings__name" aria-hidden="true">{ring.label}</span>
+            <span className="map-rings__name" aria-hidden="true" data-label={ring.label}>{ring.label}</span>
             <span className="map-rings__count" aria-hidden="true">{C.ringCount(ring.done, ring.segments.length)}</span>
           </button>
         </li>

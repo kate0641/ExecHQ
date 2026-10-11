@@ -12778,6 +12778,26 @@ ul.map-rings {
   line-height: var(--leading-snug);
 }
 
+/* The chosen ring's name steps up a weight, so the choice is said by the
+   type as well as the tile (designer, 2026-10-11). The bold width is held
+   in reserve, so nothing shifts when the weight changes. */
+.map-rings__name {
+  display: inline-grid;
+}
+
+.map-rings__name::after {
+  content: attr(data-label);
+  grid-area: 1 / 1;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  font-weight: var(--weight-bold);
+}
+
+.map-rings__ring[aria-pressed="true"] .map-rings__name {
+  font-weight: var(--weight-bold);
+}
+
 .map-rings__count {
   font-size: var(--text-xs);
   line-height: var(--leading-snug);
