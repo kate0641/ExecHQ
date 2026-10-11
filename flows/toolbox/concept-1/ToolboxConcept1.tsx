@@ -5,7 +5,6 @@ import { DropdownMenu, type MenuEntry } from "@/components/form/DropdownMenu";
 import { ToolPicker } from "@/components/toolbox/ToolPicker";
 import type { LibraryItem } from "@/lib/library";
 import type { ArtifactKind } from "@/mock/loop";
-import { SIGNALS } from "@/mock/plan-stub";
 import { LIBRARY_COPY, STATUS_FILTERS, TOOL_ORDER, TOOLS } from "@/mock/toolbox";
 import { useToolboxPage } from "../useToolboxPage";
 
@@ -15,11 +14,10 @@ const ALL = "all";
 interface Filters {
   tool: string;
   status: string;
-  area: string;
   showClosed: boolean;
 }
 
-const NONE: Filters = { tool: ALL, status: ALL, area: ALL, showClosed: true };
+const NONE: Filters = { tool: ALL, status: ALL, showClosed: true };
 
 const inStatus = (id: string) => STATUS_FILTERS.find((f) => f.id === id)?.states ?? [];
 
@@ -27,7 +25,6 @@ function matches(item: LibraryItem, f: Filters): boolean {
   return (
     (f.tool === ALL || item.record.kind === f.tool) &&
     (f.status === ALL || inStatus(f.status).includes(item.record.state)) &&
-    (f.area === ALL || item.area === f.area) &&
     (f.showClosed || item.record.state !== "closed")
   );
 }
@@ -39,9 +36,9 @@ function matches(item: LibraryItem, f: Filters): boolean {
  * On a phone the four tools are a 2×2 grid of compact tiles, each with its
  * name and a few words on what it makes: short enough that the first library
  * items show above the fold. Wider, the tiles become one row of four. The
- * library below filters from three menus side by side (tool, status with
- * whether closed work shows, and plan area), each a plain list with its
- * counts, newest first. A
+ * library below filters from two menus side by side, tool and status (with
+ * whether closed work shows), each a plain list with its counts, newest
+ * first. A
  * tool opens as guided steps, one question a screen.
  */
 export function ToolboxConcept1() {
@@ -53,8 +50,8 @@ export function ToolboxConcept1() {
   const count = (change: Partial<Filters>) => p.found.filter((i) => matches(i, { ...f, ...change })).length;
   const set = (change: Partial<Filters>) => setF((current) => ({ ...current, ...change }));
 
-  const on = [f.tool !== ALL, f.status !== ALL, f.area !== ALL, !f.showClosed].filter(Boolean).length;
-  const radios = (key: "tool" | "status" | "area", label: string, options: { value: string; label: string }[]): MenuEntry => ({
+  const on = [f.tool !== ALL, f.status !== ALL, !f.showClosed].filter(Boolean).length;
+  const radios = (key: "tool" | "status", label: string, options: { value: string; label: string }[]): MenuEntry => ({
     type: "radio-group",
     id: key,
     label,
@@ -69,7 +66,6 @@ export function ToolboxConcept1() {
 
   const toolName = f.tool === ALL ? undefined : TOOLS[f.tool as ArtifactKind].name;
   const statusName = f.status === ALL ? undefined : STATUS_FILTERS.find((s) => s.id === f.status)?.label;
-  const areaName = f.area === ALL ? undefined : SIGNALS.find((s) => s.id === f.area)?.name;
 
   /** One menu per filter, each a plain list: no menu inside a menu. The
    *  button says what is chosen. */
@@ -89,12 +85,6 @@ export function ToolboxConcept1() {
         { type: "separator", id: "sep" },
         { type: "checkbox", id: "closed", label: F.showClosed, checked: f.showClosed, onCheckedChange: (checked) => set({ showClosed: checked }) },
       ],
-    },
-    {
-      id: "area",
-      label: F.area,
-      chosen: areaName,
-      entries: [radios("area", F.area, SIGNALS.map((s) => ({ value: s.id, label: s.name })))],
     },
   ];
 

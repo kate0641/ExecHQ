@@ -50,7 +50,7 @@ Every concept leads with the four tools and puts the library below, per the 11 O
 
 | Concept | Tools | Library | Making a draft |
 | --- | --- | --- | --- |
-| 1 — Tool cards (safe) | 2×2 tiles, one row wider | Three menus side by side (Tool, Status with Show closed, Plan area), each a plain list with counts; Clear filters under them | One question per screen ("Step 2 of 3"), then the draft full screen with Revise, Copy and Mark ready in a fixed bar |
+| 1 — Tool cards (safe) | 2×2 tiles, one row wider | Two menus side by side (Tool, and Status with Show closed), each a plain list with counts; Clear filters under them | One question per screen ("Step 2 of 3"), then the draft full screen with Revise, Copy and Mark ready in a fixed bar |
 | 2 — Starter row (safe) | One scrolling row of chips | Grouped by plan area, collapsible | The draft full screen; inputs, revisions and versions in a panel pulled up from a peek bar (side panel on desktop) |
 | 3 — Start from the moment (wild card) | "What's coming up?" picks the tool, with the tools as shortcut chips | A timeline by week | An interview, one question per screen, with the draft pinned above as a card that fills in as she answers (side by side on desktop) |
 
