@@ -12481,10 +12481,18 @@ ul.login__never {
   background-repeat: no-repeat;
 }
 
-/* Scrolled, the status bar takes the sky's middle colour instead of the
-   top of the sky, so the glow does not hang over the page. */
-.device__screen[data-scrolled]:has(.map-home) > .device__statusbar {
-  background-image: linear-gradient(var(--sky-top-edge), var(--sky-top-edge));
+/* As she scrolls, the status bar blends from the top of the sky into the
+   sky's middle colour, reaching it as the section heading comes up under
+   it (--sky-scrolled runs 0 to 1), so the glow never hangs over the page
+   and there is no jump. */
+.device__screen:has(.map-home) > .device__statusbar {
+  background-image:
+    linear-gradient(
+      color-mix(in srgb, var(--sky-top-edge) calc(var(--sky-scrolled, 0) * 100%), transparent),
+      color-mix(in srgb, var(--sky-top-edge) calc(var(--sky-scrolled, 0) * 100%), transparent)
+    ),
+    var(--home-sky-full);
+  background-size: 100% 100%, 100% var(--home-sky-total);
 }
 
 /* For now Home has no wordmark header: the greeting band is the top of the

@@ -127,13 +127,22 @@ export function HomepageConcept4() {
     const home = homeRef.current;
     const screen = home?.closest<HTMLElement>(".device__screen");
     const scroller = home?.closest<HTMLElement>(".device__content");
-    if (!screen || !scroller) return;
-    const update = () => screen.toggleAttribute("data-scrolled", scroller.scrollTop > 4);
+    if (!home || !screen || !scroller) return;
+    /* 0 at the top, 1 once the sky's middle colour has scrolled up under
+       the status bar, about when the section heading reaches it: the status
+       bar blends over that whole distance, never in one jump. */
+    const update = () => {
+      const heading = home.querySelector<HTMLElement>(".map-home__heading");
+      const reach = Math.max(60, (heading?.getBoundingClientRect().top ?? 0) - scroller.getBoundingClientRect().top + scroller.scrollTop);
+      const t = Math.min(1, Math.max(0, scroller.scrollTop / reach));
+      /* Eased in and out, so the change starts and settles softly. */
+      screen.style.setProperty("--sky-scrolled", String(t * t * (3 - 2 * t)));
+    };
     update();
     scroller.addEventListener("scroll", update, { passive: true });
     return () => {
       scroller.removeEventListener("scroll", update);
-      screen.removeAttribute("data-scrolled");
+      screen.style.removeProperty("--sky-scrolled");
     };
   }, []);
   const [sky, part] = useSyncExternalStore(noSubscription, currentMoment, () => "day morning").split(" ") as [Sky, Part];
