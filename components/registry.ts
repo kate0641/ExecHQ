@@ -125,6 +125,13 @@ import { draftEditorStates } from "./toolbox/DraftEditor/DraftEditor.states";
 import { revisionControlsStates } from "./toolbox/RevisionControls/RevisionControls.states";
 import { versionHistoryStates } from "./toolbox/VersionHistory/VersionHistory.states";
 import { draftUseBarStates } from "./toolbox/DraftUseBar/DraftUseBar.states";
+import { toolPickerStates } from "./toolbox/ToolPicker/ToolPicker.states";
+import { momentStartStates } from "./toolbox/MomentStart/MomentStart.states";
+import { libraryRowStates } from "./toolbox/LibraryRow/LibraryRow.states";
+import { artifactActionsStates } from "./toolbox/ArtifactActions/ArtifactActions.states";
+import { libraryFiltersStates } from "./toolbox/LibraryFilters/LibraryFilters.states";
+import { libraryGroupStates } from "./toolbox/LibraryGroup/LibraryGroup.states";
+import { libraryEmptyStates } from "./toolbox/LibraryEmpty/LibraryEmpty.states";
 export const registry: RegisteredComponent[] = [
   badgeStates,
   buttonStates,
@@ -241,6 +248,13 @@ export const registry: RegisteredComponent[] = [
   revisionControlsStates,
   versionHistoryStates,
   draftUseBarStates,
+  toolPickerStates,
+  momentStartStates,
+  libraryRowStates,
+  artifactActionsStates,
+  libraryFiltersStates,
+  libraryGroupStates,
+  libraryEmptyStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */

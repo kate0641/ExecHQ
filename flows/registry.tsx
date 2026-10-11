@@ -9,6 +9,9 @@ import { LoginConcept1 } from "./login/concept-1";
 import { BriefingConcept1 } from "./daily-briefing/concept-1";
 import { BriefingConcept2 } from "./daily-briefing/concept-2";
 import { BriefingConcept3 } from "./daily-briefing/concept-3";
+import { ToolboxConcept1 } from "./toolbox/concept-1";
+import { ToolboxConcept2 } from "./toolbox/concept-2";
+import { ToolboxConcept3 } from "./toolbox/concept-3";
 
 /**
  * Concept pages that have been built.
@@ -36,6 +39,9 @@ const BUILT_CONCEPTS: Record<string, ReactElement> = {
   "daily-briefing/concept-1": <BriefingConcept1 />,
   "daily-briefing/concept-2": <BriefingConcept2 />,
   "daily-briefing/concept-3": <BriefingConcept3 />,
+  "toolbox/concept-1": <ToolboxConcept1 />,
+  "toolbox/concept-2": <ToolboxConcept2 />,
+  "toolbox/concept-3": <ToolboxConcept3 />,
 };
 
 /** Every built concept, as manifest slugs, in the order they are listed above. */

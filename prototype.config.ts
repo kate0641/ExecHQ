@@ -235,8 +235,21 @@ export const prototypeConfig: PrototypeConfig = {
       concepts: [
         {
           slug: "concept-1",
-          title: "Concept 1",
-          summary: "Toolbox index.",
+          title: "Concept 1 — Tool cards",
+          summary:
+            "The four tools as tiles, 2×2 on a phone; the library below filtered by tool and status. Tools open as guided steps.",
+        },
+        {
+          slug: "concept-2",
+          title: "Concept 2 — Starter row",
+          summary:
+            "The tools as one scrolling row of chips; the library grouped by plan area. Tools open as a document workspace.",
+        },
+        {
+          slug: "concept-3",
+          title: "Concept 3 — Start from the moment",
+          summary:
+            "The wild card: What’s coming up? picks the tool; the library is a timeline by week. Tools open as an interview beside the draft.",
         },
       ],
     },
@@ -250,8 +263,18 @@ export const prototypeConfig: PrototypeConfig = {
       concepts: [
         {
           slug: "concept-1",
-          title: "Concept 1",
-          summary: "Draft, revise, export, record outcome.",
+          title: "Concept 1 — Guided steps",
+          summary: "One question a screen, then the draft full screen with Revise, Copy and Mark ready in a fixed bar.",
+        },
+        {
+          slug: "concept-2",
+          title: "Concept 2 — Document workspace",
+          summary: "The draft full screen, with inputs and revisions in a sheet pulled up from a peek bar; a side panel on desktop.",
+        },
+        {
+          slug: "concept-3",
+          title: "Concept 3 — Interview",
+          summary: "One question a screen with the draft pinned above as a card; side by side on desktop.",
         },
       ],
     },

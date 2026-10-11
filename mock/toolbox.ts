@@ -30,6 +30,8 @@ export interface ToolUseCase {
   name: string;
   /** One sentence: what it makes. */
   makes: string;
+  /** A few words, for a tile: "Bios and your narrative". */
+  short: string;
   /** One sentence: when to use it. */
   when: string;
   /** What she will need, short. Things ExecHQ already has are said so. */
@@ -45,6 +47,7 @@ export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
     kind: "positioning",
     name: "Positioning Builder",
     makes: "Your positioning statement, a bio in three lengths and a leadership narrative, in your words.",
+    short: "Your statement, bios and narrative",
     when: "Use it before anything that introduces you: a promotion conversation, a new boss, a conference program.",
     needs: ["Your statement from onboarding (ExecHQ has it)", "A few recent accomplishments, if you want them in"],
     planStepId: "bio",
@@ -54,6 +57,7 @@ export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
     kind: "pitch",
     name: "Pitch Builder",
     makes: "A pitch to a conference, a podcast or an editor, with subject lines and the follow-up already drafted.",
+    short: "Pitches for stages, shows and press",
     when: "Use it when there is a stage or a show the people above you pay attention to.",
     needs: ["Who you are pitching, if you know", "One or two things you can prove"],
     planStepId: "pitch-podcast",
@@ -63,6 +67,7 @@ export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
     kind: "situation-brief",
     name: "Situation Brief",
     makes: "A one-page brief for a moment that matters: what you want from it, what you will say, what they will ask.",
+    short: "One page before a moment that matters",
     when: "Use it a day or two before a review, a board meeting, a negotiation or a hard conversation.",
     needs: ["What the moment is, and when", "What you want to come out of it"],
     planStepId: "brief-manager",
@@ -72,6 +77,7 @@ export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
     kind: "thought-leadership",
     name: "Thought Leadership Builder",
     makes: "A LinkedIn post or an article in your voice, from your own idea, a step on your plan or something you read.",
+    short: "A post or article in your voice",
     when: "Use it when you have a view worth putting your name to.",
     needs: ["Your point of view, in a line", "One example from your own work"],
     planStepId: "linkedin-post",
@@ -480,4 +486,62 @@ export const LIBRARY_COPY = {
     keep: "Keep it",
     done: (title: string) => `${title} is deleted.`,
   },
+} as const;
+
+/* -----------------------------------------------------------------------------
+   THE TOOLBOX PAGE
+   The four tools always lead, for new and returning users alike, with the
+   library below. On a phone the tools stay compact enough that the library is
+   reachable without a long scroll.
+   -------------------------------------------------------------------------- */
+
+export const TOOLBOX_PAGE = {
+  title: "Toolbox",
+  lead: "Four ways to make your next draft.",
+  toolsLabel: "Tools",
+  /** Concept 3. */
+  moment: {
+    label: "What’s coming up?",
+    hint: "Say it the way you’d tell a colleague. Your keyboard’s microphone works here.",
+    placeholder: "A review with my manager on Thursday",
+    go: "Find the right tool",
+    shortcuts: "Or go straight to a tool",
+    sounds: (tool: string) => `This sounds like a ${tool}.`,
+    start: (tool: string) => `Start a ${tool}`,
+    other: "Pick another tool",
+    unsure: "Which of these fits?",
+    unsureLead: "ExecHQ isn’t sure. Choose the one closest to what you need.",
+    empty: "Say what’s coming up, or choose a tool below.",
+  },
+} as const;
+
+/** Concept 3's rules for picking a tool from what she says is coming up. The
+ *  pilot's matching is rules-based, so it only places a few kinds of moment,
+ *  and anything else asks rather than guesses. First match wins. */
+export const MOMENT_RULES: readonly { kind: ArtifactKind; words: RegExp }[] = [
+  { kind: "situation-brief", words: /\b(review|board|meeting|negotiat\w*|check-?in|1:1|one-to-one|conversation|interview|offsite|presentation)\b/i },
+  { kind: "pitch", words: /\b(pitch\w*|podcast|conference|panel|speak\w*|talk|keynote|press|editor|journalist|call for (proposals|papers))\b/i },
+  { kind: "thought-leadership", words: /\b(post|linkedin|article|blog|newsletter|essay|op-?ed|write|read)\b/i },
+  { kind: "positioning", words: /\b(bio|introduc\w*|promotion|positioning|new (boss|manager|role)|about me|profile)\b/i },
+];
+
+export function matchMoment(text: string): ArtifactKind | undefined {
+  return MOMENT_RULES.find((rule) => rule.words.test(text))?.kind;
+}
+
+/** Status filters (Concept 1), in the Loop's order, with the Sprint 2 names. */
+export const STATUS_FILTERS: readonly { id: string; label: string; states: readonly string[] }[] = [
+  { id: "draft", label: "Draft", states: ["drafted", "in-progress"] },
+  { id: "ready", label: "Ready to use", states: ["ready"] },
+  { id: "used", label: "Used, sent or published", states: ["used"] },
+  { id: "waiting", label: "Waiting to hear", states: ["waiting"] },
+  { id: "outcome", label: "Outcome logged", states: ["outcome"] },
+  { id: "closed", label: "Closed", states: ["closed"] },
+];
+
+/** Concept 3's timeline, grouped by the week of each artifact's last change. */
+export const WEEK_LABELS = {
+  thisWeek: "This week",
+  lastWeek: "Last week",
+  weekOf: (date: string) => `Week of ${date}`,
 } as const;
