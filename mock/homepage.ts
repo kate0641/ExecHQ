@@ -248,8 +248,8 @@ export const HOME_COPY = {
   confirms: (horizon: string) => `Confirms your ${horizon.toLowerCase()} action`,
   forAction: (horizon: string) => `For your ${horizon.toLowerCase()} action`,
   another: (name: string) => `Another is waiting: ${name}`,
-  loggedDetail: (detail: string) => `Logged. You told me: “${detail}”`,
-  loggedPlain: (readback: string) => `Logged. ${readback}`,
+  loggedDetail: (detail: string) => `You told me: “${detail}”`,
+  loggedPlain: (readback: string) => readback,
   askAgain: (name: string, when: string) => `No problem. I’ll ask about ${name} again ${when}.`,
   lastUsed: "Last used",
   checkBack: (days: number) => (days === 2 ? "in two days" : `in ${days} days`),
@@ -324,6 +324,9 @@ export const CHECKIN_COPY = {
   used: (verb: string) => `Yes, I’ve ${verb} it`,
   notYet: "Not yet",
   notYetReadback: "No problem. I’ll check in again in a couple of days.",
+  /* "Logged" rides in a pill above the readback, so it is not read as part
+     of the sentence (designer, 2026-10-12). */
+  loggedLabel: "Logged",
   addNote: "Add a note",
   noteLabel: "Anything to add? Optional. Only you see it.",
   saveNote: "Save note",

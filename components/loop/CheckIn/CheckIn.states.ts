@@ -13,7 +13,7 @@ const noop = () => {};
 const base = { onUsed: noop, onAnswer: noop, onNote: noop };
 const used = { ...base, record: story, today: due.today, about: "Use your leadership story in your next 1:1" };
 const isReady = { ...base, record: brief, today: ready.today, about: "Brief your manager before Thursday’s check-in" };
-const done = { ...base, record: { ...logged, outcome: logged.outcome && { ...logged.outcome, detail: undefined } }, today: answered.today, about: "Use your leadership story in your next 1:1", answered: true, readback: "Logged. You said it went well." };
+const done = { ...base, record: { ...logged, outcome: logged.outcome && { ...logged.outcome, detail: undefined } }, today: answered.today, about: "Use your leadership story in your next 1:1", answered: true, readback: "You said it went well.", logged: true };
 
 export const checkInStates = defineComponentStates({
   name: "CheckIn",
@@ -33,6 +33,7 @@ export const checkInStates = defineComponentStates({
     { label: "Question first, what came of it — default", props: { ...used, layout: "question", headingId: "ci-q-used" } },
     { label: "Question first, ready to use", props: { ...isReady, layout: "question", headingId: "ci-q-ready" } },
     { label: "Question first, answered, note offered — filled", props: { ...done, layout: "question", headingId: "ci-q-done" } },
+    { label: "Answered, but she asked to be reminded — no Logged pill", description: "Only an outcome she gave is logged; a \u201ccheck back later\u201d has no pill.", props: { ...done, layout: "question", logged: false, readback: "No problem. I\u2019ll check in again in a couple of days.", headingId: "ci-q-later" } },
     { label: "Stepper, what came of it", props: { ...used, layout: "stepper", headingId: "ci-s-used" } },
     { label: "Stepper, ready to use", props: { ...isReady, layout: "stepper", headingId: "ci-s-ready" } },
     { label: "Stepper, answered — filled", props: { ...done, layout: "stepper", headingId: "ci-s-done" } },

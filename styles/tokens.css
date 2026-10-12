@@ -361,6 +361,10 @@
      Navy on it reads at 11.3:1. The foot of the card keeps its hairline. */
   --color-surface-check-in-band: var(--brand-blue-200);
   --color-text-on-check-in-band: var(--brand-primary);
+  /* "Logged", as a quiet stone pill above the readback: 8.9:1. Stone 200 is
+     also the disabled surface, so nothing else on the card may use it. */
+  --color-surface-logged: var(--brand-stone-200);
+  --color-text-on-logged: var(--brand-stone-700);
 
   /* Logo — two versions, never recoloured beyond these. The dark logo (gold
      "Exec", navy "HQ") sits on stone and blue 100 — gold is 5.0:1 on blue 100

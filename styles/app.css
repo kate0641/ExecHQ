@@ -9780,6 +9780,32 @@ ol.signal__list {
 
 /* Once answered, the read-back takes the question's place and its type,
    with no box of its own inside the card. */
+/* Logged: the word in a stone pill on its own line, then what she said.
+   The pair sits in the middle of the card, where the answers it replaces
+   were (designer, 2026-10-12). */
+.check-in--question > .check-in__readback {
+  margin-top: auto;
+}
+
+.check-in--question > .check-in__readback:last-child,
+.check-in--question > .check-in__readback ~ *:last-child {
+  margin-bottom: auto;
+}
+
+.check-in__logged {
+  display: block;
+  width: fit-content;
+  margin: 0 auto var(--space-xs);
+  padding: var(--space-3xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-logged);
+  color: var(--color-text-on-logged);
+  font-family: var(--type-label-font);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--type-label-tracking);
+}
+
 .check-in__readback {
   margin: 0;
   font-family: var(--type-subheading-font);
