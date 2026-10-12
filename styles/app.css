@@ -2231,10 +2231,9 @@ ul.chrome__nav-list {
   text-overflow: ellipsis;
 }
 
-/* The same orange dot the sheet's nav uses, so "something waits" is one
-   colour wherever it appears (designer, 2026-10-12): 3.4:1 on the bar. No
-   ring here — it stands on the bar's own surface, not beside the yellow
-   circle. */
+/* The same orange dot the sheet's nav uses, treated the same way: on the
+   corner of the chip, with the bar's own surface as a thin ring around it,
+   so it stays clear of the lime underneath (designer, 2026-10-12). */
 .concierge-pill__dot {
   position: absolute;
   top: var(--space-3xs);
@@ -2243,6 +2242,7 @@ ul.chrome__nav-list {
   height: 8px;
   border-radius: 50%;
   background-color: var(--color-nav-dot);
+  box-shadow: 0 0 0 2px var(--color-surface);
 }
 
 .concierge-pill__mark {
