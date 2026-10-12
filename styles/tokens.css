@@ -356,11 +356,11 @@
      is the one piece of colour on a bar that floats over every page. */
   --color-here-surface: var(--brand-green-200);
   --color-here-text: var(--brand-dark-green);
-  /* The Loop's check-in: light blue, so the question ExecHQ is asking is
-     visibly its own thing among the white cards (designer, 2026-10-12).
-     Text on it: the question 14.8:1, the quiet links 11.3:1, the "For:"
-     line 6.0:1. The white answer pills keep their stone edge. */
-  --color-surface-check-in: var(--brand-blue-200);
+  /* The Loop's check-in: a white card with a light blue band at its head
+     and foot — what it is about, and the lesser answers — so the question
+     itself sits on white (designer, 2026-10-12). Text on the bands: the
+     "For:" line 6.0:1, the quiet links 11.3:1. */
+  --color-surface-check-in-band: var(--brand-blue-200);
 
   /* Logo — two versions, never recoloured beyond these. The dark logo (gold
      "Exec", navy "HQ") sits on stone and blue 100 — gold is 5.0:1 on blue 100
