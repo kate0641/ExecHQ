@@ -171,9 +171,9 @@ export const SPARK_COPY = {
   },
   other: (what: string) => `Added: ${what}.`,
   podcast: (where: string, ordinal: string) => `You’re on ${where}, your ${ordinal} podcast appearance.`,
-  press: (where: string, ordinal: string) => `Great to see you in ${where}. That’s your ${ordinal} press mention.`,
-  speaking: (where: string, ordinal: string) => `Well done! You’re speaking at ${where}, your ${ordinal} engagement.`,
-  writing: (title: string, ordinal: string) => `“${title}” is up. Nicely done, that’s your ${ordinal} piece.`,
+  press: (where: string, ordinal: string) => `You’re in ${where}, your ${ordinal} press mention.`,
+  speaking: (where: string, ordinal: string) => `You’re speaking at ${where}, your ${ordinal} engagement.`,
+  writing: (title: string, ordinal: string) => `“${title}” is up, your ${ordinal} piece.`,
 } as const;
 
 /* -----------------------------------------------------------------------------
