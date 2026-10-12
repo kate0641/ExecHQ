@@ -306,13 +306,18 @@ export function CheckIn({
       ) : null}
       {done ? (
         <>
-          {logged && !later ? <p className="check-in__logged">{C.loggedLabel}</p> : null}
-          {shown ? (
-            <p className="check-in__readback" id={headingId} tabIndex={-1}>
-              {readbackLead && !later ? <span className="check-in__readback-lead">{readbackLead}</span> : null}
-              {shown}
-            </p>
-          ) : null}
+          {/* The pill rides at the top of the white area without taking any
+              of it, so what she said is dead centre in the whole of it
+              (designer, 2026-10-12). */}
+          <div className="check-in__logged-body">
+            {logged && !later ? <p className="check-in__logged">{C.loggedLabel}</p> : null}
+            {shown ? (
+              <p className="check-in__readback" id={headingId} tabIndex={-1}>
+                {readbackLead && !later ? <span className="check-in__readback-lead">{readbackLead}</span> : null}
+                {shown}
+              </p>
+            ) : null}
+          </div>
           {noteForm}
         </>
       ) : (

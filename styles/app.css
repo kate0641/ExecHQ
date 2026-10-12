@@ -9780,16 +9780,22 @@ ol.signal__list {
 
 /* Once answered, the read-back takes the question's place and its type,
    with no box of its own inside the card. */
-/* Logged: the pill sits high in the card, straight under the band, and what
-   she said sits in the middle of what is left, where the answers it
-   replaces were (designer, 2026-10-12). */
-.check-in--question > .check-in__readback {
-  margin-top: auto;
+/* Logged: what she said sits dead centre in the white area, and the pill
+   rides at the top of it without taking any of the height, so it does not
+   pull the centre up (designer, 2026-10-12). */
+.check-in--question > .check-in__logged-body {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.check-in--question > .check-in__readback:last-child,
-.check-in--question > .check-in__readback ~ *:last-child {
-  margin-bottom: auto;
+.check-in--question > .check-in__logged-body > .check-in__logged {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .check-in__logged {
