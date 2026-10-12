@@ -9556,19 +9556,30 @@ ol.signal__list {
   gap: var(--space-3xs) var(--space-sm);
 }
 
+/* The card's name is a true eyebrow: the system's eyebrow role and its
+   eyebrow colour, which on this green card is the light green (designer,
+   2026-10-12), so it matches every other eyebrow on the page. */
 .briefing-editorial__heading {
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-text-secondary);
+  color: var(--color-eyebrow);
 }
 
+/* The date and the count are metadata, so they take the caption role. */
 .briefing-editorial__meta {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2xs);
-  font-size: var(--text-xs);
+  font-family: var(--type-caption-font);
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  line-height: var(--type-caption-leading);
+  letter-spacing: var(--type-caption-tracking);
   color: var(--color-text-muted);
 }
 
@@ -9627,13 +9638,17 @@ ol.signal__list {
   line-height: var(--leading-snug);
 }
 
-/* The publication, as quiet text under its headline. */
+/* The publication, as quiet text under its headline: the caption role, kept
+   a step heavier so it holds against the headline above it. */
 .briefing-editorial__source {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  font-size: var(--text-xs);
+  font-family: var(--type-caption-font);
+  font-size: var(--type-caption-size);
   font-weight: var(--weight-semibold);
+  line-height: var(--type-caption-leading);
+  letter-spacing: var(--type-caption-tracking);
   color: var(--color-text-secondary);
 }
 
@@ -9659,19 +9674,24 @@ ol.signal__list {
   content: "";
   position: absolute;
   left: var(--space-3xs);
-  top: calc(var(--text-sm) * var(--leading-normal) / 2 - var(--space-3xs));
+  top: calc(var(--type-body-sm-size) * var(--type-body-sm-leading) / 2 - var(--space-3xs));
   width: var(--space-2xs);
   height: var(--space-2xs);
   border-radius: var(--radius-pill);
   background-color: var(--color-text-secondary);
 }
 
+/* The two lesser reads take the body-small role: the size Kate set for them,
+   on the system's own supporting-text role. */
 .briefing-editorial__title {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  letter-spacing: var(--type-body-sm-tracking);
   color: var(--color-text-primary);
 }
 

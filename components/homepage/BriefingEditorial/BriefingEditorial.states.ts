@@ -27,7 +27,7 @@ export const briefingEditorialStates = defineComponentStates({
   },
   variants: [
     { label: "Today’s three reads with their publications — default", props: base },
-    { label: "With a cover image", description: "A photograph across the top fading into the navy; the words in white on the navy below. On Home.", props: { ...base, cover: true } },
+    { label: "With a cover image", description: "A photograph across the top fading into the card; the words in white below it. Not on Home: Home shows the plain card (designer, 2026-10-12).", props: { ...base, cover: true } },
     {
       label: "Long headlines end in an ellipsis",
       description: "The lead stops after two lines and the others after one, so the card keeps its height. The full headlines stay in the link’s name.",
