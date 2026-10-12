@@ -2206,8 +2206,8 @@ ul.chrome__nav-list {
   gap: var(--space-2xs);
   padding: var(--space-xs) var(--space-md) var(--space-xs) var(--space-sm);
   border-radius: var(--radius-pill);
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
+  background-color: var(--color-here-surface);
+  color: var(--color-here-text);
   font-family: var(--type-label-font);
   word-spacing: var(--type-label-word-spacing);
   letter-spacing: var(--type-label-tracking);
