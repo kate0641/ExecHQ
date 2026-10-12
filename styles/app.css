@@ -10166,9 +10166,9 @@ ol.check-in__steps {
 .account-card__try {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xs);
-  /* A white card, outlined like the other cards on the page. */
-  padding: var(--space-md);
+  /* A white card, outlined like the other cards on the page. Top and
+     bottom take the cards' standard 20px. */
+  padding: var(--space-feature-padding) var(--space-md);
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-xl);
   background-color: var(--color-surface-raised);
@@ -10212,6 +10212,21 @@ ul.account-card__shows {
 
 .signal-picture__links {
   align-self: flex-start;
+}
+
+/* Three steps of space, each wider than the last (designer, 2026-10-11):
+   the eyebrow stays with its title (4px), the sentence comes a little
+   further down (8px), and the button has the widest gap above it (20px). */
+.account-card__try > .account-card__try-label {
+  margin-bottom: var(--space-2xs);
+}
+
+.account-card__try > :not(.account-card__try-label) + * {
+  margin-top: var(--space-xs);
+}
+
+.account-card__try > .account-card__cta {
+  margin-top: var(--space-md-lg);
 }
 
 .account-card__cta {
