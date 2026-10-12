@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { FlowList } from "@/components/hub/FlowList";
 import { HubChrome } from "@/components/layout/HubChrome";
+import { TextLink } from "@/components/primitives/TextLink";
 import { registry } from "@/components/registry";
 import { SHOWROOM_ROOMS } from "@/lib/hub-pages";
 import { flows } from "@/lib/manifest";
@@ -38,8 +39,8 @@ export default function HubPage() {
       intro={
         <p>
           Everything in this prototype is declared in <code>prototype.config.ts</code>.{" "}
-          {flows.length} flows and {conceptCount} concept pages. Nothing here talks
-          to a network.
+          {flows.length} flows and {conceptCount} concept pages, then the{" "}
+          <TextLink href="#plan-briefs">plan briefs</TextLink>. Nothing here talks to a network.
         </p>
       }
     >
@@ -64,32 +65,6 @@ export default function HubPage() {
         </section>
       ) : null}
 
-      <section className="hub__section" id="plan-briefs" aria-labelledby="plan-briefs-title">
-        <h2 className="hub__section-title" id="plan-briefs-title">
-          Plan briefs
-        </h2>
-        <p className="hub__section-intro t-measure">
-          The agent&rsquo;s background for each V1 plan: who it is for, its stages, the action
-          steps it can recommend and when, and the signals each stage leans on. Reference, not
-          product screens. One markdown file each in <code>plans/</code>.
-        </p>
-        <ul className="hub-tools">
-          {PLAN_BRIEFS.map((entry) => (
-            <li key={entry.slug}>
-              <Link href={`/plans/${entry.slug}`} className="hub-tools__card">
-                <span className="hub-tools__card-title">{entry.title}</span>
-                <span className="hub-tools__card-description">
-                  {entry.template ? `${entry.template}. ${entry.description}` : entry.description}
-                </span>
-                <span className="hub-tools__card-count t-eyebrow">
-                  {getPlanBrief(entry.slug)?.content ? "Draft" : "Not written yet"}
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
-
       <section className="hub__section" id="flows" aria-labelledby="flows-title">
         <h2 className="hub__section-title" id="flows-title">
           Flows and pages
@@ -100,6 +75,41 @@ export default function HubPage() {
           entry in <code>prototype.config.ts</code>.
         </p>
         <FlowList specs={specs} headingLevel={4} />
+      </section>
+
+      <section className="hub__section" id="plan-briefs" aria-labelledby="plan-briefs-title">
+        <h2 className="hub__section-title" id="plan-briefs-title">
+          Plan briefs
+        </h2>
+        <p className="hub__section-intro t-measure">
+          The agent&rsquo;s background for each V1 plan: who it is for, its stages, the action
+          steps it can recommend and when, and the signals each stage leans on. Reference, like
+          the interaction specs, not product screens. One markdown file each in{" "}
+          <code>plans/</code>.
+        </p>
+        <div className="flow-list">
+          <ul className="flow-list__flows">
+            {PLAN_BRIEFS.map((entry) => (
+              <li className="flow-list__flow" key={entry.slug}>
+                <div className="flow-list__flow-header">
+                  <h3 className="flow-list__flow-title">{entry.title}</h3>
+                </div>
+                <p className="flow-list__flow-description">
+                  {entry.template ? `${entry.template}. ${entry.description}` : entry.description}
+                </p>
+                <p className="flow-list__spec">
+                  <TextLink href={`/plans/${entry.slug}`} tone="standalone">
+                    {entry.template ? "Plan brief" : "Read the rules"}
+                    <span className="u-visually-hidden"> for {entry.title}</span>
+                  </TextLink>
+                  {getPlanBrief(entry.slug)?.content ? null : (
+                    <span className="flow-list__spec-empty"> · not yet written</span>
+                  )}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
     </HubChrome>
   );
