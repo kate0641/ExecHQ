@@ -2773,16 +2773,21 @@ ul.concierge-suggest {
   align-items: center;
   min-height: var(--button-target);
   padding: var(--space-xs) var(--space-md);
-  border: var(--border-width-thin) solid var(--color-border);
+  /* Navy, like the bubbles they become: what she might say — the prompts
+     under "Ask me" and the quick replies alike — is in her own colour
+     before she says it (designer, 2026-10-12). */
+  border: var(--border-width-thin) solid transparent;
   border-radius: var(--radius-xl);
-  background-color: var(--color-surface-raised);
+  background-color: var(--color-surface-inverse);
   font-family: var(--type-body-sm-font);
   font-size: var(--type-body-sm-size);
   font-weight: var(--weight-regular);
   word-spacing: normal;
   letter-spacing: normal;
   line-height: var(--leading-snug);
-  color: var(--color-text-primary);
+  color: var(--color-text-inverse);
+  --color-focus: var(--color-focus-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
   text-align: left;
   white-space: normal;
 }
@@ -2791,14 +2796,18 @@ ul.concierge-suggest {
   font-family: var(--type-body-sm-font);
   font-size: var(--type-body-sm-size);
   line-height: var(--leading-snug);
-  color: var(--color-text-primary);
+  color: var(--color-text-inverse);
   text-align: left;
 }
 
-.concierge-suggest__item:hover,
+.concierge-suggest__item:hover {
+  border-color: transparent;
+  background-color: var(--color-surface-inverse-hover);
+}
+
 .concierge-panel .quick-replies__chip:hover {
-  border-color: var(--color-border-strong);
-  background-color: var(--color-surface-raised);
+  border-color: transparent;
+  background-color: var(--color-surface-inverse-hover);
 }
 
 /* The replies wrap, left-aligned, so every answer shows: the scrolling row
@@ -6590,10 +6599,10 @@ ol.ring-detail__timeline {
   padding: var(--space-xs) var(--space-sm);
   /* Keep the lines the user broke with Shift+Enter in the composer. */
   white-space: pre-line;
-  /* Light blue with dark text, not navy, so the only navy in the panel is
-     where she is (designer, 2026-10-07). */
-  color: var(--color-text-primary);
-  background-color: var(--color-surface-active);
+  /* Navy with light text (designer, 2026-10-12, replacing the light blue of
+     2026-10-07): her words carry the one strong colour in the panel. */
+  color: var(--color-text-inverse);
+  background-color: var(--color-surface-inverse);
   border-radius: var(--radius-lg);
   border-bottom-right-radius: var(--radius-xs);
 }
