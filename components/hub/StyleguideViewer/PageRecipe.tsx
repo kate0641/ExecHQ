@@ -73,6 +73,12 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
     note: "Kulim Park for headings only; Inter for everything she reads or presses.",
     rules: [
       {
+        rule: "Only paragraphs get the airy 1.7 line spacing. A one-line label, date or note uses tight spacing (1.3), so a card that ends in one doesn't look heavier at the bottom than at the top.",
+        why: "Line spacing adds invisible space above and below each line. On a single line it pads the card's edge, so 20px of padding looks like 25.",
+        from: "Navigation",
+        uses: ["--leading-snug"],
+      },
+      {
         rule: "Text in a navy header is one line, never more. Copy that would wrap is cut with an ellipsis, so it is caught and shortened.",
         why: "A navy header is a single, clear statement. Write it short: Add 3 recent accomplishments, not Add three recent accomplishments.",
         from: "Home",
