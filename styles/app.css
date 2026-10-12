@@ -16259,6 +16259,10 @@ ul.plan-guided__sparks {
    -------------------------------------------------------------------------- */
 .u-bold-hold {
   display: inline-grid;
+  /* Its baseline comes from the hidden bold copy, which has no height, so
+     on a text line it would drop the label and pad the line above it. Top
+     alignment keeps the line exactly the text's height. */
+  vertical-align: top;
 }
 
 .u-bold-hold::after {
