@@ -30,6 +30,8 @@ export interface CheckInProps {
   /** The readback is an outcome she gave, not a "check back later": the
    *  word Logged shows above it in a pill. */
   logged?: boolean;
+  /** A line above the readback, on its own: "You told me:". */
+  readbackLead?: string;
   /** "Yes, I've used it", for a ready draft. */
   onUsed?: () => void;
   /** "Yes, it's done", for an action with no draft. */
@@ -70,6 +72,7 @@ export function CheckIn({
   answered = false,
   readback,
   logged = false,
+  readbackLead,
   onUsed,
   onDone,
   onDrop,
@@ -306,6 +309,7 @@ export function CheckIn({
           {shown ? (
             <p className="check-in__readback" id={headingId} tabIndex={-1}>
               {logged && !later ? <span className="check-in__logged">{C.loggedLabel}</span> : null}
+              {readbackLead && !later ? <span className="check-in__readback-lead">{readbackLead}</span> : null}
               {shown}
             </p>
           ) : null}

@@ -13,7 +13,7 @@ const noop = () => {};
 const base = { onUsed: noop, onAnswer: noop, onNote: noop };
 const used = { ...base, record: story, today: due.today, about: "Use your leadership story in your next 1:1" };
 const isReady = { ...base, record: brief, today: ready.today, about: "Brief your manager before Thursday’s check-in" };
-const done = { ...base, record: { ...logged, outcome: logged.outcome && { ...logged.outcome, detail: undefined } }, today: answered.today, about: "Use your leadership story in your next 1:1", answered: true, readback: "You said it went well.", logged: true };
+const done = { ...base, record: { ...logged, outcome: logged.outcome && { ...logged.outcome, detail: undefined } }, today: answered.today, about: "Use your leadership story in your next 1:1", answered: true, readback: "You said it went well.", logged: true, readbackLead: "You told me:" };
 
 export const checkInStates = defineComponentStates({
   name: "CheckIn",

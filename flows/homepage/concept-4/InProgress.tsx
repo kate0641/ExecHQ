@@ -78,6 +78,7 @@ export function InProgress({ loop }: { loop: LoopView }) {
           answered={Boolean(taskCheck.outcome)}
           readback={taskReadback}
           logged={Boolean(taskCheck.outcome && taskCheck.outcome.type !== "no-response-yet")}
+          readbackLead={taskCheck.outcome?.detail ? HOME_COPY.loggedLead : undefined}
           onAnswer={(type) => loopActions.answerTask(pendingTask.id, type)}
           onNote={(detail) => loopActions.noteTask(pendingTask.id, detail)}
           headingId="check-in-task"
@@ -98,6 +99,7 @@ export function InProgress({ loop }: { loop: LoopView }) {
           answered={isAnswered}
           readback={isAnswered ? readback : undefined}
           logged={isAnswered && Boolean(outcome && outcome.type !== "no-response-yet")}
+          readbackLead={isAnswered && outcome?.detail ? HOME_COPY.loggedLead : undefined}
           headingId={headingId}
           onUsed={() => {
             loopActions.markUsed(record.id);
