@@ -306,9 +306,9 @@ export function CheckIn({
       ) : null}
       {done ? (
         <>
+          {logged && !later ? <p className="check-in__logged">{C.loggedLabel}</p> : null}
           {shown ? (
             <p className="check-in__readback" id={headingId} tabIndex={-1}>
-              {logged && !later ? <span className="check-in__logged">{C.loggedLabel}</span> : null}
               {readbackLead && !later ? <span className="check-in__readback-lead">{readbackLead}</span> : null}
               {shown}
             </p>
