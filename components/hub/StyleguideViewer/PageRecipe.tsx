@@ -171,6 +171,12 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         uses: ["--space-feature-padding"],
       },
       {
+        rule: "Inside a card, three steps of space, each wider than the last: eyebrow to title 4px, title to copy 8px, copy to button 20px.",
+        why: "The eyebrow and title read as one label, the copy belongs to them, and the button stands apart as the thing to do. Most cards take this; a card that needs otherwise is adjusted on its own.",
+        from: "Home",
+        uses: ["--space-eyebrow-title", "--space-title-copy", "--space-copy-action"],
+      },
+      {
         rule: "Sections sit 32px apart; inside a section, heading, line and card sit 12px apart.",
         why: "The gap between groups must be clearly bigger than the gaps inside them, or the page reads as one long list.",
         from: "Profile",

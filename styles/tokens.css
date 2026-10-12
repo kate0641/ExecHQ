@@ -594,6 +594,7 @@
   --space-feature-padding: var(--space-md-lg);  /* inside a feature card, which holds more */
   --space-eyebrow-title: var(--space-2xs); /* an eyebrow to the title under it */
   --space-title-copy: var(--space-xs);     /* a title to the copy under it */
+  --space-copy-action: var(--space-md-lg); /* the copy to the button under it: the widest of the three, as wide as the card's padding */
 
   /* ---------------------------------------------------------------------------
      RADII

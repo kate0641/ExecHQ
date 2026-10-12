@@ -10214,19 +10214,19 @@ ul.account-card__shows {
   align-self: flex-start;
 }
 
-/* Three steps of space, each wider than the last (designer, 2026-10-11):
-   the eyebrow stays with its title (4px), the sentence comes a little
-   further down (8px), and the button has the widest gap above it (20px). */
+/* The card recipe's three steps of space, each wider than the last
+   (designer, 2026-10-11): the eyebrow stays with its title, the sentence
+   comes a little further down, and the button has the widest gap above it. */
 .account-card__try > .account-card__try-label {
-  margin-bottom: var(--space-2xs);
+  margin-bottom: var(--space-eyebrow-title);
 }
 
 .account-card__try > :not(.account-card__try-label) + * {
-  margin-top: var(--space-xs);
+  margin-top: var(--space-title-copy);
 }
 
 .account-card__try > .account-card__cta {
-  margin-top: var(--space-md-lg);
+  margin-top: var(--space-copy-action);
 }
 
 .account-card__cta {
