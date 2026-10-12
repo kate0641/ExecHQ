@@ -199,7 +199,7 @@
   --color-text-inverse-muted: var(--brand-blue-300);
   --color-text-on-accent: var(--brand-white);
   --color-text-link: var(--brand-primary);
-  --color-text-link-hover: var(--brand-accent-strong);
+  --color-text-link-hover: var(--brand-primary);  /* the link's own colour: text never turns gold on hover (designer, 2026-10-11; hover carries no meaning on a phone) */
 
   /* Borders — "strong" is 3.2:1 on the stone page and 3.4:1 on white, and is
      the one to use on controls. It is 3.1:1 on blue 100, so it still holds
