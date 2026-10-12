@@ -589,7 +589,7 @@
   /* SPACING ROLES — what a gap is for, so one change here moves it everywhere. */
   --space-screen-side: var(--space-sm);  /* left and right of a phone screen: 12, so cards run wider */
   --space-screen-top: var(--space-lg);   /* above the first thing on a screen */
-  --space-between-cards: var(--space-md);  /* the gap between cards stacked on a screen */
+  --space-between-cards: var(--space-sm);  /* the gap between cards stacked on a screen: 12, half the gap between sections (designer, 2026-10-11) */
   --space-card-padding: var(--space-md);   /* inside a list card: a row, a link, a read */
   --space-feature-padding: var(--space-md-lg);  /* inside a feature card, which holds more */
   --space-eyebrow-title: var(--space-2xs); /* an eyebrow to the title under it */

@@ -159,7 +159,7 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
     note: "Gaps are named for their job.",
     rules: [
       {
-        rule: "Cards run 12px from the phone's edge, 16px apart, with 16px inside (20px in a feature card).",
+        rule: "Cards run 12px from the phone's edge, 12px apart when one sits straight under another (half the 24px between sections; text without a card keeps the full gap), with 16px inside (20px in a feature card).",
         why: "Wider cards, steady rhythm.",
         from: "Home",
         uses: ["--space-screen-side", "--space-between-cards", "--space-card-padding", "--space-feature-padding"],

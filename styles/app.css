@@ -12988,8 +12988,22 @@ ul.map-panel__list {
 .map-home__side {
   display: flex;
   flex-direction: column;
-  gap: var(--space-lg);
   min-width: 0;
+}
+
+/* Sections sit 24px apart; a card straight under another card sits half
+   that, 12px, so stacked cards read as one group (designer, 2026-10-11). */
+.map-home__side > * + * {
+  margin-top: var(--space-lg);
+}
+
+.map-home__side > :is(.map-home__briefing, .signal-picture--card) + :is(.signal-picture--card, .account-card__try) {
+  margin-top: var(--space-between-cards);
+}
+
+/* On web the column's pieces sit in the page grid, which spaces them. */
+[data-viewport="web"] .map-home:not(:where([data-viewport="mobile"] *)) .map-home__side > * {
+  margin-top: 0;
 }
 
 [data-viewport="tablet"] .map-home:not(:where([data-viewport="mobile"] *)) {
