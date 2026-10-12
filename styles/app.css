@@ -13601,14 +13601,21 @@ ul.templates__outcomes {
    everything else on a white body below, as the feature card does. */
 .map-home .signal-picture--card.account-card {
   gap: var(--space-md);
-  /* Skip for now is a 44px tap target, so its words sit 14px above the
-     button's foot; a short pad leaves them as far from the card's bottom as
-     the title is from its top (designer, 2026-10-10). */
-  padding: 0 0 var(--space-xs);
+  /* The card's standard foot: the last thing in it sits a feature card's
+     padding (20px) from the bottom, as the next-step card's button does
+     (designer, 2026-10-11). */
+  padding: 0 0 var(--space-feature-padding);
   overflow: hidden;
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-card);
   background-color: var(--color-surface-raised);
+}
+
+/* Skip for now is a 44px tap target, so its words sit 14px above the
+   button's foot; a short pad leaves them as far from the card's bottom as
+   the title is from its top (designer, 2026-10-10). */
+.map-home .signal-picture--card.account-card:has(form) {
+  padding-bottom: var(--space-xs);
 }
 
 .map-home .signal-picture--card > .account-card__top {

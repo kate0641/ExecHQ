@@ -165,6 +165,12 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         uses: ["--space-screen-side", "--space-between-cards", "--space-card-padding", "--space-feature-padding"],
       },
       {
+        rule: "A card's last thing, a button or a flat link, sits 20px from its bottom edge, the same as its first thing sits from the top.",
+        why: "Every card ends the same way, so a link never looks squeezed against the edge. A tall tap target whose words sit high is the one allowance.",
+        from: "Home",
+        uses: ["--space-feature-padding"],
+      },
+      {
         rule: "Sections sit 32px apart; inside a section, heading, line and card sit 12px apart.",
         why: "The gap between groups must be clearly bigger than the gaps inside them, or the page reads as one long list.",
         from: "Profile",
