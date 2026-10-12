@@ -1,6 +1,6 @@
 # Homepage — interaction spec
 
-Approved concept: **Concept 4 — Combined**, as of 2026-10-06. It is written so a developer can build it without the prototype open. Where the prototype fakes something, production behavior is stated under "Prototype versus production".
+Approved concept: **Concept 4 — Combined**, as of 2026-10-06. The Briefing card (section 5) was changed on 2026-10-12 to show all three reads with their publishers. It is written so a developer can build it without the prototype open. Where the prototype fakes something, production behavior is stated under "Prototype versus production".
 
 Concepts 1, 2 and 3 were the three ideas Concept 4 was built from. They are not specified here.
 
@@ -191,12 +191,20 @@ Five answers: **It went well**, **It was mixed**, **Not the way I hoped**, **Not
 
 One card, and the whole card is the link to the Briefing page.
 
-It shows, top to bottom: the label **Today's Briefing** and, at the right, the date and number of reads ("Mon 5 Oct · 3 reads"); the **lead read's headline**, set in the serif (the one editorial face in the product); and, in the foot, a small tag saying why it matters to this person ("For your Q1 planning review"), with a chevron at the right.
+It shows, top to bottom:
 
-- The **tag** is there only when one of the reads touches an action on the plan. Otherwise the foot holds only the chevron.
+1. The label **Today's Briefing** and, at the right, the date and number of reads ("Mon 5 Oct · 3 reads") with a chevron.
+2. The **lead read's headline**, set in the serif (the one editorial face in the product), at most two lines.
+3. Under it, the lead read's **publisher** and, after a dot, a small tag saying why it matters to this person: "Marlow Management Review · For your Q1 planning review".
+4. Under a thin rule, the **other two reads** as small bullets in the body face, one line each, each with its publisher under it.
+
+- **Long headlines end in an ellipsis**: the lead after two lines, the other two after one, so the card keeps its height whatever the day's headlines are. Screen readers still hear each headline in full.
+- The **tag** is there only when one of the reads touches an action on the plan. Otherwise the line under the lead shows only its publisher.
+- Every read names its **publisher**, so she always knows where it comes from.
+- The headlines and publishers are the Briefing's own three reads, in the Briefing's order, so the card and the page always agree.
 - The card is **dark** so that it reads as something to read, not something to do, and stays visibly apart from the plan's recommendations. It never appears inside the ring card.
-- It shows one headline. It never lists the other reads.
-- The Briefing's contents and page are designed in Sprint 4. Until then the card is real and the page it opens is a placeholder.
+- The whole card is **one link**. The headlines are not separate links to their reads.
+- **On web**, where the card runs the full width, the lead takes the left (about 55%) and the other two the right, beside a thin vertical rule instead of under one. On phone and tablet they stack.
 
 ---
 
@@ -274,7 +282,7 @@ Changing the moment sets the ring selection back to its starting one (3.2).
 - Focus moves on purpose: to the question after "I've done this", to the heading of a card after an answer, to the Stay on track heading after "used". Every card heading can take focus.
 - Selecting a ring and saving the starting point are announced politely.
 - The card carousel works by keyboard (Previous and Next) as well as by swipe.
-- The Briefing card is one link, with a name that reads its heading, date and headline.
+- The Briefing card is one link, with a name that reads its heading, date, and each read's headline in full with its publisher, even where the headline is cut short on screen.
 - Every control has a visible focus ring. Text contrast is at least 4.5:1, non-text at least 3:1, in greyscale and in colour.
 - The only motion is the notch sliding between rings, and it is skipped when the person has asked for reduced motion.
 
