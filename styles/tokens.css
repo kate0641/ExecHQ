@@ -356,6 +356,11 @@
      is the one piece of colour on a bar that floats over every page. */
   --color-here-surface: var(--brand-green-200);
   --color-here-text: var(--brand-dark-green);
+  /* The Loop's check-in: a light blue band across the head of an otherwise
+     white card, carrying what the question is about (designer, 2026-10-12).
+     Navy on it reads at 11.3:1. The foot of the card keeps its hairline. */
+  --color-surface-check-in-band: var(--brand-blue-200);
+  --color-text-on-check-in-band: var(--brand-primary);
 
   /* Logo — two versions, never recoloured beyond these. The dark logo (gold
      "Exec", navy "HQ") sits on stone and blue 100 — gold is 5.0:1 on blue 100

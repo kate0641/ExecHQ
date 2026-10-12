@@ -9614,6 +9614,9 @@ ol.signal__list {
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-xl);
   background-color: var(--color-surface-raised);
+  /* The blue band at the head runs to the card's edge, so it is clipped to
+     its corners. */
+  overflow: hidden;
 }
 
 .check-in__about {
@@ -9659,10 +9662,15 @@ ol.signal__list {
   font-size: var(--type-caption-size);
   font-weight: var(--weight-regular);
   line-height: var(--type-caption-leading);
-  color: var(--color-text-secondary);
-  /* A hairline sets the context apart from the question under it. */
-  padding-bottom: var(--space-sm);
-  border-bottom: var(--border-width-thin) solid var(--color-border-subtle);
+  /* Navy on the band, not the page's grey: 11.3:1. */
+  color: var(--color-text-on-check-in-band);
+  /* What it is about rides in a light blue band across the head of the
+     card, to the edges. The band sets it apart from the question, so it
+     needs no hairline under it (designer, 2026-10-12). The lesser answers
+     at the foot keep theirs. */
+  margin: calc(-1 * var(--space-md)) calc(-1 * var(--space-md)) 0;
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-surface-check-in-band);
 }
 
 .check-in__about b {
