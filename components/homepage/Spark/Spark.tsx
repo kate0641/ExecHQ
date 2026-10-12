@@ -27,7 +27,7 @@ export interface SparkProps {
   tone?: "note" | "celebrate";
   /** Dismiss with an × rather than the word (Home's Signal Picture strip). */
   closeIcon?: boolean;
-  /** A word before the source, set off by a dot: "Great job · Press". */
+  /** A word before the source, set off by a dot: "Great job! · Press". */
   kicker?: string;
   className?: string;
 }
@@ -84,7 +84,8 @@ export function Spark({ items, label, dismissLabel, dismissName, onDismiss, onAc
                 <>
                   {kicker}
                   <span aria-hidden="true"> · </span>
-                  <span className="u-visually-hidden">, </span>
+                  {/* A pause for screen readers, unless the word ends in its own. */}
+                  <span className="u-visually-hidden">{/[.!?]$/.test(kicker) ? " " : ", "}</span>
                 </>
               ) : null}
               {item.source}
