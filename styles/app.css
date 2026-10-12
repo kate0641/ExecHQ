@@ -13112,6 +13112,12 @@ ul.map-panel__list {
   min-width: 0;
 }
 
+/* The greeting band and the Progress Tracker keep the section gap. (The
+   card column spaces its own children, below.) */
+.map-home__lead {
+  gap: var(--space-lg);
+}
+
 /* Sections sit 24px apart; a card straight under another card sits half
    that, 12px, so stacked cards read as one group (designer, 2026-10-11). */
 .map-home__side > * + * {
