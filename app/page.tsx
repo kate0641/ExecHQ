@@ -6,6 +6,7 @@ import { SHOWROOM_ROOMS } from "@/lib/hub-pages";
 import { flows } from "@/lib/manifest";
 import { getBuiltConceptKeys } from "@/flows/registry";
 import { getSpec, type Spec } from "@/lib/specs";
+import { PLAN_BRIEFS, getPlanBrief } from "@/lib/plan-briefs";
 import { readTokens } from "@/lib/tokens";
 
 export const metadata = {
@@ -62,6 +63,32 @@ export default function HubPage() {
           </ul>
         </section>
       ) : null}
+
+      <section className="hub__section" id="plan-briefs" aria-labelledby="plan-briefs-title">
+        <h2 className="hub__section-title" id="plan-briefs-title">
+          Plan briefs
+        </h2>
+        <p className="hub__section-intro t-measure">
+          The agent&rsquo;s background for each V1 plan: who it is for, its stages, the action
+          steps it can recommend and when, and the signals each stage leans on. Reference, not
+          product screens. One markdown file each in <code>plans/</code>.
+        </p>
+        <ul className="hub-tools">
+          {PLAN_BRIEFS.map((entry) => (
+            <li key={entry.slug}>
+              <Link href={`/plans/${entry.slug}`} className="hub-tools__card">
+                <span className="hub-tools__card-title">{entry.title}</span>
+                <span className="hub-tools__card-description">
+                  {entry.template ? `${entry.template}. ${entry.description}` : entry.description}
+                </span>
+                <span className="hub-tools__card-count t-eyebrow">
+                  {getPlanBrief(entry.slug)?.content ? "Draft" : "Not written yet"}
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
 
       <section className="hub__section" id="flows" aria-labelledby="flows-title">
         <h2 className="hub__section-title" id="flows-title">
