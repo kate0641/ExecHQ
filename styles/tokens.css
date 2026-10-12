@@ -237,6 +237,13 @@
      the ring from the done colour to a pale end, so it reads as still
      filling; not started is the pale track. On trial: navy to blue 200 (blue
      300 is the fallback end); dark green to lime (green 200) may be tried. */
+  /* A switch that is on (designer, 2026-10-11): bright yellow with a navy
+     knob, the nav's yellow-and-navy pairing. The knob, 9:1 on the yellow,
+     says the state; the track's place says it too. */
+  --color-switch-on: var(--brand-yellow-400);
+  --color-switch-on-hover: var(--brand-yellow-500);
+  --color-switch-on-thumb: var(--brand-primary);
+
   /* The advisor's sheet (designer, 2026-10-11). The current page in its
      nav is a yellow circle with a navy icon; a dot says something waits. */
   --color-nav-current: var(--brand-yellow-400);

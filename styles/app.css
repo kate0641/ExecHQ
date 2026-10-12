@@ -10950,11 +10950,12 @@ ul.stage-actions__list {
 }
 
 .switch[aria-checked="true"] {
-  background-color: var(--color-surface-inverse);
+  background-color: var(--color-switch-on);
 }
 
 .switch[aria-checked="true"] .switch__thumb {
   translate: 1.25rem 0;
+  background-color: var(--color-switch-on-thumb);
 }
 
 .switch:hover,
@@ -10964,7 +10965,7 @@ ul.stage-actions__list {
 
 .switch[aria-checked="true"]:hover,
 .switch[aria-checked="true"].is-hover {
-  background-color: var(--color-surface-inverse-hover);
+  background-color: var(--color-switch-on-hover);
 }
 
 .switch:active .switch__thumb,
@@ -10990,6 +10991,11 @@ ul.stage-actions__list {
 
 .switch[aria-checked="true"]:disabled {
   background-color: var(--color-border-strong);
+}
+
+/* Off-limits switches drop the navy knob with the yellow. */
+.switch[aria-checked="true"]:disabled .switch__thumb {
+  background-color: var(--color-surface-raised);
 }
 
 @media (prefers-reduced-motion: reduce) {
