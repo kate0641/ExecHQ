@@ -9547,32 +9547,46 @@ ol.signal__list {
   color: var(--color-text-muted);
 }
 
-.briefing-editorial__body {
+/* Today's three reads as equal bullets, in the order the Briefing shows
+   them. */
+.briefing-editorial__reads {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
   min-width: 0;
 }
 
-.briefing-editorial__first {
+.briefing-editorial__read {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--space-3xs);
+  padding-left: var(--space-md);
   min-width: 0;
 }
 
-/* The headline in white on the navy, a step heavier than regular. Two lines
-   at most, so a long headline can't grow the card. */
-.briefing-editorial__lead {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+.briefing-editorial__read::before {
+  content: "";
+  position: absolute;
+  left: var(--space-3xs);
+  top: calc(var(--text-md) * var(--leading-normal) / 2 - var(--space-3xs));
+  width: calc(var(--space-2xs) + var(--space-3xs));
+  height: calc(var(--space-2xs) + var(--space-3xs));
+  border-radius: var(--radius-pill);
+  background-color: var(--color-accent-on-inverse);
+}
+
+/* Each headline in the serif, a step smaller than a lead, on one line: a
+   long one ends in an ellipsis, so the card keeps its height. */
+.briefing-editorial__title {
   overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   font-family: var(--font-serif);
-  font-size: var(--text-lg);
+  font-size: var(--text-md);
   font-weight: var(--weight-serif-medium);
-  color: var(--color-text-primary);
   line-height: var(--leading-normal);
+  color: var(--color-text-primary);
 }
 
 /* On the cover, the name and date sit at the top on the pale photograph,
@@ -9590,12 +9604,6 @@ ol.signal__list {
   color: var(--color-text-on-cover);
 }
 
-/* On the cover the headline is a step larger (designer, 2026-10-09). */
-.briefing-editorial--cover .briefing-editorial__lead {
-  font-size: var(--text-xl);
-  line-height: var(--leading-snug);
-}
-
 /* The publication, then what the read is for, as quiet text with no pill. */
 .briefing-editorial__source {
   overflow: hidden;
@@ -9607,59 +9615,6 @@ ol.signal__list {
 
 .briefing-editorial__source b {
   font-weight: var(--weight-semibold);
-}
-
-/* The other reads: small bullets of one line each, under a rule. */
-.briefing-editorial__others {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  padding-top: var(--space-sm);
-  border-top: var(--border-width-thin) solid var(--color-border);
-  min-width: 0;
-}
-
-.briefing-editorial__other {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  padding-left: var(--space-md);
-  min-width: 0;
-}
-
-.briefing-editorial__other::before {
-  content: "";
-  position: absolute;
-  left: var(--space-3xs);
-  top: calc(var(--text-sm) * var(--leading-normal) / 2 - var(--space-3xs));
-  width: var(--space-2xs);
-  height: var(--space-2xs);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-text-secondary);
-}
-
-.briefing-editorial__title {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-primary);
-}
-
-/* On web the card spans the page: the lead takes the left, the others the
-   right, beside a rule instead of under one. */
-[data-viewport="web"] .briefing-editorial:not(:where([data-viewport="mobile"] *)) .briefing-editorial__body {
-  display: grid;
-  grid-template-columns: minmax(0, 5fr) minmax(0, 4fr);
-  gap: var(--space-lg);
-}
-
-[data-viewport="web"] .briefing-editorial:not(:where([data-viewport="mobile"] *)) .briefing-editorial__others {
-  padding-top: 0;
-  padding-left: var(--space-lg);
-  border-top: 0;
-  border-left: var(--border-width-thin) solid var(--color-border);
 }
 
 /* The check-in: one component for everything the Loop asks, drawn three

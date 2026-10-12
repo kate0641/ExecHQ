@@ -268,7 +268,7 @@ export const BRIEFING_STUB = {
   reads: 3,
   eyebrow: (reads: number) => `Today’s Briefing · ${reads} reads`,
   lead: TODAYS_READS[0].title,
-  /** The lead read's publication, under its headline. */
+  /** The first read’s publication, under its headline. */
   publisher: publisherName(TODAYS_READS[0].publisherId),
   /** Only when a read touches an action on the plan. */
   why: "Relevant to your Q1 planning review.",

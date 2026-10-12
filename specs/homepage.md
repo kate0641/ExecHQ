@@ -1,6 +1,6 @@
 # Homepage — interaction spec
 
-Approved concept: **Concept 4 — Combined**, as of 2026-10-06. The Briefing card (section 5) was changed on 2026-10-12 to show all three reads with their publishers. It is written so a developer can build it without the prototype open. Where the prototype fakes something, production behavior is stated under "Prototype versus production".
+Approved concept: **Concept 4 — Combined**, as of 2026-10-06. The Briefing card (section 5) was changed on 2026-10-12 to show all three reads, as equal one-line bullets, with their publishers. It is written so a developer can build it without the prototype open. Where the prototype fakes something, production behavior is stated under "Prototype versus production".
 
 Concepts 1, 2 and 3 were the three ideas Concept 4 was built from. They are not specified here.
 
@@ -194,17 +194,17 @@ One card, and the whole card is the link to the Briefing page.
 It shows, top to bottom:
 
 1. The label **Today's Briefing** and, at the right, the date and number of reads ("Mon 5 Oct · 3 reads") with a chevron.
-2. The **lead read's headline**, set in the serif (the one editorial face in the product), at most two lines.
-3. Under it, the lead read's **publisher** and, after a dot, a small tag saying why it matters to this person: "Marlow Management Review · For your Q1 planning review".
-4. Under a thin rule, the **other two reads** as small bullets in the body face, one line each, each with its publisher under it.
+2. **Today's three reads as equal bullets**, in the Briefing's order. Each is the headline, set in the serif (the one editorial face in the product) a step smaller than a lead headline, on one line, with its **publisher** under it in small text.
+3. The read that touches the plan adds a small tag after its publisher, saying why it matters to this person: "Marlow Management Review · For your Q1 planning review".
 
-- **Long headlines end in an ellipsis**: the lead after two lines, the other two after one, so the card keeps its height whatever the day's headlines are. Screen readers still hear each headline in full.
-- The **tag** is there only when one of the reads touches an action on the plan. Otherwise the line under the lead shows only its publisher.
+- **Long headlines end in an ellipsis** after one line, so the card keeps its height whatever the day's headlines are. On a phone most headlines are cut short; tapping the card opens the Briefing, where they are shown in full. Screen readers still hear each headline in full.
+- No read leads: the three look the same, so she sees at a glance what today holds.
+- The **tag** is there only when a read touches an action on the plan. Otherwise every read shows only its publisher.
 - Every read names its **publisher**, so she always knows where it comes from.
 - The headlines and publishers are the Briefing's own three reads, in the Briefing's order, so the card and the page always agree.
 - The card is **dark** so that it reads as something to read, not something to do, and stays visibly apart from the plan's recommendations. It never appears inside the ring card.
 - The whole card is **one link**. The headlines are not separate links to their reads.
-- **On web**, where the card runs the full width, the lead takes the left (about 55%) and the other two the right, beside a thin vertical rule instead of under one. On phone and tablet they stack.
+- The three stack on every screen, web included, where the full width lets most headlines show in full.
 
 ---
 
@@ -295,7 +295,7 @@ Changing the moment sets the ring selection back to its starting one (3.2).
 | Maya is the only person, with five fixed moments picked from the dock | Home is built from the person's own account and plan |
 | "Good morning" is always the greeting | The greeting follows the time of day |
 | The Toolbox flows the buttons open are placeholders until Sprint 4 | They open the real flows |
-| The Briefing page is a placeholder, and the card always shows the same three reads | The card shows the day's real lead and its tag |
+| The Briefing page is a placeholder, and the card always shows the same three reads | The card shows the day’s three real reads, their publishers and the tag |
 | The one "A next step" under the Signal Picture is a single stand-in, whatever the person entered | It is chosen from what they have entered and where they are on their plan |
 | The ring card's reasons (why this, why now, why you) are written for Maya | They are written for the person from their direction and plan |
 | Nothing is saved but in the browser | Account data, check-in answers, the starting point and dismissed notes are kept on the account |

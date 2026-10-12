@@ -19,7 +19,7 @@ export const briefingEditorialStates = defineComponentStates({
   status: "draft",
   flows: ["homepage"],
   description:
-    "Today’s Briefing on the homepage: the lead headline in the serif under a thin top rule, with its publication and why it matters under it, then the other two reads as small bullets with theirs. Long headlines end in an ellipsis (the lead after two lines, the others after one), so the card keeps its height. On web the lead takes the left and the others the right. Visibly apart from plan recommendations.",
+    "Today’s Briefing on the homepage: the three reads as equal bullets under a thin top rule, each headline in the serif on one line with its publication under it, and why it matters after the publication of the read that touches the plan. Long headlines end in an ellipsis, so the card keeps its height. Visibly apart from plan recommendations.",
   component: BriefingEditorial,
   notApplicable: {
     disabled: "The Briefing is always reachable.",
@@ -31,10 +31,10 @@ export const briefingEditorialStates = defineComponentStates({
   variants: [
     { label: "Today’s three reads with their publications — default", props: base },
     { label: "With a cover image", description: "A photograph across the top fading into the navy; the words in white on the navy below. On Home.", props: { ...base, cover: true } },
-    { label: "No read touches the plan", description: "Without a tag, the lead shows only its publication.", props: { ...base, tag: undefined } },
+    { label: "No read touches the plan", description: "Without a tag, every read shows only its publication.", props: { ...base, tag: undefined } },
     {
       label: "Long headlines end in an ellipsis",
-      description: "The lead stops after two lines and the others after one, so the card keeps its height. The full headlines stay in the link’s name.",
+      description: "Each headline stops after one line, so the card keeps its height. The full headlines stay in the link’s name.",
       props: {
         ...base,
         lead: "How planning season quietly decides who gets new work, new budget and the next promotion, and why the people who ask early usually get it",
@@ -44,7 +44,7 @@ export const briefingEditorialStates = defineComponentStates({
         ],
       },
     },
-    { label: "Lead read only", description: "With no other reads given, the card shows the lead alone.", props: { ...base, others: undefined } },
+    { label: "One read only", description: "With no other reads given, the card shows one bullet.", props: { ...base, others: undefined } },
     { label: "Hover", props: { ...base, demo: "hover" } },
     { label: "Focus", props: { ...base, demo: "focus" } },
     { label: "Pressed", props: { ...base, demo: "active" } },
