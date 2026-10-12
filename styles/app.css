@@ -287,6 +287,23 @@ samp {
   background-color: var(--color-surface-raised);
 }
 
+/* A card that ends in an action (from Home's A next step, 2026-10-11): the
+   card recipe's 20px top and bottom, the copy tight under its eyebrow, and
+   the widest gap, 20px, above a button sized to its words. */
+.card--action {
+  gap: 0;
+  padding-block: var(--space-feature-padding);
+}
+
+.card--action > .btn {
+  align-self: flex-start;
+  margin-top: var(--space-copy-action);
+}
+
+.card--action .profile-fact__label {
+  color: var(--color-eyebrow);
+}
+
 /* A card of reads: each child is one read, split from the next by a
    hairline instead of a box. */
 .card--reads {
