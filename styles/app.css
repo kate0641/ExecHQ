@@ -9368,6 +9368,20 @@ ol.signal__list {
   outline-offset: var(--focus-ring-offset);
 }
 
+/* The Briefing card is dark green, not navy (designer, 2026-10-12): the
+   day's reading sits apart from the navy cards around it, and it keeps the
+   green the cover faded into. Its tokens remap the way the progress
+   card's do. */
+.briefing-editorial {
+  --color-surface-raised: var(--color-surface-progress);
+  --color-text-secondary: var(--color-text-on-progress-muted);
+  --color-text-muted: var(--color-text-on-progress-muted);
+  --color-border: var(--color-border-progress);
+  --color-border-subtle: var(--color-border-progress);
+  --color-eyebrow: var(--color-eyebrow-on-progress);
+  background-color: var(--color-surface-progress);
+}
+
 /* With a cover: a photograph across the top of a taller card, fading into
    the navy, and the words in white on the navy below it (designer,
    2026-10-09). The picture is decoration, so it lives in CSS. */
@@ -13126,6 +13140,13 @@ ul.map-panel__list {
 
 .map-home__side > :is(.map-home__briefing, .signal-picture--card) + :is(.signal-picture--card, .account-card__try) {
   margin-top: var(--space-between-cards);
+}
+
+/* With nothing in progress that wrapper is empty and hidden, so the card
+   after it would carry a second section gap on top of the page's own.
+   It starts the column instead. */
+.map-home__side > .map-home__stay:empty + * {
+  margin-top: 0;
 }
 
 /* On web the column's pieces sit in the page grid, which spaces them. */
