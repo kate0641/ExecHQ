@@ -402,7 +402,7 @@
   --color-feedback-warning-border: var(--brand-yellow-700);
   --color-feedback-danger-surface: var(--brand-orange-100);
   --color-feedback-danger-text: var(--brand-orange-700);
-  --color-feedback-danger-border: var(--brand-orange-600);
+  --color-feedback-danger-border: var(--brand-orange-500);  /* designer, 2026-10-11: 3.2:1 on the danger surface, 3.4:1 on the page */
 
   /* Feedback dots: a mid-tone centre inside a halo of the bright palette
      colour, softened a quarter towards white. The bright accents are too
