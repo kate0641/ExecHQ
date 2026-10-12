@@ -9604,17 +9604,14 @@ ol.signal__list {
   color: var(--color-text-on-cover);
 }
 
-/* The publication, then what the read is for, as quiet text with no pill. */
+/* The publication, as quiet text under its headline. */
 .briefing-editorial__source {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   font-size: var(--text-xs);
-  color: var(--color-text-secondary);
-}
-
-.briefing-editorial__source b {
   font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
 }
 
 /* The check-in: one component for everything the Loop asks, drawn three

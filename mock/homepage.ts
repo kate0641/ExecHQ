@@ -268,17 +268,13 @@ export const BRIEFING_STUB = {
   reads: 3,
   eyebrow: (reads: number) => `Today’s Briefing · ${reads} reads`,
   lead: TODAYS_READS[0].title,
-  /** The first read’s publication, under its headline. */
-  publisher: publisherName(TODAYS_READS[0].publisherId),
   /** Only when a read touches an action on the plan. */
   why: "Relevant to your Q1 planning review.",
-  /** The other two reads with their publications, from the Briefing's own
-   *  reads so the card and the Briefing always agree. */
-  others: TODAYS_READS.slice(1).map((r) => ({ title: r.title, publisher: publisherName(r.publisherId) })),
+  /** Today's three reads with their publications (the homepage card), from
+   *  the Briefing's own reads so the card and the Briefing always agree. */
+  list: TODAYS_READS.map((r) => ({ title: r.title, publisher: publisherName(r.publisherId) })),
   heading: "Today’s Briefing",
   meta: (date: string, reads: number) => `${date} · ${reads} reads`,
-  /** The why, short enough for a tag (Concept 3). */
-  tag: "For your Q1 planning review",
   open: "Read today’s Briefing",
   close: "Close today’s Briefing. It comes back tomorrow.",
 } as const;

@@ -195,11 +195,10 @@ It shows, top to bottom:
 
 1. The label **Today's Briefing** and, at the right, the date and number of reads ("Mon 5 Oct · 3 reads") with a chevron.
 2. **Today's three reads as equal bullets**, in the Briefing's order. Each is the headline, set in the serif (the one editorial face in the product) a step smaller than a lead headline, on one line, with its **publisher** under it in small text.
-3. The read that touches the plan adds a small tag after its publisher, saying why it matters to this person: "Marlow Management Review · For your Q1 planning review".
 
 - **Long headlines end in an ellipsis** after one line, so the card keeps its height whatever the day's headlines are. On a phone most headlines are cut short; tapping the card opens the Briefing, where they are shown in full. Screen readers still hear each headline in full.
 - No read leads: the three look the same, so she sees at a glance what today holds.
-- The **tag** is there only when a read touches an action on the plan. Otherwise every read shows only its publisher.
+- The card says **nothing about why** a read is there or how it relates to the plan. Each read's reason is on the Briefing page.
 - Every read names its **publisher**, so she always knows where it comes from.
 - The headlines and publishers are the Briefing's own three reads, in the Briefing's order, so the card and the page always agree.
 - The card is **dark** so that it reads as something to read, not something to do, and stays visibly apart from the plan's recommendations. It never appears inside the ring card.
@@ -295,7 +294,7 @@ Changing the moment sets the ring selection back to its starting one (3.2).
 | Maya is the only person, with five fixed moments picked from the dock | Home is built from the person's own account and plan |
 | "Good morning" is always the greeting | The greeting follows the time of day |
 | The Toolbox flows the buttons open are placeholders until Sprint 4 | They open the real flows |
-| The Briefing page is a placeholder, and the card always shows the same three reads | The card shows the day’s three real reads, their publishers and the tag |
+| The Briefing page is a placeholder, and the card always shows the same three reads | The card shows the day’s three real reads and their publishers |
 | The one "A next step" under the Signal Picture is a single stand-in, whatever the person entered | It is chosen from what they have entered and where they are on their plan |
 | The ring card's reasons (why this, why now, why you) are written for Maya | They are written for the person from their direction and plan |
 | Nothing is saved but in the browser | Account data, check-in answers, the starting point and dismissed notes are kept on the account |

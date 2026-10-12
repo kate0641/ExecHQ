@@ -16,15 +16,8 @@ export interface BriefingEditorialProps {
   heading?: string;
   /** "Tue 20 Oct · 3 reads". */
   meta: string;
-  /** The first read's headline. */
-  lead: string;
-  /** The first read's publication. */
-  publisher?: string;
-  /** Why it matters to the user, short enough for a tag: "For your Q1
-   *  planning review". Left out when no read touches the plan. */
-  tag?: string;
-  /** The other reads, in the Briefing's order. */
-  others?: BriefingEditorialRead[];
+  /** Today's reads, in the Briefing's order. */
+  reads: BriefingEditorialRead[];
   /** A photograph across the top that fades into the navy, with the words
    *  in white on the navy below it (designer, 2026-10-09). */
   cover?: boolean;
@@ -40,27 +33,22 @@ const PAUSE_MS = 500;
 /**
  * Today's Briefing as a page of reading: today's reads as equal bullets, each
  * headline in the serif, the product's one editorial face, on one line with
- * its publication under it, under a thin top rule. The read that touches the
- * plan says so after its publication. Long headlines end in an ellipsis, so
- * the card keeps its height; the full words stay in the link's name. It reads
- * as something to read, not something to do, so it stays visibly apart from
- * plan recommendations. The whole card is one link. With `cover`, a
- * photograph runs across the top and fades into the navy.
+ * its publication under it, under a thin top rule. Long headlines end in an
+ * ellipsis, so the card keeps its height; the full words stay in the link's
+ * name. It reads as something to read, not something to do, so it stays
+ * visibly apart from plan recommendations. The whole card is one link. With
+ * `cover`, a photograph runs across the top and fades into the navy.
  */
 export function BriefingEditorial({
   href,
   heading = "Today’s Briefing",
   meta,
-  lead,
-  publisher,
-  tag,
-  others = [],
+  reads,
   cover,
   demo,
   className,
 }: BriefingEditorialProps) {
   const ref = useRef<HTMLAnchorElement>(null);
-  const reads: { title: string; publisher?: string; tag?: string }[] = [{ title: lead, publisher, tag }, ...others];
 
   /* The shimmer waits for her: it plays once, the first time the card is
      mostly on screen and she has stopped scrolling for a moment (designer,
@@ -121,13 +109,7 @@ export function BriefingEditorial({
         {reads.map((read) => (
           <span key={read.title} className="briefing-editorial__read">
             <span className="briefing-editorial__title">{read.title}</span>
-            {read.publisher || read.tag ? (
-              <span className="briefing-editorial__source">
-                {read.publisher ? <b>{read.publisher}</b> : null}
-                {read.publisher && read.tag ? " · " : null}
-                {read.tag}
-              </span>
-            ) : null}
+            <span className="briefing-editorial__source">{read.publisher}</span>
           </span>
         ))}
       </span>
