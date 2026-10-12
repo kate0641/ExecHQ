@@ -3123,6 +3123,28 @@ ol.concierge-list {
   background-color: var(--color-surface-inverse);
 }
 
+/* Navy right through, body as well as head (designer, 2026-10-12): the next
+   step is the page's main callout, so it is one navy block rather than a
+   navy header over white. The tokens inside remap to read on it, the way
+   the Briefing's do. */
+.feature-card--inverse {
+  --color-surface-raised: var(--color-surface-inverse);
+  --color-surface-sunken: var(--color-surface-inverse-hover);
+  --color-surface-hover: var(--color-surface-inverse-hover);
+  --color-text-primary: var(--color-text-inverse);
+  --color-text-secondary: var(--color-text-inverse-muted);
+  --color-text-muted: var(--color-text-inverse-muted);
+  --color-text-link: var(--color-text-inverse);
+  --color-border: var(--color-border-inverse);
+  --color-border-subtle: var(--color-border-inverse);
+  --color-border-strong: var(--color-border-inverse);
+  --color-focus: var(--color-focus-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+  border-color: transparent;
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+}
+
 /* A card with a navy header takes navy for its top edge, so no grey line
    runs along the top of the navy. */
 .feature-card:has(> .feature-card__head--inverse) {
