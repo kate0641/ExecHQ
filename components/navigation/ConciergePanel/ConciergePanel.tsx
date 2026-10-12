@@ -2,6 +2,7 @@
 import { useRef, type PointerEvent, type ReactNode } from "react";
 import { AdvisorMark } from "@/components/chat/AdvisorMark";
 import { Icon } from "@/components/primitives/Icon";
+import { Wordmark } from "@/components/primitives/Wordmark";
 
 export interface ConciergePanelProps {
   /** `sheet` rises over the phone screen; `card` is the centred card the pill
@@ -130,8 +131,27 @@ export function ConciergePanel({
   );
 }
 
-/** The advisor's mark, name and role. */
-export function AdvisorWho({ name = "ExecHQ", role = "Your advisor", className }: { name?: string; role?: string; className?: string }) {
+/** The advisor's mark, name and role. With `brand`, the logo stands for
+ *  the mark and name, the role beside it (the start screen). */
+export function AdvisorWho({
+  name = "ExecHQ",
+  role = "Your advisor",
+  brand,
+  className,
+}: {
+  name?: string;
+  role?: string;
+  brand?: boolean;
+  className?: string;
+}) {
+  if (brand) {
+    return (
+      <span className={["concierge-who", "concierge-who--brand", className].filter(Boolean).join(" ")}>
+        <Wordmark as="span" />
+        <span className="concierge-who__role">{role}</span>
+      </span>
+    );
+  }
   return (
     <span className={["concierge-who", className].filter(Boolean).join(" ")}>
       <AdvisorMark size={22} />

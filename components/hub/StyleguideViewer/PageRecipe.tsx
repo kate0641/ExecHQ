@@ -73,6 +73,12 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
     note: "Kulim Park for headings only; Inter for everything she reads or presses.",
     rules: [
       {
+        rule: "Only paragraphs get the airy 1.7 line spacing. A one-line label, date or note uses tight spacing (1.3), so a card that ends in one doesn't look heavier at the bottom than at the top.",
+        why: "Line spacing adds invisible space above and below each line. On a single line it pads the card's edge, so 20px of padding looks like 25.",
+        from: "Navigation",
+        uses: ["--leading-snug"],
+      },
+      {
         rule: "Text in a navy header is one line, never more. Copy that would wrap is cut with an ellipsis, so it is caught and shortened.",
         why: "A navy header is a single, clear statement. Write it short: Add 3 recent accomplishments, not Add three recent accomplishments.",
         from: "Home",
@@ -119,6 +125,23 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
     note: "Only buttons are pills, so the shape means \"press me\".",
     rules: [
       {
+        rule: "Only a card with a chevron is tappable. A card or chip without one is a reference, and its action sits on a button beside it.",
+        why: "The same look must always do the same thing, or people tap what does nothing.",
+        from: "Navigation",
+      },
+      {
+        rule: "Every prompt the advisor offers is one button style: the raised surface, a thin edge, 20px corners, sized to its words and wrapping so all show.",
+        why: "Suggested questions and reply buttons are the same job, so they look the same. Fixed corners keep a two-line prompt a rounded box, not a stretched pill.",
+        from: "Navigation",
+        uses: ["--radius-xl", "--color-border"],
+      },
+      {
+        rule: "In a stack of controls about 44px tall (prompts, a shortcut, the message box), every one takes the same 20px corners.",
+        why: "Mixed corners stacked on top of each other read as clutter.",
+        from: "Navigation",
+        uses: ["--radius-xl"],
+      },
+      {
         rule: "Yellow is the one main action on a screen. Light blue is everything secondary, including the advisor's reply buttons. No white outlined buttons.",
         why: "One clear next move, and a button looks the same wherever it appears. Still open: whether light blue and yellow are distinct enough side by side.",
         from: "Home, Navigation",
@@ -159,10 +182,22 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
     note: "Gaps are named for their job.",
     rules: [
       {
-        rule: "Cards run 12px from the phone's edge, 16px apart, with 16px inside (20px in a feature card).",
+        rule: "Cards run 12px from the phone's edge, 12px apart when one sits straight under another (half the 24px between sections; text without a card keeps the full gap), with 16px inside (20px in a feature card).",
         why: "Wider cards, steady rhythm.",
         from: "Home",
         uses: ["--space-screen-side", "--space-between-cards", "--space-card-padding", "--space-feature-padding"],
+      },
+      {
+        rule: "A card's last thing, a button or a flat link, sits 20px from its bottom edge, the same as its first thing sits from the top.",
+        why: "Every card ends the same way, so a link never looks squeezed against the edge. A tall tap target whose words sit high is the one allowance.",
+        from: "Home",
+        uses: ["--space-feature-padding"],
+      },
+      {
+        rule: "Inside a card, three steps of space, each wider than the last: eyebrow to title 4px, title to copy 8px, copy to button 20px.",
+        why: "The eyebrow and title read as one label, the copy belongs to them, and the button stands apart as the thing to do. Most cards take this; a card that needs otherwise is adjusted on its own.",
+        from: "Home",
+        uses: ["--space-eyebrow-title", "--space-title-copy", "--space-copy-action"],
       },
       {
         rule: "Sections sit 32px apart; inside a section, heading, line and card sit 12px apart.",
