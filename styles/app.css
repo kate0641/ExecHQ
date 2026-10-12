@@ -9603,13 +9603,11 @@ ol.signal__list {
   min-width: 0;
 }
 
-/* The headline in white on the navy, a step heavier than regular. Two lines
-   at most, so a long headline can't grow the card. */
+/* The headline in white on the navy, a step heavier than regular. It runs
+   to as many lines as it needs (designer, 2026-10-12): it used to stop at
+   two so the card kept its height, but a headline a reader cannot finish is
+   worse than a card that grows. Nothing here is cut. */
 .briefing-editorial__lead {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
   font-family: var(--font-serif);
   font-size: var(--text-lg);
   font-weight: var(--weight-serif-medium);
@@ -9638,21 +9636,20 @@ ol.signal__list {
   line-height: var(--leading-snug);
 }
 
-/* The publication, as quiet text under its headline: the caption role, kept
-   a step heavier so it holds against the headline above it. */
+/* The publication under its headline: the caption role, a step heavier, and
+   the card's full-strength ink (designer, 2026-10-12 — it and the bullet
+   headline have swapped colours). */
 .briefing-editorial__source {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
   font-family: var(--type-caption-font);
   font-size: var(--type-caption-size);
   font-weight: var(--weight-semibold);
   line-height: var(--type-caption-leading);
   letter-spacing: var(--type-caption-tracking);
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
 }
 
-/* The other reads: small bullets of one line each, under a rule. */
+/* The other reads: small bullets under a rule, each running to as many
+   lines as its headline needs. */
 .briefing-editorial__others {
   display: flex;
   flex-direction: column;
@@ -9682,17 +9679,15 @@ ol.signal__list {
 }
 
 /* The two lesser reads take the body-small role: the size Kate set for them,
-   on the system's own supporting-text role. */
+   on the system's own supporting-text role, in the card's quieter green
+   (designer, 2026-10-12 — swapped with the publication under it). */
 .briefing-editorial__title {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
   font-family: var(--type-body-sm-font);
   font-size: var(--type-body-sm-size);
   font-weight: var(--type-body-sm-weight);
   line-height: var(--type-body-sm-leading);
   letter-spacing: var(--type-body-sm-tracking);
-  color: var(--color-text-primary);
+  color: var(--color-text-secondary);
 }
 
 /* On web the card spans the page: the lead takes the left, the others the
