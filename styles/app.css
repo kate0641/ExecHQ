@@ -9667,7 +9667,8 @@ ol.signal__list {
   font-size: var(--type-caption-size);
   font-weight: var(--weight-regular);
   line-height: var(--type-caption-leading);
-  color: var(--color-text-secondary);
+  /* Navy on the band, not the page's grey (designer, 2026-10-12): 11.3:1. */
+  color: var(--color-text-on-check-in-band);
   /* What it is about rides in a light blue band across the head of the
      card, to the edges. The band does the separating, so there is no
      hairline under it (designer, 2026-10-12). */

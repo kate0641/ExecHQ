@@ -359,8 +359,9 @@
   /* The Loop's check-in: a white card with a light blue band at its head
      and foot — what it is about, and the lesser answers — so the question
      itself sits on white (designer, 2026-10-12). Text on the bands: the
-     "For:" line 6.0:1, the quiet links 11.3:1. */
+     "For:" line 11.3:1, the quiet links 11.3:1. */
   --color-surface-check-in-band: var(--brand-blue-200);
+  --color-text-on-check-in-band: var(--brand-primary);
 
   /* Logo — two versions, never recoloured beyond these. The dark logo (gold
      "Exec", navy "HQ") sits on stone and blue 100 — gold is 5.0:1 on blue 100
