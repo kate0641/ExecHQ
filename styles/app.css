@@ -11375,6 +11375,19 @@ ul.stage-actions__list {
   font-size: var(--type-title-size-phone);
 }
 
+/* On Profile the page's own title stands where the logo was (designer,
+   2026-10-11): the wordmark header goes, and on the phone the title runs
+   edge to edge at the top with the header's divider under it. */
+.chrome:has(.profile) > .chrome__header {
+  display: none;
+}
+
+[data-viewport="mobile"] .profile__title {
+  margin: calc(-1 * var(--space-screen-top)) calc(-1 * var(--space-screen-side)) 0;
+  padding: var(--space-sm) var(--space-screen-side);
+  border-bottom: var(--border-width-thin) solid var(--color-border);
+}
+
 /* Sections sit further apart than the heading, line and card inside each,
    so the page reads as groups (the page recipe's section rhythm). */
 .profile__layout,
