@@ -69,9 +69,8 @@ export function NextStepCard({
   const feature = !lead && !context && !stubbed && !titleHidden && !whyLine;
   if (feature) {
     return (
-      <section className={["feature-card", "feature-card--inverse", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
-        {/* Navy throughout, not pale blue and not navy over white: the next
-            step is the page's main callout (designer, 2026-10-12). */}
+      <section className={["feature-card", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
+        {/* Navy, not pale blue: the next step is the page's main callout. */}
         <div className="feature-card__head feature-card__head--inverse">
           <p className="feature-card__eyebrow">{eyebrow}</p>
           <h2 className="feature-card__title" id={headingId} tabIndex={-1}>
