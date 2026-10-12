@@ -93,13 +93,14 @@ These match the Plan page's Short-term, Medium-term and Long-term rings.
 
 LinkedIn, press, speaking, podcasts, published content, and AI discoverability.
 
-Each plan's signal emphasis matrix gives each signal a role in each stage. The point is to sequence emphasis, not to ask her to work on all six at once. Each signal gets at least one Primary moment somewhere in the plan.
+Each plan's signal emphasis matrix gives each signal a role in each stage. The point is to sequence emphasis, not to ask her to work on all six at once. Step Up gives every signal a Primary moment; a plan doesn't have to, when a signal does little for its outcome.
 
 | Label | Meaning |
 | --- | --- |
 | **Primary** | The plan actively recommends or prioritizes work in this signal during the stage |
 | **Foundation** | Define the inputs or readiness needed for later work in this signal |
 | **Evidence** | Record, reuse or evaluate the result of earlier work in this signal |
+| **—** | The plan doesn't recommend work in this signal in this stage. **Proposed:** the source has no label for this |
 
 ### 4.2 Internal only
 
