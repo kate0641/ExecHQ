@@ -17,6 +17,7 @@
  */
 
 import { MAYA } from "@/mock/account";
+import { TODAYS_READS, publisherName } from "@/mock/briefing";
 import { ACTIONS, type LandscapeAction } from "@/mock/plan-stub";
 import type { Recommendation, Snapshot } from "@/mock/snapshots";
 import {
@@ -267,18 +268,14 @@ export const HOME_COPY = {
 export const BRIEFING_STUB = {
   reads: 3,
   eyebrow: (reads: number) => `Today’s Briefing · ${reads} reads`,
-  lead: "How planning season decides who gets new work",
+  lead: TODAYS_READS[0].title,
   /** Only when a read touches an action on the plan. */
   why: "Relevant to your Q1 planning review.",
-  /** The other two reads, headlines only (Concept 2's Briefing card). */
-  others: [
-    "What chief marketing officers look for when they widen a remit",
-    "Why strong operators get passed over for scope, and what changes it",
-  ],
+  /** Today's three reads with their publications (the homepage card), from
+   *  the Briefing's own reads so the card and the Briefing always agree. */
+  list: TODAYS_READS.map((r) => ({ title: r.title, publisher: publisherName(r.publisherId) })),
   heading: "Today’s Briefing",
   meta: (date: string, reads: number) => `${date} · ${reads} reads`,
-  /** The why, short enough for a tag (Concept 3). */
-  tag: "For your Q1 planning review",
   open: "Read today’s Briefing",
   close: "Close today’s Briefing. It comes back tomorrow.",
 } as const;

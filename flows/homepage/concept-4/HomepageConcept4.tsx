@@ -262,8 +262,7 @@ export function HomepageConcept4() {
             href={BRIEFING}
             heading={B.heading}
             meta={B.meta(shortDay(loop.today), B.reads)}
-            lead={B.lead}
-            tag={B.tag}
+            reads={B.list}
           />
         </div>
         <SignalPicture

@@ -9565,12 +9565,40 @@ ol.signal__list {
 }
 
 .briefing-editorial__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
   font-size: var(--text-xs);
   color: var(--color-text-muted);
 }
 
-/* The headline in white on the navy, a step heavier than regular. */
+.briefing-editorial__go {
+  flex: none;
+  align-self: center;
+  color: var(--color-text-muted);
+}
+
+.briefing-editorial__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  min-width: 0;
+}
+
+.briefing-editorial__first {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  min-width: 0;
+}
+
+/* The headline in white on the navy, a step heavier than regular. Two lines
+   at most, so a long headline can't grow the card. */
 .briefing-editorial__lead {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
   font-family: var(--font-serif);
   font-size: var(--text-lg);
   font-weight: var(--weight-serif-medium);
@@ -9588,7 +9616,8 @@ ol.signal__list {
 }
 
 .briefing-editorial--cover .briefing-editorial__heading,
-.briefing-editorial--cover .briefing-editorial__meta {
+.briefing-editorial--cover .briefing-editorial__meta,
+.briefing-editorial--cover .briefing-editorial__go {
   color: var(--color-text-on-cover);
 }
 
@@ -9598,23 +9627,67 @@ ol.signal__list {
   line-height: var(--leading-snug);
 }
 
-.briefing-editorial__foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-sm);
-}
-
-/* What the read is for, as quiet text with no pill. */
-.briefing-editorial__tag {
+/* The publication, as quiet text under its headline. */
+.briefing-editorial__source {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   color: var(--color-text-secondary);
 }
 
-.briefing-editorial__go {
-  flex: none;
-  color: var(--color-text-muted);
+/* The other reads: small bullets of one line each, under a rule. */
+.briefing-editorial__others {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding-top: var(--space-sm);
+  border-top: var(--border-width-thin) solid var(--color-border);
+  min-width: 0;
+}
+
+.briefing-editorial__other {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-left: var(--space-md);
+  min-width: 0;
+}
+
+.briefing-editorial__other::before {
+  content: "";
+  position: absolute;
+  left: var(--space-3xs);
+  top: calc(var(--text-sm) * var(--leading-normal) / 2 - var(--space-3xs));
+  width: var(--space-2xs);
+  height: var(--space-2xs);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-text-secondary);
+}
+
+.briefing-editorial__title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-primary);
+}
+
+/* On web the card spans the page: the lead takes the left, the others the
+   right, beside a rule instead of under one. */
+[data-viewport="web"] .briefing-editorial:not(:where([data-viewport="mobile"] *)) .briefing-editorial__body {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 4fr);
+  gap: var(--space-lg);
+}
+
+[data-viewport="web"] .briefing-editorial:not(:where([data-viewport="mobile"] *)) .briefing-editorial__others {
+  padding-top: 0;
+  padding-left: var(--space-lg);
+  border-top: 0;
+  border-left: var(--border-width-thin) solid var(--color-border);
 }
 
 /* The check-in: one component for everything the Loop asks, drawn three
@@ -13741,8 +13814,7 @@ ul.card-carousel__track {
   gap: var(--space-2xs) var(--space-md);
 }
 
-.roadmap__heading,
-.templates__heading {
+.roadmap__heading {
   margin: 0;
   font-family: var(--font-display);
   word-spacing: var(--font-display-word-spacing);
@@ -13784,79 +13856,6 @@ ul.roadmap__outcomes {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-xs);
-}
-
-/* The all-plans reference */
-.templates {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-}
-
-.templates__list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-}
-
-.templates__plan {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  padding: var(--space-md);
-  border: var(--border-thin);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
-}
-
-.templates__name {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-}
-
-.templates__formal,
-.templates__for,
-.templates__milestone {
-  margin: 0;
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-}
-
-ol.templates__stages {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.templates__stage-name {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-xs);
-  margin: 0;
-  font-weight: var(--weight-semibold);
-}
-
-.templates__milestone b {
-  color: var(--color-text-primary);
-}
-
-ul.templates__outcomes {
-  margin: var(--space-2xs) 0 0;
-  padding-inline-start: var(--space-md);
-  font-size: var(--text-sm);
-}
-
-[data-viewport="web"] .templates__list,
-[data-viewport="tablet"] .templates__list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-  align-items: start;
 }
 
 .plan-stub__note {

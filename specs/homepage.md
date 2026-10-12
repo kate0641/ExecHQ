@@ -1,6 +1,6 @@
 # Homepage — interaction spec
 
-Approved concept: **Concept 4 — Combined**, as of 2026-10-06. It is written so a developer can build it without the prototype open. Where the prototype fakes something, production behavior is stated under "Prototype versus production".
+Approved concept: **Concept 4 — Combined**, as of 2026-10-06. The Briefing card (section 5) was changed on 2026-10-12 to show all three reads with their publishers: the lead in the serif, the other two as small bullets. It is written so a developer can build it without the prototype open. Where the prototype fakes something, production behavior is stated under "Prototype versus production".
 
 Concepts 1, 2 and 3 were the three ideas Concept 4 was built from. They are not specified here.
 
@@ -191,12 +191,20 @@ Five answers: **It went well**, **It was mixed**, **Not the way I hoped**, **Not
 
 One card, and the whole card is the link to the Briefing page.
 
-It shows, top to bottom: the label **Today's Briefing** and, at the right, the date and number of reads ("Mon 5 Oct · 3 reads"); the **lead read's headline**, set in the serif (the one editorial face in the product); and, in the foot, a small tag saying why it matters to this person ("For your Q1 planning review"), with a chevron at the right.
+It shows, top to bottom:
 
-- The **tag** is there only when one of the reads touches an action on the plan. Otherwise the foot holds only the chevron.
+1. The label **Today's Briefing** and, at the right, the date and number of reads ("Mon 5 Oct · 3 reads") with a chevron.
+2. The **lead read's headline**, set in the serif (the one editorial face in the product), at most two lines, with its **publisher** under it in small text.
+3. Under a thin rule, the **other two reads** as small bullets in the body face, one line each, each with its publisher under it.
+
+- **Long headlines end in an ellipsis**: the lead after two lines, the other two after one, so the card keeps its height whatever the day's headlines are. Screen readers still hear each headline in full.
+- The lead is the Briefing's first read. The other two are a preview of what else today holds.
+- The card says **nothing about why** a read is there or how it relates to the plan. Each read's reason is on the Briefing page.
+- Every read names its **publisher**, so she always knows where it comes from.
+- The headlines and publishers are the Briefing's own three reads, in the Briefing's order, so the card and the page always agree.
 - The card is **dark** so that it reads as something to read, not something to do, and stays visibly apart from the plan's recommendations. It never appears inside the ring card.
-- It shows one headline. It never lists the other reads.
-- The Briefing's contents and page are designed in Sprint 4. Until then the card is real and the page it opens is a placeholder.
+- The whole card is **one link**. The headlines are not separate links to their reads.
+- **On web**, where the card runs the full width, the lead takes the left (about 55%) and the other two the right, beside a thin vertical rule instead of under one. On phone and tablet they stack.
 
 ---
 
@@ -274,7 +282,7 @@ Changing the moment sets the ring selection back to its starting one (3.2).
 - Focus moves on purpose: to the question after "I've done this", to the heading of a card after an answer, to the Stay on track heading after "used". Every card heading can take focus.
 - Selecting a ring and saving the starting point are announced politely.
 - The card carousel works by keyboard (Previous and Next) as well as by swipe.
-- The Briefing card is one link, with a name that reads its heading, date and headline.
+- The Briefing card is one link, with a name that reads its heading, date, and each read's headline in full with its publisher, even where the headline is cut short on screen.
 - Every control has a visible focus ring. Text contrast is at least 4.5:1, non-text at least 3:1, in greyscale and in colour.
 - The only motion is the notch sliding between rings, and it is skipped when the person has asked for reduced motion.
 
@@ -287,7 +295,7 @@ Changing the moment sets the ring selection back to its starting one (3.2).
 | Maya is the only person, with five fixed moments picked from the dock | Home is built from the person's own account and plan |
 | "Good morning" is always the greeting | The greeting follows the time of day |
 | The Toolbox flows the buttons open are placeholders until Sprint 4 | They open the real flows |
-| The Briefing page is a placeholder, and the card always shows the same three reads | The card shows the day's real lead and its tag |
+| The Briefing page is a placeholder, and the card always shows the same three reads | The card shows the day’s three real reads and their publishers |
 | The one "A next step" under the Signal Picture is a single stand-in, whatever the person entered | It is chosen from what they have entered and where they are on their plan |
 | The ring card's reasons (why this, why now, why you) are written for Maya | They are written for the person from their direction and plan |
 | Nothing is saved but in the browser | Account data, check-in answers, the starting point and dismissed notes are kept on the account |
