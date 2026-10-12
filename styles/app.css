@@ -12746,27 +12746,13 @@ ul.map-rings {
 
 .map-rings__done { stroke: var(--color-ring-done); }
 .map-rings__track { stroke: var(--color-ring-track); }
-/* Over the sky, the rings not chosen carry the faintest white edge, so
-   they sit on the sky rather than in it (designer, 2026-10-11, trial). */
-/* A soft glow rather than a line, set per piece: the in-progress gradient
-   always glows white; done and empty pieces take --ring-lift, which is
-   light blue at dawn and white on the other skies (designer, 2026-10-11). */
-.map-home .map-rings__ring:not([aria-pressed="true"]) :is(.map-rings__done, .map-rings__track) {
+/* Over the sky, the rings not chosen carry a soft light blue glow, every
+   piece and every sky, so they sit on the sky rather than in it (designer,
+   2026-10-11, trial; it was white, which vanished on the pale skies). */
+.map-home .map-rings__ring:not([aria-pressed="true"]) :is(.map-rings__done, .map-rings__track, .map-rings__fades) {
   filter:
-    drop-shadow(0 0 2px color-mix(in srgb, var(--ring-lift, var(--color-halo)) 75%, transparent))
-    drop-shadow(0 0 4px color-mix(in srgb, var(--ring-lift, var(--color-halo)) 35%, transparent));
-}
-
-.map-home .map-rings__ring:not([aria-pressed="true"]) .map-rings__fades {
-  filter:
-    drop-shadow(0 0 2px color-mix(in srgb, var(--color-halo) 75%, transparent))
-    drop-shadow(0 0 4px color-mix(in srgb, var(--color-halo) 35%, transparent));
-}
-
-/* On dawn, day and dusk a white glow vanishes, so it is a soft
-   light blue (day and dusk too: designer, 2026-10-11). */
-.device__screen:has(.map-home__greeting:is([data-sky="dawn"], [data-sky="day"], [data-sky="dusk"])) {
-  --ring-lift: var(--color-ring-lift-pale);
+    drop-shadow(0 0 2px color-mix(in srgb, var(--color-ring-lift) 75%, transparent))
+    drop-shadow(0 0 4px color-mix(in srgb, var(--color-ring-lift) 35%, transparent));
 }
 
 /* Over the sky, the rings not chosen draw their track in white (trial). */
