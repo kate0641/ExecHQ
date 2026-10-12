@@ -10298,12 +10298,26 @@ ol.check-in__steps {
 .account-card__try {
   display: flex;
   flex-direction: column;
-  /* A white card, outlined like the other cards on the page. Top and
-     bottom take the cards' standard 20px. */
+  /* A navy card (designer, 2026-10-12): the one thing to try next, at the
+     foot of the page, reads as a callout rather than another white card.
+     Its tokens remap the way the Briefing's do, and its eyebrow takes the
+     gold that every eyebrow on navy does. Top and bottom take the cards'
+     standard 20px. */
   padding: var(--space-feature-padding) var(--space-md);
-  border: var(--border-width-thin) solid var(--color-border);
+  border: var(--border-width-thin) solid transparent;
   border-radius: var(--radius-xl);
-  background-color: var(--color-surface-raised);
+  --color-surface-raised: var(--color-surface-inverse);
+  --color-surface-hover: var(--color-surface-inverse-hover);
+  --color-text-primary: var(--color-text-inverse);
+  --color-text-secondary: var(--color-text-inverse-muted);
+  --color-text-muted: var(--color-text-inverse-muted);
+  --color-border: var(--color-border-inverse);
+  --color-border-subtle: var(--color-border-inverse);
+  --color-eyebrow: var(--color-accent-on-inverse);
+  --color-focus: var(--color-focus-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
 }
 
 .account-card__try b {
