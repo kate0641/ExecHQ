@@ -109,7 +109,6 @@ import { stageCheckInStates } from "./plan/StageCheckIn/StageCheckIn.states";
 import { checkInRecapStates } from "./plan/CheckInRecap/CheckInRecap.states";
 import { planAgendaStates } from "./plan/PlanAgenda/PlanAgenda.states";
 import { roadmapTimelineStates } from "./plan/RoadmapTimeline/RoadmapTimeline.states";
-import { templateRoadmapsStates } from "./plan/TemplateRoadmaps/TemplateRoadmaps.states";
 
 import { briefingReadCardStates } from "./briefing/BriefingReadCard/BriefingReadCard.states";
 import { readActionsStates } from "./briefing/ReadActions/ReadActions.states";
@@ -229,7 +228,6 @@ export const registry: RegisteredComponent[] = [
   mailNotificationStates,
   signInEmailStates,
   accountPickerStates,
-  templateRoadmapsStates,
   planSignalPictureStates,
   entryDrawerStates,
   reportDrawerStates,

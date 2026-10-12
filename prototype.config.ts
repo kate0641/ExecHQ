@@ -186,12 +186,6 @@ export const prototypeConfig: PrototypeConfig = {
           summary:
             "A guided check-in, built from onboarding’s page and answer drawer: one move at a time, with where she is with it as the answer. Answering changes her plan and comes back as a short reply. Under the move is the roadmap, a stack of stage cards, which shows when she folds the drawer; adding her own items slides up as a sheet.",
         },
-        {
-          slug: "templates",
-          title: "All five plans",
-          summary:
-            "Reference, not a concept: the roadmap of every plan template, stage by stage, to review the wording in one place.",
-        },
       ],
     },
     {

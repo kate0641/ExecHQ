@@ -13702,8 +13702,7 @@ ul.card-carousel__track {
   gap: var(--space-2xs) var(--space-md);
 }
 
-.roadmap__heading,
-.templates__heading {
+.roadmap__heading {
   margin: 0;
   font-family: var(--font-display);
   word-spacing: var(--font-display-word-spacing);
@@ -13745,79 +13744,6 @@ ul.roadmap__outcomes {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-xs);
-}
-
-/* The all-plans reference */
-.templates {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-}
-
-.templates__list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-}
-
-.templates__plan {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  padding: var(--space-md);
-  border: var(--border-thin);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
-}
-
-.templates__name {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-}
-
-.templates__formal,
-.templates__for,
-.templates__milestone {
-  margin: 0;
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-}
-
-ol.templates__stages {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.templates__stage-name {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-xs);
-  margin: 0;
-  font-weight: var(--weight-semibold);
-}
-
-.templates__milestone b {
-  color: var(--color-text-primary);
-}
-
-ul.templates__outcomes {
-  margin: var(--space-2xs) 0 0;
-  padding-inline-start: var(--space-md);
-  font-size: var(--text-sm);
-}
-
-[data-viewport="web"] .templates__list,
-[data-viewport="tablet"] .templates__list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-  align-items: start;
 }
 
 .plan-stub__note {
