@@ -2207,6 +2207,8 @@ ul.chrome__nav-list {
   /* It fills the bar's height, so the inset above and below it matches the
      one beside it. */
   align-self: stretch;
+  /* The waiting dot sits on its top right corner. */
+  position: relative;
   align-items: center;
   gap: var(--space-2xs);
   padding: var(--space-xs) var(--space-md) var(--space-xs) var(--space-sm);
@@ -2234,7 +2236,9 @@ ul.chrome__nav-list {
    ring here — it stands on the bar's own surface, not beside the yellow
    circle. */
 .concierge-pill__dot {
-  flex: none;
+  position: absolute;
+  top: var(--space-3xs);
+  right: var(--space-3xs);
   width: 8px;
   height: 8px;
   border-radius: 50%;

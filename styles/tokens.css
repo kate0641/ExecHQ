@@ -355,7 +355,7 @@
      chip, with dark green wording (8.9:1). Its own pair, because that chip
      is the one piece of colour on a bar that floats over every page. */
   --color-here-surface: var(--brand-green-200);
-  --color-here-text: var(--brand-dark-green);
+  --color-here-text: var(--brand-primary);  /* navy on the lime, 12.2:1 (designer, 2026-10-12) */
   /* The Loop's check-in: a light blue band across the head of an otherwise
      white card, carrying what the question is about (designer, 2026-10-12).
      Navy on it reads at 11.3:1. The foot of the card keeps its hairline. */
