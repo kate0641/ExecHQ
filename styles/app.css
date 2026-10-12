@@ -12484,7 +12484,8 @@ ul.login__never {
   --sky-top-edge: var(--color-sky-day);
   --sky-top-ring: var(--color-sky-day-top-ring);
   --sky-top-core: var(--color-sky-day-top-core);
-  --sky-top-core-size: 75% 32%;
+  /* The centre is dawn's and dusk's size, so the lime ring round it shows. */
+  --sky-top-core-size: 55% 24%;
   --home-sky-full:
     radial-gradient(ellipse var(--sky-top-core-size, 55% 24%) at 50% 0, var(--sky-top-core), transparent),
     radial-gradient(ellipse var(--sky-top-ring-size, 110% 45%) at 50% 0, var(--sky-top-ring), transparent 80%),
