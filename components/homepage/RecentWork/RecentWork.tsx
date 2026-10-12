@@ -88,7 +88,7 @@ export function RecentWork({
           {FILTERS.map(([id, label]) => (
             <button key={id} type="button" aria-pressed={filter === id} onClick={() => setFilter(id)}>
               <b>{count(id)}</b>
-              {label}
+              <span className="u-bold-hold" data-label={label}>{label}</span>
             </button>
           ))}
         </fieldset>

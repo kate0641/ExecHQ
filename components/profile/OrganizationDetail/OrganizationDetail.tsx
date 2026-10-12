@@ -66,12 +66,12 @@ export function OrganizationDetail({
 
   return (
     <DetailPanel heading={C.heading} headingId={headingId} lead={C.member(org.name)} onClose={onClose}>
-      <div className="card">
+      <div className="card card--action">
         <div className="profile-fact">
           <span className="profile-fact__label">{C.never}</span>
           <span className="profile-fact__value">{sentence(org.never)}</span>
         </div>
-        <Button variant="secondary" fullWidth onClick={onRequestLeave ?? (() => setConfirming(true))}>
+        <Button variant="secondary" onClick={onRequestLeave ?? (() => setConfirming(true))}>
           {C.leave}
         </Button>
       </div>

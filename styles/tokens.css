@@ -176,6 +176,12 @@
   --color-stage-4: var(--brand-orange-200);
   /* A veil of the darkest navy over photography, so text on it stays readable. The
      image's own colour shows through where the veil is clear. */
+  /* The Briefing's cover on Home: its photograph fades into the dark green,
+     and the card is dark green below it (designer, 2026-10-09). White on it
+     is 9.1:1. */
+  --color-surface-briefing-cover: var(--brand-dark-green);
+  --color-text-on-cover: var(--brand-stone-900);  /* labels on the pale top of the cover photograph: the page's own near-black */
+  --color-cover-light: var(--brand-white);  /* soft light drifting over the cover photograph */
   --color-image-veil: rgb(3 21 31 / 0.6);
   --color-image-veil-clear: rgb(3 21 31 / 0);
   --image-filter: none;  /* photography: greyscale when the colour switch is off */
@@ -193,7 +199,7 @@
   --color-text-inverse-muted: var(--brand-blue-300);
   --color-text-on-accent: var(--brand-white);
   --color-text-link: var(--brand-primary);
-  --color-text-link-hover: var(--brand-accent-strong);
+  --color-text-link-hover: var(--brand-primary);  /* the link's own colour: text never turns gold on hover (designer, 2026-10-11; hover carries no meaning on a phone) */
 
   /* Borders — "strong" is 3.2:1 on the stone page and 3.4:1 on white, and is
      the one to use on controls. It is 3.1:1 on blue 100, so it still holds
@@ -231,10 +237,27 @@
      the ring from the done colour to a pale end, so it reads as still
      filling; not started is the pale track. On trial: navy to blue 200 (blue
      300 is the fallback end); dark green to lime (green 200) may be tried. */
+  /* The advisor's sheet (designer, 2026-10-11). The current page in its
+     nav is a yellow circle with a navy icon; a dot says something waits. */
+  --color-nav-current: var(--brand-yellow-400);
+  --color-nav-current-icon: var(--brand-primary);
+  --color-nav-dot: var(--brand-orange-500);  /* the palette's red, as errors (designer, 2026-10-11): 3.4:1 against the panel-coloured ring that keeps it clear of the yellow circle */
+  /* The pick-up card's soft wash, blue into pale lime, the same at every
+     hour. Navy text on it is 11:1 or more at every point. */
+  --color-wash-start: var(--brand-blue-200);
+  --color-wash-mid: var(--brand-blue-100);
+  --color-wash-end: var(--brand-green-100);
+  --color-text-on-wash: var(--brand-primary);
+  /* Inside the chat, what points to something in the product: the draft a
+     reply names, the Go to shortcut. Never a button by itself. */
+  --color-surface-reference: var(--brand-stone-200);
+
   --color-ring-done: var(--brand-navy);
   --color-ring-progress-start: var(--brand-navy);
   --color-ring-progress-end: var(--brand-blue-200);
   --color-ring-track: var(--brand-stone-200);
+  --color-ring-track-on-sky: var(--brand-white);
+  --color-ring-lift: var(--brand-blue-300);  /* the soft glow round the rings not chosen, over Home's sky, every sky (trial, 2026-10-11) */
   /* The panel behind the ring that's chosen. On trial: white with a soft
      edge, or pale lime. */
   --color-ring-selected: var(--brand-white);
@@ -267,12 +290,26 @@
   --color-sky-dusk-heart: var(--brand-orange-400);
   --color-sky-dusk-ring: var(--brand-orange-300);
   --color-sky-dusk-outer: var(--brand-blue-600);
+  --color-sky-dusk-edge-top: var(--brand-blue-400);
+  /* Each sky radiates from the top in three melting layers, as dawn does
+     (designer, 2026-10-10): a centre, a ring round it, the sky beyond. */
+  --color-sky-day-top-core: var(--brand-yellow-300);  /* a golden centre (designer, 2026-10-10) */
+  --color-sky-day-top-ring: var(--brand-green-300);  /* lime, so day runs through three hues as dawn and dusk do: yellow, lime, blue (designer, 2026-10-11) */
+  --color-sky-dusk-top-core: var(--brand-yellow-400);
+  --color-sky-dusk-top-ring: var(--brand-orange-400);
+  --color-sky-night-top-core: var(--brand-blue-900);  /* the darkest navy where day has its golden centre (designer, 2026-10-11) */
+  --color-sky-night-top-ring: var(--brand-blue-800);
   --color-sky-night-top: var(--brand-blue-900);
   --color-sky-night: var(--brand-blue-800);
   --color-sky-night-low: var(--brand-blue-700);
   --color-sky-night-glow: var(--brand-blue-600);
   --color-sky-night-spark: var(--brand-blue-500);
   --color-sky-night-horizon: var(--brand-green-300);
+  /* Night's fade down the page when the sky glows from the top (trial). */
+  /* Night's sky round the navy glow, a deeper blue than day's, fading out
+     to light lime. */
+  --color-sky-night-edge: var(--brand-blue-500);
+  --color-sky-night-fade-end: var(--brand-green-100);
 
   /* Danger — the destructive action: deleting the account, removing a
      connection. The red end of the orange scale. White on it is 7.0:1, and
@@ -288,7 +325,7 @@
      screen readers and greyscale still reads. */
   --color-outcome-positive: var(--brand-green-500);
   --color-outcome-neutral: var(--brand-yellow-500);
-  --color-outcome-negative: var(--brand-orange-600);
+  --color-outcome-negative: var(--brand-orange-500);
 
   /* Accent — gold yellow, for small accents on light: the active nav
      underline, the privacy lock, link hover. */
@@ -365,7 +402,7 @@
   --color-feedback-warning-border: var(--brand-yellow-700);
   --color-feedback-danger-surface: var(--brand-orange-100);
   --color-feedback-danger-text: var(--brand-orange-700);
-  --color-feedback-danger-border: var(--brand-orange-600);
+  --color-feedback-danger-border: var(--brand-orange-500);  /* designer, 2026-10-11: 3.2:1 on the danger surface, 3.4:1 on the page */
 
   /* Feedback dots: a mid-tone centre inside a halo of the bright palette
      colour, softened a quarter towards white. The bright accents are too
@@ -567,11 +604,12 @@
   /* SPACING ROLES — what a gap is for, so one change here moves it everywhere. */
   --space-screen-side: var(--space-sm);  /* left and right of a phone screen: 12, so cards run wider */
   --space-screen-top: var(--space-lg);   /* above the first thing on a screen */
-  --space-between-cards: var(--space-md);  /* the gap between cards stacked on a screen */
+  --space-between-cards: var(--space-sm);  /* the gap between cards stacked on a screen: 12, half the gap between sections (designer, 2026-10-11) */
   --space-card-padding: var(--space-md);   /* inside a list card: a row, a link, a read */
   --space-feature-padding: var(--space-md-lg);  /* inside a feature card, which holds more */
   --space-eyebrow-title: var(--space-2xs); /* an eyebrow to the title under it */
   --space-title-copy: var(--space-xs);     /* a title to the copy under it */
+  --space-copy-action: var(--space-md-lg); /* the copy to the button under it: the widest of the three, as wide as the card's padding */
 
   /* ---------------------------------------------------------------------------
      RADII

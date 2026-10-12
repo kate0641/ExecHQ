@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { BaselineForm } from "@/components/homepage/BaselineForm";
 import { SignalPicture } from "@/components/homepage/SignalPicture";
 import { BriefingEditorial } from "@/components/homepage/BriefingEditorial";
@@ -21,6 +21,7 @@ import { sparksFor } from "@/lib/sparks";
 import { BASELINE_COPY as BC, PRESENCE_STUB as PR, SPARK_COPY as SP } from "@/mock/accounts-stub";
 import { BRIEFING_STUB as B, HOME_COPY as C, MAP_COPY as M, SIGNAL_PICTURE_COPY as SPC } from "@/mock/homepage";
 import { shortDate } from "@/lib/loop";
+import { SKIES, pickedSky, subscribeSky, type Sky } from "@/components/hub/SnapshotPicker/sky-store";
 import { CHECKIN_COPY as CK } from "@/mock/homepage";
 import type { Horizon } from "@/mock/plan-stub";
 
@@ -50,8 +51,6 @@ function longDate(date: string): string {
 
 /** The sky behind the greeting follows the hour she opens Home: dawn from
  *  5, day from 9, dusk from 17 and night from 20. */
-type Sky = "dawn" | "day" | "dusk" | "night";
-const SKIES: Sky[] = ["dawn", "day", "dusk", "night"];
 function skyAt(hour: number): Sky {
   if (hour >= 5 && hour < 9) return "dawn";
   if (hour >= 9 && hour < 17) return "day";
@@ -68,22 +67,19 @@ function partAt(hour: number): Part {
   return "evening";
 }
 
-/** Her clock, read when Home is drawn, as "sky part". For review,
- *  ?sky=dawn (day, dusk, night) in the address shows that sky at any hour,
- *  with a greeting that belongs to it. */
+/** Her clock, read when Home is drawn, as "sky part". For review, the
+ *  dock's sky switcher, or ?sky=dawn (day, dusk, night) in the address, shows
+ *  that sky at any hour, with a greeting that belongs to it. */
 function currentMoment(): string {
   const hour = new Date().getHours();
-  const asked = SKIES.find((s) => s === new URLSearchParams(window.location.search).get("sky"));
+  const asked = pickedSky() ?? SKIES.find((s) => s === new URLSearchParams(window.location.search).get("sky"));
   if (!asked) return `${skyAt(hour)} ${partAt(hour)}`;
   const part: Part =
     asked === "dawn" ? "morning" : asked === "day" ? (skyAt(hour) === "day" ? partAt(hour) : "afternoon") : "evening";
   return `${asked} ${part}`;
 }
 
-/* Nothing re-draws the sky as time passes. */
-function noSubscription(): () => void {
-  return () => {};
-}
+/* Nothing re-draws the sky as time passes; only the dock's switcher does. */
 
 /** "Mon 5 Oct": the Briefing's day, as the card's small print. */
 function shortDay(date: string): string {
@@ -122,7 +118,32 @@ export function HomepageConcept4() {
   // A step opens its tool, or the artifact it already has (Sprint 4).
   const links = useToolboxLinks();
   /* The server, which has no clock of hers, draws a day morning. */
-  const [sky, part] = useSyncExternalStore(noSubscription, currentMoment, () => "day morning").split(" ") as [Sky, Part];
+  /* Once she scrolls, the status bar stops showing the top of the sky and
+     takes the sky's middle colour (designer, 2026-10-11). */
+  const homeRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const home = homeRef.current;
+    const screen = home?.closest<HTMLElement>(".device__screen");
+    const scroller = home?.closest<HTMLElement>(".device__content");
+    if (!home || !screen || !scroller) return;
+    /* How far the sky has scrolled up under the status bar, stopping once
+       its middle colour is there, about when the rings reach it. */
+    const update = () => {
+      /* The rings' top is about where the sky's middle colour sits. */
+      const rings = home.querySelector<HTMLElement>(".map-rings");
+      const reach = Math.max(60, (rings?.getBoundingClientRect().top ?? 0) - scroller.getBoundingClientRect().top + scroller.scrollTop);
+      /* The status bar's slice of sky moves with the page, so the two stay
+         one sky, and stops once the middle colour reaches it. */
+      screen.style.setProperty("--sky-scrolled", `${Math.min(reach, Math.max(0, scroller.scrollTop))}px`);
+    };
+    update();
+    scroller.addEventListener("scroll", update, { passive: true });
+    return () => {
+      scroller.removeEventListener("scroll", update);
+      screen.style.removeProperty("--sky-scrolled");
+    };
+  }, []);
+  const [sky, part] = useSyncExternalStore(subscribeSky, currentMoment, () => "day morning").split(" ") as [Sky, Part];
   /* A ring she tapped, kept only for the state it was tapped in, so a new
      moment (or the dock's switcher) opens on her next step again. */
   const [picked, setPicked] = useState<{ horizon: Horizon; state: string } | null>(null);
@@ -204,7 +225,7 @@ export function HomepageConcept4() {
   const note = sparksFor(loop.today, dismissed, items).find((n) => n.id.startsWith("presence:"));
 
   return (
-    <div className="map-home">
+    <div className="map-home" ref={homeRef}>
       <h1 className="u-visually-hidden">Home</h1>
       <div className="map-home__lead">
         <p className="map-home__greeting" data-sky={sky}>
@@ -245,6 +266,7 @@ export function HomepageConcept4() {
             publisher={B.publisher}
             tag={B.tag}
             others={B.others}
+            cover
           />
         </div>
         <SignalPicture
@@ -260,7 +282,8 @@ export function HomepageConcept4() {
                   label: SP.label,
                   dismissLabel: SP.dismiss,
                   dismissName: SP.dismissNote,
-                  tone: "celebrate",
+                  closeIcon: true,
+                  kicker: SP.kicker,
                   onDismiss: (id) => {
                     dismissSpark(id);
                     setAnnounce("");
@@ -286,10 +309,14 @@ export function HomepageConcept4() {
                   setAnnounce(BC.saved);
                 }}
                 onSkip={() => setSkipped(true)}
+                fields="typed"
+                saveVariant="secondary"
               />
             )
           }
           headingId="signal-picture-heading"
+          className="signal-picture--card"
+          nextOutside
         />
       </div>
     </div>

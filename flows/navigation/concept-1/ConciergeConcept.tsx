@@ -376,14 +376,14 @@ function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { m
             >
               <Icon name={ICONS[goTo.flowSlug] ?? "home"} size={18} />
               {C.goHint(goTo.label)}
-              <kbd>Enter</kbd>
+              <Icon name="chevron" size={16} className="concierge-go__go" />
             </button>
           ) : null}
           <ChatComposer
             value={draft}
             onChange={setDraft}
             placeholder={C.placeholder}
-            disabled={concierge.typing}
+            holdSend={concierge.typing}
             onSend={(value) => {
               setDraft("");
               send(value, goTo ? { kind: "go", flow: goTo.flowSlug } : undefined);
@@ -457,19 +457,16 @@ function Places({ destinations, currentFlow }: { destinations: NavDestination[];
             aria-current={d.flowSlug === currentFlow ? "page" : undefined}
             onClick={() => closePanel(false)}
           >
-            <Icon name={ICONS[d.flowSlug] ?? "home"} size={20} />
-            <span>{d.label}</span>
-            {d.flowSlug === "homepage" && loop.followUp ? (
-              <>
+            <span className="concierge-dest__chip">
+              <Icon name={ICONS[d.flowSlug] ?? "home"} size={20} />
+              {(d.flowSlug === "homepage" && loop.followUp) || (d.flowSlug === "signals" && newSignals && currentFlow !== "signals") ? (
                 <span className="concierge-dest__dot" aria-hidden="true" />
-                <span className="u-visually-hidden">, a follow-up is waiting</span>
-              </>
-            ) : null}
+              ) : null}
+            </span>
+            <span className="u-bold-hold" data-label={d.label}>{d.label}</span>
+            {d.flowSlug === "homepage" && loop.followUp ? <span className="u-visually-hidden">, a follow-up is waiting</span> : null}
             {d.flowSlug === "signals" && newSignals && currentFlow !== "signals" ? (
-              <>
-                <span className="concierge-dest__dot" aria-hidden="true" />
-                <span className="u-visually-hidden">, new in your Signal Picture</span>
-              </>
+              <span className="u-visually-hidden">, new in your Signal Picture</span>
             ) : null}
           </Link>
         </li>
@@ -498,7 +495,7 @@ function Start({
   return (
     <div className="concierge-start">
       <section aria-labelledby="concierge-goto">
-        <h2 id="concierge-goto" className="concierge-start__title">{C.goTo}</h2>
+        <h2 id="concierge-goto" className="u-visually-hidden">{C.goTo}</h2>
         <Places destinations={destinations} currentFlow={currentFlow} />
       </section>
 
@@ -514,7 +511,7 @@ function Start({
       ) : null}
 
       <section aria-labelledby="concierge-ask">
-        <AdvisorWho name={C.name} role={C.role} className="concierge-start__who" />
+        <AdvisorWho name={C.name} role={C.role} brand className="concierge-start__who" />
         <h2 id="concierge-ask" className="concierge-start__title">{C.askMe}</h2>
         <ul className="concierge-suggest">
           {suggestions(ctx).map((s) => (

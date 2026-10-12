@@ -78,11 +78,11 @@ export function ChipGroup({
             >
               {details?.[option] ? (
                 <>
-                  <span className="chip-group__title">{option}</span>
+                  <span className="chip-group__title u-bold-hold" data-label={option}>{option}</span>
                   <span className="chip-group__detail">{details[option]}</span>
                 </>
               ) : (
-                option
+                <span className="u-bold-hold" data-label={option}>{option}</span>
               )}
             </button>
           );

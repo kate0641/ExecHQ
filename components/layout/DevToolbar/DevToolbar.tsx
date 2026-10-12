@@ -59,6 +59,17 @@ export interface DevToolbarProps {
  * dragging cycles it through the four corners, and with the handle focused the
  * arrow keys nudge it and Home returns it to the anchored default.
  */
+/** Review only: starts every CSS animation on the page again from the top,
+ *  so a play-once moment (the greeting, the Briefing's shimmer) can be seen
+ *  again without reloading. With reduced motion there is nothing to replay. */
+function replayMotion() {
+  for (const animation of document.getAnimations()) {
+    if (!(animation instanceof CSSAnimation)) continue;
+    animation.cancel();
+    animation.play();
+  }
+}
+
 export function DevToolbar({ hubOpen, onToggleHub, hubTriggerRef }: DevToolbarProps) {
   const position = useSyncExternalStore(
     subscribeToToolbarPosition,
@@ -252,6 +263,15 @@ export function DevToolbar({ hubOpen, onToggleHub, hubTriggerRef }: DevToolbarPr
       <div className="devtools__content" id={contentId} hidden={collapsed}>
         <ViewportToggle />
         <ColorSwitch />
+        <button
+          type="button"
+          className="devtools__replay"
+          title="Replay the page's animations"
+          onClick={replayMotion}
+        >
+          <Icon name="refresh" size={17} />
+          <span className="u-visually-hidden">Replay the page&rsquo;s animations</span>
+        </button>
 
         {/* Signed-in pages only; both render nothing elsewhere. */}
         <NavPicker />

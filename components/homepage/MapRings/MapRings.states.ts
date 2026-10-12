@@ -36,6 +36,7 @@ export const mapRingsStates = defineComponentStates({
     loading: "Written from local data: there is nothing to wait for.",
     error: "Nothing can fail.",
     filled: NOT_AN_INPUT,
+    hover: "No hover tint: the phone has no hover, and a tint read as a second selection beside the chosen ring (designer, 2026-10-11).",
   },
   variants: [
     { label: "Default — started, in progress and not started", props: base },
@@ -45,7 +46,6 @@ export const mapRingsStates = defineComponentStates({
     { label: "A ring complete, with a check", props: { ...base, rings: completed } },
     { label: "Empty — a ring with nothing on it", props: { ...base, rings: now.map((r) => (r.horizon === "long" ? { ...r, segments: [], done: 0, complete: false } : r)) } },
     { label: "Long text — a long ring name wraps", props: { ...base, rings: now.map((r) => (r.horizon === "long" ? { ...r, label: "Long-term, a quarter or more" } : r)) } },
-    { label: "Hover", props: { ...base, demo: { horizon: "medium", state: "hover" } } },
     { label: "Focus", props: { ...base, demo: { horizon: "medium", state: "focus" } } },
     { label: "Pressed", props: { ...base, demo: { horizon: "medium", state: "active" } } },
   ],

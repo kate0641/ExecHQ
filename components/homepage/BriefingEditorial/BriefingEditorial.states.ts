@@ -30,6 +30,7 @@ export const briefingEditorialStates = defineComponentStates({
   },
   variants: [
     { label: "Today’s three reads with their publications — default", props: base },
+    { label: "With a cover image", description: "A photograph across the top fading into the navy; the words in white on the navy below. On Home.", props: { ...base, cover: true } },
     { label: "No read touches the plan", description: "Without a tag, the lead shows only its publication.", props: { ...base, tag: undefined } },
     {
       label: "Long headlines end in an ellipsis",
