@@ -2,6 +2,7 @@ import { createElement as h } from "react";
 import { defineComponentStates } from "@/components/types";
 import { NOT_AN_INPUT } from "@/components/not-applicable";
 import { ChatMessage } from "@/components/chat/ChatMessage";
+import { Icon } from "@/components/primitives/Icon";
 import { ConciergePanel } from "./ConciergePanel";
 
 const noop = () => {};
@@ -53,8 +54,17 @@ export const conciergePanelStates = defineComponentStates({
         top: h(
           "ul",
           { className: "concierge-dests", "aria-label": "Go to" },
-          ["Home", "Plan", "Signals", "Toolbox", "Briefing"].map((label) =>
-            h("li", { key: label }, h("a", { href: "#", className: label === "Plan" ? "concierge-dest is-current" : "concierge-dest" }, label))
+          ([["Home", "home"], ["Plan", "flag"], ["Signals", "trend-up"], ["Toolbox", "pencil"], ["Briefing", "calendar"], ["Profile", "person"]] as const).map(([label, icon]) =>
+            h(
+              "li",
+              { key: label },
+              h(
+                "a",
+                { href: "#", className: label === "Plan" ? "concierge-dest is-current" : "concierge-dest", "aria-current": label === "Plan" ? "page" : undefined },
+                h("span", { className: "concierge-dest__chip" }, h(Icon, { name: icon, size: 20 })),
+                h("span", { className: "u-bold-hold", "data-label": label }, label)
+              )
+            )
           )
         ),
         children: conversation,

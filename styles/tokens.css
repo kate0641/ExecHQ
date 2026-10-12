@@ -237,6 +237,21 @@
      the ring from the done colour to a pale end, so it reads as still
      filling; not started is the pale track. On trial: navy to blue 200 (blue
      300 is the fallback end); dark green to lime (green 200) may be tried. */
+  /* The advisor's sheet (designer, 2026-10-11). The current page in its
+     nav is a yellow circle with a navy icon; a dot says something waits. */
+  --color-nav-current: var(--brand-yellow-400);
+  --color-nav-current-icon: var(--brand-primary);
+  --color-nav-dot: var(--brand-primary);
+  /* The pick-up card's soft wash, blue into pale lime, the same at every
+     hour. Navy text on it is 11:1 or more at every point. */
+  --color-wash-start: var(--brand-blue-200);
+  --color-wash-mid: var(--brand-blue-100);
+  --color-wash-end: var(--brand-green-100);
+  --color-text-on-wash: var(--brand-primary);
+  /* Inside the chat, what points to something in the product: the draft a
+     reply names, the Go to shortcut. Never a button by itself. */
+  --color-surface-reference: var(--brand-stone-200);
+
   --color-ring-done: var(--brand-navy);
   --color-ring-progress-start: var(--brand-navy);
   --color-ring-progress-end: var(--brand-blue-200);

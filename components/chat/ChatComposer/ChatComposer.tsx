@@ -19,6 +19,11 @@ export interface ChatComposerProps {
   /** On while ExecHQ is writing, so an answer cannot overtake the question.
    *  The field stays focusable; only sending is held back. */
   disabled?: boolean;
+  /** Holds back sending only: the field stays as it is and can be typed in,
+   *  and the send button rests. The advisor's sheet uses it while he
+   *  replies, as chat apps do, so the box does not flash (designer,
+   *  2026-10-11). */
+  holdSend?: boolean;
   /** Speak instead of type. */
   voice?: { listening: boolean; onToggle: () => void };
   /** Rests the mic while ExecHQ is writing, without hiding it. */
@@ -48,6 +53,7 @@ export function ChatComposer({
   onSend,
   placeholder,
   disabled = false,
+  holdSend = false,
   voice,
   micDisabled = false,
   attach,
@@ -71,7 +77,7 @@ export function ChatComposer({
   }, [value, fieldRef]);
 
   function send() {
-    if (!value.trim() || disabled) return;
+    if (!value.trim() || disabled || holdSend) return;
     onSend(value.trim());
   }
 
@@ -123,7 +129,7 @@ export function ChatComposer({
         type="submit"
         className="chat-composer__send"
         aria-label="Send"
-        disabled={disabled || !value.trim()}
+        disabled={disabled || holdSend || !value.trim()}
       >
         <Icon name="send" size={20} />
       </button>

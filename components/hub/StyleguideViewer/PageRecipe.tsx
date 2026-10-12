@@ -125,6 +125,23 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
     note: "Only buttons are pills, so the shape means \"press me\".",
     rules: [
       {
+        rule: "Only a card with a chevron is tappable. A card or chip without one is a reference, and its action sits on a button beside it.",
+        why: "The same look must always do the same thing, or people tap what does nothing.",
+        from: "Navigation",
+      },
+      {
+        rule: "Every prompt the advisor offers is one button style: the raised surface, a thin edge, 20px corners, sized to its words and wrapping so all show.",
+        why: "Suggested questions and reply buttons are the same job, so they look the same. Fixed corners keep a two-line prompt a rounded box, not a stretched pill.",
+        from: "Navigation",
+        uses: ["--radius-xl", "--color-border"],
+      },
+      {
+        rule: "In a stack of controls about 44px tall (prompts, a shortcut, the message box), every one takes the same 20px corners.",
+        why: "Mixed corners stacked on top of each other read as clutter.",
+        from: "Navigation",
+        uses: ["--radius-xl"],
+      },
+      {
         rule: "Yellow is the one main action on a screen. Light blue is everything secondary, including the advisor's reply buttons. No white outlined buttons.",
         why: "One clear next move, and a button looks the same wherever it appears. Still open: whether light blue and yellow are distinct enough side by side.",
         from: "Home, Navigation",
