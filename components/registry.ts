@@ -111,6 +111,36 @@ import { planAgendaStates } from "./plan/PlanAgenda/PlanAgenda.states";
 import { roadmapTimelineStates } from "./plan/RoadmapTimeline/RoadmapTimeline.states";
 import { templateRoadmapsStates } from "./plan/TemplateRoadmaps/TemplateRoadmaps.states";
 
+import { briefingReadCardStates } from "./briefing/BriefingReadCard/BriefingReadCard.states";
+import { readActionsStates } from "./briefing/ReadActions/ReadActions.states";
+import { briefingReaderStates } from "./briefing/BriefingReader/BriefingReader.states";
+import { publisherPickerStates } from "./briefing/PublisherPicker/PublisherPicker.states";
+import { passageNoteStates } from "./briefing/PassageNote/PassageNote.states";
+import { sourceLabelStates } from "./briefing/SourceLabel/SourceLabel.states";
+import { readCounterStates } from "./briefing/ReadCounter/ReadCounter.states";
+import { briefingEndStates } from "./briefing/BriefingEnd/BriefingEnd.states";
+import { toolUseCaseStates } from "./toolbox/ToolUseCase/ToolUseCase.states";
+import { inputPanelStates } from "./toolbox/InputPanel/InputPanel.states";
+import { enricherCardStates } from "./toolbox/EnricherCard/EnricherCard.states";
+import { draftEditorStates } from "./toolbox/DraftEditor/DraftEditor.states";
+import { revisionControlsStates } from "./toolbox/RevisionControls/RevisionControls.states";
+import { versionHistoryStates } from "./toolbox/VersionHistory/VersionHistory.states";
+import { draftUseBarStates } from "./toolbox/DraftUseBar/DraftUseBar.states";
+import { toolPickerStates } from "./toolbox/ToolPicker/ToolPicker.states";
+import { momentStartStates } from "./toolbox/MomentStart/MomentStart.states";
+import { artifactActionsStates } from "./toolbox/ArtifactActions/ArtifactActions.states";
+import { libraryGroupStates } from "./toolbox/LibraryGroup/LibraryGroup.states";
+import { libraryEmptyStates } from "./toolbox/LibraryEmpty/LibraryEmpty.states";
+import { workspacePanelStates } from "./toolbox/WorkspacePanel/WorkspacePanel.states";
+import { pinnedDraftStates } from "./toolbox/PinnedDraft/PinnedDraft.states";
+import { dropdownMenuStates } from "./form/DropdownMenu/DropdownMenu.states";
+import { listStates } from "./layout/List/List.states";
+import { toolIllustrationStates } from "./toolbox/ToolIllustration/ToolIllustration.states";
+import { libraryFolderStates } from "./toolbox/LibraryFolder/LibraryFolder.states";
+import { briefingDeckStates } from "./briefing/BriefingDeck/BriefingDeck.states";
+import { briefingPictureStates } from "./briefing/BriefingPicture/BriefingPicture.states";
+import { briefingFrontStates } from "./briefing/BriefingFront/BriefingFront.states";
+import { readerBarStates } from "./briefing/ReaderBar/ReaderBar.states";
 export const registry: RegisteredComponent[] = [
   badgeStates,
   buttonStates,
@@ -122,11 +152,13 @@ export const registry: RegisteredComponent[] = [
   toggleGroupStates,
   micButtonStates,
   chipGroupStates,
+  dropdownMenuStates,
   panelStates,
   placeholderStateStates,
   navPlaceholderStates,
   stepBarStates,
   sheetStates,
+  listStates,
   drawerStates,
   stepHeaderStates,
   stepActionsStates,
@@ -213,6 +245,34 @@ export const registry: RegisteredComponent[] = [
   checkInRecapStates,
   planAgendaStates,
   roadmapTimelineStates,
+  briefingReadCardStates,
+  readActionsStates,
+  briefingReaderStates,
+  publisherPickerStates,
+  passageNoteStates,
+  sourceLabelStates,
+  readCounterStates,
+  briefingEndStates,
+  toolUseCaseStates,
+  inputPanelStates,
+  enricherCardStates,
+  draftEditorStates,
+  revisionControlsStates,
+  versionHistoryStates,
+  draftUseBarStates,
+  toolPickerStates,
+  momentStartStates,
+  artifactActionsStates,
+  libraryGroupStates,
+  libraryEmptyStates,
+  workspacePanelStates,
+  pinnedDraftStates,
+  toolIllustrationStates,
+  libraryFolderStates,
+  briefingDeckStates,
+  briefingPictureStates,
+  briefingFrontStates,
+  readerBarStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */

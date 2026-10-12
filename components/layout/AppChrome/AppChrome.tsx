@@ -34,7 +34,7 @@ export function AppChrome({ flow, children, navConcept }: AppChromeProps) {
   const navLabel = flow.chrome === "app" ? "Main" : `${flow.title} navigation`;
   const navProps = {
     destinations: nav,
-    currentFlow: navConcept?.currentFlow ?? flow.slug,
+    currentFlow: navConcept?.currentFlow ?? flow.navAs ?? flow.slug,
     label: navLabel,
     concept: navConcept?.slug,
   };
@@ -80,14 +80,6 @@ export function AppChrome({ flow, children, navConcept }: AppChromeProps) {
         {children}
       </main>
 
-      {flow.privacyFooter === false ? null : (
-        <footer className="chrome__footer">
-          <p className="chrome__footer-text">
-            Private by default. Your employer, your network and your colleagues
-            never see this account.
-          </p>
-        </footer>
-      )}
     </div>
   );
 }

@@ -29,7 +29,8 @@ import {
   nextStepAfter,
   useLoop,
 } from "@/lib/loop-store";
-import { conceptHref, type NavDestination } from "@/lib/manifest";
+import { type NavDestination } from "@/lib/manifest";
+import { useToolboxLinks } from "@/lib/toolbox-links";
 import { useNewSignals } from "@/lib/new-signals";
 import { useViewport } from "@/lib/viewport-context";
 import { CONCIERGE_COPY as C } from "@/mock/concierge";
@@ -50,7 +51,6 @@ import type { NavConceptProps } from "../types";
  * changes the Loop, so Home, the statuses and the dot all follow.
  */
 
-const TOOLBOX = conceptHref("toolbox-flow", "concept-1");
 const PANEL_ID = "concierge-panel";
 const PILL_ID = "concierge-pill";
 /** How long he takes to reply. Instant under reduced motion. */
@@ -490,6 +490,7 @@ function Start({
   onAsk: (reply: ConciergeReply) => void;
 }) {
   const loop = useLoop();
+  const links = useToolboxLinks();
   const resume = [...loop.records]
     .filter((r) => r.state === "drafted" || r.state === "in-progress")
     .sort((a, b) => (a.history.at(-1)!.on < b.history.at(-1)!.on ? 1 : -1))[0];
@@ -503,7 +504,7 @@ function Start({
 
       {resume && resumeLast ? (
         <EntryLink
-          href={TOOLBOX}
+          href={links.forRecord(resume.id)}
           icon="draft"
           eyebrow={C.resumeEyebrow}
           title={resume.title}

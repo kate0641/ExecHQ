@@ -24,7 +24,7 @@ export const loopStatusStates = defineComponentStates({
   name: "LoopStatus",
   group: "feedback",
   status: "draft",
-  flows: ["homepage"],
+  flows: ["homepage", "toolbox", "toolbox-flow", "plan"],
   description:
     "An artifact's place in the Loop, the same wherever the artifact appears. The word always carries the meaning; the shape beside it fills in as the artifact moves along, so status never depends on colour.",
   component: LoopStatus,
@@ -76,7 +76,7 @@ export const loopStatusStates = defineComponentStates({
       },
     },
     {
-      label: "Done",
+      label: "Closed",
       props: {
         record: closeRecord(
           answerFollowUp(markUsed(artifact("pitch"), "2026-10-06"), "2026-10-11", {
@@ -87,7 +87,7 @@ export const loopStatusStates = defineComponentStates({
       },
     },
     {
-      label: "Done, set aside",
+      label: "Closed, set aside",
       description: "Closed without being used. Not a failure, and never asked about again.",
       props: { record: abandonRecord(artifact("pitch"), "2026-10-06") },
     },

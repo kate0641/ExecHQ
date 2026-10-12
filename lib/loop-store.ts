@@ -19,6 +19,8 @@
 
 import { useMemo, useSyncExternalStore } from "react";
 import { reopenBriefing, useBriefingEverClosed } from "@/lib/briefing-dismissal";
+import { resetBriefing, useBriefingChanged } from "@/lib/briefing-store";
+import { resetToolbox, useToolboxChanged } from "@/lib/toolbox-store";
 import { closeDirection } from "@/lib/direction-open";
 import { resetCheckIns, useAnyCheckIns } from "@/lib/stage-checkins";
 import { resetPresence, useAddedPresence, useBaseline } from "@/lib/presence-store";
@@ -27,6 +29,7 @@ import { resetLinkedInExport } from "@/lib/linkedin-store";
 import { resetSignalNotices } from "@/lib/signal-notices";
 import {
   abandonRecord,
+  availableActions,
   answerFollowUp,
   closeRecord,
   lastWorkedOn,
@@ -55,7 +58,7 @@ import { homeStateOf, type HomeStateId } from "@/mock/homepage";
 const STORAGE_KEY = "exechq.loop";
 /** Bumped whenever the stored shape or the snapshots' starting data change,
  *  so an old save is dropped rather than half-read. */
-const STORAGE_VERSION = 10;
+const STORAGE_VERSION = 11;
 
 export interface LoopStoreState {
   snapshot: SnapshotId;
@@ -191,6 +194,8 @@ export function selectSnapshot(snapshot: SnapshotId): void {
 export function resetLoop(): void {
   write({ snapshot: getLoopState().snapshot, changes: {} });
   reopenBriefing();
+  resetBriefing();
+  resetToolbox();
   closeDirection();
   resetCheckIns();
   reopenSparks();
@@ -209,8 +214,10 @@ export const loopActions = {
   edit: (id: string) => updateRecord(id, (r, today) => startEditing(r, today)),
   markReady: (id: string, answers?: Parameters<typeof markReady>[2]) =>
     updateRecord(id, (r, today) => markReady(r, today, answers)),
-  markUsed: (id: string, answers?: Parameters<typeof markUsed>[2]) =>
-    updateRecord(id, (r, today) => markUsed(r, today, answers)),
+  /** `on` is the day she says she used it, when it was not today (a pitch
+   *  sent on Monday, marked on Wednesday). */
+  markUsed: (id: string, answers?: Parameters<typeof markUsed>[2], on?: string) =>
+    updateRecord(id, (r, today) => markUsed(r, on ?? today, answers)),
   answer: (id: string, answer: { type: OutcomeType; detail?: string; notes?: string }) =>
     updateRecord(id, (r, today) => answerFollowUp(r, today, answer), id),
   /** She says, from her Signal Picture, what came of something she used: the same answer as the
@@ -271,6 +278,17 @@ export const loopActions = {
       return { choices: { ...choices, ...retired }, asked: add ? [...(asked ?? []), add] : asked };
     });
   },
+  /* The Toolbox (Sprint 4). A Loop record exists from the moment the first
+     draft does, so the library, the Plan and the homepage all see it. */
+  create: (record: LoopRecord) =>
+    update(({ records }) => ({ records: records.some((r) => r.id === record.id) ? records : [...records, record] })),
+  /** She closes it from the library, at any time: a draft is set aside,
+   *  anything used stops being asked about. */
+  close: (id: string) =>
+    updateRecord(id, (r, today) => (availableActions(r).includes("close") ? closeRecord(r, today) : abandonRecord(r, today))),
+  /** Deletes it, with its Loop record and the Signal Picture items its
+   *  history gave. */
+  remove: (id: string) => update(({ records }) => ({ records: records.filter((r) => r.id !== id) })),
   updateAccount: (change: Partial<Account>) =>
     update(({ account }) => ({ account: { ...account, ...change } })),
 };
@@ -304,6 +322,8 @@ export function useLoop(): LoopView {
   const baselineSaved = useBaseline() !== null;
   const roadmapChanged = useRoadmapChanged();
   const checkInsSaved = useAnyCheckIns();
+  const briefingChanged = useBriefingChanged();
+  const toolboxChanged = useToolboxChanged();
   return useMemo(() => {
     const snapshot = currentSnapshot(state);
     const followUp = nextFollowUp(snapshot.records, snapshot.today);
@@ -314,7 +334,7 @@ export function useLoop(): LoopView {
       lastWorkedOn: lastWorkedOn(snapshot.records),
       nextStep: snapshot.recommendations[0],
       changed: state.changes[state.snapshot] !== undefined,
-      anyChanged: Object.keys(state.changes).length > 0 || briefingClosed || sparksDismissed || presenceAdded || baselineSaved || roadmapChanged || checkInsSaved,
+      anyChanged: Object.keys(state.changes).length > 0 || briefingClosed || sparksDismissed || presenceAdded || baselineSaved || roadmapChanged || checkInsSaved || briefingChanged || toolboxChanged,
     };
-  }, [state, briefingClosed, sparksDismissed, presenceAdded, baselineSaved, roadmapChanged, checkInsSaved]);
+  }, [state, briefingClosed, sparksDismissed, presenceAdded, baselineSaved, roadmapChanged, checkInsSaved, briefingChanged, toolboxChanged]);
 }

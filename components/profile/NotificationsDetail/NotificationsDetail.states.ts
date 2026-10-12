@@ -24,7 +24,7 @@ export const notificationsDetailStates = defineComponentStates({
     "long text": "Holds fixed copy and controls only; she types nothing.",
   },
   variants: [
-    { label: "Both on, filled — default", props: { ...base, headingId: "nd-1" } },
+    { label: "Both on, filled — default", props: { ...base, notify: { followUps: true, briefing: true, plan: true }, headingId: "nd-1" } },
     {
       label: "Everything off — empty",
       props: {

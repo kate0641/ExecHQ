@@ -675,6 +675,103 @@
   --content-measure: 68ch;
 
   /* ---------------------------------------------------------------------------
+     MENUS — the dropdown menu's floating panel (components/form/DropdownMenu).
+     Built on the surface, border, hover and shadow roles, so a palette
+     change reaches it with no edit here.
+     ------------------------------------------------------------------------ */
+  --menu-surface: var(--color-surface-raised);
+  --menu-border: var(--color-border);
+  --menu-item-hover: var(--color-surface-hover);
+  --menu-item-active: var(--color-surface-active);
+  --menu-item-text: var(--color-text-primary);
+  --menu-item-disabled: var(--color-text-disabled);
+  --menu-separator: var(--color-border-subtle);
+  --menu-shadow: var(--shadow-lg);
+  --menu-radius: var(--radius-md);
+  --menu-padding: var(--space-2xs);
+  --menu-item-padding-block: var(--space-xs);
+  --menu-item-padding-inline: var(--space-sm);
+  --menu-item-gap: var(--space-xs);
+  --menu-min-width: 15rem;
+  --menu-max-width: 20rem;
+  /* Space kept between the panel and the edge of the screen it opens in. */
+  --menu-edge: var(--space-xs);
+
+  /* ---------------------------------------------------------------------------
+     ILLUSTRATIONS — the tools' line drawings (components/toolbox/
+     ToolIllustration), one drawing at three levels of detail: navy line on a
+     pale blue card, a lighter blue shade under the detailed level. Built on
+     the brand scales, so greyscale and the palette both reach them.
+     ------------------------------------------------------------------------ */
+  --illustration-ink: var(--brand-blue-800);
+  --illustration-shade: var(--brand-blue-300);
+  --illustration-paper: var(--color-surface-raised);
+  --illustration-card: var(--color-surface-feature);
+  --illustration-card-border: var(--brand-blue-200);
+  /* The library's folders (components/toolbox/LibraryFolder): one tint per
+     tool, always with the tool's name and drawing, so colour is never the
+     only cue. */
+  --folder-positioning: var(--brand-blue-200);
+  --folder-pitch: var(--brand-yellow-200);
+  --folder-situation-brief: var(--brand-stone-200);
+  --folder-thought-leadership: var(--brand-blue-300);
+  --folder-edge: var(--color-border-strong);
+  --folder-radius: var(--radius-sm);
+
+  /* ---------------------------------------------------------------------------
+     BRIEFING DECK — today's three reads as a stack of cards (components/
+     briefing/BriefingDeck), one tint for each place in the day's set. The
+     publisher's name is always on the card, so the tint is never the only cue.
+     ------------------------------------------------------------------------ */
+  --deck-tint-1: var(--brand-blue-200);
+  --deck-tint-2: var(--brand-yellow-200);
+  --deck-tint-3: var(--brand-stone-200);
+  --deck-edge: var(--color-border-strong);
+  --deck-overlap: var(--space-sm);
+  --deck-radius: var(--radius-xl);
+  /* Cast upward, so each card reads as lying over the one before it. */
+  --deck-shadow: 0 calc(-1 * var(--space-2xs)) var(--space-md) rgb(var(--shadow-rgb) / 0.1);
+
+  /* Briefing Concept 2's picture panels: stand-ins for article images until
+     image rights are settled, one tint per read with the publisher named. */
+  --briefing-picture-1: var(--brand-blue-300);
+  --briefing-picture-1-ink: var(--brand-blue-700);
+  --briefing-picture-2: var(--brand-yellow-300);
+  --briefing-picture-2-ink: var(--brand-yellow-800);
+  --briefing-picture-3: var(--brand-stone-300);
+  --briefing-picture-3-ink: var(--brand-stone-700);
+  --briefing-picture-stripe: var(--color-surface-raised);
+
+  /* ---------------------------------------------------------------------------
+     LISTS — rows of items (components/layout/List): one or two lines, a
+     leading icon, avatar or checkbox, and trailing badges, metadata or
+     actions. Built on the type roles, so a type change reaches them.
+     ------------------------------------------------------------------------ */
+  --list-surface: var(--color-surface-raised);
+  --list-border: var(--color-border);
+  --list-radius: var(--radius-card);
+  --list-divider: var(--color-border-subtle);
+  --list-item-hover: var(--color-surface-hover);
+  --list-item-active: var(--color-surface-active);
+  --list-item-selected: var(--color-surface-selected);
+  --list-item-padding-block: var(--space-sm);
+  --list-item-padding-inline: var(--space-md);
+  --list-item-gap: var(--space-sm);
+  --list-leading-size: 2.25rem;
+  /* Where an inset divider starts: past the leading element. */
+  --list-divider-inset: calc(var(--list-item-padding-inline) + var(--list-leading-size) + var(--list-item-gap));
+  --list-primary-font: var(--type-subheading-font);
+  --list-primary-size: var(--type-subheading-size);
+  --list-primary-weight: var(--type-subheading-weight);
+  --list-primary-leading: var(--type-subheading-leading);
+  --list-secondary-font: var(--type-body-sm-font);
+  --list-secondary-size: var(--type-body-sm-size);
+  --list-secondary-leading: var(--leading-snug);
+  --list-secondary-color: var(--color-text-secondary);
+  --list-meta-size: var(--type-caption-size);
+  --list-meta-color: var(--color-text-secondary);
+
+  /* ---------------------------------------------------------------------------
      MOTION — every transition must be disabled under prefers-reduced-motion
      ------------------------------------------------------------------------ */
   --duration-fast: 120ms;
@@ -687,6 +784,8 @@
      ELEVATION ORDER
      ------------------------------------------------------------------------ */
   --z-sticky: 10;
+  /* A dropdown menu sits over sticky bars, under the dock and any scrim. */
+  --z-menu: 30;
   --z-devtools: 40;
   --z-scrim: 50;
   --z-hub-panel: 60;

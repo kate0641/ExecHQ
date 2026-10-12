@@ -303,7 +303,9 @@ const NEW_STEPS: ActionStep[] = [
     effort: 1,
     effortText: "Five minutes",
     done: "You’ve read it.",
-    stubbed: true,
+    /** Live in Sprint 4: it opens the Briefing, and is done once she reads
+     *  one item or starts a post from one. */
+    startLabel: "Open today’s Briefing",
   },
 ];
 
@@ -1070,6 +1072,8 @@ export const PLAN_AGENDA_COPY = {
   done: "Done",
   askLabel: "Ask ExecHQ",
   getStarted: "Get started",
+  /** Sprint 4: the step already has a draft, so the button opens it. */
+  openDraft: "Open your draft",
   doneIt: "I’ve done this",
   addLabel: "Add to your plan",
   addTitle: "What is it?",

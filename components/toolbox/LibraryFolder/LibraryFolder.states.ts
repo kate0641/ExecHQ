@@ -1,0 +1,34 @@
+import { defineComponentStates } from "@/components/types";
+import { NOT_AN_INPUT } from "@/components/not-applicable";
+import { LibraryFolder } from "./LibraryFolder";
+
+const noop = () => {};
+const pitches = { tool: "pitch" as const, name: "Pitches", summary: "3 · 2 drafts · 1 waiting to hear", date: "21 Oct", onOpen: noop };
+
+export const libraryFolderStates = defineComponentStates({
+  name: "LibraryFolder",
+  group: "cards",
+  status: "draft",
+  flows: ["toolbox"],
+  description:
+    "One of the library's folders in Toolbox Concept 2: one per tool, filed by ExecHQ, never made or moved by her. A tab and a tint from the tool, with its name and drawing so the tint is never the only cue; how many it holds, where they stand, and when it last changed. A button in the grid; the heading of the open folder above its list.",
+  component: LibraryFolder,
+  notApplicable: {
+    disabled: "A folder can always be opened, even empty.",
+    loading: "Read from the Loop on her device: there is nothing to wait for.",
+    error: "Opening a folder only shows what is already here: nothing can fail.",
+    filled: NOT_AN_INPUT,
+  },
+  variants: [
+    { label: "Pitches — default", props: pitches },
+    { label: "Positioning", props: { tool: "positioning", name: "Positioning", summary: "1 · 1 draft", date: "5 Oct", onOpen: noop } },
+    { label: "Briefs", props: { tool: "situation-brief", name: "Briefs", summary: "2 · 1 draft · 1 ready to use", date: "22 Oct", onOpen: noop } },
+    { label: "Posts, nothing yet — empty", props: { tool: "thought-leadership", name: "Posts", summary: "Nothing here yet", onOpen: noop } },
+    { label: "Open beside its list (web) — selected", props: { ...pitches, current: true } },
+    { label: "As the open folder's heading", props: { ...pitches, as: "header", headingLevel: 2 } },
+    { label: "Hover", props: { ...pitches, demo: "hover" } },
+    { label: "Focus", props: { ...pitches, demo: "focus" } },
+    { label: "Pressed", props: { ...pitches, demo: "active" } },
+    { label: "A long summary wraps", props: { ...pitches, summary: "6 · 2 drafts · 1 ready to use · 1 used, sent or published · 1 waiting to hear · 1 closed" } },
+  ],
+});

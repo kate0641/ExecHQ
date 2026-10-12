@@ -41,14 +41,14 @@ export interface Flow {
   chrome: NavChrome;
   /** Locks the viewport toggle to web width and disables Mobile and Tablet. */
   webOnly?: boolean;
-  /** The standing privacy line in the chrome footer. Defaults to shown. Turned
-   *  off for Onboarding, where a dedicated privacy screen makes the same promise
-   *  properly and a permanent footer repeating it in small type weakens it. */
-  privacyFooter?: boolean;
   /** The chrome header carrying the wordmark. Defaults to shown. Turned off for
    *  Onboarding, whose first screen carries the wordmark itself; a header
    *  repeating it on every later step would only take room from the question. */
   header?: boolean;
+  /** The navigation item this flow sits under, when it is not one itself:
+   *  the Toolbox flow is reached from the Toolbox, so the navigation says
+   *  Toolbox while she is in a tool. */
+  navAs?: string;
   /** One line shown under the flow in the hub. */
   description: string;
   /** What a signed-in destination shows until its sprint designs it: a
@@ -84,7 +84,6 @@ export const prototypeConfig: PrototypeConfig = {
       title: "Onboarding",
       sprint: 1,
       chrome: "minimal",
-      privacyFooter: false,
       header: false,
       description:
         "The first ninety seconds: privacy promise, career direction, plan selection and one usable artifact — one continuous sequence, never a setup tool.",
@@ -104,7 +103,6 @@ export const prototypeConfig: PrototypeConfig = {
       sprint: 2,
       chrome: "minimal",
       header: false,
-      privacyFooter: false,
       description:
         "Returning to a private account. Personal email only; no employer visible anywhere.",
       concepts: [
@@ -140,7 +138,6 @@ export const prototypeConfig: PrototypeConfig = {
       title: "Homepage",
       sprint: 2,
       chrome: "app",
-      privacyFooter: false,
       description:
         "The signed-in landing surface: current direction, what to do next, and the way into the Plan, Toolbox and Briefing.",
       concepts: [
@@ -158,7 +155,6 @@ export const prototypeConfig: PrototypeConfig = {
       title: "Profile",
       sprint: 2,
       chrome: "app",
-      privacyFooter: false,
       description:
         "Direction, signal background and settings — all optional, none of it a completion gate.",
       concepts: [
@@ -176,7 +172,6 @@ export const prototypeConfig: PrototypeConfig = {
       title: "Plan",
       sprint: 3,
       chrome: "app",
-      privacyFooter: false,
       description:
         "Roadmap, action steps and plan progress in one place. Factual, never a score.",
       stub: {
@@ -204,7 +199,6 @@ export const prototypeConfig: PrototypeConfig = {
       title: "Signal Picture",
       sprint: 3,
       chrome: "app",
-      privacyFooter: false,
       description:
         "The home of the Signal Picture and Momentum: what she has put out there, where she started beside where she is now, and how her follow-through is going. Factual, never a score.",
       stub: {
@@ -235,8 +229,21 @@ export const prototypeConfig: PrototypeConfig = {
       concepts: [
         {
           slug: "concept-1",
-          title: "Concept 1",
-          summary: "Toolbox index.",
+          title: "Concept 1 — Tool cards",
+          summary:
+            "The tool for her next plan step leads with its drawing (a bento on tablet and web, one row and three icons on a phone); the library below filtered by tool and status. Tools open as guided steps.",
+        },
+        {
+          slug: "concept-2",
+          title: "Concept 2 — Starter row",
+          summary:
+            "The tools as one row of four icons; the library as four folders, one per tool, each opening to its list. Tools open as a document workspace.",
+        },
+        {
+          slug: "concept-3",
+          title: "Concept 3 — Start from the moment",
+          summary:
+            "The wild card: What’s coming up? picks the tool; the library is a timeline by week. Tools open as an interview beside the draft.",
         },
       ],
     },
@@ -245,13 +252,24 @@ export const prototypeConfig: PrototypeConfig = {
       title: "Toolbox artifact flow",
       sprint: 4,
       chrome: "app",
+      navAs: "toolbox",
       description:
         "Producing an artifact end to end: gather context, generate an editable draft, revise, export, and enter the Loop.",
       concepts: [
         {
           slug: "concept-1",
-          title: "Concept 1",
-          summary: "Draft, revise, export, record outcome.",
+          title: "Concept 1 — Guided steps",
+          summary: "One question a screen, then the draft full screen with Revise, Copy and Mark ready in a fixed bar.",
+        },
+        {
+          slug: "concept-2",
+          title: "Concept 2 — Document workspace",
+          summary: "The draft full screen, with inputs and revisions in a sheet pulled up from a peek bar; a side panel on desktop.",
+        },
+        {
+          slug: "concept-3",
+          title: "Concept 3 — Interview",
+          summary: "One question a screen with the draft pinned above as a card; side by side on desktop.",
         },
       ],
     },
@@ -269,8 +287,21 @@ export const prototypeConfig: PrototypeConfig = {
       concepts: [
         {
           slug: "concept-1",
-          title: "Concept 1",
-          summary: "Three reads worth your time.",
+          title: "Concept 1 — Front page",
+          summary:
+            "Today’s three as a stack of cards: one open in full, the other two as strips that open in their place. Publishers are changed on the page.",
+        },
+        {
+          slug: "concept-2",
+          title: "Concept 2 — News app",
+          summary:
+            "A front page like a news app: the lead story with a big picture, two rows with small ones, each saying why it is here. A story opens a reader screen with a bar at the foot: Back, Relevant, Not for me, Save, Write a post.",
+        },
+        {
+          slug: "concept-3",
+          title: "Concept 3 — Annotated",
+          summary:
+            "The wild card: each read has one highlighted passage with ExecHQ’s note; tap it to respond in Thought Leadership Builder.",
         },
       ],
     },

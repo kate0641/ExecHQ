@@ -60,7 +60,7 @@ export function fullName(account: Pick<Account, "name" | "lastName">): string {
   return [account.name, account.lastName].map((part) => part?.trim()).filter(Boolean).join(" ");
 }
 
-/** Maya as she leaves onboarding: follow-ups on. The
+/** Maya as she leaves onboarding: follow-ups on, the Briefing email off (opt-in, per the Sprint 4 brief). The
  *  five homepage states in `mock/homepage.ts` build on this. */
 export const MAYA: Account = {
   email: "maya.chen@example.com",
@@ -76,7 +76,7 @@ export const MAYA: Account = {
     formalName: "Increase leadership scope",
     startedOn: "2026-10-05",
   },
-  notify: { followUps: true, briefing: true, plan: true },
+  notify: { followUps: true, briefing: false, plan: true },
   org: {
     name: "Northgate Leadership Programme",
     role: "Member",

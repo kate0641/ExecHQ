@@ -12,6 +12,7 @@ import { NextStepCard } from "@/components/homepage/NextStepCard";
 import { Button } from "@/components/primitives/Button";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
+import { useToolboxLinks } from "@/lib/toolbox-links";
 import { mapFor } from "@/lib/map";
 import { hasBaseline, signalRows, withAdded } from "@/lib/presence";
 import { saveBaseline, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
@@ -39,7 +40,6 @@ import type { Horizon } from "@/mock/plan-stub";
 
 const PLAN = conceptHref("plan", "concept-3");
 const SIGNALS = conceptHref("signals", "concept-2");
-const TOOLBOX = conceptHref("toolbox-flow", "concept-1");
 const BRIEFING = conceptHref("daily-briefing", "concept-1");
 const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -115,6 +115,8 @@ function NoteCard({ eyebrow, title, note }: { eyebrow: string; title: string; no
 
 export function HomepageConcept4() {
   const loop = useLoop();
+  // A step opens its tool, or the artifact it already has (Sprint 4).
+  const links = useToolboxLinks();
   /* The server, which has no clock of hers, draws a day morning. */
   /* Once she scrolls, the status bar stops showing the top of the sky and
      takes the sky's middle colour (designer, 2026-10-11). */
@@ -172,7 +174,7 @@ export function HomepageConcept4() {
       eyebrow={C.nextIn(open.label)}
       title={step.title}
       why={stepAction ? { this: stepAction.whyThis, now: stepAction.whyNow, you: stepAction.whyYou } : { now: step.why }}
-      href={TOOLBOX}
+      href={links.forStep(step.id)}
       headingId="next-step-title"
       secondary={
         stepAction && !stepAction.artifactId
@@ -191,7 +193,7 @@ export function HomepageConcept4() {
       eyebrow={ringAction.state === "in-progress" ? C.nextIn(open.label) : M.suggestedIn(open.label)}
       title={ringAction.action.title}
       why={{ this: ringAction.action.whyThis, now: ringAction.action.whyNow, you: ringAction.action.whyYou }}
-      href={TOOLBOX}
+      href={links.forStep(ringAction.action.id)}
       headingId="ring-step-title"
       onAction={() => {
         if (ringAction.state === "not-started") loopActions.startAction(ringAction.action.id);
@@ -287,7 +289,7 @@ export function HomepageConcept4() {
                 }
               : undefined
           }
-          next={{ label: SPC.nextLabel, title: PR.tryThis.title, why: PR.tryThis.why, href: TOOLBOX, actionLabel: SPC.nextAction }}
+          next={{ label: SPC.nextLabel, title: PR.tryThis.title, why: PR.tryThis.why, href: links.forStep("pitch-podcast"), actionLabel: SPC.nextAction }}
           detailHref={SIGNALS}
           detailLabel={SPC.detailLabel}
           empty={
