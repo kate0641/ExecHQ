@@ -9780,22 +9780,28 @@ ol.signal__list {
 
 /* Once answered, the read-back takes the question's place and its type,
    with no box of its own inside the card. */
-/* Logged: what she said sits dead centre in the white area, and the pill
-   rides at the top of it without taking any of the height, so it does not
-   pull the centre up (designer, 2026-10-12). */
+/* Logged: three rows over the white area, the outer two equal, so what she
+   said is dead centre whatever its length. The pill sits in the row above
+   it, centred in that row — halfway between the blue band and her words
+   (designer, 2026-10-12). */
 .check-in--question > .check-in__logged-body {
-  position: relative;
   flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-rows: 1fr auto 1fr;
 }
 
 .check-in--question > .check-in__logged-body > .check-in__logged {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  grid-row: 1;
+  align-self: center;
+  justify-self: center;
+  /* The card's own gap sits above this row, so the pill rides up by half of
+     it to centre on the whole run from the band down to her words. A
+     centred item moves by half its margin, so the margin is the gap. */
+  margin: calc(-1 * var(--space-md)) 0 0;
+}
+
+.check-in--question > .check-in__logged-body > .check-in__readback {
+  grid-row: 2;
 }
 
 .check-in__logged {
