@@ -1,6 +1,6 @@
 # Homepage — interaction spec
 
-Approved concept: **Concept 4 — Combined**, as of 2026-10-06. The Briefing card (section 5) was changed on 2026-10-12 to show all three reads, as equal one-line bullets, with their publishers. It is written so a developer can build it without the prototype open. Where the prototype fakes something, production behavior is stated under "Prototype versus production".
+Approved concept: **Concept 4 — Combined**, as of 2026-10-06. The Briefing card (section 5) was changed on 2026-10-12 to show all three reads with their publishers: the lead in the serif, the other two as small bullets. It is written so a developer can build it without the prototype open. Where the prototype fakes something, production behavior is stated under "Prototype versus production".
 
 Concepts 1, 2 and 3 were the three ideas Concept 4 was built from. They are not specified here.
 
@@ -194,16 +194,17 @@ One card, and the whole card is the link to the Briefing page.
 It shows, top to bottom:
 
 1. The label **Today's Briefing** and, at the right, the date and number of reads ("Mon 5 Oct · 3 reads") with a chevron.
-2. **Today's three reads as equal bullets**, in the Briefing's order. Each is the headline, set in the serif (the one editorial face in the product) a step smaller than a lead headline, on one line, with its **publisher** under it in small text.
+2. The **lead read's headline**, set in the serif (the one editorial face in the product), at most two lines, with its **publisher** under it in small text.
+3. Under a thin rule, the **other two reads** as small bullets in the body face, one line each, each with its publisher under it.
 
-- **Long headlines end in an ellipsis** after one line, so the card keeps its height whatever the day's headlines are. On a phone most headlines are cut short; tapping the card opens the Briefing, where they are shown in full. Screen readers still hear each headline in full.
-- No read leads: the three look the same, so she sees at a glance what today holds.
+- **Long headlines end in an ellipsis**: the lead after two lines, the other two after one, so the card keeps its height whatever the day's headlines are. Screen readers still hear each headline in full.
+- The lead is the Briefing's first read. The other two are a preview of what else today holds.
 - The card says **nothing about why** a read is there or how it relates to the plan. Each read's reason is on the Briefing page.
 - Every read names its **publisher**, so she always knows where it comes from.
 - The headlines and publishers are the Briefing's own three reads, in the Briefing's order, so the card and the page always agree.
 - The card is **dark** so that it reads as something to read, not something to do, and stays visibly apart from the plan's recommendations. It never appears inside the ring card.
 - The whole card is **one link**. The headlines are not separate links to their reads.
-- The three stack on every screen, web included, where the full width lets most headlines show in full.
+- **On web**, where the card runs the full width, the lead takes the left (about 55%) and the other two the right, beside a thin vertical rule instead of under one. On phone and tablet they stack.
 
 ---
 

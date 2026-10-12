@@ -16,7 +16,7 @@ export const briefingEditorialStates = defineComponentStates({
   status: "draft",
   flows: ["homepage"],
   description:
-    "Today’s Briefing on the homepage: the three reads as equal bullets under a thin top rule, each headline in the serif on one line with its publication under it. Long headlines end in an ellipsis, so the card keeps its height. Visibly apart from plan recommendations.",
+    "Today’s Briefing on the homepage: the lead headline in the serif under a thin top rule, with its publication under it, then the other two reads as small bullets with theirs. Long headlines end in an ellipsis (the lead after two lines, the others after one), so the card keeps its height. On web the lead takes the left and the others the right. Visibly apart from plan recommendations.",
   component: BriefingEditorial,
   notApplicable: {
     disabled: "The Briefing is always reachable.",
@@ -30,7 +30,7 @@ export const briefingEditorialStates = defineComponentStates({
     { label: "With a cover image", description: "A photograph across the top fading into the navy; the words in white on the navy below. On Home.", props: { ...base, cover: true } },
     {
       label: "Long headlines end in an ellipsis",
-      description: "Each headline stops after one line, so the card keeps its height. The full headlines stay in the link’s name.",
+      description: "The lead stops after two lines and the others after one, so the card keeps its height. The full headlines stay in the link’s name.",
       props: {
         ...base,
         reads: [
@@ -40,7 +40,7 @@ export const briefingEditorialStates = defineComponentStates({
         ],
       },
     },
-    { label: "One read only", description: "With one read given, the card shows one bullet.", props: { ...base, reads: base.reads.slice(0, 1) } },
+    { label: "Lead read only", description: "With one read given, the card shows the lead alone.", props: { ...base, reads: base.reads.slice(0, 1) } },
     { label: "Hover", props: { ...base, demo: "hover" } },
     { label: "Focus", props: { ...base, demo: "focus" } },
     { label: "Pressed", props: { ...base, demo: "active" } },
