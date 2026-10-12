@@ -1530,6 +1530,7 @@ button.link {
 
 .devtools__hub-button,
 .devtools__color,
+.devtools__replay,
 .devtools__collapse {
   display: grid;
   place-items: center;
@@ -1541,6 +1542,7 @@ button.link {
 
 .devtools__hub-button:hover,
 .devtools__color:hover:not(:disabled),
+.devtools__replay:hover,
 .devtools__collapse:hover {
   background-color: var(--color-surface-hover);
   color: var(--color-text-primary);
@@ -3047,6 +3049,17 @@ ol.concierge-list {
 
 .feature-card__head--inverse .feature-card__title {
   color: var(--color-text-inverse);
+}
+
+/* Text in a navy header never runs past one line (designer, 2026-10-11).
+   If copy grows too long it is cut with an ellipsis, so the overflow shows
+   at once in review and the copy gets shortened, rather than the header
+   quietly growing. The full title stays available to screen readers. */
+.feature-card__head--inverse :is(.feature-card__eyebrow, .feature-card__title),
+.map-home .signal-picture--card > .account-card__top .account-card__name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .feature-card__body {
@@ -9248,6 +9261,155 @@ ol.signal__list {
   outline-offset: var(--focus-ring-offset);
 }
 
+/* With a cover: a photograph across the top of a taller card, fading into
+   the navy, and the words in white on the navy below it (designer,
+   2026-10-09). The picture is decoration, so it lives in CSS. */
+.briefing-editorial--cover {
+  --briefing-cover-height: 9.5rem;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  justify-content: flex-end;
+  padding-top: var(--briefing-cover-height);
+  /* No border, so the photograph runs right to the card's edge. */
+  border: 0;
+  background-color: var(--color-surface-briefing-cover);
+  /* Every word on it is white. */
+  --color-text-secondary: var(--color-text-inverse);
+  --color-text-muted: var(--color-text-inverse);
+}
+
+.briefing-editorial--cover::before,
+.briefing-editorial--cover::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.briefing-editorial--cover::before {
+  /* The whole width of the picture, from its top, so little is cropped. */
+  bottom: 0;
+  background: url("./images/briefing-cover.jpg") top center / 100% auto no-repeat;
+  filter: var(--image-filter);
+}
+
+/* The photograph melts into the dark green before the words begin. The
+   fade is eased (many soft steps, not one straight ramp, which leaves a
+   visible line), and two soft swells of green rise from the bottom at
+   different heights, so its edge is uneven like the picture rather than a
+   level horizon. */
+.briefing-editorial--cover::after {
+  --cover-green: var(--color-surface-briefing-cover);
+  /* The photograph stays clear for its light top (about 85px), then a
+     shorter fade carries it into the green. */
+  --fade-from: calc(var(--briefing-cover-height) * 0.56);
+  --fade-to: calc(var(--briefing-cover-height) + var(--space-sm));
+  bottom: 0;
+  background:
+    radial-gradient(ellipse 70% 38% at 18% calc(var(--fade-to) - var(--space-lg)), color-mix(in srgb, var(--cover-green) 55%, transparent), transparent 70%),
+    radial-gradient(ellipse 60% 30% at 85% calc(var(--fade-to) - var(--space-xs)), color-mix(in srgb, var(--cover-green) 45%, transparent), transparent 70%),
+    linear-gradient(
+      to bottom,
+      transparent var(--fade-from),
+      color-mix(in srgb, var(--cover-green) 4%, transparent) calc(var(--fade-from) + (var(--fade-to) - var(--fade-from)) * 0.15),
+      color-mix(in srgb, var(--cover-green) 14%, transparent) calc(var(--fade-from) + (var(--fade-to) - var(--fade-from)) * 0.3),
+      color-mix(in srgb, var(--cover-green) 30%, transparent) calc(var(--fade-from) + (var(--fade-to) - var(--fade-from)) * 0.45),
+      color-mix(in srgb, var(--cover-green) 50%, transparent) calc(var(--fade-from) + (var(--fade-to) - var(--fade-from)) * 0.6),
+      color-mix(in srgb, var(--cover-green) 70%, transparent) calc(var(--fade-from) + (var(--fade-to) - var(--fade-from)) * 0.75),
+      color-mix(in srgb, var(--cover-green) 87%, transparent) calc(var(--fade-from) + (var(--fade-to) - var(--fade-from)) * 0.9),
+      var(--cover-green) var(--fade-to)
+    );
+}
+
+/* Light through a window: soft patches of white drifting over the
+   photograph, under the fade. Only position and opacity move, so the phone's
+   graphics chip does the work. It plays once, for 5 seconds when Home
+   opens, then rests: anything that moves on its own for longer needs a
+   pause control (WCAG 2.2.2). Still with reduced motion. */
+.briefing-editorial__light {
+  position: absolute;
+  inset: 0 0 auto;
+  height: calc(var(--briefing-cover-height) + var(--space-lg));
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Dappled light: three soft patches of light and two of shade, each
+   flickering on its own uneven rhythm with a little drift, like sun through
+   leaves. Never more than about one flash a second, and never a hard flash
+   (WCAG 2.3.1). */
+.briefing-editorial__light > span {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--color-cover-light), transparent);
+  opacity: 0.25;
+}
+
+.briefing-editorial__light > span:nth-child(1) { width: 50%; height: 70%; top: 15%; left: 2%; }
+.briefing-editorial__light > span:nth-child(2) { width: 42%; height: 60%; top: 5%; left: 48%; }
+.briefing-editorial__light > span:nth-child(3) { width: 36%; height: 55%; top: 40%; left: 62%; }
+
+/* The shade: the card's own dark green, softly, kept below the name and
+   date so their contrast holds. */
+.briefing-editorial__light > span:nth-child(n + 4) {
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--color-surface-briefing-cover) 45%, transparent), transparent);
+  opacity: 0;
+}
+
+.briefing-editorial__light > span:nth-child(4) { width: 45%; height: 60%; top: 25%; left: 28%; }
+.briefing-editorial__light > span:nth-child(5) { width: 35%; height: 50%; top: 38%; left: 70%; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* The photograph sways underneath. */
+  .briefing-editorial--cover::before {
+    animation: cover-photo-drift 5s ease-in-out both;
+  }
+
+  .briefing-editorial__light > span {
+    animation: cover-flicker 4.2s ease-in-out both;
+  }
+
+  /* Held on its first frame until the card is in view and she pauses on it
+     (BriefingEditorial sets data-play). */
+  .briefing-editorial--cover:not([data-play])::before,
+  .briefing-editorial--cover:not([data-play]) .briefing-editorial__light > span {
+    animation-play-state: paused;
+  }
+
+  /* Once through, staggered, all done by 5 seconds. */
+  .briefing-editorial__light > span:nth-child(2) { animation-duration: 4.4s; animation-delay: 0.3s; }
+  .briefing-editorial__light > span:nth-child(3) { animation-duration: 4.2s; animation-delay: 0.8s; }
+  .briefing-editorial__light > span:nth-child(4) { animation-name: cover-shade; animation-duration: 4.6s; animation-delay: 0.2s; }
+  .briefing-editorial__light > span:nth-child(5) { animation-name: cover-shade; animation-duration: 4s; animation-delay: 0.9s; }
+}
+
+@keyframes cover-photo-drift {
+  0% { transform: scale(1.2) translate(-5%, 2%); }
+  100% { transform: scale(1.1) translate(0, 0); }
+}
+
+/* An uneven glint: brightens fully, dips away, catches again, drifting. */
+@keyframes cover-flicker {
+  0%, 100% { opacity: 0.25; transform: translate(0, 0); }
+  14% { opacity: 1; transform: translate(3%, -2%); }
+  28% { opacity: 0.1; transform: translate(6%, 0); }
+  44% { opacity: 0.95; transform: translate(4%, 3%); }
+  60% { opacity: 0.05; transform: translate(-2%, 4%); }
+  76% { opacity: 0.85; transform: translate(-4%, 1%); }
+  90% { opacity: 0.2; }
+}
+
+/* Shade passing over, out of step with the light. */
+@keyframes cover-shade {
+  0%, 100% { opacity: 0; transform: translate(0, 0); }
+  25% { opacity: 1; transform: translate(-6%, 3%); }
+  50% { opacity: 0.2; transform: translate(-3%, -2%); }
+  72% { opacity: 0.9; transform: translate(4%, 2%); }
+}
+
 .briefing-editorial__top {
   display: flex;
   flex-wrap: wrap;
@@ -9276,6 +9438,26 @@ ol.signal__list {
   font-weight: var(--weight-serif-medium);
   color: var(--color-text-primary);
   line-height: var(--leading-normal);
+}
+
+/* On the cover, the name and date sit at the top on the pale photograph,
+   in the page's near-black (designer, 2026-10-09). */
+.briefing-editorial--cover .briefing-editorial__top {
+  position: absolute;
+  top: var(--space-md);
+  left: var(--space-md);
+  right: var(--space-md);
+}
+
+.briefing-editorial--cover .briefing-editorial__heading,
+.briefing-editorial--cover .briefing-editorial__meta {
+  color: var(--color-text-on-cover);
+}
+
+/* On the cover the headline is a step larger (designer, 2026-10-09). */
+.briefing-editorial--cover .briefing-editorial__lead {
+  font-size: var(--text-xl);
+  line-height: var(--leading-snug);
 }
 
 .briefing-editorial__foot {
@@ -12154,6 +12336,133 @@ ul.login__never {
     linear-gradient(var(--color-sky-night-top), var(--color-sky-night) 60%, var(--color-sky-night-low));
 }
 
+
+/* Trial (designer, 2026-10-10): the sky turned the other way up. Its glow
+   sits at the very top of the screen, round the camera and the status bar,
+   and it fades down through the date and behind the rings into the page,
+   about halfway down the next-step card's navy head. One gradient, painted
+   in three slices (status bar, band, and a tail under the band) that line
+   up as one. */
+.device__screen:has(.map-home) {
+  --home-sky-tail: 18.25rem;
+  --home-sky-total: calc(var(--home-header-height) + var(--home-sky-tail));
+  --sky-top-edge: var(--color-sky-day);
+  --sky-top-ring: var(--color-sky-day-top-ring);
+  --sky-top-core: var(--color-sky-day-top-core);
+  --sky-top-core-size: 75% 32%;
+  --home-sky-full:
+    radial-gradient(ellipse var(--sky-top-core-size, 55% 24%) at 50% 0, var(--sky-top-core), transparent),
+    radial-gradient(ellipse var(--sky-top-ring-size, 110% 45%) at 50% 0, var(--sky-top-ring), transparent 80%),
+    var(--sky-top-fade);
+  /* An eased fade from the sky's blue into the page, blended in oklab. */
+  --sky-top-fade: linear-gradient(
+    in oklab,
+    var(--sky-top-edge) 0%,
+    var(--sky-top-edge) 10%,
+    color-mix(in oklab, var(--sky-top-edge) 97%, var(--color-surface)) 19.0%,
+    color-mix(in oklab, var(--sky-top-edge) 90%, var(--color-surface)) 28.0%,
+    color-mix(in oklab, var(--sky-top-edge) 78%, var(--color-surface)) 37.0%,
+    color-mix(in oklab, var(--sky-top-edge) 65%, var(--color-surface)) 46.0%,
+    color-mix(in oklab, var(--sky-top-edge) 50%, var(--color-surface)) 55.0%,
+    color-mix(in oklab, var(--sky-top-edge) 35%, var(--color-surface)) 64.0%,
+    color-mix(in oklab, var(--sky-top-edge) 22%, var(--color-surface)) 73.0%,
+    color-mix(in oklab, var(--sky-top-edge) 10%, var(--color-surface)) 82.0%,
+    color-mix(in oklab, var(--sky-top-edge) 3%, var(--color-surface)) 91.0%,
+    var(--color-surface) 100%
+  );
+}
+
+.device__screen:has(.map-home__greeting[data-sky="dawn"]) {
+  --sky-top-edge: var(--color-sky-dawn);
+  --sky-top-core-size: 55% 24%;
+  --sky-top-ring: var(--color-sky-heart-warm);
+  --sky-top-core: var(--color-sky-heart-light);
+}
+
+.device__screen:has(.map-home__greeting[data-sky="dusk"]) {
+  --sky-top-edge: var(--color-sky-dusk-edge-top);
+  --sky-top-core-size: 55% 24%;
+  --sky-top-ring: var(--color-sky-dusk-top-ring);
+  --sky-top-core: var(--color-sky-dusk-top-core);
+}
+
+/* Night is day's sky with the sun put out (designer, 2026-10-11): the
+   same radiating shape, the darkest navy at the centre in a navy ring, over
+   a deeper blue than day's so no light blue gap opens between the navy and
+   the lime it fades out to behind the rings. */
+.device__screen:has(.map-home__greeting[data-sky="night"]) {
+  --sky-top-edge: var(--color-sky-night-edge);
+  --sky-top-ring: var(--color-sky-night-top-ring);
+  --sky-top-core: var(--color-sky-night-top-core);
+  --sky-top-core-size: 85% 34%;
+  --sky-top-ring-size: 140% 48%;
+  --sky-top-fade: linear-gradient(
+    in oklab,
+    var(--color-sky-night-edge) 0%,
+    var(--color-sky-night-edge) 36%,
+    color-mix(in oklab, var(--color-sky-night-edge) 97%, var(--color-sky-night-fade-end)) 40.0%,
+    color-mix(in oklab, var(--color-sky-night-edge) 90%, var(--color-sky-night-fade-end)) 44.0%,
+    color-mix(in oklab, var(--color-sky-night-edge) 78%, var(--color-sky-night-fade-end)) 48.0%,
+    color-mix(in oklab, var(--color-sky-night-edge) 65%, var(--color-sky-night-fade-end)) 52.0%,
+    color-mix(in oklab, var(--color-sky-night-edge) 50%, var(--color-sky-night-fade-end)) 56.0%,
+    color-mix(in oklab, var(--color-sky-night-edge) 35%, var(--color-sky-night-fade-end)) 60.0%,
+    color-mix(in oklab, var(--color-sky-night-edge) 22%, var(--color-sky-night-fade-end)) 64.0%,
+    color-mix(in oklab, var(--color-sky-night-edge) 10%, var(--color-sky-night-fade-end)) 68.0%,
+    color-mix(in oklab, var(--color-sky-night-edge) 3%, var(--color-sky-night-fade-end)) 72.0%,
+    var(--color-sky-night-fade-end) 76%,
+    color-mix(in oklab, var(--color-sky-night-fade-end) 90%, var(--color-surface)) 80.8%,
+    color-mix(in oklab, var(--color-sky-night-fade-end) 65%, var(--color-surface)) 85.6%,
+    color-mix(in oklab, var(--color-sky-night-fade-end) 35%, var(--color-surface)) 90.4%,
+    color-mix(in oklab, var(--color-sky-night-fade-end) 10%, var(--color-surface)) 95.2%,
+    var(--color-surface) 100%
+  );
+}
+
+/* The heading sits on the navy at night, so it is white. */
+.device__screen:has(.map-home__greeting[data-sky="night"]) .map-home__heading {
+  color: var(--color-text-inverse);
+}
+
+.device__screen:has(.map-home) > .device__statusbar,
+.device__screen:has(.map-home) .map-home__greeting {
+  background-image: var(--home-sky-full);
+  background-size: 100% var(--home-sky-total);
+  background-repeat: no-repeat;
+}
+
+.device__screen:has(.map-home) > .device__statusbar {
+  background-position: 0 0;
+}
+
+.device__screen:has(.map-home) .map-home__greeting {
+  background-position: 0 calc(var(--home-header-band) - var(--home-header-height));
+}
+
+/* The tail under the band, behind the rings. The section is its own layer,
+   so the tail sits behind the rings but in front of the page. */
+.map-home__lead {
+  isolation: isolate;
+}
+
+.map-home__greeting {
+  position: relative;
+}
+
+.map-home__greeting::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: var(--home-sky-tail);
+  z-index: -1;
+  pointer-events: none;
+  background-image: var(--home-sky-full);
+  background-size: 100% var(--home-sky-total);
+  background-position: 0 calc(-1 * var(--home-header-height));
+  background-repeat: no-repeat;
+}
+
 /* At night the status bar and the greeting turn light. */
 .device__screen:has(.map-home__greeting[data-sky="night"]) > .device__statusbar,
 .device__screen:has(.map-home__greeting[data-sky="night"]) > .device__statusbar .device__statusbar-indicators,
@@ -12168,10 +12477,17 @@ ul.login__never {
 }
 
 .device__screen:has(.map-home) > .device__statusbar {
-  background-image: var(--home-header-wash);
-  background-position: top;
-  background-size: 100% var(--home-header-height);
+  background-image: var(--home-sky-full);
+  background-position: 0 0;
+  background-size: 100% var(--home-sky-total);
   background-repeat: no-repeat;
+}
+
+/* As she scrolls, the status bar's slice of sky scrolls with the page, so
+   the status bar and the sky under it stay one sky with no edge, and holds
+   once the sky's middle colour reaches it (--sky-scrolled, in px). */
+.device__screen:has(.map-home) > .device__statusbar {
+  background-position: 0 calc(-1 * var(--sky-scrolled, 0px));
 }
 
 /* For now Home has no wordmark header: the greeting band is the top of the
@@ -12194,8 +12510,8 @@ ul.login__never {
   color: var(--color-text-secondary);
 }
 
-/* With motion allowed, the greeting comes first, then the date gently takes
-   its place: the greeting lifts and fades out as the date rises and fades in,
+/* With motion allowed, the greeting holds for 5 seconds (designer,
+   2026-10-09), then the date gently takes its place: the greeting lifts and fades out as the date rises and fades in,
    in the same spot and the same size. Both stay in the page for screen
    readers. Without motion, the date stays as the line under the greeting. */
 @media (prefers-reduced-motion: no-preference) {
@@ -12217,11 +12533,11 @@ ul.login__never {
     font-weight: var(--weight-semibold);
     line-height: var(--leading-snug);
     color: inherit;
-    animation: map-greeting-in 600ms var(--easing-standard) 4200ms both;
+    animation: map-greeting-in 600ms var(--easing-standard) 5200ms both;
   }
 
   .map-home__greeting b {
-    animation: map-greeting-out 500ms var(--easing-exit) 4000ms both;
+    animation: map-greeting-out 500ms var(--easing-exit) 5000ms both;
   }
 
   /* Once it takes the greeting's place, the date is the greeting's colour. */
@@ -12370,11 +12686,6 @@ ul.map-rings {
   transition: background-color var(--duration-fast);
 }
 
-.map-rings__ring:hover,
-.map-rings__ring.is-hover {
-  background-color: var(--color-surface-hover);
-}
-
 .map-rings__ring[aria-pressed="true"] {
   background-color: var(--color-ring-selected);
   box-shadow: inset 0 0 0 var(--border-width-thin) var(--color-ring-selected-edge);
@@ -12419,6 +12730,17 @@ ul.map-rings {
 
 .map-rings__done { stroke: var(--color-ring-done); }
 .map-rings__track { stroke: var(--color-ring-track); }
+/* Over the sky, the rings not chosen carry a soft light blue glow, every
+   piece and every sky, so they sit on the sky rather than in it (designer,
+   2026-10-11, trial; it was white, which vanished on the pale skies). */
+.map-home .map-rings__ring:not([aria-pressed="true"]) :is(.map-rings__done, .map-rings__track, .map-rings__fades) {
+  filter:
+    drop-shadow(0 0 2px color-mix(in srgb, var(--color-ring-lift) 75%, transparent))
+    drop-shadow(0 0 4px color-mix(in srgb, var(--color-ring-lift) 35%, transparent));
+}
+
+/* Over the sky, the rings not chosen draw their track in white (trial). */
+.map-home .map-rings__ring:not([aria-pressed="true"]) .map-rings__track { stroke: var(--color-ring-track-on-sky); }
 /* --fade is how far along the in-progress band a slice sits, 0% to 100%. */
 .map-rings__fade { stroke: color-mix(in srgb, var(--color-ring-progress-end) var(--fade), var(--color-ring-progress-start)); }
 
@@ -12980,6 +13302,84 @@ ul.card-carousel__track {
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
+/* A number typed into a short field, with what it counts beside it (Home's
+   Signal Picture): the label and hint on the left, the standard text field
+   on the right. */
+.number-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  /* The same as the form's gap under each row, so every field sits midway
+     between the lines above and below it. */
+  padding-top: var(--space-md);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+/* The followers come first, straight under the introduction. */
+.baseline-form__about .number-field {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.number-field__field.field__control {
+  flex: none;
+  width: 4.5rem;
+  padding-inline: var(--space-sm);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.number-field--wide .number-field__field.field__control {
+  width: 7.5rem;
+}
+
+.number-field__field:disabled {
+  background-color: var(--color-surface-disabled);
+  color: var(--color-text-muted);
+}
+
+.number-field__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  min-width: 0;
+}
+
+.number-field__text label {
+  font-family: var(--type-label-font);
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  line-height: var(--type-label-leading);
+  letter-spacing: var(--type-label-tracking);
+  word-spacing: var(--type-label-word-spacing);
+}
+
+.number-field__text span {
+  font-family: var(--type-caption-font);
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  line-height: var(--type-caption-leading);
+  letter-spacing: var(--type-caption-tracking);
+  word-spacing: var(--type-caption-word-spacing);
+  color: var(--color-text-secondary);
+}
+
+.stepper__text {
+  flex: 1;
+}
+
+.baseline-form__with-icon {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+}
+
+.baseline-form__with-icon > :last-child {
+  flex: 1;
+  min-width: 0;
+}
+
 .stepper__text {
   display: flex;
   flex-direction: column;
@@ -13195,6 +13595,90 @@ ul.templates__outcomes {
   margin: 0;
   font-size: var(--text-sm);
   color: var(--color-text-secondary);
+}
+
+/* On Home the Signal Picture is a two-tone card: its title in a navy head,
+   everything else on a white body below, as the feature card does. */
+.map-home .signal-picture--card.account-card {
+  gap: var(--space-md);
+  /* Skip for now is a 44px tap target, so its words sit 14px above the
+     button's foot; a short pad leaves them as far from the card's bottom as
+     the title is from its top (designer, 2026-10-10). */
+  padding: 0 0 var(--space-xs);
+  overflow: hidden;
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+}
+
+.map-home .signal-picture--card > .account-card__top {
+  padding: var(--space-feature-padding);
+  background-color: var(--color-surface-inverse);
+}
+
+/* The head is navy with the title in the yellow used on navy, as the
+   next-step card's eyebrow (designer, 2026-10-10). */
+.map-home .signal-picture--card > .account-card__top .account-card__name {
+  color: var(--color-accent-on-inverse);
+}
+
+.map-home .signal-picture--card.account-card {
+  border-top-color: var(--color-surface-inverse);
+}
+
+/* The date beside the title sits on the navy too. */
+.map-home .signal-picture--card > .account-card__top .account-card__asof {
+  color: var(--color-text-inverse-muted);
+}
+
+/* The note of what has moved is a lime strip straight under the navy head,
+   edge to edge, not a box inside the card (designer, 2026-10-11). */
+.map-home .signal-picture--card > ul.spark {
+  margin-inline: 0;
+  margin-top: calc(-1 * var(--space-md));
+}
+
+.map-home .signal-picture--card .spark__note {
+  border-radius: 0;
+  box-shadow: none;
+  padding-inline: var(--space-feature-padding) var(--space-xs);
+}
+
+/* The × is small and quiet: a lighter grey. */
+.map-home .signal-picture--card .spark__note .spark__close {
+  color: var(--color-text-muted);
+}
+
+/* Drawn smaller than the sparkle (16px to its 18px), so its line is
+   thickened to match: both show about 1.35px. */
+.map-home .signal-picture--card .spark__note .spark__close svg {
+  stroke-width: 1.7;
+}
+
+/* The sparkle lines up with the left edge of the rows below. */
+.map-home .signal-picture--card .spark__mark {
+  width: auto;
+  place-items: center start;
+  /* The drawing sits a hair inside its box; pull it back to the edge. */
+  margin-left: calc(-1 * var(--space-3xs));
+  color: var(--color-icon-default);
+  /* One eyebrow line tall, level with it, so the sparkle centres on PRESS. */
+  height: calc(var(--type-eyebrow-size) * var(--type-eyebrow-leading));
+  margin-top: calc(var(--space-3xs) / 2);
+}
+
+/* A clear pause between the introduction and the first number. */
+.map-home .signal-picture--card .baseline-form__intro {
+  margin-bottom: var(--space-sm);
+}
+
+/* A clear pause between the last number and the save. */
+.map-home .signal-picture--card .baseline-form__actions {
+  margin-top: var(--space-md);
+}
+
+.map-home .signal-picture--card > :not(.account-card__top) {
+  margin-inline: var(--space-feature-padding);
 }
 
 /* -----------------------------------------------------------------------------
@@ -15673,6 +16157,34 @@ ul.plan-guided__sparks {
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   font-variant-numeric: tabular-nums;
+}
+
+
+/* -----------------------------------------------------------------------------
+   SELECTED STEPS UP A WEIGHT (designer, 2026-10-11)
+   Across the product, the label of whatever is chosen or current — a ring,
+   a chip, a nav item, a step — steps up to bold, so the choice is said by
+   the type as well as by colour. Each label sits in .u-bold-hold, which
+   holds its bold width in reserve, so nothing shifts when the choice moves.
+   -------------------------------------------------------------------------- */
+.u-bold-hold {
+  display: inline-grid;
+}
+
+.u-bold-hold::after {
+  content: attr(data-label);
+  grid-area: 1 / 1;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  font-weight: var(--weight-bold);
+}
+
+:is([aria-pressed="true"], [aria-current]:not([aria-current="false"]), .is-current) > .u-bold-hold,
+[aria-pressed="true"] .chip-group__title.u-bold-hold,
+.map-rings__ring[aria-pressed="true"] .u-bold-hold,
+.settings-row[aria-current="true"] .u-bold-hold {
+  font-weight: var(--weight-bold);
 }
 
 /* ===========================================================================

@@ -157,6 +157,9 @@ export const SPARK_COPY = {
   recorded: (what: string) => `ExecHQ recorded: ${what}`,
   hide: "Not right? Hide it",
   dismiss: "Dismiss",
+  /** Before the source on Home's Signal Picture strip: "Great job · Press".
+   *  The designer's wording (2026-10-11), for Kate to confirm. */
+  kicker: "Great job",
   dismissNote: (text: string) => `Dismiss: ${text}`,
   /** The small words above each note, by where it came from. */
   source: {
@@ -167,7 +170,7 @@ export const SPARK_COPY = {
     other: "Something you added",
   },
   other: (what: string) => `Added: ${what}.`,
-  podcast: (where: string, ordinal: string) => `Great job! You’re on ${where}, your ${ordinal} podcast appearance.`,
+  podcast: (where: string, ordinal: string) => `You’re on ${where}, your ${ordinal} podcast appearance.`,
   press: (where: string, ordinal: string) => `Great to see you in ${where}. That’s your ${ordinal} press mention.`,
   speaking: (where: string, ordinal: string) => `Well done! You’re speaking at ${where}, your ${ordinal} engagement.`,
   writing: (title: string, ordinal: string) => `“${title}” is up. Nicely done, that’s your ${ordinal} piece.`,

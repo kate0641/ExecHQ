@@ -35,7 +35,7 @@ export function QuickReplies({ label, replies, onChoose, className }: QuickRepli
             aria-pressed={reply.pressed}
             onClick={() => onChoose(reply.label)}
           >
-            {reply.label}
+            <span className="u-bold-hold" data-label={reply.label}>{reply.label}</span>
           </button>
         </li>
       ))}

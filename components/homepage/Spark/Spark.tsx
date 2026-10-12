@@ -25,11 +25,15 @@ export interface SparkProps {
    *  the first sentence is a yellow headline beside the source, the rest sits
    *  under it, and an × dismisses it (Homepage). */
   tone?: "note" | "celebrate";
+  /** Dismiss with an × rather than the word (Home's Signal Picture strip). */
+  closeIcon?: boolean;
+  /** A word before the source, set off by a dot: "Great job · Press". */
+  kicker?: string;
   className?: string;
 }
 
 /** The first sentence, said as a headline, and the rest. The words are
- *  unchanged: "Great job!" and "You're on The Modern CMO, …". */
+ *  unchanged: "Well done!" and "You’re speaking at …". */
 function splitFirst(text: string): [string, string] {
   const m = /^([^]+?[.!?])\s+(\S[^]*)$/.exec(text);
   return m ? [m[1], m[2]] : [text, ""];
@@ -44,7 +48,7 @@ function splitFirst(text: string): [string, string] {
  * It sits inline at the top of the signals section, never blocks anything,
  * and goes for good when dismissed. With nothing to note it is not there.
  */
-export function Spark({ items, label, dismissLabel, dismissName, onDismiss, onAction, tone = "note", className }: SparkProps) {
+export function Spark({ items, label, dismissLabel, dismissName, onDismiss, onAction, tone = "note", closeIcon, kicker, className }: SparkProps) {
   if (items.length === 0) return null;
   if (tone === "celebrate") {
     return (
@@ -75,7 +79,16 @@ export function Spark({ items, label, dismissLabel, dismissName, onDismiss, onAc
             <Icon name="spark" size={18} />
           </span>
           <div className="spark__text">
-            <span className="spark__source">{item.source}</span>
+            <span className="spark__source">
+              {kicker ? (
+                <>
+                  {kicker}
+                  <span aria-hidden="true"> · </span>
+                  <span className="u-visually-hidden">, </span>
+                </>
+              ) : null}
+              {item.source}
+            </span>
             <p>{item.text}</p>
           </div>
           <div className="spark__actions">
@@ -84,8 +97,14 @@ export function Spark({ items, label, dismissLabel, dismissName, onDismiss, onAc
                 {item.actionLabel}
               </Button>
             ) : null}
-            <Button variant="ghost" size="sm" aria-label={dismissName(item.text)} onClick={() => onDismiss(item.id)}>
-              {dismissLabel}
+            <Button
+              variant="ghost"
+              size="sm"
+              className={closeIcon ? "spark__close" : undefined}
+              aria-label={dismissName(item.text)}
+              onClick={() => onDismiss(item.id)}
+            >
+              {closeIcon ? <Icon name="close" size={16} /> : dismissLabel}
             </Button>
           </div>
         </li>

@@ -44,7 +44,7 @@ export function AppNav({ destinations, currentFlow, label, concept }: AppNavProp
                   className="chrome__nav-link"
                   aria-current={item.flowSlug === currentFlow ? "page" : undefined}
                 >
-                  {item.label}
+                  <span className="u-bold-hold" data-label={item.label}>{item.label}</span>
                 </Link>
               </li>
             ))}

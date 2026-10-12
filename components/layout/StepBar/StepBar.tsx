@@ -48,7 +48,7 @@ export function StepBar({
                 <span className="step-bar__number" aria-hidden="true">
                   {index + 1}
                 </span>
-                {item.label}
+                <span className="u-bold-hold" data-label={item.label}>{item.label}</span>
               </button>
             </li>
           );

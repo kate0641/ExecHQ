@@ -73,6 +73,17 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
     note: "Kulim Park for headings only; Inter for everything she reads or presses.",
     rules: [
       {
+        rule: "Text in a navy header is one line, never more. Copy that would wrap is cut with an ellipsis, so it is caught and shortened.",
+        why: "A navy header is a single, clear statement. Write it short: Add 3 recent accomplishments, not Add three recent accomplishments.",
+        from: "Home",
+      },
+      {
+        rule: "Whatever is chosen or current steps up a weight: its label turns bold. Each label holds its bold width, so nothing shifts when the choice moves.",
+        why: "The choice is said by the type as well as by colour, which helps when colour alone is hard to see. Rings, chips, the nav, steps, filters.",
+        from: "Home",
+        uses: ["--weight-bold", ".u-bold-hold"],
+      },
+      {
         rule: "Kulim Park is for display, title and heading. Labels, eyebrows, subheadings, body and captions are Inter.",
         why: "Kulim gives the page its voice in a few places; Inter keeps everything else calm and easy to read. This covers the advisor's name, the where-you-are chip and chat replies too.",
         from: "Home, Navigation",

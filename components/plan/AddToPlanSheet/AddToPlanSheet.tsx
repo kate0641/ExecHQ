@@ -52,7 +52,7 @@ export function AddToPlanSheet({ open, onClose, today, onAdd, inline }: AddToPla
           <legend className="agenda__legend">{A.addWhen}</legend>
           {choices.map((c, i) => (
             <button key={c.bucket} type="button" className="agenda__chip" aria-pressed={when === i} onClick={() => setWhen(i)}>
-              {c.label}
+              <span className="u-bold-hold" data-label={c.label}>{c.label}</span>
             </button>
           ))}
         </fieldset>

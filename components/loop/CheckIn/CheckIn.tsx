@@ -260,7 +260,7 @@ export function CheckIn({
         <ol className="check-in__steps" aria-label="Where it is in the Loop">
           {steps.map((s, i) => (
             <li key={s.label} className={i < at ? "is-done" : i === at ? "is-now" : undefined} aria-current={i === at ? "step" : undefined}>
-              <b>{s.label}</b>
+              <b className="u-bold-hold" data-label={s.label}>{s.label}</b>
               <span>{s.when || " "}</span>
             </li>
           ))}

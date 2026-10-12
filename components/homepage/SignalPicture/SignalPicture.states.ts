@@ -53,6 +53,7 @@ export const signalPictureStates = defineComponentStates({
   variants: [
     { label: "Default — overview, a note and a next step", props: { ...base, spark } },
     { label: "No note — nothing has moved lately", props: base },
+    { label: "Next step under the card — as on Home", description: "The next step sits on its own under the Signal Picture instead of inside it.", props: { ...base, spark, nextOutside: true } },
     { label: "Empty — asking where she is starting from", props: { ...base, rows: [], spark: undefined, next: undefined, empty: createElement(BaselineForm, { onSave: noop, onSkip: noop }) } },
     {
       label: "Long text — a long next step wraps",
