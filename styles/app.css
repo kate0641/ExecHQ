@@ -9614,9 +9614,6 @@ ol.signal__list {
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-xl);
   background-color: var(--color-surface-raised);
-  /* The blue bands at the head and foot run to the card's edge, so they are
-     clipped to its corners. */
-  overflow: hidden;
 }
 
 .check-in__about {
@@ -9651,14 +9648,9 @@ ol.signal__list {
   justify-content: center;
 }
 
-/* The two lesser answers sit at opposite ends of a matching band across the
-   foot, with no hairline above them. */
+/* The two lesser answers sit at opposite ends of the footer. */
 .check-in--question > .check-in__quiet {
   justify-content: space-between;
-  margin: 0 calc(-1 * var(--space-md)) calc(-1 * var(--space-md));
-  padding: var(--space-sm) var(--space-md);
-  border-top: 0;
-  background-color: var(--color-surface-check-in-band);
 }
 
 .check-in--question .check-in__about {
@@ -9667,14 +9659,10 @@ ol.signal__list {
   font-size: var(--type-caption-size);
   font-weight: var(--weight-regular);
   line-height: var(--type-caption-leading);
-  /* Navy on the band, not the page's grey (designer, 2026-10-12): 11.3:1. */
-  color: var(--color-text-on-check-in-band);
-  /* What it is about rides in a light blue band across the head of the
-     card, to the edges. The band does the separating, so there is no
-     hairline under it (designer, 2026-10-12). */
-  margin: calc(-1 * var(--space-md)) calc(-1 * var(--space-md)) 0;
-  padding: var(--space-sm) var(--space-md);
-  background-color: var(--color-surface-check-in-band);
+  color: var(--color-text-secondary);
+  /* A hairline sets the context apart from the question under it. */
+  padding-bottom: var(--space-sm);
+  border-bottom: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
 .check-in__about b {
