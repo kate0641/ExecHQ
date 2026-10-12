@@ -9636,16 +9636,17 @@ ol.signal__list {
   line-height: var(--leading-snug);
 }
 
-/* The publication under its headline: the caption role, a step heavier, and
-   the card's full-strength ink (designer, 2026-10-12 — it and the bullet
-   headline have swapped colours). */
+/* The publication under its headline, quieter than the read it belongs to
+   (designer, 2026-10-12): the caption role at its own regular weight, in the
+   card's softer green. The headline above it carries the weight and the
+   full-strength ink, so the read is what is seen first. */
 .briefing-editorial__source {
   font-family: var(--type-caption-font);
   font-size: var(--type-caption-size);
-  font-weight: var(--weight-semibold);
+  font-weight: var(--type-caption-weight);
   line-height: var(--type-caption-leading);
   letter-spacing: var(--type-caption-tracking);
-  color: var(--color-text-primary);
+  color: var(--color-text-secondary);
 }
 
 /* The other reads: small bullets under a rule, each running to as many
@@ -9678,16 +9679,16 @@ ol.signal__list {
   background-color: var(--color-text-secondary);
 }
 
-/* The two lesser reads take the body-small role: the size Kate set for them,
-   on the system's own supporting-text role, in the card's quieter green
-   (designer, 2026-10-12 — swapped with the publication under it). */
+/* The two lesser reads are headlines, so they lead their own bullet: the
+   size Kate set for them, a step heavier than their publication and in the
+   card's full-strength ink (designer, 2026-10-12). */
 .briefing-editorial__title {
   font-family: var(--type-body-sm-font);
   font-size: var(--type-body-sm-size);
-  font-weight: var(--type-body-sm-weight);
+  font-weight: var(--weight-semibold);
   line-height: var(--type-body-sm-leading);
   letter-spacing: var(--type-body-sm-tracking);
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
 }
 
 /* On web the card spans the page: the lead takes the left, the others the
