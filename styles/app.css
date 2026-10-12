@@ -12763,9 +12763,9 @@ ul.map-rings {
     drop-shadow(0 0 4px color-mix(in srgb, var(--color-halo) 35%, transparent));
 }
 
-/* On dawn's and day's pale skies a white glow vanishes, so it is a soft
-   light blue (day too: designer, 2026-10-11). */
-.device__screen:has(.map-home__greeting:is([data-sky="dawn"], [data-sky="day"])) {
+/* On dawn, day and dusk a white glow vanishes, so it is a soft
+   light blue (day and dusk too: designer, 2026-10-11). */
+.device__screen:has(.map-home__greeting:is([data-sky="dawn"], [data-sky="day"], [data-sky="dusk"])) {
   --ring-lift: var(--color-ring-lift-pale);
 }
 
