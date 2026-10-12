@@ -241,7 +241,7 @@
      nav is a yellow circle with a navy icon; a dot says something waits. */
   --color-nav-current: var(--brand-yellow-400);
   --color-nav-current-icon: var(--brand-primary);
-  --color-nav-dot: var(--brand-primary);
+  --color-nav-dot: var(--brand-orange-600);  /* the red end of the palette: 5.0:1 on the panel, 3.8:1 on the yellow circle (designer, 2026-10-11) */
   /* The pick-up card's soft wash, blue into pale lime, the same at every
      hour. Navy text on it is 11:1 or more at every point. */
   --color-wash-start: var(--brand-blue-200);
