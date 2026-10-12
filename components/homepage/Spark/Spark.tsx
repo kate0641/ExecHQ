@@ -33,7 +33,7 @@ export interface SparkProps {
 }
 
 /** The first sentence, said as a headline, and the rest. The words are
- *  unchanged: "Great job!" and "You're on The Modern CMO, …". */
+ *  unchanged: "Well done!" and "You’re speaking at …". */
 function splitFirst(text: string): [string, string] {
   const m = /^([^]+?[.!?])\s+(\S[^]*)$/.exec(text);
   return m ? [m[1], m[2]] : [text, ""];
