@@ -2212,7 +2212,7 @@ ul.chrome__nav-list {
   align-items: center;
   gap: var(--space-2xs);
   padding: var(--space-xs) var(--space-md) var(--space-xs) var(--space-sm);
-  border: var(--border-width-thin) solid var(--color-here-border);
+  /* No edge: the yellow parts from the bar on its own. */
   border-radius: var(--radius-pill);
   background-color: var(--color-here-surface);
   color: var(--color-here-text);

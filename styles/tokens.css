@@ -356,10 +356,6 @@
      places (designer, 2026-10-12). */
   --color-here-surface: var(--color-nav-current);
   --color-here-text: var(--color-nav-current-icon);
-  /* A soft grey edge on the chip, the same stone the system's quiet
-     dividers use, so it parts from the white bar without the lime
-     thickening at the rim (designer, 2026-10-12). */
-  --color-here-border: var(--color-border-subtle);
   /* The Loop's check-in: a light blue band across the head of an otherwise
      white card, carrying what the question is about (designer, 2026-10-12).
      Navy on it reads at 11.3:1. The foot of the card keeps its hairline. */
