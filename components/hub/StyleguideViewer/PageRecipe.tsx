@@ -182,10 +182,22 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
     note: "Gaps are named for their job.",
     rules: [
       {
-        rule: "Cards run 12px from the phone's edge, 16px apart, with 16px inside (20px in a feature card).",
+        rule: "Cards run 12px from the phone's edge, 12px apart when one sits straight under another (half the 24px between sections; text without a card keeps the full gap), with 16px inside (20px in a feature card).",
         why: "Wider cards, steady rhythm.",
         from: "Home",
         uses: ["--space-screen-side", "--space-between-cards", "--space-card-padding", "--space-feature-padding"],
+      },
+      {
+        rule: "A card's last thing, a button or a flat link, sits 20px from its bottom edge, the same as its first thing sits from the top.",
+        why: "Every card ends the same way, so a link never looks squeezed against the edge. A tall tap target whose words sit high is the one allowance.",
+        from: "Home",
+        uses: ["--space-feature-padding"],
+      },
+      {
+        rule: "Inside a card, three steps of space, each wider than the last: eyebrow to title 4px, title to copy 8px, copy to button 20px.",
+        why: "The eyebrow and title read as one label, the copy belongs to them, and the button stands apart as the thing to do. Most cards take this; a card that needs otherwise is adjusted on its own.",
+        from: "Home",
+        uses: ["--space-eyebrow-title", "--space-title-copy", "--space-copy-action"],
       },
       {
         rule: "Sections sit 32px apart; inside a section, heading, line and card sit 12px apart.",

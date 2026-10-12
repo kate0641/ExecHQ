@@ -199,7 +199,7 @@
   --color-text-inverse-muted: var(--brand-blue-300);
   --color-text-on-accent: var(--brand-white);
   --color-text-link: var(--brand-primary);
-  --color-text-link-hover: var(--brand-accent-strong);
+  --color-text-link-hover: var(--brand-primary);  /* the link's own colour: text never turns gold on hover (designer, 2026-10-11; hover carries no meaning on a phone) */
 
   /* Borders — "strong" is 3.2:1 on the stone page and 3.4:1 on white, and is
      the one to use on controls. It is 3.1:1 on blue 100, so it still holds
@@ -604,11 +604,12 @@
   /* SPACING ROLES — what a gap is for, so one change here moves it everywhere. */
   --space-screen-side: var(--space-sm);  /* left and right of a phone screen: 12, so cards run wider */
   --space-screen-top: var(--space-lg);   /* above the first thing on a screen */
-  --space-between-cards: var(--space-md);  /* the gap between cards stacked on a screen */
+  --space-between-cards: var(--space-sm);  /* the gap between cards stacked on a screen: 12, half the gap between sections (designer, 2026-10-11) */
   --space-card-padding: var(--space-md);   /* inside a list card: a row, a link, a read */
   --space-feature-padding: var(--space-md-lg);  /* inside a feature card, which holds more */
   --space-eyebrow-title: var(--space-2xs); /* an eyebrow to the title under it */
   --space-title-copy: var(--space-xs);     /* a title to the copy under it */
+  --space-copy-action: var(--space-md-lg); /* the copy to the button under it: the widest of the three, as wide as the card's padding */
 
   /* ---------------------------------------------------------------------------
      RADII

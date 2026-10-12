@@ -10273,9 +10273,9 @@ ol.check-in__steps {
 .account-card__try {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xs);
-  /* A white card, outlined like the other cards on the page. */
-  padding: var(--space-md);
+  /* A white card, outlined like the other cards on the page. Top and
+     bottom take the cards' standard 20px. */
+  padding: var(--space-feature-padding) var(--space-md);
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-xl);
   background-color: var(--color-surface-raised);
@@ -10319,6 +10319,21 @@ ul.account-card__shows {
 
 .signal-picture__links {
   align-self: flex-start;
+}
+
+/* The card recipe's three steps of space, each wider than the last
+   (designer, 2026-10-11): the eyebrow stays with its title, the sentence
+   comes a little further down, and the button has the widest gap above it. */
+.account-card__try > .account-card__try-label {
+  margin-bottom: var(--space-eyebrow-title);
+}
+
+.account-card__try > :not(.account-card__try-label) + * {
+  margin-top: var(--space-title-copy);
+}
+
+.account-card__try > .account-card__cta {
+  margin-top: var(--space-copy-action);
 }
 
 .account-card__cta {
@@ -13093,8 +13108,22 @@ ul.map-panel__list {
 .map-home__side {
   display: flex;
   flex-direction: column;
-  gap: var(--space-lg);
   min-width: 0;
+}
+
+/* Sections sit 24px apart; a card straight under another card sits half
+   that, 12px, so stacked cards read as one group (designer, 2026-10-11). */
+.map-home__side > * + * {
+  margin-top: var(--space-lg);
+}
+
+.map-home__side > :is(.map-home__briefing, .signal-picture--card) + :is(.signal-picture--card, .account-card__try) {
+  margin-top: var(--space-between-cards);
+}
+
+/* On web the column's pieces sit in the page grid, which spaces them. */
+[data-viewport="web"] .map-home:not(:where([data-viewport="mobile"] *)) .map-home__side > * {
+  margin-top: 0;
 }
 
 [data-viewport="tablet"] .map-home:not(:where([data-viewport="mobile"] *)) {
@@ -13721,14 +13750,21 @@ ul.templates__outcomes {
    everything else on a white body below, as the feature card does. */
 .map-home .signal-picture--card.account-card {
   gap: var(--space-md);
-  /* Skip for now is a 44px tap target, so its words sit 14px above the
-     button's foot; a short pad leaves them as far from the card's bottom as
-     the title is from its top (designer, 2026-10-10). */
-  padding: 0 0 var(--space-xs);
+  /* The card's standard foot: the last thing in it sits a feature card's
+     padding (20px) from the bottom, as the next-step card's button does
+     (designer, 2026-10-11). */
+  padding: 0 0 var(--space-feature-padding);
   overflow: hidden;
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-card);
   background-color: var(--color-surface-raised);
+}
+
+/* Skip for now is a 44px tap target, so its words sit 14px above the
+   button's foot; a short pad leaves them as far from the card's bottom as
+   the title is from its top (designer, 2026-10-10). */
+.map-home .signal-picture--card.account-card:has(form) {
+  padding-bottom: var(--space-xs);
 }
 
 .map-home .signal-picture--card > .account-card__top {
