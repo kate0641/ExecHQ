@@ -840,7 +840,9 @@ button.link {
 .field {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xs);
+  /* A field's label sits 12px above it, as a group title does above its
+     group, so it reads as the field's title (designer, 2026-10-13). */
+  gap: var(--space-group-title);
 }
 
 .field__label {
@@ -7205,11 +7207,14 @@ ol.ring-detail__timeline {
 
 .chip-group__label {
   padding: 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
+  /* A legend sits outside its fieldset's gap, so it carries its own 12px. */
+  margin-bottom: var(--space-group-title);
+  font-family: var(--type-label-font);
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  line-height: var(--type-label-leading);
+  letter-spacing: var(--type-label-tracking);
+  word-spacing: var(--type-label-word-spacing);
   color: var(--color-text-primary);
 }
 
@@ -12112,7 +12117,8 @@ ul.stage-actions__list {
 .code-field {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  /* 12px under its label, as every field's label (designer, 2026-10-13). */
+  gap: var(--space-group-title);
 }
 
 .code-field__label {
@@ -12189,25 +12195,27 @@ ul.stage-actions__list {
   width: 100%;
   min-height: var(--button-height);
   padding: 0 var(--space-lg);
-  border: var(--border-width-thin) solid var(--color-border-strong);
+  /* Navy, with light words and marks (designer, 2026-10-13). Google and Apple
+     both ask for their dark style in black, and Google for its coloured G:
+     a question for Kate before launch, noted on the pull request. */
+  border: var(--border-width-thin) solid transparent;
   border-radius: var(--radius-pill);
-  background-color: var(--color-surface-raised);
-  color: var(--color-text-primary);
-  font: inherit;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+  font-family: var(--type-label-font);
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  letter-spacing: var(--type-label-tracking);
+  word-spacing: var(--type-label-word-spacing);
   cursor: pointer;
   transition: background-color var(--duration-fast) var(--easing-standard);
 }
 
 .provider-button:hover,
-.provider-button.is-hover {
-  background-color: var(--color-surface-hover);
-}
-
+.provider-button.is-hover,
 .provider-button:active,
 .provider-button.is-active {
-  background-color: var(--color-surface-sunken);
+  background-color: var(--color-surface-inverse-hover);
 }
 
 .provider-button:focus-visible,

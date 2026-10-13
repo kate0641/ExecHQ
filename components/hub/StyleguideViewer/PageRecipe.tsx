@@ -120,7 +120,7 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         uses: ["--type-card-title-*", "--space-card-title"],
       },
       {
-        rule: "A group title sits 12px above its group, more than a line of body copy leaves; a card title 20px. Bullets sit 16px apart, a step more than paragraphs. Items split by hairlines get 20px either side of the line.",
+        rule: "A group title sits 12px above its group, more than a line of body copy leaves; a card title 20px. A form field's label, and a question over its answers, sit 12px above them too. Bullets sit 16px apart, a step more than paragraphs. Items split by hairlines get 20px either side of the line.",
         why: "Each kind of gap is said once and kept: a title belongs to its group, a bullet is its own item, a divider needs room to read as a divider.",
         from: "Onboarding",
         uses: ["--space-group-title", "--space-list-item", "--space-divided-item"],
@@ -315,6 +315,7 @@ const PAGES: { page: string; date: string; added: string[] }[] = [
       "A group title role (dark small capitals at 14px) and a card title role (sentence case, 16px, 20px above its list), with their own spacing: 16px between bullets, 20px either side of a divider.",
       "What next is one card of rows with chevrons, like Done's list without numbers.",
       "No single word left after a comma at a line's end.",
+      "Form labels and questions sit 12px above their field or answers; the Google and Apple buttons are navy.",
       "Libre italic only for words that are said, in four sizes with one job each.",
       "Her input always in a card, its action grey at the top right, centred on the label: Change as a 12px link, Edit as the new edit icon (pencil and square). Change to pick again, Edit to type again.",
       "Flat links sit at the left, 32px apart; Edit carries a pencil.",
