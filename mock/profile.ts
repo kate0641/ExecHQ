@@ -47,7 +47,7 @@ export const PROFILE_COPY = {
     noOrganization: "None",
     export: "Download your data",
     exportValue: "PDF",
-    exportWorking: "Downloading…",
+    exportWorking: "Downloading",
     exportStarted: "Your data is downloading as a PDF.",
     delete: "Delete account",
     signOut: "Sign out",

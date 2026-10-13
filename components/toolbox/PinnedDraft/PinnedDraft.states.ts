@@ -28,6 +28,6 @@ export const pinnedDraftStates = defineComponentStates({
     { label: "Filling in, collapsed", props: { label: "First draft", preview, expanded: false, onToggle: noop, children: live } },
     { label: "Opened", props: { label: "First draft", preview, expanded: true, onToggle: noop, children: live } },
     { label: "Beside the interview, on the web", props: { label: "First draft", expanded: true, onToggle: noop, side: true, children: live } },
-    { label: "A long first line is cut off, not wrapped", props: { label: "First draft", preview: `${preview} ${preview}`, expanded: false, onToggle: noop } },
+    { label: "A long first line wraps", props: { label: "First draft", preview: `${preview} ${preview}`, expanded: false, onToggle: noop } },
   ],
 });

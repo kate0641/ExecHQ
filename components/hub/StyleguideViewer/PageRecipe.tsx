@@ -79,9 +79,9 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         uses: ["--leading-snug"],
       },
       {
-        rule: "Text in a navy header is one line, never more. Copy that would wrap is cut with an ellipsis, so it is caught and shortened.",
-        why: "A navy header is a single, clear statement. Write it short: Add 3 recent accomplishments, not Add three recent accomplishments.",
-        from: "Home",
+        rule: "No text anywhere in the product is cut off with an ellipsis. Titles, headers, previews and placeholders wrap and show every word, and no line ends in \u2026.",
+        why: "Cut-off words hide what she needs to read. Keep a navy header short so it rarely needs a second line, but when it does, it wraps (designer, 2026-10-13).",
+        from: "Home, Onboarding",
       },
       {
         rule: "Whatever is chosen or current steps up a weight: its label turns bold. Each label holds its bold width, so nothing shifts when the choice moves.",

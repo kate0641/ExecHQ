@@ -222,15 +222,10 @@ export const VOICE_SAMPLE = {
 } as const;
 
 /** What the plan was built from, as short tags: the direction, then each
- *  refinement answer. A long typed answer is cut at a word boundary. */
+ *  refinement answer. Every answer is shown whole: no text in the product
+ *  is cut off with an ellipsis (designer, 2026-10-13). */
 export function builtFrom(direction: string, answers: Record<string, string>): string[] {
-  const text = direction.trim();
-  // A prompt is shown whole; only a long typed or spoken answer is cut short.
-  const isPrompt = isNarrowedDirection(text) || DIRECTION_PROMPTS_C1.some((prompt) => prompt.text === text);
-  const directionTag =
-    isPrompt || text.length <= 40
-      ? text
-      : `${text.slice(0, 40).replace(/\s+\S*$/, "")}\u2026`;
+  const directionTag = direction.trim();
   const labels = refinementFor(direction)
     .flatMap((question) => parseAnswer(question, answers[question.id]).chosen.map((option) => option.label));
   return [directionTag, ...labels].filter(Boolean);
@@ -1137,7 +1132,7 @@ export const LINKEDIN_UPLOAD = {
       `Sent to ${email}. Do it on your computer when you\u2019re ready. It\u2019ll be on your plan too.`,
   },
   /** Short status for a list row. */
-  short: { reading: "Reading\u2026", ready: "Ready", empty: "Read", sent: "Steps sent" },
+  short: { reading: "Reading", ready: "Ready", empty: "Read", sent: "Steps sent" },
   remove: "Remove it",
   done: "Continue",
   skip: "Not now",
