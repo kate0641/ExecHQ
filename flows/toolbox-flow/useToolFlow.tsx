@@ -634,7 +634,10 @@ export function useToolFlow(concept: FlowConcept) {
       : USE_COPY.exportable[record.kind]
     : false;
 
-  const draftEditor: ReactNode =
+  /** The draft in one of its looks: `clean` (Concept 1) and `page`
+   *  (Concept 2) once she has marked it ready, with `onReopen` going back
+   *  to the working draft. */
+  const draftAs = (look: "draft" | "clean" | "page" = "draft", onReopen?: () => void): ReactNode =>
     draft && version && artifactId ? (
       <>
         {refresh}
@@ -642,7 +645,9 @@ export function useToolFlow(concept: FlowConcept) {
         <DraftEditor
           key={`${artifactId}-${version.n}`}
           id={DRAFT_LABEL_ID}
-          label={DRAFT_COPY.label(version.n)}
+          label={look === "draft" ? DRAFT_COPY.label(version.n) : (record?.title ?? DRAFT_COPY.label(version.n))}
+          look={look}
+          onReopen={onReopen}
           intro={version.n === 1 || (kind === "positioning" && version.n === 2 && draft.versions.length === 2) ? DRAFT_COPY.introFor[kind] : undefined}
           sectionActions={kind === "positioning" ? sectionActions : undefined}
           sections={version.sections}
@@ -652,18 +657,34 @@ export function useToolFlow(concept: FlowConcept) {
           header={
             <span className="tool-flow__draft-head">
               {record ? <LoopStatus record={record} /> : null}
-              {/* Concept 1 (option C): downloads in the draft's corner, once it is ready. */}
-              {concept === "concept-1" && isReady && exportable ? (
+              {/* Concept 1: once it is ready, Copy and the downloads are one
+                  menu in the draft's corner, so the bar holds only "I've used this". */}
+              {concept === "concept-1" && isReady ? (
                 <DropdownMenu
-                  label={USE_COPY.download}
-                  icon="download"
+                  label={USE_COPY.actions}
+                  icon="more-horizontal"
                   align="end"
-                  entries={(["PDF", "Word"] as const).map((format) => ({
-                    type: "item" as const,
-                    id: format,
-                    label: format === "PDF" ? USE_COPY.exportPdf : USE_COPY.exportWord,
-                    onSelect: () => setSectionMessage(USE_COPY.exported(format)),
-                  }))}
+                  entries={[
+                    {
+                      type: "item" as const,
+                      id: "copy",
+                      icon: "copy" as const,
+                      label: USE_COPY.copyFor[kind],
+                      onSelect: () => {
+                        copy();
+                        setSectionMessage(USE_COPY.copied);
+                      },
+                    },
+                    ...(exportable
+                      ? (["PDF", "Word"] as const).map((format) => ({
+                          type: "item" as const,
+                          id: format,
+                          icon: "download" as const,
+                          label: format === "PDF" ? USE_COPY.exportPdf : USE_COPY.exportWord,
+                          onSelect: () => setSectionMessage(USE_COPY.exported(format)),
+                        }))
+                      : []),
+                  ]}
                 />
               ) : null}
             </span>
@@ -683,6 +704,7 @@ export function useToolFlow(concept: FlowConcept) {
         />
       </>
     ) : null;
+  const draftEditor = draftAs();
 
   /** `onAsked` runs once she asks for a revision: Concept 1 closes its sheet. */
   const revision = (onAsked?: () => void): ReactNode =>
@@ -713,7 +735,7 @@ export function useToolFlow(concept: FlowConcept) {
   const copy = () => {
     if (!draft || !version) return;
     try {
-      void navigator.clipboard?.writeText(draftText(version.sections, edits, draft.answers));
+      navigator.clipboard?.writeText(draftText(version.sections, edits, draft.answers)).catch(() => undefined);
     } catch {
       // The prototype says it copied either way; nothing depends on it.
     }
@@ -751,7 +773,7 @@ export function useToolFlow(concept: FlowConcept) {
       </form>
     ) : null;
 
-  const useBar = (options: { noStatus?: boolean; exportInMenu?: boolean; noNotes?: boolean; copyWhenReady?: boolean } = {}): ReactNode =>
+  const useBar = (options: { noStatus?: boolean; exportInMenu?: boolean; noNotes?: boolean; copyInMenu?: boolean } = {}): ReactNode =>
     record ? (
       <>
         <DraftUseBar
@@ -769,7 +791,7 @@ export function useToolFlow(concept: FlowConcept) {
           noStatus={options.noStatus}
           exportInMenu={options.exportInMenu}
           noNotes={options.noNotes}
-          copyWhenReady={options.copyWhenReady}
+          copyInMenu={options.copyInMenu}
           note={
             record.kind === "situation-brief"
               ? [TOOL_COPY.onePage, briefDate ? TOOL_COPY.askAfter(aheadPhrase(addDays(briefDate, 1), loop.today)) : ""].filter(Boolean).join(" ")
@@ -974,6 +996,8 @@ export function useToolFlow(concept: FlowConcept) {
     useCase,
     inputPanel,
     draftEditor,
+    draftAs,
+    isReady,
     revision,
     versions,
     useBar,

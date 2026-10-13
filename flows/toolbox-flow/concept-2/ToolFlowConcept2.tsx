@@ -12,6 +12,9 @@ function Workspace() {
   const web = useViewport().viewport === "web";
   const [open, setOpen] = useState<boolean | null>(null);
   const [tab, setTab] = useState<string | null>(null);
+  // Once it is ready the draft shows as the page it will copy and download
+  // (option C, 13 Oct); changing it brings the working draft back.
+  const [changing, setChanging] = useState(false);
 
   const hasDraft = Boolean(f.draft && f.version);
   // Before the first draft the panel is up on the inputs; after, it rests at peek height.
@@ -72,7 +75,12 @@ function Workspace() {
           <>
             {f.outcome}
             {f.source}
-            {f.draftEditor}
+            {f.isReady && !changing ? f.draftAs("page", () => setChanging(true)) : f.draftEditor}
+            {f.isReady && changing ? (
+              <button type="button" className="tool-flow__done-changing link" onClick={() => setChanging(false)}>
+                {C.backToPage}
+              </button>
+            ) : null}
             {f.useBar()}
           </>
         ) : (

@@ -29,10 +29,10 @@ export interface DraftUseBarProps {
   /** No lines under the buttons: no note, and the never-posts guardrail
    *  left to the page (Concept 1's fixed bar, 13 October). */
   noNotes?: boolean;
-  /** Copy only once it is ready, and no downloads in the bar: while it is a
-   *  draft there is only Mark ready; ready, Copy and Mark used. Downloads sit
-   *  in the draft's corner (Concept 1, option C, 13 October). */
-  copyWhenReady?: boolean;
+  /** Copy and the downloads live in the draft's Actions menu, so the bar
+   *  holds one button: Mark ready, then "I've used this" (sent, published),
+   *  with no line saying it was marked ready (Concept 1, 13 October). */
+  copyInMenu?: boolean;
   /** Opens having just copied (catalogue). */
   justCopied?: boolean;
   className?: string;
@@ -43,13 +43,13 @@ export interface DraftUseBarProps {
  * "Copy to post on LinkedIn"), export it where that is in scope, and mark it
  * ready. ExecHQ never posts or sends anything; the words say so.
  */
-export function DraftUseBar({ kind, ready = false, onCopy, onExport, onMarkReady, onMarkUsed, noStatus = false, exportable: canExport, exportInMenu = false, note, noNotes = false, copyWhenReady = false, justCopied = false, className }: DraftUseBarProps) {
+export function DraftUseBar({ kind, ready = false, onCopy, onExport, onMarkReady, onMarkUsed, noStatus = false, exportable: canExport, exportInMenu = false, note, noNotes = false, copyInMenu = false, justCopied = false, className }: DraftUseBarProps) {
   const [message, setMessage] = useState(justCopied ? C.copied : "");
-  const exportable = (canExport ?? C.exportable[kind]) && onExport && !copyWhenReady;
+  const exportable = (canExport ?? C.exportable[kind]) && onExport && !copyInMenu;
   return (
     <div className={["draft-use", className].filter(Boolean).join(" ")}>
       <div className="draft-use__buttons">
-        {copyWhenReady && !ready ? null : (
+        {copyInMenu ? null : (
         <Button
           variant="secondary"
           onClick={() => {
@@ -102,7 +102,7 @@ export function DraftUseBar({ kind, ready = false, onCopy, onExport, onMarkReady
         ) : null}
         {noStatus ? null : ready ? (
           onMarkUsed ? (
-            <Button onClick={onMarkUsed}>{C.markUsed(kind)}</Button>
+            <Button onClick={onMarkUsed}>{copyInMenu ? C.iveUsed(kind) : C.markUsed(kind)}</Button>
           ) : null
         ) : (
           <Button onClick={onMarkReady}>{C.markReady}</Button>
@@ -111,7 +111,7 @@ export function DraftUseBar({ kind, ready = false, onCopy, onExport, onMarkReady
       {note && !noNotes ? <p className="draft-use__note">{note}</p> : null}
       {/* Guardrail: she sends or posts it herself, and the bar says so. */}
       {!noNotes && (kind === "pitch" || kind === "thought-leadership") ? <p className="draft-use__note">{C.neverPosts}</p> : null}
-      <output className="draft-use__message">{message || (ready && !noStatus ? C.ready : "")}</output>
+      <output className="draft-use__message">{message || (ready && !noStatus && !copyInMenu ? C.ready : "")}</output>
     </div>
   );
 }

@@ -21,6 +21,9 @@ function GuidedSteps() {
   const [at, setAt] = useState(-1);
   const [error, setError] = useState<string>();
   const [sheet, setSheet] = useState<"revise" | "versions" | null>(null);
+  // Once it is ready the page is a clean read (option A, 13 Oct); "Change
+  // something" brings the working draft back until she says she is done.
+  const [changing, setChanging] = useState(false);
 
   // The use case screen asks the tool's first question beside its button, so
   // the steps after it leave that one out.
@@ -89,28 +92,41 @@ function GuidedSteps() {
   if (f.later) return f.laterNote;
 
   if (f.draft && f.version) {
+    const clean = f.isReady && !changing;
     return (
       <div className="tool-flow tool-flow--guided tool-flow--has-bar">
         {f.header}
-        {stepper}
+        {clean ? null : stepper}
         {f.outcome}
         {f.source}
-        {f.draftEditor}
-        <button type="button" className="tool-flow__versions-link" onClick={() => setSheet("versions")}>
-          <Icon name="clock" size={16} />
-          {C.versions} · {VERSION_COPY.count(f.draft.versions.length)}
-        </button>
-        {/* The fixed bar (option C, 13 Oct): two choices in the thumb zone.
-            A draft: Revise or Mark ready. Ready: Copy or Mark used (sent,
-            published); its downloads move to the draft's corner. */}
-        <div className="tool-flow__fixed tool-flow__fixed--pair">
-          {f.stage === "draft" ? (
+        {clean ? f.draftAs("clean", () => setChanging(true)) : f.draftEditor}
+        {clean ? null : (
+          <button type="button" className="tool-flow__versions-link" onClick={() => setSheet("versions")}>
+            <Icon name="clock" size={16} />
+            {C.versions} · {VERSION_COPY.count(f.draft.versions.length)}
+          </button>
+        )}
+        {/* The fixed bar (13 Oct). A draft: Revise or Mark ready. Ready: one
+            button across the row, "I've used this" (sent, published); Copy
+            and the downloads are in the draft's Actions menu. Changing a
+            ready draft: Revise or Done. Used: no bar. */}
+        {changing && f.isReady ? (
+          <div className="tool-flow__fixed tool-flow__fixed--pair">
             <Button variant="secondary" onClick={() => setSheet("revise")}>
               {C.revise}
             </Button>
-          ) : null}
-          {f.useBar({ noNotes: true, copyWhenReady: true })}
-        </div>
+            <Button onClick={() => setChanging(false)}>{C.doneChanging}</Button>
+          </div>
+        ) : f.stage === "used" ? null : (
+          <div className="tool-flow__fixed tool-flow__fixed--pair">
+            {f.stage === "draft" ? (
+              <Button variant="secondary" onClick={() => setSheet("revise")}>
+                {C.revise}
+              </Button>
+            ) : null}
+            {f.useBar({ noNotes: true, copyInMenu: true })}
+          </div>
+        )}
         <Sheet open={sheet !== null} onClose={() => setSheet(null)} label={sheet === "versions" ? C.versions : C.revise} className="toolbox-sheet">
           {sheet === "revise" ? (
             f.revision(() => setSheet(null))

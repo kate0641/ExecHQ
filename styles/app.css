@@ -17773,6 +17773,109 @@ ul.plan-guided__sparks {
 
 /* ExecHQ's wording: a dotted underline and a quieter ink, so it reads as a
    suggestion beside her own words. */
+/* --- Once it is ready: the clean read (Concept 1) and the page (Concept 2) --- */
+
+.draft-editor__open {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-sunken);
+  font-size: var(--text-sm);
+}
+
+.draft-editor__open .draft-editor__gap {
+  align-self: stretch;
+}
+
+.draft-editor__open-lead {
+  margin: 0;
+}
+
+.draft-editor__open-lead b {
+  font-weight: var(--weight-semibold);
+}
+
+.draft-editor__open-toggle,
+.draft-editor__reopen {
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: var(--weight-semibold);
+  cursor: pointer;
+}
+
+.draft-editor--clean .draft-editor__question {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-style: italic;
+  color: var(--color-text-muted);
+}
+
+.draft-editor--clean .draft-editor__body {
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.draft-editor--page .draft-editor__body {
+  border: 0;
+  gap: var(--space-md);
+  padding: var(--space-lg) var(--space-md) var(--space-xl);
+  border-radius: var(--radius-xs);
+  background-color: var(--color-surface-raised);
+  box-shadow: var(--shadow-md);
+}
+
+.draft-editor--page .draft-editor__section-heading {
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.draft-editor--page .draft-editor__text {
+  font-size: var(--text-sm);
+}
+
+.draft-editor__blank {
+  display: inline-block;
+  min-width: 4rem;
+  border-bottom: var(--border-width-medium) solid var(--color-border-strong);
+}
+
+.draft-editor__page-note {
+  margin: 0;
+  font-size: var(--text-xs-plus);
+  color: var(--color-text-secondary);
+}
+
+.draft-editor__page-note .link {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: var(--weight-semibold);
+  cursor: pointer;
+}
+
+.tool-flow__done-changing {
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: var(--weight-semibold);
+  cursor: pointer;
+}
+
 .draft-editor__exechq {
   color: var(--color-text-secondary);
   text-decoration: underline dotted var(--color-border-strong);

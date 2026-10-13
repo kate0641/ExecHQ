@@ -345,6 +345,10 @@ export const FLOW_COPY = {
   /** Every change is kept as she goes. */
   saved: "Saved in your library",
   step: (n: number, of: number) => `Step ${n} of ${of}`,
+  /** Concept 1: back to the clean read after changing a ready draft. */
+  doneChanging: "Done",
+  /** Concept 2: back to the page after changing a ready draft. */
+  backToPage: "Done: show it as a page",
   /** Names Concept 1's stepper for screen readers. */
   progress: "Your progress",
   next: "Next",
@@ -405,6 +409,16 @@ export const DRAFT_COPY = {
   edited: "Edited by you",
   empty: "This part is empty. Write something, or cancel to keep the draft.",
   gapsHeading: "Questions for you",
+  /** Once it is ready (Concept 1's clean read): the open questions, folded. */
+  openLabel: "Questions still open",
+  openCount: (n: number) => `${n} question${n === 1 ? "" : "s"} left open.`,
+  openWhy: "It works without them; the answers make it yours.",
+  openShow: "Answer them",
+  openHide: "Hide them",
+  changeSomething: "Change something",
+  /** Concept 2's page: unanswered questions are blank lines. */
+  blanks: (n: number) => `${n} blank line${n === 1 ? " is a question" : "s are questions"} only you can answer.`,
+  fillIn: "Fill them in",
   gapsLead: "ExecHQ left these for you rather than guess.",
 } as const;
 
@@ -498,8 +512,11 @@ export const USE_COPY = {
     "situation-brief": true,
     "thought-leadership": false,
   } as Record<ArtifactKind, boolean>,
-  /** Concept 1: the menu in the draft's corner, once it is ready. */
-  download: "Download",
+  /** Concept 1: the menu in the draft's corner, once it is ready: Copy and
+   *  the downloads. */
+  actions: "Actions",
+  /** Concept 1's one button once it is ready. */
+  iveUsed: (kind: ArtifactKind) => `I’ve ${ARTIFACT_KINDS[kind].usedLabel.toLowerCase()} this`,
   /** The Toolbox never publishes. */
   neverPosts: "ExecHQ never posts or sends anything for you.",
 } as const;
