@@ -128,6 +128,7 @@ import { versionHistoryStates } from "./toolbox/VersionHistory/VersionHistory.st
 import { draftUseBarStates } from "./toolbox/DraftUseBar/DraftUseBar.states";
 import { toolPickerStates } from "./toolbox/ToolPicker/ToolPicker.states";
 import { iconRowStates } from "./navigation/IconRow/IconRow.states";
+import { progressStepperStates } from "./navigation/ProgressStepper/ProgressStepper.states";
 import { mindStartStates } from "./toolbox/MindStart/MindStart.states";
 import { pickUpStates } from "./toolbox/PickUp/PickUp.states";
 import { artifactActionsStates } from "./toolbox/ArtifactActions/ArtifactActions.states";
@@ -263,6 +264,7 @@ export const registry: RegisteredComponent[] = [
   draftUseBarStates,
   toolPickerStates,
   iconRowStates,
+  progressStepperStates,
   mindStartStates,
   pickUpStates,
   artifactActionsStates,

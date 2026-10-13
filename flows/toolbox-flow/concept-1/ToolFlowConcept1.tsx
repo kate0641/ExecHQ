@@ -2,11 +2,13 @@
 
 import { Suspense, useMemo, useState } from "react";
 import { Sheet } from "@/components/layout/Sheet";
+import { ProgressStepper } from "@/components/navigation/ProgressStepper";
 import { StepHeader } from "@/components/onboarding/StepHeader";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import { useStepNav } from "@/lib/step-nav";
-import { FLOW_COPY as C, INPUT_COPY, STEP_BAR_COPY, VERSION_COPY } from "@/mock/toolbox";
+import { useViewport } from "@/lib/viewport-context";
+import { FLOW_COPY as C, INPUT_COPY, STEP_BAR_COPY, STEP_LABELS, VERSION_COPY } from "@/mock/toolbox";
 import { QuestionStep } from "../QuestionStep";
 import { draftSteps, focusSoon, questionStep, TOOL_TITLE_ID, useToolFlow } from "../useToolFlow";
 
@@ -14,6 +16,7 @@ const STEP_HEADING = "tool-step-heading";
 
 function GuidedSteps() {
   const f = useToolFlow("concept-1");
+  const phone = useViewport().viewport === "mobile";
   // -1 is the use case; 0..asked.length-1 the questions; asked.length the last screen.
   const [at, setAt] = useState(-1);
   const [error, setError] = useState<string>();
@@ -46,7 +49,7 @@ function GuidedSteps() {
       : at < asked.length
         ? `q-${asked[at].id}`
         : "last";
-  useStepNav(steps, current, (id) => {
+  const jumpTo = (id: string) => {
     setError(undefined);
     if (id === "start") {
       f.jumpBefore([], [...firstQuestions, ...asked, ...rest]);
@@ -61,7 +64,27 @@ function GuidedSteps() {
       f.jumpAfter(id === "ready" || id === "used" ? id : "draft");
       setSheet(id === "revise" || id === "versions" ? id : null);
     }
-  });
+  };
+  useStepNav(steps, current, jumpTo);
+
+  // Her stepper (13 Oct): the first question, each question asked, the last
+  // screen, then the draft. Done steps go back while she is building; once
+  // there is a draft it only says where she is, so going back never undoes it.
+  const stepper = (
+    <ProgressStepper
+      label={C.progress}
+      steps={[
+        { id: "start", label: (f.firstChoice && STEP_LABELS[f.kind][f.firstChoice.id]) || STEP_BAR_COPY.start },
+        ...asked.map((input) => ({ ...questionStep(f.kind, input), error: Boolean(error) && current === `q-${input.id}` })),
+        { id: "last", label: hasKnown ? STEP_BAR_COPY.check : STEP_BAR_COPY.anythingElse },
+        { id: "draft", label: STEP_BAR_COPY.draft },
+      ]}
+      current={hasDraft ? "draft" : current}
+      onSelect={hasDraft ? undefined : jumpTo}
+      labels={phone ? "current" : "all"}
+      className="tool-flow__stepper"
+    />
+  );
 
   if (f.later) return f.laterNote;
 
@@ -69,6 +92,7 @@ function GuidedSteps() {
     return (
       <div className="tool-flow tool-flow--guided tool-flow--has-bar">
         {f.header}
+        {stepper}
         {f.outcome}
         {f.source}
         {f.draftEditor}
@@ -95,7 +119,6 @@ function GuidedSteps() {
     );
   }
 
-  const total = asked.length + 1;
   const go = (next: number) => {
     setError(undefined);
     setAt(next);
@@ -106,6 +129,7 @@ function GuidedSteps() {
     return (
       <div className="tool-flow tool-flow--guided">
         {f.header}
+        {stepper}
         {/* Tapping an answer to the first question is the start (13 Oct);
             nothing here sends her elsewhere, so "Goes with this" is left out. */}
         {f.useCase({ onStart: () => go(0), choiceStarts: true, noGoesWith: true })}
@@ -122,8 +146,9 @@ function GuidedSteps() {
   if (at < asked.length) {
     const input = asked[at];
     return (
-      <div className="tool-flow tool-flow--guided">
+      <div className="tool-flow tool-flow--guided tool-flow--pinned">
         {f.header}
+        {stepper}
         <QuestionStep
           input={input}
           value={f.valueOf(input.id)}
@@ -132,10 +157,10 @@ function GuidedSteps() {
             f.setValue(input.id, v);
           }}
           error={error}
-          eyebrow={C.step(at + 1, total)}
           headingId={STEP_HEADING}
         />
-        <div className="tool-flow__step-actions">
+        {/* Next is pinned to the foot of the screen, in the thumb zone. */}
+        <div className="tool-flow__step-actions tool-flow__step-actions--pinned">
           <Button
             fullWidth
             onClick={() => {
@@ -157,11 +182,11 @@ function GuidedSteps() {
   return (
     <div className="tool-flow tool-flow--guided">
       {f.header}
+      {stepper}
       {/* "Check what ExecHQ has" only when there is something it has to show
           (a fact from her plan, profile or onboarding); otherwise only the
           optional questions are left. */}
       <StepHeader
-        eyebrow={C.step(total, total)}
         title={hasKnown ? C.knownStep : C.lastStep}
         id={STEP_HEADING}
       />
@@ -173,7 +198,7 @@ function GuidedSteps() {
 
 /**
  * Toolbox flow, Concept 1 — Guided steps. Each thing only she can answer is
- * its own screen, with "Step 2 of 3"; what ExecHQ already knows waits on the
+ * its own screen, under a stepper with Next pinned to the foot; what ExecHQ already knows waits on the
  * last screen to check, with anything optional. The draft then opens full
  * screen, with Revise, Copy and Mark ready in a fixed bar at the foot.
  */

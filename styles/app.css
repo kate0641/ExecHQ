@@ -18530,6 +18530,47 @@ ul.plan-guided__sparks {
   gap: var(--space-2xs);
 }
 
+/* Concept 1: Next pinned to the foot of the screen. The page fills the
+   screen, so it sits at the foot even when the question is short, and
+   sticks there when the answer runs long. */
+.prototype .chrome__main:has(.tool-flow--pinned) {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0;
+}
+
+/* Inside a tool the Ask or go pill steps aside, so no room is kept for it. */
+.device__screen:has(.concierge-host) .chrome__main:has(.tool-flow--pinned) {
+  padding-bottom: 0;
+}
+
+.prototype .chrome__main:has(.tool-flow--pinned) > * {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.tool-flow--pinned {
+  flex: 1;
+  width: 100%;
+}
+
+.tool-flow__step-actions--pinned {
+  position: sticky;
+  bottom: 0;
+  z-index: var(--z-sticky);
+  margin-top: auto;
+  margin-inline: calc(-1 * var(--space-screen-side));
+  padding: var(--space-sm) var(--space-screen-side);
+  border-top: var(--border-width-thin) solid var(--color-border);
+  background-color: var(--color-canvas);
+}
+
+[data-viewport="web"] .tool-flow__step-actions--pinned {
+  margin-inline: 0;
+  padding-inline: 0;
+}
+
 .question-step {
   display: flex;
   flex-direction: column;
@@ -20707,4 +20748,211 @@ ul.plan-guided__sparks {
 .source-page__gap {
   display: block;
   height: var(--space-sm);
+}
+
+/* ===========================================================================
+   PROGRESS STEPPER — numbered steps joined by lines (components/navigation/ProgressStepper).
+   Each line runs from a step to the next: solid once travelled, dashed ahead.
+   ======================================================================== */
+
+.progress-stepper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.progress-stepper__list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.progress-stepper__step {
+  position: relative;
+  display: flex;
+}
+
+.progress-stepper__target {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: center;
+}
+
+button.progress-stepper__target {
+  cursor: pointer;
+}
+
+button.progress-stepper__target:hover .progress-stepper__label,
+button.progress-stepper__target.is-hover .progress-stepper__label {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+button.progress-stepper__target:active .progress-stepper__disc,
+button.progress-stepper__target.is-active .progress-stepper__disc {
+  transform: scale(0.94);
+}
+
+button.progress-stepper__target:focus-visible,
+button.progress-stepper__target.is-focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.progress-stepper__disc {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--progress-stepper-size);
+  height: var(--progress-stepper-size);
+  border: var(--progress-stepper-ring-width) solid var(--progress-stepper-todo);
+  border-radius: 50%;
+  background-color: var(--progress-stepper-current-surface);
+  font-size: var(--progress-stepper-font-size);
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
+  color: var(--progress-stepper-todo-text);
+  transition: transform var(--duration-base) var(--easing-standard);
+}
+
+.progress-stepper__step.is-done .progress-stepper__disc {
+  border-color: var(--progress-stepper-done);
+  background-color: var(--progress-stepper-done);
+  color: var(--progress-stepper-text-on-done);
+}
+
+.progress-stepper__step.is-current .progress-stepper__disc {
+  border-color: var(--progress-stepper-current);
+  color: var(--progress-stepper-current);
+  box-shadow: 0 0 0 var(--progress-stepper-ring-width) var(--progress-stepper-current-surface), 0 0 0 calc(2 * var(--progress-stepper-ring-width)) var(--progress-stepper-current);
+}
+
+.progress-stepper__step.is-error .progress-stepper__disc {
+  border-color: var(--progress-stepper-error);
+  background-color: var(--progress-stepper-error-surface);
+  color: var(--progress-stepper-error);
+}
+
+.progress-stepper__label {
+  font-size: var(--progress-stepper-label-size);
+  line-height: var(--leading-snug);
+  color: var(--color-text-secondary);
+}
+
+.progress-stepper__step.is-current .progress-stepper__label {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.progress-stepper__step.is-done .progress-stepper__label {
+  color: var(--color-text-primary);
+}
+
+.progress-stepper__step.is-error .progress-stepper__label {
+  font-weight: var(--weight-semibold);
+  color: var(--progress-stepper-error);
+}
+
+/* The line to the next step. */
+.progress-stepper__step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  border-color: var(--progress-stepper-connector-todo);
+  border-style: var(--progress-stepper-connector-todo-style);
+  border-width: 0;
+}
+
+.progress-stepper__step.is-past:not(:last-child)::after {
+  border-color: var(--progress-stepper-connector-done);
+  border-style: var(--progress-stepper-connector-done-style);
+}
+
+/* --- Horizontal: discs in a row, each name under its disc --------------- */
+
+.progress-stepper--horizontal .progress-stepper__step {
+  flex: 1 1 0;
+  justify-content: center;
+  min-width: 0;
+}
+
+.progress-stepper--horizontal .progress-stepper__target {
+  flex-direction: column;
+  max-width: 100%;
+}
+
+.progress-stepper--horizontal .progress-stepper__label {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.progress-stepper--horizontal .progress-stepper__step:not(:last-child)::after {
+  top: calc(var(--progress-stepper-size) / 2 - var(--progress-stepper-connector-width) / 2);
+  left: calc(50% + var(--progress-stepper-size) / 2 + var(--progress-stepper-gap));
+  right: calc(-50% + var(--progress-stepper-size) / 2 + var(--progress-stepper-gap));
+  border-top-width: var(--progress-stepper-connector-width);
+}
+
+/* --- Vertical: discs in a column, each name beside its disc ------------- */
+
+.progress-stepper--vertical .progress-stepper__list {
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.progress-stepper--vertical .progress-stepper__target {
+  gap: var(--space-sm);
+  text-align: left;
+}
+
+.progress-stepper--vertical .progress-stepper__step:not(:last-child)::after {
+  left: calc(var(--progress-stepper-size) / 2 - var(--progress-stepper-connector-width) / 2);
+  top: calc(var(--progress-stepper-size) + var(--progress-stepper-gap));
+  bottom: calc(-1 * var(--space-lg) + var(--progress-stepper-gap));
+  border-left-width: var(--progress-stepper-connector-width);
+}
+
+/* --- Only the current name, under the row (a phone) -------------------- */
+
+.progress-stepper--labels-current .progress-stepper__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.progress-stepper__caption {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-xs);
+  margin: 0;
+  font-size: var(--progress-stepper-label-size);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.progress-stepper__caption-count {
+  font-weight: var(--weight-regular);
+  color: var(--color-text-secondary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress-stepper__disc {
+    transition: none;
+  }
+
+  button.progress-stepper__target:active .progress-stepper__disc,
+  button.progress-stepper__target.is-active .progress-stepper__disc {
+    transform: none;
+  }
 }

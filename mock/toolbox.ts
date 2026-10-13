@@ -345,6 +345,8 @@ export const FLOW_COPY = {
   /** Every change is kept as she goes. */
   saved: "Saved in your library",
   step: (n: number, of: number) => `Step ${n} of ${of}`,
+  /** Names Concept 1's stepper for screen readers. */
+  progress: "Your progress",
   next: "Next",
   previous: "Back",
   write: "Write my first draft",
