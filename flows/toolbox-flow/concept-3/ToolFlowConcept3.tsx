@@ -120,7 +120,9 @@ function Interview() {
   const draftView = clean ? f.draftAs("clean", () => setChanging(true)) : f.draftEditor;
 
   // The draft fills in as she answers: her words in, ExecHQ's framing round them.
-  const live = hasDraft || !f.answered ? undefined : f.livePreview();
+  // Only once she has answered one of the interview's own questions: the
+  // moment picked on the start screen is not yet a draft to show.
+  const live = hasDraft || !asked.some((input) => f.valueOf(input.id).trim()) ? undefined : f.livePreview();
 
   // On a phone or tablet the draft card is only for a written draft: no
   // "Your draft so far" on the questions or the last step (13 Oct). On web
@@ -242,6 +244,9 @@ function Interview() {
           }
         >
           {at === 0 ? f.source : null}
+          {/* On web the draft fills in beside the answers as she taps (13 Oct);
+              on a phone or tablet the question pages show none of it. */}
+          {web ? pinned : null}
         </GuidePage>
       </>
     );
