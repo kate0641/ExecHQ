@@ -2142,6 +2142,8 @@ export const GUIDE_C3 = {
     resend: "Send it again",
     resent: "Sent again.",
     otherAddress: "Use a different address",
+    /** The address she typed, in its own card with Change (designer, 2026-10-13). */
+    sentTo: "Sent to",
     nothing: "Nothing arrived? Check your junk folder.",
     arrived: "New email from ExecHQ: Confirm your email.",
     /** Login's expired screen, in onboarding's voice (2026-10-08). The wrong
