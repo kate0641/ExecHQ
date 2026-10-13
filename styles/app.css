@@ -352,6 +352,41 @@ samp {
   overflow-wrap: anywhere;
 }
 
+/* Her input, with the way to redo it (from Onboarding, 2026-10-13): what she
+   said or made always sits in a card, and its action is a flat underlined
+   link at the card's top right, centred on the line of the eyebrow or title
+   it sits beside. Change when she picks again from choices; Edit when she
+   types again. The link's tap area is 44px tall without moving anything. */
+.read-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.edit-link {
+  flex: none;
+  min-height: var(--button-target);
+  margin-block: calc((var(--button-target) - 1lh) / -2);
+  font-family: var(--type-label-font);
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  line-height: var(--type-label-leading);
+  letter-spacing: var(--type-label-tracking);
+  word-spacing: var(--type-label-word-spacing);
+  color: var(--color-text-primary);
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width-thin);
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.edit-link:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-xs);
+}
+
 .t-measure {
   max-width: var(--content-measure);
 }
@@ -9017,14 +9052,12 @@ ol.ring-detail__timeline {
 
 .guide__said {
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: var(--space-sm);
+  flex-direction: column;
+  gap: var(--space-eyebrow-title);
 }
 /* A read: the grey eyebrow naming it, then her words. */
 .guide__said-label {
   display: block;
-  margin-bottom: var(--space-eyebrow-title);
   font-family: var(--type-eyebrow-font);
   font-size: var(--type-eyebrow-size);
   font-weight: var(--type-eyebrow-weight);

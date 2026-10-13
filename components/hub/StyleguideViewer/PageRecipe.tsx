@@ -190,6 +190,17 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         uses: ["--radius-xl"],
       },
       {
+        rule: "What she said or made always sits in a white card, one line or many. Its action is a flat underlined link at the card's top right, centred on the line of the eyebrow or title beside it.",
+        why: "Her input looks the same wherever it is shown, and the way to redo it is always in the same place. A pill there would be one more button competing with the yellow one.",
+        from: "Onboarding, Profile",
+        uses: [".read-head", ".edit-link", ".card--reads"],
+      },
+      {
+        rule: "Change when she picks again from choices; Edit when she types again.",
+        why: "The word says what will happen: Change reopens the question, Edit opens the words or fields.",
+        from: "Onboarding, Profile",
+      },
+      {
         rule: "Yellow is the one main action on a screen. Light blue is everything secondary, including the advisor's reply buttons. No white outlined buttons.",
         why: "One clear next move, and a button looks the same wherever it appears. Still open: whether light blue and yellow are distinct enough side by side.",
         from: "Home, Navigation",
@@ -305,6 +316,7 @@ const PAGES: { page: string; date: string; added: string[] }[] = [
       "What next is one card of rows with chevrons, like Done's list without numbers.",
       "No single word left after a comma at a line's end.",
       "Libre italic only for words that are said, in four sizes with one job each.",
+      "Her input always in a card, with Change or Edit as a flat link at its top right, centred on the label; Change to pick again, Edit to type again.",
       "Flat links sit at the left, 32px apart; Edit carries a pencil.",
     ],
   },

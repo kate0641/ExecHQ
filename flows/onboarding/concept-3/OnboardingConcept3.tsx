@@ -638,6 +638,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
                 {heardRows.map((row) => (
                   <Said
                     key={row.label}
+                    inCard
                     label={row.label}
                     value={row.value}
                     onChange={() => {
@@ -805,23 +806,36 @@ interface PageProps {
 const toggle = (drawer: DrawerControl) => () => drawer.setMode(drawer.mode === "open" ? "peek" : "open");
 
 /** What the user said, back on the page, with the way to change it. */
-function Said({ value, onChange, label }: { value: string; onChange: () => void; label?: string }) {
-  return (
+/** What she said, with Change at the top right. On its own it sits in a card;
+ *  `inCard` when a reads card already holds it. */
+function Said({
+  value,
+  onChange,
+  label,
+  inCard = false,
+}: {
+  value: string;
+  onChange: () => void;
+  label?: string;
+  inCard?: boolean;
+}) {
+  const said = (
     <div className="guide__said">
-      <p>
+      <div className="read-head">
         <span className="guide__said-label">{label ?? GUIDE_C3.drawer.said}</span>
-        <span className="guide__said-value">{value}</span>
-      </p>
-      <button
-        type="button"
-        className="guide__said-change"
-        aria-label={label ? `${GUIDE_C3.drawer.change}: ${label}` : undefined}
-        onClick={onChange}
-      >
-        {GUIDE_C3.drawer.change}
-      </button>
+        <button
+          type="button"
+          className="edit-link"
+          aria-label={`${GUIDE_C3.drawer.change}: ${label ?? GUIDE_C3.drawer.said}`}
+          onClick={onChange}
+        >
+          {GUIDE_C3.drawer.change}
+        </button>
+      </div>
+      <span className="guide__said-value">{value}</span>
     </div>
   );
+  return inCard ? said : <div className="card card--reads">{said}</div>;
 }
 
 /**
