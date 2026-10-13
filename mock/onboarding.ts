@@ -2376,7 +2376,9 @@ export const GUIDE_C3 = {
         },
         later: {
           label: "Save it and come back later",
-          detail: "It\u2019s saved. Both of these wait for you as next steps on your plan.",
+          // "as next" held together so "as" opens the second line instead of
+          // hanging at the end of the first (designer, 2026-10-13).
+          detail: "It\u2019s saved. Both of these wait for you as\u00a0next steps on your plan.",
         },
       },
       cta: "Save it and finish",
