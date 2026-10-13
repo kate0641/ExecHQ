@@ -17,6 +17,11 @@ function Workspace() {
   const [changing, setChanging] = useState(false);
 
   const hasDraft = Boolean(f.draft && f.version);
+  // Before the first draft, on a phone or tablet, the questions are on the
+  // page and there is no panel (13 Oct): the panel is for changing a draft.
+  // On web the panel sits beside where the draft will be, up on the inputs.
+  const panelFirst = web;
+  const inlineInputs = !hasDraft && !panelFirst;
   // Before the first draft the panel is up on the inputs; after, it rests at peek height.
   const isOpen = open ?? !hasDraft;
   const active = tab ?? (hasDraft ? "revise" : "inputs");
@@ -98,24 +103,35 @@ function Workspace() {
               choiceStarts: true,
               noGoesWith: true,
               onStart: () => {
-                setTab("inputs");
-                setOpen(true);
+                // On the page, to the next question; on web, up in the panel.
+                if (inlineInputs) setTimeout(() => document.querySelector<HTMLElement>(".tool-flow__inputs input, .tool-flow__inputs textarea")?.focus(), 0);
+                else {
+                  setTab("inputs");
+                  setOpen(true);
+                }
               },
             })}
-            <p className="tool-flow__placeholder">{C.pinnedEmpty}</p>
+            {inlineInputs ? (
+              <section className="tool-flow__inputs" aria-label={C.inputs}>
+                {given}
+              </section>
+            ) : (
+              <p className="tool-flow__placeholder">{C.pinnedEmpty}</p>
+            )}
           </>
         )}
       </div>
-      <WorkspacePanel tabs={tabs} active={active} onActive={setTab} open={isOpen} onOpenChange={setOpen} side={web} />
+      {inlineInputs ? null : <WorkspacePanel tabs={tabs} active={active} onActive={setTab} open={isOpen} onOpenChange={setOpen} side={web} />}
     </div>
   );
 }
 
 /**
- * Toolbox flow, Concept 2 — Document workspace. The draft has the whole
- * screen. Inputs, changes and versions live in a panel pulled up from a
- * peek-height bar, up on the inputs until the first draft exists and resting
- * at the bar after; on the web the panel sits beside the draft.
+ * Toolbox flow, Concept 2 — Document workspace. Before the first draft, every
+ * question is on one page under the use case (on web, in the panel beside
+ * where the draft will be). Once there is a draft it has the whole screen,
+ * and changing it, its versions and what it was built from live in a panel
+ * pulled up from a peek-height bar; on the web the panel sits beside it.
  */
 export function ToolFlowConcept2() {
   return (
