@@ -8708,6 +8708,17 @@ ol.ring-detail__timeline {
   overflow: clip;
 }
 
+/* Toolbox flow Concept 3's questions use the same drawer (13 Oct): inside a
+   tool the Ask or go pill steps aside, so no room is kept for it, and the
+   way back to the Toolbox keeps the screen's side margin. */
+.device__screen:has(.concierge-host) .chrome__main:has(> .guide--drawer) {
+  padding-bottom: 0;
+}
+
+.chrome__main:has(> .guide) > .tool-flow__bar {
+  padding: var(--space-screen-top) var(--space-screen-side) 0;
+}
+
 .guide--drawer {
   min-height: 0;
   max-width: none;

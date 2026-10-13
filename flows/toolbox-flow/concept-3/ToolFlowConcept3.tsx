@@ -3,12 +3,14 @@
 import { Suspense, useMemo, useState } from "react";
 import { StepHeader } from "@/components/onboarding/StepHeader";
 import { Button } from "@/components/primitives/Button";
+import { Input } from "@/components/form/Input";
+import { AnswerDrawer } from "@/components/onboarding/AnswerDrawer";
+import { GuidePage } from "@/components/onboarding/GuidePage";
 import { PickAnswer, pickedPhrase } from "@/components/toolbox/PickAnswer";
 import { PinnedDraft } from "@/components/toolbox/PinnedDraft";
 import { useStepNav } from "@/lib/step-nav";
 import { useViewport } from "@/lib/viewport-context";
 import { DRAFT_COPY, EXAMPLE_ANSWERS, FLOW_COPY as C, INPUT_COPY, INTERVIEW_PICKS, PICK_COPY, STEP_BAR_COPY, type ToolInput } from "@/mock/toolbox";
-import { QuestionStep } from "../QuestionStep";
 import { draftSteps, focusSoon, questionStep, TOOL_TITLE_ID, useToolFlow } from "../useToolFlow";
 
 const STEP_HEADING = "tool-step-heading";
@@ -18,7 +20,6 @@ function Interview() {
   const web = useViewport().viewport === "web";
   // -1 is the start screen (the use case); 0..asked.length-1 the questions; asked.length the last screen.
   const [at, setAt] = useState(-1);
-  const [error, setError] = useState<string>();
   const [expanded, setExpanded] = useState(false);
   // Once it is ready the draft is a clean read, as in Concept 1 (13 Oct);
   // "Change something" brings the working draft back until she is done.
@@ -35,6 +36,7 @@ function Interview() {
   const asked = [...open.filter((input) => !input.optional), ...open.filter((input) => input.optional)];
   const rest = f.inputs.filter(isKnown);
   const hasKnown = rest.length > 0;
+  const [drawerOpen, setDrawerOpen] = useState(true);
   const [picks, setPicks] = useState<Record<string, { picked: string[]; other: string }>>({});
   /** A question's chips: her own answer first, where ExecHQ knows it. */
   const pickFor = (input: ToolInput) => {
@@ -71,7 +73,6 @@ function Interview() {
         ? `q-${asked[at].id}`
         : "last";
   useStepNav(steps, current, (id) => {
-    setError(undefined);
     if (id === "start") {
       f.jumpBefore([], [...firstQuestions, ...asked, ...rest]);
       setAt(-1);
@@ -92,7 +93,7 @@ function Interview() {
   if (f.later) return f.laterNote;
 
   const go = (next: number) => {
-    setError(undefined);
+    setDrawerOpen(true);
     setAt(next);
     focusSoon(next < 0 ? TOOL_TITLE_ID : STEP_HEADING);
   };
@@ -146,76 +147,84 @@ function Interview() {
       </div>
     );
   } else if (at < asked.length) {
+    // The question screens are onboarding's (13 Oct): the question on the
+    // page with the draft so far, the answer in a drawer at the foot.
     const input = asked[at];
     const pick = pickFor(input);
     const last = at === asked.length - 1 && !hasKnown;
-    const next = () => {
-      if (!input.optional && !f.valueOf(input.id).trim()) {
-        setError(pick ? PICK_COPY.missing : INPUT_COPY.missing);
-        return;
-      }
-      if (last) {
-        f.write();
-        setExpanded(true);
-      } else go(at + 1);
-    };
+    const said = f.valueOf(input.id).trim();
     const mine = picks[input.id] ?? { picked: [], other: "" };
-    interview = (
-      <div className="tool-flow__interview">
-        {at === 0 ? f.source : null}
-        {pick ? (
-          <div className="question-step">
-            <StepHeader eyebrow={C.step(at + 1, asked.length + (hasKnown ? 1 : 0))} title={input.label} id={STEP_HEADING} />
-            <PickAnswer
-              label={input.label}
-              labelHidden
-              mode={pick.mode}
-              options={pick.options}
-              picked={mine.picked}
-              other={mine.other}
-              error={error}
-              onChange={(picked, other) => {
-                setError(undefined);
-                setPicks((p) => ({ ...p, [input.id]: { picked, other } }));
-                f.setValue(input.id, pickedPhrase(picked.filter((x) => x !== PICK_COPY.other), other));
+    const lands = f.landsIn(input.id);
+    return (
+      <>
+        {f.header}
+        <GuidePage
+          part={f.tool.name}
+          position={C.step(at + 1, asked.length + (hasKnown ? 1 : 0))}
+          partIndex={at}
+          partCount={asked.length + (hasKnown ? 1 : 0)}
+          title={input.label}
+          lede={pick ? undefined : input.hint}
+          headingId={STEP_HEADING}
+          drawer={
+            <AnswerDrawer
+              question={input.label}
+              questionId={STEP_HEADING}
+              open={drawerOpen}
+              onToggle={() => setDrawerOpen(!drawerOpen)}
+              peekStatus={PICK_COPY.peek}
+              // Optional and still empty, the main button skips it.
+              primaryLabel={last ? INPUT_COPY.write : input.optional && !said ? PICK_COPY.skip : C.next}
+              primaryDisabled={!input.optional && !said}
+              onPrimary={() => {
+                if (last) {
+                  f.write();
+                  setExpanded(true);
+                } else go(at + 1);
               }}
-            />
-          </div>
-        ) : (
-          <QuestionStep
-            input={input}
-            value={f.valueOf(input.id)}
-            onChange={(v) => {
-              setError(undefined);
-              f.setValue(input.id, v);
-            }}
-            error={error}
-            eyebrow={C.step(at + 1, asked.length + (hasKnown ? 1 : 0))}
-            headingId={STEP_HEADING}
-          />
-        )}
-        {/* Where her answer lands, as she answers: the interview shows its work. */}
-        {f.landsIn(input.id) ? (
-          <div className="interview-lands" aria-live="polite">
-            <span className="interview-lands__label">{C.landsIn}</span>
-            <p className="interview-lands__text">{f.landsIn(input.id)}</p>
-          </div>
-        ) : null}
-        {/* Next is pinned to the foot of the screen, as in Concept 1. */}
-        <div className="tool-flow__step-actions tool-flow__step-actions--pinned">
-          <Button fullWidth loading={last && f.writing} onClick={next}>
-            {last ? INPUT_COPY.write : C.next}
-          </Button>
-          {input.optional && !f.valueOf(input.id).trim() && !last ? (
-            <Button variant="ghost" onClick={() => go(at + 1)}>
-              {PICK_COPY.skip}
-            </Button>
+              secondaryLabel={C.previous}
+              onSecondary={() => go(at - 1)}
+              autoFocusField={!pick && input.kind !== "choice"}
+            >
+              {pick ? (
+                <PickAnswer
+                  label={input.label}
+                  labelHidden
+                  mode={pick.mode}
+                  options={pick.options}
+                  picked={mine.picked}
+                  other={mine.other}
+                  onChange={(picked, other) => {
+                    setPicks((p) => ({ ...p, [input.id]: { picked, other } }));
+                    f.setValue(input.id, pickedPhrase(picked, other));
+                  }}
+                />
+              ) : (
+                <Input
+                  label={input.label}
+                  labelHidden
+                  placeholder={input.placeholder}
+                  value={f.valueOf(input.id)}
+                  type={input.kind === "date" ? "date" : undefined}
+                  multiline={input.kind === "long"}
+                  rows={4}
+                  onChange={(event) => f.setValue(input.id, event.target.value)}
+                />
+              )}
+            </AnswerDrawer>
+          }
+        >
+          {at === 0 ? f.source : null}
+          {pinned}
+          {/* Where her answer lands, as she answers: the interview shows its work. */}
+          {lands ? (
+            <div className="interview-lands" aria-live="polite">
+              <span className="interview-lands__label">{C.landsIn}</span>
+              <p className="interview-lands__text">{lands}</p>
+            </div>
           ) : null}
-          <Button variant="ghost" onClick={() => go(at - 1)}>
-            {C.previous}
-          </Button>
-        </div>
-      </div>
+        </GuidePage>
+      </>
     );
   } else {
     interview = (

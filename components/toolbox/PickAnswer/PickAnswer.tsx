@@ -11,12 +11,11 @@ export interface PickAnswerProps {
   mode: "one" | "many";
   options: readonly string[];
   picked: readonly string[];
-  /** What she wrote under Other. */
+  /** What she wrote in Other. */
   other: string;
   onChange: (picked: string[], other: string) => void;
   /** The question is the page's heading, so the chips' own label is hidden. */
   labelHidden?: boolean;
-  error?: string;
   className?: string;
 }
 
@@ -32,37 +31,26 @@ export function pickedPhrase(picked: readonly string[], other: string): string {
 
 /**
  * Toolbox flow Concept 3's way of answering (13 October): tap, don't type.
- * Chips to check all that apply (or pick one, where there is only one
- * answer), and Other, which opens a line for her own words. Where ExecHQ
- * knows something only she would say, it leads the chips, so a tap still
- * says something specific.
+ * The options one to a line, the same width, to check all that apply (or
+ * pick one, where there is only one answer), then a field for anything else
+ * in her own words, always there to tap into. Where ExecHQ knows something
+ * only she would say, it leads the options, so a tap still says something
+ * specific.
  */
-export function PickAnswer({ label, mode, options, picked, other, onChange, labelHidden = false, error, className }: PickAnswerProps) {
-  const otherOn = picked.includes(C.other);
+export function PickAnswer({ label, mode, options, picked, other, onChange, labelHidden = false, className }: PickAnswerProps) {
   return (
     <div className={["pick-answer", className].filter(Boolean).join(" ")}>
       <ChipGroup
         label={label}
         labelHidden={labelHidden}
         note={mode === "many" ? C.many : undefined}
-        options={[...options, C.other]}
+        options={options}
         value={picked}
-        max={mode === "many" ? options.length + 1 : 1}
-        onChange={(next) => onChange(next, next.includes(C.other) ? other : "")}
+        max={mode === "many" ? options.length : 1}
+        equalWidth
+        onChange={(next) => onChange(next, other)}
       />
-      {otherOn ? (
-        <Input
-          label={C.otherLabel}
-          placeholder={C.otherPlaceholder}
-          value={other}
-          error={error}
-          onChange={(event) => onChange([...picked], event.target.value)}
-        />
-      ) : error ? (
-        <p className="pick-answer__error" role="alert">
-          {error}
-        </p>
-      ) : null}
+      <Input label={C.otherLabel} placeholder={C.otherPlaceholder} value={other} onChange={(event) => onChange([...picked], event.target.value)} />
     </div>
   );
 }

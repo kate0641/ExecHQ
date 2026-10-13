@@ -1327,10 +1327,12 @@ export const INTERVIEW_PICKS: Record<ArtifactKind, Record<string, InterviewPick>
 
 export const PICK_COPY = {
   other: "Other",
-  otherLabel: "In your own words",
+  otherLabel: "Other",
   otherPlaceholder: "Write your own",
   many: "Pick all that apply.",
   and: "and",
   missing: "Pick at least one, or write your own.",
   skip: "Skip",
+  /** On the drawer's fold: what it holds. */
+  peek: "Tap to answer",
 } as const;
