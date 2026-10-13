@@ -1,3 +1,5 @@
+import { keepAfterComma } from "@/components/primitives/keep-after-comma";
+
 export interface PointListItem {
   title: string;
   /** One paragraph, or several. */
@@ -31,7 +33,7 @@ export function PointList({ items, numbered = false, label, helpsLabel = "How it
           <p className="point-list__title">{item.title}</p>
           {(typeof item.detail === "string" ? [item.detail] : item.detail).map((paragraph) => (
             <p key={paragraph} className="point-list__detail">
-              {paragraph}
+              {keepAfterComma(paragraph)}
             </p>
           ))}
           {item.helps ? (

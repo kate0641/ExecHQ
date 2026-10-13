@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { StepActions } from "@/components/onboarding/StepActions";
 import type { ButtonVariant } from "@/components/primitives/Button";
 import { Wordmark } from "@/components/primitives/Wordmark";
+import { keepAfterComma } from "@/components/primitives/keep-after-comma";
 
 export interface GuidePageProps {
   /** Where the user is, in words: the part of onboarding, e.g. "About you". */
@@ -119,7 +120,7 @@ export function GuidePage({
         <h1 className="guide__title" id={headingId} tabIndex={-1}>
           {title}
         </h1>
-        {lede ? <p className="guide__lede">{lede}</p> : null}
+        {lede ? <p className="guide__lede">{keepAfterComma(lede)}</p> : null}
       </header>
 
       {children ? <div className="guide__body">{children}</div> : null}
@@ -127,7 +128,7 @@ export function GuidePage({
       {why ? (
         <aside className="guide__why" aria-label={whyLabel}>
           <p className="guide__why-label">{whyLabel}</p>
-          <p className="guide__why-text">{why}</p>
+          <p className="guide__why-text">{keepAfterComma(why)}</p>
         </aside>
       ) : null}
 

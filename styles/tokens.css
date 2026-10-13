@@ -561,15 +561,14 @@
   --type-eyebrow-leading: var(--leading-snug);
   --type-eyebrow-tracking: var(--tracking-label);
   --type-eyebrow-word-spacing: var(--word-spacing-normal);
-  /* Group title — names a group of content on the page, outside a card: a
-     list, a set of links, Why this matters. A real title, so sentence case
-     and a touch larger than an eyebrow; an eyebrow labels a read inside a
-     card or introduces a heading (designer, 2026-10-13). */
+  /* Group title — names a group of content: a list, a set of links, Why this
+     matters, What next. The eyebrow's small capitals, a size up from it
+     (designer, 2026-10-13). The case is set with the role in app.css. */
   --type-group-title-font: var(--font-body);
-  --type-group-title-size: var(--text-md);
+  --type-group-title-size: var(--text-sm);
   --type-group-title-weight: var(--weight-semibold);
   --type-group-title-leading: var(--leading-snug);
-  --type-group-title-tracking: var(--tracking-normal);
+  --type-group-title-tracking: var(--tracking-label);
   --type-group-title-word-spacing: var(--word-spacing-normal);
 
   /* Figure — numbers shown as data: follower counts, percentages, the stage

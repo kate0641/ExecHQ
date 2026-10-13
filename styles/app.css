@@ -7274,7 +7274,8 @@ ol.ring-detail__timeline {
   line-height: var(--type-group-title-leading);
   letter-spacing: var(--type-group-title-tracking);
   word-spacing: var(--type-group-title-word-spacing);
-  color: var(--color-text-primary);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
 }
 
 .builder-output__edit {
@@ -7895,10 +7896,18 @@ ol.ring-detail__timeline {
   border-radius: var(--radius-pill);
 }
 
+/* The ways on are one card, as Done's list is: the raised surface, a soft
+   edge, its group title inside, and a hairline between choices with 20px
+   either side. Each choice is a row ending in a chevron, since only a card
+   row with a chevron is tappable (designer, 2026-10-13). */
 .next-steps {
   display: flex;
   flex-direction: column;
   gap: var(--space-group-title);
+  padding: var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
 }
 
 /* Names the choices under it, on the page: a group title. */
@@ -7909,50 +7918,80 @@ ol.ring-detail__timeline {
   line-height: var(--type-group-title-leading);
   letter-spacing: var(--type-group-title-tracking);
   word-spacing: var(--type-group-title-word-spacing);
-  color: var(--color-text-primary);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
 }
 
 .next-steps__list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: var(--space-divided-item);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-/* Outlined, on the page surface, so each reads as something to press and not
-   as a disabled grey control. */
+.next-steps__list > li + li {
+  padding-top: var(--space-divided-item);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
 .next-steps .btn {
+  width: 100%;
   height: auto;
-  padding: var(--space-sm) var(--space-md);
-  justify-content: flex-start;
-  background-color: var(--color-surface);
+  min-height: var(--button-target);
+  padding: 0;
+  justify-content: space-between;
+  gap: var(--space-md);
+  background-color: transparent;
   color: var(--color-text-primary);
-  border: var(--border-strong);
-  border-radius: var(--radius-lg);
+  border: 0;
+  border-radius: var(--radius-xs);
+  text-align: left;
+  white-space: normal;
 }
 
 .next-steps .btn:hover,
 .next-steps .btn.is-hover {
-  background-color: var(--color-surface-raised);
+  background-color: transparent;
+}
+
+.next-steps .btn:hover .next-steps__go,
+.next-steps .btn.is-hover .next-steps__go {
+  color: var(--color-text-primary);
 }
 
 .next-steps__text {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3xs);
+  gap: var(--space-2xs);
   text-align: left;
 }
 
+/* The choice reads like a numbered point's title and copy, without the
+   number. */
 .next-steps__title {
+  font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
+  font-size: var(--text-md);
   font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
 }
 
 .next-steps__detail {
-  font-size: var(--text-xs);
+  font-family: var(--type-body-sm-font);
+  font-size: var(--text-sm);
   font-weight: var(--weight-regular);
-  opacity: 0.8;
+  line-height: var(--leading-normal);
+  letter-spacing: normal;
+  word-spacing: normal;
+  color: var(--color-text-secondary);
+}
+
+.next-steps__go {
+  flex: none;
+  color: var(--color-text-secondary);
 }
 
 .plan-ahead {
@@ -8254,7 +8293,8 @@ ol.ring-detail__timeline {
   line-height: var(--type-group-title-leading);
   letter-spacing: var(--type-group-title-tracking);
   word-spacing: var(--type-group-title-word-spacing);
-  color: var(--color-text-primary);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
 }
 
 .guide__why-text {
@@ -8568,7 +8608,8 @@ ol.ring-detail__timeline {
   line-height: var(--type-group-title-leading);
   letter-spacing: var(--type-group-title-tracking);
   word-spacing: var(--type-group-title-word-spacing);
-  color: var(--color-text-primary);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
 }
 
 .point-box .point-list {

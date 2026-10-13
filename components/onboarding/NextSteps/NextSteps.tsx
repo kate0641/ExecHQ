@@ -1,4 +1,6 @@
 import { Button } from "@/components/primitives/Button";
+import { Icon } from "@/components/primitives/Icon";
+import { keepAfterComma } from "@/components/primitives/keep-after-comma";
 
 export interface NextStep {
   label: string;
@@ -17,9 +19,9 @@ export interface NextStepsProps {
 /**
  * The ways on from a finished piece of work, as peers: refine it now, take it
  * further, or save it and come back. None is the default, so leaving it for
- * later reads as a real choice and not an escape. Each is a full-width button
- * with a line saying what it does, the same width as the options elsewhere in
- * the flow.
+ * later reads as a real choice and not an escape. They sit in one card, a
+ * hairline between them, each a row with a line saying what it does and a
+ * chevron to say it can be pressed.
  */
 export function NextSteps({ label, steps, className }: NextStepsProps) {
   return (
@@ -30,9 +32,10 @@ export function NextSteps({ label, steps, className }: NextStepsProps) {
           <li key={step.label}>
             <Button variant="secondary" fullWidth onClick={step.onChoose}>
               <span className="next-steps__text">
-                <span className="next-steps__title">{step.label}</span>
-                <span className="next-steps__detail">{step.detail}</span>
+                <span className="next-steps__title">{keepAfterComma(step.label)}</span>
+                <span className="next-steps__detail">{keepAfterComma(step.detail)}</span>
               </span>
+              <Icon name="chevron" size={20} className="next-steps__go" />
             </Button>
           </li>
         ))}
