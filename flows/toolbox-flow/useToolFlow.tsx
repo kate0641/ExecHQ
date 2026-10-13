@@ -726,7 +726,7 @@ export function useToolFlow(concept: FlowConcept) {
       </form>
     ) : null;
 
-  const useBar = (options: { noStatus?: boolean; exportInMenu?: boolean } = {}): ReactNode =>
+  const useBar = (options: { noStatus?: boolean; exportInMenu?: boolean; noNotes?: boolean } = {}): ReactNode =>
     record ? (
       <>
         <DraftUseBar
@@ -745,6 +745,7 @@ export function useToolFlow(concept: FlowConcept) {
           }
           noStatus={options.noStatus}
           exportInMenu={options.exportInMenu}
+          noNotes={options.noNotes}
           note={
             record.kind === "situation-brief"
               ? [TOOL_COPY.onePage, briefDate ? TOOL_COPY.askAfter(aheadPhrase(addDays(briefDate, 1), loop.today)) : ""].filter(Boolean).join(" ")

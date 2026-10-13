@@ -26,6 +26,9 @@ export interface DraftUseBarProps {
   exportInMenu?: boolean;
   /** A line under the buttons that stays: "Exports as one page." */
   note?: string;
+  /** No lines under the buttons: no note, and the never-posts guardrail
+   *  left to the page (Concept 1's fixed bar, 13 October). */
+  noNotes?: boolean;
   /** Opens having just copied (catalogue). */
   justCopied?: boolean;
   className?: string;
@@ -36,7 +39,7 @@ export interface DraftUseBarProps {
  * "Copy to post on LinkedIn"), export it where that is in scope, and mark it
  * ready. ExecHQ never posts or sends anything; the words say so.
  */
-export function DraftUseBar({ kind, ready = false, onCopy, onExport, onMarkReady, onMarkUsed, noStatus = false, exportable: canExport, exportInMenu = false, note, justCopied = false, className }: DraftUseBarProps) {
+export function DraftUseBar({ kind, ready = false, onCopy, onExport, onMarkReady, onMarkUsed, noStatus = false, exportable: canExport, exportInMenu = false, note, noNotes = false, justCopied = false, className }: DraftUseBarProps) {
   const [message, setMessage] = useState(justCopied ? C.copied : "");
   const exportable = (canExport ?? C.exportable[kind]) && onExport;
   return (
@@ -99,9 +102,9 @@ export function DraftUseBar({ kind, ready = false, onCopy, onExport, onMarkReady
           <Button onClick={onMarkReady}>{C.markReady}</Button>
         )}
       </div>
-      {note ? <p className="draft-use__note">{note}</p> : null}
+      {note && !noNotes ? <p className="draft-use__note">{note}</p> : null}
       {/* Guardrail: she sends or posts it herself, and the bar says so. */}
-      {kind === "pitch" || kind === "thought-leadership" ? <p className="draft-use__note">{C.neverPosts}</p> : null}
+      {!noNotes && (kind === "pitch" || kind === "thought-leadership") ? <p className="draft-use__note">{C.neverPosts}</p> : null}
       <output className="draft-use__message">{message || (ready && !noStatus ? C.ready : "")}</output>
     </div>
   );
