@@ -18369,6 +18369,12 @@ ul.plan-guided__sparks {
   -webkit-line-clamp: 3;
 }
 
+/* A plain list (Concept 1's Library page): no card, so the rows line up
+   with the search field and the page's edge. */
+.library__rows--plain .list__item {
+  padding-inline: 0;
+}
+
 .library__status {
   margin-right: var(--space-3xs);
   vertical-align: baseline;

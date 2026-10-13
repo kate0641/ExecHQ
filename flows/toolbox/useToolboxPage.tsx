@@ -81,7 +81,7 @@ export function useToolboxPage(concept: "concept-1" | "concept-2" | "concept-3")
    *
    *  In a folder (`folder`), the tool goes without saying: the row is the
    *  title, its status and the date it last changed, and what comes next. */
-  function itemOf(item: LibraryItem, options: { hideArea?: boolean; folder?: boolean }): ListItemData {
+  function itemOf(item: LibraryItem, options: { hideArea?: boolean; folder?: boolean; plain?: boolean }): ListItemData {
     const { record } = item;
     const source = item.reusedFrom
       ? FLOW_COPY.reusedFrom(item.reusedFrom)
@@ -105,7 +105,11 @@ export function useToolboxPage(concept: "concept-1" | "concept-2" | "concept-3")
       primary: record.title,
       // The status leads the second line, so on a phone the title keeps the
       // width and only the menu sits at the end.
-      secondary: options.folder ? (
+      secondary: options.plain ? (
+        // A plain list (Concept 1's Library page): the tool and the date,
+        // nothing more (Kate, 13 Oct). Status is still the Status menu's filter.
+        [item.tool, shortDate(item.lastOn)].join(" · ")
+      ) : options.folder ? (
         <>
           <LoopStatus record={record} detail={false} className="library__status" />
           {" · "}
@@ -121,11 +125,13 @@ export function useToolboxPage(concept: "concept-1" | "concept-2" | "concept-3")
         </>
       ),
       href: artifactHref(record.id),
-      leading: options.folder ? undefined : { type: "icon", name: TOOL_ICONS[record.kind] },
+      leading: options.folder || options.plain ? undefined : { type: "icon", name: TOOL_ICONS[record.kind] },
       trailing: {
         actions: (
           <>
-            {record.state === "outcome" ? (
+            {/* In a plain list every row looks the same: Close waits in the
+                menu with the other actions (Kate, 13 Oct). */}
+            {record.state === "outcome" && !options.plain ? (
               <Button
                 variant="secondary"
                 size="sm"
@@ -148,8 +154,17 @@ export function useToolboxPage(concept: "concept-1" | "concept-2" | "concept-3")
   }
 
   /** Library rows as a list, one or two lines each, divided. */
-  const list = (items: readonly LibraryItem[], options: { hideArea?: boolean; folder?: boolean; label?: string } = {}): ReactNode =>
-    items.length ? <List items={items.map((i) => itemOf(i, options))} label={options.label ?? C.heading} dividers="full" className={options.folder ? "library__rows library__rows--folder" : "library__rows"} /> : null;
+  const list = (items: readonly LibraryItem[], options: { hideArea?: boolean; folder?: boolean; plain?: boolean; label?: string } = {}): ReactNode =>
+    items.length ? (
+      <List
+        items={items.map((i) => itemOf(i, options))}
+        label={options.label ?? C.heading}
+        dividers="full"
+        // Plain: no card around the rows, just the rows and the lines between them.
+        framed={!options.plain}
+        className={["library__rows", options.folder ? "library__rows--folder" : null, options.plain ? "library__rows--plain" : null].filter(Boolean).join(" ")}
+      />
+    ) : null;
 
   const header = (
     <header className="toolbox-page__header">

@@ -186,7 +186,8 @@ function Concept1Page() {
               </div>
               {p.noMatch}
               {shown.length === 0 && !p.noMatch ? <p className="library__no-match">{F.noneMatch}</p> : null}
-              {p.list(shown)}
+              {/* A straightforward list, no cards (Kate, 13 Oct). */}
+              {p.list(shown, { plain: true })}
             </>
           )}
         </section>
