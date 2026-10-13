@@ -3,6 +3,8 @@
 import { LoopRow } from "@/components/homepage/LoopRow";
 import { CardCarousel, type CarouselItem } from "@/components/layout/CardCarousel";
 import { CheckIn } from "@/components/loop/CheckIn";
+import { OutcomeNext } from "@/components/loop/OutcomeNext";
+import { useNextAfter } from "@/lib/use-next-after";
 import { addDays, aheadPhrase, dueFollowUps, outcomeReadback, type LoopRecord } from "@/lib/loop";
 import { loopActions, type LoopView } from "@/lib/loop-store";
 import { CHECKIN_COPY as CK, HOME_COPY, STAY_COPY as S } from "@/mock/homepage";
@@ -62,6 +64,13 @@ export function InProgress({ loop }: { loop: LoopView }) {
 
   const anyUsed = loop.records.some((r) => r.usedOn);
 
+  /* Once she has answered, the card gives her next step, whatever she said,
+     by the rules the builder and the advisor share; she asks for nothing
+     more, and a note is hers to add (13 Oct). */
+  const answeredType = answered ? (answered.outcome?.type ?? "no-response-yet") : undefined;
+  const nextForRecord = useNextAfter(answered && answeredType ? { record: answered, type: answeredType } : undefined);
+  const nextForTask = useNextAfter(pendingTask && taskCheck?.outcome ? { taskId: pendingTask.id, type: taskCheck.outcome.type } : undefined);
+
   /* Each thing waiting on her word is a card, in this order: an action with
      no draft she has done, what she has just answered, follow-ups due,
      drafts ready, then drafts only waiting, which are quiet. */
@@ -70,17 +79,30 @@ export function InProgress({ loop }: { loop: LoopView }) {
     cards.push({
       id: `task-${pendingTask.id}`,
       node: (
-        <CheckIn
-          task={taskCheck}
-          today={loop.today}
-          about={pendingTask.title}
-          layout="question"
-          answered={Boolean(taskCheck.outcome)}
-          readback={taskReadback}
-          onAnswer={(type) => loopActions.answerTask(pendingTask.id, type)}
-          onNote={(detail) => loopActions.noteTask(pendingTask.id, detail)}
-          headingId="check-in-task"
-        />
+        taskCheck.outcome && nextForTask ? (
+          <OutcomeNext
+            readback={nextForTask.readback}
+            offers={nextForTask.offers}
+            onNote={(detail) => loopActions.noteTask(pendingTask.id, detail)}
+            noted={taskCheck.outcome.detail}
+            headingId="check-in-task"
+          />
+        ) : (
+          <CheckIn
+            task={taskCheck}
+            today={loop.today}
+            about={pendingTask.title}
+            layout="question"
+            answered={Boolean(taskCheck.outcome)}
+            readback={taskReadback}
+            onAnswer={(type) => {
+              loopActions.answerTask(pendingTask.id, type);
+              focusSoon("check-in-task");
+            }}
+            onNote={(detail) => loopActions.noteTask(pendingTask.id, detail)}
+            headingId="check-in-task"
+          />
+        )
       ),
     });
   }
@@ -88,7 +110,21 @@ export function InProgress({ loop }: { loop: LoopView }) {
     const headingId = `check-in-${record.id}`;
     cards.push({
       id: record.id,
-      node: (
+      node:
+        isAnswered && nextForRecord ? (
+          <OutcomeNext
+            readback={nextForRecord.readback}
+            offers={nextForRecord.offers}
+            note={nextForRecord.note}
+            onNote={answeredType === "no-longer-relevant" && record.kind !== "positioning" ? undefined : (detail) => loopActions.noteOutcome(record.id, detail)}
+            noted={record.outcome?.detail}
+            onNotNow={() => {
+              loopActions.moveOn();
+              focusSoon("stay-heading");
+            }}
+            headingId={headingId}
+          />
+        ) : (
         <CheckIn
           record={record}
           today={loop.today}
@@ -107,7 +143,7 @@ export function InProgress({ loop }: { loop: LoopView }) {
           }}
           onNote={(detail) => loopActions.noteOutcome(record.id, detail)}
         />
-      ),
+        ),
     });
   };
   if (answered) recordCard(answered, true);

@@ -21184,6 +21184,38 @@ button.progress-stepper__target.is-focus {
   color: var(--color-text-secondary);
 }
 
-.outcome-next__not-now {
-  align-self: flex-start;
+
+.outcome-next__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-md);
+}
+
+.outcome-next__note-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.outcome-next__note-label {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.outcome-next__note-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.outcome-next__noted {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.outcome-next__noted-label {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
 }

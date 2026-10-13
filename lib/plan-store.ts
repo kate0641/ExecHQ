@@ -115,14 +115,21 @@ export function addStepToPlan(scenario: string, stepId: string, today: string, h
   });
 }
 
-/** The first step on her Plan in this scenario, as it would open now: the
- *  next thing to do when a piece of work has no step of its own to offer. */
-export function useNextOnPlan(scenario: string, today: string, notId?: string): string | undefined {
-  const store = useSyncExternalStore(subscribe, get, () => EMPTY);
-  const switched = Boolean(store.roadmap[scenario]?.history.length);
+/** What is on her Plan now, outside React (the advisor reads it fresh). */
+export function planShownNow(scenario: string, today: string): readonly string[] {
+  const store = get();
   const saved = store.steps[planStepsKey(scenario, store.roadmap[scenario])];
-  const shown = saved ? saved.state.shown : switched ? [] : initialPlanState(today).shown;
-  return shown.find((id) => id !== notId);
+  if (saved) return saved.state.shown;
+  return store.roadmap[scenario]?.history.length ? [] : initialPlanState(today).shown;
+}
+
+/** What is on her Plan in this scenario now, in order: as she left it, or as
+ *  it would open. */
+export function usePlanShown(scenario: string, today: string): readonly string[] {
+  const store = useSyncExternalStore(subscribe, get, () => EMPTY);
+  const saved = store.steps[planStepsKey(scenario, store.roadmap[scenario])];
+  if (saved) return saved.state.shown;
+  return store.roadmap[scenario]?.history.length ? [] : initialPlanState(today).shown;
 }
 
 /** Whether a step is on her Plan in this scenario. */

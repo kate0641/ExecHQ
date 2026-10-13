@@ -61,6 +61,11 @@ function read(): ToolboxState {
   }
 }
 
+/** The store as it stands, outside React (the advisor reads it fresh). */
+export function toolboxNow(): ToolboxState {
+  return get();
+}
+
 function get(): ToolboxState {
   if (cached === undefined) cached = read();
   return cached;

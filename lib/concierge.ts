@@ -38,6 +38,7 @@ import {
 import { conceptHref, type NavDestination } from "@/lib/manifest";
 import type { ArtifactKind } from "@/mock/loop";
 import { matchMoment, TOOL_ORDER, TOOLS } from "@/mock/toolbox";
+import type { NextAfter, ResolvedOffer } from "@/lib/next-after";
 import type { Recommendation, Snapshot } from "@/mock/snapshots";
 
 /** What the Concierge needs to know: the live Loop and where things are. */
@@ -48,6 +49,9 @@ export interface ConciergeContext {
   destinations: NavDestination[];
   /** The next step offered once a record's outcome is logged. */
   nextStepAfter: (record: LoopRecord) => Recommendation;
+  /** What comes after she says how it went: the next step, whatever she
+   *  answered, by the rules the builder and Home share (13 Oct). */
+  nextAfter?: (record: LoopRecord, type: OutcomeType) => NextAfter;
 }
 
 export type ConciergeAction =
@@ -72,6 +76,13 @@ export type ConciergeAction =
    *  she asked from, whose flow the tool opens in. */
   | { kind: "find-tool"; text: string; concept: string; ask?: boolean }
   | { kind: "start-tool"; tool: ArtifactKind; text: string; concept: string }
+  /** One of the next steps he offered after she answered (`key`). */
+  | { kind: "take-offer"; recordId: string; outcome: OutcomeType; key: string }
+  /** "Add a note": he asks for it, and her next message is the note. */
+  | { kind: "add-note"; recordId: string }
+  | { kind: "save-note"; recordId: string; detail: string }
+  /** Set the next step aside: nothing changes. */
+  | { kind: "not-now" }
   /** Input he can't act on. `again` is true when the one before it was a
    *  miss too, so he stops offering the same menu. */
   | { kind: "miss"; miss: MissKind; again: boolean };
@@ -90,18 +101,28 @@ export interface AdvisorTurn {
   list?: string[];
   after?: string[];
   card?: { title: string; body: string };
+  /** Under the card: the second next step, named. */
+  afterCard?: string[];
   replies?: ConciergeReply[];
   /** Set when this turn answered input he couldn't act on, so a second miss
    *  in a row is noticed. */
   miss?: MissKind;
   /** He has just asked what came of the follow-up, so the next free-text
-   *  message is read as the answer. */
-  asked?: "follow-up";
+   *  message is read as the answer; or asked for a note on a record
+   *  (`note:<id>`), so the next message is the note. */
+  asked?: Asked;
 }
 
 /** What to change when the turn is shown. */
+/** What he has just asked, so her next message is read as the answer. */
+export type Asked = "follow-up" | `note:${string}`;
+
 export type ConciergeEffect =
   | { kind: "go"; href: string }
+  /** Does an offer that stays where she is: adds a step to her Plan, copies
+   *  part of the work, makes a sharper version. */
+  | { kind: "offer"; recordId: string; offer: ResolvedOffer }
+  | { kind: "note"; recordId: string; detail: string }
   | { kind: "answer"; recordId: string; outcome: OutcomeType; detail?: string }
   | { kind: "mark-used"; recordId: string; days: number | null }
   | { kind: "take-next"; recordId: string }
@@ -175,12 +196,15 @@ export function classifyMiss(t: string, recentMisses: number): ConciergeAction {
 export function understand(
   raw: string,
   ctx: ConciergeContext,
-  asked?: "follow-up",
+  asked?: Asked,
   /** How many of his last turns, in a row, were misses. */
   recentMisses = 0
 ): ConciergeAction {
   const t = raw.toLowerCase().trim().replace(/[.!?]+$/, "");
   const { records } = ctx.snapshot;
+
+  // He asked for a note: whatever she writes is the note.
+  if (asked?.startsWith("note:") && raw.trim()) return { kind: "save-note", recordId: asked.slice(5), detail: raw.trim() };
 
   // Someone in danger or in trouble at work is never read as anything else.
   if (CRISIS.test(t) || WORK_TROUBLE.test(t)) return classifyMiss(t, recentMisses);
@@ -284,40 +308,69 @@ export function respond(
       const r = byId(ctx, action.recordId);
       if (!r) return respond({ kind: "miss", miss: "unclear", again: false }, ctx);
       const effect: ConciergeEffect = { kind: "answer", recordId: r.id, outcome: action.outcome, detail: action.detail };
+      // Whatever she answered, he gives the next step: the same as the
+      // builder and Home (13 Oct). He asks nothing more; a note is hers to add.
+      const said = action.detail ? C.logged(action.detail) : C.loggedPlain(outcomeReadback(action.outcome, r.kind));
+      let when: string | undefined;
       if (action.outcome === "no-response-yet") {
         const count = r.nothingYet + 1;
         const gaps = FOLLOW_UP_POLICY.rescheduleDays;
         const next = addDays(today, gaps[Math.min(count, gaps.length) - 1]);
-        const later = count >= FOLLOW_UP_POLICY.maxNothingYet ? C.stopAsking : C.askAgain(aheadPhrase(next, today));
-        return { turn: { paragraphs: [C.nothingYet, later] }, effect };
+        when = count >= FOLLOW_UP_POLICY.maxNothingYet ? C.stopAsking : C.askAgain(aheadPhrase(next, today));
       }
-      if (action.outcome === "no-longer-relevant") return { turn: { paragraphs: [C.noLongerRelevant] }, effect };
-      const said = action.detail ? C.logged(action.detail) : C.loggedPlain(outcomeReadback(action.outcome, r.kind));
-      if (action.outcome === "negative") {
-        return {
-          turn: {
-            paragraphs: [said, C.notAVerdict],
-            replies: [
-              { label: C.talkItThrough, action: { kind: "politics" } },
-              { label: C.whatsNext, action: { kind: "next" } },
-            ],
-          },
-          effect,
-        };
-      }
-      const step = ctx.nextStepAfter(r);
+      const first =
+        action.outcome === "no-response-yet" ? C.nothingYet : action.outcome === "no-longer-relevant" ? C.noLongerRelevant : said;
+      const offers = ctx.nextAfter?.(r, action.outcome).offers ?? [];
+      const [lead, also] = offers;
+      const canNote = !action.detail && (action.outcome !== "no-longer-relevant" || r.kind === "positioning");
       return {
         turn: {
-          paragraphs: [said],
-          card: { title: C.nextStepCard(step.title), body: step.why },
+          paragraphs: [first, ...(when ? [when] : []), ...(lead ? [C.yourNextStep] : [])],
+          card: lead ? { title: lead.title, body: lead.body ?? "" } : undefined,
+          afterCard: also ? [C.alsoOffer(also.title)] : undefined,
           replies: [
-            { label: C.takeIt, action: { kind: "take-next", recordId: r.id } },
-            { label: C.notNow, action: { kind: "set-aside", recordId: r.id } },
+            ...(lead ? [{ label: lead.label, action: { kind: "take-offer" as const, recordId: r.id, outcome: action.outcome, key: lead.key } }] : []),
+            ...(also ? [{ label: also.label, action: { kind: "take-offer" as const, recordId: r.id, outcome: action.outcome, key: also.key } }] : []),
+            ...(canNote ? [{ label: C.addNote, action: { kind: "add-note" as const, recordId: r.id } }] : []),
+            ...(lead ? [{ label: C.notNow, action: { kind: "not-now" as const } }] : []),
           ],
         },
         effect,
       };
     }
+
+    case "take-offer": {
+      const r = byId(ctx, action.recordId);
+      const offer = r ? ctx.nextAfter?.(r, action.outcome).offers.find((o) => o.key === action.key) : undefined;
+      if (!r || !offer) return respond({ kind: "miss", miss: "unclear", again: false }, ctx);
+      if (offer.href) return { turn: { paragraphs: [C.takingYou(offer.title)] }, effect: { kind: "go", href: offer.href } };
+      return { turn: { paragraphs: [offer.doneText ?? C.done] }, effect: { kind: "offer", recordId: r.id, offer } };
+    }
+
+    case "add-note":
+      return { turn: { paragraphs: [C.notePrompt], asked: `note:${action.recordId}` } };
+
+    case "save-note": {
+      // The note is saved; the next step he gave is still there to take.
+      const r = byId(ctx, action.recordId);
+      const type = r?.outcome?.type ?? (r && r.nothingYet ? "no-response-yet" : undefined);
+      const offers = r && type ? (ctx.nextAfter?.(r, type).offers ?? []) : [];
+      return {
+        turn: {
+          paragraphs: [C.noted],
+          replies: r && type
+            ? [
+                ...offers.slice(0, 2).map((o) => ({ label: o.label, action: { kind: "take-offer" as const, recordId: r.id, outcome: type, key: o.key } })),
+                ...(offers.length ? [{ label: C.notNow, action: { kind: "not-now" as const } }] : []),
+              ]
+            : undefined,
+        },
+        effect: { kind: "note", recordId: action.recordId, detail: action.detail },
+      };
+    }
+
+    case "not-now":
+      return { turn: { paragraphs: [C.notNowAck] } };
 
     case "which-used": {
       const open = records.filter(isOpen);

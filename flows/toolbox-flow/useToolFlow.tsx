@@ -30,9 +30,9 @@ import { toolboxActions, toolboxPageFor, useToolbox, type DraftState } from "@/l
 import { TODAYS_READS } from "@/mock/briefing";
 import { ARTIFACT_KINDS, FOLLOW_UP_POLICY, type ArtifactKind } from "@/mock/loop";
 import { HOME_COPY } from "@/mock/homepage";
-import { ACTION_QUEUE, HANDOFF_RULES, HANDOFF_STEP, stepById } from "@/mock/plan";
-import { OutcomeNext, type OutcomeNextOffer } from "@/components/loop/OutcomeNext";
-import { addStepToPlan, useNextOnPlan, useOnPlan } from "@/lib/plan-store";
+import { stepById } from "@/mock/plan";
+import { OutcomeNext } from "@/components/loop/OutcomeNext";
+import { stepServed, useNextAfter } from "@/lib/use-next-after";
 import type { OutcomeType } from "@/lib/loop";
 import {
   BRIEF_INPUTS,
@@ -52,8 +52,6 @@ import {
   STEP_BAR_COPY,
   STEP_LABELS,
   STEP_PREFILLS,
-  AFTER_ANSWER,
-  type NextOffer,
   NEXT_STEP_COPY,
   TOOL_COPY,
   GOES_WITH,
@@ -171,8 +169,6 @@ export function draftSteps(kind: ArtifactKind, withVersions: boolean): StepNavIt
  * artifact, so leaving at any point finds the draft in the library exactly
  * where she left it, and opening it there comes straight back here.
  */
-const NEXT_ON_PLAN_OFFER: NextOffer = { type: "next-on-plan" };
-
 export function useToolFlow(concept: FlowConcept) {
   const params = useSearchParams();
   const router = useRouter();
@@ -938,101 +934,19 @@ export function useToolFlow(concept: FlowConcept) {
           : HOME_COPY.loggedPlain(outcomeReadback(record.outcome.type, record.kind))
       : undefined;
   /* After she says how it went (13 Oct): her one tap is all the feedback.
-     ExecHQ asks nothing more and always gives the next step, from her
-     answer, the work itself and her Plan (AFTER_ANSWER). A step goes on her
-     Plan only when she says so. */
-  const [after, setAfter] = useState<{ type: OutcomeType; done?: string[]; folded?: boolean } | null>(null);
-  const afterRule = after ? AFTER_ANSWER[kind][after.type] : undefined;
-  const markDone = (id: string) => setAfter((a) => (a ? { ...a, done: [...(a.done ?? []), id] } : a));
-  /** What she wanted from it, as she said it: a brief's own goal. */
-  const goal = kind === "situation-brief" ? (draft?.inputs.objective ?? valueOf("objective")).trim() : "";
-  const handsOffTo = goal ? HANDOFF_RULES.find((rule) => rule.says.test(goal))?.stepId : undefined;
-  const goalStep = handsOffTo ? stepById(HANDOFF_STEP[handsOffTo] ?? handsOffTo) : undefined;
-  const offeredSteps = (afterRule?.offers ?? []).flatMap((o) => (o.type === "plan-step" ? [o.stepId ? stepById(o.stepId) : goalStep] : [])).filter((x) => x !== undefined);
-  const onPlanA = useOnPlan(loop.id, offeredSteps[0]?.id);
-  const onPlanB = useOnPlan(loop.id, offeredSteps[1]?.id);
-  const isOnPlan = (id: string) => (id === offeredSteps[0]?.id ? onPlanA : id === offeredSteps[1]?.id ? onPlanB : false);
-  // Never the step this work was for: that one is what she just did.
-  const servedStepId = step?.id ?? ACTION_QUEUE.find((s) => s.title === record?.recommendation)?.id;
-  const nextOnPlanId = useNextOnPlan(loop.id, loop.today, servedStepId);
-  const nextOnPlan = nextOnPlanId ? stepById(nextOnPlanId) : undefined;
-  const N = NEXT_STEP_COPY;
-  const planLink = { label: N.planStep.open, href: conceptHref("plan", "concept-3") };
-  const offerFor = (offer: NextOffer, i: number): OutcomeNextOffer[] => {
-    const key = `${offer.type}-${i}`;
-    const done = after?.done?.includes(key);
-    switch (offer.type) {
-      case "plan-step": {
-        const planStep = offer.stepId ? stepById(offer.stepId) : goalStep;
-        // No step to offer: what's next on her Plan instead.
-        if (!planStep) return offerFor(NEXT_ON_PLAN_OFFER, i);
-        const because = offer.stepId ? offer.because : N.planStep.because(goal);
-        return [
-          {
-            id: key,
-            eyebrow: N.planStep.label,
-            title: planStep.title,
-            body: because,
-            action: {
-              label: N.planStep.add,
-              onClick: () => addStepToPlan(loop.id, planStep.id, loop.today, offer.stepId ? N.planStep.from(record?.title ?? "") : N.planStep.heard(goal)),
-            },
-            done: isOnPlan(planStep.id) ? { said: N.planStep.added, link: planLink } : undefined,
-          },
-        ];
-      }
-      case "copy":
-        return [
-          {
-            id: key,
-            title: offer.title,
-            body: offer.body,
-            action: {
-              label: offer.action,
-              onClick: () => {
-                if (!draft || !version) return;
-                const part = version.sections.filter((section) => offer.sections.includes(section.id));
-                navigator.clipboard?.writeText(draftText(part, edits, draft.answers)).catch(() => undefined);
-                markDone(key);
-              },
-            },
-            done: done ? { said: offer.copied } : undefined,
-          },
-        ];
-      case "again":
-        return artifactId ? [{ id: key, title: offer.title, body: offer.body, action: { label: offer.action, href: `${conceptHref("toolbox-flow", concept)}?reuse=${encodeURIComponent(artifactId)}` } }] : [];
-      case "start":
-        return artifactId
-          ? [{ id: key, title: offer.title, body: offer.body, action: { label: offer.action, href: `${conceptHref("toolbox-flow", concept)}?tool=${offer.tool}&after=${encodeURIComponent(artifactId)}` } }]
-          : [];
-      case "briefing":
-        return [{ id: key, title: offer.title, body: offer.body, action: { label: offer.action, href: conceptHref("daily-briefing", "concept-1") } }];
-      case "sharpen":
-        return [
-          {
-            id: key,
-            title: offer.title,
-            body: offer.body,
-            action: {
-              label: offer.action,
-              onClick: () => {
-                doRevise(offer.choice, "");
-                markDone(key);
-              },
-            },
-            done: done ? { said: offer.done } : undefined,
-          },
-        ];
-      case "next-on-plan":
-        return nextOnPlan ? [{ id: key, eyebrow: N.nextOnPlan.label, title: nextOnPlan.title, action: { label: N.nextOnPlan.action, href: planLink.href } }] : [];
-    }
-  };
+     ExecHQ asks nothing more and always gives the next step, by the rules
+     Home and the advisor share (lib/next-after.ts). A note is hers to add. */
+  const [after, setAfter] = useState<{ type: OutcomeType; folded?: boolean } | null>(null);
+  const servedStepId = step?.id ?? stepServed(record);
+  const next = useNextAfter(record && after ? { record, type: after.type } : undefined, { servedStepId, flowConcept: concept });
   const outcomeNext: ReactNode =
-    record && after && afterRule ? (
+    record && after && next ? (
       <OutcomeNext
-        readback={afterRule.readback}
-        offers={afterRule.offers.flatMap(offerFor)}
-        note={after.type === "no-response-yet" && record.checkBackOn ? N.askAgain(kind, aheadPhrase(record.checkBackOn, loop.today)) : undefined}
+        readback={next.readback}
+        offers={next.offers}
+        note={next.note}
+        onNote={after.type === "no-longer-relevant" && record.kind !== "positioning" ? undefined : (text) => loopActions.noteOutcome(record.id, text)}
+        noted={record.outcome?.detail}
         onNotNow={() => setAfter({ ...after, folded: true })}
         folded={after.folded}
         headingId="outcome-next"

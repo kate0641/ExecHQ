@@ -1,5 +1,7 @@
+"use client";
+
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { useId, useState, type ReactNode } from "react";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import { NEXT_STEP_COPY as C } from "@/mock/toolbox";
@@ -23,6 +25,12 @@ export interface OutcomeNextProps {
   offers: readonly OutcomeNextOffer[];
   /** A line under them: "ExecHQ will ask how it went on Friday." */
   note?: string;
+  /** "Add a note": hers to add, never asked for. Left out, no note. */
+  onNote?: (text: string) => void;
+  /** The note she has added, said back in place of "Add a note". */
+  noted?: string;
+  /** Catalogue only: opens with the note field showing. */
+  noteOpen?: boolean;
   /** Set it aside: the card folds to one line. */
   onNotNow?: () => void;
   folded?: boolean;
@@ -38,7 +46,21 @@ export interface OutcomeNextProps {
  * action: a Plan step (added only when she says so), the follow-up email, a
  * new brief, or what's next on her Plan. "Not now" folds it to one line.
  */
-export function OutcomeNext({ readback, offers, note, onNotNow, folded = false, headingId = "outcome-next", className }: OutcomeNextProps) {
+export function OutcomeNext({
+  readback,
+  offers,
+  note,
+  onNote,
+  noted,
+  noteOpen = false,
+  onNotNow,
+  folded = false,
+  headingId = "outcome-next",
+  className,
+}: OutcomeNextProps) {
+  const [writing, setWriting] = useState(noteOpen);
+  const [text, setText] = useState("");
+  const fieldId = useId();
   if (folded) {
     return (
       <p className={["outcome-next__logged", className].filter(Boolean).join(" ")}>
@@ -90,10 +112,53 @@ export function OutcomeNext({ readback, offers, note, onNotNow, folded = false, 
         ))}
       </ul>
       {note ? <p className="outcome-next__note">{note}</p> : null}
-      {onNotNow ? (
-        <button type="button" className="link link--standalone outcome-next__not-now" onClick={onNotNow}>
-          {C.notNow}
-        </button>
+      {noted ? (
+        <p className="outcome-next__noted">
+          <span className="outcome-next__noted-label">{C.yourNote}</span> {noted}
+        </p>
+      ) : onNote && writing ? (
+        <form
+          className="outcome-next__note-form"
+          onSubmit={(event) => {
+            event.preventDefault();
+            if (text.trim()) onNote(text.trim());
+            setWriting(false);
+          }}
+        >
+          <label className="outcome-next__note-label" htmlFor={fieldId}>
+            {C.noteLabel}
+          </label>
+          <textarea id={fieldId} aria-label={C.noteLabel} className="check-in__note-field" value={text} onChange={(event) => setText(event.target.value)} rows={3} />
+          <span className="outcome-next__note-actions">
+            <Button type="submit" size="sm">
+              {C.saveNote}
+            </Button>
+            <button type="button" className="link link--standalone" onClick={() => setWriting(false)}>
+              {C.skipNote}
+            </button>
+          </span>
+        </form>
+      ) : null}
+      {(onNote && !noted && !writing) || onNotNow ? (
+        <span className="outcome-next__links">
+          {onNote && !noted && !writing ? (
+            <button
+              type="button"
+              className="link link--standalone"
+              onClick={() => {
+                setWriting(true);
+                setTimeout(() => document.getElementById(fieldId)?.focus(), 0);
+              }}
+            >
+              {C.addNote}
+            </button>
+          ) : null}
+          {onNotNow ? (
+            <button type="button" className="link link--standalone outcome-next__not-now" onClick={onNotNow}>
+              {C.notNow}
+            </button>
+          ) : null}
+        </span>
       ) : null}
     </section>
   );

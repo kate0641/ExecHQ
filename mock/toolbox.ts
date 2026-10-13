@@ -1221,6 +1221,12 @@ export const AFTER_ANSWER: Record<ArtifactKind, Record<OutcomeType, AfterAnswer>
 export const NEXT_STEP_COPY = {
   heading: "Your next step",
   notNow: "Not now",
+  /** A note is hers to add, never asked for: every feedback card has it. */
+  addNote: "Add a note",
+  noteLabel: "Anything to add? Optional. Only you see it.",
+  saveNote: "Save note",
+  skipNote: "Skip",
+  yourNote: "Your note:",
   /** A step to add to her Plan. */
   planStep: {
     label: "Add to your plan",

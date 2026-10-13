@@ -60,6 +60,16 @@ export const CONCIERGE_COPY = {
   notAVerdict: "That’s useful to know, not a verdict. Do you want to talk it through?",
   nextStepCard: (title: string) => `Next on your plan: ${title}`,
   takeIt: "Take it on",
+  /** After she answers how it went (13 Oct): the next step, whatever she said. */
+  yourNextStep: "Here’s your next step.",
+  /** The second offer, named under the card so its button reads clearly. */
+  alsoOffer: (title: string) => `Or: ${title.charAt(0).toLowerCase()}${title.slice(1)}.`,
+  takingYou: (title: string) => `Taking you there: ${title.charAt(0).toLowerCase()}${title.slice(1)}.`,
+  done: "Done.",
+  addNote: "Add a note",
+  notePrompt: "What would you like to note? Only you see it.",
+  noted: "Thanks. That’s saved with it.",
+  notNowAck: "Fine. It’s here whenever you want it.",
   notNow: "Not now",
   talkItThrough: "Talk it through",
   whatsNext: "What’s next?",
