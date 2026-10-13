@@ -110,7 +110,18 @@ The shared options (voice, specificity, length, audience) and the conversational
 | **Check back** | When she gave a date, the day after it, however early she marks it used ("ExecHQ will ask how it went on Friday."). Otherwise 2 days after she marks it used. |
 | **The question** | "You used your check-in brief on Thursday. How did it go?" Answers, one tap each: It went well · It was mixed · Not the way I hoped · It hasn't happened yet · It's no longer relevant. Her tap is all the feedback: ExecHQ asks nothing more (Kate, 13 Oct). The same wording wherever a brief is checked in on: here, Home and the advisor. She can answer in the builder as soon as it is used. |
 | **Signal Picture** | Once used, the moment and what came of it, under the plan area of the step it served. |
-| **Recommended next use** | **Whatever she answers, ExecHQ gives the next step** (13 Oct), by rules from her answer, the brief's goal and her Plan. It went well: the Plan step her goal points to (Add it to your plan; it goes on only when she says so), then the follow-up email. It was mixed: the follow-up email, then that Plan step. Not the way I hoped: a new brief starting from this one, then what's next on her Plan. It hasn't happened yet: what's next on her Plan, and ExecHQ asks again later. No longer relevant: closed, and what's next on her Plan. "Not now" folds it to one line. |
+
+### After she answers
+
+Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and always gives the next step (Kate, 13 Oct). One leads, with at most one more. A Plan step goes on her Plan only when she taps **Add it to your plan**; where a step is already done or passed on, the next step on her Plan takes its place. "Not now" folds it to one line. Built by rules (`AFTER_ANSWER` in `mock/toolbox.ts`); no model in the pilot.
+
+| Answer | Next step | Then |
+| --- | --- | --- |
+| It went well | **Add to plan:** the step the brief's goal points to ("For what you wanted from it: …"; e.g. *Build a stakeholder message map for the workstream*) | **Send the follow-up email** (copies it) |
+| It was mixed | **Send the follow-up email** | **Add to plan:** the step the goal points to |
+| Not the way I hoped | **Prepare the next conversation:** a new brief starting from this one | Next on your plan |
+| It hasn't happened yet | Next on your plan | "ExecHQ will ask how it went on …" |
+| It's no longer relevant | Closed. Next on your plan | |
 
 ---
 

@@ -30,7 +30,7 @@ import { toolboxActions, toolboxPageFor, useToolbox, type DraftState } from "@/l
 import { TODAYS_READS } from "@/mock/briefing";
 import { ARTIFACT_KINDS, FOLLOW_UP_POLICY, type ArtifactKind } from "@/mock/loop";
 import { HOME_COPY } from "@/mock/homepage";
-import { HANDOFF_RULES, HANDOFF_STEP, stepById } from "@/mock/plan";
+import { ACTION_QUEUE, HANDOFF_RULES, HANDOFF_STEP, stepById } from "@/mock/plan";
 import { OutcomeNext, type OutcomeNextOffer } from "@/components/loop/OutcomeNext";
 import { addStepToPlan, useNextOnPlan, useOnPlan } from "@/lib/plan-store";
 import type { OutcomeType } from "@/lib/loop";
@@ -52,7 +52,8 @@ import {
   STEP_BAR_COPY,
   STEP_LABELS,
   STEP_PREFILLS,
-  BRIEF_AFTER,
+  AFTER_ANSWER,
+  type NextOffer,
   NEXT_STEP_COPY,
   TOOL_COPY,
   GOES_WITH,
@@ -170,6 +171,8 @@ export function draftSteps(kind: ArtifactKind, withVersions: boolean): StepNavIt
  * artifact, so leaving at any point finds the draft in the library exactly
  * where she left it, and opening it there comes straight back here.
  */
+const NEXT_ON_PLAN_OFFER: NextOffer = { type: "next-on-plan" };
+
 export function useToolFlow(concept: FlowConcept) {
   const params = useSearchParams();
   const router = useRouter();
@@ -181,6 +184,9 @@ export function useToolFlow(concept: FlowConcept) {
   const readId = params.get("source") === "briefing" ? (params.get("read") ?? undefined) : undefined;
   const from = params.get("from");
   const stepId = params.get("step") ?? undefined;
+  /** Started from earlier work, from what came next after it (13 Oct): a
+   *  brief from a pitch that went well. */
+  const afterId = params.get("after") ?? undefined;
   const moment = params.get("moment") ?? undefined;
 
   const draft: DraftState | undefined = artifactId ? toolbox.drafts[artifactId] : undefined;
@@ -267,14 +273,36 @@ export function useToolFlow(concept: FlowConcept) {
         : {}
     : {};
   const fromStep = step ? (STEP_PREFILLS[step.id] ?? (kind === "thought-leadership" ? { topic: step.title } : {})) : {};
+  // Earlier work it starts from: a pitch's show or event becomes who a brief
+  // prepares for; a post's topic becomes a pitch's angle.
+  const earlier = afterId ? loop.records.find((r) => r.id === afterId) : undefined;
+  const earlierInputs = afterId ? toolbox.drafts[afterId]?.inputs : undefined;
+  const fromEarlier: Record<string, string> =
+    earlier && earlierInputs
+      ? kind === "situation-brief"
+        ? { type: "Something else", ...(earlierInputs.target ? { audience: earlierInputs.target } : {}) }
+        : kind === "pitch"
+          ? { angle: earlierInputs.topic ?? "" }
+          : {}
+      : {};
   const inputs: readonly ToolInput[] = baseInputs.map((input) =>
     fromStep[input.id]
       ? { ...input, value: fromStep[input.id], source: input.kind === "choice" ? undefined : ("plan" as const) }
       : fromMoment[input.id]
         ? { ...input, value: fromMoment[input.id] }
-        : input
+        : fromEarlier[input.id]
+          ? { ...input, value: fromEarlier[input.id] }
+          : input
   );
   const [values, setValues] = useState<Record<string, string>>({});
+  // A new start (another tool, plan step, read or earlier work) begins with
+  // nothing typed: moving between builders keeps this hook, not her answers.
+  const startKey = artifactId ? "" : `${kind}|${stepId ?? ""}|${readId ?? ""}|${afterId ?? ""}|${moment ?? ""}`;
+  const [lastStart, setLastStart] = useState(startKey);
+  if (startKey && startKey !== lastStart) {
+    setLastStart(startKey);
+    setValues({});
+  }
   const valueOf = (id: string) => values[id] ?? inputs.find((i) => i.id === id)?.value ?? "";
   const setValue = (id: string, value: string) => setValues((v) => ({ ...v, [id]: value }));
   /** What only she can answer, one a screen in Concepts 1 and 3; what
@@ -420,6 +448,11 @@ export function useToolFlow(concept: FlowConcept) {
 
   const origin: ReactNode = read ? (
     <SourceLabel read={read} passage={passage} size={draft ? "compact" : "full"} />
+  ) : earlier && !draft ? (
+    <div className="tool-flow__carried">
+      <span className="tool-flow__carried-label">{NEXT_STEP_COPY.startedFrom(earlier.name)}</span>
+      <p className="tool-flow__carried-text">{earlier.title}</p>
+    </div>
   ) : buildingOut ? (
     <div className="tool-flow__carried">
       <span className="tool-flow__carried-label">{POSITIONING_COPY.fromOnboarding}</span>
@@ -513,7 +546,8 @@ export function useToolFlow(concept: FlowConcept) {
               value: valueOf(firstChoice.id),
               onChange: (value) => setValue(firstChoice.id, value),
               note: choiceFromPlan ? USE_CASE_COPY.fromPlan : undefined,
-              fromPlan: fromStep[firstChoice.id],
+              fromPlan: fromStep[firstChoice.id] ?? fromEarlier[firstChoice.id],
+              fromLabel: !fromStep[firstChoice.id] && fromEarlier[firstChoice.id] && earlier ? NEXT_STEP_COPY.fromEarlier(earlier.name) : undefined,
             }
           : undefined
       }
@@ -903,67 +937,102 @@ export function useToolFlow(concept: FlowConcept) {
           ? HOME_COPY.loggedDetail(record.outcome.detail)
           : HOME_COPY.loggedPlain(outcomeReadback(record.outcome.type, record.kind))
       : undefined;
-  /* After she says how a brief went (13 Oct): her one tap is all the
-     feedback. ExecHQ asks nothing more and always gives the next step, from
-     her answer, the brief's goal and her Plan. A step goes on her Plan only
-     when she says so. The other tools follow later. */
-  const [after, setAfter] = useState<{ type: OutcomeType; copied?: boolean; folded?: boolean } | null>(null);
-  const afterRule = after ? BRIEF_AFTER[after.type] : undefined;
-  /** What she wanted from it, as she said it: the brief's own goal. */
-  const goal = (draft?.inputs.objective ?? valueOf("objective")).trim();
+  /* After she says how it went (13 Oct): her one tap is all the feedback.
+     ExecHQ asks nothing more and always gives the next step, from her
+     answer, the work itself and her Plan (AFTER_ANSWER). A step goes on her
+     Plan only when she says so. */
+  const [after, setAfter] = useState<{ type: OutcomeType; done?: string[]; folded?: boolean } | null>(null);
+  const afterRule = after ? AFTER_ANSWER[kind][after.type] : undefined;
+  const markDone = (id: string) => setAfter((a) => (a ? { ...a, done: [...(a.done ?? []), id] } : a));
+  /** What she wanted from it, as she said it: a brief's own goal. */
+  const goal = kind === "situation-brief" ? (draft?.inputs.objective ?? valueOf("objective")).trim() : "";
   const handsOffTo = goal ? HANDOFF_RULES.find((rule) => rule.says.test(goal))?.stepId : undefined;
   const goalStep = handsOffTo ? stepById(HANDOFF_STEP[handsOffTo] ?? handsOffTo) : undefined;
-  const onPlan = useOnPlan(loop.id, goalStep?.id);
-  const nextOnPlanId = useNextOnPlan(loop.id, loop.today, step?.id);
+  const offeredSteps = (afterRule?.offers ?? []).flatMap((o) => (o.type === "plan-step" ? [o.stepId ? stepById(o.stepId) : goalStep] : [])).filter((x) => x !== undefined);
+  const onPlanA = useOnPlan(loop.id, offeredSteps[0]?.id);
+  const onPlanB = useOnPlan(loop.id, offeredSteps[1]?.id);
+  const isOnPlan = (id: string) => (id === offeredSteps[0]?.id ? onPlanA : id === offeredSteps[1]?.id ? onPlanB : false);
+  // Never the step this work was for: that one is what she just did.
+  const servedStepId = step?.id ?? ACTION_QUEUE.find((s) => s.title === record?.recommendation)?.id;
+  const nextOnPlanId = useNextOnPlan(loop.id, loop.today, servedStepId);
   const nextOnPlan = nextOnPlanId ? stepById(nextOnPlanId) : undefined;
-  const copyFollowUp = () => {
-    if (!draft || !version) return;
-    const email = version.sections.filter((section) => section.id === "follow-up");
-    navigator.clipboard?.writeText(draftText(email, edits, draft.answers)).catch(() => undefined);
-    setAfter((a) => (a ? { ...a, copied: true } : a));
-  };
   const N = NEXT_STEP_COPY;
-  const offersFor = (offers: readonly string[]): OutcomeNextOffer[] =>
-    offers.flatMap((offer): OutcomeNextOffer[] => {
-      if (offer === "plan-step") {
-        // The goal points to no step: what's next on her Plan instead.
-        if (!goalStep) return offersFor(["next-on-plan"]);
+  const planLink = { label: N.planStep.open, href: conceptHref("plan", "concept-3") };
+  const offerFor = (offer: NextOffer, i: number): OutcomeNextOffer[] => {
+    const key = `${offer.type}-${i}`;
+    const done = after?.done?.includes(key);
+    switch (offer.type) {
+      case "plan-step": {
+        const planStep = offer.stepId ? stepById(offer.stepId) : goalStep;
+        // No step to offer: what's next on her Plan instead.
+        if (!planStep) return offerFor(NEXT_ON_PLAN_OFFER, i);
+        const because = offer.stepId ? offer.because : N.planStep.because(goal);
         return [
           {
-            id: "plan-step",
+            id: key,
             eyebrow: N.planStep.label,
-            title: goalStep.title,
-            body: N.planStep.because(goal),
-            action: { label: N.planStep.add, onClick: () => addStepToPlan(loop.id, goalStep.id, loop.today, N.planStep.heard(goal)) },
-            done: onPlan ? { said: N.planStep.added, link: { label: N.planStep.open, href: conceptHref("plan", "concept-3") } } : undefined,
+            title: planStep.title,
+            body: because,
+            action: {
+              label: N.planStep.add,
+              onClick: () => addStepToPlan(loop.id, planStep.id, loop.today, offer.stepId ? N.planStep.from(record?.title ?? "") : N.planStep.heard(goal)),
+            },
+            done: isOnPlan(planStep.id) ? { said: N.planStep.added, link: planLink } : undefined,
           },
         ];
       }
-      if (offer === "follow-up") {
+      case "copy":
         return [
           {
-            id: "follow-up",
-            title: N.followUp.title,
-            body: after?.type === "neutral" ? N.followUp.bodyMixed : N.followUp.body,
-            action: { label: N.followUp.action, onClick: copyFollowUp },
-            done: after?.copied ? { said: N.followUp.copied } : undefined,
+            id: key,
+            title: offer.title,
+            body: offer.body,
+            action: {
+              label: offer.action,
+              onClick: () => {
+                if (!draft || !version) return;
+                const part = version.sections.filter((section) => offer.sections.includes(section.id));
+                navigator.clipboard?.writeText(draftText(part, edits, draft.answers)).catch(() => undefined);
+                markDone(key);
+              },
+            },
+            done: done ? { said: offer.copied } : undefined,
           },
         ];
-      }
-      if (offer === "new-brief" && artifactId) {
-        return [{ id: "new-brief", title: N.newBrief.title, body: N.newBrief.body, action: { label: N.newBrief.action, href: `${conceptHref("toolbox-flow", concept)}?reuse=${encodeURIComponent(artifactId)}` } }];
-      }
-      if (offer === "next-on-plan" && nextOnPlan) {
-        return [{ id: "next-on-plan", eyebrow: N.nextOnPlan.label, title: nextOnPlan.title, action: { label: N.nextOnPlan.action, href: conceptHref("plan", "concept-3") } }];
-      }
-      return [];
-    });
+      case "again":
+        return artifactId ? [{ id: key, title: offer.title, body: offer.body, action: { label: offer.action, href: `${conceptHref("toolbox-flow", concept)}?reuse=${encodeURIComponent(artifactId)}` } }] : [];
+      case "start":
+        return artifactId
+          ? [{ id: key, title: offer.title, body: offer.body, action: { label: offer.action, href: `${conceptHref("toolbox-flow", concept)}?tool=${offer.tool}&after=${encodeURIComponent(artifactId)}` } }]
+          : [];
+      case "briefing":
+        return [{ id: key, title: offer.title, body: offer.body, action: { label: offer.action, href: conceptHref("daily-briefing", "concept-1") } }];
+      case "sharpen":
+        return [
+          {
+            id: key,
+            title: offer.title,
+            body: offer.body,
+            action: {
+              label: offer.action,
+              onClick: () => {
+                doRevise(offer.choice, "");
+                markDone(key);
+              },
+            },
+            done: done ? { said: offer.done } : undefined,
+          },
+        ];
+      case "next-on-plan":
+        return nextOnPlan ? [{ id: key, eyebrow: N.nextOnPlan.label, title: nextOnPlan.title, action: { label: N.nextOnPlan.action, href: planLink.href } }] : [];
+    }
+  };
   const outcomeNext: ReactNode =
     record && after && afterRule ? (
       <OutcomeNext
         readback={afterRule.readback}
-        offers={offersFor(afterRule.offers)}
-        note={after.type === "no-response-yet" && record.checkBackOn ? N.askAgain(aheadPhrase(record.checkBackOn, loop.today)) : undefined}
+        offers={afterRule.offers.flatMap(offerFor)}
+        note={after.type === "no-response-yet" && record.checkBackOn ? N.askAgain(kind, aheadPhrase(record.checkBackOn, loop.today)) : undefined}
         onNotNow={() => setAfter({ ...after, folded: true })}
         folded={after.folded}
         headingId="outcome-next"
@@ -984,10 +1053,8 @@ export function useToolFlow(concept: FlowConcept) {
         onAnswer={(type) => {
           loopActions.answer(record.id, { type });
           setAnsweredHere(true);
-          if (record.kind === "situation-brief") {
-            setAfter({ type });
-            focusSoon("outcome-next");
-          } else focusSoon(outcomeHeading);
+          setAfter({ type });
+          focusSoon("outcome-next");
         }}
         onNote={(detail) => loopActions.noteOutcome(record.id, detail)}
         className="tool-flow__outcome"

@@ -1087,23 +1087,31 @@ export const GOES_WITH = {
 } as const;
 
 /* -----------------------------------------------------------------------------
-   AFTER SHE SAYS HOW IT WENT (Situation Brief first, 13 October)
+   AFTER SHE SAYS HOW IT WENT (13 October)
    Her one-tap answer is the whole of the feedback: ExecHQ asks nothing more
    and always comes back with the next step, built by rules from her answer,
-   the brief's own goal and her Plan (no model in the pilot). A step only goes
-   on her Plan when she says so. The other tools take the same pattern later.
+   the work itself and her Plan (no model in the pilot). One leads, and at
+   most one more. A step only goes on her Plan when she says so. Written up
+   per builder in builders/*.md ("After she answers").
    -------------------------------------------------------------------------- */
 
 /** What ExecHQ can offer once she has answered. The first one leads. */
 export type NextOffer =
-  /** The Plan step the brief's goal points to (`HANDOFF_RULES`), to add. */
-  | "plan-step"
-  /** The brief's follow-up email, to copy and send. */
-  | "follow-up"
-  /** A new brief for the next conversation, starting from this one. */
-  | "new-brief"
+  /** A Plan step to add. Without `stepId`, the one the brief's own goal
+   *  points to (`HANDOFF_RULES`), or what's next on her Plan. */
+  | { type: "plan-step"; stepId?: string; because?: string }
+  /** Part of the work itself, to copy and use (the follow-up, a bio). */
+  | { type: "copy"; sections: readonly string[]; title: string; body?: string; action: string; copied: string }
+  /** A new one starting from this one, linked back (`reuse`). */
+  | { type: "again"; title: string; body: string; action: string }
+  /** Another tool, starting from this work (`after`). */
+  | { type: "start"; tool: ArtifactKind; title: string; body: string; action: string }
+  /** Today's Briefing, to write from. */
+  | { type: "briefing"; title: string; body: string; action: string }
+  /** A revision made at once, as a new version ("More specific"). */
+  | { type: "sharpen"; choice: Readonly<Record<string, string>>; title: string; body: string; action: string; done: string }
   /** The next step already on her Plan. */
-  | "next-on-plan";
+  | { type: "next-on-plan" };
 
 export interface AfterAnswer {
   /** Says back what she answered. */
@@ -1111,42 +1119,129 @@ export interface AfterAnswer {
   offers: readonly NextOffer[];
 }
 
-export const BRIEF_AFTER: Record<OutcomeType, AfterAnswer> = {
-  positive: { readback: "It went well.", offers: ["plan-step", "follow-up"] },
-  neutral: { readback: "It was mixed.", offers: ["follow-up", "plan-step"] },
-  negative: { readback: "It didn’t go the way you hoped.", offers: ["new-brief", "next-on-plan"] },
-  "no-response-yet": { readback: "It hasn’t happened yet.", offers: ["next-on-plan"] },
-  "no-longer-relevant": { readback: "It’s no longer relevant, so it’s closed.", offers: ["next-on-plan"] },
+const NEXT_ON_PLAN: NextOffer = { type: "next-on-plan" };
+const FROM_BRIEFING: NextOffer = { type: "briefing", title: "Write from today’s Briefing", body: "Three reads picked for you, each a way into your next post.", action: "Open today’s Briefing" };
+
+export const AFTER_ANSWER: Record<ArtifactKind, Record<OutcomeType, AfterAnswer>> = {
+  "situation-brief": {
+    positive: {
+      readback: "It went well.",
+      offers: [
+        { type: "plan-step" },
+        { type: "copy", sections: ["email"], title: "Send the follow-up email", body: "It’s in the brief. Add what you agreed and when you’ll come back to them.", action: "Copy the follow-up email", copied: "Copied the follow-up email." },
+      ],
+    },
+    neutral: {
+      readback: "It was mixed.",
+      offers: [
+        { type: "copy", sections: ["email"], title: "Send the follow-up email", body: "It’s in the brief. Sending it keeps things moving.", action: "Copy the follow-up email", copied: "Copied the follow-up email." },
+        { type: "plan-step" },
+      ],
+    },
+    negative: {
+      readback: "It didn’t go the way you hoped.",
+      offers: [{ type: "again", title: "Prepare the next conversation", body: "A new brief for what comes next, starting from this one.", action: "Start a new brief" }, NEXT_ON_PLAN],
+    },
+    "no-response-yet": { readback: "It hasn’t happened yet.", offers: [NEXT_ON_PLAN] },
+    "no-longer-relevant": { readback: "It’s no longer relevant, so it’s closed.", offers: [NEXT_ON_PLAN] },
+  },
+  pitch: {
+    positive: {
+      readback: "It went well.",
+      offers: [
+        { type: "start", tool: "situation-brief", title: "Prepare for it", body: "A brief for the talk or the episode, starting from your pitch.", action: "Start a brief" },
+        { type: "plan-step", stepId: "share-result-up", because: "A booking is a result worth sharing." },
+      ],
+    },
+    neutral: {
+      readback: "It was mixed.",
+      offers: [{ type: "again", title: "Pitch the next one", body: "A new pitch for another show or event, starting from this one.", action: "Start a new pitch" }, NEXT_ON_PLAN],
+    },
+    negative: {
+      readback: "It didn’t go the way you hoped.",
+      offers: [
+        { type: "again", title: "Try another stage", body: "A new pitch starting from this one. Try a different angle.", action: "Start a new pitch" },
+        { type: "plan-step", stepId: "speaking-proposal", because: "Another way onto a stage the people above you watch." },
+      ],
+    },
+    "no-response-yet": {
+      readback: "Nothing yet.",
+      offers: [{ type: "copy", sections: ["follow-up"], title: "Send the follow-up", body: "It’s in the pitch, written for when you hear nothing.", action: "Copy the follow-up", copied: "Copied the follow-up." }],
+    },
+    "no-longer-relevant": { readback: "It’s no longer relevant, so it’s closed.", offers: [NEXT_ON_PLAN] },
+  },
+  "thought-leadership": {
+    positive: {
+      readback: "It landed well.",
+      offers: [
+        { type: "plan-step", stepId: "pitch-podcast", because: "Your post is the proof." },
+        { type: "plan-step", stepId: "share-result-up", because: "A post that landed is a result worth sharing." },
+      ],
+    },
+    neutral: { readback: "It was mixed.", offers: [FROM_BRIEFING, NEXT_ON_PLAN] },
+    negative: {
+      readback: "There wasn’t much response.",
+      offers: [{ type: "again", title: "Try a different opening", body: "A new post starting from this one. Lead with another hook.", action: "Start a new post" }, FROM_BRIEFING],
+    },
+    "no-response-yet": { readback: "Nothing yet.", offers: [NEXT_ON_PLAN] },
+    "no-longer-relevant": { readback: "It’s no longer relevant, so it’s closed.", offers: [NEXT_ON_PLAN] },
+  },
+  positioning: {
+    positive: {
+      readback: "It went well.",
+      offers: [
+        { type: "plan-step", stepId: "linkedin-post", because: "Say what you lead where more people will see it." },
+        { type: "copy", sections: ["bio-long"], title: "Use the long bio on LinkedIn", body: "For your About section.", action: "Copy the long bio", copied: "Copied the long bio." },
+      ],
+    },
+    neutral: {
+      readback: "It was mixed.",
+      offers: [
+        { type: "sharpen", choice: { specificity: "More specific" }, title: "Sharpen it", body: "A new version of your bios and narrative, more specific. Your statement stays as it is.", action: "Make it more specific", done: "Sharpened: a new version, more specific." },
+        NEXT_ON_PLAN,
+      ],
+    },
+    negative: {
+      readback: "It didn’t go the way you hoped.",
+      offers: [
+        { type: "plan-step", stepId: "ask-manager-scope", because: "So your story fits what they look for." },
+        { type: "sharpen", choice: { specificity: "More specific" }, title: "Sharpen it", body: "A new version of your bios and narrative, more specific. Your statement stays as it is.", action: "Make it more specific", done: "Sharpened: a new version, more specific." },
+      ],
+    },
+    "no-response-yet": {
+      readback: "Nothing yet.",
+      offers: [{ type: "copy", sections: ["bio-short"], title: "Use it where you’re next introduced", body: "The short bio fits a speaker list, an invite or an intro email.", action: "Copy the short bio", copied: "Copied the short bio." }],
+    },
+    // Her statement is what every tool draws on, so it never closes: ExecHQ
+    // only stops asking about this use of it (13 Oct).
+    "no-longer-relevant": { readback: "It’s no longer relevant. ExecHQ won’t ask about it again.", offers: [NEXT_ON_PLAN] },
+  },
 };
 
 export const NEXT_STEP_COPY = {
   heading: "Your next step",
   notNow: "Not now",
-  /** The step the brief's goal points to. */
+  /** A step to add to her Plan. */
   planStep: {
     label: "Add to your plan",
     add: "Add it to your plan",
     added: "Added to your plan.",
     open: "Open your plan",
+    /** The brief's own goal, when the step comes from it. */
     because: (goal: string) => `For what you wanted from it: “${goal}”`,
     heard: (goal: string) => `From your brief: “${goal}”`,
+    /** Why a fixed step, on her Plan card. */
+    from: (title: string) => `After “${title}”`,
   },
   /** The next step already on her Plan. */
   nextOnPlan: { label: "Next on your plan", action: "Open your plan" },
-  followUp: {
-    title: "Send the follow-up email",
-    body: "It’s in the brief. Add what you agreed and when you’ll come back to them.",
-    bodyMixed: "It’s in the brief. Sending it keeps things moving.",
-    action: "Copy the follow-up email",
-    copied: "Copied the follow-up email.",
-  },
-  newBrief: {
-    title: "Prepare the next conversation",
-    body: "A new brief for what comes next, starting from this one.",
-    action: "Start a new brief",
-  },
-  /** After "It hasn't happened yet". */
-  askAgain: (when: string) => `ExecHQ will ask how it went ${when}.`,
+  /** After "Nothing yet": when ExecHQ asks again, in the kind's own words. */
+  askAgain: (kind: ArtifactKind, when: string) =>
+    kind === "situation-brief" ? `ExecHQ will ask how it went ${when}.` : kind === "thought-leadership" ? `ExecHQ will ask how it landed ${when}.` : `ExecHQ will ask again ${when}.`,
   /** Once she has set it aside. */
   logged: (readback: string) => `Logged: ${readback.charAt(0).toLowerCase()}${readback.slice(1)}`,
+  /** A tool started from earlier work: says what it started from. */
+  startedFrom: (name: string) => `Started from ${name}`,
+  /** On the answer it chose for her: "From your pitch". */
+  fromEarlier: (name: string) => `From ${name}`,
 } as const;

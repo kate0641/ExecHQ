@@ -15,6 +15,8 @@ export interface UseCaseChoice {
   note?: string;
   /** With `choiceStarts`: the answer her plan step chose, marked in its row. */
   fromPlan?: string;
+  /** What marks it, where it came from somewhere else: "From your pitch". */
+  fromLabel?: string;
 }
 
 export interface ToolUseCaseProps {
@@ -116,7 +118,7 @@ export function ToolUseCase({
                       {option === choice.value && option !== choice.fromPlan ? (
                         <span className="tool-use-case__option-plan">{C.yourAnswer}</span>
                       ) : option === choice.fromPlan ? (
-                        <span className="tool-use-case__option-plan">{C.fromPlanShort}</span>
+                        <span className="tool-use-case__option-plan">{choice.fromLabel ?? C.fromPlanShort}</span>
                       ) : null}
                     </span>
                     <Icon name="chevron" size={16} className="tool-use-case__option-go" />

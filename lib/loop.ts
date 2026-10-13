@@ -305,7 +305,9 @@ export function answerFollowUp(
     history: [...record.history, { type: "outcome", on, outcome: answer.type }],
   };
 
-  if (answer.type === "no-longer-relevant") {
+  // Her positioning statement is what every tool draws on, so it never
+  // closes: the answer only stops the asking (13 Oct).
+  if (answer.type === "no-longer-relevant" && record.kind !== "positioning") {
     return {
       ...recorded,
       state: "closed",

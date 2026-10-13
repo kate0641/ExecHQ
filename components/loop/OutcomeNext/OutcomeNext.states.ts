@@ -1,6 +1,8 @@
 import { defineComponentStates } from "@/components/types";
 import { CONTROLS_INSIDE, NOT_AN_INPUT } from "@/components/not-applicable";
-import { BRIEF_AFTER, NEXT_STEP_COPY as C } from "@/mock/toolbox";
+import { AFTER_ANSWER, NEXT_STEP_COPY as C } from "@/mock/toolbox";
+
+const BRIEF_AFTER = AFTER_ANSWER["situation-brief"];
 import { OutcomeNext } from "./OutcomeNext";
 
 const noop = () => {};
@@ -12,7 +14,7 @@ const planStep = {
   body: C.planStep.because(goal),
   action: { label: C.planStep.add, onClick: noop },
 };
-const followUp = { id: "follow-up", title: C.followUp.title, body: C.followUp.body, action: { label: C.followUp.action, onClick: noop } };
+const followUp = { id: "follow-up", title: "Send the follow-up email", body: "It’s in the brief. Add what you agreed and when you’ll come back to them.", action: { label: "Copy the follow-up email", onClick: noop } };
 const nextOnPlan = { id: "next-on-plan", eyebrow: C.nextOnPlan.label, title: "Use your leadership story in your next 1:1", action: { label: C.nextOnPlan.action, href: "/plan/concept-3" } };
 const base = { readback: BRIEF_AFTER.positive.readback, offers: [planStep, followUp], onNotNow: noop, headingId: "outcome-next-demo" };
 
@@ -35,8 +37,19 @@ export const outcomeNextStates = defineComponentStates({
   variants: [
     { label: "It went well: a Plan step, then the follow-up email — default", props: base },
     { label: "Added to the Plan", props: { ...base, offers: [{ ...planStep, done: { said: C.planStep.added, link: { label: C.planStep.open, href: "/plan/concept-3" } } }, followUp] } },
-    { label: "Not the way I hoped: a new brief", props: { readback: BRIEF_AFTER.negative.readback, offers: [{ id: "new-brief", title: C.newBrief.title, body: C.newBrief.body, action: { label: C.newBrief.action, href: "/toolbox-flow/concept-1" } }, nextOnPlan], onNotNow: noop } },
-    { label: "It hasn't happened yet: next on her Plan", props: { readback: BRIEF_AFTER["no-response-yet"].readback, offers: [nextOnPlan], note: C.askAgain("on Friday 30 October"), onNotNow: noop } },
+    { label: "Not the way I hoped: a new brief", props: { readback: BRIEF_AFTER.negative.readback, offers: [{ id: "new-brief", title: "Prepare the next conversation", body: "A new brief for what comes next, starting from this one.", action: { label: "Start a new brief", href: "/toolbox-flow/concept-1" } }, nextOnPlan], onNotNow: noop } },
+    { label: "It hasn't happened yet: next on her Plan", props: { readback: BRIEF_AFTER["no-response-yet"].readback, offers: [nextOnPlan], note: C.askAgain("situation-brief", "on Friday 30 October"), onNotNow: noop } },
+    {
+      label: "A pitch that went well: prepare for it",
+      props: {
+        readback: AFTER_ANSWER.pitch.positive.readback,
+        offers: [
+          { id: "start", title: "Prepare for it", body: "A brief for the talk or the episode, starting from your pitch.", action: { label: "Start a brief", href: "/toolbox-flow/concept-1" } },
+          { id: "share", eyebrow: C.planStep.label, title: "Share one result with someone two levels up", body: "A booking is a result worth sharing.", action: { label: C.planStep.add, onClick: noop } },
+        ],
+        onNotNow: noop,
+      },
+    },
     { label: "Not now: folded to one line", props: { ...base, folded: true } },
     {
       label: "A long step wraps — long text",
