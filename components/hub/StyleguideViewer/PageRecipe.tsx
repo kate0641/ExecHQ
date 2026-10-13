@@ -108,6 +108,18 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         uses: [".read", "--type-eyebrow-*", "--color-text-secondary"],
       },
       {
+        rule: "A label that names a group on the page (a list, a set of links, Why this matters, What next) is a group title: Inter semibold, sentence case, 16px. Eyebrows stay for a read inside a card or the line above a heading.",
+        why: "Small capitals under a card read as decoration, not as the title of what follows. A real title is said as one.",
+        from: "Onboarding",
+        uses: ["--type-group-title-*"],
+      },
+      {
+        rule: "A group title sits 12px above its group, more than a line of body copy leaves. Bullets sit 16px apart, a step more than paragraphs. Items split by hairlines get 20px either side of the line.",
+        why: "Each kind of gap is said once and kept: a title belongs to its group, a bullet is its own item, a divider needs room to read as a divider.",
+        from: "Onboarding",
+        uses: ["--space-group-title", "--space-list-item", "--space-divided-item"],
+      },
+      {
         rule: "Lists are indented: numbers or bullets sit inside the text's margin and the lines indent after them. Nothing hangs past the padding.",
         why: "Hanging numbers in the advisor's answers ran out past the edge every other line respects.",
         from: "Navigation",
@@ -265,6 +277,8 @@ const PAGES: { page: string; date: string; added: string[] }[] = [
       "Step labels are the blue eyebrow; Why this matters is a grey-eyebrow read with no rule beside it.",
       "The welcome is navy edge to edge with the light logo at 48px.",
       "No lone word on a last line.",
+      "A group title role for labels that name a group on the page, with its own spacing: 12px under it, 16px between bullets, 20px either side of a divider.",
+      "Flat links sit at the left, 32px apart; Edit carries a pencil.",
     ],
   },
 ];

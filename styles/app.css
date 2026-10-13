@@ -7266,14 +7266,15 @@ ol.ring-detail__timeline {
   border-radius: var(--radius-xs);
 }
 
+/* Names the group under it (Where you could use it), so a group title. */
 .builder-next__label {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--color-text-muted);
+  font-family: var(--type-group-title-font);
+  font-size: var(--type-group-title-size);
+  font-weight: var(--type-group-title-weight);
+  line-height: var(--type-group-title-leading);
+  letter-spacing: var(--type-group-title-tracking);
+  word-spacing: var(--type-group-title-word-spacing);
+  color: var(--color-text-primary);
 }
 
 .builder-output__edit {
@@ -7285,7 +7286,14 @@ ol.ring-detail__timeline {
 .builder-output__edit-actions,
 .builder-output__tools {
   display: flex;
+  justify-content: flex-start;
   gap: var(--space-xs);
+}
+
+/* Edit sits flush with the draft's words, its pencil before it. */
+.builder-output__tools .btn {
+  gap: var(--space-2xs);
+  padding-inline: 0;
 }
 
 /* Export, pinned with the action so it is always in reach. */
@@ -7297,8 +7305,8 @@ ol.ring-detail__timeline {
 
 .builder-export__links {
   display: flex;
-  justify-content: center;
-  gap: var(--space-lg);
+  justify-content: flex-start;
+  gap: var(--space-xl);
 }
 
 .builder-export__links > button {
@@ -7328,7 +7336,9 @@ ol.ring-detail__timeline {
 .story-draft {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  /* A section's width of space after the draft's card (designer,
+     2026-10-13). */
+  gap: var(--space-xl);
 }
 
 /* The draft is the system's card rather than a tinted box: the raised
@@ -7358,13 +7368,13 @@ ol.ring-detail__timeline {
 .story-draft__uses {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xs);
+  gap: var(--space-group-title);
 }
 
 .story-draft__uses ul {
   display: flex;
   flex-direction: column;
-  gap: var(--space-paragraph);
+  gap: var(--space-list-item);
   margin: 0;
   padding-left: var(--space-md);
   font-size: var(--text-sm);
@@ -7888,17 +7898,18 @@ ol.ring-detail__timeline {
 .next-steps {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: var(--space-group-title);
 }
 
+/* Names the choices under it, on the page: a group title. */
 .next-steps__label {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
+  font-family: var(--type-group-title-font);
+  font-size: var(--type-group-title-size);
+  font-weight: var(--type-group-title-weight);
+  line-height: var(--type-group-title-leading);
+  letter-spacing: var(--type-group-title-tracking);
+  word-spacing: var(--type-group-title-word-spacing);
+  color: var(--color-text-primary);
 }
 
 .next-steps__list {
@@ -8227,24 +8238,23 @@ ol.ring-detail__timeline {
 /* The margin note: why this page exists. It sits just above the action on
    every page, pushed down by the free space, so it is always found in the
    same place. */
-/* Why this matters is a labelled read: a secondary-text eyebrow, then the
-   words, with no rule beside it (How a page is built: a labelled read). */
+/* Why this matters sits on the page, not in a card, so its label is a group
+   title, then the words, with no rule beside it. */
 .guide__why {
   margin-top: auto;
   display: flex;
   flex-direction: column;
-  gap: var(--space-eyebrow-title);
+  gap: var(--space-group-title);
 }
 
 .guide__why-label {
-  font-family: var(--type-eyebrow-font);
-  font-size: var(--type-eyebrow-size);
-  font-weight: var(--type-eyebrow-weight);
-  line-height: var(--type-eyebrow-leading);
-  letter-spacing: var(--type-eyebrow-tracking);
-  word-spacing: var(--type-eyebrow-word-spacing);
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
+  font-family: var(--type-group-title-font);
+  font-size: var(--type-group-title-size);
+  font-weight: var(--type-group-title-weight);
+  line-height: var(--type-group-title-leading);
+  letter-spacing: var(--type-group-title-tracking);
+  word-spacing: var(--type-group-title-word-spacing);
+  color: var(--color-text-primary);
 }
 
 .guide__why-text {
@@ -8544,7 +8554,7 @@ ol.ring-detail__timeline {
 .point-box {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: var(--space-group-title);
   padding: var(--space-card-padding);
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-card);
@@ -8552,27 +8562,26 @@ ol.ring-detail__timeline {
 }
 
 .point-box__label {
-  font-family: var(--type-eyebrow-font);
-  font-size: var(--type-eyebrow-size);
-  font-weight: var(--type-eyebrow-weight);
-  line-height: var(--type-eyebrow-leading);
-  letter-spacing: var(--type-eyebrow-tracking);
-  word-spacing: var(--type-eyebrow-word-spacing);
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
+  font-family: var(--type-group-title-font);
+  font-size: var(--type-group-title-size);
+  font-weight: var(--type-group-title-weight);
+  line-height: var(--type-group-title-leading);
+  letter-spacing: var(--type-group-title-tracking);
+  word-spacing: var(--type-group-title-word-spacing);
+  color: var(--color-text-primary);
 }
 
 .point-box .point-list {
-  gap: var(--number-list-gap);
+  gap: var(--space-divided-item);
 }
 
 .point-box .point-list > li + li {
-  padding-top: var(--number-list-gap);
+  padding-top: var(--space-divided-item);
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
 .point-box .point-list--numbered > li + li::before {
-  top: var(--number-list-gap);
+  top: var(--space-divided-item);
 }
 
 /* A reflection's answer: a pull quote, then a fact. */

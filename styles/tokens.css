@@ -561,6 +561,16 @@
   --type-eyebrow-leading: var(--leading-snug);
   --type-eyebrow-tracking: var(--tracking-label);
   --type-eyebrow-word-spacing: var(--word-spacing-normal);
+  /* Group title — names a group of content on the page, outside a card: a
+     list, a set of links, Why this matters. A real title, so sentence case
+     and a touch larger than an eyebrow; an eyebrow labels a read inside a
+     card or introduces a heading (designer, 2026-10-13). */
+  --type-group-title-font: var(--font-body);
+  --type-group-title-size: var(--text-md);
+  --type-group-title-weight: var(--weight-semibold);
+  --type-group-title-leading: var(--leading-snug);
+  --type-group-title-tracking: var(--tracking-normal);
+  --type-group-title-word-spacing: var(--word-spacing-normal);
 
   /* Figure — numbers shown as data: follower counts, percentages, the stage
      number. Libre Baskerville, so figures read as considered, not as UI. */
@@ -619,6 +629,13 @@
   --space-feature-padding: var(--space-md-lg);  /* inside a feature card, which holds more */
   --space-eyebrow-title: var(--space-2xs); /* an eyebrow to the title under it */
   --space-title-copy: var(--space-xs);     /* a title to the copy under it */
+  /* A group title to what it names: more than the space a line of body copy
+     leaves, so the title reads as over its group (designer, 2026-10-13). */
+  --space-group-title: var(--space-sm);     /* 12px */
+  /* Bullets get their own rhythm, a step more than paragraphs (12px). */
+  --space-list-item: var(--space-md);       /* 16px */
+  /* Items split by hairlines: this much either side of the line. */
+  --space-divided-item: var(--space-md-lg); /* 20px */
   --space-copy-action: var(--space-md-lg); /* the copy to the button under it: the widest of the three, as wide as the card's padding */
 
   /* ---------------------------------------------------------------------------
