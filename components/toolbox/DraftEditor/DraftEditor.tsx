@@ -186,7 +186,23 @@ export function DraftEditor({
               ) : section.list ? (
                 <ul className="draft-editor__text draft-editor__list">
                   {section.segments.map((segment, i) =>
-                    isQuestion(segment) ? null : (
+                    // A question is its own item, as in a paragraph: her answer
+                    // once she gives it, otherwise the question, so a section
+                    // of questions is never left empty.
+                    isQuestion(segment) ? (
+                      answers[segment.question] ? (
+                        <li key={i} className="draft-editor__you">
+                          {answers[segment.question]}
+                        </li>
+                      ) : (
+                        <li key={i}>
+                          <span className="draft-editor__question">
+                            <span className="u-visually-hidden">{C.questionLabel} </span>
+                            {segment.question}
+                          </span>
+                        </li>
+                      )
+                    ) : (
                       <li key={i} className={segment.by === "you" ? "draft-editor__you" : "draft-editor__exechq"}>
                         {segment.by === "exechq" ? <span className="u-visually-hidden">ExecHQ: </span> : null}
                         {segment.text}

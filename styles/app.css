@@ -20710,3 +20710,10 @@ ul.plan-guided__sparks {
     transform: none;
   }
 }
+
+/* Concept 3 on a phone: what she does next, under the open draft. */
+.tool-flow__under-draft {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}

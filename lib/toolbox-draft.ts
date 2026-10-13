@@ -17,6 +17,10 @@ const sentence = (text: string) => {
   return t ? (/[.!?”]$/.test(t) ? `${t} ` : `${t}. `) : "";
 };
 
+/** Her words inside a sentence: a small first letter, unless they start with
+ *  "I" or a name in capitals ("CRM", "EMEA"), and no full stop of their own. */
+const midSentence = (t: string) => (/^[A-Z][a-z]/.test(t) && !/^I\b/.test(t) ? t[0].toLowerCase() + t.slice(1) : t).replace(/[.]$/, "");
+
 export interface DraftInputs {
   format?: string;
   topic?: string;
@@ -85,6 +89,7 @@ export function revisionLabel(choice: RevisionChoice, followUp: string): string 
  *  keeps her words and the questions; longer adds a question for her, never
  *  a fact; leading with her example moves it to the front. */
 export function revise(sections: readonly DraftSection[], choice: RevisionChoice): DraftSection[] {
+  if (sections.some((x) => x.id === "bio-short")) return revisePositioning(sections, choice);
   // The main piece: the post, the pitch, or the first section of a brief.
   const main = sections.find((s) => s.id === "post" || s.id === "pitch")?.id ?? sections.find((s) => !s.list)?.id;
   return sections.map((section) => {
@@ -99,6 +104,49 @@ export function revise(sections: readonly DraftSection[], choice: RevisionChoice
     if (choice.emphasis === "My example") {
       const mine = segments.filter((s) => "by" in s && s.by === "you");
       segments = [...mine.slice(-1), ...segments.filter((s) => s !== mine[mine.length - 1])];
+    }
+    return { ...section, segments };
+  });
+}
+
+/** The narrative's three parts, by the label ExecHQ gave each. */
+const NARRATIVE_PARTS = [
+  { key: "do", label: "What I do: ", emphasis: "What I lead" },
+  { key: "known", label: "What I am known for: ", emphasis: "What I’m known for" },
+  { key: "toward", label: "What I am building toward: ", emphasis: "Where I’m headed" },
+] as const;
+
+/** Positioning Builder's revisions act on the bios and the narrative, never
+ *  on her statement: shorter takes the long and medium bios' open questions
+ *  out; longer adds a question for her to the long bio and the narrative,
+ *  never a fact; emphasis puts that part of the narrative first. */
+function revisePositioning(sections: readonly DraftSection[], choice: RevisionChoice): DraftSection[] {
+  const isAsk = (seg: DraftSegment) => "question" in seg;
+  return sections.map((section) => {
+    let segments = [...section.segments];
+    if (section.id === "narrative" && choice.emphasis) {
+      const labelAt = (key: string) => segments.findIndex((seg) => "text" in seg && seg.text.includes(NARRATIVE_PARTS.find((p) => p.key === key)!.label.trim()));
+      const starts = NARRATIVE_PARTS.map((p) => labelAt(p.key));
+      if (starts.every((i) => i >= 0)) {
+        // A narrative revised before may already be in another order.
+        const lead = segments.slice(0, Math.min(...starts));
+        const parts = NARRATIVE_PARTS.map((p, i) => ({ ...p, value: segments[starts[i] + 1] }));
+        const tail = segments.slice(Math.max(...starts) + 2);
+        const first = parts.find((p) => p.emphasis === choice.emphasis);
+        const ordered = first ? [first, ...parts.filter((p) => p !== first)] : parts;
+        segments = [
+          ...lead,
+          ...ordered.flatMap((p, i) => [ex(`${i === 0 ? "" : ". "}${p.label}`), p.value]),
+          ...tail,
+        ];
+      }
+    }
+    if (choice.length === "Shorter" && (section.id === "bio-long" || section.id === "bio-medium")) {
+      segments = segments.filter((seg) => !isAsk(seg));
+    }
+    if (choice.length === "Longer") {
+      if (section.id === "bio-long") segments.push(ex(" "), ask("Which decision are you proudest of, and why?"));
+      if (section.id === "narrative") segments.push(ex(" Why it matters to me: "), ask("Why does this direction matter to you?"));
     }
     return { ...section, segments };
   });
@@ -131,6 +179,8 @@ export function pitchDraft(v: Record<string, string>): DraftSection[] {
   const kind = (v.type || "Speaking").toLowerCase();
   const said = (text: string) => (text ? [you(sentence(text))] : []);
   const angleOrAsk = angle ? you(angle) : ask("What would you talk about?");
+  // Mid-sentence ("…a conversation on how planning…"), her angle fits the sentence.
+  const angleMid = angle ? you(midSentence(angle)) : ask("What would you talk about?");
   return [
     {
       id: "subjects",
@@ -149,7 +199,7 @@ export function pitchDraft(v: Record<string, string>): DraftSection[] {
         ex("Hi "),
         ask("Who are you writing to?"),
         ex(`, I’d like to suggest ${kind === "podcast" ? "a conversation" : kind === "press" ? "a story" : "a session"}${target ? ` for ${target}` : ""} on `),
-        angleOrAsk,
+        angleMid,
         ex(". "),
         ...said(v.proof ?? ""),
         ex("It matters now because "),
@@ -176,7 +226,7 @@ export function pitchDraft(v: Record<string, string>): DraftSection[] {
     {
       id: "follow-up",
       heading: "Follow-up, if you hear nothing in a week",
-      segments: [ex("Hi, following up on my note about "), angleOrAsk, ex(". Happy to fit your schedule, or to suggest someone else on my team if the timing is wrong.")],
+      segments: [ex("Hi, following up on my note about "), angleMid, ex(". Happy to fit your schedule, or to suggest someone else on my team if the timing is wrong.")],
     },
   ];
 }
@@ -199,7 +249,7 @@ export function briefDraft(v: Record<string, string>, when?: string): DraftSecti
       heading: "Context",
       segments: [
         ex(`${v.type ? v.type[0].toUpperCase() + v.type.slice(1) : "The meeting"}${when ? ` ${when}` : ""}, with `),
-        audience ? you(audience) : ask("Who will be there?"),
+        audience ? you(midSentence(audience)) : ask("Who will be there?"),
         ex(". "),
         ask("What has happened so far that they need to know?"),
       ],
@@ -225,12 +275,16 @@ export function briefDraft(v: Record<string, string>, when?: string): DraftSecti
     {
       id: "decision",
       heading: "Decision or next step asked for",
-      segments: objective ? [ex("I’d like us to agree: "), you(sentence(objective))] : [ask("What decision or next step do you want?")],
+      // Her outcome as she put it: the heading already says it is the ask, so
+      // no lead-in that her words would have to fit grammatically.
+      segments: objective ? [you(sentence(objective))] : [ask("What decision or next step do you want?")],
     },
     {
       id: "opening",
       heading: "Opening statement",
-      segments: [ex("Thank you for the time. I’d like to leave today with one thing agreed: "), objective ? you(sentence(objective)) : ask("What do you want agreed?")],
+      segments: objective
+        ? [ex("Thank you for the time. By the end of today, I’m hoping for one outcome: "), you(midSentence(objective)), ex(".")]
+        : [ex("Thank you for the time. By the end of today, I’m hoping for one outcome: "), ask("What do you want agreed?")],
     },
     {
       id: "email",
@@ -250,10 +304,37 @@ const INTRO_OPENINGS: Record<string, string> = {
   "A conference program": "",
 };
 
+/** Which bio suits where she'll use it first. */
+const BIO_FOR_FORMAT: Record<string, { label: string }> = {
+  "LinkedIn About section": { label: "long bio" },
+  "A speaker bio": { label: "medium bio" },
+  "An internal profile": { label: "short bio" },
+  "An email introduction": { label: "short bio" },
+};
+
+/** The long bio's last question, by who it is mainly for. */
+const AUDIENCE_QUESTION: Record<string, string> = {
+  "Senior leaders where I work": "Which result would your leadership remember you for?",
+  "An external audience": "Where have you spoken or been published?",
+  "Recruiters and boards": "Which decision best shows your judgment?",
+};
+
+/** Her pasted bio's first sentence, for what came before her current role. */
+function firstSentence(text: string): string {
+  const t = text.trim().split(/\n/)[0] ?? "";
+  const m = t.match(/^.*?[.!?](\s|$)/);
+  return (m ? m[0] : t).trim();
+}
+
 /** Her statement, carried from onboarding, then bios in three lengths, the
  *  leadership narrative, an introduction for the moment she chose, and what
- *  to use it for next. Bios use her name, never a pronoun ExecHQ assumed. */
-export function positioningDraft(v: Record<string, string>, name: string): DraftSection[] {
+ *  to use it for next. Bios use her name, never a pronoun ExecHQ assumed.
+ *
+ *  The PRD's optional inputs each change something: who it is mainly for
+ *  sets the long bio's last question; where she'll use it first names the bio
+ *  to start with in the next use; a bio she pasted answers "What came
+ *  before your current role?". The next use points at her plan's next step. */
+export function positioningDraft(v: Record<string, string>, name: string, nextStep?: string): DraftSection[] {
   const first = name.split(" ")[0] || name;
   const statement = v.statement?.trim();
   const role = v.role?.trim();
@@ -261,10 +342,11 @@ export function positioningDraft(v: Record<string, string>, name: string): Draft
   const toward = v.toward?.trim();
   const wins = v.wins?.trim();
   const strengths = v.strengths?.trim();
+  const source = v.source?.trim();
+  const before = source ? firstSentence(source) : "";
+  const format = v.format?.trim();
+  const audience = v.audience?.trim();
   const roleSeg = role ? you(role) : ask("What is your role?");
-  // Mid-sentence, her words take a small first letter, unless they start with
-  // "I" or a name in capitals ("CRM", "EMEA").
-  const midSentence = (t: string) => (/^[A-Z][a-z]/.test(t) && !/^I\b/.test(t) ? t[0].toLowerCase() + t.slice(1) : t).replace(/[.]$/, "");
   const knownSeg = known ? you(midSentence(known)) : ask("What are you known for?");
 
   const short: DraftSegment[] = [you(name), ex(" is "), roleSeg, ex(", known for "), knownSeg, ex(". ")];
@@ -281,9 +363,9 @@ export function positioningDraft(v: Record<string, string>, name: string): Draft
     ...(wins && wins.split("\n").length > 1 ? [you(sentence(wins.split("\n").slice(1).join(" ")))] : []),
     ...(strengths ? [ex("Colleagues name "), you(strengths.replace(/[.]$/, "")), ex(" as what they rely on. ")] : []),
     ...(statement ? [ex(`In ${first}’s words: “`), you(statement.replace(/\s+$/, "")), ex("” ")] : []),
-    ask("What came before your current role?"),
+    before ? you(sentence(before)) : ask("What came before your current role?"),
     ex(" "),
-    ask("Anything you’d like people to know outside work?"),
+    ask(AUDIENCE_QUESTION[audience ?? ""] ?? "Anything you’d like people to know outside work?"),
   ];
 
   const sections: DraftSection[] = [
@@ -307,7 +389,13 @@ export function positioningDraft(v: Record<string, string>, name: string): Draft
           : [ex(INTRO_OPENINGS[v.context] ?? ""), ...(statement ? [you(sentence(statement))] : []), ex("I’m known for "), knownSeg, ex(", and I’m building toward "), toward ? you(toward.replace(/[.]$/, "")) : ask("Where are you headed?"), ex(".")],
     });
   }
-  sections.push({ id: "next-use", heading: "Recommended next use", segments: [ex("Use the short bio wherever you are introduced, and the narrative to open your next conversation about scope.")] });
+  const bio = format ? BIO_FOR_FORMAT[format] : undefined;
+  const nextUse = [
+    // "A speaker bio" → "your speaker bio"; "LinkedIn About section" keeps its capital.
+    bio ? `Start with the ${bio.label} for your ${format!.replace(/^(a|an) /i, "")}.` : "Use the short bio wherever you are introduced.",
+    nextStep ? `Then use the narrative for your next step: ${nextStep[0].toLowerCase()}${nextStep.slice(1)}.` : "Use the narrative to open your next conversation about scope.",
+  ].join(" ");
+  sections.push({ id: "next-use", heading: "Recommended next use", segments: [ex(nextUse)] });
   return sections;
 }
 

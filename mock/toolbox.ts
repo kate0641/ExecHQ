@@ -332,6 +332,11 @@ export const FLOW_COPY = {
   write: "Write my first draft",
   /** Concept 1: the step that shows what ExecHQ already has. */
   knownStep: "Check what ExecHQ has",
+  /** Concept 3, under the open draft on a phone: back to the changes. */
+  changeDraft: "Change the draft",
+  /** The same last step when ExecHQ has nothing to show: only optional
+   *  questions are left. */
+  lastStep: "Anything else?",
   revise: "Revise",
   versions: "Versions",
   inputs: "Inputs",
@@ -400,6 +405,14 @@ export const REVISION_OPTIONS: readonly RevisionOption[] = [
   { id: "audience", label: "Audience", choices: ["Peers", "Senior leaders", "My team"] },
   { id: "emphasis", label: "Emphasis", choices: ["My example", "The article’s point", "The question at the end"] },
 ];
+
+/** Each builder's own emphasis choices: what it can lead with. */
+export const EMPHASIS_BY_KIND: Record<ArtifactKind, readonly string[]> = {
+  positioning: ["What I lead", "What I’m known for", "Where I’m headed"],
+  pitch: ["The angle", "The proof", "Why now"],
+  "situation-brief": ["The ask", "The evidence", "The risks"],
+  "thought-leadership": ["My example", "The article’s point", "The question at the end"],
+};
 
 export const REVISION_COPY = {
   heading: "Change the draft",
@@ -843,6 +856,60 @@ export const SEED_INPUTS: Record<string, Record<string, string>> = {
   },
 };
 
+/* -----------------------------------------------------------------------------
+   THE STEP BAR (review scaffolding)
+   What the prototype's step bar calls each step, and the example answers a
+   jump fills in for any step she hasn't answered. Not product copy.
+   -------------------------------------------------------------------------- */
+
+export const STEP_BAR_COPY = {
+  start: "Start",
+  /** The last step before the draft, with what ExecHQ already has. */
+  check: "Check",
+  /** The same step with only optional questions left. */
+  anythingElse: "Anything else",
+  draft: "Draft",
+  revise: "Revise",
+  versions: "Versions",
+  ready: "Ready",
+} as const;
+
+/** Each question's short name in the bar, by tool and input id. */
+export const STEP_LABELS: Record<ArtifactKind, Record<string, string>> = {
+  positioning: { knownFor: "Known for", context: "Introduction", audience: "Audience", format: "Format", source: "Source text" },
+  pitch: { type: "Pitching for", angle: "Angle", proof: "Proof" },
+  "situation-brief": { type: "Moment", objective: "Outcome", audience: "Who’s there" },
+  "thought-leadership": { format: "Format", topic: "Topic", pov: "Point of view" },
+};
+
+/** What a jump fills in for a question she hasn't answered. */
+export const EXAMPLE_ANSWERS: Record<ArtifactKind, Record<string, string>> = {
+  positioning: {
+    knownFor: "Turning regional campaigns into one plan the business can back",
+    audience: "Senior leaders where I work",
+    format: "LinkedIn About section",
+    source: "Before this role I ran field marketing for the EMEA region for four years. I started in agency account management.",
+  },
+  pitch: {
+    type: "Podcast",
+    target: "the Marketing Leaders podcast",
+    angle: "Turning regional campaigns into one marketing plan",
+    proof: "I run campaigns across three regions, and I’m leading our planning workstream.",
+  },
+  "situation-brief": {
+    type: "A board meeting",
+    date: "2026-10-29",
+    objective: "Agreement that I lead the Q1 planning workstream",
+    audience: "The CEO, the CFO and my manager",
+  },
+  "thought-leadership": {
+    format: "LinkedIn post",
+    topic: "What three regions taught me about planning",
+    pov: "The plan is where scope gets decided, so marketing has to be in the room when it’s written.",
+    cta: "Ask how other teams decide who owns the plan",
+  },
+};
+
 export const TOOL_COPY = {
   briefTitle: (type: string) => `Brief for ${type.replace(/^(a|an) /i, "your ").toLowerCase()}`,
   briefName: "your brief",
@@ -890,6 +957,30 @@ export const POSITIONING_INPUTS: readonly ToolInput[] = [
     kind: "choice",
     optional: true,
     options: ["A promotion conversation", "An executive introduction", "A conference program"],
+  },
+  // The PRD's optional audience and desired format, asked apart (Kate, 13 Oct).
+  {
+    id: "audience",
+    label: "Who is it mainly for?",
+    kind: "choice",
+    optional: true,
+    options: ["Senior leaders where I work", "An external audience", "Recruiters and boards"],
+  },
+  {
+    id: "format",
+    label: "Where will you use it first?",
+    kind: "choice",
+    optional: true,
+    options: ["LinkedIn About section", "A speaker bio", "An internal profile", "An email introduction"],
+  },
+  // The PRD's user-provided source text: it fills the gap the bios would
+  // otherwise leave as a question.
+  {
+    id: "source",
+    label: "Paste a bio you already have",
+    hint: "An old bio or profile. ExecHQ uses it to fill what it would otherwise ask.",
+    kind: "long",
+    optional: true,
   },
 ];
 
