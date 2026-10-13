@@ -8417,9 +8417,11 @@ ol.ring-detail__timeline {
   counter-reset: point;
 }
 
+/* The numbers are 40px circles with 16px numerals, and the copy starts 16px
+   past them (designer, 2026-10-13). */
 .point-list--numbered > li {
   position: relative;
-  padding-left: calc(var(--space-xl) + var(--space-xs));
+  padding-left: calc(var(--space-xl) + var(--space-xs) + var(--space-md));
   counter-increment: point;
 }
 
@@ -8428,14 +8430,14 @@ ol.ring-detail__timeline {
   position: absolute;
   left: 0;
   top: 0;
-  width: var(--space-xl);
-  height: var(--space-xl);
+  width: calc(var(--space-xl) + var(--space-xs));
+  height: calc(var(--space-xl) + var(--space-xs));
   display: grid;
   place-items: center;
   font-family: var(--font-display);
   word-spacing: var(--font-display-word-spacing);
   letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-xs);
+  font-size: var(--text-md);
   font-weight: var(--weight-bold);
   color: var(--color-text-inverse);
   background-color: var(--color-surface-inverse);
