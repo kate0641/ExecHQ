@@ -113,10 +113,10 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         from: "Navigation",
       },
       {
-        rule: "Numbers in circles are one style everywhere: a 16px numeral in a 28px navy circle, with the copy starting 16px past it.",
+        rule: "Numbers in circles are one style everywhere: a 16px numeral in a 28px navy circle, the copy starting 16px past it, and 16px between items.",
         why: "The smallest circle that still holds the numeral comfortably. Larger circles outweighed the copy beside them; smaller numerals were hard to read.",
         from: "Onboarding",
-        uses: ["--number-circle-size", "--number-circle-numeral", "--number-circle-gap", "--number-circle-fill"],
+        uses: ["--number-circle-size", "--number-circle-numeral", "--number-circle-gap", "--number-list-gap"],
       },
       {
         rule: "No line of copy leaves one word alone on its last line.",

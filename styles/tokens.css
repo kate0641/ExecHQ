@@ -602,6 +602,7 @@
   --number-circle-size: calc(var(--space-lg) + var(--space-2xs)); /* 28px */
   --number-circle-numeral: var(--text-md);                       /* 16px */
   --number-circle-gap: var(--space-md);                          /* 16px */
+  --number-list-gap: var(--space-md);                            /* 16px between items */
   --number-circle-fill: var(--color-surface-inverse);
   --number-circle-ink: var(--color-text-inverse);
 

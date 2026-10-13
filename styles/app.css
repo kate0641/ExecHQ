@@ -7378,7 +7378,7 @@ ol.ring-detail__timeline {
 .linkedin-steps {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: var(--number-list-gap);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -7451,6 +7451,11 @@ ol.ring-detail__timeline {
   gap: var(--space-2xs);
   list-style: none;
   cursor: pointer;
+  /* A 44px tap target without moving anything: 12px of padding above and
+     below, taken back by the margin. */
+  min-height: var(--button-target);
+  padding-block: var(--space-sm);
+  margin-block: calc(-1 * var(--space-sm));
 }
 
 .linkedin-upload__help summary::-webkit-details-marker {
@@ -8476,6 +8481,7 @@ ol.ring-detail__timeline {
 }
 
 .point-list--numbered {
+  gap: var(--number-list-gap);
   counter-reset: point;
 }
 
