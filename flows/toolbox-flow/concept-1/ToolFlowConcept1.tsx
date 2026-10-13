@@ -81,7 +81,7 @@ function GuidedSteps() {
       ]}
       current={hasDraft ? "draft" : current}
       onSelect={hasDraft ? undefined : jumpTo}
-      labels={phone ? "current" : "all"}
+      labels={phone ? "none" : "all"}
       className="tool-flow__stepper"
     />
   );

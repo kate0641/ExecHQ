@@ -18,7 +18,7 @@ export const progressStepperStates = defineComponentStates({
   status: "draft",
   flows: ["toolbox-flow"],
   description:
-    "Where she is in something with steps: numbered discs joined by lines. Done is filled with a check, the current step a ring, steps ahead muted and joined by a dashed line, and a step with a problem carries a warning mark, so each state has a shape as well as a colour. Done steps can be opened to go back; the current one and those ahead are locked. Horizontal, or vertical for a side column; on a phone, only the current step's name, under the row.",
+    "Where she is in something with steps: numbered discs joined by lines. Done is filled with a check, the current step a ring, steps ahead muted and joined by a dashed line, and a step with a problem carries a warning mark, so each state has a shape as well as a colour. Done steps can be opened to go back; the current one and those ahead are locked. Horizontal, or vertical for a side column; on a phone, the discs and lines only.",
   component: ProgressStepper,
   notApplicable: {
     ...FIXED_CONTENT,
@@ -32,7 +32,7 @@ export const progressStepperStates = defineComponentStates({
     { label: "Last step, all done before it", props: { ...base, current: "draft" } },
     { label: "A step needs attention — error", props: { ...base, steps: steps.map((s) => (s.id === "audience" ? { ...s, error: true } : s)) } },
     { label: "Locked: nothing can be opened", props: { ...base, onSelect: undefined } },
-    { label: "Only the current name, for a phone", props: { ...base, labels: "current" } },
+    { label: "Discs only, for a phone", props: { ...base, labels: "none" } },
     { label: "Vertical", props: { ...base, orientation: "vertical" } },
     { label: "Done step — hover", props: { ...base, demo: "hover" } },
     { label: "Done step — focus", props: { ...base, demo: "focus" } },

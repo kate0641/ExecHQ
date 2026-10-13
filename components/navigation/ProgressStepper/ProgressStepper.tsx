@@ -22,10 +22,10 @@ export interface ProgressStepperProps {
   orientation?: "horizontal" | "vertical";
   /**
    * - `all`: every step's name under (or beside) its number.
-   * - `current`: only the current step's name, under the row, with where it
-   *   sits ("Step 2 of 5"). For a phone, where five names don't fit.
+   * - `none`: the discs and lines only, for a phone, where five names don't
+   *   fit. The names are still there for screen readers.
    */
-  labels?: "all" | "current";
+  labels?: "all" | "none";
   /** Catalogue only: shows the first done step in a state a static page can't reach. */
   demo?: "hover" | "focus" | "active";
   className?: string;
@@ -43,7 +43,7 @@ const STATE_WORDS = { done: "done", current: "current step", upcoming: "not star
  * ahead are locked, unless `canOpen` says otherwise. An ordered list, with
  * `aria-current="step"` on hers and each step's state said in words.
  *
- * Horizontal by default; vertical for a side column.
+ * Horizontal by default; vertical for a side column. On a phone, discs only.
  */
 export function ProgressStepper({
   steps,
@@ -57,7 +57,6 @@ export function ProgressStepper({
   className,
 }: ProgressStepperProps) {
   const at = Math.max(0, steps.findIndex((step) => step.id === current));
-  const currentStep = steps[at];
   const firstDone = steps.findIndex((_, i) => i < at);
   return (
     <nav
@@ -110,12 +109,6 @@ export function ProgressStepper({
           );
         })}
       </ol>
-      {labels === "current" && currentStep ? (
-        <p className="progress-stepper__caption" aria-hidden="true">
-          <span className="progress-stepper__caption-count">{`Step ${at + 1} of ${steps.length}`}</span>
-          {currentStep.label}
-        </p>
-      ) : null}
     </nav>
   );
 }

@@ -20920,30 +20920,15 @@ button.progress-stepper__target.is-focus {
   border-left-width: var(--progress-stepper-connector-width);
 }
 
-/* --- Only the current name, under the row (a phone) -------------------- */
+/* --- Discs only (a phone): the names stay for screen readers ---------- */
 
-.progress-stepper--labels-current .progress-stepper__label {
+.progress-stepper--labels-none .progress-stepper__label {
   position: absolute;
   width: 1px;
   height: 1px;
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
-}
-
-.progress-stepper__caption {
-  display: flex;
-  justify-content: center;
-  gap: var(--space-xs);
-  margin: 0;
-  font-size: var(--progress-stepper-label-size);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-primary);
-}
-
-.progress-stepper__caption-count {
-  font-weight: var(--weight-regular);
-  color: var(--color-text-secondary);
 }
 
 @media (prefers-reduced-motion: reduce) {
