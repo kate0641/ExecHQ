@@ -662,7 +662,6 @@ export function useToolFlow(concept: FlowConcept) {
               {concept === "concept-1" && isReady ? (
                 <DropdownMenu
                   label={USE_COPY.actions}
-                  icon="more-horizontal"
                   align="end"
                   entries={[
                     {

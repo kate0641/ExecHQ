@@ -17662,6 +17662,22 @@ ul.plan-guided__sparks {
   gap: var(--space-xs) var(--space-sm);
 }
 
+/* Under the draft's name: its status, and (Concept 1, once ready) the
+   Actions menu at the far edge, sized to sit on the status line. */
+.tool-flow__draft-head {
+  display: flex;
+  flex: 1 1 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.tool-flow__draft-head .dropdown__trigger {
+  min-height: 2rem;
+  padding: 0 var(--space-xs) 0 var(--space-sm);
+  font-size: var(--text-xs-plus);
+}
+
 .draft-editor__intro {
   margin: 0;
   color: var(--color-text-secondary);
