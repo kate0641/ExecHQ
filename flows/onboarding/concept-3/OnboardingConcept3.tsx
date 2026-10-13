@@ -42,6 +42,7 @@ import {
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { roadmapAfterEdit } from "@/lib/plan-edit";
 import { saveRoadmap, useRoadmapChoices } from "@/lib/plan-store";
+import { useStatusBarTone } from "@/lib/device-tone";
 import { useStepNav } from "@/lib/step-nav";
 import { useViewport } from "@/lib/viewport-context";
 import {
@@ -261,6 +262,8 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
   // On web the answers sit beside the question and there is no sheet to fold,
   // so a drawer left folded on a phone reads as open there.
   const mode: DrawerMode = viewport === "web" && chosenMode === "peek" ? "open" : chosenMode;
+  // The welcome on a phone is navy edge to edge, so the status bar is too.
+  useStatusBarTone(pageId === "welcome" && viewport !== "web" ? "inverse" : "default");
   // The other directions picked, beyond the one to start from.
   const [alsoGoals, setAlsoGoals] = useState<string[]>([]);
   const at = pageIndex(pageId);
@@ -417,7 +420,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
       return (
         <GuidePage
           cover
-          kicker={GUIDE_C3.welcome.wordmark}
+          wordmark
           headingId={headingId}
           title={GUIDE_C3.welcome.title}
           lede={GUIDE_C3.welcome.lede}

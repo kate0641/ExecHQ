@@ -8273,6 +8273,41 @@ ol.ring-detail__timeline {
   color: var(--color-text-primary);
 }
 
+/* The cover is navy edge to edge (designer, 2026-10-13): the light logo, the
+   light title and line, and the quote in the muted light. The yellow button
+   stays the one main action. The logo sits between the two Wordmark sizes,
+   48px tall, with 32px between it and the title. */
+.guide--cover {
+  max-width: none;
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+  --color-focus: var(--color-focus-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+}
+
+.guide--cover > * {
+  width: 100%;
+  max-width: var(--content-measure);
+  margin-inline: auto;
+}
+
+.guide--cover .guide__title,
+.guide--cover .guide__lede {
+  color: var(--color-text-inverse);
+}
+
+.guide--cover .guide__quote {
+  color: var(--color-text-inverse-muted);
+}
+
+.guide__wordmark .logo {
+  block-size: var(--space-2xl);
+}
+
+.guide--cover .guide__wordmark {
+  margin-bottom: var(--space-md);
+}
+
 .guide--cover .guide__body {
   margin-bottom: auto;
 }

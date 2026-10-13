@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { StepActions } from "@/components/onboarding/StepActions";
 import type { ButtonVariant } from "@/components/primitives/Button";
+import { Wordmark } from "@/components/primitives/Wordmark";
 
 export interface GuidePageProps {
   /** Where the user is, in words: the part of onboarding, e.g. "About you". */
@@ -13,6 +14,9 @@ export interface GuidePageProps {
   /** What ExecHQ knows so far, carried on every page. */
   file?: ReactNode;
   kicker?: string;
+  /** The ExecHQ logo above the title, in place of a kicker: the cover, where
+   *  the brand is the first thing on the screen. */
+  wordmark?: boolean;
   title: string;
   lede?: string;
   headingId?: string;
@@ -65,6 +69,7 @@ export function GuidePage({
   partCount,
   file,
   kicker,
+  wordmark = false,
   title,
   lede,
   headingId,
@@ -109,6 +114,7 @@ export function GuidePage({
       ) : null}
 
       <header className="guide__head">
+        {wordmark ? <Wordmark size="xl" tone={cover ? "light" : "dark"} className="guide__wordmark" /> : null}
         {kicker ? <p className="guide__kicker">{kicker}</p> : null}
         <h1 className="guide__title" id={headingId} tabIndex={-1}>
           {title}
