@@ -171,7 +171,7 @@ function Workspace() {
                 {given}
               </section>
             ) : (
-              <p className="tool-flow__placeholder">{C.pinnedEmpty}</p>
+              <p className="tool-flow__placeholder">{C.workspaceEmpty}</p>
             )}
           </>
         )}

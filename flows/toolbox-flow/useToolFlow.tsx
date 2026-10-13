@@ -714,7 +714,7 @@ export function useToolFlow(concept: FlowConcept) {
               {record ? <LoopStatus record={record} /> : null}
               {/* Concepts 1 and 2: once it is ready, Copy and the downloads are
                   one menu in the draft's corner, so the bar holds only "I've used this". */}
-              {(concept === "concept-1" || concept === "concept-2") && isReady ? (
+              {isReady ? (
                 <DropdownMenu
                   label={USE_COPY.actions}
                   align="end"

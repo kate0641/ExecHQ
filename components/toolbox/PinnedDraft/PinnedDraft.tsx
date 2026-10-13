@@ -38,7 +38,9 @@ export function PinnedDraft({ label, preview, expanded, onToggle, children, side
         <button type="button" className="pinned-draft__toggle" aria-expanded={expanded} aria-controls={bodyId} onClick={onToggle}>
           <span className="pinned-draft__text">
             <span className="pinned-draft__label">{label}</span>
-            <span className="pinned-draft__preview">{preview || C.pinnedEmpty}</span>
+            {/* Open on a written draft, the draft shows itself: no preview line
+                repeating its opening above it (13 Oct). */}
+            {expanded && children ? null : <span className="pinned-draft__preview">{preview || C.pinnedEmpty}</span>}
           </span>
           <span className="pinned-draft__action">
             {expanded ? C.hideDraft : C.showDraft}

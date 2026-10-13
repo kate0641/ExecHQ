@@ -19,6 +19,9 @@ function Interview() {
   const [at, setAt] = useState(-1);
   const [error, setError] = useState<string>();
   const [expanded, setExpanded] = useState(false);
+  // Once it is ready the draft is a clean read, as in Concept 1 (13 Oct);
+  // "Change something" brings the working draft back until she is done.
+  const [changing, setChanging] = useState(false);
 
   const hasDraft = Boolean(f.draft && f.version);
   // The start screen asks the tool's first question beside its button, as in
@@ -80,17 +83,21 @@ function Interview() {
     focusSoon(next < 0 ? TOOL_TITLE_ID : STEP_HEADING);
   };
 
-  // The start screen: what it makes, when to use it, what she'll need, how it
-  // connects to her plan, and what it goes with, as in Concepts 1 and 2.
+  // The start screen sets the scene: what it makes, when to use it, what
+  // she'll need, how it connects to her plan. As in Concept 1 (13 Oct): no
+  // drawing, no "Goes with this", and tapping an answer to the first
+  // question starts the interview.
   if (!hasDraft && at < 0) {
     return (
       <div className="tool-flow tool-flow--interview">
         {f.header}
         {f.moment ? <p className="tool-flow__moment">{C.momentLine(f.moment)}</p> : null}
-        {f.useCase({ onStart: () => go(0) })}
+        {f.useCase({ onStart: () => go(0), choiceStarts: true, noGoesWith: true, noPicture: true })}
       </div>
     );
   }
+  const clean = hasDraft && f.isReady && !changing;
+  const draftView = clean ? f.draftAs("clean", () => setChanging(true)) : f.draftEditor;
 
   // The draft fills in as she answers: her words in, ExecHQ's framing round them.
   const live = hasDraft || !f.answered ? undefined : f.livePreview();
@@ -104,7 +111,7 @@ function Interview() {
       onToggle={() => setExpanded(!expanded)}
       side={web}
     >
-      {hasDraft ? f.draftEditor : live ? <p className="pinned-draft__live">{f.liveDraft()}</p> : undefined}
+      {hasDraft ? draftView : live ? <p className="pinned-draft__live">{f.liveDraft()}</p> : undefined}
     </PinnedDraft>
   );
 
@@ -116,7 +123,7 @@ function Interview() {
         {f.source}
         {f.outcome}
         {f.revision(() => setExpanded(true))}
-        {f.useBar()}
+        {f.useBar({ noNotes: true, copyInMenu: true, className: "draft-use--single" })}
         {f.versions}
       </div>
     );
@@ -136,7 +143,8 @@ function Interview() {
           eyebrow={`${f.tool.name} · ${C.step(at + 1, asked.length + 1)}`}
           headingId={STEP_HEADING}
         />
-        <div className="tool-flow__step-actions">
+        {/* Next is pinned to the foot of the screen, as in Concept 1. */}
+        <div className="tool-flow__step-actions tool-flow__step-actions--pinned">
           <Button
             fullWidth
             onClick={() => {
@@ -159,17 +167,21 @@ function Interview() {
     interview = (
       <div className="tool-flow__interview">
         <StepHeader eyebrow={`${f.tool.name} · ${C.step(asked.length + 1, asked.length + 1)}`} title={hasKnown ? C.knownStep : C.lastStep} id={STEP_HEADING} />
+        {/* As in Concept 1: one instruction line, compact rows for what
+            ExecHQ has, and Write my first draft pinned with Back. */}
         {f.inputPanel(rest, {
           onSubmit: () => {
             f.write();
             setExpanded(true);
           },
+          compact: true,
+          actionsClassName: "tool-flow__step-actions--pinned",
+          footer: (
+            <Button variant="ghost" onClick={() => go(at - 1)}>
+              {C.previous}
+            </Button>
+          ),
         })}
-        <div className="tool-flow__step-actions">
-          <Button variant="ghost" onClick={() => go(at - 1)}>
-            {C.previous}
-          </Button>
-        </div>
       </div>
     );
   }
@@ -177,19 +189,32 @@ function Interview() {
   // On a phone the open draft hides the interview, so what she does next
   // with the draft comes with it: what came of it, Mark ready or used, and
   // a way to change it.
+  // As in Concept 1 (13 Oct), a fixed bar: a draft, Change it or Mark ready;
+  // ready, one button, "I've used this", with Copy and the downloads in the
+  // draft's Actions menu; changing a ready draft, Change it or Done.
   const underDraft =
     hasDraft && expanded && !web ? (
-      <div className="tool-flow__under-draft">
+      <>
         {f.outcome}
-        {f.useBar()}
-        <Button variant="secondary" fullWidth onClick={() => setExpanded(false)}>
-          {C.changeDraft}
-        </Button>
-      </div>
+        {f.stage === "used" && !changing ? null : (
+          <div className="tool-flow__fixed tool-flow__fixed--pair">
+            {f.stage === "draft" || changing ? (
+              <Button variant="secondary" onClick={() => setExpanded(false)}>
+                {C.changeDraft}
+              </Button>
+            ) : null}
+            {changing ? <Button onClick={() => setChanging(false)}>{C.doneChanging}</Button> : f.useBar({ noNotes: true, copyInMenu: true })}
+          </div>
+        )}
+      </>
     ) : null;
 
   return (
-    <div className={["tool-flow", "tool-flow--interview", web ? "tool-flow--split" : null].filter(Boolean).join(" ")}>
+    <div
+      className={["tool-flow", "tool-flow--interview", web ? "tool-flow--split" : null, !hasDraft && !web ? "tool-flow--pinned" : null, hasDraft && expanded && !web ? "tool-flow--has-bar" : null]
+        .filter(Boolean)
+        .join(" ")}
+    >
       {f.header}
       {web ? (
         <div className="tool-flow__columns">

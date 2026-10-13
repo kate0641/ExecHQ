@@ -387,7 +387,10 @@ export const FLOW_COPY = {
   showPanel: "Open",
   hidePanel: "Close",
   /** Concept 3: the pinned card before and after the first draft. */
-  pinnedEmpty: "Your draft appears here once you write it.",
+  /** Concept 3's pinned draft, which fills in as she answers. */
+  pinnedEmpty: "Your draft builds here as you answer.",
+  /** Concept 2 on web, where the draft appears once it is written. */
+  workspaceEmpty: "Your draft appears here once you write it.",
   showDraft: "Show draft",
   hideDraft: "Hide draft",
   /** Concept 3's opening line, with what she said was coming up. */
