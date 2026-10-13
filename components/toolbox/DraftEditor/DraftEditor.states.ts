@@ -36,6 +36,8 @@ export const draftEditorStates = defineComponentStates({
     { label: "A question answered — filled", props: { ...base, answers: { "What has the workstream changed for those teams?": "Three teams now plan from one calendar instead of three." } } },
     { label: "A section rewritten by her", props: { ...base, edits: { hooks: "New scope is written into the plan. Be in the room when it is." } } },
     { label: "Editing a section", props: { ...base, preview: { editing: "post" } } },
+    { label: "Ready: a clean read (Concept 1)", props: { ...base, label: "Post: planning season", look: "clean", onReopen: noop }, description: "No key, no marking, no Edit; the questions still open fold into one box at the top." },
+    { label: "Ready: as a page (Concept 2)", props: { ...base, label: "Post: planning season", look: "page", onReopen: noop }, description: "As it will copy and download; questions still open are blank lines." },
     { label: "Saved empty — error", props: { ...base, preview: { editing: "post", error: true } } },
     { label: "Revising — loading, edit unavailable", props: { ...base, label: DRAFT_COPY.label(2), sections: v2.sections, revising: REVISION_COPY.revising }, states: ["disabled"] },
     {

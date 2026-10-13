@@ -20,6 +20,7 @@ import {
   type ConciergeContext,
   type ConciergeEffect,
   type ConciergeReply,
+  type Asked,
 } from "@/lib/concierge";
 import { nextFollowUp, shortDate } from "@/lib/loop";
 import {
@@ -30,6 +31,8 @@ import {
   useLoop,
 } from "@/lib/loop-store";
 import { type NavDestination } from "@/lib/manifest";
+import { toolboxNow } from "@/lib/toolbox-store";
+import { doOffer, nextAfterNow } from "@/lib/use-next-after";
 import { useToolboxLinks } from "@/lib/toolbox-links";
 import { useNewSignals } from "@/lib/new-signals";
 import { useViewport } from "@/lib/viewport-context";
@@ -78,7 +81,7 @@ interface ConciergeState {
   open: boolean;
   messages: Message[];
   typing: boolean;
-  asked?: "follow-up";
+  asked?: Asked;
 }
 
 let state: ConciergeState = { open: false, messages: [], typing: false };
@@ -124,6 +127,7 @@ function contextNow(destinations: NavDestination[]): ConciergeContext {
     nextStep: snapshot.recommendations[0],
     destinations,
     nextStepAfter,
+    nextAfter: (record, type) => nextAfterNow(record, type, snapshot.id, snapshot.today),
   };
 }
 
@@ -144,6 +148,15 @@ function applyEffect(effect: ConciergeEffect | undefined, go: (href: string) => 
       break;
     case "set-aside":
       loopActions.setNextStepAside(effect.recordId);
+      break;
+    case "offer": {
+      const snapshot = currentSnapshot(getLoopState());
+      const record = snapshot.records.find((r) => r.id === effect.recordId);
+      doOffer(effect.offer, record, toolboxNow().drafts[effect.recordId], snapshot.id, snapshot.today);
+      break;
+    }
+    case "note":
+      loopActions.noteOutcome(effect.recordId, effect.detail);
       break;
   }
 }
@@ -261,6 +274,7 @@ function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { m
     nextStep: loop.nextStep,
     destinations,
     nextStepAfter,
+    nextAfter: (record, type) => nextAfterNow(record, type, loop.id, loop.today),
   };
 
   // Keep the latest message in view. The panel's body is what scrolls.
@@ -439,6 +453,9 @@ function Turn({ turn }: { turn: AdvisorTurn }) {
           <span>{turn.card.body}</span>
         </div>
       ) : null}
+      {turn.afterCard?.map((p, i) => (
+        <p key={`c${i}`}>{p}</p>
+      ))}
     </>
   );
 }

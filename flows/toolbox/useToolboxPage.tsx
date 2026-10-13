@@ -14,7 +14,7 @@ import { editedWords, searchLibrary, libraryItems, type LibraryItem } from "@/li
 import { aheadPhrase, shortDate, type LoopRecord } from "@/lib/loop";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
-import { draftMeta, toolboxActions, useToolbox } from "@/lib/toolbox-store";
+import { draftMeta, toolboxActions, useToolbox, type ToolboxPage } from "@/lib/toolbox-store";
 import type { ArtifactKind } from "@/mock/loop";
 import { FLOW_COPY, LIBRARY_COPY as C, TOOLBOX_PAGE, USE_COPY } from "@/mock/toolbox";
 
@@ -30,7 +30,7 @@ const LIBRARY_ID = "library-heading";
  * Opening an artifact goes straight to its draft, in this concept's flow, and
  * opening the page records the concept, so the Briefing's hand-off lands here.
  */
-export function useToolboxPage(concept: "concept-1" | "concept-2" | "concept-3") {
+export function useToolboxPage(concept: ToolboxPage) {
   const loop = useLoop();
   const toolbox = useToolbox();
   const [query, setQuery] = useState("");

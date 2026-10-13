@@ -821,6 +821,31 @@
   --folder-radius: var(--radius-sm);
 
   /* ---------------------------------------------------------------------------
+     PROGRESS STEPPER — numbered steps joined by lines (components/navigation/
+     ProgressStepper).
+     Done is a filled disc with a check, current a ring, upcoming muted, and a
+     problem a warning mark: each state has a shape as well as a colour.
+     ------------------------------------------------------------------------ */
+  --progress-stepper-size: 1.75rem;                 /* the numbered disc: 28px */
+  --progress-stepper-font-size: var(--text-xs);
+  --progress-stepper-label-size: var(--text-xs);
+  --progress-stepper-ring-width: var(--border-width-medium);
+  --progress-stepper-connector-width: var(--border-width-medium);
+  --progress-stepper-connector-done-style: solid;
+  --progress-stepper-connector-todo-style: dashed;  /* the road not taken yet */
+  --progress-stepper-gap: var(--space-2xs);         /* between a disc and its connector */
+  --progress-stepper-done: var(--color-surface-inverse);
+  --progress-stepper-text-on-done: var(--color-text-inverse);
+  --progress-stepper-current: var(--color-surface-inverse);
+  --progress-stepper-current-surface: var(--color-surface-raised);
+  --progress-stepper-todo: var(--color-border-strong);
+  --progress-stepper-todo-text: var(--color-text-muted);
+  --progress-stepper-error: var(--color-feedback-danger-text);
+  --progress-stepper-error-surface: var(--color-feedback-danger-surface);
+  --progress-stepper-connector-done: var(--color-surface-inverse);
+  --progress-stepper-connector-todo: var(--color-border-strong);
+
+  /* ---------------------------------------------------------------------------
      BRIEFING DECK — today's three reads as a stack of cards (components/
      briefing/BriefingDeck), one tint for each place in the day's set. The
      publisher's name is always on the card, so the tint is never the only cue.

@@ -115,7 +115,18 @@ The shared options (voice, specificity, length, audience) and the conversational
 | **Check back** | 7 days after she marks it used (**Proposed**) |
 | **The question** | "You used your leadership story on Tuesday. What came of it?" |
 | **Signal Picture** | Once used, where she used it and what came of it, under the plan area it serves (in the mock, "Being seen as a leader, not only an operator") |
-| **Recommended next use** | The draft's own last section (section 3) |
+
+### After she answers
+
+Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and always gives the next step (Kate, 13 Oct). One leads, with at most one more. A Plan step goes on her Plan only when she taps **Add it to your plan**; where a step is already done or passed on, the next step on her Plan takes its place. "Not now" folds it to one line. Built by rules (`AFTER_ANSWER` in `mock/toolbox.ts`); no model in the pilot.
+
+| Answer | Next step | Then |
+| --- | --- | --- |
+| It went well | **Add to plan:** *Post what you lead on LinkedIn* | **Use the long bio on LinkedIn** (copies it) |
+| It was mixed | **Sharpen it:** a new version of the bios and narrative, More specific; her statement stays | Next on your plan |
+| Not the way I hoped | **Add to plan:** *Ask your manager what broader scope means to them* | **Sharpen it** |
+| Nothing yet | **Use it where you're next introduced:** copies the short bio | "ExecHQ will ask again on …" |
+| It's no longer relevant | Next on your plan. Her statement never closes: ExecHQ only stops asking about this use of it. | |
 
 ---
 

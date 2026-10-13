@@ -27,6 +27,21 @@ export interface DraftEditorProps {
   sectionActions?: (section: DraftSection) => ReactNode;
   /** Lets a page move focus to the draft once it is written. */
   id?: string;
+  /**
+   * How it reads once she has marked it ready:
+   * - `draft`: the working draft, with the key, ExecHQ's wording marked and
+   *   Edit on every section.
+   * - `clean`: a finished document (Concept 1, option A). No key, no marking,
+   *   no Edit; the questions still open gather in one folded box at the top.
+   * - `page`: the brief as it will copy and download, on a sheet (Concept 2,
+   *   option C). Questions still open are blank lines.
+   */
+  look?: "draft" | "clean" | "page";
+  /** In `clean` and `page`: back to the working draft ("Change something"). */
+  onReopen?: () => void;
+  /** In `clean`: leaves out the box of questions still open, once she has
+   *  used it and they no longer change anything. */
+  hideOpen?: boolean;
   /** Opens a section in an editing state (catalogue). */
   preview?: { editing: string; error?: boolean };
   className?: string;
@@ -119,16 +134,58 @@ export function DraftEditor({
   revising,
   preview,
   sectionActions,
+  look = "draft",
+  onReopen,
+  hideOpen = false,
   id,
   className,
 }: DraftEditorProps) {
+  const working = look === "draft";
+  const [showOpen, setShowOpen] = useState(false);
   const [editing, setEditing] = useState<string | null>(preview?.editing ?? null);
   const [drafts, setDrafts] = useState<Record<string, string>>({});
   const open = draftQuestions(sections).filter((q) => !answers[q] && !sections.some((s) => edits[s.id] && s.segments.some((g) => isQuestion(g) && g.question === q)));
 
+  const gapForms = <>{open.map((question) => (
+            <form
+              key={question}
+              className="draft-editor__gap"
+              onSubmit={(event) => {
+                event.preventDefault();
+                const answer = drafts[question]?.trim();
+                if (answer) onAnswer(question, answer);
+              }}
+            >
+              <Input
+                label={question}
+                value={drafts[question] ?? ""}
+                onChange={(event) => setDrafts((d) => ({ ...d, [question]: event.target.value }))}
+              />
+              <Button type="submit" variant="secondary" size="sm">
+                {C.answer}
+              </Button>
+            </form>
+          ))}</>;
+
+  /** A question she hasn't answered: marked in the draft and the clean
+   *  read, a blank line on the page. */
+  const unanswered = (question: string): ReactNode =>
+    look === "page" ? (
+      <span className="draft-editor__blank">
+        <span className="u-visually-hidden">
+          {C.questionLabel} {question}
+        </span>
+      </span>
+    ) : (
+      <span className="draft-editor__question">
+        <span className="u-visually-hidden">{C.questionLabel} </span>
+        {question}
+      </span>
+    );
+
   return (
     <article
-      className={["draft-editor", revising ? "is-revising" : null, className].filter(Boolean).join(" ")}
+      className={["draft-editor", `draft-editor--${look}`, revising ? "is-revising" : null, className].filter(Boolean).join(" ")}
       aria-label={label}
       id={id}
       tabIndex={id ? -1 : undefined}
@@ -137,13 +194,27 @@ export function DraftEditor({
         <span className="draft-editor__label">{label}</span>
         {header}
       </div>
-      {intro ? <p className="draft-editor__intro">{intro}</p> : null}
+      {working && intro ? <p className="draft-editor__intro">{intro}</p> : null}
 
-      <ul className="draft-editor__legend" aria-label="Key">
-        <li className="draft-editor__key draft-editor__key--you">{C.legendYou}</li>
-        <li className="draft-editor__key draft-editor__key--exechq">{C.legendExechq}</li>
-        <li className="draft-editor__key draft-editor__key--question">{C.legendQuestion}</li>
-      </ul>
+      {working ? (
+        <ul className="draft-editor__legend" aria-label="Key">
+          <li className="draft-editor__key draft-editor__key--you">{C.legendYou}</li>
+          <li className="draft-editor__key draft-editor__key--exechq">{C.legendExechq}</li>
+          <li className="draft-editor__key draft-editor__key--question">{C.legendQuestion}</li>
+        </ul>
+      ) : null}
+
+      {look === "clean" && open.length && !hideOpen ? (
+        <section className="draft-editor__open" aria-label={C.openLabel}>
+          <p className="draft-editor__open-lead">
+            <b>{C.openCount(open.length)}</b> {C.openWhy}
+          </p>
+          <button type="button" className="draft-editor__open-toggle link" aria-expanded={showOpen} onClick={() => setShowOpen(!showOpen)}>
+            {showOpen ? C.openHide : C.openShow}
+          </button>
+          {showOpen ? gapForms : null}
+        </section>
+      ) : null}
 
       {revising ? <GeneratingState label={revising} /> : null}
 
@@ -155,7 +226,7 @@ export function DraftEditor({
             <section key={section.id} className="draft-editor__section" aria-label={section.heading ?? label}>
               <div className="draft-editor__section-head">
                 {section.heading ? <h3 className="draft-editor__section-heading">{section.heading}</h3> : <span />}
-                {editing === section.id ? null : (
+                {editing === section.id || !working ? null : (
                   <span className="draft-editor__section-actions">
                     {sectionActions?.(section)}
                     <Button variant="ghost" size="sm" onClick={() => setEditing(section.id)} disabled={Boolean(revising)}>
@@ -181,7 +252,7 @@ export function DraftEditor({
                   <p className="draft-editor__text">
                     <span className="draft-editor__you">{edited}</span>
                   </p>
-                  <span className="draft-editor__edited">{C.edited}</span>
+                  {working ? <span className="draft-editor__edited">{C.edited}</span> : null}
                 </>
               ) : section.list ? (
                 <ul className="draft-editor__text draft-editor__list">
@@ -195,16 +266,11 @@ export function DraftEditor({
                           {answers[segment.question]}
                         </li>
                       ) : (
-                        <li key={i}>
-                          <span className="draft-editor__question">
-                            <span className="u-visually-hidden">{C.questionLabel} </span>
-                            {segment.question}
-                          </span>
-                        </li>
+                        <li key={i}>{unanswered(segment.question)}</li>
                       )
                     ) : (
-                      <li key={i} className={segment.by === "you" ? "draft-editor__you" : "draft-editor__exechq"}>
-                        {segment.by === "exechq" ? <span className="u-visually-hidden">ExecHQ: </span> : null}
+                      <li key={i} className={segment.by === "you" || !working ? "draft-editor__you" : "draft-editor__exechq"}>
+                        {segment.by === "exechq" && working ? <span className="u-visually-hidden">ExecHQ: </span> : null}
                         {segment.text}
                       </li>
                     )
@@ -219,14 +285,11 @@ export function DraftEditor({
                           {answers[segment.question]}{" "}
                         </span>
                       ) : (
-                        <span key={i} className="draft-editor__question">
-                          <span className="u-visually-hidden">{C.questionLabel} </span>
-                          {segment.question}
-                        </span>
+                        <span key={i}>{unanswered(segment.question)}</span>
                       )
                     ) : (
-                      <span key={i} className={segment.by === "you" ? "draft-editor__you" : "draft-editor__exechq"}>
-                        {segment.by === "exechq" ? <span className="u-visually-hidden">ExecHQ: </span> : null}
+                      <span key={i} className={segment.by === "you" || !working ? "draft-editor__you" : "draft-editor__exechq"}>
+                        {segment.by === "exechq" && working ? <span className="u-visually-hidden">ExecHQ: </span> : null}
                         {segment.text}
                       </span>
                     )
@@ -238,33 +301,30 @@ export function DraftEditor({
         })}
       </div>
 
-      {open.length ? (
+      {working && open.length ? (
         <section className="draft-editor__gaps" aria-labelledby="draft-gaps-heading">
           <h3 className="draft-editor__gaps-heading" id="draft-gaps-heading">
             {C.gapsHeading}
           </h3>
           <p className="draft-editor__gaps-lead">{C.gapsLead}</p>
-          {open.map((question) => (
-            <form
-              key={question}
-              className="draft-editor__gap"
-              onSubmit={(event) => {
-                event.preventDefault();
-                const answer = drafts[question]?.trim();
-                if (answer) onAnswer(question, answer);
-              }}
-            >
-              <Input
-                label={question}
-                value={drafts[question] ?? ""}
-                onChange={(event) => setDrafts((d) => ({ ...d, [question]: event.target.value }))}
-              />
-              <Button type="submit" variant="secondary" size="sm">
-                {C.answer}
-              </Button>
-            </form>
-          ))}
+          {gapForms}
         </section>
+      ) : null}
+      {look === "page" && open.length ? (
+        <p className="draft-editor__page-note">
+          {C.blanks(open.length)}{" "}
+          {onReopen ? (
+            <button type="button" className="link" onClick={onReopen}>
+              {C.fillIn}
+            </button>
+          ) : null}
+        </p>
+      ) : null}
+
+      {onReopen && (look === "clean" || (look === "page" && !open.length)) ? (
+        <button type="button" className="draft-editor__reopen link" onClick={onReopen}>
+          {C.changeSomething}
+        </button>
       ) : null}
     </article>
   );

@@ -78,7 +78,7 @@ export function useBriefingPage() {
     setOpen({ kind: "read", id });
   }
 
-  function actionsFor(read: BriefingRead, options: { markRead?: boolean; compact?: boolean; noRespond?: boolean } = {}): ReactNode {
+  function actionsFor(read: BriefingRead, options: { markRead?: boolean; compact?: boolean } = {}): ReactNode {
     const s = stateOf(read.id);
     const announceSave = (next: boolean) => setMessage(next ? C.read.savedNotice : C.read.unsavedNotice);
     return (
@@ -100,7 +100,7 @@ export function useBriefingPage() {
         }
         relevance={s.relevance}
         onRelevance={(next) => briefingActions.setRelevance(read.id, next)}
-        respondHref={options.noRespond ? undefined : respond(read.id)}
+        respondHref={respond(read.id)}
         onRespond={completeStep}
         compact={options.compact}
       />

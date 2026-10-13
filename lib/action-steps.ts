@@ -147,6 +147,14 @@ export function accept(state: PlanState, id: string): PlanState {
   return { ...state, decisions: { ...state.decisions, [id]: { decision: "accepted", on: state.today } }, dates };
 }
 
+/** Puts a step on her Plan at her word, from outside it: the Situation
+ *  Brief's next step, once she says yes (13 October). Offered and accepted at
+ *  once. A step already on it stays as it is. */
+export function place(state: PlanState, id: string): PlanState {
+  if (!stepById(id) || state.shown.includes(id)) return state;
+  return accept({ ...state, shown: [...state.shown, id] }, id);
+}
+
 /** Scope changed, or she moved the step to another day; the step stays on her Plan. */
 export function edit(state: PlanState, id: string, change: { scope?: "lighter" | "as-is"; date?: LoopDate; note?: string; effort?: string; done?: string }): PlanState {
   const { date, ...rest } = change;

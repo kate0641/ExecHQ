@@ -17,6 +17,7 @@ import { LoopStatus } from "@/components/loop/LoopStatus";
 import { Icon } from "@/components/primitives/Icon";
 import { DraftEditor } from "@/components/toolbox/DraftEditor";
 import { DraftUseBar } from "@/components/toolbox/DraftUseBar";
+import { DropdownMenu } from "@/components/form/DropdownMenu";
 import { InputPanel } from "@/components/toolbox/InputPanel";
 import { RevisionControls, type RevisionChoice } from "@/components/toolbox/RevisionControls/RevisionControls";
 import { ToolUseCase } from "@/components/toolbox/ToolUseCase";
@@ -25,11 +26,14 @@ import { addDays, aheadPhrase, createRecord, daysBetween, datePhrase, outcomeRea
 import { currentSnapshot, getLoopState, loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { briefDraft, draftText, firstDraft, pitchDraft, positioningDraft, revise, revisionLabel, statementOnly } from "@/lib/toolbox-draft";
-import { toolboxActions, useToolbox, type DraftState } from "@/lib/toolbox-store";
+import { toolboxActions, toolboxPageFor, useToolbox, type DraftState } from "@/lib/toolbox-store";
 import { TODAYS_READS } from "@/mock/briefing";
 import { ARTIFACT_KINDS, FOLLOW_UP_POLICY, type ArtifactKind } from "@/mock/loop";
 import { HOME_COPY } from "@/mock/homepage";
 import { stepById } from "@/mock/plan";
+import { OutcomeNext } from "@/components/loop/OutcomeNext";
+import { stepServed, useNextAfter } from "@/lib/use-next-after";
+import type { OutcomeType } from "@/lib/loop";
 import {
   BRIEF_INPUTS,
   DRAFT_COPY,
@@ -48,6 +52,7 @@ import {
   STEP_BAR_COPY,
   STEP_LABELS,
   STEP_PREFILLS,
+  NEXT_STEP_COPY,
   TOOL_COPY,
   GOES_WITH,
   USE_CASE_COPY,
@@ -175,6 +180,9 @@ export function useToolFlow(concept: FlowConcept) {
   const readId = params.get("source") === "briefing" ? (params.get("read") ?? undefined) : undefined;
   const from = params.get("from");
   const stepId = params.get("step") ?? undefined;
+  /** Started from earlier work, from what came next after it (13 Oct): a
+   *  brief from a pitch that went well. */
+  const afterId = params.get("after") ?? undefined;
   const moment = params.get("moment") ?? undefined;
 
   const draft: DraftState | undefined = artifactId ? toolbox.drafts[artifactId] : undefined;
@@ -261,14 +269,36 @@ export function useToolFlow(concept: FlowConcept) {
         : {}
     : {};
   const fromStep = step ? (STEP_PREFILLS[step.id] ?? (kind === "thought-leadership" ? { topic: step.title } : {})) : {};
+  // Earlier work it starts from: a pitch's show or event becomes who a brief
+  // prepares for; a post's topic becomes a pitch's angle.
+  const earlier = afterId ? loop.records.find((r) => r.id === afterId) : undefined;
+  const earlierInputs = afterId ? toolbox.drafts[afterId]?.inputs : undefined;
+  const fromEarlier: Record<string, string> =
+    earlier && earlierInputs
+      ? kind === "situation-brief"
+        ? { type: "Something else", ...(earlierInputs.target ? { audience: earlierInputs.target } : {}) }
+        : kind === "pitch"
+          ? { angle: earlierInputs.topic ?? "" }
+          : {}
+      : {};
   const inputs: readonly ToolInput[] = baseInputs.map((input) =>
     fromStep[input.id]
       ? { ...input, value: fromStep[input.id], source: input.kind === "choice" ? undefined : ("plan" as const) }
       : fromMoment[input.id]
         ? { ...input, value: fromMoment[input.id] }
-        : input
+        : fromEarlier[input.id]
+          ? { ...input, value: fromEarlier[input.id] }
+          : input
   );
   const [values, setValues] = useState<Record<string, string>>({});
+  // A new start (another tool, plan step, read or earlier work) begins with
+  // nothing typed: moving between builders keeps this hook, not her answers.
+  const startKey = artifactId ? "" : `${kind}|${stepId ?? ""}|${readId ?? ""}|${afterId ?? ""}|${moment ?? ""}`;
+  const [lastStart, setLastStart] = useState(startKey);
+  if (startKey && startKey !== lastStart) {
+    setLastStart(startKey);
+    setValues({});
+  }
   const valueOf = (id: string) => values[id] ?? inputs.find((i) => i.id === id)?.value ?? "";
   const setValue = (id: string, value: string) => setValues((v) => ({ ...v, [id]: value }));
   /** What only she can answer, one a screen in Concepts 1 and 3; what
@@ -345,6 +375,21 @@ export function useToolFlow(concept: FlowConcept) {
     return id;
   }
 
+  /** Her inputs changed after the draft (Concept 2's Built from, 13 Oct): a
+   *  new version written from them, so nothing she had is lost. */
+  function rewriteWith(v: Record<string, string>) {
+    if (!artifactId || !draft) return;
+    setRevising(true);
+    window.setTimeout(() => {
+      const sections = buildDraft(kind, v, loop.today, read?.id, passage, fullName(account), kind === "thought-leadership" ? step?.title : nextStepTitle);
+      toolboxActions.addVersion(artifactId, { when: stamp(loop.today), what: C.inputsChanged, sections });
+      for (const [id, value] of Object.entries(v)) if (draft.inputs[id] !== value) toolboxActions.setInput(artifactId, id, value);
+      touch();
+      setRevising(false);
+      focusSoon(DRAFT_LABEL_ID);
+    }, 900);
+  }
+
   function write() {
     setWriting(true);
     window.setTimeout(() => {
@@ -395,7 +440,7 @@ export function useToolFlow(concept: FlowConcept) {
     }, 900);
   }
 
-  const backHref = conceptHref("toolbox", concept);
+  const backHref = conceptHref("toolbox", toolboxPageFor(concept));
   const header: ReactNode = (
     <div className="tool-flow__bar">
       <Link href={backHref} className="tool-flow__back">
@@ -414,6 +459,11 @@ export function useToolFlow(concept: FlowConcept) {
 
   const origin: ReactNode = read ? (
     <SourceLabel read={read} passage={passage} size={draft ? "compact" : "full"} />
+  ) : earlier && !draft ? (
+    <div className="tool-flow__carried">
+      <span className="tool-flow__carried-label">{NEXT_STEP_COPY.startedFrom(earlier.name)}</span>
+      <p className="tool-flow__carried-text">{earlier.title}</p>
+    </div>
   ) : buildingOut ? (
     <div className="tool-flow__carried">
       <span className="tool-flow__carried-label">{POSITIONING_COPY.fromOnboarding}</span>
@@ -494,26 +544,31 @@ export function useToolFlow(concept: FlowConcept) {
   /** Whether her plan step chose the first answer, and it still stands. */
   const choiceFromPlan = Boolean(firstChoice && fromStep[firstChoice.id] && valueOf(firstChoice.id) === fromStep[firstChoice.id]);
 
-  const useCase = (options: { onStart?: () => void; noStart?: boolean } = {}): ReactNode => (
+  const useCase = (options: { onStart?: () => void; noStart?: boolean; choiceStarts?: boolean; noGoesWith?: boolean; noPicture?: boolean; brief?: boolean; noChoice?: boolean } = {}): ReactNode => (
     <ToolUseCase
       tool={tool}
       planStep={step?.title}
       source={source}
       choice={
-        firstChoice
+        firstChoice && !options.noChoice
           ? {
               label: firstChoice.label,
               options: firstChoice.options ?? [],
               value: valueOf(firstChoice.id),
               onChange: (value) => setValue(firstChoice.id, value),
               note: choiceFromPlan ? USE_CASE_COPY.fromPlan : undefined,
+              fromPlan: fromStep[firstChoice.id] ?? fromEarlier[firstChoice.id],
+              fromLabel: !fromStep[firstChoice.id] && fromEarlier[firstChoice.id] && earlier ? NEXT_STEP_COPY.fromEarlier(earlier.name) : undefined,
             }
           : undefined
       }
       startLabel={firstChoice && valueOf(firstChoice.id) ? USE_CASE_COPY.startWith(kind, valueOf(firstChoice.id)) : undefined}
       onStart={options.onStart}
       noStart={options.noStart ?? !options.onStart}
-      goesWith={goesWith()}
+      choiceStarts={options.choiceStarts}
+      noPicture={options.noPicture}
+      brief={options.brief}
+      goesWith={options.noGoesWith ? undefined : goesWith()}
       headingLevel={1}
       headingId={TOOL_TITLE_ID}
     />
@@ -531,7 +586,17 @@ export function useToolFlow(concept: FlowConcept) {
 
   const inputPanel = (
     subset?: readonly ToolInput[],
-    options: { submitLabel?: string; hideNote?: boolean; onSubmit?: () => void; enricher?: ReactNode; collapseOptional?: boolean } = {}
+    options: {
+      submitLabel?: string;
+      hideNote?: boolean;
+      onSubmit?: () => void;
+      enricher?: ReactNode;
+      collapseOptional?: boolean;
+      compact?: boolean;
+      builtWith?: boolean;
+      footer?: ReactNode;
+      actionsClassName?: string;
+    } = {}
   ): ReactNode => (
     <InputPanel
       key={(subset ?? inputs).map((i) => i.id).join("|")}
@@ -544,6 +609,10 @@ export function useToolFlow(concept: FlowConcept) {
       hideNote={options.hideNote}
       enricher={options.enricher ?? enricher}
       collapseOptional={options.collapseOptional}
+      compact={options.compact}
+      builtWith={options.builtWith}
+      footer={options.footer}
+      actionsClassName={options.actionsClassName}
       noHeading
     />
   );
@@ -609,7 +678,20 @@ export function useToolFlow(concept: FlowConcept) {
       </aside>
     ) : null;
 
-  const draftEditor: ReactNode =
+  /** It is ready or further on: Copy and downloads belong from here (Concept 1). */
+  const isReady = Boolean(record && record.state !== "drafted" && record.state !== "in-progress");
+  // A post is copied to LinkedIn; an article also downloads (Sprint 4's PDF
+  // and Word for long-form articles).
+  const exportable = record
+    ? record.kind === "thought-leadership"
+      ? Boolean(draft?.inputs.format && draft.inputs.format !== "LinkedIn post")
+      : USE_COPY.exportable[record.kind]
+    : false;
+
+  /** The draft in one of its looks: `clean` (Concept 1) and `page`
+   *  (Concept 2) once she has marked it ready, with `onReopen` going back
+   *  to the working draft. */
+  const draftAs = (look: "draft" | "clean" | "page" = "draft", onReopen?: () => void): ReactNode =>
     draft && version && artifactId ? (
       <>
         {refresh}
@@ -617,7 +699,10 @@ export function useToolFlow(concept: FlowConcept) {
         <DraftEditor
           key={`${artifactId}-${version.n}`}
           id={DRAFT_LABEL_ID}
-          label={DRAFT_COPY.label(version.n)}
+          label={look === "draft" ? DRAFT_COPY.label(version.n) : (record?.title ?? DRAFT_COPY.label(version.n))}
+          look={look}
+          onReopen={onReopen}
+          hideOpen={Boolean(record && record.state !== "ready")}
           intro={version.n === 1 || (kind === "positioning" && version.n === 2 && draft.versions.length === 2) ? DRAFT_COPY.introFor[kind] : undefined}
           sectionActions={kind === "positioning" ? sectionActions : undefined}
           sections={version.sections}
@@ -627,6 +712,35 @@ export function useToolFlow(concept: FlowConcept) {
           header={
             <span className="tool-flow__draft-head">
               {record ? <LoopStatus record={record} /> : null}
+              {/* Concepts 1 and 2: once it is ready, Copy and the downloads are
+                  one menu in the draft's corner, so the bar holds only "I've used this". */}
+              {(concept === "concept-1" || concept === "concept-2") && isReady ? (
+                <DropdownMenu
+                  label={USE_COPY.actions}
+                  align="end"
+                  entries={[
+                    {
+                      type: "item" as const,
+                      id: "copy",
+                      icon: "copy" as const,
+                      label: USE_COPY.copyFor[kind],
+                      onSelect: () => {
+                        copy();
+                        setSectionMessage(USE_COPY.copied);
+                      },
+                    },
+                    ...(exportable
+                      ? (["PDF", "Word"] as const).map((format) => ({
+                          type: "item" as const,
+                          id: format,
+                          icon: "download" as const,
+                          label: format === "PDF" ? USE_COPY.exportPdf : USE_COPY.exportWord,
+                          onSelect: () => setSectionMessage(USE_COPY.exported(format)),
+                        }))
+                      : []),
+                  ]}
+                />
+              ) : null}
             </span>
           }
           onEditSection={(section, text) => {
@@ -644,6 +758,7 @@ export function useToolFlow(concept: FlowConcept) {
         />
       </>
     ) : null;
+  const draftEditor = draftAs();
 
   /** `onAsked` runs once she asks for a revision: Concept 1 closes its sheet. */
   const revision = (onAsked?: () => void): ReactNode =>
@@ -674,7 +789,7 @@ export function useToolFlow(concept: FlowConcept) {
   const copy = () => {
     if (!draft || !version) return;
     try {
-      void navigator.clipboard?.writeText(draftText(version.sections, edits, draft.answers));
+      navigator.clipboard?.writeText(draftText(version.sections, edits, draft.answers)).catch(() => undefined);
     } catch {
       // The prototype says it copied either way; nothing depends on it.
     }
@@ -712,7 +827,7 @@ export function useToolFlow(concept: FlowConcept) {
       </form>
     ) : null;
 
-  const useBar = (options: { noStatus?: boolean; exportInMenu?: boolean } = {}): ReactNode =>
+  const useBar = (options: { noStatus?: boolean; exportInMenu?: boolean; noNotes?: boolean; copyInMenu?: boolean; className?: string } = {}): ReactNode =>
     record ? (
       <>
         <DraftUseBar
@@ -720,9 +835,7 @@ export function useToolFlow(concept: FlowConcept) {
           ready={record.state !== "drafted" && record.state !== "in-progress"}
           onCopy={copy}
           onExport={() => undefined}
-          // A post is copied to LinkedIn; an article also downloads (Sprint 4's
-          // PDF and Word for long-form articles).
-          exportable={record.kind === "thought-leadership" ? Boolean(draft?.inputs.format && draft.inputs.format !== "LinkedIn post") : undefined}
+          exportable={exportable}
           onMarkReady={() => loopActions.markReady(record.id, checkBack(loop.today) ? { checkBackDays: checkBack(loop.today) } : undefined)}
           onMarkUsed={
             record.state === "ready" && !sending
@@ -731,6 +844,9 @@ export function useToolFlow(concept: FlowConcept) {
           }
           noStatus={options.noStatus}
           exportInMenu={options.exportInMenu}
+          noNotes={options.noNotes}
+          copyInMenu={options.copyInMenu}
+          className={options.className}
           note={
             record.kind === "situation-brief"
               ? [TOOL_COPY.onePage, briefDate ? TOOL_COPY.askAfter(aheadPhrase(addDays(briefDate, 1), loop.today)) : ""].filter(Boolean).join(" ")
@@ -811,6 +927,7 @@ export function useToolFlow(concept: FlowConcept) {
    *  there isn't one yet. */
   function jumpAfter(stage: DraftStage) {
     setAnsweredHere(false);
+    setAfter(null);
     let id = artifactId && draft ? artifactId : undefined;
     if (!id) {
       // Every question with an example, optional ones too, so the draft and
@@ -836,7 +953,28 @@ export function useToolFlow(concept: FlowConcept) {
           ? HOME_COPY.loggedDetail(record.outcome.detail)
           : HOME_COPY.loggedPlain(outcomeReadback(record.outcome.type, record.kind))
       : undefined;
-  const outcome: ReactNode =
+  /* After she says how it went (13 Oct): her one tap is all the feedback.
+     ExecHQ asks nothing more and always gives the next step, by the rules
+     Home and the advisor share (lib/next-after.ts). A note is hers to add. */
+  const [after, setAfter] = useState<{ type: OutcomeType; folded?: boolean } | null>(null);
+  const servedStepId = step?.id ?? stepServed(record);
+  const next = useNextAfter(record && after ? { record, type: after.type } : undefined, { servedStepId, flowConcept: concept });
+  const outcomeNext: ReactNode =
+    record && after && next ? (
+      <OutcomeNext
+        readback={next.readback}
+        offers={next.offers}
+        note={next.note}
+        onNote={after.type === "no-longer-relevant" && record.kind !== "positioning" ? undefined : (text) => loopActions.noteOutcome(record.id, text)}
+        noted={record.outcome?.detail}
+        onNotNow={() => setAfter({ ...after, folded: true })}
+        folded={after.folded}
+        headingId="outcome-next"
+        className="tool-flow__outcome"
+      />
+    ) : null;
+
+  const outcome: ReactNode = outcomeNext ? outcomeNext :
     record && (record.state === "used" || record.state === "waiting" || (answeredHere && record.state === "outcome")) ? (
       <CheckIn
         record={record}
@@ -849,7 +987,8 @@ export function useToolFlow(concept: FlowConcept) {
         onAnswer={(type) => {
           loopActions.answer(record.id, { type });
           setAnsweredHere(true);
-          focusSoon(outcomeHeading);
+          setAfter({ type });
+          focusSoon("outcome-next");
         }}
         onNote={(detail) => loopActions.noteOutcome(record.id, detail)}
         className="tool-flow__outcome"
@@ -935,6 +1074,9 @@ export function useToolFlow(concept: FlowConcept) {
     useCase,
     inputPanel,
     draftEditor,
+    draftAs,
+    rewriteWith,
+    isReady,
     revision,
     versions,
     useBar,

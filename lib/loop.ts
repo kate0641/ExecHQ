@@ -305,7 +305,9 @@ export function answerFollowUp(
     history: [...record.history, { type: "outcome", on, outcome: answer.type }],
   };
 
-  if (answer.type === "no-longer-relevant") {
+  // Her positioning statement is what every tool draws on, so it never
+  // closes: the answer only stops the asking (13 Oct).
+  if (answer.type === "no-longer-relevant" && record.kind !== "positioning") {
     return {
       ...recorded,
       state: "closed",
@@ -371,10 +373,10 @@ export function nextFollowUp(records: LoopRecord[], today: LoopDate): LoopRecord
 export function followUpQuestion(record: LoopRecord, today: LoopDate): string {
   const verb = ARTIFACT_KINDS[record.kind].usedVerb;
   const when = record.usedOn ? ` ${whenPhrase(record.usedOn, today)}` : "";
-  // A brief is for a conversation, and its question is whether it moved
-  // things on (the Situation Brief's PRD section); a post's is how it landed
+  // A brief is for a conversation, so it asks how it went, and ExecHQ gives
+  // the next step from the answer (13 Oct); a post's is how it landed
   // (self-reported engagement, its PRD section).
-  const asks = record.kind === "situation-brief" ? "Did it create a next step?" : record.kind === "thought-leadership" ? "How did it land?" : "What came of it?";
+  const asks = record.kind === "situation-brief" ? "How did it go?" : record.kind === "thought-leadership" ? "How did it land?" : "What came of it?";
   return `You ${verb} ${record.name}${when}. ${asks}`;
 }
 
@@ -383,8 +385,8 @@ export function outcomeReadback(type: OutcomeType, kind?: ArtifactKind): string 
   return (kind && OUTCOME_READBACK_BY_KIND[kind]?.[type]) ?? OUTCOME_READBACK[type];
 }
 
-/** An outcome's answer as this kind words it ("Yes, a next step" for a
- *  brief), or the general one. */
+/** An outcome's answer as this kind words it ("It hasn't happened yet" for
+ *  a brief), or the general one. */
 export function outcomeLabel(type: OutcomeType, kind?: ArtifactKind): string {
   return (kind && OUTCOME_LABELS_BY_KIND[kind]?.[type]) ?? OUTCOME_OPTIONS.find((o) => o.type === type)?.label ?? "";
 }

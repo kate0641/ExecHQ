@@ -117,9 +117,21 @@ As the PRD names them, voice, specificity, length and audience, plus emphasis an
 | **Export** | A post: copy only. An article: Download as PDF and Word too (Sprint 4's answer for long-form articles). |
 | **Mark ready, then published** | "Mark ready", then "Mark published". Publishing is always hers. |
 | **Check back** | 7 days after she marks it published (**Proposed**) |
-| **The question** | "You published your post on planning on Monday. How did it land?" (the PRD's self-reported engagement). Answers: It landed well · It was mixed · Not much response · Nothing yet · It's no longer relevant. After any answer the note asks "Anything to note? Comments, messages, who reached out." The same wording wherever a post is checked in on. She can answer in the builder as soon as it is published. |
+| **The question** | "You published your post on planning on Monday. How did it land?" (the PRD's self-reported engagement). Answers: It landed well · It was mixed · Not much response · Nothing yet · It's no longer relevant. Her tap is all the feedback: ExecHQ asks nothing more. The same wording wherever a post is checked in on. She can answer in the builder as soon as it is published. |
 | **Signal Picture** | Once published, the post and what came of it, under the plan area it serves; it counts toward her published-content signal |
 | **Reuse** | "Use as a start" makes a new post from this one, linked back |
+
+### After she answers
+
+Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and always gives the next step (Kate, 13 Oct). One leads, with at most one more. A Plan step goes on her Plan only when she taps **Add it to your plan**; where a step is already done or passed on, the next step on her Plan takes its place. "Not now" folds it to one line. Built by rules (`AFTER_ANSWER` in `mock/toolbox.ts`); no model in the pilot.
+
+| Answer | Next step | Then |
+| --- | --- | --- |
+| It landed well | **Add to plan:** *Pitch yourself to a podcast the people above you follow* ("Your post is the proof.") | **Add to plan:** *Share one result with someone two levels up* |
+| It was mixed | **Write from today's Briefing** | Next on your plan |
+| Not much response | **Try a different opening:** a new post starting from this one | **Write from today's Briefing** |
+| Nothing yet | Next on your plan | "ExecHQ will ask how it landed on …" |
+| It's no longer relevant | Closed. Next on your plan | |
 
 ---
 

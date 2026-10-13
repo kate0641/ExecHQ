@@ -29,7 +29,7 @@ import { momentumEvents } from "@/lib/momentum";
 import { planSparks } from "@/lib/plan-sparks";
 import { roadmapWindows, stageAt } from "@/lib/roadmap-dates";
 import { whenWords } from "@/lib/time-words";
-import { saveCalendar, saveSteps, useCalendar, useRoadmapChoices, useSavedSteps } from "@/lib/plan-store";
+import { planStepsKey, saveCalendar, saveSteps, useCalendar, useRoadmapChoices, useSavedSteps } from "@/lib/plan-store";
 import { checkInKey, saveCheckIn, useCheckIns } from "@/lib/stage-checkins";
 import { applyCheckIn } from "@/lib/check-in-effects";
 import { addedSummary, hasBaseline, signalRows, withAdded } from "@/lib/presence";
@@ -88,7 +88,7 @@ export function usePlanPage() {
   const checkIns = useCheckIns(loop.id);
   // Next steps are written for Step up only; another plan starts with none.
   const switchedTo = choices?.history.length ? choices.planId : null;
-  const stepsKey = `${loop.id}:${switchedTo ?? "base"}`;
+  const stepsKey = planStepsKey(loop.id, choices);
   const savedSteps = useSavedSteps(stepsKey);
   const start = SNAPSHOTS[loop.id];
   const planId = choices?.planId ?? loop.account.plan.id;

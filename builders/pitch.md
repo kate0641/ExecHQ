@@ -115,6 +115,18 @@ As the PRD names them: **tone** (plainer, warmer, more direct), **specificity** 
 | **Signal Picture** | Once sent, where she sent it and what came of it, under the plan area it serves, tagged with where it went |
 | **Reuse** | "Use as a start" makes a new pitch from this one, with its own Loop record, linked back ("Started from …") |
 
+### After she answers
+
+Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and always gives the next step (Kate, 13 Oct). One leads, with at most one more. A Plan step goes on her Plan only when she taps **Add it to your plan**; where a step is already done or passed on, the next step on her Plan takes its place. "Not now" folds it to one line. Built by rules (`AFTER_ANSWER` in `mock/toolbox.ts`); no model in the pilot.
+
+| Answer | Next step | Then |
+| --- | --- | --- |
+| It went well | **Prepare for it:** a Situation Brief starting from the pitch ("Started from your pitch"; the moment set to Something else, who's there from where she pitched) | **Add to plan:** *Share one result with someone two levels up* |
+| It was mixed | **Pitch the next one:** a new pitch starting from this one | Next on your plan |
+| Not the way I hoped | **Try another stage:** a new pitch starting from this one, with a different angle | **Add to plan:** *Draft a talk proposal for the leadership forum* |
+| Nothing yet | **Send the follow-up:** copies the follow-up already in the pitch | "ExecHQ will ask again on …" |
+| It's no longer relevant | Closed. Next on your plan | |
+
 ---
 
 ## 6. How the agent behaves here
