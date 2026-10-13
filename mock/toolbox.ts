@@ -695,12 +695,6 @@ export const TOOLBOX_PAGE = {
   /** Over the tool her next plan step needs (Concept 1). */
   nextOnPlan: "Next on your plan",
   toolsLabel: "Tools",
-  /** Concept 3: the drafts she touched last, not yet used, under the tools. */
-  workingOn: {
-    heading: "What are you working on right now?",
-    /** How many it shows at most. */
-    max: 3,
-  },
   /** Concept 1: the draft she touched last, and the others from 30 days. */
   pickUp: {
     heading: "Pick up where you left off",
@@ -720,24 +714,11 @@ export const TOOLBOX_PAGE = {
     /** The send arrow's name. */
     go: "Find the right tool",
   },
-  /** Concept 3. */
-  moment: {
-    label: "What’s coming up?",
-    hint: "Say it the way you’d tell a colleague. Your keyboard’s microphone works here.",
-    placeholder: "A review with my manager on Thursday",
-    go: "Find the right tool",
-    shortcuts: "Or go straight to a tool",
-    sounds: (tool: string) => `This sounds like a ${tool}.`,
-    start: (tool: string) => `Start a ${tool}`,
-    other: "Pick another tool",
-    unsure: "Which of these fits?",
-    unsureLead: "ExecHQ isn’t sure. Choose the one closest to what you need.",
-    empty: "Say what’s coming up, or choose a tool below.",
-  },
+
 } as const;
 
-/** The rules for picking a tool from what she says (Concept 3's box, and the
- *  advisor answering Concept 1's "What's on your mind?"). The
+/** The rules for picking a tool from what she says (the advisor answering
+ *  Toolbox Concept 1's "What's on your mind?"). The
  *  pilot's matching is rules-based, so it only places a few kinds of moment,
  *  and anything else asks rather than guesses. First match wins, so the
  *  things she names outright (a pitch, a post) come before the moments. */
@@ -769,13 +750,6 @@ export const TOUCHED_GROUPS = {
   thisWeek: "Earlier this week",
   lastWeek: "Last week",
   earlier: "Earlier",
-} as const;
-
-/** Concept 3's timeline, grouped by the week of each artifact's last change. */
-export const WEEK_LABELS = {
-  thisWeek: "This week",
-  lastWeek: "Last week",
-  weekOf: (date: string) => `Week of ${date}`,
 } as const;
 
 /* -----------------------------------------------------------------------------

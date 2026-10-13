@@ -31,10 +31,18 @@ export interface DraftState {
   passage?: string;
 }
 
+/** The Toolbox pages there are. Concept 3 was scratched on 13 October; its
+ *  tool flow (the Interview) stays, and goes back to Concept 1. */
+export type ToolboxPage = "concept-1" | "concept-2";
+const TOOLBOX_PAGES: readonly string[] = ["concept-1", "concept-2"] satisfies ToolboxPage[];
+
+/** The Toolbox page a tool flow concept goes back to. */
+export const toolboxPageFor = (concept: string): ToolboxPage => (concept === "concept-2" ? "concept-2" : "concept-1");
+
 export interface ToolboxState {
   drafts: Readonly<Record<string, DraftState>>;
-  /** The Toolbox concept last opened: "concept-1" to "concept-3". */
-  concept?: string;
+  /** The Toolbox concept last opened. */
+  concept?: ToolboxPage;
 }
 
 const INITIAL: ToolboxState = { drafts: {} };
@@ -47,7 +55,7 @@ function read(): ToolboxState {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return INITIAL;
     const parsed = JSON.parse(raw) as Partial<ToolboxState>;
-    return { drafts: parsed.drafts && typeof parsed.drafts === "object" ? parsed.drafts : {}, concept: parsed.concept };
+    return { drafts: parsed.drafts && typeof parsed.drafts === "object" ? parsed.drafts : {}, concept: TOOLBOX_PAGES.includes(parsed.concept ?? "") ? parsed.concept : undefined };
   } catch {
     return INITIAL;
   }
@@ -115,7 +123,7 @@ export const toolboxActions = {
     write({ ...state, drafts: rest });
   },
   /** The reviewer opened this Toolbox concept. */
-  openConcept: (concept: string) => {
+  openConcept: (concept: ToolboxPage) => {
     const state = get();
     if (state.concept !== concept) write({ ...state, concept });
   },

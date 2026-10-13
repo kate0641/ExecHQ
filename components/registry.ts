@@ -115,7 +115,6 @@ import { readActionsStates } from "./briefing/ReadActions/ReadActions.states";
 import { briefingReaderStates } from "./briefing/BriefingReader/BriefingReader.states";
 import { publisherPickerStates } from "./briefing/PublisherPicker/PublisherPicker.states";
 import { briefingArticleStates } from "./briefing/BriefingArticle/BriefingArticle.states";
-import { passageNoteStates } from "./briefing/PassageNote/PassageNote.states";
 import { respondLinkStates } from "./briefing/RespondLink/RespondLink.states";
 import { sourceLabelStates } from "./briefing/SourceLabel/SourceLabel.states";
 import { readCounterStates } from "./briefing/ReadCounter/ReadCounter.states";
@@ -131,9 +130,7 @@ import { toolPickerStates } from "./toolbox/ToolPicker/ToolPicker.states";
 import { iconRowStates } from "./navigation/IconRow/IconRow.states";
 import { mindStartStates } from "./toolbox/MindStart/MindStart.states";
 import { pickUpStates } from "./toolbox/PickUp/PickUp.states";
-import { momentStartStates } from "./toolbox/MomentStart/MomentStart.states";
 import { artifactActionsStates } from "./toolbox/ArtifactActions/ArtifactActions.states";
-import { libraryGroupStates } from "./toolbox/LibraryGroup/LibraryGroup.states";
 import { libraryEmptyStates } from "./toolbox/LibraryEmpty/LibraryEmpty.states";
 import { workspacePanelStates } from "./toolbox/WorkspacePanel/WorkspacePanel.states";
 import { pinnedDraftStates } from "./toolbox/PinnedDraft/PinnedDraft.states";
@@ -253,7 +250,6 @@ export const registry: RegisteredComponent[] = [
   briefingReaderStates,
   publisherPickerStates,
   briefingArticleStates,
-  passageNoteStates,
   respondLinkStates,
   sourceLabelStates,
   readCounterStates,
@@ -269,9 +265,7 @@ export const registry: RegisteredComponent[] = [
   iconRowStates,
   mindStartStates,
   pickUpStates,
-  momentStartStates,
   artifactActionsStates,
-  libraryGroupStates,
   libraryEmptyStates,
   workspacePanelStates,
   pinnedDraftStates,

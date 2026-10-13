@@ -25,7 +25,7 @@ import { addDays, aheadPhrase, createRecord, daysBetween, datePhrase, outcomeRea
 import { currentSnapshot, getLoopState, loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { briefDraft, draftText, firstDraft, pitchDraft, positioningDraft, revise, revisionLabel, statementOnly } from "@/lib/toolbox-draft";
-import { toolboxActions, useToolbox, type DraftState } from "@/lib/toolbox-store";
+import { toolboxActions, toolboxPageFor, useToolbox, type DraftState } from "@/lib/toolbox-store";
 import { TODAYS_READS } from "@/mock/briefing";
 import { ARTIFACT_KINDS, FOLLOW_UP_POLICY, type ArtifactKind } from "@/mock/loop";
 import { HOME_COPY } from "@/mock/homepage";
@@ -395,7 +395,7 @@ export function useToolFlow(concept: FlowConcept) {
     }, 900);
   }
 
-  const backHref = conceptHref("toolbox", concept);
+  const backHref = conceptHref("toolbox", toolboxPageFor(concept));
   const header: ReactNode = (
     <div className="tool-flow__bar">
       <Link href={backHref} className="tool-flow__back">

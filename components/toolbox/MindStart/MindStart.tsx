@@ -18,8 +18,8 @@ export interface MindStartProps {
  * Concept 1's way in when she isn't sure which tool: "What's on your mind?",
  * under the tools. It doesn't pick a tool on the page. Her words open the
  * advisor as her first message, and he names the tool with a Start, or asks
- * one question when he can't tell (Kate, 13 Oct). Concept 3's "What's coming
- * up?" is the version that picks on the page.
+ * one question when he can't tell (Kate, 13 Oct). (Concept 3's "What's coming
+ * up?", which picked on the page, was scratched.)
  *
  * One field with the send arrow inside, the advisor's own box, so the page
  * carries no second black button (option A, 13 Oct). The hint is the

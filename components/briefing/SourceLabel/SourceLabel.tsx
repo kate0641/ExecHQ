@@ -5,7 +5,7 @@ const C = BRIEFING_COPY.respond;
 
 export interface SourceLabelProps {
   read: BriefingRead;
-  /** The passage she started from, when she started from one (Concept C). */
+  /** The passage she started from, when she started from one (a post started from a passage). */
   passage?: string;
   /** `full` shows the reason line too: where the draft starts. `compact` is
    *  the label alone, for a library row. */

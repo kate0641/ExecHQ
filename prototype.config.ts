@@ -237,15 +237,6 @@ export const prototypeConfig: PrototypeConfig = {
           summary:
             "The tools as one row of four icons; the library as four folders, one per tool, each opening to its list. Tools open as a document workspace.",
         },
-        {
-          slug: "concept-3",
-          title: "Concept 3 — Start from the moment",
-          // Scratched by Kate, 13 Oct: its "What's on your mind?" and "working
-          // on" ideas went into Concept 1. Not yet moved to `scratch`.
-          scratched: true,
-          summary:
-            "The wild card: What’s coming up? picks the tool; the library is a timeline by week. Tools open as an interview beside the draft.",
-        },
       ],
     },
     {
@@ -297,15 +288,6 @@ export const prototypeConfig: PrototypeConfig = {
           title: "Concept 2 — News app",
           summary:
             "A front page like a news app: the lead story with a big picture, two rows with small ones, each saying why it is here. A story opens the whole article in ExecHQ, with ExecHQ’s notes on highlighted passages all the way through, and a bar at the foot: Back, Relevant, Not for me, Save, Write a post.",
-        },
-        {
-          slug: "concept-3",
-          title: "Concept 3 — Annotated",
-          // Scratched by Kate, 13 Oct: its highlighted passages and notes went
-          // into Concept 2's article. Not yet moved to `scratch`.
-          scratched: true,
-          summary:
-            "The wild card: each read has one highlighted passage with ExecHQ’s note; tap it to respond in Thought Leadership Builder.",
         },
       ],
     },

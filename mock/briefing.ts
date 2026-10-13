@@ -20,8 +20,8 @@
  * because the brief names generic reason lines as the feature's main risk.
  *
  * STAND-INS: every publisher here is invented, by decision on 2026-10-11, so
- * nothing invented (headlines, standfirsts, the quoted passages Concept C
- * highlights) is put in a real publisher's mouth on a public site. In the
+ * nothing invented (headlines, standfirsts, the articles and passages
+ * Concept 2 shows) is put in a real publisher's mouth on a public site. In the
  * product the list is real publications.
  */
 
@@ -92,13 +92,10 @@ export interface BriefingRead {
   /** Two or three sentences on what it says, shown when she opens it. In the
    *  product this is the publisher's own standfirst, not ExecHQ's summary. */
   standfirst: string;
-  /** Concept C: one passage from the article, highlighted, that she can tap
-   *  to respond to. A short quote with its source, which the product can show
-   *  without a licence for the whole article. */
+  /** One passage from the article: what a post started from a passage
+   *  quotes (Thought Leadership Builder's source). The first noted passage
+   *  in `body`. */
   passage: string;
-  /** Concept C: ExecHQ's note on that passage: why this part, for her. The
-   *  reason line says why the read is here; this says why this sentence. */
-  note: string;
   /** Concept 2: the whole article, read in ExecHQ, as paragraphs. A part
    *  with a note is a highlighted passage with ExecHQ's note on it, so the
    *  notes run all the way through. Invented, like everything here; in the
@@ -124,7 +121,6 @@ export const TODAYS_READS: BriefingRead[] = [
       "Annual planning is where most new remits are assigned, often before any role is posted. The leaders who get them are usually the ones already shaping the plan, not the ones waiting to be asked.",
     passage:
       "The remit goes to whoever has already described the problem it solves, usually in the planning document itself.",
-    note: "You are writing part of that document. This is the part to bring to the Q1 review.",
     body: [
       [
         "Ask a leader how they came to run something new and the answer rarely starts with a job posting. It starts in a planning meeting, months earlier, when a gap in next year’s plan needed an owner. ",
@@ -157,7 +153,6 @@ export const TODAYS_READS: BriefingRead[] = [
       "When a marketing remit grows, the people deciding look less at campaign results and more at how a leader runs work they do not own. Cross-functional judgment is the signal they say they look for first.",
     passage:
       "The question is no longer whether the campaigns worked, but whether the teams around them would follow the same leader again.",
-    note: "The workstream puts you across teams now. That is the evidence this describes.",
     body: [
       [
         "When a chief marketing officer decides to widen someone’s remit, campaign results are the starting point, not the deciding one. Most candidates have good numbers. What separates them is harder to put in a dashboard.",
@@ -189,7 +184,6 @@ export const TODAYS_READS: BriefingRead[] = [
       "Reliable delivery can keep a leader in the role they already do well. The shift comes from naming the problems they would take on next, out loud, to the people who assign them.",
     passage:
       "Nobody hands new scope to the person they cannot spare. They hand it to the person who has said what they would do with it.",
-    note: "Your leadership story already says what you would take on. This is the case for saying it out loud.",
     body: [
       [
         "Every organization has them: the leader whose team always delivers, who is trusted with anything difficult, and who somehow never gets the bigger job. Reliability, it turns out, can be a trap.",
@@ -317,23 +311,13 @@ export const BRIEFING_COPY = {
     label: "Today’s three reads",
   },
 
-  /* --- Concept C: the highlighted passage --------------------------------- */
+  /* --- Concept 2: ExecHQ's notes on highlighted passages -------------------- */
   passage: {
-    label: "A passage for you",
     noteLabel: "ExecHQ’s note",
     /** Concept 2: after a highlighted passage, for screen readers. */
     noteRef: (n: number) => `ExecHQ’s note ${n} follows`,
     /** Concept 2: the foot of an article read in ExecHQ. */
     credit: (publisher: string) => `Published by ${publisher}. Highlights and notes by ExecHQ.`,
-    tapHint: "Tap the passage to respond to it.",
-    sheetHeading: "This passage",
-    respond: "Respond to this",
-    respondHint: "Opens Thought Leadership Builder with this passage and its article as your source.",
-    /** Web only: her own selection, where the full text is shown. In the
-     *  product that needs the whole article in ExecHQ, and so a licence from
-     *  the publisher: a review note (docs/sprint-4-review-notes.md), never
-     *  said on the page. */
-    selection: "Respond to your selection",
   },
 
   /* --- End of the day's set ----------------------------------------------- */

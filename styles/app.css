@@ -12557,7 +12557,6 @@ ul.login__never {
     linear-gradient(var(--color-sky-night-top), var(--color-sky-night) 60%, var(--color-sky-night-low));
 }
 
-
 /* Trial (designer, 2026-10-10): the sky turned the other way up. Its glow
    sits at the very top of the screen, round the camera and the status bar,
    and it fades down through the date and behind the rings into the page,
@@ -16334,7 +16333,6 @@ ul.plan-guided__sparks {
   font-variant-numeric: tabular-nums;
 }
 
-
 /* -----------------------------------------------------------------------------
    SELECTED STEPS UP A WEIGHT (designer, 2026-10-11)
    Across the product, the label of whatever is chosen or current — a ring,
@@ -16381,8 +16379,7 @@ ul.plan-guided__sparks {
   margin-inline: auto;
 }
 
-[data-viewport="web"] .briefing-page--front,
-[data-viewport="web"] .briefing-page--annotated {
+[data-viewport="web"] .briefing-page--front {
   max-width: 65rem;
 }
 
@@ -17223,174 +17220,10 @@ ul.plan-guided__sparks {
   background-color: transparent;
 }
 
-/* --- Concept 3: annotated -------------------------------------------------- */
-
-.briefing-annotated {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xl);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.briefing-annotated__item + .briefing-annotated__item {
-  padding-top: var(--space-xl);
-  border-top: var(--border-width-thin) solid var(--color-border);
-}
-
-.passage-note {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
-.passage-note__figure,
-.passage-note__quote {
-  margin: 0;
-}
-
-.passage-note__passage {
-  display: block;
-  width: 100%;
-  padding: 0;
-  border: 0;
-  background: none;
-  font: inherit;
-  font-family: var(--font-serif);
-  font-size: var(--text-md);
-  line-height: var(--leading-relaxed);
-  color: var(--color-text-primary);
-  text-align: left;
-  cursor: pointer;
-}
-
-.passage-note__mark {
-  padding: 0.1em 0.15em;
-  background-color: var(--color-accent-soft);
-  color: inherit;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
-  border-bottom: var(--border-width-medium) solid var(--color-accent);
-}
-
-.passage-note__passage:hover .passage-note__mark,
-.passage-note__passage.is-hover .passage-note__mark {
-  border-bottom-color: var(--color-text-primary);
-}
-
-.passage-note__passage:active,
-.passage-note__passage.is-active {
-  opacity: 0.85;
-}
-
-.passage-note__passage:focus-visible,
-.passage-note__passage.is-focus {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-  border-radius: var(--radius-xs);
-}
-
-/* The callout: under the passage on a phone and tablet. */
-.passage-note__note {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3xs);
-  padding: var(--space-sm);
-  border-radius: var(--radius-md);
-  background-color: var(--color-surface-note);
-}
-
-.passage-note--inline .passage-note__note {
-  position: relative;
-  margin-top: var(--space-2xs);
-}
-
-.passage-note__note-label {
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-secondary);
-}
-
-.passage-note__note-text {
-  margin: 0;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-}
-
-/* On web the note moves into the margin beside its passage. */
-.passage-note--margin {
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-  align-items: start;
-  gap: var(--space-lg);
-}
-
-.passage-note--margin .passage-note__note {
-  padding: 0 0 0 var(--space-sm);
-  border-left: var(--border-width-thin) solid var(--color-border-strong);
-  border-radius: 0;
-  background-color: transparent;
-}
-
-.briefing-annotated__own {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  max-width: calc(66% - var(--space-lg) / 2);
-}
-
-.briefing-annotated__text {
-  margin: 0;
-  line-height: var(--leading-relaxed);
-  color: var(--color-text-secondary);
-}
-
-.briefing-annotated__selection {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-2xs);
-}
-
-.passage-sheet {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.passage-sheet__heading,
 .briefing-saved__heading {
   margin: 0;
   font-size: var(--text-lg);
   font-weight: var(--weight-semibold);
-}
-
-.passage-sheet__figure {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  margin: 0;
-}
-
-.passage-sheet__quote {
-  margin: 0;
-  padding-left: var(--space-sm);
-  border-left: var(--border-width-medium) solid var(--color-accent);
-  font-family: var(--font-serif);
-  font-size: var(--text-md);
-  line-height: var(--leading-relaxed);
-}
-
-.passage-sheet__source {
-  font-size: var(--text-xs);
-  color: var(--color-text-secondary);
-}
-
-.passage-sheet__hint {
-  margin: 0;
-  font-size: var(--text-xs);
-  color: var(--color-text-secondary);
 }
 
 /* --- Where a draft came from ----------------------------------------------- */
@@ -18202,8 +18035,7 @@ ul.plan-guided__sparks {
 }
 
 /* Chips: one row that scrolls sideways, past the screen's edge. */
-.tool-picker--chips .tool-picker__list,
-.moment-start__chips {
+.tool-picker--chips .tool-picker__list {
   display: flex;
   gap: var(--space-xs);
   margin-inline: calc(-1 * var(--space-screen-side));
@@ -18219,8 +18051,7 @@ ul.plan-guided__sparks {
   overflow: visible;
 }
 
-.tool-picker--chips .tool-picker__tool,
-.moment-start__chip {
+.tool-picker--chips .tool-picker__tool {
   display: inline-flex;
   flex: none;
   align-items: center;
@@ -18238,20 +18069,13 @@ ul.plan-guided__sparks {
 }
 
 .tool-picker--chips .tool-picker__tool:hover,
-.tool-picker--chips .tool-picker__tool.is-hover,
-.moment-start__chip:hover {
+.tool-picker--chips .tool-picker__tool.is-hover {
   border-color: var(--color-border-strong);
 }
 
 .tool-picker--chips .tool-picker__tool:active,
-.tool-picker--chips .tool-picker__tool.is-active,
-.moment-start__chip:active {
+.tool-picker--chips .tool-picker__tool.is-active {
   background-color: var(--color-surface-active);
-}
-
-.moment-start__chip:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
 }
 
 /* --- What's on your mind (Concept 1) ---------------------------------------- */
@@ -18341,74 +18165,6 @@ ul.plan-guided__sparks {
   font-weight: var(--weight-semibold);
 }
 
-/* --- Start from the moment ------------------------------------------------ */
-
-.moment-start {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.moment-start__form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
-.moment-start__found:empty {
-  display: none;
-}
-
-.moment-start__match,
-.moment-start__unsure {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-xs);
-  padding: var(--space-sm) var(--space-md);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-sunken);
-}
-
-.moment-start__sounds {
-  font-weight: var(--weight-semibold);
-}
-
-.moment-start__unsure-lead {
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-}
-
-.moment-start__shortcuts {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2xs);
-}
-
-.moment-start__shortcuts-label {
-  font-size: var(--text-xs);
-  color: var(--color-text-secondary);
-}
-
-.moment-start__chips {
-  margin-block: 0;
-  list-style: none;
-}
-
-[data-viewport="web"] .moment-start__chips {
-  flex-wrap: wrap;
-  margin-inline: 0;
-  padding-inline: 0;
-}
-
-/* --- What she is working on (Toolbox Concept 3) ----------------------------- */
-
-.working-on {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
 /* --- The library ------------------------------------------------------------- */
 
 .library {
@@ -18432,8 +18188,7 @@ ul.plan-guided__sparks {
   font-weight: var(--weight-semibold);
 }
 
-.library__groups,
-.library__timeline {
+.library__groups {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
@@ -18495,73 +18250,6 @@ ul.plan-guided__sparks {
 .library__filter .dropdown.is-set .dropdown__trigger {
   border-color: var(--color-text-primary);
   background-color: var(--color-surface-selected);
-}
-
-/* --- Groups ------------------------------------------------------------------- */
-
-.library-group {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
-.library-group__heading {
-  margin: 0;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-}
-
-.library-group--week .library-group__heading {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-xs);
-  padding-bottom: var(--space-3xs);
-  border-bottom: var(--border-width-thin) solid var(--color-border);
-}
-
-.library-group__count {
-  font-weight: var(--weight-regular);
-  color: var(--color-text-secondary);
-}
-
-.library-group__toggle {
-  display: flex;
-  align-items: center;
-  gap: var(--space-xs);
-  width: 100%;
-  min-height: var(--button-target);
-  padding: 0 var(--space-3xs);
-  border: 0;
-  border-bottom: var(--border-width-thin) solid var(--color-border);
-  background: none;
-  font: inherit;
-  color: var(--color-text-primary);
-  text-align: left;
-  cursor: pointer;
-}
-
-.library-group__toggle > span:first-child {
-  flex: 1;
-}
-
-.library-group__toggle:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.library-group__chevron {
-  transform: rotate(90deg);
-  transition: transform var(--duration-fast) var(--easing-standard);
-}
-
-.library-group:not(.is-open) .library-group__chevron {
-  transform: none;
-}
-
-/* The timeline: a rule down the left joins the weeks. */
-.library-group--week .library-group__body {
-  padding-left: var(--space-sm);
-  border-left: var(--border-width-medium) solid var(--color-border);
 }
 
 /* --- Empty ----------------------------------------------------------------------- */

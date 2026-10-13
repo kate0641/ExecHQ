@@ -18,8 +18,7 @@ export interface ReadActionsProps {
   onMarkRead?: (read: boolean) => void;
   relevance?: Relevance;
   onRelevance: (relevance: Relevance | undefined) => void;
-  /** Thought Leadership Builder, with this read as the source. Left out
-   *  where she responds another way (Concept 3, from the passage). */
+  /** Thought Leadership Builder, with this read as the source. */
   respondHref?: string;
   onRespond?: () => void;
   /** One row of pills: Save, Write a post. No relevance question and no
