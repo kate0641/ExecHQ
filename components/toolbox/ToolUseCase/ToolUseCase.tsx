@@ -40,6 +40,8 @@ export interface ToolUseCaseProps {
   /** What this work goes with: a `List` of at most two rows, each with one
    *  small action. Shown under the button. */
   goesWith?: ReactNode;
+  /** Leaves the drawing out (Toolbox flow Concept 2, 13 October). */
+  noPicture?: boolean;
   headingLevel?: 1 | 2;
   headingId?: string;
   /** Catalogue only: shows the first answer row in a state a static page can't reach. */
@@ -68,6 +70,7 @@ export function ToolUseCase({
   onStart,
   noStart = false,
   goesWith,
+  noPicture = false,
   headingLevel = 1,
   headingId,
   demo,
@@ -76,9 +79,11 @@ export function ToolUseCase({
   const Heading = `h${headingLevel}` as const;
   return (
     <section className={["tool-use-case", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
-      <div className="tool-use-case__picture">
-        <ToolIllustration tool={tool.kind} level="detailed" size={200} />
-      </div>
+      {noPicture ? null : (
+        <div className="tool-use-case__picture">
+          <ToolIllustration tool={tool.kind} level="detailed" size={200} />
+        </div>
+      )}
       <div className="tool-use-case__decide">
         <Heading className="tool-use-case__name" id={headingId} tabIndex={-1}>
           {tool.name}

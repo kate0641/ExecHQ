@@ -102,6 +102,7 @@ function Workspace() {
             {f.useCase({
               choiceStarts: true,
               noGoesWith: true,
+              noPicture: true,
               onStart: () => {
                 // On the page, to the next question; on web, up in the panel.
                 if (inlineInputs) setTimeout(() => document.querySelector<HTMLElement>(".tool-flow__inputs input, .tool-flow__inputs textarea")?.focus(), 0);
