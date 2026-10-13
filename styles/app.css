@@ -8764,11 +8764,12 @@ ol.ring-detail__timeline {
 /* A plan part taught: what it is and how it helps (boxed), then the user's
    own, under a label. */
 .guide__yours-label {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
+  font-family: var(--type-group-title-font);
+  font-size: var(--type-group-title-size);
+  font-weight: var(--type-group-title-weight);
+  line-height: var(--type-group-title-leading);
+  letter-spacing: var(--type-group-title-tracking);
+  word-spacing: var(--type-group-title-word-spacing);
   text-transform: uppercase;
   color: var(--color-text-primary);
 }
@@ -8974,11 +8975,13 @@ ol.ring-detail__timeline {
   overflow-y: auto;
 }
 
-/* What the user said, back on the page, with the way to change it. */
+/* What the user said, back on the page with the way to change it: a group
+   title, then one card of reads split by hairlines (How a page is built:
+   never a stack of boxes for a list). */
 .guide__heard-rows {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: var(--space-group-title);
 }
 
 .guide__said {
@@ -8987,19 +8990,24 @@ ol.ring-detail__timeline {
   align-items: baseline;
   gap: var(--space-sm);
 }
+/* A read: the grey eyebrow naming it, then her words. */
 .guide__said-label {
   display: block;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
+  margin-bottom: var(--space-eyebrow-title);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
   color: var(--color-text-secondary);
 }
 
 .guide__said-value {
+  display: block;
   font-size: var(--text-md);
+  line-height: var(--leading-snug);
   color: var(--color-text-primary);
 }
 
@@ -9017,7 +9025,7 @@ ol.ring-detail__timeline {
 }
 
 .guide__said-change:focus-visible {
-  outline: var(--focus-ring-width) solid var(--color-focus-inverse);
+  outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
 }
 

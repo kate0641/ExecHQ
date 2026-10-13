@@ -634,19 +634,21 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
           {pageId === "plan-week" && heardRows.length ? (
             <section className="guide__heard-rows" aria-label={c.heardLabel}>
               <p className="guide__yours-label">{c.heardLabel}</p>
-              {heardRows.map((row) => (
-                <Said
-                  key={row.label}
-                  label={row.label}
-                  value={row.value}
-                  onChange={() => {
-                    // A question changes in place and comes back here; a new
-                    // direction starts the questions again.
-                    if (row.target !== "direction") setReturnTo("plan-week");
-                    goTo(row.target);
-                  }}
-                />
-              ))}
+              <div className="card card--reads">
+                {heardRows.map((row) => (
+                  <Said
+                    key={row.label}
+                    label={row.label}
+                    value={row.value}
+                    onChange={() => {
+                      // A question changes in place and comes back here; a new
+                      // direction starts the questions again.
+                      if (row.target !== "direction") setReturnTo("plan-week");
+                      goTo(row.target);
+                    }}
+                  />
+                ))}
+              </div>
             </section>
           ) : null}
           <PlanPart part={pageId} plan={plan} direction={direction} />
