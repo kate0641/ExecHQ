@@ -387,6 +387,10 @@ export const FLOW_COPY = {
   showPanel: "Open",
   hidePanel: "Close",
   /** Concept 3: the pinned card before and after the first draft. */
+  /** Concept 3: the card before there is a written draft, and where an
+   *  answer lands, under the question. */
+  soFar: "Your draft so far",
+  landsIn: "In your draft",
   /** Concept 3's pinned draft, which fills in as she answers. */
   pinnedEmpty: "Your draft builds here as you answer.",
   /** Concept 2 on web, where the draft appears once it is written. */

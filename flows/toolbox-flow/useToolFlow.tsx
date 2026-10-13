@@ -1009,6 +1009,40 @@ export function useToolFlow(concept: FlowConcept) {
   /** Concept 3: the draft as it would be from what she has said so far, and
    *  whether she has said anything yet. */
   const answered = asked.some((i) => valueOf(i.id).trim() && !i.value);
+  /** How many of her questions she has answered (Concept 3's card waits for two). */
+  const answeredCount = asked.filter((i) => valueOf(i.id).trim() && !i.value).length;
+  const liveSections = () => buildDraft(kind, Object.fromEntries(inputs.map((i) => [i.id, valueOf(i.id)])), loop.today, read?.id, passage);
+  /** Concept 3: the draft so far as plain text, her words and ExecHQ's, the
+   *  questions still open left out, for the collapsed card. */
+  const liveSoFar = (): string =>
+    liveSections()
+      .filter((section) => !section.list)
+      .slice(0, kind === "situation-brief" ? 2 : 1)
+      .map((section) => section.segments.map((seg) => ("question" in seg ? "" : seg.text)).join("").trim())
+      .filter(Boolean)
+      .join(" ");
+  /** Concept 3: where one answer lands in the draft, as she types it: the
+   *  sentence that holds it, her words in full ink and ExecHQ's round them. */
+  const landsIn = (inputId: string): ReactNode => {
+    const said = valueOf(inputId).trim();
+    if (!said) return null;
+    const probe = said.slice(0, 24).toLowerCase();
+    const section = liveSections().find((s) => s.segments.some((seg) => !("question" in seg) && seg.by === "you" && seg.text.toLowerCase().includes(probe)));
+    if (!section) return null;
+    return section.segments.map((seg, i) =>
+      "question" in seg ? (
+        <span key={i} className="draft-editor__question">
+          <span className="u-visually-hidden">{DRAFT_COPY.questionLabel} </span>
+          {seg.question}{" "}
+        </span>
+      ) : (
+        <span key={i} className={seg.by === "you" ? "draft-editor__you" : "draft-editor__exechq"}>
+          {seg.by === "exechq" ? <span className="u-visually-hidden">ExecHQ: </span> : null}
+          {seg.text}
+        </span>
+      )
+    );
+  };
   const livePreview = (): string =>
     draftText(buildDraft(kind, Object.fromEntries(inputs.map((i) => [i.id, valueOf(i.id)])), loop.today, read?.id, passage).slice(0, kind === "situation-brief" ? 2 : 1))
       .replace(/^[A-Z][^\n]*\n/, "");
@@ -1044,6 +1078,9 @@ export function useToolFlow(concept: FlowConcept) {
     concept,
     kind,
     answered,
+    answeredCount,
+    liveSoFar,
+    landsIn,
     livePreview,
     liveDraft,
     draftPreview,

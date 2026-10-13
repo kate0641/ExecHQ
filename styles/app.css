@@ -19282,13 +19282,49 @@ ul.plan-guided__sparks {
 }
 
 .pinned-draft__preview {
+  display: -webkit-box;
   overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   font-family: var(--font-serif);
   word-spacing: var(--word-spacing-normal);
   font-size: var(--text-sm);
-  white-space: nowrap;
-  text-overflow: ellipsis;
   color: var(--color-text-secondary);
+}
+
+/* Concept 3: where an answer lands in the draft, under the question. */
+.interview-lands {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding: var(--space-sm) var(--space-md);
+  border-left: var(--border-width-medium) solid var(--color-border-strong);
+  background-color: var(--color-surface-raised);
+}
+
+.interview-lands__label {
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.interview-lands__text {
+  margin: 0;
+  font-family: var(--font-serif);
+  word-spacing: var(--word-spacing-normal);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+.interview-lands .draft-editor__question {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-style: italic;
+  color: var(--color-text-muted);
 }
 
 .pinned-draft__action {

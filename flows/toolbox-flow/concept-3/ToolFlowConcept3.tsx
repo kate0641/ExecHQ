@@ -102,18 +102,22 @@ function Interview() {
   // The draft fills in as she answers: her words in, ExecHQ's framing round them.
   const live = hasDraft || !f.answered ? undefined : f.livePreview();
 
-  const pinned = (
+  // The card waits until there is something to show (13 Oct): on a phone,
+  // from her second answer; each answer shows where it lands as she types.
+  const showCard = hasDraft || web || f.answeredCount >= 2;
+  const pinned = showCard ? (
     <PinnedDraft
-      label={hasDraft && f.version ? DRAFT_COPY.label(f.version.n) : DRAFT_COPY.label(1)}
-      // Marked, as the draft is: her words apart from ExecHQ's wording.
-      preview={hasDraft ? f.draftPreview() : live ? f.liveDraft() : undefined}
+      label={hasDraft && f.version ? DRAFT_COPY.label(f.version.n) : C.soFar}
+      // Collapsed, the draft so far as plain text; open, marked as the draft
+      // is: her words apart from ExecHQ's wording.
+      preview={hasDraft ? f.draftPreview() : live ? f.liveSoFar() : undefined}
       expanded={expanded || (hasDraft && web)}
       onToggle={() => setExpanded(!expanded)}
       side={web}
     >
       {hasDraft ? draftView : live ? <p className="pinned-draft__live">{f.liveDraft()}</p> : undefined}
     </PinnedDraft>
-  );
+  ) : null;
 
   let interview;
   if (hasDraft) {
@@ -140,9 +144,16 @@ function Interview() {
             f.setValue(input.id, v);
           }}
           error={error}
-          eyebrow={`${f.tool.name} · ${C.step(at + 1, asked.length + 1)}`}
+          eyebrow={C.step(at + 1, asked.length + 1)}
           headingId={STEP_HEADING}
         />
+        {/* Where her answer lands, as she types: the interview shows its work. */}
+        {f.landsIn(input.id) ? (
+          <div className="interview-lands" aria-live="polite">
+            <span className="interview-lands__label">{C.landsIn}</span>
+            <p className="interview-lands__text">{f.landsIn(input.id)}</p>
+          </div>
+        ) : null}
         {/* Next is pinned to the foot of the screen, as in Concept 1. */}
         <div className="tool-flow__step-actions tool-flow__step-actions--pinned">
           <Button
@@ -166,7 +177,7 @@ function Interview() {
   } else {
     interview = (
       <div className="tool-flow__interview">
-        <StepHeader eyebrow={`${f.tool.name} · ${C.step(asked.length + 1, asked.length + 1)}`} title={hasKnown ? C.knownStep : C.lastStep} id={STEP_HEADING} />
+        <StepHeader eyebrow={C.step(asked.length + 1, asked.length + 1)} title={hasKnown ? C.knownStep : C.lastStep} id={STEP_HEADING} />
         {/* As in Concept 1: one instruction line, compact rows for what
             ExecHQ has, and Write my first draft pinned with Back. */}
         {f.inputPanel(rest, {
