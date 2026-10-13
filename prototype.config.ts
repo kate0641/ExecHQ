@@ -30,6 +30,10 @@ export interface Concept {
   status?: Status;
   /** One line shown under the concept in the hub. */
   summary?: string;
+  /** Set aside, not chosen. It still opens, and the hub labels it
+   *  "Scratched" in place of its status, until it is moved to the `scratch`
+   *  branch and removed from `main`. Only Kate scratches a concept. */
+  scratched?: boolean;
 }
 
 export interface Flow {
@@ -225,7 +229,7 @@ export const prototypeConfig: PrototypeConfig = {
           slug: "concept-1",
           title: "Concept 1 — Tool cards",
           summary:
-            "The tool for her next plan step leads with its drawing (a bento on tablet and web, one row and three icons on a phone); the library below filtered by tool and status. Tools open as guided steps.",
+            "The tool for her next plan step leads with its drawing (a bento on tablet and web, one row and three icons on a phone), then What’s on your mind? and Pick up where you left off. The library is its own page, from Library at the top right. Tools open as guided steps.",
         },
         {
           slug: "concept-2",
@@ -236,6 +240,9 @@ export const prototypeConfig: PrototypeConfig = {
         {
           slug: "concept-3",
           title: "Concept 3 — Start from the moment",
+          // Scratched by Kate, 13 Oct: its "What's on your mind?" and "working
+          // on" ideas went into Concept 1. Not yet moved to `scratch`.
+          scratched: true,
           summary:
             "The wild card: What’s coming up? picks the tool; the library is a timeline by week. Tools open as an interview beside the draft.",
         },

@@ -61,7 +61,11 @@ export function FlowList({ compact = false, specs, headingLevel = 3 }: FlowListP
                             {concept.summary}
                           </span>
                         ) : null}
-                        <StatusBadge status={conceptStatus(concept)} />
+                        {concept.scratched ? (
+                          <Badge srPrefix="Status:">Scratched</Badge>
+                        ) : (
+                          <StatusBadge status={conceptStatus(concept)} />
+                        )}
                       </li>
                     ))}
                   </ul>
