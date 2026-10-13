@@ -7201,6 +7201,43 @@ ol.ring-detail__timeline {
   cursor: not-allowed;
 }
 
+/* An answer in a guided step's drawer (Onboarding, the Plan's guided steps)
+   is a prompt, not a button: the advisor's prompt style, with the raised
+   surface, a thin edge, 20px corners and Inter, its words at the left. The
+   one chosen fills with the selected blue and its words step up to bold, so
+   a pick-several question never stacks navy blocks. */
+.answer-drawer .chip-group__chip {
+  min-height: var(--button-target);
+  padding: var(--space-xs) var(--space-md);
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-snug);
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-align: left;
+  background-color: var(--color-surface-raised);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-xl);
+}
+
+.answer-drawer .chip-group__chip:hover {
+  border-color: var(--color-border-strong);
+  background-color: var(--color-surface-raised);
+}
+
+.answer-drawer .chip-group__chip[aria-pressed="true"] {
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-selected);
+  border-color: var(--color-surface-selected);
+}
+
+.answer-drawer .chip-group__chip:disabled {
+  color: var(--color-text-disabled);
+  background-color: var(--color-surface-disabled);
+  border-color: var(--color-surface-disabled);
+}
+
 /* Outputs page. */
 .story-text {
   font-size: var(--text-md);
@@ -8095,14 +8132,17 @@ ol.ring-detail__timeline {
   gap: var(--space-xs);
 }
 
+/* The step's label introduces its heading, so it is the system's blue
+   eyebrow (How a page is built: blue eyebrows introduce a heading). */
 .guide__kicker {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-text-secondary);
+  color: var(--color-eyebrow);
 }
 
 .guide__title {
@@ -8135,29 +8175,34 @@ ol.ring-detail__timeline {
 /* The margin note: why this page exists. It sits just above the action on
    every page, pushed down by the free space, so it is always found in the
    same place. */
+/* Why this matters is a labelled read: a grey eyebrow, then the words, with
+   no rule beside it (How a page is built: grey eyebrows label a read). */
 .guide__why {
   margin-top: auto;
   display: flex;
   flex-direction: column;
-  gap: var(--space-3xs);
-  padding-left: var(--space-md);
-  border-left: var(--border-width-medium) solid var(--color-text-primary);
+  gap: var(--space-eyebrow-title);
 }
 
 .guide__why-label {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-text-primary);
+  color: var(--color-text-secondary);
 }
 
 .guide__why-text {
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  letter-spacing: var(--type-body-sm-tracking);
+  word-spacing: var(--type-body-sm-word-spacing);
+  color: var(--color-text-primary);
 }
 
 /* With a drawer the reason follows the question directly, instead of sinking
