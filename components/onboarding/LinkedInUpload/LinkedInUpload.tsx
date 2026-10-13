@@ -4,6 +4,7 @@ import { useId, useRef } from "react";
 import { LinkedInSteps } from "@/components/onboarding/LinkedInSteps";
 import { Notice } from "@/components/onboarding/Notice";
 import { Button } from "@/components/primitives/Button";
+import { Icon } from "@/components/primitives/Icon";
 import type { LinkedInStatus } from "@/flows/onboarding/shared";
 import { LINKEDIN_UPLOAD } from "@/mock/onboarding";
 
@@ -86,7 +87,10 @@ export function LinkedInUpload({
           <LinkedInSteps label={copy.stepsLabel} steps={copy.steps} linkNote={copy.linkNote} />
 
           <details className="linkedin-upload__help">
-            <summary>{copy.noExport}</summary>
+            <summary>
+              <span className="linkedin-upload__help-label">{copy.noExport}</span>
+              <Icon name="chevron-down" size={16} className="linkedin-upload__caret" />
+            </summary>
             <p>{copy.noExportBody}</p>
           </details>
 

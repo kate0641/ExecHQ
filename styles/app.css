@@ -7442,10 +7442,28 @@ ol.ring-detail__timeline {
   color: var(--color-text-secondary);
 }
 
+/* The disclosure's marker is the icon set's chevron rather than the
+   browser's triangle: it sits after the words, points down while closed and
+   up once open (designer, 2026-10-13). */
 .linkedin-upload__help summary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  list-style: none;
   cursor: pointer;
+}
+
+.linkedin-upload__help summary::-webkit-details-marker {
+  display: none;
+}
+
+.linkedin-upload__help-label {
   text-decoration: underline;
   text-underline-offset: 0.2em;
+}
+
+.linkedin-upload__help[open] .linkedin-upload__caret {
+  transform: rotate(180deg);
 }
 
 .linkedin-upload__help p {
@@ -7457,6 +7475,9 @@ ol.ring-detail__timeline {
   display: flex;
   flex-direction: column;
   gap: var(--space-2xs);
+  /* 24px more above the button, so the steps have room before it (designer,
+     2026-10-13). */
+  margin-top: var(--space-lg);
 }
 
 .linkedin-upload__hint {
