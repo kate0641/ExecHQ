@@ -973,7 +973,7 @@ export const TOOL_COPY = {
     cancel: "Not yet",
   },
   /** Situation Brief: when a date is known, the follow-up lands after it. */
-  askAfter: (when: string) => `ExecHQ will ask “Did this create a next step?” ${when}.`,
+  askAfter: (when: string) => `ExecHQ will ask how it went ${when}.`,
 } as const;
 
 /* -----------------------------------------------------------------------------
@@ -1088,84 +1088,55 @@ export const GOES_WITH = {
 
 /* -----------------------------------------------------------------------------
    AFTER SHE SAYS HOW IT WENT (Situation Brief first, 13 October)
-   Her answer to "Did it create a next step?" leads somewhere: ExecHQ may ask
-   one thing more, then offers what to do next, built by rules from her answer
-   and the brief's own content (no model in the pilot). A step only goes on
-   her Plan when she says so. The other tools take the same pattern later,
-   with their own answers.
+   Her one-tap answer is the whole of the feedback: ExecHQ asks nothing more
+   and always comes back with the next step, built by rules from her answer,
+   the brief's own goal and her Plan (no model in the pilot). A step only goes
+   on her Plan when she says so. The other tools take the same pattern later.
    -------------------------------------------------------------------------- */
 
-/** What ExecHQ can offer once she has answered. */
+/** What ExecHQ can offer once she has answered. The first one leads. */
 export type NextOffer =
-  /** The Plan step her words point to (`HANDOFF_RULES`), to add to her Plan. */
+  /** The Plan step the brief's goal points to (`HANDOFF_RULES`), to add. */
   | "plan-step"
   /** The brief's follow-up email, to copy and send. */
   | "follow-up"
   /** A new brief for the next conversation, starting from this one. */
   | "new-brief"
-  /** What's next on her Plan. */
-  | "plan";
+  /** The next step already on her Plan. */
+  | "next-on-plan";
 
 export interface AfterAnswer {
-  /** Says back what she answered, first. */
+  /** Says back what she answered. */
   readback: string;
-  /** One thing more, before the offers. */
-  ask?: { label: string; hint?: string; placeholder?: string; kind: "text" | "date"; optional?: boolean; submit: string };
   offers: readonly NextOffer[];
 }
 
 export const BRIEF_AFTER: Record<OutcomeType, AfterAnswer> = {
-  positive: {
-    readback: "It created a next step.",
-    ask: {
-      label: "What’s the next step?",
-      hint: "In your words. It goes into your follow-up email.",
-      placeholder: "I’ll lead the Q1 planning workstream",
-      kind: "text",
-      submit: "See what’s next",
-    },
-    offers: ["plan-step", "follow-up"],
-  },
-  neutral: {
-    readback: "It went well, with no next step yet.",
-    offers: ["follow-up", "plan"],
-  },
-  negative: {
-    readback: "It didn’t go the way you hoped.",
-    ask: {
-      label: "What got in the way?",
-      hint: "If you want to say. It shapes the next brief.",
-      placeholder: "They want to wait until Q2",
-      kind: "text",
-      optional: true,
-      submit: "See what’s next",
-    },
-    offers: ["new-brief", "plan"],
-  },
-  "no-response-yet": {
-    readback: "It hasn’t happened yet.",
-    ask: { label: "When is it now?", hint: "ExecHQ asks how it went the day after.", kind: "date", optional: true, submit: "Set the date" },
-    offers: [],
-  },
-  "no-longer-relevant": {
-    readback: "It’s no longer relevant, so it’s closed.",
-    offers: ["plan"],
-  },
+  positive: { readback: "It went well.", offers: ["plan-step", "follow-up"] },
+  neutral: { readback: "It was mixed.", offers: ["follow-up", "plan-step"] },
+  negative: { readback: "It didn’t go the way you hoped.", offers: ["new-brief", "next-on-plan"] },
+  "no-response-yet": { readback: "It hasn’t happened yet.", offers: ["next-on-plan"] },
+  "no-longer-relevant": { readback: "It’s no longer relevant, so it’s closed.", offers: ["next-on-plan"] },
 };
 
 export const NEXT_STEP_COPY = {
-  heading: "What’s next",
-  skip: "Skip",
+  heading: "Your next step",
   notNow: "Not now",
-  answerFirst: "Say what it is, so ExecHQ can suggest what comes next.",
-  /** The step her words point to. */
-  planStep: { label: "Next on your plan", add: "Add it to your plan", added: "Added to your plan.", open: "Open your plan", youSaid: (words: string) => `You said: “${words}”` },
+  /** The step the brief's goal points to. */
+  planStep: {
+    label: "Add to your plan",
+    add: "Add it to your plan",
+    added: "Added to your plan.",
+    open: "Open your plan",
+    because: (goal: string) => `For what you wanted from it: “${goal}”`,
+    heard: (goal: string) => `From your brief: “${goal}”`,
+  },
+  /** The next step already on her Plan. */
+  nextOnPlan: { label: "Next on your plan", action: "Open your plan" },
   followUp: {
-    title: "Confirm it in writing",
-    /** When nothing was agreed yet. */
-    titlePlain: "Keep it moving",
-    body: "Your follow-up email is in the brief, with what you agreed.",
-    bodyPlain: "Your follow-up email is in the brief. Sending it keeps things moving.",
+    title: "Send the follow-up email",
+    body: "It’s in the brief. Add what you agreed and when you’ll come back to them.",
+    bodyMixed: "It’s in the brief. Sending it keeps things moving.",
     action: "Copy the follow-up email",
     copied: "Copied the follow-up email.",
   },
@@ -1174,9 +1145,8 @@ export const NEXT_STEP_COPY = {
     body: "A new brief for what comes next, starting from this one.",
     action: "Start a new brief",
   },
-  plan: { title: "See what’s next on your plan", action: "Open your plan" },
-  /** After "It hasn't happened yet" and a date. */
-  rescheduled: (when: string) => `ExecHQ will ask how it went ${when}.`,
-  /** Once she has set it all aside. */
+  /** After "It hasn't happened yet". */
+  askAgain: (when: string) => `ExecHQ will ask how it went ${when}.`,
+  /** Once she has set it aside. */
   logged: (readback: string) => `Logged: ${readback.charAt(0).toLowerCase()}${readback.slice(1)}`,
 } as const;

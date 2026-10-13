@@ -84,7 +84,7 @@ Every concept leads with the four tools and puts the library below, per the 11 O
 ## 4a. Stage 5: all four tools, and the links in
 
 - **All four tools work in all three Toolbox concepts**, through one shared engine, so choosing a concept doesn't mean rebuilding them.
-- **Situation Brief:** with a date, the follow-up "Did this create a next step?" lands the day after the meeting.
+- **Situation Brief:** with a date, the follow-up "How did it go?" lands the day after the meeting, and whatever she answers, ExecHQ gives the next step (13 October).
 - **Pitch Builder:** the follow-up draft lives on the same artifact. "Mark sent" takes an optional target and date.
 - **Positioning Builder:** her onboarding statement opens as the same artifact (version 1); it is never copied. Changing the statement offers a refresh of the bios and narrative; it never forces one.
 - **Direct paths.** Every link into the Toolbox from the Plan, the homepage, the Concierge and the Signal Picture goes through one helper (`lib/toolbox-links.ts`). A step that already has a draft opens it, and the Plan's button then says "Open your draft". A step that makes something opens its tool with the step's facts filled in.

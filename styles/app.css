@@ -21127,19 +21127,6 @@ button.progress-stepper__target.is-focus {
   color: var(--color-text-secondary);
 }
 
-.outcome-next__ask {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.outcome-next__row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-sm);
-}
-
 .outcome-next__offers {
   display: flex;
   flex-direction: column;

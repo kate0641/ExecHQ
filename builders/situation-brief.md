@@ -107,10 +107,10 @@ The shared options (voice, specificity, length, audience) and the conversational
 | **Copy** | "Copy", the whole brief, with "Exports as one page." |
 | **Export** | Download as PDF, Download as Word |
 | **Mark ready, then used** | "Mark ready", then "Mark used". Using it is having the conversation; ExecHQ never sends the email. |
-| **Check back** | When she gave a date, the day after it, however early she marks it used ("ExecHQ will ask 'Did this create a next step?' on Friday."). Otherwise 2 days after she marks it used. |
-| **The question** | "You used your check-in brief on Thursday. Did it create a next step?" (the PRD's "record whether the conversation created a next step or outcome"). Answers: Yes, a next step · It went well, no next step yet · Not the way I hoped · It hasn't happened yet · It's no longer relevant. After "Yes", the note asks "What's the next step?". The same wording wherever a brief is checked in on: here, Home and the advisor. She can answer in the builder as soon as it is used. |
+| **Check back** | When she gave a date, the day after it, however early she marks it used ("ExecHQ will ask how it went on Friday."). Otherwise 2 days after she marks it used. |
+| **The question** | "You used your check-in brief on Thursday. How did it go?" Answers, one tap each: It went well · It was mixed · Not the way I hoped · It hasn't happened yet · It's no longer relevant. Her tap is all the feedback: ExecHQ asks nothing more (Kate, 13 Oct). The same wording wherever a brief is checked in on: here, Home and the advisor. She can answer in the builder as soon as it is used. |
 | **Signal Picture** | Once used, the moment and what came of it, under the plan area of the step it served. |
-| **Recommended next use** | **Proposed:** after an outcome, if the moment created a next step, offer the follow-up email as the thing to send, and the next action step on her plan. |
+| **Recommended next use** | **Whatever she answers, ExecHQ gives the next step** (13 Oct), by rules from her answer, the brief's goal and her Plan. It went well: the Plan step her goal points to (Add it to your plan; it goes on only when she says so), then the follow-up email. It was mixed: the follow-up email, then that Plan step. Not the way I hoped: a new brief starting from this one, then what's next on her Plan. It hasn't happened yet: what's next on her Plan, and ExecHQ asks again later. No longer relevant: closed, and what's next on her Plan. "Not now" folds it to one line. |
 
 ---
 

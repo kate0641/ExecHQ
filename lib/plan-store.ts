@@ -115,6 +115,16 @@ export function addStepToPlan(scenario: string, stepId: string, today: string, h
   });
 }
 
+/** The first step on her Plan in this scenario, as it would open now: the
+ *  next thing to do when a piece of work has no step of its own to offer. */
+export function useNextOnPlan(scenario: string, today: string, notId?: string): string | undefined {
+  const store = useSyncExternalStore(subscribe, get, () => EMPTY);
+  const switched = Boolean(store.roadmap[scenario]?.history.length);
+  const saved = store.steps[planStepsKey(scenario, store.roadmap[scenario])];
+  const shown = saved ? saved.state.shown : switched ? [] : initialPlanState(today).shown;
+  return shown.find((id) => id !== notId);
+}
+
 /** Whether a step is on her Plan in this scenario. */
 export function useOnPlan(scenario: string, stepId: string | undefined): boolean {
   const store = useSyncExternalStore(subscribe, get, () => EMPTY);
