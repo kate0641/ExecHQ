@@ -2,7 +2,7 @@ import { createElement as h } from "react";
 import { defineComponentStates } from "@/components/types";
 import { NOT_AN_INPUT } from "@/components/not-applicable";
 import { ChatMessage } from "@/components/chat/ChatMessage";
-import { Icon } from "@/components/primitives/Icon";
+import { IconRow } from "@/components/navigation/IconRow";
 import { ConciergePanel } from "./ConciergePanel";
 
 const noop = () => {};
@@ -51,22 +51,16 @@ export const conciergePanelStates = defineComponentStates({
       description: "Once she is talking, the concept puts the way to the product's places above the advisor's head, held while the chat scrolls.",
       props: {
         mode: "sheet",
-        top: h(
-          "ul",
-          { className: "concierge-dests", "aria-label": "Go to" },
-          ([["Home", "home"], ["Plan", "flag"], ["Signals", "trend-up"], ["Toolbox", "pencil"], ["Briefing", "calendar"], ["Profile", "person"]] as const).map(([label, icon]) =>
-            h(
-              "li",
-              { key: label },
-              h(
-                "a",
-                { href: "#", className: label === "Plan" ? "concierge-dest is-current" : "concierge-dest", "aria-current": label === "Plan" ? "page" : undefined },
-                h("span", { className: "concierge-dest__chip" }, h(Icon, { name: icon, size: 20 })),
-                h("span", { className: "u-bold-hold", "data-label": label }, label)
-              )
-            )
-          )
-        ),
+        top: h(IconRow, {
+          label: "Go to",
+          items: ([["Home", "home"], ["Plan", "flag"], ["Signals", "trend-up"], ["Toolbox", "pencil"], ["Briefing", "calendar"], ["Profile", "person"]] as const).map(([label, icon]) => ({
+            id: label,
+            href: "#",
+            label,
+            icon,
+            current: label === "Plan",
+          })),
+        }),
         children: conversation,
         onNew: noop,
         onClose: noop,

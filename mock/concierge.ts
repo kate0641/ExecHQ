@@ -103,6 +103,21 @@ export const CONCIERGE_COPY = {
     ],
     after: "Your next conversation with your manager is the place to start.",
   },
+  /** Finding the right tool, from what she said on the Toolbox (Concept 1's
+   *  "What's on your mind?"). */
+  findTool: {
+    sounds: (tool: string, short: string) => `That sounds like a ${tool}: ${short.charAt(0).toLowerCase()}${short.slice(1)}.`,
+    other: "Something else",
+    ask: "What do you want to have at the end of it?",
+    /** Her answers to that question, one per tool. */
+    needs: {
+      "situation-brief": "Notes for a conversation or meeting",
+      pitch: "A pitch to a stage, a show or an editor",
+      "thought-leadership": "A post or an article",
+      positioning: "A better way to introduce myself",
+    },
+    opening: (tool: string) => `Opening ${tool}, with what you told me.`,
+  },
   politics: [
     "Two things usually help.",
     "First, ask the people who’ll weigh in what they need to see before they’d back you. Senior people respect the question, and it tells you what to prove.",

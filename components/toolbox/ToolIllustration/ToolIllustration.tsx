@@ -54,24 +54,25 @@ function Microphone({ level }: { level: IllustrationLevel }) {
   );
 }
 
-function Pen({ level }: { level: IllustrationLevel }) {
+/** Thought leadership: a lightbulb, an idea worth putting her name to. Not
+ *  the pen, which is the Toolbox itself in the navigation (Kate, 13 Oct). */
+const GLASS = "M48 80C48 70 34 64 34 48a26 26 0 0 1 52 0c0 16-14 22-14 32z";
+
+function Bulb({ level }: { level: IllustrationLevel }) {
   const d = level === "detailed";
   return (
     <>
-      <g transform="rotate(40 60 60)">
-        {d ? <rect className="tool-illustration__shade" x="57" y="10" width="18" height="62" rx="9" /> : null}
-        <rect className={paper(level)} x="51" y="6" width="18" height="62" rx="9" />
-        <path d="M51 48h18" />
-        {d ? (
-          <>
-            <path d="M65 12v28" strokeWidth="3" />
-            <path d="M51 54h18" opacity="0.6" />
-          </>
-        ) : null}
-        <path className={paper(level)} d="M53 68l7 26 7-26" />
-        <path d="M60 76v10" />
-      </g>
-      {d ? <path d="M22 104c8-6 14 4 22-2s14 4 22-2" opacity="0.7" /> : null}
+      {d ? <path className="tool-illustration__shade" d={GLASS} transform="translate(6 6)" /> : null}
+      <path className={paper(level)} d={GLASS} />
+      <rect className={paper(level)} x="47" y="80" width="26" height="11" rx="3" />
+      <path d="M51 98h18" />
+      {d ? (
+        <>
+          <path d="M52 64l8-10 8 10" opacity="0.6" />
+          <path d="M55 104h10" />
+          <path d="M60 6v9M27 19l6 6M93 19l-6 6M16 48h9M95 48h9" opacity="0.7" />
+        </>
+      ) : null}
     </>
   );
 }
@@ -100,7 +101,7 @@ const DRAWINGS: Record<ArtifactKind, (props: { level: IllustrationLevel }) => Re
   positioning: IdCard,
   pitch: Microphone,
   "situation-brief": Brief,
-  "thought-leadership": Pen,
+  "thought-leadership": Bulb,
 };
 
 const STROKE: Record<IllustrationLevel, number> = { detailed: 2.6, simple: 3, icon: 7 };
@@ -109,7 +110,7 @@ const STROKE: Record<IllustrationLevel, number> = { detailed: 2.6, simple: 3, ic
  * The tools' line drawings: one drawing per tool, at three levels of detail,
  * so a tool looks the same wherever it appears, from the lead card to a small
  * icon. An ID card for Positioning Builder, a microphone for Pitch Builder, a
- * clipboard for Situation Brief, a pen for Thought Leadership Builder.
+ * clipboard for Situation Brief, a lightbulb for Thought Leadership Builder.
  *
  * Line art in one ink, from the ILLUSTRATIONS tokens, so it reads in
  * greyscale now and takes the palette later. Decorative: the tool's name

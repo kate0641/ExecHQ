@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { IconRow } from "@/components/navigation/IconRow";
 import { Icon, type IconName } from "@/components/primitives/Icon";
 import { ToolIllustration } from "@/components/toolbox/ToolIllustration";
 import type { ArtifactKind } from "@/mock/loop";
@@ -8,7 +9,8 @@ export const TOOL_ICONS: Record<ArtifactKind, IconName> = {
   positioning: "person",
   pitch: "mic",
   "situation-brief": "document",
-  "thought-leadership": "pencil",
+  // Not the pencil: that is the Toolbox itself in the navigation.
+  "thought-leadership": "lightbulb",
 };
 
 /** The tool her next plan step needs, which leads in the `lead` layout. */
@@ -57,6 +59,25 @@ export function ToolPicker({ hrefFor, layout, lead, compact = false, label = "To
   if (layout === "lead" && lead) return <LeadPicker hrefFor={hrefFor} lead={lead} compact={compact} label={label} demo={demo} className={className} />;
   // Without a lead, the lead layout falls back to four equal tiles.
   const shape = layout === "lead" ? "tiles" : layout;
+  // Icons are the navigation's own row, so tools and places read as one family.
+  if (shape === "icons") {
+    return (
+      <nav className={["tool-picker", "tool-picker--icons", className].filter(Boolean).join(" ")} aria-label={label}>
+        <IconRow
+          size="lg"
+          twoLines
+          demo={demo === "focus" ? "focus" : undefined}
+          items={TOOL_ORDER.map((kind) => ({
+            id: kind,
+            href: hrefFor(kind),
+            label: TOOLS[kind].label,
+            fullName: TOOLS[kind].name,
+            icon: TOOL_ICONS[kind],
+          }))}
+        />
+      </nav>
+    );
+  }
   return (
     <nav className={["tool-picker", `tool-picker--${shape}`, className].filter(Boolean).join(" ")} aria-label={label}>
       <ul className="tool-picker__list">
@@ -68,24 +89,9 @@ export function ToolPicker({ hrefFor, layout, lead, compact = false, label = "To
                 href={hrefFor(kind)}
                 className={["tool-picker__tool", i === 0 && demo ? `is-${demo}` : null].filter(Boolean).join(" ")}
               >
-                {shape === "icons" ? (
-                  <>
-                    <span className="tool-picker__badge" aria-hidden="true">
-                      <Icon name={TOOL_ICONS[kind]} size={20} />
-                    </span>
-                    {/* The short name shows; the full one is what is read. */}
-                    <span className="tool-picker__name" aria-hidden="true">
-                      {tool.label}
-                    </span>
-                    <span className="u-visually-hidden">{tool.name}</span>
-                  </>
-                ) : (
-                  <>
-                    <Icon name={TOOL_ICONS[kind]} size={shape === "tiles" ? 20 : 16} className="tool-picker__icon" />
-                    <span className="tool-picker__name">{tool.name}</span>
-                    {shape === "tiles" ? <span className="tool-picker__short">{tool.short}</span> : null}
-                  </>
-                )}
+                <Icon name={TOOL_ICONS[kind]} size={shape === "tiles" ? 20 : 16} className="tool-picker__icon" />
+                <span className="tool-picker__name">{tool.name}</span>
+                {shape === "tiles" ? <span className="tool-picker__short">{tool.short}</span> : null}
               </Link>
             </li>
           );

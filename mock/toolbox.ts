@@ -32,7 +32,8 @@ export interface ToolUseCase {
   makes: string;
   /** A few words, for a tile: "Bios and your narrative". */
   short: string;
-  /** The name in a word or two, under an icon where four share one row. */
+  /** The name in two words, under an icon where four share one row: each
+   *  two words, so no one name runs much longer than the others (Kate, 13 Oct). */
   label: string;
   /** One sentence: when to use it. */
   when: string;
@@ -47,7 +48,7 @@ export interface ToolUseCase {
 export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
   positioning: {
     kind: "positioning",
-    label: "Positioning",
+    label: "Positioning statement",
     name: "Positioning Builder",
     makes: "Your positioning statement, a bio in three lengths and a leadership narrative, in your words.",
     short: "Your statement, bios and narrative",
@@ -58,7 +59,7 @@ export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
   },
   pitch: {
     kind: "pitch",
-    label: "Pitch",
+    label: "Pitch builder",
     name: "Pitch Builder",
     makes: "A pitch to a conference, a podcast or an editor, with subject lines and the follow-up already drafted.",
     short: "Pitches for stages, shows and press",
@@ -69,7 +70,7 @@ export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
   },
   "situation-brief": {
     kind: "situation-brief",
-    label: "Brief",
+    label: "Situation brief",
     name: "Situation Brief",
     makes: "A one-page brief for a moment that matters: what you want from it, what you will say, what they will ask.",
     short: "One page before a moment that matters",
@@ -531,12 +532,21 @@ export const LIBRARY_SEED: Record<string, ArtifactMeta> = {
     versions: 2,
     preview: "I’d like to put myself forward to lead marketing’s part of the Q1 planning review.",
   },
+  "post-planning": {
+    area: "seen-as-leader",
+    versions: 2,
+    preview: "Running campaigns in three regions taught me that the plan is where scope gets decided.",
+  },
+  "podcast-pitch": {
+    area: "broader-remit",
+    versions: 1,
+    preview: "A pitch to talk about turning regional campaigns into one marketing plan.",
+  },
 };
 
 export const LIBRARY_COPY = {
   heading: "Library",
   lead: "Everything you’ve made, wherever you started it.",
-  count: (n: number) => (n === 1 ? "1 artifact" : `${n} artifacts`),
   search: "Search your library",
   searchHint: "Searches titles and what they say.",
   noMatch: (q: string) => `Nothing in your library mentions “${q}”.`,
@@ -594,6 +604,23 @@ export const LIBRARY_COPY = {
     empty: "Nothing here yet",
     emptyBody: (tool: string) => `Anything you make in ${tool} is filed here.`,
     back: "Library",
+    /** The folder's own page (phone): back to the Toolbox. */
+    backToToolbox: "Toolbox",
+    /** The status chips over a folder's list, each with how many it holds. */
+    filter: "Show",
+    all: "All",
+    chip: (label: string, n: number) => `${label} ${n}`,
+    /** The third line of a row in a folder: what comes next for it. */
+    next: {
+      draft: "Finish the draft",
+      ready: (kind: ArtifactKind) =>
+        ({ pitch: "Send it when you’re ready", "thought-leadership": "Publish it when you’re ready" })[kind as string] ?? "Use it when you’re ready",
+      checksBack: (when: string) => `ExecHQ checks back ${when}`,
+      sayHow: "Say how it went",
+      close: "Close it when you’re done",
+      closed: "Nothing more to do",
+    },
+    noneInStatus: (status: string) => `Nothing here is ${status.toLowerCase()}.`,
     open: (name: string) => `Open ${name}`,
     results: (n: number, q: string) => (n === 1 ? `1 match for “${q}”` : `${n} matches for “${q}”`),
     /** One part of a folder's counts, by status filter id, in the Loop's words. */
@@ -634,6 +661,31 @@ export const TOOLBOX_PAGE = {
   /** Over the tool her next plan step needs (Concept 1). */
   nextOnPlan: "Next on your plan",
   toolsLabel: "Tools",
+  /** Concept 3: the drafts she touched last, not yet used, under the tools. */
+  workingOn: {
+    heading: "What are you working on right now?",
+    /** How many it shows at most. */
+    max: 3,
+  },
+  /** Concept 1: the draft she touched last, and the others from 30 days. */
+  pickUp: {
+    heading: "Pick up where you left off",
+    more: (n: number) => `${n} more from the last 30 days`,
+    fewer: "Show fewer",
+    detail: (status: string, date: string) => `${status} · ${date}`,
+    /** How far back "more" reaches, in days. */
+    days: 30,
+  },
+  /** Concept 1, under the tools: what she says opens the advisor, who
+   *  suggests the tool. */
+  mind: {
+    label: "What’s on your mind?",
+    /** The field's placeholder. It has to fit beside the send arrow on a
+     *  phone, so it is shorter than the hint it replaced. */
+    hint: "ExecHQ will suggest a tool",
+    /** The send arrow's name. */
+    go: "Find the right tool",
+  },
   /** Concept 3. */
   moment: {
     label: "What’s coming up?",
@@ -650,13 +702,15 @@ export const TOOLBOX_PAGE = {
   },
 } as const;
 
-/** Concept 3's rules for picking a tool from what she says is coming up. The
+/** The rules for picking a tool from what she says (Concept 3's box, and the
+ *  advisor answering Concept 1's "What's on your mind?"). The
  *  pilot's matching is rules-based, so it only places a few kinds of moment,
- *  and anything else asks rather than guesses. First match wins. */
+ *  and anything else asks rather than guesses. First match wins, so the
+ *  things she names outright (a pitch, a post) come before the moments. */
 export const MOMENT_RULES: readonly { kind: ArtifactKind; words: RegExp }[] = [
-  { kind: "situation-brief", words: /\b(review|board|meeting|negotiat\w*|check-?in|1:1|one-to-one|conversation|interview|offsite|presentation)\b/i },
-  { kind: "pitch", words: /\b(pitch\w*|podcast|conference|panel|speak\w*|talk|keynote|press|editor|journalist|call for (proposals|papers))\b/i },
+  { kind: "pitch", words: /\b(pitch\w*|podcast|conference|panel|speak\w*|(a|give a) talk|keynote|press|editor|journalist|call for (proposals|papers))\b/i },
   { kind: "thought-leadership", words: /\b(post|linkedin|article|blog|newsletter|essay|op-?ed|write|read)\b/i },
+  { kind: "situation-brief", words: /\b(review|board|meeting|negotiat\w*|check-?in|1:1|one-to-one|conversation|interview|offsite|presentation|manager|boss|talk (about|with|to)|scope)\b/i },
   { kind: "positioning", words: /\b(bio|introduc\w*|promotion|positioning|new (boss|manager|role)|about me|profile)\b/i },
 ];
 
@@ -767,6 +821,19 @@ export const SEED_INPUTS: Record<string, Record<string, string>> = {
     type: "An executive conversation",
     objective: "Leave Thursday’s check-in with the planning workstream agreed as mine.",
     audience: "My manager",
+  },
+  "post-planning": {
+    format: "LinkedIn post",
+    topic: "What three regions taught me about planning",
+    pov: "The plan is where scope gets decided, so marketing has to be in the room when it’s written.",
+    example: "I’m leading our planning workstream this year, across marketing, sales and product.",
+    audience: "Marketing and commercial leaders, and the people who decide on scope",
+  },
+  "podcast-pitch": {
+    type: "Podcast",
+    target: "The Marketing Leaders podcast",
+    angle: "Turning regional campaigns into one marketing plan",
+    proof: "I run campaigns across three regions, and I’m leading our planning workstream.",
   },
   pitch: {
     type: "Speaking",
