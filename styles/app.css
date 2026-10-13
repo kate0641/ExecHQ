@@ -17693,6 +17693,18 @@ ul.plan-guided__sparks {
   gap: var(--space-sm);
 }
 
+.input-panel__built {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.input-panel__built-line {
+  margin: 0;
+  font-size: var(--text-xs-plus);
+  color: var(--color-text-secondary);
+}
+
 .input-panel__known--compact {
   padding: var(--space-xs) var(--space-sm);
 }
@@ -17713,6 +17725,16 @@ ul.plan-guided__sparks {
 /* Concept 1: the panel fills the screen, so its pinned button sits at the foot. */
 .tool-flow--pinned > .input-panel {
   flex: 1;
+}
+
+/* Concept 2's start: the questions under the use case fill the screen, so
+   the pinned button sits at the foot. */
+.tool-flow--pinned .tool-flow__document,
+.tool-flow--pinned .tool-flow__inputs,
+.tool-flow--pinned .tool-flow__inputs > .input-panel {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }
 
 .input-panel__source {

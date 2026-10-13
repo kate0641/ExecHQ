@@ -42,6 +42,9 @@ export interface ToolUseCaseProps {
   goesWith?: ReactNode;
   /** Leaves the drawing out (Toolbox flow Concept 2, 13 October). */
   noPicture?: boolean;
+  /** The name and what it makes only: no "when", no "You'll need", where
+   *  the questions follow on the same page (Concept 2, 13 October). */
+  brief?: boolean;
   headingLevel?: 1 | 2;
   headingId?: string;
   /** Catalogue only: shows the first answer row in a state a static page can't reach. */
@@ -71,6 +74,7 @@ export function ToolUseCase({
   noStart = false,
   goesWith,
   noPicture = false,
+  brief = false,
   headingLevel = 1,
   headingId,
   demo,
@@ -89,11 +93,15 @@ export function ToolUseCase({
           {tool.name}
         </Heading>
         <p className="tool-use-case__makes">{tool.makes}</p>
-        <p className="tool-use-case__when">{tool.when}</p>
-        <p className="tool-use-case__needs">
-          <span className="tool-use-case__needs-label">{C.needsHeading}: </span>
-          {tool.needs.join(" · ")}
-        </p>
+        {brief ? null : (
+          <>
+            <p className="tool-use-case__when">{tool.when}</p>
+            <p className="tool-use-case__needs">
+              <span className="tool-use-case__needs-label">{C.needsHeading}: </span>
+              {tool.needs.join(" · ")}
+            </p>
+          </>
+        )}
         {source}
         {planStep ? (
           <p className="tool-use-case__plan">

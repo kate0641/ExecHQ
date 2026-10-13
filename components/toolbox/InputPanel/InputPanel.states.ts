@@ -29,6 +29,7 @@ export const inputPanelStates = defineComponentStates({
     { label: "Writing the first draft — loading", props: { ...base, values: TL_MAYA_ANSWERS, writing: true } },
     { label: "Optional questions folded away (Concept 2)", props: { ...base, collapseOptional: true }, description: "Only what she must answer shows first; \"Add more detail\" opens the rest." },
     { label: "Optional questions opened (Concept 2)", props: { ...base, collapseOptional: true, startExpanded: true } },
+    { label: "Built with, hints as placeholders (Concept 2's start)", props: { ...base, collapseOptional: true, compact: true, builtWith: true }, description: "Every question on one page, each one field; what ExecHQ has as one Built with line above the button." },
     { label: "Compact (Concept 1's last step)", props: { ...base, values: TL_MAYA_ANSWERS, compact: true }, description: "One instruction line, each known fact as one compact row with its name, source and Edit on a quiet line, and no note under the button." },
     {
       label: "A long known answer wraps",

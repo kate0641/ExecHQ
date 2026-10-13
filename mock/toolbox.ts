@@ -242,6 +242,9 @@ export const ENRICHERS: Record<string, Enricher> = {
 export const INPUT_COPY = {
   heading: "What this draft needs",
   known: "ExecHQ already has these. Change anything that isn’t right.",
+  /** Concept 2's start: what ExecHQ has, as one line above the button. */
+  builtWith: "Built with your",
+  and: "and",
   asked: "Only you can answer these.",
   /** When everything left to ask is optional. */
   askedOptional: "Add this if you want to.",

@@ -35,6 +35,11 @@ export interface InputPanelProps {
    *  compact row (the fact, then its name and source with Edit on one quiet
    *  line), and no note under the button. Concept 1's last step. */
   compact?: boolean;
+  /** What ExecHQ already has comes last, just above the button, as one
+   *  quiet line: "Built with your positioning statement · Edit"; and each
+   *  question's hint is its placeholder, so a question is one field
+   *  (Toolbox flow Concept 2's start, 13 October). */
+  builtWith?: boolean;
   /** After the button, in the same bar: Back, in a guided flow. */
   footer?: ReactNode;
   /** On the bar holding the button: Concept 1 pins it to the foot. */
@@ -133,6 +138,7 @@ export function InputPanel({
   collapseOptional = false,
   startExpanded = false,
   compact = false,
+  builtWith = false,
   footer,
   actionsClassName,
   className,
@@ -147,6 +153,7 @@ export function InputPanel({
   const asked = collapseOptional ? all.filter((input) => !input.optional) : all;
   const valueOf = (input: ToolInput) => values[input.id] ?? input.value ?? "";
   const missing = asked.filter((input) => !input.optional && !valueOf(input).trim());
+  const [editingKnown, setEditingKnown] = useState<string | null>(null);
 
   const field = (input: ToolInput) =>
             input.kind === "choice" ? (
@@ -161,8 +168,8 @@ export function InputPanel({
               <Input
                 key={input.id}
                 label={input.optional ? `${input.label} (${C.optional.toLowerCase()})` : input.label}
-                hint={input.hint}
-                placeholder={input.placeholder}
+                hint={builtWith ? undefined : input.hint}
+                placeholder={builtWith ? (input.placeholder ?? input.hint) : input.placeholder}
                 value={valueOf(input)}
                 type={input.kind === "date" ? "date" : undefined}
                 multiline={input.kind === "long"}
@@ -176,7 +183,7 @@ export function InputPanel({
     <div className={["input-panel", className].filter(Boolean).join(" ")}>
       {noHeading ? null : <h2 className="input-panel__heading">{C.heading}</h2>}
 
-      {known.length ? (
+      {known.length && !builtWith ? (
         <section className="input-panel__group" aria-label={C.known}>
           <p className="input-panel__lead">{C.known}</p>
           {known.map((input) => (
@@ -209,6 +216,43 @@ export function InputPanel({
             {folded.map(field)}
           </section>
         </>
+      ) : null}
+
+      {known.length && builtWith ? (
+        <section className="input-panel__built" aria-label={C.known}>
+          <p className="input-panel__built-line">
+            {C.builtWith}{" "}
+            {known.map((input, i) => (
+              <span key={input.id}>
+                {i > 0 ? (i === known.length - 1 ? ` ${C.and} ` : ", ") : null}
+                {input.label.replace(/^your /i, "").replace(/^./, (c) => c.toLowerCase())}
+                <span aria-hidden="true"> · </span>
+                <button
+                  type="button"
+                  className="input-panel__known-edit link"
+                  aria-expanded={editingKnown === input.id}
+                  onClick={() => setEditingKnown(editingKnown === input.id ? null : input.id)}
+                >
+                  {C.edit}
+                  <span className="u-visually-hidden"> {input.label}</span>
+                </button>
+              </span>
+            ))}
+          </p>
+          {known
+            .filter((input) => input.id === editingKnown)
+            .map((input) => (
+              <Input
+                key={input.id}
+                label={input.label}
+                hint={input.source ? SOURCE_LABELS[input.source] : undefined}
+                value={valueOf(input)}
+                multiline={input.kind === "long"}
+                rows={3}
+                onChange={(event) => onChange(input.id, event.target.value)}
+              />
+            ))}
+        </section>
       ) : null}
 
       {enricher}

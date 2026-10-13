@@ -48,7 +48,7 @@ export const toolUseCaseStates = defineComponentStates({
     { label: "Each answer starts it — hover", props: { tool: TOOLS.pitch, choice: { ...pitchChoice, note: undefined, value: "" }, choiceStarts: true, onStart: noop, headingLevel: 2, demo: "hover" } },
     { label: "Each answer starts it — focus", props: { tool: TOOLS.pitch, choice: { ...pitchChoice, note: undefined, value: "" }, choiceStarts: true, onStart: noop, headingLevel: 2, demo: "focus" } },
     { label: "Each answer starts it — pressed", props: { tool: TOOLS.pitch, choice: { ...pitchChoice, note: undefined, value: "" }, choiceStarts: true, onStart: noop, headingLevel: 2, demo: "active" } },
-    { label: "Without the drawing (Concept 2)", props: { tool: TOOLS["situation-brief"], planStep: "Brief your manager before Thursday’s check-in", onStart: noop, headingLevel: 2, noPicture: true } },
+    { label: "Name and what it makes only (Concept 2)", props: { tool: TOOLS["situation-brief"], noStart: true, headingLevel: 2, noPicture: true, brief: true } },
     { label: "Without its own start button", props: { tool: TOOLS.pitch, choice: { ...pitchChoice, note: undefined, value: "" }, noStart: true, headingLevel: 2 } },
     { label: "Situation Brief, a long plan step wraps", props: { tool: TOOLS["situation-brief"], planStep: "Brief your manager before Thursday’s check-in about the planning workstream and what it means for the Q1 review", onStart: noop, headingLevel: 2 } },
   ],

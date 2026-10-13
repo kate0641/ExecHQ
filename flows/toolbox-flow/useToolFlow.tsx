@@ -529,13 +529,13 @@ export function useToolFlow(concept: FlowConcept) {
   /** Whether her plan step chose the first answer, and it still stands. */
   const choiceFromPlan = Boolean(firstChoice && fromStep[firstChoice.id] && valueOf(firstChoice.id) === fromStep[firstChoice.id]);
 
-  const useCase = (options: { onStart?: () => void; noStart?: boolean; choiceStarts?: boolean; noGoesWith?: boolean; noPicture?: boolean } = {}): ReactNode => (
+  const useCase = (options: { onStart?: () => void; noStart?: boolean; choiceStarts?: boolean; noGoesWith?: boolean; noPicture?: boolean; brief?: boolean; noChoice?: boolean } = {}): ReactNode => (
     <ToolUseCase
       tool={tool}
       planStep={step?.title}
       source={source}
       choice={
-        firstChoice
+        firstChoice && !options.noChoice
           ? {
               label: firstChoice.label,
               options: firstChoice.options ?? [],
@@ -552,6 +552,7 @@ export function useToolFlow(concept: FlowConcept) {
       noStart={options.noStart ?? !options.onStart}
       choiceStarts={options.choiceStarts}
       noPicture={options.noPicture}
+      brief={options.brief}
       goesWith={options.noGoesWith ? undefined : goesWith()}
       headingLevel={1}
       headingId={TOOL_TITLE_ID}
@@ -577,6 +578,7 @@ export function useToolFlow(concept: FlowConcept) {
       enricher?: ReactNode;
       collapseOptional?: boolean;
       compact?: boolean;
+      builtWith?: boolean;
       footer?: ReactNode;
       actionsClassName?: string;
     } = {}
@@ -593,6 +595,7 @@ export function useToolFlow(concept: FlowConcept) {
       enricher={options.enricher ?? enricher}
       collapseOptional={options.collapseOptional}
       compact={options.compact}
+      builtWith={options.builtWith}
       footer={options.footer}
       actionsClassName={options.actionsClassName}
       noHeading

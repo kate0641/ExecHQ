@@ -59,12 +59,16 @@ function Workspace() {
             ))}
         </dl>
       )
-    : // The first question is on the use case screen above, so the panel leaves it out.
-      // Only what she must answer shows first; the optional questions wait
-      // behind "Add more detail", so the panel never reads as a form.
-      // Concept 1's cleanup (13 Oct): one instruction line, compact rows for
-      // what ExecHQ has, no note under the button.
-      f.inputPanel(f.notFirst(f.inputs), { collapseOptional: true, compact: true });
+    : // Every question on one page (13 Oct): the first one too, as chips;
+      // the optional ones behind "Add more detail"; hints as placeholders;
+      // what ExecHQ has as one "Built with" line above the button, which is
+      // pinned to the foot on a phone or tablet.
+      f.inputPanel(f.inputs, {
+        collapseOptional: true,
+        compact: true,
+        builtWith: true,
+        actionsClassName: inlineInputs ? "tool-flow__step-actions--pinned" : undefined,
+      });
 
   const tabs = hasDraft
     ? [
@@ -75,7 +79,7 @@ function Workspace() {
     : [{ id: "inputs", label: C.inputs, content: given }];
 
   return (
-    <div className={["tool-flow", "tool-flow--workspace", web ? "tool-flow--split" : null].filter(Boolean).join(" ")}>
+    <div className={["tool-flow", "tool-flow--workspace", web ? "tool-flow--split" : null, inlineInputs ? "tool-flow--pinned" : null].filter(Boolean).join(" ")}>
       <div className="tool-flow__document">
         {f.header}
         {hasDraft ? (
@@ -96,22 +100,10 @@ function Workspace() {
           </>
         ) : (
           <>
-            {/* As in Concept 1 (13 Oct): no "Goes with this", and tapping an
-                answer to the first question starts: the panel comes up on
-                the rest. */}
-            {f.useCase({
-              choiceStarts: true,
-              noGoesWith: true,
-              noPicture: true,
-              onStart: () => {
-                // On the page, to the next question; on web, up in the panel.
-                if (inlineInputs) setTimeout(() => document.querySelector<HTMLElement>(".tool-flow__inputs input, .tool-flow__inputs textarea")?.focus(), 0);
-                else {
-                  setTab("inputs");
-                  setOpen(true);
-                }
-              },
-            })}
+            {/* The start (13 Oct): the tool's name and what it makes; no
+                drawing, no "when", no "You'll need", no "Goes with this".
+                The questions follow, the first one with them. */}
+            {f.useCase({ noStart: true, noGoesWith: true, noPicture: true, brief: true, noChoice: true })}
             {inlineInputs ? (
               <section className="tool-flow__inputs" aria-label={C.inputs}>
                 {given}
