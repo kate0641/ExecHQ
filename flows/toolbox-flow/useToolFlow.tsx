@@ -1021,28 +1021,6 @@ export function useToolFlow(concept: FlowConcept) {
       .map((section) => section.segments.map((seg) => ("question" in seg ? "" : seg.text)).join("").trim())
       .filter(Boolean)
       .join(" ");
-  /** Concept 3: where one answer lands in the draft, as she types it: the
-   *  sentence that holds it, her words in full ink and ExecHQ's round them. */
-  const landsIn = (inputId: string): ReactNode => {
-    const said = valueOf(inputId).trim();
-    if (!said) return null;
-    const probe = said.slice(0, 24).toLowerCase();
-    const section = liveSections().find((s) => s.segments.some((seg) => !("question" in seg) && seg.by === "you" && seg.text.toLowerCase().includes(probe)));
-    if (!section) return null;
-    return section.segments.map((seg, i) =>
-      "question" in seg ? (
-        <span key={i} className="draft-editor__question">
-          <span className="u-visually-hidden">{DRAFT_COPY.questionLabel} </span>
-          {seg.question}{" "}
-        </span>
-      ) : (
-        <span key={i} className={seg.by === "you" ? "draft-editor__you" : "draft-editor__exechq"}>
-          {seg.by === "exechq" ? <span className="u-visually-hidden">ExecHQ: </span> : null}
-          {seg.text}
-        </span>
-      )
-    );
-  };
   const livePreview = (): string =>
     draftText(buildDraft(kind, Object.fromEntries(inputs.map((i) => [i.id, valueOf(i.id)])), loop.today, read?.id, passage).slice(0, kind === "situation-brief" ? 2 : 1))
       .replace(/^[A-Z][^\n]*\n/, "");
@@ -1080,7 +1058,6 @@ export function useToolFlow(concept: FlowConcept) {
     answered,
     answeredCount,
     liveSoFar,
-    landsIn,
     livePreview,
     liveDraft,
     draftPreview,

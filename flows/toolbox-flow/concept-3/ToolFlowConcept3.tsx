@@ -122,7 +122,7 @@ function Interview() {
   const live = hasDraft || !f.answered ? undefined : f.livePreview();
 
   // The card waits until there is something to show (13 Oct): on a phone,
-  // from her second answer; each answer shows where it lands as she types.
+  // from her second answer. The question pages show none of it (13 Oct).
   const showCard = hasDraft || web || f.answeredCount >= 2;
   const pinned = showCard ? (
     <PinnedDraft
@@ -158,7 +158,6 @@ function Interview() {
     const last = at === asked.length - 1 && !hasKnown;
     const said = f.valueOf(input.id).trim();
     const mine = picks[input.id] ?? { picked: [], other: "" };
-    const lands = f.landsIn(input.id);
     return (
       <>
         {f.header}
@@ -227,13 +226,6 @@ function Interview() {
           }
         >
           {at === 0 ? f.source : null}
-          {/* Where her answer lands, as she answers: the interview shows its work. */}
-          {lands ? (
-            <div className="interview-lands" aria-live="polite">
-              <span className="interview-lands__label">{C.landsIn}</span>
-              <p className="interview-lands__text">{lands}</p>
-            </div>
-          ) : null}
         </GuidePage>
       </>
     );
