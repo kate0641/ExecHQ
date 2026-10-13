@@ -121,9 +121,10 @@ function Interview() {
   // The draft fills in as she answers: her words in, ExecHQ's framing round them.
   const live = hasDraft || !f.answered ? undefined : f.livePreview();
 
-  // The card waits until there is something to show (13 Oct): on a phone,
-  // from her second answer. The question pages show none of it (13 Oct).
-  const showCard = hasDraft || web || f.answeredCount >= 2;
+  // On a phone or tablet the draft card is only for a written draft: no
+  // "Your draft so far" on the questions or the last step (13 Oct). On web
+  // it sits beside the interview.
+  const showCard = hasDraft || web;
   const pinned = showCard ? (
     <PinnedDraft
       label={hasDraft && f.version ? DRAFT_COPY.label(f.version.n) : C.soFar}
