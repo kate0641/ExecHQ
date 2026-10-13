@@ -319,6 +319,8 @@ const PAGES: { page: string; date: string; added: string[] }[] = [
       "Libre italic only for words that are said, in four sizes with one job each.",
       "Her input always in a card, its action grey at the top right, centred on the label: Change as a 12px link, Edit as the new edit icon (pencil and square). Change to pick again, Edit to type again.",
       "Flat links sit at the left, 32px apart; Edit carries a pencil.",
+      "An answer drawer has one button: the main action full width, and any second action (Skip, Back, Later) a flat link centred under it. Onboarding and the Plan's check-ins share it.",
+      "An example to follow (What good looks like) is the system's card with a grey eyebrow, like First draft.",
     ],
   },
 ];
