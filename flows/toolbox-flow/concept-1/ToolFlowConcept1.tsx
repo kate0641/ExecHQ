@@ -106,7 +106,9 @@ function GuidedSteps() {
     return (
       <div className="tool-flow tool-flow--guided">
         {f.header}
-        {f.useCase({ onStart: () => go(0) })}
+        {/* Tapping an answer to the first question is the start (13 Oct);
+            nothing here sends her elsewhere, so "Goes with this" is left out. */}
+        {f.useCase({ onStart: () => go(0), choiceStarts: true, noGoesWith: true })}
       </div>
     );
   }

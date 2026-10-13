@@ -13,6 +13,8 @@ export interface UseCaseChoice {
   onChange: (value: string) => void;
   /** A line under it: that her plan step chose it. */
   note?: string;
+  /** With `choiceStarts`: the answer her plan step chose, marked in its row. */
+  fromPlan?: string;
 }
 
 export interface ToolUseCaseProps {
@@ -24,6 +26,9 @@ export interface ToolUseCaseProps {
   source?: ReactNode;
   /** The tool's first question, answered here so the flow does not ask it. */
   choice?: UseCaseChoice;
+  /** Each answer to the first question is a row that starts the tool with
+   *  it, so there is no separate button (Concept 1, 13 October). */
+  choiceStarts?: boolean;
   /** The button's words. Defaults to the tool's own ("Start a pitch"). */
   startLabel?: string;
   onStart?: () => void;
@@ -35,6 +40,8 @@ export interface ToolUseCaseProps {
   goesWith?: ReactNode;
   headingLevel?: 1 | 2;
   headingId?: string;
+  /** Catalogue only: shows the first answer row in a state a static page can't reach. */
+  demo?: "hover" | "focus" | "active";
   className?: string;
 }
 
@@ -43,7 +50,8 @@ export interface ToolUseCaseProps {
  * detailed drawing, then the decision. Its name set large, one sentence on
  * what it makes and one on when to use it, what she'll need, the step on her
  * plan it serves, the tool's first question beside the button, and one button
- * that says what it will make. Under it, what this work goes with: what it draws on or leads
+ * that says what it will make (or, with `choiceStarts`, the answers as rows
+ * that each start it). Under it, what this work goes with: what it draws on or leads
  * to. No feature tour, and nothing that sells or ranks.
  *
  * Beside each other on web; the drawing on top on a phone and tablet.
@@ -53,12 +61,14 @@ export function ToolUseCase({
   planStep,
   source,
   choice,
+  choiceStarts = false,
   startLabel,
   onStart,
   noStart = false,
   goesWith,
   headingLevel = 1,
   headingId,
+  demo,
   className,
 }: ToolUseCaseProps) {
   const Heading = `h${headingLevel}` as const;
@@ -87,13 +97,41 @@ export function ToolUseCase({
             </span>
           </p>
         ) : null}
-        {choice ? (
+        {choice && choiceStarts ? (
+          <fieldset className="tool-use-case__choice tool-use-case__choice--starts">
+            <legend className="tool-use-case__question">{choice.label}</legend>
+            <ul className="tool-use-case__options">
+              {choice.options.map((option, i) => (
+                <li key={option}>
+                  <button
+                    type="button"
+                    className={["tool-use-case__option", i === 0 && demo ? `is-${demo}` : null].filter(Boolean).join(" ")}
+                    onClick={() => {
+                      choice.onChange(option);
+                      onStart?.();
+                    }}
+                  >
+                    <span className="tool-use-case__option-text">
+                      {option}
+                      {option === choice.value && option !== choice.fromPlan ? (
+                        <span className="tool-use-case__option-plan">{C.yourAnswer}</span>
+                      ) : option === choice.fromPlan ? (
+                        <span className="tool-use-case__option-plan">{C.fromPlanShort}</span>
+                      ) : null}
+                    </span>
+                    <Icon name="chevron" size={16} className="tool-use-case__option-go" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </fieldset>
+        ) : choice ? (
           <div className="tool-use-case__choice">
             <ChipGroup label={choice.label} options={choice.options} value={choice.value ? [choice.value] : []} onChange={(next) => choice.onChange(next[0] ?? "")} />
             {choice.note ? <p className="tool-use-case__from-plan">{choice.note}</p> : null}
           </div>
         ) : null}
-        {noStart ? null : (
+        {noStart || (choice && choiceStarts) ? null : (
           <Button fullWidth onClick={onStart}>
             {startLabel ?? tool.start}
           </Button>

@@ -509,6 +509,10 @@ export const USE_CASE_COPY = {
   planHeading: "On your plan",
   /** Under the first choice, when her plan step chose it (option C). */
   fromPlan: "Chosen from your plan step. Change it if it’s not right.",
+  /** In the answer row her plan step chose, where each answer starts the tool. */
+  fromPlanShort: "From your plan",
+  /** In the row she chose, when she comes back to the start. */
+  yourAnswer: "Your answer",
   goesWith: "Goes with this",
   /** The button, once the first choice says what it makes. */
   startWith: (kind: ArtifactKind, choice: string): string => {

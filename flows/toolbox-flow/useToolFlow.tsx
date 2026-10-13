@@ -494,7 +494,7 @@ export function useToolFlow(concept: FlowConcept) {
   /** Whether her plan step chose the first answer, and it still stands. */
   const choiceFromPlan = Boolean(firstChoice && fromStep[firstChoice.id] && valueOf(firstChoice.id) === fromStep[firstChoice.id]);
 
-  const useCase = (options: { onStart?: () => void; noStart?: boolean } = {}): ReactNode => (
+  const useCase = (options: { onStart?: () => void; noStart?: boolean; choiceStarts?: boolean; noGoesWith?: boolean } = {}): ReactNode => (
     <ToolUseCase
       tool={tool}
       planStep={step?.title}
@@ -507,13 +507,15 @@ export function useToolFlow(concept: FlowConcept) {
               value: valueOf(firstChoice.id),
               onChange: (value) => setValue(firstChoice.id, value),
               note: choiceFromPlan ? USE_CASE_COPY.fromPlan : undefined,
+              fromPlan: fromStep[firstChoice.id],
             }
           : undefined
       }
       startLabel={firstChoice && valueOf(firstChoice.id) ? USE_CASE_COPY.startWith(kind, valueOf(firstChoice.id)) : undefined}
       onStart={options.onStart}
       noStart={options.noStart ?? !options.onStart}
-      goesWith={goesWith()}
+      choiceStarts={options.choiceStarts}
+      goesWith={options.noGoesWith ? undefined : goesWith()}
       headingLevel={1}
       headingId={TOOL_TITLE_ID}
     />
