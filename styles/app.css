@@ -18698,6 +18698,15 @@ ul.plan-guided__sparks {
   display: none;
 }
 
+/* Concept 1, option C: two buttons side by side, or one across the row. */
+.tool-flow__fixed--pair {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.tool-flow__fixed--pair:not(:has(> .btn)) .draft-use__buttons:has(> .btn:only-child) > .btn {
+  grid-column: 1 / -1;
+}
+
 [data-viewport="web"] .tool-flow__fixed {
   margin-inline: 0;
   padding-inline: 0;

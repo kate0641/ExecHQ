@@ -17,6 +17,7 @@ import { LoopStatus } from "@/components/loop/LoopStatus";
 import { Icon } from "@/components/primitives/Icon";
 import { DraftEditor } from "@/components/toolbox/DraftEditor";
 import { DraftUseBar } from "@/components/toolbox/DraftUseBar";
+import { DropdownMenu } from "@/components/form/DropdownMenu";
 import { InputPanel } from "@/components/toolbox/InputPanel";
 import { RevisionControls, type RevisionChoice } from "@/components/toolbox/RevisionControls/RevisionControls";
 import { ToolUseCase } from "@/components/toolbox/ToolUseCase";
@@ -623,6 +624,16 @@ export function useToolFlow(concept: FlowConcept) {
       </aside>
     ) : null;
 
+  /** It is ready or further on: Copy and downloads belong from here (Concept 1). */
+  const isReady = Boolean(record && record.state !== "drafted" && record.state !== "in-progress");
+  // A post is copied to LinkedIn; an article also downloads (Sprint 4's PDF
+  // and Word for long-form articles).
+  const exportable = record
+    ? record.kind === "thought-leadership"
+      ? Boolean(draft?.inputs.format && draft.inputs.format !== "LinkedIn post")
+      : USE_COPY.exportable[record.kind]
+    : false;
+
   const draftEditor: ReactNode =
     draft && version && artifactId ? (
       <>
@@ -641,6 +652,20 @@ export function useToolFlow(concept: FlowConcept) {
           header={
             <span className="tool-flow__draft-head">
               {record ? <LoopStatus record={record} /> : null}
+              {/* Concept 1 (option C): downloads in the draft's corner, once it is ready. */}
+              {concept === "concept-1" && isReady && exportable ? (
+                <DropdownMenu
+                  label={USE_COPY.download}
+                  icon="download"
+                  align="end"
+                  entries={(["PDF", "Word"] as const).map((format) => ({
+                    type: "item" as const,
+                    id: format,
+                    label: format === "PDF" ? USE_COPY.exportPdf : USE_COPY.exportWord,
+                    onSelect: () => setSectionMessage(USE_COPY.exported(format)),
+                  }))}
+                />
+              ) : null}
             </span>
           }
           onEditSection={(section, text) => {
@@ -726,7 +751,7 @@ export function useToolFlow(concept: FlowConcept) {
       </form>
     ) : null;
 
-  const useBar = (options: { noStatus?: boolean; exportInMenu?: boolean; noNotes?: boolean } = {}): ReactNode =>
+  const useBar = (options: { noStatus?: boolean; exportInMenu?: boolean; noNotes?: boolean; copyWhenReady?: boolean } = {}): ReactNode =>
     record ? (
       <>
         <DraftUseBar
@@ -734,9 +759,7 @@ export function useToolFlow(concept: FlowConcept) {
           ready={record.state !== "drafted" && record.state !== "in-progress"}
           onCopy={copy}
           onExport={() => undefined}
-          // A post is copied to LinkedIn; an article also downloads (Sprint 4's
-          // PDF and Word for long-form articles).
-          exportable={record.kind === "thought-leadership" ? Boolean(draft?.inputs.format && draft.inputs.format !== "LinkedIn post") : undefined}
+          exportable={exportable}
           onMarkReady={() => loopActions.markReady(record.id, checkBack(loop.today) ? { checkBackDays: checkBack(loop.today) } : undefined)}
           onMarkUsed={
             record.state === "ready" && !sending
@@ -746,6 +769,7 @@ export function useToolFlow(concept: FlowConcept) {
           noStatus={options.noStatus}
           exportInMenu={options.exportInMenu}
           noNotes={options.noNotes}
+          copyWhenReady={options.copyWhenReady}
           note={
             record.kind === "situation-brief"
               ? [TOOL_COPY.onePage, briefDate ? TOOL_COPY.askAfter(aheadPhrase(addDays(briefDate, 1), loop.today)) : ""].filter(Boolean).join(" ")

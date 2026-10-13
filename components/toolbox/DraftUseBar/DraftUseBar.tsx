@@ -29,6 +29,10 @@ export interface DraftUseBarProps {
   /** No lines under the buttons: no note, and the never-posts guardrail
    *  left to the page (Concept 1's fixed bar, 13 October). */
   noNotes?: boolean;
+  /** Copy only once it is ready, and no downloads in the bar: while it is a
+   *  draft there is only Mark ready; ready, Copy and Mark used. Downloads sit
+   *  in the draft's corner (Concept 1, option C, 13 October). */
+  copyWhenReady?: boolean;
   /** Opens having just copied (catalogue). */
   justCopied?: boolean;
   className?: string;
@@ -39,12 +43,13 @@ export interface DraftUseBarProps {
  * "Copy to post on LinkedIn"), export it where that is in scope, and mark it
  * ready. ExecHQ never posts or sends anything; the words say so.
  */
-export function DraftUseBar({ kind, ready = false, onCopy, onExport, onMarkReady, onMarkUsed, noStatus = false, exportable: canExport, exportInMenu = false, note, noNotes = false, justCopied = false, className }: DraftUseBarProps) {
+export function DraftUseBar({ kind, ready = false, onCopy, onExport, onMarkReady, onMarkUsed, noStatus = false, exportable: canExport, exportInMenu = false, note, noNotes = false, copyWhenReady = false, justCopied = false, className }: DraftUseBarProps) {
   const [message, setMessage] = useState(justCopied ? C.copied : "");
-  const exportable = (canExport ?? C.exportable[kind]) && onExport;
+  const exportable = (canExport ?? C.exportable[kind]) && onExport && !copyWhenReady;
   return (
     <div className={["draft-use", className].filter(Boolean).join(" ")}>
       <div className="draft-use__buttons">
+        {copyWhenReady && !ready ? null : (
         <Button
           variant="secondary"
           onClick={() => {
@@ -55,6 +60,7 @@ export function DraftUseBar({ kind, ready = false, onCopy, onExport, onMarkReady
           <Icon name="copy" size={16} />
           {C.copyFor[kind]}
         </Button>
+        )}
         {exportable && exportInMenu ? (
           <DropdownMenu
             label={C.more}

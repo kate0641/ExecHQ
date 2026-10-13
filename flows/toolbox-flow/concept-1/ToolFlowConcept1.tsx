@@ -100,13 +100,16 @@ function GuidedSteps() {
           <Icon name="clock" size={16} />
           {C.versions} · {VERSION_COPY.count(f.draft.versions.length)}
         </button>
-        {/* The fixed bar: Revise, Copy, Mark ready, in the thumb zone. */}
-        <div className="tool-flow__fixed">
-          <Button variant="secondary" onClick={() => setSheet("revise")}>
-            {C.revise}
-          </Button>
-          {/* Three buttons in the thumb zone; the downloads wait under More. */}
-          {f.useBar({ exportInMenu: true, noNotes: true })}
+        {/* The fixed bar (option C, 13 Oct): two choices in the thumb zone.
+            A draft: Revise or Mark ready. Ready: Copy or Mark used (sent,
+            published); its downloads move to the draft's corner. */}
+        <div className="tool-flow__fixed tool-flow__fixed--pair">
+          {f.stage === "draft" ? (
+            <Button variant="secondary" onClick={() => setSheet("revise")}>
+              {C.revise}
+            </Button>
+          ) : null}
+          {f.useBar({ noNotes: true, copyWhenReady: true })}
         </div>
         <Sheet open={sheet !== null} onClose={() => setSheet(null)} label={sheet === "versions" ? C.versions : C.revise} className="toolbox-sheet">
           {sheet === "revise" ? (

@@ -27,6 +27,8 @@ export const draftUseBarStates = defineComponentStates({
     { label: "A pitch, with PDF and Word", props: { kind: "pitch", onCopy: noop, onExport: noop, onMarkReady: noop } },
     { label: "An article, with PDF and Word", props: { kind: "thought-leadership", exportable: true, onCopy: noop, onExport: noop, onMarkReady: noop } },
     { label: "A brief, downloads under More (Concept 1's bar)", props: { kind: "situation-brief", exportInMenu: true, onCopy: noop, onExport: noop, onMarkReady: noop } },
+    { label: "Copy once ready, a draft (Concept 1, option C)", props: { kind: "situation-brief", copyWhenReady: true, noNotes: true, onCopy: noop, onExport: noop, onMarkReady: noop } },
+    { label: "Copy once ready, ready (Concept 1, option C)", props: { kind: "situation-brief", copyWhenReady: true, noNotes: true, ready: true, onCopy: noop, onExport: noop, onMarkReady: noop, onMarkUsed: noop } },
     { label: "Marked ready", props: { kind: "thought-leadership", ready: true, onCopy: noop, onMarkReady: noop } },
   ],
 });

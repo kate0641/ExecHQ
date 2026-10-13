@@ -498,6 +498,8 @@ export const USE_COPY = {
     "situation-brief": true,
     "thought-leadership": false,
   } as Record<ArtifactKind, boolean>,
+  /** Concept 1: the menu in the draft's corner, once it is ready. */
+  download: "Download",
   /** The Toolbox never publishes. */
   neverPosts: "ExecHQ never posts or sends anything for you.",
 } as const;
