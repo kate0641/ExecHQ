@@ -315,7 +315,7 @@ const PAGES: { page: string; date: string; added: string[] }[] = [
       "A group title role (dark small capitals at 14px) and a card title role (sentence case, 16px, 20px above its list), with their own spacing: 16px between bullets, 20px either side of a divider.",
       "What next is one card of rows with chevrons, like Done's list without numbers.",
       "No single word left after a comma at a line's end.",
-      "Form labels and questions sit 12px above their field or answers; the Google and Apple buttons are navy.",
+      "Form labels and questions sit 12px above their field or answers. The Google and Apple sign-in buttons follow their makers' guidelines exactly: Google's dark theme in Google Sans with the four-colour G, Apple's black.",
       "Libre italic only for words that are said, in four sizes with one job each.",
       "Her input always in a card, its action grey at the top right, centred on the label: Change as a 12px link, Edit as the new edit icon (pencil and square). Change to pick again, Edit to type again.",
       "Flat links sit at the left, 32px apart; Edit carries a pencil.",

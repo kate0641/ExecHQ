@@ -12195,27 +12195,60 @@ ul.stage-actions__list {
   width: 100%;
   min-height: var(--button-height);
   padding: 0 var(--space-lg);
-  /* Navy, with light words and marks (designer, 2026-10-13). Google and Apple
-     both ask for their dark style in black, and Google for its coloured G:
-     a question for Kate before launch, noted on the pull request. */
   border: var(--border-width-thin) solid transparent;
   border-radius: var(--radius-pill);
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
-  font-family: var(--type-label-font);
-  font-size: var(--type-label-size);
-  font-weight: var(--type-label-weight);
-  letter-spacing: var(--type-label-tracking);
-  word-spacing: var(--type-label-word-spacing);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+  letter-spacing: normal;
+  word-spacing: normal;
   cursor: pointer;
   transition: background-color var(--duration-fast) var(--easing-standard);
 }
 
-.provider-button:hover,
-.provider-button.is-hover,
-.provider-button:active,
-.provider-button.is-active {
-  background-color: var(--color-surface-inverse-hover);
+/* Google's dark theme, as its branding guidelines set it (values in
+   tokens.css): the dark fill with a 1px edge, light words in Google Sans
+   Medium 14/20, 10px between the standard four-colour G and the words
+   (designer, 2026-10-13). */
+.provider-button--google {
+  gap: calc(var(--space-xs) + var(--space-3xs));
+  border-color: var(--brand-google-dark-edge);
+  background-color: var(--brand-google-dark);
+  color: var(--brand-google-dark-text);
+  /* Google Sans arrives on the button itself, from styles/fonts.ts. */
+  font-weight: var(--weight-google);
+}
+
+.provider-button--google:hover,
+.provider-button--google.is-hover,
+.provider-button--google:active,
+.provider-button--google.is-active {
+  background-color: var(--brand-google-dark-hover);
+}
+
+.provider-mark__blue {
+  fill: var(--brand-google-blue);
+}
+
+.provider-mark__green {
+  fill: var(--brand-google-green);
+}
+
+.provider-mark__yellow {
+  fill: var(--brand-google-yellow);
+}
+
+.provider-mark__red {
+  fill: var(--brand-google-red);
+}
+
+/* Apple's dark style, as its guidelines set it: the darkest fill, with the
+   logo and the words both light, in the system font. Apple allows no other
+   colour, so it has no hover tint. */
+.provider-button--apple {
+  background-color: var(--brand-apple-black);
+  color: var(--brand-white);
+  font-family: var(--font-apple);
 }
 
 .provider-button:focus-visible,

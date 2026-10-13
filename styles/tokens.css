@@ -94,6 +94,22 @@
 
   --brand-white: #ffffff;
 
+  /* Sign in with Google and Sign in with Apple, in the colours their makers'
+     guidelines require (designer, 2026-10-13: "we should be following those
+     guidelines"). Not part of ExecHQ's palette and never used elsewhere.
+     Google's dark theme: fill #131314, a 1px #8E918F edge, #E3E3E3 words, and
+     the standard four-colour G. Apple's black style: black, with the logo and
+     words in white. */
+  --brand-google-dark: #131314;
+  --brand-google-dark-hover: #242425;
+  --brand-google-dark-edge: #8e918f;
+  --brand-google-dark-text: #e3e3e3;
+  --brand-google-blue: #4285f4;
+  --brand-google-green: #34a853;
+  --brand-google-yellow: #fbbc05;
+  --brand-google-red: #ea4335;
+  --brand-apple-black: #000000;
+
   /* The palette colours by name, for reading and talking about. Each points
      at its step above. */
   --brand-navy: var(--brand-blue-800);
@@ -446,6 +462,9 @@
   --font-serif: var(--font-serif-face), Georgia, "Times New Roman", serif;
   --font-body: var(--font-body-face), "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  /* Only for Apple's sign-in button, as its guidelines require. Google's
+     button takes Google Sans straight from styles/fonts.ts. */
+  --font-apple: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
 
   --text-2xs: 0.6875rem; /* 11px — badges, meta */
   --text-xs: 0.75rem;    /* 12px */
@@ -467,6 +486,7 @@
   --weight-regular: 400;
   --weight-semibold: 600;
   --weight-serif-medium: 500; /* Libre Baskerville only: Kulim Park and the roles have no 500 */
+  --weight-google: 500;        /* Google Sans Medium, on the Google sign-in button only */
   --weight-bold: 700;
 
   --tracking-tight: -0.02em;
@@ -937,6 +957,11 @@
   --brand-stone-800: #212121;
   --brand-stone-900: #0c0c0c;
   --brand-white: #ffffff;
+  /* Google's G at the same luminance; its dark button is already grey. */
+  --brand-google-blue: #888888;
+  --brand-google-green: #939393;
+  --brand-google-yellow: #c6c6c6;
+  --brand-google-red: #808080;
 
   --shadow-rgb: 0 0 0;
   --color-image-veil: rgb(0 0 0 / 0.6);
