@@ -6412,8 +6412,9 @@ ol.ring-detail__timeline {
 }
 
 .chat__quote {
-  font-family: var(--font-serif);
-  font-size: var(--text-sm);
+  font-family: var(--type-editorial-font);
+  font-size: var(--type-editorial-size-xs);
+  font-weight: var(--type-editorial-weight-xs);
   font-style: italic;
   color: var(--color-text-secondary);
 }
@@ -6524,8 +6525,8 @@ ol.ring-detail__timeline {
 }
 
 .chat-welcome__quote {
-  font-family: var(--font-serif);
-  font-size: var(--text-md);
+  font-family: var(--type-editorial-font);
+  font-size: var(--type-editorial-size-sm);
   font-style: italic;
   color: var(--color-text-primary);
 }
@@ -6549,8 +6550,8 @@ ol.ring-detail__timeline {
 }
 
 .intro-card__quote {
-  font-family: var(--font-serif);
-  font-size: var(--text-md);
+  font-family: var(--type-editorial-font);
+  font-size: var(--type-editorial-size-sm);
   font-style: italic;
   line-height: var(--leading-snug);
   color: var(--color-text-inverse-muted);
@@ -8414,11 +8415,9 @@ ol.ring-detail__timeline {
 }
 
 .guide__quote {
-  font-family: var(--font-serif);
-  font-size: var(--text-sm);
-  /* A step up from regular, so the small italic holds up (designer,
-     2026-10-13). */
-  font-weight: var(--weight-serif-medium);
+  font-family: var(--type-editorial-font);
+  font-size: var(--type-editorial-size-xs);
+  font-weight: var(--type-editorial-weight-xs);
   font-style: italic;
   color: var(--color-text-secondary);
 }
@@ -8659,12 +8658,13 @@ ol.ring-detail__timeline {
   padding: var(--space-xs) 0;
 }
 
+/* ExecHQ speaking: the editorial role's medium size, well under the title. */
 .reflection-reply__quote blockquote {
   margin: 0;
-  font-family: var(--font-serif);
-  font-size: var(--text-xl);
+  font-family: var(--type-editorial-font);
+  font-size: var(--type-editorial-size-md);
   font-style: italic;
-  line-height: var(--leading-relaxed);
+  line-height: var(--type-editorial-leading-quote);
   color: var(--color-text-primary);
 }
 
@@ -8893,10 +8893,10 @@ ol.ring-detail__timeline {
 }
 
 .good-example__example {
-  font-family: var(--font-serif);
-  font-size: var(--text-md);
+  font-family: var(--type-editorial-font);
+  font-size: var(--type-editorial-size-sm);
   font-style: italic;
-  line-height: var(--leading-relaxed);
+  line-height: var(--type-editorial-leading-quote);
   color: var(--color-text-primary);
 }
 
@@ -11732,10 +11732,10 @@ ul.stage-actions__list {
 
 .detail-panel__quote {
   margin: 0;
-  font-family: var(--font-serif);
-  font-size: var(--text-md);
+  font-family: var(--type-editorial-font);
+  font-size: var(--type-editorial-size-sm);
   font-style: italic;
-  line-height: var(--leading-relaxed);
+  line-height: var(--type-editorial-leading-quote);
 }
 
 .detail-panel__actions,
@@ -20930,8 +20930,9 @@ ul.plan-guided__sparks {
 .briefing-picture__name {
   position: relative;
   padding: var(--space-sm) var(--space-md);
-  font-family: var(--font-serif);
-  font-size: var(--text-sm);
+  font-family: var(--type-editorial-font);
+  font-size: var(--type-editorial-size-xs);
+  font-weight: var(--type-editorial-weight-xs);
   font-style: italic;
   line-height: var(--leading-snug);
 }

@@ -131,6 +131,18 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         from: "Navigation",
       },
       {
+        rule: "Libre Baskerville italic is only for words that are said: a welcome line, ExecHQ speaking, her own words quoted back, a publication's name. Never a title, a label or interface text, and always clearly smaller than the screen's title.",
+        why: "One clear job keeps the serif meaning the same thing wherever it shows. At 22px under a 28px title it competed with the title on Reflection.",
+        from: "Onboarding",
+        uses: ["--type-editorial-*"],
+      },
+      {
+        rule: "The editorial role has four sizes, each with one job. 28px: the web welcome's statement on its dark panel. 18px: ExecHQ speaking on a guided step. 16px: her words quoted back, and the chat's welcome line. 14px, at the 500 weight: a short line under a heading, a quote inside the chat, a publication's name.",
+        why: "The sizes had grown one per screen (14, 16, 22, 28). Four, each named for its job, make the choice obvious, and 14px italic needs the heavier weight to read.",
+        from: "Onboarding",
+        uses: ["--type-editorial-size", "--type-editorial-size-md", "--type-editorial-size-sm", "--type-editorial-size-xs", "--type-editorial-weight-xs"],
+      },
+      {
         rule: "Numbers in circles are one style everywhere: a 16px numeral in a 28px navy circle, the copy starting 16px past it, and 16px between items.",
         why: "The smallest circle that still holds the numeral comfortably. Larger circles outweighed the copy beside them; smaller numerals were hard to read.",
         from: "Onboarding",
@@ -292,6 +304,7 @@ const PAGES: { page: string; date: string; added: string[] }[] = [
       "A group title role (dark small capitals at 14px) and a card title role (sentence case, 16px, 20px above its list), with their own spacing: 16px between bullets, 20px either side of a divider.",
       "What next is one card of rows with chevrons, like Done's list without numbers.",
       "No single word left after a comma at a line's end.",
+      "Libre italic only for words that are said, in four sizes with one job each.",
       "Flat links sit at the left, 32px apart; Edit carries a pencil.",
     ],
   },

@@ -604,9 +604,23 @@
   --type-figure-tracking: var(--tracking-widest);
   --type-figure-word-spacing: var(--word-spacing-normal);
 
-  /* Editorial — Libre Baskerville's voice: quotes and welcome lines. Rare. */
+  /* Editorial — Libre Baskerville's voice, always italic, and only for words
+     that are said: a welcome line, ExecHQ speaking, her own words quoted
+     back, a publication's name. Never for a title or for interface text, and
+     always clearly smaller than the screen's title (designer, 2026-10-13).
+     Four sizes, each with one job:
+       large  28px  the web welcome's statement, alone on its dark panel
+       medium 18px  ExecHQ speaking to her on a guided step (Reflection)
+       small  16px  her words quoted back; the chat's welcome line
+       xsmall 14px  a short line under a heading, a quote inside the chat, a
+                    publication's name; set at 500 so the small italic holds */
   --type-editorial-font: var(--font-serif);
   --type-editorial-size: var(--text-2xl);
+  --type-editorial-size-md: var(--text-lg);
+  --type-editorial-size-sm: var(--text-md);
+  --type-editorial-size-xs: var(--text-sm);
+  --type-editorial-weight-xs: var(--weight-serif-medium);
+  --type-editorial-leading-quote: var(--leading-normal);
   --type-editorial-size-phone: var(--text-xl);
   --type-editorial-weight: var(--weight-regular);
   --type-editorial-leading: var(--leading-snug);
