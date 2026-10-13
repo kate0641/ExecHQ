@@ -245,6 +245,10 @@ export const INPUT_COPY = {
   /** Concept 2's start: what ExecHQ has, as one line above the button. */
   builtWith: "Built with your",
   and: "and",
+  /** What each thing ExecHQ already has is called in "Built with your …". */
+  names: { audience: "audience", example: "example", role: "role", statement: "positioning statement", toward: "direction" } as Record<string, string>,
+  /** Closes the fields Edit opened under "Built with". */
+  doneEditing: "Done",
   asked: "Only you can answer these.",
   /** When everything left to ask is optional. */
   askedOptional: "Add this if you want to.",

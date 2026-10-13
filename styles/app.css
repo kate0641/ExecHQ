@@ -17699,6 +17699,16 @@ ul.plan-guided__sparks {
   gap: var(--space-xs);
 }
 
+.input-panel__built-fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.input-panel__built-fields[hidden] {
+  display: none;
+}
+
 .input-panel__built-line {
   margin: 0;
   font-size: var(--text-xs-plus);

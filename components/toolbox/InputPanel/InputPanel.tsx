@@ -48,6 +48,10 @@ export interface InputPanelProps {
 }
 
 
+/** A known input's name mid-sentence: "positioning statement", "role". */
+const shortName = (input: ToolInput): string =>
+  C.names[input.id] ?? input.label.replace(/^your /i, "").split(",")[0].replace(/^./, (c) => c.toLowerCase());
+
 /** What ExecHQ already knows: read, with where it came from, and Edit. */
 function KnownRow({ input, value, onChange, compact = false }: { input: ToolInput; value: string; onChange: (value: string) => void; compact?: boolean }) {
   const [editing, setEditing] = useState(false);
@@ -219,29 +223,31 @@ export function InputPanel({
       ) : null}
 
       {known.length && builtWith ? (
+        // One line and one Edit, however many things ExecHQ has: Edit opens
+        // them all, together, under the line (13 Oct).
         <section className="input-panel__built" aria-label={C.known}>
           <p className="input-panel__built-line">
             {C.builtWith}{" "}
             {known.map((input, i) => (
               <span key={input.id}>
                 {i > 0 ? (i === known.length - 1 ? ` ${C.and} ` : ", ") : null}
-                {input.label.replace(/^your /i, "").replace(/^./, (c) => c.toLowerCase())}
-                <span aria-hidden="true"> · </span>
-                <button
-                  type="button"
-                  className="input-panel__known-edit link"
-                  aria-expanded={editingKnown === input.id}
-                  onClick={() => setEditingKnown(editingKnown === input.id ? null : input.id)}
-                >
-                  {C.edit}
-                  <span className="u-visually-hidden"> {input.label}</span>
-                </button>
+                {shortName(input)}
               </span>
             ))}
+            .{" "}
+            <button
+              type="button"
+              className="input-panel__known-edit link"
+              aria-expanded={editingKnown !== null}
+              aria-controls={`${moreId}-built`}
+              onClick={() => setEditingKnown(editingKnown === null ? "all" : null)}
+            >
+              {editingKnown === null ? C.edit : C.doneEditing}
+              <span className="u-visually-hidden"> {C.known}</span>
+            </button>
           </p>
-          {known
-            .filter((input) => input.id === editingKnown)
-            .map((input) => (
+          <div className="input-panel__built-fields" id={`${moreId}-built`} hidden={editingKnown === null}>
+            {known.map((input) => (
               <Input
                 key={input.id}
                 label={input.label}
@@ -252,6 +258,7 @@ export function InputPanel({
                 onChange={(event) => onChange(input.id, event.target.value)}
               />
             ))}
+          </div>
         </section>
       ) : null}
 
