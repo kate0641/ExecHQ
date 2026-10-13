@@ -7,6 +7,7 @@ import { Input } from "@/components/form/Input";
 import { AnswerDrawer } from "@/components/onboarding/AnswerDrawer";
 import { GuidePage } from "@/components/onboarding/GuidePage";
 import { PickAnswer, pickedPhrase } from "@/components/toolbox/PickAnswer";
+import { InputPanel } from "@/components/toolbox/InputPanel";
 import { PinnedDraft } from "@/components/toolbox/PinnedDraft";
 import { useStepNav } from "@/lib/step-nav";
 import { useViewport } from "@/lib/viewport-context";
@@ -156,7 +157,9 @@ function Interview() {
     // page with the draft so far, the answer in a drawer at the foot.
     const input = asked[at];
     const pick = pickFor(input);
-    const last = at === asked.length - 1 && !hasKnown;
+    // The last question writes the draft; what ExecHQ has is one line above
+    // its button (13 Oct), so there is no check page.
+    const last = at === asked.length - 1;
     const said = f.valueOf(input.id).trim();
     const mine = picks[input.id] ?? { picked: [], other: "" };
     return (
@@ -164,7 +167,7 @@ function Interview() {
         {f.header}
         <GuidePage
           part={f.tool.name}
-          position={C.step(at + 1, asked.length + (hasKnown ? 1 : 0))}
+          position={C.step(at + 1, asked.length)}
           title={input.label}
           lede={pick ? undefined : input.hint}
           headingId={STEP_HEADING}
@@ -223,6 +226,18 @@ function Interview() {
                   }}
                 />
               )}
+              {last && hasKnown ? (
+                <InputPanel
+                  inputs={rest}
+                  values={Object.fromEntries(rest.map((known) => [known.id, f.valueOf(known.id)]))}
+                  onChange={f.setValue}
+                  onWrite={() => undefined}
+                  builtWith
+                  compact
+                  noHeading
+                  noActions
+                />
+              ) : null}
             </AnswerDrawer>
           }
         >

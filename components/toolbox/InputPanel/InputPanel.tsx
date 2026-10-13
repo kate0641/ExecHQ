@@ -40,6 +40,9 @@ export interface InputPanelProps {
    *  question's hint is its placeholder, so a question is one field
    *  (Toolbox flow Concept 2's start, 13 October). */
   builtWith?: boolean;
+  /** No button of its own, where the page has one (Concept 3's drawer, whose
+   *  Write my first draft writes with what is here). */
+  noActions?: boolean;
   /** After the button, in the same bar: Back, in a guided flow. */
   footer?: ReactNode;
   /** On the bar holding the button: Concept 1 pins it to the foot. */
@@ -143,6 +146,7 @@ export function InputPanel({
   startExpanded = false,
   compact = false,
   builtWith = false,
+  noActions = false,
   footer,
   actionsClassName,
   className,
@@ -264,6 +268,7 @@ export function InputPanel({
 
       {enricher}
 
+      {noActions ? null : (
       <div className={["input-panel__actions", actionsClassName].filter(Boolean).join(" ")}>
         <Button
           fullWidth
@@ -278,6 +283,7 @@ export function InputPanel({
         {hideNote || compact ? null : <p className="input-panel__note">{C.notNeeded}</p>}
         {footer}
       </div>
+      )}
     </div>
   );
 }
