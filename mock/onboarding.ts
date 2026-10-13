@@ -2366,7 +2366,9 @@ export const GUIDE_C3 = {
         label: "What next?",
         detail: {
           label: "Add more detail",
-          detail: "Your role, what you\u2019re responsible for and a result, so it says what you lead.",
+          // "and a" held together so "and" opens the second line: the first line
+          // is the longest of the three choices (designer, 2026-10-13).
+          detail: "Your role, what you\u2019re responsible for and\u00a0a result, so it says what you lead.",
         },
         versions: {
           label: "Build out longer versions",
