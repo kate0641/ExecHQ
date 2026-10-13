@@ -1132,7 +1132,7 @@ export const LINKEDIN_UPLOAD = {
       `Sent to ${email}. Do it on your computer when you\u2019re ready. It\u2019ll be on your plan too.`,
   },
   /** Short status for a list row. */
-  short: { reading: "Reading", ready: "Ready", empty: "Read", sent: "Steps sent" },
+  short: { reading: "Reading\u2026", ready: "Ready", empty: "Read", sent: "Steps sent" },
   remove: "Remove it",
   done: "Continue",
   skip: "Not now",

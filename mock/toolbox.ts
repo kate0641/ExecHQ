@@ -249,7 +249,7 @@ export const INPUT_COPY = {
   keep: "Keep this",
   missing: "Answer this to write the draft.",
   write: "Write my first draft",
-  writing: "Writing your first draft",
+  writing: "Writing your first draft…",
   /** Under the button, so the enricher never reads as a gate. */
   notNeeded: "You don’t need anything else to start.",
   /** Optional questions folded away until she asks for them (Concept 2). */
@@ -437,7 +437,7 @@ export const REVISION_COPY = {
   followUpLabel: "Or say what to change",
   followUpPlaceholder: "Lead with the planning workstream",
   revise: "Revise",
-  revising: "Revising your draft",
+  revising: "Revising your draft…",
   /** Nothing chosen or typed yet. */
   nothing: "Choose a change, or say one.",
   saved: (n: number) => `Saved as version ${n}. The earlier one is still there.`,

@@ -79,7 +79,7 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         uses: ["--leading-snug"],
       },
       {
-        rule: "No text anywhere in the product is cut off with an ellipsis. Titles, headers, previews and placeholders wrap and show every word, and no line ends in \u2026.",
+        rule: "No text anywhere in the product is cut off with an ellipsis. Titles, headers, previews and placeholders wrap and show every word. An ellipsis written into the words stays: something in progress (Writing your first draft\u2026) and a prompt to type (Ask or go\u2026).",
         why: "Cut-off words hide what she needs to read. Keep a navy header short so it rarely needs a second line, but when it does, it wraps (designer, 2026-10-13).",
         from: "Home, Onboarding",
       },
