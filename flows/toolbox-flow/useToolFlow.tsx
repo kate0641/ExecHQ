@@ -21,13 +21,13 @@ import { InputPanel } from "@/components/toolbox/InputPanel";
 import { RevisionControls, type RevisionChoice } from "@/components/toolbox/RevisionControls/RevisionControls";
 import { ToolUseCase } from "@/components/toolbox/ToolUseCase";
 import { VersionHistory } from "@/components/toolbox/VersionHistory";
-import { addDays, aheadPhrase, createRecord, daysBetween, datePhrase, shortDate, type LoopRecord } from "@/lib/loop";
+import { addDays, aheadPhrase, createRecord, daysBetween, datePhrase, outcomeReadback, shortDate, type LoopRecord } from "@/lib/loop";
 import { currentSnapshot, getLoopState, loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { briefDraft, draftText, firstDraft, pitchDraft, positioningDraft, revise, revisionLabel, statementOnly } from "@/lib/toolbox-draft";
 import { toolboxActions, useToolbox, type DraftState } from "@/lib/toolbox-store";
 import { TODAYS_READS } from "@/mock/briefing";
-import { ARTIFACT_KINDS, FOLLOW_UP_POLICY, OUTCOME_READBACK, type ArtifactKind } from "@/mock/loop";
+import { ARTIFACT_KINDS, FOLLOW_UP_POLICY, type ArtifactKind } from "@/mock/loop";
 import { HOME_COPY } from "@/mock/homepage";
 import { stepById } from "@/mock/plan";
 import {
@@ -798,13 +798,13 @@ export function useToolFlow(concept: FlowConcept) {
    *  report outcome"). The Loop's own check-in, as Home uses it. */
   const [answeredHere, setAnsweredHere] = useState(false);
   const outcomeHeading = "tool-outcome-heading";
-  const outcomeReadback =
+  const outcomeSaid =
     record && answeredHere
       ? !record.outcome || record.outcome.type === "no-response-yet"
         ? HOME_COPY.askAgain(record.name, aheadPhrase(record.checkBackOn ?? addDays(loop.today, FOLLOW_UP_POLICY.rescheduleDays[0]), loop.today))
         : record.outcome.detail
           ? HOME_COPY.loggedDetail(record.outcome.detail)
-          : HOME_COPY.loggedPlain(OUTCOME_READBACK[record.outcome.type])
+          : HOME_COPY.loggedPlain(outcomeReadback(record.outcome.type, record.kind))
       : undefined;
   const outcome: ReactNode =
     record && (record.state === "used" || record.state === "waiting" || (answeredHere && record.state === "outcome")) ? (
@@ -814,7 +814,7 @@ export function useToolFlow(concept: FlowConcept) {
         about={record.recommendation}
         layout="question"
         answered={answeredHere}
-        readback={outcomeReadback}
+        readback={outcomeSaid}
         headingId={outcomeHeading}
         onAnswer={(type) => {
           loopActions.answer(record.id, { type });

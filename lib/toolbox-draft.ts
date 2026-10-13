@@ -91,6 +91,7 @@ export function revisionLabel(choice: RevisionChoice, followUp: string): string 
 export function revise(sections: readonly DraftSection[], choice: RevisionChoice): DraftSection[] {
   if (sections.some((x) => x.id === "bio-short")) return revisePositioning(sections, choice);
   if (sections.some((x) => x.id === "pitch") && sections.some((x) => x.id === "subjects")) return revisePitch(sections, choice);
+  if (sections.some((x) => x.id === "objective") && sections.some((x) => x.id === "decision")) return reviseBrief(sections, choice);
   // The main piece: the post, the pitch, or the first section of a brief.
   const main = sections.find((s) => s.id === "post" || s.id === "pitch")?.id ?? sections.find((s) => !s.list)?.id;
   return sections.map((section) => {
@@ -151,6 +152,36 @@ function revisePositioning(sections: readonly DraftSection[], choice: RevisionCh
     }
     return { ...section, segments };
   });
+}
+
+/** Which section each Situation Brief emphasis brings up under the objective. */
+const BRIEF_EMPHASIS: Record<string, string> = { "The ask": "decision", "The evidence": "evidence", "The risks": "questions" };
+
+/** The Situation Brief's revisions keep it to one page: shorter keeps two key
+ *  messages and two likely questions (her own risks first); longer adds a
+ *  question to each, never a fact; emphasis moves the ask, the evidence or
+ *  the likely questions up, straight under the objective. */
+function reviseBrief(sections: readonly DraftSection[], choice: RevisionChoice): DraftSection[] {
+  let out = sections.map((section) => {
+    let segments = [...section.segments];
+    if (choice.length === "Shorter" && section.id === "messages") segments = segments.slice(0, 2);
+    if (choice.length === "Shorter" && section.id === "questions") {
+      const hers = segments.filter((seg) => "by" in seg && seg.by === "you");
+      segments = segments.slice(0, Math.max(2, hers.length));
+    }
+    if (choice.length === "Longer" && section.id === "messages") segments.push(ask("What would change their mind?"));
+    if (choice.length === "Longer" && section.id === "questions") segments.push(ex("What happens if we wait?"));
+    return { ...section, segments };
+  });
+  const up = choice.emphasis ? BRIEF_EMPHASIS[choice.emphasis] : undefined;
+  if (up) {
+    const moved = out.find((x) => x.id === up);
+    if (moved) {
+      out = out.filter((x) => x !== moved);
+      out.splice(out.findIndex((x) => x.id === "objective") + 1, 0, moved);
+    }
+  }
+  return out;
 }
 
 /** Pitch Builder's revisions keep every sentence whole: shorter drops the
@@ -288,19 +319,30 @@ export function pitchDraft(v: Record<string, string>): DraftSection[] {
 /** One page for a moment that matters: objective, context, key messages,
  *  evidence, likely questions and the decision asked for; then the opening
  *  statement and the follow-up email. */
+/** One of her risks as a question to prepare for. */
+function riskQuestion(risk: string): string {
+  const r = risk.trim().replace(/[.]$/, "");
+  return /\?$/.test(r) ? r : `What if ${midSentence(r)}?`;
+}
+
 export function briefDraft(v: Record<string, string>, when?: string): DraftSection[] {
   const objective = v.objective?.trim();
   const audience = v.audience?.trim();
   const evidence = v.evidence?.trim();
+  const stakes = v.stakes?.trim();
+  const risks = (v.risks ?? "").split(/\n+/).map((r) => r.trim()).filter(Boolean);
+  const moment = !v.type || v.type === "Something else" ? "The meeting" : v.type[0].toUpperCase() + v.type.slice(1);
   return [
     { id: "objective", heading: "Objective", segments: [objective ? you(sentence(objective)) : ask("What do you want to come out of it?")] },
     {
       id: "context",
       heading: "Context",
       segments: [
-        ex(`${v.type ? v.type[0].toUpperCase() + v.type.slice(1) : "The meeting"}${when ? ` ${when}` : ""}, with `),
+        ex(`${moment}${when ? ` ${when}` : ""}, with `),
         audience ? you(midSentence(audience)) : ask("Who will be there?"),
         ex(". "),
+        // What they care about, from her: the PRD's stakeholder context.
+        ...(stakes ? [ex("They care about "), you(midSentence(stakes)), ex(". ")] : []),
         ask("What has happened so far that they need to know?"),
       ],
     },
@@ -308,7 +350,11 @@ export function briefDraft(v: Record<string, string>, when?: string): DraftSecti
       id: "messages",
       heading: "Key messages",
       list: true,
-      segments: [ex("Where things stand, in a sentence"), ex("What you are asking for, and why you"), ask("What is the one thing they must remember?")],
+      segments: [
+        ex("Where things stand, in a sentence"),
+        ex(stakes ? "What you are asking for, and how it serves what they care about" : "What you are asking for, and why you"),
+        ask("What is the one thing they must remember?"),
+      ],
     },
     {
       id: "evidence",
@@ -320,7 +366,13 @@ export function briefDraft(v: Record<string, string>, when?: string): DraftSecti
       id: "questions",
       heading: "Likely questions",
       list: true,
-      segments: [ex("What does this take from your current work?"), ex("Why now, and not next quarter?"), ex("Who else is affected?")],
+      // Her own risks first, as questions to prepare for, then ExecHQ's.
+      segments: [
+        ...risks.map((r) => you(riskQuestion(r))),
+        ex("What does this take from your current work?"),
+        ex("Why now, and not next quarter?"),
+        ex("Who else is affected?"),
+      ],
     },
     {
       id: "decision",

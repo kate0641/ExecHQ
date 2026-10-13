@@ -113,7 +113,7 @@ The Sprint 2 Loop statuses, identical everywhere an artifact appears (the Toolbo
 
 - **Mark ready,** then **Mark used / sent / published.** Posting or sending is always something she does outside ExecHQ. Nothing implies ExecHQ posts or sends ("Copy to post on LinkedIn", never "Post to LinkedIn").
 - **Check back.** Once used, ExecHQ asks what came of it after the builder's check-back days (section 1), unless she chose otherwise when she marked it ready.
-- **The question:** "You used your check-in brief on Thursday. What came of it?" Five answers, one tap each: It went well, It was mixed, Not the way I hoped, Nothing yet, It's no longer relevant.
+- **The question:** "You sent your pitch for the Q1 planning review on Thursday. What came of it?" Five answers, one tap each: It went well, It was mixed, Not the way I hoped, Nothing yet, It's no longer relevant. A builder can word its own: the Situation Brief asks "Did it create a next step?", with answers to match (13 Oct). The outcome each answer records is the same.
 - **She can answer early, in the builder.** Once it is used, the draft itself asks "What came of it?" with the same five answers, so she never has to wait for the check-back (the PRD's "Mark used and report outcome"). It is the Loop's own check-in, the one Home uses; answering here is the same as answering there.
 - **"Nothing yet" is normal,** never a failure. It asks again 3 days later, then 7 days after that; after a third "Nothing yet" it stops asking, and she can still report an outcome whenever she likes. It never asks about more than one thing at a time.
 - **After an outcome,** it suggests closing; she confirms. She can close anything, any time.
@@ -151,5 +151,5 @@ Drafting, editing or readying something is not a signal. Only what she used, sen
 1. **Check-back days.** Only the Situation Brief's comes from the brief. Are 7 days (positioning, posts) and 5 days (pitches) right?
 2. **Export formats.** The brief's proposed answer is copy for every output, and PDF and Word for the Situation Brief, bios and long-form articles. The prototype has no long-form export yet. Confirm.
 3. **Provenance labels for imported context.** The brief's example "Uses your LinkedIn context" has no V1 use, because V1 takes manual input only. Drop it, or keep it for later?
-4. **The follow-up question.** The brief gives the Situation Brief its own question, "Did this create a next step?". The Loop asks every kind "What came of it?". Should each builder have its own wording?
+4. **The follow-up question.** The Situation Brief now has its own ("Did it create a next step?"). Should the others too (a pitch: "Did you hear back?"; a post: "How did it land?")?
 5. **Emphasis choices.** Each builder now has its own (13 Oct): Positioning What I lead · What I'm known for · Where I'm headed; Pitch The angle · The proof · Why now; Situation Brief The ask · The evidence · The risks; Thought Leadership My example · The article's point · The question at the end. In the prototype, Positioning and Pitch act on all three and Thought Leadership on "My example"; the Situation Brief's are shown but not yet acted on.

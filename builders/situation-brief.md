@@ -52,11 +52,13 @@
 
 | Question | Short name | Kind | Required | Notes |
 | --- | --- | --- | --- | --- |
-| What is the moment? | Moment | One choice: A review, A board meeting, A negotiation, An executive conversation | Yes | The first question, on the use case screen. Arrives chosen from an action step. |
+| What is the moment? | Moment | One choice: A review, A board meeting, A negotiation, An executive conversation, Something else | Yes | The first question, on the use case screen. Arrives chosen from an action step. |
 | What do you want to come out of it? | Outcome | Her words | Yes | "The decision or next step you'd count as a good result." |
 | Who will be there? | Who's there | Her words | Yes | Arrives filled from an action step ("My manager"). |
 | When is it? | When | A date | No | "If you know. ExecHQ asks how it went after it." Times the follow-up. |
-| Anything to draw on | Draw on | Her words, long | No | "Evidence, risks, notes you already have. Paste them in." |
+| What do they care about? | Their stakes | Her words | No | "What's at stake for them, in a line." The PRD's stakeholder context. |
+| Anything to draw on | Draw on | Her words, long | No | "Evidence, notes or source material you already have. Paste them in." |
+| Any risks or concerns? | Risks | Her words, one a line | No | "Each becomes a question to prepare for." |
 
 ### 2.3 Enrichers
 
@@ -71,10 +73,10 @@ None in the prototype. **Proposed:** after the first draft, if Supporting eviden
 | Section | What it is for | Her words | ExecHQ's wording | Left as a question when missing |
 | --- | --- | --- | --- | --- |
 | **Objective** | What a good result is | Her outcome, as she said it | None | What do you want to come out of it? |
-| **Context** | The moment in one line, and what they need to know | Who will be there | "[The moment] [on its date], with …" | What has happened so far that they need to know? |
-| **Key messages** | What she must land, as a short list | None yet | "Where things stand, in a sentence"; "What you are asking for, and why you" | What is the one thing they must remember? |
+| **Context** | The moment in one line, what they care about, and what they need to know | Who will be there; what they care about | "[The moment, or The meeting for Something else] [on its date], with … They care about …" | What has happened so far that they need to know? |
+| **Key messages** | What she must land, as a short list | None yet | "Where things stand, in a sentence"; "What you are asking for, and why you" (or, once she has said what they care about, "…and how it serves what they care about") | What is the one thing they must remember? |
 | **Supporting evidence** | Proof for the ask, as a list | What she pasted in "Anything to draw on" | None | What result can you point to? Who else would back this up? |
-| **Likely questions** | What they will ask, as a list | None | "What does this take from your current work?"; "Why now, and not next quarter?"; "Who else is affected?" | None |
+| **Likely questions** | What they will ask, as a list | Her risks first, each as a question ("What if it takes time from the campaign calendar?") | "What does this take from your current work?"; "Why now, and not next quarter?"; "Who else is affected?" | None |
 | **Decision or next step asked for** | The ask, plainly | Her outcome | None: the heading frames it | What decision or next step do you want? |
 | **Opening statement** | The first thing she says | Her outcome, mid-sentence | "Thank you for the time. By the end of today, I'm hoping for one outcome: …" | What do you want agreed? |
 | **Follow-up email** | What she sends after | Her answers to the questions | "Thank you for today. As we agreed, … I'll come back to you by …" | What did you agree? When? |
@@ -89,9 +91,12 @@ Rules for this builder:
 
 ## 4. Changing it
 
-The shared options (voice, specificity, length, audience) and the conversational follow-up.
+The shared options (voice, specificity, length, audience) and the conversational follow-up. It stays one page:
 
-**Emphasis choices for this builder:** The ask · The evidence · The risks. Shown in the prototype; it does not act on them yet.
+- **Shorter** keeps two key messages and two likely questions (all her own risks, if she gave more).
+- **Longer** adds "What would change their mind?" to the key messages and "What happens if we wait?" to the likely questions: questions, never facts.
+- **Emphasis** (The ask · The evidence · The risks) moves the decision, the supporting evidence or the likely questions up, straight under the objective.
+- Voice, specificity and audience are recorded with the version; the prototype does not rewrite for them (no model).
 
 ---
 
@@ -103,7 +108,7 @@ The shared options (voice, specificity, length, audience) and the conversational
 | **Export** | Download as PDF, Download as Word |
 | **Mark ready, then used** | "Mark ready", then "Mark used". Using it is having the conversation; ExecHQ never sends the email. |
 | **Check back** | When she gave a date, the day after it, however early she marks it used ("ExecHQ will ask 'Did this create a next step?' on Friday."). Otherwise 2 days after she marks it used. |
-| **The question** | In the prototype: "You used your check-in brief on Thursday. What came of it?" The brief's own wording is "Did this create a next step?" (open question 2). |
+| **The question** | "You used your check-in brief on Thursday. Did it create a next step?" (the PRD's "record whether the conversation created a next step or outcome"). Answers: Yes, a next step · It went well, no next step yet · Not the way I hoped · It hasn't happened yet · It's no longer relevant. After "Yes", the note asks "What's the next step?". The same wording wherever a brief is checked in on: here, Home and the advisor. She can answer in the builder as soon as it is used. |
 | **Signal Picture** | Once used, the moment and what came of it, under the plan area of the step it served. |
 | **Recommended next use** | **Proposed:** after an outcome, if the moment created a next step, offer the follow-up email as the thing to send, and the next action step on her plan. |
 
@@ -123,10 +128,8 @@ The shared options (voice, specificity, length, audience) and the conversational
 
 ## 7. Open questions
 
-1. **Moment types.** The Functional Scope lists performance review, promotion discussion, board or executive meeting, negotiation, or other. The prototype offers A review, A board meeting, A negotiation, An executive conversation. Which list, and is there an "Other"?
-2. **The follow-up question.** The brief's "Did this create a next step?" or the Loop's shared "What came of it?"?
-3. **Stakes.** The Functional Scope's inputs include "audience and stakes". The prototype asks who will be there but not what is at stake. Add a question, or fold it into the outcome?
-4. **Opening statement or talk track.** The brief allows either. The prototype makes an opening statement only. Is a longer talk track V1?
-5. **Delete after use.** The brand document describes it; the brief's proposed answer is no special option (delete from the library covers it). Confirm.
-6. **Key messages.** The prototype's two key messages are general framing. Should they be written from her context once she gives it, or stay as prompts?
-7. **Her positioning statement in the brief.** "Goes with this" promises the opening statement draws on it. Should the opening statement use it (one line on who she is), or should the promise come off the use case screen?
+1. **Talk track.** The PRD allows an opening statement or a talk track. The prototype makes an opening statement only. Is a longer talk track V1?
+2. **Delete after use.** The brand document describes it; the brief's proposed answer is no special option (delete from the library covers it). Confirm.
+3. **Key messages.** The two ExecHQ key messages are still general framing. Should they be written from her context once she gives it, or stay as prompts?
+4. **Her positioning statement in the brief.** "Goes with this" promises the opening statement draws on it. Should the opening statement use it (one line on who she is), or should the promise come off the use case screen?
+5. **"Something else".** The context then says "The meeting". Should she be asked to name it instead?

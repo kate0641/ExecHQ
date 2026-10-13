@@ -805,7 +805,7 @@ export const PITCH_INPUTS: readonly ToolInput[] = [
 ];
 
 export const BRIEF_INPUTS: readonly ToolInput[] = [
-  { id: "type", label: "What is the moment?", kind: "choice", options: ["A review", "A board meeting", "A negotiation", "An executive conversation"] },
+  { id: "type", label: "What is the moment?", kind: "choice", options: ["A review", "A board meeting", "A negotiation", "An executive conversation", "Something else"] },
   { id: "date", label: "When is it?", hint: "If you know. ExecHQ asks how it went after it.", kind: "date", optional: true },
   {
     id: "objective",
@@ -815,12 +815,29 @@ export const BRIEF_INPUTS: readonly ToolInput[] = [
     placeholder: "Agreement that I lead the planning workstream",
   },
   { id: "audience", label: "Who will be there?", kind: "text", placeholder: "My manager" },
+  // The PRD's stakeholder context and risks, each used in the draft (Kate, 13 Oct).
+  {
+    id: "stakes",
+    label: "What do they care about?",
+    hint: "What’s at stake for them, in a line.",
+    kind: "text",
+    optional: true,
+    placeholder: "Hitting the Q1 numbers without adding headcount",
+  },
   {
     id: "evidence",
     label: "Anything to draw on",
-    hint: "Evidence, risks, notes you already have. Paste them in.",
+    hint: "Evidence, notes or source material you already have. Paste them in.",
     kind: "long",
     optional: true,
+  },
+  {
+    id: "risks",
+    label: "Any risks or concerns?",
+    hint: "One a line. Each becomes a question to prepare for.",
+    kind: "long",
+    optional: true,
+    placeholder: "It takes time from the campaign calendar",
   },
 ];
 
@@ -885,7 +902,7 @@ export const STEP_BAR_COPY = {
 export const STEP_LABELS: Record<ArtifactKind, Record<string, string>> = {
   positioning: { knownFor: "Known for", context: "Introduction", audience: "Audience", format: "Format", source: "Source text" },
   pitch: { type: "Pitching for", angle: "Angle", proof: "Proof" },
-  "situation-brief": { type: "Moment", objective: "Outcome", audience: "Who’s there" },
+  "situation-brief": { type: "Moment", objective: "Outcome", audience: "Who’s there", stakes: "Their stakes", risks: "Risks" },
   "thought-leadership": { format: "Format", topic: "Topic", pov: "Point of view" },
 };
 
@@ -908,6 +925,8 @@ export const EXAMPLE_ANSWERS: Record<ArtifactKind, Record<string, string>> = {
     date: "2026-10-29",
     objective: "Agreement that I lead the Q1 planning workstream",
     audience: "The CEO, the CFO and my manager",
+    stakes: "Hitting the Q1 numbers without adding headcount",
+    risks: "It takes time from the campaign calendar",
   },
   "thought-leadership": {
     format: "LinkedIn post",

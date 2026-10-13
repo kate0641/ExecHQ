@@ -28,7 +28,10 @@
 import {
   ARTIFACT_KINDS,
   FOLLOW_UP_POLICY,
+  OUTCOME_LABELS_BY_KIND,
+  OUTCOME_OPTIONS,
   OUTCOME_READBACK,
+  OUTCOME_READBACK_BY_KIND,
   PROGRESS_COPY,
   STATE_DETAILS,
   STATE_LABELS,
@@ -368,7 +371,21 @@ export function nextFollowUp(records: LoopRecord[], today: LoopDate): LoopRecord
 export function followUpQuestion(record: LoopRecord, today: LoopDate): string {
   const verb = ARTIFACT_KINDS[record.kind].usedVerb;
   const when = record.usedOn ? ` ${whenPhrase(record.usedOn, today)}` : "";
-  return `You ${verb} ${record.name}${when}. What came of it?`;
+  // A brief is for a conversation, and its question is whether it moved
+  // things on (the Situation Brief's PRD section).
+  const asks = record.kind === "situation-brief" ? "Did it create a next step?" : "What came of it?";
+  return `You ${verb} ${record.name}${when}. ${asks}`;
+}
+
+/** What an answer says back, in this kind's words where they differ. */
+export function outcomeReadback(type: OutcomeType, kind?: ArtifactKind): string {
+  return (kind && OUTCOME_READBACK_BY_KIND[kind]?.[type]) ?? OUTCOME_READBACK[type];
+}
+
+/** An outcome's answer as this kind words it ("Yes, a next step" for a
+ *  brief), or the general one. */
+export function outcomeLabel(type: OutcomeType, kind?: ArtifactKind): string {
+  return (kind && OUTCOME_LABELS_BY_KIND[kind]?.[type]) ?? OUTCOME_OPTIONS.find((o) => o.type === type)?.label ?? "";
 }
 
 /* -----------------------------------------------------------------------------
@@ -402,7 +419,7 @@ export function outcomeSummary(record: LoopRecord): string | undefined {
   // and "Afterwards" says what followed without saying what caused it.
   return detail
     ? `${used} Afterwards: \u201c${detail}\u201d`
-    : `${used} ${OUTCOME_READBACK[record.outcome.type]}`;
+    : `${used} ${outcomeReadback(record.outcome.type, record.kind)}`;
 }
 
 /* -----------------------------------------------------------------------------

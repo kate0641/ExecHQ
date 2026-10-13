@@ -4,9 +4,9 @@ import { useState } from "react";
 import { ChatMessage } from "@/components/chat/ChatMessage";
 import { QuickReplies } from "@/components/chat/QuickReplies";
 import { Button } from "@/components/primitives/Button";
-import { followUpQuestion, shortDate, whenPhrase, type LoopRecord, type OutcomeType } from "@/lib/loop";
+import { followUpQuestion, outcomeLabel, shortDate, whenPhrase, type LoopRecord, type OutcomeType } from "@/lib/loop";
 import { CHECKIN_COPY as C } from "@/mock/homepage";
-import { ARTIFACT_KINDS, OUTCOME_OPTIONS } from "@/mock/loop";
+import { ARTIFACT_KINDS, OUTCOME_NOTE_BY_KIND } from "@/mock/loop";
 
 export type CheckInLayout = "question" | "stepper" | "chat";
 
@@ -43,7 +43,6 @@ export interface CheckInProps {
 
 const MAIN: OutcomeType[] = ["positive", "neutral", "negative"];
 const QUIET: OutcomeType[] = ["no-response-yet", "no-longer-relevant"];
-const labelOf = (type: OutcomeType) => OUTCOME_OPTIONS.find((o) => o.type === type)!.label;
 
 /**
  * The one check-in the Loop uses everywhere: it asks the question for where a
@@ -85,6 +84,8 @@ export function CheckIn({
   if (answered && readback && firstReadback === undefined) setFirstReadback(readback);
 
   const usedVerb = record ? ARTIFACT_KINDS[record.kind].usedVerb : "";
+  /** The answers in this kind's words ("Yes, a next step" for a brief). */
+  const labelOf = (type: OutcomeType) => outcomeLabel(type, record?.kind);
   const ready = record?.state === "ready";
   /** An action with no draft, not yet done. */
   const todo = !record && !task?.doneOn;
@@ -110,7 +111,7 @@ export function CheckIn({
     noteOpen ? (
       <div className="check-in__note">
         <label className="check-in__note-label" id={`${headingId}-note-label`} htmlFor={`${headingId}-note`}>
-          {C.noteLabel}
+          {(record && outcome?.type === "positive" && OUTCOME_NOTE_BY_KIND[record.kind]) || C.noteLabel}
         </label>
         <textarea
           id={`${headingId}-note`}
@@ -232,7 +233,7 @@ export function CheckIn({
               if (label === C.taskDone) return onDone?.();
               if (label === C.taskDrop) return onDrop?.();
               if (label === C.used(usedVerb)) return onUsed?.();
-              const type = OUTCOME_OPTIONS.find((o) => o.label === label)?.type;
+              const type = [...MAIN, ...QUIET].find((t) => labelOf(t) === label);
               if (type) onAnswer(type);
             }}
           />
