@@ -113,6 +113,18 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         from: "Navigation",
       },
       {
+        rule: "Numbers in circles are one style everywhere: a 16px numeral in a 28px navy circle, with the copy starting 16px past it.",
+        why: "The smallest circle that still holds the numeral comfortably. Larger circles outweighed the copy beside them; smaller numerals were hard to read.",
+        from: "Onboarding",
+        uses: ["--number-circle-size", "--number-circle-numeral", "--number-circle-gap", "--number-circle-fill"],
+      },
+      {
+        rule: "No line of copy leaves one word alone on its last line.",
+        why: "A lone word reads as a mistake and makes a short paragraph look unfinished.",
+        from: "Onboarding",
+        uses: ["text-wrap: pretty"],
+      },
+      {
         rule: "Body copy at 1.7 leading with a 12px gap between paragraphs. Captions are 13px regular.",
         why: "Text-heavy screens get lighter through rhythm, never by cutting the copy.",
         from: "Home",
@@ -242,6 +254,17 @@ const PAGES: { page: string; date: string; added: string[] }[] = [
       "On the phone, New chat and close sit in the sheet's top corners with no header row.",
       "Say a thing once: a label is dropped when something above already says it (the advisor's name above each of his messages, under the panel's header).",
       "The places stay Kate's row of icon tiles, pinned above the chat (2026-10-09); text tabs were tried and set aside.",
+    ],
+  },
+  {
+    page: "Onboarding",
+    date: "13 October 2026",
+    added: [
+      "One numbered circle: 16px numeral, 28px navy circle, copy 16px past it, as tokens.",
+      "Her answers in a guided step are her side of a conversation: the raised surface with a thin edge, the one she picks navy and bold, 12px apart.",
+      "Step labels are the blue eyebrow; Why this matters is a grey-eyebrow read with no rule beside it.",
+      "The welcome is navy edge to edge with the light logo at 48px.",
+      "No lone word on a last line.",
     ],
   },
 ];

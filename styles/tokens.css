@@ -596,6 +596,15 @@
   --space-3xl: 4rem;     /* 64px */
   --space-4xl: 6rem;     /* 96px */
 
+  /* The numbered circle (designer, 2026-10-13): every numbered list that sets
+     its numbers in circles uses these. A 16px numeral in a 28px navy circle,
+     the smallest that holds it comfortably, with the copy 16px past it. */
+  --number-circle-size: calc(var(--space-lg) + var(--space-2xs)); /* 28px */
+  --number-circle-numeral: var(--text-md);                       /* 16px */
+  --number-circle-gap: var(--space-md);                          /* 16px */
+  --number-circle-fill: var(--color-surface-inverse);
+  --number-circle-ink: var(--color-text-inverse);
+
   /* The gap between paragraphs, or items, of body copy stacked in one place:
      a card's reads, a list of what something shows. Not between a label and
      the line under it, which stay close. */
