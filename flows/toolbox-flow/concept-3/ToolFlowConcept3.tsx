@@ -3,10 +3,11 @@
 import { Suspense, useMemo, useState } from "react";
 import { StepHeader } from "@/components/onboarding/StepHeader";
 import { Button } from "@/components/primitives/Button";
+import { PickAnswer, pickedPhrase } from "@/components/toolbox/PickAnswer";
 import { PinnedDraft } from "@/components/toolbox/PinnedDraft";
 import { useStepNav } from "@/lib/step-nav";
 import { useViewport } from "@/lib/viewport-context";
-import { DRAFT_COPY, FLOW_COPY as C, INPUT_COPY, STEP_BAR_COPY } from "@/mock/toolbox";
+import { DRAFT_COPY, EXAMPLE_ANSWERS, FLOW_COPY as C, INPUT_COPY, INTERVIEW_PICKS, PICK_COPY, STEP_BAR_COPY, type ToolInput } from "@/mock/toolbox";
 import { QuestionStep } from "../QuestionStep";
 import { draftSteps, focusSoon, questionStep, TOOL_TITLE_ID, useToolFlow } from "../useToolFlow";
 
@@ -24,11 +25,24 @@ function Interview() {
   const [changing, setChanging] = useState(false);
 
   const hasDraft = Boolean(f.draft && f.version);
-  // The start screen asks the tool's first question beside its button, as in
-  // Concept 1, so the interview leaves that one out.
-  const asked = f.notFirst(f.asked);
-  const rest = f.notFirst(f.rest);
-  const hasKnown = rest.some((input) => input.source && input.kind !== "choice");
+  // The start screen asks the tool's first question, as in Concept 1, so the
+  // interview leaves that one out. Every other question is its own screen,
+  // answered with taps, the optional ones too, with Skip (13 Oct); only what
+  // ExecHQ already has waits for the last screen.
+  const isKnown = (input: ToolInput) => Boolean(input.source && input.kind !== "choice");
+  const open = f.notFirst(f.inputs.filter((input) => !isKnown(input)));
+  // What she must answer first, then the optional questions.
+  const asked = [...open.filter((input) => !input.optional), ...open.filter((input) => input.optional)];
+  const rest = f.inputs.filter(isKnown);
+  const hasKnown = rest.length > 0;
+  const [picks, setPicks] = useState<Record<string, { picked: string[]; other: string }>>({});
+  /** A question's chips: her own answer first, where ExecHQ knows it. */
+  const pickFor = (input: ToolInput) => {
+    const pick = INTERVIEW_PICKS[f.kind]?.[input.id];
+    if (!pick) return undefined;
+    const hers = pick.fromHer ? EXAMPLE_ANSWERS[f.kind]?.[input.id] : undefined;
+    return { ...pick, options: hers && !pick.options.includes(hers) ? [hers, ...pick.options] : pick.options };
+  };
   const firstQuestions = f.firstChoice ? [f.firstChoice] : [];
 
   // The step bar: the start, each question, the last screen, then the draft
@@ -133,21 +147,54 @@ function Interview() {
     );
   } else if (at < asked.length) {
     const input = asked[at];
+    const pick = pickFor(input);
+    const last = at === asked.length - 1 && !hasKnown;
+    const next = () => {
+      if (!input.optional && !f.valueOf(input.id).trim()) {
+        setError(pick ? PICK_COPY.missing : INPUT_COPY.missing);
+        return;
+      }
+      if (last) {
+        f.write();
+        setExpanded(true);
+      } else go(at + 1);
+    };
+    const mine = picks[input.id] ?? { picked: [], other: "" };
     interview = (
       <div className="tool-flow__interview">
         {at === 0 ? f.source : null}
-        <QuestionStep
-          input={input}
-          value={f.valueOf(input.id)}
-          onChange={(v) => {
-            setError(undefined);
-            f.setValue(input.id, v);
-          }}
-          error={error}
-          eyebrow={C.step(at + 1, asked.length + 1)}
-          headingId={STEP_HEADING}
-        />
-        {/* Where her answer lands, as she types: the interview shows its work. */}
+        {pick ? (
+          <div className="question-step">
+            <StepHeader eyebrow={C.step(at + 1, asked.length + (hasKnown ? 1 : 0))} title={input.label} id={STEP_HEADING} />
+            <PickAnswer
+              label={input.label}
+              labelHidden
+              mode={pick.mode}
+              options={pick.options}
+              picked={mine.picked}
+              other={mine.other}
+              error={error}
+              onChange={(picked, other) => {
+                setError(undefined);
+                setPicks((p) => ({ ...p, [input.id]: { picked, other } }));
+                f.setValue(input.id, pickedPhrase(picked.filter((x) => x !== PICK_COPY.other), other));
+              }}
+            />
+          </div>
+        ) : (
+          <QuestionStep
+            input={input}
+            value={f.valueOf(input.id)}
+            onChange={(v) => {
+              setError(undefined);
+              f.setValue(input.id, v);
+            }}
+            error={error}
+            eyebrow={C.step(at + 1, asked.length + (hasKnown ? 1 : 0))}
+            headingId={STEP_HEADING}
+          />
+        )}
+        {/* Where her answer lands, as she answers: the interview shows its work. */}
         {f.landsIn(input.id) ? (
           <div className="interview-lands" aria-live="polite">
             <span className="interview-lands__label">{C.landsIn}</span>
@@ -156,18 +203,14 @@ function Interview() {
         ) : null}
         {/* Next is pinned to the foot of the screen, as in Concept 1. */}
         <div className="tool-flow__step-actions tool-flow__step-actions--pinned">
-          <Button
-            fullWidth
-            onClick={() => {
-              if (!f.valueOf(input.id).trim()) {
-                setError(INPUT_COPY.missing);
-                return;
-              }
-              go(at + 1);
-            }}
-          >
-            {C.next}
+          <Button fullWidth loading={last && f.writing} onClick={next}>
+            {last ? INPUT_COPY.write : C.next}
           </Button>
+          {input.optional && !f.valueOf(input.id).trim() && !last ? (
+            <Button variant="ghost" onClick={() => go(at + 1)}>
+              {PICK_COPY.skip}
+            </Button>
+          ) : null}
           <Button variant="ghost" onClick={() => go(at - 1)}>
             {C.previous}
           </Button>
