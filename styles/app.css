@@ -6004,13 +6004,25 @@ ol.ring-detail__timeline {
   margin-block: auto;
 }
 
-/* On web the dark panel holds the wordmark and the line together, in the
-   middle of the panel, across and down. */
+/* The button sits with the words, the two centred down the sheet together,
+   rather than pinned at its foot (designer, 2026-10-13). */
+[data-viewport="tablet"] .welcome--centred.welcome--stacked .welcome__body:has(+ .step-actions):not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .welcome--centred .welcome__body:has(+ .step-actions):not(:where([data-viewport="mobile"] *)) {
+  margin-bottom: 0;
+}
+
+[data-viewport="tablet"] .welcome--centred.welcome--stacked .welcome__sheet > .step-actions:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .welcome--centred .welcome__sheet > .step-actions:not(:where([data-viewport="mobile"] *)) {
+  margin-bottom: auto;
+}
+
+/* On web the dark panel holds the wordmark and the line together at its top
+   left, left aligned (designer, 2026-10-13). */
 [data-viewport="web"] .welcome--centred .welcome__hero:not(:where([data-viewport="mobile"] *)) {
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
   gap: var(--space-xl);
-  text-align: center;
+  text-align: start;
 }
 
 /* --- Privacy promise ------------------------------------------------------ */
