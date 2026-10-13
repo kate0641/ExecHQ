@@ -31,12 +31,20 @@ export interface InputPanelProps {
   collapseOptional?: boolean;
   /** Opens with the optional questions showing (catalogue). */
   startExpanded?: boolean;
+  /** One instruction line only (what ExecHQ has), each known fact as one
+   *  compact row (the fact, then its name and source with Edit on one quiet
+   *  line), and no note under the button. Concept 1's last step. */
+  compact?: boolean;
+  /** After the button, in the same bar: Back, in a guided flow. */
+  footer?: ReactNode;
+  /** On the bar holding the button: Concept 1 pins it to the foot. */
+  actionsClassName?: string;
   className?: string;
 }
 
 
 /** What ExecHQ already knows: read, with where it came from, and Edit. */
-function KnownRow({ input, value, onChange }: { input: ToolInput; value: string; onChange: (value: string) => void }) {
+function KnownRow({ input, value, onChange, compact = false }: { input: ToolInput; value: string; onChange: (value: string) => void; compact?: boolean }) {
   const [editing, setEditing] = useState(false);
   const box = useRef<HTMLDivElement>(null);
   const moved = useRef(false);
@@ -66,6 +74,27 @@ function KnownRow({ input, value, onChange }: { input: ToolInput; value: string;
         <Button variant="secondary" size="sm" onClick={() => toggle(false)}>
           {C.keep}
         </Button>
+      </div>
+    );
+  }
+  if (compact) {
+    return (
+      <div className="input-panel__known input-panel__known--compact" ref={box}>
+        <span className="input-panel__known-value">{value}</span>
+        <span className="input-panel__known-meta">
+          <span>{input.label}</span>
+          {source ? (
+            <>
+              <span aria-hidden="true"> · </span>
+              <span>{source}</span>
+            </>
+          ) : null}
+          <span aria-hidden="true"> · </span>
+          <button type="button" className="input-panel__known-edit link" onClick={() => toggle(true)}>
+            {C.edit}
+            <span className="u-visually-hidden"> {input.label}</span>
+          </button>
+        </span>
       </div>
     );
   }
@@ -103,6 +132,9 @@ export function InputPanel({
   hideNote = false,
   collapseOptional = false,
   startExpanded = false,
+  compact = false,
+  footer,
+  actionsClassName,
   className,
 }: InputPanelProps) {
   const [tried, setTried] = useState(showErrors);
@@ -148,14 +180,16 @@ export function InputPanel({
         <section className="input-panel__group" aria-label={C.known}>
           <p className="input-panel__lead">{C.known}</p>
           {known.map((input) => (
-            <KnownRow key={input.id} input={input} value={valueOf(input)} onChange={(value) => onChange(input.id, value)} />
+            <KnownRow key={input.id} input={input} value={valueOf(input)} onChange={(value) => onChange(input.id, value)} compact={compact} />
           ))}
         </section>
       ) : null}
 
       {asked.length ? (
         <section className="input-panel__group" aria-label={C.asked}>
-          <p className="input-panel__lead">{asked.every((input) => input.optional) ? C.askedOptional : C.asked}</p>
+          {compact && asked.every((input) => input.optional) ? null : (
+            <p className="input-panel__lead">{asked.every((input) => input.optional) ? C.askedOptional : C.asked}</p>
+          )}
           {asked.map(field)}
         </section>
       ) : null}
@@ -179,7 +213,7 @@ export function InputPanel({
 
       {enricher}
 
-      <div className="input-panel__actions">
+      <div className={["input-panel__actions", actionsClassName].filter(Boolean).join(" ")}>
         <Button
           fullWidth
           loading={writing}
@@ -190,7 +224,8 @@ export function InputPanel({
         >
           {writing ? C.writing : (submitLabel ?? C.write)}
         </Button>
-        {hideNote ? null : <p className="input-panel__note">{C.notNeeded}</p>}
+        {hideNote || compact ? null : <p className="input-panel__note">{C.notNeeded}</p>}
+        {footer}
       </div>
     </div>
   );

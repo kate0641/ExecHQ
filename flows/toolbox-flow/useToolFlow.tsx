@@ -533,7 +533,16 @@ export function useToolFlow(concept: FlowConcept) {
 
   const inputPanel = (
     subset?: readonly ToolInput[],
-    options: { submitLabel?: string; hideNote?: boolean; onSubmit?: () => void; enricher?: ReactNode; collapseOptional?: boolean } = {}
+    options: {
+      submitLabel?: string;
+      hideNote?: boolean;
+      onSubmit?: () => void;
+      enricher?: ReactNode;
+      collapseOptional?: boolean;
+      compact?: boolean;
+      footer?: ReactNode;
+      actionsClassName?: string;
+    } = {}
   ): ReactNode => (
     <InputPanel
       key={(subset ?? inputs).map((i) => i.id).join("|")}
@@ -546,6 +555,9 @@ export function useToolFlow(concept: FlowConcept) {
       hideNote={options.hideNote}
       enricher={options.enricher ?? enricher}
       collapseOptional={options.collapseOptional}
+      compact={options.compact}
+      footer={options.footer}
+      actionsClassName={options.actionsClassName}
       noHeading
     />
   );

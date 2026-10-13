@@ -17562,6 +17562,28 @@ ul.plan-guided__sparks {
   gap: var(--space-sm);
 }
 
+.input-panel__known--compact {
+  padding: var(--space-xs) var(--space-sm);
+}
+
+.input-panel__known-meta {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.input-panel__known-edit {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+/* Concept 1: the panel fills the screen, so its pinned button sits at the foot. */
+.tool-flow--pinned > .input-panel {
+  flex: 1;
+}
+
 .input-panel__source {
   font-size: var(--text-xs);
   color: var(--color-text-secondary);

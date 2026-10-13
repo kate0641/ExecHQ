@@ -180,7 +180,7 @@ function GuidedSteps() {
   }
 
   return (
-    <div className="tool-flow tool-flow--guided">
+    <div className="tool-flow tool-flow--guided tool-flow--pinned">
       {f.header}
       {stepper}
       {/* "Check what ExecHQ has" only when there is something it has to show
@@ -190,8 +190,9 @@ function GuidedSteps() {
         title={hasKnown ? C.knownStep : C.lastStep}
         id={STEP_HEADING}
       />
-      {f.inputPanel(rest)}
-      <div className="tool-flow__step-actions">{back}</div>
+      {/* One instruction line, compact rows for what ExecHQ has, and Write
+          my first draft pinned to the foot with Back, like Next (13 Oct). */}
+      {f.inputPanel(rest, { compact: true, footer: back, actionsClassName: "tool-flow__step-actions--pinned" })}
     </div>
   );
 }
