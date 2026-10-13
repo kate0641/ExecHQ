@@ -7331,23 +7331,28 @@ ol.ring-detail__timeline {
   gap: var(--space-md);
 }
 
+/* The draft is the system's card rather than a tinted box: the raised
+   surface, a soft edge, the card corners and padding, with its label a grey
+   eyebrow (How a page is built: Surfaces). */
 .story-draft__card {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
-  padding: var(--space-md);
-  background-color: var(--color-surface-sunken);
-  border-radius: var(--radius-md);
+  padding: var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
 }
 
 .story-draft__label {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-text-muted);
+  color: var(--color-text-secondary);
 }
 
 .story-draft__uses {
@@ -8532,27 +8537,42 @@ ol.ring-detail__timeline {
   color: var(--color-text-primary);
 }
 
+/* A labelled list is the system's card (How a page is built: Surfaces), not
+   a tinted box: the raised surface, a soft edge, the card corners and
+   padding. Its label is a grey eyebrow, and a hairline splits each item,
+   16px either side of it. */
 .point-box {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-  padding: var(--space-md);
-  border-radius: var(--radius-md);
-  background-color: var(--color-surface-sunken);
+  padding: var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
 }
 
 .point-box__label {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
   color: var(--color-text-secondary);
 }
 
 .point-box .point-list {
-  gap: var(--space-paragraph);
+  gap: var(--number-list-gap);
+}
+
+.point-box .point-list > li + li {
+  padding-top: var(--number-list-gap);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+.point-box .point-list--numbered > li + li::before {
+  top: var(--number-list-gap);
 }
 
 /* A reflection's answer: a pull quote, then a fact. */
