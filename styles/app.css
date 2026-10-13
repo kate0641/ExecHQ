@@ -16676,8 +16676,7 @@ ul.plan-guided__sparks {
 .read-actions__toggle:focus-visible,
 .read-actions__toggle.is-focus,
 .read-actions__answer:focus-visible,
-.read-actions__undo:focus-visible,
-.read-actions__respond:focus-visible {
+.read-actions__undo:focus-visible {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
 }
@@ -16728,7 +16727,9 @@ ul.plan-guided__sparks {
   cursor: pointer;
 }
 
-.read-actions__respond {
+/* --- Write a post about this (RespondLink) ------------------------------- */
+
+.respond-link {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
@@ -16740,27 +16741,39 @@ ul.plan-guided__sparks {
   text-decoration: none;
 }
 
-.read-actions__respond:hover {
+.respond-link:hover,
+.respond-link.is-hover {
   border-color: var(--color-border-strong);
 }
 
-.read-actions__respond-text {
+.respond-link:active,
+.respond-link.is-active {
+  background-color: var(--color-surface-active);
+}
+
+.respond-link:focus-visible,
+.respond-link.is-focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.respond-link__text {
   display: flex;
   flex: 1;
   flex-direction: column;
   gap: var(--space-3xs);
 }
 
-.read-actions__respond-label {
+.respond-link__label {
   font-weight: var(--weight-semibold);
 }
 
-.read-actions__respond-hint {
+.respond-link__hint {
   font-size: var(--text-xs);
   color: var(--color-text-secondary);
 }
 
-.read-actions__respond-go {
+.respond-link__go {
   flex: none;
   color: var(--color-text-muted);
 }

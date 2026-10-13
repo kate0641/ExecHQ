@@ -116,6 +116,7 @@ import { briefingReaderStates } from "./briefing/BriefingReader/BriefingReader.s
 import { publisherPickerStates } from "./briefing/PublisherPicker/PublisherPicker.states";
 import { briefingArticleStates } from "./briefing/BriefingArticle/BriefingArticle.states";
 import { passageNoteStates } from "./briefing/PassageNote/PassageNote.states";
+import { respondLinkStates } from "./briefing/RespondLink/RespondLink.states";
 import { sourceLabelStates } from "./briefing/SourceLabel/SourceLabel.states";
 import { readCounterStates } from "./briefing/ReadCounter/ReadCounter.states";
 import { briefingEndStates } from "./briefing/BriefingEnd/BriefingEnd.states";
@@ -253,6 +254,7 @@ export const registry: RegisteredComponent[] = [
   publisherPickerStates,
   briefingArticleStates,
   passageNoteStates,
+  respondLinkStates,
   sourceLabelStates,
   readCounterStates,
   briefingEndStates,

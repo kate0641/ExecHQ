@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { RespondLink } from "@/components/briefing/RespondLink";
 import { Icon } from "@/components/primitives/Icon";
 import type { Relevance } from "@/lib/briefing-store";
 import { BRIEFING_COPY as C } from "@/mock/briefing";
@@ -123,14 +124,7 @@ export function ReadActions({
       )}
 
       {compact || !respondHref ? null : (
-        <Link href={respondHref} className="read-actions__respond" onClick={onRespond}>
-          <Icon name="pencil" size={16} />
-          <span className="read-actions__respond-text">
-            <span className="read-actions__respond-label">{C.respond.action}</span>
-            <span className="read-actions__respond-hint">{C.respond.hint}</span>
-          </span>
-          <Icon name="chevron" size={16} className="read-actions__respond-go" />
-        </Link>
+        <RespondLink href={respondHref} onClick={onRespond} />
       )}
     </div>
   );

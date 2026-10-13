@@ -10,6 +10,9 @@ export interface BriefingReaderProps {
   /** The whole article, read in ExecHQ (Concept 2, `BriefingArticle`).
    *  Replaces the way out to the publisher's site with a credit. */
   article?: ReactNode;
+  /** At the end of the article, after the credit: the way into Thought
+   *  Leadership Builder (Concept 2, `RespondLink`). */
+  respond?: ReactNode;
   /** Above the headline: the article's picture (Concept 2, `BriefingPicture`). */
   picture?: ReactNode;
   onClose?: () => void;
@@ -24,7 +27,7 @@ export interface BriefingReaderProps {
  * read on the publisher's site; ExecHQ never shows the whole of it, except in
  * Concept 2, which reads it here with ExecHQ's notes (`article`).
  */
-export function BriefingReader({ read, actions, article, picture, onClose, headingId, className }: BriefingReaderProps) {
+export function BriefingReader({ read, actions, article, respond, picture, onClose, headingId, className }: BriefingReaderProps) {
   const publisher = publisherName(read.publisherId);
   return (
     <div className={["brief-reader", className].filter(Boolean).join(" ")}>
@@ -49,6 +52,7 @@ export function BriefingReader({ read, actions, article, picture, onClose, headi
         <>
           {article}
           <p className="brief-reader__credit">{C.passage.credit(publisher)}</p>
+          {respond}
         </>
       ) : (
         <>

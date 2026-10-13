@@ -6,6 +6,7 @@ import { BriefingEnd } from "@/components/briefing/BriefingEnd";
 import { BriefingFront } from "@/components/briefing/BriefingFront";
 import { BriefingPicture } from "@/components/briefing/BriefingPicture";
 import { BriefingReader } from "@/components/briefing/BriefingReader";
+import { RespondLink } from "@/components/briefing/RespondLink";
 import { ReadCounter } from "@/components/briefing/ReadCounter";
 import { ReaderBar } from "@/components/briefing/ReaderBar";
 import { Button } from "@/components/primitives/Button";
@@ -25,7 +26,7 @@ const READ_HEADING = "briefing-read-heading";
  * here, then "That's today's three". Each story opens a reader screen: "1
  * of 3", the picture, the whole article read here in ExecHQ (she never leaves
  * for the publisher) with ExecHQ's notes on highlighted passages all the way
- * through, Next, and a bar (Back, Relevant, Not for me,
+ * through, then "Write a post about this" where she finishes it, Next, and a bar (Back, Relevant, Not for me,
  * Save, Write a post) in the Ask or go pill's place: along the foot of a
  * phone, floating on tablet and web. On web the lead takes the left of the
  * front page.
@@ -83,6 +84,7 @@ export function BriefingConcept2() {
         read={read}
         headingId={READ_HEADING}
         article={<BriefingArticle read={read} placement={web ? "margin" : "inline"} />}
+        respond={<RespondLink href={p.respond(read.id)} onClick={p.completeStep} />}
         picture={<BriefingPicture place={((at % 3) + 1) as 1 | 2 | 3} publisher={publisherName(read.publisherId)} size="reader" />}
         actions={ack ? <p className="briefing-news__ack">{ack}</p> : undefined}
       />
