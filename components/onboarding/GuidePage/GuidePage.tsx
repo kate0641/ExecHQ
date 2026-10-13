@@ -18,6 +18,8 @@ export interface GuidePageProps {
   /** The ExecHQ logo above the title, in place of a kicker: the cover, where
    *  the brand is the first thing on the screen. */
   wordmark?: boolean;
+  /** Navy edge to edge, page and drawer alike, as the account step is. */
+  inverse?: boolean;
   title: string;
   lede?: string;
   headingId?: string;
@@ -71,6 +73,7 @@ export function GuidePage({
   file,
   kicker,
   wordmark = false,
+  inverse = false,
   title,
   lede,
   headingId,
@@ -150,7 +153,13 @@ export function GuidePage({
     </>
   );
 
-  const classes = ["guide", cover ? "guide--cover" : null, drawer ? "guide--drawer" : null, className]
+  const classes = [
+    "guide",
+    cover ? "guide--cover" : null,
+    inverse ? "guide--inverse" : null,
+    drawer ? "guide--drawer" : null,
+    className,
+  ]
     .filter(Boolean)
     .join(" ");
   const over = overlay ? <div className="guide__overlay">{overlay}</div> : null;
