@@ -375,6 +375,21 @@ export function useToolFlow(concept: FlowConcept) {
     return id;
   }
 
+  /** Her inputs changed after the draft (Concept 2's Built from, 13 Oct): a
+   *  new version written from them, so nothing she had is lost. */
+  function rewriteWith(v: Record<string, string>) {
+    if (!artifactId || !draft) return;
+    setRevising(true);
+    window.setTimeout(() => {
+      const sections = buildDraft(kind, v, loop.today, read?.id, passage, fullName(account), kind === "thought-leadership" ? step?.title : nextStepTitle);
+      toolboxActions.addVersion(artifactId, { when: stamp(loop.today), what: C.inputsChanged, sections });
+      for (const [id, value] of Object.entries(v)) if (draft.inputs[id] !== value) toolboxActions.setInput(artifactId, id, value);
+      touch();
+      setRevising(false);
+      focusSoon(DRAFT_LABEL_ID);
+    }, 900);
+  }
+
   function write() {
     setWriting(true);
     window.setTimeout(() => {
@@ -1060,6 +1075,7 @@ export function useToolFlow(concept: FlowConcept) {
     inputPanel,
     draftEditor,
     draftAs,
+    rewriteWith,
     isReady,
     revision,
     versions,

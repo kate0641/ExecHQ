@@ -3,6 +3,8 @@
 import { Suspense, useMemo, useState } from "react";
 import { Sheet } from "@/components/layout/Sheet";
 import { DraftToolBar } from "@/components/toolbox/DraftToolBar";
+import { InputPanel } from "@/components/toolbox/InputPanel";
+import { Button } from "@/components/primitives/Button";
 import { WorkspacePanel } from "@/components/toolbox/WorkspacePanel";
 import { useStepNav } from "@/lib/step-nav";
 import { useViewport } from "@/lib/viewport-context";
@@ -17,6 +19,8 @@ function Workspace() {
   // Once it is ready the draft shows as the page it will copy and download
   // (option C, 13 Oct); changing it brings the working draft back.
   const [changing, setChanging] = useState(false);
+  // Changing what the draft was built from: her answers as she edits them.
+  const [editingInputs, setEditingInputs] = useState<Record<string, string> | null>(null);
 
   const hasDraft = Boolean(f.draft && f.version);
   // Before the first draft, on a phone or tablet, the questions are on the
@@ -47,7 +51,33 @@ function Workspace() {
   if (f.later) return f.laterNote;
 
   const given = f.draft
-    ? (
+    ? editingInputs ? (
+        // Built from, being changed: the questions with her answers, and a
+        // new version written from them (13 Oct).
+        <InputPanel
+          inputs={f.inputs.map((input) => ({ ...input, value: f.draft?.inputs[input.id] ?? input.value }))}
+          values={editingInputs}
+          onChange={(id, value) => setEditingInputs((v) => ({ ...v, [id]: value }))}
+          onWrite={() => {
+            f.rewriteWith({ ...f.draft?.inputs, ...editingInputs });
+            setEditingInputs(null);
+            setOpen(false);
+          }}
+          submitLabel={C.rewrite}
+          hideNote
+          compact
+          noHeading
+          footer={
+            <>
+              <p className="input-panel__note">{C.rewriteNote}</p>
+              <button type="button" className="link link--standalone" onClick={() => setEditingInputs(null)}>
+                {C.cancelEdit}
+              </button>
+            </>
+          }
+        />
+      ) : (
+        <>
         <dl className="tool-flow__given">
           {f.inputs
             .filter((i) => f.draft?.inputs[i.id])
@@ -61,6 +91,10 @@ function Workspace() {
               </div>
             ))}
         </dl>
+        <Button variant="secondary" fullWidth onClick={() => setEditingInputs({})}>
+          {C.editInputs}
+        </Button>
+        </>
       )
     : // Every question on one page (13 Oct): the first one too, as chips;
       // the optional ones behind "Add more detail"; hints as placeholders;
