@@ -18197,6 +18197,15 @@ ul.plan-guided__sparks {
   gap: var(--space-xs);
 }
 
+/* One button across the row (Toolbox flow Concept 2). */
+.draft-use--single .draft-use__buttons > .btn {
+  flex: 1 1 100%;
+}
+
+.draft-use--single .draft-use__message:empty {
+  display: none;
+}
+
 .draft-use__ready {
   display: inline-flex;
   align-items: center;

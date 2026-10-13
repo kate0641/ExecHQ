@@ -693,9 +693,9 @@ export function useToolFlow(concept: FlowConcept) {
           header={
             <span className="tool-flow__draft-head">
               {record ? <LoopStatus record={record} /> : null}
-              {/* Concept 1: once it is ready, Copy and the downloads are one
-                  menu in the draft's corner, so the bar holds only "I've used this". */}
-              {concept === "concept-1" && isReady ? (
+              {/* Concepts 1 and 2: once it is ready, Copy and the downloads are
+                  one menu in the draft's corner, so the bar holds only "I've used this". */}
+              {(concept === "concept-1" || concept === "concept-2") && isReady ? (
                 <DropdownMenu
                   label={USE_COPY.actions}
                   align="end"
@@ -808,7 +808,7 @@ export function useToolFlow(concept: FlowConcept) {
       </form>
     ) : null;
 
-  const useBar = (options: { noStatus?: boolean; exportInMenu?: boolean; noNotes?: boolean; copyInMenu?: boolean } = {}): ReactNode =>
+  const useBar = (options: { noStatus?: boolean; exportInMenu?: boolean; noNotes?: boolean; copyInMenu?: boolean; className?: string } = {}): ReactNode =>
     record ? (
       <>
         <DraftUseBar
@@ -827,6 +827,7 @@ export function useToolFlow(concept: FlowConcept) {
           exportInMenu={options.exportInMenu}
           noNotes={options.noNotes}
           copyInMenu={options.copyInMenu}
+          className={options.className}
           note={
             record.kind === "situation-brief"
               ? [TOOL_COPY.onePage, briefDate ? TOOL_COPY.askAfter(aheadPhrase(addDays(briefDate, 1), loop.today)) : ""].filter(Boolean).join(" ")

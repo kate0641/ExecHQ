@@ -187,7 +187,7 @@ export function InputPanel({
 
       {asked.length ? (
         <section className="input-panel__group" aria-label={C.asked}>
-          {compact && asked.every((input) => input.optional) ? null : (
+          {compact ? null : (
             <p className="input-panel__lead">{asked.every((input) => input.optional) ? C.askedOptional : C.asked}</p>
           )}
           {asked.map(field)}

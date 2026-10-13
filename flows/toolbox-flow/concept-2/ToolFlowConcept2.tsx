@@ -57,7 +57,9 @@ function Workspace() {
     : // The first question is on the use case screen above, so the panel leaves it out.
       // Only what she must answer shows first; the optional questions wait
       // behind "Add more detail", so the panel never reads as a form.
-      f.inputPanel(f.notFirst(f.inputs), { collapseOptional: true });
+      // Concept 1's cleanup (13 Oct): one instruction line, compact rows for
+      // what ExecHQ has, no note under the button.
+      f.inputPanel(f.notFirst(f.inputs), { collapseOptional: true, compact: true });
 
   const tabs = hasDraft
     ? [
@@ -81,11 +83,25 @@ function Workspace() {
                 {C.backToPage}
               </button>
             ) : null}
-            {f.useBar()}
+            {/* As in Concept 1 (13 Oct): one button across the row, Mark ready
+                then "I've used this"; Copy and the downloads are in the
+                draft's Actions menu once it is ready; no lines under it.
+                Revise stays in the panel. */}
+            {f.useBar({ noNotes: true, copyInMenu: true, className: "draft-use--single" })}
           </>
         ) : (
           <>
-            {f.useCase({ noStart: true })}
+            {/* As in Concept 1 (13 Oct): no "Goes with this", and tapping an
+                answer to the first question starts: the panel comes up on
+                the rest. */}
+            {f.useCase({
+              choiceStarts: true,
+              noGoesWith: true,
+              onStart: () => {
+                setTab("inputs");
+                setOpen(true);
+              },
+            })}
             <p className="tool-flow__placeholder">{C.pinnedEmpty}</p>
           </>
         )}
