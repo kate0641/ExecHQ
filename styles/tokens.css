@@ -570,6 +570,15 @@
   --type-group-title-leading: var(--leading-snug);
   --type-group-title-tracking: var(--tracking-label);
   --type-group-title-word-spacing: var(--word-spacing-normal);
+  /* Card title — the title inside a list card, over every item in it (What
+     to do next, What next?): sentence case, Inter semibold, 16px, in the
+     body's ink (designer, 2026-10-13). */
+  --type-card-title-font: var(--font-body);
+  --type-card-title-size: var(--text-md);
+  --type-card-title-weight: var(--weight-semibold);
+  --type-card-title-leading: var(--leading-snug);
+  --type-card-title-tracking: var(--tracking-normal);
+  --type-card-title-word-spacing: var(--word-spacing-normal);
 
   /* Figure — numbers shown as data: follower counts, percentages, the stage
      number. Libre Baskerville, so figures read as considered, not as UI. */
@@ -631,6 +640,9 @@
   /* A group title to what it names: more than the space a line of body copy
      leaves, so the title reads as over its group (designer, 2026-10-13). */
   --space-group-title: var(--space-sm);     /* 12px */
+  /* A card title to its list: wider than a group title's gap, so it reads as
+     over every item, not the first. */
+  --space-card-title: var(--space-md-lg);   /* 20px */
   /* Bullets get their own rhythm, a step more than paragraphs (12px). */
   --space-list-item: var(--space-md);       /* 16px */
   /* Items split by hairlines: this much either side of the line. */
