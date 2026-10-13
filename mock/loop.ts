@@ -99,6 +99,12 @@ export const OUTCOME_LABELS_BY_KIND: Partial<Record<ArtifactKind, Partial<Record
     negative: "Not the way I hoped",
     "no-response-yet": "It hasn’t happened yet",
   },
+  // A post: self-reported engagement, the PRD's word for what came of it.
+  "thought-leadership": {
+    positive: "It landed well",
+    neutral: "It was mixed",
+    negative: "Not much response",
+  },
 };
 
 /** What a kind's own answers say back, where they differ. */
@@ -107,12 +113,18 @@ export const OUTCOME_READBACK_BY_KIND: Partial<Record<ArtifactKind, Partial<Reco
     positive: "You said it created a next step.",
     neutral: "You said it went well, with no next step yet.",
   },
+  "thought-leadership": {
+    positive: "You said it landed well.",
+    negative: "You said there wasn’t much response.",
+  },
 };
 
 /** The note offered after an answer, where a kind asks for something
- *  particular: after "Yes, a next step", what it is. */
-export const OUTCOME_NOTE_BY_KIND: Partial<Record<ArtifactKind, string>> = {
-  "situation-brief": "What’s the next step?",
+ *  particular: after a brief's "Yes, a next step", what it is; after any
+ *  answer about a post, the engagement she saw. `any` is every answer. */
+export const OUTCOME_NOTE_BY_KIND: Partial<Record<ArtifactKind, Partial<Record<(typeof OUTCOME_OPTIONS)[number]["type"] | "any", string>>>> = {
+  "situation-brief": { positive: "What’s the next step?" },
+  "thought-leadership": { any: "Anything to note? Comments, messages, who reached out." },
 };
 
 /** What a recorded outcome says back when the user left no detail. It records

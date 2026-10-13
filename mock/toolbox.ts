@@ -177,6 +177,16 @@ export const TL_INPUTS_FROM_BRIEFING: readonly ToolInput[] = [
     optional: true,
     placeholder: "Ask a question, invite a reply, or nothing",
   },
+  // The PRD's evidence, voice and length, each changing the draft (Kate, 13 Oct).
+  {
+    id: "evidence",
+    label: "Any result or evidence to point to?",
+    hint: "What changed because of it. Leave out numbers you can’t share.",
+    kind: "long",
+    optional: true,
+  },
+  { id: "voice", label: "How should it sound?", kind: "choice", optional: true, options: ["Plainer", "Warmer", "More direct"] },
+  { id: "length", label: "How long?", kind: "choice", optional: true, options: ["Short", "Standard", "Long"] },
 ];
 
 /** Thought Leadership Builder opened from the Toolbox or a plan step: no
@@ -194,6 +204,9 @@ export const TL_INPUTS_DIRECT: readonly ToolInput[] = [
   TL_INPUTS_FROM_BRIEFING[3],
   TL_INPUTS_FROM_BRIEFING[1],
   TL_INPUTS_FROM_BRIEFING[4],
+  TL_INPUTS_FROM_BRIEFING[5],
+  TL_INPUTS_FROM_BRIEFING[6],
+  TL_INPUTS_FROM_BRIEFING[7],
 ];
 
 /** The plan step's own words, when Thought Leadership Builder opens from it. */
@@ -903,7 +916,7 @@ export const STEP_LABELS: Record<ArtifactKind, Record<string, string>> = {
   positioning: { knownFor: "Known for", context: "Introduction", audience: "Audience", format: "Format", source: "Source text" },
   pitch: { type: "Pitching for", angle: "Angle", proof: "Proof" },
   "situation-brief": { type: "Moment", objective: "Outcome", audience: "Who’s there", stakes: "Their stakes", risks: "Risks" },
-  "thought-leadership": { format: "Format", topic: "Topic", pov: "Point of view" },
+  "thought-leadership": { format: "Format", topic: "Topic", pov: "Point of view", evidence: "Evidence", voice: "Voice", length: "Length" },
 };
 
 /** What a jump fills in for a question she hasn't answered. */
@@ -933,6 +946,7 @@ export const EXAMPLE_ANSWERS: Record<ArtifactKind, Record<string, string>> = {
     topic: "What three regions taught me about planning",
     pov: "The plan is where scope gets decided, so marketing has to be in the room when it’s written.",
     cta: "Ask how other teams decide who owns the plan",
+    evidence: "Two regions now plan together, and the third joins in Q1.",
   },
 };
 

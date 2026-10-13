@@ -1,6 +1,6 @@
 # Thought Leadership Builder
 
-**Makes: a LinkedIn post, or an outline for a longer piece, in her voice.** Marked used as **Published**.
+**Makes: a LinkedIn post, or a short or long-form article, in her voice.** Marked used as **Published**.
 
 **Status: draft.** From the *Sprint 4 Experience Brief* and the *Functional Scope* (3.4 Thought Leadership Builder), and what the prototype does today. Lines marked **Proposed** are Claude's, for Kate to confirm. Rules every builder shares are in `builders/shared.md`; this brief has the same seven sections as the other three.
 
@@ -10,7 +10,7 @@
 
 | | |
 | --- | --- |
-| **What it makes** | A post draft; other openings (hooks); an outline for a short or long-form article when she chooses one; questions for the evidence it won't invent. |
+| **What it makes** | A post draft with other openings (hooks); or, when she chooses an article, headline options and a sectioned article draft; questions for the evidence it won't invent; a recommended next use and follow-up. |
 | **What it is for** | Turning her own idea, a plan step or a Briefing read into something public under her name. |
 | **When to use it** | When she has a view worth putting her name to. |
 | **Use case screen** | "A LinkedIn post or an article in your voice, from your own idea, a step on your plan or something you read." / "Use it when you have a view worth putting your name to." |
@@ -62,6 +62,9 @@
 | What is it about? | Topic | Her words | Yes, unless she started from a read | "A few words. ExecHQ shapes the rest with you." Arrives filled from an action step. |
 | What is your point of view? | Point of view | Her words, long | Yes | "One line is enough. Agree with the article, push back, or add what it leaves out." |
 | What should a reader do at the end? | Ending | Her words | No | "Ask a question, invite a reply, or nothing." |
+| Any result or evidence to point to? | Evidence | Her words, long | No | "What changed because of it. Leave out numbers you can't share." Fills "What I have seen so far". |
+| How should it sound? | Voice | One choice: Plainer, Warmer, More direct | No | Sets ExecHQ's opening and closing lines. |
+| How long? | Length | One choice: Short, Standard, Long | No | Short and Long apply the Shorter and Longer revisions to the first draft. |
 
 ### 2.3 Enrichers
 
@@ -75,9 +78,16 @@ None in the prototype for a post. **Proposed:** "Add three recent accomplishment
 
 | Section | What it is for | Her words | ExecHQ's wording | Left as a question when missing |
 | --- | --- | --- | --- | --- |
-| **Post** | The post itself | Her point of view, her example, her ending | An opening (her topic, or "I read something this week that stayed with me: [the read]"); "One line stayed with me: '[the passage]'"; "What I have seen so far: …"; "How does it work where you are?" when she gave no ending | What is your point of view? What changed because of it? |
-| **Other openings** | Three hooks to swap in | None | "Something I have changed my mind about this year."; "I used to see this differently."; "A question I keep asking the people I work with." (or a line from the read) | None |
-| **Article outline** | Only for a short or long-form article | None | Four headed parts, one left as a question | What would you tell someone a year behind you? |
+| **Post** | The post itself | Her point of view, her example, her evidence, her ending | An opening by voice (her topic as a sentence; "Something I've been thinking about: …"; "Here is what I think about …"), or "I read something this week that stayed with me: [the read]"; "One line stayed with me: '[the passage]'"; "What I have seen so far: …"; a closing line by voice when she gave no ending | What is your point of view? What changed because of it? (until she gives evidence) |
+| **Other openings** | Three hooks to swap in (a post) | None | "Something I have changed my mind about this year."; "I used to see this differently."; "A question I keep asking the people I work with." (or a line from the read) | None |
+| **Headline options** | Three to choose from (an article) | Her topic | "[topic]: what I would do again"; "[topic], in three lessons" | What is the article about, in a line? |
+| **Introduction** | The article's opening | Her point of view | The opening, and the passage when there is one | What is your point of view? |
+| **The idea** | Why she holds the view | None | "Here is why I hold this view." | Why do you hold this view? |
+| **What I have seen** | Her experience and evidence | Her example, her evidence | None | What is one example from your own work? What changed because of it? |
+| **Where it gets hard** (long-form only) | The best argument against her | None | "The strongest argument against this: …" | What is the strongest argument against your view? How do you answer it? |
+| **What to do about it** | What a reader should do | Her call to action | None | What should a reader do differently? |
+| **Closing** (long-form only) | The last line | None | A closing line by voice | None |
+| **Recommended next use** | When and how to publish, and what to do after | None | "Post it on a weekday morning, and reply to comments the same day." (or, for an article, "Publish it as a LinkedIn article, with a short post that links to it."); the plan step it came from, if any; "When someone responds, answer in your own words. ExecHQ will ask how it landed in a week." | None |
 
 Rules for this builder:
 
@@ -89,9 +99,13 @@ Rules for this builder:
 
 ## 4. Changing it
 
-The shared options (voice, specificity, length, audience) and the conversational follow-up.
+As the PRD names them, voice, specificity, length and audience, plus emphasis and the conversational follow-up. Every sentence stays whole:
 
-**Emphasis choices for this builder** (in the prototype today): My example · The article's point · The question at the end. **Proposed:** "The article's point" shows only when she started from a read.
+- **Shorter:** a post loses the quoted passage and an unanswered "What I have seen so far"; an article loses "The idea" and "Where it gets hard".
+- **Longer:** asks "Why does this matter to you now?", in the post or as its own article section, never adds a fact.
+- **Voice** and **audience** re-say ExecHQ's closing line, never hers (Senior leaders: "If you lead a function, what would you want your teams to know?"; My team: "What would you add?").
+- **Emphasis:** My example or The article's point comes straight after the opening; The question at the end opens the post as well as closing it. **Proposed:** "The article's point" shows only when she started from a read.
+- Specificity is recorded with the version; the prototype does not rewrite for it (no model).
 
 ---
 
@@ -100,10 +114,10 @@ The shared options (voice, specificity, length, audience) and the conversational
 | | |
 | --- | --- |
 | **Copy** | "Copy to post on LinkedIn" |
-| **Export** | None in the prototype (open question 2) |
+| **Export** | A post: copy only. An article: Download as PDF and Word too (Sprint 4's answer for long-form articles). |
 | **Mark ready, then published** | "Mark ready", then "Mark published". Publishing is always hers. |
 | **Check back** | 7 days after she marks it published (**Proposed**) |
-| **The question** | "You published your post on planning on Monday. What came of it?" |
+| **The question** | "You published your post on planning on Monday. How did it land?" (the PRD's self-reported engagement). Answers: It landed well · It was mixed · Not much response · Nothing yet · It's no longer relevant. After any answer the note asks "Anything to note? Comments, messages, who reached out." The same wording wherever a post is checked in on. She can answer in the builder as soon as it is published. |
 | **Signal Picture** | Once published, the post and what came of it, under the plan area it serves; it counts toward her published-content signal |
 | **Reuse** | "Use as a start" makes a new post from this one, linked back |
 
@@ -123,10 +137,8 @@ The shared options (voice, specificity, length, audience) and the conversational
 
 ## 7. Open questions
 
-1. **Long-form drafts.** The brief asks for a long-form draft when she chooses an article. The prototype gives an outline. Is an outline enough for V1?
-2. **Export.** The brief's proposed answer includes PDF and Word for long-form articles. Add them once long-form drafts exist?
-3. **Cadence.** The Functional Scope lists "post cadence recommendations". Is that this builder's job, or the plan's?
-4. **Suggested citations.** The Functional Scope offers "an optional list of missing evidence or suggested citations". The prototype leaves questions in place. Is a separate list needed?
-5. **Recommended next use.** The brief's outputs include one. The prototype's post has none yet. Add a last section, as Positioning Builder has?
-6. **Her positioning statement in the post.** "Goes with this" says the post draws on it for what she leads, but the draft doesn't use it yet. Use it, or take the promise off?
-7. **Voice and length.** The brief lists voice and length as inputs. The prototype leaves both to revising. Fine for V1?
+1. **Cadence.** The Functional Scope lists "post cadence recommendations". Is that this builder's job, or the plan's?
+2. **Suggested citations.** The Functional Scope offers "an optional list of missing evidence or suggested citations". The prototype leaves questions in place. Is a separate list needed?
+3. **Her positioning statement in the post.** "Goes with this" says the post draws on it for what she leads, but the draft doesn't use it yet. Use it, or take the promise off?
+4. **Article length.** A short article has five sections and a long-form one seven. Is that the right difference, or should long-form also be longer within each section?
+5. **Next use for a read.** A post started from a Briefing read names no plan step. Should it say it answers the read, and when to post while the read is still current?

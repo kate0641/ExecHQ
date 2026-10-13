@@ -104,7 +104,12 @@ function buildDraft(kind: ArtifactKind, v: Record<string, string>, today: string
   if (kind === "positioning") return positioningDraft(v, name, nextStep);
   if (kind === "pitch") return pitchDraft(v);
   if (kind === "situation-brief") return briefDraft(v, whenWords(v.date, today));
-  return firstDraft({ format: v.format, topic: v.topic, pov: v.pov, example: v.example, audience: v.audience, cta: v.cta }, readId, passage);
+  return firstDraft(
+    { format: v.format, topic: v.topic, pov: v.pov, example: v.example, audience: v.audience, cta: v.cta, evidence: v.evidence, voice: v.voice, length: v.length },
+    readId,
+    passage,
+    nextStep
+  );
 }
 
 /** A new artifact's id: its kind and when it was made. Only ever called from
@@ -289,7 +294,9 @@ export function useToolFlow(concept: FlowConcept) {
 
   /** The first draft from these answers, at once. Returns its id. */
   function writeWith(v: Record<string, string>): string | undefined {
-    const sections = buildDraft(kind, v, loop.today, read?.id, passage, fullName(account), nextStepTitle);
+    // A post names only the step it came from; her statement can serve
+    // whatever is next on her plan.
+    const sections = buildDraft(kind, v, loop.today, read?.id, passage, fullName(account), kind === "thought-leadership" ? step?.title : nextStepTitle);
     const preview = draftText(sections.slice(0, 1)).replace(/^.*\n/, "").split("\n")[0];
     if (buildingOut && artifactId && record) {
       // The same artifact: her statement from onboarding is version 1.
@@ -694,6 +701,9 @@ export function useToolFlow(concept: FlowConcept) {
           ready={record.state !== "drafted" && record.state !== "in-progress"}
           onCopy={copy}
           onExport={() => undefined}
+          // A post is copied to LinkedIn; an article also downloads (Sprint 4's
+          // PDF and Word for long-form articles).
+          exportable={record.kind === "thought-leadership" ? Boolean(draft?.inputs.format && draft.inputs.format !== "LinkedIn post") : undefined}
           onMarkReady={() => loopActions.markReady(record.id, checkBack(loop.today) ? { checkBackDays: checkBack(loop.today) } : undefined)}
           onMarkUsed={
             record.state === "ready" && !sending

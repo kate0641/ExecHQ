@@ -28,6 +28,9 @@ export interface DraftInputs {
   example?: string;
   audience?: string;
   cta?: string;
+  evidence?: string;
+  voice?: string;
+  length?: string;
 }
 
 /** "A post about what planning season taught me" → "What planning season
@@ -37,43 +40,133 @@ function topicLine(topic: string): string {
   return t ? t[0].toUpperCase() + t.slice(1) : "";
 }
 
-/** The first draft, from what she said and where she started. */
-export function firstDraft(inputs: DraftInputs, readId?: string, passage?: string): DraftSection[] {
+/** ExecHQ's closing line when she gives no call to action, by voice. */
+const CLOSE_BY_VOICE: Record<string, string> = {
+  Plainer: "How does it work where you are?",
+  Warmer: "I’d love to hear how it works where you are.",
+  "More direct": "What would you do?",
+};
+
+/** The closing line by who it is for (a revision for audience). */
+const CLOSE_BY_AUDIENCE: Record<string, string> = {
+  Peers: "How does it work where you are?",
+  "Senior leaders": "If you lead a function, what would you want your teams to know?",
+  "My team": "What would you add?",
+};
+
+/** The opening, by voice, from her topic. A read keeps its own opening. */
+function openingFor(topic: string, voice?: string): string {
+  const t = topicLine(topic);
+  if (!t) return "";
+  if (voice === "Warmer") return `Something I’ve been thinking about: ${midSentence(t)}.`;
+  if (voice === "More direct") return `Here is what I think about ${midSentence(t)}.`;
+  return sentence(t).trim();
+}
+
+/** What to do with it next, and after: when and how to publish, the plan
+ *  step it serves, and that ExecHQ will ask how it landed. */
+function nextUse(article: boolean, nextStep?: string): DraftSection {
+  const parts = [
+    article
+      ? "Publish it as a LinkedIn article, with a short post that links to it."
+      : "Post it on a weekday morning, and reply to comments the same day.",
+    nextStep ? `It serves your next step: ${nextStep[0].toLowerCase()}${nextStep.slice(1)}.` : "",
+    "When someone responds, answer in your own words. ExecHQ will ask how it landed in a week.",
+  ].filter(Boolean);
+  return { id: "next-use", heading: "Recommended next use", segments: [ex(parts.join(" "))] };
+}
+
+/** The first draft, from what she said and where she started: a post, or an
+ *  article when she chose one, then what to do with it. Her voice sets
+ *  ExecHQ's opening and closing lines; her length applies the same rules as
+ *  Shorter and Longer. Evidence she gives fills "What I have seen so far";
+ *  without it, that stays a question for her. */
+export function firstDraft(inputs: DraftInputs, readId?: string, passage?: string, nextStep?: string): DraftSection[] {
   const read = TODAYS_READS.find((r) => r.id === readId);
+  const article = Boolean(inputs.format && inputs.format !== "LinkedIn post");
   // The Maya journey's read keeps the version in the mock, with her words in.
-  const opening = read ? READ_OPENINGS[read.id] ?? `I read something this week that stayed with me: ${read.title}.` : sentence(topicLine(inputs.topic ?? ""));
-  const post: DraftSegment[] = [
-    ex(`${opening.trim()} `),
-    ...(passage ? [ex(`One line stayed with me: “${passage}” `)] : []),
-    ...(inputs.pov?.trim() ? [you(sentence(inputs.pov))] : [ask("What is your point of view?"), ex(" ")]),
-    ...(inputs.example?.trim() ? [you(sentence(inputs.example))] : []),
-    ex("What I have seen so far: "),
-    ask(read?.id === "planning-season" ? "What has the workstream changed for those teams?" : "What changed because of it?"),
-    ex(" "),
-    inputs.cta?.trim() ? you(sentence(inputs.cta)) : ex("How does it work where you are?"),
-  ];
-  const hooks: DraftSection =
-    read?.id === "planning-season"
-      ? TL_VERSIONS[0].sections[1]
-      : {
-          id: "hooks",
-          heading: "Other openings",
-          list: true,
-          segments: [
-            ex(read ? `A line from ${read.title.toLowerCase()} I keep coming back to.` : "Something I have changed my mind about this year."),
-            ex("I used to see this differently."),
-            ex("A question I keep asking the people I work with."),
-          ],
-        };
-  const sections: DraftSection[] = [{ id: "post", segments: post }, hooks];
-  if (inputs.format && inputs.format !== "LinkedIn post") {
-    sections.push({
-      id: "outline",
-      heading: inputs.format === "Long-form article" ? "Article outline" : "Short article outline",
-      list: true,
-      segments: [ex("Where scope is really decided"), ex("What I did about it"), ask("What would you tell someone a year behind you?"), ex("What to do before the next plan is written")],
-    });
+  const opening = read ? READ_OPENINGS[read.id] ?? `I read something this week that stayed with me: ${read.title}.` : openingFor(inputs.topic ?? "", inputs.voice);
+  const pov: DraftSegment = inputs.pov?.trim() ? you(sentence(inputs.pov)) : ask("What is your point of view?");
+  const evidence: DraftSegment = inputs.evidence?.trim()
+    ? you(sentence(inputs.evidence))
+    : ask(read?.id === "planning-season" ? "What has the workstream changed for those teams?" : "What changed because of it?");
+  const close: DraftSegment = inputs.cta?.trim() ? you(sentence(inputs.cta)) : ex(CLOSE_BY_VOICE[inputs.voice ?? ""] ?? "How does it work where you are?");
+  const part = (name: string, segments: DraftSegment[]): DraftSegment[] => segments.map((seg) => ({ ...seg, part: name }));
+
+  let sections: DraftSection[];
+  if (!article) {
+    const post: DraftSegment[] = [
+      ...part("opening", [ex(`${opening.trim()} `)]),
+      ...part("passage", passage ? [ex(`One line stayed with me: “${passage}” `)] : []),
+      ...part("pov", [pov, ex(" ")]),
+      ...part("example", inputs.example?.trim() ? [you(sentence(inputs.example))] : []),
+      ...part("seen", [ex("What I have seen so far: "), evidence, ex(" ")]),
+      ...part("close", [close]),
+    ];
+    const hooks: DraftSection =
+      read?.id === "planning-season"
+        ? TL_VERSIONS[0].sections[1]
+        : {
+            id: "hooks",
+            heading: "Other openings",
+            list: true,
+            segments: [
+              ex(read ? `A line from ${read.title.toLowerCase()} I keep coming back to.` : "Something I have changed my mind about this year."),
+              ex("I used to see this differently."),
+              ex("A question I keep asking the people I work with."),
+            ],
+          };
+    sections = [{ id: "post", segments: post }, hooks];
+  } else {
+    const subject = topicLine(inputs.topic ?? "") || (read ? read.title : "");
+    const long = inputs.format === "Long-form article";
+    sections = [
+      {
+        id: "headlines",
+        heading: "Headline options",
+        list: true,
+        segments: subject
+          ? // Her subject first, then two built on the end of it, so any topic reads ("…: what I would do again").
+            [you(subject), ex(`${subject}: what I would do again`), ex(`${subject}, in three lessons`)]
+          : [ask("What is the article about, in a line?")],
+      },
+      {
+        id: "intro",
+        heading: "Introduction",
+        segments: [...part("opening", [ex(`${opening.trim()} `)]), ...part("passage", passage ? [ex(`One line stayed with me: “${passage}” `)] : []), ...part("pov", [pov])],
+      },
+      {
+        id: "idea",
+        heading: "The idea",
+        segments: [ex("Here is why I hold this view. "), ask("Why do you hold this view?")],
+      },
+      {
+        id: "seen",
+        heading: "What I have seen",
+        segments: [...(inputs.example?.trim() ? [you(sentence(inputs.example))] : [ask("What is one example from your own work?")]), ex(" "), evidence],
+      },
+      ...(long
+        ? [
+            {
+              id: "hard",
+              heading: "Where it gets hard",
+              segments: [ex("The strongest argument against this: "), ask("What is the strongest argument against your view?"), ex(" "), ask("How do you answer it?")],
+            },
+          ]
+        : []),
+      {
+        id: "do",
+        heading: "What to do about it",
+        segments: [inputs.cta?.trim() ? you(sentence(inputs.cta)) : ask("What should a reader do differently?")],
+      },
+      // ExecHQ's closing line by voice; her call to action is already in "What to do about it".
+      ...(long ? [{ id: "closing", heading: "Closing", segments: [...part("close", [ex(CLOSE_BY_VOICE[inputs.voice ?? ""] ?? "How does it work where you are?")])] }] : []),
+    ];
   }
+  sections.push(nextUse(article, nextStep));
+  // Her length, applied as a first revision would.
+  if (inputs.length === "Short") sections = reviseThought(sections, { length: "Shorter" });
+  if (inputs.length === "Long") sections = reviseThought(sections, { length: "Longer" });
   return sections;
 }
 
@@ -92,6 +185,7 @@ export function revise(sections: readonly DraftSection[], choice: RevisionChoice
   if (sections.some((x) => x.id === "bio-short")) return revisePositioning(sections, choice);
   if (sections.some((x) => x.id === "pitch") && sections.some((x) => x.id === "subjects")) return revisePitch(sections, choice);
   if (sections.some((x) => x.id === "objective") && sections.some((x) => x.id === "decision")) return reviseBrief(sections, choice);
+  if (sections.some((x) => x.id === "post" || x.id === "intro")) return reviseThought(sections, choice);
   // The main piece: the post, the pitch, or the first section of a brief.
   const main = sections.find((s) => s.id === "post" || s.id === "pitch")?.id ?? sections.find((s) => !s.list)?.id;
   return sections.map((section) => {
@@ -152,6 +246,53 @@ function revisePositioning(sections: readonly DraftSection[], choice: RevisionCh
     }
     return { ...section, segments };
   });
+}
+
+/** Thought Leadership's revisions keep every sentence whole.
+ *  - Shorter: a post loses the quoted line and an unanswered "What I have
+ *    seen so far"; an article loses "The idea" and "Where it gets hard".
+ *  - Longer: asks why it matters to her, never adds a fact.
+ *  - Voice and audience: change ExecHQ's closing line (never hers).
+ *  - Emphasis: My example or The article's point comes straight after the
+ *    opening; The question at the end opens the post as well as closing it. */
+function reviseThought(sections: readonly DraftSection[], choice: RevisionChoice): DraftSection[] {
+  const isAsk = (seg: DraftSegment) => "question" in seg;
+  const isEx = (seg: DraftSegment) => "by" in seg && seg.by === "exechq";
+  let out = sections.map((section) => {
+    let segments = [...section.segments];
+    const of = (name: string) => segments.filter((seg) => seg.part === name);
+    // ExecHQ's own closing line, re-said for the voice or audience asked for.
+    const newClose = (choice.audience && CLOSE_BY_AUDIENCE[choice.audience]) || (choice.voice && CLOSE_BY_VOICE[choice.voice]);
+    if (newClose) segments = segments.map((seg) => (seg.part === "close" && isEx(seg) ? { ...seg, text: newClose } : seg));
+    if (section.id === "post") {
+      if (choice.emphasis === "My example" || choice.emphasis === "The article’s point") {
+        const lead = choice.emphasis === "My example" ? "example" : "passage";
+        segments = ["opening", lead, ...["passage", "pov", "example", "seen", "close"].filter((p) => p !== lead)].flatMap(of);
+      }
+      if (choice.emphasis === "The question at the end") {
+        const q = of("close")[0];
+        if (q && "text" in q) segments = [...of("opening"), { ...q, part: "lead-question", text: `${q.text} ` }, ...segments.filter((seg) => seg.part !== "opening")];
+      }
+      if (choice.length === "Shorter") {
+        const seen = of("seen");
+        segments = segments.filter((seg) => seg.part !== "passage" && !(seg.part === "seen" && seen.some(isAsk)));
+      }
+      if (choice.length === "Longer") {
+        const at = segments.findIndex((seg) => seg.part === "close");
+        segments.splice(at < 0 ? segments.length : at, 0, ...[ex("Here is why it matters to me: "), ask("Why does this matter to you now?"), ex(" ")].map((seg) => ({ ...seg, part: "why" })));
+      }
+    }
+    return { ...section, segments };
+  });
+  const article = out.some((x) => x.id === "intro");
+  // An article keeps its headlines, introduction, what she has seen, what to
+  // do and the next use; the explaining sections go.
+  if (article && choice.length === "Shorter") out = out.filter((x) => !["idea", "hard", "why-me"].includes(x.id));
+  if (article && choice.length === "Longer") {
+    const at = out.findIndex((x) => x.id === "do");
+    out.splice(at < 0 ? out.length : at, 0, { id: "why-me", heading: "Why it matters to me", segments: [ask("Why does this matter to you now?")] });
+  }
+  return out;
 }
 
 /** Which section each Situation Brief emphasis brings up under the objective. */

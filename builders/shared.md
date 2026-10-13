@@ -13,7 +13,7 @@ The tools differ in what they ask and what they make, never in how they work. Sh
 | **Positioning Builder** | Positioning statement, bios in three lengths, leadership narrative, an introduction for a moment | Used | 7 days after | Copy each output; PDF and Word for the bios |
 | **Pitch Builder** | Pitch, subject lines, short and expanded versions, angle and why now, follow-up | Sent | 5 days after | Copy to send; PDF and Word |
 | **Situation Brief** | One-page brief, opening statement, follow-up email | Used | The day after the moment, or 2 days after | Copy; PDF and Word, one page |
-| **Thought Leadership Builder** | LinkedIn post, hooks and headlines, longer piece when chosen | Published | 7 days after | Copy to post on LinkedIn |
+| **Thought Leadership Builder** | LinkedIn post and hooks, or a short or long-form article with headlines | Published | 7 days after | Copy to post on LinkedIn; PDF and Word for articles |
 
 The check-back days are the prototype's defaults. Only the Situation Brief's comes from the brief (the Maya journey's two-day follow-up after a manager check-in); the rest are **Proposed**.
 
@@ -86,7 +86,7 @@ Rules:
 
 ## 5. Changing a draft
 
-- **Structured options:** voice (plainer, warmer, more direct), specificity (broader, more specific), length (shorter, longer), audience (peers, senior leaders, my team) and emphasis. Each builder names its own emphasis choices. Pitch Builder calls voice "tone" and has no audience option, as its PRD section names them.
+- **Structured options:** voice (plainer, warmer, more direct), specificity (broader, more specific), length (shorter, longer), audience (peers, senior leaders, my team) and emphasis. Each builder names its own emphasis choices. Pitch Builder calls voice "tone" and has no audience option, as its PRD section names them. In the prototype every builder now acts on length and emphasis, and Thought Leadership on voice and audience too; the rest are recorded with the version (no model).
 - **A conversational follow-up:** "Or say what to change", in her words.
 - **Versions are saved automatically,** one for every revision, with what changed.
 - **She can view any earlier version and restore it.** Restoring makes a new version from the old one; nothing is overwritten.
@@ -113,7 +113,7 @@ The Sprint 2 Loop statuses, identical everywhere an artifact appears (the Toolbo
 
 - **Mark ready,** then **Mark used / sent / published.** Posting or sending is always something she does outside ExecHQ. Nothing implies ExecHQ posts or sends ("Copy to post on LinkedIn", never "Post to LinkedIn").
 - **Check back.** Once used, ExecHQ asks what came of it after the builder's check-back days (section 1), unless she chose otherwise when she marked it ready.
-- **The question:** "You sent your pitch for the Q1 planning review on Thursday. What came of it?" Five answers, one tap each: It went well, It was mixed, Not the way I hoped, Nothing yet, It's no longer relevant. A builder can word its own: the Situation Brief asks "Did it create a next step?", with answers to match (13 Oct). The outcome each answer records is the same.
+- **The question:** "You sent your pitch for the Q1 planning review on Thursday. What came of it?" Five answers, one tap each: It went well, It was mixed, Not the way I hoped, Nothing yet, It's no longer relevant. A builder can word its own: the Situation Brief asks "Did it create a next step?" and Thought Leadership "How did it land?", with answers to match (13 Oct). The outcome each answer records is the same.
 - **She can answer early, in the builder.** Once it is used, the draft itself asks "What came of it?" with the same five answers, so she never has to wait for the check-back (the PRD's "Mark used and report outcome"). It is the Loop's own check-in, the one Home uses; answering here is the same as answering there.
 - **"Nothing yet" is normal,** never a failure. It asks again 3 days later, then 7 days after that; after a third "Nothing yet" it stops asking, and she can still report an outcome whenever she likes. It never asks about more than one thing at a time.
 - **After an outcome,** it suggests closing; she confirms. She can close anything, any time.
@@ -151,5 +151,5 @@ Drafting, editing or readying something is not a signal. Only what she used, sen
 1. **Check-back days.** Only the Situation Brief's comes from the brief. Are 7 days (positioning, posts) and 5 days (pitches) right?
 2. **Export formats.** The brief's proposed answer is copy for every output, and PDF and Word for the Situation Brief, bios and long-form articles. The prototype has no long-form export yet. Confirm.
 3. **Provenance labels for imported context.** The brief's example "Uses your LinkedIn context" has no V1 use, because V1 takes manual input only. Drop it, or keep it for later?
-4. **The follow-up question.** The Situation Brief now has its own ("Did it create a next step?"). Should the others too (a pitch: "Did you hear back?"; a post: "How did it land?")?
-5. **Emphasis choices.** Each builder now has its own (13 Oct): Positioning What I lead · What I'm known for · Where I'm headed; Pitch The angle · The proof · Why now; Situation Brief The ask · The evidence · The risks; Thought Leadership My example · The article's point · The question at the end. In the prototype, Positioning and Pitch act on all three and Thought Leadership on "My example"; the Situation Brief's are shown but not yet acted on.
+4. **The follow-up question.** The Situation Brief and Thought Leadership now have their own. Should Pitch ("Did you hear back?") and Positioning too?
+5. **Emphasis choices.** Each builder now has its own (13 Oct): Positioning What I lead · What I'm known for · Where I'm headed; Pitch The angle · The proof · Why now; Situation Brief The ask · The evidence · The risks; Thought Leadership My example · The article's point · The question at the end. In the prototype all four builders now act on their emphasis choices.

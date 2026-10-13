@@ -17,6 +17,9 @@ export interface DraftUseBarProps {
   onMarkUsed?: () => void;
   /** Leaves Mark ready out, where the page has its own (Concept 1's bar). */
   noStatus?: boolean;
+  /** Overrides whether this kind exports: an article exports, a post
+   *  doesn't, though both are Thought Leadership. */
+  exportable?: boolean;
   /** A line under the buttons that stays: "Exports as one page." */
   note?: string;
   /** Opens having just copied (catalogue). */
@@ -29,9 +32,9 @@ export interface DraftUseBarProps {
  * "Copy to post on LinkedIn"), export it where that is in scope, and mark it
  * ready. ExecHQ never posts or sends anything; the words say so.
  */
-export function DraftUseBar({ kind, ready = false, onCopy, onExport, onMarkReady, onMarkUsed, noStatus = false, note, justCopied = false, className }: DraftUseBarProps) {
+export function DraftUseBar({ kind, ready = false, onCopy, onExport, onMarkReady, onMarkUsed, noStatus = false, exportable: canExport, note, justCopied = false, className }: DraftUseBarProps) {
   const [message, setMessage] = useState(justCopied ? C.copied : "");
-  const exportable = C.exportable[kind] && onExport;
+  const exportable = (canExport ?? C.exportable[kind]) && onExport;
   return (
     <div className={["draft-use", className].filter(Boolean).join(" ")}>
       <div className="draft-use__buttons">

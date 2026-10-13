@@ -372,8 +372,9 @@ export function followUpQuestion(record: LoopRecord, today: LoopDate): string {
   const verb = ARTIFACT_KINDS[record.kind].usedVerb;
   const when = record.usedOn ? ` ${whenPhrase(record.usedOn, today)}` : "";
   // A brief is for a conversation, and its question is whether it moved
-  // things on (the Situation Brief's PRD section).
-  const asks = record.kind === "situation-brief" ? "Did it create a next step?" : "What came of it?";
+  // things on (the Situation Brief's PRD section); a post's is how it landed
+  // (self-reported engagement, its PRD section).
+  const asks = record.kind === "situation-brief" ? "Did it create a next step?" : record.kind === "thought-leadership" ? "How did it land?" : "What came of it?";
   return `You ${verb} ${record.name}${when}. ${asks}`;
 }
 

@@ -111,7 +111,7 @@ export function CheckIn({
     noteOpen ? (
       <div className="check-in__note">
         <label className="check-in__note-label" id={`${headingId}-note-label`} htmlFor={`${headingId}-note`}>
-          {(record && outcome?.type === "positive" && OUTCOME_NOTE_BY_KIND[record.kind]) || C.noteLabel}
+          {(record && outcome && (OUTCOME_NOTE_BY_KIND[record.kind]?.[outcome.type] ?? OUTCOME_NOTE_BY_KIND[record.kind]?.any)) || C.noteLabel}
         </label>
         <textarea
           id={`${headingId}-note`}
