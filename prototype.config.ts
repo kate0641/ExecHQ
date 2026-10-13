@@ -301,6 +301,9 @@ export const prototypeConfig: PrototypeConfig = {
         {
           slug: "concept-3",
           title: "Concept 3 — Annotated",
+          // Scratched by Kate, 13 Oct: its highlighted passages and notes went
+          // into Concept 2's article. Not yet moved to `scratch`.
+          scratched: true,
           summary:
             "The wild card: each read has one highlighted passage with ExecHQ’s note; tap it to respond in Thought Leadership Builder.",
         },
