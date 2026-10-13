@@ -362,6 +362,9 @@ samp {
   align-items: center;
   justify-content: space-between;
   gap: var(--space-sm);
+  /* 4px more under a label that carries an action, so her words below it
+     never run up against the link (designer, 2026-10-13). */
+  margin-bottom: var(--space-2xs);
 }
 
 .edit-link {
@@ -379,8 +382,22 @@ samp {
   line-height: var(--type-label-leading);
   letter-spacing: var(--type-label-tracking);
   word-spacing: var(--type-label-word-spacing);
-  color: var(--color-text-primary);
+  /* Grey, so the action sits back behind what she said. */
+  color: var(--color-text-secondary);
   cursor: pointer;
+}
+
+.edit-link:hover {
+  color: var(--color-text-primary);
+}
+
+/* Edit is the edit icon alone, its name said to screen readers; the tap area
+   stays 44px wide as well as tall. */
+.edit-link--icon {
+  justify-content: flex-end;
+  min-width: var(--button-target);
+  margin-inline-end: calc((var(--button-target) - 18px) / -2);
+  padding-inline: calc((var(--button-target) - 18px) / 2);
 }
 
 .edit-link .icon {

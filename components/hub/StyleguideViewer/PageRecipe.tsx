@@ -190,7 +190,7 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         uses: ["--radius-xl"],
       },
       {
-        rule: "What she said or made always sits in a white card, one line or many. Its action is a flat underlined link at the card's top right, at the eyebrow's 12px and centred on its line; Edit carries a pencil.",
+        rule: "What she said or made always sits in a white card, one line or many. Its action sits at the card's top right, centred on the eyebrow's line, in grey so it stays behind her words, with 8px under the line before her words. Change is a 12px underlined link; Edit is the edit icon alone.",
         why: "Her input looks the same wherever it is shown, and the way to redo it is always in the same place. A pill there would be one more button competing with the yellow one.",
         from: "Onboarding, Profile",
         uses: [".read-head", ".edit-link", ".card--reads"],
@@ -316,7 +316,7 @@ const PAGES: { page: string; date: string; added: string[] }[] = [
       "What next is one card of rows with chevrons, like Done's list without numbers.",
       "No single word left after a comma at a line's end.",
       "Libre italic only for words that are said, in four sizes with one job each.",
-      "Her input always in a card, with Change or Edit as a flat link at its top right, centred on the label; Change to pick again, Edit to type again.",
+      "Her input always in a card, its action grey at the top right, centred on the label: Change as a 12px link, Edit as the new edit icon (pencil and square). Change to pick again, Edit to type again.",
       "Flat links sit at the left, 32px apart; Edit carries a pencil.",
     ],
   },

@@ -69,14 +69,14 @@ export function StoryDraft({
           {editing ? null : (
             <button
               type="button"
-              className="edit-link"
+              className="edit-link edit-link--icon"
+              aria-label={`Edit ${label.toLowerCase()}`}
               onClick={() => {
                 setDraft(shown);
                 setEditing(true);
               }}
             >
-              <Icon name="pencil" size={14} />
-              <span className="edit-link__label">Edit</span>
+              <Icon name="edit" size={18} />
             </button>
           )}
         </div>
