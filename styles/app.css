@@ -18800,15 +18800,12 @@ ul.plan-guided__sparks {
    TOOLBOX FLOWS (Sprint 4): guided steps, document workspace, interview
    ======================================================================== */
 
-/* Inside a tool, the Ask or go pill steps aside on a phone and tablet: the
-   tool's own bar or panel holds the foot of the screen. Hidden, not faded, so
-   it leaves the tab order. The web keeps it. */
-.device__screen:has(.tool-flow) .concierge-host__pill {
+/* Inside a tool, the Ask or go pill is not there at all (Kate, 13 Oct): the
+   tool's own bar, drawer or panel holds the foot of the screen, on every
+   screen size, Concept 3's question pages included. Hidden, not faded, so it
+   leaves the tab order. */
+.device__screen:has(.tool-flow, .tool-flow-questions) .concierge-host__pill {
   visibility: hidden;
-}
-
-[data-viewport="web"] .device__screen:has(.tool-flow) .concierge-host__pill:not(:where([data-viewport="mobile"] *)) {
-  visibility: visible;
 }
 
 .device__screen:has(.concierge-host) .chrome__main:has(.tool-flow) {

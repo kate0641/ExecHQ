@@ -170,6 +170,7 @@ function Interview() {
           title={input.label}
           lede={pick ? undefined : input.hint}
           headingId={STEP_HEADING}
+          className="tool-flow-questions"
           drawer={
             <AnswerDrawer
               question={input.label}
@@ -228,7 +229,6 @@ function Interview() {
           }
         >
           {at === 0 ? f.source : null}
-          {pinned}
           {/* Where her answer lands, as she answers: the interview shows its work. */}
           {lands ? (
             <div className="interview-lands" aria-live="polite">
