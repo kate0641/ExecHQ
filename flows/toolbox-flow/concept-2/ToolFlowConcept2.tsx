@@ -1,6 +1,8 @@
 "use client";
 
 import { Suspense, useMemo, useState } from "react";
+import { Sheet } from "@/components/layout/Sheet";
+import { DraftToolBar } from "@/components/toolbox/DraftToolBar";
 import { WorkspacePanel } from "@/components/toolbox/WorkspacePanel";
 import { useStepNav } from "@/lib/step-nav";
 import { useViewport } from "@/lib/viewport-context";
@@ -22,7 +24,8 @@ function Workspace() {
   // On web the panel sits beside where the draft will be, up on the inputs.
   const panelFirst = web;
   const inlineInputs = !hasDraft && !panelFirst;
-  // Before the first draft the panel is up on the inputs; after, it rests at peek height.
+  // Before the first draft the panel is up on the inputs; after, it rests at
+  // peek height, and on a phone or tablet its sheets wait to be opened.
   const isOpen = open ?? !hasDraft;
   const active = tab ?? (hasDraft ? "revise" : "inputs");
 
@@ -70,13 +73,20 @@ function Workspace() {
         actionsClassName: inlineInputs ? "tool-flow__step-actions--pinned" : undefined,
       });
 
+  // In this order (Kate, 13 Oct): what it was built from, changing it, its versions.
   const tabs = hasDraft
     ? [
+        { id: "inputs", label: C.inputs, content: given },
         { id: "revise", label: C.revise, content: f.revision(() => setOpen(false)) },
         { id: "versions", label: C.versions, content: f.versions },
-        { id: "inputs", label: C.inputs, content: given },
       ]
     : [{ id: "inputs", label: C.inputs, content: given }];
+  // On a phone or tablet, once there is a draft (option B, 13 Oct): one bar
+  // at the foot, the three as icons, each opening its own sheet, then the
+  // one thing to do with it. Web keeps the panel beside the draft.
+  const toolBar = hasDraft && !web;
+  const sheetTab = toolBar && isOpen ? tabs.find((t) => t.id === active) : undefined;
+  const ICONS = { inputs: "sliders", revise: "pencil", versions: "clock" } as const;
 
   return (
     <div className={["tool-flow", "tool-flow--workspace", web ? "tool-flow--split" : null, inlineInputs ? "tool-flow--pinned" : null].filter(Boolean).join(" ")}>
@@ -92,11 +102,29 @@ function Workspace() {
                 {C.backToPage}
               </button>
             ) : null}
-            {/* As in Concept 1 (13 Oct): one button across the row, Mark ready
-                then "I've used this"; Copy and the downloads are in the
-                draft's Actions menu once it is ready; no lines under it.
-                Revise stays in the panel. */}
-            {f.useBar({ noNotes: true, copyInMenu: true, className: "draft-use--single" })}
+            {/* As in Concept 1 (13 Oct): Mark ready then "I've used this";
+                Copy and the downloads are in the draft's Actions menu once it
+                is ready; no lines under it. On a phone or tablet it rides in
+                the tool bar. */}
+            {toolBar ? (
+              <DraftToolBar
+                label={C.draftTools}
+                tools={tabs.map((t) => ({
+                  id: t.id,
+                  label: t.label,
+                  icon: ICONS[t.id as keyof typeof ICONS],
+                  open: sheetTab?.id === t.id,
+                  onOpen: () => {
+                    setTab(t.id);
+                    setOpen(true);
+                  },
+                }))}
+              >
+                {f.useBar({ noNotes: true, copyInMenu: true })}
+              </DraftToolBar>
+            ) : (
+              f.useBar({ noNotes: true, copyInMenu: true, className: "draft-use--single" })
+            )}
           </>
         ) : (
           <>
@@ -114,7 +142,18 @@ function Workspace() {
           </>
         )}
       </div>
-      {inlineInputs ? null : <WorkspacePanel tabs={tabs} active={active} onActive={setTab} open={isOpen} onOpenChange={setOpen} side={web} />}
+      {inlineInputs || toolBar ? null : <WorkspacePanel tabs={tabs} active={active} onActive={setTab} open={isOpen} onOpenChange={setOpen} side={web} />}
+      {toolBar ? (
+        <Sheet open={Boolean(sheetTab)} onClose={() => setOpen(false)} label={sheetTab?.id === "inputs" ? C.builtFrom : (sheetTab?.label ?? "")} className="toolbox-sheet">
+          {sheetTab ? (
+            <>
+              {/* Revise and Versions bring their own headings. */}
+              {sheetTab.id === "inputs" ? <h2 className="toolbox-sheet__heading">{C.builtFrom}</h2> : null}
+              {sheetTab.content}
+            </>
+          ) : null}
+        </Sheet>
+      ) : null}
     </div>
   );
 }
@@ -123,8 +162,9 @@ function Workspace() {
  * Toolbox flow, Concept 2 — Document workspace. Before the first draft, every
  * question is on one page under the use case (on web, in the panel beside
  * where the draft will be). Once there is a draft it has the whole screen,
- * and changing it, its versions and what it was built from live in a panel
- * pulled up from a peek-height bar; on the web the panel sits beside it.
+ * and what it was built from, changing it and its versions are three icons
+ * in one bar at the foot, each opening its own sheet, beside the one thing to
+ * do with it (option B); on the web they are a panel beside the draft.
  */
 export function ToolFlowConcept2() {
   return (

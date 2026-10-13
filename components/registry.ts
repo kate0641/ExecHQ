@@ -127,6 +127,7 @@ import { draftEditorStates } from "./toolbox/DraftEditor/DraftEditor.states";
 import { revisionControlsStates } from "./toolbox/RevisionControls/RevisionControls.states";
 import { versionHistoryStates } from "./toolbox/VersionHistory/VersionHistory.states";
 import { draftUseBarStates } from "./toolbox/DraftUseBar/DraftUseBar.states";
+import { draftToolBarStates } from "./toolbox/DraftToolBar/DraftToolBar.states";
 import { toolPickerStates } from "./toolbox/ToolPicker/ToolPicker.states";
 import { iconRowStates } from "./navigation/IconRow/IconRow.states";
 import { progressStepperStates } from "./navigation/ProgressStepper/ProgressStepper.states";
@@ -264,6 +265,7 @@ export const registry: RegisteredComponent[] = [
   revisionControlsStates,
   versionHistoryStates,
   draftUseBarStates,
+  draftToolBarStates,
   toolPickerStates,
   iconRowStates,
   progressStepperStates,

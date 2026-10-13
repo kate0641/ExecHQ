@@ -18766,6 +18766,12 @@ ul.plan-guided__sparks {
   color: var(--color-text-secondary);
 }
 
+.toolbox-sheet__heading {
+  margin: 0 0 var(--space-sm);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+}
+
 .toolbox-sheet .sheet__panel {
   overflow-y: auto;
 }
@@ -21390,4 +21396,76 @@ button.progress-stepper__target.is-focus {
 .outcome-next__noted-label {
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
+}
+
+/* ===========================================================================
+   DRAFT TOOL BAR — the foot of a draft on a phone or tablet (Toolbox flow
+   Concept 2, option B): Inputs, Revise, Versions, then the one thing to do.
+   ======================================================================== */
+
+.draft-tool-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: var(--z-sticky);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  margin-top: auto;
+  margin-inline: calc(-1 * var(--space-screen-side));
+  padding: var(--space-xs) var(--space-screen-side) var(--space-sm);
+  border-top: var(--border-width-thin) solid var(--color-border);
+  background-color: var(--color-canvas);
+}
+
+.draft-tool-bar__tool {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3xs);
+  width: 3.75rem;
+  min-height: 3rem;
+  padding: var(--space-2xs) 0;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: none;
+  font: inherit;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.draft-tool-bar__tool:hover,
+.draft-tool-bar__tool.is-hover,
+.draft-tool-bar__tool[aria-expanded="true"] {
+  background-color: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+.draft-tool-bar__tool:active,
+.draft-tool-bar__tool.is-active {
+  background-color: var(--color-surface-active);
+}
+
+.draft-tool-bar__tool:focus-visible,
+.draft-tool-bar__tool.is-focus {
+  outline: var(--focus-ring);
+  outline-offset: calc(-1 * var(--focus-ring-width));
+}
+
+.draft-tool-bar__main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.draft-tool-bar__main .draft-use__buttons > .btn {
+  width: 100%;
+}
+
+.draft-tool-bar__main .draft-use__message:empty {
+  display: none;
 }

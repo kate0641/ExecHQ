@@ -353,6 +353,9 @@ export const FLOW_COPY = {
   /** Every change is kept as she goes. */
   saved: "Saved in your library",
   step: (n: number, of: number) => `Step ${n} of ${of}`,
+  /** Concept 2's bar at the foot of a draft, and its Inputs sheet. */
+  draftTools: "Your draft",
+  builtFrom: "Built from",
   /** Concept 1: back to the clean read after changing a ready draft. */
   doneChanging: "Done",
   /** Concept 2: back to the page after changing a ready draft. */
