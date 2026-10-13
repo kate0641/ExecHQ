@@ -16,6 +16,8 @@ export interface PickAnswerProps {
   onChange: (picked: string[], other: string) => void;
   /** The question is the page's heading, so the chips' own label is hidden. */
   labelHidden?: boolean;
+  /** Next was pressed with nothing picked or written. */
+  error?: string;
   className?: string;
 }
 
@@ -37,7 +39,7 @@ export function pickedPhrase(picked: readonly string[], other: string): string {
  * only she would say, it leads the options, so a tap still says something
  * specific.
  */
-export function PickAnswer({ label, mode, options, picked, other, onChange, labelHidden = false, className }: PickAnswerProps) {
+export function PickAnswer({ label, mode, options, picked, other, onChange, labelHidden = false, error, className }: PickAnswerProps) {
   return (
     <div className={["pick-answer", className].filter(Boolean).join(" ")}>
       <ChipGroup
@@ -50,7 +52,7 @@ export function PickAnswer({ label, mode, options, picked, other, onChange, labe
         equalWidth
         onChange={(next) => onChange(next, other)}
       />
-      <Input label={C.otherLabel} placeholder={C.otherPlaceholder} value={other} onChange={(event) => onChange([...picked], event.target.value)} />
+      <Input label={C.otherLabel} placeholder={C.otherPlaceholder} value={other} error={error} onChange={(event) => onChange([...picked], event.target.value)} />
     </div>
   );
 }

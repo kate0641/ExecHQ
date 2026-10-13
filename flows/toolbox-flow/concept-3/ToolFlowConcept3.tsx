@@ -37,6 +37,9 @@ function Interview() {
   const rest = f.inputs.filter(isKnown);
   const hasKnown = rest.length > 0;
   const [drawerOpen, setDrawerOpen] = useState(true);
+  // Next pressed with nothing answered: says what to do, rather than a
+  // button that is simply off (13 Oct).
+  const [missing, setMissing] = useState(false);
   const [picks, setPicks] = useState<Record<string, { picked: string[]; other: string }>>({});
   /** A question's chips: her own answer first, where ExecHQ knows it. */
   const pickFor = (input: ToolInput) => {
@@ -94,6 +97,7 @@ function Interview() {
 
   const go = (next: number) => {
     setDrawerOpen(true);
+    setMissing(false);
     setAt(next);
     focusSoon(next < 0 ? TOOL_TITLE_ID : STEP_HEADING);
   };
@@ -175,8 +179,11 @@ function Interview() {
               peekStatus={PICK_COPY.peek}
               // Optional and still empty, the main button skips it.
               primaryLabel={last ? INPUT_COPY.write : input.optional && !said ? PICK_COPY.skip : C.next}
-              primaryDisabled={!input.optional && !said}
               onPrimary={() => {
+                if (!input.optional && !said) {
+                  setMissing(true);
+                  return;
+                }
                 if (last) {
                   f.write();
                   setExpanded(true);
@@ -194,7 +201,9 @@ function Interview() {
                   options={pick.options}
                   picked={mine.picked}
                   other={mine.other}
+                  error={missing ? PICK_COPY.missing : undefined}
                   onChange={(picked, other) => {
+                    setMissing(false);
                     setPicks((p) => ({ ...p, [input.id]: { picked, other } }));
                     f.setValue(input.id, pickedPhrase(picked, other));
                   }}
@@ -208,7 +217,11 @@ function Interview() {
                   type={input.kind === "date" ? "date" : undefined}
                   multiline={input.kind === "long"}
                   rows={4}
-                  onChange={(event) => f.setValue(input.id, event.target.value)}
+                  error={missing ? INPUT_COPY.missing : undefined}
+                  onChange={(event) => {
+                    setMissing(false);
+                    f.setValue(input.id, event.target.value);
+                  }}
                 />
               )}
             </AnswerDrawer>
