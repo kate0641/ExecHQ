@@ -8715,6 +8715,26 @@ ol.ring-detail__timeline {
   padding-bottom: 0;
 }
 
+/* On a phone or tablet the drawer rises to just under the question, so the
+   answers fill the screen and the page is only as tall as what it says. */
+[data-viewport="mobile"] .tool-flow-questions .guide__page,
+[data-viewport="tablet"] .tool-flow-questions .guide__page {
+  flex: 0 1 auto;
+  padding-bottom: var(--space-lg);
+}
+
+[data-viewport="mobile"] .tool-flow-questions .answer-drawer__wrap,
+[data-viewport="tablet"] .tool-flow-questions .answer-drawer__wrap,
+[data-viewport="mobile"] .tool-flow-questions .answer-drawer,
+[data-viewport="tablet"] .tool-flow-questions .answer-drawer {
+  flex: 1 1 auto;
+}
+
+[data-viewport="mobile"] .tool-flow-questions .answer-drawer__actions,
+[data-viewport="tablet"] .tool-flow-questions .answer-drawer__actions {
+  margin-top: auto;
+}
+
 .chrome__main:has(> .guide) > .tool-flow__bar {
   padding: var(--space-screen-top) var(--space-screen-side) 0;
 }

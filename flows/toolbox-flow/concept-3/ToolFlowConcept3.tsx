@@ -165,8 +165,6 @@ function Interview() {
         <GuidePage
           part={f.tool.name}
           position={C.step(at + 1, asked.length + (hasKnown ? 1 : 0))}
-          partIndex={at}
-          partCount={asked.length + (hasKnown ? 1 : 0)}
           title={input.label}
           lede={pick ? undefined : input.hint}
           headingId={STEP_HEADING}
