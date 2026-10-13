@@ -857,6 +857,9 @@ export const BRIEF_INPUTS: readonly ToolInput[] = [
     optional: true,
     placeholder: "It takes time from the campaign calendar",
   },
+  // What it already knows, shown to check: her statement, which the opening
+  // statement draws on (the use case screen's "Goes with this" promise).
+  { id: "statement", label: "Your positioning statement", kind: "long", source: "onboarding" },
 ];
 
 /** What a plan step already says, by step id: those inputs arrive filled in. */

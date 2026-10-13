@@ -44,7 +44,7 @@
 
 ### 2.1 What it already has
 
-- **Her positioning statement.** The use case screen shows it under "Goes with this" and says "Your opening statement draws on it", but the prototype's draft doesn't use it yet (open question 7).
+- **Her positioning statement,** shown on the last screen to check ("Check what ExecHQ has", from onboarding, with Edit). The opening statement draws on it, as the use case screen's "Goes with this" says. Like the other three builders, the last screen opens on what it already knows.
 - **Anything she is waiting to hear about** (a pitch, her story), shown as "Still waiting to hear. Worth raising in the conversation."
 - **From an action step:** the moment's type and who will be there, when the step says them.
 
@@ -78,7 +78,7 @@ None in the prototype. **Proposed:** after the first draft, if Supporting eviden
 | **Supporting evidence** | Proof for the ask, as a list | What she pasted in "Anything to draw on" | None | What result can you point to? Who else would back this up? |
 | **Likely questions** | What they will ask, as a list | Her risks first, each as a question ("What if it takes time from the campaign calendar?") | "What does this take from your current work?"; "Why now, and not next quarter?"; "Who else is affected?" | None |
 | **Decision or next step asked for** | The ask, plainly | Her outcome | None: the heading frames it | What decision or next step do you want? |
-| **Opening statement** | The first thing she says | Her outcome, mid-sentence | "Thank you for the time. By the end of today, I'm hoping for one outcome: …" | What do you want agreed? |
+| **Opening statement** | The first thing she says | Her positioning statement, then her outcome, mid-sentence | "Thank you for the time. [her statement] By the end of today, I'm hoping for one outcome: …" | What do you want agreed? |
 | **Follow-up email** | What she sends after | Her answers to the questions | "Thank you for today. As we agreed, … I'll come back to you by …" | What did you agree? When? |
 
 Rules for this builder:
@@ -131,5 +131,5 @@ The shared options (voice, specificity, length, audience) and the conversational
 1. **Talk track.** The PRD allows an opening statement or a talk track. The prototype makes an opening statement only. Is a longer talk track V1?
 2. **Delete after use.** The brand document describes it; the brief's proposed answer is no special option (delete from the library covers it). Confirm.
 3. **Key messages.** The two ExecHQ key messages are still general framing. Should they be written from her context once she gives it, or stay as prompts?
-4. **Her positioning statement in the brief.** "Goes with this" promises the opening statement draws on it. Should the opening statement use it (one line on who she is), or should the promise come off the use case screen?
+4. **Her statement in the opening.** It now opens the opening statement. For a statement about where she is headed, that suits a scope conversation better than a board meeting. Should it depend on the moment?
 5. **"Something else".** The context then says "The meeting". Should she be asked to name it instead?

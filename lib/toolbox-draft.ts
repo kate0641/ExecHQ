@@ -471,6 +471,7 @@ export function briefDraft(v: Record<string, string>, when?: string): DraftSecti
   const audience = v.audience?.trim();
   const evidence = v.evidence?.trim();
   const stakes = v.stakes?.trim();
+  const statement = v.statement?.trim();
   const risks = (v.risks ?? "").split(/\n+/).map((r) => r.trim()).filter(Boolean);
   const moment = !v.type || v.type === "Something else" ? "The meeting" : v.type[0].toUpperCase() + v.type.slice(1);
   return [
@@ -525,9 +526,15 @@ export function briefDraft(v: Record<string, string>, when?: string): DraftSecti
     {
       id: "opening",
       heading: "Opening statement",
-      segments: objective
-        ? [ex("Thank you for the time. By the end of today, I’m hoping for one outcome: "), you(midSentence(objective)), ex(".")]
-        : [ex("Thank you for the time. By the end of today, I’m hoping for one outcome: "), ask("What do you want agreed?")],
+      // Her positioning statement, in her words, says where she is coming from
+      // before the ask.
+      segments: [
+        ex("Thank you for the time. "),
+        ...(statement ? [you(sentence(statement))] : []),
+        ex("By the end of today, I’m hoping for one outcome: "),
+        objective ? you(midSentence(objective)) : ask("What do you want agreed?"),
+        ...(objective ? [ex(".")] : []),
+      ],
     },
     {
       id: "email",

@@ -245,8 +245,11 @@ export function useToolFlow(concept: FlowConcept) {
     const known: Record<string, string | undefined> = { role: account.jobTitle, statement: statementNow };
     return input.id in known ? (known[input.id] ? { ...input, value: known[input.id] } : { ...input, source: undefined, optional: true }) : input;
   });
+  const briefInputs: readonly ToolInput[] = BRIEF_INPUTS.map((input) =>
+    input.id === "statement" ? (statementNow ? { ...input, value: statementNow } : { ...input, source: undefined, optional: true }) : input
+  );
   const baseInputs: readonly ToolInput[] =
-    kind === "positioning" ? positioningInputs : kind === "pitch" ? pitchInputs : kind === "situation-brief" ? BRIEF_INPUTS : read ? TL_INPUTS_FROM_BRIEFING : TL_INPUTS_DIRECT;
+    kind === "positioning" ? positioningInputs : kind === "pitch" ? pitchInputs : kind === "situation-brief" ? briefInputs : read ? TL_INPUTS_FROM_BRIEFING : TL_INPUTS_DIRECT;
   // What she said was coming up is a topic for a post, but for a brief or a
   // pitch it only says what kind of moment it is; the rest is still asked.
   const guessed = moment ? (kind === "pitch" ? pitchType(moment) : kind === "situation-brief" ? momentType(moment) : undefined) : undefined;
