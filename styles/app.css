@@ -8315,6 +8315,9 @@ ol.ring-detail__timeline {
 .guide__quote {
   font-family: var(--font-serif);
   font-size: var(--text-sm);
+  /* A step up from regular, so the small italic holds up (designer,
+     2026-10-13). */
+  font-weight: var(--weight-serif-medium);
   font-style: italic;
   color: var(--color-text-secondary);
 }
