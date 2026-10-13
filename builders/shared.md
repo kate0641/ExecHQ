@@ -11,7 +11,7 @@ The tools differ in what they ask and what they make, never in how they work. Sh
 | Builder | Makes | Marked used as | Checks back | Copy and export |
 | --- | --- | --- | --- | --- |
 | **Positioning Builder** | Positioning statement, bios in three lengths, leadership narrative, an introduction for a moment | Used | 7 days after | Copy each output; PDF and Word for the bios |
-| **Pitch Builder** | Pitch, subject lines, short and expanded versions, angle and why now, follow-up | Sent | 5 days after | Copy to send |
+| **Pitch Builder** | Pitch, subject lines, short and expanded versions, angle and why now, follow-up | Sent | 5 days after | Copy to send; PDF and Word |
 | **Situation Brief** | One-page brief, opening statement, follow-up email | Used | The day after the moment, or 2 days after | Copy; PDF and Word, one page |
 | **Thought Leadership Builder** | LinkedIn post, hooks and headlines, longer piece when chosen | Published | 7 days after | Copy to post on LinkedIn |
 
@@ -86,7 +86,7 @@ Rules:
 
 ## 5. Changing a draft
 
-- **Structured options:** voice (plainer, warmer, more direct), specificity (broader, more specific), length (shorter, longer), audience (peers, senior leaders, my team) and emphasis. Each builder names its own emphasis choices.
+- **Structured options:** voice (plainer, warmer, more direct), specificity (broader, more specific), length (shorter, longer), audience (peers, senior leaders, my team) and emphasis. Each builder names its own emphasis choices. Pitch Builder calls voice "tone" and has no audience option, as its PRD section names them.
 - **A conversational follow-up:** "Or say what to change", in her words.
 - **Versions are saved automatically,** one for every revision, with what changed.
 - **She can view any earlier version and restore it.** Restoring makes a new version from the old one; nothing is overwritten.
@@ -152,4 +152,4 @@ Drafting, editing or readying something is not a signal. Only what she used, sen
 2. **Export formats.** The brief's proposed answer is copy for every output, and PDF and Word for the Situation Brief, bios and long-form articles. The prototype has no long-form export yet. Confirm.
 3. **Provenance labels for imported context.** The brief's example "Uses your LinkedIn context" has no V1 use, because V1 takes manual input only. Drop it, or keep it for later?
 4. **The follow-up question.** The brief gives the Situation Brief its own question, "Did this create a next step?". The Loop asks every kind "What came of it?". Should each builder have its own wording?
-5. **Emphasis choices.** Each builder now has its own (13 Oct): Positioning What I lead · What I'm known for · Where I'm headed; Pitch The angle · The proof · Why now; Situation Brief The ask · The evidence · The risks; Thought Leadership My example · The article's point · The question at the end. In the prototype, Positioning acts on all three and Thought Leadership on "My example"; the rest are shown but not yet acted on.
+5. **Emphasis choices.** Each builder now has its own (13 Oct): Positioning What I lead · What I'm known for · Where I'm headed; Pitch The angle · The proof · Why now; Situation Brief The ask · The evidence · The risks; Thought Leadership My example · The article's point · The question at the end. In the prototype, Positioning and Pitch act on all three and Thought Leadership on "My example"; the Situation Brief's are shown but not yet acted on.

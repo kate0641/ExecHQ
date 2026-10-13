@@ -90,6 +90,7 @@ export function revisionLabel(choice: RevisionChoice, followUp: string): string 
  *  a fact; leading with her example moves it to the front. */
 export function revise(sections: readonly DraftSection[], choice: RevisionChoice): DraftSection[] {
   if (sections.some((x) => x.id === "bio-short")) return revisePositioning(sections, choice);
+  if (sections.some((x) => x.id === "pitch") && sections.some((x) => x.id === "subjects")) return revisePitch(sections, choice);
   // The main piece: the post, the pitch, or the first section of a brief.
   const main = sections.find((s) => s.id === "post" || s.id === "pitch")?.id ?? sections.find((s) => !s.list)?.id;
   return sections.map((section) => {
@@ -152,6 +153,42 @@ function revisePositioning(sections: readonly DraftSection[], choice: RevisionCh
   });
 }
 
+/** Pitch Builder's revisions keep every sentence whole: shorter drops the
+ *  offer of an outline and the expanded version's closing line; longer asks
+ *  for a second proof point, never invents one; emphasis puts the proof or
+ *  why now straight after the greeting. */
+function revisePitch(sections: readonly DraftSection[], choice: RevisionChoice): DraftSection[] {
+  return sections.map((section) => {
+    let segments = [...section.segments];
+    if (section.id === "pitch") {
+      const of = (name: string) => segments.filter((seg) => seg.part === name);
+      if (choice.emphasis === "The proof" || choice.emphasis === "Why now") {
+        const lead = choice.emphasis === "The proof" ? "proof" : "why-now";
+        const order = ["greeting", lead, "ask", ...["proof", "why-now"].filter((p) => p !== lead), "close"];
+        segments = order.flatMap(of);
+      } else if (choice.emphasis === "The angle") {
+        segments = ["greeting", "ask", "proof", "why-now", "close"].flatMap(of);
+      }
+      // Straight after "Hi …, " a sentence of ExecHQ's starts small ("it matters now").
+      const after = segments.findIndex((seg) => seg.part !== "greeting");
+      const next = segments[after];
+      if (next && "by" in next && next.by === "exechq" && /^[A-Z][a-z]/.test(next.text) && !/^I[’' ]/.test(next.text)) {
+        segments[after] = { ...next, text: next.text[0].toLowerCase() + next.text.slice(1) };
+      }
+      if (choice.length === "Shorter") segments = segments.filter((seg) => seg.part !== "close");
+      if (choice.length === "Longer") {
+        const close = segments.findIndex((seg) => seg.part === "close");
+        const more: DraftSegment[] = [ex("I can also point to "), ask("What else can you prove?"), ex(". ")].map((seg) => ({ ...seg, part: "proof" }));
+        segments.splice(close < 0 ? segments.length : close, 0, ...more);
+      }
+    }
+    if (section.id === "expanded" && choice.length === "Shorter") {
+      segments = segments.filter((seg) => !("text" in seg && seg.text === "I can work to your format and length."));
+    }
+    return { ...section, segments };
+  });
+}
+
 /** The draft as plain text, to copy: her edits and answers in, unanswered
  *  questions left in brackets so nothing is lost. */
 export function draftText(sections: readonly DraftSection[], edits: Record<string, string> = {}, answers: Record<string, string> = {}): string {
@@ -176,41 +213,54 @@ export function draftText(sections: readonly DraftSection[], edits: Record<strin
 export function pitchDraft(v: Record<string, string>): DraftSection[] {
   const angle = v.angle?.trim() ?? "";
   const target = v.target?.trim();
+  const role = v.role?.trim();
+  const statement = v.statement?.trim();
+  const audience = v.audience?.trim();
+  const proof = v.proof?.trim() ?? "";
   const kind = (v.type || "Speaking").toLowerCase();
+  const what = kind === "podcast" ? "a conversation" : kind === "press" ? "a story" : "a session";
   const said = (text: string) => (text ? [you(sentence(text))] : []);
   const angleOrAsk = angle ? you(angle) : ask("What would you talk about?");
   // Mid-sentence ("…a conversation on how planning…"), her angle fits the sentence.
   const angleMid = angle ? you(midSentence(angle)) : ask("What would you talk about?");
+  const whyNow = audience ? `Why does this matter to ${midSentence(audience)} this month?` : "Why does this matter to their audience this month?";
+  const part = (name: string, segments: DraftSegment[]): DraftSegment[] => segments.map((seg) => ({ ...seg, part: name }));
   return [
     {
       id: "subjects",
       heading: "Subject lines",
       list: true,
-      segments: [
-        angleOrAsk,
-        ex(`A ${kind === "press" ? "story" : kind === "podcast" ? "conversation" : "session"} idea${target ? ` for ${target}` : ""}`),
-        ex("From someone doing the work, not watching it"),
-      ],
+      segments: [angleOrAsk, ex(`A ${what.slice(2)} idea${target ? ` for ${target}` : ""}`), ex("From someone doing the work, not watching it")],
     },
     {
       id: "pitch",
       heading: "Pitch",
+      // Each sentence is a part, so emphasis can move the proof or why now up.
       segments: [
-        ex("Hi "),
-        ask("Who are you writing to?"),
-        ex(`, I’d like to suggest ${kind === "podcast" ? "a conversation" : kind === "press" ? "a story" : "a session"}${target ? ` for ${target}` : ""} on `),
-        angleMid,
-        ex(". "),
-        ...said(v.proof ?? ""),
-        ex("It matters now because "),
-        ask("Why does this matter to their audience this month?"),
-        ex(" I can send a short outline."),
+        ...part("greeting", [ex("Hi "), ask("Who are you writing to?"), ex(", ")]),
+        ...part("ask", [
+          ...(role ? [ex("I’m "), you(role.replace(/[.]$/, "")), ex(", and I’d like")] : [ex("I’d like")]),
+          ex(` to suggest ${what}${target ? ` for ${target}` : ""} on `),
+          angleMid,
+          ...(audience ? [ex(", for "), you(midSentence(audience))] : []),
+          ex(". "),
+        ]),
+        ...part("proof", said(proof)),
+        ...part("why-now", [ex("It matters now because "), ask(whyNow), ex(" ")]),
+        ...part("close", [ex("I can send a short outline.")]),
       ],
+    },
+    {
+      id: "short",
+      heading: "Short version, for a message or a speaker form",
+      segments: [angleOrAsk, ex(". "), proof ? you(sentence(firstSentence(proof))) : ask("What can you prove, in a line?")],
     },
     {
       id: "expanded",
       heading: "Expanded version",
       segments: [
+        ex("About me: "),
+        statement ? you(sentence(statement)) : ask("Why are you the person to say this?"),
         ex("The three points I’d cover: "),
         ask("What are the three points you would cover?"),
         ex(" "),

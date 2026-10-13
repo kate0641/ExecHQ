@@ -10,7 +10,7 @@
 
 | | |
 | --- | --- |
-| **What it makes** | A pitch draft; two or three subject lines; an expanded version; a one-line angle and why now; a follow-up for when she hears nothing. |
+| **What it makes** | A pitch draft; three subject lines; a short version and an expanded version; a one-line angle and why now; a follow-up for when she hears nothing. |
 | **What it is for** | Getting her onto a stage, a show or into a publication that the people above her pay attention to. |
 | **When to use it** | When there is a stage, a show or an outlet worth pitching. |
 | **Use case screen** | "A pitch to a conference, a podcast or an editor, with subject lines and the follow-up already drafted." / "Use it when there is a stage or a show the people above you pay attention to." |
@@ -46,10 +46,13 @@
 
 ### 2.1 What it already has
 
+Shown on the last screen to check, each with where it came from and Edit (the PRD's career direction and plan context):
+
 | Fact | Where it comes from |
 | --- | --- |
 | Who it is for ("Marketing and commercial leaders") | Her direction |
-| Her positioning statement | Onboarding. The use case screen says "Your pitch draws on it for who you are." (open question 6) |
+| Her role, as she'd say it | Her plan and profile |
+| Her positioning statement, as it stands (built out, or as onboarding left it) | Onboarding |
 | Her last pitch | Her library, offered as a starting point |
 
 ### 2.2 What it asks
@@ -75,8 +78,9 @@ None in the prototype. **Proposed:** "Add a recent talk or post" when Links is e
 | Section | What it is for | Her words | ExecHQ's wording | Left as a question when missing |
 | --- | --- | --- | --- | --- |
 | **Subject lines** | Three to choose from | Her angle (the first line) | "A [session / conversation / story] idea for [who]"; "From someone doing the work, not watching it" | What would you talk about? |
-| **Pitch** | The email itself, short | Her angle, her proof | "Hi …, I'd like to suggest a [session / conversation / story] for [who] on … It matters now because … I can send a short outline." | Who are you writing to? Why does this matter to their audience this month? |
-| **Expanded version** | When they want more | Her links | "The three points I'd cover: … I can work to your format and length." | What are the three points you would cover? |
+| **Pitch** | The email itself | Her role, her angle, who it is for, her proof | "Hi …, I'm [role], and I'd like to suggest a [session / conversation / story] for [who] on [angle], for [audience]. [proof] It matters now because … I can send a short outline." | Who are you writing to? Why does this matter to [audience] this month? |
+| **Short version, for a message or a speaker form** | One or two lines where space is short | Her angle and the first sentence of her proof | None | What can you prove, in a line? |
+| **Expanded version** | When they want more | Her positioning statement, her links | "About me: … The three points I'd cover: … I can work to your format and length." | Why are you the person to say this? What are the three points you would cover? |
 | **Angle and why now** | The one line to keep in her head | Her angle | "Why now: …" | What makes this timely? |
 | **Follow-up, if you hear nothing in a week** | Sent later, from the same artifact | Her angle | "Hi, following up on my note about … Happy to fit your schedule, or to suggest someone else on my team if the timing is wrong." | None |
 
@@ -90,9 +94,12 @@ Rules for this builder:
 
 ## 4. Changing it
 
-The shared options (voice, specificity, length, audience) and the conversational follow-up.
+As the PRD names them: **tone** (plainer, warmer, more direct), **specificity** and **length**, plus emphasis and the conversational follow-up. No audience option: who it is for is an input. Every sentence stays whole:
 
-**Emphasis choices for this builder:** The angle · The proof · Why now. Shown in the prototype; it does not act on them yet.
+- **Shorter** drops "I can send a short outline." and the expanded version's closing line.
+- **Longer** adds "I can also point to [What else can you prove?]", a question, never an invented proof point.
+- **Emphasis** (The angle · The proof · Why now) puts that sentence straight after the greeting; ExecHQ's own sentence there starts with a small letter ("Hi …, it matters now because…").
+- Tone and specificity are recorded with the version; the prototype does not rewrite for them (no model).
 
 ---
 
@@ -101,7 +108,7 @@ The shared options (voice, specificity, length, audience) and the conversational
 | | |
 | --- | --- |
 | **Copy** | "Copy to send" |
-| **Export** | None. A pitch is pasted into an email, not attached. |
+| **Export** | Download as PDF, Download as Word (Kate, 13 October) |
 | **Mark ready, then sent** | "Mark ready", then "Mark sent", which asks two things, both optional: Sent to (filled with who she pitched) and When (today, or an earlier day). Sending is always hers; ExecHQ never sends. |
 | **Check back** | 5 days after the day she sent it (**Proposed**) |
 | **The question** | "You sent your pitch for the Q1 planning review on Thursday. What came of it?" "Nothing yet" is the common answer for a pitch, and asks again later. |
@@ -124,9 +131,8 @@ The shared options (voice, specificity, length, audience) and the conversational
 
 ## 7. Open questions
 
-1. **Short and expanded versions.** The brief asks for "short and expanded versions where relevant". The prototype's pitch is the short one, plus an expanded version. Is that enough, or does each need its own section?
-2. **Check-back days.** 5 days after sending is proposed. The follow-up section says "if you hear nothing in a week". Should the check-back match, at 7?
-3. **Topical angle and audience.** The brief asks for both. The prototype asks the angle and takes the audience from her direction without asking. Is the direction enough?
-4. **The ninety-second version** (Make the Move 3.1) is something she says, not sends. Is Pitch Builder the right tool for it, or the Situation Brief?
-5. **Talking to people in a new direction** (Chart a New Course 2.2) is an outreach note, not a pitch. Is Pitch Builder the right tool, or does it need its own type?
-6. **Her positioning statement in the pitch.** "Goes with this" says the pitch draws on it for who she is, but the draft doesn't use it yet. Add a line from her short bio, or take the promise off?
+1. **Check-back days.** 5 days after sending is proposed. The follow-up section says "if you hear nothing in a week". Should the check-back match, at 7?
+2. **Audience.** It comes from her direction, shown to check. Should it be asked instead, since an outlet's audience can differ from hers?
+3. **The ninety-second version** (Make the Move 3.1) is something she says, not sends. Is Pitch Builder the right tool for it, or the Situation Brief?
+4. **Talking to people in a new direction** (Chart a New Course 2.2) is an outreach note, not a pitch. Is Pitch Builder the right tool, or does it need its own type?
+5. **"About me".** The expanded version quotes her positioning statement, which for many people says where they are headed rather than why they are the one to speak. Use her short bio there instead, once it exists?

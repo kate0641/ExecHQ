@@ -230,8 +230,15 @@ export function useToolFlow(concept: FlowConcept) {
     }),
     ...(wins === "added" ? [WINS_INPUT] : []),
   ];
+  /** Her statement as it stands: built out, or as onboarding left it. */
+  const statementNow =
+    (positioningRecord && (toolbox.drafts[positioningRecord.id]?.inputs.statement || LIBRARY_SEED[positioningRecord.id]?.preview)) || account.direction;
+  const pitchInputs: readonly ToolInput[] = PITCH_INPUTS.map((input) => {
+    const known: Record<string, string | undefined> = { role: account.jobTitle, statement: statementNow };
+    return input.id in known ? (known[input.id] ? { ...input, value: known[input.id] } : { ...input, source: undefined, optional: true }) : input;
+  });
   const baseInputs: readonly ToolInput[] =
-    kind === "positioning" ? positioningInputs : kind === "pitch" ? PITCH_INPUTS : kind === "situation-brief" ? BRIEF_INPUTS : read ? TL_INPUTS_FROM_BRIEFING : TL_INPUTS_DIRECT;
+    kind === "positioning" ? positioningInputs : kind === "pitch" ? pitchInputs : kind === "situation-brief" ? BRIEF_INPUTS : read ? TL_INPUTS_FROM_BRIEFING : TL_INPUTS_DIRECT;
   // What she said was coming up is a topic for a post, but for a brief or a
   // pitch it only says what kind of moment it is; the rest is still asked.
   const guessed = moment ? (kind === "pitch" ? pitchType(moment) : kind === "situation-brief" ? momentType(moment) : undefined) : undefined;
@@ -267,7 +274,13 @@ export function useToolFlow(concept: FlowConcept) {
    *  from, or the first on her plan. */
   const nextStepTitle = step?.title ?? loop.recommendations[0]?.title;
   /** The five revision options, with this builder's own emphasis choices. */
-  const revisionOptions = REVISION_OPTIONS.map((option) => (option.id === "emphasis" ? { ...option, choices: EMPHASIS_BY_KIND[kind] } : option));
+  const revisionOptions = REVISION_OPTIONS
+    // The PRD names a pitch's revisions as tone, specificity and length (plus
+    // its emphasis): no audience, and voice is called tone.
+    .filter((option) => !(kind === "pitch" && option.id === "audience"))
+    .map((option) =>
+      option.id === "emphasis" ? { ...option, choices: EMPHASIS_BY_KIND[kind] } : kind === "pitch" && option.id === "voice" ? { ...option, label: "Tone" } : option
+    );
 
   const currentValues = () => Object.fromEntries(inputs.map((i) => [i.id, valueOf(i.id)]));
 

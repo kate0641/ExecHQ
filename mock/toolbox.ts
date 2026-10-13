@@ -248,10 +248,12 @@ export const INPUT_COPY = {
    difference, so generated framing is never mistaken for what she said.
    -------------------------------------------------------------------------- */
 
+/** `part` names the sentence a segment belongs to, where a revision can
+ *  move whole sentences (a pitch's emphasis). */
 export type DraftSegment =
-  | { text: string; by: "you" }
-  | { text: string; by: "exechq" }
-  | { question: string };
+  | { text: string; by: "you"; part?: string }
+  | { text: string; by: "exechq"; part?: string }
+  | { question: string; part?: string };
 
 export interface DraftSection {
   id: string;
@@ -471,7 +473,8 @@ export const USE_COPY = {
    *  the Situation Brief, bios and long-form articles (brief's proposed answer). */
   exportable: {
     positioning: true,
-    pitch: false,
+    // Kate, 13 Oct: the pitch exports too.
+    pitch: true,
     "situation-brief": true,
     "thought-leadership": false,
   } as Record<ArtifactKind, boolean>,
@@ -795,6 +798,10 @@ export const PITCH_INPUTS: readonly ToolInput[] = [
     source: "direction",
   },
   { id: "links", label: "Links or earlier talks", kind: "text", optional: true, placeholder: "A post, a recording, a past talk" },
+  // Who she is, for the pitch's introduction and "Why me" (the PRD's career
+  // direction and plan context). Known, shown to check, never asked.
+  { id: "role", label: "Your role, as you’d say it", kind: "text", source: "plan" },
+  { id: "statement", label: "Your positioning statement", kind: "long", source: "onboarding" },
 ];
 
 export const BRIEF_INPUTS: readonly ToolInput[] = [
