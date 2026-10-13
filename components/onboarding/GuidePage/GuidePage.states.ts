@@ -101,19 +101,6 @@ export const guidePageStates = defineComponentStates({
       },
     },
     {
-      label: "Navy, for the account step",
-      description: "Navy edge to edge, carrying on from the welcome: light words, and her controls in white.",
-      props: {
-        inverse: true,
-        kicker: GUIDE_C3.verify.kicker,
-        title: GUIDE_C3.verify.title,
-        lede: GUIDE_C3.verify.lede("maya.chen@example.com"),
-        why: GUIDE_C3.verify.why,
-        primaryLabel: GUIDE_C3.verify.cta,
-        onPrimary: noop,
-      },
-    },
-    {
       label: "With a notification over it",
       description: "The code email arriving on the page that asks for it, drawn as the phone's own notification.",
       props: {

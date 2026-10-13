@@ -205,7 +205,7 @@ interface DrawerControl {
 }
 
 /** What every page is handed about where it sits. */
-type Frame = Pick<ComponentProps<typeof GuidePage>, "headingId" | "part" | "file" | "inverse">;
+type Frame = Pick<ComponentProps<typeof GuidePage>, "headingId" | "part" | "file">;
 
 const STEP_NAV = PAGES.filter((page) => !page.offBar).map((page) => ({ id: page.id, label: page.label }));
 /** Changing her direction from the Plan: the direction, the recommendation, the questions and the plan. */
@@ -262,11 +262,8 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
   // On web the answers sit beside the question and there is no sheet to fold,
   // so a drawer left folded on a phone reads as open there.
   const mode: DrawerMode = viewport === "web" && chosenMode === "peek" ? "open" : chosenMode;
-  // The welcome and the account step are navy edge to edge on a phone, so the
-  // status bar is too.
-  useStatusBarTone(
-    (pageId === "welcome" || pageId === "account" || pageId === "verify") && viewport !== "web" ? "inverse" : "default"
-  );
+  // The welcome on a phone is navy edge to edge, so the status bar is too.
+  useStatusBarTone(pageId === "welcome" && viewport !== "web" ? "inverse" : "default");
   // The other directions picked, beyond the one to start from.
   const [alsoGoals, setAlsoGoals] = useState<string[]>([]);
   const at = pageIndex(pageId);
@@ -448,9 +445,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
       return (
         <AccountPage
           flow={flow}
-          // The account step is navy edge to edge, carrying on from the
-          // welcome (designer, 2026-10-13).
-          frame={{ ...frame(), inverse: true }}
+          frame={frame()}
           drawer={{ mode, setMode }}
           onDone={(confirmed) => (confirmed ? next() : goTo("verify"))}
         />
@@ -460,7 +455,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
       return (
         <VerifyPage
           flow={flow}
-          frame={{ ...frame(), inverse: true }}
+          frame={frame()}
           drawer={{ mode, setMode }}
           onDone={next}
           onOtherAddress={() => goTo("account")}
