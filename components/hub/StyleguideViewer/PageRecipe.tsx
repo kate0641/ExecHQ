@@ -190,7 +190,7 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         uses: ["--radius-xl"],
       },
       {
-        rule: "What she said or made always sits in a white card, one line or many. Its action is a flat underlined link at the card's top right, centred on the line of the eyebrow or title beside it.",
+        rule: "What she said or made always sits in a white card, one line or many. Its action is a flat underlined link at the card's top right, at the eyebrow's 12px and centred on its line; Edit carries a pencil.",
         why: "Her input looks the same wherever it is shown, and the way to redo it is always in the same place. A pill there would be one more button competing with the yellow one.",
         from: "Onboarding, Profile",
         uses: [".read-head", ".edit-link", ".card--reads"],

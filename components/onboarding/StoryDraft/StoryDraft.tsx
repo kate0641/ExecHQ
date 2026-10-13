@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Input } from "@/components/form/Input";
 import { Button } from "@/components/primitives/Button";
+import { Icon } from "@/components/primitives/Icon";
 import { StoryText } from "@/components/onboarding/StoryText";
 
 export interface StoryDraftProps {
@@ -74,7 +75,8 @@ export function StoryDraft({
                 setEditing(true);
               }}
             >
-              Edit
+              <Icon name="pencil" size={14} />
+              <span className="edit-link__label">Edit</span>
             </button>
           )}
         </div>

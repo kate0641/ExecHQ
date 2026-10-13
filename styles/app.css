@@ -366,19 +366,31 @@ samp {
 
 .edit-link {
   flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
   min-height: var(--button-target);
   margin-block: calc((var(--button-target) - 1lh) / -2);
   font-family: var(--type-label-font);
-  font-size: var(--type-label-size);
+  /* The eyebrow's size, so the link sits on the label's line without its
+     underline reaching the words under it (designer, 2026-10-13). */
+  font-size: var(--type-eyebrow-size);
   font-weight: var(--type-label-weight);
   line-height: var(--type-label-leading);
   letter-spacing: var(--type-label-tracking);
   word-spacing: var(--type-label-word-spacing);
   color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.edit-link .icon {
+  flex: none;
+}
+
+.edit-link__label {
   text-decoration: underline;
   text-decoration-thickness: var(--border-width-thin);
   text-underline-offset: 0.2em;
-  cursor: pointer;
 }
 
 .edit-link:focus-visible {

@@ -829,7 +829,7 @@ function Said({
           aria-label={`${GUIDE_C3.drawer.change}: ${label ?? GUIDE_C3.drawer.said}`}
           onClick={onChange}
         >
-          {GUIDE_C3.drawer.change}
+          <span className="edit-link__label">{GUIDE_C3.drawer.change}</span>
         </button>
       </div>
       <span className="guide__said-value">{value}</span>
