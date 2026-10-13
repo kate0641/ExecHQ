@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { BriefingArticle } from "@/components/briefing/BriefingArticle";
 import { BriefingEnd } from "@/components/briefing/BriefingEnd";
 import { BriefingFront } from "@/components/briefing/BriefingFront";
 import { BriefingPicture } from "@/components/briefing/BriefingPicture";
@@ -22,7 +23,9 @@ const READ_HEADING = "briefing-read-heading";
  * A front page as a news app opens on: the first read as the lead story with
  * a big picture, the other two as rows with a small one, each with why it is
  * here, then "That's today's three". Each story opens a reader screen: "1
- * of 3", the picture, the read, Next, and a bar (Back, Relevant, Not for me,
+ * of 3", the picture, the whole article read here in ExecHQ (she never leaves
+ * for the publisher) with ExecHQ's notes on highlighted passages all the way
+ * through, Next, and a bar (Back, Relevant, Not for me,
  * Save, Write a post) in the Ask or go pill's place: along the foot of a
  * phone, floating on tablet and web. On web the lead takes the left of the
  * front page.
@@ -33,7 +36,9 @@ const READ_HEADING = "briefing-read-heading";
  */
 export function BriefingConcept2() {
   const p = useBriefingPage();
-  const phone = useViewport().viewport === "mobile";
+  const { viewport } = useViewport();
+  const phone = viewport === "mobile";
+  const web = viewport === "web";
   const [at, setAt] = useState<number | null>(null);
   if (p.firstVisit) return p.firstVisit;
 
@@ -55,7 +60,7 @@ export function BriefingConcept2() {
     return (
       <div className="briefing-page briefing-page--news">
         {p.header}
-        <BriefingFront reads={p.reads} onOpen={go} isRead={(id) => Boolean(p.stateOf(id).read)} />
+        <BriefingFront reads={p.reads} onOpen={go} />
         <BriefingEnd allRead={p.allRead} headingId="briefing-end">
           <div className="brief-end__links">
             {p.savedLink}
@@ -77,6 +82,7 @@ export function BriefingConcept2() {
       <BriefingReader
         read={read}
         headingId={READ_HEADING}
+        article={<BriefingArticle read={read} placement={web ? "margin" : "inline"} />}
         picture={<BriefingPicture place={((at % 3) + 1) as 1 | 2 | 3} publisher={publisherName(read.publisherId)} size="reader" />}
         actions={ack ? <p className="briefing-news__ack">{ack}</p> : undefined}
       />

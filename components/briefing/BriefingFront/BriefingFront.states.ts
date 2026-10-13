@@ -23,7 +23,6 @@ export const briefingFrontStates = defineComponentStates({
   },
   variants: [
     { label: "Today's three — default", props: base },
-    { label: "Lead read", props: { ...base, isRead: (id: string) => id === TODAYS_READS[0].id } },
     { label: "Lead — hover", props: { ...base, demo: "hover" } },
     { label: "Lead — focus", props: { ...base, demo: "focus" } },
     { label: "Lead — pressed", props: { ...base, demo: "active" } },

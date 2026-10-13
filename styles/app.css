@@ -16830,6 +16830,116 @@ ul.plan-guided__sparks {
   color: var(--color-text-muted);
 }
 
+.brief-reader__credit {
+  margin: 0;
+  padding-top: var(--space-sm);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+/* --- An article read in ExecHQ, with ExecHQ's notes (Concept 2) ---------- */
+
+[data-viewport="web"] .briefing-page--news.briefing-page--reading {
+  max-width: 62rem;
+}
+
+/* With the article here, the standfirst reads as its standfirst. */
+.briefing-page--news .brief-reader__standfirst {
+  font-size: var(--text-lg);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+.brief-article {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.brief-article__block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+/* On web the notes take a margin beside their paragraph. */
+.brief-article--margin .brief-article__block {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 15rem;
+  align-items: start;
+  gap: var(--space-xl);
+}
+
+.brief-article--margin .brief-article__para {
+  grid-column: 1;
+}
+
+.brief-article--margin .brief-article__notes {
+  grid-column: 2;
+}
+
+.brief-article__para {
+  margin: 0;
+  line-height: var(--leading-relaxed);
+}
+
+.brief-article__mark {
+  padding: 0.1em 0.15em;
+  background-color: var(--color-accent-soft);
+  color: inherit;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  border-bottom: var(--border-width-medium) solid var(--color-accent);
+}
+
+.brief-article__ref {
+  margin-left: var(--space-3xs);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  line-height: 0;
+}
+
+.brief-article__notes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.brief-article__note {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  padding: var(--space-sm);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-note);
+}
+
+.brief-article__note-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.brief-article__note-num {
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-primary);
+}
+
+.brief-article__note-num::after {
+  content: " ·";
+  color: var(--color-text-secondary);
+}
+
+.brief-article__note-text {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
 .brief-reader .read-actions {
   padding-top: var(--space-sm);
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
@@ -20567,15 +20677,6 @@ ul.plan-guided__sparks {
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--color-text-secondary);
-}
-
-.briefing-front2__read {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-3xs);
-  letter-spacing: normal;
-  text-transform: none;
-  color: var(--color-text-primary);
 }
 
 .briefing-front2__headline {

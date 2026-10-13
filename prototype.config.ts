@@ -290,13 +290,13 @@ export const prototypeConfig: PrototypeConfig = {
           slug: "concept-1",
           title: "Concept 1 — Front page",
           summary:
-            "Today’s three as a stack of cards: one open in full, the other two as strips that open in their place. Publishers are changed on the page.",
+            "Today’s three as a stack of cards: one open in full, the other two as strips that open in their place. Tapping the open card opens the article at its publisher, in a new tab. Publishers are changed on the page.",
         },
         {
           slug: "concept-2",
           title: "Concept 2 — News app",
           summary:
-            "A front page like a news app: the lead story with a big picture, two rows with small ones, each saying why it is here. A story opens a reader screen with a bar at the foot: Back, Relevant, Not for me, Save, Write a post.",
+            "A front page like a news app: the lead story with a big picture, two rows with small ones, each saying why it is here. A story opens the whole article in ExecHQ, with ExecHQ’s notes on highlighted passages all the way through, and a bar at the foot: Back, Relevant, Not for me, Save, Write a post.",
         },
         {
           slug: "concept-3",
