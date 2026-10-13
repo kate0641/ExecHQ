@@ -8132,8 +8132,8 @@ ol.ring-detail__timeline {
   gap: var(--space-xs);
 }
 
-/* The step's label introduces its heading, so it is the system's blue
-   eyebrow (How a page is built: blue eyebrows introduce a heading). */
+/* The step's label introduces its heading, so it takes the eyebrow colour
+   (How a page is built: an eyebrow that introduces a heading). */
 .guide__kicker {
   font-family: var(--type-eyebrow-font);
   font-size: var(--type-eyebrow-size);
@@ -8175,8 +8175,8 @@ ol.ring-detail__timeline {
 /* The margin note: why this page exists. It sits just above the action on
    every page, pushed down by the free space, so it is always found in the
    same place. */
-/* Why this matters is a labelled read: a grey eyebrow, then the words, with
-   no rule beside it (How a page is built: grey eyebrows label a read). */
+/* Why this matters is a labelled read: a secondary-text eyebrow, then the
+   words, with no rule beside it (How a page is built: a labelled read). */
 .guide__why {
   margin-top: auto;
   display: flex;
