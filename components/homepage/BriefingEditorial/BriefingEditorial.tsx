@@ -34,9 +34,9 @@ const PAUSE_MS = 500;
  * Today's Briefing as a page of reading: the lead read's headline in the
  * serif, the product's one editorial face, under a thin top rule, with its
  * publication under it; the other reads follow as small bullets with theirs,
- * so she knows what today holds. Long headlines end in an ellipsis (the lead
- * after two lines, the others after one), so the card keeps its height; the
- * full words stay in the link's name. It reads as something to read, not
+ * so she knows what today holds. Every headline is shown in full, over as
+ * many lines as it needs (designer, 2026-10-12): the card grows rather than
+ * cut a headline short. It reads as something to read, not
  * something to do, so it stays visibly apart from plan recommendations. The
  * whole card is one link. On web the lead takes the left and the others the
  * right. With `cover`, a photograph runs across the top and fades into the

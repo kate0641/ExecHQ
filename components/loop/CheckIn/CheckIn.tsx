@@ -27,6 +27,11 @@ export interface CheckInProps {
   answered?: boolean;
   /** What was logged, in the page's words, once answered. */
   readback?: string;
+  /** The readback is an outcome she gave, not a "check back later": the
+   *  word Logged shows above it in a pill. */
+  logged?: boolean;
+  /** A line above the readback, on its own: "You told me:". */
+  readbackLead?: string;
   /** "Yes, I've used it", for a ready draft. */
   onUsed?: () => void;
   /** "Yes, it's done", for an action with no draft. */
@@ -65,6 +70,8 @@ export function CheckIn({
   layout = "question",
   answered = false,
   readback,
+  logged = false,
+  readbackLead,
   onUsed,
   onDone,
   onDrop,
@@ -300,11 +307,18 @@ export function CheckIn({
       ) : null}
       {done ? (
         <>
-          {shown ? (
-            <p className="check-in__readback" id={headingId} tabIndex={-1}>
-              {shown}
-            </p>
-          ) : null}
+          {/* The pill rides at the top of the white area without taking any
+              of it, so what she said is dead centre in the whole of it
+              (designer, 2026-10-12). */}
+          <div className="check-in__logged-body">
+            {logged && !later ? <p className="check-in__logged">{C.loggedLabel}</p> : null}
+            {shown ? (
+              <p className="check-in__readback" id={headingId} tabIndex={-1}>
+                {readbackLead && !later ? <span className="check-in__readback-lead">{readbackLead}</span> : null}
+                {shown}
+              </p>
+            ) : null}
+          </div>
           {noteForm}
         </>
       ) : (

@@ -351,6 +351,20 @@
      navy, not ink, so they belong to the brand: 14:1 on the page. Icons in a
      button take the label's colour; icons on navy keep their light colours. */
   --color-icon-default: var(--brand-primary);
+  /* Where you are, in the Concierge bar: the same yellow and navy the sheet's
+     nav gives the current page, so "where you are" looks the same in both
+     places (designer, 2026-10-12). */
+  --color-here-surface: var(--color-nav-current);
+  --color-here-text: var(--color-nav-current-icon);
+  /* The Loop's check-in: a light blue band across the head of an otherwise
+     white card, carrying what the question is about (designer, 2026-10-12).
+     Navy on it reads at 11.3:1. The foot of the card keeps its hairline. */
+  --color-surface-check-in-band: var(--brand-blue-200);
+  --color-text-on-check-in-band: var(--brand-primary);
+  /* "Logged", as a quiet stone pill above the readback: 8.9:1. Stone 200 is
+     also the disabled surface, so nothing else on the card may use it. */
+  --color-surface-logged: var(--brand-stone-200);
+  --color-text-on-logged: var(--brand-stone-700);
 
   /* Logo — two versions, never recoloured beyond these. The dark logo (gold
      "Exec", navy "HQ") sits on stone and blue 100 — gold is 5.0:1 on blue 100
