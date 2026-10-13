@@ -7202,10 +7202,15 @@ ol.ring-detail__timeline {
 }
 
 /* An answer in a guided step's drawer (Onboarding, the Plan's guided steps)
-   is a prompt, not a button: the advisor's prompt style, with the raised
-   surface, a thin edge, 20px corners and Inter, its words at the left. The
-   one chosen fills with the selected blue and its words step up to bold, so
-   a pick-several question never stacks navy blocks. */
+   is her side of a conversation, so it is branded like the chat: an answer
+   not chosen is the raised surface with a thin edge, 20px corners and Inter,
+   its words at the left; the one she picks fills navy with light text, as
+   her own messages do, and its words step up to bold (designer, 2026-10-13).
+   The answers sit 12px apart. */
+.answer-drawer .chip-group__options {
+  gap: var(--space-sm);
+}
+
 .answer-drawer .chip-group__chip {
   min-height: var(--button-target);
   padding: var(--space-xs) var(--space-md);
@@ -7227,9 +7232,16 @@ ol.ring-detail__timeline {
 }
 
 .answer-drawer .chip-group__chip[aria-pressed="true"] {
-  color: var(--color-text-primary);
-  background-color: var(--color-surface-selected);
-  border-color: var(--color-surface-selected);
+  color: var(--color-text-inverse);
+  background-color: var(--color-surface-inverse);
+  border-color: var(--color-surface-inverse);
+  --color-focus: var(--color-focus-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+}
+
+.answer-drawer .chip-group__chip[aria-pressed="true"]:hover {
+  border-color: var(--color-surface-inverse-hover);
+  background-color: var(--color-surface-inverse-hover);
 }
 
 .answer-drawer .chip-group__chip:disabled {
@@ -8070,6 +8082,9 @@ ol.ring-detail__timeline {
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
+  /* Every line of copy on a guided step avoids leaving one word alone on
+     its last line; the text inside inherits it. */
+  text-wrap: pretty;
   width: 100%;
   max-width: var(--content-measure);
   margin: 0 auto;
@@ -8153,6 +8168,8 @@ ol.ring-detail__timeline {
   line-height: var(--leading-tight);
   letter-spacing: var(--font-display-tracking-heading);
   color: var(--color-text-primary);
+  /* No single word left alone on the last line. */
+  text-wrap: pretty;
 }
 
 .guide__title:focus-visible {
@@ -8164,6 +8181,7 @@ ol.ring-detail__timeline {
   font-size: var(--text-md);
   line-height: var(--leading-relaxed);
   color: var(--color-text-secondary);
+  text-wrap: pretty;
 }
 
 .guide__body {
@@ -8203,6 +8221,7 @@ ol.ring-detail__timeline {
   letter-spacing: var(--type-body-sm-tracking);
   word-spacing: var(--type-body-sm-word-spacing);
   color: var(--color-text-primary);
+  text-wrap: pretty;
 }
 
 /* With a drawer the reason follows the question directly, instead of sinking
