@@ -16654,17 +16654,6 @@ ul.plan-guided__sparks {
   text-decoration: none;
 }
 
-.read-actions__toggle--primary {
-  border-color: var(--color-text-primary);
-  background-color: var(--color-text-primary);
-  color: var(--color-surface-raised);
-}
-
-.read-actions__toggle--primary:hover {
-  border-color: var(--color-text-primary);
-  background-color: var(--color-text-secondary);
-}
-
 .read-actions__toggle:active,
 .read-actions__toggle.is-active,
 .read-actions__answer:active {
@@ -16678,17 +16667,6 @@ ul.plan-guided__sparks {
 
 .brief-read--lead .read-actions__toggle {
   text-decoration: none;
-}
-
-.read-actions__toggle--primary {
-  border-color: var(--color-text-primary);
-  background-color: var(--color-text-primary);
-  color: var(--color-surface-raised);
-}
-
-.read-actions__toggle--primary:hover {
-  border-color: var(--color-text-primary);
-  background-color: var(--color-text-secondary);
 }
 
 .read-actions__toggle.is-on {
@@ -20386,6 +20364,44 @@ ul.plan-guided__sparks {
   outline: none;
 }
 
+/* The open card's headline: underlined, because it leaves for the article.
+   Its hit area covers the whole card; the actions sit above it. */
+.briefing-deck__open {
+  position: relative;
+}
+
+.briefing-deck__link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width-thin);
+  text-underline-offset: 0.15em;
+}
+
+.briefing-deck__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--deck-radius);
+}
+
+.briefing-deck__link:hover {
+  text-decoration-thickness: var(--border-width-medium);
+}
+
+.briefing-deck__link:focus-visible {
+  outline: none;
+}
+
+.briefing-deck__link:focus-visible::after {
+  outline: var(--focus-ring);
+  outline-offset: calc(-1 * var(--focus-ring-width) - var(--space-3xs));
+}
+
+.briefing-deck__open .read-actions {
+  position: relative;
+  z-index: 1;
+}
+
 .briefing-deck__title--strip {
   font-size: var(--text-md);
 }
@@ -20739,4 +20755,83 @@ ul.plan-guided__sparks {
   margin: 0;
   font-size: var(--text-sm);
   color: var(--color-text-secondary);
+}
+
+/* ===========================================================================
+   SOURCE PAGE — the prototype's stand-in for a read's article at its
+   publisher (app/source/[read]). Deliberately plain and not ExecHQ.
+   ======================================================================== */
+
+.source-page {
+  min-height: 100%;
+  background-color: var(--color-surface-raised);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+}
+
+.source-page__note {
+  margin: 0;
+  padding: var(--space-xs) var(--space-md);
+  background-color: var(--color-surface-sunken);
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+.source-page__masthead {
+  padding: var(--space-md);
+  border-bottom: var(--border-thin);
+  text-align: center;
+}
+
+.source-page__publisher {
+  margin: 0;
+  font-family: var(--font-serif);
+  word-spacing: var(--word-spacing-normal);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+}
+
+.source-page__article {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-md) var(--space-3xl);
+}
+
+.source-page__title {
+  margin: 0;
+  font-family: var(--font-serif);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
+  font-size: var(--text-2xl);
+  line-height: var(--leading-snug);
+}
+
+.source-page__standfirst {
+  margin: 0;
+  font-size: var(--text-lg);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+.source-page__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding-top: var(--space-md);
+}
+
+.source-page__line {
+  display: block;
+  height: 0.625rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-border-subtle);
+}
+
+.source-page__gap {
+  display: block;
+  height: var(--space-sm);
 }

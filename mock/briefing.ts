@@ -101,6 +101,10 @@ export interface BriefingRead {
   note: string;
 }
 
+/** Where a read lives at its publisher. In the prototype, a stand-in page
+ *  (`app/source/[read]`), because every publisher is invented. */
+export const sourceHref = (id: string): string => `/source/${id}`;
+
 export const TODAYS_READS: BriefingRead[] = [
   {
     id: "planning-season",
@@ -175,6 +179,12 @@ export const BRIEFING_COPY = {
     /** In the product this leaves for the publisher's site. */
     openAt: (publisher: string) => `Read it at ${publisher}`,
     openAtNote: "Opens on the publisher’s site.",
+    /** The prototype's stand-in for the article at its publisher. */
+    sourceNote: (publisher: string) =>
+      `Prototype stand-in. In ExecHQ this is the article itself, on ${publisher}’s own site.`,
+    sourceBody: "The article continues here, on the publisher’s site.",
+    /** For screen readers, after a headline that leaves for the article. */
+    opensAt: (publisher: string) => `opens at ${publisher} in a new tab`,
     markRead: "Mark as read",
     markUnread: "Mark as not read",
     readState: "Read",

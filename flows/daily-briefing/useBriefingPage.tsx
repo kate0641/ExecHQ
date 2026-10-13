@@ -67,10 +67,14 @@ export function useBriefingPage() {
 
   const close = () => setOpen(null);
 
-  /** Opening a read counts as reading it. */
-  function openRead(id: string) {
+  /** Opening a read counts as reading it, here or at its publisher. */
+  function markOpened(id: string) {
     briefingActions.markRead(id);
     completeStep();
+  }
+
+  function openRead(id: string) {
+    markOpened(id);
     setOpen({ kind: "read", id });
   }
 
@@ -99,7 +103,6 @@ export function useBriefingPage() {
         respondHref={options.noRespond ? undefined : respond(read.id)}
         onRespond={completeStep}
         compact={options.compact}
-        onOpen={options.compact ? () => openRead(read.id) : undefined}
       />
     );
   }
@@ -219,6 +222,7 @@ export function useBriefingPage() {
     header,
     firstVisit,
     openRead,
+    markOpened,
     actionsFor,
     savedLink,
     publishersLine,

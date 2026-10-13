@@ -31,7 +31,7 @@ export const readActionsStates = defineComponentStates({
     { label: "Not answered yet — default", props: { ...base, isRead: true, onMarkRead: noop } },
     { label: "Saved, answered relevant — filled", props: { ...base, saved: true, relevance: "yes", isRead: true, onMarkRead: noop } },
     { label: "Answered not relevant", props: { ...base, relevance: "no" } },
-    { label: "Compact, for the lead", props: { ...base, compact: true, onOpen: noop } },
+    { label: "Compact, for the open card", props: { ...base, compact: true } },
     { label: "Without Write a post (Concept 3)", props: { ...base, respondHref: undefined } },
     { label: "Save — hover", props: { ...base, demo: "hover" } },
     { label: "Save — focus", props: { ...base, demo: "focus" } },
