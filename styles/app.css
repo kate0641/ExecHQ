@@ -21091,3 +21091,112 @@ button.progress-stepper__target.is-focus {
     transform: none;
   }
 }
+
+/* ===========================================================================
+   OUTCOME NEXT — what comes after she says how something went
+   (components/loop/OutcomeNext). The Situation Brief first.
+   ======================================================================== */
+
+.outcome-next {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-raised);
+}
+
+.outcome-next__heading {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+}
+
+.outcome-next__heading:focus {
+  outline: none;
+}
+
+.outcome-next__readback,
+.outcome-next__logged {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.outcome-next__ask {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.outcome-next__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.outcome-next__offers {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.outcome-next__offer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+  padding: var(--space-sm) 0;
+}
+
+.outcome-next__offer + .outcome-next__offer {
+  border-top: var(--border-subtle);
+}
+
+.outcome-next__eyebrow {
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.outcome-next__title {
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.outcome-next__body {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.outcome-next__action {
+  margin-top: var(--space-2xs);
+}
+
+.outcome-next__done {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2xs) var(--space-xs);
+  margin-top: var(--space-2xs);
+  font-size: var(--text-sm);
+}
+
+.outcome-next__note {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.outcome-next__not-now {
+  align-self: flex-start;
+}

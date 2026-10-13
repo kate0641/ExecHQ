@@ -29,6 +29,7 @@ import { resetLinkedInExport } from "@/lib/linkedin-store";
 import { resetSignalNotices } from "@/lib/signal-notices";
 import {
   abandonRecord,
+  addDays,
   availableActions,
   answerFollowUp,
   closeRecord,
@@ -243,6 +244,10 @@ export const loopActions = {
    *  answer on one tap, and offers the note after). Keeps "just answered". */
   noteOutcome: (id: string, detail: string) =>
     updateRecord(id, (r) => (r.outcome ? { ...r, outcome: { ...r.outcome, detail } } : r), id),
+  /** "It hasn't happened yet", with the new date: ExecHQ asks the day after
+   *  it (the Situation Brief, 13 October). */
+  rescheduleTo: (id: string, date: string) =>
+    updateRecord(id, (r) => ({ ...r, checkBackOn: addDays(date, 1) }), id),
   /** Leave the "just answered" moment without changing anything else, e.g.
    *  to answer the other follow-up that is waiting. */
   moveOn: () => update(() => ({ justAnswered: undefined })),

@@ -19,6 +19,7 @@
  *   "Post to LinkedIn".
  */
 
+import type { OutcomeType } from "@/lib/loop";
 import { ARTIFACT_KINDS, type ArtifactKind } from "@/mock/loop";
 
 /* -----------------------------------------------------------------------------
@@ -1083,4 +1084,99 @@ export const GOES_WITH = {
   open: "Open",
   reuse: "Use as a start",
   startFrom: "Start from it",
+} as const;
+
+/* -----------------------------------------------------------------------------
+   AFTER SHE SAYS HOW IT WENT (Situation Brief first, 13 October)
+   Her answer to "Did it create a next step?" leads somewhere: ExecHQ may ask
+   one thing more, then offers what to do next, built by rules from her answer
+   and the brief's own content (no model in the pilot). A step only goes on
+   her Plan when she says so. The other tools take the same pattern later,
+   with their own answers.
+   -------------------------------------------------------------------------- */
+
+/** What ExecHQ can offer once she has answered. */
+export type NextOffer =
+  /** The Plan step her words point to (`HANDOFF_RULES`), to add to her Plan. */
+  | "plan-step"
+  /** The brief's follow-up email, to copy and send. */
+  | "follow-up"
+  /** A new brief for the next conversation, starting from this one. */
+  | "new-brief"
+  /** What's next on her Plan. */
+  | "plan";
+
+export interface AfterAnswer {
+  /** Says back what she answered, first. */
+  readback: string;
+  /** One thing more, before the offers. */
+  ask?: { label: string; hint?: string; placeholder?: string; kind: "text" | "date"; optional?: boolean; submit: string };
+  offers: readonly NextOffer[];
+}
+
+export const BRIEF_AFTER: Record<OutcomeType, AfterAnswer> = {
+  positive: {
+    readback: "It created a next step.",
+    ask: {
+      label: "What’s the next step?",
+      hint: "In your words. It goes into your follow-up email.",
+      placeholder: "I’ll lead the Q1 planning workstream",
+      kind: "text",
+      submit: "See what’s next",
+    },
+    offers: ["plan-step", "follow-up"],
+  },
+  neutral: {
+    readback: "It went well, with no next step yet.",
+    offers: ["follow-up", "plan"],
+  },
+  negative: {
+    readback: "It didn’t go the way you hoped.",
+    ask: {
+      label: "What got in the way?",
+      hint: "If you want to say. It shapes the next brief.",
+      placeholder: "They want to wait until Q2",
+      kind: "text",
+      optional: true,
+      submit: "See what’s next",
+    },
+    offers: ["new-brief", "plan"],
+  },
+  "no-response-yet": {
+    readback: "It hasn’t happened yet.",
+    ask: { label: "When is it now?", hint: "ExecHQ asks how it went the day after.", kind: "date", optional: true, submit: "Set the date" },
+    offers: [],
+  },
+  "no-longer-relevant": {
+    readback: "It’s no longer relevant, so it’s closed.",
+    offers: ["plan"],
+  },
+};
+
+export const NEXT_STEP_COPY = {
+  heading: "What’s next",
+  skip: "Skip",
+  notNow: "Not now",
+  answerFirst: "Say what it is, so ExecHQ can suggest what comes next.",
+  /** The step her words point to. */
+  planStep: { label: "Next on your plan", add: "Add it to your plan", added: "Added to your plan.", open: "Open your plan", youSaid: (words: string) => `You said: “${words}”` },
+  followUp: {
+    title: "Confirm it in writing",
+    /** When nothing was agreed yet. */
+    titlePlain: "Keep it moving",
+    body: "Your follow-up email is in the brief, with what you agreed.",
+    bodyPlain: "Your follow-up email is in the brief. Sending it keeps things moving.",
+    action: "Copy the follow-up email",
+    copied: "Copied the follow-up email.",
+  },
+  newBrief: {
+    title: "Prepare the next conversation",
+    body: "A new brief for what comes next, starting from this one.",
+    action: "Start a new brief",
+  },
+  plan: { title: "See what’s next on your plan", action: "Open your plan" },
+  /** After "It hasn't happened yet" and a date. */
+  rescheduled: (when: string) => `ExecHQ will ask how it went ${when}.`,
+  /** Once she has set it all aside. */
+  logged: (readback: string) => `Logged: ${readback.charAt(0).toLowerCase()}${readback.slice(1)}`,
 } as const;

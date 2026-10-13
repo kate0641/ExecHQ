@@ -79,6 +79,7 @@ import { baselineListStates } from "./homepage/BaselineList/BaselineList.states"
 import { presenceCardStates } from "./homepage/PresenceCard/PresenceCard.states";
 import { loopRowStates } from "./homepage/LoopRow/LoopRow.states";
 import { checkInStates } from "./loop/CheckIn/CheckIn.states";
+import { outcomeNextStates } from "./loop/OutcomeNext/OutcomeNext.states";
 import { recentWorkStates } from "./homepage/RecentWork/RecentWork.states";
 import { ringDetailStates } from "./homepage/RingDetail/RingDetail.states";
 import { signalActivityStates } from "./homepage/SignalActivity/SignalActivity.states";
@@ -213,6 +214,7 @@ export const registry: RegisteredComponent[] = [
   sparkStates,
   loopRowStates,
   checkInStates,
+  outcomeNextStates,
   recentWorkStates,
   ringDetailStates,
   signalActivityStates,

@@ -39,6 +39,9 @@ export interface DraftEditorProps {
   look?: "draft" | "clean" | "page";
   /** In `clean` and `page`: back to the working draft ("Change something"). */
   onReopen?: () => void;
+  /** In `clean`: leaves out the box of questions still open, once she has
+   *  used it and they no longer change anything. */
+  hideOpen?: boolean;
   /** Opens a section in an editing state (catalogue). */
   preview?: { editing: string; error?: boolean };
   className?: string;
@@ -133,6 +136,7 @@ export function DraftEditor({
   sectionActions,
   look = "draft",
   onReopen,
+  hideOpen = false,
   id,
   className,
 }: DraftEditorProps) {
@@ -200,7 +204,7 @@ export function DraftEditor({
         </ul>
       ) : null}
 
-      {look === "clean" && open.length ? (
+      {look === "clean" && open.length && !hideOpen ? (
         <section className="draft-editor__open" aria-label={C.openLabel}>
           <p className="draft-editor__open-lead">
             <b>{C.openCount(open.length)}</b> {C.openWhy}

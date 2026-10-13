@@ -17,7 +17,7 @@
 
 import { useSyncExternalStore } from "react";
 import type { RoadmapChoices } from "@/lib/roadmap-choices";
-import type { EmptyReason, PlanState } from "@/lib/action-steps";
+import { initialPlanState, place, type EmptyReason, type PlanState } from "@/lib/action-steps";
 import type { Horizon } from "@/mock/plan-stub";
 import { CALENDAR_SEED, type CalendarItem } from "@/mock/plan";
 
@@ -91,6 +91,35 @@ export function saveCalendar(scenario: string, items: CalendarItem[]): void {
 
 export function saveSteps(key: string, steps: SavedSteps): void {
   write({ ...get(), steps: { ...get().steps, [key]: steps } });
+}
+
+/** Where a scenario's next steps are kept: per plan, once she has switched. */
+export const planStepsKey = (scenario: string, choices?: RoadmapChoices): string =>
+  `${scenario}:${choices?.history.length ? choices.planId : "base"}`;
+
+/** Adds a step to her Plan from outside it (the Situation Brief's next
+ *  step), with what she said that brought it there. */
+export function addStepToPlan(scenario: string, stepId: string, today: string, heard?: string): void {
+  const store = get();
+  const key = planStepsKey(scenario, store.roadmap[scenario]);
+  // As the Plan opens: another plan she switched to starts with none.
+  const switched = Boolean(store.roadmap[scenario]?.history.length);
+  const start = switched ? { ...initialPlanState(today), shown: [], decisions: {} } : initialPlanState(today);
+  const saved = store.steps[key] ?? { state: start, notes: {}, empties: {} };
+  write({
+    ...store,
+    steps: {
+      ...store.steps,
+      [key]: { ...saved, state: place(saved.state, stepId), notes: heard ? { ...saved.notes, [stepId]: { heard } } : saved.notes },
+    },
+  });
+}
+
+/** Whether a step is on her Plan in this scenario. */
+export function useOnPlan(scenario: string, stepId: string | undefined): boolean {
+  const store = useSyncExternalStore(subscribe, get, () => EMPTY);
+  if (!stepId) return false;
+  return Boolean(store.steps[planStepsKey(scenario, store.roadmap[scenario])]?.state.shown.includes(stepId));
 }
 
 /** Undoes every choice on the Plan. The dock's reset calls this. */
