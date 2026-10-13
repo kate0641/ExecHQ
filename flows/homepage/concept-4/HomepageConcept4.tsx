@@ -263,7 +263,6 @@ export function HomepageConcept4() {
             heading={B.heading}
             meta={B.meta(shortDay(loop.today), B.reads)}
             reads={B.list}
-            cover
           />
         </div>
         <SignalPicture

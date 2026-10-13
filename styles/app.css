@@ -2173,7 +2173,9 @@ ul.chrome__nav-list {
   gap: var(--space-sm);
   width: 100%;
   height: 58px;
-  padding: 0 var(--space-sm) 0 7px;
+  /* The same inset on every side of the lime chip (designer, 2026-10-12);
+     the right keeps a little more, for the advisor's mark. */
+  padding: var(--space-xs) var(--space-sm) var(--space-xs) var(--space-xs);
   border: var(--border-width-thin) solid transparent;
   border-radius: var(--radius-pill);
   background-color: var(--color-surface);
@@ -2202,12 +2204,18 @@ ul.chrome__nav-list {
 .concierge-pill__here {
   display: inline-flex;
   flex: none;
+  /* It fills the bar's height, so the inset above and below it matches the
+     one beside it. */
+  align-self: stretch;
+  /* The waiting dot sits on its top right corner. */
+  position: relative;
   align-items: center;
   gap: var(--space-2xs);
   padding: var(--space-xs) var(--space-md) var(--space-xs) var(--space-sm);
+  /* No edge: the yellow parts from the bar on its own. */
   border-radius: var(--radius-pill);
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
+  background-color: var(--color-here-surface);
+  color: var(--color-here-text);
   font-family: var(--type-label-font);
   word-spacing: var(--type-label-word-spacing);
   letter-spacing: var(--type-label-tracking);
@@ -2224,12 +2232,18 @@ ul.chrome__nav-list {
   text-overflow: ellipsis;
 }
 
+/* The same orange dot the sheet's nav uses, treated the same way: on the
+   corner of the chip, with the bar's own surface as a thin ring around it,
+   so it stays clear of the lime underneath (designer, 2026-10-12). */
 .concierge-pill__dot {
-  flex: none;
+  position: absolute;
+  top: var(--space-3xs);
+  right: var(--space-3xs);
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: var(--color-accent);
+  background-color: var(--color-nav-dot);
+  box-shadow: 0 0 0 2px var(--color-surface);
 }
 
 .concierge-pill__mark {
@@ -2771,16 +2785,21 @@ ul.concierge-suggest {
   align-items: center;
   min-height: var(--button-target);
   padding: var(--space-xs) var(--space-md);
-  border: var(--border-width-thin) solid var(--color-border);
+  /* Navy, like the bubbles they become: what she might say — the prompts
+     under "Ask me" and the quick replies alike — is in her own colour
+     before she says it (designer, 2026-10-12). */
+  border: var(--border-width-thin) solid transparent;
   border-radius: var(--radius-xl);
-  background-color: var(--color-surface-raised);
+  background-color: var(--color-surface-inverse);
   font-family: var(--type-body-sm-font);
   font-size: var(--type-body-sm-size);
   font-weight: var(--weight-regular);
   word-spacing: normal;
   letter-spacing: normal;
   line-height: var(--leading-snug);
-  color: var(--color-text-primary);
+  color: var(--color-text-inverse);
+  --color-focus: var(--color-focus-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
   text-align: left;
   white-space: normal;
 }
@@ -2789,14 +2808,18 @@ ul.concierge-suggest {
   font-family: var(--type-body-sm-font);
   font-size: var(--type-body-sm-size);
   line-height: var(--leading-snug);
-  color: var(--color-text-primary);
+  color: var(--color-text-inverse);
   text-align: left;
 }
 
-.concierge-suggest__item:hover,
+.concierge-suggest__item:hover {
+  border-color: transparent;
+  background-color: var(--color-surface-inverse-hover);
+}
+
 .concierge-panel .quick-replies__chip:hover {
-  border-color: var(--color-border-strong);
-  background-color: var(--color-surface-raised);
+  border-color: transparent;
+  background-color: var(--color-surface-inverse-hover);
 }
 
 /* The replies wrap, left-aligned, so every answer shows: the scrolling row
@@ -3168,16 +3191,10 @@ ol.concierge-list {
   color: var(--color-text-inverse);
 }
 
-/* Text in a navy header never runs past one line (designer, 2026-10-11).
-   If copy grows too long it is cut with an ellipsis, so the overflow shows
-   at once in review and the copy gets shortened, rather than the header
-   quietly growing. The full title stays available to screen readers. */
-.feature-card__head--inverse :is(.feature-card__eyebrow, .feature-card__title),
-.map-home .signal-picture--card > .account-card__top .account-card__name {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
+/* Text in a navy header wraps onto as many lines as it needs (designer,
+   2026-10-12). It used to be held to one line and cut with an ellipsis so
+   over-long copy showed up in review; a header that grows is better than a
+   title a reader cannot finish, so nothing here is ever cut off. */
 
 .feature-card__body {
   display: flex;
@@ -6595,10 +6612,10 @@ ol.ring-detail__timeline {
   padding: var(--space-xs) var(--space-sm);
   /* Keep the lines the user broke with Shift+Enter in the composer. */
   white-space: pre-line;
-  /* Light blue with dark text, not navy, so the only navy in the panel is
-     where she is (designer, 2026-10-07). */
-  color: var(--color-text-primary);
-  background-color: var(--color-surface-active);
+  /* Navy with light text (designer, 2026-10-12, replacing the light blue of
+     2026-10-07): her words carry the one strong colour in the panel. */
+  color: var(--color-text-inverse);
+  background-color: var(--color-surface-inverse);
   border-radius: var(--radius-lg);
   border-bottom-right-radius: var(--radius-xs);
 }
@@ -9313,7 +9330,10 @@ ol.signal__list {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
-  padding: var(--space-md) var(--space-md) var(--space-sm);
+  /* The same 16px on every side (designer, 2026-10-12): the foot used to
+     take 12, which left the last publication sitting closer to the card's
+     edge than the eyebrow does to the top. */
+  padding: var(--space-md);
   border: var(--border-width-thin) solid var(--color-border);
   border-top: var(--border-width-thick) solid var(--color-text-primary);
   border-radius: var(--radius-xl);
@@ -9379,6 +9399,20 @@ ol.signal__list {
 .briefing-editorial.is-focus {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
+}
+
+/* The Briefing card is dark green, not navy (designer, 2026-10-12): the
+   day's reading sits apart from the navy cards around it, and it keeps the
+   green the cover faded into. Its tokens remap the way the progress
+   card's do. */
+.briefing-editorial {
+  --color-surface-raised: var(--color-surface-progress);
+  --color-text-secondary: var(--color-text-on-progress-muted);
+  --color-text-muted: var(--color-text-on-progress-muted);
+  --color-border: var(--color-border-progress);
+  --color-border-subtle: var(--color-border-progress);
+  --color-eyebrow: var(--color-eyebrow-on-progress);
+  background-color: var(--color-surface-progress);
 }
 
 /* With a cover: a photograph across the top of a taller card, fading into
@@ -9538,19 +9572,30 @@ ol.signal__list {
   gap: var(--space-3xs) var(--space-sm);
 }
 
+/* The card's name is a true eyebrow: the system's eyebrow role and its
+   eyebrow colour, which on this green card is the light green (designer,
+   2026-10-12), so it matches every other eyebrow on the page. */
 .briefing-editorial__heading {
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-text-secondary);
+  color: var(--color-eyebrow);
 }
 
+/* The date and the count are metadata, so they take the caption role. */
 .briefing-editorial__meta {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2xs);
-  font-size: var(--text-xs);
+  font-family: var(--type-caption-font);
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  line-height: var(--type-caption-leading);
+  letter-spacing: var(--type-caption-tracking);
   color: var(--color-text-muted);
 }
 
@@ -9574,13 +9619,11 @@ ol.signal__list {
   min-width: 0;
 }
 
-/* The headline in white on the navy, a step heavier than regular. Two lines
-   at most, so a long headline can't grow the card. */
+/* The headline in white on the navy, a step heavier than regular. It runs
+   to as many lines as it needs (designer, 2026-10-12): it used to stop at
+   two so the card kept its height, but a headline a reader cannot finish is
+   worse than a card that grows. Nothing here is cut. */
 .briefing-editorial__lead {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
   font-family: var(--font-serif);
   font-size: var(--text-lg);
   font-weight: var(--weight-serif-medium);
@@ -9609,17 +9652,21 @@ ol.signal__list {
   line-height: var(--leading-snug);
 }
 
-/* The publication, as quiet text under its headline. */
+/* The publication under its headline, quieter than the read it belongs to
+   (designer, 2026-10-12): the caption role at its own regular weight, in the
+   card's softer green. The headline above it carries the weight and the
+   full-strength ink, so the read is what is seen first. */
 .briefing-editorial__source {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
+  font-family: var(--type-caption-font);
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  line-height: var(--type-caption-leading);
+  letter-spacing: var(--type-caption-tracking);
   color: var(--color-text-secondary);
 }
 
-/* The other reads: small bullets of one line each, under a rule. */
+/* The other reads: small bullets under a rule, each running to as many
+   lines as its headline needs. */
 .briefing-editorial__others {
   display: flex;
   flex-direction: column;
@@ -9641,19 +9688,22 @@ ol.signal__list {
   content: "";
   position: absolute;
   left: var(--space-3xs);
-  top: calc(var(--text-sm) * var(--leading-normal) / 2 - var(--space-3xs));
+  top: calc(var(--type-body-sm-size) * var(--type-body-sm-leading) / 2 - var(--space-3xs));
   width: var(--space-2xs);
   height: var(--space-2xs);
   border-radius: var(--radius-pill);
   background-color: var(--color-text-secondary);
 }
 
+/* The two lesser reads are headlines, so they lead their own bullet: the
+   size Kate set for them, a step heavier than their publication and in the
+   card's full-strength ink (designer, 2026-10-12). */
 .briefing-editorial__title {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--weight-semibold);
+  line-height: var(--type-body-sm-leading);
+  letter-spacing: var(--type-body-sm-tracking);
   color: var(--color-text-primary);
 }
 
@@ -9683,6 +9733,9 @@ ol.signal__list {
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-xl);
   background-color: var(--color-surface-raised);
+  /* The blue band at the head runs to the card's edge, so it is clipped to
+     its corners. */
+  overflow: hidden;
 }
 
 .check-in__about {
@@ -9728,10 +9781,15 @@ ol.signal__list {
   font-size: var(--type-caption-size);
   font-weight: var(--weight-regular);
   line-height: var(--type-caption-leading);
-  color: var(--color-text-secondary);
-  /* A hairline sets the context apart from the question under it. */
-  padding-bottom: var(--space-sm);
-  border-bottom: var(--border-width-thin) solid var(--color-border-subtle);
+  /* Navy on the band, not the page's grey: 11.3:1. */
+  color: var(--color-text-on-check-in-band);
+  /* What it is about rides in a light blue band across the head of the
+     card, to the edges. The band sets it apart from the question, so it
+     needs no hairline under it (designer, 2026-10-12). The lesser answers
+     at the foot keep theirs. */
+  margin: calc(-1 * var(--space-md)) calc(-1 * var(--space-md)) 0;
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-surface-check-in-band);
 }
 
 .check-in__about b {
@@ -9841,6 +9899,58 @@ ol.signal__list {
 
 /* Once answered, the read-back takes the question's place and its type,
    with no box of its own inside the card. */
+/* Logged: three rows over the white area, the outer two equal, so what she
+   said is dead centre whatever its length. The pill sits in the row above
+   it, centred in that row — halfway between the blue band and her words
+   (designer, 2026-10-12). */
+.check-in--question > .check-in__logged-body {
+  flex: 1;
+  display: grid;
+  grid-template-rows: 1fr auto 1fr;
+}
+
+.check-in--question > .check-in__logged-body > .check-in__logged {
+  grid-row: 1;
+  align-self: center;
+  justify-self: center;
+  /* The card's own gap sits above this row, so the pill rides up by half of
+     it to centre on the whole run from the band down to her words. A
+     centred item moves by half its margin, so the margin is the gap. */
+  margin: calc(-1 * var(--space-md)) 0 0;
+}
+
+.check-in--question > .check-in__logged-body > .check-in__readback {
+  grid-row: 2;
+}
+
+.check-in__logged {
+  display: block;
+  width: fit-content;
+  margin: 0 auto;
+  padding: var(--space-2xs) var(--space-md);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-logged);
+  color: var(--color-text-on-logged);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
+  text-transform: uppercase;
+}
+
+/* "You told me:" sits on its own line above the quote, quieter than it. */
+.check-in__readback-lead {
+  display: block;
+  margin-bottom: var(--space-3xs);
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
+}
+
 .check-in__readback {
   margin: 0;
   font-family: var(--type-subheading-font);
@@ -10359,12 +10469,26 @@ ol.check-in__steps {
 .account-card__try {
   display: flex;
   flex-direction: column;
-  /* A white card, outlined like the other cards on the page. Top and
-     bottom take the cards' standard 20px. */
+  /* A navy card (designer, 2026-10-12): the one thing to try next, at the
+     foot of the page, reads as a callout rather than another white card.
+     Its tokens remap the way the Briefing's do, and its eyebrow takes the
+     gold that every eyebrow on navy does. Top and bottom take the cards'
+     standard 20px. */
   padding: var(--space-feature-padding) var(--space-md);
-  border: var(--border-width-thin) solid var(--color-border);
+  border: var(--border-width-thin) solid transparent;
   border-radius: var(--radius-xl);
-  background-color: var(--color-surface-raised);
+  --color-surface-raised: var(--color-surface-inverse);
+  --color-surface-hover: var(--color-surface-inverse-hover);
+  --color-text-primary: var(--color-text-inverse);
+  --color-text-secondary: var(--color-text-inverse-muted);
+  --color-text-muted: var(--color-text-inverse-muted);
+  --color-border: var(--color-border-inverse);
+  --color-border-subtle: var(--color-border-inverse);
+  --color-eyebrow: var(--color-accent-on-inverse);
+  --color-focus: var(--color-focus-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
 }
 
 .account-card__try b {
@@ -13211,6 +13335,13 @@ ul.map-panel__list {
 
 .map-home__side > :is(.map-home__briefing, .signal-picture--card) + :is(.signal-picture--card, .account-card__try) {
   margin-top: var(--space-between-cards);
+}
+
+/* With nothing in progress that wrapper is empty and hidden, so the card
+   after it would carry a second section gap on top of the page's own.
+   It starts the column instead. */
+.map-home__side > .map-home__stay:empty + * {
+  margin-top: 0;
 }
 
 /* On web the column's pieces sit in the page grid, which spaces them. */
