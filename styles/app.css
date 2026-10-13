@@ -8668,23 +8668,29 @@ ol.ring-detail__timeline {
   color: var(--color-text-primary);
 }
 
+/* Who said it: the grey eyebrow, as a read's label is. */
 .reflection-reply__quote figcaption {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
   color: var(--color-text-secondary);
 }
 
+/* Worth knowing is a read in the system's card: the raised surface, a soft
+   edge, the card corners and padding; a grey eyebrow, the fact in the copy's
+   ink, and its source as a caption. */
 .reflection-reply__fact {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3xs);
-  padding: var(--space-sm) var(--space-md);
-  border: var(--border-thin);
-  border-radius: var(--radius-md);
+  gap: var(--space-eyebrow-title);
+  padding: var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
 }
 
 /* Unsourced: dashed, so it can never pass for finished copy. */
@@ -8694,25 +8700,34 @@ ol.ring-detail__timeline {
 }
 
 .reflection-reply__fact-label {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
   color: var(--color-text-secondary);
 }
 
 .reflection-reply__fact-text {
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  letter-spacing: var(--type-body-sm-tracking);
+  word-spacing: var(--type-body-sm-word-spacing);
+  color: var(--color-text-primary);
 }
 
 .reflection-reply__fact-source {
-  font-size: var(--text-xs);
-  line-height: var(--leading-normal);
-  color: var(--color-text-muted);
+  margin-top: var(--space-2xs);
+  font-family: var(--type-caption-font);
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  line-height: var(--type-caption-leading);
+  letter-spacing: var(--type-caption-tracking);
+  color: var(--color-text-secondary);
 }
 
 /* The recommendation, stated as one. */
