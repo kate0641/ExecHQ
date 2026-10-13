@@ -161,9 +161,9 @@ export function AnswerDrawer({
               {primaryLabel}
             </Button>
             {secondaryLabel ? (
-              <button type="button" className="answer-drawer__link" onClick={onSecondary} onMouseDown={keepFocus}>
+              <Button variant="secondary" onClick={onSecondary} onMouseDown={keepFocus}>
                 {secondaryLabel}
-              </button>
+              </Button>
             ) : null}
           </div>
         )}
