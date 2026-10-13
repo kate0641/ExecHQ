@@ -32,7 +32,8 @@ export interface ToolUseCase {
   makes: string;
   /** A few words, for a tile: "Bios and your narrative". */
   short: string;
-  /** The name in a word or two, under an icon where four share one row. */
+  /** The name in two words, under an icon where four share one row: each
+   *  two words, so no one name runs much longer than the others (Kate, 13 Oct). */
   label: string;
   /** One sentence: when to use it. */
   when: string;
@@ -47,7 +48,7 @@ export interface ToolUseCase {
 export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
   positioning: {
     kind: "positioning",
-    label: "Positioning",
+    label: "Positioning statement",
     name: "Positioning Builder",
     makes: "Your positioning statement, a bio in three lengths and a leadership narrative, in your words.",
     short: "Your statement, bios and narrative",
@@ -58,7 +59,7 @@ export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
   },
   pitch: {
     kind: "pitch",
-    label: "Pitch",
+    label: "Pitch builder",
     name: "Pitch Builder",
     makes: "A pitch to a conference, a podcast or an editor, with subject lines and the follow-up already drafted.",
     short: "Pitches for stages, shows and press",
@@ -69,7 +70,7 @@ export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
   },
   "situation-brief": {
     kind: "situation-brief",
-    label: "Brief",
+    label: "Situation brief",
     name: "Situation Brief",
     makes: "A one-page brief for a moment that matters: what you want from it, what you will say, what they will ask.",
     short: "One page before a moment that matters",
@@ -176,6 +177,16 @@ export const TL_INPUTS_FROM_BRIEFING: readonly ToolInput[] = [
     optional: true,
     placeholder: "Ask a question, invite a reply, or nothing",
   },
+  // The PRD's evidence, voice and length, each changing the draft (Kate, 13 Oct).
+  {
+    id: "evidence",
+    label: "Any result or evidence to point to?",
+    hint: "What changed because of it. Leave out numbers you can’t share.",
+    kind: "long",
+    optional: true,
+  },
+  { id: "voice", label: "How should it sound?", kind: "choice", optional: true, options: ["Plainer", "Warmer", "More direct"] },
+  { id: "length", label: "How long?", kind: "choice", optional: true, options: ["Short", "Standard", "Long"] },
 ];
 
 /** Thought Leadership Builder opened from the Toolbox or a plan step: no
@@ -193,6 +204,9 @@ export const TL_INPUTS_DIRECT: readonly ToolInput[] = [
   TL_INPUTS_FROM_BRIEFING[3],
   TL_INPUTS_FROM_BRIEFING[1],
   TL_INPUTS_FROM_BRIEFING[4],
+  TL_INPUTS_FROM_BRIEFING[5],
+  TL_INPUTS_FROM_BRIEFING[6],
+  TL_INPUTS_FROM_BRIEFING[7],
 ];
 
 /** The plan step's own words, when Thought Leadership Builder opens from it. */
@@ -238,6 +252,9 @@ export const INPUT_COPY = {
   writing: "Writing your first draft…",
   /** Under the button, so the enricher never reads as a gate. */
   notNeeded: "You don’t need anything else to start.",
+  /** Optional questions folded away until she asks for them (Concept 2). */
+  moreDetail: (n: number) => `Add more detail (${n} optional)`,
+  lessDetail: "Hide the optional questions",
 } as const;
 
 /* -----------------------------------------------------------------------------
@@ -247,10 +264,12 @@ export const INPUT_COPY = {
    difference, so generated framing is never mistaken for what she said.
    -------------------------------------------------------------------------- */
 
+/** `part` names the sentence a segment belongs to, where a revision can
+ *  move whole sentences (a pitch's emphasis). */
 export type DraftSegment =
-  | { text: string; by: "you" }
-  | { text: string; by: "exechq" }
-  | { question: string };
+  | { text: string; by: "you"; part?: string }
+  | { text: string; by: "exechq"; part?: string }
+  | { question: string; part?: string };
 
 export interface DraftSection {
   id: string;
@@ -331,6 +350,11 @@ export const FLOW_COPY = {
   write: "Write my first draft",
   /** Concept 1: the step that shows what ExecHQ already has. */
   knownStep: "Check what ExecHQ has",
+  /** Concept 3, under the open draft on a phone: back to the changes. */
+  changeDraft: "Change the draft",
+  /** The same last step when ExecHQ has nothing to show: only optional
+   *  questions are left. */
+  lastStep: "Anything else?",
   revise: "Revise",
   versions: "Versions",
   inputs: "Inputs",
@@ -400,6 +424,14 @@ export const REVISION_OPTIONS: readonly RevisionOption[] = [
   { id: "emphasis", label: "Emphasis", choices: ["My example", "The article’s point", "The question at the end"] },
 ];
 
+/** Each builder's own emphasis choices: what it can lead with. */
+export const EMPHASIS_BY_KIND: Record<ArtifactKind, readonly string[]> = {
+  positioning: ["What I lead", "What I’m known for", "Where I’m headed"],
+  pitch: ["The angle", "The proof", "Why now"],
+  "situation-brief": ["The ask", "The evidence", "The risks"],
+  "thought-leadership": ["My example", "The article’s point", "The question at the end"],
+};
+
 export const REVISION_COPY = {
   heading: "Change the draft",
   followUpLabel: "Or say what to change",
@@ -442,6 +474,8 @@ export const USE_COPY = {
   } as Record<ArtifactKind, string>,
   copied: "Copied. Paste it wherever you need it.",
   export: "Export",
+  /** The menu that holds the downloads where the bar has room for three (Concept 1). */
+  more: "More",
   exportPdf: "Download as PDF",
   exportWord: "Download as Word",
   /** On one output, where space is short. */
@@ -457,7 +491,8 @@ export const USE_COPY = {
    *  the Situation Brief, bios and long-form articles (brief's proposed answer). */
   exportable: {
     positioning: true,
-    pitch: false,
+    // Kate, 13 Oct: the pitch exports too.
+    pitch: true,
     "situation-brief": true,
     "thought-leadership": false,
   } as Record<ArtifactKind, boolean>,
@@ -531,12 +566,21 @@ export const LIBRARY_SEED: Record<string, ArtifactMeta> = {
     versions: 2,
     preview: "I’d like to put myself forward to lead marketing’s part of the Q1 planning review.",
   },
+  "post-planning": {
+    area: "seen-as-leader",
+    versions: 2,
+    preview: "Running campaigns in three regions taught me that the plan is where scope gets decided.",
+  },
+  "podcast-pitch": {
+    area: "broader-remit",
+    versions: 1,
+    preview: "A pitch to talk about turning regional campaigns into one marketing plan.",
+  },
 };
 
 export const LIBRARY_COPY = {
   heading: "Library",
   lead: "Everything you’ve made, wherever you started it.",
-  count: (n: number) => (n === 1 ? "1 artifact" : `${n} artifacts`),
   search: "Search your library",
   searchHint: "Searches titles and what they say.",
   noMatch: (q: string) => `Nothing in your library mentions “${q}”.`,
@@ -594,6 +638,23 @@ export const LIBRARY_COPY = {
     empty: "Nothing here yet",
     emptyBody: (tool: string) => `Anything you make in ${tool} is filed here.`,
     back: "Library",
+    /** The folder's own page (phone): back to the Toolbox. */
+    backToToolbox: "Toolbox",
+    /** The status chips over a folder's list, each with how many it holds. */
+    filter: "Show",
+    all: "All",
+    chip: (label: string, n: number) => `${label} ${n}`,
+    /** The third line of a row in a folder: what comes next for it. */
+    next: {
+      draft: "Finish the draft",
+      ready: (kind: ArtifactKind) =>
+        ({ pitch: "Send it when you’re ready", "thought-leadership": "Publish it when you’re ready" })[kind as string] ?? "Use it when you’re ready",
+      checksBack: (when: string) => `ExecHQ checks back ${when}`,
+      sayHow: "Say how it went",
+      close: "Close it when you’re done",
+      closed: "Nothing more to do",
+    },
+    noneInStatus: (status: string) => `Nothing here is ${status.toLowerCase()}.`,
     open: (name: string) => `Open ${name}`,
     results: (n: number, q: string) => (n === 1 ? `1 match for “${q}”` : `${n} matches for “${q}”`),
     /** One part of a folder's counts, by status filter id, in the Loop's words. */
@@ -634,6 +695,31 @@ export const TOOLBOX_PAGE = {
   /** Over the tool her next plan step needs (Concept 1). */
   nextOnPlan: "Next on your plan",
   toolsLabel: "Tools",
+  /** Concept 3: the drafts she touched last, not yet used, under the tools. */
+  workingOn: {
+    heading: "What are you working on right now?",
+    /** How many it shows at most. */
+    max: 3,
+  },
+  /** Concept 1: the draft she touched last, and the others from 30 days. */
+  pickUp: {
+    heading: "Pick up where you left off",
+    more: (n: number) => `${n} more from the last 30 days`,
+    fewer: "Show fewer",
+    detail: (status: string, date: string) => `${status} · ${date}`,
+    /** How far back "more" reaches, in days. */
+    days: 30,
+  },
+  /** Concept 1, under the tools: what she says opens the advisor, who
+   *  suggests the tool. */
+  mind: {
+    label: "What’s on your mind?",
+    /** The field's placeholder. It has to fit beside the send arrow on a
+     *  phone, so it is shorter than the hint it replaced. */
+    hint: "ExecHQ will suggest a tool",
+    /** The send arrow's name. */
+    go: "Find the right tool",
+  },
   /** Concept 3. */
   moment: {
     label: "What’s coming up?",
@@ -650,13 +736,15 @@ export const TOOLBOX_PAGE = {
   },
 } as const;
 
-/** Concept 3's rules for picking a tool from what she says is coming up. The
+/** The rules for picking a tool from what she says (Concept 3's box, and the
+ *  advisor answering Concept 1's "What's on your mind?"). The
  *  pilot's matching is rules-based, so it only places a few kinds of moment,
- *  and anything else asks rather than guesses. First match wins. */
+ *  and anything else asks rather than guesses. First match wins, so the
+ *  things she names outright (a pitch, a post) come before the moments. */
 export const MOMENT_RULES: readonly { kind: ArtifactKind; words: RegExp }[] = [
-  { kind: "situation-brief", words: /\b(review|board|meeting|negotiat\w*|check-?in|1:1|one-to-one|conversation|interview|offsite|presentation)\b/i },
-  { kind: "pitch", words: /\b(pitch\w*|podcast|conference|panel|speak\w*|talk|keynote|press|editor|journalist|call for (proposals|papers))\b/i },
+  { kind: "pitch", words: /\b(pitch\w*|podcast|conference|panel|speak\w*|(a|give a) talk|keynote|press|editor|journalist|call for (proposals|papers))\b/i },
   { kind: "thought-leadership", words: /\b(post|linkedin|article|blog|newsletter|essay|op-?ed|write|read)\b/i },
+  { kind: "situation-brief", words: /\b(review|board|meeting|negotiat\w*|check-?in|1:1|one-to-one|conversation|interview|offsite|presentation|manager|boss|talk (about|with|to)|scope)\b/i },
   { kind: "positioning", words: /\b(bio|introduc\w*|promotion|positioning|new (boss|manager|role)|about me|profile)\b/i },
 ];
 
@@ -728,10 +816,14 @@ export const PITCH_INPUTS: readonly ToolInput[] = [
     source: "direction",
   },
   { id: "links", label: "Links or earlier talks", kind: "text", optional: true, placeholder: "A post, a recording, a past talk" },
+  // Who she is, for the pitch's introduction and "Why me" (the PRD's career
+  // direction and plan context). Known, shown to check, never asked.
+  { id: "role", label: "Your role, as you’d say it", kind: "text", source: "plan" },
+  { id: "statement", label: "Your positioning statement", kind: "long", source: "onboarding" },
 ];
 
 export const BRIEF_INPUTS: readonly ToolInput[] = [
-  { id: "type", label: "What is the moment?", kind: "choice", options: ["A review", "A board meeting", "A negotiation", "An executive conversation"] },
+  { id: "type", label: "What is the moment?", kind: "choice", options: ["A review", "A board meeting", "A negotiation", "An executive conversation", "Something else"] },
   { id: "date", label: "When is it?", hint: "If you know. ExecHQ asks how it went after it.", kind: "date", optional: true },
   {
     id: "objective",
@@ -741,13 +833,33 @@ export const BRIEF_INPUTS: readonly ToolInput[] = [
     placeholder: "Agreement that I lead the planning workstream",
   },
   { id: "audience", label: "Who will be there?", kind: "text", placeholder: "My manager" },
+  // The PRD's stakeholder context and risks, each used in the draft (Kate, 13 Oct).
+  {
+    id: "stakes",
+    label: "What do they care about?",
+    hint: "What’s at stake for them, in a line.",
+    kind: "text",
+    optional: true,
+    placeholder: "Hitting the Q1 numbers without adding headcount",
+  },
   {
     id: "evidence",
     label: "Anything to draw on",
-    hint: "Evidence, risks, notes you already have. Paste them in.",
+    hint: "Evidence, notes or source material you already have. Paste them in.",
     kind: "long",
     optional: true,
   },
+  {
+    id: "risks",
+    label: "Any risks or concerns?",
+    hint: "One a line. Each becomes a question to prepare for.",
+    kind: "long",
+    optional: true,
+    placeholder: "It takes time from the campaign calendar",
+  },
+  // What it already knows, shown to check: her statement, which the opening
+  // statement draws on (the use case screen's "Goes with this" promise).
+  { id: "statement", label: "Your positioning statement", kind: "long", source: "onboarding" },
 ];
 
 /** What a plan step already says, by step id: those inputs arrive filled in. */
@@ -768,11 +880,81 @@ export const SEED_INPUTS: Record<string, Record<string, string>> = {
     objective: "Leave Thursday’s check-in with the planning workstream agreed as mine.",
     audience: "My manager",
   },
+  "post-planning": {
+    format: "LinkedIn post",
+    topic: "What three regions taught me about planning",
+    pov: "The plan is where scope gets decided, so marketing has to be in the room when it’s written.",
+    example: "I’m leading our planning workstream this year, across marketing, sales and product.",
+    audience: "Marketing and commercial leaders, and the people who decide on scope",
+  },
+  "podcast-pitch": {
+    type: "Podcast",
+    target: "The Marketing Leaders podcast",
+    angle: "Turning regional campaigns into one marketing plan",
+    proof: "I run campaigns across three regions, and I’m leading our planning workstream.",
+  },
   pitch: {
     type: "Speaking",
     target: "The Q1 planning review",
     angle: "Leading marketing’s part of the Q1 planning review",
     proof: "I run campaigns across three regions, and I’m leading our planning workstream.",
+  },
+};
+
+/* -----------------------------------------------------------------------------
+   THE STEP BAR (review scaffolding)
+   What the prototype's step bar calls each step, and the example answers a
+   jump fills in for any step she hasn't answered. Not product copy.
+   -------------------------------------------------------------------------- */
+
+export const STEP_BAR_COPY = {
+  start: "Start",
+  /** The last step before the draft, with what ExecHQ already has. */
+  check: "Check",
+  /** The same step with only optional questions left. */
+  anythingElse: "Anything else",
+  draft: "Draft",
+  revise: "Revise",
+  versions: "Versions",
+  ready: "Ready",
+} as const;
+
+/** Each question's short name in the bar, by tool and input id. */
+export const STEP_LABELS: Record<ArtifactKind, Record<string, string>> = {
+  positioning: { knownFor: "Known for", context: "Introduction", audience: "Audience", format: "Format", source: "Source text" },
+  pitch: { type: "Pitching for", angle: "Angle", proof: "Proof" },
+  "situation-brief": { type: "Moment", objective: "Outcome", audience: "Who’s there", stakes: "Their stakes", risks: "Risks" },
+  "thought-leadership": { format: "Format", topic: "Topic", pov: "Point of view", evidence: "Evidence", voice: "Voice", length: "Length" },
+};
+
+/** What a jump fills in for a question she hasn't answered. */
+export const EXAMPLE_ANSWERS: Record<ArtifactKind, Record<string, string>> = {
+  positioning: {
+    knownFor: "Turning regional campaigns into one plan the business can back",
+    audience: "Senior leaders where I work",
+    format: "LinkedIn About section",
+    source: "Before this role I ran field marketing for the EMEA region for four years. I started in agency account management.",
+  },
+  pitch: {
+    type: "Podcast",
+    target: "the Marketing Leaders podcast",
+    angle: "Turning regional campaigns into one marketing plan",
+    proof: "I run campaigns across three regions, and I’m leading our planning workstream.",
+  },
+  "situation-brief": {
+    type: "A board meeting",
+    date: "2026-10-29",
+    objective: "Agreement that I lead the Q1 planning workstream",
+    audience: "The CEO, the CFO and my manager",
+    stakes: "Hitting the Q1 numbers without adding headcount",
+    risks: "It takes time from the campaign calendar",
+  },
+  "thought-leadership": {
+    format: "LinkedIn post",
+    topic: "What three regions taught me about planning",
+    pov: "The plan is where scope gets decided, so marketing has to be in the room when it’s written.",
+    cta: "Ask how other teams decide who owns the plan",
+    evidence: "Two regions now plan together, and the third joins in Q1.",
   },
 };
 
@@ -823,6 +1005,30 @@ export const POSITIONING_INPUTS: readonly ToolInput[] = [
     kind: "choice",
     optional: true,
     options: ["A promotion conversation", "An executive introduction", "A conference program"],
+  },
+  // The PRD's optional audience and desired format, asked apart (Kate, 13 Oct).
+  {
+    id: "audience",
+    label: "Who is it mainly for?",
+    kind: "choice",
+    optional: true,
+    options: ["Senior leaders where I work", "An external audience", "Recruiters and boards"],
+  },
+  {
+    id: "format",
+    label: "Where will you use it first?",
+    kind: "choice",
+    optional: true,
+    options: ["LinkedIn About section", "A speaker bio", "An internal profile", "An email introduction"],
+  },
+  // The PRD's user-provided source text: it fills the gap the bios would
+  // otherwise leave as a question.
+  {
+    id: "source",
+    label: "Paste a bio you already have",
+    hint: "An old bio or profile. ExecHQ uses it to fill what it would otherwise ask.",
+    kind: "long",
+    optional: true,
   },
 ];
 

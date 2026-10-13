@@ -99,7 +99,19 @@ export interface BriefingRead {
   /** Concept C: ExecHQ's note on that passage: why this part, for her. The
    *  reason line says why the read is here; this says why this sentence. */
   note: string;
+  /** Concept 2: the whole article, read in ExecHQ, as paragraphs. A part
+   *  with a note is a highlighted passage with ExecHQ's note on it, so the
+   *  notes run all the way through. Invented, like everything here; in the
+   *  product it needs a licence from the publisher. */
+  body: ArticlePart[][];
 }
+
+/** A run of an article's text, or a highlighted passage with ExecHQ's note. */
+export type ArticlePart = string | { text: string; note: string };
+
+/** Where a read lives at its publisher. In the prototype, a stand-in page
+ *  (`app/source/[read]`), because every publisher is invented. */
+export const sourceHref = (id: string): string => `/source/${id}`;
 
 export const TODAYS_READS: BriefingRead[] = [
   {
@@ -113,6 +125,27 @@ export const TODAYS_READS: BriefingRead[] = [
     passage:
       "The remit goes to whoever has already described the problem it solves, usually in the planning document itself.",
     note: "You are writing part of that document. This is the part to bring to the Q1 review.",
+    body: [
+      [
+        "Ask a leader how they came to run something new and the answer rarely starts with a job posting. It starts in a planning meeting, months earlier, when a gap in next year’s plan needed an owner. ",
+        { text: "The remit goes to whoever has already described the problem it solves, usually in the planning document itself.", note: "You are writing part of that document. This is the part to bring to the Q1 review." },
+      ],
+      [
+        "That pattern holds across functions and company sizes. Planning is where the organization decides what it will do next year, and so where it decides who will do it. By the time a role is written up, the person who fills it has often been named in everything but title.",
+      ],
+      [
+        "The leaders who come out of planning with more are rarely the loudest in the room. ",
+        { text: "They are the ones who turned up with the problem already framed: what it costs now, what fixing it would take, and who would need to be involved.", note: "Cost, what it would take, who is involved: three lines you could draft before the review." },
+        " Framing does half the work of asking.",
+      ],
+      [
+        "Waiting to be asked has the opposite effect. A leader who delivers well on this year’s plan becomes part of next year’s baseline, and baselines don’t get new remits. ",
+        { text: "The plan is the one document where saying what you want to take on reads as useful rather than ambitious.", note: "If saying you want more scope feels awkward, the planning document is the place it won’t." },
+      ],
+      [
+        "None of this needs a title change first. It needs a page in the plan with your thinking on it, and a conversation with whoever signs the plan off before it is signed.",
+      ],
+    ],
   },
   {
     id: "widen-a-remit",
@@ -125,6 +158,26 @@ export const TODAYS_READS: BriefingRead[] = [
     passage:
       "The question is no longer whether the campaigns worked, but whether the teams around them would follow the same leader again.",
     note: "The workstream puts you across teams now. That is the evidence this describes.",
+    body: [
+      [
+        "When a chief marketing officer decides to widen someone’s remit, campaign results are the starting point, not the deciding one. Most candidates have good numbers. What separates them is harder to put in a dashboard.",
+      ],
+      [
+        { text: "The question is no longer whether the campaigns worked, but whether the teams around them would follow the same leader again.", note: "The workstream puts you across teams now. That is the evidence this describes." },
+        " Sales, product and finance all have a view on that, and the people deciding ask for it.",
+      ],
+      [
+        "Cross-functional judgment shows up in small decisions: which trade-off a leader escalates, which they settle themselves, and how they explain the ones that go against another team. ",
+        { text: "Leaders who keep a short record of those calls find them far easier to talk about when it matters.", note: "Two or three of your planning calls would make that record. Worth noting while they’re fresh." },
+      ],
+      [
+        "The other signal is how a leader talks about work they don’t own. Credit given to a partner team is noticed more than credit taken. ",
+        { text: "A broader remit is, in the end, a bet that someone can run work through people who don’t report to them.", note: "This is the line to keep in mind when you describe the workstream to your manager." },
+      ],
+      [
+        "For marketing leaders aiming at that bet, the advice from the people making it is plain: make the cross-team work visible, and make it easy for others to say good things about it.",
+      ],
+    ],
   },
   {
     id: "passed-over",
@@ -137,6 +190,25 @@ export const TODAYS_READS: BriefingRead[] = [
     passage:
       "Nobody hands new scope to the person they cannot spare. They hand it to the person who has said what they would do with it.",
     note: "Your leadership story already says what you would take on. This is the case for saying it out loud.",
+    body: [
+      [
+        "Every organization has them: the leader whose team always delivers, who is trusted with anything difficult, and who somehow never gets the bigger job. Reliability, it turns out, can be a trap.",
+      ],
+      [
+        { text: "Nobody hands new scope to the person they cannot spare. They hand it to the person who has said what they would do with it.", note: "Your leadership story already says what you would take on. This is the case for saying it out loud." },
+      ],
+      [
+        "The fix is not to deliver less. It is to change what people hear from you. Strong operators tend to report on what is done; the leaders who get scope talk about what is next. ",
+        { text: "A single sentence about the problem you would take on next does more than a quarter of flawless updates.", note: "That sentence is close to your positioning statement. Try it in your next one-to-one." },
+      ],
+      [
+        "It also helps to make yourself easier to spare. A deputy who can run the current work is the strongest argument that you are ready for more. ",
+        { text: "Leaders who have named a successor are moved on sooner than those who haven’t.", note: "Worth a thought before the Q1 review: who would run your work if you took on more?" },
+      ],
+      [
+        "Being seen as a leader rather than a deliverer is not a matter of style. It is a matter of saying, to the people who decide, what you would lead.",
+      ],
+    ],
   },
 ];
 
@@ -175,6 +247,12 @@ export const BRIEFING_COPY = {
     /** In the product this leaves for the publisher's site. */
     openAt: (publisher: string) => `Read it at ${publisher}`,
     openAtNote: "Opens on the publisher’s site.",
+    /** The prototype's stand-in for the article at its publisher. */
+    sourceNote: (publisher: string) =>
+      `Prototype stand-in. In ExecHQ this is the article itself, on ${publisher}’s own site.`,
+    sourceBody: "The article continues here, on the publisher’s site.",
+    /** For screen readers, after a headline that leaves for the article. */
+    opensAt: (publisher: string) => `opens at ${publisher} in a new tab`,
     markRead: "Mark as read",
     markUnread: "Mark as not read",
     readState: "Read",
@@ -227,7 +305,8 @@ export const BRIEFING_COPY = {
     notForMe: "Not for me",
     save: "Save",
     saved: "Saved",
-    post: "Post",
+    // Never just "Post": ExecHQ never posts for her (builder guardrails, 13 Oct).
+    post: "Write a post",
     postFull: "Write a post about this",
   },
 
@@ -242,6 +321,10 @@ export const BRIEFING_COPY = {
   passage: {
     label: "A passage for you",
     noteLabel: "ExecHQ’s note",
+    /** Concept 2: after a highlighted passage, for screen readers. */
+    noteRef: (n: number) => `ExecHQ’s note ${n} follows`,
+    /** Concept 2: the foot of an article read in ExecHQ. */
+    credit: (publisher: string) => `Published by ${publisher}. Highlights and notes by ExecHQ.`,
     tapHint: "Tap the passage to respond to it.",
     sheetHeading: "This passage",
     respond: "Respond to this",

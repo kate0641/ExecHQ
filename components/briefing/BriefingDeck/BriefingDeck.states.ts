@@ -1,10 +1,10 @@
 import { defineComponentStates } from "@/components/types";
 import { NOT_AN_INPUT } from "@/components/not-applicable";
-import { TODAYS_READS } from "@/mock/briefing";
+import { sourceHref, TODAYS_READS } from "@/mock/briefing";
 import { BriefingDeck } from "./BriefingDeck";
 
 const noop = () => {};
-const base = { reads: TODAYS_READS, open: 0, onOpen: noop };
+const base = { reads: TODAYS_READS, open: 0, onOpen: noop, hrefFor: (read: { id: string }) => sourceHref(read.id) };
 
 export const briefingDeckStates = defineComponentStates({
   name: "BriefingDeck",
@@ -12,7 +12,7 @@ export const briefingDeckStates = defineComponentStates({
   status: "draft",
   flows: ["daily-briefing"],
   description:
-    "Today's three reads as a stack of cards (Briefing Concept 1, option B): one read open in full with its publisher, headline, why it is here and its actions; the other two as top strips tucked against it. Pressing a strip opens that read in its place. Each card says 1 of 3, so the stack reads as a finished set. Cards stay in reading order for screen readers and the keyboard. Tinted from the deck tokens; the publisher is always named.",
+    "Today's three reads as a stack of cards (Briefing Concept 1, option B): one read open in full with its publisher, headline, why it is here and its actions; the other two as top strips tucked against it. Pressing a strip opens that read in its place; the open card's headline is underlined and opens the article at its publisher in a new tab, from anywhere on the card. Each card says 1 of 3, so the stack reads as a finished set. Cards stay in reading order for screen readers and the keyboard. Tinted from the deck tokens; the publisher is always named.",
   component: BriefingDeck,
   notApplicable: {
     disabled: "Every read can always be opened.",

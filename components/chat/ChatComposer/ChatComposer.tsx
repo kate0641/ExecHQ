@@ -16,6 +16,11 @@ export interface ChatComposerProps {
   onChange: (value: string) => void;
   onSend: (value: string) => void;
   placeholder?: string;
+  /** The field's name, read by screen readers. "Message" in the chat; a
+   *  page that shows its own question uses that question. */
+  fieldLabel?: string;
+  /** The send button's name. "Send" in the chat. */
+  sendLabel?: string;
   /** On while ExecHQ is writing, so an answer cannot overtake the question.
    *  The field stays focusable; only sending is held back. */
   disabled?: boolean;
@@ -52,6 +57,8 @@ export function ChatComposer({
   onChange,
   onSend,
   placeholder,
+  fieldLabel = "Message",
+  sendLabel = "Send",
   disabled = false,
   holdSend = false,
   voice,
@@ -108,7 +115,7 @@ export function ChatComposer({
       ) : null}
       <textarea
         id={id}
-        aria-label="Message"
+        aria-label={fieldLabel}
         ref={fieldRef}
         className="chat-composer__field"
         rows={1}
@@ -128,7 +135,7 @@ export function ChatComposer({
       <button
         type="submit"
         className="chat-composer__send"
-        aria-label="Send"
+        aria-label={sendLabel}
         disabled={disabled || holdSend || !value.trim()}
       >
         <Icon name="send" size={20} />

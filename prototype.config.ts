@@ -30,6 +30,10 @@ export interface Concept {
   status?: Status;
   /** One line shown under the concept in the hub. */
   summary?: string;
+  /** Set aside, not chosen. It still opens, and the hub labels it
+   *  "Scratched" in place of its status, until it is moved to the `scratch`
+   *  branch and removed from `main`. Only Kate scratches a concept. */
+  scratched?: boolean;
 }
 
 export interface Flow {
@@ -225,7 +229,7 @@ export const prototypeConfig: PrototypeConfig = {
           slug: "concept-1",
           title: "Concept 1 — Tool cards",
           summary:
-            "The tool for her next plan step leads with its drawing (a bento on tablet and web, one row and three icons on a phone); the library below filtered by tool and status. Tools open as guided steps.",
+            "The tool for her next plan step leads with its drawing (a bento on tablet and web, one row and three icons on a phone), then What’s on your mind? and Pick up where you left off. The library is its own page, from Library at the top right. Tools open as guided steps.",
         },
         {
           slug: "concept-2",
@@ -236,6 +240,9 @@ export const prototypeConfig: PrototypeConfig = {
         {
           slug: "concept-3",
           title: "Concept 3 — Start from the moment",
+          // Scratched by Kate, 13 Oct: its "What's on your mind?" and "working
+          // on" ideas went into Concept 1. Not yet moved to `scratch`.
+          scratched: true,
           summary:
             "The wild card: What’s coming up? picks the tool; the library is a timeline by week. Tools open as an interview beside the draft.",
         },
@@ -283,17 +290,20 @@ export const prototypeConfig: PrototypeConfig = {
           slug: "concept-1",
           title: "Concept 1 — Front page",
           summary:
-            "Today’s three as a stack of cards: one open in full, the other two as strips that open in their place. Publishers are changed on the page.",
+            "Today’s three as a stack of cards: one open in full, the other two as strips that open in their place. Tapping the open card opens the article at its publisher, in a new tab. Publishers are changed on the page.",
         },
         {
           slug: "concept-2",
           title: "Concept 2 — News app",
           summary:
-            "A front page like a news app: the lead story with a big picture, two rows with small ones, each saying why it is here. A story opens a reader screen with a bar at the foot: Back, Relevant, Not for me, Save, Write a post.",
+            "A front page like a news app: the lead story with a big picture, two rows with small ones, each saying why it is here. A story opens the whole article in ExecHQ, with ExecHQ’s notes on highlighted passages all the way through, and a bar at the foot: Back, Relevant, Not for me, Save, Write a post.",
         },
         {
           slug: "concept-3",
           title: "Concept 3 — Annotated",
+          // Scratched by Kate, 13 Oct: its highlighted passages and notes went
+          // into Concept 2's article. Not yet moved to `scratch`.
+          scratched: true,
           summary:
             "The wild card: each read has one highlighted passage with ExecHQ’s note; tap it to respond in Thought Leadership Builder.",
         },

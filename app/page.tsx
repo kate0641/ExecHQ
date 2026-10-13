@@ -7,6 +7,7 @@ import { SHOWROOM_ROOMS } from "@/lib/hub-pages";
 import { flows } from "@/lib/manifest";
 import { getBuiltConceptKeys } from "@/flows/registry";
 import { getSpec, type Spec } from "@/lib/specs";
+import { BUILDER_BRIEFS, getBuilderBrief } from "@/lib/builder-briefs";
 import { PLAN_BRIEFS, getPlanBrief } from "@/lib/plan-briefs";
 import { readTokens } from "@/lib/tokens";
 
@@ -40,7 +41,8 @@ export default function HubPage() {
         <p>
           Everything in this prototype is declared in <code>prototype.config.ts</code>.{" "}
           {flows.length} flows and {conceptCount} concept pages, then the{" "}
-          <TextLink href="#plan-briefs">plan briefs</TextLink>. Nothing here talks to a network.
+          <TextLink href="#plan-briefs">plan briefs</TextLink> and the{" "}
+          <TextLink href="#builder-briefs">builder briefs</TextLink>. Nothing here talks to a network.
         </p>
       }
     >
@@ -103,6 +105,41 @@ export default function HubPage() {
                     <span className="u-visually-hidden"> for {entry.title}</span>
                   </TextLink>
                   {getPlanBrief(entry.slug)?.content ? null : (
+                    <span className="flow-list__spec-empty"> · not yet written</span>
+                  )}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section className="hub__section" id="builder-briefs" aria-labelledby="builder-briefs-title">
+        <h2 className="hub__section-title" id="builder-briefs-title">
+          Builder briefs
+        </h2>
+        <p className="hub__section-intro t-measure">
+          The agent&rsquo;s background for each Toolbox builder: what it makes, what it asks, the
+          draft section by section, and how it is used and followed up. All four have the same
+          sections, because they share one workflow. Reference, like the plan briefs, not product
+          screens. One markdown file each in <code>builders/</code>.
+        </p>
+        <div className="flow-list">
+          <ul className="flow-list__flows">
+            {BUILDER_BRIEFS.map((entry) => (
+              <li className="flow-list__flow" key={entry.slug}>
+                <div className="flow-list__flow-header">
+                  <h3 className="flow-list__flow-title">{entry.title}</h3>
+                </div>
+                <p className="flow-list__flow-description">
+                  {entry.makes ? `${entry.makes}. ${entry.description}` : entry.description}
+                </p>
+                <p className="flow-list__spec">
+                  <TextLink href={`/builders/${entry.slug}`} tone="standalone">
+                    {entry.makes ? "Builder brief" : "Read the rules"}
+                    <span className="u-visually-hidden"> for {entry.title}</span>
+                  </TextLink>
+                  {getBuilderBrief(entry.slug)?.content ? null : (
                     <span className="flow-list__spec-empty"> · not yet written</span>
                   )}
                 </p>

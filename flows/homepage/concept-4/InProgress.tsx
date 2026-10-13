@@ -3,7 +3,7 @@
 import { LoopRow } from "@/components/homepage/LoopRow";
 import { CardCarousel, type CarouselItem } from "@/components/layout/CardCarousel";
 import { CheckIn } from "@/components/loop/CheckIn";
-import { addDays, aheadPhrase, dueFollowUps, type LoopRecord } from "@/lib/loop";
+import { addDays, aheadPhrase, dueFollowUps, outcomeReadback, type LoopRecord } from "@/lib/loop";
 import { loopActions, type LoopView } from "@/lib/loop-store";
 import { CHECKIN_COPY as CK, HOME_COPY, STAY_COPY as S } from "@/mock/homepage";
 import { FOLLOW_UP_POLICY, OUTCOME_READBACK } from "@/mock/loop";
@@ -42,7 +42,7 @@ export function InProgress({ loop }: { loop: LoopView }) {
         )
       : outcome.detail
         ? HOME_COPY.loggedDetail(outcome.detail)
-        : HOME_COPY.loggedPlain(OUTCOME_READBACK[outcome.type])
+        : HOME_COPY.loggedPlain(outcomeReadback(outcome.type, answered.kind))
     : undefined;
 
   /* An action with no draft that she has said is done, waiting on (or just

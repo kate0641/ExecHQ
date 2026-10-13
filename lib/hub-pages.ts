@@ -93,9 +93,10 @@ export const SHOWROOM_ROOMS: readonly HubPage[] = HUB_PAGES.filter(
 
 /** The hub page a pathname belongs to, if any. */
 export function getHubPageByPath(pathname: string): HubPage | undefined {
-  // An interaction spec (`/specs/<flow>`) and a plan brief (`/plans/<brief>`)
-  // are pages of the hub.
-  if (pathname.startsWith("/specs/") || pathname.startsWith("/plans/")) return getHubPage("hub");
+  // An interaction spec (`/specs/<flow>`), a plan brief (`/plans/<brief>`)
+  // and a builder brief (`/builders/<brief>`) are pages of the hub: reference
+  // documents, never drawn in a device frame.
+  if (["/specs/", "/plans/", "/builders/"].some((prefix) => pathname.startsWith(prefix))) return getHubPage("hub");
   return HUB_PAGES.find((page) => page.href === pathname);
 }
 

@@ -8,7 +8,7 @@ export const toolIllustrationStates = defineComponentStates({
   status: "draft",
   flows: ["toolbox"],
   description:
-    "The tools' line drawings, one per tool at three levels of detail (detailed for the lead card, simple for a tool card, icon for small places), from the ILLUSTRATIONS tokens. An ID card for Positioning Builder, a microphone for Pitch Builder, a clipboard for Situation Brief, a pen for Thought Leadership Builder. Placeholders: the finished drawings come from design.",
+    "The tools' line drawings, one per tool at three levels of detail (detailed for the lead card, simple for a tool card, icon for small places), from the ILLUSTRATIONS tokens. An ID card for Positioning Builder, a microphone for Pitch Builder, a clipboard for Situation Brief, a lightbulb for Thought Leadership Builder. Placeholders: the finished drawings come from design.",
   component: ToolIllustration,
   notApplicable: {
     ...NOT_INTERACTIVE,

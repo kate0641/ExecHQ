@@ -11,6 +11,7 @@ import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import { TOOL_ICONS } from "@/components/toolbox/ToolPicker/ToolPicker";
 import { editedWords, searchLibrary, libraryItems, type LibraryItem } from "@/lib/library";
+import { aheadPhrase, shortDate, type LoopRecord } from "@/lib/loop";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { draftMeta, toolboxActions, useToolbox } from "@/lib/toolbox-store";
@@ -55,10 +56,32 @@ export function useToolboxPage(concept: "concept-1" | "concept-2" | "concept-3")
 
   const close = () => setOpen(null);
 
+  /** What comes next for an artifact, in a line (a folder's rows). */
+  function nextStep(record: LoopRecord): string {
+    const N = C.folders.next;
+    switch (record.state) {
+      case "drafted":
+      case "in-progress":
+        return N.draft;
+      case "ready":
+        return N.ready(record.kind);
+      case "used":
+      case "waiting":
+        return record.checkBackOn && record.checkBackOn > loop.today ? N.checksBack(aheadPhrase(record.checkBackOn, loop.today)) : N.sayHow;
+      case "outcome":
+        return N.close;
+      default:
+        return N.closed;
+    }
+  }
+
   /** One artifact as a list row: the tool's icon, the title (which opens
    *  it), a second line with the tool, when it last changed, how many
-   *  versions and where it came from, and its Loop status. */
-  function itemOf(item: LibraryItem, options: { hideArea?: boolean }): ListItemData {
+   *  versions and where it came from, and its Loop status.
+   *
+   *  In a folder (`folder`), the tool goes without saying: the row is the
+   *  title, its status and the date it last changed, and what comes next. */
+  function itemOf(item: LibraryItem, options: { hideArea?: boolean; folder?: boolean; plain?: boolean }): ListItemData {
     const { record } = item;
     const source = item.reusedFrom
       ? FLOW_COPY.reusedFrom(item.reusedFrom)
@@ -82,7 +105,19 @@ export function useToolboxPage(concept: "concept-1" | "concept-2" | "concept-3")
       primary: record.title,
       // The status leads the second line, so on a phone the title keeps the
       // width and only the menu sits at the end.
-      secondary: (
+      secondary: options.plain ? (
+        // A plain list (Concept 1's Library page): the tool and the date,
+        // nothing more (Kate, 13 Oct). Status is still the Status menu's filter.
+        [item.tool, shortDate(item.lastOn)].join(" · ")
+      ) : options.folder ? (
+        <>
+          <LoopStatus record={record} detail={false} className="library__status" />
+          {" · "}
+          {shortDate(item.lastOn)}
+          <br />
+          <span className="library__next">{nextStep(record)}</span>
+        </>
+      ) : (
         <>
           <LoopStatus record={record} detail={false} className="library__status" />
           {" "}
@@ -90,11 +125,13 @@ export function useToolboxPage(concept: "concept-1" | "concept-2" | "concept-3")
         </>
       ),
       href: artifactHref(record.id),
-      leading: { type: "icon", name: TOOL_ICONS[record.kind] },
+      leading: options.folder || options.plain ? undefined : { type: "icon", name: TOOL_ICONS[record.kind] },
       trailing: {
         actions: (
           <>
-            {record.state === "outcome" ? (
+            {/* In a plain list every row looks the same: Close waits in the
+                menu with the other actions (Kate, 13 Oct). */}
+            {record.state === "outcome" && !options.plain ? (
               <Button
                 variant="secondary"
                 size="sm"
@@ -117,8 +154,17 @@ export function useToolboxPage(concept: "concept-1" | "concept-2" | "concept-3")
   }
 
   /** Library rows as a list, one or two lines each, divided. */
-  const list = (items: readonly LibraryItem[], options: { hideArea?: boolean } = {}): ReactNode =>
-    items.length ? <List items={items.map((i) => itemOf(i, options))} label={C.heading} dividers="full" className="library__rows" /> : null;
+  const list = (items: readonly LibraryItem[], options: { hideArea?: boolean; folder?: boolean; plain?: boolean; label?: string } = {}): ReactNode =>
+    items.length ? (
+      <List
+        items={items.map((i) => itemOf(i, options))}
+        label={options.label ?? C.heading}
+        dividers="full"
+        // Plain: no card around the rows, just the rows and the lines between them.
+        framed={!options.plain}
+        className={["library__rows", options.folder ? "library__rows--folder" : null, options.plain ? "library__rows--plain" : null].filter(Boolean).join(" ")}
+      />
+    ) : null;
 
   const header = (
     <header className="toolbox-page__header">
@@ -129,22 +175,24 @@ export function useToolboxPage(concept: "concept-1" | "concept-2" | "concept-3")
     </header>
   );
 
+  const librarySearch =
+    all.length > 0 ? (
+      <Input
+        label={`${C.search}. ${C.searchHint}`}
+        labelHidden
+        type="search"
+        placeholder={C.search}
+        value={query}
+        onChange={(event) => setQuery(event.target.value)}
+      />
+    ) : null;
+
   const libraryHeader = (
     <div className="library__header">
       <h2 className="library__heading" id={LIBRARY_ID}>
         {C.heading}
-        <span className="library__count">{C.count(all.length)}</span>
       </h2>
-      {all.length > 0 ? (
-        <Input
-          label={`${C.search}. ${C.searchHint}`}
-          labelHidden
-          type="search"
-          placeholder={C.search}
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-        />
-      ) : null}
+      {librarySearch}
     </div>
   );
 
@@ -210,9 +258,11 @@ export function useToolboxPage(concept: "concept-1" | "concept-2" | "concept-3")
     found,
     query,
     toolHref,
+    artifactHref,
     list,
     header,
     libraryHeader,
+    librarySearch,
     libraryId: LIBRARY_ID,
     noMatch,
     empty,

@@ -1,16 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useState } from "react";
+import { IconRow } from "@/components/navigation/IconRow";
+import { Icon } from "@/components/primitives/Icon";
 import { DropdownMenu, type MenuEntry } from "@/components/form/DropdownMenu";
+import { MindStart } from "@/components/toolbox/MindStart";
+import { PickUp, type PickUpItem } from "@/components/toolbox/PickUp";
+import { TOOL_ICONS } from "@/components/toolbox/ToolPicker/ToolPicker";
+import { daysBetween, shortDate, statusLabel } from "@/lib/loop";
 import { ToolPicker, type ToolLead } from "@/components/toolbox/ToolPicker";
+import { askConcierge } from "@/flows/navigation/concept-1/ConciergeConcept";
 import { useLoop } from "@/lib/loop-store";
+import { conceptHref } from "@/lib/manifest";
 import { useToolboxLinks } from "@/lib/toolbox-links";
 import { useViewport } from "@/lib/viewport-context";
 import { PLAN_AGENDA_COPY, stepById } from "@/mock/plan";
 import type { LibraryItem } from "@/lib/library";
 import type { ArtifactKind } from "@/mock/loop";
-import { LIBRARY_COPY, STATUS_FILTERS, TOOL_ORDER, TOOLS } from "@/mock/toolbox";
-import { useToolboxPage } from "../useToolboxPage";
+import { LIBRARY_COPY, STATUS_FILTERS, TOOL_ORDER, TOOLBOX_PAGE, TOOLS } from "@/mock/toolbox";
+import { TITLE_ID, useToolboxPage } from "../useToolboxPage";
 
 const F = LIBRARY_COPY.filters;
 const ALL = "all";
@@ -41,11 +51,15 @@ function matches(item: LibraryItem, f: Filters): boolean {
  * tablet and web a bento, the lead tall with the detailed drawing and the
  * step it serves, the other three around it; on a phone the lead is one row
  * and the other three are icons under it, so the library starts on the first
- * screen. With no step that needs a tool, the four are equal tiles. The
- * library below filters from two menus side by side, tool and status (with
- * whether closed work shows), each a plain list with its counts, newest
- * first. A
- * tool opens as guided steps, one question a screen.
+ * screen. With no step that needs a tool, the four are equal tiles. Under
+ * the tools, "What's on your mind?" hands her words to the advisor, and "Pick
+ * up where you left off" lists her open drafts.
+ *
+ * The library is its own page (`?view=library`, Kate 13 Oct), reached from
+ * "Library" at the top right, beside the title. It filters from two menus
+ * side by side, tool and status (with whether closed work shows), each a
+ * plain list with its counts, newest first. A tool opens as guided steps,
+ * one question a screen.
  */
 /** The tool her next plan step needs: the first step on her plan that makes
  *  something with a tool. None, and the four tools are equal. */
@@ -67,8 +81,9 @@ function useLead(): ToolLead | undefined {
   return undefined;
 }
 
-export function ToolboxConcept1() {
+function Concept1Page() {
   const p = useToolboxPage("concept-1");
+  const view = useSearchParams().get("view");
   const lead = useLead();
   // On a phone the lead is one row, so the library starts on the first screen.
   const compact = useViewport().viewport === "mobile";
@@ -117,40 +132,95 @@ export function ToolboxConcept1() {
     },
   ];
 
+  // Pick up where you left off: what is still a draft or ready to use, the
+  // latest first (the library is newest first), the rest from 30 days.
+  const PU = TOOLBOX_PAGE.pickUp;
+  const working: PickUpItem[] = p.all
+    .filter((i) => ["drafted", "in-progress", "ready"].includes(i.record.state))
+    .filter((i, n) => n === 0 || daysBetween(i.lastOn, p.today) <= PU.days)
+    .map((i) => ({
+      id: i.record.id,
+      href: p.artifactHref(i.record.id),
+      title: i.record.title,
+      icon: TOOL_ICONS[i.record.kind],
+      detail: PU.detail(statusLabel(i.record), shortDate(i.lastOn)),
+    }));
+
+  const home = conceptHref("toolbox", "concept-1");
+
+  // The library's own page: Back to the Toolbox, its title, search, the two
+  // filter menus and the list.
+  if (view === "library") {
+    return (
+      <div className="toolbox-page toolbox-page--c1 folder-page">
+        <div className="folder-page__bar">
+          <Link href={home} className="folder-page__back">
+            <Icon name="chevron-left" size={18} />
+            {TOOLBOX_PAGE.title}
+          </Link>
+        </div>
+        <h1 className="folder-page__title" id={p.libraryId} tabIndex={-1}>
+          {LIBRARY_COPY.heading}
+        </h1>
+        <section className="library" aria-labelledby={p.libraryId}>
+          {p.librarySearch}
+          {p.empty ?? (
+            <>
+              <div className="library__filter">
+                <fieldset className="library__filter-menus">
+                  <legend className="u-visually-hidden">{F.button}</legend>
+                  {menus.map((m) => (
+                    <DropdownMenu
+                      key={m.id}
+                      label={m.chosen ? F.chosen(m.label, m.chosen) : m.label}
+                      entries={m.entries}
+                      className={m.chosen ? "is-set" : undefined}
+                    />
+                  ))}
+                </fieldset>
+                {on ? (
+                  <button type="button" className="library__clear" onClick={() => setF(NONE)}>
+                    {F.clear}
+                  </button>
+                ) : null}
+              </div>
+              {p.noMatch}
+              {shown.length === 0 && !p.noMatch ? <p className="library__no-match">{F.noneMatch}</p> : null}
+              {/* A straightforward list, no cards (Kate, 13 Oct). */}
+              {p.list(shown, { plain: true })}
+            </>
+          )}
+        </section>
+        {p.sheet}
+      </div>
+    );
+  }
+
   return (
     <div className="toolbox-page toolbox-page--c1">
-      {p.header}
+      <div className="toolbox-page__top">
+        {/* The title alone, Library level with it (option A, 13 Oct). */}
+        <h1 className="toolbox-page__title" id={TITLE_ID} tabIndex={-1}>
+          {TOOLBOX_PAGE.title}
+        </h1>
+        {/* The library, top right, as the navigation draws a place (option A, 13 Oct). */}
+        <IconRow className="toolbox-page__library" items={[{ id: "library", href: `${home}?view=library`, label: LIBRARY_COPY.heading, icon: "book" }]} />
+      </div>
       <ToolPicker layout="lead" lead={lead} compact={compact} hrefFor={(kind) => p.toolHref(kind)} />
-      <section className="library" aria-labelledby={p.libraryId}>
-        {p.libraryHeader}
-        {p.empty ?? (
-          <>
-            <div className="library__filter">
-              <fieldset className="library__filter-menus">
-                <legend className="u-visually-hidden">{F.button}</legend>
-                {menus.map((m) => (
-                  <DropdownMenu
-                    key={m.id}
-                    label={m.chosen ? F.chosen(m.label, m.chosen) : m.label}
-                    entries={m.entries}
-                    className={m.chosen ? "is-set" : undefined}
-                  />
-                ))}
-              </fieldset>
-              {on ? (
-                <button type="button" className="library__clear" onClick={() => setF(NONE)}>
-                  {F.clear}
-                </button>
-              ) : null}
-            </div>
-            {p.noMatch}
-            {shown.length === 0 && !p.noMatch ? <p className="library__no-match">{F.noneMatch}</p> : null}
-            {p.list(shown)}
-          </>
-        )}
-      </section>
+      <MindStart onAsk={(text) => askConcierge(text, { kind: "find-tool", text, concept: "concept-1" })} />
+      {working[0] ? <PickUp latest={working[0]} more={working.slice(1)} /> : null}
       {p.sheet}
     </div>
+  );
+}
+
+// The library page is read from the address, which needs a Suspense
+// boundary or a full page load stays blank.
+export function ToolboxConcept1() {
+  return (
+    <Suspense fallback={null}>
+      <Concept1Page />
+    </Suspense>
   );
 }
 

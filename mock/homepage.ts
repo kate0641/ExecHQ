@@ -73,6 +73,33 @@ const pitch = () =>
     recommendation: "Put yourself forward for the Q1 planning review",
   });
 
+/** Two drafts she has going besides the brief, so the Toolbox has a
+ *  working week to show (Kate, 13 Oct): a post and a second pitch. Both last
+ *  touched before the brief, so Home and the advisor still lead with it. */
+const postDraft = () =>
+  startEditing(
+    createRecord({
+      id: "post-planning",
+      kind: "thought-leadership",
+      title: "Post: what three regions taught me about planning",
+      name: "your post on planning",
+      on: "2026-10-14",
+    }),
+    "2026-10-16"
+  );
+
+const podcastPitch = () =>
+  startEditing(
+    createRecord({
+      id: "podcast-pitch",
+      kind: "pitch",
+      title: "Pitch for the Marketing Leaders podcast",
+      name: "your podcast pitch",
+      on: "2026-10-09",
+    }),
+    "2026-10-12"
+  );
+
 /** Used in her 1:1 on Tuesday 13 October; check back on the 20th. */
 const storyUsed = () =>
   markUsed(markReady(startEditing(story(), "2026-10-06"), "2026-10-07", { intendedUse: "To open my next 1:1 with my manager" }), "2026-10-13", {
@@ -113,7 +140,7 @@ export const HOME_STATES: Record<HomeStateId, Snapshot> = {
     summary: "Two waiting on outcomes: her story and her pitch.",
     today: "2026-10-20",
     account: MAYA,
-    records: [storyUsed(), pitchSent(), startEditing(brief(), "2026-10-19")],
+    records: [storyUsed(), pitchSent(), startEditing(brief(), "2026-10-19"), postDraft(), podcastPitch()],
     recommendations: accepted(["brief-manager", "scope-case"]),
   },
 
@@ -134,6 +161,8 @@ export const HOME_STATES: Record<HomeStateId, Snapshot> = {
       // "Nothing yet" on the 20th: asked again on the 23rd, so not due today.
       answerFollowUp(pitchSent(), "2026-10-20", { type: "no-response-yet" }),
       markReady(startEditing(brief(), "2026-10-19"), "2026-10-22", { intendedUse: "Thursday’s check-in" }),
+      postDraft(),
+      podcastPitch(),
     ],
     recommendations: accepted(["brief-manager", "scope-case"]),
   },
@@ -184,6 +213,8 @@ export const HOME_STATES: Record<HomeStateId, Snapshot> = {
       }),
       pitchSent(),
       startEditing(brief(), "2026-10-19"),
+      postDraft(),
+      podcastPitch(),
     ],
     recommendations: accepted(["brief-manager", "scope-case"]),
     justAnswered: "story",

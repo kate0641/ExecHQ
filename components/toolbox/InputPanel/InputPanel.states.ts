@@ -27,6 +27,8 @@ export const inputPanelStates = defineComponentStates({
     { label: "With an enricher offered", props: { ...base, values: TL_MAYA_ANSWERS, enricher } },
     { label: "Write pressed, point of view missing — error", props: { ...base, showErrors: true } },
     { label: "Writing the first draft — loading", props: { ...base, values: TL_MAYA_ANSWERS, writing: true } },
+    { label: "Optional questions folded away (Concept 2)", props: { ...base, collapseOptional: true }, description: "Only what she must answer shows first; \"Add more detail\" opens the rest." },
+    { label: "Optional questions opened (Concept 2)", props: { ...base, collapseOptional: true, startExpanded: true } },
     {
       label: "A long known answer wraps",
       props: { ...base, inputs: TL_INPUTS_FROM_BRIEFING.map((i) => (i.id === "example" ? { ...i, value: `${i.value} ${i.value} ${i.value}` } : i)) },

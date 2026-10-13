@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { RespondLink } from "@/components/briefing/RespondLink";
 import { Icon } from "@/components/primitives/Icon";
 import type { Relevance } from "@/lib/briefing-store";
 import { BRIEFING_COPY as C } from "@/mock/briefing";
@@ -21,11 +22,10 @@ export interface ReadActionsProps {
    *  where she responds another way (Concept 3, from the passage). */
   respondHref?: string;
   onRespond?: () => void;
-  /** One row of pills: Read, Save, Write a post. No relevance question and
-   *  no hint, for a card that has to stay short (the front page's lead). */
+  /** One row of pills: Save, Write a post. No relevance question and no
+   *  hint, for a card that has to stay short (Concept 1's open card, whose
+   *  headline opens the read). */
   compact?: boolean;
-  /** Compact only: a Read pill first, opening the read. */
-  onOpen?: () => void;
   /** Catalogue only: shows a state a static page can't reach, on Save. */
   demo?: "hover" | "focus" | "active";
   className?: string;
@@ -48,7 +48,6 @@ export function ReadActions({
   respondHref,
   onRespond,
   compact = false,
-  onOpen,
   demo,
   className,
 }: ReadActionsProps) {
@@ -69,12 +68,6 @@ export function ReadActions({
   return (
     <div className={["read-actions", compact ? "read-actions--compact" : null, className].filter(Boolean).join(" ")}>
       <div className="read-actions__row">
-        {compact && onOpen ? (
-          <button type="button" className="read-actions__toggle read-actions__toggle--primary" onClick={onOpen}>
-            {C.read.open}
-            <span className="u-visually-hidden">: {title}</span>
-          </button>
-        ) : null}
         <button
           type="button"
           className={["read-actions__toggle", saved ? "is-on" : null, demo ? `is-${demo}` : null].filter(Boolean).join(" ")}
@@ -131,14 +124,7 @@ export function ReadActions({
       )}
 
       {compact || !respondHref ? null : (
-        <Link href={respondHref} className="read-actions__respond" onClick={onRespond}>
-          <Icon name="pencil" size={16} />
-          <span className="read-actions__respond-text">
-            <span className="read-actions__respond-label">{C.respond.action}</span>
-            <span className="read-actions__respond-hint">{C.respond.hint}</span>
-          </span>
-          <Icon name="chevron" size={16} className="read-actions__respond-go" />
-        </Link>
+        <RespondLink href={respondHref} onClick={onRespond} />
       )}
     </div>
   );

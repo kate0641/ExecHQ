@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
@@ -9,6 +8,7 @@ import { ChatMessage } from "@/components/chat/ChatMessage";
 import { QuickReplies } from "@/components/chat/QuickReplies";
 import { AdvisorWho, ConciergePanel } from "@/components/navigation/ConciergePanel";
 import { ConciergePill } from "@/components/navigation/ConciergePill";
+import { IconRow } from "@/components/navigation/IconRow";
 import { Icon, type IconName } from "@/components/primitives/Icon";
 import { EntryLink } from "@/components/homepage/EntryLink";
 import {
@@ -291,7 +291,8 @@ function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { m
     if (state.typing) return;
     const action = chosen ?? understand(text, contextNow(destinations), state.asked, recentMisses());
     const you: Message = { id: nextId++, from: "you", text };
-    if (action.kind === "go") {
+    // Going somewhere is said and done at once, with no typing pause.
+    if (action.kind === "go" || action.kind === "start-tool") {
       const { turn, effect } = respond(action, contextNow(destinations));
       update({ messages: [...state.messages, you, { id: nextId++, from: "advisor", turn }], asked: undefined });
       setTimeout(() => applyEffect(effect, go), GO_MS);
@@ -446,32 +447,27 @@ function Turn({ turn }: { turn: AdvisorTurn }) {
 /** The product's places, with their icons, in one row however many there are. A dot says something waits. */
 function Places({ destinations, currentFlow }: { destinations: NavDestination[]; currentFlow: string }) {
   const loop = useLoop();
+  // The Toolbox concept the reviewer last opened, so moving about never
+  // swaps the concept under review.
+  const toolboxHref = useToolboxLinks().toolbox;
   const newSignals = useNewSignals();
   return (
-    <ul className="concierge-dests">
-      {destinations.map((d) => (
-        <li key={d.flowSlug}>
-          <Link
-            href={d.href}
-            className={["concierge-dest", d.flowSlug === currentFlow ? "is-current" : null].filter(Boolean).join(" ")}
-            aria-current={d.flowSlug === currentFlow ? "page" : undefined}
-            onClick={() => closePanel(false)}
-          >
-            <span className="concierge-dest__chip">
-              <Icon name={ICONS[d.flowSlug] ?? "home"} size={20} />
-              {(d.flowSlug === "homepage" && loop.followUp) || (d.flowSlug === "signals" && newSignals && currentFlow !== "signals") ? (
-                <span className="concierge-dest__dot" aria-hidden="true" />
-              ) : null}
-            </span>
-            <span className="u-bold-hold" data-label={d.label}>{d.label}</span>
-            {d.flowSlug === "homepage" && loop.followUp ? <span className="u-visually-hidden">, a follow-up is waiting</span> : null}
-            {d.flowSlug === "signals" && newSignals && currentFlow !== "signals" ? (
-              <span className="u-visually-hidden">, new in your Signal Picture</span>
-            ) : null}
-          </Link>
-        </li>
-      ))}
-    </ul>
+    <IconRow
+      items={destinations.map((d) => {
+        const followUp = d.flowSlug === "homepage" && Boolean(loop.followUp);
+        const signals = d.flowSlug === "signals" && newSignals && currentFlow !== "signals";
+        return {
+          id: d.flowSlug,
+          href: d.flowSlug === "toolbox" ? toolboxHref : d.href,
+          label: d.label,
+          icon: ICONS[d.flowSlug] ?? "home",
+          current: d.flowSlug === currentFlow,
+          dot: followUp || signals,
+          note: followUp ? ", a follow-up is waiting" : signals ? ", new in your Signal Picture" : undefined,
+          onClick: () => closePanel(false),
+        };
+      })}
+    />
   );
 }
 

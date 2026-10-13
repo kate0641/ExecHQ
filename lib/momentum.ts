@@ -12,8 +12,8 @@
  */
 
 import { isDone } from "@/lib/rings";
-import { addDays, type LoopDate, type LoopRecord } from "@/lib/loop";
-import { ARTIFACT_KINDS, OUTCOME_OPTIONS } from "@/mock/loop";
+import { addDays, outcomeLabel, type LoopDate, type LoopRecord } from "@/lib/loop";
+import { ARTIFACT_KINDS } from "@/mock/loop";
 import { ACTION_QUEUE, type MomentumFigure } from "@/mock/plan";
 import type { TaskCheck } from "@/mock/snapshots";
 
@@ -44,7 +44,7 @@ export function momentumEvents(records: LoopRecord[], tasks?: Record<string, Tas
         out.push({ id, figure: "artifact", text: cap(`${ARTIFACT_KINDS[record.kind].usedVerb} ${record.name}`), on: event.on });
       }
       if (event.type === "outcome" && event.outcome !== "no-longer-relevant") {
-        const label = OUTCOME_OPTIONS.find((o) => o.type === event.outcome)?.label ?? "";
+        const label = event.outcome ? outcomeLabel(event.outcome, record.kind) : "";
         out.push({ id, figure: "outcome", text: `${cap(record.name)}: ${label.toLowerCase()}`, on: event.on });
       }
     });

@@ -114,7 +114,9 @@ import { briefingReadCardStates } from "./briefing/BriefingReadCard/BriefingRead
 import { readActionsStates } from "./briefing/ReadActions/ReadActions.states";
 import { briefingReaderStates } from "./briefing/BriefingReader/BriefingReader.states";
 import { publisherPickerStates } from "./briefing/PublisherPicker/PublisherPicker.states";
+import { briefingArticleStates } from "./briefing/BriefingArticle/BriefingArticle.states";
 import { passageNoteStates } from "./briefing/PassageNote/PassageNote.states";
+import { respondLinkStates } from "./briefing/RespondLink/RespondLink.states";
 import { sourceLabelStates } from "./briefing/SourceLabel/SourceLabel.states";
 import { readCounterStates } from "./briefing/ReadCounter/ReadCounter.states";
 import { briefingEndStates } from "./briefing/BriefingEnd/BriefingEnd.states";
@@ -126,6 +128,9 @@ import { revisionControlsStates } from "./toolbox/RevisionControls/RevisionContr
 import { versionHistoryStates } from "./toolbox/VersionHistory/VersionHistory.states";
 import { draftUseBarStates } from "./toolbox/DraftUseBar/DraftUseBar.states";
 import { toolPickerStates } from "./toolbox/ToolPicker/ToolPicker.states";
+import { iconRowStates } from "./navigation/IconRow/IconRow.states";
+import { mindStartStates } from "./toolbox/MindStart/MindStart.states";
+import { pickUpStates } from "./toolbox/PickUp/PickUp.states";
 import { momentStartStates } from "./toolbox/MomentStart/MomentStart.states";
 import { artifactActionsStates } from "./toolbox/ArtifactActions/ArtifactActions.states";
 import { libraryGroupStates } from "./toolbox/LibraryGroup/LibraryGroup.states";
@@ -247,7 +252,9 @@ export const registry: RegisteredComponent[] = [
   readActionsStates,
   briefingReaderStates,
   publisherPickerStates,
+  briefingArticleStates,
   passageNoteStates,
+  respondLinkStates,
   sourceLabelStates,
   readCounterStates,
   briefingEndStates,
@@ -259,6 +266,9 @@ export const registry: RegisteredComponent[] = [
   versionHistoryStates,
   draftUseBarStates,
   toolPickerStates,
+  iconRowStates,
+  mindStartStates,
+  pickUpStates,
   momentStartStates,
   artifactActionsStates,
   libraryGroupStates,

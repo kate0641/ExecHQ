@@ -1,11 +1,9 @@
-import { Icon } from "@/components/primitives/Icon";
 import { BriefingPicture } from "@/components/briefing/BriefingPicture";
 import { BRIEFING_COPY as C, publisherName, type BriefingRead } from "@/mock/briefing";
 
 export interface BriefingFrontProps {
   reads: readonly BriefingRead[];
   onOpen: (index: number) => void;
-  isRead?: (id: string) => boolean;
   headingLevel?: 2 | 3;
   /** Catalogue only: shows the lead in a state a static page can't reach. */
   demo?: "hover" | "focus" | "active";
@@ -23,19 +21,13 @@ const place = (i: number) => ((i % 3) + 1) as 1 | 2 | 3;
  *
  * On web the lead takes the left and the rows the right.
  */
-export function BriefingFront({ reads, onOpen, isRead, headingLevel = 2, demo, className }: BriefingFrontProps) {
+export function BriefingFront({ reads, onOpen, headingLevel = 2, demo, className }: BriefingFrontProps) {
   const Heading = `h${headingLevel}` as const;
   const [lead, ...rest] = reads;
 
   const byline = (read: BriefingRead) => (
     <span className="briefing-front2__pub">
       <span>{publisherName(read.publisherId)}</span>
-      {isRead?.(read.id) ? (
-        <span className="briefing-front2__read">
-          <Icon name="check" size={12} />
-          {C.read.readState}
-        </span>
-      ) : null}
     </span>
   );
   const why = (read: BriefingRead) => (

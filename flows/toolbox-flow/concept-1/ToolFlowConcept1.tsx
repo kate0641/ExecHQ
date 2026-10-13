@@ -1,13 +1,14 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 import { Sheet } from "@/components/layout/Sheet";
 import { StepHeader } from "@/components/onboarding/StepHeader";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
-import { FLOW_COPY as C, INPUT_COPY, VERSION_COPY } from "@/mock/toolbox";
+import { useStepNav } from "@/lib/step-nav";
+import { FLOW_COPY as C, INPUT_COPY, STEP_BAR_COPY, VERSION_COPY } from "@/mock/toolbox";
 import { QuestionStep } from "../QuestionStep";
-import { focusSoon, TOOL_TITLE_ID, useToolFlow } from "../useToolFlow";
+import { draftSteps, focusSoon, questionStep, TOOL_TITLE_ID, useToolFlow } from "../useToolFlow";
 
 const STEP_HEADING = "tool-step-heading";
 
@@ -18,12 +19,57 @@ function GuidedSteps() {
   const [error, setError] = useState<string>();
   const [sheet, setSheet] = useState<"revise" | "versions" | null>(null);
 
+  // The use case screen asks the tool's first question beside its button, so
+  // the steps after it leave that one out.
+  const asked = f.notFirst(f.asked);
+  const rest = f.notFirst(f.rest);
+  const hasKnown = rest.some((input) => input.source && input.kind !== "choice");
+  const hasDraft = Boolean(f.draft && f.version);
+
+  // The step bar: Start, each question, the last screen, then the draft on.
+  const stepKey = `${f.kind}|${asked.map((i) => i.id).join(",")}|${hasKnown}`;
+  const steps = useMemo(
+    () => [
+      { id: "start", label: STEP_BAR_COPY.start },
+      ...asked.map((input) => questionStep(f.kind, input)),
+      { id: "last", label: hasKnown ? STEP_BAR_COPY.check : STEP_BAR_COPY.anythingElse },
+      ...draftSteps(f.kind, true),
+    ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- the key names everything the steps are made from
+    [stepKey]
+  );
+  const firstQuestions = f.firstChoice ? [f.firstChoice] : [];
+  const current = hasDraft
+    ? sheet ?? f.stage
+    : at < 0
+      ? "start"
+      : at < asked.length
+        ? `q-${asked[at].id}`
+        : "last";
+  useStepNav(steps, current, (id) => {
+    setError(undefined);
+    if (id === "start") {
+      f.jumpBefore([], [...firstQuestions, ...asked, ...rest]);
+      setSheet(null);
+      setAt(-1);
+    } else if (id.startsWith("q-") || id === "last") {
+      const k = id === "last" ? asked.length : asked.findIndex((input) => `q-${input.id}` === id);
+      f.jumpBefore([...firstQuestions, ...asked.slice(0, k)], [...asked.slice(k), ...rest.filter((input) => input.optional)]);
+      setSheet(null);
+      setAt(k);
+    } else {
+      f.jumpAfter(id === "ready" || id === "used" ? id : "draft");
+      setSheet(id === "revise" || id === "versions" ? id : null);
+    }
+  });
+
   if (f.later) return f.laterNote;
 
   if (f.draft && f.version) {
     return (
       <div className="tool-flow tool-flow--guided tool-flow--has-bar">
         {f.header}
+        {f.outcome}
         {f.source}
         {f.draftEditor}
         <button type="button" className="tool-flow__versions-link" onClick={() => setSheet("versions")}>
@@ -35,7 +81,8 @@ function GuidedSteps() {
           <Button variant="secondary" onClick={() => setSheet("revise")}>
             {C.revise}
           </Button>
-          {f.useBar()}
+          {/* Three buttons in the thumb zone; the downloads wait under More. */}
+          {f.useBar({ exportInMenu: true })}
         </div>
         <Sheet open={sheet !== null} onClose={() => setSheet(null)} label={sheet === "versions" ? C.versions : C.revise} className="toolbox-sheet">
           {sheet === "revise" ? (
@@ -48,10 +95,6 @@ function GuidedSteps() {
     );
   }
 
-  // The use case screen asks the tool's first question beside its button, so
-  // the steps after it leave that one out.
-  const asked = f.notFirst(f.asked);
-  const rest = f.notFirst(f.rest);
   const total = asked.length + 1;
   const go = (next: number) => {
     setError(undefined);
@@ -112,7 +155,14 @@ function GuidedSteps() {
   return (
     <div className="tool-flow tool-flow--guided">
       {f.header}
-      <StepHeader eyebrow={C.step(total, total)} title={C.knownStep} id={STEP_HEADING} />
+      {/* "Check what ExecHQ has" only when there is something it has to show
+          (a fact from her plan, profile or onboarding); otherwise only the
+          optional questions are left. */}
+      <StepHeader
+        eyebrow={C.step(total, total)}
+        title={hasKnown ? C.knownStep : C.lastStep}
+        id={STEP_HEADING}
+      />
       {f.inputPanel(rest)}
       <div className="tool-flow__step-actions">{back}</div>
     </div>

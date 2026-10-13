@@ -17,8 +17,8 @@
  * Wording is in `mock/plan-stub.ts`.
  */
 
-import { addDays, shortDate, type LoopDate, type LoopRecord } from "@/lib/loop";
-import { ARTIFACT_KINDS, OUTCOME_OPTIONS } from "@/mock/loop";
+import { addDays, outcomeLabel, shortDate, type LoopDate, type LoopRecord } from "@/lib/loop";
+import { ARTIFACT_KINDS } from "@/mock/loop";
 import {
   ACTIONS,
   SIGNAL_COPY as C,
@@ -79,7 +79,7 @@ export function entriesFor(record: LoopRecord): SignalActivityEntry[] {
       case "outcome": {
         if (event.outcome === "no-longer-relevant") break;
         const detail = record.outcome?.on === event.on ? record.outcome.detail : undefined;
-        const label = OUTCOME_OPTIONS.find((o) => o.type === event.outcome)?.label ?? "";
+        const label = event.outcome ? outcomeLabel(event.outcome, record.kind) : "";
         out.push(
           detail
             ? { source: "reported", text: detail, on: event.on, quote: true, how: C.howOutcome(shortDate(event.on)) }

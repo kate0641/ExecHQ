@@ -19,7 +19,6 @@ import {
   ARTIFACT_KINDS,
   FOLLOW_UP_POLICY,
   OUTCOME_OPTIONS,
-  OUTCOME_READBACK,
 } from "@/mock/loop";
 import { CONCIERGE_COPY as C } from "@/mock/concierge";
 import { CARD_QUESTIONS, STEP_ANSWERS, STEP_QUESTIONS, stepById, type StepQuestion } from "@/mock/plan";
@@ -28,13 +27,17 @@ import {
   addDays,
   aheadPhrase,
   followUpQuestion,
+  outcomeLabel,
+  outcomeReadback,
   outcomeSummary,
   statusLabel,
   whenPhrase,
   type LoopRecord,
   type OutcomeType,
 } from "@/lib/loop";
-import type { NavDestination } from "@/lib/manifest";
+import { conceptHref, type NavDestination } from "@/lib/manifest";
+import type { ArtifactKind } from "@/mock/loop";
+import { matchMoment, TOOL_ORDER, TOOLS } from "@/mock/toolbox";
 import type { Recommendation, Snapshot } from "@/mock/snapshots";
 
 /** What the Concierge needs to know: the live Loop and where things are. */
@@ -64,6 +67,11 @@ export type ConciergeAction =
   | { kind: "politics" }
   /** A question about one of her next steps, asked from the Plan. */
   | { kind: "step-question"; stepId: string; q: StepQuestion; mine?: { effort?: string; done?: string } }
+  /** What's on her mind, from the Toolbox: he names the tool, or asks one
+   *  question when he can't tell (`ask`). `concept` is the Toolbox concept
+   *  she asked from, whose flow the tool opens in. */
+  | { kind: "find-tool"; text: string; concept: string; ask?: boolean }
+  | { kind: "start-tool"; tool: ArtifactKind; text: string; concept: string }
   /** Input he can't act on. `again` is true when the one before it was a
    *  miss too, so he stops offering the same menu. */
   | { kind: "miss"; miss: MissKind; again: boolean };
@@ -190,7 +198,7 @@ export function understand(
     if (outcome) {
       // A chip's own words say nothing beyond the outcome; anything longer
       // is the user's account of what happened, kept in their words.
-      const chip = OUTCOME_OPTIONS.some((o) => o.label.toLowerCase() === t);
+      const chip = OUTCOME_OPTIONS.some((o) => o.label.toLowerCase() === t || outcomeLabel(o.type, followUp.kind).toLowerCase() === t);
       return { kind: "answer", recordId: followUp.id, outcome, detail: chip ? undefined : raw.trim() };
     }
   }
@@ -264,7 +272,7 @@ export function respond(
         turn: {
           paragraphs: [followUpQuestion(r, today), C.orOwnWords],
           replies: OUTCOME_OPTIONS.map((o) => ({
-            label: o.label,
+            label: outcomeLabel(o.type, r.kind),
             action: { kind: "answer", recordId: r.id, outcome: o.type },
           })),
           asked: "follow-up",
@@ -284,7 +292,7 @@ export function respond(
         return { turn: { paragraphs: [C.nothingYet, later] }, effect };
       }
       if (action.outcome === "no-longer-relevant") return { turn: { paragraphs: [C.noLongerRelevant] }, effect };
-      const said = action.detail ? C.logged(action.detail) : C.loggedPlain(OUTCOME_READBACK[action.outcome]);
+      const said = action.detail ? C.logged(action.detail) : C.loggedPlain(outcomeReadback(action.outcome, r.kind));
       if (action.outcome === "negative") {
         return {
           turn: {
@@ -508,6 +516,29 @@ export function respond(
           ],
         },
       };
+    }
+
+    case "find-tool": {
+      const F = C.findTool;
+      const kind = action.ask ? undefined : matchMoment(action.text);
+      const start = (tool: ArtifactKind, label: string): ConciergeReply => ({
+        label,
+        action: { kind: "start-tool", tool, text: action.text, concept: action.concept },
+      });
+      if (kind) {
+        return {
+          turn: {
+            paragraphs: [F.sounds(TOOLS[kind].name, TOOLS[kind].short)],
+            replies: [start(kind, TOOLS[kind].start), { label: F.other, action: { ...action, ask: true } }],
+          },
+        };
+      }
+      return { turn: { paragraphs: [F.ask], replies: TOOL_ORDER.map((k) => start(k, F.needs[k])) } };
+    }
+
+    case "start-tool": {
+      const href = `${conceptHref("toolbox-flow", action.concept)}?tool=${action.tool}&moment=${encodeURIComponent(action.text)}`;
+      return { turn: { paragraphs: [C.findTool.opening(TOOLS[action.tool].name)] }, effect: { kind: "go", href } };
     }
 
     case "miss": {
