@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { ChipGroup } from "@/components/form/ChipGroup";
 import { Input } from "@/components/form/Input";
 import { Button } from "@/components/primitives/Button";
@@ -25,6 +25,12 @@ export interface InputPanelProps {
   submitLabel?: string;
   /** Leaves out "You don't need anything else to start" (not the last step). */
   hideNote?: boolean;
+  /** Folds the optional questions behind "Add more detail", so only what
+   *  she must answer shows first (Concept 2, where every question is on one
+   *  screen). */
+  collapseOptional?: boolean;
+  /** Opens with the optional questions showing (catalogue). */
+  startExpanded?: boolean;
   className?: string;
 }
 
@@ -95,31 +101,22 @@ export function InputPanel({
   noHeading = false,
   submitLabel,
   hideNote = false,
+  collapseOptional = false,
+  startExpanded = false,
   className,
 }: InputPanelProps) {
   const [tried, setTried] = useState(showErrors);
+  const [more, setMore] = useState(startExpanded);
+  const moreId = useId();
   const known = inputs.filter((input) => input.source && input.kind !== "choice");
-  const asked = inputs.filter((input) => !known.includes(input));
+  const all = inputs.filter((input) => !known.includes(input));
+  // Folded questions keep their answers; they are only out of sight.
+  const folded = collapseOptional ? all.filter((input) => input.optional) : [];
+  const asked = collapseOptional ? all.filter((input) => !input.optional) : all;
   const valueOf = (input: ToolInput) => values[input.id] ?? input.value ?? "";
   const missing = asked.filter((input) => !input.optional && !valueOf(input).trim());
 
-  return (
-    <div className={["input-panel", className].filter(Boolean).join(" ")}>
-      {noHeading ? null : <h2 className="input-panel__heading">{C.heading}</h2>}
-
-      {known.length ? (
-        <section className="input-panel__group" aria-label={C.known}>
-          <p className="input-panel__lead">{C.known}</p>
-          {known.map((input) => (
-            <KnownRow key={input.id} input={input} value={valueOf(input)} onChange={(value) => onChange(input.id, value)} />
-          ))}
-        </section>
-      ) : null}
-
-      {asked.length ? (
-        <section className="input-panel__group" aria-label={C.asked}>
-          <p className="input-panel__lead">{asked.every((input) => input.optional) ? C.askedOptional : C.asked}</p>
-          {asked.map((input) =>
+  const field = (input: ToolInput) =>
             input.kind === "choice" ? (
               <ChipGroup
                 key={input.id}
@@ -141,9 +138,43 @@ export function InputPanel({
                 error={tried && missing.includes(input) ? C.missing : undefined}
                 onChange={(event) => onChange(input.id, event.target.value)}
               />
-            )
-          )}
+            );
+
+  return (
+    <div className={["input-panel", className].filter(Boolean).join(" ")}>
+      {noHeading ? null : <h2 className="input-panel__heading">{C.heading}</h2>}
+
+      {known.length ? (
+        <section className="input-panel__group" aria-label={C.known}>
+          <p className="input-panel__lead">{C.known}</p>
+          {known.map((input) => (
+            <KnownRow key={input.id} input={input} value={valueOf(input)} onChange={(value) => onChange(input.id, value)} />
+          ))}
         </section>
+      ) : null}
+
+      {asked.length ? (
+        <section className="input-panel__group" aria-label={C.asked}>
+          <p className="input-panel__lead">{asked.every((input) => input.optional) ? C.askedOptional : C.asked}</p>
+          {asked.map(field)}
+        </section>
+      ) : null}
+
+      {folded.length ? (
+        <>
+          <button
+            type="button"
+            className="input-panel__more link link--standalone"
+            aria-expanded={more}
+            aria-controls={moreId}
+            onClick={() => setMore(!more)}
+          >
+            {more ? C.lessDetail : C.moreDetail(folded.length)}
+          </button>
+          <section className="input-panel__group" id={moreId} aria-label={C.askedOptional} hidden={!more}>
+            {folded.map(field)}
+          </section>
+        </>
       ) : null}
 
       {enricher}

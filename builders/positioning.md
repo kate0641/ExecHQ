@@ -121,7 +121,7 @@ The shared options (voice, specificity, length, audience) and the conversational
 
 ## 6. How the agent behaves here
 
-**Proposed, all of this section.** It adds to the rules every builder shares (`builders/shared.md`, section 8).
+**Proposed, all of this section.** It adds to the rules every builder shares (`builders/shared.md`, section 8) and keeps the four guardrails (section 9).
 
 - **Her account of herself, not a résumé.** Plain claims she would say out loud. No "results-driven", "passionate" or "visionary".
 - **Never invents a credential.** No employers, titles, degrees, awards or numbers she didn't give. A gap is a question.

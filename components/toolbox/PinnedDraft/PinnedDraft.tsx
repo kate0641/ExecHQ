@@ -8,7 +8,9 @@ export interface PinnedDraftProps {
   /** "First draft", or what the card shows before there is one. */
   label: string;
   /** The draft's first line, collapsed. Empty before there is a draft. */
-  preview?: string;
+  /** A line of the draft, collapsed. Her words and ExecHQ's wording keep
+   *  their marks here too (a guardrail), so it may be marked-up text. */
+  preview?: ReactNode;
   expanded: boolean;
   onToggle: () => void;
   /** The draft itself, expanded (`DraftEditor`, which carries its own label). */

@@ -81,7 +81,8 @@ function GuidedSteps() {
           <Button variant="secondary" onClick={() => setSheet("revise")}>
             {C.revise}
           </Button>
-          {f.useBar()}
+          {/* Three buttons in the thumb zone; the downloads wait under More. */}
+          {f.useBar({ exportInMenu: true })}
         </div>
         <Sheet open={sheet !== null} onClose={() => setSheet(null)} label={sheet === "versions" ? C.versions : C.revise} className="toolbox-sheet">
           {sheet === "revise" ? (

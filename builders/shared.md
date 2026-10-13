@@ -146,10 +146,22 @@ Drafting, editing or readying something is not a signal. Only what she used, sen
 
 ---
 
-## 9. Open questions
+## 9. Guardrails
+
+From the PRD (Kate, 13 October). They hold in every builder and in all three builder concepts (Guided steps, Document workspace, Interview). Each line says how the prototype keeps it.
+
+| Guardrail | How every builder keeps it |
+| --- | --- |
+| **Never publish automatically.** She authorizes and performs any external posting. | Nothing in ExecHQ posts, sends or schedules. Copy is worded for what she will do herself ("Copy to send", "Copy to post on LinkedIn"). "Mark sent" and "Mark published" record what she did; they do nothing outside ExecHQ. A pitch and a post say so under their buttons: "ExecHQ never posts or sends anything for you." |
+| **Clearly distinguish user-provided evidence from generated framing.** | Every draft marks three kinds of text (section 4): her words, ExecHQ's wording (quieter ink, dotted underline) and questions for her, with a key above the draft. The same marks hold wherever a draft appears: the full draft, Concept 3's draft as it fills in, and its collapsed card. Her evidence is always her words; ExecHQ never writes evidence, only questions asking for it. A section she rewrites becomes all hers. |
+| **Do not infer or export private Signal Background information without explicit, scoped permission.** | No builder reads her Signal Background. Everything a draft uses is shown before the draft, with where it came from (her plan, her direction, onboarding), and can be changed. What she adds in a builder (accomplishments, risks, a pasted bio) is used in that draft only. If a later version draws on Signal Background, it asks first, names exactly what it would use, and the draft labels it. |
+| **Make provenance visible when a draft derives from LinkedIn-imported context or a Daily Intelligence Briefing item.** | A draft started from a Briefing read shows its source (title, publisher, the passage) on the draft and in the library, for the life of the artifact ("Started from today's Briefing"). Her statement from onboarding and the plan step a draft serves ("For: …") show on the draft too. V1 imports nothing from LinkedIn (manual input only); if it ever does, the draft says "Uses your LinkedIn context" in the same place. In Concept 3 on a phone, the source stays above the open draft. |
+
+---
+
+## 10. Open questions
 
 1. **Check-back days.** Only the Situation Brief's comes from the brief. Are 7 days (positioning, posts) and 5 days (pitches) right?
-2. **Export formats.** The brief's proposed answer is copy for every output, and PDF and Word for the Situation Brief, bios and long-form articles. The prototype has no long-form export yet. Confirm.
-3. **Provenance labels for imported context.** The brief's example "Uses your LinkedIn context" has no V1 use, because V1 takes manual input only. Drop it, or keep it for later?
-4. **The follow-up question.** The Situation Brief and Thought Leadership now have their own. Should Pitch ("Did you hear back?") and Positioning too?
-5. **Emphasis choices.** Each builder now has its own (13 Oct): Positioning What I lead · What I'm known for · Where I'm headed; Pitch The angle · The proof · Why now; Situation Brief The ask · The evidence · The risks; Thought Leadership My example · The article's point · The question at the end. In the prototype all four builders now act on their emphasis choices.
+2. **Export formats.** Copy for everything; PDF and Word for the Situation Brief, the bios, pitches (Kate, 13 Oct) and articles. Posts are copy-only. Confirm.
+3. **The follow-up question.** The Situation Brief and Thought Leadership now have their own. Should Pitch ("Did you hear back?") and Positioning too?
+4. **Emphasis choices.** Each builder now has its own (13 Oct): Positioning What I lead · What I'm known for · Where I'm headed; Pitch The angle · The proof · Why now; Situation Brief The ask · The evidence · The risks; Thought Leadership My example · The article's point · The question at the end. In the prototype all four builders now act on their emphasis choices.

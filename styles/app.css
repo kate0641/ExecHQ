@@ -20717,3 +20717,20 @@ ul.plan-guided__sparks {
   flex-direction: column;
   gap: var(--space-sm);
 }
+
+/* Concept 2's panel: the optional questions open from here. */
+.input-panel__more {
+  align-self: flex-start;
+}
+
+/* A class outranks the browser's own [hidden] rule, so it is restated. */
+.input-panel__group[hidden] {
+  display: none;
+}
+
+/* The plan step a draft serves, on the draft as in the library. */
+.tool-flow__for {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}

@@ -252,6 +252,9 @@ export const INPUT_COPY = {
   writing: "Writing your first draft…",
   /** Under the button, so the enricher never reads as a gate. */
   notNeeded: "You don’t need anything else to start.",
+  /** Optional questions folded away until she asks for them (Concept 2). */
+  moreDetail: (n: number) => `Add more detail (${n} optional)`,
+  lessDetail: "Hide the optional questions",
 } as const;
 
 /* -----------------------------------------------------------------------------
@@ -471,6 +474,8 @@ export const USE_COPY = {
   } as Record<ArtifactKind, string>,
   copied: "Copied. Paste it wherever you need it.",
   export: "Export",
+  /** The menu that holds the downloads where the bar has room for three (Concept 1). */
+  more: "More",
   exportPdf: "Download as PDF",
   exportWord: "Download as Word",
   /** On one output, where space is short. */

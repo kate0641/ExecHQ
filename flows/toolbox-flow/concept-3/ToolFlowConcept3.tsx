@@ -98,12 +98,13 @@ function Interview() {
   const pinned = (
     <PinnedDraft
       label={hasDraft && f.version ? DRAFT_COPY.label(f.version.n) : DRAFT_COPY.label(1)}
-      preview={hasDraft && f.draft ? f.draft.meta.preview : live}
+      // Marked, as the draft is: her words apart from ExecHQ's wording.
+      preview={hasDraft ? f.draftPreview() : live ? f.liveDraft() : undefined}
       expanded={expanded || (hasDraft && web)}
       onToggle={() => setExpanded(!expanded)}
       side={web}
     >
-      {hasDraft ? f.draftEditor : live ? <p className="pinned-draft__live">{live}</p> : undefined}
+      {hasDraft ? f.draftEditor : live ? <p className="pinned-draft__live">{f.liveDraft()}</p> : undefined}
     </PinnedDraft>
   );
 
@@ -112,6 +113,7 @@ function Interview() {
     interview = (
       <div className="tool-flow__interview">
         <StepHeader eyebrow={f.tool.name} title={f.record?.title ?? f.tool.name} id={STEP_HEADING} />
+        {f.source}
         {f.outcome}
         {f.revision(() => setExpanded(true))}
         {f.useBar()}
@@ -196,6 +198,8 @@ function Interview() {
         </div>
       ) : (
         <>
+          {/* Where it came from stays in sight while the draft is open. */}
+          {hasDraft && expanded ? f.source : null}
           {pinned}
           {underDraft}
           {expanded ? null : interview}

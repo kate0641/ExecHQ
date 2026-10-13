@@ -119,7 +119,7 @@ As the PRD names them: **tone** (plainer, warmer, more direct), **specificity** 
 
 ## 6. How the agent behaves here
 
-**Proposed, all of this section.** It adds to the rules every builder shares (`builders/shared.md`, section 8).
+**Proposed, all of this section.** It adds to the rules every builder shares (`builders/shared.md`, section 8) and keeps the four guardrails (section 9).
 
 - **Short.** A pitch someone reads in ten seconds. The expanded version is where detail goes.
 - **Their audience, not hers.** Why now is about the outlet's audience this month, not her career.

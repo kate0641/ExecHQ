@@ -37,6 +37,7 @@ import {
   EXAMPLE_ANSWERS,
   INPUT_COPY,
   FLOW_COPY as C,
+  LIBRARY_COPY,
   LIBRARY_SEED,
   PITCH_INPUTS,
   POSITIONING_COPY,
@@ -57,6 +58,8 @@ import {
   TL_INPUTS_FROM_BRIEFING,
   TOOLS,
   VERSION_COPY,
+  type DraftSection,
+  type DraftSegment,
   type ToolInput,
 } from "@/mock/toolbox";
 
@@ -406,7 +409,7 @@ export function useToolFlow(concept: FlowConcept) {
     </div>
   );
 
-  const source: ReactNode = read ? (
+  const origin: ReactNode = read ? (
     <SourceLabel read={read} passage={passage} size={draft ? "compact" : "full"} />
   ) : buildingOut ? (
     <div className="tool-flow__carried">
@@ -414,6 +417,15 @@ export function useToolFlow(concept: FlowConcept) {
       <p className="tool-flow__carried-text">{valueOf("statement")}</p>
     </div>
   ) : null;
+  // The plan step a draft serves stays on it, as it does in the library.
+  const servesStep = draft ? (record?.recommendation ?? (draft.meta.planStepId ? stepById(draft.meta.planStepId)?.title : undefined)) : undefined;
+  const source: ReactNode =
+    origin || servesStep ? (
+      <>
+        {origin}
+        {servesStep ? <p className="tool-flow__for">{LIBRARY_COPY.forStep(servesStep)}</p> : null}
+      </>
+    ) : null;
 
   /** What this work goes with: at most two pieces she already has, each with
    *  one action. Her statement nearly always, since every tool draws on it. */
@@ -514,7 +526,10 @@ export function useToolFlow(concept: FlowConcept) {
       />
     ) : null;
 
-  const inputPanel = (subset?: readonly ToolInput[], options: { submitLabel?: string; hideNote?: boolean; onSubmit?: () => void; enricher?: ReactNode } = {}): ReactNode => (
+  const inputPanel = (
+    subset?: readonly ToolInput[],
+    options: { submitLabel?: string; hideNote?: boolean; onSubmit?: () => void; enricher?: ReactNode; collapseOptional?: boolean } = {}
+  ): ReactNode => (
     <InputPanel
       key={(subset ?? inputs).map((i) => i.id).join("|")}
       inputs={subset ?? inputs}
@@ -525,6 +540,7 @@ export function useToolFlow(concept: FlowConcept) {
       submitLabel={options.submitLabel}
       hideNote={options.hideNote}
       enricher={options.enricher ?? enricher}
+      collapseOptional={options.collapseOptional}
       noHeading
     />
   );
@@ -693,7 +709,7 @@ export function useToolFlow(concept: FlowConcept) {
       </form>
     ) : null;
 
-  const useBar = (options: { noStatus?: boolean } = {}): ReactNode =>
+  const useBar = (options: { noStatus?: boolean; exportInMenu?: boolean } = {}): ReactNode =>
     record ? (
       <>
         <DraftUseBar
@@ -711,6 +727,7 @@ export function useToolFlow(concept: FlowConcept) {
               : undefined
           }
           noStatus={options.noStatus}
+          exportInMenu={options.exportInMenu}
           note={
             record.kind === "situation-brief"
               ? [TOOL_COPY.onePage, briefDate ? TOOL_COPY.askAfter(aheadPhrase(addDays(briefDate, 1), loop.today)) : ""].filter(Boolean).join(" ")
@@ -854,11 +871,40 @@ export function useToolFlow(concept: FlowConcept) {
     draftText(buildDraft(kind, Object.fromEntries(inputs.map((i) => [i.id, valueOf(i.id)])), loop.today, read?.id, passage).slice(0, kind === "situation-brief" ? 2 : 1))
       .replace(/^[A-Z][^\n]*\n/, "");
 
+  /** Draft text with her words, ExecHQ's wording and the questions for her
+   *  marked as the full draft marks them (a guardrail: user-provided evidence
+   *  is never mistaken for generated framing). A section she rewrote is all
+   *  hers. */
+  const marked = (sections: readonly DraftSection[], sectionEdits: Record<string, string> = {}): ReactNode =>
+    sections
+      .filter((section) => !section.list)
+      .slice(0, kind === "situation-brief" ? 2 : 1)
+      .flatMap((section): DraftSegment[] => (sectionEdits[section.id] ? [{ text: sectionEdits[section.id], by: "you" }] : [...section.segments]))
+      .map((seg, i) =>
+        "question" in seg ? (
+          <span key={i} className="draft-editor__question">
+            <span className="u-visually-hidden">{DRAFT_COPY.questionLabel} </span>
+            {seg.question}{" "}
+          </span>
+        ) : (
+          <span key={i} className={seg.by === "you" ? "draft-editor__you" : "draft-editor__exechq"}>
+            {seg.by === "exechq" ? <span className="u-visually-hidden">ExecHQ: </span> : null}
+            {seg.text}
+          </span>
+        )
+      );
+  /** Concept 3: the draft as it fills in, marked. */
+  const liveDraft = (): ReactNode => marked(buildDraft(kind, Object.fromEntries(inputs.map((i) => [i.id, valueOf(i.id)])), loop.today, read?.id, passage));
+  /** Concept 3: the written draft's opening, marked, for its collapsed card. */
+  const draftPreview = (): ReactNode => (version ? marked(version.sections, edits) : null);
+
   return {
     concept,
     kind,
     answered,
     livePreview,
+    liveDraft,
+    draftPreview,
     loop,
     tool,
     read,

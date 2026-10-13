@@ -116,7 +116,7 @@ The shared options (voice, specificity, length, audience) and the conversational
 
 ## 6. How the agent behaves here
 
-**Proposed, all of this section.** It adds to the rules every builder shares (`builders/shared.md`, section 8).
+**Proposed, all of this section.** It adds to the rules every builder shares (`builders/shared.md`, section 8) and keeps the four guardrails (section 9).
 
 - **The ask comes first.** Every section serves the one outcome she named. If she hasn't named one, that is the first question, before anything else.
 - **Prepares, never scripts her manager.** Likely questions are what they might ask, never what they will say or decide.

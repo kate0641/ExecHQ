@@ -125,7 +125,7 @@ As the PRD names them, voice, specificity, length and audience, plus emphasis an
 
 ## 6. How the agent behaves here
 
-**Proposed, all of this section.** It adds to the rules every builder shares (`builders/shared.md`, section 8).
+**Proposed, all of this section.** It adds to the rules every builder shares (`builders/shared.md`, section 8) and keeps the four guardrails (section 9).
 
 - **Her voice.** First person, plain words, her sentences kept whole. No hashtags, emoji or engagement bait.
 - **A view, not a summary.** A post that only restates the article is not done; it asks for her point of view first.

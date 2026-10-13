@@ -227,7 +227,8 @@ export const BRIEFING_COPY = {
     notForMe: "Not for me",
     save: "Save",
     saved: "Saved",
-    post: "Post",
+    // Never just "Post": ExecHQ never posts for her (builder guardrails, 13 Oct).
+    post: "Write a post",
     postFull: "Write a post about this",
   },
 

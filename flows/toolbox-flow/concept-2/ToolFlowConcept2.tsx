@@ -52,7 +52,9 @@ function Workspace() {
         </dl>
       )
     : // The first question is on the use case screen above, so the panel leaves it out.
-      f.inputPanel(f.notFirst(f.inputs));
+      // Only what she must answer shows first; the optional questions wait
+      // behind "Add more detail", so the panel never reads as a form.
+      f.inputPanel(f.notFirst(f.inputs), { collapseOptional: true });
 
   const tabs = hasDraft
     ? [
