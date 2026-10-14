@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { AdvisorMark } from "@/components/chat/AdvisorMark";
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { AddToPlanSheet } from "@/components/plan/AddToPlanSheet";
@@ -9,7 +10,7 @@ import { Icon } from "@/components/primitives/Icon";
 import type { LoopDate } from "@/lib/loop";
 import { useViewport } from "@/lib/viewport-context";
 import { whenWords } from "@/lib/time-words";
-import { PLAN_AGENDA_COPY as A, STEP_ANSWERS, STEP_QUESTIONS, type ActionStep, type StepQuestion } from "@/mock/plan";
+import { PLAN_AGENDA_COPY as A, STEP_QUESTIONS, type ActionStep, type StepQuestion } from "@/mock/plan";
 
 export interface AgendaStage {
   index: number;
@@ -302,14 +303,14 @@ function StepItem({
             </Button>
           )}
           <div className="agenda__ask">
+            {/* Each question opens the chat on it, so it looks like the chat's own prompts: a navy pill with the
+                advisor's mark (designer, 2026-10-14). Their short answers are left for the chat to give. */}
             <ul className="agenda__ask-list" aria-label={A.askLabel}>
               {STEP_QUESTIONS.map((q) => (
                 <li key={q.id}>
-                  <button type="button" className="agenda__ask-row" onClick={() => onAsk(step, q.id)}>
-                    <span className="agenda__ask-q">{q.label}</span>
-                    {q.id === "why" ? <span className="agenda__ask-t">{STEP_ANSWERS.teaseWhy(step)}</span> : null}
-                    {q.id === "take" ? <span className="agenda__ask-t">{STEP_ANSWERS.teaseTake(step)}</span> : null}
-                    <Icon name="chevron" size={16} className="agenda__ask-go" />
+                  <button type="button" className="agenda__ask-pill" onClick={() => onAsk(step, q.id)}>
+                    <AdvisorMark size={14} />
+                    {q.label}
                   </button>
                 </li>
               ))}

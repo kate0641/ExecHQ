@@ -15860,55 +15860,39 @@ ul.agenda__ask-list {
   list-style: none;
 }
 
-.agenda__ask-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  column-gap: var(--space-sm);
-  row-gap: var(--space-3xs);
+/* The questions about a step open the chat, so they look like the chat's own prompts: navy pills, sized
+   to their words and wrapping, with the advisor's mark (designer, 2026-10-14). */
+.agenda__ask-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.agenda__ask-pill {
+  display: inline-flex;
   align-items: center;
-  width: 100%;
-  padding: var(--space-sm) 0;
+  gap: var(--space-xs);
+  min-height: var(--button-target);
+  padding: var(--space-xs) var(--space-md) var(--space-xs) var(--space-sm);
   border: 0;
-  background: none;
-  color: inherit;
-  font: inherit;
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  line-height: var(--leading-snug);
   text-align: start;
   cursor: pointer;
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus);
 }
 
-/* Hairlines only between the questions: none above the first, none under the last. */
-.agenda__ask-list li + li .agenda__ask-row {
-  border-top: var(--border-subtle);
+.agenda__ask-pill:hover {
+  background-color: var(--color-surface-inverse-hover);
 }
 
-.agenda__ask-row:focus-visible {
+.agenda__ask-pill:focus-visible {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
-}
-
-.agenda__ask-q {
-  font-family: var(--font-display);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-}
-
-.agenda__ask-row:hover .agenda__ask-q {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.agenda__ask-t {
-  grid-column: 1;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
-}
-
-.agenda__ask-go {
-  grid-row: 1 / span 2;
-  grid-column: 2;
-  align-self: center;
-  color: var(--color-text-secondary);
 }
 
 fieldset.agenda__whens {
@@ -16035,10 +16019,10 @@ fieldset.agenda__whens {
   border-radius: var(--radius-xl);
 }
 
-.agenda--stack .agenda__stage--0 { background-color: var(--color-stage-1); z-index: 1; --stage-ink: var(--color-text-on-stage-1); --stage-eyebrow: var(--color-eyebrow-on-stage-1); --stage-fin: var(--color-text-on-stage-1); }
-.agenda--stack .agenda__stage--1 { background-color: var(--color-stage-2); z-index: 2; --stage-ink: var(--color-text-on-stage-2); --stage-eyebrow: var(--color-eyebrow-on-stage-2); --stage-fin: var(--color-eyebrow-on-stage-2); }
-.agenda--stack .agenda__stage--2 { background-color: var(--color-stage-3); z-index: 3; --stage-ink: var(--color-text-on-stage-3); --stage-eyebrow: var(--color-eyebrow-on-stage-3); --stage-fin: var(--color-text-on-stage-3); }
-.agenda--stack .agenda__stage--3 { background-color: var(--color-stage-4); z-index: 4; --stage-ink: var(--color-text-on-stage-4); --stage-eyebrow: var(--color-eyebrow-on-stage-4); --stage-fin: var(--color-eyebrow-on-stage-4); }
+.agenda--stack .agenda__stage--0 { background-color: var(--color-stage-1); z-index: 1; --stage-ink: var(--color-text-on-stage-1); --stage-eyebrow: var(--color-eyebrow-on-stage-1); }
+.agenda--stack .agenda__stage--1 { background-color: var(--color-stage-2); z-index: 2; --stage-ink: var(--color-text-on-stage-2); --stage-eyebrow: var(--color-eyebrow-on-stage-2); }
+.agenda--stack .agenda__stage--2 { background-color: var(--color-stage-3); z-index: 3; --stage-ink: var(--color-text-on-stage-3); --stage-eyebrow: var(--color-eyebrow-on-stage-3); }
+.agenda--stack .agenda__stage--3 { background-color: var(--color-stage-4); z-index: 4; --stage-ink: var(--color-text-on-stage-4); --stage-eyebrow: var(--color-eyebrow-on-stage-4); }
 
 .agenda--stack .agenda__stage-button {
   display: flex;
@@ -16051,7 +16035,7 @@ fieldset.agenda__whens {
 }
 
 .agenda--stack .agenda__stage.is-open .agenda__stage-button {
-  padding-bottom: var(--space-2xs);
+  padding-bottom: var(--space-md);
 }
 
 /* "Stage 1 of 4" and when it runs to, on one eyebrow line, the time at the right. Inter, so it never
@@ -16104,15 +16088,22 @@ fieldset.agenda__whens {
   padding-bottom: var(--space-sm);
 }
 
+/* Two-tone, as Feature card pattern D (designer, 2026-10-14): the stage's colour holds only its eyebrow
+   and name; the open stage's body is white, with Finishing looks like and the steps as rows split by
+   hairlines. One card, never a card inside it. The next stage overlaps the foot of this body by
+   --space-md, so the body keeps that much more room under its last row. */
 .agenda--stack .agenda__body {
-  gap: var(--space-sm);
-  /* The next card overlaps this one's foot by --space-md, so the room under the white panel is the
-     overlap plus the same 16px the panel keeps at its sides (designer, 2026-10-14). */
-  padding: 0 var(--space-md) calc(var(--space-md) * 2);
+  gap: var(--space-xs);
+  padding: var(--space-md) var(--space-md) calc(var(--space-md) * 2);
+  background-color: var(--color-surface-raised);
+  box-shadow: inset var(--border-width-thin) 0 0 var(--color-border-subtle), inset calc(var(--border-width-thin) * -1) 0 0 var(--color-border-subtle);
+  color: var(--color-text-primary);
 }
 
 .agenda--stack .agenda__stage:last-child .agenda__body {
   padding-bottom: var(--space-md);
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  box-shadow: inset 0 0 0 var(--border-width-thin) var(--color-border-subtle);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -16130,28 +16121,26 @@ fieldset.agenda__whens {
 
 .agenda--stack .agenda__small {
   padding-inline: 0;
-  color: var(--stage-fin);
+  color: var(--color-text-secondary);
   text-wrap: pretty;
 }
 
 .agenda--stack .agenda__small b {
-  color: var(--stage-fin);
-}
-
-/* Each step is its own white card on the stage colour (designer, 2026-10-14), so a step that opens keeps
-   everything it reveals inside its card, apart from the step after it. The stage's name and Finishing
-   line sit on the colour itself. Its time is a small eyebrow over its title; only a step that opens
-   carries a chevron. */
-.agenda--stack ul.agenda__list {
-  gap: var(--space-xs);
   color: var(--color-text-primary);
 }
 
+/* The steps: rows split by hairlines in the white body, each its time as a small eyebrow over its title.
+   Only a step that opens carries a chevron; what it opens to sits under its title, before the next hairline. */
+.agenda--stack ul.agenda__list {
+  gap: 0;
+}
+
 .agenda--stack .agenda__item {
-  padding: var(--space-sm) var(--space-md);
+  padding: var(--space-sm) 0;
   border: 0;
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface-raised);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+  border-radius: 0;
+  background: none;
 }
 
 .agenda--stack .agenda__item:first-child {
