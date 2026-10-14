@@ -16191,7 +16191,8 @@ fieldset.agenda__whens {
   font-family: var(--font-body);
   word-spacing: normal;
   font-size: var(--text-sm);
-  font-weight: var(--weight-regular);
+  /* Semibold, so each step holds its own under the stage's name (designer, 2026-10-14). */
+  font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
   text-wrap: pretty;
 }
