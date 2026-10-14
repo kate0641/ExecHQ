@@ -252,7 +252,7 @@ export const BRIEFING_COPY = {
     readState: "Read",
     save: "Save",
     saved: "Saved",
-    savedNotice: "Saved. It stays in your saved reads after today.",
+    savedNotice: "Saved. Find it in Saved, at the top of your Briefing.",
     unsavedNotice: "Removed from your saved reads.",
   },
 
@@ -318,7 +318,10 @@ export const BRIEFING_COPY = {
   /* --- Saved reads -------------------------------------------------------- */
   savedReads: {
     heading: "Saved reads",
-    link: (n: number) => (n === 1 ? "1 saved read" : `${n} saved reads`),
+    /** At the top right of the Briefing, every day (14 Oct). */
+    button: "Saved",
+    /** Read after Saved by screen readers. */
+    count: (n: number) => (n === 0 ? ", nothing saved yet" : n === 1 ? ", 1 read" : `, ${n} reads`),
     empty: "Nothing saved yet. Save a read to keep it after today.",
   },
 

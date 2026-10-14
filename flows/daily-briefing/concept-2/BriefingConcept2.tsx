@@ -63,7 +63,6 @@ export function BriefingConcept2() {
         <BriefingFront reads={p.reads} onOpen={go} />
         <BriefingEnd allRead={p.allRead} headingId="briefing-end">
           <div className="brief-end__links">
-            {p.savedLink}
             {p.publishersInProfile}
           </div>
         </BriefingEnd>

@@ -16889,10 +16889,61 @@ ul.plan-guided__sparks {
   max-width: 65rem;
 }
 
+/* The title and date, with Saved at the top right (14 Oct). */
 .briefing-page__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.briefing-page__head-text {
   display: flex;
   flex-direction: column;
   gap: var(--space-3xs);
+  min-width: 0;
+}
+
+/* Saved: the bookmark, the word, and how many as a small count. A 44px tap
+   area, nothing moved. */
+.briefing-page__saved {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-2xs);
+  min-height: 2.75rem;
+  padding: 0 var(--space-xs);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: none;
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.briefing-page__saved:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.briefing-page__saved:active {
+  background-color: var(--color-surface-active);
+}
+
+.briefing-page__saved:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.briefing-page__saved-count {
+  min-width: 1.25rem;
+  padding: 0 var(--space-3xs);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-sunken);
+  font-size: var(--text-xs);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
 }
 
 .briefing-page__title {
@@ -16921,7 +16972,6 @@ ul.plan-guided__sparks {
   color: var(--color-text-secondary);
 }
 
-.briefing-page__saved,
 .briefing-page__change {
   padding: 0;
   border: 0;
@@ -16935,12 +16985,10 @@ ul.plan-guided__sparks {
   cursor: pointer;
 }
 
-.briefing-page__saved:hover,
 .briefing-page__change:hover {
   color: var(--color-text-link-hover);
 }
 
-.briefing-page__saved:focus-visible,
 .briefing-page__change:focus-visible {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);

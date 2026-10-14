@@ -44,7 +44,6 @@ export function BriefingConcept1() {
       />
       <BriefingEnd allRead={p.allRead} headingId="briefing-end">
         <div className="brief-end__links">
-          {p.savedLink}
           {p.publishersLine}
         </div>
       </BriefingEnd>

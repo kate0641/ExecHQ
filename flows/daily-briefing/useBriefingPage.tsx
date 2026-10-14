@@ -7,6 +7,7 @@ import { BriefingReadCard } from "@/components/briefing/BriefingReadCard";
 import { PublisherPicker } from "@/components/briefing/PublisherPicker";
 import { ReadActions } from "@/components/briefing/ReadActions";
 import { Sheet } from "@/components/layout/Sheet";
+import { Icon } from "@/components/primitives/Icon";
 import { briefingActions, respondHref, useBriefing, type ReadState, type Relevance } from "@/lib/briefing-store";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { READ_BRIEFING_STEP } from "@/lib/toolbox-links";
@@ -107,12 +108,26 @@ export function useBriefingPage() {
     );
   }
 
+  /** Saved, at the top right of the page every day, so a read she kept is
+   *  always one tap away (Kate, 14 Oct). It opens her saved reads. */
+  const savedButton = (
+    <button type="button" className="briefing-page__saved" onClick={() => setOpen({ kind: "saved" })} aria-haspopup="dialog">
+      <Icon name="bookmark" size={18} />
+      {C.savedReads.button}
+      {saved.length ? <span className="briefing-page__saved-count">{saved.length}</span> : null}
+      <span className="u-visually-hidden">{C.savedReads.count(saved.length)}</span>
+    </button>
+  );
+
   const header = (
     <header className="briefing-page__header">
-      <h1 className="briefing-page__title" id={TITLE_ID} tabIndex={-1}>
-        {C.heading}
-      </h1>
-      <p className="briefing-page__date">{dateLine}</p>
+      <div className="briefing-page__head-text">
+        <h1 className="briefing-page__title" id={TITLE_ID} tabIndex={-1}>
+          {C.heading}
+        </h1>
+        <p className="briefing-page__date">{dateLine}</p>
+      </div>
+      {state.publishers === null ? null : savedButton}
     </header>
   );
 
@@ -130,13 +145,6 @@ export function useBriefingPage() {
           }}
         />
       </div>
-    ) : null;
-
-  const savedLink =
-    saved.length > 0 ? (
-      <button type="button" className="briefing-page__saved" onClick={() => setOpen({ kind: "saved" })}>
-        {C.savedReads.link(saved.length)}
-      </button>
     ) : null;
 
   /** Where her reads come from, and Change, on the page (Concept A). */
@@ -224,7 +232,6 @@ export function useBriefingPage() {
     openRead,
     markOpened,
     actionsFor,
-    savedLink,
     publishersLine,
     publishersInProfile,
     sheet,
