@@ -16410,13 +16410,30 @@ fieldset.agenda__whens {
   color: var(--color-text-inverse);
 }
 
-:is([data-viewport="mobile"], [data-viewport="tablet"]) .plan-guided .answer-drawer :is(.answer-drawer__peek-status, .answer-drawer__step, .btn--ghost) {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .plan-guided .answer-drawer :is(.answer-drawer__peek-status, .answer-drawer__step, .btn--ghost, .field__hint) {
   color: var(--color-text-inverse-muted);
 }
 
 :is([data-viewport="mobile"], [data-viewport="tablet"]) .plan-guided .answer-drawer .btn--ghost:hover {
   color: var(--color-text-inverse);
   background-color: var(--color-surface-inverse-hover);
+}
+
+/* Words written straight on the navy take its light ink; the sticky foot keeps the navy behind it. */
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .plan-guided .answer-drawer :is(.stage-checkin__note, .field__label, .input__label, legend) {
+  color: var(--color-text-inverse);
+}
+
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .plan-guided .answer-drawer .answer-drawer__actions {
+  background-color: var(--color-surface-inverse);
+}
+
+/* The one she picks can't fill navy on navy: it takes blue 200 with the ink, its words bold. */
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .plan-guided .answer-drawer .chip-group__chip[aria-pressed="true"] {
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-active);
+  border-color: var(--color-surface-active);
+  font-weight: var(--weight-semibold);
 }
 
 /* The answers stay white with the ink, a ring of their own inside the navy. */
