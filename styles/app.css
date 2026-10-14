@@ -16089,7 +16089,8 @@ fieldset.agenda__whens {
   flex-direction: column;
   align-items: stretch;
   gap: var(--space-xs);
-  padding: var(--space-md) var(--space-md) var(--space-xl);
+  /* More of each closed stage shows under the next, so each reads as its own drawer (designer, 2026-10-14). */
+  padding: var(--space-lg) var(--space-md) var(--space-2xl);
   /* The ring takes the card's own ink, so it shows on every stage colour. */
   --focus-ring: var(--focus-ring-width) solid var(--stage-ink);
 }
