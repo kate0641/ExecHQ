@@ -16077,10 +16077,49 @@ fieldset.agenda__whens {
   border-radius: var(--radius-xl);
 }
 
-.agenda--stack .agenda__stage--0 { background-color: var(--color-stage-1); z-index: 1; --stage-ink: var(--color-text-on-stage-1); --stage-eyebrow: var(--color-eyebrow-on-stage-1); }
-.agenda--stack .agenda__stage--1 { background-color: var(--color-stage-2); z-index: 2; --stage-ink: var(--color-text-on-stage-2); --stage-eyebrow: var(--color-eyebrow-on-stage-2); }
-.agenda--stack .agenda__stage--2 { background-color: var(--color-stage-3); z-index: 3; --stage-ink: var(--color-text-on-stage-3); --stage-eyebrow: var(--color-eyebrow-on-stage-3); }
-.agenda--stack .agenda__stage--3 { background-color: var(--color-stage-4); z-index: 4; --stage-ink: var(--color-text-on-stage-4); --stage-eyebrow: var(--color-eyebrow-on-stage-4); }
+/* Each stage's colour comes from the sky showing (data-sky on the roadmap, day before the hour is known):
+   stage 1 its glow, stage 4 its deepest step. Words take the ink that passes: the inverse ink only on the deep
+   steps (dusk's last stage, night's last three). */
+.agenda--stack .agenda__stage { --stage-ink: var(--color-text-primary); --stage-eyebrow: var(--color-text-primary); }
+.agenda--stack .agenda__stage--0 { background-color: var(--stage-bg-1); z-index: 1; }
+.agenda--stack .agenda__stage--1 { background-color: var(--stage-bg-2); z-index: 2; }
+.agenda--stack .agenda__stage--2 { background-color: var(--stage-bg-3); z-index: 3; }
+.agenda--stack .agenda__stage--3 { background-color: var(--stage-bg-4); z-index: 4; }
+
+.agenda--stack,
+.agenda--stack[data-sky="day"] {
+  --stage-bg-1: var(--color-stage-day-1);
+  --stage-bg-2: var(--color-stage-day-2);
+  --stage-bg-3: var(--color-stage-day-3);
+  --stage-bg-4: var(--color-stage-day-4);
+}
+
+.agenda--stack[data-sky="dawn"] {
+  --stage-bg-1: var(--color-stage-dawn-1);
+  --stage-bg-2: var(--color-stage-dawn-2);
+  --stage-bg-3: var(--color-stage-dawn-3);
+  --stage-bg-4: var(--color-stage-dawn-4);
+}
+
+.agenda--stack[data-sky="dusk"] {
+  --stage-bg-1: var(--color-stage-dusk-1);
+  --stage-bg-2: var(--color-stage-dusk-2);
+  --stage-bg-3: var(--color-stage-dusk-3);
+  --stage-bg-4: var(--color-stage-dusk-4);
+}
+
+.agenda--stack[data-sky="night"] {
+  --stage-bg-1: var(--color-stage-night-1);
+  --stage-bg-2: var(--color-stage-night-2);
+  --stage-bg-3: var(--color-stage-night-3);
+  --stage-bg-4: var(--color-stage-night-4);
+}
+
+.agenda--stack[data-sky="dusk"] .agenda__stage--3,
+.agenda--stack[data-sky="night"] :is(.agenda__stage--1, .agenda__stage--2, .agenda__stage--3) {
+  --stage-ink: var(--color-text-inverse);
+  --stage-eyebrow: var(--color-text-inverse);
+}
 
 .agenda--stack .agenda__stage-button {
   display: flex;
@@ -16340,6 +16379,9 @@ fieldset.agenda__whens {
   position: sticky;
   top: 0;
   margin-top: 0;
+  /* Beside the page on the web, so no divider above it. */
+  padding-top: 0;
+  border-top: 0;
 }
 
 [data-viewport="web"] .guide.plan-guided:not(:where([data-viewport="mobile"] *)) .answer-drawer__wrap {
@@ -16503,9 +16545,12 @@ fieldset.agenda__whens {
     linear-gradient(in oklab, var(--color-sky-night), color-mix(in oklab, var(--color-sky-night) 70%, var(--color-sky-night-top)));
 }
 
-/* The roadmap under the move, set apart from the move by space alone. */
+/* The roadmap under the move: a hairline divides the move above, which asks, from her direction and the
+   roadmap below, which are there for reference (designer, 2026-10-14). */
 .plan-guided .guide__after {
   margin-top: var(--space-xl);
+  padding-top: var(--space-xl);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
 /* Her check-in on a finished stage, in the roadmap: read back, or a way in when she put it off. */

@@ -9,6 +9,7 @@ import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import type { LoopDate } from "@/lib/loop";
 import { useViewport } from "@/lib/viewport-context";
+import { useSky } from "@/components/hub/SnapshotPicker/use-sky";
 import { whenWords } from "@/lib/time-words";
 import { PLAN_AGENDA_COPY as A, STEP_QUESTIONS, type ActionStep, type StepQuestion } from "@/mock/plan";
 
@@ -94,6 +95,8 @@ export function PlanAgenda({
 }: PlanAgendaProps) {
   const uid = useId();
   const web = useViewport().viewport === "web";
+  // The stages take their colours from the sky showing, as the move's panel above does.
+  const sky = useSky();
   const here = stages.find((s) => s.status === "current") ?? stages.find((s) => s.status === "recommended") ?? stages[0];
   const firstStep = (stage: number) => items.find((i) => i.stage === stage && i.kind === "step")?.id ?? null;
   const [open, setOpen] = useState<number | null>(demoStage !== undefined ? demoStage : here?.index ?? 0);
@@ -133,7 +136,7 @@ export function PlanAgenda({
       .sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
 
   return (
-    <section className={["agenda", "agenda--stack", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
+    <section className={["agenda", "agenda--stack", className].filter(Boolean).join(" ")} data-sky={sky} aria-labelledby={headingId}>
       <div className="agenda__head">
         <h2 className="agenda__heading" id={headingId}>
           {A.heading}
