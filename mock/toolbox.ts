@@ -964,6 +964,227 @@ export const TOOL_COPY = {
 } as const;
 
 /* -----------------------------------------------------------------------------
+   PITCH BUILDER: WHERE IT GOES (Kate, 14 Oct)
+   A pitch is for one place. Above the draft, the outlet, what it asks for,
+   who receives it and how to send it, each from the outlet's own published
+   page, linked and dated. A contact the outlet doesn't publish is a question
+   to her, never a guess. Every outlet here is made up, and every address
+   uses the reserved `.example` domain, so nothing points at a real outlet
+   or a real person.
+   -------------------------------------------------------------------------- */
+
+export type PitchType = "Speaking" | "Podcast" | "Press";
+
+/** A draft section a send route asks for, by its id in `pitchDraft`. */
+export type PitchPart = "subjects" | "pitch" | "short" | "expanded" | "follow-up";
+
+/** What the outlet asks for, as its page says it. Anything left out is
+ *  missing from the page, and the card says so rather than filling it. */
+export interface OutletAsk {
+  /** The topics they want now. */
+  topics: string;
+  /** "A 40-minute conversation"; "A 300-word abstract for a 30-minute talk". */
+  format: string;
+  /** The words they allow, and which part of the draft it applies to. */
+  limit?: { words: number; part: PitchPart };
+  /** What to send with it. */
+  include: readonly string[];
+  /** A closing date, ISO. */
+  deadline?: string;
+  /** How often they read pitches, when there is no deadline. */
+  cycle?: string;
+}
+
+/** The route the outlet publishes. A named person only when the outlet
+ *  names them on its own page. */
+export type OutletContact =
+  | { route: "form"; url: string; label: string; fields: readonly { field: string; part: PitchPart }[] }
+  | { route: "email"; address: string; person?: string };
+
+export interface Outlet {
+  id: string;
+  name: string;
+  type: PitchType;
+  /** The part of it she is pitching: a track, a column, a segment. */
+  part?: string;
+  /** Inside her company: no public page, so the card asks her. */
+  internal?: boolean;
+  ask?: OutletAsk;
+  contact?: OutletContact;
+  /** The page it all came from, and the day ExecHQ checked it (ISO). */
+  source?: { url: string; checked: string };
+  /** Why it fits her angle and audience, in a line, for "Not sure yet". */
+  fits?: string;
+}
+
+export const OUTLETS: readonly Outlet[] = [
+  {
+    id: "marketing-leaders-podcast",
+    name: "The Marketing Leaders podcast",
+    type: "Podcast",
+    part: "Guest episodes",
+    ask: {
+      topics: "How marketing leaders run planning, budgets and teams",
+      format: "A 40-minute recorded conversation",
+      limit: { words: 150, part: "pitch" },
+      include: ["A short bio", "A link to a talk or interview, if you have one"],
+      cycle: "Books guests about six weeks ahead",
+    },
+    contact: {
+      route: "form",
+      url: "marketingleaders.example/guests",
+      label: "Guest form",
+      fields: [
+        { field: "Episode idea", part: "short" },
+        { field: "Tell us more", part: "pitch" },
+      ],
+    },
+    source: { url: "marketingleaders.example/guests", checked: "2026-10-01" },
+    fits: "Its listeners are the marketing leaders your direction names.",
+  },
+  {
+    id: "scope-and-scale",
+    name: "Scope & Scale",
+    type: "Podcast",
+    contact: { route: "email", address: "bookings@scopeandscale.example" },
+    source: { url: "scopeandscale.example/about", checked: "2026-10-09" },
+    fits: "Weekly interviews with operators about how work gets divided up.",
+  },
+  {
+    id: "commercial-strategy-summit",
+    name: "The Commercial Strategy Summit",
+    type: "Speaking",
+    part: "Planning and operations track",
+    ask: {
+      topics: "Planning across regions, budgets under pressure, running cross-team programmes",
+      format: "A 300-word abstract for a 30-minute talk",
+      limit: { words: 300, part: "expanded" },
+      include: ["A speaker bio, under 100 words", "A headshot", "A video of a past talk, if you have one"],
+      deadline: "2026-11-13",
+    },
+    contact: {
+      route: "form",
+      url: "commercialstrategysummit.example/speak",
+      label: "Call for proposals",
+      fields: [
+        { field: "Session title", part: "subjects" },
+        { field: "Abstract", part: "expanded" },
+        { field: "One-line description", part: "short" },
+      ],
+    },
+    source: { url: "commercialstrategysummit.example/speak", checked: "2026-09-02" },
+    fits: "Its planning track is the topic you lead at work.",
+  },
+  {
+    id: "planning-leaders-conference",
+    name: "The Planning Leaders Conference",
+    type: "Speaking",
+    part: "Practitioner talks",
+    ask: {
+      topics: "First-hand stories of planning that changed how a business runs",
+      format: "A 20-minute talk",
+      include: ["A speaker bio", "Three points you would cover"],
+      cycle: "Reviews proposals each quarter",
+    },
+    contact: { route: "email", address: "speakers@planningleaders.example" },
+    source: { url: "planningleaders.example/speak", checked: "2026-10-06" },
+    fits: "It wants people doing the planning, not consultants.",
+  },
+  {
+    id: "commercial-leader-quarterly",
+    name: "Commercial Leader Quarterly",
+    type: "Press",
+    part: "Opinion column",
+    ask: {
+      topics: "First-person lessons on running commercial teams",
+      format: "A pitch for a 700-word opinion piece",
+      limit: { words: 200, part: "pitch" },
+      include: ["Your bio in two lines", "Two or three recent articles or posts, if you have them"],
+      cycle: "Reads pitches every Monday",
+    },
+    contact: { route: "email", address: "opinion@commercialleader.example", person: "Dana Okafor, opinion editor" },
+    source: { url: "commercialleader.example/contribute", checked: "2026-10-12" },
+    fits: "Read by the commercial leaders two levels above you.",
+  },
+  {
+    id: "field-notes",
+    name: "Field Notes",
+    type: "Press",
+    part: "Guest essays",
+    ask: {
+      topics: "What senior marketers learned the hard way",
+      format: "An 800-word guest essay",
+      include: ["A two-line bio"],
+    },
+    source: { url: "fieldnotes.example/write-for-us", checked: "2026-10-10" },
+    fits: "A newsletter marketing directors forward to their teams.",
+  },
+  { id: "q1-planning-review", name: "The Q1 planning review", type: "Speaking", internal: true },
+  { id: "leadership-forum", name: "The leadership forum", type: "Speaking", internal: true },
+];
+
+/** The outlet she named, matched loosely ("the Marketing Leaders podcast"). */
+export function outletFor(name: string | undefined): Outlet | undefined {
+  const key = (s: string) => s.trim().toLowerCase().replace(/^the\s+/, "");
+  if (!name?.trim()) return undefined;
+  return OUTLETS.find((o) => key(o.name) === key(name));
+}
+
+/** "Not sure yet": up to three that fit, of the kind she is pitching for. */
+export function suggestedOutlets(type: string | undefined): Outlet[] {
+  return OUTLETS.filter((o) => !o.internal && (!type || o.type === type)).slice(0, 3);
+}
+
+/** A page checked longer ago than this may have changed. */
+export const OUTLET_STALE_DAYS = 30;
+
+export const OUTLET_COPY = {
+  heading: "Where it goes",
+  ask: "What they’re asking for",
+  topics: "Topics",
+  format: "Format",
+  limit: (words: number) => `Up to ${words} words`,
+  include: "Send with it",
+  deadline: (date: string) => `Closes ${date}`,
+  contact: "Contact",
+  how: "How to send it",
+  source: "Source",
+  checked: (date: string) => `Checked ${date}`,
+  /** The page publishes nothing about what they want. */
+  noAsk: (watch: string) => `They don’t publish what they want. Read three recent ${watch} and pitch the gap.`,
+  watchFor: { Speaking: "talks", Podcast: "episodes", Press: "articles" } as Record<PitchType, string>,
+  /** The page names no contact: a question, never a guess. */
+  noContact: {
+    Speaking: "Who reviews talks? Look for a programme lead on the event’s page, or ask someone who has spoken there.",
+    Podcast: "Who handles guests? Look for a producer on the show’s page, or ask someone who has been on it.",
+    Press: "Who edits this section? Look for a name on recent pieces, or ask someone who has written for them.",
+  } as Record<PitchType, string>,
+  /** Inside her company there is no page to read. */
+  internal: {
+    note: "This is inside your company, so there is no page to check. Two things only you can answer:",
+    questions: ["Who decides the agenda?", "How do people usually get on it?"],
+  },
+  /** A page checked long ago, or a deadline passed. */
+  stale: "This may have changed. Check before you send.",
+  closed: "This has closed. Check for the next one before you send.",
+  howForm: (label: string) => `Fill in their ${label.toLowerCase()}.`,
+  howEmail: "Email it: your chosen subject line in the subject, the pitch as the body.",
+  /** Where each draft part goes, on a form. */
+  fieldGets: (field: string, part: string) => `${field}: your ${part.toLowerCase()}`,
+  partNames: {
+    subjects: "Subject line",
+    pitch: "Pitch",
+    short: "Short version",
+    expanded: "Expanded version",
+    "follow-up": "Follow-up",
+  } as Record<PitchPart, string>,
+  /** No route published: send it the plainest way. */
+  howDefault: "Email it once you have a contact: the first subject line, the pitch as the body.",
+  /** The pitch doesn't fit their limit: a question in the draft. */
+  overLimit: (words: number, now: number) => `They ask for ${words} words. This is ${now}. What can go?`,
+} as const;
+
+/* -----------------------------------------------------------------------------
    POSITIONING BUILDER (stage 5b)
    The full builder around the onboarding statement. Her statement opens here
    as the same artifact, with its history: never a copy. Every other output
