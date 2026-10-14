@@ -205,7 +205,7 @@ interface DrawerControl {
 }
 
 /** What every page is handed about where it sits. */
-type Frame = Pick<ComponentProps<typeof GuidePage>, "headingId" | "part" | "file">;
+type Frame = Pick<ComponentProps<typeof GuidePage>, "headingId" | "part" | "file" | "sky">;
 
 const STEP_NAV = PAGES.filter((page) => !page.offBar).map((page) => ({ id: page.id, label: page.label }));
 /** Changing her direction from the Plan: the direction, the recommendation, the questions and the plan. */
@@ -380,9 +380,11 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
    *  pages by decision on 2026-09-24; what ExecHQ learned is shown once, as
    *  the summary on the last page. */
   function frame(): Frame {
-    if (!edit) return { headingId };
+    // Every question sits in its sky panel; a page without a drawer ignores it.
+    if (!edit) return { headingId, sky: true };
     return {
       headingId,
+      sky: true,
       part: EDIT_FLOW_COPY.part,
       file: (
         <Link href={EDIT_FLOW_COPY.backTo} className="link">

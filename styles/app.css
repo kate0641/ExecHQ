@@ -16370,11 +16370,12 @@ fieldset.agenda__whens {
   flex: 1 1 auto;
 }
 
-/* The Plan's answer drawer is navy on a phone and a tablet (designer, 2026-10-13), so the question
+/* The Plan's answer drawer is navy on a phone and a tablet (designer, 2026-10-13), and onboarding's too
+   wherever its question sits in a sky panel (2026-10-14), so the question
    about this move reads apart from the page: the yellow start button, white answers, light words. Its
    handle folds it to the peek bar, which shows the roadmap under the move. On the web the answers are
    part of the page. */
-:is([data-viewport="mobile"], [data-viewport="tablet"]) .plan-guided .answer-drawer {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer {
   color: var(--color-text-inverse);
   background-color: var(--color-surface-inverse);
   border-top: 0;
@@ -16382,38 +16383,38 @@ fieldset.agenda__whens {
   --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
 }
 
-:is([data-viewport="mobile"], [data-viewport="tablet"]) .plan-guided .answer-drawer__grab::before {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer__grab::before {
   background-color: var(--color-text-inverse-muted);
 }
 
-:is([data-viewport="mobile"], [data-viewport="tablet"]) .plan-guided .answer-drawer.is-peek {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer.is-peek {
   padding-top: var(--space-xs);
 }
 
-:is([data-viewport="mobile"], [data-viewport="tablet"]) .plan-guided .answer-drawer :is(.answer-drawer__peek-q, .chip-group__label) {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer :is(.answer-drawer__peek-q, .chip-group__label) {
   color: var(--color-text-inverse);
 }
 
-:is([data-viewport="mobile"], [data-viewport="tablet"]) .plan-guided .answer-drawer :is(.answer-drawer__peek-status, .answer-drawer__step, .btn--ghost, .field__hint) {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer :is(.answer-drawer__peek-status, .answer-drawer__step, .btn--ghost, .field__hint) {
   color: var(--color-text-inverse-muted);
 }
 
-:is([data-viewport="mobile"], [data-viewport="tablet"]) .plan-guided .answer-drawer .btn--ghost:hover {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer .btn--ghost:hover {
   color: var(--color-text-inverse);
   background-color: var(--color-surface-inverse-hover);
 }
 
 /* Words written straight on the navy take its light ink; the sticky foot keeps the navy behind it. */
-:is([data-viewport="mobile"], [data-viewport="tablet"]) .plan-guided .answer-drawer :is(.stage-checkin__note, .field__label, .input__label, legend) {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer :is(.stage-checkin__note, .field__label, .input__label, legend) {
   color: var(--color-text-inverse);
 }
 
-:is([data-viewport="mobile"], [data-viewport="tablet"]) .plan-guided .answer-drawer .answer-drawer__actions {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer .answer-drawer__actions {
   background-color: var(--color-surface-inverse);
 }
 
 /* The one she picks can't fill navy on navy: it takes blue 200 with the ink, its words bold. */
-:is([data-viewport="mobile"], [data-viewport="tablet"]) .plan-guided .answer-drawer .chip-group__chip[aria-pressed="true"] {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer .chip-group__chip[aria-pressed="true"] {
   color: var(--color-text-primary);
   background-color: var(--color-surface-active);
   border-color: var(--color-surface-active);
@@ -16421,9 +16422,85 @@ fieldset.agenda__whens {
 }
 
 /* The answers stay white with the ink, a ring of their own inside the navy. */
-:is([data-viewport="mobile"], [data-viewport="tablet"]) .plan-guided .answer-drawer .chip-group__chip {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer .chip-group__chip {
   border-color: var(--color-surface-raised);
   --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+}
+
+/* The sky panel (designer, 2026-10-14): on onboarding's and the Plan's guided pages the question (its
+   eyebrow, heading and line) sits in its own panel of the sky Home shows at this hour. The glow rises
+   from the panel's bottom-right corner; Why this matters stays on the page. Dawn and day take the ink,
+   dusk and night white. The line under the heading has the same room above it as below. */
+.guide__head--sky {
+  margin-inline: calc(var(--space-sm) * -1);
+  padding: var(--space-lg) var(--space-md);
+  border-radius: var(--radius-xl);
+  --sky-panel-ink: var(--color-text-primary);
+  --sky-panel-soft: var(--color-text-secondary);
+}
+
+.guide__head--sky .guide__kicker {
+  color: var(--sky-panel-ink);
+}
+
+.guide__head--sky .guide__title {
+  font-size: var(--text-2xl-plus);
+  text-wrap: balance;
+  color: var(--sky-panel-ink);
+}
+
+.guide__head--sky .guide__lede {
+  margin-top: var(--space-md);
+  color: var(--sky-panel-soft);
+}
+
+.guide__head--sky[data-sky="dawn"] {
+  background:
+    radial-gradient(circle 7rem at 100% 100%, var(--color-sky-heart-light), transparent),
+    radial-gradient(circle 13rem at 100% 100%, var(--color-sky-heart-warm), transparent 85%),
+    linear-gradient(in oklab, var(--color-sky-dawn), color-mix(in oklab, var(--color-sky-dawn) 70%, var(--color-surface-raised)));
+}
+
+.guide__head--sky[data-sky="day"] {
+  background:
+    radial-gradient(circle 7rem at 100% 100%, var(--color-sky-day-top-core), transparent),
+    radial-gradient(circle 13rem at 100% 100%, var(--color-sky-day-top-ring), transparent 85%),
+    linear-gradient(in oklab, var(--color-sky-day), color-mix(in oklab, var(--color-sky-day) 70%, var(--color-surface-raised)));
+}
+
+/* Dusk is Home's dusk (a small orange 200 centre, orange 300 turning dusty mauve into blue 500, half the
+   turn in oklch and half in oklab) set in the corner, over blue 600 so the white words pass. */
+.guide__head--sky[data-sky="dusk"] {
+  --sky-panel-ink: var(--color-text-inverse);
+  --sky-panel-soft: var(--color-text-inverse);
+  background:
+    radial-gradient(circle 5rem at 100% 100%, var(--color-sky-dusk-top-core), transparent),
+    radial-gradient(
+      circle 17rem at 100% 100% in oklch,
+      color-mix(in oklab, var(--color-sky-dusk-top-ring) 50%, transparent) 0%,
+      color-mix(in oklab, var(--color-sky-dusk-edge-top) 50%, transparent) 58%,
+      transparent 100%
+    ),
+    radial-gradient(
+      circle 17rem at 100% 100% in oklab,
+      var(--color-sky-dusk-top-ring) 0%,
+      var(--color-sky-dusk-edge-top) 58%,
+      color-mix(in oklab, var(--color-sky-dusk-edge-top) 78%, transparent) 70%,
+      color-mix(in oklab, var(--color-sky-dusk-edge-top) 50%, transparent) 79%,
+      color-mix(in oklab, var(--color-sky-dusk-edge-top) 22%, transparent) 87%,
+      color-mix(in oklab, var(--color-sky-dusk-edge-top) 3%, transparent) 96%,
+      transparent 100%
+    ),
+    linear-gradient(var(--color-sky-panel-dusk), var(--color-sky-panel-dusk));
+}
+
+.guide__head--sky[data-sky="night"] {
+  --sky-panel-ink: var(--color-text-inverse);
+  --sky-panel-soft: var(--color-text-inverse);
+  background:
+    radial-gradient(circle 7rem at 100% 100%, var(--color-sky-night-spark), transparent),
+    radial-gradient(circle 13rem at 100% 100%, var(--color-sky-night-glow), transparent 85%),
+    linear-gradient(in oklab, var(--color-sky-night), color-mix(in oklab, var(--color-sky-night) 70%, var(--color-sky-night-top)));
 }
 
 /* The roadmap under the move, set apart from the move by space alone. */

@@ -1,4 +1,7 @@
+"use client";
+
 import type { ReactNode } from "react";
+import { useSky } from "@/components/hub/SnapshotPicker/use-sky";
 import { StepActions } from "@/components/onboarding/StepActions";
 import type { ButtonVariant } from "@/components/primitives/Button";
 import { Wordmark } from "@/components/primitives/Wordmark";
@@ -49,6 +52,9 @@ export interface GuidePageProps {
   after?: ReactNode;
   /** Drawn over the top of the page: an email's notification arriving. */
   overlay?: ReactNode;
+  /** With a drawer: the question sits in its own panel of the sky Home shows at this hour (dawn, day, dusk,
+   *  night), its glow in the panel's bottom-right corner (designer, 2026-10-14). Onboarding and the Plan. */
+  sky?: boolean;
   className?: string;
 }
 
@@ -88,8 +94,11 @@ export function GuidePage({
   drawer,
   after,
   overlay,
+  sky: skyPanel = false,
   className,
 }: GuidePageProps) {
+  const sky = useSky();
+  const inSky = skyPanel && Boolean(drawer) && !cover;
   const page = (
     <>
       {part && !cover ? (
@@ -114,7 +123,7 @@ export function GuidePage({
         </div>
       ) : null}
 
-      <header className="guide__head">
+      <header className={inSky ? "guide__head guide__head--sky" : "guide__head"} data-sky={inSky ? sky : undefined}>
         {wordmark ? <Wordmark size="xl" tone={cover ? "light" : "dark"} className="guide__wordmark" /> : null}
         {kicker ? <p className="guide__kicker">{kicker}</p> : null}
         <h1 className="guide__title" id={headingId} tabIndex={-1}>
@@ -150,7 +159,7 @@ export function GuidePage({
     </>
   );
 
-  const classes = ["guide", cover ? "guide--cover" : null, drawer ? "guide--drawer" : null, className]
+  const classes = ["guide", cover ? "guide--cover" : null, drawer ? "guide--drawer" : null, inSky ? "guide--sky" : null, className]
     .filter(Boolean)
     .join(" ");
   const over = overlay ? <div className="guide__overlay">{overlay}</div> : null;

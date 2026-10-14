@@ -123,6 +123,7 @@ export function PlanGuided({
     partIndex: stageIndex,
     partCount: stages.length,
     after: roadmap,
+    sky: true,
   };
   const sheets = (
     <>

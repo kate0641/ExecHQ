@@ -75,6 +75,39 @@ export const guidePageStates = defineComponentStates({
       },
     },
     {
+      label: "With the sky panel",
+      description: "Onboarding and the Plan: the question sits in a panel of the sky Home shows at this hour, its glow in the bottom-right corner, and the drawer is navy. The dock's sky icons switch it.",
+      props: {
+        sky: true,
+        part: GUIDE_C3.parts[1],
+        position: "1 of 4",
+        partIndex: 1,
+        partCount: GUIDE_C3.parts.length,
+        kicker: GUIDE_C3.direction.kicker,
+        title: GUIDE_C3.direction.title,
+        lede: GUIDE_C3.direction.lede,
+        why: GUIDE_C3.direction.why,
+        drawer: createElement(
+          AnswerDrawer,
+          {
+            question: GUIDE_C3.direction.title,
+            open: true,
+            onToggle: noop,
+            primaryLabel: GUIDE_C3.direction.cta,
+            onPrimary: noop,
+            primaryDisabled: true,
+          },
+          createElement(ChipGroup, {
+            label: GUIDE_C3.direction.title,
+            labelHidden: true,
+            options: ["Reach the C-suite within three years", "Take on a bigger leadership role", "Be seen as an executive"],
+            value: [],
+            onChange: noop,
+          })
+        ),
+      },
+    },
+    {
       label: "Foot only offers a way past",
       props: {
         kicker: GUIDE_C3.signals.kicker,

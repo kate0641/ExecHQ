@@ -345,6 +345,9 @@
      to light lime. */
   --color-sky-night-edge: var(--brand-blue-500);
   --color-sky-night-fade-end: var(--brand-green-100);
+  /* The sky panel behind a guided page's question (designer, 2026-10-14): each sky's own colours, its
+     glow in the panel's bottom-right corner. Dusk's panel sits on blue 600 so white words pass AA. */
+  --color-sky-panel-dusk: var(--brand-blue-600);
 
   /* Danger — the destructive action: deleting the account, removing a
      connection. The red end of the orange scale. White on it is 7.0:1, and
@@ -493,6 +496,7 @@
   --text-lg: 1.125rem;   /* 18px */
   --text-xl: 1.375rem;   /* 22px */
   --text-2xl: 1.75rem;   /* 28px */
+  --text-2xl-plus: 2rem; /* 32px — the question in its sky panel, a size up so it breaks evenly (designer, 2026-10-14) */
   --text-3xl: 2.25rem;   /* 36px */
   --text-4xl: 3rem;      /* 48px */
   --text-icon: 0.4375rem; /* 7px — a date set inside a 20px icon */
