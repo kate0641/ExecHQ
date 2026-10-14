@@ -36,7 +36,7 @@ export const CONCIERGE_COPY = {
     prep: (name: string) => `Help me finish ${name.replace(/^your /, "my ")}`,
     next: "What’s next on my plan?",
     /** On the Toolbox only, first. */
-    pickTool: "Suggest a tool for what’s on my mind",
+    pickTool: "Which tool do I need?",
     scope: "How do I ask for more scope?",
     recall: "What have I done so far?",
   },

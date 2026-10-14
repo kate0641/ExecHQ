@@ -63,8 +63,8 @@ function FolderList({ items, list, emptyBody }: { items: readonly LibraryItem[];
  * The tools are one row of four that fits the width, each an icon over a
  * short name, so nothing scrolls. Under them, the tool her next plan step
  * needs, as one row (Concept 1's "Next on your plan", brought over 14 Oct).
- * "What's on your mind?" isn't on the page: it is one of the advisor's
- * prompts on the Toolbox (14 Oct). The library is four folders, one per tool
+ * Finding the right tool isn't on the page: it is the advisor's first
+ * prompt on the Toolbox, "Which tool do I need?" (14 Oct). The library is four folders, one per tool
  * (option A, chosen 11 October), filed by ExecHQ: each says how many it holds,
  * where they stand and when it last changed. On a phone the folders are 2×2
  * and one opens as its own page (`?folder=`), newest first, with a Back to
