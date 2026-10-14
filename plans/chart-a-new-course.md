@@ -193,7 +193,32 @@ For example: a short course, an advisory conversation, a volunteer or side proje
 
 ---
 
-## 3. Signal emphasis
+## 3. Feedback
+
+Kate, 14 Oct. Which steps ask her for feedback, and of which type. The types and their answers are in `plans/shared.md`, section 6. **Proposed**, all of the table: the source names no feedback.
+
+| Step | Asks? | Type | When ExecHQ asks | What her answer changes |
+| --- | --- | --- | --- | --- |
+| **1.1** What she would keep, and what she would not miss | No | None | | Recording them is done |
+| **1.2** What she is good at, apart from where she has done it | Yes | Is this right? | As soon as it is drafted | "Yes, that's it" completes the step; "Change it" reopens Positioning Builder |
+| **Stage 1 ends** | Yes | Stage check-in | When 1.1 and 1.2 are done | Partly or Not yet: Stage 2 opens with what she is least sure of. Stuck: one step, and offers talking it through |
+| **2.1** Two to four directions worth testing | No | None | | Recording them is done |
+| **2.2** Talk to people doing the work in each direction | Yes | What came of it? on the note; How did it go? on the conversation ("What did you learn?") | 5 days after she sends the note; the day after each conversation | A yes to the note: prepare for the conversation. What she learned is kept against that direction and feeds 2.3. Nothing yet: copies the follow-up |
+| **2.3** Rule out what does not fit, for real reasons | No | None | | Crossing a direction off, with why, is the answer |
+| **Stage 2 ends** | Yes | Stage check-in | When 2.2 and 2.3 are done | Partly or Not yet: one more conversation in the direction she knows least. Less sure: Stage 3 starts small |
+| **3.1** Try one small, new thing in a direction she is drawn to | Yes | What came of it? ("How did it feel?": Gave me energy · Mixed · Not for me · Haven't started · It's no longer relevant) | A week after she starts | Gave me energy: that direction leads into Stage 4. Not for me: another direction to try. Haven't started: asks again a week later |
+| **3.2** Respond to a Briefing read in a direction she is curious about | Only if published | What came of it? ("How did it land?") | 7 days after she marks it published; nothing if she keeps it private | It went well: offers that direction for 3.1 |
+| **Stage 3 ends** | Yes | Stage check-in | When 3.1 is done | Yes: Stage 4 builds the narrative for that direction. Partly or Not yet: another small thing to try |
+| **4.1** The story that makes the move look deliberate | Yes | Is this right? | As soon as it is drafted | "Yes, that's it" completes the step; "Change it" reopens Positioning Builder |
+| **4.2** Her public profile, quietly in line with the narrative | No | None | | Confirming the update is done, as far as she is comfortable |
+| **Stage 4 ends** | Yes | Stage check-in | When 4.1 is done | Partly or Not yet: one step on the part of the story that doesn't hold yet |
+| **5.1** Name the direction she is going for, and why | No | None | | Recording it is done |
+| **5.2** Move to the plan that will get her there | No | None | | Her choice is the answer: a new plan, or keep exploring. It never switches without asking |
+| **Stage 5 ends** | Yes | Stage check-in | When 5.2 is done | Closes the plan. Her feeling shapes how the next plan starts |
+
+---
+
+## 4. Signal emphasis
 
 Internal only, never shown to her. A dash means the plan does not recommend work in that signal in that stage. Most of this plan is private exploration; signals come in once she has a direction to show.
 
@@ -208,7 +233,7 @@ Internal only, never shown to her. A dash means the plan does not recommend work
 
 ---
 
-## 4. How the agent behaves on Chart a New Course
+## 5. How the agent behaves on Chart a New Course
 
 It adds to the rules every plan shares (`plans/shared.md`, section 5).
 
@@ -220,7 +245,7 @@ It adds to the rules every plan shares (`plans/shared.md`, section 5).
 
 ---
 
-## 5. Open questions
+## 6. Open questions
 
 1. **"Generate a new spark".** The meaning above (a small, new experience that shows what gives her energy) is Claude's reading. Is that what you meant?
 2. **"Navigate a direction".** Does the plan end when she chooses, with a hand-off, or does stage 5 include early steps toward the direction?

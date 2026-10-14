@@ -174,7 +174,30 @@ For example: an internal post or newsletter, or a LinkedIn post about the work w
 
 ---
 
-## 3. Signal emphasis
+## 3. Feedback
+
+Kate, 14 Oct. Which steps ask her for feedback, and of which type. The types and their answers are in `plans/shared.md`, section 6. **Proposed**, all of the table: the source names no feedback.
+
+| Step | Asks? | Type | When ExecHQ asks | What her answer changes |
+| --- | --- | --- | --- | --- |
+| **1.1** The five to eight people whose view matters most | No | None | | Recording them is done |
+| **1.2** The story of what she owns, in her leadership's words | Yes | Is this right? | As soon as it is drafted | "Yes, that's it" completes the step; "Change it" reopens Positioning Builder |
+| **Stage 1 ends** | Yes | Stage check-in | When 1.1 and 1.2 are done | Partly or Not yet: Stage 2 opens with the person or the words she is least sure of |
+| **2.1** One recent win, reframed as business impact | No | None | | Recording it is done |
+| **2.2** That language in her next update to leadership | Yes | What came of it? ("Did anyone respond?") | 2 days after she says she gave it; each time she gives one | It went well: who responded goes on her map, and it is evidence for 3.1. Nothing yet: normal for an update; asks again with the next one |
+| **2.3** Weekly Signal Background reflection | Yes | Anything new? | Weekly | Something new: an upcoming review or 1:1 brings 2.2 or 4.2 forward. Nothing has changed: the plan goes on |
+| **Stage 2 ends** | Yes | Stage check-in | When 2.1 and 2.2 are done | Partly or Not yet: another update before a visible moment. Stuck: one step, and offers talking it through |
+| **3.1** Lead or present one moment the right people will see | Yes | How did it go? | The day after | It went well: who responded goes on her map. Mixed or Not the way I hoped: another moment, with a different audience. It hasn't happened yet: asks after the new date |
+| **3.2** Get to know three people outside her team | Yes | What came of it? ("Did it lead anywhere?") | 7 days after she records each conversation | It went well: that person goes on her map. Nothing yet: normal; the next conversation is offered |
+| **3.3** A point of view where people inside will see it | Yes | What came of it? ("How did it land?") | 7 days after she marks it published | It went well: the view feeds 4.1's opportunity. Otherwise another channel inside |
+| **Stage 3 ends** | Yes | Stage check-in | When two of 3.1 to 3.3 are done | Partly or Not yet: one more visible moment before she frames an opportunity |
+| **4.1** One problem that should come to her, framed as an opportunity | No | None | | Recording it is done |
+| **4.2** Raise the opportunity with the right person | Yes | How did it go? | The day after she raises it | It went well: if it opened a bigger role, offers Step Up. Mixed: what they asked for next becomes the next step. Not the way I hoped: another problem, or the same one framed differently. It hasn't happened yet: asks after the next 1:1 |
+| **Stage 4 ends** | Yes | Stage check-in | When 4.2 is done | Yes: the plan is complete, or offers Step Up. Less sure: offers whether another plan fits better |
+
+---
+
+## 4. Signal emphasis
 
 Internal only, never shown to her. A dash means the plan does not recommend work in that signal in that stage. Most of this plan's work is internal, which none of the six signals measures; see the open questions.
 
@@ -189,7 +212,7 @@ Internal only, never shown to her. A dash means the plan does not recommend work
 
 ---
 
-## 4. How the agent behaves on Lead Where You Are
+## 5. How the agent behaves on Lead Where You Are
 
 It adds to the rules every plan shares (`plans/shared.md`, section 5).
 
@@ -201,7 +224,7 @@ It adds to the rules every plan shares (`plans/shared.md`, section 5).
 
 ---
 
-## 5. Open questions
+## 6. Open questions
 
 1. **Routing.** None of the direction examples routes here yet. Is the proposed answer above right?
 2. **Internal signals.** Most of this plan is internal, which the six signals don't measure. Should internal visibility (updates, internal talks, cross-team relationships) be a signal of its own, or be recorded only as plan progress?

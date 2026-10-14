@@ -66,13 +66,14 @@ If her answers don't map cleanly to one template, the agent does one of three th
 
 ## 3. How a plan is built
 
-Every plan brief has the same five parts:
+Every plan brief has the same six parts:
 
 1. **Plan card.** Who it is for, the outcome, common constraints, how people arrive at it, and its stages, each with a success signal.
 2. **Action playbook.** The operational layer: for each stage, the action steps the product can recommend, when each becomes appropriate, what counts as done, what evidence ExecHQ keeps, and which plan area and signal it moves. It is conditional logic, not a longer list of tasks.
-3. **Signal emphasis.** Which of the six signals each stage leans on.
-4. **How the agent behaves** on this plan.
-5. **Open questions.**
+3. **Feedback.** Which steps ask her for feedback, of which type (section 6), when, and what her answer changes (Kate, 14 Oct).
+4. **Signal emphasis.** Which of the six signals each stage leans on.
+5. **How the agent behaves** on this plan.
+6. **Open questions.**
 
 ### 3.1 Horizons
 
@@ -123,3 +124,24 @@ The labels are internal recommendation inputs. They are **never shown to her as 
 - **Private by default.** What she shares about her company, her manager and internal politics stays private. It is used only to advise her.
 - **It asks what happened.** After a step is used, it follows up through the Loop, and her answer changes what it recommends next.
 - **It can change plans.** If her answers show a different plan fits better, it says so and offers the switch; it never moves her without asking.
+
+---
+
+## 6. Feedback
+
+Kate, 14 Oct. Each plan's section 3 says which of its steps ask her for feedback, and of which type. The types are what the prototype already asks, plus one **Proposed** (a progress check). Every type follows the same rules:
+
+- **One tap is enough.** Each question has a few answers, one tap each. Words are always optional ("Add a note"), never asked for.
+- **One at a time.** ExecHQ never asks about more than one thing at once.
+- **Her answer always changes something:** the next step, the stage, or the plan. A question whose answer changes nothing is not asked.
+- **Not every step asks.** Where the step's own "Done when" is the answer (she saves it, she records it), ExecHQ asks nothing more.
+
+| Type | What it asks | Her answers | When | Where it lives |
+| --- | --- | --- | --- | --- |
+| **What came of it?** | What happened after she used, sent or published something | It went well · It was mixed · Not the way I hoped · Nothing yet · It's no longer relevant (each builder words its own, e.g. "How did it land?") | The builder's check-back days after she marks it used (`builders/shared.md`, section 1); "Nothing yet" asks again 3 days later, then 7, then stops | The Loop: Home, the builder, the advisor |
+| **How did it go?** | How a dated moment went: a conversation, a review, a talk | It went well · It was mixed · Not the way I hoped · It hasn't happened yet · It's no longer relevant | The day after the moment's date | The Loop, on the brief she prepared with |
+| **Is this right?** | Whether something ExecHQ helped write says what she means | Yes, that's it · Change it | As soon as it is drafted; "Yes" completes the step | On the thing itself |
+| **Anything new?** | A short reflection on her current context: new work, outcomes, moments coming up | Something new (with what, in her words) · Nothing has changed | On the step's rhythm (weekly, in Step Up) | Its own check-in card |
+| **Stage check-in** | When ExecHQ decides a stage is finished: did she get what finishing looks like, and how she feels about her plan now | Milestone: Yes · Partly · Not yet. Feeling: More sure · The same · Less sure · Stuck | Once per stage, when its work is done; "Later" waits until she comes back to it | The Plan page |
+| **Progress check** (**Proposed**) | Where a long-term step stands | Moving · Slipped · Done · Not doing this now | Every 4 weeks while a long-term step is open | On the step |
+| **None** | Nothing: the step's own "Done when" is the answer | | | |
