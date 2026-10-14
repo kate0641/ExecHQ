@@ -191,26 +191,25 @@
   /* The four stages of a roadmap, tinted across the Calendar. The stage is always also
      said in words (a start marker, a legend, the day panel), so a tint is never the only cue. */
   /* The roadmap's stages take their colours from the sky showing (designer, 2026-10-14): the sky follows
-     the hour, so the stages step from that sky's glow into its blue, palette steps only. Stage 1 is the
-     glow, stage 4 the deepest blue. Each stage's words take the ink that passes on it. Day is also the
-     default, before the hour is known. */
-  --color-stage-dawn-1: var(--brand-yellow-200);
-  --color-stage-dawn-2: var(--brand-orange-300);
-  --color-stage-dawn-3: var(--brand-blue-200);
-  --color-stage-dawn-4: var(--brand-blue-300);
-  --color-stage-day-1: var(--brand-yellow-300);
-  --color-stage-day-2: var(--brand-green-300);
-  --color-stage-day-3: var(--brand-blue-300);
-  --color-stage-day-4: var(--brand-blue-400);
-  --color-stage-dusk-1: var(--brand-orange-200);
-  --color-stage-dusk-2: var(--brand-orange-300);
-  --color-stage-dusk-3: var(--brand-blue-400);
-  --color-stage-dusk-4: var(--brand-blue-600);
-  /* Night starts from Home's lime horizon (designer, 2026-10-14). */
-  --color-stage-night-1: var(--brand-green-300);
-  --color-stage-night-2: var(--brand-blue-500);
-  --color-stage-night-3: var(--brand-blue-700);
-  --color-stage-night-4: var(--brand-blue-900);
+     the hour, so the stages run from the outside of that sky to its centre, palette steps only. Stage 1 is
+     its deepest blue, stage 4 its glow (night's is Home's lime horizon). Each stage's words take the ink
+     that passes on it. Day is also the default, before the hour is known. */
+  --color-stage-dawn-1: var(--brand-blue-300);
+  --color-stage-dawn-2: var(--brand-blue-200);
+  --color-stage-dawn-3: var(--brand-orange-300);
+  --color-stage-dawn-4: var(--brand-yellow-200);
+  --color-stage-day-1: var(--brand-blue-400);
+  --color-stage-day-2: var(--brand-blue-300);
+  --color-stage-day-3: var(--brand-green-300);
+  --color-stage-day-4: var(--brand-yellow-300);
+  --color-stage-dusk-1: var(--brand-blue-600);
+  --color-stage-dusk-2: var(--brand-blue-400);
+  --color-stage-dusk-3: var(--brand-orange-300);
+  --color-stage-dusk-4: var(--brand-orange-200);
+  --color-stage-night-1: var(--brand-blue-900);
+  --color-stage-night-2: var(--brand-blue-700);
+  --color-stage-night-3: var(--brand-blue-400);
+  --color-stage-night-4: var(--brand-green-300);
   /* A veil of the darkest navy over photography, so text on it stays readable. The
      image's own colour shows through where the veil is clear. */
   /* The Briefing's cover on Home: its photograph fades into the dark green,

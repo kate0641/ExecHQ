@@ -16078,8 +16078,8 @@ fieldset.agenda__whens {
 }
 
 /* Each stage's colour comes from the sky showing (data-sky on the roadmap, day before the hour is known):
-   stage 1 its glow, stage 4 its deepest step. Words take the ink that passes: the inverse ink only on the deep
-   steps (dusk's last stage, night's last two). */
+   from the outside of the sky in, stage 1 its deepest step, stage 4 its glow. Words take the ink that
+   passes: the inverse ink only on the deep steps (dusk's first stage, night's first two). */
 .agenda--stack .agenda__stage { --stage-ink: var(--color-text-primary); --stage-eyebrow: var(--color-text-primary); }
 .agenda--stack .agenda__stage--0 { background-color: var(--stage-bg-1); z-index: 1; }
 .agenda--stack .agenda__stage--1 { background-color: var(--stage-bg-2); z-index: 2; }
@@ -16115,8 +16115,8 @@ fieldset.agenda__whens {
   --stage-bg-4: var(--color-stage-night-4);
 }
 
-.agenda--stack[data-sky="dusk"] .agenda__stage--3,
-.agenda--stack[data-sky="night"] :is(.agenda__stage--2, .agenda__stage--3) {
+.agenda--stack[data-sky="dusk"] .agenda__stage--0,
+.agenda--stack[data-sky="night"] :is(.agenda__stage--0, .agenda__stage--1) {
   --stage-ink: var(--color-text-inverse);
   --stage-eyebrow: var(--color-text-inverse);
 }
