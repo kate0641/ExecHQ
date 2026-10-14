@@ -15845,9 +15845,11 @@ ul.agenda__list {
 
 /* The start button in the roadmap is the light blue pill at full width (designer, 2026-10-14): the
    move above already leads with the yellow one, so here colour stays quiet and width says it comes first.
-   The questions under it are smaller, so the order reads without a second loud colour. */
+   The questions under it are smaller, so the order reads without a second loud colour. The button has
+   room of its own above and below, apart from the step's title and from the questions. */
 .agenda__reveal {
-  gap: var(--space-sm);
+  gap: var(--space-lg);
+  padding-top: var(--space-lg);
 }
 
 .agenda__ask {
@@ -16146,7 +16148,8 @@ fieldset.agenda__whens {
 }
 
 .agenda--stack .agenda__item {
-  padding: var(--space-sm) 0;
+  gap: 0;
+  padding: var(--space-md) 0;
   border: 0;
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
   border-radius: 0;
@@ -16160,7 +16163,7 @@ fieldset.agenda__whens {
 .agenda--stack .agenda__line {
   grid-template-columns: minmax(0, 1fr) auto;
   grid-template-areas: "when go" "title go";
-  row-gap: var(--space-3xs);
+  row-gap: var(--space-2xs);
   column-gap: var(--space-sm);
   align-items: center;
 }
@@ -16173,7 +16176,8 @@ fieldset.agenda__whens {
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  color: var(--color-text-secondary);
+  /* The time stands out in the eyebrow blue, as every eyebrow on the page does (designer, 2026-10-14). */
+  color: var(--color-eyebrow);
 }
 
 .agenda--stack .agenda__line .agenda__title {
