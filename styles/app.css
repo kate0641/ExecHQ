@@ -15870,7 +15870,8 @@ ul.agenda__ask-list {
 .agenda__ask-list {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-xs);
+  /* A little more than 8px between the pills (designer, 2026-10-14). */
+  gap: var(--space-sm);
 }
 
 .agenda__ask-pill {
