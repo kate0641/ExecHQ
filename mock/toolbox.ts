@@ -681,10 +681,11 @@ export const LIBRARY_COPY = {
     back: "Library",
     /** The folder's own page (phone): back to the Toolbox. */
     backToToolbox: "Toolbox",
-    /** The status chips over a folder's list, each with how many it holds. */
-    filter: "Show",
+    /** The Status menu over a folder's list, each status with how many. */
+    filter: "Status",
     all: "All",
-    chip: (label: string, n: number) => `${label} ${n}`,
+    /** The menu's button once a status is chosen: "Status: Draft". */
+    chosen: (filter: string, choice: string) => `${filter}: ${choice}`,
     noneInStatus: (status: string) => `Nothing here is ${status.toLowerCase()}.`,
     open: (name: string) => `Open ${name}`,
     /** One part of a folder's counts, by status filter id, in the Loop's words. */

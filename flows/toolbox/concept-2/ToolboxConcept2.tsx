@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState, type ReactNode } from "react";
-import { ChipGroup } from "@/components/form/ChipGroup";
+import { DropdownMenu } from "@/components/form/DropdownMenu";
 import { LibraryFolder } from "@/components/toolbox/LibraryFolder";
 import { Icon } from "@/components/primitives/Icon";
 import { ToolPicker } from "@/components/toolbox/ToolPicker";
@@ -17,6 +17,7 @@ import { useLead, useToolboxPage } from "../useToolboxPage";
 
 const F = LIBRARY_COPY.folders;
 const OPEN_HEADING = "library-folder-open";
+const ALL = "all";
 
 /** "3 · 2 drafts · 1 waiting to hear": how many, and where they stand. */
 function summaryOf(items: readonly LibraryItem[]): string {
@@ -28,29 +29,40 @@ function summaryOf(items: readonly LibraryItem[]): string {
 }
 
 /**
- * A folder's list with its status chips: All, then each status the folder
- * holds something in (a status with nothing in it has no chip). One chip at a time; pressing the chosen one goes back
- * to All. Keyed by folder, so opening another starts on All.
+ * A folder's list with a Status menu over it (Kate, 14 Oct, in place of the
+ * chips): All, then each status the folder holds something in, each with its
+ * count. The button says what is chosen. Keyed by folder, so opening another
+ * starts on All.
  */
 function FolderList({ items, list, emptyBody }: { items: readonly LibraryItem[]; list: (items: readonly LibraryItem[], options: { folder: boolean }) => ReactNode; emptyBody: string }) {
-  const [status, setStatus] = useState<string | null>(null);
+  const [status, setStatus] = useState(ALL);
   if (items.length === 0) return <p className="library-folder-open__empty">{emptyBody}</p>;
   const present = STATUS_FILTERS.filter((s) => items.some((i) => s.states.includes(i.record.state)));
   const inStatus = (id: string) => items.filter((i) => present.find((s) => s.id === id)?.states.includes(i.record.state));
   const chosen = present.find((s) => s.id === status);
   const shown = chosen ? inStatus(chosen.id) : items;
-  // Chips are named with their counts; this maps a chip back to its status.
-  const chips = [{ id: null, text: F.chip(F.all, items.length) }, ...present.map((s) => ({ id: s.id, text: F.chip(s.label, inStatus(s.id).length) }))];
   return (
     <>
-      <ChipGroup
-        label={F.filter}
-        labelHidden
-        options={chips.map((c) => c.text)}
-        value={[chips.find((c) => c.id === (chosen?.id ?? null))!.text]}
-        onChange={(next) => setStatus(chips.find((c) => c.text === next[0])?.id ?? null)}
-        className="library-folder-open__filter"
-      />
+      <div className="library-folder-open__filter">
+        <DropdownMenu
+          label={chosen ? F.chosen(F.filter, chosen.label) : F.filter}
+          className={chosen ? "is-set" : undefined}
+          entries={[
+            {
+              type: "radio-group",
+              id: "status",
+              label: F.filter,
+              labelHidden: true,
+              value: chosen?.id ?? ALL,
+              onValueChange: setStatus,
+              options: [
+                { value: ALL, label: F.all, hint: String(items.length) },
+                ...present.map((s) => ({ value: s.id, label: s.label, hint: String(inStatus(s.id).length) })),
+              ],
+            },
+          ]}
+        />
+      </div>
       {list(shown, { folder: true })}
     </>
   );
@@ -70,7 +82,7 @@ function FolderList({ items, list, emptyBody }: { items: readonly LibraryItem[];
  * and one opens as its own page (`?folder=`), newest first, with a Back to
  * the Toolbox (option A with option B's next-step line, Kate, 13 Oct); on tablet and web the folders sit in a column
  * beside the open one's list, the most recently changed open to begin with.
- * Either way the list has status chips, and each row is the title, then its
+ * Either way a Status menu filters the list, and each row is the title, then its
  * status and when she last touched it as a tag; tapping it opens it (14
  * Oct). The magnifying glass beside Library opens search in a sheet, its
  * matches updating as she types, across every folder (14 Oct).
@@ -146,8 +158,8 @@ function Concept2Page() {
   ) : null;
 
   // A phone's folder page (option A, chosen 13 Oct): a bar with Back (the
-  // name only once, as the title, Kate 13 Oct), a large title and when it last changed, the status chips
-  // with their counts, then the list, each row saying what comes next.
+  // name only once, as the title, Kate 13 Oct), a large title and when it
+  // last changed, the Status menu, then the list (Kate, 14 Oct).
   if (openFolder && phone) {
     return (
       <div className="toolbox-page toolbox-page--c2 folder-page">

@@ -18855,6 +18855,17 @@ ul.plan-guided__sparks {
   padding-inline: 0;
 }
 
+/* A folder's Status menu sits at the start, over the list. With a status
+   chosen it reads as on: a dark edge, the choice in its words. */
+.library-folder-open__filter {
+  display: flex;
+}
+
+.library-folder-open__filter .dropdown.is-set .dropdown__trigger {
+  border-color: var(--color-text-primary);
+  background-color: var(--color-surface-selected);
+}
+
 /* When she last touched it, as a tag after the status or tool. Sentence
    case, so "2 weeks ago" reads as said. */
 .library__when {
