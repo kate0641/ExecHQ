@@ -11968,9 +11968,10 @@ ul.stage-actions__list {
   display: none;
 }
 
-/* The Plan has no logo bar either (designer, 2026-10-13): the plan's own
-   stage bar opens the page, moves and check-in alike. */
-.chrome:has(.plan-guided) > .chrome__header {
+/* The Plan, Signals and the Toolbox (its tools included) have no logo bar
+   either (designer, 2026-10-13): each page's own top opens the screen, as
+   on Home and Profile. */
+.chrome:has(.plan-guided, .signals-page, .toolbox-page, .tool-flow, .tool-flow-questions) > .chrome__header {
   display: none;
 }
 
