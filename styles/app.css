@@ -16124,11 +16124,11 @@ fieldset.agenda__whens {
   background: none;
 }
 
-/* The stage's name in the Card title role. */
+/* The stage's name in the Card title role, a size up at 18px now each stage has more room (designer, 2026-10-14). */
 .agenda--stack .agenda__stage-name {
   display: block;
   font-family: var(--type-card-title-font);
-  font-size: var(--type-card-title-size);
+  font-size: var(--text-lg);
   font-weight: var(--type-card-title-weight);
   line-height: var(--type-card-title-leading);
   letter-spacing: var(--type-card-title-tracking);
