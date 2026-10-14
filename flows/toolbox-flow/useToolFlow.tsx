@@ -714,7 +714,7 @@ export function useToolFlow(concept: FlowConcept) {
               {record ? <LoopStatus record={record} /> : null}
               {/* Concepts 1 and 2: once it is ready, Copy and the downloads are
                   one menu in the draft's corner, so the bar holds only "I've used this". */}
-              {(concept === "concept-1" || concept === "concept-2") && isReady ? (
+              {isReady ? (
                 <DropdownMenu
                   label={USE_COPY.actions}
                   align="end"
@@ -1009,6 +1009,18 @@ export function useToolFlow(concept: FlowConcept) {
   /** Concept 3: the draft as it would be from what she has said so far, and
    *  whether she has said anything yet. */
   const answered = asked.some((i) => valueOf(i.id).trim() && !i.value);
+  /** How many of her questions she has answered (Concept 3's card waits for two). */
+  const answeredCount = asked.filter((i) => valueOf(i.id).trim() && !i.value).length;
+  const liveSections = () => buildDraft(kind, Object.fromEntries(inputs.map((i) => [i.id, valueOf(i.id)])), loop.today, read?.id, passage);
+  /** Concept 3: the draft so far as plain text, her words and ExecHQ's, the
+   *  questions still open left out, for the collapsed card. */
+  const liveSoFar = (): string =>
+    liveSections()
+      .filter((section) => !section.list)
+      .slice(0, kind === "situation-brief" ? 2 : 1)
+      .map((section) => section.segments.map((seg) => ("question" in seg ? "" : seg.text)).join("").trim())
+      .filter(Boolean)
+      .join(" ");
   const livePreview = (): string =>
     draftText(buildDraft(kind, Object.fromEntries(inputs.map((i) => [i.id, valueOf(i.id)])), loop.today, read?.id, passage).slice(0, kind === "situation-brief" ? 2 : 1))
       .replace(/^[A-Z][^\n]*\n/, "");
@@ -1044,6 +1056,8 @@ export function useToolFlow(concept: FlowConcept) {
     concept,
     kind,
     answered,
+    answeredCount,
+    liveSoFar,
     livePreview,
     liveDraft,
     draftPreview,

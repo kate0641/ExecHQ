@@ -9016,6 +9016,37 @@ ol.ring-detail__timeline {
   overflow: clip;
 }
 
+/* Toolbox flow Concept 3's questions use the same drawer (13 Oct): inside a
+   tool the Ask or go pill steps aside, so no room is kept for it, and the
+   way back to the Toolbox keeps the screen's side margin. */
+.device__screen:has(.concierge-host) .chrome__main:has(> .guide--drawer) {
+  padding-bottom: 0;
+}
+
+/* On a phone or tablet the drawer rises to just under the question, so the
+   answers fill the screen and the page is only as tall as what it says. */
+[data-viewport="mobile"] .tool-flow-questions .guide__page,
+[data-viewport="tablet"] .tool-flow-questions .guide__page {
+  flex: 0 1 auto;
+  padding-bottom: var(--space-lg);
+}
+
+[data-viewport="mobile"] .tool-flow-questions .answer-drawer__wrap,
+[data-viewport="tablet"] .tool-flow-questions .answer-drawer__wrap,
+[data-viewport="mobile"] .tool-flow-questions .answer-drawer,
+[data-viewport="tablet"] .tool-flow-questions .answer-drawer {
+  flex: 1 1 auto;
+}
+
+[data-viewport="mobile"] .tool-flow-questions .answer-drawer__actions,
+[data-viewport="tablet"] .tool-flow-questions .answer-drawer__actions {
+  margin-top: auto;
+}
+
+.chrome__main:has(> .guide) > .tool-flow__bar {
+  padding: var(--space-screen-top) var(--space-screen-side) 0;
+}
+
 .guide--drawer {
   min-height: 0;
   max-width: none;
@@ -18081,6 +18112,15 @@ ul.plan-guided__sparks {
   flex: 1;
 }
 
+/* Concept 3's questions: the interview fills the screen under the pinned
+   draft, so Next sits at the foot. */
+.tool-flow--pinned > .tool-flow__interview,
+.tool-flow--pinned > .tool-flow__interview > .input-panel {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
 /* Concept 2's start: the questions under the use case fill the screen, so
    the pinned button sits at the foot. */
 .tool-flow--pinned .tool-flow__document,
@@ -19120,15 +19160,12 @@ ul.plan-guided__sparks {
    TOOLBOX FLOWS (Sprint 4): guided steps, document workspace, interview
    ======================================================================== */
 
-/* Inside a tool, the Ask or go pill steps aside on a phone and tablet: the
-   tool's own bar or panel holds the foot of the screen. Hidden, not faded, so
-   it leaves the tab order. The web keeps it. */
-.device__screen:has(.tool-flow) .concierge-host__pill {
+/* Inside a tool, the Ask or go pill is not there at all (Kate, 13 Oct): the
+   tool's own bar, drawer or panel holds the foot of the screen, on every
+   screen size, Concept 3's question pages included. Hidden, not faded, so it
+   leaves the tab order. */
+.device__screen:has(.tool-flow, .tool-flow-questions) .concierge-host__pill {
   visibility: hidden;
-}
-
-[data-viewport="web"] .device__screen:has(.tool-flow) .concierge-host__pill:not(:where([data-viewport="mobile"] *)) {
-  visibility: visible;
 }
 
 .device__screen:has(.concierge-host) .chrome__main:has(.tool-flow) {
@@ -19613,7 +19650,14 @@ ul.plan-guided__sparks {
 }
 
 .pinned-draft__preview {
-  /* Never cut off with an ellipsis: the words wrap (designer, 2026-10-13). */
+  /* The one place text stops after two lines with an ellipsis (Kate's, kept
+     by the designer, 2026-10-13): the card is pinned over the page and the
+     draft keeps growing, and Show draft opens all of it. */
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   font-family: var(--font-serif);
   word-spacing: var(--word-spacing-normal);
   font-size: var(--text-sm);
@@ -21698,7 +21742,6 @@ button.progress-stepper__target.is-focus {
   font-size: var(--text-sm);
   color: var(--color-text-secondary);
 }
-
 
 .outcome-next__links {
   display: flex;

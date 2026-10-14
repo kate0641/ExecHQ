@@ -387,7 +387,12 @@ export const FLOW_COPY = {
   showPanel: "Open",
   hidePanel: "Close",
   /** Concept 3: the pinned card before and after the first draft. */
-  pinnedEmpty: "Your draft appears here once you write it.",
+  /** Concept 3: the card before there is a written draft. */
+  soFar: "Your draft so far",
+  /** Concept 3's pinned draft, which fills in as she answers. */
+  pinnedEmpty: "Your draft builds here as you answer.",
+  /** Concept 2 on web, where the draft appears once it is written. */
+  workspaceEmpty: "Your draft appears here once you write it.",
   showDraft: "Show draft",
   hideDraft: "Hide draft",
   /** Concept 3's opening line, with what she said was coming up. */
@@ -1267,4 +1272,65 @@ export const NEXT_STEP_COPY = {
   startedFrom: (name: string) => `Started from ${name}`,
   /** On the answer it chose for her: "From your pitch". */
   fromEarlier: (name: string) => `From ${name}`,
+} as const;
+
+/* -----------------------------------------------------------------------------
+   TOOLBOX FLOW CONCEPT 3 — ANSWERS AS TAPS (13 October)
+   Every question in the Interview is answered with chips: check all that
+   apply, or pick one where there is only one answer, plus Other for her own
+   words. Where ExecHQ knows something only she would say (her example
+   answers here, from her plan and direction), it leads the chips, so a tap
+   still says something specific; the guardrail holds: nothing is invented
+   for her. A date or a pasted bio stays a field.
+   -------------------------------------------------------------------------- */
+
+export interface InterviewPick {
+  mode: "one" | "many";
+  options: readonly string[];
+  /** Her own answer, from what ExecHQ knows, leads the options. */
+  fromHer?: boolean;
+}
+
+export const INTERVIEW_PICKS: Record<ArtifactKind, Record<string, InterviewPick>> = {
+  "situation-brief": {
+    objective: { mode: "many", fromHer: true, options: ["A decision on scope", "Their support for what’s next", "A date for the next conversation"] },
+    audience: { mode: "many", options: ["My manager", "My manager’s manager", "The CEO", "The CFO", "Peers from other teams", "HR"] },
+    stakes: { mode: "many", options: ["Hitting the numbers", "Headcount and cost", "Risk", "Speed", "Customer impact", "Team capacity"] },
+    evidence: { mode: "many", options: ["A result I delivered", "Feedback from a stakeholder", "Numbers from my team", "A plan I’ve already drafted"] },
+    risks: { mode: "many", options: ["It takes time from current work", "Timing", "Budget", "Someone else wants it", "Not enough proof yet"] },
+  },
+  pitch: {
+    target: { mode: "one", fromHer: true, options: ["An industry conference", "A trade publication", "An internal leadership forum"] },
+    angle: { mode: "many", fromHer: true, options: ["How I run work across teams", "What planning teaches about scope", "A result from my region"] },
+    proof: { mode: "many", fromHer: true, options: ["A result with a number I can share", "A talk or article I’ve done", "Feedback from a senior leader"] },
+    links: { mode: "many", options: ["A LinkedIn post", "A recording of a talk", "An article", "Nothing yet"] },
+  },
+  "thought-leadership": {
+    topic: { mode: "one", fromHer: true, options: ["What planning taught me about scope", "How I run work across teams", "A lesson from this quarter"] },
+    format: { mode: "one", options: ["LinkedIn post", "Short article", "Long-form article"] },
+    pov: { mode: "one", fromHer: true, options: ["Leading across teams is the job now", "Delivery alone won’t get you the next role"] },
+    cta: { mode: "one", fromHer: true, options: ["Share how their team does it", "Ask me a question", "Nothing: let it stand"] },
+    evidence: { mode: "many", fromHer: true, options: ["A result from my team", "Numbers I can share", "A before and after", "Feedback I received"] },
+    voice: { mode: "one", options: ["Plainer", "Warmer", "More direct"] },
+    length: { mode: "one", options: ["Short", "Standard", "Long"] },
+  },
+  positioning: {
+    knownFor: { mode: "many", fromHer: true, options: ["Bringing teams together", "Calm in a hard room", "Building teams others want to join"] },
+    strengths: { mode: "many", options: ["Calm in a hard room", "Turning data into a decision", "Cross-team leadership", "Coaching people up"] },
+    context: { mode: "one", options: ["A promotion conversation", "An executive introduction", "A conference program"] },
+    audience: { mode: "one", options: ["Senior leaders where I work", "An external audience", "Recruiters and boards"] },
+    format: { mode: "one", options: ["LinkedIn About section", "A speaker bio", "An internal profile", "An email introduction"] },
+  },
+};
+
+export const PICK_COPY = {
+  other: "Other",
+  otherLabel: "Other",
+  otherPlaceholder: "Write your own",
+  many: "Pick all that apply.",
+  and: "and",
+  missing: "Pick at least one, or write your own.",
+  skip: "Skip",
+  /** On the drawer's fold: what it holds. */
+  peek: "Tap to answer",
 } as const;

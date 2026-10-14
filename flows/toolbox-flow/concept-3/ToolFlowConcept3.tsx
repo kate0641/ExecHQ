@@ -3,11 +3,15 @@
 import { Suspense, useMemo, useState } from "react";
 import { StepHeader } from "@/components/onboarding/StepHeader";
 import { Button } from "@/components/primitives/Button";
+import { Input } from "@/components/form/Input";
+import { AnswerDrawer } from "@/components/onboarding/AnswerDrawer";
+import { GuidePage } from "@/components/onboarding/GuidePage";
+import { PickAnswer, pickedPhrase } from "@/components/toolbox/PickAnswer";
+import { InputPanel } from "@/components/toolbox/InputPanel";
 import { PinnedDraft } from "@/components/toolbox/PinnedDraft";
 import { useStepNav } from "@/lib/step-nav";
 import { useViewport } from "@/lib/viewport-context";
-import { DRAFT_COPY, FLOW_COPY as C, INPUT_COPY, STEP_BAR_COPY } from "@/mock/toolbox";
-import { QuestionStep } from "../QuestionStep";
+import { DRAFT_COPY, EXAMPLE_ANSWERS, FLOW_COPY as C, INPUT_COPY, INTERVIEW_PICKS, PICK_COPY, STEP_BAR_COPY, type ToolInput } from "@/mock/toolbox";
 import { draftSteps, focusSoon, questionStep, TOOL_TITLE_ID, useToolFlow } from "../useToolFlow";
 
 const STEP_HEADING = "tool-step-heading";
@@ -17,15 +21,34 @@ function Interview() {
   const web = useViewport().viewport === "web";
   // -1 is the start screen (the use case); 0..asked.length-1 the questions; asked.length the last screen.
   const [at, setAt] = useState(-1);
-  const [error, setError] = useState<string>();
   const [expanded, setExpanded] = useState(false);
+  // Once it is ready the draft is a clean read, as in Concept 1 (13 Oct);
+  // "Change something" brings the working draft back until she is done.
+  const [changing, setChanging] = useState(false);
 
   const hasDraft = Boolean(f.draft && f.version);
-  // The start screen asks the tool's first question beside its button, as in
-  // Concept 1, so the interview leaves that one out.
-  const asked = f.notFirst(f.asked);
-  const rest = f.notFirst(f.rest);
-  const hasKnown = rest.some((input) => input.source && input.kind !== "choice");
+  // The start screen asks the tool's first question, as in Concept 1, so the
+  // interview leaves that one out. Every other question is its own screen,
+  // answered with taps, the optional ones too, with Skip (13 Oct); only what
+  // ExecHQ already has waits for the last screen.
+  const isKnown = (input: ToolInput) => Boolean(input.source && input.kind !== "choice");
+  const open = f.notFirst(f.inputs.filter((input) => !isKnown(input)));
+  // What she must answer first, then the optional questions.
+  const asked = [...open.filter((input) => !input.optional), ...open.filter((input) => input.optional)];
+  const rest = f.inputs.filter(isKnown);
+  const hasKnown = rest.length > 0;
+  const [drawerOpen, setDrawerOpen] = useState(true);
+  // Next pressed with nothing answered: says what to do, rather than a
+  // button that is simply off (13 Oct).
+  const [missing, setMissing] = useState(false);
+  const [picks, setPicks] = useState<Record<string, { picked: string[]; other: string }>>({});
+  /** A question's chips: her own answer first, where ExecHQ knows it. */
+  const pickFor = (input: ToolInput) => {
+    const pick = INTERVIEW_PICKS[f.kind]?.[input.id];
+    if (!pick) return undefined;
+    const hers = pick.fromHer ? EXAMPLE_ANSWERS[f.kind]?.[input.id] : undefined;
+    return { ...pick, options: hers && !pick.options.includes(hers) ? [hers, ...pick.options] : pick.options };
+  };
   const firstQuestions = f.firstChoice ? [f.firstChoice] : [];
 
   // The step bar: the start, each question, the last screen, then the draft
@@ -54,7 +77,6 @@ function Interview() {
         ? `q-${asked[at].id}`
         : "last";
   useStepNav(steps, current, (id) => {
-    setError(undefined);
     if (id === "start") {
       f.jumpBefore([], [...firstQuestions, ...asked, ...rest]);
       setAt(-1);
@@ -75,38 +97,50 @@ function Interview() {
   if (f.later) return f.laterNote;
 
   const go = (next: number) => {
-    setError(undefined);
+    setDrawerOpen(true);
+    setMissing(false);
     setAt(next);
     focusSoon(next < 0 ? TOOL_TITLE_ID : STEP_HEADING);
   };
 
-  // The start screen: what it makes, when to use it, what she'll need, how it
-  // connects to her plan, and what it goes with, as in Concepts 1 and 2.
+  // The start screen sets the scene: what it makes, when to use it, what
+  // she'll need, how it connects to her plan. As in Concept 1 (13 Oct): no
+  // drawing, no "Goes with this", and tapping an answer to the first
+  // question starts the interview.
   if (!hasDraft && at < 0) {
     return (
       <div className="tool-flow tool-flow--interview">
         {f.header}
         {f.moment ? <p className="tool-flow__moment">{C.momentLine(f.moment)}</p> : null}
-        {f.useCase({ onStart: () => go(0) })}
+        {f.useCase({ onStart: () => go(0), choiceStarts: true, noGoesWith: true, noPicture: true })}
       </div>
     );
   }
+  const clean = hasDraft && f.isReady && !changing;
+  const draftView = clean ? f.draftAs("clean", () => setChanging(true)) : f.draftEditor;
 
   // The draft fills in as she answers: her words in, ExecHQ's framing round them.
-  const live = hasDraft || !f.answered ? undefined : f.livePreview();
+  // Only once she has answered one of the interview's own questions: the
+  // moment picked on the start screen is not yet a draft to show.
+  const live = hasDraft || !asked.some((input) => f.valueOf(input.id).trim()) ? undefined : f.livePreview();
 
-  const pinned = (
+  // On a phone or tablet the draft card is only for a written draft: no
+  // "Your draft so far" on the questions or the last step (13 Oct). On web
+  // it sits beside the interview.
+  const showCard = hasDraft || web;
+  const pinned = showCard ? (
     <PinnedDraft
-      label={hasDraft && f.version ? DRAFT_COPY.label(f.version.n) : DRAFT_COPY.label(1)}
-      // Marked, as the draft is: her words apart from ExecHQ's wording.
-      preview={hasDraft ? f.draftPreview() : live ? f.liveDraft() : undefined}
+      label={hasDraft && f.version ? DRAFT_COPY.label(f.version.n) : C.soFar}
+      // Collapsed, the draft so far as plain text; open, marked as the draft
+      // is: her words apart from ExecHQ's wording.
+      preview={hasDraft ? f.draftPreview() : live ? f.liveSoFar() : undefined}
       expanded={expanded || (hasDraft && web)}
       onToggle={() => setExpanded(!expanded)}
       side={web}
     >
-      {hasDraft ? f.draftEditor : live ? <p className="pinned-draft__live">{f.liveDraft()}</p> : undefined}
+      {hasDraft ? draftView : live ? <p className="pinned-draft__live">{f.liveDraft()}</p> : undefined}
     </PinnedDraft>
-  );
+  ) : null;
 
   let interview;
   if (hasDraft) {
@@ -116,60 +150,125 @@ function Interview() {
         {f.source}
         {f.outcome}
         {f.revision(() => setExpanded(true))}
-        {f.useBar()}
+        {f.useBar({ noNotes: true, copyInMenu: true, className: "draft-use--single" })}
         {f.versions}
       </div>
     );
   } else if (at < asked.length) {
+    // The question screens are onboarding's (13 Oct): the question on the
+    // page with the draft so far, the answer in a drawer at the foot.
     const input = asked[at];
-    interview = (
-      <div className="tool-flow__interview">
-        {at === 0 ? f.source : null}
-        <QuestionStep
-          input={input}
-          value={f.valueOf(input.id)}
-          onChange={(v) => {
-            setError(undefined);
-            f.setValue(input.id, v);
-          }}
-          error={error}
-          eyebrow={`${f.tool.name} · ${C.step(at + 1, asked.length + 1)}`}
+    const pick = pickFor(input);
+    // The last question writes the draft; what ExecHQ has is one line above
+    // its button (13 Oct), so there is no check page.
+    const last = at === asked.length - 1;
+    const said = f.valueOf(input.id).trim();
+    const mine = picks[input.id] ?? { picked: [], other: "" };
+    return (
+      <>
+        {f.header}
+        <GuidePage
+          part={f.tool.name}
+          position={C.step(at + 1, asked.length)}
+          title={input.label}
+          lede={pick ? undefined : input.hint}
           headingId={STEP_HEADING}
-        />
-        <div className="tool-flow__step-actions">
-          <Button
-            fullWidth
-            onClick={() => {
-              if (!f.valueOf(input.id).trim()) {
-                setError(INPUT_COPY.missing);
-                return;
-              }
-              go(at + 1);
-            }}
-          >
-            {C.next}
-          </Button>
-          <Button variant="ghost" onClick={() => go(at - 1)}>
-            {C.previous}
-          </Button>
-        </div>
-      </div>
+          className="tool-flow-questions"
+          drawer={
+            <AnswerDrawer
+              question={input.label}
+              questionId={STEP_HEADING}
+              open={drawerOpen}
+              onToggle={() => setDrawerOpen(!drawerOpen)}
+              peekStatus={PICK_COPY.peek}
+              // Optional and still empty, the main button skips it.
+              primaryLabel={last ? INPUT_COPY.write : input.optional && !said ? PICK_COPY.skip : C.next}
+              onPrimary={() => {
+                if (!input.optional && !said) {
+                  setMissing(true);
+                  return;
+                }
+                if (last) {
+                  f.write();
+                  setExpanded(true);
+                } else go(at + 1);
+              }}
+              secondaryLabel={C.previous}
+              onSecondary={() => go(at - 1)}
+              autoFocusField={!pick && input.kind !== "choice"}
+            >
+              {pick ? (
+                <PickAnswer
+                  label={input.label}
+                  labelHidden
+                  mode={pick.mode}
+                  options={pick.options}
+                  picked={mine.picked}
+                  other={mine.other}
+                  error={missing ? PICK_COPY.missing : undefined}
+                  onChange={(picked, other) => {
+                    setMissing(false);
+                    setPicks((p) => ({ ...p, [input.id]: { picked, other } }));
+                    f.setValue(input.id, pickedPhrase(picked, other));
+                  }}
+                />
+              ) : (
+                <Input
+                  label={input.label}
+                  labelHidden
+                  placeholder={input.placeholder}
+                  value={f.valueOf(input.id)}
+                  type={input.kind === "date" ? "date" : undefined}
+                  multiline={input.kind === "long"}
+                  rows={4}
+                  error={missing ? INPUT_COPY.missing : undefined}
+                  onChange={(event) => {
+                    setMissing(false);
+                    f.setValue(input.id, event.target.value);
+                  }}
+                />
+              )}
+              {last && hasKnown ? (
+                <InputPanel
+                  inputs={rest}
+                  values={Object.fromEntries(rest.map((known) => [known.id, f.valueOf(known.id)]))}
+                  onChange={f.setValue}
+                  onWrite={() => undefined}
+                  builtWith
+                  compact
+                  noHeading
+                  noActions
+                />
+              ) : null}
+            </AnswerDrawer>
+          }
+        >
+          {at === 0 ? f.source : null}
+          {/* On web the draft fills in beside the answers as she taps (13 Oct);
+              on a phone or tablet the question pages show none of it. */}
+          {web ? pinned : null}
+        </GuidePage>
+      </>
     );
   } else {
     interview = (
       <div className="tool-flow__interview">
-        <StepHeader eyebrow={`${f.tool.name} · ${C.step(asked.length + 1, asked.length + 1)}`} title={hasKnown ? C.knownStep : C.lastStep} id={STEP_HEADING} />
+        <StepHeader eyebrow={C.step(asked.length + 1, asked.length + 1)} title={hasKnown ? C.knownStep : C.lastStep} id={STEP_HEADING} />
+        {/* As in Concept 1: one instruction line, compact rows for what
+            ExecHQ has, and Write my first draft pinned with Back. */}
         {f.inputPanel(rest, {
           onSubmit: () => {
             f.write();
             setExpanded(true);
           },
+          compact: true,
+          actionsClassName: "tool-flow__step-actions--pinned",
+          footer: (
+            <Button variant="ghost" onClick={() => go(at - 1)}>
+              {C.previous}
+            </Button>
+          ),
         })}
-        <div className="tool-flow__step-actions">
-          <Button variant="ghost" onClick={() => go(at - 1)}>
-            {C.previous}
-          </Button>
-        </div>
       </div>
     );
   }
@@ -177,19 +276,32 @@ function Interview() {
   // On a phone the open draft hides the interview, so what she does next
   // with the draft comes with it: what came of it, Mark ready or used, and
   // a way to change it.
+  // As in Concept 1 (13 Oct), a fixed bar: a draft, Change it or Mark ready;
+  // ready, one button, "I've used this", with Copy and the downloads in the
+  // draft's Actions menu; changing a ready draft, Change it or Done.
   const underDraft =
     hasDraft && expanded && !web ? (
-      <div className="tool-flow__under-draft">
+      <>
         {f.outcome}
-        {f.useBar()}
-        <Button variant="secondary" fullWidth onClick={() => setExpanded(false)}>
-          {C.changeDraft}
-        </Button>
-      </div>
+        {f.stage === "used" && !changing ? null : (
+          <div className="tool-flow__fixed tool-flow__fixed--pair">
+            {f.stage === "draft" || changing ? (
+              <Button variant="secondary" onClick={() => setExpanded(false)}>
+                {C.changeDraft}
+              </Button>
+            ) : null}
+            {changing ? <Button onClick={() => setChanging(false)}>{C.doneChanging}</Button> : f.useBar({ noNotes: true, copyInMenu: true })}
+          </div>
+        )}
+      </>
     ) : null;
 
   return (
-    <div className={["tool-flow", "tool-flow--interview", web ? "tool-flow--split" : null].filter(Boolean).join(" ")}>
+    <div
+      className={["tool-flow", "tool-flow--interview", web ? "tool-flow--split" : null, !hasDraft && !web ? "tool-flow--pinned" : null, hasDraft && expanded && !web ? "tool-flow--has-bar" : null]
+        .filter(Boolean)
+        .join(" ")}
+    >
       {f.header}
       {web ? (
         <div className="tool-flow__columns">

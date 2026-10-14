@@ -122,6 +122,7 @@ import { readCounterStates } from "./briefing/ReadCounter/ReadCounter.states";
 import { briefingEndStates } from "./briefing/BriefingEnd/BriefingEnd.states";
 import { toolUseCaseStates } from "./toolbox/ToolUseCase/ToolUseCase.states";
 import { inputPanelStates } from "./toolbox/InputPanel/InputPanel.states";
+import { pickAnswerStates } from "./toolbox/PickAnswer/PickAnswer.states";
 import { enricherCardStates } from "./toolbox/EnricherCard/EnricherCard.states";
 import { draftEditorStates } from "./toolbox/DraftEditor/DraftEditor.states";
 import { revisionControlsStates } from "./toolbox/RevisionControls/RevisionControls.states";
@@ -260,6 +261,7 @@ export const registry: RegisteredComponent[] = [
   briefingEndStates,
   toolUseCaseStates,
   inputPanelStates,
+  pickAnswerStates,
   enricherCardStates,
   draftEditorStates,
   revisionControlsStates,
