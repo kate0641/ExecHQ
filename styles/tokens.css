@@ -206,9 +206,10 @@
   --color-stage-dusk-2: var(--brand-orange-300);
   --color-stage-dusk-3: var(--brand-blue-400);
   --color-stage-dusk-4: var(--brand-blue-600);
-  --color-stage-night-1: var(--brand-blue-500);
-  --color-stage-night-2: var(--brand-blue-600);
-  --color-stage-night-3: var(--brand-blue-800);
+  /* Night starts from Home's lime horizon (designer, 2026-10-14). */
+  --color-stage-night-1: var(--brand-green-300);
+  --color-stage-night-2: var(--brand-blue-500);
+  --color-stage-night-3: var(--brand-blue-700);
   --color-stage-night-4: var(--brand-blue-900);
   /* A veil of the darkest navy over photography, so text on it stays readable. The
      image's own colour shows through where the veil is clear. */

@@ -16079,7 +16079,7 @@ fieldset.agenda__whens {
 
 /* Each stage's colour comes from the sky showing (data-sky on the roadmap, day before the hour is known):
    stage 1 its glow, stage 4 its deepest step. Words take the ink that passes: the inverse ink only on the deep
-   steps (dusk's last stage, night's last three). */
+   steps (dusk's last stage, night's last two). */
 .agenda--stack .agenda__stage { --stage-ink: var(--color-text-primary); --stage-eyebrow: var(--color-text-primary); }
 .agenda--stack .agenda__stage--0 { background-color: var(--stage-bg-1); z-index: 1; }
 .agenda--stack .agenda__stage--1 { background-color: var(--stage-bg-2); z-index: 2; }
@@ -16116,7 +16116,7 @@ fieldset.agenda__whens {
 }
 
 .agenda--stack[data-sky="dusk"] .agenda__stage--3,
-.agenda--stack[data-sky="night"] :is(.agenda__stage--1, .agenda__stage--2, .agenda__stage--3) {
+.agenda--stack[data-sky="night"] :is(.agenda__stage--2, .agenda__stage--3) {
   --stage-ink: var(--color-text-inverse);
   --stage-eyebrow: var(--color-text-inverse);
 }
@@ -16536,11 +16536,14 @@ fieldset.agenda__whens {
     linear-gradient(var(--color-sky-panel-dusk), var(--color-sky-panel-dusk));
 }
 
+/* Night keeps a touch of Home's lime horizon (designer, 2026-10-14): a soft lime ring round the blue spark,
+   held to the corner, clear of the words. */
 .guide__head--sky[data-sky="night"] {
   --sky-panel-ink: var(--color-text-inverse);
   --sky-panel-soft: var(--color-text-inverse);
   background:
-    radial-gradient(circle 7rem at 100% 100%, var(--color-sky-night-spark), transparent),
+    radial-gradient(circle 3.5rem at 100% 100%, var(--color-sky-night-spark), transparent),
+    radial-gradient(circle 10rem at 100% 100% in oklab, color-mix(in oklab, var(--color-sky-night-horizon) 75%, transparent), transparent 85%),
     radial-gradient(circle 13rem at 100% 100%, var(--color-sky-night-glow), transparent 85%),
     linear-gradient(in oklab, var(--color-sky-night), color-mix(in oklab, var(--color-sky-night) 70%, var(--color-sky-night-top)));
 }
