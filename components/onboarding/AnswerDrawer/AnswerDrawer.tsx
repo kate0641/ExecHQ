@@ -157,14 +157,14 @@ export function AnswerDrawer({
             keyboard, the drawer moves, and the press lands on nothing. */}
         {hideActions ? null : (
           <div className="answer-drawer__actions">
-            {secondaryLabel ? (
-              <Button variant="ghost" onClick={onSecondary} onMouseDown={keepFocus}>
-                {secondaryLabel}
-              </Button>
-            ) : null}
             <Button variant="primary" onClick={onPrimary} onMouseDown={keepFocus} disabled={primaryDisabled}>
               {primaryLabel}
             </Button>
+            {secondaryLabel ? (
+              <Button variant="secondary" onClick={onSecondary} onMouseDown={keepFocus}>
+                {secondaryLabel}
+              </Button>
+            ) : null}
           </div>
         )}
       </section>

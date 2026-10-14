@@ -352,6 +352,70 @@ samp {
   overflow-wrap: anywhere;
 }
 
+/* Her input, with the way to redo it (from Onboarding, 2026-10-13): what she
+   said or made always sits in a card, and its action is a flat underlined
+   link at the card's top right, centred on the line of the eyebrow or title
+   it sits beside. Change when she picks again from choices; Edit when she
+   types again. The link's tap area is 44px tall without moving anything. */
+.read-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  /* 4px more under a label that carries an action, so her words below it
+     never run up against the link (designer, 2026-10-13). */
+  margin-bottom: var(--space-2xs);
+}
+
+.edit-link {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  min-height: var(--button-target);
+  margin-block: calc((var(--button-target) - 1lh) / -2);
+  font-family: var(--type-label-font);
+  /* The eyebrow's size, so the link sits on the label's line without its
+     underline reaching the words under it (designer, 2026-10-13). */
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-label-weight);
+  line-height: var(--type-label-leading);
+  letter-spacing: var(--type-label-tracking);
+  word-spacing: var(--type-label-word-spacing);
+  /* Grey, so the action sits back behind what she said. */
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.edit-link:hover {
+  color: var(--color-text-primary);
+}
+
+/* Edit is the edit icon alone, its name said to screen readers; the tap area
+   stays 44px wide as well as tall. */
+.edit-link--icon {
+  justify-content: flex-end;
+  min-width: var(--button-target);
+  margin-inline-end: calc((var(--button-target) - 18px) / -2);
+  padding-inline: calc((var(--button-target) - 18px) / 2);
+}
+
+.edit-link .icon {
+  flex: none;
+}
+
+.edit-link__label {
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width-thin);
+  text-underline-offset: 0.2em;
+}
+
+.edit-link:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-xs);
+}
+
 .t-measure {
   max-width: var(--content-measure);
 }
@@ -776,7 +840,9 @@ button.link {
 .field {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xs);
+  /* A field's label sits 12px above it, as a group title does above its
+     group, so it reads as the field's title (designer, 2026-10-13). */
+  gap: var(--space-group-title);
 }
 
 .field__label {
@@ -2226,10 +2292,9 @@ ul.chrome__nav-list {
 .concierge-pill__ask {
   flex: 1;
   min-width: 0;
-  overflow: hidden;
+  /* Never cut off with an ellipsis: the words wrap (designer, 2026-10-13). */
   font-size: var(--text-md);
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  overflow-wrap: anywhere;
 }
 
 /* The same orange dot the sheet's nav uses, treated the same way: on the
@@ -5939,13 +6004,25 @@ ol.ring-detail__timeline {
   margin-block: auto;
 }
 
-/* On web the dark panel holds the wordmark and the line together, in the
-   middle of the panel, across and down. */
+/* The button sits with the words, the two centred down the sheet together,
+   rather than pinned at its foot (designer, 2026-10-13). */
+[data-viewport="tablet"] .welcome--centred.welcome--stacked .welcome__body:has(+ .step-actions):not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .welcome--centred .welcome__body:has(+ .step-actions):not(:where([data-viewport="mobile"] *)) {
+  margin-bottom: 0;
+}
+
+[data-viewport="tablet"] .welcome--centred.welcome--stacked .welcome__sheet > .step-actions:not(:where([data-viewport="mobile"] *)),
+[data-viewport="web"] .welcome--centred .welcome__sheet > .step-actions:not(:where([data-viewport="mobile"] *)) {
+  margin-bottom: auto;
+}
+
+/* On web the dark panel holds the wordmark and the line together at its top
+   left, left aligned (designer, 2026-10-13). */
 [data-viewport="web"] .welcome--centred .welcome__hero:not(:where([data-viewport="mobile"] *)) {
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
   gap: var(--space-xl);
-  text-align: center;
+  text-align: start;
 }
 
 /* --- Privacy promise ------------------------------------------------------ */
@@ -6413,8 +6490,9 @@ ol.ring-detail__timeline {
 }
 
 .chat__quote {
-  font-family: var(--font-serif);
-  font-size: var(--text-sm);
+  font-family: var(--type-editorial-font);
+  font-size: var(--type-editorial-size-xs);
+  font-weight: var(--type-editorial-weight-xs);
   font-style: italic;
   color: var(--color-text-secondary);
 }
@@ -6525,8 +6603,8 @@ ol.ring-detail__timeline {
 }
 
 .chat-welcome__quote {
-  font-family: var(--font-serif);
-  font-size: var(--text-md);
+  font-family: var(--type-editorial-font);
+  font-size: var(--type-editorial-size-sm);
   font-style: italic;
   color: var(--color-text-primary);
 }
@@ -6550,8 +6628,8 @@ ol.ring-detail__timeline {
 }
 
 .intro-card__quote {
-  font-family: var(--font-serif);
-  font-size: var(--text-md);
+  font-family: var(--type-editorial-font);
+  font-size: var(--type-editorial-size-sm);
   font-style: italic;
   line-height: var(--leading-snug);
   color: var(--color-text-inverse-muted);
@@ -7141,11 +7219,14 @@ ol.ring-detail__timeline {
 
 .chip-group__label {
   padding: 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
+  /* A legend sits outside its fieldset's gap, so it carries its own 12px. */
+  margin-bottom: var(--space-group-title);
+  font-family: var(--type-label-font);
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  line-height: var(--type-label-leading);
+  letter-spacing: var(--type-label-tracking);
+  word-spacing: var(--type-label-word-spacing);
   color: var(--color-text-primary);
 }
 
@@ -7218,6 +7299,55 @@ ol.ring-detail__timeline {
   cursor: not-allowed;
 }
 
+/* An answer in a guided step's drawer (Onboarding, the Plan's guided steps)
+   is her side of a conversation, so it is branded like the chat: an answer
+   not chosen is the raised surface with a thin edge, 20px corners and Inter,
+   its words at the left; the one she picks fills navy with light text, as
+   her own messages do, and its words step up to bold (designer, 2026-10-13).
+   The answers sit 12px apart. */
+.answer-drawer .chip-group__options {
+  gap: var(--space-sm);
+}
+
+.answer-drawer .chip-group__chip {
+  min-height: var(--button-target);
+  padding: var(--space-xs) var(--space-md);
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-snug);
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-align: left;
+  background-color: var(--color-surface-raised);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-xl);
+}
+
+.answer-drawer .chip-group__chip:hover {
+  border-color: var(--color-border-strong);
+  background-color: var(--color-surface-raised);
+}
+
+.answer-drawer .chip-group__chip[aria-pressed="true"] {
+  color: var(--color-text-inverse);
+  background-color: var(--color-surface-inverse);
+  border-color: var(--color-surface-inverse);
+  --color-focus: var(--color-focus-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+}
+
+.answer-drawer .chip-group__chip[aria-pressed="true"]:hover {
+  border-color: var(--color-surface-inverse-hover);
+  background-color: var(--color-surface-inverse-hover);
+}
+
+.answer-drawer .chip-group__chip:disabled {
+  color: var(--color-text-disabled);
+  background-color: var(--color-surface-disabled);
+  border-color: var(--color-surface-disabled);
+}
+
 /* Outputs page. */
 .story-text {
   font-size: var(--text-md);
@@ -7234,14 +7364,17 @@ ol.ring-detail__timeline {
   border-radius: var(--radius-xs);
 }
 
+/* Names the group under it (Where you could use it), so a group title. */
 .builder-next__label {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
+  font-family: var(--type-group-title-font);
+  font-size: var(--type-group-title-size);
+  font-weight: var(--type-group-title-weight);
+  line-height: var(--type-group-title-leading);
+  letter-spacing: var(--type-group-title-tracking);
+  word-spacing: var(--type-group-title-word-spacing);
   text-transform: uppercase;
-  color: var(--color-text-muted);
+  /* As dark as the copy: a title matters as much as what it names. */
+  color: var(--color-text-primary);
 }
 
 .builder-output__edit {
@@ -7253,7 +7386,14 @@ ol.ring-detail__timeline {
 .builder-output__edit-actions,
 .builder-output__tools {
   display: flex;
+  justify-content: flex-start;
   gap: var(--space-xs);
+}
+
+/* Edit sits flush with the draft's words, its pencil before it. */
+.builder-output__tools .btn {
+  gap: var(--space-2xs);
+  padding-inline: 0;
 }
 
 /* Export, pinned with the action so it is always in reach. */
@@ -7265,8 +7405,8 @@ ol.ring-detail__timeline {
 
 .builder-export__links {
   display: flex;
-  justify-content: center;
-  gap: var(--space-lg);
+  justify-content: flex-start;
+  gap: var(--space-xl);
 }
 
 .builder-export__links > button {
@@ -7296,38 +7436,45 @@ ol.ring-detail__timeline {
 .story-draft {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  /* A section's width of space after the draft's card (designer,
+     2026-10-13). */
+  gap: var(--space-xl);
 }
 
+/* The draft is the system's card rather than a tinted box: the raised
+   surface, a soft edge, the card corners and padding, with its label a grey
+   eyebrow (How a page is built: Surfaces). */
 .story-draft__card {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
-  padding: var(--space-md);
-  background-color: var(--color-surface-sunken);
-  border-radius: var(--radius-md);
+  padding: var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
 }
 
 .story-draft__label {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-text-muted);
+  color: var(--color-text-secondary);
 }
 
 .story-draft__uses {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xs);
+  gap: var(--space-group-title);
 }
 
 .story-draft__uses ul {
   display: flex;
   flex-direction: column;
-  gap: var(--space-paragraph);
+  gap: var(--space-list-item);
   margin: 0;
   padding-left: var(--space-md);
   font-size: var(--text-sm);
@@ -7346,19 +7493,21 @@ ol.ring-detail__timeline {
 .linkedin-steps {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: var(--number-list-gap);
   margin: 0;
   padding: 0;
   list-style: none;
   counter-reset: linkedin-step;
 }
 
+/* The numbered circle, from the --number-circle-* tokens, its first line of
+   copy centred on the circle. */
 .linkedin-steps > li {
   counter-increment: linkedin-step;
   display: grid;
-  grid-template-columns: var(--space-lg) 1fr;
-  column-gap: var(--space-sm);
-  align-items: baseline;
+  grid-template-columns: var(--number-circle-size) 1fr;
+  column-gap: var(--number-circle-gap);
+  align-items: center;
   font-size: var(--text-sm);
   line-height: var(--leading-normal);
   color: var(--color-text-secondary);
@@ -7366,18 +7515,19 @@ ol.ring-detail__timeline {
 
 .linkedin-steps > li::before {
   content: counter(linkedin-step);
+  align-self: start;
   display: grid;
   place-items: center;
-  width: var(--space-lg);
-  height: var(--space-lg);
+  width: var(--number-circle-size);
+  height: var(--number-circle-size);
   border-radius: var(--radius-pill);
   font-family: var(--font-display);
   word-spacing: var(--font-display-word-spacing);
   letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-xs);
+  font-size: var(--number-circle-numeral);
   font-weight: var(--weight-bold);
-  color: var(--color-text-primary);
-  background-color: var(--color-surface-sunken);
+  color: var(--number-circle-ink);
+  background-color: var(--number-circle-fill);
 }
 
 .linkedin-steps b {
@@ -7407,10 +7557,33 @@ ol.ring-detail__timeline {
   color: var(--color-text-secondary);
 }
 
+/* The disclosure's marker is the icon set's chevron rather than the
+   browser's triangle: it sits after the words, points down while closed and
+   up once open (designer, 2026-10-13). */
 .linkedin-upload__help summary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  list-style: none;
   cursor: pointer;
+  /* A 44px tap target without moving anything: 12px of padding above and
+     below, taken back by the margin. */
+  min-height: var(--button-target);
+  padding-block: var(--space-sm);
+  margin-block: calc(-1 * var(--space-sm));
+}
+
+.linkedin-upload__help summary::-webkit-details-marker {
+  display: none;
+}
+
+.linkedin-upload__help-label {
   text-decoration: underline;
   text-underline-offset: 0.2em;
+}
+
+.linkedin-upload__help[open] .linkedin-upload__caret {
+  transform: rotate(180deg);
 }
 
 .linkedin-upload__help p {
@@ -7422,6 +7595,9 @@ ol.ring-detail__timeline {
   display: flex;
   flex-direction: column;
   gap: var(--space-2xs);
+  /* 24px more above the button, so the steps have room before it (designer,
+     2026-10-13). */
+  margin-top: var(--space-lg);
 }
 
 .linkedin-upload__hint {
@@ -7819,63 +7995,101 @@ ol.ring-detail__timeline {
   border-radius: var(--radius-pill);
 }
 
+/* The ways on are one card, as Done's list is: the raised surface, a soft
+   edge, its group title inside, and a hairline between choices with 20px
+   either side. Each choice is a row ending in a chevron, since only a card
+   row with a chevron is tappable (designer, 2026-10-13). */
 .next-steps {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: var(--space-card-title);
+  padding: var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
 }
 
 .next-steps__label {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
+  /* The title inside a list card: the card title role. */
+  font-family: var(--type-card-title-font);
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  line-height: var(--type-card-title-leading);
+  letter-spacing: var(--type-card-title-tracking);
+  word-spacing: var(--type-card-title-word-spacing);
+  color: var(--color-text-primary);
 }
 
 .next-steps__list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: var(--space-divided-item);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-/* Outlined, on the page surface, so each reads as something to press and not
-   as a disabled grey control. */
+.next-steps__list > li + li {
+  padding-top: var(--space-divided-item);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
 .next-steps .btn {
+  width: 100%;
   height: auto;
-  padding: var(--space-sm) var(--space-md);
-  justify-content: flex-start;
-  background-color: var(--color-surface);
+  min-height: var(--button-target);
+  padding: 0;
+  justify-content: space-between;
+  gap: var(--space-md);
+  background-color: transparent;
   color: var(--color-text-primary);
-  border: var(--border-strong);
-  border-radius: var(--radius-lg);
+  border: 0;
+  border-radius: var(--radius-xs);
+  text-align: left;
+  white-space: normal;
 }
 
 .next-steps .btn:hover,
 .next-steps .btn.is-hover {
-  background-color: var(--color-surface-raised);
+  background-color: transparent;
+}
+
+.next-steps .btn:hover .next-steps__go,
+.next-steps .btn.is-hover .next-steps__go {
+  color: var(--color-text-primary);
 }
 
 .next-steps__text {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3xs);
+  gap: var(--space-2xs);
   text-align: left;
 }
 
+/* The choice reads like a numbered point's title and copy, without the
+   number. */
 .next-steps__title {
+  font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  letter-spacing: var(--font-display-tracking);
+  font-size: var(--text-md);
   font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
 }
 
 .next-steps__detail {
-  font-size: var(--text-xs);
+  font-family: var(--type-body-sm-font);
+  font-size: var(--text-sm);
   font-weight: var(--weight-regular);
-  opacity: 0.8;
+  line-height: var(--leading-normal);
+  letter-spacing: normal;
+  word-spacing: normal;
+  color: var(--color-text-secondary);
+}
+
+.next-steps__go {
+  flex: none;
+  color: var(--color-text-secondary);
 }
 
 .plan-ahead {
@@ -8050,6 +8264,9 @@ ol.ring-detail__timeline {
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
+  /* Every line of copy on a guided step avoids leaving one word alone on
+     its last line; the text inside inherits it. */
+  text-wrap: pretty;
   width: 100%;
   max-width: var(--content-measure);
   margin: 0 auto;
@@ -8112,14 +8329,17 @@ ol.ring-detail__timeline {
   gap: var(--space-xs);
 }
 
+/* The step's label introduces its heading, so it takes the eyebrow colour
+   (How a page is built: an eyebrow that introduces a heading). */
 .guide__kicker {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-text-secondary);
+  color: var(--color-eyebrow);
 }
 
 .guide__title {
@@ -8130,6 +8350,8 @@ ol.ring-detail__timeline {
   line-height: var(--leading-tight);
   letter-spacing: var(--font-display-tracking-heading);
   color: var(--color-text-primary);
+  /* No single word left alone on the last line. */
+  text-wrap: pretty;
 }
 
 .guide__title:focus-visible {
@@ -8141,6 +8363,7 @@ ol.ring-detail__timeline {
   font-size: var(--text-md);
   line-height: var(--leading-relaxed);
   color: var(--color-text-secondary);
+  text-wrap: pretty;
 }
 
 .guide__body {
@@ -8152,29 +8375,36 @@ ol.ring-detail__timeline {
 /* The margin note: why this page exists. It sits just above the action on
    every page, pushed down by the free space, so it is always found in the
    same place. */
+/* Why this matters sits on the page, not in a card, so its label is a group
+   title, then the words, with no rule beside it. */
 .guide__why {
   margin-top: auto;
   display: flex;
   flex-direction: column;
-  gap: var(--space-3xs);
-  padding-left: var(--space-md);
-  border-left: var(--border-width-medium) solid var(--color-text-primary);
+  gap: var(--space-group-title);
 }
 
 .guide__why-label {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
+  font-family: var(--type-group-title-font);
+  font-size: var(--type-group-title-size);
+  font-weight: var(--type-group-title-weight);
+  line-height: var(--type-group-title-leading);
+  letter-spacing: var(--type-group-title-tracking);
+  word-spacing: var(--type-group-title-word-spacing);
   text-transform: uppercase;
+  /* As dark as the copy: a title matters as much as what it names. */
   color: var(--color-text-primary);
 }
 
 .guide__why-text {
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  letter-spacing: var(--type-body-sm-tracking);
+  word-spacing: var(--type-body-sm-word-spacing);
+  color: var(--color-text-primary);
+  text-wrap: pretty;
 }
 
 /* With a drawer the reason follows the question directly, instead of sinking
@@ -8226,13 +8456,49 @@ ol.ring-detail__timeline {
   color: var(--color-text-primary);
 }
 
+/* The cover is navy edge to edge (designer, 2026-10-13): the light logo, the
+   light title and line, and the quote in the muted light. The yellow button
+   stays the one main action. The logo sits between the two Wordmark sizes,
+   48px tall, with 32px between it and the title. */
+.guide--cover {
+  max-width: none;
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+  --color-focus: var(--color-focus-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+}
+
+.guide--cover > * {
+  width: 100%;
+  max-width: var(--content-measure);
+  margin-inline: auto;
+}
+
+.guide--cover .guide__title,
+.guide--cover .guide__lede {
+  color: var(--color-text-inverse);
+}
+
+.guide--cover .guide__quote {
+  color: var(--color-text-inverse-muted);
+}
+
+.guide__wordmark .logo {
+  block-size: var(--space-2xl);
+}
+
+.guide--cover .guide__wordmark {
+  margin-bottom: var(--space-md);
+}
+
 .guide--cover .guide__body {
   margin-bottom: auto;
 }
 
 .guide__quote {
-  font-family: var(--font-serif);
-  font-size: var(--text-sm);
+  font-family: var(--type-editorial-font);
+  font-size: var(--type-editorial-size-xs);
+  font-weight: var(--type-editorial-weight-xs);
   font-style: italic;
   color: var(--color-text-secondary);
 }
@@ -8291,11 +8557,11 @@ ol.ring-detail__timeline {
 
 .advisor-file__new {
   margin-left: auto;
+  /* Never cut off with an ellipsis: the words wrap (designer, 2026-10-13). */
   font-size: var(--text-xs);
   color: var(--color-text-secondary);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  text-align: right;
+  overflow-wrap: anywhere;
 }
 
 .advisor-file__list {
@@ -8367,12 +8633,14 @@ ol.ring-detail__timeline {
 }
 
 .point-list--numbered {
+  gap: var(--number-list-gap);
   counter-reset: point;
 }
 
+/* The numbered circle, from the --number-circle-* tokens. */
 .point-list--numbered > li {
   position: relative;
-  padding-left: calc(var(--space-xl) + var(--space-xs));
+  padding-left: calc(var(--number-circle-size) + var(--number-circle-gap));
   counter-increment: point;
 }
 
@@ -8381,17 +8649,17 @@ ol.ring-detail__timeline {
   position: absolute;
   left: 0;
   top: 0;
-  width: var(--space-xl);
-  height: var(--space-xl);
+  width: var(--number-circle-size);
+  height: var(--number-circle-size);
   display: grid;
   place-items: center;
   font-family: var(--font-display);
   word-spacing: var(--font-display-word-spacing);
   letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-xs);
+  font-size: var(--number-circle-numeral);
   font-weight: var(--weight-bold);
-  color: var(--color-text-inverse);
-  background-color: var(--color-surface-inverse);
+  color: var(--number-circle-ink);
+  background-color: var(--number-circle-fill);
   border-radius: var(--radius-pill);
 }
 
@@ -8416,27 +8684,42 @@ ol.ring-detail__timeline {
   color: var(--color-text-primary);
 }
 
+/* A labelled list is the system's card (How a page is built: Surfaces), not
+   a tinted box: the raised surface, a soft edge, the card corners and
+   padding. Its title is the card title, 20px above the list, and a hairline
+   splits each item, 20px either side of it. */
 .point-box {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
-  padding: var(--space-md);
-  border-radius: var(--radius-md);
-  background-color: var(--color-surface-sunken);
+  gap: var(--space-card-title);
+  padding: var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
 }
 
 .point-box__label {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
+  /* The title inside a list card: the card title role. */
+  font-family: var(--type-card-title-font);
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  line-height: var(--type-card-title-leading);
+  letter-spacing: var(--type-card-title-tracking);
+  word-spacing: var(--type-card-title-word-spacing);
+  color: var(--color-text-primary);
 }
 
 .point-box .point-list {
-  gap: var(--space-paragraph);
+  gap: var(--space-divided-item);
+}
+
+.point-box .point-list > li + li {
+  padding-top: var(--space-divided-item);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+.point-box .point-list--numbered > li + li::before {
+  top: var(--space-divided-item);
 }
 
 /* A reflection's answer: a pull quote, then a fact. */
@@ -8456,32 +8739,39 @@ ol.ring-detail__timeline {
   padding: var(--space-xs) 0;
 }
 
+/* ExecHQ speaking: the editorial role's medium size, well under the title. */
 .reflection-reply__quote blockquote {
   margin: 0;
-  font-family: var(--font-serif);
-  font-size: var(--text-xl);
+  font-family: var(--type-editorial-font);
+  font-size: var(--type-editorial-size-md);
   font-style: italic;
-  line-height: var(--leading-relaxed);
+  line-height: var(--type-editorial-leading-quote);
   color: var(--color-text-primary);
 }
 
+/* Who said it: the grey eyebrow, as a read's label is. */
 .reflection-reply__quote figcaption {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
   color: var(--color-text-secondary);
 }
 
+/* Worth knowing is a read in the system's card: the raised surface, a soft
+   edge, the card corners and padding; a grey eyebrow, the fact in the copy's
+   ink, and its source as a caption. */
 .reflection-reply__fact {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3xs);
-  padding: var(--space-sm) var(--space-md);
-  border: var(--border-thin);
-  border-radius: var(--radius-md);
+  gap: var(--space-eyebrow-title);
+  padding: var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
 }
 
 /* Unsourced: dashed, so it can never pass for finished copy. */
@@ -8491,35 +8781,48 @@ ol.ring-detail__timeline {
 }
 
 .reflection-reply__fact-label {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
   color: var(--color-text-secondary);
 }
 
 .reflection-reply__fact-text {
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  letter-spacing: var(--type-body-sm-tracking);
+  word-spacing: var(--type-body-sm-word-spacing);
+  color: var(--color-text-primary);
 }
 
 .reflection-reply__fact-source {
-  font-size: var(--text-xs);
-  line-height: var(--leading-normal);
-  color: var(--color-text-muted);
+  margin-top: var(--space-2xs);
+  font-family: var(--type-caption-font);
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  line-height: var(--type-caption-leading);
+  letter-spacing: var(--type-caption-tracking);
+  color: var(--color-text-secondary);
 }
 
 /* The recommendation, stated as one. */
+/* The system's card: the raised surface, a soft edge, no shadow, the card's corners
+   and padding (How a page is built: Surfaces). It used to carry a heavy dark
+   outline. */
 .recommendation {
   display: flex;
   flex-direction: column;
   gap: var(--space-2xs);
-  padding: var(--space-md) var(--space-lg);
-  border: var(--border-width-medium) solid var(--color-text-primary);
-  border-radius: var(--radius-lg);
+  padding: var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
 }
 
 .recommendation__lead {
@@ -8573,11 +8876,12 @@ ol.ring-detail__timeline {
 /* A plan part taught: what it is and how it helps (boxed), then the user's
    own, under a label. */
 .guide__yours-label {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
+  font-family: var(--type-group-title-font);
+  font-size: var(--type-group-title-size);
+  font-weight: var(--type-group-title-weight);
+  line-height: var(--type-group-title-leading);
+  letter-spacing: var(--type-group-title-tracking);
+  word-spacing: var(--type-group-title-word-spacing);
   text-transform: uppercase;
   color: var(--color-text-primary);
 }
@@ -8648,32 +8952,36 @@ ol.ring-detail__timeline {
   color: var(--color-text-secondary);
 }
 
-/* What good looks like: an example, set apart from the user's own fields. */
+/* What good looks like: an example, set apart from the user's own fields. It
+   is the system's card, like First draft's (How a page is built: Surfaces):
+   the raised surface, a soft edge, the card corners and padding, with its
+   label a grey eyebrow. */
 .good-example {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xs);
-  padding: var(--space-md);
-  border: var(--border-thin);
-  border-radius: var(--radius-md);
-  background-color: var(--color-surface-sunken);
+  gap: var(--space-xs);
+  padding: var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
 }
 
 .good-example__label {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
   color: var(--color-text-secondary);
 }
 
 .good-example__example {
-  font-family: var(--font-serif);
-  font-size: var(--text-md);
+  font-family: var(--type-editorial-font);
+  font-size: var(--type-editorial-size-sm);
   font-style: italic;
-  line-height: var(--leading-relaxed);
+  line-height: var(--type-editorial-leading-quote);
   color: var(--color-text-primary);
 }
 
@@ -8814,32 +9122,37 @@ ol.ring-detail__timeline {
   overflow-y: auto;
 }
 
-/* What the user said, back on the page, with the way to change it. */
+/* What the user said, back on the page with the way to change it: a group
+   title, then one card of reads split by hairlines (How a page is built:
+   never a stack of boxes for a list). */
 .guide__heard-rows {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: var(--space-group-title);
 }
 
 .guide__said {
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: var(--space-sm);
+  flex-direction: column;
+  gap: var(--space-eyebrow-title);
 }
+/* A read: the grey eyebrow naming it, then her words. */
 .guide__said-label {
   display: block;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
   color: var(--color-text-secondary);
 }
 
 .guide__said-value {
+  display: block;
   font-size: var(--text-md);
+  line-height: var(--leading-snug);
   color: var(--color-text-primary);
 }
 
@@ -8857,7 +9170,7 @@ ol.ring-detail__timeline {
 }
 
 .guide__said-change:focus-visible {
-  outline: var(--focus-ring-width) solid var(--color-focus-inverse);
+  outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
 }
 
@@ -8950,8 +9263,12 @@ ol.ring-detail__timeline {
   gap: var(--space-sm);
 }
 
+/* The main action is full width, and a second one (Skip, Back, Later…) is a
+   secondary button the same size under it: a peer, never a smaller link, so
+   skipping reads as a real choice (Kate's spec; designer, 2026-10-13). */
 .answer-drawer__actions {
   display: flex;
+  flex-direction: column;
   gap: var(--space-xs);
   /* Stays in reach when the drawer scrolls under the drawn keyboard. */
   position: sticky;
@@ -8961,9 +9278,6 @@ ol.ring-detail__timeline {
   background-color: var(--color-surface);
 }
 
-.answer-drawer__actions > .btn {
-  flex: 1;
-}
 
 /* Folded: one bar carrying the question. */
 .answer-drawer.is-peek {
@@ -11284,10 +11598,9 @@ ul.stage-actions__list {
   line-height: var(--type-body-sm-leading);
   letter-spacing: var(--type-body-sm-tracking);
   word-spacing: var(--type-body-sm-word-spacing);
-  overflow: hidden;
+  /* Never cut off with an ellipsis: the words wrap (designer, 2026-10-13). */
   color: var(--color-text-muted);
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 
 /* --- Settings groups and rows ---------------------------------------------- */
@@ -11387,10 +11700,10 @@ ul.stage-actions__list {
   word-spacing: var(--type-body-sm-word-spacing);
   flex: 0 1 auto;
   max-width: 50%;
-  overflow: hidden;
+  /* Never cut off with an ellipsis: the words wrap (designer, 2026-10-13). */
   color: var(--color-text-secondary);
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  text-align: right;
+  overflow-wrap: anywhere;
 }
 
 .settings-row__chevron {
@@ -11534,10 +11847,10 @@ ul.stage-actions__list {
 
 .detail-panel__quote {
   margin: 0;
-  font-family: var(--font-serif);
-  font-size: var(--text-md);
+  font-family: var(--type-editorial-font);
+  font-size: var(--type-editorial-size-sm);
   font-style: italic;
-  line-height: var(--leading-relaxed);
+  line-height: var(--type-editorial-leading-quote);
 }
 
 .detail-panel__actions,
@@ -11852,7 +12165,8 @@ ul.stage-actions__list {
 .code-field {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  /* 12px under its label, as every field's label (designer, 2026-10-13). */
+  gap: var(--space-group-title);
 }
 
 .code-field__label {
@@ -11876,9 +12190,11 @@ ul.stage-actions__list {
   cursor: text;
 }
 
+/* Six equal boxes, three and three: the break between the halves is a column
+   of its own, so no box is narrowed to make it (designer, 2026-10-13). */
 .code-field__cells {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr)) 0 repeat(3, minmax(0, 1fr));
   gap: var(--space-xs);
   max-width: 22rem;
   pointer-events: none;
@@ -11899,7 +12215,7 @@ ul.stage-actions__list {
 }
 
 .code-field__cell--gap {
-  margin-left: var(--space-xs);
+  grid-column-start: 5;
 }
 
 .code-field__control:focus-within .code-field__cell--current,
@@ -11927,25 +12243,60 @@ ul.stage-actions__list {
   width: 100%;
   min-height: var(--button-height);
   padding: 0 var(--space-lg);
-  border: var(--border-width-thin) solid var(--color-border-strong);
+  border: var(--border-width-thin) solid transparent;
   border-radius: var(--radius-pill);
-  background-color: var(--color-surface-raised);
-  color: var(--color-text-primary);
-  font: inherit;
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+  letter-spacing: normal;
+  word-spacing: normal;
   cursor: pointer;
   transition: background-color var(--duration-fast) var(--easing-standard);
 }
 
-.provider-button:hover,
-.provider-button.is-hover {
-  background-color: var(--color-surface-hover);
+/* Google's dark theme, as its branding guidelines set it (values in
+   tokens.css): the dark fill with a 1px edge, light words in Google Sans
+   Medium 14/20, 10px between the standard four-colour G and the words
+   (designer, 2026-10-13). */
+.provider-button--google {
+  gap: calc(var(--space-xs) + var(--space-3xs));
+  border-color: var(--brand-google-dark-edge);
+  background-color: var(--brand-google-dark);
+  color: var(--brand-google-dark-text);
+  /* Google Sans arrives on the button itself, from styles/fonts.ts. */
+  font-weight: var(--weight-google);
 }
 
-.provider-button:active,
-.provider-button.is-active {
-  background-color: var(--color-surface-sunken);
+.provider-button--google:hover,
+.provider-button--google.is-hover,
+.provider-button--google:active,
+.provider-button--google.is-active {
+  background-color: var(--brand-google-dark-hover);
+}
+
+.provider-mark__blue {
+  fill: var(--brand-google-blue);
+}
+
+.provider-mark__green {
+  fill: var(--brand-google-green);
+}
+
+.provider-mark__yellow {
+  fill: var(--brand-google-yellow);
+}
+
+.provider-mark__red {
+  fill: var(--brand-google-red);
+}
+
+/* Apple's dark style, as its guidelines set it: the darkest fill, with the
+   logo and the words both light, in the system font. Apple allows no other
+   colour, so it has no hover tint. */
+.provider-button--apple {
+  background-color: var(--brand-apple-black);
+  color: var(--brand-white);
+  font-family: var(--font-apple);
 }
 
 .provider-button:focus-visible,
@@ -12023,11 +12374,10 @@ ul.stage-actions__list {
 }
 
 .mail-notification__preview {
-  overflow: hidden;
+  /* Never cut off with an ellipsis: the words wrap (designer, 2026-10-13). */
   font-size: var(--text-xs);
   color: var(--color-text-muted);
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 
 .mail-notification__when {
@@ -15193,17 +15543,11 @@ ol.rtl__rail::before {
 }
 
 .plan-direction__quote {
-  overflow: hidden;
+  /* Never cut off with an ellipsis: the words wrap (designer, 2026-10-13). */
   font-family: var(--font-serif);
   font-size: var(--text-md);
   line-height: var(--leading-normal);
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.plan-direction.is-open .plan-direction__quote {
-  overflow: visible;
-  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .plan-direction__toggle .icon {
@@ -18644,10 +18988,6 @@ ul.plan-guided__sparks {
   gap: var(--space-xs) var(--space-sm);
 }
 
-/* A folder's rows carry a third line, what comes next. */
-.library__rows--folder .list__secondary {
-  -webkit-line-clamp: 3;
-}
 
 /* A plain list (Concept 1's Library page): no card, so the rows line up
    with the search field and the page's edge. */
@@ -19310,6 +19650,9 @@ ul.plan-guided__sparks {
 }
 
 .pinned-draft__preview {
+  /* The one place text stops after two lines with an ellipsis (Kate's, kept
+     by the designer, 2026-10-13): the card is pinned over the page and the
+     draft keeps growing, and Show draft opens all of it. */
   display: -webkit-box;
   overflow: hidden;
   -webkit-box-orient: vertical;
@@ -19319,6 +19662,7 @@ ul.plan-guided__sparks {
   word-spacing: var(--word-spacing-normal);
   font-size: var(--text-sm);
   color: var(--color-text-secondary);
+  overflow-wrap: anywhere;
 }
 
 .pinned-draft__action {
@@ -19861,10 +20205,7 @@ ul.plan-guided__sparks {
 }
 
 .list__secondary {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
+  /* Never cut off with an ellipsis: the words wrap (designer, 2026-10-13). */
   font-family: var(--list-secondary-font);
   font-size: var(--list-secondary-size);
   line-height: var(--list-secondary-leading);
@@ -20752,8 +21093,9 @@ ul.plan-guided__sparks {
 .briefing-picture__name {
   position: relative;
   padding: var(--space-sm) var(--space-md);
-  font-family: var(--font-serif);
-  font-size: var(--text-sm);
+  font-family: var(--type-editorial-font);
+  font-size: var(--type-editorial-size-xs);
+  font-weight: var(--type-editorial-weight-xs);
   font-style: italic;
   line-height: var(--leading-snug);
 }

@@ -42,6 +42,7 @@ import {
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { roadmapAfterEdit } from "@/lib/plan-edit";
 import { saveRoadmap, useRoadmapChoices } from "@/lib/plan-store";
+import { useStatusBarTone } from "@/lib/device-tone";
 import { useStepNav } from "@/lib/step-nav";
 import { useViewport } from "@/lib/viewport-context";
 import {
@@ -261,6 +262,8 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
   // On web the answers sit beside the question and there is no sheet to fold,
   // so a drawer left folded on a phone reads as open there.
   const mode: DrawerMode = viewport === "web" && chosenMode === "peek" ? "open" : chosenMode;
+  // The welcome on a phone is navy edge to edge, so the status bar is too.
+  useStatusBarTone(pageId === "welcome" && viewport !== "web" ? "inverse" : "default");
   // The other directions picked, beyond the one to start from.
   const [alsoGoals, setAlsoGoals] = useState<string[]>([]);
   const at = pageIndex(pageId);
@@ -417,7 +420,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
       return (
         <GuidePage
           cover
-          kicker={GUIDE_C3.welcome.wordmark}
+          wordmark
           headingId={headingId}
           title={GUIDE_C3.welcome.title}
           lede={GUIDE_C3.welcome.lede}
@@ -631,19 +634,22 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
           {pageId === "plan-week" && heardRows.length ? (
             <section className="guide__heard-rows" aria-label={c.heardLabel}>
               <p className="guide__yours-label">{c.heardLabel}</p>
-              {heardRows.map((row) => (
-                <Said
-                  key={row.label}
-                  label={row.label}
-                  value={row.value}
-                  onChange={() => {
-                    // A question changes in place and comes back here; a new
-                    // direction starts the questions again.
-                    if (row.target !== "direction") setReturnTo("plan-week");
-                    goTo(row.target);
-                  }}
-                />
-              ))}
+              <div className="card card--reads">
+                {heardRows.map((row) => (
+                  <Said
+                    key={row.label}
+                    inCard
+                    label={row.label}
+                    value={row.value}
+                    onChange={() => {
+                      // A question changes in place and comes back here; a new
+                      // direction starts the questions again.
+                      if (row.target !== "direction") setReturnTo("plan-week");
+                      goTo(row.target);
+                    }}
+                  />
+                ))}
+              </div>
             </section>
           ) : null}
           <PlanPart part={pageId} plan={plan} direction={direction} />
@@ -800,23 +806,36 @@ interface PageProps {
 const toggle = (drawer: DrawerControl) => () => drawer.setMode(drawer.mode === "open" ? "peek" : "open");
 
 /** What the user said, back on the page, with the way to change it. */
-function Said({ value, onChange, label }: { value: string; onChange: () => void; label?: string }) {
-  return (
+/** What she said, with Change at the top right. On its own it sits in a card;
+ *  `inCard` when a reads card already holds it. */
+function Said({
+  value,
+  onChange,
+  label,
+  inCard = false,
+}: {
+  value: string;
+  onChange: () => void;
+  label?: string;
+  inCard?: boolean;
+}) {
+  const said = (
     <div className="guide__said">
-      <p>
+      <div className="read-head">
         <span className="guide__said-label">{label ?? GUIDE_C3.drawer.said}</span>
-        <span className="guide__said-value">{value}</span>
-      </p>
-      <button
-        type="button"
-        className="guide__said-change"
-        aria-label={label ? `${GUIDE_C3.drawer.change}: ${label}` : undefined}
-        onClick={onChange}
-      >
-        {GUIDE_C3.drawer.change}
-      </button>
+        <button
+          type="button"
+          className="edit-link"
+          aria-label={`${GUIDE_C3.drawer.change}: ${label ?? GUIDE_C3.drawer.said}`}
+          onClick={onChange}
+        >
+          <span className="edit-link__label">{GUIDE_C3.drawer.change}</span>
+        </button>
+      </div>
+      <span className="guide__said-value">{value}</span>
     </div>
   );
+  return inCard ? said : <div className="card card--reads">{said}</div>;
 }
 
 /**
@@ -1156,14 +1175,15 @@ function VerifyPage({ flow, frame, drawer, onDone, onOtherAddress }: PageProps &
                   {c.resend}
                 </button>
               )}
-              <button type="button" className="login__link" onClick={onOtherAddress}>
-                {c.otherAddress}
-              </button>
             </p>
             <p className="login__small">{c.nothing}</p>
           </AnswerDrawer>
         }
-      />
+      >
+        {/* What she typed sits in a card with Change, as all her input does;
+            Change does what Use a different address did (designer, 2026-10-13). */}
+        <Said label={c.sentTo} value={email} onChange={onOtherAddress} />
+      </GuidePage>
       <Sheet open={reading} onClose={() => setReading(false)} label={c.email.subject} className="sheet--tall">
         {reading ? (
           <SignInEmail

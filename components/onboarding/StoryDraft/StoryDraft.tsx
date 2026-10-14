@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Input } from "@/components/form/Input";
 import { Button } from "@/components/primitives/Button";
+import { Icon } from "@/components/primitives/Icon";
 import { StoryText } from "@/components/onboarding/StoryText";
 
 export interface StoryDraftProps {
@@ -63,7 +64,22 @@ export function StoryDraft({
   return (
     <div className={["story-draft", className].filter(Boolean).join(" ")}>
       <div className="story-draft__card">
-        <p className="story-draft__label">{label}</p>
+        <div className="read-head">
+          <p className="story-draft__label">{label}</p>
+          {editing ? null : (
+            <button
+              type="button"
+              className="edit-link edit-link--icon"
+              aria-label={`Edit ${label.toLowerCase()}`}
+              onClick={() => {
+                setDraft(shown);
+                setEditing(true);
+              }}
+            >
+              <Icon name="edit" size={18} />
+            </button>
+          )}
+        </div>
         {editing ? (
           <div className="builder-output__edit">
             <Input
@@ -101,18 +117,6 @@ export function StoryDraft({
         ) : (
           <>
             <StoryText segments={[{ text: shown }]} />
-            <div className="builder-output__tools">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  setDraft(shown);
-                  setEditing(true);
-                }}
-              >
-                Edit
-              </Button>
-            </div>
           </>
         )}
       </div>

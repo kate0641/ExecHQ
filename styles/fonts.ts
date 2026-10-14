@@ -1,4 +1,4 @@
-import { Inter, Kulim_Park, Libre_Baskerville } from "next/font/google";
+import { Google_Sans, Inter, Kulim_Park, Libre_Baskerville } from "next/font/google";
 
 /**
  * The prototype's typefaces, one per role. This is the one place a typeface
@@ -39,4 +39,16 @@ export const bodyFont = Inter({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-body-face",
+});
+
+/**
+ * Google Sans, for the Continue with Google button only: Google's branding
+ * guidelines set its text in Google Sans Medium (designer, 2026-10-13). The
+ * button applies its `.className` itself, so nothing else uses it.
+ */
+export const googleFont = Google_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["500"],
+  variable: "--font-google-face",
 });

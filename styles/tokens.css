@@ -94,6 +94,22 @@
 
   --brand-white: #ffffff;
 
+  /* Sign in with Google and Sign in with Apple, in the colours their makers'
+     guidelines require (designer, 2026-10-13: "we should be following those
+     guidelines"). Not part of ExecHQ's palette and never used elsewhere.
+     Google's dark theme: fill #131314, a 1px #8E918F edge, #E3E3E3 words, and
+     the standard four-colour G. Apple's black style: black, with the logo and
+     words in white. */
+  --brand-google-dark: #131314;
+  --brand-google-dark-hover: #242425;
+  --brand-google-dark-edge: #8e918f;
+  --brand-google-dark-text: #e3e3e3;
+  --brand-google-blue: #4285f4;
+  --brand-google-green: #34a853;
+  --brand-google-yellow: #fbbc05;
+  --brand-google-red: #ea4335;
+  --brand-apple-black: #000000;
+
   /* The palette colours by name, for reading and talking about. Each points
      at its step above. */
   --brand-navy: var(--brand-blue-800);
@@ -446,6 +462,9 @@
   --font-serif: var(--font-serif-face), Georgia, "Times New Roman", serif;
   --font-body: var(--font-body-face), "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  /* Only for Apple's sign-in button, as its guidelines require. Google's
+     button takes Google Sans straight from styles/fonts.ts. */
+  --font-apple: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
 
   --text-2xs: 0.6875rem; /* 11px — badges, meta */
   --text-xs: 0.75rem;    /* 12px */
@@ -467,6 +486,7 @@
   --weight-regular: 400;
   --weight-semibold: 600;
   --weight-serif-medium: 500; /* Libre Baskerville only: Kulim Park and the roles have no 500 */
+  --weight-google: 500;        /* Google Sans Medium, on the Google sign-in button only */
   --weight-bold: 700;
 
   --tracking-tight: -0.02em;
@@ -575,6 +595,24 @@
   --type-eyebrow-leading: var(--leading-snug);
   --type-eyebrow-tracking: var(--tracking-label);
   --type-eyebrow-word-spacing: var(--word-spacing-normal);
+  /* Group title — names a group of content: a list, a set of links, Why this
+     matters, What next. The eyebrow's small capitals, a size up from it
+     (designer, 2026-10-13). The case is set with the role in app.css. */
+  --type-group-title-font: var(--font-body);
+  --type-group-title-size: var(--text-sm);
+  --type-group-title-weight: var(--weight-semibold);
+  --type-group-title-leading: var(--leading-snug);
+  --type-group-title-tracking: var(--tracking-label);
+  --type-group-title-word-spacing: var(--word-spacing-normal);
+  /* Card title — the title inside a list card, over every item in it (What
+     to do next, What next?): sentence case, Inter semibold, 16px, in the
+     body's ink (designer, 2026-10-13). */
+  --type-card-title-font: var(--font-body);
+  --type-card-title-size: var(--text-md);
+  --type-card-title-weight: var(--weight-semibold);
+  --type-card-title-leading: var(--leading-snug);
+  --type-card-title-tracking: var(--tracking-normal);
+  --type-card-title-word-spacing: var(--word-spacing-normal);
 
   /* Figure — numbers shown as data: follower counts, percentages, the stage
      number. Libre Baskerville, so figures read as considered, not as UI. */
@@ -586,9 +624,23 @@
   --type-figure-tracking: var(--tracking-widest);
   --type-figure-word-spacing: var(--word-spacing-normal);
 
-  /* Editorial — Libre Baskerville's voice: quotes and welcome lines. Rare. */
+  /* Editorial — Libre Baskerville's voice, always italic, and only for words
+     that are said: a welcome line, ExecHQ speaking, her own words quoted
+     back, a publication's name. Never for a title or for interface text, and
+     always clearly smaller than the screen's title (designer, 2026-10-13).
+     Four sizes, each with one job:
+       large  28px  the web welcome's statement, alone on its dark panel
+       medium 18px  ExecHQ speaking to her on a guided step (Reflection)
+       small  16px  her words quoted back; the chat's welcome line
+       xsmall 14px  a short line under a heading, a quote inside the chat, a
+                    publication's name; set at 500 so the small italic holds */
   --type-editorial-font: var(--font-serif);
   --type-editorial-size: var(--text-2xl);
+  --type-editorial-size-md: var(--text-lg);
+  --type-editorial-size-sm: var(--text-md);
+  --type-editorial-size-xs: var(--text-sm);
+  --type-editorial-weight-xs: var(--weight-serif-medium);
+  --type-editorial-leading-quote: var(--leading-normal);
   --type-editorial-size-phone: var(--text-xl);
   --type-editorial-weight: var(--weight-regular);
   --type-editorial-leading: var(--leading-snug);
@@ -610,6 +662,16 @@
   --space-3xl: 4rem;     /* 64px */
   --space-4xl: 6rem;     /* 96px */
 
+  /* The numbered circle (designer, 2026-10-13): every numbered list that sets
+     its numbers in circles uses these. A 16px numeral in a 28px navy circle,
+     the smallest that holds it comfortably, with the copy 16px past it. */
+  --number-circle-size: calc(var(--space-lg) + var(--space-2xs)); /* 28px */
+  --number-circle-numeral: var(--text-md);                       /* 16px */
+  --number-circle-gap: var(--space-md);                          /* 16px */
+  --number-list-gap: var(--space-md);                            /* 16px between items */
+  --number-circle-fill: var(--color-surface-inverse);
+  --number-circle-ink: var(--color-text-inverse);
+
   /* The gap between paragraphs, or items, of body copy stacked in one place:
      a card's reads, a list of what something shows. Not between a label and
      the line under it, which stay close. */
@@ -623,6 +685,16 @@
   --space-feature-padding: var(--space-md-lg);  /* inside a feature card, which holds more */
   --space-eyebrow-title: var(--space-2xs); /* an eyebrow to the title under it */
   --space-title-copy: var(--space-xs);     /* a title to the copy under it */
+  /* A group title to what it names: more than the space a line of body copy
+     leaves, so the title reads as over its group (designer, 2026-10-13). */
+  --space-group-title: var(--space-sm);     /* 12px */
+  /* A card title to its list: wider than a group title's gap, so it reads as
+     over every item, not the first. */
+  --space-card-title: var(--space-md-lg);   /* 20px */
+  /* Bullets get their own rhythm, a step more than paragraphs (12px). */
+  --space-list-item: var(--space-md);       /* 16px */
+  /* Items split by hairlines: this much either side of the line. */
+  --space-divided-item: var(--space-md-lg); /* 20px */
   --space-copy-action: var(--space-md-lg); /* the copy to the button under it: the widest of the three, as wide as the card's padding */
 
   /* ---------------------------------------------------------------------------
@@ -910,6 +982,11 @@
   --brand-stone-800: #212121;
   --brand-stone-900: #0c0c0c;
   --brand-white: #ffffff;
+  /* Google's G at the same luminance; its dark button is already grey. */
+  --brand-google-blue: #888888;
+  --brand-google-green: #939393;
+  --brand-google-yellow: #c6c6c6;
+  --brand-google-red: #808080;
 
   --shadow-rgb: 0 0 0;
   --color-image-veil: rgb(0 0 0 / 0.6);

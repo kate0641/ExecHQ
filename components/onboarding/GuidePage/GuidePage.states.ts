@@ -25,7 +25,7 @@ export const guidePageStates = defineComponentStates({
   variants: [
     {
       label: "Cover",
-      props: { cover: true, title: GUIDE_C3.welcome.title, lede: GUIDE_C3.welcome.lede, primaryLabel: GUIDE_C3.welcome.cta, onPrimary: noop },
+      props: { cover: true, wordmark: true, title: GUIDE_C3.welcome.title, lede: GUIDE_C3.welcome.lede, primaryLabel: GUIDE_C3.welcome.cta, onPrimary: noop },
     },
     {
       label: "A page with its note",
