@@ -13108,11 +13108,50 @@ ul.login__never {
   --sky-top-core: var(--color-sky-heart-light);
 }
 
+/* Dusk is the sun going down into night (designer, 2026-10-14, option 2a):
+   a small peach centre, then peach turning into blue 500. Half of that turn
+   goes round the colour wheel (in oklch), which passes through mauve and
+   dusty pink, and half goes straight across (in oklab), which keeps them
+   soft. Every colour named is a palette step; only the shades between are
+   blended. The blue eases out over the last stretch rather than stopping,
+   so it leaves no edge, and the fade under it starts from the same blue. */
 .device__screen:has(.map-home__greeting[data-sky="dusk"]) {
   --sky-top-edge: var(--color-sky-dusk-edge-top);
-  --sky-top-core-size: 55% 24%;
   --sky-top-ring: var(--color-sky-dusk-top-ring);
   --sky-top-core: var(--color-sky-dusk-top-core);
+  --home-sky-full:
+    radial-gradient(ellipse 60% 26% at 50% 0, var(--sky-top-core), transparent),
+    radial-gradient(
+      ellipse 130% 85% at 50% 0 in oklch,
+      color-mix(in oklab, var(--sky-top-ring) 50%, transparent) 0%,
+      color-mix(in oklab, var(--sky-top-edge) 50%, transparent) 58%,
+      transparent 100%
+    ),
+    radial-gradient(
+      ellipse 130% 85% at 50% 0 in oklab,
+      var(--sky-top-ring) 0%,
+      var(--sky-top-edge) 58%,
+      color-mix(in oklab, var(--sky-top-edge) 97%, transparent) 62.2%,
+      color-mix(in oklab, var(--sky-top-edge) 90%, transparent) 66.4%,
+      color-mix(in oklab, var(--sky-top-edge) 78%, transparent) 70.6%,
+      color-mix(in oklab, var(--sky-top-edge) 65%, transparent) 74.8%,
+      color-mix(in oklab, var(--sky-top-edge) 50%, transparent) 79%,
+      color-mix(in oklab, var(--sky-top-edge) 35%, transparent) 83.2%,
+      color-mix(in oklab, var(--sky-top-edge) 22%, transparent) 87.4%,
+      color-mix(in oklab, var(--sky-top-edge) 10%, transparent) 91.6%,
+      color-mix(in oklab, var(--sky-top-edge) 3%, transparent) 95.8%,
+      transparent 100%
+    ),
+    linear-gradient(
+      in oklab,
+      var(--sky-top-edge) 0%,
+      var(--sky-top-edge) 10%,
+      color-mix(in oklab, var(--sky-top-edge) 80%, var(--color-surface)) 25%,
+      color-mix(in oklab, var(--sky-top-edge) 50%, var(--color-surface)) 45%,
+      color-mix(in oklab, var(--sky-top-edge) 22%, var(--color-surface)) 65%,
+      color-mix(in oklab, var(--sky-top-edge) 6%, var(--color-surface)) 85%,
+      var(--color-surface) 100%
+    );
 }
 
 /* Night is day's sky with the sun put out (designer, 2026-10-11): the

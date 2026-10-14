@@ -322,13 +322,16 @@
   --color-sky-dusk-heart: var(--brand-orange-400);
   --color-sky-dusk-ring: var(--brand-orange-300);
   --color-sky-dusk-outer: var(--brand-blue-600);
-  --color-sky-dusk-edge-top: var(--brand-blue-400);
+  /* Dusk is the sun going down into night (designer, 2026-10-14): a peach
+     glow at the top that turns dusty mauve on its way into blue 500, a step
+     deeper than day's, which then eases out into the page. */
+  --color-sky-dusk-edge-top: var(--brand-blue-500);
   /* Each sky radiates from the top in three melting layers, as dawn does
      (designer, 2026-10-10): a centre, a ring round it, the sky beyond. */
   --color-sky-day-top-core: var(--brand-yellow-300);  /* a golden centre (designer, 2026-10-10) */
   --color-sky-day-top-ring: var(--brand-green-300);  /* lime, so day runs through three hues as dawn and dusk do: yellow, lime, blue (designer, 2026-10-11) */
-  --color-sky-dusk-top-core: var(--brand-yellow-400);
-  --color-sky-dusk-top-ring: var(--brand-orange-400);
+  --color-sky-dusk-top-core: var(--brand-orange-200);
+  --color-sky-dusk-top-ring: var(--brand-orange-300);
   --color-sky-night-top-core: var(--brand-blue-900);  /* the darkest navy where day has its golden centre (designer, 2026-10-11) */
   --color-sky-night-top-ring: var(--brand-blue-800);
   --color-sky-night-top: var(--brand-blue-900);
