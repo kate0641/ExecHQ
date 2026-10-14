@@ -132,8 +132,6 @@ import { draftToolBarStates } from "./toolbox/DraftToolBar/DraftToolBar.states";
 import { toolPickerStates } from "./toolbox/ToolPicker/ToolPicker.states";
 import { iconRowStates } from "./navigation/IconRow/IconRow.states";
 import { progressStepperStates } from "./navigation/ProgressStepper/ProgressStepper.states";
-import { mindStartStates } from "./toolbox/MindStart/MindStart.states";
-import { pickUpStates } from "./toolbox/PickUp/PickUp.states";
 import { artifactActionsStates } from "./toolbox/ArtifactActions/ArtifactActions.states";
 import { libraryEmptyStates } from "./toolbox/LibraryEmpty/LibraryEmpty.states";
 import { workspacePanelStates } from "./toolbox/WorkspacePanel/WorkspacePanel.states";
@@ -271,8 +269,6 @@ export const registry: RegisteredComponent[] = [
   toolPickerStates,
   iconRowStates,
   progressStepperStates,
-  mindStartStates,
-  pickUpStates,
   artifactActionsStates,
   libraryEmptyStates,
   workspacePanelStates,

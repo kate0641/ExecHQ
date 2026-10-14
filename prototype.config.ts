@@ -226,12 +226,6 @@ export const prototypeConfig: PrototypeConfig = {
       },
       concepts: [
         {
-          slug: "concept-1",
-          title: "Concept 1 — Tool cards",
-          summary:
-            "The tool for her next plan step leads with its drawing (a bento on tablet and web, one row and three icons on a phone), then What’s on your mind? and Pick up where you left off. The library is its own page, from Library at the top right. Tools open as guided steps.",
-        },
-        {
           slug: "concept-2",
           title: "Concept 2 — Starter row",
           summary:

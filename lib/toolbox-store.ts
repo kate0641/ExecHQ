@@ -31,13 +31,15 @@ export interface DraftState {
   passage?: string;
 }
 
-/** The Toolbox pages there are. Concept 3 was scratched on 13 October; its
- *  tool flow (the Interview) stays, and goes back to Concept 1. */
-export type ToolboxPage = "concept-1" | "concept-2";
-const TOOLBOX_PAGES: readonly string[] = ["concept-1", "concept-2"] satisfies ToolboxPage[];
+/** The Toolbox pages there are. Concept 3 was scratched on 13 October and
+ *  Concept 1 on 14 October (its next step and finding a tool went into
+ *  Concept 2); every tool flow concept goes back to Concept 2. */
+export type ToolboxPage = "concept-2";
+const TOOLBOX_PAGES: readonly string[] = ["concept-2"] satisfies ToolboxPage[];
 
 /** The Toolbox page a tool flow concept goes back to. */
-export const toolboxPageFor = (concept: string): ToolboxPage => (concept === "concept-2" ? "concept-2" : "concept-1");
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const toolboxPageFor = (concept: string): ToolboxPage => "concept-2";
 
 export interface ToolboxState {
   drafts: Readonly<Record<string, DraftState>>;

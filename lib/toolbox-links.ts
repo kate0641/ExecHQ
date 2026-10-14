@@ -28,7 +28,7 @@ const kindOfTool = (name?: string): ArtifactKind | undefined => TOOL_ORDER.find(
 export function useToolboxLinks() {
   const loop = useLoop();
   const toolbox = useToolbox();
-  const concept = toolbox.concept ?? "concept-1";
+  const concept = toolbox.concept ?? "concept-2";
   const flow = conceptHref("toolbox-flow", concept);
 
   const forRecord = (id: string) => `${flow}?artifact=${encodeURIComponent(id)}`;

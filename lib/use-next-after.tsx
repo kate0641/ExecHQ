@@ -46,7 +46,7 @@ export function nextAfterNow(record: LoopRecord, type: OutcomeType, scenario: st
     draft: toolbox.drafts[record.id],
     planShown: planShownNow(scenario, today),
     servedStepId: stepServed(record),
-    flowConcept: toolboxPageFor(toolbox.concept ?? "concept-1"),
+    flowConcept: toolboxPageFor(toolbox.concept ?? "concept-2"),
   });
 }
 
@@ -91,7 +91,7 @@ export function useNextAfter(
         draft,
         planShown,
         servedStepId: options.servedStepId ?? stepServed(record),
-        flowConcept: options.flowConcept ?? toolboxPageFor(toolbox.concept ?? "concept-1"),
+        flowConcept: options.flowConcept ?? toolboxPageFor(toolbox.concept ?? "concept-2"),
       })
     : resolveTaskNext(answer.type, planShown, "taskId" in answer ? answer.taskId : "");
 

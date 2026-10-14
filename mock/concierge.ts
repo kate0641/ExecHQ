@@ -115,8 +115,8 @@ export const CONCIERGE_COPY = {
     ],
     after: "Your next conversation with your manager is the place to start.",
   },
-  /** Finding the right tool, from what she said on the Toolbox (Concept 1's
-   *  "What's on your mind?", or his "Suggest a tool" prompt there). */
+  /** Finding the right tool, from his "Which tool do I need?" prompt on the
+   *  Toolbox. */
   findTool: {
     sounds: (tool: string, short: string) => `That sounds like a ${tool}: ${short.charAt(0).toLowerCase()}${short.slice(1)}.`,
     other: "Something else",

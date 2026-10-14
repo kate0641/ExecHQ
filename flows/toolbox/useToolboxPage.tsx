@@ -103,7 +103,7 @@ export function useToolboxPage(concept: ToolboxPage) {
    *
    *  In a folder (`folder`), the tool goes without saying: the row is the
    *  title, its status and the date it last changed, and what comes next. */
-  function itemOf(item: LibraryItem, options: { hideArea?: boolean; folder?: boolean; plain?: boolean }): ListItemData {
+  function itemOf(item: LibraryItem, options: { hideArea?: boolean; folder?: boolean }): ListItemData {
     const { record } = item;
     const source = item.reusedFrom
       ? FLOW_COPY.reusedFrom(item.reusedFrom)
@@ -127,11 +127,7 @@ export function useToolboxPage(concept: ToolboxPage) {
       primary: record.title,
       // The status leads the second line, so on a phone the title keeps the
       // width and only the menu sits at the end.
-      secondary: options.plain ? (
-        // A plain list (Concept 1's Library page): the tool and the date,
-        // nothing more (Kate, 13 Oct). Status is still the Status menu's filter.
-        [item.tool, shortDate(item.lastOn)].join(" · ")
-      ) : options.folder ? (
+      secondary: options.folder ? (
         <>
           <LoopStatus record={record} detail={false} className="library__status" />
           {" · "}
@@ -147,13 +143,11 @@ export function useToolboxPage(concept: ToolboxPage) {
         </>
       ),
       href: artifactHref(record.id),
-      leading: options.folder || options.plain ? undefined : { type: "icon", name: TOOL_ICONS[record.kind] },
+      leading: options.folder ? undefined : { type: "icon", name: TOOL_ICONS[record.kind] },
       trailing: {
         actions: (
           <>
-            {/* In a plain list every row looks the same: Close waits in the
-                menu with the other actions (Kate, 13 Oct). */}
-            {record.state === "outcome" && !options.plain ? (
+            {record.state === "outcome" ? (
               <Button
                 variant="secondary"
                 size="sm"
@@ -176,15 +170,15 @@ export function useToolboxPage(concept: ToolboxPage) {
   }
 
   /** Library rows as a list, one or two lines each, divided. */
-  const list = (items: readonly LibraryItem[], options: { hideArea?: boolean; folder?: boolean; plain?: boolean; label?: string } = {}): ReactNode =>
+  const list = (items: readonly LibraryItem[], options: { hideArea?: boolean; folder?: boolean; label?: string } = {}): ReactNode =>
     items.length ? (
       <List
         items={items.map((i) => itemOf(i, options))}
         label={options.label ?? C.heading}
         dividers="full"
         // Plain: no card around the rows, just the rows and the lines between them.
-        framed={!options.plain}
-        className={["library__rows", options.folder ? "library__rows--folder" : null, options.plain ? "library__rows--plain" : null].filter(Boolean).join(" ")}
+        framed
+        className={["library__rows", options.folder ? "library__rows--folder" : null].filter(Boolean).join(" ")}
       />
     ) : null;
 

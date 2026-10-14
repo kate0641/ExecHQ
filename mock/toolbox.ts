@@ -633,20 +633,6 @@ export const LIBRARY_COPY = {
   searchHint: "Searches titles and what they say.",
   noMatch: (q: string) => `Nothing in your library mentions “${q}”.`,
   clearSearch: "Clear search",
-  filters: {
-    all: "All",
-    tool: "Tool",
-    status: "Status",
-    area: "Plan area",
-    /** Concept 1's three menus, as a group. */
-    button: "Filter your library",
-    /** A menu's button once something is chosen: "Tool: Pitch Builder". */
-    chosen: (filter: string, choice: string) => `${filter}: ${choice}`,
-    showClosed: "Show closed",
-    clear: "Clear filters",
-    closedHidden: "closed hidden",
-    noneMatch: "Nothing in your library matches these filters.",
-  },
   /** "Last changed today", "Last changed on Tuesday". */
   edited: (when: string) => `Last changed ${when}`,
   versions: (n: number) => (n === 1 ? "1 version" : `${n} versions`),
@@ -740,33 +726,13 @@ export const LIBRARY_COPY = {
 export const TOOLBOX_PAGE = {
   title: "Toolbox",
   lead: "Four ways to make your next draft.",
-  /** Over the tool her next plan step needs (Concept 1). */
+  /** Over the tool her next plan step needs. */
   nextOnPlan: "Next on your plan",
   toolsLabel: "Tools",
-  /** Concept 1: the draft she touched last, and the others from 30 days. */
-  pickUp: {
-    heading: "Pick up where you left off",
-    more: (n: number) => `${n} more from the last 30 days`,
-    fewer: "Show fewer",
-    detail: (status: string, date: string) => `${status} · ${date}`,
-    /** How far back "more" reaches, in days. */
-    days: 30,
-  },
-  /** Concept 1, under the tools: what she says opens the advisor, who
-   *  suggests the tool. */
-  mind: {
-    label: "What’s on your mind?",
-    /** The field's placeholder. It has to fit beside the send arrow on a
-     *  phone, so it is shorter than the hint it replaced. */
-    hint: "ExecHQ will suggest a tool",
-    /** The send arrow's name. */
-    go: "Find the right tool",
-  },
-
 } as const;
 
 /** The rules for picking a tool from what she says (the advisor answering
- *  Toolbox Concept 1's "What's on your mind?"). The
+ *  "Which tool do I need?" on the Toolbox). The
  *  pilot's matching is rules-based, so it only places a few kinds of moment,
  *  and anything else asks rather than guesses. First match wins, so the
  *  things she names outright (a pitch, a post) come before the moments. */
@@ -781,7 +747,7 @@ export function matchMoment(text: string): ArtifactKind | undefined {
   return MOMENT_RULES.find((rule) => rule.words.test(text))?.kind;
 }
 
-/** Status filters (Concept 1), in the Loop's order, with the Sprint 2 names. */
+/** Statuses, in the Loop's order, with the Sprint 2 names. */
 export const STATUS_FILTERS: readonly { id: string; label: string; states: readonly string[] }[] = [
   { id: "draft", label: "Draft", states: ["drafted", "in-progress"] },
   { id: "ready", label: "Ready to use", states: ["ready"] },

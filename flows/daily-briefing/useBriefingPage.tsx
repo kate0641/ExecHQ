@@ -41,7 +41,7 @@ export function useBriefingPage() {
   const [open, setOpen] = useState<Open>(null);
   const [message, setMessage] = useState("");
   // The hand-off lands in the Toolbox concept the reviewer last opened.
-  const toolboxConcept = useToolbox().concept ?? "concept-1";
+  const toolboxConcept = useToolbox().concept ?? "concept-2";
   const respond = (readId: string, from?: "passage" | "selection") => respondHref(readId, from, toolboxConcept);
 
   // Opened from the Plan's "Read today's Briefing": reading one item, or
