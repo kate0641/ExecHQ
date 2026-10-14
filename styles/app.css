@@ -8300,10 +8300,12 @@ ol.ring-detail__timeline {
   color: var(--color-text-primary);
 }
 
+/* The segments sit 8px apart so each reads as its own stage (designer,
+   2026-10-13). */
 .guide__parts {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-3xs);
+  gap: var(--space-xs);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -15488,9 +15490,12 @@ ol.rtl__rail::before {
 
 /* Plan Concept 3: her direction above the road, as a soft row. Closed, her words are cut to one line;
    the row opens like an accordion and lets them run. */
+/* The system's white card, not a blue well (designer, 2026-10-13): the
+   raised surface with a soft edge. */
 .plan-direction {
+  border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-card);
-  background: var(--color-surface-sunken);
+  background: var(--color-surface-raised);
 }
 
 .plan-direction__head {
