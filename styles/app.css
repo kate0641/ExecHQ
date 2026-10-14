@@ -16920,6 +16920,7 @@ ul.plan-guided__sparks {
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
+  text-decoration: none;
   cursor: pointer;
 }
 
@@ -17774,12 +17775,6 @@ ul.plan-guided__sparks {
   background-color: transparent;
 }
 
-.briefing-saved__heading {
-  margin: 0;
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-}
-
 /* --- Where a draft came from ----------------------------------------------- */
 
 .source-label {
@@ -17820,26 +17815,167 @@ ul.plan-guided__sparks {
   color: var(--color-text-secondary);
 }
 
-/* --- Saved reads ----------------------------------------------------------- */
+/* --- Saved reads: their own page (option B, 14 Oct) ----------------------- */
 
-.briefing-saved {
+.saved-page {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
 }
 
-.briefing-saved__list {
+.saved-page__head {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: var(--space-3xs);
+}
+
+.saved-page__lead,
+.saved-page__removed {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.saved-page__undo {
+  min-height: 2.75rem;
+  padding: 0 var(--space-2xs);
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-link);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.saved-page__list {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.briefing-saved__empty {
-  margin: 0;
+.saved-page__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-sm) 0;
+}
+
+.saved-page__item + .saved-page__item {
+  border-top: var(--border-width-thin) solid var(--color-border);
+}
+
+.saved-page__item .briefing-picture--thumb {
+  width: 4rem;
+}
+
+/* The whole text is the button that opens the read. */
+.saved-page__open {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--color-text-primary);
+  text-align: left;
+  cursor: pointer;
+}
+
+.saved-page__open:hover .saved-page__headline {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.saved-page__open:focus-visible,
+.saved-page__remove:focus-visible,
+.saved-page__undo:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.saved-page__publisher {
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
   color: var(--color-text-secondary);
+}
+
+.saved-page__headline {
+  font-family: var(--font-serif);
+  font-size: var(--text-md);
+  line-height: var(--leading-snug);
+}
+
+.saved-page__why {
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+  color: var(--color-text-secondary);
+}
+
+.saved-page__when {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.saved-page__tag {
+  padding: 0 var(--space-xs);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-sunken);
+  font-weight: var(--weight-semibold);
+}
+
+/* The filled bookmark: pressing it removes the read, with Undo. */
+.saved-page__remove {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.saved-page__remove svg {
+  fill: currentColor;
+}
+
+.saved-page__remove:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.saved-page__empty {
+  padding: var(--space-xl) 0;
+  text-align: center;
+}
+
+.saved-page__empty-heading {
+  margin: 0 0 var(--space-2xs);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+}
+
+.saved-page__empty-body {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+[data-viewport="web"] .saved-page {
+  max-width: var(--content-measure);
 }
 
 .briefing-sheet .sheet__panel {

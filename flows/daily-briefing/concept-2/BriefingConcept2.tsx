@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { BriefingArticle } from "@/components/briefing/BriefingArticle";
 import { BriefingEnd } from "@/components/briefing/BriefingEnd";
 import { BriefingFront } from "@/components/briefing/BriefingFront";
@@ -35,12 +35,20 @@ const READ_HEADING = "briefing-read-heading";
  * no times. The pictures are stand-ins until image rights are settled.
  * Publishers are changed in Profile.
  */
-export function BriefingConcept2() {
+function BriefingConcept2Page() {
   const p = useBriefingPage();
   const { viewport } = useViewport();
   const web = viewport === "web";
   const [at, setAt] = useState<number | null>(null);
   if (p.firstVisit) return p.firstVisit;
+  // Saved, from the top right: its own page in this one's place.
+  if (p.savedView)
+    return (
+      <>
+        {p.savedPage}
+        {p.sheet}
+      </>
+    );
 
   const total = p.reads.length;
   /** Opens a read (reading it), or goes back to the front page. */
@@ -99,6 +107,16 @@ export function BriefingConcept2() {
       </Button>
       {p.sheet}
     </div>
+  );
+}
+
+// Saved is read from the address (`?view=saved`), which needs a Suspense
+// boundary or a full page load stays blank.
+export function BriefingConcept2() {
+  return (
+    <Suspense fallback={null}>
+      <BriefingConcept2Page />
+    </Suspense>
   );
 }
 
