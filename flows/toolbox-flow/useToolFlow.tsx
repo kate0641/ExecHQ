@@ -18,6 +18,8 @@ import { Icon } from "@/components/primitives/Icon";
 import { DraftEditor } from "@/components/toolbox/DraftEditor";
 import { DraftUseBar } from "@/components/toolbox/DraftUseBar";
 import { DropdownMenu } from "@/components/form/DropdownMenu";
+import { Sheet } from "@/components/layout/Sheet";
+import { recordedItems } from "@/lib/signal-picture";
 import { InputPanel } from "@/components/toolbox/InputPanel";
 import { RevisionControls, type RevisionChoice } from "@/components/toolbox/RevisionControls/RevisionControls";
 import { ToolUseCase } from "@/components/toolbox/ToolUseCase";
@@ -619,6 +621,8 @@ export function useToolFlow(concept: FlowConcept) {
 
   /** Each output used on its own: copied, and the bios exported. */
   const [sectionMessage, setSectionMessage] = useState("");
+  /** Delete asks first, in a sheet (the library's menu moved here, 14 Oct). */
+  const [deleting, setDeleting] = useState(false);
   const sectionActions = (section: { id: string; heading?: string }): ReactNode => {
     const name = section.heading ?? "";
     const one = version?.sections.filter((x) => x.id === section.id) ?? [];
@@ -712,32 +716,68 @@ export function useToolFlow(concept: FlowConcept) {
           header={
             <span className="tool-flow__draft-head">
               {record ? <LoopStatus record={record} /> : null}
-              {/* Concepts 1 and 2: once it is ready, Copy and the downloads are
-                  one menu in the draft's corner, so the bar holds only "I've used this". */}
-              {isReady ? (
+              {/* The draft's actions, in its corner, on every concept. Once it
+                  is ready, Copy and the downloads lead, so the bar holds only
+                  "I've used this". Then what the library's row menu held
+                  (Kate, 14 Oct): start a new draft from this one, close it,
+                  delete it. */}
+              {record ? (
                 <DropdownMenu
                   label={USE_COPY.actions}
                   align="end"
                   entries={[
+                    ...(isReady
+                      ? [
+                          {
+                            type: "item" as const,
+                            id: "copy",
+                            icon: "copy" as const,
+                            label: USE_COPY.copyFor[kind],
+                            onSelect: () => {
+                              copy();
+                              setSectionMessage(USE_COPY.copied);
+                            },
+                          },
+                          ...(exportable
+                            ? (["PDF", "Word"] as const).map((format) => ({
+                                type: "item" as const,
+                                id: format,
+                                icon: "download" as const,
+                                label: format === "PDF" ? USE_COPY.exportPdf : USE_COPY.exportWord,
+                                onSelect: () => setSectionMessage(USE_COPY.exported(format)),
+                              }))
+                            : []),
+                          { type: "separator" as const, id: "use-sep" },
+                        ]
+                      : []),
                     {
                       type: "item" as const,
-                      id: "copy",
-                      icon: "copy" as const,
-                      label: USE_COPY.copyFor[kind],
-                      onSelect: () => {
-                        copy();
-                        setSectionMessage(USE_COPY.copied);
-                      },
+                      id: "reuse",
+                      icon: "draft" as const,
+                      label: LIBRARY_COPY.actions.reuse,
+                      onSelect: () => router.push(`${conceptHref("toolbox-flow", concept)}?reuse=${encodeURIComponent(record.id)}`),
                     },
-                    ...(exportable
-                      ? (["PDF", "Word"] as const).map((format) => ({
-                          type: "item" as const,
-                          id: format,
-                          icon: "download" as const,
-                          label: format === "PDF" ? USE_COPY.exportPdf : USE_COPY.exportWord,
-                          onSelect: () => setSectionMessage(USE_COPY.exported(format)),
-                        }))
+                    ...(record.state !== "closed"
+                      ? [
+                          {
+                            type: "item" as const,
+                            id: "close",
+                            icon: "minus" as const,
+                            label: LIBRARY_COPY.actions.close,
+                            onSelect: () => {
+                              loopActions.close(record.id);
+                              setSectionMessage(LIBRARY_COPY.closed(record.title));
+                            },
+                          },
+                        ]
                       : []),
+                    {
+                      type: "item" as const,
+                      id: "delete",
+                      icon: "trash" as const,
+                      label: LIBRARY_COPY.actions.delete,
+                      onSelect: () => setDeleting(true),
+                    },
                   ]}
                 />
               ) : null}
@@ -756,6 +796,31 @@ export function useToolFlow(concept: FlowConcept) {
             touch();
           }}
         />
+        {record ? (
+          <Sheet open={deleting} onClose={() => setDeleting(false)} label={LIBRARY_COPY.deleteConfirm.heading(record.title)} className="toolbox-sheet">
+            <div className="artifact-actions artifact-actions--confirm">
+              <h2 className="artifact-actions__heading">{LIBRARY_COPY.deleteConfirm.heading(record.title)}</h2>
+              <p className="artifact-actions__body">{LIBRARY_COPY.deleteConfirm.body(recordedItems([record]).length)}</p>
+              <div className="artifact-actions__buttons">
+                <Button
+                  variant="danger"
+                  fullWidth
+                  onClick={() => {
+                    loopActions.remove(record.id);
+                    toolboxActions.remove(record.id);
+                    setDeleting(false);
+                    router.push(backHref);
+                  }}
+                >
+                  {LIBRARY_COPY.deleteConfirm.confirm}
+                </Button>
+                <Button variant="secondary" fullWidth onClick={() => setDeleting(false)}>
+                  {LIBRARY_COPY.deleteConfirm.keep}
+                </Button>
+              </div>
+            </div>
+          </Sheet>
+        ) : null}
       </>
     ) : null;
   const draftEditor = draftAs();
