@@ -16077,49 +16077,12 @@ fieldset.agenda__whens {
   border-radius: var(--radius-xl);
 }
 
-/* Each stage's colour comes from the sky showing (data-sky on the roadmap, day before the hour is known):
-   from the outside of the sky in, stage 1 its deepest step, stage 4 its glow. Words take the ink that
-   passes: the inverse ink only on the deep steps (dusk's first stage, night's first two). */
-.agenda--stack .agenda__stage { --stage-ink: var(--color-text-primary); --stage-eyebrow: var(--color-text-primary); }
-.agenda--stack .agenda__stage--0 { background-color: var(--stage-bg-1); z-index: 1; }
-.agenda--stack .agenda__stage--1 { background-color: var(--stage-bg-2); z-index: 2; }
-.agenda--stack .agenda__stage--2 { background-color: var(--stage-bg-3); z-index: 3; }
-.agenda--stack .agenda__stage--3 { background-color: var(--stage-bg-4); z-index: 4; }
-
-.agenda--stack,
-.agenda--stack[data-sky="day"] {
-  --stage-bg-1: var(--color-stage-day-1);
-  --stage-bg-2: var(--color-stage-day-2);
-  --stage-bg-3: var(--color-stage-day-3);
-  --stage-bg-4: var(--color-stage-day-4);
-}
-
-.agenda--stack[data-sky="dawn"] {
-  --stage-bg-1: var(--color-stage-dawn-1);
-  --stage-bg-2: var(--color-stage-dawn-2);
-  --stage-bg-3: var(--color-stage-dawn-3);
-  --stage-bg-4: var(--color-stage-dawn-4);
-}
-
-.agenda--stack[data-sky="dusk"] {
-  --stage-bg-1: var(--color-stage-dusk-1);
-  --stage-bg-2: var(--color-stage-dusk-2);
-  --stage-bg-3: var(--color-stage-dusk-3);
-  --stage-bg-4: var(--color-stage-dusk-4);
-}
-
-.agenda--stack[data-sky="night"] {
-  --stage-bg-1: var(--color-stage-night-1);
-  --stage-bg-2: var(--color-stage-night-2);
-  --stage-bg-3: var(--color-stage-night-3);
-  --stage-bg-4: var(--color-stage-night-4);
-}
-
-.agenda--stack[data-sky="dusk"] .agenda__stage--0,
-.agenda--stack[data-sky="night"] :is(.agenda__stage--0, .agenda__stage--1) {
-  --stage-ink: var(--color-text-inverse);
-  --stage-eyebrow: var(--color-text-inverse);
-}
+/* Navy in descending shades, stage 1 the darkest, with white words (designer, 2026-10-14). */
+.agenda--stack .agenda__stage { --stage-ink: var(--color-text-inverse); --stage-eyebrow: var(--color-text-inverse); }
+.agenda--stack .agenda__stage--0 { background-color: var(--color-stage-1); z-index: 1; }
+.agenda--stack .agenda__stage--1 { background-color: var(--color-stage-2); z-index: 2; }
+.agenda--stack .agenda__stage--2 { background-color: var(--color-stage-3); z-index: 3; }
+.agenda--stack .agenda__stage--3 { background-color: var(--color-stage-4); z-index: 4; }
 
 .agenda--stack .agenda__stage-button {
   display: flex;
