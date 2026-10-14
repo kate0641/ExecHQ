@@ -20311,6 +20311,13 @@ ul.plan-guided__sparks {
   transition: border-color var(--duration-fast) var(--easing-standard);
 }
 
+.tool-picker__lead-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  min-width: 0;
+}
+
 .tool-picker__lead .tool-picker__name {
   font-family: var(--font-display);
   letter-spacing: var(--font-display-tracking);
