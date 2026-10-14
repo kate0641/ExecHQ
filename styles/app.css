@@ -11968,6 +11968,12 @@ ul.stage-actions__list {
   display: none;
 }
 
+/* The Plan has no logo bar either (designer, 2026-10-13): the plan's own
+   stage bar opens the page, moves and check-in alike. */
+.chrome:has(.plan-guided) > .chrome__header {
+  display: none;
+}
+
 [data-viewport="mobile"] .profile__title {
   margin: calc(-1 * var(--space-screen-top)) calc(-1 * var(--space-screen-side)) 0;
   padding: var(--space-sm) var(--space-screen-side);
