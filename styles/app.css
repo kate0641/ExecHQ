@@ -15863,9 +15863,10 @@ ul.agenda__ask-list {
   list-style: none;
 }
 
-/* The questions about a step open the chat, so they look like the chat's own prompts: navy pills with
-   the advisor's mark, sized to their words and wrapping. They are the small size (about 32px), second to
-   the full-width start button; an invisible band keeps each one 44px to tap (designer, 2026-10-14). */
+/* The questions about a step open the chat, so they keep the chat's prompt shape and the advisor's mark,
+   sized to their words and wrapping. They are the same on every step, so they are quiet: the quiet surface, the small
+   size (about 32px), second to the blue start button, which is what changes from step to step
+   (designer, 2026-10-14). An invisible band keeps each one 44px to tap. */
 .agenda__ask-list {
   display: flex;
   flex-wrap: wrap;
@@ -15880,8 +15881,8 @@ ul.agenda__ask-list {
   padding: calc(var(--space-xs) * 0.75) var(--space-sm) calc(var(--space-xs) * 0.75) var(--space-xs);
   border: 0;
   border-radius: var(--radius-xl);
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
+  background-color: var(--color-surface-quiet);
+  color: var(--color-text-primary);
   font-family: var(--type-body-sm-font);
   font-size: var(--text-xs-plus);
   line-height: var(--leading-snug);
@@ -15899,7 +15900,12 @@ ul.agenda__ask-list {
 }
 
 .agenda__ask-pill:hover {
-  background-color: var(--color-surface-inverse-hover);
+  background-color: var(--color-surface-quiet-hover);
+}
+
+.agenda__ask-pill .advisor-mark,
+.agenda__ask-pill svg {
+  color: var(--color-text-secondary);
 }
 
 .agenda__ask-pill:focus-visible {

@@ -182,6 +182,10 @@
   --color-surface-hover: var(--brand-blue-100);
   --color-surface-active: var(--brand-blue-200);
   --color-surface-disabled: var(--brand-stone-200);  /* grey: off, never tappable */
+  /* A quiet prompt that repeats on every item, such as the questions under a roadmap step: grey with the
+     ink, so it never reads as off (designer, 2026-10-14). */
+  --color-surface-quiet: var(--brand-stone-200);
+  --color-surface-quiet-hover: var(--brand-stone-250);
   --color-surface-selected: var(--brand-blue-200); /* the item a detail pane is showing: a step stronger than hover */
   --color-surface-feature: var(--brand-blue-100);  /* the card that says what to do next, on trial */
   /* The four stages of a roadmap, tinted across the Calendar. The stage is always also
