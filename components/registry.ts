@@ -125,6 +125,7 @@ import { inputPanelStates } from "./toolbox/InputPanel/InputPanel.states";
 import { pickAnswerStates } from "./toolbox/PickAnswer/PickAnswer.states";
 import { enricherCardStates } from "./toolbox/EnricherCard/EnricherCard.states";
 import { outletCardStates } from "./toolbox/OutletCard/OutletCard.states";
+import { sendStepsStates } from "./toolbox/SendSteps/SendSteps.states";
 import { draftEditorStates } from "./toolbox/DraftEditor/DraftEditor.states";
 import { revisionControlsStates } from "./toolbox/RevisionControls/RevisionControls.states";
 import { versionHistoryStates } from "./toolbox/VersionHistory/VersionHistory.states";
@@ -263,6 +264,7 @@ export const registry: RegisteredComponent[] = [
   pickAnswerStates,
   enricherCardStates,
   outletCardStates,
+  sendStepsStates,
   draftEditorStates,
   revisionControlsStates,
   versionHistoryStates,

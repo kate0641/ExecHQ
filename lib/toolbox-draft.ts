@@ -454,7 +454,7 @@ export function pitchDraft(v: Record<string, string>): DraftSection[] {
 }
 
 /** Words in a section, her words and ExecHQ's, leaving out its questions. */
-function wordCount(section: DraftSection): number {
+export function wordCount(section: DraftSection): number {
   return section.segments
     .map((seg) => ("text" in seg ? seg.text : ""))
     .join("")

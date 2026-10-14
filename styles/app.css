@@ -13607,7 +13607,7 @@ ul.map-panel__list {
 
 .map-panel__text b {
   font-family: var(--type-subheading-font);
-  font-size: var(--text-base);
+  font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
 }
@@ -18511,6 +18511,126 @@ ul.plan-guided__sparks {
 .outlet-card__source > svg {
   flex: none;
   margin-top: var(--space-3xs);
+}
+
+/* --- Send it in four steps ------------------------------------------------- */
+
+.send-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding: var(--space-sm) var(--space-md);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface);
+  overflow-wrap: anywhere;
+}
+
+.send-steps__heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+}
+
+.send-steps__note {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.send-steps__list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.send-steps__step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding: var(--space-sm) 0;
+  border-top: var(--border-width-thin) solid var(--color-border);
+}
+
+.send-steps__step:last-child {
+  padding-bottom: 0;
+}
+
+.send-steps__tick .checkbox__label,
+.send-steps__mark {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.send-steps__mark {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  margin: 0;
+}
+
+/* Drawn to match the checkbox beside the other steps: it ticks itself. */
+.send-steps__box {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: var(--space-3xs);
+  border: var(--border-width-thin) solid var(--color-border-strong);
+  border-radius: var(--radius-xs);
+}
+
+.send-steps__step.is-done .send-steps__box {
+  border-color: var(--color-surface-inverse);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+}
+
+.send-steps__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  /* Under the step's title, not under its box. */
+  padding-left: calc(1.25rem + var(--space-sm));
+}
+
+.send-steps__text {
+  margin: 0;
+  font-size: var(--text-sm);
+}
+
+.send-steps__deadline {
+  font-weight: var(--weight-semibold);
+}
+
+.send-steps__extras {
+  margin: 0;
+  padding-left: var(--space-md);
+  list-style: disc;
+  font-size: var(--text-sm);
+}
+
+.send-steps__copies {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+}
+
+.send-steps__copies li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs);
 }
 
 /* --- The draft ------------------------------------------------------------- */

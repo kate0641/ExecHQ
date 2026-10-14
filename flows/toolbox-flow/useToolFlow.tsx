@@ -8,6 +8,7 @@ import { Input } from "@/components/form/Input";
 import { Button } from "@/components/primitives/Button";
 import { EnricherCard } from "@/components/toolbox/EnricherCard";
 import { OutletCard } from "@/components/toolbox/OutletCard";
+import { SendSteps, type SendCopy } from "@/components/toolbox/SendSteps";
 import { List, type ListItemData } from "@/components/layout/List";
 import { TOOL_ICONS } from "@/components/toolbox/ToolPicker/ToolPicker";
 import { respondHref } from "@/lib/briefing-store";
@@ -28,7 +29,7 @@ import { VersionHistory } from "@/components/toolbox/VersionHistory";
 import { addDays, aheadPhrase, createRecord, daysBetween, datePhrase, outcomeReadback, shortDate, type LoopRecord } from "@/lib/loop";
 import { currentSnapshot, getLoopState, loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
-import { briefDraft, draftText, firstDraft, pitchDraft, positioningDraft, revise, revisionLabel, statementOnly } from "@/lib/toolbox-draft";
+import { briefDraft, draftText, firstDraft, wordCount, pitchDraft, positioningDraft, revise, revisionLabel, statementOnly } from "@/lib/toolbox-draft";
 import { toolboxActions, toolboxPageFor, useToolbox, type DraftState } from "@/lib/toolbox-store";
 import { TODAYS_READS } from "@/mock/briefing";
 import { ARTIFACT_KINDS, FOLLOW_UP_POLICY, type ArtifactKind } from "@/mock/loop";
@@ -68,6 +69,7 @@ import {
   VERSION_COPY,
   outletFor,
   pitchTypeOf,
+  SEND_STEPS_COPY,
   type DraftSection,
   type DraftSegment,
   type ToolInput,
@@ -695,6 +697,55 @@ export function useToolFlow(concept: FlowConcept) {
       : USE_COPY.exportable[record.kind]
     : false;
 
+  /** Send it in four steps, under a pitch's draft (Kate, 14 Oct). */
+  const pitchOutlet = kind === "pitch" ? outletFor(draft?.inputs.target) : undefined;
+  const words = (part: string): number | undefined => {
+    const section = version?.sections.find((x) => x.id === part);
+    if (!section) return undefined;
+    const edited = edits[part];
+    return edited ? edited.split(/\s+/).filter(Boolean).length : wordCount(section);
+  };
+  const openQuestions = version
+    ? version.sections
+        .filter((section) => !edits[section.id])
+        .flatMap((section) => section.segments)
+        .filter((seg) => "question" in seg && !draft?.answers[seg.question]).length
+    : 0;
+  /** One part of the draft as text to paste: a subject line is the first one. */
+  const copyPart = (what: SendCopy, label: string) => {
+    let text = "";
+    if (what === "address") text = pitchOutlet?.contact?.route === "email" ? pitchOutlet.contact.address : "";
+    else {
+      const section = version?.sections.find((x) => x.id === what);
+      if (section) {
+        const one = what === "subjects" ? { ...section, heading: undefined, segments: section.segments.slice(0, 1), list: false } : { ...section, heading: undefined };
+        text = edits[what] ?? draftText([one], {}, draft?.answers ?? {});
+      }
+    }
+    try {
+      navigator.clipboard?.writeText(text).catch(() => undefined);
+    } catch {
+      // The prototype says it copied either way; nothing depends on it.
+    }
+    setSectionMessage(SEND_STEPS_COPY.copied(label));
+  };
+  const sendSteps: ReactNode =
+    kind === "pitch" && draft?.inputs.target?.trim() ? (
+      <SendSteps
+        key={artifactId}
+        name={draft.inputs.target}
+        type={pitchTypeOf(draft.inputs.type)}
+        outlet={pitchOutlet}
+        today={loop.today}
+        words={pitchOutlet?.ask?.limit ? words(pitchOutlet.ask.limit.part) : undefined}
+        openQuestions={openQuestions}
+        sentOn={record?.usedOn}
+        checkBackDays={ARTIFACT_KINDS.pitch.checkBackDays}
+        bioHref={`${conceptHref("toolbox-flow", concept)}?tool=positioning`}
+        onCopy={copyPart}
+      />
+    ) : null;
+
   /** The draft in one of its looks: `clean` (Concept 1) and `page`
    *  (Concept 2) once she has marked it ready, with `onReopen` going back
    *  to the working draft. */
@@ -752,7 +803,7 @@ export function useToolFlow(concept: FlowConcept) {
                                 id: format,
                                 icon: "download" as const,
                                 label: format === "PDF" ? USE_COPY.exportPdf : USE_COPY.exportWord,
-                                onSelect: () => setSectionMessage(USE_COPY.exported(format)),
+                                onSelect: () => setSectionMessage(kind === "pitch" && draft.inputs.target?.trim() ? USE_COPY.exportedPitch(format) : USE_COPY.exported(format)),
                               }))
                             : []),
                           { type: "separator" as const, id: "use-sep" },
@@ -804,6 +855,7 @@ export function useToolFlow(concept: FlowConcept) {
             touch();
           }}
         />
+        {sendSteps}
         {record ? (
           <Sheet open={deleting} onClose={() => setDeleting(false)} label={LIBRARY_COPY.deleteConfirm.heading(record.title)} className="toolbox-sheet">
             <div className="artifact-actions artifact-actions--confirm">

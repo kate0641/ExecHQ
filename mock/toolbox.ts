@@ -521,6 +521,8 @@ export const USE_COPY = {
   pdfShort: "PDF",
   wordShort: "Word",
   exported: (format: string) => `Downloading as ${format}.`,
+  /** A pitch's file starts with where it goes and the four steps, so it works on its own (Kate, 14 Oct). */
+  exportedPitch: (format: string) => `Downloading as ${format}, starting with where it goes and the four steps.`,
   markReady: "Mark ready",
   /** "Mark published", "Mark sent", "Mark used". */
   markUsed: (kind: ArtifactKind) => `Mark ${ARTIFACT_KINDS[kind].usedLabel.toLowerCase()}`,
@@ -1191,6 +1193,49 @@ export const OUTLET_COPY = {
   howDefault: "Email it once you have a contact: the first subject line, the pitch as the body.",
   /** The pitch doesn't fit their limit: a question in the draft. */
   overLimit: (words: number, now: number) => `They ask for ${words} words. This is ${now}. What can go?`,
+} as const;
+
+/** Send it in four steps (Kate, 14 Oct): under the draft, filled in from
+ *  Where it goes. Ticking a step is hers alone; nothing is sent. */
+export const SEND_STEPS_COPY = {
+  heading: "Send it in four steps",
+  note: "Ticks are only for you. ExecHQ never sends anything for you.",
+  check: {
+    title: "Check it against what they asked for",
+    wants: (name: string, format: string, topics: string) => `${name} wants ${format[0].toLowerCase()}${format.slice(1)}, on ${topics[0].toLowerCase()}${topics.slice(1)}.`,
+    words: (part: string, words: number, limit: number) =>
+      words > limit ? `Your ${part.toLowerCase()} is ${words} words; they allow ${limit}.` : `Your ${part.toLowerCase()} is ${words} words, inside their ${limit}.`,
+    noAsk: (watch: string) => `They don’t say what they want, so check it against three recent ${watch}.`,
+    internal: "Check it says what the agenda needs from you, in a line.",
+    open: (n: number) => (n === 1 ? "One question is still open in the draft." : `${n} questions are still open in the draft.`),
+  },
+  extras: {
+    title: "Get the extras ready",
+    none: "Nothing to attach.",
+    unknown: "They don’t list anything. A short bio and a link to a past talk or post cover most asks.",
+    makeBio: "Make it in Positioning Builder",
+  },
+  send: {
+    title: "Send it their way",
+    form: (label: string, url: string) => `Fill in their ${label.toLowerCase()} at ${url}:`,
+    email: (to: string) => `Email ${to}: the subject line you chose in the subject, the pitch as the body.`,
+    emailTo: (person: string, address: string) => `${person} at ${address}`,
+    noContact: "Find who receives it first (the question above), then email it: a subject line in the subject, the pitch as the body.",
+    internal: "Send it to whoever decides the agenda, the way people usually get on it.",
+    before: (date: string) => `Before ${date}.`,
+    copy: "Copy",
+    address: "Address",
+    field: (field: string, part: string) => `${field}: your ${part.toLowerCase()}`,
+  },
+  sent: {
+    title: "Mark it sent, and put the follow-up in your diary",
+    done: "(done)",
+    before: (days: number) =>
+      `Mark sent records where and when. ExecHQ asks what came of it ${days} days later, and the follow-up in the draft is for a week after you send it.`,
+    after: (on: string, followUp: string, ask: string) => `Sent ${on}. Send the follow-up ${followUp} if you’ve heard nothing; ExecHQ asks what came of it ${ask}.`,
+  },
+  /** What a copy says it copied. */
+  copied: (what: string) => `${what} copied.`,
 } as const;
 
 /* -----------------------------------------------------------------------------
