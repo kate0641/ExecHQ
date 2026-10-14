@@ -32,13 +32,13 @@ export interface ToolPickerProps {
    * - `chips`: one row of chips that scrolls sideways.
    * - `icons`: one row of four that fits the width, each an icon over a short
    *   name, so nothing scrolls and the library keeps the first screen
-   *   (Concept 2). With a `lead`, the next step's tool is one row above them.
+   *   (Concept 2). With a `lead`, the next step's tool is one row under them.
    * - `lead`: the tool for her next plan step leads, with the detailed
    *   drawing; the other three follow (Concept 1). See `compact`.
    */
   layout: "tiles" | "chips" | "icons" | "lead";
   /** `lead`: the tool that leads; without one, the four are tiles. `icons`:
-   *  the next step's row above the four; without one, the four alone. */
+   *  the next step's row under the four; without one, the four alone. */
   lead?: ToolLead;
   /** `lead` only: on a phone, the lead is one row and the other three are
    *  icons under it, so the library starts on the first screen. Otherwise a
@@ -64,7 +64,6 @@ export function ToolPicker({ hrefFor, layout, lead, compact = false, label = "To
   if (shape === "icons") {
     return (
       <nav className={["tool-picker", "tool-picker--icons", lead ? "tool-picker--with-lead" : null, className].filter(Boolean).join(" ")} aria-label={label}>
-        {lead ? <LeadRow lead={lead} demo={demo} /> : null}
         <IconRow
           size="lg"
           twoLines
@@ -77,6 +76,7 @@ export function ToolPicker({ hrefFor, layout, lead, compact = false, label = "To
             icon: TOOL_ICONS[kind],
           }))}
         />
+        {lead ? <LeadRow lead={lead} demo={demo} /> : null}
       </nav>
     );
   }

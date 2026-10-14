@@ -20262,9 +20262,9 @@ ul.plan-guided__sparks {
 }
 
 /* ===========================================================================
-   LIBRARY FOLDERS (Toolbox Concept 2, option A) — one folder per tool, from
-   the folder tokens: a tab at the top left joined to the body, a tint per
-   tool, the tool's name and drawing on every folder.
+   LIBRARY FOLDERS (Toolbox Concept 2, option A; look D, 14 Oct) — one card
+   per tool, no folder drawing: the tool's icon in a disc tinted from the
+   folder tokens, then the name, what is inside and when it last changed.
    ======================================================================== */
 
 .library-folder--positioning { --folder-tint: var(--folder-positioning); }
@@ -20273,64 +20273,44 @@ ul.plan-guided__sparks {
 .library-folder--thought-leadership { --folder-tint: var(--folder-thought-leadership); }
 
 .library-folder {
-  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--space-2xs);
-  margin: var(--space-sm) 0 0;
+  margin: 0;
   padding: var(--space-sm);
-  border: var(--border-width-thin) solid var(--folder-edge);
-  border-radius: 0 var(--folder-radius) var(--folder-radius) var(--folder-radius);
-  background-color: var(--folder-tint);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
   font: inherit;
   color: var(--color-text-primary);
   text-align: left;
 }
 
-/* The tab: a strip raised above the top left, its right edge cut on a slant. */
-.library-folder::before {
-  content: "";
-  position: absolute;
-  left: calc(-1 * var(--border-width-thin));
-  top: calc(-1 * var(--space-sm));
-  width: 46%;
-  height: var(--space-sm);
-  border: var(--border-width-thin) solid var(--folder-edge);
-  border-bottom: 0;
-  border-radius: var(--folder-radius) 0 0 0;
+.library-folder__disc {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-pill);
   background-color: var(--folder-tint);
-  clip-path: polygon(0 0, 78% 0, 100% 100%, 0 100%);
-}
-
-/* Joins the tab to the body, over the body's top border. */
-.library-folder::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: calc(-1 * var(--border-width-thin));
-  width: calc(46% - 2 * var(--border-width-thin));
-  height: calc(2 * var(--border-width-thin));
-  background-color: var(--folder-tint);
+  color: var(--illustration-ink);
 }
 
 .library-folder--button {
   min-height: 7.5rem;
   cursor: pointer;
+  transition: border-color var(--duration-fast) var(--easing-standard);
 }
 
 .library-folder--button:hover,
 .library-folder--button.is-hover {
-  border-color: var(--color-text-primary);
-}
-
-.library-folder--button:hover::before,
-.library-folder--button.is-hover::before {
-  border-color: var(--color-text-primary);
+  border-color: var(--color-border-strong);
 }
 
 .library-folder--button:active,
 .library-folder--button.is-active {
-  transform: translateY(1px);
+  background-color: var(--color-surface-active);
 }
 
 .library-folder--button:focus-visible,
@@ -20345,23 +20325,26 @@ ul.plan-guided__sparks {
   border-color: var(--color-text-primary);
 }
 
-.library-folder.is-current::before {
-  border-color: var(--color-text-primary);
-}
-
+/* The open folder's heading: the disc beside the name, no card. */
 .library-folder--header {
-  margin-bottom: 0;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  column-gap: var(--space-sm);
+  padding: 0;
+  border: 0;
+  background: none;
 }
 
 .library-folder--header:focus {
   outline: none;
 }
 
-.library-folder__top {
+.library-folder__text {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--space-xs);
+  flex-direction: column;
+  gap: var(--space-3xs);
+  min-width: 0;
 }
 
 .library-folder__name {
@@ -20529,8 +20512,8 @@ ul.plan-guided__sparks {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .library-folder--button:active {
-    transform: none;
+  .library-folder--button {
+    transition: none;
   }
 }
 

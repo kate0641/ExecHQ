@@ -235,7 +235,7 @@ export const prototypeConfig: PrototypeConfig = {
           slug: "concept-2",
           title: "Concept 2 — Starter row",
           summary:
-            "Next on your plan leads as one row, then the tools as one row of four icons; the library as four folders, one per tool, each opening to its list. What’s on your mind? is the advisor’s first prompt on the Toolbox. Tools open as a document workspace.",
+            "The tools as one row of four icons, then Next on your plan as one row; the library as four folders, one per tool, each opening to its list. What’s on your mind? is the advisor’s first prompt on the Toolbox. Tools open as a document workspace.",
         },
       ],
     },

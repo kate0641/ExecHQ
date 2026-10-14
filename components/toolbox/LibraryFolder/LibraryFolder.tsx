@@ -1,5 +1,5 @@
 import { Icon } from "@/components/primitives/Icon";
-import { ToolIllustration } from "@/components/toolbox/ToolIllustration";
+import { TOOL_ICONS } from "@/components/toolbox/ToolPicker/ToolPicker";
 import type { ArtifactKind } from "@/mock/loop";
 
 export interface LibraryFolderProps {
@@ -29,9 +29,10 @@ export interface LibraryFolderProps {
 
 /**
  * One of the library's folders: a folder per tool, filed by ExecHQ, never
- * made or moved by her. Its tab and tint come from the tool; its name and the
- * tool's drawing always sit on it, so the tint is never the only cue. It says
- * how many it holds, what state they are in, and when it last changed.
+ * made or moved by her. A plain card, no folder drawing (look D, 14 Oct): the
+ * tool's icon in a disc tinted for the tool, then its name, so the tint is
+ * never the only cue. It says how many it holds, what state they are in, and
+ * when it last changed.
  */
 export function LibraryFolder({
   tool,
@@ -58,14 +59,25 @@ export function LibraryFolder({
     .filter(Boolean)
     .join(" ");
 
-  const body = (
-    <>
-      <span className="library-folder__top">
+  const disc = (
+    <span className="library-folder__disc" aria-hidden="true">
+      <Icon name={TOOL_ICONS[tool]} size={20} />
+    </span>
+  );
+  const body =
+    as === "header" ? (
+      <>
+        {disc}
+        <span className="library-folder__text">
+          <span className="library-folder__name">{name}</span>
+          <span className="library-folder__summary">{summary}</span>
+        </span>
+      </>
+    ) : (
+      <>
+        {disc}
         <span className="library-folder__name">{name}</span>
-        <ToolIllustration tool={tool} level="simple" size={as === "header" ? 36 : 32} />
-      </span>
-      <span className="library-folder__summary">{summary}</span>
-      {as === "button" ? (
+        <span className="library-folder__summary">{summary}</span>
         <span className="library-folder__foot">
           <span className="library-folder__date">
             {date ? (
@@ -77,9 +89,8 @@ export function LibraryFolder({
           </span>
           <Icon name="chevron" size={16} className="library-folder__go" />
         </span>
-      ) : null}
-    </>
-  );
+      </>
+    );
 
   if (as === "header") {
     const Heading = `h${headingLevel}` as const;

@@ -60,9 +60,9 @@ function FolderList({ items, list, emptyBody }: { items: readonly LibraryItem[];
  * Toolbox, Concept 2 — Starter row and document workspace. One of the two
  * safe concepts.
  *
- * The tool her next plan step needs leads, as one row (Concept 1's "Next on
- * your plan", brought over 14 Oct). Under it the tools are one row of four
- * that fits the width, each an icon over a short name, so nothing scrolls.
+ * The tools are one row of four that fits the width, each an icon over a
+ * short name, so nothing scrolls. Under them, the tool her next plan step
+ * needs, as one row (Concept 1's "Next on your plan", brought over 14 Oct).
  * "What's on your mind?" isn't on the page: it is one of the advisor's
  * prompts on the Toolbox (14 Oct). The library is four folders, one per tool
  * (option A, chosen 11 October), filed by ExecHQ: each says how many it holds,

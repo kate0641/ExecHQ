@@ -11,7 +11,7 @@ export const libraryFolderStates = defineComponentStates({
   status: "draft",
   flows: ["toolbox"],
   description:
-    "One of the library's folders in Toolbox Concept 2: one per tool, filed by ExecHQ, never made or moved by her. A tab and a tint from the tool, with its name and drawing so the tint is never the only cue; how many it holds, where they stand, and when it last changed. A button in the grid; the heading of the open folder above its list.",
+    "One of the library's folders in Toolbox Concept 2: one per tool, filed by ExecHQ, never made or moved by her. A plain card (look D, 14 Oct): the tool's icon in a disc tinted for the tool, then its name, so the tint is never the only cue; how many it holds, where they stand, and when it last changed. A button in the grid; the heading of the open folder above its list.",
   component: LibraryFolder,
   notApplicable: {
     disabled: "A folder can always be opened, even empty.",

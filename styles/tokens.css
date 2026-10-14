@@ -739,14 +739,12 @@
   --illustration-card: var(--color-surface-feature);
   --illustration-card-border: var(--brand-blue-200);
   /* The library's folders (components/toolbox/LibraryFolder): one tint per
-     tool, always with the tool's name and drawing, so colour is never the
-     only cue. */
+     tool, for the disc behind the tool's icon, always with the tool's name,
+     so colour is never the only cue. */
   --folder-positioning: var(--brand-blue-200);
   --folder-pitch: var(--brand-yellow-200);
   --folder-situation-brief: var(--brand-stone-200);
   --folder-thought-leadership: var(--brand-blue-300);
-  --folder-edge: var(--color-border-strong);
-  --folder-radius: var(--radius-sm);
 
   /* ---------------------------------------------------------------------------
      PROGRESS STEPPER — numbered steps joined by lines (components/navigation/

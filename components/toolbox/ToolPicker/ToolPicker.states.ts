@@ -11,7 +11,7 @@ export const toolPickerStates = defineComponentStates({
   status: "draft",
   flows: ["toolbox"],
   description:
-    "The four tools, always first on the Toolbox. Tiles carry the name and a few words on what each makes: 2×2 on a phone, one row of four wider (Concept 1). Chips carry the name alone, in one row that scrolls sideways. Icons are one row of four that fits the width, an icon over a short name, so nothing scrolls (Concept 2); with a next step on her plan, that step's tool is one row above them. Lead puts the tool her next plan step needs first, with its detailed drawing: a bento on tablet and web, one row and three icons on a phone (Concept 1).",
+    "The four tools, always first on the Toolbox. Tiles carry the name and a few words on what each makes: 2×2 on a phone, one row of four wider (Concept 1). Chips carry the name alone, in one row that scrolls sideways. Icons are one row of four that fits the width, an icon over a short name, so nothing scrolls (Concept 2); with a next step on her plan, that step's tool is one row under them. Lead puts the tool her next plan step needs first, with its detailed drawing: a bento on tablet and web, one row and three icons on a phone (Concept 1).",
   component: ToolPicker,
   notApplicable: {
     ...FIXED_CONTENT,
@@ -23,7 +23,7 @@ export const toolPickerStates = defineComponentStates({
     { label: "Tiles — default", props: { layout: "tiles", hrefFor } },
     { label: "Chips", props: { layout: "chips", hrefFor } },
     { label: "Icons in one row (Concept 2)", props: { layout: "icons", hrefFor } },
-    { label: "Icons with the next step above (Concept 2)", props: { layout: "icons", lead, hrefFor } },
+    { label: "Icons with the next step under (Concept 2)", props: { layout: "icons", lead, hrefFor } },
     { label: "Icons with the next step — hover", props: { layout: "icons", lead, hrefFor, demo: "hover" } },
     { label: "Next step leads, bento (Concept 1, tablet and web)", props: { layout: "lead", lead, hrefFor } },
     { label: "Next step leads, compact (Concept 1, phone)", props: { layout: "lead", lead, compact: true, hrefFor } },
