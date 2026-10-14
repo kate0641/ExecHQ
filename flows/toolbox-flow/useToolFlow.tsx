@@ -69,6 +69,7 @@ import {
   TOOLS,
   VERSION_COPY,
   outletFor,
+  contactLine,
   pitchTypeOf,
   suggestedOutlets,
   SEND_STEPS_COPY,
@@ -755,6 +756,7 @@ export function useToolFlow(concept: FlowConcept) {
         words={pitchOutlet?.ask?.limit ? words(pitchOutlet.ask.limit.part) : undefined}
         openQuestions={openQuestions}
         sentOn={record?.usedOn}
+        sentTo={record?.channel ? (record.contact ? `${record.channel} (${record.contact})` : record.channel) : ""}
         checkBackDays={ARTIFACT_KINDS.pitch.checkBackDays}
         bioHref={`${conceptHref("toolbox-flow", concept)}?tool=positioning`}
         onCopy={copyPart}
@@ -942,6 +944,7 @@ export function useToolFlow(concept: FlowConcept) {
 
   const [sending, setSending] = useState(false);
   const [sentTo, setSentTo] = useState<string | null>(null);
+  const [sentContact, setSentContact] = useState<string | null>(null);
   const [sentOn, setSentOn] = useState<string | null>(null);
 
   const sentForm: ReactNode =
@@ -951,12 +954,21 @@ export function useToolFlow(concept: FlowConcept) {
         onSubmit={(event) => {
           event.preventDefault();
           const on = sentOn || loop.today;
-          loopActions.markUsed(record.id, { channel: (sentTo ?? draft?.inputs.target ?? "").trim() || undefined }, on <= loop.today ? on : loop.today);
+          loopActions.markUsed(
+            record.id,
+            { channel: (sentTo ?? draft?.inputs.target ?? "").trim() || undefined, contact: (sentContact ?? contactLine(pitchOutlet)).trim() || undefined },
+            on <= loop.today ? on : loop.today
+          );
           setSending(false);
         }}
       >
         <h2 className="tool-flow__sent-heading">{TOOL_COPY.sent.heading}</h2>
         <Input label={`${TOOL_COPY.sent.to} (${INPUT_COPY.optional.toLowerCase()})`} value={sentTo ?? draft?.inputs.target ?? ""} onChange={(e) => setSentTo(e.target.value)} />
+        <Input
+          label={`${TOOL_COPY.sent.contact} (${INPUT_COPY.optional.toLowerCase()})`}
+          value={sentContact ?? contactLine(pitchOutlet)}
+          onChange={(e) => setSentContact(e.target.value)}
+        />
         <Input label={TOOL_COPY.sent.on} type="date" value={sentOn ?? loop.today} max={loop.today} onChange={(e) => setSentOn(e.target.value)} />
         <div className="tool-flow__sent-actions">
           <Button type="submit">{TOOL_COPY.sent.confirm}</Button>
@@ -1059,7 +1071,8 @@ export function useToolFlow(concept: FlowConcept) {
     if (want >= 1 && now < 1) loopActions.markReady(id, days ? { checkBackDays: days } : undefined);
     if (want >= 2 && now < 2) {
       const channel = r.kind === "pitch" ? (draft?.inputs.target || example("target")) : undefined;
-      loopActions.markUsed(id, { ...(channel ? { channel } : {}), ...(days ? { checkBackDays: days } : {}) });
+      const contact = r.kind === "pitch" ? contactLine(outletFor(channel)) : "";
+      loopActions.markUsed(id, { ...(channel ? { channel } : {}), ...(contact ? { contact } : {}), ...(days ? { checkBackDays: days } : {}) });
     }
   }
 

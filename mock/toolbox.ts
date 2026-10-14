@@ -958,6 +958,8 @@ export const TOOL_COPY = {
   sent: {
     heading: "Mark it sent",
     to: "Sent to",
+    /** Who received it: the person the outlet names, else its address or form. */
+    contact: "Contact",
     on: "When",
     confirm: "Mark sent",
     cancel: "Not yet",
@@ -1133,6 +1135,14 @@ export function outletFor(name: string | undefined): Outlet | undefined {
   return OUTLETS.find((o) => key(o.name) === key(name));
 }
 
+/** Who receives it, as "Sent to" keeps it: the person the outlet names, else
+ *  its address, else its form (Kate, 14 Oct). */
+export function contactLine(outlet: Outlet | undefined): string {
+  const c = outlet?.contact;
+  if (!c) return "";
+  return c.route === "email" ? (c.person ? `${c.person}, ${c.address}` : c.address) : `${c.label}, ${c.url}`;
+}
+
 /** Her "What are you pitching for?" answer, when it is one of the three. */
 export function pitchTypeOf(answer: string | undefined): PitchType | undefined {
   return answer === "Speaking" || answer === "Podcast" || answer === "Press" ? answer : undefined;
@@ -1243,7 +1253,7 @@ export const SEND_STEPS_COPY = {
     done: "(done)",
     before: (days: number) =>
       `Mark sent records where and when. ExecHQ asks what came of it ${days} days later, and the follow-up in the draft is for a week after you send it.`,
-    after: (on: string, followUp: string, ask: string) => `Sent ${on}. Send the follow-up ${followUp} if you’ve heard nothing; ExecHQ asks what came of it ${ask}.`,
+    after: (on: string, to: string, followUp: string, ask: string) => `Sent ${on}${to ? ` to ${to}` : ""}. Send the follow-up ${followUp} if you’ve heard nothing; ExecHQ asks what came of it ${ask}.`,
   },
   /** What a copy says it copied. */
   copied: (what: string) => `${what} copied.`,

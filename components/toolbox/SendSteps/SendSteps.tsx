@@ -25,6 +25,8 @@ export interface SendStepsProps {
   openQuestions?: number;
   /** The day she marked it sent, ISO: step 4 is done. */
   sentOn?: string;
+  /** Where and to whom she says it went, once sent. */
+  sentTo?: string;
   /** Days until ExecHQ asks what came of it. */
   checkBackDays?: number;
   /** Where a bio is made (Positioning Builder). */
@@ -50,6 +52,7 @@ export function SendSteps({
   words,
   openQuestions = 0,
   sentOn,
+  sentTo = "",
   checkBackDays = 5,
   bioHref,
   onCopy,
@@ -154,7 +157,7 @@ export function SendSteps({
 
   // 4. Mark it sent, and the follow-up.
   const sent = sentOn
-    ? C.sent.after(whenPhrase(sentOn, today), datePhrase(addDays(sentOn, 7)), aheadPhrase(addDays(sentOn, checkBackDays), today))
+    ? C.sent.after(whenPhrase(sentOn, today), sentTo, datePhrase(addDays(sentOn, 7)), aheadPhrase(addDays(sentOn, checkBackDays), today))
     : C.sent.before(checkBackDays);
 
   const steps: { title: string; body: ReactNode }[] = [

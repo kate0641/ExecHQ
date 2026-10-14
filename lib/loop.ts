@@ -75,7 +75,7 @@ export type LoopEvent =
   | { type: "drafted"; on: LoopDate }
   | { type: "edited"; on: LoopDate }
   | { type: "ready"; on: LoopDate; intendedUse?: string }
-  | { type: "used"; on: LoopDate; channel?: string }
+  | { type: "used"; on: LoopDate; channel?: string; contact?: string }
   | { type: "nothing-yet"; on: LoopDate; checkBackOn: LoopDate }
   | { type: "outcome"; on: LoopDate; outcome: OutcomeType }
   | { type: "closed"; on: LoopDate; reason: "done" | "abandoned" | "no-longer-relevant" };
@@ -100,6 +100,10 @@ export interface LoopRecord {
   usedOn?: LoopDate;
   /** Where or to whom it went. Optional. */
   channel?: string;
+  /** Who received it there: a person, or an address or form (a pitch's
+   *  contact, Kate 14 Oct). Optional. Kept apart from `channel`, which is the
+   *  outlet's tag on the Signal Picture. */
+  contact?: string;
   /** When the next follow-up is due, while waiting. */
   checkBackOn?: LoopDate;
   /** How many times the user has answered "Nothing yet". */
@@ -250,7 +254,7 @@ export function markReady(
 export function markUsed(
   record: LoopRecord,
   on: LoopDate,
-  answers: { channel?: string; checkBackDays?: number | null } = {}
+  answers: { channel?: string; contact?: string; checkBackDays?: number | null } = {}
 ): LoopRecord {
   assertCan(record, "use");
   const days =
@@ -264,8 +268,9 @@ export function markUsed(
     state: days === null ? "used" : "waiting",
     usedOn: on,
     channel: answers.channel ?? record.channel,
+    contact: answers.contact ?? record.contact,
     checkBackOn: days === null ? undefined : addDays(on, days),
-    history: [...record.history, { type: "used", on, channel: answers.channel }],
+    history: [...record.history, { type: "used", on, channel: answers.channel, contact: answers.contact }],
   };
 }
 

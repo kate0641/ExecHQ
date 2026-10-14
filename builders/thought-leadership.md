@@ -97,7 +97,7 @@ Rules for this builder:
 
 ### 3.1 Format rules
 
-Kate, 14 Oct; the numbers are **Proposed**. Each format has its own rules, and every draft keeps them. **In V1 they are fixed:** she can't change them. Letting her set her own (a post of at least 300 words, one cited source) is for a later version; see below.
+Kate, 14 Oct; she confirmed the word ranges. Each format has its own rules, and every draft keeps them. **In V1 they are fixed:** she can't change them. Letting her set her own (a post of at least 300 words, one cited source) is for a later version; see below.
 
 | Rule | LinkedIn post | Short article | Long-form article |
 | --- | --- | --- | --- |
@@ -110,7 +110,7 @@ Kate, 14 Oct; the numbers are **Proposed**. Each format has its own rules, and e
 How the draft keeps them:
 
 - **Length is a range, not a target.** Her Length answer picks where in the range the first draft sits: Short near the bottom, Standard in the middle, Long near the top. Shorter and Longer move within it, never out of it.
-- **The count shows.** The draft shows its word count against the range ("240 words · a post runs 150 to 300").
+- **Checked behind the scenes** (Kate, 14 Oct). The range is a guardrail the draft is held to, not something shown on it: no word count on the draft. What she sees are the questions below, when a draft falls outside it.
 - **Short of the range, it asks; it never pads.** "This is 110 words. What else would a reader need?" Over the range, it asks what can go: "This is 340 words. A post runs to 300. What can go?"
 - **A missing source is a question.** An article short of its sources leaves "What source backs this up?" in place. ExecHQ never finds, suggests or invents a citation to fill it.
 
@@ -183,4 +183,4 @@ Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and
 3. **Her positioning statement in the post.** "Goes with this" says the post draws on it for what she leads, but the draft doesn't use it yet. Use it, or take the promise off?
 4. **Article length.** Section 3.1 now gives each format a word range (600 to 900, and 1,200 to 2,000). Are those right, and are five and seven sections the right difference between them?
 5. **Next use for a read.** A post started from a Briefing read names no plan step. Should it say it answers the read, and when to post while the read is still current?
-6. **Format rules elsewhere.** If she can set her own format rules in a later version, do the other builders get the same (a pitch's length, the bios' three lengths), or is it Thought Leadership only?
+6. **Format rules elsewhere.** If she can set her own format rules in a later version, do the other builders get the same (a pitch's length, the bios' three lengths), or is it Thought Leadership only? Kate, 14 Oct: probably all of them; settle it when that version is planned.

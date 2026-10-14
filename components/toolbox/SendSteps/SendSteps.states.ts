@@ -29,7 +29,7 @@ export const sendStepsStates = defineComponentStates({
     { label: "Nothing published — empty", props: steps("scope-and-scale"), description: "No ask published: check against recent episodes; the extras most outlets want." },
     { label: "No contact published", props: steps("field-notes") },
     { label: "Inside her company", props: steps("q1-planning-review") },
-    { label: "Sent on Monday", props: { ...steps("marketing-leaders-podcast"), words: 96, ticked: [1, 2, 3], sentOn: "2026-10-12" } },
+    { label: "Sent on Monday", props: { ...steps("marketing-leaders-podcast"), words: 96, ticked: [1, 2, 3], sentOn: "2026-10-12", sentTo: "The Marketing Leaders podcast (Guest form, marketingleaders.example/guests)" } },
     {
       label: "A long name wraps",
       props: { ...steps("commercial-leader-quarterly"), outlet: { ...at("commercial-leader-quarterly"), name: "Commercial Leader Quarterly and the Revenue Operations Review, Europe" } },

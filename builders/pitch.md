@@ -91,6 +91,7 @@ Kate, 14 Oct; the details are **Proposed**. A card at the top of the draft, abov
 
 Rules:
 
+- **ExecHQ looks it up; her guidelines are optional** (Kate, 14 Oct). ExecHQ finds the outlet's own pages itself. It may offer "Have their guidelines? Paste them or add the link" to sharpen the card, but the card never waits for them: without them, it is built from what ExecHQ found.
 - **Published, or a question.** Every fact on the card comes from the outlet's own page, linked. ExecHQ never guesses an address, a name or a deadline, and never builds an address from a pattern (firstname@…).
 - **The draft fits the ask.** The pitch follows what they asked for: their length, their format, the topics they named, what to include. Where it can't (a word limit the proof won't fit), the draft says so as a question: "They ask for 150 words. This is 210. What can go?"
 - **Inside her company** (the Q1 planning review, the leadership forum), there is no public page. The card asks her: "Who decides the agenda?" and "How do people usually get on it?"
@@ -143,7 +144,7 @@ Kate, 14 Oct; the wording is **Proposed**. Under the draft, above Copy, numbered
 | --- | --- |
 | **Copy** | "Copy to send" |
 | **Export** | Download as PDF, Download as Word (Kate, 13 October). The export starts with Where it goes and the four steps, so the file works on its own. |
-| **Mark ready, then sent** | "Mark ready", then "Mark sent", which asks two things, both optional: Sent to (filled with the outlet and contact from Where it goes) and When (today, or an earlier day). Sending is always hers; ExecHQ never sends. |
+| **Mark ready, then sent** | "Mark ready", then "Mark sent", which asks three things, all optional: Sent to (filled with the outlet), Contact (the person the outlet names, else its address or form, from Where it goes; Kate, 14 Oct) and When (today, or an earlier day). Once sent, step 4 says where and to whom: "Sent today to Commercial Leader Quarterly (Dana Okafor, opinion editor, …)". Sending is always hers; ExecHQ never sends. |
 | **Check back** | 5 days after the day she sent it (**Proposed**) |
 | **The question** | "You sent your pitch for the Q1 planning review on Thursday. What came of it?" "Nothing yet" is the common answer for a pitch, and asks again later. |
 | **Signal Picture** | Once sent, where she sent it and what came of it, under the plan area it serves, tagged with where it went |
@@ -184,6 +185,6 @@ Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and
 3. **The ninety-second version** (Make the Move 3.1) is something she says, not sends. Is Pitch Builder the right tool for it, or the Situation Brief?
 4. **Talking to people in a new direction** (Chart a New Course 2.2) is an outreach note, not a pitch. Is Pitch Builder the right tool, or does it need its own type?
 5. **"About me".** The expanded version quotes her positioning statement, which for many people says where they are headed rather than why they are the one to speak. Use her short bio there instead, once it exists?
-6. **Looking outlets up.** Where it goes needs ExecHQ to read an outlet's public pages (a call for proposals, a contributor page). That is public information, not hers, but it is something V1 fetches rather than something she types. Does it fit "manual input only", or does V1 ask her to paste the outlet's guidelines and link, and ExecHQ reads those?
+6. **Looking outlets up.** Decided (Kate, 14 Oct): ExecHQ looks the outlet up itself, and may ask for her guidelines, but never needs them (section 3.1). This is the one place V1 reads something she didn't type: public pages about the outlet, never anything about her.
 7. **Suggesting outlets.** "Not sure yet" offers up to three outlets. Where does that list come from: a list ExecHQ keeps by audience and plan area, or a look-up each time?
 8. **Named editors.** Even when an outlet names an editor or producer on its own page, should ExecHQ show the name, or only the published route (the form, the pitches address)?
