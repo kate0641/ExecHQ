@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { AdvisorMark } from "@/components/chat/AdvisorMark";
 import { AddToPlanSheet } from "@/components/plan/AddToPlanSheet";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
@@ -286,28 +285,24 @@ function StepItem({
       {open ? (
         <div className="agenda__reveal">
           {step.stubbed ? (
-            <Button variant="primary" fullWidth disabled>
+            <Button variant="secondary" className="agenda__cta" disabled>
               {label}
             </Button>
           ) : tool ? (
-            <Link href={href} className="btn btn--primary btn--md btn--full agenda__cta" onClick={() => !item.accepted && onAccept(step)}>
+            <Link href={href} className="btn btn--secondary btn--md agenda__cta" onClick={() => !item.accepted && onAccept(step)}>
               {label}
             </Link>
           ) : item.accepted ? (
-            <Button variant="primary" fullWidth className="agenda__cta" onClick={() => onComplete(step)}>
+            <Button variant="secondary" className="agenda__cta" onClick={() => onComplete(step)}>
               {A.doneIt}
             </Button>
           ) : (
-            <Button variant="primary" fullWidth className="agenda__cta" onClick={() => onAccept(step)}>
+            <Button variant="secondary" className="agenda__cta" onClick={() => onAccept(step)}>
               {A.getStarted}
             </Button>
           )}
           <div className="agenda__ask">
-            <p className="agenda__ask-label">
-              <AdvisorMark size={14} />
-              {A.askLabel}
-            </p>
-            <ul className="agenda__ask-list">
+            <ul className="agenda__ask-list" aria-label={A.askLabel}>
               {STEP_QUESTIONS.map((q) => (
                 <li key={q.id}>
                   <button type="button" className="agenda__ask-row" onClick={() => onAsk(step, q.id)}>

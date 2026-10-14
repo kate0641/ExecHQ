@@ -15843,10 +15843,10 @@ ul.agenda__list {
   gap: var(--space-md);
 }
 
-/* The start button leads: full width, and the only filled thing on the card. */
+/* The start button in the roadmap is the light blue pill, its own width (designer, 2026-10-14): the
+   move above already leads with the yellow one, so here it stays quiet. */
 .agenda__reveal .agenda__cta {
-  min-height: 3rem;
-  font-weight: var(--weight-bold);
+  align-self: flex-start;
 }
 
 .agenda__ask {
@@ -15854,23 +15854,10 @@ ul.agenda__list {
   flex-direction: column;
 }
 
-.agenda__ask-label {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2xs);
-  margin: 0 0 var(--space-2xs);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-}
-
 ul.agenda__ask-list {
   margin: 0;
   padding: 0;
   list-style: none;
-  border-bottom: var(--border-subtle);
 }
 
 .agenda__ask-row {
@@ -15882,12 +15869,16 @@ ul.agenda__ask-list {
   width: 100%;
   padding: var(--space-sm) 0;
   border: 0;
-  border-top: var(--border-subtle);
   background: none;
   color: inherit;
   font: inherit;
   text-align: start;
   cursor: pointer;
+}
+
+/* Hairlines only between the questions: none above the first, none under the last. */
+.agenda__ask-list li + li .agenda__ask-row {
+  border-top: var(--border-subtle);
 }
 
 .agenda__ask-row:focus-visible {
@@ -16147,22 +16138,20 @@ fieldset.agenda__whens {
   color: var(--stage-fin);
 }
 
-/* Every step in one white panel, split by hairlines: its time as a small eyebrow over its title. Only a
-   step that opens carries a chevron. */
+/* Each step is its own white card on the stage colour (designer, 2026-10-14), so a step that opens keeps
+   everything it reveals inside its card, apart from the step after it. The stage's name and Finishing
+   line sit on the colour itself. Its time is a small eyebrow over its title; only a step that opens
+   carries a chevron. */
 .agenda--stack ul.agenda__list {
-  gap: 0;
-  padding-inline: var(--space-sm);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface-raised);
+  gap: var(--space-xs);
   color: var(--color-text-primary);
 }
 
 .agenda--stack .agenda__item {
-  padding: var(--space-sm) 0;
+  padding: var(--space-sm) var(--space-md);
   border: 0;
-  border-top: var(--border-width-thin) solid var(--color-border-subtle);
-  border-radius: 0;
-  background: none;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-raised);
 }
 
 .agenda--stack .agenda__item:first-child {
