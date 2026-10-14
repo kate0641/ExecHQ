@@ -13,7 +13,7 @@ import { conceptHref } from "@/lib/manifest";
 import { useViewport } from "@/lib/viewport-context";
 import type { ArtifactKind } from "@/mock/loop";
 import { LIBRARY_COPY, STATUS_FILTERS, TOOL_ORDER, TOOLS } from "@/mock/toolbox";
-import { useToolboxPage } from "../useToolboxPage";
+import { useLead, useToolboxPage } from "../useToolboxPage";
 
 const F = LIBRARY_COPY.folders;
 const OPEN_HEADING = "library-folder-open";
@@ -60,8 +60,11 @@ function FolderList({ items, list, emptyBody }: { items: readonly LibraryItem[];
  * Toolbox, Concept 2 — Starter row and document workspace. One of the two
  * safe concepts.
  *
- * The tools are one row of four that fits the width, each an icon over a
- * short name, so nothing scrolls. The library is four folders, one per tool
+ * The tool her next plan step needs leads, as one row (Concept 1's "Next on
+ * your plan", brought over 14 Oct). Under it the tools are one row of four
+ * that fits the width, each an icon over a short name, so nothing scrolls.
+ * "What's on your mind?" isn't on the page: it is one of the advisor's
+ * prompts on the Toolbox (14 Oct). The library is four folders, one per tool
  * (option A, chosen 11 October), filed by ExecHQ: each says how many it holds,
  * where they stand and when it last changed. On a phone the folders are 2×2
  * and one opens as its own page (`?folder=`), newest first, with a Back to
@@ -75,6 +78,7 @@ function FolderList({ items, list, emptyBody }: { items: readonly LibraryItem[];
  */
 function Concept2Page() {
   const p = useToolboxPage("concept-2");
+  const lead = useLead();
   const phone = useViewport().viewport === "mobile";
   const [picked, setPicked] = useState<ArtifactKind | null>(null);
   const router = useRouter();
@@ -168,7 +172,7 @@ function Concept2Page() {
   return (
     <div className="toolbox-page toolbox-page--c2">
       {p.header}
-      <ToolPicker layout="icons" hrefFor={(kind) => p.toolHref(kind)} />
+      <ToolPicker layout="icons" lead={lead} hrefFor={(kind) => p.toolHref(kind)} />
       <section className="library" aria-labelledby={p.libraryId}>
         {p.libraryHeader}
         {p.empty ??

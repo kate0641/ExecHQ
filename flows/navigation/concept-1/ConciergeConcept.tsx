@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { ChatComposer } from "@/components/chat/ChatComposer";
@@ -119,7 +119,7 @@ function closePanel(focusPill = true) {
 }
 
 /** The Loop as it stands this moment, read fresh when he replies. */
-function contextNow(destinations: NavDestination[]): ConciergeContext {
+function contextNow(destinations: NavDestination[], toolbox?: string): ConciergeContext {
   const snapshot = currentSnapshot(getLoopState());
   return {
     snapshot,
@@ -128,6 +128,7 @@ function contextNow(destinations: NavDestination[]): ConciergeContext {
     destinations,
     nextStepAfter,
     nextAfter: (record, type) => nextAfterNow(record, type, snapshot.id, snapshot.today),
+    toolbox,
   };
 }
 
@@ -268,6 +269,8 @@ function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { m
   const [draft, setDraft] = useState("");
   const bodyRef = useRef<HTMLDivElement>(null);
   const chatting = concierge.messages.length > 0;
+  // On a Toolbox page, the concept she is on: he offers to suggest a tool.
+  const toolbox = usePathname().match(/^\/toolbox\/(concept-\d+)/)?.[1];
   const ctx: ConciergeContext = {
     snapshot: loop,
     followUp: loop.followUp,
@@ -275,6 +278,7 @@ function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { m
     destinations,
     nextStepAfter,
     nextAfter: (record, type) => nextAfterNow(record, type, loop.id, loop.today),
+    toolbox,
   };
 
   // Keep the latest message in view. The panel's body is what scrolls.
@@ -303,11 +307,11 @@ function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { m
 
   function send(text: string, chosen?: ConciergeAction) {
     if (state.typing) return;
-    const action = chosen ?? understand(text, contextNow(destinations), state.asked, recentMisses());
+    const action = chosen ?? understand(text, contextNow(destinations, toolbox), state.asked, recentMisses());
     const you: Message = { id: nextId++, from: "you", text };
     // Going somewhere is said and done at once, with no typing pause.
     if (action.kind === "go" || action.kind === "start-tool") {
-      const { turn, effect } = respond(action, contextNow(destinations));
+      const { turn, effect } = respond(action, contextNow(destinations, toolbox));
       update({ messages: [...state.messages, you, { id: nextId++, from: "advisor", turn }], asked: undefined });
       setTimeout(() => applyEffect(effect, go), GO_MS);
       return;
@@ -316,7 +320,7 @@ function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { m
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     setTimeout(() => {
       // Read the Loop now, not when the message was sent.
-      const { turn, effect } = respond(action, contextNow(destinations));
+      const { turn, effect } = respond(action, contextNow(destinations, toolbox));
       applyEffect(effect, go);
       update({
         messages: [...state.messages, { id: nextId++, from: "advisor", turn }],

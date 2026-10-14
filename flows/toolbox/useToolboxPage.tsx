@@ -9,14 +9,36 @@ import { List, type ListItemData } from "@/components/layout/List";
 import { LoopStatus } from "@/components/loop/LoopStatus";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
-import { TOOL_ICONS } from "@/components/toolbox/ToolPicker/ToolPicker";
+import { TOOL_ICONS, type ToolLead } from "@/components/toolbox/ToolPicker/ToolPicker";
 import { editedWords, searchLibrary, libraryItems, type LibraryItem } from "@/lib/library";
 import { aheadPhrase, shortDate, type LoopRecord } from "@/lib/loop";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
+import { useToolboxLinks } from "@/lib/toolbox-links";
+import { PLAN_AGENDA_COPY, stepById } from "@/mock/plan";
 import { draftMeta, toolboxActions, useToolbox, type ToolboxPage } from "@/lib/toolbox-store";
 import type { ArtifactKind } from "@/mock/loop";
-import { FLOW_COPY, LIBRARY_COPY as C, TOOLBOX_PAGE, USE_COPY } from "@/mock/toolbox";
+import { FLOW_COPY, LIBRARY_COPY as C, TOOL_ORDER, TOOLBOX_PAGE, TOOLS, USE_COPY } from "@/mock/toolbox";
+
+/** The tool her next plan step needs: the first step on her plan that makes
+ *  something with a tool. None, and the four tools are equal. */
+export function useLead(): ToolLead | undefined {
+  const loop = useLoop();
+  const links = useToolboxLinks();
+  for (const rec of loop.recommendations) {
+    const step = stepById(rec.id);
+    const kind = TOOL_ORDER.find((k) => TOOLS[k].name === step?.toolboxTool);
+    if (step && kind) {
+      return {
+        kind,
+        step: step.title,
+        href: links.forStep(step.id),
+        action: links.hasDraft(step.id) ? PLAN_AGENDA_COPY.openDraft : TOOLS[kind].start,
+      };
+    }
+  }
+  return undefined;
+}
 
 export const TITLE_ID = "toolbox-title";
 const LIBRARY_ID = "library-heading";

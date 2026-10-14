@@ -10,17 +10,14 @@ import { MindStart } from "@/components/toolbox/MindStart";
 import { PickUp, type PickUpItem } from "@/components/toolbox/PickUp";
 import { TOOL_ICONS } from "@/components/toolbox/ToolPicker/ToolPicker";
 import { daysBetween, shortDate, statusLabel } from "@/lib/loop";
-import { ToolPicker, type ToolLead } from "@/components/toolbox/ToolPicker";
+import { ToolPicker } from "@/components/toolbox/ToolPicker";
 import { askConcierge } from "@/flows/navigation/concept-1/ConciergeConcept";
-import { useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
-import { useToolboxLinks } from "@/lib/toolbox-links";
 import { useViewport } from "@/lib/viewport-context";
-import { PLAN_AGENDA_COPY, stepById } from "@/mock/plan";
 import type { LibraryItem } from "@/lib/library";
 import type { ArtifactKind } from "@/mock/loop";
 import { LIBRARY_COPY, STATUS_FILTERS, TOOL_ORDER, TOOLBOX_PAGE, TOOLS } from "@/mock/toolbox";
-import { TITLE_ID, useToolboxPage } from "../useToolboxPage";
+import { TITLE_ID, useLead, useToolboxPage } from "../useToolboxPage";
 
 const F = LIBRARY_COPY.filters;
 const ALL = "all";
@@ -61,26 +58,6 @@ function matches(item: LibraryItem, f: Filters): boolean {
  * plain list with its counts, newest first. A tool opens as guided steps,
  * one question a screen.
  */
-/** The tool her next plan step needs: the first step on her plan that makes
- *  something with a tool. None, and the four tools are equal. */
-function useLead(): ToolLead | undefined {
-  const loop = useLoop();
-  const links = useToolboxLinks();
-  for (const rec of loop.recommendations) {
-    const step = stepById(rec.id);
-    const kind = TOOL_ORDER.find((k) => TOOLS[k].name === step?.toolboxTool);
-    if (step && kind) {
-      return {
-        kind,
-        step: step.title,
-        href: links.forStep(step.id),
-        action: links.hasDraft(step.id) ? PLAN_AGENDA_COPY.openDraft : TOOLS[kind].start,
-      };
-    }
-  }
-  return undefined;
-}
-
 function Concept1Page() {
   const p = useToolboxPage("concept-1");
   const view = useSearchParams().get("view");

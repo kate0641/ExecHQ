@@ -20185,6 +20185,14 @@ ul.plan-guided__sparks {
   outline-offset: var(--focus-ring-offset);
 }
 
+/* --- Icons with the next step above (Concept 2) --------------------------- */
+
+.tool-picker--with-lead {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
 /* --- Compact: the phone -------------------------------------------------- */
 
 .tool-picker--compact {

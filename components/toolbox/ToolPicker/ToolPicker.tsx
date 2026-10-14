@@ -32,12 +32,13 @@ export interface ToolPickerProps {
    * - `chips`: one row of chips that scrolls sideways.
    * - `icons`: one row of four that fits the width, each an icon over a short
    *   name, so nothing scrolls and the library keeps the first screen
-   *   (Concept 2).
+   *   (Concept 2). With a `lead`, the next step's tool is one row above them.
    * - `lead`: the tool for her next plan step leads, with the detailed
    *   drawing; the other three follow (Concept 1). See `compact`.
    */
   layout: "tiles" | "chips" | "icons" | "lead";
-  /** `lead` only: the tool that leads. Without one, the four are tiles. */
+  /** `lead`: the tool that leads; without one, the four are tiles. `icons`:
+   *  the next step's row above the four; without one, the four alone. */
   lead?: ToolLead;
   /** `lead` only: on a phone, the lead is one row and the other three are
    *  icons under it, so the library starts on the first screen. Otherwise a
@@ -62,11 +63,12 @@ export function ToolPicker({ hrefFor, layout, lead, compact = false, label = "To
   // Icons are the navigation's own row, so tools and places read as one family.
   if (shape === "icons") {
     return (
-      <nav className={["tool-picker", "tool-picker--icons", className].filter(Boolean).join(" ")} aria-label={label}>
+      <nav className={["tool-picker", "tool-picker--icons", lead ? "tool-picker--with-lead" : null, className].filter(Boolean).join(" ")} aria-label={label}>
+        {lead ? <LeadRow lead={lead} demo={demo} /> : null}
         <IconRow
           size="lg"
           twoLines
-          demo={demo === "focus" ? "focus" : undefined}
+          demo={demo === "focus" && !lead ? "focus" : undefined}
           items={TOOL_ORDER.map((kind) => ({
             id: kind,
             href: hrefFor(kind),
@@ -101,6 +103,21 @@ export function ToolPicker({ hrefFor, layout, lead, compact = false, label = "To
   );
 }
 
+/** The next step's tool as one row: its drawing, "Next on your plan", the
+ *  tool and the step. */
+function LeadRow({ lead, demo }: { lead: ToolLead; demo?: ToolPickerProps["demo"] }) {
+  return (
+    <Link href={lead.href} className={["tool-picker__lead", demo ? `is-${demo}` : null].filter(Boolean).join(" ")}>
+      <ToolIllustration tool={lead.kind} level="simple" size={52} />
+      <span className="tool-picker__lead-text">
+        <span className="tool-picker__eyebrow">{TOOLBOX_PAGE.nextOnPlan}</span>
+        <span className="tool-picker__name">{TOOLS[lead.kind].name}</span>
+        <span className="tool-picker__step">{lead.step}</span>
+      </span>
+    </Link>
+  );
+}
+
 /** The next step's tool leads; the other three follow. */
 function LeadPicker({
   hrefFor,
@@ -117,14 +134,7 @@ function LeadPicker({
   if (compact) {
     return (
       <nav className={["tool-picker", "tool-picker--lead", "tool-picker--compact", className].filter(Boolean).join(" ")} aria-label={label}>
-        <Link href={lead.href} className={["tool-picker__lead", demoClass].filter(Boolean).join(" ")}>
-          <ToolIllustration tool={lead.kind} level="simple" size={52} />
-          <span className="tool-picker__lead-text">
-            <span className="tool-picker__eyebrow">{TOOLBOX_PAGE.nextOnPlan}</span>
-            <span className="tool-picker__name">{tool.name}</span>
-            <span className="tool-picker__step">{lead.step}</span>
-          </span>
-        </Link>
+        <LeadRow lead={lead} demo={demo} />
         <ul className="tool-picker__others">
           {others.map((kind) => (
             <li key={kind}>
