@@ -5,7 +5,7 @@
  */
 
 import { TODAYS_READS } from "@/mock/briefing";
-import { READ_OPENINGS, TL_VERSIONS, type DraftSection, type DraftSegment } from "@/mock/toolbox";
+import { OUTLET_COPY, READ_OPENINGS, TL_VERSIONS, outletFor, type DraftSection, type DraftSegment } from "@/mock/toolbox";
 import type { RevisionChoice } from "@/components/toolbox/RevisionControls/RevisionControls";
 
 const you = (text: string): DraftSegment => ({ text, by: "you" });
@@ -397,7 +397,7 @@ export function pitchDraft(v: Record<string, string>): DraftSection[] {
   const angleMid = angle ? you(midSentence(angle)) : ask("What would you talk about?");
   const whyNow = audience ? `Why does this matter to ${midSentence(audience)} this month?` : "Why does this matter to their audience this month?";
   const part = (name: string, segments: DraftSegment[]): DraftSegment[] => segments.map((seg) => ({ ...seg, part: name }));
-  return [
+  return fitOutlet(target, [
     {
       id: "subjects",
       heading: "Subject lines",
@@ -450,7 +450,28 @@ export function pitchDraft(v: Record<string, string>): DraftSection[] {
       heading: "Follow-up, if you hear nothing in a week",
       segments: [ex("Hi, following up on my note about "), angleMid, ex(". Happy to fit your schedule, or to suggest someone else on my team if the timing is wrong.")],
     },
-  ];
+  ]);
+}
+
+/** Words in a section, her words and ExecHQ's, leaving out its questions. */
+function wordCount(section: DraftSection): number {
+  return section.segments
+    .map((seg) => ("text" in seg ? seg.text : ""))
+    .join("")
+    .split(/\s+/)
+    .filter(Boolean).length;
+}
+
+/** The draft fits their ask (Kate, 14 Oct): where the part the outlet limits
+ *  runs over, it says so as a question at its end, never by cutting her words. */
+function fitOutlet(target: string | undefined, sections: DraftSection[]): DraftSection[] {
+  const limit = outletFor(target)?.ask?.limit;
+  if (!limit) return sections;
+  return sections.map((section) => {
+    if (section.id !== limit.part) return section;
+    const words = wordCount(section);
+    return words > limit.words ? { ...section, segments: [...section.segments, ex(" "), ask(OUTLET_COPY.overLimit(limit.words, words))] } : section;
+  });
 }
 
 /* -----------------------------------------------------------------------------

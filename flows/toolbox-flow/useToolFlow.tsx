@@ -7,6 +7,7 @@ import type { StepNavItem } from "@/lib/step-nav";
 import { Input } from "@/components/form/Input";
 import { Button } from "@/components/primitives/Button";
 import { EnricherCard } from "@/components/toolbox/EnricherCard";
+import { OutletCard } from "@/components/toolbox/OutletCard";
 import { List, type ListItemData } from "@/components/layout/List";
 import { TOOL_ICONS } from "@/components/toolbox/ToolPicker/ToolPicker";
 import { respondHref } from "@/lib/briefing-store";
@@ -65,6 +66,8 @@ import {
   TL_INPUTS_FROM_BRIEFING,
   TOOLS,
   VERSION_COPY,
+  outletFor,
+  pitchTypeOf,
   type DraftSection,
   type DraftSegment,
   type ToolInput,
@@ -700,6 +703,11 @@ export function useToolFlow(concept: FlowConcept) {
       <>
         {refresh}
         <output className="u-visually-hidden">{sectionMessage}</output>
+        {/* A pitch is for one place (Kate, 14 Oct): where it goes, above
+            what it says. */}
+        {kind === "pitch" && draft.inputs.target?.trim() ? (
+          <OutletCard name={draft.inputs.target} type={pitchTypeOf(draft.inputs.type)} outlet={outletFor(draft.inputs.target)} today={loop.today} />
+        ) : null}
         <DraftEditor
           key={`${artifactId}-${version.n}`}
           id={DRAFT_LABEL_ID}

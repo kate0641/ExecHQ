@@ -1130,6 +1130,11 @@ export function outletFor(name: string | undefined): Outlet | undefined {
   return OUTLETS.find((o) => key(o.name) === key(name));
 }
 
+/** Her "What are you pitching for?" answer, when it is one of the three. */
+export function pitchTypeOf(answer: string | undefined): PitchType | undefined {
+  return answer === "Speaking" || answer === "Podcast" || answer === "Press" ? answer : undefined;
+}
+
 /** "Not sure yet": up to three that fit, of the kind she is pitching for. */
 export function suggestedOutlets(type: string | undefined): Outlet[] {
   return OUTLETS.filter((o) => !o.internal && (!type || o.type === type)).slice(0, 3);
@@ -1143,8 +1148,10 @@ export const OUTLET_COPY = {
   ask: "What they’re asking for",
   topics: "Topics",
   format: "Format",
-  limit: (words: number) => `Up to ${words} words`,
+  length: "Length",
+  limit: (words: number, part: string) => `Your ${part.toLowerCase()}, up to ${words} words`,
   include: "Send with it",
+  when: "When",
   deadline: (date: string) => `Closes ${date}`,
   contact: "Contact",
   how: "How to send it",
@@ -1153,6 +1160,8 @@ export const OUTLET_COPY = {
   /** The page publishes nothing about what they want. */
   noAsk: (watch: string) => `They don’t publish what they want. Read three recent ${watch} and pitch the gap.`,
   watchFor: { Speaking: "talks", Podcast: "episodes", Press: "articles" } as Record<PitchType, string>,
+  /** She named somewhere ExecHQ has no page for. */
+  notFound: (watch: string) => `ExecHQ couldn’t find their page. Check the name, or read three recent ${watch} and pitch the gap.`,
   /** The page names no contact: a question, never a guess. */
   noContact: {
     Speaking: "Who reviews talks? Look for a programme lead on the event’s page, or ask someone who has spoken there.",
