@@ -222,15 +222,10 @@ export const VOICE_SAMPLE = {
 } as const;
 
 /** What the plan was built from, as short tags: the direction, then each
- *  refinement answer. A long typed answer is cut at a word boundary. */
+ *  refinement answer. Every answer is shown whole: no text in the product
+ *  is cut off with an ellipsis (designer, 2026-10-13). */
 export function builtFrom(direction: string, answers: Record<string, string>): string[] {
-  const text = direction.trim();
-  // A prompt is shown whole; only a long typed or spoken answer is cut short.
-  const isPrompt = isNarrowedDirection(text) || DIRECTION_PROMPTS_C1.some((prompt) => prompt.text === text);
-  const directionTag =
-    isPrompt || text.length <= 40
-      ? text
-      : `${text.slice(0, 40).replace(/\s+\S*$/, "")}\u2026`;
+  const directionTag = direction.trim();
   const labels = refinementFor(direction)
     .flatMap((question) => parseAnswer(question, answers[question.id]).chosen.map((option) => option.label));
   return [directionTag, ...labels].filter(Boolean);
@@ -2147,6 +2142,8 @@ export const GUIDE_C3 = {
     resend: "Send it again",
     resent: "Sent again.",
     otherAddress: "Use a different address",
+    /** The address she typed, in its own card with Change (designer, 2026-10-13). */
+    sentTo: "Sent to",
     nothing: "Nothing arrived? Check your junk folder.",
     arrived: "New email from ExecHQ: Confirm your email.",
     /** Login's expired screen, in onboarding's voice (2026-10-08). The wrong
@@ -2366,7 +2363,9 @@ export const GUIDE_C3 = {
         label: "What next?",
         detail: {
           label: "Add more detail",
-          detail: "Your role, what you\u2019re responsible for and a result, so it says what you lead.",
+          // "and a" held together so "and" opens the second line: the first line
+          // is the longest of the three choices (designer, 2026-10-13).
+          detail: "Your role, what you\u2019re responsible for and\u00a0a result, so it says what you lead.",
         },
         versions: {
           label: "Build out longer versions",
@@ -2374,7 +2373,9 @@ export const GUIDE_C3 = {
         },
         later: {
           label: "Save it and come back later",
-          detail: "It\u2019s saved. Both of these wait for you as next steps on your plan.",
+          // "as next" held together so "as" opens the second line instead of
+          // hanging at the end of the first (designer, 2026-10-13).
+          detail: "It\u2019s saved. Both of these wait for you as\u00a0next steps on your plan.",
         },
       },
       cta: "Save it and finish",

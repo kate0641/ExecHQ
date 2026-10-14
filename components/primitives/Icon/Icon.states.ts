@@ -46,6 +46,7 @@ export const iconStates = defineComponentStates({
     { label: "Document", props: { name: "document" } },
     { label: "Link", props: { name: "link" } },
     { label: "Pencil", props: { name: "pencil" } },
+    { label: "Edit", description: "The main Edit icon: the pencil and a square. Used alone, without the word, for Edit.", props: { name: "edit" } },
     { label: "Attach", props: { name: "attach" } },
     { label: "Home", props: { name: "home" } },
     {

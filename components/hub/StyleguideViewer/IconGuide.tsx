@@ -10,7 +10,7 @@ const ICON_GROUPS: { title: string; note: string; names: IconName[] }[] = [
   {
     title: "Actions",
     note: "Doing something to the user's own work.",
-    names: ["plus", "minus", "check", "pencil", "trash", "copy", "share", "download", "upload", "refresh", "undo", "send", "attach", "link", "bookmark", "star", "settings", "sliders", "eye", "eye-off", "sign-in", "sign-out"],
+    names: ["plus", "minus", "check", "edit", "pencil", "trash", "copy", "share", "download", "upload", "refresh", "undo", "send", "attach", "link", "bookmark", "star", "settings", "sliders", "eye", "eye-off", "sign-in", "sign-out"],
   },
   {
     title: "Communication",
@@ -46,7 +46,7 @@ const ICON_GROUPS: { title: string; note: string; names: IconName[] }[] = [
 
 /** On a screen today. Everything else is in the library, ready before it is needed. */
 const IN_USE = new Set<IconName>([
-  "home", "menu", "close", "chevron", "check", "pencil", "trash", "download", "send", "attach",
+  "home", "menu", "close", "chevron", "check", "edit", "pencil", "trash", "download", "send", "attach",
   "link", "sign-out", "mail", "bell", "mic", "person", "globe", "calendar", "document",
   "briefing", "flag", "lock", "linkedin", "spark", "draft",
 ]);

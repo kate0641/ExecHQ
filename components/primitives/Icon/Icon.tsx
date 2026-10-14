@@ -12,6 +12,7 @@ export type IconName =
   | "document"
   | "link"
   | "pencil"
+  | "edit"
   | "flag"
   | "attach"
   | "reset"
@@ -170,6 +171,15 @@ const PATHS: Record<IconName, React.ReactNode> = {
     <>
       <path d="M13.4 3.6l3 3L7.6 15.4 4 16l.6-3.6z" />
       <path d="M11.8 5.2l3 3" strokeWidth="1.3" />
+    </>
+  ),
+  // The main Edit icon (designer, 2026-10-13): the pencil leaning out of a
+  // square left open at its top right, where the pencil writes in.
+  edit: (
+    <>
+      <path d="M9.5 3.5h-4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-4" />
+      <path d="M14.6 3.2l2.2 2.2-7.3 7.3-3 .8.8-3z" />
+      <path d="M13.1 4.7l2.2 2.2" strokeWidth="1.3" />
     </>
   ),
   // Attaching a file to a message: a paperclip.
