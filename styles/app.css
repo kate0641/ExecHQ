@@ -11961,17 +11961,11 @@ ul.stage-actions__list {
   font-size: var(--type-title-size-phone);
 }
 
-/* On Profile the page's own title stands where the logo was (designer,
-   2026-10-11): the wordmark header goes, and on the phone the title runs
-   edge to edge at the top with the header's divider under it. */
-.chrome:has(.profile) > .chrome__header {
-  display: none;
-}
-
-/* The Plan, Signals and the Toolbox (its tools included) have no logo bar
-   either (designer, 2026-10-13): each page's own top opens the screen, as
-   on Home and Profile. */
-.chrome:has(.plan-guided, .signals-page, .toolbox-page, .tool-flow, .tool-flow-questions) > .chrome__header {
+/* No signed-in page has a logo bar (designer, 2026-10-13; Profile and Home
+   first): each page's own top opens the screen. On Profile the page's own
+   title stands where the logo was, and on the phone it runs edge to edge at
+   the top with the header's divider under it. */
+.chrome--app > .chrome__header {
   display: none;
 }
 
@@ -13223,11 +13217,8 @@ ul.login__never {
   background-position: 0 calc(-1 * var(--sky-scrolled, 0px));
 }
 
-/* For now Home has no wordmark header: the greeting band is the top of the
-   screen (and on the phone its wash runs on up behind the status bar). */
-.chrome:has(.map-home) > .chrome__header {
-  display: none;
-}
+/* Home's greeting band is the top of the screen (no signed-in page has a
+   logo bar), and on the phone its wash runs on up behind the status bar. */
 
 .map-home__greeting b {
   font-family: var(--font-display);
