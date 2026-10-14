@@ -18835,10 +18835,125 @@ ul.plan-guided__sparks {
   gap: var(--space-sm);
 }
 
+/* Library, with the magnifying glass at the right (Concept 2, 14 Oct). */
 .library__header {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   gap: var(--space-xs);
+}
+
+.library__search-button {
+  flex: none;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+}
+
+/* No card around the rows, so they line up with the chips and the page's
+   edge (Concept 1's list, 14 Oct). */
+.library__rows .list__item {
+  padding-inline: 0;
+}
+
+/* When she last touched it, as a tag after the status or tool. Sentence
+   case, so "2 weeks ago" reads as said. */
+.library__when {
+  margin-left: var(--space-3xs);
+  text-transform: none;
+  letter-spacing: var(--tracking-normal);
+  vertical-align: baseline;
+}
+
+/* --- Search, in its sheet (Concept 2, 14 Oct) ----------------------------- */
+
+.library-search {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.library-search__field {
+  position: relative;
+}
+
+.library-search__icon {
+  position: absolute;
+  left: var(--space-sm);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-secondary);
+  pointer-events: none;
+}
+
+.library-search__input.field__control {
+  padding-left: calc(var(--space-sm) + 18px + var(--space-xs));
+}
+
+.library-search__heading {
+  margin: 0;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.library-search__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.library-search__list > li + li {
+  border-top: var(--border-width-thin) solid var(--color-border);
+}
+
+.library-search__option {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  width: 100%;
+  min-height: 2.75rem;
+  padding: var(--space-sm) 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--color-text-primary);
+  text-align: left;
+  cursor: pointer;
+}
+
+.library-search__option:hover,
+.library-search__option.is-hover {
+  background-color: var(--color-surface-hover);
+}
+
+.library-search__option:active,
+.library-search__option.is-active {
+  background-color: var(--color-surface-active);
+}
+
+.library-search__option:focus-visible,
+.library-search__option.is-focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.library-search__title {
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+}
+
+/* What she typed, in the title: heavier, never a highlighter colour. */
+.library-search__hit {
+  background: none;
+  color: inherit;
+  font-weight: var(--weight-semibold);
+}
+
+.library-search__detail {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
 }
 
 .library__heading {
@@ -18854,23 +18969,6 @@ ul.plan-guided__sparks {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-}
-
-.library__no-match {
-  margin: 0;
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-}
-
-.library__clear {
-  padding: 0;
-  border: 0;
-  background: none;
-  font: inherit;
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-link);
-  text-decoration: underline;
-  cursor: pointer;
 }
 
 
@@ -20599,8 +20697,7 @@ ul.plan-guided__sparks {
   color: var(--color-text-secondary);
 }
 
-.library-folder-open__empty,
-.library__results {
+.library-folder-open__empty {
   margin: 0;
   font-size: var(--text-sm);
   color: var(--color-text-secondary);

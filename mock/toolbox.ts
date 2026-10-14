@@ -630,17 +630,25 @@ export const LIBRARY_COPY = {
   heading: "Library",
   lead: "Everything you’ve made, wherever you started it.",
   search: "Search your library",
-  searchHint: "Searches titles and what they say.",
-  noMatch: (q: string) => `Nothing in your library mentions “${q}”.`,
-  clearSearch: "Clear search",
+  /** The sheet the magnifying glass opens (Concept 2, 14 Oct). */
+  searchSheet: {
+    field: "Search your library",
+    recent: "Recent",
+    matches: (n: number) => (n === 1 ? "1 match" : `${n} matches`),
+    noMatch: (q: string) => `Nothing in your library mentions “${q}”.`,
+  },
+  /** When she last touched it, on each row: up to two weeks, how long ago;
+   *  after that, the date (Kate, 14 Oct). */
+  touched: {
+    today: "Today",
+    days: (n: number) => (n === 1 ? "1 day ago" : `${n} days ago`),
+    weeks: (n: number) => (n === 1 ? "1 week ago" : `${n} weeks ago`),
+  },
   /** "Last changed today", "Last changed on Tuesday". */
   edited: (when: string) => `Last changed ${when}`,
   versions: (n: number) => (n === 1 ? "1 version" : `${n} versions`),
   /** The link back to where it came from, on the row. */
   forStep: (title: string) => `For: ${title}`,
-  fromRead: "Started from today’s Briefing",
-  /** The one-sentence statement from onboarding, first in her library. */
-  statementInvite: "Build it out in Positioning Builder: a bio in three lengths and your leadership narrative.",
   statementAction: "Build it out",
   otherArea: "Not tied to your plan",
   /** Only someone who left onboarding before saving sees this. It points to
@@ -659,7 +667,6 @@ export const LIBRARY_COPY = {
     delete: "Delete",
     more: (title: string) => `More for ${title}`,
   },
-  closeSuggest: "You’ve said what came of it. Close it?",
   /** Concept 2's folders: one per tool, filed by ExecHQ. */
   folders: {
     names: {
@@ -678,19 +685,8 @@ export const LIBRARY_COPY = {
     filter: "Show",
     all: "All",
     chip: (label: string, n: number) => `${label} ${n}`,
-    /** The third line of a row in a folder: what comes next for it. */
-    next: {
-      draft: "Finish the draft",
-      ready: (kind: ArtifactKind) =>
-        ({ pitch: "Send it when you’re ready", "thought-leadership": "Publish it when you’re ready" })[kind as string] ?? "Use it when you’re ready",
-      checksBack: (when: string) => `ExecHQ checks back ${when}`,
-      sayHow: "Say how it went",
-      close: "Close it when you’re done",
-      closed: "Nothing more to do",
-    },
     noneInStatus: (status: string) => `Nothing here is ${status.toLowerCase()}.`,
     open: (name: string) => `Open ${name}`,
-    results: (n: number, q: string) => (n === 1 ? `1 match for “${q}”` : `${n} matches for “${q}”`),
     /** One part of a folder's counts, by status filter id, in the Loop's words. */
     count: (status: string, n: number): string =>
       ({

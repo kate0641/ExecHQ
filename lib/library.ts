@@ -6,10 +6,10 @@
 
 import { recordedItems } from "@/lib/signal-picture";
 import { signalOfRecord } from "@/lib/signals";
-import { lastTouched, whenPhrase, type LoopRecord } from "@/lib/loop";
+import { daysBetween, lastTouched, shortDate, whenPhrase, type LoopDate, type LoopRecord } from "@/lib/loop";
 import { SIGNALS } from "@/mock/plan-stub";
 import { stepById } from "@/mock/plan";
-import { LIBRARY_SEED, TOOLS, type ArtifactMeta } from "@/mock/toolbox";
+import { LIBRARY_COPY, LIBRARY_SEED, TOOLS, type ArtifactMeta } from "@/mock/toolbox";
 
 export interface LibraryItem {
   record: LoopRecord;
@@ -59,6 +59,17 @@ export function searchLibrary(items: readonly LibraryItem[], query: string): Lib
   const q = query.trim().toLowerCase();
   if (!q) return [...items];
   return items.filter((i) => `${i.record.title} ${i.preview} ${i.tool}`.toLowerCase().includes(q));
+}
+
+/** When she last touched it, as a row's tag: "Today", "1 day ago", "6 days
+ *  ago", "1 week ago", "2 weeks ago", then the date ("2 Oct"). */
+export function touchedTag(date: LoopDate, today: LoopDate): string {
+  const T = LIBRARY_COPY.touched;
+  const ago = daysBetween(date, today);
+  if (ago <= 0) return T.today;
+  if (ago < 7) return T.days(ago);
+  if (ago <= 14) return T.weeks(Math.floor(ago / 7));
+  return shortDate(date);
 }
 
 /** "today", "on Tuesday", "on 13 October". */

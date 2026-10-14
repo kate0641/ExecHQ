@@ -70,8 +70,10 @@ function FolderList({ items, list, emptyBody }: { items: readonly LibraryItem[];
  * and one opens as its own page (`?folder=`), newest first, with a Back to
  * the Toolbox (option A with option B's next-step line, Kate, 13 Oct); on tablet and web the folders sit in a column
  * beside the open one's list, the most recently changed open to begin with.
- * Either way the list has status chips, and each row leads with its status. Searching looks across every folder and lists
- * the matches, so a closed folder never hides work.
+ * Either way the list has status chips, and each row is the title, then its
+ * status and when she last touched it as a tag; tapping it opens it (14
+ * Oct). The magnifying glass beside Library opens search in a sheet, its
+ * matches updating as she types, across every folder (14 Oct).
  *
  * Opening a tool or an artifact shows the draft full screen, with inputs and
  * revisions in a sheet pulled up from a peek bar (the side panel on desktop).
@@ -118,8 +120,6 @@ function Concept2Page() {
       target?.focus();
     }, 0);
   };
-
-  const searching = p.query.trim().length > 0;
 
   const grid = (
     <div className="library-folders">
@@ -176,12 +176,7 @@ function Concept2Page() {
       <section className="library" aria-labelledby={p.libraryId}>
         {p.libraryHeader}
         {p.empty ??
-          (searching ? (
-            <>
-              {p.noMatch ?? <p className="library__results">{F.results(p.found.length, p.query.trim())}</p>}
-              {p.list(p.found)}
-            </>
-          ) : phone ? (
+          (phone ? (
             grid
           ) : (
             <div className="library-folders-split">

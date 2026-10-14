@@ -140,6 +140,7 @@ import { dropdownMenuStates } from "./form/DropdownMenu/DropdownMenu.states";
 import { listStates } from "./layout/List/List.states";
 import { toolIllustrationStates } from "./toolbox/ToolIllustration/ToolIllustration.states";
 import { libraryFolderStates } from "./toolbox/LibraryFolder/LibraryFolder.states";
+import { librarySearchStates } from "./toolbox/LibrarySearch/LibrarySearch.states";
 import { briefingDeckStates } from "./briefing/BriefingDeck/BriefingDeck.states";
 import { briefingPictureStates } from "./briefing/BriefingPicture/BriefingPicture.states";
 import { briefingFrontStates } from "./briefing/BriefingFront/BriefingFront.states";
@@ -275,6 +276,7 @@ export const registry: RegisteredComponent[] = [
   pinnedDraftStates,
   toolIllustrationStates,
   libraryFolderStates,
+  librarySearchStates,
   briefingDeckStates,
   briefingPictureStates,
   briefingFrontStates,
