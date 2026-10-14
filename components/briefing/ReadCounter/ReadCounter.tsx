@@ -7,8 +7,11 @@ export interface ReadCounterProps {
   /** 1-based. */
   at: number;
   of: number;
-  /** Back to the read before. Left out on the first. */
+  /** Back to the read before, or (`backLabel`) to the front page. Left out,
+   *  no Back. */
   onBack?: () => void;
+  /** Back's words, when it goes somewhere other than the read before. */
+  backLabel?: string;
   /** Straight to the end of the set, so Next is never the only way through. */
   onToEnd?: () => void;
   /** Catalogue only: shows Back focused. */
@@ -21,13 +24,13 @@ export interface ReadCounterProps {
  * beside it and a way straight to the end. The count says the set is
  * finished at three; nothing here suggests more.
  */
-export function ReadCounter({ at, of, onBack, onToEnd, demo, className }: ReadCounterProps) {
+export function ReadCounter({ at, of, onBack, backLabel, onToEnd, demo, className }: ReadCounterProps) {
   return (
     <div className={["read-counter", className].filter(Boolean).join(" ")}>
       {onBack ? (
         <button type="button" className={["read-counter__back", demo ? `is-${demo}` : null].filter(Boolean).join(" ")} onClick={onBack}>
           <Icon name="chevron" size={16} className="read-counter__back-icon" />
-          {C.back}
+          {backLabel ?? C.back}
         </button>
       ) : (
         <span className="read-counter__spacer" />

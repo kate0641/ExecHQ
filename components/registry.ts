@@ -144,7 +144,6 @@ import { librarySearchStates } from "./toolbox/LibrarySearch/LibrarySearch.state
 import { briefingDeckStates } from "./briefing/BriefingDeck/BriefingDeck.states";
 import { briefingPictureStates } from "./briefing/BriefingPicture/BriefingPicture.states";
 import { briefingFrontStates } from "./briefing/BriefingFront/BriefingFront.states";
-import { readerBarStates } from "./briefing/ReaderBar/ReaderBar.states";
 export const registry: RegisteredComponent[] = [
   badgeStates,
   buttonStates,
@@ -280,7 +279,6 @@ export const registry: RegisteredComponent[] = [
   briefingDeckStates,
   briefingPictureStates,
   briefingFrontStates,
-  readerBarStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */

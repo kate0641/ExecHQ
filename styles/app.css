@@ -20941,16 +20941,6 @@ ul.plan-guided__sparks {
   max-width: 65rem;
 }
 
-/* On a read, the reader's bar takes the Ask or go pill's place, hidden so it
-   leaves the tab order: along the foot of a phone, floating elsewhere. */
-.device__screen:has(.reader-bar) .concierge-host__pill {
-  visibility: hidden;
-}
-
-.device__screen:has(.reader-bar--docked) .chrome__main {
-  padding-bottom: 0;
-}
-
 /* --- Picture panels: stand-ins for the publisher's image -------------- */
 
 .briefing-picture {
@@ -21150,96 +21140,6 @@ ul.plan-guided__sparks {
 .briefing-front2__why-label {
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
-}
-
-.briefing-news__ack {
-  margin: 0;
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-}
-
-/* --- The reader's bar -------------------------------------------------- */
-
-.reader-bar {
-  position: sticky;
-  bottom: var(--space-md);
-  z-index: 5;
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  align-self: center;
-  width: 100%;
-  max-width: 34rem;
-  padding: var(--space-2xs);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-xl);
-  background-color: var(--color-surface-raised);
-  box-shadow: var(--shadow-md);
-}
-
-/* On a phone it runs edge to edge along the foot of the screen. */
-.reader-bar--docked {
-  bottom: 0;
-  align-self: stretch;
-  width: auto;
-  max-width: none;
-  margin-inline: calc(-1 * var(--space-screen-side));
-  padding-bottom: var(--space-sm);
-  border-width: var(--border-width-thin) 0 0;
-  border-radius: 0;
-  box-shadow: none;
-}
-
-.reader-bar__item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-3xs);
-  min-height: 3rem;
-  padding: var(--space-2xs) var(--space-3xs);
-  border: 0;
-  border-radius: var(--radius-md);
-  background: none;
-  font: inherit;
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
-  text-align: center;
-  color: var(--color-text-secondary);
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.reader-bar__item:hover,
-.reader-bar__item.is-hover {
-  background-color: var(--color-surface-sunken);
-  color: var(--color-text-primary);
-}
-
-.reader-bar__item:focus-visible,
-.reader-bar__item.is-focus {
-  outline: var(--focus-ring);
-  outline-offset: calc(-1 * var(--focus-ring-width));
-}
-
-.reader-bar__item:active,
-.reader-bar__item.is-active {
-  transform: translateY(1px);
-}
-
-/* Chosen: filled, and the words go dark, so it is never colour alone. */
-.reader-bar__item[aria-pressed="true"] {
-  background-color: var(--color-surface-sunken);
-  color: var(--color-text-primary);
-}
-
-.reader-bar__item[aria-pressed="true"] svg {
-  fill: currentColor;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .reader-bar__item:active {
-    transform: none;
-  }
 }
 
 /* Concept 3 on a phone: what she does next, under the open draft. */

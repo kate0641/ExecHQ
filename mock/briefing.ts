@@ -291,19 +291,6 @@ export const BRIEFING_COPY = {
     toEnd: "See all three",
   },
 
-  /* --- Concept 2: the reader's action bar --------------------------------- */
-  bar: {
-    label: "Actions for this read",
-    back: "Back",
-    relevant: "Relevant",
-    notForMe: "Not for me",
-    save: "Save",
-    saved: "Saved",
-    // Never just "Post": ExecHQ never posts for her (builder guardrails, 13 Oct).
-    post: "Write a post",
-    postFull: "Write a post about this",
-  },
-
   /* --- Concept 1: the deck ---------------------------------------------- */
   deck: {
     /** Read before a strip's headline: pressing it brings that read forward. */
