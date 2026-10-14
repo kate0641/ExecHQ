@@ -45,7 +45,9 @@ export function libraryItems(records: readonly LoopRecord[], extra: Readonly<Rec
         readId: meta?.readId,
         reusedFrom: meta?.reusedFrom ? records.find((r) => r.id === meta.reusedFrom)?.title : undefined,
         versions: meta?.versions ?? 1,
-        preview: meta?.preview ?? "",
+        // A draft that opens on a list starts with its marker; the preview
+        // is a line of what it says, so the marker goes.
+        preview: (meta?.preview ?? "").replace(/^\s*(?:[-–•*]|\d+[.)])\s+/, ""),
         lastOn: lastTouched(record),
         fromOnboarding: Boolean(meta?.fromOnboarding),
         signalItems: recordedItems([record]).length,

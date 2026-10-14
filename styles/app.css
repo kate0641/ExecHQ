@@ -18855,13 +18855,35 @@ ul.plan-guided__sparks {
   padding-inline: 0;
 }
 
-/* A folder's Status menu sits at the start, over the list. With a status
-   chosen it reads as on: a dark edge, the choice in its words. */
-.library-folder-open__filter {
+/* Over a folder's list: how many on the left, the Status menu on the right
+   (option A, 14 Oct). With a status chosen the menu reads as on: a dark
+   edge, the choice in its words. */
+.library-folder-open__bar {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs);
+  min-height: 2.75rem;
 }
 
-.library-folder-open__filter .dropdown.is-set .dropdown__trigger {
+.library-folder-open__count {
+  margin: 0;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+/* A line of what it says, over the status. It wraps whole: nothing in the
+   product is cut off with an ellipsis. */
+.library__preview {
+  display: block;
+  margin-bottom: var(--space-3xs);
+  color: var(--color-text-secondary);
+}
+
+.library-folder-open__bar .dropdown.is-set .dropdown__trigger {
   border-color: var(--color-text-primary);
   background-color: var(--color-surface-selected);
 }
@@ -20529,19 +20551,33 @@ ul.plan-guided__sparks {
   border-color: var(--color-text-primary);
 }
 
-/* The open folder's heading: the disc beside the name, no card. */
+/* The open folder's card (option A, 14 Oct): the disc beside the name,
+   what the tool makes, and Start under them. */
 .library-folder--header {
   flex-direction: row;
-  align-items: center;
-  flex-wrap: wrap;
-  column-gap: var(--space-sm);
-  padding: 0;
-  border: 0;
-  background: none;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-md);
 }
 
-.library-folder--header:focus {
+.library-folder--header .library-folder__name {
+  margin: 0;
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
+}
+
+.library-folder--header .library-folder__name:focus {
   outline: none;
+}
+
+.library-folder--header .library-folder__summary {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.library-folder__action {
+  margin-top: var(--space-xs);
 }
 
 .library-folder__text {
@@ -20560,9 +20596,6 @@ ul.plan-guided__sparks {
   line-height: var(--leading-snug);
 }
 
-.library-folder--header .library-folder__name {
-  font-size: var(--text-lg);
-}
 
 .library-folder__summary {
   font-family: var(--font-body);

@@ -84,6 +84,9 @@ export function useToolboxPage(concept: ToolboxPage) {
       primary: record.title,
       secondary: (
         <>
+          {/* In a folder, a line of what it says tells same-named ones apart
+              (option A, 14 Oct). */}
+          {options.folder && item.preview ? <span className="library__preview">{item.preview}</span> : null}
           {options.folder ? statusLabel(record) : item.tool}{" "}
           <Badge className="library__when">{when(item)}</Badge>
         </>

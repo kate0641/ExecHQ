@@ -1,3 +1,4 @@
+import { createElement } from "react";
 import { defineComponentStates } from "@/components/types";
 import { NOT_AN_INPUT } from "@/components/not-applicable";
 import { LibraryFolder } from "./LibraryFolder";
@@ -11,7 +12,7 @@ export const libraryFolderStates = defineComponentStates({
   status: "draft",
   flows: ["toolbox"],
   description:
-    "One of the library's folders in Toolbox Concept 2: one per tool, filed by ExecHQ, never made or moved by her. A plain card (look D, 14 Oct): the tool's icon in a disc tinted for the tool, then its name, so the tint is never the only cue; how many it holds, where they stand, and when it last changed. A button in the grid; the heading of the open folder above its list.",
+    "One of the library's folders in Toolbox Concept 2: one per tool, filed by ExecHQ, never made or moved by her. A plain card (look D, 14 Oct): the tool's icon in a disc tinted for the tool, then its name, so the tint is never the only cue; how many it holds, where they stand, and when it last changed. A button in the grid; the open folder's card above its list: the disc, its name, what the tool makes and Start (option A, 14 Oct).",
   component: LibraryFolder,
   notApplicable: {
     disabled: "A folder can always be opened, even empty.",
@@ -25,7 +26,7 @@ export const libraryFolderStates = defineComponentStates({
     { label: "Briefs", props: { tool: "situation-brief", name: "Briefs", summary: "2 · 1 draft · 1 ready to use", date: "22 Oct", onOpen: noop } },
     { label: "Posts, nothing yet — empty", props: { tool: "thought-leadership", name: "Posts", summary: "Nothing here yet", onOpen: noop } },
     { label: "Open beside its list (web) — selected", props: { ...pitches, current: true } },
-    { label: "As the open folder's heading", props: { ...pitches, as: "header", headingLevel: 2 } },
+    { label: "As the open folder's card, with Start", props: { ...pitches, summary: "Pitches for stages, shows and press", as: "header", headingLevel: 2, action: createElement("a", { href: "#", className: "btn btn--primary btn--md" }, "Start a pitch") } },
     { label: "Hover", props: { ...pitches, demo: "hover" } },
     { label: "Focus", props: { ...pitches, demo: "focus" } },
     { label: "Pressed", props: { ...pitches, demo: "active" } },

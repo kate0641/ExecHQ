@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { Icon } from "@/components/primitives/Icon";
 import { TOOL_ICONS } from "@/components/toolbox/ToolPicker/ToolPicker";
 import type { ArtifactKind } from "@/mock/loop";
@@ -6,7 +7,8 @@ export interface LibraryFolderProps {
   tool: ArtifactKind;
   /** "Pitches". */
   name: string;
-  /** What is inside: "3 · 2 drafts · 1 waiting to hear". */
+  /** A folder: what is inside, "3 · 2 drafts · 1 waiting to hear". The
+   *  open folder's heading: what the tool makes. */
   summary: string;
   /** When it last changed: "22 Oct". Left out when the folder is empty. */
   date?: string;
@@ -18,9 +20,11 @@ export interface LibraryFolderProps {
    */
   as?: "button" | "header";
   onOpen?: () => void;
+  /** `header` only: under the words, the way to make another (Start). */
+  action?: ReactNode;
   /** The folder whose list is showing beside it (web). */
   current?: boolean;
-  headingLevel?: 2 | 3;
+  headingLevel?: 1 | 2 | 3;
   headingId?: string;
   /** Catalogue only: shows the folder in a state a static page can't reach. */
   demo?: "hover" | "focus" | "active";
@@ -42,6 +46,7 @@ export function LibraryFolder({
   dateLabel = "Last change",
   as = "button",
   onOpen,
+  action,
   current = false,
   headingLevel = 3,
   headingId,
@@ -64,18 +69,9 @@ export function LibraryFolder({
       <Icon name={TOOL_ICONS[tool]} size={20} />
     </span>
   );
-  const body =
-    as === "header" ? (
-      <>
-        {disc}
-        <span className="library-folder__text">
-          <span className="library-folder__name">{name}</span>
-          <span className="library-folder__summary">{summary}</span>
-        </span>
-      </>
-    ) : (
-      <>
-        {disc}
+  const body = (
+    <>
+      {disc}
         <span className="library-folder__name">{name}</span>
         <span className="library-folder__summary">{summary}</span>
         <span className="library-folder__foot">
@@ -92,12 +88,21 @@ export function LibraryFolder({
       </>
     );
 
+  // The open folder's card (option A, 14 Oct): the disc, the heading and
+  // what the tool makes, and Start under them. Only the name is the heading.
   if (as === "header") {
     const Heading = `h${headingLevel}` as const;
     return (
-      <Heading className={classes} id={headingId} tabIndex={-1}>
-        {body}
-      </Heading>
+      <div className={classes}>
+        {disc}
+        <div className="library-folder__text">
+          <Heading className="library-folder__name" id={headingId} tabIndex={-1}>
+            {name}
+          </Heading>
+          <p className="library-folder__summary">{summary}</p>
+          {action ? <div className="library-folder__action">{action}</div> : null}
+        </div>
+      </div>
     );
   }
   return (

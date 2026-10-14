@@ -684,6 +684,8 @@ export const LIBRARY_COPY = {
     /** The Status menu over a folder's list, each status with how many. */
     filter: "Status",
     all: "All",
+    /** How many a folder holds, over its list. */
+    items: (n: number) => (n === 1 ? "1 item" : `${n} items`),
     /** The menu's button once a status is chosen: "Status: Draft". */
     chosen: (filter: string, choice: string) => `${filter}: ${choice}`,
     noneInStatus: (status: string) => `Nothing here is ${status.toLowerCase()}.`,

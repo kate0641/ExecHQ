@@ -29,10 +29,11 @@ function summaryOf(items: readonly LibraryItem[]): string {
 }
 
 /**
- * A folder's list with a Status menu over it (Kate, 14 Oct, in place of the
- * chips): All, then each status the folder holds something in, each with its
- * count. The button says what is chosen. Keyed by folder, so opening another
- * starts on All.
+ * A folder's list with how many it holds and a Status menu on one line over
+ * it (option A, 14 Oct): All, then each status the folder holds something
+ * in, each with its count; no menu when everything is in one status. The
+ * button says what is chosen. Keyed by folder, so opening another starts on
+ * All.
  */
 function FolderList({ items, list, emptyBody }: { items: readonly LibraryItem[]; list: (items: readonly LibraryItem[], options: { folder: boolean }) => ReactNode; emptyBody: string }) {
   const [status, setStatus] = useState(ALL);
@@ -43,7 +44,10 @@ function FolderList({ items, list, emptyBody }: { items: readonly LibraryItem[];
   const shown = chosen ? inStatus(chosen.id) : items;
   return (
     <>
-      <div className="library-folder-open__filter">
+      <div className="library-folder-open__bar">
+        <p className="library-folder-open__count">{F.items(items.length)}</p>
+        {/* Only when there is something to filter: two statuses or more. */}
+        {present.length > 1 ? (
         <DropdownMenu
           label={chosen ? F.chosen(F.filter, chosen.label) : F.filter}
           className={chosen ? "is-set" : undefined}
@@ -62,6 +66,7 @@ function FolderList({ items, list, emptyBody }: { items: readonly LibraryItem[];
             },
           ]}
         />
+        ) : null}
       </div>
       {list(shown, { folder: true })}
     </>
@@ -150,16 +155,34 @@ function Concept2Page() {
     </div>
   );
 
+  /** The open folder's card: what the tool makes, and Start (option A, 14 Oct). */
+  const card = (kind: ArtifactKind, level: 1 | 2 | 3) => (
+    <LibraryFolder
+      as="header"
+      tool={kind}
+      name={F.names[kind]}
+      summary={TOOLS[kind].short}
+      headingId={OPEN_HEADING}
+      headingLevel={level}
+      action={
+        <Link href={p.toolHref(kind)} className="btn btn--primary btn--md">
+          {TOOLS[kind].start}
+        </Link>
+      }
+    />
+  );
+
   const opened = openFolder ? (
     <div className="library-folder-open">
-      <LibraryFolder as="header" tool={openFolder.kind} name={openFolder.name} summary={openFolder.summary} headingId={OPEN_HEADING} />
+      {card(openFolder.kind, 3)}
       <FolderList key={openFolder.kind} items={openFolder.items} list={p.list} emptyBody={F.emptyBody(TOOLS[openFolder.kind].name)} />
     </div>
   ) : null;
 
   // A phone's folder page (option A, chosen 13 Oct): a bar with Back (the
   // name only once, as the title, Kate 13 Oct), a large title and when it
-  // last changed, the Status menu, then the list (Kate, 14 Oct).
+  // last changed, replaced 14 Oct by option A: the tool's card with Start,
+  // then how many with the Status menu, then the list.
   if (openFolder && phone) {
     return (
       <div className="toolbox-page toolbox-page--c2 folder-page">
@@ -169,12 +192,7 @@ function Concept2Page() {
             {F.backToToolbox}
           </Link>
         </div>
-        <header className="folder-page__head">
-          <h1 className="folder-page__title" id={OPEN_HEADING} tabIndex={-1}>
-            {openFolder.name}
-          </h1>
-          {openFolder.date ? <p className="folder-page__date">{F.lastChange(openFolder.date)}</p> : null}
-        </header>
+        {card(openFolder.kind, 1)}
         <FolderList key={openFolder.kind} items={openFolder.items} list={p.list} emptyBody={F.emptyBody(TOOLS[openFolder.kind].name)} />
         {p.sheet}
       </div>
