@@ -15488,59 +15488,26 @@ ol.rtl__rail::before {
   gap: var(--space-lg);
 }
 
-/* Plan Concept 3: her direction above the road, as a soft row. Closed, her words are cut to one line;
-   the row opens like an accordion and lets them run. */
-/* The system's white card, not a blue well (designer, 2026-10-13): the
-   raised surface with a soft edge. */
+/* Plan Concept 3: her direction above the road, in full, in the system's
+   white card (designer, 2026-10-13). It only reads: no chevron, no button. */
 .plan-direction {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  padding: var(--space-sm) var(--space-card-padding);
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-card);
   background: var(--color-surface-raised);
 }
 
-.plan-direction__head {
-  margin: 0;
-  font: inherit;
-}
-
-.plan-direction__toggle {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: var(--space-sm);
-  width: 100%;
-  margin: 0;
-  padding: var(--space-sm) var(--space-card-padding);
-  border: 0;
-  border-radius: var(--radius-card);
-  background: none;
-  color: var(--color-text-primary);
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-
-.plan-direction__toggle:hover,
-.plan-direction__toggle.is-hover {
-  background: var(--color-surface-hover);
-}
-
-.plan-direction__toggle.is-focus {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.plan-direction__text {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3xs);
-  min-width: 0;
-}
-
 .plan-direction__label {
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.08em;
+  margin: 0;
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
   color: var(--color-text-secondary);
 }
@@ -15551,20 +15518,6 @@ ol.rtl__rail::before {
   font-size: var(--text-md);
   line-height: var(--leading-normal);
   overflow-wrap: anywhere;
-}
-
-.plan-direction__toggle .icon {
-  transition: transform var(--duration-fast) ease;
-}
-
-.plan-direction.is-open .plan-direction__toggle .icon {
-  transform: rotate(180deg);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .plan-direction__toggle .icon {
-    transition: none;
-  }
 }
 
 /* "See your plan" beside the roadmap's heading: opens the plan detail. */
