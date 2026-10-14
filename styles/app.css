@@ -20941,6 +20941,17 @@ ul.plan-guided__sparks {
   max-width: 65rem;
 }
 
+/* Reading an article (Concept 2), the Ask or go pill is not there at all
+   (Kate, 14 Oct): the article ends in its own actions and Next. Hidden, not
+   faded, so it leaves the tab order, as inside a tool. */
+.device__screen:has(.briefing-page--reading) .concierge-host__pill {
+  visibility: hidden;
+}
+
+.device__screen:has(.concierge-host) .chrome__main:has(.briefing-page--reading) {
+  padding-bottom: var(--space-lg);
+}
+
 /* --- Picture panels: stand-ins for the publisher's image -------------- */
 
 .briefing-picture {

@@ -27,8 +27,9 @@ const READ_HEADING = "briefing-read-heading";
  * for the publisher) with ExecHQ's notes on highlighted passages all the way
  * through. Back to the front page sits at the top beside "1 of 3". Where
  * she finishes the article: Save, "Was this worth your time?", the "Write a
- * post about this" card, then Next. No bar at the foot (Kate, 14 Oct), so the
- * Ask or go pill stays. On web the lead takes the left of the front page.
+ * post about this" card, then Next. No bar at the foot and no Ask or go pill
+ * while she reads (Kate, 14 Oct). On web the lead takes the left of the
+ * front page.
  *
  * It keeps the Briefing's limits: only ever three, no topic tabs, no counts,
  * no times. The pictures are stand-ins until image rights are settled.
