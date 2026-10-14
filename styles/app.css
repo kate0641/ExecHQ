@@ -16115,7 +16115,13 @@ fieldset.agenda__whens {
 
 .agenda--stack .agenda__body {
   gap: var(--space-sm);
-  padding: 0 var(--space-md) var(--space-lg);
+  /* The next card overlaps this one's foot by --space-md, so the room under the white panel is the
+     overlap plus the same 16px the panel keeps at its sides (designer, 2026-10-14). */
+  padding: 0 var(--space-md) calc(var(--space-md) * 2);
+}
+
+.agenda--stack .agenda__stage:last-child .agenda__body {
+  padding-bottom: var(--space-md);
 }
 
 @media (prefers-reduced-motion: no-preference) {
