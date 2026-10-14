@@ -8,6 +8,7 @@ import { Input } from "@/components/form/Input";
 import { Button } from "@/components/primitives/Button";
 import { EnricherCard } from "@/components/toolbox/EnricherCard";
 import { OutletCard } from "@/components/toolbox/OutletCard";
+import { OutletSuggestions } from "@/components/toolbox/OutletSuggestions";
 import { SendSteps, type SendCopy } from "@/components/toolbox/SendSteps";
 import { List, type ListItemData } from "@/components/layout/List";
 import { TOOL_ICONS } from "@/components/toolbox/ToolPicker/ToolPicker";
@@ -69,6 +70,7 @@ import {
   VERSION_COPY,
   outletFor,
   pitchTypeOf,
+  suggestedOutlets,
   SEND_STEPS_COPY,
   type DraftSection,
   type DraftSegment,
@@ -331,6 +333,18 @@ export function useToolFlow(concept: FlowConcept) {
     );
 
   const currentValues = () => Object.fromEntries(inputs.map((i) => [i.id, valueOf(i.id)]));
+
+  /** "Not sure yet" under Who are you pitching? (Kate, 14 Oct): up to three
+   *  outlets of the kind she is pitching for. */
+  const outletChoices = kind === "pitch" ? suggestedOutlets(pitchTypeOf(valueOf("type"))) : [];
+  const fieldExtras: Record<string, ReactNode> =
+    kind === "pitch"
+      ? {
+          target: (
+            <OutletSuggestions outlets={outletChoices} type={pitchTypeOf(valueOf("type"))} chosen={valueOf("target")} onPick={(name) => setValue("target", name)} />
+          ),
+        }
+      : {};
 
   /** Drafts this session wrote, so the step bar can take one back. */
   const written = useRef(new Set<string>());
@@ -620,6 +634,7 @@ export function useToolFlow(concept: FlowConcept) {
       builtWith={options.builtWith}
       footer={options.footer}
       actionsClassName={options.actionsClassName}
+      fieldExtras={fieldExtras}
       noHeading
     />
   );
@@ -1199,6 +1214,8 @@ export function useToolFlow(concept: FlowConcept) {
     notFirst,
     valueOf,
     setValue,
+    outletChoices,
+    fieldExtras,
     write,
     writing,
     draft,

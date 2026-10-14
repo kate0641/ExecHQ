@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { Fragment, useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { ChipGroup } from "@/components/form/ChipGroup";
 import { Input } from "@/components/form/Input";
 import { Button } from "@/components/primitives/Button";
@@ -45,6 +45,8 @@ export interface InputPanelProps {
   noActions?: boolean;
   /** After the button, in the same bar: Back, in a guided flow. */
   footer?: ReactNode;
+  /** Under a field, by input id: "Not sure yet" under who she is pitching. */
+  fieldExtras?: Readonly<Record<string, ReactNode>>;
   /** On the bar holding the button: Concept 1 pins it to the foot. */
   actionsClassName?: string;
   className?: string;
@@ -149,6 +151,7 @@ export function InputPanel({
   noActions = false,
   footer,
   actionsClassName,
+  fieldExtras,
   className,
 }: InputPanelProps) {
   const [tried, setTried] = useState(showErrors);
@@ -173,18 +176,20 @@ export function InputPanel({
                 onChange={(next) => onChange(input.id, next[0] ?? "")}
               />
             ) : (
-              <Input
-                key={input.id}
-                label={input.optional ? `${input.label} (${C.optional.toLowerCase()})` : input.label}
-                hint={builtWith ? undefined : input.hint}
-                placeholder={builtWith ? (input.placeholder ?? input.hint) : input.placeholder}
-                value={valueOf(input)}
-                type={input.kind === "date" ? "date" : undefined}
-                multiline={input.kind === "long"}
-                rows={3}
-                error={tried && missing.includes(input) ? C.missing : undefined}
-                onChange={(event) => onChange(input.id, event.target.value)}
-              />
+              <Fragment key={input.id}>
+                <Input
+                  label={input.optional ? `${input.label} (${C.optional.toLowerCase()})` : input.label}
+                  hint={builtWith ? undefined : input.hint}
+                  placeholder={builtWith ? (input.placeholder ?? input.hint) : input.placeholder}
+                  value={valueOf(input)}
+                  type={input.kind === "date" ? "date" : undefined}
+                  multiline={input.kind === "long"}
+                  rows={3}
+                  error={tried && missing.includes(input) ? C.missing : undefined}
+                  onChange={(event) => onChange(input.id, event.target.value)}
+                />
+                {fieldExtras?.[input.id]}
+              </Fragment>
             );
 
   return (

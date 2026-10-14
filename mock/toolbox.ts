@@ -65,7 +65,7 @@ export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
     makes: "A pitch to a conference, a podcast or an editor, with subject lines and the follow-up already drafted.",
     short: "Pitches for stages, shows and press",
     when: "Use it when there is a stage or a show the people above you pay attention to.",
-    needs: ["Who you are pitching, if you know", "One or two things you can prove"],
+    needs: ["Who you are pitching (ExecHQ can suggest some)", "One or two things you can prove"],
     planStepId: "pitch-podcast",
     start: "Start a pitch",
   },
@@ -778,9 +778,10 @@ export const PITCH_INPUTS: readonly ToolInput[] = [
   {
     id: "target",
     label: "Who are you pitching?",
-    hint: "The event, show or outlet, if you know it.",
+    // Required (Kate, 14 Oct): a pitch is for one place. "Not sure yet"
+    // offers up to three that fit.
+    hint: "The event, show or publication.",
     kind: "text",
-    optional: true,
     placeholder: "The Growth Summit",
   },
   {
@@ -911,7 +912,7 @@ export const STEP_BAR_COPY = {
 /** Each question's short name in the bar, by tool and input id. */
 export const STEP_LABELS: Record<ArtifactKind, Record<string, string>> = {
   positioning: { knownFor: "Known for", context: "Introduction", audience: "Audience", format: "Format", source: "Source text" },
-  pitch: { type: "Pitching for", angle: "Angle", proof: "Proof" },
+  pitch: { type: "Pitching for", target: "Who", angle: "Angle", proof: "Proof" },
   "situation-brief": { type: "Moment", objective: "Outcome", audience: "Who’s there", stakes: "Their stakes", risks: "Risks" },
   "thought-leadership": { format: "Format", topic: "Topic", pov: "Point of view", evidence: "Evidence", voice: "Voice", length: "Length" },
 };
@@ -1197,6 +1198,16 @@ export const OUTLET_COPY = {
 
 /** Send it in four steps (Kate, 14 Oct): under the draft, filled in from
  *  Where it goes. Ticking a step is hers alone; nothing is sent. */
+export const SUGGEST_COPY = {
+  open: (n: number) => `Not sure yet? See ${["one", "two", "three"][n - 1] ?? n} that fit`,
+  close: "Hide the suggestions",
+  /** Who comes before the angle, so they fit what she is pitching for and
+   *  who her direction says it is for, nothing more. */
+  lead: (type?: string) =>
+    `${type === "Podcast" ? "Shows" : type === "Press" ? "Publications" : type === "Speaking" ? "Events" : "Places"} the people in your direction pay attention to. Pick one; you can change it.`,
+  chosen: "Chosen",
+} as const;
+
 export const SEND_STEPS_COPY = {
   heading: "Send it in four steps",
   note: "Ticks are only for you. ExecHQ never sends anything for you.",
@@ -1540,7 +1551,9 @@ export const INTERVIEW_PICKS: Record<ArtifactKind, Record<string, InterviewPick>
     risks: { mode: "many", options: ["It takes time from current work", "Timing", "Budget", "Someone else wants it", "Not enough proof yet"] },
   },
   pitch: {
-    target: { mode: "one", fromHer: true, options: ["An industry conference", "A trade publication", "An internal leadership forum"] },
+    // Who: the outlets that fit what she is pitching for (`suggestedOutlets`),
+    // filled in by the Interview itself; these are the fallback.
+    target: { mode: "one", options: ["The Marketing Leaders podcast", "The Commercial Strategy Summit", "Commercial Leader Quarterly"] },
     angle: { mode: "many", fromHer: true, options: ["How I run work across teams", "What planning teaches about scope", "A result from my region"] },
     proof: { mode: "many", fromHer: true, options: ["A result with a number I can share", "A talk or article I’ve done", "Feedback from a senior leader"] },
     links: { mode: "many", options: ["A LinkedIn post", "A recording of a talk", "An article", "Nothing yet"] },

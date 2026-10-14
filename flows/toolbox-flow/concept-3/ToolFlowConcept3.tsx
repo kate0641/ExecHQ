@@ -46,6 +46,9 @@ function Interview() {
   const pickFor = (input: ToolInput) => {
     const pick = INTERVIEW_PICKS[f.kind]?.[input.id];
     if (!pick) return undefined;
+    // Who she is pitching: the outlets that fit what she is pitching for
+    // (Kate, 14 Oct). Other is still there for her own.
+    if (f.kind === "pitch" && input.id === "target" && f.outletChoices.length) return { ...pick, options: f.outletChoices.map((o) => o.name) };
     const hers = pick.fromHer ? EXAMPLE_ANSWERS[f.kind]?.[input.id] : undefined;
     return { ...pick, options: hers && !pick.options.includes(hers) ? [hers, ...pick.options] : pick.options };
   };
