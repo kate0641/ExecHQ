@@ -286,19 +286,19 @@ function StepItem({
       {open ? (
         <div className="agenda__reveal">
           {step.stubbed ? (
-            <Button variant="secondary" className="agenda__cta" disabled>
+            <Button variant="secondary" fullWidth className="agenda__cta" disabled>
               {label}
             </Button>
           ) : tool ? (
-            <Link href={href} className="btn btn--secondary btn--md agenda__cta" onClick={() => !item.accepted && onAccept(step)}>
+            <Link href={href} className="btn btn--secondary btn--md btn--full agenda__cta" onClick={() => !item.accepted && onAccept(step)}>
               {label}
             </Link>
           ) : item.accepted ? (
-            <Button variant="secondary" className="agenda__cta" onClick={() => onComplete(step)}>
+            <Button variant="secondary" fullWidth className="agenda__cta" onClick={() => onComplete(step)}>
               {A.doneIt}
             </Button>
           ) : (
-            <Button variant="secondary" className="agenda__cta" onClick={() => onAccept(step)}>
+            <Button variant="secondary" fullWidth className="agenda__cta" onClick={() => onAccept(step)}>
               {A.getStarted}
             </Button>
           )}

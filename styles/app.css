@@ -15843,10 +15843,11 @@ ul.agenda__list {
   gap: var(--space-md);
 }
 
-/* The start button in the roadmap is the light blue pill, its own width (designer, 2026-10-14): the
-   move above already leads with the yellow one, so here it stays quiet. */
-.agenda__reveal .agenda__cta {
-  align-self: flex-start;
+/* The start button in the roadmap is the light blue pill at full width (designer, 2026-10-14): the
+   move above already leads with the yellow one, so here colour stays quiet and width says it comes first.
+   The questions under it are smaller, so the order reads without a second loud colour. */
+.agenda__reveal {
+  gap: var(--space-sm);
 }
 
 .agenda__ask {
@@ -15860,8 +15861,9 @@ ul.agenda__ask-list {
   list-style: none;
 }
 
-/* The questions about a step open the chat, so they look like the chat's own prompts: navy pills, sized
-   to their words and wrapping, with the advisor's mark (designer, 2026-10-14). */
+/* The questions about a step open the chat, so they look like the chat's own prompts: navy pills with
+   the advisor's mark, sized to their words and wrapping. They are the small size (about 32px), second to
+   the full-width start button; an invisible band keeps each one 44px to tap (designer, 2026-10-14). */
 .agenda__ask-list {
   display: flex;
   flex-wrap: wrap;
@@ -15869,21 +15871,29 @@ ul.agenda__ask-list {
 }
 
 .agenda__ask-pill {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: var(--space-xs);
-  min-height: var(--button-target);
-  padding: var(--space-xs) var(--space-md) var(--space-xs) var(--space-sm);
+  gap: var(--space-2xs);
+  padding: calc(var(--space-xs) * 0.75) var(--space-sm) calc(var(--space-xs) * 0.75) var(--space-xs);
   border: 0;
   border-radius: var(--radius-xl);
   background-color: var(--color-surface-inverse);
   color: var(--color-text-inverse);
   font-family: var(--type-body-sm-font);
-  font-size: var(--type-body-sm-size);
+  font-size: var(--text-xs-plus);
   line-height: var(--leading-snug);
   text-align: start;
   cursor: pointer;
   --focus-ring: var(--focus-ring-width) solid var(--color-focus);
+}
+
+.agenda__ask-pill::after {
+  content: "";
+  position: absolute;
+  inset: 50% 0 auto;
+  height: max(100%, var(--button-target));
+  transform: translateY(-50%);
 }
 
 .agenda__ask-pill:hover {
