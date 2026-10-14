@@ -55,10 +55,6 @@ export interface PlanAgendaProps {
   openFirstStep?: boolean;
   /** Something beside the heading, such as the way into her whole plan. */
   action?: ReactNode;
-  /** Something between the heading and the stages, such as her direction. */
-  lead?: ReactNode;
-  /** Adding as a plain button at the foot of the road, wherever it is: in a sheet nothing floats. */
-  addInline?: boolean;
   /** Something on a stage under its name, shown whether the stage is open or not: her check-in on a finished one, say. */
   stageNote?: (index: number) => ReactNode;
   /** Catalogue only. */
@@ -89,8 +85,6 @@ export function PlanAgenda({
   onAdd,
   openFirstStep = true,
   action,
-  lead,
-  addInline,
   stageNote,
   demoStage,
   demoStep,
@@ -99,7 +93,7 @@ export function PlanAgenda({
   className,
 }: PlanAgendaProps) {
   const uid = useId();
-  const web = useViewport().viewport === "web" || Boolean(addInline);
+  const web = useViewport().viewport === "web";
   const here = stages.find((s) => s.status === "current") ?? stages.find((s) => s.status === "recommended") ?? stages[0];
   const firstStep = (stage: number) => items.find((i) => i.stage === stage && i.kind === "step")?.id ?? null;
   const [open, setOpen] = useState<number | null>(demoStage !== undefined ? demoStage : here?.index ?? 0);
@@ -146,7 +140,6 @@ export function PlanAgenda({
         </h2>
         {action}
       </div>
-      {lead}
       <output className="agenda__note" aria-live="polite">
         {note}
       </output>

@@ -16209,67 +16209,6 @@ fieldset.agenda__whens {
 }
 
 /* -----------------------------------------------------------------------------
-   YOUR ROADMAP, AS A CARD (Plan, Concept 3, phone and tablet)
-   Under Why this matters: a lime chip with the plan's flag, "Your roadmap" and a chevron. It opens a
-   sheet with her direction and the stages.
-   -------------------------------------------------------------------------- */
-.roadmap-entry {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  width: 100%;
-  padding: var(--space-sm) var(--space-md) var(--space-sm) var(--space-sm);
-  border: var(--border-width-thin) solid var(--color-border-subtle);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
-  color: var(--color-text-primary);
-  text-align: start;
-  cursor: pointer;
-}
-
-.roadmap-entry:focus-visible,
-.roadmap-entry.is-focus {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.roadmap-entry__chip {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: var(--space-2xl);
-  height: var(--space-2xl);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-stage-3);
-  color: var(--color-tag-text);
-}
-
-.roadmap-entry__title {
-  flex: 1;
-  font-family: var(--type-card-title-font);
-  font-size: var(--type-card-title-size);
-  font-weight: var(--type-card-title-weight);
-  line-height: var(--type-card-title-leading);
-}
-
-.roadmap-entry__go {
-  flex: none;
-  color: var(--color-text-secondary);
-}
-
-/* In the sheet the roadmap reads from the top: its heading, her direction, then the stages. */
-.roadmap-sheet .sheet__panel {
-  max-height: 92%;
-  gap: var(--space-lg);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .roadmap-sheet .sheet__panel {
-    animation: sheet-up var(--duration-slow) cubic-bezier(0.4, 0, 0.2, 1);
-  }
-}
-
-/* -----------------------------------------------------------------------------
    THE GUIDED CHECK-IN (Plan, Concept 3)
    Onboarding's page and drawer, used for the Plan. The page fills the screen, so the floating pill
    sits below the drawer, in the room the chrome keeps for it.
@@ -16387,10 +16326,10 @@ fieldset.agenda__whens {
 }
 
 /* The Plan's answer drawer is navy on a phone and a tablet (designer, 2026-10-13), so the question
-   about this move reads apart from the page: the yellow start button, white answers, light words. It
-   has no grab handle; the page scrolls above it. On the web the answers are part of the page. */
+   about this move reads apart from the page: the yellow start button, white answers, light words. Its
+   handle folds it to the peek bar, which shows the roadmap under the move. On the web the answers are
+   part of the page. */
 :is([data-viewport="mobile"], [data-viewport="tablet"]) .plan-guided .answer-drawer {
-  padding-top: var(--space-lg);
   color: var(--color-text-inverse);
   background-color: var(--color-surface-inverse);
   border-top: 0;
@@ -16398,8 +16337,8 @@ fieldset.agenda__whens {
   --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
 }
 
-:is([data-viewport="mobile"], [data-viewport="tablet"]) .plan-guided .answer-drawer:not(.is-peek) .answer-drawer__grab {
-  display: none;
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .plan-guided .answer-drawer__grab::before {
+  background-color: var(--color-text-inverse-muted);
 }
 
 :is([data-viewport="mobile"], [data-viewport="tablet"]) .plan-guided .answer-drawer.is-peek {

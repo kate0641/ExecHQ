@@ -104,7 +104,6 @@ import { momentumLabeledStates } from "./plan/MomentumLabeled/MomentumLabeled.st
 import { planDetailSheetStates } from "./plan/PlanDetailSheet/PlanDetailSheet.states";
 import { planDirectionStates } from "./plan/PlanDirection/PlanDirection.states";
 import { planDetailLinkStates } from "./plan/PlanDetailLink/PlanDetailLink.states";
-import { roadmapEntryStates } from "./plan/RoadmapEntry/RoadmapEntry.states";
 import { addToPlanSheetStates } from "./plan/AddToPlanSheet/AddToPlanSheet.states";
 import { planGuidedStates } from "./plan/PlanGuided/PlanGuided.states";
 import { stageCheckInStates } from "./plan/StageCheckIn/StageCheckIn.states";
@@ -245,7 +244,6 @@ export const registry: RegisteredComponent[] = [
   planDetailSheetStates,
   planDirectionStates,
   planDetailLinkStates,
-  roadmapEntryStates,
   addToPlanSheetStates,
   planGuidedStates,
   stageCheckInStates,

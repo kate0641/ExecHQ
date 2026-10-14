@@ -15,8 +15,6 @@ import { PlanDetailLink } from "@/components/plan/PlanDetailLink";
 import { StageCheckIn, type CheckInItem } from "@/components/plan/StageCheckIn";
 import { CheckInRecap } from "@/components/plan/CheckInRecap";
 import { PlanDirection } from "@/components/plan/PlanDirection";
-import { RoadmapEntry } from "@/components/plan/RoadmapEntry";
-import { useViewport } from "@/lib/viewport-context";
 import { PlanSignalPicture } from "@/components/plan/PlanSignalPicture";
 import { EntryDrawer } from "@/components/plan/EntryDrawer";
 import { LinkedInPicture } from "@/components/plan/LinkedInPicture";
@@ -62,7 +60,6 @@ import { PlanMomentum } from "./PlanMomentum";
  */
 export function usePlanPage() {
   const loop = useLoop();
-  const web = useViewport().viewport === "web";
   const links = useToolboxLinks();
   const addedPresence = useAddedPresence();
   const baseline = useBaseline();
@@ -393,24 +390,6 @@ export function usePlanPage() {
       />
     </div>
   );
-  // On a phone and a tablet the move keeps the page: her direction and the roadmap open from a card under
-  // Why this matters, in a sheet (designer, 2026-10-13). On the web they stay beside the page.
-  const roadmapEntry = web ? (
-    roadmap
-  ) : (
-    <RoadmapEntry>
-      <PlanAgenda
-        key={`agenda-sheet-${stepsKey}`}
-        openFirstStep={false}
-        stageNote={checkInNote}
-        action={<PlanDetailLink key={`plan-detail-sheet-${loop.id}-${planId}`} {...planDetail} />}
-        lead={<PlanDirection direction={loop.account.direction} />}
-        addInline
-        headingId="plan-agenda-sheet"
-        {...agendaProps}
-      />
-    </RoadmapEntry>
-  );
   const stageCheckIn = checkInStage ? (
     <StageCheckIn
       key={`checkin-${loop.id}-${planId}-${checkInStage.index}`}
@@ -487,7 +466,7 @@ export function usePlanPage() {
       onStart={(step) => keepSteps(accept(stepState, step.id))}
       onAdd={addToPlan}
       // The move is already said above it, with its way to start, so the stage opens on its list.
-      roadmap={roadmapEntry}
+      roadmap={roadmap}
     />
   );
 
