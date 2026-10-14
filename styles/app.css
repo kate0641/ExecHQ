@@ -16025,11 +16025,15 @@ fieldset.agenda__whens {
   isolation: isolate;
 }
 
+/* The stages in full colour (designer, 2026-10-13), from tokens.css, each card
+   overlapping the foot of the one before. Light cards take the ink and a deep eyebrow of their own hue;
+   dark cards take white and a pale one. */
 .agenda--stack .agenda__stage {
   position: relative;
   margin-top: calc(var(--space-md) * -1);
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   box-shadow: 0 calc(var(--border-width-medium) * -1) 0 var(--color-surface);
+  color: var(--stage-ink);
 }
 
 .agenda--stack .agenda__stage:first-child {
@@ -16040,40 +16044,68 @@ fieldset.agenda__whens {
   border-radius: var(--radius-xl);
 }
 
-.agenda--stack .agenda__stage--0 { background-color: var(--color-stage-1); z-index: 1; }
-.agenda--stack .agenda__stage--1 { background-color: var(--color-stage-2); z-index: 2; }
-.agenda--stack .agenda__stage--2 { background-color: var(--color-stage-3); z-index: 3; }
-.agenda--stack .agenda__stage--3 { background-color: var(--color-stage-4); z-index: 4; }
+.agenda--stack .agenda__stage--0 { background-color: var(--color-stage-1); z-index: 1; --stage-ink: var(--color-text-on-stage-1); --stage-eyebrow: var(--color-eyebrow-on-stage-1); --stage-fin: var(--color-text-on-stage-1); }
+.agenda--stack .agenda__stage--1 { background-color: var(--color-stage-2); z-index: 2; --stage-ink: var(--color-text-on-stage-2); --stage-eyebrow: var(--color-eyebrow-on-stage-2); --stage-fin: var(--color-eyebrow-on-stage-2); }
+.agenda--stack .agenda__stage--2 { background-color: var(--color-stage-3); z-index: 3; --stage-ink: var(--color-text-on-stage-3); --stage-eyebrow: var(--color-eyebrow-on-stage-3); --stage-fin: var(--color-text-on-stage-3); }
+.agenda--stack .agenda__stage--3 { background-color: var(--color-stage-4); z-index: 4; --stage-ink: var(--color-text-on-stage-4); --stage-eyebrow: var(--color-eyebrow-on-stage-4); --stage-fin: var(--color-eyebrow-on-stage-4); }
 
 .agenda--stack .agenda__stage-button {
-  align-items: center;
-  padding: var(--space-md) var(--space-md) var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-xs);
+  padding: var(--space-md) var(--space-md) var(--space-xl);
+  /* The ring takes the card's own ink, so it shows on every stage colour. */
+  --focus-ring: var(--focus-ring-width) solid var(--stage-ink);
 }
 
 .agenda--stack .agenda__stage.is-open .agenda__stage-button {
-  padding-bottom: var(--space-sm);
+  padding-bottom: var(--space-2xs);
 }
 
-.agenda--stack .agenda__stage-name {
-  font-size: var(--text-lg);
-  line-height: var(--leading-snug);
+/* "Stage 1 of 4" and when it runs to, on one eyebrow line, the time at the right. Inter, so it never
+   takes the display face's word spacing ("STAGE1OF4"). */
+.agenda__stage-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-sm);
+}
+
+.agenda--stack :is(.agenda__eyebrow, .agenda__when) {
+  font-family: var(--font-body);
+  word-spacing: normal;
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--stage-eyebrow);
 }
 
 .agenda--stack .agenda__when {
-  padding: var(--space-3xs) var(--space-xs);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface-raised);
-  color: var(--color-text-primary);
-  letter-spacing: 0;
-  text-transform: none;
-  font-size: var(--text-sm);
+  flex: none;
+  padding: 0;
+  background: none;
+}
+
+/* The stage's name in the Card title role. */
+.agenda--stack .agenda__stage-name {
+  display: block;
+  font-family: var(--type-card-title-font);
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  line-height: var(--type-card-title-leading);
+  letter-spacing: var(--type-card-title-tracking);
+  word-spacing: var(--type-card-title-word-spacing);
+  color: var(--stage-ink);
+  text-wrap: pretty;
 }
 
 /* A note on a stage under its name, such as her check-in on a finished one. The next card in the stack
    overlaps the foot of this one, so the note keeps the same room under it as the stage's own head does. */
 .agenda--stack .agenda__stage-note {
-  margin-top: calc(var(--space-sm) * -1);
-  padding: 0 var(--space-sm) var(--space-lg);
+  margin-top: calc(var(--space-md) * -1);
+  padding: 0 var(--space-sm) var(--space-xl);
 }
 
 .agenda--stack .agenda__stage.is-open .agenda__stage-note {
@@ -16082,37 +16114,159 @@ fieldset.agenda__whens {
 }
 
 .agenda--stack .agenda__body {
-  padding: 0 var(--space-sm) var(--space-lg);
+  gap: var(--space-sm);
+  padding: 0 var(--space-md) var(--space-lg);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .agenda--stack .agenda__body {
+    animation: agenda-open var(--duration-slow) var(--easing-standard);
+  }
+}
+
+@keyframes agenda-open {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--space-xs) * -1));
+  }
 }
 
 .agenda--stack .agenda__small {
-  padding-inline: var(--space-xs);
+  padding-inline: 0;
+  color: var(--stage-fin);
+  text-wrap: pretty;
+}
+
+.agenda--stack .agenda__small b {
+  color: var(--stage-fin);
+}
+
+/* Every step in one white panel, split by hairlines: its time as a small eyebrow over its title. Only a
+   step that opens carries a chevron. */
+.agenda--stack ul.agenda__list {
+  gap: 0;
+  padding-inline: var(--space-sm);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-raised);
   color: var(--color-text-primary);
 }
 
-.agenda--stack ul.agenda__list {
-  gap: var(--space-xs);
+.agenda--stack .agenda__item {
+  padding: var(--space-sm) 0;
+  border: 0;
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+  border-radius: 0;
+  background: none;
 }
 
-.agenda--stack .agenda__item {
-  padding: var(--space-sm);
-  border: 0;
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface-raised);
+.agenda--stack .agenda__item:first-child {
+  border-top: 0;
 }
 
 .agenda--stack .agenda__line {
   grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "when go" "title go";
+  row-gap: var(--space-3xs);
+  column-gap: var(--space-sm);
+  align-items: center;
 }
 
 .agenda--stack .agenda__line .agenda__pill {
-  order: 2;
-  background: none;
+  grid-area: when;
   padding: 0;
+  background: none;
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
 }
 
 .agenda--stack .agenda__line .agenda__title {
-  order: 1;
+  grid-area: title;
+  font-family: var(--font-body);
+  word-spacing: normal;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-snug);
+  text-wrap: pretty;
+}
+
+.agenda--stack .agenda__open {
+  grid-area: go;
+  color: var(--color-text-secondary);
+  transform: rotate(90deg);
+  transition: transform var(--duration-base) var(--easing-standard);
+}
+
+.agenda--stack .agenda__line[aria-expanded="true"] .agenda__open {
+  transform: rotate(-90deg);
+}
+
+.agenda--stack .agenda__yours {
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-label);
+}
+
+/* -----------------------------------------------------------------------------
+   YOUR ROADMAP, AS A CARD (Plan, Concept 3, phone and tablet)
+   Under Why this matters: a lime chip with the plan's flag, "Your roadmap" and a chevron. It opens a
+   sheet with her direction and the stages.
+   -------------------------------------------------------------------------- */
+.roadmap-entry {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  padding: var(--space-sm) var(--space-md) var(--space-sm) var(--space-sm);
+  border: var(--border-width-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+  color: var(--color-text-primary);
+  text-align: start;
+  cursor: pointer;
+}
+
+.roadmap-entry:focus-visible,
+.roadmap-entry.is-focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.roadmap-entry__chip {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--space-2xl);
+  height: var(--space-2xl);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-stage-3);
+  color: var(--color-tag-text);
+}
+
+.roadmap-entry__title {
+  flex: 1;
+  font-family: var(--type-card-title-font);
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  line-height: var(--type-card-title-leading);
+}
+
+.roadmap-entry__go {
+  flex: none;
+  color: var(--color-text-secondary);
+}
+
+/* In the sheet the roadmap reads from the top: its heading, her direction, then the stages. */
+.roadmap-sheet .sheet__panel {
+  max-height: 92%;
+  gap: var(--space-lg);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .roadmap-sheet .sheet__panel {
+    animation: sheet-up var(--duration-slow) cubic-bezier(0.4, 0, 0.2, 1);
+  }
 }
 
 /* -----------------------------------------------------------------------------
@@ -16230,6 +16384,45 @@ fieldset.agenda__whens {
 
 [data-viewport="tablet"] .guide--drawer.plan-guided:has(.answer-drawer:not(.is-peek)):not(:where([data-viewport="mobile"] *)) :is(.answer-drawer__wrap, .answer-drawer) {
   flex: 1 1 auto;
+}
+
+/* The Plan's answer drawer is navy on a phone and a tablet (designer, 2026-10-13), so the question
+   about this move reads apart from the page: the yellow start button, white answers, light words. It
+   has no grab handle; the page scrolls above it. On the web the answers are part of the page. */
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .plan-guided .answer-drawer {
+  padding-top: var(--space-lg);
+  color: var(--color-text-inverse);
+  background-color: var(--color-surface-inverse);
+  border-top: 0;
+  --color-focus: var(--color-focus-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+}
+
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .plan-guided .answer-drawer:not(.is-peek) .answer-drawer__grab {
+  display: none;
+}
+
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .plan-guided .answer-drawer.is-peek {
+  padding-top: var(--space-xs);
+}
+
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .plan-guided .answer-drawer :is(.answer-drawer__peek-q, .chip-group__label) {
+  color: var(--color-text-inverse);
+}
+
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .plan-guided .answer-drawer :is(.answer-drawer__peek-status, .answer-drawer__step, .btn--ghost) {
+  color: var(--color-text-inverse-muted);
+}
+
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .plan-guided .answer-drawer .btn--ghost:hover {
+  color: var(--color-text-inverse);
+  background-color: var(--color-surface-inverse-hover);
+}
+
+/* The answers stay white with the ink, a ring of their own inside the navy. */
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .plan-guided .answer-drawer .chip-group__chip {
+  border-color: var(--color-surface-raised);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
 }
 
 /* The roadmap under the move, set apart from the move by space alone. */

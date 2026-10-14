@@ -186,10 +186,22 @@
   --color-surface-feature: var(--brand-blue-100);  /* the card that says what to do next, on trial */
   /* The four stages of a roadmap, tinted across the Calendar. The stage is always also
      said in words (a start marker, a legend, the day panel), so a tint is never the only cue. */
-  --color-stage-1: var(--brand-blue-200);
-  --color-stage-2: var(--brand-green-200);
-  --color-stage-3: var(--brand-yellow-200);
-  --color-stage-4: var(--brand-orange-200);
+  /* On the Plan's roadmap the stages take full colour (designer, 2026-10-13): blue 300, orange 800,
+     lime (green 300) and gold (yellow 700). Light cards take the ink with a deep eyebrow of their own
+     hue; dark cards take white with a pale one. Every pair passes AA. Orange 800 is kept apart from
+     the error colour by name only: a stage is never an error, and it always says its name. */
+  --color-stage-1: var(--brand-blue-300);
+  --color-stage-2: var(--brand-orange-800);
+  --color-stage-3: var(--brand-green-300);
+  --color-stage-4: var(--brand-yellow-700);
+  --color-text-on-stage-1: var(--brand-stone-900);
+  --color-text-on-stage-2: var(--brand-white);
+  --color-text-on-stage-3: var(--brand-stone-900);
+  --color-text-on-stage-4: var(--brand-white);
+  --color-eyebrow-on-stage-1: var(--brand-blue-700);
+  --color-eyebrow-on-stage-2: var(--brand-orange-200);
+  --color-eyebrow-on-stage-3: var(--brand-green-700);
+  --color-eyebrow-on-stage-4: var(--brand-yellow-200);
   /* A veil of the darkest navy over photography, so text on it stays readable. The
      image's own colour shows through where the veil is clear. */
   /* The Briefing's cover on Home: its photograph fades into the dark green,
