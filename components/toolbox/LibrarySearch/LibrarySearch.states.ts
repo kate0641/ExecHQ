@@ -38,6 +38,11 @@ export const librarySearchStates = defineComponentStates({
     { label: "A match — pressed", props: { items, copy, onPick: noop, demo: "active" } },
     { label: "Typing: matches, best first", props: { items, copy, onPick: noop, initial: "pi" }, states: ["filled"] },
     { label: "Found by what it says", props: { items, copy, onPick: noop, initial: "scope" } },
+    {
+      label: "A long title wraps — long text",
+      props: { items: [{ id: "long", title: "Brief for the conversation with the review’s sponsor before the planning cycle opens in January", detail: "Situation brief · 3 days ago", href: "#" }, ...items], copy, onPick: noop, initial: "brief" },
+      states: ["long text"],
+    },
     { label: "Nothing matches — empty", props: { items, copy, onPick: noop, initial: "budget" }, states: ["empty"] },
   ],
 });
