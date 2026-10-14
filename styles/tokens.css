@@ -491,6 +491,7 @@
 
   --tracking-tight: -0.02em;
   --tracking-normal: 0;
+  --tracking-slight: 0.01em;
   --tracking-wide: 0.02em;
   --tracking-wider: 0.03em;
   --tracking-widest: 0.04em;
@@ -502,12 +503,12 @@
   --word-spacing-tightest: -0.18em;
   --word-spacing-normal: 0;
 
-  /* Kulim Park sets its letters close and its spaces wide, so words look
-     cramped with gaps between them. Wherever it is used, letters open and
-     spaces close: headings a little less than text, labels a little more. */
-  --font-display-tracking-heading: var(--tracking-wide);
-  --font-display-tracking: var(--tracking-wider);
-  --font-display-tracking-label: var(--tracking-widest);
+  /* Kulim Park sets its spaces wide, so its spaces close wherever it is
+     used. Headings keep Kulim's own letter spacing (designer, 2026-10-13: B
+     of three tighter options); text and labels open a touch, labels most. */
+  --font-display-tracking-heading: var(--tracking-normal);
+  --font-display-tracking: var(--tracking-slight);
+  --font-display-tracking-label: var(--tracking-wide);
   --font-display-word-spacing: var(--word-spacing-tightest);
 
   /* ---------------------------------------------------------------------------
