@@ -44,14 +44,8 @@ export function DeletionDetail({
 
   return (
     <DetailPanel heading={C.heading} headingId={headingId} lead={C.body} onClose={onClose}>
-      <ul className="detail-list detail-list--removes">
-        {removes.map((line) => (
-          <li key={line}>
-            <Icon name="close" size={16} />
-            <span>{line}</span>
-          </li>
-        ))}
-      </ul>
+      {/* Taking a copy sits up here, with the list between it and Delete, so
+          one can't be tapped for the other (designer, 2026-10-15). */}
       <p className="detail-panel__body">
         {C.copyFirst}{" "}
         <button
@@ -63,6 +57,14 @@ export function DeletionDetail({
           {downloading ? PROFILE_COPY.rows.exportWorking : PROFILE_COPY.rows.export}
         </button>
       </p>
+      <ul className="detail-list detail-list--removes">
+        {removes.map((line) => (
+          <li key={line}>
+            <Icon name="close" size={16} />
+            <span>{line}</span>
+          </li>
+        ))}
+      </ul>
       <div className="detail-panel__actions">
         <Button variant="danger" fullWidth onClick={onDelete}>
           {C.confirm}

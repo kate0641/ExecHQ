@@ -66,7 +66,7 @@ export function PublisherPicker({ mode, chosen = [], onDone, onCancel, startOwn 
                 <button type="button" className="publisher-picker__row" aria-pressed={on} onClick={() => toggle(p.id)}>
                   <span className="publisher-picker__name">{p.name}</span>
                   <span className="publisher-picker__check" aria-hidden="true">
-                    {on ? <Icon name="check" size={16} /> : null}
+                    {on ? <Icon name="check" size={12} /> : null}
                   </span>
                 </button>
               </li>

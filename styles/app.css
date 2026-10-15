@@ -11898,6 +11898,11 @@ ul.stage-actions__list {
   font-size: var(--type-heading-size-phone);
 }
 
+/* Focused only by script, as a sheet opens, so a screen reader starts here. */
+.detail-panel__heading:focus {
+  outline: none;
+}
+
 .detail-panel__heading:focus {
   outline: none;
 }
@@ -11982,6 +11987,11 @@ ul.stage-actions__list {
   flex: none;
   margin-top: var(--space-3xs);
   color: var(--color-text-secondary);
+}
+
+/* What deleting removes is marked in the danger red (designer, 2026-10-15). */
+.detail-list--removes .icon {
+  color: var(--color-feedback-danger-text);
 }
 
 /* --- Notifications --------------------------------------------------------- */
@@ -17777,24 +17787,26 @@ ul.plan-guided__sparks {
 }
 
 /* A row is one toggle: the publisher's name, and a check on the right when
-   it feeds her Briefing. The card's padding all round, at least 52px tall. */
+   it feeds her Briefing. The card's padding all round, at least 44px tall. */
 .publisher-picker__row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-sm);
   width: 100%;
-  min-height: 3.25rem;
+  min-height: 2.75rem;
   padding: var(--space-card-padding);
   border: 0;
   background-color: transparent;
   color: var(--color-text-primary);
-  font-family: var(--type-subheading-font);
-  font-size: var(--type-subheading-size);
-  font-weight: var(--type-subheading-weight);
-  line-height: var(--type-subheading-leading);
-  letter-spacing: var(--type-subheading-tracking);
-  word-spacing: var(--type-subheading-word-spacing);
+  /* The label role, 14px: the list will grow, so each row stays compact
+     (designer, 2026-10-15). */
+  font-family: var(--type-label-font);
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  line-height: var(--type-label-leading);
+  letter-spacing: var(--type-label-tracking);
+  word-spacing: var(--type-label-word-spacing);
   text-align: left;
   cursor: pointer;
   transition: background-color var(--duration-fast) var(--easing-standard);
@@ -17818,8 +17830,8 @@ ul.plan-guided__sparks {
   display: grid;
   flex: none;
   place-items: center;
-  width: var(--space-lg);
-  height: var(--space-lg);
+  width: var(--space-md-lg);
+  height: var(--space-md-lg);
   border: var(--border-width-medium) solid var(--color-border-strong);
   border-radius: 50%;
   color: var(--color-text-inverse);
