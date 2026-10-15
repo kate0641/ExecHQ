@@ -11846,6 +11846,8 @@ ul.stage-actions__list {
   letter-spacing: var(--type-body-sm-tracking);
   word-spacing: var(--type-body-sm-word-spacing);
   color: var(--color-text-secondary);
+  /* Never one word alone on the last line (the page recipe's rule). */
+  text-wrap: pretty;
 }
 
 .detail-panel__quote {
