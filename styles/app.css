@@ -8304,7 +8304,10 @@ ol.ring-detail__timeline {
    2026-10-13). */
 .guide__parts {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  /* One segment per part on a single line, however many there are: the stage check-in has five
+     (designer, 2026-10-15), so a fixed four wrapped the fifth onto a line of its own. */
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
   gap: var(--space-xs);
   margin: 0;
   padding: 0;
@@ -16652,14 +16655,15 @@ fieldset.agenda__whens {
   list-style: none;
 }
 
+/* Light blue with no edge (designer, 2026-10-15), so what she did stands apart from the page. */
 .stage-checkin__thing {
   display: flex;
   flex-direction: column;
   gap: var(--space-3xs);
   padding: var(--space-sm) var(--space-card-padding);
-  border: var(--border-width-thin) solid var(--color-border);
+  border: 0;
   border-radius: var(--radius-card);
-  background: var(--color-surface-raised);
+  background: var(--color-surface-check-in-thing);
 }
 
 .stage-checkin__from {

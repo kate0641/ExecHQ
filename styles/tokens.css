@@ -389,6 +389,8 @@
      white card, carrying what the question is about (designer, 2026-10-12).
      Navy on it reads at 11.3:1. The foot of the card keeps its hairline. */
   --color-surface-check-in-band: var(--brand-blue-200);
+  /* What she did in a finished stage, on the stage check-in: our light blue, no edge (designer, 2026-10-15). */
+  --color-surface-check-in-thing: var(--brand-blue-200);
   --color-text-on-check-in-band: var(--brand-primary);
   /* "Logged", as a quiet stone pill above the readback: 8.9:1. Stone 200 is
      also the disabled surface, so nothing else on the card may use it. */
