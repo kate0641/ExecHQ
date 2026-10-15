@@ -8471,7 +8471,8 @@ ol.ring-detail__timeline {
   margin-top: auto;
   display: flex;
   flex-direction: column;
-  gap: var(--space-group-title);
+  /* A title to its copy, 8px: the reason reads as one piece (designer, 2026-10-15; was 12). */
+  gap: var(--space-title-copy);
 }
 
 .guide__why-label {
