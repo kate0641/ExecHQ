@@ -12110,6 +12110,65 @@ ul.stage-actions__list {
   color: var(--color-text-secondary);
 }
 
+/* Profile is a navy page (designer, 2026-10-15), as onboarding's steps with no drawer are. The page
+   remaps its tokens to the inverse set, so its words, rules and focus follow; the title and section
+   headings are yellow. Its white cards, and the sheet a row opens, take the light set back. The
+   navigation pill and the light blue buttons keep their own colours. */
+.chrome:has(.profile, .profile-end) {
+  background-color: var(--color-surface-inverse);
+}
+
+/* Signed out or deleted, the header comes back over the navy: the light logo, a blue 400 rule. */
+.chrome:has(.profile-end) > .chrome__header {
+  --color-logo-exec: var(--color-logo-exec-on-inverse);
+  --color-logo-hq: var(--color-logo-hq-on-inverse);
+  border-bottom-color: var(--color-divider-on-inverse);
+  color: var(--color-text-inverse);
+}
+
+.profile,
+.profile-end {
+  --color-surface: var(--color-surface-inverse);
+  --color-text-primary: var(--color-text-inverse);
+  --color-text-secondary: var(--color-text-inverse-muted);
+  --color-text-muted: var(--color-text-inverse-muted);
+  --color-text-link: var(--color-text-inverse);
+  --color-text-link-hover: var(--color-text-inverse);
+  --color-eyebrow: var(--color-eyebrow-on-inverse);
+  --color-border: var(--color-divider-on-inverse);
+  --color-border-subtle: var(--color-divider-on-inverse);
+  --color-focus: var(--color-focus-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-primary);
+}
+
+.profile__title,
+.profile .detail-panel__heading,
+.profile-end__heading {
+  color: var(--color-headline-on-inverse);
+}
+
+.profile :is(.card, .settings-group__rows, .sheet__panel) {
+  --color-text-primary: var(--light-text-primary);
+  --color-text-secondary: var(--light-text-secondary);
+  --color-text-muted: var(--light-text-muted);
+  --color-text-link: var(--light-text-link);
+  --color-text-link-hover: var(--light-text-link);
+  --color-eyebrow: var(--light-eyebrow);
+  --color-border: var(--light-border);
+  --color-border-subtle: var(--light-border);
+  --color-focus: var(--light-focus);
+  --focus-ring: var(--focus-ring-width) solid var(--light-focus);
+  color: var(--color-text-primary);
+}
+
+/* The mark on the end screen: yellow with a navy icon, as the numbered circles are on navy. */
+.profile-end__mark {
+  background-color: var(--color-accent-on-inverse);
+  color: var(--color-surface-inverse);
+}
+
 /* =============================================================================
    LOGIN — Concept 1, Open page
    White and quiet, a light blue glow in the corner, pill fields, the button

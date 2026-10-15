@@ -13,6 +13,7 @@ import { SettingsRow } from "@/components/profile/SettingsRow";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import { briefingActions, useBriefing } from "@/lib/briefing-store";
+import { useStatusBarTone } from "@/lib/device-tone";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { BRIEFING_COPY } from "@/mock/briefing";
 import { fullName, type Account } from "@/mock/account";
@@ -175,6 +176,8 @@ export function ProfileConcept1() {
   const loop = useLoop();
   const account = loop.account;
   const publishers = useBriefing().publishers ?? [];
+  // A navy page (designer, 2026-10-15): the status bar runs the navy to the top.
+  useStatusBarTone("inverse");
 
   /** The sheet that is open, on every viewport. */
   const [open, setOpen] = useState<ProfileDetailId | null>(null);
