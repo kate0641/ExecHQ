@@ -5,8 +5,10 @@
  * The Loop record itself lives in the Loop (`loopActions.create`), so status
  * is told in one place.
  *
- * Also which Toolbox concept the reviewer last opened, so the Briefing's
- * "Write a post about this" lands in it (Concept 1 until one is opened).
+ * Also which Toolbox concept the reviewer last opened, and which tool flow
+ * concept, so the Toolbox's tools, the Briefing's "Write a post about this"
+ * and the next step after an outcome land in the flow she is reviewing
+ * (Concept 2 until one is opened).
  *
  * An external store mirrored to localStorage, like the Briefing's, and undone
  * by the dock's reset.
@@ -41,11 +43,20 @@ const TOOLBOX_PAGES: readonly string[] = ["concept-2"] satisfies ToolboxPage[];
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const toolboxPageFor = (concept: string): ToolboxPage => "concept-2";
 
+/** The tool flow concepts there are. */
+export type ToolFlowPage = "concept-1" | "concept-2" | "concept-3";
+const TOOL_FLOW_PAGES: readonly string[] = ["concept-1", "concept-2", "concept-3"] satisfies ToolFlowPage[];
+
 export interface ToolboxState {
   drafts: Readonly<Record<string, DraftState>>;
   /** The Toolbox concept last opened. */
   concept?: ToolboxPage;
+  /** The tool flow concept last opened (from the hub, say). */
+  flow?: ToolFlowPage;
 }
+
+/** The tool flow concept a tool opens in: the one last opened, or Concept 2. */
+export const flowFor = (state: ToolboxState): ToolFlowPage => state.flow ?? "concept-2";
 
 const INITIAL: ToolboxState = { drafts: {} };
 
@@ -57,7 +68,11 @@ function read(): ToolboxState {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return INITIAL;
     const parsed = JSON.parse(raw) as Partial<ToolboxState>;
-    return { drafts: parsed.drafts && typeof parsed.drafts === "object" ? parsed.drafts : {}, concept: TOOLBOX_PAGES.includes(parsed.concept ?? "") ? parsed.concept : undefined };
+    return {
+      drafts: parsed.drafts && typeof parsed.drafts === "object" ? parsed.drafts : {},
+      concept: TOOLBOX_PAGES.includes(parsed.concept ?? "") ? parsed.concept : undefined,
+      flow: TOOL_FLOW_PAGES.includes(parsed.flow ?? "") ? parsed.flow : undefined,
+    };
   } catch {
     return INITIAL;
   }
@@ -133,6 +148,11 @@ export const toolboxActions = {
   openConcept: (concept: ToolboxPage) => {
     const state = get();
     if (state.concept !== concept) write({ ...state, concept });
+  },
+  /** The reviewer opened this tool flow concept. */
+  openFlow: (flow: ToolFlowPage) => {
+    const state = get();
+    if (state.flow !== flow) write({ ...state, flow });
   },
 };
 

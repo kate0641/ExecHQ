@@ -16,7 +16,7 @@ import { useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { useToolboxLinks } from "@/lib/toolbox-links";
 import { PLAN_AGENDA_COPY, stepById } from "@/mock/plan";
-import { draftMeta, toolboxActions, useToolbox, type ToolboxPage } from "@/lib/toolbox-store";
+import { draftMeta, flowFor, toolboxActions, useToolbox, type ToolboxPage } from "@/lib/toolbox-store";
 import type { ArtifactKind } from "@/mock/loop";
 import { LIBRARY_COPY as C, TOOL_ORDER, TOOLBOX_PAGE, TOOLS } from "@/mock/toolbox";
 
@@ -48,8 +48,8 @@ const SEARCH_BUTTON_ID = "library-search-button";
  * What the Toolbox page needs: the library read from her Loop records, the
  * search sheet, and where each tool and artifact opens.
  *
- * Opening an artifact goes straight to its draft, in this concept's flow, and
- * opening the page records the concept, so the Briefing's hand-off lands here.
+ * Opening an artifact goes straight to its draft, in the tool flow concept
+ * last opened, and opening the page records the concept.
  */
 export function useToolboxPage(concept: ToolboxPage) {
   const loop = useLoop();
@@ -61,7 +61,8 @@ export function useToolboxPage(concept: ToolboxPage) {
     toolboxActions.openConcept(concept);
   }, [concept]);
 
-  const flow = conceptHref("toolbox-flow", concept);
+  // Tools open in the tool flow concept the reviewer last opened.
+  const flow = conceptHref("toolbox-flow", flowFor(toolbox));
   const toolHref = (kind: ArtifactKind, moment?: string) => {
     const params = new URLSearchParams({ tool: kind });
     if (moment) params.set("moment", moment);

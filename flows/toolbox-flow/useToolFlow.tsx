@@ -226,11 +226,19 @@ export function useToolFlow(concept: FlowConcept) {
 
   // Positioning Builder is one artifact: her statement from onboarding. Opened
   // as a tool, from a plan step or from the Toolbox, it goes to that artifact.
+  // Once built out, Concepts 1 and 3 show the start screen first, and starting
+  // opens it (Kate, 15 Oct); Concept 2 has no start screen of its own, so it
+  // goes straight there.
   const positioningRecord = loop.records.find((r) => r.kind === "positioning");
+  const statementHref = positioningRecord
+    ? `${conceptHref("toolbox-flow", concept)}?artifact=${positioningRecord.id}${stepId ? `&step=${stepId}` : ""}`
+    : undefined;
+  const startsOnStatement =
+    kind === "positioning" && !artifactId && concept !== "concept-2" && Boolean(positioningRecord && toolbox.drafts[positioningRecord.id]);
   useEffect(() => {
-    if (kind !== "positioning" || artifactId || !positioningRecord) return;
-    router.replace(`${conceptHref("toolbox-flow", concept)}?artifact=${positioningRecord.id}${stepId ? `&step=${stepId}` : ""}`);
-  }, [kind, artifactId, positioningRecord, stepId, router, concept]);
+    if (kind !== "positioning" || artifactId || !statementHref || startsOnStatement) return;
+    router.replace(statementHref);
+  }, [kind, artifactId, statementHref, startsOnStatement, router]);
 
   /** Her statement, not yet built out: the builder opens on it, as the same
    *  artifact, rather than making a new one. */
@@ -585,7 +593,7 @@ export function useToolFlow(concept: FlowConcept) {
           : undefined
       }
       startLabel={firstChoice && valueOf(firstChoice.id) ? USE_CASE_COPY.startWith(kind, valueOf(firstChoice.id)) : undefined}
-      onStart={options.onStart}
+      onStart={startsOnStatement && statementHref ? () => router.push(statementHref) : options.onStart}
       noStart={options.noStart ?? !options.onStart}
       choiceStarts={options.choiceStarts}
       noPicture={options.noPicture}

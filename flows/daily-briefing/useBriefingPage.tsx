@@ -12,7 +12,7 @@ import { Icon } from "@/components/primitives/Icon";
 import { briefingActions, respondHref, useBriefing, type ReadState, type Relevance } from "@/lib/briefing-store";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { READ_BRIEFING_STEP } from "@/lib/toolbox-links";
-import { useToolbox } from "@/lib/toolbox-store";
+import { flowFor, useToolbox } from "@/lib/toolbox-store";
 import { addDays } from "@/lib/loop";
 import { touchedTag } from "@/lib/library";
 import { BRIEFING_COPY as C, EARLIER_SAVED, publisherName, TODAYS_READS, type BriefingRead } from "@/mock/briefing";
@@ -44,9 +44,9 @@ export function useBriefingPage() {
   const state = useBriefing();
   const [open, setOpen] = useState<Open>(null);
   const [message, setMessage] = useState("");
-  // The hand-off lands in the Toolbox concept the reviewer last opened.
-  const toolboxConcept = useToolbox().concept ?? "concept-2";
-  const respond = (readId: string, from?: "passage" | "selection") => respondHref(readId, from, toolboxConcept);
+  // The hand-off lands in the tool flow concept the reviewer last opened.
+  const flowConcept = flowFor(useToolbox());
+  const respond = (readId: string, from?: "passage" | "selection") => respondHref(readId, from, flowConcept);
 
   // Opened from the Plan's "Read today's Briefing": reading one item, or
   // starting a post from one, completes the step. Opened any other way, the
