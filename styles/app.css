@@ -8499,6 +8499,21 @@ ol.ring-detail__timeline {
   background-color: var(--color-surface-raised);
 }
 
+/* On a navy page a navy header would sink into the page, so the card's header turns light blue, navy words
+   on it (11.3:1), the same header as What next?, and the card keeps the stone 250 edge every card has
+   (designer, 2026-10-15). */
+.guide--navy .feature-card__head--inverse {
+  background-color: var(--color-surface-for-her);
+}
+
+.guide--navy .feature-card__head--inverse .feature-card__title {
+  color: var(--color-text-on-for-her);
+}
+
+.guide--navy .feature-card:has(> .feature-card__head--inverse) {
+  border-color: var(--light-border);
+}
+
 /* The first draft has no edge of its own on the navy. */
 .guide--navy .story-draft__card {
   border-color: transparent;
