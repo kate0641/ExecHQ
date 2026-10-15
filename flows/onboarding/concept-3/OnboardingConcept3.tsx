@@ -22,7 +22,7 @@ import { StoryText } from "@/components/onboarding/StoryText";
 import { ToggleGroup } from "@/components/form/ToggleGroup";
 import { PlanTemplateCard } from "@/components/onboarding/PlanTemplateCard";
 import { ThisWeekCard } from "@/components/onboarding/ThisWeekCard";
-import { GuidePage } from "@/components/onboarding/GuidePage";
+import { GuidePage, type SkyGlow } from "@/components/onboarding/GuidePage";
 import { NextSteps } from "@/components/onboarding/NextSteps";
 import { Notice } from "@/components/onboarding/Notice";
 import { WelcomeSplit } from "@/components/onboarding/WelcomeSplit";
@@ -207,9 +207,28 @@ interface DrawerControl {
 /** What every page is handed about where it sits. */
 /** Steps with no drawer, flooded navy so the flow alternates quiet screens with ExecHQ moments
  *  (designer, 2026-10-15). A step with a navy drawer stays light. */
-const NAVY_PAGES = new Set<string>(["signals", "rec", "draft", "done"]);
+const NAVY_PAGES = new Set<string>(["signals", "rec", "plan-week", "draft", "done"]);
 
-type Frame = Pick<ComponentProps<typeof GuidePage>, "headingId" | "part" | "file" | "sky">;
+type Frame = Pick<ComponentProps<typeof GuidePage>, "headingId" | "part" | "file" | "sky" | "glow">;
+
+/** The sky's glow moves round the panel from one question to the next, so the yellow heart isn't in the same
+ *  corner every time (designer, 2026-10-15). Named per page, so the questions she sees in a row never share
+ *  a corner; at dusk and night the left corners move right, clear of the white words. */
+const GLOW_FOR: Partial<Record<PageId, SkyGlow>> = {
+  account: "top-right",
+  verify: "bottom-right",
+  direction: "bottom-left",
+  decide: "top-right",
+  "reflect-time": "top-left",
+  "t-0": "bottom-right",
+  "reflect-ceo": "bottom-left",
+  "t-1": "top-right",
+  "reflect-conversation": "top-left",
+  "t-2": "bottom-right",
+  "reflect-story": "bottom-left",
+  sharpen: "top-right",
+  versions: "top-left",
+};
 
 const STEP_NAV = PAGES.filter((page) => !page.offBar).map((page) => ({ id: page.id, label: page.label }));
 /** Changing her direction from the Plan: the direction, the recommendation, the questions and the plan. */
@@ -385,10 +404,12 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
    *  the summary on the last page. */
   function frame(): Frame {
     // Every question sits in its sky panel; a page without a drawer ignores it.
-    if (!edit) return { headingId, sky: true };
+    const glow = GLOW_FOR[pageId];
+    if (!edit) return { headingId, sky: true, glow };
     return {
       headingId,
       sky: true,
+      glow,
       part: EDIT_FLOW_COPY.part,
       file: (
         <Link href={EDIT_FLOW_COPY.backTo} className="link">
@@ -633,6 +654,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
       return (
         <GuidePage
           {...frame()}
+          navy={pageId === "plan-week"}
           kicker={c.kicker}
           title={part.title}
           lede={pageId === "plan-week" ? c.firstLede : part.helps}

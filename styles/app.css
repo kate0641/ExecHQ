@@ -8476,7 +8476,7 @@ ol.ring-detail__timeline {
   color: var(--color-headline-on-inverse);
 }
 
-.guide--navy :is(.recommendation, .next-steps, .point-box, .signal-list) {
+.guide--navy :is(.recommendation, .next-steps, .point-box, .signal-list, .card, .feature-card__body) {
   --color-text-primary: var(--light-text-primary);
   --color-text-secondary: var(--light-text-secondary);
   --color-text-muted: var(--light-text-muted);
@@ -16593,11 +16593,35 @@ fieldset.agenda__whens {
    from the panel's bottom-right corner; Why this matters stays on the page. Dawn and day take the ink,
    dusk and night white. The line under the heading has the same room above it as below. */
 .guide__head--sky {
+  /* Where the sky's glow sits. Each onboarding question moves it to another corner, so the yellow heart is
+     not in the same place screen after screen (designer, 2026-10-15). */
+  --sky-glow-at: 100% 100%;
   margin-inline: calc(var(--space-sm) * -1);
   padding: var(--space-lg) var(--space-md);
   border-radius: var(--radius-xl);
   --sky-panel-ink: var(--color-text-primary);
   --sky-panel-soft: var(--color-text-secondary);
+}
+
+.guide__head--sky[data-glow="top-right"] {
+  --sky-glow-at: 100% 0%;
+}
+
+.guide__head--sky[data-glow="bottom-left"] {
+  --sky-glow-at: 0% 100%;
+}
+
+.guide__head--sky[data-glow="top-left"] {
+  --sky-glow-at: 0% 0%;
+}
+
+/* Dusk and night set white words on the panel, so their glow keeps to the right, clear of the words. */
+.guide__head--sky:is([data-sky="dusk"], [data-sky="night"])[data-glow="bottom-left"] {
+  --sky-glow-at: 100% 100%;
+}
+
+.guide__head--sky:is([data-sky="dusk"], [data-sky="night"])[data-glow="top-left"] {
+  --sky-glow-at: 100% 0%;
 }
 
 .guide__head--sky .guide__kicker {
@@ -16617,15 +16641,15 @@ fieldset.agenda__whens {
 
 .guide__head--sky[data-sky="dawn"] {
   background:
-    radial-gradient(circle 7rem at 100% 100%, var(--color-sky-heart-light), transparent),
-    radial-gradient(circle 13rem at 100% 100%, var(--color-sky-heart-warm), transparent 85%),
+    radial-gradient(circle 7rem at var(--sky-glow-at), var(--color-sky-heart-light), transparent),
+    radial-gradient(circle 13rem at var(--sky-glow-at), var(--color-sky-heart-warm), transparent 85%),
     linear-gradient(in oklab, var(--color-sky-dawn), color-mix(in oklab, var(--color-sky-dawn) 70%, var(--color-surface-raised)));
 }
 
 .guide__head--sky[data-sky="day"] {
   background:
-    radial-gradient(circle 7rem at 100% 100%, var(--color-sky-day-top-core), transparent),
-    radial-gradient(circle 13rem at 100% 100%, var(--color-sky-day-top-ring), transparent 85%),
+    radial-gradient(circle 7rem at var(--sky-glow-at), var(--color-sky-day-top-core), transparent),
+    radial-gradient(circle 13rem at var(--sky-glow-at), var(--color-sky-day-top-ring), transparent 85%),
     linear-gradient(in oklab, var(--color-sky-day), color-mix(in oklab, var(--color-sky-day) 70%, var(--color-surface-raised)));
 }
 
@@ -16635,15 +16659,15 @@ fieldset.agenda__whens {
   --sky-panel-ink: var(--color-text-inverse);
   --sky-panel-soft: var(--color-text-inverse);
   background:
-    radial-gradient(circle 5rem at 100% 100%, var(--color-sky-dusk-top-core), transparent),
+    radial-gradient(circle 5rem at var(--sky-glow-at), var(--color-sky-dusk-top-core), transparent),
     radial-gradient(
-      circle 17rem at 100% 100% in oklch,
+      circle 17rem at var(--sky-glow-at) in oklch,
       color-mix(in oklab, var(--color-sky-dusk-top-ring) 50%, transparent) 0%,
       color-mix(in oklab, var(--color-sky-dusk-edge-top) 50%, transparent) 58%,
       transparent 100%
     ),
     radial-gradient(
-      circle 17rem at 100% 100% in oklab,
+      circle 17rem at var(--sky-glow-at) in oklab,
       var(--color-sky-dusk-top-ring) 0%,
       var(--color-sky-dusk-edge-top) 58%,
       color-mix(in oklab, var(--color-sky-dusk-edge-top) 78%, transparent) 70%,
@@ -16661,9 +16685,9 @@ fieldset.agenda__whens {
   --sky-panel-ink: var(--color-text-inverse);
   --sky-panel-soft: var(--color-text-inverse);
   background:
-    radial-gradient(circle 3.5rem at 100% 100%, var(--color-sky-night-spark), transparent),
-    radial-gradient(circle 10rem at 100% 100% in oklab, color-mix(in oklab, var(--color-sky-night-horizon) 75%, transparent), transparent 85%),
-    radial-gradient(circle 13rem at 100% 100%, var(--color-sky-night-glow), transparent 85%),
+    radial-gradient(circle 3.5rem at var(--sky-glow-at), var(--color-sky-night-spark), transparent),
+    radial-gradient(circle 10rem at var(--sky-glow-at) in oklab, color-mix(in oklab, var(--color-sky-night-horizon) 75%, transparent), transparent 85%),
+    radial-gradient(circle 13rem at var(--sky-glow-at), var(--color-sky-night-glow), transparent 85%),
     linear-gradient(in oklab, var(--color-sky-night), color-mix(in oklab, var(--color-sky-night) 70%, var(--color-sky-night-top)));
 }
 

@@ -7,6 +7,8 @@ import type { ButtonVariant } from "@/components/primitives/Button";
 import { Wordmark } from "@/components/primitives/Wordmark";
 import { keepAfterComma } from "@/components/primitives/keep-after-comma";
 
+export type SkyGlow = "bottom-right" | "top-right" | "bottom-left" | "top-left";
+
 export interface GuidePageProps {
   /** Where the user is, in words: the part of onboarding, e.g. "About you". */
   part?: string;
@@ -55,6 +57,9 @@ export interface GuidePageProps {
   /** With a drawer: the question sits in its own panel of the sky Home shows at this hour (dawn, day, dusk,
    *  night), its glow in the panel's bottom-right corner (designer, 2026-10-14). Onboarding and the Plan. */
   sky?: boolean;
+  /** Which corner of the sky panel holds the glow; bottom right unless said. Onboarding moves it from question
+   *  to question so the yellow heart isn't in the same place every time (designer, 2026-10-15). */
+  glow?: SkyGlow;
   /** A step with no drawer, flooded navy, so the flow alternates quiet screens with ExecHQ moments: headlines
    *  and section labels yellow, white cards on it (designer, 2026-10-15). */
   navy?: boolean;
@@ -98,6 +103,7 @@ export function GuidePage({
   after,
   overlay,
   sky: skyPanel = false,
+  glow,
   navy = false,
   className,
 }: GuidePageProps) {
@@ -127,7 +133,7 @@ export function GuidePage({
         </div>
       ) : null}
 
-      <header className={inSky ? "guide__head guide__head--sky" : "guide__head"} data-sky={inSky ? sky : undefined}>
+      <header className={inSky ? "guide__head guide__head--sky" : "guide__head"} data-sky={inSky ? sky : undefined} data-glow={inSky ? glow : undefined}>
         {wordmark ? <Wordmark size="xl" tone={cover ? "light" : "dark"} className="guide__wordmark" /> : null}
         {kicker ? <p className="guide__kicker">{kicker}</p> : null}
         <h1 className="guide__title" id={headingId} tabIndex={-1}>
