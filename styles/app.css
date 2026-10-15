@@ -16638,12 +16638,9 @@ fieldset.agenda__whens {
   --sky-glow-at: 0% 0%;
 }
 
-/* Dusk and night set white words on the panel, so their glow keeps to the right, clear of the words. */
-.guide__head--sky:is([data-sky="dusk"], [data-sky="night"])[data-glow="bottom-left"] {
-  --sky-glow-at: 100% 100%;
-}
-
-.guide__head--sky:is([data-sky="dusk"], [data-sky="night"])[data-glow="top-left"] {
+/* Night sets white words on the panel, so a left corner moves to the top right, clear of the words. Dusk
+   places its own glow, below. */
+.guide__head--sky[data-sky="night"][data-glow="top-left"] {
   --sky-glow-at: 100% 0%;
 }
 
@@ -16676,42 +16673,45 @@ fieldset.agenda__whens {
     linear-gradient(in oklab, var(--color-sky-day), color-mix(in oklab, var(--color-sky-day) 70%, var(--color-surface-raised)));
 }
 
-/* Dusk is Home's dusk (a small orange 200 centre, orange 300 turning dusty mauve into blue 500, half the
-   turn in oklch and half in oklab) set in the corner, over blue 600 so the white words pass. */
+/* Dusk (designer, 2026-10-15): a peach heart that walks through rose and violet into a deep blue sky,
+   instead of blending straight to grey. Its centre sits just past the panel's edge, so the warm part stays
+   off the words; the glow keeps to the right corners, bottom right where the page names it and top right
+   otherwise. White words pass AA over every part of it (5.6:1 or more, measured). */
 .guide__head--sky[data-sky="dusk"] {
   --sky-panel-ink: var(--color-text-inverse);
   --sky-panel-soft: var(--color-text-inverse);
+  --sky-glow-at: 106% -12%;
   background:
-    radial-gradient(circle 5rem at var(--sky-glow-at), var(--color-sky-dusk-top-core), transparent),
+    radial-gradient(circle 4rem at var(--sky-glow-at), var(--color-sky-panel-dusk-heart), transparent),
     radial-gradient(
-      circle 17rem at var(--sky-glow-at) in oklch,
-      color-mix(in oklab, var(--color-sky-dusk-top-ring) 50%, transparent) 0%,
-      color-mix(in oklab, var(--color-sky-dusk-edge-top) 50%, transparent) 58%,
-      transparent 100%
+      circle 15rem at var(--sky-glow-at) in oklch,
+      var(--color-sky-panel-dusk-ring) 0%,
+      color-mix(in oklab, var(--color-sky-panel-dusk-ring) 80%, var(--color-sky-panel-dusk-mid)) 22%,
+      color-mix(in oklch, var(--color-sky-panel-dusk-mid) 60%, transparent) 55%,
+      transparent 80%
     ),
-    radial-gradient(
-      circle 17rem at var(--sky-glow-at) in oklab,
-      var(--color-sky-dusk-top-ring) 0%,
-      var(--color-sky-dusk-edge-top) 58%,
-      color-mix(in oklab, var(--color-sky-dusk-edge-top) 78%, transparent) 70%,
-      color-mix(in oklab, var(--color-sky-dusk-edge-top) 50%, transparent) 79%,
-      color-mix(in oklab, var(--color-sky-dusk-edge-top) 22%, transparent) 87%,
-      color-mix(in oklab, var(--color-sky-dusk-edge-top) 3%, transparent) 96%,
-      transparent 100%
-    ),
-    linear-gradient(var(--color-sky-panel-dusk), var(--color-sky-panel-dusk));
+    linear-gradient(in oklch, var(--color-sky-panel-dusk-deep), var(--color-sky-panel-dusk));
 }
 
-/* Night keeps a touch of Home's lime horizon (designer, 2026-10-14): a soft lime ring round the blue spark,
-   held to the corner, clear of the words. */
+.guide__head--sky[data-sky="dusk"]:not([data-glow]),
+.guide__head--sky[data-sky="dusk"][data-glow="bottom-right"] {
+  --sky-glow-at: 106% 112%;
+}
+
+/* Night keeps a touch of Home's lime horizon (designer, 2026-10-14), a deeper green on the panel so the white
+   words pass (2026-10-15): a soft green ring round the blue spark, held to the right corners. */
 .guide__head--sky[data-sky="night"] {
   --sky-panel-ink: var(--color-text-inverse);
   --sky-panel-soft: var(--color-text-inverse);
   background:
     radial-gradient(circle 3.5rem at var(--sky-glow-at), var(--color-sky-night-spark), transparent),
-    radial-gradient(circle 10rem at var(--sky-glow-at) in oklab, color-mix(in oklab, var(--color-sky-night-horizon) 75%, transparent), transparent 85%),
+    radial-gradient(circle 10rem at var(--sky-glow-at) in oklab, color-mix(in oklab, var(--color-sky-panel-night-horizon) 70%, transparent), transparent 85%),
     radial-gradient(circle 13rem at var(--sky-glow-at), var(--color-sky-night-glow), transparent 85%),
     linear-gradient(in oklab, var(--color-sky-night), color-mix(in oklab, var(--color-sky-night) 70%, var(--color-sky-night-top)));
+}
+
+.guide__head--sky[data-sky="night"][data-glow="bottom-left"] {
+  --sky-glow-at: 100% 0%;
 }
 
 /* The roadmap under the move: a hairline divides the move above, which asks, from her direction and the

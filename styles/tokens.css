@@ -369,8 +369,16 @@
   --color-sky-night-edge: var(--brand-blue-500);
   --color-sky-night-fade-end: var(--brand-green-100);
   /* The sky panel behind a guided page's question (designer, 2026-10-14): each sky's own colours, its
-     glow in the panel's bottom-right corner. Dusk's panel sits on blue 600 so white words pass AA. */
-  --color-sky-panel-dusk: var(--brand-blue-600);
+     glow in the page's corner. Dusk (designer, 2026-10-15): a peach heart walking through rose into a deep
+     blue sky, blue 800 to 700, so the white words pass AA wherever it sits (5.6:1 or more, measured). */
+  --color-sky-panel-dusk: var(--brand-blue-700);
+  --color-sky-panel-dusk-deep: var(--brand-blue-800);
+  --color-sky-panel-dusk-mid: var(--brand-blue-600);
+  --color-sky-panel-dusk-heart: var(--brand-orange-200);
+  --color-sky-panel-dusk-ring: var(--brand-orange-300);
+  /* Night's horizon on the panel: a deeper green than Home's lime, so the white words keep 4.5:1 over it
+     (designer, 2026-10-15). */
+  --color-sky-panel-night-horizon: var(--brand-green-600);
 
   /* Danger — the destructive action: deleting the account, removing a
      connection. The red end of the orange scale. White on it is 7.0:1, and
