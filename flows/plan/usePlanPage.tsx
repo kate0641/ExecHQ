@@ -111,6 +111,17 @@ export function usePlanPage() {
      sheets open this way; nothing she has saved is changed. Her picture loads after the page, so
      a sheet that needs a row waits for one, and opens once. */
   const screenOpened = useRef(false);
+  /* The Plan's own screens open the same way: a move and its answers, its sheets, or a page of the stage
+     check-in. They show whatever the dock's state has; the check-in screens use her last finished stage, or
+     the one she is in when none is finished yet. Nothing she has saved is changed. */
+  const [planScreen, setPlanScreen] = useState<string | null>(null);
+  useEffect(() => {
+    const screen = new URLSearchParams(window.location.search).get("screen");
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- the URL is only readable after mount
+    if (screen?.startsWith("plan-")) setPlanScreen(screen.slice(5));
+  }, []);
+  const checkInScreen = planScreen?.startsWith("checkin") ? planScreen : null;
+  const movesScreen = planScreen && !checkInScreen ? planScreen : null;
   useEffect(() => {
     if (screenOpened.current) return;
     const screen = new URLSearchParams(window.location.search).get("screen");
@@ -324,7 +335,10 @@ export function usePlanPage() {
   const dueKey = lastDone && !checkedLater && !checkIns[checkInKey(planId, lastDone.index)] ? checkInKey(planId, lastDone.index) : null;
   // The one opened by hand belongs to this scenario only: switching scenarios leaves it behind.
   const showing = checkInShowing?.scenario === loop.id ? checkInShowing : null;
-  const checkInStage = windows.find((w) => checkInKey(planId, w.index) === (showing?.key ?? dueKey));
+  const checkInStage = movesScreen
+    ? undefined
+    : (windows.find((w) => checkInKey(planId, w.index) === (showing?.key ?? dueKey)) ??
+      (checkInScreen ? (lastDone ?? windows.find((w) => w.status === "current")) : undefined));
   const savedCheckIn = checkInStage ? checkIns[checkInKey(planId, checkInStage.index)] : undefined;
   /** What she did in a stage: her steps from it, done or passed on, and what she added while it ran. */
   function didInStage(stage: number): CheckInItem[] {
@@ -407,7 +421,7 @@ export function usePlanPage() {
         key={`agenda-${stepsKey}`}
         openFirstStep={false}
         stageNote={checkInNote}
-        action={<PlanDetailLink key={`plan-detail-${loop.id}-${planId}`} {...planDetail} />}
+        action={<PlanDetailLink key={`plan-detail-${loop.id}-${planId}`} {...planDetail} demoSheet={movesScreen === "detail"} />}
         {...agendaProps}
       />
     </div>
@@ -456,6 +470,9 @@ export function usePlanPage() {
       saved={savedCheckIn?.status === "done" ? savedCheckIn : undefined}
       offeredAgain={Boolean(savedCheckIn?.again?.length)}
       startAt={showing?.startAt}
+      demoFolded={checkInScreen === "checkin-folded"}
+      demoAt={CHECKIN_SCREENS[checkInScreen ?? ""]}
+      demoAnswers={checkInScreen === "checkin-summary" ? SCREEN_CHECKIN_ANSWERS : undefined}
       focusOnOpen={showing?.fromRoadmap}
       aside={roadmap}
     />
@@ -475,7 +492,7 @@ export function usePlanPage() {
       stageIndex={Math.max(0, windows.findIndex((w) => w.status === "current"))}
       stages={guidedStages}
       // Stuck or less sure at her last check-in: one step at a time while the stage after it runs.
-      moves={oneAtATime ? live.slice(0, 1) : live}
+      moves={movesScreen === "none" ? [] : oneAtATime ? live.slice(0, 1) : live}
       heardOf={(step) => savedSteps?.notes?.[step.id]?.heard}
       whenOf={(step) => whenWords(stepDay(stepState, step).date, loop.today)}
       today={loop.today}
@@ -489,6 +506,7 @@ export function usePlanPage() {
       onAdd={addToPlan}
       // The move is already said above it, with its way to start, so the stage opens on its list.
       roadmap={roadmap}
+      {...movesScreenProps(movesScreen, oneAtATime ? live.slice(0, 1) : live)}
     />
   );
 
@@ -618,4 +636,40 @@ export function usePlanPage() {
         />
       </>
     ) };
+}
+
+/* The showroom's screens of the Plan (`?screen=plan-…`): which page of the stage check-in, and what the
+   read-back shows. */
+const CHECKIN_SCREENS: Record<string, "intro" | "item" | "milestone" | "feeling" | "summary"> = {
+  checkin: "intro",
+  "checkin-folded": "intro",
+  "checkin-item": "item",
+  "checkin-milestone": "milestone",
+  "checkin-feeling": "feeling",
+  "checkin-summary": "summary",
+};
+const SCREEN_CHECKIN_ANSWERS = { milestone: "yes", feeling: "more-sure", words: "Clearer on what I lead than I was a month ago." } as const;
+
+/** The showroom's screens of the moves: the first move with its drawer folded, its times open, answered, or
+ *  passed on; the last page; or the sheet for adding her own. */
+function movesScreenProps(screen: string | null, moves: ActionStep[]) {
+  const first = moves[0]?.id ?? "";
+  switch (screen) {
+    case "folded":
+      return { demoFolded: true };
+    case "when":
+      return { demoPicking: true };
+    case "plan":
+      return { demoAnswered: { [first]: "plan" as const } };
+    case "pass":
+      return { demoAnswered: { [first]: "pass" as const } };
+    case "passed":
+      return { demoAnswered: { [first]: "pass" as const }, demoPassed: { [first]: "" } };
+    case "last":
+      return { demoPage: moves.length };
+    case "add":
+      return { demoAdding: true };
+    default:
+      return {};
+  }
 }

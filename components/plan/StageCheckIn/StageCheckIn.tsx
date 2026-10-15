@@ -71,6 +71,8 @@ export interface StageCheckInProps {
   demoPage?: number;
   demoAnswers?: StageCheckInAnswers;
   demoFolded?: boolean;
+  /** The showroom's screens: which page, by what it asks, since the number of pages depends on her stage. */
+  demoAt?: "intro" | "item" | "milestone" | "feeling" | "summary";
   className?: string;
 }
 
@@ -101,13 +103,17 @@ export function StageCheckIn({
   demoPage,
   demoAnswers,
   demoFolded,
+  demoAt,
   className,
 }: StageCheckInProps) {
   const headingId = useId();
   // The things to ask about are fixed when it opens, so answering one never moves the pages.
   const [asking] = useState(() => items.filter((i) => !i.passed && !i.feedback).map((i) => i.id));
   const pages = ["intro", ...asking.map((id) => `item:${id}`), "milestone", "feeling", "summary"];
-  const [page, setPage] = useState(Math.min(demoPage ?? (startAt === "summary" ? pages.length - 1 : 0), pages.length - 1));
+  // With nothing left to report, the page for it is the one after: whether she got there.
+  const at0 = demoAt ? pages.findIndex((p) => p === demoAt || (demoAt === "item" && p.startsWith("item:"))) : -1;
+  const atPage = demoAt === "item" && at0 < 0 ? pages.indexOf("milestone") : at0;
+  const [page, setPage] = useState(Math.min(atPage >= 0 ? atPage : (demoPage ?? (startAt === "summary" ? pages.length - 1 : 0)), pages.length - 1));
   const [open, setOpen] = useState(!demoFolded);
   const [drafts, setDrafts] = useState<Record<string, { tone?: OutcomeType; words: string }>>({});
   const [answers, setAnswers] = useState<StageCheckInAnswers>(demoAnswers ?? saved ?? {});

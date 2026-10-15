@@ -54,6 +54,10 @@ export interface PlanGuidedProps {
   demoAnswered?: Record<string, GuidedAnswer>;
   demoPassed?: Record<string, string>;
   demoFolded?: boolean;
+  /** Catalogue and the showroom's screens: the times to choose from, open. */
+  demoPicking?: boolean;
+  /** Catalogue and the showroom's screens: the sheet for adding her own, open. */
+  demoAdding?: boolean;
   className?: string;
 }
 
@@ -87,18 +91,20 @@ export function PlanGuided({
   roadmap,
   demoPassed,
   demoFolded,
+  demoPicking,
+  demoAdding,
   className,
 }: PlanGuidedProps) {
   const headingId = useId();
   const [page, setPage] = useState(demoPage ?? 0);
   const [answered, setAnswered] = useState<Record<string, GuidedAnswer>>(demoAnswered ?? {});
   // "Not for me" asks why before it acts, one optional tap; the line says what was offered in its place.
-  const [picking, setPicking] = useState(false);
+  const [picking, setPicking] = useState(Boolean(demoPicking));
   // The time she chose instead of the step's own, in words.
   const [chosenWhen, setChosenWhen] = useState<Record<string, string>>({});
   const [passedLine, setPassedLine] = useState<Record<string, string>>(demoPassed ?? {});
   const [open, setOpen] = useState(!demoFolded);
-  const [adding, setAdding] = useState(false);
+  const [adding, setAdding] = useState(Boolean(demoAdding));
   const [note, setNote] = useState("");
   const first = useRef(true);
   // Once she answers, the order is frozen: a step that leaves her plan stays on its page, and any step offered
