@@ -60,6 +60,9 @@ export interface GuidePageProps {
   /** Which corner of the sky panel holds the glow; bottom right unless said. Onboarding moves it from question
    *  to question so the yellow heart isn't in the same place every time (designer, 2026-10-15). */
   glow?: SkyGlow;
+  /** With the sky panel: the panel is plain navy instead of the sky, its headline lime. The Plan's moves, so
+   *  they read apart from onboarding; lime is there when yellow isn't justified (designer, 2026-10-15). */
+  navyPanel?: boolean;
   /** A step with no drawer, flooded navy, so the flow alternates quiet screens with ExecHQ moments: headlines
    *  and section labels yellow, white cards on it (designer, 2026-10-15). */
   navy?: boolean;
@@ -104,6 +107,7 @@ export function GuidePage({
   overlay,
   sky: skyPanel = false,
   glow,
+  navyPanel = false,
   navy = false,
   className,
 }: GuidePageProps) {
@@ -133,7 +137,11 @@ export function GuidePage({
         </div>
       ) : null}
 
-      <header className={inSky ? "guide__head guide__head--sky" : "guide__head"} data-sky={inSky ? sky : undefined} data-glow={inSky ? glow : undefined}>
+      <header
+        className={["guide__head", inSky ? "guide__head--sky" : null, inSky && navyPanel ? "guide__head--navy-panel" : null].filter(Boolean).join(" ")}
+        data-sky={inSky && !navyPanel ? sky : undefined}
+        data-glow={inSky && !navyPanel ? glow : undefined}
+      >
         {wordmark ? <Wordmark size="xl" tone={cover ? "light" : "dark"} className="guide__wordmark" /> : null}
         {kicker ? <p className="guide__kicker">{kicker}</p> : null}
         <h1 className="guide__title" id={headingId} tabIndex={-1}>

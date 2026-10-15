@@ -8498,9 +8498,16 @@ ol.ring-detail__timeline {
 }
 
 /* With a drawer the reason follows the question directly, instead of sinking
-   to the foot of the page and leaving a gap between them. */
+   to the foot of the page and leaving a gap between them. It sits 16px under
+   the question, not the page's 24, so it clears the open drawer (designer,
+   2026-10-15). */
 .guide--drawer .guide__why {
-  margin-top: 0;
+  margin-top: calc(var(--space-md) - var(--space-lg));
+}
+
+/* A body with nothing in it takes no room, so it adds no gap above the reason. */
+.guide__body:empty {
+  display: none;
 }
 
 /* The page's main action sits at the foot of the page however short the
@@ -16951,6 +16958,17 @@ fieldset.agenda__whens {
   --sky-panel-soft: var(--color-text-secondary);
 }
 
+/* The Plan's moves: the sky panel's place and shape in plain navy, its headline lime (designer, 2026-10-15). */
+.guide__head--navy-panel {
+  --sky-panel-ink: var(--color-text-inverse);
+  --sky-panel-soft: var(--color-text-inverse);
+  background-color: var(--color-surface-inverse);
+}
+
+.guide__head--sky.guide__head--navy-panel .guide__title {
+  color: var(--color-headline-on-navy-quiet);
+}
+
 .guide__head--sky[data-glow="top-right"] {
   --sky-glow-at: 100% 0%;
 }
@@ -16975,7 +16993,9 @@ fieldset.agenda__whens {
 
 .guide__head--sky .guide__title {
   font-size: var(--text-2xl-plus);
-  text-wrap: balance;
+  /* Each line as full as it fits, so a headline never opens on a short line ("Brief your" alone); pretty
+     still keeps a word from sitting alone at the end (designer, 2026-10-15). */
+  text-wrap: pretty;
   color: var(--sky-panel-ink);
 }
 

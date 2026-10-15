@@ -124,6 +124,27 @@ export const guidePageStates = defineComponentStates({
       },
     },
     {
+      label: "With the navy panel and a lime headline",
+      description: "The Plan's moves: the sky panel's place and shape, plain navy, the headline lime, so a move reads apart from onboarding.",
+      props: {
+        sky: true,
+        navyPanel: true,
+        part: "Step up",
+        position: "Stage 2 of 4 · Show the proof",
+        partIndex: 1,
+        partCount: 4,
+        kicker: "Move 1 of 2 · This week",
+        title: "Brief your manager before Thursday’s check-in",
+        lede: "Thursday’s check-in is your chance to talk about scope, and a one-page brief shows the proof.",
+        why: "A one-page brief turns a check-in into a conversation about scope.",
+        drawer: createElement(
+          AnswerDrawer,
+          { question: "Where are you with this?", open: true, onToggle: noop, primaryLabel: "Keep working on it", onPrimary: noop },
+          null
+        ),
+      },
+    },
+    {
       label: "Foot only offers a way past",
       props: {
         kicker: GUIDE_C3.signals.kicker,

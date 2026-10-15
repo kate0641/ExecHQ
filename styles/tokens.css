@@ -459,7 +459,8 @@
      (bright yellow "Exec", light blue "HQ") sits on any dark colour. */
   --color-logo-exec: var(--brand-gold-yellow);
   --color-logo-hq: var(--brand-navy);
-  --color-code-digit: var(--brand-navy);  /* the numbers in the email code's white boxes (designer, 2026-10-15) */
+  --color-code-digit: var(--brand-navy);
+  --color-headline-on-navy-quiet: var(--brand-green-200);  /* lime: a navy card's headline when yellow isn't justified, the Plan's moves (designer, 2026-10-15) */  /* the numbers in the email code's white boxes (designer, 2026-10-15) */
   --color-logo-exec-on-inverse: var(--brand-bright-yellow);
   --color-logo-hq-on-inverse: var(--brand-light-blue);
 

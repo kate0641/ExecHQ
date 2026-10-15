@@ -34,8 +34,9 @@ const GLYPHS: Record<Sky, React.ReactNode> = {
   night: <path d="M15.5 12.2A6 6 0 0 1 7.8 4.5a6 6 0 1 0 7.7 7.7Z" />,
 };
 
-/** The pages that draw a sky: Home's header, and the panel behind the question on onboarding's and the Plan's guided pages. */
-const SKY_PAGES = ["/homepage/concept-4", "/onboarding/", "/plan/"];
+/** The pages that draw a sky: Home's header, and the panel behind the question on onboarding's guided pages.
+ *  The Plan's moves sit on navy instead (designer, 2026-10-15). */
+const SKY_PAGES = ["/homepage/concept-4", "/onboarding/"];
 
 /**
  * The reviewer's sky switcher: shows the sky at dawn, day, dusk or night whatever the hour, so one change

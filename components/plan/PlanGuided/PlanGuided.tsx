@@ -130,6 +130,7 @@ export function PlanGuided({
     partCount: stages.length,
     after: roadmap,
     sky: true,
+    navyPanel: true,
   };
   const sheets = (
     <>
