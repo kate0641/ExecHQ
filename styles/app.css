@@ -1238,6 +1238,33 @@ button.link {
   height: 100dvh;
 }
 
+/* One screen of a flow, embedded in the showroom (designer, 2026-10-15): just
+   the phone, on the canvas, with a little room round it. The page is as tall
+   as the phone, so the showroom can size the frame to it. */
+.prototype--frame {
+  height: auto;
+}
+
+.prototype--frame .prototype__canvas {
+  overflow: visible;
+  padding: var(--space-sm);
+}
+
+/* The whole length of the page in one phone: the frame grows with its content
+   and the page scrolls nowhere, so a review sees everything at once. */
+
+.prototype--full .device--mobile {
+  height: auto;
+  min-height: calc(
+    var(--viewport-mobile-height) + 2 * var(--device-bezel-mobile) + 2 *
+      var(--border-width-thin)
+  );
+}
+
+.prototype--full .device__content {
+  overflow: visible;
+}
+
 /* The canvas scrolls when the window is shorter than the device, so phone and
    tablet always render at true size rather than shrinking to fit. The page
    still scrolls inside the device; this only moves the frame into view. */
@@ -4784,6 +4811,55 @@ ol.ring-detail__timeline {
 }
 
 /* Playground -------------------------------------------------------------- */
+
+/* The playground's every-screen view (designer, 2026-10-15): each screen of a
+   flow at true phone size, side by side, with what it is under it. */
+.screen-frames {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-xl);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.screen-frames__figure {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin: 0;
+}
+
+.screen-frames__frame {
+  display: block;
+  width: calc(var(--viewport-mobile-width) + 2 * var(--device-bezel-mobile) + 2 * var(--border-width-thin) + 2 * var(--space-sm));
+  height: calc(var(--viewport-mobile-height) + 2 * var(--device-bezel-mobile) + 2 * var(--border-width-thin) + 2 * var(--space-sm));
+  border: 0;
+  border-radius: var(--radius-card);
+  background-color: var(--color-canvas);
+}
+
+.screen-frames__caption {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  max-width: var(--viewport-mobile-width);
+  padding-inline: var(--space-sm);
+}
+
+.screen-frames__label {
+  font-family: var(--type-subheading-font);
+  font-size: var(--type-subheading-size);
+  font-weight: var(--type-subheading-weight);
+  line-height: var(--type-subheading-leading);
+}
+
+.screen-frames__note {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
 
 .playground__tips {
   display: flex;

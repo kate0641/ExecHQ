@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/form/Input";
 import { Sheet } from "@/components/layout/Sheet";
 import { PublisherPicker } from "@/components/briefing/PublisherPicker";
@@ -41,6 +41,8 @@ import { PROFILE_COPY as C, type ProfileDetailId } from "@/mock/profile";
 const PANE_HEADING = "profile-detail-heading";
 
 type Ended = "deleted" | "signed-out" | null;
+
+const DETAILS: readonly ProfileDetailId[] = ["account", "organization", "publishers", "delete"];
 
 /** The heading each detail opens with, which also names its sheet. */
 function headingOf(id: ProfileDetailId): string {
@@ -186,6 +188,16 @@ export function ProfileConcept1() {
   const [message, setMessage] = useState("");
 
   const [downloading, setDownloading] = useState(false);
+
+  /* The showroom opens the page on one of its screens or sheets with
+     `?screen=` (designer, 2026-10-15), so every piece can be reviewed at once. */
+  useEffect(() => {
+    const screen = new URLSearchParams(window.location.search).get("screen");
+    /* eslint-disable react-hooks/set-state-in-effect -- the URL is only readable after mount */
+    if (screen === "signed-out" || screen === "deleted") setEnded(screen);
+    else if (DETAILS.some((id) => id === screen)) setOpen(screen as ProfileDetailId);
+    /* eslint-enable react-hooks/set-state-in-effect */
+  }, []);
 
   const show = (id: ProfileDetailId) => setOpen(id);
   const close = () => setOpen(null);

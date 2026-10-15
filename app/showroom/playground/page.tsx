@@ -4,6 +4,8 @@ import { Panel } from "@/components/layout/Panel";
 import { StatusBadge } from "@/components/primitives/Badge";
 import { getBuiltConceptKeys } from "@/flows/registry";
 import { conceptHref, conceptStatus, getConcept } from "@/lib/manifest";
+import { FLOW_SCREENS } from "./flow-screens";
+import { ScreenFrames } from "./ScreenFrames";
 
 export const metadata = {
   title: "Playground",
@@ -54,6 +56,17 @@ export default function PlaygroundPage() {
           ))}
         </ul>
       </section>
+
+      {/* Every screen of a flow at once: the page and each sheet and end
+          state, so nothing is missed in a review (designer, 2026-10-15). */}
+      {FLOW_SCREENS.map((entry) => (
+        <section key={entry.flow} className="hub__section" aria-labelledby={`screens-${entry.flow}`}>
+          <h2 className="hub__section-title" id={`screens-${entry.flow}`}>
+            Every screen: {entry.title}
+          </h2>
+          <ScreenFrames {...entry} />
+        </section>
+      ))}
 
       <Panel title="Stepping through" headingLevel={2} tone="sunken">
         <ul className="playground__tips t-measure">
