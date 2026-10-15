@@ -11972,7 +11972,11 @@ ul.stage-actions__list {
 [data-viewport="mobile"] .profile__title {
   margin: calc(-1 * var(--space-screen-top)) calc(-1 * var(--space-screen-side)) 0;
   padding: var(--space-sm) var(--space-screen-side);
-  border-bottom: var(--border-width-thin) solid var(--color-border);
+}
+
+/* The page's name, centred with no rule under it (designer, 2026-10-15). */
+.profile__title {
+  text-align: center;
 }
 
 /* Sections sit further apart than the heading, line and card inside each,
@@ -11988,6 +11992,16 @@ ul.stage-actions__list {
 /* Inside a section on the page: heading, the line under it, then the card. */
 .profile__section .detail-panel {
   gap: var(--space-sm);
+}
+
+/* A section's copy sits closer to its title than the card does to the copy, so title and copy read
+   as one and the card as what follows (designer, 2026-10-15). The panel's own gap is 12px. */
+.profile__section .detail-panel__head + .detail-panel__lead {
+  margin-top: calc(var(--space-title-copy) - var(--space-sm));
+}
+
+.profile__section .detail-panel__lead + * {
+  margin-top: calc(var(--space-copy-card) - var(--space-sm));
 }
 
 /* The follow-up note belongs to the Email group, so it sits close under it. */
@@ -12156,9 +12170,12 @@ ul.stage-actions__list {
 }
 
 .profile__title,
-.profile .detail-panel__heading,
 .profile-end__heading {
   color: var(--color-headline-on-inverse);
+}
+
+.profile .detail-panel__heading {
+  color: var(--color-section-title-on-inverse);
 }
 
 .profile :is(.card, .settings-group__rows, .sheet__panel) {

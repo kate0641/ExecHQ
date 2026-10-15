@@ -190,6 +190,9 @@
   --color-headline-on-inverse: var(--color-accent-on-inverse);
   --color-eyebrow-on-inverse: var(--brand-blue-200);
   --color-divider-on-inverse: var(--brand-blue-400);
+  /* A section's title on a navy page, under the yellow page title: light blue (blue 200), so only the
+     page's own name is yellow (designer, 2026-10-15). */
+  --color-section-title-on-inverse: var(--brand-blue-200);
   /* The page's light set, held at the root so a white card on a navy page can take it back after the
      page has remapped its own tokens. */
   --light-text-primary: var(--color-text-primary);
@@ -700,6 +703,9 @@
   --space-feature-padding: var(--space-md-lg);  /* inside a feature card, which holds more */
   --space-eyebrow-title: var(--space-2xs); /* an eyebrow to the title under it */
   --space-title-copy: var(--space-xs);     /* a title to the copy under it */
+  /* That copy to the card under it: wider than the title's gap, so the copy reads as the title's
+     and the card as what follows (designer, 2026-10-15). */
+  --space-copy-card: var(--space-md);      /* 16px */
   /* A group title to what it names: more than the space a line of body copy
      leaves, so the title reads as over its group (designer, 2026-10-13). */
   --space-group-title: var(--space-sm);     /* 12px */
