@@ -296,8 +296,21 @@ export const prototypeConfig: PrototypeConfig = {
       concepts: [
         {
           slug: "concept-1",
-          title: "Concept 1",
-          summary: "Cohort view.",
+          title: "Concept 1 — The three questions",
+          summary:
+            "The dashboard answers the sponsor's three questions in order: did they join, are they still using it, do they follow through. Each opens with a one-sentence answer, with the figures under it. The cohort's code and settings are a Cohort page of their own.",
+        },
+        {
+          slug: "concept-2",
+          title: "Concept 2 — The report",
+          summary:
+            "The screen is the one-page report the sponsor exports: figures set in sentences, each definition in the margin beside it. Setting up the cohort writes the report's header; the code sits in a box in the margin.",
+        },
+        {
+          slug: "concept-3",
+          title: "Concept 3 — The weekly letter (wildcard)",
+          summary:
+            "No dashboard: each Monday's refresh is an issue, written in the advisor's voice, and past issues stack into an archive in place of a window choice. Setting up the cohort is Issue 0.",
         },
       ],
     },
@@ -312,7 +325,10 @@ export const prototypeConfig: PrototypeConfig = {
     { flowSlug: "profile", label: "Profile" },
   ],
 
-  enterpriseNav: [{ flowSlug: "enterprise", label: "Overview" }],
+  // Empty: each enterprise concept draws its own navigation, because they
+  // differ (Concept 1 has Overview and Cohort; the report and the letter have
+  // none), and a shared link could only ever point at the first concept.
+  enterpriseNav: [],
 };
 
 export default prototypeConfig;

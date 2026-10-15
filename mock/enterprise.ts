@@ -415,6 +415,7 @@ export const ENTERPRISE_COPY = {
   window: {
     label: "Window",
     refreshed: (asOf: string) => `Updated weekly, on Mondays. Last updated ${formatAsOf(asOf)}.`,
+    firstUpdate: (asOf: string) => `Updated weekly, on Mondays. The first update is ${formatAsOf(asOf)}.`,
   },
 
   definition: {
@@ -464,5 +465,116 @@ export const ENTERPRISE_COPY = {
     sizeMissing: "Enter how many people you plan to invite.",
     datesMissing: "Enter both dates.",
     endsBeforeStart: "The program has to end after it starts.",
+  },
+} as const;
+
+/* -----------------------------------------------------------------------------
+   A COHORT THE REVIEWER MAKES
+   -------------------------------------------------------------------------- */
+
+const NOTHING_YET: CohortCounts = {
+  active: 0,
+  returning: 0,
+  actionsAccepted: 0,
+  actionsCompleted: 0,
+  artifacts: 0,
+  artifactsUsed: 0,
+  outcomesRecorded: 0,
+  briefingWeekly: 0,
+};
+
+/** The first Monday on or after a date: when a new cohort's figures first update. */
+function firstMonday(iso: string): string {
+  const date = new Date(`${iso}T00:00:00Z`);
+  date.setUTCDate(date.getUTCDate() + ((8 - date.getUTCDay()) % 7));
+  return date.toISOString().slice(0, 10);
+}
+
+/** A cohort just set up: its code, and nobody in it yet. */
+export function newCohort(details: { name: string; expectedSize: number; startsOn: string; endsOn: string }, code: string): Cohort {
+  return {
+    id: "small",
+    ...details,
+    asOf: firstMonday(details.startsOn),
+    code,
+    open: true,
+    joined: 0,
+    activated: 0,
+    planAccepted: 0,
+    byWindow: { "30d": NOTHING_YET, "90d": NOTHING_YET, launch: NOTHING_YET },
+  };
+}
+
+/** A fresh shared code. The format matches the codes in onboarding. */
+export function makeCode(): string {
+  return `EXEC-${String(Math.floor(1000 + Math.random() * 9000))}`;
+}
+
+/* -----------------------------------------------------------------------------
+   CONCEPT 1 — THE THREE QUESTIONS
+   -------------------------------------------------------------------------- */
+
+/** The data points under each question, the first set large. */
+export const QUESTION_POINTS: Record<QuestionId, DataPointId[]> = {
+  joined: ["invites", "onboarding"],
+  using: ["active", "returning", "briefing"],
+  following: ["follow-through", "plans", "artifacts", "loop"],
+};
+
+/** The one-sentence answer that opens each question. Reports activity, never
+ *  results: what participants did, not what ExecHQ caused. Undefined while
+ *  the question's figures are hidden. */
+export function answerFor(cohort: Cohort, question: QuestionId, window: WindowId): string | undefined {
+  const c = cohort.byWindow[window];
+  const above = isAboveMinimum(cohort, window);
+  const long = WINDOWS[window].long;
+  switch (question) {
+    case "joined":
+      return above
+        ? `${count.format(cohort.joined)} of the ${count.format(cohort.expectedSize)} leaders you expected have joined, and ${count.format(cohort.activated)} have finished setting up.`
+        : `${count.format(cohort.joined)} of the ${count.format(cohort.expectedSize)} leaders you expected have joined so far.`;
+    case "using":
+      return above
+        ? `${count.format(c.active)} participants were active in ${long}, and ${count.format(c.returning)} have come back after their first week.`
+        : undefined;
+    case "following":
+      return above
+        ? `Participants completed ${count.format(c.actionsCompleted)} planned actions within 30 days of taking them on, and made ${count.format(c.artifacts)} pieces of work.`
+        : undefined;
+  }
+}
+
+export const C1_COPY = {
+  nav: { label: "Northgate", overview: "Overview", cohort: "Cohort" },
+  eyebrow: "Your cohort",
+  dates: (startsOn: string, endsOn: string) => `${formatDate(startsOn)} to ${formatDate(endsOn)}`,
+  age: (day: number) => (day === 1 ? "Day 1" : `Day ${day}`),
+  notStarted: "Not started yet",
+  export: "Export report",
+  questions: {
+    joined: "Did they join?",
+    using: "Are they still using it?",
+    following: "Do they follow through?",
+  } satisfies Record<QuestionId, string>,
+  building: {
+    heading: "Your cohort is still filling",
+    body: `Until ${MIN_COHORT_SIZE} or more participants are active, you see only how many joined. Every other figure stays hidden, so none can point to one person.`,
+  },
+  filling: (day: number) =>
+    `Your program is ${day} days old, so figures over 30 and 90 days are still filling in. Since launch shows everything so far.`,
+  privacy: "You see totals for the whole cohort, never a participant, their plan or their work.",
+  cohortPage: {
+    heading: "Cohort",
+    details: "Details",
+    name: "Name",
+    expected: "Expected size",
+    dates: "Program dates",
+  },
+  setup: {
+    heading: "Set up your cohort",
+    lead: "Give it a name, how many people you plan to invite, and the program’s dates. You will get one code to share.",
+    readyHeading: "Your cohort is ready",
+    readyLead: "Share the code through your own channels. Figures start to appear once 10 or more participants are active.",
+    toOverview: "Go to the overview",
   },
 } as const;

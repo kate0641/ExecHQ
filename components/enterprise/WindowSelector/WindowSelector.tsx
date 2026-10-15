@@ -10,6 +10,8 @@ export interface WindowSelectorProps {
   onChange: (next: WindowId) => void;
   /** The Monday the figures were last refreshed. */
   asOf: string;
+  /** No update yet: `asOf` is the first one to come. */
+  upcoming?: boolean;
   className?: string;
 }
 
@@ -19,7 +21,7 @@ export interface WindowSelectorProps {
  * figures change once a week, so no window can isolate one person's activity.
  * Both rules are on screen, not only in a policy.
  */
-export function WindowSelector({ value, onChange, asOf, className }: WindowSelectorProps) {
+export function WindowSelector({ value, onChange, asOf, upcoming = false, className }: WindowSelectorProps) {
   return (
     <div className={["window-selector", className].filter(Boolean).join(" ")}>
       <ToggleGroup
@@ -31,7 +33,7 @@ export function WindowSelector({ value, onChange, asOf, className }: WindowSelec
         value={value}
         onChange={(next) => onChange(next as WindowId)}
       />
-      <p className="window-selector__refreshed">{C.refreshed(asOf)}</p>
+      <p className="window-selector__refreshed">{upcoming ? C.firstUpdate(asOf) : C.refreshed(asOf)}</p>
     </div>
   );
 }
