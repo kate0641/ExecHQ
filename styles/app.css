@@ -8007,17 +8007,24 @@ ol.ring-detail__timeline {
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-card);
   background-color: var(--color-surface-raised);
+  /* The header band runs to the card's edge, so it is clipped to its corners. */
+  overflow: hidden;
 }
 
+/* What next? sits in a sky blue header, navy words on it (11.3:1), title only (designer, 2026-10-15).
+   Every choice under it acts on her draft, so it takes the draft's colour: written for her to use. */
 .next-steps__label {
   /* The title inside a list card: the card title role. */
+  margin: calc(var(--space-card-padding) * -1) calc(var(--space-card-padding) * -1) 0;
+  padding: var(--space-md) var(--space-card-padding);
   font-family: var(--type-card-title-font);
   font-size: var(--type-card-title-size);
   font-weight: var(--type-card-title-weight);
   line-height: var(--type-card-title-leading);
   letter-spacing: var(--type-card-title-tracking);
   word-spacing: var(--type-card-title-word-spacing);
-  color: var(--color-text-primary);
+  background-color: var(--color-surface-for-her);
+  color: var(--color-text-on-for-her);
 }
 
 .next-steps__list {
