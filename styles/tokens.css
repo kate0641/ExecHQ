@@ -188,6 +188,22 @@
   --color-surface-quiet-hover: var(--brand-stone-250);
   --color-surface-selected: var(--brand-blue-200); /* the item a detail pane is showing: a step stronger than hover */
   --color-surface-feature: var(--brand-blue-100);  /* the card that says what to do next, on trial */
+  /* Colour carries meaning (designer, 2026-10-15). The same colour does the same job on every
+     screen, so she knows what a card is for before she reads it. Navy is priority
+     (--color-surface-inverse); yellow is the one main action (--color-action). These two are the
+     rest, and the component tokens below point at them rather than at a raw colour. */
+  /* Her: her thoughts, her input, the heart of why she's here. Dark green as a flood or header
+     (white on it 9.1:1); lime as a band, dark green words on it (8.9:1). */
+  --color-meaning-her: var(--brand-green-800);
+  --color-meaning-her-band: var(--brand-green-200);
+  --color-text-on-meaning-her-band: var(--brand-green-800);
+  /* For her: something written for her to read or use, such as the Briefing or her first draft.
+     Sky blue (blue 200) with navy words (11.3:1), muted blue 700, eyebrow blue 600, edges blue 300. */
+  --color-meaning-for-her: var(--brand-blue-200);
+  --color-text-on-meaning-for-her: var(--brand-primary);
+  --color-text-on-meaning-for-her-muted: var(--brand-blue-700);
+  --color-eyebrow-on-meaning-for-her: var(--brand-blue-600);
+  --color-border-on-meaning-for-her: var(--brand-blue-300);
   /* The four stages of a roadmap, tinted across the Calendar. The stage is always also
      said in words (a start marker, a legend, the day panel), so a tint is never the only cue. */
   /* The roadmap's stages are navy in descending shades, whatever the sky (designer, 2026-10-14): a ramp
@@ -385,13 +401,15 @@
      places (designer, 2026-10-12). */
   --color-here-surface: var(--color-nav-current);
   --color-here-text: var(--color-nav-current-icon);
-  /* The Loop's check-in: a light blue band across the head of an otherwise
-     white card, carrying what the question is about (designer, 2026-10-12).
-     Navy on it reads at 11.3:1. The foot of the card keeps its hairline. */
-  --color-surface-check-in-band: var(--brand-blue-200);
-  /* What she did in a finished stage, on the stage check-in: our light blue, no edge (designer, 2026-10-15). */
-  --color-surface-check-in-thing: var(--brand-blue-200);
-  --color-text-on-check-in-band: var(--brand-primary);
+  /* The Loop's check-in: a band across the head of an otherwise white card,
+     carrying what the question is about (designer, 2026-10-12). The foot of
+     the card keeps its hairline. */
+  /* Swapped to lime (designer, 2026-10-15): what a check-in asks about is her own work, so it
+     carries her colour. Dark green words on it, 8.9:1. */
+  --color-surface-check-in-band: var(--color-meaning-her-band);
+  /* What she did in a finished stage, on the stage check-in: hers, so lime, no edge (designer, 2026-10-15). */
+  --color-surface-check-in-thing: var(--color-meaning-her-band);
+  --color-text-on-check-in-band: var(--color-text-on-meaning-her-band);
   /* "Logged", as a quiet stone pill above the readback: 8.9:1. Stone 200 is
      also the disabled surface, so nothing else on the card may use it. */
   --color-surface-logged: var(--brand-stone-200);
