@@ -12,6 +12,7 @@ import { SettingsGroup } from "@/components/profile/SettingsGroup";
 import { SettingsRow } from "@/components/profile/SettingsRow";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
+import { Wordmark } from "@/components/primitives/Wordmark";
 import { briefingActions, useBriefing } from "@/lib/briefing-store";
 import { useStatusBarTone } from "@/lib/device-tone";
 import { loopActions, useLoop } from "@/lib/loop-store";
@@ -271,9 +272,7 @@ export function ProfileConcept1() {
     const copy = ended === "deleted" ? C.delete : C.signOut;
     return (
       <div className="profile-end">
-        <span className="profile-end__mark">
-          <Icon name={ended === "deleted" ? "check" : "sign-out"} size={24} />
-        </span>
+        <Wordmark tone="light" className="profile-end__mark" />
         <h1 className="profile-end__heading" id="profile-end-heading" tabIndex={-1}>
           {copy.doneHeading}
         </h1>

@@ -12081,14 +12081,9 @@ ul.stage-actions__list {
   text-align: center;
 }
 
+/* The logo stands above the heading, at the header's size (designer, 2026-10-15). */
 .profile-end__mark {
-  display: grid;
-  place-items: center;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background-color: var(--color-surface-selected);
-  color: var(--color-surface-inverse);
+  margin: 0;
 }
 
 .profile-end__heading {
@@ -12106,8 +12101,14 @@ ul.stage-actions__list {
 }
 
 .profile-end__body {
+  max-width: 17rem;
   margin: 0;
   color: var(--color-text-secondary);
+}
+
+/* The button sits lower, apart from the words above it (designer, 2026-10-15). */
+.profile-end > .btn {
+  margin-top: var(--space-xl);
 }
 
 /* Profile is a navy page (designer, 2026-10-15), as onboarding's steps with no drawer are. The page
@@ -12118,12 +12119,10 @@ ul.stage-actions__list {
   background-color: var(--color-surface-inverse);
 }
 
-/* Signed out or deleted, the header comes back over the navy: the light logo, a blue 400 rule. */
+/* Signed out or deleted, the header and its rule stay away: the logo sits above the heading
+   instead (designer, 2026-10-15). */
 .chrome:has(.profile-end) > .chrome__header {
-  --color-logo-exec: var(--color-logo-exec-on-inverse);
-  --color-logo-hq: var(--color-logo-hq-on-inverse);
-  border-bottom-color: var(--color-divider-on-inverse);
-  color: var(--color-text-inverse);
+  display: none;
 }
 
 .profile,
@@ -12163,11 +12162,6 @@ ul.stage-actions__list {
   color: var(--color-text-primary);
 }
 
-/* The mark on the end screen: yellow with a navy icon, as the numbered circles are on navy. */
-.profile-end__mark {
-  background-color: var(--color-accent-on-inverse);
-  color: var(--color-surface-inverse);
-}
 
 /* =============================================================================
    LOGIN — Concept 1, Open page
