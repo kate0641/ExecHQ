@@ -188,6 +188,19 @@
   --color-surface-quiet-hover: var(--brand-stone-250);
   --color-surface-selected: var(--brand-blue-200); /* the item a detail pane is showing: a step stronger than hover */
   --color-surface-feature: var(--brand-blue-100);  /* the card that says what to do next, on trial */
+  /* Colour carries meaning (designer, 2026-10-15): the same colour does the same job on every screen, so
+     she knows what a card is for before she reads it. Navy is ExecHQ and priority; yellow is the one
+     main action. Home is approved and keeps its own colours. */
+  /* Her: her own words and answers. Lime as a band, dark green words on it (8.9:1). */
+  --color-surface-her-band: var(--brand-green-200);
+  --color-text-on-her-band: var(--brand-green-800);
+  /* For her: something written for her to read or use, such as her first draft. Sky blue with navy
+     words (11.3:1), muted blue 700 (7.7:1), eyebrow blue 600 (4.9:1), edges blue 300. */
+  --color-surface-for-her: var(--brand-blue-200);
+  --color-text-on-for-her: var(--brand-primary);
+  --color-text-on-for-her-muted: var(--brand-blue-700);
+  --color-eyebrow-on-for-her: var(--brand-blue-600);
+  --color-border-on-for-her: var(--brand-blue-300);
   /* The four stages of a roadmap, tinted across the Calendar. The stage is always also
      said in words (a start marker, a legend, the day panel), so a tint is never the only cue. */
   /* The roadmap's stages are navy in descending shades, whatever the sky (designer, 2026-10-14): a ramp

@@ -15532,14 +15532,17 @@ ol.rtl__rail::before {
 
 /* Plan Concept 3: her direction above the road, in full, in the system's
    white card (designer, 2026-10-13). It only reads: no chevron, no button. */
+/* Your direction is her own sentence, so it carries her colour: lime with dark green words and no
+   edge (designer, 2026-10-15; a white card before). */
 .plan-direction {
   display: flex;
   flex-direction: column;
   gap: var(--space-3xs);
   padding: var(--space-sm) var(--space-card-padding);
-  border: var(--border-width-thin) solid var(--color-border);
+  border: var(--border-width-thin) solid var(--color-surface-her-band);
   border-radius: var(--radius-card);
-  background: var(--color-surface-raised);
+  background: var(--color-surface-her-band);
+  color: var(--color-text-on-her-band);
 }
 
 .plan-direction__label {
@@ -15551,7 +15554,7 @@ ol.rtl__rail::before {
   letter-spacing: var(--type-eyebrow-tracking);
   word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-text-secondary);
+  color: var(--color-text-on-her-band);
 }
 
 .plan-direction__quote {
@@ -16448,19 +16451,22 @@ fieldset.agenda__whens {
   order: -1;
   margin: calc(-1 * var(--space-card-padding)) calc(-1 * var(--space-card-padding)) var(--space-xs);
   padding: var(--space-sm) var(--space-card-padding);
-  background-color: var(--color-surface-check-in-band);
-  color: var(--color-text-on-check-in-band);
+  /* ExecHQ describing the plan to her: written for her, so sky blue (designer, 2026-10-15). */
+  background-color: var(--color-surface-for-her);
+  color: var(--color-text-on-for-her);
 }
 
 .guide__heard-rows {
   gap: 0;
 }
 
+/* Built from what you said is her own answers, so its header carries her colour: lime with dark
+   green words (designer, 2026-10-15; light blue before). */
 .guide__heard-rows > .guide__yours-label {
   padding: var(--space-sm) var(--space-card-padding);
   border-radius: var(--radius-card) var(--radius-card) 0 0;
-  background-color: var(--color-surface-check-in-band);
-  color: var(--color-text-on-check-in-band);
+  background-color: var(--color-surface-her-band);
+  color: var(--color-text-on-her-band);
 }
 
 .guide__heard-rows > .card {
@@ -16469,17 +16475,25 @@ fieldset.agenda__whens {
   border-top-right-radius: 0;
 }
 
+/* The first draft is written for her to use, so it is sky blue with navy words (designer,
+   2026-10-15; dark green before). Its tokens remap so the label, edit link and edit field follow. */
 .story-draft__card {
-  --color-surface-raised: var(--color-surface-progress);
-  --color-text-primary: var(--color-text-inverse);
-  --color-text-secondary: var(--color-text-on-progress-muted);
-  --color-text-muted: var(--color-text-on-progress-muted);
-  --color-border: var(--color-border-progress);
-  --color-border-subtle: var(--color-border-progress);
-  --color-eyebrow: var(--color-eyebrow-on-progress);
-  --color-focus: var(--color-focus-inverse);
-  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+  --color-surface-raised: var(--color-surface-for-her);
+  --color-text-primary: var(--color-text-on-for-her);
+  --color-text-secondary: var(--color-text-on-for-her-muted);
+  --color-text-muted: var(--color-text-on-for-her-muted);
+  --color-text-link: var(--color-text-on-for-her);
+  --color-text-link-hover: var(--color-text-on-for-her);
+  --color-border: var(--color-surface-for-her);
+  --color-border-subtle: var(--color-border-on-for-her);
+  /* The edit field's edge takes the card's eyebrow step (4.9:1); the page's stone edge fell to 2.6. */
+  --color-border-strong: var(--color-eyebrow-on-for-her);
+  --color-eyebrow: var(--color-eyebrow-on-for-her);
   color: var(--color-text-primary);
+}
+
+.story-draft__card .story-draft__label {
+  color: var(--color-eyebrow);
 }
 
 /* The sky panel (designer, 2026-10-14): on onboarding's and the Plan's guided pages the question (its
