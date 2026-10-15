@@ -14,6 +14,7 @@ import {
 import { ColorSwitch } from "@/components/hub/ColorSwitch";
 import { NavPicker } from "@/components/hub/NavPicker";
 import { SkyPicker, SnapshotPicker } from "@/components/hub/SnapshotPicker";
+import { CohortPicker } from "@/components/hub/CohortPicker";
 import { ViewportToggle } from "@/components/hub/ViewportToggle";
 import { Icon } from "@/components/primitives/Icon";
 import {
@@ -278,6 +279,8 @@ export function DevToolbar({ hubOpen, onToggleHub, hubTriggerRef }: DevToolbarPr
         <SnapshotPicker />
         {/* Pages that draw a sky only: Home, onboarding and the Plan. */}
         <SkyPicker />
+        {/* Enterprise pages only. */}
+        <CohortPicker />
 
         <span className="devtools__rule" aria-hidden="true" />
 

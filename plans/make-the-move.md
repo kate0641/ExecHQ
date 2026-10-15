@@ -180,7 +180,32 @@ For example: a meeting with her sponsor beforehand, a talk with her manager, a s
 
 ---
 
-## 3. Signal emphasis
+## 3. Feedback
+
+Kate, 14 Oct. Which steps ask her for feedback, and of which type. The types and their answers are in `plans/shared.md`, section 6. **Proposed**, all of the table: the source names no feedback.
+
+The date sets the pace on this plan, so stage check-ins are short: when the moment is less than a week away, the check-ins for Stages 2 and 3 become one, just before it (**Proposed**).
+
+| Step | Asks? | Type | When ExecHQ asks | What her answer changes |
+| --- | --- | --- | --- | --- |
+| **1.1** Put the moment on paper | No | None | | Recording it is done. Its date sets when 4.1 asks |
+| **1.2** The story she will tell in the room | Yes | Is this right? | As soon as it is drafted | "Yes, that's it" completes the step; "Change it" reopens Positioning Builder |
+| **Stage 1 ends** | Yes | Stage check-in | When 1.1 and 1.2 are done | Partly or Not yet: Stage 2 opens with the part of the story she isn't sure of |
+| **2.1** Proof for every claim in her story | No | None | | Every claim having an example is done |
+| **2.2** The materials the moment calls for | No | None | | Marking each one ready is done. What came of them is asked once, in 4.1, not one by one |
+| **2.3** Her public profile tells the same story | No | None | | Confirming the update is done |
+| **Stage 2 ends** | Yes | Stage check-in | When 2.1 and 2.2 are done | Partly or Not yet: one step at the gap before rehearsal. Stuck: the one step most worth doing before the date |
+| **3.1** The ninety-second version, said out loud | No | None | | Confirming she has said it twice is done |
+| **3.2** Answers to the two hardest objections | No | None | | Recording them is done |
+| **3.3** Prepare for each conversation around the moment | Yes | How did it go? | The day after each conversation | It went well: the next conversation, or the moment. Mixed or Not the way I hoped: 3.2 again with what she heard. It hasn't happened yet: asks after the new date |
+| **Stage 3 ends** | Yes | Stage check-in ("Do you feel ready?") | Just before the moment | Partly or Not yet: the one step most worth doing before the date. Never adds work the date can't hold |
+| **4.1** Record what happened, while it is fresh | Yes | How did it go? | The day after the moment's date | It went well, Mixed or Not the way I hoped: leads straight to 4.2. It hasn't happened yet: the new date moves the plan |
+| **4.2** Decide the next move | No | None | | Her choice is the answer: a follow-up, a new date, or another plan (Lead Where You Are in a new role, Step Up to build toward the next attempt) |
+| **Stage 4 ends** | Yes | Stage check-in | When 4.2 is done | Closes the plan. Her feeling shapes how the next plan starts |
+
+---
+
+## 4. Signal emphasis
 
 Internal only, never shown to her. A dash means the plan does not recommend work in that signal in that stage. This plan is about one moment, so signals matter mostly as proof and as what the people deciding will see.
 
@@ -195,7 +220,7 @@ Internal only, never shown to her. A dash means the plan does not recommend work
 
 ---
 
-## 4. How the agent behaves on Make the Move
+## 5. How the agent behaves on Make the Move
 
 It adds to the rules every plan shares (`plans/shared.md`, section 5).
 
@@ -207,7 +232,7 @@ It adds to the rules every plan shares (`plans/shared.md`, section 5).
 
 ---
 
-## 5. Open questions
+## 6. Open questions
 
 1. **Several moments.** If she has two moments at once, such as an interview and a review, does the plan track both, or one at a time?
 2. **After the moment.** Should stage 4 always end by offering another plan, or can Make the Move run again for the next moment?

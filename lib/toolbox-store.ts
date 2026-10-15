@@ -5,8 +5,10 @@
  * The Loop record itself lives in the Loop (`loopActions.create`), so status
  * is told in one place.
  *
- * Also which Toolbox concept the reviewer last opened, so the Briefing's
- * "Write a post about this" lands in it (Concept 1 until one is opened).
+ * Also which Toolbox concept the reviewer last opened, and which tool flow
+ * concept, so the Toolbox's tools, the Briefing's "Write a post about this"
+ * and the next step after an outcome land in the flow she is reviewing
+ * (Concept 2 until one is opened).
  *
  * An external store mirrored to localStorage, like the Briefing's, and undone
  * by the dock's reset.
@@ -31,19 +33,30 @@ export interface DraftState {
   passage?: string;
 }
 
-/** The Toolbox pages there are. Concept 3 was scratched on 13 October; its
- *  tool flow (the Interview) stays, and goes back to Concept 1. */
-export type ToolboxPage = "concept-1" | "concept-2";
-const TOOLBOX_PAGES: readonly string[] = ["concept-1", "concept-2"] satisfies ToolboxPage[];
+/** The Toolbox pages there are. Concept 3 was scratched on 13 October and
+ *  Concept 1 on 14 October (its next step and finding a tool went into
+ *  Concept 2); every tool flow concept goes back to Concept 2. */
+export type ToolboxPage = "concept-2";
+const TOOLBOX_PAGES: readonly string[] = ["concept-2"] satisfies ToolboxPage[];
 
 /** The Toolbox page a tool flow concept goes back to. */
-export const toolboxPageFor = (concept: string): ToolboxPage => (concept === "concept-2" ? "concept-2" : "concept-1");
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const toolboxPageFor = (concept: string): ToolboxPage => "concept-2";
+
+/** The tool flow concepts there are. */
+export type ToolFlowPage = "concept-1" | "concept-2" | "concept-3";
+const TOOL_FLOW_PAGES: readonly string[] = ["concept-1", "concept-2", "concept-3"] satisfies ToolFlowPage[];
 
 export interface ToolboxState {
   drafts: Readonly<Record<string, DraftState>>;
   /** The Toolbox concept last opened. */
   concept?: ToolboxPage;
+  /** The tool flow concept last opened (from the hub, say). */
+  flow?: ToolFlowPage;
 }
+
+/** The tool flow concept a tool opens in: the one last opened, or Concept 2. */
+export const flowFor = (state: ToolboxState): ToolFlowPage => state.flow ?? "concept-2";
 
 const INITIAL: ToolboxState = { drafts: {} };
 
@@ -55,7 +68,11 @@ function read(): ToolboxState {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return INITIAL;
     const parsed = JSON.parse(raw) as Partial<ToolboxState>;
-    return { drafts: parsed.drafts && typeof parsed.drafts === "object" ? parsed.drafts : {}, concept: TOOLBOX_PAGES.includes(parsed.concept ?? "") ? parsed.concept : undefined };
+    return {
+      drafts: parsed.drafts && typeof parsed.drafts === "object" ? parsed.drafts : {},
+      concept: TOOLBOX_PAGES.includes(parsed.concept ?? "") ? parsed.concept : undefined,
+      flow: TOOL_FLOW_PAGES.includes(parsed.flow ?? "") ? parsed.flow : undefined,
+    };
   } catch {
     return INITIAL;
   }
@@ -131,6 +148,11 @@ export const toolboxActions = {
   openConcept: (concept: ToolboxPage) => {
     const state = get();
     if (state.concept !== concept) write({ ...state, concept });
+  },
+  /** The reviewer opened this tool flow concept. */
+  openFlow: (flow: ToolFlowPage) => {
+    const state = get();
+    if (state.flow !== flow) write({ ...state, flow });
   },
 };
 

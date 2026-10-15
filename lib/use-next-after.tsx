@@ -8,7 +8,7 @@ import { conceptHref } from "@/lib/manifest";
 import { resolveNextAfter, resolveTaskNext, type NextAfter, type ResolvedOffer } from "@/lib/next-after";
 import { addStepToPlan, planShownNow, usePlanShown } from "@/lib/plan-store";
 import { draftText, revise, revisionLabel } from "@/lib/toolbox-draft";
-import { toolboxActions, toolboxNow, toolboxPageFor, useToolbox, type DraftState } from "@/lib/toolbox-store";
+import { flowFor, toolboxActions, toolboxNow, useToolbox, type DraftState } from "@/lib/toolbox-store";
 import { ACTION_QUEUE } from "@/mock/plan";
 import { NEXT_STEP_COPY as N, REVISION_COPY } from "@/mock/toolbox";
 
@@ -46,7 +46,7 @@ export function nextAfterNow(record: LoopRecord, type: OutcomeType, scenario: st
     draft: toolbox.drafts[record.id],
     planShown: planShownNow(scenario, today),
     servedStepId: stepServed(record),
-    flowConcept: toolboxPageFor(toolbox.concept ?? "concept-1"),
+    flowConcept: flowFor(toolbox),
   });
 }
 
@@ -91,7 +91,7 @@ export function useNextAfter(
         draft,
         planShown,
         servedStepId: options.servedStepId ?? stepServed(record),
-        flowConcept: options.flowConcept ?? toolboxPageFor(toolbox.concept ?? "concept-1"),
+        flowConcept: options.flowConcept ?? flowFor(toolbox),
       })
     : resolveTaskNext(answer.type, planShown, "taskId" in answer ? answer.taskId : "");
 

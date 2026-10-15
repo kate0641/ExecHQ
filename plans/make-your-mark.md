@@ -187,7 +187,31 @@ A series, a signature talk, or a single piece that gathers her strongest argumen
 
 ---
 
-## 3. Signal emphasis
+## 3. Feedback
+
+Kate, 14 Oct. Which steps ask her for feedback, and of which type. The types and their answers are in `plans/shared.md`, section 6. **Proposed**, all of the table: the source names no feedback.
+
+| Step | Asks? | Type | When ExecHQ asks | What her answer changes |
+| --- | --- | --- | --- | --- |
+| **1.1** How she describes herself, in her words | Yes | Is this right? | As soon as it is drafted | "Yes, that's it" completes the step and every tool draws on it; "Change it" reopens Positioning Builder |
+| **1.2** Three to five topics, with her stance on each | No | None | | Recording them is done |
+| **Stage 1 ends** | Yes | Stage check-in | When 1.1 and 1.2 are done | Yes: Stage 2 as planned. Partly or Not yet: Stage 2 opens with a step at the gap (usually a stance someone could disagree with) |
+| **2.1** A first piece under her own name | Yes | What came of it? ("How did it land?") | 7 days after she marks it published | It went well: that topic leads her list in 3.1. Mixed or Not the way I hoped: the next piece tries another topic or angle. Nothing yet: asks again |
+| **2.2** LinkedIn profile in line with her point of view | No | None | | Confirming the update is done |
+| **2.3** A short post responding to a Briefing read | Yes | What came of it? ("How did it land?") | 7 days after she marks it published; nothing if she chose not to post | It went well: offers the topic for a longer piece. Otherwise the next Briefing read is offered as usual |
+| **Stage 2 ends** | Yes | Stage check-in | When 2.1 and 2.2 are done | Partly or Not yet: one more piece before she pitches. Stuck or Less sure: Stage 3 starts with one step, and offers talking it through |
+| **3.1** A list of outlets her audience follows | No | None | | Saving the list is done |
+| **3.2** A tailored pitch to one outlet on her list | Yes | What came of it? | 5 days after she marks it sent | It went well (accepted): 3.3 starts from the pitch. Mixed: the next outlet on her list. Not the way I hoped (declined): a different angle or outlet. Nothing yet (no reply): copies the follow-up in the pitch |
+| **3.3** Prepare for an accepted talk, panel, interview or podcast | Yes | How did it go? | The day after its date | It went well: the appearance becomes material for 4.3. Not the way I hoped: 3.2 again with a better-fitting outlet. It hasn't happened yet: asks after the new date |
+| **Stage 3 ends** | Yes | Stage check-in | When 3.2 and 3.3 are done | Partly or Not yet: another pitch before the cadence. Stuck: one step, and offers talking it through |
+| **4.1** A rhythm she can keep | No | None | | Choosing it is done |
+| **4.2** Weekly Signal Background reflection | Yes | Anything new? | Weekly | Something new: an invitation brings 3.3 forward; new work becomes a topic. Nothing has changed: the rhythm goes on |
+| **4.3** Turn what she has published into a body of work | Yes | Progress check | Every 4 weeks while it is open | Slipped: its next part gets smaller. Done: the plan is complete |
+| **Stage 4 ends** | Yes | Stage check-in | When 4.1 and 4.3's first part are done | Yes: the plan is complete, and she keeps the rhythm. Less sure: offers whether another plan fits better |
+
+---
+
+## 4. Signal emphasis
 
 Internal only, never shown to her. A dash means the plan does not recommend work in that signal in that stage.
 
@@ -202,7 +226,7 @@ Internal only, never shown to her. A dash means the plan does not recommend work
 
 ---
 
-## 4. How the agent behaves on Make Your Mark
+## 5. How the agent behaves on Make Your Mark
 
 It adds to the rules every plan shares (`plans/shared.md`, section 5).
 
@@ -214,7 +238,7 @@ It adds to the rules every plan shares (`plans/shared.md`, section 5).
 
 ---
 
-## 5. Open questions
+## 6. Open questions
 
 1. **Routing.** Is "My desire to stand out in my field as an influential thought leader" always a route here, or only alongside the direction answer?
 2. **Stage 3 and Step Up.** Both plans pitch and prepare for appearances. Is the difference (presence as the goal here, presence as evidence in Step Up) clear enough for routing?

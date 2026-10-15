@@ -28,7 +28,7 @@ function sentence(parts: string[]): string {
 
 /**
  * The organization her account came through, if any: who it is, her role,
- * and in plain words what it can and can never see: a summary of everyone in
+ * and in plain words what it can and can never see: totals for everyone in
  * the group as a whole, never her personally. Leaving asks once.
  */
 export function OrganizationDetail({

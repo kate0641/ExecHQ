@@ -207,6 +207,65 @@ export const TODAYS_READS: BriefingRead[] = [
 ];
 
 /* -----------------------------------------------------------------------------
+   READS SHE SAVED ON EARLIER DAYS
+   Saved reads outlast the day (14 Oct), so the Saved page has some from the
+   weeks before to show what it is for. Saved until she removes one. Invented,
+   like today's three; no whole article (Concept 2 reads only today's in full).
+   -------------------------------------------------------------------------- */
+
+export interface EarlierSavedRead extends BriefingRead {
+  /** How many days before today she saved it. */
+  savedDaysAgo: number;
+}
+
+export const EARLIER_SAVED: EarlierSavedRead[] = [
+  {
+    id: "first-ninety-days",
+    title: "The first ninety days in a bigger remit",
+    publisherId: "calder",
+    reason: "You want to lead a broader marketing organization, and the first months set how the role is seen.",
+    groundedIn: "direction",
+    standfirst: "Leaders who take on more scope are judged early, and mostly on what they choose not to change. The first ninety days are for listening in public.",
+    passage: "The first decision people notice is the change you decided not to make.",
+    body: [],
+    savedDaysAgo: 3,
+  },
+  {
+    id: "planning-review-people-attend",
+    title: "Running a planning review people want to attend",
+    publisherId: "ridgeline",
+    reason: "You present marketing’s part of the Q1 plan, and the review is where it is decided.",
+    groundedIn: "plan",
+    standfirst: "The best planning reviews are short, start with the decision being asked for, and leave the detail in the appendix. Most do the opposite.",
+    passage: "Open with the decision you need, not the work you did.",
+    body: [],
+    savedDaysAgo: 7,
+  },
+  {
+    id: "sales-wants-from-marketing",
+    title: "What sales leaders want from marketing in planning",
+    publisherId: "marlow",
+    reason: "Sales signs off part of the plan you are writing.",
+    groundedIn: "plan",
+    standfirst: "Sales leaders say they want fewer campaigns and clearer pipeline numbers from marketing’s plan, and a named owner for each.",
+    passage: "Give every number in the plan a name beside it.",
+    body: [],
+    savedDaysAgo: 14,
+  },
+  {
+    id: "quiet-scope",
+    title: "How quiet operators make their case for scope",
+    publisherId: "kestrel",
+    reason: "You deliver well and want more scope; this is how that gets noticed without a campaign for it.",
+    groundedIn: "direction",
+    standfirst: "Not every case for a bigger role is made in a meeting. The leaders who get one often wrote it down first, in a page their manager could forward.",
+    passage: "Write the page your manager would forward.",
+    body: [],
+    savedDaysAgo: 18,
+  },
+];
+
+/* -----------------------------------------------------------------------------
    WHAT THE BRIEFING SAYS
    -------------------------------------------------------------------------- */
 
@@ -252,7 +311,7 @@ export const BRIEFING_COPY = {
     readState: "Read",
     save: "Save",
     saved: "Saved",
-    savedNotice: "Saved. It stays in your saved reads after today.",
+    savedNotice: "Saved. Find it in Saved, at the top of your Briefing.",
     unsavedNotice: "Removed from your saved reads.",
   },
 
@@ -291,19 +350,6 @@ export const BRIEFING_COPY = {
     toEnd: "See all three",
   },
 
-  /* --- Concept 2: the reader's action bar --------------------------------- */
-  bar: {
-    label: "Actions for this read",
-    back: "Back",
-    relevant: "Relevant",
-    notForMe: "Not for me",
-    save: "Save",
-    saved: "Saved",
-    // Never just "Post": ExecHQ never posts for her (builder guardrails, 13 Oct).
-    post: "Write a post",
-    postFull: "Write a post about this",
-  },
-
   /* --- Concept 1: the deck ---------------------------------------------- */
   deck: {
     /** Read before a strip's headline: pressing it brings that read forward. */
@@ -331,8 +377,20 @@ export const BRIEFING_COPY = {
   /* --- Saved reads -------------------------------------------------------- */
   savedReads: {
     heading: "Saved reads",
-    link: (n: number) => (n === 1 ? "1 saved read" : `${n} saved reads`),
-    empty: "Nothing saved yet. Save a read to keep it after today.",
+    /** At the top right of the Briefing, every day (14 Oct). */
+    button: "Saved",
+    /** Read after Saved by screen readers. */
+    count: (n: number) => (n === 0 ? ", nothing saved yet" : n === 1 ? ", 1 read" : `, ${n} reads`),
+    /** The Saved page (option B, 14 Oct). */
+    title: "Saved",
+    back: "Today’s Briefing",
+    lead: (n: number) => `${n === 1 ? "1 read" : `${n} reads`}, newest first. They stay until you remove them.`,
+    savedWhen: "Saved",
+    remove: (title: string) => `Remove from Saved: ${title}`,
+    removed: "Removed from Saved.",
+    undo: "Undo",
+    emptyHeading: "Nothing saved yet",
+    empty: "Tap Save on any read to keep it here after the day it arrives.",
   },
 
   /* --- Settings: publishers and the email --------------------------------- */

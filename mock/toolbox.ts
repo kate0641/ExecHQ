@@ -65,7 +65,7 @@ export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
     makes: "A pitch to a conference, a podcast or an editor, with subject lines and the follow-up already drafted.",
     short: "Pitches for stages, shows and press",
     when: "Use it when there is a stage or a show the people above you pay attention to.",
-    needs: ["Who you are pitching, if you know", "One or two things you can prove"],
+    needs: ["Who you are pitching (ExecHQ can suggest some)", "One or two things you can prove"],
     planStepId: "pitch-podcast",
     start: "Start a pitch",
   },
@@ -521,6 +521,8 @@ export const USE_COPY = {
   pdfShort: "PDF",
   wordShort: "Word",
   exported: (format: string) => `Downloading as ${format}.`,
+  /** A pitch's file starts with where it goes and the four steps, so it works on its own (Kate, 14 Oct). */
+  exportedPitch: (format: string) => `Downloading as ${format}, starting with where it goes and the four steps.`,
   markReady: "Mark ready",
   /** "Mark published", "Mark sent", "Mark used". */
   markUsed: (kind: ArtifactKind) => `Mark ${ARTIFACT_KINDS[kind].usedLabel.toLowerCase()}`,
@@ -630,31 +632,25 @@ export const LIBRARY_COPY = {
   heading: "Library",
   lead: "Everything you’ve made, wherever you started it.",
   search: "Search your library",
-  searchHint: "Searches titles and what they say.",
-  noMatch: (q: string) => `Nothing in your library mentions “${q}”.`,
-  clearSearch: "Clear search",
-  filters: {
-    all: "All",
-    tool: "Tool",
-    status: "Status",
-    area: "Plan area",
-    /** Concept 1's three menus, as a group. */
-    button: "Filter your library",
-    /** A menu's button once something is chosen: "Tool: Pitch Builder". */
-    chosen: (filter: string, choice: string) => `${filter}: ${choice}`,
-    showClosed: "Show closed",
-    clear: "Clear filters",
-    closedHidden: "closed hidden",
-    noneMatch: "Nothing in your library matches these filters.",
+  /** The sheet the magnifying glass opens (Concept 2, 14 Oct). */
+  searchSheet: {
+    field: "Search your library",
+    recent: "Recent",
+    matches: (n: number) => (n === 1 ? "1 match" : `${n} matches`),
+    noMatch: (q: string) => `Nothing in your library mentions “${q}”.`,
+  },
+  /** When she last touched it, on each row: up to two weeks, how long ago;
+   *  after that, the date (Kate, 14 Oct). */
+  touched: {
+    today: "Today",
+    days: (n: number) => (n === 1 ? "1 day ago" : `${n} days ago`),
+    weeks: (n: number) => (n === 1 ? "1 week ago" : `${n} weeks ago`),
   },
   /** "Last changed today", "Last changed on Tuesday". */
   edited: (when: string) => `Last changed ${when}`,
   versions: (n: number) => (n === 1 ? "1 version" : `${n} versions`),
   /** The link back to where it came from, on the row. */
   forStep: (title: string) => `For: ${title}`,
-  fromRead: "Started from today’s Briefing",
-  /** The one-sentence statement from onboarding, first in her library. */
-  statementInvite: "Build it out in Positioning Builder: a bio in three lengths and your leadership narrative.",
   statementAction: "Build it out",
   otherArea: "Not tied to your plan",
   /** Only someone who left onboarding before saving sees this. It points to
@@ -673,7 +669,6 @@ export const LIBRARY_COPY = {
     delete: "Delete",
     more: (title: string) => `More for ${title}`,
   },
-  closeSuggest: "You’ve said what came of it. Close it?",
   /** Concept 2's folders: one per tool, filed by ExecHQ. */
   folders: {
     names: {
@@ -688,23 +683,19 @@ export const LIBRARY_COPY = {
     back: "Library",
     /** The folder's own page (phone): back to the Toolbox. */
     backToToolbox: "Toolbox",
-    /** The status chips over a folder's list, each with how many it holds. */
-    filter: "Show",
+    /** Web (option A, 15 Oct): the folders as tabs, All first. */
+    tabs: "Folders",
+    /** Under the search field on web, once she types. */
+    acrossFolders: (n: number) => (n === 1 ? "1 match across every folder" : `${n} matches across every folder`),
+    /** The Status menu over a folder's list, each status with how many. */
+    filter: "Status",
     all: "All",
-    chip: (label: string, n: number) => `${label} ${n}`,
-    /** The third line of a row in a folder: what comes next for it. */
-    next: {
-      draft: "Finish the draft",
-      ready: (kind: ArtifactKind) =>
-        ({ pitch: "Send it when you’re ready", "thought-leadership": "Publish it when you’re ready" })[kind as string] ?? "Use it when you’re ready",
-      checksBack: (when: string) => `ExecHQ checks back ${when}`,
-      sayHow: "Say how it went",
-      close: "Close it when you’re done",
-      closed: "Nothing more to do",
-    },
+    /** How many a folder holds, over its list. */
+    items: (n: number) => (n === 1 ? "1 item" : `${n} items`),
+    /** The menu's button once a status is chosen: "Status: Draft". */
+    chosen: (filter: string, choice: string) => `${filter}: ${choice}`,
     noneInStatus: (status: string) => `Nothing here is ${status.toLowerCase()}.`,
     open: (name: string) => `Open ${name}`,
-    results: (n: number, q: string) => (n === 1 ? `1 match for “${q}”` : `${n} matches for “${q}”`),
     /** One part of a folder's counts, by status filter id, in the Loop's words. */
     count: (status: string, n: number): string =>
       ({
@@ -740,33 +731,13 @@ export const LIBRARY_COPY = {
 export const TOOLBOX_PAGE = {
   title: "Toolbox",
   lead: "Four ways to make your next draft.",
-  /** Over the tool her next plan step needs (Concept 1). */
+  /** Over the tool her next plan step needs. */
   nextOnPlan: "Next on your plan",
   toolsLabel: "Tools",
-  /** Concept 1: the draft she touched last, and the others from 30 days. */
-  pickUp: {
-    heading: "Pick up where you left off",
-    more: (n: number) => `${n} more from the last 30 days`,
-    fewer: "Show fewer",
-    detail: (status: string, date: string) => `${status} · ${date}`,
-    /** How far back "more" reaches, in days. */
-    days: 30,
-  },
-  /** Concept 1, under the tools: what she says opens the advisor, who
-   *  suggests the tool. */
-  mind: {
-    label: "What’s on your mind?",
-    /** The field's placeholder. It has to fit beside the send arrow on a
-     *  phone, so it is shorter than the hint it replaced. */
-    hint: "ExecHQ will suggest a tool",
-    /** The send arrow's name. */
-    go: "Find the right tool",
-  },
-
 } as const;
 
 /** The rules for picking a tool from what she says (the advisor answering
- *  Toolbox Concept 1's "What's on your mind?"). The
+ *  "Which tool do I need?" on the Toolbox). The
  *  pilot's matching is rules-based, so it only places a few kinds of moment,
  *  and anything else asks rather than guesses. First match wins, so the
  *  things she names outright (a pitch, a post) come before the moments. */
@@ -781,7 +752,7 @@ export function matchMoment(text: string): ArtifactKind | undefined {
   return MOMENT_RULES.find((rule) => rule.words.test(text))?.kind;
 }
 
-/** Status filters (Concept 1), in the Loop's order, with the Sprint 2 names. */
+/** Statuses, in the Loop's order, with the Sprint 2 names. */
 export const STATUS_FILTERS: readonly { id: string; label: string; states: readonly string[] }[] = [
   { id: "draft", label: "Draft", states: ["drafted", "in-progress"] },
   { id: "ready", label: "Ready to use", states: ["ready"] },
@@ -811,9 +782,10 @@ export const PITCH_INPUTS: readonly ToolInput[] = [
   {
     id: "target",
     label: "Who are you pitching?",
-    hint: "The event, show or outlet, if you know it.",
+    // Required (Kate, 14 Oct): a pitch is for one place. "Not sure yet"
+    // offers up to three that fit.
+    hint: "The event, show or publication.",
     kind: "text",
-    optional: true,
     placeholder: "The Growth Summit",
   },
   {
@@ -944,7 +916,7 @@ export const STEP_BAR_COPY = {
 /** Each question's short name in the bar, by tool and input id. */
 export const STEP_LABELS: Record<ArtifactKind, Record<string, string>> = {
   positioning: { knownFor: "Known for", context: "Introduction", audience: "Audience", format: "Format", source: "Source text" },
-  pitch: { type: "Pitching for", angle: "Angle", proof: "Proof" },
+  pitch: { type: "Pitching for", target: "Who", angle: "Angle", proof: "Proof" },
   "situation-brief": { type: "Moment", objective: "Outcome", audience: "Who’s there", stakes: "Their stakes", risks: "Risks" },
   "thought-leadership": { format: "Format", topic: "Topic", pov: "Point of view", evidence: "Evidence", voice: "Voice", length: "Length" },
 };
@@ -990,12 +962,305 @@ export const TOOL_COPY = {
   sent: {
     heading: "Mark it sent",
     to: "Sent to",
+    /** Who received it: the person the outlet names, else its address or form. */
+    contact: "Contact",
     on: "When",
     confirm: "Mark sent",
     cancel: "Not yet",
   },
   /** Situation Brief: when a date is known, the follow-up lands after it. */
   askAfter: (when: string) => `ExecHQ will ask how it went ${when}.`,
+} as const;
+
+/* -----------------------------------------------------------------------------
+   PITCH BUILDER: WHERE IT GOES (Kate, 14 Oct)
+   A pitch is for one place. Above the draft, the outlet, what it asks for,
+   who receives it and how to send it, each from the outlet's own published
+   page, linked and dated. A contact the outlet doesn't publish is a question
+   to her, never a guess. Every outlet here is made up, and every address
+   uses the reserved `.example` domain, so nothing points at a real outlet
+   or a real person.
+   -------------------------------------------------------------------------- */
+
+export type PitchType = "Speaking" | "Podcast" | "Press";
+
+/** A draft section a send route asks for, by its id in `pitchDraft`. */
+export type PitchPart = "subjects" | "pitch" | "short" | "expanded" | "follow-up";
+
+/** What the outlet asks for, as its page says it. Anything left out is
+ *  missing from the page, and the card says so rather than filling it. */
+export interface OutletAsk {
+  /** The topics they want now. */
+  topics: string;
+  /** "A 40-minute conversation"; "A 300-word abstract for a 30-minute talk". */
+  format: string;
+  /** The words they allow, and which part of the draft it applies to. */
+  limit?: { words: number; part: PitchPart };
+  /** What to send with it. */
+  include: readonly string[];
+  /** A closing date, ISO. */
+  deadline?: string;
+  /** How often they read pitches, when there is no deadline. */
+  cycle?: string;
+}
+
+/** The route the outlet publishes. A named person only when the outlet
+ *  names them on its own page. */
+export type OutletContact =
+  | { route: "form"; url: string; label: string; fields: readonly { field: string; part: PitchPart }[] }
+  | { route: "email"; address: string; person?: string };
+
+export interface Outlet {
+  id: string;
+  name: string;
+  type: PitchType;
+  /** The part of it she is pitching: a track, a column, a segment. */
+  part?: string;
+  /** Inside her company: no public page, so the card asks her. */
+  internal?: boolean;
+  ask?: OutletAsk;
+  contact?: OutletContact;
+  /** The page it all came from, and the day ExecHQ checked it (ISO). */
+  source?: { url: string; checked: string };
+  /** Why it fits her angle and audience, in a line, for "Not sure yet". */
+  fits?: string;
+}
+
+export const OUTLETS: readonly Outlet[] = [
+  {
+    id: "marketing-leaders-podcast",
+    name: "The Marketing Leaders podcast",
+    type: "Podcast",
+    part: "Guest episodes",
+    ask: {
+      topics: "How marketing leaders run planning, budgets and teams",
+      format: "A 40-minute recorded conversation",
+      limit: { words: 150, part: "pitch" },
+      include: ["A short bio", "A link to a talk or interview, if you have one"],
+      cycle: "Books guests about six weeks ahead",
+    },
+    contact: {
+      route: "form",
+      url: "marketingleaders.example/guests",
+      label: "Guest form",
+      fields: [
+        { field: "Episode idea", part: "short" },
+        { field: "Tell us more", part: "pitch" },
+      ],
+    },
+    source: { url: "marketingleaders.example/guests", checked: "2026-10-01" },
+    fits: "Its listeners are the marketing leaders your direction names.",
+  },
+  {
+    id: "scope-and-scale",
+    name: "Scope & Scale",
+    type: "Podcast",
+    contact: { route: "email", address: "bookings@scopeandscale.example" },
+    source: { url: "scopeandscale.example/about", checked: "2026-10-09" },
+    fits: "Weekly interviews with operators about how work gets divided up.",
+  },
+  {
+    id: "commercial-strategy-summit",
+    name: "The Commercial Strategy Summit",
+    type: "Speaking",
+    part: "Planning and operations track",
+    ask: {
+      topics: "Planning across regions, budgets under pressure, running cross-team programmes",
+      format: "A 300-word abstract for a 30-minute talk",
+      limit: { words: 300, part: "expanded" },
+      include: ["A speaker bio, under 100 words", "A headshot", "A video of a past talk, if you have one"],
+      deadline: "2026-11-13",
+    },
+    contact: {
+      route: "form",
+      url: "commercialstrategysummit.example/speak",
+      label: "Call for proposals",
+      fields: [
+        { field: "Session title", part: "subjects" },
+        { field: "Abstract", part: "expanded" },
+        { field: "One-line description", part: "short" },
+      ],
+    },
+    source: { url: "commercialstrategysummit.example/speak", checked: "2026-09-02" },
+    fits: "Its planning track is the topic you lead at work.",
+  },
+  {
+    id: "planning-leaders-conference",
+    name: "The Planning Leaders Conference",
+    type: "Speaking",
+    part: "Practitioner talks",
+    ask: {
+      topics: "First-hand stories of planning that changed how a business runs",
+      format: "A 20-minute talk",
+      include: ["A speaker bio", "Three points you would cover"],
+      cycle: "Reviews proposals each quarter",
+    },
+    contact: { route: "email", address: "speakers@planningleaders.example" },
+    source: { url: "planningleaders.example/speak", checked: "2026-10-06" },
+    fits: "It wants people doing the planning, not consultants.",
+  },
+  {
+    id: "commercial-leader-quarterly",
+    name: "Commercial Leader Quarterly",
+    type: "Press",
+    part: "Opinion column",
+    ask: {
+      topics: "First-person lessons on running commercial teams",
+      format: "A pitch for a 700-word opinion piece",
+      limit: { words: 200, part: "pitch" },
+      include: ["Your bio in two lines", "Two or three recent articles or posts, if you have them"],
+      cycle: "Reads pitches every Monday",
+    },
+    contact: { route: "email", address: "opinion@commercialleader.example", person: "Dana Okafor, opinion editor" },
+    source: { url: "commercialleader.example/contribute", checked: "2026-10-12" },
+    fits: "Read by the commercial leaders two levels above you.",
+  },
+  {
+    id: "field-notes",
+    name: "Field Notes",
+    type: "Press",
+    part: "Guest essays",
+    ask: {
+      topics: "What senior marketers learned the hard way",
+      format: "An 800-word guest essay",
+      include: ["A two-line bio"],
+    },
+    source: { url: "fieldnotes.example/write-for-us", checked: "2026-10-10" },
+    fits: "A newsletter marketing directors forward to their teams.",
+  },
+  { id: "q1-planning-review", name: "The Q1 planning review", type: "Speaking", internal: true },
+  { id: "leadership-forum", name: "The leadership forum", type: "Speaking", internal: true },
+];
+
+/** The outlet she named, matched loosely ("the Marketing Leaders podcast"). */
+export function outletFor(name: string | undefined): Outlet | undefined {
+  const key = (s: string) => s.trim().toLowerCase().replace(/^the\s+/, "");
+  if (!name?.trim()) return undefined;
+  return OUTLETS.find((o) => key(o.name) === key(name));
+}
+
+/** Who receives it, as "Sent to" keeps it: the person the outlet names, else
+ *  its address, else its form (Kate, 14 Oct). */
+export function contactLine(outlet: Outlet | undefined): string {
+  const c = outlet?.contact;
+  if (!c) return "";
+  return c.route === "email" ? (c.person ? `${c.person}, ${c.address}` : c.address) : `${c.label}, ${c.url}`;
+}
+
+/** Her "What are you pitching for?" answer, when it is one of the three. */
+export function pitchTypeOf(answer: string | undefined): PitchType | undefined {
+  return answer === "Speaking" || answer === "Podcast" || answer === "Press" ? answer : undefined;
+}
+
+/** "Not sure yet": up to three that fit, of the kind she is pitching for. */
+export function suggestedOutlets(type: string | undefined): Outlet[] {
+  return OUTLETS.filter((o) => !o.internal && (!type || o.type === type)).slice(0, 3);
+}
+
+/** A page checked longer ago than this may have changed. */
+export const OUTLET_STALE_DAYS = 30;
+
+export const OUTLET_COPY = {
+  heading: "Where it goes",
+  ask: "What they’re asking for",
+  topics: "Topics",
+  format: "Format",
+  length: "Length",
+  limit: (words: number, part: string) => `Your ${part.toLowerCase()}, up to ${words} words`,
+  include: "Send with it",
+  when: "When",
+  deadline: (date: string) => `Closes ${date}`,
+  contact: "Contact",
+  how: "How to send it",
+  source: "Source",
+  checked: (date: string) => `Checked ${date}`,
+  /** The page publishes nothing about what they want. */
+  noAsk: (watch: string) => `They don’t publish what they want. Read three recent ${watch} and pitch the gap.`,
+  watchFor: { Speaking: "talks", Podcast: "episodes", Press: "articles" } as Record<PitchType, string>,
+  /** She named somewhere ExecHQ has no page for. */
+  notFound: (watch: string) => `ExecHQ couldn’t find their page. Check the name, or read three recent ${watch} and pitch the gap.`,
+  /** The page names no contact: a question, never a guess. */
+  noContact: {
+    Speaking: "Who reviews talks? Look for a programme lead on the event’s page, or ask someone who has spoken there.",
+    Podcast: "Who handles guests? Look for a producer on the show’s page, or ask someone who has been on it.",
+    Press: "Who edits this section? Look for a name on recent pieces, or ask someone who has written for them.",
+  } as Record<PitchType, string>,
+  /** Inside her company there is no page to read. */
+  internal: {
+    note: "This is inside your company, so there is no page to check. Two things only you can answer:",
+    questions: ["Who decides the agenda?", "How do people usually get on it?"],
+  },
+  /** A page checked long ago, or a deadline passed. */
+  stale: "This may have changed. Check before you send.",
+  closed: "This has closed. Check for the next one before you send.",
+  howForm: (label: string) => `Fill in their ${label.toLowerCase()}.`,
+  howEmail: "Email it: your chosen subject line in the subject, the pitch as the body.",
+  /** Where each draft part goes, on a form. */
+  fieldGets: (field: string, part: string) => `${field}: your ${part.toLowerCase()}`,
+  partNames: {
+    subjects: "Subject line",
+    pitch: "Pitch",
+    short: "Short version",
+    expanded: "Expanded version",
+    "follow-up": "Follow-up",
+  } as Record<PitchPart, string>,
+  /** No route published: send it the plainest way. */
+  howDefault: "Email it once you have a contact: the first subject line, the pitch as the body.",
+  /** The pitch doesn't fit their limit: a question in the draft. */
+  overLimit: (words: number, now: number) => `They ask for ${words} words. This is ${now}. What can go?`,
+} as const;
+
+/** Send it in four steps (Kate, 14 Oct): under the draft, filled in from
+ *  Where it goes. Ticking a step is hers alone; nothing is sent. */
+export const SUGGEST_COPY = {
+  open: (n: number) => `Not sure yet? See ${["one", "two", "three"][n - 1] ?? n} that fit`,
+  close: "Hide the suggestions",
+  /** Who comes before the angle, so they fit what she is pitching for and
+   *  who her direction says it is for, nothing more. */
+  lead: (type?: string) =>
+    `${type === "Podcast" ? "Shows" : type === "Press" ? "Publications" : type === "Speaking" ? "Events" : "Places"} the people in your direction pay attention to. Pick one; you can change it.`,
+  chosen: "Chosen",
+} as const;
+
+export const SEND_STEPS_COPY = {
+  heading: "Send it in four steps",
+  note: "Ticks are only for you. ExecHQ never sends anything for you.",
+  check: {
+    title: "Check it against what they asked for",
+    wants: (name: string, format: string, topics: string) => `${name} wants ${format[0].toLowerCase()}${format.slice(1)}, on ${topics[0].toLowerCase()}${topics.slice(1)}.`,
+    words: (part: string, words: number, limit: number) =>
+      words > limit ? `Your ${part.toLowerCase()} is ${words} words; they allow ${limit}.` : `Your ${part.toLowerCase()} is ${words} words, inside their ${limit}.`,
+    noAsk: (watch: string) => `They don’t say what they want, so check it against three recent ${watch}.`,
+    internal: "Check it says what the agenda needs from you, in a line.",
+    open: (n: number) => (n === 1 ? "One question is still open in the draft." : `${n} questions are still open in the draft.`),
+  },
+  extras: {
+    title: "Get the extras ready",
+    none: "Nothing to attach.",
+    unknown: "They don’t list anything. A short bio and a link to a past talk or post cover most asks.",
+    makeBio: "Make it in Positioning Builder",
+  },
+  send: {
+    title: "Send it their way",
+    form: (label: string, url: string) => `Fill in their ${label.toLowerCase()} at ${url}:`,
+    email: (to: string) => `Email ${to}: the subject line you chose in the subject, the pitch as the body.`,
+    emailTo: (person: string, address: string) => `${person} at ${address}`,
+    noContact: "Find who receives it first (the question above), then email it: a subject line in the subject, the pitch as the body.",
+    internal: "Send it to whoever decides the agenda, the way people usually get on it.",
+    before: (date: string) => `Before ${date}.`,
+    copy: "Copy",
+    address: "Address",
+    field: (field: string, part: string) => `${field}: your ${part.toLowerCase()}`,
+  },
+  sent: {
+    title: "Mark it sent, and put the follow-up in your diary",
+    done: "(done)",
+    before: (days: number) =>
+      `Mark sent records where and when. ExecHQ asks what came of it ${days} days later, and the follow-up in the draft is for a week after you send it.`,
+    after: (on: string, to: string, followUp: string, ask: string) => `Sent ${on}${to ? ` to ${to}` : ""}. Send the follow-up ${followUp} if you’ve heard nothing; ExecHQ asks what came of it ${ask}.`,
+  },
+  /** What a copy says it copied. */
+  copied: (what: string) => `${what} copied.`,
 } as const;
 
 /* -----------------------------------------------------------------------------
@@ -1300,7 +1565,9 @@ export const INTERVIEW_PICKS: Record<ArtifactKind, Record<string, InterviewPick>
     risks: { mode: "many", options: ["It takes time from current work", "Timing", "Budget", "Someone else wants it", "Not enough proof yet"] },
   },
   pitch: {
-    target: { mode: "one", fromHer: true, options: ["An industry conference", "A trade publication", "An internal leadership forum"] },
+    // Who: the outlets that fit what she is pitching for (`suggestedOutlets`),
+    // filled in by the Interview itself; these are the fallback.
+    target: { mode: "one", options: ["The Marketing Leaders podcast", "The Commercial Strategy Summit", "Commercial Leader Quarterly"] },
     angle: { mode: "many", fromHer: true, options: ["How I run work across teams", "What planning teaches about scope", "A result from my region"] },
     proof: { mode: "many", fromHer: true, options: ["A result with a number I can share", "A talk or article I’ve done", "Feedback from a senior leader"] },
     links: { mode: "many", options: ["A LinkedIn post", "A recording of a talk", "An article", "Nothing yet"] },

@@ -64,7 +64,7 @@
 | What should a reader do at the end? | Ending | Her words | No | "Ask a question, invite a reply, or nothing." |
 | Any result or evidence to point to? | Evidence | Her words, long | No | "What changed because of it. Leave out numbers you can't share." Fills "What I have seen so far". |
 | How should it sound? | Voice | One choice: Plainer, Warmer, More direct | No | Sets ExecHQ's opening and closing lines. |
-| How long? | Length | One choice: Short, Standard, Long | No | Short and Long apply the Shorter and Longer revisions to the first draft. |
+| How long? | Length | One choice: Short, Standard, Long | No | Where in the format's range the first draft sits (section 3.1): Short near the bottom, Long near the top. |
 
 ### 2.3 Enrichers
 
@@ -95,6 +95,34 @@ Rules for this builder:
 - **Evidence gaps are questions,** never invented numbers, names or results ("What changed because of it?").
 - **Her point of view is never softened** into a both-sides line.
 
+### 3.1 Format rules
+
+Kate, 14 Oct; she confirmed the word ranges. Each format has its own rules, and every draft keeps them. **In V1 they are fixed:** she can't change them. Letting her set her own (a post of at least 300 words, one cited source) is for a later version; see below.
+
+| Rule | LinkedIn post | Short article | Long-form article |
+| --- | --- | --- | --- |
+| **Length** | 150 to 300 words | 600 to 900 words | 1,200 to 2,000 words |
+| **Sources cited** | None needed; the read, when she started from one | At least one | At least two |
+| **Sections** | One piece, with three other openings | Five (section 3) | Seven, adding Where it gets hard and Closing (Shorter can drop Where it gets hard, section 4) |
+| **Ending** | Her ending, or a closing line by voice | Her call to action | Her call to action, then a closing line |
+| **Hashtags and emoji** | None | None | None |
+
+How the draft keeps them:
+
+- **Length is a range, not a target.** Her Length answer picks where in the range the first draft sits: Short near the bottom, Standard in the middle, Long near the top. Shorter and Longer move within it, never out of it.
+- **Checked behind the scenes** (Kate, 14 Oct). The range is a guardrail the draft is held to, not something shown on it: no word count on the draft. What she sees are the questions below, when a draft falls outside it.
+- **Short of the range, it asks; it never pads.** "This is 110 words. What else would a reader need?" Over the range, it asks what can go: "This is 340 words. A post runs to 300. What can go?"
+- **A missing source is a question.** An article short of its sources leaves "What source backs this up?" in place. ExecHQ never finds, suggests or invents a citation to fill it.
+
+**Guardrails no format, and no later setting, can change:**
+
+- Never invent a fact, number, name, result or quote.
+- Credit the source by publication, and never quote more than a line.
+- Keep her words apart from ExecHQ's wording.
+- Never post or publish for her.
+
+**Later version: her own format rules.** Not in V1 (Kate, 14 Oct). When it comes, she could change a format's length, sources, sections and ending, never the guardrails above. The proposal so far: learn from what she does (picking Longer twice on posts offers "Make 300+ words your default for posts?"), keep them in one place (a "Your writing defaults" row in Profile, a line per format), and show them on the draft ("Post · 150 to 300 words · Edit").
+
 ---
 
 ## 4. Changing it
@@ -106,6 +134,7 @@ As the PRD names them, voice, specificity, length and audience, plus emphasis an
 - **Voice** and **audience** re-say ExecHQ's closing line, never hers (Senior leaders: "If you lead a function, what would you want your teams to know?"; My team: "What would you add?").
 - **Emphasis:** My example or The article's point comes straight after the opening; The question at the end opens the post as well as closing it. **Proposed:** "The article's point" shows only when she started from a read.
 - Specificity is recorded with the version; the prototype does not rewrite for it (no model).
+- **Shorter and Longer stay inside the format's range** (section 3.1). At the edge of it, the option says so rather than going past: "A post runs to 300 words. This is as long as it goes."
 
 ---
 
@@ -152,5 +181,6 @@ Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and
 1. **Cadence.** The Functional Scope lists "post cadence recommendations". Is that this builder's job, or the plan's?
 2. **Suggested citations.** The Functional Scope offers "an optional list of missing evidence or suggested citations". The prototype leaves questions in place. Is a separate list needed?
 3. **Her positioning statement in the post.** "Goes with this" says the post draws on it for what she leads, but the draft doesn't use it yet. Use it, or take the promise off?
-4. **Article length.** A short article has five sections and a long-form one seven. Is that the right difference, or should long-form also be longer within each section?
+4. **Article length.** Section 3.1 now gives each format a word range (600 to 900, and 1,200 to 2,000). Are those right, and are five and seven sections the right difference between them?
 5. **Next use for a read.** A post started from a Briefing read names no plan step. Should it say it answers the read, and when to post while the read is still current?
+6. **Format rules elsewhere.** If she can set her own format rules in a later version, do the other builders get the same (a pitch's length, the bios' three lengths), or is it Thought Leadership only? Kate, 14 Oct: probably all of them; settle it when that version is planned.

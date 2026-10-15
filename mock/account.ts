@@ -81,7 +81,7 @@ export const MAYA: Account = {
     name: "Northgate Leadership Programme",
     role: "Member",
     joinedOn: "2026-09-14",
-    sees: ["a summary of everyone in the group, as a whole"],
+    sees: ["totals for the whole group, refreshed weekly"],
     never: [
       "your name, email and role",
       "your direction, drafts, progress record and plan",

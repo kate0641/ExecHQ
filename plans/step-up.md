@@ -154,7 +154,27 @@ A prioritized set of longer-term actions that turn the dossier into promotion or
 
 ---
 
-## 3. Signal emphasis
+## 3. Feedback
+
+Kate, 14 Oct. Which steps ask her for feedback, and of which type. The types and their answers are in `plans/shared.md`, section 6. **Proposed**, all of the table: the source names no feedback.
+
+| Step | Asks? | Type | When ExecHQ asks | What her answer changes |
+| --- | --- | --- | --- | --- |
+| **1.1** One-sentence statement of the scope she wants | Yes | Is this right? | As soon as the statement is drafted | "Yes, that's it" completes the step and every tool draws on it; "Change it" reopens Positioning Builder |
+| **1.2** Three examples of broader leadership | No | None | | Recording the three is done |
+| **Stage 1 ends** | Yes | Stage check-in | When 1.1 and 1.2 are done | Yes: Stage 2 as planned. Partly or Not yet: Stage 2 opens with a step at the gap (often a sharper statement or a stronger example) |
+| **2.1** One proof-of-value artifact in one channel | Yes | What came of it? | The builder's check-back days after it is used, sent or published (a pitch 5, a post 7) | It went well: the result goes into her evidence for 2.2. Mixed or Not the way I hoped: another channel or a different angle. Nothing yet: the pitch's follow-up |
+| **2.2** A documented body of broader-scope evidence | Yes | Progress check | Every 4 weeks while it is open | Slipped: one smaller step to add to it. Done: offers 3.1 when a conversation is coming |
+| **2.3** Weekly Signal Background reflection | Yes | Anything new? | Weekly | Something new: a scope conversation coming brings 3.1 forward; new work becomes an example. Nothing has changed: the plan goes on as it is |
+| **Stage 2 ends** | Yes | Stage check-in | When 2.1 and 2.2 are done | Partly or Not yet: one more visible proof before the conversation. Stuck or Less sure: Stage 3 starts with one step, and offers talking it through |
+| **3.1** Prepare for the named conversation | Yes | How did it go? | The day after the conversation's date | Leads straight to 3.2. It hasn't happened yet: asks again after the new date |
+| **3.2** Record the outcome and choose the next move | Yes | How did it go? (continued) | Straight after 3.1's answer | Her outcome sets the next recommendation: a yes leads to 3.3; a not yet leads to the evidence the decider asked for; a no offers Make the Move or Chart a New Course |
+| **3.3** Standing roadmap milestone | Yes | Progress check | Every 4 weeks while it is open | Slipped: the milestone's next step gets smaller. Done: the plan is complete |
+| **Stage 3 ends** | Yes | Stage check-in | When 3.1 and 3.2 are done | Yes: the plan is complete, or 3.3 continues it. Not yet: back to 2.1 for the evidence still missing |
+
+---
+
+## 4. Signal emphasis
 
 Primary, Foundation and Evidence are defined in `plans/shared.md`. Internal only, never shown to her.
 
@@ -169,7 +189,7 @@ Primary, Foundation and Evidence are defined in `plans/shared.md`. Internal only
 
 ---
 
-## 4. How the agent behaves on Step Up
+## 5. How the agent behaves on Step Up
 
 **Proposed, all of this section.** It adds to the rules every plan shares (`plans/shared.md`, section 5).
 
@@ -181,7 +201,7 @@ Primary, Foundation and Evidence are defined in `plans/shared.md`. Internal only
 
 ---
 
-## 5. Open questions
+## 6. Open questions
 
 1. **Stages.** The V1 template table gave four stages (clarify the proposition; build evidence; have the scope conversations; establish the documented case). This brief uses the three from the plan card, by Kate's decision on 12 October. The prototype's onboarding and Plan page still show the older stage titles ("Say what you lead", "Show the proof", "Get in front of the deciders").
 2. **User-facing stage names.** Are the stage names above shown to her as written, or does each get a shorter name, as the plans did?

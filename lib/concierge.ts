@@ -52,6 +52,9 @@ export interface ConciergeContext {
   /** What comes after she says how it went: the next step, whatever she
    *  answered, by the rules the builder and Home share (13 Oct). */
   nextAfter?: (record: LoopRecord, type: OutcomeType) => NextAfter;
+  /** The Toolbox concept she is on ("concept-2"), when she is on the
+   *  Toolbox: he offers to suggest a tool, opened in that concept's flow. */
+  toolbox?: string;
 }
 
 export type ConciergeAction =
@@ -75,6 +78,9 @@ export type ConciergeAction =
    *  question when he can't tell (`ask`). `concept` is the Toolbox concept
    *  she asked from, whose flow the tool opens in. */
   | { kind: "find-tool"; text: string; concept: string; ask?: boolean }
+  /** "Suggest a tool", his prompt on the Toolbox: he asks what's on her
+   *  mind, and her next message is read as the answer. */
+  | { kind: "mind"; concept: string }
   | { kind: "start-tool"; tool: ArtifactKind; text: string; concept: string }
   /** One of the next steps he offered after she answered (`key`). */
   | { kind: "take-offer"; recordId: string; outcome: OutcomeType; key: string }
@@ -115,7 +121,7 @@ export interface AdvisorTurn {
 
 /** What to change when the turn is shown. */
 /** What he has just asked, so her next message is read as the answer. */
-export type Asked = "follow-up" | `note:${string}`;
+export type Asked = "follow-up" | `note:${string}` | `tool:${string}`;
 
 export type ConciergeEffect =
   | { kind: "go"; href: string }
@@ -212,6 +218,9 @@ export function understand(
   const place = t.match(/^(?:go(?: to)?|open|take me to|show me)?\s*(?:my\s+|the\s+)?(home(?:page)?|plan|signals|signal picture|momentum|toolbox|(?:daily )?briefing|profile|account|settings)$/);
   if (place) return { kind: "go", flow: PLACES[place[1]] };
 
+  // He asked what's on her mind (on the Toolbox): he suggests the tool for it.
+  if (asked?.startsWith("tool:") && t) return { kind: "find-tool", text: raw.trim(), concept: asked.slice(5) };
+
   const followUp = ctx.followUp;
   if (followUp) {
     const aboutIt =
@@ -261,6 +270,8 @@ function hrefFor(ctx: ConciergeContext, flow: string): string | undefined {
 /** What he suggests when the panel opens, by what is going on. */
 export function suggestions(ctx: ConciergeContext): ConciergeReply[] {
   const s: ConciergeReply[] = [];
+  // On the Toolbox, finding the right tool comes first (14 Oct).
+  if (ctx.toolbox) s.push({ label: C.suggest.pickTool, action: { kind: "mind", concept: ctx.toolbox } });
   if (ctx.followUp) s.push({ label: C.suggest.followUp(ctx.followUp.name), action: { kind: "ask-follow-up" } });
   const open = ctx.snapshot.records.find((r) => r.state === "drafted" || r.state === "in-progress");
   if (open) s.push({ label: C.suggest.prep(open.name), action: { kind: "prep" } });
@@ -587,6 +598,17 @@ export function respond(
         };
       }
       return { turn: { paragraphs: [F.ask], replies: TOOL_ORDER.map((k) => start(k, F.needs[k])) } };
+    }
+
+    case "mind": {
+      const F = C.findTool;
+      return {
+        turn: {
+          paragraphs: [F.mind],
+          replies: TOOL_ORDER.map((k) => ({ label: F.needs[k], action: { kind: "start-tool", tool: k, text: F.needs[k], concept: action.concept } })),
+          asked: `tool:${action.concept}`,
+        },
+      };
     }
 
     case "start-tool": {

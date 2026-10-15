@@ -124,6 +124,9 @@ import { toolUseCaseStates } from "./toolbox/ToolUseCase/ToolUseCase.states";
 import { inputPanelStates } from "./toolbox/InputPanel/InputPanel.states";
 import { pickAnswerStates } from "./toolbox/PickAnswer/PickAnswer.states";
 import { enricherCardStates } from "./toolbox/EnricherCard/EnricherCard.states";
+import { outletCardStates } from "./toolbox/OutletCard/OutletCard.states";
+import { sendStepsStates } from "./toolbox/SendSteps/SendSteps.states";
+import { outletSuggestionsStates } from "./toolbox/OutletSuggestions/OutletSuggestions.states";
 import { draftEditorStates } from "./toolbox/DraftEditor/DraftEditor.states";
 import { revisionControlsStates } from "./toolbox/RevisionControls/RevisionControls.states";
 import { versionHistoryStates } from "./toolbox/VersionHistory/VersionHistory.states";
@@ -132,8 +135,6 @@ import { draftToolBarStates } from "./toolbox/DraftToolBar/DraftToolBar.states";
 import { toolPickerStates } from "./toolbox/ToolPicker/ToolPicker.states";
 import { iconRowStates } from "./navigation/IconRow/IconRow.states";
 import { progressStepperStates } from "./navigation/ProgressStepper/ProgressStepper.states";
-import { mindStartStates } from "./toolbox/MindStart/MindStart.states";
-import { pickUpStates } from "./toolbox/PickUp/PickUp.states";
 import { artifactActionsStates } from "./toolbox/ArtifactActions/ArtifactActions.states";
 import { libraryEmptyStates } from "./toolbox/LibraryEmpty/LibraryEmpty.states";
 import { workspacePanelStates } from "./toolbox/WorkspacePanel/WorkspacePanel.states";
@@ -142,10 +143,16 @@ import { dropdownMenuStates } from "./form/DropdownMenu/DropdownMenu.states";
 import { listStates } from "./layout/List/List.states";
 import { toolIllustrationStates } from "./toolbox/ToolIllustration/ToolIllustration.states";
 import { libraryFolderStates } from "./toolbox/LibraryFolder/LibraryFolder.states";
+import { librarySearchStates } from "./toolbox/LibrarySearch/LibrarySearch.states";
+import { libraryTabsStates } from "./toolbox/LibraryTabs/LibraryTabs.states";
 import { briefingDeckStates } from "./briefing/BriefingDeck/BriefingDeck.states";
 import { briefingPictureStates } from "./briefing/BriefingPicture/BriefingPicture.states";
 import { briefingFrontStates } from "./briefing/BriefingFront/BriefingFront.states";
-import { readerBarStates } from "./briefing/ReaderBar/ReaderBar.states";
+import { cohortFigureStates } from "./enterprise/CohortFigure/CohortFigure.states";
+import { figureDefinitionStates } from "./enterprise/FigureDefinition/FigureDefinition.states";
+import { windowSelectorStates } from "./enterprise/WindowSelector/WindowSelector.states";
+import { inviteCodeStates } from "./enterprise/InviteCode/InviteCode.states";
+import { cohortFormStates } from "./enterprise/CohortForm/CohortForm.states";
 export const registry: RegisteredComponent[] = [
   badgeStates,
   buttonStates,
@@ -263,6 +270,9 @@ export const registry: RegisteredComponent[] = [
   inputPanelStates,
   pickAnswerStates,
   enricherCardStates,
+  outletCardStates,
+  sendStepsStates,
+  outletSuggestionsStates,
   draftEditorStates,
   revisionControlsStates,
   versionHistoryStates,
@@ -271,18 +281,22 @@ export const registry: RegisteredComponent[] = [
   toolPickerStates,
   iconRowStates,
   progressStepperStates,
-  mindStartStates,
-  pickUpStates,
   artifactActionsStates,
   libraryEmptyStates,
   workspacePanelStates,
   pinnedDraftStates,
   toolIllustrationStates,
   libraryFolderStates,
+  librarySearchStates,
+  libraryTabsStates,
   briefingDeckStates,
   briefingPictureStates,
   briefingFrontStates,
-  readerBarStates,
+  cohortFigureStates,
+  figureDefinitionStates,
+  windowSelectorStates,
+  inviteCodeStates,
+  cohortFormStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */

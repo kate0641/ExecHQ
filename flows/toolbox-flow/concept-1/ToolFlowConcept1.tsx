@@ -177,6 +177,7 @@ function GuidedSteps() {
           }}
           error={error}
           headingId={STEP_HEADING}
+          extra={f.fieldExtras[input.id]}
         />
         {/* Next is pinned to the foot of the screen, in the thumb zone. */}
         <div className="tool-flow__step-actions tool-flow__step-actions--pinned">

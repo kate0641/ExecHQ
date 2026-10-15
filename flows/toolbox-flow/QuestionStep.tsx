@@ -3,6 +3,7 @@
 import { ChipGroup } from "@/components/form/ChipGroup";
 import { Input } from "@/components/form/Input";
 import { StepHeader } from "@/components/onboarding/StepHeader";
+import type { ReactNode } from "react";
 import type { ToolInput } from "@/mock/toolbox";
 
 /**
@@ -17,6 +18,7 @@ export function QuestionStep({
   eyebrow,
   headingId,
   headingLevel = 1,
+  extra,
 }: {
   input: ToolInput;
   value: string;
@@ -25,6 +27,8 @@ export function QuestionStep({
   eyebrow?: string;
   headingId: string;
   headingLevel?: 1 | 2;
+  /** Under the field: "Not sure yet" for who she is pitching. */
+  extra?: ReactNode;
 }) {
   return (
     <div className="question-step">
@@ -44,6 +48,7 @@ export function QuestionStep({
           onChange={(event) => onChange(event.target.value)}
         />
       )}
+      {extra}
     </div>
   );
 }

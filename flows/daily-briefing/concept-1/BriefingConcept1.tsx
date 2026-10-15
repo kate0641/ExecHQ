@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { BriefingDeck } from "@/components/briefing/BriefingDeck";
 import { BriefingEnd } from "@/components/briefing/BriefingEnd";
 import { sourceHref } from "@/mock/briefing";
@@ -21,10 +21,18 @@ import { useBriefingPage } from "../useBriefingPage";
  * three, with Change. The close, "That's today's three.", is there from the
  * start, because all three are in view at once.
  */
-export function BriefingConcept1() {
+function BriefingConcept1Page() {
   const p = useBriefingPage();
   const [open, setOpen] = useState(0);
   if (p.firstVisit) return p.firstVisit;
+  // Saved, from the top right: its own page in this one's place.
+  if (p.savedView)
+    return (
+      <>
+        {p.savedPage}
+        {p.sheet}
+      </>
+    );
 
   return (
     <div className="briefing-page briefing-page--front">
@@ -44,12 +52,21 @@ export function BriefingConcept1() {
       />
       <BriefingEnd allRead={p.allRead} headingId="briefing-end">
         <div className="brief-end__links">
-          {p.savedLink}
           {p.publishersLine}
         </div>
       </BriefingEnd>
       {p.sheet}
     </div>
+  );
+}
+
+// Saved is read from the address (`?view=saved`), which needs a Suspense
+// boundary or a full page load stays blank.
+export function BriefingConcept1() {
+  return (
+    <Suspense fallback={null}>
+      <BriefingConcept1Page />
+    </Suspense>
   );
 }
 

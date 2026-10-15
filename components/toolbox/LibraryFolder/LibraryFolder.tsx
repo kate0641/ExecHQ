@@ -1,12 +1,14 @@
+import type { ReactNode } from "react";
 import { Icon } from "@/components/primitives/Icon";
-import { ToolIllustration } from "@/components/toolbox/ToolIllustration";
+import { TOOL_ICONS } from "@/components/toolbox/ToolPicker/ToolPicker";
 import type { ArtifactKind } from "@/mock/loop";
 
 export interface LibraryFolderProps {
   tool: ArtifactKind;
   /** "Pitches". */
   name: string;
-  /** What is inside: "3 · 2 drafts · 1 waiting to hear". */
+  /** A folder: what is inside, "3 · 2 drafts · 1 waiting to hear". The
+   *  open folder's heading: what the tool makes. */
   summary: string;
   /** When it last changed: "22 Oct". Left out when the folder is empty. */
   date?: string;
@@ -18,9 +20,11 @@ export interface LibraryFolderProps {
    */
   as?: "button" | "header";
   onOpen?: () => void;
+  /** `header` only: under the words, the way to make another (Start). */
+  action?: ReactNode;
   /** The folder whose list is showing beside it (web). */
   current?: boolean;
-  headingLevel?: 2 | 3;
+  headingLevel?: 1 | 2 | 3;
   headingId?: string;
   /** Catalogue only: shows the folder in a state a static page can't reach. */
   demo?: "hover" | "focus" | "active";
@@ -29,9 +33,10 @@ export interface LibraryFolderProps {
 
 /**
  * One of the library's folders: a folder per tool, filed by ExecHQ, never
- * made or moved by her. Its tab and tint come from the tool; its name and the
- * tool's drawing always sit on it, so the tint is never the only cue. It says
- * how many it holds, what state they are in, and when it last changed.
+ * made or moved by her. A plain card, no folder drawing (look D, 14 Oct): the
+ * tool's icon in a disc tinted for the tool, then its name, so the tint is
+ * never the only cue. It says how many it holds, what state they are in, and
+ * when it last changed.
  */
 export function LibraryFolder({
   tool,
@@ -41,6 +46,7 @@ export function LibraryFolder({
   dateLabel = "Last change",
   as = "button",
   onOpen,
+  action,
   current = false,
   headingLevel = 3,
   headingId,
@@ -58,14 +64,16 @@ export function LibraryFolder({
     .filter(Boolean)
     .join(" ");
 
+  const disc = (
+    <span className="library-folder__disc" aria-hidden="true">
+      <Icon name={TOOL_ICONS[tool]} size={20} />
+    </span>
+  );
   const body = (
     <>
-      <span className="library-folder__top">
+      {disc}
         <span className="library-folder__name">{name}</span>
-        <ToolIllustration tool={tool} level="simple" size={as === "header" ? 36 : 32} />
-      </span>
-      <span className="library-folder__summary">{summary}</span>
-      {as === "button" ? (
+        <span className="library-folder__summary">{summary}</span>
         <span className="library-folder__foot">
           <span className="library-folder__date">
             {date ? (
@@ -77,16 +85,24 @@ export function LibraryFolder({
           </span>
           <Icon name="chevron" size={16} className="library-folder__go" />
         </span>
-      ) : null}
-    </>
-  );
+      </>
+    );
 
+  // The open folder's card (option A, 14 Oct): the disc, the heading and
+  // what the tool makes, and Start under them. Only the name is the heading.
   if (as === "header") {
     const Heading = `h${headingLevel}` as const;
     return (
-      <Heading className={classes} id={headingId} tabIndex={-1}>
-        {body}
-      </Heading>
+      <div className={classes}>
+        {disc}
+        <div className="library-folder__text">
+          <Heading className="library-folder__name" id={headingId} tabIndex={-1}>
+            {name}
+          </Heading>
+          <p className="library-folder__summary">{summary}</p>
+          {action ? <div className="library-folder__action">{action}</div> : null}
+        </div>
+      </div>
     );
   }
   return (

@@ -7,6 +7,9 @@ import type { StepNavItem } from "@/lib/step-nav";
 import { Input } from "@/components/form/Input";
 import { Button } from "@/components/primitives/Button";
 import { EnricherCard } from "@/components/toolbox/EnricherCard";
+import { OutletCard } from "@/components/toolbox/OutletCard";
+import { OutletSuggestions } from "@/components/toolbox/OutletSuggestions";
+import { SendSteps, type SendCopy } from "@/components/toolbox/SendSteps";
 import { List, type ListItemData } from "@/components/layout/List";
 import { TOOL_ICONS } from "@/components/toolbox/ToolPicker/ToolPicker";
 import { respondHref } from "@/lib/briefing-store";
@@ -18,6 +21,8 @@ import { Icon } from "@/components/primitives/Icon";
 import { DraftEditor } from "@/components/toolbox/DraftEditor";
 import { DraftUseBar } from "@/components/toolbox/DraftUseBar";
 import { DropdownMenu } from "@/components/form/DropdownMenu";
+import { Sheet } from "@/components/layout/Sheet";
+import { recordedItems } from "@/lib/signal-picture";
 import { InputPanel } from "@/components/toolbox/InputPanel";
 import { RevisionControls, type RevisionChoice } from "@/components/toolbox/RevisionControls/RevisionControls";
 import { ToolUseCase } from "@/components/toolbox/ToolUseCase";
@@ -25,7 +30,7 @@ import { VersionHistory } from "@/components/toolbox/VersionHistory";
 import { addDays, aheadPhrase, createRecord, daysBetween, datePhrase, outcomeReadback, shortDate, type LoopRecord } from "@/lib/loop";
 import { currentSnapshot, getLoopState, loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
-import { briefDraft, draftText, firstDraft, pitchDraft, positioningDraft, revise, revisionLabel, statementOnly } from "@/lib/toolbox-draft";
+import { briefDraft, draftText, firstDraft, wordCount, pitchDraft, positioningDraft, revise, revisionLabel, statementOnly } from "@/lib/toolbox-draft";
 import { toolboxActions, toolboxPageFor, useToolbox, type DraftState } from "@/lib/toolbox-store";
 import { TODAYS_READS } from "@/mock/briefing";
 import { ARTIFACT_KINDS, FOLLOW_UP_POLICY, type ArtifactKind } from "@/mock/loop";
@@ -63,6 +68,11 @@ import {
   TL_INPUTS_FROM_BRIEFING,
   TOOLS,
   VERSION_COPY,
+  outletFor,
+  contactLine,
+  pitchTypeOf,
+  suggestedOutlets,
+  SEND_STEPS_COPY,
   type DraftSection,
   type DraftSegment,
   type ToolInput,
@@ -216,11 +226,19 @@ export function useToolFlow(concept: FlowConcept) {
 
   // Positioning Builder is one artifact: her statement from onboarding. Opened
   // as a tool, from a plan step or from the Toolbox, it goes to that artifact.
+  // Once built out, Concepts 1 and 3 show the start screen first, and starting
+  // opens it (Kate, 15 Oct); Concept 2 has no start screen of its own, so it
+  // goes straight there.
   const positioningRecord = loop.records.find((r) => r.kind === "positioning");
+  const statementHref = positioningRecord
+    ? `${conceptHref("toolbox-flow", concept)}?artifact=${positioningRecord.id}${stepId ? `&step=${stepId}` : ""}`
+    : undefined;
+  const startsOnStatement =
+    kind === "positioning" && !artifactId && concept !== "concept-2" && Boolean(positioningRecord && toolbox.drafts[positioningRecord.id]);
   useEffect(() => {
-    if (kind !== "positioning" || artifactId || !positioningRecord) return;
-    router.replace(`${conceptHref("toolbox-flow", concept)}?artifact=${positioningRecord.id}${stepId ? `&step=${stepId}` : ""}`);
-  }, [kind, artifactId, positioningRecord, stepId, router, concept]);
+    if (kind !== "positioning" || artifactId || !statementHref || startsOnStatement) return;
+    router.replace(statementHref);
+  }, [kind, artifactId, statementHref, startsOnStatement, router]);
 
   /** Her statement, not yet built out: the builder opens on it, as the same
    *  artifact, rather than making a new one. */
@@ -324,6 +342,18 @@ export function useToolFlow(concept: FlowConcept) {
     );
 
   const currentValues = () => Object.fromEntries(inputs.map((i) => [i.id, valueOf(i.id)]));
+
+  /** "Not sure yet" under Who are you pitching? (Kate, 14 Oct): up to three
+   *  outlets of the kind she is pitching for. */
+  const outletChoices = kind === "pitch" ? suggestedOutlets(pitchTypeOf(valueOf("type"))) : [];
+  const fieldExtras: Record<string, ReactNode> =
+    kind === "pitch"
+      ? {
+          target: (
+            <OutletSuggestions outlets={outletChoices} type={pitchTypeOf(valueOf("type"))} chosen={valueOf("target")} onPick={(name) => setValue("target", name)} />
+          ),
+        }
+      : {};
 
   /** Drafts this session wrote, so the step bar can take one back. */
   const written = useRef(new Set<string>());
@@ -563,7 +593,7 @@ export function useToolFlow(concept: FlowConcept) {
           : undefined
       }
       startLabel={firstChoice && valueOf(firstChoice.id) ? USE_CASE_COPY.startWith(kind, valueOf(firstChoice.id)) : undefined}
-      onStart={options.onStart}
+      onStart={startsOnStatement && statementHref ? () => router.push(statementHref) : options.onStart}
       noStart={options.noStart ?? !options.onStart}
       choiceStarts={options.choiceStarts}
       noPicture={options.noPicture}
@@ -613,12 +643,15 @@ export function useToolFlow(concept: FlowConcept) {
       builtWith={options.builtWith}
       footer={options.footer}
       actionsClassName={options.actionsClassName}
+      fieldExtras={fieldExtras}
       noHeading
     />
   );
 
   /** Each output used on its own: copied, and the bios exported. */
   const [sectionMessage, setSectionMessage] = useState("");
+  /** Delete asks first, in a sheet (the library's menu moved here, 14 Oct). */
+  const [deleting, setDeleting] = useState(false);
   const sectionActions = (section: { id: string; heading?: string }): ReactNode => {
     const name = section.heading ?? "";
     const one = version?.sections.filter((x) => x.id === section.id) ?? [];
@@ -688,6 +721,56 @@ export function useToolFlow(concept: FlowConcept) {
       : USE_COPY.exportable[record.kind]
     : false;
 
+  /** Send it in four steps, under a pitch's draft (Kate, 14 Oct). */
+  const pitchOutlet = kind === "pitch" ? outletFor(draft?.inputs.target) : undefined;
+  const words = (part: string): number | undefined => {
+    const section = version?.sections.find((x) => x.id === part);
+    if (!section) return undefined;
+    const edited = edits[part];
+    return edited ? edited.split(/\s+/).filter(Boolean).length : wordCount(section);
+  };
+  const openQuestions = version
+    ? version.sections
+        .filter((section) => !edits[section.id])
+        .flatMap((section) => section.segments)
+        .filter((seg) => "question" in seg && !draft?.answers[seg.question]).length
+    : 0;
+  /** One part of the draft as text to paste: a subject line is the first one. */
+  const copyPart = (what: SendCopy, label: string) => {
+    let text = "";
+    if (what === "address") text = pitchOutlet?.contact?.route === "email" ? pitchOutlet.contact.address : "";
+    else {
+      const section = version?.sections.find((x) => x.id === what);
+      if (section) {
+        const one = what === "subjects" ? { ...section, heading: undefined, segments: section.segments.slice(0, 1), list: false } : { ...section, heading: undefined };
+        text = edits[what] ?? draftText([one], {}, draft?.answers ?? {});
+      }
+    }
+    try {
+      navigator.clipboard?.writeText(text).catch(() => undefined);
+    } catch {
+      // The prototype says it copied either way; nothing depends on it.
+    }
+    setSectionMessage(SEND_STEPS_COPY.copied(label));
+  };
+  const sendSteps: ReactNode =
+    kind === "pitch" && draft?.inputs.target?.trim() ? (
+      <SendSteps
+        key={artifactId}
+        name={draft.inputs.target}
+        type={pitchTypeOf(draft.inputs.type)}
+        outlet={pitchOutlet}
+        today={loop.today}
+        words={pitchOutlet?.ask?.limit ? words(pitchOutlet.ask.limit.part) : undefined}
+        openQuestions={openQuestions}
+        sentOn={record?.usedOn}
+        sentTo={record?.channel ? (record.contact ? `${record.channel} (${record.contact})` : record.channel) : ""}
+        checkBackDays={ARTIFACT_KINDS.pitch.checkBackDays}
+        bioHref={`${conceptHref("toolbox-flow", concept)}?tool=positioning`}
+        onCopy={copyPart}
+      />
+    ) : null;
+
   /** The draft in one of its looks: `clean` (Concept 1) and `page`
    *  (Concept 2) once she has marked it ready, with `onReopen` going back
    *  to the working draft. */
@@ -696,6 +779,11 @@ export function useToolFlow(concept: FlowConcept) {
       <>
         {refresh}
         <output className="u-visually-hidden">{sectionMessage}</output>
+        {/* A pitch is for one place (Kate, 14 Oct): where it goes, above
+            what it says. */}
+        {kind === "pitch" && draft.inputs.target?.trim() ? (
+          <OutletCard name={draft.inputs.target} type={pitchTypeOf(draft.inputs.type)} outlet={outletFor(draft.inputs.target)} today={loop.today} />
+        ) : null}
         <DraftEditor
           key={`${artifactId}-${version.n}`}
           id={DRAFT_LABEL_ID}
@@ -712,32 +800,68 @@ export function useToolFlow(concept: FlowConcept) {
           header={
             <span className="tool-flow__draft-head">
               {record ? <LoopStatus record={record} /> : null}
-              {/* Concepts 1 and 2: once it is ready, Copy and the downloads are
-                  one menu in the draft's corner, so the bar holds only "I've used this". */}
-              {isReady ? (
+              {/* The draft's actions, in its corner, on every concept. Once it
+                  is ready, Copy and the downloads lead, so the bar holds only
+                  "I've used this". Then what the library's row menu held
+                  (Kate, 14 Oct): start a new draft from this one, close it,
+                  delete it. */}
+              {record ? (
                 <DropdownMenu
                   label={USE_COPY.actions}
                   align="end"
                   entries={[
+                    ...(isReady
+                      ? [
+                          {
+                            type: "item" as const,
+                            id: "copy",
+                            icon: "copy" as const,
+                            label: USE_COPY.copyFor[kind],
+                            onSelect: () => {
+                              copy();
+                              setSectionMessage(USE_COPY.copied);
+                            },
+                          },
+                          ...(exportable
+                            ? (["PDF", "Word"] as const).map((format) => ({
+                                type: "item" as const,
+                                id: format,
+                                icon: "download" as const,
+                                label: format === "PDF" ? USE_COPY.exportPdf : USE_COPY.exportWord,
+                                onSelect: () => setSectionMessage(kind === "pitch" && draft.inputs.target?.trim() ? USE_COPY.exportedPitch(format) : USE_COPY.exported(format)),
+                              }))
+                            : []),
+                          { type: "separator" as const, id: "use-sep" },
+                        ]
+                      : []),
                     {
                       type: "item" as const,
-                      id: "copy",
-                      icon: "copy" as const,
-                      label: USE_COPY.copyFor[kind],
-                      onSelect: () => {
-                        copy();
-                        setSectionMessage(USE_COPY.copied);
-                      },
+                      id: "reuse",
+                      icon: "draft" as const,
+                      label: LIBRARY_COPY.actions.reuse,
+                      onSelect: () => router.push(`${conceptHref("toolbox-flow", concept)}?reuse=${encodeURIComponent(record.id)}`),
                     },
-                    ...(exportable
-                      ? (["PDF", "Word"] as const).map((format) => ({
-                          type: "item" as const,
-                          id: format,
-                          icon: "download" as const,
-                          label: format === "PDF" ? USE_COPY.exportPdf : USE_COPY.exportWord,
-                          onSelect: () => setSectionMessage(USE_COPY.exported(format)),
-                        }))
+                    ...(record.state !== "closed"
+                      ? [
+                          {
+                            type: "item" as const,
+                            id: "close",
+                            icon: "minus" as const,
+                            label: LIBRARY_COPY.actions.close,
+                            onSelect: () => {
+                              loopActions.close(record.id);
+                              setSectionMessage(LIBRARY_COPY.closed(record.title));
+                            },
+                          },
+                        ]
                       : []),
+                    {
+                      type: "item" as const,
+                      id: "delete",
+                      icon: "trash" as const,
+                      label: LIBRARY_COPY.actions.delete,
+                      onSelect: () => setDeleting(true),
+                    },
                   ]}
                 />
               ) : null}
@@ -756,6 +880,32 @@ export function useToolFlow(concept: FlowConcept) {
             touch();
           }}
         />
+        {sendSteps}
+        {record ? (
+          <Sheet open={deleting} onClose={() => setDeleting(false)} label={LIBRARY_COPY.deleteConfirm.heading(record.title)} className="toolbox-sheet">
+            <div className="artifact-actions artifact-actions--confirm">
+              <h2 className="artifact-actions__heading">{LIBRARY_COPY.deleteConfirm.heading(record.title)}</h2>
+              <p className="artifact-actions__body">{LIBRARY_COPY.deleteConfirm.body(recordedItems([record]).length)}</p>
+              <div className="artifact-actions__buttons">
+                <Button
+                  variant="danger"
+                  fullWidth
+                  onClick={() => {
+                    loopActions.remove(record.id);
+                    toolboxActions.remove(record.id);
+                    setDeleting(false);
+                    router.push(backHref);
+                  }}
+                >
+                  {LIBRARY_COPY.deleteConfirm.confirm}
+                </Button>
+                <Button variant="secondary" fullWidth onClick={() => setDeleting(false)}>
+                  {LIBRARY_COPY.deleteConfirm.keep}
+                </Button>
+              </div>
+            </div>
+          </Sheet>
+        ) : null}
       </>
     ) : null;
   const draftEditor = draftAs();
@@ -802,6 +952,7 @@ export function useToolFlow(concept: FlowConcept) {
 
   const [sending, setSending] = useState(false);
   const [sentTo, setSentTo] = useState<string | null>(null);
+  const [sentContact, setSentContact] = useState<string | null>(null);
   const [sentOn, setSentOn] = useState<string | null>(null);
 
   const sentForm: ReactNode =
@@ -811,12 +962,21 @@ export function useToolFlow(concept: FlowConcept) {
         onSubmit={(event) => {
           event.preventDefault();
           const on = sentOn || loop.today;
-          loopActions.markUsed(record.id, { channel: (sentTo ?? draft?.inputs.target ?? "").trim() || undefined }, on <= loop.today ? on : loop.today);
+          loopActions.markUsed(
+            record.id,
+            { channel: (sentTo ?? draft?.inputs.target ?? "").trim() || undefined, contact: (sentContact ?? contactLine(pitchOutlet)).trim() || undefined },
+            on <= loop.today ? on : loop.today
+          );
           setSending(false);
         }}
       >
         <h2 className="tool-flow__sent-heading">{TOOL_COPY.sent.heading}</h2>
         <Input label={`${TOOL_COPY.sent.to} (${INPUT_COPY.optional.toLowerCase()})`} value={sentTo ?? draft?.inputs.target ?? ""} onChange={(e) => setSentTo(e.target.value)} />
+        <Input
+          label={`${TOOL_COPY.sent.contact} (${INPUT_COPY.optional.toLowerCase()})`}
+          value={sentContact ?? contactLine(pitchOutlet)}
+          onChange={(e) => setSentContact(e.target.value)}
+        />
         <Input label={TOOL_COPY.sent.on} type="date" value={sentOn ?? loop.today} max={loop.today} onChange={(e) => setSentOn(e.target.value)} />
         <div className="tool-flow__sent-actions">
           <Button type="submit">{TOOL_COPY.sent.confirm}</Button>
@@ -919,7 +1079,8 @@ export function useToolFlow(concept: FlowConcept) {
     if (want >= 1 && now < 1) loopActions.markReady(id, days ? { checkBackDays: days } : undefined);
     if (want >= 2 && now < 2) {
       const channel = r.kind === "pitch" ? (draft?.inputs.target || example("target")) : undefined;
-      loopActions.markUsed(id, { ...(channel ? { channel } : {}), ...(days ? { checkBackDays: days } : {}) });
+      const contact = r.kind === "pitch" ? contactLine(outletFor(channel)) : "";
+      loopActions.markUsed(id, { ...(channel ? { channel } : {}), ...(contact ? { contact } : {}), ...(days ? { checkBackDays: days } : {}) });
     }
   }
 
@@ -1074,6 +1235,8 @@ export function useToolFlow(concept: FlowConcept) {
     notFirst,
     valueOf,
     setValue,
+    outletChoices,
+    fieldExtras,
     write,
     writing,
     draft,

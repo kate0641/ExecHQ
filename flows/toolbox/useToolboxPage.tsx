@@ -1,168 +1,112 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
-import { Input } from "@/components/form/Input";
 import { Sheet } from "@/components/layout/Sheet";
-import { ArtifactActions } from "@/components/toolbox/ArtifactActions";
 import { LibraryEmpty } from "@/components/toolbox/LibraryEmpty";
+import { LibrarySearch } from "@/components/toolbox/LibrarySearch";
 import { List, type ListItemData } from "@/components/layout/List";
-import { LoopStatus } from "@/components/loop/LoopStatus";
+import { Badge } from "@/components/primitives/Badge";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
-import { TOOL_ICONS } from "@/components/toolbox/ToolPicker/ToolPicker";
-import { editedWords, searchLibrary, libraryItems, type LibraryItem } from "@/lib/library";
-import { aheadPhrase, shortDate, type LoopRecord } from "@/lib/loop";
-import { loopActions, useLoop } from "@/lib/loop-store";
+import { type ToolLead } from "@/components/toolbox/ToolPicker/ToolPicker";
+import { libraryItems, touchedTag, type LibraryItem } from "@/lib/library";
+import { statusLabel } from "@/lib/loop";
+import { useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
-import { draftMeta, toolboxActions, useToolbox, type ToolboxPage } from "@/lib/toolbox-store";
+import { useToolboxLinks } from "@/lib/toolbox-links";
+import { PLAN_AGENDA_COPY, stepById } from "@/mock/plan";
+import { draftMeta, flowFor, toolboxActions, useToolbox, type ToolboxPage } from "@/lib/toolbox-store";
 import type { ArtifactKind } from "@/mock/loop";
-import { FLOW_COPY, LIBRARY_COPY as C, TOOLBOX_PAGE, USE_COPY } from "@/mock/toolbox";
+import { LIBRARY_COPY as C, TOOL_ORDER, TOOLBOX_PAGE, TOOLS } from "@/mock/toolbox";
+
+/** The tool her next plan step needs: the first step on her plan that makes
+ *  something with a tool. None, and the four tools are equal. */
+export function useLead(): ToolLead | undefined {
+  const loop = useLoop();
+  const links = useToolboxLinks();
+  for (const rec of loop.recommendations) {
+    const step = stepById(rec.id);
+    const kind = TOOL_ORDER.find((k) => TOOLS[k].name === step?.toolboxTool);
+    if (step && kind) {
+      return {
+        kind,
+        step: step.title,
+        href: links.forStep(step.id),
+        action: links.hasDraft(step.id) ? PLAN_AGENDA_COPY.openDraft : TOOLS[kind].start,
+      };
+    }
+  }
+  return undefined;
+}
 
 export const TITLE_ID = "toolbox-title";
 const LIBRARY_ID = "library-heading";
+const SEARCH_BUTTON_ID = "library-search-button";
 
 /**
- * Everything the three Toolbox concepts share: the library read from her Loop
- * records, search, the actions sheet (open, reuse, update status, export,
- * close, delete) and where each tool and artifact opens. Each concept lays out
- * the tools and the library its own way.
+ * What the Toolbox page needs: the library read from her Loop records, the
+ * search sheet, and where each tool and artifact opens.
  *
- * Opening an artifact goes straight to its draft, in this concept's flow, and
- * opening the page records the concept, so the Briefing's hand-off lands here.
+ * Opening an artifact goes straight to its draft, in the tool flow concept
+ * last opened, and opening the page records the concept.
  */
 export function useToolboxPage(concept: ToolboxPage) {
   const loop = useLoop();
   const toolbox = useToolbox();
-  const [query, setQuery] = useState("");
-  const [open, setOpen] = useState<string | null>(null);
-  const [message, setMessage] = useState("");
+  const router = useRouter();
+  const [searching, setSearching] = useState(false);
 
   useEffect(() => {
     toolboxActions.openConcept(concept);
   }, [concept]);
 
-  const flow = conceptHref("toolbox-flow", concept);
+  // Tools open in the tool flow concept the reviewer last opened.
+  const flow = conceptHref("toolbox-flow", flowFor(toolbox));
   const toolHref = (kind: ArtifactKind, moment?: string) => {
     const params = new URLSearchParams({ tool: kind });
     if (moment) params.set("moment", moment);
     return `${flow}?${params.toString()}`;
   };
   const artifactHref = (id: string) => `${flow}?artifact=${encodeURIComponent(id)}`;
-  const reuseHref = (id: string) => `${flow}?reuse=${encodeURIComponent(id)}`;
 
   const all = libraryItems(loop.records, draftMeta(toolbox));
-  const found = searchLibrary(all, query);
-  const openItem = all.find((i) => i.record.id === open);
+  /** "Today", "3 days ago", "2 weeks ago", then the date. */
+  const when = (item: LibraryItem) => touchedTag(item.lastOn, loop.today);
 
-  const close = () => setOpen(null);
-
-  /** What comes next for an artifact, in a line (a folder's rows). */
-  function nextStep(record: LoopRecord): string {
-    const N = C.folders.next;
-    switch (record.state) {
-      case "drafted":
-      case "in-progress":
-        return N.draft;
-      case "ready":
-        return N.ready(record.kind);
-      case "used":
-      case "waiting":
-        return record.checkBackOn && record.checkBackOn > loop.today ? N.checksBack(aheadPhrase(record.checkBackOn, loop.today)) : N.sayHow;
-      case "outcome":
-        return N.close;
-      default:
-        return N.closed;
-    }
-  }
-
-  /** One artifact as a list row: the tool's icon, the title (which opens
-   *  it), a second line with the tool, when it last changed, how many
-   *  versions and where it came from, and its Loop status.
-   *
-   *  In a folder (`folder`), the tool goes without saying: the row is the
-   *  title, its status and the date it last changed, and what comes next. */
-  function itemOf(item: LibraryItem, options: { hideArea?: boolean; folder?: boolean; plain?: boolean }): ListItemData {
+  /** One artifact as a row, no card (Concept 1's list, brought over 14
+   *  Oct): the title, then where it stands (in a folder) or its tool, and
+   *  when she last touched it as a tag. Tapping the row opens it; there is
+   *  no menu (Kate, 14 Oct). */
+  function itemOf(item: LibraryItem, options: { folder?: boolean; mixed?: boolean }): ListItemData {
     const { record } = item;
-    const source = item.reusedFrom
-      ? FLOW_COPY.reusedFrom(item.reusedFrom)
-      : item.readId
-        ? C.fromRead
-        : item.step
-          ? C.forStep(item.step)
-          : undefined;
-    const second = [
-      item.tool,
-      C.edited(editedWords(item, loop.today)),
-      C.versions(item.versions),
-      options.hideArea ? undefined : item.areaName,
-      source,
-      // Her onboarding statement, not yet built out: opening it builds it out.
-      item.fromOnboarding && record.state !== "closed" ? C.statementInvite : undefined,
-      record.state === "outcome" ? C.closeSuggest : undefined,
-    ].filter(Boolean);
     return {
       id: record.id,
       primary: record.title,
-      // The status leads the second line, so on a phone the title keeps the
-      // width and only the menu sits at the end.
-      secondary: options.plain ? (
-        // A plain list (Concept 1's Library page): the tool and the date,
-        // nothing more (Kate, 13 Oct). Status is still the Status menu's filter.
-        [item.tool, shortDate(item.lastOn)].join(" · ")
-      ) : options.folder ? (
+      secondary: (
         <>
-          <LoopStatus record={record} detail={false} className="library__status" />
-          {" · "}
-          {shortDate(item.lastOn)}
-          <br />
-          <span className="library__next">{nextStep(record)}</span>
-        </>
-      ) : (
-        <>
-          <LoopStatus record={record} detail={false} className="library__status" />
-          {" "}
-          {second.join(" · ")}
+          {/* In a folder, a line of what it says tells same-named ones apart
+              (option A, 14 Oct). */}
+          {(options.folder || options.mixed) && item.preview ? <span className="library__preview">{item.preview}</span> : null}
+          {/* Several folders in one list (web's All tab and search): the
+              folder, then where it stands. */}
+          {options.mixed ? `${C.folders.names[record.kind]} · ${statusLabel(record)}` : options.folder ? statusLabel(record) : item.tool}{" "}
+          <Badge className="library__when">{when(item)}</Badge>
         </>
       ),
       href: artifactHref(record.id),
-      leading: options.folder || options.plain ? undefined : { type: "icon", name: TOOL_ICONS[record.kind] },
-      trailing: {
-        actions: (
-          <>
-            {/* In a plain list every row looks the same: Close waits in the
-                menu with the other actions (Kate, 13 Oct). */}
-            {record.state === "outcome" && !options.plain ? (
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={() => {
-                  loopActions.close(record.id);
-                  setMessage(C.closed(record.title));
-                }}
-              >
-                {C.actions.close}
-                <span className="u-visually-hidden"> {record.title}</span>
-              </Button>
-            ) : null}
-            <Button variant="ghost" size="sm" onClick={() => setOpen(record.id)} aria-label={C.actions.more(record.title)}>
-              <Icon name="menu" size={16} />
-            </Button>
-          </>
-        ),
-      },
     };
   }
 
-  /** Library rows as a list, one or two lines each, divided. */
-  const list = (items: readonly LibraryItem[], options: { hideArea?: boolean; folder?: boolean; plain?: boolean; label?: string } = {}): ReactNode =>
+  /** Library rows as a list, no card, a line between each. */
+  const list = (items: readonly LibraryItem[], options: { folder?: boolean; mixed?: boolean; label?: string } = {}): ReactNode =>
     items.length ? (
       <List
         items={items.map((i) => itemOf(i, options))}
         label={options.label ?? C.heading}
         dividers="full"
-        // Plain: no card around the rows, just the rows and the lines between them.
-        framed={!options.plain}
-        className={["library__rows", options.folder ? "library__rows--folder" : null, options.plain ? "library__rows--plain" : null].filter(Boolean).join(" ")}
+        framed={false}
+        className="library__rows"
       />
     ) : null;
 
@@ -175,36 +119,28 @@ export function useToolboxPage(concept: ToolboxPage) {
     </header>
   );
 
-  const librarySearch =
-    all.length > 0 ? (
-      <Input
-        label={`${C.search}. ${C.searchHint}`}
-        labelHidden
-        type="search"
-        placeholder={C.search}
-        value={query}
-        onChange={(event) => setQuery(event.target.value)}
-      />
-    ) : null;
-
+  /** The heading, with the magnifying glass at the right: it opens search
+   *  in a sheet (Kate, 14 Oct). */
   const libraryHeader = (
     <div className="library__header">
       <h2 className="library__heading" id={LIBRARY_ID}>
         {C.heading}
       </h2>
-      {librarySearch}
+      {all.length ? (
+        <Button
+          variant="ghost"
+          size="sm"
+          id={SEARCH_BUTTON_ID}
+          className="library__search-button"
+          aria-haspopup="dialog"
+          aria-label={C.search}
+          onClick={() => setSearching(true)}
+        >
+          <Icon name="search" size={20} />
+        </Button>
+      ) : null}
     </div>
   );
-
-  const noMatch =
-    query.trim() && found.length === 0 ? (
-      <p className="library__no-match">
-        {C.noMatch(query.trim())}{" "}
-        <button type="button" className="library__clear" onClick={() => setQuery("")}>
-          {C.clearSearch}
-        </button>
-      </p>
-    ) : null;
 
   /** Only someone who left onboarding before saving: her first step. */
   const empty =
@@ -213,58 +149,41 @@ export function useToolboxPage(concept: ToolboxPage) {
     ) : null;
 
   const sheet = (
-    <>
-      <output className="u-visually-hidden">{message}</output>
-      <Sheet open={Boolean(openItem)} onClose={close} label={openItem?.record.title ?? ""} className="toolbox-sheet">
-        {openItem ? (
-          <ArtifactActions
-            key={openItem.record.id}
-            item={openItem}
-            openHref={artifactHref(openItem.record.id)}
-            reuseHref={reuseHref(openItem.record.id)}
-            onMarkReady={() => {
-              loopActions.markReady(openItem.record.id);
-              close();
-            }}
-            onMarkUsed={() => {
-              loopActions.markUsed(openItem.record.id);
-              close();
-            }}
-            onExport={(format) => {
-              setMessage(USE_COPY.exported(format));
-              close();
-            }}
-            onClose={() => {
-              loopActions.close(openItem.record.id);
-              setMessage(C.closed(openItem.record.title));
-              close();
-            }}
-            onDelete={() => {
-              loopActions.remove(openItem.record.id);
-              toolboxActions.remove(openItem.record.id);
-              setMessage(C.deleteConfirm.done(openItem.record.title));
-              close();
-            }}
-            onDismiss={close}
-          />
-        ) : null}
-      </Sheet>
-    </>
+    <Sheet
+      open={searching}
+      onClose={() => setSearching(false)}
+      label={C.search}
+      returnFocusTo={() => document.getElementById(SEARCH_BUTTON_ID)}
+      className="toolbox-sheet library-search-sheet"
+    >
+      {searching ? (
+        <LibrarySearch
+          items={all.map((i) => ({
+            id: i.record.id,
+            title: i.record.title,
+            detail: `${i.tool} · ${when(i)}`,
+            text: `${i.preview} ${i.tool}`,
+            href: artifactHref(i.record.id),
+          }))}
+          copy={C.searchSheet}
+          onPick={(item) => {
+            setSearching(false);
+            router.push(item.href);
+          }}
+        />
+      ) : null}
+    </Sheet>
   );
 
   return {
     today: loop.today,
     all,
-    found,
-    query,
     toolHref,
     artifactHref,
     list,
     header,
     libraryHeader,
-    librarySearch,
     libraryId: LIBRARY_ID,
-    noMatch,
     empty,
     sheet,
   };

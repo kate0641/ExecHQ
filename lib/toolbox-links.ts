@@ -14,7 +14,7 @@
 
 import { useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
-import { useToolbox } from "@/lib/toolbox-store";
+import { flowFor, useToolbox } from "@/lib/toolbox-store";
 import type { ArtifactKind } from "@/mock/loop";
 import { stepById } from "@/mock/plan";
 import { ACTIONS } from "@/mock/plan-stub";
@@ -28,8 +28,8 @@ const kindOfTool = (name?: string): ArtifactKind | undefined => TOOL_ORDER.find(
 export function useToolboxLinks() {
   const loop = useLoop();
   const toolbox = useToolbox();
-  const concept = toolbox.concept ?? "concept-1";
-  const flow = conceptHref("toolbox-flow", concept);
+  const concept = toolbox.concept ?? "concept-2";
+  const flow = conceptHref("toolbox-flow", flowFor(toolbox));
 
   const forRecord = (id: string) => `${flow}?artifact=${encodeURIComponent(id)}`;
 
