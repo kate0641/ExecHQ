@@ -16461,9 +16461,12 @@ fieldset.agenda__whens {
 }
 
 /* Built from what you said is her own answers, so its header carries her colour: lime with dark
-   green words (designer, 2026-10-15; light blue before). */
+   green words (designer, 2026-10-15; light blue before). The card's edge runs on around the header,
+   so the two read as one piece. */
 .guide__heard-rows > .guide__yours-label {
   padding: var(--space-sm) var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-bottom: 0;
   border-radius: var(--radius-card) var(--radius-card) 0 0;
   background-color: var(--color-surface-her-band);
   color: var(--color-text-on-her-band);
