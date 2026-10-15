@@ -39,8 +39,9 @@ export interface LibrarySearchProps {
 }
 
 /** Best first: the title starts with it, then a word in the title does, then
- *  the title has it anywhere, then only what the draft says does. */
-function rank(item: LibrarySearchItem, q: string): number {
+ *  the title has it anywhere, then only what the draft says does. -1 when
+ *  nothing has it. Shared with the search field on web (Concept 2). */
+export function rank(item: LibrarySearchItem, q: string): number {
   const title = item.title.toLowerCase();
   if (title.startsWith(q)) return 0;
   if (title.split(/[\s:—-]+/).some((w) => w.startsWith(q))) return 1;

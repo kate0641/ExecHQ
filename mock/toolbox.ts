@@ -683,6 +683,10 @@ export const LIBRARY_COPY = {
     back: "Library",
     /** The folder's own page (phone): back to the Toolbox. */
     backToToolbox: "Toolbox",
+    /** Web (option A, 15 Oct): the folders as tabs, All first. */
+    tabs: "Folders",
+    /** Under the search field on web, once she types. */
+    acrossFolders: (n: number) => (n === 1 ? "1 match across every folder" : `${n} matches across every folder`),
     /** The Status menu over a folder's list, each status with how many. */
     filter: "Status",
     all: "All",

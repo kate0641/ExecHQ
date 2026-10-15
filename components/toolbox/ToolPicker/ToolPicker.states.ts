@@ -11,7 +11,7 @@ export const toolPickerStates = defineComponentStates({
   status: "draft",
   flows: ["toolbox"],
   description:
-    "The four tools, always first on the Toolbox. Tiles carry the name and a few words on what each makes: 2×2 on a phone, one row of four wider. Chips carry the name alone, in one row that scrolls sideways. Icons are one row of four that fits the width, an icon over a short name, so nothing scrolls (Concept 2); with a next step on her plan, that step's tool is one row under them.",
+    "The four tools, always first on the Toolbox. Tiles carry the name and a few words on what each makes: 2×2 on a phone, one row of four wider. Chips carry the name alone, in one row that scrolls sideways. Icons are one row of four that fits the width, an icon over a short name, so nothing scrolls (Concept 2); with a next step on her plan, that step's tool is one row under them. The rail is a column of four rows, each the icon, the name and what it makes, with the next step under them: the column down the left of the Toolbox on web (Concept 2, option A).",
   component: ToolPicker,
   notApplicable: {
     ...FIXED_CONTENT,
@@ -26,6 +26,10 @@ export const toolPickerStates = defineComponentStates({
     { label: "Icons with the next step under (Concept 2)", props: { layout: "icons", lead, hrefFor } },
     { label: "Icons with the next step — hover", props: { layout: "icons", lead, hrefFor, demo: "hover" } },
     { label: "Icons — focus", props: { layout: "icons", hrefFor, demo: "focus" } },
+    { label: "Rail (Concept 2, web)", props: { layout: "rail", hrefFor } },
+    { label: "Rail with the next step under (Concept 2, web)", props: { layout: "rail", lead, hrefFor } },
+    { label: "Rail — hover", props: { layout: "rail", hrefFor, demo: "hover" } },
+    { label: "Rail — focus", props: { layout: "rail", hrefFor, demo: "focus" } },
     { label: "Tiles — hover", props: { layout: "tiles", hrefFor, demo: "hover" } },
     { label: "Tiles — focus", props: { layout: "tiles", hrefFor, demo: "focus" } },
     { label: "Tiles — pressed", props: { layout: "tiles", hrefFor, demo: "active" } },

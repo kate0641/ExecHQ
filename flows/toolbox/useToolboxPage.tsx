@@ -77,7 +77,7 @@ export function useToolboxPage(concept: ToolboxPage) {
    *  Oct): the title, then where it stands (in a folder) or its tool, and
    *  when she last touched it as a tag. Tapping the row opens it; there is
    *  no menu (Kate, 14 Oct). */
-  function itemOf(item: LibraryItem, options: { folder?: boolean }): ListItemData {
+  function itemOf(item: LibraryItem, options: { folder?: boolean; mixed?: boolean }): ListItemData {
     const { record } = item;
     return {
       id: record.id,
@@ -86,8 +86,10 @@ export function useToolboxPage(concept: ToolboxPage) {
         <>
           {/* In a folder, a line of what it says tells same-named ones apart
               (option A, 14 Oct). */}
-          {options.folder && item.preview ? <span className="library__preview">{item.preview}</span> : null}
-          {options.folder ? statusLabel(record) : item.tool}{" "}
+          {(options.folder || options.mixed) && item.preview ? <span className="library__preview">{item.preview}</span> : null}
+          {/* Several folders in one list (web's All tab and search): the
+              folder, then where it stands. */}
+          {options.mixed ? `${C.folders.names[record.kind]} · ${statusLabel(record)}` : options.folder ? statusLabel(record) : item.tool}{" "}
           <Badge className="library__when">{when(item)}</Badge>
         </>
       ),
@@ -96,7 +98,7 @@ export function useToolboxPage(concept: ToolboxPage) {
   }
 
   /** Library rows as a list, no card, a line between each. */
-  const list = (items: readonly LibraryItem[], options: { folder?: boolean; label?: string } = {}): ReactNode =>
+  const list = (items: readonly LibraryItem[], options: { folder?: boolean; mixed?: boolean; label?: string } = {}): ReactNode =>
     items.length ? (
       <List
         items={items.map((i) => itemOf(i, options))}

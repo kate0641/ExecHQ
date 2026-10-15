@@ -33,10 +33,13 @@ export interface ToolPickerProps {
    * - `icons`: one row of four that fits the width, each an icon over a short
    *   name, so nothing scrolls and the library keeps the first screen
    *   (Concept 2). With a `lead`, the next step's tool is one row under them.
+   * - `rail`: a column of four rows, each the icon, the name and what it
+   *   makes, for the column down the left of the page on web (Concept 2,
+   *   option A, 15 Oct). With a `lead`, the next step's tool is under them.
    */
-  layout: "tiles" | "chips" | "icons";
-  /** `icons` only: the tool her next plan step needs, as one row under the
-   *  four. Without one, the four alone. */
+  layout: "tiles" | "chips" | "icons" | "rail";
+  /** `icons` and `rail`: the tool her next plan step needs, as one row
+   *  under the four. Without one, the four alone. */
   lead?: ToolLead;
   /** The group's accessible name. */
   label?: string;
@@ -68,6 +71,30 @@ export function ToolPicker({ hrefFor, layout, lead, label = "Tools", demo, class
             icon: TOOL_ICONS[kind],
           }))}
         />
+        {lead ? <LeadRow lead={lead} demo={demo} /> : null}
+      </nav>
+    );
+  }
+  // The rail: the tools first, then the step that needs one (Kate, 15 Oct).
+  if (shape === "rail") {
+    return (
+      <nav className={["tool-picker", "tool-picker--rail", className].filter(Boolean).join(" ")} aria-label={label}>
+        <ul className="tool-picker__list">
+          {TOOL_ORDER.map((kind, i) => (
+            <li key={kind} className="tool-picker__item">
+              <Link href={hrefFor(kind)} className={["tool-picker__tool", i === 0 && demo && !lead ? `is-${demo}` : null].filter(Boolean).join(" ")}>
+                <span className="tool-picker__disc">
+                  <Icon name={TOOL_ICONS[kind]} size={20} className="tool-picker__icon" />
+                </span>
+                <span className="tool-picker__text">
+                  <span className="tool-picker__name">{TOOLS[kind].label}</span>
+                  <span className="tool-picker__short">{TOOLS[kind].short}</span>
+                </span>
+                <Icon name="chevron" size={16} className="tool-picker__go" />
+              </Link>
+            </li>
+          ))}
+        </ul>
         {lead ? <LeadRow lead={lead} demo={demo} /> : null}
       </nav>
     );
