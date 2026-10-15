@@ -217,7 +217,7 @@ type Frame = Pick<ComponentProps<typeof GuidePage>, "headingId" | "part" | "file
 const GLOW_FOR: Partial<Record<PageId, SkyGlow>> = {
   account: "top-right",
   verify: "bottom-right",
-  direction: "bottom-left",
+  direction: "bottom-right",
   decide: "top-right",
   "reflect-time": "top-left",
   "t-0": "bottom-right",
