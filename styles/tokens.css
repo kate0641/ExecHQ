@@ -201,6 +201,12 @@
   --color-text-on-for-her-muted: var(--brand-blue-700);
   --color-eyebrow-on-for-her: var(--brand-blue-600);
   --color-border-on-for-her: var(--brand-blue-300);
+  /* A button on sky blue (designer, 2026-10-15): never yellow on light blue. Navy with white words,
+     ExecHQ asking her to take the step (11.3:1). */
+  --color-action-on-for-her: var(--brand-primary);
+  --color-action-on-for-her-hover: var(--brand-primary-muted);
+  --color-action-on-for-her-active: var(--brand-primary-strong);
+  --color-text-on-action-on-for-her: var(--brand-white);
   /* A navy page: an onboarding step with no drawer, flooded navy so the flow alternates quiet screens
      with ExecHQ moments (designer, 2026-10-15). Headlines and section labels in yellow 400 (10.3:1);
      the kicker blue 200; a numbered circle the same yellow with its navy numeral. */

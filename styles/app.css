@@ -15012,11 +15012,27 @@ ol.entry-drawer__rows {
   border-top: var(--border-subtle);
 }
 
-/* The stage lines its children up at the start; the next-move card fills the width. */
-.momentum__stage > .presence-clean__try {
-  align-self: stretch;
-  /* The next move is its own thing, not the next line of the counts. */
-  margin-top: var(--space-xs);
+/* The week as a card of its own, in the soft wash of Pick up where you left off: light blue into
+   pale lime (designer, 2026-10-15). A moment of joy, held to one card so the week's circles have
+   quiet behind them. */
+.momentum__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-feature-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-wash-mid);
+  background-image: linear-gradient(115deg in oklab, var(--color-wash-start) 0%, var(--color-wash-mid) 55%, var(--color-wash-end) 100%);
+}
+
+/* What she did this week, its number in her lime. */
+.momentum__count {
+  padding: 0 var(--space-2xs);
+  border-radius: var(--radius-tag);
+  background-color: var(--color-surface-her-band);
+  color: var(--color-text-on-her-band);
+  font-weight: var(--weight-bold);
 }
 
 .momentum__stage:first-of-type {
@@ -15164,8 +15180,9 @@ ol.entry-drawer__rows {
   border-bottom: var(--border-subtle);
 }
 
-/* The band splits where the columns under it do, so the next move sits over where she started. */
-[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .momentum__stage {
+/* The band splits where the columns under it do: the week's card on the left, the next move over
+   where she started. */
+[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .momentum {
   display: grid;
   grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
   column-gap: var(--space-2xl);
@@ -15175,17 +15192,6 @@ ol.entry-drawer__rows {
 /* On the web each day is up to 4rem, so the week fills more of its column. */
 [data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .day-circles ol {
   grid-template-columns: repeat(7, minmax(0, 4rem));
-}
-
-[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .momentum__stage > * {
-  grid-column: 1;
-}
-
-[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .momentum__stage > .presence-clean__try {
-  grid-column: 2;
-  grid-row: 1 / span 6;
-  align-self: start;
-  margin-top: 0;
 }
 
 [data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .spark {
@@ -15303,7 +15309,37 @@ ol.entry-drawer__rows {
   color: var(--color-text-primary);
 }
 
-/* What ExecHQ wrote for her: her next move and Try this sit in sky blue, navy words on it. */
+/* The week's card is light: dark words, a navy heading, and her days in dark green with a lime
+   check; today wears a navy ring. */
+.signals-page .momentum__card {
+  --color-text-primary: var(--light-text-primary);
+  --color-text-secondary: var(--light-text-secondary);
+  --color-text-muted: var(--light-text-muted);
+  --color-border: var(--color-border-on-for-her);
+  --color-border-strong: var(--color-border-on-for-her);
+  --color-focus: var(--light-focus);
+  --focus-ring: var(--focus-ring-width) solid var(--light-focus);
+  color: var(--color-text-primary);
+}
+
+.signals-page .momentum__card .momentum__heading {
+  color: var(--color-text-on-for-her);
+}
+
+.signals-page .momentum__card .day-circles__dot.is-on {
+  border-color: var(--color-text-on-her-band);
+  background-color: var(--color-text-on-her-band);
+  color: var(--color-surface-her-band);
+}
+
+.signals-page .momentum__card .day-circles__dot.is-today {
+  box-shadow:
+    0 0 0 var(--space-3xs) var(--color-wash-mid),
+    0 0 0 var(--space-2xs) var(--color-text-on-for-her);
+}
+
+/* What ExecHQ wrote for her: her next move and Try this sit in sky blue, navy words on it, and a
+   navy button, never yellow on light blue. */
 .signals-page .presence-clean__try {
   --color-text-primary: var(--color-text-on-for-her);
   --color-text-secondary: var(--color-text-on-for-her-muted);
@@ -15311,23 +15347,13 @@ ol.entry-drawer__rows {
   --color-eyebrow: var(--color-eyebrow-on-for-her);
   --color-focus: var(--light-focus);
   --focus-ring: var(--focus-ring-width) solid var(--light-focus);
+  --color-action: var(--color-action-on-for-her);
+  --color-action-hover: var(--color-action-on-for-her-hover);
+  --color-action-active: var(--color-action-on-for-her-active);
+  --color-text-on-action: var(--color-text-on-action-on-for-her);
   border-color: var(--color-border-on-for-her);
   background-color: var(--color-surface-for-her);
   color: var(--color-text-primary);
-}
-
-/* Momentum's days are hers: a day she did something is lime with a dark green check; today
-   wears a white ring; days to come are dashed light blue. */
-.signals-page .day-circles__dot.is-on {
-  border-color: var(--color-surface-her-band);
-  background-color: var(--color-surface-her-band);
-  color: var(--color-text-on-her-band);
-}
-
-.signals-page .day-circles__dot.is-today {
-  box-shadow:
-    0 0 0 var(--space-3xs) var(--color-surface-inverse),
-    0 0 0 var(--space-2xs) var(--color-text-inverse);
 }
 
 /* Small labels in Inter, not Kulim. */
