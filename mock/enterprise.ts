@@ -578,3 +578,68 @@ export const C1_COPY = {
     toOverview: "Go to the overview",
   },
 } as const;
+
+/* -----------------------------------------------------------------------------
+   CONCEPT 2 — THE REPORT
+   -------------------------------------------------------------------------- */
+
+/** One line of the report: the figure set large, then the rest of the
+ *  sentence. A hidden line keeps its label and names the rule instead. */
+export interface ReportLine {
+  figure: FigureView;
+  /** The words after the number. */
+  rest?: string;
+}
+
+/** The report's sections, in reading order, and the lines in each. */
+export const REPORT_SECTIONS: { id: QuestionId; heading: string; points: DataPointId[] }[] = [
+  { id: "joined", heading: "Joining", points: ["invites", "onboarding"] },
+  { id: "using", heading: "Use", points: ["active", "returning", "briefing"] },
+  { id: "following", heading: "Follow-through", points: ["plans", "follow-through", "artifacts", "loop"] },
+];
+
+export function reportLine(cohort: Cohort, id: DataPointId, window: WindowId): ReportLine {
+  const figure = figureFor(cohort, id, window);
+  if (figure.state === "suppressed") return { figure };
+  const c = cohort.byWindow[window];
+  const long = WINDOWS[window].long;
+  const n = (value: number) => count.format(value);
+  const rest: Record<DataPointId, string> = {
+    invites: `of the ${n(cohort.expectedSize)} leaders you expected have joined.`,
+    onboarding: `of them finished setting up (${n(cohort.activated)} of ${n(cohort.joined)}).`,
+    active: `of those set up were active in ${long} (${n(c.active)} of ${n(cohort.activated)}).`,
+    returning: `came back in a later week after their first (${n(c.returning)} of ${n(cohort.activated)}).`,
+    briefing: `of active participants read the Daily Briefing at least once a week (${n(c.briefingWeekly)} of ${n(c.active)}).`,
+    plans: `of those set up chose a development plan (${n(cohort.planAccepted)} of ${n(cohort.activated)}).`,
+    "follow-through": `of the planned actions participants took on were completed within 30 days (${n(c.actionsCompleted)} of ${n(c.actionsAccepted)}).`,
+    artifacts: `pieces of work were made in ExecHQ in ${long}.`,
+    loop: `of that work was marked as used outside ExecHQ (${n(c.artifactsUsed)}), and ${n(c.outcomesRecorded)} ${c.outcomesRecorded === 1 ? "piece has" : "pieces have"} a result recorded.`,
+  };
+  return { figure, rest: rest[id] };
+}
+
+export const C2_COPY = {
+  letterhead: "Cohort report",
+  sponsor: "Northgate",
+  windowLine: (long: string) => `Figures cover ${long}.`,
+  windowLineSinceLaunch: "Figures cover the program since it started.",
+  asOf: (asOf: string) => `As of ${formatAsOf(asOf)}.`,
+  firstUpdate: (asOf: string) => `First figures on ${formatAsOf(asOf)}.`,
+  dates: (startsOn: string, endsOn: string) => `${formatDate(startsOn)} to ${formatDate(endsOn)}`,
+  day: (day: number) => `day ${day}`,
+  notStarted: "not started yet",
+  building: `Only the number who joined is shown until ${MIN_COHORT_SIZE} or more participants are active, so no figure can point to one person.`,
+  filling: (day: number) =>
+    `The program is ${day} days old, so figures over 30 and 90 days are still filling in.`,
+  fillingTag: "Filling in",
+  hiddenLine: `hidden until ${MIN_COHORT_SIZE} or more participants are active.`,
+  footer:
+    "Totals for the whole cohort. Northgate never sees a participant, their plan or their work. Prepared by ExecHQ from activity in the product.",
+  export: "Export as PDF",
+  exportHint: "Exports this page as it is, on one page.",
+  setup: {
+    title: "Untitled cohort",
+    lead: "Fill in the cohort’s details to start its report. You will get one code to share.",
+    empty: "The report starts here once people join.",
+  },
+} as const;
