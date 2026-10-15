@@ -13,12 +13,12 @@ export const publisherPickerStates = defineComponentStates({
     "Where her reads come from. On her first visit it comes before the first set loads, the suggested set first with one press to take it; choosing her own opens the full list, at least three. Later the same list changes them, on the Briefing page (Concept 1) or in Profile.",
   component: PublisherPicker,
   notApplicable: {
-    hover: "Its controls are ChipGroup and Button, which show their own states.",
-    focus: "Its controls are ChipGroup and Button, which show their own states.",
-    active: "Its controls are ChipGroup and Button, which show their own states.",
+    hover: "Its rows take the settings row's hover, and its buttons are Button, which shows its own states.",
+    focus: "Its rows take the system's focus ring, and its buttons are Button, which shows its own states.",
+    active: "Its rows take the settings row's pressed fill, and its buttons are Button, which shows its own states.",
     loading: "The list is written in the mock: there is nothing to wait for.",
     error: "Below the fewest she can choose, the button is unavailable and the count says why: there is no error to show.",
-    "long text": "Publisher names are short, and chips wrap.",
+    "long text": "Publisher names are short, and a row's name wraps beside its check.",
   },
   variants: [
     { label: "First visit, suggested set — default", props: { mode: "first", onDone: noop } },

@@ -17660,10 +17660,98 @@ ul.plan-guided__sparks {
   font-family: var(--font-serif);
 }
 
+/* Groups sit twice the gap inside them apart: 24px against the title's 12px. */
 .publisher-picker__groups {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: var(--space-lg);
+}
+
+/* Each group: its title, then a white card of rows (designer, 2026-10-15). */
+.publisher-picker__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-group-title);
+}
+
+.publisher-picker__group-title {
+  margin: 0;
+  font-family: var(--type-group-title-font);
+  font-size: var(--type-group-title-size);
+  font-weight: var(--type-group-title-weight);
+  line-height: var(--type-group-title-leading);
+  letter-spacing: var(--type-group-title-tracking);
+  word-spacing: var(--type-group-title-word-spacing);
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+}
+
+.publisher-picker__rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+  overflow: hidden;
+}
+
+.publisher-picker__rows > li + li {
+  border-top: var(--border-width-thin) solid var(--color-border);
+}
+
+/* A row is one toggle: the publisher's name, and a check on the right when
+   it feeds her Briefing. The card's padding all round, at least 52px tall. */
+.publisher-picker__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  width: 100%;
+  min-height: 3.25rem;
+  padding: var(--space-card-padding);
+  border: 0;
+  background-color: transparent;
+  color: var(--color-text-primary);
+  font-family: var(--type-subheading-font);
+  font-size: var(--type-subheading-size);
+  font-weight: var(--type-subheading-weight);
+  line-height: var(--type-subheading-leading);
+  letter-spacing: var(--type-subheading-tracking);
+  word-spacing: var(--type-subheading-word-spacing);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--easing-standard);
+}
+
+.publisher-picker__row:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.publisher-picker__row:active {
+  background-color: var(--color-surface-active);
+}
+
+.publisher-picker__row:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: calc(-1 * var(--focus-ring-width));
+}
+
+/* Off: an empty ring. On: navy filled, a white check (the switch's navy). */
+.publisher-picker__check {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: var(--space-lg);
+  height: var(--space-lg);
+  border: var(--border-width-medium) solid var(--color-border-strong);
+  border-radius: 50%;
+  color: var(--color-text-inverse);
+}
+
+.publisher-picker__row[aria-pressed="true"] .publisher-picker__check {
+  border-color: var(--color-surface-inverse);
+  background-color: var(--color-surface-inverse);
 }
 
 .publisher-picker__count {
