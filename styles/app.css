@@ -12480,11 +12480,11 @@ ul.stage-actions__list {
   cursor: text;
 }
 
-/* Six equal boxes, three and three: the break between the halves is a column
-   of its own, so no box is narrowed to make it (designer, 2026-10-13). */
+/* Six equal boxes, the same distance apart: no wider break between the halves
+   (designer, 2026-10-15; it was three and three from 2026-10-13). */
 .code-field__cells {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) 0 repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: var(--space-xs);
   max-width: 22rem;
   pointer-events: none;
@@ -12497,15 +12497,13 @@ ul.stage-actions__list {
   border: var(--border-width-thin) solid var(--color-border-strong);
   border-radius: var(--radius-field);
   background-color: var(--color-surface-raised);
+  /* Its own ink, so a box on a navy drawer never takes the drawer's light words (designer, 2026-10-15). */
+  color: var(--color-code-digit);
   font-family: var(--font-display);
   word-spacing: var(--font-display-word-spacing);
   letter-spacing: var(--font-display-tracking);
   font-size: var(--text-xl);
   font-weight: var(--weight-bold);
-}
-
-.code-field__cell--gap {
-  grid-column-start: 5;
 }
 
 .code-field__control:focus-within .code-field__cell--current,
