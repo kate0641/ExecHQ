@@ -9751,28 +9751,18 @@ ol.signal__list {
   outline-offset: var(--focus-ring-offset);
 }
 
-/* The Briefing card is sky blue (designer, 2026-10-15; dark green since
-   2026-10-12): it is written for her to read, and colour carries meaning.
-   Lighter than the navy next step, so the day's reading ranks below the
-   one thing to do. Its tokens remap from the inverse set back to navy
-   words on the light card. */
+/* The Briefing card is dark green, not navy (designer, 2026-10-12): the
+   day's reading sits apart from the navy cards around it, and it keeps the
+   green the cover faded into. Its tokens remap the way the progress
+   card's do. */
 .briefing-editorial {
-  --color-surface-raised: var(--color-meaning-for-her);
-  --color-surface-sunken: var(--color-meaning-for-her);
-  --color-surface-hover: var(--color-meaning-for-her);
-  --color-text-primary: var(--color-text-on-meaning-for-her);
-  --color-text-secondary: var(--color-text-on-meaning-for-her-muted);
-  --color-text-muted: var(--color-text-on-meaning-for-her-muted);
-  --color-text-link: var(--color-text-on-meaning-for-her);
-  --color-text-link-hover: var(--color-text-on-meaning-for-her);
-  --color-border: var(--color-border-on-meaning-for-her);
-  --color-border-subtle: var(--color-border-on-meaning-for-her);
-  --color-border-strong: var(--color-border-on-meaning-for-her);
-  --color-eyebrow: var(--color-eyebrow-on-meaning-for-her);
-  --color-focus: var(--color-text-on-meaning-for-her);
-  --focus-ring: var(--focus-ring-width) solid var(--color-text-on-meaning-for-her);
-  background-color: var(--color-meaning-for-her);
-  color: var(--color-text-on-meaning-for-her);
+  --color-surface-raised: var(--color-surface-progress);
+  --color-text-secondary: var(--color-text-on-progress-muted);
+  --color-text-muted: var(--color-text-on-progress-muted);
+  --color-border: var(--color-border-progress);
+  --color-border-subtle: var(--color-border-progress);
+  --color-eyebrow: var(--color-eyebrow-on-progress);
+  background-color: var(--color-surface-progress);
 }
 
 /* With a cover: a photograph across the top of a taller card, fading into
@@ -14351,27 +14341,25 @@ ul.roadmap__outcomes {
 
 .map-home .signal-picture--card > .account-card__top {
   padding: var(--space-feature-padding);
-  background-color: var(--color-meaning-her);
+  background-color: var(--color-surface-inverse);
 }
 
-/* The head is dark green (designer, 2026-10-15; navy since 2026-10-10):
-   the Signal Picture is her own record, so it carries her colour, and navy
-   is left to the next step. The title keeps the yellow, as the next-step
-   card's eyebrow. */
+/* The head is navy with the title in the yellow used on navy, as the
+   next-step card's eyebrow (designer, 2026-10-10). */
 .map-home .signal-picture--card > .account-card__top .account-card__name {
   color: var(--color-accent-on-inverse);
 }
 
 .map-home .signal-picture--card.account-card {
-  border-top-color: var(--color-meaning-her);
+  border-top-color: var(--color-surface-inverse);
 }
 
-/* The date beside the title sits on the dark green too. */
+/* The date beside the title sits on the navy too. */
 .map-home .signal-picture--card > .account-card__top .account-card__asof {
   color: var(--color-text-inverse-muted);
 }
 
-/* The note of what has moved is a lime strip straight under the dark green head,
+/* The note of what has moved is a lime strip straight under the navy head,
    edge to edge, not a box inside the card (designer, 2026-10-11). */
 .map-home .signal-picture--card > ul.spark {
   margin-inline: 0;
