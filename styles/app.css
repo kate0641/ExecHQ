@@ -16855,6 +16855,11 @@ fieldset.agenda__whens {
   color: var(--color-text-inverse);
 }
 
+/* The email code's small lines and Send it again, on the navy: the same light ink (designer, 2026-10-15). */
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer :is(.login__small, .login__link) {
+  color: var(--color-text-inverse);
+}
+
 :is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer .answer-drawer__actions {
   background-color: var(--color-surface-inverse);
 }
