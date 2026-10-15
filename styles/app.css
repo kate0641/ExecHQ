@@ -12077,7 +12077,7 @@ ul.stage-actions__list {
   align-items: center;
   gap: var(--space-md);
   max-width: 24rem;
-  margin: var(--space-3xl) auto;
+  margin: auto;
   text-align: center;
 }
 
@@ -12123,6 +12123,18 @@ ul.stage-actions__list {
    instead (designer, 2026-10-15). */
 .chrome:has(.profile-end) > .chrome__header {
   display: none;
+}
+
+/* Signed out, she has no app to move around: the navigation and the chat bar go (designer,
+   2026-10-15), and the logo, heading, note and button sit centred on the screen. */
+.chrome:has(.profile-end) .app-nav,
+.prototype:has(.profile-end) .concierge-host {
+  display: none;
+}
+
+.chrome__main:has(.profile-end) {
+  display: flex;
+  flex-direction: column;
 }
 
 .profile,
