@@ -14,6 +14,7 @@ import {
 import { ColorSwitch } from "@/components/hub/ColorSwitch";
 import { NavPicker } from "@/components/hub/NavPicker";
 import { SnapshotPicker } from "@/components/hub/SnapshotPicker";
+import { CohortPicker } from "@/components/hub/CohortPicker";
 import { ViewportToggle } from "@/components/hub/ViewportToggle";
 import { Icon } from "@/components/primitives/Icon";
 import {
@@ -276,6 +277,8 @@ export function DevToolbar({ hubOpen, onToggleHub, hubTriggerRef }: DevToolbarPr
         {/* Signed-in pages only; both render nothing elsewhere. */}
         <NavPicker />
         <SnapshotPicker />
+        {/* Enterprise pages only. */}
+        <CohortPicker />
 
         <span className="devtools__rule" aria-hidden="true" />
 

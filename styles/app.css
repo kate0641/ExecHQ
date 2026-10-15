@@ -22365,3 +22365,293 @@ button.progress-stepper__target.is-focus {
 .draft-tool-bar__main .draft-use__message:empty {
   display: none;
 }
+
+/* ===========================================================================
+   ENTERPRISE — the sponsor's dashboard and cohort tools (Sprint 5). Counts and
+   shares, set plainly: no gauges, no targets, no colour carrying meaning.
+   ======================================================================== */
+
+/* --- A figure ------------------------------------------------------------ */
+
+.cohort-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3xs);
+  min-width: 0;
+}
+
+.cohort-figure__label {
+  font-family: var(--type-label-font);
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  line-height: var(--type-label-leading);
+  letter-spacing: var(--type-label-tracking);
+  word-spacing: var(--type-label-word-spacing);
+  color: var(--color-text-secondary);
+}
+
+.cohort-figure__value {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: var(--space-xs);
+  font-family: var(--type-figure-font);
+  font-size: var(--type-figure-size);
+  font-weight: var(--type-figure-weight);
+  line-height: var(--type-figure-leading);
+  letter-spacing: var(--type-figure-tracking);
+  word-spacing: var(--type-figure-word-spacing);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-primary);
+}
+
+.cohort-figure--lg .cohort-figure__value {
+  font-size: var(--type-figure-size-lg);
+}
+
+.cohort-figure__detail {
+  font-family: var(--type-body-sm-font);
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--type-body-sm-weight);
+  line-height: var(--type-body-sm-leading);
+  letter-spacing: var(--type-body-sm-tracking);
+  word-spacing: var(--type-body-sm-word-spacing);
+  color: var(--color-text-secondary);
+}
+
+/* Hidden: the lock and the word stand where the number would, at the same
+   height, so a page of hidden figures keeps its shape. */
+.cohort-figure__hidden {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  min-height: calc(var(--type-figure-size) * var(--type-figure-leading));
+  font-family: var(--type-label-font);
+  word-spacing: var(--type-label-word-spacing);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.cohort-figure--lg .cohort-figure__hidden {
+  min-height: calc(var(--type-figure-size-lg) * var(--type-figure-leading));
+  font-size: var(--text-lg);
+}
+
+.cohort-figure__note {
+  max-width: 36ch;
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+  color: var(--color-text-secondary);
+}
+
+/* Filling in: the number shows in the secondary ink, with the tag under it.
+   The tag and the note carry the meaning, not the ink. */
+.cohort-figure--filling .cohort-figure__value {
+  color: var(--color-text-secondary);
+}
+
+.cohort-figure__explain {
+  margin-top: var(--space-3xs);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: none;
+  font: inherit;
+  font-size: var(--type-caption-size);
+  color: var(--color-text-link);
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width-thin);
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.cohort-figure__explain:hover,
+.cohort-figure__explain.is-hover {
+  color: var(--color-text-link-hover);
+}
+
+.cohort-figure__explain:active,
+.cohort-figure__explain.is-active,
+.cohort-figure__explain[aria-expanded="true"] {
+  color: var(--color-text-primary);
+  text-decoration-thickness: var(--border-width-medium);
+}
+
+.cohort-figure__explain:focus-visible,
+.cohort-figure__explain.is-focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* --- What a figure counts -------------------------------------------------- */
+
+.figure-definition {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  max-width: var(--content-measure);
+}
+
+.figure-definition__heading {
+  font-family: var(--type-card-title-font);
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  line-height: var(--type-card-title-leading);
+  letter-spacing: var(--type-card-title-tracking);
+  word-spacing: var(--type-card-title-word-spacing);
+}
+
+.figure-definition__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: 0;
+}
+
+.figure-definition__row dt {
+  font-family: var(--type-label-font);
+  font-size: var(--type-caption-size);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.figure-definition__row dd {
+  margin: 0;
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+}
+
+/* --- The window ------------------------------------------------------------- */
+
+.window-selector {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs) var(--space-md);
+}
+
+.window-selector__refreshed {
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+  color: var(--color-text-secondary);
+}
+
+/* --- The cohort's code ------------------------------------------------------ */
+
+.invite-code {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xs);
+}
+
+.invite-code--panel {
+  padding: var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface);
+}
+
+.invite-code__heading {
+  font-family: var(--type-card-title-font);
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  line-height: var(--type-card-title-leading);
+  letter-spacing: var(--type-card-title-tracking);
+  word-spacing: var(--type-card-title-word-spacing);
+}
+
+.invite-code--compact .invite-code__heading {
+  font-size: var(--type-label-size);
+}
+
+.invite-code__code {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  user-select: all;
+}
+
+.invite-code--compact .invite-code__code {
+  font-size: var(--text-lg);
+}
+
+.invite-code__explain,
+.invite-code__ask-body,
+.invite-code__note {
+  max-width: 48ch;
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
+}
+
+.invite-code__joined {
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.invite-code__closed {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  color: var(--color-text-secondary);
+}
+
+.invite-code__ask {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding-top: var(--space-xs);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+.invite-code__ask-heading {
+  font-weight: var(--weight-semibold);
+}
+
+.invite-code__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin-top: var(--space-2xs);
+}
+
+/* --- Starting a cohort -------------------------------------------------------- */
+
+.cohort-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-md);
+  max-width: 32rem;
+}
+
+.cohort-form > .field,
+.cohort-form__dates {
+  align-self: stretch;
+}
+
+.cohort-form__heading {
+  font-family: var(--type-card-title-font);
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  line-height: var(--type-card-title-leading);
+  letter-spacing: var(--type-card-title-tracking);
+  word-spacing: var(--type-card-title-word-spacing);
+}
+
+.cohort-form__dates {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-md);
+}
+
+.invite-code__ask-heading:focus-visible {
+  border-radius: var(--radius-xs);
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}

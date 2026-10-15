@@ -148,6 +148,11 @@ import { libraryTabsStates } from "./toolbox/LibraryTabs/LibraryTabs.states";
 import { briefingDeckStates } from "./briefing/BriefingDeck/BriefingDeck.states";
 import { briefingPictureStates } from "./briefing/BriefingPicture/BriefingPicture.states";
 import { briefingFrontStates } from "./briefing/BriefingFront/BriefingFront.states";
+import { cohortFigureStates } from "./enterprise/CohortFigure/CohortFigure.states";
+import { figureDefinitionStates } from "./enterprise/FigureDefinition/FigureDefinition.states";
+import { windowSelectorStates } from "./enterprise/WindowSelector/WindowSelector.states";
+import { inviteCodeStates } from "./enterprise/InviteCode/InviteCode.states";
+import { cohortFormStates } from "./enterprise/CohortForm/CohortForm.states";
 export const registry: RegisteredComponent[] = [
   badgeStates,
   buttonStates,
@@ -287,6 +292,11 @@ export const registry: RegisteredComponent[] = [
   briefingDeckStates,
   briefingPictureStates,
   briefingFrontStates,
+  cohortFigureStates,
+  figureDefinitionStates,
+  windowSelectorStates,
+  inviteCodeStates,
+  cohortFormStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */
