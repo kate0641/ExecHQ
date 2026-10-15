@@ -15248,6 +15248,126 @@ ol.entry-drawer__rows {
   grid-row: 1 / span 2;
 }
 
+/* --- The Signal Picture on navy (designer, 2026-10-15) ---------------------
+   The whole page is navy, as Profile and onboarding's navy steps are, with
+   color doing its jobs: yellow for the title and the one action, light blue
+   for section titles, sky blue for what ExecHQ wrote for her (her next move,
+   Try this), lime for what she did (Momentum's days). White cards take the
+   light set back. Scoped to the page, so Home and Plan, which share these
+   pieces, keep their own look until this one is settled.
+
+   Type: Kulim is for the title and section headings only. Every smaller
+   label takes an Inter role: group titles in small capitals, card titles in
+   Inter semibold. */
+.chrome:has(.signals-page) {
+  background-color: var(--color-surface-inverse);
+}
+
+.signals-page {
+  --color-surface: var(--color-surface-inverse);
+  --color-text-primary: var(--color-text-inverse);
+  --color-text-secondary: var(--color-text-inverse-muted);
+  --color-text-muted: var(--color-text-inverse-muted);
+  --color-text-link: var(--color-text-inverse);
+  --color-text-link-hover: var(--color-text-inverse);
+  --color-eyebrow: var(--color-eyebrow-on-inverse);
+  --color-border: var(--color-divider-on-inverse);
+  --color-border-subtle: var(--color-divider-on-inverse);
+  --color-border-strong: var(--color-divider-on-inverse);
+  --color-focus: var(--color-focus-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+  color: var(--color-text-primary);
+}
+
+.signals-page__title {
+  color: var(--color-headline-on-inverse);
+}
+
+.signals-page :is(.momentum__heading, .signal-picture__heading) {
+  color: var(--color-section-title-on-inverse);
+}
+
+/* White cards keep their dark words. */
+.signals-page :is(.presence-clean__card, .li-picture, .came-of__reply) {
+  --color-text-primary: var(--light-text-primary);
+  --color-text-secondary: var(--light-text-secondary);
+  --color-text-muted: var(--light-text-muted);
+  --color-text-link: var(--light-text-link);
+  --color-text-link-hover: var(--light-text-link);
+  --color-eyebrow: var(--light-eyebrow);
+  --color-border: var(--light-border);
+  --color-border-subtle: var(--light-border);
+  --color-border-strong: var(--light-border);
+  --color-focus: var(--light-focus);
+  --focus-ring: var(--focus-ring-width) solid var(--light-focus);
+  color: var(--color-text-primary);
+}
+
+/* What ExecHQ wrote for her: her next move and Try this sit in sky blue, navy words on it. */
+.signals-page .presence-clean__try {
+  --color-text-primary: var(--color-text-on-for-her);
+  --color-text-secondary: var(--color-text-on-for-her-muted);
+  --color-text-muted: var(--color-text-on-for-her-muted);
+  --color-eyebrow: var(--color-eyebrow-on-for-her);
+  --color-focus: var(--light-focus);
+  --focus-ring: var(--focus-ring-width) solid var(--light-focus);
+  border-color: var(--color-border-on-for-her);
+  background-color: var(--color-surface-for-her);
+  color: var(--color-text-primary);
+}
+
+/* Momentum's days are hers: a day she did something is lime with a dark green check; today
+   wears a white ring; days to come are dashed light blue. */
+.signals-page .day-circles__dot.is-on {
+  border-color: var(--color-surface-her-band);
+  background-color: var(--color-surface-her-band);
+  color: var(--color-text-on-her-band);
+}
+
+.signals-page .day-circles__dot.is-today {
+  box-shadow:
+    0 0 0 var(--space-3xs) var(--color-surface-inverse),
+    0 0 0 var(--space-2xs) var(--color-text-inverse);
+}
+
+/* Small labels in Inter, not Kulim. */
+.signals-page :is(.momentum__stage-title, .presence-clean__added h4) {
+  font-family: var(--type-group-title-font);
+  font-size: var(--type-group-title-size);
+  font-weight: var(--type-group-title-weight);
+  line-height: var(--type-group-title-leading);
+  letter-spacing: var(--type-group-title-tracking);
+  word-spacing: var(--type-group-title-word-spacing);
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+}
+
+.signals-page :is(.presence-clean__name, .presence-clean__try b, .linkedin-more__title, .li-picture__heading) {
+  font-family: var(--type-card-title-font);
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  line-height: var(--type-card-title-leading);
+  letter-spacing: var(--type-card-title-tracking);
+  word-spacing: var(--type-card-title-word-spacing);
+}
+
+.signals-page .li-row__label b {
+  font-family: var(--type-subheading-font);
+  font-size: var(--type-subheading-size);
+  font-weight: var(--type-subheading-weight);
+  letter-spacing: var(--type-subheading-tracking);
+  word-spacing: var(--type-subheading-word-spacing);
+}
+
+/* Try this's small label: the eyebrow role, as on every card. */
+.signals-page .presence-clean__try-label {
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  letter-spacing: var(--type-eyebrow-tracking);
+  color: var(--color-eyebrow);
+}
+
 /* -----------------------------------------------------------------------------
    THE ROADMAP AS AN AGENDA (Plan, Concept 1)
    Stages stacked as cards with their periods and what she has inside them.
