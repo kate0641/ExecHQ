@@ -184,6 +184,24 @@
   --color-surface-disabled: var(--brand-stone-200);  /* grey: off, never tappable */
   --color-surface-selected: var(--brand-blue-200); /* the item a detail pane is showing: a step stronger than hover */
   --color-surface-feature: var(--brand-blue-100);  /* the card that says what to do next, on trial */
+  /* A navy page, as onboarding's (designer, 2026-10-15), and Profile's: headlines and section labels
+     in yellow 400 (10.3:1), the kicker blue 200, a blue 400 rule. The same tokens as PR #16, so the
+     two merge as one. */
+  --color-headline-on-inverse: var(--color-accent-on-inverse);
+  --color-eyebrow-on-inverse: var(--brand-blue-200);
+  --color-divider-on-inverse: var(--brand-blue-400);
+  /* A section's title on a navy page, under the yellow page title: light blue (blue 200), so only the
+     page's own name is yellow (designer, 2026-10-15). */
+  --color-section-title-on-inverse: var(--brand-blue-200);
+  /* The page's light set, held at the root so a white card on a navy page can take it back after the
+     page has remapped its own tokens. */
+  --light-text-primary: var(--color-text-primary);
+  --light-text-secondary: var(--color-text-secondary);
+  --light-text-muted: var(--color-text-muted);
+  --light-text-link: var(--color-text-link);
+  --light-eyebrow: var(--color-eyebrow);
+  --light-border: var(--color-border);
+  --light-focus: var(--color-focus);
   /* The four stages of a roadmap, tinted across the Calendar. The stage is always also
      said in words (a start marker, a legend, the day panel), so a tint is never the only cue. */
   --color-stage-1: var(--brand-blue-200);
@@ -678,13 +696,16 @@
   --space-paragraph: var(--space-sm);
 
   /* SPACING ROLES — what a gap is for, so one change here moves it everywhere. */
-  --space-screen-side: var(--space-sm);  /* left and right of a phone screen: 12, so cards run wider */
+  --space-screen-side: var(--space-md);  /* left and right of a phone screen: 16, the common standard (designer, 2026-10-15; was 12) */
   --space-screen-top: var(--space-lg);   /* above the first thing on a screen */
   --space-between-cards: var(--space-sm);  /* the gap between cards stacked on a screen: 12, half the gap between sections (designer, 2026-10-11) */
   --space-card-padding: var(--space-md);   /* inside a list card: a row, a link, a read */
   --space-feature-padding: var(--space-md-lg);  /* inside a feature card, which holds more */
   --space-eyebrow-title: var(--space-2xs); /* an eyebrow to the title under it */
   --space-title-copy: var(--space-xs);     /* a title to the copy under it */
+  /* That copy to the card under it: wider than the title's gap, so the copy reads as the title's
+     and the card as what follows (designer, 2026-10-15). */
+  --space-copy-card: var(--space-md);      /* 16px */
   /* A group title to what it names: more than the space a line of body copy
      leaves, so the title reads as over its group (designer, 2026-10-13). */
   --space-group-title: var(--space-sm);     /* 12px */

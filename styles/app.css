@@ -1238,6 +1238,33 @@ button.link {
   height: 100dvh;
 }
 
+/* One screen of a flow, embedded in the showroom (designer, 2026-10-15): just
+   the phone, on the canvas, with a little room round it. The page is as tall
+   as the phone, so the showroom can size the frame to it. */
+.prototype--frame {
+  height: auto;
+}
+
+.prototype--frame .prototype__canvas {
+  overflow: visible;
+  padding: var(--space-sm);
+}
+
+/* The whole length of the page in one phone: the frame grows with its content
+   and the page scrolls nowhere, so a review sees everything at once. */
+
+.prototype--full .device--mobile {
+  height: auto;
+  min-height: calc(
+    var(--viewport-mobile-height) + 2 * var(--device-bezel-mobile) + 2 *
+      var(--border-width-thin)
+  );
+}
+
+.prototype--full .device__content {
+  overflow: visible;
+}
+
 /* The canvas scrolls when the window is shorter than the device, so phone and
    tablet always render at true size rather than shrinking to fit. The page
    still scrolls inside the device; this only moves the frame into view. */
@@ -4784,6 +4811,55 @@ ol.ring-detail__timeline {
 }
 
 /* Playground -------------------------------------------------------------- */
+
+/* The playground's every-screen view (designer, 2026-10-15): each screen of a
+   flow at true phone size, side by side, with what it is under it. */
+.screen-frames {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-xl);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.screen-frames__figure {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin: 0;
+}
+
+.screen-frames__frame {
+  display: block;
+  width: calc(var(--viewport-mobile-width) + 2 * var(--device-bezel-mobile) + 2 * var(--border-width-thin) + 2 * var(--space-sm));
+  height: calc(var(--viewport-mobile-height) + 2 * var(--device-bezel-mobile) + 2 * var(--border-width-thin) + 2 * var(--space-sm));
+  border: 0;
+  border-radius: var(--radius-card);
+  background-color: var(--color-canvas);
+}
+
+.screen-frames__caption {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  max-width: var(--viewport-mobile-width);
+  padding-inline: var(--space-sm);
+}
+
+.screen-frames__label {
+  font-family: var(--type-subheading-font);
+  font-size: var(--type-subheading-size);
+  font-weight: var(--type-subheading-weight);
+  line-height: var(--type-subheading-leading);
+}
+
+.screen-frames__note {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
 
 .playground__tips {
   display: flex;
@@ -11649,7 +11725,8 @@ ul.stage-actions__list {
   gap: var(--space-sm);
   width: 100%;
   min-height: 3.25rem;
-  padding: var(--space-sm) var(--space-md);
+  /* The card's padding all round, as every list card has (designer, 2026-10-15). */
+  padding: var(--space-card-padding);
   border: 0;
   background-color: var(--color-surface-raised);
   color: var(--color-text-primary);
@@ -11689,6 +11766,8 @@ ul.stage-actions__list {
   letter-spacing: var(--type-caption-tracking);
   word-spacing: var(--type-caption-word-spacing);
   color: var(--color-text-muted);
+  /* Lines of even length, so no first line runs past the rest of the card's copy (designer, 2026-10-15). */
+  text-wrap: balance;
 }
 
 .settings-row__value {
@@ -11819,6 +11898,11 @@ ul.stage-actions__list {
   font-size: var(--type-heading-size-phone);
 }
 
+/* Focused only by script, as a sheet opens, so a screen reader starts here. */
+.detail-panel__heading:focus {
+  outline: none;
+}
+
 .detail-panel__heading:focus {
   outline: none;
 }
@@ -11843,6 +11927,8 @@ ul.stage-actions__list {
   letter-spacing: var(--type-body-sm-tracking);
   word-spacing: var(--type-body-sm-word-spacing);
   color: var(--color-text-secondary);
+  /* Never one word alone on the last line (the page recipe's rule). */
+  text-wrap: pretty;
 }
 
 .detail-panel__quote {
@@ -11901,6 +11987,11 @@ ul.stage-actions__list {
   flex: none;
   margin-top: var(--space-3xs);
   color: var(--color-text-secondary);
+}
+
+/* What deleting removes is marked in the danger red (designer, 2026-10-15). */
+.detail-list--removes .icon {
+  color: var(--color-feedback-danger-text);
 }
 
 /* --- Notifications --------------------------------------------------------- */
@@ -11971,7 +12062,11 @@ ul.stage-actions__list {
 [data-viewport="mobile"] .profile__title {
   margin: calc(-1 * var(--space-screen-top)) calc(-1 * var(--space-screen-side)) 0;
   padding: var(--space-sm) var(--space-screen-side);
-  border-bottom: var(--border-width-thin) solid var(--color-border);
+}
+
+/* The page's name, centred with no rule under it (designer, 2026-10-15). */
+.profile__title {
+  text-align: center;
 }
 
 /* Sections sit further apart than the heading, line and card inside each,
@@ -11987,6 +12082,16 @@ ul.stage-actions__list {
 /* Inside a section on the page: heading, the line under it, then the card. */
 .profile__section .detail-panel {
   gap: var(--space-sm);
+}
+
+/* A section's copy sits closer to its title than the card does to the copy, so title and copy read
+   as one and the card as what follows (designer, 2026-10-15). The panel's own gap is 12px. */
+.profile__section .detail-panel__head + .detail-panel__lead {
+  margin-top: calc(var(--space-title-copy) - var(--space-sm));
+}
+
+.profile__section .detail-panel__lead + * {
+  margin-top: calc(var(--space-copy-card) - var(--space-sm));
 }
 
 /* The follow-up note belongs to the Email group, so it sits close under it. */
@@ -12077,18 +12182,13 @@ ul.stage-actions__list {
   align-items: center;
   gap: var(--space-md);
   max-width: 24rem;
-  margin: var(--space-3xl) auto;
+  margin: auto;
   text-align: center;
 }
 
+/* The logo stands above the heading, at the header's size (designer, 2026-10-15). */
 .profile-end__mark {
-  display: grid;
-  place-items: center;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background-color: var(--color-surface-selected);
-  color: var(--color-surface-inverse);
+  margin: 0;
 }
 
 .profile-end__heading {
@@ -12106,9 +12206,82 @@ ul.stage-actions__list {
 }
 
 .profile-end__body {
+  max-width: 17rem;
   margin: 0;
   color: var(--color-text-secondary);
 }
+
+/* The button sits lower, apart from the words above it (designer, 2026-10-15). */
+.profile-end > .btn {
+  margin-top: var(--space-xl);
+}
+
+/* Profile is a navy page (designer, 2026-10-15), as onboarding's steps with no drawer are. The page
+   remaps its tokens to the inverse set, so its words, rules and focus follow; the title and section
+   headings are yellow. Its white cards, and the sheet a row opens, take the light set back. The
+   navigation pill and the light blue buttons keep their own colours. */
+.chrome:has(.profile, .profile-end) {
+  background-color: var(--color-surface-inverse);
+}
+
+/* Signed out or deleted, the header and its rule stay away: the logo sits above the heading
+   instead (designer, 2026-10-15). */
+.chrome:has(.profile-end) > .chrome__header {
+  display: none;
+}
+
+/* Signed out, she has no app to move around: the navigation and the chat bar go (designer,
+   2026-10-15), and the logo, heading, note and button sit centred on the screen. */
+.chrome:has(.profile-end) .app-nav,
+.prototype:has(.profile-end) .concierge-host {
+  display: none;
+}
+
+.chrome__main:has(.profile-end) {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile,
+.profile-end {
+  --color-surface: var(--color-surface-inverse);
+  --color-text-primary: var(--color-text-inverse);
+  --color-text-secondary: var(--color-text-inverse-muted);
+  --color-text-muted: var(--color-text-inverse-muted);
+  --color-text-link: var(--color-text-inverse);
+  --color-text-link-hover: var(--color-text-inverse);
+  --color-eyebrow: var(--color-eyebrow-on-inverse);
+  --color-border: var(--color-divider-on-inverse);
+  --color-border-subtle: var(--color-divider-on-inverse);
+  --color-focus: var(--color-focus-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-primary);
+}
+
+.profile__title,
+.profile-end__heading {
+  color: var(--color-headline-on-inverse);
+}
+
+.profile .detail-panel__heading {
+  color: var(--color-section-title-on-inverse);
+}
+
+.profile :is(.card, .settings-group__rows, .sheet__panel) {
+  --color-text-primary: var(--light-text-primary);
+  --color-text-secondary: var(--light-text-secondary);
+  --color-text-muted: var(--light-text-muted);
+  --color-text-link: var(--light-text-link);
+  --color-text-link-hover: var(--light-text-link);
+  --color-eyebrow: var(--light-eyebrow);
+  --color-border: var(--light-border);
+  --color-border-subtle: var(--light-border);
+  --color-focus: var(--light-focus);
+  --focus-ring: var(--focus-ring-width) solid var(--light-focus);
+  color: var(--color-text-primary);
+}
+
 
 /* =============================================================================
    LOGIN — Concept 1, Open page
@@ -17573,10 +17746,100 @@ ul.plan-guided__sparks {
   font-family: var(--font-serif);
 }
 
+/* Groups sit twice the gap inside them apart: 24px against the title's 12px. */
 .publisher-picker__groups {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: var(--space-lg);
+}
+
+/* Each group: its title, then a white card of rows (designer, 2026-10-15). */
+.publisher-picker__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-group-title);
+}
+
+.publisher-picker__group-title {
+  margin: 0;
+  font-family: var(--type-group-title-font);
+  font-size: var(--type-group-title-size);
+  font-weight: var(--type-group-title-weight);
+  line-height: var(--type-group-title-leading);
+  letter-spacing: var(--type-group-title-tracking);
+  word-spacing: var(--type-group-title-word-spacing);
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+}
+
+.publisher-picker__rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+  overflow: hidden;
+}
+
+.publisher-picker__rows > li + li {
+  border-top: var(--border-width-thin) solid var(--color-border);
+}
+
+/* A row is one toggle: the publisher's name, and a check on the right when
+   it feeds her Briefing. The card's padding all round, at least 44px tall. */
+.publisher-picker__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  width: 100%;
+  min-height: 2.75rem;
+  padding: var(--space-card-padding);
+  border: 0;
+  background-color: transparent;
+  color: var(--color-text-primary);
+  /* The label role, 14px: the list will grow, so each row stays compact
+     (designer, 2026-10-15). */
+  font-family: var(--type-label-font);
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  line-height: var(--type-label-leading);
+  letter-spacing: var(--type-label-tracking);
+  word-spacing: var(--type-label-word-spacing);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--easing-standard);
+}
+
+.publisher-picker__row:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.publisher-picker__row:active {
+  background-color: var(--color-surface-active);
+}
+
+.publisher-picker__row:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: calc(-1 * var(--focus-ring-width));
+}
+
+/* Off: an empty ring. On: navy filled, a white check (the switch's navy). */
+.publisher-picker__check {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: var(--space-md-lg);
+  height: var(--space-md-lg);
+  border: var(--border-width-medium) solid var(--color-border-strong);
+  border-radius: 50%;
+  color: var(--color-text-inverse);
+}
+
+.publisher-picker__row[aria-pressed="true"] .publisher-picker__check {
+  border-color: var(--color-surface-inverse);
+  background-color: var(--color-surface-inverse);
 }
 
 .publisher-picker__count {
