@@ -11690,6 +11690,8 @@ ul.stage-actions__list {
   letter-spacing: var(--type-caption-tracking);
   word-spacing: var(--type-caption-word-spacing);
   color: var(--color-text-muted);
+  /* Lines of even length, so no first line runs past the rest of the card's copy (designer, 2026-10-15). */
+  text-wrap: balance;
 }
 
 .settings-row__value {
