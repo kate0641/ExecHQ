@@ -16433,6 +16433,52 @@ fieldset.agenda__whens {
   --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
 }
 
+/* Onboarding's cards take Home's colour (designer, 2026-10-15). The recommendation's "This plan is for" and
+   Your plan's "Built from what you said" ride in the light blue band Home's check-in card carries its
+   context in, navy on blue 200 (11.3:1). The first draft is the Briefing's dark green: something of hers
+   to read, apart from the navy around it. */
+.recommendation {
+  overflow: hidden;
+}
+
+.recommendation__for {
+  order: -1;
+  margin: calc(-1 * var(--space-card-padding)) calc(-1 * var(--space-card-padding)) var(--space-xs);
+  padding: var(--space-sm) var(--space-card-padding);
+  background-color: var(--color-surface-check-in-band);
+  color: var(--color-text-on-check-in-band);
+}
+
+.guide__heard-rows {
+  gap: 0;
+}
+
+.guide__heard-rows > .guide__yours-label {
+  padding: var(--space-sm) var(--space-card-padding);
+  border-radius: var(--radius-card) var(--radius-card) 0 0;
+  background-color: var(--color-surface-check-in-band);
+  color: var(--color-text-on-check-in-band);
+}
+
+.guide__heard-rows > .card {
+  border-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.story-draft__card {
+  --color-surface-raised: var(--color-surface-progress);
+  --color-text-primary: var(--color-text-inverse);
+  --color-text-secondary: var(--color-text-on-progress-muted);
+  --color-text-muted: var(--color-text-on-progress-muted);
+  --color-border: var(--color-border-progress);
+  --color-border-subtle: var(--color-border-progress);
+  --color-eyebrow: var(--color-eyebrow-on-progress);
+  --color-focus: var(--color-focus-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+  color: var(--color-text-primary);
+}
+
 /* The sky panel (designer, 2026-10-14): on onboarding's and the Plan's guided pages the question (its
    eyebrow, heading and line) sits in its own panel of the sky Home shows at this hour. The glow rises
    from the panel's bottom-right corner; Why this matters stays on the page. Dawn and day take the ink,
