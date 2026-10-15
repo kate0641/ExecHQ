@@ -203,11 +203,11 @@
   --color-border-on-for-her: var(--brand-blue-300);
   /* A navy page: an onboarding step with no drawer, flooded navy so the flow alternates quiet screens
      with ExecHQ moments (designer, 2026-10-15). Headlines and section labels in yellow 400 (10.3:1);
-     the kicker blue 200; a numbered circle blue 200 with a navy numeral. */
+     the kicker blue 200; a numbered circle blue 700, a step lighter than the page, with its yellow numeral (7.0:1). */
   --color-headline-on-inverse: var(--color-accent-on-inverse);
   --color-eyebrow-on-inverse: var(--brand-blue-200);
-  --number-circle-fill-on-inverse: var(--brand-blue-200);
-  --number-circle-ink-on-inverse: var(--brand-primary);
+  --number-circle-fill-on-inverse: var(--brand-blue-700);
+  --number-circle-ink-on-inverse: var(--color-accent-on-inverse);
   --color-divider-on-inverse: var(--brand-blue-400);  /* a light blue rule on a navy page: blue 400, quiet enough to sit behind the white words (designer, 2026-10-15) */
   /* The page's light set, held at the root so a white card on a navy page can take it back after the
      page has remapped its own tokens. */
@@ -719,7 +719,8 @@
   --number-circle-gap: var(--space-md);                          /* 16px */
   --number-list-gap: var(--space-md);                            /* 16px between items */
   --number-circle-fill: var(--color-surface-inverse);
-  --number-circle-ink: var(--color-text-inverse);
+  /* The numeral is yellow, the yellow used on navy (10.3:1), on every numbered circle (designer, 2026-10-15). */
+  --number-circle-ink: var(--color-accent-on-inverse);
 
   /* The gap between paragraphs, or items, of body copy stacked in one place:
      a card's reads, a list of what something shows. Not between a label and

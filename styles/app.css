@@ -7719,12 +7719,14 @@ ol.ring-detail__timeline {
   width: var(--space-xl);
   height: var(--space-xl);
   border-radius: var(--radius-sm);
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
+  /* A stone square with the ink, so the source reads as a quiet tag, not a navy button; the mark two
+     pixels larger, 13px (designer, 2026-10-15). */
+  background-color: var(--color-surface-quiet);
+  color: var(--color-text-primary);
   font-family: var(--font-display);
   word-spacing: var(--font-display-word-spacing);
   letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-2xs);
+  font-size: var(--text-xs-plus);
   font-weight: var(--weight-bold);
 }
 
@@ -8511,6 +8513,12 @@ ol.ring-detail__timeline {
 }
 
 .guide--navy .feature-card:has(> .feature-card__head--inverse) {
+  border-color: var(--light-border);
+}
+
+/* On a navy page the lime header keeps the card's stone 250 edge, as the white body under it does, so the
+   two read as one card rather than a header inset from it (designer, 2026-10-15). */
+.guide--navy .guide__heard-rows > .guide__yours-label {
   border-color: var(--light-border);
 }
 

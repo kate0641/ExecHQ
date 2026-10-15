@@ -207,7 +207,7 @@ interface DrawerControl {
 /** What every page is handed about where it sits. */
 /** Steps with no drawer, flooded navy so the flow alternates quiet screens with ExecHQ moments
  *  (designer, 2026-10-15). A step with a navy drawer stays light. */
-const NAVY_PAGES = new Set<string>(["signals", "rec", "plan-week", "draft", "done"]);
+const NAVY_PAGES = new Set<string>(["about", "signals", "rec", "plan-week", "draft", "done"]);
 
 type Frame = Pick<ComponentProps<typeof GuidePage>, "headingId" | "part" | "file" | "sky" | "glow">;
 
@@ -461,7 +461,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
     case "about": {
       const c = GUIDE_C3.about;
       return (
-        <GuidePage {...frame()} kicker={c.kicker} title={c.title} lede={c.lede} primaryLabel={c.cta} onPrimary={next}>
+        <GuidePage {...frame()} navy kicker={c.kicker} title={c.title} lede={c.lede} primaryLabel={c.cta} onPrimary={next}>
           <PointList items={c.points} numbered />
           <PointList items={c.before} />
         </GuidePage>
