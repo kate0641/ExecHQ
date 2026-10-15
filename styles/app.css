@@ -11649,7 +11649,8 @@ ul.stage-actions__list {
   gap: var(--space-sm);
   width: 100%;
   min-height: 3.25rem;
-  padding: var(--space-sm) var(--space-md);
+  /* The card's padding all round, as every list card has (designer, 2026-10-15). */
+  padding: var(--space-card-padding);
   border: 0;
   background-color: var(--color-surface-raised);
   color: var(--color-text-primary);
