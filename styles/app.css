@@ -15308,13 +15308,55 @@ ol.entry-drawer__rows {
   --color-eyebrow: var(--color-eyebrow-on-for-her);
   --color-focus: var(--light-focus);
   --focus-ring: var(--focus-ring-width) solid var(--light-focus);
-  --color-action: var(--color-action-on-for-her);
-  --color-action-hover: var(--color-action-on-for-her-hover);
-  --color-action-active: var(--color-action-on-for-her-active);
-  --color-text-on-action: var(--color-text-on-action-on-for-her);
   border-color: var(--color-border-on-for-her);
   background-color: var(--color-surface-for-her);
   color: var(--color-text-primary);
+}
+
+/* Its button is an outlined navy pill, never yellow on light blue. */
+.signals-page .presence-clean__try .btn--primary {
+  border: var(--border-width-medium) solid var(--color-action-on-for-her);
+  background-color: transparent;
+  color: var(--color-action-on-for-her);
+}
+
+.signals-page .presence-clean__try .btn--primary:hover {
+  background-color: var(--color-action-on-for-her-hover);
+}
+
+.signals-page .presence-clean__try .btn--primary:active {
+  background-color: var(--color-action-on-for-her-active);
+}
+
+/* The LinkedIn charts glow (designer, 2026-10-15): the followers' area from light green into sky
+   blue, every bar rising from navy into light green, so the end of the page has joy too. */
+.signals-page .li-line__area {
+  fill: var(--li-area-gradient);
+}
+
+.signals-page .li-spark__bar {
+  fill: var(--li-bar-gradient);
+}
+
+.signals-page .li-col__bar {
+  background-image: linear-gradient(to top in oklab, var(--color-chart-bar-base), var(--color-chart-bar-tip));
+}
+
+.li-gradient__glow-top {
+  stop-color: var(--color-chart-glow-top);
+}
+
+.li-gradient__glow-bottom {
+  stop-color: var(--color-chart-glow-bottom);
+  stop-opacity: 0.4;
+}
+
+.li-gradient__bar-base {
+  stop-color: var(--color-chart-bar-base);
+}
+
+.li-gradient__bar-tip {
+  stop-color: var(--color-chart-bar-tip);
 }
 
 /* Small labels in Inter, not Kulim. */

@@ -203,12 +203,17 @@
   --color-text-on-for-her-muted: var(--brand-blue-700);
   --color-eyebrow-on-for-her: var(--brand-blue-600);
   --color-border-on-for-her: var(--brand-blue-300);
-  /* A button on sky blue (designer, 2026-10-15): never yellow on light blue. Navy with white words,
-     ExecHQ asking her to take the step (11.3:1). */
+  /* A button on sky blue (designer, 2026-10-15): never yellow on light blue. An outlined navy pill,
+     navy words (11.3:1), filling with a deeper blue as it is pressed. */
   --color-action-on-for-her: var(--brand-primary);
-  --color-action-on-for-her-hover: var(--brand-primary-muted);
-  --color-action-on-for-her-active: var(--brand-primary-strong);
-  --color-text-on-action-on-for-her: var(--brand-white);
+  --color-action-on-for-her-hover: var(--brand-blue-300);
+  --color-action-on-for-her-active: var(--brand-blue-400);
+  /* The LinkedIn charts' joy (designer, 2026-10-15): the followers' area glows from light green at
+     the line down into sky blue; the bars rise from navy into light green. */
+  --color-chart-glow-top: var(--brand-green-300);
+  --color-chart-glow-bottom: var(--brand-blue-200);
+  --color-chart-bar-base: var(--brand-primary);
+  --color-chart-bar-tip: var(--brand-green-400);
   /* A navy page: an onboarding step with no drawer, flooded navy so the flow alternates quiet screens
      with ExecHQ moments (designer, 2026-10-15). Headlines and section labels in yellow 400 (10.3:1);
      the kicker blue 200; a numbered circle the same yellow with its navy numeral. */
