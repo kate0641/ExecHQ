@@ -23127,3 +23127,298 @@ button.progress-stepper__target.is-focus {
     break-inside: avoid;
   }
 }
+
+/* --- Concept 3: the weekly letter ------------------------------------------------ */
+
+.chrome__main:has(> .letter-view) {
+  padding: 0;
+}
+
+/* The archive down the left, the letter in a reading column beside it. */
+.letter-view {
+  display: grid;
+  grid-template-columns: 14rem minmax(0, 40rem);
+  justify-content: center;
+  align-items: start;
+  gap: var(--space-3xl);
+  padding: var(--space-2xl) var(--space-lg) var(--space-3xl);
+}
+
+.letter-view:not(:has(.letter-archive)) {
+  grid-template-columns: minmax(0, 40rem);
+}
+
+.letter-archive {
+  position: sticky;
+  top: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.letter-archive__heading {
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
+  text-transform: uppercase;
+  color: var(--color-eyebrow);
+}
+
+ul.letter-archive__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 0;
+  list-style: none;
+}
+
+.letter-archive__item,
+.letter-archive__upcoming {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  width: 100%;
+  padding: var(--space-xs) var(--space-sm);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  font: inherit;
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--weight-semibold);
+  text-align: left;
+  color: var(--color-text-primary);
+}
+
+.letter-archive__item span,
+.letter-archive__upcoming span {
+  font-weight: var(--weight-regular);
+  color: var(--color-text-secondary);
+}
+
+.letter-archive__upcoming {
+  color: var(--color-text-secondary);
+  border: var(--border-width-thin) dashed var(--color-border);
+}
+
+.letter-archive__item {
+  cursor: pointer;
+}
+
+.letter-archive__item:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.letter-archive__item:active {
+  background-color: var(--color-surface-active);
+}
+
+.letter-archive__item[aria-current="true"] {
+  background-color: var(--color-surface-selected);
+  box-shadow: inset var(--border-width-medium) 0 0 var(--color-accent);
+}
+
+.letter-archive__item:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.letter {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.letter__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.letter__headline {
+  font-family: var(--type-title-font);
+  font-size: var(--type-title-size);
+  font-weight: var(--type-title-weight);
+  line-height: var(--type-title-leading);
+  letter-spacing: var(--type-title-tracking);
+  word-spacing: var(--type-title-word-spacing);
+}
+
+.letter__headline:focus-visible {
+  border-radius: var(--radius-xs);
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.letter__covers,
+.letter__intro,
+.letter__step {
+  color: var(--color-text-secondary);
+}
+
+.letter__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-paragraph);
+  font-size: var(--text-md);
+  line-height: var(--leading-relaxed);
+}
+
+.letter__hidden {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface-sunken);
+}
+
+.letter__hidden > svg {
+  flex: none;
+  margin-top: var(--space-2xs);
+}
+
+.letter__moved {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding-top: var(--space-md);
+  border-top: var(--border-width-thin) solid var(--color-border);
+}
+
+.letter__moved ul {
+  padding-left: var(--space-md);
+}
+
+.letter__subheading {
+  font-family: var(--type-card-title-font);
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  line-height: var(--type-card-title-leading);
+  letter-spacing: var(--type-card-title-tracking);
+  word-spacing: var(--type-card-title-word-spacing);
+}
+
+.letter__fine {
+  font-size: var(--type-caption-size);
+  color: var(--color-text-secondary);
+}
+
+.letter__sign {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-family: var(--font-display);
+  word-spacing: var(--font-display-word-spacing);
+  font-weight: var(--weight-semibold);
+}
+
+.letter__definitions {
+  border-top: var(--border-width-thin) solid var(--color-border);
+  padding-top: var(--space-md);
+}
+
+.letter__definitions summary {
+  width: fit-content;
+  border-radius: var(--radius-xs);
+  font-weight: var(--weight-semibold);
+  cursor: pointer;
+}
+
+.letter__definitions summary:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.letter__definitions-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  padding-top: var(--space-md);
+}
+
+.letter__foot {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding-top: var(--space-md);
+  border-top: var(--border-width-thin) solid var(--color-border);
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
+}
+
+.letter__code {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.letter__link {
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: none;
+  font: inherit;
+  color: var(--color-text-link);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.letter__link:hover {
+  color: var(--color-text-link-hover);
+}
+
+.letter__link:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.letter__privacy {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+}
+
+.letter__privacy svg {
+  flex: none;
+  margin-top: var(--space-3xs);
+}
+
+.letter__question {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.letter__question > .field,
+.letter__question > .cohort-form__dates {
+  max-width: 28rem;
+}
+
+.letter__actions {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+@media print {
+  .letter-view {
+    display: block;
+    padding: 0;
+  }
+
+  .letter-archive,
+  .letter__code,
+  .letter__save {
+    display: none;
+  }
+
+  .letter__definitions:not([open]) {
+    display: none;
+  }
+}

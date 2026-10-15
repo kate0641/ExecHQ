@@ -76,6 +76,9 @@ export interface Cohort {
   /** Activated with an accepted plan. */
   planAccepted: number;
   byWindow: Record<WindowId, CohortCounts>;
+  /** Set up on this visit: no figures and no issues yet, only the first
+   *  update to come. */
+  fresh?: boolean;
 }
 
 const PILOT_WEEK_2: CohortCounts = {
@@ -483,7 +486,8 @@ const NOTHING_YET: CohortCounts = {
   briefingWeekly: 0,
 };
 
-/** The first Monday on or after a date: when a new cohort's figures first update. */
+/** The first Monday on or after a date. A new cohort's figures first update
+ *  on the Monday after it starts. */
 function firstMonday(iso: string): string {
   const date = new Date(`${iso}T00:00:00Z`);
   date.setUTCDate(date.getUTCDate() + ((8 - date.getUTCDay()) % 7));
@@ -495,13 +499,14 @@ export function newCohort(details: { name: string; expectedSize: number; startsO
   return {
     id: "small",
     ...details,
-    asOf: firstMonday(details.startsOn),
+    asOf: firstMonday(addDays(details.startsOn, 1)),
     code,
     open: true,
     joined: 0,
     activated: 0,
     planAccepted: 0,
     byWindow: { "30d": NOTHING_YET, "90d": NOTHING_YET, launch: NOTHING_YET },
+    fresh: true,
   };
 }
 
@@ -643,3 +648,156 @@ export const C2_COPY = {
     empty: "The report starts here once people join.",
   },
 } as const;
+
+/* -----------------------------------------------------------------------------
+   CONCEPT 3 — THE WEEKLY LETTER
+   -------------------------------------------------------------------------- */
+
+/** One Monday's issue: the cohort as it stood that day. */
+export interface LetterIssue {
+  number: number;
+  /** The Monday it went out. */
+  on: string;
+  cohort: Cohort;
+  /** 30 days once the program is that old; until then, everything so far. */
+  window: WindowId;
+}
+
+function addDays(iso: string, days: number): string {
+  const date = new Date(`${iso}T00:00:00Z`);
+  date.setUTCDate(date.getUTCDate() + days);
+  return date.toISOString().slice(0, 10);
+}
+
+function scaleCounts(counts: CohortCounts, by: number): CohortCounts {
+  const out = { ...counts };
+  for (const key of Object.keys(out) as (keyof CohortCounts)[]) out[key] = Math.round(out[key] * by);
+  return out;
+}
+
+/**
+ * Every issue so far, oldest first: one each Monday after the program
+ * started, the last on the cohort's latest refresh. Earlier issues are the
+ * cohort scaled back toward its start (most people join in the first weeks),
+ * so the latest issue always matches the dashboard exactly.
+ */
+export function letterIssues(cohort: Cohort): LetterIssue[] {
+  if (cohort.fresh) return [];
+  const first = firstMonday(addDays(cohort.startsOn, 1));
+  const issues: LetterIssue[] = [];
+  for (let on = first; on <= cohort.asOf; on = addDays(on, 7)) issues.push({ number: 0, on, cohort, window: "launch" });
+  const total = issues.length;
+  return issues.map((issue, i) => {
+    const share = (i + 1) / total;
+    const joining = Math.min(1, 0.6 + 0.4 * share);
+    const latest = cohort.byWindow[programDay(cohort) >= 30 ? "30d" : "launch"];
+    const counts = scaleCounts(latest, i + 1 === total ? 1 : joining * share ** 0.5);
+    const snapshot: Cohort = {
+      ...cohort,
+      asOf: issue.on,
+      joined: Math.round(cohort.joined * (i + 1 === total ? 1 : joining)),
+      activated: Math.round(cohort.activated * (i + 1 === total ? 1 : joining)),
+      planAccepted: Math.round(cohort.planAccepted * (i + 1 === total ? 1 : joining * share)),
+      byWindow: { "30d": counts, "90d": counts, launch: counts },
+    };
+    const window: WindowId = programDay(snapshot) >= 30 ? "30d" : "launch";
+    return { number: i + 1, on: issue.on, cohort: i + 1 === total ? cohort : snapshot, window };
+  });
+}
+
+/**
+ * What moved since the last issue, as plain directions with no counts.
+ * Overlapping 30-day windows a week apart differ by one week, so a change is
+ * only mentioned when at least the minimum cohort size of people is behind
+ * it: fewer could point to one person's week. Counts of actions or work are
+ * never compared, since one busy person could move them alone.
+ */
+export function whatMoved(issue: LetterIssue, previous?: LetterIssue): string[] {
+  if (!previous) return [];
+  if (!isAboveMinimum(issue.cohort, issue.window) || !isAboveMinimum(previous.cohort, previous.window)) return [];
+  const now = issue.cohort;
+  const then = previous.cohort;
+  const a = now.byWindow[issue.window];
+  const b = then.byWindow[previous.window];
+  const lines: string[] = [];
+  const moved = (x: number, y: number) => Math.abs(x - y) >= MIN_COHORT_SIZE;
+  if (moved(now.joined, then.joined)) lines.push(now.joined > then.joined ? C3_COPY.moved.joinedUp : C3_COPY.moved.joinedDown);
+  if (moved(a.active, b.active)) lines.push(a.active > b.active ? C3_COPY.moved.activeUp : C3_COPY.moved.activeDown);
+  if (moved(a.returning, b.returning)) lines.push(a.returning > b.returning ? C3_COPY.moved.returningUp : C3_COPY.moved.returningDown);
+  return lines;
+}
+
+const longDate = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", timeZone: "UTC" });
+const fmtDay = (iso: string) => longDate.format(new Date(`${iso}T00:00:00Z`));
+
+export const C3_COPY = {
+  archive: "Issues",
+  archiveLabel: "Past issues",
+  issueName: (n: number) => (n === 0 ? "Issue 0" : `Issue ${n}`),
+  issueDate: (on: string) => fmtDay(on),
+  setupName: "Setting up",
+  upcoming: "Next issue",
+  eyebrow: (n: number, on: string) => `${n === 0 ? "Issue 0" : `Issue ${n}`} · ${formatAsOf(on)}`,
+  to: "To Northgate, about",
+  headline: (joined: number, expected: number, active?: number, day = 30) =>
+    active === undefined
+      ? `${count.format(joined)} of ${count.format(expected)} have joined.`
+      : `${count.format(joined)} of ${count.format(expected)} have joined, and ${count.format(active)} ${day >= 30 ? "were active this month" : "have been active so far"}.`,
+  covers: (day: number) =>
+    day >= 30 ? "These figures cover the last 30 days." : `The program is ${day} days old, so these figures cover all of it so far.`,
+  joining: (joined: number, expected: number, activated?: number) =>
+    activated === undefined
+      ? `${count.format(joined)} of the ${count.format(expected)} leaders you expected have joined so far.`
+      : `${count.format(joined)} of the ${count.format(expected)} leaders you expected have joined, and ${count.format(activated)} have finished setting up.`,
+  using: (active: number, share: string, returning: number, briefing: number) =>
+    `${count.format(active)} were active, ${share} of those set up. ${count.format(returning)} have come back after their first week, and ${count.format(briefing)} read the Daily Briefing at least once a week.`,
+  following: (plans: number, completed: number, accepted: number, artifacts: number, used: number, outcomes: number) =>
+    `${count.format(plans)} have chosen a development plan. Participants completed ${count.format(completed)} of the ${count.format(accepted)} planned actions they took on within 30 days, and made ${count.format(artifacts)} pieces of work: ${count.format(used)} were used outside ExecHQ, and ${count.format(outcomes)} have a result recorded.`,
+  hidden: `Everything else stays hidden until ${MIN_COHORT_SIZE} or more participants are active, so no figure can point to one person. I’ll tell you when it opens.`,
+  movedHeading: "Since the last issue",
+  movedNone: `Nothing moved by enough to mention. I only mention a change when at least ${MIN_COHORT_SIZE} participants are behind it.`,
+  movedRule: `Changes are mentioned only when at least ${MIN_COHORT_SIZE} participants are behind them.`,
+  moved: {
+    joinedUp: "More people joined.",
+    joinedDown: "Fewer people are in the cohort.",
+    activeUp: "More participants were active.",
+    activeDown: "Fewer participants were active.",
+    returningUp: "More participants came back after their first week.",
+    returningDown: "Fewer participants came back after their first week.",
+  },
+  definitions: "What these figures count",
+  signOff: "ExecHQ",
+  privacy: "Totals for the whole cohort. You never see a participant, their plan or their work.",
+  save: "Save this issue as PDF",
+  manage: "Manage the code",
+  hideManage: "Hide",
+  codeLine: (code: string, joined: number, expected: number, open: boolean) =>
+    open
+      ? `Your cohort’s code is ${code}. ${count.format(joined)} of ${count.format(expected)} have joined.`
+      : `Your cohort is closed to new joiners. ${count.format(joined)} of ${count.format(expected)} joined.`,
+  firstIssue: (on: string) => `Your first issue comes on ${formatAsOf(on)}.`,
+  ready: {
+    headline: "Your cohort is set up.",
+    body: "Here is the code to share through your own channels.",
+    then: (on: string) => `Every Monday I’ll write to you with how the cohort is doing. The first issue comes on ${formatAsOf(on)}.`,
+  },
+  setup: {
+    intro: "Before the first issue, I need three things about your cohort.",
+    name: "What should we call the cohort?",
+    nameHint: "What your participants will call it, e.g. Leadership Programme 2027.",
+    size: "How many people do you plan to invite?",
+    sizeHint: `Figures stay hidden until ${MIN_COHORT_SIZE} or more are active.`,
+    dates: "When does the program run?",
+    starts: "Program starts",
+    ends: "Program ends",
+    next: "Next",
+    back: "Back",
+    create: "Set up the cohort",
+    step: (n: number) => `Question ${n} of 3`,
+  },
+} as const;
+
+/** When a cohort's first issue goes out: the Monday after it starts. */
+export function firstIssueOn(cohort: Cohort): string {
+  return firstMonday(addDays(cohort.startsOn, 1));
+}

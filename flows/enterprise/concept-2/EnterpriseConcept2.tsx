@@ -58,9 +58,9 @@ function ReportHead({ cohort, window, headingRef }: { cohort: Cohort; window: Wi
         {cohort.name}
       </h1>
       <p className="report__meta">
-        {C.dates(cohort.startsOn, cohort.endsOn)}, {day > 0 ? C.day(day) : C.notStarted}.{" "}
+        {C.dates(cohort.startsOn, cohort.endsOn)}, {day > 0 && !cohort.fresh ? C.day(day) : C.notStarted}.{" "}
         {window === "launch" ? C.windowLineSinceLaunch : C.windowLine(WINDOWS[window].long)}{" "}
-        {day > 0 ? C.asOf(cohort.asOf) : C.firstUpdate(cohort.asOf)}
+        {cohort.fresh ? C.firstUpdate(cohort.asOf) : C.asOf(cohort.asOf)}
       </p>
     </header>
   );
@@ -147,7 +147,7 @@ function Concept2Page({ controls }: { controls: CohortControls }) {
     <div className="ent report-view">
       {cohort ? (
         <div className="report-toolbar">
-          <WindowSelector value={window} onChange={setWindow} asOf={cohort.asOf} upcoming={programDay(cohort) <= 0} />
+          <WindowSelector value={window} onChange={setWindow} asOf={cohort.asOf} upcoming={cohort.fresh} />
           <Button variant="secondary" size="sm" onClick={() => globalThis.print()} aria-describedby="report-export-hint">
             <Icon name="download" size={16} />
             {C.export}

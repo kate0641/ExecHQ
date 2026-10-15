@@ -40,7 +40,7 @@ function CohortHeader({ cohort, children }: { cohort: Cohort; children?: React.R
           {C.dates(cohort.startsOn, cohort.endsOn)}
           <span aria-hidden="true"> · </span>
           <span className="u-visually-hidden">, </span>
-          {day > 0 ? C.age(day) : C.notStarted}
+          {day > 0 && !cohort.fresh ? C.age(day) : C.notStarted}
         </p>
       </div>
       {children ? <div className="ent-header__tools">{children}</div> : null}
@@ -59,7 +59,7 @@ function Overview({ cohort }: { cohort: Cohort }) {
   return (
     <div className="ent-page">
       <CohortHeader cohort={cohort}>
-        <WindowSelector value={window} onChange={setWindow} asOf={cohort.asOf} upcoming={day <= 0} />
+        <WindowSelector value={window} onChange={setWindow} asOf={cohort.asOf} upcoming={cohort.fresh} />
         <Button variant="secondary" size="sm" onClick={() => globalThis.print()}>
           <Icon name="download" size={16} />
           {C.export}

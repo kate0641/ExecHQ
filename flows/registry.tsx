@@ -14,6 +14,7 @@ import { ToolFlowConcept3 } from "./toolbox-flow/concept-3";
 import { ToolFlowGate } from "./toolbox-flow/ToolFlowGate";
 import { EnterpriseConcept1 } from "./enterprise/concept-1";
 import { EnterpriseConcept2 } from "./enterprise/concept-2";
+import { EnterpriseConcept3 } from "./enterprise/concept-3";
 
 /**
  * Concept pages that have been built.
@@ -45,6 +46,7 @@ const BUILT_CONCEPTS: Record<string, ReactElement> = {
   "toolbox-flow/concept-3": <ToolFlowGate concept="concept-3"><ToolFlowConcept3 /></ToolFlowGate>,
   "enterprise/concept-1": <EnterpriseConcept1 />,
   "enterprise/concept-2": <EnterpriseConcept2 />,
+  "enterprise/concept-3": <EnterpriseConcept3 />,
 };
 
 /** Every built concept, as manifest slugs, in the order they are listed above. */
