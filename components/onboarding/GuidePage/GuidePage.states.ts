@@ -43,9 +43,58 @@ export const guidePageStates = defineComponentStates({
       },
     },
     {
+      label: "On a navy page",
+      description:
+        "A step with no drawer, flooded navy: the headline and section labels in yellow, white cards on it. Signals, the recommendation, the first draft and Done (designer, 2026-10-15).",
+      props: {
+        navy: true,
+        kicker: GUIDE_C3.signals.kicker,
+        title: GUIDE_C3.signals.title,
+        lede: GUIDE_C3.signals.lede,
+        why: GUIDE_C3.direction.why,
+        primaryLabel: GUIDE_C3.signals.add,
+        onPrimary: noop,
+        secondaryLabel: GUIDE_C3.signals.skip,
+        onSecondary: noop,
+      },
+    },
+    {
       label: "With the answer drawer",
       description: "The question, what it is for and why it is asked stay together on the page; the drawer holds only the answer.",
       props: {
+        part: GUIDE_C3.parts[1],
+        position: "1 of 4",
+        partIndex: 1,
+        partCount: GUIDE_C3.parts.length,
+        kicker: GUIDE_C3.direction.kicker,
+        title: GUIDE_C3.direction.title,
+        lede: GUIDE_C3.direction.lede,
+        why: GUIDE_C3.direction.why,
+        drawer: createElement(
+          AnswerDrawer,
+          {
+            question: GUIDE_C3.direction.title,
+            open: true,
+            onToggle: noop,
+            primaryLabel: GUIDE_C3.direction.cta,
+            onPrimary: noop,
+            primaryDisabled: true,
+          },
+          createElement(ChipGroup, {
+            label: GUIDE_C3.direction.title,
+            labelHidden: true,
+            options: ["Reach the C-suite within three years", "Take on a bigger leadership role", "Be seen as an executive"],
+            value: [],
+            onChange: noop,
+          })
+        ),
+      },
+    },
+    {
+      label: "With the sky panel",
+      description: "Onboarding and the Plan: the question sits in a panel of the sky Home shows at this hour, its glow in the bottom-right corner, and the drawer is navy. The dock's sky icons switch it.",
+      props: {
+        sky: true,
         part: GUIDE_C3.parts[1],
         position: "1 of 4",
         partIndex: 1,

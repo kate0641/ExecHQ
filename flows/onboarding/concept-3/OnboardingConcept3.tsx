@@ -22,7 +22,7 @@ import { StoryText } from "@/components/onboarding/StoryText";
 import { ToggleGroup } from "@/components/form/ToggleGroup";
 import { PlanTemplateCard } from "@/components/onboarding/PlanTemplateCard";
 import { ThisWeekCard } from "@/components/onboarding/ThisWeekCard";
-import { GuidePage } from "@/components/onboarding/GuidePage";
+import { GuidePage, type SkyGlow } from "@/components/onboarding/GuidePage";
 import { NextSteps } from "@/components/onboarding/NextSteps";
 import { Notice } from "@/components/onboarding/Notice";
 import { WelcomeSplit } from "@/components/onboarding/WelcomeSplit";
@@ -205,7 +205,30 @@ interface DrawerControl {
 }
 
 /** What every page is handed about where it sits. */
-type Frame = Pick<ComponentProps<typeof GuidePage>, "headingId" | "part" | "file">;
+/** Steps with no drawer, flooded navy so the flow alternates quiet screens with ExecHQ moments
+ *  (designer, 2026-10-15). A step with a navy drawer stays light. */
+const NAVY_PAGES = new Set<string>(["about", "signals", "rec", "plan-week", "draft", "done"]);
+
+type Frame = Pick<ComponentProps<typeof GuidePage>, "headingId" | "part" | "file" | "sky" | "glow">;
+
+/** The sky's glow moves round the panel from one question to the next, so the yellow heart isn't in the same
+ *  corner every time (designer, 2026-10-15). Named per page, so the questions she sees in a row never share
+ *  a corner; at dusk and night the left corners move right, clear of the white words. */
+const GLOW_FOR: Partial<Record<PageId, SkyGlow>> = {
+  account: "top-right",
+  verify: "bottom-right",
+  direction: "bottom-right",
+  decide: "top-right",
+  "reflect-time": "top-left",
+  "t-0": "bottom-right",
+  "reflect-ceo": "bottom-left",
+  "t-1": "top-right",
+  "reflect-conversation": "top-left",
+  "t-2": "bottom-right",
+  "reflect-story": "bottom-left",
+  sharpen: "top-right",
+  versions: "top-left",
+};
 
 const STEP_NAV = PAGES.filter((page) => !page.offBar).map((page) => ({ id: page.id, label: page.label }));
 /** Changing her direction from the Plan: the direction, the recommendation, the questions and the plan. */
@@ -262,8 +285,8 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
   // On web the answers sit beside the question and there is no sheet to fold,
   // so a drawer left folded on a phone reads as open there.
   const mode: DrawerMode = viewport === "web" && chosenMode === "peek" ? "open" : chosenMode;
-  // The welcome on a phone is navy edge to edge, so the status bar is too.
-  useStatusBarTone(pageId === "welcome" && viewport !== "web" ? "inverse" : "default");
+  // The welcome and the navy steps are navy edge to edge on a phone, so the status bar is too.
+  useStatusBarTone((pageId === "welcome" || NAVY_PAGES.has(pageId)) && viewport !== "web" ? "inverse" : "default");
   // The other directions picked, beyond the one to start from.
   const [alsoGoals, setAlsoGoals] = useState<string[]>([]);
   const at = pageIndex(pageId);
@@ -380,9 +403,13 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
    *  pages by decision on 2026-09-24; what ExecHQ learned is shown once, as
    *  the summary on the last page. */
   function frame(): Frame {
-    if (!edit) return { headingId };
+    // Every question sits in its sky panel; a page without a drawer ignores it.
+    const glow = GLOW_FOR[pageId];
+    if (!edit) return { headingId, sky: true, glow };
     return {
       headingId,
+      sky: true,
+      glow,
       part: EDIT_FLOW_COPY.part,
       file: (
         <Link href={EDIT_FLOW_COPY.backTo} className="link">
@@ -434,7 +461,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
     case "about": {
       const c = GUIDE_C3.about;
       return (
-        <GuidePage {...frame()} kicker={c.kicker} title={c.title} lede={c.lede} primaryLabel={c.cta} onPrimary={next}>
+        <GuidePage {...frame()} navy kicker={c.kicker} title={c.title} lede={c.lede} primaryLabel={c.cta} onPrimary={next}>
           <PointList items={c.points} numbered />
           <PointList items={c.before} />
         </GuidePage>
@@ -469,6 +496,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
       return (
         <GuidePage
           {...frame()}
+          navy
           kicker={c.kicker}
           title={c.title}
           lede={c.lede}
@@ -542,6 +570,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
       return (
         <GuidePage
           {...frame()}
+          navy
           kicker={c.kicker}
           title={plan.name}
           why={c.why}
@@ -625,6 +654,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
       return (
         <GuidePage
           {...frame()}
+          navy={pageId === "plan-week"}
           kicker={c.kicker}
           title={part.title}
           lede={pageId === "plan-week" ? c.firstLede : part.helps}
@@ -698,7 +728,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
       const c = GUIDE_C3.story.draft;
       if (flow.generating === "drafting")
         return (
-          <GuidePage {...frame()} kicker={GUIDE_C3.story.kicker} title={c.writing}>
+          <GuidePage {...frame()} navy kicker={GUIDE_C3.story.kicker} title={c.writing}>
             <GeneratingState label={c.writing} />
           </GuidePage>
         );
@@ -781,6 +811,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
           title={c.title}
           lede={c.lede}
           className="guide--done"
+          navy
           primaryLabel={c.home}
           onPrimary={() => router.push(DONE_C1.homeHref)}
         >
@@ -1553,6 +1584,7 @@ function DraftPage({
   return (
     <GuidePage
       {...frame}
+      navy
       kicker={GUIDE_C3.story.kicker}
       title={c.title}
       lede={lede}
@@ -1581,8 +1613,8 @@ function DraftPage({
         onEditingChange={setEditing}
         usesLabel={DRAFT_C1.usesLabel}
         uses={plan?.uses ?? []}
+        actions={<ExportLinks actions={DRAFT_EXPORTS} />}
       />
-      <ExportLinks actions={DRAFT_EXPORTS} />
       {intro ? <p className="guide__next">{intro}</p> : null}
     </GuidePage>
   );
