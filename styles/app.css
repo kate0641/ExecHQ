@@ -8511,9 +8511,11 @@ ol.ring-detail__timeline {
 }
 
 /* A light blue rule under where she could use it closes the draft's part of the page before the Toolbox
-   line and why it matters (designer, 2026-10-15). */
+   line and why it matters (designer, 2026-10-15). The same 28px above and below it: the page's 24px
+   section gap, opened a hair. */
 .guide--navy .story-draft__uses {
-  padding-bottom: var(--space-md);
+  padding-bottom: calc(var(--space-lg) + var(--space-2xs));
+  margin-bottom: var(--space-2xs);
   border-bottom: var(--border-width-thin) solid var(--color-divider-on-inverse);
 }
 
