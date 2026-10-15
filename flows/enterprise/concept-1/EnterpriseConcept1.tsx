@@ -23,6 +23,7 @@ import {
   type Cohort,
   type DataPointId,
   type WindowId,
+  WINDOWS,
 } from "@/mock/enterprise";
 import { useCohort, type CohortControls } from "../useCohort";
 
@@ -60,6 +61,8 @@ function Overview({ cohort }: { cohort: Cohort }) {
     <div className="ent-page">
       <CohortHeader cohort={cohort}>
         <WindowSelector value={window} onChange={setWindow} asOf={cohort.asOf} upcoming={cohort.fresh} />
+        {/* The toggle does not print: the export says the window in words. */}
+        <p className="ent-header__print">{C.printWindow(WINDOWS[window].long, cohort.asOf)}</p>
         <Button variant="secondary" size="sm" onClick={() => globalThis.print()}>
           <Icon name="download" size={16} />
           {C.export}

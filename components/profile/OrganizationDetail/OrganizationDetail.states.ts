@@ -11,7 +11,7 @@ export const organizationDetailStates = defineComponentStates({
   status: "draft",
   flows: ["profile"],
   description:
-    "The organization her account came through: who it is, and in plain words what it sees (a summary of the whole group) and never sees (her personally). Leaving asks once.",
+    "The organization her account came through: who it is, and in plain words what it sees (totals for the whole group) and never sees (her personally). Leaving asks once.",
   component: OrganizationDetail,
   notApplicable: {
     hover: controls,

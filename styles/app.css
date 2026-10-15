@@ -22706,6 +22706,11 @@ button.progress-stepper__target.is-focus {
   color: var(--color-text-secondary);
 }
 
+.ent-header__print {
+  display: none;
+  color: var(--color-text-secondary);
+}
+
 .ent-header__tools {
   display: flex;
   flex-wrap: wrap;
@@ -23125,6 +23130,25 @@ button.progress-stepper__target.is-focus {
   .report__row,
   .report__section {
     break-inside: avoid;
+  }
+
+  /* Concept 1: the overview on one page, its window said in words. */
+  .ent-page {
+    max-width: none;
+    padding: 0;
+    zoom: 0.64;
+  }
+
+  .ent-header__tools > :not(.ent-header__print) {
+    display: none;
+  }
+
+  .ent-header__print {
+    display: block;
+  }
+
+  .cohort-figure__explain {
+    display: none;
   }
 }
 

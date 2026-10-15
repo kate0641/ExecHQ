@@ -556,6 +556,7 @@ export const C1_COPY = {
   age: (day: number) => (day === 1 ? "Day 1" : `Day ${day}`),
   notStarted: "Not started yet",
   export: "Export report",
+  printWindow: (long: string, asOf: string) => `Figures cover ${long}. As of ${formatAsOf(asOf)}.`,
   questions: {
     joined: "Did they join?",
     using: "Are they still using it?",
