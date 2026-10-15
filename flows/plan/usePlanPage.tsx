@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BaselineForm } from "@/components/homepage/BaselineForm";
 import { LinkedInMore } from "@/components/homepage/LinkedInMore";
 import { useLinkedInExport, setLinkedInExport } from "@/lib/linkedin-store";
@@ -35,7 +35,7 @@ import { applyCheckIn } from "@/lib/check-in-effects";
 import { addedSummary, hasBaseline, signalRows, withAdded } from "@/lib/presence";
 import { addPresence, removePresence, saveBaseline, saveCurrent, updatePresence, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
 import { currentStageIndex, isDone as isActionDone } from "@/lib/rings";
-import { addedItems, newlyRecorded, type CameOfRow, recordedItems, type PictureItem } from "@/lib/signal-picture";
+import { addedItems, cameOfRows, newlyRecorded, type CameOfRow, recordedItems, type PictureItem } from "@/lib/signal-picture";
 import { signalOfRecord } from "@/lib/signals";
 import { markNoticed, useSignalNotices } from "@/lib/signal-notices";
 import {
@@ -105,6 +105,28 @@ export function usePlanPage() {
     if (onSignals && freshKey) markNoticed(freshKey.split("|"));
   }, [onSignals, freshKey]);
   const editing = editingItem ? items.find((i) => i.id === editingItem.id) : undefined;
+
+  /* The showroom opens the Signal Picture on one of its sheets with `?screen=` (designer,
+     2026-10-15): add, edit, or report on something she added or something the Loop made. Only
+     sheets open this way; nothing she has saved is changed. Her picture loads after the page, so
+     a sheet that needs a row waits for one, and opens once. */
+  const screenOpened = useRef(false);
+  useEffect(() => {
+    if (screenOpened.current) return;
+    const screen = new URLSearchParams(window.location.search).get("screen");
+    const rows = cameOfRows(pictureItems, loop.account.plan.startedOn, loop.today);
+    const item = pictureItems.find((i) => i.editable);
+    const row = rows.find((r) => (screen === "report-loop" ? Boolean(r.recordId) : Boolean(r.item)));
+    /* eslint-disable react-hooks/set-state-in-effect -- the URL is only readable after mount */
+    if (screen === "add") setAdding({});
+    else if (screen === "edit" && item) setEditingItem(item);
+    else if ((screen === "report-added" || screen === "report-loop") && row) setReporting(row);
+    else if (screen) return;
+    /* eslint-enable react-hooks/set-state-in-effect */
+    screenOpened.current = true;
+    // Only her picture's size matters here: the sheet opens once it has what it needs.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pictureItems.length]);
 
   /** What an entry becomes when it is saved: the same for one and for several. */
   function fieldsOf(values: { type: string; on: string; text?: string; impact?: string }) {

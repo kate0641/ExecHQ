@@ -44,4 +44,20 @@ export const FLOW_SCREENS: readonly FlowScreens[] = [
       { id: "deleted", label: "Account deleted", note: "Delete my account, in its sheet.", query: "screen=deleted" },
     ],
   },
+  {
+    flow: "signals",
+    concept: "concept-2",
+    title: "Signal Picture",
+    screens: [
+      {
+        id: "page",
+        label: "The page, top to bottom",
+        note: "Momentum, what came of it, where she started. The dock's homepage states change what she has; the first one asks where she is starting from. Edit shows only on rows she added herself, none in the sample states; its form is in the component catalogue under SignalEntrySheet.",
+        full: true,
+      },
+      { id: "add", label: "Add to your picture", note: "Add, on Where you started.", query: "screen=add" },
+      { id: "report-added", label: "What came of it: something she added", note: "Nothing reported yet, on a row she added.", query: "screen=report-added" },
+      { id: "report-loop", label: "What came of it: something ExecHQ made", note: "Nothing reported yet, on a row from her work in ExecHQ: how it went, then her words.", query: "screen=report-loop" },
+    ],
+  },
 ];
