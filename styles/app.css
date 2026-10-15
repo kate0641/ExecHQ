@@ -8497,6 +8497,26 @@ ol.ring-detail__timeline {
   border-color: transparent;
 }
 
+/* Copy, Download and Email sit inside the draft's card, under a hairline, so the most important card on
+   the screen carries its own actions (designer, 2026-10-15; they sat under the uses before). */
+.story-draft__actions {
+  margin-top: var(--space-xs);
+  padding-top: var(--space-sm);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+/* The status line keeps its place for "Copied", but takes no room until it has something to say. */
+.story-draft__actions .builder-export__status:empty {
+  min-height: 0;
+}
+
+/* A light blue rule under where she could use it closes the draft's part of the page before the Toolbox
+   line and why it matters (designer, 2026-10-15). */
+.guide--navy .story-draft__uses {
+  padding-bottom: var(--space-md);
+  border-bottom: var(--border-width-thin) solid var(--color-divider-on-inverse);
+}
+
 /* An answered page can run long, so its action stays in reach at the foot. */
 .guide--answered .guide__actions {
   position: sticky;

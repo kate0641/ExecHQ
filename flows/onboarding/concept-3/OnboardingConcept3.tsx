@@ -1591,8 +1591,8 @@ function DraftPage({
         onEditingChange={setEditing}
         usesLabel={DRAFT_C1.usesLabel}
         uses={plan?.uses ?? []}
+        actions={<ExportLinks actions={DRAFT_EXPORTS} />}
       />
-      <ExportLinks actions={DRAFT_EXPORTS} />
       {intro ? <p className="guide__next">{intro}</p> : null}
     </GuidePage>
   );

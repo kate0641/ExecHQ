@@ -208,6 +208,7 @@
   --color-eyebrow-on-inverse: var(--brand-blue-200);
   --number-circle-fill-on-inverse: var(--brand-blue-200);
   --number-circle-ink-on-inverse: var(--brand-primary);
+  --color-divider-on-inverse: var(--brand-blue-200);  /* a light blue rule on a navy page */
   /* The page's light set, held at the root so a white card on a navy page can take it back after the
      page has remapped its own tokens. */
   --light-text-primary: var(--color-text-primary);
