@@ -7795,12 +7795,14 @@ ol.ring-detail__timeline {
   width: var(--space-xl);
   height: var(--space-xl);
   border-radius: var(--radius-sm);
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
+  /* A stone square with the ink, so the source reads as a quiet tag, not a navy button; the mark two
+     pixels larger, 13px (designer, 2026-10-15). */
+  background-color: var(--color-surface-quiet);
+  color: var(--color-text-primary);
   font-family: var(--font-display);
   word-spacing: var(--font-display-word-spacing);
   letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-2xs);
+  font-size: var(--text-xs-plus);
   font-weight: var(--weight-bold);
 }
 
@@ -8083,17 +8085,24 @@ ol.ring-detail__timeline {
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-card);
   background-color: var(--color-surface-raised);
+  /* The header band runs to the card's edge, so it is clipped to its corners. */
+  overflow: hidden;
 }
 
+/* What next? sits in a sky blue header, navy words on it (11.3:1), title only (designer, 2026-10-15).
+   Every choice under it acts on her draft, so it takes the draft's colour: written for her to use. */
 .next-steps__label {
   /* The title inside a list card: the card title role. */
+  margin: calc(var(--space-card-padding) * -1) calc(var(--space-card-padding) * -1) 0;
+  padding: var(--space-md) var(--space-card-padding);
   font-family: var(--type-card-title-font);
   font-size: var(--type-card-title-size);
   font-weight: var(--type-card-title-weight);
   line-height: var(--type-card-title-leading);
   letter-spacing: var(--type-card-title-tracking);
   word-spacing: var(--type-card-title-word-spacing);
-  color: var(--color-text-primary);
+  background-color: var(--color-surface-for-her);
+  color: var(--color-text-on-for-her);
 }
 
 .next-steps__list {
@@ -8376,10 +8385,15 @@ ol.ring-detail__timeline {
   color: var(--color-text-primary);
 }
 
+/* The segments sit 8px apart so each reads as its own stage (designer,
+   2026-10-13). */
 .guide__parts {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-3xs);
+  /* One segment per part on a single line, however many there are: the stage check-in has five
+     (designer, 2026-10-15), so a fixed four wrapped the fifth onto a line of its own. */
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: var(--space-xs);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -8507,6 +8521,108 @@ ol.ring-detail__timeline {
 
 .guide--done .guide__actions {
   margin-top: 0;
+}
+
+/* A navy page (designer, 2026-10-15): onboarding's steps with no drawer (Signals, the recommendation,
+   the first draft, Done) are flooded navy, so the flow alternates quiet screens with ExecHQ moments.
+   A screen with a navy drawer stays light: the drawer is already its colour. The page's tokens remap
+   to the inverse set so its words, links and focus follow; headlines and section labels are yellow,
+   the one warm thing above the action. White cards on it take the light set back. The page itself
+   carries it too, so it reads the same in the catalogue, outside the app's chrome. */
+.chrome:has(.guide--navy),
+.guide--navy {
+  --color-surface: var(--color-surface-inverse);
+  --color-text-primary: var(--color-text-inverse);
+  --color-text-secondary: var(--color-text-inverse-muted);
+  --color-text-muted: var(--color-text-inverse-muted);
+  --color-text-link: var(--color-text-inverse);
+  --color-text-link-hover: var(--color-text-inverse);
+  --color-eyebrow: var(--color-eyebrow-on-inverse);
+  --color-border: var(--color-border-inverse);
+  --color-border-subtle: var(--color-border-inverse);
+  --color-focus: var(--color-focus-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+  --number-circle-fill: var(--number-circle-fill-on-inverse);
+  --number-circle-ink: var(--number-circle-ink-on-inverse);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-primary);
+}
+
+.guide--navy .guide__title,
+.guide--navy .guide__why-label,
+.guide--navy .builder-next__label {
+  color: var(--color-headline-on-inverse);
+}
+
+.guide--navy :is(.recommendation, .next-steps, .point-box, .signal-list, .card, .feature-card__body) {
+  --color-text-primary: var(--light-text-primary);
+  --color-text-secondary: var(--light-text-secondary);
+  --color-text-muted: var(--light-text-muted);
+  --color-text-link: var(--light-text-link);
+  --color-text-link-hover: var(--light-text-link);
+  --color-eyebrow: var(--light-eyebrow);
+  --color-border: var(--light-border);
+  --color-border-subtle: var(--light-border);
+  --color-focus: var(--light-focus);
+  --focus-ring: var(--focus-ring-width) solid var(--light-focus);
+  --number-circle-fill: var(--light-number-circle-fill);
+  --number-circle-ink: var(--light-number-circle-ink);
+  color: var(--color-text-primary);
+}
+
+/* On the navy, the LinkedIn source sits in its own white card, so the one thing she adds stands out. */
+.guide--navy .signal-list {
+  padding: var(--space-card-padding);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+}
+
+/* On a navy page a navy header would sink into the page, so the card's header turns light blue, navy words
+   on it (11.3:1), the same header as What next?, and the card keeps the stone 250 edge every card has
+   (designer, 2026-10-15). */
+.guide--navy .feature-card__head--inverse {
+  background-color: var(--color-surface-for-her);
+}
+
+.guide--navy .feature-card__head--inverse .feature-card__title {
+  color: var(--color-text-on-for-her);
+}
+
+.guide--navy .feature-card:has(> .feature-card__head--inverse) {
+  border-color: var(--light-border);
+}
+
+/* On a navy page the lime header keeps the card's stone 250 edge, as the white body under it does, so the
+   two read as one card rather than a header inset from it (designer, 2026-10-15). */
+.guide--navy .guide__heard-rows > .guide__yours-label {
+  border-color: var(--light-border);
+}
+
+/* The first draft has no edge of its own on the navy. */
+.guide--navy .story-draft__card {
+  border-color: transparent;
+}
+
+/* Copy, Download and Email sit inside the draft's card, under a hairline, so the most important card on
+   the screen carries its own actions (designer, 2026-10-15; they sat under the uses before). */
+.story-draft__actions {
+  margin-top: var(--space-xs);
+  padding-top: var(--space-sm);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+/* The status line keeps its place for "Copied", but takes no room until it has something to say. */
+.story-draft__actions .builder-export__status:empty {
+  min-height: 0;
+}
+
+/* A light blue rule under where she could use it closes the draft's part of the page before the Toolbox
+   line and why it matters (designer, 2026-10-15). The same 28px above and below it: the page's 24px
+   section gap, opened a hair. */
+.guide--navy .story-draft__uses {
+  padding-bottom: calc(var(--space-lg) + var(--space-2xs));
+  margin-bottom: var(--space-2xs);
+  border-bottom: var(--border-width-thin) solid var(--color-divider-on-inverse);
 }
 
 /* An answered page can run long, so its action stays in reach at the foot. */
@@ -12052,10 +12168,11 @@ ul.stage-actions__list {
   font-size: var(--type-title-size-phone);
 }
 
-/* On Profile the page's own title stands where the logo was (designer,
-   2026-10-11): the wordmark header goes, and on the phone the title runs
-   edge to edge at the top with the header's divider under it. */
-.chrome:has(.profile) > .chrome__header {
+/* No signed-in page has a logo bar (designer, 2026-10-13; Profile and Home
+   first): each page's own top opens the screen. On Profile the page's own
+   title stands where the logo was, and on the phone it runs edge to edge at
+   the top with the header's divider under it. */
+.chrome--app > .chrome__header {
   display: none;
 }
 
@@ -13278,11 +13395,50 @@ ul.login__never {
   --sky-top-core: var(--color-sky-heart-light);
 }
 
+/* Dusk is the sun going down into night (designer, 2026-10-14, option 2a):
+   a small peach centre, then peach turning into blue 500. Half of that turn
+   goes round the colour wheel (in oklch), which passes through mauve and
+   dusty pink, and half goes straight across (in oklab), which keeps them
+   soft. Every colour named is a palette step; only the shades between are
+   blended. The blue eases out over the last stretch rather than stopping,
+   so it leaves no edge, and the fade under it starts from the same blue. */
 .device__screen:has(.map-home__greeting[data-sky="dusk"]) {
   --sky-top-edge: var(--color-sky-dusk-edge-top);
-  --sky-top-core-size: 55% 24%;
   --sky-top-ring: var(--color-sky-dusk-top-ring);
   --sky-top-core: var(--color-sky-dusk-top-core);
+  --home-sky-full:
+    radial-gradient(ellipse 60% 26% at 50% 0, var(--sky-top-core), transparent),
+    radial-gradient(
+      ellipse 130% 85% at 50% 0 in oklch,
+      color-mix(in oklab, var(--sky-top-ring) 50%, transparent) 0%,
+      color-mix(in oklab, var(--sky-top-edge) 50%, transparent) 58%,
+      transparent 100%
+    ),
+    radial-gradient(
+      ellipse 130% 85% at 50% 0 in oklab,
+      var(--sky-top-ring) 0%,
+      var(--sky-top-edge) 58%,
+      color-mix(in oklab, var(--sky-top-edge) 97%, transparent) 62.2%,
+      color-mix(in oklab, var(--sky-top-edge) 90%, transparent) 66.4%,
+      color-mix(in oklab, var(--sky-top-edge) 78%, transparent) 70.6%,
+      color-mix(in oklab, var(--sky-top-edge) 65%, transparent) 74.8%,
+      color-mix(in oklab, var(--sky-top-edge) 50%, transparent) 79%,
+      color-mix(in oklab, var(--sky-top-edge) 35%, transparent) 83.2%,
+      color-mix(in oklab, var(--sky-top-edge) 22%, transparent) 87.4%,
+      color-mix(in oklab, var(--sky-top-edge) 10%, transparent) 91.6%,
+      color-mix(in oklab, var(--sky-top-edge) 3%, transparent) 95.8%,
+      transparent 100%
+    ),
+    linear-gradient(
+      in oklab,
+      var(--sky-top-edge) 0%,
+      var(--sky-top-edge) 10%,
+      color-mix(in oklab, var(--sky-top-edge) 80%, var(--color-surface)) 25%,
+      color-mix(in oklab, var(--sky-top-edge) 50%, var(--color-surface)) 45%,
+      color-mix(in oklab, var(--sky-top-edge) 22%, var(--color-surface)) 65%,
+      color-mix(in oklab, var(--sky-top-edge) 6%, var(--color-surface)) 85%,
+      var(--color-surface) 100%
+    );
 }
 
 /* Night is day's sky with the sun put out (designer, 2026-10-11): the
@@ -13389,11 +13545,8 @@ ul.login__never {
   background-position: 0 calc(-1 * var(--sky-scrolled, 0px));
 }
 
-/* For now Home has no wordmark header: the greeting band is the top of the
-   screen (and on the phone its wash runs on up behind the status bar). */
-.chrome:has(.map-home) > .chrome__header {
-  display: none;
-}
+/* Home's greeting band is the top of the screen (no signed-in page has a
+   logo bar), and on the phone its wash runs on up behind the status bar. */
 
 .map-home__greeting b {
   font-family: var(--font-display);
@@ -15661,58 +15814,32 @@ ol.rtl__rail::before {
   gap: var(--space-lg);
 }
 
-/* Plan Concept 3: her direction above the road, as a soft row. Closed, her words are cut to one line;
-   the row opens like an accordion and lets them run. */
+/* Plan Concept 3: her direction above the road, in full, in the system's
+   white card (designer, 2026-10-13). It only reads: no chevron, no button. */
+/* Your direction is her own sentence, so it carries her colour: lime with dark green words, held by
+   the same stone 250 edge as every card (designer, 2026-10-15; a white card before). Lime cards, as a
+   flood or a header, always take this stroke. */
 .plan-direction {
-  border-radius: var(--radius-card);
-  background: var(--color-surface-sunken);
-}
-
-.plan-direction__head {
-  margin: 0;
-  font: inherit;
-}
-
-.plan-direction__toggle {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: var(--space-sm);
-  width: 100%;
-  margin: 0;
-  padding: var(--space-sm) var(--space-card-padding);
-  border: 0;
-  border-radius: var(--radius-card);
-  background: none;
-  color: var(--color-text-primary);
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-
-.plan-direction__toggle:hover,
-.plan-direction__toggle.is-hover {
-  background: var(--color-surface-hover);
-}
-
-.plan-direction__toggle.is-focus {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.plan-direction__text {
   display: flex;
   flex-direction: column;
   gap: var(--space-3xs);
-  min-width: 0;
+  padding: var(--space-sm) var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-her-band);
+  color: var(--color-text-on-her-band);
 }
 
 .plan-direction__label {
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.08em;
+  margin: 0;
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-text-secondary);
+  color: var(--color-text-on-her-band);
 }
 
 .plan-direction__quote {
@@ -15721,20 +15848,6 @@ ol.rtl__rail::before {
   font-size: var(--text-md);
   line-height: var(--leading-normal);
   overflow-wrap: anywhere;
-}
-
-.plan-direction__toggle .icon {
-  transition: transform var(--duration-fast) ease;
-}
-
-.plan-direction.is-open .plan-direction__toggle .icon {
-  transform: rotate(180deg);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .plan-direction__toggle .icon {
-    transition: none;
-  }
 }
 
 /* "See your plan" beside the roadmap's heading: opens the plan detail. */
@@ -16060,10 +16173,13 @@ ul.agenda__list {
   gap: var(--space-md);
 }
 
-/* The start button leads: full width, and the only filled thing on the card. */
-.agenda__reveal .agenda__cta {
-  min-height: 3rem;
-  font-weight: var(--weight-bold);
+/* The start button in the roadmap is the light blue pill at full width (designer, 2026-10-14): the
+   move above already leads with the yellow one, so here colour stays quiet and width says it comes first.
+   The questions under it are smaller, so the order reads without a second loud colour. The button has
+   room of its own above and below, apart from the step's title and from the questions. */
+.agenda__reveal {
+  gap: var(--space-lg);
+  padding-top: var(--space-lg);
 }
 
 .agenda__ask {
@@ -16071,70 +16187,61 @@ ul.agenda__list {
   flex-direction: column;
 }
 
-.agenda__ask-label {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2xs);
-  margin: 0 0 var(--space-2xs);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-}
-
 ul.agenda__ask-list {
   margin: 0;
   padding: 0;
   list-style: none;
-  border-bottom: var(--border-subtle);
 }
 
-.agenda__ask-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  column-gap: var(--space-sm);
-  row-gap: var(--space-3xs);
+/* The questions about a step open the chat, so they keep the chat's prompt shape and the advisor's mark,
+   sized to their words and wrapping. They are the same on every step, so they are quiet: the quiet surface, the small
+   size (about 32px), second to the blue start button, which is what changes from step to step
+   (designer, 2026-10-14). An invisible band keeps each one 44px to tap. */
+.agenda__ask-list {
+  display: flex;
+  flex-wrap: wrap;
+  /* A little more than 8px between the pills (designer, 2026-10-14). */
+  gap: var(--space-sm);
+}
+
+.agenda__ask-pill {
+  position: relative;
+  display: inline-flex;
   align-items: center;
-  width: 100%;
-  padding: var(--space-sm) 0;
+  gap: var(--space-2xs);
+  padding: calc(var(--space-xs) * 0.75) var(--space-sm) calc(var(--space-xs) * 0.75) var(--space-xs);
   border: 0;
-  border-top: var(--border-subtle);
-  background: none;
-  color: inherit;
-  font: inherit;
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-quiet);
+  color: var(--color-text-primary);
+  font-family: var(--type-body-sm-font);
+  font-size: var(--text-xs-plus);
+  line-height: var(--leading-snug);
   text-align: start;
   cursor: pointer;
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus);
 }
 
-.agenda__ask-row:focus-visible {
+.agenda__ask-pill::after {
+  content: "";
+  position: absolute;
+  inset: 50% 0 auto;
+  height: max(100%, var(--button-target));
+  transform: translateY(-50%);
+}
+
+.agenda__ask-pill:hover {
+  background-color: var(--color-surface-quiet-hover);
+}
+
+.agenda__ask-pill .advisor-mark,
+.agenda__ask-pill svg {
+  color: var(--color-text-secondary);
+}
+
+.agenda__ask-pill:focus-visible {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
-}
-
-.agenda__ask-q {
-  font-family: var(--font-display);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-}
-
-.agenda__ask-row:hover .agenda__ask-q {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.agenda__ask-t {
-  grid-column: 1;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
-}
-
-.agenda__ask-go {
-  grid-row: 1 / span 2;
-  grid-column: 2;
-  align-self: center;
-  color: var(--color-text-secondary);
 }
 
 fieldset.agenda__whens {
@@ -16242,11 +16349,15 @@ fieldset.agenda__whens {
   isolation: isolate;
 }
 
+/* The stages in full colour (designer, 2026-10-13), from tokens.css, each card
+   overlapping the foot of the one before. Light cards take the ink and a deep eyebrow of their own hue;
+   dark cards take white and a pale one. */
 .agenda--stack .agenda__stage {
   position: relative;
   margin-top: calc(var(--space-md) * -1);
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   box-shadow: 0 calc(var(--border-width-medium) * -1) 0 var(--color-surface);
+  color: var(--stage-ink);
 }
 
 .agenda--stack .agenda__stage:first-child {
@@ -16257,40 +16368,71 @@ fieldset.agenda__whens {
   border-radius: var(--radius-xl);
 }
 
+/* Navy in descending shades, stage 1 the darkest, with white words (designer, 2026-10-14). */
+.agenda--stack .agenda__stage { --stage-ink: var(--color-text-inverse); --stage-eyebrow: var(--color-text-inverse); }
 .agenda--stack .agenda__stage--0 { background-color: var(--color-stage-1); z-index: 1; }
 .agenda--stack .agenda__stage--1 { background-color: var(--color-stage-2); z-index: 2; }
 .agenda--stack .agenda__stage--2 { background-color: var(--color-stage-3); z-index: 3; }
 .agenda--stack .agenda__stage--3 { background-color: var(--color-stage-4); z-index: 4; }
 
 .agenda--stack .agenda__stage-button {
-  align-items: center;
-  padding: var(--space-md) var(--space-md) var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-xs);
+  /* More of each closed stage shows under the next, so each reads as its own drawer (designer, 2026-10-14). */
+  padding: var(--space-lg) var(--space-md) var(--space-2xl);
+  /* The ring takes the card's own ink, so it shows on every stage colour. */
+  --focus-ring: var(--focus-ring-width) solid var(--stage-ink);
 }
 
 .agenda--stack .agenda__stage.is-open .agenda__stage-button {
-  padding-bottom: var(--space-sm);
+  padding-bottom: var(--space-md);
 }
 
-.agenda--stack .agenda__stage-name {
-  font-size: var(--text-lg);
-  line-height: var(--leading-snug);
+/* "Stage 1 of 4" and when it runs to, on one eyebrow line, the time at the right. Inter, so it never
+   takes the display face's word spacing ("STAGE1OF4"). */
+.agenda__stage-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-sm);
+}
+
+.agenda--stack :is(.agenda__eyebrow, .agenda__when) {
+  font-family: var(--font-body);
+  word-spacing: normal;
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--stage-eyebrow);
 }
 
 .agenda--stack .agenda__when {
-  padding: var(--space-3xs) var(--space-xs);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface-raised);
-  color: var(--color-text-primary);
-  letter-spacing: 0;
-  text-transform: none;
-  font-size: var(--text-sm);
+  flex: none;
+  padding: 0;
+  background: none;
+}
+
+/* The stage's name in the Card title role, a size up at 18px now each stage has more room (designer, 2026-10-14). */
+.agenda--stack .agenda__stage-name {
+  display: block;
+  font-family: var(--type-card-title-font);
+  font-size: var(--text-lg);
+  font-weight: var(--type-card-title-weight);
+  line-height: var(--type-card-title-leading);
+  letter-spacing: var(--type-card-title-tracking);
+  word-spacing: var(--type-card-title-word-spacing);
+  color: var(--stage-ink);
+  text-wrap: pretty;
 }
 
 /* A note on a stage under its name, such as her check-in on a finished one. The next card in the stack
    overlaps the foot of this one, so the note keeps the same room under it as the stage's own head does. */
 .agenda--stack .agenda__stage-note {
-  margin-top: calc(var(--space-sm) * -1);
-  padding: 0 var(--space-sm) var(--space-lg);
+  margin-top: calc(var(--space-md) * -1);
+  padding: 0 var(--space-sm) var(--space-xl);
 }
 
 .agenda--stack .agenda__stage.is-open .agenda__stage-note {
@@ -16298,38 +16440,111 @@ fieldset.agenda__whens {
   padding-bottom: var(--space-sm);
 }
 
+/* Two-tone, as Feature card pattern D (designer, 2026-10-14): the stage's colour holds only its eyebrow
+   and name; the open stage's body is white, with Finishing looks like and the steps as rows split by
+   hairlines. One card, never a card inside it. The next stage overlaps the foot of this body by
+   --space-md, so the body keeps that much more room under its last row. */
 .agenda--stack .agenda__body {
-  padding: 0 var(--space-sm) var(--space-lg);
-}
-
-.agenda--stack .agenda__small {
-  padding-inline: var(--space-xs);
+  gap: var(--space-xs);
+  padding: var(--space-md) var(--space-md) calc(var(--space-md) * 2);
+  background-color: var(--color-surface-raised);
+  box-shadow: inset var(--border-width-thin) 0 0 var(--color-border-subtle), inset calc(var(--border-width-thin) * -1) 0 0 var(--color-border-subtle);
   color: var(--color-text-primary);
 }
 
+.agenda--stack .agenda__stage:last-child .agenda__body {
+  padding-bottom: var(--space-md);
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  box-shadow: inset 0 0 0 var(--border-width-thin) var(--color-border-subtle);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .agenda--stack .agenda__body {
+    animation: agenda-open var(--duration-slow) var(--easing-standard);
+  }
+}
+
+@keyframes agenda-open {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--space-xs) * -1));
+  }
+}
+
+.agenda--stack .agenda__small {
+  padding-inline: 0;
+  color: var(--color-text-secondary);
+  text-wrap: pretty;
+}
+
+.agenda--stack .agenda__small b {
+  color: var(--color-text-primary);
+}
+
+/* The steps: rows split by hairlines in the white body, each its time as a small eyebrow over its title.
+   Only a step that opens carries a chevron; what it opens to sits under its title, before the next hairline. */
 .agenda--stack ul.agenda__list {
-  gap: var(--space-xs);
+  gap: 0;
 }
 
 .agenda--stack .agenda__item {
-  padding: var(--space-sm);
+  gap: 0;
+  padding: var(--space-md) 0;
   border: 0;
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface-raised);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+  border-radius: 0;
+  background: none;
+}
+
+.agenda--stack .agenda__item:first-child {
+  border-top: 0;
 }
 
 .agenda--stack .agenda__line {
   grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "when go" "title go";
+  row-gap: var(--space-2xs);
+  column-gap: var(--space-sm);
+  align-items: center;
 }
 
 .agenda--stack .agenda__line .agenda__pill {
-  order: 2;
-  background: none;
+  grid-area: when;
   padding: 0;
+  background: none;
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  /* The time stands out in the eyebrow blue, as every eyebrow on the page does (designer, 2026-10-14). */
+  color: var(--color-eyebrow);
 }
 
 .agenda--stack .agenda__line .agenda__title {
-  order: 1;
+  grid-area: title;
+  font-family: var(--font-body);
+  word-spacing: normal;
+  font-size: var(--text-sm);
+  /* Semibold, so each step holds its own under the stage's name (designer, 2026-10-14). */
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+  text-wrap: pretty;
+}
+
+.agenda--stack .agenda__open {
+  grid-area: go;
+  color: var(--color-text-secondary);
+  transform: rotate(90deg);
+  transition: transform var(--duration-base) var(--easing-standard);
+}
+
+.agenda--stack .agenda__line[aria-expanded="true"] .agenda__open {
+  transform: rotate(-90deg);
+}
+
+.agenda--stack .agenda__yours {
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-label);
 }
 
 /* -----------------------------------------------------------------------------
@@ -16419,6 +16634,9 @@ fieldset.agenda__whens {
   position: sticky;
   top: 0;
   margin-top: 0;
+  /* Beside the page on the web, so no divider above it. */
+  padding-top: 0;
+  border-top: 0;
 }
 
 [data-viewport="web"] .guide.plan-guided:not(:where([data-viewport="mobile"] *)) .answer-drawer__wrap {
@@ -16449,9 +16667,232 @@ fieldset.agenda__whens {
   flex: 1 1 auto;
 }
 
-/* The roadmap under the move, set apart from the move by space alone. */
+/* The Plan's answer drawer is navy on a phone and a tablet (designer, 2026-10-13), and onboarding's too
+   wherever its question sits in a sky panel (2026-10-14), so the question
+   about this move reads apart from the page: the yellow start button, white answers, light words. Its
+   handle folds it to the peek bar, which shows the roadmap under the move. On the web the answers are
+   part of the page. */
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer {
+  color: var(--color-text-inverse);
+  background-color: var(--color-surface-inverse);
+  border-top: 0;
+  --color-focus: var(--color-focus-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+}
+
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer__grab::before {
+  background-color: var(--color-text-inverse-muted);
+}
+
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer.is-peek {
+  padding-top: var(--space-xs);
+}
+
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer :is(.answer-drawer__peek-q, .chip-group__label) {
+  color: var(--color-text-inverse);
+}
+
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer :is(.answer-drawer__peek-status, .answer-drawer__step, .btn--ghost, .field__hint) {
+  color: var(--color-text-inverse-muted);
+}
+
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer .btn--ghost:hover {
+  color: var(--color-text-inverse);
+  background-color: var(--color-surface-inverse-hover);
+}
+
+/* Words written straight on the navy take its light ink; the sticky foot keeps the navy behind it. */
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer :is(.stage-checkin__note, .field__label, .input__label, legend) {
+  color: var(--color-text-inverse);
+}
+
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer .answer-drawer__actions {
+  background-color: var(--color-surface-inverse);
+}
+
+/* The one she picks can't fill navy on navy: it takes blue 200 with the ink, its words bold. */
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer .chip-group__chip[aria-pressed="true"] {
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-active);
+  border-color: var(--color-surface-active);
+  font-weight: var(--weight-semibold);
+}
+
+/* The answers stay white with the ink, a ring of their own inside the navy. */
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer .chip-group__chip {
+  border-color: var(--color-surface-raised);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+}
+
+/* Onboarding's cards take Home's colour (designer, 2026-10-15). The recommendation's "This plan is for" and
+   Your plan's "Built from what you said" ride in the light blue band Home's check-in card carries its
+   context in, navy on blue 200 (11.3:1). The first draft is the Briefing's dark green: something of hers
+   to read, apart from the navy around it. */
+.recommendation {
+  overflow: hidden;
+}
+
+.recommendation__for {
+  order: -1;
+  margin: calc(-1 * var(--space-card-padding)) calc(-1 * var(--space-card-padding)) var(--space-xs);
+  padding: var(--space-sm) var(--space-card-padding);
+  /* ExecHQ describing the plan to her: written for her, so sky blue (designer, 2026-10-15). */
+  background-color: var(--color-surface-for-her);
+  color: var(--color-text-on-for-her);
+}
+
+.guide__heard-rows {
+  gap: 0;
+}
+
+/* Built from what you said is her own answers, so its header carries her colour: lime with dark
+   green words (designer, 2026-10-15; light blue before). The card's edge runs on around the header,
+   so the two read as one piece. */
+.guide__heard-rows > .guide__yours-label {
+  padding: var(--space-sm) var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-bottom: 0;
+  border-radius: var(--radius-card) var(--radius-card) 0 0;
+  background-color: var(--color-surface-her-band);
+  color: var(--color-text-on-her-band);
+}
+
+.guide__heard-rows > .card {
+  border-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* The first draft is written for her to use, so it is sky blue with navy words (designer,
+   2026-10-15; dark green before). Its tokens remap so the label, edit link and edit field follow. */
+.story-draft__card {
+  --color-surface-raised: var(--color-surface-for-her);
+  --color-text-primary: var(--color-text-on-for-her);
+  --color-text-secondary: var(--color-text-on-for-her-muted);
+  --color-text-muted: var(--color-text-on-for-her-muted);
+  --color-text-link: var(--color-text-on-for-her);
+  --color-text-link-hover: var(--color-text-on-for-her);
+  --color-border: var(--color-surface-for-her);
+  --color-border-subtle: var(--color-border-on-for-her);
+  /* The edit field's edge takes the card's eyebrow step (4.9:1); the page's stone edge fell to 2.6. */
+  --color-border-strong: var(--color-eyebrow-on-for-her);
+  --color-eyebrow: var(--color-eyebrow-on-for-her);
+  color: var(--color-text-primary);
+}
+
+.story-draft__card .story-draft__label {
+  color: var(--color-eyebrow);
+}
+
+/* The sky panel (designer, 2026-10-14): on onboarding's and the Plan's guided pages the question (its
+   eyebrow, heading and line) sits in its own panel of the sky Home shows at this hour. The glow rises
+   from the panel's bottom-right corner; Why this matters stays on the page. Dawn and day take the ink,
+   dusk and night white. The line under the heading has the same room above it as below. */
+.guide__head--sky {
+  /* Where the sky's glow sits. Each onboarding question moves it to another corner, so the yellow heart is
+     not in the same place screen after screen (designer, 2026-10-15). */
+  --sky-glow-at: 100% 100%;
+  margin-inline: calc(var(--space-sm) * -1);
+  padding: var(--space-lg) var(--space-md);
+  border-radius: var(--radius-xl);
+  --sky-panel-ink: var(--color-text-primary);
+  --sky-panel-soft: var(--color-text-secondary);
+}
+
+.guide__head--sky[data-glow="top-right"] {
+  --sky-glow-at: 100% 0%;
+}
+
+.guide__head--sky[data-glow="bottom-left"] {
+  --sky-glow-at: 0% 100%;
+}
+
+.guide__head--sky[data-glow="top-left"] {
+  --sky-glow-at: 0% 0%;
+}
+
+/* Night sets white words on the panel, so a left corner moves to the top right, clear of the words. Dusk
+   places its own glow, below. */
+.guide__head--sky[data-sky="night"][data-glow="top-left"] {
+  --sky-glow-at: 100% 0%;
+}
+
+.guide__head--sky .guide__kicker {
+  color: var(--sky-panel-ink);
+}
+
+.guide__head--sky .guide__title {
+  font-size: var(--text-2xl-plus);
+  text-wrap: balance;
+  color: var(--sky-panel-ink);
+}
+
+.guide__head--sky .guide__lede {
+  margin-top: var(--space-md);
+  color: var(--sky-panel-soft);
+}
+
+.guide__head--sky[data-sky="dawn"] {
+  background:
+    radial-gradient(circle 7rem at var(--sky-glow-at), var(--color-sky-heart-light), transparent),
+    radial-gradient(circle 13rem at var(--sky-glow-at), var(--color-sky-heart-warm), transparent 85%),
+    linear-gradient(in oklab, var(--color-sky-dawn), color-mix(in oklab, var(--color-sky-dawn) 70%, var(--color-surface-raised)));
+}
+
+.guide__head--sky[data-sky="day"] {
+  background:
+    radial-gradient(circle 7rem at var(--sky-glow-at), var(--color-sky-day-top-core), transparent),
+    radial-gradient(circle 13rem at var(--sky-glow-at), var(--color-sky-day-top-ring), transparent 85%),
+    linear-gradient(in oklab, var(--color-sky-day), color-mix(in oklab, var(--color-sky-day) 70%, var(--color-surface-raised)));
+}
+
+/* Dusk (designer, 2026-10-15): a peach heart that walks through rose and violet into a deep blue sky,
+   instead of blending straight to grey. Its centre sits just past the panel's edge, so the warm part stays
+   off the words; the glow keeps to the right corners, bottom right where the page names it and top right
+   otherwise. White words pass AA over every part of it (5.6:1 or more, measured). */
+.guide__head--sky[data-sky="dusk"] {
+  --sky-panel-ink: var(--color-text-inverse);
+  --sky-panel-soft: var(--color-text-inverse);
+  --sky-glow-at: 106% -12%;
+  background:
+    radial-gradient(circle 4rem at var(--sky-glow-at), var(--color-sky-panel-dusk-heart), transparent),
+    radial-gradient(
+      circle 15rem at var(--sky-glow-at) in oklch,
+      var(--color-sky-panel-dusk-ring) 0%,
+      color-mix(in oklab, var(--color-sky-panel-dusk-ring) 80%, var(--color-sky-panel-dusk-mid)) 22%,
+      color-mix(in oklch, var(--color-sky-panel-dusk-mid) 60%, transparent) 55%,
+      transparent 80%
+    ),
+    linear-gradient(in oklch, var(--color-sky-panel-dusk-deep), var(--color-sky-panel-dusk));
+}
+
+.guide__head--sky[data-sky="dusk"]:not([data-glow]),
+.guide__head--sky[data-sky="dusk"][data-glow="bottom-right"] {
+  --sky-glow-at: 106% 112%;
+}
+
+/* Night keeps a touch of Home's lime horizon (designer, 2026-10-14), a deeper green on the panel so the white
+   words pass (2026-10-15): a soft green ring round the blue spark, held to the right corners. */
+.guide__head--sky[data-sky="night"] {
+  --sky-panel-ink: var(--color-text-inverse);
+  --sky-panel-soft: var(--color-text-inverse);
+  background:
+    radial-gradient(circle 3.5rem at var(--sky-glow-at), var(--color-sky-night-spark), transparent),
+    radial-gradient(circle 10rem at var(--sky-glow-at) in oklab, color-mix(in oklab, var(--color-sky-panel-night-horizon) 70%, transparent), transparent 85%),
+    radial-gradient(circle 13rem at var(--sky-glow-at), var(--color-sky-night-glow), transparent 85%),
+    linear-gradient(in oklab, var(--color-sky-night), color-mix(in oklab, var(--color-sky-night) 70%, var(--color-sky-night-top)));
+}
+
+.guide__head--sky[data-sky="night"][data-glow="bottom-left"] {
+  --sky-glow-at: 100% 0%;
+}
+
+/* The roadmap under the move: a hairline divides the move above, which asks, from her direction and the
+   roadmap below, which are there for reference (designer, 2026-10-14). */
 .plan-guided .guide__after {
   margin-top: var(--space-xl);
+  padding-top: var(--space-xl);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
 /* Her check-in on a finished stage, in the roadmap: read back, or a way in when she put it off. */
@@ -16540,14 +16981,15 @@ fieldset.agenda__whens {
   list-style: none;
 }
 
+/* Light blue with no edge (designer, 2026-10-15), so what she did stands apart from the page. */
 .stage-checkin__thing {
   display: flex;
   flex-direction: column;
   gap: var(--space-3xs);
   padding: var(--space-sm) var(--space-card-padding);
-  border: var(--border-width-thin) solid var(--color-border);
+  border: 0;
   border-radius: var(--radius-card);
-  background: var(--color-surface-raised);
+  background: var(--color-surface-check-in-thing);
 }
 
 .stage-checkin__from {

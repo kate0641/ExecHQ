@@ -321,6 +321,7 @@ const PAGES: { page: string; date: string; added: string[] }[] = [
       "Flat links sit at the left, 32px apart; Edit carries a pencil.",
       "An answer drawer's main action is full width, and any second action (Skip, Back, Later) is a secondary button the same size under it, a peer and never a smaller link. Onboarding and the Plan's check-ins share it.",
       "An example to follow (What good looks like) is the system's card with a grey eyebrow, like First draft.",
+      "Kulim's letters close up: headings keep Kulim's own spacing (0), its text opens 0.01em and its labels 0.02em. The tighter word spacing stays.",
     ],
   },
 ];

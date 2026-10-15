@@ -9,25 +9,23 @@ export const planDirectionStates = defineComponentStates({
   status: "draft",
   flows: ["plan"],
   description:
-    "Her direction above the roadmap in the guided check-in: “Your direction” with a chevron opens it like an accordion, to her words quoted in a card. It starts closed, and opening it is remembered on her device.",
+    "Her direction above the roadmap in the guided check-in: “Your direction” as a grey eyebrow, then her words in full in the serif, in the system's white card. It only reads; changing her direction is in the plan sheet.",
   component: PlanDirection,
   notApplicable: {
-    active: "Its one control opens or closes it at once.",
-    disabled: "It can always be opened.",
-    loading: "Saved on her device at once: there is nothing to wait for.",
+    hover: "Not interactive: it only reads her direction.",
+    focus: "Not interactive: it only reads her direction.",
+    active: "Not interactive: it only reads her direction.",
+    disabled: "Not interactive: it only reads her direction.",
+    loading: "Her direction is already on the page: there is nothing to wait for.",
     error: "Nothing here can fail: it only reads her direction.",
     empty: "She always has a direction from onboarding.",
     filled: "Not an input: it only reads her direction.",
   },
   variants: [
-    { label: "Default — closed", props: { direction, demoOpen: false } },
-    { label: "Open — her words in full", props: { direction, demoOpen: true } },
-    { label: "Hover", props: { direction, demoOpen: false, demoState: "hover" } },
-    { label: "Focus", props: { direction, demoOpen: false, demoState: "focus" } },
+    { label: "Default", props: { direction } },
     {
       label: "Long text — a long direction wraps",
       props: {
-        demoOpen: true,
         direction:
           "I want to move from running regional campaigns to leading a broader marketing organization across product lines, with a seat in the planning conversations that set next year’s priorities.",
       },
