@@ -15012,9 +15012,8 @@ ol.entry-drawer__rows {
   border-top: var(--border-subtle);
 }
 
-/* The week as a card of its own, in the soft wash of Pick up where you left off: light blue into
-   pale lime (designer, 2026-10-15). A moment of joy, held to one card so the week's circles have
-   quiet behind them. */
+/* The week as a card of its own (designer, 2026-10-15): a moment of joy, held to one card so the
+   week's circles have quiet behind them. Its color is set where it is shown (the Signal Picture). */
 .momentum__card {
   display: flex;
   flex-direction: column;
@@ -15022,8 +15021,7 @@ ol.entry-drawer__rows {
   padding: var(--space-feature-padding);
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-card);
-  background-color: var(--color-wash-mid);
-  background-image: linear-gradient(115deg in oklab, var(--color-wash-start) 0%, var(--color-wash-mid) 55%, var(--color-wash-end) 100%);
+  background-color: var(--color-surface-raised);
 }
 
 /* What she did this week, its number in her lime. */
@@ -15254,88 +15252,51 @@ ol.entry-drawer__rows {
   grid-row: 1 / span 2;
 }
 
-/* --- The Signal Picture on navy (designer, 2026-10-15) ---------------------
-   The whole page is navy, as Profile and onboarding's navy steps are, with
-   color doing its jobs: yellow for the title and the one action, light blue
-   for section titles, sky blue for what ExecHQ wrote for her (her next move,
-   Try this), lime for what she did (Momentum's days). White cards take the
-   light set back. Scoped to the page, so Home and Plan, which share these
-   pieces, keep their own look until this one is settled.
+/* --- The Signal Picture's color (designer, 2026-10-15) ----------------------
+   Built on Home's way with color: the stone page, white cards with a faint
+   outline, and one strong navy moment. Here that moment is Momentum, a navy
+   card where the days she did something light up in lime, her color. Sky
+   blue is what ExecHQ wrote for her (her next move, Try this), with a navy
+   button, never yellow on light blue. Scoped to the page, so Home and Plan,
+   which share these pieces, keep their look until this one is settled.
 
    Type: Kulim is for the title and section headings only. Every smaller
    label takes an Inter role: group titles in small capitals, card titles in
    Inter semibold. */
-.chrome:has(.signals-page) {
-  background-color: var(--color-surface-inverse);
-}
 
-.signals-page {
-  --color-surface: var(--color-surface-inverse);
+/* Momentum's card is navy, its words light. */
+.signals-page .momentum__card {
   --color-text-primary: var(--color-text-inverse);
   --color-text-secondary: var(--color-text-inverse-muted);
   --color-text-muted: var(--color-text-inverse-muted);
-  --color-text-link: var(--color-text-inverse);
-  --color-text-link-hover: var(--color-text-inverse);
-  --color-eyebrow: var(--color-eyebrow-on-inverse);
   --color-border: var(--color-divider-on-inverse);
-  --color-border-subtle: var(--color-divider-on-inverse);
   --color-border-strong: var(--color-divider-on-inverse);
   --color-focus: var(--color-focus-inverse);
   --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+  border-color: var(--color-surface-inverse);
+  background-color: var(--color-surface-inverse);
   color: var(--color-text-primary);
 }
 
-.signals-page__title {
-  color: var(--color-headline-on-inverse);
-}
-
-.signals-page :is(.momentum__heading, .signal-picture__heading) {
-  color: var(--color-section-title-on-inverse);
-}
-
-/* White cards keep their dark words. */
-.signals-page :is(.presence-clean__card, .li-picture, .came-of__reply) {
-  --color-text-primary: var(--light-text-primary);
-  --color-text-secondary: var(--light-text-secondary);
-  --color-text-muted: var(--light-text-muted);
-  --color-text-link: var(--light-text-link);
-  --color-text-link-hover: var(--light-text-link);
-  --color-eyebrow: var(--light-eyebrow);
-  --color-border: var(--light-border);
-  --color-border-subtle: var(--light-border);
-  --color-border-strong: var(--light-border);
-  --color-focus: var(--light-focus);
-  --focus-ring: var(--focus-ring-width) solid var(--light-focus);
-  color: var(--color-text-primary);
-}
-
-/* The week's card is light: dark words, a navy heading, and her days in dark green with a lime
-   check; today wears a navy ring. */
-.signals-page .momentum__card {
-  --color-text-primary: var(--light-text-primary);
-  --color-text-secondary: var(--light-text-secondary);
-  --color-text-muted: var(--light-text-muted);
-  --color-border: var(--color-border-on-for-her);
-  --color-border-strong: var(--color-border-on-for-her);
-  --color-focus: var(--light-focus);
-  --focus-ring: var(--focus-ring-width) solid var(--light-focus);
-  color: var(--color-text-primary);
-}
-
-.signals-page .momentum__card .momentum__heading {
-  color: var(--color-text-on-for-her);
-}
-
+/* A day she did something is lime with a dark green check and a soft lime halo; a quiet day is a
+   light blue outline, a day to come dashed. Today keeps its ring, in the card's light ink. */
 .signals-page .momentum__card .day-circles__dot.is-on {
-  border-color: var(--color-text-on-her-band);
-  background-color: var(--color-text-on-her-band);
-  color: var(--color-surface-her-band);
+  border-color: var(--color-surface-her-band);
+  background-color: var(--color-surface-her-band);
+  color: var(--color-text-on-her-band);
+  box-shadow: 0 0 0 var(--space-xs) var(--color-her-halo);
 }
 
-.signals-page .momentum__card .day-circles__dot.is-today {
+.signals-page .momentum__card .day-circles__dot.is-today:not(.is-on) {
   box-shadow:
-    0 0 0 var(--space-3xs) var(--color-wash-mid),
-    0 0 0 var(--space-2xs) var(--color-text-on-for-her);
+    0 0 0 var(--space-3xs) var(--color-surface-inverse),
+    0 0 0 var(--space-2xs) var(--color-text-inverse);
+}
+
+/* Never a yellow outline on a card unless the designer asks (2026-10-15): her replies take the
+   card's faint outline until What came of it is redesigned. */
+.signals-page .came-of__reply {
+  border-color: var(--color-border);
 }
 
 /* What ExecHQ wrote for her: her next move and Try this sit in sky blue, navy words on it, and a

@@ -1,7 +1,4 @@
-"use client";
-
 import type { ReactNode } from "react";
-import { useStatusBarTone } from "@/lib/device-tone";
 
 /**
  * The Signal Picture's frame: a heading, then up to three groups of sections. On a phone and a tablet the groups run in the
@@ -23,8 +20,6 @@ export function SignalsPage({
   /** Outside the groups: sheets and the like. */
   children?: ReactNode;
 }) {
-  // A navy page (designer, 2026-10-15): the status bar runs the navy to the top.
-  useStatusBarTone("inverse");
   return (
     <div className={`signals-page signals-page--${concept}`}>
       <h1 className="signals-page__title">Your Signal Picture</h1>

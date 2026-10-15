@@ -194,6 +194,8 @@
   /* Her: her own words and answers. Lime as a band, dark green words on it (8.9:1). */
   --color-surface-her-band: var(--brand-green-200);
   --color-text-on-her-band: var(--brand-green-800);
+  /* A soft lime glow round something of hers on navy, such as a day in Momentum (designer, 2026-10-15). */
+  --color-her-halo: color-mix(in srgb, var(--brand-green-200) 25%, transparent);
   /* For her: something written for her to read or use, such as her first draft. Sky blue with navy
      words (11.3:1), muted blue 700 (7.7:1), eyebrow blue 600 (4.9:1), edges blue 300. */
   --color-surface-for-her: var(--brand-blue-200);
