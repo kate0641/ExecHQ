@@ -55,6 +55,9 @@ export interface GuidePageProps {
   /** With a drawer: the question sits in its own panel of the sky Home shows at this hour (dawn, day, dusk,
    *  night), its glow in the panel's bottom-right corner (designer, 2026-10-14). Onboarding and the Plan. */
   sky?: boolean;
+  /** A step with no drawer, flooded navy, so the flow alternates quiet screens with ExecHQ moments: headlines
+   *  and section labels yellow, white cards on it (designer, 2026-10-15). */
+  navy?: boolean;
   className?: string;
 }
 
@@ -95,6 +98,7 @@ export function GuidePage({
   after,
   overlay,
   sky: skyPanel = false,
+  navy = false,
   className,
 }: GuidePageProps) {
   const sky = useSky();
@@ -159,7 +163,7 @@ export function GuidePage({
     </>
   );
 
-  const classes = ["guide", cover ? "guide--cover" : null, drawer ? "guide--drawer" : null, inSky ? "guide--sky" : null, className]
+  const classes = ["guide", cover ? "guide--cover" : null, drawer ? "guide--drawer" : null, inSky ? "guide--sky" : null, navy ? "guide--navy" : null, className]
     .filter(Boolean)
     .join(" ");
   const over = overlay ? <div className="guide__overlay">{overlay}</div> : null;

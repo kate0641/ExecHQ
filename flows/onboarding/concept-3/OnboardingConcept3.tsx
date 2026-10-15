@@ -205,6 +205,10 @@ interface DrawerControl {
 }
 
 /** What every page is handed about where it sits. */
+/** Steps with no drawer, flooded navy so the flow alternates quiet screens with ExecHQ moments
+ *  (designer, 2026-10-15). A step with a navy drawer stays light. */
+const NAVY_PAGES = new Set<string>(["signals", "rec", "draft", "done"]);
+
 type Frame = Pick<ComponentProps<typeof GuidePage>, "headingId" | "part" | "file" | "sky">;
 
 const STEP_NAV = PAGES.filter((page) => !page.offBar).map((page) => ({ id: page.id, label: page.label }));
@@ -262,8 +266,8 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
   // On web the answers sit beside the question and there is no sheet to fold,
   // so a drawer left folded on a phone reads as open there.
   const mode: DrawerMode = viewport === "web" && chosenMode === "peek" ? "open" : chosenMode;
-  // The welcome on a phone is navy edge to edge, so the status bar is too.
-  useStatusBarTone(pageId === "welcome" && viewport !== "web" ? "inverse" : "default");
+  // The welcome and the navy steps are navy edge to edge on a phone, so the status bar is too.
+  useStatusBarTone((pageId === "welcome" || NAVY_PAGES.has(pageId)) && viewport !== "web" ? "inverse" : "default");
   // The other directions picked, beyond the one to start from.
   const [alsoGoals, setAlsoGoals] = useState<string[]>([]);
   const at = pageIndex(pageId);
@@ -471,6 +475,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
       return (
         <GuidePage
           {...frame()}
+          navy
           kicker={c.kicker}
           title={c.title}
           lede={c.lede}
@@ -544,6 +549,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
       return (
         <GuidePage
           {...frame()}
+          navy
           kicker={c.kicker}
           title={plan.name}
           why={c.why}
@@ -700,7 +706,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
       const c = GUIDE_C3.story.draft;
       if (flow.generating === "drafting")
         return (
-          <GuidePage {...frame()} kicker={GUIDE_C3.story.kicker} title={c.writing}>
+          <GuidePage {...frame()} navy kicker={GUIDE_C3.story.kicker} title={c.writing}>
             <GeneratingState label={c.writing} />
           </GuidePage>
         );
@@ -783,6 +789,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
           title={c.title}
           lede={c.lede}
           className="guide--done"
+          navy
           primaryLabel={c.home}
           onPrimary={() => router.push(DONE_C1.homeHref)}
         >
@@ -1555,6 +1562,7 @@ function DraftPage({
   return (
     <GuidePage
       {...frame}
+      navy
       kicker={GUIDE_C3.story.kicker}
       title={c.title}
       lede={lede}

@@ -8438,6 +8438,65 @@ ol.ring-detail__timeline {
   margin-top: 0;
 }
 
+/* A navy page (designer, 2026-10-15): onboarding's steps with no drawer (Signals, the recommendation,
+   the first draft, Done) are flooded navy, so the flow alternates quiet screens with ExecHQ moments.
+   A screen with a navy drawer stays light: the drawer is already its colour. The page's tokens remap
+   to the inverse set so its words, links and focus follow; headlines and section labels are yellow,
+   the one warm thing above the action. White cards on it take the light set back. The page itself
+   carries it too, so it reads the same in the catalogue, outside the app's chrome. */
+.chrome:has(.guide--navy),
+.guide--navy {
+  --color-surface: var(--color-surface-inverse);
+  --color-text-primary: var(--color-text-inverse);
+  --color-text-secondary: var(--color-text-inverse-muted);
+  --color-text-muted: var(--color-text-inverse-muted);
+  --color-text-link: var(--color-text-inverse);
+  --color-text-link-hover: var(--color-text-inverse);
+  --color-eyebrow: var(--color-eyebrow-on-inverse);
+  --color-border: var(--color-border-inverse);
+  --color-border-subtle: var(--color-border-inverse);
+  --color-focus: var(--color-focus-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+  --number-circle-fill: var(--number-circle-fill-on-inverse);
+  --number-circle-ink: var(--number-circle-ink-on-inverse);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-primary);
+}
+
+.guide--navy .guide__title,
+.guide--navy .guide__why-label,
+.guide--navy .builder-next__label {
+  color: var(--color-headline-on-inverse);
+}
+
+.guide--navy :is(.recommendation, .next-steps, .point-box, .signal-list) {
+  --color-text-primary: var(--light-text-primary);
+  --color-text-secondary: var(--light-text-secondary);
+  --color-text-muted: var(--light-text-muted);
+  --color-text-link: var(--light-text-link);
+  --color-text-link-hover: var(--light-text-link);
+  --color-eyebrow: var(--light-eyebrow);
+  --color-border: var(--light-border);
+  --color-border-subtle: var(--light-border);
+  --color-focus: var(--light-focus);
+  --focus-ring: var(--focus-ring-width) solid var(--light-focus);
+  --number-circle-fill: var(--light-number-circle-fill);
+  --number-circle-ink: var(--light-number-circle-ink);
+  color: var(--color-text-primary);
+}
+
+/* On the navy, the LinkedIn source sits in its own white card, so the one thing she adds stands out. */
+.guide--navy .signal-list {
+  padding: var(--space-card-padding);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+}
+
+/* The first draft has no edge of its own on the navy. */
+.guide--navy .story-draft__card {
+  border-color: transparent;
+}
+
 /* An answered page can run long, so its action stays in reach at the foot. */
 .guide--answered .guide__actions {
   position: sticky;

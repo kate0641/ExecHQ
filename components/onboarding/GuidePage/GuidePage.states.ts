@@ -43,6 +43,22 @@ export const guidePageStates = defineComponentStates({
       },
     },
     {
+      label: "On a navy page",
+      description:
+        "A step with no drawer, flooded navy: the headline and section labels in yellow, white cards on it. Signals, the recommendation, the first draft and Done (designer, 2026-10-15).",
+      props: {
+        navy: true,
+        kicker: GUIDE_C3.signals.kicker,
+        title: GUIDE_C3.signals.title,
+        lede: GUIDE_C3.signals.lede,
+        why: GUIDE_C3.direction.why,
+        primaryLabel: GUIDE_C3.signals.add,
+        onPrimary: noop,
+        secondaryLabel: GUIDE_C3.signals.skip,
+        onSecondary: noop,
+      },
+    },
+    {
       label: "With the answer drawer",
       description: "The question, what it is for and why it is asked stay together on the page; the drawer holds only the answer.",
       props: {

@@ -201,6 +201,24 @@
   --color-text-on-for-her-muted: var(--brand-blue-700);
   --color-eyebrow-on-for-her: var(--brand-blue-600);
   --color-border-on-for-her: var(--brand-blue-300);
+  /* A navy page: an onboarding step with no drawer, flooded navy so the flow alternates quiet screens
+     with ExecHQ moments (designer, 2026-10-15). Headlines and section labels in yellow 400 (10.3:1);
+     the kicker blue 200; a numbered circle blue 200 with a navy numeral. */
+  --color-headline-on-inverse: var(--color-accent-on-inverse);
+  --color-eyebrow-on-inverse: var(--brand-blue-200);
+  --number-circle-fill-on-inverse: var(--brand-blue-200);
+  --number-circle-ink-on-inverse: var(--brand-primary);
+  /* The page's light set, held at the root so a white card on a navy page can take it back after the
+     page has remapped its own tokens. */
+  --light-text-primary: var(--color-text-primary);
+  --light-text-secondary: var(--color-text-secondary);
+  --light-text-muted: var(--color-text-muted);
+  --light-text-link: var(--color-text-link);
+  --light-eyebrow: var(--color-eyebrow);
+  --light-border: var(--color-border);
+  --light-focus: var(--color-focus);
+  --light-number-circle-fill: var(--number-circle-fill);
+  --light-number-circle-ink: var(--number-circle-ink);
   /* The four stages of a roadmap, tinted across the Calendar. The stage is always also
      said in words (a start marker, a legend, the day panel), so a tint is never the only cue. */
   /* The roadmap's stages are navy in descending shades, whatever the sky (designer, 2026-10-14): a ramp
