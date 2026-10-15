@@ -15532,14 +15532,15 @@ ol.rtl__rail::before {
 
 /* Plan Concept 3: her direction above the road, in full, in the system's
    white card (designer, 2026-10-13). It only reads: no chevron, no button. */
-/* Your direction is her own sentence, so it carries her colour: lime with dark green words and no
-   edge (designer, 2026-10-15; a white card before). */
+/* Your direction is her own sentence, so it carries her colour: lime with dark green words, held by
+   the same stone 250 edge as every card (designer, 2026-10-15; a white card before). Lime cards, as a
+   flood or a header, always take this stroke. */
 .plan-direction {
   display: flex;
   flex-direction: column;
   gap: var(--space-3xs);
   padding: var(--space-sm) var(--space-card-padding);
-  border: var(--border-width-thin) solid var(--color-surface-her-band);
+  border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-card);
   background: var(--color-surface-her-band);
   color: var(--color-text-on-her-band);
