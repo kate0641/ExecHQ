@@ -8370,10 +8370,11 @@ ol.ring-detail__timeline {
   gap: var(--space-xs);
 }
 
+/* In Inter, as every small label is (designer, 2026-10-16; small labels moved on 2026-10-15). */
 .guide__where {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--type-eyebrow-font);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
   font-size: var(--text-xs);
   color: var(--color-text-secondary);
 }
@@ -8620,7 +8621,10 @@ ol.ring-detail__timeline {
 }
 
 /* The white answers keep dark words wherever they sit: in the stone drawer, or on the navy page on the web. */
-.guide--navy.plan-guided .answer-drawer .chip-group__chip {
+/* They keep the stroke every white card has, stone 250, so each reads as its own button on the stone drawer
+   and on the navy page (designer, 2026-10-16). */
+.guide.guide--navy.plan-guided .answer-drawer .chip-group__chip {
+  border-color: var(--light-border);
   --color-text-primary: var(--light-text-primary);
   --color-text-secondary: var(--light-text-secondary);
   --color-text-muted: var(--light-text-muted);
