@@ -8562,7 +8562,7 @@ ol.ring-detail__timeline {
   color: var(--color-headline-on-inverse);
 }
 
-.guide--navy :is(.recommendation, .next-steps, .point-box, .signal-list, .card, .feature-card__body) {
+.guide--navy :is(.recommendation, .next-steps, .point-box, .signal-list, .card, .feature-card__body, .plan-guided__sparks li, .stage-checkin__thing, .agenda__body, .agenda__stage-note, .reflection-reply__fact) {
   --color-text-primary: var(--light-text-primary);
   --color-text-secondary: var(--light-text-secondary);
   --color-text-muted: var(--light-text-muted);
@@ -8576,6 +8576,57 @@ ol.ring-detail__timeline {
   --number-circle-fill: var(--light-number-circle-fill);
   --number-circle-ink: var(--light-number-circle-ink);
   color: var(--color-text-primary);
+}
+
+/* The Plan on navy (designer, 2026-10-16). Its top section sits in a quiet darkest-navy card, there without
+   being loudly a container while the drawer and prompts are on screen; the move's headline keeps its larger
+   size. Every headline stays yellow. */
+.guide--navy.plan-guided .guide__head {
+  margin-inline: calc(var(--space-sm) * -1);
+  padding: var(--space-lg) var(--space-md);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-quiet-on-inverse);
+}
+
+.guide--navy.plan-guided:not(.stage-checkin).guide--drawer .guide__title {
+  font-size: var(--text-2xl-plus);
+}
+
+/* The roadmap's navy stage card would sink into the navy page, so every stage card keeps a thin edge. */
+.guide--navy .agenda__stage {
+  outline: var(--border-width-thin) solid var(--color-edge-on-inverse);
+  outline-offset: calc(var(--border-width-thin) * -1);
+}
+
+/* On a phone and a tablet the drawer turns stone over the navy page, so the two don't merge: its words take
+   the light set back, and the navy drawer's rules follow its remapped colours. */
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .guide--navy.plan-guided .answer-drawer {
+  --color-surface-inverse: var(--color-drawer-on-inverse);
+  --color-surface-inverse-hover: var(--color-drawer-on-inverse-hover);
+  --color-text-inverse: var(--light-text-primary);
+  --color-text-inverse-muted: var(--light-text-secondary);
+  --color-text-primary: var(--light-text-primary);
+  --color-text-secondary: var(--light-text-secondary);
+  --color-text-muted: var(--light-text-muted);
+  --color-text-link: var(--light-text-link);
+  --color-text-link-hover: var(--light-text-link);
+  --color-eyebrow: var(--light-eyebrow);
+  --color-border: var(--light-border);
+  --color-border-subtle: var(--light-border);
+  --color-focus: var(--light-focus);
+  --color-focus-inverse: var(--light-focus);
+  --focus-ring: var(--focus-ring-width) solid var(--light-focus);
+  color: var(--light-text-primary);
+}
+
+/* The white answers keep dark words wherever they sit: in the stone drawer, or on the navy page on the web. */
+.guide--navy.plan-guided .answer-drawer .chip-group__chip {
+  --color-text-primary: var(--light-text-primary);
+  --color-text-secondary: var(--light-text-secondary);
+  --color-text-muted: var(--light-text-muted);
+  --color-focus: var(--light-focus);
+  --focus-ring: var(--focus-ring-width) solid var(--light-focus);
+  color: var(--light-text-primary);
 }
 
 /* On the navy, the LinkedIn source sits in its own white card, so the one thing she adds stands out. */

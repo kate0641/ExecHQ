@@ -63,8 +63,9 @@ export interface GuidePageProps {
   /** With the sky panel: the panel is plain navy instead of the sky, its headline lime. The Plan's moves, so
    *  they read apart from onboarding; lime is there when yellow isn't justified (designer, 2026-10-15). */
   navyPanel?: boolean;
-  /** A step with no drawer, flooded navy, so the flow alternates quiet screens with ExecHQ moments: headlines
-   *  and section labels yellow, white cards on it (designer, 2026-10-15). */
+  /** Flooded navy: headlines and section labels yellow, white cards on it. Onboarding's steps with no drawer,
+   *  so the flow alternates quiet screens with ExecHQ moments (designer, 2026-10-15), and every Plan page,
+   *  where the top section sits in a darkest-navy card and the drawer turns stone (2026-10-16). */
   navy?: boolean;
   className?: string;
 }

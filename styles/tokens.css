@@ -460,7 +460,13 @@
   --color-logo-exec: var(--brand-gold-yellow);
   --color-logo-hq: var(--brand-navy);
   --color-code-digit: var(--brand-navy);
-  --color-headline-on-navy-quiet: var(--brand-green-200);  /* lime: a navy card's headline when yellow isn't justified, the Plan's moves (designer, 2026-10-15) */  /* the numbers in the email code's white boxes (designer, 2026-10-15) */
+  --color-headline-on-navy-quiet: var(--brand-green-200);
+  /* The Plan on navy (designer, 2026-10-16): a quiet card that lightly contains the top section, a stone
+     drawer so it doesn't merge with the page, and an edge that keeps the navy stage card off the navy page. */
+  --color-surface-quiet-on-inverse: var(--brand-blue-900);
+  --color-drawer-on-inverse: var(--brand-stone-100);
+  --color-drawer-on-inverse-hover: var(--brand-stone-200);
+  --color-edge-on-inverse: var(--brand-blue-600);  /* lime: a navy card's headline when yellow isn't justified, the Plan's moves (designer, 2026-10-15) */  /* the numbers in the email code's white boxes (designer, 2026-10-15) */
   --color-logo-exec-on-inverse: var(--brand-bright-yellow);
   --color-logo-hq-on-inverse: var(--brand-light-blue);
 

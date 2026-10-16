@@ -137,7 +137,8 @@ export function StageCheckIn({
     go(page + 1);
   };
   const web = useViewport().viewport === "web";
-  const top = { part: C.part, position: stageTitle, partIndex: page, partCount: pages.length, headingId, after: web ? aside : undefined };
+  // Navy, as every Plan page is (designer, 2026-10-16).
+  const top = { part: C.part, position: stageTitle, partIndex: page, partCount: pages.length, headingId, after: web ? aside : undefined, navy: true };
   const classes = ["stage-checkin", "plan-guided", className].filter(Boolean).join(" ");
   const unreported = items.filter((i) => !i.passed && !i.feedback).length;
   const label = <T extends string>(list: readonly { id: T; label: string }[], id?: T) => list.find((o) => o.id === id)?.label;
