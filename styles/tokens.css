@@ -784,12 +784,17 @@
   /* Items split by hairlines: this much either side of the line. */
   --space-divided-item: var(--space-md-lg); /* 20px */
   --space-copy-action: var(--space-md-lg); /* the copy to the button under it: the widest of the three, as wide as the card's padding */
-  /* PILLS — every tappable pill (a choice, a reason, a time, a quick reply) is spaced as the drawer's Change
-     when pills are, everywhere (designer, 2026-10-16). Their words are always Inter, never Kulim. */
-  --pill-height: var(--button-target);          /* 44px, the tap target */
+  /* PILLS — every tappable pill (a choice, a reason, a time, a quick reply) is spaced the same, everywhere,
+     and its words are always Inter, never Kulim (designer, 2026-10-16). Choice pills are compact, a size
+     under the main buttons, so a group of them reads as options and not a wall of buttons; 36px still clears
+     WCAG 2.2's 24px target. A question's own answers, the full-width list in a drawer, stay button size. */
+  --pill-height: 2.25rem;                        /* 36px */
   --pill-padding-block: var(--space-xs);         /* 8px */
-  --pill-padding-inline: var(--space-md-lg);     /* 20px */
-  --space-between-pills: var(--space-sm);        /* 12px, across and down */
+  --pill-padding-inline: var(--space-md);        /* 16px */
+  --space-between-pills: var(--space-xs);        /* 8px, across and down */
+  --answer-height: var(--button-height);         /* 44px */
+  --answer-padding-inline: var(--button-padding-inline); /* 20px */
+  --space-between-answers: var(--space-sm);      /* 12px */
 
   /* ---------------------------------------------------------------------------
      RADII

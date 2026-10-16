@@ -292,9 +292,10 @@ export function PlanGuided({
                 if (picked) pass(picked.id);
               }}
             />
-            <Button variant="ghost" size="sm" onClick={() => pass(undefined)}>
+            {/* A plain underlined link, not another button shape (designer, 2026-10-16). */}
+            <button type="button" className="link link--standalone" onClick={() => pass(undefined)}>
               {G.noReason}
-            </Button>
+            </button>
           </div>
         ) : null}
         {note ? <output className="plan-guided__note">{note}</output> : null}

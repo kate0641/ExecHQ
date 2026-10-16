@@ -7409,6 +7409,16 @@ ol.ring-detail__timeline {
   border-radius: var(--radius-pill);
 }
 
+/* A question's own answers, the full-width list in a drawer, stay button size; other pills are compact. */
+.answer-drawer :is(.chip-group--equal, .chip-group--detailed) .chip-group__options {
+  gap: var(--space-between-answers);
+}
+
+.answer-drawer :is(.chip-group--equal, .chip-group--detailed) .chip-group__chip {
+  min-height: var(--answer-height);
+  padding-inline: var(--answer-padding-inline);
+}
+
 /* The first line of an answer says what it is, so it is a step heavier than the line under it. */
 .answer-drawer .chip-group__title {
   font-weight: var(--weight-body-medium);
