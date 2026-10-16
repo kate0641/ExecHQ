@@ -8593,6 +8593,29 @@ ol.ring-detail__timeline {
   font-size: var(--text-2xl-plus);
 }
 
+/* On the navy Plan, Your roadmap is a headline like the page's, yellow, and the add button is yellow, the
+   action colour, with dark ink (designer, 2026-10-16). On a phone or tablet the button sits on the screen
+   itself, outside the page, so it follows the page it is over. */
+.guide--navy .agenda__heading {
+  color: var(--color-headline-on-inverse);
+}
+
+.guide--navy .agenda__fab,
+.device__screen:has(.guide--navy.plan-guided) .agenda__fab {
+  background-color: var(--color-action);
+  color: var(--color-text-on-action);
+}
+
+.guide--navy .agenda__fab:hover,
+.device__screen:has(.guide--navy.plan-guided) .agenda__fab:hover {
+  background-color: var(--color-action-hover);
+}
+
+.guide--navy .agenda__fab:active,
+.device__screen:has(.guide--navy.plan-guided) .agenda__fab:active {
+  background-color: var(--color-action-active);
+}
+
 /* The roadmap's navy stage card would sink into the navy page, so every stage card keeps a thin edge. */
 .guide--navy .agenda__stage {
   outline: var(--border-width-thin) solid var(--color-edge-on-inverse);
@@ -16032,7 +16055,8 @@ ol.rtl__rail::before {
 .plan-direction {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3xs);
+  /* 8px from its label to her words, so the two read apart (designer, 2026-10-16; was 2). */
+  gap: var(--space-title-copy);
   padding: var(--space-sm) var(--space-card-padding);
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-card);
@@ -16055,6 +16079,8 @@ ol.rtl__rail::before {
 .plan-direction__quote {
   /* Never cut off with an ellipsis: the words wrap (designer, 2026-10-13). */
   font-family: var(--font-serif);
+  /* Two steps heavier than the serif's regular, so her direction holds its own (designer, 2026-10-16). */
+  font-weight: var(--weight-semibold);
   font-size: var(--text-md);
   line-height: var(--leading-normal);
   overflow-wrap: anywhere;

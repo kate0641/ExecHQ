@@ -30,7 +30,8 @@ export const displayFont = Kulim_Park({
 export const serifFont = Libre_Baskerville({
   subsets: ["latin"],
   display: "swap",
-  weight: ["400", "500", "700"],
+  // 600 for Your direction on the Plan (designer, 2026-10-16).
+  weight: ["400", "500", "600", "700"],
   style: ["normal", "italic"],
   variable: "--font-serif-face",
 });
