@@ -6920,9 +6920,9 @@ ol.ring-detail__timeline {
 
 /* A chosen answer in a pick-several question. */
 .quick-replies__chip[aria-pressed="true"] {
-  color: var(--color-text-inverse);
-  background-color: var(--color-surface-inverse);
-  border-color: var(--color-surface-inverse);
+  color: var(--color-text-on-selected);
+  background-color: var(--color-selected);
+  border-color: var(--color-selected);
 }
 
 /* The composer: one pill holding the field, the mic and send. The pill
@@ -7098,9 +7098,9 @@ ol.ring-detail__timeline {
 }
 
 .toggle-group--chips .toggle-group__input:checked + .toggle-group__option {
-  color: var(--color-text-inverse);
-  background-color: var(--color-surface-inverse);
-  border-color: var(--color-surface-inverse);
+  color: var(--color-text-on-selected);
+  background-color: var(--color-selected);
+  border-color: var(--color-selected);
 }
 
 .toggle-group--chips .toggle-group__option:hover {
@@ -7108,7 +7108,7 @@ ol.ring-detail__timeline {
 }
 
 .toggle-group--chips .toggle-group__input:checked + .toggle-group__option:hover {
-  background-color: var(--color-surface-inverse-hover);
+  background-color: var(--color-selected-hover);
 }
 
 /* Back top-left, skip top-right. The bar keeps both out of the primary action's
@@ -7367,9 +7367,9 @@ ol.ring-detail__timeline {
 }
 
 .chip-group__chip[aria-pressed="true"] {
-  color: var(--color-text-inverse);
-  background-color: var(--color-surface-inverse);
-  border-color: var(--color-surface-inverse);
+  color: var(--color-text-on-selected);
+  background-color: var(--color-selected);
+  border-color: var(--color-selected);
 }
 
 .chip-group__chip:disabled {
@@ -7430,16 +7430,16 @@ ol.ring-detail__timeline {
 }
 
 .answer-drawer .chip-group__chip[aria-pressed="true"] {
-  color: var(--color-text-inverse);
-  background-color: var(--color-surface-inverse);
-  border-color: var(--color-surface-inverse);
+  color: var(--color-text-on-selected);
+  background-color: var(--color-selected);
+  border-color: var(--color-selected);
   --color-focus: var(--color-focus-inverse);
   --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
 }
 
 .answer-drawer .chip-group__chip[aria-pressed="true"]:hover {
-  border-color: var(--color-surface-inverse-hover);
-  background-color: var(--color-surface-inverse-hover);
+  border-color: var(--color-selected-hover);
+  background-color: var(--color-selected-hover);
 }
 
 .answer-drawer .chip-group__chip:disabled {
@@ -16557,9 +16557,9 @@ fieldset.agenda__whens {
 }
 
 .agenda__chip[aria-pressed="true"] {
-  background-color: var(--color-surface-inverse);
-  border-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
+  background-color: var(--color-selected);
+  border-color: var(--color-selected);
+  color: var(--color-text-on-selected);
 }
 
 .agenda__chip:focus-visible {
@@ -17012,6 +17012,19 @@ fieldset.agenda__whens {
   border-color: var(--color-surface-active);
   font-weight: var(--weight-semibold);
 }
+/* The Plan's stone drawer follows the formula, not the navy drawer: a selected white answer turns navy
+   with light words (designer, 2026-10-16). */
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .guide.guide--navy.plan-guided .answer-drawer .chip-group__chip[aria-pressed="true"] {
+  color: var(--color-text-on-selected);
+  background-color: var(--color-selected);
+  border-color: var(--color-selected);
+}
+
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .guide.guide--navy.plan-guided .answer-drawer .chip-group__chip[aria-pressed="true"]:hover {
+  background-color: var(--color-selected-hover);
+  border-color: var(--color-selected-hover);
+}
+
 
 /* The answers stay white with the ink, a ring of their own inside the navy. */
 :is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer .chip-group__chip {

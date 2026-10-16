@@ -792,6 +792,11 @@
   --pill-padding-block: var(--space-xs);         /* 8px */
   --pill-padding-inline: var(--space-md);        /* 16px */
   --space-between-pills: var(--space-xs);        /* 8px, across and down */
+  /* SELECTED — one formula for every selectable pill or answer on a light surface: navy, light words
+     (designer, 2026-10-16). Fixed brand values, so a stone drawer that remaps the inverse set keeps them. */
+  --color-selected: var(--brand-navy);
+  --color-selected-hover: var(--brand-primary-muted);
+  --color-text-on-selected: var(--brand-blue-100);
   --answer-height: var(--button-height);         /* 44px */
   --answer-padding-inline: var(--button-padding-inline); /* 20px */
   --space-between-answers: var(--space-sm);      /* 12px */
