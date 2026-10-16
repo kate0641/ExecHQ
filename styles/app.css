@@ -8627,12 +8627,12 @@ ol.ring-detail__timeline {
   background-color: var(--color-action-active);
 }
 
-/* The add button is round, with a navy ring, so its edge holds on any surface under it: yellow on the lime
-   card is about 1.1:1 on its own (designer, 2026-10-16). */
+/* The add button is round, with a thin gold edge, so it holds on any surface under it: yellow on the lime
+   card is about 1.1:1 on its own, gold 4.7:1 (designer, 2026-10-16; a 2px navy ring read as too heavy). */
 .guide--navy .agenda__fab,
 .device__screen:has(.guide--navy.plan-guided) .agenda__fab {
   border-radius: 50%;
-  box-shadow: 0 0 0 var(--border-width-medium) var(--color-surface-inverse), var(--shadow-lg);
+  box-shadow: 0 0 0 var(--border-width-thin) var(--color-action-edge), var(--shadow-lg);
 }
 
 /* Folded on a phone or a tablet, the stone drawer runs to the foot of the screen and the Ask or go bar sits
@@ -10980,7 +10980,8 @@ ol.check-in__steps {
 
 .presence-clean__table tbody th {
   font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
+  /* Inter's medium. It pointed at the retired --weight-medium, so it fell back to its parent's weight. */
+  font-weight: var(--weight-body-medium);
 }
 
 .presence-clean__table th:nth-child(2),
@@ -14906,7 +14907,8 @@ ul.came-of__rows {
   border: var(--border-width-thin) dashed var(--color-border-strong);
   background-color: transparent;
   color: var(--color-text-secondary);
-  font-weight: var(--weight-medium);
+  /* Inter's medium. It pointed at the retired --weight-medium, so it fell back to its parent's weight. */
+  font-weight: var(--weight-body-medium);
 }
 
 .came-of__row.is-quiet .came-of__date {

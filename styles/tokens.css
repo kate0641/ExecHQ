@@ -288,6 +288,7 @@
   --color-action-hover: var(--brand-yellow-500);
   --color-action-active: var(--brand-yellow-600);
   --color-text-on-action: var(--brand-stone-900);
+  --color-action-edge: var(--brand-yellow-700);  /* gold: a thin edge that keeps a yellow button clear of a pale surface under it, 4.7:1 on lime 200 (designer, 2026-10-16) */
 
   /* Secondary action — light blue with navy text, no outline: the palette
      light blue reads as a button on the page and on white cards without
@@ -567,7 +568,7 @@
   --weight-regular: 400;
   --weight-semibold: 600;
   --weight-serif-medium: 500; /* Libre Baskerville only: Kulim Park and the roles have no 500 */
-  --weight-body-medium: 500;  /* Inter only, which is variable: the first line of an answer in the drawer (designer, 2026-10-16) */
+  --weight-body-medium: 500;  /* Inter only, which is variable (Kulim Park has no 500): an answer's first line, Where you started's rows, a quiet What came of it block (designer, 2026-10-16) */
   --weight-google: 500;        /* Google Sans Medium, on the Google sign-in button only */
   --weight-bold: 700;
 
