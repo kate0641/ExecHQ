@@ -8587,7 +8587,7 @@ ol.ring-detail__timeline {
   color: var(--color-headline-on-inverse);
 }
 
-.guide--navy :is(.recommendation, .next-steps, .point-box, .signal-list, .card, .feature-card__body, .plan-guided__sparks li, .stage-checkin__thing, .agenda__body, .agenda__stage-note, .reflection-reply__fact) {
+.guide--navy :is(.recommendation, .next-steps, .point-box, .signal-list, .card, .feature-card__body, .stage-checkin__thing, .agenda__body, .agenda__stage-note, .reflection-reply__fact) {
   --color-text-primary: var(--light-text-primary);
   --color-text-secondary: var(--light-text-secondary);
   --color-text-muted: var(--light-text-muted);
@@ -8640,8 +8640,8 @@ ol.ring-detail__timeline {
   background-color: var(--color-action-active);
 }
 
-/* The add button is round, with a thin gold edge, so it holds on any surface under it: yellow on the lime
-   card is about 1.1:1 on its own, gold 4.7:1 (designer, 2026-10-16; a 2px navy ring read as too heavy). */
+/* The add button is round, with a thin yellow 500 edge and its shadow to set it off the surface under it
+   (designer, 2026-10-16: a 2px navy ring read as heavy, a gold edge as navy from a distance). */
 .guide--navy .agenda__fab,
 .device__screen:has(.guide--navy.plan-guided) .agenda__fab {
   border-radius: 50%;
@@ -17410,12 +17410,21 @@ ul.plan-guided__sparks {
   list-style: none;
 }
 
+.plan-guided__sparks.feature-card__body {
+  gap: 0;
+  padding: 0 var(--space-feature-padding);
+}
+
+/* Each change on its own line, split by hairlines, with nothing that looks tappable (designer, 2026-10-16). */
 .plan-guided__sparks li {
-  padding: var(--space-xs) var(--space-sm);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface-note);
+  padding-block: var(--space-divided-item);
+  border-top: var(--border-subtle);
   font-size: var(--text-sm);
   line-height: var(--leading-normal);
+}
+
+.plan-guided__sparks li:first-child {
+  border-top: 0;
 }
 
 /* -----------------------------------------------------------------------------

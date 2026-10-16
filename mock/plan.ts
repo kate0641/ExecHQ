@@ -1124,6 +1124,8 @@ export const GUIDED_COPY = {
   next: "Next move",
   seeRoad: "See the road",
   after: "Then ExecHQ builds the next stage, from what worked and what didn’t.",
+  /** The title over what changed, the timeline's own words for it (designer, 2026-10-16). */
+  sparksTitle: TIMELINE_COPY.sparksLabel,
   lastKicker: "The road ahead",
   lastTitle: "That’s this stretch of the plan.",
   lastLede: "Here is where your plan stands.",

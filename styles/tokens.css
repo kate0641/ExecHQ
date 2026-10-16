@@ -288,7 +288,7 @@
   --color-action-hover: var(--brand-yellow-500);
   --color-action-active: var(--brand-yellow-600);
   --color-text-on-action: var(--brand-stone-900);
-  --color-action-edge: var(--brand-yellow-700);  /* gold: a thin edge that keeps a yellow button clear of a pale surface under it, 4.7:1 on lime 200 (designer, 2026-10-16) */
+  --color-action-edge: var(--brand-yellow-500);  /* a thin edge on a yellow button over a pale surface; yellow 500, since gold read as navy from a distance (designer, 2026-10-16) */
 
   /* Secondary action — light blue with navy text, no outline: the palette
      light blue reads as a button on the page and on white cards without

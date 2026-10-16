@@ -165,12 +165,21 @@ export function PlanGuided({
           onSecondary={none ? undefined : () => setAdding(true)}
         >
           {note ? <output className="plan-guided__note">{note}</output> : null}
+          {/* What changed is a record, not something to tap: one card with its title in a strip and the changes
+              split by dividers (designer, 2026-10-16). */}
           {sparks.length ? (
-            <ul className="plan-guided__sparks">
-              {sparks.map((s) => (
-                <li key={s.id}>{s.text}</li>
-              ))}
-            </ul>
+            <section className="feature-card plan-guided__changed" aria-labelledby={`${headingId}-changed`}>
+              <div className="feature-card__head feature-card__head--inverse">
+                <h2 className="feature-card__title" id={`${headingId}-changed`}>
+                  {G.sparksTitle}
+                </h2>
+              </div>
+              <ul className="feature-card__body plan-guided__sparks">
+                {sparks.map((s) => (
+                  <li key={s.id}>{s.text}</li>
+                ))}
+              </ul>
+            </section>
           ) : null}
           <ReflectionReply from="ExecHQ" text={G.after} />
         </GuidePage>
