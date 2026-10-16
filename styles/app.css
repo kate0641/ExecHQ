@@ -7387,7 +7387,7 @@ ol.ring-detail__timeline {
 
 .answer-drawer .chip-group__chip {
   min-height: var(--button-target);
-  padding: var(--space-xs) var(--space-md);
+  padding: var(--space-xs) var(--space-md-lg);
   font-family: var(--type-body-sm-font);
   font-size: var(--type-body-sm-size);
   font-weight: var(--weight-regular);
@@ -7397,7 +7397,18 @@ ol.ring-detail__timeline {
   text-align: left;
   background-color: var(--color-surface-raised);
   border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-xl);
+  /* Fully round, as the buttons are, on one line or two (designer, 2026-10-16). */
+  border-radius: var(--radius-pill);
+}
+
+.answer-drawer .chip-group--detailed .chip-group__chip {
+  border-radius: var(--radius-pill);
+  padding-inline: var(--space-lg);
+}
+
+/* The first line of an answer says what it is, so it is a step heavier than the line under it. */
+.answer-drawer .chip-group__title {
+  font-weight: var(--weight-body-medium);
 }
 
 .answer-drawer .chip-group__chip:hover {
@@ -8616,6 +8627,28 @@ ol.ring-detail__timeline {
   background-color: var(--color-action-active);
 }
 
+/* The add button is round, with a navy ring, so its edge holds on any surface under it: yellow on the lime
+   card is about 1.1:1 on its own (designer, 2026-10-16). */
+.guide--navy .agenda__fab,
+.device__screen:has(.guide--navy.plan-guided) .agenda__fab {
+  border-radius: 50%;
+  box-shadow: 0 0 0 var(--border-width-medium) var(--color-surface-inverse), var(--shadow-lg);
+}
+
+/* Folded on a phone or a tablet, the stone drawer runs to the foot of the screen and the Ask or go bar sits
+   in it, so the two read as one surface instead of stone, navy, white (designer, 2026-10-16). */
+.device__screen:has(.concierge-host) .chrome__main:has(> .guide--navy.plan-guided):has(.answer-drawer.is-peek) {
+  padding-bottom: 0;
+}
+
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .guide.guide--navy.plan-guided .answer-drawer.is-peek {
+  padding-bottom: calc(var(--space-lg) + 3.5rem + var(--space-xs));
+}
+
+.device__screen:has(.guide--navy.plan-guided .answer-drawer.is-peek) .concierge-pill {
+  border-color: var(--light-border);
+}
+
 /* The roadmap's navy stage card would sink into the navy page, so every stage card keeps a thin edge. */
 .guide--navy .agenda__stage {
   outline: var(--border-width-thin) solid var(--color-edge-on-inverse);
@@ -9574,9 +9607,10 @@ ol.ring-detail__timeline {
 }
 
 .answer-drawer__peek-q {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  /* Inter, as the drawer's other words are (designer, 2026-10-16). */
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);

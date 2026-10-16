@@ -567,6 +567,7 @@
   --weight-regular: 400;
   --weight-semibold: 600;
   --weight-serif-medium: 500; /* Libre Baskerville only: Kulim Park and the roles have no 500 */
+  --weight-body-medium: 500;  /* Inter only, which is variable: the first line of an answer in the drawer (designer, 2026-10-16) */
   --weight-google: 500;        /* Google Sans Medium, on the Google sign-in button only */
   --weight-bold: 700;
 
