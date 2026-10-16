@@ -784,6 +784,12 @@
   /* Items split by hairlines: this much either side of the line. */
   --space-divided-item: var(--space-md-lg); /* 20px */
   --space-copy-action: var(--space-md-lg); /* the copy to the button under it: the widest of the three, as wide as the card's padding */
+  /* PILLS — every tappable pill (a choice, a reason, a time, a quick reply) is spaced as the drawer's Change
+     when pills are, everywhere (designer, 2026-10-16). Their words are always Inter, never Kulim. */
+  --pill-height: var(--button-target);          /* 44px, the tap target */
+  --pill-padding-block: var(--space-xs);         /* 8px */
+  --pill-padding-inline: var(--space-md-lg);     /* 20px */
+  --space-between-pills: var(--space-sm);        /* 12px, across and down */
 
   /* ---------------------------------------------------------------------------
      RADII

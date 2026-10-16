@@ -447,9 +447,9 @@ samp {
   background-color: var(--color-surface);
   border: var(--border-strong);
   border-radius: var(--radius-sm);
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
   font-weight: var(--weight-semibold);
   text-decoration: none;
   transform: translateY(calc(-100% - var(--space-lg)));
@@ -1034,8 +1034,8 @@ button.link {
 
 .toggle-group__legend {
   padding: 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
@@ -1066,9 +1066,9 @@ button.link {
   justify-content: center;
   padding: var(--space-xs) var(--space-md);
   border-radius: var(--radius-xs);
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   color: var(--color-text-secondary);
@@ -2148,9 +2148,9 @@ ul.chrome__nav-list {
   display: inline-block;
   padding-block: var(--space-sm);
   border-bottom: var(--border-width-medium) solid transparent;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   color: var(--color-text-secondary);
@@ -6855,7 +6855,7 @@ ol.ring-detail__timeline {
 .quick-replies {
   display: flex;
   flex-wrap: nowrap;
-  gap: var(--space-2xs);
+  gap: var(--space-between-pills);
   margin: 0 calc(-1 * var(--space-sm));
   padding: var(--space-3xs) 0;
   list-style: none;
@@ -6889,8 +6889,9 @@ ol.ring-detail__timeline {
 }
 
 .quick-replies__chip {
+  min-height: var(--pill-height);
+  padding: var(--pill-padding-block) var(--pill-padding-inline);
   white-space: nowrap;
-  padding: var(--space-xs) var(--space-sm);
   font-family: var(--type-label-font);
   word-spacing: var(--type-label-word-spacing);
   letter-spacing: var(--type-label-tracking);
@@ -7085,11 +7086,12 @@ ol.ring-detail__timeline {
   background-color: transparent;
   border: 0;
   border-radius: 0;
-  gap: var(--space-xs);
+  gap: var(--space-between-pills);
 }
 
 .toggle-group--chips .toggle-group__option {
-  padding: var(--space-sm) var(--space-md);
+  min-height: var(--pill-height);
+  padding: var(--pill-padding-block) var(--pill-padding-inline);
   border: var(--border-strong);
   border-radius: var(--radius-pill);
   background-color: var(--color-surface);
@@ -7138,9 +7140,9 @@ ol.ring-detail__timeline {
 }
 
 .wizard__skip {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   color: var(--color-text-secondary);
@@ -7311,10 +7313,11 @@ ol.ring-detail__timeline {
   color: var(--color-text-muted);
 }
 
+/* Every pill group: one gap across and down (designer, 2026-10-16). */
 .chip-group__options {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2xs);
+  gap: var(--space-between-pills);
 }
 
 .chip-group--equal .chip-group__options {
@@ -7344,10 +7347,11 @@ ol.ring-detail__timeline {
 }
 
 .chip-group__chip {
-  padding: var(--space-xs) var(--space-sm);
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  min-height: var(--pill-height);
+  padding: var(--pill-padding-block) var(--pill-padding-inline);
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
@@ -7382,12 +7386,12 @@ ol.ring-detail__timeline {
    her own messages do, and its words step up to bold (designer, 2026-10-13).
    The answers sit 12px apart. */
 .answer-drawer .chip-group__options {
-  gap: var(--space-sm);
+  gap: var(--space-between-pills);
 }
 
 .answer-drawer .chip-group__chip {
-  min-height: var(--button-target);
-  padding: var(--space-xs) var(--space-md-lg);
+  min-height: var(--pill-height);
+  padding: var(--pill-padding-block) var(--pill-padding-inline);
   font-family: var(--type-body-sm-font);
   font-size: var(--type-body-sm-size);
   font-weight: var(--weight-regular);
@@ -7403,7 +7407,6 @@ ol.ring-detail__timeline {
 
 .answer-drawer .chip-group--detailed .chip-group__chip {
   border-radius: var(--radius-pill);
-  padding-inline: var(--space-lg);
 }
 
 /* The first line of an answer says what it is, so it is a step heavier than the line under it. */
@@ -7498,9 +7501,9 @@ ol.ring-detail__timeline {
 
 .builder-export__links > button {
   padding: var(--space-3xs) 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
@@ -8837,9 +8840,9 @@ ol.ring-detail__timeline {
   align-items: center;
   gap: var(--space-xs);
   padding: var(--space-xs) var(--space-sm);
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
   font-size: var(--text-sm);
   color: var(--color-text-primary);
   text-align: left;
@@ -11595,9 +11598,9 @@ ol.stage-track__list {
   padding: var(--space-3xs) var(--space-sm);
   border-radius: var(--radius-pill);
   background-color: var(--color-surface-inverse);
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   color: var(--color-text-inverse);
@@ -16520,7 +16523,7 @@ ul.agenda__ask-list {
 fieldset.agenda__whens {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-xs);
+  gap: var(--space-between-pills);
   min-width: 0;
   margin: 0;
   padding: 0;
@@ -16528,8 +16531,8 @@ fieldset.agenda__whens {
 }
 
 .agenda__chip {
-  min-height: 2.25rem;
-  padding: var(--space-xs) var(--space-sm);
+  min-height: var(--pill-height);
+  padding: var(--pill-padding-block) var(--pill-padding-inline);
   border: var(--border-width-thin) solid var(--color-border-strong);
   border-radius: var(--radius-pill);
   background-color: var(--color-surface-raised);
@@ -18089,11 +18092,11 @@ ul.plan-guided__sparks {
 
 .read-actions__toggle,
 .read-actions__answer {
+  min-height: var(--pill-height);
+  padding: var(--pill-padding-block) var(--pill-padding-inline);
   display: inline-flex;
   align-items: center;
   gap: var(--space-2xs);
-  min-height: var(--button-target);
-  padding: 0 var(--space-sm);
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-pill);
   background-color: transparent;
@@ -18161,7 +18164,7 @@ ul.plan-guided__sparks {
 
 .read-actions__answers {
   display: inline-flex;
-  gap: var(--space-xs);
+  gap: var(--space-between-pills);
 }
 
 .read-actions__ack {
@@ -20340,7 +20343,7 @@ ul.plan-guided__sparks {
 /* Chips: one row that scrolls sideways, past the screen's edge. */
 .tool-picker--chips .tool-picker__list {
   display: flex;
-  gap: var(--space-xs);
+  gap: var(--space-between-pills);
   margin-inline: calc(-1 * var(--space-screen-side));
   padding: var(--space-3xs) var(--space-screen-side);
   overflow-x: auto;
@@ -20355,12 +20358,12 @@ ul.plan-guided__sparks {
 }
 
 .tool-picker--chips .tool-picker__tool {
+  min-height: var(--pill-height);
+  padding: var(--pill-padding-block) var(--pill-padding-inline);
   display: inline-flex;
   flex: none;
   align-items: center;
   gap: var(--space-2xs);
-  min-height: var(--button-target);
-  padding: 0 var(--space-md);
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-pill);
   background-color: var(--color-surface-raised);
