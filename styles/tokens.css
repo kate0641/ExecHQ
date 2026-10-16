@@ -549,6 +549,7 @@
   --text-xs: 0.75rem;    /* 12px */
   --text-xs-plus: 0.8125rem; /* 13px — hints and captions, a step up from 12 for reading on a phone */
   --text-sm: 0.875rem;   /* 14px */
+  --text-sm-plus: 0.9375rem; /* 15px — Your direction's serif, a touch under body size (designer, 2026-10-16) */
   --text-md: 1rem;       /* 16px — body default */
   --text-lg: 1.125rem;   /* 18px */
   --text-xl: 1.375rem;   /* 22px */
