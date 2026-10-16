@@ -16732,9 +16732,10 @@ fieldset.agenda__whens {
    --space-md, so the body keeps that much more room under its last row. */
 .agenda--stack .agenda__body {
   gap: var(--space-xs);
-  /* With the last step's own padding and the next card over the foot, 8 here leaves about the space above
-     Finishing looks like under the last step (designer, 2026-10-16; was 32). */
-  padding: var(--space-md) var(--space-md) var(--space-xs);
+  /* With the last step's own padding and the next card over the foot, 12 here leaves the same space under
+     the last step's words as above Finishing looks like's, measured letter to edge (designer, 2026-10-16;
+     was 32). */
+  padding: var(--space-md) var(--space-md) var(--space-sm);
   background-color: var(--color-surface-raised);
   box-shadow: inset var(--border-width-thin) 0 0 var(--color-border-subtle), inset calc(var(--border-width-thin) * -1) 0 0 var(--color-border-subtle);
   color: var(--color-text-primary);
