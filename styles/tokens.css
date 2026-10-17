@@ -801,11 +801,16 @@
   --color-selected: var(--brand-navy);
   --color-selected-hover: var(--brand-primary-muted);
   --color-text-on-selected: var(--brand-blue-100);
+  --color-outline-ink: var(--brand-navy);       /* the outline button's edge and words */
+  --color-segmented-track: var(--color-surface-sunken);  /* the track behind segments */
   /* On navy, the mirror: outlined when not chosen, white with navy words when chosen (designer, 2026-10-16). */
   --color-pill-edge-on-inverse: var(--brand-blue-300);
   --color-selected-on-inverse: var(--brand-white);
   --color-text-on-selected-inverse: var(--brand-navy);
   --answer-height: var(--button-height);         /* 44px */
+  /* ICON BUTTON, SEGMENTED, OUTLINE (designer, 2026-10-16) */
+  --icon-button-size: var(--button-target);      /* 44px, round */
+  --icon-button-size-in-field: var(--space-xl);  /* 32px, inside a field */
   --answer-padding-inline: var(--button-padding-inline); /* 20px */
   --space-between-answers: var(--space-sm);      /* 12px */
 

@@ -43,6 +43,7 @@ export const buttonStates = defineComponentStates({
       label: "Secondary — disabled",
       props: { variant: "secondary", children: "Skip for now", disabled: true },
     },
+    { label: "Outline — default, for a surface yellow can't go on", props: { variant: "outline", children: "Try this" } },
     { label: "Ghost — default", props: { variant: "ghost", children: "Cancel" } },
     {
       label: "Ghost — hover",
