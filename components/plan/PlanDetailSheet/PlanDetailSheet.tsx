@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { Sheet } from "@/components/layout/Sheet";
-import { Button } from "@/components/primitives/Button";
 import { PLAN_DETAIL_COPY as C, roadmapFor } from "@/mock/plan";
 import { PLAN_TEMPLATES } from "@/mock/onboarding";
 
@@ -67,13 +66,14 @@ export function PlanDetailSheet({ open, onClose, planId, rationale, stage, direc
         </section>
 
         <p className="plan-detail__note">{C.how}</p>
-        <div className="plan-detail__actions">
-          <Link href={editHref} className="btn btn--primary btn--md">
+        {/* The main action full width; leaving is the underlined link under it (designer, 2026-10-16). */}
+        <div className="plan-detail__actions sheet-actions">
+          <Link href={editHref} className="btn btn--primary btn--md btn--full">
             {C.change}
           </Link>
-          <Button variant="ghost" onClick={onClose}>
+          <button type="button" className="link link--standalone sheet-actions__out" onClick={onClose}>
             {C.close}
-          </Button>
+          </button>
         </div>
       </div>
     </Sheet>

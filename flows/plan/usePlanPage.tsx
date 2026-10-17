@@ -373,14 +373,21 @@ export function usePlanPage() {
     // What she added herself while the stage ran. Only what she added can take her words; the rest is listed as it is.
     const added = pictureItems
       .filter((i) => i.source === "added" && w && i.on >= w.start && i.on <= w.end)
-      .map((i): CheckInItem => ({
+      .map((i): CheckInItem => {
+        // Its title, and where it ran as a detail under it, rather than one line joined by a dot (designer,
+        // 2026-10-16). A note she wrote in place of a title stays as it is.
+        const p = items.find((x) => x.id === i.id);
+        const split = p && !p.note && p.where;
+        return {
         id: i.id,
         from: "you",
-        title: i.text,
+        title: split ? p.title : i.text,
+        detail: split ? p.where : undefined,
         what: STAGE_CHECKIN_COPY.added(shortDate(i.on)),
         feedback: i.impact ? { words: i.impact } : i.editable ? undefined : {},
         asksTone: false,
-      }));
+        };
+      });
     return [...steps, ...added];
   }
   /** What came of a thing, from the check-in: kept on the thing itself, as "What came of it?" does. */

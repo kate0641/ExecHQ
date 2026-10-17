@@ -21,6 +21,8 @@ export interface CheckInItem {
   /** Where it came from: one of her steps, something ExecHQ made with her, or something she added. */
   from: "step" | "execHQ" | "you";
   title: string;
+  /** A detail under the title, in regular weight: where something she added ran ("LinkedIn article"). */
+  detail?: string;
   /** What happened, and when, in words: "Used 13 Oct". */
   what: string;
   /** She passed on it: listed, never asked about. */
@@ -155,6 +157,7 @@ export function StageCheckIn({
             {item.passed || item.what ? <span className="stage-checkin__when">{item.passed ? C.passed : item.what}</span> : null}
           </span>
           <span className="stage-checkin__title">{item.title}</span>
+          {item.detail ? <span className="stage-checkin__detail">{item.detail}</span> : null}
           {item.passed ? null : item.feedback ? (
             // Drawn only when there is something to say, so a reply with nothing in it leaves no gap.
             item.feedback.tone || item.feedback.words ? (

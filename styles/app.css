@@ -17363,6 +17363,15 @@ fieldset.agenda__whens {
   line-height: var(--leading-snug);
 }
 
+/* Where something she added ran: a detail under the title, Inter regular, so the title is the read
+   (designer, 2026-10-16). */
+.stage-checkin__detail {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-snug);
+  color: var(--color-text-primary);
+}
+
 /* What came of it, on one run of text under the title: the verdict is the main read; her own words follow
    in Libre at the same 14px, its medium weight, in grey, so they are there if she wants them and never
    compete (designer, 2026-10-16). */
@@ -24539,4 +24548,23 @@ ul.letter-archive__list {
   .letter__definitions:not([open]) {
     display: none;
   }
+}
+
+/* -----------------------------------------------------------------------------
+   SHEET ACTIONS (designer, 2026-10-16)
+   How a sheet ends, everywhere: the main action full width, so even switched off it never reads as a
+   choice pill, and leaving (Cancel, Close) is the underlined link, centred under it. A way past a question
+   (Skip, Later) is not this: Kate's spec keeps it a same-size button.
+   -------------------------------------------------------------------------- */
+.sheet-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex-wrap: nowrap;
+  gap: var(--space-drawer-inner);
+}
+
+.sheet-actions__out {
+  align-self: center;
+  min-height: var(--button-target);
 }
