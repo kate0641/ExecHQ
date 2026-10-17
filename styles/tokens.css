@@ -182,14 +182,69 @@
   --color-surface-hover: var(--brand-blue-100);
   --color-surface-active: var(--brand-blue-200);
   --color-surface-disabled: var(--brand-stone-200);  /* grey: off, never tappable */
+  /* A quiet prompt that repeats on every item, such as the questions under a roadmap step: grey with the
+     ink, so it never reads as off (designer, 2026-10-14). */
+  --color-surface-quiet: var(--brand-stone-200);
+  --color-surface-quiet-hover: var(--brand-stone-250);
   --color-surface-selected: var(--brand-blue-200); /* the item a detail pane is showing: a step stronger than hover */
   --color-surface-feature: var(--brand-blue-100);  /* the card that says what to do next, on trial */
+  /* Colour carries meaning (designer, 2026-10-15): the same colour does the same job on every screen, so
+     she knows what a card is for before she reads it. Navy is ExecHQ and priority; yellow is the one
+     main action. Home is approved and keeps its own colours. */
+  /* Her: her own words and answers. Lime as a band, dark green words on it (8.9:1). */
+  --color-surface-her-band: var(--brand-green-200);
+  --color-text-on-her-band: var(--brand-green-800);
+  /* A soft lime glow round something of hers on navy, such as a day in Momentum (designer, 2026-10-15). */
+  --color-her-halo: color-mix(in srgb, var(--brand-green-200) 25%, transparent);
+  /* For her: something written for her to read or use, such as her first draft. Sky blue with navy
+     words (11.3:1), muted blue 700 (7.7:1), eyebrow blue 600 (4.9:1), edges blue 300. */
+  --color-surface-for-her: var(--brand-blue-200);
+  --color-text-on-for-her: var(--brand-primary);
+  --color-text-on-for-her-muted: var(--brand-blue-700);
+  --color-eyebrow-on-for-her: var(--brand-blue-600);
+  --color-border-on-for-her: var(--brand-blue-300);
+  /* A button on sky blue (designer, 2026-10-15): never yellow on light blue. An outlined navy pill,
+     navy words (11.3:1), filling with a deeper blue as it is pressed. */
+  --color-action-on-for-her: var(--brand-primary);
+  --color-action-on-for-her-hover: var(--brand-blue-300);
+  --color-action-on-for-her-active: var(--brand-blue-400);
+  /* The LinkedIn charts' joy (designer, 2026-10-15): the followers' area glows from light green at
+     the line down into sky blue; the bars rise from navy into light green. */
+  --color-chart-glow-top: var(--brand-green-300);
+  --color-chart-glow-bottom: var(--brand-blue-200);
+  --color-chart-bar-base: var(--brand-primary);
+  --color-chart-bar-tip: var(--brand-green-400);
+  /* A navy page: an onboarding step with no drawer, flooded navy so the flow alternates quiet screens
+     with ExecHQ moments (designer, 2026-10-15). Headlines and section labels in yellow 400 (10.3:1);
+     the kicker blue 200; a numbered circle the same yellow with its navy numeral. */
+  --color-headline-on-inverse: var(--color-accent-on-inverse);
+  --color-eyebrow-on-inverse: var(--brand-blue-200);
+  --number-circle-fill-on-inverse: var(--color-accent-on-inverse);
+  --number-circle-ink-on-inverse: var(--brand-primary);
+  --color-divider-on-inverse: var(--brand-blue-400);  /* a light blue rule on a navy page: blue 400, quiet enough to sit behind the white words (designer, 2026-10-15) */
+  /* A section's title on a navy page, under the yellow page title: light blue (blue 200), so only the
+     page's own name is yellow (designer, 2026-10-15). */
+  --color-section-title-on-inverse: var(--brand-blue-200);
+  /* The page's light set, held at the root so a white card on a navy page can take it back after the
+     page has remapped its own tokens. */
+  --light-text-primary: var(--color-text-primary);
+  --light-text-secondary: var(--color-text-secondary);
+  --light-text-muted: var(--color-text-muted);
+  --light-text-link: var(--color-text-link);
+  --light-eyebrow: var(--color-eyebrow);
+  --light-border: var(--color-border);
+  --light-focus: var(--color-focus);
+  --light-number-circle-fill: var(--number-circle-fill);
+  --light-number-circle-ink: var(--number-circle-ink);
   /* The four stages of a roadmap, tinted across the Calendar. The stage is always also
      said in words (a start marker, a legend, the day panel), so a tint is never the only cue. */
-  --color-stage-1: var(--brand-blue-200);
-  --color-stage-2: var(--brand-green-200);
-  --color-stage-3: var(--brand-yellow-200);
-  --color-stage-4: var(--brand-orange-200);
+  /* The roadmap's stages are navy in descending shades, whatever the sky (designer, 2026-10-14): a ramp
+     per sky read as pastel, so the colour stays in the move's sky panel and the road below is calm.
+     Stage 1 the darkest navy, stage 4 the lightest; white words pass on all four (6.5:1 or more). */
+  --color-stage-1: var(--brand-blue-900);
+  --color-stage-2: var(--brand-blue-800);
+  --color-stage-3: var(--brand-blue-700);
+  --color-stage-4: var(--brand-blue-600);
   /* A veil of the darkest navy over photography, so text on it stays readable. The
      image's own colour shows through where the veil is clear. */
   /* The Briefing's cover on Home: its photograph fades into the dark green,
@@ -233,6 +288,7 @@
   --color-action-hover: var(--brand-yellow-500);
   --color-action-active: var(--brand-yellow-600);
   --color-text-on-action: var(--brand-stone-900);
+  --color-action-edge: var(--brand-yellow-500);  /* a thin edge on a yellow button over a pale surface; yellow 500, since gold read as navy from a distance (designer, 2026-10-16) */
 
   /* Secondary action — light blue with navy text, no outline: the palette
      light blue reads as a button on the page and on white cards without
@@ -306,13 +362,16 @@
   --color-sky-dusk-heart: var(--brand-orange-400);
   --color-sky-dusk-ring: var(--brand-orange-300);
   --color-sky-dusk-outer: var(--brand-blue-600);
-  --color-sky-dusk-edge-top: var(--brand-blue-400);
+  /* Dusk is the sun going down into night (designer, 2026-10-14): a peach
+     glow at the top that turns dusty mauve on its way into blue 500, a step
+     deeper than day's, which then eases out into the page. */
+  --color-sky-dusk-edge-top: var(--brand-blue-500);
   /* Each sky radiates from the top in three melting layers, as dawn does
      (designer, 2026-10-10): a centre, a ring round it, the sky beyond. */
   --color-sky-day-top-core: var(--brand-yellow-300);  /* a golden centre (designer, 2026-10-10) */
   --color-sky-day-top-ring: var(--brand-green-300);  /* lime, so day runs through three hues as dawn and dusk do: yellow, lime, blue (designer, 2026-10-11) */
-  --color-sky-dusk-top-core: var(--brand-yellow-400);
-  --color-sky-dusk-top-ring: var(--brand-orange-400);
+  --color-sky-dusk-top-core: var(--brand-orange-200);
+  --color-sky-dusk-top-ring: var(--brand-orange-300);
   --color-sky-night-top-core: var(--brand-blue-900);  /* the darkest navy where day has its golden centre (designer, 2026-10-11) */
   --color-sky-night-top-ring: var(--brand-blue-800);
   --color-sky-night-top: var(--brand-blue-900);
@@ -326,6 +385,17 @@
      to light lime. */
   --color-sky-night-edge: var(--brand-blue-500);
   --color-sky-night-fade-end: var(--brand-green-100);
+  /* The sky panel behind a guided page's question (designer, 2026-10-14): each sky's own colours, its
+     glow in the page's corner. Dusk (designer, 2026-10-15): a peach heart walking through rose into a deep
+     blue sky, blue 800 to 700, so the white words pass AA wherever it sits (5.6:1 or more, measured). */
+  --color-sky-panel-dusk: var(--brand-blue-700);
+  --color-sky-panel-dusk-deep: var(--brand-blue-800);
+  --color-sky-panel-dusk-mid: var(--brand-blue-600);
+  --color-sky-panel-dusk-heart: var(--brand-orange-200);
+  --color-sky-panel-dusk-ring: var(--brand-orange-300);
+  /* Night's horizon on the panel: a deeper green than Home's lime, so the white words keep 4.5:1 over it
+     (designer, 2026-10-15). */
+  --color-sky-panel-night-horizon: var(--brand-green-600);
 
   /* Danger — the destructive action: deleting the account, removing a
      connection. The red end of the orange scale. White on it is 7.0:1, and
@@ -376,6 +446,7 @@
      white card, carrying what the question is about (designer, 2026-10-12).
      Navy on it reads at 11.3:1. The foot of the card keeps its hairline. */
   --color-surface-check-in-band: var(--brand-blue-200);
+  /* What she did in a finished stage, on the stage check-in: our light blue, no edge (designer, 2026-10-15). */
   --color-text-on-check-in-band: var(--brand-primary);
   /* "Logged", as a quiet stone pill above the readback: 8.9:1. Stone 200 is
      also the disabled surface, so nothing else on the card may use it. */
@@ -388,6 +459,15 @@
      (bright yellow "Exec", light blue "HQ") sits on any dark colour. */
   --color-logo-exec: var(--brand-gold-yellow);
   --color-logo-hq: var(--brand-navy);
+  --color-code-digit: var(--brand-navy);
+  --color-headline-on-navy-quiet: var(--brand-green-200);
+  /* The Plan on navy (designer, 2026-10-16): a quiet card that lightly contains the top section, a stone
+     drawer so it doesn't merge with the page, and an edge that keeps the navy stage card off the navy page. */
+  --color-surface-quiet-on-inverse: var(--brand-blue-900);
+  --color-card-on-inverse: var(--brand-stone-100);  /* a stone card on a navy page: the check-in's What you did (designer, 2026-10-16) */
+  --color-drawer-on-inverse: var(--brand-stone-100);
+  --color-drawer-on-inverse-hover: var(--brand-stone-200);
+  --color-edge-on-inverse: var(--brand-blue-600);  /* lime: a navy card's headline when yellow isn't justified, the Plan's moves (designer, 2026-10-15) */  /* the numbers in the email code's white boxes (designer, 2026-10-15) */
   --color-logo-exec-on-inverse: var(--brand-bright-yellow);
   --color-logo-hq-on-inverse: var(--brand-light-blue);
 
@@ -470,10 +550,12 @@
   --text-xs: 0.75rem;    /* 12px */
   --text-xs-plus: 0.8125rem; /* 13px — hints and captions, a step up from 12 for reading on a phone */
   --text-sm: 0.875rem;   /* 14px */
+  --text-sm-plus: 0.9375rem; /* 15px — Your direction's serif, a touch under body size (designer, 2026-10-16) */
   --text-md: 1rem;       /* 16px — body default */
   --text-lg: 1.125rem;   /* 18px */
   --text-xl: 1.375rem;   /* 22px */
   --text-2xl: 1.75rem;   /* 28px */
+  --text-2xl-plus: 2rem; /* 32px — the question in its sky panel, a size up so it breaks evenly (designer, 2026-10-14) */
   --text-3xl: 2.25rem;   /* 36px */
   --text-4xl: 3rem;      /* 48px */
   --text-icon: 0.4375rem; /* 7px — a date set inside a 20px icon */
@@ -486,11 +568,13 @@
   --weight-regular: 400;
   --weight-semibold: 600;
   --weight-serif-medium: 500; /* Libre Baskerville only: Kulim Park and the roles have no 500 */
+  --weight-body-medium: 500;  /* Inter only, which is variable (Kulim Park has no 500): an answer's first line, Where you started's rows, a quiet What came of it block (designer, 2026-10-16) */
   --weight-google: 500;        /* Google Sans Medium, on the Google sign-in button only */
   --weight-bold: 700;
 
   --tracking-tight: -0.02em;
   --tracking-normal: 0;
+  --tracking-slight: 0.01em;
   --tracking-wide: 0.02em;
   --tracking-wider: 0.03em;
   --tracking-widest: 0.04em;
@@ -502,12 +586,12 @@
   --word-spacing-tightest: -0.18em;
   --word-spacing-normal: 0;
 
-  /* Kulim Park sets its letters close and its spaces wide, so words look
-     cramped with gaps between them. Wherever it is used, letters open and
-     spaces close: headings a little less than text, labels a little more. */
-  --font-display-tracking-heading: var(--tracking-wide);
-  --font-display-tracking: var(--tracking-wider);
-  --font-display-tracking-label: var(--tracking-widest);
+  /* Kulim Park sets its spaces wide, so its spaces close wherever it is
+     used. Headings keep Kulim's own letter spacing (designer, 2026-10-13: B
+     of three tighter options); text and labels open a touch, labels most. */
+  --font-display-tracking-heading: var(--tracking-normal);
+  --font-display-tracking: var(--tracking-slight);
+  --font-display-tracking-label: var(--tracking-wide);
   --font-display-word-spacing: var(--word-spacing-tightest);
 
   /* ---------------------------------------------------------------------------
@@ -669,8 +753,9 @@
   --number-circle-numeral: var(--text-md);                       /* 16px */
   --number-circle-gap: var(--space-md);                          /* 16px */
   --number-list-gap: var(--space-md);                            /* 16px between items */
-  --number-circle-fill: var(--color-surface-inverse);
-  --number-circle-ink: var(--color-text-inverse);
+  /* Every numbered circle is yellow with a navy numeral (10.3:1), on light pages and navy alike (designer, 2026-10-15). */
+  --number-circle-fill: var(--color-accent-on-inverse);
+  --number-circle-ink: var(--brand-primary);
 
   /* The gap between paragraphs, or items, of body copy stacked in one place:
      a card's reads, a list of what something shows. Not between a label and
@@ -678,13 +763,16 @@
   --space-paragraph: var(--space-sm);
 
   /* SPACING ROLES — what a gap is for, so one change here moves it everywhere. */
-  --space-screen-side: var(--space-sm);  /* left and right of a phone screen: 12, so cards run wider */
+  --space-screen-side: var(--space-md);  /* left and right of a phone screen: 16, the common standard (designer, 2026-10-15; was 12) */
   --space-screen-top: var(--space-lg);   /* above the first thing on a screen */
   --space-between-cards: var(--space-sm);  /* the gap between cards stacked on a screen: 12, half the gap between sections (designer, 2026-10-11) */
   --space-card-padding: var(--space-md);   /* inside a list card: a row, a link, a read */
   --space-feature-padding: var(--space-md-lg);  /* inside a feature card, which holds more */
   --space-eyebrow-title: var(--space-2xs); /* an eyebrow to the title under it */
   --space-title-copy: var(--space-xs);     /* a title to the copy under it */
+  /* That copy to the card under it: wider than the title's gap, so the copy reads as the title's
+     and the card as what follows (designer, 2026-10-15). */
+  --space-copy-card: var(--space-md);      /* 16px */
   /* A group title to what it names: more than the space a line of body copy
      leaves, so the title reads as over its group (designer, 2026-10-13). */
   --space-group-title: var(--space-sm);     /* 12px */
@@ -696,6 +784,35 @@
   /* Items split by hairlines: this much either side of the line. */
   --space-divided-item: var(--space-md-lg); /* 20px */
   --space-copy-action: var(--space-md-lg); /* the copy to the button under it: the widest of the three, as wide as the card's padding */
+  /* In a drawer: its groups (a question's answers, a field, the actions) sit 24 apart, and the pieces
+     inside a group 12 apart, so each group reads as one (designer, 2026-10-16). */
+  --space-drawer-groups: var(--space-lg);  /* 24px */
+  --space-drawer-inner: var(--space-sm);   /* 12px */
+  /* PILLS — every tappable pill (a choice, a reason, a time, a quick reply) is spaced the same, everywhere,
+     and its words are always Inter, never Kulim (designer, 2026-10-16). Choice pills are compact, a size
+     under the main buttons, so a group of them reads as options and not a wall of buttons; 36px still clears
+     WCAG 2.2's 24px target. A question's own answers, the full-width list in a drawer, stay button size. */
+  --pill-height: 2.25rem;                        /* 36px */
+  --pill-padding-block: var(--space-xs);         /* 8px */
+  --pill-padding-inline: var(--space-md);        /* 16px */
+  --space-between-pills: var(--space-xs);        /* 8px, across and down */
+  /* SELECTED — one formula for every selectable pill or answer on a light surface: navy, light words
+     (designer, 2026-10-16). Fixed brand values, so a stone drawer that remaps the inverse set keeps them. */
+  --color-selected: var(--brand-navy);
+  --color-selected-hover: var(--brand-primary-muted);
+  --color-text-on-selected: var(--brand-blue-100);
+  --color-outline-ink: var(--brand-navy);       /* the outline button's edge and words */
+  --color-segmented-track: var(--color-surface-sunken);  /* the track behind segments */
+  /* On navy, the mirror: outlined when not chosen, white with navy words when chosen (designer, 2026-10-16). */
+  --color-pill-edge-on-inverse: var(--brand-blue-300);
+  --color-selected-on-inverse: var(--brand-white);
+  --color-text-on-selected-inverse: var(--brand-navy);
+  --answer-height: var(--button-height);         /* 44px */
+  /* ICON BUTTON, SEGMENTED, OUTLINE (designer, 2026-10-16) */
+  --icon-button-size: var(--button-target);      /* 44px, round */
+  --icon-button-size-in-field: var(--space-xl);  /* 32px, inside a field */
+  --answer-padding-inline: var(--button-padding-inline); /* 20px */
+  --space-between-answers: var(--space-sm);      /* 12px */
 
   /* ---------------------------------------------------------------------------
      RADII

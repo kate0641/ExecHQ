@@ -1,6 +1,8 @@
+import { createElement } from "react";
+import { ExportLinks } from "@/components/onboarding/ExportLinks";
 import { defineComponentStates } from "@/components/types";
 import { CONTROLS_INSIDE } from "@/components/not-applicable";
-import { DRAFT_C1, PLAN_TEMPLATES, firstDraftFor } from "@/mock/onboarding";
+import { DRAFT_C1, DRAFT_EXPORTS, PLAN_TEMPLATES, firstDraftFor } from "@/mock/onboarding";
 import { StoryDraft } from "./StoryDraft";
 
 const noop = () => {};
@@ -33,6 +35,11 @@ export const storyDraftStates = defineComponentStates({
   },
   variants: [
     { label: "Default", props: base },
+    {
+      label: "With its actions in the card",
+      description: "Copy, Download and Email at the foot of the card, on the draft they act on (designer, 2026-10-15).",
+      props: { ...base, actions: createElement(ExportLinks, { actions: DRAFT_EXPORTS }) },
+    },
     {
       label: "Every question skipped",
       description: "The direction alone: one sentence, and still true.",

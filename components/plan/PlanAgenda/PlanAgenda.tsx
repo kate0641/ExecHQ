@@ -1,16 +1,16 @@
 "use client";
 
 import Link from "next/link";
+import { AdvisorMark } from "@/components/chat/AdvisorMark";
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { AdvisorMark } from "@/components/chat/AdvisorMark";
 import { AddToPlanSheet } from "@/components/plan/AddToPlanSheet";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import type { LoopDate } from "@/lib/loop";
 import { useViewport } from "@/lib/viewport-context";
 import { whenWords } from "@/lib/time-words";
-import { PLAN_AGENDA_COPY as A, STEP_ANSWERS, STEP_QUESTIONS, type ActionStep, type StepQuestion } from "@/mock/plan";
+import { PLAN_AGENDA_COPY as A, STEP_QUESTIONS, type ActionStep, type StepQuestion } from "@/mock/plan";
 
 export interface AgendaStage {
   index: number;
@@ -155,11 +155,11 @@ export function PlanAgenda({
             >
               <h3 className="agenda__stage-head">
                 <button type="button" className="agenda__stage-button" aria-expanded={isOpen} onClick={() => toggleStage(stage.index)}>
-                  <span className="agenda__stage-name">
+                  <span className="agenda__stage-top">
                     <span className="agenda__eyebrow">{A.stageOf(stage.index + 1, stages.length)}</span>
-                    {stage.title}
+                    <span className="agenda__when">{stage.status === "done" ? A.done : stage.when}</span>
                   </span>
-                  <span className="agenda__when">{stage.status === "done" ? A.done : stage.when}</span>
+                  <span className="agenda__stage-name">{stage.title}</span>
                 </button>
               </h3>
               {stageNote?.(stage.index) ? <div className="agenda__stage-note">{stageNote(stage.index)}</div> : null}
@@ -281,39 +281,36 @@ function StepItem({
       <button type="button" className="agenda__line" aria-expanded={open} onClick={onToggle}>
         <span className="agenda__pill">{whenWords(item.date, today)}</span>
         <span className="agenda__title">{item.title}</span>
+        <Icon name="chevron" size={18} className="agenda__open" />
       </button>
       {open ? (
         <div className="agenda__reveal">
           {step.stubbed ? (
-            <Button variant="primary" fullWidth disabled>
+            <Button variant="secondary" fullWidth className="agenda__cta" disabled>
               {label}
             </Button>
           ) : tool ? (
-            <Link href={href} className="btn btn--primary btn--md btn--full agenda__cta" onClick={() => !item.accepted && onAccept(step)}>
+            <Link href={href} className="btn btn--secondary btn--md btn--full agenda__cta" onClick={() => !item.accepted && onAccept(step)}>
               {label}
             </Link>
           ) : item.accepted ? (
-            <Button variant="primary" fullWidth className="agenda__cta" onClick={() => onComplete(step)}>
+            <Button variant="secondary" fullWidth className="agenda__cta" onClick={() => onComplete(step)}>
               {A.doneIt}
             </Button>
           ) : (
-            <Button variant="primary" fullWidth className="agenda__cta" onClick={() => onAccept(step)}>
+            <Button variant="secondary" fullWidth className="agenda__cta" onClick={() => onAccept(step)}>
               {A.getStarted}
             </Button>
           )}
           <div className="agenda__ask">
-            <p className="agenda__ask-label">
-              <AdvisorMark size={14} />
-              {A.askLabel}
-            </p>
-            <ul className="agenda__ask-list">
+            {/* Each question opens the chat on it, so it looks like the chat's own prompts: a navy pill with the
+                advisor's mark (designer, 2026-10-14). Their short answers are left for the chat to give. */}
+            <ul className="agenda__ask-list" aria-label={A.askLabel}>
               {STEP_QUESTIONS.map((q) => (
                 <li key={q.id}>
-                  <button type="button" className="agenda__ask-row" onClick={() => onAsk(step, q.id)}>
-                    <span className="agenda__ask-q">{q.label}</span>
-                    {q.id === "why" ? <span className="agenda__ask-t">{STEP_ANSWERS.teaseWhy(step)}</span> : null}
-                    {q.id === "take" ? <span className="agenda__ask-t">{STEP_ANSWERS.teaseTake(step)}</span> : null}
-                    <Icon name="chevron" size={16} className="agenda__ask-go" />
+                  <button type="button" className="agenda__ask-pill" onClick={() => onAsk(step, q.id)}>
+                    <AdvisorMark size={14} />
+                    {q.label}
                   </button>
                 </li>
               ))}

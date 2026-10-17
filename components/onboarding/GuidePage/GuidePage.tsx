@@ -1,8 +1,13 @@
+"use client";
+
 import type { ReactNode } from "react";
+import { useSky } from "@/components/hub/SnapshotPicker/use-sky";
 import { StepActions } from "@/components/onboarding/StepActions";
 import type { ButtonVariant } from "@/components/primitives/Button";
 import { Wordmark } from "@/components/primitives/Wordmark";
 import { keepAfterComma } from "@/components/primitives/keep-after-comma";
+
+export type SkyGlow = "bottom-right" | "top-right" | "bottom-left" | "top-left";
 
 export interface GuidePageProps {
   /** Where the user is, in words: the part of onboarding, e.g. "About you". */
@@ -49,6 +54,19 @@ export interface GuidePageProps {
   after?: ReactNode;
   /** Drawn over the top of the page: an email's notification arriving. */
   overlay?: ReactNode;
+  /** With a drawer: the question sits in its own panel of the sky Home shows at this hour (dawn, day, dusk,
+   *  night), its glow in the panel's bottom-right corner (designer, 2026-10-14). Onboarding and the Plan. */
+  sky?: boolean;
+  /** Which corner of the sky panel holds the glow; bottom right unless said. Onboarding moves it from question
+   *  to question so the yellow heart isn't in the same place every time (designer, 2026-10-15). */
+  glow?: SkyGlow;
+  /** With the sky panel: the panel is plain navy instead of the sky, its headline lime. The Plan's moves, so
+   *  they read apart from onboarding; lime is there when yellow isn't justified (designer, 2026-10-15). */
+  navyPanel?: boolean;
+  /** Flooded navy: headlines and section labels yellow, white cards on it. Onboarding's steps with no drawer,
+   *  so the flow alternates quiet screens with ExecHQ moments (designer, 2026-10-15), and every Plan page,
+   *  where the top section sits in a darkest-navy card and the drawer turns stone (2026-10-16). */
+  navy?: boolean;
   className?: string;
 }
 
@@ -88,8 +106,14 @@ export function GuidePage({
   drawer,
   after,
   overlay,
+  sky: skyPanel = false,
+  glow,
+  navyPanel = false,
+  navy = false,
   className,
 }: GuidePageProps) {
+  const sky = useSky();
+  const inSky = skyPanel && Boolean(drawer) && !cover;
   const page = (
     <>
       {part && !cover ? (
@@ -114,7 +138,11 @@ export function GuidePage({
         </div>
       ) : null}
 
-      <header className="guide__head">
+      <header
+        className={["guide__head", inSky ? "guide__head--sky" : null, inSky && navyPanel ? "guide__head--navy-panel" : null].filter(Boolean).join(" ")}
+        data-sky={inSky && !navyPanel ? sky : undefined}
+        data-glow={inSky && !navyPanel ? glow : undefined}
+      >
         {wordmark ? <Wordmark size="xl" tone={cover ? "light" : "dark"} className="guide__wordmark" /> : null}
         {kicker ? <p className="guide__kicker">{kicker}</p> : null}
         <h1 className="guide__title" id={headingId} tabIndex={-1}>
@@ -150,7 +178,7 @@ export function GuidePage({
     </>
   );
 
-  const classes = ["guide", cover ? "guide--cover" : null, drawer ? "guide--drawer" : null, className]
+  const classes = ["guide", cover ? "guide--cover" : null, drawer ? "guide--drawer" : null, inSky ? "guide--sky" : null, navy ? "guide--navy" : null, className]
     .filter(Boolean)
     .join(" ");
   const over = overlay ? <div className="guide__overlay">{overlay}</div> : null;

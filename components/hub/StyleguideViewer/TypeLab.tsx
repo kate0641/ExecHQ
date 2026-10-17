@@ -52,12 +52,13 @@ const LEADINGS = [
 const TRACKINGS = [
   { value: "var(--tracking-tight)", label: "−0.02em" },
   { value: "var(--tracking-normal)", label: "0" },
+  { value: "var(--font-display-tracking-heading)", label: "Kulim heading (0)" },
+  { value: "var(--tracking-slight)", label: "0.01em" },
+  { value: "var(--font-display-tracking)", label: "Kulim text (0.01em)" },
   { value: "var(--tracking-wide)", label: "0.02em" },
-  { value: "var(--font-display-tracking-heading)", label: "Kulim heading (0.02em)" },
+  { value: "var(--font-display-tracking-label)", label: "Kulim label (0.02em)" },
   { value: "var(--tracking-wider)", label: "0.03em" },
-  { value: "var(--font-display-tracking)", label: "Kulim text (0.03em)" },
   { value: "var(--tracking-widest)", label: "0.04em" },
-  { value: "var(--font-display-tracking-label)", label: "Kulim label (0.04em)" },
   { value: "var(--tracking-label)", label: "0.08em" },
 ];
 const WORD_SPACINGS = [

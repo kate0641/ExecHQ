@@ -1,10 +1,11 @@
 "use client";
 
-import { useCallback, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { DeviceFrame } from "@/components/layout/DeviceFrame";
 import { DevToolbar } from "@/components/layout/DevToolbar";
 import { StepBar } from "@/components/layout/StepBar";
 import { HubPanel } from "@/components/hub/HubPanel";
+import { useWholeHyphenatedWords } from "@/components/primitives/keep-hyphenated";
 import { StepNavProvider, useStepNavValue } from "@/lib/step-nav";
 import { useColorMode } from "@/lib/color-mode";
 import { useViewport } from "@/lib/viewport-context";
@@ -46,8 +47,28 @@ function ShellStepBar() {
   return <StepBar items={nav.items} currentId={nav.currentId} onSelect={nav.onSelect} />;
 }
 
+/**
+ * How the page is shown when the showroom embeds it as one screen of a flow
+ * (designer, 2026-10-15): `?frame=1` drops the dock, step bar and hub and
+ * shows the phone; `&full=1` lets the phone grow to the page's whole length.
+ * Read after mount, so the server and the first client paint agree.
+ */
+function useFrameMode(): { frame: boolean; full: boolean } {
+  const [mode, setMode] = useState({ frame: false, full: false });
+  useEffect(() => {
+    const query = new URLSearchParams(window.location.search);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- the URL is only readable after mount
+    setMode({ frame: query.get("frame") === "1", full: query.get("full") === "1" });
+  }, []);
+  return mode;
+}
+
 function PrototypeShellInner({ hubIndex, children }: PrototypeShellProps) {
-  const { viewport } = useViewport();
+  // A hyphenated word never breaks across lines, on any page (designer, 2026-10-16).
+  useWholeHyphenatedWords();
+  const { viewport: chosen } = useViewport();
+  const { frame, full } = useFrameMode();
+  const viewport = frame ? "mobile" : chosen;
   // Keeps data-color on <html> in step with the dock's colour switch.
   useColorMode();
   const [hubOpen, setHubOpen] = useState(false);
@@ -56,22 +77,32 @@ function PrototypeShellInner({ hubIndex, children }: PrototypeShellProps) {
   const toggleHub = useCallback(() => setHubOpen((open) => !open), []);
 
   return (
-    <div className="prototype" data-viewport={viewport}>
-      <DevToolbar
-        hubOpen={hubOpen}
-        onToggleHub={toggleHub}
-        hubTriggerRef={hubTriggerRef}
-      />
-
-      <ShellStepBar />
+    <div
+      className={["prototype", frame ? "prototype--frame" : null, full ? "prototype--full" : null]
+        .filter(Boolean)
+        .join(" ")}
+      data-viewport={viewport}
+    >
+      {frame ? null : (
+        <>
+          <DevToolbar
+            hubOpen={hubOpen}
+            onToggleHub={toggleHub}
+            hubTriggerRef={hubTriggerRef}
+          />
+          <ShellStepBar />
+        </>
+      )}
 
       <div className="prototype__canvas">
-        <DeviceFrame>{children}</DeviceFrame>
+        <DeviceFrame viewport={viewport}>{children}</DeviceFrame>
       </div>
 
-      <HubPanel open={hubOpen} onClose={closeHub}>
-        {hubIndex}
-      </HubPanel>
+      {frame ? null : (
+        <HubPanel open={hubOpen} onClose={closeHub}>
+          {hubIndex}
+        </HubPanel>
+      )}
     </div>
   );
 }

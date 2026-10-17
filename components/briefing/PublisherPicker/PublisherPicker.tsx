@@ -1,8 +1,9 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { ChipGroup } from "@/components/form/ChipGroup";
+import { DetailPanel } from "@/components/profile/DetailPanel";
 import { Button } from "@/components/primitives/Button";
+import { Icon } from "@/components/primitives/Icon";
 import {
   BRIEFING_COPY,
   MIN_PUBLISHERS,
@@ -33,8 +34,6 @@ export interface PublisherPickerProps {
   className?: string;
 }
 
-const MAX = PUBLISHERS.length;
-
 /**
  * Where her reads come from. On her first visit it comes before the first
  * set loads, with a suggested set she can take in one press, so the Briefing
@@ -47,20 +46,34 @@ export function PublisherPicker({ mode, chosen = [], onDone, onCancel, startOwn 
   const enough = picked.length >= MIN_PUBLISHERS;
   const groupsRef = useRef<HTMLDivElement>(null);
 
+  const toggle = (id: string) =>
+    setPicked((now) => (now.includes(id) ? now.filter((p) => p !== id) : [...now, id]));
+
+  /* Every publisher always shows, in its group's card: a check on the right
+     says it feeds her Briefing (designer, 2026-10-15). */
   const groups = PUBLISHER_GROUPS.map((group) => {
-    const inGroup = PUBLISHERS.filter((p) => p.group === group.id);
+    const titleId = `publisher-group-${group.id}`;
     return (
-      <ChipGroup
-        key={group.id}
-        label={group.label}
-        options={inGroup.map((p) => p.name)}
-        value={inGroup.filter((p) => picked.includes(p.id)).map((p) => p.name)}
-        max={MAX}
-        onChange={(names) => {
-          const others = picked.filter((id) => !inGroup.some((p) => p.id === id));
-          setPicked([...others, ...inGroup.filter((p) => names.includes(p.name)).map((p) => p.id)]);
-        }}
-      />
+      <section key={group.id} className="publisher-picker__group" aria-labelledby={titleId}>
+        <h3 className="publisher-picker__group-title" id={titleId}>
+          {group.label}
+        </h3>
+        <ul className="publisher-picker__rows">
+          {PUBLISHERS.filter((p) => p.group === group.id).map((p) => {
+            const on = picked.includes(p.id);
+            return (
+              <li key={p.id}>
+                <button type="button" className="publisher-picker__row" aria-pressed={on} onClick={() => toggle(p.id)}>
+                  <span className="publisher-picker__name">{p.name}</span>
+                  <span className="publisher-picker__check" aria-hidden="true">
+                    {on ? <Icon name="check" size={12} /> : null}
+                  </span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
     );
   });
 
@@ -72,12 +85,15 @@ export function PublisherPicker({ mode, chosen = [], onDone, onCancel, startOwn 
   );
 
   if (mode === "settings") {
+    /* The same frame as every Profile sheet: heading, close, the line under it. */
     return (
-      <div className={["publisher-picker", "publisher-picker--settings", className].filter(Boolean).join(" ")}>
-        <h2 className="publisher-picker__heading" id={headingId} tabIndex={-1}>
-          {S.publishersHeading}
-        </h2>
-        <p className="publisher-picker__body">{C.later}</p>
+      <DetailPanel
+        heading={S.publishersHeading}
+        headingId={headingId}
+        lead={C.later}
+        onClose={onCancel}
+        className={["publisher-picker", "publisher-picker--settings", className].filter(Boolean).join(" ")}
+      >
         <div className="publisher-picker__groups">{groups}</div>
         {count}
         <div className="publisher-picker__actions">
@@ -90,7 +106,7 @@ export function PublisherPicker({ mode, chosen = [], onDone, onCancel, startOwn 
             </Button>
           ) : null}
         </div>
-      </div>
+      </DetailPanel>
     );
   }
 
