@@ -438,6 +438,11 @@ samp {
 }
 
 /* Skip link: hidden until focused, then pinned to the top-left. */
+/* Keeps a word, or a hyphenated word, on one line. */
+.u-nowrap {
+  white-space: nowrap;
+}
+
 .u-skip-link {
   position: absolute;
   top: var(--space-xs);
@@ -8471,8 +8476,9 @@ ol.ring-detail__timeline {
   line-height: var(--leading-tight);
   letter-spacing: var(--font-display-tracking-heading);
   color: var(--color-text-primary);
-  /* No single word left alone on the last line. */
-  text-wrap: pretty;
+  /* Each line as full as it fits. A lone last word is allowed: a short line with room left for the next
+     word reads worse than an orphan (designer, 2026-10-16). */
+  text-wrap: wrap;
 }
 
 .guide__title:focus-visible {
@@ -16277,8 +16283,12 @@ ol.plan-detail__stages {
   flex: 1;
 }
 
-.plan-detail__stages li.is-current .plan-detail__stage {
+.plan-detail__stages li.is-current :is(.plan-detail__stage, .plan-detail__n) {
   font-weight: var(--weight-semibold);
+}
+
+.plan-detail__stages li.is-current .plan-detail__n {
+  color: var(--color-text-primary);
 }
 
 .plan-detail__here {
@@ -17175,9 +17185,9 @@ fieldset.agenda__whens {
 
 .guide__head--sky .guide__title {
   font-size: var(--text-2xl-plus);
-  /* Each line as full as it fits, so a headline never opens on a short line ("Brief your" alone); pretty
-     still keeps a word from sitting alone at the end (designer, 2026-10-15). */
-  text-wrap: pretty;
+  /* Each line as full as it fits, so a headline never opens on a short line ("Brief your" alone), and a
+     lone last word is allowed rather than a gap (designer, 2026-10-16). */
+  text-wrap: wrap;
   color: var(--sky-panel-ink);
 }
 
@@ -17335,8 +17345,7 @@ fieldset.agenda__whens {
   list-style: none;
 }
 
-/* White with the faint edge every white card has (designer, 2026-10-16; light blue before), so it reads as
-   the Plan's other cards do. */
+/* Stone with the faint edge (designer, 2026-10-16; white earlier the same day, light blue before). */
 .stage-checkin__thing {
   display: flex;
   flex-direction: column;
@@ -17344,7 +17353,7 @@ fieldset.agenda__whens {
   padding: var(--space-sm) var(--space-card-padding);
   border: var(--border-width-thin) solid var(--light-border);
   border-radius: var(--radius-card);
-  background: var(--color-surface-raised);
+  background: var(--color-card-on-inverse);
 }
 
 /* Where it came from and when, as one eyebrow line: the source at the left, the date at the right. */

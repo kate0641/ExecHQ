@@ -6,6 +6,7 @@ import { StepActions } from "@/components/onboarding/StepActions";
 import type { ButtonVariant } from "@/components/primitives/Button";
 import { Wordmark } from "@/components/primitives/Wordmark";
 import { keepAfterComma } from "@/components/primitives/keep-after-comma";
+import { keepHyphenated } from "@/components/primitives/keep-hyphenated";
 
 export type SkyGlow = "bottom-right" | "top-right" | "bottom-left" | "top-left";
 
@@ -146,7 +147,7 @@ export function GuidePage({
         {wordmark ? <Wordmark size="xl" tone={cover ? "light" : "dark"} className="guide__wordmark" /> : null}
         {kicker ? <p className="guide__kicker">{kicker}</p> : null}
         <h1 className="guide__title" id={headingId} tabIndex={-1}>
-          {title}
+          {keepHyphenated(title)}
         </h1>
         {lede ? <p className="guide__lede">{keepAfterComma(lede)}</p> : null}
       </header>

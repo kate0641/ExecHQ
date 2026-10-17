@@ -464,6 +464,7 @@
   /* The Plan on navy (designer, 2026-10-16): a quiet card that lightly contains the top section, a stone
      drawer so it doesn't merge with the page, and an edge that keeps the navy stage card off the navy page. */
   --color-surface-quiet-on-inverse: var(--brand-blue-900);
+  --color-card-on-inverse: var(--brand-stone-100);  /* a stone card on a navy page: the check-in's What you did (designer, 2026-10-16) */
   --color-drawer-on-inverse: var(--brand-stone-100);
   --color-drawer-on-inverse-hover: var(--brand-stone-200);
   --color-edge-on-inverse: var(--brand-blue-600);  /* lime: a navy card's headline when yellow isn't justified, the Plan's moves (designer, 2026-10-15) */  /* the numbers in the email code's white boxes (designer, 2026-10-15) */
