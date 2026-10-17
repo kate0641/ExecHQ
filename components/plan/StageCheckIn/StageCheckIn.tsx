@@ -147,13 +147,17 @@ export function StageCheckIn({
     <ul className="stage-checkin__did">
       {items.map((item) => (
         <li key={item.id} className="stage-checkin__thing">
-          <span className="stage-checkin__from">{item.from === "execHQ" ? C.fromExecHQ : item.from === "you" ? C.fromYou : C.fromSteps}</span>
+          {/* Where it came from and when, on one eyebrow line; then what it is; then what came of it, the
+              verdict on its own line and her words under it (designer, 2026-10-16). */}
+          <span className="stage-checkin__from">
+            {item.from === "execHQ" ? C.fromExecHQ : item.from === "you" ? C.fromYou : C.fromSteps}
+            {(item.passed ? C.passed : item.what) ? <> · {item.passed ? C.passed : item.what}</> : null}
+          </span>
           <span className="stage-checkin__title">{item.title}</span>
-          <span className="stage-checkin__what">{item.passed ? C.passed : item.what}</span>
           {item.passed ? null : item.feedback ? (
             <span className="stage-checkin__said">
-              {item.feedback.tone ? <b>{TONES.find((t) => t.type === item.feedback?.tone)?.label}.</b> : null}{" "}
-              {item.feedback.words ? <q>{item.feedback.words}</q> : null}
+              {item.feedback.tone ? <b className="stage-checkin__tone">{TONES.find((t) => t.type === item.feedback?.tone)?.label}.</b> : null}
+              {item.feedback.words ? <q className="stage-checkin__words">{item.feedback.words}</q> : null}
             </span>
           ) : (
             <span className="stage-checkin__pending">{C.unreported}</span>

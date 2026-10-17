@@ -860,6 +860,12 @@ button.link {
   color: var(--color-text-secondary);
 }
 
+/* A hint reads with its label as one piece: 4px under it, and the field's 12px follows the hint
+   (designer, 2026-10-16). */
+.field__label + .field__hint {
+  margin-top: calc(var(--space-2xs) - var(--space-group-title));
+}
+
 .field__hint {
   font-family: var(--type-caption-font);
   font-size: var(--type-caption-size);
@@ -8607,7 +8613,8 @@ ol.ring-detail__timeline {
    being loudly a container while the drawer and prompts are on screen; the move's headline keeps its larger
    size. Every headline stays yellow. */
 .guide--navy.plan-guided .guide__head {
-  margin-inline: calc(var(--space-sm) * -1);
+  /* The same width as every card under it, on the screen's side margin: no bleed (designer, 2026-10-16). */
+  margin-inline: 0;
   padding: var(--space-lg) var(--space-md);
   border-radius: var(--radius-xl);
   background-color: var(--color-surface-quiet-on-inverse);
@@ -17302,21 +17309,26 @@ fieldset.agenda__whens {
   list-style: none;
 }
 
-/* Light blue with no edge (designer, 2026-10-15), so what she did stands apart from the page. */
+/* White with the faint edge every white card has (designer, 2026-10-16; light blue before), so it reads as
+   the Plan's other cards do. */
 .stage-checkin__thing {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3xs);
+  gap: var(--space-eyebrow-title);
   padding: var(--space-sm) var(--space-card-padding);
-  border: 0;
+  border: var(--border-width-thin) solid var(--light-border);
   border-radius: var(--radius-card);
-  background: var(--color-surface-check-in-thing);
+  background: var(--color-surface-raised);
 }
 
+/* Where it came from and when, as one eyebrow. */
 .stage-checkin__from {
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.08em;
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
   color: var(--color-text-secondary);
 }
@@ -17327,20 +17339,26 @@ fieldset.agenda__whens {
   line-height: var(--leading-snug);
 }
 
-.stage-checkin__what,
+/* What came of it: the verdict on its own line under the title, her words in Libre on the line under it,
+   a weight heavier so the serif holds beside Inter (designer, 2026-10-16). */
 .stage-checkin__said {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  margin-top: var(--space-2xs);
   font-size: var(--text-sm);
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
 }
 
-.stage-checkin__said b {
+.stage-checkin__tone {
   font-weight: var(--weight-semibold);
-  color: var(--color-text-primary);
 }
 
-.stage-checkin__said q {
+.stage-checkin__words {
   font-family: var(--font-serif);
-  color: var(--color-text-primary);
+  font-size: var(--text-sm-plus);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-normal);
 }
 
 .stage-checkin__pending {
