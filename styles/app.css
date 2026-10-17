@@ -17341,6 +17341,8 @@ fieldset.agenda__whens {
   justify-content: space-between;
   align-items: baseline;
   gap: var(--space-sm);
+  /* 8px under the eyebrow line, with the card's own 4 (designer, 2026-10-16). */
+  margin-bottom: var(--space-2xs);
 }
 
 .stage-checkin__from,
@@ -17372,6 +17374,8 @@ fieldset.agenda__whens {
 }
 
 .stage-checkin__tone {
+  /* A step up from her words beside it, so the verdict leads (designer, 2026-10-16). */
+  font-size: var(--text-sm-plus);
   font-weight: var(--weight-semibold);
 }
 
