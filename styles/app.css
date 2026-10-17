@@ -438,11 +438,6 @@ samp {
 }
 
 /* Skip link: hidden until focused, then pinned to the top-left. */
-/* Keeps a word, or a hyphenated word, on one line. */
-.u-nowrap {
-  white-space: nowrap;
-}
-
 .u-skip-link {
   position: absolute;
   top: var(--space-xs);

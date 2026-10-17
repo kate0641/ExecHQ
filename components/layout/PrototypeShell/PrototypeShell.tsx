@@ -5,6 +5,7 @@ import { DeviceFrame } from "@/components/layout/DeviceFrame";
 import { DevToolbar } from "@/components/layout/DevToolbar";
 import { StepBar } from "@/components/layout/StepBar";
 import { HubPanel } from "@/components/hub/HubPanel";
+import { useWholeHyphenatedWords } from "@/components/primitives/keep-hyphenated";
 import { StepNavProvider, useStepNavValue } from "@/lib/step-nav";
 import { useColorMode } from "@/lib/color-mode";
 import { useViewport } from "@/lib/viewport-context";
@@ -63,6 +64,8 @@ function useFrameMode(): { frame: boolean; full: boolean } {
 }
 
 function PrototypeShellInner({ hubIndex, children }: PrototypeShellProps) {
+  // A hyphenated word never breaks across lines, on any page (designer, 2026-10-16).
+  useWholeHyphenatedWords();
   const { viewport: chosen } = useViewport();
   const { frame, full } = useFrameMode();
   const viewport = frame ? "mobile" : chosen;
