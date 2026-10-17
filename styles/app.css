@@ -542,9 +542,10 @@ samp {
 }
 
 .btn--sm {
-  min-height: 0;
-  padding: var(--space-xs) var(--space-sm);
-  font-size: var(--text-xs);
+  /* The pills' size, so a small button and a pill line up (designer, 2026-10-16; 12px words before). */
+  min-height: var(--pill-height);
+  padding: 0 var(--pill-padding-inline);
+  font-size: var(--text-sm);
   /* Small buttons carry short labels and often an icon beside them. Letting one
      wrap mid-label stacks the icon above the text and reads as a broken
      control, so it never wraps. Full-size buttons still do — the skip path is
@@ -591,15 +592,22 @@ samp {
 }
 
 .btn--ghost {
+  /* Retired into the link (designer, 2026-10-16): a quiet action is the underlined link, navy, flush to
+     the text around it, with the button's 44px tap height. */
+  padding-inline: 0;
   background-color: transparent;
   border-color: transparent;
-  color: var(--color-text-secondary);
+  color: var(--color-text-link);
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width-thin);
+  text-underline-offset: 0.2em;
 }
 
 .btn--ghost:hover,
 .btn--ghost.is-hover {
-  background-color: var(--color-surface-hover);
-  color: var(--color-text-primary);
+  background-color: transparent;
+  color: var(--color-text-link-hover);
+  text-decoration-thickness: var(--border-width-medium);
 }
 
 .btn--ghost:active,
@@ -6372,9 +6380,9 @@ ol.ring-detail__timeline {
 }
 
 .plan-card__name {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
   font-size: var(--text-lg);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
@@ -6902,12 +6910,12 @@ ol.ring-detail__timeline {
   word-spacing: var(--type-label-word-spacing);
   letter-spacing: var(--type-label-tracking);
   font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  /* The secondary button's light blue, so a reply looks like every other
-     button that is not the main action (designer, 2026-10-07). */
-  color: var(--color-text-on-action-secondary);
-  background-color: var(--color-action-secondary);
-  border: var(--border-width-thin) solid transparent;
+  font-weight: var(--weight-regular);
+  /* The one choice pill: the raised surface, the faint edge, the selected fill when chosen (designer,
+     2026-10-16; the secondary blue from 2026-10-07). */
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-raised);
+  border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-pill);
   cursor: pointer;
 }
@@ -7098,9 +7106,10 @@ ol.ring-detail__timeline {
 .toggle-group--chips .toggle-group__option {
   min-height: var(--pill-height);
   padding: var(--pill-padding-block) var(--pill-padding-inline);
-  border: var(--border-strong);
+  border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-pill);
-  background-color: var(--color-surface);
+  background-color: var(--color-surface-raised);
+  font-weight: var(--weight-regular);
 }
 
 .toggle-group--chips .toggle-group__input:checked + .toggle-group__option {
@@ -7359,10 +7368,12 @@ ol.ring-detail__timeline {
   word-spacing: var(--word-spacing-normal);
   letter-spacing: var(--tracking-normal);
   font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
+  font-weight: var(--weight-regular);
   color: var(--color-text-primary);
-  background-color: var(--color-surface);
-  border: var(--border-strong);
+  /* One choice pill everywhere: the raised surface, the faint edge, regular words; the selected fill when
+     chosen (designer, 2026-10-16). */
+  background-color: var(--color-surface-raised);
+  border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-pill);
   cursor: pointer;
   transition: background-color var(--duration-fast) var(--easing-standard);
@@ -7522,7 +7533,7 @@ ol.ring-detail__timeline {
   letter-spacing: var(--tracking-normal);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
-  color: var(--color-text-primary);
+  color: var(--color-text-link);
   text-decoration: underline;
   text-decoration-thickness: var(--border-width-thin);
   text-underline-offset: 0.2em;
@@ -7860,8 +7871,8 @@ ol.ring-detail__timeline {
 
 .signal-list__status {
   padding: var(--space-3xs) var(--space-xs);
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
   font-size: var(--text-2xs);
   font-weight: var(--weight-bold);
   letter-spacing: var(--tracking-label);
@@ -8184,9 +8195,9 @@ ol.ring-detail__timeline {
 /* The choice reads like a numbered point's title and copy, without the
    number. */
 .next-steps__title {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
@@ -8668,6 +8679,29 @@ ol.ring-detail__timeline {
 
 .device__screen:has(.guide--navy.plan-guided .answer-drawer.is-peek) .concierge-pill {
   border-color: var(--light-border);
+}
+
+/* A choice pill on navy (designer, 2026-10-16): the mirror of the formula. Not chosen, it is outlined in a
+   light edge with light words; chosen, it turns white with navy words. The Plan's reasons on its navy
+   page, and onboarding's answers in its navy drawer. */
+.guide--navy .guide__body .chip-group__chip,
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .guide.guide--sky .answer-drawer .chip-group__chip {
+  color: var(--color-text-inverse);
+  background-color: transparent;
+  border-color: var(--color-pill-edge-on-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+}
+
+.guide--navy .guide__body .chip-group__chip:hover,
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .guide.guide--sky .answer-drawer .chip-group__chip:hover {
+  background-color: var(--color-surface-inverse-hover);
+}
+
+.guide--navy .guide__body .chip-group__chip[aria-pressed="true"],
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .guide.guide--sky .answer-drawer .chip-group__chip[aria-pressed="true"] {
+  color: var(--color-text-on-selected-inverse);
+  background-color: var(--color-selected-on-inverse);
+  border-color: var(--color-selected-on-inverse);
 }
 
 /* The roadmap's navy stage card would sink into the navy page, so every stage card keeps a thin edge. */
@@ -9490,12 +9524,12 @@ ol.ring-detail__timeline {
 
 .guide__said-change {
   flex: none;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
-  color: var(--color-text-primary);
+  color: var(--color-text-link);
   text-decoration: underline;
   text-underline-offset: 0.2em;
   cursor: pointer;
@@ -10855,9 +10889,9 @@ ol.check-in__steps {
 }
 
 .loop-row__text b {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
 }
@@ -16169,11 +16203,14 @@ ol.rtl__rail::before {
   padding: 0;
   border: 0;
   background: none;
-  color: var(--color-text-primary);
+  color: var(--color-text-link);
   font: inherit;
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   cursor: pointer;
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width-thin);
+  text-underline-offset: 0.2em;
 }
 
 .plan-detail-link:hover,
@@ -16581,7 +16618,7 @@ fieldset.agenda__whens {
 .agenda__chip {
   min-height: var(--pill-height);
   padding: var(--pill-padding-block) var(--pill-padding-inline);
-  border: var(--border-width-thin) solid var(--color-border-strong);
+  border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-pill);
   background-color: var(--color-surface-raised);
   color: var(--color-text-primary);
@@ -17004,6 +17041,9 @@ fieldset.agenda__whens {
   color: var(--color-text-inverse);
   background-color: var(--color-surface-inverse);
   border-top: 0;
+  /* Links on the navy drawer take its light ink. */
+  --color-text-link: var(--color-text-inverse);
+  --color-text-link-hover: var(--color-text-inverse);
   --color-focus: var(--color-focus-inverse);
   --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
 }
@@ -17020,13 +17060,13 @@ fieldset.agenda__whens {
   color: var(--color-text-inverse);
 }
 
-:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer :is(.answer-drawer__peek-status, .answer-drawer__step, .btn--ghost, .field__hint) {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer :is(.answer-drawer__peek-status, .answer-drawer__step, .field__hint) {
   color: var(--color-text-inverse-muted);
 }
 
 :is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer .btn--ghost:hover {
-  color: var(--color-text-inverse);
-  background-color: var(--color-surface-inverse-hover);
+  color: var(--color-text-link-hover);
+  background-color: transparent;
 }
 
 /* Words written straight on the navy take its light ink; the sticky foot keeps the navy behind it. */
@@ -17309,7 +17349,7 @@ fieldset.agenda__whens {
   padding: 0;
   border: 0;
   background: none;
-  color: var(--color-text-primary);
+  color: var(--color-text-link);
   font: inherit;
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
@@ -17584,7 +17624,7 @@ ul.plan-guided__sparks {
 }
 
 .li-row__label b {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
 }
@@ -18216,10 +18256,10 @@ ul.plan-guided__sparks {
   gap: var(--space-2xs);
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-pill);
-  background-color: transparent;
+  background-color: var(--color-surface-raised);
   font: inherit;
   font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
+  font-weight: var(--weight-regular);
   color: var(--color-text-primary);
   cursor: pointer;
 }
@@ -19680,7 +19720,7 @@ ul.plan-guided__sparks {
 
 .send-steps__tick .checkbox__label,
 .send-steps__mark {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
@@ -19846,7 +19886,7 @@ ul.plan-guided__sparks {
   align-items: center;
   justify-content: space-between;
   gap: var(--space-2xs);
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-weight: var(--weight-semibold);
 }
 
@@ -20868,6 +20908,9 @@ ul.plan-guided__sparks {
   font-weight: var(--weight-semibold);
   color: var(--color-text-link);
   text-decoration: none;
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width-thin);
+  text-underline-offset: 0.2em;
 }
 
 .tool-flow__back:focus-visible {
@@ -22124,7 +22167,7 @@ ul.plan-guided__sparks {
 }
 
 .tool-picker__lead .tool-picker__name {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   letter-spacing: var(--font-display-tracking);
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
@@ -22332,7 +22375,7 @@ ul.plan-guided__sparks {
 }
 
 .library-folder__name {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   letter-spacing: var(--font-display-tracking);
   word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-md);
@@ -22507,6 +22550,9 @@ ul.plan-guided__sparks {
   color: var(--color-text-link);
   text-decoration: none;
   cursor: pointer;
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width-thin);
+  text-underline-offset: 0.2em;
 }
 
 .library-folder-open__back:focus-visible {
@@ -22530,8 +22576,11 @@ ul.plan-guided__sparks {
   min-height: var(--button-target);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
-  color: var(--color-text-primary);
+  color: var(--color-text-link);
   text-decoration: none;
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width-thin);
+  text-underline-offset: 0.2em;
 }
 
 .folder-page__back:focus-visible {

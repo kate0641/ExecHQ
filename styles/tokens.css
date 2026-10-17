@@ -801,6 +801,10 @@
   --color-selected: var(--brand-navy);
   --color-selected-hover: var(--brand-primary-muted);
   --color-text-on-selected: var(--brand-blue-100);
+  /* On navy, the mirror: outlined when not chosen, white with navy words when chosen (designer, 2026-10-16). */
+  --color-pill-edge-on-inverse: var(--brand-blue-300);
+  --color-selected-on-inverse: var(--brand-white);
+  --color-text-on-selected-inverse: var(--brand-navy);
   --answer-height: var(--button-height);         /* 44px */
   --answer-padding-inline: var(--button-padding-inline); /* 20px */
   --space-between-answers: var(--space-sm);      /* 12px */
