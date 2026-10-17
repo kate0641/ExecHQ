@@ -9591,7 +9591,21 @@ ol.ring-detail__timeline {
 .answer-drawer__body {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  /* Its groups 24px apart (designer, 2026-10-16; was 12 between everything). */
+  gap: var(--space-drawer-groups);
+}
+
+/* These stay one group: a note right under its field, the start button with the answers under it, and a
+   quiet way to more answers (Show me more options, Change when) right under them. */
+.answer-drawer__body > .field + p,
+.answer-drawer__body > .btn + .chip-group,
+.answer-drawer__body > .chip-group + .btn--ghost {
+  margin-top: calc(var(--space-drawer-inner) - var(--space-drawer-groups));
+}
+
+/* The actions are a group of their own, 24px under the body. */
+.answer-drawer__body + .answer-drawer__actions {
+  margin-top: calc(var(--space-drawer-groups) - var(--space-sm));
 }
 
 /* The main action is full width, and a second one (Skip, Back, Later…) is a
@@ -9600,7 +9614,7 @@ ol.ring-detail__timeline {
 .answer-drawer__actions {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: var(--space-drawer-inner);
   /* Stays in reach when the drawer scrolls under the drawn keyboard. */
   position: sticky;
   bottom: calc(var(--space-lg) * -1);

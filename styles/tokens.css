@@ -783,6 +783,10 @@
   /* Items split by hairlines: this much either side of the line. */
   --space-divided-item: var(--space-md-lg); /* 20px */
   --space-copy-action: var(--space-md-lg); /* the copy to the button under it: the widest of the three, as wide as the card's padding */
+  /* In a drawer: its groups (a question's answers, a field, the actions) sit 24 apart, and the pieces
+     inside a group 12 apart, so each group reads as one (designer, 2026-10-16). */
+  --space-drawer-groups: var(--space-lg);  /* 24px */
+  --space-drawer-inner: var(--space-sm);   /* 12px */
   /* PILLS — every tappable pill (a choice, a reason, a time, a quick reply) is spaced the same, everywhere,
      and its words are always Inter, never Kulim (designer, 2026-10-16). Choice pills are compact, a size
      under the main buttons, so a group of them reads as options and not a wall of buttons; 36px still clears
