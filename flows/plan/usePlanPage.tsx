@@ -428,14 +428,14 @@ export function usePlanPage() {
         key={`agenda-${stepsKey}`}
         openFirstStep={false}
         stageNote={checkInNote}
-        action={<PlanDetailLink key={`plan-detail-${loop.id}-${planId}`} {...planDetail} demoSheet={movesScreen === "detail"} />}
+        action={<PlanDetailLink key={`plan-detail-${loop.id}-${planId}-${planScreen ?? ""}`} {...planDetail} demoSheet={movesScreen === "detail"} />}
         {...agendaProps}
       />
     </div>
   );
   const stageCheckIn = checkInStage ? (
     <StageCheckIn
-      key={`checkin-${loop.id}-${planId}-${checkInStage.index}`}
+      key={`checkin-${loop.id}-${planId}-${checkInStage.index}-${planScreen ?? ""}`}
       stageIndex={checkInStage.index}
       stageCount={windows.length}
       stageTitle={checkInStage.title}
@@ -494,7 +494,8 @@ export function usePlanPage() {
 
   const guided = stageCheckIn ?? (
     <PlanGuided
-      key={`guided-${loop.id}-${planId}`}
+      // The showroom's screen is read after the first paint; the key brings the page back on it.
+      key={`guided-${loop.id}-${planId}-${planScreen ?? ""}`}
       planName={PLAN_TEMPLATES.find((p) => p.id === planId)?.name ?? ""}
       stageIndex={Math.max(0, windows.findIndex((w) => w.status === "current"))}
       stages={guidedStages}
