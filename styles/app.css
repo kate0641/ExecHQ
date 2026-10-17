@@ -17335,8 +17335,16 @@ fieldset.agenda__whens {
   background: var(--color-surface-raised);
 }
 
-/* Where it came from and when, as one eyebrow. */
-.stage-checkin__from {
+/* Where it came from and when, as one eyebrow line: the source at the left, the date at the right. */
+.stage-checkin__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-sm);
+}
+
+.stage-checkin__from,
+.stage-checkin__when {
   font-family: var(--type-eyebrow-font);
   font-size: var(--type-eyebrow-size);
   font-weight: var(--type-eyebrow-weight);
@@ -17353,14 +17361,13 @@ fieldset.agenda__whens {
   line-height: var(--leading-snug);
 }
 
-/* What came of it: the verdict on its own line under the title, her words in Libre on the line under it,
-   a weight heavier so the serif holds beside Inter (designer, 2026-10-16). */
+/* What came of it, on one run of text under the title: the verdict is the main read; her own words follow
+   in Libre at the same 14px, its medium weight, in grey, so they are there if she wants them and never
+   compete (designer, 2026-10-16). */
 .stage-checkin__said {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2xs);
   margin-top: var(--space-2xs);
   font-size: var(--text-sm);
+  line-height: var(--leading-normal);
   color: var(--color-text-primary);
 }
 
@@ -17370,9 +17377,9 @@ fieldset.agenda__whens {
 
 .stage-checkin__words {
   font-family: var(--font-serif);
-  font-size: var(--text-sm-plus);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-normal);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-serif-medium);
+  color: var(--color-text-secondary);
 }
 
 .stage-checkin__pending {

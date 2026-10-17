@@ -147,18 +147,23 @@ export function StageCheckIn({
     <ul className="stage-checkin__did">
       {items.map((item) => (
         <li key={item.id} className="stage-checkin__thing">
-          {/* Where it came from and when, on one eyebrow line; then what it is; then what came of it, the
-              verdict on its own line and her words under it (designer, 2026-10-16). */}
-          <span className="stage-checkin__from">
-            {item.from === "execHQ" ? C.fromExecHQ : item.from === "you" ? C.fromYou : C.fromSteps}
-            {(item.passed ? C.passed : item.what) ? <> · {item.passed ? C.passed : item.what}</> : null}
+          {/* Where it came from at the left of one eyebrow line and when at the right, as the roadmap's stages
+              have it; then what it is; then what came of it: the verdict first, her own words after it in a
+              quieter grey, there if she wants them (designer, 2026-10-16). */}
+          <span className="stage-checkin__top">
+            <span className="stage-checkin__from">{item.from === "execHQ" ? C.fromExecHQ : item.from === "you" ? C.fromYou : C.fromSteps}</span>
+            {item.passed || item.what ? <span className="stage-checkin__when">{item.passed ? C.passed : item.what}</span> : null}
           </span>
           <span className="stage-checkin__title">{item.title}</span>
           {item.passed ? null : item.feedback ? (
-            <span className="stage-checkin__said">
-              {item.feedback.tone ? <b className="stage-checkin__tone">{TONES.find((t) => t.type === item.feedback?.tone)?.label}.</b> : null}
-              {item.feedback.words ? <q className="stage-checkin__words">{item.feedback.words}</q> : null}
-            </span>
+            // Drawn only when there is something to say, so a reply with nothing in it leaves no gap.
+            item.feedback.tone || item.feedback.words ? (
+              <span className="stage-checkin__said">
+                {item.feedback.tone ? <b className="stage-checkin__tone">{TONES.find((t) => t.type === item.feedback?.tone)?.label}.</b> : null}
+                {item.feedback.tone && item.feedback.words ? " " : null}
+                {item.feedback.words ? <q className="stage-checkin__words">{item.feedback.words}</q> : null}
+              </span>
+            ) : null
           ) : (
             <span className="stage-checkin__pending">{C.unreported}</span>
           )}
