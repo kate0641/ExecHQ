@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Sheet } from "@/components/layout/Sheet";
+import { PlanDirection } from "@/components/plan/PlanDirection";
 import { PLAN_DETAIL_COPY as C, roadmapFor } from "@/mock/plan";
 import { PLAN_TEMPLATES } from "@/mock/onboarding";
 
@@ -47,23 +48,29 @@ export function PlanDetailSheet({ open, onClose, planId, rationale, stage, direc
           </section>
         ) : null}
 
-        <section className="plan-detail__section">
-          <h3 className="plan-detail__label">{C.stages}</h3>
-          <ol className="plan-detail__stages">
+        {/* The stages as one card, its title in the strip and a row a stage between hairlines: a record to
+            read, not boxes to tap. Where she is shows as an eyebrow at the right of its row (designer,
+            2026-10-16). */}
+        <section className="feature-card plan-detail__stages-card" aria-labelledby="plan-detail-stages">
+          <div className="feature-card__head feature-card__head--inverse">
+            <h3 className="feature-card__title" id="plan-detail-stages">{C.stages}</h3>
+          </div>
+          <ol className="feature-card__body plan-detail__stages">
             {stages.map((s, i) => (
               <li key={s.title} className={i === stage ? "is-current" : undefined} aria-current={i === stage ? "step" : undefined}>
-                <span className="u-bold-hold" data-label={s.title}>{s.title}</span>
-                {i === stage ? <b className="plan-detail__here">{C.youAreHere}</b> : null}
+                <span className="plan-detail__n">{i + 1}</span>
+                <span className="plan-detail__stage">{s.title}</span>
+                {i === stage ? <span className="plan-detail__here">{C.youAreHere}</span> : null}
               </li>
             ))}
           </ol>
         </section>
 
-        <section className="plan-detail__section">
-          <h3 className="plan-detail__label">{C.direction}</h3>
-          <p className="plan-detail__direction">{direction}</p>
+        {/* Her direction is the same card the Plan shows it in. */}
+        <div className="plan-detail__section">
+          <PlanDirection direction={direction} />
           {edited ? <p className="plan-detail__note">{C.edited}</p> : null}
-        </section>
+        </div>
 
         <p className="plan-detail__note">{C.how}</p>
         {/* The main action full width; leaving is the underlined link under it (designer, 2026-10-16). */}
