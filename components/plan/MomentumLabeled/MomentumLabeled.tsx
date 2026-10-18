@@ -23,8 +23,8 @@ const FIGURES: MomentumFigure[] = ["completed", "artifact", "outcome", "signal"]
 /**
  * Momentum: her week in motion. This week only, Sunday to Saturday, as seven circles: filled for a day
  * she did something, a thin outline for a past day with nothing in it, dashed for a day still to come.
- * Under them, when anything happened, one line counts it by kind; an empty week has no line. Then her
- * next move.
+ * Beside This week, when anything happened, one line counts it by kind; an empty week has no line. Then
+ * her next move.
  *
  * Nothing is a score, rank or streak, nothing is compared with anyone, and declined or deferred steps
  * are never in it.
@@ -47,25 +47,28 @@ export function MomentumLabeled({ events, today, history, nextMove, headingId = 
           <p className="momentum__intro">{C.intro}</p>
         </div>
         <section className="momentum__stage" aria-labelledby={`${headingId}-week`}>
-          <h3 className="momentum__stage-title" id={`${headingId}-week`}>
-            {C.week.heading}
-          </h3>
+          {/* What she did sits beside This week, so nothing comes under the circles (designer, 2026-10-18). */}
+          <div className="momentum__week-head">
+            <h3 className="momentum__stage-title" id={`${headingId}-week`}>
+              {C.week.heading}
+            </h3>
+            {counts.length ? (
+              <p className="momentum__basis">
+                {counts.map((line, i) => {
+                  // Each count's number stands out in color; the words stay as written.
+                  const [, n, rest] = /^(\d+)(.*)$/.exec(line) ?? [line, "", line];
+                  return (
+                    <span key={line}>
+                      {i ? " · " : null}
+                      {n ? <b className="momentum__count">{n}</b> : null}
+                      {rest}
+                    </span>
+                  );
+                })}
+              </p>
+            ) : null}
+          </div>
           <DayCircles events={thisWeek} today={today} history={history} />
-          {counts.length ? (
-            <p className="momentum__basis">
-              {counts.map((line, i) => {
-                // Each count's number stands out in color; the words stay as written.
-                const [, n, rest] = /^(\d+)(.*)$/.exec(line) ?? [line, "", line];
-                return (
-                  <span key={line}>
-                    {i ? " · " : null}
-                    {n ? <b className="momentum__count">{n}</b> : null}
-                    {rest}
-                  </span>
-                );
-              })}
-            </p>
-          ) : null}
         </section>
       </div>
       {nextMove ? (

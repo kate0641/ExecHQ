@@ -15452,7 +15452,7 @@ ol.entry-drawer__rows {
   color: var(--color-text-primary);
 }
 
-.signals-page :is(.signals-page__title, .signal-picture__heading, .linkedin-more__title, .signal-picture .account-card__name) {
+.signals-page :is(.signals-page__title, .momentum__heading, .signal-picture__heading, .linkedin-more__title, .signal-picture .account-card__name) {
   color: var(--color-headline-on-inverse);
 }
 
@@ -15481,7 +15481,26 @@ ol.entry-drawer__rows {
   border-color: var(--color-surface-her-band);
   background-color: var(--color-surface-her-band);
   color: var(--color-text-on-her-band);
-  box-shadow: 0 0 0 var(--space-xs) var(--color-her-halo);
+  /* Half the gap between days, so the halo never reaches the next circle (designer, 2026-10-18). */
+  box-shadow: 0 0 0 var(--space-2xs) var(--color-her-halo);
+}
+
+/* The check is drawn heavier than the icon set's line, so it reads at a glance on the lime. */
+.signals-page .momentum__card .day-circles__dot.is-on svg {
+  stroke-width: 2.4;
+}
+
+/* This week and what she did share a line; the circles get more room under them (designer, 2026-10-18). */
+.momentum__week-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: var(--space-sm);
+  row-gap: var(--space-3xs);
+}
+
+.signals-page .momentum__card .momentum__stage {
+  gap: var(--space-lg);
 }
 
 .signals-page .momentum__card .day-circles__dot.is-today:not(.is-on) {
