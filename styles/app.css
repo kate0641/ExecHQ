@@ -8578,7 +8578,8 @@ ol.ring-detail__timeline {
   color: var(--color-headline-on-inverse);
 }
 
-.guide--navy :is(.recommendation, .next-steps, .point-box, .signal-list, .card, .feature-card__body, .stage-checkin__thing, .agenda__body, .agenda__stage-note, .reflection-reply__fact) {
+.guide--navy :is(.recommendation, .next-steps, .point-box, .signal-list, .card, .feature-card__body, .stage-checkin__thing, .agenda__body, .agenda__stage-note, .reflection-reply__fact),
+.signals-page :is(.presence-clean__card, .li-picture, .came-of__row:not(.is-quiet) .came-of__reply) {
   --color-text-primary: var(--light-text-primary);
   --color-text-secondary: var(--light-text-secondary);
   --color-text-muted: var(--light-text-muted);
@@ -15427,7 +15428,40 @@ ol.entry-drawer__rows {
    label takes an Inter role: group titles in small capitals, card titles in
    Inter semibold. */
 
-/* Momentum's card is navy, its words light. */
+/* The Signal Picture on navy, as the Plan (designer, 2026-10-18): the page takes the inverse set, every
+   headline is yellow, and its white cards take the light set back (with the Plan's, above). The app's
+   frame around it only takes the colour, so a sheet opening over it stays light. */
+.chrome:has(.signals-page) {
+  background-color: var(--color-surface-inverse);
+}
+
+.signals-page {
+  --color-surface: var(--color-surface-inverse);
+  --color-text-primary: var(--color-text-inverse);
+  --color-text-secondary: var(--color-text-inverse-muted);
+  --color-text-muted: var(--color-text-inverse-muted);
+  --color-text-link: var(--color-text-inverse);
+  --color-text-link-hover: var(--color-text-inverse);
+  --color-eyebrow: var(--color-eyebrow-on-inverse);
+  --color-border: var(--color-border-inverse);
+  --color-border-subtle: var(--color-border-inverse);
+  --color-border-strong: var(--color-divider-on-inverse);
+  --color-focus: var(--color-focus-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-primary);
+}
+
+.signals-page :is(.signals-page__title, .signal-picture__heading, .linkedin-more__title, .signal-picture .account-card__name) {
+  color: var(--color-headline-on-inverse);
+}
+
+/* What she did sits in the Plan's darkest-navy card, so it still reads as a block on the navy. */
+.signals-page .came-of__row:not(.is-quiet) :is(.came-of__did, .came-of__tip) {
+  background-color: var(--color-surface-quiet-on-inverse);
+}
+
+/* Momentum's card is the Plan's top card: the darkest navy, its words light. */
 .signals-page .momentum__card {
   --color-text-primary: var(--color-text-inverse);
   --color-text-secondary: var(--color-text-inverse-muted);
@@ -15436,8 +15470,8 @@ ol.entry-drawer__rows {
   --color-border-strong: var(--color-divider-on-inverse);
   --color-focus: var(--color-focus-inverse);
   --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
-  border-color: var(--color-surface-inverse);
-  background-color: var(--color-surface-inverse);
+  border-color: var(--color-surface-quiet-on-inverse);
+  background-color: var(--color-surface-quiet-on-inverse);
   color: var(--color-text-primary);
 }
 
@@ -15452,7 +15486,7 @@ ol.entry-drawer__rows {
 
 .signals-page .momentum__card .day-circles__dot.is-today:not(.is-on) {
   box-shadow:
-    0 0 0 var(--space-3xs) var(--color-surface-inverse),
+    0 0 0 var(--space-3xs) var(--color-surface-quiet-on-inverse),
     0 0 0 var(--space-2xs) var(--color-text-inverse);
 }
 
