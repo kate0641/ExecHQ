@@ -566,15 +566,19 @@ export function usePlanPage() {
   const linkedInView = liExport.status === "ready" ? <LinkedInPicture data={LINKEDIN_EXPORT} /> : null;
   const startedOf = (withLinkedInView: boolean) => (
     <section className="plan-stub__signals" aria-labelledby="plan-signals-heading">
-      <h2 className="u-visually-hidden" id="plan-signals-heading">
-        {SPIC.startedHeading}
-      </h2>
+      {/* Once she has a starting point, Where you started is a section like What came of it: its heading on
+          the page, the card under it (designer, 2026-10-18). Before, the form carries its own heading. */}
       {hasBaseline(baseline, seeded) ? (
         <>
+        <div className="plan-stub__started">
+          <div className="signal-picture__head plan-stub__head">
+            <h2 className="signal-picture__heading" id="plan-signals-heading">
+              {SPIC.startedHeading}
+            </h2>
+            <span className="presence-clean__asof">{PR.asOf(shortDate(loop.account.plan.startedOn))}</span>
+          </div>
         <PresenceCard
-          name={SPIC.startedHeading}
           mark={PR.mark}
-          asOf={PR.asOf(shortDate(loop.account.plan.startedOn))}
           thenLabel={AC.then}
           nowLabel={AC.now}
           rows={rows}
@@ -585,10 +589,17 @@ export function usePlanPage() {
           tryLabel={AC.tryThis}
           headingId="plan-signals-card"
         />
-        {linkedIn}
-        {withLinkedInView ? linkedInView : null}
+        </div>
+        <div className="plan-stub__linkedin">
+          {linkedIn}
+          {withLinkedInView ? linkedInView : null}
+        </div>
         </>
       ) : (
+        <>
+        <h2 className="u-visually-hidden" id="plan-signals-heading">
+          {SPIC.startedHeading}
+        </h2>
         <SignalPicture
           name={SPIC.startedHeading}
           empty={
@@ -602,6 +613,7 @@ export function usePlanPage() {
           }
           headingId="plan-signals-card"
         />
+        </>
       )}
     </section>
   );

@@ -15471,6 +15471,69 @@ ol.entry-drawer__rows {
   color: var(--color-headline-on-inverse);
 }
 
+/* The Signal Picture under the cleaned-up system (designer, 2026-10-18; see the design system review). Spacing
+   follows the proximity rule: sections 32 apart, twice the biggest gap inside them; cards in one section 12
+   apart; a heading 8 above its copy, the copy 16 above its card. Every card on the page has the same 20px
+   corners and 20px padding. An eyebrow sits 4 over its title, and copy 20 over its button. */
+.signals-page {
+  --radius-card: var(--radius-xl);
+}
+
+.signals-page,
+.signals-page__lead,
+.signals-page__main,
+.signals-page__side,
+.signals-page .plan-stub__signals {
+  gap: var(--space-between-sections);
+}
+
+.plan-stub__started,
+.plan-stub__linkedin {
+  display: flex;
+  flex-direction: column;
+}
+
+.plan-stub__started {
+  gap: var(--space-copy-card);
+}
+
+.plan-stub__linkedin,
+.signals-page .presence-clean {
+  gap: var(--space-between-cards);
+}
+
+/* Where you started's heading, with the day it was taken from at its right. */
+.plan-stub__head {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  column-gap: var(--space-sm);
+}
+
+.signals-page :is(.momentum__head, .signal-picture__head, .li-picture__head) {
+  row-gap: var(--space-title-copy);
+}
+
+.signals-page :is(.momentum__card, .presence-clean__card, .presence-clean__try, .li-picture) {
+  padding: var(--space-feature-padding);
+  border-radius: var(--radius-card);
+}
+
+/* Her LinkedIn is its own section now, 32 below the card above, so the rule over it is not needed. */
+.signals-page .linkedin-more {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.signals-page :is(.momentum__next-label, .presence-clean__try-label) + b {
+  margin-top: calc(var(--space-eyebrow-title) - var(--space-xs));
+}
+
+.signals-page :is(.momentum__next, .presence-clean__try) > .btn {
+  margin-top: calc(var(--space-copy-action) - var(--space-xs));
+}
+
 /* What she did sits in the Plan's darkest-navy card, so it still reads as a block on the navy. */
 .signals-page .came-of__row:not(.is-quiet) :is(.came-of__did, .came-of__tip) {
   background-color: var(--color-surface-quiet-on-inverse);
