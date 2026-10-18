@@ -15188,10 +15188,17 @@ ol.entry-drawer__rows {
   background-color: var(--color-surface-raised);
 }
 
-/* What she did this week, its number in her lime. */
+/* What she did this week, its number in her lime: a circle, a pill only once it runs to two digits
+   (designer, 2026-10-18). */
 .momentum__count {
+  display: inline-grid;
+  place-items: center;
+  min-width: var(--space-lg);
+  height: var(--space-lg);
+  margin-right: var(--space-2xs);
   padding: 0 var(--space-2xs);
-  border-radius: var(--radius-tag);
+  border-radius: var(--radius-pill);
+  line-height: 1;
   background-color: var(--color-surface-her-band);
   color: var(--color-text-on-her-band);
   font-weight: var(--weight-bold);
@@ -15488,6 +15495,11 @@ ol.entry-drawer__rows {
 /* The check is drawn heavier than the icon set's line, so it reads at a glance on the lime. */
 .signals-page .momentum__card .day-circles__dot.is-on svg {
   stroke-width: 2.4;
+}
+
+/* The weekday letters sit a little further under their circles (designer, 2026-10-18). */
+.signals-page .momentum__card .day-circles {
+  gap: var(--space-xs);
 }
 
 /* This week and what she did share a line; the circles get more room under them (designer, 2026-10-18). */
