@@ -47,25 +47,19 @@ export function MomentumLabeled({ events, today, history, nextMove, headingId = 
           <p className="momentum__intro">{C.intro}</p>
         </div>
         <section className="momentum__stage" aria-labelledby={`${headingId}-week`}>
-          {/* What she did sits beside This week, so nothing comes under the circles (designer, 2026-10-18). */}
+          {/* What she did sits beside This week after a dot, in its own words with no badge, so nothing comes under
+              the circles (designer, 2026-10-18). */}
           <div className="momentum__week-head">
             <h3 className="momentum__stage-title" id={`${headingId}-week`}>
               {C.week.heading}
             </h3>
             {counts.length ? (
-              <p className="momentum__basis">
-                {counts.map((line, i) => {
-                  // Each count's number stands out in color; the words stay as written.
-                  const [, n, rest] = /^(\d+)(.*)$/.exec(line) ?? [line, "", line];
-                  return (
-                    <span key={line}>
-                      {i ? " · " : null}
-                      {n ? <b className="momentum__count">{n}</b> : null}
-                      {rest}
-                    </span>
-                  );
-                })}
-              </p>
+              <>
+                <span className="momentum__sep" aria-hidden="true">
+                  ·
+                </span>
+                <p className="momentum__basis">{counts.join(" · ")}</p>
+              </>
             ) : null}
           </div>
           <DayCircles events={thisWeek} today={today} history={history} />

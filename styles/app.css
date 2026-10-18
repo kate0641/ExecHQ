@@ -15188,22 +15188,6 @@ ol.entry-drawer__rows {
   background-color: var(--color-surface-raised);
 }
 
-/* What she did this week, its number in her lime: a circle, a pill only once it runs to two digits
-   (designer, 2026-10-18). */
-.momentum__count {
-  display: inline-grid;
-  place-items: center;
-  min-width: var(--space-lg);
-  height: var(--space-lg);
-  margin-right: var(--space-2xs);
-  padding: 0 var(--space-2xs);
-  border-radius: var(--radius-pill);
-  line-height: 1;
-  background-color: var(--color-surface-her-band);
-  color: var(--color-text-on-her-band);
-  font-weight: var(--weight-bold);
-}
-
 .momentum__stage:first-of-type {
   border-top: 0;
   padding-top: 0;
@@ -15494,12 +15478,12 @@ ol.entry-drawer__rows {
 
 /* The check is drawn heavier than the icon set's line, so it reads at a glance on the lime. */
 .signals-page .momentum__card .day-circles__dot.is-on svg {
-  stroke-width: 2.4;
+  stroke-width: 3;
 }
 
 /* The weekday letters sit a little further under their circles (designer, 2026-10-18). */
 .signals-page .momentum__card .day-circles {
-  gap: var(--space-xs);
+  gap: var(--space-sm);
 }
 
 /* This week and what she did share a line; the circles get more room under them (designer, 2026-10-18). */
@@ -15507,8 +15491,12 @@ ol.entry-drawer__rows {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  column-gap: var(--space-sm);
+  column-gap: var(--space-xs);
   row-gap: var(--space-3xs);
+}
+
+.momentum__sep {
+  color: var(--color-text-secondary);
 }
 
 .signals-page .momentum__card .momentum__stage {
@@ -15516,9 +15504,10 @@ ol.entry-drawer__rows {
 }
 
 .signals-page .momentum__card .day-circles__dot.is-today:not(.is-on) {
+  /* Today's ring is a hair finer than before, still heavier than the circle's own line (designer, 2026-10-18). */
   box-shadow:
     0 0 0 var(--space-3xs) var(--color-surface-quiet-on-inverse),
-    0 0 0 var(--space-2xs) var(--color-text-inverse);
+    0 0 0 calc(var(--space-3xs) + var(--border-width-thin) * 1.5) var(--color-text-inverse);
 }
 
 /* Never a yellow outline on a card unless the designer asks (2026-10-15): her replies take the
