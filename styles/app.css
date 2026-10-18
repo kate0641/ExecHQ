@@ -7971,6 +7971,13 @@ ol.ring-detail__timeline {
   box-shadow: var(--shadow-lg);
 }
 
+/* In the device frame the drawer spans the whole screen (it passes the pointer through), so the panel's
+   70% is of the screen. Without it the 70% had nothing to measure against, and a long drawer like Add what
+   you did ran off the top of the phone, its title out of sight (2026-10-18). */
+.device__screen .drawer {
+  top: 0;
+}
+
 .device__screen .drawer__panel {
   max-height: 70%;
 }

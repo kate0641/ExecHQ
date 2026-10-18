@@ -127,7 +127,10 @@ export function usePlanPage() {
     const screen = new URLSearchParams(window.location.search).get("screen");
     const rows = cameOfRows(pictureItems, loop.account.plan.startedOn, loop.today);
     const item = pictureItems.find((i) => i.editable);
-    const row = rows.find((r) => (screen === "report-loop" ? Boolean(r.recordId) : Boolean(r.item)));
+    // A row she can still report on (nothing said yet) when the dock's state has one, so the sheet shows
+    // what tapping "Nothing reported yet" opens: for something ExecHQ made, How did it go? first.
+    const kind = rows.filter((r) => (screen === "report-loop" ? Boolean(r.recordId) : Boolean(r.item)));
+    const row = kind.find((r) => !r.came) ?? kind[0];
     /* eslint-disable react-hooks/set-state-in-effect -- the URL is only readable after mount */
     if (screen === "add") setAdding({});
     else if (screen === "edit" && item) setEditingItem(item);
