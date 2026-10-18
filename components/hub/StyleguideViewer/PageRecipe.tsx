@@ -26,7 +26,13 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
     note: "What the page is made of.",
     rules: [
       {
-        rule: "The page is stone. Content sits on white cards with a soft stone edge and no shadow.",
+        rule: "Your day lives in daylight; your plan and your progress live in ExecHQ's room. A page about today (Home, the Briefing, the Toolbox and her drafts, Login, onboarding's quiet steps) is stone: she reads, writes and acts there. A page about her direction and where she stands (the Plan, the Signal Picture, Profile, onboarding's ExecHQ moments) is navy. For a new screen, ask: is this about today, or about her trajectory?",
+        why: "Dark text on a light page reads best for long reading and writing, older readers included (Nielsen Norman Group, 2020), and Home's skies need a light ground to show. Navy makes the few-words, look-once pages feel private and focused. The daily check-in on Home is the day; the Plan's stage check-in is the room. The advisor's sheet and drawers keep their own navy look on any page (designer, 2026-10-18).",
+        from: "Home, Plan, Signal Picture, Profile, Onboarding",
+        uses: ["--color-surface", "--color-surface-inverse", ".guide--navy", ".signals-page"],
+      },
+      {
+        rule: "On stone, content sits on white cards with a soft stone edge and no shadow.",
         why: "Clean, not playful: one quiet edge separates a card from the page without stacking tints.",
         from: "Home",
         uses: ["--color-surface", "--color-surface-raised", "--color-border", ".card"],
@@ -38,8 +44,8 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         uses: [".card--reads", "--color-border-subtle"],
       },
       {
-        rule: "At most one dark block on a screen, and only for the one thing to do next, or where she is.",
-        why: "Navy is the anchor. Two anchors compete; a settings page like Profile needs none. In the advisor panel the only navy is the destination she is on, so her own messages are light blue.",
+        rule: "On a stone page, at most one dark block, and only for the one thing to do next, or where she is.",
+        why: "Navy is the anchor. Two anchors compete. In the advisor panel the only navy is the destination she is on, so her own messages are light blue.",
         from: "Home, Navigation",
         uses: ["--color-surface-inverse"],
       },
