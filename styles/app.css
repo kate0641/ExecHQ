@@ -15333,13 +15333,30 @@ ol.entry-drawer__rows {
   border-bottom: var(--border-subtle);
 }
 
-/* The band splits where the columns under it do: the week's card on the left, the next move over
-   where she started. */
-[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .momentum {
+/* The band splits where the columns under it do: inside Momentum's card, the week on the left and the
+   next move on the right, level with This week, a rule between them. */
+[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .momentum__card {
   display: grid;
   grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-  column-gap: var(--space-2xl);
+  column-gap: 0;
+  row-gap: var(--space-md);
   align-items: start;
+}
+
+[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .momentum__head {
+  grid-column: 1 / -1;
+}
+
+[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .momentum__card .momentum__stage {
+  padding-right: var(--space-xl);
+}
+
+[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .momentum__next {
+  align-self: stretch;
+  padding-top: 0;
+  padding-left: var(--space-xl);
+  border-top: 0;
+  border-left: var(--border-width-thin) solid var(--color-border);
 }
 
 /* On the web each day is up to 4rem, so the week fills more of its column. */
@@ -15501,6 +15518,49 @@ ol.entry-drawer__rows {
 
 .signals-page .momentum__card .momentum__stage {
   gap: var(--space-lg);
+}
+
+/* Her next move, at the foot of Momentum's card under a quiet rule (designer, 2026-10-18). It was a light
+   blue card of its own, which on the navy page outranked Momentum; the spec has it as part of Momentum.
+   On the card's navy its button takes the action yellow. */
+.momentum__next {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  padding-top: var(--space-lg);
+  border-top: var(--border-width-thin) solid var(--color-border);
+}
+
+.momentum__next-label {
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  letter-spacing: var(--type-eyebrow-tracking);
+  text-transform: uppercase;
+  color: var(--color-eyebrow);
+}
+
+.momentum__next-title {
+  font-family: var(--type-card-title-font);
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  line-height: var(--type-card-title-leading);
+}
+
+.momentum__next-why {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+.momentum__next .btn {
+  margin-top: var(--space-xs);
+}
+
+.signals-page .momentum__card {
+  --color-eyebrow: var(--color-eyebrow-on-inverse);
 }
 
 .signals-page .momentum__card .day-circles__dot.is-today:not(.is-on) {
