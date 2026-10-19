@@ -562,7 +562,8 @@ export function useToolFlow(concept: FlowConcept) {
         .slice(0, 2)
         .forEach((r) => rows.push(recordRow(r, GOES_WITH.usesStatement, GOES_WITH.open, `${flowHref}?artifact=${r.id}`)));
     } else {
-      if (statement) rows.push(recordRow(statement, GOES_WITH.drawsOn[kind], GOES_WITH.open, `${flowHref}?artifact=${statement.id}`));
+      // A post doesn't draw on her statement, so it isn't offered there (CEO, 19 Oct).
+      if (statement && GOES_WITH.drawsOn[kind]) rows.push(recordRow(statement, GOES_WITH.drawsOn[kind], GOES_WITH.open, `${flowHref}?artifact=${statement.id}`));
       if (kind === "pitch") {
         const last = loop.records.find((r) => r.kind === "pitch");
         if (last) rows.push(recordRow(last, GOES_WITH.lastPitch, GOES_WITH.reuse, `${flowHref}?reuse=${last.id}`));

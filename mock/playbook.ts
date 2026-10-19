@@ -1427,7 +1427,8 @@ export const GOES_WITH = {
   drawsOn: {
     pitch: "Your pitch draws on it for who you are.",
     "situation-brief": "Your opening statement draws on it.",
-    "thought-leadership": "Your post draws on it for what you lead.",
+    // The promise is taken off (CEO, 19 Oct): the post doesn't draw on it.
+    "thought-leadership": "",
     positioning: "",
   } as Record<ArtifactKind, string>,
   /** The work that uses her statement, from Positioning Builder. */

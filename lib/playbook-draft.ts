@@ -63,13 +63,18 @@ function openingFor(topic: string, voice?: string): string {
   return sentence(t).trim();
 }
 
-/** What to do with it next, and after: when and how to publish, the plan
- *  step it serves, and that ExecHQ will ask how it landed. */
-function nextUse(article: boolean, nextStep?: string): DraftSection {
+/** What to do with it next, and after: how to publish, the plan step it
+ *  serves, and that ExecHQ will ask how it landed. Started from a Briefing
+ *  read, it says the Briefing is a good source for posts, never when to post
+ *  (CEO, 19 Oct). */
+function nextUse(article: boolean, nextStep?: string, fromRead = false): DraftSection {
   const parts = [
     article
       ? "Publish it as a LinkedIn article, with a short post that links to it."
-      : "Post it on a weekday morning, and reply to comments the same day.",
+      : fromRead
+        ? ""
+        : "Post it on a weekday morning, and reply to comments the same day.",
+    fromRead ? "Your Briefing is a good place to find your next post: when a read speaks to what you lead, start one from it." : "",
     nextStep ? `It serves your next step: ${nextStep[0].toLowerCase()}${nextStep.slice(1)}.` : "",
     "When someone responds, answer in your own words. ExecHQ will ask how it landed in a week.",
   ].filter(Boolean);
@@ -163,7 +168,7 @@ export function firstDraft(inputs: DraftInputs, readId?: string, passage?: strin
       ...(long ? [{ id: "closing", heading: "Closing", segments: [...part("close", [ex(CLOSE_BY_VOICE[inputs.voice ?? ""] ?? "How does it work where you are?")])] }] : []),
     ];
   }
-  sections.push(nextUse(article, nextStep));
+  sections.push(nextUse(article, nextStep, Boolean(read)));
   // Her length, applied as a first revision would.
   if (inputs.length === "Short") sections = reviseThought(sections, { length: "Shorter" });
   if (inputs.length === "Long") sections = reviseThought(sections, { length: "Longer" });
