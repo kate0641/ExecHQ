@@ -325,8 +325,8 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
   const [detailBack, setDetailBack] = useState<PageId>("draft");
   // Whether the longer versions have been looked at, for the Done page.
   const [builtVersions, setBuiltVersions] = useState(false);
-  // The Toolbox is introduced once, on the first draft.
-  const [toolboxSeen, setToolboxSeen] = useState(false);
+  // The Playbook is introduced once, on the first draft.
+  const [playbookSeen, setPlaybookSeen] = useState(false);
   const next = () => {
     if (returnTo && returnTo !== pageId) {
       setReturnTo(null);
@@ -742,19 +742,19 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
           frame={frame()}
           plan={plan}
           lede={sharpened ? c.ledeSharpened : c.ledeStart}
-          intro={toolboxSeen ? undefined : GUIDE_C3.story.toolboxIntro}
+          intro={playbookSeen ? undefined : GUIDE_C3.story.playbookIntro}
           onDetail={() => {
-            setToolboxSeen(true);
+            setPlaybookSeen(true);
             setDetailBack("draft");
             goTo("sharpen");
           }}
           onVersions={() => {
-            setToolboxSeen(true);
+            setPlaybookSeen(true);
             setBuiltVersions(true);
             goTo("versions");
           }}
           onLater={() => {
-            setToolboxSeen(true);
+            setPlaybookSeen(true);
             saveAndFinish();
           }}
         />

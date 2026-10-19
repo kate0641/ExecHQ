@@ -20,7 +20,7 @@ const card = createElement(NextStepCard, {
   eyebrow: "Next in short-term",
   title: shortAction.title,
   why: { this: shortAction.whyThis, now: shortAction.whyNow, you: shortAction.whyYou },
-  href: "/toolbox-flow/concept-3",
+  href: "/playbook-flow/concept-3",
 });
 
 export const mapRingsStates = defineComponentStates({
@@ -29,7 +29,7 @@ export const mapRingsStates = defineComponentStates({
   status: "draft",
   flows: ["homepage"],
   description:
-    "The strip at the top of the homepage: one ring per horizon, one segment per action on her map. Solid is done, outlined is in progress, dashed is not started. Tapping a ring shows that ring's next step in a card under the strip, its notch pointing at the ring, with Start in the Toolbox.",
+    "The strip at the top of the homepage: one ring per horizon, one segment per action on her map. Solid is done, outlined is in progress, dashed is not started. Tapping a ring shows that ring's next step in a card under the strip, its notch pointing at the ring, with Start in the Playbook.",
   component: MapRings,
   notApplicable: {
     disabled: "Every ring can always be opened.",

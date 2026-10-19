@@ -194,7 +194,7 @@ through `lib/hub-pages.ts`.
   can change without breaking routes.
 - `sprint` drives the "Not yet built — Sprint N" placeholder text.
 - `chrome` picks the navigation chrome: `minimal` (Onboarding, Login), `app`
-  (Homepage, Profile, Plan, Toolbox, Toolbox flow, Daily Briefing), `enterprise`
+  (Homepage, Profile, Plan, Playbook, Playbook flow, Daily Briefing), `enterprise`
   (Enterprise Dashboard). `header: false` drops the wordmark header (Onboarding,
   whose welcome screen carries the wordmark itself).
 - `webOnly: true` marks a flow the viewport toggle locks to web width.

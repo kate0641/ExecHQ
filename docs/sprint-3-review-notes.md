@@ -96,7 +96,7 @@ The dock's scenario picker (1–5) shows the Plan at one, sixteen, eighteen and 
 - **No interaction spec.** `specs/plan.md` waits for approved concepts.
 - **No statuses changed.** Every concept and component is still `draft`.
 - **No model.** Ranking, narrative and the label rules are mock stand-ins.
-- **Monthly and quarterly reviews, the custom-plan wizard, IC versus management paths, the Toolbox flows beyond the stub:** out of scope per the brief.
+- **Monthly and quarterly reviews, the custom-plan wizard, IC versus management paths, the Playbook flows beyond the stub:** out of scope per the brief.
 
 ## 8. Concept 1 tweak: roadmap as a calendar, her direction, stage periods
 

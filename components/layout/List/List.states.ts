@@ -23,7 +23,7 @@ const artifacts: ListItemData[] = [
     secondary: "Situation Brief · Last changed today · 3 versions · For: Brief your manager before Thursday’s check-in",
     leading: { type: "icon", name: "document" },
     trailing: { badge: createElement(LoopStatus, { record: ready, detail: false }), actions: more("Brief for your manager check-in") },
-    href: "/toolbox-flow/concept-3?artifact=check-in-brief",
+    href: "/playbook-flow/concept-3?artifact=check-in-brief",
   },
   {
     id: "post",
@@ -31,7 +31,7 @@ const artifacts: ListItemData[] = [
     secondary: "Thought Leadership Builder · Last changed today · 1 version · Started from today’s Briefing",
     leading: { type: "icon", name: "pencil" },
     trailing: { badge: createElement(LoopStatus, { record: draft, detail: false }), actions: more("Post") },
-    href: "/toolbox-flow/concept-3?artifact=post",
+    href: "/playbook-flow/concept-3?artifact=post",
   },
   {
     id: "story",
@@ -39,7 +39,7 @@ const artifacts: ListItemData[] = [
     secondary: "Positioning Builder · Last changed on Tuesday · 2 versions",
     leading: { type: "icon", name: "person" },
     trailing: { meta: "5 Oct", actions: more("Your leadership story") },
-    href: "/toolbox-flow/concept-3?artifact=story",
+    href: "/playbook-flow/concept-3?artifact=story",
   },
 ];
 
@@ -67,7 +67,7 @@ export const listStates = defineComponentStates({
   name: "List",
   group: "layout",
   status: "draft",
-  flows: ["toolbox"],
+  flows: ["playbook"],
   description:
     "Rows of one or two lines, with a leading icon, avatar or checkbox and trailing badges, metadata or actions, and full or inset dividers. Plain rows open from their link, the whole row the target. Selectable rows (one or several) move with the arrow keys and choose with Space or Enter. Reorderable rows drag by the handle, move by keyboard (Space, arrows, Space; Escape to cancel), or by the up and down buttons. Spacing, dividers and type from the LISTS tokens.",
   component: List,

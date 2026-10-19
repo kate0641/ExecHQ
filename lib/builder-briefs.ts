@@ -1,7 +1,7 @@
 /**
  * Builder briefs.
  *
- * The agent's background for each Toolbox builder: what it makes, what it
+ * The agent's background for each Playbook builder: what it makes, what it
  * knows and asks, the draft section by section, how it changes, how it is
  * used and followed up, and how the agent behaves. Every builder's brief has
  * the same sections, because the four share one workflow and differ only in

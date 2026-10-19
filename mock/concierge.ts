@@ -35,7 +35,7 @@ export const CONCIERGE_COPY = {
     // The draft's name is his ("your check-in brief"); this is her asking.
     prep: (name: string) => `Help me finish ${name.replace(/^your /, "my ")}`,
     next: "What’s next on my plan?",
-    /** On the Toolbox only, first. */
+    /** On the Playbook only, first. */
     pickTool: "Which tool do I need?",
     scope: "How do I ask for more scope?",
     recall: "What have I done so far?",
@@ -45,7 +45,7 @@ export const CONCIERGE_COPY = {
   places: {
     homepage: "Home",
     plan: "your plan",
-    toolbox: "the Toolbox",
+    playbook: "the Playbook",
     "daily-briefing": "today’s Briefing",
     profile: "your profile",
   } as Record<string, string>,
@@ -116,7 +116,7 @@ export const CONCIERGE_COPY = {
     after: "Your next conversation with your manager is the place to start.",
   },
   /** Finding the right tool, from his "Which tool do I need?" prompt on the
-   *  Toolbox. */
+   *  Playbook. */
   findTool: {
     sounds: (tool: string, short: string) => `That sounds like a ${tool}: ${short.charAt(0).toLowerCase()}${short.slice(1)}.`,
     other: "Something else",

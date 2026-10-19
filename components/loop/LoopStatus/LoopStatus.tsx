@@ -65,7 +65,7 @@ const GLYPHS: Record<Glyph, React.ReactNode> = {
 
 /**
  * An artifact's place in the Loop: the one status treatment used identically
- * everywhere an artifact appears (Home, the Plan, the Toolbox and its library).
+ * everywhere an artifact appears (Home, the Plan, the Playbook and its library).
  *
  * It reads its label from the record through `lib/loop.ts`, so it cannot say
  * anything the Loop would not: "Draft", "Ready to use", "Sent", "Published",

@@ -24,7 +24,7 @@ export const loopStatusStates = defineComponentStates({
   name: "LoopStatus",
   group: "feedback",
   status: "draft",
-  flows: ["homepage", "toolbox", "toolbox-flow", "plan"],
+  flows: ["homepage", "playbook", "playbook-flow", "plan"],
   description:
     "An artifact's place in the Loop, the same wherever the artifact appears. The word always carries the meaning; the shape beside it fills in as the artifact moves along, so status never depends on colour.",
   component: LoopStatus,

@@ -1,7 +1,7 @@
 import type { NavDestination } from "@/lib/manifest";
 
 /** One destination in the signed-in navigation, resolved from the manifest's
- *  `appNav`: Home, Plan, Toolbox, Briefing, Profile. */
+ *  `appNav`: Home, Plan, Playbook, Briefing, Profile. */
 export type { NavDestination };
 
 /**

@@ -79,7 +79,7 @@ Under the circles, when anything happened this week, one line counts it, kind by
 
 ### 3.3 Your next move
 
-A card: **Your next move** in small capitals, the next step on their plan that is taken on and not done, why now in one line, and **Start**, which opens it in the Toolbox. On web it sits beside the week (2).
+A card: **Your next move** in small capitals, the next step on their plan that is taken on and not done, why now in one line, and **Start**, which opens it in the Playbook. On web it sits beside the week (2).
 
 ---
 
@@ -133,7 +133,7 @@ Until they have said where they started, What came of it is not shown, and the p
 3. **Added since you started**: one line, such as "1 podcast appearance and 1 piece you published.", or "Nothing yet. What you add shows here, and the counts move."
 4. **+ Add**, which opens the add drawer (5.2).
 
-Under the card, **Try this**: one suggestion tied to what they have, its reason, and a button into the Toolbox ("Draft a pitch").
+Under the card, **Try this**: one suggestion tied to what they have, its reason, and a button into the Playbook ("Draft a pitch").
 
 ### 5.2 Adding what they did
 
@@ -209,7 +209,7 @@ The page changes with where the person is. In the prototype the dock lists five 
 | Some things she added come with the sample data and cannot be edited or take new words | Everything they added can be edited, deleted and reported on |
 | The LinkedIn export is never really read: choosing a file whose name looks like an export shows fixed sample data | The export is read and its numbers shown |
 | Try this is one fixed suggestion | It is chosen from what they have and their plan |
-| The Toolbox tools Start and Try this open are placeholders until Sprint 4 | They open the real tools |
+| The Playbook tools Start and Try this open are placeholders until Sprint 4 | They open the real tools |
 | Nothing is saved but in the browser, and the dock's reset clears it | Their starting point, what they add and what they say are kept on the account |
 
 ---

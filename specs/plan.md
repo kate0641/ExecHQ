@@ -76,7 +76,7 @@ Under the question **"Where are you with this?"**:
 
 | Answer | What it does | ExecHQ's reply |
 | --- | --- | --- |
-| **The start button** | Opens the step's tool in the Toolbox, and puts it on their plan as taken on. It says "Start in {tool}", or "Get started" for a step with no tool, and **"Keep working on it"** once a draft for it is under way. A step with no tool is started by putting it on their plan for its time | None: the tool opens |
+| **The start button** | Opens the step's tool in the Playbook, and puts it on their plan as taken on. It says "Start in {tool}", or "Get started" for a step with no tool, and **"Keep working on it"** once a draft for it is under way. A step with no tool is started by putting it on their plan for its time | None: the tool opens |
 | **I'll do it {when}** | Puts the step on their plan for its suggested time, which the label says ("I'll do it this week") | "Good. It is on your plan for {when}, and ExecHQ will ask you how it went." |
 | **Change when** | Shows the time words instead, from now on (This week, Next week, This month, Next month, This quarter, Next quarter, Later). Choosing one puts the step on their plan for then | The same reply, with the time they chose |
 | **Talk it through** | Opens the chat on the step, asking "What's getting in the way? Pick one, or tell me in your own words." Nothing about their plan changes | In the chat |
@@ -287,7 +287,7 @@ The Plan changes with where the person is. In the prototype the dock lists five 
 | "Talk it through" offers fixed replies in the chat, and "It feels too big" changes nothing | The advisor answers, and what they say can change the plan |
 | A stage is finished when every step taken on in it is confirmed in the Loop, against fixed sample work | The same rule, against their real work |
 | Things they added that came with the sample data cannot take new words | Everything they added can |
-| The Toolbox tools the start buttons open are placeholders until Sprint 4 | They open the real tools |
+| The Playbook tools the start buttons open are placeholders until Sprint 4 | They open the real tools |
 | Nothing is saved but in the browser, and the dock's reset clears it | Answers, check-ins, passes and the open state of Your direction are kept on the account |
 
 ---

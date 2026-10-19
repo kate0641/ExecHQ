@@ -32,7 +32,7 @@
 
 - **In the prototype's mock plan:** "Pitch yourself to a podcast the people above you follow" (arrives with Podcast chosen), "Draft a talk proposal for the leadership forum" (Speaking, the leadership forum), and "Put yourself forward for the Q1 planning review" (Speaking, the Q1 planning review).
 - **From "What's on your mind?"** when what she says names a pitch, podcast, conference, panel, speaking, "a talk", a keynote, press, an editor, a journalist or a call for proposals.
-- **From the Toolbox or the library,** and from her last pitch ("Your last pitch. Start from it instead of a blank page."), which starts a new pitch linked back to it.
+- **From the Playbook or the library,** and from her last pitch ("Your last pitch. Start from it instead of a blank page."), which starts a new pitch linked back to it.
 
 ### 1.2 When another builder fits better
 
@@ -152,7 +152,7 @@ Kate, 14 Oct; the wording is **Proposed**. Under the draft, above Copy, numbered
 
 ### 5.3 After she answers
 
-Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and always gives the next step (Kate, 13 Oct). One leads, with at most one more. A Plan step goes on her Plan only when she taps **Add it to your plan**; where a step is already done or passed on, the next step on her Plan takes its place. "Not now" folds it to one line. Built by rules (`AFTER_ANSWER` in `mock/toolbox.ts`); no model in the pilot.
+Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and always gives the next step (Kate, 13 Oct). One leads, with at most one more. A Plan step goes on her Plan only when she taps **Add it to your plan**; where a step is already done or passed on, the next step on her Plan takes its place. "Not now" folds it to one line. Built by rules (`AFTER_ANSWER` in `mock/playbook.ts`); no model in the pilot.
 
 | Answer | Next step | Then |
 | --- | --- | --- |

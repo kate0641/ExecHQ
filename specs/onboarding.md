@@ -50,7 +50,7 @@ The prototype's step bar names twelve steps. A few pages are reached only from a
 | 8 | Questions | Up to three "Making it yours" questions, with two more reflections between them | No |
 | 9 | Your plan | The plan, tuned to their answers: this week, then the stages | — |
 | 10 | Your story | A question to sit with, about saying what they lead | An answer |
-| 11 | First draft | The first draft, and the choice of what next. *Asides:* add more detail, longer versions. This is the **Toolbox** (Positioning Builder) | — |
+| 11 | First draft | The first draft, and the choice of what next. *Asides:* add more detail, longer versions. This is the **Playbook** (Positioning Builder) | — |
 | 12 | Done | What is saved and what to do next | — |
 
 ```
@@ -268,12 +268,12 @@ A plan has no end date and no length. A stage is never given a deadline.
 
 **The question.** The reflection above: "Could you say what you lead in one sentence, right now?" with "Out loud, to someone who's never met you." It behaves as in 3.8. Its fact is Gallup's: only 46% of U.S. employees clearly know what is expected of them at work (2025).
 
-**The first draft.** Here the person enters the **Toolbox.** The label reads **Toolbox · Positioning Builder** on this page, on **Add more detail** and on **Longer versions** (and on the "Writing your first draft" state), because the story is made in the Positioning Builder, one of the Toolbox's four workflows. The question before it is still onboarding and keeps its own label. Heading **Here's your first draft.** It is written at once from what the person has already said. The line is "A start, from what you've shared. Add your role and a result to say what you lead." until they add detail, after which it says "Written from what you've shared, with the detail you added."
+**The first draft.** Here the person enters the **Playbook.** The label reads **Playbook · Positioning Builder** on this page, on **Add more detail** and on **Longer versions** (and on the "Writing your first draft" state), because the story is made in the Positioning Builder, one of the Playbook's four workflows. The question before it is still onboarding and keeps its own label. Heading **Here's your first draft.** It is written at once from what the person has already said. The line is "A start, from what you've shared. Add your role and a result to say what you lead." until they add detail, after which it says "Written from what you've shared, with the detail you added."
 
 - The draft, in the person's voice ("I'm building toward a C-suite role within the next three years. What I want next is…"), with **Edit.** An edited draft is kept as written until the detail changes and the draft is rewritten.
 - **Where you could use it:** three uses, from the plan.
 - **Copy, Download, Email it to me.**
-- Said once, on the first time the draft is seen, a line under the draft: "This is the Toolbox, where ExecHQ makes your drafts. You'll find it any time from Ask or go." It is not shown again when the person returns to the draft.
+- Said once, on the first time the draft is seen, a line under the draft: "This is the Playbook, where ExecHQ makes your drafts. You'll find it any time from Ask or go." It is not shown again when the person returns to the draft.
 - "Why this matters": "You can use this today. Add detail or build longer versions now, or come back to them from your plan."
 - **What next?** at the foot, three equal choices, each a full-width outlined button with a line saying what it does:
   - **Add more detail:** "Your role, what you're responsible for and a result, so it says what you lead."
@@ -282,9 +282,9 @@ A plan has no end date and no length. A stage is never given a deadline.
 
 None is the default, so leaving it for later is a real choice.
 
-**Add more detail.** Label **Toolbox · Positioning Builder.** Heading **Three things only you know.** Line "Your role, what you're responsible for, and one result. Skip any you like." Each is asked in turn in the drawer ("1 of 3"): **What's your current role? What are you responsible for? What's a result you're proud of?** Each has **Skip** and **Next**; the last has **Write my draft.** A card shows what good looks like for the question being asked (for example "VP of Marketing, leading brand and demand."). Writing the draft shows "Writing your first draft", then the rewritten draft. A hand edit is replaced, because the draft is written again from the facts. It returns to wherever it was opened from.
+**Add more detail.** Label **Playbook · Positioning Builder.** Heading **Three things only you know.** Line "Your role, what you're responsible for, and one result. Skip any you like." Each is asked in turn in the drawer ("1 of 3"): **What's your current role? What are you responsible for? What's a result you're proud of?** Each has **Skip** and **Next**; the last has **Write my draft.** A card shows what good looks like for the question being asked (for example "VP of Marketing, leading brand and demand."). Writing the draft shows "Writing your first draft", then the rewritten draft. A hand edit is replaced, because the draft is written again from the facts. It returns to wherever it was opened from.
 
-**Longer versions.** Label **Toolbox · Positioning Builder.** Heading **Longer versions.** Line "The same story in three lengths, for different places: a line, a paragraph and the full bio."
+**Longer versions.** Label **Playbook · Positioning Builder.** Heading **Longer versions.** Line "The same story in three lengths, for different places: a line, a paragraph and the full bio."
 
 - A switch for **Short / Medium / Long** shows the same story at each length. A fact ExecHQ doesn't know yet is a **dashed gap** ("To add: your name"), never something made up.
 - When there are gaps: "The dashed parts are things ExecHQ doesn't know yet. Add them with the fields, or add more detail to your story." (worded to be true on every viewport, since the fields are below the bio on phone and tablet and beside it on web) and a set of fields, **What's missing from your bio?**: **Your name**, **How big is your team?** (five choices) and **What you're strongest at** (up to three of seven). **Add more detail** goes to the three questions above and returns here.
@@ -298,8 +298,8 @@ None is the default, so leaving it for later is a real choice.
 
 - Label **You're set up.** Heading **Your plan and story are saved.** Line: "You've done the hardest part: saying where you want to go."
 - A numbered list, **What to do next**, in a card in the middle of the page, showing only what is left, in this order:
-  1. **Add more detail,** if the draft has no role or result yet. Its line begins "In your Toolbox."
-  2. **Build longer versions,** if they have not been opened. Its line begins "In your Toolbox."
+  1. **Add more detail,** if the draft has no role or result yet. Its line begins "In your Playbook."
+  2. **Build longer versions,** if they have not been opened. Its line begins "In your Playbook."
   3. The plan's **next stage** (its name and first outcome).
   4. **Bring in your LinkedIn numbers,** if they have not come in.
 - Button **Go to my homepage.**
@@ -569,7 +569,7 @@ These are settled. They are the specified behavior. The dates are when they were
 15. **No step counters, percentages or scores** appear anywhere in the flow.
 16. **No open responses.** Every answer in onboarding is a choice. The only typing is the account email, an invite code, and refining the story (a role, what the person is responsible for, a result, a name for the bio, and editing the draft). (2026-10-02)
 17. **The invite code is a required choice:** a code, or "I don't have a code." (2026-10-02)
-18. **The story build-out is the Toolbox, and the pages say so.** The draft, add-detail and longer-versions pages are labeled "Toolbox · Positioning Builder," the Toolbox is explained once on the first draft, and Done says "In your Toolbox" on the story steps that are left. Onboarding does not use the Toolbox's own frame or navigation. (2026-10-02)
+18. **The story build-out is the Playbook, and the pages say so.** The draft, add-detail and longer-versions pages are labeled "Playbook · Positioning Builder," the Playbook is explained once on the first draft, and Done says "In your Playbook" on the story steps that are left. Onboarding does not use the Playbook's own frame or navigation. (2026-10-02)
 19. **Tablet is the phone layout; only web changes.** On web the answers sit in a card beside the question, with no bottom sheet and no drawn keyboard, and the Welcome splits as Login's does. (2026-10-02)
 20. **On web the longer versions fill in live,** beside their fields, with no button. On phone and tablet a button applies the answers. (2026-10-02)
 21. **Google and Apple sign up on Account,** the same buttons as Login's, and any account they give is accepted. A typed email is confirmed on a page of its own by a 6-digit code, the same as Login's; Google and Apple pass it, because they have confirmed the address already. A wrong or expired code uses Login's screens and rules: the error under the cells, which clear, and after five wrong tries or 10 minutes **That code has expired** with **Send a new code**. (2026-10-08)

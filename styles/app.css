@@ -2755,7 +2755,7 @@ ul.concierge-suggest {
 /* IconRow. The advisor's nav (designer, 2026-10-11): plain icons and their names, no
    tile and no strip. Only the current page is marked: its icon sits in a
    yellow circle and its name steps up to semibold. Nothing changes on hover,
-   which carries no meaning on a phone. Toolbox Concept 2's tools use the
+   which carries no meaning on a phone. Playbook Concept 2's tools use the
    same row, with no current item. */
 .icon-row__item {
   position: relative;
@@ -2781,7 +2781,7 @@ ul.concierge-suggest {
   border-radius: var(--radius-pill);
 }
 
-/* Large: the Toolbox's tools, which lead their page. */
+/* Large: the Playbook's tools, which lead their page. */
 .icon-row--lg .icon-row__chip {
   width: 3.25rem;
   height: 3.25rem;
@@ -8763,7 +8763,7 @@ ol.ring-detail__timeline {
   min-height: 0;
 }
 
-/* A light blue rule under where she could use it closes the draft's part of the page before the Toolbox
+/* A light blue rule under where she could use it closes the draft's part of the page before the Playbook
    line and why it matters (designer, 2026-10-15). The same 28px above and below it: the page's 24px
    section gap, opened a hair. */
 .guide--navy .story-draft__uses {
@@ -9355,9 +9355,9 @@ ol.ring-detail__timeline {
   overflow: clip;
 }
 
-/* Toolbox flow Concept 3's questions use the same drawer (13 Oct): inside a
+/* Playbook flow Concept 3's questions use the same drawer (13 Oct): inside a
    tool the Ask or go pill steps aside, so no room is kept for it, and the
-   way back to the Toolbox keeps the screen's side margin. */
+   way back to the Playbook keeps the screen's side margin. */
 .device__screen:has(.concierge-host) .chrome__main:has(> .guide--drawer) {
   padding-bottom: 0;
 }
@@ -19090,7 +19090,7 @@ ul.plan-guided__sparks {
 }
 
 /* ===========================================================================
-   TOOLBOX: THE SHARED WORKFLOW (Sprint 4)
+   PLAYBOOK: THE SHARED WORKFLOW (Sprint 4)
    One pattern for all four tools: use case, inputs, draft, revise, versions,
    copy or export. The tools differ in words, not in these parts.
    ======================================================================== */
@@ -20256,7 +20256,7 @@ ul.plan-guided__sparks {
   gap: var(--space-xs);
 }
 
-/* One button across the row (Toolbox flow Concept 2). */
+/* One button across the row (Playbook flow Concept 2). */
 .draft-use--single .draft-use__buttons > .btn {
   flex: 1 1 100%;
 }
@@ -20313,12 +20313,12 @@ ul.plan-guided__sparks {
 }
 
 /* ===========================================================================
-   TOOLBOX PAGE AND LIBRARY (Sprint 4)
+   PLAYBOOK PAGE AND LIBRARY (Sprint 4)
    The four tools always lead, the library below. On a phone the tools stay
    compact, so the library is reachable without a long scroll.
    ======================================================================== */
 
-.toolbox-page {
+.playbook-page {
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
@@ -20326,17 +20326,17 @@ ul.plan-guided__sparks {
   margin-inline: auto;
 }
 
-[data-viewport="web"] .toolbox-page {
+[data-viewport="web"] .playbook-page {
   max-width: 60rem;
 }
 
-.toolbox-page__header {
+.playbook-page__header {
   display: flex;
   flex-direction: column;
   gap: var(--space-3xs);
 }
 
-.toolbox-page__title {
+.playbook-page__title {
   margin: 0;
   font-family: var(--font-display);
   word-spacing: var(--font-display-word-spacing);
@@ -20346,11 +20346,11 @@ ul.plan-guided__sparks {
   line-height: var(--leading-tight);
 }
 
-.toolbox-page__title:focus {
+.playbook-page__title:focus {
   outline: none;
 }
 
-.toolbox-page__lead {
+.playbook-page__lead {
   margin: 0;
   font-size: var(--text-sm);
   color: var(--color-text-secondary);
@@ -20783,12 +20783,12 @@ ul.plan-guided__sparks {
   color: var(--color-text-secondary);
 }
 
-.toolbox-sheet .sheet__panel {
+.playbook-sheet .sheet__panel {
   overflow-y: auto;
 }
 
 /* ===========================================================================
-   TOOLBOX FLOWS (Sprint 4): guided steps, document workspace, interview
+   PLAYBOOK FLOWS (Sprint 4): guided steps, document workspace, interview
    ======================================================================== */
 
 /* Inside a tool, the Ask or go pill is not there at all (Kate, 13 Oct): the
@@ -21925,7 +21925,7 @@ ul.plan-guided__sparks {
 }
 
 /* ===========================================================================
-   TOOL ILLUSTRATIONS AND THE NEXT STEP'S ROW (Toolbox Concept 2)
+   TOOL ILLUSTRATIONS AND THE NEXT STEP'S ROW (Playbook Concept 2)
    ======================================================================== */
 
 .tool-illustration {
@@ -22088,7 +22088,7 @@ ul.plan-guided__sparks {
 }
 
 /* ===========================================================================
-   LIBRARY FOLDERS (Toolbox Concept 2, option A; look D, 14 Oct) — one card
+   LIBRARY FOLDERS (Playbook Concept 2, option A; look D, 14 Oct) — one card
    per tool, no folder drawing: the tool's icon in a disc tinted from the
    folder tokens, then the name, what is inside and when it last changed.
    ======================================================================== */
@@ -22237,7 +22237,7 @@ ul.plan-guided__sparks {
 /* Web, option A (Tools rail, Kate 15 Oct): the title, the tools and the
    next step in a column down the left that stays in view; the library
    takes the rest of the width. */
-[data-viewport="web"] .toolbox-page--rail {
+[data-viewport="web"] .playbook-page--rail {
   display: grid;
   grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
   align-items: start;
@@ -22245,7 +22245,7 @@ ul.plan-guided__sparks {
   max-width: 72rem;
 }
 
-.toolbox-rail {
+.playbook-rail {
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
@@ -22417,7 +22417,7 @@ ul.plan-guided__sparks {
 }
 
 /* Focused by script when the page opens, so a screen reader starts at the
-   folder's name; the ring shows for the keyboard only, as on the Toolbox. */
+   folder's name; the ring shows for the keyboard only, as on the Playbook. */
 .folder-page__title:focus:not(:focus-visible) {
   outline: none;
 }
@@ -22427,7 +22427,7 @@ ul.plan-guided__sparks {
   outline-offset: var(--focus-ring-offset);
 }
 
-.toolbox-page.folder-page {
+.playbook-page.folder-page {
   gap: var(--space-md);
 }
 

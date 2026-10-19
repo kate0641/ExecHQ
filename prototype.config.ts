@@ -50,8 +50,8 @@ export interface Flow {
    *  repeating it on every later step would only take room from the question. */
   header?: boolean;
   /** The navigation item this flow sits under, when it is not one itself:
-   *  the Toolbox flow is reached from the Toolbox, so the navigation says
-   *  Toolbox while she is in a tool. */
+   *  the Playbook flow is reached from the Playbook, so the navigation says
+   *  Playbook while she is in a tool. */
   navAs?: string;
   /** One line shown under the flow in the hub. */
   description: string;
@@ -75,7 +75,7 @@ export interface NavItem {
 export interface PrototypeConfig {
   flows: Flow[];
   /** Primary destinations in the `app` chrome. Deliberately shorter than the
-   *  list of `app` flows — Toolbox artifact flow is a sub-flow, not a tab. */
+   *  list of `app` flows — Playbook artifact flow is a sub-flow, not a tab. */
   appNav: NavItem[];
   /** Destinations in the `enterprise` chrome. */
   enterpriseNav: NavItem[];
@@ -143,7 +143,7 @@ export const prototypeConfig: PrototypeConfig = {
       sprint: 2,
       chrome: "app",
       description:
-        "The signed-in landing surface: current direction, what to do next, and the way into the Plan, Toolbox and Briefing.",
+        "The signed-in landing surface: current direction, what to do next, and the way into the Plan, Playbook and Briefing.",
       concepts: [
         {
           slug: "concept-4",
@@ -214,14 +214,14 @@ export const prototypeConfig: PrototypeConfig = {
       ],
     },
     {
-      slug: "toolbox",
-      title: "Toolbox",
+      slug: "playbook",
+      title: "Playbook",
       sprint: 4,
       chrome: "app",
       description:
         "The four pilot workflows: Positioning Builder, Pitch Builder, Situation Brief, Thought Leadership Builder.",
       stub: {
-        heading: "Toolbox",
+        heading: "Playbook",
         body: "Where you\u2019ll make your next draft: a pitch, a brief, a post or your positioning.",
       },
       concepts: [
@@ -230,16 +230,16 @@ export const prototypeConfig: PrototypeConfig = {
           title: "Concept 2 — Starter row",
           status: "approved",
           summary:
-            "The tools as one row of four icons, then Next on your plan as one row; the library as four folders, one per tool, each opening to its list. Which tool do I need? is the advisor’s first prompt on the Toolbox. Tools open as a document workspace.",
+            "The tools as one row of four icons, then Next on your plan as one row; the library as four folders, one per tool, each opening to its list. Which tool do I need? is the advisor’s first prompt on the Playbook. Tools open as a document workspace.",
         },
       ],
     },
     {
-      slug: "toolbox-flow",
-      title: "Toolbox artifact flow",
+      slug: "playbook-flow",
+      title: "Playbook artifact flow",
       sprint: 4,
       chrome: "app",
-      navAs: "toolbox",
+      navAs: "playbook",
       description:
         "Producing an artifact end to end: gather context, generate an editable draft, revise, export, and enter the Loop.",
       concepts: [
@@ -307,7 +307,7 @@ export const prototypeConfig: PrototypeConfig = {
     { flowSlug: "homepage", label: "Home" },
     { flowSlug: "plan", label: "Plan" },
     { flowSlug: "signals", label: "Signals" },
-    { flowSlug: "toolbox", label: "Toolbox" },
+    { flowSlug: "playbook", label: "Playbook" },
     { flowSlug: "daily-briefing", label: "Briefing" },
     { flowSlug: "profile", label: "Profile" },
   ],

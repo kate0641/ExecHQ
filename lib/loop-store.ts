@@ -20,7 +20,7 @@
 import { useMemo, useSyncExternalStore } from "react";
 import { reopenBriefing, useBriefingEverClosed } from "@/lib/briefing-dismissal";
 import { resetBriefing, useBriefingChanged } from "@/lib/briefing-store";
-import { resetToolbox, useToolboxChanged } from "@/lib/toolbox-store";
+import { resetPlaybook, usePlaybookChanged } from "@/lib/playbook-store";
 import { closeDirection } from "@/lib/direction-open";
 import { resetCheckIns, useAnyCheckIns } from "@/lib/stage-checkins";
 import { resetPresence, useAddedPresence, useBaseline } from "@/lib/presence-store";
@@ -196,7 +196,7 @@ export function resetLoop(): void {
   write({ snapshot: getLoopState().snapshot, changes: {} });
   reopenBriefing();
   resetBriefing();
-  resetToolbox();
+  resetPlaybook();
   closeDirection();
   resetCheckIns();
   reopenSparks();
@@ -283,7 +283,7 @@ export const loopActions = {
       return { choices: { ...choices, ...retired }, asked: add ? [...(asked ?? []), add] : asked };
     });
   },
-  /* The Toolbox (Sprint 4). A Loop record exists from the moment the first
+  /* The Playbook (Sprint 4). A Loop record exists from the moment the first
      draft does, so the library, the Plan and the homepage all see it. */
   create: (record: LoopRecord) =>
     update(({ records }) => ({ records: records.some((r) => r.id === record.id) ? records : [...records, record] })),
@@ -328,7 +328,7 @@ export function useLoop(): LoopView {
   const roadmapChanged = useRoadmapChanged();
   const checkInsSaved = useAnyCheckIns();
   const briefingChanged = useBriefingChanged();
-  const toolboxChanged = useToolboxChanged();
+  const playbookChanged = usePlaybookChanged();
   return useMemo(() => {
     const snapshot = currentSnapshot(state);
     const followUp = nextFollowUp(snapshot.records, snapshot.today);
@@ -339,7 +339,7 @@ export function useLoop(): LoopView {
       lastWorkedOn: lastWorkedOn(snapshot.records),
       nextStep: snapshot.recommendations[0],
       changed: state.changes[state.snapshot] !== undefined,
-      anyChanged: Object.keys(state.changes).length > 0 || briefingClosed || sparksDismissed || presenceAdded || baselineSaved || roadmapChanged || checkInsSaved || briefingChanged || toolboxChanged,
+      anyChanged: Object.keys(state.changes).length > 0 || briefingClosed || sparksDismissed || presenceAdded || baselineSaved || roadmapChanged || checkInsSaved || briefingChanged || playbookChanged,
     };
-  }, [state, briefingClosed, sparksDismissed, presenceAdded, baselineSaved, roadmapChanged, checkInsSaved, briefingChanged, toolboxChanged]);
+  }, [state, briefingClosed, sparksDismissed, presenceAdded, baselineSaved, roadmapChanged, checkInsSaved, briefingChanged, playbookChanged]);
 }

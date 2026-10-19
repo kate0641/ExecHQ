@@ -6,7 +6,7 @@ import { NextStepCard } from "./NextStepCard";
 
 const a = actionById("brief-manager")!;
 const why = { this: a.whyThis, now: a.whyNow, you: a.whyYou };
-const href = "/toolbox-flow/concept-3";
+const href = "/playbook-flow/concept-3";
 
 export const nextStepCardStates = defineComponentStates({
   name: "NextStepCard",
@@ -14,7 +14,7 @@ export const nextStepCardStates = defineComponentStates({
   status: "draft",
   flows: ["homepage"],
   description:
-    "One action, with its why this, why now and why you as label and value rows or one sentence, and the way into its Toolbox flow (stubbed until Sprint 4). Also the just-answered hand-off, visibly marked as stubbed.",
+    "One action, with its why this, why now and why you as label and value rows or one sentence, and the way into its Playbook flow (stubbed until Sprint 4). Also the just-answered hand-off, visibly marked as stubbed.",
   component: NextStepCard,
   notApplicable: {
     ...CONTROLS_INSIDE,

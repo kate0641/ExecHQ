@@ -119,7 +119,7 @@ export default function HubPage() {
           Builder briefs
         </h2>
         <p className="hub__section-intro t-measure">
-          The agent&rsquo;s background for each Toolbox builder: what it makes, what it asks, the
+          The agent&rsquo;s background for each Playbook builder: what it makes, what it asks, the
           draft section by section, and how it is used and followed up. All four have the same
           sections, because they share one workflow. Reference, like the plan briefs, not product
           screens. One markdown file each in <code>builders/</code>.

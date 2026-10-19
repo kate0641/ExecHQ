@@ -287,7 +287,7 @@ export const DATA_POINTS: Record<DataPointId, DataPoint> = {
     label: "Work made",
     question: "following",
     definition: "How many drafts, briefs and statements the cohort made in ExecHQ in the window.",
-    source: "The Toolbox and its library.",
+    source: "The Playbook and its library.",
   },
   loop: {
     label: "Work used",

@@ -18,7 +18,7 @@ Home is the first screen a signed-in person sees. It answers four questions, in 
 What it deliberately does not do:
 
 - **Score or grade.** Nothing on Home is a percentage, a streak, a rank or a target. A ring is "2 of 3 done", never "67%".
-- **Send someone straight to a tool.** An action they have not started only opens to be read about and started. The next step's button is the way into the Toolbox, and it is the person's choice to press it.
+- **Send someone straight to a tool.** An action they have not started only opens to be read about and started. The next step's button is the way into the Playbook, and it is the person's choice to press it.
 - **Pull anything from outside.** There are no connections in V1. Every number in the Signal Picture is typed by the person.
 - **Say their work caused a result.** The one note of movement says what changed and stops.
 
@@ -123,9 +123,9 @@ What the card shows is decided by the first of these that is true:
 | 4 | Every action in the ring is done | A note: **"Every {horizon} action is done."**, then "New actions come with your plan's next stage." and a **See your Plan** button |
 | 5 | The ring has no actions | A note: **"Nothing in this part of your Progress Tracker yet."** |
 
-**The next-step card** has, top to bottom: the eyebrow; the action's title as a heading; three labeled rows, **Why this**, **Why now**, **Why you** (any that has no text is left out); a full-width primary button **Start in the Toolbox**; and, for an action that is in progress and has no draft, a full-width secondary button **I've done this**.
+**The next-step card** has, top to bottom: the eyebrow; the action's title as a heading; three labeled rows, **Why this**, **Why now**, **Why you** (any that has no text is left out); a full-width primary button **Start in the Playbook**; and, for an action that is in progress and has no draft, a full-width secondary button **I've done this**.
 
-- **Start in the Toolbox** opens the action's flow in the Toolbox. For an action that was not started, pressing it also marks it **in progress**, so on return its segment is outlined.
+- **Start in the Playbook** opens the action's flow in the Playbook. For an action that was not started, pressing it also marks it **in progress**, so on return its segment is outlined.
 - **I've done this** marks the action done on the person's word. The card moves to the "Done" note (row 1), and focus moves to the check-in question in Stay on track, which now asks what came of it (4.3). The ring's segment becomes solid.
 - The card never offers to skip or set aside an action. Turning an action down is not a Home job.
 
@@ -226,7 +226,7 @@ Top to bottom:
    - **Writing you publish.**
    A number that has not moved shows the same value twice, never a dash. The "Now" figure is larger and set in the serif. Screen readers hear "Start: 0" and "Now: 2".
 4. A text link, **See your full Signal Picture**, to the Signals page.
-5. **A next step** (a small label), then one bold line, a sentence on why, and a secondary button **Start in the Toolbox**, which opens the step.
+5. **A next step** (a small label), then one bold line, a sentence on why, and a secondary button **Start in the Playbook**, which opens the step.
 
 Updating where the person is now is not done here. **Update where you are now** is on the Signals page. Home only reads the record.
 
@@ -294,7 +294,7 @@ Changing the moment sets the ring selection back to its starting one (3.2).
 | --- | --- |
 | Maya is the only person, with five fixed moments picked from the dock | Home is built from the person's own account and plan |
 | "Good morning" is always the greeting | The greeting follows the time of day |
-| The Toolbox flows the buttons open are placeholders until Sprint 4 | They open the real flows |
+| The Playbook flows the buttons open are placeholders until Sprint 4 | They open the real flows |
 | The Briefing page is a placeholder, and the card always shows the same three reads | The card shows the day’s three real reads and their publishers |
 | The one "A next step" under the Signal Picture is a single stand-in, whatever the person entered | It is chosen from what they have entered and where they are on their plan |
 | The ring card's reasons (why this, why now, why you) are written for Maya | They are written for the person from their direction and plan |

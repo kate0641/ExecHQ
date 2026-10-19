@@ -32,7 +32,7 @@
 
 - **In the prototype's mock plan:** "Write your bio" (`bio`), "Use your leadership story in your next 1:1" (`use-story`) and "Build a documented case for broader scope" (`scope-case`).
 - **From "What's on your mind?"** when what she says names a bio, an introduction, a promotion, positioning, a new boss, manager or role, "about me" or her profile.
-- **From the Toolbox or the library.** Her statement in the library carries "Build it out in Positioning Builder: a bio in three lengths and your leadership narrative." until it is built out.
+- **From the Playbook or the library.** Her statement in the library carries "Build it out in Positioning Builder: a bio in three lengths and your leadership narrative." until it is built out.
 
 ### 1.2 When another builder fits better
 
@@ -118,7 +118,7 @@ The shared options (voice, specificity, length, audience) and the conversational
 
 ### After she answers
 
-Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and always gives the next step (Kate, 13 Oct). One leads, with at most one more. A Plan step goes on her Plan only when she taps **Add it to your plan**; where a step is already done or passed on, the next step on her Plan takes its place. "Not now" folds it to one line. Built by rules (`AFTER_ANSWER` in `mock/toolbox.ts`); no model in the pilot.
+Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and always gives the next step (Kate, 13 Oct). One leads, with at most one more. A Plan step goes on her Plan only when she taps **Add it to your plan**; where a step is already done or passed on, the next step on her Plan takes its place. "Not now" folds it to one line. Built by rules (`AFTER_ANSWER` in `mock/playbook.ts`); no model in the pilot.
 
 | Answer | Next step | Then |
 | --- | --- | --- |

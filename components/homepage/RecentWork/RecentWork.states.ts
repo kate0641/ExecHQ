@@ -4,7 +4,7 @@ import { HOME_STATES } from "@/mock/homepage";
 import { RecentWork } from "./RecentWork";
 
 const records = HOME_STATES["follow-up-due"].records;
-const hrefFor = () => "/toolbox-flow/concept-3";
+const hrefFor = () => "/playbook-flow/concept-3";
 const labels: Record<string, string> = { story: "Short-term", "check-in-brief": "Short-term", pitch: "Medium-term" };
 const labelFor = (r: { id: string }) => labels[r.id];
 

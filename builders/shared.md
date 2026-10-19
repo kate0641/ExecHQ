@@ -1,6 +1,6 @@
 # Rules for every builder
 
-**Status: draft.** From the *Sprint 4 Experience Brief* (Toolbox and Daily Briefing), the *Pilot Product: Functional Scope and User Journey* (section 3, The Toolbox) and what the prototype does today. Lines marked **Proposed** are Claude's, for Kate to confirm. Each builder has its own brief with the same seven sections; this page holds what all four share.
+**Status: draft.** From the *Sprint 4 Experience Brief* (Toolbox and Daily Briefing), the *Pilot Product: Functional Scope and User Journey* (section 3, The Playbook) and what the prototype does today. Lines marked **Proposed** are Claude's, for Kate to confirm. Each builder has its own brief with the same seven sections; this page holds what all four share.
 
 ---
 
@@ -38,10 +38,10 @@ Every builder runs the same six steps, in this order:
 | --- | --- |
 | **An action step** (Plan, Home, the advisor) | The step, its plan area, its why this, why now and why you, and anything the step already says (a moment's type, who will be there) |
 | **A Briefing read** (Thought Leadership Builder only) | The article's title, publisher and reason line, labelled as the source |
-| **The Toolbox or the library** | Her direction and plan only |
-| **"What's on your mind?"** (Toolbox Concept 1) | What she said, as the moment or the topic |
+| **The Playbook or the library** | Her direction and plan only |
+| **"What's on your mind?"** (Playbook Concept 1) | What she said, as the moment or the topic |
 
-An artifact already in her library opens straight into its draft, never through the Toolbox page.
+An artifact already in her library opens straight into its draft, never through the Playbook page.
 
 ### 2.3 What every builder must do
 
@@ -98,7 +98,7 @@ Rules:
 
 ### 6.1 Statuses
 
-The Sprint 2 Loop statuses, identical everywhere an artifact appears (the Toolbox, the library, the Plan, Home):
+The Sprint 2 Loop statuses, identical everywhere an artifact appears (the Playbook, the library, the Plan, Home):
 
 | Status | Means |
 | --- | --- |

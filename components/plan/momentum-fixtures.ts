@@ -22,4 +22,4 @@ export const THIS_WEEK: MomentumEvent[] = [
   ev("signal", "2027-01-01", "Spoke at the leadership forum"),
 ];
 
-export const NEXT_MOVE = { title: "Build a stakeholder message map for the workstream", why: "Leading across teams starts with knowing what each one needs to hear.", href: "/toolbox-flow/concept-3" };
+export const NEXT_MOVE = { title: "Build a stakeholder message map for the workstream", why: "Leading across teams starts with knowing what each one needs to hear.", href: "/playbook-flow/concept-3" };

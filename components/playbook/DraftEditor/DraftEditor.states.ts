@@ -1,0 +1,65 @@
+import { createElement, Fragment, type ComponentProps } from "react";
+import { defineComponentStates } from "@/components/types";
+import { LoopStatus } from "@/components/loop/LoopStatus";
+import { SourceLabel } from "@/components/briefing/SourceLabel";
+import { createRecord } from "@/lib/loop";
+import { positioningDraft } from "@/lib/playbook-draft";
+import { Button } from "@/components/primitives/Button";
+import { TODAYS_READS } from "@/mock/briefing";
+import { DRAFT_COPY, REVISION_COPY, TL_VERSIONS } from "@/mock/playbook";
+import { DraftEditor } from "./DraftEditor";
+
+const noop = () => {};
+/** A ghost button's props; its words go in as children. */
+const ghost = { variant: "ghost", size: "sm" } as ComponentProps<typeof Button>;
+const [v1, v2] = TL_VERSIONS;
+const record = createRecord({ id: "tl-post", kind: "thought-leadership", title: "Post: planning season", name: "your post", on: "2026-10-05" });
+const header = createElement(LoopStatus, { record });
+const base = { label: DRAFT_COPY.label(1), sections: v1.sections, onEditSection: noop, onAnswer: noop, header, intro: DRAFT_COPY.intro };
+
+export const draftEditorStates = defineComponentStates({
+  name: "DraftEditor",
+  group: "form controls",
+  status: "draft",
+  flows: ["playbook-flow"],
+  description:
+    "The draft, where she reads and changes it. Always a draft until she marks it ready. Her words and ExecHQ's wording look different (ExecHQ's is quieter with a dotted underline), with a key. What only she knows is a question in the text, never invented, gathered under the draft to answer. Any part can be rewritten in place; once she does, it is hers.",
+  component: DraftEditor,
+  notApplicable: {
+    hover: "Its controls are Buttons and fields, which show their own states.",
+    focus: "Its controls are Buttons and fields, which show their own states.",
+    active: "Its controls are Buttons and fields, which show their own states.",
+    empty: "A draft only exists once it is written; an emptied section shows the error instead.",
+  },
+  variants: [
+    { label: "First draft, from today's Briefing — default", props: { ...base, header: createElement(Fragment, null, header, createElement(SourceLabel, { read: TODAYS_READS[0], size: "compact" })) } },
+    { label: "A question answered — filled", props: { ...base, answers: { "What has the workstream changed for those teams?": "Three teams now plan from one calendar instead of three." } } },
+    { label: "A section rewritten by her", props: { ...base, edits: { hooks: "New scope is written into the plan. Be in the room when it is." } } },
+    { label: "Editing a section", props: { ...base, preview: { editing: "post" } } },
+    { label: "Ready: a clean read (Concept 1)", props: { ...base, label: "Post: planning season", look: "clean", onReopen: noop }, description: "No key, no marking, no Edit; the questions still open fold into one box at the top." },
+    { label: "Ready: as a page (Concept 2)", props: { ...base, label: "Post: planning season", look: "page", onReopen: noop }, description: "As it will copy and download; questions still open are blank lines." },
+    { label: "Saved empty — error", props: { ...base, preview: { editing: "post", error: true } } },
+    { label: "Revising — loading, edit unavailable", props: { ...base, label: DRAFT_COPY.label(2), sections: v2.sections, revising: REVISION_COPY.revising }, states: ["disabled"] },
+    {
+      label: "Positioning Builder: Copy, PDF and Word on each part",
+      description: "Each output can be used on its own.",
+      props: {
+        ...base,
+        label: DRAFT_COPY.label(2),
+        intro: DRAFT_COPY.introFor.positioning,
+        sections: positioningDraft(
+          { statement: "I want to move from running campaigns to leading a broader marketing organization.", role: "Senior Director, Campaigns", toward: "leading a broader marketing organization", knownFor: "Getting teams that don’t report to me to plan as one" },
+          "Maya Chen"
+        ),
+        sectionActions: (section) =>
+          createElement(
+            Fragment,
+            null,
+            createElement(Button, ghost, "Copy"),
+            section.id.startsWith("bio") ? createElement(Button, ghost, "PDF") : null
+          ),
+      },
+    },
+    { label: "Version 2, long text wraps", props: { ...base, label: DRAFT_COPY.label(2), sections: v2.sections, intro: undefined } },
+  ],
+});

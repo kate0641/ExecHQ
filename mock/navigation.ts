@@ -14,8 +14,8 @@ export const DRAWER_COPY = {
     homeDue: (name: string) => `A question about ${name}`,
     homeNext: (step: string) => `Next: ${step}`,
     plan: (planName: string, stage: string) => `${planName} · ${stage}`,
-    toolboxOpen: (title: string) => `Open: ${title}`,
-    toolbox: "Four ways to make your next draft",
+    playbookOpen: (title: string) => `Open: ${title}`,
+    playbook: "Four ways to make your next draft",
     briefing: (weekday: string) => `Three reads for ${weekday}`,
   },
 } as const;

@@ -12,7 +12,7 @@ import { NextStepCard } from "@/components/homepage/NextStepCard";
 import { Button } from "@/components/primitives/Button";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
-import { useToolboxLinks } from "@/lib/toolbox-links";
+import { usePlaybookLinks } from "@/lib/playbook-links";
 import { mapFor } from "@/lib/map";
 import { hasBaseline, signalRows, withAdded } from "@/lib/presence";
 import { saveBaseline, useAddedPresence, useBaseline, useCurrent } from "@/lib/presence-store";
@@ -116,7 +116,7 @@ function NoteCard({ eyebrow, title, note }: { eyebrow: string; title: string; no
 export function HomepageConcept4() {
   const loop = useLoop();
   // A step opens its tool, or the artifact it already has (Sprint 4).
-  const links = useToolboxLinks();
+  const links = usePlaybookLinks();
   /* The server, which has no clock of hers, draws a day morning. */
   /* Once she scrolls, the status bar stops showing the top of the sky and
      takes the sky's middle colour (designer, 2026-10-11). */
@@ -162,7 +162,7 @@ export function HomepageConcept4() {
 
   /* The card under the rings is the selected ring's next step: the one she
      is on if it is that ring's, else the first she has started in it, else
-     the first still to start. Start in the Toolbox opens it either way. */
+     the first still to start. Start in the Playbook opens it either way. */
   const ringAction =
     open.segments.find((s) => s.state === "in-progress") ?? open.segments.find((s) => s.state === "not-started");
   const toStep = step && stepAction?.horizon === selected;

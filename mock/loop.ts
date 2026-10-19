@@ -18,7 +18,7 @@ export type ArtifactKind =
   | "thought-leadership";
 
 export interface ArtifactKindCopy {
-  /** The Toolbox workflow that makes it. */
+  /** The Playbook workflow that makes it. */
   workflow: string;
   /** The one "used" state, labelled by what using this kind means. */
   usedLabel: string;

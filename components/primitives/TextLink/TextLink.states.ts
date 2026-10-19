@@ -29,7 +29,7 @@ export const textLinkStates = defineComponentStates({
     },
     {
       label: "Quiet",
-      props: { href: "/toolbox/concept-2", tone: "quiet", children: "Toolbox" },
+      props: { href: "/playbook/concept-2", tone: "quiet", children: "Playbook" },
     },
     {
       label: "Standalone",

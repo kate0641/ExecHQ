@@ -7,10 +7,10 @@ import { useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { resolveNextAfter, resolveTaskNext, type NextAfter, type ResolvedOffer } from "@/lib/next-after";
 import { addStepToPlan, planShownNow, usePlanShown } from "@/lib/plan-store";
-import { draftText, revise, revisionLabel } from "@/lib/toolbox-draft";
-import { flowFor, toolboxActions, toolboxNow, useToolbox, type DraftState } from "@/lib/toolbox-store";
+import { draftText, revise, revisionLabel } from "@/lib/playbook-draft";
+import { flowFor, playbookActions, playbookNow, usePlaybook, type DraftState } from "@/lib/playbook-store";
 import { ACTION_QUEUE } from "@/mock/plan";
-import { NEXT_STEP_COPY as N, REVISION_COPY } from "@/mock/toolbox";
+import { NEXT_STEP_COPY as N, REVISION_COPY } from "@/mock/playbook";
 
 const DAY = new Intl.DateTimeFormat("en-GB", { weekday: "short", timeZone: "UTC" });
 function stamp(today: string): string {
@@ -32,21 +32,21 @@ export function doOffer(offer: ResolvedOffer, record: LoopRecord | undefined, dr
     navigator.clipboard?.writeText(draftText(part, draft.edits[draft.showing] ?? {}, draft.answers)).catch(() => undefined);
   }
   if (offer.choice && record && version) {
-    toolboxActions.addVersion(record.id, { when: stamp(today), what: revisionLabel(offer.choice, "") || REVISION_COPY.revise, sections: revise(version.sections, offer.choice) });
+    playbookActions.addVersion(record.id, { when: stamp(today), what: revisionLabel(offer.choice, "") || REVISION_COPY.revise, sections: revise(version.sections, offer.choice) });
   }
 }
 
 /** The next step for a record, read fresh from the stores outside React:
  *  the advisor's reply. */
 export function nextAfterNow(record: LoopRecord, type: OutcomeType, scenario: string, today: string): NextAfter {
-  const toolbox = toolboxNow();
+  const playbook = playbookNow();
   return resolveNextAfter({
     record,
     type,
-    draft: toolbox.drafts[record.id],
+    draft: playbook.drafts[record.id],
     planShown: planShownNow(scenario, today),
     servedStepId: stepServed(record),
-    flowConcept: flowFor(toolbox),
+    flowConcept: flowFor(playbook),
   });
 }
 
@@ -71,7 +71,7 @@ export function useNextAfter(
   options: { servedStepId?: string; flowConcept?: string } = {}
 ): UseNextAfter | undefined {
   const loop = useLoop();
-  const toolbox = useToolbox();
+  const playbook = usePlaybook();
   const planShown = usePlanShown(loop.id, loop.today);
   const [done, setDone] = useState<string[]>([]);
   const [lastAnswer, setLastAnswer] = useState<string>("");
@@ -83,7 +83,7 @@ export function useNextAfter(
   if (!answer) return undefined;
 
   const record = "record" in answer ? answer.record : undefined;
-  const draft = record ? toolbox.drafts[record.id] : undefined;
+  const draft = record ? playbook.drafts[record.id] : undefined;
   const next: NextAfter = record
     ? resolveNextAfter({
         record,
@@ -91,7 +91,7 @@ export function useNextAfter(
         draft,
         planShown,
         servedStepId: options.servedStepId ?? stepServed(record),
-        flowConcept: options.flowConcept ?? flowFor(toolbox),
+        flowConcept: options.flowConcept ?? flowFor(playbook),
       })
     : resolveTaskNext(answer.type, planShown, "taskId" in answer ? answer.taskId : "");
 

@@ -37,7 +37,7 @@ import {
 } from "@/lib/loop";
 import { conceptHref, type NavDestination } from "@/lib/manifest";
 import type { ArtifactKind } from "@/mock/loop";
-import { matchMoment, TOOL_ORDER, TOOLS } from "@/mock/toolbox";
+import { matchMoment, TOOL_ORDER, TOOLS } from "@/mock/playbook";
 import type { NextAfter, ResolvedOffer } from "@/lib/next-after";
 import type { Recommendation, Snapshot } from "@/mock/snapshots";
 
@@ -52,9 +52,9 @@ export interface ConciergeContext {
   /** What comes after she says how it went: the next step, whatever she
    *  answered, by the rules the builder and Home share (13 Oct). */
   nextAfter?: (record: LoopRecord, type: OutcomeType) => NextAfter;
-  /** The Toolbox concept she is on ("concept-2"), when she is on the
-   *  Toolbox: he offers to suggest a tool, opened in that concept's flow. */
-  toolbox?: string;
+  /** The Playbook concept she is on ("concept-2"), when she is on the
+   *  Playbook: he offers to suggest a tool, opened in that concept's flow. */
+  playbook?: string;
 }
 
 export type ConciergeAction =
@@ -74,11 +74,11 @@ export type ConciergeAction =
   | { kind: "politics" }
   /** A question about one of her next steps, asked from the Plan. */
   | { kind: "step-question"; stepId: string; q: StepQuestion; mine?: { effort?: string; done?: string } }
-  /** What's on her mind, from the Toolbox: he names the tool, or asks one
-   *  question when he can't tell (`ask`). `concept` is the Toolbox concept
+  /** What's on her mind, from the Playbook: he names the tool, or asks one
+   *  question when he can't tell (`ask`). `concept` is the Playbook concept
    *  she asked from, whose flow the tool opens in. */
   | { kind: "find-tool"; text: string; concept: string; ask?: boolean }
-  /** "Suggest a tool", his prompt on the Toolbox: he asks what's on her
+  /** "Suggest a tool", his prompt on the Playbook: he asks what's on her
    *  mind, and her next message is read as the answer. */
   | { kind: "mind"; concept: string }
   | { kind: "start-tool"; tool: ArtifactKind; text: string; concept: string }
@@ -145,7 +145,9 @@ const PLACES: Record<string, string> = {
   signals: "signals",
   "signal picture": "signals",
   momentum: "signals",
-  toolbox: "toolbox",
+  playbook: "playbook",
+  // Its name until 19 Oct, which people will still say.
+  toolbox: "playbook",
   briefing: "daily-briefing",
   "daily briefing": "daily-briefing",
   profile: "profile",
@@ -215,10 +217,10 @@ export function understand(
   // Someone in danger or in trouble at work is never read as anything else.
   if (CRISIS.test(t) || WORK_TROUBLE.test(t)) return classifyMiss(t, recentMisses);
 
-  const place = t.match(/^(?:go(?: to)?|open|take me to|show me)?\s*(?:my\s+|the\s+)?(home(?:page)?|plan|signals|signal picture|momentum|toolbox|(?:daily )?briefing|profile|account|settings)$/);
+  const place = t.match(/^(?:go(?: to)?|open|take me to|show me)?\s*(?:my\s+|the\s+)?(home(?:page)?|plan|signals|signal picture|momentum|playbook|toolbox|(?:daily )?briefing|profile|account|settings)$/);
   if (place) return { kind: "go", flow: PLACES[place[1]] };
 
-  // He asked what's on her mind (on the Toolbox): he suggests the tool for it.
+  // He asked what's on her mind (on the Playbook): he suggests the tool for it.
   if (asked?.startsWith("tool:") && t) return { kind: "find-tool", text: raw.trim(), concept: asked.slice(5) };
 
   const followUp = ctx.followUp;
@@ -270,8 +272,8 @@ function hrefFor(ctx: ConciergeContext, flow: string): string | undefined {
 /** What he suggests when the panel opens, by what is going on. */
 export function suggestions(ctx: ConciergeContext): ConciergeReply[] {
   const s: ConciergeReply[] = [];
-  // On the Toolbox, finding the right tool comes first (14 Oct).
-  if (ctx.toolbox) s.push({ label: C.suggest.pickTool, action: { kind: "mind", concept: ctx.toolbox } });
+  // On the Playbook, finding the right tool comes first (14 Oct).
+  if (ctx.playbook) s.push({ label: C.suggest.pickTool, action: { kind: "mind", concept: ctx.playbook } });
   if (ctx.followUp) s.push({ label: C.suggest.followUp(ctx.followUp.name), action: { kind: "ask-follow-up" } });
   const open = ctx.snapshot.records.find((r) => r.state === "drafted" || r.state === "in-progress");
   if (open) s.push({ label: C.suggest.prep(open.name), action: { kind: "prep" } });
@@ -434,7 +436,7 @@ export function respond(
           paragraphs: [C.prep(open.name)],
           card: { title: open.title, body: statusLabel(open) },
           replies: [
-            { label: C.openIt, action: { kind: "go", flow: "toolbox" } },
+            { label: C.openIt, action: { kind: "go", flow: "playbook" } },
             // The written opening is for a conversation with a manager, so it
             // is offered only for the drafts that lead into one.
             ...(open.kind === "situation-brief" || open.kind === "pitch"
@@ -449,7 +451,7 @@ export function respond(
       return {
         turn: {
           paragraphs: [...C.opening],
-          replies: [{ label: C.openIt, action: { kind: "go", flow: "toolbox" } }],
+          replies: [{ label: C.openIt, action: { kind: "go", flow: "playbook" } }],
         },
       };
 
@@ -612,7 +614,7 @@ export function respond(
     }
 
     case "start-tool": {
-      const href = `${conceptHref("toolbox-flow", action.concept)}?tool=${action.tool}&moment=${encodeURIComponent(action.text)}`;
+      const href = `${conceptHref("playbook-flow", action.concept)}?tool=${action.tool}&moment=${encodeURIComponent(action.text)}`;
       return { turn: { paragraphs: [C.findTool.opening(TOOLS[action.tool].name)] }, effect: { kind: "go", href } };
     }
 

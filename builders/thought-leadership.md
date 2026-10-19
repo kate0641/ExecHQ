@@ -19,7 +19,7 @@
 
 ### 1.1 How people arrive here
 
-- **From a Briefing read.** The one connection between the Briefing and the Toolbox. The read arrives as the source, labelled "Started from today's Briefing", with its title, publisher and reason line, and stays on the artifact for its life. From an annotated passage, the passage comes too.
+- **From a Briefing read.** The one connection between the Briefing and the Playbook. The read arrives as the source, labelled "Started from today's Briefing", with its title, publisher and reason line, and stays on the artifact for its life. From an annotated passage, the passage comes too.
 - **From an action step** whose tool is Thought Leadership Builder:
 
 | Plan | Action step |
@@ -31,7 +31,7 @@
 
 - **In the prototype's mock plan:** "Post what you lead on LinkedIn" (`linkedin-post`), which arrives with the topic "What I lead, and where it is going".
 - **From "What's on your mind?"** when what she says names a post, LinkedIn, an article, a blog, a newsletter, an essay, an op-ed, writing or reading.
-- **From the Toolbox or the library,** and from one of her posts ("Use as a start").
+- **From the Playbook or the library,** and from one of her posts ("Use as a start").
 
 ### 1.2 When another builder fits better
 
@@ -152,7 +152,7 @@ As the PRD names them, voice, specificity, length and audience, plus emphasis an
 
 ### After she answers
 
-Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and always gives the next step (Kate, 13 Oct). One leads, with at most one more. A Plan step goes on her Plan only when she taps **Add it to your plan**; where a step is already done or passed on, the next step on her Plan takes its place. "Not now" folds it to one line. Built by rules (`AFTER_ANSWER` in `mock/toolbox.ts`); no model in the pilot.
+Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and always gives the next step (Kate, 13 Oct). One leads, with at most one more. A Plan step goes on her Plan only when she taps **Add it to your plan**; where a step is already done or passed on, the next step on her Plan takes its place. "Not now" folds it to one line. Built by rules (`AFTER_ANSWER` in `mock/playbook.ts`); no model in the pilot.
 
 | Answer | Next step | Then |
 | --- | --- | --- |

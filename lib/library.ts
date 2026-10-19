@@ -1,5 +1,5 @@
 /**
- * The library's rows: her Loop records, with what the Toolbox knows about
+ * The library's rows: her Loop records, with what the Playbook knows about
  * each. Read from the Loop, so the library, the Plan and the homepage show
  * the same status for the same artifact.
  */
@@ -9,7 +9,7 @@ import { signalOfRecord } from "@/lib/signals";
 import { daysBetween, lastTouched, shortDate, whenPhrase, type LoopDate, type LoopRecord } from "@/lib/loop";
 import { SIGNALS } from "@/mock/plan-stub";
 import { stepById } from "@/mock/plan";
-import { LIBRARY_COPY, LIBRARY_SEED, TOOLS, type ArtifactMeta } from "@/mock/toolbox";
+import { LIBRARY_COPY, LIBRARY_SEED, TOOLS, type ArtifactMeta } from "@/mock/playbook";
 
 export interface LibraryItem {
   record: LoopRecord;

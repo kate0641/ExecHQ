@@ -28,7 +28,7 @@
 
 - **In the prototype's mock plan:** "Brief your manager before Thursday's check-in" (step `brief-manager`), which arrives with the moment and who will be there filled in.
 - **From "What's on your mind?"** when what she says names a review, board, meeting, negotiation, check-in, 1:1, interview, offsite, presentation, her manager or boss, "talk about" or scope.
-- **From the Toolbox or the library.**
+- **From the Playbook or the library.**
 
 ### 1.2 When another builder fits better
 
@@ -113,7 +113,7 @@ The shared options (voice, specificity, length, audience) and the conversational
 
 ### After she answers
 
-Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and always gives the next step (Kate, 13 Oct). One leads, with at most one more. A Plan step goes on her Plan only when she taps **Add it to your plan**; where a step is already done or passed on, the next step on her Plan takes its place. "Not now" folds it to one line. Built by rules (`AFTER_ANSWER` in `mock/toolbox.ts`); no model in the pilot.
+Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and always gives the next step (Kate, 13 Oct). One leads, with at most one more. A Plan step goes on her Plan only when she taps **Add it to your plan**; where a step is already done or passed on, the next step on her Plan takes its place. "Not now" folds it to one line. Built by rules (`AFTER_ANSWER` in `mock/playbook.ts`); no model in the pilot.
 
 | Answer | Next step | Then |
 | --- | --- | --- |

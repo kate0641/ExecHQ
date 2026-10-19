@@ -11,8 +11,8 @@ import { Sheet } from "@/components/layout/Sheet";
 import { Icon } from "@/components/primitives/Icon";
 import { briefingActions, respondHref, useBriefing, type ReadState, type Relevance } from "@/lib/briefing-store";
 import { loopActions, useLoop } from "@/lib/loop-store";
-import { READ_BRIEFING_STEP } from "@/lib/toolbox-links";
-import { flowFor, useToolbox } from "@/lib/toolbox-store";
+import { READ_BRIEFING_STEP } from "@/lib/playbook-links";
+import { flowFor, usePlaybook } from "@/lib/playbook-store";
 import { addDays } from "@/lib/loop";
 import { touchedTag } from "@/lib/library";
 import { BRIEFING_COPY as C, EARLIER_SAVED, publisherName, TODAYS_READS, type BriefingRead } from "@/mock/briefing";
@@ -45,7 +45,7 @@ export function useBriefingPage() {
   const [open, setOpen] = useState<Open>(null);
   const [message, setMessage] = useState("");
   // The hand-off lands in the tool flow concept the reviewer last opened.
-  const flowConcept = flowFor(useToolbox());
+  const flowConcept = flowFor(usePlaybook());
   const respond = (readId: string, from?: "passage" | "selection") => respondHref(readId, from, flowConcept);
 
   // Opened from the Plan's "Read today's Briefing": reading one item, or

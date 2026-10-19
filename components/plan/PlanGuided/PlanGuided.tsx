@@ -194,11 +194,11 @@ export function PlanGuided({
   const asking = answer === "pass" && !reasoned;
   const hasDraft = step.kind === "artifact" || Boolean(step.artifactId);
   // The reading step opens the Briefing, so it starts with a link too.
-  const tool = hasDraft || Boolean(step.toolboxTool) || step.kind === "reading";
+  const tool = hasDraft || Boolean(step.playbookTool) || step.kind === "reading";
   const href = typeof startHref === "function" ? startHref(step) : startHref;
   const when = chosenWhen[step.id] ?? whenOf(step);
   const started = Boolean(workingOn?.(step));
-  const label = started ? G.working : hasDraftFor?.(step) ? AG.openDraft : (step.startLabel ?? (step.toolboxTool ? `Start in ${step.toolboxTool}` : "Get started"));
+  const label = started ? G.working : hasDraftFor?.(step) ? AG.openDraft : (step.startLabel ?? (step.playbookTool ? `Start in ${step.playbookTool}` : "Get started"));
   const answers = G.answers(whenOf(step));
   const details = Object.fromEntries(answers.map((a) => [a.label, a.hint]));
   const settle = (id: Exclude<GuidedAnswer, "talk">, o?: { date?: LoopDate; label?: string }) => {

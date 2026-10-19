@@ -1280,7 +1280,7 @@ const ARTIFACT_OPENERS: Record<DirectionNeed, string> = {
 
 /**
  * The canned first artifact. Deliberately a stub of the real Positioning
- * Builder: the Toolbox is Sprint 4. It produces and saves one draft so the flow
+ * Builder: the Playbook is Sprint 4. It produces and saves one draft so the flow
  * can be walked end to end, and it is not a design for that tool.
  *
  * `interpretation` is the user's edited direction sentence, where a concept
@@ -2326,11 +2326,11 @@ export const GUIDE_C3 = {
     othersCta: "Use this one",
   },
   story: {
-    /** The story is made in the Toolbox, in its Positioning Builder, so the
+    /** The story is made in the Playbook, in its Positioning Builder, so the
      *  pages say so. The reflection before it is still onboarding. */
-    kicker: "Toolbox \u00b7 Positioning Builder",
+    kicker: "Playbook \u00b7 Positioning Builder",
     /** Said once, on the first draft: where this is, and where it will be. */
-    toolboxIntro: "This is the Toolbox, where ExecHQ makes your drafts. You\u2019ll find it any time from Ask or go.",
+    playbookIntro: "This is the Playbook, where ExecHQ makes your drafts. You\u2019ll find it any time from Ask or go.",
     reflect: {
       title: "Could you say what you lead in one sentence, right now?",
       lede: "Out loud, to someone who\u2019s never met you.",
@@ -2438,11 +2438,11 @@ export const GUIDE_C3 = {
     /** What is left of the story, by what has been done. */
     nextDetail: {
       title: "Add more detail",
-      detail: "In your Toolbox. Add your role and one result, so your draft says what you lead.",
+      detail: "In your Playbook. Add your role and one result, so your draft says what you lead.",
     },
     nextVersions: {
       title: "Build longer versions",
-      detail: "In your Toolbox. Short, medium and long, built from your story and ready to send ahead of you.",
+      detail: "In your Playbook. Short, medium and long, built from your story and ready to send ahead of you.",
     },
     nextSignals: {
       title: "Bring in your LinkedIn numbers",

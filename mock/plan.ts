@@ -142,8 +142,8 @@ export interface ActionStep extends LandscapeAction {
   area: string;
   /** What its Start button says, when "Start" would be wrong. */
   startLabel?: string;
-  /** The Toolbox tool it opens, where there is one. */
-  toolboxTool?: string;
+  /** The Playbook tool it opens, where there is one. */
+  playbookTool?: string;
   /** Needs a later sprint to be real. */
   stubbed?: boolean;
 }
@@ -169,16 +169,16 @@ const OUTCOMES: Record<string, string> = {
   "read-briefing": "You know what is moving in your field this week.",
 };
 
-type Meta = Pick<ActionStep, "kind" | "effort" | "effortText" | "done"> & Partial<Pick<ActionStep, "channel" | "toolboxTool" | "startLabel">>;
+type Meta = Pick<ActionStep, "kind" | "effort" | "effortText" | "done"> & Partial<Pick<ActionStep, "channel" | "playbookTool" | "startLabel">>;
 
 /** What the Sprint 2 stub does not say about its actions. */
 const META: Record<string, Meta> = {
   "use-story": { kind: "opportunity", effort: 1, effortText: "A conversation, plus five minutes to say how it went", done: "You’ve used your story in the 1:1, and said so.", startLabel: "Open your story" },
-  "brief-manager": { kind: "artifact", effort: 2, effortText: "About an hour", done: "Your brief is marked used or sent.", toolboxTool: "Situation Brief" },
+  "brief-manager": { kind: "artifact", effort: 2, effortText: "About an hour", done: "Your brief is marked used or sent.", playbookTool: "Situation Brief" },
   "add-wins": { kind: "context", effort: 1, effortText: "About five minutes", done: "Three accomplishments are on your Signal Background." },
-  "q1-review": { kind: "artifact", effort: 2, effortText: "An hour or two", done: "Your pitch is marked sent.", toolboxTool: "Pitch Builder" },
+  "q1-review": { kind: "artifact", effort: 2, effortText: "An hour or two", done: "Your pitch is marked sent.", playbookTool: "Pitch Builder" },
   "cross-functional": { kind: "context", effort: 2, effortText: "An hour of looking around", done: "You’ve named one initiative." },
-  "scope-case": { kind: "artifact", effort: 3, effortText: "Several sittings", done: "Your case is marked used or sent.", toolboxTool: "Positioning Builder" },
+  "scope-case": { kind: "artifact", effort: 3, effortText: "Several sittings", done: "Your case is marked used or sent.", playbookTool: "Positioning Builder" },
   "ask-manager-scope": { kind: "opportunity", effort: 1, effortText: "A short conversation", done: "You’ve asked, and said what they answered." },
   "share-result-up": { kind: "opportunity", effort: 1, effortText: "About 20 minutes", done: "A result has reached someone two levels up." },
   "sponsor-conversation": { kind: "opportunity", effort: 2, effortText: "An hour to prepare", done: "You’ve had the conversation, or marked it done." },
@@ -206,7 +206,7 @@ const NEW_STEPS: ActionStep[] = [
     effort: 1,
     effortText: "About 20 minutes",
     done: "Your bio is marked used or published.",
-    toolboxTool: "Positioning Builder",
+    playbookTool: "Positioning Builder",
   },
   {
     id: "stakeholder-map",
@@ -244,7 +244,7 @@ const NEW_STEPS: ActionStep[] = [
     effort: 1,
     effortText: "About 20 minutes",
     done: "Your post is marked published.",
-    toolboxTool: "Thought Leadership Builder",
+    playbookTool: "Thought Leadership Builder",
   },
   {
     id: "pitch-podcast",
@@ -264,7 +264,7 @@ const NEW_STEPS: ActionStep[] = [
     effort: 2,
     effortText: "An hour or two",
     done: "Your pitch is marked sent.",
-    toolboxTool: "Pitch Builder",
+    playbookTool: "Pitch Builder",
   },
   {
     id: "speaking-proposal",
@@ -284,7 +284,7 @@ const NEW_STEPS: ActionStep[] = [
     effort: 3,
     effortText: "Several sittings",
     done: "Your proposal is marked sent.",
-    toolboxTool: "Pitch Builder",
+    playbookTool: "Pitch Builder",
   },
   {
     id: "read-briefing",

@@ -25,15 +25,15 @@ Six, in this order. They come from the manifest's `appNav` and must not be hard-
 1. Home (`homepage`)
 2. Plan (`plan`)
 3. Signals (`signals`): the Signal Picture and Momentum
-4. Toolbox (`toolbox`)
+4. Playbook (`playbook`)
 5. Briefing (`daily-briefing`)
 6. Profile (`profile`)
 
-Toolbox flow (the artifact builder) is a sub-flow of Toolbox and is not a destination.
+Playbook flow (the artifact builder) is a sub-flow of Playbook and is not a destination.
 
 ### Where it appears
 
-On every page whose flow uses the `app` chrome: Homepage, Profile, Plan, Signal Picture, Toolbox, Toolbox flow and Daily Briefing. It does **not** appear on Onboarding or Login (`minimal` chrome) or on the Enterprise Dashboard (`enterprise` chrome, its own navigation).
+On every page whose flow uses the `app` chrome: Homepage, Profile, Plan, Signal Picture, Playbook, Playbook flow and Daily Briefing. It does **not** appear on Onboarding or Login (`minimal` chrome) or on the Enterprise Dashboard (`enterprise` chrome, its own navigation).
 
 ---
 
@@ -141,8 +141,8 @@ Layout, top to bottom, identical on the sheet and the card:
 
 Three sections:
 
-1. **Go to.** One row of the six destinations, each an icon above its name, as equal-width buttons. The row never wraps: the buttons share the width evenly however many destinations there are, so a seventh would narrow them rather than start a second line. On the phone each is about 54px wide, which fits the longest label ("Toolbox", "Briefing") at the small text size. The current destination is shown filled (dark). Home shows the quiet accent dot when a follow-up is due. Selecting one goes there and closes the panel.
-2. **Pick up where you left off.** Shown only if there is a draft or in-progress artifact. It is one card: the artifact's title, and "Drafted 5 Oct" or "Edited 5 Oct" (the most recent record of those two kinds, by latest history entry). Selecting it opens the Toolbox flow and closes the panel. If nothing is open, the section is absent entirely (no empty state).
+1. **Go to.** One row of the six destinations, each an icon above its name, as equal-width buttons. The row never wraps: the buttons share the width evenly however many destinations there are, so a seventh would narrow them rather than start a second line. On the phone each is about 54px wide, which fits the longest label ("Playbook", "Briefing") at the small text size. The current destination is shown filled (dark). Home shows the quiet accent dot when a follow-up is due. Selecting one goes there and closes the panel.
+2. **Pick up where you left off.** Shown only if there is a draft or in-progress artifact. It is one card: the artifact's title, and "Drafted 5 Oct" or "Edited 5 Oct" (the most recent record of those two kinds, by latest history entry). Selecting it opens the Playbook flow and closes the panel. If nothing is open, the section is absent entirely (no empty state).
 3. **Ask me.** The advisor's mark, name and role, then up to four suggested questions as full-width buttons. Which four depends on the user's situation (section 7).
 
 ### Conversation (after the first message)
@@ -160,7 +160,7 @@ Three sections:
 
 ### Intent: going somewhere
 
-Typing any of these goes to the destination, with or without "go to", "open", "take me to", "show me", "my" or "the": home, homepage, plan, signals, signal picture, momentum, toolbox, briefing, daily briefing, profile, account, settings. ("Account" and "settings" go to Profile; "signal picture" and "momentum" go to Signals.) The advisor replies with a short line first ("Here's your plan."), waits 350ms, then navigates, and the panel closes.
+Typing any of these goes to the destination, with or without "go to", "open", "take me to", "show me", "my" or "the": home, homepage, plan, signals, signal picture, momentum, playbook, briefing, daily briefing, profile, account, settings. ("Account" and "settings" go to Profile; "signal picture" and "momentum" go to Signals.) The advisor replies with a short line first ("Here's your plan."), waits 350ms, then navigates, and the panel closes.
 
 ---
 
