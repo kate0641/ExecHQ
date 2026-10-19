@@ -12,7 +12,7 @@ export const briefingFrontStates = defineComponentStates({
   status: "draft",
   flows: ["daily-briefing"],
   description:
-    "Briefing Concept 2's front page, after a news app (option A): the first read as the lead story with a big picture, the other two as rows with a small one, each with its publisher and why it is here. Only ever three, all on the first screen; no topic tabs, no counts, no times. The headline is the button, and it covers the whole story, so the picture opens it too. On web the lead takes the left and the rows the right.",
+    "Briefing Concept 2's front page, after a news app (option A): the first read as the lead story with a big picture, the other two as rows with a small one, each with its publisher and why it is here. Only ever three, all on the first screen; no topic tabs, no counts, no times. The headline is the button, and it covers the whole story, so the picture opens it too. On web the reading pane lists the three down its side instead, the open one marked and each one she has opened marked Read.",
   component: BriefingFront,
   notApplicable: {
     disabled: "Every read can always be opened.",
@@ -26,6 +26,9 @@ export const briefingFrontStates = defineComponentStates({
     { label: "Lead — hover", props: { ...base, demo: "hover" } },
     { label: "Lead — focus", props: { ...base, demo: "focus" } },
     { label: "Lead — pressed", props: { ...base, demo: "active" } },
+    { label: "List (web reading pane) — the first open", props: { ...base, layout: "list", current: 0, isRead: (id: string) => id === TODAYS_READS[0].id } },
+    { label: "List — two read, the second open", props: { ...base, layout: "list", current: 1, isRead: (id: string) => id !== TODAYS_READS[2].id } },
+    { label: "List — hover", props: { ...base, layout: "list", current: 1, demo: "hover" } },
     { label: "A long headline wraps", props: { ...base, reads: TODAYS_READS.map((r, i) => (i === 1 ? { ...r, title: `${r.title}, and why the people who ask early usually get it` } : r)) } },
   ],
 });
