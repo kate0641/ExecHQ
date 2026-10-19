@@ -254,6 +254,11 @@ Switches the canvas between Web, Tablet and Mobile.
 - Widths: mobile 393px, tablet 820px, web fills available width.
 - Mobile and tablet render inside a device frame drawn in CSS — bezel, rounded
   corners, and a status bar area on mobile. No image assets.
+- **ExecHQ is designed for the phone's browser, not an app** (Kate, 2026-10-19).
+  The frames draw Safari as a page first loads, bars showing: the address bar
+  on top and, on the phone, the toolbar at the foot. The page gets only the
+  space between them (670px on the phone, 1124px on the tablet), and sheets
+  and menus open inside it. Every mobile design must work in that space.
 - The selection persists across navigation (React context in the root layout,
   mirrored to `localStorage`).
 - Content scrolls inside the device frame, not the browser window.

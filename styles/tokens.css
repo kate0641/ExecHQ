@@ -532,6 +532,10 @@
   --color-device-edge: var(--brand-stone-600);
   --color-device-screen: var(--color-surface);
   --color-device-hardware: var(--brand-stone-600);
+  /* Safari's bars, drawn around the page: ExecHQ runs in the phone's browser. */
+  --color-browser-chrome: var(--brand-stone-100);
+  --color-browser-bar: var(--brand-stone-600);
+  --color-browser-bar-text: var(--brand-white);
 
   /* ---------------------------------------------------------------------------
      TYPOGRAPHY
@@ -876,6 +880,11 @@
   --device-bezel-mobile: 3px;
   --device-bezel-tablet: 6px;
   --device-statusbar-height: 44px;
+  /* Safari as a page first loads, bars showing (Kate, 2026-10-19). On the
+     phone that leaves the page 852 - 44 - 56 - 82 = 670px; on the tablet,
+     1180 - 56 = 1124px. Measured from iOS Safari on a 393px iPhone. */
+  --browser-address-height: 56px;
+  --browser-toolbar-height: 82px;
 
   /* Buttons — 44px tall with 20px each side: the touch size Apple
      recommends, so the button you see is the button you can tap. The tap

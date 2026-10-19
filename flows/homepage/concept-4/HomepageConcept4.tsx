@@ -118,12 +118,12 @@ export function HomepageConcept4() {
   // A step opens its tool, or the artifact it already has (Sprint 4).
   const links = usePlaybookLinks();
   /* The server, which has no clock of hers, draws a day morning. */
-  /* Once she scrolls, the status bar stops showing the top of the sky and
-     takes the sky's middle colour (designer, 2026-10-11). */
+  /* Once she scrolls, the status bar and Safari's address bar stop showing
+     the top of the sky and take the sky's middle colour (designer, 2026-10-11). */
   const homeRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const home = homeRef.current;
-    const screen = home?.closest<HTMLElement>(".device__screen");
+    const screen = home?.closest<HTMLElement>(".device__display");
     const scroller = home?.closest<HTMLElement>(".device__content");
     if (!home || !screen || !scroller) return;
     /* How far the sky has scrolled up under the status bar, stopping once
