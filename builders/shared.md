@@ -163,7 +163,7 @@ From the PRD (Kate, 13 October). They hold in every builder and in all three bui
 
 ## 10. Open questions
 
-1. **Check-back days.** Only the Situation Brief's comes from the brief. Are 7 days (positioning, posts) and 5 days (pitches) right?
+1. **Check-back days.** The Situation Brief's comes from the brief, and pitches are 7 days (CEO, 19 Oct). Are 7 days right for positioning and posts?
 2. **Export formats.** Copy for everything; PDF and Word for the Situation Brief, the bios, pitches (Kate, 13 Oct) and articles. Posts are copy-only. Confirm.
 3. **The follow-up question.** The Situation Brief and Thought Leadership now have their own. Should Pitch ("Did you hear back?") and Positioning too?
 4. **Emphasis choices.** Each builder now has its own (13 Oct): Positioning What I lead · What I'm known for · Where I'm headed; Pitch The angle · The proof · Why now; Situation Brief The ask · The evidence · The risks; Thought Leadership My example · The article's point · The question at the end. In the prototype all four builders now act on their emphasis choices.
