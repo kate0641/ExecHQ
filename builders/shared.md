@@ -118,7 +118,7 @@ The Sprint 2 Loop statuses, identical everywhere an artifact appears (the Playbo
 - **"Nothing yet" is normal,** never a failure. It asks again 3 days later, then 7 days after that; after a third "Nothing yet" it stops asking, and she can still report an outcome whenever she likes. It never asks about more than one thing at a time.
 - **After an outcome, the next step.** Whatever she answers, ExecHQ says it back and offers what to do next: one leads, with at most one more, each with one action (a Plan step to add, part of the work to copy, a new one starting from this one, another tool starting from this work, today's Briefing, a sharper version, or what's next on her Plan). A Plan step goes on her Plan only when she says so. Every builder, every concept, and the same next step wherever she answers: in the builder, on Home and to the advisor (one set of rules, `lib/next-after.ts`).
 - **A note is hers to add.** Every feedback card offers "Add a note" (optional, only she sees it), alongside the next step. ExecHQ never asks for one.
-- **Closing.** She can close anything, any time. "It's no longer relevant" closes it, except her positioning statement, which every tool draws on: there it only stops the asking.
+- **Closing.** She can close anything, any time. "It's no longer relevant" closes it, except her positioning statement, which Pitch Builder and the Situation Brief draw on: there it only stops the asking.
 
 ### 6.3 The Signal Picture
 
