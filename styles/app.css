@@ -8626,6 +8626,24 @@ ol.ring-detail__timeline {
   margin-top: 0;
 }
 
+/* In the phone's browser a guided page can be taller than the room Safari
+   leaves it (Kate, 2026-10-19), so on a page with no drawer the main action
+   sticks to the foot of the screen and the content scrolls behind it, as the
+   wizard's does. The button is always where the thumb expects it. The
+   actions carry the bottom inset, so it holds while content scrolls. */
+[data-viewport="mobile"] .guide:not(.guide--drawer, .guide--cover) {
+  padding-bottom: 0;
+}
+
+[data-viewport="mobile"] .guide:not(.guide--drawer, .guide--cover) > .guide__actions {
+  position: sticky;
+  bottom: 0;
+  z-index: var(--z-sticky);
+  padding: var(--space-sm) 0 var(--space-xl);
+  background-color: var(--color-surface);
+  box-shadow: 0 calc(-1 * var(--space-xs)) var(--space-sm) var(--color-surface);
+}
+
 /* The last page: the list of what to do next sits in the middle of the space
    between the heading and the button. */
 .guide--done .guide__body {
@@ -8634,6 +8652,13 @@ ol.ring-detail__timeline {
 
 .guide--done .guide__actions {
   margin-top: 0;
+}
+
+/* In the phone's browser the last page fits without scrolling (Kate,
+   2026-10-19): a little less room between its parts. */
+[data-viewport="mobile"] .guide--done {
+  gap: var(--space-sm);
+  padding-top: var(--space-md);
 }
 
 /* A navy page (designer, 2026-10-15): onboarding's steps with no drawer (Signals, the recommendation,
@@ -9751,6 +9776,12 @@ ol.ring-detail__timeline {
   flex: none;
   font-size: var(--text-xs);
   color: var(--color-text-secondary);
+}
+
+/* With the keyboard up, Safari's toolbar is under it: the keyboard rises
+   from the foot of the screen, so the page gets that room back. */
+.device--mobile .device__display:has(.device-keyboard) > .device__bottom {
+  display: none;
 }
 
 /* The drawn keyboard. */
