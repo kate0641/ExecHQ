@@ -272,8 +272,17 @@ export function useToolFlow(concept: FlowConcept) {
   /** Her statement as it stands: built out, or as onboarding left it. */
   const statementNow =
     (positioningRecord && (playbook.drafts[positioningRecord.id]?.inputs.statement || LIBRARY_SEED[positioningRecord.id]?.preview)) || account.direction;
-  const pitchInputs: readonly ToolInput[] = PITCH_INPUTS.map((input) => {
-    const known: Record<string, string | undefined> = { role: account.jobTitle, statement: statementNow };
+  /** Her short bio, once Positioning Builder has built it: as the version
+   *  showing has it, with her edits and answers. */
+  const shortBioNow = (() => {
+    const built = positioningRecord ? playbook.drafts[positioningRecord.id] : undefined;
+    const showing = built?.versions[built.showing - 1];
+    const section = showing?.sections.find((x) => x.id === "bio-short");
+    if (!built || !showing || !section) return undefined;
+    return (built.edits[showing.n]?.["bio-short"] ?? draftText([{ ...section, heading: undefined }], {}, built.answers)).trim() || undefined;
+  })();
+  const pitchInputs: readonly ToolInput[] = PITCH_INPUTS.filter((input) => input.id !== "bio" || shortBioNow).map((input) => {
+    const known: Record<string, string | undefined> = { role: account.jobTitle, statement: statementNow, bio: shortBioNow };
     return input.id in known ? (known[input.id] ? { ...input, value: known[input.id] } : { ...input, source: undefined, optional: true }) : input;
   });
   const briefInputs: readonly ToolInput[] = BRIEF_INPUTS.map((input) =>
@@ -350,7 +359,7 @@ export function useToolFlow(concept: FlowConcept) {
 
   /** "Not sure yet" under Who are you pitching? (Kate, 14 Oct): up to three
    *  outlets of the kind she is pitching for. */
-  const outletChoices = kind === "pitch" ? suggestedOutlets(pitchTypeOf(valueOf("type"))) : [];
+  const outletChoices = kind === "pitch" ? suggestedOutlets(pitchTypeOf(valueOf("type")), { audience: valueOf("audience"), area: step?.area }) : [];
   const fieldExtras: Record<string, ReactNode> =
     kind === "pitch"
       ? {

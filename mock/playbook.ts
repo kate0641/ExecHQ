@@ -100,7 +100,7 @@ export const TOOL_ORDER: readonly ArtifactKind[] = ["positioning", "pitch", "sit
    -------------------------------------------------------------------------- */
 
 /** Where a pre-filled answer came from. Plain and the same everywhere. */
-export type InputSource = "direction" | "plan" | "onboarding" | "briefing" | "profile";
+export type InputSource = "direction" | "plan" | "onboarding" | "briefing" | "profile" | "positioning";
 
 export const SOURCE_LABELS: Record<InputSource, string> = {
   direction: "From your direction",
@@ -108,6 +108,7 @@ export const SOURCE_LABELS: Record<InputSource, string> = {
   onboarding: "From onboarding",
   briefing: "From today’s Briefing",
   profile: "From your Profile",
+  positioning: "From Positioning Builder",
 };
 
 export interface ToolInput {
@@ -248,7 +249,7 @@ export const INPUT_COPY = {
   builtWith: "Built with your",
   and: "and",
   /** What each thing ExecHQ already has is called in "Built with your …". */
-  names: { audience: "audience", example: "example", role: "role", statement: "positioning statement", toward: "direction" } as Record<string, string>,
+  names: { audience: "audience", example: "example", role: "role", statement: "positioning statement", toward: "direction", bio: "short bio" } as Record<string, string>,
   /** Closes the fields Edit opened under "Built with". */
   doneEditing: "Done",
   asked: "Only you can answer these.",
@@ -784,6 +785,16 @@ export const TOUCHED_GROUPS = {
 
 export const PITCH_INPUTS: readonly ToolInput[] = [
   { id: "type", label: "What are you pitching for?", kind: "choice", options: ["Speaking", "Podcast", "Press"] },
+  // Asked, not taken from her direction: an outlet's audience can differ
+  // from hers (CEO, 19 Oct). Her direction's audience leads the chips. Asked
+  // before Who, so "Not sure yet" can suggest outlets that reach it.
+  {
+    id: "audience",
+    label: "Who do you want to reach?",
+    hint: "The people who read, listen or attend. They can be different from your own audience.",
+    kind: "text",
+    placeholder: "Marketing and commercial leaders",
+  },
   {
     id: "target",
     label: "Who are you pitching?",
@@ -807,18 +818,14 @@ export const PITCH_INPUTS: readonly ToolInput[] = [
     kind: "long",
     placeholder: "I lead our planning workstream across marketing, sales and product.",
   },
-  {
-    id: "audience",
-    label: "Who is it for?",
-    kind: "text",
-    value: "Marketing and commercial leaders",
-    source: "direction",
-  },
   { id: "links", label: "Links or earlier talks", kind: "text", optional: true, placeholder: "A post, a recording, a past talk" },
   // Who she is, for the pitch's introduction and "Why me" (the PRD's career
   // direction and plan context). Known, shown to check, never asked.
   { id: "role", label: "Your role, as you’d say it", kind: "text", source: "plan" },
   { id: "statement", label: "Your positioning statement", kind: "long", source: "onboarding" },
+  // Her short bio, once Positioning Builder has built it: About me uses it
+  // in place of the statement (CEO, 19 Oct). Left out until it exists.
+  { id: "bio", label: "Your short bio", kind: "long", source: "positioning" },
 ];
 
 export const BRIEF_INPUTS: readonly ToolInput[] = [
@@ -921,7 +928,7 @@ export const STEP_BAR_COPY = {
 /** Each question's short name in the bar, by tool and input id. */
 export const STEP_LABELS: Record<ArtifactKind, Record<string, string>> = {
   positioning: { knownFor: "Known for", context: "Introductions", audience: "Audience", format: "Format", source: "Source text" },
-  pitch: { type: "Pitching for", target: "Who", angle: "Angle", proof: "Proof" },
+  pitch: { type: "Pitching for", target: "Who", angle: "Angle", proof: "Proof", audience: "Audience" },
   "situation-brief": { type: "Moment", objective: "Outcome", audience: "Who’s there", stakes: "Their stakes", risks: "Risks" },
   "thought-leadership": { format: "Format", topic: "Topic", pov: "Point of view", evidence: "Evidence", voice: "Voice", length: "Length" },
 };
@@ -939,6 +946,7 @@ export const EXAMPLE_ANSWERS: Record<ArtifactKind, Record<string, string>> = {
     target: "the Marketing Leaders podcast",
     angle: "Turning regional campaigns into one marketing plan",
     proof: "I run campaigns across three regions, and I’m leading our planning workstream.",
+    audience: "Marketing and commercial leaders",
   },
   "situation-brief": {
     type: "A board meeting",
@@ -1012,8 +1020,12 @@ export interface OutletAsk {
 /** The route the outlet publishes. A named person only when the outlet
  *  names them on its own page. */
 export type OutletContact =
-  | { route: "form"; url: string; label: string; fields: readonly { field: string; part: PitchPart }[] }
+  | { route: "form"; url: string; label: string; fields: readonly { field: string; part: PitchPart }[]; person?: string }
   | { route: "email"; address: string; person?: string };
+
+/** The audiences "Not sure yet" matches on: her direction's, then others an
+ *  outlet's audience can be (CEO, 19 Oct). */
+export type OutletAudience = "Marketing and commercial leaders" | "Senior executives" | "Operators and practitioners" | "Founders and investors";
 
 export interface Outlet {
   id: string;
@@ -1029,6 +1041,10 @@ export interface Outlet {
   source?: { url: string; checked: string };
   /** Why it fits her angle and audience, in a line, for "Not sure yet". */
   fits?: string;
+  /** Who it reaches, and the plan areas it serves: the list ExecHQ keeps
+   *  for "Not sure yet" is filed by both (CEO, 19 Oct). */
+  audiences?: readonly OutletAudience[];
+  areas?: readonly string[];
 }
 
 export const OUTLETS: readonly Outlet[] = [
@@ -1052,9 +1068,13 @@ export const OUTLETS: readonly Outlet[] = [
         { field: "Episode idea", part: "short" },
         { field: "Tell us more", part: "pitch" },
       ],
+      // Named on the guest page, so shown by name (CEO, 19 Oct).
+      person: "Priya Shah, guest producer",
     },
     source: { url: "marketingleaders.example/guests", checked: "2026-10-01" },
     fits: "Its listeners are the marketing leaders your direction names.",
+    audiences: ["Marketing and commercial leaders"],
+    areas: ["seen-as-leader"],
   },
   {
     id: "scope-and-scale",
@@ -1063,6 +1083,8 @@ export const OUTLETS: readonly Outlet[] = [
     contact: { route: "email", address: "bookings@scopeandscale.example" },
     source: { url: "scopeandscale.example/about", checked: "2026-10-09" },
     fits: "Weekly interviews with operators about how work gets divided up.",
+    audiences: ["Operators and practitioners"],
+    areas: ["broader-remit"],
   },
   {
     id: "commercial-strategy-summit",
@@ -1088,6 +1110,8 @@ export const OUTLETS: readonly Outlet[] = [
     },
     source: { url: "commercialstrategysummit.example/speak", checked: "2026-09-02" },
     fits: "Its planning track is the topic you lead at work.",
+    audiences: ["Marketing and commercial leaders", "Senior executives"],
+    areas: ["decider-access", "seen-as-leader"],
   },
   {
     id: "planning-leaders-conference",
@@ -1103,6 +1127,8 @@ export const OUTLETS: readonly Outlet[] = [
     contact: { route: "email", address: "speakers@planningleaders.example" },
     source: { url: "planningleaders.example/speak", checked: "2026-10-06" },
     fits: "It wants people doing the planning, not consultants.",
+    audiences: ["Operators and practitioners", "Senior executives"],
+    areas: ["broader-remit"],
   },
   {
     id: "commercial-leader-quarterly",
@@ -1119,6 +1145,8 @@ export const OUTLETS: readonly Outlet[] = [
     contact: { route: "email", address: "opinion@commercialleader.example", person: "Dana Okafor, opinion editor" },
     source: { url: "commercialleader.example/contribute", checked: "2026-10-12" },
     fits: "Read by the commercial leaders two levels above you.",
+    audiences: ["Senior executives", "Marketing and commercial leaders"],
+    areas: ["decider-access"],
   },
   {
     id: "field-notes",
@@ -1132,6 +1160,8 @@ export const OUTLETS: readonly Outlet[] = [
     },
     source: { url: "fieldnotes.example/write-for-us", checked: "2026-10-10" },
     fits: "A newsletter marketing directors forward to their teams.",
+    audiences: ["Marketing and commercial leaders", "Operators and practitioners"],
+    areas: ["seen-as-leader"],
   },
   { id: "q1-planning-review", name: "The Q1 planning review", type: "Speaking", internal: true },
   { id: "leadership-forum", name: "The leadership forum", type: "Speaking", internal: true },
@@ -1149,7 +1179,7 @@ export function outletFor(name: string | undefined): Outlet | undefined {
 export function contactLine(outlet: Outlet | undefined): string {
   const c = outlet?.contact;
   if (!c) return "";
-  return c.route === "email" ? (c.person ? `${c.person}, ${c.address}` : c.address) : `${c.label}, ${c.url}`;
+  return c.route === "email" ? (c.person ? `${c.person}, ${c.address}` : c.address) : c.person ? `${c.person}, ${c.label}` : `${c.label}, ${c.url}`;
 }
 
 /** Her "What are you pitching for?" answer, when it is one of the three. */
@@ -1158,8 +1188,17 @@ export function pitchTypeOf(answer: string | undefined): PitchType | undefined {
 }
 
 /** "Not sure yet": up to three that fit, of the kind she is pitching for. */
-export function suggestedOutlets(type: string | undefined): Outlet[] {
-  return OUTLETS.filter((o) => !o.internal && (!type || o.type === type)).slice(0, 3);
+export function suggestedOutlets(type: string | undefined, fit: { audience?: string; area?: string } = {}): Outlet[] {
+  // From the list ExecHQ keeps, filed by audience and plan area (CEO, 19
+  // Oct): the kind she is pitching for, then those that reach her audience,
+  // then those that serve the plan area of her step.
+  const score = (o: Outlet) =>
+    (fit.audience && o.audiences?.some((a) => a.toLowerCase() === fit.audience!.trim().toLowerCase()) ? 2 : 0) + (fit.area && o.areas?.includes(fit.area) ? 1 : 0);
+  return OUTLETS.filter((o) => !o.internal && (!type || o.type === type))
+    .map((o, i) => ({ o, i, s: score(o) }))
+    .sort((a, b) => b.s - a.s || a.i - b.i)
+    .map((x) => x.o)
+    .slice(0, 3);
 }
 
 /** A page checked longer ago than this may have changed. */
@@ -1587,6 +1626,7 @@ export const INTERVIEW_PICKS: Record<ArtifactKind, Record<string, InterviewPick>
     target: { mode: "one", options: ["The Marketing Leaders podcast", "The Commercial Strategy Summit", "Commercial Leader Quarterly"] },
     angle: { mode: "many", fromHer: true, options: ["How I run work across teams", "What planning teaches about scope", "A result from my region"] },
     proof: { mode: "many", fromHer: true, options: ["A result with a number I can share", "A talk or article I’ve done", "Feedback from a senior leader"] },
+    audience: { mode: "one", fromHer: true, options: ["Senior executives", "Operators and practitioners", "Founders and investors"] },
     links: { mode: "many", options: ["A LinkedIn post", "A recording of a talk", "An article", "Nothing yet"] },
   },
   "thought-leadership": {

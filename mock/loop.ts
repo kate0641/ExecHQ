@@ -41,7 +41,9 @@ export const ARTIFACT_KINDS: Record<ArtifactKind, ArtifactKindCopy> = {
     workflow: "Pitch Builder",
     usedLabel: "Sent",
     usedVerb: "sent",
-    checkBackDays: 5,
+    // A week, to match the follow-up's "if you hear nothing in a week"
+    // (CEO, 19 Oct).
+    checkBackDays: 7,
   },
   "situation-brief": {
     workflow: "Situation Brief",

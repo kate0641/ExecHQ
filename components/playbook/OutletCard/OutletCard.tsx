@@ -106,6 +106,12 @@ export function OutletCard({ name, type, outlet, today, className }: OutletCardP
               </p>
             ) : contact?.route === "form" ? (
               <p className="outlet-card__text">
+                {contact.person ? (
+                  <>
+                    {contact.person}
+                    <br />
+                  </>
+                ) : null}
                 {contact.label}
                 <br />
                 <span className="outlet-card__address">{contact.url}</span>

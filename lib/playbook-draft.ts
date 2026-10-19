@@ -387,6 +387,8 @@ export function pitchDraft(v: Record<string, string>): DraftSection[] {
   const target = v.target?.trim();
   const role = v.role?.trim();
   const statement = v.statement?.trim();
+  // About me: her short bio once she has one, else her statement (CEO, 19 Oct).
+  const aboutMe = v.bio?.trim() || statement;
   const audience = v.audience?.trim();
   const proof = v.proof?.trim() ?? "";
   const kind = (v.type || "Speaking").toLowerCase();
@@ -432,7 +434,7 @@ export function pitchDraft(v: Record<string, string>): DraftSection[] {
       heading: "Expanded version",
       segments: [
         ex("About me: "),
-        statement ? you(sentence(statement)) : ask("Why are you the person to say this?"),
+        aboutMe ? you(sentence(aboutMe)) : ask("Why are you the person to say this?"),
         ex("The three points I’d cover: "),
         ask("What are the three points you would cover?"),
         ex(" "),
