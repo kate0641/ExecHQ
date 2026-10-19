@@ -100,8 +100,7 @@ function FolderList({
 }
 
 /**
- * Playbook, Concept 2 — Starter row and document workspace. One of the two
- * safe concepts.
+ * Playbook, Concept 2 — Starter row. Approved 19 October.
  *
  * On a phone or tablet (tablet follows the phone, Kate 15 Oct) the tools are
  * one row of four that fits the width, each an icon over a short name, so
@@ -124,9 +123,8 @@ function FolderList({
  * list with how many, the Status menu and, in a folder, its Start.
  *
  * Either way each row is the title, then its status and when she last
- * touched it as a tag; tapping it opens it (14 Oct). Opening a tool or an
- * artifact shows the draft full screen, with inputs and revisions in a sheet
- * pulled up from a peek bar (the side panel on desktop).
+ * touched it as a tag; tapping it opens it (14 Oct). A tool or an artifact
+ * opens in the Playbook flow (Concept 3, the Interview).
  */
 function Concept2Page() {
   const p = usePlaybookPage("concept-2");
