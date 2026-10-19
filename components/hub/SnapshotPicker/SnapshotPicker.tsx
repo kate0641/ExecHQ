@@ -6,7 +6,6 @@ import { ToggleGroup } from "@/components/form/ToggleGroup";
 import { Icon } from "@/components/primitives/Icon";
 import { getFlow } from "@/lib/manifest";
 import { resetLoop, selectSnapshot, useLoop } from "@/lib/loop-store";
-import { SkyPicker } from "./SkyPicker";
 import { SNAPSHOT_IDS, SNAPSHOTS, type SnapshotId } from "@/mock/snapshots";
 
 /** What each option shows in the dock, where a word will not fit: the five
@@ -108,8 +107,6 @@ export function SnapshotPicker() {
       <output className="u-visually-hidden">
         {announcement || `Homepage state: ${SNAPSHOTS[loop.homeState].label}`}
       </output>
-      {/* Only Home has a sky. */}
-      {pathname === "/homepage/concept-4" ? <SkyPicker /> : null}
     </div>
   );
 }

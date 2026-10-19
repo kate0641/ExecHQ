@@ -1,8 +1,9 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
 import { ToggleGroup } from "@/components/form/ToggleGroup";
-import { SKIES, pickSky, pickedSky, subscribeSky, type Sky } from "./sky-store";
+import { usePathname } from "next/navigation";
+import { SKIES, pickSky, type Sky } from "./sky-store";
+import { useSky } from "./use-sky";
 
 const LABELS: Record<Sky, string> = {
   dawn: "Dawn sky",
@@ -33,35 +34,24 @@ const GLYPHS: Record<Sky, React.ReactNode> = {
   night: <path d="M15.5 12.2A6 6 0 0 1 7.8 4.5a6 6 0 1 0 7.7 7.7Z" />,
 };
 
-/** The sky her clock gives, as Home works it out. */
-function clockSky(): Sky {
-  const hour = new Date().getHours();
-  if (hour >= 5 && hour < 9) return "dawn";
-  if (hour >= 9 && hour < 17) return "day";
-  if (hour >= 17 && hour < 20) return "dusk";
-  return "night";
-}
+/** The pages that draw a sky: Home's header, and the panel behind the question on onboarding's guided pages.
+ *  The Plan's moves sit on navy instead (designer, 2026-10-15). */
+const SKY_PAGES = ["/homepage/concept-4", "/onboarding/"];
 
 /**
- * The reviewer's sky switcher, under the homepage states: shows Home's header
- * at dawn, day, dusk or night whatever the hour, so one change can be checked
- * in all four. Before a pick, the sky Home is showing is highlighted.
+ * The reviewer's sky switcher: shows the sky at dawn, day, dusk or night whatever the hour, so one change
+ * can be checked in all four. Before a pick, the sky showing is highlighted. Only on pages that draw one.
  */
 export function SkyPicker() {
-  const sky = useSyncExternalStore(
-    subscribeSky,
-    () => {
-      const asked = SKIES.find((s) => s === new URLSearchParams(window.location.search).get("sky"));
-      return pickedSky() ?? asked ?? clockSky();
-    },
-    () => "day" as Sky,
-  );
+  const pathname = usePathname();
+  const sky = useSky();
+  if (!SKY_PAGES.some((page) => pathname.startsWith(page))) return null;
 
   return (
     <>
       <span className="devtools__rule" aria-hidden="true" />
       <ToggleGroup
-        label="Home's sky"
+        label="Sky"
         labelHidden
         size="sm"
         orientation="vertical"

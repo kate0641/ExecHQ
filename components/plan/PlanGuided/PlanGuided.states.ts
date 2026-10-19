@@ -77,6 +77,7 @@ export const planGuidedStates = defineComponentStates({
     { label: "First move — the drawer open — default", props: base },
     { label: "The drawer folded to a peek", props: { ...base, demoFolded: true } },
     { label: "Folded, with the roadmap under the move", props: { ...base, demoFolded: true, roadmap } },
+    { label: "Change when: the times to choose from", props: { ...base, demoPicking: true } },
     { label: "Answered: I’ll do it — the reply, then the next move", props: { ...base, demoAnswered: { "use-story": "plan" } } },
     { label: "Answered: I’ll do it, on her plan for its time", props: { ...base, demoPage: 1, demoAnswered: { "brief-manager": "plan" } } },
     { label: "Not for me: asking why, one optional tap", props: { ...base, demoPage: 2, demoAnswered: { "q1-review": "pass" } } },

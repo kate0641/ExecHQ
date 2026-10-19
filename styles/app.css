@@ -447,9 +447,9 @@ samp {
   background-color: var(--color-surface);
   border: var(--border-strong);
   border-radius: var(--radius-sm);
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
   font-weight: var(--weight-semibold);
   text-decoration: none;
   transform: translateY(calc(-100% - var(--space-lg)));
@@ -542,9 +542,10 @@ samp {
 }
 
 .btn--sm {
-  min-height: 0;
-  padding: var(--space-xs) var(--space-sm);
-  font-size: var(--text-xs);
+  /* The pills' size, so a small button and a pill line up (designer, 2026-10-16; 12px words before). */
+  min-height: var(--pill-height);
+  padding: 0 var(--pill-padding-inline);
+  font-size: var(--text-sm);
   /* Small buttons carry short labels and often an icon beside them. Letting one
      wrap mid-label stacks the icon above the text and reads as a broken
      control, so it never wraps. Full-size buttons still do — the skip path is
@@ -591,15 +592,22 @@ samp {
 }
 
 .btn--ghost {
+  /* Retired into the link (designer, 2026-10-16): a quiet action is the underlined link, navy, flush to
+     the text around it, with the button's 44px tap height. */
+  padding-inline: 0;
   background-color: transparent;
   border-color: transparent;
-  color: var(--color-text-secondary);
+  color: var(--color-text-link);
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width-thin);
+  text-underline-offset: 0.2em;
 }
 
 .btn--ghost:hover,
 .btn--ghost.is-hover {
-  background-color: var(--color-surface-hover);
-  color: var(--color-text-primary);
+  background-color: transparent;
+  color: var(--color-text-link-hover);
+  text-decoration-thickness: var(--border-width-medium);
 }
 
 .btn--ghost:active,
@@ -860,6 +868,12 @@ button.link {
   color: var(--color-text-secondary);
 }
 
+/* A hint reads with its label as one piece: 4px under it, and the field's 12px follows the hint
+   (designer, 2026-10-16). */
+.field__label + .field__hint {
+  margin-top: calc(var(--space-2xs) - var(--space-group-title));
+}
+
 .field__hint {
   font-family: var(--type-caption-font);
   font-size: var(--type-caption-size);
@@ -1034,8 +1048,8 @@ button.link {
 
 .toggle-group__legend {
   padding: 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
@@ -1066,9 +1080,9 @@ button.link {
   justify-content: center;
   padding: var(--space-xs) var(--space-md);
   border-radius: var(--radius-xs);
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   color: var(--color-text-secondary);
@@ -1236,6 +1250,33 @@ button.link {
   flex-direction: column;
   height: 100vh;
   height: 100dvh;
+}
+
+/* One screen of a flow, embedded in the showroom (designer, 2026-10-15): just
+   the phone, on the canvas, with a little room round it. The page is as tall
+   as the phone, so the showroom can size the frame to it. */
+.prototype--frame {
+  height: auto;
+}
+
+.prototype--frame .prototype__canvas {
+  overflow: visible;
+  padding: var(--space-sm);
+}
+
+/* The whole length of the page in one phone: the frame grows with its content
+   and the page scrolls nowhere, so a review sees everything at once. */
+
+.prototype--full .device--mobile {
+  height: auto;
+  min-height: calc(
+    var(--viewport-mobile-height) + 2 * var(--device-bezel-mobile) + 2 *
+      var(--border-width-thin)
+  );
+}
+
+.prototype--full .device__content {
+  overflow: visible;
 }
 
 /* The canvas scrolls when the window is shorter than the device, so phone and
@@ -2121,9 +2162,9 @@ ul.chrome__nav-list {
   display: inline-block;
   padding-block: var(--space-sm);
   border-bottom: var(--border-width-medium) solid transparent;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   color: var(--color-text-secondary);
@@ -4785,6 +4826,55 @@ ol.ring-detail__timeline {
 
 /* Playground -------------------------------------------------------------- */
 
+/* The playground's every-screen view (designer, 2026-10-15): each screen of a
+   flow at true phone size, side by side, with what it is under it. */
+.screen-frames {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-xl);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.screen-frames__figure {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin: 0;
+}
+
+.screen-frames__frame {
+  display: block;
+  width: calc(var(--viewport-mobile-width) + 2 * var(--device-bezel-mobile) + 2 * var(--border-width-thin) + 2 * var(--space-sm));
+  height: calc(var(--viewport-mobile-height) + 2 * var(--device-bezel-mobile) + 2 * var(--border-width-thin) + 2 * var(--space-sm));
+  border: 0;
+  border-radius: var(--radius-card);
+  background-color: var(--color-canvas);
+}
+
+.screen-frames__caption {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  max-width: var(--viewport-mobile-width);
+  padding-inline: var(--space-sm);
+}
+
+.screen-frames__label {
+  font-family: var(--type-subheading-font);
+  font-size: var(--type-subheading-size);
+  font-weight: var(--type-subheading-weight);
+  line-height: var(--type-subheading-leading);
+}
+
+.screen-frames__note {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
 .playground__tips {
   display: flex;
   flex-direction: column;
@@ -6290,9 +6380,9 @@ ol.ring-detail__timeline {
 }
 
 .plan-card__name {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
   font-size: var(--text-lg);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
@@ -6779,7 +6869,7 @@ ol.ring-detail__timeline {
 .quick-replies {
   display: flex;
   flex-wrap: nowrap;
-  gap: var(--space-2xs);
+  gap: var(--space-between-pills);
   margin: 0 calc(-1 * var(--space-sm));
   padding: var(--space-3xs) 0;
   list-style: none;
@@ -6813,18 +6903,19 @@ ol.ring-detail__timeline {
 }
 
 .quick-replies__chip {
+  min-height: var(--pill-height);
+  padding: var(--pill-padding-block) var(--pill-padding-inline);
   white-space: nowrap;
-  padding: var(--space-xs) var(--space-sm);
   font-family: var(--type-label-font);
   word-spacing: var(--type-label-word-spacing);
   letter-spacing: var(--type-label-tracking);
   font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  /* The secondary button's light blue, so a reply looks like every other
-     button that is not the main action (designer, 2026-10-07). */
-  color: var(--color-text-on-action-secondary);
-  background-color: var(--color-action-secondary);
-  border: var(--border-width-thin) solid transparent;
+  font-weight: var(--weight-regular);
+  /* The one choice pill: the raised surface, the faint edge, the selected fill when chosen (designer,
+     2026-10-16; the secondary blue from 2026-10-07). */
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-raised);
+  border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-pill);
   cursor: pointer;
 }
@@ -6843,9 +6934,9 @@ ol.ring-detail__timeline {
 
 /* A chosen answer in a pick-several question. */
 .quick-replies__chip[aria-pressed="true"] {
-  color: var(--color-text-inverse);
-  background-color: var(--color-surface-inverse);
-  border-color: var(--color-surface-inverse);
+  color: var(--color-text-on-selected);
+  background-color: var(--color-selected);
+  border-color: var(--color-selected);
 }
 
 /* The composer: one pill holding the field, the mic and send. The pill
@@ -7009,20 +7100,22 @@ ol.ring-detail__timeline {
   background-color: transparent;
   border: 0;
   border-radius: 0;
-  gap: var(--space-xs);
+  gap: var(--space-between-pills);
 }
 
 .toggle-group--chips .toggle-group__option {
-  padding: var(--space-sm) var(--space-md);
-  border: var(--border-strong);
+  min-height: var(--pill-height);
+  padding: var(--pill-padding-block) var(--pill-padding-inline);
+  border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-pill);
-  background-color: var(--color-surface);
+  background-color: var(--color-surface-raised);
+  font-weight: var(--weight-regular);
 }
 
 .toggle-group--chips .toggle-group__input:checked + .toggle-group__option {
-  color: var(--color-text-inverse);
-  background-color: var(--color-surface-inverse);
-  border-color: var(--color-surface-inverse);
+  color: var(--color-text-on-selected);
+  background-color: var(--color-selected);
+  border-color: var(--color-selected);
 }
 
 .toggle-group--chips .toggle-group__option:hover {
@@ -7030,7 +7123,7 @@ ol.ring-detail__timeline {
 }
 
 .toggle-group--chips .toggle-group__input:checked + .toggle-group__option:hover {
-  background-color: var(--color-surface-inverse-hover);
+  background-color: var(--color-selected-hover);
 }
 
 /* Back top-left, skip top-right. The bar keeps both out of the primary action's
@@ -7062,9 +7155,9 @@ ol.ring-detail__timeline {
 }
 
 .wizard__skip {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   color: var(--color-text-secondary);
@@ -7168,33 +7261,6 @@ ol.ring-detail__timeline {
 }
 
 /* Underline: quiet text options, the chosen one underlined. */
-.toggle-group--underline .toggle-group__options {
-  gap: var(--space-md);
-  padding: 0;
-  background-color: transparent;
-  border: 0;
-  border-radius: 0;
-}
-
-.toggle-group--underline .toggle-group__option {
-  padding: var(--space-3xs) 0;
-  border-radius: 0;
-  border-bottom: var(--border-width-medium) solid transparent;
-  font-size: var(--text-sm);
-}
-
-.toggle-group--underline .toggle-group__option:hover {
-  background-color: transparent;
-}
-
-.toggle-group--underline .toggle-group__input:checked + .toggle-group__option {
-  padding: var(--space-3xs) 0;
-  border: 0;
-  border-bottom: var(--border-width-medium) solid var(--color-text-primary);
-  background-color: transparent;
-  box-shadow: none;
-}
-
 @keyframes revision-in {
   from {
     opacity: 0;
@@ -7235,10 +7301,11 @@ ol.ring-detail__timeline {
   color: var(--color-text-muted);
 }
 
+/* Every pill group: one gap across and down (designer, 2026-10-16). */
 .chip-group__options {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2xs);
+  gap: var(--space-between-pills);
 }
 
 .chip-group--equal .chip-group__options {
@@ -7268,15 +7335,18 @@ ol.ring-detail__timeline {
 }
 
 .chip-group__chip {
-  padding: var(--space-xs) var(--space-sm);
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  min-height: var(--pill-height);
+  padding: var(--pill-padding-block) var(--pill-padding-inline);
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
   font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
+  font-weight: var(--weight-regular);
   color: var(--color-text-primary);
-  background-color: var(--color-surface);
-  border: var(--border-strong);
+  /* One choice pill everywhere: the raised surface, the faint edge, regular words; the selected fill when
+     chosen (designer, 2026-10-16). */
+  background-color: var(--color-surface-raised);
+  border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-pill);
   cursor: pointer;
   transition: background-color var(--duration-fast) var(--easing-standard);
@@ -7287,9 +7357,9 @@ ol.ring-detail__timeline {
 }
 
 .chip-group__chip[aria-pressed="true"] {
-  color: var(--color-text-inverse);
-  background-color: var(--color-surface-inverse);
-  border-color: var(--color-surface-inverse);
+  color: var(--color-text-on-selected);
+  background-color: var(--color-selected);
+  border-color: var(--color-selected);
 }
 
 .chip-group__chip:disabled {
@@ -7306,12 +7376,12 @@ ol.ring-detail__timeline {
    her own messages do, and its words step up to bold (designer, 2026-10-13).
    The answers sit 12px apart. */
 .answer-drawer .chip-group__options {
-  gap: var(--space-sm);
+  gap: var(--space-between-pills);
 }
 
 .answer-drawer .chip-group__chip {
-  min-height: var(--button-target);
-  padding: var(--space-xs) var(--space-md);
+  min-height: var(--pill-height);
+  padding: var(--pill-padding-block) var(--pill-padding-inline);
   font-family: var(--type-body-sm-font);
   font-size: var(--type-body-sm-size);
   font-weight: var(--weight-regular);
@@ -7321,7 +7391,27 @@ ol.ring-detail__timeline {
   text-align: left;
   background-color: var(--color-surface-raised);
   border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-xl);
+  /* Fully round, as the buttons are, on one line or two (designer, 2026-10-16). */
+  border-radius: var(--radius-pill);
+}
+
+.answer-drawer .chip-group--detailed .chip-group__chip {
+  border-radius: var(--radius-pill);
+}
+
+/* A question's own answers, the full-width list in a drawer, stay button size; other pills are compact. */
+.answer-drawer :is(.chip-group--equal, .chip-group--detailed) .chip-group__options {
+  gap: var(--space-between-answers);
+}
+
+.answer-drawer :is(.chip-group--equal, .chip-group--detailed) .chip-group__chip {
+  min-height: var(--answer-height);
+  padding-inline: var(--answer-padding-inline);
+}
+
+/* The first line of an answer says what it is, so it is a step heavier than the line under it. */
+.answer-drawer .chip-group__title {
+  font-weight: var(--weight-body-medium);
 }
 
 .answer-drawer .chip-group__chip:hover {
@@ -7330,16 +7420,16 @@ ol.ring-detail__timeline {
 }
 
 .answer-drawer .chip-group__chip[aria-pressed="true"] {
-  color: var(--color-text-inverse);
-  background-color: var(--color-surface-inverse);
-  border-color: var(--color-surface-inverse);
+  color: var(--color-text-on-selected);
+  background-color: var(--color-selected);
+  border-color: var(--color-selected);
   --color-focus: var(--color-focus-inverse);
   --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
 }
 
 .answer-drawer .chip-group__chip[aria-pressed="true"]:hover {
-  border-color: var(--color-surface-inverse-hover);
-  background-color: var(--color-surface-inverse-hover);
+  border-color: var(--color-selected-hover);
+  background-color: var(--color-selected-hover);
 }
 
 .answer-drawer .chip-group__chip:disabled {
@@ -7411,12 +7501,12 @@ ol.ring-detail__timeline {
 
 .builder-export__links > button {
   padding: var(--space-3xs) 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
-  color: var(--color-text-primary);
+  color: var(--color-text-link);
   text-decoration: underline;
   text-decoration-thickness: var(--border-width-thin);
   text-underline-offset: 0.2em;
@@ -7719,12 +7809,14 @@ ol.ring-detail__timeline {
   width: var(--space-xl);
   height: var(--space-xl);
   border-radius: var(--radius-sm);
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
+  /* A stone square with the ink, so the source reads as a quiet tag, not a navy button; the mark two
+     pixels larger, 13px (designer, 2026-10-15). */
+  background-color: var(--color-surface-quiet);
+  color: var(--color-text-primary);
   font-family: var(--font-display);
   word-spacing: var(--font-display-word-spacing);
   letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-2xs);
+  font-size: var(--text-xs-plus);
   font-weight: var(--weight-bold);
 }
 
@@ -7752,8 +7844,8 @@ ol.ring-detail__timeline {
 
 .signal-list__status {
   padding: var(--space-3xs) var(--space-xs);
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
   font-size: var(--text-2xs);
   font-weight: var(--weight-bold);
   letter-spacing: var(--tracking-label);
@@ -8007,17 +8099,24 @@ ol.ring-detail__timeline {
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-card);
   background-color: var(--color-surface-raised);
+  /* The header band runs to the card's edge, so it is clipped to its corners. */
+  overflow: hidden;
 }
 
+/* What next? sits in a sky blue header, navy words on it (11.3:1), title only (designer, 2026-10-15).
+   Every choice under it acts on her draft, so it takes the draft's colour: written for her to use. */
 .next-steps__label {
   /* The title inside a list card: the card title role. */
+  margin: calc(var(--space-card-padding) * -1) calc(var(--space-card-padding) * -1) 0;
+  padding: var(--space-md) var(--space-card-padding);
   font-family: var(--type-card-title-font);
   font-size: var(--type-card-title-size);
   font-weight: var(--type-card-title-weight);
   line-height: var(--type-card-title-leading);
   letter-spacing: var(--type-card-title-tracking);
   word-spacing: var(--type-card-title-word-spacing);
-  color: var(--color-text-primary);
+  background-color: var(--color-surface-for-her);
+  color: var(--color-text-on-for-her);
 }
 
 .next-steps__list {
@@ -8069,9 +8168,9 @@ ol.ring-detail__timeline {
 /* The choice reads like a numbered point's title and copy, without the
    number. */
 .next-steps__title {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
@@ -8285,10 +8384,11 @@ ol.ring-detail__timeline {
   gap: var(--space-xs);
 }
 
+/* In Inter, as every small label is (designer, 2026-10-16; small labels moved on 2026-10-15). */
 .guide__where {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--type-eyebrow-font);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
   font-size: var(--text-xs);
   color: var(--color-text-secondary);
 }
@@ -8300,10 +8400,15 @@ ol.ring-detail__timeline {
   color: var(--color-text-primary);
 }
 
+/* The segments sit 8px apart so each reads as its own stage (designer,
+   2026-10-13). */
 .guide__parts {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-3xs);
+  /* One segment per part on a single line, however many there are: the stage check-in has five
+     (designer, 2026-10-15), so a fixed four wrapped the fifth onto a line of its own. */
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: var(--space-xs);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -8350,8 +8455,9 @@ ol.ring-detail__timeline {
   line-height: var(--leading-tight);
   letter-spacing: var(--font-display-tracking-heading);
   color: var(--color-text-primary);
-  /* No single word left alone on the last line. */
-  text-wrap: pretty;
+  /* Each line as full as it fits. A lone last word is allowed: a short line with room left for the next
+     word reads worse than an orphan (designer, 2026-10-16). */
+  text-wrap: wrap;
 }
 
 .guide__title:focus-visible {
@@ -8381,7 +8487,8 @@ ol.ring-detail__timeline {
   margin-top: auto;
   display: flex;
   flex-direction: column;
-  gap: var(--space-group-title);
+  /* A title to its copy, 8px: the reason reads as one piece (designer, 2026-10-15; was 12). */
+  gap: var(--space-title-copy);
 }
 
 .guide__why-label {
@@ -8408,9 +8515,16 @@ ol.ring-detail__timeline {
 }
 
 /* With a drawer the reason follows the question directly, instead of sinking
-   to the foot of the page and leaving a gap between them. */
+   to the foot of the page and leaving a gap between them. It sits 16px under
+   the question, not the page's 24, so it clears the open drawer (designer,
+   2026-10-15). */
 .guide--drawer .guide__why {
-  margin-top: 0;
+  margin-top: calc(var(--space-md) - var(--space-lg));
+}
+
+/* A body with nothing in it takes no room, so it adds no gap above the reason. */
+.guide__body:empty {
+  display: none;
 }
 
 /* The page's main action sits at the foot of the page however short the
@@ -8431,6 +8545,231 @@ ol.ring-detail__timeline {
 
 .guide--done .guide__actions {
   margin-top: 0;
+}
+
+/* A navy page (designer, 2026-10-15): onboarding's steps with no drawer (Signals, the recommendation,
+   the first draft, Done) are flooded navy, so the flow alternates quiet screens with ExecHQ moments.
+   A screen with a navy drawer stays light: the drawer is already its colour. The page's tokens remap
+   to the inverse set so its words, links and focus follow; headlines and section labels are yellow,
+   the one warm thing above the action. White cards on it take the light set back. The page itself
+   carries it too, so it reads the same in the catalogue, outside the app's chrome. */
+.chrome:has(.guide--navy),
+.guide--navy {
+  --color-surface: var(--color-surface-inverse);
+  --color-text-primary: var(--color-text-inverse);
+  --color-text-secondary: var(--color-text-inverse-muted);
+  --color-text-muted: var(--color-text-inverse-muted);
+  --color-text-link: var(--color-text-inverse);
+  --color-text-link-hover: var(--color-text-inverse);
+  --color-eyebrow: var(--color-eyebrow-on-inverse);
+  --color-border: var(--color-border-inverse);
+  --color-border-subtle: var(--color-border-inverse);
+  --color-focus: var(--color-focus-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+  --number-circle-fill: var(--number-circle-fill-on-inverse);
+  --number-circle-ink: var(--number-circle-ink-on-inverse);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-primary);
+}
+
+.guide--navy .guide__title,
+.guide--navy .guide__why-label,
+.guide--navy .builder-next__label {
+  color: var(--color-headline-on-inverse);
+}
+
+.guide--navy :is(.recommendation, .next-steps, .point-box, .signal-list, .card, .feature-card__body, .stage-checkin__thing, .agenda__body, .agenda__stage-note, .reflection-reply__fact) {
+  --color-text-primary: var(--light-text-primary);
+  --color-text-secondary: var(--light-text-secondary);
+  --color-text-muted: var(--light-text-muted);
+  --color-text-link: var(--light-text-link);
+  --color-text-link-hover: var(--light-text-link);
+  --color-eyebrow: var(--light-eyebrow);
+  --color-border: var(--light-border);
+  --color-border-subtle: var(--light-border);
+  --color-focus: var(--light-focus);
+  --focus-ring: var(--focus-ring-width) solid var(--light-focus);
+  --number-circle-fill: var(--light-number-circle-fill);
+  --number-circle-ink: var(--light-number-circle-ink);
+  color: var(--color-text-primary);
+}
+
+/* The Plan on navy (designer, 2026-10-16). Its top section sits in a quiet darkest-navy card, there without
+   being loudly a container while the drawer and prompts are on screen; the move's headline keeps its larger
+   size. Every headline stays yellow. */
+.guide--navy.plan-guided .guide__head {
+  /* The same width as every card under it, on the screen's side margin: no bleed (designer, 2026-10-16). */
+  margin-inline: 0;
+  padding: var(--space-lg) var(--space-md);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-quiet-on-inverse);
+}
+
+.guide--navy.plan-guided:not(.stage-checkin).guide--drawer .guide__title {
+  font-size: var(--text-2xl-plus);
+}
+
+/* On the navy Plan, Your roadmap is a headline like the page's, yellow, and the add button is yellow, the
+   action colour, with dark ink (designer, 2026-10-16). On a phone or tablet the button sits on the screen
+   itself, outside the page, so it follows the page it is over. */
+.guide--navy .agenda__heading {
+  color: var(--color-headline-on-inverse);
+}
+
+.guide--navy .agenda__fab,
+.device__screen:has(.guide--navy.plan-guided) .agenda__fab {
+  background-color: var(--color-action);
+  color: var(--color-text-on-action);
+}
+
+.guide--navy .agenda__fab:hover,
+.device__screen:has(.guide--navy.plan-guided) .agenda__fab:hover {
+  background-color: var(--color-action-hover);
+}
+
+.guide--navy .agenda__fab:active,
+.device__screen:has(.guide--navy.plan-guided) .agenda__fab:active {
+  background-color: var(--color-action-active);
+}
+
+/* The add button is round, with a thin yellow 500 edge and its shadow to set it off the surface under it
+   (designer, 2026-10-16: a 2px navy ring read as heavy, a gold edge as navy from a distance). */
+.guide--navy .agenda__fab,
+.device__screen:has(.guide--navy.plan-guided) .agenda__fab {
+  border-radius: 50%;
+  box-shadow: 0 0 0 var(--border-width-thin) var(--color-action-edge), var(--shadow-lg);
+}
+
+/* Folded on a phone or a tablet, the stone drawer runs to the foot of the screen and the Ask or go bar sits
+   in it, so the two read as one surface instead of stone, navy, white (designer, 2026-10-16). */
+.device__screen:has(.concierge-host) .chrome__main:has(> .guide--navy.plan-guided):has(.answer-drawer.is-peek) {
+  padding-bottom: 0;
+}
+
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .guide.guide--navy.plan-guided .answer-drawer.is-peek {
+  padding-bottom: calc(var(--space-lg) + 3.5rem + var(--space-xs));
+}
+
+.device__screen:has(.guide--navy.plan-guided .answer-drawer.is-peek) .concierge-pill {
+  border-color: var(--light-border);
+}
+
+/* A choice pill on navy (designer, 2026-10-16): the mirror of the formula. Not chosen, it is outlined in a
+   light edge with light words; chosen, it turns white with navy words. The Plan's reasons on its navy
+   page, and onboarding's answers in its navy drawer. */
+.guide--navy .guide__body .chip-group__chip,
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .guide.guide--sky .answer-drawer .chip-group__chip {
+  color: var(--color-text-inverse);
+  background-color: transparent;
+  border-color: var(--color-pill-edge-on-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+}
+
+.guide--navy .guide__body .chip-group__chip:hover,
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .guide.guide--sky .answer-drawer .chip-group__chip:hover {
+  background-color: var(--color-surface-inverse-hover);
+}
+
+.guide--navy .guide__body .chip-group__chip[aria-pressed="true"],
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .guide.guide--sky .answer-drawer .chip-group__chip[aria-pressed="true"] {
+  color: var(--color-text-on-selected-inverse);
+  background-color: var(--color-selected-on-inverse);
+  border-color: var(--color-selected-on-inverse);
+}
+
+/* The roadmap's navy stage card would sink into the navy page, so every stage card keeps a thin edge. */
+.guide--navy .agenda__stage {
+  outline: var(--border-width-thin) solid var(--color-edge-on-inverse);
+  outline-offset: calc(var(--border-width-thin) * -1);
+}
+
+/* On a phone and a tablet the drawer turns stone over the navy page, so the two don't merge: its words take
+   the light set back, and the navy drawer's rules follow its remapped colours. */
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .guide--navy.plan-guided .answer-drawer {
+  --color-surface-inverse: var(--color-drawer-on-inverse);
+  --color-surface-inverse-hover: var(--color-drawer-on-inverse-hover);
+  --color-text-inverse: var(--light-text-primary);
+  --color-text-inverse-muted: var(--light-text-secondary);
+  --color-text-primary: var(--light-text-primary);
+  --color-text-secondary: var(--light-text-secondary);
+  --color-text-muted: var(--light-text-muted);
+  --color-text-link: var(--light-text-link);
+  --color-text-link-hover: var(--light-text-link);
+  --color-eyebrow: var(--light-eyebrow);
+  --color-border: var(--light-border);
+  --color-border-subtle: var(--light-border);
+  --color-focus: var(--light-focus);
+  --color-focus-inverse: var(--light-focus);
+  --focus-ring: var(--focus-ring-width) solid var(--light-focus);
+  color: var(--light-text-primary);
+}
+
+/* The white answers keep dark words wherever they sit: in the stone drawer, or on the navy page on the web. */
+/* They keep the stroke every white card has, stone 250, so each reads as its own button on the stone drawer
+   and on the navy page (designer, 2026-10-16). */
+.guide.guide--navy.plan-guided .answer-drawer .chip-group__chip {
+  border-color: var(--light-border);
+  --color-text-primary: var(--light-text-primary);
+  --color-text-secondary: var(--light-text-secondary);
+  --color-text-muted: var(--light-text-muted);
+  --color-focus: var(--light-focus);
+  --focus-ring: var(--focus-ring-width) solid var(--light-focus);
+  color: var(--light-text-primary);
+}
+
+/* On the navy, the LinkedIn source sits in its own white card, so the one thing she adds stands out. */
+.guide--navy .signal-list {
+  padding: var(--space-card-padding);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+}
+
+/* On a navy page a navy header would sink into the page, so the card's header turns light blue, navy words
+   on it (11.3:1), the same header as What next?, and the card keeps the stone 250 edge every card has
+   (designer, 2026-10-15). */
+.guide--navy .feature-card__head--inverse {
+  background-color: var(--color-surface-for-her);
+}
+
+.guide--navy .feature-card__head--inverse .feature-card__title {
+  color: var(--color-text-on-for-her);
+}
+
+.guide--navy .feature-card:has(> .feature-card__head--inverse) {
+  border-color: var(--light-border);
+}
+
+/* On a navy page the lime header keeps the card's stone 250 edge, as the white body under it does, so the
+   two read as one card rather than a header inset from it (designer, 2026-10-15). */
+.guide--navy .guide__heard-rows > .guide__yours-label {
+  border-color: var(--light-border);
+}
+
+/* The first draft has no edge of its own on the navy. */
+.guide--navy .story-draft__card {
+  border-color: transparent;
+}
+
+/* Copy, Download and Email sit inside the draft's card, under a hairline, so the most important card on
+   the screen carries its own actions (designer, 2026-10-15; they sat under the uses before). */
+.story-draft__actions {
+  margin-top: var(--space-xs);
+  padding-top: var(--space-sm);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+/* The status line keeps its place for "Copied", but takes no room until it has something to say. */
+.story-draft__actions .builder-export__status:empty {
+  min-height: 0;
+}
+
+/* A light blue rule under where she could use it closes the draft's part of the page before the Toolbox
+   line and why it matters (designer, 2026-10-15). The same 28px above and below it: the page's 24px
+   section gap, opened a hair. */
+.guide--navy .story-draft__uses {
+  padding-bottom: calc(var(--space-lg) + var(--space-2xs));
+  margin-bottom: var(--space-2xs);
+  border-bottom: var(--border-width-thin) solid var(--color-divider-on-inverse);
 }
 
 /* An answered page can run long, so its action stays in reach at the foot. */
@@ -8526,9 +8865,9 @@ ol.ring-detail__timeline {
   align-items: center;
   gap: var(--space-xs);
   padding: var(--space-xs) var(--space-sm);
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
   font-size: var(--text-sm);
   color: var(--color-text-primary);
   text-align: left;
@@ -9158,12 +9497,12 @@ ol.ring-detail__timeline {
 
 .guide__said-change {
   flex: none;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
-  color: var(--color-text-primary);
+  color: var(--color-text-link);
   text-decoration: underline;
   text-underline-offset: 0.2em;
   cursor: pointer;
@@ -9260,7 +9599,21 @@ ol.ring-detail__timeline {
 .answer-drawer__body {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  /* Its groups 24px apart (designer, 2026-10-16; was 12 between everything). */
+  gap: var(--space-drawer-groups);
+}
+
+/* These stay one group: a note right under its field, the start button with the answers under it, and a
+   quiet way to more answers (Show me more options, Change when) right under them. */
+.answer-drawer__body > .field + p,
+.answer-drawer__body > .btn + .chip-group,
+.answer-drawer__body > .chip-group + .btn--ghost {
+  margin-top: calc(var(--space-drawer-inner) - var(--space-drawer-groups));
+}
+
+/* The actions are a group of their own, 24px under the body. */
+.answer-drawer__body + .answer-drawer__actions {
+  margin-top: calc(var(--space-drawer-groups) - var(--space-sm));
 }
 
 /* The main action is full width, and a second one (Skip, Back, Later…) is a
@@ -9269,7 +9622,7 @@ ol.ring-detail__timeline {
 .answer-drawer__actions {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: var(--space-drawer-inner);
   /* Stays in reach when the drawer scrolls under the drawn keyboard. */
   position: sticky;
   bottom: calc(var(--space-lg) * -1);
@@ -9296,9 +9649,10 @@ ol.ring-detail__timeline {
 }
 
 .answer-drawer__peek-q {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  /* Inter, as the drawer's other words are (designer, 2026-10-16). */
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
@@ -10219,9 +10573,10 @@ ol.signal__list {
    one set. Yellow stays for a single "yes, done" answer. */
 .check-in__answers .btn--secondary {
   /* A little less to each side than a full button, so on a phone the first
-     two answers share a line and the three take two lines, not three. */
+     two answers share a line and the three take two lines, not three. A
+     question's own answers: the raised surface with the faint edge (designer, 2026-10-16). */
   padding-inline: var(--space-md);
-  border: var(--border-width-thin) solid var(--color-border-strong);
+  border: var(--border-width-thin) solid var(--color-border);
   background-color: var(--color-surface-raised);
   color: var(--color-text-primary);
 }
@@ -10508,9 +10863,9 @@ ol.check-in__steps {
 }
 
 .loop-row__text b {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
 }
@@ -10668,7 +11023,8 @@ ol.check-in__steps {
 
 .presence-clean__table tbody th {
   font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
+  /* Inter's medium. It pointed at the retired --weight-medium, so it fell back to its parent's weight. */
+  font-weight: var(--weight-body-medium);
 }
 
 .presence-clean__table th:nth-child(2),
@@ -11282,9 +11638,9 @@ ol.stage-track__list {
   padding: var(--space-3xs) var(--space-sm);
   border-radius: var(--radius-pill);
   background-color: var(--color-surface-inverse);
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
+  font-family: var(--font-body);
+  word-spacing: var(--word-spacing-normal);
+  letter-spacing: var(--tracking-normal);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   color: var(--color-text-inverse);
@@ -11649,7 +12005,8 @@ ul.stage-actions__list {
   gap: var(--space-sm);
   width: 100%;
   min-height: 3.25rem;
-  padding: var(--space-sm) var(--space-md);
+  /* The card's padding all round, as every list card has (designer, 2026-10-15). */
+  padding: var(--space-card-padding);
   border: 0;
   background-color: var(--color-surface-raised);
   color: var(--color-text-primary);
@@ -11689,6 +12046,8 @@ ul.stage-actions__list {
   letter-spacing: var(--type-caption-tracking);
   word-spacing: var(--type-caption-word-spacing);
   color: var(--color-text-muted);
+  /* Lines of even length, so no first line runs past the rest of the card's copy (designer, 2026-10-15). */
+  text-wrap: balance;
 }
 
 .settings-row__value {
@@ -11819,6 +12178,11 @@ ul.stage-actions__list {
   font-size: var(--type-heading-size-phone);
 }
 
+/* Focused only by script, as a sheet opens, so a screen reader starts here. */
+.detail-panel__heading:focus {
+  outline: none;
+}
+
 .detail-panel__heading:focus {
   outline: none;
 }
@@ -11843,6 +12207,8 @@ ul.stage-actions__list {
   letter-spacing: var(--type-body-sm-tracking);
   word-spacing: var(--type-body-sm-word-spacing);
   color: var(--color-text-secondary);
+  /* Never one word alone on the last line (the page recipe's rule). */
+  text-wrap: pretty;
 }
 
 .detail-panel__quote {
@@ -11903,6 +12269,11 @@ ul.stage-actions__list {
   color: var(--color-text-secondary);
 }
 
+/* What deleting removes is marked in the danger red (designer, 2026-10-15). */
+.detail-list--removes .icon {
+  color: var(--color-feedback-danger-text);
+}
+
 /* --- Notifications --------------------------------------------------------- */
 .notify-topics {
   display: flex;
@@ -11961,17 +12332,22 @@ ul.stage-actions__list {
   font-size: var(--type-title-size-phone);
 }
 
-/* On Profile the page's own title stands where the logo was (designer,
-   2026-10-11): the wordmark header goes, and on the phone the title runs
-   edge to edge at the top with the header's divider under it. */
-.chrome:has(.profile) > .chrome__header {
+/* No signed-in page has a logo bar (designer, 2026-10-13; Profile and Home
+   first): each page's own top opens the screen. On Profile the page's own
+   title stands where the logo was, and on the phone it runs edge to edge at
+   the top with the header's divider under it. */
+.chrome--app > .chrome__header {
   display: none;
 }
 
 [data-viewport="mobile"] .profile__title {
   margin: calc(-1 * var(--space-screen-top)) calc(-1 * var(--space-screen-side)) 0;
   padding: var(--space-sm) var(--space-screen-side);
-  border-bottom: var(--border-width-thin) solid var(--color-border);
+}
+
+/* The page's name, centred with no rule under it (designer, 2026-10-15). */
+.profile__title {
+  text-align: center;
 }
 
 /* Sections sit further apart than the heading, line and card inside each,
@@ -11987,6 +12363,16 @@ ul.stage-actions__list {
 /* Inside a section on the page: heading, the line under it, then the card. */
 .profile__section .detail-panel {
   gap: var(--space-sm);
+}
+
+/* A section's copy sits closer to its title than the card does to the copy, so title and copy read
+   as one and the card as what follows (designer, 2026-10-15). The panel's own gap is 12px. */
+.profile__section .detail-panel__head + .detail-panel__lead {
+  margin-top: calc(var(--space-title-copy) - var(--space-sm));
+}
+
+.profile__section .detail-panel__lead + * {
+  margin-top: calc(var(--space-copy-card) - var(--space-sm));
 }
 
 /* The follow-up note belongs to the Email group, so it sits close under it. */
@@ -12077,18 +12463,13 @@ ul.stage-actions__list {
   align-items: center;
   gap: var(--space-md);
   max-width: 24rem;
-  margin: var(--space-3xl) auto;
+  margin: auto;
   text-align: center;
 }
 
+/* The logo stands above the heading, at the header's size (designer, 2026-10-15). */
 .profile-end__mark {
-  display: grid;
-  place-items: center;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background-color: var(--color-surface-selected);
-  color: var(--color-surface-inverse);
+  margin: 0;
 }
 
 .profile-end__heading {
@@ -12106,9 +12487,82 @@ ul.stage-actions__list {
 }
 
 .profile-end__body {
+  max-width: 17rem;
   margin: 0;
   color: var(--color-text-secondary);
 }
+
+/* The button sits lower, apart from the words above it (designer, 2026-10-15). */
+.profile-end > .btn {
+  margin-top: var(--space-xl);
+}
+
+/* Profile is a navy page (designer, 2026-10-15), as onboarding's steps with no drawer are. The page
+   remaps its tokens to the inverse set, so its words, rules and focus follow; the title and section
+   headings are yellow. Its white cards, and the sheet a row opens, take the light set back. The
+   navigation pill and the light blue buttons keep their own colours. */
+.chrome:has(.profile, .profile-end) {
+  background-color: var(--color-surface-inverse);
+}
+
+/* Signed out or deleted, the header and its rule stay away: the logo sits above the heading
+   instead (designer, 2026-10-15). */
+.chrome:has(.profile-end) > .chrome__header {
+  display: none;
+}
+
+/* Signed out, she has no app to move around: the navigation and the chat bar go (designer,
+   2026-10-15), and the logo, heading, note and button sit centred on the screen. */
+.chrome:has(.profile-end) .app-nav,
+.prototype:has(.profile-end) .concierge-host {
+  display: none;
+}
+
+.chrome__main:has(.profile-end) {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile,
+.profile-end {
+  --color-surface: var(--color-surface-inverse);
+  --color-text-primary: var(--color-text-inverse);
+  --color-text-secondary: var(--color-text-inverse-muted);
+  --color-text-muted: var(--color-text-inverse-muted);
+  --color-text-link: var(--color-text-inverse);
+  --color-text-link-hover: var(--color-text-inverse);
+  --color-eyebrow: var(--color-eyebrow-on-inverse);
+  --color-border: var(--color-divider-on-inverse);
+  --color-border-subtle: var(--color-divider-on-inverse);
+  --color-focus: var(--color-focus-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-primary);
+}
+
+.profile__title,
+.profile-end__heading {
+  color: var(--color-headline-on-inverse);
+}
+
+.profile .detail-panel__heading {
+  color: var(--color-section-title-on-inverse);
+}
+
+.profile :is(.card, .settings-group__rows, .sheet__panel) {
+  --color-text-primary: var(--light-text-primary);
+  --color-text-secondary: var(--light-text-secondary);
+  --color-text-muted: var(--light-text-muted);
+  --color-text-link: var(--light-text-link);
+  --color-text-link-hover: var(--light-text-link);
+  --color-eyebrow: var(--light-eyebrow);
+  --color-border: var(--light-border);
+  --color-border-subtle: var(--light-border);
+  --color-focus: var(--light-focus);
+  --focus-ring: var(--focus-ring-width) solid var(--light-focus);
+  color: var(--color-text-primary);
+}
+
 
 /* =============================================================================
    LOGIN — Concept 1, Open page
@@ -12190,11 +12644,11 @@ ul.stage-actions__list {
   cursor: text;
 }
 
-/* Six equal boxes, three and three: the break between the halves is a column
-   of its own, so no box is narrowed to make it (designer, 2026-10-13). */
+/* Six equal boxes, the same distance apart: no wider break between the halves
+   (designer, 2026-10-15; it was three and three from 2026-10-13). */
 .code-field__cells {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) 0 repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: var(--space-xs);
   max-width: 22rem;
   pointer-events: none;
@@ -12207,15 +12661,13 @@ ul.stage-actions__list {
   border: var(--border-width-thin) solid var(--color-border-strong);
   border-radius: var(--radius-field);
   background-color: var(--color-surface-raised);
+  /* Its own ink, so a box on a navy drawer never takes the drawer's light words (designer, 2026-10-15). */
+  color: var(--color-code-digit);
   font-family: var(--font-display);
   word-spacing: var(--font-display-word-spacing);
   letter-spacing: var(--font-display-tracking);
   font-size: var(--text-xl);
   font-weight: var(--weight-bold);
-}
-
-.code-field__cell--gap {
-  grid-column-start: 5;
 }
 
 .code-field__control:focus-within .code-field__cell--current,
@@ -13105,11 +13557,50 @@ ul.login__never {
   --sky-top-core: var(--color-sky-heart-light);
 }
 
+/* Dusk is the sun going down into night (designer, 2026-10-14, option 2a):
+   a small peach centre, then peach turning into blue 500. Half of that turn
+   goes round the colour wheel (in oklch), which passes through mauve and
+   dusty pink, and half goes straight across (in oklab), which keeps them
+   soft. Every colour named is a palette step; only the shades between are
+   blended. The blue eases out over the last stretch rather than stopping,
+   so it leaves no edge, and the fade under it starts from the same blue. */
 .device__screen:has(.map-home__greeting[data-sky="dusk"]) {
   --sky-top-edge: var(--color-sky-dusk-edge-top);
-  --sky-top-core-size: 55% 24%;
   --sky-top-ring: var(--color-sky-dusk-top-ring);
   --sky-top-core: var(--color-sky-dusk-top-core);
+  --home-sky-full:
+    radial-gradient(ellipse 60% 26% at 50% 0, var(--sky-top-core), transparent),
+    radial-gradient(
+      ellipse 130% 85% at 50% 0 in oklch,
+      color-mix(in oklab, var(--sky-top-ring) 50%, transparent) 0%,
+      color-mix(in oklab, var(--sky-top-edge) 50%, transparent) 58%,
+      transparent 100%
+    ),
+    radial-gradient(
+      ellipse 130% 85% at 50% 0 in oklab,
+      var(--sky-top-ring) 0%,
+      var(--sky-top-edge) 58%,
+      color-mix(in oklab, var(--sky-top-edge) 97%, transparent) 62.2%,
+      color-mix(in oklab, var(--sky-top-edge) 90%, transparent) 66.4%,
+      color-mix(in oklab, var(--sky-top-edge) 78%, transparent) 70.6%,
+      color-mix(in oklab, var(--sky-top-edge) 65%, transparent) 74.8%,
+      color-mix(in oklab, var(--sky-top-edge) 50%, transparent) 79%,
+      color-mix(in oklab, var(--sky-top-edge) 35%, transparent) 83.2%,
+      color-mix(in oklab, var(--sky-top-edge) 22%, transparent) 87.4%,
+      color-mix(in oklab, var(--sky-top-edge) 10%, transparent) 91.6%,
+      color-mix(in oklab, var(--sky-top-edge) 3%, transparent) 95.8%,
+      transparent 100%
+    ),
+    linear-gradient(
+      in oklab,
+      var(--sky-top-edge) 0%,
+      var(--sky-top-edge) 10%,
+      color-mix(in oklab, var(--sky-top-edge) 80%, var(--color-surface)) 25%,
+      color-mix(in oklab, var(--sky-top-edge) 50%, var(--color-surface)) 45%,
+      color-mix(in oklab, var(--sky-top-edge) 22%, var(--color-surface)) 65%,
+      color-mix(in oklab, var(--sky-top-edge) 6%, var(--color-surface)) 85%,
+      var(--color-surface) 100%
+    );
 }
 
 /* Night is day's sky with the sun put out (designer, 2026-10-11): the
@@ -13216,11 +13707,8 @@ ul.login__never {
   background-position: 0 calc(-1 * var(--sky-scrolled, 0px));
 }
 
-/* For now Home has no wordmark header: the greeting band is the top of the
-   screen (and on the phone its wash runs on up behind the status bar). */
-.chrome:has(.map-home) > .chrome__header {
-  display: none;
-}
+/* Home's greeting band is the top of the screen (no signed-in page has a
+   logo bar), and on the phone its wash runs on up behind the status bar. */
 
 .map-home__greeting b {
   font-family: var(--font-display);
@@ -14462,7 +14950,8 @@ ul.came-of__rows {
   border: var(--border-width-thin) dashed var(--color-border-strong);
   background-color: transparent;
   color: var(--color-text-secondary);
-  font-weight: var(--weight-medium);
+  /* Inter's medium. It pointed at the retired --weight-medium, so it fell back to its parent's weight. */
+  font-weight: var(--weight-body-medium);
 }
 
 .came-of__row.is-quiet .came-of__date {
@@ -14686,11 +15175,25 @@ ol.entry-drawer__rows {
   border-top: var(--border-subtle);
 }
 
-/* The stage lines its children up at the start; the next-move card fills the width. */
-.momentum__stage > .presence-clean__try {
-  align-self: stretch;
-  /* The next move is its own thing, not the next line of the counts. */
-  margin-top: var(--space-xs);
+/* The week as a card of its own (designer, 2026-10-15): a moment of joy, held to one card so the
+   week's circles have quiet behind them. Its color is set where it is shown (the Signal Picture). */
+.momentum__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-feature-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+}
+
+/* What she did this week, its number in her lime. */
+.momentum__count {
+  padding: 0 var(--space-2xs);
+  border-radius: var(--radius-tag);
+  background-color: var(--color-surface-her-band);
+  color: var(--color-text-on-her-band);
+  font-weight: var(--weight-bold);
 }
 
 .momentum__stage:first-of-type {
@@ -14838,8 +15341,9 @@ ol.entry-drawer__rows {
   border-bottom: var(--border-subtle);
 }
 
-/* The band splits where the columns under it do, so the next move sits over where she started. */
-[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .momentum__stage {
+/* The band splits where the columns under it do: the week's card on the left, the next move over
+   where she started. */
+[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .momentum {
   display: grid;
   grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
   column-gap: var(--space-2xl);
@@ -14849,17 +15353,6 @@ ol.entry-drawer__rows {
 /* On the web each day is up to 4rem, so the week fills more of its column. */
 [data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .day-circles ol {
   grid-template-columns: repeat(7, minmax(0, 4rem));
-}
-
-[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .momentum__stage > * {
-  grid-column: 1;
-}
-
-[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .momentum__stage > .presence-clean__try {
-  grid-column: 2;
-  grid-row: 1 / span 6;
-  align-self: start;
-  margin-top: 0;
 }
 
 [data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .spark {
@@ -14920,6 +15413,152 @@ ol.entry-drawer__rows {
 [data-viewport="web"] .signals-page:has(> .signals-page__main:empty):not(:where([data-viewport="mobile"] *)) .baseline-form__counts {
   grid-column: 2;
   grid-row: 1 / span 2;
+}
+
+/* --- The Signal Picture's color (designer, 2026-10-15) ----------------------
+   Built on Home's way with color: the stone page, white cards with a faint
+   outline, and one strong navy moment. Here that moment is Momentum, a navy
+   card where the days she did something light up in lime, her color. Sky
+   blue is what ExecHQ wrote for her (her next move, Try this), with a navy
+   button, never yellow on light blue. Scoped to the page, so Home and Plan,
+   which share these pieces, keep their look until this one is settled.
+
+   Type: Kulim is for the title and section headings only. Every smaller
+   label takes an Inter role: group titles in small capitals, card titles in
+   Inter semibold. */
+
+/* Momentum's card is navy, its words light. */
+.signals-page .momentum__card {
+  --color-text-primary: var(--color-text-inverse);
+  --color-text-secondary: var(--color-text-inverse-muted);
+  --color-text-muted: var(--color-text-inverse-muted);
+  --color-border: var(--color-divider-on-inverse);
+  --color-border-strong: var(--color-divider-on-inverse);
+  --color-focus: var(--color-focus-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+  border-color: var(--color-surface-inverse);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-primary);
+}
+
+/* A day she did something is lime with a dark green check and a soft lime halo; a quiet day is a
+   light blue outline, a day to come dashed. Today keeps its ring, in the card's light ink. */
+.signals-page .momentum__card .day-circles__dot.is-on {
+  border-color: var(--color-surface-her-band);
+  background-color: var(--color-surface-her-band);
+  color: var(--color-text-on-her-band);
+  box-shadow: 0 0 0 var(--space-xs) var(--color-her-halo);
+}
+
+.signals-page .momentum__card .day-circles__dot.is-today:not(.is-on) {
+  box-shadow:
+    0 0 0 var(--space-3xs) var(--color-surface-inverse),
+    0 0 0 var(--space-2xs) var(--color-text-inverse);
+}
+
+/* Never a yellow outline on a card unless the designer asks (2026-10-15): her replies take the
+   card's faint outline until What came of it is redesigned. */
+.signals-page .came-of__reply {
+  border-color: var(--color-border);
+}
+
+/* What ExecHQ wrote for her: her next move and Try this sit in sky blue, navy words on it, and a
+   navy button, never yellow on light blue. */
+.signals-page .presence-clean__try {
+  --color-text-primary: var(--color-text-on-for-her);
+  --color-text-secondary: var(--color-text-on-for-her-muted);
+  --color-text-muted: var(--color-text-on-for-her-muted);
+  --color-eyebrow: var(--color-eyebrow-on-for-her);
+  --color-focus: var(--light-focus);
+  --focus-ring: var(--focus-ring-width) solid var(--light-focus);
+  border-color: var(--color-border-on-for-her);
+  background-color: var(--color-surface-for-her);
+  color: var(--color-text-primary);
+}
+
+/* Its button is an outlined navy pill, never yellow on light blue. */
+.signals-page .presence-clean__try .btn--primary {
+  /* The outline button, where the card's light blue can't take yellow. */
+  border: var(--border-width-medium) solid var(--color-outline-ink);
+  background-color: transparent;
+  color: var(--color-outline-ink);
+}
+
+.signals-page .presence-clean__try .btn--primary:hover {
+  background-color: var(--color-action-on-for-her-hover);
+}
+
+.signals-page .presence-clean__try .btn--primary:active {
+  background-color: var(--color-action-on-for-her-active);
+}
+
+/* The LinkedIn charts glow (designer, 2026-10-15): the followers' area from light green into sky
+   blue, every bar rising from navy into light green, so the end of the page has joy too. */
+.signals-page .li-line__area {
+  fill: var(--li-area-gradient);
+}
+
+.signals-page .li-spark__bar {
+  fill: var(--li-bar-gradient);
+}
+
+.signals-page .li-col__bar {
+  background-image: linear-gradient(to top in oklab, var(--color-chart-bar-base), var(--color-chart-bar-tip));
+}
+
+.li-gradient__glow-top {
+  stop-color: var(--color-chart-glow-top);
+}
+
+.li-gradient__glow-bottom {
+  stop-color: var(--color-chart-glow-bottom);
+  stop-opacity: 0.4;
+}
+
+.li-gradient__bar-base {
+  stop-color: var(--color-chart-bar-base);
+}
+
+.li-gradient__bar-tip {
+  stop-color: var(--color-chart-bar-tip);
+}
+
+/* Small labels in Inter, not Kulim. */
+.signals-page :is(.momentum__stage-title, .presence-clean__added h4) {
+  font-family: var(--type-group-title-font);
+  font-size: var(--type-group-title-size);
+  font-weight: var(--type-group-title-weight);
+  line-height: var(--type-group-title-leading);
+  letter-spacing: var(--type-group-title-tracking);
+  word-spacing: var(--type-group-title-word-spacing);
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+}
+
+.signals-page :is(.presence-clean__name, .presence-clean__try b, .linkedin-more__title, .li-picture__heading) {
+  font-family: var(--type-card-title-font);
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  line-height: var(--type-card-title-leading);
+  letter-spacing: var(--type-card-title-tracking);
+  word-spacing: var(--type-card-title-word-spacing);
+}
+
+.signals-page .li-row__label b {
+  font-family: var(--type-subheading-font);
+  font-size: var(--type-subheading-size);
+  font-weight: var(--type-subheading-weight);
+  letter-spacing: var(--type-subheading-tracking);
+  word-spacing: var(--type-subheading-word-spacing);
+}
+
+/* Try this's small label: the eyebrow role, as on every card. */
+.signals-page .presence-clean__try-label {
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  letter-spacing: var(--type-eyebrow-tracking);
+  color: var(--color-eyebrow);
 }
 
 /* -----------------------------------------------------------------------------
@@ -15488,80 +16127,44 @@ ol.rtl__rail::before {
   gap: var(--space-lg);
 }
 
-/* Plan Concept 3: her direction above the road, as a soft row. Closed, her words are cut to one line;
-   the row opens like an accordion and lets them run. */
+/* Plan Concept 3: her direction above the road, in full, in the system's
+   white card (designer, 2026-10-13). It only reads: no chevron, no button. */
+/* Your direction is her own sentence, so it carries her colour: lime with dark green words, held by
+   the same stone 250 edge as every card (designer, 2026-10-15; a white card before). Lime cards, as a
+   flood or a header, always take this stroke. */
 .plan-direction {
-  border-radius: var(--radius-card);
-  background: var(--color-surface-sunken);
-}
-
-.plan-direction__head {
-  margin: 0;
-  font: inherit;
-}
-
-.plan-direction__toggle {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: var(--space-sm);
-  width: 100%;
-  margin: 0;
-  padding: var(--space-sm) var(--space-card-padding);
-  border: 0;
-  border-radius: var(--radius-card);
-  background: none;
-  color: var(--color-text-primary);
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-
-.plan-direction__toggle:hover,
-.plan-direction__toggle.is-hover {
-  background: var(--color-surface-hover);
-}
-
-.plan-direction__toggle.is-focus {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.plan-direction__text {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3xs);
-  min-width: 0;
+  /* 8px from its label to her words, so the two read apart (designer, 2026-10-16; was 2). */
+  gap: var(--space-title-copy);
+  padding: var(--space-sm) var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-her-band);
+  color: var(--color-text-on-her-band);
 }
 
 .plan-direction__label {
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.08em;
+  margin: 0;
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-text-secondary);
+  color: var(--color-text-on-her-band);
 }
 
 .plan-direction__quote {
   /* Never cut off with an ellipsis: the words wrap (designer, 2026-10-13). */
   font-family: var(--font-serif);
-  font-size: var(--text-md);
+  font-size: var(--text-sm-plus);
+  /* Two steps heavier than the serif's regular, so her direction holds its own, and a touch smaller so the
+     weight doesn't make it loud (designer, 2026-10-16). */
+  font-weight: var(--weight-semibold);
   line-height: var(--leading-normal);
   overflow-wrap: anywhere;
-}
-
-.plan-direction__toggle .icon {
-  transition: transform var(--duration-fast) ease;
-}
-
-.plan-direction.is-open .plan-direction__toggle .icon {
-  transform: rotate(180deg);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .plan-direction__toggle .icon {
-    transition: none;
-  }
 }
 
 /* "See your plan" beside the roadmap's heading: opens the plan detail. */
@@ -15575,11 +16178,14 @@ ol.rtl__rail::before {
   padding: 0;
   border: 0;
   background: none;
-  color: var(--color-text-primary);
+  color: var(--color-text-link);
   font: inherit;
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   cursor: pointer;
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width-thin);
+  text-underline-offset: 0.2em;
 }
 
 .plan-detail-link:hover,
@@ -15594,23 +16200,29 @@ ol.rtl__rail::before {
   border-radius: var(--radius-xs);
 }
 
+/* See your plan, on the system (designer, 2026-10-16): its groups 24 apart and 12 inside, section titles
+   as the group title Why this matters uses, the stages as one strip-header card with hairline rows, and
+   her direction in the Plan's own card. */
 .plan-detail {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: var(--space-drawer-groups);
 }
 
 .plan-detail__head {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3xs);
+  gap: var(--space-eyebrow-title);
 }
 
 .plan-detail__title {
   margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-semibold);
+  font-family: var(--type-heading-font);
+  font-size: var(--type-heading-size);
+  font-weight: var(--type-heading-weight);
+  line-height: var(--type-heading-leading);
+  letter-spacing: var(--type-heading-tracking);
+  word-spacing: var(--type-heading-word-spacing);
 }
 
 .plan-detail__formal,
@@ -15624,16 +16236,19 @@ ol.rtl__rail::before {
 .plan-detail__section {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: var(--space-group-title);
 }
 
 .plan-detail__label {
   margin: 0;
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.08em;
+  font-family: var(--type-group-title-font);
+  font-size: var(--type-group-title-size);
+  font-weight: var(--type-group-title-weight);
+  line-height: var(--type-group-title-leading);
+  letter-spacing: var(--type-group-title-tracking);
+  word-spacing: var(--type-group-title-word-spacing);
   text-transform: uppercase;
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
 }
 
 .plan-detail__text {
@@ -15642,53 +16257,60 @@ ol.rtl__rail::before {
   line-height: var(--leading-normal);
 }
 
-.plan-detail__direction {
-  margin: 0;
-  font-family: var(--font-serif);
-  font-size: var(--text-lg);
-  line-height: var(--leading-normal);
-}
-
 ol.plan-detail__stages {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2xs);
+  gap: 0;
   margin: 0;
-  padding: 0;
+  padding: 0 var(--space-feature-padding);
   list-style: none;
-  counter-reset: stage;
 }
 
+/* A row a stage: its number, its name, and where she is at the right, split by hairlines. */
 .plan-detail__stages li {
   display: flex;
   align-items: baseline;
-  justify-content: space-between;
   gap: var(--space-sm);
-  padding: var(--space-xs) var(--space-sm);
-  border: var(--border-thin);
-  border-radius: var(--radius-md);
+  padding-block: var(--space-sm);
+  border-top: var(--border-subtle);
   font-size: var(--text-sm);
-  counter-increment: stage;
+  line-height: var(--leading-snug);
 }
 
-.plan-detail__stages li::before {
-  content: counter(stage);
-  font-weight: var(--weight-semibold);
+.plan-detail__stages li:first-child {
+  border-top: 0;
+}
+
+.plan-detail__n {
+  flex: none;
+  min-width: 1ch;
+  font-variant-numeric: tabular-nums;
   color: var(--color-text-secondary);
 }
 
-.plan-detail__stages li > span {
+.plan-detail__stage {
   flex: 1;
 }
 
-.plan-detail__stages li.is-current {
-  background-color: var(--color-surface-raised);
-  border-color: var(--color-text-primary);
+.plan-detail__stages li.is-current :is(.plan-detail__stage, .plan-detail__n) {
+  font-weight: var(--weight-semibold);
+}
+
+.plan-detail__stages li.is-current .plan-detail__n {
+  color: var(--color-text-primary);
 }
 
 .plan-detail__here {
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
+  flex: none;
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  letter-spacing: var(--type-eyebrow-tracking);
+  text-transform: uppercase;
+  color: var(--color-eyebrow);
+}
+
+/* The note on what changing her direction does belongs to the button under it. */
+.plan-detail > .plan-detail__note + .plan-detail__actions {
+  margin-top: calc(var(--space-copy-action) - var(--space-drawer-groups));
 }
 
 .plan-detail__actions {
@@ -15887,10 +16509,13 @@ ul.agenda__list {
   gap: var(--space-md);
 }
 
-/* The start button leads: full width, and the only filled thing on the card. */
-.agenda__reveal .agenda__cta {
-  min-height: 3rem;
-  font-weight: var(--weight-bold);
+/* The start button in the roadmap is the light blue pill at full width (designer, 2026-10-14): the
+   move above already leads with the yellow one, so here colour stays quiet and width says it comes first.
+   The questions under it are smaller, so the order reads without a second loud colour. The button has
+   room of its own above and below, apart from the step's title and from the questions. */
+.agenda__reveal {
+  gap: var(--space-lg);
+  padding-top: var(--space-lg);
 }
 
 .agenda__ask {
@@ -15898,76 +16523,67 @@ ul.agenda__list {
   flex-direction: column;
 }
 
-.agenda__ask-label {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2xs);
-  margin: 0 0 var(--space-2xs);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-}
-
 ul.agenda__ask-list {
   margin: 0;
   padding: 0;
   list-style: none;
-  border-bottom: var(--border-subtle);
 }
 
-.agenda__ask-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  column-gap: var(--space-sm);
-  row-gap: var(--space-3xs);
+/* The questions about a step open the chat, so they keep the chat's prompt shape and the advisor's mark,
+   sized to their words and wrapping. They are the same on every step, so they are quiet: the quiet surface, the small
+   size (about 32px), second to the blue start button, which is what changes from step to step
+   (designer, 2026-10-14). An invisible band keeps each one 44px to tap. */
+.agenda__ask-list {
+  display: flex;
+  flex-wrap: wrap;
+  /* A little more than 8px between the pills (designer, 2026-10-14). */
+  gap: var(--space-sm);
+}
+
+.agenda__ask-pill {
+  position: relative;
+  display: inline-flex;
   align-items: center;
-  width: 100%;
-  padding: var(--space-sm) 0;
+  gap: var(--space-2xs);
+  padding: calc(var(--space-xs) * 0.75) var(--space-sm) calc(var(--space-xs) * 0.75) var(--space-xs);
   border: 0;
-  border-top: var(--border-subtle);
-  background: none;
-  color: inherit;
-  font: inherit;
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-quiet);
+  color: var(--color-text-primary);
+  font-family: var(--type-body-sm-font);
+  font-size: var(--text-xs-plus);
+  line-height: var(--leading-snug);
   text-align: start;
   cursor: pointer;
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus);
 }
 
-.agenda__ask-row:focus-visible {
+.agenda__ask-pill::after {
+  content: "";
+  position: absolute;
+  inset: 50% 0 auto;
+  height: max(100%, var(--button-target));
+  transform: translateY(-50%);
+}
+
+.agenda__ask-pill:hover {
+  background-color: var(--color-surface-quiet-hover);
+}
+
+.agenda__ask-pill .advisor-mark,
+.agenda__ask-pill svg {
+  color: var(--color-text-secondary);
+}
+
+.agenda__ask-pill:focus-visible {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
-}
-
-.agenda__ask-q {
-  font-family: var(--font-display);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-}
-
-.agenda__ask-row:hover .agenda__ask-q {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.agenda__ask-t {
-  grid-column: 1;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
-}
-
-.agenda__ask-go {
-  grid-row: 1 / span 2;
-  grid-column: 2;
-  align-self: center;
-  color: var(--color-text-secondary);
 }
 
 fieldset.agenda__whens {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-xs);
+  gap: var(--space-between-pills);
   min-width: 0;
   margin: 0;
   padding: 0;
@@ -15975,9 +16591,9 @@ fieldset.agenda__whens {
 }
 
 .agenda__chip {
-  min-height: 2.25rem;
-  padding: var(--space-xs) var(--space-sm);
-  border: var(--border-width-thin) solid var(--color-border-strong);
+  min-height: var(--pill-height);
+  padding: var(--pill-padding-block) var(--pill-padding-inline);
+  border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-pill);
   background-color: var(--color-surface-raised);
   color: var(--color-text-primary);
@@ -15991,9 +16607,9 @@ fieldset.agenda__whens {
 }
 
 .agenda__chip[aria-pressed="true"] {
-  background-color: var(--color-surface-inverse);
-  border-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
+  background-color: var(--color-selected);
+  border-color: var(--color-selected);
+  color: var(--color-text-on-selected);
 }
 
 .agenda__chip:focus-visible {
@@ -16069,11 +16685,15 @@ fieldset.agenda__whens {
   isolation: isolate;
 }
 
+/* The stages in full colour (designer, 2026-10-13), from tokens.css, each card
+   overlapping the foot of the one before. Light cards take the ink and a deep eyebrow of their own hue;
+   dark cards take white and a pale one. */
 .agenda--stack .agenda__stage {
   position: relative;
   margin-top: calc(var(--space-md) * -1);
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   box-shadow: 0 calc(var(--border-width-medium) * -1) 0 var(--color-surface);
+  color: var(--stage-ink);
 }
 
 .agenda--stack .agenda__stage:first-child {
@@ -16084,40 +16704,71 @@ fieldset.agenda__whens {
   border-radius: var(--radius-xl);
 }
 
+/* Navy in descending shades, stage 1 the darkest, with white words (designer, 2026-10-14). */
+.agenda--stack .agenda__stage { --stage-ink: var(--color-text-inverse); --stage-eyebrow: var(--color-text-inverse); }
 .agenda--stack .agenda__stage--0 { background-color: var(--color-stage-1); z-index: 1; }
 .agenda--stack .agenda__stage--1 { background-color: var(--color-stage-2); z-index: 2; }
 .agenda--stack .agenda__stage--2 { background-color: var(--color-stage-3); z-index: 3; }
 .agenda--stack .agenda__stage--3 { background-color: var(--color-stage-4); z-index: 4; }
 
 .agenda--stack .agenda__stage-button {
-  align-items: center;
-  padding: var(--space-md) var(--space-md) var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-xs);
+  /* More of each closed stage shows under the next, so each reads as its own drawer (designer, 2026-10-14). */
+  padding: var(--space-lg) var(--space-md) var(--space-2xl);
+  /* The ring takes the card's own ink, so it shows on every stage colour. */
+  --focus-ring: var(--focus-ring-width) solid var(--stage-ink);
 }
 
 .agenda--stack .agenda__stage.is-open .agenda__stage-button {
-  padding-bottom: var(--space-sm);
+  padding-bottom: var(--space-md);
 }
 
-.agenda--stack .agenda__stage-name {
-  font-size: var(--text-lg);
-  line-height: var(--leading-snug);
+/* "Stage 1 of 4" and when it runs to, on one eyebrow line, the time at the right. Inter, so it never
+   takes the display face's word spacing ("STAGE1OF4"). */
+.agenda__stage-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-sm);
+}
+
+.agenda--stack :is(.agenda__eyebrow, .agenda__when) {
+  font-family: var(--font-body);
+  word-spacing: normal;
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--stage-eyebrow);
 }
 
 .agenda--stack .agenda__when {
-  padding: var(--space-3xs) var(--space-xs);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface-raised);
-  color: var(--color-text-primary);
-  letter-spacing: 0;
-  text-transform: none;
-  font-size: var(--text-sm);
+  flex: none;
+  padding: 0;
+  background: none;
+}
+
+/* The stage's name in the Card title role, a size up at 18px now each stage has more room (designer, 2026-10-14). */
+.agenda--stack .agenda__stage-name {
+  display: block;
+  font-family: var(--type-card-title-font);
+  font-size: var(--text-lg);
+  font-weight: var(--type-card-title-weight);
+  line-height: var(--type-card-title-leading);
+  letter-spacing: var(--type-card-title-tracking);
+  word-spacing: var(--type-card-title-word-spacing);
+  color: var(--stage-ink);
+  text-wrap: pretty;
 }
 
 /* A note on a stage under its name, such as her check-in on a finished one. The next card in the stack
    overlaps the foot of this one, so the note keeps the same room under it as the stage's own head does. */
 .agenda--stack .agenda__stage-note {
-  margin-top: calc(var(--space-sm) * -1);
-  padding: 0 var(--space-sm) var(--space-lg);
+  margin-top: calc(var(--space-md) * -1);
+  padding: 0 var(--space-sm) var(--space-xl);
 }
 
 .agenda--stack .agenda__stage.is-open .agenda__stage-note {
@@ -16125,38 +16776,115 @@ fieldset.agenda__whens {
   padding-bottom: var(--space-sm);
 }
 
+/* Two-tone, as Feature card pattern D (designer, 2026-10-14): the stage's colour holds only its eyebrow
+   and name; the open stage's body is white, with Finishing looks like and the steps as rows split by
+   hairlines. One card, never a card inside it. The next stage overlaps the foot of this body by
+   --space-md, so the body keeps that much more room under its last row. */
 .agenda--stack .agenda__body {
-  padding: 0 var(--space-sm) var(--space-lg);
-}
-
-.agenda--stack .agenda__small {
-  padding-inline: var(--space-xs);
+  gap: var(--space-xs);
+  /* With the last step's own padding and the next card over the foot, 12 here leaves the same space under
+     the last step's words as above Finishing looks like's, measured letter to edge (designer, 2026-10-16;
+     was 32). */
+  padding: var(--space-md) var(--space-md) var(--space-sm);
+  background-color: var(--color-surface-raised);
+  box-shadow: inset var(--border-width-thin) 0 0 var(--color-border-subtle), inset calc(var(--border-width-thin) * -1) 0 0 var(--color-border-subtle);
   color: var(--color-text-primary);
 }
 
+.agenda--stack .agenda__stage:last-child .agenda__body {
+  /* Nothing covers the last card's foot, and the last step brings its own padding. */
+  padding-bottom: 0;
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  box-shadow: inset 0 0 0 var(--border-width-thin) var(--color-border-subtle);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .agenda--stack .agenda__body {
+    animation: agenda-open var(--duration-slow) var(--easing-standard);
+  }
+}
+
+@keyframes agenda-open {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--space-xs) * -1));
+  }
+}
+
+.agenda--stack .agenda__small {
+  padding-inline: 0;
+  color: var(--color-text-secondary);
+  text-wrap: pretty;
+}
+
+.agenda--stack .agenda__small b {
+  color: var(--color-text-primary);
+}
+
+/* The steps: rows split by hairlines in the white body, each its time as a small eyebrow over its title.
+   Only a step that opens carries a chevron; what it opens to sits under its title, before the next hairline. */
 .agenda--stack ul.agenda__list {
-  gap: var(--space-xs);
+  gap: 0;
 }
 
 .agenda--stack .agenda__item {
-  padding: var(--space-sm);
+  gap: 0;
+  padding: var(--space-md) 0;
   border: 0;
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface-raised);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+  border-radius: 0;
+  background: none;
+}
+
+.agenda--stack .agenda__item:first-child {
+  border-top: 0;
 }
 
 .agenda--stack .agenda__line {
   grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "when go" "title go";
+  row-gap: var(--space-2xs);
+  column-gap: var(--space-sm);
+  align-items: center;
 }
 
 .agenda--stack .agenda__line .agenda__pill {
-  order: 2;
-  background: none;
+  grid-area: when;
   padding: 0;
+  background: none;
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  /* The time stands out in the eyebrow blue, as every eyebrow on the page does (designer, 2026-10-14). */
+  color: var(--color-eyebrow);
 }
 
 .agenda--stack .agenda__line .agenda__title {
-  order: 1;
+  grid-area: title;
+  font-family: var(--font-body);
+  word-spacing: normal;
+  font-size: var(--text-sm);
+  /* Semibold, so each step holds its own under the stage's name (designer, 2026-10-14). */
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+  text-wrap: pretty;
+}
+
+.agenda--stack .agenda__open {
+  grid-area: go;
+  color: var(--color-text-secondary);
+  transform: rotate(90deg);
+  transition: transform var(--duration-base) var(--easing-standard);
+}
+
+.agenda--stack .agenda__line[aria-expanded="true"] .agenda__open {
+  transform: rotate(-90deg);
+}
+
+.agenda--stack .agenda__yours {
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-label);
 }
 
 /* -----------------------------------------------------------------------------
@@ -16246,6 +16974,9 @@ fieldset.agenda__whens {
   position: sticky;
   top: 0;
   margin-top: 0;
+  /* Beside the page on the web, so no divider above it. */
+  padding-top: 0;
+  border-top: 0;
 }
 
 [data-viewport="web"] .guide.plan-guided:not(:where([data-viewport="mobile"] *)) .answer-drawer__wrap {
@@ -16276,9 +17007,266 @@ fieldset.agenda__whens {
   flex: 1 1 auto;
 }
 
-/* The roadmap under the move, set apart from the move by space alone. */
+/* The Plan's answer drawer is navy on a phone and a tablet (designer, 2026-10-13), and onboarding's too
+   wherever its question sits in a sky panel (2026-10-14), so the question
+   about this move reads apart from the page: the yellow start button, white answers, light words. Its
+   handle folds it to the peek bar, which shows the roadmap under the move. On the web the answers are
+   part of the page. */
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer {
+  color: var(--color-text-inverse);
+  background-color: var(--color-surface-inverse);
+  border-top: 0;
+  /* Links on the navy drawer take its light ink. */
+  --color-text-link: var(--color-text-inverse);
+  --color-text-link-hover: var(--color-text-inverse);
+  --color-focus: var(--color-focus-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+}
+
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer__grab::before {
+  background-color: var(--color-text-inverse-muted);
+}
+
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer.is-peek {
+  padding-top: var(--space-xs);
+}
+
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer :is(.answer-drawer__peek-q, .chip-group__label) {
+  color: var(--color-text-inverse);
+}
+
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer :is(.answer-drawer__peek-status, .answer-drawer__step, .field__hint) {
+  color: var(--color-text-inverse-muted);
+}
+
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer .btn--ghost:hover {
+  color: var(--color-text-link-hover);
+  background-color: transparent;
+}
+
+/* Words written straight on the navy take its light ink; the sticky foot keeps the navy behind it. */
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer :is(.stage-checkin__note, .field__label, .input__label, legend) {
+  color: var(--color-text-inverse);
+}
+
+/* The email code's small lines and Send it again, on the navy: the same light ink (designer, 2026-10-15). */
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer :is(.login__small, .login__link) {
+  color: var(--color-text-inverse);
+}
+
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer .answer-drawer__actions {
+  background-color: var(--color-surface-inverse);
+}
+
+/* The one she picks can't fill navy on navy: it takes blue 200 with the ink, its words bold. */
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer .chip-group__chip[aria-pressed="true"] {
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-active);
+  border-color: var(--color-surface-active);
+  font-weight: var(--weight-semibold);
+}
+/* The Plan's stone drawer follows the formula, not the navy drawer: a selected white answer turns navy
+   with light words (designer, 2026-10-16). */
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .guide.guide--navy.plan-guided .answer-drawer .chip-group__chip[aria-pressed="true"] {
+  color: var(--color-text-on-selected);
+  background-color: var(--color-selected);
+  border-color: var(--color-selected);
+}
+
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .guide.guide--navy.plan-guided .answer-drawer .chip-group__chip[aria-pressed="true"]:hover {
+  background-color: var(--color-selected-hover);
+  border-color: var(--color-selected-hover);
+}
+
+
+/* The answers stay white with the ink, a ring of their own inside the navy. */
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer .chip-group__chip {
+  border-color: var(--color-surface-raised);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+}
+
+/* Onboarding's cards take Home's colour (designer, 2026-10-15). The recommendation's "This plan is for" and
+   Your plan's "Built from what you said" ride in the light blue band Home's check-in card carries its
+   context in, navy on blue 200 (11.3:1). The first draft is the Briefing's dark green: something of hers
+   to read, apart from the navy around it. */
+.recommendation {
+  overflow: hidden;
+}
+
+.recommendation__for {
+  order: -1;
+  margin: calc(-1 * var(--space-card-padding)) calc(-1 * var(--space-card-padding)) var(--space-xs);
+  padding: var(--space-sm) var(--space-card-padding);
+  /* ExecHQ describing the plan to her: written for her, so sky blue (designer, 2026-10-15). */
+  background-color: var(--color-surface-for-her);
+  color: var(--color-text-on-for-her);
+}
+
+.guide__heard-rows {
+  gap: 0;
+}
+
+/* Built from what you said is her own answers, so its header carries her colour: lime with dark
+   green words (designer, 2026-10-15; light blue before). The card's edge runs on around the header,
+   so the two read as one piece. */
+.guide__heard-rows > .guide__yours-label {
+  padding: var(--space-sm) var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-bottom: 0;
+  border-radius: var(--radius-card) var(--radius-card) 0 0;
+  background-color: var(--color-surface-her-band);
+  color: var(--color-text-on-her-band);
+}
+
+.guide__heard-rows > .card {
+  border-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* The first draft is written for her to use, so it is sky blue with navy words (designer,
+   2026-10-15; dark green before). Its tokens remap so the label, edit link and edit field follow. */
+.story-draft__card {
+  --color-surface-raised: var(--color-surface-for-her);
+  --color-text-primary: var(--color-text-on-for-her);
+  --color-text-secondary: var(--color-text-on-for-her-muted);
+  --color-text-muted: var(--color-text-on-for-her-muted);
+  --color-text-link: var(--color-text-on-for-her);
+  --color-text-link-hover: var(--color-text-on-for-her);
+  --color-border: var(--color-surface-for-her);
+  --color-border-subtle: var(--color-border-on-for-her);
+  /* The edit field's edge takes the card's eyebrow step (4.9:1); the page's stone edge fell to 2.6. */
+  --color-border-strong: var(--color-eyebrow-on-for-her);
+  --color-eyebrow: var(--color-eyebrow-on-for-her);
+  color: var(--color-text-primary);
+}
+
+.story-draft__card .story-draft__label {
+  color: var(--color-eyebrow);
+}
+
+/* The sky panel (designer, 2026-10-14): on onboarding's and the Plan's guided pages the question (its
+   eyebrow, heading and line) sits in its own panel of the sky Home shows at this hour. The glow rises
+   from the panel's bottom-right corner; Why this matters stays on the page. Dawn and day take the ink,
+   dusk and night white. The line under the heading has the same room above it as below. */
+.guide__head--sky {
+  /* Where the sky's glow sits. Each onboarding question moves it to another corner, so the yellow heart is
+     not in the same place screen after screen (designer, 2026-10-15). */
+  --sky-glow-at: 100% 100%;
+  margin-inline: calc(var(--space-sm) * -1);
+  padding: var(--space-lg) var(--space-md);
+  border-radius: var(--radius-xl);
+  --sky-panel-ink: var(--color-text-primary);
+  --sky-panel-soft: var(--color-text-secondary);
+}
+
+/* The Plan's moves: the sky panel's place and shape in plain navy, its headline lime (designer, 2026-10-15). */
+.guide__head--navy-panel {
+  --sky-panel-ink: var(--color-text-inverse);
+  --sky-panel-soft: var(--color-text-inverse);
+  background-color: var(--color-surface-inverse);
+}
+
+.guide__head--sky.guide__head--navy-panel .guide__title {
+  color: var(--color-headline-on-navy-quiet);
+}
+
+.guide__head--sky[data-glow="top-right"] {
+  --sky-glow-at: 100% 0%;
+}
+
+.guide__head--sky[data-glow="bottom-left"] {
+  --sky-glow-at: 0% 100%;
+}
+
+.guide__head--sky[data-glow="top-left"] {
+  --sky-glow-at: 0% 0%;
+}
+
+/* Night sets white words on the panel, so a left corner moves to the top right, clear of the words. Dusk
+   places its own glow, below. */
+.guide__head--sky[data-sky="night"][data-glow="top-left"] {
+  --sky-glow-at: 100% 0%;
+}
+
+.guide__head--sky .guide__kicker {
+  color: var(--sky-panel-ink);
+}
+
+.guide__head--sky .guide__title {
+  font-size: var(--text-2xl-plus);
+  /* Each line as full as it fits, so a headline never opens on a short line ("Brief your" alone), and a
+     lone last word is allowed rather than a gap (designer, 2026-10-16). */
+  text-wrap: wrap;
+  color: var(--sky-panel-ink);
+}
+
+.guide__head--sky .guide__lede {
+  margin-top: var(--space-md);
+  color: var(--sky-panel-soft);
+}
+
+.guide__head--sky[data-sky="dawn"] {
+  background:
+    radial-gradient(circle 7rem at var(--sky-glow-at), var(--color-sky-heart-light), transparent),
+    radial-gradient(circle 13rem at var(--sky-glow-at), var(--color-sky-heart-warm), transparent 85%),
+    linear-gradient(in oklab, var(--color-sky-dawn), color-mix(in oklab, var(--color-sky-dawn) 70%, var(--color-surface-raised)));
+}
+
+.guide__head--sky[data-sky="day"] {
+  background:
+    radial-gradient(circle 7rem at var(--sky-glow-at), var(--color-sky-day-top-core), transparent),
+    radial-gradient(circle 13rem at var(--sky-glow-at), var(--color-sky-day-top-ring), transparent 85%),
+    linear-gradient(in oklab, var(--color-sky-day), color-mix(in oklab, var(--color-sky-day) 70%, var(--color-surface-raised)));
+}
+
+/* Dusk (designer, 2026-10-15): a peach heart that walks through rose and violet into a deep blue sky,
+   instead of blending straight to grey. Its centre sits just past the panel's edge, so the warm part stays
+   off the words; the glow keeps to the right corners, bottom right where the page names it and top right
+   otherwise. White words pass AA over every part of it (5.6:1 or more, measured). */
+.guide__head--sky[data-sky="dusk"] {
+  --sky-panel-ink: var(--color-text-inverse);
+  --sky-panel-soft: var(--color-text-inverse);
+  --sky-glow-at: 106% -12%;
+  background:
+    radial-gradient(circle 4rem at var(--sky-glow-at), var(--color-sky-panel-dusk-heart), transparent),
+    radial-gradient(
+      circle 15rem at var(--sky-glow-at) in oklch,
+      var(--color-sky-panel-dusk-ring) 0%,
+      color-mix(in oklab, var(--color-sky-panel-dusk-ring) 80%, var(--color-sky-panel-dusk-mid)) 22%,
+      color-mix(in oklch, var(--color-sky-panel-dusk-mid) 60%, transparent) 55%,
+      transparent 80%
+    ),
+    linear-gradient(in oklch, var(--color-sky-panel-dusk-deep), var(--color-sky-panel-dusk));
+}
+
+.guide__head--sky[data-sky="dusk"]:not([data-glow]),
+.guide__head--sky[data-sky="dusk"][data-glow="bottom-right"] {
+  --sky-glow-at: 106% 112%;
+}
+
+/* Night keeps a touch of Home's lime horizon (designer, 2026-10-14), a deeper green on the panel so the white
+   words pass (2026-10-15): a soft green ring round the blue spark, held to the right corners. */
+.guide__head--sky[data-sky="night"] {
+  --sky-panel-ink: var(--color-text-inverse);
+  --sky-panel-soft: var(--color-text-inverse);
+  background:
+    radial-gradient(circle 3.5rem at var(--sky-glow-at), var(--color-sky-night-spark), transparent),
+    radial-gradient(circle 10rem at var(--sky-glow-at) in oklab, color-mix(in oklab, var(--color-sky-panel-night-horizon) 70%, transparent), transparent 85%),
+    radial-gradient(circle 13rem at var(--sky-glow-at), var(--color-sky-night-glow), transparent 85%),
+    linear-gradient(in oklab, var(--color-sky-night), color-mix(in oklab, var(--color-sky-night) 70%, var(--color-sky-night-top)));
+}
+
+.guide__head--sky[data-sky="night"][data-glow="bottom-left"] {
+  --sky-glow-at: 100% 0%;
+}
+
+/* The roadmap under the move: a hairline divides the move above, which asks, from her direction and the
+   roadmap below, which are there for reference (designer, 2026-10-14). */
 .plan-guided .guide__after {
   margin-top: var(--space-xl);
+  padding-top: var(--space-xl);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
 /* Her check-in on a finished stage, in the roadmap: read back, or a way in when she put it off. */
@@ -16336,7 +17324,7 @@ fieldset.agenda__whens {
   padding: 0;
   border: 0;
   background: none;
-  color: var(--color-text-primary);
+  color: var(--color-text-link);
   font: inherit;
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
@@ -16367,20 +17355,35 @@ fieldset.agenda__whens {
   list-style: none;
 }
 
+/* Stone with the faint edge (designer, 2026-10-16; white earlier the same day, light blue before). */
 .stage-checkin__thing {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3xs);
+  gap: var(--space-eyebrow-title);
   padding: var(--space-sm) var(--space-card-padding);
-  border: var(--border-width-thin) solid var(--color-border);
+  border: var(--border-width-thin) solid var(--light-border);
   border-radius: var(--radius-card);
-  background: var(--color-surface-raised);
+  background: var(--color-card-on-inverse);
 }
 
-.stage-checkin__from {
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.08em;
+/* Where it came from and when, as one eyebrow line: the source at the left, the date at the right. */
+.stage-checkin__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-sm);
+  /* 8px under the eyebrow line, with the card's own 4 (designer, 2026-10-16). */
+  margin-bottom: var(--space-2xs);
+}
+
+.stage-checkin__from,
+.stage-checkin__when {
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
   color: var(--color-text-secondary);
 }
@@ -16391,20 +17394,36 @@ fieldset.agenda__whens {
   line-height: var(--leading-snug);
 }
 
-.stage-checkin__what,
-.stage-checkin__said {
+/* Where something she added ran: a detail under the title, Inter regular, so the title is the read
+   (designer, 2026-10-16). */
+.stage-checkin__detail {
   font-size: var(--text-sm);
-  color: var(--color-text-secondary);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-snug);
+  color: var(--color-text-primary);
 }
 
-.stage-checkin__said b {
+/* What came of it, on one run of text under the title: the verdict is the main read; her own words follow
+   in Libre at the same 14px, its medium weight, in grey, so they are there if she wants them and never
+   compete (designer, 2026-10-16). */
+.stage-checkin__said {
+  margin-top: var(--space-2xs);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-primary);
+}
+
+.stage-checkin__tone {
+  /* A step up from her words beside it, so the verdict leads (designer, 2026-10-16). */
+  font-size: var(--text-sm-plus);
   font-weight: var(--weight-semibold);
-  color: var(--color-text-primary);
 }
 
-.stage-checkin__said q {
+.stage-checkin__words {
   font-family: var(--font-serif);
-  color: var(--color-text-primary);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-serif-medium);
+  color: var(--color-text-secondary);
 }
 
 .stage-checkin__pending {
@@ -16450,6 +17469,22 @@ fieldset.agenda__whens {
   line-height: var(--leading-normal);
 }
 
+/* Why not? is a section title, as Why this matters is: the group title, uppercase, and yellow on the navy
+   Plan (designer, 2026-10-16). */
+.plan-guided__reasons .chip-group__label {
+  font-family: var(--type-group-title-font);
+  font-size: var(--type-group-title-size);
+  font-weight: var(--type-group-title-weight);
+  line-height: var(--type-group-title-leading);
+  letter-spacing: var(--type-group-title-tracking);
+  word-spacing: var(--type-group-title-word-spacing);
+  text-transform: uppercase;
+}
+
+.guide--navy .plan-guided__reasons .chip-group__label {
+  color: var(--color-headline-on-inverse);
+}
+
 .plan-guided__reasons {
   display: flex;
   flex-direction: column;
@@ -16471,12 +17506,21 @@ ul.plan-guided__sparks {
   list-style: none;
 }
 
+.plan-guided__sparks.feature-card__body {
+  gap: 0;
+  padding: 0 var(--space-feature-padding);
+}
+
+/* Each change on its own line, split by hairlines, with nothing that looks tappable (designer, 2026-10-16). */
 .plan-guided__sparks li {
-  padding: var(--space-xs) var(--space-sm);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface-note);
+  padding-block: var(--space-divided-item);
+  border-top: var(--border-subtle);
   font-size: var(--text-sm);
   line-height: var(--leading-normal);
+}
+
+.plan-guided__sparks li:first-child {
+  border-top: 0;
 }
 
 /* -----------------------------------------------------------------------------
@@ -16555,7 +17599,7 @@ ul.plan-guided__sparks {
 }
 
 .li-row__label b {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
 }
@@ -17180,17 +18224,17 @@ ul.plan-guided__sparks {
 
 .read-actions__toggle,
 .read-actions__answer {
+  min-height: var(--pill-height);
+  padding: var(--pill-padding-block) var(--pill-padding-inline);
   display: inline-flex;
   align-items: center;
   gap: var(--space-2xs);
-  min-height: var(--button-target);
-  padding: 0 var(--space-sm);
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-pill);
-  background-color: transparent;
+  background-color: var(--color-surface-raised);
   font: inherit;
   font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
+  font-weight: var(--weight-regular);
   color: var(--color-text-primary);
   cursor: pointer;
 }
@@ -17252,7 +18296,7 @@ ul.plan-guided__sparks {
 
 .read-actions__answers {
   display: inline-flex;
-  gap: var(--space-xs);
+  gap: var(--space-between-pills);
 }
 
 .read-actions__ack {
@@ -17573,10 +18617,100 @@ ul.plan-guided__sparks {
   font-family: var(--font-serif);
 }
 
+/* Groups sit twice the gap inside them apart: 24px against the title's 12px. */
 .publisher-picker__groups {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: var(--space-lg);
+}
+
+/* Each group: its title, then a white card of rows (designer, 2026-10-15). */
+.publisher-picker__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-group-title);
+}
+
+.publisher-picker__group-title {
+  margin: 0;
+  font-family: var(--type-group-title-font);
+  font-size: var(--type-group-title-size);
+  font-weight: var(--type-group-title-weight);
+  line-height: var(--type-group-title-leading);
+  letter-spacing: var(--type-group-title-tracking);
+  word-spacing: var(--type-group-title-word-spacing);
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+}
+
+.publisher-picker__rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+  overflow: hidden;
+}
+
+.publisher-picker__rows > li + li {
+  border-top: var(--border-width-thin) solid var(--color-border);
+}
+
+/* A row is one toggle: the publisher's name, and a check on the right when
+   it feeds her Briefing. The card's padding all round, at least 44px tall. */
+.publisher-picker__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  width: 100%;
+  min-height: 2.75rem;
+  padding: var(--space-card-padding);
+  border: 0;
+  background-color: transparent;
+  color: var(--color-text-primary);
+  /* The label role, 14px: the list will grow, so each row stays compact
+     (designer, 2026-10-15). */
+  font-family: var(--type-label-font);
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  line-height: var(--type-label-leading);
+  letter-spacing: var(--type-label-tracking);
+  word-spacing: var(--type-label-word-spacing);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--easing-standard);
+}
+
+.publisher-picker__row:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.publisher-picker__row:active {
+  background-color: var(--color-surface-active);
+}
+
+.publisher-picker__row:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: calc(-1 * var(--focus-ring-width));
+}
+
+/* Off: an empty ring. On: navy filled, a white check (the switch's navy). */
+.publisher-picker__check {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: var(--space-md-lg);
+  height: var(--space-md-lg);
+  border: var(--border-width-medium) solid var(--color-border-strong);
+  border-radius: 50%;
+  color: var(--color-text-inverse);
+}
+
+.publisher-picker__row[aria-pressed="true"] .publisher-picker__check {
+  border-color: var(--color-surface-inverse);
+  background-color: var(--color-surface-inverse);
 }
 
 .publisher-picker__count {
@@ -18561,7 +19695,7 @@ ul.plan-guided__sparks {
 
 .send-steps__tick .checkbox__label,
 .send-steps__mark {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
@@ -18727,7 +19861,7 @@ ul.plan-guided__sparks {
   align-items: center;
   justify-content: space-between;
   gap: var(--space-2xs);
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-weight: var(--weight-semibold);
 }
 
@@ -19341,7 +20475,7 @@ ul.plan-guided__sparks {
 /* Chips: one row that scrolls sideways, past the screen's edge. */
 .tool-picker--chips .tool-picker__list {
   display: flex;
-  gap: var(--space-xs);
+  gap: var(--space-between-pills);
   margin-inline: calc(-1 * var(--space-screen-side));
   padding: var(--space-3xs) var(--space-screen-side);
   overflow-x: auto;
@@ -19356,12 +20490,12 @@ ul.plan-guided__sparks {
 }
 
 .tool-picker--chips .tool-picker__tool {
+  min-height: var(--pill-height);
+  padding: var(--pill-padding-block) var(--pill-padding-inline);
   display: inline-flex;
   flex: none;
   align-items: center;
   gap: var(--space-2xs);
-  min-height: var(--button-target);
-  padding: 0 var(--space-md);
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-pill);
   background-color: var(--color-surface-raised);
@@ -19749,6 +20883,9 @@ ul.plan-guided__sparks {
   font-weight: var(--weight-semibold);
   color: var(--color-text-link);
   text-decoration: none;
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width-thin);
+  text-underline-offset: 0.2em;
 }
 
 .tool-flow__back:focus-visible {
@@ -21005,7 +22142,7 @@ ul.plan-guided__sparks {
 }
 
 .tool-picker__lead .tool-picker__name {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   letter-spacing: var(--font-display-tracking);
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
@@ -21213,7 +22350,7 @@ ul.plan-guided__sparks {
 }
 
 .library-folder__name {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   letter-spacing: var(--font-display-tracking);
   word-spacing: var(--font-display-word-spacing);
   font-size: var(--text-md);
@@ -21388,6 +22525,9 @@ ul.plan-guided__sparks {
   color: var(--color-text-link);
   text-decoration: none;
   cursor: pointer;
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width-thin);
+  text-underline-offset: 0.2em;
 }
 
 .library-folder-open__back:focus-visible {
@@ -21411,8 +22551,11 @@ ul.plan-guided__sparks {
   min-height: var(--button-target);
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
-  color: var(--color-text-primary);
+  color: var(--color-text-link);
   text-decoration: none;
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width-thin);
+  text-underline-offset: 0.2em;
 }
 
 .folder-page__back:focus-visible {
@@ -23445,4 +24588,103 @@ ul.letter-archive__list {
   .letter__definitions:not([open]) {
     display: none;
   }
+}
+
+/* -----------------------------------------------------------------------------
+   SHEET ACTIONS (designer, 2026-10-16)
+   How a sheet ends, everywhere: the main action full width, so even switched off it never reads as a
+   choice pill, and leaving (Cancel, Close) is the underlined link, centred under it. A way past a question
+   (Skip, Later) is not this: Kate's spec keeps it a same-size button.
+   -------------------------------------------------------------------------- */
+.sheet-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex-wrap: nowrap;
+  gap: var(--space-drawer-inner);
+}
+
+.sheet-actions__out {
+  align-self: center;
+  min-height: var(--button-target);
+}
+
+/* -----------------------------------------------------------------------------
+   CONSOLIDATED CONTROLS (designer, 2026-10-16)
+   -------------------------------------------------------------------------- */
+
+/* Outline: an action on a surface yellow can't go on (light blue), or a second action that should read as
+   a button but stay quiet. A navy edge and navy words. */
+.btn--outline {
+  border: var(--border-width-medium) solid var(--color-outline-ink);
+  background-color: transparent;
+  color: var(--color-outline-ink);
+}
+
+.btn--outline:hover,
+.btn--outline.is-hover {
+  background-color: var(--color-surface-hover);
+}
+
+.btn--outline:active,
+.btn--outline.is-active {
+  background-color: var(--color-surface-active);
+}
+
+/* One icon button: round, 44px; 32px inside a field (the chat composer), where the field gives the tap
+   room. Carousel arrows, the stepper, Saved's remove and the chat's close all share it. */
+.card-carousel__controls > .btn,
+.stepper__button,
+.saved-page__remove,
+.concierge-panel__close,
+.mic-button,
+.chat-composer__attach {
+  width: var(--icon-button-size);
+  height: var(--icon-button-size);
+  padding: 0;
+  border-radius: 50%;
+}
+
+.chat-composer .mic-button,
+.chat-composer .chat-composer__attach,
+.chat-composer__send {
+  width: var(--icon-button-size-in-field);
+  height: var(--icon-button-size-in-field);
+  border-radius: 50%;
+}
+
+/* One segmented control: a sunken track, 36px segments, the chosen one raised. Enterprise's reporting
+   window and the toolbox workspace's Revise, Versions, Inputs. */
+.toggle-group--pill .toggle-group__options,
+.workspace-panel__tabs {
+  gap: var(--space-3xs);
+  padding: var(--space-3xs);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-segmented-track);
+}
+
+.toggle-group--pill .toggle-group__option,
+.workspace-panel__tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--pill-height);
+  padding: 0 var(--pill-padding-inline);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background-color: transparent;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.toggle-group--pill .toggle-group__input:checked + .toggle-group__option,
+.workspace-panel__tab[aria-pressed="true"] {
+  padding: 0 var(--pill-padding-inline);
+  border: 0;
+  background-color: var(--color-surface-raised);
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow-xs);
 }

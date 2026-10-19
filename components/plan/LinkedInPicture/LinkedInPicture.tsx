@@ -156,8 +156,16 @@ function MonthsSpark({ months, pick }: { months: MonthBar[]; pick: "impressions"
   const values = months.map((m) => m[pick]);
   const max = Math.max(...values, 1);
   const slot = (SW - 2) / values.length;
+  const gradient = `li-bars-${useId().replace(/:/g, "")}`;
   return (
-    <svg className="li-spark" viewBox={`0 0 ${SW} ${SH}`} aria-hidden="true">
+    <svg className="li-spark" viewBox={`0 0 ${SW} ${SH}`} aria-hidden="true" style={{ "--li-bar-gradient": `url(#${gradient})` } as React.CSSProperties}>
+      {/* Where it is shown with color (the Signal Picture), each bar rises from navy into light green. */}
+      <defs>
+        <linearGradient id={gradient} x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0" className="li-gradient__bar-base" />
+          <stop offset="1" className="li-gradient__bar-tip" />
+        </linearGradient>
+      </defs>
       {values.map((v, i) => {
         if (!v) return null;
         const h = Math.max((v / max) * (SH - 2), 2);
@@ -168,6 +176,7 @@ function MonthsSpark({ months, pick }: { months: MonthBar[]; pick: "impressions"
 }
 
 function FollowersLine({ data, demoWeek }: { data: LinkedInExport; demoWeek?: number }) {
+  const glow = `li-glow-${useId().replace(/:/g, "")}`;
   const points = data.followers;
   const n = points.length;
   const [active, setActive] = useState<number | null>(null);
@@ -208,7 +217,14 @@ function FollowersLine({ data, demoWeek }: { data: LinkedInExport; demoWeek?: nu
         onFocus={() => setActive((a) => a ?? n - 1)}
         onBlur={() => setActive(null)}
       />
-      <svg className="li-line__svg" viewBox={`0 0 ${W} ${H}`} aria-hidden="true">
+      <svg className="li-line__svg" viewBox={`0 0 ${W} ${H}`} aria-hidden="true" style={{ "--li-area-gradient": `url(#${glow})` } as React.CSSProperties}>
+        {/* Where it is shown with color (the Signal Picture), the area glows from light green into sky blue. */}
+        <defs>
+          <linearGradient id={glow} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" className="li-gradient__glow-top" />
+            <stop offset="1" className="li-gradient__glow-bottom" />
+          </linearGradient>
+        </defs>
         <line className="li-grid" x1={PAD.left} x2={W - PAD.right} y1={y(lo)} y2={y(lo)} />
         <line className="li-grid" x1={PAD.left} x2={W - PAD.right} y1={y((lo + hi) / 2)} y2={y((lo + hi) / 2)} />
         <text className="li-axis" x={PAD.left} y={H - 6} textAnchor="start">

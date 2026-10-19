@@ -56,13 +56,14 @@ export function AddToPlanSheet({ open, onClose, today, onAdd, inline }: AddToPla
             </button>
           ))}
         </fieldset>
-        <div className="agenda__actions">
-          <Button type="submit" variant="primary" disabled={!draft.trim()}>
+        {/* The main action full width; leaving is the underlined link under it (designer, 2026-10-16). */}
+        <div className="agenda__actions sheet-actions">
+          <Button type="submit" variant="primary" fullWidth disabled={!draft.trim()}>
             {A.addSubmit}
           </Button>
-          <Button variant="ghost" onClick={onClose}>
+          <button type="button" className="link link--standalone sheet-actions__out" onClick={onClose}>
             {A.addCancel}
-          </Button>
+          </button>
         </div>
       </form>
     </Sheet>

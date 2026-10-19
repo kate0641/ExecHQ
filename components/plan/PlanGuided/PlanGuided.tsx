@@ -54,6 +54,10 @@ export interface PlanGuidedProps {
   demoAnswered?: Record<string, GuidedAnswer>;
   demoPassed?: Record<string, string>;
   demoFolded?: boolean;
+  /** Catalogue and the showroom's screens: the times to choose from, open. */
+  demoPicking?: boolean;
+  /** Catalogue and the showroom's screens: the sheet for adding her own, open. */
+  demoAdding?: boolean;
   className?: string;
 }
 
@@ -87,18 +91,20 @@ export function PlanGuided({
   roadmap,
   demoPassed,
   demoFolded,
+  demoPicking,
+  demoAdding,
   className,
 }: PlanGuidedProps) {
   const headingId = useId();
   const [page, setPage] = useState(demoPage ?? 0);
   const [answered, setAnswered] = useState<Record<string, GuidedAnswer>>(demoAnswered ?? {});
   // "Not for me" asks why before it acts, one optional tap; the line says what was offered in its place.
-  const [picking, setPicking] = useState(false);
+  const [picking, setPicking] = useState(Boolean(demoPicking));
   // The time she chose instead of the step's own, in words.
   const [chosenWhen, setChosenWhen] = useState<Record<string, string>>({});
   const [passedLine, setPassedLine] = useState<Record<string, string>>(demoPassed ?? {});
   const [open, setOpen] = useState(!demoFolded);
-  const [adding, setAdding] = useState(false);
+  const [adding, setAdding] = useState(Boolean(demoAdding));
   const [note, setNote] = useState("");
   const first = useRef(true);
   // Once she answers, the order is frozen: a step that leaves her plan stays on its page, and any step offered
@@ -123,6 +129,9 @@ export function PlanGuided({
     partIndex: stageIndex,
     partCount: stages.length,
     after: roadmap,
+    // The Plan is a navy place: the page navy, its top section in a darkest-navy card, the drawer stone
+    // (designer, 2026-10-16).
+    navy: true,
   };
   const sheets = (
     <>
@@ -156,12 +165,21 @@ export function PlanGuided({
           onSecondary={none ? undefined : () => setAdding(true)}
         >
           {note ? <output className="plan-guided__note">{note}</output> : null}
+          {/* What changed is a record, not something to tap: one card with its title in a strip and the changes
+              split by dividers (designer, 2026-10-16). */}
           {sparks.length ? (
-            <ul className="plan-guided__sparks">
-              {sparks.map((s) => (
-                <li key={s.id}>{s.text}</li>
-              ))}
-            </ul>
+            <section className="feature-card plan-guided__changed" aria-labelledby={`${headingId}-changed`}>
+              <div className="feature-card__head feature-card__head--inverse">
+                <h2 className="feature-card__title" id={`${headingId}-changed`}>
+                  {G.sparksTitle}
+                </h2>
+              </div>
+              <ul className="feature-card__body plan-guided__sparks">
+                {sparks.map((s) => (
+                  <li key={s.id}>{s.text}</li>
+                ))}
+              </ul>
+            </section>
           ) : null}
           <ReflectionReply from="ExecHQ" text={G.after} />
         </GuidePage>
@@ -283,9 +301,10 @@ export function PlanGuided({
                 if (picked) pass(picked.id);
               }}
             />
-            <Button variant="ghost" size="sm" onClick={() => pass(undefined)}>
+            {/* A plain underlined link, not another button shape (designer, 2026-10-16). */}
+            <button type="button" className="link link--standalone" onClick={() => pass(undefined)}>
               {G.noReason}
-            </Button>
+            </button>
           </div>
         ) : null}
         {note ? <output className="plan-guided__note">{note}</output> : null}

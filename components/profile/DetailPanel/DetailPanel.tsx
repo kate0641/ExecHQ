@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
+import { keepAfterComma } from "@/components/primitives/keep-after-comma";
+import { keepAfterStop } from "@/components/primitives/keep-after-stop";
 
 export interface DetailPanelProps {
   heading: string;
@@ -40,7 +42,9 @@ export function DetailPanel({
           </Button>
         ) : null}
       </div>
-      {lead ? <p className="detail-panel__lead">{lead}</p> : null}
+      {lead ? (
+        <p className="detail-panel__lead">{typeof lead === "string" ? keepAfterStop(keepAfterComma(lead)) : lead}</p>
+      ) : null}
       {children}
     </div>
   );

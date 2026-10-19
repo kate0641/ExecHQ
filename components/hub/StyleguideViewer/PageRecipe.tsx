@@ -241,7 +241,7 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
     note: "Gaps are named for their job.",
     rules: [
       {
-        rule: "Cards run 12px from the phone's edge, 12px apart when one sits straight under another (half the 24px between sections; text without a card keeps the full gap), with 16px inside (20px in a feature card).",
+        rule: "Cards run 16px from the phone's edge, 12px apart when one sits straight under another (half the 24px between sections; text without a card keeps the full gap), with 16px inside (20px in a feature card).",
         why: "Wider cards, steady rhythm.",
         from: "Home",
         uses: ["--space-screen-side", "--space-between-cards", "--space-card-padding", "--space-feature-padding"],
@@ -321,6 +321,7 @@ const PAGES: { page: string; date: string; added: string[] }[] = [
       "Flat links sit at the left, 32px apart; Edit carries a pencil.",
       "An answer drawer's main action is full width, and any second action (Skip, Back, Later) is a secondary button the same size under it, a peer and never a smaller link. Onboarding and the Plan's check-ins share it.",
       "An example to follow (What good looks like) is the system's card with a grey eyebrow, like First draft.",
+      "Kulim's letters close up: headings keep Kulim's own spacing (0), its text opens 0.01em and its labels 0.02em. The tighter word spacing stays.",
     ],
   },
 ];

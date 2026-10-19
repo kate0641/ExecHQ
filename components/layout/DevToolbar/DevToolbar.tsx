@@ -13,7 +13,7 @@ import {
 } from "react";
 import { ColorSwitch } from "@/components/hub/ColorSwitch";
 import { NavPicker } from "@/components/hub/NavPicker";
-import { SnapshotPicker } from "@/components/hub/SnapshotPicker";
+import { SkyPicker, SnapshotPicker } from "@/components/hub/SnapshotPicker";
 import { CohortPicker } from "@/components/hub/CohortPicker";
 import { ViewportToggle } from "@/components/hub/ViewportToggle";
 import { Icon } from "@/components/primitives/Icon";
@@ -277,6 +277,8 @@ export function DevToolbar({ hubOpen, onToggleHub, hubTriggerRef }: DevToolbarPr
         {/* Signed-in pages only; both render nothing elsewhere. */}
         <NavPicker />
         <SnapshotPicker />
+        {/* Pages that draw a sky only: Home, onboarding and the Plan. */}
+        <SkyPicker />
         {/* Enterprise pages only. */}
         <CohortPicker />
 

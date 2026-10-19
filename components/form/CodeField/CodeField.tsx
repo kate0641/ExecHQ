@@ -23,7 +23,6 @@ export interface CodeFieldProps {
 export function CodeField({ label, value, onChange, length = 6, error, autoFocus, className }: CodeFieldProps) {
   const id = useId();
   const errorId = `${id}-error`;
-  const half = Math.floor(length / 2);
   const cursor = Math.min(value.length, length - 1);
   return (
     <div className={["code-field", error ? "code-field--error" : null, className].filter(Boolean).join(" ")}>
@@ -51,7 +50,6 @@ export function CodeField({ label, value, onChange, length = 6, error, autoFocus
               key={i}
               className={[
                 "code-field__cell",
-                i === half ? "code-field__cell--gap" : null,
                 i === cursor ? "code-field__cell--current" : null,
               ]
                 .filter(Boolean)

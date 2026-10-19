@@ -17,6 +17,8 @@ export interface PlanDetailLinkProps {
   editHref: string;
   /** Catalogue only: opens the detail. */
   demoOpen?: boolean;
+  /** The showroom's screens: opens the detail as the sheet it is on the page. */
+  demoSheet?: boolean;
   /** Catalogue only: shows the link's hover or focus. */
   demoState?: "hover" | "focus";
   className?: string;
@@ -27,8 +29,8 @@ export interface PlanDetailLinkProps {
  * the same sheet Concept 1's Edit opens, where she sees her plan, its stages and her direction, and
  * can start the flow that changes her direction.
  */
-export function PlanDetailLink({ planId, rationale, stage, direction, edited, editHref, demoOpen, demoState, className }: PlanDetailLinkProps) {
-  const [open, setOpen] = useState(Boolean(demoOpen));
+export function PlanDetailLink({ planId, rationale, stage, direction, edited, editHref, demoOpen, demoSheet, demoState, className }: PlanDetailLinkProps) {
+  const [open, setOpen] = useState(Boolean(demoOpen || demoSheet));
   return (
     <>
       <button

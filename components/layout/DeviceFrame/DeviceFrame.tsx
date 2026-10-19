@@ -3,7 +3,7 @@
 import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { StatusBarToneSetter, type StatusBarTone } from "@/lib/device-tone";
-import { useViewport } from "@/lib/viewport-context";
+import { useViewport, type Viewport } from "@/lib/viewport-context";
 
 /**
  * The canvas the product pages render inside.
@@ -26,8 +26,16 @@ import { useViewport } from "@/lib/viewport-context";
  */
 const scrollPositions = new Map<string, number>();
 
-export function DeviceFrame({ children }: { children: ReactNode }) {
-  const { viewport } = useViewport();
+export function DeviceFrame({
+  children,
+  viewport: shown,
+}: {
+  children: ReactNode;
+  /** The viewport to draw, when the shell overrides the reviewer's choice (the showroom's frames). */
+  viewport?: Viewport;
+}) {
+  const { viewport: chosen } = useViewport();
+  const viewport = shown ?? chosen;
   const [tone, setTone] = useState<StatusBarTone>("default");
   const pathname = usePathname();
   const contentRef = useRef<HTMLDivElement>(null);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Input } from "@/components/form/Input";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
@@ -19,6 +19,9 @@ export interface StoryDraftProps {
   /** Where it could be used, as a short list under the draft. */
   usesLabel: string;
   uses: readonly string[];
+  /** What she can do with the draft (Copy, Download, Email), at the foot of the card under a hairline, so
+   *  they sit on the thing they act on (designer, 2026-10-15). Hidden while she edits. */
+  actions?: ReactNode;
   /** Opens in a state, for the catalogue: the editor, or the editor after
    *  saving an empty version. */
   preview?: "editing" | "error";
@@ -45,6 +48,7 @@ export function StoryDraft({
   onEditingChange,
   usesLabel,
   uses,
+  actions,
   preview,
   className,
 }: StoryDraftProps) {
@@ -117,6 +121,7 @@ export function StoryDraft({
         ) : (
           <>
             <StoryText segments={[{ text: shown }]} />
+            {actions ? <div className="story-draft__actions">{actions}</div> : null}
           </>
         )}
       </div>
