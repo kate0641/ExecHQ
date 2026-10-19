@@ -36,7 +36,7 @@
 
 ---
 
-## 2. Action playbook
+## 2. Action set
 
 The agent recommends the step whose trigger matches her situation now.
 

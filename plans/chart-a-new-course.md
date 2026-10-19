@@ -41,7 +41,7 @@ This plan is meant to end. Its last stage hands her to one of the other four.
 
 ---
 
-## 2. Action playbook
+## 2. Action set
 
 The agent recommends the step whose trigger matches her situation now. If she names a clear direction early, it moves her to stage 5.
 
