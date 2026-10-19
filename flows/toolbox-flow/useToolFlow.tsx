@@ -1151,61 +1151,71 @@ export function useToolFlow(concept: FlowConcept) {
     </div>
   ) : null;
 
-  /** Concept 3: the draft as it would be from what she has said so far, and
-   *  whether she has said anything yet. */
-  const answered = asked.some((i) => valueOf(i.id).trim() && !i.value);
-  /** How many of her questions she has answered (Concept 3's card waits for two). */
-  const answeredCount = asked.filter((i) => valueOf(i.id).trim() && !i.value).length;
-  const liveSections = () => buildDraft(kind, Object.fromEntries(inputs.map((i) => [i.id, valueOf(i.id)])), loop.today, read?.id, passage);
-  /** Concept 3: the draft so far as plain text, her words and ExecHQ's, the
-   *  questions still open left out, for the collapsed card. */
-  const liveSoFar = (): string =>
-    liveSections()
-      .filter((section) => !section.list)
-      .slice(0, kind === "situation-brief" ? 2 : 1)
-      .map((section) => section.segments.map((seg) => ("question" in seg ? "" : seg.text)).join("").trim())
-      .filter(Boolean)
-      .join(" ");
-  const livePreview = (): string =>
-    draftText(buildDraft(kind, Object.fromEntries(inputs.map((i) => [i.id, valueOf(i.id)])), loop.today, read?.id, passage).slice(0, kind === "situation-brief" ? 2 : 1))
-      .replace(/^[A-Z][^\n]*\n/, "");
-
+  /** One run of a draft, marked as the full draft marks it (a guardrail:
+   *  user-provided evidence is never mistaken for generated framing). */
+  const segment = (seg: DraftSegment, i: number): ReactNode =>
+    "question" in seg ? (
+      <span key={i} className="draft-editor__question">
+        <span className="u-visually-hidden">{DRAFT_COPY.questionLabel} </span>
+        {seg.question}{" "}
+      </span>
+    ) : (
+      <span key={i} className={seg.by === "you" ? "draft-editor__you" : "draft-editor__exechq"}>
+        {seg.by === "exechq" ? <span className="u-visually-hidden">ExecHQ: </span> : null}
+        {seg.text}
+      </span>
+    );
   /** Draft text with her words, ExecHQ's wording and the questions for her
-   *  marked as the full draft marks them (a guardrail: user-provided evidence
-   *  is never mistaken for generated framing). A section she rewrote is all
-   *  hers. */
+   *  marked. A section she rewrote is all hers. */
   const marked = (sections: readonly DraftSection[], sectionEdits: Record<string, string> = {}): ReactNode =>
     sections
       .filter((section) => !section.list)
       .slice(0, kind === "situation-brief" ? 2 : 1)
       .flatMap((section): DraftSegment[] => (sectionEdits[section.id] ? [{ text: sectionEdits[section.id], by: "you" }] : [...section.segments]))
-      .map((seg, i) =>
-        "question" in seg ? (
-          <span key={i} className="draft-editor__question">
-            <span className="u-visually-hidden">{DRAFT_COPY.questionLabel} </span>
-            {seg.question}{" "}
-          </span>
-        ) : (
-          <span key={i} className={seg.by === "you" ? "draft-editor__you" : "draft-editor__exechq"}>
-            {seg.by === "exechq" ? <span className="u-visually-hidden">ExecHQ: </span> : null}
-            {seg.text}
-          </span>
-        )
-      );
-  /** Concept 3: the draft as it fills in, marked. */
-  const liveDraft = (): ReactNode => marked(buildDraft(kind, Object.fromEntries(inputs.map((i) => [i.id, valueOf(i.id)])), loop.today, read?.id, passage));
+      .map(segment);
+
+  /** Web (option B, 19 Oct): the whole draft as it stands, every section
+   *  named from the start, so the page shows what she is making. */
+  const draftNow = () => buildDraft(kind, currentValues(), loop.today, read?.id, passage);
+  /** Where an answer goes: the sections that change with it. */
+  const sectionsFor = (id: string | undefined): string[] => {
+    if (!id) return [];
+    const now = currentValues();
+    const without = buildDraft(kind, { ...now, [id]: "" }, loop.today, read?.id, passage);
+    const withIt = buildDraft(kind, { ...now, [id]: EXAMPLE_ANSWERS[kind]?.[id] || inputs.find((i) => i.id === id)?.options?.[0] || "—" }, loop.today, read?.id, passage);
+    return withIt.filter((section) => JSON.stringify(section) !== JSON.stringify(without.find((w) => w.id === section.id))).map((section) => section.id);
+  };
+  /** The draft so far as a page, the sections `lit` shaded. */
+  const draftPage = (lit: readonly string[] = []): ReactNode => (
+    <div className="draft-page">
+      {draftNow().map((section) => (
+        <section key={section.id} className={["draft-page__section", lit.includes(section.id) ? "is-lit" : null].filter(Boolean).join(" ")}>
+          <h3 className="draft-page__heading">
+            {section.heading}
+            {lit.includes(section.id) ? <span className="u-visually-hidden"> ({C.pageLit})</span> : null}
+          </h3>
+          {section.list ? (
+            <ul className="draft-page__list">
+              {section.segments.map((seg, i) => (
+                <li key={i}>{segment(seg, i)}</li>
+              ))}
+            </ul>
+          ) : (
+            <p className="draft-page__body">{section.segments.map(segment)}</p>
+          )}
+        </section>
+      ))}
+    </div>
+  );
   /** Concept 3: the written draft's opening, marked, for its collapsed card. */
   const draftPreview = (): ReactNode => (version ? marked(version.sections, edits) : null);
 
   return {
     concept,
     kind,
-    answered,
-    answeredCount,
-    liveSoFar,
-    livePreview,
-    liveDraft,
     draftPreview,
+    sectionsFor,
+    draftPage,
     loop,
     tool,
     read,

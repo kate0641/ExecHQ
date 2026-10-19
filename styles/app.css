@@ -19103,8 +19103,9 @@ ul.plan-guided__sparks {
   gap: var(--space-sm);
 }
 
-/* Web: the drawing beside the decision, held in view as the decision scrolls. */
-[data-viewport="web"] .tool-use-case {
+/* Web: the drawing beside the decision, held in view as the decision scrolls.
+   Without a drawing the decision keeps the whole width. */
+[data-viewport="web"] .tool-use-case:has(> .tool-use-case__picture) {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: start;
@@ -20810,10 +20811,6 @@ ul.plan-guided__sparks {
   margin-inline: auto;
 }
 
-.tool-flow--split {
-  max-width: 72rem;
-}
-
 .tool-flow__bar {
   display: flex;
   align-items: center;
@@ -20991,18 +20988,131 @@ ul.plan-guided__sparks {
   gap: var(--space-md);
 }
 
+/* --- Web: the page leads (Concept 3, option B, 19 Oct) --------------------
+   The draft is the page, on the left; the interview is a rail on the right.
+   The rail comes first in the source, so the question is read first. */
+.tool-flow--page {
+  max-width: 76rem;
+}
+
+.tool-flow__desk {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 25rem;
+  grid-template-areas: "sheet rail";
+  align-items: start;
+  gap: var(--space-2xl);
+}
+
+.tool-flow__rail {
+  grid-area: rail;
+  position: sticky;
+  top: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  min-width: 0;
+}
+
+.tool-flow__sheet {
+  grid-area: sheet;
+  min-width: 0;
+}
+
+.tool-flow__ask {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.tool-flow__ask-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.tool-flow__so-far {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.tool-flow__so-far-label {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.tool-flow__so-far-note {
+  margin: 0 0 var(--space-xs);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+/* The draft so far as a page, every section named: the same card and
+   sections as the written draft (DraftEditor), so writing it changes what
+   the page says, not where it is. */
+.draft-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-xl);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+}
+
+.draft-page__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.draft-page__section + .draft-page__section {
+  padding-top: var(--space-md);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+/* Where the answer she is giving goes. */
+.draft-page__section.is-lit {
+  margin-inline: calc(-1 * var(--space-sm));
+  padding: var(--space-sm);
+  border-top-color: transparent;
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-selected);
+}
+
+.draft-page__section.is-lit + .draft-page__section {
+  border-top-color: transparent;
+}
+
+.draft-page__heading {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.draft-page__body,
+.draft-page__list {
+  margin: 0;
+  font-family: var(--font-serif);
+  word-spacing: var(--word-spacing-normal);
+  font-size: var(--text-md);
+  line-height: var(--leading-relaxed);
+}
+
+.draft-page__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding-left: var(--space-md);
+}
+
 .tool-flow__moment {
   margin: 0;
   font-family: var(--font-serif);
   word-spacing: var(--word-spacing-normal);
   color: var(--color-text-secondary);
-}
-
-.tool-flow__columns {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
-  align-items: start;
-  gap: var(--space-lg);
 }
 
 .pinned-draft {

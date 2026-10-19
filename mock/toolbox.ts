@@ -388,6 +388,10 @@ export const FLOW_COPY = {
   /** Concept 3: the pinned card before and after the first draft. */
   /** Concept 3: the card before there is a written draft. */
   soFar: "Your draft so far",
+  /** Web (option B, 19 Oct): under the page's label before it is written. */
+  pageNote: "Fills in as you answer. The shaded part is where this answer goes.",
+  /** For screen readers, on the shaded section. */
+  pageLit: "where this answer goes",
   /** Concept 3's pinned draft, which fills in as she answers. */
   pinnedEmpty: "Your draft builds here as you answer.",
   /** Concept 2 on web, where the draft appears once it is written. */
