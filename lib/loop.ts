@@ -334,6 +334,18 @@ export function closeRecord(record: LoopRecord, on: LoopDate): LoopRecord {
   };
 }
 
+/** Built out again after she closed it (CEO, 19 Oct): a draft once more, on
+ *  the same record, so nothing she had is lost. */
+export function reopenRecord(record: LoopRecord, on: LoopDate): LoopRecord {
+  if (record.state !== "closed") return record;
+  return { ...record, state: "in-progress", checkBackOn: undefined, history: [...record.history, { type: "edited", on }] };
+}
+
+/** The last day she closed it, if she ever has. */
+export function lastClosedOn(record: LoopRecord): LoopDate | undefined {
+  return [...record.history].reverse().find((event) => event.type === "closed")?.on;
+}
+
 /** The user set the draft aside. Not a failure, and never asked about again. */
 export function abandonRecord(record: LoopRecord, on: LoopDate): LoopRecord {
   assertCan(record, "abandon");

@@ -17,6 +17,12 @@ export interface UseCaseChoice {
   fromPlan?: string;
   /** What marks it, where it came from somewhere else: "From your pitch". */
   fromLabel?: string;
+  /** She can pick several (Positioning Builder's introductions, CEO 19
+   *  Oct): chips and the start button, even with `choiceStarts`. The value
+   *  holds them one a line. */
+  many?: boolean;
+  /** A line under the question: "Pick any, or none." */
+  hint?: string;
 }
 
 export interface ToolUseCaseProps {
@@ -112,7 +118,19 @@ export function ToolUseCase({
             </span>
           </p>
         ) : null}
-        {choice && choiceStarts ? (
+        {choice?.many ? (
+          <div className="tool-use-case__choice">
+            <ChipGroup
+              label={choice.label}
+              note={choice.hint}
+              options={choice.options}
+              value={choice.value.split("\n").filter(Boolean)}
+              max={choice.options.length}
+              onChange={(next) => choice.onChange(choice.options.filter((o) => next.includes(o)).join("\n"))}
+            />
+            {choice.note ? <p className="tool-use-case__from-plan">{choice.note}</p> : null}
+          </div>
+        ) : choice && choiceStarts ? (
           <fieldset className="tool-use-case__choice tool-use-case__choice--starts">
             <legend className="tool-use-case__question">{choice.label}</legend>
             <ul className="tool-use-case__options">
@@ -146,7 +164,7 @@ export function ToolUseCase({
             {choice.note ? <p className="tool-use-case__from-plan">{choice.note}</p> : null}
           </div>
         ) : null}
-        {noStart || (choice && choiceStarts) ? null : (
+        {noStart || (choice && choiceStarts && !choice.many) ? null : (
           <Button fullWidth onClick={onStart}>
             {startLabel ?? tool.start}
           </Button>

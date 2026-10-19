@@ -19,6 +19,8 @@
 
 **Every build continues it** (CEO, 19 Oct). Building it out again adds the next version (3, 4, and on), never replacing the one before, so she can go back to or reference any earlier build in Versions.
 
+**A closed statement reopens, with a note** (CEO, 19 Oct). Building out a statement she closed in the library reopens it as a draft, on the same artifact, and references the statement she had: the start screen and the draft both say "You closed this statement on {date}." with the statement, so she builds from it rather than starting again.
+
 ### 1.1 How people arrive here
 
 - **From onboarding.** The first win for most people: the one-sentence statement she saves at the end of onboarding is her first artifact.
@@ -147,7 +149,6 @@ Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and
 
 ## 7. Open questions
 
-Answered by the CEO on 19 Oct and written into the sections above: building out again continues the artifact (section 1); the three introductions, more than one allowed (2.2); the whole of a pasted bio is used (2.2); format adds a version made for it (2.2, 3).
+Answered by the CEO on 19 Oct and written into the sections above: building out again continues the artifact, and a closed statement reopens with a note (section 1); the three introductions, more than one allowed (2.2); the whole of a pasted bio is used (2.2); format adds a version made for it (2.2, 3).
 
-1. **Closed story.** What happens when she builds out a statement she has already closed in the library? The CEO, 19 Oct: "It should reference back to that previous statement, noting it had previously been covered." To confirm how that reads on screen before it is written in.
-2. **The format versions.** What each of the four format versions says (section 3) is proposed. To confirm, and whether she can make more than one.
+1. **The format versions.** What each of the four format versions says (section 3) is proposed. To confirm, and whether she can make more than one.

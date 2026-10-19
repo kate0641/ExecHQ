@@ -112,7 +112,10 @@ function Interview() {
   /** A question's answer: chips where there are picks, else a field. */
   const answerFor = (input: ToolInput): ReactNode => {
     const pick = pickFor(input);
-    const mine = picks[input.id] ?? { picked: [], other: "" };
+    // An answer she already has (building out again, or a step-bar jump)
+    // shows as picked: an option she chose, or her own words under Other.
+    const had = f.valueOf(input.id).trim();
+    const mine = picks[input.id] ?? (pick && had ? (pick.options.includes(had) ? { picked: [had], other: "" } : { picked: [], other: had }) : { picked: [], other: "" });
     return pick ? (
       <PickAnswer
         label={input.label}

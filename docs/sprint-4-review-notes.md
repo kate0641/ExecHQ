@@ -111,7 +111,7 @@ Every concept leads with the four tools and puts the library below, per the 11 O
 2. **Who chooses Concept 2's highlighted passages, and who writes the notes on them?** In the pilot's rules-based curation that is either an editor or a model reading the article. Both carry a cost the brief does not price.
 3. **Should the homepage card change with the chosen concept?** It stays as approved for now and opens whichever concept is chosen.
 5. **The homepage's "Start in the Playbook" button** now opens the existing draft when there is one, but keeps its approved wording. Should it say "Open your draft" in that case, as the Plan's button does?
-6. **Building out a closed artifact.** Positioning Builder lets her build out her story even when it is Closed (dock state 3). Should that reopen it as a draft, or be blocked?
+6. **Building out a closed artifact.** Answered by the CEO, 19 Oct: it reopens as a draft, referencing the statement she had and noting she closed it.
 4. **Telling ExecHQ's wording from hers.** The brief requires that generated framing can be told apart from what she supplied. The draft does this with ink and a dotted underline. Should the mark stay on the copied text? Copy currently takes plain text, with no marks.
 
 ## 6. Working decisions from the brief's open questions

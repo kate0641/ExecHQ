@@ -27,7 +27,7 @@ import { InputPanel } from "@/components/playbook/InputPanel";
 import { RevisionControls, type RevisionChoice } from "@/components/playbook/RevisionControls/RevisionControls";
 import { ToolUseCase } from "@/components/playbook/ToolUseCase";
 import { VersionHistory } from "@/components/playbook/VersionHistory";
-import { addDays, aheadPhrase, createRecord, daysBetween, datePhrase, outcomeReadback, shortDate, type LoopRecord } from "@/lib/loop";
+import { addDays, aheadPhrase, createRecord, daysBetween, datePhrase, lastClosedOn, outcomeReadback, shortDate, type LoopRecord } from "@/lib/loop";
 import { currentSnapshot, getLoopState, loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { briefDraft, draftText, firstDraft, wordCount, pitchDraft, positioningDraft, revise, revisionLabel, statementOnly } from "@/lib/playbook-draft";
@@ -242,6 +242,12 @@ export function useToolFlow(concept: FlowConcept) {
   /** Her statement, not yet built out: the builder opens on it, as the same
    *  artifact, rather than making a new one. */
   const buildingOut = Boolean(artifactId && !draft && record?.kind === "positioning");
+  /** Building her statement out again, from the start screen: the next
+   *  version of the same artifact, never a replacement (CEO, 19 Oct). */
+  const [rebuilding, setRebuilding] = useState(false);
+  /** When she last closed her statement, if she has: building it out
+   *  references it, and reopens it (CEO, 19 Oct). */
+  const statementClosedOn = kind === "positioning" && positioningRecord ? lastClosedOn(positioningRecord) : undefined;
 
   /** An artifact with nothing to open: designed once a concept is chosen. */
   const seedInputs = artifactId && !draft ? SEED_INPUTS[artifactId] : undefined;
@@ -363,8 +369,22 @@ export function useToolFlow(concept: FlowConcept) {
     // whatever is next on her plan.
     const sections = buildDraft(kind, v, loop.today, read?.id, passage, fullName(account), kind === "thought-leadership" ? step?.title : nextStepTitle);
     const preview = draftText(sections.slice(0, 1)).replace(/^.*\n/, "").split("\n")[0];
+    if (rebuilding && positioningRecord && playbook.drafts[positioningRecord.id]) {
+      // Built out again: the next version of the same artifact; every
+      // earlier build stays in Versions (CEO, 19 Oct).
+      const id = positioningRecord.id;
+      loopActions.reopen(id);
+      playbookActions.addVersion(id, { when: stamp(loop.today), what: POSITIONING_COPY.builtAgain, sections });
+      for (const [input, value] of Object.entries(v)) playbookActions.setInput(id, input, value);
+      playbookActions.setPreview(id, preview);
+      setRebuilding(false);
+      router.replace(`${conceptHref("playbook-flow", concept)}?artifact=${id}${stepId ? `&step=${stepId}` : ""}`);
+      return id;
+    }
     if (buildingOut && artifactId && record) {
-      // The same artifact: her statement from onboarding is version 1.
+      // The same artifact: her statement from onboarding is version 1. A
+      // statement she closed opens again as a draft (CEO, 19 Oct).
+      loopActions.reopen(artifactId);
       const seed = LIBRARY_SEED[artifactId];
       playbookActions.saveDraft(artifactId, {
         meta: { ...(seed ?? { versions: 2, preview }), versions: 2, preview, fromOnboarding: false },
@@ -478,6 +498,14 @@ export function useToolFlow(concept: FlowConcept) {
       <span className="tool-flow__carried-label">{NEXT_STEP_COPY.startedFrom(earlier.name)}</span>
       <p className="tool-flow__carried-text">{earlier.title}</p>
     </div>
+  ) : kind === "positioning" && statementClosedOn ? (
+    // She had covered this before: the statement she closed, referenced.
+    <div className="tool-flow__carried">
+      <span className="tool-flow__carried-label">
+        {positioningRecord?.state === "closed" ? POSITIONING_COPY.closedBefore(shortDate(statementClosedOn)) : POSITIONING_COPY.reopened(shortDate(statementClosedOn))}
+      </span>
+      <p className="tool-flow__carried-text">{statementNow}</p>
+    </div>
   ) : buildingOut ? (
     <div className="tool-flow__carried">
       <span className="tool-flow__carried-label">{POSITIONING_COPY.fromOnboarding}</span>
@@ -558,7 +586,15 @@ export function useToolFlow(concept: FlowConcept) {
   /** Whether her plan step chose the first answer, and it still stands. */
   const choiceFromPlan = Boolean(firstChoice && fromStep[firstChoice.id] && valueOf(firstChoice.id) === fromStep[firstChoice.id]);
 
+  /** Built out already: she can build it out again, from her last answers. */
+  const rebuild = (onStart?: () => void) => {
+    const last = positioningRecord ? playbook.drafts[positioningRecord.id]?.inputs : undefined;
+    setValues(Object.fromEntries(Object.entries(last ?? {}).filter(([, value]) => value)));
+    setRebuilding(true);
+    onStart?.();
+  };
   const useCase = (options: { onStart?: () => void; noStart?: boolean; choiceStarts?: boolean; noGoesWith?: boolean; noPicture?: boolean; brief?: boolean; noChoice?: boolean } = {}): ReactNode => (
+    <>
     <ToolUseCase
       tool={tool}
       planStep={step?.title}
@@ -573,10 +609,12 @@ export function useToolFlow(concept: FlowConcept) {
               note: choiceFromPlan ? USE_CASE_COPY.fromPlan : undefined,
               fromPlan: fromStep[firstChoice.id] ?? fromEarlier[firstChoice.id],
               fromLabel: !fromStep[firstChoice.id] && fromEarlier[firstChoice.id] && earlier ? NEXT_STEP_COPY.fromEarlier(earlier.name) : undefined,
+              many: firstChoice.many,
+              hint: firstChoice.many ? firstChoice.hint : undefined,
             }
           : undefined
       }
-      startLabel={firstChoice && valueOf(firstChoice.id) ? USE_CASE_COPY.startWith(kind, valueOf(firstChoice.id)) : undefined}
+      startLabel={startsOnStatement ? POSITIONING_COPY.openIt : firstChoice && valueOf(firstChoice.id) ? USE_CASE_COPY.startWith(kind, valueOf(firstChoice.id)) : undefined}
       onStart={startsOnStatement && statementHref ? () => router.push(statementHref) : options.onStart}
       noStart={options.noStart ?? !options.onStart}
       choiceStarts={options.choiceStarts}
@@ -586,6 +624,12 @@ export function useToolFlow(concept: FlowConcept) {
       headingLevel={1}
       headingId={TOOL_TITLE_ID}
     />
+    {startsOnStatement && options.onStart ? (
+      <Button variant="secondary" fullWidth onClick={() => rebuild(options.onStart)}>
+        {POSITIONING_COPY.buildAgain}
+      </Button>
+    ) : null}
+    </>
   );
 
   /** Positioning Builder offers her accomplishments; the draft never waits. */
@@ -1176,13 +1220,16 @@ export function useToolFlow(concept: FlowConcept) {
 
   /** Web (option B, 19 Oct): the whole draft as it stands, every section
    *  named from the start, so the page shows what she is making. */
-  const draftNow = () => buildDraft(kind, currentValues(), loop.today, read?.id, passage);
+  const pageDraft = (v: Record<string, string>) =>
+    buildDraft(kind, v, loop.today, read?.id, passage, fullName(account), kind === "thought-leadership" ? step?.title : nextStepTitle);
+  const draftNow = () => pageDraft(currentValues());
   /** Where an answer goes: the sections that change with it. */
   const sectionsFor = (id: string | undefined): string[] => {
     if (!id) return [];
     const now = currentValues();
-    const without = buildDraft(kind, { ...now, [id]: "" }, loop.today, read?.id, passage);
-    const withIt = buildDraft(kind, { ...now, [id]: EXAMPLE_ANSWERS[kind]?.[id] || inputs.find((i) => i.id === id)?.options?.[0] || "—" }, loop.today, read?.id, passage);
+    const without = pageDraft({ ...now, [id]: "" });
+    // What she has said, or, before she says anything, an example of it.
+    const withIt = pageDraft(now[id]?.trim() ? now : { ...now, [id]: EXAMPLE_ANSWERS[kind]?.[id] || inputs.find((i) => i.id === id)?.options?.[0] || "—" });
     return withIt.filter((section) => JSON.stringify(section) !== JSON.stringify(without.find((w) => w.id === section.id))).map((section) => section.id);
   };
   /** The draft so far as a page, the sections `lit` shaded. */

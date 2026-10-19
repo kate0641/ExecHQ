@@ -146,7 +146,7 @@ With the draft open: **Change the draft** and **Mark ready**. Ready: **I've used
 
 What each tool asks, what its draft holds and what comes next after its outcome are in the builder pages. The flow itself differs only here:
 
-- **Positioning Builder** is one artifact: their statement from onboarding, opened as version 1, never copied. Once built out, opening the tool shows the start screen first, and starting opens the statement. It offers to add their accomplishments, never waiting on it. Each part (statement, each bio, the narrative) has its own Copy, and the bios PDF and Word. Changing the statement offers, never forces, a refresh of the rest.
+- **Positioning Builder** is one artifact: their statement from onboarding, opened as version 1, never copied. Once built out, opening the tool shows the start screen first, and starting opens the statement; **Build it out again** asks the questions again, filled with their last answers, and adds the next version, never replacing the last. Building out a statement they closed reopens it as a draft, saying "You closed this statement on {date}." with the statement. They can pick more than one introduction, a pasted bio is read whole, and where they will use it first adds a version made for it (see the Positioning Builder page). It offers to add their accomplishments, never waiting on it. Each part (statement, each bio, the narrative) has its own Copy, and the bios PDF and Word. Changing the statement offers, never forces, a refresh of the rest.
 - **Pitch Builder** names where it goes, above what it says, and ends with **Send it in four steps** ("Ticks are only for you. ExecHQ never sends anything for you."). Under who they're pitching, "Not sure yet? See three that fit" offers up to three outlets of the kind they chose. The follow-up draft lives on the same artifact.
 - **Situation Brief** takes a date, and its follow-up lands the day after it.
 - **Thought Leadership Builder** started from a read carries the read as its source for the life of the draft.
@@ -208,7 +208,6 @@ Written from the approved prototype. These are choices it makes that nobody has 
 1. **Telling ExecHQ's wording from hers** stays on screen only: Copy takes plain text, with no marks.
 2. **Any artifact can be closed at any time,** and closing one waiting to hear stops its follow-ups.
 3. **Use as a starting point** makes a new, linked artifact; nothing is edited in place.
-4. **Building out a closed statement.** Positioning Builder lets them build out a statement that is Closed; whether that reopens it or is blocked is open.
-5. **PDF and Word** for the Situation Brief, the bios and the pitch; a post is copied.
-6. **No "delete after use"** on the Situation Brief.
-7. **On web the draft is a page from the first screen,** with every section named and questions in place, before anything is answered.
+4. **PDF and Word** for the Situation Brief, the bios and the pitch; a post is copied.
+5. **No "delete after use"** on the Situation Brief.
+6. **On web the draft is a page from the first screen,** with every section named and questions in place, before anything is answered.

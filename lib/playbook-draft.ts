@@ -590,21 +590,52 @@ const AUDIENCE_QUESTION: Record<string, string> = {
   "Recruiters and boards": "Which decision best shows your judgment?",
 };
 
-/** Her pasted bio's first sentence, for what came before her current role. */
+/** A pasted bio's first sentence, for what came before her current role. */
 function firstSentence(text: string): string {
   const t = text.trim().split(/\n/)[0] ?? "";
   const m = t.match(/^.*?[.!?](\s|$)/);
   return (m ? m[0] : t).trim();
 }
 
+/** The version made for where she'll use it first (CEO, 19 Oct; the wording
+ *  is proposed): its heading, and what it says from what she gave. */
+function formatVersion(format: string, p: { name: string; first: string; roleSeg: DraftSegment; knownSeg: DraftSegment; toward?: string; win?: string }): DraftSection | undefined {
+  const towardSeg = p.toward ? you(p.toward.replace(/[.]$/, "")) : ask("Where are you headed?");
+  const segments: Record<string, DraftSegment[]> = {
+    // First person and longer: what she leads, a result, where she is headed.
+    "LinkedIn About section": [
+      ex("I’m "), p.roleSeg, ex(". I’m known for "), p.knownSeg, ex(". "),
+      ...(p.win ? [you(sentence(p.win)), ex(" ")] : [ask("Which result would you lead with?"), ex(" ")]),
+      ex("What I’m building toward: "), towardSeg, ex(". If that’s work you care about, I’d like to hear from you."),
+    ],
+    // Third person, about 100 words, ending with what she speaks on.
+    "A speaker bio": [you(p.name), ex(" is "), p.roleSeg, ex(", known for "), p.knownSeg, ex(". "), ...(p.win ? [you(sentence(p.win)), ex(" ")] : []), ex(`${p.first} speaks on `), ask("What do you speak about?"), ex(".")],
+    // First person: the medium bio, plus what she is focused on now.
+    "An internal profile": [ex("I’m "), p.roleSeg, ex(", known for "), p.knownSeg, ex(". I’m building toward "), towardSeg, ex(". This quarter I’m focused on "), ask("What are you focused on this quarter?"), ex(".")],
+    // A short third-person paragraph someone can forward.
+    "An email introduction": [ex("I’d like to introduce "), you(p.name), ex(", "), p.roleSeg, ex(". "), ex(`${p.first} is known for `), p.knownSeg, ex(", and is building toward "), towardSeg, ex(". I think you’d have a lot to talk about.")],
+  };
+  if (!segments[format]) return undefined;
+  const heading: Record<string, string> = {
+    "LinkedIn About section": "For your LinkedIn About section",
+    "A speaker bio": "For your speaker bio",
+    "An internal profile": "For your internal profile",
+    "An email introduction": "For an email introduction",
+  };
+  return { id: "format", heading: heading[format], segments: segments[format] };
+}
+
 /** Her statement, carried from onboarding, then bios in three lengths, the
- *  leadership narrative, an introduction for the moment she chose, and what
- *  to use it for next. Bios use her name, never a pronoun ExecHQ assumed.
+ *  leadership narrative, an introduction for each moment she chose (CEO, 19
+ *  Oct: more than one), a version for where she'll use it first, and what to
+ *  use it for next. Bios use her name, never a pronoun ExecHQ assumed.
  *
  *  The PRD's optional inputs each change something: who it is mainly for
- *  sets the long bio's last question; where she'll use it first names the bio
- *  to start with in the next use; a bio she pasted answers "What came
- *  before your current role?". The next use points at her plan's next step. */
+ *  sets the long bio's last question; where she'll use it first adds a
+ *  version made for it and names it in the next use; a bio she pasted is
+ *  read whole (CEO, 19 Oct): its first sentence answers "What came before
+ *  your current role?" and the rest goes into the long bio as her words.
+ *  The next use points at her plan's next step. */
 export function positioningDraft(v: Record<string, string>, name: string, nextStep?: string): DraftSection[] {
   const first = name.split(" ")[0] || name;
   const statement = v.statement?.trim();
@@ -615,6 +646,8 @@ export function positioningDraft(v: Record<string, string>, name: string, nextSt
   const strengths = v.strengths?.trim();
   const source = v.source?.trim();
   const before = source ? firstSentence(source) : "";
+  // The rest of what she pasted, as she wrote it.
+  const rest = source ? source.slice(source.indexOf(before) + before.length).replace(/\s+/g, " ").trim() : "";
   const format = v.format?.trim();
   const audience = v.audience?.trim();
   const roleSeg = role ? you(role) : ask("What is your role?");
@@ -636,6 +669,7 @@ export function positioningDraft(v: Record<string, string>, name: string, nextSt
     ...(statement ? [ex(`In ${first}’s words: “`), you(statement.replace(/\s+$/, "")), ex("” ")] : []),
     before ? you(sentence(before)) : ask("What came before your current role?"),
     ex(" "),
+    ...(rest ? [you(sentence(rest))] : []),
     ask(AUDIENCE_QUESTION[audience ?? ""] ?? "Anything you’d like people to know outside work?"),
   ];
 
@@ -650,20 +684,24 @@ export function positioningDraft(v: Record<string, string>, name: string, nextSt
       segments: [...(statement ? [you(sentence(statement))] : []), ex("What I do: "), roleSeg, ex(". What I am known for: "), knownSeg, ex(". What I am building toward: "), toward ? you(toward.replace(/[.]$/, "")) : ask("Where are you headed?"), ex(".")],
     },
   ];
-  if (v.context) {
+  // One introduction for each moment she chose, kept one a line.
+  const contexts = (v.context ?? "").split("\n").map((c) => c.trim()).filter(Boolean);
+  contexts.forEach((context, i) => {
     sections.push({
-      id: "intro",
-      heading: `Introduction for ${v.context.replace(/^(a|an) /i, "").toLowerCase()}`,
+      id: i === 0 ? "intro" : `intro-${i + 1}`,
+      heading: `Introduction for ${context.replace(/^(a|an) /i, "").toLowerCase()}`,
       segments:
-        v.context === "A conference program"
+        context === "A conference program"
           ? [...short, ex(`${first} will speak on `), ask("What is the session about?")]
-          : [ex(INTRO_OPENINGS[v.context] ?? ""), ...(statement ? [you(sentence(statement))] : []), ex("I’m known for "), knownSeg, ex(", and I’m building toward "), toward ? you(toward.replace(/[.]$/, "")) : ask("Where are you headed?"), ex(".")],
+          : [ex(INTRO_OPENINGS[context] ?? ""), ...(statement ? [you(sentence(statement))] : []), ex("I’m known for "), knownSeg, ex(", and I’m building toward "), toward ? you(toward.replace(/[.]$/, "")) : ask("Where are you headed?"), ex(".")],
     });
-  }
+  });
+  const made = format ? formatVersion(format, { name, first, roleSeg, knownSeg, toward, win: wins?.split("\n")[0] }) : undefined;
+  if (made) sections.push(made);
   const bio = format ? BIO_FOR_FORMAT[format] : undefined;
   const nextUse = [
     // "A speaker bio" → "your speaker bio"; "LinkedIn About section" keeps its capital.
-    bio ? `Start with the ${bio.label} for your ${format!.replace(/^(a|an) /i, "")}.` : "Use the short bio wherever you are introduced.",
+    made ? `Start with the version made for your ${format!.replace(/^(a|an) /i, "")}.` : bio ? `Start with the ${bio.label} for your ${format!.replace(/^(a|an) /i, "")}.` : "Use the short bio wherever you are introduced.",
     nextStep ? `Then use the narrative for your next step: ${nextStep[0].toLowerCase()}${nextStep.slice(1)}.` : "Use the narrative to open your next conversation about scope.",
   ].join(" ");
   sections.push({ id: "next-use", heading: "Recommended next use", segments: [ex(nextUse)] });

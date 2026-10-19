@@ -117,6 +117,8 @@ export interface ToolInput {
   hint?: string;
   kind: "text" | "long" | "choice" | "date";
   options?: readonly string[];
+  /** A choice where she can pick several. The value holds them one a line. */
+  many?: boolean;
   /** What ExecHQ already knows. Shown filled in and editable. */
   value?: string;
   /** Where `value` came from. */
@@ -918,7 +920,7 @@ export const STEP_BAR_COPY = {
 
 /** Each question's short name in the bar, by tool and input id. */
 export const STEP_LABELS: Record<ArtifactKind, Record<string, string>> = {
-  positioning: { knownFor: "Known for", context: "Introduction", audience: "Audience", format: "Format", source: "Source text" },
+  positioning: { knownFor: "Known for", context: "Introductions", audience: "Audience", format: "Format", source: "Source text" },
   pitch: { type: "Pitching for", target: "Who", angle: "Angle", proof: "Proof" },
   "situation-brief": { type: "Moment", objective: "Outcome", audience: "Who’s there", stakes: "Their stakes", risks: "Risks" },
   "thought-leadership": { format: "Format", topic: "Topic", pov: "Point of view", evidence: "Evidence", voice: "Voice", length: "Length" },
@@ -1289,10 +1291,13 @@ export const POSITIONING_INPUTS: readonly ToolInput[] = [
     placeholder: "Getting teams that don’t report to me to plan as one",
   },
   { id: "strengths", label: "Strengths you’d want named", kind: "text", optional: true, placeholder: "Calm in a hard room; turning data into a decision" },
+  // The three for now, and she can make more than one (CEO, 19 Oct).
   {
     id: "context",
-    label: "An introduction for a particular moment",
+    label: "Introductions for particular moments",
+    hint: "Pick any, or none.",
     kind: "choice",
+    many: true,
     optional: true,
     options: ["A promotion conversation", "An executive introduction", "A conference program"],
   },
@@ -1335,6 +1340,15 @@ export const POSITIONING_COPY = {
   fromOnboarding: "Your statement from onboarding",
   onboardingVersion: "Your statement, from onboarding",
   builtOut: "Built out in Positioning Builder",
+  /** Each build continues the artifact (CEO, 19 Oct). */
+  builtAgain: "Built out again",
+  buildAgain: "Build it out again",
+  /** Built out already, the start button opens it. */
+  openIt: "Open your positioning",
+  /** A closed statement, built out again (CEO, 19 Oct): it reopens, and
+   *  says she had covered it before. */
+  closedBefore: (date: string) => `You closed this statement on ${date}.`,
+  reopened: (date: string) => `You closed this statement on ${date}, then built it out again.`,
   intro: "Here is a first draft of your bios and narrative, built on your statement. Change anything; it is yours.",
   copySection: (name: string) => `Copy ${name.toLowerCase()}`,
   copied: (name: string) => `${name} copied.`,
@@ -1587,7 +1601,7 @@ export const INTERVIEW_PICKS: Record<ArtifactKind, Record<string, InterviewPick>
   positioning: {
     knownFor: { mode: "many", fromHer: true, options: ["Bringing teams together", "Calm in a hard room", "Building teams others want to join"] },
     strengths: { mode: "many", options: ["Calm in a hard room", "Turning data into a decision", "Cross-team leadership", "Coaching people up"] },
-    context: { mode: "one", options: ["A promotion conversation", "An executive introduction", "A conference program"] },
+    context: { mode: "many", options: ["A promotion conversation", "An executive introduction", "A conference program"] },
     audience: { mode: "one", options: ["Senior leaders where I work", "An external audience", "Recruiters and boards"] },
     format: { mode: "one", options: ["LinkedIn About section", "A speaker bio", "An internal profile", "An email introduction"] },
   },

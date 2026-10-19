@@ -37,6 +37,7 @@ import {
   markReady,
   markUsed,
   nextFollowUp,
+  reopenRecord,
   startEditing,
   type LoopRecord,
   type OutcomeType,
@@ -291,6 +292,9 @@ export const loopActions = {
    *  anything used stops being asked about. */
   close: (id: string) =>
     updateRecord(id, (r, today) => (availableActions(r).includes("close") ? closeRecord(r, today) : abandonRecord(r, today))),
+  /** Built out again after she closed it: a draft once more (Positioning
+   *  Builder, CEO 19 Oct). */
+  reopen: (id: string) => updateRecord(id, (r, today) => reopenRecord(r, today)),
   /** Deletes it, with its Loop record and the Signal Picture items its
    *  history gave. */
   remove: (id: string) => update(({ records }) => ({ records: records.filter((r) => r.id !== id) })),
