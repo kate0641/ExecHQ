@@ -183,6 +183,12 @@ function renderBlocks(lines: string[]): ReactNode[] {
       para.push(lines[i].trim());
       i += 1;
     }
+    // A line no block above takes (a table row with no header over it):
+    // shown as text, so the loop always moves on.
+    if (para.length === 0) {
+      para.push(lines[i].trim());
+      i += 1;
+    }
     out.push(<p key={key++}>{renderInline(para.join(" "))}</p>);
   }
 

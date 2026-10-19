@@ -67,7 +67,6 @@ Shown on the last screen to check, each with where it came from and Edit (the PR
 | What would you talk about? | Angle | Her words | Yes | "The topic, in a line, as you'd say it to the person deciding." |
 | One or two things you can prove | Proof | Her words, long | Yes | "Something you led or delivered. Leave out what you can't share." |
 | Who are you pitching? | Who | Her words, or one of ExecHQ's suggestions | Yes (Kate, 14 Oct) | "The event, show or publication." Arrives filled from an action step. "Not sure yet" offers up to three from a list ExecHQ keeps by audience and plan area (CEO, 19 Oct), each with one line on why it fits; she picks one. |
-
 | Links or earlier talks | Links | Her words | No | "A post, a recording, a past talk." Goes into the expanded version. |
 
 ### 2.3 Enrichers
