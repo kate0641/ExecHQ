@@ -146,7 +146,7 @@ As the PRD names them, voice, specificity, length and audience, plus emphasis an
 | **Copy** | "Copy to post on LinkedIn" |
 | **Export** | A post: copy only. An article: Download as PDF and Word too (Sprint 4's answer for long-form articles). |
 | **Mark ready, then published** | "Mark ready", then "Mark published". Publishing is always hers. |
-| **Check back** | 7 days after she marks it published (**Proposed**) |
+| **Check back** | 7 days after she marks it published (Kate, 19 Oct) |
 | **The question** | "You published your post on planning on Monday. How did it land?" (the PRD's self-reported engagement). Answers: It landed well · It was mixed · Not much response · Nothing yet · It's no longer relevant. Her tap is all the feedback: ExecHQ asks nothing more. The same wording wherever a post is checked in on. She can answer in the builder as soon as it is published. |
 | **Signal Picture** | Once published, the post and what came of it, under the plan area it serves; it counts toward her published-content signal |
 | **Reuse** | "Use as a start" makes a new post from this one, linked back |

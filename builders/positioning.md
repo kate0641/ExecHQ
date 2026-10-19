@@ -89,7 +89,7 @@ Shown on the last screen to check, each with where it came from and Edit:
 | **Long bio** | A speaker page or a document about her | The medium bio, her other accomplishments, her strengths, her statement in quotes, and what a bio she pasted says about her background | "Colleagues name … as what they rely on." "In [first name]'s words: '…'" | What came before your current role? (unless she pasted a bio). Then, by who it is mainly for: Which result would your leadership remember you for? / Where have you spoken or been published? / Which decision best shows your judgment? (or, with no audience, Anything you'd like people to know outside work?) |
 | **Leadership narrative** | What she says about herself, first person | Her statement, role, what she is known for, where she is headed | "What I do: … What I am known for: … What I am building toward: …" | Where are you headed? |
 | **Introduction for [the moment]** | One for each moment she chose | Her statement, what she is known for, where she is headed | An opening for the moment ("I'd like to talk about what comes next for me." / "Thank you for making the time.") | For a conference program: What is the session about? |
-| **For [where she'll use it first]** | Only when she chose a format: a version made for it (CEO, 19 Oct). **Proposed:** a LinkedIn About section is first person and longer, in three short paragraphs (what I do, what I'm known for, what I'm building toward); a speaker bio is third person, about 100 words, ending with what she speaks on; an internal profile is first person, the medium bio plus what she is focused on now; an email introduction is a short third-person paragraph someone can forward | The bios' facts, in the form the format needs | The framing each format needs ("I lead …" / "[Name] speaks on …" / "I'd like to introduce …") | For a speaker bio: What do you speak about? For an internal profile: What are you focused on this quarter? |
+| **For [where she'll use it first]** | Only when she chose a format: a version made for it (CEO, 19 Oct; wording confirmed by Kate, 19 Oct, one format at a time): a LinkedIn About section is first person and longer, in three short paragraphs (what I do, what I'm known for, what I'm building toward); a speaker bio is third person, about 100 words, ending with what she speaks on; an internal profile is first person, the medium bio plus what she is focused on now; an email introduction is a short third-person paragraph someone can forward | The bios' facts, in the form the format needs | The framing each format needs ("I lead …" / "[Name] speaks on …" / "I'd like to introduce …") | For a speaker bio: What do you speak about? For an internal profile: What are you focused on this quarter? |
 | **Recommended next use** | What to do with it | None | Which bio to start with, for where she'll use it first ("Start with the long bio for your LinkedIn About section."), then her plan's next step ("Then use the narrative for your next step: brief your manager before Thursday's check-in."). Without either: "Use the short bio wherever you are introduced. Use the narrative to open your next conversation about scope." | None |
 
 Rules for this builder:
@@ -117,8 +117,8 @@ The shared options (voice, specificity, length, audience) and the conversational
 | **Copy** | "Copy" for the whole artifact, and Copy on each section |
 | **Export** | PDF and Word for each bio |
 | **Mark ready, then used** | "Mark ready", then "Mark used": she used it in a conversation, a profile or a program |
-| **Check back** | 7 days after she marks it used (**Proposed**) |
-| **The question** | "You used your leadership story on Tuesday. What came of it?" |
+| **Check back** | 7 days after she marks it used (Kate, 19 Oct) |
+| **The question** | "You used your leadership story on Tuesday. How did it go when you used it?" Its own question, with the shared answers (Kate, 19 Oct). |
 | **Signal Picture** | Once used, where she used it and what came of it, under the plan area it serves (in the mock, "Being seen as a leader, not only an operator") |
 
 ### After she answers
@@ -149,6 +149,4 @@ Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and
 
 ## 7. Open questions
 
-Answered by the CEO on 19 Oct and written into the sections above: building out again continues the artifact, and a closed statement reopens with a note (section 1); the three introductions, more than one allowed (2.2); the whole of a pasted bio is used (2.2); format adds a version made for it (2.2, 3).
-
-1. **The format versions.** What each of the four format versions says (section 3) is proposed. To confirm, and whether she can make more than one.
+None. Answered by the CEO on 19 Oct: building out again continues the artifact, and a closed statement reopens with a note (section 1); the three introductions, more than one allowed (2.2); the whole of a pasted bio is used (2.2); format adds a version made for it (2.2, 3). Confirmed by Kate on 19 Oct: what each format version says, one format at a time (3), and its own follow-up question (5).

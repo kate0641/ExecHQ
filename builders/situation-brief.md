@@ -23,7 +23,7 @@
 | --- | --- |
 | Step Up | 3.1 Prepare for a named promotion, performance, staffing or scope conversation |
 | Make Your Mark | 3.3 Prepare for an accepted talk, panel, interview or podcast |
-| Make the Move | 1.1 Put the moment on paper; 2.2 Prepare the materials the moment calls for (a case document); 3.2 Prepare answers to the two hardest objections; 3.3 Prepare for each conversation around the moment; 3.1 Prepare the ninety-second version and say it out loud (with Pitch Builder: CEO, 19 Oct; **Proposed:** the opening statement is the version she says) |
+| Make the Move | 1.1 Put the moment on paper; 2.2 Prepare the materials the moment calls for (a case document); 3.2 Prepare answers to the two hardest objections; 3.3 Prepare for each conversation around the moment; 3.1 Prepare the ninety-second version and say it out loud (with Pitch Builder: CEO, 19 Oct; the opening statement is the version she says, Kate 19 Oct) |
 | Lead Where You Are | 3.1 Lead or present one moment the right people will see; 4.1 Name one problem that should come to her by default; 4.2 Raise the opportunity with the right person |
 
 - **In the prototype's mock plan:** "Brief your manager before Thursday's check-in" (step `brief-manager`), which arrives with the moment and who will be there filled in.
@@ -81,14 +81,14 @@ None in the prototype. **Proposed:** after the first draft, if Supporting eviden
 | **Likely questions** | What they will ask, as a list | Her risks first, each as a question ("What if it takes time from the campaign calendar?") | "What does this take from your current work?"; "Why now, and not next quarter?"; "Who else is affected?" | None |
 | **Decision or next step asked for** | The ask, plainly | Her outcome | None: the heading frames it | What decision or next step do you want? |
 | **Opening statement** | The first thing she says | Her positioning statement where the moment suits it, then her outcome, mid-sentence | "Thank you for the time. [her statement] By the end of today, I'm hoping for one outcome: …" | What do you want agreed? |
-| **Talk track** | What she says, in order, for a longer slot (CEO, 19 Oct: in V1) | Her outcome, background, proof and the first of her risks | **Proposed,** five beats: "Open: …" (the opening statement); "Where things stand: …"; "The ask: …"; "Why it holds up: …"; "If they ask about …: …" | What will you say if they push back? |
+| **Talk track** | What she says, in order, for a longer slot (CEO, 19 Oct: in V1) | Her outcome, background, proof and the first of her risks | Five beats (Kate, 19 Oct): "Open: …" (the opening statement); "Where things stand: …"; "The ask: …"; "Why it holds up: …"; "If they ask about …: …" | What will you say if they push back? |
 | **Follow-up email** | What she sends after | Her answers to the questions | "Thank you for today. As we agreed, … I'll come back to you by …" | What did you agree? When? |
 
 Rules for this builder:
 
 - **One page.** The exported brief fits one page; the opening statement and email follow on.
 - **Her outcome appears three times** (Objective, the ask, the opening), each phrased so her words fit the sentence, and again in the talk track.
-- **Her statement opens only where the moment suits it** (CEO, 19 Oct). **Proposed:** in a review and an executive conversation, where where she is headed is the point; not in a board meeting or a negotiation, which open on the outcome. For Something else, it opens with it.
+- **Her statement opens only where the moment suits it** (CEO, 19 Oct; which moments, Kate, 19 Oct): in a review and an executive conversation, where where she is headed is the point; not in a board meeting or a negotiation, which open on the outcome. For Something else, it opens with it.
 - **The more she gives, the more it keeps** (CEO, 19 Oct). Everything she adds stays with the brief, to look back on later.
 - **No "delete after use"** (CEO, 19 Oct, confirmed): deleting it from the library covers it.
 
@@ -144,7 +144,4 @@ Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and
 
 ## 7. Open questions
 
-Answered by the CEO on 19 Oct and written into the sections above: a talk track is in V1, no "delete after use", key messages written from what she gives with a way to add context, her statement in the opening depends on the moment, and Something else asks her to name it (2.2, 3).
-
-1. **The talk track's beats.** Proposed: open, where things stand, the ask, why it holds up, and the likeliest pushback. To confirm.
-2. **Which moments open on her statement.** Proposed: a review, an executive conversation and anything she names; not a board meeting or a negotiation. To confirm.
+None. Answered by the CEO on 19 Oct: a talk track is in V1, no "delete after use", key messages written from what she gives with a way to add context, her statement in the opening depends on the moment, and Something else asks her to name it (2.2, 3). Confirmed by Kate on 19 Oct: the talk track's five beats, and which moments open on her statement (3).

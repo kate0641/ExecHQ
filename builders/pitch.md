@@ -28,9 +28,11 @@
 | Step Up | 2.1 Choose one relevant visibility channel and create a credible proof-of-value artifact or activity (when the channel is a stage or show) |
 | Make Your Mark | 3.2 Send a tailored pitch to one event, podcast or publication on her list |
 | Make the Move | 3.1 Prepare the ninety-second version and say it out loud (also the Situation Brief's: CEO, 19 Oct) |
-| Chart a New Course | 2.2 Talk to people already doing the work in each direction (an outreach note: in Pitch Builder for now, CEO 19 Oct) |
+| Chart a New Course | 2.2 Talk to people already doing the work in each direction (an outreach note: in Pitch Builder for now, CEO 19 Oct; with a Spark on Home, Kate 19 Oct) |
 
-**The ninety-second version belongs to both builders** (CEO, 19 Oct): Make the Move 3.1 offers Pitch Builder and the Situation Brief, and she picks. **Proposed:** in Pitch Builder it is the short version, written to be said out loud; in the Situation Brief, the opening statement.
+**The ninety-second version belongs to both builders** (CEO, 19 Oct): Make the Move 3.1 offers Pitch Builder and the Situation Brief, and she picks. In Pitch Builder it is the short version, written to be said out loud; in the Situation Brief, the opening statement. (Kate, 19 Oct)
+
+**Outreach comes with a Spark** (the CEO's suggestion; Kate, 19 Oct). While Chart a New Course 2.2 is on her plan, Home's Spark says: "Someone already does the work you're heading toward. A short note could open the door." Its button opens Pitch Builder's outreach note.
 
 - **In the prototype's mock plan:** "Pitch yourself to a podcast the people above you follow" (arrives with Podcast chosen), "Draft a talk proposal for the leadership forum" (Speaking, the leadership forum), and "Put yourself forward for the Q1 planning review" (Speaking, the Q1 planning review).
 - **From "What's on your mind?"** when what she says names a pitch, podcast, conference, panel, speaking, "a talk", a keynote, press, an editor, a journalist or a call for proposals.
@@ -148,7 +150,7 @@ Kate, 14 Oct; the wording is **Proposed**. Under the draft, above Copy, numbered
 | **Export** | Download as PDF, Download as Word (Kate, 13 October). The export starts with Where it goes and the four steps, so the file works on its own. |
 | **Mark ready, then sent** | "Mark ready", then "Mark sent", which asks three things, all optional: Sent to (filled with the outlet), Contact (the person the outlet names, else its address or form, from Where it goes; Kate, 14 Oct) and When (today, or an earlier day). Once sent, step 4 says where and to whom: "Sent today to Commercial Leader Quarterly (Dana Okafor, opinion editor, …)". Sending is always hers; ExecHQ never sends. |
 | **Check back** | 7 days after the day she sent it, matching the follow-up (CEO, 19 Oct) |
-| **The question** | "You sent your pitch for the Q1 planning review on Thursday. What came of it?" "Nothing yet" is the common answer for a pitch, and asks again later. |
+| **The question** | "You sent your pitch for the Q1 planning review on Thursday. Did you hear back?" (Kate, 19 Oct). Answers, one tap each: Yes, it's on · They want changes · They said not now · Not yet · I'll try somewhere else. "Not yet" is the common answer for a pitch, and asks again later. |
 | **Signal Picture** | Once sent, where she sent it and what came of it, under the plan area it serves, tagged with where it went |
 | **Reuse** | "Use as a start" makes a new pitch from this one, with its own Loop record, linked back ("Started from …") |
 
@@ -182,7 +184,4 @@ Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and
 
 ## 7. Open questions
 
-Answered by the CEO on 19 Oct and written into the sections above: check back at 7 days (5.2); the audience is asked (2.2); the ninety-second version belongs to both builders, and outreach stays here for now (1.1); "About me" uses her short bio (3.2); outlets come from a list ExecHQ keeps by audience and plan area (2.2); a named editor or producer is shown by name (3.1). Looking outlets up is confirmed (3.1).
-
-1. **Outreach as a Spark.** The CEO suggested "perhaps adding 'Spark' as well" for talking to people in a new direction (Chart a New Course 2.2). To confirm what that Spark would say and where it shows, beside the outreach note this builder writes.
-2. **The ninety-second version in each builder.** Proposed: Pitch Builder's short version, written to be said, and the Situation Brief's opening statement. To confirm.
+None. Answered by the CEO on 19 Oct: check back at 7 days (5.2); the audience is asked (2.2); the ninety-second version belongs to both builders, and outreach stays here for now (1.1); "About me" uses her short bio (3.2); outlets come from a list ExecHQ keeps by audience and plan area (2.2); a named editor or producer is shown by name (3.1); looking outlets up is confirmed (3.1). Confirmed by Kate on 19 Oct: the ninety-second version in each builder and the outreach Spark (1.1), and its own follow-up question (5.2).
