@@ -97,6 +97,7 @@ Done when: the branch is pushed and a pull request into `main` is open.
 | `docs/`               | Source product PDFs. Context and vocabulary only — never rendered as product UI. |
 | `prototype.config.ts` | The manifest. Single source of truth for flows, concepts, routes, sprints, statuses. |
 | `specs/`              | One interaction spec markdown file per flow slug. Rendered by the hub. |
+| `handoff/`            | Dev handoff notes, one markdown file each, listed in `lib/handoff-notes.ts` and shown in the hub at `/handoff/<slug>`. |
 | `mock/`               | Local mock JSON. The only data source a placeholder page may use. |
 | `styles/tokens.css`   | Every colour, spacing, type, radius, border and shadow value.     |
 | `styles/fonts.ts`     | The typefaces, one per role, loaded with `next/font/google`.      |
