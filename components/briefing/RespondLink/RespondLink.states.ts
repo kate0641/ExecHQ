@@ -2,7 +2,7 @@ import { defineComponentStates } from "@/components/types";
 import { FIXED_CONTENT, NOT_AN_INPUT } from "@/components/not-applicable";
 import { RespondLink } from "./RespondLink";
 
-const href = "/toolbox-flow/concept-1?source=briefing&read=planning-season";
+const href = "/toolbox-flow/concept-3?source=briefing&read=planning-season";
 
 export const respondLinkStates = defineComponentStates({
   name: "RespondLink",

@@ -228,6 +228,7 @@ export const prototypeConfig: PrototypeConfig = {
         {
           slug: "concept-2",
           title: "Concept 2 — Starter row",
+          status: "approved",
           summary:
             "The tools as one row of four icons, then Next on your plan as one row; the library as four folders, one per tool, each opening to its list. Which tool do I need? is the advisor’s first prompt on the Toolbox. Tools open as a document workspace.",
         },
@@ -243,18 +244,9 @@ export const prototypeConfig: PrototypeConfig = {
         "Producing an artifact end to end: gather context, generate an editable draft, revise, export, and enter the Loop.",
       concepts: [
         {
-          slug: "concept-1",
-          title: "Concept 1 — Guided steps",
-          summary: "One question a screen, then the draft full screen with Revise, Copy and Mark ready in a fixed bar.",
-        },
-        {
-          slug: "concept-2",
-          title: "Concept 2 — Document workspace",
-          summary: "The draft full screen, with inputs and revisions in a sheet pulled up from a peek bar; a side panel on desktop.",
-        },
-        {
           slug: "concept-3",
           title: "Concept 3 — Interview",
+          status: "approved",
           summary: "One question a screen with the draft pinned above as a card; side by side on desktop.",
         },
       ],
@@ -272,14 +264,9 @@ export const prototypeConfig: PrototypeConfig = {
       },
       concepts: [
         {
-          slug: "concept-1",
-          title: "Concept 1 — Front page",
-          summary:
-            "Today’s three as a stack of cards: one open in full, the other two as strips that open in their place. Tapping the open card opens the article at its publisher, in a new tab. Publishers are changed on the page.",
-        },
-        {
           slug: "concept-2",
           title: "Concept 2 — News app",
+          status: "approved",
           summary:
             "A front page like a news app: the lead story with a big picture, two rows with small ones, each saying why it is here. A story opens the whole article in ExecHQ, with ExecHQ’s notes on highlighted passages all the way through, and a bar at the foot: Back, Relevant, Not for me, Save, Write a post.",
         },

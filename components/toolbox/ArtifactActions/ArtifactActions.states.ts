@@ -4,7 +4,7 @@ import { BRIEF_READY, PITCH_WAITING, STORY_DRAFT } from "@/components/toolbox/li
 import { ArtifactActions } from "./ArtifactActions";
 
 const noop = () => {};
-const base = { openHref: "/toolbox-flow/concept-1?artifact=x", reuseHref: "/toolbox-flow/concept-1?reuse=x", onMarkReady: noop, onMarkUsed: noop, onExport: noop, onClose: noop, onDelete: noop, onDismiss: noop };
+const base = { openHref: "/toolbox-flow/concept-3?artifact=x", reuseHref: "/toolbox-flow/concept-3?reuse=x", onMarkReady: noop, onMarkUsed: noop, onExport: noop, onClose: noop, onDelete: noop, onDismiss: noop };
 
 export const artifactActionsStates = defineComponentStates({
   name: "ArtifactActions",

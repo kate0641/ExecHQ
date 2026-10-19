@@ -2,6 +2,8 @@
 
 _Written 11 October 2026 from the built prototype. Everything below is on `main`; nothing is pushed yet. Toolbox notes will be added when the Toolbox concepts are built._
 
+**19 October: Sprint 4 decided.** Toolbox Concept 2 (Starter row), Toolbox flow Concept 3 (Interview) and Briefing Concept 2 (News app) are approved. Toolbox flow Concepts 1 (Guided steps) and 2 (Document workspace) and Briefing Concept 1 (Front page) moved to the `scratch` branch and are off `main`, with what only they used (`ProgressStepper`, `DraftToolBar`, `WorkspacePanel`, `BriefingDeck`, the stand-in publisher page at `/source/<read>`, and the on-page publishers line). Every link to a tool now opens Concept 3, and every link to the Briefing opens Concept 2. The notes below are the record as it was when the concepts were compared.
+
 ## 1. Say this at kickoff
 
 **The brief was amended on 11 October.** Three changes govern over the PDF:

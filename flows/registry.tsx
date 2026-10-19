@@ -5,11 +5,8 @@ import { PlanConcept3 } from "./plan/concept-3";
 import { SignalsConcept2 } from "./signals/concept-2";
 import { ProfileConcept1 } from "./profile/concept-1";
 import { LoginConcept1 } from "./login/concept-1";
-import { BriefingConcept1 } from "./daily-briefing/concept-1";
 import { BriefingConcept2 } from "./daily-briefing/concept-2";
 import { ToolboxConcept2 } from "./toolbox/concept-2";
-import { ToolFlowConcept1 } from "./toolbox-flow/concept-1";
-import { ToolFlowConcept2 } from "./toolbox-flow/concept-2";
 import { ToolFlowConcept3 } from "./toolbox-flow/concept-3";
 import { ToolFlowGate } from "./toolbox-flow/ToolFlowGate";
 import { EnterpriseConcept1 } from "./enterprise/concept-1";
@@ -38,11 +35,8 @@ const BUILT_CONCEPTS: Record<string, ReactElement> = {
   "signals/concept-2": <SignalsConcept2 />,
   "profile/concept-1": <ProfileConcept1 />,
   "login/concept-1": <LoginConcept1 />,
-  "daily-briefing/concept-1": <BriefingConcept1 />,
   "daily-briefing/concept-2": <BriefingConcept2 />,
   "toolbox/concept-2": <ToolboxConcept2 />,
-  "toolbox-flow/concept-1": <ToolFlowGate concept="concept-1"><ToolFlowConcept1 /></ToolFlowGate>,
-  "toolbox-flow/concept-2": <ToolFlowGate concept="concept-2"><ToolFlowConcept2 /></ToolFlowGate>,
   "toolbox-flow/concept-3": <ToolFlowGate concept="concept-3"><ToolFlowConcept3 /></ToolFlowGate>,
   "enterprise/concept-1": <EnterpriseConcept1 />,
   "enterprise/concept-2": <EnterpriseConcept2 />,

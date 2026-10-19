@@ -2,8 +2,8 @@ import { defineComponentStates } from "@/components/types";
 import { FIXED_CONTENT, NOT_AN_INPUT } from "@/components/not-applicable";
 import { ToolPicker } from "./ToolPicker";
 
-const hrefFor = (kind: string) => `/toolbox-flow/concept-1?tool=${kind}`;
-const lead = { kind: "situation-brief" as const, step: "Brief your manager before Thursday’s check-in", href: "/toolbox-flow/concept-1?artifact=check-in-brief", action: "Open your draft" };
+const hrefFor = (kind: string) => `/toolbox-flow/concept-3?tool=${kind}`;
+const lead = { kind: "situation-brief" as const, step: "Brief your manager before Thursday’s check-in", href: "/toolbox-flow/concept-3?artifact=check-in-brief", action: "Open your draft" };
 
 export const toolPickerStates = defineComponentStates({
   name: "ToolPicker",

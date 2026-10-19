@@ -2,7 +2,7 @@ import { defineComponentStates } from "@/components/types";
 import { NOT_AN_INPUT } from "@/components/not-applicable";
 import { BriefingEntry } from "./BriefingEntry";
 
-const href = "/daily-briefing/concept-1";
+const href = "/daily-briefing/concept-2";
 
 export const briefingEntryStates = defineComponentStates({
   name: "BriefingEntry",

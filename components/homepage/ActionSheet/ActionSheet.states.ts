@@ -4,7 +4,7 @@ import { NEW_ACTIONS } from "@/mock/plan-stub";
 import { ActionSheet } from "./ActionSheet";
 
 const noop = () => {};
-const base = { open: true, inline: true, action: NEW_ACTIONS[0], onClose: noop, onStart: noop, onSkip: noop, startHref: "/toolbox-flow/concept-1" };
+const base = { open: true, inline: true, action: NEW_ACTIONS[0], onClose: noop, onStart: noop, onSkip: noop, startHref: "/toolbox-flow/concept-3" };
 
 export const actionSheetStates = defineComponentStates({
   name: "ActionSheet",

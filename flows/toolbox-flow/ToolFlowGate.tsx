@@ -5,8 +5,7 @@ import { Suspense, useEffect, type ReactNode } from "react";
 import { conceptHref } from "@/lib/manifest";
 import { toolboxActions, type ToolFlowPage } from "@/lib/toolbox-store";
 
-/** The tool every concept opens on from the hub, so the three compare like
- *  for like (Kate, 15 Oct). */
+/** The tool the flow opens on from the hub (Kate, 15 Oct). */
 const OPENS_ON = "situation-brief";
 
 /** What a tool flow can be opened with. Without one there is nothing to open. */

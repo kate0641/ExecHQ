@@ -362,7 +362,6 @@ export const FLOW_COPY = {
   cancelEdit: "Cancel",
   rewriteNote: "ExecHQ writes a new version from these. The one you have now stays in Versions.",
   /** A version written from changed inputs, in Versions. */
-  inputsChanged: "Inputs changed",
   /** Concept 1: back to the clean read after changing a ready draft. */
   doneChanging: "Done",
   /** Concept 2: back to the page after changing a ready draft. */

@@ -9,7 +9,7 @@ const base = {
   saved: false,
   onSave: noop,
   onRelevance: noop,
-  respondHref: "/toolbox-flow/concept-1?source=briefing&read=planning-season",
+  respondHref: "/toolbox-flow/concept-3?source=briefing&read=planning-season",
 };
 
 export const readActionsStates = defineComponentStates({

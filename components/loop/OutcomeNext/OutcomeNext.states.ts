@@ -38,14 +38,14 @@ export const outcomeNextStates = defineComponentStates({
     { label: "Writing a note", props: { ...base, noteOpen: true } },
     { label: "A note added — filled", props: { ...base, noted: "The CFO wants numbers before the offsite." } },
     { label: "Added to the Plan", props: { ...base, offers: [{ ...planStep, done: { said: C.planStep.added, link: { label: C.planStep.open, href: "/plan/concept-3" } } }, followUp] } },
-    { label: "Not the way I hoped: a new brief", props: { readback: BRIEF_AFTER.negative.readback, offers: [{ id: "new-brief", title: "Prepare the next conversation", body: "A new brief for what comes next, starting from this one.", action: { label: "Start a new brief", href: "/toolbox-flow/concept-1" } }, nextOnPlan], onNotNow: noop } },
+    { label: "Not the way I hoped: a new brief", props: { readback: BRIEF_AFTER.negative.readback, offers: [{ id: "new-brief", title: "Prepare the next conversation", body: "A new brief for what comes next, starting from this one.", action: { label: "Start a new brief", href: "/toolbox-flow/concept-3" } }, nextOnPlan], onNotNow: noop } },
     { label: "It hasn't happened yet: next on her Plan", props: { readback: BRIEF_AFTER["no-response-yet"].readback, offers: [nextOnPlan], note: C.askAgain("situation-brief", "on Friday 30 October"), onNotNow: noop } },
     {
       label: "A pitch that went well: prepare for it",
       props: {
         readback: AFTER_ANSWER.pitch.positive.readback,
         offers: [
-          { id: "start", title: "Prepare for it", body: "A brief for the talk or the episode, starting from your pitch.", action: { label: "Start a brief", href: "/toolbox-flow/concept-1" } },
+          { id: "start", title: "Prepare for it", body: "A brief for the talk or the episode, starting from your pitch.", action: { label: "Start a brief", href: "/toolbox-flow/concept-3" } },
           { id: "share", eyebrow: C.planStep.label, title: "Share one result with someone two levels up", body: "A booking is a result worth sharing.", action: { label: C.planStep.add, onClick: noop } },
         ],
         onNotNow: noop,

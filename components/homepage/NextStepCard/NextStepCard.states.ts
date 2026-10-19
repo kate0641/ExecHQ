@@ -6,7 +6,7 @@ import { NextStepCard } from "./NextStepCard";
 
 const a = actionById("brief-manager")!;
 const why = { this: a.whyThis, now: a.whyNow, you: a.whyYou };
-const href = "/toolbox-flow/concept-1";
+const href = "/toolbox-flow/concept-3";
 
 export const nextStepCardStates = defineComponentStates({
   name: "NextStepCard",

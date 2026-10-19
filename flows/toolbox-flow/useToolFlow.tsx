@@ -78,7 +78,7 @@ import {
   type ToolInput,
 } from "@/mock/toolbox";
 
-export type FlowConcept = "concept-1" | "concept-2" | "concept-3";
+export type FlowConcept = "concept-3";
 export const TOOL_TITLE_ID = "tool-title";
 export const DRAFT_LABEL_ID = "draft-label";
 
@@ -170,10 +170,10 @@ export function draftSteps(kind: ArtifactKind, withVersions: boolean): StepNavIt
 }
 
 /**
- * Everything the three Toolbox flows share, for every tool:
- * where she came from (a Briefing read, a plan step, the Toolbox, the
- * library), what it asks, the first draft and its Loop record, revising,
- * versions, copy and mark ready. Each concept lays it out its own way.
+ * The tool flow's working parts, for every tool: where she came from (a
+ * Briefing read, a plan step, the Toolbox, the library), what it asks, the
+ * first draft and its Loop record, revising, versions, copy and mark ready.
+ * Concept 3 lays it out.
  *
  * The first draft creates the Loop record, and the address moves to the
  * artifact, so leaving at any point finds the draft in the library exactly
@@ -226,15 +226,14 @@ export function useToolFlow(concept: FlowConcept) {
 
   // Positioning Builder is one artifact: her statement from onboarding. Opened
   // as a tool, from a plan step or from the Toolbox, it goes to that artifact.
-  // Once built out, Concepts 1 and 3 show the start screen first, and starting
-  // opens it (Kate, 15 Oct); Concept 2 has no start screen of its own, so it
-  // goes straight there.
+  // Once built out, the start screen shows first, and starting opens it
+  // (Kate, 15 Oct).
   const positioningRecord = loop.records.find((r) => r.kind === "positioning");
   const statementHref = positioningRecord
     ? `${conceptHref("toolbox-flow", concept)}?artifact=${positioningRecord.id}${stepId ? `&step=${stepId}` : ""}`
     : undefined;
   const startsOnStatement =
-    kind === "positioning" && !artifactId && concept !== "concept-2" && Boolean(positioningRecord && toolbox.drafts[positioningRecord.id]);
+    kind === "positioning" && !artifactId && Boolean(positioningRecord && toolbox.drafts[positioningRecord.id]);
   useEffect(() => {
     if (kind !== "positioning" || artifactId || !statementHref || startsOnStatement) return;
     router.replace(statementHref);
@@ -403,21 +402,6 @@ export function useToolFlow(concept: FlowConcept) {
     written.current.add(id);
     router.replace(`${conceptHref("toolbox-flow", concept)}?artifact=${id}`);
     return id;
-  }
-
-  /** Her inputs changed after the draft (Concept 2's Built from, 13 Oct): a
-   *  new version written from them, so nothing she had is lost. */
-  function rewriteWith(v: Record<string, string>) {
-    if (!artifactId || !draft) return;
-    setRevising(true);
-    window.setTimeout(() => {
-      const sections = buildDraft(kind, v, loop.today, read?.id, passage, fullName(account), kind === "thought-leadership" ? step?.title : nextStepTitle);
-      toolboxActions.addVersion(artifactId, { when: stamp(loop.today), what: C.inputsChanged, sections });
-      for (const [id, value] of Object.entries(v)) if (draft.inputs[id] !== value) toolboxActions.setInput(artifactId, id, value);
-      touch();
-      setRevising(false);
-      focusSoon(DRAFT_LABEL_ID);
-    }, 900);
   }
 
   function write() {
@@ -1252,7 +1236,6 @@ export function useToolFlow(concept: FlowConcept) {
     inputPanel,
     draftEditor,
     draftAs,
-    rewriteWith,
     isReady,
     revision,
     versions,

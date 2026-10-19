@@ -20,7 +20,7 @@ const card = createElement(NextStepCard, {
   eyebrow: "Next in short-term",
   title: shortAction.title,
   why: { this: shortAction.whyThis, now: shortAction.whyNow, you: shortAction.whyYou },
-  href: "/toolbox-flow/concept-1",
+  href: "/toolbox-flow/concept-3",
 });
 
 export const mapRingsStates = defineComponentStates({

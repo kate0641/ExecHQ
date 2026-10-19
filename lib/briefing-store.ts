@@ -106,7 +106,7 @@ export function useBriefingChanged(): boolean {
  * It lands in the Toolbox concept the reviewer last opened, so any Briefing
  * concept can be reviewed with any Toolbox concept.
  */
-export function respondHref(readId: string, from?: "passage" | "selection", concept = "concept-1"): string {
+export function respondHref(readId: string, from?: "passage" | "selection", concept = "concept-3"): string {
   const params = new URLSearchParams({ source: "briefing", read: readId });
   if (from) params.set("from", from);
   return `/toolbox-flow/${concept}?${params.toString()}`;

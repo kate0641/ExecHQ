@@ -7,8 +7,8 @@
  *
  * Also which Toolbox concept the reviewer last opened, and which tool flow
  * concept, so the Toolbox's tools, the Briefing's "Write a post about this"
- * and the next step after an outcome land in the flow she is reviewing
- * (Concept 2 until one is opened).
+ * and the next step after an outcome land in the flow she is reviewing.
+ * Concept 3 is the only tool flow concept now (approved 19 Oct).
  *
  * An external store mirrored to localStorage, like the Briefing's, and undone
  * by the dock's reset.
@@ -43,9 +43,10 @@ const TOOLBOX_PAGES: readonly string[] = ["concept-2"] satisfies ToolboxPage[];
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const toolboxPageFor = (concept: string): ToolboxPage => "concept-2";
 
-/** The tool flow concepts there are. */
-export type ToolFlowPage = "concept-1" | "concept-2" | "concept-3";
-const TOOL_FLOW_PAGES: readonly string[] = ["concept-1", "concept-2", "concept-3"] satisfies ToolFlowPage[];
+/** The tool flow concepts there are. Concepts 1 and 2 were scratched on
+ *  19 October, when Concept 3 was approved; a stored 1 or 2 opens Concept 3. */
+export type ToolFlowPage = "concept-3";
+const TOOL_FLOW_PAGES: readonly string[] = ["concept-3"] satisfies ToolFlowPage[];
 
 export interface ToolboxState {
   drafts: Readonly<Record<string, DraftState>>;
@@ -55,8 +56,8 @@ export interface ToolboxState {
   flow?: ToolFlowPage;
 }
 
-/** The tool flow concept a tool opens in: the one last opened, or Concept 2. */
-export const flowFor = (state: ToolboxState): ToolFlowPage => state.flow ?? "concept-2";
+/** The tool flow concept a tool opens in: the one last opened, or Concept 3. */
+export const flowFor = (state: ToolboxState): ToolFlowPage => state.flow ?? "concept-3";
 
 const INITIAL: ToolboxState = { drafts: {} };
 

@@ -4,7 +4,7 @@ import { BRIEFING_STUB as B } from "@/mock/homepage";
 import { BriefingEditorial } from "./BriefingEditorial";
 
 const base = {
-  href: "/daily-briefing/concept-1",
+  href: "/daily-briefing/concept-2",
   heading: B.heading,
   meta: B.meta("Tue 20 Oct", B.reads),
   reads: B.list,

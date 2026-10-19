@@ -31,13 +31,13 @@ export function focusSoon(id: string): void {
   setTimeout(() => document.getElementById(id)?.focus({ preventScroll: true }), 0);
 }
 
-type Open = { kind: "read"; id: string } | { kind: "publishers" } | null;
+type Open = { kind: "read"; id: string } | null;
 
 /**
- * Everything the three Briefing concepts share: the page heading, the first
- * visit, today's reads and what she has done with them, the read opened in a
- * sheet, saved reads, and the publishers sheet (Concept A only puts it on the
- * page). Each concept lays the reads out its own way.
+ * The Briefing page's working parts: the page heading, the first visit,
+ * today's reads and what she has done with them, the read opened in a sheet,
+ * and saved reads. Concept 2 lays the reads out. Publishers are changed in
+ * Profile.
  */
 export function useBriefingPage() {
   const loop = useLoop();
@@ -82,7 +82,6 @@ export function useBriefingPage() {
   const view = useSearchParams().get("view");
   const savedHref = `${pathname}?view=saved`;
   const [removed, setRemoved] = useState<string | null>(null);
-  const publishers = state.publishers ?? [];
   const dateLine = C.dateLine(DATE.format(new Date(`${loop.today}T00:00:00Z`)));
 
   const close = () => setOpen(null);
@@ -151,8 +150,7 @@ export function useBriefingPage() {
     </header>
   );
 
-  /** Her first visit: publishers before the first set loads. The same in all
-   *  three concepts, so the riskiest state can be compared side by side. */
+  /** Her first visit: publishers before the first set loads. */
   const firstVisit =
     state.publishers === null ? (
       <div className="briefing-page briefing-page--first">
@@ -167,18 +165,7 @@ export function useBriefingPage() {
       </div>
     ) : null;
 
-  /** Where her reads come from, and Change, on the page (Concept A). */
-  const publishersLine = (
-    <p className="briefing-page__from">
-      {C.settings.fromLine(publishers.map(publisherName))}
-      {" · "}
-      <button type="button" className="briefing-page__change" onClick={() => setOpen({ kind: "publishers" })}>
-        {C.settings.changePublishers}
-      </button>
-    </p>
-  );
-
-  /** Publishers live in Profile (Concepts B and C). */
+  /** Publishers live in Profile. */
   const publishersInProfile = (
     <p className="briefing-page__from">
       <Link href={PROFILE_HREF} className="link link--quiet">
@@ -188,7 +175,7 @@ export function useBriefingPage() {
   );
 
   const openRecord = open?.kind === "read" ? [...reads, ...EARLIER_SAVED].find((r) => r.id === open.id) : undefined;
-  const sheetLabel = open?.kind === "read" ? (openRecord?.title ?? "") : open ? C.settings.publishersHeading : "";
+  const sheetLabel = openRecord?.title ?? "";
 
   const sheet = (
     <>
@@ -196,17 +183,6 @@ export function useBriefingPage() {
       <Sheet open={open !== null} onClose={close} label={sheetLabel} className="briefing-sheet">
         {openRecord ? (
           <BriefingReader read={openRecord} onClose={close} actions={actionsFor(openRecord, { markRead: true })} />
-        ) : open?.kind === "publishers" ? (
-          <PublisherPicker
-            mode="settings"
-            chosen={publishers}
-            onCancel={close}
-            onDone={(ids) => {
-              briefingActions.choosePublishers(ids);
-              setMessage(C.settings.publishersSaved);
-              close();
-            }}
-          />
         ) : null}
       </Sheet>
     </>
@@ -310,7 +286,6 @@ export function useBriefingPage() {
     openRead,
     markOpened,
     actionsFor,
-    publishersLine,
     publishersInProfile,
     sheet,
     /** `?view=saved`: the concept shows the Saved page in its place. */

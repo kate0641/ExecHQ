@@ -34,7 +34,7 @@ export const textLinkStates = defineComponentStates({
     {
       label: "Standalone",
       props: {
-        href: "/daily-briefing/concept-1",
+        href: "/daily-briefing/concept-2",
         tone: "standalone",
         children: "Read today's briefing",
       },

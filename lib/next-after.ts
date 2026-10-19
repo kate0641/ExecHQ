@@ -103,7 +103,7 @@ export function resolveNextAfter({ record, type, draft, planShown, servedStepId,
       case "start":
         return [{ key, type: "start", title: offer.title, body: offer.body, label: offer.action, href: `${flow}?tool=${offer.tool}&after=${encodeURIComponent(record.id)}` }];
       case "briefing":
-        return [{ key, type: "briefing", title: offer.title, body: offer.body, label: offer.action, href: conceptHref("daily-briefing", "concept-1") }];
+        return [{ key, type: "briefing", title: offer.title, body: offer.body, label: offer.action, href: conceptHref("daily-briefing", "concept-2") }];
       case "sharpen":
         return draft ? [{ key, type: "sharpen", title: offer.title, body: offer.body, label: offer.action, choice: offer.choice, doneText: offer.done }] : [];
       case "next-on-plan":

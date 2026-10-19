@@ -44,7 +44,7 @@ export function useToolboxLinks() {
   };
 
   const forStep = (stepId: string): string => {
-    if (stepId === READ_BRIEFING_STEP) return `${conceptHref("daily-briefing", "concept-1")}?from=plan`;
+    if (stepId === READ_BRIEFING_STEP) return `${conceptHref("daily-briefing", "concept-2")}?from=plan`;
     const existing = artifactFor(stepId);
     if (existing) return forRecord(existing);
     const kind = kindOfTool(stepById(stepId)?.toolboxTool);

@@ -23,7 +23,7 @@ const artifacts: ListItemData[] = [
     secondary: "Situation Brief · Last changed today · 3 versions · For: Brief your manager before Thursday’s check-in",
     leading: { type: "icon", name: "document" },
     trailing: { badge: createElement(LoopStatus, { record: ready, detail: false }), actions: more("Brief for your manager check-in") },
-    href: "/toolbox-flow/concept-1?artifact=check-in-brief",
+    href: "/toolbox-flow/concept-3?artifact=check-in-brief",
   },
   {
     id: "post",
@@ -31,7 +31,7 @@ const artifacts: ListItemData[] = [
     secondary: "Thought Leadership Builder · Last changed today · 1 version · Started from today’s Briefing",
     leading: { type: "icon", name: "pencil" },
     trailing: { badge: createElement(LoopStatus, { record: draft, detail: false }), actions: more("Post") },
-    href: "/toolbox-flow/concept-1?artifact=post",
+    href: "/toolbox-flow/concept-3?artifact=post",
   },
   {
     id: "story",
@@ -39,7 +39,7 @@ const artifacts: ListItemData[] = [
     secondary: "Positioning Builder · Last changed on Tuesday · 2 versions",
     leading: { type: "icon", name: "person" },
     trailing: { meta: "5 Oct", actions: more("Your leadership story") },
-    href: "/toolbox-flow/concept-1?artifact=story",
+    href: "/toolbox-flow/concept-3?artifact=story",
   },
 ];
 
