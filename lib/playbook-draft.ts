@@ -496,28 +496,43 @@ export function briefDraft(v: Record<string, string>, when?: string): DraftSecti
   const stakes = v.stakes?.trim();
   const statement = v.statement?.trim();
   const risks = (v.risks ?? "").split(/\n+/).map((r) => r.trim()).filter(Boolean);
+  const background = v.background?.trim();
+  // Something else, named in her words (CEO, 19 Oct); unnamed, "The meeting".
+  const named = v.type === "Something else" ? v.named?.trim() : undefined;
   const moment = !v.type || v.type === "Something else" ? "The meeting" : v.type[0].toUpperCase() + v.type.slice(1);
+  const momentSegs: DraftSegment[] = named
+    ? [you(named[0].toUpperCase() + named.slice(1)), ex(`${when ? ` ${when}` : ""}, with `)]
+    : [ex(`${moment}${when ? ` ${when}` : ""}, with `)];
+  // Her statement opens only where the moment suits it (CEO, 19 Oct;
+  // proposed: a review, an executive conversation, or one she named).
+  const opensOnStatement = !v.type || v.type === "A review" || v.type === "An executive conversation" || v.type === "Something else";
+  const firstEvidence = evidence ? evidence.split(/\n+/)[0].trim() : "";
   return [
     { id: "objective", heading: "Objective", segments: [objective ? you(sentence(objective)) : ask("What do you want to come out of it?")] },
     {
       id: "context",
       heading: "Context",
       segments: [
-        ex(`${moment}${when ? ` ${when}` : ""}, with `),
+        ...momentSegs,
         audience ? you(midSentence(audience)) : ask("Who will be there?"),
         ex(". "),
         // What they care about, from her: the PRD's stakeholder context.
         ...(stakes ? [ex("They care about "), you(midSentence(stakes)), ex(". ")] : []),
-        ask("What has happened so far that they need to know?"),
+        // What has happened so far, as she gave it, all of it.
+        background ? you(sentence(background)) : ask("What has happened so far that they need to know?"),
       ],
     },
     {
       id: "messages",
       heading: "Key messages",
       list: true,
+      // Written from what she gave, a prompt for what she hasn't (CEO, 19
+      // Oct: a hybrid): where things stand, the ask, what backs it up.
       segments: [
-        ex("Where things stand, in a sentence"),
-        ex(stakes ? "What you are asking for, and how it serves what they care about" : "What you are asking for, and why you"),
+        background ? you(sentence(firstSentence(background))) : ex("Where things stand, in a sentence"),
+        objective ? you(sentence(objective)) : ex("What you are asking for, and why you"),
+        ...(stakes ? [ex("How your ask serves what they care about")] : []),
+        ...(firstEvidence ? [you(sentence(firstEvidence))] : []),
         ask("What is the one thing they must remember?"),
       ],
     },
@@ -553,10 +568,27 @@ export function briefDraft(v: Record<string, string>, when?: string): DraftSecti
       // before the ask.
       segments: [
         ex("Thank you for the time. "),
-        ...(statement ? [you(sentence(statement))] : []),
+        ...(statement && opensOnStatement ? [you(sentence(statement))] : []),
         ex("By the end of today, I’m hoping for one outcome: "),
         objective ? you(midSentence(objective)) : ask("What do you want agreed?"),
         ...(objective ? [ex(".")] : []),
+      ],
+    },
+    {
+      id: "talk-track",
+      heading: "Talk track",
+      // For a longer slot (CEO, 19 Oct: in V1). Five beats, proposed.
+      segments: [
+        ex("Open: "),
+        ...(objective ? [ex("say you’re hoping for "), you(midSentence(objective)), ex(". ")] : [ask("What do you want agreed?"), ex(" ")]),
+        ex("Where things stand: "),
+        background ? you(sentence(firstSentence(background))) : ask("Where do things stand?"),
+        ex(" The ask: "),
+        objective ? you(sentence(objective)) : ask("What decision or next step do you want?"),
+        ex(" Why it holds up: "),
+        firstEvidence ? you(sentence(firstEvidence)) : ask("What result can you point to?"),
+        ...(risks[0] ? [ex(" If they ask “"), you(riskQuestion(risks[0])), ex("”: ")] : [ex(" If they push back: ")]),
+        ask("What will you say?"),
       ],
     },
     {

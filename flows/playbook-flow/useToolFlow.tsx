@@ -139,7 +139,7 @@ function newArtifactId(kind: ArtifactKind): string {
 /** Its title in the library. */
 function titleFor(kind: ArtifactKind, v: Record<string, string>, about: string): { title: string; name: string } {
   if (kind === "pitch") return { title: TOOL_COPY.pitchTitle(v.target || v.angle || "a stage"), name: TOOL_COPY.pitchName };
-  if (kind === "situation-brief") return { title: TOOL_COPY.briefTitle(v.type || "your next meeting"), name: TOOL_COPY.briefName };
+  if (kind === "situation-brief") return { title: TOOL_COPY.briefTitle((v.type === "Something else" && v.named?.trim()) || v.type || "your next meeting"), name: TOOL_COPY.briefName };
   return { title: C.postTitle(about), name: C.postName };
 }
 
@@ -285,7 +285,10 @@ export function useToolFlow(concept: FlowConcept) {
     const known: Record<string, string | undefined> = { role: account.jobTitle, statement: statementNow, bio: shortBioNow };
     return input.id in known ? (known[input.id] ? { ...input, value: known[input.id] } : { ...input, source: undefined, optional: true }) : input;
   });
-  const briefInputs: readonly ToolInput[] = BRIEF_INPUTS.map((input) =>
+  const fromStep = step ? (STEP_PREFILLS[step.id] ?? (kind === "thought-leadership" ? { topic: step.title } : {})) : {};
+  const [values, setValues] = useState<Record<string, string>>({});
+  // What it is, only once she has said Something else (CEO, 19 Oct).
+  const briefInputs: readonly ToolInput[] = BRIEF_INPUTS.filter((input) => input.id !== "named" || values.type === "Something else" || fromStep.type === "Something else").map((input) =>
     input.id === "statement" ? (statementNow ? { ...input, value: statementNow } : { ...input, source: undefined, optional: true }) : input
   );
   const baseInputs: readonly ToolInput[] =
@@ -300,7 +303,6 @@ export function useToolFlow(concept: FlowConcept) {
         ? { type: guessed }
         : {}
     : {};
-  const fromStep = step ? (STEP_PREFILLS[step.id] ?? (kind === "thought-leadership" ? { topic: step.title } : {})) : {};
   // Earlier work it starts from: a pitch's show or event becomes who a brief
   // prepares for; a post's topic becomes a pitch's angle.
   const earlier = afterId ? loop.records.find((r) => r.id === afterId) : undefined;
@@ -322,7 +324,6 @@ export function useToolFlow(concept: FlowConcept) {
           ? { ...input, value: fromEarlier[input.id] }
           : input
   );
-  const [values, setValues] = useState<Record<string, string>>({});
   // A new start (another tool, plan step, read or earlier work) begins with
   // nothing typed: moving between builders keeps this hook, not her answers.
   const startKey = artifactId ? "" : `${kind}|${stepId ?? ""}|${readId ?? ""}|${afterId ?? ""}|${moment ?? ""}`;

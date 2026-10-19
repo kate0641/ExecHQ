@@ -830,6 +830,8 @@ export const PITCH_INPUTS: readonly ToolInput[] = [
 
 export const BRIEF_INPUTS: readonly ToolInput[] = [
   { id: "type", label: "What is the moment?", kind: "choice", options: ["A review", "A board meeting", "A negotiation", "An executive conversation", "Something else"] },
+  // Asked only after Something else, so the brief names it (CEO, 19 Oct).
+  { id: "named", label: "What is it?", hint: "A skip-level, an offsite, a dinner. Say as much as you like.", kind: "text", placeholder: "A skip-level with my manager’s manager" },
   { id: "date", label: "When is it?", hint: "If you know. ExecHQ asks how it went after it.", kind: "date", optional: true },
   {
     id: "objective",
@@ -862,6 +864,16 @@ export const BRIEF_INPUTS: readonly ToolInput[] = [
     kind: "long",
     optional: true,
     placeholder: "It takes time from the campaign calendar",
+  },
+  // Context she can add, as much as she likes, kept with the brief (CEO, 19
+  // Oct). It fills Context and the first key message.
+  {
+    id: "background",
+    label: "Anything they should know first?",
+    hint: "What has happened so far. Add as much as you like: it’s kept with the brief to look back on.",
+    kind: "long",
+    optional: true,
+    placeholder: "The planning workstream has no owner since the reorg in September.",
   },
   // What it already knows, shown to check: her statement, which the opening
   // statement draws on (the use case screen's "Goes with this" promise).
@@ -929,7 +941,7 @@ export const STEP_BAR_COPY = {
 export const STEP_LABELS: Record<ArtifactKind, Record<string, string>> = {
   positioning: { knownFor: "Known for", context: "Introductions", audience: "Audience", format: "Format", source: "Source text" },
   pitch: { type: "Pitching for", target: "Who", angle: "Angle", proof: "Proof", audience: "Audience" },
-  "situation-brief": { type: "Moment", objective: "Outcome", audience: "Who’s there", stakes: "Their stakes", risks: "Risks" },
+  "situation-brief": { type: "Moment", named: "What it is", objective: "Outcome", audience: "Who’s there", stakes: "Their stakes", risks: "Risks", background: "Background" },
   "thought-leadership": { format: "Format", topic: "Topic", pov: "Point of view", evidence: "Evidence", voice: "Voice", length: "Length" },
 };
 
