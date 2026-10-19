@@ -15646,34 +15646,27 @@ ol.entry-drawer__rows {
   border-color: var(--color-border);
 }
 
-/* What ExecHQ wrote for her: her next move and Try this sit in sky blue, navy words on it, and a
-   navy button, never yellow on light blue. */
+/* Try this is a Default card on the navy page: darker navy, light words, the yellow action (designer,
+   2026-10-18: the four card levels). Light blue is not a card colour on navy; what ExecHQ wrote for her is
+   marked by a small sky dot before its label, here and on Your next move. */
 .signals-page .presence-clean__try {
-  --color-text-primary: var(--color-text-on-for-her);
-  --color-text-secondary: var(--color-text-on-for-her-muted);
-  --color-text-muted: var(--color-text-on-for-her-muted);
-  --color-eyebrow: var(--color-eyebrow-on-for-her);
-  --color-focus: var(--light-focus);
-  --focus-ring: var(--focus-ring-width) solid var(--light-focus);
-  border-color: var(--color-border-on-for-her);
+  border-color: transparent;
+  background-color: var(--color-surface-quiet-on-inverse);
+}
+
+.signals-page :is(.momentum__next-label, .presence-clean__try-label) {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.signals-page :is(.momentum__next-label, .presence-clean__try-label)::before {
+  content: "";
+  flex: none;
+  width: var(--space-xs);
+  height: var(--space-xs);
+  border-radius: 50%;
   background-color: var(--color-surface-for-her);
-  color: var(--color-text-primary);
-}
-
-/* Its button is an outlined navy pill, never yellow on light blue. */
-.signals-page .presence-clean__try .btn--primary {
-  /* The outline button, where the card's light blue can't take yellow. */
-  border: var(--border-width-medium) solid var(--color-outline-ink);
-  background-color: transparent;
-  color: var(--color-outline-ink);
-}
-
-.signals-page .presence-clean__try .btn--primary:hover {
-  background-color: var(--color-action-on-for-her-hover);
-}
-
-.signals-page .presence-clean__try .btn--primary:active {
-  background-color: var(--color-action-on-for-her-active);
 }
 
 /* The LinkedIn charts glow (designer, 2026-10-15): the followers' area from light green into sky
