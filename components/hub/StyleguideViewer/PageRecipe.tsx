@@ -32,7 +32,7 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         uses: ["--color-surface", "--color-surface-inverse", ".guide--navy", ".signals-page"],
       },
       {
-        rule: "Cards come in four levels, named the same on every page. Strong (look here first): navy on stone, white on navy, at most one on a stone page. Accent (a step below): light blue on stone; on navy it is not a card, only the mark. Default (the normal card): white on stone, darker navy on navy. Open: no card, straight on the page. A navy page's opening section may sit in darker navy and lead by coming first, with its yellow headline and its one yellow button.",
+        rule: "Cards come in four levels, named the same on every page. Strong, look here first, is navy on stone and white on navy, at most one on a stone page. Accent, a step below, is light blue on stone; on navy it is not a card, only the mark. Default, the normal card, is white on stone and darker navy on navy. Open is no card, straight on the page. A navy page's opening section may sit in darker navy and lead by coming first, with its yellow headline and its one yellow button.",
         why: "A card's colour says how much it stands out on that page, and nothing else, so it works on stone and navy alike. Light tints wash toward white on navy, so the accent level turns into a mark there. What a card means (written for her, her words, ExecHQ) is a small mark or band, the same on any page (designer, 2026-10-18).",
         from: "Signal Picture, Plan, Home",
         uses: ["--color-surface-inverse", "--color-surface-for-her", "--color-surface-raised", "--color-surface-quiet-on-inverse"],
