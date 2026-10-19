@@ -160,11 +160,11 @@ Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and
 
 | Answer | Next step | Then |
 | --- | --- | --- |
-| It went well | **Prepare for it:** a Situation Brief starting from the pitch ("Started from your pitch"; the moment set to Something else, who's there from where she pitched) | **Add to plan:** *Share one result with someone two levels up* |
-| It was mixed | **Pitch the next one:** a new pitch starting from this one | Next on your plan |
-| Not the way I hoped | **Try another stage:** a new pitch starting from this one, with a different angle | **Add to plan:** *Draft a talk proposal for the leadership forum* |
-| Nothing yet | **Send the follow-up:** copies the follow-up already in the pitch | "ExecHQ will ask again on …" |
-| It's no longer relevant | Closed. Next on your plan | |
+| Yes, it’s on | **Prepare for it:** a Situation Brief starting from the pitch ("Started from your pitch"; the moment set to Something else, who's there from where she pitched) | **Add to plan:** *Share one result with someone two levels up* |
+| They want changes | **Make the changes:** a new version of the pitch, more specific, for what they asked; the one she sent stays | Next on your plan |
+| They said not now | **Try another stage:** a new pitch starting from this one, with a different angle | **Add to plan:** *Draft a talk proposal for the leadership forum* |
+| Not yet | **Send the follow-up:** copies the follow-up already in the pitch | "ExecHQ will ask again on …" |
+| I'll try somewhere else | Closed. **Pitch somewhere else:** a new pitch starting from this one | Next on your plan |
 
 ---
 

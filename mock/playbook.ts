@@ -1502,29 +1502,36 @@ export const AFTER_ANSWER: Record<ArtifactKind, Record<OutcomeType, AfterAnswer>
     "no-longer-relevant": { readback: "It’s no longer relevant, so it’s closed.", offers: [NEXT_ON_PLAN] },
   },
   pitch: {
+    // In the words of "Did you hear back?" (Kate, 19 Oct).
     positive: {
-      readback: "It went well.",
+      readback: "It’s on.",
       offers: [
         { type: "start", tool: "situation-brief", title: "Prepare for it", body: "A brief for the talk or the episode, starting from your pitch.", action: "Start a brief" },
         { type: "plan-step", stepId: "share-result-up", because: "A booking is a result worth sharing." },
       ],
     },
     neutral: {
-      readback: "It was mixed.",
-      offers: [{ type: "again", title: "Pitch the next one", body: "A new pitch for another show or event, starting from this one.", action: "Start a new pitch" }, NEXT_ON_PLAN],
+      readback: "They want changes.",
+      offers: [
+        { type: "sharpen", choice: { specificity: "More specific" }, title: "Make the changes", body: "A new version of your pitch, more specific, for what they asked. The one you sent stays.", action: "Start a new version", done: "A new version, more specific. Change it to what they asked for." },
+        NEXT_ON_PLAN,
+      ],
     },
     negative: {
-      readback: "It didn’t go the way you hoped.",
+      readback: "They said not now.",
       offers: [
         { type: "again", title: "Try another stage", body: "A new pitch starting from this one. Try a different angle.", action: "Start a new pitch" },
         { type: "plan-step", stepId: "speaking-proposal", because: "Another way onto a stage the people above you watch." },
       ],
     },
     "no-response-yet": {
-      readback: "Nothing yet.",
+      readback: "Not yet.",
       offers: [{ type: "copy", sections: ["follow-up"], title: "Send the follow-up", body: "It’s in the pitch, written for when you hear nothing.", action: "Copy the follow-up", copied: "Copied the follow-up." }],
     },
-    "no-longer-relevant": { readback: "It’s no longer relevant, so it’s closed.", offers: [NEXT_ON_PLAN] },
+    "no-longer-relevant": {
+      readback: "You’ll try somewhere else, so this one is closed.",
+      offers: [{ type: "again", title: "Pitch somewhere else", body: "A new pitch for another show or event, starting from this one.", action: "Start a new pitch" }, NEXT_ON_PLAN],
+    },
   },
   "thought-leadership": {
     positive: {

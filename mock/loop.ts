@@ -100,6 +100,15 @@ export const OUTCOME_LABELS_BY_KIND: Partial<Record<ArtifactKind, Partial<Record
   "situation-brief": {
     "no-response-yet": "It hasn’t happened yet",
   },
+  // A pitch: did she hear back (Kate, 19 Oct)? "They want changes" is the
+  // mixed answer every check-in has.
+  pitch: {
+    positive: "Yes, it’s on",
+    neutral: "They want changes",
+    negative: "They said not now",
+    "no-response-yet": "Not yet",
+    "no-longer-relevant": "I’ll try somewhere else",
+  },
   // A post: self-reported engagement, the PRD's word for what came of it.
   "thought-leadership": {
     positive: "It landed well",
@@ -110,6 +119,12 @@ export const OUTCOME_LABELS_BY_KIND: Partial<Record<ArtifactKind, Partial<Record
 
 /** What a kind's own answers say back, where they differ. */
 export const OUTCOME_READBACK_BY_KIND: Partial<Record<ArtifactKind, Partial<Record<(typeof OUTCOME_OPTIONS)[number]["type"], string>>>> = {
+  pitch: {
+    positive: "You said it’s on.",
+    neutral: "You said they want changes.",
+    negative: "You said they said not now.",
+    "no-longer-relevant": "You said you’ll try somewhere else.",
+  },
   "thought-leadership": {
     positive: "You said it landed well.",
     negative: "You said there wasn’t much response.",
