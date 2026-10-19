@@ -23,7 +23,7 @@
 | --- | --- |
 | Step Up | 3.1 Prepare for a named promotion, performance, staffing or scope conversation |
 | Make Your Mark | 3.3 Prepare for an accepted talk, panel, interview or podcast |
-| Make the Move | 1.1 Put the moment on paper; 2.2 Prepare the materials the moment calls for (a case document); 3.2 Prepare answers to the two hardest objections; 3.3 Prepare for each conversation around the moment |
+| Make the Move | 1.1 Put the moment on paper; 2.2 Prepare the materials the moment calls for (a case document); 3.2 Prepare answers to the two hardest objections; 3.3 Prepare for each conversation around the moment; 3.1 Prepare the ninety-second version and say it out loud (with Pitch Builder: CEO, 19 Oct; **Proposed:** the opening statement is the version she says) |
 | Lead Where You Are | 3.1 Lead or present one moment the right people will see; 4.1 Name one problem that should come to her by default; 4.2 Raise the opportunity with the right person |
 
 - **In the prototype's mock plan:** "Brief your manager before Thursday's check-in" (step `brief-manager`), which arrives with the moment and who will be there filled in.

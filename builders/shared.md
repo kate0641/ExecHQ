@@ -11,7 +11,7 @@ The tools differ in what they ask and what they make, never in how they work. Sh
 | Builder | Makes | Marked used as | Checks back | Copy and export |
 | --- | --- | --- | --- | --- |
 | **Positioning Builder** | Positioning statement, bios in three lengths, leadership narrative, an introduction for each moment she chooses, a version for where she will use it first | Used | 7 days after | Copy each output; PDF and Word for the bios |
-| **Pitch Builder** | Pitch, subject lines, short and expanded versions, angle and why now, follow-up; where it goes (outlet, what they ask for, contact, how to send) and four steps to send it | Sent | 5 days after | Copy to send; PDF and Word |
+| **Pitch Builder** | Pitch, subject lines, short and expanded versions, angle and why now, follow-up; where it goes (outlet, what they ask for, contact, how to send) and four steps to send it | Sent | 7 days after | Copy to send; PDF and Word |
 | **Situation Brief** | One-page brief, opening statement, follow-up email | Used | The day after the moment, or 2 days after | Copy; PDF and Word, one page |
 | **Thought Leadership Builder** | LinkedIn post and hooks, or a short or long-form article with headlines | Published | 7 days after | Copy to post on LinkedIn; PDF and Word for articles |
 
