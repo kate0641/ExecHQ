@@ -209,5 +209,4 @@ Written from the approved prototype. These are choices it makes that nobody has 
 2. **Any artifact can be closed at any time,** and closing one waiting to hear stops its follow-ups.
 3. **Use as a starting point** makes a new, linked artifact; nothing is edited in place.
 4. **PDF and Word** for the Situation Brief, the bios and the pitch; a post is copied.
-5. **No "delete after use"** on the Situation Brief.
-6. **On web the draft is a page from the first screen,** with every section named and questions in place, before anything is answered.
+5. **On web the draft is a page from the first screen,** with every section named and questions in place, before anything is answered.

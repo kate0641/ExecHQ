@@ -122,7 +122,7 @@ Taken as working answers on 11 October. Confirm with the client:
 - The user can close any artifact at any time; after an outcome is recorded, ExecHQ suggests closing it.
 - Positioning Builder keeps the one-sentence statement as its first output.
 - Copy for every output; PDF and Word for the Situation Brief, bios and long-form articles.
-- No "delete after use" on the Situation Brief.
+- No "delete after use" on the Situation Brief (confirmed by the CEO, 19 Oct).
 - "Read today's Briefing" completes when one read is read, or a Thought Leadership draft is started from one.
 - Reusing an artifact creates a new one, linked to the original.
 - The Briefing is daily reads only.

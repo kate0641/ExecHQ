@@ -53,12 +53,14 @@
 | Question | Short name | Kind | Required | Notes |
 | --- | --- | --- | --- | --- |
 | What is the moment? | Moment | One choice: A review, A board meeting, A negotiation, An executive conversation, Something else | Yes | The first question, on the use case screen. Arrives chosen from an action step. |
+| What is it? | Its name | Her words | Yes, only after Something else | Asked only when she picks Something else, so the brief names it rather than saying "The meeting" (CEO, 19 Oct). "A skip-level, an offsite, a dinner. As much as you like." |
 | What do you want to come out of it? | Outcome | Her words | Yes | "The decision or next step you'd count as a good result." |
 | Who will be there? | Who's there | Her words | Yes | Arrives filled from an action step ("My manager"). |
 | When is it? | When | A date | No | "If you know. ExecHQ asks how it went after it." Times the follow-up. |
 | What do they care about? | Their stakes | Her words | No | "What's at stake for them, in a line." The PRD's stakeholder context. |
 | Anything to draw on | Draw on | Her words, long | No | "Evidence, notes or source material you already have. Paste them in." |
 | Any risks or concerns? | Risks | Her words, one a line | No | "Each becomes a question to prepare for." |
+| Anything they should know first? | Background | Her words, long | No | "What has happened so far. Add as much as you like: it's kept with the brief to look back on." Fills Context and the first key message. The CEO, 19 Oct: she can add context if needed, and the more detail the better. |
 
 ### 2.3 Enrichers
 
@@ -73,19 +75,22 @@ None in the prototype. **Proposed:** after the first draft, if Supporting eviden
 | Section | What it is for | Her words | ExecHQ's wording | Left as a question when missing |
 | --- | --- | --- | --- | --- |
 | **Objective** | What a good result is | Her outcome, as she said it | None | What do you want to come out of it? |
-| **Context** | The moment in one line, what they care about, and what they need to know | Who will be there; what they care about | "[The moment, or The meeting for Something else] [on its date], with … They care about …" | What has happened so far that they need to know? |
-| **Key messages** | What she must land, as a short list | None yet | "Where things stand, in a sentence"; "What you are asking for, and why you" (or, once she has said what they care about, "…and how it serves what they care about") | What is the one thing they must remember? |
+| **Context** | The moment in one line, what they care about, and what they need to know | The moment's name (for Something else), who will be there, what they care about, the background she gave | "[The moment] [on its date], with … They care about …" | What has happened so far that they need to know? (unless she gave the background) |
+| **Key messages** | What she must land, as a short list | Written from what she gave (CEO, 19 Oct, a hybrid): where things stand, from her background; what she is asking for, from her outcome, and how it serves what they care about; her strongest proof, from what she drew on | "Where things stand: …"; "What I'm asking for: …, because it serves …"; "What backs it up: …" | Each part she hasn't given stays a prompt ("Where things stand, in a sentence"), then: What is the one thing they must remember? |
 | **Supporting evidence** | Proof for the ask, as a list | What she pasted in "Anything to draw on" | None | What result can you point to? Who else would back this up? |
 | **Likely questions** | What they will ask, as a list | Her risks first, each as a question ("What if it takes time from the campaign calendar?") | "What does this take from your current work?"; "Why now, and not next quarter?"; "Who else is affected?" | None |
 | **Decision or next step asked for** | The ask, plainly | Her outcome | None: the heading frames it | What decision or next step do you want? |
-| **Opening statement** | The first thing she says | Her positioning statement, then her outcome, mid-sentence | "Thank you for the time. [her statement] By the end of today, I'm hoping for one outcome: …" | What do you want agreed? |
+| **Opening statement** | The first thing she says | Her positioning statement where the moment suits it, then her outcome, mid-sentence | "Thank you for the time. [her statement] By the end of today, I'm hoping for one outcome: …" | What do you want agreed? |
+| **Talk track** | What she says, in order, for a longer slot (CEO, 19 Oct: in V1) | Her outcome, background, proof and the first of her risks | **Proposed,** five beats: "Open: …" (the opening statement); "Where things stand: …"; "The ask: …"; "Why it holds up: …"; "If they ask about …: …" | What will you say if they push back? |
 | **Follow-up email** | What she sends after | Her answers to the questions | "Thank you for today. As we agreed, … I'll come back to you by …" | What did you agree? When? |
 
 Rules for this builder:
 
 - **One page.** The exported brief fits one page; the opening statement and email follow on.
-- **Her outcome appears three times** (Objective, the ask, the opening), each phrased so her words fit the sentence.
-- **Proposed:** the key messages and likely questions become specific to her moment once she answers the context question, instead of staying general.
+- **Her outcome appears three times** (Objective, the ask, the opening), each phrased so her words fit the sentence, and again in the talk track.
+- **Her statement opens only where the moment suits it** (CEO, 19 Oct). **Proposed:** in a review and an executive conversation, where where she is headed is the point; not in a board meeting or a negotiation, which open on the outcome. For Something else, it opens with it.
+- **The more she gives, the more it keeps** (CEO, 19 Oct). Everything she adds stays with the brief, to look back on later.
+- **No "delete after use"** (CEO, 19 Oct, confirmed): deleting it from the library covers it.
 
 ---
 
@@ -139,8 +144,7 @@ Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and
 
 ## 7. Open questions
 
-1. **Talk track.** The PRD allows an opening statement or a talk track. The prototype makes an opening statement only. Is a longer talk track V1?
-2. **Delete after use.** The brand document describes it; the brief's proposed answer is no special option (delete from the library covers it). Confirm.
-3. **Key messages.** The two ExecHQ key messages are still general framing. Should they be written from her context once she gives it, or stay as prompts?
-4. **Her statement in the opening.** It now opens the opening statement. For a statement about where she is headed, that suits a scope conversation better than a board meeting. Should it depend on the moment?
-5. **"Something else".** The context then says "The meeting". Should she be asked to name it instead?
+Answered by the CEO on 19 Oct and written into the sections above: a talk track is in V1, no "delete after use", key messages written from what she gives with a way to add context, her statement in the opening depends on the moment, and Something else asks her to name it (2.2, 3).
+
+1. **The talk track's beats.** Proposed: open, where things stand, the ask, why it holds up, and the likeliest pushback. To confirm.
+2. **Which moments open on her statement.** Proposed: a review, an executive conversation and anything she names; not a board meeting or a negotiation. To confirm.
