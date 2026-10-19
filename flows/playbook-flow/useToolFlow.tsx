@@ -950,9 +950,10 @@ export function useToolFlow(concept: FlowConcept) {
   const draftEditor = draftAs();
 
   /** `onAsked` runs once she asks for a revision: Concept 1 closes its sheet. */
-  const revision = (onAsked?: () => void): ReactNode =>
+  const revision = (onAsked?: () => void, after?: ReactNode): ReactNode =>
     draft ? (
       <RevisionControls
+        after={after}
         onRevise={(choice, followUp) => {
           doRevise(choice, followUp);
           onAsked?.();

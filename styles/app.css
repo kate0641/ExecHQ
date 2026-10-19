@@ -6044,6 +6044,20 @@ ol.ring-detail__timeline {
   flex: 1;
 }
 
+/* In the phone's browser (Kate, 2026-10-19) Login's first screen has 670px,
+   not the app's 808, so the dark panel gives up its spare padding first and
+   the email field and Log in sit in view on arrival. The wordmark and the
+   line stay; with room to spare the panel still grows to fill it. */
+[data-viewport="mobile"] .welcome:not(.welcome--compact):has(.login) .welcome__hero {
+  gap: var(--space-md);
+  padding-block: var(--space-lg);
+}
+
+[data-viewport="mobile"] .welcome:has(.login) .welcome__sheet {
+  padding-top: var(--space-lg);
+  gap: var(--space-lg);
+}
+
 .welcome > .login__notification {
   position: absolute;
   z-index: 3;
@@ -20291,6 +20305,24 @@ ul.plan-guided__sparks {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
+}
+
+.revision-controls__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+/* In the phone's browser the choices run past the foot of the screen (Kate,
+   2026-10-19), so Revise and Mark ready stay pinned there while she chooses,
+   with the choices scrolling behind them. */
+[data-viewport="mobile"] .tool-flow__interview .revision-controls__actions {
+  position: sticky;
+  bottom: 0;
+  z-index: var(--z-sticky);
+  padding: var(--space-sm) 0 var(--space-md);
+  background-color: var(--color-surface);
+  box-shadow: 0 calc(-1 * var(--space-xs)) var(--space-sm) var(--color-surface);
 }
 
 /* --- Versions -------------------------------------------------------------- */

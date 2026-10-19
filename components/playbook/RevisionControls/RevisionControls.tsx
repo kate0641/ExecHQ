@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { ChipGroup } from "@/components/form/ChipGroup";
 import { Input } from "@/components/form/Input";
 import { Button } from "@/components/primitives/Button";
@@ -20,6 +20,9 @@ export interface RevisionControlsProps {
   initialFollowUp?: string;
   /** Opens having pressed Revise with nothing chosen (catalogue). */
   showNothing?: boolean;
+  /** What else she can do with the draft, under Revise in the same action
+   *  area, which stays at the foot of a phone's screen. */
+  after?: ReactNode;
   className?: string;
 }
 
@@ -36,6 +39,7 @@ export function RevisionControls({
   initial = {},
   initialFollowUp = "",
   showNothing = false,
+  after,
   className,
 }: RevisionControlsProps) {
   const [choice, setChoice] = useState<RevisionChoice>(initial);
@@ -71,22 +75,25 @@ export function RevisionControls({
           setFollowUp(event.target.value);
         }}
       />
-      <Button
-        fullWidth
-        loading={revising}
-        onClick={() => {
-          const chosen = Object.values(choice).some(Boolean);
-          if (!chosen && !followUp.trim()) {
-            setNothing(true);
-            return;
-          }
-          onRevise(choice, followUp.trim());
-          setChoice({});
-          setFollowUp("");
-        }}
-      >
-        {revising ? C.revising : C.revise}
-      </Button>
+      <div className="revision-controls__actions">
+        <Button
+          fullWidth
+          loading={revising}
+          onClick={() => {
+            const chosen = Object.values(choice).some(Boolean);
+            if (!chosen && !followUp.trim()) {
+              setNothing(true);
+              return;
+            }
+            onRevise(choice, followUp.trim());
+            setChoice({});
+            setFollowUp("");
+          }}
+        >
+          {revising ? C.revising : C.revise}
+        </Button>
+        {after}
+      </div>
     </section>
   );
 }

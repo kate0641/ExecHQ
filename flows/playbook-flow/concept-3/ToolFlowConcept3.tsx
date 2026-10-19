@@ -188,8 +188,9 @@ function Interview() {
       <StepHeader eyebrow={f.tool.name} title={f.record?.title ?? f.tool.name} id={STEP_HEADING} />
       {f.source}
       {f.outcome}
-      {f.revision(() => setExpanded(true))}
-      {f.useBar({ noNotes: true, copyInMenu: true, className: "draft-use--single" })}
+      {/* Mark ready sits with Revise, so on a phone both stay at the foot
+          of the screen while she chooses (Kate, 19 Oct). */}
+      {f.revision(() => setExpanded(true), f.useBar({ noNotes: true, copyInMenu: true, className: "draft-use--single" }))}
       {f.versions}
     </div>
   );
