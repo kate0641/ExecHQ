@@ -15906,7 +15906,7 @@ ol.entry-drawer__rows {
   color: var(--color-text-primary);
 }
 
-.signals-page :is(.presence-clean__name, .presence-clean__try b, .linkedin-more__title, .li-picture__heading) {
+.signals-page :is(.presence-clean__name, .presence-clean__try b, .linkedin-more__title) {
   font-family: var(--type-card-title-font);
   font-size: var(--type-card-title-size);
   font-weight: var(--type-card-title-weight);
@@ -17928,11 +17928,15 @@ ul.plan-guided__sparks {
 }
 
 .li-picture__heading {
+  /* The heading role, a card's title, so it stands a clear step over Followers, Impressions and Posts
+     (designer, 2026-10-20; 18px before, close to the rows' 16). */
   margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
+  font-family: var(--type-heading-font);
+  font-size: var(--type-heading-size);
+  font-weight: var(--type-heading-weight);
+  line-height: var(--type-heading-leading);
+  letter-spacing: var(--type-heading-tracking);
+  word-spacing: var(--type-heading-word-spacing);
 }
 
 .li-picture__intro,

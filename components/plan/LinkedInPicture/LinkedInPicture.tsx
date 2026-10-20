@@ -1,7 +1,8 @@
 "use client";
 
 import { useId, useState, type ChangeEvent, type PointerEvent } from "react";
-import { compact, dayMonth, fullDate, monthlyImpressions, topPosts, totals, type MonthBar } from "@/lib/linkedin-export";
+import { compact, monthlyImpressions, topPosts, totals, type MonthBar } from "@/lib/linkedin-export";
+import { monthDayYear } from "./linkedin-dates";
 import { LINKEDIN_PICTURE_COPY as C, type LinkedInExport } from "@/mock/linkedin-export";
 
 type RowId = "followers" | "impressions" | "posts";
@@ -55,7 +56,7 @@ export function LinkedInPicture({ data, initialOpen = "followers", demoWeek, dem
     rows.push({
       id: "followers",
       label: C.followers,
-      sub: C.followersSub(gain, dayMonth(data.from)),
+      sub: C.followersSub(gain, monthDayYear(data.from)),
       value: t.followersNow.toLocaleString("en-US"),
       // No line of its own: the chart under it is the line (designer, 2026-10-20). The empty slot keeps
       // its number level with the others.
@@ -105,7 +106,7 @@ export function LinkedInPicture({ data, initialOpen = "followers", demoWeek, dem
         <h2 className="li-picture__heading" id={id}>
           {C.heading}
         </h2>
-        <p className="li-picture__intro">{C.intro(fullDate(data.from), fullDate(data.to))}</p>
+        <p className="li-picture__intro">{C.intro(monthDayYear(data.from), monthDayYear(data.to))}</p>
       </div>
 
       {rows.length === 0 ? (
@@ -200,7 +201,7 @@ function FollowersLine({ data, demoWeek }: { data: LinkedInExport; demoWeek?: nu
         step={1}
         value={shown ?? n - 1}
         aria-label={C.followersSlider}
-        aria-valuetext={C.followersAt(spoken.count, fullDate(spoken.on))}
+        aria-valuetext={C.followersAt(spoken.count, monthDayYear(spoken.on))}
         style={{ left: `${(PAD.left / W) * 100}%`, width: `${((W - PAD.left - PAD.right) / W) * 100}%` }}
         onChange={onScrub}
         onFocus={() => setActive((a) => a ?? n - 1)}
@@ -217,10 +218,10 @@ function FollowersLine({ data, demoWeek }: { data: LinkedInExport; demoWeek?: nu
         <line className="li-grid" x1={PAD.left} x2={W - PAD.right} y1={y(lo)} y2={y(lo)} />
         <line className="li-grid" x1={PAD.left} x2={W - PAD.right} y1={y((lo + hi) / 2)} y2={y((lo + hi) / 2)} />
         <text className="li-axis" x={PAD.left} y={H - 6} textAnchor="start">
-          {dayMonth(first.on)}
+          {monthDayYear(first.on)}
         </text>
         <text className="li-axis" x={W - PAD.right} y={H - 6} textAnchor="end">
-          {dayMonth(last.on)}
+          {monthDayYear(last.on)}
         </text>
         <path className="li-line__area" d={area} />
         <path className="li-line__path" d={line} />
@@ -246,7 +247,7 @@ function FollowersLine({ data, demoWeek }: { data: LinkedInExport; demoWeek?: nu
       {shown !== null ? (
         <div className={`li-tip li-tip--${align(x(shown) / W)}`} style={{ left: `${(x(shown) / W) * 100}%` }} aria-hidden="true">
           <strong>{points[shown].count.toLocaleString("en-US")}</strong>
-          <span>{fullDate(points[shown].on)}</span>
+          <span>{monthDayYear(points[shown].on)}</span>
         </div>
       ) : null}
     </div>
@@ -305,7 +306,7 @@ function TopPosts({ data }: { data: LinkedInExport }) {
           <div className="li-top__text">
             <b>{post.title}</b>
             <span>
-              {fullDate(post.on)} · {C.reactionsComments(post.reactions, post.comments)}
+              {monthDayYear(post.on)} · {C.reactionsComments(post.reactions, post.comments)}
             </span>
           </div>
           <span className="li-top__value">{post.impressions.toLocaleString("en-US")}</span>

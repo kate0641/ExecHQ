@@ -101,7 +101,13 @@ export const LINKEDIN_PICTURE_COPY = {
   heading: "Your LinkedIn, from your export",
   intro: (from: string, to: string) => `${from} to ${to}. Your audience and your posts as LinkedIn reports them.`,
   followers: "Followers",
-  followersSub: (n: number, from: string) => `${n > 0 ? "Up" : n < 0 ? "Down" : "Level"}${n === 0 ? "" : ` ${Math.abs(n).toLocaleString("en-US")}`} since ${from}`,
+  /** "181 new followers since Oct 6, 2025" (designer, 2026-10-20; "Up 181 since 6 Oct" before). */
+  followersSub: (n: number, from: string) => {
+    const count = Math.abs(n).toLocaleString("en-US");
+    if (n > 0) return `${count} new ${n === 1 ? "follower" : "followers"} since ${from}`;
+    if (n < 0) return `${count} fewer ${n === -1 ? "follower" : "followers"} since ${from}`;
+    return `Level since ${from}`;
+  },
   followersCaption: "At the end of each week",
   followersSlider: "Followers by week. Use the left and right arrow keys to move through the weeks.",
   followersAt: (count: number, on: string) => `${on}: ${count.toLocaleString("en-US")} followers`,
