@@ -15807,11 +15807,29 @@ ol.entry-drawer__rows {
   --color-eyebrow: var(--color-eyebrow-on-inverse);
 }
 
+/* Today's ring is a gradient, 2px out from the circle's own line: the day sky's colours running round it
+   (designer, 2026-10-20; a 1.5px white ring before). The ring is a masked layer, so it can carry a gradient. */
 .signals-page .momentum__card .day-circles__dot.is-today:not(.is-on) {
-  /* Today's ring is a hair finer than before, still heavier than the circle's own line (designer, 2026-10-18). */
-  box-shadow:
-    0 0 0 var(--space-3xs) var(--color-surface-quiet-on-inverse),
-    0 0 0 calc(var(--space-3xs) + var(--border-width-thin) * 1.5) var(--color-text-inverse);
+  position: relative;
+}
+
+.signals-page .momentum__card .day-circles__dot.is-today:not(.is-on)::after {
+  content: "";
+  position: absolute;
+  inset: calc(-1 * (var(--space-3xs) + var(--ring-today-width)));
+  padding: var(--ring-today-width);
+  border-radius: 50%;
+  background: var(--ring-today);
+  -webkit-mask: linear-gradient(var(--brand-stone-900) 0 0) content-box, linear-gradient(var(--brand-stone-900) 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(var(--brand-stone-900) 0 0) content-box exclude, linear-gradient(var(--brand-stone-900) 0 0);
+  pointer-events: none;
+}
+
+/* A day she logged is a small day sky (designer, 2026-10-20; flat lime before). */
+.signals-page .momentum__card .day-circles__dot.is-on {
+  background: var(--surface-her-day);
+  border-color: transparent;
 }
 
 /* Never a yellow outline on a card unless the designer asks (2026-10-15): her replies take the
