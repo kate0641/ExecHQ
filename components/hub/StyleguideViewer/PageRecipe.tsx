@@ -26,7 +26,7 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
     note: "What the page is made of.",
     rules: [
       {
-        rule: "Your day lives in daylight; your plan and your progress live in ExecHQ's room. A page about today (Home, the Briefing, the Toolbox and her drafts, onboarding's quiet steps) is stone: she reads, writes and acts there. A page about her direction and where she stands (the Plan, the Signal Picture, Profile, onboarding's ExecHQ moments) is navy. For a new screen, ask: is this about today, or about her trajectory?",
+        rule: "Your day lives in daylight; your plan and your progress live in ExecHQ's room. A page about today (Home, the Briefing, the Playbook and her drafts, onboarding's quiet steps) is stone: she reads, writes and acts there. A page about her direction and where she stands (the Plan, the Signal Picture, Profile, onboarding's ExecHQ moments) is navy. For a new screen, ask: is this about today, or about her trajectory?",
         why: "Dark text on a light page reads best for long reading and writing, older readers included (Nielsen Norman Group, 2020), and Home's skies need a light ground to show. Navy makes the few-words, look-once pages feel private and focused. The daily check-in on Home is the day; the Plan's stage check-in is the room. The advisor's sheet and drawers keep their own navy look on any page. The doors (the welcome, Login, signed out) keep the dark brand cover. Long text on a navy page sits on a white card, never light on dark (designer, 2026-10-18).",
         from: "Home, Plan, Signal Picture, Profile, Onboarding",
         uses: ["--color-surface", "--color-surface-inverse", ".guide--navy", ".signals-page"],
