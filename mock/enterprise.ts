@@ -869,8 +869,9 @@ export function reportWork(cohort: Cohort, window: WindowId): { made: string; re
   };
 }
 
-/** The joining line and its funnel: expected, joined, set up, chose a plan.
- *  Joined always shows; the rest hide below the minimum. */
+/** The joining line and its funnel: expected, joined, set up. Choosing a
+ *  plan is Follow-through's, so it is drawn there only (Kate, 2026-10-20).
+ *  Joined always shows; setting up hides below the minimum. */
 export function reportJoining(cohort: Cohort, window: WindowId): { joined: string; rest: string; steps: { label: string; value?: number; outline?: boolean }[] } {
   const above = isAboveMinimum(cohort, window);
   const n = (value: number) => count.format(value);
@@ -884,7 +885,6 @@ export function reportJoining(cohort: Cohort, window: WindowId): { joined: strin
       { label: F.expected, value: cohort.expectedSize, outline: true },
       { label: F.joined, value: cohort.joined },
       { label: F.setUp, value: above ? cohort.activated : undefined },
-      { label: F.plan, value: above ? cohort.planAccepted : undefined },
     ],
   };
 }
@@ -935,7 +935,7 @@ export const C2_COPY = {
   exportMenu: "Export",
   exportPdf: "PDF",
   exportCsv: "CSV",
-  funnel: { label: "Joining, step by step", expected: "Expected", joined: "Joined", setUp: "Set up", plan: "Chose a plan", hidden: "Hidden" },
+  funnel: { label: "Joining, step by step", expected: "Expected", joined: "Joined", setUp: "Set up", hidden: "Hidden" },
   setup: {
     title: "Untitled cohort",
     lead: "Fill in the cohort’s details to start its report. You will get one code to share.",

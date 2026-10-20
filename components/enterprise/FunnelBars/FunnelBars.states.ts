@@ -21,19 +21,19 @@ export const funnelBarsStates = defineComponentStates({
   variants: [
     {
       label: "The pilot — default",
-      props: { ...base, steps: [{ label: "Expected", value: 50, outline: true }, { label: "Joined", value: 38 }, { label: "Set up", value: 33 }, { label: "Chose a plan", value: 26 }] },
+      props: { ...base, steps: [{ label: "Expected", value: 50, outline: true }, { label: "Joined", value: 38 }, { label: "Set up", value: 33 }] },
     },
     {
       label: "Below the minimum — later steps hidden",
-      props: { ...base, steps: [{ label: "Expected", value: 12, outline: true }, { label: "Joined", value: 6 }, { label: "Set up" }, { label: "Chose a plan" }] },
+      props: { ...base, steps: [{ label: "Expected", value: 12, outline: true }, { label: "Joined", value: 6 }, { label: "Set up" }] },
     },
     {
       label: "No one yet — empty",
-      props: { ...base, steps: [{ label: "Expected", value: 40, outline: true }, { label: "Joined", value: 0 }, { label: "Set up", value: 0 }, { label: "Chose a plan", value: 0 }] },
+      props: { ...base, steps: [{ label: "Expected", value: 40, outline: true }, { label: "Joined", value: 0 }, { label: "Set up", value: 0 }] },
     },
     {
       label: "A long label wraps",
-      props: { ...base, steps: [{ label: "Expected", value: 1000, outline: true }, { label: "Joined with the cohort’s code", value: 912 }, { label: "Set up", value: 846 }, { label: "Chose a plan", value: 701 }] },
+      props: { ...base, steps: [{ label: "Expected", value: 1000, outline: true }, { label: "Joined with the cohort’s code", value: 912 }, { label: "Set up", value: 846 }] },
     },
   ],
 });

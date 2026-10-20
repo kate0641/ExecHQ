@@ -208,7 +208,6 @@ function ReportBody({ cohort, window }: { cohort: Cohort; window: WindowId }) {
           <div className="report__margin">
             <Note id="invites" />
             <Note id="onboarding" />
-            <Note id="plans" />
           </div>
         </div>
       </section>
