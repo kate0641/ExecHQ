@@ -14,9 +14,6 @@ export interface FigureDefinitionProps {
   /** The heading's level, so it sits in the page's outline wherever it is placed. */
   headingLevel?: 2 | 3 | 4;
   headingId?: string;
-  /** Heads it "How Followed through is measured", where an info icon opened
-   *  it; otherwise the figure's name alone, as in a list of them. */
-  asMeasured?: boolean;
 }
 
 /**
@@ -24,7 +21,7 @@ export interface FigureDefinitionProps {
  * privacy rule it is under: one sentence each, plain enough for a talent lead
  * to repeat to their own leadership without ExecHQ in the room.
  */
-export function FigureDefinition({ id, window, onClose, headingLevel = 3, headingId, asMeasured }: FigureDefinitionProps) {
+export function FigureDefinition({ id, window, onClose, headingLevel = 3, headingId }: FigureDefinitionProps) {
   const fallbackId = useId();
   const labelId = headingId ?? fallbackId;
   const point = DATA_POINTS[id];
@@ -34,7 +31,7 @@ export function FigureDefinition({ id, window, onClose, headingLevel = 3, headin
   return (
     <section className="figure-definition" aria-labelledby={labelId}>
       <Heading className="figure-definition__heading" id={labelId}>
-        {asMeasured ? C.measured(point.label) : point.label}
+        {point.label}
       </Heading>
       <dl className="figure-definition__list">
         <div className="figure-definition__row">

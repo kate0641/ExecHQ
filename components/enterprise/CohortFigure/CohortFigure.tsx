@@ -1,7 +1,11 @@
+"use client";
+
+import { useRef } from "react";
+import { FigurePopover } from "@/components/enterprise/FigurePopover";
 import { Meter } from "@/components/enterprise/Meter";
 import { Badge } from "@/components/primitives/Badge";
 import { Icon } from "@/components/primitives/Icon";
-import { ENTERPRISE_COPY, directionText, type Direction, type FigureView } from "@/mock/enterprise";
+import { ENTERPRISE_COPY, directionText, type Direction, type FigureView, type WindowId } from "@/mock/enterprise";
 
 const C = ENTERPRISE_COPY;
 
@@ -19,8 +23,12 @@ export interface CohortFigureProps {
    *  Every figure has one, so a page always passes it; the catalogue may
    *  leave it off. */
   onExplain?: () => void;
-  /** Whether that definition is open now. */
+  /** Whether its popover is open now. Pressing the icon again, Escape, the
+   *  popover's close button or a press outside all call `onExplain` to shut
+   *  it. */
   explaining?: boolean;
+  /** The window the page shows, for the popover's "Covers" line. */
+  window?: WindowId;
   /** Catalogue only: shows a state a static page can't reach. */
   demo?: "hover" | "focus" | "active";
   className?: string;
@@ -36,7 +44,8 @@ export interface CohortFigureProps {
  * target and no colour carrying meaning. The one comparison is a direction
  * since last week, in words with an arrow, never a count (Kate, 2026-10-20).
  */
-export function CohortFigure({ figure, size = "md", direction, meter, onExplain, explaining, demo, className }: CohortFigureProps) {
+export function CohortFigure({ figure, size = "md", direction, meter, onExplain, explaining, window = "30d", demo, className }: CohortFigureProps) {
+  const icon = useRef<HTMLButtonElement>(null);
   const drawn = meter && figure.state !== "suppressed" && figure.fraction !== undefined ? meter : undefined;
   const muted = figure.state === "filling";
   const classes = ["cohort-figure", `cohort-figure--${size}`, `cohort-figure--${figure.state}`, drawn ? `cohort-figure--${drawn}` : null, className]
@@ -45,10 +54,11 @@ export function CohortFigure({ figure, size = "md", direction, meter, onExplain,
 
   return (
     <div className={classes}>
-      <p className="cohort-figure__label">
+      <div className="cohort-figure__label">
         {figure.label}
         {onExplain || demo ? (
           <button
+            ref={icon}
             type="button"
             className={["cohort-figure__explain", demo ? `is-${demo}` : null].filter(Boolean).join(" ")}
             aria-expanded={explaining ?? false}
@@ -59,7 +69,8 @@ export function CohortFigure({ figure, size = "md", direction, meter, onExplain,
             <Icon name="info" size={16} />
           </button>
         ) : null}
-      </p>
+        {explaining && onExplain ? <FigurePopover id={figure.id} window={window} onClose={onExplain} anchor={icon} /> : null}
+      </div>
 
       {figure.state === "suppressed" ? (
         <p className="cohort-figure__hidden">

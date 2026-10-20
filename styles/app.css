@@ -23070,6 +23070,7 @@ ul.plan-guided__sparks {
 }
 
 .cohort-figure__label {
+  position: relative;
   display: flex;
   align-items: center;
   gap: var(--space-3xs);
@@ -23418,6 +23419,110 @@ ul.plan-guided__sparks {
   outline-offset: var(--focus-ring-offset);
 }
 
+/* How a figure is measured (Kate, 2026-10-20): beside its info icon, over
+   the page, so nothing moves. Below and start-aligned; flips above or to the
+   end to stay on screen. */
+.figure-popover {
+  position: absolute;
+  /* A <dialog> centres itself by default: undo that, then place it. */
+  inset: auto;
+  margin: 0;
+  top: calc(100% + var(--space-2xs));
+  left: 0;
+  z-index: var(--z-menu);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  width: min(20rem, calc(100vw - 2 * var(--menu-edge)));
+  padding: var(--space-md) var(--space-md) var(--space-md) var(--space-lg);
+  border: var(--border-width-thin) solid var(--menu-border);
+  border-radius: var(--menu-radius);
+  background-color: var(--menu-surface);
+  box-shadow: var(--menu-shadow);
+  font-family: var(--type-body-sm-font);
+  letter-spacing: normal;
+  word-spacing: normal;
+  color: var(--color-text-primary);
+}
+
+.figure-popover:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.figure-popover--above {
+  top: auto;
+  bottom: calc(100% + var(--space-2xs));
+}
+
+.figure-popover--end {
+  left: auto;
+  right: 0;
+}
+
+.figure-popover--inline {
+  position: static;
+}
+
+.figure-popover__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.figure-popover__heading {
+  padding-top: var(--space-3xs);
+  font-family: var(--type-card-title-font);
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  line-height: var(--type-card-title-leading);
+  letter-spacing: var(--type-card-title-tracking);
+  word-spacing: var(--type-card-title-word-spacing);
+}
+
+.figure-popover__close {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: var(--space-xl);
+  height: var(--space-xl);
+  margin: calc(var(--space-2xs) * -1) calc(var(--space-2xs) * -1) 0 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.figure-popover__close:hover {
+  background-color: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+.figure-popover__close:active {
+  background-color: var(--color-surface-active);
+}
+
+.figure-popover__close:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.figure-popover__measures {
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--weight-regular);
+  line-height: var(--type-body-sm-leading);
+}
+
+.figure-popover__meta {
+  font-size: var(--type-caption-size);
+  font-weight: var(--weight-regular);
+  line-height: var(--type-caption-leading);
+  color: var(--color-text-secondary);
+}
+
 /* --- What a figure counts -------------------------------------------------- */
 
 .figure-definition {
@@ -23734,10 +23839,6 @@ ul.plan-guided__sparks {
   background-color: var(--color-surface-feature);
 }
 
-.ent-card--following .ent-card__definition {
-  grid-column: 2;
-}
-
 .ent-card__lead {
   display: flex;
   flex-direction: column;
@@ -23782,17 +23883,6 @@ ul.plan-guided__sparks {
   align-self: stretch;
   padding: var(--space-md);
   border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
-}
-
-.ent-card__definition {
-  padding: var(--space-md) var(--space-lg);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-sunken);
-}
-
-/* On the tint, an opened definition sits on white so it stays a panel. */
-.ent-card--following .ent-card__definition {
   background-color: var(--color-surface-raised);
 }
 

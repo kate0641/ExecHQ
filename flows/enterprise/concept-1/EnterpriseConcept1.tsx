@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { CohortFigure } from "@/components/enterprise/CohortFigure";
 import { CohortForm } from "@/components/enterprise/CohortForm";
-import { FigureDefinition } from "@/components/enterprise/FigureDefinition";
 import { InviteCode } from "@/components/enterprise/InviteCode";
 import { WeeklyTrend } from "@/components/enterprise/WeeklyTrend";
 import { WindowSelector } from "@/components/enterprise/WindowSelector";
@@ -108,8 +107,9 @@ const METERS: Partial<Record<DataPointId, "ring" | "bar">> = {
   onboarding: "bar",
 };
 
-/** One question as a card: its heading and one-sentence answer, its figures,
- *  an opened definition inside the card, and anything that belongs with it. */
+/** One question as a card: its heading and one-sentence answer, its figures
+ *  (each with the info icon that opens how it is measured), and anything
+ *  that belongs with it. */
 function QuestionCard({
   cohort,
   question,
@@ -127,7 +127,6 @@ function QuestionCard({
 }) {
   const answer = answerFor(cohort, question, window);
   const points = QUESTION_POINTS[question];
-  const openHere = open && points.includes(open) ? open : null;
   return (
     <section className={`ent-card ent-card--${question}`} aria-labelledby={`q-${question}`}>
       <div className="ent-card__lead">
@@ -153,16 +152,12 @@ function QuestionCard({
               // In the hero, the figures after the first are tiles.
               className={question === "following" && i > 0 ? "ent-tile" : undefined}
               explaining={open === id}
+              window={window}
               onExplain={() => setOpen(open === id ? null : id)}
             />
           );
         })}
       </div>
-      {openHere ? (
-        <div className="ent-card__definition">
-          <FigureDefinition id={openHere} window={window} onClose={() => setOpen(null)} asMeasured />
-        </div>
-      ) : null}
       {children}
     </section>
   );

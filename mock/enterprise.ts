@@ -648,6 +648,9 @@ export const ENTERPRISE_COPY = {
     window: "Window",
     windowSinceLaunch: "Since the program started, whichever window you choose.",
     windowFor: (long: string) => `${long.charAt(0).toUpperCase()}${long.slice(1)}.`,
+    /** The popover's last line, after the source. */
+    covers: (long: string) => `Covers ${long}.`,
+    coversSinceLaunch: "Covers the program since it started.",
     privacy: "Privacy",
     privacyRule: `Shown only when ${MIN_COHORT_SIZE} or more participants are active, and updated once a week, so no one person’s week can change it.`,
     privacyAlways: "A count of codes redeemed. It never says who.",
@@ -786,7 +789,8 @@ export const C1_COPY = {
     heading: "Your cohort is still filling",
     body: `Until ${MIN_COHORT_SIZE} or more participants are active, you see only how many joined. Every other figure stays hidden, so none can point to one person.`,
   },
-  privacy: "You see totals for the whole cohort, never a participant, their plan or their work.",
+  /** Said once for the page, so no figure's popover repeats it. */
+  privacy: `You see totals for the whole cohort, never a participant, their plan or their work. Figures show once ${MIN_COHORT_SIZE} or more are active, and update every Monday.`,
   /** Under Followed through: recent actions still have time, so the share
    *  rises as they come due. */
   stillDue: "Some actions are still within their 30 days.",
