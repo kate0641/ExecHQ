@@ -28,6 +28,7 @@ import { downloadCsv } from "../downloadCsv";
 import { useCohort, type CohortControls } from "../useCohort";
 
 const C = C3_COPY;
+const count = new Intl.NumberFormat("en-GB");
 
 /** The definitions in the letter's own order: follow-through, use, joining. */
 const DEFINITION_ORDER: DataPointId[] = ["follow-through", "plans", "artifacts", "loop", "active", "briefing", "invites", "onboarding"];
@@ -84,6 +85,25 @@ function Issue({ issue, previous, late, headingRef }: { issue: LetterIssue; prev
         </h1>
         <p className="letter__covers">{C.covers(programDay(cohort))}</p>
       </header>
+
+      {/* By the numbers: the three figures a reader skims for, before the
+          prose (Kate, 2026-10-20). Only once they can be shown. */}
+      {above ? (
+        <dl className="letter__numbers" aria-label={C.numbers.label}>
+          {[
+            { value: c.actionsCompleted, whole: c.actionsAccepted, label: C.numbers.completed },
+            { value: c.active, whole: cohort.activated, label: C.numbers.active(programDay(cohort)) },
+            { value: cohort.joined, whole: cohort.expectedSize, label: C.numbers.joined },
+          ].map((item) => (
+            <div className="letter__number" key={item.label}>
+              <dt>{item.label}</dt>
+              <dd>
+                {count.format(item.value)} <span className="letter__number-of">{C.numbers.of(item.whole)}</span>
+              </dd>
+            </div>
+          ))}
+        </dl>
+      ) : null}
 
       <div className="letter__body">
         {/* What changed is why a weekly letter exists: it comes first

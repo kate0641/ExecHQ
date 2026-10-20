@@ -24609,6 +24609,57 @@ ul.letter-archive__list {
   border-top: var(--border-width-thin) solid var(--color-border);
 }
 
+/* Under the strip, its bottom rule already divides: no second one. */
+.letter__numbers + .letter__body > .letter__moved:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+/* By the numbers (Kate, 2026-10-20): three figures between rules, each
+   "31 of 74" in the figure face over what it counts. */
+.letter__numbers {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+  border-top: var(--border-width-thin) solid var(--color-border);
+  border-bottom: var(--border-width-thin) solid var(--color-border);
+}
+
+.letter__number {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: var(--space-2xs);
+  padding: var(--space-lg) var(--space-lg) var(--space-lg) 0;
+}
+
+.letter__number + .letter__number {
+  padding-left: var(--space-lg);
+  border-left: var(--border-width-thin) solid var(--color-border);
+}
+
+.letter__number dt {
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
+}
+
+.letter__number dd {
+  margin: 0;
+  font-family: var(--type-figure-font);
+  font-size: var(--type-figure-size-lg);
+  font-weight: var(--type-figure-weight);
+  line-height: 1;
+  letter-spacing: var(--type-figure-tracking);
+  font-variant-numeric: tabular-nums;
+}
+
+.letter__number-of {
+  font-size: 0.5em;
+  font-weight: var(--weight-regular);
+  color: var(--color-text-secondary);
+}
+
 .letter__moved ul {
   padding-left: var(--space-md);
 }

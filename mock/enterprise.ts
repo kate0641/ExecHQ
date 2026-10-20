@@ -1084,6 +1084,15 @@ export const C3_COPY = {
     `Participants have completed ${count.format(completed)} of the ${count.format(accepted)} planned actions they took on.`,
   headlineHidden: (joined: number, expected: number) => `${count.format(joined)} of ${count.format(expected)} have joined.`,
   covers: (day: number) => (day >= 30 ? "These figures cover the last 30 days." : `These figures cover the first ${day} days.`),
+  /** By the numbers, under the headline (Kate, 2026-10-20): three figures,
+   *  each "31 of 74" over what it counts. */
+  numbers: {
+    label: "By the numbers",
+    of: (whole: number) => `of ${count.format(whole)}`,
+    completed: "planned actions completed",
+    active: (day: number) => (day >= 30 ? "active in the last 30 days" : `active in the first ${day} days`),
+    joined: "joined",
+  },
   joining: (joined: number, expected: number, activated?: number) =>
     activated === undefined
       ? `${count.format(joined)} of the ${count.format(expected)} leaders you expected have joined so far.`
