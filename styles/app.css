@@ -15645,6 +15645,14 @@ ol.entry-drawer__rows {
   gap: var(--space-between-sections);
 }
 
+/* The homepage's hairline under an account card divides it from what follows. On the Signal Picture it
+   ends the page with nothing under it, so the page finishes on Upload my LinkedIn export (designer,
+   2026-10-20). */
+.signals-page .account-card:not(.presence-card):last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
 .plan-stub__started,
 .plan-stub__linkedin {
   display: flex;
