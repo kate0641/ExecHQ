@@ -18181,6 +18181,9 @@ ul.plan-guided__sparks {
   position: relative;
   display: grid;
   grid-template-columns: repeat(var(--li-months, 13), minmax(0, 1fr));
+  /* A fieldset doesn't hand its height to the grid inside it, so the row says it too; without it each month
+     shrank to its letter and every bar drew at zero (found 2026-10-20). */
+  grid-template-rows: 8.25rem;
   height: 8.25rem;
   min-width: 0;
   margin: 0;
