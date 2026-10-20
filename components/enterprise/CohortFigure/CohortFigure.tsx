@@ -15,8 +15,9 @@ export interface CohortFigureProps {
   /** Draws the share as a ring (the number in its middle) or a bar under the
    *  number. Only for figures that are a share, and never while hidden. */
   meter?: "ring" | "bar";
-  /** Opens the figure's definition, source and window. Every figure has one,
-   *  so a page always passes it; the catalogue may leave it off. */
+  /** Opens how the figure is measured, from the info icon beside its name.
+   *  Every figure has one, so a page always passes it; the catalogue may
+   *  leave it off. */
   onExplain?: () => void;
   /** Whether that definition is open now. */
   explaining?: boolean;
@@ -44,7 +45,21 @@ export function CohortFigure({ figure, size = "md", direction, meter, onExplain,
 
   return (
     <div className={classes}>
-      <p className="cohort-figure__label">{figure.label}</p>
+      <p className="cohort-figure__label">
+        {figure.label}
+        {onExplain || demo ? (
+          <button
+            type="button"
+            className={["cohort-figure__explain", demo ? `is-${demo}` : null].filter(Boolean).join(" ")}
+            aria-expanded={explaining ?? false}
+            aria-label={C.definition.measured(figure.label)}
+            title={C.definition.open}
+            onClick={onExplain}
+          >
+            <Icon name="info" size={16} />
+          </button>
+        ) : null}
+      </p>
 
       {figure.state === "suppressed" ? (
         <p className="cohort-figure__hidden">
@@ -80,17 +95,6 @@ export function CohortFigure({ figure, size = "md", direction, meter, onExplain,
       ) : null}
       {figure.note ? <p className="cohort-figure__note">{figure.note}</p> : null}
 
-      {onExplain || demo ? (
-        <button
-          type="button"
-          className={["cohort-figure__explain", demo ? `is-${demo}` : null].filter(Boolean).join(" ")}
-          aria-expanded={explaining ?? false}
-          onClick={onExplain}
-        >
-          {C.definition.open}
-          <span className="u-visually-hidden">: {figure.label}</span>
-        </button>
-      ) : null}
     </div>
   );
 }

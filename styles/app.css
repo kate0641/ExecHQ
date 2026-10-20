@@ -23070,6 +23070,9 @@ ul.plan-guided__sparks {
 }
 
 .cohort-figure__label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3xs);
   font-family: var(--type-label-font);
   font-size: var(--type-label-size);
   font-weight: var(--type-label-weight);
@@ -23379,31 +23382,34 @@ ul.plan-guided__sparks {
   color: var(--color-text-secondary);
 }
 
+/* The info icon beside a figure's name (Kate, 2026-10-20): opens how the
+   figure is measured. Dark while its panel is open. */
 .cohort-figure__explain {
-  margin-top: var(--space-3xs);
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  /* 24px: the WCAG 2.2 minimum target, so it never props the label open. */
+  width: var(--space-lg);
+  height: var(--space-lg);
   padding: 0;
   border: 0;
-  border-radius: var(--radius-xs);
+  border-radius: var(--radius-pill);
   background: none;
-  font: inherit;
-  font-size: var(--type-caption-size);
-  color: var(--color-text-link);
-  text-decoration: underline;
-  text-decoration-thickness: var(--border-width-thin);
-  text-underline-offset: 0.2em;
+  color: var(--color-text-secondary);
   cursor: pointer;
 }
 
 .cohort-figure__explain:hover,
 .cohort-figure__explain.is-hover {
-  color: var(--color-text-link-hover);
+  background-color: var(--color-surface-hover);
+  color: var(--color-text-primary);
 }
 
 .cohort-figure__explain:active,
 .cohort-figure__explain.is-active,
 .cohort-figure__explain[aria-expanded="true"] {
-  color: var(--color-text-primary);
-  text-decoration-thickness: var(--border-width-medium);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
 }
 
 .cohort-figure__explain:focus-visible,

@@ -639,10 +639,12 @@ export const ENTERPRISE_COPY = {
   },
 
   definition: {
-    open: "What this counts",
+    open: "How it’s measured",
+    /** The icon's name and the panel's heading (Kate, 2026-10-20). */
+    measured: (label: string) => `How ${label} is measured`,
     close: "Close",
-    counts: "What it counts",
-    source: "Where it comes from",
+    counts: "Measures",
+    source: "Source",
     window: "Window",
     windowSinceLaunch: "Since the program started, whichever window you choose.",
     windowFor: (long: string) => `${long.charAt(0).toUpperCase()}${long.slice(1)}.`,

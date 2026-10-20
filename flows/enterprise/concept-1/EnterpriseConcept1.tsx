@@ -160,7 +160,7 @@ function QuestionCard({
       </div>
       {openHere ? (
         <div className="ent-card__definition">
-          <FigureDefinition id={openHere} window={window} onClose={() => setOpen(null)} />
+          <FigureDefinition id={openHere} window={window} onClose={() => setOpen(null)} asMeasured />
         </div>
       ) : null}
       {children}

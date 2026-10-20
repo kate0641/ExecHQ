@@ -12,7 +12,7 @@ export const cohortFigureStates = defineComponentStates({
   status: "draft",
   flows: ["enterprise"],
   description:
-    "One cohort-level figure on the sponsor dashboard: the number and what it is out of, and which way it moved since last week when at least 10 people are behind the change. Filling in while the program is younger than the window, with its age stated; hidden while fewer than 10 participants are active, naming the rule. Every figure opens to its definition.",
+    "One cohort-level figure on the sponsor dashboard: the number and what it is out of, and which way it moved since last week when at least 10 people are behind the change. Filling in while the program is younger than the window, with its age stated; hidden while fewer than 10 participants are active, naming the rule. An info icon beside every name opens how it is measured.",
   component: CohortFigure,
   notApplicable: {
     disabled: "Its one control always works: every figure has a definition, even a hidden one.",
@@ -39,8 +39,8 @@ export const cohortFigureStates = defineComponentStates({
     { label: "Thousands, the demo cohort", props: { figure: figureFor(COHORTS.demo, "artifacts", "launch"), onExplain: noop } },
     { label: "A long detail wraps", props: { figure: figureFor(COHORTS.demo, "follow-through", "launch"), onExplain: noop } },
     { label: "Definition open — active", props: { figure: active, onExplain: noop, explaining: true } },
-    { label: "What this counts — hover", props: { figure: active, demo: "hover" } },
-    { label: "What this counts — focus", props: { figure: active, demo: "focus" } },
-    { label: "What this counts — pressed", props: { figure: active, demo: "active" } },
+    { label: "How it’s measured — hover", props: { figure: active, demo: "hover" } },
+    { label: "How it’s measured — focus", props: { figure: active, demo: "focus" } },
+    { label: "How it’s measured — pressed", props: { figure: active, demo: "active" } },
   ],
 });
