@@ -220,6 +220,20 @@ export const COHORT_CHOICES: Record<CohortId, { label: string; glyph: string; su
 
 export const DEFAULT_COHORT: CohortId = "pilot";
 
+/** How many days the program runs, start to end. */
+export function programLength(cohort: Cohort): number {
+  const start = Date.parse(`${cohort.startsOn}T00:00:00Z`);
+  const end = Date.parse(`${cohort.endsOn}T00:00:00Z`);
+  return Math.round((end - start) / 86_400_000);
+}
+
+/** The Monday after the latest update: when the next one is due. */
+export function nextUpdate(cohort: Cohort): string {
+  const date = new Date(`${cohort.asOf}T00:00:00Z`);
+  date.setUTCDate(date.getUTCDate() + 7);
+  return date.toISOString().slice(0, 10);
+}
+
 /** How many days old the program was when the figures were refreshed. */
 export function programDay(cohort: Cohort): number {
   const start = Date.parse(`${cohort.startsOn}T00:00:00Z`);
@@ -752,12 +766,36 @@ export function answerFor(cohort: Cohort, question: QuestionId, window: WindowId
 }
 
 export const C1_COPY = {
-  eyebrow: "Your cohort",
-  dates: (startsOn: string, endsOn: string) => `${formatDate(startsOn)} to ${formatDate(endsOn)}`,
-  age: (day: number) => (day === 1 ? "Day 1" : `Day ${day}`),
-  notStarted: "Not started yet",
-  export: "Export as PDF",
-  exportCsv: "Export as CSV",
+  /** The line under the name: dates, how far through, and the code's state. */
+  meta: {
+    dates: (startsOn: string, endsOn: string) => {
+      // Three-letter months throughout: en-GB would write "Sept".
+      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const start = new Date(`${startsOn}T00:00:00Z`);
+      const end = new Date(`${endsOn}T00:00:00Z`);
+      const day = (d: Date) => `${d.getUTCDate()} ${months[d.getUTCMonth()]}`;
+      const year = (d: Date) => d.getUTCFullYear();
+      return year(start) === year(end)
+        ? `${day(start)} to ${day(end)} ${year(end)}`
+        : `${day(start)} ${year(start)} to ${day(end)} ${year(end)}`;
+    },
+    day: (day: number, of: number) => `Day ${day} of ${of}`,
+    notStarted: "Not started yet",
+    open: "Open to new joiners",
+    closed: "Closed to new joiners",
+  },
+  /** The status line under the header. */
+  status: {
+    updated: (asOf: string, next: string) => `Updated ${formatAsOf(asOf)} · next update ${formatAsOf(next)}`,
+    first: (asOf: string) => `The first update is ${formatAsOf(asOf)}`,
+    late: (asOf: string) => `Last updated ${formatAsOf(asOf)} · this Monday’s update is late`,
+    filling: (day: number, days: number) => `The program is ${day} days old, so ${days} days shows the ${day} so far.`,
+  },
+  exportMenu: "Export",
+  exportPdf: "PDF",
+  exportPdfHint: "one page",
+  exportCsv: "CSV",
+  exportCsvHint: "totals only",
   printWindow: (long: string, asOf: string) => `Figures cover ${long}. As of ${formatAsOf(asOf)}.`,
   questions: {
     joined: "Did they join?",
@@ -768,8 +806,6 @@ export const C1_COPY = {
     heading: "Your cohort is still filling",
     body: `Until ${MIN_COHORT_SIZE} or more participants are active, you see only how many joined. Every other figure stays hidden, so none can point to one person.`,
   },
-  filling: (day: number) =>
-    `Your program is ${day} days old, so figures over 30 and 90 days are still filling in. Since launch shows everything so far.`,
   privacy: "You see totals for the whole cohort, never a participant, their plan or their work.",
   setup: {
     heading: "Set up your cohort",

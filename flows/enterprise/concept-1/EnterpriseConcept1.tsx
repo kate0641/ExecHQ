@@ -7,13 +7,15 @@ import { FigureDefinition } from "@/components/enterprise/FigureDefinition";
 import { InviteCode } from "@/components/enterprise/InviteCode";
 import { WeeklyTrend } from "@/components/enterprise/WeeklyTrend";
 import { WindowSelector } from "@/components/enterprise/WindowSelector";
+import { DropdownMenu } from "@/components/form/DropdownMenu";
+import { Badge } from "@/components/primitives/Badge";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import { useCohortId } from "@/lib/cohort-store";
 import {
   C1_COPY,
-  CSV_COPY,
   DIRECTION_COPY,
+  ENTERPRISE_COPY,
   LATE_COPY,
   QUESTION_POINTS,
   answerFor,
@@ -21,7 +23,9 @@ import {
   directionFor,
   figureFor,
   isAboveMinimum,
+  nextUpdate,
   programDay,
+  programLength,
   trendFor,
   type Cohort,
   type DataPointId,
@@ -33,25 +37,85 @@ import { downloadCsv } from "../downloadCsv";
 import { useCohort, type CohortControls } from "../useCohort";
 
 const C = C1_COPY;
+const FILLING_TAG = ENTERPRISE_COPY.fillingTag;
 
-/** The cohort's name, dates and age: the top of the dashboard. */
-function CohortHeader({ cohort, headingRef, children }: { cohort: Cohort; headingRef?: React.Ref<HTMLHeadingElement>; children?: React.ReactNode }) {
+/** One band (Kate, 2026-10-20, option A): the name and a line of what
+ *  matters about the program on the left, the window and the export on the
+ *  right, and a status line under both: when it was updated, when it next
+ *  will be, and whether the window is still filling in. */
+function CohortHeader({
+  cohort,
+  window,
+  onWindow,
+  headingRef,
+}: {
+  cohort: Cohort;
+  window: WindowId;
+  onWindow: (next: WindowId) => void;
+  headingRef?: React.Ref<HTMLHeadingElement>;
+}) {
   const day = programDay(cohort);
+  const days = WINDOWS[window].days;
+  const filling = isAboveMinimum(cohort, window) && days !== undefined && day < days && !cohort.fresh;
+  const meta = [
+    C.meta.dates(cohort.startsOn, cohort.endsOn),
+    day > 0 && !cohort.fresh ? C.meta.day(day, programLength(cohort)) : C.meta.notStarted,
+    cohort.open ? C.meta.open : C.meta.closed,
+  ];
+  const status = cohort.fresh
+    ? C.status.first(cohort.asOf)
+    : cohort.lateSince
+      ? C.status.late(cohort.asOf)
+      : C.status.updated(cohort.asOf, nextUpdate(cohort));
+
   return (
     <header className="ent-header">
-      <div className="ent-header__title">
-        <p className="t-eyebrow">{C.eyebrow}</p>
-        <h1 className="ent-header__name" ref={headingRef} tabIndex={headingRef ? -1 : undefined}>
-          {cohort.name}
-        </h1>
-        <p className="ent-header__dates">
-          {C.dates(cohort.startsOn, cohort.endsOn)}
-          <span aria-hidden="true"> · </span>
-          <span className="u-visually-hidden">, </span>
-          {day > 0 && !cohort.fresh ? C.age(day) : C.notStarted}
-        </p>
+      <div className="ent-header__row">
+        <div className="ent-header__title">
+          <h1 className="ent-header__name" ref={headingRef} tabIndex={headingRef ? -1 : undefined}>
+            {cohort.name}
+          </h1>
+          <p className="ent-header__meta">
+            {meta.map((part, i) => (
+              <span key={part}>
+                {i > 0 ? (
+                  <>
+                    <span aria-hidden="true"> · </span>
+                    <span className="u-visually-hidden">, </span>
+                  </>
+                ) : null}
+                {part}
+              </span>
+            ))}
+          </p>
+        </div>
+        <div className="ent-header__tools">
+          <WindowSelector value={window} onChange={onWindow} asOf={cohort.asOf} upcoming={cohort.fresh} hideRefreshed />
+          {/* The toggle does not print: the export says the window in words. */}
+          <p className="ent-header__print">{C.printWindow(WINDOWS[window].long, cohort.asOf)}</p>
+          <DropdownMenu
+            label={C.exportMenu}
+            icon="download"
+            align="end"
+            entries={[
+              { type: "item", id: "pdf", label: C.exportPdf, hint: C.exportPdfHint, onSelect: () => globalThis.print() },
+              { type: "item", id: "csv", label: C.exportCsv, hint: C.exportCsvHint, onSelect: () => downloadCsv(cohort, window) },
+            ]}
+          />
+        </div>
       </div>
-      {children ? <div className="ent-header__tools">{children}</div> : null}
+      <p className="ent-header__status">
+        <span className="ent-header__status-item">
+          <Icon name="clock" size={16} />
+          {status}
+        </span>
+        {filling ? (
+          <span className="ent-header__status-item">
+            <Badge tone="neutral">{FILLING_TAG}</Badge>
+            {C.status.filling(day, days!)}
+          </span>
+        ) : null}
+      </p>
     </header>
   );
 }
@@ -132,29 +196,10 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
   const [window, setWindow] = useState<WindowId>("30d");
   const [open, setOpen] = useState<DataPointId | null>(null);
   const above = isAboveMinimum(cohort, window);
-  const day = programDay(cohort);
-  const filling = above && window !== "launch" && day < (window === "30d" ? 30 : 90);
 
   return (
     <div className="ent-page">
-      <CohortHeader cohort={cohort} headingRef={headingRef}>
-        <WindowSelector value={window} onChange={setWindow} asOf={cohort.asOf} upcoming={cohort.fresh} />
-        {/* The toggle does not print: the export says the window in words. */}
-        <p className="ent-header__print">{C.printWindow(WINDOWS[window].long, cohort.asOf)}</p>
-        <div className="ent-exports">
-          <Button variant="secondary" size="sm" onClick={() => globalThis.print()}>
-            <Icon name="download" size={16} />
-            {C.export}
-          </Button>
-          <Button variant="secondary" size="sm" onClick={() => downloadCsv(cohort, window)} aria-describedby="ent-csv-hint">
-            <Icon name="download" size={16} />
-            {C.exportCsv}
-          </Button>
-          <span className="u-visually-hidden" id="ent-csv-hint">
-            {CSV_COPY.hint}
-          </span>
-        </div>
-      </CohortHeader>
+      <CohortHeader cohort={cohort} window={window} onWindow={setWindow} headingRef={headingRef} />
 
       {cohort.lateSince ? (
         <p className="ent-notice">
@@ -171,11 +216,6 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
             <p>{C.building.body}</p>
           </div>
         </div>
-      ) : filling ? (
-        <p className="ent-notice ent-notice--quiet">
-          <Icon name="clock" size={18} />
-          {C.filling(day)}
-        </p>
       ) : null}
 
       <div className="ent-board">

@@ -28,5 +28,10 @@ export const windowSelectorStates = defineComponentStates({
     { label: "30 days chosen — default", props: { value: "30d", onChange, asOf } },
     { label: "Since launch selected", props: { value: "launch", onChange, asOf } },
     { label: "Before the first update", props: { value: "30d", onChange, asOf: "2027-01-11", upcoming: true } },
+    {
+      label: "Without the refreshed line",
+      description: "Where the page states the last and next update itself.",
+      props: { value: "30d", onChange, asOf, hideRefreshed: true },
+    },
   ],
 });
