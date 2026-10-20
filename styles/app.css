@@ -23950,6 +23950,141 @@ ul.plan-guided__sparks {
   max-width: 64rem;
 }
 
+.report-toolbar__end {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+/* "Ask about this report": dark while its panel is open. */
+.report-ask-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-height: var(--button-target);
+  padding: 0 var(--space-md);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-raised);
+  color: var(--color-text-primary);
+  font-family: var(--type-label-font);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  cursor: pointer;
+}
+
+.report-ask-button:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.report-ask-button[aria-expanded="true"] {
+  border-color: var(--color-surface-inverse);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+}
+
+.report-ask-button:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* The sheet, and beside it the assistant when it is open. */
+.report-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-lg);
+  width: 100%;
+  max-width: 64rem;
+}
+
+.report-stage.is-asking {
+  grid-template-columns: minmax(0, 1fr) 24rem;
+  max-width: calc(64rem + 24rem + var(--space-lg));
+}
+
+/* The toolbar and the code strip widen with it, so their edges line up. */
+.report-view:has(.report-stage.is-asking) :is(.report-toolbar, .report-code) {
+  max-width: calc(64rem + 24rem + var(--space-lg));
+}
+
+.report-ask {
+  position: sticky;
+  top: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  max-height: 44rem;
+  border: var(--border-width-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-raised);
+  overflow: hidden;
+}
+
+.report-ask__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-md) var(--space-xs) var(--space-lg);
+}
+
+.report-ask__title {
+  font-family: var(--type-card-title-font);
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  line-height: var(--type-card-title-leading);
+  letter-spacing: var(--type-card-title-tracking);
+  word-spacing: var(--type-card-title-word-spacing);
+}
+
+.report-ask__close {
+  display: inline-grid;
+  place-items: center;
+  width: var(--space-xl);
+  height: var(--space-xl);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.report-ask__close:hover {
+  background-color: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+.report-ask__close:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.report-ask__body {
+  flex: 1;
+  min-height: 8rem;
+  padding: var(--space-xs) var(--space-lg) var(--space-md);
+  overflow-y: auto;
+}
+
+.report-ask__intro {
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
+}
+
+.report-ask__copy {
+  margin-top: var(--space-xs);
+}
+
+.report-ask__foot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md) var(--space-md);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
 /* The cohort's code, a slim strip under the toolbar, outside the sheet: the
    code on the left, what to do with it in the middle, its buttons on the
    right. The same InviteCode, laid out as a row. */
@@ -24378,8 +24513,15 @@ ul.plan-guided__sparks {
   }
 
   .report-toolbar,
-  .report-code {
+  .report-code,
+  .report-ask {
     display: none;
+  }
+
+  .report-stage,
+  .report-stage.is-asking {
+    display: block;
+    max-width: none;
   }
 
   .report {
@@ -24615,6 +24757,91 @@ ul.letter-archive__list {
   border-top: 0;
 }
 
+/* Replies to the letter (Kate, 2026-10-20): each turn under a margin rule,
+   the sponsor's grey, ExecHQ's dark, in the letter's own type. */
+.letter-replies {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding-top: var(--space-lg);
+  border-top: var(--border-width-thin) solid var(--color-border);
+}
+
+.letter-replies__thread {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.letter-replies__turn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  padding-left: var(--space-md);
+  border-left: var(--border-width-medium) solid var(--color-border);
+}
+
+.letter-replies__turn--advisor {
+  border-left-color: var(--color-text-primary);
+}
+
+.letter-replies__who,
+.letter-replies__writing {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-family: var(--type-label-font);
+  font-size: var(--type-caption-size);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--type-label-tracking);
+  word-spacing: var(--type-label-word-spacing);
+  color: var(--color-text-secondary);
+}
+
+.letter-replies__turn--advisor .letter-replies__who {
+  color: var(--color-text-primary);
+}
+
+.letter-replies__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  max-width: 68ch;
+  font-size: var(--text-md);
+  line-height: var(--leading-relaxed);
+}
+
+.letter-replies__suggest {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.letter-replies__chip {
+  min-height: var(--space-xl);
+  padding: var(--space-2xs) var(--space-md);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-raised);
+  color: var(--color-text-primary);
+  font: inherit;
+  font-size: var(--type-body-sm-size);
+  text-align: left;
+  cursor: pointer;
+}
+
+.letter-replies__chip:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.letter-replies__chip:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
 /* By the numbers (Kate, 2026-10-20): three figures between rules, each
    "31 of 74" in the figure face over what it counts. */
 .letter__numbers {
@@ -24807,7 +25034,8 @@ ul.letter-archive__list {
 
   .letter-archive,
   .letter__code,
-  .letter__save {
+  .letter__save,
+  .letter-replies {
     display: none;
   }
 

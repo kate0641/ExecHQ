@@ -25,6 +25,7 @@ import {
   type LetterIssue,
 } from "@/mock/enterprise";
 import { downloadCsv } from "../downloadCsv";
+import { LetterReplies } from "./LetterReplies";
 import { useCohort, type CohortControls } from "../useCohort";
 
 const C = C3_COPY;
@@ -149,6 +150,9 @@ function Issue({ issue, previous, late, headingRef }: { issue: LetterIssue; prev
           {C.signOff}
         </p>
       </div>
+
+      {/* Asking about an issue is replying to it (Kate, 2026-10-20). */}
+      <LetterReplies key={issue.number} issue={issue} />
 
       <details className="letter__definitions">
         <summary>{C.definitions}</summary>

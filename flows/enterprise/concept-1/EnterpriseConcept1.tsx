@@ -30,6 +30,7 @@ import {
   WINDOWS,
 } from "@/mock/enterprise";
 import { downloadCsv } from "../downloadCsv";
+import { CohortConcierge } from "./CohortConcierge";
 import { useCohort, type CohortControls } from "../useCohort";
 
 const C = C1_COPY;
@@ -229,6 +230,8 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
           {C.privacy}
         </p>
       </div>
+
+      <CohortConcierge cohort={cohort} window={window} />
     </div>
   );
 }

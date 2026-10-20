@@ -1141,6 +1141,114 @@ export const C3_COPY = {
   },
 } as const;
 
+/* -----------------------------------------------------------------------------
+   THE ASSISTANT
+   The ExecHQ assistant for sponsors (Kate, 2026-10-20), in each concept: a
+   floating bar on the dashboard, "Ask about this report" beside the report,
+   and replies to the letter. Answers come from the cohort's totals only, under
+   the page's own rules: nothing below the minimum, directions rather than
+   week-on-week counts, what participants did rather than what ExecHQ caused,
+   and never anything about one person. The prototype has no AI: each
+   suggested question has an answer written from the cohort's figures.
+   -------------------------------------------------------------------------- */
+
+export type AssistantKey = "follow" | "summary" | "setup" | "measured" | "change" | "note" | "who" | "other";
+
+export interface AssistantPrompt {
+  label: string;
+  key: AssistantKey;
+}
+
+export const ASSISTANT_COPY = {
+  name: "ExecHQ",
+  role: "About your cohort",
+  pillHere: "Your cohort",
+  pillAsk: "Ask about your cohort",
+  startTitle: "What would you like to know?",
+  rule: `I answer from your cohort’s totals only, never about one person, and only once ${MIN_COHORT_SIZE} or more are active.`,
+  placeholder: "Ask about your cohort",
+  close: "Close",
+  newChat: "New chat",
+  thread: "Conversation",
+  reportButton: "Ask about this report",
+  reportIntro: "I can turn this report into words for your leadership, explain a figure, or suggest what to do next. Anything I write comes from the totals in the report.",
+  reportPlaceholder: "Ask about this report",
+  copy: "Copy",
+  copied: "Copied",
+  replyHeading: "Reply to this issue",
+  replyField: "Your reply",
+  replySend: "Send reply",
+  replyPlaceholder: "Write a reply",
+  you: "You",
+  writing: "ExecHQ is writing…",
+  suggested: "Suggested replies",
+  prompts: {
+    dashboard: [
+      { label: "What should I tell my leadership about follow-through?", key: "follow" },
+      { label: "Draft a two-line update for my CHRO", key: "summary" },
+      { label: "What can I do to get more people set up?", key: "setup" },
+    ],
+    report: [
+      { label: "Summarise this report for my CEO", key: "summary" },
+      { label: "What should I tell my leadership about follow-through?", key: "follow" },
+      { label: "How is follow-through measured?", key: "measured" },
+    ],
+    letter: [
+      { label: "What’s behind the change in activity?", key: "change" },
+      { label: "Draft a note I can send the cohort", key: "note" },
+      { label: "What should I tell my leadership?", key: "follow" },
+    ],
+  } satisfies Record<string, AssistantPrompt[]>,
+} as const;
+
+/** What a typed question is asking for. A question about a person gets the
+ *  refusal; anything else the prototype can't answer says so. */
+export function assistantKeyFor(text: string): AssistantKey {
+  return /\b(who|whom|which (person|people|participants?)|names?)\b/i.test(text) ? "who" : "other";
+}
+
+/** An answer, written from the cohort's figures for the window on screen. */
+export function assistantAnswer(cohort: Cohort, window: WindowId, key: AssistantKey): string {
+  const n = (value: number) => count.format(value);
+  const c = cohort.byWindow[window];
+  const day = programDay(cohort);
+  const sponsor = ENTERPRISE_COPY.sponsor;
+  const above = isAboveMinimum(cohort, window);
+  const notYetSetUp = cohort.joined - cohort.activated;
+
+  if (key === "who") {
+    return `I can’t tell you about any one person. That promise is why leaders use ExecHQ honestly.\n\nWhat I can tell you: ${n(cohort.joined)} of the ${n(cohort.expectedSize)} leaders you expected have joined.`;
+  }
+  if (key === "other") {
+    return "In this prototype I answer the suggested questions. In the product I’d answer from your cohort’s totals, and never about one person.";
+  }
+  if (key === "measured") return DATA_POINTS["follow-through"].definition;
+  // Below the minimum, only how many joined can be said.
+  if (!above && key !== "note") {
+    return `I can say more once ${MIN_COHORT_SIZE} or more are active, so no figure can point to one person. So far, ${n(cohort.joined)} of the ${n(cohort.expectedSize)} leaders you expected have joined.`;
+  }
+  switch (key) {
+    case "follow":
+      return `${weeksIn(day)}, participants have completed ${n(c.actionsCompleted)} of the ${n(c.actionsAccepted)} planned actions they took on, ${share(c.actionsCompleted, c.actionsAccepted)}. Many of those actions are recent and each has 30 days, so expect this to rise.\n\nA line you could use: “Leaders are acting on their plans: ${n(c.actionsCompleted)} actions completed so far.”`;
+    case "summary": {
+      const moved = directionFor(cohort, "active", window);
+      const since = moved ? `, ${DIRECTION_COPY.clause[moved]}` : "";
+      return `${cohort.name}, ${weeksIn(day).toLowerCase()}: ${n(cohort.joined)} of the ${n(cohort.expectedSize)} leaders we expected have joined, and ${n(cohort.activated)} have set up. Participants have completed ${n(c.actionsCompleted)} of the ${n(c.actionsAccepted)} planned actions they took on, and ${n(c.active)} of those set up were active ${inWindow(window)}${since}.\n\nTotals only: ExecHQ never shows ${sponsor} a participant, their plan or their work.`;
+    }
+    case "setup":
+      return notYetSetUp === 0
+        ? "Everyone who has joined has finished setting up."
+        : `${n(notYetSetUp)} of the ${n(cohort.joined)} who joined haven’t finished setting up yet. ExecHQ never contacts them on your behalf, but a note from you or their manager, through your own channels, tends to help. Say that it’s private: ${sponsor} never sees their plan or their work.`;
+    case "change": {
+      const moved = directionFor(cohort, "active", window);
+      if (!moved) return `Activity hasn’t moved by enough to mention. I only say so when at least ${MIN_COHORT_SIZE} people are behind a change, so it can never point to one person’s week.`;
+      return `${moved === "up" ? "More" : "Fewer"} participants were active than at the last update: at least ${MIN_COHORT_SIZE} ${moved === "up" ? "more" : "fewer"}, which is the most I’ll say about a change. I can’t tell you who, or why for any one person.`;
+    }
+    case "note":
+      return `Here’s a note you could send through your own channels:\n\n“${weeksIn(day)}, many of you are already acting on your plans. If you haven’t finished setting up, now’s a good time, and it stays private: ${sponsor} never sees your plan or your work.”`;
+  }
+}
+
 /** When a cohort's first issue goes out: the Monday after it starts. */
 export function firstIssueOn(cohort: Cohort): string {
   return firstMonday(addDays(cohort.startsOn, 1));

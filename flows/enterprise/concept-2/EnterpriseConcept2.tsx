@@ -9,9 +9,11 @@ import { PartBar } from "@/components/enterprise/PartBar";
 import { WeeklyTrend } from "@/components/enterprise/WeeklyTrend";
 import { WindowSelector } from "@/components/enterprise/WindowSelector";
 import { DropdownMenu } from "@/components/form/DropdownMenu";
+import { AdvisorMark } from "@/components/chat/AdvisorMark";
 import { Icon } from "@/components/primitives/Icon";
 import { useCohortId } from "@/lib/cohort-store";
 import {
+  ASSISTANT_COPY,
   C2_COPY,
   DATA_POINTS,
   LATE_COPY,
@@ -33,6 +35,7 @@ import {
   type WindowId,
 } from "@/mock/enterprise";
 import { downloadCsv } from "../downloadCsv";
+import { ReportAssistant } from "./ReportAssistant";
 import { useCohort, type CohortControls } from "../useCohort";
 
 const C = C2_COPY;
@@ -226,6 +229,8 @@ function ReportBody({ cohort, window }: { cohort: Cohort; window: WindowId }) {
 function Concept2Page({ controls }: { controls: CohortControls }) {
   const { cohort } = controls;
   const [window, setWindow] = useState<WindowId>("30d");
+  const [asking, setAsking] = useState(false);
+  const askButton = useRef<HTMLButtonElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const ready = Boolean(cohort);
   const wasReady = useRef(ready);
@@ -243,55 +248,81 @@ function Concept2Page({ controls }: { controls: CohortControls }) {
         <div className="report-toolbar">
           {/* The report says its own date: the toolbar doesn't repeat it. */}
           <WindowSelector value={window} onChange={setWindow} asOf={cohort.asOf} upcoming={cohort.fresh} hideRefreshed />
-          <DropdownMenu
-            className="ent-export"
-            label={C.exportMenu}
-            icon="download"
-            align="end"
-            entries={[
-              { type: "item", id: "pdf", label: C.exportPdf, onSelect: () => globalThis.print() },
-              { type: "item", id: "csv", label: C.exportCsv, onSelect: () => downloadCsv(cohort, window) },
-            ]}
-          />
+          <div className="report-toolbar__end">
+            <button
+              ref={askButton}
+              type="button"
+              className="report-ask-button"
+              aria-expanded={asking}
+              aria-controls="report-ask"
+              onClick={() => setAsking(!asking)}
+            >
+              <AdvisorMark size={16} />
+              {ASSISTANT_COPY.reportButton}
+            </button>
+            <DropdownMenu
+              className="ent-export"
+              label={C.exportMenu}
+              icon="download"
+              align="end"
+              entries={[
+                { type: "item", id: "pdf", label: C.exportPdf, onSelect: () => globalThis.print() },
+                { type: "item", id: "csv", label: C.exportCsv, onSelect: () => downloadCsv(cohort, window) },
+              ]}
+            />
+          </div>
         </div>
       ) : null}
       {cohort ? <CodeStrip cohort={cohort} controls={controls} /> : null}
 
-      <article className="report" aria-labelledby="report-title">
-        {cohort ? (
-          <>
-            <div className="report__row">
-              <ReportHead cohort={cohort} window={window} headingRef={headingRef} />
-            </div>
-            <ReportBody cohort={cohort} window={window} />
-            <footer className="report__row report__footer">
-              <p>
-                <Icon name="shield" size={14} />
-                {C.footer(comparesWeeks(cohort, window))}
-              </p>
-            </footer>
-          </>
-        ) : (
-          <>
-            <div className="report__row">
-              <header className="report__head">
-                <p className="report__letterhead">
-                  {C.sponsor}
-                  <span aria-hidden="true"> · </span>
-                  <span className="u-visually-hidden">, </span>
-                  {C.letterhead}
+      <div className={["report-stage", asking && cohort ? "is-asking" : null].filter(Boolean).join(" ")}>
+        <article className="report" aria-labelledby="report-title">
+          {cohort ? (
+            <>
+              <div className="report__row">
+                <ReportHead cohort={cohort} window={window} headingRef={headingRef} />
+              </div>
+              <ReportBody cohort={cohort} window={window} />
+              <footer className="report__row report__footer">
+                <p>
+                  <Icon name="shield" size={14} />
+                  {C.footer(comparesWeeks(cohort, window))}
                 </p>
-                <h1 className="report__title report__title--blank" id="report-title">
-                  {C.setup.title}
-                </h1>
-                <p className="report__meta">{C.setup.lead}</p>
-                <CohortForm onCreate={controls.create} headingHidden />
-              </header>
-            </div>
-            <p className="report__row report__empty">{C.setup.empty}</p>
-          </>
-        )}
-      </article>
+              </footer>
+            </>
+          ) : (
+            <>
+              <div className="report__row">
+                <header className="report__head">
+                  <p className="report__letterhead">
+                    {C.sponsor}
+                    <span aria-hidden="true"> · </span>
+                    <span className="u-visually-hidden">, </span>
+                    {C.letterhead}
+                  </p>
+                  <h1 className="report__title report__title--blank" id="report-title">
+                    {C.setup.title}
+                  </h1>
+                  <p className="report__meta">{C.setup.lead}</p>
+                  <CohortForm onCreate={controls.create} headingHidden />
+                </header>
+              </div>
+              <p className="report__row report__empty">{C.setup.empty}</p>
+            </>
+          )}
+        </article>
+        {asking && cohort ? (
+          <ReportAssistant
+            id="report-ask"
+            cohort={cohort}
+            window={window}
+            onClose={() => {
+              setAsking(false);
+              askButton.current?.focus();
+            }}
+          />
+        ) : null}
+      </div>
     </div>
   );
 }
