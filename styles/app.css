@@ -15189,10 +15189,13 @@ ul.came-of__rows {
   font-weight: var(--weight-semibold);
 }
 
+/* Add what you did, on the drawer system (designer, 2026-10-20): no card inside the drawer; its groups (a
+   question, a field, the actions) 24 apart, and a second thing starts under a hairline with its name as a
+   group title. */
 .entry-drawer {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: var(--space-drawer-groups);
 }
 
 .entry-drawer__title {
@@ -15214,7 +15217,7 @@ ul.came-of__rows {
 ol.entry-drawer__rows {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: var(--space-drawer-groups);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -15224,10 +15227,17 @@ ol.entry-drawer__rows {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: var(--space-sm);
-  padding: var(--space-md);
-  border: var(--border-width-thin) solid var(--color-border-subtle);
-  border-radius: var(--radius-lg);
+  gap: var(--space-drawer-groups);
+}
+
+.entry-drawer__row + .entry-drawer__row {
+  padding-top: var(--space-drawer-groups);
+  border-top: var(--border-subtle);
+}
+
+/* Leave this one out stays with the note above it. */
+.entry-drawer__row > .entry-form__same {
+  margin-top: calc(var(--space-drawer-inner) - var(--space-drawer-groups));
 }
 
 .entry-drawer__row > .btn {
@@ -15235,12 +15245,15 @@ ol.entry-drawer__rows {
 }
 
 .entry-drawer__row-name {
-  margin: 0;
-  font-size: var(--text-xs);
-  letter-spacing: var(--tracking-widest);
+  margin: 0 0 calc(var(--space-group-title) - var(--space-drawer-groups));
+  font-family: var(--type-group-title-font);
+  font-size: var(--type-group-title-size);
+  font-weight: var(--type-group-title-weight);
+  line-height: var(--type-group-title-leading);
+  letter-spacing: var(--type-group-title-tracking);
+  word-spacing: var(--type-group-title-word-spacing);
   text-transform: uppercase;
-  color: var(--color-text-muted);
-  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
 }
 
 .entry-form__same {
@@ -15417,6 +15430,8 @@ ol.entry-drawer__rows {
   gap: var(--space-lg);
   max-width: var(--content-measure);
   margin-inline: auto;
+  /* Room under the last section, so it doesn't sit tight on Ask or go (designer, 2026-10-20). */
+  padding-bottom: var(--space-2xl);
 }
 
 .signals-page__title {
@@ -15770,6 +15785,8 @@ ol.entry-drawer__rows {
 
 .momentum__next .btn {
   margin-top: var(--space-xs);
+  /* Start sits on the right, under the right thumb (designer, 2026-10-20). */
+  align-self: flex-end;
 }
 
 .signals-page .momentum__card {
@@ -16589,7 +16606,8 @@ ol.plan-detail__stages {
   display: flex;
   align-items: baseline;
   gap: var(--space-sm);
-  padding-block: var(--space-sm);
+  /* Rows split by hairlines take the standard 20 either side of the line (designer, 2026-10-20; was 12). */
+  padding-block: var(--space-divided-item);
   border-top: var(--border-subtle);
   font-size: var(--text-sm);
   line-height: var(--leading-snug);
@@ -17102,10 +17120,9 @@ fieldset.agenda__whens {
    --space-md, so the body keeps that much more room under its last row. */
 .agenda--stack .agenda__body {
   gap: var(--space-xs);
-  /* With the last step's own padding and the next card over the foot, 12 here leaves the same space under
-     the last step's words as above Finishing looks like's, measured letter to edge (designer, 2026-10-16;
-     was 32). */
-  padding: var(--space-md) var(--space-md) var(--space-sm);
+  /* With the last step's own padding and the next card over the foot, 24 here leaves 24 under the last
+     step's words, the same as above the next card's Stage 2 of 4 (designer, 2026-10-20; was 12). */
+  padding: var(--space-md) var(--space-md) var(--space-lg);
   background-color: var(--color-surface-raised);
   box-shadow: inset var(--border-width-thin) 0 0 var(--color-border-subtle), inset calc(var(--border-width-thin) * -1) 0 0 var(--color-border-subtle);
   color: var(--color-text-primary);
@@ -17584,7 +17601,9 @@ fieldset.agenda__whens {
 /* The roadmap under the move: a hairline divides the move above, which asks, from her direction and the
    roadmap below, which are there for reference (designer, 2026-10-14). */
 .plan-guided .guide__after {
-  margin-top: var(--space-xl);
+  /* With the page's own 24 gap, 32 from the last thing above (Why this matters, or Next) to the line
+     (designer, 2026-10-20; was 56). */
+  margin-top: calc(var(--space-xl) - var(--space-lg));
   padding-top: var(--space-xl);
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
 }
@@ -17810,6 +17829,11 @@ fieldset.agenda__whens {
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-sm);
+}
+
+/* Skip, no reason sits a drawer group's 24 under the reasons, so it isn't hit by mistake (designer, 2026-10-20). */
+.plan-guided__reasons > .link {
+  margin-top: calc(var(--space-drawer-groups) - var(--space-sm));
 }
 
 .plan-guided__note {
