@@ -24147,6 +24147,139 @@ ul.plan-guided__sparks {
 
 /* The margin: what a line measures, one short sentence beside it, in the
    caption size. */
+/* The margin column: one or more notes, stacked. */
+.report__margin {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+/* A figure's sentence with its chart under it. */
+.report__figure-line {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+.report__bar {
+  max-inline-size: 20rem;
+}
+
+.report__part,
+.report__funnel {
+  max-inline-size: 35rem;
+}
+
+/* Joining as a funnel (2026-10-20): each step's label, its bar on one
+   baseline, and its number. The first step, the size expected, is an
+   outline: it is a target, not people who did anything. */
+.funnel-bars {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: var(--space-2xs) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.funnel-bars__step {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr) 4.5rem;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+}
+
+.funnel-bars__label {
+  color: var(--color-text-secondary);
+}
+
+.funnel-bars__track {
+  display: block;
+  height: var(--space-md);
+  border-radius: var(--radius-xs);
+  background-color: var(--color-surface);
+}
+
+.funnel-bars__fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-xs);
+  background-color: var(--color-chart-line);
+}
+
+.funnel-bars__fill--outline {
+  box-sizing: border-box;
+  border: var(--border-width-medium) dashed var(--color-text-muted);
+  background: none;
+}
+
+.funnel-bars__value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-3xs);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--weight-semibold);
+}
+
+/* One whole, the part that did something shaded dark, both said in words. */
+.part-bar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: var(--space-2xs) 0 0;
+}
+
+.part-bar__track {
+  display: flex;
+  height: var(--space-md);
+  border-radius: var(--radius-xs);
+  background-color: var(--color-chart-grid);
+  overflow: hidden;
+}
+
+/* A surface-coloured edge between the part and the rest. */
+.part-bar__part {
+  display: block;
+  height: 100%;
+  border-right: var(--border-width-medium) solid var(--color-surface-raised);
+  background-color: var(--color-chart-line);
+}
+
+.part-bar__legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-2xs) var(--space-md);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+  color: var(--color-text-secondary);
+}
+
+.part-bar__key {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+}
+
+.part-bar__swatch {
+  display: inline-block;
+  flex: none;
+  width: var(--space-xs);
+  height: var(--space-xs);
+  border-radius: var(--radius-xs);
+  background-color: var(--color-chart-grid);
+  box-shadow: inset 0 0 0 var(--border-width-thin) var(--color-border);
+}
+
+.part-bar__swatch--part {
+  background-color: var(--color-chart-line);
+  box-shadow: none;
+}
+
 .report__note {
   padding-left: var(--space-md);
   border-left: var(--border-width-thin) solid var(--color-border);

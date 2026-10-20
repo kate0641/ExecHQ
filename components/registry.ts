@@ -152,6 +152,8 @@ import { cohortFormStates } from "./enterprise/CohortForm/CohortForm.states";
 import { weeklyTrendStates } from "./enterprise/WeeklyTrend/WeeklyTrend.states";
 import { meterStates } from "./enterprise/Meter/Meter.states";
 import { figurePopoverStates } from "./enterprise/FigurePopover/FigurePopover.states";
+import { funnelBarsStates } from "./enterprise/FunnelBars/FunnelBars.states";
+import { partBarStates } from "./enterprise/PartBar/PartBar.states";
 export const registry: RegisteredComponent[] = [
   badgeStates,
   buttonStates,
@@ -295,6 +297,8 @@ export const registry: RegisteredComponent[] = [
   weeklyTrendStates,
   meterStates,
   figurePopoverStates,
+  funnelBarsStates,
+  partBarStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */

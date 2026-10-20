@@ -847,20 +847,62 @@ export function reportSummary(cohort: Cohort, window: WindowId): string | undefi
   return `Participants have completed ${n(c.actionsCompleted)} of the ${n(c.actionsAccepted)} planned actions they took on so far. ${n(c.active)} of the ${n(cohort.activated)} set up were active ${long}.`;
 }
 
+/** "in the last 30 days", or "since the program started": a window as it
+ *  reads inside a sentence. */
+function inWindow(window: WindowId): string {
+  return window === "launch" ? WINDOWS.launch.long : `in ${WINDOWS[window].long}`;
+}
+
+/** The work line: the pieces made, and how many of them were used, drawn
+ *  as one part of one whole. Undefined while hidden. */
+export function reportWork(cohort: Cohort, window: WindowId): { made: string; rest: string; used: number; whole: number; usedLabel: string; restLabel: string } | undefined {
+  if (!isAboveMinimum(cohort, window)) return undefined;
+  const c = cohort.byWindow[window];
+  const n = (value: number) => count.format(value);
+  return {
+    made: n(c.artifacts),
+    rest: `pieces of work were made in ExecHQ ${inWindow(window)}, and ${n(c.artifactsUsed)} ${c.artifactsUsed === 1 ? "was" : "were"} used outside it.`,
+    used: c.artifactsUsed,
+    whole: c.artifacts,
+    usedLabel: `${n(c.artifactsUsed)} used outside ExecHQ`,
+    restLabel: `${n(c.artifacts - c.artifactsUsed)} not marked as used`,
+  };
+}
+
+/** The joining line and its funnel: expected, joined, set up, chose a plan.
+ *  Joined always shows; the rest hide below the minimum. */
+export function reportJoining(cohort: Cohort, window: WindowId): { joined: string; rest: string; steps: { label: string; value?: number; outline?: boolean }[] } {
+  const above = isAboveMinimum(cohort, window);
+  const n = (value: number) => count.format(value);
+  const F = C2_COPY.funnel;
+  return {
+    joined: n(cohort.joined),
+    rest: above
+      ? `of the ${n(cohort.expectedSize)} leaders you expected have joined, and ${n(cohort.activated)} have finished setting up.`
+      : `of the ${n(cohort.expectedSize)} leaders you expected have joined so far.`,
+    steps: [
+      { label: F.expected, value: cohort.expectedSize, outline: true },
+      { label: F.joined, value: cohort.joined },
+      { label: F.setUp, value: above ? cohort.activated : undefined },
+      { label: F.plan, value: above ? cohort.planAccepted : undefined },
+    ],
+  };
+}
+
 export function reportLine(cohort: Cohort, id: DataPointId, window: WindowId): ReportLine {
   const figure = figureFor(cohort, id, window);
   if (figure.state === "suppressed") return { figure };
   const c = cohort.byWindow[window];
-  const long = WINDOWS[window].long;
+  const long = inWindow(window);
   const n = (value: number) => count.format(value);
   const rest: Record<DataPointId, string> = {
     invites: `of the ${n(cohort.expectedSize)} leaders you expected have joined.`,
     onboarding: `of them finished setting up (${n(cohort.activated)} of ${n(cohort.joined)}).`,
-    active: `of those set up were active in ${long} (${n(c.active)} of ${n(cohort.activated)}).`,
+    active: `of those set up were active ${long} (${n(c.active)} of ${n(cohort.activated)}).`,
     briefing: `of active participants read the Daily Briefing at least once a week (${n(c.briefingWeekly)} of ${n(c.active)}).`,
     plans: `of those set up chose a development plan (${n(cohort.planAccepted)} of ${n(cohort.activated)}).`,
     "follow-through": `of the planned actions participants took on have been completed so far (${n(c.actionsCompleted)} of ${n(c.actionsAccepted)}). Some are still within their 30 days.`,
-    artifacts: `pieces of work were made in ExecHQ in ${long}.`,
+    artifacts: `pieces of work were made in ExecHQ ${long}.`,
     loop: `of that work was marked as used outside ExecHQ (${n(c.artifactsUsed)} of ${n(c.artifacts)}).`,
   };
   const direction = directionFor(cohort, id, window);
@@ -893,6 +935,7 @@ export const C2_COPY = {
   exportMenu: "Export",
   exportPdf: "PDF",
   exportCsv: "CSV",
+  funnel: { label: "Joining, step by step", expected: "Expected", joined: "Joined", setUp: "Set up", plan: "Chose a plan", hidden: "Hidden" },
   setup: {
     title: "Untitled cohort",
     lead: "Fill in the cohort’s details to start its report. You will get one code to share.",

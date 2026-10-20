@@ -2,7 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import { CohortForm } from "@/components/enterprise/CohortForm";
+import { FunnelBars } from "@/components/enterprise/FunnelBars";
 import { InviteCode } from "@/components/enterprise/InviteCode";
+import { Meter } from "@/components/enterprise/Meter";
+import { PartBar } from "@/components/enterprise/PartBar";
 import { WeeklyTrend } from "@/components/enterprise/WeeklyTrend";
 import { WindowSelector } from "@/components/enterprise/WindowSelector";
 import { DropdownMenu } from "@/components/form/DropdownMenu";
@@ -18,11 +21,15 @@ import {
   comparesWeeks,
   isAboveMinimum,
   programDay,
+  reportJoining,
   reportLine,
   reportSummary,
+  reportWork,
   trendFor,
   type Cohort,
   type CohortId,
+  type DataPointId,
+  type QuestionId,
   type WindowId,
 } from "@/mock/enterprise";
 import { downloadCsv } from "../downloadCsv";
@@ -77,10 +84,55 @@ function ReportHead({ cohort, window, headingRef }: { cohort: Cohort; window: Wi
   );
 }
 
-/** The figures, a sentence each, with one short sentence of what each
- *  measures in the margin. */
+/** One short sentence of what a figure measures, in the margin beside it. */
+function Note({ id }: { id: DataPointId }) {
+  const point = DATA_POINTS[id];
+  return (
+    <p className="report__note">
+      <strong className="report__note-label">{point.label}.</strong> {point.brief}
+    </p>
+  );
+}
+
+/** A figure as a sentence, the number set large, and under it a bar of the
+ *  share when it is one (Kate, 2026-10-20). Hidden, it names the rule. */
+function Line({ cohort, id, window }: { cohort: Cohort; id: DataPointId; window: WindowId }) {
+  const { figure, rest } = reportLine(cohort, id, window);
+  return (
+    <div className="report__row">
+      {figure.state === "suppressed" ? (
+        <p className="report__line report__line--hidden">
+          <Icon name="lock" size={16} />
+          <span>
+            <strong>{figure.label}:</strong> {C.hiddenLine}
+          </span>
+        </p>
+      ) : (
+        <div className="report__figure-line">
+          <p className="report__line">
+            <span className="report__figure">{figure.value}</span> {rest}
+          </p>
+          {figure.fraction !== undefined ? <Meter fraction={figure.fraction} className="report__bar" /> : null}
+        </div>
+      )}
+      <div className="report__margin">
+        <Note id={id} />
+      </div>
+    </div>
+  );
+}
+
+/**
+ * The figures, a sentence each, with one short sentence of what each
+ * measures in the margin, and three charts where a picture says more than
+ * the sentence (Kate, 2026-10-20): a bar under each share, the work made
+ * against the work used, and joining as a funnel.
+ */
 function ReportBody({ cohort, window }: { cohort: Cohort; window: WindowId }) {
   const above = isAboveMinimum(cohort, window);
+  const heading = (id: QuestionId) => REPORT_SECTIONS.find((section) => section.id === id)!.heading;
+  const work = reportWork(cohort, window);
+  const joining = reportJoining(cohort, window);
 
   return (
     <>
@@ -97,44 +149,69 @@ function ReportBody({ cohort, window }: { cohort: Cohort; window: WindowId }) {
         </p>
       ) : null}
 
-      {REPORT_SECTIONS.map((section) => (
-        <section className="report__section" key={section.id} aria-labelledby={`report-${section.id}`}>
-          <h2 className="report__section-heading" id={`report-${section.id}`}>
-            {section.heading}
-          </h2>
-          {section.points.map((id) => {
-            const { figure, rest } = reportLine(cohort, id, window);
-            const point = DATA_POINTS[id];
-            return (
-              <div className="report__row" key={id}>
-                {figure.state === "suppressed" ? (
-                  <p className="report__line report__line--hidden">
-                    <Icon name="lock" size={16} />
-                    <span>
-                      <strong>{figure.label}:</strong> {C.hiddenLine}
-                    </span>
-                  </p>
-                ) : (
-                  <p className="report__line">
-                    <span className="report__figure">{figure.value}</span> {rest}
-                  </p>
-                )}
-                <p className="report__margin report__note">
-                  <strong className="report__note-label">{figure.label}.</strong> {point.brief}
-                </p>
-              </div>
-            );
-          })}
-          {section.id === "using" ? (
-            <div className="report__row">
-              <WeeklyTrend className="report__trend" trend={trendFor(cohort)} />
-              <p className="report__margin report__note">
-                <strong className="report__note-label">{TREND_COPY.heading}.</strong> {TREND_COPY.brief}
+      <section className="report__section" aria-labelledby="report-following">
+        <h2 className="report__section-heading" id="report-following">
+          {heading("following")}
+        </h2>
+        <Line cohort={cohort} id="follow-through" window={window} />
+        <Line cohort={cohort} id="plans" window={window} />
+        <div className="report__row">
+          {work ? (
+            <div className="report__figure-line">
+              <p className="report__line">
+                <span className="report__figure">{work.made}</span> {work.rest}
               </p>
+              <PartBar className="report__part" part={work.used} whole={work.whole} partLabel={work.usedLabel} restLabel={work.restLabel} />
             </div>
-          ) : null}
-        </section>
-      ))}
+          ) : (
+            <p className="report__line report__line--hidden">
+              <Icon name="lock" size={16} />
+              <span>
+                <strong>{DATA_POINTS.artifacts.label}:</strong> {C.hiddenLine}
+              </span>
+            </p>
+          )}
+          <div className="report__margin">
+            <Note id="artifacts" />
+            <Note id="loop" />
+          </div>
+        </div>
+      </section>
+
+      <section className="report__section" aria-labelledby="report-using">
+        <h2 className="report__section-heading" id="report-using">
+          {heading("using")}
+        </h2>
+        <Line cohort={cohort} id="active" window={window} />
+        <Line cohort={cohort} id="briefing" window={window} />
+        <div className="report__row">
+          <WeeklyTrend className="report__trend" trend={trendFor(cohort)} />
+          <div className="report__margin">
+            <p className="report__note">
+              <strong className="report__note-label">{TREND_COPY.heading}.</strong> {TREND_COPY.brief}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="report__section" aria-labelledby="report-joined">
+        <h2 className="report__section-heading" id="report-joined">
+          {heading("joined")}
+        </h2>
+        <div className="report__row">
+          <div className="report__figure-line">
+            <p className="report__line">
+              <span className="report__figure">{joining.joined}</span> {joining.rest}
+            </p>
+            <FunnelBars className="report__funnel" steps={joining.steps} label={C.funnel.label} hiddenLabel={C.funnel.hidden} />
+          </div>
+          <div className="report__margin">
+            <Note id="invites" />
+            <Note id="onboarding" />
+            <Note id="plans" />
+          </div>
+        </div>
+      </section>
     </>
   );
 }
@@ -224,7 +301,9 @@ function Concept2ForCohort({ id }: { id: CohortId }) {
  * Northgate: a letterhead, the cohort and its dates, two sentences of what
  * the cohort did, then each figure as a sentence with the number set large,
  * Follow-through first, and one short sentence of what it measures in the
- * margin beside it so a talent lead can repeat it. The window, the Export
+ * margin beside it so a talent lead can repeat it. Bars under the shares,
+ * work made against used, and joining as a funnel draw what a sentence
+ * can't. The window, the Export
  * menu and the cohort's code sit above the page, outside the document.
  * Setting up a cohort fills in the report's header.
  */
