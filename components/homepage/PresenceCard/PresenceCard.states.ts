@@ -54,7 +54,7 @@ export const presenceCardStates = defineComponentStates({
     {
       label: "Headed by the page — no title of its own",
       description: "On the Signal Picture, Where you started is the page's section heading, so the card opens on her followers.",
-      props: { ...base, name: undefined, asOf: undefined, rows: moved, summary: SUMMARY, onAdd: () => {}, addLabel: ADD_COPY.open, tryThis: { ...P.tryThis, href: toolbox }, headingId: "pc-headed" },
+      props: { ...base, name: undefined, asOf: undefined, rows: moved, summary: SUMMARY, onAdd: () => {}, addLabel: ADD_COPY.open, tryThis: { ...P.tryThis, href: playbook }, headingId: "pc-headed" },
     },
     {
       label: "Nothing added since the start",
