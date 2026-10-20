@@ -1078,20 +1078,20 @@ export const C3_COPY = {
   upcoming: "Next issue",
   eyebrow: (n: number, on: string) => `${n === 0 ? "Issue 0" : `Issue ${n}`} · ${formatAsOf(on)}`,
   to: "To Northgate, about",
-  headline: (joined: number, expected: number, active?: number, day = 30) =>
-    active === undefined
-      ? `${count.format(joined)} of ${count.format(expected)} have joined.`
-      : `${count.format(joined)} of ${count.format(expected)} have joined, and ${count.format(active)} ${day >= 30 ? "were active this month" : "have been active so far"}.`,
-  covers: (day: number) =>
-    day >= 30 ? "These figures cover the last 30 days." : `The program is ${day} days old, so these figures cover all of it so far.`,
+  /** Follow-through leads (Kate, 2026-10-20). Below the minimum, only how
+   *  many joined can be said. */
+  headline: (completed: number, accepted: number) =>
+    `Participants have completed ${count.format(completed)} of the ${count.format(accepted)} planned actions they took on.`,
+  headlineHidden: (joined: number, expected: number) => `${count.format(joined)} of ${count.format(expected)} have joined.`,
+  covers: (day: number) => (day >= 30 ? "These figures cover the last 30 days." : `These figures cover the first ${day} days.`),
   joining: (joined: number, expected: number, activated?: number) =>
     activated === undefined
       ? `${count.format(joined)} of the ${count.format(expected)} leaders you expected have joined so far.`
       : `${count.format(joined)} of the ${count.format(expected)} leaders you expected have joined, and ${count.format(activated)} have finished setting up.`,
   using: (active: number, share: string, briefing: number) =>
     `${count.format(active)} were active, ${share} of those set up, and ${count.format(briefing)} read the Daily Briefing at least once a week.`,
-  following: (plans: number, completed: number, accepted: number, artifacts: number, used: number) =>
-    `${count.format(plans)} have chosen a development plan. Participants have completed ${count.format(completed)} of the ${count.format(accepted)} planned actions they took on so far, and made ${count.format(artifacts)} pieces of work: ${count.format(used)} were used outside ExecHQ.`,
+  following: (plans: number, artifacts: number, used: number) =>
+    `${count.format(plans)} have chosen a development plan, and the cohort made ${count.format(artifacts)} pieces of work: ${count.format(used)} were used outside ExecHQ. Some planned actions are still within their 30 days.`,
   hidden: `Everything else stays hidden until ${MIN_COHORT_SIZE} or more participants are active, so no figure can point to one person. I’ll tell you when it opens.`,
   movedHeading: "Since the last issue",
   movedNone: `Nothing moved by enough to mention. I only mention a change when at least ${MIN_COHORT_SIZE} participants are behind it.`,
@@ -1102,17 +1102,17 @@ export const C3_COPY = {
     activeUp: "More participants were active.",
     activeDown: "Fewer participants were active.",
   },
-  definitions: "What these figures count",
+  definitions: "How these are measured",
+  trendLabel: (first: number, latest: number) => `Active each week, from ${count.format(first)} to ${count.format(latest)}`,
+  trendCaption: "Active each week",
   signOff: "ExecHQ",
   privacy: "Totals for the whole cohort. You never see a participant, their plan or their work.",
-  save: "Save this issue as PDF",
-  saveCsv: "Save this issue as CSV",
+  save: "Save this issue",
+  savePdf: "PDF",
+  saveCsv: "CSV",
   manage: "Manage the code",
   hideManage: "Hide",
-  codeLine: (code: string, joined: number, expected: number, open: boolean) =>
-    open
-      ? `Your cohort’s code is ${code}. ${count.format(joined)} of ${count.format(expected)} have joined.`
-      : `Your cohort is closed to new joiners. ${count.format(joined)} of ${count.format(expected)} joined.`,
+  codeLine: (code: string, open: boolean) => (open ? `Your cohort’s code is ${code}.` : "Your cohort is closed to new joiners."),
   firstIssue: (on: string) => `Your first issue comes on ${formatAsOf(on)}.`,
   ready: {
     headline: "Your cohort is set up.",

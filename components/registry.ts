@@ -154,6 +154,7 @@ import { meterStates } from "./enterprise/Meter/Meter.states";
 import { figurePopoverStates } from "./enterprise/FigurePopover/FigurePopover.states";
 import { funnelBarsStates } from "./enterprise/FunnelBars/FunnelBars.states";
 import { partBarStates } from "./enterprise/PartBar/PartBar.states";
+import { sparklineStates } from "./enterprise/Sparkline/Sparkline.states";
 export const registry: RegisteredComponent[] = [
   badgeStates,
   buttonStates,
@@ -299,6 +300,7 @@ export const registry: RegisteredComponent[] = [
   figurePopoverStates,
   funnelBarsStates,
   partBarStates,
+  sparklineStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */
