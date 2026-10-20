@@ -1,3 +1,4 @@
+import { Meter } from "@/components/enterprise/Meter";
 import { Badge } from "@/components/primitives/Badge";
 import { Icon } from "@/components/primitives/Icon";
 import { ENTERPRISE_COPY, directionText, type Direction, type FigureView } from "@/mock/enterprise";
@@ -11,6 +12,9 @@ export interface CohortFigureProps {
   /** Which way it moved since last week's update, when enough people are
    *  behind the change to say so (`directionFor`). */
   direction?: Direction;
+  /** Draws the share as a ring (the number in its middle) or a bar under the
+   *  number. Only for figures that are a share, and never while hidden. */
+  meter?: "ring" | "bar";
   /** Opens the figure's definition, source and window. Every figure has one,
    *  so a page always passes it; the catalogue may leave it off. */
   onExplain?: () => void;
@@ -31,8 +35,10 @@ export interface CohortFigureProps {
  * target and no colour carrying meaning. The one comparison is a direction
  * since last week, in words with an arrow, never a count (Kate, 2026-10-20).
  */
-export function CohortFigure({ figure, size = "md", direction, onExplain, explaining, demo, className }: CohortFigureProps) {
-  const classes = ["cohort-figure", `cohort-figure--${size}`, `cohort-figure--${figure.state}`, className]
+export function CohortFigure({ figure, size = "md", direction, meter, onExplain, explaining, demo, className }: CohortFigureProps) {
+  const drawn = meter && figure.state !== "suppressed" && figure.fraction !== undefined ? meter : undefined;
+  const muted = figure.state === "filling";
+  const classes = ["cohort-figure", `cohort-figure--${size}`, `cohort-figure--${figure.state}`, drawn ? `cohort-figure--${drawn}` : null, className]
     .filter(Boolean)
     .join(" ");
 
@@ -45,12 +51,20 @@ export function CohortFigure({ figure, size = "md", direction, onExplain, explai
           <Icon name="lock" size={size === "lg" ? 20 : 16} />
           {C.hidden}
         </p>
+      ) : drawn === "ring" ? (
+        <p className="cohort-figure__ringed">
+          <Meter kind="ring" fraction={figure.fraction!} muted={muted}>
+            <span className="cohort-figure__value">{figure.value}</span>
+          </Meter>
+          {figure.detail ? <span className="cohort-figure__detail">{figure.detail}</span> : null}
+        </p>
       ) : (
         <p className="cohort-figure__value">
           {figure.value}
           {figure.detail ? <span className="cohort-figure__detail">{figure.detail}</span> : null}
         </p>
       )}
+      {drawn === "bar" ? <Meter fraction={figure.fraction!} muted={muted} className="cohort-figure__bar" /> : null}
 
       {direction && figure.state !== "suppressed" ? (
         <p className="cohort-figure__direction">

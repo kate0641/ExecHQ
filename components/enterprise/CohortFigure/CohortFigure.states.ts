@@ -23,6 +23,9 @@ export const cohortFigureStates = defineComponentStates({
   variants: [
     { label: "Shown — default", props: { figure: active, onExplain: noop } },
     { label: "Shown, large", props: { figure: figureFor(pilot, "invites", "launch"), size: "lg", onExplain: noop } },
+    { label: "With a bar", props: { figure: figureFor(pilot, "follow-through", "launch"), size: "lg", meter: "bar", onExplain: noop } },
+    { label: "With a ring", props: { figure: figureFor(pilot, "invites", "launch"), size: "lg", meter: "ring", onExplain: noop } },
+    { label: "Bar while filling in", props: { figure: figureFor(pilot, "onboarding", "30d"), meter: "bar", onExplain: noop } },
     { label: "Moving up since last week", props: { figure: active, direction: "up", onExplain: noop } },
     { label: "Moving down since last week", props: { figure: figureFor(COHORTS.demo, "active", "30d"), direction: "down", onExplain: noop } },
     { label: "Large, moving up", props: { figure: figureFor(pilot, "plans", "launch"), size: "lg", direction: "up", onExplain: noop } },

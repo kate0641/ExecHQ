@@ -23134,6 +23134,79 @@ ul.plan-guided__sparks {
   color: var(--color-text-secondary);
 }
 
+/* A meter (2026-10-20): a share as a ring or a bar, in the chart line's ink
+   on the grid's track. Filling in mutes it, like the number. */
+.meter--bar {
+  display: block;
+  inline-size: 100%;
+  max-inline-size: 16rem;
+  block-size: var(--space-2xs);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-chart-grid);
+  overflow: hidden;
+}
+
+.meter--bar .meter__fill {
+  display: block;
+  block-size: 100%;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-chart-line);
+}
+
+.meter--ring {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  inline-size: 7rem;
+  block-size: 7rem;
+}
+
+.meter__ring {
+  position: absolute;
+  inset: 0;
+  rotate: -90deg;
+}
+
+.meter__track,
+.meter__fill {
+  fill: none;
+  stroke-width: 3;
+}
+
+.meter__track {
+  stroke: var(--color-chart-grid);
+}
+
+.meter--ring .meter__fill {
+  stroke: var(--color-chart-line);
+  stroke-linecap: round;
+}
+
+.meter--muted .meter__fill {
+  background-color: var(--color-text-muted);
+  stroke: var(--color-text-muted);
+}
+
+.meter__middle {
+  position: relative;
+}
+
+/* The ring figure: the ring with the number inside, what it is out of beside. */
+.cohort-figure__ringed {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.cohort-figure__ringed .cohort-figure__value {
+  display: block;
+}
+
+.cohort-figure__bar {
+  margin-block: var(--space-2xs) var(--space-3xs);
+}
+
 /* The weekly trend (2026-10-20): one line, drawn at the width it is given so
    strokes and words never scale. The heading names it; no legend. */
 .weekly-trend {
@@ -23183,6 +23256,24 @@ ul.plan-guided__sparks {
 .weekly-trend__message > svg {
   flex: none;
   margin-top: var(--space-3xs);
+}
+
+/* Too early: a dashed outline where the line will be, the same height as
+   the plot, so the card keeps its shape and says what is coming. */
+.weekly-trend--early .weekly-trend__message {
+  align-items: center;
+  justify-content: center;
+  max-width: none;
+  min-height: 9rem;
+  padding: var(--space-md);
+  border: var(--border-width-thin) dashed var(--color-border);
+  border-radius: var(--radius-card);
+  text-align: center;
+  text-wrap: balance;
+}
+
+.weekly-trend--early .weekly-trend__message > svg {
+  margin-top: 0;
 }
 
 .weekly-trend__plot {
@@ -23591,23 +23682,49 @@ ul.plan-guided__sparks {
   color: var(--color-text-secondary);
 }
 
-/* A question: its heading and answer on the left, its figures on the right,
-   and an opened definition across the foot. */
-.ent-question {
+/* The board (Kate, 2026-10-20): the three questions as cards on the page's
+   grey. Follow-through leads across the full width; still using it and did
+   they join sit side by side under it. */
+.ent-board {
   display: grid;
-  grid-template-columns: minmax(14rem, 1fr) 2fr;
-  gap: var(--space-lg) var(--space-2xl);
-  padding-top: var(--space-xl);
-  border-top: var(--border-width-thin) solid var(--color-border);
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  align-items: stretch;
+  gap: var(--space-lg);
 }
 
-.ent-question__lead {
+.ent-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  min-width: 0;
+  padding: var(--space-xl);
+  border: var(--border-width-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-raised);
+}
+
+/* The hero: the full width, on the feature tint, its answer beside its
+   figures. */
+.ent-card--following {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(14rem, 1fr) 2fr;
+  align-items: start;
+  border-color: transparent;
+  background-color: var(--color-surface-feature);
+}
+
+.ent-card--following .ent-card__definition {
+  grid-column: 2;
+}
+
+.ent-card__lead {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
 }
 
-.ent-question__heading {
+.ent-card__heading {
   font-family: var(--type-heading-font);
   font-size: var(--type-heading-size);
   font-weight: var(--type-heading-weight);
@@ -23616,28 +23733,54 @@ ul.plan-guided__sparks {
   word-spacing: var(--type-heading-word-spacing);
 }
 
-.ent-question__answer {
+.ent-card__answer {
   max-width: 40ch;
   line-height: var(--leading-relaxed);
+  color: var(--color-text-secondary);
 }
 
-.ent-question__figures {
+.ent-card__figures {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
   align-items: start;
   gap: var(--space-xl) var(--space-lg);
 }
 
-.ent-question__trend {
-  grid-column: 2;
-  max-width: 36rem;
+/* In the hero: follow-through itself across the top, the rest as tiles on
+   white beneath it, like the points and vouchers on a rewards card. */
+.ent-card--following .ent-card__figures {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-md);
 }
 
-.ent-question__definition {
-  grid-column: 2;
+.ent-card--following .ent-card__figures > :first-child {
+  grid-column: 1 / -1;
+  margin-bottom: var(--space-xs);
+}
+
+.ent-tile {
+  align-self: stretch;
+  padding: var(--space-md);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+}
+
+.ent-card__definition {
   padding: var(--space-md) var(--space-lg);
   border-radius: var(--radius-card);
   background-color: var(--color-surface-sunken);
+}
+
+/* On the tint, an opened definition sits on white so it stays a panel. */
+.ent-card--following .ent-card__definition {
+  background-color: var(--color-surface-raised);
+}
+
+/* The code closes the joining card, under a rule. */
+.ent-card__code {
+  margin-top: auto;
+  padding-top: var(--space-lg);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
 .ent-page__foot {
@@ -23652,46 +23795,6 @@ ul.plan-guided__sparks {
   gap: var(--space-xs);
   font-size: var(--type-caption-size);
   color: var(--color-text-secondary);
-}
-
-/* The Cohort page: the code beside the details. */
-.ent-cohort {
-  display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-  align-items: start;
-  gap: var(--space-xl);
-}
-
-.ent-details {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.ent-details__heading {
-  font-family: var(--type-card-title-font);
-  font-size: var(--type-card-title-size);
-  font-weight: var(--type-card-title-weight);
-  line-height: var(--type-card-title-leading);
-  letter-spacing: var(--type-card-title-tracking);
-  word-spacing: var(--type-card-title-word-spacing);
-}
-
-.ent-details__list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  margin: 0;
-}
-
-.ent-details__list dt {
-  font-size: var(--type-caption-size);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-secondary);
-}
-
-.ent-details__list dd {
-  margin: 0;
 }
 
 .ent-setup__lead {
@@ -23999,11 +24102,20 @@ ul.plan-guided__sparks {
     break-inside: avoid;
   }
 
-  /* Concept 1: the overview on one page, its window said in words. */
+  /* Concept 1: the dashboard on one page, its window said in words, the
+     cards kept whole and the code left on screen. */
   .ent-page {
     max-width: none;
     padding: 0;
     zoom: 0.64;
+  }
+
+  .ent-card {
+    break-inside: avoid;
+  }
+
+  .ent-card__code {
+    display: none;
   }
 
   .ent-header__tools > :not(.ent-header__print) {

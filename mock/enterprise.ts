@@ -338,11 +338,19 @@ export interface FigureView {
   value?: string;
   /** What it is out of: "29 of 38 set up". */
   detail?: string;
+  /** The same share as a fraction from 0 to 1, for a ring or a bar. Absent
+   *  for counts (Work made), which are not a share of anything. */
+  fraction?: number;
   /** Why it is hidden, or how much of the window has passed. */
   note?: string;
 }
 
 const count = new Intl.NumberFormat("en-GB");
+
+/** A share as a fraction, held to 0–1: joining can pass the expected size. */
+function fraction(part: number, whole: number): number {
+  return whole === 0 ? 0 : Math.min(1, Math.max(0, part / whole));
+}
 
 function share(part: number, whole: number): string {
   return whole === 0 ? "0%" : `${Math.round((part / whole) * 100)}%`;
@@ -358,30 +366,36 @@ export function figureFor(cohort: Cohort, id: DataPointId, window: WindowId): Fi
   }
 
   const c = cohort.byWindow[window];
-  const values: Record<DataPointId, { value: string; detail: string }> = {
+  const values: Record<DataPointId, { value: string; detail: string; fraction?: number }> = {
     invites: {
       value: count.format(cohort.joined),
       detail: `of ${count.format(cohort.expectedSize)} expected`,
+      fraction: fraction(cohort.joined, cohort.expectedSize),
     },
     onboarding: {
       value: share(cohort.activated, cohort.joined),
       detail: `${count.format(cohort.activated)} of ${count.format(cohort.joined)} who joined`,
+      fraction: fraction(cohort.activated, cohort.joined),
     },
     active: {
       value: share(c.active, cohort.activated),
       detail: `${count.format(c.active)} of ${count.format(cohort.activated)} set up`,
+      fraction: fraction(c.active, cohort.activated),
     },
     briefing: {
       value: share(c.briefingWeekly, c.active),
       detail: `${count.format(c.briefingWeekly)} of ${count.format(c.active)} active`,
+      fraction: fraction(c.briefingWeekly, c.active),
     },
     plans: {
       value: share(cohort.planAccepted, cohort.activated),
       detail: `${count.format(cohort.planAccepted)} of ${count.format(cohort.activated)} set up`,
+      fraction: fraction(cohort.planAccepted, cohort.activated),
     },
     "follow-through": {
       value: share(c.actionsCompleted, c.actionsAccepted),
       detail: `${count.format(c.actionsCompleted)} of ${count.format(c.actionsAccepted)} accepted actions`,
+      fraction: fraction(c.actionsCompleted, c.actionsAccepted),
     },
     artifacts: {
       value: count.format(c.artifacts),
@@ -390,6 +404,7 @@ export function figureFor(cohort: Cohort, id: DataPointId, window: WindowId): Fi
     loop: {
       value: share(c.artifactsUsed, c.artifacts),
       detail: `${count.format(c.artifactsUsed)} of ${count.format(c.artifacts)} pieces`,
+      fraction: fraction(c.artifactsUsed, c.artifacts),
     },
   };
 
@@ -737,7 +752,6 @@ export function answerFor(cohort: Cohort, question: QuestionId, window: WindowId
 }
 
 export const C1_COPY = {
-  nav: { label: "Northgate", overview: "Overview", cohort: "Cohort" },
   eyebrow: "Your cohort",
   dates: (startsOn: string, endsOn: string) => `${formatDate(startsOn)} to ${formatDate(endsOn)}`,
   age: (day: number) => (day === 1 ? "Day 1" : `Day ${day}`),
@@ -757,19 +771,12 @@ export const C1_COPY = {
   filling: (day: number) =>
     `Your program is ${day} days old, so figures over 30 and 90 days are still filling in. Since launch shows everything so far.`,
   privacy: "You see totals for the whole cohort, never a participant, their plan or their work.",
-  cohortPage: {
-    heading: "Cohort",
-    details: "Details",
-    name: "Name",
-    expected: "Expected size",
-    dates: "Program dates",
-  },
   setup: {
     heading: "Set up your cohort",
     lead: "Give it a name, how many people you plan to invite, and the program’s dates. You will get one code to share.",
     readyHeading: "Your cohort is ready",
     readyLead: "Share the code through your own channels. Figures start to appear once 10 or more participants are active.",
-    toOverview: "Go to the overview",
+    toDashboard: "See your dashboard",
   },
 } as const;
 
