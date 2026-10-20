@@ -793,9 +793,7 @@ export const C1_COPY = {
   },
   exportMenu: "Export",
   exportPdf: "PDF",
-  exportPdfHint: "one page",
   exportCsv: "CSV",
-  exportCsvHint: "totals only",
   printWindow: (long: string, asOf: string) => `Figures cover ${long}. As of ${formatAsOf(asOf)}.`,
   questions: {
     joined: "Did they join?",
