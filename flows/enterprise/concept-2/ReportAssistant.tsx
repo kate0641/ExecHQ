@@ -12,37 +12,16 @@ import { useAssistant } from "../useAssistant";
 const C = ASSISTANT_COPY;
 
 /**
- * "Ask about this report" (Kate, 2026-10-20): a panel beside the sheet,
- * never printed. Its suggestions lean towards writing for the sponsor's
+ * "Ask about this report" (Kate, 2026-10-20): a panel always beside the
+ * sheet, with no way to close it, never printed. Its suggestions lean towards writing for the sponsor's
  * leadership, and every answer written to be used elsewhere has Copy, so it
  * can go straight into an email.
  */
-export function ReportAssistant({
-  id,
-  cohort,
-  window,
-  focusField = false,
-  onClose,
-}: {
-  id: string;
-  cohort: Cohort;
-  window: WindowId;
-  /** Opened by the button: focus goes to the field. Open on arrival, it
-   *  leaves focus where the page puts it. */
-  focusField?: boolean;
-  onClose: () => void;
-}) {
+export function ReportAssistant({ id, cohort, window }: { id: string; cohort: Cohort; window: WindowId }) {
   const [draft, setDraft] = useState("");
   const [copied, setCopied] = useState<number | null>(null);
   const assistant = useAssistant(cohort, window);
   const bodyRef = useRef<HTMLDivElement>(null);
-  const fieldWrap = useRef<HTMLDivElement>(null);
-
-  // Opening it by hand puts focus in the field, so the question can be typed
-  // at once.
-  useEffect(() => {
-    if (focusField) fieldWrap.current?.querySelector<HTMLInputElement>(".chat-composer__field")?.focus();
-  }, [focusField]);
 
   useEffect(() => {
     const body = bodyRef.current;
@@ -61,10 +40,6 @@ export function ReportAssistant({
         <h2 className="report-ask__title" id={`${id}-title`}>
           {C.reportButton}
         </h2>
-        <button type="button" className="report-ask__close" onClick={onClose}>
-          <Icon name="close" size={16} />
-          <span className="u-visually-hidden">{C.close}</span>
-        </button>
       </div>
 
       <div className="report-ask__body" ref={bodyRef}>
@@ -92,7 +67,7 @@ export function ReportAssistant({
         <output className="u-visually-hidden">{copied !== null ? C.copied : ""}</output>
       </div>
 
-      <div className="report-ask__foot" ref={fieldWrap}>
+      <div className="report-ask__foot">
         <ul className="concierge-suggest">
           {C.prompts.report.map((prompt) => (
             <li key={prompt.label}>

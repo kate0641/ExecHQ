@@ -23956,39 +23956,7 @@ ul.plan-guided__sparks {
   gap: var(--space-sm);
 }
 
-/* "Ask about this report": dark while its panel is open. */
-.report-ask-button {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-xs);
-  min-height: var(--button-target);
-  padding: 0 var(--space-md);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface-raised);
-  color: var(--color-text-primary);
-  font-family: var(--type-label-font);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  cursor: pointer;
-}
-
-.report-ask-button:hover {
-  background-color: var(--color-surface-hover);
-}
-
-.report-ask-button[aria-expanded="true"] {
-  border-color: var(--color-surface-inverse);
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
-}
-
-.report-ask-button:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-/* The sheet, and beside it the assistant when it is open. */
+/* The sheet, and the assistant always beside it. */
 .report-stage {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -24037,29 +24005,6 @@ ul.plan-guided__sparks {
   word-spacing: var(--type-card-title-word-spacing);
 }
 
-.report-ask__close {
-  display: inline-grid;
-  place-items: center;
-  width: var(--space-xl);
-  height: var(--space-xl);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-pill);
-  background: none;
-  color: var(--color-text-secondary);
-  cursor: pointer;
-}
-
-.report-ask__close:hover {
-  background-color: var(--color-surface-hover);
-  color: var(--color-text-primary);
-}
-
-.report-ask__close:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
 .report-ask__body {
   flex: 1;
   min-height: 8rem;
@@ -24085,9 +24030,9 @@ ul.plan-guided__sparks {
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
-/* The cohort's code, a slim strip under the toolbar, outside the sheet: the
-   code on the left, what to do with it in the middle, its buttons on the
-   right. The same InviteCode, laid out as a row. */
+/* The cohort's code, a slim strip at the foot of the page, outside the
+   sheet: the code on the left, what to do with it in the middle, its buttons
+   on the right. The same InviteCode, laid out as a row. */
 .report-code {
   width: 100%;
   max-width: 64rem;

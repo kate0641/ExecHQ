@@ -9,11 +9,9 @@ import { PartBar } from "@/components/enterprise/PartBar";
 import { WeeklyTrend } from "@/components/enterprise/WeeklyTrend";
 import { WindowSelector } from "@/components/enterprise/WindowSelector";
 import { DropdownMenu } from "@/components/form/DropdownMenu";
-import { AdvisorMark } from "@/components/chat/AdvisorMark";
 import { Icon } from "@/components/primitives/Icon";
 import { useCohortId } from "@/lib/cohort-store";
 import {
-  ASSISTANT_COPY,
   C2_COPY,
   DATA_POINTS,
   LATE_COPY,
@@ -40,9 +38,9 @@ import { useCohort, type CohortControls } from "../useCohort";
 
 const C = C2_COPY;
 
-/** The cohort's code, in a strip under the toolbar, outside the sheet: it is
- *  admin, not report, and the export carries the figures, never the means of
- *  joining (Kate, 2026-10-20). */
+/** The cohort's code, in a strip at the foot of the page, outside the sheet:
+ *  it is admin, not report, and the export carries the figures, never the
+ *  means of joining (Kate, 2026-10-20). */
 function CodeStrip({ cohort, controls }: { cohort: Cohort; controls: CohortControls }) {
   return (
     <div className="report-code">
@@ -196,7 +194,7 @@ function ReportBody({ cohort, window }: { cohort: Cohort; window: WindowId }) {
         {/* On paper an empty placeholder reads as something that failed to
             load: while it is too early, one sentence says when it comes. */}
         {trend.state === "early" ? (
-          <p className="report__row report__line report__line--quiet">{TREND_COPY.early(trend.weeks.length)}</p>
+          <p className="report__line report__line--quiet">{TREND_COPY.early(trend.weeks.length)}</p>
         ) : trend.state === "shown" ? (
           <div className="report__row">
             <WeeklyTrend className="report__trend" trend={trend} />
@@ -229,11 +227,6 @@ function ReportBody({ cohort, window }: { cohort: Cohort; window: WindowId }) {
 function Concept2Page({ controls }: { controls: CohortControls }) {
   const { cohort } = controls;
   const [window, setWindow] = useState<WindowId>("30d");
-  // Open from the start (Kate, 2026-10-20): the assistant is part of the
-  // report's page, not something to find. It can still be closed.
-  const [asking, setAsking] = useState(true);
-  const [askedByHand, setAskedByHand] = useState(false);
-  const askButton = useRef<HTMLButtonElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const ready = Boolean(cohort);
   const wasReady = useRef(ready);
@@ -252,20 +245,6 @@ function Concept2Page({ controls }: { controls: CohortControls }) {
           {/* The report says its own date: the toolbar doesn't repeat it. */}
           <WindowSelector value={window} onChange={setWindow} asOf={cohort.asOf} upcoming={cohort.fresh} hideRefreshed />
           <div className="report-toolbar__end">
-            <button
-              ref={askButton}
-              type="button"
-              className="report-ask-button"
-              aria-expanded={asking}
-              aria-controls="report-ask"
-              onClick={() => {
-                setAskedByHand(true);
-                setAsking(!asking);
-              }}
-            >
-              <AdvisorMark size={16} />
-              {ASSISTANT_COPY.reportButton}
-            </button>
             <DropdownMenu
               className="ent-export"
               label={C.exportMenu}
@@ -279,9 +258,9 @@ function Concept2Page({ controls }: { controls: CohortControls }) {
           </div>
         </div>
       ) : null}
-      {cohort ? <CodeStrip cohort={cohort} controls={controls} /> : null}
-
-      <div className={["report-stage", asking && cohort ? "is-asking" : null].filter(Boolean).join(" ")}>
+      {/* The assistant is always beside the report (Kate, 2026-10-20): part of
+          the page, not something to open or close. */}
+      <div className={["report-stage", cohort ? "is-asking" : null].filter(Boolean).join(" ")}>
         <article className="report" aria-labelledby="report-title">
           {cohort ? (
             <>
@@ -317,19 +296,10 @@ function Concept2Page({ controls }: { controls: CohortControls }) {
             </>
           )}
         </article>
-        {asking && cohort ? (
-          <ReportAssistant
-            id="report-ask"
-            focusField={askedByHand}
-            cohort={cohort}
-            window={window}
-            onClose={() => {
-              setAsking(false);
-              askButton.current?.focus();
-            }}
-          />
-        ) : null}
+        {cohort ? <ReportAssistant id="report-ask" cohort={cohort} window={window} /> : null}
       </div>
+      {/* The code is admin, so it waits at the foot, outside the report. */}
+      {cohort ? <CodeStrip cohort={cohort} controls={controls} /> : null}
     </div>
   );
 }
