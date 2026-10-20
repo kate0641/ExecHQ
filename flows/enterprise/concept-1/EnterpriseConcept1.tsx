@@ -8,14 +8,12 @@ import { InviteCode } from "@/components/enterprise/InviteCode";
 import { WeeklyTrend } from "@/components/enterprise/WeeklyTrend";
 import { WindowSelector } from "@/components/enterprise/WindowSelector";
 import { DropdownMenu } from "@/components/form/DropdownMenu";
-import { Badge } from "@/components/primitives/Badge";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import { useCohortId } from "@/lib/cohort-store";
 import {
   C1_COPY,
   DIRECTION_COPY,
-  ENTERPRISE_COPY,
   LATE_COPY,
   QUESTION_POINTS,
   answerFor,
@@ -23,7 +21,6 @@ import {
   directionFor,
   figureFor,
   isAboveMinimum,
-  nextUpdate,
   programDay,
   weeksIn,
   trendFor,
@@ -37,12 +34,10 @@ import { downloadCsv } from "../downloadCsv";
 import { useCohort, type CohortControls } from "../useCohort";
 
 const C = C1_COPY;
-const FILLING_TAG = ENTERPRISE_COPY.fillingTag;
 
 /** One band (Kate, 2026-10-20, option A): the name and a line of what
  *  matters about the program on the left, the window and the export on the
- *  right, and a status line under both: when it was updated, when it next
- *  will be, and whether the window is still filling in. */
+ *  right. */
 function CohortHeader({
   cohort,
   window,
@@ -55,17 +50,10 @@ function CohortHeader({
   headingRef?: React.Ref<HTMLHeadingElement>;
 }) {
   const day = programDay(cohort);
-  const days = WINDOWS[window].days;
-  const filling = isAboveMinimum(cohort, window) && days !== undefined && day < days && !cohort.fresh;
   const started = day > 0 && !cohort.fresh;
   const meta = started
     ? [C.meta.started(cohort.startsOn), weeksIn(day), C.meta.people(cohort.joined)]
     : [C.meta.starts(cohort.startsOn), C.meta.people(cohort.joined)];
-  const status = cohort.fresh
-    ? C.status.first(cohort.asOf)
-    : cohort.lateSince
-      ? C.status.late(cohort.asOf)
-      : C.status.updated(cohort.asOf, nextUpdate(cohort));
 
   return (
     <header className="ent-header">
@@ -104,18 +92,6 @@ function CohortHeader({
           />
         </div>
       </div>
-      <p className="ent-header__status">
-        <span className="ent-header__status-item">
-          <Icon name="clock" size={16} />
-          {status}
-        </span>
-        {filling ? (
-          <span className="ent-header__status-item">
-            <Badge tone="neutral">{FILLING_TAG}</Badge>
-            {C.status.filling(day, days!)}
-          </span>
-        ) : null}
-      </p>
     </header>
   );
 }

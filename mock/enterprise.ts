@@ -233,13 +233,6 @@ export function abbrevDate(iso: string): string {
   return `${date.getUTCDate()} ${months[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
 }
 
-/** The Monday after the latest update: when the next one is due. */
-export function nextUpdate(cohort: Cohort): string {
-  const date = new Date(`${cohort.asOf}T00:00:00Z`);
-  date.setUTCDate(date.getUTCDate() + 7);
-  return date.toISOString().slice(0, 10);
-}
-
 /** How many days old the program was when the figures were refreshed. */
 export function programDay(cohort: Cohort): number {
   const start = Date.parse(`${cohort.startsOn}T00:00:00Z`);
@@ -776,13 +769,6 @@ export const C1_COPY = {
     started: (startsOn: string) => `Started ${abbrevDate(startsOn)}`,
     starts: (startsOn: string) => `Starts ${abbrevDate(startsOn)}`,
     people: (joined: number) => (joined === 0 ? "No one yet" : joined === 1 ? "1 person" : `${count.format(joined)} people`),
-  },
-  /** The status line under the header. */
-  status: {
-    updated: (asOf: string, next: string) => `Updated ${formatAsOf(asOf)} · next update ${formatAsOf(next)}`,
-    first: (asOf: string) => `The first update is ${formatAsOf(asOf)}`,
-    late: (asOf: string) => `Last updated ${formatAsOf(asOf)} · this Monday’s update is late`,
-    filling: (day: number, days: number) => `The program is ${day} days old, so ${days} days shows the ${day} so far.`,
   },
   exportMenu: "Export",
   exportPdf: "PDF",
