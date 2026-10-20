@@ -17,17 +17,32 @@ const C = ASSISTANT_COPY;
  * leadership, and every answer written to be used elsewhere has Copy, so it
  * can go straight into an email.
  */
-export function ReportAssistant({ id, cohort, window, onClose }: { id: string; cohort: Cohort; window: WindowId; onClose: () => void }) {
+export function ReportAssistant({
+  id,
+  cohort,
+  window,
+  focusField = false,
+  onClose,
+}: {
+  id: string;
+  cohort: Cohort;
+  window: WindowId;
+  /** Opened by the button: focus goes to the field. Open on arrival, it
+   *  leaves focus where the page puts it. */
+  focusField?: boolean;
+  onClose: () => void;
+}) {
   const [draft, setDraft] = useState("");
   const [copied, setCopied] = useState<number | null>(null);
   const assistant = useAssistant(cohort, window);
   const bodyRef = useRef<HTMLDivElement>(null);
   const fieldWrap = useRef<HTMLDivElement>(null);
 
-  // Opening puts focus in the field, so the question can be typed at once.
+  // Opening it by hand puts focus in the field, so the question can be typed
+  // at once.
   useEffect(() => {
-    fieldWrap.current?.querySelector<HTMLInputElement>(".chat-composer__field")?.focus();
-  }, []);
+    if (focusField) fieldWrap.current?.querySelector<HTMLInputElement>(".chat-composer__field")?.focus();
+  }, [focusField]);
 
   useEffect(() => {
     const body = bodyRef.current;

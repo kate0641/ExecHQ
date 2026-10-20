@@ -229,7 +229,10 @@ function ReportBody({ cohort, window }: { cohort: Cohort; window: WindowId }) {
 function Concept2Page({ controls }: { controls: CohortControls }) {
   const { cohort } = controls;
   const [window, setWindow] = useState<WindowId>("30d");
-  const [asking, setAsking] = useState(false);
+  // Open from the start (Kate, 2026-10-20): the assistant is part of the
+  // report's page, not something to find. It can still be closed.
+  const [asking, setAsking] = useState(true);
+  const [askedByHand, setAskedByHand] = useState(false);
   const askButton = useRef<HTMLButtonElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const ready = Boolean(cohort);
@@ -255,7 +258,10 @@ function Concept2Page({ controls }: { controls: CohortControls }) {
               className="report-ask-button"
               aria-expanded={asking}
               aria-controls="report-ask"
-              onClick={() => setAsking(!asking)}
+              onClick={() => {
+                setAskedByHand(true);
+                setAsking(!asking);
+              }}
             >
               <AdvisorMark size={16} />
               {ASSISTANT_COPY.reportButton}
@@ -314,6 +320,7 @@ function Concept2Page({ controls }: { controls: CohortControls }) {
         {asking && cohort ? (
           <ReportAssistant
             id="report-ask"
+            focusField={askedByHand}
             cohort={cohort}
             window={window}
             onClose={() => {
