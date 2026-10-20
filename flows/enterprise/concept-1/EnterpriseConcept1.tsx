@@ -25,7 +25,7 @@ import {
   isAboveMinimum,
   nextUpdate,
   programDay,
-  programLength,
+  weeksIn,
   trendFor,
   type Cohort,
   type DataPointId,
@@ -57,11 +57,10 @@ function CohortHeader({
   const day = programDay(cohort);
   const days = WINDOWS[window].days;
   const filling = isAboveMinimum(cohort, window) && days !== undefined && day < days && !cohort.fresh;
-  const meta = [
-    C.meta.dates(cohort.startsOn, cohort.endsOn),
-    day > 0 && !cohort.fresh ? C.meta.day(day, programLength(cohort)) : C.meta.notStarted,
-    cohort.open ? C.meta.open : C.meta.closed,
-  ];
+  const started = day > 0 && !cohort.fresh;
+  const meta = started
+    ? [C.meta.started(cohort.startsOn), weeksIn(day), C.meta.people(cohort.joined)]
+    : [C.meta.starts(cohort.startsOn), C.meta.people(cohort.joined)];
   const status = cohort.fresh
     ? C.status.first(cohort.asOf)
     : cohort.lateSince

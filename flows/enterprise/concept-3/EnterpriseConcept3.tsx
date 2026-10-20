@@ -139,7 +139,6 @@ function SetupLetter({ controls }: { controls: CohortControls }) {
   const [name, setName] = useState("");
   const [size, setSize] = useState("");
   const [startsOn, setStartsOn] = useState("");
-  const [endsOn, setEndsOn] = useState("");
   const [error, setError] = useState<string>();
   const questionRef = useRef<HTMLHeadingElement>(null);
   const first = useRef(true);
@@ -158,16 +157,15 @@ function SetupLetter({ controls }: { controls: CohortControls }) {
     if (step === 1 && !name.trim()) return setError(FORM.nameMissing);
     if (step === 2 && (!/^\d+$/.test(size) || Number(size) < 1)) return setError(FORM.sizeMissing);
     if (step === 3) {
-      if (!startsOn || !endsOn) return setError(FORM.datesMissing);
-      if (endsOn <= startsOn) return setError(FORM.endsBeforeStart);
-      controls.create({ name: name.trim(), expectedSize: Number(size), startsOn, endsOn });
+      if (!startsOn) return setError(FORM.startMissing);
+      controls.create({ name: name.trim(), expectedSize: Number(size), startsOn });
       return;
     }
     setError(undefined);
     setStep(step + 1);
   }
 
-  const question = step === 1 ? C.setup.name : step === 2 ? C.setup.size : C.setup.dates;
+  const question = step === 1 ? C.setup.name : step === 2 ? C.setup.size : C.setup.starts;
 
   return (
     <>
@@ -193,16 +191,15 @@ function SetupLetter({ controls }: { controls: CohortControls }) {
             error={error}
           />
         ) : (
-          <div className="cohort-form__dates">
-            <Input label={C.setup.starts} type="date" value={startsOn} onChange={(e) => setStartsOn(e.target.value)} error={error} />
-            <Input
-              label={C.setup.ends}
-              type="date"
-              value={endsOn}
-              onChange={(e) => setEndsOn(e.target.value)}
-              aria-invalid={error ? true : undefined}
-            />
-          </div>
+          <Input
+            className="cohort-form__date"
+            label={C.setup.startsLabel}
+            labelHidden
+            type="date"
+            value={startsOn}
+            onChange={(e) => setStartsOn(e.target.value)}
+            error={error}
+          />
         )}
         <div className="letter__actions">
           <Button type="submit">{step === 3 ? C.setup.create : C.setup.next}</Button>

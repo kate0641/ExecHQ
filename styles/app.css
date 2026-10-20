@@ -23557,8 +23557,7 @@ ul.plan-guided__sparks {
   max-width: 32rem;
 }
 
-.cohort-form > .field,
-.cohort-form__dates {
+.cohort-form > .field {
   align-self: stretch;
 }
 
@@ -23571,10 +23570,9 @@ ul.plan-guided__sparks {
   word-spacing: var(--type-card-title-word-spacing);
 }
 
-.cohort-form__dates {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-md);
+/* One date, the start: no wider than a date needs. */
+.cohort-form__date {
+  max-width: 14rem;
 }
 
 .invite-code__ask-heading:focus-visible {
@@ -24463,8 +24461,7 @@ ul.letter-archive__list {
   gap: var(--space-md);
 }
 
-.letter__question > .field,
-.letter__question > .cohort-form__dates {
+.letter__question > .field {
   max-width: 28rem;
 }
 

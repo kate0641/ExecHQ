@@ -66,7 +66,7 @@ function ReportHead({ cohort, window, headingRef }: { cohort: Cohort; window: Wi
         {cohort.name}
       </h1>
       <p className="report__meta">
-        {C.dates(cohort.startsOn, cohort.endsOn)}, {day > 0 && !cohort.fresh ? C.day(day) : C.notStarted}.{" "}
+        {day > 0 && !cohort.fresh ? `${C.started(cohort.startsOn)}, ${C.weeksIn(day)}.` : `${C.starts(cohort.startsOn)}.`}{" "}
         {window === "launch" ? C.windowLineSinceLaunch : C.windowLine(WINDOWS[window].long)}{" "}
         {cohort.fresh ? C.firstUpdate(cohort.asOf) : C.asOf(cohort.asOf)}
       </p>

@@ -60,8 +60,9 @@ export interface Cohort {
   id: Exclude<CohortId, "none">;
   name: string;
   expectedSize: number;
+  /** When the program started. There is no end date: a cohort stops
+   *  growing when its code is closed (Kate, 2026-10-20). */
   startsOn: string;
-  endsOn: string;
   /** The Monday the figures were last refreshed. */
   asOf: string;
   code: string;
@@ -131,7 +132,6 @@ export const COHORTS: Record<Cohort["id"], Cohort> = {
     name: "Northgate Board Readiness",
     expectedSize: 12,
     startsOn: "2026-09-21",
-    endsOn: "2026-12-18",
     asOf: "2026-09-28",
     code: "EXEC-7390",
     open: true,
@@ -148,7 +148,6 @@ export const COHORTS: Record<Cohort["id"], Cohort> = {
     name: "Northgate Leadership Programme",
     expectedSize: 50,
     startsOn: "2026-09-14",
-    endsOn: "2026-12-18",
     asOf: "2026-09-28",
     code: "EXEC-4821",
     open: true,
@@ -165,7 +164,6 @@ export const COHORTS: Record<Cohort["id"], Cohort> = {
     name: "Northgate Senior Leaders",
     expectedSize: 1000,
     startsOn: "2026-09-08",
-    endsOn: "2027-03-12",
     asOf: "2026-12-07",
     code: "EXEC-1155",
     open: false,
@@ -220,11 +218,19 @@ export const COHORT_CHOICES: Record<CohortId, { label: string; glyph: string; su
 
 export const DEFAULT_COHORT: CohortId = "pilot";
 
-/** How many days the program runs, start to end. */
-export function programLength(cohort: Cohort): number {
-  const start = Date.parse(`${cohort.startsOn}T00:00:00Z`);
-  const end = Date.parse(`${cohort.endsOn}T00:00:00Z`);
-  return Math.round((end - start) / 86_400_000);
+/** "2 weeks in": how long the program has run, in the weekly rhythm of
+ *  its updates. */
+export function weeksIn(day: number): string {
+  const weeks = Math.floor(day / 7);
+  return weeks < 1 ? "First week" : weeks === 1 ? "1 week in" : `${weeks} weeks in`;
+}
+
+/** "14 Sep 2026": a short date, with three-letter months throughout (en-GB
+ *  would write "Sept"). */
+export function abbrevDate(iso: string): string {
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const date = new Date(`${iso}T00:00:00Z`);
+  return `${date.getUTCDate()} ${months[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
 }
 
 /** The Monday after the latest update: when the next one is due. */
@@ -679,12 +685,10 @@ export const ENTERPRISE_COPY = {
     size: "Expected size",
     sizeHint: `How many people you plan to invite. Figures stay hidden until ${MIN_COHORT_SIZE} or more are active.`,
     starts: "Program starts",
-    ends: "Program ends",
     create: "Create cohort",
     nameMissing: "Give the cohort a name.",
     sizeMissing: "Enter how many people you plan to invite.",
-    datesMissing: "Enter both dates.",
-    endsBeforeStart: "The program has to end after it starts.",
+    startMissing: "Enter the date the program starts.",
   },
 } as const;
 
@@ -710,7 +714,7 @@ function firstMonday(iso: string): string {
 }
 
 /** A cohort just set up: its code, and nobody in it yet. */
-export function newCohort(details: { name: string; expectedSize: number; startsOn: string; endsOn: string }, code: string): Cohort {
+export function newCohort(details: { name: string; expectedSize: number; startsOn: string }, code: string): Cohort {
   return {
     id: "small",
     ...details,
@@ -766,23 +770,12 @@ export function answerFor(cohort: Cohort, question: QuestionId, window: WindowId
 }
 
 export const C1_COPY = {
-  /** The line under the name: dates, how far through, and the code's state. */
+  /** The line under the name: when it started, how long it has run, and
+   *  how many people are in it. No end date: there is none. */
   meta: {
-    dates: (startsOn: string, endsOn: string) => {
-      // Three-letter months throughout: en-GB would write "Sept".
-      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-      const start = new Date(`${startsOn}T00:00:00Z`);
-      const end = new Date(`${endsOn}T00:00:00Z`);
-      const day = (d: Date) => `${d.getUTCDate()} ${months[d.getUTCMonth()]}`;
-      const year = (d: Date) => d.getUTCFullYear();
-      return year(start) === year(end)
-        ? `${day(start)} to ${day(end)} ${year(end)}`
-        : `${day(start)} ${year(start)} to ${day(end)} ${year(end)}`;
-    },
-    day: (day: number, of: number) => `Day ${day} of ${of}`,
-    notStarted: "Not started yet",
-    open: "Open to new joiners",
-    closed: "Closed to new joiners",
+    started: (startsOn: string) => `Started ${abbrevDate(startsOn)}`,
+    starts: (startsOn: string) => `Starts ${abbrevDate(startsOn)}`,
+    people: (joined: number) => (joined === 0 ? "No one yet" : joined === 1 ? "1 person" : `${count.format(joined)} people`),
   },
   /** The status line under the header. */
   status: {
@@ -807,7 +800,7 @@ export const C1_COPY = {
   privacy: "You see totals for the whole cohort, never a participant, their plan or their work.",
   setup: {
     heading: "Set up your cohort",
-    lead: "Give it a name, how many people you plan to invite, and the program’s dates. You will get one code to share.",
+    lead: "Give it a name, how many people you plan to invite, and when the program starts. You will get one code to share.",
     readyHeading: "Your cohort is ready",
     readyLead: "Share the code through your own channels. Figures start to appear once 10 or more participants are active.",
     toDashboard: "See your dashboard",
@@ -863,9 +856,9 @@ export const C2_COPY = {
   windowLineSinceLaunch: "Figures cover the program since it started.",
   asOf: (asOf: string) => `As of ${formatAsOf(asOf)}.`,
   firstUpdate: (asOf: string) => `First figures on ${formatAsOf(asOf)}.`,
-  dates: (startsOn: string, endsOn: string) => `${formatDate(startsOn)} to ${formatDate(endsOn)}`,
-  day: (day: number) => `day ${day}`,
-  notStarted: "not started yet",
+  started: (startsOn: string) => `Started ${formatDate(startsOn)}`,
+  starts: (startsOn: string) => `Starts ${formatDate(startsOn)}`,
+  weeksIn: (day: number) => weeksIn(day).toLowerCase(),
   building: `Only the number who joined is shown until ${MIN_COHORT_SIZE} or more participants are active, so no figure can point to one person.`,
   filling: (day: number) =>
     `The program is ${day} days old, so figures over 30 and 90 days are still filling in.`,
@@ -1061,9 +1054,8 @@ export const C3_COPY = {
     nameHint: "What your participants will call it, e.g. Leadership Programme 2027.",
     size: "How many people do you plan to invite?",
     sizeHint: `Figures stay hidden until ${MIN_COHORT_SIZE} or more are active.`,
-    dates: "When does the program run?",
-    starts: "Program starts",
-    ends: "Program ends",
+    starts: "When does the program start?",
+    startsLabel: "Program starts",
     next: "Next",
     back: "Back",
     create: "Set up the cohort",
