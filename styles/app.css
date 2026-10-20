@@ -24502,7 +24502,8 @@ ul.plan-guided__sparks {
   .device__top,
   .device__bottom,
   .chrome__header,
-  .chrome__nav {
+  .chrome__nav,
+  .concierge-host {
     display: none !important;
   }
 

@@ -646,8 +646,9 @@ function csvCell(value: string): string {
  * stays hidden here, with the reason in its note, so the file can say no more
  * than the page.
  */
-export function cohortCsv(cohort: Cohort, window: WindowId): string {
+export function cohortCsv(cohort: Cohort, window: WindowId, options: { signals?: boolean } = {}): string {
   const H = CSV_COPY.headers;
+  const covers = window === "launch" ? CSV_COPY.sinceLaunch : WINDOWS[window].long;
   const rows: string[][] = [[H.figure, H.value, H.detail, H.direction, H.covers, H.asOf, H.counts, H.note]];
   for (const id of DATA_POINT_IDS) {
     const point = DATA_POINTS[id];
@@ -661,8 +662,33 @@ export function cohortCsv(cohort: Cohort, window: WindowId): string {
       point.sinceLaunch || window === "launch" ? CSV_COPY.sinceLaunch : WINDOWS[window].long,
       cohort.asOf,
       point.definition,
-      figure.note ?? "",
+      // The page no longer says "filling in" (Kate, 2026-10-20), so the file
+      // doesn't either; a hidden figure still says why.
+      figure.state === "suppressed" ? (figure.note ?? "") : "",
     ]);
+  }
+  // Concept 1 shows signals, so its file carries them, under the same rule:
+  // a channel with fewer than the minimum of people behind it is held back.
+  if (options.signals) {
+    const seen = seenFor(cohort, window);
+    const s = cohort.signals[window];
+    const active = cohort.byWindow[window].active;
+    const hidden = (label: string) => [label, ENTERPRISE_COPY.hidden, "", "", covers, cohort.asOf, CSV_COPY.signals.channel, ENTERPRISE_COPY.suppressed];
+    if (!seen) {
+      rows.push(hidden(CSV_COPY.signals.any));
+      for (const id of CHANNEL_IDS) rows.push(hidden(`${CSV_COPY.signals.prefix}${SEEN_COPY.channels[id]}`));
+    } else {
+      rows.push([CSV_COPY.signals.any, seen.any.value, seen.any.detail, "", covers, cohort.asOf, CSV_COPY.signals.anyCounts, ""]);
+      for (const id of CHANNEL_IDS) {
+        const people = s.channels[id];
+        const label = `${CSV_COPY.signals.prefix}${SEEN_COPY.channels[id]}`;
+        rows.push(
+          people >= MIN_COHORT_SIZE
+            ? [label, count.format(people), `of ${count.format(active)} active`, "", covers, cohort.asOf, CSV_COPY.signals.channel, ""]
+            : [label, SEEN_COPY.fewer, "", "", covers, cohort.asOf, CSV_COPY.signals.channel, CSV_COPY.signals.held],
+        );
+      }
+    }
   }
   return rows.map((row) => row.map(csvCell).join(",")).join("\r\n") + "\r\n";
 }
@@ -685,6 +711,13 @@ export const CSV_COPY = {
     note: "Note",
   },
   sinceLaunch: "since the program started",
+  signals: {
+    any: "Put something out (any channel)",
+    prefix: "Signals: ",
+    anyCounts: "Of the active participants, how many put something out in the world on any channel, recorded in ExecHQ or added by them.",
+    channel: "Of the active participants, how many put something out on this channel. Someone on two channels counts in both.",
+    held: `Fewer than ${MIN_COHORT_SIZE} people, held back so it can't point to one person.`,
+  },
   hint: "Downloads the figures on this page as a spreadsheet. Totals for the whole cohort, never a row per participant.",
 } as const;
 

@@ -90,7 +90,7 @@ function CohortHeader({
             align="end"
             entries={[
               { type: "item", id: "pdf", label: C.exportPdf, onSelect: () => globalThis.print() },
-              { type: "item", id: "csv", label: C.exportCsv, onSelect: () => downloadCsv(cohort, window) },
+              { type: "item", id: "csv", label: C.exportCsv, onSelect: () => downloadCsv(cohort, window, { signals: true }) },
             ]}
           />
         </div>
