@@ -15700,6 +15700,12 @@ ol.entry-drawer__rows {
   margin-top: calc(var(--space-copy-action) - var(--space-xs));
 }
 
+/* A button inside a card sits at its right edge, under the right thumb, unless it is full width
+   (designer, 2026-10-20). */
+.signals-page :is(.presence-clean__try > .btn, .presence-clean__add) {
+  align-self: flex-end;
+}
+
 /* What she did sits in the Plan's darkest-navy card, so it still reads as a block on the navy. */
 .signals-page .came-of__row:not(.is-quiet) :is(.came-of__did, .came-of__tip) {
   background-color: var(--color-surface-quiet-on-inverse);
