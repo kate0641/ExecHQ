@@ -8718,7 +8718,7 @@ ol.ring-detail__timeline {
 }
 
 .guide--navy :is(.recommendation, .next-steps, .point-box, .signal-list, .card, .feature-card__body, .plan-direction, .stage-checkin__thing, .agenda__body, .agenda__stage-note, .reflection-reply__fact),
-.signals-page :is(.presence-clean__card, .li-picture, .came-of__row:not(.is-quiet) .came-of__reply) {
+.signals-page :is(.presence-clean__card, .li-picture) {
   --color-text-primary: var(--light-text-primary);
   --color-text-secondary: var(--light-text-secondary);
   --color-text-muted: var(--light-text-muted);
@@ -15038,7 +15038,7 @@ ul.roadmap__outcomes {
 ul.came-of__rows {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: var(--space-between-cards);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -15050,6 +15050,9 @@ ul.came-of__rows {
   gap: var(--space-md);
 }
 
+/* One card for each thing she did: the step at the top, and what came of it under it, set in and reached
+   by a lime curve from the step, so the step reads as leading to the result (designer, 2026-10-20; a
+   two-column grid with an arrow before). A Default card on the navy page, as Try this. */
 .came-of__row {
   display: flex;
   flex-direction: column;
@@ -15057,77 +15060,93 @@ ul.came-of__rows {
 }
 
 .came-of__flow {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) var(--space-sm) minmax(0, 1.25fr);
-  align-items: stretch;
-}
-
-.came-of__did,
-.came-of__reply {
-  padding: var(--space-xs) var(--space-sm);
-  font-size: var(--text-sm);
-  line-height: var(--leading-snug);
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-feature-padding);
+  border: var(--border-width-thin) solid transparent;
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-quiet-on-inverse);
+  color: var(--color-text-inverse);
 }
 
 .came-of__did {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3xs);
-  border-radius: var(--radius-md) 0 0 var(--radius-md);
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
-  font-weight: var(--weight-semibold);
+  gap: var(--space-eyebrow-title);
+  font-family: var(--type-card-title-font);
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  line-height: var(--type-card-title-leading);
+}
+
+.came-of__date,
+.came-of__label {
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  text-transform: uppercase;
 }
 
 .came-of__date {
-  font-size: var(--text-xs);
-  font-weight: var(--weight-regular);
   color: var(--color-text-inverse-muted);
 }
 
-.came-of__tip {
-  background-color: var(--color-surface-inverse);
-  clip-path: polygon(0 12%, 100% 50%, 0 88%);
-}
-
+/* Her words, 32 in from the step, with the curve dropping from under the step into their label. */
 .came-of__reply {
-  margin-left: var(--space-3xs);
-  border: var(--border-width-medium) solid var(--color-action);
-  border-radius: var(--radius-md);
-  background-color: var(--color-surface-feature);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+  margin: var(--space-md) 0 0 var(--space-xl);
+  padding: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
 }
 
-.came-of__row.is-quiet .came-of__did {
+.came-of__reply::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--space-lg));
+  top: calc(-1 * var(--space-sm));
+  width: var(--space-md);
+  height: calc(var(--space-sm) + 0.5rem);
+  border-left: var(--ring-today-width) solid var(--color-surface-her-band);
+  border-bottom: var(--ring-today-width) solid var(--color-surface-her-band);
+  border-bottom-left-radius: var(--space-sm);
+  pointer-events: none;
+}
+
+.came-of__label {
+  color: var(--color-surface-her-band);
+}
+
+/* Nothing reported yet: neutral, never a miss. The card takes a dashed edge and no fill, so it takes the
+   page's own words (light on the navy page, dark in the catalogue), and the curve and label go quiet. */
+.came-of__row.is-quiet .came-of__flow {
   border: var(--border-width-thin) dashed var(--color-border-strong);
   background-color: transparent;
+  color: var(--color-text-primary);
+}
+
+.came-of__row.is-quiet :is(.came-of__date, .came-of__reply, .came-of__label) {
   color: var(--color-text-secondary);
-  /* Inter's medium. It pointed at the retired --weight-medium, so it fell back to its parent's weight. */
-  font-weight: var(--weight-body-medium);
 }
 
-.came-of__row.is-quiet .came-of__date {
-  color: var(--color-text-muted);
-}
-
-.came-of__row.is-quiet .came-of__tip {
-  background-color: transparent;
-}
-
-.came-of__row.is-quiet .came-of__reply {
-  border: var(--border-width-thin) dashed var(--color-border-strong);
-  background-color: transparent;
-  color: var(--color-text-muted);
+.came-of__row.is-quiet .came-of__reply::before {
+  border-color: var(--color-border-strong);
 }
 
 /* "Nothing reported yet", when she can tap it to report. */
 .came-of__reply--ask {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-3xs);
   min-height: var(--target-min, 2.75rem);
+  background: none;
+  border: 0;
   font: inherit;
   font-size: var(--text-sm);
+  color: inherit;
   text-align: left;
   cursor: pointer;
 }
@@ -15138,12 +15157,6 @@ ul.came-of__rows {
   color: var(--color-text-link);
   text-decoration: underline;
   text-underline-offset: 0.2em;
-}
-
-.came-of__row.is-quiet .came-of__reply--ask:hover,
-.came-of__row.is-quiet .came-of__reply--ask.is-hover {
-  border-color: var(--color-text-secondary);
-  color: var(--color-text-secondary);
 }
 
 .came-of__reply--ask:focus-visible,
@@ -15706,11 +15719,6 @@ ol.entry-drawer__rows {
   align-self: flex-end;
 }
 
-/* What she did sits in the Plan's darkest-navy card, so it still reads as a block on the navy. */
-.signals-page .came-of__row:not(.is-quiet) :is(.came-of__did, .came-of__tip) {
-  background-color: var(--color-surface-quiet-on-inverse);
-}
-
 /* Momentum's card is the Plan's top card: the darkest navy, its words light. */
 .signals-page .momentum__card {
   --color-text-primary: var(--color-text-inverse);
@@ -15830,12 +15838,6 @@ ol.entry-drawer__rows {
 .signals-page .momentum__card .day-circles__dot.is-on {
   background: var(--surface-her-day);
   border-color: transparent;
-}
-
-/* Never a yellow outline on a card unless the designer asks (2026-10-15): her replies take the
-   card's faint outline until What came of it is redesigned. */
-.signals-page .came-of__reply {
-  border-color: var(--color-border);
 }
 
 /* Try this is a Default card on the navy page: darker navy, light words, the yellow action (designer,

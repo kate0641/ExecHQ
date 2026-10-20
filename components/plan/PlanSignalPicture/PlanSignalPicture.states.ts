@@ -44,7 +44,7 @@ export const planSignalPictureStates = defineComponentStates({
   variants: [
     {
       label: "A row for each thing — default",
-      description: "What she did in a dark block that points at what she says came of it, in her words. A thing with no reply shows a quiet dashed block, never a miss. No next action and no add button: the page has those.",
+      description: "Each thing she did is a dark card: the step at the top, and a lime curve down to what she says came of it, in her words. A thing with no reply is a quiet dashed card, never a miss. No next action and no add button: the page has those.",
       props: { ...base, headingId: "pc-came" },
     },
     {

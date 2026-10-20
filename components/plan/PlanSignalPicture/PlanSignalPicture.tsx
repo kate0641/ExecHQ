@@ -120,19 +120,22 @@ function CameOfRowView({
           <span className="came-of__date">{shortDate(row.on)}</span>
           {row.did}
         </div>
-        <span className="came-of__tip" aria-hidden="true" />
         {row.came ? (
           <div className="came-of__reply">
-            <span className="u-visually-hidden">{G.cameOfIt}</span>
+            <span className="came-of__label">{G.heading}</span>
             {row.came}
           </div>
         ) : onReport ? (
           <button type="button" className="came-of__reply came-of__reply--ask" onClick={() => onReport(row)}>
+            <span className="came-of__label">{G.heading}</span>
             {G.noReply}
             <span className="came-of__ask-hint">{G.report}</span>
           </button>
         ) : (
-          <div className="came-of__reply">{G.noReply}</div>
+          <div className="came-of__reply">
+            <span className="came-of__label">{G.heading}</span>
+            {G.noReply}
+          </div>
         )}
       </div>
       {item?.editable ? (
