@@ -10,6 +10,7 @@ import { Icon } from "@/components/primitives/Icon";
 import { useCohortId } from "@/lib/cohort-store";
 import {
   C3_COPY,
+  CSV_COPY,
   DATA_POINT_IDS,
   ENTERPRISE_COPY,
   firstIssueOn,
@@ -22,6 +23,7 @@ import {
   type CohortId,
   type LetterIssue,
 } from "@/mock/enterprise";
+import { downloadCsv } from "../downloadCsv";
 import { useCohort, type CohortControls } from "../useCohort";
 
 const C = C3_COPY;
@@ -76,7 +78,7 @@ function Issue({ issue, previous, headingRef }: { issue: LetterIssue; previous?:
         <p>{above ? C.joining(cohort.joined, cohort.expectedSize, cohort.activated) : C.joining(cohort.joined, cohort.expectedSize)}</p>
         {above ? (
           <>
-            <p>{C.using(c.active, active.value ?? "", c.returning, c.briefingWeekly)}</p>
+            <p>{C.using(c.active, active.value ?? "", c.briefingWeekly)}</p>
             <p>{C.following(cohort.planAccepted, c.actionsCompleted, c.actionsAccepted, c.artifacts, c.artifactsUsed, c.outcomesRecorded)}</p>
           </>
         ) : (
@@ -322,10 +324,19 @@ function Concept3Page({ controls }: { controls: CohortControls }) {
               {C.privacy}
             </p>
             {issue ? (
-              <Button variant="secondary" size="sm" className="letter__save" onClick={() => globalThis.print()}>
-                <Icon name="download" size={16} />
-                {C.save}
-              </Button>
+              <div className="letter__save">
+                <Button variant="secondary" size="sm" onClick={() => globalThis.print()}>
+                  <Icon name="download" size={16} />
+                  {C.save}
+                </Button>
+                <Button variant="secondary" size="sm" onClick={() => downloadCsv(issue.cohort, issue.window)} aria-describedby="letter-csv-hint">
+                  <Icon name="download" size={16} />
+                  {C.saveCsv}
+                </Button>
+                <span className="u-visually-hidden" id="letter-csv-hint">
+                  {CSV_COPY.hint}
+                </span>
+              </div>
             ) : null}
           </footer>
         ) : null}

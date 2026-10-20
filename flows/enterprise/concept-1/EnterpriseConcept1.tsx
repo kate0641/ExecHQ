@@ -13,6 +13,7 @@ import { Icon } from "@/components/primitives/Icon";
 import { useCohortId } from "@/lib/cohort-store";
 import {
   C1_COPY,
+  CSV_COPY,
   QUESTION_IDS,
   QUESTION_POINTS,
   answerFor,
@@ -25,6 +26,7 @@ import {
   type WindowId,
   WINDOWS,
 } from "@/mock/enterprise";
+import { downloadCsv } from "../downloadCsv";
 import { useCohort, type CohortControls } from "../useCohort";
 
 const C = C1_COPY;
@@ -63,10 +65,19 @@ function Overview({ cohort }: { cohort: Cohort }) {
         <WindowSelector value={window} onChange={setWindow} asOf={cohort.asOf} upcoming={cohort.fresh} />
         {/* The toggle does not print: the export says the window in words. */}
         <p className="ent-header__print">{C.printWindow(WINDOWS[window].long, cohort.asOf)}</p>
-        <Button variant="secondary" size="sm" onClick={() => globalThis.print()}>
-          <Icon name="download" size={16} />
-          {C.export}
-        </Button>
+        <div className="ent-exports">
+          <Button variant="secondary" size="sm" onClick={() => globalThis.print()}>
+            <Icon name="download" size={16} />
+            {C.export}
+          </Button>
+          <Button variant="secondary" size="sm" onClick={() => downloadCsv(cohort, window)} aria-describedby="ent-csv-hint">
+            <Icon name="download" size={16} />
+            {C.exportCsv}
+          </Button>
+          <span className="u-visually-hidden" id="ent-csv-hint">
+            {CSV_COPY.hint}
+          </span>
+        </div>
       </CohortHeader>
 
       {!above ? (

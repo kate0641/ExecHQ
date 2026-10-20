@@ -23402,6 +23402,12 @@ ul.plan-guided__sparks {
   gap: var(--space-sm) var(--space-md);
 }
 
+/* PDF and CSV stay side by side, and wrap as a pair. */
+.ent-exports {
+  display: flex;
+  gap: var(--space-sm);
+}
+
 .ent-notice {
   display: flex;
   align-items: flex-start;
@@ -24061,6 +24067,12 @@ ul.letter-archive__list {
   font-size: var(--type-body-sm-size);
   line-height: var(--type-body-sm-leading);
   color: var(--color-text-secondary);
+}
+
+.letter__save {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
 }
 
 .letter__code {

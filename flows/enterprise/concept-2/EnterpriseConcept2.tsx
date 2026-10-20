@@ -10,6 +10,7 @@ import { Icon } from "@/components/primitives/Icon";
 import { useCohortId } from "@/lib/cohort-store";
 import {
   C2_COPY,
+  CSV_COPY,
   DATA_POINTS,
   REPORT_SECTIONS,
   WINDOWS,
@@ -20,6 +21,7 @@ import {
   type CohortId,
   type WindowId,
 } from "@/mock/enterprise";
+import { downloadCsv } from "../downloadCsv";
 import { useCohort, type CohortControls } from "../useCohort";
 
 const C = C2_COPY;
@@ -148,13 +150,22 @@ function Concept2Page({ controls }: { controls: CohortControls }) {
       {cohort ? (
         <div className="report-toolbar">
           <WindowSelector value={window} onChange={setWindow} asOf={cohort.asOf} upcoming={cohort.fresh} />
-          <Button variant="secondary" size="sm" onClick={() => globalThis.print()} aria-describedby="report-export-hint">
-            <Icon name="download" size={16} />
-            {C.export}
-          </Button>
-          <span className="u-visually-hidden" id="report-export-hint">
-            {C.exportHint}
-          </span>
+          <div className="ent-exports">
+            <Button variant="secondary" size="sm" onClick={() => globalThis.print()} aria-describedby="report-export-hint">
+              <Icon name="download" size={16} />
+              {C.export}
+            </Button>
+            <span className="u-visually-hidden" id="report-export-hint">
+              {C.exportHint}
+            </span>
+            <Button variant="secondary" size="sm" onClick={() => downloadCsv(cohort, window)} aria-describedby="report-csv-hint">
+              <Icon name="download" size={16} />
+              {C.exportCsv}
+            </Button>
+            <span className="u-visually-hidden" id="report-csv-hint">
+              {CSV_COPY.hint}
+            </span>
+          </div>
         </div>
       ) : null}
 
@@ -210,7 +221,7 @@ function Concept2ForCohort({ id }: { id: CohortId }) {
  * Northgate: a letterhead, the cohort and its dates, then each figure as a
  * sentence with the number set large, and what it counts written in the
  * margin beside it so a talent lead can repeat it word for word. The window
- * and the export sit above the page, outside the document. Setting up a
+ * and the exports (PDF and CSV) sit above the page, outside the document. Setting up a
  * cohort fills in the report's header; its code sits in the margin, on
  * screen only.
  */

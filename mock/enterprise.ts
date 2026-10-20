@@ -13,8 +13,8 @@
  * decision on 2026-10-15.
  */
 
-/** No figure is shown for fewer active participants than this. Proposed in the
- *  brief; used everywhere until it is confirmed. */
+/** No figure is shown for fewer active participants than this. Settled in the
+ *  brief of 2026-10-20. */
 export const MIN_COHORT_SIZE = 10;
 
 /* -----------------------------------------------------------------------------
@@ -43,8 +43,6 @@ export type CohortId = (typeof COHORT_IDS)[number];
 export interface CohortCounts {
   /** Signed in and took at least one action in the window. */
   active: number;
-  /** Came back in a later week after their first. */
-  returning: number;
   /** Planned actions accepted in the window, and how many were completed
    *  within 30 days. Declined and deferred actions are not in the base. */
   actionsAccepted: number;
@@ -83,7 +81,6 @@ export interface Cohort {
 
 const PILOT_WEEK_2: CohortCounts = {
   active: 29,
-  returning: 17,
   actionsAccepted: 74,
   actionsCompleted: 31,
   artifacts: 58,
@@ -94,7 +91,6 @@ const PILOT_WEEK_2: CohortCounts = {
 
 const SMALL_WEEK_1: CohortCounts = {
   active: 4,
-  returning: 0,
   actionsAccepted: 9,
   actionsCompleted: 2,
   artifacts: 6,
@@ -105,7 +101,6 @@ const SMALL_WEEK_1: CohortCounts = {
 
 const DEMO_SINCE_LAUNCH: CohortCounts = {
   active: 781,
-  returning: 690,
   actionsAccepted: 5820,
   actionsCompleted: 3317,
   artifacts: 3950,
@@ -163,7 +158,6 @@ export const COHORTS: Record<Cohort["id"], Cohort> = {
     byWindow: {
       "30d": {
         active: 588,
-        returning: 512,
         actionsAccepted: 2140,
         actionsCompleted: 1262,
         artifacts: 1384,
@@ -212,7 +206,6 @@ export const DATA_POINT_IDS = [
   "invites",
   "onboarding",
   "active",
-  "returning",
   "briefing",
   "plans",
   "follow-through",
@@ -256,12 +249,6 @@ export const DATA_POINTS: Record<DataPointId, DataPoint> = {
     question: "using",
     definition: "Of the people set up, how many signed in and did at least one thing in the window.",
     source: "Sign-ins and actions in ExecHQ.",
-  },
-  returning: {
-    label: "Came back",
-    question: "using",
-    definition: "Of the people set up, how many came back in a later week after their first.",
-    source: "Return visits to ExecHQ.",
   },
   briefing: {
     label: "Read the Briefing weekly",
@@ -346,10 +333,6 @@ export function figureFor(cohort: Cohort, id: DataPointId, window: WindowId): Fi
       value: share(c.active, cohort.activated),
       detail: `${count.format(c.active)} of ${count.format(cohort.activated)} set up`,
     },
-    returning: {
-      value: share(c.returning, cohort.activated),
-      detail: `${count.format(c.returning)} of ${count.format(cohort.activated)} set up`,
-    },
     briefing: {
       value: share(c.briefingWeekly, c.active),
       detail: `${count.format(c.briefingWeekly)} of ${count.format(c.active)} active`,
@@ -379,6 +362,60 @@ export function figureFor(cohort: Cohort, id: DataPointId, window: WindowId): Fi
   }
   return { id, label, state: "shown", ...values[id] };
 }
+
+/* -----------------------------------------------------------------------------
+   CSV EXPORT
+   -------------------------------------------------------------------------- */
+
+/** One cell, quoted when it holds a comma, a quote or a line break. */
+function csvCell(value: string): string {
+  return /[",\n]/.test(value) ? `"${value.replace(/"/g, '""')}"` : value;
+}
+
+/**
+ * The figures as shown, as a spreadsheet: one row per Tier 1 figure, totals
+ * only. Never a row per participant (the brief, 2026-10-20). A hidden figure
+ * stays hidden here, with the reason in its note, so the file can say no more
+ * than the page.
+ */
+export function cohortCsv(cohort: Cohort, window: WindowId): string {
+  const H = CSV_COPY.headers;
+  const rows: string[][] = [[H.figure, H.value, H.detail, H.covers, H.asOf, H.counts, H.note]];
+  for (const id of DATA_POINT_IDS) {
+    const point = DATA_POINTS[id];
+    const figure = figureFor(cohort, id, window);
+    rows.push([
+      figure.label,
+      figure.value ?? ENTERPRISE_COPY.hidden,
+      figure.detail ?? "",
+      point.sinceLaunch || window === "launch" ? CSV_COPY.sinceLaunch : WINDOWS[window].long,
+      cohort.asOf,
+      point.definition,
+      figure.note ?? "",
+    ]);
+  }
+  return rows.map((row) => row.map(csvCell).join(",")).join("\r\n") + "\r\n";
+}
+
+/** The file's name: the cohort and the Monday its figures are from. */
+export function csvFileName(cohort: Cohort): string {
+  const slug = cohort.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  return `${slug || "cohort"}-${cohort.asOf}.csv`;
+}
+
+export const CSV_COPY = {
+  headers: {
+    figure: "Figure",
+    value: "Value",
+    detail: "Out of",
+    covers: "Covers",
+    asOf: "As of",
+    counts: "What it counts",
+    note: "Note",
+  },
+  sinceLaunch: "since the program started",
+  hint: "Downloads the figures on this page as a spreadsheet. Totals for the whole cohort, never a row per participant.",
+} as const;
 
 /* -----------------------------------------------------------------------------
    COPY
@@ -477,7 +514,6 @@ export const ENTERPRISE_COPY = {
 
 const NOTHING_YET: CohortCounts = {
   active: 0,
-  returning: 0,
   actionsAccepted: 0,
   actionsCompleted: 0,
   artifacts: 0,
@@ -522,7 +558,7 @@ export function makeCode(): string {
 /** The data points under each question, the first set large. */
 export const QUESTION_POINTS: Record<QuestionId, DataPointId[]> = {
   joined: ["invites", "onboarding"],
-  using: ["active", "returning", "briefing"],
+  using: ["active", "briefing"],
   following: ["follow-through", "plans", "artifacts", "loop"],
 };
 
@@ -540,7 +576,7 @@ export function answerFor(cohort: Cohort, question: QuestionId, window: WindowId
         : `${count.format(cohort.joined)} of the ${count.format(cohort.expectedSize)} leaders you expected have joined so far.`;
     case "using":
       return above
-        ? `${count.format(c.active)} participants were active in ${long}, and ${count.format(c.returning)} have come back after their first week.`
+        ? `${count.format(c.active)} participants were active in ${long}, and ${count.format(c.briefingWeekly)} read the Daily Briefing at least once a week.`
         : undefined;
     case "following":
       return above
@@ -555,7 +591,8 @@ export const C1_COPY = {
   dates: (startsOn: string, endsOn: string) => `${formatDate(startsOn)} to ${formatDate(endsOn)}`,
   age: (day: number) => (day === 1 ? "Day 1" : `Day ${day}`),
   notStarted: "Not started yet",
-  export: "Export report",
+  export: "Export as PDF",
+  exportCsv: "Export as CSV",
   printWindow: (long: string, asOf: string) => `Figures cover ${long}. As of ${formatAsOf(asOf)}.`,
   questions: {
     joined: "Did they join?",
@@ -600,7 +637,7 @@ export interface ReportLine {
 /** The report's sections, in reading order, and the lines in each. */
 export const REPORT_SECTIONS: { id: QuestionId; heading: string; points: DataPointId[] }[] = [
   { id: "joined", heading: "Joining", points: ["invites", "onboarding"] },
-  { id: "using", heading: "Use", points: ["active", "returning", "briefing"] },
+  { id: "using", heading: "Use", points: ["active", "briefing"] },
   { id: "following", heading: "Follow-through", points: ["plans", "follow-through", "artifacts", "loop"] },
 ];
 
@@ -614,7 +651,6 @@ export function reportLine(cohort: Cohort, id: DataPointId, window: WindowId): R
     invites: `of the ${n(cohort.expectedSize)} leaders you expected have joined.`,
     onboarding: `of them finished setting up (${n(cohort.activated)} of ${n(cohort.joined)}).`,
     active: `of those set up were active in ${long} (${n(c.active)} of ${n(cohort.activated)}).`,
-    returning: `came back in a later week after their first (${n(c.returning)} of ${n(cohort.activated)}).`,
     briefing: `of active participants read the Daily Briefing at least once a week (${n(c.briefingWeekly)} of ${n(c.active)}).`,
     plans: `of those set up chose a development plan (${n(cohort.planAccepted)} of ${n(cohort.activated)}).`,
     "follow-through": `of the planned actions participants took on were completed within 30 days (${n(c.actionsCompleted)} of ${n(c.actionsAccepted)}).`,
@@ -643,6 +679,7 @@ export const C2_COPY = {
     "Totals for the whole cohort. Northgate never sees a participant, their plan or their work. Prepared by ExecHQ from activity in the product.",
   export: "Export as PDF",
   exportHint: "Exports this page as it is, on one page.",
+  exportCsv: "Export as CSV",
   setup: {
     title: "Untitled cohort",
     lead: "Fill in the cohort’s details to start its report. You will get one code to share.",
@@ -724,7 +761,6 @@ export function whatMoved(issue: LetterIssue, previous?: LetterIssue): string[] 
   const moved = (x: number, y: number) => Math.abs(x - y) >= MIN_COHORT_SIZE;
   if (moved(now.joined, then.joined)) lines.push(now.joined > then.joined ? C3_COPY.moved.joinedUp : C3_COPY.moved.joinedDown);
   if (moved(a.active, b.active)) lines.push(a.active > b.active ? C3_COPY.moved.activeUp : C3_COPY.moved.activeDown);
-  if (moved(a.returning, b.returning)) lines.push(a.returning > b.returning ? C3_COPY.moved.returningUp : C3_COPY.moved.returningDown);
   return lines;
 }
 
@@ -750,8 +786,8 @@ export const C3_COPY = {
     activated === undefined
       ? `${count.format(joined)} of the ${count.format(expected)} leaders you expected have joined so far.`
       : `${count.format(joined)} of the ${count.format(expected)} leaders you expected have joined, and ${count.format(activated)} have finished setting up.`,
-  using: (active: number, share: string, returning: number, briefing: number) =>
-    `${count.format(active)} were active, ${share} of those set up. ${count.format(returning)} have come back after their first week, and ${count.format(briefing)} read the Daily Briefing at least once a week.`,
+  using: (active: number, share: string, briefing: number) =>
+    `${count.format(active)} were active, ${share} of those set up, and ${count.format(briefing)} read the Daily Briefing at least once a week.`,
   following: (plans: number, completed: number, accepted: number, artifacts: number, used: number, outcomes: number) =>
     `${count.format(plans)} have chosen a development plan. Participants completed ${count.format(completed)} of the ${count.format(accepted)} planned actions they took on within 30 days, and made ${count.format(artifacts)} pieces of work: ${count.format(used)} were used outside ExecHQ, and ${count.format(outcomes)} have a result recorded.`,
   hidden: `Everything else stays hidden until ${MIN_COHORT_SIZE} or more participants are active, so no figure can point to one person. I’ll tell you when it opens.`,
@@ -763,13 +799,12 @@ export const C3_COPY = {
     joinedDown: "Fewer people are in the cohort.",
     activeUp: "More participants were active.",
     activeDown: "Fewer participants were active.",
-    returningUp: "More participants came back after their first week.",
-    returningDown: "Fewer participants came back after their first week.",
   },
   definitions: "What these figures count",
   signOff: "ExecHQ",
   privacy: "Totals for the whole cohort. You never see a participant, their plan or their work.",
   save: "Save this issue as PDF",
+  saveCsv: "Save this issue as CSV",
   manage: "Manage the code",
   hideManage: "Hide",
   codeLine: (code: string, joined: number, expected: number, open: boolean) =>
