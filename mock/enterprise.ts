@@ -1103,8 +1103,6 @@ export const C3_COPY = {
     activeDown: "Fewer participants were active.",
   },
   definitions: "How these are measured",
-  trendLabel: (first: number, latest: number) => `Active each week, from ${count.format(first)} to ${count.format(latest)}`,
-  trendCaption: "Active each week",
   signOff: "ExecHQ",
   privacy: "Totals for the whole cohort. You never see a participant, their plan or their work.",
   save: "Save this issue",

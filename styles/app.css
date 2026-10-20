@@ -24587,50 +24587,6 @@ ul.letter-archive__list {
   max-width: 68ch;
 }
 
-/* "Since the last issue", with the weeks so far drawn small beside it. */
-.letter__moved-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-xs) var(--space-md);
-}
-
-.letter__trend {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-xs);
-}
-
-.letter__trend-caption {
-  font-size: var(--type-caption-size);
-  line-height: var(--type-caption-leading);
-  color: var(--color-text-secondary);
-}
-
-.sparkline {
-  display: inline-flex;
-}
-
-.sparkline__svg {
-  display: block;
-  overflow: visible;
-}
-
-.sparkline__line {
-  fill: none;
-  stroke: var(--color-chart-line);
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.sparkline__dot {
-  fill: var(--color-chart-line);
-  stroke: var(--color-surface);
-  stroke-width: 2;
-}
-
 .letter__hidden {
   display: flex;
   align-items: flex-start;

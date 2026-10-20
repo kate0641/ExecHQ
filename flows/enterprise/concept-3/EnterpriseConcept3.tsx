@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { AdvisorMark } from "@/components/chat/AdvisorMark";
 import { InviteCode } from "@/components/enterprise/InviteCode";
-import { Sparkline } from "@/components/enterprise/Sparkline";
 import { DropdownMenu } from "@/components/form/DropdownMenu";
 import { Input } from "@/components/form/Input";
 import { Button } from "@/components/primitives/Button";
@@ -14,7 +13,6 @@ import {
   DATA_POINTS,
   ENTERPRISE_COPY,
   LATE_COPY,
-  MIN_COHORT_SIZE,
   firstIssueOn,
   figureFor,
   isAboveMinimum,
@@ -70,12 +68,6 @@ function Issue({ issue, previous, late, headingRef }: { issue: LetterIssue; prev
   const above = isAboveMinimum(cohort, window);
   const moved = whatMoved(issue, previous);
   const active = figureFor(cohort, "active", window);
-  // Each week's active people up to this issue; a week below the minimum is
-  // a gap.
-  const weeks = cohort.weeklyActive.map((value) => (value >= MIN_COHORT_SIZE ? value : undefined));
-  const shownWeeks = weeks.filter((value): value is number => value !== undefined);
-  const firstWeek = shownWeeks[0];
-  const lastWeek = shownWeeks[shownWeeks.length - 1];
 
   return (
     <>
@@ -95,22 +87,12 @@ function Issue({ issue, previous, late, headingRef }: { issue: LetterIssue; prev
 
       <div className="letter__body">
         {/* What changed is why a weekly letter exists: it comes first
-            (Kate, 2026-10-20), with the weeks so far drawn beside it. */}
+            (Kate, 2026-10-20). */}
         {previous && above ? (
           <section className="letter__moved" aria-labelledby="letter-moved">
-            <div className="letter__moved-head">
-              <h2 className="letter__subheading" id="letter-moved">
-                {C.movedHeading}
-              </h2>
-              {weeks.length >= 2 ? (
-                <span className="letter__trend">
-                  <Sparkline values={weeks} label={C.trendLabel(firstWeek ?? 0, lastWeek ?? 0)} />
-                  <span className="letter__trend-caption" aria-hidden="true">
-                    {C.trendCaption}
-                  </span>
-                </span>
-              ) : null}
-            </div>
+            <h2 className="letter__subheading" id="letter-moved">
+              {C.movedHeading}
+            </h2>
             {moved.length > 0 ? (
               <>
                 <ul>
