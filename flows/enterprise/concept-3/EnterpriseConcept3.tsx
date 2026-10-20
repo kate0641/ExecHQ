@@ -79,7 +79,7 @@ function Issue({ issue, previous, headingRef }: { issue: LetterIssue; previous?:
         {above ? (
           <>
             <p>{C.using(c.active, active.value ?? "", c.briefingWeekly)}</p>
-            <p>{C.following(cohort.planAccepted, c.actionsCompleted, c.actionsAccepted, c.artifacts, c.artifactsUsed, c.outcomesRecorded)}</p>
+            <p>{C.following(cohort.planAccepted, c.actionsCompleted, c.actionsAccepted, c.artifacts, c.artifactsUsed)}</p>
           </>
         ) : (
           <p className="letter__hidden">

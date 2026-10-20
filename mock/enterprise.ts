@@ -47,11 +47,11 @@ export interface CohortCounts {
    *  within 30 days. Declined and deferred actions are not in the base. */
   actionsAccepted: number;
   actionsCompleted: number;
-  /** Artifacts made, how many were marked used, and how many of those have
-   *  an outcome recorded. */
+  /** Artifacts made, and how many were marked used. Recorded outcomes are
+   *  tracked inside ExecHQ, never shown to the sponsor: without the work or
+   *  the person behind them they give no context (Kate, 2026-10-20). */
   artifacts: number;
   artifactsUsed: number;
-  outcomesRecorded: number;
   /** Active participants who opened the Briefing at least once a week. */
   briefingWeekly: number;
 }
@@ -85,7 +85,6 @@ const PILOT_WEEK_2: CohortCounts = {
   actionsCompleted: 31,
   artifacts: 58,
   artifactsUsed: 19,
-  outcomesRecorded: 7,
   briefingWeekly: 22,
 };
 
@@ -95,7 +94,6 @@ const SMALL_WEEK_1: CohortCounts = {
   actionsCompleted: 2,
   artifacts: 6,
   artifactsUsed: 1,
-  outcomesRecorded: 0,
   briefingWeekly: 3,
 };
 
@@ -105,7 +103,6 @@ const DEMO_SINCE_LAUNCH: CohortCounts = {
   actionsCompleted: 3317,
   artifacts: 3950,
   artifactsUsed: 1580,
-  outcomesRecorded: 711,
   briefingWeekly: 529,
 };
 
@@ -162,7 +159,6 @@ export const COHORTS: Record<Cohort["id"], Cohort> = {
         actionsCompleted: 1262,
         artifacts: 1384,
         artifactsUsed: 590,
-        outcomesRecorded: 236,
         briefingWeekly: 401,
       },
       "90d": DEMO_SINCE_LAUNCH,
@@ -280,8 +276,8 @@ export const DATA_POINTS: Record<DataPointId, DataPoint> = {
     label: "Work used",
     question: "following",
     definition:
-      "Of the work made, how much participants marked as used outside ExecHQ, and of that, how much has a result recorded.",
-    source: "Work marked used, and results recorded, in ExecHQ.",
+      "Of the work made, how much participants marked as used outside ExecHQ.",
+    source: "Work marked used in ExecHQ.",
   },
 };
 
@@ -351,7 +347,7 @@ export function figureFor(cohort: Cohort, id: DataPointId, window: WindowId): Fi
     },
     loop: {
       value: share(c.artifactsUsed, c.artifacts),
-      detail: `${count.format(c.artifactsUsed)} used, ${count.format(c.outcomesRecorded)} with a result`,
+      detail: `${count.format(c.artifactsUsed)} of ${count.format(c.artifacts)} pieces`,
     },
   };
 
@@ -518,7 +514,6 @@ const NOTHING_YET: CohortCounts = {
   actionsCompleted: 0,
   artifacts: 0,
   artifactsUsed: 0,
-  outcomesRecorded: 0,
   briefingWeekly: 0,
 };
 
@@ -655,7 +650,7 @@ export function reportLine(cohort: Cohort, id: DataPointId, window: WindowId): R
     plans: `of those set up chose a development plan (${n(cohort.planAccepted)} of ${n(cohort.activated)}).`,
     "follow-through": `of the planned actions participants took on were completed within 30 days (${n(c.actionsCompleted)} of ${n(c.actionsAccepted)}).`,
     artifacts: `pieces of work were made in ExecHQ in ${long}.`,
-    loop: `of that work was marked as used outside ExecHQ (${n(c.artifactsUsed)}), and ${n(c.outcomesRecorded)} ${c.outcomesRecorded === 1 ? "piece has" : "pieces have"} a result recorded.`,
+    loop: `of that work was marked as used outside ExecHQ (${n(c.artifactsUsed)} of ${n(c.artifacts)}).`,
   };
   return { figure, rest: rest[id] };
 }
@@ -788,8 +783,8 @@ export const C3_COPY = {
       : `${count.format(joined)} of the ${count.format(expected)} leaders you expected have joined, and ${count.format(activated)} have finished setting up.`,
   using: (active: number, share: string, briefing: number) =>
     `${count.format(active)} were active, ${share} of those set up, and ${count.format(briefing)} read the Daily Briefing at least once a week.`,
-  following: (plans: number, completed: number, accepted: number, artifacts: number, used: number, outcomes: number) =>
-    `${count.format(plans)} have chosen a development plan. Participants completed ${count.format(completed)} of the ${count.format(accepted)} planned actions they took on within 30 days, and made ${count.format(artifacts)} pieces of work: ${count.format(used)} were used outside ExecHQ, and ${count.format(outcomes)} have a result recorded.`,
+  following: (plans: number, completed: number, accepted: number, artifacts: number, used: number) =>
+    `${count.format(plans)} have chosen a development plan. Participants completed ${count.format(completed)} of the ${count.format(accepted)} planned actions they took on within 30 days, and made ${count.format(artifacts)} pieces of work: ${count.format(used)} were used outside ExecHQ.`,
   hidden: `Everything else stays hidden until ${MIN_COHORT_SIZE} or more participants are active, so no figure can point to one person. I’ll tell you when it opens.`,
   movedHeading: "Since the last issue",
   movedNone: `Nothing moved by enough to mention. I only mention a change when at least ${MIN_COHORT_SIZE} participants are behind it.`,
