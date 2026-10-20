@@ -57,6 +57,18 @@ export interface CohortCounts {
   briefingWeekly: number;
 }
 
+export const CHANNEL_IDS = ["linkedin", "writing", "speaking", "podcasts", "press"] as const;
+export type ChannelId = (typeof CHANNEL_IDS)[number];
+
+/** Active participants with at least one signal in the window: on any
+ *  channel, and on each. Someone on two channels counts in both. */
+export interface SignalCounts {
+  any: number;
+  channels: Record<ChannelId, number>;
+}
+
+const NO_SIGNALS: SignalCounts = { any: 0, channels: { linkedin: 0, writing: 0, speaking: 0, podcasts: 0, press: 0 } };
+
 export interface Cohort {
   id: Exclude<CohortId, "none">;
   name: string;
@@ -76,6 +88,9 @@ export interface Cohort {
   /** Activated with an accepted plan. */
   planAccepted: number;
   byWindow: Record<WindowId, CohortCounts>;
+  /** Signals: what participants put out in the world, by channel, per
+   *  window (Kate, 2026-10-20, Concept 1 only). */
+  signals: Record<WindowId, SignalCounts>;
   /** People active in each week, one per Monday update, oldest first (see
    *  `updateMondays`). Drawn as the weekly trend, always since launch. */
   weeklyActive: number[];
@@ -117,6 +132,10 @@ const DEMO_SINCE_LAUNCH: CohortCounts = {
   briefingWeekly: 529,
 };
 
+const SMALL_SIGNALS: SignalCounts = { any: 3, channels: { linkedin: 3, writing: 1, speaking: 0, podcasts: 0, press: 0 } };
+const PILOT_SIGNALS: SignalCounts = { any: 21, channels: { linkedin: 17, writing: 10, speaking: 6, podcasts: 2, press: 3 } };
+const DEMO_SIGNALS_SINCE_LAUNCH: SignalCounts = { any: 590, channels: { linkedin: 520, writing: 260, speaking: 96, podcasts: 30, press: 51 } };
+
 const DEMO_LAST_WEEK_SINCE_LAUNCH: CohortCounts = {
   active: 776,
   actionsAccepted: 5610,
@@ -140,6 +159,7 @@ export const COHORTS: Record<Cohort["id"], Cohort> = {
     activated: 5,
     planAccepted: 4,
     byWindow: { "30d": SMALL_WEEK_1, "90d": SMALL_WEEK_1, launch: SMALL_WEEK_1 },
+    signals: { "30d": SMALL_SIGNALS, "90d": SMALL_SIGNALS, launch: SMALL_SIGNALS },
     weeklyActive: [4],
   },
   /** Maya's cohort, at week 2: every figure shows, and the 30 and 90-day
@@ -156,6 +176,8 @@ export const COHORTS: Record<Cohort["id"], Cohort> = {
     activated: 33,
     planAccepted: 26,
     byWindow: { "30d": PILOT_WEEK_2, "90d": PILOT_WEEK_2, launch: PILOT_WEEK_2 },
+    // Speaking, podcasts and press stay under the minimum: held back.
+    signals: { "30d": PILOT_SIGNALS, "90d": PILOT_SIGNALS, launch: PILOT_SIGNALS },
     weeklyActive: [21, 26],
   },
   /** The December partner meeting: 1,000 at day 90, so 90 days and since
@@ -182,6 +204,11 @@ export const COHORTS: Record<Cohort["id"], Cohort> = {
       },
       "90d": DEMO_SINCE_LAUNCH,
       launch: DEMO_SINCE_LAUNCH,
+    },
+    signals: {
+      "30d": { any: 402, channels: { linkedin: 351, writing: 164, speaking: 58, podcasts: 21, press: 33 } },
+      "90d": DEMO_SIGNALS_SINCE_LAUNCH,
+      launch: DEMO_SIGNALS_SINCE_LAUNCH,
     },
     // Climbs while people join, peaks in week 5, then eases off a little:
     // the shape a sponsor asking "are they still using it?" needs to see.
@@ -552,6 +579,59 @@ export const TREND_COPY = {
 } as const;
 
 /* -----------------------------------------------------------------------------
+   ARE THEY BEING SEEN?
+   Signals (Kate, 2026-10-20, Concept 1 only): what participants put out in
+   the world. Signals are public by nature, so each channel needs its own
+   minimum: fewer than MIN_COHORT_SIZE people on a channel and it is held
+   back, or a sponsor could search for the one podcast and find the person.
+   -------------------------------------------------------------------------- */
+
+export interface SeenView {
+  /** Active participants with a signal on any channel, and their share. */
+  any: { value: string; detail: string; fraction: number };
+  /** Channels with enough people behind them, most first. */
+  shown: { label: string; value: string; of: string }[];
+  /** Channels held back, named together. */
+  hidden: string[];
+}
+
+/** The seen card for one cohort and window. Undefined below the minimum. */
+export function seenFor(cohort: Cohort, window: WindowId): SeenView | undefined {
+  if (!isAboveMinimum(cohort, window)) return undefined;
+  const s = cohort.signals[window];
+  const active = cohort.byWindow[window].active;
+  const n = (value: number) => count.format(value);
+  const channels = [...CHANNEL_IDS].sort((a, b) => s.channels[b] - s.channels[a]);
+  return {
+    any: { value: share(s.any, active), detail: `${n(s.any)} of ${n(active)} active`, fraction: fraction(s.any, active) },
+    shown: channels
+      .filter((id) => s.channels[id] >= MIN_COHORT_SIZE)
+      .map((id) => ({ label: SEEN_COPY.channels[id], value: n(s.channels[id]), of: `of ${n(active)}` })),
+    // Held back in a fixed order, so the list never hints at which is larger.
+    hidden: CHANNEL_IDS.filter((id) => s.channels[id] < MIN_COHORT_SIZE).map((id) => SEEN_COPY.channels[id]),
+  };
+}
+
+/** "Speaking, podcasts, press": held-back channels, named together. */
+function listChannels(labels: string[]): string {
+  return labels.map((label, i) => (i === 0 ? label : label.toLowerCase())).join(", ");
+}
+
+export const SEEN_COPY = {
+  heading: "Are they being seen?",
+  answer: (any: number, active: number, window: WindowId) =>
+    `${count.format(any)} of the ${count.format(active)} active participants put something out in the world ${inWindow(window)}.`,
+  ring: "put something out, on any channel",
+  channels: { linkedin: "LinkedIn", writing: "Published writing", speaking: "Speaking", podcasts: "Podcasts", press: "Press" } satisfies Record<ChannelId, string>,
+  hidden: (labels: string[]) => listChannels(labels),
+  fewer: `Fewer than ${MIN_COHORT_SIZE}`,
+  fewerLabel: `Fewer than ${MIN_COHORT_SIZE} people each, held back so none can point to one person`,
+  note: "Recorded in ExecHQ or added by the participant. Someone on two channels counts in both.",
+  hiddenAll: `Hidden until ${MIN_COHORT_SIZE} or more participants are active.`,
+  listLabel: "By channel",
+} as const;
+
+/* -----------------------------------------------------------------------------
    CSV EXPORT
    -------------------------------------------------------------------------- */
 
@@ -735,6 +815,7 @@ export function newCohort(details: { name: string; expectedSize: number; startsO
     activated: 0,
     planAccepted: 0,
     byWindow: { "30d": NOTHING_YET, "90d": NOTHING_YET, launch: NOTHING_YET },
+    signals: { "30d": NO_SIGNALS, "90d": NO_SIGNALS, launch: NO_SIGNALS },
     weeklyActive: [],
     fresh: true,
   };

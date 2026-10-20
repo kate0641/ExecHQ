@@ -23810,9 +23810,10 @@ ul.plan-guided__sparks {
 /* The board (Kate, 2026-10-20): the three questions as cards on the page's
    grey. Follow-through leads across the full width; still using it and did
    they join sit side by side under it. */
+/* Three cards under the hero: using, being seen, joining (Kate, 2026-10-20). */
 .ent-board {
   display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: stretch;
   gap: var(--space-lg);
 }
@@ -23884,6 +23885,75 @@ ul.plan-guided__sparks {
   padding: var(--space-md);
   border-radius: var(--radius-card);
   background-color: var(--color-surface-raised);
+}
+
+/* A third of the width: joining's ring and Set up stack. */
+.ent-card--joined .ent-card__figures {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* Are they being seen? A ring for any channel, then the channels. */
+.ent-seen__any {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.ent-seen__any-label {
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
+}
+
+.ent-seen__channels {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: var(--space-sm) 0 0;
+  list-style: none;
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+}
+
+.ent-seen__channels li {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.ent-seen__count {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  flex: none;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-secondary);
+}
+
+.ent-seen__count strong {
+  color: var(--color-text-primary);
+}
+
+.ent-seen__hidden {
+  color: var(--color-text-secondary);
+}
+
+.ent-seen__note {
+  margin-top: auto;
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+  color: var(--color-text-secondary);
+}
+
+.ent-seen__locked {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
 }
 
 /* The code closes the joining card, under a rule. */

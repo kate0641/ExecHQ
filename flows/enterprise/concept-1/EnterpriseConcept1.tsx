@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { CohortFigure } from "@/components/enterprise/CohortFigure";
 import { CohortForm } from "@/components/enterprise/CohortForm";
 import { InviteCode } from "@/components/enterprise/InviteCode";
+import { Meter } from "@/components/enterprise/Meter";
 import { WeeklyTrend } from "@/components/enterprise/WeeklyTrend";
 import { WindowSelector } from "@/components/enterprise/WindowSelector";
 import { DropdownMenu } from "@/components/form/DropdownMenu";
@@ -15,12 +16,14 @@ import {
   DIRECTION_COPY,
   LATE_COPY,
   QUESTION_POINTS,
+  SEEN_COPY,
   answerFor,
   comparesWeeks,
   directionFor,
   figureFor,
   isAboveMinimum,
   programDay,
+  seenFor,
   weeksIn,
   trendFor,
   type Cohort,
@@ -164,6 +167,67 @@ function QuestionCard({
   );
 }
 
+/**
+ * Are they being seen? (Kate, 2026-10-20, option C): signals, what
+ * participants put out in the world, as a third card in the row. A ring for
+ * any channel, then the channels with at least the minimum of people behind
+ * them; the rest are named together and held back, since a public signal
+ * could otherwise be searched for and point to one person.
+ */
+function SeenCard({ cohort, window }: { cohort: Cohort; window: WindowId }) {
+  const seen = seenFor(cohort, window);
+  const signals = cohort.signals[window];
+  return (
+    <section className="ent-card ent-card--seen" aria-labelledby="q-seen">
+      <div className="ent-card__lead">
+        <h2 className="ent-card__heading" id="q-seen">
+          {SEEN_COPY.heading}
+        </h2>
+        {seen ? <p className="ent-card__answer">{SEEN_COPY.answer(signals.any, cohort.byWindow[window].active, window)}</p> : null}
+      </div>
+      {seen ? (
+        <>
+          <p className="ent-seen__any">
+            <Meter kind="ring" fraction={seen.any.fraction}>
+              <span className="cohort-figure__value">{seen.any.value}</span>
+            </Meter>
+            <span className="ent-seen__any-label">
+              {SEEN_COPY.ring}
+              <span className="u-visually-hidden">: {seen.any.detail}</span>
+            </span>
+          </p>
+          <ul className="ent-seen__channels" aria-label={SEEN_COPY.listLabel}>
+            {seen.shown.map((channel) => (
+              <li key={channel.label}>
+                <span>{channel.label}</span>
+                <span className="ent-seen__count">
+                  <strong>{channel.value}</strong> {channel.of}
+                </span>
+              </li>
+            ))}
+            {seen.hidden.length > 0 ? (
+              <li className="ent-seen__hidden">
+                <span>{SEEN_COPY.hidden(seen.hidden)}</span>
+                <span className="ent-seen__count">
+                  <Icon name="lock" size={14} />
+                  {SEEN_COPY.fewer}
+                  <span className="u-visually-hidden">: {SEEN_COPY.fewerLabel}</span>
+                </span>
+              </li>
+            ) : null}
+          </ul>
+          <p className="ent-seen__note">{SEEN_COPY.note}</p>
+        </>
+      ) : (
+        <p className="ent-seen__locked">
+          <Icon name="lock" size={16} />
+          {SEEN_COPY.hiddenAll}
+        </p>
+      )}
+    </section>
+  );
+}
+
 /** The dashboard: one page, the three questions as cards, and the cohort's
  *  code in the joining card, where it belongs. */
 function Dashboard({ controls, headingRef }: { controls: CohortControls; headingRef?: React.Ref<HTMLHeadingElement> }) {
@@ -195,26 +259,30 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
 
       <div className="ent-board">
         {CARD_ORDER.map((question) => (
-          <QuestionCard key={question} cohort={cohort} question={question} window={window} open={open} setOpen={setOpen}>
-            {/* Whether they are still using it is a trend, not a snapshot:
-                always since launch, whichever window is chosen. */}
-            {question === "using" ? <WeeklyTrend className="ent-card__trend" trend={trendFor(cohort)} /> : null}
-            {question === "joined" ? (
-              <div className="ent-card__code">
-                <InviteCode
-                  layout="compact"
-                  hideJoined
-                  code={cohort.code}
-                  joined={cohort.joined}
-                  expectedSize={cohort.expectedSize}
-                  open={cohort.open}
-                  onRegenerate={controls.regenerate}
-                  onClose={controls.close}
-                  justRegenerated={controls.justRegenerated}
-                />
-              </div>
-            ) : null}
-          </QuestionCard>
+          <Fragment key={question}>
+            {/* Being seen sits between using and joining (Kate, 2026-10-20). */}
+            {question === "joined" ? <SeenCard cohort={cohort} window={window} /> : null}
+            <QuestionCard cohort={cohort} question={question} window={window} open={open} setOpen={setOpen}>
+              {/* Whether they are still using it is a trend, not a snapshot:
+                  always since launch, whichever window is chosen. */}
+              {question === "using" ? <WeeklyTrend className="ent-card__trend" trend={trendFor(cohort)} /> : null}
+              {question === "joined" ? (
+                <div className="ent-card__code">
+                  <InviteCode
+                    layout="compact"
+                    hideJoined
+                    code={cohort.code}
+                    joined={cohort.joined}
+                    expectedSize={cohort.expectedSize}
+                    open={cohort.open}
+                    onRegenerate={controls.regenerate}
+                    onClose={controls.close}
+                    justRegenerated={controls.justRegenerated}
+                  />
+                </div>
+              ) : null}
+            </QuestionCard>
+          </Fragment>
         ))}
       </div>
 
