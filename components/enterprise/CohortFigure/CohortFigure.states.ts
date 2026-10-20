@@ -12,7 +12,7 @@ export const cohortFigureStates = defineComponentStates({
   status: "draft",
   flows: ["enterprise"],
   description:
-    "One cohort-level figure on the sponsor dashboard: the number and what it is out of. Filling in while the program is younger than the window, with its age stated; hidden while fewer than 10 participants are active, naming the rule. Every figure opens to its definition.",
+    "One cohort-level figure on the sponsor dashboard: the number and what it is out of, and which way it moved since last week when at least 10 people are behind the change. Filling in while the program is younger than the window, with its age stated; hidden while fewer than 10 participants are active, naming the rule. Every figure opens to its definition.",
   component: CohortFigure,
   notApplicable: {
     disabled: "Its one control always works: every figure has a definition, even a hidden one.",
@@ -23,6 +23,9 @@ export const cohortFigureStates = defineComponentStates({
   variants: [
     { label: "Shown — default", props: { figure: active, onExplain: noop } },
     { label: "Shown, large", props: { figure: figureFor(pilot, "invites", "launch"), size: "lg", onExplain: noop } },
+    { label: "Moving up since last week", props: { figure: active, direction: "up", onExplain: noop } },
+    { label: "Moving down since last week", props: { figure: figureFor(COHORTS.demo, "active", "30d"), direction: "down", onExplain: noop } },
+    { label: "Large, moving up", props: { figure: figureFor(pilot, "plans", "launch"), size: "lg", direction: "up", onExplain: noop } },
     { label: "Filling in, 30 days at day 14", props: { figure: figureFor(pilot, "active", "30d"), onExplain: noop } },
     {
       label: "Hidden — suppressed, empty",

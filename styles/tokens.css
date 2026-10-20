@@ -214,6 +214,9 @@
   --color-chart-glow-bottom: var(--brand-blue-200);
   --color-chart-bar-base: var(--brand-primary);
   --color-chart-bar-tip: var(--brand-green-400);
+  /* The sponsor's weekly trend (2026-10-20): one navy line on recessive grey rules. */
+  --color-chart-line: var(--brand-primary);
+  --color-chart-grid: var(--brand-stone-250);
   /* A navy page: an onboarding step with no drawer, flooded navy so the flow alternates quiet screens
      with ExecHQ moments (designer, 2026-10-15). Headlines and section labels in yellow 400 (10.3:1);
      the kicker blue 200; a numbered circle the same yellow with its navy numeral. */

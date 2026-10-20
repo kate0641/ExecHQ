@@ -13,6 +13,7 @@ import {
   CSV_COPY,
   DATA_POINT_IDS,
   ENTERPRISE_COPY,
+  LATE_COPY,
   firstIssueOn,
   figureFor,
   isAboveMinimum,
@@ -56,8 +57,8 @@ function CodeLine({ cohort, controls }: { cohort: Cohort; controls: CohortContro
   );
 }
 
-/** One Monday's letter. */
-function Issue({ issue, previous, headingRef }: { issue: LetterIssue; previous?: LetterIssue; headingRef: React.Ref<HTMLHeadingElement> }) {
+/** One Monday's letter. `late` on the latest while this week's has not come. */
+function Issue({ issue, previous, late, headingRef }: { issue: LetterIssue; previous?: LetterIssue; late?: boolean; headingRef: React.Ref<HTMLHeadingElement> }) {
   const { cohort, window } = issue;
   const c = cohort.byWindow[window];
   const above = isAboveMinimum(cohort, window);
@@ -66,6 +67,12 @@ function Issue({ issue, previous, headingRef }: { issue: LetterIssue; previous?:
 
   return (
     <>
+      {late ? (
+        <p className="letter__late">
+          <Icon name="warning" size={16} />
+          {LATE_COPY.letter(issue.on)}
+        </p>
+      ) : null}
       <header className="letter__head">
         <p className="t-eyebrow">{C.eyebrow(issue.number, issue.on)}</p>
         <h1 className="letter__headline" ref={headingRef} tabIndex={-1}>
@@ -278,6 +285,12 @@ function Concept3Page({ controls }: { controls: CohortControls }) {
             {C.archive}
           </p>
           <ul className="letter-archive__list">
+            {cohort.lateSince ? (
+              <li className="letter-archive__upcoming">
+                {C.issueName(issues.length + 1)}
+                <span>{LATE_COPY.archive}</span>
+              </li>
+            ) : null}
             {issues.length === 0 ? (
               <li className="letter-archive__upcoming">
                 {C.upcoming}
@@ -311,7 +324,7 @@ function Concept3Page({ controls }: { controls: CohortControls }) {
         {!cohort ? (
           <SetupLetter controls={controls} />
         ) : issue ? (
-          <Issue issue={issue} previous={issues[shown - 2]} headingRef={headingRef} />
+          <Issue issue={issue} previous={issues[shown - 2]} late={Boolean(cohort.lateSince) && shown === issues.length} headingRef={headingRef} />
         ) : (
           <ReadyLetter cohort={cohort} controls={controls} headingRef={headingRef} />
         )}

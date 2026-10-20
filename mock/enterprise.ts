@@ -74,6 +74,15 @@ export interface Cohort {
   /** Activated with an accepted plan. */
   planAccepted: number;
   byWindow: Record<WindowId, CohortCounts>;
+  /** People active in each week, one per Monday update, oldest first (see
+   *  `updateMondays`). Drawn as the weekly trend, always since launch. */
+  weeklyActive: number[];
+  /** The previous Monday's figures, where scaling back from the latest would
+   *  say the wrong thing (a closed cohort can't gain joiners). */
+  lastWeek?: Pick<Cohort, "joined" | "activated" | "planAccepted" | "byWindow">;
+  /** This Monday's update has not arrived: the Monday it was due. The
+   *  figures are the week before's (`lateCohort`). */
+  lateSince?: string;
   /** Set up on this visit: no figures and no issues yet, only the first
    *  update to come. */
   fresh?: boolean;
@@ -106,6 +115,15 @@ const DEMO_SINCE_LAUNCH: CohortCounts = {
   briefingWeekly: 529,
 };
 
+const DEMO_LAST_WEEK_SINCE_LAUNCH: CohortCounts = {
+  active: 776,
+  actionsAccepted: 5610,
+  actionsCompleted: 3205,
+  artifacts: 3820,
+  artifactsUsed: 1523,
+  briefingWeekly: 525,
+};
+
 export const COHORTS: Record<Cohort["id"], Cohort> = {
   /** Below the minimum: only invites and codes redeemed show. */
   small: {
@@ -121,6 +139,7 @@ export const COHORTS: Record<Cohort["id"], Cohort> = {
     activated: 5,
     planAccepted: 4,
     byWindow: { "30d": SMALL_WEEK_1, "90d": SMALL_WEEK_1, launch: SMALL_WEEK_1 },
+    weeklyActive: [4],
   },
   /** Maya's cohort, at week 2: every figure shows, and the 30 and 90-day
    *  ones are still filling in. */
@@ -137,6 +156,7 @@ export const COHORTS: Record<Cohort["id"], Cohort> = {
     activated: 33,
     planAccepted: 26,
     byWindow: { "30d": PILOT_WEEK_2, "90d": PILOT_WEEK_2, launch: PILOT_WEEK_2 },
+    weeklyActive: [21, 26],
   },
   /** The December partner meeting: 1,000 at day 90, so 90 days and since
    *  launch are the same, and 30 days is the last month alone. */
@@ -163,6 +183,28 @@ export const COHORTS: Record<Cohort["id"], Cohort> = {
       },
       "90d": DEMO_SINCE_LAUNCH,
       launch: DEMO_SINCE_LAUNCH,
+    },
+    // Climbs while people join, peaks in week 5, then eases off a little:
+    // the shape a sponsor asking "are they still using it?" needs to see.
+    weeklyActive: [212, 389, 497, 560, 588, 571, 549, 562, 540, 518, 527, 509, 496],
+    // Closed, so joining holds; fewer were active over the last 30 days than
+    // a week ago, matching the trend. Since launch only ever grows.
+    lastWeek: {
+      joined: 912,
+      activated: 842,
+      planAccepted: 696,
+      byWindow: {
+        "30d": {
+          active: 611,
+          actionsAccepted: 2190,
+          actionsCompleted: 1281,
+          artifacts: 1402,
+          artifactsUsed: 597,
+          briefingWeekly: 407,
+        },
+        "90d": DEMO_LAST_WEEK_SINCE_LAUNCH,
+        launch: DEMO_LAST_WEEK_SINCE_LAUNCH,
+      },
     },
   },
 };
@@ -360,6 +402,116 @@ export function figureFor(cohort: Cohort, id: DataPointId, window: WindowId): Fi
 }
 
 /* -----------------------------------------------------------------------------
+   SINCE LAST WEEK
+   -------------------------------------------------------------------------- */
+
+export type Direction = "up" | "down";
+
+/** The figures that count people, and the count behind each. Counts of
+ *  actions or work never get a direction: one busy person could move them. */
+const PEOPLE_BEHIND: Partial<Record<DataPointId, (cohort: Cohort, window: WindowId) => number>> = {
+  invites: (cohort) => cohort.joined,
+  onboarding: (cohort) => cohort.activated,
+  active: (cohort, window) => cohort.byWindow[window].active,
+  briefing: (cohort, window) => cohort.byWindow[window].briefingWeekly,
+  plans: (cohort) => cohort.planAccepted,
+};
+
+/**
+ * Which way a figure moved since last week's update, or nothing. Windows a
+ * week apart overlap, so a direction shows only when at least the minimum
+ * cohort size of people is behind the change, and only when both weeks are
+ * above the minimum: a smaller change could point to one person's week. No
+ * counts, ever: a direction, not a score.
+ */
+export function directionFor(cohort: Cohort, id: DataPointId, window: WindowId): Direction | undefined {
+  const people = PEOPLE_BEHIND[id];
+  const before = weekBefore(cohort);
+  if (!people || !before || !comparesWeeks(cohort, window)) return undefined;
+  const now = people(cohort, window);
+  const then = people(before, window);
+  if (Math.abs(now - then) < MIN_COHORT_SIZE) return undefined;
+  return now > then ? "up" : "down";
+}
+
+export const DIRECTION_COPY = {
+  figure: {
+    invites: { up: "More joined than last week", down: "Fewer in the cohort than last week" },
+    onboarding: { up: "More set up than last week", down: "Fewer set up than last week" },
+    active: { up: "More active than last week", down: "Fewer active than last week" },
+    briefing: { up: "More reading it than last week", down: "Fewer reading it than last week" },
+    plans: { up: "More with a plan than last week", down: "Fewer with a plan than last week" },
+  } satisfies Partial<Record<DataPointId, Record<Direction, string>>>,
+  /** Concept 2's clause, after the line's figures. */
+  clause: { up: "more than last week", down: "fewer than last week" } satisfies Record<Direction, string>,
+  rule: `Arrows show a change since last week’s update, only when at least ${MIN_COHORT_SIZE} participants are behind it.`,
+  /** Concept 2 has no arrows: the change is in the sentence. */
+  clauseRule: `A change since last week’s update is mentioned only when at least ${MIN_COHORT_SIZE} participants are behind it.`,
+} as const;
+
+/** Whether this week can be set against last week at all: there was a last
+ *  week, and both are above the minimum. The page states the rule then, so
+ *  a figure without an arrow reads as "not enough to say", not as missing. */
+export function comparesWeeks(cohort: Cohort, window: WindowId): boolean {
+  const before = weekBefore(cohort);
+  return Boolean(before) && isAboveMinimum(cohort, window) && isAboveMinimum(before!, window);
+}
+
+/** A figure's direction in words, if it has one. */
+export function directionText(id: DataPointId, direction: Direction): string {
+  const words = DIRECTION_COPY.figure as Partial<Record<DataPointId, Record<Direction, string>>>;
+  return words[id]?.[direction] ?? DIRECTION_COPY.clause[direction];
+}
+
+/* -----------------------------------------------------------------------------
+   WEEKLY TREND
+   -------------------------------------------------------------------------- */
+
+/** Weekly updates needed before the trend is drawn: fewer says nothing. */
+export const TREND_MIN_WEEKS = 4;
+
+/** One week of the trend. `active` is absent when that week was below the
+ *  minimum: the line breaks rather than show a small number. */
+export interface TrendWeek {
+  weekOf: string;
+  active?: number;
+}
+
+export interface TrendView {
+  state: "shown" | "early" | "suppressed";
+  weeks: TrendWeek[];
+}
+
+/** People active each week since launch, ready to draw. */
+export function trendFor(cohort: Cohort): TrendView {
+  const mondays = updateMondays(cohort);
+  const weeks = mondays.map((weekOf, i) => {
+    const active = cohort.weeklyActive[i];
+    return active !== undefined && active >= MIN_COHORT_SIZE ? { weekOf, active } : { weekOf };
+  });
+  if (!isAboveMinimum(cohort, "launch")) return { state: "suppressed", weeks: [] };
+  if (weeks.length < TREND_MIN_WEEKS) return { state: "early", weeks };
+  return { state: "shown", weeks };
+}
+
+export const TREND_COPY = {
+  heading: "Active each week",
+  covers: "Since the program started.",
+  definition: "How many people signed in and did at least one thing in each week, since the program started, whichever window you choose.",
+  source: "Sign-ins and actions in ExecHQ.",
+  early: (weeks: number) =>
+    `A trend appears after ${TREND_MIN_WEEKS} weekly updates. ${weeks === 1 ? "There has been 1 so far." : `There have been ${weeks} so far.`}`,
+  gap: `A gap is a week with fewer than ${MIN_COHORT_SIZE} active, left out to protect privacy.`,
+  summary: (first: number, peak: number, latest: number, weeks: number) =>
+    `People active each week over ${weeks} weeks: ${count.format(first)} in the first week, ${count.format(peak)} at the peak, ${count.format(latest)} in the latest.`,
+  tableCaption: "People active each week",
+  week: "Week of",
+  active: "Active",
+  hiddenWeek: "Hidden",
+  latest: (active: string) => `${active} in the latest week`,
+} as const;
+
+/* -----------------------------------------------------------------------------
    CSV EXPORT
    -------------------------------------------------------------------------- */
 
@@ -376,14 +528,16 @@ function csvCell(value: string): string {
  */
 export function cohortCsv(cohort: Cohort, window: WindowId): string {
   const H = CSV_COPY.headers;
-  const rows: string[][] = [[H.figure, H.value, H.detail, H.covers, H.asOf, H.counts, H.note]];
+  const rows: string[][] = [[H.figure, H.value, H.detail, H.direction, H.covers, H.asOf, H.counts, H.note]];
   for (const id of DATA_POINT_IDS) {
     const point = DATA_POINTS[id];
     const figure = figureFor(cohort, id, window);
+    const direction = directionFor(cohort, id, window);
     rows.push([
       figure.label,
       figure.value ?? ENTERPRISE_COPY.hidden,
       figure.detail ?? "",
+      direction ? directionText(id, direction) : "",
       point.sinceLaunch || window === "launch" ? CSV_COPY.sinceLaunch : WINDOWS[window].long,
       cohort.asOf,
       point.definition,
@@ -404,6 +558,7 @@ export const CSV_COPY = {
     figure: "Figure",
     value: "Value",
     detail: "Out of",
+    direction: "Since last week",
     covers: "Covers",
     asOf: "As of",
     counts: "What it counts",
@@ -537,6 +692,7 @@ export function newCohort(details: { name: string; expectedSize: number; startsO
     activated: 0,
     planAccepted: 0,
     byWindow: { "30d": NOTHING_YET, "90d": NOTHING_YET, launch: NOTHING_YET },
+    weeklyActive: [],
     fresh: true,
   };
 }
@@ -627,6 +783,8 @@ export interface ReportLine {
   figure: FigureView;
   /** The words after the number. */
   rest?: string;
+  /** Which way it moved since last week, already folded into `rest`. */
+  direction?: Direction;
 }
 
 /** The report's sections, in reading order, and the lines in each. */
@@ -652,7 +810,9 @@ export function reportLine(cohort: Cohort, id: DataPointId, window: WindowId): R
     artifacts: `pieces of work were made in ExecHQ in ${long}.`,
     loop: `of that work was marked as used outside ExecHQ (${n(c.artifactsUsed)} of ${n(c.artifacts)}).`,
   };
-  return { figure, rest: rest[id] };
+  const direction = directionFor(cohort, id, window);
+  const words = direction ? rest[id].replace(/\.$/, `, ${DIRECTION_COPY.clause[direction]}.`) : rest[id];
+  return { figure, rest: words, direction };
 }
 
 export const C2_COPY = {
@@ -708,33 +868,75 @@ function scaleCounts(counts: CohortCounts, by: number): CohortCounts {
   return out;
 }
 
-/**
- * Every issue so far, oldest first: one each Monday after the program
- * started, the last on the cohort's latest refresh. Earlier issues are the
- * cohort scaled back toward its start (most people join in the first weeks),
- * so the latest issue always matches the dashboard exactly.
- */
-export function letterIssues(cohort: Cohort): LetterIssue[] {
+/** Every Monday the cohort's figures were updated, oldest first: the first
+ *  Monday after it started, through its latest refresh. */
+export function updateMondays(cohort: Cohort): string[] {
   if (cohort.fresh) return [];
-  const first = firstMonday(addDays(cohort.startsOn, 1));
-  const issues: LetterIssue[] = [];
-  for (let on = first; on <= cohort.asOf; on = addDays(on, 7)) issues.push({ number: 0, on, cohort, window: "launch" });
-  const total = issues.length;
-  return issues.map((issue, i) => {
-    const share = (i + 1) / total;
-    const joining = Math.min(1, 0.6 + 0.4 * share);
-    const latest = cohort.byWindow[programDay(cohort) >= 30 ? "30d" : "launch"];
-    const counts = scaleCounts(latest, i + 1 === total ? 1 : joining * share ** 0.5);
-    const snapshot: Cohort = {
-      ...cohort,
-      asOf: issue.on,
-      joined: Math.round(cohort.joined * (i + 1 === total ? 1 : joining)),
-      activated: Math.round(cohort.activated * (i + 1 === total ? 1 : joining)),
-      planAccepted: Math.round(cohort.planAccepted * (i + 1 === total ? 1 : joining * share)),
-      byWindow: { "30d": counts, "90d": counts, launch: counts },
-    };
+  const mondays: string[] = [];
+  for (let on = firstMonday(addDays(cohort.startsOn, 1)); on <= cohort.asOf; on = addDays(on, 7)) mondays.push(on);
+  return mondays;
+}
+
+/**
+ * The cohort as it stood at an earlier Monday update, `index` of `total`.
+ * Earlier updates are the cohort scaled back toward its start (most people
+ * join in the first weeks), so the latest always matches the dashboard
+ * exactly. One source for the letter's issues and for "since last week".
+ */
+function snapshotAt(cohort: Cohort, index: number, total: number, on: string): Cohort {
+  if (index + 1 === total) return cohort;
+  if (index + 2 === total && cohort.lastWeek) {
+    return { ...cohort, ...cohort.lastWeek, asOf: on, weeklyActive: cohort.weeklyActive.slice(0, index + 1) };
+  }
+  const share = (index + 1) / total;
+  const joining = Math.min(1, 0.6 + 0.4 * share);
+  const by = joining * share ** 0.5;
+  return {
+    ...cohort,
+    asOf: on,
+    joined: Math.round(cohort.joined * joining),
+    activated: Math.round(cohort.activated * joining),
+    planAccepted: Math.round(cohort.planAccepted * joining * share),
+    byWindow: {
+      "30d": scaleCounts(cohort.byWindow["30d"], by),
+      "90d": scaleCounts(cohort.byWindow["90d"], by),
+      launch: scaleCounts(cohort.byWindow.launch, by),
+    },
+    weeklyActive: cohort.weeklyActive.slice(0, index + 1),
+  };
+}
+
+/** The cohort at the Monday update before its latest, if there was one.
+ *  None while an update is late: there is nothing new to set it against. */
+export function weekBefore(cohort: Cohort): Cohort | undefined {
+  const mondays = updateMondays(cohort);
+  if (cohort.lateSince || mondays.length < 2) return undefined;
+  return snapshotAt(cohort, mondays.length - 2, mondays.length, mondays[mondays.length - 2]);
+}
+
+/** The cohort as a sponsor sees it when this Monday's update is late: last
+ *  week's figures, marked with the Monday that is missing. Undefined until
+ *  there has been a week before. */
+export function lateCohort(cohort: Cohort): Cohort | undefined {
+  const before = weekBefore(cohort);
+  return before && { ...before, lastWeek: undefined, lateSince: cohort.asOf };
+}
+
+export const LATE_COPY = {
+  notice: (asOf: string) =>
+    `This Monday’s update is late. The figures here are from ${formatAsOf(asOf)}. ExecHQ is looking into it, and changes since last week return with the next update.`,
+  letter: (asOf: string) =>
+    `This week’s issue is late. Here is the last one, from ${formatAsOf(asOf)}. The next comes as soon as the figures are in.`,
+  archive: "Late",
+} as const;
+
+/** Every issue so far, oldest first: one each Monday update. */
+export function letterIssues(cohort: Cohort): LetterIssue[] {
+  const mondays = updateMondays(cohort);
+  return mondays.map((on, i) => {
+    const snapshot = snapshotAt(cohort, i, mondays.length, on);
     const window: WindowId = programDay(snapshot) >= 30 ? "30d" : "launch";
-    return { number: i + 1, on: issue.on, cohort: i + 1 === total ? cohort : snapshot, window };
+    return { number: i + 1, on, cohort: snapshot, window };
   });
 }
 

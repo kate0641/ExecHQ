@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { CohortForm } from "@/components/enterprise/CohortForm";
 import { InviteCode } from "@/components/enterprise/InviteCode";
+import { WeeklyTrend } from "@/components/enterprise/WeeklyTrend";
 import { WindowSelector } from "@/components/enterprise/WindowSelector";
 import { Badge } from "@/components/primitives/Badge";
 import { Button } from "@/components/primitives/Button";
@@ -12,11 +13,16 @@ import {
   C2_COPY,
   CSV_COPY,
   DATA_POINTS,
+  DIRECTION_COPY,
+  LATE_COPY,
   REPORT_SECTIONS,
+  TREND_COPY,
   WINDOWS,
+  comparesWeeks,
   isAboveMinimum,
   programDay,
   reportLine,
+  trendFor,
   type Cohort,
   type CohortId,
   type WindowId,
@@ -77,6 +83,12 @@ function ReportBody({ cohort, window }: { cohort: Cohort; window: WindowId }) {
 
   return (
     <>
+      {cohort.lateSince ? (
+        <p className="report__row report__notice">
+          <Icon name="warning" size={16} />
+          {LATE_COPY.notice(cohort.asOf)}
+        </p>
+      ) : null}
       {!above ? (
         <p className="report__row report__notice">
           <Icon name="lock" size={16} />
@@ -125,6 +137,17 @@ function ReportBody({ cohort, window }: { cohort: Cohort; window: WindowId }) {
               </div>
             );
           })}
+          {section.id === "using" ? (
+            <div className="report__row">
+              <WeeklyTrend className="report__trend" trend={trendFor(cohort)} />
+              <div className="report__margin report__note">
+                <p>
+                  <strong className="report__note-label">{TREND_COPY.heading}.</strong> {TREND_COPY.definition}{" "}
+                  <em className="report__note-source">{TREND_COPY.source}</em>
+                </p>
+              </div>
+            </div>
+          ) : null}
         </section>
       ))}
     </>
@@ -178,6 +201,12 @@ function Concept2Page({ controls }: { controls: CohortControls }) {
             </div>
             <ReportBody cohort={cohort} window={window} />
             <footer className="report__row report__footer">
+              {comparesWeeks(cohort, window) ? (
+                <p>
+                  <Icon name="trend-up" size={14} />
+                  {DIRECTION_COPY.clauseRule}
+                </p>
+              ) : null}
               <p>
                 <Icon name="shield" size={14} />
                 {C.footer}

@@ -149,6 +149,7 @@ import { figureDefinitionStates } from "./enterprise/FigureDefinition/FigureDefi
 import { windowSelectorStates } from "./enterprise/WindowSelector/WindowSelector.states";
 import { inviteCodeStates } from "./enterprise/InviteCode/InviteCode.states";
 import { cohortFormStates } from "./enterprise/CohortForm/CohortForm.states";
+import { weeklyTrendStates } from "./enterprise/WeeklyTrend/WeeklyTrend.states";
 export const registry: RegisteredComponent[] = [
   badgeStates,
   buttonStates,
@@ -289,6 +290,7 @@ export const registry: RegisteredComponent[] = [
   windowSelectorStates,
   inviteCodeStates,
   cohortFormStates,
+  weeklyTrendStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */

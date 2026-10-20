@@ -7,6 +7,7 @@ import { CohortFigure } from "@/components/enterprise/CohortFigure";
 import { CohortForm } from "@/components/enterprise/CohortForm";
 import { FigureDefinition } from "@/components/enterprise/FigureDefinition";
 import { InviteCode } from "@/components/enterprise/InviteCode";
+import { WeeklyTrend } from "@/components/enterprise/WeeklyTrend";
 import { WindowSelector } from "@/components/enterprise/WindowSelector";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
@@ -14,13 +15,18 @@ import { useCohortId } from "@/lib/cohort-store";
 import {
   C1_COPY,
   CSV_COPY,
+  DIRECTION_COPY,
+  LATE_COPY,
   QUESTION_IDS,
   QUESTION_POINTS,
   answerFor,
+  comparesWeeks,
+  directionFor,
   figureFor,
   formatDate,
   isAboveMinimum,
   programDay,
+  trendFor,
   type Cohort,
   type DataPointId,
   type WindowId,
@@ -80,6 +86,13 @@ function Overview({ cohort }: { cohort: Cohort }) {
         </div>
       </CohortHeader>
 
+      {cohort.lateSince ? (
+        <p className="ent-notice">
+          <Icon name="warning" size={18} />
+          {LATE_COPY.notice(cohort.asOf)}
+        </p>
+      ) : null}
+
       {!above ? (
         <div className="ent-notice">
           <Icon name="lock" size={18} />
@@ -116,6 +129,7 @@ function Overview({ cohort }: { cohort: Cohort }) {
                     // The page says once why figures are filling in.
                     figure={figure.state === "filling" ? { ...figure, note: undefined } : figure}
                     size={i === 0 ? "lg" : "md"}
+                    direction={directionFor(cohort, id, window)}
                     explaining={open === id}
                     onExplain={() => setOpen(open === id ? null : id)}
                   />
@@ -127,14 +141,25 @@ function Overview({ cohort }: { cohort: Cohort }) {
                 <FigureDefinition id={openHere} window={window} onClose={() => setOpen(null)} />
               </div>
             ) : null}
+            {/* Whether they are still using it is a trend, not a snapshot:
+                always since launch, whichever window is chosen. */}
+            {question === "using" ? <WeeklyTrend className="ent-question__trend" trend={trendFor(cohort)} /> : null}
           </section>
         );
       })}
 
-      <p className="ent-page__privacy">
-        <Icon name="shield" size={16} />
-        {C.privacy}
-      </p>
+      <div className="ent-page__foot">
+        {comparesWeeks(cohort, window) ? (
+          <p className="ent-page__privacy">
+            <Icon name="trend-up" size={16} />
+            {DIRECTION_COPY.rule}
+          </p>
+        ) : null}
+        <p className="ent-page__privacy">
+          <Icon name="shield" size={16} />
+          {C.privacy}
+        </p>
+      </div>
     </div>
   );
 }

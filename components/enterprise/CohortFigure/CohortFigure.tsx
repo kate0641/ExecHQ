@@ -1,6 +1,6 @@
 import { Badge } from "@/components/primitives/Badge";
 import { Icon } from "@/components/primitives/Icon";
-import { ENTERPRISE_COPY, type FigureView } from "@/mock/enterprise";
+import { ENTERPRISE_COPY, directionText, type Direction, type FigureView } from "@/mock/enterprise";
 
 const C = ENTERPRISE_COPY;
 
@@ -8,6 +8,9 @@ export interface CohortFigureProps {
   figure: FigureView;
   /** `lg` for the one figure a section leads with. */
   size?: "md" | "lg";
+  /** Which way it moved since last week's update, when enough people are
+   *  behind the change to say so (`directionFor`). */
+  direction?: Direction;
   /** Opens the figure's definition, source and window. Every figure has one,
    *  so a page always passes it; the catalogue may leave it off. */
   onExplain?: () => void;
@@ -25,9 +28,10 @@ export interface CohortFigureProps {
  * while the program is younger than the window, with the program's age
  * stated. Hidden, while too few participants are active, which names the
  * rule rather than apologising for it. Nothing here reads as a score: no
- * target, no comparison, no colour carrying meaning.
+ * target and no colour carrying meaning. The one comparison is a direction
+ * since last week, in words with an arrow, never a count (Kate, 2026-10-20).
  */
-export function CohortFigure({ figure, size = "md", onExplain, explaining, demo, className }: CohortFigureProps) {
+export function CohortFigure({ figure, size = "md", direction, onExplain, explaining, demo, className }: CohortFigureProps) {
   const classes = ["cohort-figure", `cohort-figure--${size}`, `cohort-figure--${figure.state}`, className]
     .filter(Boolean)
     .join(" ");
@@ -47,6 +51,13 @@ export function CohortFigure({ figure, size = "md", onExplain, explaining, demo,
           {figure.detail ? <span className="cohort-figure__detail">{figure.detail}</span> : null}
         </p>
       )}
+
+      {direction && figure.state !== "suppressed" ? (
+        <p className="cohort-figure__direction">
+          <Icon name={direction === "up" ? "arrow-up" : "arrow-down"} size={14} />
+          {directionText(figure.id, direction)}
+        </p>
+      ) : null}
 
       {figure.state === "filling" ? (
         <Badge tone="neutral" className="cohort-figure__tag">

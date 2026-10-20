@@ -1743,6 +1743,7 @@ button.link {
 
 .devtools__hub-button,
 .devtools__color,
+.devtools__late,
 .devtools__replay,
 .devtools__collapse {
   display: grid;
@@ -1755,19 +1756,22 @@ button.link {
 
 .devtools__hub-button:hover,
 .devtools__color:hover:not(:disabled),
+.devtools__late:hover:not(:disabled),
 .devtools__replay:hover,
 .devtools__collapse:hover {
   background-color: var(--color-surface-hover);
   color: var(--color-text-primary);
 }
 
-/* Pressed means the brand colours are showing. */
-.devtools__color[aria-pressed="true"] {
+/* Pressed means the brand colours are showing, or the update is late. */
+.devtools__color[aria-pressed="true"],
+.devtools__late[aria-pressed="true"] {
   background-color: var(--color-surface-inverse);
   color: var(--color-text-inverse);
 }
 
-.devtools__color:disabled {
+.devtools__color:disabled,
+.devtools__late:disabled {
   color: var(--color-text-disabled);
   cursor: not-allowed;
 }
@@ -23130,6 +23134,154 @@ ul.plan-guided__sparks {
   color: var(--color-text-secondary);
 }
 
+/* The weekly trend (2026-10-20): one line, drawn at the width it is given so
+   strokes and words never scale. The heading names it; no legend. */
+.weekly-trend {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-width: 0;
+  margin: 0;
+}
+
+.weekly-trend__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-3xs) var(--space-sm);
+}
+
+.weekly-trend__label {
+  font-family: var(--type-label-font);
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  line-height: var(--type-label-leading);
+  letter-spacing: var(--type-label-tracking);
+  word-spacing: var(--type-label-word-spacing);
+  color: var(--color-text-secondary);
+}
+
+.weekly-trend__covers,
+.weekly-trend__axis,
+.weekly-trend__note,
+.weekly-trend__scale {
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+  color: var(--color-text-secondary);
+}
+
+.weekly-trend__message {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  max-width: 44ch;
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
+}
+
+.weekly-trend__message > svg {
+  flex: none;
+  margin-top: var(--space-3xs);
+}
+
+.weekly-trend__plot {
+  position: relative;
+  padding-top: var(--space-md);
+}
+
+/* The one labelled rule, at the round number above the peak. */
+.weekly-trend__scale {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Full width from CSS, so the drawing never props its box open; the width
+   it measures then redraws it at true size. */
+.weekly-trend__svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.weekly-trend__grid {
+  stroke: var(--color-chart-grid);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+
+.weekly-trend__grid--base {
+  stroke-dasharray: none;
+}
+
+.weekly-trend__line {
+  fill: none;
+  stroke: var(--color-chart-line);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Marked weeks wear a ring of the surface so they sit clear of the line. */
+.weekly-trend__dot {
+  fill: var(--color-chart-line);
+  stroke: var(--color-surface-raised);
+  stroke-width: 2;
+}
+
+.weekly-trend__crosshair {
+  stroke: var(--color-text-muted);
+  stroke-width: 1;
+}
+
+/* Beside the crosshair, inside the plot; it flips to the left of the line
+   in the last third so it never runs off the edge. */
+.weekly-trend__tip {
+  position: absolute;
+  top: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-3xs) var(--space-xs);
+  border: var(--border-width-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-raised);
+  box-shadow: var(--shadow-md);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  transform: translateX(var(--space-xs));
+  pointer-events: none;
+}
+
+.weekly-trend__tip[data-side="left"] {
+  transform: translateX(calc(-100% - var(--space-xs)));
+}
+
+.weekly-trend__tip strong {
+  font-size: var(--text-md);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-primary);
+}
+
+.weekly-trend__axis {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+/* Since last week: the arrow and the words together, in the secondary ink.
+   No colour says good or bad; the words carry it. */
+.cohort-figure__direction {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+  color: var(--color-text-secondary);
+}
+
 /* Filling in: the number shows in the secondary ink, with the tag under it.
    The tag and the note carry the meaning, not the ink. */
 .cohort-figure--filling .cohort-figure__value {
@@ -23476,11 +23628,22 @@ ul.plan-guided__sparks {
   gap: var(--space-xl) var(--space-lg);
 }
 
+.ent-question__trend {
+  grid-column: 2;
+  max-width: 36rem;
+}
+
 .ent-question__definition {
   grid-column: 2;
   padding: var(--space-md) var(--space-lg);
   border-radius: var(--radius-card);
   background-color: var(--color-surface-sunken);
+}
+
+.ent-page__foot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
 }
 
 .ent-page__privacy {
@@ -23742,6 +23905,7 @@ ul.plan-guided__sparks {
 }
 
 .report__footer p {
+  grid-column: 1;
   display: flex;
   align-items: flex-start;
   gap: var(--space-xs);
@@ -23750,6 +23914,16 @@ ul.plan-guided__sparks {
   font-size: var(--type-caption-size);
   line-height: var(--type-caption-leading);
   color: var(--color-text-secondary);
+}
+
+/* The change rule and the privacy line sit under one rule, not two. */
+.report__footer {
+  row-gap: var(--space-xs);
+}
+
+.report__footer p + p {
+  padding-top: 0;
+  border-top: 0;
 }
 
 .report__footer svg {
@@ -23919,6 +24093,24 @@ ul.letter-archive__list {
 .letter-archive__upcoming {
   color: var(--color-text-secondary);
   border: var(--border-width-thin) dashed var(--color-border);
+}
+
+/* The issue that has not come: where it would be, marked late in words. */
+.letter__late {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-sunken);
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
+}
+
+.letter__late > svg {
+  flex: none;
+  margin-top: var(--space-3xs);
 }
 
 .letter-archive__item {
