@@ -94,6 +94,7 @@ function CohortHeader({
           {/* The toggle does not print: the export says the window in words. */}
           <p className="ent-header__print">{C.printWindow(WINDOWS[window].long, cohort.asOf)}</p>
           <DropdownMenu
+            className="ent-export"
             label={C.exportMenu}
             icon="download"
             align="end"

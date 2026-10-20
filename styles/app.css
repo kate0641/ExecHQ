@@ -23655,6 +23655,12 @@ ul.plan-guided__sparks {
   gap: var(--space-sm);
 }
 
+/* Two short words: the panel is as wide as its button, not the menu's usual
+   minimum. */
+.ent-export .menu {
+  min-width: 100%;
+}
+
 /* Under a rule: when the figures were updated, when they next will be, and
    whether the chosen window is still filling in. */
 .ent-header__status {
