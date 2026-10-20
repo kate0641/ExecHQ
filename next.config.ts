@@ -32,6 +32,11 @@ const nextConfig: NextConfig = {
     return [
       { source: "/catalogue", destination: "/showroom/components", permanent: false },
       { source: "/stylesheet", destination: "/showroom/design-system", permanent: false },
+      // The Toolbox became the Playbook on 19 Oct; shared links to it still open.
+      { source: "/toolbox/:path*", destination: "/playbook/:path*", permanent: false },
+      { source: "/toolbox-flow/:path*", destination: "/playbook-flow/:path*", permanent: false },
+      { source: "/specs/toolbox", destination: "/specs/playbook", permanent: false },
+      { source: "/specs/toolbox-flow", destination: "/specs/playbook-flow", permanent: false },
     ];
   },
 };

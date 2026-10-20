@@ -2,9 +2,10 @@
 
 /**
  * Which cohort the enterprise pages show: none yet, below the minimum, the
- * pilot, or the December demo (`mock/enterprise.ts`). Picked from the dock,
- * kept in localStorage, and shared by every enterprise concept so a reviewer
- * compares them on the same cohort.
+ * pilot, or the December demo (`mock/enterprise.ts`), and whether this
+ * Monday's update is late. Picked from the dock, kept in localStorage, and
+ * shared by every enterprise concept so a reviewer compares them on the same
+ * cohort.
  */
 
 import { useSyncExternalStore } from "react";
@@ -12,38 +13,47 @@ import { COHORT_IDS, DEFAULT_COHORT, type CohortId } from "@/mock/enterprise";
 
 const STORAGE_KEY = "exechq.cohort";
 /** Bumped whenever the stored shape changes, so an old save is dropped. */
-const STORAGE_VERSION = 1;
+const STORAGE_VERSION = 2;
+
+interface CohortChoice {
+  cohort: CohortId;
+  /** This Monday's update has not arrived: every page shows last week's. */
+  late: boolean;
+}
+
+const DEFAULT_CHOICE: CohortChoice = { cohort: DEFAULT_COHORT, late: false };
 
 const listeners = new Set<() => void>();
-let cached: CohortId | undefined;
+let cached: CohortChoice | undefined;
 
 function isCohortId(value: unknown): value is CohortId {
   return typeof value === "string" && (COHORT_IDS as readonly string[]).includes(value);
 }
 
-function parse(raw: string | null): CohortId {
-  if (!raw) return DEFAULT_COHORT;
+function parse(raw: string | null): CohortChoice {
+  if (!raw) return DEFAULT_CHOICE;
   try {
-    const parsed = JSON.parse(raw) as { version?: number; cohort?: unknown };
-    return parsed.version === STORAGE_VERSION && isCohortId(parsed.cohort) ? parsed.cohort : DEFAULT_COHORT;
+    const parsed = JSON.parse(raw) as { version?: number; cohort?: unknown; late?: unknown };
+    if (parsed.version !== STORAGE_VERSION || !isCohortId(parsed.cohort)) return DEFAULT_CHOICE;
+    return { cohort: parsed.cohort, late: parsed.late === true };
   } catch {
-    return DEFAULT_COHORT;
+    return DEFAULT_CHOICE;
   }
 }
 
-function getSnapshot(): CohortId {
+function getSnapshot(): CohortChoice {
   if (cached === undefined) {
     try {
       cached = parse(window.localStorage.getItem(STORAGE_KEY));
     } catch {
-      cached = DEFAULT_COHORT;
+      cached = DEFAULT_CHOICE;
     }
   }
   return cached;
 }
 
-function getServerSnapshot(): CohortId {
-  return DEFAULT_COHORT;
+function getServerSnapshot(): CohortChoice {
+  return DEFAULT_CHOICE;
 }
 
 function handleStorage(event: StorageEvent): void {
@@ -61,18 +71,31 @@ function subscribe(listener: () => void): () => void {
   };
 }
 
-export function selectCohort(cohort: CohortId): void {
-  cached = cohort;
+function save(next: CohortChoice): void {
+  cached = next;
   try {
-    if (cohort === DEFAULT_COHORT) window.localStorage.removeItem(STORAGE_KEY);
-    else window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: STORAGE_VERSION, cohort }));
+    if (next.cohort === DEFAULT_CHOICE.cohort && next.late === DEFAULT_CHOICE.late) window.localStorage.removeItem(STORAGE_KEY);
+    else window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: STORAGE_VERSION, ...next }));
   } catch {
     // Not being able to persist is not worth failing over.
   }
   for (const listener of listeners) listener();
 }
 
+export function selectCohort(cohort: CohortId): void {
+  save({ ...getSnapshot(), cohort });
+}
+
+export function setUpdateLate(late: boolean): void {
+  save({ ...getSnapshot(), late });
+}
+
 /** The cohort the enterprise pages show now. */
 export function useCohortId(): CohortId {
-  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot).cohort;
+}
+
+/** Whether this Monday's update is late. */
+export function useUpdateLate(): boolean {
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot).late;
 }

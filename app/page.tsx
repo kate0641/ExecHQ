@@ -8,6 +8,7 @@ import { flows } from "@/lib/manifest";
 import { getBuiltConceptKeys } from "@/flows/registry";
 import { getSpec, type Spec } from "@/lib/specs";
 import { BUILDER_BRIEFS, getBuilderBrief } from "@/lib/builder-briefs";
+import { HANDOFF_NOTES } from "@/lib/handoff-notes";
 import { PLAN_BRIEFS, getPlanBrief } from "@/lib/plan-briefs";
 import { readTokens } from "@/lib/tokens";
 
@@ -41,8 +42,9 @@ export default function HubPage() {
         <p>
           Everything in this prototype is declared in <code>prototype.config.ts</code>.{" "}
           {flows.length} flows and {conceptCount} concept pages, then the{" "}
-          <TextLink href="#plan-briefs">plan briefs</TextLink> and the{" "}
-          <TextLink href="#builder-briefs">builder briefs</TextLink>. Nothing here talks to a network.
+          <TextLink href="#plan-briefs">plan briefs</TextLink>, the{" "}
+          <TextLink href="#builder-briefs">builder briefs</TextLink> and the{" "}
+          <TextLink href="#handoff">dev handoff notes</TextLink>. Nothing here talks to a network.
         </p>
       }
     >
@@ -119,7 +121,7 @@ export default function HubPage() {
           Builder briefs
         </h2>
         <p className="hub__section-intro t-measure">
-          The agent&rsquo;s background for each Toolbox builder: what it makes, what it asks, the
+          The agent&rsquo;s background for each Playbook builder: what it makes, what it asks, the
           draft section by section, and how it is used and followed up. All four have the same
           sections, because they share one workflow. Reference, like the plan briefs, not product
           screens. One markdown file each in <code>builders/</code>.
@@ -142,6 +144,35 @@ export default function HubPage() {
                   {getBuilderBrief(entry.slug)?.content ? null : (
                     <span className="flow-list__spec-empty"> · not yet written</span>
                   )}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section className="hub__section" id="handoff" aria-labelledby="handoff-title">
+        <h2 className="hub__section-title" id="handoff-title">
+          Dev handoff
+        </h2>
+        <p className="hub__section-intro t-measure">
+          Notes for the developers: how a design decision becomes a build rule, and what each
+          screen does. Reference, like the briefs, not product screens. One markdown file each in{" "}
+          <code>handoff/</code>.
+        </p>
+        <div className="flow-list">
+          <ul className="flow-list__flows">
+            {HANDOFF_NOTES.map((entry) => (
+              <li className="flow-list__flow" key={entry.slug}>
+                <div className="flow-list__flow-header">
+                  <h3 className="flow-list__flow-title">{entry.title}</h3>
+                </div>
+                <p className="flow-list__flow-description">{entry.description}</p>
+                <p className="flow-list__spec">
+                  <TextLink href={`/handoff/${entry.slug}`} tone="standalone">
+                    Handoff note
+                    <span className="u-visually-hidden"> for {entry.title}</span>
+                  </TextLink>
                 </p>
               </li>
             ))}

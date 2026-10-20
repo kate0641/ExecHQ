@@ -273,9 +273,9 @@ function StepItem({
 }) {
   const hasDraft = step.kind === "artifact" || Boolean(step.artifactId);
   // The reading step opens the Briefing, so it starts with a link too.
-  const tool = hasDraft || Boolean(step.toolboxTool) || step.kind === "reading";
+  const tool = hasDraft || Boolean(step.playbookTool) || step.kind === "reading";
   const href = typeof startHref === "function" ? startHref(step) : startHref;
-  const label = hasDraftFor?.(step) ? A.openDraft : (step.startLabel ?? (step.toolboxTool ? `Start in ${step.toolboxTool}` : A.getStarted));
+  const label = hasDraftFor?.(step) ? A.openDraft : (step.startLabel ?? (step.playbookTool ? `Start in ${step.playbookTool}` : A.getStarted));
   return (
     <li className="agenda__item" id={`step-${step.id}`}>
       <button type="button" className="agenda__line" aria-expanded={open} onClick={onToggle}>

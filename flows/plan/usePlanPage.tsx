@@ -24,7 +24,7 @@ import { accept, complete, decline, edit as editStep, initialPlanState, liveStep
 import { askConcierge } from "@/flows/navigation/concept-1/ConciergeConcept";
 import { shortDate, type OutcomeType } from "@/lib/loop";
 import { loopActions, useLoop } from "@/lib/loop-store";
-import { useToolboxLinks } from "@/lib/toolbox-links";
+import { usePlaybookLinks } from "@/lib/playbook-links";
 import { momentumEvents } from "@/lib/momentum";
 import { planSparks } from "@/lib/plan-sparks";
 import { roadmapWindows, stageAt } from "@/lib/roadmap-dates";
@@ -60,7 +60,7 @@ import { PlanMomentum } from "./PlanMomentum";
  */
 export function usePlanPage() {
   const loop = useLoop();
-  const links = useToolboxLinks();
+  const links = usePlaybookLinks();
   const addedPresence = useAddedPresence();
   const baseline = useBaseline();
   const current = useCurrent();

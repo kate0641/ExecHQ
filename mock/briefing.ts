@@ -106,10 +106,6 @@ export interface BriefingRead {
 /** A run of an article's text, or a highlighted passage with ExecHQ's note. */
 export type ArticlePart = string | { text: string; note: string };
 
-/** Where a read lives at its publisher. In the prototype, a stand-in page
- *  (`app/source/[read]`), because every publisher is invented. */
-export const sourceHref = (id: string): string => `/source/${id}`;
-
 export const TODAYS_READS: BriefingRead[] = [
   {
     id: "planning-season",
@@ -300,12 +296,6 @@ export const BRIEFING_COPY = {
     /** In the product this leaves for the publisher's site. */
     openAt: (publisher: string) => `Read it at ${publisher}`,
     openAtNote: "Opens on the publisher’s site.",
-    /** The prototype's stand-in for the article at its publisher. */
-    sourceNote: (publisher: string) =>
-      `Prototype stand-in. In ExecHQ this is the article itself, on ${publisher}’s own site.`,
-    sourceBody: "The article continues here, on the publisher’s site.",
-    /** For screen readers, after a headline that leaves for the article. */
-    opensAt: (publisher: string) => `opens at ${publisher} in a new tab`,
     markRead: "Mark as read",
     markUnread: "Mark as not read",
     readState: "Read",
@@ -397,13 +387,9 @@ export const BRIEFING_COPY = {
   settings: {
     publishersHeading: "Your publishers",
     publishersValue: (n: number) => `${n} chosen`,
-    changePublishers: "Change publishers",
     save: "Save",
     cancel: "Cancel",
     publishersSaved: "Saved. Tomorrow’s reads come from these.",
-    /** Concept A's line under the three: where they come from, and Change. */
-    fromLine: (names: string[]) =>
-      names.length <= 2 ? `From ${names.join(" and ")}` : `From ${names[0]}, ${names[1]} and ${names.length - 2} more`,
     inProfile: "Change publishers in Profile",
     emailLabel: "Email me the Briefing",
     /** Off by default, per the brief. The 8 am send is from the 8 Oct

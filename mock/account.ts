@@ -78,7 +78,7 @@ export const MAYA: Account = {
   },
   notify: { followUps: true, briefing: false, plan: true },
   org: {
-    name: "Northgate Leadership Programme",
+    name: "Northgate Leadership Program",
     role: "Member",
     joinedOn: "2026-09-14",
     sees: ["totals for the whole group, refreshed weekly"],

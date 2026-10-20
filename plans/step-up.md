@@ -38,7 +38,7 @@ Success signals are qualitative and observable: things she has done or has, neve
 
 ---
 
-## 2. Action playbook
+## 2. Action set
 
 Each stage's action steps, with the conditions that make each one appropriate. The agent recommends the step whose trigger matches her situation now. A trigger can bring a later stage's step forward: a scope conversation that is already scheduled calls for 3.1 straight away.
 

@@ -19,6 +19,8 @@ export interface InviteCodeProps {
   onClose: () => void;
   /** `panel` stands on its own; `compact` fits a margin or the foot of a page. */
   layout?: "panel" | "compact";
+  /** Leaves out "38 of 50 joined" where the page already shows it. */
+  hideJoined?: boolean;
   /** Shows the line that says a new code was just made. */
   justRegenerated?: boolean;
   /** Catalogue only: opens on a confirmation, or as just copied. */
@@ -42,6 +44,7 @@ export function InviteCode({
   onRegenerate,
   onClose,
   layout = "panel",
+  hideJoined,
   justRegenerated = false,
   startAsking,
   startCopied = false,
@@ -90,7 +93,7 @@ export function InviteCode({
         </p>
       )}
 
-      <p className="invite-code__joined">{C.joined(joined, expectedSize)}</p>
+      {hideJoined ? null : <p className="invite-code__joined">{C.joined(joined, expectedSize)}</p>}
 
       {asking ? (
         <div className="invite-code__ask">

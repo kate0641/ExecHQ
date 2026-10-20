@@ -1,14 +1,18 @@
-# Sprint 4 — Toolbox and Daily Briefing: review notes
+# Sprint 4 — Playbook and Daily Briefing: review notes
 
-_Written 11 October 2026 from the built prototype. Everything below is on `main`; nothing is pushed yet. Toolbox notes will be added when the Toolbox concepts are built._
+_Written 11 October 2026 from the built prototype. Everything below is on `main`; nothing is pushed yet. Playbook notes will be added when the Playbook concepts are built._
+
+**19 October: the Toolbox is now the Playbook** (Kate), in the product, its addresses (`/playbook`, `/playbook-flow`; the old `/toolbox` ones redirect) and the code. These notes use the new name throughout, quoted brief titles aside. Each plan's "Action playbook" is now its "Action set".
+
+**19 October: Sprint 4 decided.** Playbook Concept 2 (Starter row), Playbook flow Concept 3 (Interview) and Briefing Concept 2 (News app) are approved. Playbook flow Concepts 1 (Guided steps) and 2 (Document workspace) and Briefing Concept 1 (Front page) moved to the `scratch` branch and are off `main`, with what only they used (`ProgressStepper`, `DraftToolBar`, `WorkspacePanel`, `BriefingDeck`, the stand-in publisher page at `/source/<read>`, and the on-page publishers line). Every link to a tool now opens Concept 3, and every link to the Briefing opens Concept 2. The notes below are the record as it was when the concepts were compared.
 
 ## 1. Say this at kickoff
 
 **The brief was amended on 11 October.** Three changes govern over the PDF:
 
 1. The library is never empty for someone who finished onboarding. Their one-sentence positioning statement is their first artifact, with an invitation to build it out in Positioning Builder. Only someone who left onboarding before saving sees an empty state, which points to their first action step.
-2. Each feature gets three concepts: two safe and one wild card. Every Toolbox concept leads with the tools and puts the library below them. Concepts vary in how the tools are presented, how creating works (guided steps, a document workspace, or starting from the situation) and how the library is organised.
-3. The Toolbox always opens with the four tools at the top and the library below, for new and returning users alike. Any artifact shown in the Plan, an action step or a Loop follow-up opens that artifact directly, without going through the Toolbox page.
+2. Each feature gets three concepts: two safe and one wild card. Every Playbook concept leads with the tools and puts the library below them. Concepts vary in how the tools are presented, how creating works (guided steps, a document workspace, or starting from the situation) and how the library is organised.
+3. The Playbook always opens with the four tools at the top and the library below, for new and returning users alike. Any artifact shown in the Plan, an action step or a Loop follow-up opens that artifact directly, without going through the Playbook page.
 
 **"Active Landscape" is "action steps"** in the prototype, as in Sprint 3.
 
@@ -27,13 +31,13 @@ All three share the same first visit, reads, reason lines and actions, so the co
 **Review the riskiest states first, as the brief asks.**
 
 - **First visit.** Any concept, after the dock's reset. Publishers are chosen before the first set loads; the suggested set is one press.
-- **The hand-off.** "Write a post about this" (Concepts 1 and 2) or "Respond to this" (Concept 3). It lands on Thought Leadership Builder, which is still the Sprint 4 stub until the Toolbox concepts are built. The link already carries the read, and the passage when there is one, so the builder can show its source the moment it exists. The `SourceLabel` component ("Started from today's Briefing") is in the catalogue now.
+- **The hand-off.** "Write a post about this" (Concepts 1 and 2) or "Respond to this" (Concept 3). It lands on Thought Leadership Builder, which is still the Sprint 4 stub until the Playbook concepts are built. The link already carries the read, and the passage when there is one, so the builder can show its source the moment it exists. The `SourceLabel` component ("Started from today's Briefing") is in the catalogue now.
 
 **Choosing publishers.** The choice is shared across all three concepts. The dock's reset puts the first visit back.
 
-## 3. The shared Toolbox pieces (stage 3)
+## 3. The shared Playbook pieces (stage 3)
 
-Built once, in the catalogue (`/showroom/components`), for all four tools and all three Toolbox concepts:
+Built once, in the catalogue (`/showroom/components`), for all four tools and all three Playbook concepts:
 
 - **ToolUseCase.** One sentence on what the tool makes, one on when to use it, what she'll need, and the step on her plan it serves.
 - **InputPanel.** What ExecHQ already knows arrives filled in, says where it came from ("From your plan", "From your direction") and can be edited. Only what only she can answer is asked.
@@ -44,18 +48,18 @@ Built once, in the catalogue (`/showroom/components`), for all four tools and al
 - **DraftUseBar.** Copy, worded for what she'll do ("Copy to post on LinkedIn"); PDF and Word only where they are in scope; Mark ready.
 - **The Loop status for a closed artifact now reads "Closed", not "Done"**, everywhere it appears.
 
-## 3a. The Toolbox concepts (stage 4)
+## 3a. The Playbook concepts (stage 4)
 
-Every concept leads with the four tools and puts the library below, per the 11 October amendment. Each pairs a Toolbox page (`/toolbox/concept-N`) with a tool flow (`/toolbox-flow/concept-N`). Thought Leadership Builder runs end to end in all three; the other three tools show their use case and a note until a concept is chosen.
+Every concept leads with the four tools and puts the library below, per the 11 October amendment. Each pairs a Playbook page (`/playbook/concept-N`) with a tool flow (`/playbook-flow/concept-N`). Thought Leadership Builder runs end to end in all three; the other three tools show their use case and a note until a concept is chosen.
 
 | Concept | Tools | Library | Making a draft |
 | --- | --- | --- | --- |
-| 1 — Tool cards (safe; **scratched 14 October**, its page moved to the `scratch` branch. Its "Next on your plan" went into Concept 2, under the tool row, and "What's on your mind?" became the advisor's "Which tool do I need?" prompt on the Toolbox. Its tool flow, Guided steps, stays on `main`) | The next plan step's tool leads with its detailed drawing: a bento on tablet and web, one row plus three icons on a phone (option C, chosen 11 October). Drawings are placeholders for design | Two menus side by side (Tool, and Status with Show closed), each a plain list with counts; Clear filters under them | One question per screen ("Step 2 of 3"), then the draft full screen with Revise, Copy and Mark ready in a fixed bar |
+| 1 — Tool cards (safe; **scratched 14 October**, its page moved to the `scratch` branch. Its "Next on your plan" went into Concept 2, under the tool row, and "What's on your mind?" became the advisor's "Which tool do I need?" prompt on the Playbook. Its tool flow, Guided steps, stays on `main`) | The next plan step's tool leads with its detailed drawing: a bento on tablet and web, one row plus three icons on a phone (option C, chosen 11 October). Drawings are placeholders for design | Two menus side by side (Tool, and Status with Show closed), each a plain list with counts; Clear filters under them | One question per screen ("Step 2 of 3"), then the draft full screen with Revise, Copy and Mark ready in a fixed bar |
 | 2 — Starter row (safe) | One row of four icons, each over a short name; nothing scrolls. Under it, the next plan step's tool as one row (14 October) | Four folders, one per tool, filed by ExecHQ (option A, chosen 11 October; plain cards with the tool's icon in a tinted disc, look D, 14 October): each shows how many, where they stand and its last change, and opens to its list, newest first. On tablet and web the folders sit beside the open one's list. Search lists matches across all folders | The draft full screen; inputs, revisions and versions in a panel pulled up from a peek bar (side panel on desktop) |
-| 3 — Start from the moment (wild card; **scratched 13 October**, its page moved to the `scratch` branch. Its "What's on your mind?" and "Pick up where you left off" ideas went into Concept 1. Its tool flow, the Interview, stays on `main` for comparison and goes back to the Toolbox page) | "What's coming up?" picks the tool, with the tools as shortcut chips | A timeline by week | An interview, one question per screen, with the draft pinned above as a card that fills in as she answers (side by side on desktop) |
+| 3 — Start from the moment (wild card; **scratched 13 October**, its page moved to the `scratch` branch. Its "What's on your mind?" and "Pick up where you left off" ideas went into Concept 1. Its tool flow, the Interview, stays on `main` for comparison and goes back to the Playbook page) | "What's coming up?" picks the tool, with the tools as shortcut chips | A timeline by week | An interview, one question per screen, with the draft pinned above as a card that fills in as she answers (side by side on desktop) |
 
-**14 October: Toolbox Concept 2 takes in Concept 1.**
-- **Next on your plan** is one row under the four tool icons. **"Which tool do I need?"** is the advisor's first prompt on any Toolbox page: he asks what's on her mind, and her answer gets a tool with Start.
+**14 October: Playbook Concept 2 takes in Concept 1.**
+- **Next on your plan** is one row under the four tool icons. **"Which tool do I need?"** is the advisor's first prompt on any Playbook page: he asks what's on her mind, and her answer gets a tool with Start.
 - **The folders are plain cards** (look D): the tool's icon in a tinted disc, the name, what's inside and the date.
 - **Search is a magnifying glass** beside Library. It opens a sheet whose matches update as she types, across every folder, with what she typed in bold.
 - **Library rows are a plain list**, no card and no menu: the title, then the status (or the tool, in search) and when she last touched it as a tag ("Today", "3 days ago", "2 weeks ago", then the date). Tapping a row opens it.
@@ -63,10 +67,10 @@ Every concept leads with the four tools and puts the library below, per the 11 O
 - **A folder's page** (option A) opens with the tool's card (what it makes and Start), then how many with a Status menu (only when the folder holds two statuses or more), then the list, each row with a line of what it says.
 
 **How the pieces connect.**
-- **The Briefing hand-off** lands in Concept 2's tool flow, the one Toolbox page left (14 October).
+- **The Briefing hand-off** lands in Concept 2's tool flow, the one Playbook page left (14 October).
 - **The first draft creates the Loop record**, and the address moves to the artifact, so leaving at any point finds the draft in the library where she left it.
 - **Opening an artifact goes straight to its draft** in every concept.
-- **Inside a tool, the "Ask or go" pill steps aside on phone and tablet**, and the navigation says Toolbox.
+- **Inside a tool, the "Ask or go" pill steps aside on phone and tablet**, and the navigation says Playbook.
 
 **The first screen of every tool (option C, chosen 11 October).** The tool's detailed drawing, then the decision: its name set large, what it makes, when to use it, what she'll need, the plan step, and the tool's first question beside one button that says what it will make ("Start a podcast pitch"). What her plan step already says is chosen for her and marked. Concepts 1 and 2 then don't ask that question again; Concept 3 keeps its own interview opening. Under the button, "Goes with this": at most two pieces of her work, each with one action (her statement, which every tool draws on; her last pitch to start from; a pitch still waiting to hear; today's read).
 
@@ -91,14 +95,14 @@ Every concept leads with the four tools and puts the library below, per the 11 O
 
 ## 4a. Stage 5: all four tools, and the links in
 
-- **All four tools work in all three Toolbox concepts**, through one shared engine, so choosing a concept doesn't mean rebuilding them.
+- **All four tools work in all three Playbook concepts**, through one shared engine, so choosing a concept doesn't mean rebuilding them.
 - **Situation Brief:** with a date, the follow-up "How did it go?" lands the day after the meeting, and whatever she answers, ExecHQ gives the next step (13 October).
 - **Pitch Builder:** the follow-up draft lives on the same artifact. "Mark sent" takes an optional target and date.
 - **Positioning Builder:** her onboarding statement opens as the same artifact (version 1); it is never copied. Changing the statement offers a refresh of the bios and narrative; it never forces one.
-- **Direct paths.** Every link into the Toolbox from the Plan, the homepage, the Concierge and the Signal Picture goes through one helper (`lib/toolbox-links.ts`). A step that already has a draft opens it, and the Plan's button then says "Open your draft". A step that makes something opens its tool with the step's facts filled in.
+- **Direct paths.** Every link into the Playbook from the Plan, the homepage, the Concierge and the Signal Picture goes through one helper (`lib/playbook-links.ts`). A step that already has a draft opens it, and the Plan's button then says "Open your draft". A step that makes something opens its tool with the step's facts filled in.
 - **"Read today's Briefing" is live.** It opens the Briefing marked as coming from the Plan, and is done once she reads one item or starts a post from one. Opened any other way, the Plan doesn't change.
 - **After she says how something went (13 October), the next step, everywhere.** In every builder, on Home's Stay on track and with the advisor, her one-tap answer is all the feedback: ExecHQ says it back and gives the next step, whatever she answered, by one set of rules per builder (`AFTER_ANSWER`; tables in each builder page). A Plan step goes on her Plan only when she taps Add. Every feedback card offers "Add a note". The brief's question is now "How did it go?". Home is approved: its check-in card's answered state changed (the next step in place of the readback), its layout did not.
-- **Toolbox flow Concept 3 is answered with taps (13 October).** Every question is its own screen, answered with chips: check all that apply, or pick one where there is only one answer, plus Other for her own words. Optional questions come last, each with Skip. Where ExecHQ knows something only she would say (from her plan and direction), it leads the chips, so nothing generic is put in her mouth. A date or a pasted bio stays a field. The options are drafts (`INTERVIEW_PICKS` in `mock/toolbox.ts`) for review.
+- **Playbook flow Concept 3 is answered with taps (13 October).** Every question is its own screen, answered with chips: check all that apply, or pick one where there is only one answer, plus Other for her own words. Optional questions come last, each with Skip. Where ExecHQ knows something only she would say (from her plan and direction), it leads the chips, so nothing generic is put in her mouth. A date or a pasted bio stays a field. The options are drafts (`INTERVIEW_PICKS` in `mock/playbook.ts`) for review.
 - **Approved pages changed in behaviour, not layout:** the homepage's next step, Plan Concept 3's step buttons, and the Concierge's "Pick up where you left off".
 
 ## 5. Open questions for the client
@@ -106,8 +110,8 @@ Every concept leads with the four tools and puts the library below, per the 11 O
 1. **Briefing Concept 2 shows the whole article inside ExecHQ, and so needs a licence from each publisher.** Briefing Concept 1 doesn't: it sends her to the publisher's site.
 2. **Who chooses Concept 2's highlighted passages, and who writes the notes on them?** In the pilot's rules-based curation that is either an editor or a model reading the article. Both carry a cost the brief does not price.
 3. **Should the homepage card change with the chosen concept?** It stays as approved for now and opens whichever concept is chosen.
-5. **The homepage's "Start in the Toolbox" button** now opens the existing draft when there is one, but keeps its approved wording. Should it say "Open your draft" in that case, as the Plan's button does?
-6. **Building out a closed artifact.** Positioning Builder lets her build out her story even when it is Closed (dock state 3). Should that reopen it as a draft, or be blocked?
+5. **The homepage's "Start in the Playbook" button** now opens the existing draft when there is one, but keeps its approved wording. Should it say "Open your draft" in that case, as the Plan's button does?
+6. **Building out a closed artifact.** Answered by the CEO, 19 Oct: it reopens as a draft, referencing the statement she had and noting she closed it.
 4. **Telling ExecHQ's wording from hers.** The brief requires that generated framing can be told apart from what she supplied. The draft does this with ink and a dotted underline. Should the mark stay on the copied text? Copy currently takes plain text, with no marks.
 
 ## 6. Working decisions from the brief's open questions
@@ -118,7 +122,7 @@ Taken as working answers on 11 October. Confirm with the client:
 - The user can close any artifact at any time; after an outcome is recorded, ExecHQ suggests closing it.
 - Positioning Builder keeps the one-sentence statement as its first output.
 - Copy for every output; PDF and Word for the Situation Brief, bios and long-form articles.
-- No "delete after use" on the Situation Brief.
+- No "delete after use" on the Situation Brief (confirmed by the CEO, 19 Oct).
 - "Read today's Briefing" completes when one read is read, or a Thought Leadership draft is started from one.
 - Reusing an artifact creates a new one, linked to the original.
 - The Briefing is daily reads only.

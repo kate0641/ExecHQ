@@ -22,7 +22,7 @@ export const baselineFormStates = defineComponentStates({
   },
   variants: [
     { label: "Empty — default", props: base },
-    { label: "Typed numbers and a secondary save — as on Home", description: "Every number typed into a short text field beside its label, no plus and minus; the save is the light-blue secondary because Start in the Toolbox is Home's main action.", props: { ...base, fields: "typed" as const, saveVariant: "secondary" as const } },
+    { label: "Typed numbers and a secondary save — as on Home", description: "Every number typed into a short text field beside its label, no plus and minus; the save is the light-blue secondary because Start in the Playbook is Home's main action.", props: { ...base, fields: "typed" as const, saveVariant: "secondary" as const } },
     { label: "Filled in", props: { ...base, demo: { followers: "1,240", counts: { podcast: 1, press: 2, speaking: 1, writing: 3 } } } },
     {
       label: "Something under the buttons",

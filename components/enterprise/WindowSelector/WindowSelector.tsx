@@ -12,6 +12,8 @@ export interface WindowSelectorProps {
   asOf: string;
   /** No update yet: `asOf` is the first one to come. */
   upcoming?: boolean;
+  /** Leaves out the refreshed line where the page says it elsewhere. */
+  hideRefreshed?: boolean;
   className?: string;
 }
 
@@ -21,7 +23,7 @@ export interface WindowSelectorProps {
  * figures change once a week, so no window can isolate one person's activity.
  * Both rules are on screen, not only in a policy.
  */
-export function WindowSelector({ value, onChange, asOf, upcoming = false, className }: WindowSelectorProps) {
+export function WindowSelector({ value, onChange, asOf, upcoming = false, hideRefreshed, className }: WindowSelectorProps) {
   return (
     <div className={["window-selector", className].filter(Boolean).join(" ")}>
       <ToggleGroup
@@ -33,7 +35,7 @@ export function WindowSelector({ value, onChange, asOf, upcoming = false, classN
         value={value}
         onChange={(next) => onChange(next as WindowId)}
       />
-      <p className="window-selector__refreshed">{upcoming ? C.firstUpdate(asOf) : C.refreshed(asOf)}</p>
+      {hideRefreshed ? null : <p className="window-selector__refreshed">{upcoming ? C.firstUpdate(asOf) : C.refreshed(asOf)}</p>}
     </div>
   );
 }

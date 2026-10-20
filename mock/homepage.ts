@@ -73,7 +73,7 @@ const pitch = () =>
     recommendation: "Put yourself forward for the Q1 planning review",
   });
 
-/** Two drafts she has going besides the brief, so the Toolbox has a
+/** Two drafts she has going besides the brief, so the Playbook has a
  *  working week to show (Kate, 13 Oct): a post and a second pitch. Both last
  *  touched before the brief, so Home and the advisor still lead with it. */
 const postDraft = () =>
@@ -438,8 +438,8 @@ export const SIGNAL_PICTURE_COPY = {
   asOf: (date: string) => `Since ${date}`,
   /** Over the one thing to try. */
   nextLabel: "A next step",
-  /** Opens the step in the Toolbox. */
-  nextAction: "Start in the Toolbox",
+  /** Opens the step in the Playbook. */
+  nextAction: "Start in the Playbook",
   /** The text link to the Signal Picture page. */
   detailLabel: "See your full Signal Picture",
 } as const;

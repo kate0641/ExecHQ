@@ -40,7 +40,7 @@ This plan runs to the date of the moment, not to a set number of weeks. With a d
 
 ---
 
-## 2. Action playbook
+## 2. Action set
 
 The agent recommends the step whose trigger matches her situation now. The closer the date, the more it skips to stage 3.
 

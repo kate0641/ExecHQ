@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState, type ReactNode } from "react";
 import { BriefingArticle } from "@/components/briefing/BriefingArticle";
 import { BriefingEnd } from "@/components/briefing/BriefingEnd";
 import { BriefingFront } from "@/components/briefing/BriefingFront";
@@ -28,8 +28,13 @@ const READ_HEADING = "briefing-read-heading";
  * through. Back to the front page sits at the top beside "1 of 3". Where
  * she finishes the article: Save, "Was this worth your time?", the "Write a
  * post about this" card, then Next. No bar at the foot and no Ask or go pill
- * while she reads (Kate, 14 Oct). On web the lead takes the left of the
- * front page.
+ * while she reads (Kate, 14 Oct).
+ *
+ * On web it is one screen, a reading pane (option B, 19 Oct): today's three
+ * down the left, each with why it is here and Read once opened, and the open
+ * read beside them with its notes in the margin. It opens on the lead, which
+ * counts as reading it; there is no front page to go back to. Tablet keeps
+ * the phone's layout.
  *
  * It keeps the Briefing's limits: only ever three, no topic tabs, no counts,
  * no times. The pictures are stand-ins until image rights are settled.
@@ -40,6 +45,16 @@ function BriefingConcept2Page() {
   const { viewport } = useViewport();
   const web = viewport === "web";
   const [at, setAt] = useState<number | null>(null);
+  /** On web a read is always open: the lead until she picks another. */
+  const paneAt = web ? (at ?? 0) : null;
+  const { reads, markOpened } = p;
+  const showingPane = web && !p.firstVisit && !p.savedView;
+  // Showing a read in the pane counts as opening it, the lead included.
+  useEffect(() => {
+    if (showingPane && paneAt !== null) markOpened(reads[paneAt].id);
+    // markOpened is rebuilt every render; the read on show is what matters.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showingPane, paneAt, reads]);
   if (p.firstVisit) return p.firstVisit;
   // Saved, from the top right: its own page in this one's place.
   if (p.savedView)
@@ -64,6 +79,65 @@ function BriefingConcept2Page() {
     else setTimeout(() => document.querySelectorAll<HTMLElement>(".briefing-front2__open")[from ?? 0]?.focus(), 0);
   };
 
+  const reader = (i: number, next: ReactNode) => {
+    const read = p.reads[i];
+    const s = p.stateOf(read.id);
+    return (
+      <>
+        <BriefingReader
+          read={read}
+          headingId={READ_HEADING}
+          article={<BriefingArticle read={read} placement={web ? "margin" : "inline"} />}
+          picture={<BriefingPicture place={((i % 3) + 1) as 1 | 2 | 3} publisher={publisherName(read.publisherId)} size="reader" />}
+          actions={
+            <ReadActions
+              title={read.title}
+              saved={Boolean(s.saved)}
+              onSave={(v) => p.setSaved(read.id, v)}
+              relevance={s.relevance}
+              onRelevance={(r) => p.setRelevance(read.id, r)}
+              respondHref={p.respond(read.id)}
+              onRespond={p.completeStep}
+            />
+          }
+        />
+        {next}
+      </>
+    );
+  };
+
+  if (paneAt !== null) {
+    /** Picks a read in the list, or the next one: it opens beside the list. */
+    const show = (i: number) => {
+      setAt(i);
+      setTimeout(() => document.getElementById(TITLE_ID)?.scrollIntoView({ block: "start" }), 0);
+      focusSoon(READ_HEADING);
+    };
+    return (
+      <div className="briefing-page briefing-page--news briefing-page--pane briefing-page--reading">
+        <nav className="briefing-pane__side" aria-label={C.oneAtATime.front}>
+          {p.header}
+          <BriefingFront reads={p.reads} layout="list" current={paneAt} isRead={(id) => Boolean(p.stateOf(id).read)} onOpen={show} />
+          <BriefingEnd allRead={p.allRead} headingId="briefing-end">
+            <div className="brief-end__links">{p.publishersInProfile}</div>
+          </BriefingEnd>
+        </nav>
+        <div className="briefing-pane__read">
+          <ReadCounter at={paneAt + 1} of={total} />
+          {reader(
+            paneAt,
+            paneAt + 1 < total ? (
+              <Button fullWidth onClick={() => show(paneAt + 1)}>
+                {C.oneAtATime.nextRead(publisherName(p.reads[paneAt + 1].publisherId))}
+              </Button>
+            ) : null
+          )}
+        </div>
+        {p.sheet}
+      </div>
+    );
+  }
+
   if (at === null) {
     return (
       <div className="briefing-page briefing-page--news">
@@ -79,32 +153,16 @@ function BriefingConcept2Page() {
     );
   }
 
-  const read = p.reads[at];
-  const s = p.stateOf(read.id);
   return (
     <div className="briefing-page briefing-page--news briefing-page--reading">
       {p.header}
       <ReadCounter at={at + 1} of={total} onBack={() => go(null)} backLabel={C.oneAtATime.front} />
-      <BriefingReader
-        read={read}
-        headingId={READ_HEADING}
-        article={<BriefingArticle read={read} placement={web ? "margin" : "inline"} />}
-        picture={<BriefingPicture place={((at % 3) + 1) as 1 | 2 | 3} publisher={publisherName(read.publisherId)} size="reader" />}
-        actions={
-          <ReadActions
-            title={read.title}
-            saved={Boolean(s.saved)}
-            onSave={(v) => p.setSaved(read.id, v)}
-            relevance={s.relevance}
-            onRelevance={(r) => p.setRelevance(read.id, r)}
-            respondHref={p.respond(read.id)}
-            onRespond={p.completeStep}
-          />
-        }
-      />
-      <Button fullWidth onClick={() => go(at + 1 < total ? at + 1 : null)}>
-        {at + 1 < total ? C.oneAtATime.nextRead(publisherName(p.reads[at + 1].publisherId)) : C.oneAtATime.finish}
-      </Button>
+      {reader(
+        at,
+        <Button fullWidth onClick={() => go(at + 1 < total ? at + 1 : null)}>
+          {at + 1 < total ? C.oneAtATime.nextRead(publisherName(p.reads[at + 1].publisherId)) : C.oneAtATime.finish}
+        </Button>
+      )}
       {p.sheet}
     </div>
   );

@@ -3,7 +3,7 @@ import { CONTROLS_INSIDE, NOT_AN_INPUT } from "@/components/not-applicable";
 import { COUNT_COPY as AC, ADD_COPY, PRESENCE_STUB as P } from "@/mock/accounts-stub";
 import { PresenceCard } from "./PresenceCard";
 
-const toolbox = "/toolbox-flow/concept-1";
+const playbook = "/playbook-flow/concept-3";
 const profile = "/profile/concept-1";
 
 const still = [
@@ -49,7 +49,7 @@ export const presenceCardStates = defineComponentStates({
   variants: [
     {
       label: "Some added — default",
-      props: { ...base, rows: moved, summary: SUMMARY, onAdd: () => {}, addLabel: ADD_COPY.open, tryThis: { ...P.tryThis, href: toolbox }, headingId: "pc-moved" },
+      props: { ...base, rows: moved, summary: SUMMARY, onAdd: () => {}, addLabel: ADD_COPY.open, tryThis: { ...P.tryThis, href: playbook }, headingId: "pc-moved" },
     },
     {
       label: "Headed by the page — no title of its own",
@@ -59,7 +59,7 @@ export const presenceCardStates = defineComponentStates({
     {
       label: "Nothing added since the start",
       description: "The same number twice: the baseline has not moved, and the card says so.",
-      props: { ...base, rows: still, tryThis: { ...P.tryThis, href: toolbox }, headingId: "pc-still" },
+      props: { ...base, rows: still, tryThis: { ...P.tryThis, href: playbook }, headingId: "pc-still" },
     },
     {
       label: "Nothing yet — empty",

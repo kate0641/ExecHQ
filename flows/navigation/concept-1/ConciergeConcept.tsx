@@ -31,9 +31,9 @@ import {
   useLoop,
 } from "@/lib/loop-store";
 import { type NavDestination } from "@/lib/manifest";
-import { toolboxNow } from "@/lib/toolbox-store";
+import { playbookNow } from "@/lib/playbook-store";
 import { doOffer, nextAfterNow } from "@/lib/use-next-after";
-import { useToolboxLinks } from "@/lib/toolbox-links";
+import { usePlaybookLinks } from "@/lib/playbook-links";
 import { useNewSignals } from "@/lib/new-signals";
 import { useViewport } from "@/lib/viewport-context";
 import { CONCIERGE_COPY as C } from "@/mock/concierge";
@@ -65,7 +65,7 @@ const ICONS: Record<string, IconName> = {
   homepage: "home",
   plan: "flag",
   signals: "trend-up",
-  toolbox: "pencil",
+  playbook: "pencil",
   "daily-briefing": "calendar",
   profile: "person",
 };
@@ -119,7 +119,7 @@ function closePanel(focusPill = true) {
 }
 
 /** The Loop as it stands this moment, read fresh when he replies. */
-function contextNow(destinations: NavDestination[], toolbox?: string): ConciergeContext {
+function contextNow(destinations: NavDestination[], playbook?: string): ConciergeContext {
   const snapshot = currentSnapshot(getLoopState());
   return {
     snapshot,
@@ -128,7 +128,7 @@ function contextNow(destinations: NavDestination[], toolbox?: string): Concierge
     destinations,
     nextStepAfter,
     nextAfter: (record, type) => nextAfterNow(record, type, snapshot.id, snapshot.today),
-    toolbox,
+    playbook,
   };
 }
 
@@ -153,7 +153,7 @@ function applyEffect(effect: ConciergeEffect | undefined, go: (href: string) => 
     case "offer": {
       const snapshot = currentSnapshot(getLoopState());
       const record = snapshot.records.find((r) => r.id === effect.recordId);
-      doOffer(effect.offer, record, toolboxNow().drafts[effect.recordId], snapshot.id, snapshot.today);
+      doOffer(effect.offer, record, playbookNow().drafts[effect.recordId], snapshot.id, snapshot.today);
       break;
     }
     case "note":
@@ -269,8 +269,8 @@ function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { m
   const [draft, setDraft] = useState("");
   const bodyRef = useRef<HTMLDivElement>(null);
   const chatting = concierge.messages.length > 0;
-  // On a Toolbox page, the concept she is on: he offers to suggest a tool.
-  const toolbox = usePathname().match(/^\/toolbox\/(concept-\d+)/)?.[1];
+  // On a Playbook page, the concept she is on: he offers to suggest a tool.
+  const playbook = usePathname().match(/^\/playbook\/(concept-\d+)/)?.[1];
   const ctx: ConciergeContext = {
     snapshot: loop,
     followUp: loop.followUp,
@@ -278,7 +278,7 @@ function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { m
     destinations,
     nextStepAfter,
     nextAfter: (record, type) => nextAfterNow(record, type, loop.id, loop.today),
-    toolbox,
+    playbook,
   };
 
   // Keep the latest message in view. The panel's body is what scrolls.
@@ -307,11 +307,11 @@ function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { m
 
   function send(text: string, chosen?: ConciergeAction) {
     if (state.typing) return;
-    const action = chosen ?? understand(text, contextNow(destinations, toolbox), state.asked, recentMisses());
+    const action = chosen ?? understand(text, contextNow(destinations, playbook), state.asked, recentMisses());
     const you: Message = { id: nextId++, from: "you", text };
     // Going somewhere is said and done at once, with no typing pause.
     if (action.kind === "go" || action.kind === "start-tool") {
-      const { turn, effect } = respond(action, contextNow(destinations, toolbox));
+      const { turn, effect } = respond(action, contextNow(destinations, playbook));
       update({ messages: [...state.messages, you, { id: nextId++, from: "advisor", turn }], asked: undefined });
       setTimeout(() => applyEffect(effect, go), GO_MS);
       return;
@@ -320,7 +320,7 @@ function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { m
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     setTimeout(() => {
       // Read the Loop now, not when the message was sent.
-      const { turn, effect } = respond(action, contextNow(destinations, toolbox));
+      const { turn, effect } = respond(action, contextNow(destinations, playbook));
       applyEffect(effect, go);
       update({
         messages: [...state.messages, { id: nextId++, from: "advisor", turn }],
@@ -468,9 +468,9 @@ function Turn({ turn }: { turn: AdvisorTurn }) {
 /** The product's places, with their icons, in one row however many there are. A dot says something waits. */
 function Places({ destinations, currentFlow }: { destinations: NavDestination[]; currentFlow: string }) {
   const loop = useLoop();
-  // The Toolbox concept the reviewer last opened, so moving about never
+  // The Playbook concept the reviewer last opened, so moving about never
   // swaps the concept under review.
-  const toolboxHref = useToolboxLinks().toolbox;
+  const playbookHref = usePlaybookLinks().playbook;
   const newSignals = useNewSignals();
   return (
     <IconRow
@@ -479,7 +479,7 @@ function Places({ destinations, currentFlow }: { destinations: NavDestination[];
         const signals = d.flowSlug === "signals" && newSignals && currentFlow !== "signals";
         return {
           id: d.flowSlug,
-          href: d.flowSlug === "toolbox" ? toolboxHref : d.href,
+          href: d.flowSlug === "playbook" ? playbookHref : d.href,
           label: d.label,
           icon: ICONS[d.flowSlug] ?? "home",
           current: d.flowSlug === currentFlow,
@@ -504,7 +504,7 @@ function Start({
   onAsk: (reply: ConciergeReply) => void;
 }) {
   const loop = useLoop();
-  const links = useToolboxLinks();
+  const links = usePlaybookLinks();
   const resume = [...loop.records]
     .filter((r) => r.state === "drafted" || r.state === "in-progress")
     .sort((a, b) => (a.history.at(-1)!.on < b.history.at(-1)!.on ? 1 : -1))[0];

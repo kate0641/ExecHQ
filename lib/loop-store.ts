@@ -20,7 +20,7 @@
 import { useMemo, useSyncExternalStore } from "react";
 import { reopenBriefing, useBriefingEverClosed } from "@/lib/briefing-dismissal";
 import { resetBriefing, useBriefingChanged } from "@/lib/briefing-store";
-import { resetToolbox, useToolboxChanged } from "@/lib/toolbox-store";
+import { resetPlaybook, usePlaybookChanged } from "@/lib/playbook-store";
 import { closeDirection } from "@/lib/direction-open";
 import { resetCheckIns, useAnyCheckIns } from "@/lib/stage-checkins";
 import { resetPresence, useAddedPresence, useBaseline } from "@/lib/presence-store";
@@ -37,6 +37,7 @@ import {
   markReady,
   markUsed,
   nextFollowUp,
+  reopenRecord,
   startEditing,
   type LoopRecord,
   type OutcomeType,
@@ -196,7 +197,7 @@ export function resetLoop(): void {
   write({ snapshot: getLoopState().snapshot, changes: {} });
   reopenBriefing();
   resetBriefing();
-  resetToolbox();
+  resetPlaybook();
   closeDirection();
   resetCheckIns();
   reopenSparks();
@@ -283,7 +284,7 @@ export const loopActions = {
       return { choices: { ...choices, ...retired }, asked: add ? [...(asked ?? []), add] : asked };
     });
   },
-  /* The Toolbox (Sprint 4). A Loop record exists from the moment the first
+  /* The Playbook (Sprint 4). A Loop record exists from the moment the first
      draft does, so the library, the Plan and the homepage all see it. */
   create: (record: LoopRecord) =>
     update(({ records }) => ({ records: records.some((r) => r.id === record.id) ? records : [...records, record] })),
@@ -291,6 +292,9 @@ export const loopActions = {
    *  anything used stops being asked about. */
   close: (id: string) =>
     updateRecord(id, (r, today) => (availableActions(r).includes("close") ? closeRecord(r, today) : abandonRecord(r, today))),
+  /** Built out again after she closed it: a draft once more (Positioning
+   *  Builder, CEO 19 Oct). */
+  reopen: (id: string) => updateRecord(id, (r, today) => reopenRecord(r, today)),
   /** Deletes it, with its Loop record and the Signal Picture items its
    *  history gave. */
   remove: (id: string) => update(({ records }) => ({ records: records.filter((r) => r.id !== id) })),
@@ -328,7 +332,7 @@ export function useLoop(): LoopView {
   const roadmapChanged = useRoadmapChanged();
   const checkInsSaved = useAnyCheckIns();
   const briefingChanged = useBriefingChanged();
-  const toolboxChanged = useToolboxChanged();
+  const playbookChanged = usePlaybookChanged();
   return useMemo(() => {
     const snapshot = currentSnapshot(state);
     const followUp = nextFollowUp(snapshot.records, snapshot.today);
@@ -339,7 +343,7 @@ export function useLoop(): LoopView {
       lastWorkedOn: lastWorkedOn(snapshot.records),
       nextStep: snapshot.recommendations[0],
       changed: state.changes[state.snapshot] !== undefined,
-      anyChanged: Object.keys(state.changes).length > 0 || briefingClosed || sparksDismissed || presenceAdded || baselineSaved || roadmapChanged || checkInsSaved || briefingChanged || toolboxChanged,
+      anyChanged: Object.keys(state.changes).length > 0 || briefingClosed || sparksDismissed || presenceAdded || baselineSaved || roadmapChanged || checkInsSaved || briefingChanged || playbookChanged,
     };
-  }, [state, briefingClosed, sparksDismissed, presenceAdded, baselineSaved, roadmapChanged, checkInsSaved, briefingChanged, toolboxChanged]);
+  }, [state, briefingClosed, sparksDismissed, presenceAdded, baselineSaved, roadmapChanged, checkInsSaved, briefingChanged, playbookChanged]);
 }

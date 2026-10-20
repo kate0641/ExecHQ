@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useId, useState, type ReactNode } from "react";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
-import { NEXT_STEP_COPY as C } from "@/mock/toolbox";
+import { NEXT_STEP_COPY as C } from "@/mock/playbook";
 
 export interface OutcomeNextOffer {
   id: string;

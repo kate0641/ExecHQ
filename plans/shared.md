@@ -8,7 +8,7 @@ These are the agent's background rules. They are never shown to the user as writ
 
 ## 1. The V1 plan library
 
-Five plan templates make up V1. They are the routing backbone of onboarding and of every recommendation: each person is on exactly one plan, and every action step comes from that plan's playbook.
+Five plan templates make up V1. They are the routing backbone of onboarding and of every recommendation: each person is on exactly one plan, and every action step comes from that plan's action set.
 
 | User-facing name | Template | Brief |
 | --- | --- | --- |
@@ -69,7 +69,7 @@ If her answers don't map cleanly to one template, the agent does one of three th
 Every plan brief has the same six parts:
 
 1. **Plan card.** Who it is for, the outcome, common constraints, how people arrive at it, and its stages, each with a success signal.
-2. **Action playbook.** The operational layer: for each stage, the action steps the product can recommend, when each becomes appropriate, what counts as done, what evidence ExecHQ keeps, and which plan area and signal it moves. It is conditional logic, not a longer list of tasks.
+2. **Action set.** The operational layer: for each stage, the action steps the product can recommend, when each becomes appropriate, what counts as done, what evidence ExecHQ keeps, and which plan area and signal it moves. It is conditional logic, not a longer list of tasks.
 3. **Feedback.** Which steps ask her for feedback, of which type (section 6), when, and what her answer changes (Kate, 14 Oct).
 4. **Signal emphasis.** Which of the six signals each stage leans on.
 5. **How the agent behaves** on this plan.

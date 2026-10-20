@@ -10,7 +10,7 @@ export interface DestinationStubProps {
 }
 
 /**
- * A signed-in destination that a later sprint designs: Plan, Toolbox,
+ * A signed-in destination that a later sprint designs: Plan, Playbook,
  * Briefing. It reads as a real, quiet page — a heading and one line — so the
  * navigation can be judged against destinations that look intentional,
  * without committing that sprint to any layout.

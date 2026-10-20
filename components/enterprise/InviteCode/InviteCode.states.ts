@@ -44,5 +44,10 @@ export const inviteCodeStates = defineComponentStates({
       props: { ...pilot, code: COHORTS.demo.code, joined: COHORTS.demo.joined, expectedSize: COHORTS.demo.expectedSize, open: false },
     },
     { label: "Compact, in a margin", props: { ...pilot, layout: "compact" } },
+    {
+      label: "Compact, without the joined count",
+      description: "Under a Joined figure that already says how many joined.",
+      props: { ...pilot, layout: "compact", hideJoined: true },
+    },
   ],
 });

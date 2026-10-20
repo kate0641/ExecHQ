@@ -9,7 +9,7 @@ export const sourceLabelStates = defineComponentStates({
   name: "SourceLabel",
   group: "cards",
   status: "draft",
-  flows: ["daily-briefing", "toolbox-flow"],
+  flows: ["daily-briefing", "playbook-flow"],
   description:
     "Where a draft came from when it came from the Briefing: \"Started from today's Briefing\", then the read, and the passage when she started from one. It stays with the artifact for its whole life, in Thought Leadership Builder and the library.",
   component: SourceLabel,

@@ -8,7 +8,7 @@ no backend, no API, no database, no sign-in and no AI. Nothing in it talks to a
 network.
 
 This is **Sprint 0**: the shell the later sprints drop into. The product screens
-themselves — onboarding, plan, toolbox, briefing, dashboard — are designed in
+themselves — onboarding, plan, playbook, briefing, dashboard — are designed in
 sprints 1 to 5, and every one of them is currently a placeholder.
 
 ---

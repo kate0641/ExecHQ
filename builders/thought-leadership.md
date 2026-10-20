@@ -19,7 +19,7 @@
 
 ### 1.1 How people arrive here
 
-- **From a Briefing read.** The one connection between the Briefing and the Toolbox. The read arrives as the source, labelled "Started from today's Briefing", with its title, publisher and reason line, and stays on the artifact for its life. From an annotated passage, the passage comes too.
+- **From a Briefing read.** The one connection between the Briefing and the Playbook. The read arrives as the source, labelled "Started from today's Briefing", with its title, publisher and reason line, and stays on the artifact for its life. From an annotated passage, the passage comes too.
 - **From an action step** whose tool is Thought Leadership Builder:
 
 | Plan | Action step |
@@ -31,7 +31,7 @@
 
 - **In the prototype's mock plan:** "Post what you lead on LinkedIn" (`linkedin-post`), which arrives with the topic "What I lead, and where it is going".
 - **From "What's on your mind?"** when what she says names a post, LinkedIn, an article, a blog, a newsletter, an essay, an op-ed, writing or reading.
-- **From the Toolbox or the library,** and from one of her posts ("Use as a start").
+- **From the Playbook or the library,** and from one of her posts ("Use as a start").
 
 ### 1.2 When another builder fits better
 
@@ -52,7 +52,6 @@
 | Who it is for ("Marketing and commercial leaders, and the people who decide on scope") | Her direction |
 | One example from her own work ("I'm leading our planning workstream this year…") | Her plan |
 | The read, and the passage | The Briefing, when she started from it |
-| Her positioning statement | Onboarding. The use case screen says "Your post draws on it for what you lead." (open question 6) |
 
 ### 2.2 What it asks
 
@@ -87,7 +86,7 @@ None in the prototype for a post. **Proposed:** "Add three recent accomplishment
 | **Where it gets hard** (long-form only) | The best argument against her | None | "The strongest argument against this: …" | What is the strongest argument against your view? How do you answer it? |
 | **What to do about it** | What a reader should do | Her call to action | None | What should a reader do differently? |
 | **Closing** (long-form only) | The last line | None | A closing line by voice | None |
-| **Recommended next use** | When and how to publish, and what to do after | None | "Post it on a weekday morning, and reply to comments the same day." (or, for an article, "Publish it as a LinkedIn article, with a short post that links to it."); the plan step it came from, if any; "When someone responds, answer in your own words. ExecHQ will ask how it landed in a week." | None |
+| **Recommended next use** | How to publish, and what to do after | None | "Post it on a weekday morning, and reply to comments the same day." (or, for an article, "Publish it as a LinkedIn article, with a short post that links to it."); the plan step it came from, if any; "When someone responds, answer in your own words. ExecHQ will ask how it landed in a week." Started from a Briefing read, it says nothing about when to post; it says the Briefing is a good source for posts: "Your Briefing is a good place to find your next post: when a read speaks to what you lead, start one from it." (CEO, 19 Oct) | None |
 
 Rules for this builder:
 
@@ -97,7 +96,7 @@ Rules for this builder:
 
 ### 3.1 Format rules
 
-Kate, 14 Oct; she confirmed the word ranges. Each format has its own rules, and every draft keeps them. **In V1 they are fixed:** she can't change them. Letting her set her own (a post of at least 300 words, one cited source) is for a later version; see below.
+Kate, 14 Oct; she confirmed the word ranges, and the CEO confirmed the ranges and sections for now (19 Oct). Each format has its own rules, and every draft keeps them. **In V1 they are fixed:** she can't change them. Letting her set her own (a post of at least 300 words, one cited source) is for a later version; see below.
 
 | Rule | LinkedIn post | Short article | Long-form article |
 | --- | --- | --- | --- |
@@ -112,7 +111,9 @@ How the draft keeps them:
 - **Length is a range, not a target.** Her Length answer picks where in the range the first draft sits: Short near the bottom, Standard in the middle, Long near the top. Shorter and Longer move within it, never out of it.
 - **Checked behind the scenes** (Kate, 14 Oct). The range is a guardrail the draft is held to, not something shown on it: no word count on the draft. What she sees are the questions below, when a draft falls outside it.
 - **Short of the range, it asks; it never pads.** "This is 110 words. What else would a reader need?" Over the range, it asks what can go: "This is 340 words. A post runs to 300. What can go?"
-- **A missing source is a question.** An article short of its sources leaves "What source backs this up?" in place. ExecHQ never finds, suggests or invents a citation to fill it.
+- **A missing source is a question.** An article short of its sources leaves "What source backs this up?" in place. ExecHQ never finds, suggests or invents a citation to fill it, and keeps no separate list of suggested citations: evidence works best when she provides it (CEO, 19 Oct).
+- **No cadence advice.** How often she posts is her plan's job, through its action steps, not this builder's (CEO, 19 Oct).
+- **Her positioning statement is not promised.** The post doesn't draw on it, so nothing says it does (CEO, 19 Oct: the promise is taken off).
 
 **Guardrails no format, and no later setting, can change:**
 
@@ -121,7 +122,7 @@ How the draft keeps them:
 - Keep her words apart from ExecHQ's wording.
 - Never post or publish for her.
 
-**Later version: her own format rules.** Not in V1 (Kate, 14 Oct). When it comes, she could change a format's length, sources, sections and ending, never the guardrails above. The proposal so far: learn from what she does (picking Longer twice on posts offers "Make 300+ words your default for posts?"), keep them in one place (a "Your writing defaults" row in Profile, a line per format), and show them on the draft ("Post · 150 to 300 words · Edit").
+**Later version: her own format rules.** Not in V1 (Kate, 14 Oct). When it comes, every builder gets the same (a pitch's length, the bios' three lengths), not Thought Leadership only (Kate, 14 Oct; the CEO agreed, 19 Oct). When it comes, she could change a format's length, sources, sections and ending, never the guardrails above. The proposal so far: learn from what she does (picking Longer twice on posts offers "Make 300+ words your default for posts?"), keep them in one place (a "Your writing defaults" row in Profile, a line per format), and show them on the draft ("Post · 150 to 300 words · Edit").
 
 ---
 
@@ -145,14 +146,14 @@ As the PRD names them, voice, specificity, length and audience, plus emphasis an
 | **Copy** | "Copy to post on LinkedIn" |
 | **Export** | A post: copy only. An article: Download as PDF and Word too (Sprint 4's answer for long-form articles). |
 | **Mark ready, then published** | "Mark ready", then "Mark published". Publishing is always hers. |
-| **Check back** | 7 days after she marks it published (**Proposed**) |
+| **Check back** | 7 days after she marks it published (Kate, 19 Oct) |
 | **The question** | "You published your post on planning on Monday. How did it land?" (the PRD's self-reported engagement). Answers: It landed well · It was mixed · Not much response · Nothing yet · It's no longer relevant. Her tap is all the feedback: ExecHQ asks nothing more. The same wording wherever a post is checked in on. She can answer in the builder as soon as it is published. |
 | **Signal Picture** | Once published, the post and what came of it, under the plan area it serves; it counts toward her published-content signal |
 | **Reuse** | "Use as a start" makes a new post from this one, linked back |
 
 ### After she answers
 
-Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and always gives the next step (Kate, 13 Oct). One leads, with at most one more. A Plan step goes on her Plan only when she taps **Add it to your plan**; where a step is already done or passed on, the next step on her Plan takes its place. "Not now" folds it to one line. Built by rules (`AFTER_ANSWER` in `mock/toolbox.ts`); no model in the pilot.
+Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and always gives the next step (Kate, 13 Oct). One leads, with at most one more. A Plan step goes on her Plan only when she taps **Add it to your plan**; where a step is already done or passed on, the next step on her Plan takes its place. "Not now" folds it to one line. Built by rules (`AFTER_ANSWER` in `mock/playbook.ts`); no model in the pilot.
 
 | Answer | Next step | Then |
 | --- | --- | --- |
@@ -178,9 +179,4 @@ Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and
 
 ## 7. Open questions
 
-1. **Cadence.** The Functional Scope lists "post cadence recommendations". Is that this builder's job, or the plan's?
-2. **Suggested citations.** The Functional Scope offers "an optional list of missing evidence or suggested citations". The prototype leaves questions in place. Is a separate list needed?
-3. **Her positioning statement in the post.** "Goes with this" says the post draws on it for what she leads, but the draft doesn't use it yet. Use it, or take the promise off?
-4. **Article length.** Section 3.1 now gives each format a word range (600 to 900, and 1,200 to 2,000). Are those right, and are five and seven sections the right difference between them?
-5. **Next use for a read.** A post started from a Briefing read names no plan step. Should it say it answers the read, and when to post while the read is still current?
-6. **Format rules elsewhere.** If she can set her own format rules in a later version, do the other builders get the same (a pitch's length, the bios' three lengths), or is it Thought Leadership only? Kate, 14 Oct: probably all of them; settle it when that version is planned.
+All six answered by the CEO on 19 Oct and written into the sections above: cadence is the plan's job; no separate list of citations, since evidence works best from her; the positioning-statement promise is taken off; the word ranges and sections stand for now (3.1); a post from a read says the Briefing is a good source, not when to post; and her own format rules, when they come, apply to every builder.

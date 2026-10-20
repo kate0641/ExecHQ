@@ -334,6 +334,18 @@ export function closeRecord(record: LoopRecord, on: LoopDate): LoopRecord {
   };
 }
 
+/** Built out again after she closed it (CEO, 19 Oct): a draft once more, on
+ *  the same record, so nothing she had is lost. */
+export function reopenRecord(record: LoopRecord, on: LoopDate): LoopRecord {
+  if (record.state !== "closed") return record;
+  return { ...record, state: "in-progress", checkBackOn: undefined, history: [...record.history, { type: "edited", on }] };
+}
+
+/** The last day she closed it, if she ever has. */
+export function lastClosedOn(record: LoopRecord): LoopDate | undefined {
+  return [...record.history].reverse().find((event) => event.type === "closed")?.on;
+}
+
 /** The user set the draft aside. Not a failure, and never asked about again. */
 export function abandonRecord(record: LoopRecord, on: LoopDate): LoopRecord {
   assertCan(record, "abandon");
@@ -378,10 +390,17 @@ export function nextFollowUp(records: LoopRecord[], today: LoopDate): LoopRecord
 export function followUpQuestion(record: LoopRecord, today: LoopDate): string {
   const verb = ARTIFACT_KINDS[record.kind].usedVerb;
   const when = record.usedOn ? ` ${whenPhrase(record.usedOn, today)}` : "";
-  // A brief is for a conversation, so it asks how it went, and ExecHQ gives
-  // the next step from the answer (13 Oct); a post's is how it landed
-  // (self-reported engagement, its PRD section).
-  const asks = record.kind === "situation-brief" ? "How did it go?" : record.kind === "thought-leadership" ? "How did it land?" : "What came of it?";
+  // Each builder asks its own (13 and 19 Oct): a brief, how the conversation
+  // went; a post, how it landed (self-reported engagement, its PRD section);
+  // a pitch, whether she heard back; her positioning, how it went when she
+  // used it.
+  const ASKS: Record<ArtifactKind, string> = {
+    "situation-brief": "How did it go?",
+    "thought-leadership": "How did it land?",
+    pitch: "Did you hear back?",
+    positioning: "How did it go when you used it?",
+  };
+  const asks = ASKS[record.kind] ?? "What came of it?";
   return `You ${verb} ${record.name}${when}. ${asks}`;
 }
 

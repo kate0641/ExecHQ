@@ -1410,24 +1410,36 @@ button.link {
   border-radius: var(--radius-device-tablet);
 }
 
-.device__screen {
+/* The whole glass: Safari's bars and, between them, the page. */
+.device__display {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  overflow: clip;
+  background-color: var(--color-browser-chrome);
+}
+
+.device--mobile .device__display {
+  width: var(--viewport-mobile-width);
+  border-radius: calc(var(--radius-device-mobile) - var(--device-bezel-mobile));
+}
+
+.device--tablet .device__display {
+  width: var(--viewport-tablet-width);
+  border-radius: calc(var(--radius-device-tablet) - var(--device-bezel-tablet));
+}
+
+/* The page: only the room Safari leaves it. */
+.device__screen {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
   width: 100%;
   /* Clip, never hide: a hidden box can still be scrolled by focus and scrollIntoView, which drags the
      page and the advisor's panel out of place. Only .device__content scrolls. */
   overflow: clip;
   background-color: var(--color-device-screen);
-}
-
-.device--mobile .device__screen {
-  width: var(--viewport-mobile-width);
-  border-radius: calc(var(--radius-device-mobile) - var(--device-bezel-mobile));
-}
-
-.device--tablet .device__screen {
-  width: var(--viewport-tablet-width);
-  border-radius: calc(var(--radius-device-tablet) - var(--device-bezel-tablet));
 }
 
 /* Content scrolls here, not in the browser window, so the frame stays put. */
@@ -1465,7 +1477,7 @@ button.link {
   letter-spacing: var(--font-display-tracking);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
-  color: var(--color-text-primary);
+  color: inherit;
 }
 
 /* The camera housing, drawn as a dynamic island in the bezel colour. It sits
@@ -1473,13 +1485,22 @@ button.link {
    puts it — and with a 3px bezel there is nowhere else for it to go. Dimensions
    are literal pixels because this is a drawing of a physical object, not
    layout: it does not scale with the spacing scale. */
-/* A tinted screen asks for the bar to match it. */
-.device__statusbar--sunken {
+/* Safari's top: the status bar and the address bar, tinted to the page as
+   Safari tints them. A tinted screen asks for the bar to match it. */
+.device__top {
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  background-color: var(--color-device-screen);
+  color: var(--color-text-primary);
+}
+
+.device__top--sunken {
   background-color: var(--color-surface-sunken);
 }
 
 /* A screen with a dark top edge asks for this through useStatusBarTone. */
-.device__statusbar--inverse {
+.device__top--inverse {
   background-color: var(--color-surface-inverse);
   color: var(--color-text-inverse);
   /* Closes the sub-pixel seam where the white screen shows between the bar
@@ -1487,15 +1508,83 @@ button.link {
   box-shadow: 0 var(--border-width-thin) 0 var(--color-surface-inverse);
 }
 
-/* Behind the welcome's photograph the status bar takes the same darkest navy,
+/* Behind the welcome's photograph the top takes the same darkest navy,
    so the dark runs unbroken to the top edge. */
-.device__screen:has(.welcome) > .device__statusbar--inverse {
+.device__display:has(.welcome) > .device__top--inverse {
   background-color: var(--color-surface-inverse-deep);
   box-shadow: 0 var(--border-width-thin) 0 var(--color-surface-inverse-deep);
 }
 
-.device__statusbar--inverse .device__statusbar-indicators {
+.device__top--inverse .device__statusbar-indicators {
   color: inherit;
+}
+
+/* Safari's toolbar and the home indicator, under the page. */
+.device__bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  height: var(--browser-toolbar-height);
+  background-color: var(--color-browser-chrome);
+}
+
+.browser-bar {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-sm);
+}
+
+.browser-bar--address {
+  height: var(--browser-address-height);
+}
+
+/* On the iPad the address field sits centred in a wider bar. */
+.device--tablet .browser-bar--address {
+  justify-content: center;
+  padding: 0 var(--space-lg);
+}
+
+.device--tablet .browser-bar__pill {
+  max-width: 480px;
+}
+
+.browser-bar--toolbar {
+  width: 100%;
+  padding-top: var(--space-xs);
+}
+
+/* Literal pixels: a drawing of Safari, not layout. */
+.browser-bar__pill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 44px;
+  padding: 0 var(--space-md);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-browser-bar);
+  color: var(--color-browser-bar-text);
+  box-shadow: var(--shadow-sm);
+}
+
+.browser-bar__address {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+}
+
+.browser-bar__off {
+  display: flex;
+  opacity: 0.5;
+}
+
+.device__home-indicator {
+  width: 134px;
+  height: 5px;
+  margin-top: auto;
+  margin-bottom: var(--space-xs);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-device-bezel);
 }
 
 .device__statusbar::before {
@@ -1654,6 +1743,7 @@ button.link {
 
 .devtools__hub-button,
 .devtools__color,
+.devtools__late,
 .devtools__replay,
 .devtools__collapse {
   display: grid;
@@ -1666,19 +1756,22 @@ button.link {
 
 .devtools__hub-button:hover,
 .devtools__color:hover:not(:disabled),
+.devtools__late:hover:not(:disabled),
 .devtools__replay:hover,
 .devtools__collapse:hover {
   background-color: var(--color-surface-hover);
   color: var(--color-text-primary);
 }
 
-/* Pressed means the brand colours are showing. */
-.devtools__color[aria-pressed="true"] {
+/* Pressed means the brand colours are showing, or the update is late. */
+.devtools__color[aria-pressed="true"],
+.devtools__late[aria-pressed="true"] {
   background-color: var(--color-surface-inverse);
   color: var(--color-text-inverse);
 }
 
-.devtools__color:disabled {
+.devtools__color:disabled,
+.devtools__late:disabled {
   color: var(--color-text-disabled);
   cursor: not-allowed;
 }
@@ -2413,7 +2506,7 @@ ul.chrome__nav-list {
 
 /* Once you're talking, the sheet takes the whole screen. */
 .concierge-host--mobile .concierge-host__panel:has(.is-chatting) {
-  top: var(--device-statusbar-height);
+  top: 0;
 }
 
 .device__screen[data-concierge="open"] .concierge-host__panel {
@@ -2755,7 +2848,7 @@ ul.concierge-suggest {
 /* IconRow. The advisor's nav (designer, 2026-10-11): plain icons and their names, no
    tile and no strip. Only the current page is marked: its icon sits in a
    yellow circle and its name steps up to semibold. Nothing changes on hover,
-   which carries no meaning on a phone. Toolbox Concept 2's tools use the
+   which carries no meaning on a phone. Playbook Concept 2's tools use the
    same row, with no current item. */
 .icon-row__item {
   position: relative;
@@ -2781,7 +2874,7 @@ ul.concierge-suggest {
   border-radius: var(--radius-pill);
 }
 
-/* Large: the Toolbox's tools, which lead their page. */
+/* Large: the Playbook's tools, which lead their page. */
 .icon-row--lg .icon-row__chip {
   width: 3.25rem;
   height: 3.25rem;
@@ -5860,8 +5953,8 @@ ol.ring-detail__timeline {
   content: none;
 }
 
-/* With the photograph off, the status bar goes back to plain navy too. */
-.device__screen:has(.welcome) > .device__statusbar--inverse {
+/* With the photograph off, the top goes back to plain navy too. */
+.device__display:has(.welcome) > .device__top--inverse {
   background-color: var(--color-surface-inverse);
   box-shadow: 0 var(--border-width-thin) 0 var(--color-surface-inverse);
 }
@@ -5953,6 +6046,20 @@ ol.ring-detail__timeline {
 
 [data-viewport="mobile"] .welcome--compact .welcome__sheet {
   flex: 1;
+}
+
+/* In the phone's browser (Kate, 2026-10-19) Login's first screen has 670px,
+   not the app's 808, so the dark panel gives up its spare padding first and
+   the email field and Log in sit in view on arrival. The wordmark and the
+   line stay; with room to spare the panel still grows to fill it. */
+[data-viewport="mobile"] .welcome:not(.welcome--compact):has(.login) .welcome__hero {
+  gap: var(--space-md);
+  padding-block: var(--space-lg);
+}
+
+[data-viewport="mobile"] .welcome:has(.login) .welcome__sheet {
+  padding-top: var(--space-lg);
+  gap: var(--space-lg);
 }
 
 .welcome > .login__notification {
@@ -8544,6 +8651,24 @@ ol.ring-detail__timeline {
   margin-top: 0;
 }
 
+/* In the phone's browser a guided page can be taller than the room Safari
+   leaves it (Kate, 2026-10-19), so on a page with no drawer the main action
+   sticks to the foot of the screen and the content scrolls behind it, as the
+   wizard's does. The button is always where the thumb expects it. The
+   actions carry the bottom inset, so it holds while content scrolls. */
+[data-viewport="mobile"] .guide:not(.guide--drawer, .guide--cover) {
+  padding-bottom: 0;
+}
+
+[data-viewport="mobile"] .guide:not(.guide--drawer, .guide--cover) > .guide__actions {
+  position: sticky;
+  bottom: 0;
+  z-index: var(--z-sticky);
+  padding: var(--space-sm) 0 var(--space-xl);
+  background-color: var(--color-surface);
+  box-shadow: 0 calc(-1 * var(--space-xs)) var(--space-sm) var(--color-surface);
+}
+
 /* The last page: the list of what to do next sits in the middle of the space
    between the heading and the button. */
 .guide--done .guide__body {
@@ -8552,6 +8677,13 @@ ol.ring-detail__timeline {
 
 .guide--done .guide__actions {
   margin-top: 0;
+}
+
+/* In the phone's browser the last page fits without scrolling (Kate,
+   2026-10-19): a little less room between its parts. */
+[data-viewport="mobile"] .guide--done {
+  gap: var(--space-sm);
+  padding-top: var(--space-md);
 }
 
 /* A navy page (designer, 2026-10-15): onboarding's steps with no drawer (Signals, the recommendation,
@@ -8771,7 +8903,7 @@ ol.ring-detail__timeline {
   min-height: 0;
 }
 
-/* A light blue rule under where she could use it closes the draft's part of the page before the Toolbox
+/* A light blue rule under where she could use it closes the draft's part of the page before the Playbook
    line and why it matters (designer, 2026-10-15). The same 28px above and below it: the page's 24px
    section gap, opened a hair. */
 .guide--navy .story-draft__uses {
@@ -9363,9 +9495,9 @@ ol.ring-detail__timeline {
   overflow: clip;
 }
 
-/* Toolbox flow Concept 3's questions use the same drawer (13 Oct): inside a
+/* Playbook flow Concept 3's questions use the same drawer (13 Oct): inside a
    tool the Ask or go pill steps aside, so no room is kept for it, and the
-   way back to the Toolbox keeps the screen's side margin. */
+   way back to the Playbook keeps the screen's side margin. */
 .device__screen:has(.concierge-host) .chrome__main:has(> .guide--drawer) {
   padding-bottom: 0;
 }
@@ -9670,6 +9802,12 @@ ol.ring-detail__timeline {
   flex: none;
   font-size: var(--text-xs);
   color: var(--color-text-secondary);
+}
+
+/* With the keyboard up, Safari's toolbar is under it: the keyboard rises
+   from the foot of the screen, so the page gets that room back. */
+.device--mobile .device__display:has(.device-keyboard) > .device__bottom {
+  display: none;
 }
 
 /* The drawn keyboard. */
@@ -13466,7 +13604,7 @@ ul.login__never {
    share one wash, each showing its own slice of it, so it runs unbroken from
    the top of the screen to the bottom of the greeting. Tablet and web have no
    status bar, so the band alone is as tall as the phone's two together. */
-.device__screen:has(.map-home) {
+.device__display:has(.map-home) {
   --home-header-band: calc(var(--device-statusbar-height) + 2.5rem);
   --home-header-height: var(--home-header-band);
   /* The warm jewel wash, kept ready while the team decides between it and
@@ -13494,7 +13632,7 @@ ul.login__never {
 
 /* Dawn uses day's blue for now (designer, 2026-10-09), kept as its own
    token so the two can part later. */
-.device__screen:has(.map-home__greeting[data-sky="dawn"]) {
+.device__display:has(.map-home__greeting[data-sky="dawn"]) {
   --sky-blue: var(--color-sky-dawn);
   --sky-heart: var(--color-sky-heart-light);
   --sky-ring: var(--color-sky-heart-warm);
@@ -13504,7 +13642,7 @@ ul.login__never {
 
 /* Dusk is a setting sun: an orange centre in peach, a lighter blue ring
    round it, and a deeper blue reaching in from the edges. */
-.device__screen:has(.map-home__greeting[data-sky="dusk"]) {
+.device__display:has(.map-home__greeting[data-sky="dusk"]) {
   --home-header-wash:
     radial-gradient(ellipse 26% 60% at 50% 100%, var(--color-sky-dusk-heart), transparent),
     radial-gradient(ellipse 60% 140% at 50% 100%, var(--color-sky-dusk-ring), transparent 70%),
@@ -13514,7 +13652,7 @@ ul.login__never {
 /* Night: darkest navy at the top fading down to a blue glow, a brighter
    spark at its heart, and lime low on the horizon, under the date rather
    than behind it so the light date keeps its contrast. */
-.device__screen:has(.map-home__greeting[data-sky="night"]) {
+.device__display:has(.map-home__greeting[data-sky="night"]) {
   --home-header-wash:
     radial-gradient(ellipse 50% 28% at 50% 100%, color-mix(in srgb, var(--color-sky-night-horizon) 50%, transparent), transparent),
     radial-gradient(ellipse 22% 35% at 50% 100%, var(--color-sky-night-spark), transparent),
@@ -13528,7 +13666,7 @@ ul.login__never {
    about halfway down the next-step card's navy head. One gradient, painted
    in three slices (status bar, band, and a tail under the band) that line
    up as one. */
-.device__screen:has(.map-home) {
+.device__display:has(.map-home) {
   --home-sky-tail: 18.25rem;
   --home-sky-total: calc(var(--home-header-height) + var(--home-sky-tail));
   --sky-top-edge: var(--color-sky-day);
@@ -13558,7 +13696,7 @@ ul.login__never {
   );
 }
 
-.device__screen:has(.map-home__greeting[data-sky="dawn"]) {
+.device__display:has(.map-home__greeting[data-sky="dawn"]) {
   --sky-top-edge: var(--color-sky-dawn);
   --sky-top-core-size: 55% 24%;
   --sky-top-ring: var(--color-sky-heart-warm);
@@ -13572,7 +13710,7 @@ ul.login__never {
    soft. Every colour named is a palette step; only the shades between are
    blended. The blue eases out over the last stretch rather than stopping,
    so it leaves no edge, and the fade under it starts from the same blue. */
-.device__screen:has(.map-home__greeting[data-sky="dusk"]) {
+.device__display:has(.map-home__greeting[data-sky="dusk"]) {
   --sky-top-edge: var(--color-sky-dusk-edge-top);
   --sky-top-ring: var(--color-sky-dusk-top-ring);
   --sky-top-core: var(--color-sky-dusk-top-core);
@@ -13615,7 +13753,7 @@ ul.login__never {
    same radiating shape, the darkest navy at the centre in a navy ring, over
    a deeper blue than day's so no light blue gap opens between the navy and
    the lime it fades out to behind the rings. */
-.device__screen:has(.map-home__greeting[data-sky="night"]) {
+.device__display:has(.map-home__greeting[data-sky="night"]) {
   --sky-top-edge: var(--color-sky-night-edge);
   --sky-top-ring: var(--color-sky-night-top-ring);
   --sky-top-core: var(--color-sky-night-top-core);
@@ -13644,22 +13782,22 @@ ul.login__never {
 }
 
 /* The heading sits on the navy at night, so it is white. */
-.device__screen:has(.map-home__greeting[data-sky="night"]) .map-home__heading {
+.device__display:has(.map-home__greeting[data-sky="night"]) .map-home__heading {
   color: var(--color-text-inverse);
 }
 
-.device__screen:has(.map-home) > .device__statusbar,
-.device__screen:has(.map-home) .map-home__greeting {
+.device__display:has(.map-home) > .device__top,
+.device__display:has(.map-home) .map-home__greeting {
   background-image: var(--home-sky-full);
   background-size: 100% var(--home-sky-total);
   background-repeat: no-repeat;
 }
 
-.device__screen:has(.map-home) > .device__statusbar {
+.device__display:has(.map-home) > .device__top {
   background-position: 0 0;
 }
 
-.device__screen:has(.map-home) .map-home__greeting {
+.device__display:has(.map-home) .map-home__greeting {
   background-position: 0 calc(var(--home-header-band) - var(--home-header-height));
 }
 
@@ -13689,19 +13827,24 @@ ul.login__never {
 }
 
 /* At night the status bar and the greeting turn light. */
-.device__screen:has(.map-home__greeting[data-sky="night"]) > .device__statusbar,
-.device__screen:has(.map-home__greeting[data-sky="night"]) > .device__statusbar .device__statusbar-indicators,
+.device__display:has(.map-home__greeting[data-sky="night"]) > .device__top,
+.device__display:has(.map-home__greeting[data-sky="night"]) > .device__top .device__statusbar-indicators,
 .map-home__greeting[data-sky="night"],
 .map-home__greeting[data-sky="night"] span {
   color: var(--color-text-inverse);
 }
 
-.device--mobile > .device__screen:has(.map-home) {
+.device--mobile > .device__display:has(.map-home) {
   --home-header-band: 2.5rem;
-  --home-header-height: calc(var(--device-statusbar-height) + var(--home-header-band));
+  --home-header-height: calc(var(--device-statusbar-height) + var(--browser-address-height) + var(--home-header-band));
 }
 
-.device__screen:has(.map-home) > .device__statusbar {
+/* The tablet's wash runs on up behind Safari's address bar too. */
+.device--tablet > .device__display:has(.map-home) {
+  --home-header-height: calc(var(--browser-address-height) + var(--home-header-band));
+}
+
+.device__display:has(.map-home) > .device__top {
   background-image: var(--home-sky-full);
   background-position: 0 0;
   background-size: 100% var(--home-sky-total);
@@ -13711,7 +13854,7 @@ ul.login__never {
 /* As she scrolls, the status bar's slice of sky scrolls with the page, so
    the status bar and the sky under it stay one sky with no edge, and holds
    once the sky's middle colour reaches it (--sky-scrolled, in px). */
-.device__screen:has(.map-home) > .device__statusbar {
+.device__display:has(.map-home) > .device__top {
   background-position: 0 calc(-1 * var(--sky-scrolled, 0px));
 }
 
@@ -18106,10 +18249,6 @@ ul.plan-guided__sparks {
   margin-inline: auto;
 }
 
-[data-viewport="web"] .briefing-page--front {
-  max-width: 65rem;
-}
-
 /* The title and date, with Saved at the top right (14 Oct). */
 .briefing-page__header {
   display: flex;
@@ -18192,29 +18331,6 @@ ul.plan-guided__sparks {
   margin: 0;
   font-size: var(--text-sm);
   color: var(--color-text-secondary);
-}
-
-.briefing-page__change {
-  padding: 0;
-  border: 0;
-  background: none;
-  font: inherit;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-link);
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-  cursor: pointer;
-}
-
-.briefing-page__change:hover {
-  color: var(--color-text-link-hover);
-}
-
-.briefing-page__change:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-  border-radius: var(--radius-xs);
 }
 
 /* --- A read --------------------------------------------------------------- */
@@ -19294,7 +19410,7 @@ ul.plan-guided__sparks {
 }
 
 /* ===========================================================================
-   TOOLBOX: THE SHARED WORKFLOW (Sprint 4)
+   PLAYBOOK: THE SHARED WORKFLOW (Sprint 4)
    One pattern for all four tools: use case, inputs, draft, revise, versions,
    copy or export. The tools differ in words, not in these parts.
    ======================================================================== */
@@ -19307,8 +19423,9 @@ ul.plan-guided__sparks {
   gap: var(--space-sm);
 }
 
-/* Web: the drawing beside the decision, held in view as the decision scrolls. */
-[data-viewport="web"] .tool-use-case {
+/* Web: the drawing beside the decision, held in view as the decision scrolls.
+   Without a drawing the decision keeps the whole width. */
+[data-viewport="web"] .tool-use-case:has(> .tool-use-case__picture) {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: start;
@@ -19611,16 +19728,6 @@ ul.plan-guided__sparks {
    draft, so Next sits at the foot. */
 .tool-flow--pinned > .tool-flow__interview,
 .tool-flow--pinned > .tool-flow__interview > .input-panel {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-}
-
-/* Concept 2's start: the questions under the use case fill the screen, so
-   the pinned button sits at the foot. */
-.tool-flow--pinned .tool-flow__document,
-.tool-flow--pinned .tool-flow__inputs,
-.tool-flow--pinned .tool-flow__inputs > .input-panel {
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -20295,16 +20402,6 @@ ul.plan-guided__sparks {
   cursor: pointer;
 }
 
-.tool-flow__done-changing {
-  align-self: flex-start;
-  padding: 0;
-  border: 0;
-  background: none;
-  font: inherit;
-  font-weight: var(--weight-semibold);
-  cursor: pointer;
-}
-
 .draft-editor__exechq {
   color: var(--color-text-secondary);
   text-decoration: underline dotted var(--color-border-strong);
@@ -20389,6 +20486,24 @@ ul.plan-guided__sparks {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
+}
+
+.revision-controls__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+/* In the phone's browser the choices run past the foot of the screen (Kate,
+   2026-10-19), so Revise and Mark ready stay pinned there while she chooses,
+   with the choices scrolling behind them. */
+[data-viewport="mobile"] .tool-flow__interview .revision-controls__actions {
+  position: sticky;
+  bottom: 0;
+  z-index: var(--z-sticky);
+  padding: var(--space-sm) 0 var(--space-md);
+  background-color: var(--color-surface);
+  box-shadow: 0 calc(-1 * var(--space-xs)) var(--space-sm) var(--color-surface);
 }
 
 /* --- Versions -------------------------------------------------------------- */
@@ -20479,7 +20594,7 @@ ul.plan-guided__sparks {
   gap: var(--space-xs);
 }
 
-/* One button across the row (Toolbox flow Concept 2). */
+/* One button across the row (Playbook flow Concept 2). */
 .draft-use--single .draft-use__buttons > .btn {
   flex: 1 1 100%;
 }
@@ -20536,12 +20651,12 @@ ul.plan-guided__sparks {
 }
 
 /* ===========================================================================
-   TOOLBOX PAGE AND LIBRARY (Sprint 4)
+   PLAYBOOK PAGE AND LIBRARY (Sprint 4)
    The four tools always lead, the library below. On a phone the tools stay
    compact, so the library is reachable without a long scroll.
    ======================================================================== */
 
-.toolbox-page {
+.playbook-page {
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
@@ -20549,17 +20664,17 @@ ul.plan-guided__sparks {
   margin-inline: auto;
 }
 
-[data-viewport="web"] .toolbox-page {
+[data-viewport="web"] .playbook-page {
   max-width: 60rem;
 }
 
-.toolbox-page__header {
+.playbook-page__header {
   display: flex;
   flex-direction: column;
   gap: var(--space-3xs);
 }
 
-.toolbox-page__title {
+.playbook-page__title {
   margin: 0;
   font-family: var(--font-display);
   word-spacing: var(--font-display-word-spacing);
@@ -20569,11 +20684,11 @@ ul.plan-guided__sparks {
   line-height: var(--leading-tight);
 }
 
-.toolbox-page__title:focus {
+.playbook-page__title:focus {
   outline: none;
 }
 
-.toolbox-page__lead {
+.playbook-page__lead {
   margin: 0;
   font-size: var(--text-sm);
   color: var(--color-text-secondary);
@@ -21006,18 +21121,12 @@ ul.plan-guided__sparks {
   color: var(--color-text-secondary);
 }
 
-.toolbox-sheet__heading {
-  margin: 0 0 var(--space-sm);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-}
-
-.toolbox-sheet .sheet__panel {
+.playbook-sheet .sheet__panel {
   overflow-y: auto;
 }
 
 /* ===========================================================================
-   TOOLBOX FLOWS (Sprint 4): guided steps, document workspace, interview
+   PLAYBOOK FLOWS (Sprint 4): guided steps, document workspace, interview
    ======================================================================== */
 
 /* Inside a tool, the Ask or go pill is not there at all (Kate, 13 Oct): the
@@ -21038,10 +21147,6 @@ ul.plan-guided__sparks {
   gap: var(--space-md);
   max-width: var(--content-measure);
   margin-inline: auto;
-}
-
-.tool-flow--split {
-  max-width: 72rem;
 }
 
 .tool-flow__bar {
@@ -21130,12 +21235,6 @@ ul.plan-guided__sparks {
   padding-inline: 0;
 }
 
-.question-step {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-
 .tool-flow__later {
   margin: 0;
   padding: var(--space-sm) var(--space-md);
@@ -21150,36 +21249,6 @@ ul.plan-guided__sparks {
   font-family: var(--font-serif);
   word-spacing: var(--word-spacing-normal);
   line-height: var(--leading-relaxed);
-}
-
-.tool-flow__placeholder {
-  margin: 0;
-  padding: var(--space-xl) var(--space-md);
-  border: var(--border-width-thin) dashed var(--color-border-strong);
-  border-radius: var(--radius-card);
-  color: var(--color-text-secondary);
-  text-align: center;
-}
-
-.tool-flow__versions-link {
-  display: inline-flex;
-  align-items: center;
-  align-self: flex-start;
-  gap: var(--space-2xs);
-  min-height: var(--button-target);
-  padding: 0;
-  border: 0;
-  background: none;
-  font: inherit;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-link);
-  cursor: pointer;
-}
-
-.tool-flow__versions-link:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
 }
 
 /* --- Concept 1: the fixed bar at the foot of the draft --------------------- */
@@ -21249,189 +21318,6 @@ ul.plan-guided__sparks {
   padding-inline: 0;
 }
 
-/* --- Concept 2: the workspace ---------------------------------------------- */
-
-.tool-flow--workspace {
-  position: relative;
-}
-
-.tool-flow__document {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-
-.tool-flow--workspace.tool-flow--split {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 24rem;
-  align-items: start;
-  gap: var(--space-lg);
-}
-
-.workspace-panel {
-  display: flex;
-  flex-direction: column;
-  background-color: var(--color-surface-raised);
-}
-
-.workspace-panel--sheet {
-  position: sticky;
-  bottom: 0;
-  z-index: var(--z-sticky);
-  margin-inline: calc(-1 * var(--space-screen-side));
-  border-top: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-  box-shadow: var(--shadow-drawer);
-}
-
-/* Measured against the phone, not the browser window. */
-.workspace-panel--sheet.is-open .workspace-panel__body {
-  max-height: 26rem;
-  overflow-y: auto;
-}
-
-.workspace-panel--inline {
-  position: relative;
-  margin-inline: 0;
-}
-
-.workspace-panel--side {
-  position: sticky;
-  top: var(--space-md);
-  padding: var(--space-md);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-card);
-}
-
-.workspace-panel__bar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-2xs) var(--space-sm);
-  min-height: calc(var(--button-target) + var(--space-sm));
-  padding: var(--space-sm) var(--space-md);
-  border: 0;
-  background: none;
-  font: inherit;
-  color: var(--color-text-primary);
-  text-align: left;
-  cursor: pointer;
-}
-
-.workspace-panel__bar:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: calc(-1 * var(--focus-ring-width));
-}
-
-.workspace-panel__bar {
-  position: relative;
-}
-
-.workspace-panel__grab {
-  position: absolute;
-  top: var(--space-2xs);
-  left: 50%;
-  width: 2.5rem;
-  height: 0.25rem;
-  transform: translateX(-50%);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-border-strong);
-}
-
-.workspace-panel__bar-label {
-  font-weight: var(--weight-semibold);
-}
-
-.workspace-panel__bar-action {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-3xs);
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-}
-
-.workspace-panel__chevron {
-  transform: rotate(-90deg);
-}
-
-.workspace-panel.is-open .workspace-panel__chevron {
-  transform: rotate(90deg);
-}
-
-.workspace-panel__body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-  padding: 0 var(--space-md) var(--space-md);
-}
-
-/* A class outranks the browser's own [hidden] rule, so it is restated. */
-.workspace-panel__body[hidden] {
-  display: none;
-}
-
-.workspace-panel--side .workspace-panel__body {
-  padding: 0;
-}
-
-.workspace-panel__tabs {
-  display: flex;
-  gap: var(--space-2xs);
-  padding: var(--space-3xs);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface-sunken);
-}
-
-.workspace-panel__tab {
-  flex: 1;
-  min-height: var(--button-target);
-  border: 0;
-  border-radius: var(--radius-pill);
-  background: none;
-  font: inherit;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-secondary);
-  cursor: pointer;
-}
-
-.workspace-panel__tab[aria-pressed="true"] {
-  background-color: var(--color-surface-raised);
-  color: var(--color-text-primary);
-  box-shadow: var(--shadow-xs);
-}
-
-.workspace-panel__tab:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.tool-flow__given {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  margin: 0;
-}
-
-.tool-flow__given-row dt {
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-secondary);
-}
-
-.tool-flow__given-row dd {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3xs);
-  margin: 0;
-}
-
-.tool-flow__given-source {
-  font-size: var(--text-xs);
-  color: var(--color-text-secondary);
-}
-
 /* --- Concept 3: the interview and the pinned draft ------------------------- */
 
 .tool-flow__interview {
@@ -21440,18 +21326,131 @@ ul.plan-guided__sparks {
   gap: var(--space-md);
 }
 
+/* --- Web: the page leads (Concept 3, option B, 19 Oct) --------------------
+   The draft is the page, on the left; the interview is a rail on the right.
+   The rail comes first in the source, so the question is read first. */
+.tool-flow--page {
+  max-width: 76rem;
+}
+
+.tool-flow__desk {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 25rem;
+  grid-template-areas: "sheet rail";
+  align-items: start;
+  gap: var(--space-2xl);
+}
+
+.tool-flow__rail {
+  grid-area: rail;
+  position: sticky;
+  top: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  min-width: 0;
+}
+
+.tool-flow__sheet {
+  grid-area: sheet;
+  min-width: 0;
+}
+
+.tool-flow__ask {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.tool-flow__ask-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.tool-flow__so-far {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.tool-flow__so-far-label {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.tool-flow__so-far-note {
+  margin: 0 0 var(--space-xs);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+/* The draft so far as a page, every section named: the same card and
+   sections as the written draft (DraftEditor), so writing it changes what
+   the page says, not where it is. */
+.draft-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-xl);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+}
+
+.draft-page__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.draft-page__section + .draft-page__section {
+  padding-top: var(--space-md);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+/* Where the answer she is giving goes. */
+.draft-page__section.is-lit {
+  margin-inline: calc(-1 * var(--space-sm));
+  padding: var(--space-sm);
+  border-top-color: transparent;
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-selected);
+}
+
+.draft-page__section.is-lit + .draft-page__section {
+  border-top-color: transparent;
+}
+
+.draft-page__heading {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.draft-page__body,
+.draft-page__list {
+  margin: 0;
+  font-family: var(--font-serif);
+  word-spacing: var(--word-spacing-normal);
+  font-size: var(--text-md);
+  line-height: var(--leading-relaxed);
+}
+
+.draft-page__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding-left: var(--space-md);
+}
+
 .tool-flow__moment {
   margin: 0;
   font-family: var(--font-serif);
   word-spacing: var(--word-spacing-normal);
   color: var(--color-text-secondary);
-}
-
-.tool-flow__columns {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
-  align-items: start;
-  gap: var(--space-lg);
 }
 
 .pinned-draft {
@@ -22264,7 +22263,7 @@ ul.plan-guided__sparks {
 }
 
 /* ===========================================================================
-   TOOL ILLUSTRATIONS AND THE NEXT STEP'S ROW (Toolbox Concept 2)
+   TOOL ILLUSTRATIONS AND THE NEXT STEP'S ROW (Playbook Concept 2)
    ======================================================================== */
 
 .tool-illustration {
@@ -22427,7 +22426,7 @@ ul.plan-guided__sparks {
 }
 
 /* ===========================================================================
-   LIBRARY FOLDERS (Toolbox Concept 2, option A; look D, 14 Oct) — one card
+   LIBRARY FOLDERS (Playbook Concept 2, option A; look D, 14 Oct) — one card
    per tool, no folder drawing: the tool's icon in a disc tinted from the
    folder tokens, then the name, what is inside and when it last changed.
    ======================================================================== */
@@ -22576,7 +22575,7 @@ ul.plan-guided__sparks {
 /* Web, option A (Tools rail, Kate 15 Oct): the title, the tools and the
    next step in a column down the left that stays in view; the library
    takes the rest of the width. */
-[data-viewport="web"] .toolbox-page--rail {
+[data-viewport="web"] .playbook-page--rail {
   display: grid;
   grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
   align-items: start;
@@ -22584,7 +22583,7 @@ ul.plan-guided__sparks {
   max-width: 72rem;
 }
 
-.toolbox-rail {
+.playbook-rail {
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
@@ -22756,7 +22755,7 @@ ul.plan-guided__sparks {
 }
 
 /* Focused by script when the page opens, so a screen reader starts at the
-   folder's name; the ring shows for the keyboard only, as on the Toolbox. */
+   folder's name; the ring shows for the keyboard only, as on the Playbook. */
 .folder-page__title:focus:not(:focus-visible) {
   outline: none;
 }
@@ -22766,7 +22765,7 @@ ul.plan-guided__sparks {
   outline-offset: var(--focus-ring-offset);
 }
 
-.toolbox-page.folder-page {
+.playbook-page.folder-page {
   gap: var(--space-md);
 }
 
@@ -22793,192 +22792,10 @@ ul.plan-guided__sparks {
 }
 
 /* ===========================================================================
-   BRIEFING DECK (Briefing Concept 1, option B) — today's three as a stack:
-   one card open, the others their top strips tucked against it.
-   ======================================================================== */
-
-.briefing-deck {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-[data-viewport="web"] .briefing-page--front .briefing-deck {
-  max-width: 46rem;
-}
-
-.briefing-deck__card {
-  position: relative;
-  border: var(--border-width-thin) solid var(--deck-edge);
-  border-radius: var(--deck-radius);
-  background-color: var(--deck-tint);
-  color: var(--color-text-primary);
-  box-shadow: var(--deck-shadow);
-  transition: transform var(--duration-base) var(--easing-standard);
-}
-
-.briefing-deck__card--1 { --deck-tint: var(--deck-tint-1); }
-.briefing-deck__card--2 { --deck-tint: var(--deck-tint-2); }
-.briefing-deck__card--3 { --deck-tint: var(--deck-tint-3); }
-
-/* Each card tucks over the one before it. */
-.briefing-deck__card + .briefing-deck__card {
-  margin-top: calc(-1 * var(--deck-overlap));
-}
-
-/* Strips leave room at their foot for the tuck. */
-.briefing-deck__card.is-strip {
-  padding-bottom: var(--deck-overlap);
-}
-
-.briefing-deck__strip {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3xs);
-  width: 100%;
-  padding: var(--space-sm) var(--space-md);
-  border: 0;
-  border-radius: var(--deck-radius);
-  background: none;
-  font: inherit;
-  color: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-
-.briefing-deck__strip:hover .briefing-deck__title,
-.briefing-deck__card.is-hover .briefing-deck__title {
-  text-decoration: underline;
-  text-underline-offset: 0.15em;
-}
-
-.briefing-deck__strip:active,
-.briefing-deck__card.is-active .briefing-deck__strip {
-  transform: translateY(1px);
-}
-
-.briefing-deck__strip:focus-visible,
-.briefing-deck__card.is-focus .briefing-deck__strip {
-  outline: var(--focus-ring);
-  outline-offset: calc(-1 * var(--focus-ring-width) - var(--space-3xs));
-}
-
-.briefing-deck__open {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  padding: var(--space-md) var(--space-md) calc(var(--space-md) + var(--deck-overlap));
-}
-
-.briefing-deck__card:last-child .briefing-deck__open {
-  padding-bottom: var(--space-md);
-}
-
-.briefing-deck__top {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--space-sm);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-secondary);
-}
-
-.briefing-deck__publisher {
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-}
-
-.briefing-deck__count {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-xs);
-  flex: none;
-  font-variant-numeric: tabular-nums;
-}
-
-.briefing-deck__read {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-3xs);
-  color: var(--color-text-primary);
-}
-
-.briefing-deck__title {
-  margin: 0;
-  font-family: var(--font-serif);
-  word-spacing: var(--word-spacing-normal);
-  letter-spacing: var(--tracking-normal);
-  font-size: var(--type-editorial-size);
-  font-weight: var(--weight-bold);
-  line-height: var(--leading-snug);
-}
-
-.briefing-deck__title:focus {
-  outline: none;
-}
-
-/* The open card's headline: underlined, because it leaves for the article.
-   Its hit area covers the whole card; the actions sit above it. */
-.briefing-deck__open {
-  position: relative;
-}
-
-.briefing-deck__link {
-  color: inherit;
-  text-decoration: underline;
-  text-decoration-thickness: var(--border-width-thin);
-  text-underline-offset: 0.15em;
-}
-
-.briefing-deck__link::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: var(--deck-radius);
-}
-
-.briefing-deck__link:hover {
-  text-decoration-thickness: var(--border-width-medium);
-}
-
-.briefing-deck__link:focus-visible {
-  outline: none;
-}
-
-.briefing-deck__link:focus-visible::after {
-  outline: var(--focus-ring);
-  outline-offset: calc(-1 * var(--focus-ring-width) - var(--space-3xs));
-}
-
-.briefing-deck__open .read-actions {
-  position: relative;
-  z-index: 1;
-}
-
-.briefing-deck__title--strip {
-  font-size: var(--text-md);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .briefing-deck__card,
-  .briefing-deck__strip:active {
-    transition: none;
-    transform: none;
-  }
-}
-
-/* ===========================================================================
    BRIEFING NEWS APP (Briefing Concept 2, option A) — a front page as a news
    app opens on: the lead story with a big picture, two rows with a small
    one. Each opens a reader screen with a bar at the foot.
    ======================================================================== */
-
-[data-viewport="web"] .briefing-page--news:not(.briefing-page--reading) {
-  max-width: 65rem;
-}
 
 /* Reading an article (Concept 2), the Ask or go pill is not there at all
    (Kate, 14 Oct): the article ends in its own actions and Next. Hidden, not
@@ -23192,6 +23009,77 @@ ul.plan-guided__sparks {
   color: var(--color-text-primary);
 }
 
+/* "Read", beside the publisher, in web's list. */
+.briefing-front2__read {
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-normal);
+  text-transform: none;
+  color: var(--color-text-muted);
+}
+
+/* --- Web: the reading pane (option B, 19 Oct) ---------------------------
+   One screen: today's three down the left, the open read beside them. No
+   front page to go back to; the list ends with That's today's three. */
+.briefing-page--pane {
+  display: grid;
+  grid-template-columns: 22rem minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-2xl);
+}
+
+/* Wider than the phone's reading column (62rem), so the list fits beside it. */
+[data-viewport="web"] .briefing-page--news.briefing-page--pane {
+  max-width: 76rem;
+}
+
+.briefing-pane__side {
+  position: sticky;
+  top: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.briefing-pane__read {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  min-width: 0;
+}
+
+.briefing-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.briefing-list__item {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+  border: var(--border-width-thin) solid transparent;
+  border-radius: var(--radius-card);
+}
+
+.briefing-list__item .briefing-picture--thumb {
+  width: 4.5rem;
+}
+
+.briefing-list__item:hover,
+.briefing-list__item.is-hover {
+  background-color: var(--color-surface-raised);
+}
+
+.briefing-list__item.is-current {
+  background-color: var(--color-surface-raised);
+  border-color: var(--color-border-strong);
+}
+
 /* Concept 3 on a phone: what she does next, under the open draft. */
 .tool-flow__under-draft {
   display: flex;
@@ -23214,277 +23102,6 @@ ul.plan-guided__sparks {
   margin: 0;
   font-size: var(--text-sm);
   color: var(--color-text-secondary);
-}
-
-/* ===========================================================================
-   SOURCE PAGE — the prototype's stand-in for a read's article at its
-   publisher (app/source/[read]). Deliberately plain and not ExecHQ.
-   ======================================================================== */
-
-.source-page {
-  min-height: 100%;
-  background-color: var(--color-surface-raised);
-  color: var(--color-text-primary);
-  font-family: var(--font-body);
-}
-
-.source-page__note {
-  margin: 0;
-  padding: var(--space-xs) var(--space-md);
-  background-color: var(--color-surface-sunken);
-  font-size: var(--text-xs);
-  color: var(--color-text-secondary);
-  text-align: center;
-}
-
-.source-page__masthead {
-  padding: var(--space-md);
-  border-bottom: var(--border-thin);
-  text-align: center;
-}
-
-.source-page__publisher {
-  margin: 0;
-  font-family: var(--font-serif);
-  word-spacing: var(--word-spacing-normal);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-bold);
-}
-
-.source-page__article {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-  max-width: 40rem;
-  margin: 0 auto;
-  padding: var(--space-xl) var(--space-md) var(--space-3xl);
-}
-
-.source-page__title {
-  margin: 0;
-  font-family: var(--font-serif);
-  word-spacing: var(--word-spacing-normal);
-  letter-spacing: var(--tracking-normal);
-  font-size: var(--text-2xl);
-  line-height: var(--leading-snug);
-}
-
-.source-page__standfirst {
-  margin: 0;
-  font-size: var(--text-lg);
-  line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
-}
-
-.source-page__body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  padding-top: var(--space-md);
-}
-
-.source-page__line {
-  display: block;
-  height: 0.625rem;
-  border-radius: var(--radius-sm);
-  background-color: var(--color-border-subtle);
-}
-
-.source-page__gap {
-  display: block;
-  height: var(--space-sm);
-}
-
-/* ===========================================================================
-   PROGRESS STEPPER — numbered steps joined by lines (components/navigation/ProgressStepper).
-   Each line runs from a step to the next: solid once travelled, dashed ahead.
-   ======================================================================== */
-
-.progress-stepper {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
-.progress-stepper__list {
-  display: flex;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.progress-stepper__step {
-  position: relative;
-  display: flex;
-}
-
-.progress-stepper__target {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2xs);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-sm);
-  background: none;
-  font: inherit;
-  color: inherit;
-  text-align: center;
-}
-
-button.progress-stepper__target {
-  cursor: pointer;
-}
-
-button.progress-stepper__target:hover .progress-stepper__label,
-button.progress-stepper__target.is-hover .progress-stepper__label {
-  text-decoration: underline;
-  text-underline-offset: 0.15em;
-}
-
-button.progress-stepper__target:active .progress-stepper__disc,
-button.progress-stepper__target.is-active .progress-stepper__disc {
-  transform: scale(0.94);
-}
-
-button.progress-stepper__target:focus-visible,
-button.progress-stepper__target.is-focus {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.progress-stepper__disc {
-  display: inline-flex;
-  flex: none;
-  align-items: center;
-  justify-content: center;
-  width: var(--progress-stepper-size);
-  height: var(--progress-stepper-size);
-  border: var(--progress-stepper-ring-width) solid var(--progress-stepper-todo);
-  border-radius: 50%;
-  background-color: var(--progress-stepper-current-surface);
-  font-size: var(--progress-stepper-font-size);
-  font-weight: var(--weight-semibold);
-  font-variant-numeric: tabular-nums;
-  color: var(--progress-stepper-todo-text);
-  transition: transform var(--duration-base) var(--easing-standard);
-}
-
-.progress-stepper__step.is-done .progress-stepper__disc {
-  border-color: var(--progress-stepper-done);
-  background-color: var(--progress-stepper-done);
-  color: var(--progress-stepper-text-on-done);
-}
-
-.progress-stepper__step.is-current .progress-stepper__disc {
-  border-color: var(--progress-stepper-current);
-  color: var(--progress-stepper-current);
-  box-shadow: 0 0 0 var(--progress-stepper-ring-width) var(--progress-stepper-current-surface), 0 0 0 calc(2 * var(--progress-stepper-ring-width)) var(--progress-stepper-current);
-}
-
-.progress-stepper__step.is-error .progress-stepper__disc {
-  border-color: var(--progress-stepper-error);
-  background-color: var(--progress-stepper-error-surface);
-  color: var(--progress-stepper-error);
-}
-
-.progress-stepper__label {
-  font-size: var(--progress-stepper-label-size);
-  line-height: var(--leading-snug);
-  color: var(--color-text-secondary);
-}
-
-.progress-stepper__step.is-current .progress-stepper__label {
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-primary);
-}
-
-.progress-stepper__step.is-done .progress-stepper__label {
-  color: var(--color-text-primary);
-}
-
-.progress-stepper__step.is-error .progress-stepper__label {
-  font-weight: var(--weight-semibold);
-  color: var(--progress-stepper-error);
-}
-
-/* The line to the next step. */
-.progress-stepper__step:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  border-color: var(--progress-stepper-connector-todo);
-  border-style: var(--progress-stepper-connector-todo-style);
-  border-width: 0;
-}
-
-.progress-stepper__step.is-past:not(:last-child)::after {
-  border-color: var(--progress-stepper-connector-done);
-  border-style: var(--progress-stepper-connector-done-style);
-}
-
-/* --- Horizontal: discs in a row, each name under its disc --------------- */
-
-.progress-stepper--horizontal .progress-stepper__step {
-  flex: 1 1 0;
-  justify-content: center;
-  min-width: 0;
-}
-
-.progress-stepper--horizontal .progress-stepper__target {
-  flex-direction: column;
-  max-width: 100%;
-}
-
-.progress-stepper--horizontal .progress-stepper__label {
-  max-width: 100%;
-  overflow-wrap: anywhere;
-}
-
-.progress-stepper--horizontal .progress-stepper__step:not(:last-child)::after {
-  top: calc(var(--progress-stepper-size) / 2 - var(--progress-stepper-connector-width) / 2);
-  left: calc(50% + var(--progress-stepper-size) / 2 + var(--progress-stepper-gap));
-  right: calc(-50% + var(--progress-stepper-size) / 2 + var(--progress-stepper-gap));
-  border-top-width: var(--progress-stepper-connector-width);
-}
-
-/* --- Vertical: discs in a column, each name beside its disc ------------- */
-
-.progress-stepper--vertical .progress-stepper__list {
-  flex-direction: column;
-  gap: var(--space-lg);
-}
-
-.progress-stepper--vertical .progress-stepper__target {
-  gap: var(--space-sm);
-  text-align: left;
-}
-
-.progress-stepper--vertical .progress-stepper__step:not(:last-child)::after {
-  left: calc(var(--progress-stepper-size) / 2 - var(--progress-stepper-connector-width) / 2);
-  top: calc(var(--progress-stepper-size) + var(--progress-stepper-gap));
-  bottom: calc(-1 * var(--space-lg) + var(--progress-stepper-gap));
-  border-left-width: var(--progress-stepper-connector-width);
-}
-
-/* --- Discs only (a phone): the names stay for screen readers ---------- */
-
-.progress-stepper--labels-none .progress-stepper__label {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .progress-stepper__disc {
-    transition: none;
-  }
-
-  button.progress-stepper__target:active .progress-stepper__disc,
-  button.progress-stepper__target.is-active .progress-stepper__disc {
-    transform: none;
-  }
 }
 
 /* ===========================================================================
@@ -23615,78 +23232,6 @@ button.progress-stepper__target.is-focus {
 }
 
 /* ===========================================================================
-   DRAFT TOOL BAR — the foot of a draft on a phone or tablet (Toolbox flow
-   Concept 2, option B): Inputs, Revise, Versions, then the one thing to do.
-   ======================================================================== */
-
-.draft-tool-bar {
-  position: sticky;
-  bottom: 0;
-  z-index: var(--z-sticky);
-  display: flex;
-  align-items: center;
-  gap: var(--space-3xs);
-  margin-top: auto;
-  margin-inline: calc(-1 * var(--space-screen-side));
-  padding: var(--space-xs) var(--space-screen-side) var(--space-sm);
-  border-top: var(--border-width-thin) solid var(--color-border);
-  background-color: var(--color-canvas);
-}
-
-.draft-tool-bar__tool {
-  display: flex;
-  flex: none;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-3xs);
-  width: 3.75rem;
-  min-height: 3rem;
-  padding: var(--space-2xs) 0;
-  border: 0;
-  border-radius: var(--radius-md);
-  background: none;
-  font: inherit;
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
-  color: var(--color-text-secondary);
-  cursor: pointer;
-}
-
-.draft-tool-bar__tool:hover,
-.draft-tool-bar__tool.is-hover,
-.draft-tool-bar__tool[aria-expanded="true"] {
-  background-color: var(--color-surface-hover);
-  color: var(--color-text-primary);
-}
-
-.draft-tool-bar__tool:active,
-.draft-tool-bar__tool.is-active {
-  background-color: var(--color-surface-active);
-}
-
-.draft-tool-bar__tool:focus-visible,
-.draft-tool-bar__tool.is-focus {
-  outline: var(--focus-ring);
-  outline-offset: calc(-1 * var(--focus-ring-width));
-}
-
-.draft-tool-bar__main {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.draft-tool-bar__main .draft-use__buttons > .btn {
-  width: 100%;
-}
-
-.draft-tool-bar__main .draft-use__message:empty {
-  display: none;
-}
-
-/* ===========================================================================
    ENTERPRISE — the sponsor's dashboard and cohort tools (Sprint 5). Counts and
    shares, set plainly: no gauges, no targets, no colour carrying meaning.
    ======================================================================== */
@@ -23702,6 +23247,10 @@ button.progress-stepper__target.is-focus {
 }
 
 .cohort-figure__label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3xs);
   font-family: var(--type-label-font);
   font-size: var(--type-label-size);
   font-weight: var(--type-label-weight);
@@ -23766,43 +23315,389 @@ button.progress-stepper__target.is-focus {
   color: var(--color-text-secondary);
 }
 
+/* A meter (2026-10-20): a share as a ring or a bar, in the chart line's ink
+   on the grid's track. Filling in mutes it, like the number. */
+.meter--bar {
+  display: block;
+  inline-size: 100%;
+  max-inline-size: 16rem;
+  block-size: var(--space-2xs);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-chart-grid);
+  overflow: hidden;
+}
+
+.meter--bar .meter__fill {
+  display: block;
+  block-size: 100%;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-chart-line);
+}
+
+.meter--ring {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  inline-size: 7rem;
+  block-size: 7rem;
+}
+
+.meter__ring {
+  position: absolute;
+  inset: 0;
+  rotate: -90deg;
+}
+
+.meter__track,
+.meter__fill {
+  fill: none;
+  stroke-width: 3;
+}
+
+.meter__track {
+  stroke: var(--color-chart-grid);
+}
+
+.meter--ring .meter__fill {
+  stroke: var(--color-chart-line);
+  stroke-linecap: round;
+}
+
+.meter--muted .meter__fill {
+  background-color: var(--color-text-muted);
+  stroke: var(--color-text-muted);
+}
+
+.meter__middle {
+  position: relative;
+}
+
+/* The ring figure: the ring with the number inside, what it is out of beside. */
+.cohort-figure__ringed {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.cohort-figure__ringed .cohort-figure__value {
+  display: block;
+}
+
+.cohort-figure__bar {
+  margin-block: var(--space-2xs) var(--space-3xs);
+}
+
+/* The weekly trend (2026-10-20): one line, drawn at the width it is given so
+   strokes and words never scale. The heading names it; no legend. */
+.weekly-trend {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-width: 0;
+  margin: 0;
+}
+
+.weekly-trend__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-3xs) var(--space-sm);
+}
+
+.weekly-trend__label {
+  font-family: var(--type-label-font);
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  line-height: var(--type-label-leading);
+  letter-spacing: var(--type-label-tracking);
+  word-spacing: var(--type-label-word-spacing);
+  color: var(--color-text-secondary);
+}
+
+.weekly-trend__covers,
+.weekly-trend__axis,
+.weekly-trend__note,
+.weekly-trend__scale {
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+  color: var(--color-text-secondary);
+}
+
+.weekly-trend__message {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  max-width: 44ch;
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
+}
+
+.weekly-trend__message > svg {
+  flex: none;
+  margin-top: var(--space-3xs);
+}
+
+/* Too early: a dashed outline where the line will be, the same height as
+   the plot, so the card keeps its shape and says what is coming. */
+.weekly-trend--early .weekly-trend__message {
+  align-items: center;
+  justify-content: center;
+  max-width: none;
+  min-height: 9rem;
+  padding: var(--space-md);
+  border: var(--border-width-thin) dashed var(--color-border);
+  border-radius: var(--radius-card);
+  text-align: center;
+  text-wrap: balance;
+}
+
+.weekly-trend--early .weekly-trend__message > svg {
+  margin-top: 0;
+}
+
+.weekly-trend__plot {
+  position: relative;
+  padding-top: var(--space-md);
+}
+
+/* The one labelled rule, at the round number above the peak. */
+.weekly-trend__scale {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Full width from CSS, so the drawing never props its box open; the width
+   it measures then redraws it at true size. */
+.weekly-trend__svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.weekly-trend__grid {
+  stroke: var(--color-chart-grid);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+
+.weekly-trend__grid--base {
+  stroke-dasharray: none;
+}
+
+.weekly-trend__line {
+  fill: none;
+  stroke: var(--color-chart-line);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Marked weeks wear a ring of the surface so they sit clear of the line. */
+.weekly-trend__dot {
+  fill: var(--color-chart-line);
+  stroke: var(--color-surface-raised);
+  stroke-width: 2;
+}
+
+.weekly-trend__crosshair {
+  stroke: var(--color-text-muted);
+  stroke-width: 1;
+}
+
+/* Beside the crosshair, inside the plot; it flips to the left of the line
+   in the last third so it never runs off the edge. */
+.weekly-trend__tip {
+  position: absolute;
+  top: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-3xs) var(--space-xs);
+  border: var(--border-width-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-raised);
+  box-shadow: var(--shadow-md);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  transform: translateX(var(--space-xs));
+  pointer-events: none;
+}
+
+.weekly-trend__tip[data-side="left"] {
+  transform: translateX(calc(-100% - var(--space-xs)));
+}
+
+.weekly-trend__tip strong {
+  font-size: var(--text-md);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-primary);
+}
+
+.weekly-trend__axis {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+/* Since last week: the arrow and the words together, in the secondary ink.
+   No colour says good or bad; the words carry it. */
+.cohort-figure__direction {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+  color: var(--color-text-secondary);
+}
+
 /* Filling in: the number shows in the secondary ink, with the tag under it.
    The tag and the note carry the meaning, not the ink. */
 .cohort-figure--filling .cohort-figure__value {
   color: var(--color-text-secondary);
 }
 
+/* The info icon beside a figure's name (Kate, 2026-10-20): opens how the
+   figure is measured. Dark while its panel is open. */
 .cohort-figure__explain {
-  margin-top: var(--space-3xs);
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  /* 24px: the WCAG 2.2 minimum target, so it never props the label open. */
+  width: var(--space-lg);
+  height: var(--space-lg);
   padding: 0;
   border: 0;
-  border-radius: var(--radius-xs);
+  border-radius: var(--radius-pill);
   background: none;
-  font: inherit;
-  font-size: var(--type-caption-size);
-  color: var(--color-text-link);
-  text-decoration: underline;
-  text-decoration-thickness: var(--border-width-thin);
-  text-underline-offset: 0.2em;
+  color: var(--color-text-secondary);
   cursor: pointer;
 }
 
 .cohort-figure__explain:hover,
 .cohort-figure__explain.is-hover {
-  color: var(--color-text-link-hover);
+  background-color: var(--color-surface-hover);
+  color: var(--color-text-primary);
 }
 
 .cohort-figure__explain:active,
 .cohort-figure__explain.is-active,
 .cohort-figure__explain[aria-expanded="true"] {
-  color: var(--color-text-primary);
-  text-decoration-thickness: var(--border-width-medium);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
 }
 
 .cohort-figure__explain:focus-visible,
 .cohort-figure__explain.is-focus {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
+}
+
+/* How a figure is measured (Kate, 2026-10-20): beside its info icon, over
+   the page, so nothing moves. Below and start-aligned; flips above or to the
+   end to stay on screen. */
+.figure-popover {
+  position: absolute;
+  /* A <dialog> centres itself by default: undo that, then place it. */
+  inset: auto;
+  margin: 0;
+  top: calc(100% + var(--space-2xs));
+  left: 0;
+  z-index: var(--z-menu);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  width: min(20rem, calc(100vw - 2 * var(--menu-edge)));
+  padding: var(--space-md) var(--space-md) var(--space-md) var(--space-lg);
+  border: var(--border-width-thin) solid var(--menu-border);
+  border-radius: var(--menu-radius);
+  background-color: var(--menu-surface);
+  box-shadow: var(--menu-shadow);
+  font-family: var(--type-body-sm-font);
+  letter-spacing: normal;
+  word-spacing: normal;
+  color: var(--color-text-primary);
+}
+
+.figure-popover:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.figure-popover--above {
+  top: auto;
+  bottom: calc(100% + var(--space-2xs));
+}
+
+.figure-popover--end {
+  left: auto;
+  right: 0;
+}
+
+.figure-popover--inline {
+  position: static;
+}
+
+.figure-popover__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.figure-popover__heading {
+  padding-top: var(--space-3xs);
+  font-family: var(--type-card-title-font);
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  line-height: var(--type-card-title-leading);
+  letter-spacing: var(--type-card-title-tracking);
+  word-spacing: var(--type-card-title-word-spacing);
+}
+
+.figure-popover__close {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: var(--space-xl);
+  height: var(--space-xl);
+  margin: calc(var(--space-2xs) * -1) calc(var(--space-2xs) * -1) 0 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.figure-popover__close:hover {
+  background-color: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+.figure-popover__close:active {
+  background-color: var(--color-surface-active);
+}
+
+.figure-popover__close:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.figure-popover__measures {
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--weight-regular);
+  line-height: var(--type-body-sm-leading);
+}
+
+.figure-popover__meta {
+  font-size: var(--type-caption-size);
+  font-weight: var(--weight-regular);
+  line-height: var(--type-caption-leading);
+  color: var(--color-text-secondary);
 }
 
 /* --- What a figure counts -------------------------------------------------- */
@@ -23950,8 +23845,7 @@ button.progress-stepper__target.is-focus {
   max-width: 32rem;
 }
 
-.cohort-form > .field,
-.cohort-form__dates {
+.cohort-form > .field {
   align-self: stretch;
 }
 
@@ -23964,10 +23858,9 @@ button.progress-stepper__target.is-focus {
   word-spacing: var(--type-card-title-word-spacing);
 }
 
-.cohort-form__dates {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-md);
+/* One date, the start: no wider than a date needs. */
+.cohort-form__date {
+  max-width: 14rem;
 }
 
 .invite-code__ask-heading:focus-visible {
@@ -24001,6 +23894,13 @@ button.progress-stepper__target.is-focus {
 
 .ent-header {
   display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* The name and its line on the left, the window and the export on the right. */
+.ent-header__row {
+  display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
@@ -24011,6 +23911,7 @@ button.progress-stepper__target.is-focus {
   display: flex;
   flex-direction: column;
   gap: var(--space-2xs);
+  min-width: 0;
 }
 
 .ent-header__name {
@@ -24022,7 +23923,9 @@ button.progress-stepper__target.is-focus {
   word-spacing: var(--type-title-word-spacing);
 }
 
-.ent-header__dates {
+.ent-header__meta {
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
   color: var(--color-text-secondary);
 }
 
@@ -24035,7 +23938,19 @@ button.progress-stepper__target.is-focus {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-sm) var(--space-md);
+  gap: var(--space-sm);
+}
+
+/* Two short words: the panel is as wide as its button, not the menu's usual
+   minimum. */
+.ent-export .menu {
+  min-width: 100%;
+}
+
+/* PDF and CSV stay side by side, and wrap as a pair. */
+.ent-exports {
+  display: flex;
+  gap: var(--space-sm);
 }
 
 .ent-notice {
@@ -24069,23 +23984,46 @@ button.progress-stepper__target.is-focus {
   color: var(--color-text-secondary);
 }
 
-/* A question: its heading and answer on the left, its figures on the right,
-   and an opened definition across the foot. */
-.ent-question {
+/* The board (Kate, 2026-10-20): the three questions as cards on the page's
+   grey. Follow-through leads across the full width; still using it and did
+   they join sit side by side under it. */
+/* Three cards under the hero: using, being seen, joining (Kate, 2026-10-20). */
+.ent-board {
   display: grid;
-  grid-template-columns: minmax(14rem, 1fr) 2fr;
-  gap: var(--space-lg) var(--space-2xl);
-  padding-top: var(--space-xl);
-  border-top: var(--border-width-thin) solid var(--color-border);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: var(--space-lg);
 }
 
-.ent-question__lead {
+.ent-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  min-width: 0;
+  padding: var(--space-xl);
+  border: var(--border-width-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-raised);
+}
+
+/* The hero: the full width, on the feature tint, its answer beside its
+   figures. */
+.ent-card--following {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(14rem, 1fr) 2fr;
+  align-items: start;
+  border-color: transparent;
+  background-color: var(--color-surface-feature);
+}
+
+.ent-card__lead {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
 }
 
-.ent-question__heading {
+.ent-card__heading {
   font-family: var(--type-heading-font);
   font-size: var(--type-heading-size);
   font-weight: var(--type-heading-weight);
@@ -24094,23 +24032,118 @@ button.progress-stepper__target.is-focus {
   word-spacing: var(--type-heading-word-spacing);
 }
 
-.ent-question__answer {
+.ent-card__answer {
   max-width: 40ch;
   line-height: var(--leading-relaxed);
+  color: var(--color-text-secondary);
 }
 
-.ent-question__figures {
+.ent-card__figures {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
   align-items: start;
   gap: var(--space-xl) var(--space-lg);
 }
 
-.ent-question__definition {
-  grid-column: 2;
-  padding: var(--space-md) var(--space-lg);
+/* In the hero: follow-through itself across the top, the rest as tiles on
+   white beneath it, like the points and vouchers on a rewards card. */
+.ent-card--following .ent-card__figures {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-md);
+}
+
+.ent-card--following .ent-card__figures > :first-child {
+  grid-column: 1 / -1;
+  margin-bottom: var(--space-xs);
+}
+
+.ent-tile {
+  align-self: stretch;
+  padding: var(--space-md);
   border-radius: var(--radius-card);
-  background-color: var(--color-surface-sunken);
+  background-color: var(--color-surface-raised);
+}
+
+/* A third of the width: joining's ring and Set up stack. */
+.ent-card--joined .ent-card__figures {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* Are they being seen? A ring for any channel, then the channels. */
+.ent-seen__any {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.ent-seen__any-label {
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
+}
+
+.ent-seen__channels {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: var(--space-sm) 0 0;
+  list-style: none;
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+}
+
+.ent-seen__channels li {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.ent-seen__count {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  flex: none;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-secondary);
+}
+
+.ent-seen__count strong {
+  color: var(--color-text-primary);
+}
+
+.ent-seen__hidden {
+  color: var(--color-text-secondary);
+}
+
+.ent-seen__note {
+  margin-top: auto;
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+  color: var(--color-text-secondary);
+}
+
+.ent-seen__locked {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
+}
+
+/* The code closes the joining card, under a rule. */
+.ent-card__code {
+  margin-top: auto;
+  padding-top: var(--space-lg);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+.ent-page__foot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
 }
 
 .ent-page__privacy {
@@ -24119,46 +24152,6 @@ button.progress-stepper__target.is-focus {
   gap: var(--space-xs);
   font-size: var(--type-caption-size);
   color: var(--color-text-secondary);
-}
-
-/* The Cohort page: the code beside the details. */
-.ent-cohort {
-  display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-  align-items: start;
-  gap: var(--space-xl);
-}
-
-.ent-details {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.ent-details__heading {
-  font-family: var(--type-card-title-font);
-  font-size: var(--type-card-title-size);
-  font-weight: var(--type-card-title-weight);
-  line-height: var(--type-card-title-leading);
-  letter-spacing: var(--type-card-title-tracking);
-  word-spacing: var(--type-card-title-word-spacing);
-}
-
-.ent-details__list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  margin: 0;
-}
-
-.ent-details__list dt {
-  font-size: var(--type-caption-size);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-secondary);
-}
-
-.ent-details__list dd {
-  margin: 0;
 }
 
 .ent-setup__lead {
@@ -24202,6 +24195,134 @@ button.progress-stepper__target.is-focus {
   gap: var(--space-sm) var(--space-lg);
   width: 100%;
   max-width: 64rem;
+}
+
+.report-toolbar__end {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+/* The sheet, and the assistant always beside it. */
+.report-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-lg);
+  width: 100%;
+  max-width: 64rem;
+}
+
+.report-stage.is-asking {
+  grid-template-columns: minmax(0, 1fr) 24rem;
+  max-width: calc(64rem + 24rem + var(--space-lg));
+}
+
+/* The toolbar and the code strip widen with it, so their edges line up. */
+.report-view:has(.report-stage.is-asking) :is(.report-toolbar, .report-code) {
+  max-width: calc(64rem + 24rem + var(--space-lg));
+}
+
+/* As tall as the report beside it (Kate, 2026-10-20): the report sets the
+   row's height, and the panel fills it without adding to it, so a long
+   conversation scrolls inside the panel rather than stretching the page. */
+.report-ask {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  height: 0;
+  min-height: 100%;
+  border: var(--border-width-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-raised);
+  overflow: hidden;
+}
+
+.report-ask__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-md) var(--space-xs) var(--space-lg);
+}
+
+.report-ask__title {
+  font-family: var(--type-card-title-font);
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  line-height: var(--type-card-title-leading);
+  letter-spacing: var(--type-card-title-tracking);
+  word-spacing: var(--type-card-title-word-spacing);
+}
+
+.report-ask__body {
+  flex: 1;
+  min-height: 8rem;
+  padding: var(--space-xs) var(--space-lg) var(--space-md);
+  overflow-y: auto;
+}
+
+.report-ask__intro {
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
+}
+
+.report-ask__copy {
+  margin-top: var(--space-xs);
+}
+
+.report-ask__foot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md) var(--space-md);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+/* The cohort's code, a slim strip at the foot of the page, outside the
+   sheet: the code on the left, what to do with it in the middle, its buttons
+   on the right. The same InviteCode, laid out as a row. */
+.report-code {
+  width: 100%;
+  max-width: 64rem;
+  padding: var(--space-md) var(--space-lg);
+  border: var(--border-width-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+}
+
+.report-code .invite-code {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    "heading explain actions"
+    "code explain actions";
+  align-items: center;
+  gap: var(--space-3xs) var(--space-xl);
+}
+
+.report-code .invite-code__heading {
+  grid-area: heading;
+}
+
+.report-code .invite-code__code,
+.report-code .invite-code__closed {
+  grid-area: code;
+}
+
+.report-code .invite-code__explain {
+  grid-area: explain;
+  max-width: 44ch;
+}
+
+.report-code .invite-code__actions,
+.report-code .invite-code__ask {
+  grid-area: actions;
+}
+
+.report-code .invite-code__note {
+  grid-column: 1 / -1;
 }
 
 /* The page itself: a sheet on the sunken canvas. Every row shares the same
@@ -24275,6 +24396,15 @@ button.progress-stepper__target.is-focus {
   line-height: var(--leading-relaxed);
 }
 
+/* What the cohort did, before any section: the line a reader who stops here
+   still takes away. */
+.report__summary {
+  max-width: 52ch;
+  margin-top: var(--space-xs);
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+}
+
 .report__head .cohort-form {
   margin-top: var(--space-md);
 }
@@ -24329,10 +24459,6 @@ button.progress-stepper__target.is-focus {
   font-variant-numeric: tabular-nums;
 }
 
-.report__line--filling .report__figure {
-  color: var(--color-text-secondary);
-}
-
 .report__line--hidden {
   display: flex;
   align-items: flex-start;
@@ -24349,12 +24475,149 @@ button.progress-stepper__target.is-focus {
   color: var(--color-text-primary);
 }
 
-/* The margin: what a line counts, beside it, in the caption size. */
-.report__note {
+/* The margin: what a line measures, one short sentence beside it, in the
+   caption size. */
+/* A sentence in place of a chart that doesn't exist yet. */
+.report__line--quiet {
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
+}
+
+/* The margin column: one or more notes, stacked. */
+.report__margin {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  gap: var(--space-sm);
+}
+
+/* A figure's sentence with its chart under it. */
+.report__figure-line {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+.report__bar {
+  max-inline-size: 20rem;
+}
+
+.report__part,
+.report__funnel {
+  max-inline-size: 35rem;
+}
+
+/* Joining as a funnel (2026-10-20): each step's label, its bar on one
+   baseline, and its number. The first step, the size expected, is an
+   outline: it is a target, not people who did anything. */
+.funnel-bars {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: var(--space-2xs) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.funnel-bars__step {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr) 4.5rem;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+}
+
+.funnel-bars__label {
+  color: var(--color-text-secondary);
+}
+
+.funnel-bars__track {
+  display: block;
+  height: var(--space-md);
+  border-radius: var(--radius-xs);
+  background-color: var(--color-surface);
+}
+
+.funnel-bars__fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-xs);
+  background-color: var(--color-chart-line);
+}
+
+.funnel-bars__fill--outline {
+  box-sizing: border-box;
+  border: var(--border-width-medium) dashed var(--color-text-muted);
+  background: none;
+}
+
+.funnel-bars__value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
   gap: var(--space-3xs);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--weight-semibold);
+}
+
+/* One whole, the part that did something shaded dark, both said in words. */
+.part-bar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: var(--space-2xs) 0 0;
+}
+
+.part-bar__track {
+  display: flex;
+  height: var(--space-md);
+  border-radius: var(--radius-xs);
+  background-color: var(--color-chart-grid);
+  overflow: hidden;
+}
+
+/* A surface-coloured edge between the part and the rest. */
+.part-bar__part {
+  display: block;
+  height: 100%;
+  border-right: var(--border-width-medium) solid var(--color-surface-raised);
+  background-color: var(--color-chart-line);
+}
+
+.part-bar__legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-2xs) var(--space-md);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+  color: var(--color-text-secondary);
+}
+
+.part-bar__key {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+}
+
+.part-bar__swatch {
+  display: inline-block;
+  flex: none;
+  width: var(--space-xs);
+  height: var(--space-xs);
+  border-radius: var(--radius-xs);
+  background-color: var(--color-chart-grid);
+  box-shadow: inset 0 0 0 var(--border-width-thin) var(--color-border);
+}
+
+.part-bar__swatch--part {
+  background-color: var(--color-chart-line);
+  box-shadow: none;
+}
+
+.report__note {
   padding-left: var(--space-md);
   border-left: var(--border-width-thin) solid var(--color-border);
   font-size: var(--type-caption-size);
@@ -24367,11 +24630,8 @@ button.progress-stepper__target.is-focus {
   color: var(--color-text-primary);
 }
 
-.report__note-tag {
-  margin-top: var(--space-3xs);
-}
-
 .report__footer p {
+  grid-column: 1;
   display: flex;
   align-items: flex-start;
   gap: var(--space-xs);
@@ -24380,6 +24640,16 @@ button.progress-stepper__target.is-focus {
   font-size: var(--type-caption-size);
   line-height: var(--type-caption-leading);
   color: var(--color-text-secondary);
+}
+
+/* The change rule and the privacy line sit under one rule, not two. */
+.report__footer {
+  row-gap: var(--space-xs);
+}
+
+.report__footer p + p {
+  padding-top: 0;
+  border-top: 0;
 }
 
 .report__footer svg {
@@ -24406,14 +24676,18 @@ button.progress-stepper__target.is-focus {
   }
 
   .devtools,
+  .device__top,
+  .device__bottom,
   .chrome__header,
-  .chrome__nav {
+  .chrome__nav,
+  .concierge-host {
     display: none !important;
   }
 
   .prototype,
   .prototype__canvas,
   .device,
+  .device__display,
   .device__screen,
   .device__content,
   .chrome,
@@ -24435,8 +24709,15 @@ button.progress-stepper__target.is-focus {
   }
 
   .report-toolbar,
-  .report__admin {
+  .report-code,
+  .report-ask {
     display: none;
+  }
+
+  .report-stage,
+  .report-stage.is-asking {
+    display: block;
+    max-width: none;
   }
 
   .report {
@@ -24452,11 +24733,20 @@ button.progress-stepper__target.is-focus {
     break-inside: avoid;
   }
 
-  /* Concept 1: the overview on one page, its window said in words. */
+  /* Concept 1: the dashboard on one page, its window said in words, the
+     cards kept whole and the code left on screen. */
   .ent-page {
     max-width: none;
     padding: 0;
     zoom: 0.64;
+  }
+
+  .ent-card {
+    break-inside: avoid;
+  }
+
+  .ent-card__code {
+    display: none;
   }
 
   .ent-header__tools > :not(.ent-header__print) {
@@ -24479,9 +24769,11 @@ button.progress-stepper__target.is-focus {
 }
 
 /* The archive down the left, the letter in a reading column beside it. */
+/* The letter is 52rem wide (Kate, 2026-10-20: 40rem read too narrow); its
+   paragraphs still stop at a comfortable measure. */
 .letter-view {
   display: grid;
-  grid-template-columns: 14rem minmax(0, 40rem);
+  grid-template-columns: 14rem minmax(0, 52rem);
   justify-content: center;
   align-items: start;
   gap: var(--space-3xl);
@@ -24489,7 +24781,7 @@ button.progress-stepper__target.is-focus {
 }
 
 .letter-view:not(:has(.letter-archive)) {
-  grid-template-columns: minmax(0, 40rem);
+  grid-template-columns: minmax(0, 52rem);
 }
 
 .letter-archive {
@@ -24546,6 +24838,24 @@ ul.letter-archive__list {
 .letter-archive__upcoming {
   color: var(--color-text-secondary);
   border: var(--border-width-thin) dashed var(--color-border);
+}
+
+/* The issue that has not come: where it would be, marked late in words. */
+.letter__late {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-sunken);
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
+}
+
+.letter__late > svg {
+  flex: none;
+  margin-top: var(--space-3xs);
 }
 
 .letter-archive__item {
@@ -24611,6 +24921,10 @@ ul.letter-archive__list {
   line-height: var(--leading-relaxed);
 }
 
+.letter__body > p {
+  max-width: 68ch;
+}
+
 .letter__hidden {
   display: flex;
   align-items: flex-start;
@@ -24631,6 +24945,142 @@ ul.letter-archive__list {
   gap: var(--space-2xs);
   padding-top: var(--space-md);
   border-top: var(--border-width-thin) solid var(--color-border);
+}
+
+/* Under the strip, its bottom rule already divides: no second one. */
+.letter__numbers + .letter__body > .letter__moved:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+/* Replies to the letter (Kate, 2026-10-20): each turn under a margin rule,
+   the sponsor's grey, ExecHQ's dark, in the letter's own type. */
+.letter-replies {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding-top: var(--space-lg);
+  border-top: var(--border-width-thin) solid var(--color-border);
+}
+
+.letter-replies__thread {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.letter-replies__turn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  padding-left: var(--space-md);
+  border-left: var(--border-width-medium) solid var(--color-border);
+}
+
+.letter-replies__turn--advisor {
+  border-left-color: var(--color-text-primary);
+}
+
+.letter-replies__who,
+.letter-replies__writing {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-family: var(--type-label-font);
+  font-size: var(--type-caption-size);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--type-label-tracking);
+  word-spacing: var(--type-label-word-spacing);
+  color: var(--color-text-secondary);
+}
+
+.letter-replies__turn--advisor .letter-replies__who {
+  color: var(--color-text-primary);
+}
+
+.letter-replies__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  max-width: 68ch;
+  font-size: var(--text-md);
+  line-height: var(--leading-relaxed);
+}
+
+.letter-replies__suggest {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.letter-replies__chip {
+  min-height: var(--space-xl);
+  padding: var(--space-2xs) var(--space-md);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-raised);
+  color: var(--color-text-primary);
+  font: inherit;
+  font-size: var(--type-body-sm-size);
+  text-align: left;
+  cursor: pointer;
+}
+
+.letter-replies__chip:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.letter-replies__chip:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* By the numbers (Kate, 2026-10-20): three figures between rules, each
+   "31 of 74" in the figure face over what it counts. */
+.letter__numbers {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+  border-top: var(--border-width-thin) solid var(--color-border);
+  border-bottom: var(--border-width-thin) solid var(--color-border);
+}
+
+.letter__number {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: var(--space-2xs);
+  padding: var(--space-lg) var(--space-lg) var(--space-lg) 0;
+}
+
+.letter__number + .letter__number {
+  padding-left: var(--space-lg);
+  border-left: var(--border-width-thin) solid var(--color-border);
+}
+
+.letter__number dt {
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
+}
+
+.letter__number dd {
+  margin: 0;
+  font-family: var(--type-figure-font);
+  font-size: var(--type-figure-size-lg);
+  font-weight: var(--type-figure-weight);
+  line-height: 1;
+  letter-spacing: var(--type-figure-tracking);
+  font-variant-numeric: tabular-nums;
+}
+
+.letter__number-of {
+  font-size: 0.5em;
+  font-weight: var(--weight-regular);
+  color: var(--color-text-secondary);
 }
 
 .letter__moved ul {
@@ -24677,11 +25127,28 @@ ul.letter-archive__list {
   outline-offset: var(--focus-ring-offset);
 }
 
+/* How these are measured: each figure's name and one short sentence. */
 .letter__definitions-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
+  display: grid;
+  grid-template-columns: 12rem minmax(0, 1fr);
+  gap: var(--space-sm) var(--space-lg);
+  margin: 0;
   padding-top: var(--space-md);
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+}
+
+.letter__definition {
+  display: contents;
+}
+
+.letter__definition dt {
+  font-weight: var(--weight-semibold);
+}
+
+.letter__definition dd {
+  margin: 0;
+  color: var(--color-text-secondary);
 }
 
 .letter__foot {
@@ -24694,6 +25161,12 @@ ul.letter-archive__list {
   font-size: var(--type-body-sm-size);
   line-height: var(--type-body-sm-leading);
   color: var(--color-text-secondary);
+}
+
+.letter__save {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
 }
 
 .letter__code {
@@ -24740,8 +25213,7 @@ ul.letter-archive__list {
   gap: var(--space-md);
 }
 
-.letter__question > .field,
-.letter__question > .cohort-form__dates {
+.letter__question > .field {
   max-width: 28rem;
 }
 
@@ -24758,7 +25230,8 @@ ul.letter-archive__list {
 
   .letter-archive,
   .letter__code,
-  .letter__save {
+  .letter__save,
+  .letter-replies {
     display: none;
   }
 
@@ -24831,9 +25304,8 @@ ul.letter-archive__list {
 }
 
 /* One segmented control: a sunken track, 36px segments, the chosen one raised. Enterprise's reporting
-   window and the toolbox workspace's Revise, Versions, Inputs. */
-.toggle-group--pill .toggle-group__options,
-.workspace-panel__tabs {
+   window. */
+.toggle-group--pill .toggle-group__options {
   gap: var(--space-3xs);
   padding: var(--space-3xs);
   border: 0;
@@ -24841,8 +25313,7 @@ ul.letter-archive__list {
   background-color: var(--color-segmented-track);
 }
 
-.toggle-group--pill .toggle-group__option,
-.workspace-panel__tab {
+.toggle-group--pill .toggle-group__option {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -24857,8 +25328,7 @@ ul.letter-archive__list {
   color: var(--color-text-secondary);
 }
 
-.toggle-group--pill .toggle-group__input:checked + .toggle-group__option,
-.workspace-panel__tab[aria-pressed="true"] {
+.toggle-group--pill .toggle-group__input:checked + .toggle-group__option {
   padding: 0 var(--pill-padding-inline);
   border: 0;
   background-color: var(--color-surface-raised);

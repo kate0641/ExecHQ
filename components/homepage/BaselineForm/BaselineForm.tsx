@@ -22,7 +22,7 @@ export interface BaselineFormProps {
    *  label, with no plus and minus (Home). `steppers` is the default. */
   fields?: "steppers" | "typed";
   /** Secondary where another button on the screen is already the main one
-   *  (Home, under Start in the Toolbox). */
+   *  (Home, under Start in the Playbook). */
   saveVariant?: "primary" | "secondary";
   /** Catalogue only: fills the form. */
   demo?: { counts?: Partial<Record<CountedKind, number>>; followers?: string };

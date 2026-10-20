@@ -24,7 +24,7 @@ export interface IconRowProps {
   /** The list's accessible name, when the section around it gives none. */
   label?: string;
   /** `lg`: a bigger icon in a bigger circle, for a row that leads the page
-   *  (the Toolbox's tools). The navigation is `md`. */
+   *  (the Playbook's tools). The navigation is `md`. */
   size?: "md" | "lg";
   /** Every name on two lines, broken after its first word, so a row of
    *  two-word names lines up. */
@@ -41,7 +41,7 @@ export interface IconRowProps {
  * icon in a filled circle and its name a step heavier. Nothing changes on
  * hover, which carries no meaning on a phone.
  *
- * The same row lays out the four tools on Toolbox Concept 2, so the tools and
+ * The same row lays out the four tools on Playbook Concept 2, so the tools and
  * the places read as one family. A row of tools has no current item.
  */
 /** "Pitch builder" as "Pitch", a line break, "builder". */

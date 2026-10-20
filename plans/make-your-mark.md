@@ -37,7 +37,7 @@
 
 ---
 
-## 2. Action playbook
+## 2. Action set
 
 The agent recommends the step whose trigger matches her situation now. An accepted invitation brings 3.3 forward at any point.
 

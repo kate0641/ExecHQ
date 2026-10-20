@@ -16,7 +16,7 @@ export interface SignalPictureProps {
   nowLabel?: string;
   /** The one note of what has moved lately. Omitted when nothing has. */
   spark?: SparkProps;
-  /** The one thing to try next, with the way to start it in the Toolbox. */
+  /** The one thing to try next, with the way to start it in the Playbook. */
   next?: {
     label: string;
     title: string;

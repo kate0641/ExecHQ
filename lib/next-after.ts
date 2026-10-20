@@ -1,6 +1,6 @@
 /**
  * What comes after she says how something went: the next step, whatever she
- * answered (13 October). One set of rules (`AFTER_ANSWER` in mock/toolbox) and
+ * answered (13 October). One set of rules (`AFTER_ANSWER` in mock/playbook) and
  * one reading of them, shared by the builder, Home and the advisor, so the
  * same answer always gets the same next step wherever she gives it.
  *
@@ -8,11 +8,11 @@
  * that from the stores and does the actions; the advisor calls this directly.
  */
 import type { LoopRecord, OutcomeType } from "@/lib/loop";
-import type { DraftState } from "@/lib/toolbox-store";
+import type { DraftState } from "@/lib/playbook-store";
 import { conceptHref } from "@/lib/manifest";
 import { HANDOFF_RULES, HANDOFF_STEP, stepById } from "@/mock/plan";
 import { OUTCOME_READBACK } from "@/mock/loop";
-import { AFTER_ANSWER, NEXT_STEP_COPY as N, type NextOffer } from "@/mock/toolbox";
+import { AFTER_ANSWER, NEXT_STEP_COPY as N, type NextOffer } from "@/mock/playbook";
 
 /** One offer, resolved to what it says and what it does. */
 export interface ResolvedOffer {
@@ -70,7 +70,7 @@ export function resolveNextAfter({ record, type, draft, planShown, servedStepId,
   const goal = record.kind === "situation-brief" ? (draft?.inputs.objective ?? "").trim() : "";
   const handsOffTo = goal ? HANDOFF_RULES.find((r) => r.says.test(goal))?.stepId : undefined;
   const goalStepId = handsOffTo ? (HANDOFF_STEP[handsOffTo] ?? handsOffTo) : undefined;
-  const flow = conceptHref("toolbox-flow", flowConcept);
+  const flow = conceptHref("playbook-flow", flowConcept);
   const offered: string[] = [];
 
   const resolve = (offer: NextOffer, i: number): ResolvedOffer[] => {
@@ -103,7 +103,7 @@ export function resolveNextAfter({ record, type, draft, planShown, servedStepId,
       case "start":
         return [{ key, type: "start", title: offer.title, body: offer.body, label: offer.action, href: `${flow}?tool=${offer.tool}&after=${encodeURIComponent(record.id)}` }];
       case "briefing":
-        return [{ key, type: "briefing", title: offer.title, body: offer.body, label: offer.action, href: conceptHref("daily-briefing", "concept-1") }];
+        return [{ key, type: "briefing", title: offer.title, body: offer.body, label: offer.action, href: conceptHref("daily-briefing", "concept-2") }];
       case "sharpen":
         return draft ? [{ key, type: "sharpen", title: offer.title, body: offer.body, label: offer.action, choice: offer.choice, doneText: offer.done }] : [];
       case "next-on-plan":

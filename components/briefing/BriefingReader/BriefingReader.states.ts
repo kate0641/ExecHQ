@@ -14,7 +14,7 @@ const actions = createElement(ReadActions, {
   isRead: true,
   onMarkRead: noop,
   onRelevance: noop,
-  respondHref: "/toolbox-flow/concept-1?source=briefing&read=widen-a-remit",
+  respondHref: "/playbook-flow/concept-3?source=briefing&read=widen-a-remit",
 });
 
 export const briefingReaderStates = defineComponentStates({

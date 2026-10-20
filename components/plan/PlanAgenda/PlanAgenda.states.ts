@@ -25,7 +25,7 @@ const items: AgendaItem[] = [
   step("q1-review", 2, "2026-10-30"),
   step("scope-case", 3, "2027-01-11"),
 ];
-const base = { stages, items, today, startHref: "/toolbox-flow/concept-1", onAsk: noop, onAccept: noop, onComplete: noop, onAdd: noop };
+const base = { stages, items, today, startHref: "/playbook-flow/concept-3", onAsk: noop, onAccept: noop, onComplete: noop, onAdd: noop };
 
 export const planAgendaStates = defineComponentStates({
   name: "PlanAgenda",

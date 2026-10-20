@@ -10,7 +10,7 @@ export interface NextStepCardProps {
   why?: { this?: string; now?: string; you?: string };
   /** The reasons as one sentence. When set, it shows in place of the rows. */
   whyLine?: string;
-  /** Where it starts: its Toolbox flow. Stubbed until Sprint 4. */
+  /** Where it starts: its Playbook flow. Stubbed until Sprint 4. */
   href: string;
   actionLabel?: string;
   /** Runs when she follows the main link, e.g. to mark the step started. */
@@ -37,7 +37,7 @@ export interface NextStepCardProps {
 
 /**
  * One action, with the reasons for it — why this, why now, why you — and
- * the way into its Toolbox flow. The reasons show as label and value rows,
+ * the way into its Playbook flow. The reasons show as label and value rows,
  * or as one sentence that says all three.
  */
 export function NextStepCard({
@@ -45,7 +45,7 @@ export function NextStepCard({
   why = {},
   whyLine,
   href,
-  actionLabel = "Start in the Toolbox",
+  actionLabel = "Start in the Playbook",
   onAction,
   eyebrow = "Your next step",
   lead,

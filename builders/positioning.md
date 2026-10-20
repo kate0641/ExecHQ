@@ -17,6 +17,10 @@
 
 **One artifact, not a copy.** Her onboarding statement is this artifact. Opening Positioning Builder from anywhere opens that statement, with its history: version 1 is the statement as onboarding left it, and building it out adds version 2. It is never started fresh beside it.
 
+**Every build continues it** (CEO, 19 Oct). Building it out again adds the next version (3, 4, and on), never replacing the one before, so she can go back to or reference any earlier build in Versions.
+
+**A closed statement reopens, with a note** (CEO, 19 Oct). Building out a statement she closed in the library reopens it as a draft, on the same artifact, and references the statement she had: the start screen and the draft both say "You closed this statement on {date}." with the statement, so she builds from it rather than starting again.
+
 ### 1.1 How people arrive here
 
 - **From onboarding.** The first win for most people: the one-sentence statement she saves at the end of onboarding is her first artifact.
@@ -32,7 +36,7 @@
 
 - **In the prototype's mock plan:** "Write your bio" (`bio`), "Use your leadership story in your next 1:1" (`use-story`) and "Build a documented case for broader scope" (`scope-case`).
 - **From "What's on your mind?"** when what she says names a bio, an introduction, a promotion, positioning, a new boss, manager or role, "about me" or her profile.
-- **From the Toolbox or the library.** Her statement in the library carries "Build it out in Positioning Builder: a bio in three lengths and your leadership narrative." until it is built out.
+- **From the Playbook or the library.** Her statement in the library carries "Build it out in Positioning Builder: a bio in three lengths and your leadership narrative." until it is built out.
 
 ### 1.2 When another builder fits better
 
@@ -60,12 +64,12 @@ Shown on the last screen to check, each with where it came from and Edit:
 
 | Question | Short name | Kind | Required | Notes |
 | --- | --- | --- | --- | --- |
-| An introduction for a particular moment | Introduction | One choice: A promotion conversation, An executive introduction, A conference program | No | The first question, on the use case screen. Adds one introduction to the draft. |
+| An introduction for a particular moment | Introduction | Pick any: A promotion conversation, An executive introduction, A conference program | No | The first question, on the use case screen. The three for now; she can make more than one, and each adds its own introduction to the draft (CEO, 19 Oct). |
 | What are you known for? | Known for | Her words | Yes | "What colleagues would say you're the person for. A line is enough." |
 | Strengths you'd want named | Strengths | Her words | No | Goes into the long bio. |
 | Who is it mainly for? | Audience | One choice: Senior leaders where I work, An external audience, Recruiters and boards | No | Sets the long bio's last question. The PRD's optional audience. |
-| Where will you use it first? | Format | One choice: LinkedIn About section, A speaker bio, An internal profile, An email introduction | No | Names the bio to start with in the recommended next use. The PRD's optional desired format. |
-| Paste a bio you already have | Source text | Her words, long | No | "An old bio or profile. ExecHQ uses it to fill what it would otherwise ask." Its first sentence answers "What came before your current role?" in the long bio. The PRD's user-provided source text. |
+| Where will you use it first? | Format | One choice: LinkedIn About section, A speaker bio, An internal profile, An email introduction | No | Adds a version made for it, where possible (CEO, 19 Oct; see section 3), and names the bio to start with in the recommended next use. The PRD's optional desired format. |
+| Paste a bio you already have | Source text | Her words, long | No | "An old bio or profile. ExecHQ uses it to fill what it would otherwise ask." ExecHQ reads all of it, not one sentence, for the full picture of her background and experience (CEO, 19 Oct): what came before her current role, roles and results it names, and anything that answers a question the draft would otherwise ask. Nothing in it is reworded into a claim she didn't make. The PRD's user-provided source text. |
 
 ### 2.3 Enrichers
 
@@ -82,9 +86,10 @@ Shown on the last screen to check, each with where it came from and Edit:
 | **Positioning statement** | The one sentence, as onboarding left it | Her statement | None | What is your positioning statement? |
 | **Short bio** | Wherever she is introduced in a line | Her name, role, what she is known for | "[Name] is [role], known for …" | What is your role? What are you known for? |
 | **Medium bio** | A program, a profile, an introduction email | The short bio, where she is headed, her first accomplishment | "[First name] is building toward …" | Where are you headed? Which result would you put in the second line? |
-| **Long bio** | A speaker page or a document about her | The medium bio, her other accomplishments, her strengths, her statement in quotes, the first sentence of a bio she pasted | "Colleagues name … as what they rely on." "In [first name]'s words: '…'" | What came before your current role? (unless she pasted a bio). Then, by who it is mainly for: Which result would your leadership remember you for? / Where have you spoken or been published? / Which decision best shows your judgment? (or, with no audience, Anything you'd like people to know outside work?) |
+| **Long bio** | A speaker page or a document about her | The medium bio, her other accomplishments, her strengths, her statement in quotes, and what a bio she pasted says about her background | "Colleagues name … as what they rely on." "In [first name]'s words: '…'" | What came before your current role? (unless she pasted a bio). Then, by who it is mainly for: Which result would your leadership remember you for? / Where have you spoken or been published? / Which decision best shows your judgment? (or, with no audience, Anything you'd like people to know outside work?) |
 | **Leadership narrative** | What she says about herself, first person | Her statement, role, what she is known for, where she is headed | "What I do: … What I am known for: … What I am building toward: …" | Where are you headed? |
-| **Introduction for [the moment]** | Only when she chose one | Her statement, what she is known for, where she is headed | An opening for the moment ("I'd like to talk about what comes next for me." / "Thank you for making the time.") | For a conference program: What is the session about? |
+| **Introduction for [the moment]** | One for each moment she chose | Her statement, what she is known for, where she is headed | An opening for the moment ("I'd like to talk about what comes next for me." / "Thank you for making the time.") | For a conference program: What is the session about? |
+| **For [where she'll use it first]** | Only when she chose a format: a version made for it (CEO, 19 Oct; wording confirmed by Kate, 19 Oct, one format at a time): a LinkedIn About section is first person and longer, in three short paragraphs (what I do, what I'm known for, what I'm building toward); a speaker bio is third person, about 100 words, ending with what she speaks on; an internal profile is first person, the medium bio plus what she is focused on now; an email introduction is a short third-person paragraph someone can forward | The bios' facts, in the form the format needs | The framing each format needs ("I lead …" / "[Name] speaks on …" / "I'd like to introduce …") | For a speaker bio: What do you speak about? For an internal profile: What are you focused on this quarter? |
 | **Recommended next use** | What to do with it | None | Which bio to start with, for where she'll use it first ("Start with the long bio for your LinkedIn About section."), then her plan's next step ("Then use the narrative for your next step: brief your manager before Thursday's check-in."). Without either: "Use the short bio wherever you are introduced. Use the narrative to open your next conversation about scope." | None |
 
 Rules for this builder:
@@ -112,13 +117,13 @@ The shared options (voice, specificity, length, audience) and the conversational
 | **Copy** | "Copy" for the whole artifact, and Copy on each section |
 | **Export** | PDF and Word for each bio |
 | **Mark ready, then used** | "Mark ready", then "Mark used": she used it in a conversation, a profile or a program |
-| **Check back** | 7 days after she marks it used (**Proposed**) |
-| **The question** | "You used your leadership story on Tuesday. What came of it?" |
+| **Check back** | 7 days after she marks it used (Kate, 19 Oct) |
+| **The question** | "You used your leadership story on Tuesday. How did it go when you used it?" Its own question, with the shared answers (Kate, 19 Oct). |
 | **Signal Picture** | Once used, where she used it and what came of it, under the plan area it serves (in the mock, "Being seen as a leader, not only an operator") |
 
 ### After she answers
 
-Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and always gives the next step (Kate, 13 Oct). One leads, with at most one more. A Plan step goes on her Plan only when she taps **Add it to your plan**; where a step is already done or passed on, the next step on her Plan takes its place. "Not now" folds it to one line. Built by rules (`AFTER_ANSWER` in `mock/toolbox.ts`); no model in the pilot.
+Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and always gives the next step (Kate, 13 Oct). One leads, with at most one more. A Plan step goes on her Plan only when she taps **Add it to your plan**; where a step is already done or passed on, the next step on her Plan takes its place. "Not now" folds it to one line. Built by rules (`AFTER_ANSWER` in `mock/playbook.ts`); no model in the pilot.
 
 | Answer | Next step | Then |
 | --- | --- | --- |
@@ -144,8 +149,4 @@ Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and
 
 ## 7. Open questions
 
-1. **Version 2.** Building out the statement makes version 2 of the same artifact. If she builds it out twice, is that version 3, or a fresh build-out replacing version 2?
-2. **Introductions.** The brief lists promotion conversation, executive introduction and conference program. Are those the three, and can she make more than one?
-3. **Source text.** Only its first sentence is used, for what came before her current role. With a model, the whole bio could inform the draft. Is first-sentence enough for V1?
-4. **Audience and format.** Both are asked now (13 Oct). Should format also add a version made for it (a LinkedIn About section is longer and first person)?
-5. **Closed story.** What happens when she builds out a statement she has already closed in the library? (Open since 11 October.)
+None. Answered by the CEO on 19 Oct: building out again continues the artifact, and a closed statement reopens with a note (section 1); the three introductions, more than one allowed (2.2); the whole of a pasted bio is used (2.2); format adds a version made for it (2.2, 3). Confirmed by Kate on 19 Oct: what each format version says, one format at a time (3), and its own follow-up question (5).

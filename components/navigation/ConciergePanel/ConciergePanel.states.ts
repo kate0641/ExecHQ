@@ -53,7 +53,7 @@ export const conciergePanelStates = defineComponentStates({
         mode: "sheet",
         top: h(IconRow, {
           label: "Go to",
-          items: ([["Home", "home"], ["Plan", "flag"], ["Signals", "trend-up"], ["Toolbox", "pencil"], ["Briefing", "calendar"], ["Profile", "person"]] as const).map(([label, icon]) => ({
+          items: ([["Home", "home"], ["Plan", "flag"], ["Signals", "trend-up"], ["Playbook", "pencil"], ["Briefing", "calendar"], ["Profile", "person"]] as const).map(([label, icon]) => ({
             id: label,
             href: "#",
             label,

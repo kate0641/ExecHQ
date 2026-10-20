@@ -1,6 +1,6 @@
 # Rules for every builder
 
-**Status: draft.** From the *Sprint 4 Experience Brief* (Toolbox and Daily Briefing), the *Pilot Product: Functional Scope and User Journey* (section 3, The Toolbox) and what the prototype does today. Lines marked **Proposed** are Claude's, for Kate to confirm. Each builder has its own brief with the same seven sections; this page holds what all four share.
+**Status: draft.** From the *Sprint 4 Experience Brief* (Toolbox and Daily Briefing), the *Pilot Product: Functional Scope and User Journey* (section 3, The Playbook) and what the prototype does today. Lines marked **Proposed** are Claude's, for Kate to confirm. Each builder has its own brief with the same seven sections; this page holds what all four share.
 
 ---
 
@@ -10,12 +10,12 @@ The tools differ in what they ask and what they make, never in how they work. Sh
 
 | Builder | Makes | Marked used as | Checks back | Copy and export |
 | --- | --- | --- | --- | --- |
-| **Positioning Builder** | Positioning statement, bios in three lengths, leadership narrative, an introduction for a moment | Used | 7 days after | Copy each output; PDF and Word for the bios |
-| **Pitch Builder** | Pitch, subject lines, short and expanded versions, angle and why now, follow-up; where it goes (outlet, what they ask for, contact, how to send) and four steps to send it | Sent | 5 days after | Copy to send; PDF and Word |
-| **Situation Brief** | One-page brief, opening statement, follow-up email | Used | The day after the moment, or 2 days after | Copy; PDF and Word, one page |
+| **Positioning Builder** | Positioning statement, bios in three lengths, leadership narrative, an introduction for each moment she chooses, a version for where she will use it first | Used | 7 days after | Copy each output; PDF and Word for the bios |
+| **Pitch Builder** | Pitch, subject lines, short and expanded versions, angle and why now, follow-up; where it goes (outlet, what they ask for, contact, how to send) and four steps to send it | Sent | 7 days after | Copy to send; PDF and Word |
+| **Situation Brief** | One-page brief, opening statement, talk track, follow-up email | Used | The day after the moment, or 2 days after | Copy; PDF and Word, one page |
 | **Thought Leadership Builder** | LinkedIn post and hooks, or a short or long-form article with headlines | Published | 7 days after | Copy to post on LinkedIn; PDF and Word for articles |
 
-The check-back days are the prototype's defaults. Only the Situation Brief's comes from the brief (the Maya journey's two-day follow-up after a manager check-in); the rest are **Proposed**.
+The Situation Brief's check-back comes from the brief (the Maya journey's two-day follow-up after a manager check-in), the Pitch Builder's week from the CEO, and the week for positioning and posts from Kate (both 19 Oct).
 
 ---
 
@@ -38,10 +38,10 @@ Every builder runs the same six steps, in this order:
 | --- | --- |
 | **An action step** (Plan, Home, the advisor) | The step, its plan area, its why this, why now and why you, and anything the step already says (a moment's type, who will be there) |
 | **A Briefing read** (Thought Leadership Builder only) | The article's title, publisher and reason line, labelled as the source |
-| **The Toolbox or the library** | Her direction and plan only |
-| **"What's on your mind?"** (Toolbox Concept 1) | What she said, as the moment or the topic |
+| **The Playbook or the library** | Her direction and plan only |
+| **"What's on your mind?"** (Playbook Concept 1) | What she said, as the moment or the topic |
 
-An artifact already in her library opens straight into its draft, never through the Toolbox page.
+An artifact already in her library opens straight into its draft, never through the Playbook page.
 
 ### 2.3 What every builder must do
 
@@ -98,7 +98,7 @@ Rules:
 
 ### 6.1 Statuses
 
-The Sprint 2 Loop statuses, identical everywhere an artifact appears (the Toolbox, the library, the Plan, Home):
+The Sprint 2 Loop statuses, identical everywhere an artifact appears (the Playbook, the library, the Plan, Home):
 
 | Status | Means |
 | --- | --- |
@@ -113,12 +113,12 @@ The Sprint 2 Loop statuses, identical everywhere an artifact appears (the Toolbo
 
 - **Mark ready,** then **Mark used / sent / published.** Posting or sending is always something she does outside ExecHQ. Nothing implies ExecHQ posts or sends ("Copy to post on LinkedIn", never "Post to LinkedIn").
 - **Check back.** Once used, ExecHQ asks what came of it after the builder's check-back days (section 1), unless she chose otherwise when she marked it ready.
-- **The question:** "You sent your pitch for the Q1 planning review on Thursday. What came of it?" Five answers, one tap each: It went well, It was mixed, Not the way I hoped, Nothing yet, It's no longer relevant. A builder can word its own: the Situation Brief asks "How did it go?" (with "It hasn't happened yet" for a meeting that moved) and Thought Leadership "How did it land?", with answers to match (13 Oct). Her tap is all the feedback: ExecHQ never asks a second question, and gives the next step whatever she answers (13 Oct). Each builder's own table is under "After she answers" in its page. The outcome each answer records is the same.
+- **The question:** "You sent your pitch for the Q1 planning review on Thursday. What came of it?" Five answers, one tap each: It went well, It was mixed, Not the way I hoped, Nothing yet, It's no longer relevant. Each builder words its own: Positioning asks "How did it go when you used it?", Pitch "Did you hear back?" (Yes, it's on · They want changes · They said not now · Not yet · I'll try somewhere else), the Situation Brief "How did it go?" (with "It hasn't happened yet" for a meeting that moved) and Thought Leadership "How did it land?", with answers to match (13 and 19 Oct). Her tap is all the feedback: ExecHQ never asks a second question, and gives the next step whatever she answers (13 Oct). Each builder's own table is under "After she answers" in its page. The outcome each answer records is the same.
 - **She can answer early, in the builder.** Once it is used, the draft itself asks "What came of it?" with the same five answers, so she never has to wait for the check-back (the PRD's "Mark used and report outcome"). It is the Loop's own check-in, the one Home uses; answering here is the same as answering there.
 - **"Nothing yet" is normal,** never a failure. It asks again 3 days later, then 7 days after that; after a third "Nothing yet" it stops asking, and she can still report an outcome whenever she likes. It never asks about more than one thing at a time.
 - **After an outcome, the next step.** Whatever she answers, ExecHQ says it back and offers what to do next: one leads, with at most one more, each with one action (a Plan step to add, part of the work to copy, a new one starting from this one, another tool starting from this work, today's Briefing, a sharper version, or what's next on her Plan). A Plan step goes on her Plan only when she says so. Every builder, every concept, and the same next step wherever she answers: in the builder, on Home and to the advisor (one set of rules, `lib/next-after.ts`).
 - **A note is hers to add.** Every feedback card offers "Add a note" (optional, only she sees it), alongside the next step. ExecHQ never asks for one.
-- **Closing.** She can close anything, any time. "It's no longer relevant" closes it, except her positioning statement, which every tool draws on: there it only stops the asking.
+- **Closing.** She can close anything, any time. "It's no longer relevant" closes it, except her positioning statement, which Pitch Builder and the Situation Brief draw on: there it only stops the asking.
 
 ### 6.3 The Signal Picture
 
@@ -163,7 +163,9 @@ From the PRD (Kate, 13 October). They hold in every builder and in all three bui
 
 ## 10. Open questions
 
-1. **Check-back days.** Only the Situation Brief's comes from the brief. Are 7 days (positioning, posts) and 5 days (pitches) right?
-2. **Export formats.** Copy for everything; PDF and Word for the Situation Brief, the bios, pitches (Kate, 13 Oct) and articles. Posts are copy-only. Confirm.
-3. **The follow-up question.** The Situation Brief and Thought Leadership now have their own. Should Pitch ("Did you hear back?") and Positioning too?
-4. **Emphasis choices.** Each builder now has its own (13 Oct): Positioning What I lead · What I'm known for · Where I'm headed; Pitch The angle · The proof · Why now; Situation Brief The ask · The evidence · The risks; Thought Leadership My example · The article's point · The question at the end. In the prototype all four builders now act on their emphasis choices.
+None. Settled by Kate on 19 Oct:
+
+1. **Check-back days.** 7 days for positioning and posts, as for pitches (the CEO, 19 Oct); the Situation Brief's comes from the brief.
+2. **Export formats.** Confirmed: copy for everything; PDF and Word for the Situation Brief, the bios, pitches and articles; posts copy-only.
+3. **The follow-up question.** Every builder has its own: Positioning "How did it go when you used it?", Pitch "Did you hear back?", the Situation Brief "How did it go?" and Thought Leadership "How did it land?", each with answers to match.
+4. **Emphasis choices.** Kept, one set per builder: Positioning What I lead · What I'm known for · Where I'm headed; Pitch The angle · The proof · Why now; Situation Brief The ask · The evidence · The risks; Thought Leadership My example · The article's point · The question at the end.

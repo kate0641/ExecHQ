@@ -1,73 +1,251 @@
 "use client";
 
-import Link from "next/link";
-import { Suspense, useEffect, useRef, useState } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { CohortFigure } from "@/components/enterprise/CohortFigure";
 import { CohortForm } from "@/components/enterprise/CohortForm";
-import { FigureDefinition } from "@/components/enterprise/FigureDefinition";
 import { InviteCode } from "@/components/enterprise/InviteCode";
+import { Meter } from "@/components/enterprise/Meter";
+import { WeeklyTrend } from "@/components/enterprise/WeeklyTrend";
 import { WindowSelector } from "@/components/enterprise/WindowSelector";
+import { DropdownMenu } from "@/components/form/DropdownMenu";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import { useCohortId } from "@/lib/cohort-store";
 import {
   C1_COPY,
-  QUESTION_IDS,
+  DIRECTION_COPY,
+  LATE_COPY,
   QUESTION_POINTS,
+  SEEN_COPY,
   answerFor,
+  comparesWeeks,
+  directionFor,
   figureFor,
-  formatDate,
   isAboveMinimum,
   programDay,
+  seenFor,
+  weeksIn,
+  trendFor,
   type Cohort,
   type DataPointId,
+  type QuestionId,
   type WindowId,
   WINDOWS,
 } from "@/mock/enterprise";
+import { downloadCsv } from "../downloadCsv";
+import { CohortConcierge } from "./CohortConcierge";
 import { useCohort, type CohortControls } from "../useCohort";
 
 const C = C1_COPY;
 
-/** The cohort's name, dates and age: the top of both pages. */
-function CohortHeader({ cohort, children }: { cohort: Cohort; children?: React.ReactNode }) {
+/** One band (Kate, 2026-10-20, option A): the name and a line of what
+ *  matters about the program on the left, the window and the export on the
+ *  right. */
+function CohortHeader({
+  cohort,
+  window,
+  onWindow,
+  headingRef,
+}: {
+  cohort: Cohort;
+  window: WindowId;
+  onWindow: (next: WindowId) => void;
+  headingRef?: React.Ref<HTMLHeadingElement>;
+}) {
   const day = programDay(cohort);
+  const started = day > 0 && !cohort.fresh;
+  const meta = started
+    ? [C.meta.started(cohort.startsOn), weeksIn(day), C.meta.people(cohort.joined)]
+    : [C.meta.starts(cohort.startsOn), C.meta.people(cohort.joined)];
+
   return (
     <header className="ent-header">
-      <div className="ent-header__title">
-        <p className="t-eyebrow">{C.eyebrow}</p>
-        <h1 className="ent-header__name">{cohort.name}</h1>
-        <p className="ent-header__dates">
-          {C.dates(cohort.startsOn, cohort.endsOn)}
-          <span aria-hidden="true"> · </span>
-          <span className="u-visually-hidden">, </span>
-          {day > 0 && !cohort.fresh ? C.age(day) : C.notStarted}
-        </p>
+      <div className="ent-header__row">
+        <div className="ent-header__title">
+          <h1 className="ent-header__name" ref={headingRef} tabIndex={headingRef ? -1 : undefined}>
+            {cohort.name}
+          </h1>
+          <p className="ent-header__meta">
+            {meta.map((part, i) => (
+              <span key={part}>
+                {i > 0 ? (
+                  <>
+                    <span aria-hidden="true"> · </span>
+                    <span className="u-visually-hidden">, </span>
+                  </>
+                ) : null}
+                {part}
+              </span>
+            ))}
+          </p>
+        </div>
+        <div className="ent-header__tools">
+          <WindowSelector value={window} onChange={onWindow} asOf={cohort.asOf} upcoming={cohort.fresh} hideRefreshed />
+          {/* The toggle does not print: the export says the window in words. */}
+          <p className="ent-header__print">{C.printWindow(WINDOWS[window].long, cohort.asOf)}</p>
+          <DropdownMenu
+            className="ent-export"
+            label={C.exportMenu}
+            icon="download"
+            align="end"
+            entries={[
+              { type: "item", id: "pdf", label: C.exportPdf, onSelect: () => globalThis.print() },
+              { type: "item", id: "csv", label: C.exportCsv, onSelect: () => downloadCsv(cohort, window, { signals: true }) },
+            ]}
+          />
+        </div>
       </div>
-      {children ? <div className="ent-header__tools">{children}</div> : null}
     </header>
   );
 }
 
-/** Overview: the three questions, each answered in a sentence, with its figures. */
-function Overview({ cohort }: { cohort: Cohort }) {
+/** The order the cards come in: follow-through leads, because it is what a
+ *  sponsor has to defend; using and joining sit side by side under it. */
+const CARD_ORDER: QuestionId[] = ["following", "using", "joined"];
+
+/** Shares drawn as well as said: a ring for joining against the size
+ *  expected, bars for the lead share of follow-through and for setting up. */
+const METERS: Partial<Record<DataPointId, "ring" | "bar">> = {
+  "follow-through": "bar",
+  invites: "ring",
+  onboarding: "bar",
+};
+
+/** One question as a card: its heading and one-sentence answer, its figures
+ *  (each with the info icon that opens how it is measured), and anything
+ *  that belongs with it. */
+function QuestionCard({
+  cohort,
+  question,
+  window,
+  open,
+  setOpen,
+  children,
+}: {
+  cohort: Cohort;
+  question: QuestionId;
+  window: WindowId;
+  open: DataPointId | null;
+  setOpen: (id: DataPointId | null) => void;
+  children?: React.ReactNode;
+}) {
+  const answer = answerFor(cohort, question, window);
+  const points = QUESTION_POINTS[question];
+  return (
+    <section className={`ent-card ent-card--${question}`} aria-labelledby={`q-${question}`}>
+      <div className="ent-card__lead">
+        <h2 className="ent-card__heading" id={`q-${question}`}>
+          {C.questions[question]}
+        </h2>
+        {answer ? <p className="ent-card__answer">{answer}</p> : null}
+      </div>
+      <div className="ent-card__figures">
+        {points.map((id, i) => {
+          const figure = figureFor(cohort, id, window);
+          // No Filling in tag here (Kate, 2026-10-20): a young window shows
+          // as it is. Followed through says instead that recent actions
+          // still have time.
+          const shown: typeof figure = figure.state === "filling" ? { ...figure, state: "shown", note: undefined } : figure;
+          return (
+            <CohortFigure
+              key={id}
+              figure={id === "follow-through" && shown.state === "shown" ? { ...shown, note: C.stillDue } : shown}
+              size={i === 0 ? "lg" : "md"}
+              direction={directionFor(cohort, id, window)}
+              meter={METERS[id]}
+              // In the hero, the figures after the first are tiles.
+              className={question === "following" && i > 0 ? "ent-tile" : undefined}
+              explaining={open === id}
+              window={window}
+              onExplain={() => setOpen(open === id ? null : id)}
+            />
+          );
+        })}
+      </div>
+      {children}
+    </section>
+  );
+}
+
+/**
+ * Are they being seen? (Kate, 2026-10-20, option C): signals, what
+ * participants put out in the world, as a third card in the row. A ring for
+ * any channel, then the channels with at least the minimum of people behind
+ * them; the rest are named together and held back, since a public signal
+ * could otherwise be searched for and point to one person.
+ */
+function SeenCard({ cohort, window }: { cohort: Cohort; window: WindowId }) {
+  const seen = seenFor(cohort, window);
+  const signals = cohort.signals[window];
+  return (
+    <section className="ent-card ent-card--seen" aria-labelledby="q-seen">
+      <div className="ent-card__lead">
+        <h2 className="ent-card__heading" id="q-seen">
+          {SEEN_COPY.heading}
+        </h2>
+        {seen ? <p className="ent-card__answer">{SEEN_COPY.answer(signals.any, cohort.byWindow[window].active, window)}</p> : null}
+      </div>
+      {seen ? (
+        <>
+          <p className="ent-seen__any">
+            <Meter kind="ring" fraction={seen.any.fraction}>
+              <span className="cohort-figure__value">{seen.any.value}</span>
+            </Meter>
+            <span className="ent-seen__any-label">
+              {SEEN_COPY.ring}
+              <span className="u-visually-hidden">: {seen.any.detail}</span>
+            </span>
+          </p>
+          <ul className="ent-seen__channels" aria-label={SEEN_COPY.listLabel}>
+            {seen.shown.map((channel) => (
+              <li key={channel.label}>
+                <span>{channel.label}</span>
+                <span className="ent-seen__count">
+                  <strong>{channel.value}</strong> {channel.of}
+                </span>
+              </li>
+            ))}
+            {seen.hidden.length > 0 ? (
+              <li className="ent-seen__hidden">
+                <span>{SEEN_COPY.hidden(seen.hidden)}</span>
+                <span className="ent-seen__count">
+                  <Icon name="lock" size={14} />
+                  {SEEN_COPY.fewer}
+                  <span className="u-visually-hidden">: {SEEN_COPY.fewerLabel}</span>
+                </span>
+              </li>
+            ) : null}
+          </ul>
+          <p className="ent-seen__note">{SEEN_COPY.note}</p>
+        </>
+      ) : (
+        <p className="ent-seen__locked">
+          <Icon name="lock" size={16} />
+          {SEEN_COPY.hiddenAll}
+        </p>
+      )}
+    </section>
+  );
+}
+
+/** The dashboard: one page, the three questions as cards, and the cohort's
+ *  code in the joining card, where it belongs. */
+function Dashboard({ controls, headingRef }: { controls: CohortControls; headingRef?: React.Ref<HTMLHeadingElement> }) {
+  const cohort = controls.cohort!;
   const [window, setWindow] = useState<WindowId>("30d");
   const [open, setOpen] = useState<DataPointId | null>(null);
   const above = isAboveMinimum(cohort, window);
-  const day = programDay(cohort);
-  const filling = above && window !== "launch" && day < (window === "30d" ? 30 : 90);
 
   return (
     <div className="ent-page">
-      <CohortHeader cohort={cohort}>
-        <WindowSelector value={window} onChange={setWindow} asOf={cohort.asOf} upcoming={cohort.fresh} />
-        {/* The toggle does not print: the export says the window in words. */}
-        <p className="ent-header__print">{C.printWindow(WINDOWS[window].long, cohort.asOf)}</p>
-        <Button variant="secondary" size="sm" onClick={() => globalThis.print()}>
-          <Icon name="download" size={16} />
-          {C.export}
-        </Button>
-      </CohortHeader>
+      <CohortHeader cohort={cohort} window={window} onWindow={setWindow} headingRef={headingRef} />
+
+      {cohort.lateSince ? (
+        <p className="ent-notice">
+          <Icon name="warning" size={18} />
+          {LATE_COPY.notice(cohort.asOf)}
+        </p>
+      ) : null}
 
       {!above ? (
         <div className="ent-notice">
@@ -77,100 +255,57 @@ function Overview({ cohort }: { cohort: Cohort }) {
             <p>{C.building.body}</p>
           </div>
         </div>
-      ) : filling ? (
-        <p className="ent-notice ent-notice--quiet">
-          <Icon name="clock" size={18} />
-          {C.filling(day)}
-        </p>
       ) : null}
 
-      {QUESTION_IDS.map((question) => {
-        const answer = answerFor(cohort, question, window);
-        const points = QUESTION_POINTS[question];
-        const openHere = open && points.includes(open) ? open : null;
-        return (
-          <section className="ent-question" key={question} aria-labelledby={`q-${question}`}>
-            <div className="ent-question__lead">
-              <h2 className="ent-question__heading" id={`q-${question}`}>
-                {C.questions[question]}
-              </h2>
-              {answer ? <p className="ent-question__answer">{answer}</p> : null}
-            </div>
-            <div className="ent-question__figures">
-              {points.map((id, i) => {
-                const figure = figureFor(cohort, id, window);
-                return (
-                  <CohortFigure
-                    key={id}
-                    // The page says once why figures are filling in.
-                    figure={figure.state === "filling" ? { ...figure, note: undefined } : figure}
-                    size={i === 0 ? "lg" : "md"}
-                    explaining={open === id}
-                    onExplain={() => setOpen(open === id ? null : id)}
+      <div className="ent-board">
+        {CARD_ORDER.map((question) => (
+          <Fragment key={question}>
+            {/* Being seen sits between using and joining (Kate, 2026-10-20). */}
+            {question === "joined" ? <SeenCard cohort={cohort} window={window} /> : null}
+            <QuestionCard cohort={cohort} question={question} window={window} open={open} setOpen={setOpen}>
+              {/* Whether they are still using it is a trend, not a snapshot:
+                  always since launch, whichever window is chosen. */}
+              {question === "using" ? <WeeklyTrend className="ent-card__trend" trend={trendFor(cohort)} /> : null}
+              {question === "joined" ? (
+                <div className="ent-card__code">
+                  <InviteCode
+                    layout="compact"
+                    hideJoined
+                    code={cohort.code}
+                    joined={cohort.joined}
+                    expectedSize={cohort.expectedSize}
+                    open={cohort.open}
+                    onRegenerate={controls.regenerate}
+                    onClose={controls.close}
+                    justRegenerated={controls.justRegenerated}
                   />
-                );
-              })}
-            </div>
-            {openHere ? (
-              <div className="ent-question__definition">
-                <FigureDefinition id={openHere} window={window} onClose={() => setOpen(null)} />
-              </div>
-            ) : null}
-          </section>
-        );
-      })}
-
-      <p className="ent-page__privacy">
-        <Icon name="shield" size={16} />
-        {C.privacy}
-      </p>
-    </div>
-  );
-}
-
-/** Cohort: the code, how many joined, and the cohort's details. */
-function CohortPage({ cohort, controls }: { cohort: Cohort; controls: CohortControls }) {
-  return (
-    <div className="ent-page">
-      <CohortHeader cohort={cohort} />
-      <div className="ent-cohort">
-        <InviteCode
-          code={cohort.code}
-          joined={cohort.joined}
-          expectedSize={cohort.expectedSize}
-          open={cohort.open}
-          onRegenerate={controls.regenerate}
-          onClose={controls.close}
-          justRegenerated={controls.justRegenerated}
-        />
-        <section className="ent-details" aria-labelledby="cohort-details">
-          <h2 className="ent-details__heading" id="cohort-details">
-            {C.cohortPage.details}
-          </h2>
-          <dl className="ent-details__list">
-            <div>
-              <dt>{C.cohortPage.name}</dt>
-              <dd>{cohort.name}</dd>
-            </div>
-            <div>
-              <dt>{C.cohortPage.expected}</dt>
-              <dd>{cohort.expectedSize.toLocaleString("en-GB")}</dd>
-            </div>
-            <div>
-              <dt>{C.cohortPage.dates}</dt>
-              <dd>
-                {formatDate(cohort.startsOn)} to {formatDate(cohort.endsOn)}
-              </dd>
-            </div>
-          </dl>
-        </section>
+                </div>
+              ) : null}
+            </QuestionCard>
+          </Fragment>
+        ))}
       </div>
+
+      <div className="ent-page__foot">
+        {comparesWeeks(cohort, window) ? (
+          <p className="ent-page__privacy">
+            <Icon name="trend-up" size={16} />
+            {DIRECTION_COPY.rule}
+          </p>
+        ) : null}
+        <p className="ent-page__privacy">
+          <Icon name="shield" size={16} />
+          {C.privacy}
+        </p>
+      </div>
+
+      <CohortConcierge cohort={cohort} window={window} />
     </div>
   );
 }
 
 /** First visit: set the cohort up, then hand over its code. */
-function Setup({ controls, overviewHref }: { controls: CohortControls; overviewHref: string }) {
+function Setup({ controls, onDone }: { controls: CohortControls; onDone: () => void }) {
   const { cohort } = controls;
   const readyRef = useRef<HTMLHeadingElement>(null);
   // The form leaves the page once the cohort is made: focus goes to what replaced it.
@@ -197,9 +332,9 @@ function Setup({ controls, overviewHref }: { controls: CohortControls; overviewH
           onClose={controls.close}
           justRegenerated={controls.justRegenerated}
         />
-        <Link className="btn btn--primary btn--md ent-setup__next" href={overviewHref}>
-          {C.setup.toOverview}
-        </Link>
+        <Button className="ent-setup__next" onClick={onDone}>
+          {C.setup.toDashboard}
+        </Button>
       </div>
     );
   }
@@ -215,46 +350,20 @@ function Setup({ controls, overviewHref }: { controls: CohortControls; overviewH
 }
 
 function Concept1Page({ controls }: { controls: CohortControls }) {
-  const pathname = usePathname();
-  const view = useSearchParams().get("view");
   const { cohort, justCreated } = controls;
-  const overviewHref = pathname;
-  const cohortHref = `${pathname}?view=cohort`;
+  const [leftSetup, setLeftSetup] = useState(false);
+  const headingRef = useRef<HTMLHeadingElement>(null);
 
-  // Until a cohort exists, and right after one is made, there is nothing to
-  // navigate between: the page is the setup.
-  const settingUp = !cohort || (justCreated && view !== "overview" && view !== "cohort");
-  const current = view === "cohort" ? "cohort" : "overview";
+  // Until a cohort exists, and right after one is made, the page is the
+  // setup. Leaving it lands on the dashboard's heading.
+  const settingUp = !cohort || (justCreated && !leftSetup);
+  useEffect(() => {
+    if (leftSetup) headingRef.current?.focus();
+  }, [leftSetup]);
 
   return (
     <div className="ent">
-      {settingUp ? null : (
-        <nav className="chrome__nav ent__nav" aria-label={C.nav.label}>
-          <ul className="chrome__nav-list">
-            <li className="chrome__nav-item">
-              <Link
-                href={`${overviewHref}?view=overview`}
-                className="chrome__nav-link"
-                aria-current={current === "overview" ? "page" : undefined}
-              >
-                <span className="u-bold-hold" data-label={C.nav.overview}>{C.nav.overview}</span>
-              </Link>
-            </li>
-            <li className="chrome__nav-item">
-              <Link href={cohortHref} className="chrome__nav-link" aria-current={current === "cohort" ? "page" : undefined}>
-                <span className="u-bold-hold" data-label={C.nav.cohort}>{C.nav.cohort}</span>
-              </Link>
-            </li>
-          </ul>
-        </nav>
-      )}
-      {settingUp ? (
-        <Setup controls={controls} overviewHref={`${overviewHref}?view=overview`} />
-      ) : current === "cohort" ? (
-        <CohortPage cohort={cohort!} controls={controls} />
-      ) : (
-        <Overview cohort={cohort!} />
-      )}
+      {settingUp ? <Setup controls={controls} onDone={() => setLeftSetup(true)} /> : <Dashboard controls={controls} headingRef={headingRef} />}
     </div>
   );
 }
@@ -267,22 +376,17 @@ function Concept1ForCohort({ id }: { id: ReturnType<typeof useCohortId> }) {
 /**
  * Enterprise Dashboard, Concept 1 — The three questions.
  *
- * Overview answers the sponsor's three questions in order (did they join,
- * are they still using it, do they follow through), each in one sentence
- * with its figures under it, the first set large. Any figure opens its
- * definition beneath its row. Cohort is the admin page: the one shared code,
- * how many joined, and the cohort's details. A sponsor with no cohort yet
- * sees only the setup.
+ * One page of cards answering the sponsor's three questions, each in one
+ * sentence with its figures, the first set large. Follow-through leads, as
+ * the hero, because it is what a sponsor defends to their leadership (Kate,
+ * 2026-10-20); still using it and did they join sit side by side under it,
+ * with the weekly trend in the first and the cohort's code in the second.
+ * Any figure opens its definition inside its card. A sponsor with no cohort
+ * yet sees only the setup.
  */
 export function EnterpriseConcept1() {
   const id = useCohortId();
-  // The view is read from the address (`?view=cohort`), which needs a
-  // Suspense boundary or a full page load stays blank.
-  return (
-    <Suspense fallback={null}>
-      <Concept1ForCohort key={id} id={id} />
-    </Suspense>
-  );
+  return <Concept1ForCohort key={id} id={id} />;
 }
 
 export default EnterpriseConcept1;

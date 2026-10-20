@@ -12,7 +12,7 @@ export const cohortFigureStates = defineComponentStates({
   status: "draft",
   flows: ["enterprise"],
   description:
-    "One cohort-level figure on the sponsor dashboard: the number and what it is out of. Filling in while the program is younger than the window, with its age stated; hidden while fewer than 10 participants are active, naming the rule. Every figure opens to its definition.",
+    "One cohort-level figure on the sponsor dashboard: the number and what it is out of, and which way it moved since last week when at least 10 people are behind the change. Filling in while the program is younger than the window, with its age stated; hidden while fewer than 10 participants are active, naming the rule. An info icon beside every name opens how it is measured.",
   component: CohortFigure,
   notApplicable: {
     disabled: "Its one control always works: every figure has a definition, even a hidden one.",
@@ -23,6 +23,12 @@ export const cohortFigureStates = defineComponentStates({
   variants: [
     { label: "Shown — default", props: { figure: active, onExplain: noop } },
     { label: "Shown, large", props: { figure: figureFor(pilot, "invites", "launch"), size: "lg", onExplain: noop } },
+    { label: "With a bar", props: { figure: figureFor(pilot, "follow-through", "launch"), size: "lg", meter: "bar", onExplain: noop } },
+    { label: "With a ring", props: { figure: figureFor(pilot, "invites", "launch"), size: "lg", meter: "ring", onExplain: noop } },
+    { label: "Bar while filling in", props: { figure: figureFor(pilot, "onboarding", "30d"), meter: "bar", onExplain: noop } },
+    { label: "Moving up since last week", props: { figure: active, direction: "up", onExplain: noop } },
+    { label: "Moving down since last week", props: { figure: figureFor(COHORTS.demo, "active", "30d"), direction: "down", onExplain: noop } },
+    { label: "Large, moving up", props: { figure: figureFor(pilot, "plans", "launch"), size: "lg", direction: "up", onExplain: noop } },
     { label: "Filling in, 30 days at day 14", props: { figure: figureFor(pilot, "active", "30d"), onExplain: noop } },
     {
       label: "Hidden — suppressed, empty",
@@ -33,8 +39,8 @@ export const cohortFigureStates = defineComponentStates({
     { label: "Thousands, the demo cohort", props: { figure: figureFor(COHORTS.demo, "artifacts", "launch"), onExplain: noop } },
     { label: "A long detail wraps", props: { figure: figureFor(COHORTS.demo, "follow-through", "launch"), onExplain: noop } },
     { label: "Definition open — active", props: { figure: active, onExplain: noop, explaining: true } },
-    { label: "What this counts — hover", props: { figure: active, demo: "hover" } },
-    { label: "What this counts — focus", props: { figure: active, demo: "focus" } },
-    { label: "What this counts — pressed", props: { figure: active, demo: "active" } },
+    { label: "How it’s measured — hover", props: { figure: active, demo: "hover" } },
+    { label: "How it’s measured — focus", props: { figure: active, demo: "focus" } },
+    { label: "How it’s measured — pressed", props: { figure: active, demo: "active" } },
   ],
 });

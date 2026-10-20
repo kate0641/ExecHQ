@@ -2,16 +2,17 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { AdvisorMark } from "@/components/chat/AdvisorMark";
-import { FigureDefinition } from "@/components/enterprise/FigureDefinition";
 import { InviteCode } from "@/components/enterprise/InviteCode";
+import { DropdownMenu } from "@/components/form/DropdownMenu";
 import { Input } from "@/components/form/Input";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import { useCohortId } from "@/lib/cohort-store";
 import {
   C3_COPY,
-  DATA_POINT_IDS,
+  DATA_POINTS,
   ENTERPRISE_COPY,
+  LATE_COPY,
   firstIssueOn,
   figureFor,
   isAboveMinimum,
@@ -20,20 +21,28 @@ import {
   whatMoved,
   type Cohort,
   type CohortId,
+  type DataPointId,
   type LetterIssue,
 } from "@/mock/enterprise";
+import { downloadCsv } from "../downloadCsv";
+import { LetterReplies } from "./LetterReplies";
 import { useCohort, type CohortControls } from "../useCohort";
 
 const C = C3_COPY;
+const count = new Intl.NumberFormat("en-GB");
+
+/** The definitions in the letter's own order: follow-through, use, joining. */
+const DEFINITION_ORDER: DataPointId[] = ["follow-through", "plans", "artifacts", "loop", "active", "briefing", "invites", "onboarding"];
 const FORM = ENTERPRISE_COPY.form;
 
-/** The foot of every issue: the code, how many joined, and the code's tools on request. */
+/** The foot of every issue: the code, and its tools on request. How many
+ *  joined is in the letter already. */
 function CodeLine({ cohort, controls }: { cohort: Cohort; controls: CohortControls }) {
   const [open, setOpen] = useState(false);
   return (
     <div className="letter__code">
       <p>
-        {C.codeLine(cohort.code, cohort.joined, cohort.expectedSize, cohort.open)}{" "}
+        {C.codeLine(cohort.code, cohort.open)}{" "}
         <button type="button" className="letter__link" aria-expanded={open} onClick={() => setOpen(!open)}>
           {open ? C.hideManage : C.manage}
         </button>
@@ -54,8 +63,8 @@ function CodeLine({ cohort, controls }: { cohort: Cohort; controls: CohortContro
   );
 }
 
-/** One Monday's letter. */
-function Issue({ issue, previous, headingRef }: { issue: LetterIssue; previous?: LetterIssue; headingRef: React.Ref<HTMLHeadingElement> }) {
+/** One Monday's letter. `late` on the latest while this week's has not come. */
+function Issue({ issue, previous, late, headingRef }: { issue: LetterIssue; previous?: LetterIssue; late?: boolean; headingRef: React.Ref<HTMLHeadingElement> }) {
   const { cohort, window } = issue;
   const c = cohort.byWindow[window];
   const above = isAboveMinimum(cohort, window);
@@ -64,28 +73,42 @@ function Issue({ issue, previous, headingRef }: { issue: LetterIssue; previous?:
 
   return (
     <>
+      {late ? (
+        <p className="letter__late">
+          <Icon name="warning" size={16} />
+          {LATE_COPY.letter(issue.on)}
+        </p>
+      ) : null}
       <header className="letter__head">
         <p className="t-eyebrow">{C.eyebrow(issue.number, issue.on)}</p>
         <h1 className="letter__headline" ref={headingRef} tabIndex={-1}>
-          {above ? C.headline(cohort.joined, cohort.expectedSize, c.active, programDay(cohort)) : C.headline(cohort.joined, cohort.expectedSize)}
+          {above ? C.headline(c.actionsCompleted, c.actionsAccepted) : C.headlineHidden(cohort.joined, cohort.expectedSize)}
         </h1>
         <p className="letter__covers">{C.covers(programDay(cohort))}</p>
       </header>
 
-      <div className="letter__body">
-        <p>{above ? C.joining(cohort.joined, cohort.expectedSize, cohort.activated) : C.joining(cohort.joined, cohort.expectedSize)}</p>
-        {above ? (
-          <>
-            <p>{C.using(c.active, active.value ?? "", c.returning, c.briefingWeekly)}</p>
-            <p>{C.following(cohort.planAccepted, c.actionsCompleted, c.actionsAccepted, c.artifacts, c.artifactsUsed, c.outcomesRecorded)}</p>
-          </>
-        ) : (
-          <p className="letter__hidden">
-            <Icon name="lock" size={16} />
-            {C.hidden}
-          </p>
-        )}
+      {/* By the numbers: the three figures a reader skims for, before the
+          prose (Kate, 2026-10-20). Only once they can be shown. */}
+      {above ? (
+        <dl className="letter__numbers" aria-label={C.numbers.label}>
+          {[
+            { value: c.actionsCompleted, whole: c.actionsAccepted, label: C.numbers.completed },
+            { value: c.active, whole: cohort.activated, label: C.numbers.active(programDay(cohort)) },
+            { value: cohort.joined, whole: cohort.expectedSize, label: C.numbers.joined },
+          ].map((item) => (
+            <div className="letter__number" key={item.label}>
+              <dt>{item.label}</dt>
+              <dd>
+                {count.format(item.value)} <span className="letter__number-of">{C.numbers.of(item.whole)}</span>
+              </dd>
+            </div>
+          ))}
+        </dl>
+      ) : null}
 
+      <div className="letter__body">
+        {/* What changed is why a weekly letter exists: it comes first
+            (Kate, 2026-10-20). */}
         {previous && above ? (
           <section className="letter__moved" aria-labelledby="letter-moved">
             <h2 className="letter__subheading" id="letter-moved">
@@ -106,19 +129,41 @@ function Issue({ issue, previous, headingRef }: { issue: LetterIssue; previous?:
           </section>
         ) : null}
 
+        {above ? (
+          <>
+            <p>{C.following(cohort.planAccepted, c.artifacts, c.artifactsUsed)}</p>
+            <p>{C.using(c.active, active.value ?? "", c.briefingWeekly)}</p>
+            <p>{C.joining(cohort.joined, cohort.expectedSize, cohort.activated)}</p>
+          </>
+        ) : (
+          <>
+            <p>{C.joining(cohort.joined, cohort.expectedSize)}</p>
+            <p className="letter__hidden">
+              <Icon name="lock" size={16} />
+              {C.hidden}
+            </p>
+          </>
+        )}
+
         <p className="letter__sign">
           <AdvisorMark size={18} />
           {C.signOff}
         </p>
       </div>
 
+      {/* Asking about an issue is replying to it (Kate, 2026-10-20). */}
+      <LetterReplies key={issue.number} issue={issue} />
+
       <details className="letter__definitions">
         <summary>{C.definitions}</summary>
-        <div className="letter__definitions-list">
-          {DATA_POINT_IDS.filter((id) => above || id === "invites").map((id) => (
-            <FigureDefinition key={id} id={id} window={window} headingLevel={3} />
+        <dl className="letter__definitions-list">
+          {DEFINITION_ORDER.filter((id) => above || id === "invites").map((id) => (
+            <div className="letter__definition" key={id}>
+              <dt>{DATA_POINTS[id].label}</dt>
+              <dd>{DATA_POINTS[id].brief}</dd>
+            </div>
           ))}
-        </div>
+        </dl>
       </details>
     </>
   );
@@ -130,7 +175,6 @@ function SetupLetter({ controls }: { controls: CohortControls }) {
   const [name, setName] = useState("");
   const [size, setSize] = useState("");
   const [startsOn, setStartsOn] = useState("");
-  const [endsOn, setEndsOn] = useState("");
   const [error, setError] = useState<string>();
   const questionRef = useRef<HTMLHeadingElement>(null);
   const first = useRef(true);
@@ -149,16 +193,15 @@ function SetupLetter({ controls }: { controls: CohortControls }) {
     if (step === 1 && !name.trim()) return setError(FORM.nameMissing);
     if (step === 2 && (!/^\d+$/.test(size) || Number(size) < 1)) return setError(FORM.sizeMissing);
     if (step === 3) {
-      if (!startsOn || !endsOn) return setError(FORM.datesMissing);
-      if (endsOn <= startsOn) return setError(FORM.endsBeforeStart);
-      controls.create({ name: name.trim(), expectedSize: Number(size), startsOn, endsOn });
+      if (!startsOn) return setError(FORM.startMissing);
+      controls.create({ name: name.trim(), expectedSize: Number(size), startsOn });
       return;
     }
     setError(undefined);
     setStep(step + 1);
   }
 
-  const question = step === 1 ? C.setup.name : step === 2 ? C.setup.size : C.setup.dates;
+  const question = step === 1 ? C.setup.name : step === 2 ? C.setup.size : C.setup.starts;
 
   return (
     <>
@@ -184,16 +227,15 @@ function SetupLetter({ controls }: { controls: CohortControls }) {
             error={error}
           />
         ) : (
-          <div className="cohort-form__dates">
-            <Input label={C.setup.starts} type="date" value={startsOn} onChange={(e) => setStartsOn(e.target.value)} error={error} />
-            <Input
-              label={C.setup.ends}
-              type="date"
-              value={endsOn}
-              onChange={(e) => setEndsOn(e.target.value)}
-              aria-invalid={error ? true : undefined}
-            />
-          </div>
+          <Input
+            className="cohort-form__date"
+            label={C.setup.startsLabel}
+            labelHidden
+            type="date"
+            value={startsOn}
+            onChange={(e) => setStartsOn(e.target.value)}
+            error={error}
+          />
         )}
         <div className="letter__actions">
           <Button type="submit">{step === 3 ? C.setup.create : C.setup.next}</Button>
@@ -276,6 +318,12 @@ function Concept3Page({ controls }: { controls: CohortControls }) {
             {C.archive}
           </p>
           <ul className="letter-archive__list">
+            {cohort.lateSince ? (
+              <li className="letter-archive__upcoming">
+                {C.issueName(issues.length + 1)}
+                <span>{LATE_COPY.archive}</span>
+              </li>
+            ) : null}
             {issues.length === 0 ? (
               <li className="letter-archive__upcoming">
                 {C.upcoming}
@@ -309,7 +357,7 @@ function Concept3Page({ controls }: { controls: CohortControls }) {
         {!cohort ? (
           <SetupLetter controls={controls} />
         ) : issue ? (
-          <Issue issue={issue} previous={issues[shown - 2]} headingRef={headingRef} />
+          <Issue issue={issue} previous={issues[shown - 2]} late={Boolean(cohort.lateSince) && shown === issues.length} headingRef={headingRef} />
         ) : (
           <ReadyLetter cohort={cohort} controls={controls} headingRef={headingRef} />
         )}
@@ -322,10 +370,15 @@ function Concept3Page({ controls }: { controls: CohortControls }) {
               {C.privacy}
             </p>
             {issue ? (
-              <Button variant="secondary" size="sm" className="letter__save" onClick={() => globalThis.print()}>
-                <Icon name="download" size={16} />
-                {C.save}
-              </Button>
+              <DropdownMenu
+                className="letter__save ent-export"
+                label={C.save}
+                icon="download"
+                entries={[
+                  { type: "item", id: "pdf", label: C.savePdf, onSelect: () => globalThis.print() },
+                  { type: "item", id: "csv", label: C.saveCsv, onSelect: () => downloadCsv(issue.cohort, issue.window) },
+                ]}
+              />
             ) : null}
           </footer>
         ) : null}

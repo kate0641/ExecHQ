@@ -6,7 +6,7 @@ export const destinationStubStates = defineComponentStates({
   name: "DestinationStub",
   group: "layout",
   status: "draft",
-  flows: ["plan", "toolbox", "daily-briefing"],
+  flows: ["plan", "playbook", "daily-briefing"],
   description:
     "A signed-in destination a later sprint designs. A heading and one line, so the navigation is reviewed against pages that look intentional, without committing that sprint to a layout.",
   component: DestinationStub,

@@ -31,7 +31,7 @@ export const entryLinkStates = defineComponentStates({
     {
       label: "Today’s Briefing, with why it matters",
       props: {
-        href: "/daily-briefing/concept-1",
+        href: "/daily-briefing/concept-2",
         icon: "briefing",
         eyebrow: BRIEFING_STUB.eyebrow(BRIEFING_STUB.reads),
         title: BRIEFING_STUB.lead,
@@ -40,7 +40,7 @@ export const entryLinkStates = defineComponentStates({
     },
     {
       label: "A draft to pick up",
-      props: { href: "/toolbox-flow/concept-1", icon: "draft", eyebrow: "Pick up where you left off", title: "Brief for your manager check-in", detail: "Edited 19 Oct" },
+      props: { href: "/playbook-flow/concept-3", icon: "draft", eyebrow: "Pick up where you left off", title: "Brief for your manager check-in", detail: "Edited 19 Oct" },
     },
     { label: "Title only", props: { ...plan, detail: undefined } },
     {

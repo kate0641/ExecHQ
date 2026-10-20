@@ -56,7 +56,7 @@ export const dropdownMenuStates = defineComponentStates({
   name: "DropdownMenu",
   group: "form controls",
   status: "draft",
-  flows: ["toolbox"],
+  flows: ["playbook"],
   description:
     "A menu button and its floating panel, written from scratch to the ARIA menu-button pattern: items, separators, disabled items, checkboxes, radio groups and nested submenus. Keyboard: Enter, Space or Down opens on the first item, Up on the last; Up and Down move, Home and End jump, a letter jumps to an item; Enter or Space chooses; Right opens a submenu and Left closes it; Escape closes and returns focus to the button; Tab leaves. It flips to stay on the screen it opens in, and on a phone lays a submenu over its parent. Colours, hover, shadow and spacing come from the MENUS tokens.",
   component: DropdownMenu,
