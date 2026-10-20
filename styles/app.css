@@ -18061,6 +18061,8 @@ ul.plan-guided__sparks {
   display: block;
   width: 100%;
   height: auto;
+  /* The plot meets the card's hairlines, so its end dot hangs just past the edge rather than being cut. */
+  overflow: visible;
 }
 
 /* A real range control, laid over the plot and unseen: keyboard and touch use it. */

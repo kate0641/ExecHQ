@@ -20,7 +20,9 @@ export interface LinkedInPictureProps {
 /* The line is drawn in a 360 by 150 box and placed by percent, so it scales with the card. */
 const W = 360;
 const H = 150;
-const PAD = { left: 14, right: 14, top: 22, bottom: 22 };
+// No side margin: the plot runs edge to edge, as wide as the rows' hairlines (designer, 2026-10-20; 14 each
+// side before). The end dot hangs past the edge, so the chart doesn't clip it.
+const PAD = { left: 0, right: 0, top: 22, bottom: 22 };
 
 /** Where a readout sits against its mark, so it stays inside the card at either edge. */
 const align = (at: number) => (at < 0.25 ? "start" : at > 0.75 ? "end" : "mid");
@@ -55,7 +57,9 @@ export function LinkedInPicture({ data, initialOpen = "followers", demoWeek, dem
       label: C.followers,
       sub: C.followersSub(gain, dayMonth(data.from)),
       value: t.followersNow.toLocaleString("en-US"),
-      spark: <FollowersSpark data={data} />,
+      // No line of its own: the chart under it is the line (designer, 2026-10-20). The empty slot keeps
+      // its number level with the others.
+      spark: <span className="li-spark" aria-hidden="true" />,
       body: (
         <>
           <p className="li-caption">{C.followersCaption}</p>
@@ -133,24 +137,9 @@ export function LinkedInPicture({ data, initialOpen = "followers", demoWeek, dem
   );
 }
 
-/* Each row's shape in miniature: it says which way things went and carries no value. */
+/* Impressions' and Posts' shape in miniature: it says which way things went and carries no value. */
 const SW = 84;
 const SH = 28;
-
-function FollowersSpark({ data }: { data: LinkedInExport }) {
-  const counts = data.followers.map((p) => p.count);
-  const lo = Math.min(...counts);
-  const hi = Math.max(...counts);
-  const x = (i: number) => 2 + (i / (counts.length - 1)) * (SW - 4);
-  const y = (v: number) => SH - 3 - ((v - lo) / Math.max(hi - lo, 1)) * (SH - 6);
-  const line = counts.map((c, i) => `${i === 0 ? "M" : "L"}${x(i).toFixed(1)} ${y(c).toFixed(1)}`).join(" ");
-  return (
-    <svg className="li-spark" viewBox={`0 0 ${SW} ${SH}`} aria-hidden="true">
-      <path className="li-spark__line" d={line} />
-      <circle className="li-spark__end" cx={x(counts.length - 1)} cy={y(counts[counts.length - 1])} r={3} />
-    </svg>
-  );
-}
 
 function MonthsSpark({ months, pick }: { months: MonthBar[]; pick: "impressions" | "posts" }) {
   const values = months.map((m) => m[pick]);
