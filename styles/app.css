@@ -17951,22 +17951,32 @@ ul.plan-guided__sparks {
   flex-direction: column;
 }
 
+/* Each row sits centred between its hairlines: the standard 20 either side of a line (--space-divided-item),
+   above and below alike (designer, 2026-10-20). The first row follows the intro and the last ends the card,
+   so neither takes the extra. */
 .li-row {
+  padding-block: var(--space-divided-item);
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
 .li-row:first-child {
+  padding-top: 0;
   border-top: 0;
+}
+
+.li-row:last-child {
+  padding-bottom: 0;
 }
 
 .li-row__head {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto auto auto;
-  align-items: center;
+  /* The number, its shape and the chevron line up with the top of Followers (designer, 2026-10-20). */
+  align-items: start;
   gap: var(--space-sm);
   width: 100%;
-  min-height: 4rem;
-  padding-block: var(--space-xs);
+  min-height: var(--target-min, 2.75rem);
+  padding-block: 0;
   /* No side padding: the button's own 6px set Followers, Impressions and Posts in from the card's title,
      copy and charts (designer, 2026-10-20). */
   padding-inline: 0;
@@ -18023,7 +18033,12 @@ ul.plan-guided__sparks {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-  padding-bottom: var(--space-md);
+  margin-top: var(--space-md);
+}
+
+/* A class selector outranks the user agent's [hidden] rule, so a closed row's body would keep its room. */
+.li-row__body[hidden] {
+  display: none;
 }
 
 .li-spark {
