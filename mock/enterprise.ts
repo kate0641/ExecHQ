@@ -146,7 +146,7 @@ export const COHORTS: Record<Cohort["id"], Cohort> = {
    *  ones are still filling in. */
   pilot: {
     id: "pilot",
-    name: "Northgate Leadership Programme",
+    name: "Northgate Leadership Program",
     expectedSize: 50,
     startsOn: "2026-09-14",
     asOf: "2026-09-28",
@@ -691,7 +691,7 @@ export const ENTERPRISE_COPY = {
   form: {
     heading: "Set up your cohort",
     name: "Cohort name",
-    nameHint: "What your participants will call it, e.g. Leadership Programme 2027.",
+    nameHint: "What your participants will call it, e.g. Leadership Program 2027.",
     size: "Expected size",
     sizeHint: `How many people you plan to invite. Figures stay hidden until ${MIN_COHORT_SIZE} or more are active.`,
     starts: "Program starts",
@@ -1118,7 +1118,7 @@ export const C3_COPY = {
   setup: {
     intro: "Before the first issue, I need three things about your cohort.",
     name: "What should we call the cohort?",
-    nameHint: "What your participants will call it, e.g. Leadership Programme 2027.",
+    nameHint: "What your participants will call it, e.g. Leadership Program 2027.",
     size: "How many people do you plan to invite?",
     sizeHint: `Figures stay hidden until ${MIN_COHORT_SIZE} or more are active.`,
     starts: "When does the program start?",
