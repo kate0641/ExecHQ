@@ -8717,7 +8717,7 @@ ol.ring-detail__timeline {
   color: var(--color-headline-on-inverse);
 }
 
-.guide--navy :is(.recommendation, .next-steps, .point-box, .signal-list, .card, .feature-card__body, .stage-checkin__thing, .agenda__body, .agenda__stage-note, .reflection-reply__fact),
+.guide--navy :is(.recommendation, .next-steps, .point-box, .signal-list, .card, .feature-card__body, .plan-direction, .stage-checkin__thing, .agenda__body, .agenda__stage-note, .reflection-reply__fact),
 .signals-page :is(.presence-clean__card, .li-picture, .came-of__row:not(.is-quiet) .came-of__reply) {
   --color-text-primary: var(--light-text-primary);
   --color-text-secondary: var(--light-text-secondary);
@@ -16466,23 +16466,26 @@ ol.rtl__rail::before {
 
 /* Plan Concept 3: her direction above the road, in full, in the system's
    white card (designer, 2026-10-13). It only reads: no chevron, no button. */
-/* Your direction is her own sentence, so it carries her colour: lime with dark green words, held by
-   the same stone 250 edge as every card (designer, 2026-10-15; a white card before). Lime cards, as a
-   flood or a header, always take this stroke. */
+/* Your direction is her own sentence, so its label carries her colour: a lime header with dark green
+   words over a white body with her words, held by the same stone 250 edge as every card. The same card on
+   the stone sheet and on the navy page, where the white body takes the light-surface text (designer,
+   2026-10-20; a full lime card from 2026-10-15). Lime cards, as a flood or a header, always take this
+   stroke. */
 .plan-direction {
   display: flex;
   flex-direction: column;
-  /* 8px from its label to her words, so the two read apart (designer, 2026-10-16; was 2). */
-  gap: var(--space-title-copy);
-  padding: var(--space-sm) var(--space-card-padding);
+  overflow: hidden;
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-card);
-  background: var(--color-surface-her-band);
-  color: var(--color-text-on-her-band);
+  background: var(--color-surface-raised);
+  color: var(--color-text-primary);
 }
 
 .plan-direction__label {
   margin: 0;
+  padding: var(--space-sm) var(--space-card-padding);
+  background: var(--color-surface-her-band);
+  border-bottom: var(--border-width-thin) solid var(--color-border);
   font-family: var(--type-eyebrow-font);
   font-size: var(--type-eyebrow-size);
   font-weight: var(--type-eyebrow-weight);
@@ -16494,6 +16497,7 @@ ol.rtl__rail::before {
 }
 
 .plan-direction__quote {
+  padding: var(--space-sm) var(--space-card-padding) var(--space-card-padding);
   /* Never cut off with an ellipsis: the words wrap (designer, 2026-10-13). */
   font-family: var(--font-serif);
   font-size: var(--text-sm-plus);
