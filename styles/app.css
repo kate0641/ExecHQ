@@ -23950,6 +23950,51 @@ ul.plan-guided__sparks {
   max-width: 64rem;
 }
 
+/* The cohort's code, a slim strip under the toolbar, outside the sheet: the
+   code on the left, what to do with it in the middle, its buttons on the
+   right. The same InviteCode, laid out as a row. */
+.report-code {
+  width: 100%;
+  max-width: 64rem;
+  padding: var(--space-md) var(--space-lg);
+  border: var(--border-width-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+}
+
+.report-code .invite-code {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    "heading explain actions"
+    "code explain actions";
+  align-items: center;
+  gap: var(--space-3xs) var(--space-xl);
+}
+
+.report-code .invite-code__heading {
+  grid-area: heading;
+}
+
+.report-code .invite-code__code,
+.report-code .invite-code__closed {
+  grid-area: code;
+}
+
+.report-code .invite-code__explain {
+  grid-area: explain;
+  max-width: 44ch;
+}
+
+.report-code .invite-code__actions,
+.report-code .invite-code__ask {
+  grid-area: actions;
+}
+
+.report-code .invite-code__note {
+  grid-column: 1 / -1;
+}
+
 /* The page itself: a sheet on the sunken canvas. Every row shares the same
    two columns, text and margin, so each note sits beside its line. */
 .report {
@@ -24021,6 +24066,15 @@ ul.plan-guided__sparks {
   line-height: var(--leading-relaxed);
 }
 
+/* What the cohort did, before any section: the line a reader who stops here
+   still takes away. */
+.report__summary {
+  max-width: 52ch;
+  margin-top: var(--space-xs);
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+}
+
 .report__head .cohort-form {
   margin-top: var(--space-md);
 }
@@ -24075,10 +24129,6 @@ ul.plan-guided__sparks {
   font-variant-numeric: tabular-nums;
 }
 
-.report__line--filling .report__figure {
-  color: var(--color-text-secondary);
-}
-
 .report__line--hidden {
   display: flex;
   align-items: flex-start;
@@ -24095,12 +24145,9 @@ ul.plan-guided__sparks {
   color: var(--color-text-primary);
 }
 
-/* The margin: what a line counts, beside it, in the caption size. */
+/* The margin: what a line measures, one short sentence beside it, in the
+   caption size. */
 .report__note {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-3xs);
   padding-left: var(--space-md);
   border-left: var(--border-width-thin) solid var(--color-border);
   font-size: var(--type-caption-size);
@@ -24111,10 +24158,6 @@ ul.plan-guided__sparks {
 .report__note-label {
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
-}
-
-.report__note-tag {
-  margin-top: var(--space-3xs);
 }
 
 .report__footer p {
@@ -24195,7 +24238,7 @@ ul.plan-guided__sparks {
   }
 
   .report-toolbar,
-  .report__admin {
+  .report-code {
     display: none;
   }
 

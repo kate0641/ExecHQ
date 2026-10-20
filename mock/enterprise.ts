@@ -271,6 +271,8 @@ export interface DataPoint {
   question: QuestionId;
   /** One sentence a talent lead can repeat to their own leadership. */
   definition: string;
+  /** The definition cut to one short sentence, for the report's margin. */
+  brief: string;
   /** Where the number comes from, in the sponsor's words. */
   source: string;
   /** Counted since launch whatever window is chosen. */
@@ -285,6 +287,7 @@ export const DATA_POINTS: Record<DataPointId, DataPoint> = {
     label: "Joined",
     question: "joined",
     definition: "How many people made an account with your cohort’s code, against the size you expected.",
+    brief: "Accounts made with your cohort’s code, against the size you expected.",
     source: "Codes redeemed. You see the count, never who.",
     sinceLaunch: true,
     alwaysShown: true,
@@ -293,6 +296,7 @@ export const DATA_POINTS: Record<DataPointId, DataPoint> = {
     label: "Set up",
     question: "joined",
     definition: "Of the people who joined, how many finished setting up and reached their first piece of work.",
+    brief: "Of those who joined, how many finished setting up.",
     source: "The end of setup in ExecHQ.",
     sinceLaunch: true,
   },
@@ -300,18 +304,21 @@ export const DATA_POINTS: Record<DataPointId, DataPoint> = {
     label: "Active",
     question: "using",
     definition: "Of the people set up, how many signed in and did at least one thing in the window.",
+    brief: "Of those set up, how many did at least one thing in the window.",
     source: "Sign-ins and actions in ExecHQ.",
   },
   briefing: {
     label: "Read the Briefing weekly",
     question: "using",
     definition: "Of the active participants, how many opened the Daily Briefing at least once a week.",
+    brief: "Of those active, how many opened the Daily Briefing at least weekly.",
     source: "Opens of the Daily Briefing.",
   },
   plans: {
     label: "Chose a plan",
     question: "following",
     definition: "Of the people set up, how many accepted a development plan.",
+    brief: "Of those set up, how many accepted a development plan.",
     source: "Plans accepted in ExecHQ.",
     sinceLaunch: true,
   },
@@ -320,12 +327,14 @@ export const DATA_POINTS: Record<DataPointId, DataPoint> = {
     question: "following",
     definition:
       "Of the planned actions participants accepted, how many they have completed so far, each within 30 days of accepting it. Actions accepted recently still have time, so this rises as they come due. Actions they declined or put off are not counted.",
+    brief: "Of the planned actions taken on, how many are done, each within 30 days.",
     source: "Planned actions in ExecHQ.",
   },
   artifacts: {
     label: "Work made",
     question: "following",
     definition: "How many drafts, briefs and statements the cohort made in ExecHQ in the window.",
+    brief: "Drafts, briefs and statements made in ExecHQ in the window.",
     source: "The Playbook and its library.",
   },
   loop: {
@@ -333,6 +342,7 @@ export const DATA_POINTS: Record<DataPointId, DataPoint> = {
     question: "following",
     definition:
       "Of the work made, how much participants marked as used outside ExecHQ.",
+    brief: "Of the work made, how much was marked as used outside ExecHQ.",
     source: "Work marked used in ExecHQ.",
   },
 };
@@ -527,6 +537,7 @@ export const TREND_COPY = {
   heading: "Active each week",
   covers: "Since the program started.",
   definition: "How many people signed in and did at least one thing in each week, since the program started, whichever window you choose.",
+  brief: "People who did at least one thing in each week, since the program started.",
   source: "Sign-ins and actions in ExecHQ.",
   early: (weeks: number) =>
     `A trend appears after ${TREND_MIN_WEEKS} weekly updates. ${weeks === 1 ? "There has been 1 so far." : `There have been ${weeks} so far.`}`,
@@ -818,11 +829,23 @@ export interface ReportLine {
 }
 
 /** The report's sections, in reading order, and the lines in each. */
+/** Follow-through leads, as on the dashboard (Kate, 2026-10-20): a report is
+ *  read from the top, often no further than its first section. */
 export const REPORT_SECTIONS: { id: QuestionId; heading: string; points: DataPointId[] }[] = [
-  { id: "joined", heading: "Joining", points: ["invites", "onboarding"] },
+  { id: "following", heading: "Follow-through", points: ["follow-through", "plans", "artifacts", "loop"] },
   { id: "using", heading: "Use", points: ["active", "briefing"] },
-  { id: "following", heading: "Follow-through", points: ["plans", "follow-through", "artifacts", "loop"] },
+  { id: "joined", heading: "Joining", points: ["invites", "onboarding"] },
 ];
+
+/** The report's opening: what the cohort did, in two sentences, follow-through
+ *  first. Undefined while the figures are hidden. */
+export function reportSummary(cohort: Cohort, window: WindowId): string | undefined {
+  if (!isAboveMinimum(cohort, window)) return undefined;
+  const c = cohort.byWindow[window];
+  const n = (value: number) => count.format(value);
+  const long = window === "launch" ? "since the program started" : `in ${WINDOWS[window].long}`;
+  return `Participants have completed ${n(c.actionsCompleted)} of the ${n(c.actionsAccepted)} planned actions they took on so far. ${n(c.active)} of the ${n(cohort.activated)} set up were active ${long}.`;
+}
 
 export function reportLine(cohort: Cohort, id: DataPointId, window: WindowId): ReportLine {
   const figure = figureFor(cohort, id, window);
@@ -856,15 +879,20 @@ export const C2_COPY = {
   starts: (startsOn: string) => `Starts ${formatDate(startsOn)}`,
   weeksIn: (day: number) => weeksIn(day).toLowerCase(),
   building: `Only the number who joined is shown until ${MIN_COHORT_SIZE} or more participants are active, so no figure can point to one person.`,
-  filling: (day: number) =>
-    `The program is ${day} days old, so figures over 30 and 90 days are still filling in.`,
-  fillingTag: "Filling in",
   hiddenLine: `hidden until ${MIN_COHORT_SIZE} or more participants are active.`,
-  footer:
-    "Totals for the whole cohort. Northgate never sees a participant, their plan or their work. Prepared by ExecHQ from activity in the product.",
-  export: "Export as PDF",
-  exportHint: "Exports this page as it is, on one page.",
-  exportCsv: "Export as CSV",
+  /** One paragraph at the foot: privacy, the change rule when it applies,
+   *  where the numbers come from, and who prepared it. */
+  footer: (comparing: boolean) =>
+    [
+      "Totals for the whole cohort. Northgate never sees a participant, their plan or their work.",
+      comparing ? `A change since last week is mentioned only when at least ${MIN_COHORT_SIZE} participants are behind it.` : null,
+      "Sources: codes redeemed, and setup, sign-ins, plans, planned actions and work in ExecHQ. Prepared by ExecHQ.",
+    ]
+      .filter(Boolean)
+      .join(" "),
+  exportMenu: "Export",
+  exportPdf: "PDF",
+  exportCsv: "CSV",
   setup: {
     title: "Untitled cohort",
     lead: "Fill in the cohort’s details to start its report. You will get one code to share.",

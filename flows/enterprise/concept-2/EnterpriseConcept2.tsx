@@ -5,15 +5,12 @@ import { CohortForm } from "@/components/enterprise/CohortForm";
 import { InviteCode } from "@/components/enterprise/InviteCode";
 import { WeeklyTrend } from "@/components/enterprise/WeeklyTrend";
 import { WindowSelector } from "@/components/enterprise/WindowSelector";
-import { Badge } from "@/components/primitives/Badge";
-import { Button } from "@/components/primitives/Button";
+import { DropdownMenu } from "@/components/form/DropdownMenu";
 import { Icon } from "@/components/primitives/Icon";
 import { useCohortId } from "@/lib/cohort-store";
 import {
   C2_COPY,
-  CSV_COPY,
   DATA_POINTS,
-  DIRECTION_COPY,
   LATE_COPY,
   REPORT_SECTIONS,
   TREND_COPY,
@@ -22,6 +19,7 @@ import {
   isAboveMinimum,
   programDay,
   reportLine,
+  reportSummary,
   trendFor,
   type Cohort,
   type CohortId,
@@ -32,13 +30,15 @@ import { useCohort, type CohortControls } from "../useCohort";
 
 const C = C2_COPY;
 
-/** The cohort's code, in the margin beside the header. Screen only: the
- *  exported report carries the figures, not the means of joining. */
-function CodeBox({ cohort, controls }: { cohort: Cohort; controls: CohortControls }) {
+/** The cohort's code, in a strip under the toolbar, outside the sheet: it is
+ *  admin, not report, and the export carries the figures, never the means of
+ *  joining (Kate, 2026-10-20). */
+function CodeStrip({ cohort, controls }: { cohort: Cohort; controls: CohortControls }) {
   return (
-    <div className="report__margin report__admin">
+    <div className="report-code">
       <InviteCode
         layout="compact"
+        hideJoined
         code={cohort.code}
         joined={cohort.joined}
         expectedSize={cohort.expectedSize}
@@ -51,9 +51,11 @@ function CodeBox({ cohort, controls }: { cohort: Cohort; controls: CohortControl
   );
 }
 
-/** The report's head: who it is from, the cohort, its dates and window. */
+/** The report's head: who it is from, the cohort, its dates and window, and
+ *  what the cohort did, in two sentences. */
 function ReportHead({ cohort, window, headingRef }: { cohort: Cohort; window: WindowId; headingRef?: React.Ref<HTMLHeadingElement> }) {
   const day = programDay(cohort);
+  const summary = reportSummary(cohort, window);
   return (
     <header className="report__head">
       <p className="report__letterhead">
@@ -70,16 +72,15 @@ function ReportHead({ cohort, window, headingRef }: { cohort: Cohort; window: Wi
         {window === "launch" ? C.windowLineSinceLaunch : C.windowLine(WINDOWS[window].long)}{" "}
         {cohort.fresh ? C.firstUpdate(cohort.asOf) : C.asOf(cohort.asOf)}
       </p>
+      {summary ? <p className="report__summary">{summary}</p> : null}
     </header>
   );
 }
 
-/** The figures, a sentence each, with what each counts in the margin. */
+/** The figures, a sentence each, with one short sentence of what each
+ *  measures in the margin. */
 function ReportBody({ cohort, window }: { cohort: Cohort; window: WindowId }) {
   const above = isAboveMinimum(cohort, window);
-  const day = programDay(cohort);
-  const days = WINDOWS[window].days;
-  const filling = above && days !== undefined && day < days;
 
   return (
     <>
@@ -93,11 +94,6 @@ function ReportBody({ cohort, window }: { cohort: Cohort; window: WindowId }) {
         <p className="report__row report__notice">
           <Icon name="lock" size={16} />
           {C.building}
-        </p>
-      ) : filling ? (
-        <p className="report__row report__notice">
-          <Icon name="clock" size={16} />
-          {C.filling(day)}
         </p>
       ) : null}
 
@@ -119,33 +115,22 @@ function ReportBody({ cohort, window }: { cohort: Cohort; window: WindowId }) {
                     </span>
                   </p>
                 ) : (
-                  <p className={`report__line report__line--${figure.state}`}>
+                  <p className="report__line">
                     <span className="report__figure">{figure.value}</span> {rest}
                   </p>
                 )}
-                <div className="report__margin report__note">
-                  <p>
-                    <strong className="report__note-label">{figure.label}.</strong> {point.definition}{" "}
-                    <em className="report__note-source">{point.source}</em>
-                  </p>
-                  {figure.state === "filling" ? (
-                    <Badge tone="neutral" className="report__note-tag">
-                      {C.fillingTag}
-                    </Badge>
-                  ) : null}
-                </div>
+                <p className="report__margin report__note">
+                  <strong className="report__note-label">{figure.label}.</strong> {point.brief}
+                </p>
               </div>
             );
           })}
           {section.id === "using" ? (
             <div className="report__row">
               <WeeklyTrend className="report__trend" trend={trendFor(cohort)} />
-              <div className="report__margin report__note">
-                <p>
-                  <strong className="report__note-label">{TREND_COPY.heading}.</strong> {TREND_COPY.definition}{" "}
-                  <em className="report__note-source">{TREND_COPY.source}</em>
-                </p>
-              </div>
+              <p className="report__margin report__note">
+                <strong className="report__note-label">{TREND_COPY.heading}.</strong> {TREND_COPY.brief}
+              </p>
             </div>
           ) : null}
         </section>
@@ -172,44 +157,33 @@ function Concept2Page({ controls }: { controls: CohortControls }) {
     <div className="ent report-view">
       {cohort ? (
         <div className="report-toolbar">
-          <WindowSelector value={window} onChange={setWindow} asOf={cohort.asOf} upcoming={cohort.fresh} />
-          <div className="ent-exports">
-            <Button variant="secondary" size="sm" onClick={() => globalThis.print()} aria-describedby="report-export-hint">
-              <Icon name="download" size={16} />
-              {C.export}
-            </Button>
-            <span className="u-visually-hidden" id="report-export-hint">
-              {C.exportHint}
-            </span>
-            <Button variant="secondary" size="sm" onClick={() => downloadCsv(cohort, window)} aria-describedby="report-csv-hint">
-              <Icon name="download" size={16} />
-              {C.exportCsv}
-            </Button>
-            <span className="u-visually-hidden" id="report-csv-hint">
-              {CSV_COPY.hint}
-            </span>
-          </div>
+          {/* The report says its own date: the toolbar doesn't repeat it. */}
+          <WindowSelector value={window} onChange={setWindow} asOf={cohort.asOf} upcoming={cohort.fresh} hideRefreshed />
+          <DropdownMenu
+            className="ent-export"
+            label={C.exportMenu}
+            icon="download"
+            align="end"
+            entries={[
+              { type: "item", id: "pdf", label: C.exportPdf, onSelect: () => globalThis.print() },
+              { type: "item", id: "csv", label: C.exportCsv, onSelect: () => downloadCsv(cohort, window) },
+            ]}
+          />
         </div>
       ) : null}
+      {cohort ? <CodeStrip cohort={cohort} controls={controls} /> : null}
 
       <article className="report" aria-labelledby="report-title">
         {cohort ? (
           <>
             <div className="report__row">
               <ReportHead cohort={cohort} window={window} headingRef={headingRef} />
-              <CodeBox cohort={cohort} controls={controls} />
             </div>
             <ReportBody cohort={cohort} window={window} />
             <footer className="report__row report__footer">
-              {comparesWeeks(cohort, window) ? (
-                <p>
-                  <Icon name="trend-up" size={14} />
-                  {DIRECTION_COPY.clauseRule}
-                </p>
-              ) : null}
               <p>
                 <Icon name="shield" size={14} />
-                {C.footer}
+                {C.footer(comparesWeeks(cohort, window))}
               </p>
             </footer>
           </>
@@ -247,12 +221,12 @@ function Concept2ForCohort({ id }: { id: CohortId }) {
  * Enterprise Dashboard, Concept 2 — The report.
  *
  * The screen is the one-page report the sponsor exports and shares inside
- * Northgate: a letterhead, the cohort and its dates, then each figure as a
- * sentence with the number set large, and what it counts written in the
- * margin beside it so a talent lead can repeat it word for word. The window
- * and the exports (PDF and CSV) sit above the page, outside the document. Setting up a
- * cohort fills in the report's header; its code sits in the margin, on
- * screen only.
+ * Northgate: a letterhead, the cohort and its dates, two sentences of what
+ * the cohort did, then each figure as a sentence with the number set large,
+ * Follow-through first, and one short sentence of what it measures in the
+ * margin beside it so a talent lead can repeat it. The window, the Export
+ * menu and the cohort's code sit above the page, outside the document.
+ * Setting up a cohort fills in the report's header.
  */
 export function EnterpriseConcept2() {
   const id = useCohortId();
