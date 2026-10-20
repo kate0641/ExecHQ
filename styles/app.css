@@ -17963,6 +17963,9 @@ ul.plan-guided__sparks {
   width: 100%;
   min-height: 4rem;
   padding-block: var(--space-xs);
+  /* No side padding: the button's own 6px set Followers, Impressions and Posts in from the card's title,
+     copy and charts (designer, 2026-10-20). */
+  padding-inline: 0;
   text-align: left;
   cursor: pointer;
 }
