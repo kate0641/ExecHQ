@@ -43,8 +43,9 @@ export type CohortId = (typeof COHORT_IDS)[number];
 export interface CohortCounts {
   /** Signed in and took at least one action in the window. */
   active: number;
-  /** Planned actions accepted in the window, and how many were completed
-   *  within 30 days. Declined and deferred actions are not in the base. */
+  /** Planned actions accepted in the window, and how many have been
+   *  completed so far, each within 30 days of accepting it (Kate,
+   *  2026-10-20). Declined and deferred actions are not in the base. */
   actionsAccepted: number;
   actionsCompleted: number;
   /** Artifacts made, and how many were marked used. Recorded outcomes are
@@ -318,7 +319,7 @@ export const DATA_POINTS: Record<DataPointId, DataPoint> = {
     label: "Followed through",
     question: "following",
     definition:
-      "Of the planned actions participants accepted, how many they completed within 30 days. Actions they declined or put off are not counted.",
+      "Of the planned actions participants accepted, how many they have completed so far, each within 30 days of accepting it. Actions accepted recently still have time, so this rises as they come due. Actions they declined or put off are not counted.",
     source: "Planned actions in ExecHQ.",
   },
   artifacts: {
@@ -757,7 +758,7 @@ export function answerFor(cohort: Cohort, question: QuestionId, window: WindowId
         : undefined;
     case "following":
       return above
-        ? `Participants completed ${count.format(c.actionsCompleted)} planned actions within 30 days of taking them on, and made ${count.format(c.artifacts)} pieces of work.`
+        ? `Participants have completed ${count.format(c.actionsCompleted)} of the ${count.format(c.actionsAccepted)} planned actions they took on so far, and made ${count.format(c.artifacts)} pieces of work.`
         : undefined;
   }
 }
@@ -784,6 +785,9 @@ export const C1_COPY = {
     body: `Until ${MIN_COHORT_SIZE} or more participants are active, you see only how many joined. Every other figure stays hidden, so none can point to one person.`,
   },
   privacy: "You see totals for the whole cohort, never a participant, their plan or their work.",
+  /** Under Followed through: recent actions still have time, so the share
+   *  rises as they come due. */
+  stillDue: "Some actions are still within their 30 days.",
   setup: {
     heading: "Set up your cohort",
     lead: "Give it a name, how many people you plan to invite, and when the program starts. You will get one code to share.",
@@ -826,7 +830,7 @@ export function reportLine(cohort: Cohort, id: DataPointId, window: WindowId): R
     active: `of those set up were active in ${long} (${n(c.active)} of ${n(cohort.activated)}).`,
     briefing: `of active participants read the Daily Briefing at least once a week (${n(c.briefingWeekly)} of ${n(c.active)}).`,
     plans: `of those set up chose a development plan (${n(cohort.planAccepted)} of ${n(cohort.activated)}).`,
-    "follow-through": `of the planned actions participants took on were completed within 30 days (${n(c.actionsCompleted)} of ${n(c.actionsAccepted)}).`,
+    "follow-through": `of the planned actions participants took on have been completed so far (${n(c.actionsCompleted)} of ${n(c.actionsAccepted)}). Some are still within their 30 days.`,
     artifacts: `pieces of work were made in ExecHQ in ${long}.`,
     loop: `of that work was marked as used outside ExecHQ (${n(c.artifactsUsed)} of ${n(c.artifacts)}).`,
   };
@@ -1006,7 +1010,7 @@ export const C3_COPY = {
   using: (active: number, share: string, briefing: number) =>
     `${count.format(active)} were active, ${share} of those set up, and ${count.format(briefing)} read the Daily Briefing at least once a week.`,
   following: (plans: number, completed: number, accepted: number, artifacts: number, used: number) =>
-    `${count.format(plans)} have chosen a development plan. Participants completed ${count.format(completed)} of the ${count.format(accepted)} planned actions they took on within 30 days, and made ${count.format(artifacts)} pieces of work: ${count.format(used)} were used outside ExecHQ.`,
+    `${count.format(plans)} have chosen a development plan. Participants have completed ${count.format(completed)} of the ${count.format(accepted)} planned actions they took on so far, and made ${count.format(artifacts)} pieces of work: ${count.format(used)} were used outside ExecHQ.`,
   hidden: `Everything else stays hidden until ${MIN_COHORT_SIZE} or more participants are active, so no figure can point to one person. I’ll tell you when it opens.`,
   movedHeading: "Since the last issue",
   movedNone: `Nothing moved by enough to mention. I only mention a change when at least ${MIN_COHORT_SIZE} participants are behind it.`,

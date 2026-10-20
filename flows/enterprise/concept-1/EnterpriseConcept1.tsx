@@ -139,11 +139,14 @@ function QuestionCard({
       <div className="ent-card__figures">
         {points.map((id, i) => {
           const figure = figureFor(cohort, id, window);
+          // No Filling in tag here (Kate, 2026-10-20): a young window shows
+          // as it is. Followed through says instead that recent actions
+          // still have time.
+          const shown: typeof figure = figure.state === "filling" ? { ...figure, state: "shown", note: undefined } : figure;
           return (
             <CohortFigure
               key={id}
-              // The page says once why figures are filling in.
-              figure={figure.state === "filling" ? { ...figure, note: undefined } : figure}
+              figure={id === "follow-through" && shown.state === "shown" ? { ...shown, note: C.stillDue } : shown}
               size={i === 0 ? "lg" : "md"}
               direction={directionFor(cohort, id, window)}
               meter={METERS[id]}
