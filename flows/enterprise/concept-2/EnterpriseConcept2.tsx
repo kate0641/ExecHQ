@@ -94,6 +94,10 @@ function Note({ id }: { id: DataPointId }) {
   );
 }
 
+/** The figures whose margin note says something the sentence doesn't
+ *  (Kate, 2026-10-20). The rest would only repeat their line. */
+const NOTED: DataPointId[] = ["follow-through", "active", "artifacts"];
+
 /** A figure as a sentence, the number set large, and under it a bar of the
  *  share when it is one (Kate, 2026-10-20). Hidden, it names the rule. */
 function Line({ cohort, id, window }: { cohort: Cohort; id: DataPointId; window: WindowId }) {
@@ -115,9 +119,11 @@ function Line({ cohort, id, window }: { cohort: Cohort; id: DataPointId; window:
           {figure.fraction !== undefined ? <Meter fraction={figure.fraction} className="report__bar" /> : null}
         </div>
       )}
-      <div className="report__margin">
-        <Note id={id} />
-      </div>
+      {NOTED.includes(id) ? (
+        <div className="report__margin">
+          <Note id={id} />
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -133,6 +139,7 @@ function ReportBody({ cohort, window }: { cohort: Cohort; window: WindowId }) {
   const heading = (id: QuestionId) => REPORT_SECTIONS.find((section) => section.id === id)!.heading;
   const work = reportWork(cohort, window);
   const joining = reportJoining(cohort, window);
+  const trend = trendFor(cohort);
 
   return (
     <>
@@ -173,7 +180,6 @@ function ReportBody({ cohort, window }: { cohort: Cohort; window: WindowId }) {
           )}
           <div className="report__margin">
             <Note id="artifacts" />
-            <Note id="loop" />
           </div>
         </div>
       </section>
@@ -184,14 +190,20 @@ function ReportBody({ cohort, window }: { cohort: Cohort; window: WindowId }) {
         </h2>
         <Line cohort={cohort} id="active" window={window} />
         <Line cohort={cohort} id="briefing" window={window} />
-        <div className="report__row">
-          <WeeklyTrend className="report__trend" trend={trendFor(cohort)} />
-          <div className="report__margin">
-            <p className="report__note">
-              <strong className="report__note-label">{TREND_COPY.heading}.</strong> {TREND_COPY.brief}
-            </p>
+        {/* On paper an empty placeholder reads as something that failed to
+            load: while it is too early, one sentence says when it comes. */}
+        {trend.state === "early" ? (
+          <p className="report__row report__line report__line--quiet">{TREND_COPY.early(trend.weeks.length)}</p>
+        ) : trend.state === "shown" ? (
+          <div className="report__row">
+            <WeeklyTrend className="report__trend" trend={trend} />
+            <div className="report__margin">
+              <p className="report__note">
+                <strong className="report__note-label">{TREND_COPY.heading}.</strong> {TREND_COPY.brief}
+              </p>
+            </div>
           </div>
-        </div>
+        ) : null}
       </section>
 
       <section className="report__section" aria-labelledby="report-joined">
@@ -204,10 +216,6 @@ function ReportBody({ cohort, window }: { cohort: Cohort; window: WindowId }) {
               <span className="report__figure">{joining.joined}</span> {joining.rest}
             </p>
             <FunnelBars className="report__funnel" steps={joining.steps} label={C.funnel.label} hiddenLabel={C.funnel.hidden} />
-          </div>
-          <div className="report__margin">
-            <Note id="invites" />
-            <Note id="onboarding" />
           </div>
         </div>
       </section>

@@ -844,7 +844,11 @@ export function reportSummary(cohort: Cohort, window: WindowId): string | undefi
   const c = cohort.byWindow[window];
   const n = (value: number) => count.format(value);
   const long = window === "launch" ? "since the program started" : `in ${WINDOWS[window].long}`;
-  return `Participants have completed ${n(c.actionsCompleted)} of the ${n(c.actionsAccepted)} planned actions they took on so far. ${n(c.active)} of the ${n(cohort.activated)} set up were active ${long}.`;
+  // Which way activity moved, when enough people are behind it to say so:
+  // the summary is the part most often read alone.
+  const moved = directionFor(cohort, "active", window);
+  const since = moved ? `, ${DIRECTION_COPY.clause[moved]}` : "";
+  return `Participants have completed ${n(c.actionsCompleted)} of the ${n(c.actionsAccepted)} planned actions they took on so far. ${n(c.active)} of the ${n(cohort.activated)} set up were active ${long}${since}.`;
 }
 
 /** "in the last 30 days", or "since the program started": a window as it

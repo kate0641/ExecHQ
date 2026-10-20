@@ -24147,6 +24147,13 @@ ul.plan-guided__sparks {
 
 /* The margin: what a line measures, one short sentence beside it, in the
    caption size. */
+/* A sentence in place of a chart that doesn't exist yet. */
+.report__line--quiet {
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
+}
+
 /* The margin column: one or more notes, stacked. */
 .report__margin {
   display: flex;
