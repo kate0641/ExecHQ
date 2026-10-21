@@ -18208,30 +18208,25 @@ ul.plan-guided__sparks {
   fill: var(--color-surface-raised);
 }
 
-/* The grip on the week's line: a small white pill with arrows both ways, so the line reads as something
-   to slide back and forth. */
-.li-line {
-  --li-grip-half: 1.25rem;
-}
-
+/* The arrows on the week's line: no shape, the line passes between them. At rest there is only the arrow
+   back, set just left of the line at the chart's end. */
 .li-grip {
   position: absolute;
   display: flex;
+  width: max-content;
   align-items: center;
-  justify-content: center;
-  width: calc(var(--li-grip-half) * 2);
-  height: var(--space-lg);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface-raised);
-  box-shadow: var(--shadow-knob-neutral);
+  gap: var(--space-xs);
   color: var(--color-text-primary);
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
 
-.li-grip svg {
-  margin-inline: -0.2rem;
+.li-grip.is-rest {
+  transform: translate(calc(-100% - var(--space-2xs)), -50%);
+}
+
+.li-cross.li-cross--rest {
+  stroke: var(--color-text-secondary);
 }
 
 .li-value {
