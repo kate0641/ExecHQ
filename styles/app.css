@@ -15135,9 +15135,10 @@ ul.came-of__rows {
   content: "";
   position: absolute;
   left: calc(-1 * var(--space-lg));
-  top: calc(-1 * var(--space-sm));
+  /* Starts 8 under the step, not 4, so it doesn't touch the title (designer, 2026-10-21). */
+  top: calc(-1 * var(--space-xs));
   width: var(--space-md);
-  height: calc(var(--space-sm) + 0.5rem);
+  height: calc(var(--space-xs) + 0.5rem);
   border-left: var(--ring-today-width) solid var(--color-surface-her-band);
   border-bottom: var(--ring-today-width) solid var(--color-surface-her-band);
   border-bottom-left-radius: var(--space-sm);
