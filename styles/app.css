@@ -4952,6 +4952,16 @@ ol.ring-detail__timeline {
   background-color: var(--color-canvas);
 }
 
+/* The screen's number, above its frame: frames can be a whole page tall, so
+   the number is where the eye starts. */
+.screen-frames__number {
+  padding-inline: var(--space-sm);
+  font-family: var(--type-heading-font);
+  font-size: var(--type-heading-size);
+  font-weight: var(--type-heading-weight);
+  line-height: var(--type-heading-leading);
+}
+
 .screen-frames__caption {
   display: flex;
   flex-direction: column;
