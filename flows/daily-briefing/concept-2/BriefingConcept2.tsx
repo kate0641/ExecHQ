@@ -49,6 +49,13 @@ function BriefingConcept2Page() {
   const paneAt = web ? (at ?? 0) : null;
   const { reads, markOpened } = p;
   const showingPane = web && !p.firstVisit && !p.savedView;
+  // The showroom's read screens open a read without reading it: the first, or
+  // the third, which ends in That's today's three.
+  useEffect(() => {
+    const asked = { "read-1": 0, "read-3": 2 }[p.screen ?? ""];
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- the screen is only known after mount
+    if (asked !== undefined) setAt(asked);
+  }, [p.screen]);
   // Showing a read in the pane counts as opening it, the lead included.
   useEffect(() => {
     if (showingPane && paneAt !== null) markOpened(reads[paneAt].id);

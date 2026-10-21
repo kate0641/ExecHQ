@@ -61,6 +61,28 @@ export const FLOW_SCREENS: readonly FlowScreens[] = [
     ],
   },
   {
+    flow: "daily-briefing",
+    concept: "concept-2",
+    title: "Daily Briefing",
+    screens: [
+      {
+        id: "page",
+        label: "The front page, top to bottom",
+        note: "The lead story, the other two as rows, then the close. Before she has chosen publishers every screen shows her first visit instead.",
+        full: true,
+      },
+      { id: "read-1", label: "A read, top to bottom", note: "Tapping a story: 1 of 3, the article with ExecHQ's notes, its actions, then Next.", query: "screen=read-1", full: true },
+      { id: "read-3", label: "The third read", note: "Next becomes That's today's three, back to the front page.", query: "screen=read-3", full: true },
+      { id: "all-read", label: "All three read", note: "The close says You've read today's three.", query: "screen=all-read", full: true },
+      { id: "first", label: "First visit: suggested publishers", note: "Before she has chosen publishers. Start with these loads the day's three.", query: "screen=first", full: true },
+      { id: "choose", label: "First visit: choose my own", note: "Choose my own: every publisher in three groups, at least three.", query: "screen=choose", full: true },
+      { id: "saved", label: "Saved", note: "Saved, at the top right of the page.", query: "screen=saved", full: true },
+      { id: "saved-open", label: "Saved: a read open", note: "Tapping a saved read opens it in a sheet, with Mark as read.", query: "screen=saved-open" },
+      { id: "saved-removed", label: "Saved: removed, with Undo", note: "The filled bookmark removes a read.", query: "screen=saved-removed" },
+      { id: "saved-empty", label: "Saved: nothing saved yet", query: "screen=saved-empty" },
+    ],
+  },
+  {
     flow: "plan",
     concept: "concept-3",
     title: "Plan",

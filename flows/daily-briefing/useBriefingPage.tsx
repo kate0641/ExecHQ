@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useSyncExternalStore, type ReactNode } from "react";
+import { useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { BriefingReader } from "@/components/briefing/BriefingReader";
@@ -48,6 +48,18 @@ export function useBriefingPage() {
   const flowConcept = flowFor(usePlaybook());
   const respond = (readId: string, from?: "passage" | "selection") => respondHref(readId, from, flowConcept);
 
+  /* The showroom opens the page on one of its screens with `?screen=` (designer,
+     2026-10-21), so every piece can be reviewed at once: the first visit, a read,
+     the close once all three are read, and Saved with its sheet, empty state and
+     Undo. Only what shows changes; nothing she has saved is. */
+  const [screen, setScreen] = useState<string | null>(null);
+  useEffect(() => {
+    const asked = new URLSearchParams(window.location.search).get("screen");
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- the URL is only readable after mount
+    if (asked) setScreen(asked);
+  }, []);
+  const choosing = state.publishers === null || screen === "first" || screen === "choose";
+
   // Opened from the Plan's "Read today's Briefing": reading one item, or
   // starting a post from one, completes the step. Opened any other way, the
   // Plan does not change.
@@ -64,7 +76,7 @@ export function useBriefingPage() {
 
   const reads = TODAYS_READS;
   const stateOf = (id: string): ReadState => state.reads[id] ?? {};
-  const allRead = reads.every((r) => stateOf(r.id).read);
+  const allRead = screen === "all-read" || reads.every((r) => stateOf(r.id).read);
   /** Today's reads are saved once she saves one; earlier ones stay saved
    *  until she removes them. */
   const isSaved = (id: string) => (EARLIER_SAVED.some((r) => r.id === id) ? stateOf(id).saved !== false : Boolean(stateOf(id).saved));
@@ -82,6 +94,15 @@ export function useBriefingPage() {
   const view = useSearchParams().get("view");
   const savedHref = `${pathname}?view=saved`;
   const [removed, setRemoved] = useState<string | null>(null);
+  // The showroom's Saved screens: nothing saved, or one just removed with Undo.
+  const removedShown = removed ?? (screen === "saved-removed" ? (savedReads[0]?.read.id ?? null) : null);
+  const savedShown = screen === "saved-empty" ? [] : savedReads.filter(({ read }) => read.id !== removedShown || removed !== null);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- opens the sheet the showroom asked for, once the address is read
+    if (screen === "saved-open" && savedReads[0]) setOpen({ kind: "read", id: savedReads[0].read.id });
+    // Only the screen asked for matters; her saved reads are already loaded.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [screen]);
   const dateLine = C.dateLine(DATE.format(new Date(`${loop.today}T00:00:00Z`)));
 
   const close = () => setOpen(null);
@@ -146,17 +167,18 @@ export function useBriefingPage() {
         </h1>
         <p className="briefing-page__date">{dateLine}</p>
       </div>
-      {state.publishers === null ? null : savedButton}
+      {choosing ? null : savedButton}
     </header>
   );
 
   /** Her first visit: publishers before the first set loads. */
   const firstVisit =
-    state.publishers === null ? (
+    choosing ? (
       <div className="briefing-page briefing-page--first">
         {header}
         <PublisherPicker
           mode="first"
+          startOwn={screen === "choose"}
           onDone={(ids) => {
             briefingActions.choosePublishers(ids);
             focusSoon(TITLE_ID);
@@ -206,18 +228,19 @@ export function useBriefingPage() {
         <h1 className="folder-page__title" id={TITLE_ID} tabIndex={-1}>
           {S.title}
         </h1>
-        {savedReads.length ? <p className="saved-page__lead">{S.lead(savedReads.length)}</p> : null}
+        {savedShown.length ? <p className="saved-page__lead">{S.lead(savedShown.length)}</p> : null}
       </header>
-      {removed ? (
+      {removedShown ? (
         <p className="saved-page__removed">
           <output>{S.removed}</output>{" "}
           <button
             type="button"
             className="saved-page__undo"
             onClick={() => {
-              briefingActions.setSaved(removed, true);
-              const id = removed;
+              briefingActions.setSaved(removedShown, true);
+              const id = removedShown;
               setRemoved(null);
+              setScreen(null);
               setTimeout(() => document.getElementById(`saved-open-${id}`)?.focus(), 0);
             }}
           >
@@ -225,9 +248,9 @@ export function useBriefingPage() {
           </button>
         </p>
       ) : null}
-      {savedReads.length ? (
+      {savedShown.length ? (
         <ul className="saved-page__list">
-          {savedReads.map(({ read, when, place }) => (
+          {savedShown.map(({ read, when, place }) => (
             <li key={read.id} className="saved-page__item">
               <BriefingPicture place={place} publisher={publisherName(read.publisherId)} size="thumb" />
               <button type="button" className="saved-page__open" id={`saved-open-${read.id}`} onClick={() => openRead(read.id)}>
@@ -274,6 +297,8 @@ export function useBriefingPage() {
   };
 
   return {
+    /** The showroom's `?screen=`, for the screens the concept lays out (a read). */
+    screen,
     reads,
     respond,
     completeStep,
@@ -289,7 +314,7 @@ export function useBriefingPage() {
     publishersInProfile,
     sheet,
     /** `?view=saved`: the concept shows the Saved page in its place. */
-    savedView: view === "saved" && state.publishers !== null,
+    savedView: (view === "saved" || Boolean(screen?.startsWith("saved"))) && state.publishers !== null,
     savedPage,
   };
 }
