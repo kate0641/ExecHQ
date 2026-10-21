@@ -19,12 +19,13 @@ export interface LinkedInPictureProps {
   className?: string;
 }
 
-/* The line is drawn in a 360 by 150 box and placed by percent, so it scales with the card. */
+/* The line is drawn in a 360 by 156 box and placed by percent, so it scales with the card. */
 const W = 360;
-const H = 150;
+// Six taller than before, all of it under the plot, so the dates sit clear of the line (designer, 2026-10-21).
+const H = 156;
 // No side margin: the plot runs edge to edge, as wide as the rows' hairlines (designer, 2026-10-20; 14 each
 // side before). The end dot hangs past the edge, so the chart doesn't clip it.
-const PAD = { left: 0, right: 0, top: 22, bottom: 22 };
+const PAD = { left: 0, right: 0, top: 22, bottom: 28 };
 
 /** Where a readout sits against its mark, so it stays inside the card at either edge. */
 const align = (at: number) => (at < 0.25 ? "start" : at > 0.75 ? "end" : "mid");
