@@ -18078,6 +18078,17 @@ ul.plan-guided__sparks {
   color: var(--color-text-secondary);
 }
 
+/* The change after the date under Followers, in her growth colour; a fall takes the row's own grey, never
+   a warning (designer, 2026-10-21). */
+.li-row__label .li-row__gain {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-her-growth);
+}
+
+.li-row__label .li-row__gain.is-down {
+  color: var(--color-text-secondary);
+}
+
 .li-row__value {
   font-family: var(--font-display);
   font-size: var(--text-2xl);

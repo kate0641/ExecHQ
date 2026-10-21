@@ -52,12 +52,23 @@ export function LinkedInPicture({ data, initialOpen = "followers", demoWeek, dem
   const hasPosts = data.posts.length > 0;
   const gain = t.followersNow - t.followersThen;
 
-  const rows: { id: RowId; label: string; sub: string; value: string; body: React.ReactNode }[] = [];
+  const rows: { id: RowId; label: string; sub: React.ReactNode; value: string; body: React.ReactNode }[] = [];
   if (hasFollowers) {
     rows.push({
       id: "followers",
       label: C.followers,
-      sub: C.followersSub(gain, monthDayYear(data.from)),
+      sub: (
+        <>
+          {C.followersSince(monthDayYear(data.from))}
+          {gain !== 0 ? (
+            <>
+              {" "}
+              <span className={["li-row__gain", gain < 0 ? "is-down" : ""].filter(Boolean).join(" ")}>{C.followersGain(gain)}</span>
+              <span className="u-visually-hidden">{C.followersGainHeard(gain)}</span>
+            </>
+          ) : null}
+        </>
+      ),
       value: t.followersNow.toLocaleString("en-US"),
       body: (
         // No caption over it: Kate asked for "At the end of each week" to go (2026-10-21).
