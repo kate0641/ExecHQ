@@ -773,6 +773,10 @@
   --space-screen-side: var(--space-md);  /* left and right of a phone screen: 16, the common standard (designer, 2026-10-15; was 12) */
   --space-screen-top: var(--space-lg);   /* above the first thing on a screen */
   --space-between-cards: var(--space-sm);  /* the gap between cards stacked on a screen: 12, half the gap between sections (designer, 2026-10-11) */
+  /* Between the sections of a page (a heading and everything under it): about twice the biggest gap inside a
+     section, so each section reads as one group (designer's proximity rule, 2026-10-15; first used on the
+     Signal Picture, 2026-10-18). */
+  --space-between-sections: var(--space-xl); /* 32px */
   --space-card-padding: var(--space-md);   /* inside a list card: a row, a link, a read */
   --space-feature-padding: var(--space-md-lg);  /* inside a feature card, which holds more */
   --space-eyebrow-title: var(--space-2xs); /* an eyebrow to the title under it */

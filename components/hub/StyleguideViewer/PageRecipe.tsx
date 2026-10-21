@@ -26,7 +26,19 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
     note: "What the page is made of.",
     rules: [
       {
-        rule: "The page is stone. Content sits on white cards with a soft stone edge and no shadow.",
+        rule: "Your day lives in daylight; your plan and your progress live in ExecHQ's room. A page about today (Home, the Briefing, the Playbook and her drafts, onboarding's quiet steps) is stone: she reads, writes and acts there. A page about her direction and where she stands (the Plan, the Signal Picture, Profile, onboarding's ExecHQ moments) is navy. For a new screen, ask: is this about today, or about her trajectory?",
+        why: "Dark text on a light page reads best for long reading and writing, older readers included (Nielsen Norman Group, 2020), and Home's skies need a light ground to show. Navy makes the few-words, look-once pages feel private and focused. The daily check-in on Home is the day; the Plan's stage check-in is the room. The advisor's sheet and drawers keep their own navy look on any page. The doors (the welcome, Login, signed out) keep the dark brand cover. Long text on a navy page sits on a white card, never light on dark (designer, 2026-10-18).",
+        from: "Home, Plan, Signal Picture, Profile, Onboarding",
+        uses: ["--color-surface", "--color-surface-inverse", ".guide--navy", ".signals-page"],
+      },
+      {
+        rule: "Cards come in four levels, named the same on every page. Strong, look here first, is navy on stone and white on navy, at most one on a stone page. Accent, a step below, is light blue on stone; on navy it is not a card, only the mark. Default, the normal card, is white on stone and darker navy on navy. Open is no card, straight on the page. A navy page's opening section may sit in darker navy and lead by coming first, with its yellow headline and its one yellow button.",
+        why: "A card's colour says how much it stands out on that page, and nothing else, so it works on stone and navy alike. Light tints wash toward white on navy, so the accent level turns into a mark there. What a card means (written for her, her words, ExecHQ) is a small mark or band, the same on any page (designer, 2026-10-18).",
+        from: "Signal Picture, Plan, Home",
+        uses: ["--color-surface-inverse", "--color-surface-for-her", "--color-surface-raised", "--color-surface-quiet-on-inverse"],
+      },
+      {
+        rule: "On stone, content sits on white cards with a soft stone edge and no shadow.",
         why: "Clean, not playful: one quiet edge separates a card from the page without stacking tints.",
         from: "Home",
         uses: ["--color-surface", "--color-surface-raised", "--color-border", ".card"],
@@ -38,8 +50,8 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         uses: [".card--reads", "--color-border-subtle"],
       },
       {
-        rule: "At most one dark block on a screen, and only for the one thing to do next, or where she is.",
-        why: "Navy is the anchor. Two anchors compete; a settings page like Profile needs none. In the advisor panel the only navy is the destination she is on, so her own messages are light blue.",
+        rule: "On a stone page, at most one dark block, and only for the one thing to do next, or where she is.",
+        why: "Navy is the anchor. Two anchors compete. In the advisor panel the only navy is the destination she is on, so her own messages are light blue.",
         from: "Home, Navigation",
         uses: ["--color-surface-inverse"],
       },

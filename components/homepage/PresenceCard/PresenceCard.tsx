@@ -8,7 +8,9 @@ import { PRESENCE_CARD_COPY as C } from "@/mock/accounts-stub";
 export type PresenceRow = BaselineRow;
 
 export interface PresenceCardProps {
-  name: string;
+  /** The card's own title. Left out when the page heads it (the Signal Picture's Where you started,
+   *  designer 2026-10-18): the card then opens on her followers. */
+  name?: string;
   /** A short mark in place of a logo. */
   mark: string;
   /** "Since 5 Oct": where the baseline is taken from. */
@@ -67,13 +69,15 @@ export function PresenceCard({
     const gain = hero ? toNumber(hero.now) - toNumber(hero.then) : 0;
     return (
       <div className={["presence-clean", className].filter(Boolean).join(" ")}>
-        <section className="presence-clean__card" aria-labelledby={headingId}>
-          <div className="presence-clean__top">
-            <h3 className="presence-clean__name" id={headingId}>
-              {name}
-            </h3>
-            {asOf ? <span className="presence-clean__asof">{asOf}</span> : null}
-          </div>
+        <section className="presence-clean__card" aria-labelledby={name ? headingId : undefined}>
+          {name ? (
+            <div className="presence-clean__top">
+              <h3 className="presence-clean__name" id={headingId}>
+                {name}
+              </h3>
+              {asOf ? <span className="presence-clean__asof">{asOf}</span> : null}
+            </div>
+          ) : null}
           {hero ? (
             <div className="presence-clean__hero">
               <span className="presence-clean__hero-label">{hero.label}</span>

@@ -8078,6 +8078,13 @@ ol.ring-detail__timeline {
   box-shadow: var(--shadow-lg);
 }
 
+/* In the device frame the drawer spans the whole screen (it passes the pointer through), so the panel's
+   70% is of the screen. Without it the 70% had nothing to measure against, and a long drawer like Add what
+   you did ran off the top of the phone, its title out of sight (2026-10-18). */
+.device__screen .drawer {
+  top: 0;
+}
+
 .device__screen .drawer__panel {
   max-height: 70%;
 }
@@ -8710,7 +8717,8 @@ ol.ring-detail__timeline {
   color: var(--color-headline-on-inverse);
 }
 
-.guide--navy :is(.recommendation, .next-steps, .point-box, .signal-list, .card, .feature-card__body, .stage-checkin__thing, .agenda__body, .agenda__stage-note, .reflection-reply__fact) {
+.guide--navy :is(.recommendation, .next-steps, .point-box, .signal-list, .card, .feature-card__body, .stage-checkin__thing, .agenda__body, .agenda__stage-note, .reflection-reply__fact),
+.signals-page :is(.presence-clean__card, .li-picture, .came-of__row:not(.is-quiet) .came-of__reply) {
   --color-text-primary: var(--light-text-primary);
   --color-text-secondary: var(--light-text-secondary);
   --color-text-muted: var(--light-text-muted);
@@ -15330,15 +15338,6 @@ ol.entry-drawer__rows {
   background-color: var(--color-surface-raised);
 }
 
-/* What she did this week, its number in her lime. */
-.momentum__count {
-  padding: 0 var(--space-2xs);
-  border-radius: var(--radius-tag);
-  background-color: var(--color-surface-her-band);
-  color: var(--color-text-on-her-band);
-  font-weight: var(--weight-bold);
-}
-
 .momentum__stage:first-of-type {
   border-top: 0;
   padding-top: 0;
@@ -15484,13 +15483,30 @@ ol.entry-drawer__rows {
   border-bottom: var(--border-subtle);
 }
 
-/* The band splits where the columns under it do: the week's card on the left, the next move over
-   where she started. */
-[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .momentum {
+/* The band splits where the columns under it do: inside Momentum's card, the week on the left and the
+   next move on the right, level with This week, a rule between them. */
+[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .momentum__card {
   display: grid;
   grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-  column-gap: var(--space-2xl);
+  column-gap: 0;
+  row-gap: var(--space-md);
   align-items: start;
+}
+
+[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .momentum__head {
+  grid-column: 1 / -1;
+}
+
+[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .momentum__card .momentum__stage {
+  padding-right: var(--space-xl);
+}
+
+[data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) .momentum__next {
+  align-self: stretch;
+  padding-top: 0;
+  padding-left: var(--space-xl);
+  border-top: 0;
+  border-left: var(--border-width-thin) solid var(--color-border);
 }
 
 /* On the web each day is up to 4rem, so the week fills more of its column. */
@@ -15570,7 +15586,103 @@ ol.entry-drawer__rows {
    label takes an Inter role: group titles in small capitals, card titles in
    Inter semibold. */
 
-/* Momentum's card is navy, its words light. */
+/* The Signal Picture on navy, as the Plan (designer, 2026-10-18): the page takes the inverse set, every
+   headline is yellow, and its white cards take the light set back (with the Plan's, above). The app's
+   frame around it only takes the colour, so a sheet opening over it stays light. */
+.chrome:has(.signals-page) {
+  background-color: var(--color-surface-inverse);
+}
+
+.signals-page {
+  --color-surface: var(--color-surface-inverse);
+  --color-text-primary: var(--color-text-inverse);
+  --color-text-secondary: var(--color-text-inverse-muted);
+  --color-text-muted: var(--color-text-inverse-muted);
+  --color-text-link: var(--color-text-inverse);
+  --color-text-link-hover: var(--color-text-inverse);
+  --color-eyebrow: var(--color-eyebrow-on-inverse);
+  --color-border: var(--color-border-inverse);
+  --color-border-subtle: var(--color-border-inverse);
+  --color-border-strong: var(--color-divider-on-inverse);
+  --color-focus: var(--color-focus-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-primary);
+}
+
+.signals-page :is(.signals-page__title, .momentum__heading, .signal-picture__heading, .linkedin-more__title, .signal-picture .account-card__name) {
+  color: var(--color-headline-on-inverse);
+}
+
+/* The Signal Picture under the cleaned-up system (designer, 2026-10-18; see the design system review). Spacing
+   follows the proximity rule: sections 32 apart, twice the biggest gap inside them; cards in one section 12
+   apart; a heading 8 above its copy, the copy 16 above its card. Every card on the page has the same 20px
+   corners and 20px padding. An eyebrow sits 4 over its title, and copy 20 over its button. */
+.signals-page {
+  --radius-card: var(--radius-xl);
+}
+
+.signals-page,
+.signals-page__lead,
+.signals-page__main,
+.signals-page__side,
+.signals-page .plan-stub__signals {
+  gap: var(--space-between-sections);
+}
+
+.plan-stub__started,
+.plan-stub__linkedin {
+  display: flex;
+  flex-direction: column;
+}
+
+.plan-stub__started {
+  gap: var(--space-copy-card);
+}
+
+.plan-stub__linkedin,
+.signals-page .presence-clean {
+  gap: var(--space-between-cards);
+}
+
+/* Where you started's heading, with the day it was taken from at its right. */
+.plan-stub__head {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  column-gap: var(--space-sm);
+}
+
+.signals-page :is(.momentum__head, .signal-picture__head, .li-picture__head) {
+  row-gap: var(--space-title-copy);
+}
+
+.signals-page :is(.momentum__card, .presence-clean__card, .presence-clean__try, .li-picture) {
+  padding: var(--space-feature-padding);
+  border-radius: var(--radius-card);
+}
+
+/* Her LinkedIn is its own section now, 32 below the card above, so the rule over it is not needed. */
+.signals-page .linkedin-more {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.signals-page :is(.momentum__next-label, .presence-clean__try-label) + b {
+  margin-top: calc(var(--space-eyebrow-title) - var(--space-xs));
+}
+
+.signals-page :is(.momentum__next, .presence-clean__try) > .btn {
+  margin-top: calc(var(--space-copy-action) - var(--space-xs));
+}
+
+/* What she did sits in the Plan's darkest-navy card, so it still reads as a block on the navy. */
+.signals-page .came-of__row:not(.is-quiet) :is(.came-of__did, .came-of__tip) {
+  background-color: var(--color-surface-quiet-on-inverse);
+}
+
+/* Momentum's card is the Plan's top card: the darkest navy, its words light. */
 .signals-page .momentum__card {
   --color-text-primary: var(--color-text-inverse);
   --color-text-secondary: var(--color-text-inverse-muted);
@@ -15579,8 +15691,8 @@ ol.entry-drawer__rows {
   --color-border-strong: var(--color-divider-on-inverse);
   --color-focus: var(--color-focus-inverse);
   --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
-  border-color: var(--color-surface-inverse);
-  background-color: var(--color-surface-inverse);
+  border-color: var(--color-surface-quiet-on-inverse);
+  background-color: var(--color-surface-quiet-on-inverse);
   color: var(--color-text-primary);
 }
 
@@ -15590,13 +15702,85 @@ ol.entry-drawer__rows {
   border-color: var(--color-surface-her-band);
   background-color: var(--color-surface-her-band);
   color: var(--color-text-on-her-band);
-  box-shadow: 0 0 0 var(--space-xs) var(--color-her-halo);
+  /* Half the gap between days, so the halo never reaches the next circle (designer, 2026-10-18). */
+  box-shadow: 0 0 0 var(--space-2xs) var(--color-her-halo);
+}
+
+/* The check is drawn heavier than the icon set's line, so it reads at a glance on the lime. */
+.signals-page .momentum__card .day-circles__dot.is-on svg {
+  stroke-width: 3;
+}
+
+/* The weekday letters sit a little further under their circles (designer, 2026-10-18). */
+.signals-page .momentum__card .day-circles {
+  gap: var(--space-sm);
+}
+
+/* This week and what she did share a line; the circles get more room under them (designer, 2026-10-18). */
+.momentum__week-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: var(--space-xs);
+  row-gap: var(--space-3xs);
+}
+
+.momentum__sep {
+  color: var(--color-text-secondary);
+}
+
+.signals-page .momentum__card .momentum__stage {
+  gap: var(--space-lg);
+}
+
+/* Her next move, at the foot of Momentum's card under a quiet rule (designer, 2026-10-18). It was a light
+   blue card of its own, which on the navy page outranked Momentum; the spec has it as part of Momentum.
+   On the card's navy its button takes the action yellow. */
+.momentum__next {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  padding-top: var(--space-lg);
+  border-top: var(--border-width-thin) solid var(--color-border);
+}
+
+.momentum__next-label {
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  letter-spacing: var(--type-eyebrow-tracking);
+  text-transform: uppercase;
+  color: var(--color-eyebrow);
+}
+
+.momentum__next-title {
+  font-family: var(--type-card-title-font);
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  line-height: var(--type-card-title-leading);
+}
+
+.momentum__next-why {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}
+
+.momentum__next .btn {
+  margin-top: var(--space-xs);
+}
+
+.signals-page .momentum__card {
+  --color-eyebrow: var(--color-eyebrow-on-inverse);
 }
 
 .signals-page .momentum__card .day-circles__dot.is-today:not(.is-on) {
+  /* Today's ring is a hair finer than before, still heavier than the circle's own line (designer, 2026-10-18). */
   box-shadow:
-    0 0 0 var(--space-3xs) var(--color-surface-inverse),
-    0 0 0 var(--space-2xs) var(--color-text-inverse);
+    0 0 0 var(--space-3xs) var(--color-surface-quiet-on-inverse),
+    0 0 0 calc(var(--space-3xs) + var(--border-width-thin) * 1.5) var(--color-text-inverse);
 }
 
 /* Never a yellow outline on a card unless the designer asks (2026-10-15): her replies take the
@@ -15605,34 +15789,27 @@ ol.entry-drawer__rows {
   border-color: var(--color-border);
 }
 
-/* What ExecHQ wrote for her: her next move and Try this sit in sky blue, navy words on it, and a
-   navy button, never yellow on light blue. */
+/* Try this is a Default card on the navy page: darker navy, light words, the yellow action (designer,
+   2026-10-18: the four card levels). Light blue is not a card colour on navy; what ExecHQ wrote for her is
+   marked by a small sky dot before its label, here and on Your next move. */
 .signals-page .presence-clean__try {
-  --color-text-primary: var(--color-text-on-for-her);
-  --color-text-secondary: var(--color-text-on-for-her-muted);
-  --color-text-muted: var(--color-text-on-for-her-muted);
-  --color-eyebrow: var(--color-eyebrow-on-for-her);
-  --color-focus: var(--light-focus);
-  --focus-ring: var(--focus-ring-width) solid var(--light-focus);
-  border-color: var(--color-border-on-for-her);
+  border-color: transparent;
+  background-color: var(--color-surface-quiet-on-inverse);
+}
+
+.signals-page :is(.momentum__next-label, .presence-clean__try-label) {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.signals-page :is(.momentum__next-label, .presence-clean__try-label)::before {
+  content: "";
+  flex: none;
+  width: var(--space-xs);
+  height: var(--space-xs);
+  border-radius: 50%;
   background-color: var(--color-surface-for-her);
-  color: var(--color-text-primary);
-}
-
-/* Its button is an outlined navy pill, never yellow on light blue. */
-.signals-page .presence-clean__try .btn--primary {
-  /* The outline button, where the card's light blue can't take yellow. */
-  border: var(--border-width-medium) solid var(--color-outline-ink);
-  background-color: transparent;
-  color: var(--color-outline-ink);
-}
-
-.signals-page .presence-clean__try .btn--primary:hover {
-  background-color: var(--color-action-on-for-her-hover);
-}
-
-.signals-page .presence-clean__try .btn--primary:active {
-  background-color: var(--color-action-on-for-her-active);
 }
 
 /* The LinkedIn charts glow (designer, 2026-10-15): the followers' area from light green into sky

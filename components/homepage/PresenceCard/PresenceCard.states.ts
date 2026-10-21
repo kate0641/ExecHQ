@@ -52,6 +52,11 @@ export const presenceCardStates = defineComponentStates({
       props: { ...base, rows: moved, summary: SUMMARY, onAdd: () => {}, addLabel: ADD_COPY.open, tryThis: { ...P.tryThis, href: playbook }, headingId: "pc-moved" },
     },
     {
+      label: "Headed by the page — no title of its own",
+      description: "On the Signal Picture, Where you started is the page's section heading, so the card opens on her followers.",
+      props: { ...base, name: undefined, asOf: undefined, rows: moved, summary: SUMMARY, onAdd: () => {}, addLabel: ADD_COPY.open, tryThis: { ...P.tryThis, href: playbook }, headingId: "pc-headed" },
+    },
+    {
       label: "Nothing added since the start",
       description: "The same number twice: the baseline has not moved, and the card says so.",
       props: { ...base, rows: still, tryThis: { ...P.tryThis, href: playbook }, headingId: "pc-still" },
