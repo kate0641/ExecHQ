@@ -23620,6 +23620,347 @@ ul.plan-guided__sparks {
   color: var(--color-text-secondary);
 }
 
+/* --- The dates (Kate, 2026-10-21) --------------------------------------------
+   A field with the dates and arrows either side of nothing: the field, then
+   earlier and later. Its panel: ranges on the left, two months on the right.
+   Chosen days are a band; its two ends are filled. */
+
+.date-range {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.date-range--inline {
+  align-items: flex-start;
+  gap: var(--space-2xs);
+}
+
+.date-range__field {
+  display: inline-flex;
+  align-items: stretch;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.date-range__trigger,
+.date-range__step {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--button-target);
+  border: var(--border-width-thin) solid var(--color-border);
+  background-color: var(--color-surface-raised);
+  font: inherit;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--easing-standard), background-color var(--duration-fast) var(--easing-standard);
+}
+
+.date-range__trigger {
+  gap: var(--space-xs);
+  padding: 0 var(--space-md);
+  border-radius: var(--radius-pill) 0 0 var(--radius-pill);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.date-range__preset {
+  font-weight: var(--weight-semibold);
+}
+
+.date-range__preset + .date-range__dates {
+  color: var(--color-text-secondary);
+}
+
+.date-range__step {
+  justify-content: center;
+  width: var(--button-target);
+  margin-left: calc(-1 * var(--border-width-thin));
+}
+
+.date-range__step:last-child {
+  border-radius: 0 var(--radius-pill) var(--radius-pill) 0;
+}
+
+.date-range__trigger:hover,
+.date-range__trigger.is-hover,
+.date-range__step:hover:not(:disabled) {
+  position: relative;
+  border-color: var(--color-border-strong);
+}
+
+.date-range__trigger:active,
+.date-range__trigger.is-active,
+.date-range__trigger.is-open,
+.date-range__step:active:not(:disabled) {
+  background-color: var(--menu-item-active);
+}
+
+.date-range__trigger:focus-visible,
+.date-range__trigger.is-focus,
+.date-range__step:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.date-range__step:disabled {
+  color: var(--color-text-disabled);
+  background-color: var(--color-surface-disabled);
+  cursor: not-allowed;
+}
+
+.date-range__panel {
+  position: absolute;
+  /* A <dialog> centres itself by default: undo that, then place it. */
+  inset: auto;
+  top: calc(100% + var(--space-2xs));
+  z-index: var(--z-menu);
+  display: flex;
+  gap: var(--space-md);
+  width: max-content;
+  max-width: calc(100vw - 2 * var(--menu-edge));
+  margin: 0;
+  padding: var(--space-md);
+  border: var(--border-width-thin) solid var(--menu-border);
+  border-radius: var(--menu-radius);
+  background-color: var(--menu-surface);
+  box-shadow: var(--menu-shadow);
+  color: var(--color-text-primary);
+}
+
+.date-range__panel--end {
+  right: 0;
+}
+
+.date-range__panel--start {
+  left: 0;
+}
+
+.date-range__panel--inline {
+  position: static;
+}
+
+.date-range__panel:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.date-range__choices {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  min-width: 9.5rem;
+  margin: 0;
+  padding: 0 var(--space-md) 0 0;
+  list-style: none;
+  border-right: var(--border-width-thin) solid var(--menu-separator);
+}
+
+.date-range__choice {
+  width: 100%;
+  min-height: 2.25rem;
+  padding: 0 var(--menu-item-padding-inline);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  font: inherit;
+  font-size: var(--text-sm);
+  text-align: left;
+  color: var(--menu-item-text);
+  cursor: pointer;
+}
+
+.date-range__choice:hover:not(:disabled) {
+  background-color: var(--menu-item-hover);
+}
+
+.date-range__choice[aria-pressed="true"] {
+  background-color: var(--color-surface-inverse);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-inverse);
+}
+
+.date-range__choice:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.date-range__choice:disabled {
+  color: var(--menu-item-disabled);
+  cursor: not-allowed;
+}
+
+.date-range__calendar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  min-width: 0;
+}
+
+.date-range__months {
+  display: flex;
+  gap: var(--space-lg);
+}
+
+.date-range__month-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--space-xl);
+  margin-bottom: var(--space-2xs);
+}
+
+.date-range__month-name {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.date-range__nav {
+  position: absolute;
+  display: inline-grid;
+  place-items: center;
+  width: var(--space-xl);
+  height: var(--space-xl);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.date-range__month:first-child .date-range__nav {
+  left: 0;
+}
+
+.date-range__month:last-child .date-range__nav {
+  right: 0;
+}
+
+.date-range__nav:hover:not(:disabled) {
+  background-color: var(--menu-item-hover);
+}
+
+.date-range__nav:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.date-range__nav:disabled {
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+
+.date-range__grid {
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.date-range__grid th {
+  width: 2.5rem;
+  padding-bottom: var(--space-2xs);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.date-range__grid td {
+  padding: var(--space-3xs) 0;
+}
+
+/* The band: days inside the range, with the cell between them filled so it
+   reads as one span. */
+.date-range__grid td.is-in-range {
+  background-color: var(--color-surface-selected);
+}
+
+.date-range__grid td.is-in-range:has(.is-start) {
+  border-radius: var(--radius-pill) 0 0 var(--radius-pill);
+}
+
+.date-range__grid td.is-in-range:has(.is-end) {
+  border-radius: 0 var(--radius-pill) var(--radius-pill) 0;
+}
+
+.date-range__grid td.is-in-range:has(.is-start.is-end) {
+  border-radius: var(--radius-pill);
+}
+
+.date-range__day {
+  display: inline-grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: none;
+  font: inherit;
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.date-range__day:hover:not([aria-disabled="true"]):not(.is-start):not(.is-end) {
+  background-color: var(--menu-item-hover);
+}
+
+.date-range__day.is-start,
+.date-range__day.is-end {
+  background-color: var(--color-surface-inverse);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-inverse);
+}
+
+/* Today: a ring, a second cue beside its spoken name. */
+.date-range__day.is-today:not(.is-start):not(.is-end) {
+  box-shadow: inset 0 0 0 var(--border-width-thin) var(--color-border-strong);
+}
+
+.date-range__day:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.date-range__day[aria-disabled="true"] {
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+
+.date-range__day.is-outside {
+  cursor: default;
+}
+
+.date-range__status {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.date-range__note {
+  max-width: 34rem;
+  margin: 0;
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+  color: var(--color-text-secondary);
+}
+
+/* The panel is a screen thing: printing says the dates in words. */
+@media print {
+  .date-range__panel,
+  .date-range__step {
+    display: none;
+  }
+}
+
 /* --- The cohort's code ------------------------------------------------------ */
 
 .invite-code {

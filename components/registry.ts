@@ -148,6 +148,7 @@ import { cohortFigureStates } from "./enterprise/CohortFigure/CohortFigure.state
 import { figureDefinitionStates } from "./enterprise/FigureDefinition/FigureDefinition.states";
 import { windowSelectorStates } from "./enterprise/WindowSelector/WindowSelector.states";
 import { accountMenuStates } from "./enterprise/AccountMenu/AccountMenu.states";
+import { dateRangePickerStates } from "./enterprise/DateRangePicker/DateRangePicker.states";
 import { inviteCodeStates } from "./enterprise/InviteCode/InviteCode.states";
 import { cohortFormStates } from "./enterprise/CohortForm/CohortForm.states";
 import { weeklyTrendStates } from "./enterprise/WeeklyTrend/WeeklyTrend.states";
@@ -294,6 +295,7 @@ export const registry: RegisteredComponent[] = [
   figureDefinitionStates,
   windowSelectorStates,
   accountMenuStates,
+  dateRangePickerStates,
   inviteCodeStates,
   cohortFormStates,
   weeklyTrendStates,

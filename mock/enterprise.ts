@@ -143,6 +143,95 @@ export function rangeLabel(range: DateRange): string {
   return range.from.slice(0, 4) === range.to.slice(0, 4) ? `${from.slice(0, -5)} – ${to}` : `${from} – ${to}`;
 }
 
+/** A range with the preset it equals, if any, so dates picked on the
+ *  calendar or reached with the arrows still read as words ("last week"). */
+export function withPreset(range: { from: string; to: string }, cohort: Cohort, prefer: readonly RangePresetId[] = []): DateRange {
+  const match = [...prefer, ...RANGE_PRESET_IDS].find((id) => {
+    const preset = presetRange(id, cohort);
+    return preset.from === range.from && preset.to === range.to;
+  });
+  return { from: range.from, to: range.to, ...(match ? { preset: match } : {}) };
+}
+
+/** The last day of the month a day is in. */
+function monthEnd(iso: string): string {
+  const [y, m] = iso.split("-").map(Number);
+  return addDays(m === 12 ? `${y + 1}-01-01` : `${y}-${String(m + 1).padStart(2, "0")}-01`, -1);
+}
+
+/** The first of the month `by` months from the month a day is in. */
+function shiftMonthStart(iso: string, by: number): string {
+  const [y, m] = iso.split("-").map(Number);
+  const index = y * 12 + (m - 1) + by;
+  return `${Math.floor(index / 12)}-${String((index % 12) + 1).padStart(2, "0")}-01`;
+}
+
+/**
+ * The dates before or after these, for the picker's arrows. A day steps a
+ * day; a calendar week, month or year (whole, or so far) steps to the whole
+ * one beside it; any other range steps by its own length. Nothing after
+ * today, and nothing wholly before the program started: undefined then.
+ */
+export function shiftRange(range: DateRange, by: 1 | -1, cohort: Cohort): DateRange | undefined {
+  const today = todayFor(cohort);
+  const { from, to } = range;
+  const sameWeekAsToday = to === today && mondayOf(today) === from;
+  const sameMonthAsToday = to === today && from.slice(0, 7) === today.slice(0, 7);
+  const sameYearAsToday = to === today && from.slice(0, 4) === today.slice(0, 4);
+  const p = range.preset;
+  const unit =
+    p === "this-week" || p === "last-week" ? "week" : p === "this-month" || p === "last-month" ? "month" : p === "this-year" ? "year" : undefined;
+  let next: { from: string; to: string };
+  let prefer: RangePresetId[] = [];
+  if (unit === "week" || (!unit && from !== to && mondayOf(from) === from && (daysIn(from, to) === 7 || sameWeekAsToday))) {
+    next = { from: addDays(from, 7 * by), to: addDays(from, 7 * by + 6) };
+    prefer = ["this-week", "last-week"];
+  } else if (unit === "month") {
+    const start = shiftMonthStart(from, by);
+    next = { from: start, to: monthEnd(start) };
+    prefer = ["this-month", "last-month"];
+  } else if (unit === "year") {
+    const year = Number(from.slice(0, 4)) + by;
+    next = { from: `${year}-01-01`, to: `${year}-12-31` };
+    prefer = ["this-year"];
+  } else if (from === to) {
+    next = { from: addDays(from, by), to: addDays(from, by) };
+  } else if (from.endsWith("-01-01") && (to.endsWith("-12-31") || sameYearAsToday) && from.slice(0, 4) === to.slice(0, 4)) {
+    const year = Number(from.slice(0, 4)) + by;
+    next = { from: `${year}-01-01`, to: `${year}-12-31` };
+  } else if (from.endsWith("-01") && (to === monthEnd(from) || sameMonthAsToday)) {
+    const start = shiftMonthStart(from, by);
+    next = { from: start, to: monthEnd(start) };
+    prefer = ["this-month", "last-month"];
+  } else {
+    const length = daysIn(from, to);
+    next = { from: addDays(from, length * by), to: addDays(to, length * by) };
+  }
+  if (next.from > today || next.to < cohort.startsOn) return undefined;
+  return withPreset({ from: next.from, to: next.to > today ? today : next.to }, cohort, prefer);
+}
+
+/** The date picker's words (Kate, 2026-10-21). */
+export const DATE_PICKER_COPY = {
+  label: "Dates",
+  open: (label: string) => `Dates, ${label}. Change the dates`,
+  earlier: "Earlier dates",
+  later: "Later dates",
+  presets: "Ranges",
+  calendar: "Calendar",
+  prevMonth: "Previous month",
+  nextMonth: "Next month",
+  chooseStart: "Choose the first day, or a range on the left.",
+  chooseEnd: (from: string) => `From ${abbrevDate(from)}. Now choose the last day.`,
+  chosen: (label: string) => `Showing ${label}.`,
+  bounds: (startsOn: string) => `Figures run from ${abbrevDate(startsOn)}, when the program started, to today.`,
+  notStarted: (firstUpdate: string) => `The first figures arrive on ${abbrevDate(firstUpdate)}. Dates open then.`,
+  privacy: `When fewer than ${MIN_COHORT_SIZE} people were active in the dates you choose, the figures stay hidden.`,
+  noFigures: "No figures for these dates",
+  today: "today",
+  close: "Close",
+} as const;
+
 /** The stored window a period is, if it is one: the figures then come
  *  straight from the cohort, so they match the letter exactly. */
 function windowOf(cohort: Cohort, period: Period): WindowId | undefined {
