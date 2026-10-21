@@ -15145,7 +15145,13 @@ ul.came-of__rows {
   pointer-events: none;
 }
 
+/* Her words carry her colour, lime; the label over them stays white (designer, 2026-10-21; the label was
+   lime before). */
 .came-of__label {
+  color: var(--color-text-inverse);
+}
+
+.came-of__row:not(.is-quiet) .came-of__reply {
   color: var(--color-surface-her-band);
 }
 
