@@ -203,7 +203,7 @@ function FollowersLine({ data, demoWeek }: { data: LinkedInExport; demoWeek?: nu
           </linearGradient>
         </defs>
         <line className="li-grid" x1={PAD.left} x2={W - PAD.right} y1={y(lo)} y2={y(lo)} />
-        <line className="li-grid" x1={PAD.left} x2={W - PAD.right} y1={y((lo + hi) / 2)} y2={y((lo + hi) / 2)} />
+        {/* Only the baseline: an unlabelled halfway line said nothing (designer, 2026-10-21). */}
         <text className="li-axis" x={PAD.left} y={H - 6} textAnchor="start">
           {monthDayYear(first.on)}
         </text>
