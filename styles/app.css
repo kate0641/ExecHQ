@@ -18078,29 +18078,6 @@ ul.plan-guided__sparks {
   color: var(--color-text-secondary);
 }
 
-/* The number with its change under it, right-aligned as one. */
-.li-row__figure {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: var(--space-3xs);
-}
-
-/* The change since the export began, under the number in her growth colour (designer, 2026-10-21). A fall
-   takes the page's secondary words, never a warning. */
-.li-row__delta {
-  font-family: var(--type-eyebrow-font);
-  font-size: var(--type-eyebrow-size);
-  font-weight: var(--weight-semibold);
-  line-height: var(--type-eyebrow-leading);
-  letter-spacing: var(--type-eyebrow-tracking);
-  color: var(--color-text-her-growth);
-}
-
-.li-row__delta.is-down {
-  color: var(--color-text-secondary);
-}
-
 .li-row__value {
   font-family: var(--font-display);
   font-size: var(--text-2xl);

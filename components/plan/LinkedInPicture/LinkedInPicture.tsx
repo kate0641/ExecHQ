@@ -52,14 +52,13 @@ export function LinkedInPicture({ data, initialOpen = "followers", demoWeek, dem
   const hasPosts = data.posts.length > 0;
   const gain = t.followersNow - t.followersThen;
 
-  const rows: { id: RowId; label: string; sub: string; value: string; delta?: string; body: React.ReactNode }[] = [];
+  const rows: { id: RowId; label: string; sub: string; value: string; body: React.ReactNode }[] = [];
   if (hasFollowers) {
     rows.push({
       id: "followers",
       label: C.followers,
       sub: C.followersSub(gain, monthDayYear(data.from)),
       value: t.followersNow.toLocaleString("en-US"),
-      delta: C.followersDelta(gain),
       body: (
         // No caption over it: Kate asked for "At the end of each week" to go (2026-10-21).
         <FollowersLine data={data} demoWeek={demoWeek} />
@@ -117,15 +116,7 @@ export function LinkedInPicture({ data, initialOpen = "followers", demoWeek, dem
                     <b>{row.label}</b>
                     <span>{row.sub}</span>
                   </span>
-                  <span className="li-row__figure">
-                    <span className="li-row__value">{row.value}</span>
-                    {/* The change, under the number; the line under the label says it in words. */}
-                    {row.delta ? (
-                      <span className={["li-row__delta", gain < 0 ? "is-down" : ""].filter(Boolean).join(" ")} aria-hidden="true">
-                        {row.delta}
-                      </span>
-                    ) : null}
-                  </span>
+                  <span className="li-row__value">{row.value}</span>
                   {/* Plus to open, minus to close (designer, 2026-10-21; a chevron before). */}
                   <span className="li-row__toggle" aria-hidden="true">
                     <Icon name={isOpen ? "minus" : "plus"} size={20} />
