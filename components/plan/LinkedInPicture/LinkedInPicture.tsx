@@ -256,6 +256,16 @@ function FollowersLine({ data, demoWeek }: { data: LinkedInExport; demoWeek?: nu
   );
 }
 
+/** The axis under the months: the first and last with their year, and between them the quarters' first
+ *  months (Jan, Apr, Jul, Oct) when they sit at least two slots from either end; the rest unlabelled. Every
+ *  month is still read out in full on its bar (designer, 2026-10-21; an initial under every bar before). */
+function monthMark(months: MonthBar[], i: number): string {
+  const m = months[i];
+  if (i === 0 || i === months.length - 1) return `${m.label} ${m.year}`;
+  const quarterStart = ["Jan", "Apr", "Jul", "Oct"].includes(m.label);
+  return quarterStart && i >= 2 && i <= months.length - 3 ? m.label : "";
+}
+
 function MonthColumns({ months, demoMonth }: { months: MonthBar[]; demoMonth?: number }) {
   const [active, setActive] = useState<number | null>(null);
   const shown = demoMonth ?? active;
@@ -281,10 +291,13 @@ function MonthColumns({ months, demoMonth }: { months: MonthBar[]; demoMonth?: n
                 {i === peak ? <span className="li-col__value">{compact(m.impressions)}</span> : null}
                 <span className="li-col__bar" style={{ height: `${Math.max((m.impressions / max) * 100, 3)}%` }} />
               </>
-            ) : null}
+            ) : (
+              // No post that month: a faint mark on the baseline, so the slot reads as empty, not missing.
+              <span className="li-col__none" />
+            )}
           </span>
-          <span className="li-col__label" aria-hidden="true">
-            {m.label.slice(0, 1)}
+          <span className={["li-col__label", i === 0 ? "is-first" : i === months.length - 1 ? "is-last" : ""].filter(Boolean).join(" ")} aria-hidden="true">
+            {monthMark(months, i)}
           </span>
         </button>
       ))}

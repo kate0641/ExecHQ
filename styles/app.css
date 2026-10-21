@@ -18350,10 +18350,29 @@ ul.plan-guided__sparks {
 }
 
 .li-col__label {
-  margin-top: var(--space-3xs);
+  /* As tall as a label even when empty, so every bar ends on the same baseline. */
+  min-height: 1.2em;
+  margin-top: var(--space-2xs);
   font-size: var(--text-xs);
   line-height: 1.2;
+  white-space: nowrap;
   color: var(--color-text-muted);
+}
+
+/* The first and last labels carry their year, so they hang inward from the chart's edges. */
+.li-col__label.is-first {
+  align-self: flex-start;
+}
+
+.li-col__label.is-last {
+  align-self: flex-end;
+}
+
+.li-col__none {
+  display: block;
+  width: min(1.125rem, 70%);
+  height: var(--border-width-thin);
+  background-color: var(--color-border-strong);
 }
 
 .li-top__list {
