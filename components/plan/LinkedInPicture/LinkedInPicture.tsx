@@ -19,13 +19,14 @@ export interface LinkedInPictureProps {
   className?: string;
 }
 
-/* The line is drawn in a 360 by 156 box and placed by percent, so it scales with the card. */
+/* The line is drawn in a 360 by 162 box and placed by percent, so it scales with the card. */
 const W = 360;
 // Six taller than before, all of it under the plot, so the dates sit clear of the line (designer, 2026-10-21).
-const H = 156;
+const H = 162;
 // No side margin: the plot runs edge to edge, as wide as the rows' hairlines (designer, 2026-10-20; 14 each
 // side before). The end dot hangs past the edge, so the chart doesn't clip it.
-const PAD = { left: 0, right: 0, top: 22, bottom: 28 };
+// Top 28: room for the count over the point, clear of the point's dot (designer, 2026-10-21; 22 before).
+const PAD = { left: 0, right: 0, top: 28, bottom: 28 };
 
 /** Where a readout sits against its mark, so it stays inside the card at either edge. */
 const align = (at: number) => (at < 0.25 ? "start" : at > 0.75 ? "end" : "mid");
@@ -215,19 +216,19 @@ function FollowersLine({ data, demoWeek }: { data: LinkedInExport; demoWeek?: nu
         {shown === null ? (
           <>
             {/* The line at the end of the chart, drawn just inside the edge so all of it shows. */}
-            <line className="li-cross li-cross--rest" x1={x(n - 1) - 1} x2={x(n - 1) - 1} y1={PAD.top} y2={H - PAD.bottom} />
+            <line className="li-cross li-cross--rest" x1={x(n - 1) - 1} x2={x(n - 1) - 1} y1={y(last.count)} y2={H - PAD.bottom} />
             <circle className="li-dot-ring" cx={x(n - 1)} cy={y(last.count)} r={6} />
             <circle className="li-dot" cx={x(n - 1)} cy={y(last.count)} r={4} />
-            <text className="li-value" x={x(n - 1)} y={y(last.count) - 11} textAnchor="end">
+            <text className="li-value" x={x(n - 1)} y={y(last.count) - 16} textAnchor="end">
               {last.count.toLocaleString("en-US")}
             </text>
-            <text className="li-value" x={x(0)} y={y(first.count) - 11} textAnchor="start">
+            <text className="li-value" x={x(0)} y={y(first.count) - 16} textAnchor="start">
               {first.count.toLocaleString("en-US")}
             </text>
           </>
         ) : (
           <>
-            <line className="li-cross" x1={x(shown)} x2={x(shown)} y1={PAD.top} y2={H - PAD.bottom} />
+            <line className="li-cross" x1={x(shown)} x2={x(shown)} y1={y(points[shown].count)} y2={H - PAD.bottom} />
             <circle className="li-dot-ring" cx={x(shown)} cy={y(points[shown].count)} r={6} />
             <circle className="li-dot" cx={x(shown)} cy={y(points[shown].count)} r={4} />
           </>
@@ -235,10 +236,11 @@ function FollowersLine({ data, demoWeek }: { data: LinkedInExport; demoWeek?: nu
       </svg>
       {/* Arrows on the week's line, no shape round them: at rest the line stands at the end of the chart with
           one arrow pointing back along it; once she drags, the arrow forward appears too (designer,
-          2026-10-21; a pill grip before). Halfway down the line, clear of the point. */}
+          2026-10-21; a pill grip before). The line runs from the point down to the baseline, and the arrows sit
+          halfway along it. */}
       <span
         className={["li-grip", shown === null ? "is-rest" : ""].filter(Boolean).join(" ")}
-        style={{ left: `${(x(shown ?? n - 1) / W) * 100}%`, top: `${((PAD.top + H - PAD.bottom) / 2 / H) * 100}%` }}
+        style={{ left: `${(x(shown ?? n - 1) / W) * 100}%`, top: `${((y(points[shown ?? n - 1].count) + H - PAD.bottom) / 2 / H) * 100}%` }}
         aria-hidden="true"
       >
         <Icon name="chevron-left" size={16} />
