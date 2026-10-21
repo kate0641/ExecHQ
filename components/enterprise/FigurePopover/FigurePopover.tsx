@@ -2,13 +2,13 @@
 
 import { useEffect, useId, useLayoutEffect, useRef, useState, type RefObject } from "react";
 import { Icon } from "@/components/primitives/Icon";
-import { DATA_POINTS, ENTERPRISE_COPY, WINDOWS, type DataPointId, type WindowId } from "@/mock/enterprise";
+import { DATA_POINTS, ENTERPRISE_COPY, periodWords, type DataPointId, type Period } from "@/mock/enterprise";
 
 const C = ENTERPRISE_COPY.definition;
 
 export interface FigurePopoverProps {
   id: DataPointId;
-  window: WindowId;
+  window: Period;
   onClose: () => void;
   /** The info icon that opened it: focus goes back to it, and pressing it is
    *  not a press outside. */
@@ -42,7 +42,7 @@ export function FigurePopover({ id, window, onClose, anchor, inline = false, cla
   const headingId = useId();
   const [place, setPlace] = useState<{ above: boolean; end: boolean }>({ above: false, end: false });
   const point = DATA_POINTS[id];
-  const covers = point.sinceLaunch || window === "launch" ? C.coversSinceLaunch : C.covers(WINDOWS[window].long);
+  const covers = point.sinceLaunch ? C.coversSinceLaunch : C.covers(periodWords(window).covers);
 
   useLayoutEffect(() => {
     const el = panel.current;

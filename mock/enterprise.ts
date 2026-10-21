@@ -21,7 +21,9 @@ export const MIN_COHORT_SIZE = 10;
    WINDOWS
    -------------------------------------------------------------------------- */
 
-/** No window shorter than 30 days, so one person's week cannot move a figure. */
+/** The three spans each cohort's figures are stored for. The dashboard lets
+ *  a sponsor choose any dates (Kate, 2026-10-21), worked out from these
+ *  (`countsIn`); the weekly letter still reads them directly. */
 export const WINDOW_IDS = ["30d", "90d", "launch"] as const;
 export type WindowId = (typeof WINDOW_IDS)[number];
 
@@ -30,6 +32,236 @@ export const WINDOWS: Record<WindowId, { label: string; long: string; days?: num
   "90d": { label: "90 days", long: "the last 90 days", days: 90 },
   launch: { label: "Since launch", long: "since the program started" },
 };
+
+/* -----------------------------------------------------------------------------
+   DATES
+   The dashboard's dates (Kate, 2026-10-21): a preset or any range picked on
+   the calendar, as short as one day. Figures update daily. The minimum still
+   holds on every range: fewer than MIN_COHORT_SIZE active in the dates chosen
+   and the figures are hidden, so a short range on a small cohort shows little.
+   Weeks start on Monday, matching the weekly letter.
+   -------------------------------------------------------------------------- */
+
+/** Days from and to, both included, as ISO dates. `preset` when it came from
+ *  one, so it can be said in words ("this week") as well as in dates. */
+export interface DateRange {
+  from: string;
+  to: string;
+  preset?: RangePresetId;
+}
+
+/** What a figure covers: one of the stored windows, or dates. */
+export type Period = WindowId | DateRange;
+
+export const RANGE_PRESET_IDS = [
+  "today",
+  "yesterday",
+  "this-week",
+  "last-week",
+  "past-two-weeks",
+  "last-30",
+  "last-90",
+  "this-month",
+  "last-month",
+  "this-year",
+  "since-launch",
+] as const;
+export type RangePresetId = (typeof RANGE_PRESET_IDS)[number];
+
+/** Each preset's name in the list, inside a sentence ("were active this
+ *  week"), and after "covers" ("covers this week"). */
+export const RANGE_PRESETS: Record<RangePresetId, { label: string; inSentence: string; covers: string }> = {
+  today: { label: "Today", inSentence: "today", covers: "today" },
+  yesterday: { label: "Yesterday", inSentence: "yesterday", covers: "yesterday" },
+  "this-week": { label: "This week", inSentence: "this week", covers: "this week" },
+  "last-week": { label: "Last week", inSentence: "last week", covers: "last week" },
+  "past-two-weeks": { label: "Past two weeks", inSentence: "in the past two weeks", covers: "the past two weeks" },
+  "last-30": { label: "Last 30 days", inSentence: "in the last 30 days", covers: "the last 30 days" },
+  "last-90": { label: "Last 90 days", inSentence: "in the last 90 days", covers: "the last 90 days" },
+  "this-month": { label: "This month", inSentence: "this month", covers: "this month" },
+  "last-month": { label: "Last month", inSentence: "last month", covers: "last month" },
+  "this-year": { label: "This year", inSentence: "this year", covers: "this year" },
+  "since-launch": { label: "Since launch", inSentence: "since the program started", covers: "the program since it started" },
+};
+
+/** What the dashboard opens on: the last 30 days, as the window did. */
+export const DEFAULT_PRESET: RangePresetId = "last-30";
+
+/** The sponsor's today: the day of the latest update, or the day it is late
+ *  for. */
+export function todayFor(cohort: Cohort): string {
+  return cohort.lateSince ?? cohort.asOf;
+}
+
+/** The Monday of the week a day is in. */
+export function mondayOf(iso: string): string {
+  const date = new Date(`${iso}T00:00:00Z`);
+  return addDays(iso, -((date.getUTCDay() + 6) % 7));
+}
+
+/** Days from one date to another, both included. 0 when `to` comes first. */
+export function daysIn(from: string, to: string): number {
+  return Math.max(0, Math.round((Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) / 86_400_000) + 1);
+}
+
+/** A preset's dates for a cohort, ending today at the latest: nothing has
+ *  happened after it. */
+export function presetRange(id: RangePresetId, cohort: Cohort): DateRange {
+  const today = todayFor(cohort);
+  const [y, m] = today.split("-").map(Number);
+  const firstOfMonth = (year: number, month: number) => `${year}-${String(month).padStart(2, "0")}-01`;
+  const dates: Record<RangePresetId, () => { from: string; to: string }> = {
+    today: () => ({ from: today, to: today }),
+    yesterday: () => ({ from: addDays(today, -1), to: addDays(today, -1) }),
+    "this-week": () => ({ from: mondayOf(today), to: today }),
+    "last-week": () => ({ from: addDays(mondayOf(today), -7), to: addDays(mondayOf(today), -1) }),
+    "past-two-weeks": () => ({ from: addDays(today, -13), to: today }),
+    "last-30": () => ({ from: addDays(today, -29), to: today }),
+    "last-90": () => ({ from: addDays(today, -89), to: today }),
+    "this-month": () => ({ from: firstOfMonth(y, m), to: today }),
+    "last-month": () => {
+      const from = m === 1 ? firstOfMonth(y - 1, 12) : firstOfMonth(y, m - 1);
+      return { from, to: addDays(firstOfMonth(y, m), -1) };
+    },
+    "this-year": () => ({ from: `${y}-01-01`, to: today }),
+    "since-launch": () => ({ from: cohort.startsOn, to: today }),
+  };
+  return { ...dates[id](), preset: id };
+}
+
+/** Whether a range touches any day the cohort has figures for. A preset that
+ *  doesn't (last month, for a program that started this month) is shown but
+ *  can't be chosen. */
+export function rangeHasFigures(range: DateRange, cohort: Cohort): boolean {
+  return daysIn(range.from < cohort.startsOn ? cohort.startsOn : range.from, range.to > cohort.asOf ? cohort.asOf : range.to) > 0;
+}
+
+/** "18 Oct – 24 Oct 2026", "28 Dec 2026 – 3 Jan 2027", or one day. */
+export function rangeLabel(range: DateRange): string {
+  if (range.from === range.to) return abbrevDate(range.from);
+  const [from, to] = [abbrevDate(range.from), abbrevDate(range.to)];
+  return range.from.slice(0, 4) === range.to.slice(0, 4) ? `${from.slice(0, -5)} – ${to}` : `${from} – ${to}`;
+}
+
+/** The stored window a period is, if it is one: the figures then come
+ *  straight from the cohort, so they match the letter exactly. */
+function windowOf(cohort: Cohort, period: Period): WindowId | undefined {
+  if (typeof period === "string") return period;
+  const from = period.from < cohort.startsOn ? cohort.startsOn : period.from;
+  if (period.to !== cohort.asOf) return undefined;
+  if (from === cohort.startsOn) return "launch";
+  if (from === addDays(cohort.asOf, -29)) return "30d";
+  if (from === addDays(cohort.asOf, -89)) return "90d";
+  return undefined;
+}
+
+/** Whether a period is said "since the program started" rather than in
+ *  dates: Since launch, or dates picked from the first day to today. A
+ *  preset that happens to reach back past the start keeps its own words. */
+export function isSinceLaunch(cohort: Cohort, period: Period): boolean {
+  if (typeof period === "string") return period === "launch";
+  if (period.preset) return period.preset === "since-launch";
+  return period.from <= cohort.startsOn && period.to === cohort.asOf;
+}
+
+/** A period in words: inside a sentence, and after "covers". Dates follow
+ *  the words where it helps: "the last 30 days (30 Aug – 28 Sep 2026)". */
+export function periodWords(period: Period): { inSentence: string; covers: string } {
+  if (typeof period === "string") {
+    return period === "launch"
+      ? { inSentence: WINDOWS.launch.long, covers: RANGE_PRESETS["since-launch"].covers }
+      : { inSentence: `in ${WINDOWS[period].long}`, covers: WINDOWS[period].long };
+  }
+  if (period.preset === "since-launch") return RANGE_PRESETS["since-launch"];
+  if (period.preset) {
+    const words = RANGE_PRESETS[period.preset];
+    return { inSentence: words.inSentence, covers: `${words.covers} (${rangeLabel(period)})` };
+  }
+  const label = rangeLabel(period);
+  return period.from === period.to
+    ? { inSentence: `on ${label}`, covers: label }
+    : { inSentence: `from ${abbrevDate(period.from)} to ${abbrevDate(period.to)}`, covers: label };
+}
+
+/** How many of a period's days the program has figures for, of how many. */
+function coverage(cohort: Cohort, period: Period): { covered: number; total: number } {
+  if (typeof period === "string") {
+    const days = WINDOWS[period].days;
+    return days === undefined ? { covered: 1, total: 1 } : { covered: Math.min(programDay(cohort), days), total: days };
+  }
+  const from = period.from < cohort.startsOn ? cohort.startsOn : period.from;
+  const to = period.to > cohort.asOf ? cohort.asOf : period.to;
+  return { covered: daysIn(from, to), total: daysIn(period.from, period.to) };
+}
+
+/** The people active in the week a day falls in: the weekly trend, held at
+ *  its latest week for days since the last Monday update. */
+function weekLevel(cohort: Cohort, day: string, mondays: string[]): number {
+  const weeks = cohort.weeklyActive;
+  if (weeks.length === 0) return 0;
+  const i = mondays.findIndex((monday) => day < monday);
+  return weeks[Math.min(i < 0 ? weeks.length - 1 : i, weeks.length - 1)];
+}
+
+/**
+ * The figures for any period. A stored window comes straight from the
+ * cohort; other dates are worked out from it, which is all a prototype needs:
+ * actions and work are shared out by how busy each week was, people active
+ * grow slowly with the length of the range (most of the same people come back
+ * each week), and actions completed lag, since recent ones still have time.
+ */
+export function countsIn(cohort: Cohort, period: Period): CohortCounts {
+  const stored = windowOf(cohort, period);
+  if (stored) return cohort.byWindow[stored];
+  const range = period as DateRange;
+  const all = cohort.byWindow.launch;
+  const from = range.from < cohort.startsOn ? cohort.startsOn : range.from;
+  const to = range.to > cohort.asOf ? cohort.asOf : range.to;
+  const days = daysIn(from, to);
+  if (days === 0 || all.active === 0) return NOTHING_YET;
+
+  const mondays = updateMondays(cohort);
+  const weight = (a: string, b: string) => {
+    let sum = 0;
+    for (let day = a; day <= b; day = addDays(day, 1)) sum += weekLevel(cohort, day, mondays);
+    return sum;
+  };
+  const whole = weight(cohort.startsOn, cohort.asOf);
+  const part = whole === 0 ? days / daysIn(cohort.startsOn, cohort.asOf) : weight(from, to) / whole;
+  const level = whole === 0 ? all.active : weight(from, to) / days;
+
+  // One day is about half a week's people; longer ranges add a few more.
+  const active = Math.min(all.active, Math.round(days < 7 ? level * (0.5 + (0.5 * (days - 1)) / 6) : level * (days / 7) ** 0.15));
+  const accepted = Math.round(all.actionsAccepted * part);
+  const artifacts = Math.round(all.artifacts * part);
+  // Actions taken on recently have had less of their 30 days.
+  const ripeness = (a: string, b: string) => Math.min(1, 0.3 + daysIn(addDays(a, Math.floor(daysIn(a, b) / 2)), cohort.asOf) / 30);
+  const doneShare = all.actionsAccepted === 0 ? 0 : (all.actionsCompleted / all.actionsAccepted) * (ripeness(from, to) / ripeness(cohort.startsOn, cohort.asOf));
+  return {
+    active,
+    actionsAccepted: accepted,
+    actionsCompleted: Math.min(accepted, Math.round(accepted * Math.min(0.95, doneShare))),
+    artifacts,
+    artifactsUsed: Math.min(artifacts, Math.round(all.artifactsUsed * part)),
+    briefingWeekly: Math.round(active * (all.briefingWeekly / all.active)),
+  };
+}
+
+/** Signals for any period, worked out like `countsIn`: fewer people put
+ *  something out in a short range than in a month. */
+export function signalsIn(cohort: Cohort, period: Period): SignalCounts {
+  const stored = windowOf(cohort, period);
+  if (stored) return cohort.signals[stored];
+  const all = cohort.signals.launch;
+  const allActive = cohort.byWindow.launch.active;
+  if (allActive === 0) return NO_SIGNALS;
+  const { covered } = coverage(cohort, period);
+  const active = countsIn(cohort, period).active;
+  const by = (active / allActive) * Math.min(1, covered / Math.min(30, daysIn(cohort.startsOn, cohort.asOf))) ** 0.5;
+  const channels = { ...all.channels };
+  for (const id of CHANNEL_IDS) channels[id] = Math.round(all.channels[id] * by);
+  return { any: Math.min(active, Math.round(all.any * by)), channels };
+}
 
 /* -----------------------------------------------------------------------------
    COHORTS
@@ -76,7 +308,8 @@ export interface Cohort {
   /** When the program started. There is no end date: a cohort stops
    *  growing when its code is closed (Kate, 2026-10-20). */
   startsOn: string;
-  /** The Monday the figures were last refreshed. */
+  /** The day the figures were last updated. They update daily (Kate,
+   *  2026-10-21); the weekly letter still goes out on Mondays. */
   asOf: string;
   code: string;
   /** Still taking new joiners. */
@@ -94,12 +327,16 @@ export interface Cohort {
   /** People active in each week, one per Monday update, oldest first (see
    *  `updateMondays`). Drawn as the weekly trend, always since launch. */
   weeklyActive: number[];
-  /** The previous Monday's figures, where scaling back from the latest would
+  /** The figures a week before, where scaling back from the latest would
    *  say the wrong thing (a closed cohort can't gain joiners). */
   lastWeek?: Pick<Cohort, "joined" | "activated" | "planAccepted" | "byWindow">;
-  /** This Monday's update has not arrived: the Monday it was due. The
-   *  figures are the week before's (`lateCohort`). */
+  /** Today's update has not arrived: the day it was due. The figures are
+   *  the day before's (`lateCohort`). */
   lateSince?: string;
+  /** On a late cohort, the cohort as it would be on time. The letter's
+   *  issues come from it, so its last issue is the Monday one that went out,
+   *  not yesterday's figures. */
+  onTime?: Cohort;
   /** Set up on this visit: no figures and no issues yet, only the first
    *  update to come. */
   fresh?: boolean;
@@ -268,9 +505,9 @@ export function programDay(cohort: Cohort): number {
   return Math.round((asOf - start) / 86_400_000);
 }
 
-/** Enough participants active in this window for any figure to show. */
-export function isAboveMinimum(cohort: Cohort, window: WindowId): boolean {
-  return cohort.byWindow[window].active >= MIN_COHORT_SIZE;
+/** Enough participants active in the period for any figure to show. */
+export function isAboveMinimum(cohort: Cohort, period: Period): boolean {
+  return countsIn(cohort, period).active >= MIN_COHORT_SIZE;
 }
 
 /* -----------------------------------------------------------------------------
@@ -302,7 +539,7 @@ export interface DataPoint {
   brief: string;
   /** Where the number comes from, in the sponsor's words. */
   source: string;
-  /** Counted since launch whatever window is chosen. */
+  /** Counted since launch whatever dates are chosen. */
   sinceLaunch?: boolean;
   /** Shown while the cohort is below the minimum: it is about the invite, not
    *  about what anyone does. */
@@ -330,8 +567,8 @@ export const DATA_POINTS: Record<DataPointId, DataPoint> = {
   active: {
     label: "Active",
     question: "using",
-    definition: "Of the people set up, how many signed in and did at least one thing in the window.",
-    brief: "Of those set up, how many did at least one thing in the window.",
+    definition: "Of the people set up, how many signed in and did at least one thing in the dates chosen.",
+    brief: "Of those set up, how many did at least one thing in the dates chosen.",
     source: "Sign-ins and actions in ExecHQ.",
   },
   briefing: {
@@ -360,8 +597,8 @@ export const DATA_POINTS: Record<DataPointId, DataPoint> = {
   artifacts: {
     label: "Work made",
     question: "following",
-    definition: "How many drafts, briefs and statements the cohort made in ExecHQ in the window.",
-    brief: "Drafts, briefs and statements made in ExecHQ in the window.",
+    definition: "How many drafts, briefs and statements the cohort made in ExecHQ in the dates chosen.",
+    brief: "Drafts, briefs and statements made in ExecHQ in the dates chosen.",
     source: "The Playbook and its library.",
   },
   loop: {
@@ -392,7 +629,7 @@ export interface FigureView {
   /** The same share as a fraction from 0 to 1, for a ring or a bar. Absent
    *  for counts (Work made), which are not a share of anything. */
   fraction?: number;
-  /** Why it is hidden, or how much of the window has passed. */
+  /** Why it is hidden, or how much of the period the program has run for. */
   note?: string;
 }
 
@@ -407,8 +644,8 @@ function share(part: number, whole: number): string {
   return whole === 0 ? "0%" : `${Math.round((part / whole) * 100)}%`;
 }
 
-/** A data point for one cohort and window: shown, filling in, or hidden. */
-export function figureFor(cohort: Cohort, id: DataPointId, window: WindowId): FigureView {
+/** A data point for one cohort and period: shown, filling in, or hidden. */
+export function figureFor(cohort: Cohort, id: DataPointId, window: Period): FigureView {
   const point = DATA_POINTS[id];
   const label = point.label;
 
@@ -416,7 +653,7 @@ export function figureFor(cohort: Cohort, id: DataPointId, window: WindowId): Fi
     return { id, label, state: "suppressed", note: ENTERPRISE_COPY.suppressed };
   }
 
-  const c = cohort.byWindow[window];
+  const c = countsIn(cohort, window);
   const values: Record<DataPointId, { value: string; detail: string; fraction?: number }> = {
     invites: {
       value: count.format(cohort.joined),
@@ -459,10 +696,9 @@ export function figureFor(cohort: Cohort, id: DataPointId, window: WindowId): Fi
     },
   };
 
-  const day = programDay(cohort);
-  const days = WINDOWS[window].days;
-  if (!point.sinceLaunch && days !== undefined && day < days) {
-    return { id, label, state: "filling", ...values[id], note: ENTERPRISE_COPY.filling(day, days) };
+  const { covered, total } = coverage(cohort, window);
+  if (!point.sinceLaunch && covered < total) {
+    return { id, label, state: "filling", ...values[id], note: ENTERPRISE_COPY.filling(covered, total) };
   }
   return { id, label, state: "shown", ...values[id] };
 }
@@ -475,27 +711,33 @@ export type Direction = "up" | "down";
 
 /** The figures that count people, and the count behind each. Counts of
  *  actions or work never get a direction: one busy person could move them. */
-const PEOPLE_BEHIND: Partial<Record<DataPointId, (cohort: Cohort, window: WindowId) => number>> = {
+const PEOPLE_BEHIND: Partial<Record<DataPointId, (cohort: Cohort, period: Period) => number>> = {
   invites: (cohort) => cohort.joined,
   onboarding: (cohort) => cohort.activated,
-  active: (cohort, window) => cohort.byWindow[window].active,
-  briefing: (cohort, window) => cohort.byWindow[window].briefingWeekly,
+  active: (cohort, period) => countsIn(cohort, period).active,
+  briefing: (cohort, period) => countsIn(cohort, period).briefingWeekly,
   plans: (cohort) => cohort.planAccepted,
 };
 
+/** The same dates a week earlier, set against the cohort a week ago. */
+function weekEarlier(period: Period): Period {
+  return typeof period === "string" ? period : { from: addDays(period.from, -7), to: addDays(period.to, -7) };
+}
+
 /**
- * Which way a figure moved since last week's update, or nothing. Windows a
- * week apart overlap, so a direction shows only when at least the minimum
- * cohort size of people is behind the change, and only when both weeks are
- * above the minimum: a smaller change could point to one person's week. No
- * counts, ever: a direction, not a score.
+ * Which way a figure moved since a week ago, or nothing. Only for dates that
+ * end today, set against the same length of dates ending a week earlier:
+ * older dates don't move. Ranges a week apart overlap, so a direction shows
+ * only when at least the minimum cohort size of people is behind the change,
+ * and only when both are above the minimum: a smaller change could point to
+ * one person's week. No counts, ever: a direction, not a score.
  */
-export function directionFor(cohort: Cohort, id: DataPointId, window: WindowId): Direction | undefined {
+export function directionFor(cohort: Cohort, id: DataPointId, window: Period): Direction | undefined {
   const people = PEOPLE_BEHIND[id];
   const before = weekBefore(cohort);
   if (!people || !before || !comparesWeeks(cohort, window)) return undefined;
   const now = people(cohort, window);
-  const then = people(before, window);
+  const then = people(before, weekEarlier(window));
   if (Math.abs(now - then) < MIN_COHORT_SIZE) return undefined;
   return now > then ? "up" : "down";
 }
@@ -510,17 +752,19 @@ export const DIRECTION_COPY = {
   } satisfies Partial<Record<DataPointId, Record<Direction, string>>>,
   /** Concept 2's clause, after the line's figures. */
   clause: { up: "more than last week", down: "fewer than last week" } satisfies Record<Direction, string>,
-  rule: `Arrows show a change since last week’s update, only when at least ${MIN_COHORT_SIZE} participants are behind it.`,
+  rule: `Arrows show a change since a week ago, only when at least ${MIN_COHORT_SIZE} participants are behind it.`,
   /** Concept 2 has no arrows: the change is in the sentence. */
-  clauseRule: `A change since last week’s update is mentioned only when at least ${MIN_COHORT_SIZE} participants are behind it.`,
+  clauseRule: `A change since a week ago is mentioned only when at least ${MIN_COHORT_SIZE} participants are behind it.`,
 } as const;
 
-/** Whether this week can be set against last week at all: there was a last
- *  week, and both are above the minimum. The page states the rule then, so
- *  a figure without an arrow reads as "not enough to say", not as missing. */
-export function comparesWeeks(cohort: Cohort, window: WindowId): boolean {
+/** Whether the period can be set against a week ago at all: it ends today,
+ *  there was a week before, and both are above the minimum. The page states
+ *  the rule then, so a figure without an arrow reads as "not enough to say",
+ *  not as missing. */
+export function comparesWeeks(cohort: Cohort, window: Period): boolean {
   const before = weekBefore(cohort);
-  return Boolean(before) && isAboveMinimum(cohort, window) && isAboveMinimum(before!, window);
+  if (!before || (typeof window !== "string" && window.to !== cohort.asOf)) return false;
+  return isAboveMinimum(cohort, window) && isAboveMinimum(before, weekEarlier(window));
 }
 
 /** A figure's direction in words, if it has one. */
@@ -563,7 +807,7 @@ export function trendFor(cohort: Cohort): TrendView {
 export const TREND_COPY = {
   heading: "Active each week",
   covers: "Since the program started.",
-  definition: "How many people signed in and did at least one thing in each week, since the program started, whichever window you choose.",
+  definition: "How many people signed in and did at least one thing in each week, since the program started, whichever dates you choose.",
   brief: "People who did at least one thing in each week, since the program started.",
   source: "Sign-ins and actions in ExecHQ.",
   early: (weeks: number) =>
@@ -595,11 +839,11 @@ export interface SeenView {
   hidden: string[];
 }
 
-/** The seen card for one cohort and window. Undefined below the minimum. */
-export function seenFor(cohort: Cohort, window: WindowId): SeenView | undefined {
+/** The seen card for one cohort and period. Undefined below the minimum. */
+export function seenFor(cohort: Cohort, window: Period): SeenView | undefined {
   if (!isAboveMinimum(cohort, window)) return undefined;
-  const s = cohort.signals[window];
-  const active = cohort.byWindow[window].active;
+  const s = signalsIn(cohort, window);
+  const active = countsIn(cohort, window).active;
   const n = (value: number) => count.format(value);
   const channels = [...CHANNEL_IDS].sort((a, b) => s.channels[b] - s.channels[a]);
   return {
@@ -619,7 +863,7 @@ function listChannels(labels: string[]): string {
 
 export const SEEN_COPY = {
   heading: "Showing up in the world",
-  answer: (any: number, active: number, window: WindowId) =>
+  answer: (any: number, active: number, window: Period) =>
     `${count.format(any)} of the ${count.format(active)} active participants put something out in the world ${inWindow(window)}.`,
   ring: "put something out, on any channel",
   channels: { linkedin: "LinkedIn", writing: "Published writing", speaking: "Speaking", podcasts: "Podcasts", press: "Press" } satisfies Record<ChannelId, string>,
@@ -646,9 +890,9 @@ function csvCell(value: string): string {
  * stays hidden here, with the reason in its note, so the file can say no more
  * than the page.
  */
-export function cohortCsv(cohort: Cohort, window: WindowId, options: { signals?: boolean } = {}): string {
+export function cohortCsv(cohort: Cohort, window: Period, options: { signals?: boolean } = {}): string {
   const H = CSV_COPY.headers;
-  const covers = window === "launch" ? CSV_COPY.sinceLaunch : WINDOWS[window].long;
+  const covers = isSinceLaunch(cohort, window) ? CSV_COPY.sinceLaunch : periodWords(window).covers;
   const rows: string[][] = [[H.figure, H.value, H.detail, H.direction, H.covers, H.asOf, H.counts, H.note]];
   for (const id of DATA_POINT_IDS) {
     const point = DATA_POINTS[id];
@@ -659,7 +903,7 @@ export function cohortCsv(cohort: Cohort, window: WindowId, options: { signals?:
       figure.value ?? ENTERPRISE_COPY.hidden,
       figure.detail ?? "",
       direction ? directionText(id, direction) : "",
-      point.sinceLaunch || window === "launch" ? CSV_COPY.sinceLaunch : WINDOWS[window].long,
+      point.sinceLaunch ? CSV_COPY.sinceLaunch : covers,
       cohort.asOf,
       point.definition,
       // The page no longer says "filling in" (Kate, 2026-10-20), so the file
@@ -671,8 +915,8 @@ export function cohortCsv(cohort: Cohort, window: WindowId, options: { signals?:
   // a channel with fewer than the minimum of people behind it is held back.
   if (options.signals) {
     const seen = seenFor(cohort, window);
-    const s = cohort.signals[window];
-    const active = cohort.byWindow[window].active;
+    const s = signalsIn(cohort, window);
+    const active = countsIn(cohort, window).active;
     const hidden = (label: string) => [label, ENTERPRISE_COPY.hidden, "", "", covers, cohort.asOf, CSV_COPY.signals.channel, ENTERPRISE_COPY.suppressed];
     if (!seen) {
       rows.push(hidden(CSV_COPY.signals.any));
@@ -693,10 +937,12 @@ export function cohortCsv(cohort: Cohort, window: WindowId, options: { signals?:
   return rows.map((row) => row.map(csvCell).join(",")).join("\r\n") + "\r\n";
 }
 
-/** The file's name: the cohort and the Monday its figures are from. */
-export function csvFileName(cohort: Cohort): string {
+/** The file's name: the cohort and the dates its figures cover, or the
+ *  day they are from. */
+export function csvFileName(cohort: Cohort, period?: Period): string {
   const slug = cohort.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-  return `${slug || "cohort"}-${cohort.asOf}.csv`;
+  const dates = period && typeof period !== "string" ? (period.from === period.to ? period.from : `${period.from}-to-${period.to}`) : cohort.asOf;
+  return `${slug || "cohort"}-${dates}.csv`;
 }
 
 export const CSV_COPY = {
@@ -704,7 +950,7 @@ export const CSV_COPY = {
     figure: "Figure",
     value: "Value",
     detail: "Out of",
-    direction: "Since last week",
+    direction: "Since a week ago",
     covers: "Covers",
     asOf: "As of",
     counts: "What it counts",
@@ -770,14 +1016,14 @@ export const ENTERPRISE_COPY = {
 
   suppressed: `Hidden until ${MIN_COHORT_SIZE} or more participants are active. This protects individual privacy.`,
   hidden: "Hidden",
-  filling: (day: number, days: number) =>
-    `Filling in. The program is ${day} days old, so this covers ${day} of ${days} days.`,
+  filling: (covered: number, total: number) =>
+    `Filling in. The program hasn’t run for all of these dates, so this covers ${covered} of ${total} days.`,
   fillingTag: "Filling in",
 
   window: {
-    label: "Window",
-    refreshed: (asOf: string) => `Updated weekly, on Mondays. Last updated ${formatAsOf(asOf)}.`,
-    firstUpdate: (asOf: string) => `Updated weekly, on Mondays. The first update is ${formatAsOf(asOf)}.`,
+    label: "Dates",
+    refreshed: (asOf: string) => `Updated daily. Last updated ${formatAsOf(asOf)}.`,
+    firstUpdate: (asOf: string) => `Updated daily. The first update is ${formatAsOf(asOf)}.`,
   },
 
   definition: {
@@ -787,14 +1033,14 @@ export const ENTERPRISE_COPY = {
     close: "Close",
     counts: "Measures",
     source: "Source",
-    window: "Window",
-    windowSinceLaunch: "Since the program started, whichever window you choose.",
+    window: "Dates",
+    windowSinceLaunch: "Since the program started, whichever dates you choose.",
     windowFor: (long: string) => `${long.charAt(0).toUpperCase()}${long.slice(1)}.`,
     /** The popover's last line, after the source. */
     covers: (long: string) => `Covers ${long}.`,
     coversSinceLaunch: "Covers the program since it started.",
     privacy: "Privacy",
-    privacyRule: `Shown only when ${MIN_COHORT_SIZE} or more participants are active, and updated once a week, so no one person’s week can change it.`,
+    privacyRule: `Shown only when ${MIN_COHORT_SIZE} or more participants are active in the dates you choose, so no figure can point to one person.`,
     privacyAlways: "A count of codes redeemed. It never says who.",
   },
 
@@ -846,7 +1092,7 @@ const NOTHING_YET: CohortCounts = {
   briefingWeekly: 0,
 };
 
-/** The first Monday on or after a date. A new cohort's figures first update
+/** The first Monday on or after a date. A new cohort's first letter goes out
  *  on the Monday after it starts. */
 function firstMonday(iso: string): string {
   const date = new Date(`${iso}T00:00:00Z`);
@@ -859,7 +1105,8 @@ export function newCohort(details: { name: string; expectedSize: number; startsO
   return {
     id: "small",
     ...details,
-    asOf: firstMonday(addDays(details.startsOn, 1)),
+    // Figures update daily: the first is the day after it starts.
+    asOf: addDays(details.startsOn, 1),
     code,
     open: true,
     joined: 0,
@@ -891,10 +1138,9 @@ export const QUESTION_POINTS: Record<QuestionId, DataPointId[]> = {
 /** The one-sentence answer that opens each question. Reports activity, never
  *  results: what participants did, not what ExecHQ caused. Undefined while
  *  the question's figures are hidden. */
-export function answerFor(cohort: Cohort, question: QuestionId, window: WindowId): string | undefined {
-  const c = cohort.byWindow[window];
+export function answerFor(cohort: Cohort, question: QuestionId, window: Period): string | undefined {
+  const c = countsIn(cohort, window);
   const above = isAboveMinimum(cohort, window);
-  const long = WINDOWS[window].long;
   switch (question) {
     case "joined":
       return above
@@ -902,7 +1148,7 @@ export function answerFor(cohort: Cohort, question: QuestionId, window: WindowId
         : `${count.format(cohort.joined)} of the ${count.format(cohort.expectedSize)} leaders you expected have joined so far.`;
     case "using":
       return above
-        ? `${count.format(c.active)} participants were active in ${long}, and ${count.format(c.briefingWeekly)} read the Daily Briefing at least once a week.`
+        ? `${count.format(c.active)} participants were active ${inWindow(window)}, and ${count.format(c.briefingWeekly)} read the Daily Briefing at least once a week.`
         : undefined;
     case "following":
       return above
@@ -922,7 +1168,7 @@ export const C1_COPY = {
   exportMenu: "Export",
   exportPdf: "PDF",
   exportCsv: "CSV",
-  printWindow: (long: string, asOf: string) => `Figures cover ${long}. As of ${formatAsOf(asOf)}.`,
+  printWindow: (covers: string, asOf: string) => `Figures cover ${covers}. As of ${formatAsOf(asOf)}.`,
   /** Card headings: statements, not questions (Kate, 2026-10-21, option E). */
   questions: {
     joined: "Getting started",
@@ -934,7 +1180,7 @@ export const C1_COPY = {
     body: `Until ${MIN_COHORT_SIZE} or more participants are active, you see only how many joined. Every other figure stays hidden, so none can point to one person.`,
   },
   /** Said once for the page, so no figure's popover repeats it. */
-  privacy: `You see totals for the whole cohort, never a participant, their plan or their work. Figures show once ${MIN_COHORT_SIZE} or more are active, and update every Monday.`,
+  privacy: `You see totals for the whole cohort, never a participant, their plan or their work. Figures show once ${MIN_COHORT_SIZE} or more are active in the dates you choose, and update daily.`,
   /** Under Followed through: recent actions still have time, so the share
    *  rises as they come due. */
   stillDue: "Some actions are still within their 30 days.",
@@ -972,11 +1218,11 @@ export const REPORT_SECTIONS: { id: QuestionId; heading: string; points: DataPoi
 
 /** The report's opening: what the cohort did, in two sentences, follow-through
  *  first. Undefined while the figures are hidden. */
-export function reportSummary(cohort: Cohort, window: WindowId): string | undefined {
+export function reportSummary(cohort: Cohort, window: Period): string | undefined {
   if (!isAboveMinimum(cohort, window)) return undefined;
-  const c = cohort.byWindow[window];
+  const c = countsIn(cohort, window);
   const n = (value: number) => count.format(value);
-  const long = window === "launch" ? "since the program started" : `in ${WINDOWS[window].long}`;
+  const long = isSinceLaunch(cohort, window) ? RANGE_PRESETS["since-launch"].inSentence : inWindow(window);
   // Which way activity moved, when enough people are behind it to say so:
   // the summary is the part most often read alone.
   const moved = directionFor(cohort, "active", window);
@@ -984,17 +1230,17 @@ export function reportSummary(cohort: Cohort, window: WindowId): string | undefi
   return `Participants have completed ${n(c.actionsCompleted)} of the ${n(c.actionsAccepted)} planned actions they took on so far. ${n(c.active)} of the ${n(cohort.activated)} set up were active ${long}${since}.`;
 }
 
-/** "in the last 30 days", or "since the program started": a window as it
- *  reads inside a sentence. */
-function inWindow(window: WindowId): string {
-  return window === "launch" ? WINDOWS.launch.long : `in ${WINDOWS[window].long}`;
+/** "in the last 30 days", "this week", or "since the program started": a
+ *  period as it reads inside a sentence. */
+function inWindow(window: Period): string {
+  return periodWords(window).inSentence;
 }
 
 /** The work line: the pieces made, and how many of them were used, drawn
  *  as one part of one whole. Undefined while hidden. */
-export function reportWork(cohort: Cohort, window: WindowId): { made: string; rest: string; used: number; whole: number; usedLabel: string; restLabel: string } | undefined {
+export function reportWork(cohort: Cohort, window: Period): { made: string; rest: string; used: number; whole: number; usedLabel: string; restLabel: string } | undefined {
   if (!isAboveMinimum(cohort, window)) return undefined;
-  const c = cohort.byWindow[window];
+  const c = countsIn(cohort, window);
   const n = (value: number) => count.format(value);
   return {
     made: n(c.artifacts),
@@ -1009,7 +1255,7 @@ export function reportWork(cohort: Cohort, window: WindowId): { made: string; re
 /** The joining line and its funnel: expected, joined, set up. Choosing a
  *  plan is Follow-through's, so it is drawn there only (Kate, 2026-10-20).
  *  Joined always shows; setting up hides below the minimum. */
-export function reportJoining(cohort: Cohort, window: WindowId): { joined: string; rest: string; steps: { label: string; value?: number; outline?: boolean }[] } {
+export function reportJoining(cohort: Cohort, window: Period): { joined: string; rest: string; steps: { label: string; value?: number; outline?: boolean }[] } {
   const above = isAboveMinimum(cohort, window);
   const n = (value: number) => count.format(value);
   const F = C2_COPY.funnel;
@@ -1026,10 +1272,10 @@ export function reportJoining(cohort: Cohort, window: WindowId): { joined: strin
   };
 }
 
-export function reportLine(cohort: Cohort, id: DataPointId, window: WindowId): ReportLine {
+export function reportLine(cohort: Cohort, id: DataPointId, window: Period): ReportLine {
   const figure = figureFor(cohort, id, window);
   if (figure.state === "suppressed") return { figure };
-  const c = cohort.byWindow[window];
+  const c = countsIn(cohort, window);
   const long = inWindow(window);
   const n = (value: number) => count.format(value);
   const rest: Record<DataPointId, string> = {
@@ -1064,7 +1310,7 @@ export const C2_COPY = {
   footer: (comparing: boolean) =>
     [
       "Totals for the whole cohort. Northgate never sees a participant, their plan or their work.",
-      comparing ? `A change since last week is mentioned only when at least ${MIN_COHORT_SIZE} participants are behind it.` : null,
+      comparing ? `A change since a week ago is mentioned only when at least ${MIN_COHORT_SIZE} participants are behind it.` : null,
       "Sources: codes redeemed, and setup, sign-ins, plans, planned actions and work in ExecHQ. Prepared by ExecHQ.",
     ]
       .filter(Boolean)
@@ -1152,24 +1398,46 @@ export function weekBefore(cohort: Cohort): Cohort | undefined {
   return snapshotAt(cohort, mondays.length - 2, mondays.length, mondays[mondays.length - 2]);
 }
 
-/** The cohort as a sponsor sees it when this Monday's update is late: last
- *  week's figures, marked with the Monday that is missing. Undefined until
- *  there has been a week before. */
+/** The cohort as a sponsor sees it when today's update is late: yesterday's
+ *  figures, marked with the day that is missing. Its letter archive ends at
+ *  the Monday before. Undefined until it has run a day. */
 export function lateCohort(cohort: Cohort): Cohort | undefined {
-  const before = weekBefore(cohort);
-  return before && { ...before, lastWeek: undefined, lateSince: cohort.asOf };
+  const day = programDay(cohort);
+  if (cohort.fresh || day < 1) return undefined;
+  const yesterday = addDays(cohort.asOf, -1);
+  const by = day === 0 ? 1 : (day - 1) / day;
+  const mondays = updateMondays({ ...cohort, asOf: yesterday });
+  // A day takes little off: the actions and work of one day, none of the people.
+  const less = (counts: CohortCounts): CohortCounts => ({
+    ...counts,
+    actionsAccepted: Math.round(counts.actionsAccepted * by),
+    actionsCompleted: Math.round(counts.actionsCompleted * by),
+    artifacts: Math.round(counts.artifacts * by),
+    artifactsUsed: Math.round(counts.artifactsUsed * by),
+  });
+  return {
+    ...cohort,
+    asOf: yesterday,
+    byWindow: { "30d": less(cohort.byWindow["30d"]), "90d": less(cohort.byWindow["90d"]), launch: less(cohort.byWindow.launch) },
+    weeklyActive: cohort.weeklyActive.slice(0, Math.max(1, mondays.length)),
+    lastWeek: undefined,
+    lateSince: cohort.asOf,
+    onTime: cohort,
+  };
 }
 
 export const LATE_COPY = {
   notice: (asOf: string) =>
-    `This Monday’s update is late. The figures here are from ${formatAsOf(asOf)}. ExecHQ is looking into it, and changes since last week return with the next update.`,
+    `Today’s update is late. The figures here are from ${formatAsOf(asOf)}. ExecHQ is looking into it, and changes since a week ago return with the next update.`,
   letter: (asOf: string) =>
     `This week’s issue is late. Here is the last one, from ${formatAsOf(asOf)}. The next comes as soon as the figures are in.`,
   archive: "Late",
 } as const;
 
-/** Every issue so far, oldest first: one each Monday update. */
+/** Every issue so far, oldest first: one each Monday update. While an update
+ *  is late, the issues that had gone out before it. */
 export function letterIssues(cohort: Cohort): LetterIssue[] {
+  if (cohort.onTime) return letterIssues(cohort.onTime).filter((issue) => issue.on < cohort.lateSince!);
   const mondays = updateMondays(cohort);
   return mondays.map((on, i) => {
     const snapshot = snapshotAt(cohort, i, mondays.length, on);
@@ -1340,10 +1608,10 @@ export function assistantKeyFor(text: string): AssistantKey {
   return /\b(who|whom|which (person|people|participants?)|names?)\b/i.test(text) ? "who" : "other";
 }
 
-/** An answer, written from the cohort's figures for the window on screen. */
-export function assistantAnswer(cohort: Cohort, window: WindowId, key: AssistantKey): string {
+/** An answer, written from the cohort's figures for the dates on screen. */
+export function assistantAnswer(cohort: Cohort, window: Period, key: AssistantKey): string {
   const n = (value: number) => count.format(value);
-  const c = cohort.byWindow[window];
+  const c = countsIn(cohort, window);
   const day = programDay(cohort);
   const sponsor = ENTERPRISE_COPY.sponsor;
   const above = isAboveMinimum(cohort, window);
@@ -1375,7 +1643,7 @@ export function assistantAnswer(cohort: Cohort, window: WindowId, key: Assistant
     case "change": {
       const moved = directionFor(cohort, "active", window);
       if (!moved) return `Activity hasn’t moved by enough to mention. I only say so when at least ${MIN_COHORT_SIZE} people are behind a change, so it can never point to one person’s week.`;
-      return `${moved === "up" ? "More" : "Fewer"} participants were active than at the last update: at least ${MIN_COHORT_SIZE} ${moved === "up" ? "more" : "fewer"}, which is the most I’ll say about a change. I can’t tell you who, or why for any one person.`;
+      return `${moved === "up" ? "More" : "Fewer"} participants were active than a week ago: at least ${MIN_COHORT_SIZE} ${moved === "up" ? "more" : "fewer"}, which is the most I’ll say about a change. I can’t tell you who, or why for any one person.`;
     }
     case "note":
       return `Here’s a note you could send through your own channels:\n\n“${weeksIn(day)}, many of you are already acting on your plans. If you haven’t finished setting up, now’s a good time, and it stays private: ${sponsor} never sees your plan or your work.”`;

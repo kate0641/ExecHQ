@@ -12,7 +12,7 @@ export const windowSelectorStates = defineComponentStates({
   status: "draft",
   flows: ["enterprise"],
   description:
-    "The sponsor dashboard's window, 30 days, 90 days or since launch, with when the figures were last refreshed. Nothing shorter than 30 days, and a weekly refresh, so no window can isolate one person.",
+    "The sponsor dashboard's window, 30 days, 90 days or since launch, with when the figures were last updated. Being replaced by a date-range picker that allows any dates (Kate, 2026-10-21).",
   component: WindowSelector,
   notApplicable: {
     hover: toggle,

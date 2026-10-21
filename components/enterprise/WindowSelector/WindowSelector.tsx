@@ -8,7 +8,7 @@ const C = ENTERPRISE_COPY.window;
 export interface WindowSelectorProps {
   value: WindowId;
   onChange: (next: WindowId) => void;
-  /** The Monday the figures were last refreshed. */
+  /** The day the figures were last updated. */
   asOf: string;
   /** No update yet: `asOf` is the first one to come. */
   upcoming?: boolean;
@@ -19,9 +19,9 @@ export interface WindowSelectorProps {
 
 /**
  * The dashboard's window: 30 days, 90 days or since launch, and when the
- * figures were last refreshed. Nothing shorter than 30 days is offered and the
- * figures change once a week, so no window can isolate one person's activity.
- * Both rules are on screen, not only in a policy.
+ * figures were last updated. Being replaced by a date-range picker (Kate,
+ * 2026-10-21), which allows any dates; the minimum cohort size is then the
+ * only rule that keeps a short range from isolating one person.
  */
 export function WindowSelector({ value, onChange, asOf, upcoming = false, hideRefreshed, className }: WindowSelectorProps) {
   return (
