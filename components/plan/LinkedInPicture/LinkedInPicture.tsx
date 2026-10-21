@@ -63,7 +63,10 @@ export function LinkedInPicture({ data, initialOpen = "followers", demoWeek, dem
           {gain !== 0 ? (
             <>
               {" "}
-              <span className={["li-row__gain", gain < 0 ? "is-down" : ""].filter(Boolean).join(" ")}>{C.followersGain(gain)}</span>
+              <span className={["li-row__gain", gain < 0 ? "is-down" : ""].filter(Boolean).join(" ")}>
+                <Icon name={gain > 0 ? "arrow-up" : "arrow-down"} size={16} />
+                {C.followersGain(gain)}
+              </span>
               <span className="u-visually-hidden">{C.followersGainHeard(gain)}</span>
             </>
           ) : null}
@@ -130,7 +133,7 @@ export function LinkedInPicture({ data, initialOpen = "followers", demoWeek, dem
                   <span className="li-row__value">{row.value}</span>
                   {/* Plus to open, minus to close (designer, 2026-10-21; a chevron before). */}
                   <span className="li-row__toggle" aria-hidden="true">
-                    <Icon name={isOpen ? "minus" : "plus"} size={20} />
+                    <Icon name={isOpen ? "minus" : "plus"} size={16} />
                   </span>
                 </button>
                 <div className="li-row__body" id={`${id}-${row.id}`} hidden={!isOpen}>

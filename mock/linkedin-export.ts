@@ -101,10 +101,11 @@ export const LINKEDIN_PICTURE_COPY = {
   heading: "Your LinkedIn, from your export",
   intro: (from: string, to: string) => `${from} to ${to}. Your audience and your posts as LinkedIn reports them.`,
   followers: "Followers",
-  /** Under Followers: the day the export began, then the change after it, "Since Oct 6, 2025 +181"
+  /** Under Followers: the day the export began, then the change after it, "Since Oct 6, 2025 ↑181"
    *  (designer, 2026-10-21; "181 new followers since…" before). */
   followersSince: (from: string) => `Since ${from}`,
-  followersGain: (n: number) => (n > 0 ? `+${n.toLocaleString("en-US")}` : n < 0 ? `−${Math.abs(n).toLocaleString("en-US")}` : ""),
+  /** The figure only: an arrow up or down before it says which way (designer, 2026-10-21; "+181" before). */
+  followersGain: (n: number) => (n === 0 ? "" : Math.abs(n).toLocaleString("en-US")),
   /** Said to a screen reader after the figure, so +181 is heard as followers. */
   followersGainHeard: (n: number) => (n === 0 ? "" : n > 0 ? " new followers" : " fewer followers"),
   followersSlider: "Followers by week. Use the left and right arrow keys to move through the weeks.",
