@@ -18077,7 +18077,7 @@ ul.plan-guided__sparks {
   color: var(--color-text-secondary);
 }
 
-/* The number with its change over it, right-aligned as one. */
+/* The number with its change under it, right-aligned as one. */
 .li-row__figure {
   display: flex;
   flex-direction: column;
@@ -18085,7 +18085,7 @@ ul.plan-guided__sparks {
   gap: var(--space-3xs);
 }
 
-/* The change since the export began, as an eyebrow in her growth colour (designer, 2026-10-21). A fall
+/* The change since the export began, under the number in her growth colour (designer, 2026-10-21). A fall
    takes the page's secondary words, never a warning. */
 .li-row__delta {
   font-family: var(--type-eyebrow-font);
@@ -18105,7 +18105,9 @@ ul.plan-guided__sparks {
   font-size: var(--text-2xl);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-tight);
-  font-variant-numeric: tabular-nums;
+  /* Proportional figures: each row's number stands alone, so it needs no table columns, and equal-width
+     digits spread 1,284 wide (designer, 2026-10-21). */
+  font-variant-numeric: proportional-nums;
 }
 
 .li-row__chevron {

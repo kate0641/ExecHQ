@@ -108,7 +108,7 @@ export const LINKEDIN_PICTURE_COPY = {
     if (n < 0) return `${count} fewer ${n === -1 ? "follower" : "followers"} since ${from}`;
     return `Level since ${from}`;
   },
-  /** Over the follower count: "+181", the change since the export began (designer, 2026-10-21). None when level. */
+  /** Under the follower count: "+181", the change since the export began (designer, 2026-10-21). None when level. */
   followersDelta: (n: number) => (n > 0 ? `+${n.toLocaleString("en-US")}` : n < 0 ? `−${Math.abs(n).toLocaleString("en-US")}` : undefined),
   followersSlider: "Followers by week. Use the left and right arrow keys to move through the weeks.",
   followersAt: (count: number, on: string) => `${on}: ${count.toLocaleString("en-US")} followers`,

@@ -123,13 +123,13 @@ export function LinkedInPicture({ data, initialOpen = "followers", demoWeek, dem
                   </span>
                   {row.spark}
                   <span className="li-row__figure">
-                    {/* The change, as an eyebrow over the number; the line under the label says it in words. */}
+                    <span className="li-row__value">{row.value}</span>
+                    {/* The change, under the number; the line under the label says it in words. */}
                     {row.delta ? (
                       <span className={["li-row__delta", gain < 0 ? "is-down" : ""].filter(Boolean).join(" ")} aria-hidden="true">
                         {row.delta}
                       </span>
                     ) : null}
-                    <span className="li-row__value">{row.value}</span>
                   </span>
                   <span className="li-row__chevron" aria-hidden="true" />
                 </button>
