@@ -11162,6 +11162,32 @@ ol.check-in__steps {
   color: var(--color-text-primary);
 }
 
+/* On the Signal Picture, what they were and how far they moved sit at the top right, on the label's line,
+   so the number stands alone under them (designer, 2026-10-21). Home keeps them under the number. */
+.signals-page .presence-clean__hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "label sub"
+    "now now";
+  align-items: baseline;
+  column-gap: var(--space-sm);
+  row-gap: var(--space-3xs);
+}
+
+.signals-page .presence-clean__hero-label {
+  grid-area: label;
+}
+
+.signals-page .presence-clean__hero-sub {
+  grid-area: sub;
+  text-align: right;
+}
+
+.signals-page .presence-clean__hero-now {
+  grid-area: now;
+}
+
 .presence-clean__table {
   width: 100%;
   border-collapse: collapse;
