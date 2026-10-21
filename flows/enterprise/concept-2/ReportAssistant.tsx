@@ -5,7 +5,7 @@ import { ChatComposer } from "@/components/chat/ChatComposer";
 import { ChatMessage } from "@/components/chat/ChatMessage";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
-import { ASSISTANT_COPY, type Cohort, type WindowId } from "@/mock/enterprise";
+import { ASSISTANT_COPY, type Cohort, type DateRange } from "@/mock/enterprise";
 import { AnswerText } from "../AnswerText";
 import { useAssistant } from "../useAssistant";
 
@@ -17,7 +17,7 @@ const C = ASSISTANT_COPY;
  * leadership, and every answer written to be used elsewhere has Copy, so it
  * can go straight into an email.
  */
-export function ReportAssistant({ id, cohort, window }: { id: string; cohort: Cohort; window: WindowId }) {
+export function ReportAssistant({ id, cohort, window }: { id: string; cohort: Cohort; window: DateRange }) {
   const [draft, setDraft] = useState("");
   const [copied, setCopied] = useState<number | null>(null);
   const assistant = useAssistant(cohort, window);

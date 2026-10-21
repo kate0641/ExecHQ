@@ -23605,21 +23605,6 @@ ul.plan-guided__sparks {
   line-height: var(--type-body-sm-leading);
 }
 
-/* --- The window ------------------------------------------------------------- */
-
-.window-selector {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-xs) var(--space-md);
-}
-
-.window-selector__refreshed {
-  font-size: var(--type-caption-size);
-  line-height: var(--type-caption-leading);
-  color: var(--color-text-secondary);
-}
-
 /* --- The dates (Kate, 2026-10-21) --------------------------------------------
    A field with the dates and arrows either side of nothing: the field, then
    earlier and later. Its panel: ranges on the left, two months on the right.

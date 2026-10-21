@@ -7,30 +7,33 @@ import { InviteCode } from "@/components/enterprise/InviteCode";
 import { Meter } from "@/components/enterprise/Meter";
 import { PartBar } from "@/components/enterprise/PartBar";
 import { WeeklyTrend } from "@/components/enterprise/WeeklyTrend";
-import { WindowSelector } from "@/components/enterprise/WindowSelector";
+import { DateRangePicker } from "@/components/enterprise/DateRangePicker";
 import { DropdownMenu } from "@/components/form/DropdownMenu";
 import { Icon } from "@/components/primitives/Icon";
 import { useCohortId } from "@/lib/cohort-store";
 import {
   C2_COPY,
   DATA_POINTS,
+  DEFAULT_RANGE,
   LATE_COPY,
   REPORT_SECTIONS,
   TREND_COPY,
-  WINDOWS,
   comparesWeeks,
   isAboveMinimum,
+  isSinceLaunch,
+  periodWords,
   programDay,
   reportJoining,
   reportLine,
   reportSummary,
   reportWork,
+  resolveRange,
   trendFor,
   type Cohort,
   type CohortId,
   type DataPointId,
+  type DateRange,
   type QuestionId,
-  type WindowId,
 } from "@/mock/enterprise";
 import { downloadCsv } from "../downloadCsv";
 import { ReportAssistant } from "./ReportAssistant";
@@ -59,9 +62,9 @@ function CodeStrip({ cohort, controls }: { cohort: Cohort; controls: CohortContr
   );
 }
 
-/** The report's head: who it is from, the cohort, its dates and window, and
+/** The report's head: who it is from, the cohort, the dates it covers, and
  *  what the cohort did, in two sentences. */
-function ReportHead({ cohort, window, headingRef }: { cohort: Cohort; window: WindowId; headingRef?: React.Ref<HTMLHeadingElement> }) {
+function ReportHead({ cohort, window, headingRef }: { cohort: Cohort; window: DateRange; headingRef?: React.Ref<HTMLHeadingElement> }) {
   const day = programDay(cohort);
   const summary = reportSummary(cohort, window);
   return (
@@ -77,7 +80,7 @@ function ReportHead({ cohort, window, headingRef }: { cohort: Cohort; window: Wi
       </h1>
       <p className="report__meta">
         {day > 0 && !cohort.fresh ? `${C.started(cohort.startsOn)}, ${C.weeksIn(day)}.` : `${C.starts(cohort.startsOn)}.`}{" "}
-        {window === "launch" ? C.windowLineSinceLaunch : C.windowLine(WINDOWS[window].long)}{" "}
+        {isSinceLaunch(cohort, window) ? C.windowLineSinceLaunch : C.windowLine(periodWords(window).covers)}{" "}
         {cohort.fresh ? C.firstUpdate(cohort.asOf) : C.asOf(cohort.asOf)}
       </p>
       {summary ? <p className="report__summary">{summary}</p> : null}
@@ -101,7 +104,7 @@ const NOTED: DataPointId[] = ["follow-through", "active", "artifacts"];
 
 /** A figure as a sentence, the number set large, and under it a bar of the
  *  share when it is one (Kate, 2026-10-20). Hidden, it names the rule. */
-function Line({ cohort, id, window }: { cohort: Cohort; id: DataPointId; window: WindowId }) {
+function Line({ cohort, id, window }: { cohort: Cohort; id: DataPointId; window: DateRange }) {
   const { figure, rest } = reportLine(cohort, id, window);
   return (
     <div className="report__row">
@@ -135,7 +138,7 @@ function Line({ cohort, id, window }: { cohort: Cohort; id: DataPointId; window:
  * the sentence (Kate, 2026-10-20): a bar under each share, the work made
  * against the work used, and joining as a funnel.
  */
-function ReportBody({ cohort, window }: { cohort: Cohort; window: WindowId }) {
+function ReportBody({ cohort, window }: { cohort: Cohort; window: DateRange }) {
   const above = isAboveMinimum(cohort, window);
   const heading = (id: QuestionId) => REPORT_SECTIONS.find((section) => section.id === id)!.heading;
   const work = reportWork(cohort, window);
@@ -226,7 +229,9 @@ function ReportBody({ cohort, window }: { cohort: Cohort; window: WindowId }) {
 
 function Concept2Page({ controls }: { controls: CohortControls }) {
   const { cohort } = controls;
-  const [window, setWindow] = useState<WindowId>("30d");
+  // The dates chosen (Kate, 2026-10-21): the last 30 days to start with.
+  const [choice, setChoice] = useState<DateRange>(DEFAULT_RANGE);
+  const window = cohort ? resolveRange(choice, cohort) : DEFAULT_RANGE;
   const headingRef = useRef<HTMLHeadingElement>(null);
   const ready = Boolean(cohort);
   const wasReady = useRef(ready);
@@ -243,7 +248,7 @@ function Concept2Page({ controls }: { controls: CohortControls }) {
       {cohort ? (
         <div className="report-toolbar">
           {/* The report says its own date: the toolbar doesn't repeat it. */}
-          <WindowSelector value={window} onChange={setWindow} asOf={cohort.asOf} upcoming={cohort.fresh} hideRefreshed />
+          <DateRangePicker cohort={cohort} value={window} onChange={setChoice} align="start" />
           <div className="report-toolbar__end">
             <DropdownMenu
               className="ent-export"
@@ -318,7 +323,7 @@ function Concept2ForCohort({ id }: { id: CohortId }) {
  * Follow-through first, and one short sentence of what it measures in the
  * margin beside it so a talent lead can repeat it. Bars under the shares,
  * work made against used, and joining as a funnel draw what a sentence
- * can't. The window, the Export
+ * can't. The dates, the Export
  * menu and the cohort's code sit above the page, outside the document.
  * Setting up a cohort fills in the report's header.
  */

@@ -143,6 +143,16 @@ export function rangeLabel(range: DateRange): string {
   return range.from.slice(0, 4) === range.to.slice(0, 4) ? `${from.slice(0, -5)} – ${to}` : `${from} – ${to}`;
 }
 
+/** What the dashboard opens on, before it knows the cohort. */
+export const DEFAULT_RANGE: DateRange = { from: "", to: "", preset: DEFAULT_PRESET };
+
+/** The dates a choice means for this cohort: a preset is worked out afresh,
+ *  so it follows the cohort the reviewer picks; picked dates stay as they
+ *  are. */
+export function resolveRange(choice: DateRange, cohort: Cohort): DateRange {
+  return choice.preset ? presetRange(choice.preset, cohort) : choice;
+}
+
 /** A range with the preset it equals, if any, so dates picked on the
  *  calendar or reached with the arrows still read as words ("last week"). */
 export function withPreset(range: { from: string; to: string }, cohort: Cohort, prefer: readonly RangePresetId[] = []): DateRange {
@@ -1108,12 +1118,6 @@ export const ENTERPRISE_COPY = {
   filling: (covered: number, total: number) =>
     `Filling in. The program hasn’t run for all of these dates, so this covers ${covered} of ${total} days.`,
   fillingTag: "Filling in",
-
-  window: {
-    label: "Dates",
-    refreshed: (asOf: string) => `Updated daily. Last updated ${formatAsOf(asOf)}.`,
-    firstUpdate: (asOf: string) => `Updated daily. The first update is ${formatAsOf(asOf)}.`,
-  },
 
   definition: {
     open: "How it’s measured",

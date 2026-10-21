@@ -6,7 +6,7 @@ import { ChatComposer } from "@/components/chat/ChatComposer";
 import { ChatMessage } from "@/components/chat/ChatMessage";
 import { AdvisorWho, ConciergePanel } from "@/components/navigation/ConciergePanel";
 import { ConciergePill } from "@/components/navigation/ConciergePill";
-import { ASSISTANT_COPY, type Cohort, type WindowId } from "@/mock/enterprise";
+import { ASSISTANT_COPY, type Cohort, type DateRange } from "@/mock/enterprise";
 import { AnswerText } from "../AnswerText";
 import { useAssistant } from "../useAssistant";
 
@@ -21,7 +21,7 @@ const PANEL_ID = "cohort-concierge-panel";
  * suggested questions first, then the conversation. Escape, the scrim or the
  * close button shut it and put focus back on the bar.
  */
-export function CohortConcierge({ cohort, window }: { cohort: Cohort; window: WindowId }) {
+export function CohortConcierge({ cohort, window }: { cohort: Cohort; window: DateRange }) {
   const anchor = useRef<HTMLSpanElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
   const [screen, setScreen] = useState<HTMLElement | null>(null);

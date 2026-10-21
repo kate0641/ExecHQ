@@ -160,6 +160,18 @@ function RangePanel({ id, cohort, range, align, inline, pickingFrom, anchor, onP
   // The right-hand month holds the last day: the left is the month before.
   const [view, setView] = useState<Month>(() => shiftMonth(monthOf(clamp(pickingFrom ?? range.to)), -1));
   const moveFocus = useRef(false);
+  const [side, setSide] = useState(align);
+
+  // It lines up with the field's chosen edge, and flips to the other if that
+  // would run off the screen.
+  useLayoutEffect(() => {
+    const el = panel.current;
+    if (!el || inline) return;
+    const rect = el.getBoundingClientRect();
+    const edge = 8;
+    if (rect.left < edge) setSide("start");
+    else if (rect.right > globalThis.innerWidth - edge) setSide("end");
+  }, [inline]);
 
   const firstMonth = monthOf(min);
   const lastMonth = monthOf(max);
@@ -265,7 +277,7 @@ function RangePanel({ id, cohort, range, align, inline, pickingFrom, anchor, onP
       ref={panel}
       open
       id={id}
-      className={["date-range__panel", `date-range__panel--${align}`, inline ? "date-range__panel--inline" : null].filter(Boolean).join(" ")}
+      className={["date-range__panel", `date-range__panel--${side}`, inline ? "date-range__panel--inline" : null].filter(Boolean).join(" ")}
       aria-labelledby={headingId}
       tabIndex={-1}
     >
