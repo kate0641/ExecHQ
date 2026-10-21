@@ -2,6 +2,7 @@
 
 import { useId, useState, type ChangeEvent, type PointerEvent } from "react";
 import { compact, monthlyImpressions, topPosts, totals, type MonthBar } from "@/lib/linkedin-export";
+import { Icon } from "@/components/primitives/Icon";
 import { monthDayYear } from "./linkedin-dates";
 import { LINKEDIN_PICTURE_COPY as C, type LinkedInExport } from "@/mock/linkedin-export";
 
@@ -51,7 +52,7 @@ export function LinkedInPicture({ data, initialOpen = "followers", demoWeek, dem
   const hasPosts = data.posts.length > 0;
   const gain = t.followersNow - t.followersThen;
 
-  const rows: { id: RowId; label: string; sub: string; value: string; delta?: string; spark: React.ReactNode; body: React.ReactNode }[] = [];
+  const rows: { id: RowId; label: string; sub: string; value: string; delta?: string; body: React.ReactNode }[] = [];
   if (hasFollowers) {
     rows.push({
       id: "followers",
@@ -59,9 +60,6 @@ export function LinkedInPicture({ data, initialOpen = "followers", demoWeek, dem
       sub: C.followersSub(gain, monthDayYear(data.from)),
       value: t.followersNow.toLocaleString("en-US"),
       delta: C.followersDelta(gain),
-      // No line of its own: the chart under it is the line (designer, 2026-10-20). The empty slot keeps
-      // its number level with the others.
-      spark: <span className="li-spark" aria-hidden="true" />,
       body: (
         // No caption over it: Kate asked for "At the end of each week" to go (2026-10-21).
         <FollowersLine data={data} demoWeek={demoWeek} />
@@ -75,7 +73,6 @@ export function LinkedInPicture({ data, initialOpen = "followers", demoWeek, dem
         label: C.impressions,
         sub: C.impressionsSub,
         value: compact(t.impressions),
-        spark: <MonthsSpark months={months} pick="impressions" />,
         body: (
           <>
             <p className="li-caption">{C.impressionsCaption}</p>
@@ -88,7 +85,6 @@ export function LinkedInPicture({ data, initialOpen = "followers", demoWeek, dem
         label: C.posts,
         sub: C.postsSub,
         value: String(t.posts),
-        spark: <MonthsSpark months={months} pick="posts" />,
         body: (
           <>
             <p className="li-caption">{C.postsCaption}</p>
@@ -121,7 +117,6 @@ export function LinkedInPicture({ data, initialOpen = "followers", demoWeek, dem
                     <b>{row.label}</b>
                     <span>{row.sub}</span>
                   </span>
-                  {row.spark}
                   <span className="li-row__figure">
                     <span className="li-row__value">{row.value}</span>
                     {/* The change, under the number; the line under the label says it in words. */}
@@ -131,7 +126,10 @@ export function LinkedInPicture({ data, initialOpen = "followers", demoWeek, dem
                       </span>
                     ) : null}
                   </span>
-                  <span className="li-row__chevron" aria-hidden="true" />
+                  {/* Plus to open, minus to close (designer, 2026-10-21; a chevron before). */}
+                  <span className="li-row__toggle" aria-hidden="true">
+                    <Icon name={isOpen ? "minus" : "plus"} size={20} />
+                  </span>
                 </button>
                 <div className="li-row__body" id={`${id}-${row.id}`} hidden={!isOpen}>
                   {isOpen ? row.body : null}
@@ -145,32 +143,8 @@ export function LinkedInPicture({ data, initialOpen = "followers", demoWeek, dem
   );
 }
 
-/* Impressions' and Posts' shape in miniature: it says which way things went and carries no value. */
-const SW = 84;
-const SH = 28;
-
-function MonthsSpark({ months, pick }: { months: MonthBar[]; pick: "impressions" | "posts" }) {
-  const values = months.map((m) => m[pick]);
-  const max = Math.max(...values, 1);
-  const slot = (SW - 2) / values.length;
-  const gradient = `li-bars-${useId().replace(/:/g, "")}`;
-  return (
-    <svg className="li-spark" viewBox={`0 0 ${SW} ${SH}`} aria-hidden="true" style={{ "--li-bar-gradient": `url(#${gradient})` } as React.CSSProperties}>
-      {/* Where it is shown with color (the Signal Picture), each bar rises from navy into light green. */}
-      <defs>
-        <linearGradient id={gradient} x1="0" y1="1" x2="0" y2="0">
-          <stop offset="0" className="li-gradient__bar-base" />
-          <stop offset="1" className="li-gradient__bar-tip" />
-        </linearGradient>
-      </defs>
-      {values.map((v, i) => {
-        if (!v) return null;
-        const h = Math.max((v / max) * (SH - 2), 2);
-        return <rect key={months[i].key} className="li-spark__bar" x={1 + i * slot + 1} y={SH - h} width={slot - 2} height={h} rx={1.5} />;
-      })}
-    </svg>
-  );
-}
+/* No shapes in miniature on the rows: each row's chart is in its open view, as Followers' is (designer,
+   2026-10-21). */
 
 function FollowersLine({ data, demoWeek }: { data: LinkedInExport; demoWeek?: number }) {
   const glow = `li-glow-${useId().replace(/:/g, "")}`;

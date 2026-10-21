@@ -18039,8 +18039,9 @@ ul.plan-guided__sparks {
 
 .li-row__head {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto auto;
-  /* The number, its shape and the chevron line up with the top of Followers (designer, 2026-10-20). */
+  /* The label, the number, and plus or minus (designer, 2026-10-21: no shape in miniature on the row). */
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  /* The number lines up with the top of Followers (designer, 2026-10-20). */
   align-items: start;
   gap: var(--space-sm);
   width: 100%;
@@ -18110,17 +18111,12 @@ ul.plan-guided__sparks {
   font-variant-numeric: proportional-nums;
 }
 
-.li-row__chevron {
-  width: 0.5rem;
-  height: 0.5rem;
-  border-right: 2px solid var(--color-text-muted);
-  border-bottom: 2px solid var(--color-text-muted);
-  transform: rotate(45deg);
-  transition: transform var(--duration-fast) var(--easing-standard);
-}
-
-.li-row.is-open .li-row__chevron {
-  transform: rotate(-135deg);
+.li-row__toggle {
+  display: grid;
+  place-items: center;
+  /* As tall as the number's line, so plus and minus sit centred on the number (designer, 2026-10-21). */
+  height: calc(var(--text-2xl) * var(--leading-tight));
+  color: var(--color-text-secondary);
 }
 
 .li-row__body {
