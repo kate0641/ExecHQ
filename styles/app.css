@@ -11175,6 +11175,12 @@ ol.check-in__steps {
   row-gap: var(--space-3xs);
 }
 
+/* Added since you started is its own section, not one more row of the table: the same pause above it as
+   the one above Counts, which the number's tall line gives it (16 + 12, designer, 2026-10-21). */
+.signals-page .presence-clean__added {
+  margin-top: var(--space-sm);
+}
+
 .signals-page .presence-clean__hero-label {
   grid-area: label;
 }
