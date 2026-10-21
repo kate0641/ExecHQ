@@ -61,6 +61,21 @@ export function usePlaybookPage(concept: PlaybookPage) {
     playbookActions.openConcept(concept);
   }, [concept]);
 
+  /* The showroom opens the page on one of its screens with `?screen=` (designer,
+     2026-10-21), so every piece can be reviewed at once: search with nothing
+     typed, with matches and with none, an empty folder and the empty library. Only what shows
+     changes; nothing she has saved is. */
+  const [screen, setScreen] = useState<string | null>(null);
+  useEffect(() => {
+    const asked = new URLSearchParams(window.location.search).get("screen");
+    /* eslint-disable react-hooks/set-state-in-effect -- the URL is only readable after mount */
+    setScreen(asked);
+    if (asked?.startsWith("search")) setSearching(true);
+    /* eslint-enable react-hooks/set-state-in-effect */
+  }, []);
+  // "leadership" finds her statement in every dock state; "budget" finds nothing.
+  const searchFor = { "search-match": "leadership", "search-none": "budget" }[screen ?? ""];
+
   // Tools open in the tool flow concept the reviewer last opened.
   const flow = conceptHref("playbook-flow", flowFor(playbook));
   const toolHref = (kind: ArtifactKind, moment?: string) => {
@@ -70,7 +85,8 @@ export function usePlaybookPage(concept: PlaybookPage) {
   };
   const artifactHref = (id: string) => `${flow}?artifact=${encodeURIComponent(id)}`;
 
-  const all = libraryItems(loop.records, draftMeta(playbook));
+  // The showroom's empty library, and an empty folder whatever the dock's state holds.
+  const all = screen === "empty" || screen === "folder-empty" ? [] : libraryItems(loop.records, draftMeta(playbook));
   /** "Today", "3 days ago", "2 weeks ago", then the date. */
   const when = (item: LibraryItem) => touchedTag(item.lastOn, loop.today);
 
@@ -166,6 +182,7 @@ export function usePlaybookPage(concept: PlaybookPage) {
             href: artifactHref(i.record.id),
           }))}
           copy={C.searchSheet}
+          initial={searchFor}
           onPick={(item) => {
             setSearching(false);
             router.push(item.href);

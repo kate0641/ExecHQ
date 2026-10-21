@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useMemo, useState, type ReactNode } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { StepHeader } from "@/components/onboarding/StepHeader";
 import { Button } from "@/components/primitives/Button";
 import { Input } from "@/components/form/Input";
@@ -96,6 +96,35 @@ function Interview() {
     f.jumpAfter(id === "ready" || id === "used" ? id : "draft");
     setExpanded(id !== "revise");
   });
+
+  /* The showroom opens the interview on one of its screens with `?screen=`
+     (designer, 2026-10-21): a question, named as the step bar names it
+     (`q-<id>`), the last question (`q-final`), or the draft opened. The tool
+     comes from the address as usual. Only what shows changes; nothing she has
+     saved is. The questions and her draft load after the page, so it waits for
+     them and opens once. */
+  const [screen, setScreen] = useState<string | null>(null);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- the URL is only readable after mount
+    setScreen(new URLSearchParams(window.location.search).get("screen"));
+  }, []);
+  const screenOpened = useRef(false);
+  useEffect(() => {
+    if (!screen || screenOpened.current) return;
+    /* eslint-disable react-hooks/set-state-in-effect -- opens the screen the showroom asked for, once */
+    if (screen.startsWith("q-")) {
+      const k = screen === "q-final" ? asked.length - 1 : asked.findIndex((input) => `q-${input.id}` === screen);
+      if (k < 0) return;
+      setAt(k);
+    } else if (screen === "draft-open") {
+      if (!hasDraft) return;
+      setExpanded(true);
+    }
+    /* eslint-enable react-hooks/set-state-in-effect */
+    screenOpened.current = true;
+    // The key names the questions; the draft is there once hasDraft is.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [screen, stepKey, hasDraft]);
 
   if (f.later) return f.laterNote;
 
