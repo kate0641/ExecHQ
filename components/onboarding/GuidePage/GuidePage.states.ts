@@ -174,8 +174,8 @@ export const guidePageStates = defineComponentStates({
       },
     },
     {
-      label: "Main action in the top card",
-      description: "The stage check-in's read-back: its way on sits in the top card, at the right, and nothing is pinned to the foot.",
+      label: "Main action under the top card",
+      description: "The stage check-in's read-back: its way on sits straight under the top card, at the right, and nothing is pinned to the foot.",
       props: {
         navy: true,
         kicker: GUIDE_C3.signals.kicker,

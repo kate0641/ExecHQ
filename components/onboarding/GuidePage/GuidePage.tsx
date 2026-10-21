@@ -52,9 +52,9 @@ export interface GuidePageProps {
   /** Something read after the page's own work is done, under its actions: the
    *  Plan's roadmap under the move, say. It scrolls with the page. */
   after?: ReactNode;
-  /** The page's main action set in its top card, under the title, in place of
-   *  a pinned one at the foot: the stage check-in's read-back (designer,
-   *  2026-10-21). Any foot actions then stay in the page, unpinned. */
+  /** The page's main action straight under its top card, in place of a pinned
+   *  one at the foot: the stage check-in's read-back (designer, 2026-10-21).
+   *  Any foot actions then stay in the page, unpinned. */
   headAction?: ReactNode;
   /** Drawn over the top of the page: an email's notification arriving. */
   overlay?: ReactNode;
@@ -154,8 +154,9 @@ export function GuidePage({
           {title}
         </h1>
         {lede ? <p className="guide__lede">{keepAfterComma(lede)}</p> : null}
-        {headAction ? <div className="guide__head-action">{headAction}</div> : null}
       </header>
+
+      {headAction ? <div className="guide__head-action">{headAction}</div> : null}
 
       {children ? <div className="guide__body">{children}</div> : null}
 

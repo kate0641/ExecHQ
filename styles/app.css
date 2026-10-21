@@ -8613,12 +8613,11 @@ ol.ring-detail__timeline {
    same place. */
 /* Why this matters sits on the page, not in a card, so its label is a group
    title, then the words, with no rule beside it. */
-/* The page's main action in its top card: at the card's right, under the right thumb, its copy-to-action
-   step above it (designer, 2026-10-21). */
+/* The page's main action straight under its top card, at the right, under the right thumb; the page's
+   own gap sits above it (designer, 2026-10-21: inside the card was crowded). */
 .guide__head-action {
   display: flex;
   justify-content: flex-end;
-  margin-top: calc(var(--space-copy-action) - var(--space-title-copy));
 }
 
 .guide__why {
