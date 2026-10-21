@@ -18230,7 +18230,9 @@ ul.plan-guided__sparks {
   padding: var(--space-2xs) var(--space-xs);
   border: var(--border-width-thin) solid var(--color-border-strong);
   border-radius: var(--radius-md);
-  background-color: var(--color-surface);
+  /* The card's own white, not the page's surface: on the navy Signal Picture the page surface is navy and
+     the dark words vanished on it (designer, 2026-10-21). */
+  background-color: var(--color-surface-raised);
   box-shadow: var(--shadow-md);
   white-space: nowrap;
   pointer-events: none;
