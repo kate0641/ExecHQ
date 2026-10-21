@@ -801,6 +801,9 @@
   /* Items split by hairlines: this much either side of the line. */
   --space-divided-item: var(--space-md-lg); /* 20px */
   --space-copy-action: var(--space-md-lg); /* the copy to the button under it: the widest of the three, as wide as the card's padding */
+  /* Actions after a form or a list are a group of their own, set off like a heading: 24 above them, more
+     than the 16 inside the group they follow (designer, 2026-10-21; the drawer rule already did this). */
+  --space-before-actions: var(--space-lg);  /* 24px */
   /* In a drawer: its groups (a question's answers, a field, the actions) sit 24 apart, and the pieces
      inside a group 12 apart, so each group reads as one (designer, 2026-10-16). */
   --space-drawer-groups: var(--space-lg);  /* 24px */

@@ -9776,7 +9776,7 @@ ol.ring-detail__timeline {
 
 /* The actions are a group of their own, 24px under the body. */
 .answer-drawer__body + .answer-drawer__actions {
-  margin-top: calc(var(--space-drawer-groups) - var(--space-sm));
+  margin-top: calc(var(--space-before-actions) - var(--space-sm));
 }
 
 /* The main action is full width, and a second one (Skip, Back, Later…) is a
@@ -14706,6 +14706,8 @@ ul.card-carousel__track {
   display: flex;
   flex-direction: column;
   gap: var(--space-2xs);
+  /* Save my starting point and Start me at zero are their own group, not one more row (designer, 2026-10-21). */
+  margin-top: calc(var(--space-before-actions) - var(--space-md));
 }
 
 .stepper {
