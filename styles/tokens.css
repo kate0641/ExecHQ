@@ -869,6 +869,11 @@
   --shadow-xs: 0 1px 2px rgb(var(--shadow-rgb) / 0.06);
   --shadow-sm: 0 1px 3px rgb(var(--shadow-rgb) / 0.08), 0 1px 2px rgb(var(--shadow-rgb) / 0.04);
   --shadow-md: 0 4px 12px rgb(var(--shadow-rgb) / 0.1), 0 1px 3px rgb(var(--shadow-rgb) / 0.06);
+  /* The same lift in plain grey, for something floating over a white card that should not read blue (designer,
+     2026-10-21). */
+  --shadow-md-neutral: 0 4px 12px rgb(0 0 0 / 0.1), 0 1px 3px rgb(0 0 0 / 0.06);
+  /* A small grey lift under a chart's knob, for filter: drop-shadow(). */
+  --shadow-knob-neutral: 0 1px 2px rgb(0 0 0 / 0.15);
   --shadow-lg: 0 12px 32px rgb(var(--shadow-rgb) / 0.14), 0 2px 8px rgb(var(--shadow-rgb) / 0.06);
   --shadow-panel: 8px 0 40px rgb(var(--shadow-rgb) / 0.18);
   /* Cast upward: a drawer rising from the foot of the screen. */

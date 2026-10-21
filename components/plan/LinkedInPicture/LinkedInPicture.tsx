@@ -214,9 +214,12 @@ function FollowersLine({ data, demoWeek }: { data: LinkedInExport; demoWeek?: nu
         <path className="li-line__path" d={line} />
         {shown === null ? (
           <>
-            <circle className="li-dot-ring" cx={x(n - 1)} cy={y(last.count)} r={6} />
+            {/* At rest the latest week already looks like a handle on a track: its guide line showing and a
+                ringed knob, so it reads as something to drag (designer, 2026-10-21). */}
+            <line className="li-cross" x1={x(n - 1)} x2={x(n - 1)} y1={PAD.top} y2={H - PAD.bottom} />
+            <circle className="li-dot-ring li-dot-ring--handle" cx={x(n - 1)} cy={y(last.count)} r={8} />
             <circle className="li-dot" cx={x(n - 1)} cy={y(last.count)} r={4} />
-            <text className="li-value" x={x(n - 1)} y={y(last.count) - 11} textAnchor="end">
+            <text className="li-value" x={x(n - 1) - 14} y={y(last.count) - 11} textAnchor="end">
               {last.count.toLocaleString("en-US")}
             </text>
             <text className="li-value" x={x(0)} y={y(first.count) - 11} textAnchor="start">
@@ -226,7 +229,7 @@ function FollowersLine({ data, demoWeek }: { data: LinkedInExport; demoWeek?: nu
         ) : (
           <>
             <line className="li-cross" x1={x(shown)} x2={x(shown)} y1={PAD.top} y2={H - PAD.bottom} />
-            <circle className="li-dot-ring" cx={x(shown)} cy={y(points[shown].count)} r={6} />
+            <circle className="li-dot-ring li-dot-ring--handle" cx={x(shown)} cy={y(points[shown].count)} r={8} />
             <circle className="li-dot" cx={x(shown)} cy={y(points[shown].count)} r={4} />
           </>
         )}

@@ -18208,6 +18208,13 @@ ul.plan-guided__sparks {
   fill: var(--color-surface-raised);
 }
 
+/* The knob: a white ring with a navy edge round the navy dot, like a slider's thumb. */
+.li-dot-ring--handle {
+  stroke: var(--color-surface-inverse);
+  stroke-width: 1.5;
+  filter: drop-shadow(var(--shadow-knob-neutral));
+}
+
 .li-value {
   fill: var(--color-text-primary);
   font-family: var(--font-body);
@@ -18217,7 +18224,7 @@ ul.plan-guided__sparks {
 }
 
 .li-cross {
-  stroke: var(--color-border-strong);
+  stroke: var(--color-border);
   stroke-width: 1;
   shape-rendering: crispEdges;
 }
@@ -18228,12 +18235,13 @@ ul.plan-guided__sparks {
   display: flex;
   flex-direction: column;
   padding: var(--space-2xs) var(--space-xs);
-  border: var(--border-width-thin) solid var(--color-border-strong);
+  border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-md);
   /* The card's own white, not the page's surface: on the navy Signal Picture the page surface is navy and
      the dark words vanished on it (designer, 2026-10-21). */
   background-color: var(--color-surface-raised);
-  box-shadow: var(--shadow-md);
+  /* A plain grey lift and the card's own faint edge, not blue (designer, 2026-10-21). */
+  box-shadow: var(--shadow-md-neutral);
   white-space: nowrap;
   pointer-events: none;
   z-index: 1;
