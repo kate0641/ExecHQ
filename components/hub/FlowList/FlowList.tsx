@@ -63,6 +63,8 @@ export function FlowList({ compact = false, specs, headingLevel = 3 }: FlowListP
                         ) : null}
                         {concept.scratched ? (
                           <Badge srPrefix="Status:">Scratched</Badge>
+                        ) : concept.savedFor ? (
+                          <Badge srPrefix="Status:">Saved for {concept.savedFor}</Badge>
                         ) : (
                           <StatusBadge status={conceptStatus(concept)} />
                         )}

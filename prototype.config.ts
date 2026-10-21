@@ -34,6 +34,10 @@ export interface Concept {
    *  "Scratched" in place of its status, until it is moved to the `scratch`
    *  branch and removed from `main`. Only Kate scratches a concept. */
   scratched?: boolean;
+  /** Kept for a later version, not chosen and not scratched: the hub labels
+   *  it "Saved for V2" (or whichever version) in place of its status, and it
+   *  stays on `main`. Only Kate sets it. */
+  savedFor?: string;
 }
 
 export interface Flow {
@@ -296,8 +300,10 @@ export const prototypeConfig: PrototypeConfig = {
         {
           slug: "concept-3",
           title: "Concept 3 — The weekly letter (wildcard)",
+          // Kate, 2026-10-21: to go with the dashboard concept chosen, in V2.
+          savedFor: "V2",
           summary:
-            "No dashboard: each Monday's refresh is an issue, written in the advisor's voice, and past issues stack into an archive in place of a window choice. Setting up the cohort is Issue 0.",
+            "Saved for V2, to go alongside whichever dashboard concept is chosen. No dashboard: each Monday an issue in the advisor's voice, leading with follow-through, and past issues stack into an archive. Setting up the cohort is Issue 0.",
         },
       ],
     },
