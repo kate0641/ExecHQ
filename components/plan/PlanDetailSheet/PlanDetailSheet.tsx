@@ -52,7 +52,7 @@ export function PlanDetailSheet({ open, onClose, planId, rationale, stage, direc
             read, not boxes to tap. Where she is shows as an eyebrow at the right of its row (designer,
             2026-10-16). */}
         <section className="feature-card plan-detail__stages-card" aria-labelledby="plan-detail-stages">
-          <div className="feature-card__head feature-card__head--inverse">
+          <div className="feature-card__head feature-card__head--inverse feature-card__head--strip">
             <h3 className="feature-card__title" id="plan-detail-stages">{C.stages}</h3>
           </div>
           <ol className="feature-card__body plan-detail__stages">

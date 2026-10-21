@@ -3390,6 +3390,22 @@ ol.concierge-list {
   color: var(--color-text-inverse);
 }
 
+/* The compact header: a short band whose title is a label in small capitals, as Your direction's lime
+   band, for a card whose body says the rest (designer, 2026-10-20). Same padding as that band. */
+.feature-card__head--strip {
+  padding: var(--space-sm) var(--space-feature-padding);
+}
+
+.feature-card__head--strip .feature-card__title {
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
+  text-transform: uppercase;
+}
+
 /* Text in a navy header wraps onto as many lines as it needs (designer,
    2026-10-12). It used to be held to one line and cut with an ellipsis so
    over-long copy showed up in review; a header that grows is better than a
