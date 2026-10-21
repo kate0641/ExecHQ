@@ -747,6 +747,24 @@ export function formatDate(iso: string): string {
   return shortDate.format(new Date(`${iso}T00:00:00Z`));
 }
 
+/** The person signed in for the sponsor: the account menu's owner. */
+export const SPONSOR_PERSON = {
+  name: "Dana Okafor",
+  initials: "DO",
+  role: "Head of Leadership Development",
+  org: "Northgate",
+} as const;
+
+/** The account menu at the right of the header (Kate, 2026-10-21, option A).
+ *  Neither page behind it is designed yet, so both say so. */
+export const ACCOUNT_COPY = {
+  label: (name: string) => `Your account, ${name}`,
+  detail: (role: string, org: string) => `${role}, ${org}`,
+  profile: "Your profile",
+  signOut: "Sign out",
+  notYet: "Not built yet",
+} as const;
+
 export const ENTERPRISE_COPY = {
   sponsor: "Northgate",
 

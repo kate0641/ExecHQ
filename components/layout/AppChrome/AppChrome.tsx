@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { AccountMenu } from "@/components/enterprise/AccountMenu";
 import { AppNav, AppNavSlot } from "@/components/layout/AppNav";
 import { Wordmark } from "@/components/primitives/Wordmark";
 import { navForChrome, type Flow } from "@/lib/manifest";
@@ -19,7 +20,8 @@ export interface AppChromeProps {
  * Which chrome a page gets is declared once, on the flow, in the manifest:
  *   minimal    — wordmark and flow context only (Onboarding, Login)
  *   app        — the signed-in app: top nav on web and tablet, tab bar on mobile
- *   enterprise — the separate enterprise surface (web only)
+ *   enterprise — the separate enterprise surface (web only), with the
+ *                sponsor's account menu at the right of the header
  *
  * In the `app` chrome the nav is whichever navigation concept the reviewer is
  * judging (`AppNav`). The enterprise chrome keeps its own list.
@@ -48,6 +50,7 @@ export function AppChrome({ flow, children, navConcept }: AppChromeProps) {
             size="md"
             suffix={flow.chrome === "enterprise" ? "Enterprise" : undefined}
           />
+          {flow.chrome === "enterprise" ? <AccountMenu /> : null}
           {flow.chrome === "app" ? <AppNavSlot part="headerCentre" {...navProps} /> : null}
           {flow.chrome === "app" ? <AppNavSlot part="headerEnd" {...navProps} /> : null}
         </header>

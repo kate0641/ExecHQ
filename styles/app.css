@@ -2335,6 +2335,11 @@ ul.chrome__nav-list {
    wordmark. With either present the header aligns on centre, and the end slot
    takes the right edge. */
 
+/* The enterprise header: the wordmark, and the account menu at the right. */
+.chrome--enterprise .chrome__header {
+  align-items: center;
+}
+
 .chrome__header:has(> .chrome__header-start),
 .chrome__header:has(> .chrome__header-centre),
 .chrome__header:has(> .chrome__header-end) {
@@ -21514,6 +21519,22 @@ ul.plan-guided__sparks {
   transform: rotate(-90deg);
 }
 
+/* An account menu: the person's initials in a round button. */
+.dropdown__trigger--avatar {
+  justify-content: center;
+  width: var(--button-target);
+  padding: 0;
+  background-color: var(--color-surface-quiet);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+}
+
+.dropdown__trigger--avatar:hover,
+.dropdown__trigger--avatar.is-hover {
+  background-color: var(--color-surface-quiet-hover);
+}
+
 .dropdown--inline {
   flex-direction: column;
   align-items: flex-start;
@@ -21707,6 +21728,28 @@ ul.plan-guided__sparks {
   padding: var(--space-2xs) var(--menu-item-padding-inline) var(--space-3xs);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+/* Who is signed in, above the choices. Not a choice itself. */
+.menu__heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  padding: var(--space-xs) var(--menu-item-padding-inline) var(--space-sm);
+  margin-bottom: var(--menu-padding);
+  border-bottom: var(--border-width-thin) solid var(--menu-separator);
+}
+
+.menu__heading-title {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--menu-item-text);
+}
+
+.menu__heading-detail {
+  font-size: var(--text-xs);
   color: var(--color-text-secondary);
 }
 
