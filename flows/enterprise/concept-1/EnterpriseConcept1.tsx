@@ -374,13 +374,14 @@ function Concept1ForCohort({ id }: { id: ReturnType<typeof useCohortId> }) {
 }
 
 /**
- * Enterprise Dashboard, Concept 1 — The three questions.
+ * Enterprise Dashboard, Concept 1 — The four measures.
  *
- * One page of cards answering the sponsor's three questions, each in one
- * sentence with its figures, the first set large. Follow-through leads, as
- * the hero, because it is what a sponsor defends to their leadership (Kate,
- * 2026-10-20); still using it and did they join sit side by side under it,
- * with the weekly trend in the first and the cohort's code in the second.
+ * One page of four cards, each a measure headed by a statement and answered
+ * in one sentence with its figures, the first set large. Putting it into
+ * practice leads, as the hero, because it is what a sponsor defends to their
+ * leadership (Kate, 2026-10-20); Staying with it, Showing up in the world and
+ * Getting started sit side by side under it, with the weekly trend in the
+ * first and the cohort's code in the last.
  * Any figure opens its definition inside its card. A sponsor with no cohort
  * yet sees only the setup.
  */

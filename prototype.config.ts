@@ -283,9 +283,9 @@ export const prototypeConfig: PrototypeConfig = {
       concepts: [
         {
           slug: "concept-1",
-          title: "Concept 1 — The three questions",
+          title: "Concept 1 — The four measures",
           summary:
-            "The dashboard answers the sponsor's three questions in order: did they join, are they still using it, do they follow through. Each opens with a one-sentence answer, with the figures under it. The cohort's code and settings are a Cohort page of their own.",
+            "The dashboard is four cards, each a measure of how the cohort is doing: Putting it into practice leads, then Staying with it, Showing up in the world and Getting started. Each opens with a one-sentence answer, with the figures under it. The cohort's code and settings are a Cohort page of their own.",
         },
         {
           slug: "concept-2",
