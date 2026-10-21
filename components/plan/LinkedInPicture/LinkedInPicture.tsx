@@ -51,21 +51,20 @@ export function LinkedInPicture({ data, initialOpen = "followers", demoWeek, dem
   const hasPosts = data.posts.length > 0;
   const gain = t.followersNow - t.followersThen;
 
-  const rows: { id: RowId; label: string; sub: string; value: string; spark: React.ReactNode; body: React.ReactNode }[] = [];
+  const rows: { id: RowId; label: string; sub: string; value: string; delta?: string; spark: React.ReactNode; body: React.ReactNode }[] = [];
   if (hasFollowers) {
     rows.push({
       id: "followers",
       label: C.followers,
       sub: C.followersSub(gain, monthDayYear(data.from)),
       value: t.followersNow.toLocaleString("en-US"),
+      delta: C.followersDelta(gain),
       // No line of its own: the chart under it is the line (designer, 2026-10-20). The empty slot keeps
       // its number level with the others.
       spark: <span className="li-spark" aria-hidden="true" />,
       body: (
-        <>
-          <p className="li-caption">{C.followersCaption}</p>
-          <FollowersLine data={data} demoWeek={demoWeek} />
-        </>
+        // No caption over it: Kate asked for "At the end of each week" to go (2026-10-21).
+        <FollowersLine data={data} demoWeek={demoWeek} />
       ),
     });
   }
@@ -123,7 +122,15 @@ export function LinkedInPicture({ data, initialOpen = "followers", demoWeek, dem
                     <span>{row.sub}</span>
                   </span>
                   {row.spark}
-                  <span className="li-row__value">{row.value}</span>
+                  <span className="li-row__figure">
+                    {/* The change, as an eyebrow over the number; the line under the label says it in words. */}
+                    {row.delta ? (
+                      <span className={["li-row__delta", gain < 0 ? "is-down" : ""].filter(Boolean).join(" ")} aria-hidden="true">
+                        {row.delta}
+                      </span>
+                    ) : null}
+                    <span className="li-row__value">{row.value}</span>
+                  </span>
                   <span className="li-row__chevron" aria-hidden="true" />
                 </button>
                 <div className="li-row__body" id={`${id}-${row.id}`} hidden={!isOpen}>
