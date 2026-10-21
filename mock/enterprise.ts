@@ -618,7 +618,7 @@ function listChannels(labels: string[]): string {
 }
 
 export const SEEN_COPY = {
-  heading: "Are they being seen?",
+  heading: "Showing up in the world",
   answer: (any: number, active: number, window: WindowId) =>
     `${count.format(any)} of the ${count.format(active)} active participants put something out in the world ${inWindow(window)}.`,
   ring: "put something out, on any channel",
@@ -905,10 +905,11 @@ export const C1_COPY = {
   exportPdf: "PDF",
   exportCsv: "CSV",
   printWindow: (long: string, asOf: string) => `Figures cover ${long}. As of ${formatAsOf(asOf)}.`,
+  /** Card headings: statements, not questions (Kate, 2026-10-21, option E). */
   questions: {
-    joined: "Did they join?",
-    using: "Are they still using it?",
-    following: "Do they follow through?",
+    joined: "Getting started",
+    using: "Staying with it",
+    following: "Putting it into practice",
   } satisfies Record<QuestionId, string>,
   building: {
     heading: "Your cohort is still filling",
