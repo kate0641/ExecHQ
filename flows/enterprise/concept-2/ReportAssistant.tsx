@@ -13,7 +13,8 @@ const C = ASSISTANT_COPY;
 
 /**
  * "Ask about this report" (Kate, 2026-10-20): a panel always beside the
- * sheet, with no way to close it, never printed. Its suggestions lean towards writing for the sponsor's
+ * sheet, with no way to close it, never printed. As tall as the window and
+ * stuck while the report scrolls (2026-10-21), so the box is always in reach. Its suggestions lean towards writing for the sponsor's
  * leadership, and every answer written to be used elsewhere has Copy, so it
  * can go straight into an email.
  */

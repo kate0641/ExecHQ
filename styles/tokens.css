@@ -928,6 +928,11 @@
   /* Space kept between the panel and the edge of the screen it opens in. */
   --menu-edge: var(--space-xs);
 
+  /* Concept 2's report chat (Kate, 2026-10-21): what sits above it when the
+     page opens, the header and the toolbar. Its height leaves this out, so
+     the box to type in shows without scrolling. */
+  --report-ask-clearance: 12rem;
+
   /* ---------------------------------------------------------------------------
      ILLUSTRATIONS — the tools' line drawings (components/playbook/
      ToolIllustration), one drawing at three levels of detail: navy line on a
