@@ -9794,7 +9794,6 @@ ol.ring-detail__timeline {
   background-color: var(--color-surface);
 }
 
-
 /* Folded: one bar carrying the question. */
 .answer-drawer.is-peek {
   padding-top: var(--space-xs);
@@ -12768,7 +12767,6 @@ ul.stage-actions__list {
   --focus-ring: var(--focus-ring-width) solid var(--light-focus);
   color: var(--color-text-primary);
 }
-
 
 /* =============================================================================
    LOGIN — Concept 1, Open page
@@ -15932,37 +15930,6 @@ ol.entry-drawer__rows {
   background-color: var(--color-surface-for-her);
 }
 
-/* The LinkedIn charts glow (designer, 2026-10-15): the followers' area from light green into sky
-   blue, every bar rising from navy into light green, so the end of the page has joy too. */
-.signals-page .li-line__area {
-  fill: var(--li-area-gradient);
-}
-
-.signals-page .li-spark__bar {
-  fill: var(--li-bar-gradient);
-}
-
-.signals-page .li-col__bar {
-  background-image: linear-gradient(to top in oklab, var(--color-chart-bar-base), var(--color-chart-bar-tip));
-}
-
-.li-gradient__glow-top {
-  stop-color: var(--color-chart-glow-top);
-}
-
-.li-gradient__glow-bottom {
-  stop-color: var(--color-chart-glow-bottom);
-  stop-opacity: 0.4;
-}
-
-.li-gradient__bar-base {
-  stop-color: var(--color-chart-bar-base);
-}
-
-.li-gradient__bar-tip {
-  stop-color: var(--color-chart-bar-tip);
-}
-
 /* Small labels in Inter, not Kulim. */
 .signals-page :is(.momentum__stage-title, .presence-clean__added h4) {
   font-family: var(--type-group-title-font);
@@ -15982,14 +15949,6 @@ ol.entry-drawer__rows {
   line-height: var(--type-card-title-leading);
   letter-spacing: var(--type-card-title-tracking);
   word-spacing: var(--type-card-title-word-spacing);
-}
-
-.signals-page .li-row__label b {
-  font-family: var(--type-subheading-font);
-  font-size: var(--type-subheading-size);
-  font-weight: var(--type-subheading-weight);
-  letter-spacing: var(--type-subheading-tracking);
-  word-spacing: var(--type-subheading-word-spacing);
 }
 
 /* Try this's small label: the eyebrow role, as on every card. */
@@ -17522,7 +17481,6 @@ fieldset.agenda__whens {
   border-color: var(--color-selected-hover);
 }
 
-
 /* The answers stay white with the ink, a ring of their own inside the navy. */
 :is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer .chip-group__chip {
   border-color: var(--color-surface-raised);
@@ -18015,72 +17973,45 @@ ul.plan-guided__sparks {
   color: var(--color-text-secondary);
 }
 
-.li-rows {
-  display: flex;
-  flex-direction: column;
-}
-
-/* Each row sits centred between its hairlines: the standard 20 either side of a line (--space-divided-item),
-   above and below alike (designer, 2026-10-20). The first row follows the intro and the last ends the card,
-   so neither takes the extra. */
-.li-row {
-  padding-block: var(--space-divided-item);
+.li-figures {
+  /* Four totals in two columns, split by hairlines, as the figures LinkedIn's own overview leads with. */
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
-.li-row:first-child {
-  padding-top: 0;
-  border-top: 0;
-}
-
-.li-row:last-child {
-  padding-bottom: 0;
-}
-
-.li-row__head {
-  display: grid;
-  /* The label, the number, and plus or minus (designer, 2026-10-21: no shape in miniature on the row). */
-  grid-template-columns: minmax(0, 1fr) auto auto;
-  /* The number lines up with the top of Followers (designer, 2026-10-20). */
-  align-items: start;
-  gap: var(--space-sm);
-  width: 100%;
-  min-height: var(--target-min, 2.75rem);
-  padding-block: 0;
-  /* No side padding: the button's own 6px set Followers, Impressions and Posts in from the card's title,
-     copy and charts (designer, 2026-10-20). */
-  padding-inline: 0;
-  text-align: left;
-  cursor: pointer;
-}
-
-.li-row__head:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-  border-radius: var(--radius-md);
-}
-
-.li-row__label {
+.li-figure {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
   gap: var(--space-3xs);
   min-width: 0;
+  padding-block: var(--space-md);
+  border-bottom: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
-.li-row__label b {
-  font-family: var(--font-body);
-  font-size: var(--text-md);
+.li-figure:nth-child(even) {
+  padding-left: var(--space-md);
+  border-left: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+.li-figure__value {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
   font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  font-variant-numeric: proportional-nums;
 }
 
-.li-row__label span {
+.li-figure__label {
   font-size: var(--text-xs);
+  line-height: var(--leading-snug);
   color: var(--color-text-secondary);
 }
 
-/* The change after the date under Followers, in her growth colour; a fall takes the row's own grey, never
-   a warning (designer, 2026-10-21). */
-.li-row__label .li-row__gain {
+.li-figure__gain {
   display: inline-flex;
   align-items: center;
   vertical-align: bottom;
@@ -18089,333 +18020,104 @@ ul.plan-guided__sparks {
   color: var(--color-text-her-growth);
 }
 
-.li-row__label .li-row__gain.is-down {
+.li-figure__gain.is-down {
   color: var(--color-text-secondary);
 }
 
-.li-row__value {
-  font-family: var(--font-display);
-  font-size: var(--text-2xl);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
-  /* Proportional figures: each row's number stands alone, so it needs no table columns, and equal-width
-     digits spread 1,284 wide (designer, 2026-10-21). */
-  font-variant-numeric: proportional-nums;
-}
-
-.li-row__toggle {
-  display: grid;
-  place-items: center;
-  /* As tall as the number's line, so plus and minus sit centred on the number (designer, 2026-10-21). */
-  height: calc(var(--text-2xl) * var(--leading-tight));
-  color: var(--color-text-secondary);
-}
-
-.li-row__body {
+/* Each group after the figures is its own section: the same pause as before Counts on Where you started. */
+.li-group {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
-  margin-top: var(--space-md);
+  gap: var(--space-group-title);
+  margin-top: var(--space-xs);
 }
 
-/* A class selector outranks the user agent's [hidden] rule, so a closed row's body would keep its room. */
-.li-row__body[hidden] {
-  display: none;
-}
-
-.li-spark {
-  width: 5.25rem;
-  height: 1.75rem;
-}
-
-.li-spark__line {
-  fill: none;
-  stroke: var(--color-surface-inverse);
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.li-spark__end,
-.li-spark__bar {
-  fill: var(--color-surface-inverse);
-}
-
-.li-caption {
+.li-group__title {
   margin: 0;
-  font-size: var(--text-xs);
-  color: var(--color-text-secondary);
+  font-family: var(--type-group-title-font);
+  font-size: var(--type-group-title-size);
+  font-weight: var(--type-group-title-weight);
+  line-height: var(--type-group-title-leading);
+  letter-spacing: var(--type-group-title-tracking);
+  word-spacing: var(--type-group-title-word-spacing);
+  text-transform: uppercase;
 }
 
-.li-line {
-  position: relative;
-  border-radius: var(--radius-md);
-  touch-action: pan-y;
-}
-
-.li-line:has(.li-line__scrub:focus-visible) {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.li-line__svg {
-  display: block;
-  width: 100%;
-  height: auto;
-  /* The plot meets the card's hairlines, so its end dot hangs just past the edge rather than being cut. */
-  overflow: visible;
-}
-
-/* A real range control, laid over the plot and unseen: keyboard and touch use it. */
-.li-line__scrub {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  margin: 0;
-  opacity: 0;
-  cursor: crosshair;
-}
-
-.li-grid {
-  stroke: var(--color-border-subtle);
-  stroke-width: 1;
-  shape-rendering: crispEdges;
-}
-
-.li-axis {
-  fill: var(--color-text-muted);
-  font-family: var(--font-body);
-  font-size: 11px;
-}
-
-.li-line__area {
-  fill: color-mix(in srgb, var(--color-surface-inverse) 10%, transparent);
-}
-
-.li-line__path {
-  fill: none;
-  stroke: var(--color-surface-inverse);
-  stroke-width: 2;
-  stroke-linejoin: round;
-  stroke-linecap: round;
-}
-
-.li-dot {
-  fill: var(--color-surface-inverse);
-}
-
-.li-dot-ring {
-  fill: var(--color-surface-raised);
-}
-
-/* The arrows on the week's line: no shape, the line passes between them. At rest there is only the arrow
-   back, set just left of the line at the chart's end. */
-.li-grip {
-  position: absolute;
-  display: flex;
-  width: max-content;
-  align-items: center;
-  gap: var(--space-xs);
-  color: var(--color-text-primary);
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-}
-
-.li-grip.is-rest {
-  transform: translate(calc(-100% - var(--space-2xs)), -50%);
-}
-
-.li-cross.li-cross--rest {
-  stroke: var(--color-text-secondary);
-}
-
-.li-value {
-  fill: var(--color-text-primary);
-  font-family: var(--font-body);
-  /* Larger, so the chart's first and last counts read at a glance (designer, 2026-10-21; 12 before). */
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.li-cross {
-  stroke: var(--color-border);
-  stroke-width: 1;
-  shape-rendering: crispEdges;
-}
-
-.li-tip {
-  position: absolute;
-  top: 0;
-  display: flex;
-  flex-direction: column;
-  padding: var(--space-2xs) var(--space-xs);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-md);
-  /* The card's own white, not the page's surface: on the navy Signal Picture the page surface is navy and
-     the dark words vanished on it (designer, 2026-10-21). */
-  background-color: var(--color-surface-raised);
-  /* A plain grey lift and the card's own faint edge, not blue (designer, 2026-10-21). */
-  box-shadow: var(--shadow-md-neutral);
-  white-space: nowrap;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.li-tip--start {
-  transform: none;
-}
-
-.li-tip--mid {
-  transform: translateX(-50%);
-}
-
-.li-tip--end {
-  transform: translateX(-100%);
-}
-
-.li-tip strong {
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-primary);
-}
-
-.li-tip span {
-  font-size: var(--text-xs);
-  color: var(--color-text-secondary);
-}
-
-.li-columns {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(var(--li-months, 13), minmax(0, 1fr));
-  /* A fieldset doesn't hand its height to the grid inside it, so the row says it too; without it each month
-     shrank to its letter and every bar drew at zero (found 2026-10-20). */
-  grid-template-rows: 8.25rem;
-  height: 8.25rem;
-  min-width: 0;
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
-
-.li-col {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100%;
-  min-width: 0;
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
-}
-
-.li-col:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-  border-radius: var(--radius-sm);
-}
-
-.li-col__plot {
-  position: relative;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-  width: 100%;
-  padding-top: var(--space-md);
-  border-bottom: var(--border-width-thin) solid var(--color-border);
-}
-
-.li-col__bar {
-  display: block;
-  width: min(1.125rem, 70%);
-  border-radius: var(--radius-xs) var(--radius-xs) 0 0;
-  background-color: var(--color-surface-inverse);
-  transition: background-color var(--duration-fast) var(--easing-standard);
-}
-
-.li-col:hover .li-col__bar,
-.li-col.is-active .li-col__bar {
-  background-color: color-mix(in srgb, var(--color-surface-inverse) 72%, var(--color-surface-raised));
-}
-
-.li-col__value {
-  position: absolute;
-  top: 0;
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-primary);
-}
-
-.li-col__label {
-  /* As tall as a label even when empty, so every bar ends on the same baseline. */
-  min-height: 1.2em;
-  margin-top: var(--space-2xs);
-  font-size: var(--text-xs);
-  line-height: 1.2;
-  white-space: nowrap;
-  color: var(--color-text-muted);
-}
-
-/* The first and last labels carry their year, so they hang inward from the chart's edges. */
-.li-col__label.is-first {
-  align-self: flex-start;
-}
-
-.li-col__label.is-last {
-  align-self: flex-end;
-}
-
-.li-col__none {
-  display: block;
-  width: min(1.125rem, 70%);
-  height: var(--border-width-thin);
-  background-color: var(--color-border-strong);
-}
-
-.li-top__list {
-  display: flex;
-  flex-direction: column;
+ul.li-posts,
+ul.li-shares {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.li-top__item {
+.li-post {
   display: flex;
-  align-items: flex-start;
+  align-items: baseline;
   justify-content: space-between;
   gap: var(--space-sm);
-  padding-block: var(--space-xs);
+  padding-block: var(--space-sm);
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
+  font-size: var(--text-sm);
 }
 
-.li-top__text {
+.li-post:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.li-post__when {
   display: flex;
   flex-direction: column;
   gap: var(--space-3xs);
-  min-width: 0;
-}
-
-.li-top__text b {
-  font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
 }
 
-.li-top__text span {
+.li-post__seen {
   font-size: var(--text-xs);
+  font-weight: var(--weight-regular);
   color: var(--color-text-secondary);
 }
 
-.li-top__value {
+.li-post__open {
   flex: none;
-  font-family: var(--font-display);
-  font-size: var(--text-md);
+  font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
+}
+
+.li-share {
+  display: grid;
+  /* The name gets the room; the bar is a short gauge beside the share. */
+  grid-template-columns: minmax(0, 1fr) 5rem 2.5rem;
+  align-items: center;
+  gap: var(--space-sm);
+  padding-block: var(--space-xs);
+  font-size: var(--text-sm);
+}
+
+.li-share__bar {
+  position: relative;
+  height: var(--space-2xs);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-her-band);
+}
+
+.li-share__bar > span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: inherit;
+  background-color: var(--color-surface-inverse);
+}
+
+.li-share__percent {
+  text-align: right;
   font-variant-numeric: tabular-nums;
+  color: var(--color-text-secondary);
+}
+
+.li-picture__privacy {
+  margin: var(--space-xs) 0 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
 }
 
 /* -----------------------------------------------------------------------------
@@ -21200,7 +20902,6 @@ ul.plan-guided__sparks {
   gap: var(--space-sm);
 }
 
-
 .library__status {
   margin-right: var(--space-3xs);
   vertical-align: baseline;
@@ -22748,7 +22449,6 @@ ul.plan-guided__sparks {
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
 }
-
 
 .library-folder__summary {
   font-family: var(--font-body);
