@@ -11189,6 +11189,8 @@ ol.check-in__steps {
   /* One figure on its own needs no table columns: proportional figures, so a leading 1 starts at the
      card's edge with the words above instead of centred in a wide digit slot (designer, 2026-10-21). */
   font-variant-numeric: proportional-nums;
+  /* A touch more room between its digits than proportional figures give (designer, 2026-10-21). */
+  letter-spacing: var(--tracking-widest);
 }
 
 .presence-clean__table {
