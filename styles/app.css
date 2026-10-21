@@ -18208,11 +18208,30 @@ ul.plan-guided__sparks {
   fill: var(--color-surface-raised);
 }
 
-/* The knob: a white ring with a navy edge round the navy dot, like a slider's thumb. */
-.li-dot-ring--handle {
-  stroke: var(--color-surface-inverse);
-  stroke-width: 1.5;
-  filter: drop-shadow(var(--shadow-knob-neutral));
+/* The grip on the week's line: a small white pill with arrows both ways, so the line reads as something
+   to slide back and forth. */
+.li-line {
+  --li-grip-half: 1.25rem;
+}
+
+.li-grip {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--li-grip-half) * 2);
+  height: var(--space-lg);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-raised);
+  box-shadow: var(--shadow-knob-neutral);
+  color: var(--color-text-primary);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.li-grip svg {
+  margin-inline: -0.2rem;
 }
 
 .li-value {

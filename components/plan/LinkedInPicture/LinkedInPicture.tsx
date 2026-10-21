@@ -214,12 +214,8 @@ function FollowersLine({ data, demoWeek }: { data: LinkedInExport; demoWeek?: nu
         <path className="li-line__path" d={line} />
         {shown === null ? (
           <>
-            {/* At rest the latest week already looks like a handle on a track: its guide line showing and a
-                ringed knob, so it reads as something to drag (designer, 2026-10-21). */}
             <line className="li-cross" x1={x(n - 1)} x2={x(n - 1)} y1={PAD.top} y2={H - PAD.bottom} />
-            <circle className="li-dot-ring li-dot-ring--handle" cx={x(n - 1)} cy={y(last.count)} r={8} />
-            <circle className="li-dot" cx={x(n - 1)} cy={y(last.count)} r={4} />
-            <text className="li-value" x={x(n - 1) - 14} y={y(last.count) - 11} textAnchor="end">
+            <text className="li-value" x={x(n - 1)} y={y(last.count) - 18} textAnchor="end">
               {last.count.toLocaleString("en-US")}
             </text>
             <text className="li-value" x={x(0)} y={y(first.count) - 11} textAnchor="start">
@@ -229,11 +225,19 @@ function FollowersLine({ data, demoWeek }: { data: LinkedInExport; demoWeek?: nu
         ) : (
           <>
             <line className="li-cross" x1={x(shown)} x2={x(shown)} y1={PAD.top} y2={H - PAD.bottom} />
-            <circle className="li-dot-ring li-dot-ring--handle" cx={x(shown)} cy={y(points[shown].count)} r={8} />
-            <circle className="li-dot" cx={x(shown)} cy={y(points[shown].count)} r={4} />
           </>
         )}
       </svg>
+      {/* The week's point is a grip with arrows both ways, on its line, at rest on the latest week, so the
+          chart reads as something to slide (designer, 2026-10-21; a ringed dot before). */}
+      <span
+        className="li-grip"
+        style={{ left: `clamp(var(--li-grip-half), ${(x(shown ?? n - 1) / W) * 100}%, calc(100% - var(--li-grip-half)))`, top: `${(y(points[shown ?? n - 1].count) / H) * 100}%` }}
+        aria-hidden="true"
+      >
+        <Icon name="chevron-left" size={16} />
+        <Icon name="chevron" size={16} />
+      </span>
       {shown !== null ? (
         <div className={`li-tip li-tip--${align(x(shown) / W)}`} style={{ left: `${(x(shown) / W) * 100}%` }} aria-hidden="true">
           <strong>{points[shown].count.toLocaleString("en-US")}</strong>
