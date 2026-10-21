@@ -1,7 +1,8 @@
-import { createElement } from "react";
+import { createElement, type ComponentProps } from "react";
 import { ChipGroup } from "@/components/form/ChipGroup";
 import { MailNotification } from "@/components/login/MailNotification";
 import { AnswerDrawer } from "@/components/onboarding/AnswerDrawer";
+import { Button } from "@/components/primitives/Button";
 import { defineComponentStates } from "@/components/types";
 import { CONTENT_INSIDE } from "@/components/not-applicable";
 import { LOGIN_COPY } from "@/mock/login";
@@ -9,6 +10,8 @@ import { GUIDE_C3 } from "@/mock/onboarding";
 import { GuidePage } from "./GuidePage";
 
 const noop = () => {};
+const primaryButton = { variant: "primary" } as ComponentProps<typeof Button>;
+const secondaryButton = { variant: "secondary", fullWidth: true } as ComponentProps<typeof Button>;
 
 export const guidePageStates = defineComponentStates({
   name: "GuidePage",
@@ -168,6 +171,18 @@ export const guidePageStates = defineComponentStates({
         onPrimary: noop,
         secondaryLabel: GUIDE_C3.signals.skip,
         onSecondary: noop,
+      },
+    },
+    {
+      label: "Main action in the top card",
+      description: "The stage check-in's read-back: its way on sits in the top card, at the right, and nothing is pinned to the foot.",
+      props: {
+        navy: true,
+        kicker: GUIDE_C3.signals.kicker,
+        title: GUIDE_C3.signals.title,
+        lede: GUIDE_C3.signals.lede,
+        headAction: createElement(Button, primaryButton, GUIDE_C3.signals.add),
+        foot: createElement(Button, secondaryButton, GUIDE_C3.signals.skip),
       },
     },
     {

@@ -8613,6 +8613,14 @@ ol.ring-detail__timeline {
    same place. */
 /* Why this matters sits on the page, not in a card, so its label is a group
    title, then the words, with no rule beside it. */
+/* The page's main action in its top card: at the card's right, under the right thumb, its copy-to-action
+   step above it (designer, 2026-10-21). */
+.guide__head-action {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: calc(var(--space-copy-action) - var(--space-title-copy));
+}
+
 .guide__why {
   margin-top: auto;
   display: flex;
@@ -8672,11 +8680,11 @@ ol.ring-detail__timeline {
    sticks to the foot of the screen and the content scrolls behind it, as the
    wizard's does. The button is always where the thumb expects it. The
    actions carry the bottom inset, so it holds while content scrolls. */
-[data-viewport="mobile"] .guide:not(.guide--drawer, .guide--cover) {
+[data-viewport="mobile"] .guide:not(.guide--drawer, .guide--cover, .guide--head-action) {
   padding-bottom: 0;
 }
 
-[data-viewport="mobile"] .guide:not(.guide--drawer, .guide--cover) > .guide__actions {
+[data-viewport="mobile"] .guide:not(.guide--drawer, .guide--cover, .guide--head-action) > .guide__actions {
   position: sticky;
   bottom: 0;
   z-index: var(--z-sticky);

@@ -3,6 +3,8 @@
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { ChipGroup } from "@/components/form/ChipGroup";
 import { Input } from "@/components/form/Input";
+import { Button } from "@/components/primitives/Button";
+import { Icon } from "@/components/primitives/Icon";
 import { AnswerDrawer } from "@/components/onboarding/AnswerDrawer";
 import { GuidePage } from "@/components/onboarding/GuidePage";
 import { ReflectionReply } from "@/components/onboarding/ReflectionReply";
@@ -369,11 +371,19 @@ export function StageCheckIn({
       kicker={C.summaryKicker(stageTitle)}
       title={C.summaryTitle}
       className={classes}
+      // On to the next stage sits in the top card, at its right, not pinned to the foot (designer, 2026-10-21).
       // Not on to the next stage when she is already in it, or when she said this one is not finished yet.
-      primaryLabel={focusOnOpen || answers.milestone === "not-yet" ? C.onTo(undefined) : C.onTo(nextStageTitle)}
-      onPrimary={onContinue}
-      secondaryLabel={C.change}
-      onSecondary={() => go(pages.indexOf("milestone"))}
+      headAction={
+        <Button variant="primary" onClick={onContinue}>
+          {focusOnOpen || answers.milestone === "not-yet" ? C.onTo(undefined) : C.onTo(nextStageTitle)}
+          <Icon name="chevron" size={16} />
+        </Button>
+      }
+      foot={
+        <Button variant="secondary" fullWidth onClick={() => go(pages.indexOf("milestone"))}>
+          {C.change}
+        </Button>
+      }
     >
       <ReflectionReply from="ExecHQ" text={reply} />
       <section className="stage-checkin__section" aria-labelledby={`${headingId}-did`}>
