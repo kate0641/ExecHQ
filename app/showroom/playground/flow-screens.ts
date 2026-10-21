@@ -56,8 +56,8 @@ export const FLOW_SCREENS: readonly FlowScreens[] = [
         full: true,
       },
       { id: "add", label: "Add to your picture", note: "Add, on Where you started.", query: "screen=add" },
-      { id: "report-added", label: "What came of it: something she added", note: "Nothing reported yet, on a row she added.", query: "screen=report-added" },
-      { id: "report-loop", label: "What came of it: something ExecHQ made", note: "Nothing reported yet, on a row from her work in ExecHQ: how it went, then her words.", query: "screen=report-loop" },
+      { id: "report-added", label: "What came of it: something she added", note: "Nothing reported yet, on a row she added. Needs a dock state with rows: Follow-up due shows it.", query: "screen=report-added" },
+      { id: "report-loop", label: "What came of it: something ExecHQ made", note: "Nothing reported yet, on a row from her work in ExecHQ: how it went, then her words. Follow-up due has one; in a state where every row is answered it opens on an answered one, without How did it go?", query: "screen=report-loop" },
     ],
   },
   {

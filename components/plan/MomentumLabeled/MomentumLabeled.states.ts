@@ -11,7 +11,7 @@ export const momentumLabeledStates = defineComponentStates({
   status: "draft",
   flows: ["signals"],
   description:
-    "Momentum on the Signal Picture: her week in motion. This week only, Sunday to Saturday, as seven circles: filled for a day she did something (a plan step, a draft or an outcome, or a signal she added), a thin outline for a past day with nothing in it, dashed for a day still to come, and a ring on today. Under them, when anything happened, one line counts it by kind; an empty week has no line. Then her next move. Nothing is a score, and declined or deferred steps are never in it.",
+    "Momentum on the Signal Picture: her week in motion. This week only, Sunday to Saturday, as seven circles: filled for a day she did something (a plan step, a draft or an outcome, or a signal she added), a thin outline for a past day with nothing in it, dashed for a day still to come, and a ring on today. Beside This week, when anything happened, one line counts it by kind; an empty week has no line. Her next move closes the same card, under a rule. Nothing is a score, and declined or deferred steps are never in it.",
   component: MomentumLabeled,
   notApplicable: {
     hover: "Its one control is the next move's link, which shows its own states.",
