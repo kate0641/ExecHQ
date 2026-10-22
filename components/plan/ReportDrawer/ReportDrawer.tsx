@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { didParts } from "@/components/plan/PlanSignalPicture/did-parts";
 import { ChipGroup } from "@/components/form/ChipGroup";
 import { Input } from "@/components/form/Input";
 import { Drawer } from "@/components/layout/Drawer";
@@ -73,8 +74,8 @@ function ReportForm({ onClose, onSave, did, on, asksTone, demoErrors }: Omit<Rep
       <div className="report-drawer__head">
         <h2 className="report-drawer__title">{C.title}</h2>
         <p className="report-drawer__did">
-          <span className="report-drawer__date">{shortDate(on)}</span>
-          <span className="report-drawer__what">{did}</span>
+          <span className="report-drawer__date">{[shortDate(on), didParts(did).detail].filter(Boolean).join(" · ")}</span>
+          <span className="report-drawer__what">{didParts(did).title}</span>
         </p>
       </div>
       {asksTone ? (
