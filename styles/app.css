@@ -18055,9 +18055,9 @@ ul.li-shares {
 
 .li-post {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-sm);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3xs);
   /* Rows split by hairlines take the standard 20 either side of the line. */
   padding-block: var(--space-divided-item);
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
@@ -18072,35 +18072,26 @@ ul.li-shares {
   padding-bottom: 0;
 }
 
-.li-post__text {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3xs);
-  min-width: 0;
-}
-
 .li-post__title {
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
 }
 
+/* The last word and the icon never part. */
+.li-post__last {
+  white-space: nowrap;
+}
+
+.li-post__last svg {
+  display: inline-block;
+  margin-left: var(--space-2xs);
+  vertical-align: -0.15em;
+}
+
 .li-post__meta {
   font-size: var(--text-xs);
   color: var(--color-text-secondary);
-}
-
-/* Open on LinkedIn: the round icon button, the icon alone. */
-.li-post__open {
-  display: grid;
-  flex: none;
-  place-items: center;
-  color: var(--color-text-link);
-}
-
-.li-post__open:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
 }
 
 .li-share {
@@ -25216,14 +25207,13 @@ ul.letter-archive__list {
 }
 
 /* One icon button: round, 44px; 32px inside a field (the chat composer), where the field gives the tap
-   room. Carousel arrows, the stepper, Saved's remove, the chat's close and Open on LinkedIn all share it. */
+   room. Carousel arrows, the stepper, Saved's remove and the chat's close all share it. */
 .card-carousel__controls > .btn,
 .stepper__button,
 .saved-page__remove,
 .concierge-panel__close,
 .mic-button,
-.chat-composer__attach,
-.li-post__open {
+.chat-composer__attach {
   width: var(--icon-button-size);
   height: var(--icon-button-size);
   padding: 0;

@@ -17,6 +17,22 @@ export interface LinkedInPictureProps {
   className?: string;
 }
 
+/** The title with the icon after its last word, the two kept on one line so the icon never sits alone. */
+function titleWithIcon(title: string) {
+  const at = title.lastIndexOf(" ");
+  const head = at < 0 ? "" : title.slice(0, at + 1);
+  const last = at < 0 ? title : title.slice(at + 1);
+  return (
+    <>
+      {head}
+      <span className="li-post__last">
+        {last}
+        <Icon name="external-link" size={16} />
+      </span>
+    </>
+  );
+}
+
 /** Where a post opens when the export gives no link (the stub). */
 const FEED = "https://www.linkedin.com/feed/";
 
@@ -78,17 +94,15 @@ export function LinkedInPicture({ data, initialKind = "location", headingId, cla
               <ul className="li-posts">
                 {best.map((p) => (
                   <li key={p.id} className="li-post">
-                    {/* What the post was, when, and how far it went, so she can check the picture is hers
-                        without leaving; the way out to LinkedIn is an icon (designer, 2026-10-21). */}
-                    <span className="li-post__text">
-                      <span className="li-post__title">{p.title}</span>
-                      <span className="li-post__meta">
-                        {monthDayYear(p.on)} · {C.seenTimes(p.impressions)}
-                      </span>
-                    </span>
-                    <a className="li-post__open" href={p.url ?? FEED} target="_blank" rel="noreferrer" aria-label={`${C.open}: ${p.title} ${C.opensNewTab}`}>
-                      <Icon name="external-link" size={20} />
+                    {/* The title is the link out, with the external-link icon held to its last word (designer,
+                        2026-10-21; a separate icon button before). Under it, when and how far it went. */}
+                    <a className="link li-post__title" href={p.url ?? FEED} target="_blank" rel="noreferrer">
+                      {titleWithIcon(p.title)}
+                      <span className="u-visually-hidden"> {C.opensNewTab}</span>
                     </a>
+                    <span className="li-post__meta">
+                      {monthDayYear(p.on)} · {C.seenTimes(p.impressions)}
+                    </span>
                   </li>
                 ))}
               </ul>

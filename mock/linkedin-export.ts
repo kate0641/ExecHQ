@@ -141,7 +141,6 @@ export const LINKEDIN_PICTURE_COPY = {
   posts: (n: number) => (n === 1 ? "post" : "posts"),
   furthest: "Your posts that went furthest",
   seenTimes: (n: number) => `seen ${n.toLocaleString("en-US")} times`,
-  open: "Open on LinkedIn",
   opensNewTab: "(opens in a new tab)",
   who: "Who you're reaching",
   whoBy: "Show who you're reaching by",
