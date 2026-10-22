@@ -236,7 +236,7 @@ function SeenCard({ cohort, window }: { cohort: Cohort; window: DateRange }) {
  *  code in the joining card, where it belongs. */
 function Dashboard({ controls, headingRef }: { controls: CohortControls; headingRef?: React.Ref<HTMLHeadingElement> }) {
   const cohort = controls.cohort!;
-  // The dates chosen (Kate, 2026-10-21): the last 30 days to start with.
+  // The dates chosen (Kate, 2026-10-22): this week to start with.
   const [choice, setChoice] = useState<DateRange>(DEFAULT_RANGE);
   const window = resolveRange(choice, cohort);
   const [open, setOpen] = useState<DataPointId | null>(null);

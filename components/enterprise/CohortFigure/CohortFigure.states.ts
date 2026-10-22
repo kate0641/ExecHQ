@@ -29,7 +29,7 @@ export const cohortFigureStates = defineComponentStates({
     { label: "Moving up since last week", props: { figure: active, direction: "up", onExplain: noop } },
     { label: "Moving down since last week", props: { figure: figureFor(COHORTS.demo, "active", "30d"), direction: "down", onExplain: noop } },
     { label: "Large, moving up", props: { figure: figureFor(pilot, "plans", "launch"), size: "lg", direction: "up", onExplain: noop } },
-    { label: "Filling in, 30 days at day 14", props: { figure: figureFor(pilot, "active", "30d"), onExplain: noop } },
+    { label: "Filling in, 30 days at day 17", props: { figure: figureFor(pilot, "active", "30d"), onExplain: noop } },
     {
       label: "Hidden — suppressed, empty",
       description: "Below the minimum cohort size. Every figure but Joined is replaced by this.",

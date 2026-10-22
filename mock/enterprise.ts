@@ -53,29 +53,23 @@ export interface DateRange {
 /** What a figure covers: one of the stored windows, or dates. */
 export type Period = WindowId | DateRange;
 
+/** The ranges in the list, in order (Kate, 2026-10-22): this week first,
+ *  as the dashboard opens on it. Any other dates are picked on the calendar. */
 export const RANGE_PRESET_IDS = [
-  "today",
-  "yesterday",
   "this-week",
-  "last-week",
-  "past-two-weeks",
-  "last-30",
-  "last-90",
   "this-month",
   "last-month",
-  "this-year",
+  "last-30",
+  "last-90",
   "since-launch",
+  "this-year",
 ] as const;
 export type RangePresetId = (typeof RANGE_PRESET_IDS)[number];
 
 /** Each preset's name in the list, inside a sentence ("were active this
  *  week"), and after "covers" ("covers this week"). */
 export const RANGE_PRESETS: Record<RangePresetId, { label: string; inSentence: string; covers: string }> = {
-  today: { label: "Today", inSentence: "today", covers: "today" },
-  yesterday: { label: "Yesterday", inSentence: "yesterday", covers: "yesterday" },
   "this-week": { label: "This week", inSentence: "this week", covers: "this week" },
-  "last-week": { label: "Last week", inSentence: "last week", covers: "last week" },
-  "past-two-weeks": { label: "Past two weeks", inSentence: "in the past two weeks", covers: "the past two weeks" },
   "last-30": { label: "Last 30 days", inSentence: "in the last 30 days", covers: "the last 30 days" },
   "last-90": { label: "Last 90 days", inSentence: "in the last 90 days", covers: "the last 90 days" },
   "this-month": { label: "This month", inSentence: "this month", covers: "this month" },
@@ -84,8 +78,8 @@ export const RANGE_PRESETS: Record<RangePresetId, { label: string; inSentence: s
   "since-launch": { label: "Since launch", inSentence: "since the program started", covers: "the program since it started" },
 };
 
-/** What the dashboard opens on: the last 30 days, as the window did. */
-export const DEFAULT_PRESET: RangePresetId = "last-30";
+/** What the dashboard opens on: this week (Kate, 2026-10-22). */
+export const DEFAULT_PRESET: RangePresetId = "this-week";
 
 /** The sponsor's today: the day of the latest update, or the day it is late
  *  for. */
@@ -111,11 +105,7 @@ export function presetRange(id: RangePresetId, cohort: Cohort): DateRange {
   const [y, m] = today.split("-").map(Number);
   const firstOfMonth = (year: number, month: number) => `${year}-${String(month).padStart(2, "0")}-01`;
   const dates: Record<RangePresetId, () => { from: string; to: string }> = {
-    today: () => ({ from: today, to: today }),
-    yesterday: () => ({ from: addDays(today, -1), to: addDays(today, -1) }),
     "this-week": () => ({ from: mondayOf(today), to: today }),
-    "last-week": () => ({ from: addDays(mondayOf(today), -7), to: addDays(mondayOf(today), -1) }),
-    "past-two-weeks": () => ({ from: addDays(today, -13), to: today }),
     "last-30": () => ({ from: addDays(today, -29), to: today }),
     "last-90": () => ({ from: addDays(today, -89), to: today }),
     "this-month": () => ({ from: firstOfMonth(y, m), to: today }),
@@ -190,12 +180,12 @@ export function shiftRange(range: DateRange, by: 1 | -1, cohort: Cohort): DateRa
   const sameYearAsToday = to === today && from.slice(0, 4) === today.slice(0, 4);
   const p = range.preset;
   const unit =
-    p === "this-week" || p === "last-week" ? "week" : p === "this-month" || p === "last-month" ? "month" : p === "this-year" ? "year" : undefined;
+    p === "this-week" ? "week" : p === "this-month" || p === "last-month" ? "month" : p === "this-year" ? "year" : undefined;
   let next: { from: string; to: string };
   let prefer: RangePresetId[] = [];
   if (unit === "week" || (!unit && from !== to && mondayOf(from) === from && (daysIn(from, to) === 7 || sameWeekAsToday))) {
     next = { from: addDays(from, 7 * by), to: addDays(from, 7 * by + 6) };
-    prefer = ["this-week", "last-week"];
+    prefer = ["this-week"];
   } else if (unit === "month") {
     const start = shiftMonthStart(from, by);
     next = { from: start, to: monthEnd(start) };
@@ -264,7 +254,7 @@ export function isSinceLaunch(cohort: Cohort, period: Period): boolean {
 }
 
 /** A period in words: inside a sentence, and after "covers". Dates follow
- *  the words where it helps: "the last 30 days (30 Aug – 28 Sep 2026)". */
+ *  the words where it helps: "the last 30 days (2 Sep – 1 Oct 2026)". */
 export function periodWords(period: Period): { inSentence: string; covers: string } {
   if (typeof period === "string") {
     return period === "launch"
@@ -488,7 +478,7 @@ export const COHORTS: Record<Cohort["id"], Cohort> = {
     name: "Northgate Board Readiness",
     expectedSize: 12,
     startsOn: "2026-09-21",
-    asOf: "2026-09-28",
+    asOf: "2026-10-01",
     code: "EXEC-7390",
     open: true,
     joined: 6,
@@ -505,7 +495,7 @@ export const COHORTS: Record<Cohort["id"], Cohort> = {
     name: "Northgate Leadership Program",
     expectedSize: 50,
     startsOn: "2026-09-14",
-    asOf: "2026-09-28",
+    asOf: "2026-10-01",
     code: "EXEC-4821",
     open: true,
     joined: 38,
@@ -522,8 +512,8 @@ export const COHORTS: Record<Cohort["id"], Cohort> = {
     id: "demo",
     name: "Northgate Senior Leaders",
     expectedSize: 1000,
-    startsOn: "2026-09-08",
-    asOf: "2026-12-07",
+    startsOn: "2026-09-11",
+    asOf: "2026-12-10",
     code: "EXEC-1155",
     open: false,
     joined: 912,
@@ -1461,7 +1451,9 @@ export function updateMondays(cohort: Cohort): string[] {
  * exactly. One source for the letter's issues and for "since last week".
  */
 function snapshotAt(cohort: Cohort, index: number, total: number, on: string): Cohort {
-  if (index + 1 === total) return cohort;
+  // The latest issue is the Monday one, though the figures have moved on
+  // daily since: the same figures, said as of that Monday.
+  if (index + 1 === total) return on === cohort.asOf ? cohort : { ...cohort, asOf: on };
   if (index + 2 === total && cohort.lastWeek) {
     return { ...cohort, ...cohort.lastWeek, asOf: on, weeklyActive: cohort.weeklyActive.slice(0, index + 1) };
   }

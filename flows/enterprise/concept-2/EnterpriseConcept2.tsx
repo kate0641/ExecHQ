@@ -229,7 +229,7 @@ function ReportBody({ cohort, window }: { cohort: Cohort; window: DateRange }) {
 
 function Concept2Page({ controls }: { controls: CohortControls }) {
   const { cohort } = controls;
-  // The dates chosen (Kate, 2026-10-21): the last 30 days to start with.
+  // The dates chosen (Kate, 2026-10-22): this week to start with.
   const [choice, setChoice] = useState<DateRange>(DEFAULT_RANGE);
   const window = cohort ? resolveRange(choice, cohort) : DEFAULT_RANGE;
   const headingRef = useRef<HTMLHeadingElement>(null);
