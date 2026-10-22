@@ -2,6 +2,7 @@
 
 import { useId, useState } from "react";
 import { ToggleGroup } from "@/components/form/ToggleGroup";
+import { Icon } from "@/components/primitives/Icon";
 import { compact, topPosts, totals } from "@/lib/linkedin-export";
 import { LINKEDIN_PICTURE_COPY as C, type LinkedInExport } from "@/mock/linkedin-export";
 import { monthDayYear } from "./linkedin-dates";
@@ -22,7 +23,7 @@ const FEED = "https://www.linkedin.com/feed/";
 /**
  * How far her posts reach and who they reach, from her LinkedIn export, as the onboarding spec puts it
  * (designer with Kate, 2026-10-21; three rows of charts before). Only what the export holds: four totals,
- * her posts that went furthest by date and reach with a link to each (the export gives no titles), and who
+ * her posts that went furthest by title, date and reach with a link to each, and who
  * she is reaching, one kind of demographic at a time. Counts only: no score, no comparison, and nothing
  * says her work caused any of it.
  */
@@ -77,13 +78,16 @@ export function LinkedInPicture({ data, initialKind = "location", headingId, cla
               <ul className="li-posts">
                 {best.map((p) => (
                   <li key={p.id} className="li-post">
-                    <span className="li-post__when">
-                      {monthDayYear(p.on)}
-                      <span className="li-post__seen">{C.seenTimes(p.impressions)}</span>
+                    {/* What the post was, when, and how far it went, so she can check the picture is hers
+                        without leaving; the way out to LinkedIn is an icon (designer, 2026-10-21). */}
+                    <span className="li-post__text">
+                      <span className="li-post__title">{p.title}</span>
+                      <span className="li-post__meta">
+                        {monthDayYear(p.on)} · {C.seenTimes(p.impressions)}
+                      </span>
                     </span>
-                    <a className="link li-post__open" href={p.url ?? FEED} target="_blank" rel="noreferrer">
-                      {C.open}
-                      <span className="u-visually-hidden"> {C.opensNewTab}</span>
+                    <a className="li-post__open" href={p.url ?? FEED} target="_blank" rel="noreferrer" aria-label={`${C.open}: ${p.title} ${C.opensNewTab}`}>
+                      <Icon name="external-link" size={20} />
                     </a>
                   </li>
                 ))}
