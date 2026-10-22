@@ -580,7 +580,6 @@ export const SIGNAL_PICTURE_COPY = {
     noReply: "Nothing reported yet",
     /** Said under it when she can tap it. */
     report: "Tap to report",
-    cameOfIt: "What came of it: ",
     more: (n: number) => `Show ${n} more`,
     fewer: "Show fewer",
   },
