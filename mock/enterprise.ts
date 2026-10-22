@@ -1097,15 +1097,11 @@ export const SPONSOR_PERSON = {
   email: "dana.okafor@northgate.com",
 } as const;
 
-/** The account menu at the right of the header (Kate, 2026-10-21, option A).
- *  Your profile opens the sponsor profile (2026-10-22); Sign out says it
- *  isn't built yet. */
-export const ACCOUNT_COPY = {
-  label: (name: string) => `Your account, ${name}`,
-  detail: (role: string, org: string) => `${role}, ${org}`,
-  profile: "Your profile",
-  signOut: "Sign out",
-  notYet: "Not built yet",
+/** The initials at the right of the header, opening the profile (Kate,
+ *  2026-10-22). They replaced the account menu of 2026-10-21. */
+export const PROFILE_LINK_COPY = {
+  label: (name: string) => `Your profile, ${name}`,
+  title: "Your profile",
 } as const;
 
 /* -----------------------------------------------------------------------------

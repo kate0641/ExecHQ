@@ -316,13 +316,13 @@ export const prototypeConfig: PrototypeConfig = {
       chrome: "enterprise",
       webOnly: true,
       description:
-        "The sponsor's own account, reached from Your profile in the dashboard's account menu. No brief: plain and practical (Kate, 2026-10-22).",
+        "The sponsor's own account, opened from the initials in the dashboard's header. No brief: plain and practical (Kate, 2026-10-22).",
       concepts: [
         {
           slug: "concept-1",
           title: "Concept 1 — One page",
           summary:
-            "Settings rows in five groups on one page: You, Your cohort, Emails, What you can see and Signing in. Name and job title can be changed; the cohort's details are shown with a way back to the dashboard.",
+            "Settings rows in five groups on one page: You, Your cohort, Emails, What you can see and Signing in. Name and job title can be changed; the cohort's details are shown with a way back to the dashboard. Sign out is a button at the foot.",
         },
       ],
     },

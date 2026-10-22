@@ -146,7 +146,7 @@ import { briefingPictureStates } from "./briefing/BriefingPicture/BriefingPictur
 import { briefingFrontStates } from "./briefing/BriefingFront/BriefingFront.states";
 import { cohortFigureStates } from "./enterprise/CohortFigure/CohortFigure.states";
 import { figureDefinitionStates } from "./enterprise/FigureDefinition/FigureDefinition.states";
-import { accountMenuStates } from "./enterprise/AccountMenu/AccountMenu.states";
+import { profileLinkStates } from "./enterprise/ProfileLink/ProfileLink.states";
 import { dateRangePickerStates } from "./enterprise/DateRangePicker/DateRangePicker.states";
 import { inviteCodeStates } from "./enterprise/InviteCode/InviteCode.states";
 import { cohortFormStates } from "./enterprise/CohortForm/CohortForm.states";
@@ -292,7 +292,7 @@ export const registry: RegisteredComponent[] = [
   briefingFrontStates,
   cohortFigureStates,
   figureDefinitionStates,
-  accountMenuStates,
+  profileLinkStates,
   dateRangePickerStates,
   inviteCodeStates,
   cohortFormStates,

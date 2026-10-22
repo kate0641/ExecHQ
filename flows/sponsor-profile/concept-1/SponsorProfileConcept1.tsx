@@ -118,8 +118,10 @@ function CohortGroup() {
  * they sign in, so it changes through ExecHQ. The cohort is shown, not
  * edited: its code and figures are on the dashboard. What they can see is
  * said plainly, beside what participants are told, so both sides of the
- * promise sit on one page. Signing out ends the page in place, because the
- * sponsor's sign-in isn't designed; nothing here is stored.
+ * promise sit on one page. The header's initials open it (2026-10-22), and
+ * Sign out is its last thing, a button of its own at the foot. Signing out
+ * ends the page in place, because the sponsor's sign-in isn't designed;
+ * nothing here is stored.
  */
 export function SponsorProfileConcept1() {
   const [person, setPerson] = useState<{ name: string; role: string }>({ name: SPONSOR_PERSON.name, role: SPONSOR_PERSON.role });
@@ -252,8 +254,16 @@ export function SponsorProfileConcept1() {
             setStatus(C.signing.signedOutAll);
           }}
         />
-        <SettingsRow kind="action" icon="sign-out" label={C.signing.signOut} onAction={() => setSignedOut(true)} />
       </SettingsGroup>
+
+      {/* Signing out closes the page (Kate, 2026-10-22): the header's
+          initials open this page, so this is where it ends. */}
+      <div className="sponsor-profile__foot">
+        <Button variant="secondary" onClick={() => setSignedOut(true)}>
+          <Icon name="sign-out" size={18} />
+          {C.signing.signOut}
+        </Button>
+      </div>
     </div>
   );
 }
