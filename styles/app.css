@@ -18111,7 +18111,9 @@ ul.li-shares {
   position: relative;
   height: var(--space-2xs);
   border-radius: var(--radius-pill);
-  background-color: var(--color-surface-her-band);
+  /* The stone track the progress rings use, so the navy share reads against white; the lime was too light
+     (designer, 2026-10-21). */
+  background-color: var(--color-ring-track);
 }
 
 .li-share__bar > span {
