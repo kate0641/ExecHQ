@@ -1090,16 +1090,97 @@ export const SPONSOR_PERSON = {
   initials: "DO",
   role: "Head of Leadership Development",
   org: "Northgate",
+  /** Invented with the name (2026-10-22): a work address, since the sponsor
+   *  signs in as Northgate, unlike a participant. */
+  email: "dana.okafor@northgate.com",
 } as const;
 
 /** The account menu at the right of the header (Kate, 2026-10-21, option A).
- *  Neither page behind it is designed yet, so both say so. */
+ *  Your profile opens the sponsor profile (2026-10-22); Sign out says it
+ *  isn't built yet. */
 export const ACCOUNT_COPY = {
   label: (name: string) => `Your account, ${name}`,
   detail: (role: string, org: string) => `${role}, ${org}`,
   profile: "Your profile",
   signOut: "Sign out",
   notYet: "Not built yet",
+} as const;
+
+/* -----------------------------------------------------------------------------
+   SPONSOR PROFILE
+   No brief (Kate, 2026-10-22): plain and practical. Who they are, their
+   cohort at a glance, the emails they get, what they can and can't see, and
+   signing out. Billing, seats and other admins are left out until a brief
+   asks for them.
+   -------------------------------------------------------------------------- */
+
+export type SponsorEmailId = "weekly" | "unlocked" | "late";
+
+export const SPONSOR_PROFILE_COPY = {
+  title: "Your profile",
+  back: "Dashboard",
+  lead: (role: string, org: string) => `${role}, ${org}`,
+  you: {
+    group: "You",
+    name: "Name",
+    role: "Job title",
+    email: "Work email",
+    emailHint: "You sign in with it. To change it, write to your ExecHQ contact.",
+    org: "Organization",
+    edit: "Change your name and job title",
+    editHeading: "Your name and job title",
+    nameMissing: "Enter your name.",
+    roleMissing: "Enter your job title.",
+    save: "Save",
+    cancel: "Cancel",
+    saved: "Your name and job title are saved.",
+  },
+  cohort: {
+    group: "Your cohort",
+    name: "Cohort",
+    started: "Started",
+    starts: "Starts",
+    expected: "People expected",
+    code: "Code",
+    codeValue: (code: string, open: boolean) => `${code} · ${open ? "Open to new joiners" : "Closed to new joiners"}`,
+    none: "No cohort yet",
+    noneHint: "Set one up on your dashboard to get a code to share.",
+    toDashboard: "Open your dashboard",
+    toDashboardHint: "Figures, the code and exports live there.",
+  },
+  emails: {
+    group: "Emails",
+    lead: "Sent to your work email. Figures stay on the dashboard: these say when to look.",
+    items: {
+      weekly: { label: "Weekly summary", hint: "Mondays: the week in three sentences, with a link to the dashboard." },
+      unlocked: { label: `When figures first show`, hint: `Once ${MIN_COHORT_SIZE} or more participants are active.` },
+      late: { label: "When an update is late", hint: "If the daily figures haven't arrived by 9am." },
+    } satisfies Record<SponsorEmailId, { label: string; hint: string }>,
+    defaults: { weekly: true, unlocked: true, late: false } satisfies Record<SponsorEmailId, boolean>,
+    savedOn: (label: string) => `${label}: on.`,
+    savedOff: (label: string) => `${label}: off.`,
+  },
+  privacy: {
+    group: "What you can see",
+    points: [
+      "Totals for the whole cohort. Never a participant, their plan or their work.",
+      `Every figure stays hidden until ${MIN_COHORT_SIZE} or more participants are active in the dates you choose.`,
+      `A channel participants post on shows only when ${MIN_COHORT_SIZE} or more are behind it.`,
+      "Exports carry the same totals, with no row for any person.",
+    ],
+    told: "What participants are told, in their own Profile:",
+  },
+  signing: {
+    group: "Signing in",
+    with: "Signs in with",
+    method: "A link or a code, sent to your work email",
+    signOut: "Sign out",
+    signOutAll: "Sign out on every other device",
+    signedOutAll: "You are signed out on every other device.",
+    ended: "You are signed out",
+    endedLead: "Sign in again with your work email to see your dashboard.",
+    again: "Sign in again",
+  },
 } as const;
 
 export const ENTERPRISE_COPY = {

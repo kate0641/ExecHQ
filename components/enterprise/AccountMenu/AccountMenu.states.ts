@@ -8,7 +8,7 @@ export const accountMenuStates = defineComponentStates({
   status: "draft",
   flows: ["enterprise"],
   description:
-    "The sponsor's account menu at the right of the enterprise header: their initials in a round DropdownMenu button, opening who is signed in, Your profile and Sign out. Neither page behind it is designed yet, so both items are unavailable and say so.",
+    "The sponsor's account menu at the right of the enterprise header: their initials in a round DropdownMenu button, opening who is signed in, Your profile and Sign out. Your profile opens the sponsor profile; signing out isn't designed yet, so that item is unavailable and says so.",
   component: AccountMenu,
   notApplicable: {
     loading: "Who is signed in is known before the page draws: nothing to wait for.",

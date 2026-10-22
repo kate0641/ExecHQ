@@ -1,7 +1,12 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { DropdownMenu } from "@/components/form/DropdownMenu";
+import { conceptHref } from "@/lib/manifest";
 import { ACCOUNT_COPY as C, SPONSOR_PERSON } from "@/mock/enterprise";
+
+/** The sponsor profile (Kate, 2026-10-22). */
+const PROFILE = conceptHref("sponsor-profile", "concept-1");
 
 const noop = () => {};
 
@@ -19,9 +24,11 @@ export interface AccountMenuProps {
  * The sponsor's account menu at the right of the enterprise header: their
  * initials, opening who is signed in, Your profile and Sign out (Kate,
  * 2026-10-21, option A). It lives in the chrome, so every concept has it.
- * The profile and signing out aren't designed yet, so both say so.
+ * Your profile opens the sponsor profile (2026-10-22); signing out isn't
+ * designed yet, so it says so.
  */
 export function AccountMenu({ person = SPONSOR_PERSON, defaultOpen, inline, demo, className }: AccountMenuProps) {
+  const router = useRouter();
   return (
     <DropdownMenu
       className={["account-menu", className].filter(Boolean).join(" ")}
@@ -33,7 +40,7 @@ export function AccountMenu({ person = SPONSOR_PERSON, defaultOpen, inline, demo
       demo={demo}
       entries={[
         { type: "heading", id: "who", title: person.name, detail: C.detail(person.role, person.org) },
-        { type: "item", id: "profile", label: C.profile, icon: "person", hint: C.notYet, disabled: true, onSelect: noop },
+        { type: "item", id: "profile", label: C.profile, icon: "person", onSelect: () => router.push(PROFILE) },
         { type: "separator", id: "s1" },
         { type: "item", id: "sign-out", label: C.signOut, icon: "sign-out", hint: C.notYet, disabled: true, onSelect: noop },
       ]}

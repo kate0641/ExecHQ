@@ -24555,6 +24555,96 @@ ul.plan-guided__sparks {
   margin-top: var(--space-3xs);
 }
 
+/* --- Sponsor profile (Kate, 2026-10-22) -------------------------------------- */
+
+.sponsor-profile {
+  gap: var(--space-xl);
+}
+
+.sponsor-profile__head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+}
+
+.sponsor-profile__back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  margin-bottom: var(--space-sm);
+  font-size: var(--type-body-sm-size);
+  color: var(--color-text-secondary);
+}
+
+.sponsor-profile__back:hover {
+  color: var(--color-text-primary);
+}
+
+/* A line under a group's card, about the whole group. */
+.sponsor-profile__with-note {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.sponsor-profile__lead {
+  padding-inline: var(--space-xs);
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
+}
+
+.sponsor-profile__edit {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.sponsor-profile__edit-heading {
+  font-family: var(--type-card-title-font);
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  line-height: var(--type-card-title-leading);
+  letter-spacing: var(--type-card-title-tracking);
+  word-spacing: var(--type-card-title-word-spacing);
+}
+
+.sponsor-profile__edit-actions {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.sponsor-profile__privacy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+ul.sponsor-profile__points {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin: 0;
+  padding-left: var(--space-lg);
+  list-style: disc;
+  line-height: var(--leading-relaxed);
+}
+
+.sponsor-profile__told {
+  padding-left: var(--space-sm);
+  border-left: var(--border-width-thin) solid var(--color-border);
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
+}
+
+.sponsor-profile__told q {
+  display: block;
+  margin-top: var(--space-3xs);
+  color: var(--color-text-primary);
+}
+
 .ent-setup__lead {
   display: flex;
   flex-direction: column;
