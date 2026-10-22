@@ -15269,6 +15269,59 @@ ul.came-of__rows {
   font-weight: var(--weight-semibold);
 }
 
+/* What came of it?, on the drawer system (designer, 2026-10-21): its groups (the question and the thing it
+   asks about, How did it go?, her words, the actions) 24 apart; the privacy line stays with her words. */
+.report-drawer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-drawer-groups);
+}
+
+.report-drawer__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-drawer-inner);
+}
+
+.report-drawer__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.report-drawer__did {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-eyebrow-title);
+  margin: 0;
+}
+
+.report-drawer__date {
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.report-drawer__what {
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.report-drawer .report-drawer__privacy {
+  margin-top: calc(var(--space-drawer-inner) - var(--space-drawer-groups));
+}
+
+.report-drawer .report-drawer__actions {
+  margin-top: calc(var(--space-before-actions) - var(--space-drawer-groups));
+}
+
 /* Add what you did, on the drawer system (designer, 2026-10-20): no card inside the drawer; its groups (a
    question, a field, the actions) 24 apart, and a second thing starts under a hairline with its name as a
    group title. */
