@@ -17986,8 +17986,10 @@ ul.plan-guided__sparks {
      header is (designer, 2026-10-21). Edge to edge across the card's top, the first at the left padding and the
      last at the right, each centred on its number, the card's edge under it as Your direction's has. */
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  gap: var(--space-sm);
+  /* In a column too narrow for four, they wrap rather than run into each other. */
+  gap: var(--space-md) var(--space-sm);
   margin: 0;
   padding: var(--space-md-lg) var(--space-feature-padding);
   border-bottom: var(--border-width-thin) solid var(--color-border);
@@ -18017,7 +18019,6 @@ ul.plan-guided__sparks {
   justify-content: flex-end;
   align-items: center;
   gap: var(--space-3xs);
-  min-width: 0;
   text-align: center;
 }
 
