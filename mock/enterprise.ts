@@ -952,8 +952,10 @@ function listChannels(labels: string[]): string {
 
 export const SEEN_COPY = {
   heading: "Showing up in the world",
-  answer: (any: number, active: number, window: Period) =>
-    `${count.format(any)} of the ${count.format(active)} active participants put something out in the world ${inWindow(window)}.`,
+  /** Leads on from Staying with it (Kate, 2026-10-22): the count is the
+   *  ring's, and the opening's. */
+  answer: (window: Period) => `And beyond ExecHQ: what participants put out where others can see it, ${inWindow(window)}.`,
+  brief: "Of those active, how many posted, published, spoke or were quoted in the dates chosen.",
   ring: "put something out, on any channel",
   channels: { linkedin: "LinkedIn", writing: "Published writing", speaking: "Speaking", podcasts: "Podcasts", press: "Press" } satisfies Record<ChannelId, string>,
   hidden: (labels: string[]) => listChannels(labels),
@@ -1218,25 +1220,49 @@ export const QUESTION_POINTS: Record<QuestionId, DataPointId[]> = {
   following: ["follow-through", "plans", "artifacts", "loop"],
 };
 
-/** The one-sentence answer that opens each question. Reports activity, never
- *  results: what participants did, not what ExecHQ caused. Undefined while
- *  the question's figures are hidden. */
+/**
+ * The page's opening (Kate, 2026-10-22): the story in three sentences, in
+ * the order of the cards, so it can be read alone and repeated. What they
+ * did, then whether they are using it and being seen, then how many came.
+ * Undefined while the figures are hidden: the notice says why.
+ */
+export function storyFor(cohort: Cohort, window: Period): string[] | undefined {
+  if (!isAboveMinimum(cohort, window)) return undefined;
+  const c = countsIn(cohort, window);
+  const n = (value: number) => count.format(value);
+  const long = isSinceLaunch(cohort, window) ? RANGE_PRESETS["since-launch"].inSentence : inWindow(window);
+  const moved = directionFor(cohort, "active", window);
+  const since = moved ? `, ${DIRECTION_COPY.clause[moved]}` : "";
+  const seen = signalsIn(cohort, window).any;
+  return [
+    `Participants have completed ${n(c.actionsCompleted)} of the ${n(c.actionsAccepted)} planned actions they took on so far.`,
+    `${n(c.active)} of the ${n(cohort.activated)} set up were active ${long}${since}, and ${n(seen)} of them put something out in the world.`,
+    `${n(cohort.joined)} of the ${n(cohort.expectedSize)} leaders you expected have joined.`,
+  ];
+}
+
+/** The sentence that opens each card. Each leads on from the card before
+ *  (Kate, 2026-10-22, "the page needs to tell a story"), and says what the
+ *  opening doesn't, so the figures under it are the evidence, not a repeat.
+ *  Reports activity, never results: what participants did, not what ExecHQ
+ *  caused. Undefined while the card's figures are hidden. */
 export function answerFor(cohort: Cohort, question: QuestionId, window: Period): string | undefined {
   const c = countsIn(cohort, window);
   const above = isAboveMinimum(cohort, window);
+  const n = (value: number) => count.format(value);
   switch (question) {
-    case "joined":
-      return above
-        ? `${count.format(cohort.joined)} of the ${count.format(cohort.expectedSize)} leaders you expected have joined, and ${count.format(cohort.activated)} have finished setting up.`
-        : `${count.format(cohort.joined)} of the ${count.format(cohort.expectedSize)} leaders you expected have joined so far.`;
-    case "using":
-      return above
-        ? `${count.format(c.active)} participants were active ${inWindow(window)}, and ${count.format(c.briefingWeekly)} read the Daily Briefing at least once a week.`
-        : undefined;
     case "following":
       return above
-        ? `Participants have completed ${count.format(c.actionsCompleted)} of the ${count.format(c.actionsAccepted)} planned actions they took on so far, and made ${count.format(c.artifacts)} pieces of work.`
+        ? `Where plans turn into action. Along the way, participants made ${n(c.artifacts)} pieces of work ${inWindow(window)}, and used ${n(c.artifactsUsed)} of them outside ExecHQ.`
         : undefined;
+    case "using":
+      return above
+        ? `Follow-through rests on use: ${n(c.briefingWeekly)} of the ${n(c.active)} active read the Daily Briefing at least once a week.`
+        : undefined;
+    case "joined":
+      return above
+        ? `It starts with joining: ${n(cohort.activated)} of the ${n(cohort.joined)} who joined have finished setting up.`
+        : `It starts with joining: ${n(cohort.joined)} of the ${n(cohort.expectedSize)} leaders you expected have joined so far.`;
   }
 }
 
@@ -1251,7 +1277,9 @@ export const C1_COPY = {
   exportMenu: "Export",
   exportPdf: "PDF",
   exportCsv: "CSV",
-  printWindow: (covers: string, asOf: string) => `Figures cover ${covers}. As of ${formatAsOf(asOf)}.`,
+  /** Under the name, on screen and on paper (Kate, 2026-10-22). */
+  covers: (covers: string, asOf: string) => `Figures cover ${covers}. As of ${formatAsOf(asOf)}.`,
+  storyLabel: "In short",
   /** Card headings: statements, not questions (Kate, 2026-10-21, option E). */
   questions: {
     joined: "Getting started",
@@ -1262,8 +1290,19 @@ export const C1_COPY = {
     heading: "Your cohort is still filling",
     body: `Until ${MIN_COHORT_SIZE} or more participants are active, you see only how many joined. Every other figure stays hidden, so none can point to one person.`,
   },
-  /** Said once for the page, so no figure's popover repeats it. */
-  privacy: `You see totals for the whole cohort, never a participant, their plan or their work. Figures show once ${MIN_COHORT_SIZE} or more are active in the dates you choose, and update daily.`,
+  /** One paragraph at the foot, as Concept 2's report closed (Kate,
+   *  2026-10-22): privacy, the change rule when arrows show, where the
+   *  numbers come from, and who prepared them. Said once for the page, so
+   *  no figure's popover repeats it. */
+  footer: (comparing: boolean) =>
+    [
+      "Totals for the whole cohort. Northgate never sees a participant, their plan or their work.",
+      `Figures show once ${MIN_COHORT_SIZE} or more are active in the dates you choose, and update daily.`,
+      comparing ? DIRECTION_COPY.rule : null,
+      "Sources: codes redeemed, and setup, sign-ins, plans, planned actions, work and what participants put out in the world, recorded in ExecHQ. Prepared by ExecHQ.",
+    ]
+      .filter(Boolean)
+      .join(" "),
   /** Under Followed through: recent actions still have time, so the share
    *  rises as they come due. */
   stillDue: "Some actions are still within their 30 days.",

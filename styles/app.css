@@ -23351,6 +23351,18 @@ ul.plan-guided__sparks {
   font-size: var(--text-lg);
 }
 
+/* What the figure counts, in one sentence under it (Kate, 2026-10-22): set
+   like Concept 2's margin notes, a rule on the left. */
+.cohort-figure__brief {
+  max-width: 40ch;
+  margin-top: var(--space-2xs);
+  padding-left: var(--space-sm);
+  border-left: var(--border-width-thin) solid var(--color-border);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+  color: var(--color-text-secondary);
+}
+
 .cohort-figure__note {
   max-width: 36ch;
   font-size: var(--type-caption-size);
@@ -24298,11 +24310,6 @@ ul.plan-guided__sparks {
   color: var(--color-text-secondary);
 }
 
-.ent-header__print {
-  display: none;
-  color: var(--color-text-secondary);
-}
-
 .ent-header__tools {
   display: flex;
   flex-wrap: wrap;
@@ -24351,6 +24358,25 @@ ul.plan-guided__sparks {
   align-items: center;
   padding-block: var(--space-sm);
   color: var(--color-text-secondary);
+}
+
+/* The story in short, before the cards (Kate, 2026-10-22): the first
+   sentence, follow-through, carries the weight. */
+.ent-story {
+  max-width: 60ch;
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-secondary);
+}
+
+.ent-story__lead {
+  color: var(--color-text-primary);
+}
+
+.ent-card__trend {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
 }
 
 /* The board (Kate, 2026-10-20): the three questions as cards on the page's
@@ -24517,10 +24543,16 @@ ul.plan-guided__sparks {
 
 .ent-page__privacy {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  max-width: var(--content-measure);
   gap: var(--space-xs);
   font-size: var(--type-caption-size);
   color: var(--color-text-secondary);
+}
+
+.ent-page__privacy > svg {
+  flex: none;
+  margin-top: var(--space-3xs);
 }
 
 .ent-setup__lead {
@@ -25121,12 +25153,8 @@ ul.plan-guided__sparks {
     display: none;
   }
 
-  .ent-header__tools > :not(.ent-header__print) {
+  .ent-header__tools {
     display: none;
-  }
-
-  .ent-header__print {
-    display: block;
   }
 
   .cohort-figure__explain {

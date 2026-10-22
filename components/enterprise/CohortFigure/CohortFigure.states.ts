@@ -1,5 +1,5 @@
 import { defineComponentStates } from "@/components/types";
-import { COHORTS, figureFor } from "@/mock/enterprise";
+import { COHORTS, DATA_POINTS, figureFor } from "@/mock/enterprise";
 import { CohortFigure } from "./CohortFigure";
 
 const noop = () => {};
@@ -23,6 +23,11 @@ export const cohortFigureStates = defineComponentStates({
   variants: [
     { label: "Shown — default", props: { figure: active, onExplain: noop } },
     { label: "Shown, large", props: { figure: figureFor(pilot, "invites", "launch"), size: "lg", onExplain: noop } },
+    {
+      label: "With its definition shown",
+      description: "On the dashboard every figure carries its one-sentence definition (Kate, 2026-10-22).",
+      props: { figure: figureFor(pilot, "follow-through", "launch"), size: "lg", meter: "bar", brief: DATA_POINTS["follow-through"].brief, onExplain: noop },
+    },
     { label: "With a bar", props: { figure: figureFor(pilot, "follow-through", "launch"), size: "lg", meter: "bar", onExplain: noop } },
     { label: "With a ring", props: { figure: figureFor(pilot, "invites", "launch"), size: "lg", meter: "ring", onExplain: noop } },
     { label: "Bar while filling in", props: { figure: figureFor(pilot, "onboarding", "30d"), meter: "bar", onExplain: noop } },

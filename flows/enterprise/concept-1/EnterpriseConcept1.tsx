@@ -13,14 +13,13 @@ import { Icon } from "@/components/primitives/Icon";
 import { useCohortId } from "@/lib/cohort-store";
 import {
   C1_COPY,
-  DIRECTION_COPY,
+  DATA_POINTS,
   DEFAULT_RANGE,
   LATE_COPY,
   QUESTION_POINTS,
   SEEN_COPY,
   answerFor,
   comparesWeeks,
-  countsIn,
   directionFor,
   figureFor,
   isAboveMinimum,
@@ -28,8 +27,9 @@ import {
   programDay,
   resolveRange,
   seenFor,
-  signalsIn,
+  storyFor,
   weeksIn,
+  TREND_COPY,
   trendFor,
   type Cohort,
   type DataPointId,
@@ -42,9 +42,9 @@ import { useCohort, type CohortControls } from "../useCohort";
 
 const C = C1_COPY;
 
-/** One band (Kate, 2026-10-20, option A): the name and a line of what
- *  matters about the program on the left, the dates and the export on the
- *  right. */
+/** One band (Kate, 2026-10-20, option A): the name, a line of what
+ *  matters about the program and the dates the figures cover on the left,
+ *  the dates and the export on the right. */
 function CohortHeader({
   cohort,
   window,
@@ -82,11 +82,10 @@ function CohortHeader({
               </span>
             ))}
           </p>
+          <p className="ent-header__meta">{C.covers(periodWords(window).covers, cohort.asOf)}</p>
         </div>
         <div className="ent-header__tools">
           <DateRangePicker cohort={cohort} value={window} onChange={onWindow} align="end" />
-          {/* The picker does not print: the export says the dates in words. */}
-          <p className="ent-header__print">{C.printWindow(periodWords(window).covers, cohort.asOf)}</p>
           <DropdownMenu
             className="ent-export"
             label={C.exportMenu}
@@ -161,6 +160,7 @@ function QuestionCard({
               className={question === "following" && i > 0 ? "ent-tile" : undefined}
               explaining={open === id}
               window={window}
+              brief={DATA_POINTS[id].brief}
               onExplain={() => setOpen(open === id ? null : id)}
             />
           );
@@ -180,14 +180,13 @@ function QuestionCard({
  */
 function SeenCard({ cohort, window }: { cohort: Cohort; window: DateRange }) {
   const seen = seenFor(cohort, window);
-  const signals = signalsIn(cohort, window);
   return (
     <section className="ent-card ent-card--seen" aria-labelledby="q-seen">
       <div className="ent-card__lead">
         <h2 className="ent-card__heading" id="q-seen">
           {SEEN_COPY.heading}
         </h2>
-        {seen ? <p className="ent-card__answer">{SEEN_COPY.answer(signals.any, countsIn(cohort, window).active, window)}</p> : null}
+        {seen ? <p className="ent-card__answer">{SEEN_COPY.answer(window)}</p> : null}
       </div>
       {seen ? (
         <>
@@ -200,6 +199,7 @@ function SeenCard({ cohort, window }: { cohort: Cohort; window: DateRange }) {
               <span className="u-visually-hidden">: {seen.any.detail}</span>
             </span>
           </p>
+          <p className="cohort-figure__brief">{SEEN_COPY.brief}</p>
           <ul className="ent-seen__channels" aria-label={SEEN_COPY.listLabel}>
             {seen.shown.map((channel) => (
               <li key={channel.label}>
@@ -241,6 +241,7 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
   const window = resolveRange(choice, cohort);
   const [open, setOpen] = useState<DataPointId | null>(null);
   const above = isAboveMinimum(cohort, window);
+  const story = storyFor(cohort, window);
 
   return (
     <div className="ent-page">
@@ -263,6 +264,18 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
         </div>
       ) : null}
 
+      {/* The story in short, before the evidence (Kate, 2026-10-22). */}
+      {story ? (
+        <p className="ent-story">
+          {story.map((sentence, i) => (
+            <Fragment key={sentence}>
+              {i > 0 ? " " : null}
+              <span className={i === 0 ? "ent-story__lead" : undefined}>{sentence}</span>
+            </Fragment>
+          ))}
+        </p>
+      ) : null}
+
       <div className="ent-board">
         {CARD_ORDER.map((question) => (
           <Fragment key={question}>
@@ -271,7 +284,12 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
             <QuestionCard cohort={cohort} question={question} window={window} open={open} setOpen={setOpen}>
               {/* Whether they are still using it is a trend, not a snapshot:
                   always since launch, whichever dates are chosen. */}
-              {question === "using" ? <WeeklyTrend className="ent-card__trend" trend={trendFor(cohort)} /> : null}
+              {question === "using" ? (
+                <div className="ent-card__trend">
+                  <WeeklyTrend trend={trendFor(cohort)} />
+                  <p className="cohort-figure__brief">{TREND_COPY.brief}</p>
+                </div>
+              ) : null}
               {question === "joined" ? (
                 <div className="ent-card__code">
                   <InviteCode
@@ -292,18 +310,12 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
         ))}
       </div>
 
-      <div className="ent-page__foot">
-        {comparesWeeks(cohort, window) ? (
-          <p className="ent-page__privacy">
-            <Icon name="trend-up" size={16} />
-            {DIRECTION_COPY.rule}
-          </p>
-        ) : null}
+      <footer className="ent-page__foot">
         <p className="ent-page__privacy">
           <Icon name="shield" size={16} />
-          {C.privacy}
+          {C.footer(comparesWeeks(cohort, window))}
         </p>
-      </div>
+      </footer>
 
       <CohortConcierge cohort={cohort} window={window} />
     </div>
@@ -382,8 +394,10 @@ function Concept1ForCohort({ id }: { id: ReturnType<typeof useCohortId> }) {
 /**
  * Enterprise Dashboard, Concept 1 — The four measures.
  *
- * One page of four cards, each a measure headed by a statement and answered
- * in one sentence with its figures, the first set large. Putting it into
+ * One page that tells the cohort's story (Kate, 2026-10-22): three
+ * sentences in short, then four cards, each a measure headed by a statement,
+ * opened by a sentence that leads on from the card before, and evidenced by
+ * its figures, the first set large, each with its definition under it. Putting it into
  * practice leads, as the hero, because it is what a sponsor defends to their
  * leadership (Kate, 2026-10-20); Staying with it, Showing up in the world and
  * Getting started sit side by side under it, with the weekly trend in the
