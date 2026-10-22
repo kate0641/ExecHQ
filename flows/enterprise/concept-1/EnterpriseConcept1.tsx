@@ -283,7 +283,7 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
                   always since launch, whichever dates are chosen. */}
               {question === "using" ? (
                 <div className="ent-card__trend">
-                  <WeeklyTrend trend={trendFor(cohort)} />
+                  <WeeklyTrend trend={trendFor(cohort)} highlight={window} />
                   <p className="cohort-figure__brief">{TREND_COPY.brief}</p>
                 </div>
               ) : null}

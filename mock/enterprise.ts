@@ -55,7 +55,7 @@ export type Period = WindowId | DateRange;
 
 /** The ranges in the list, in order (Kate, 2026-10-22): this week first,
  *  as the dashboard opens on it. Last week is a whole Monday-to-Sunday week,
- *  as the Monday update is. No This year: in V1 no cohort is a year old, so
+ *  as the trend's weeks are. No This year: in V1 no cohort is a year old, so
  *  it was always Since launch. Any other dates are picked on the calendar. */
 export const RANGE_PRESET_IDS = [
   "this-week",
@@ -286,7 +286,7 @@ function coverage(cohort: Cohort, period: Period): { covered: number; total: num
 }
 
 /** The people active in the week a day falls in: the weekly trend, held at
- *  its latest week for days since the last Monday update. */
+ *  its latest whole week for the days of this one. */
 function weekLevel(cohort: Cohort, day: string, mondays: string[]): number {
   const weeks = cohort.weeklyActive;
   if (weeks.length === 0) return 0;
@@ -415,8 +415,9 @@ export interface Cohort {
   /** Signals: what participants put out in the world, by channel, per
    *  window (Kate, 2026-10-20, Concept 1 only). */
   signals: Record<WindowId, SignalCounts>;
-  /** People active in each week, one per Monday update, oldest first (see
-   *  `updateMondays`). Drawn as the weekly trend, always since launch. */
+  /** People active in each whole week, Monday to Sunday, from the week the
+   *  program started, oldest first. This week, still going, comes from the
+   *  daily figures (`trendFor`). Drawn as the weekly trend. */
   weeklyActive: number[];
   /** The figures a week before, where scaling back from the latest would
    *  say the wrong thing (a closed cohort can't gain joiners). */
@@ -835,14 +836,14 @@ export function directionFor(cohort: Cohort, id: DataPointId, window: Period): D
 
 export const DIRECTION_COPY = {
   figure: {
-    invites: { up: "More joined than last week", down: "Fewer in the cohort than last week" },
-    onboarding: { up: "More set up than last week", down: "Fewer set up than last week" },
-    active: { up: "More active than last week", down: "Fewer active than last week" },
-    briefing: { up: "More reading it than last week", down: "Fewer reading it than last week" },
-    plans: { up: "More with a plan than last week", down: "Fewer with a plan than last week" },
+    invites: { up: "More joined than a week ago", down: "Fewer in the cohort than a week ago" },
+    onboarding: { up: "More set up than a week ago", down: "Fewer set up than a week ago" },
+    active: { up: "More active than a week ago", down: "Fewer active than a week ago" },
+    briefing: { up: "More reading it than a week ago", down: "Fewer reading it than a week ago" },
+    plans: { up: "More with a plan than a week ago", down: "Fewer with a plan than a week ago" },
   } satisfies Partial<Record<DataPointId, Record<Direction, string>>>,
   /** Concept 2's clause, after the line's figures. */
-  clause: { up: "more than last week", down: "fewer than last week" } satisfies Record<Direction, string>,
+  clause: { up: "more than a week ago", down: "fewer than a week ago" } satisfies Record<Direction, string>,
   rule: `Arrows show a change since a week ago, only when at least ${MIN_COHORT_SIZE} participants are behind it.`,
   /** Concept 2 has no arrows: the change is in the sentence. */
   clauseRule: `A change since a week ago is mentioned only when at least ${MIN_COHORT_SIZE} participants are behind it.`,
@@ -868,49 +869,64 @@ export function directionText(id: DataPointId, direction: Direction): string {
    WEEKLY TREND
    -------------------------------------------------------------------------- */
 
-/** Weekly updates needed before the trend is drawn: fewer says nothing. */
-export const TREND_MIN_WEEKS = 4;
-
-/** One week of the trend. `active` is absent when that week was below the
- *  minimum: the line breaks rather than show a small number. */
+/** One week of the trend, Monday to Sunday. `active` is absent when that
+ *  week was below the minimum: a gap rather than a small number. `partial`
+ *  on this week, which is still going. */
 export interface TrendWeek {
   weekOf: string;
   active?: number;
+  partial?: boolean;
 }
 
 export interface TrendView {
-  state: "shown" | "early" | "suppressed";
+  state: "shown" | "suppressed";
   weeks: TrendWeek[];
 }
 
-/** People active each week since launch, ready to draw. */
+/**
+ * People active each week since launch, ready to draw (Kate, 2026-10-22).
+ * There are no weekly updates: figures update daily, so the weeks are the
+ * program's own, Monday to Sunday from the week it started, drawn from the
+ * first week on, with this week so far worked out from the daily figures.
+ * The chart always shows every week; the dates chosen are shaded on it.
+ */
 export function trendFor(cohort: Cohort): TrendView {
-  const mondays = updateMondays(cohort);
-  const weeks = mondays.map((weekOf, i) => {
-    const active = cohort.weeklyActive[i];
-    return active !== undefined && active >= MIN_COHORT_SIZE ? { weekOf, active } : { weekOf };
-  });
   if (!isAboveMinimum(cohort, "launch")) return { state: "suppressed", weeks: [] };
-  if (weeks.length < TREND_MIN_WEEKS) return { state: "early", weeks };
+  const first = mondayOf(cohort.startsOn);
+  const hide = (active: number) => (active >= MIN_COHORT_SIZE ? active : undefined);
+  const weeks: TrendWeek[] = cohort.weeklyActive.map((active, i) => ({ weekOf: addDays(first, 7 * i), active: hide(active) }));
+  const thisWeek = mondayOf(cohort.asOf);
+  if (!weeks.length || weeks[weeks.length - 1].weekOf < thisWeek) {
+    const from = thisWeek < cohort.startsOn ? cohort.startsOn : thisWeek;
+    weeks.push({ weekOf: thisWeek, active: hide(countsIn(cohort, { from, to: cohort.asOf }).active), partial: true });
+  }
   return { state: "shown", weeks };
+}
+
+/** Whether a week falls in the dates chosen, to shade it. */
+export function weekInRange(weekOf: string, range: { from: string; to: string }): boolean {
+  return weekOf <= range.to && addDays(weekOf, 6) >= range.from;
 }
 
 export const TREND_COPY = {
   heading: "Active each week",
-  covers: "Since the program started.",
-  definition: "How many people signed in and did at least one thing in each week, since the program started, whichever dates you choose.",
-  brief: "People who did at least one thing in each week, since the program started.",
+  covers: "Since the program started. Your dates are shaded.",
+  coversAll: "Since the program started.",
+  inDates: "in your dates",
+  definition: "How many people signed in and did at least one thing in each week, Monday to Sunday, since the program started. The dates you choose are shaded.",
+  brief: "People who did at least one thing in each week, Monday to Sunday, since the program started. This week so far is hatched.",
   source: "Sign-ins and actions in ExecHQ.",
-  early: (weeks: number) =>
-    `A trend appears after ${TREND_MIN_WEEKS} weekly updates. ${weeks === 1 ? "There has been 1 so far." : `There have been ${weeks} so far.`}`,
   gap: `A gap is a week with fewer than ${MIN_COHORT_SIZE} active, left out to protect privacy.`,
   summary: (first: number, peak: number, latest: number, weeks: number) =>
-    `People active each week over ${weeks} weeks: ${count.format(first)} in the first week, ${count.format(peak)} at the peak, ${count.format(latest)} in the latest.`,
+    `People active each week over ${weeks} weeks: ${count.format(first)} in the first week, ${count.format(peak)} at the most, ${count.format(latest)} so far this week.`,
   tableCaption: "People active each week",
   week: "Week of",
   active: "Active",
   hiddenWeek: "Hidden",
-  latest: (active: string) => `${active} in the latest week`,
+  latest: (active: string) => `${active} so far this week`,
+  soFar: "So far",
+  thisWeek: "This week, so far",
+  shaded: (from: string, to: string) => (from === to ? `Your dates fall in the week of ${from}.` : `Your dates cover the weeks of ${from} to ${to}.`),
 } as const;
 
 /* -----------------------------------------------------------------------------

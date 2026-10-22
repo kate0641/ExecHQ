@@ -194,13 +194,9 @@ function ReportBody({ cohort, window }: { cohort: Cohort; window: DateRange }) {
         </h2>
         <Line cohort={cohort} id="active" window={window} />
         <Line cohort={cohort} id="briefing" window={window} />
-        {/* On paper an empty placeholder reads as something that failed to
-            load: while it is too early, one sentence says when it comes. */}
-        {trend.state === "early" ? (
-          <p className="report__line report__line--quiet">{TREND_COPY.early(trend.weeks.length)}</p>
-        ) : trend.state === "shown" ? (
+        {trend.state === "shown" ? (
           <div className="report__row">
-            <WeeklyTrend className="report__trend" trend={trend} />
+            <WeeklyTrend className="report__trend" trend={trend} highlight={window} />
             <div className="report__margin">
               <p className="report__note">
                 <strong className="report__note-label">{TREND_COPY.heading}.</strong> {TREND_COPY.brief}

@@ -23484,8 +23484,9 @@ ul.plan-guided__sparks {
   margin-block: var(--space-2xs) var(--space-3xs);
 }
 
-/* The weekly trend (2026-10-20): one line, drawn at the width it is given so
-   strokes and words never scale. The heading names it; no legend. */
+/* The weekly trend (2026-10-22): a bar a week since launch, drawn at the
+   width it is given so bars and words never scale. The heading names it; no
+   legend. The dates chosen are a band behind their weeks. */
 .weekly-trend {
   display: flex;
   flex-direction: column;
@@ -23535,24 +23536,6 @@ ul.plan-guided__sparks {
   margin-top: var(--space-3xs);
 }
 
-/* Too early: a dashed outline where the line will be, the same height as
-   the plot, so the card keeps its shape and says what is coming. */
-.weekly-trend--early .weekly-trend__message {
-  align-items: center;
-  justify-content: center;
-  max-width: none;
-  min-height: 9rem;
-  padding: var(--space-md);
-  border: var(--border-width-thin) dashed var(--color-border);
-  border-radius: var(--radius-card);
-  text-align: center;
-  text-wrap: balance;
-}
-
-.weekly-trend--early .weekly-trend__message > svg {
-  margin-top: 0;
-}
-
 .weekly-trend__plot {
   position: relative;
   padding-top: var(--space-md);
@@ -23583,24 +23566,71 @@ ul.plan-guided__sparks {
   stroke-dasharray: none;
 }
 
-.weekly-trend__line {
-  fill: none;
-  stroke: var(--color-chart-line);
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+/* The dates chosen, behind their weeks. */
+.weekly-trend__band {
+  fill: var(--color-surface-sunken);
 }
 
-/* Marked weeks wear a ring of the surface so they sit clear of the line. */
-.weekly-trend__dot {
+/* In the dates: the chart's ink. Outside them: quieter, still 3:1. */
+.weekly-trend__bar--on {
   fill: var(--color-chart-line);
-  stroke: var(--color-surface-raised);
-  stroke-width: 2;
 }
 
-.weekly-trend__crosshair {
-  stroke: var(--color-text-muted);
-  stroke-width: 1;
+.weekly-trend__bar--off {
+  fill: var(--color-border-strong);
+}
+
+/* This week, still going: hatched and outlined, so it reads as so far. */
+.weekly-trend__bar.is-partial {
+  stroke-width: 1.5;
+}
+
+.weekly-trend__bar--on.is-partial {
+  stroke: var(--color-chart-line);
+}
+
+.weekly-trend__bar--off.is-partial {
+  stroke: var(--color-border-strong);
+}
+
+.weekly-trend__hatch-ground {
+  fill: var(--color-surface-raised);
+}
+
+.weekly-trend__hatch {
+  stroke-width: 3;
+}
+
+.weekly-trend__hatch--on {
+  stroke: var(--color-chart-line);
+}
+
+.weekly-trend__hatch--off {
+  stroke: var(--color-border-strong);
+}
+
+.weekly-trend__bar.is-picked {
+  opacity: 0.8;
+}
+
+/* A hidden week: a short dashed stub on the base, never a small number. */
+.weekly-trend__gap {
+  fill: none;
+  stroke: var(--color-border-strong);
+  stroke-dasharray: 3 2;
+}
+
+.weekly-trend__value {
+  font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.weekly-trend__value--on {
+  fill: var(--color-text-primary);
+}
+
+.weekly-trend__value--off {
+  fill: var(--color-text-secondary);
 }
 
 /* Beside the crosshair, inside the plot; it flips to the left of the line
