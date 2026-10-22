@@ -15772,6 +15772,20 @@ ol.entry-drawer__rows {
   border-top: 0;
 }
 
+/* Under the view of her export, the upload is its footnote: small words, the link close under them, no
+   heading of its own (designer, 2026-10-21). */
+.linkedin-more--footnote {
+  gap: 0;
+}
+
+.linkedin-more--footnote .linkedin-more__body {
+  font-size: var(--text-xs);
+}
+
+.linkedin-more--footnote .linkedin-more__open {
+  font-size: var(--text-xs);
+}
+
 .signals-page :is(.momentum__next-label, .presence-clean__try-label) + b {
   margin-top: calc(var(--space-eyebrow-title) - var(--space-xs));
 }

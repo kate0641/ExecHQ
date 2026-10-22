@@ -553,8 +553,9 @@ export function usePlanPage() {
   );
   /* The upload stays: on the first visit it sits under the starting-point form, and after that under
      where she started, so "any time later" is true. Once a file is read, what it says is drawn below. */
-  const linkedIn = (
+  const linkedIn = (footnote = false) => (
     <LinkedInMore
+      footnote={footnote}
       status={liExport.status}
       fileName={liExport.fileName}
       onChoose={(fileName) => setLinkedInExport({ fileName, status: looksLikeLinkedInExport(fileName) ? "reading" : "wrong-file" })}
@@ -591,8 +592,16 @@ export function usePlanPage() {
         />
         </div>
         <div className="plan-stub__linkedin">
-          {linkedIn}
-          {withLinkedInView ? linkedInView : null}
+          {/* With the view of her export beside it, the upload is that view's footnote, under it; on its own
+              it keeps its heading (designer, 2026-10-21). */}
+          {withLinkedInView && linkedInView ? (
+            <>
+              {linkedInView}
+              {linkedIn(true)}
+            </>
+          ) : (
+            linkedIn()
+          )}
         </div>
         </>
       ) : (
@@ -608,7 +617,7 @@ export function usePlanPage() {
               onSkip={() => saveBaseline({ counts: { podcast: 0, press: 0, speaking: 0, writing: 0 } })}
               intro={BC.introZero}
               skipLabel={BC.zeroSkip}
-              after={linkedIn}
+              after={linkedIn()}
             />
           }
           headingId="plan-signals-card"
