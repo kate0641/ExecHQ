@@ -24,10 +24,6 @@ export const linkedInPictureStates = defineComponentStates({
     { label: "Industry", props: { ...base, initialKind: "industry" as const } },
     { label: "Seniority", props: { ...base, initialKind: "seniority" as const } },
     {
-      label: "Followers down — a fall said plainly, in grey",
-      props: { ...base, data: { ...LINKEDIN_EXPORT, followers: [...LINKEDIN_EXPORT.followers].reverse() } },
-    },
-    {
       label: "No reach or audience in the file — the totals and posts only",
       description: "An export without members reached or demographics shows what it has.",
       props: { ...base, data: { ...LINKEDIN_EXPORT, membersReached: undefined, audience: undefined } },

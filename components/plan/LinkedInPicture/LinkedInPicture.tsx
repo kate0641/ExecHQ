@@ -2,7 +2,6 @@
 
 import { useId, useState } from "react";
 import { ToggleGroup } from "@/components/form/ToggleGroup";
-import { Icon } from "@/components/primitives/Icon";
 import { compact, topPosts, totals } from "@/lib/linkedin-export";
 import { LINKEDIN_PICTURE_COPY as C, type LinkedInExport } from "@/mock/linkedin-export";
 import { monthDayYear } from "./linkedin-dates";
@@ -32,7 +31,6 @@ export function LinkedInPicture({ data, initialKind = "location", headingId, cla
   const id = headingId ?? `li-${autoId.replace(/:/g, "")}`;
   const [kind, setKind] = useState<Kind>(initialKind);
   const t = totals(data);
-  const gain = t.followersNow - t.followersThen;
   const hasFollowers = data.followers.length >= 2;
   const best = topPosts(data.posts, 3);
   const shares = data.audience?.[kind] ?? [];
@@ -41,38 +39,22 @@ export function LinkedInPicture({ data, initialKind = "location", headingId, cla
   const figures = [
     data.posts.length ? { key: "seen", value: compact(t.impressions), label: C.seen } : null,
     data.membersReached ? { key: "reached", value: compact(data.membersReached), label: C.reached } : null,
-    hasFollowers
-      ? {
-          key: "followers",
-          value: t.followersNow.toLocaleString("en-US"),
-          label: (
-            <>
-              {C.followers}
-              {gain !== 0 ? (
-                <>
-                  {" · "}
-                  <span className={["li-figure__gain", gain < 0 ? "is-down" : ""].filter(Boolean).join(" ")}>
-                    <Icon name={gain > 0 ? "arrow-up" : "arrow-down"} size={16} />
-                    {Math.abs(gain).toLocaleString("en-US")}
-                  </span>
-                  <span className="u-visually-hidden">{C.followersGainHeard(gain)}</span>
-                </>
-              ) : null}
-            </>
-          ),
-        }
-      : null,
+    // The followers she has now, with no change beside it: this is an overview of her year, not a comparison
+    // over time, and only followers could show one (designer, 2026-10-21).
+    hasFollowers ? { key: "followers", value: t.followersNow.toLocaleString("en-US"), label: C.followers } : null,
     data.posts.length ? { key: "posts", value: String(t.posts), label: C.posts(t.posts) } : null,
   ].filter((f): f is NonNullable<typeof f> => f !== null);
 
   return (
-    <section className={["li-picture", className].filter(Boolean).join(" ")} aria-labelledby={id}>
-      <div className="li-picture__head">
-        <h2 className="li-picture__heading" id={id}>
+    <section className={["li-section", className].filter(Boolean).join(" ")} aria-labelledby={id}>
+      {/* The heading and its dates sit on the page above the card, as every section's do (designer, 2026-10-21). */}
+      <div className="signal-picture__head li-section__head">
+        <h2 className="signal-picture__heading" id={id}>
           {C.heading}
         </h2>
-        <p className="li-picture__intro">{C.intro(monthDayYear(data.from), monthDayYear(data.to))}</p>
+        <p className="signal-picture__intro">{C.intro(monthDayYear(data.from), monthDayYear(data.to))}</p>
       </div>
+      <div className="li-picture">
 
       {nothing ? (
         <p className="li-picture__empty">{C.empty}</p>
@@ -144,6 +126,7 @@ export function LinkedInPicture({ data, initialKind = "location", headingId, cla
           <p className="li-picture__privacy">{C.privacy}</p>
         </>
       )}
+      </div>
     </section>
   );
 }

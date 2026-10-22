@@ -15757,7 +15757,7 @@ ol.entry-drawer__rows {
   column-gap: var(--space-sm);
 }
 
-.signals-page :is(.momentum__head, .signal-picture__head, .li-picture__head) {
+.signals-page :is(.momentum__head, .signal-picture__head) {
   row-gap: var(--space-title-copy);
 }
 
@@ -17948,25 +17948,19 @@ ul.plan-guided__sparks {
   background-color: var(--color-surface-raised);
 }
 
-.li-picture__head {
+/* A section like Where you started: its heading and dates on the page, the card under them. */
+.li-section {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3xs);
+  gap: var(--space-copy-card);
 }
 
-.li-picture__heading {
-  /* The heading role, a card's title, so it stands a clear step over Followers, Impressions and Posts
-     (designer, 2026-10-20; 18px before, close to the rows' 16). */
-  margin: 0;
-  font-family: var(--type-heading-font);
-  font-size: var(--type-heading-size);
-  font-weight: var(--type-heading-weight);
-  line-height: var(--type-heading-leading);
-  letter-spacing: var(--type-heading-tracking);
-  word-spacing: var(--type-heading-word-spacing);
+.li-section__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-title-copy);
 }
 
-.li-picture__intro,
 .li-picture__empty {
   margin: 0;
   font-size: var(--text-sm);
@@ -17974,32 +17968,49 @@ ul.plan-guided__sparks {
 }
 
 .li-figures {
-  /* Four totals in two columns, split by hairlines, as the figures LinkedIn's own overview leads with. */
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  /* The four totals in one row, the card's lime header: her own figures in her colour, as Your direction's
+     header is (designer, 2026-10-21). Edge to edge across the card's top, the first at the left padding and the
+     last at the right, each centred on its number, the card's edge under it as Your direction's has. */
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-sm);
   margin: 0;
-  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+  padding: var(--space-md-lg) var(--space-feature-padding);
+  border-bottom: var(--border-width-thin) solid var(--color-border);
+  background-color: var(--color-surface-her-band);
+  color: var(--color-text-on-her-band);
+}
+
+/* The card opens on the header, so the card's padding moves inside below it. */
+.li-picture:has(> .li-figures:first-child) {
+  overflow: hidden;
+  padding-top: 0;
+  padding-inline: 0;
+}
+
+.li-picture:has(> .li-figures:first-child) > :not(.li-figures) {
+  margin-inline: var(--space-feature-padding);
+}
+
+/* Under the header the body starts a card's padding down, as under Your direction's lime band. */
+.li-picture > .li-figures:first-child + * {
+  margin-top: calc(var(--space-feature-padding) - var(--space-md));
 }
 
 .li-figure {
   display: flex;
   flex-direction: column-reverse;
   justify-content: flex-end;
+  align-items: center;
   gap: var(--space-3xs);
   min-width: 0;
-  padding-block: var(--space-md);
-  border-bottom: var(--border-width-thin) solid var(--color-border-subtle);
-}
-
-.li-figure:nth-child(even) {
-  padding-left: var(--space-md);
-  border-left: var(--border-width-thin) solid var(--color-border-subtle);
+  text-align: center;
 }
 
 .li-figure__value {
   margin: 0;
   font-family: var(--font-display);
-  font-size: var(--text-2xl);
+  font-size: var(--text-xl);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-tight);
   font-variant-numeric: proportional-nums;
@@ -18008,28 +18019,20 @@ ul.plan-guided__sparks {
 .li-figure__label {
   font-size: var(--text-xs);
   line-height: var(--leading-snug);
-  color: var(--color-text-secondary);
-}
-
-.li-figure__gain {
-  display: inline-flex;
-  align-items: center;
-  vertical-align: bottom;
-  gap: var(--space-3xs);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-her-growth);
-}
-
-.li-figure__gain.is-down {
-  color: var(--color-text-secondary);
 }
 
 /* Each group after the figures is its own section: the same pause as before Counts on Where you started. */
 .li-group {
   display: flex;
   flex-direction: column;
-  gap: var(--space-group-title);
-  margin-top: var(--space-xs);
+  /* A title over a list: the card-title step (20), wider than a group title's 12, so it reads as over every
+     row, not just the first (designer, 2026-10-21). */
+  gap: var(--space-card-title);
+}
+
+/* Each later group is its own section: 32 between them, the gap between sections. */
+.li-group + .li-group {
+  margin-top: var(--space-md);
 }
 
 .li-group__title {
@@ -18055,7 +18058,8 @@ ul.li-shares {
   align-items: baseline;
   justify-content: space-between;
   gap: var(--space-sm);
-  padding-block: var(--space-sm);
+  /* Rows split by hairlines take the standard 20 either side of the line. */
+  padding-block: var(--space-divided-item);
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
   font-size: var(--text-sm);
 }
