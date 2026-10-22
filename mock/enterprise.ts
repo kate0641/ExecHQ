@@ -954,9 +954,8 @@ function listChannels(labels: string[]): string {
 
 export const SEEN_COPY = {
   heading: "Showing up in the world",
-  /** Leads on from Staying with it (Kate, 2026-10-22): the count is the
-   *  ring's, and the opening's. */
-  answer: (window: Period) => `And beyond ExecHQ: what participants put out where others can see it, ${inWindow(window)}.`,
+  /** The count is the ring's, and the opening's (Kate, 2026-10-22). */
+  answer: (window: Period) => `What participants put out where others can see it, ${inWindow(window)}.`,
   brief: "Of those active, how many posted, published, spoke or were quoted in the dates chosen.",
   ring: "put something out, on any channel",
   channels: { linkedin: "LinkedIn", writing: "Published writing", speaking: "Speaking", podcasts: "Podcasts", press: "Press" } satisfies Record<ChannelId, string>,
@@ -1299,30 +1298,49 @@ export const QUESTION_POINTS: Record<QuestionId, DataPointId[]> = {
   following: ["follow-through", "plans", "artifacts", "loop"],
 };
 
+/** One sentence of the opening: plain words, with the figures that carry
+ *  it set in bold. */
+export type StoryPart = string | { strong: string };
+
 /**
- * The page's opening (Kate, 2026-10-22): the story in three sentences, in
- * the order of the cards, so it can be read alone and repeated. What they
- * did, then whether they are using it and being seen, then how many came.
- * Undefined while the figures are hidden: the notice says why.
+ * The page's opening (Kate, 2026-10-22, option Bookends): the story in the
+ * order it happened, so it can be read alone and repeated. How many came,
+ * whether they are using it and being seen, then what they have done with
+ * it, ending on where follow-through is heading. Undefined while the figures
+ * are hidden: the notice says why.
  */
-export function storyFor(cohort: Cohort, window: Period): string[] | undefined {
+export function storyFor(cohort: Cohort, window: Period): StoryPart[][] | undefined {
   if (!isAboveMinimum(cohort, window)) return undefined;
   const c = countsIn(cohort, window);
   const n = (value: number) => count.format(value);
   const long = isSinceLaunch(cohort, window) ? RANGE_PRESETS["since-launch"].inSentence : inWindow(window);
   const moved = directionFor(cohort, "active", window);
   const since = moved ? `, ${DIRECTION_COPY.clause[moved]}` : "";
-  const seen = signalsIn(cohort, window).any;
+  const day = programDay(cohort);
+  // A sentence opens with words, not a numeral: "Two weeks in", and past
+  // ten, "After 12 weeks".
+  const weeks = Math.floor(day / 7);
+  const words = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"];
+  const when = weeks < 1 ? "In the first week" : weeks <= 10 ? `${words[weeks - 1]} week${weeks === 1 ? "" : "s"} in` : `After ${weeks} weeks`;
+  const open = c.actionsAccepted - c.actionsCompleted;
+  // Every action taken on in the dates is still inside its 30 days only when
+  // the dates began within the last 30: only then can it say all of them.
+  const from = typeof window === "string" ? (window === "30d" ? addDays(cohort.asOf, -29) : cohort.startsOn) : window.from;
+  const allOpen = daysIn(from < cohort.startsOn ? cohort.startsOn : from, todayFor(cohort)) <= 30;
   return [
-    `Participants have completed ${n(c.actionsCompleted)} of the ${n(c.actionsAccepted)} planned actions they took on so far.`,
-    `${n(c.active)} of the ${n(cohort.activated)} set up were active ${long}${since}, and ${n(seen)} of them put something out in the world.`,
-    `${n(cohort.joined)} of the ${n(cohort.expectedSize)} leaders you expected have joined.`,
+    [`${when}, `, { strong: `${n(cohort.joined)} of the ${n(cohort.expectedSize)} leaders` }, ` you expected have joined and ${n(cohort.activated)} have finished setting up.`],
+    [{ strong: `${n(c.active)} were active` }, ` ${long}${since}, and ${n(signalsIn(cohort, window).any)} put something out in the world.`],
+    [
+      `They’ve completed `,
+      { strong: `${n(c.actionsCompleted)} of the ${n(c.actionsAccepted)} planned actions` },
+      ` they took on ${long}.`,
+      open > 0 ? (allOpen ? ` The other ${n(open)} are still within their 30 days, so this will rise.` : " Some are still within their 30 days, so this will rise.") : "",
+    ],
   ];
 }
 
-/** The sentence that opens each card. Each leads on from the card before
- *  (Kate, 2026-10-22, "the page needs to tell a story"), and says what the
- *  opening doesn't, so the figures under it are the evidence, not a repeat.
+/** The sentence that opens each card: what the opening doesn't say, plainly,
+ *  with no lead-in from the card before (Kate, 2026-10-22, Bookends).
  *  Reports activity, never results: what participants did, not what ExecHQ
  *  caused. Undefined while the card's figures are hidden. */
 export function answerFor(cohort: Cohort, question: QuestionId, window: Period): string | undefined {
@@ -1331,18 +1349,26 @@ export function answerFor(cohort: Cohort, question: QuestionId, window: Period):
   const n = (value: number) => count.format(value);
   switch (question) {
     case "following":
-      return above
-        ? `Where plans turn into action. Along the way, participants made ${n(c.artifacts)} pieces of work ${inWindow(window)}, and used ${n(c.artifactsUsed)} of them outside ExecHQ.`
-        : undefined;
+      return above ? `They made ${n(c.artifacts)} pieces of work ${inWindow(window)} and used ${n(c.artifactsUsed)} of them outside ExecHQ.` : undefined;
     case "using":
-      return above
-        ? `Follow-through rests on use: ${n(c.briefingWeekly)} of the ${n(c.active)} active read the Daily Briefing at least once a week.`
-        : undefined;
+      return above ? `${n(c.briefingWeekly)} of the ${n(c.active)} active read the Daily Briefing at least once a week.` : undefined;
     case "joined":
       return above
-        ? `It starts with joining: ${n(cohort.activated)} of the ${n(cohort.joined)} who joined have finished setting up.`
-        : `It starts with joining: ${n(cohort.joined)} of the ${n(cohort.expectedSize)} leaders you expected have joined so far.`;
+        ? `${n(cohort.activated)} of the ${n(cohort.joined)} who joined have finished setting up.`
+        : `${n(cohort.joined)} of the ${n(cohort.expectedSize)} leaders you expected have joined so far.`;
   }
+}
+
+/** The page's last line, above the code (Kate, 2026-10-22): who hasn't
+ *  joined or finished setting up. Setting up is left out while it is
+ *  hidden. The code under it says how to share it. */
+export function stillToJoin(cohort: Cohort, window: Period): string {
+  const n = (value: number) => count.format(value);
+  const missing = Math.max(0, cohort.expectedSize - cohort.joined);
+  const notSetUp = isAboveMinimum(cohort, window) ? cohort.joined - cohort.activated : 0;
+  const joined = missing > 0 ? `${n(missing)} of the leaders you expected haven’t joined` : "Everyone you expected has joined";
+  const setUp = notSetUp > 0 ? `, and ${n(notSetUp)} haven’t finished setting up` : "";
+  return `${joined}${setUp}.`;
 }
 
 export const C1_COPY = {
@@ -1359,6 +1385,7 @@ export const C1_COPY = {
   /** Under the name, on screen and on paper (Kate, 2026-10-22). */
   covers: (covers: string, asOf: string) => `Figures cover ${covers}. As of ${formatAsOf(asOf)}.`,
   storyLabel: "In short",
+  closeLabel: "Still to join",
   /** Card headings: statements, not questions (Kate, 2026-10-21, option E). */
   questions: {
     joined: "Getting started",

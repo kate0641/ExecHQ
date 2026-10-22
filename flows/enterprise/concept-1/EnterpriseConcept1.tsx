@@ -27,6 +27,7 @@ import {
   programDay,
   resolveRange,
   seenFor,
+  stillToJoin,
   storyFor,
   weeksIn,
   TREND_COPY,
@@ -228,8 +229,8 @@ function SeenCard({ cohort, window }: { cohort: Cohort; window: DateRange }) {
   );
 }
 
-/** The dashboard: one page, the three questions as cards, and the cohort's
- *  code in the joining card, where it belongs. */
+/** The dashboard: the story in order, the four measures as cards, and the
+ *  page closing on who is still to join, with the cohort's code. */
 function Dashboard({ controls, headingRef }: { controls: CohortControls; headingRef?: React.Ref<HTMLHeadingElement> }) {
   const cohort = controls.cohort!;
   // The dates chosen (Kate, 2026-10-22): this week to start with.
@@ -259,13 +260,14 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
         </div>
       ) : null}
 
-      {/* The story in short, before the evidence (Kate, 2026-10-22). */}
+      {/* The story in the order it happened, before the evidence (Kate,
+          2026-10-22, Bookends). */}
       {story ? (
         <p className="ent-story">
           {story.map((sentence, i) => (
-            <Fragment key={sentence}>
+            <Fragment key={i}>
               {i > 0 ? " " : null}
-              <span className={i === 0 ? "ent-story__lead" : undefined}>{sentence}</span>
+              {sentence.map((part, j) => (typeof part === "string" ? <Fragment key={j}>{part}</Fragment> : <strong key={j}>{part.strong}</strong>))}
             </Fragment>
           ))}
         </p>
@@ -285,25 +287,27 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
                   <p className="cohort-figure__brief">{TREND_COPY.brief}</p>
                 </div>
               ) : null}
-              {question === "joined" ? (
-                <div className="ent-card__code">
-                  <InviteCode
-                    layout="compact"
-                    hideJoined
-                    code={cohort.code}
-                    joined={cohort.joined}
-                    expectedSize={cohort.expectedSize}
-                    open={cohort.open}
-                    onRegenerate={controls.regenerate}
-                    onClose={controls.close}
-                    justRegenerated={controls.justRegenerated}
-                  />
-                </div>
-              ) : null}
             </QuestionCard>
           </Fragment>
         ))}
       </div>
+
+      {/* The page ends on who is still to come, with the code to bring them
+          in (Kate, 2026-10-22): the end of the story, not part of a card. */}
+      <section className="ent-close" aria-label={C.closeLabel}>
+        <p className="ent-close__line">{stillToJoin(cohort, window)}</p>
+        <InviteCode
+          layout="compact"
+          hideJoined
+          code={cohort.code}
+          joined={cohort.joined}
+          expectedSize={cohort.expectedSize}
+          open={cohort.open}
+          onRegenerate={controls.regenerate}
+          onClose={controls.close}
+          justRegenerated={controls.justRegenerated}
+        />
+      </section>
 
       <footer className="ent-page__foot">
         <p className="ent-page__privacy">
@@ -389,10 +393,11 @@ function Concept1ForCohort({ id }: { id: ReturnType<typeof useCohortId> }) {
 /**
  * Enterprise Dashboard, Concept 1 — The four measures.
  *
- * One page that tells the cohort's story (Kate, 2026-10-22): three
- * sentences in short, then four cards, each a measure headed by a statement,
- * opened by a sentence that leads on from the card before, and evidenced by
- * its figures, the first set large, each with its definition under it. Putting it into
+ * One page that tells the cohort's story (Kate, 2026-10-22, Bookends): an
+ * opening in the order it happened, then four cards, each a measure headed
+ * by a statement, opened by one plain sentence and evidenced by its figures,
+ * the first set large, each with its definition under it. It ends on who is
+ * still to join, with the code. Putting it into
  * practice leads, as the hero, because it is what a sponsor defends to their
  * leadership (Kate, 2026-10-20); Staying with it, Showing up in the world and
  * Getting started sit side by side under it, with the weekly trend in the

@@ -24410,7 +24410,8 @@ ul.plan-guided__sparks {
   color: var(--color-text-secondary);
 }
 
-.ent-story__lead {
+.ent-story strong {
+  font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
 }
 
@@ -24569,11 +24570,22 @@ ul.plan-guided__sparks {
   color: var(--color-text-secondary);
 }
 
-/* The code closes the joining card, under a rule. */
-.ent-card__code {
-  margin-top: auto;
-  padding-top: var(--space-lg);
-  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+/* The page's end (2026-10-22): who is still to join, and the code to bring
+   them in, on a card of its own. */
+.ent-close {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-xl);
+  border: var(--border-width-thin) solid var(--color-border-subtle);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-raised);
+}
+
+.ent-close__line {
+  max-width: var(--content-measure);
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
 }
 
 .ent-page__foot {
@@ -25285,7 +25297,7 @@ ul.sponsor-profile__points {
     break-inside: avoid;
   }
 
-  .ent-card__code {
+  .ent-close .invite-code {
     display: none;
   }
 
