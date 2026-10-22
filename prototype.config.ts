@@ -294,6 +294,8 @@ export const prototypeConfig: PrototypeConfig = {
         {
           slug: "concept-2",
           title: "Concept 2 — The report",
+          // Kate, 2026-10-22: Concept 1 chosen; to move to scratch later.
+          scratched: true,
           summary:
             "The screen is the one-page report the sponsor exports: figures set in sentences, each definition in the margin beside it. Setting up the cohort writes the report's header; the code sits in a box in the margin.",
         },
