@@ -1382,9 +1382,15 @@ export const C1_COPY = {
     ]
       .filter(Boolean)
       .join(" "),
-  /** Under Followed through: recent actions still have time, so the share
-   *  rises as they come due. */
-  stillDue: "Some actions are still within their 30 days.",
+  /** Beside a figure that counts since launch whatever the dates chosen
+   *  (Kate, 2026-10-22): the info popover said it, and it is gone. */
+  sinceLaunch: (detail: string) => `${detail} · since launch`,
+  /** Definitions that say more here than the shared one, now nothing sits
+   *  behind an icon. Followed through takes in its popover's two caveats. */
+  briefs: {
+    "follow-through":
+      "Of the planned actions taken on, how many are done, each within 30 days. Recent ones still have time; declined ones don’t count.",
+  } as Partial<Record<DataPointId, string>>,
   setup: {
     heading: "Set up your cohort",
     lead: "Give it a name, how many people you plan to invite, and when the program starts. You will get one code to share.",

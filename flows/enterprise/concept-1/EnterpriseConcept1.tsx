@@ -115,21 +115,19 @@ const METERS: Partial<Record<DataPointId, "ring" | "bar">> = {
 };
 
 /** One question as a card: its heading and one-sentence answer, its figures
- *  (each with the info icon that opens how it is measured), and anything
- *  that belongs with it. */
+ *  each with its definition under it, and anything that belongs with it.
+ *  No info icons (Kate, 2026-10-22): the definitions say what the popover
+ *  did, the footer gives the sources and the rule, and a figure that counts
+ *  since launch whatever the dates says so beside its number. */
 function QuestionCard({
   cohort,
   question,
   window,
-  open,
-  setOpen,
   children,
 }: {
   cohort: Cohort;
   question: QuestionId;
   window: DateRange;
-  open: DataPointId | null;
-  setOpen: (id: DataPointId | null) => void;
   children?: React.ReactNode;
 }) {
   const answer = answerFor(cohort, question, window);
@@ -146,22 +144,20 @@ function QuestionCard({
         {points.map((id, i) => {
           const figure = figureFor(cohort, id, window);
           // No Filling in tag here (Kate, 2026-10-20): a young window shows
-          // as it is. Followed through says instead that recent actions
+          // as it is. Followed through's definition says recent actions
           // still have time.
           const shown: typeof figure = figure.state === "filling" ? { ...figure, state: "shown", note: undefined } : figure;
+          const sinceLaunch = DATA_POINTS[id].sinceLaunch && shown.detail;
           return (
             <CohortFigure
               key={id}
-              figure={id === "follow-through" && shown.state === "shown" ? { ...shown, note: C.stillDue } : shown}
+              figure={sinceLaunch ? { ...shown, detail: C.sinceLaunch(shown.detail!) } : shown}
               size={i === 0 ? "lg" : "md"}
               direction={directionFor(cohort, id, window)}
               meter={METERS[id]}
               // In the hero, the figures after the first are tiles.
               className={question === "following" && i > 0 ? "ent-tile" : undefined}
-              explaining={open === id}
-              window={window}
-              brief={DATA_POINTS[id].brief}
-              onExplain={() => setOpen(open === id ? null : id)}
+              brief={C.briefs[id] ?? DATA_POINTS[id].brief}
             />
           );
         })}
@@ -239,7 +235,6 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
   // The dates chosen (Kate, 2026-10-22): this week to start with.
   const [choice, setChoice] = useState<DateRange>(DEFAULT_RANGE);
   const window = resolveRange(choice, cohort);
-  const [open, setOpen] = useState<DataPointId | null>(null);
   const above = isAboveMinimum(cohort, window);
   const story = storyFor(cohort, window);
 
@@ -281,7 +276,7 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
           <Fragment key={question}>
             {/* Being seen sits between using and joining (Kate, 2026-10-20). */}
             {question === "joined" ? <SeenCard cohort={cohort} window={window} /> : null}
-            <QuestionCard cohort={cohort} question={question} window={window} open={open} setOpen={setOpen}>
+            <QuestionCard cohort={cohort} question={question} window={window}>
               {/* Whether they are still using it is a trend, not a snapshot:
                   always since launch, whichever dates are chosen. */}
               {question === "using" ? (
