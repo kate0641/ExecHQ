@@ -5,7 +5,7 @@ import { FigurePopover } from "@/components/enterprise/FigurePopover";
 import { Meter } from "@/components/enterprise/Meter";
 import { Badge } from "@/components/primitives/Badge";
 import { Icon } from "@/components/primitives/Icon";
-import { ENTERPRISE_COPY, directionText, type Direction, type FigureView, type WindowId } from "@/mock/enterprise";
+import { ENTERPRISE_COPY, directionText, type Direction, type FigureView, type Period } from "@/mock/enterprise";
 
 const C = ENTERPRISE_COPY;
 
@@ -27,8 +27,8 @@ export interface CohortFigureProps {
    *  popover's close button or a press outside all call `onExplain` to shut
    *  it. */
   explaining?: boolean;
-  /** The window the page shows, for the popover's "Covers" line. */
-  window?: WindowId;
+  /** The dates the page shows, for the popover's "Covers" line. */
+  window?: Period;
   /** Catalogue only: shows a state a static page can't reach. */
   demo?: "hover" | "focus" | "active";
   className?: string;

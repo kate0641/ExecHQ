@@ -75,5 +75,21 @@ export const dropdownMenuStates = defineComponentStates({
     { label: "Disabled", props: { ...base, disabled: true } },
     { label: "Nothing to choose — empty", props: { ...base, entries: [] } },
     { label: "A long label wraps", props: { ...base, label: "Filter your library by tool, status and plan area" } },
+    {
+      label: "Initials, open with a heading",
+      description: "An account menu: initials in a round button, and who is signed in above the choices (AccountMenu).",
+      props: {
+        label: "Your account, Dana Okafor",
+        avatar: "DO",
+        defaultOpen: true,
+        inline: true,
+        entries: [
+          { type: "heading", id: "who", title: "Dana Okafor", detail: "Head of Leadership Development, Northgate" },
+          { type: "item", id: "profile", label: "Your profile", icon: "person", onSelect: noop },
+          { type: "separator", id: "s1" },
+          { type: "item", id: "sign-out", label: "Sign out", icon: "sign-out", onSelect: noop },
+        ],
+      },
+    },
   ],
 });

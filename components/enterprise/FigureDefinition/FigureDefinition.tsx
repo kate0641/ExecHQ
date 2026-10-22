@@ -2,13 +2,13 @@
 
 import { useId } from "react";
 import { Button } from "@/components/primitives/Button";
-import { DATA_POINTS, ENTERPRISE_COPY, WINDOWS, type DataPointId, type WindowId } from "@/mock/enterprise";
+import { DATA_POINTS, ENTERPRISE_COPY, periodWords, type DataPointId, type Period } from "@/mock/enterprise";
 
 const C = ENTERPRISE_COPY.definition;
 
 export interface FigureDefinitionProps {
   id: DataPointId;
-  window: WindowId;
+  window: Period;
   /** Shows a Close button. Left off where the definition sits on the page. */
   onClose?: () => void;
   /** The heading's level, so it sits in the page's outline wherever it is placed. */
@@ -26,7 +26,7 @@ export function FigureDefinition({ id, window, onClose, headingLevel = 3, headin
   const labelId = headingId ?? fallbackId;
   const point = DATA_POINTS[id];
   const Heading = `h${headingLevel}` as const;
-  const windowText = point.sinceLaunch ? C.windowSinceLaunch : C.windowFor(WINDOWS[window].long);
+  const windowText = point.sinceLaunch ? C.windowSinceLaunch : C.windowFor(periodWords(window).covers);
 
   return (
     <section className="figure-definition" aria-labelledby={labelId}>

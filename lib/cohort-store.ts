@@ -2,8 +2,8 @@
 
 /**
  * Which cohort the enterprise pages show: none yet, below the minimum, the
- * pilot, or the December demo (`mock/enterprise.ts`), and whether this
- * Monday's update is late. Picked from the dock, kept in localStorage, and
+ * pilot, or the December demo (`mock/enterprise.ts`), and whether today's
+ * update is late. Picked from the dock, kept in localStorage, and
  * shared by every enterprise concept so a reviewer compares them on the same
  * cohort.
  */
@@ -17,7 +17,7 @@ const STORAGE_VERSION = 2;
 
 interface CohortChoice {
   cohort: CohortId;
-  /** This Monday's update has not arrived: every page shows last week's. */
+  /** Today's update has not arrived: every page shows yesterday's. */
   late: boolean;
 }
 
@@ -95,7 +95,7 @@ export function useCohortId(): CohortId {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot).cohort;
 }
 
-/** Whether this Monday's update is late. */
+/** Whether today's update is late. */
 export function useUpdateLate(): boolean {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot).late;
 }

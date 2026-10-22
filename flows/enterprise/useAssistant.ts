@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { assistantAnswer, assistantKeyFor, type AssistantKey, type Cohort, type WindowId } from "@/mock/enterprise";
+import { assistantAnswer, assistantKeyFor, type AssistantKey, type Cohort, type Period } from "@/mock/enterprise";
 
 export interface AssistantMessage {
   id: number;
@@ -21,7 +21,7 @@ let nextId = 1;
  * asked, the answers, and whether one is being written. A suggestion carries
  * its own key; anything typed is read for whether it asks about a person.
  */
-export function useAssistant(cohort: Cohort, window: WindowId) {
+export function useAssistant(cohort: Cohort, window: Period) {
   const [messages, setMessages] = useState<AssistantMessage[]>([]);
   const [typing, setTyping] = useState(false);
 

@@ -6,7 +6,7 @@ import { CohortForm } from "@/components/enterprise/CohortForm";
 import { InviteCode } from "@/components/enterprise/InviteCode";
 import { Meter } from "@/components/enterprise/Meter";
 import { WeeklyTrend } from "@/components/enterprise/WeeklyTrend";
-import { WindowSelector } from "@/components/enterprise/WindowSelector";
+import { DateRangePicker } from "@/components/enterprise/DateRangePicker";
 import { DropdownMenu } from "@/components/form/DropdownMenu";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
@@ -14,23 +14,27 @@ import { useCohortId } from "@/lib/cohort-store";
 import {
   C1_COPY,
   DIRECTION_COPY,
+  DEFAULT_RANGE,
   LATE_COPY,
   QUESTION_POINTS,
   SEEN_COPY,
   answerFor,
   comparesWeeks,
+  countsIn,
   directionFor,
   figureFor,
   isAboveMinimum,
+  periodWords,
   programDay,
+  resolveRange,
   seenFor,
+  signalsIn,
   weeksIn,
   trendFor,
   type Cohort,
   type DataPointId,
+  type DateRange,
   type QuestionId,
-  type WindowId,
-  WINDOWS,
 } from "@/mock/enterprise";
 import { downloadCsv } from "../downloadCsv";
 import { CohortConcierge } from "./CohortConcierge";
@@ -39,7 +43,7 @@ import { useCohort, type CohortControls } from "../useCohort";
 const C = C1_COPY;
 
 /** One band (Kate, 2026-10-20, option A): the name and a line of what
- *  matters about the program on the left, the window and the export on the
+ *  matters about the program on the left, the dates and the export on the
  *  right. */
 function CohortHeader({
   cohort,
@@ -48,8 +52,8 @@ function CohortHeader({
   headingRef,
 }: {
   cohort: Cohort;
-  window: WindowId;
-  onWindow: (next: WindowId) => void;
+  window: DateRange;
+  onWindow: (next: DateRange) => void;
   headingRef?: React.Ref<HTMLHeadingElement>;
 }) {
   const day = programDay(cohort);
@@ -80,9 +84,9 @@ function CohortHeader({
           </p>
         </div>
         <div className="ent-header__tools">
-          <WindowSelector value={window} onChange={onWindow} asOf={cohort.asOf} upcoming={cohort.fresh} hideRefreshed />
-          {/* The toggle does not print: the export says the window in words. */}
-          <p className="ent-header__print">{C.printWindow(WINDOWS[window].long, cohort.asOf)}</p>
+          <DateRangePicker cohort={cohort} value={window} onChange={onWindow} align="end" />
+          {/* The picker does not print: the export says the dates in words. */}
+          <p className="ent-header__print">{C.printWindow(periodWords(window).covers, cohort.asOf)}</p>
           <DropdownMenu
             className="ent-export"
             label={C.exportMenu}
@@ -124,7 +128,7 @@ function QuestionCard({
 }: {
   cohort: Cohort;
   question: QuestionId;
-  window: WindowId;
+  window: DateRange;
   open: DataPointId | null;
   setOpen: (id: DataPointId | null) => void;
   children?: React.ReactNode;
@@ -174,16 +178,16 @@ function QuestionCard({
  * them; the rest are named together and held back, since a public signal
  * could otherwise be searched for and point to one person.
  */
-function SeenCard({ cohort, window }: { cohort: Cohort; window: WindowId }) {
+function SeenCard({ cohort, window }: { cohort: Cohort; window: DateRange }) {
   const seen = seenFor(cohort, window);
-  const signals = cohort.signals[window];
+  const signals = signalsIn(cohort, window);
   return (
     <section className="ent-card ent-card--seen" aria-labelledby="q-seen">
       <div className="ent-card__lead">
         <h2 className="ent-card__heading" id="q-seen">
           {SEEN_COPY.heading}
         </h2>
-        {seen ? <p className="ent-card__answer">{SEEN_COPY.answer(signals.any, cohort.byWindow[window].active, window)}</p> : null}
+        {seen ? <p className="ent-card__answer">{SEEN_COPY.answer(signals.any, countsIn(cohort, window).active, window)}</p> : null}
       </div>
       {seen ? (
         <>
@@ -232,13 +236,15 @@ function SeenCard({ cohort, window }: { cohort: Cohort; window: WindowId }) {
  *  code in the joining card, where it belongs. */
 function Dashboard({ controls, headingRef }: { controls: CohortControls; headingRef?: React.Ref<HTMLHeadingElement> }) {
   const cohort = controls.cohort!;
-  const [window, setWindow] = useState<WindowId>("30d");
+  // The dates chosen (Kate, 2026-10-21): the last 30 days to start with.
+  const [choice, setChoice] = useState<DateRange>(DEFAULT_RANGE);
+  const window = resolveRange(choice, cohort);
   const [open, setOpen] = useState<DataPointId | null>(null);
   const above = isAboveMinimum(cohort, window);
 
   return (
     <div className="ent-page">
-      <CohortHeader cohort={cohort} window={window} onWindow={setWindow} headingRef={headingRef} />
+      <CohortHeader cohort={cohort} window={window} onWindow={setChoice} headingRef={headingRef} />
 
       {cohort.lateSince ? (
         <p className="ent-notice">
@@ -264,7 +270,7 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
             {question === "joined" ? <SeenCard cohort={cohort} window={window} /> : null}
             <QuestionCard cohort={cohort} question={question} window={window} open={open} setOpen={setOpen}>
               {/* Whether they are still using it is a trend, not a snapshot:
-                  always since launch, whichever window is chosen. */}
+                  always since launch, whichever dates are chosen. */}
               {question === "using" ? <WeeklyTrend className="ent-card__trend" trend={trendFor(cohort)} /> : null}
               {question === "joined" ? (
                 <div className="ent-card__code">
@@ -374,13 +380,14 @@ function Concept1ForCohort({ id }: { id: ReturnType<typeof useCohortId> }) {
 }
 
 /**
- * Enterprise Dashboard, Concept 1 — The three questions.
+ * Enterprise Dashboard, Concept 1 — The four measures.
  *
- * One page of cards answering the sponsor's three questions, each in one
- * sentence with its figures, the first set large. Follow-through leads, as
- * the hero, because it is what a sponsor defends to their leadership (Kate,
- * 2026-10-20); still using it and did they join sit side by side under it,
- * with the weekly trend in the first and the cohort's code in the second.
+ * One page of four cards, each a measure headed by a statement and answered
+ * in one sentence with its figures, the first set large. Putting it into
+ * practice leads, as the hero, because it is what a sponsor defends to their
+ * leadership (Kate, 2026-10-20); Staying with it, Showing up in the world and
+ * Getting started sit side by side under it, with the weekly trend in the
+ * first and the cohort's code in the last.
  * Any figure opens its definition inside its card. A sponsor with no cohort
  * yet sees only the setup.
  */

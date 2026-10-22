@@ -11,8 +11,9 @@ import { COHORTS, COHORT_CHOICES, COHORT_IDS, weekBefore, type CohortId } from "
  * The reviewer's cohort switcher: which cohort every enterprise page shows,
  * from none yet to the December demo. A reviewer tool, not product UI.
  *
- * Under it, Update late: this Monday's figures have not arrived, so every
- * concept shows last week's. It needs a cohort with a week before.
+ * Under it, Update late: today's figures have not arrived, so every concept
+ * shows yesterday's, and the letter its last issue. It needs a cohort with
+ * a week before, so the letter has an issue to fall back on.
  *
  * Only on enterprise pages; nothing anywhere else reads the cohort.
  */
@@ -28,8 +29,8 @@ export function CohortPicker() {
   const lateLabel = !canBeLate
     ? "Update late needs a cohort with at least two weekly updates"
     : late
-      ? "Update late. Show this Monday’s update"
-      : "Update on time. Make this Monday’s update late";
+      ? "Update late. Show today’s update"
+      : "Update on time. Make today’s update late";
 
   return (
     <div className="dock-picker">

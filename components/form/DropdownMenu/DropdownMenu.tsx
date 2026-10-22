@@ -64,7 +64,15 @@ export interface MenuSubmenu extends ItemBase {
   items: readonly MenuEntry[];
 }
 
-export type MenuEntry = MenuActionItem | MenuCheckboxItem | MenuRadioGroup | MenuSeparator | MenuSubmenu;
+/** Words at the top of the panel, not a choice: who is signed in. */
+export interface MenuHeading {
+  type: "heading";
+  id: string;
+  title: string;
+  detail?: string;
+}
+
+export type MenuEntry = MenuActionItem | MenuCheckboxItem | MenuRadioGroup | MenuSeparator | MenuSubmenu | MenuHeading;
 
 /* -----------------------------------------------------------------------------
    POSITIONING
@@ -279,6 +287,15 @@ function MenuPanel({ entries, id, labelledBy, anchor, sub = false, align, focusO
           );
         }
 
+        if (entry.type === "heading") {
+          return (
+            <li key={entry.id} role="none" className="menu__heading">
+              <span className="menu__heading-title">{entry.title}</span>
+              {entry.detail ? <span className="menu__heading-detail">{entry.detail}</span> : null}
+            </li>
+          );
+        }
+
         if (entry.type === "radio-group") {
           const groupLabelId = `${baseId}-${entry.id}-label`;
           return (
@@ -483,6 +500,9 @@ export interface DropdownMenuProps {
   badge?: string;
   /** Read after the label by screen readers: ", 2 filters on". */
   srSuffix?: string;
+  /** Initials in a round button in place of the words, which stay as its
+   *  accessible name: an account menu. */
+  avatar?: string;
   entries: readonly MenuEntry[];
   /** Which edge of the trigger the panel lines up with. It still flips to
    *  stay on screen. */
@@ -518,6 +538,7 @@ export function DropdownMenu({
   icon,
   badge,
   srSuffix,
+  avatar,
   entries,
   align = "start",
   defaultOpen = false,
@@ -553,7 +574,7 @@ export function DropdownMenu({
         ref={trigger}
         type="button"
         id={triggerId}
-        className={["dropdown__trigger", open ? "is-open" : null, demo ? `is-${demo}` : null].filter(Boolean).join(" ")}
+        className={["dropdown__trigger", avatar ? "dropdown__trigger--avatar" : null, open ? "is-open" : null, demo ? `is-${demo}` : null].filter(Boolean).join(" ")}
         aria-haspopup="menu"
         aria-expanded={Boolean(open)}
         aria-controls={open ? menuId : undefined}
@@ -569,11 +590,20 @@ export function DropdownMenu({
           }
         }}
       >
-        {icon ? <Icon name={icon} size={16} /> : null}
-        <span>{label}</span>
-        {badge ? <span className="dropdown__badge">{badge}</span> : null}
-        {srSuffix ? <span className="u-visually-hidden">{srSuffix}</span> : null}
-        <Icon name="chevron" size={14} className="dropdown__chevron" />
+        {avatar ? (
+          <>
+            <span aria-hidden="true">{avatar}</span>
+            <span className="u-visually-hidden">{label}</span>
+          </>
+        ) : (
+          <>
+            {icon ? <Icon name={icon} size={16} /> : null}
+            <span>{label}</span>
+            {badge ? <span className="dropdown__badge">{badge}</span> : null}
+            {srSuffix ? <span className="u-visually-hidden">{srSuffix}</span> : null}
+            <Icon name="chevron" size={14} className="dropdown__chevron" />
+          </>
+        )}
       </button>
       {open ? (
         <MenuPanel
