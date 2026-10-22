@@ -7,6 +7,7 @@ import { addDays } from "@/lib/loop";
 import {
   DATE_PICKER_COPY as C,
   RANGE_PRESETS,
+  RANGE_GROUP_STARTS,
   RANGE_PRESET_IDS,
   mondayOf,
   presetRange,
@@ -289,7 +290,7 @@ function RangePanel({ id, cohort, range, align, inline, pickingFrom, anchor, onP
           const preset = presetRange(presetId, cohort);
           const has = started && rangeHasFigures(preset, cohort);
           return (
-            <li key={presetId}>
+            <li key={presetId} className={RANGE_GROUP_STARTS.includes(presetId) ? "date-range__group-start" : undefined}>
               <button
                 type="button"
                 className="date-range__choice"
@@ -354,8 +355,16 @@ function RangePanel({ id, cohort, range, align, inline, pickingFrom, anchor, onP
                         const off = !started || day < min || day > max;
                         const inRange = day >= shown.from && day <= shown.to;
                         const ends = [day === shown.from ? "is-start" : null, day === shown.to ? "is-end" : null];
+                        // The band is closed at its ends, and wherever it
+                        // breaks: at the edge of a week and of the month, so a
+                        // range running on from last month never shows half a
+                        // band beside the next month's greyed days.
+                        const weekday = (new Date(`${day}T00:00:00Z`).getUTCDay() + 6) % 7;
+                        const opens = inRange && (day === shown.from || weekday === 0 || day.endsWith("-01"));
+                        const closes = inRange && (day === shown.to || weekday === 6 || monthKey(monthOf(addDays(day, 1))) !== monthKey(month));
+                        const band = [inRange ? "is-in-range" : null, opens ? "is-band-start" : null, closes ? "is-band-end" : null].filter(Boolean).join(" ");
                         return (
-                          <td key={day} className={inRange ? "is-in-range" : undefined}>
+                          <td key={day} className={band || undefined}>
                             <button
                               type="button"
                               data-day={day}
@@ -385,12 +394,11 @@ function RangePanel({ id, cohort, range, align, inline, pickingFrom, anchor, onP
             </div>
           ))}
         </div>
-        <p className="date-range__status" aria-live="polite">
+        {/* Only before the first figures is anything said on screen
+            (Kate, 2026-10-22): greyed days show the bounds, and the page says
+            the privacy rule. Picking is still announced. */}
+        <p className={started ? "u-visually-hidden" : "date-range__status"} aria-live="polite">
           {status}
-        </p>
-        <p className="date-range__note">
-          {started ? `${C.bounds(min)} ` : null}
-          {C.privacy}
         </p>
       </div>
     </dialog>

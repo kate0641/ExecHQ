@@ -54,27 +54,33 @@ export interface DateRange {
 export type Period = WindowId | DateRange;
 
 /** The ranges in the list, in order (Kate, 2026-10-22): this week first,
- *  as the dashboard opens on it. Any other dates are picked on the calendar. */
+ *  as the dashboard opens on it. Last week is a whole Monday-to-Sunday week,
+ *  as the Monday update is. No This year: in V1 no cohort is a year old, so
+ *  it was always Since launch. Any other dates are picked on the calendar. */
 export const RANGE_PRESET_IDS = [
   "this-week",
+  "last-week",
   "this-month",
   "last-month",
   "last-30",
   "last-90",
   "since-launch",
-  "this-year",
 ] as const;
 export type RangePresetId = (typeof RANGE_PRESET_IDS)[number];
+
+/** Where the list is divided: calendar periods, rolling days, the whole
+ *  program. Each id here starts a group after the first. */
+export const RANGE_GROUP_STARTS: readonly RangePresetId[] = ["last-30", "since-launch"];
 
 /** Each preset's name in the list, inside a sentence ("were active this
  *  week"), and after "covers" ("covers this week"). */
 export const RANGE_PRESETS: Record<RangePresetId, { label: string; inSentence: string; covers: string }> = {
   "this-week": { label: "This week", inSentence: "this week", covers: "this week" },
+  "last-week": { label: "Last week", inSentence: "last week", covers: "last week" },
   "last-30": { label: "Last 30 days", inSentence: "in the last 30 days", covers: "the last 30 days" },
   "last-90": { label: "Last 90 days", inSentence: "in the last 90 days", covers: "the last 90 days" },
   "this-month": { label: "This month", inSentence: "this month", covers: "this month" },
   "last-month": { label: "Last month", inSentence: "last month", covers: "last month" },
-  "this-year": { label: "This year", inSentence: "this year", covers: "this year" },
   "since-launch": { label: "Since launch", inSentence: "since the program started", covers: "the program since it started" },
 };
 
@@ -106,6 +112,7 @@ export function presetRange(id: RangePresetId, cohort: Cohort): DateRange {
   const firstOfMonth = (year: number, month: number) => `${year}-${String(month).padStart(2, "0")}-01`;
   const dates: Record<RangePresetId, () => { from: string; to: string }> = {
     "this-week": () => ({ from: mondayOf(today), to: today }),
+    "last-week": () => ({ from: addDays(mondayOf(today), -7), to: addDays(mondayOf(today), -1) }),
     "last-30": () => ({ from: addDays(today, -29), to: today }),
     "last-90": () => ({ from: addDays(today, -89), to: today }),
     "this-month": () => ({ from: firstOfMonth(y, m), to: today }),
@@ -113,7 +120,6 @@ export function presetRange(id: RangePresetId, cohort: Cohort): DateRange {
       const from = m === 1 ? firstOfMonth(y - 1, 12) : firstOfMonth(y, m - 1);
       return { from, to: addDays(firstOfMonth(y, m), -1) };
     },
-    "this-year": () => ({ from: `${y}-01-01`, to: today }),
     "since-launch": () => ({ from: cohort.startsOn, to: today }),
   };
   return { ...dates[id](), preset: id };
@@ -180,20 +186,16 @@ export function shiftRange(range: DateRange, by: 1 | -1, cohort: Cohort): DateRa
   const sameYearAsToday = to === today && from.slice(0, 4) === today.slice(0, 4);
   const p = range.preset;
   const unit =
-    p === "this-week" ? "week" : p === "this-month" || p === "last-month" ? "month" : p === "this-year" ? "year" : undefined;
+    p === "this-week" || p === "last-week" ? "week" : p === "this-month" || p === "last-month" ? "month" : undefined;
   let next: { from: string; to: string };
   let prefer: RangePresetId[] = [];
   if (unit === "week" || (!unit && from !== to && mondayOf(from) === from && (daysIn(from, to) === 7 || sameWeekAsToday))) {
     next = { from: addDays(from, 7 * by), to: addDays(from, 7 * by + 6) };
-    prefer = ["this-week"];
+    prefer = ["this-week", "last-week"];
   } else if (unit === "month") {
     const start = shiftMonthStart(from, by);
     next = { from: start, to: monthEnd(start) };
     prefer = ["this-month", "last-month"];
-  } else if (unit === "year") {
-    const year = Number(from.slice(0, 4)) + by;
-    next = { from: `${year}-01-01`, to: `${year}-12-31` };
-    prefer = ["this-year"];
   } else if (from === to) {
     next = { from: addDays(from, by), to: addDays(from, by) };
   } else if (from.endsWith("-01-01") && (to.endsWith("-12-31") || sameYearAsToday) && from.slice(0, 4) === to.slice(0, 4)) {
@@ -221,12 +223,12 @@ export const DATE_PICKER_COPY = {
   calendar: "Calendar",
   prevMonth: "Previous month",
   nextMonth: "Next month",
+  /** Said to screen readers only (Kate, 2026-10-22): on screen the band
+   *  following the pointer says it. */
   chooseStart: "Choose the first day, or a range on the left.",
   chooseEnd: (from: string) => `From ${abbrevDate(from)}. Now choose the last day.`,
   chosen: (label: string) => `Showing ${label}.`,
-  bounds: (startsOn: string) => `Figures run from ${abbrevDate(startsOn)}, when the program started, to today.`,
   notStarted: (firstUpdate: string) => `The first figures arrive on ${abbrevDate(firstUpdate)}. Dates open then.`,
-  privacy: `When fewer than ${MIN_COHORT_SIZE} people were active in the dates you choose, the figures stay hidden.`,
   noFigures: "No figures for these dates",
   today: "today",
   close: "Close",

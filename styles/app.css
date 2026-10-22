@@ -23935,6 +23935,13 @@ ul.plan-guided__sparks {
   border-right: var(--border-width-thin) solid var(--menu-separator);
 }
 
+/* Calendar periods, rolling days, the whole program: a rule between. */
+.date-range__group-start {
+  margin-top: var(--space-2xs);
+  padding-top: var(--space-2xs);
+  border-top: var(--border-width-thin) solid var(--menu-separator);
+}
+
 .date-range__choice {
   width: 100%;
   min-height: 2.25rem;
@@ -24054,16 +24061,16 @@ ul.plan-guided__sparks {
   background-color: var(--color-surface-selected);
 }
 
-.date-range__grid td.is-in-range:has(.is-start) {
-  border-radius: var(--radius-pill) 0 0 var(--radius-pill);
+/* Closed at the range's ends and wherever it breaks: a week's edge, a
+   month's edge (2026-10-22). */
+.date-range__grid td.is-band-start {
+  border-start-start-radius: var(--radius-pill);
+  border-end-start-radius: var(--radius-pill);
 }
 
-.date-range__grid td.is-in-range:has(.is-end) {
-  border-radius: 0 var(--radius-pill) var(--radius-pill) 0;
-}
-
-.date-range__grid td.is-in-range:has(.is-start.is-end) {
-  border-radius: var(--radius-pill);
+.date-range__grid td.is-band-end {
+  border-start-end-radius: var(--radius-pill);
+  border-end-end-radius: var(--radius-pill);
 }
 
 .date-range__day {
@@ -24119,13 +24126,6 @@ ul.plan-guided__sparks {
   font-weight: var(--weight-semibold);
 }
 
-.date-range__note {
-  max-width: 34rem;
-  margin: 0;
-  font-size: var(--type-caption-size);
-  line-height: var(--type-caption-leading);
-  color: var(--color-text-secondary);
-}
 
 /* The panel is a screen thing: printing says the dates in words. */
 @media print {

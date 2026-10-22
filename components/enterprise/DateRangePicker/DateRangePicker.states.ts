@@ -13,7 +13,7 @@ export const dateRangePickerStates = defineComponentStates({
   status: "draft",
   flows: ["enterprise"],
   description:
-    "The sponsor dashboard's dates (Kate, 2026-10-21; ranges 2026-10-22): a field with the dates, arrows to the dates before and after, and a panel with ranges on the left and two months of calendar, weeks from Monday. Any dates from the program's first day to today, as short as one day; the minimum of 10 active still hides figures, and the panel says so. A range applies at once; on the calendar the first press is the first day and the second the last. Keyboard: arrows a day or a week, Home and End the week's ends, Page Up and Page Down a month, Escape closes. Try it: these examples keep their own dates.",
+    "The sponsor dashboard's dates (Kate, 2026-10-21; ranges and footer 2026-10-22): a field with the dates, arrows to the dates before and after, and a panel with ranges on the left and two months of calendar, weeks from Monday. Any dates from the program's first day to today, as short as one day; the minimum of 10 active still hides figures, which the page says. Ranges in three groups: calendar periods, rolling days, since launch. Nothing written under the calendar once there are figures: greyed days show the bounds. A range applies at once; on the calendar the first press is the first day and the second the last. Keyboard: arrows a day or a week, Home and End the week's ends, Page Up and Page Down a month, Escape closes. Try it: these examples keep their own dates.",
   component: DateRangePicker,
   notApplicable: {
     loading: "The dates and their figures are in the page already: choosing waits for nothing.",
