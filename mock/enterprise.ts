@@ -1127,7 +1127,8 @@ export const PROFILE_LINK_COPY = {
    asks for them.
    -------------------------------------------------------------------------- */
 
-export type SponsorEmailId = "weekly" | "unlocked" | "late";
+/** No weekly summary (Kate, 2026-10-22): there are no weekly updates. */
+export type SponsorEmailId = "unlocked" | "late";
 
 export const SPONSOR_PROFILE_COPY = {
   title: "Your profile",
@@ -1165,11 +1166,10 @@ export const SPONSOR_PROFILE_COPY = {
     group: "Emails",
     lead: "Sent to your work email. Figures stay on the dashboard: these say when to look.",
     items: {
-      weekly: { label: "Weekly summary", hint: "Mondays: the week in three sentences, with a link to the dashboard." },
       unlocked: { label: `When figures first show`, hint: `Once ${MIN_COHORT_SIZE} or more participants are active.` },
       late: { label: "When an update is late", hint: "If the daily figures haven't arrived by 9am." },
     } satisfies Record<SponsorEmailId, { label: string; hint: string }>,
-    defaults: { weekly: true, unlocked: true, late: false } satisfies Record<SponsorEmailId, boolean>,
+    defaults: { unlocked: true, late: false } satisfies Record<SponsorEmailId, boolean>,
     savedOn: (label: string) => `${label}: on.`,
     savedOff: (label: string) => `${label}: off.`,
   },
