@@ -326,6 +326,24 @@ export const prototypeConfig: PrototypeConfig = {
         },
       ],
     },
+    {
+      slug: "sponsor-login",
+      title: "Sponsor login",
+      sprint: 5,
+      chrome: "minimal",
+      header: false,
+      webOnly: true,
+      description:
+        "How a sponsor gets back into the dashboard. Desktop only. The same three ways in as participants: an emailed code, Google or Apple (Kate, 2026-10-23).",
+      concepts: [
+        {
+          slug: "concept-1",
+          title: "Concept 1 — Work email",
+          summary:
+            "The participant Login's split page, for the enterprise side: the work email ExecHQ set up, a code by email, Google or Apple. No sign-up: the ExecHQ contact sends the invitation. The privacy line says sponsors see totals, never a participant.",
+        },
+      ],
+    },
   ],
 
   appNav: [

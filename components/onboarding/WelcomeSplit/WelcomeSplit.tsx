@@ -8,6 +8,8 @@ import { StepHeader } from "@/components/onboarding/StepHeader";
 export interface WelcomeSplitProps {
   /** The one editorial line under the wordmark. Set in the serif. */
   quote: string;
+  /** A word after the wordmark, e.g. "Enterprise" on the sponsor login. */
+  suffix?: string;
   /** Small context line above the title, e.g. "Welcome back". */
   eyebrow?: string;
   title: string;
@@ -54,6 +56,7 @@ export interface WelcomeSplitProps {
  */
 export function WelcomeSplit({
   quote,
+  suffix,
   eyebrow,
   title,
   description,
@@ -80,7 +83,7 @@ export function WelcomeSplit({
     >
       {overlay}
       <div className="welcome__hero">
-        <Wordmark size="xl" tone="light" />
+        <Wordmark size="xl" tone="light" suffix={suffix} />
         <p className="welcome__quote">{quote}</p>
       </div>
 
