@@ -1309,8 +1309,9 @@ export const QUESTION_POINTS: Record<QuestionId, DataPointId[]> = {
 /* -----------------------------------------------------------------------------
    READINESS PULSE (Concept 1b, Kate, 2026-10-23)
    Eric asked for something that shows value beyond use. One question in a
-   participant's check-in, when they start and about every 30 days: "How ready
-   do you feel for your next step?", 1 to 5. The sponsor sees the cohort's
+   participant's check-in, when they start and every 7 days after (Kate,
+   2026-10-23, was 30): "How ready do you feel for your next step?", 1 to 5.
+   The sponsor sees the cohort's
    answers at the start and now, as totals, once at least the minimum have
    answered twice. Self-reported, so it says what they feel, never what
    ExecHQ caused. From https://claude.ai/artifact/2fm8TRsuNxABfFJ88JBh6i.
@@ -1354,7 +1355,7 @@ export const READINESS_COPY = {
   label: "Readiness, on average",
   detail: (answered: number, setUp: number) => `out of 5 · ${count.format(answered)} of ${count.format(setUp)} answered`,
   brief:
-    "Asked when someone starts and about every 30 days: “How ready do you feel for your next step?” From 1, not at all, to 5, very. The same people at the start and now, whichever dates you choose.",
+    "Asked when someone starts and every 7 days after: “How ready do you feel for your next step?” From 1, not at all, to 5, very. The same people at the start and now, whichever dates you choose.",
   hidden: `Shown once ${MIN_COHORT_SIZE} or more have answered twice.`,
   start: "At the start",
   now: "Now",

@@ -295,7 +295,7 @@ export const prototypeConfig: PrototypeConfig = {
           slug: "concept-1b",
           title: "Concept 1b — With readiness",
           summary:
-            "Concept 1 with a readiness pulse, after Eric asked for value beyond use (Kate, 2026-10-23): participants answer “How ready do you feel for your next step?” when they start and about every 30 days, and a card under the opening shows the cohort’s answers then and now, once 10 or more have answered twice.",
+            "Concept 1 with a readiness pulse, after Eric asked for value beyond use (Kate, 2026-10-23): participants answer “How ready do you feel for your next step?” when they start and every 7 days after, and a card under the opening shows the cohort’s answers then and now, once 10 or more have answered twice.",
         },
         {
           slug: "concept-2",
