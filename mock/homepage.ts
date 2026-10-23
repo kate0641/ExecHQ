@@ -318,6 +318,44 @@ export const BRIEFING_STUB = {
    string, so "The Loop" is a one-word swap if the client prefers it.
    -------------------------------------------------------------------------- */
 
+/* -----------------------------------------------------------------------------
+   THE WEEKLY CHECK-IN (Homepage Concept 4b, Kate, 2026-10-23)
+   The readiness pulse, on her side: one card in Stay on track, once a week,
+   "How ready do you feel for your next step?", 1 to 5. Her answers are hers
+   to see over time; her organisation sees only the group's totals (the
+   enterprise dashboard's Concept 1b). Only Home changes: onboarding asks
+   nothing, so her first answer here is her starting point.
+   -------------------------------------------------------------------------- */
+
+/** Maya's answers so far, one a week, oldest first: the first was her
+ *  starting point. Her last was a week ago, so the next is due today.
+ *  Invented for the demo. */
+export const READINESS_HISTORY: readonly number[] = [3, 3, 4];
+
+export const READINESS_HOME_COPY = {
+  about: "Your weekly check-in",
+  question: "How ready do you feel for your next step?",
+  low: "Not at all",
+  high: "Very",
+  answerName: (n: number) => (n === 1 ? "1, not at all" : n === 5 ? "5, very" : String(n)),
+  notNow: "Not now",
+  /** Every time, under the question: the same promise as the dashboard's. */
+  privacy: "Counts in your organisation’s totals, never on its own. Only you see your answers.",
+  counted: "Counted",
+  thisWeek: (n: number) => `${n} this week.`,
+  versus: (n: number, start: number) =>
+    n > start
+      ? `Up from ${start} when you started.`
+      : n === start
+        ? "The same as when you started. It moves in steps."
+        : `Down from ${start} when you started. A harder week happens; your plan is still there.`,
+  trendLabel: (answers: readonly number[]) => `Your answers each week: ${answers.join(", ")}.`,
+  start: "Start",
+  now: "Now",
+  week: (n: number) => `Wk ${n}`,
+  later: "No problem. I’ll ask again next week.",
+} as const;
+
 export const STAY_COPY = {
   nextHeading: "Your next step",
   addsTo: "Adds to:",

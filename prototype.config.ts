@@ -156,6 +156,12 @@ export const prototypeConfig: PrototypeConfig = {
           summary:
             "A map of three rings with the next step under it, Stay on track, today’s Briefing, and Your Signal Picture.",
         },
+        {
+          slug: "concept-4b",
+          title: "Concept 4b — With the weekly check-in",
+          summary:
+            "Concept 4 with one card added to Stay on track (Kate, 2026-10-23): “How ready do you feel for your next step?”, once a week, in one tap. She sees her answers week by week; her organisation sees only the group’s totals, on the enterprise dashboard’s Concept 1b.",
+        },
       ],
     },
     {
