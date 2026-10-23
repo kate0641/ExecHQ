@@ -322,7 +322,7 @@ export const prototypeConfig: PrototypeConfig = {
           slug: "concept-1",
           title: "Concept 1 — One page",
           summary:
-            "Settings rows in five groups on one page: You, Your cohort, Emails, What you can see and Signing in. Name and job title can be changed; the cohort's details are shown with a way back to the dashboard. Sign out is a button at the foot.",
+            "Settings rows in four groups on one page: You, Your cohort, What you can see and Signing in. One Edit changes the name and job title; the cohort's details are shown, not edited. Sign out is a button at the foot.",
         },
       ],
     },

@@ -1127,9 +1127,6 @@ export const PROFILE_LINK_COPY = {
    asks for them.
    -------------------------------------------------------------------------- */
 
-/** No weekly summary (Kate, 2026-10-22): there are no weekly updates. */
-export type SponsorEmailId = "unlocked" | "late";
-
 export const SPONSOR_PROFILE_COPY = {
   title: "Your profile",
   back: "Dashboard",
@@ -1142,6 +1139,8 @@ export const SPONSOR_PROFILE_COPY = {
     emailHint: "You sign in with it. To change it, write to your ExecHQ contact.",
     org: "Organization",
     edit: "Change your name and job title",
+    editLabel: "Edit",
+    editHint: "Your name and job title",
     editHeading: "Your name and job title",
     nameMissing: "Enter your name.",
     roleMissing: "Enter your job title.",
@@ -1159,19 +1158,6 @@ export const SPONSOR_PROFILE_COPY = {
     codeValue: (code: string, open: boolean) => `${code} · ${open ? "Open to new joiners" : "Closed to new joiners"}`,
     none: "No cohort yet",
     noneHint: "Set one up on your dashboard to get a code to share.",
-    toDashboard: "Open your dashboard",
-    toDashboardHint: "Figures, the code and exports live there.",
-  },
-  emails: {
-    group: "Emails",
-    lead: "Sent to your work email. Figures stay on the dashboard: these say when to look.",
-    items: {
-      unlocked: { label: `When figures first show`, hint: `Once ${MIN_COHORT_SIZE} or more participants are active.` },
-      late: { label: "When an update is late", hint: "If the daily figures haven't arrived by 9am." },
-    } satisfies Record<SponsorEmailId, { label: string; hint: string }>,
-    defaults: { unlocked: true, late: false } satisfies Record<SponsorEmailId, boolean>,
-    savedOn: (label: string) => `${label}: on.`,
-    savedOff: (label: string) => `${label}: off.`,
   },
   privacy: {
     group: "What you can see",

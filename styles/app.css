@@ -24664,23 +24664,9 @@ ul.plan-guided__sparks {
   color: var(--color-text-primary);
 }
 
-/* A line under a group's card, about the whole group. */
 .sponsor-profile__foot {
   padding-top: var(--space-lg);
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
-}
-
-.sponsor-profile__with-note {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
-.sponsor-profile__lead {
-  padding-inline: var(--space-xs);
-  font-size: var(--type-body-sm-size);
-  line-height: var(--type-body-sm-leading);
-  color: var(--color-text-secondary);
 }
 
 .sponsor-profile__edit {

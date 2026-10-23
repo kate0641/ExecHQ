@@ -9,14 +9,13 @@ import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
 import { useCohortId } from "@/lib/cohort-store";
 import { conceptHref } from "@/lib/manifest";
-import { SPONSOR_PERSON, SPONSOR_PROFILE_COPY as C, abbrevDate, programDay, type SponsorEmailId } from "@/mock/enterprise";
+import { SPONSOR_PERSON, SPONSOR_PROFILE_COPY as C, abbrevDate, programDay } from "@/mock/enterprise";
 import { PROFILE_COPY } from "@/mock/profile";
 import { useCohort } from "../../enterprise/useCohort";
 
 /** The dashboard concept chosen (Kate, 2026-10-22). */
 const DASHBOARD = conceptHref("enterprise", "concept-1");
 
-const EMAILS = Object.keys(C.emails.items) as SponsorEmailId[];
 
 /** Their name and job title, changed in place of the group's rows. */
 function YouEdit({
@@ -103,7 +102,6 @@ function CohortGroup() {
       ) : (
         <SettingsRow kind="static" label={C.cohort.none} description={C.cohort.noneHint} value="" />
       )}
-      <SettingsRow icon="chart-bar" label={C.cohort.toDashboard} description={C.cohort.toDashboardHint} href={DASHBOARD} />
     </SettingsGroup>
   );
 }
@@ -113,8 +111,8 @@ function CohortGroup() {
  *
  * No brief (Kate, 2026-10-22: "fairly straightforward and utilitarian"), so
  * it borrows the participant Profile's settings rows and groups: You, Your
- * cohort, Emails, What you can see, and Signing in, in one column at web
- * width. Only the name and job title change here; the work email is how
+ * cohort, What you can see, and Signing in, in one column at web width. No
+ * Emails group (Kate, 2026-10-23). Only the name and job title change here; the work email is how
  * they sign in, so it changes through ExecHQ. The cohort is shown, not
  * edited: its code and figures are on the dashboard. What they can see is
  * said plainly, beside what participants are told, so both sides of the
@@ -126,7 +124,6 @@ function CohortGroup() {
 export function SponsorProfileConcept1() {
   const [person, setPerson] = useState<{ name: string; role: string }>({ name: SPONSOR_PERSON.name, role: SPONSOR_PERSON.role });
   const [editing, setEditing] = useState(false);
-  const [emails, setEmails] = useState<Record<SponsorEmailId, boolean>>({ ...C.emails.defaults });
   const [status, setStatus] = useState("");
   const [signedOut, setSignedOut] = useState(false);
   const [signedOutAll, setSignedOutAll] = useState(false);
@@ -134,9 +131,9 @@ export function SponsorProfileConcept1() {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const wasEditing = useRef(false);
 
-  // Closing the form returns focus to the row that opened it.
+  // Closing the form returns focus to the Edit button that opened it.
   useEffect(() => {
-    if (wasEditing.current && !editing) editRowRef.current?.querySelector<HTMLElement>(".settings-row")?.focus();
+    if (wasEditing.current && !editing) editRowRef.current?.querySelector<HTMLElement>("button.settings-row")?.focus();
     wasEditing.current = editing;
   }, [editing]);
 
@@ -198,35 +195,19 @@ export function SponsorProfileConcept1() {
           />
         ) : (
           <>
-            <SettingsRow icon="edit" label={C.you.name} value={person.name} onOpen={() => setEditing(true)} />
-            <SettingsRow icon="edit" label={C.you.role} value={person.role} onOpen={() => setEditing(true)} />
+            <SettingsRow kind="static" label={C.you.name} value={person.name} />
+            <SettingsRow kind="static" label={C.you.role} value={person.role} />
           </>
         )}
         <SettingsRow kind="static" label={C.you.email} description={C.you.emailHint} value={SPONSOR_PERSON.email} />
         <SettingsRow kind="static" label={C.you.org} value={SPONSOR_PERSON.org} />
+        {/* One Edit for the group (Kate, 2026-10-23): it opens the name and
+            job title together, the only two that change here. */}
+        {editing ? null : <SettingsRow kind="action" icon="edit" label={C.you.editLabel} description={C.you.editHint} onAction={() => setEditing(true)} />}
       </SettingsGroup>
       </div>
 
       <CohortGroup />
-
-      <div className="sponsor-profile__with-note">
-      <SettingsGroup label={C.emails.group}>
-        {EMAILS.map((id) => (
-          <SettingsRow
-            key={id}
-            kind="switch"
-            label={C.emails.items[id].label}
-            description={C.emails.items[id].hint}
-            checked={emails[id]}
-            onChange={(checked) => {
-              setEmails((current) => ({ ...current, [id]: checked }));
-              setStatus((checked ? C.emails.savedOn : C.emails.savedOff)(C.emails.items[id].label));
-            }}
-          />
-        ))}
-      </SettingsGroup>
-      <p className="sponsor-profile__lead">{C.emails.lead}</p>
-      </div>
 
       <SettingsGroup label={C.privacy.group}>
         <div className="card sponsor-profile__privacy">
