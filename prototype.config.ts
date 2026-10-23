@@ -292,6 +292,12 @@ export const prototypeConfig: PrototypeConfig = {
             "The dashboard is four cards, each a measure of how the cohort is doing: Putting it into practice leads, then Staying with it, Showing up in the world and Getting started. Each opens with a one-sentence answer, with the figures under it. The cohort's code and settings are a Cohort page of their own.",
         },
         {
+          slug: "concept-1b",
+          title: "Concept 1b — With readiness",
+          summary:
+            "Concept 1 with a readiness pulse, after Eric asked for value beyond use (Kate, 2026-10-23): participants answer “How ready do you feel for your next step?” when they start and about every 30 days, and a card under the opening shows the cohort’s answers then and now, once 10 or more have answered twice.",
+        },
+        {
           slug: "concept-2",
           title: "Concept 2 — The report",
           // Kate, 2026-10-22: Concept 1 chosen; to move to scratch later.

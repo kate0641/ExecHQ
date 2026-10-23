@@ -432,6 +432,11 @@ export interface Cohort {
   /** Set up on this visit: no figures and no issues yet, only the first
    *  update to come. */
   fresh?: boolean;
+  /** The readiness pulse (Concept 1b, Kate, 2026-10-23): how many of the
+   *  same people answered 1 to 5 to "How ready do you feel for your next
+   *  step?" when they started and at their latest check-in, and how many
+   *  moved up. Invented for the demo. */
+  readiness?: { start: number[]; now: number[]; movedUp: number };
 }
 
 const PILOT_WEEK_2: CohortCounts = {
@@ -490,6 +495,8 @@ export const COHORTS: Record<Cohort["id"], Cohort> = {
     byWindow: { "30d": SMALL_WEEK_1, "90d": SMALL_WEEK_1, launch: SMALL_WEEK_1 },
     signals: { "30d": SMALL_SIGNALS, "90d": SMALL_SIGNALS, launch: SMALL_SIGNALS },
     weeklyActive: [4],
+    // Too few have answered twice: the card says when it will show.
+    readiness: { start: [0, 1, 2, 1, 0], now: [0, 0, 2, 2, 0], movedUp: 2 },
   },
   /** Maya's cohort, at week 2: every figure shows, and the 30 and 90-day
    *  ones are still filling in. */
@@ -508,6 +515,7 @@ export const COHORTS: Record<Cohort["id"], Cohort> = {
     // Speaking, podcasts and press stay under the minimum: held back.
     signals: { "30d": PILOT_SIGNALS, "90d": PILOT_SIGNALS, launch: PILOT_SIGNALS },
     weeklyActive: [21, 26],
+    readiness: { start: [2, 5, 9, 6, 2], now: [0, 2, 7, 10, 5], movedUp: 16 },
   },
   /** The December partner meeting: 1,000 at day 90, so 90 days and since
    *  launch are the same, and 30 days is the last month alone. */
@@ -542,6 +550,7 @@ export const COHORTS: Record<Cohort["id"], Cohort> = {
     // Climbs while people join, peaks in week 5, then eases off a little:
     // the shape a sponsor asking "are they still using it?" needs to see.
     weeklyActive: [212, 389, 497, 560, 588, 571, 549, 562, 540, 518, 527, 509, 496],
+    readiness: { start: [48, 141, 250, 160, 41], now: [12, 58, 190, 262, 118], movedUp: 401 },
     // Closed, so joining holds; fewer were active over the last 30 days than
     // a week ago, matching the trend. Since launch only ever grows.
     lastWeek: {
@@ -1297,6 +1306,67 @@ export const QUESTION_POINTS: Record<QuestionId, DataPointId[]> = {
   following: ["follow-through", "plans", "artifacts", "loop"],
 };
 
+/* -----------------------------------------------------------------------------
+   READINESS PULSE (Concept 1b, Kate, 2026-10-23)
+   Eric asked for something that shows value beyond use. One question in a
+   participant's check-in, when they start and about every 30 days: "How ready
+   do you feel for your next step?", 1 to 5. The sponsor sees the cohort's
+   answers at the start and now, as totals, once at least the minimum have
+   answered twice. Self-reported, so it says what they feel, never what
+   ExecHQ caused. From https://claude.ai/artifact/2fm8TRsuNxABfFJ88JBh6i.
+   -------------------------------------------------------------------------- */
+
+export interface ReadinessView {
+  state: "shown" | "hidden";
+  /** People who answered both times. */
+  answered: number;
+  start?: { average: string; spread: number[] };
+  now?: { average: string; spread: number[] };
+  movedUp?: number;
+}
+
+function averageOf(spread: number[]): string {
+  const total = spread.reduce((sum, n) => sum + n, 0);
+  return (spread.reduce((sum, n, i) => sum + n * (i + 1), 0) / total).toFixed(1);
+}
+
+/** The pulse for a cohort, or undefined where it has none. Hidden until the
+ *  minimum have answered twice. Not tied to the dates chosen: it is the
+ *  start against the latest answers. */
+export function readinessFor(cohort: Cohort): ReadinessView | undefined {
+  const r = cohort.readiness;
+  if (!r) return undefined;
+  const answered = r.start.reduce((sum, n) => sum + n, 0);
+  if (answered < MIN_COHORT_SIZE) return { state: "hidden", answered };
+  return {
+    state: "shown",
+    answered,
+    start: { average: averageOf(r.start), spread: r.start },
+    now: { average: averageOf(r.now), spread: r.now },
+    movedUp: r.movedUp,
+  };
+}
+
+export const READINESS_COPY = {
+  heading: "Ready for what’s next",
+  answer: (moved: number, answered: number) =>
+    `${count.format(moved)} of the ${count.format(answered)} who answered feel more ready for their next step than when they started.`,
+  label: "Readiness, on average",
+  detail: (answered: number, setUp: number) => `out of 5 · ${count.format(answered)} of ${count.format(setUp)} answered`,
+  brief:
+    "Asked when someone starts and about every 30 days: “How ready do you feel for your next step?” From 1, not at all, to 5, very. The same people at the start and now, whichever dates you choose.",
+  hidden: `Shown once ${MIN_COHORT_SIZE} or more have answered twice.`,
+  start: "At the start",
+  now: "Now",
+  scale: ["1 Not at all", "2", "3", "4", "5 Very"],
+  spreadLabel: (when: string, spread: number[]) => `${when}: ${spread.map((n, i) => `${count.format(n)} answered ${i + 1}`).join(", ")}`,
+  /** The opening's last sentence, in Concept 1b. */
+  story: (moved: number, answered: number): StoryPart[] => [
+    { strong: `${count.format(moved)} of the ${count.format(answered)} who answered` },
+    " say they feel more ready for their next step than when they started.",
+  ],
+} as const;
+
 /** One sentence of the opening: plain words, with the figures that carry
  *  it set in bold. */
 export type StoryPart = string | { strong: string };
@@ -1308,7 +1378,7 @@ export type StoryPart = string | { strong: string };
  * it, ending on where follow-through is heading. Undefined while the figures
  * are hidden: the notice says why.
  */
-export function storyFor(cohort: Cohort, window: Period): StoryPart[][] | undefined {
+export function storyFor(cohort: Cohort, window: Period, withReadiness = false): StoryPart[][] | undefined {
   if (!isAboveMinimum(cohort, window)) return undefined;
   const c = countsIn(cohort, window);
   const n = (value: number) => count.format(value);
@@ -1326,7 +1396,7 @@ export function storyFor(cohort: Cohort, window: Period): StoryPart[][] | undefi
   // the dates began within the last 30: only then can it say all of them.
   const from = typeof window === "string" ? (window === "30d" ? addDays(cohort.asOf, -29) : cohort.startsOn) : window.from;
   const allOpen = daysIn(from < cohort.startsOn ? cohort.startsOn : from, todayFor(cohort)) <= 30;
-  return [
+  const story: StoryPart[][] = [
     [`${when}, `, { strong: `${n(cohort.joined)} of the ${n(cohort.expectedSize)} leaders` }, ` you expected have joined and ${n(cohort.activated)} have finished setting up.`],
     [{ strong: `${n(c.active)} were active` }, ` ${long}${since}, and ${n(signalsIn(cohort, window).any)} put something out in the world.`],
     [
@@ -1336,6 +1406,9 @@ export function storyFor(cohort: Cohort, window: Period): StoryPart[][] | undefi
       open > 0 ? (allOpen ? ` The other ${n(open)} are still within their 30 days, so this will rise.` : " Some are still within their 30 days, so this will rise.") : "",
     ],
   ];
+  // Concept 1b ends the story on how they feel, once enough have answered.
+  const ready = withReadiness ? readinessFor(cohort) : undefined;
+  return ready?.state === "shown" ? [...story, READINESS_COPY.story(ready.movedUp!, ready.answered)] : story;
 }
 
 /** The sentence that opens each card: what the opening doesn't say, plainly,

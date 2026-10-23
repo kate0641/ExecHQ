@@ -6,6 +6,7 @@ import { CohortForm } from "@/components/enterprise/CohortForm";
 import { InviteCode } from "@/components/enterprise/InviteCode";
 import { Meter } from "@/components/enterprise/Meter";
 import { WeeklyTrend } from "@/components/enterprise/WeeklyTrend";
+import { ReadinessBars } from "@/components/enterprise/ReadinessBars";
 import { DateRangePicker } from "@/components/enterprise/DateRangePicker";
 import { DropdownMenu } from "@/components/form/DropdownMenu";
 import { Button } from "@/components/primitives/Button";
@@ -16,6 +17,7 @@ import {
   DATA_POINTS,
   DEFAULT_RANGE,
   LATE_COPY,
+  READINESS_COPY,
   QUESTION_POINTS,
   SEEN_COPY,
   answerFor,
@@ -24,6 +26,7 @@ import {
   figureFor,
   isAboveMinimum,
   periodWords,
+  readinessFor,
   programDay,
   resolveRange,
   seenFor,
@@ -229,15 +232,60 @@ function SeenCard({ cohort, window }: { cohort: Cohort; window: DateRange }) {
   );
 }
 
+/**
+ * Ready for what's next (Concept 1b, Kate, 2026-10-23): the readiness pulse,
+ * a card of its own under the opening, before the measures. The cohort's
+ * average answer at the start and now, and the spread of both. Hidden until
+ * the minimum have answered twice; not tied to the dates chosen.
+ */
+function ReadinessCard({ cohort }: { cohort: Cohort }) {
+  const ready = readinessFor(cohort);
+  if (!ready) return null;
+  const R = READINESS_COPY;
+  return (
+    <section className="ent-card ent-card--readiness" aria-labelledby="q-readiness">
+      <div className="ent-card__lead">
+        <h2 className="ent-card__heading" id="q-readiness">
+          {R.heading}
+        </h2>
+        {ready.state === "shown" ? <p className="ent-card__answer">{R.answer(ready.movedUp!, ready.answered)}</p> : null}
+      </div>
+      {ready.state === "shown" ? (
+        <div className="ent-readiness">
+          <div className="cohort-figure cohort-figure--lg">
+            <p className="cohort-figure__label">{R.label}</p>
+            <p className="cohort-figure__value">
+              {ready.start!.average}
+              <span className="ent-readiness__arrow" aria-hidden="true">
+                →
+              </span>
+              <span className="u-visually-hidden"> to </span>
+              {ready.now!.average}
+              <span className="cohort-figure__detail">{R.detail(ready.answered, cohort.activated)}</span>
+            </p>
+            <p className="cohort-figure__brief">{R.brief}</p>
+          </div>
+          <ReadinessBars start={ready.start!.spread} now={ready.now!.spread} />
+        </div>
+      ) : (
+        <p className="ent-seen__locked">
+          <Icon name="lock" size={16} />
+          {R.hidden}
+        </p>
+      )}
+    </section>
+  );
+}
+
 /** The dashboard: the story in order, the four measures as cards, and the
  *  page closing on who is still to join, with the cohort's code. */
-function Dashboard({ controls, headingRef }: { controls: CohortControls; headingRef?: React.Ref<HTMLHeadingElement> }) {
+function Dashboard({ controls, headingRef, readiness }: { controls: CohortControls; headingRef?: React.Ref<HTMLHeadingElement>; readiness?: boolean }) {
   const cohort = controls.cohort!;
   // The dates chosen (Kate, 2026-10-22): this week to start with.
   const [choice, setChoice] = useState<DateRange>(DEFAULT_RANGE);
   const window = resolveRange(choice, cohort);
   const above = isAboveMinimum(cohort, window);
-  const story = storyFor(cohort, window);
+  const story = storyFor(cohort, window, readiness);
 
   return (
     <div className="ent-page">
@@ -272,6 +320,8 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
           ))}
         </p>
       ) : null}
+
+      {readiness ? <ReadinessCard cohort={cohort} /> : null}
 
       <div className="ent-board">
         {CARD_ORDER.map((question) => (
@@ -366,7 +416,7 @@ function Setup({ controls, onDone }: { controls: CohortControls; onDone: () => v
   );
 }
 
-function Concept1Page({ controls }: { controls: CohortControls }) {
+function Concept1Page({ controls, readiness }: { controls: CohortControls; readiness?: boolean }) {
   const { cohort, justCreated } = controls;
   const [leftSetup, setLeftSetup] = useState(false);
   const headingRef = useRef<HTMLHeadingElement>(null);
@@ -380,14 +430,14 @@ function Concept1Page({ controls }: { controls: CohortControls }) {
 
   return (
     <div className="ent">
-      {settingUp ? <Setup controls={controls} onDone={() => setLeftSetup(true)} /> : <Dashboard controls={controls} headingRef={headingRef} />}
+      {settingUp ? <Setup controls={controls} onDone={() => setLeftSetup(true)} /> : <Dashboard controls={controls} headingRef={headingRef} readiness={readiness} />}
     </div>
   );
 }
 
-function Concept1ForCohort({ id }: { id: ReturnType<typeof useCohortId> }) {
+function Concept1ForCohort({ id, readiness }: { id: ReturnType<typeof useCohortId>; readiness?: boolean }) {
   const controls = useCohort(id);
-  return <Concept1Page controls={controls} />;
+  return <Concept1Page controls={controls} readiness={readiness} />;
 }
 
 /**
@@ -402,12 +452,14 @@ function Concept1ForCohort({ id }: { id: ReturnType<typeof useCohortId> }) {
  * leadership (Kate, 2026-10-20); Staying with it, Showing up in the world and
  * Getting started sit side by side under it, with the weekly trend in the
  * first and the cohort's code in the last.
- * Any figure opens its definition inside its card. A sponsor with no cohort
- * yet sees only the setup.
+ * A sponsor with no cohort yet sees only the setup.
+ *
+ * `readiness` turns on Concept 1b's readiness pulse (Kate, 2026-10-23), kept
+ * apart so Concept 1 is untouched until it is chosen.
  */
-export function EnterpriseConcept1() {
+export function EnterpriseConcept1({ readiness = false }: { readiness?: boolean } = {}) {
   const id = useCohortId();
-  return <Concept1ForCohort key={id} id={id} />;
+  return <Concept1ForCohort key={id} id={id} readiness={readiness} />;
 }
 
 export default EnterpriseConcept1;

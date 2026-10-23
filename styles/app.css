@@ -24431,6 +24431,102 @@ ul.plan-guided__sparks {
   color: var(--color-text-secondary);
 }
 
+/* Ready for what's next (Concept 1b, Kate, 2026-10-23): a card of its own
+   under the opening, laid out as the hero is, its words beside its figures. */
+.ent-card.ent-card--readiness {
+  display: grid;
+  grid-template-columns: minmax(14rem, 1fr) 2fr;
+  align-items: start;
+}
+
+.ent-readiness {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: var(--space-xl);
+}
+
+.ent-readiness__arrow {
+  font-family: var(--font-body);
+  font-size: var(--text-xl);
+  color: var(--color-text-muted);
+}
+
+/* The readiness spread: two bars, start and now, each split into the five
+   answers, lightest (1) to darkest (5), all from the chart's ink. */
+.readiness-bars {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  min-width: 0;
+}
+
+.readiness-bars__row {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.readiness-bars__label,
+.readiness-bars__legend {
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+  color: var(--color-text-secondary);
+}
+
+.readiness-bars__bar {
+  display: flex;
+  height: 1.5rem;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-chart-grid);
+}
+
+.readiness-bars__part {
+  display: block;
+  height: 100%;
+}
+
+.readiness-bars__part--1 {
+  background-color: color-mix(in srgb, var(--color-chart-line) 14%, var(--color-surface-raised));
+}
+
+.readiness-bars__part--2 {
+  background-color: color-mix(in srgb, var(--color-chart-line) 32%, var(--color-surface-raised));
+}
+
+.readiness-bars__part--3 {
+  background-color: color-mix(in srgb, var(--color-chart-line) 52%, var(--color-surface-raised));
+}
+
+.readiness-bars__part--4 {
+  background-color: color-mix(in srgb, var(--color-chart-line) 76%, var(--color-surface-raised));
+}
+
+.readiness-bars__part--5 {
+  background-color: var(--color-chart-line);
+}
+
+.readiness-bars__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3xs) var(--space-md);
+  margin-left: calc(5.5rem + var(--space-sm));
+}
+
+.readiness-bars__legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+}
+
+.readiness-bars__legend .readiness-bars__part {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: var(--radius-xs);
+}
+
 /* The story in short, before the cards (Kate, 2026-10-22): the first
    sentence, follow-through, carries the weight. */
 .ent-story {
