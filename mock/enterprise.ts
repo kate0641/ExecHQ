@@ -1131,12 +1131,12 @@ export const SPONSOR_PROFILE_COPY = {
   title: "Your profile",
   back: "Dashboard",
   lead: (role: string, org: string) => `${role}, ${org}`,
+  sectionsLabel: "Profile sections",
   you: {
-    group: "You",
+    group: "Your details",
     name: "Name",
     role: "Job title",
     email: "Work email",
-    emailHint: "You sign in with it. To change it, write to your ExecHQ contact.",
     org: "Organization",
     edit: "Change your name and job title",
     editLabel: "Edit",
@@ -1168,14 +1168,13 @@ export const SPONSOR_PROFILE_COPY = {
       "Exports carry the same totals, with no row for any person.",
     ],
     told: "What participants are told, in their own Profile:",
+    /** Under its name in the list of sections. */
+    sub: `Totals only, ${MIN_COHORT_SIZE} or more`,
   },
-  signing: {
-    group: "Signing in",
-    with: "Signs in with",
-    method: "A link or a code, sent to your work email",
-    signOut: "Sign out",
-    signOutAll: "Sign out on every other device",
-    signedOutAll: "You are signed out on every other device.",
+  /** No Signing in section (Kate, 2026-10-23): Sign out closes the list of
+   *  sections. */
+  signOut: {
+    label: "Sign out",
     ended: "You are signed out",
     endedLead: "Sign in again with your work email to see your dashboard.",
     again: "Sign in again",

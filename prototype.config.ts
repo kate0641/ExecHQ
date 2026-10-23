@@ -320,9 +320,9 @@ export const prototypeConfig: PrototypeConfig = {
       concepts: [
         {
           slug: "concept-1",
-          title: "Concept 1 — One page",
+          title: "Concept 1 — Sections",
           summary:
-            "Settings rows in four groups on one page: You, Your cohort, What you can see and Signing in. One Edit changes the name and job title; the cohort's details are shown, not edited. Sign out is a button at the foot.",
+            "A list of sections on the left, as the participant Profile on web: Your details, Your cohort and What you can see, with Sign out closing the list. The chosen section shows on the right. One Edit changes the name and job title; the cohort's details are shown, not edited.",
         },
       ],
     },

@@ -24664,9 +24664,42 @@ ul.plan-guided__sparks {
   color: var(--color-text-primary);
 }
 
-.sponsor-profile__foot {
-  padding-top: var(--space-lg);
-  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+/* Sections (Kate, 2026-10-23): the list on the left, Sign out closing it,
+   the chosen section on the right, as the participant Profile on web. */
+.sponsor-profile__layout {
+  display: grid;
+  grid-template-columns: minmax(15rem, 20rem) minmax(0, 46rem);
+  align-items: start;
+  gap: var(--space-2xl);
+}
+
+.sponsor-profile__nav {
+  position: sticky;
+  top: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-md);
+}
+
+.sponsor-profile__nav > .settings-group {
+  align-self: stretch;
+}
+
+.sponsor-profile__pane {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  min-width: 0;
+}
+
+.sponsor-profile__pane-heading {
+  font-family: var(--type-heading-font);
+  font-size: var(--type-heading-size);
+  font-weight: var(--type-heading-weight);
+  line-height: var(--type-heading-leading);
+  letter-spacing: var(--type-heading-tracking);
+  word-spacing: var(--type-heading-word-spacing);
 }
 
 .sponsor-profile__edit {

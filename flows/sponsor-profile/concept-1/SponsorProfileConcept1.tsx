@@ -16,7 +16,6 @@ import { useCohort } from "../../enterprise/useCohort";
 /** The dashboard concept chosen (Kate, 2026-10-22). */
 const DASHBOARD = conceptHref("enterprise", "concept-1");
 
-
 /** Their name and job title, changed in place of the group's rows. */
 function YouEdit({
   name,
@@ -91,7 +90,7 @@ function CohortGroup() {
   const { cohort } = useCohort(id);
   const started = cohort ? programDay(cohort) > 0 && !cohort.fresh : false;
   return (
-    <SettingsGroup label={C.cohort.group}>
+    <SettingsGroup label={C.cohort.group} hideLabel>
       {cohort ? (
         <>
           <SettingsRow kind="static" label={C.cohort.name} value={cohort.name} />
@@ -106,34 +105,37 @@ function CohortGroup() {
   );
 }
 
+type SectionId = "you" | "cohort" | "privacy";
+const SECTIONS: SectionId[] = ["you", "cohort", "privacy"];
+
 /**
- * Sponsor profile, Concept 1 — One page.
+ * Sponsor profile, Concept 1 — Sections.
  *
- * No brief (Kate, 2026-10-22: "fairly straightforward and utilitarian"), so
- * it borrows the participant Profile's settings rows and groups: You, Your
- * cohort, What you can see, and Signing in, in one column at web width. No
- * Emails group (Kate, 2026-10-23). Only the name and job title change here; the work email is how
- * they sign in, so it changes through ExecHQ. The cohort is shown, not
- * edited: its code and figures are on the dashboard. What they can see is
- * said plainly, beside what participants are told, so both sides of the
- * promise sit on one page. The header's initials open it (2026-10-22), and
- * Sign out is its last thing, a button of its own at the foot. Signing out
- * ends the page in place, because the sponsor's sign-in isn't designed;
- * nothing here is stored.
+ * Kate, 2026-10-23, option Sections from
+ * https://claude.ai/artifact/F3EcH7M8GsygRqraLPP9DK: the page uses the width,
+ * as the participant Profile does on web. A list of sections on the left
+ * (Your details, Your cohort, What you can see) with Sign out closing it, and
+ * the chosen section on the right. No Signing in section and no Emails.
+ * Only the name and job title change here, with one Edit. The cohort is
+ * shown, not edited: its code and figures are on the dashboard. What they
+ * can see sits beside what participants are told. Signing out ends the page
+ * in place, because the sponsor's sign-in isn't designed; nothing is stored.
  */
 export function SponsorProfileConcept1() {
   const [person, setPerson] = useState<{ name: string; role: string }>({ name: SPONSOR_PERSON.name, role: SPONSOR_PERSON.role });
+  const [section, setSection] = useState<SectionId>("you");
   const [editing, setEditing] = useState(false);
   const [status, setStatus] = useState("");
   const [signedOut, setSignedOut] = useState(false);
-  const [signedOutAll, setSignedOutAll] = useState(false);
-  const editRowRef = useRef<HTMLDivElement>(null);
+  const paneRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const wasEditing = useRef(false);
+  const id = useCohortId();
+  const { cohort } = useCohort(id);
 
   // Closing the form returns focus to the Edit button that opened it.
   useEffect(() => {
-    if (wasEditing.current && !editing) editRowRef.current?.querySelector<HTMLElement>("button.settings-row")?.focus();
+    if (wasEditing.current && !editing) paneRef.current?.querySelector<HTMLElement>("button.settings-row--action")?.focus();
     wasEditing.current = editing;
   }, [editing]);
 
@@ -149,19 +151,25 @@ export function SponsorProfileConcept1() {
       <div className="ent-page ent-page--narrow sponsor-profile">
         <div className="ent-setup__lead">
           <h1 className="ent-header__name" ref={titleRef} tabIndex={-1}>
-            {C.signing.ended}
+            {C.signOut.ended}
           </h1>
-          <p>{C.signing.endedLead}</p>
+          <p>{C.signOut.endedLead}</p>
         </div>
         <Button className="ent-setup__next" onClick={() => setSignedOut(false)}>
-          {C.signing.again}
+          {C.signOut.again}
         </Button>
       </div>
     );
   }
 
+  const sections: Record<SectionId, { label: string; sub: string }> = {
+    you: { label: C.you.group, sub: person.name },
+    cohort: { label: C.cohort.group, sub: cohort ? cohort.name : C.cohort.none },
+    privacy: { label: C.privacy.group, sub: C.privacy.sub },
+  };
+
   return (
-    <div className="ent-page ent-page--narrow sponsor-profile">
+    <div className="ent-page sponsor-profile">
       <header className="sponsor-profile__head">
         <Link className="sponsor-profile__back" href={DASHBOARD}>
           <Icon name="arrow-left" size={16} />
@@ -180,70 +188,75 @@ export function SponsorProfileConcept1() {
 
       <output className="u-visually-hidden">{status}</output>
 
-      <div ref={editRowRef}>
-      <SettingsGroup label={C.you.group}>
-        {editing ? (
-          <YouEdit
-            name={person.name}
-            role={person.role}
-            onCancel={() => setEditing(false)}
-            onSave={(next) => {
-              setPerson(next);
-              setEditing(false);
-              setStatus(C.you.saved);
-            }}
-          />
-        ) : (
-          <>
-            <SettingsRow kind="static" label={C.you.name} value={person.name} />
-            <SettingsRow kind="static" label={C.you.role} value={person.role} />
-          </>
-        )}
-        <SettingsRow kind="static" label={C.you.email} description={C.you.emailHint} value={SPONSOR_PERSON.email} />
-        <SettingsRow kind="static" label={C.you.org} value={SPONSOR_PERSON.org} />
-        {/* One Edit for the group (Kate, 2026-10-23): it opens the name and
-            job title together, the only two that change here. */}
-        {editing ? null : <SettingsRow kind="action" icon="edit" label={C.you.editLabel} description={C.you.editHint} onAction={() => setEditing(true)} />}
-      </SettingsGroup>
-      </div>
-
-      <CohortGroup />
-
-      <SettingsGroup label={C.privacy.group}>
-        <div className="card sponsor-profile__privacy">
-          <ul className="sponsor-profile__points">
-            {C.privacy.points.map((point) => (
-              <li key={point}>{point}</li>
+      <div className="sponsor-profile__layout">
+        <nav className="sponsor-profile__nav" aria-label={C.sectionsLabel}>
+          <SettingsGroup label={C.sectionsLabel} hideLabel>
+            {SECTIONS.map((sectionId) => (
+              <SettingsRow
+                key={sectionId}
+                label={sections[sectionId].label}
+                description={sections[sectionId].sub}
+                current={section === sectionId}
+                onOpen={() => {
+                  setSection(sectionId);
+                  setEditing(false);
+                }}
+              />
             ))}
-          </ul>
-          <p className="sponsor-profile__told">
-            {C.privacy.told}
-            <q>{PROFILE_COPY.organization.member(SPONSOR_PERSON.org)}</q>
-          </p>
-        </div>
-      </SettingsGroup>
+          </SettingsGroup>
+          {/* Sign out closes the list (Kate, 2026-10-23). */}
+          <Button className="sponsor-profile__sign-out" variant="secondary" onClick={() => setSignedOut(true)}>
+            <Icon name="sign-out" size={18} />
+            {C.signOut.label}
+          </Button>
+        </nav>
 
-      <SettingsGroup label={C.signing.group}>
-        <SettingsRow kind="static" label={C.signing.with} description={C.signing.method} value={SPONSOR_PERSON.email} />
-        <SettingsRow
-          kind="action"
-          icon="sign-out"
-          label={C.signing.signOutAll}
-          description={signedOutAll ? C.signing.signedOutAll : undefined}
-          onAction={() => {
-            setSignedOutAll(true);
-            setStatus(C.signing.signedOutAll);
-          }}
-        />
-      </SettingsGroup>
+        <section className="sponsor-profile__pane" aria-labelledby="sponsor-pane-heading" ref={paneRef}>
+          <h2 className="sponsor-profile__pane-heading" id="sponsor-pane-heading">
+            {sections[section].label}
+          </h2>
 
-      {/* Signing out closes the page (Kate, 2026-10-22): the header's
-          initials open this page, so this is where it ends. */}
-      <div className="sponsor-profile__foot">
-        <Button variant="secondary" onClick={() => setSignedOut(true)}>
-          <Icon name="sign-out" size={18} />
-          {C.signing.signOut}
-        </Button>
+          {section === "you" ? (
+            editing ? (
+              <YouEdit
+                name={person.name}
+                role={person.role}
+                onCancel={() => setEditing(false)}
+                onSave={(next) => {
+                  setPerson(next);
+                  setEditing(false);
+                  setStatus(C.you.saved);
+                }}
+              />
+            ) : (
+              <SettingsGroup label={C.you.group} hideLabel>
+                <SettingsRow kind="static" label={C.you.name} value={person.name} />
+                <SettingsRow kind="static" label={C.you.role} value={person.role} />
+                <SettingsRow kind="static" label={C.you.email} value={SPONSOR_PERSON.email} />
+                <SettingsRow kind="static" label={C.you.org} value={SPONSOR_PERSON.org} />
+                {/* One Edit for the section (Kate, 2026-10-23): the name and
+                    job title, the only two that change here. */}
+                <SettingsRow kind="action" icon="edit" label={C.you.editLabel} description={C.you.editHint} onAction={() => setEditing(true)} />
+              </SettingsGroup>
+            )
+          ) : null}
+
+          {section === "cohort" ? <CohortGroup /> : null}
+
+          {section === "privacy" ? (
+            <div className="card sponsor-profile__privacy">
+              <ul className="sponsor-profile__points">
+                {C.privacy.points.map((point) => (
+                  <li key={point}>{point}</li>
+                ))}
+              </ul>
+              <p className="sponsor-profile__told">
+                {C.privacy.told}
+                <q>{PROFILE_COPY.organization.member(SPONSOR_PERSON.org)}</q>
+              </p>
+            </div>
+          ) : null}
+        </section>
       </div>
     </div>
   );
