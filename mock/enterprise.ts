@@ -1173,11 +1173,9 @@ export const SPONSOR_PROFILE_COPY = {
   },
   /** No Signing in section (Kate, 2026-10-23): Sign out closes the list of
    *  sections. */
+  /** Lands on the Sponsor login (2026-10-23). */
   signOut: {
     label: "Sign out",
-    ended: "You are signed out",
-    endedLead: "Sign in again with your work email to see your dashboard.",
-    again: "Sign in again",
   },
 } as const;
 

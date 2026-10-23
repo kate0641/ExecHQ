@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/form/Input";
 import { SettingsGroup } from "@/components/profile/SettingsGroup";
@@ -15,6 +16,8 @@ import { useCohort } from "../../enterprise/useCohort";
 
 /** The dashboard concept chosen (Kate, 2026-10-22). */
 const DASHBOARD = conceptHref("enterprise", "concept-1");
+/** Where signing out lands (Kate, 2026-10-23). */
+const LOGIN = conceptHref("sponsor-login", "concept-1");
 
 /** Their name and job title, changed in place of the group's rows. */
 function YouEdit({
@@ -118,17 +121,16 @@ const SECTIONS: SectionId[] = ["you", "cohort", "privacy"];
  * the chosen section on the right. No Signing in section and no Emails.
  * Only the name and job title change here, with one Edit. The cohort is
  * shown, not edited: its code and figures are on the dashboard. What they
- * can see sits beside what participants are told. Signing out ends the page
- * in place, because the sponsor's sign-in isn't designed; nothing is stored.
+ * can see sits beside what participants are told. Sign out goes to the
+ * Sponsor login (2026-10-23, stage 2). Nothing is stored.
  */
 export function SponsorProfileConcept1() {
   const [person, setPerson] = useState<{ name: string; role: string }>({ name: SPONSOR_PERSON.name, role: SPONSOR_PERSON.role });
   const [section, setSection] = useState<SectionId>("you");
   const [editing, setEditing] = useState(false);
   const [status, setStatus] = useState("");
-  const [signedOut, setSignedOut] = useState(false);
+  const router = useRouter();
   const paneRef = useRef<HTMLElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
   const wasEditing = useRef(false);
   const id = useCohortId();
   const { cohort } = useCohort(id);
@@ -138,29 +140,6 @@ export function SponsorProfileConcept1() {
     if (wasEditing.current && !editing) paneRef.current?.querySelector<HTMLElement>("button.settings-row--action")?.focus();
     wasEditing.current = editing;
   }, [editing]);
-
-  // Signing out, and back in, replaces the page: focus goes to its heading.
-  const wasSignedOut = useRef(signedOut);
-  useEffect(() => {
-    if (wasSignedOut.current !== signedOut) titleRef.current?.focus();
-    wasSignedOut.current = signedOut;
-  }, [signedOut]);
-
-  if (signedOut) {
-    return (
-      <div className="ent-page ent-page--narrow sponsor-profile">
-        <div className="ent-setup__lead">
-          <h1 className="ent-header__name" ref={titleRef} tabIndex={-1}>
-            {C.signOut.ended}
-          </h1>
-          <p>{C.signOut.endedLead}</p>
-        </div>
-        <Button className="ent-setup__next" onClick={() => setSignedOut(false)}>
-          {C.signOut.again}
-        </Button>
-      </div>
-    );
-  }
 
   const sections: Record<SectionId, { label: string; sub: string }> = {
     you: { label: C.you.group, sub: person.name },
@@ -175,7 +154,7 @@ export function SponsorProfileConcept1() {
           <Icon name="arrow-left" size={16} />
           {C.back}
         </Link>
-        <h1 className="ent-header__name" ref={titleRef} tabIndex={-1}>
+        <h1 className="ent-header__name">
           {C.title}
         </h1>
         <p className="ent-header__meta">
@@ -205,7 +184,7 @@ export function SponsorProfileConcept1() {
             ))}
           </SettingsGroup>
           {/* Sign out closes the list (Kate, 2026-10-23). */}
-          <Button className="sponsor-profile__sign-out" variant="secondary" onClick={() => setSignedOut(true)}>
+          <Button className="sponsor-profile__sign-out" variant="secondary" onClick={() => router.push(LOGIN)}>
             <Icon name="sign-out" size={18} />
             {C.signOut.label}
           </Button>

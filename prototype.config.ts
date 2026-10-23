@@ -322,7 +322,7 @@ export const prototypeConfig: PrototypeConfig = {
           slug: "concept-1",
           title: "Concept 1 — Sections",
           summary:
-            "A list of sections on the left, as the participant Profile on web: Your details, Your cohort and What you can see, with Sign out closing the list. The chosen section shows on the right. One Edit changes the name and job title; the cohort's details are shown, not edited.",
+            "A list of sections on the left, as the participant Profile on web: Your details, Your cohort and What you can see, with Sign out closing the list; it goes to the Sponsor login. The chosen section shows on the right. One Edit changes the name and job title; the cohort's details are shown, not edited.",
         },
       ],
     },
