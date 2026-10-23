@@ -24670,12 +24670,16 @@ ul.plan-guided__sparks {
   display: grid;
   grid-template-columns: minmax(15rem, 20rem) minmax(0, 46rem);
   align-items: start;
-  gap: var(--space-2xl);
+  /* The page's own rhythm between blocks. */
+  gap: var(--space-xl);
 }
 
+/* The list's card lines up with the section's card, not its heading: it
+   starts one heading and one gap down. */
 .sponsor-profile__nav {
   position: sticky;
   top: var(--space-lg);
+  margin-top: calc(var(--type-heading-size) * var(--type-heading-leading) + var(--space-md));
   display: flex;
   flex-direction: column;
   align-items: flex-start;
