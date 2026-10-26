@@ -1,6 +1,9 @@
 import { READINESS_HOME_COPY as C } from "@/mock/homepage";
 
 export interface ReadinessCheckInProps {
+  /** Her direction, short: "leading a broader marketing organization". It
+   *  says what "your next step" is. */
+  toward?: string;
   /** Her answers before this week's, oldest first. The first is her
    *  starting point. */
   history: readonly number[];
@@ -20,12 +23,13 @@ export interface ReadinessCheckInProps {
 /**
  * The weekly check-in in Stay on track (Homepage Concept 4b, Kate,
  * 2026-10-23): "How ready do you feel for your next step?", five answers in
- * one tap, and Not now, which costs nothing. The line under it says what the
- * answer is for, every time. Once answered it reads back this week against
+ * one tap, and Not now, which costs nothing. Above the question, what her
+ * next step is (her direction); under it, what "ready" means (Kate,
+ * 2026-10-26). Once answered it reads back this week against
  * where she started, with her answers week by week, so the one tap gives her
  * something back. Drawn as the other Stay on track cards are.
  */
-export function ReadinessCheckIn({ history, answer, later, onAnswer, onNotNow, headingId = "readiness-check-in", demo, className }: ReadinessCheckInProps) {
+export function ReadinessCheckIn({ toward, history, answer, later, onAnswer, onNotNow, headingId = "readiness-check-in", demo, className }: ReadinessCheckInProps) {
   const classes = ["check-in", "check-in--question", "readiness-check", className].filter(Boolean).join(" ");
   const start = history[0] ?? answer ?? 0;
 
@@ -69,9 +73,11 @@ export function ReadinessCheckIn({ history, answer, later, onAnswer, onNotNow, h
   return (
     <section className={classes} aria-labelledby={headingId}>
       <p className="check-in__about">{C.about}</p>
+      {toward ? <p className="readiness-check__toward">{C.toward(toward)}</p> : null}
       <h3 className="check-in__question" id={headingId} tabIndex={-1}>
         {C.question}
       </h3>
+      <p className="check-in__sub readiness-check__meaning">{C.meaning}</p>
       <fieldset className="readiness-check__scale">
         <legend className="u-visually-hidden">{C.question}</legend>
         {[1, 2, 3, 4, 5].map((n) => (
@@ -90,7 +96,6 @@ export function ReadinessCheckIn({ history, answer, later, onAnswer, onNotNow, h
         <span>{C.low}</span>
         <span>{C.high}</span>
       </p>
-      <p className="check-in__sub readiness-check__privacy">{C.privacy}</p>
       <div className="check-in__quiet">
         <button type="button" className="link link--standalone" onClick={onNotNow}>
           {C.notNow}

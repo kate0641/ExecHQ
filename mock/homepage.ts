@@ -334,13 +334,16 @@ export const READINESS_HISTORY: readonly number[] = [3, 3, 4];
 
 export const READINESS_HOME_COPY = {
   about: "Your weekly check-in",
+  /** What "your next step" is: her direction, from onboarding (Kate,
+   *  2026-10-26: say what the next step is and what it asks). */
+  toward: (towardShort: string) => `Your next step: ${towardShort}`,
   question: "How ready do you feel for your next step?",
+  /** What "ready" means, under the question. */
+  meaning: "How prepared you feel to make that move today. There’s no right answer: it’s how it feels this week.",
   low: "Not at all",
-  high: "Very",
-  answerName: (n: number) => (n === 1 ? "1, not at all" : n === 5 ? "5, very" : String(n)),
+  high: "Ready now",
+  answerName: (n: number) => (n === 1 ? "1, not at all" : n === 5 ? "5, ready now" : String(n)),
   notNow: "Not now",
-  /** Every time, under the question: the same promise as the dashboard's. */
-  privacy: "Counts in your organisation’s totals, never on its own. Only you see your answers.",
   counted: "Counted",
   thisWeek: (n: number) => `${n} this week.`,
   versus: (n: number, start: number) =>

@@ -10637,9 +10637,12 @@ ol.signal__list {
   color: var(--color-text-secondary);
 }
 
-.readiness-check__privacy {
-  font-size: var(--type-caption-size);
-  line-height: var(--type-caption-leading);
+/* What her next step is, above the question: her direction, quiet. */
+.readiness-check__toward {
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
+  text-align: center;
 }
 
 /* Her answers week by week, this week's darkest. */
