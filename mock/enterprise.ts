@@ -433,9 +433,9 @@ export interface Cohort {
    *  update to come. */
   fresh?: boolean;
   /** The readiness pulse (Concept 1b, Kate, 2026-10-23): how many of the
-   *  same people answered 1 to 5 to "How ready do you feel for your next
-   *  step?" when they started and at their latest check-in, and how many
-   *  moved up. Invented for the demo. */
+   *  same people gave each of the three answers (Not yet, Getting there,
+   *  Ready; 2026-10-26, was five) when they started and at their latest
+   *  check-in, and how many moved up. Invented for the demo. */
   readiness?: { start: number[]; now: number[]; movedUp: number };
 }
 
@@ -496,7 +496,7 @@ export const COHORTS: Record<Cohort["id"], Cohort> = {
     signals: { "30d": SMALL_SIGNALS, "90d": SMALL_SIGNALS, launch: SMALL_SIGNALS },
     weeklyActive: [4],
     // Too few have answered twice: the card says when it will show.
-    readiness: { start: [0, 1, 2, 1, 0], now: [0, 0, 2, 2, 0], movedUp: 2 },
+    readiness: { start: [1, 2, 1], now: [0, 2, 2], movedUp: 2 },
   },
   /** Maya's cohort, at week 2: every figure shows, and the 30 and 90-day
    *  ones are still filling in. */
@@ -515,7 +515,7 @@ export const COHORTS: Record<Cohort["id"], Cohort> = {
     // Speaking, podcasts and press stay under the minimum: held back.
     signals: { "30d": PILOT_SIGNALS, "90d": PILOT_SIGNALS, launch: PILOT_SIGNALS },
     weeklyActive: [21, 26],
-    readiness: { start: [2, 5, 9, 6, 2], now: [0, 2, 7, 10, 5], movedUp: 16 },
+    readiness: { start: [9, 11, 4], now: [2, 12, 10], movedUp: 16 },
   },
   /** The December partner meeting: 1,000 at day 90, so 90 days and since
    *  launch are the same, and 30 days is the last month alone. */
@@ -550,7 +550,7 @@ export const COHORTS: Record<Cohort["id"], Cohort> = {
     // Climbs while people join, peaks in week 5, then eases off a little:
     // the shape a sponsor asking "are they still using it?" needs to see.
     weeklyActive: [212, 389, 497, 560, 588, 571, 549, 562, 540, 518, 527, 509, 496],
-    readiness: { start: [48, 141, 250, 160, 41], now: [12, 58, 190, 262, 118], movedUp: 401 },
+    readiness: { start: [190, 330, 120], now: [70, 300, 270], movedUp: 401 },
     // Closed, so joining holds; fewer were active over the last 30 days than
     // a week ago, matching the trend. Since launch only ever grows.
     lastWeek: {
@@ -1308,8 +1308,8 @@ export const QUESTION_POINTS: Record<QuestionId, DataPointId[]> = {
    READINESS PULSE (Concept 1b, Kate, 2026-10-23)
    Eric asked for something that shows value beyond use. One question in a
    participant's check-in, when they start and every 7 days after (Kate,
-   2026-10-23, was 30): "How ready do you feel to {their direction}?", five
-   answers in words, 1 to 5 (2026-10-26).
+   2026-10-23, was 30): "How ready do you feel to {their direction}?", three
+   answers on a slider, 1 to 3 (2026-10-26).
    The sponsor sees the cohort's
    answers at the start and now, as totals, once at least the minimum have
    answered twice. Self-reported, so it says what they feel, never what
@@ -1352,16 +1352,16 @@ export const READINESS_COPY = {
   answer: (moved: number, answered: number) =>
     `${count.format(moved)} of the ${count.format(answered)} who answered feel more ready for the move they’re working toward than when they started.`,
   label: "Readiness, on average",
-  detail: (answered: number, setUp: number) => `out of 5 · ${count.format(answered)} of ${count.format(setUp)} answered`,
+  detail: (answered: number, setUp: number) => `out of 3 · ${count.format(answered)} of ${count.format(setUp)} answered`,
   brief:
-    "Asked when someone starts and every 7 days after: “How ready do you feel to …?”, with the move each person is working toward. Five answers, Not yet, A little, Getting there, Mostly and Ready, counted 1 to 5. The same people at the start and now, whichever dates you choose.",
+    "Asked when someone starts and every 7 days after: “How ready do you feel to …?”, with the move each person is working toward, on a slider with three answers: Not yet, Getting there and Ready, counted 1 to 3. The same people at the start and now, whichever dates you choose.",
   hidden: `Shown once ${MIN_COHORT_SIZE} or more have answered twice.`,
   start: "At the start",
   now: "Now",
-  /** The answers participants choose from (Homepage 4b), 1 to 5. */
-  scale: ["Not yet", "A little", "Getting there", "Mostly", "Ready"],
+  /** The answers participants choose from (Homepage 4b), 1 to 3. */
+  scale: ["Not yet", "Getting there", "Ready"],
   spreadLabel: (when: string, spread: number[]) =>
-    `${when}: ${spread.map((n, i) => `${count.format(n)} ${["Not yet", "A little", "Getting there", "Mostly", "Ready"][i]}`).join(", ")}`,
+    `${when}: ${spread.map((n, i) => `${count.format(n)} ${["Not yet", "Getting there", "Ready"][i]}`).join(", ")}`,
   /** The opening's last sentence, in Concept 1b. */
   story: (moved: number, answered: number): StoryPart[] => [
     { strong: `${count.format(moved)} of the ${count.format(answered)} who answered` },

@@ -321,8 +321,8 @@ export const BRIEFING_STUB = {
 /* -----------------------------------------------------------------------------
    THE WEEKLY CHECK-IN (Homepage Concept 4b, Kate, 2026-10-23)
    The readiness pulse, on her side: one card in Stay on track, once a week,
-   "How ready do you feel to {her direction}?", in five words that are 1 to
-   5 behind the scenes (Kate, 2026-10-26). Her answers are hers
+   "How ready do you feel to {her direction}?", on a slider with three
+   answers that are 1 to 3 behind the scenes (Kate, 2026-10-26). Her answers are hers
    to see over time; her organisation sees only the group's totals (the
    enterprise dashboard's Concept 1b). Only Home changes: onboarding asks
    nothing, so her first answer here is her starting point.
@@ -331,16 +331,17 @@ export const BRIEFING_STUB = {
 /** Maya's answers so far, one a week, oldest first: the first was her
  *  starting point. Her last was a week ago, so the next is due today.
  *  Invented for the demo. */
-export const READINESS_HISTORY: readonly number[] = [3, 3, 4];
+export const READINESS_HISTORY: readonly number[] = [1, 2, 2];
 
 export const READINESS_HOME_COPY = {
   about: "Your weekly check-in",
   /** One question, her direction inside it (Kate, 2026-10-26): no line
    *  above it and no explanation under it. */
   question: (towardVerb?: string) => (towardVerb ? `How ready do you feel to ${towardVerb}?` : "How ready do you feel for your next move?"),
-  /** The five answers, in words, so none needs explaining. They are 1 to 5
-   *  behind the scenes, for her trend and the dashboard. */
-  answers: ["Not yet", "A little", "Getting there", "Mostly", "Ready"],
+  /** Three answers on a slider (Kate, 2026-10-26, was five chips). They
+   *  are 1 to 3 behind the scenes, for her trend and the dashboard. */
+  answers: ["Not yet", "Getting there", "Ready"],
+  save: "Save",
   /** The x's name and tooltip. */
   notNow: "Not now",
   counted: "Counted",

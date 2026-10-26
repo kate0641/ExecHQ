@@ -160,7 +160,7 @@ export const prototypeConfig: PrototypeConfig = {
           slug: "concept-4b",
           title: "Concept 4b — With the weekly check-in",
           summary:
-            "Concept 4 with one card added to Stay on track (Kate, 2026-10-23): “How ready do you feel to lead a broader marketing organization?”, her own direction, once a week, five answers in words. She sees her answers week by week; her organisation sees only the group’s totals, on the enterprise dashboard’s Concept 1b.",
+            "Concept 4 with one card added to Stay on track (Kate, 2026-10-23): “How ready do you feel to lead a broader marketing organization?”, her own direction, once a week, on a slider with three answers. She sees her answers week by week; her organisation sees only the group’s totals, on the enterprise dashboard’s Concept 1b.",
         },
       ],
     },

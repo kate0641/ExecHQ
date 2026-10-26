@@ -10613,6 +10613,106 @@ ol.signal__list {
 /* The weekly check-in (Homepage Concept 4b, Kate, 2026-10-23): five answers
    in a row, one tap each, the scale's ends under them, and once answered her
    answers week by week. */
+/* --- Slider (2026-10-26) --------------------------------------------------
+   The browser's range input, drawn from tokens: a track that fills to the
+   thumb, a round thumb, and each stop's word under its place. The words
+   sit at the track's ends and middle by their own alignment. */
+.slider {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  width: 100%;
+}
+
+.slider__input {
+  --slider-track: 0.5rem;
+  --slider-thumb: 1.75rem;
+  width: 100%;
+  height: var(--button-target);
+  margin: 0;
+  background: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.slider__input::-webkit-slider-runnable-track {
+  height: var(--slider-track);
+  border-radius: var(--radius-pill);
+  background: linear-gradient(to right, var(--color-chart-line) var(--slider-fill), var(--color-chart-grid) var(--slider-fill));
+}
+
+.slider__input::-moz-range-track {
+  height: var(--slider-track);
+  border-radius: var(--radius-pill);
+  background: linear-gradient(to right, var(--color-chart-line) var(--slider-fill), var(--color-chart-grid) var(--slider-fill));
+}
+
+.slider__input::-webkit-slider-thumb {
+  width: var(--slider-thumb);
+  height: var(--slider-thumb);
+  margin-top: calc((var(--slider-track) - var(--slider-thumb)) / 2);
+  border: var(--border-width-thick) solid var(--color-chart-line);
+  border-radius: 50%;
+  background: var(--color-surface-raised);
+  box-shadow: var(--shadow-sm);
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.slider__input::-moz-range-thumb {
+  width: var(--slider-thumb);
+  height: var(--slider-thumb);
+  border: var(--border-width-thick) solid var(--color-chart-line);
+  border-radius: 50%;
+  background: var(--color-surface-raised);
+  box-shadow: var(--shadow-sm);
+}
+
+.slider__input:hover::-webkit-slider-thumb,
+.slider.is-hover .slider__input::-webkit-slider-thumb {
+  background: var(--color-surface-quiet-hover);
+}
+
+.slider__input:active::-webkit-slider-thumb,
+.slider.is-active .slider__input::-webkit-slider-thumb {
+  transform: scale(1.12);
+}
+
+.slider__input:focus-visible,
+.slider.is-focus .slider__input {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-pill);
+}
+
+.slider__input:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.slider__steps {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
+}
+
+.slider__steps > span:not(:first-child):not(:last-child) {
+  text-align: center;
+}
+
+.slider__steps > span:last-child {
+  text-align: right;
+}
+
+.slider__steps > .is-chosen {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
 /* Not now, as an x in the band's right-hand corner (Kate, 2026-10-26). */
 .readiness-check {
   position: relative;
@@ -10643,45 +10743,13 @@ ol.signal__list {
   outline-offset: var(--focus-ring-offset);
 }
 
-/* Five answers in words, as chips that wrap: three and two on the phone. */
-.readiness-check__scale {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--space-xs);
-  margin: 0;
-  padding: 0;
-  border: 0;
-  min-width: 0;
+/* The slider runs the card's width; Save sits under it. */
+.readiness-check .slider {
+  align-self: stretch;
 }
 
-.readiness-check__answer {
-  min-height: var(--button-height);
-  padding: 0 var(--space-md);
-  border: var(--border-width-thin) solid var(--color-border-strong);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface-raised);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-body-medium);
-  color: var(--color-text-primary);
-  cursor: pointer;
-}
-
-.readiness-check__answer:hover,
-.readiness-check__answer.is-hover {
-  background-color: var(--color-surface-quiet-hover);
-}
-
-.readiness-check__answer:active,
-.readiness-check__answer.is-active {
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
-}
-
-.readiness-check__answer:focus-visible,
-.readiness-check__answer.is-focus {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
+.readiness-check__save {
+  align-self: center;
 }
 
 /* Her answers week by week, this week's darkest. */
