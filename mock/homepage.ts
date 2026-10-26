@@ -338,6 +338,9 @@ export const READINESS_HOME_COPY = {
   /** One question, her direction inside it (Kate, 2026-10-26): no line
    *  above it and no explanation under it. */
   question: (towardVerb?: string) => (towardVerb ? `How ready do you feel to ${towardVerb}?` : "How ready do you feel for your next move?"),
+  /** Under the question, small: why it is asked (Kate, 2026-10-26). The
+   *  product must make it true, by shaping her plan from the answer. */
+  why: "Your answer helps ExecHQ shape what comes next in your plan.",
   /** Three answers on a slider (Kate, 2026-10-26, was five chips). They
    *  are 1 to 3 behind the scenes, for her trend and the dashboard. */
   answers: ["Not yet", "Getting there", "Ready"],

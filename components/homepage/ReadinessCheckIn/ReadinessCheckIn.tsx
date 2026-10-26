@@ -100,6 +100,7 @@ export function ReadinessCheckIn({ toward, history, answer, later, onAnswer, onN
       <h3 className="check-in__question" id={headingId} tabIndex={-1}>
         {C.question(toward)}
       </h3>
+      <p className="check-in__sub readiness-check__why">{C.why}</p>
       <Slider label={C.question(toward)} steps={C.answers} value={picked} onChange={setPicked} demo={demo} />
       {/* Save at the card's right edge, under the right thumb, as every card
           button that isn't full width; on its left, what it will record

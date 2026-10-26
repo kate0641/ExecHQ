@@ -10749,6 +10749,14 @@ ol.signal__list {
   align-self: stretch;
 }
 
+/* Why it is asked, under the question: small and quiet, close to it. */
+.readiness-check__why {
+  margin-top: calc(-1 * var(--space-xs));
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+  color: var(--color-text-secondary);
+}
+
 .readiness-check__foot {
   display: flex;
   align-items: center;
