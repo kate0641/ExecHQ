@@ -52,7 +52,7 @@ import {
  * state the dock has picked. Nothing is sent and nothing is stored.
  */
 
-const HOME = conceptHref("homepage", "concept-4");
+const HOME = conceptHref("homepage", "concept-4b");
 const ONBOARDING = conceptHref("onboarding", "concept-3");
 const HEADING = "login-heading";
 

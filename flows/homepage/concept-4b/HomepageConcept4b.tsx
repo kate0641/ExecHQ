@@ -7,7 +7,7 @@ import { SignalPicture } from "@/components/homepage/SignalPicture";
 import { BriefingEditorial } from "@/components/homepage/BriefingEditorial";
 import { MapRings } from "@/components/homepage/MapRings";
 import { InProgress } from "./InProgress";
-import { nextStepOf } from "../concept-4/nextStep";
+import { nextStepOf } from "./nextStep";
 import { NextStepCard } from "@/components/homepage/NextStepCard";
 import { Button } from "@/components/primitives/Button";
 import { loopActions, useLoop } from "@/lib/loop-store";
@@ -27,9 +27,9 @@ import type { Horizon } from "@/mock/plan-stub";
 
 /**
  * Homepage Concept 4b — Combined, with the weekly check-in (Kate,
- * 2026-10-23). A copy of Concept 4, kept apart so Concept 4 is untouched
- * until it is chosen. The one addition is in Stay on track (./InProgress):
- * the readiness pulse that feeds the enterprise dashboard's Concept 1b.
+ * 2026-10-23; approved 2026-10-26, when Concept 4 moved to the scratch
+ * branch). Concept 4 with one addition in Stay on track (./InProgress): the
+ * readiness pulse that feeds the Admin Dashboard's Concept 1b.
  *
  * Concept 4, as it was:
  *

@@ -1,6 +1,6 @@
 # Admin login — interaction spec
 
-Concept: **Concept 1 — Work email** (status: draft). It is written so a developer can build it without the prototype open. Where the prototype fakes something, production behavior is stated under "Prototype versus production". The route is still `/sponsor-login`; the page was renamed from Sponsor login on 2026-10-26.
+Concept: **Concept 1 — Work email** (status: approved, 2026-10-26). It is written so a developer can build it without the prototype open. Where the prototype fakes something, production behavior is stated under "Prototype versus production". The route is still `/sponsor-login`; the page was renamed from Sponsor login on 2026-10-26.
 
 It is built on the participant Login (Concept 1, approved; see the Login spec), and works the same way unless this spec says otherwise. Section 3 lists what is shared and section 4 what is different, so a developer builds the two from the same parts.
 

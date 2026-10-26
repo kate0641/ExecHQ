@@ -1043,7 +1043,7 @@ export const DONE_C1 = {
   inviteBody: "Bring in your LinkedIn numbers to see how far your posts reach. Optional, and you can do it anytime.",
   home: "Go to my homepage",
   signals: "Build out your signals",
-  homeHref: "/homepage/concept-4",
+  homeHref: "/homepage/concept-4b",
 } as const;
 
 /** What reading a LinkedIn analytics export gives us, by decision on

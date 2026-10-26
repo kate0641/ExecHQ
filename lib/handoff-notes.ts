@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "homepage-weekly-check-in",
+    title: "Homepage: the weekly check-in",
+    description:
+      "Homepage 4b replaces 4 (26 Oct). The one change: a weekly check-in card in Stay on track, a new slider, and the totals it feeds to the Admin Dashboard.",
+  },
+  {
     slug: "mobile-browser",
     title: "Mobile browser",
     description:

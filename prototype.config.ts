@@ -130,7 +130,7 @@ export const prototypeConfig: PrototypeConfig = {
       chrome: "app",
       description:
         "How the signed-in app is structured and moved through on web, tablet and mobile. Each concept is reviewed on the homepage.",
-      navCanvas: { flowSlug: "homepage", conceptSlug: "concept-4" },
+      navCanvas: { flowSlug: "homepage", conceptSlug: "concept-4b" },
       concepts: [
         {
           slug: "concept-1",
@@ -150,17 +150,12 @@ export const prototypeConfig: PrototypeConfig = {
         "The signed-in landing surface: current direction, what to do next, and the way into the Plan, Playbook and Briefing.",
       concepts: [
         {
-          slug: "concept-4",
-          title: "Concept 4 — Combined",
-          status: "approved",
-          summary:
-            "A map of three rings with the next step under it, Stay on track, today’s Briefing, and Your Signal Picture.",
-        },
-        {
           slug: "concept-4b",
           title: "Concept 4b — With the weekly check-in",
+          // Kate, 2026-10-26: approved; Concept 4 is on the scratch branch.
+          status: "approved",
           summary:
-            "Concept 4 with one card added to Stay on track (Kate, 2026-10-23): “How ready do you feel to lead a broader marketing organization?”, her own direction, once a week, on a slider with three answers. She sees her answers week by week; her organisation sees only the group’s totals, on the Admin Dashboard’s Concept 1b.",
+            "A map of three rings with the next step under it, Stay on track, today’s Briefing, and Your Signal Picture, with a weekly check-in in Stay on track (Kate, 2026-10-23): “How ready do you feel to lead a broader marketing organization?”, her own direction, once a week, on a slider with three answers. She sees her answers week by week; her organisation sees only the group’s totals, on the Admin Dashboard’s Concept 1b.",
         },
       ],
     },
@@ -323,6 +318,8 @@ export const prototypeConfig: PrototypeConfig = {
         {
           slug: "concept-1",
           title: "Concept 1 — Sections",
+          // Kate, 2026-10-26.
+          status: "approved",
           summary:
             "A list of sections on the left, as the participant Profile on web: Your details, Your cohort and What you can see, with Sign out closing the list; it goes to the Admin login. The chosen section shows on the right. One Edit changes the name and job title; the cohort's details are shown, not edited.",
         },
@@ -342,6 +339,8 @@ export const prototypeConfig: PrototypeConfig = {
         {
           slug: "concept-1",
           title: "Concept 1 — Work email",
+          // Kate, 2026-10-26.
+          status: "approved",
           summary:
             "The participant Login's split page, for the enterprise side: the work email ExecHQ set up, a code by email, Google or Apple. No sign-up: the ExecHQ contact sends the invitation. The privacy line says admins see totals, never a participant.",
         },

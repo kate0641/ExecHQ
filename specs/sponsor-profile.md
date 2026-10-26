@@ -1,6 +1,6 @@
 # Admin profile — interaction spec
 
-Concept: **Concept 1 — Sections** (status: draft). It is written so a developer can build it without the prototype open. Where the prototype fakes something, production behavior is stated under "Prototype versus production". The route is still `/sponsor-profile`; the page was renamed from Sponsor profile on 2026-10-26.
+Concept: **Concept 1 — Sections** (status: approved, 2026-10-26). It is written so a developer can build it without the prototype open. Where the prototype fakes something, production behavior is stated under "Prototype versus production". The route is still `/sponsor-profile`; the page was renamed from Sponsor profile on 2026-10-26.
 
 ---
 
