@@ -15,6 +15,14 @@ export interface LinkedInPost {
   impressions: number;
   reactions: number;
   comments: number;
+  /** The post on LinkedIn: the export's Post URL. The stub points every post at LinkedIn's feed. */
+  url?: string;
+}
+
+/** One row of LinkedIn's demographics: a value and its share, as the export gives it ("Greater Boston", 15). */
+export interface LinkedInShare {
+  value: string;
+  percent: number;
 }
 
 export interface LinkedInExport {
@@ -24,6 +32,10 @@ export interface LinkedInExport {
   /** Her followers at the end of each week, oldest first. */
   followers: { on: string; count: number }[];
   posts: LinkedInPost[];
+  /** DISCOVERY's members reached: distinct people who saw her posts in the period. */
+  membersReached?: number;
+  /** AUDIENCE DEMOGRAPHICS, the top few of each kind, largest first. */
+  audience?: { location: LinkedInShare[]; industry: LinkedInShare[]; seniority: LinkedInShare[] };
 }
 
 /** What an export looks like to someone who has been here a while: already brought in, so the view of it is there from the second state on. */
@@ -94,25 +106,46 @@ export const LINKEDIN_EXPORT: LinkedInExport = {
     { id: "q23", on: "2026-08-02", title: "Learning from a missed deadline", impressions: 842, reactions: 19, comments: 3 },
     { id: "q24", on: "2026-09-06", title: "A short story about a hard conversation", impressions: 970, reactions: 11, comments: 1 },
   ] as LinkedInPost[]).sort((a, b) => (a.on < b.on ? -1 : a.on > b.on ? 1 : 0)),
+  membersReached: 21380,
+  audience: {
+    location: [
+      { value: "New York City Metropolitan Area", percent: 31 },
+      { value: "Greater Boston", percent: 15 },
+      { value: "Greater Chicago Area", percent: 10 },
+    ],
+    industry: [
+      { value: "Software Development", percent: 22 },
+      { value: "Financial Services", percent: 14 },
+      { value: "Advertising Services", percent: 9 },
+    ],
+    seniority: [
+      { value: "Senior", percent: 34 },
+      { value: "Director", percent: 21 },
+      { value: "Vice President", percent: 12 },
+    ],
+  },
 };
 
 /** The words around the view of her LinkedIn export. Plain counts, never a score, never a claim that her work caused them. */
 export const LINKEDIN_PICTURE_COPY = {
-  heading: "Your LinkedIn, from your export",
-  intro: (from: string, to: string) => `${from} to ${to}. Your audience and your posts as LinkedIn reports them.`,
-  followers: "Followers",
-  followersSub: (n: number, from: string) => `${n > 0 ? "Up" : n < 0 ? "Down" : "Level"}${n === 0 ? "" : ` ${Math.abs(n).toLocaleString("en-US")}`} since ${from}`,
-  followersCaption: "At the end of each week",
-  followersSlider: "Followers by week. Use the left and right arrow keys to move through the weeks.",
-  followersAt: (count: number, on: string) => `${on}: ${count.toLocaleString("en-US")} followers`,
-  impressions: "Impressions",
-  impressionsSub: "Across all your posts",
-  impressionsCaption: "Added up from the posts in each month",
-  monthsAt: (label: string, n: number, posts: number) =>
-    posts === 0 ? `${label}: no posts` : `${label}: ${n.toLocaleString("en-US")} impressions from ${posts === 1 ? "1 post" : `${posts} posts`}`,
-  posts: "Posts",
-  postsSub: "In this export",
-  postsCaption: "The three LinkedIn showed most, by impressions",
-  reactionsComments: (r: number, c: number) => `${r} reactions · ${c} comments`,
+  /** Built on the onboarding spec's purpose, "how far your posts reach, and who they reach", and on what LinkedIn's
+   *  export holds: totals, posts by date and reach (no titles), followers, and demographics (designer with Kate,
+   *  2026-10-21; three charts before). */
+  /** Wide enough for all four figures, not reach alone (designer, 2026-10-21; "How far your posts reach" before). */
+  heading: "Your LinkedIn at a glance",
+  intro: (from: string, to: string) => `${from} to ${to}, as LinkedIn reports it.`,
+  /** Short, so the four totals fit one row (designer, 2026-10-21; "times your posts were seen" before). */
+  seen: "times seen",
+  reached: "people reached",
+  followers: "followers",
+  posts: (n: number) => (n === 1 ? "post" : "posts"),
+  furthest: "Your posts that went furthest",
+  seenTimes: (n: number) => `seen ${n.toLocaleString("en-US")} times`,
+  opensNewTab: "(opens in a new tab)",
+  who: "Who you're reaching",
+  whoBy: "Show who you're reaching by",
+  kinds: { location: "Location", industry: "Industry", seniority: "Seniority" },
+  share: (value: string, percent: number) => `${value}: ${percent}%`,
+  privacy: "Only you see this. Nothing is posted or shared.",
   empty: "There is nothing in this export yet.",
 } as const;

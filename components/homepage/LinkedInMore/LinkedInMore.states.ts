@@ -24,6 +24,11 @@ export const linkedInMoreStates = defineComponentStates({
     { label: "Reading the file — the drawer closed, no link while it reads", props: { ...base, status: "reading", fileName: "Content_2025-10-01_2026-10-01_Jane.xlsx" } },
     { label: "Reading the file — in the drawer", props: { ...base, demoOpen: true, status: "reading", fileName: "Content_2025-10-01_2026-10-01_Jane.xlsx" } },
     { label: "Filled — read and ready: it says what she has, and the link says newer", props: { ...base, status: "ready", fileName: "Content_2025-10-01_2026-10-01_Jane.xlsx" } },
+    {
+      label: "Filled, as a footnote — under the view of her export",
+      description: "On the Signal Picture, once a file is read, this sits under the view as its footnote: the heading is for screen readers only and the words are small.",
+      props: { ...base, footnote: true, status: "ready", fileName: "Content_2025-10-01_2026-10-01_Jane.xlsx" },
+    },
     { label: "Read, with no posts in it", props: { ...base, status: "empty", fileName: "Content_2025-10-01_2026-10-01_Jane.xlsx" } },
     { label: "Error — not a LinkedIn export", props: { ...base, demoOpen: true, status: "wrong-file", fileName: "notes.docx" } },
     { label: "Steps emailed", props: { ...base, demoOpen: true, status: "sent", email: "jane@example.com" } },

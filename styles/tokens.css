@@ -196,6 +196,12 @@
   --color-text-on-her-band: var(--brand-green-800);
   /* A soft lime glow round something of hers on navy, such as a day in Momentum (designer, 2026-10-15). */
   --color-her-halo: color-mix(in srgb, var(--brand-green-200) 25%, transparent);
+  /* A day she logged in Momentum is a small day sky: a yellow heart through lime to sky blue, as Home's day
+     sky; today's ring runs the same colours round the circle (designer, 2026-10-20). Dark green check on
+     it: 8:1 at the heart, 5.4:1 at its bluest edge. */
+  --surface-her-day: radial-gradient(circle at 35% 30% in oklab, var(--brand-yellow-300) 0%, var(--brand-green-300) 55%, var(--brand-blue-300) 100%);
+  --ring-today: conic-gradient(from 200deg in oklab, var(--brand-blue-300), var(--brand-green-300), var(--brand-yellow-300), var(--brand-blue-300));
+  --ring-today-width: calc(var(--border-width-thin) * 2);
   /* For her: something written for her to read or use, such as her first draft. Sky blue with navy
      words (11.3:1), muted blue 700 (7.7:1), eyebrow blue 600 (4.9:1), edges blue 300. */
   --color-surface-for-her: var(--brand-blue-200);
@@ -795,6 +801,9 @@
   /* Items split by hairlines: this much either side of the line. */
   --space-divided-item: var(--space-md-lg); /* 20px */
   --space-copy-action: var(--space-md-lg); /* the copy to the button under it: the widest of the three, as wide as the card's padding */
+  /* Actions after a form or a list are a group of their own, set off like a heading: 24 above them, more
+     than the 16 inside the group they follow (designer, 2026-10-21; the drawer rule already did this). */
+  --space-before-actions: var(--space-lg);  /* 24px */
   /* In a drawer: its groups (a question's answers, a field, the actions) sit 24 apart, and the pieces
      inside a group 12 apart, so each group reads as one (designer, 2026-10-16). */
   --space-drawer-groups: var(--space-lg);  /* 24px */
