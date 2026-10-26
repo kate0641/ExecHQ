@@ -294,6 +294,8 @@ export const prototypeConfig: PrototypeConfig = {
         {
           slug: "concept-1b",
           title: "Concept 1b — With readiness",
+          // Kate, 2026-10-26.
+          status: "approved",
           summary:
             "The cohort’s story in four measures, with readiness: an opening in the order it happened, a Ready for what’s next card (participants’ weekly “How ready do you feel to …?”, then and now, once 10 or more have answered twice), Putting it into practice as the hero, then Staying with it, Showing up in the world and Getting started, ending on who is still to join, with the code. Chosen to go forward (Kate, 2026-10-26); Concepts 1 and 2 are on the scratch branch.",
         },
