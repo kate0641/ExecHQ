@@ -34,7 +34,8 @@ const word = (value: number) => C.answers[value - 1];
  * The weekly check-in in Stay on track (Homepage Concept 4b, Kate,
  * 2026-10-23, simplified 2026-10-26): one question with her direction in it,
  * "How ready do you feel to lead a broader marketing organization?", a
- * slider with three answers, Not yet, Getting there and Ready, and Save.
+ * slider with three answers, Not yet, Getting there and Ready, and Save at
+ * the right edge, with what it will record on its left.
  * The slider starts on her last answer, so a week with no change is one
  * press. Not now, which costs nothing, is an x in the card's top corner.
  * Behind the words the answers are 1 to 3, for her trend and the
@@ -100,9 +101,19 @@ export function ReadinessCheckIn({ toward, history, answer, later, onAnswer, onN
         {C.question(toward)}
       </h3>
       <Slider label={C.question(toward)} steps={C.answers} value={picked} onChange={setPicked} demo={demo} />
-      <Button className="readiness-check__save" onClick={() => onAnswer?.(picked)}>
-        {C.save}
-      </Button>
+      {/* Save at the card's right edge, under the right thumb, as every card
+          button that isn't full width; on its left, what it will record
+          (Kate, 2026-10-26). */}
+      <div className="readiness-check__foot">
+        {history.length ? (
+          <p className="readiness-check__hint" aria-live="polite">
+            {picked === history[history.length - 1] ? C.sameAsLast : C.changedTo(word(picked))}
+          </p>
+        ) : null}
+        <Button className="readiness-check__save" onClick={() => onAnswer?.(picked)}>
+          {C.save}
+        </Button>
+      </div>
     </section>
   );
 }

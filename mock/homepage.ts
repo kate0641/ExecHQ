@@ -342,6 +342,10 @@ export const READINESS_HOME_COPY = {
    *  are 1 to 3 behind the scenes, for her trend and the dashboard. */
   answers: ["Not yet", "Getting there", "Ready"],
   save: "Save",
+  /** Beside Save, on its left: what pressing it will record (Kate,
+   *  2026-10-26). */
+  sameAsLast: "Same as last week",
+  changedTo: (word: string) => `Changed to ${word}`,
   /** The x's name and tooltip. */
   notNow: "Not now",
   counted: "Counted",

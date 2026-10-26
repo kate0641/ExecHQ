@@ -10743,13 +10743,25 @@ ol.signal__list {
   outline-offset: var(--focus-ring-offset);
 }
 
-/* The slider runs the card's width; Save sits under it. */
+/* The slider runs the card's width. Save sits at the right edge, under the
+   right thumb, with what it will record on its left (Kate, 2026-10-26). */
 .readiness-check .slider {
   align-self: stretch;
 }
 
-.readiness-check__save {
-  align-self: center;
+.readiness-check__foot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+  align-self: stretch;
+}
+
+.readiness-check__hint {
+  margin-right: auto;
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
 }
 
 /* Her answers week by week, this week's darkest. */
