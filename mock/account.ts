@@ -41,6 +41,10 @@ export interface Account {
    *  "leading a broader marketing organization". Written by hand in the
    *  prototype; the product needs a way to make it from her words. */
   towardShort?: string;
+  /** The same direction after "How ready do you feel to": "lead a broader
+   *  marketing organization" (Homepage 4b's weekly check-in, Kate,
+   *  2026-10-26). Written by hand, like towardShort. */
+  towardVerb?: string;
   plan: {
     id: string;
     name: string;
@@ -70,6 +74,7 @@ export const MAYA: Account = {
   direction:
     "I want to move from running campaigns to leading a broader marketing organization.",
   towardShort: "leading a broader marketing organization",
+  towardVerb: "lead a broader marketing organization",
   plan: {
     id: "leadership-scope",
     name: "Step up",

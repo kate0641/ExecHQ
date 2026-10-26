@@ -165,7 +165,7 @@ export function InProgress({ loop }: { loop: LoopView }) {
     id: "readiness",
     node: (
       <ReadinessCheckIn
-        toward={loop.account.towardShort}
+        toward={loop.account.towardVerb}
         history={READINESS_HISTORY}
         answer={readiness.answer}
         later={readiness.later}

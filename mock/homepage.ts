@@ -321,7 +321,8 @@ export const BRIEFING_STUB = {
 /* -----------------------------------------------------------------------------
    THE WEEKLY CHECK-IN (Homepage Concept 4b, Kate, 2026-10-23)
    The readiness pulse, on her side: one card in Stay on track, once a week,
-   "How ready do you feel for your next move?", 1 to 5. Her answers are hers
+   "How ready do you feel to {her direction}?", in five words that are 1 to
+   5 behind the scenes (Kate, 2026-10-26). Her answers are hers
    to see over time; her organisation sees only the group's totals (the
    enterprise dashboard's Concept 1b). Only Home changes: onboarding asks
    nothing, so her first answer here is her starting point.
@@ -334,26 +335,22 @@ export const READINESS_HISTORY: readonly number[] = [3, 3, 4];
 
 export const READINESS_HOME_COPY = {
   about: "Your weekly check-in",
-  /** What "your next move" is: her direction, from onboarding (Kate,
-   *  2026-10-26: say what it is and what it asks; "move", not "step", so it
-   *  never reads as the next step under the rings). */
-  toward: (towardShort: string) => `Your next move: ${towardShort}`,
-  question: "How ready do you feel for your next move?",
-  /** What "ready" means, under the question. */
-  meaning: "How prepared you feel to make that move today. There’s no right answer: it’s how it feels this week.",
-  low: "Not at all",
-  high: "Ready now",
-  answerName: (n: number) => (n === 1 ? "1, not at all" : n === 5 ? "5, ready now" : String(n)),
+  /** One question, her direction inside it (Kate, 2026-10-26): no line
+   *  above it and no explanation under it. */
+  question: (towardVerb?: string) => (towardVerb ? `How ready do you feel to ${towardVerb}?` : "How ready do you feel for your next move?"),
+  /** The five answers, in words, so none needs explaining. They are 1 to 5
+   *  behind the scenes, for her trend and the dashboard. */
+  answers: ["Not yet", "A little", "Getting there", "Mostly", "Ready"],
   notNow: "Not now",
   counted: "Counted",
-  thisWeek: (n: number) => `${n} this week.`,
-  versus: (n: number, start: number) =>
+  thisWeek: (word: string) => `${word} this week.`,
+  versus: (n: number, start: number, startWord: string) =>
     n > start
-      ? `Up from ${start} when you started.`
+      ? `Up from ${startWord} when you started.`
       : n === start
         ? "The same as when you started. It moves in steps."
-        : `Down from ${start} when you started. A harder week happens; your plan is still there.`,
-  trendLabel: (answers: readonly number[]) => `Your answers each week: ${answers.join(", ")}.`,
+        : `Down from ${startWord} when you started. A harder week happens; your plan is still there.`,
+  trendLabel: (words: readonly string[]) => `Your answers each week: ${words.join(", ")}.`,
   start: "Start",
   now: "Now",
   week: (n: number) => `Wk ${n}`,

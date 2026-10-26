@@ -1310,7 +1310,8 @@ export const QUESTION_POINTS: Record<QuestionId, DataPointId[]> = {
    READINESS PULSE (Concept 1b, Kate, 2026-10-23)
    Eric asked for something that shows value beyond use. One question in a
    participant's check-in, when they start and every 7 days after (Kate,
-   2026-10-23, was 30): "How ready do you feel for your next move?", 1 to 5.
+   2026-10-23, was 30): "How ready do you feel to {their direction}?", five
+   answers in words, 1 to 5 (2026-10-26).
    The sponsor sees the cohort's
    answers at the start and now, as totals, once at least the minimum have
    answered twice. Self-reported, so it says what they feel, never what
@@ -1351,20 +1352,22 @@ export function readinessFor(cohort: Cohort): ReadinessView | undefined {
 export const READINESS_COPY = {
   heading: "Ready for what’s next",
   answer: (moved: number, answered: number) =>
-    `${count.format(moved)} of the ${count.format(answered)} who answered feel more ready for their next move than when they started.`,
+    `${count.format(moved)} of the ${count.format(answered)} who answered feel more ready for the move they’re working toward than when they started.`,
   label: "Readiness, on average",
   detail: (answered: number, setUp: number) => `out of 5 · ${count.format(answered)} of ${count.format(setUp)} answered`,
   brief:
-    "Asked when someone starts and every 7 days after: “How ready do you feel for your next move?” From 1, not at all, to 5, ready now. The same people at the start and now, whichever dates you choose.",
+    "Asked when someone starts and every 7 days after: “How ready do you feel to …?”, with the move each person is working toward. Five answers, Not yet, A little, Getting there, Mostly and Ready, counted 1 to 5. The same people at the start and now, whichever dates you choose.",
   hidden: `Shown once ${MIN_COHORT_SIZE} or more have answered twice.`,
   start: "At the start",
   now: "Now",
-  scale: ["1 Not at all", "2", "3", "4", "5 Ready now"],
-  spreadLabel: (when: string, spread: number[]) => `${when}: ${spread.map((n, i) => `${count.format(n)} answered ${i + 1}`).join(", ")}`,
+  /** The answers participants choose from (Homepage 4b), 1 to 5. */
+  scale: ["Not yet", "A little", "Getting there", "Mostly", "Ready"],
+  spreadLabel: (when: string, spread: number[]) =>
+    `${when}: ${spread.map((n, i) => `${count.format(n)} ${["Not yet", "A little", "Getting there", "Mostly", "Ready"][i]}`).join(", ")}`,
   /** The opening's last sentence, in Concept 1b. */
   story: (moved: number, answered: number): StoryPart[] => [
     { strong: `${count.format(moved)} of the ${count.format(answered)} who answered` },
-    " say they feel more ready for their next move than when they started.",
+    " say they feel more ready for the move they’re working toward than when they started.",
   ],
 } as const;
 
