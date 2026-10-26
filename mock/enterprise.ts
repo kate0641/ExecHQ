@@ -851,11 +851,9 @@ export const DIRECTION_COPY = {
     briefing: { up: "More reading it than a week ago", down: "Fewer reading it than a week ago" },
     plans: { up: "More with a plan than a week ago", down: "Fewer with a plan than a week ago" },
   } satisfies Partial<Record<DataPointId, Record<Direction, string>>>,
-  /** Concept 2's clause, after the line's figures. */
+  /** The clause in the opening's sentence, after its figures. */
   clause: { up: "more than a week ago", down: "fewer than a week ago" } satisfies Record<Direction, string>,
   rule: `Arrows show a change since a week ago, only when at least ${MIN_COHORT_SIZE} participants are behind it.`,
-  /** Concept 2 has no arrows: the change is in the sentence. */
-  clauseRule: `A change since a week ago is mentioned only when at least ${MIN_COHORT_SIZE} participants are behind it.`,
 } as const;
 
 /** Whether the period can be set against a week ago at all: it ends today,
@@ -1503,138 +1501,11 @@ export const C1_COPY = {
   },
 } as const;
 
-/* -----------------------------------------------------------------------------
-   CONCEPT 2 — THE REPORT
-   -------------------------------------------------------------------------- */
-
-/** One line of the report: the figure set large, then the rest of the
- *  sentence. A hidden line keeps its label and names the rule instead. */
-export interface ReportLine {
-  figure: FigureView;
-  /** The words after the number. */
-  rest?: string;
-  /** Which way it moved since last week, already folded into `rest`. */
-  direction?: Direction;
-}
-
-/** The report's sections, in reading order, and the lines in each. */
-/** Follow-through leads, as on the dashboard (Kate, 2026-10-20): a report is
- *  read from the top, often no further than its first section. */
-export const REPORT_SECTIONS: { id: QuestionId; heading: string; points: DataPointId[] }[] = [
-  { id: "following", heading: "Follow-through", points: ["follow-through", "plans", "artifacts", "loop"] },
-  { id: "using", heading: "Use", points: ["active", "briefing"] },
-  { id: "joined", heading: "Joining", points: ["invites", "onboarding"] },
-];
-
-/** The report's opening: what the cohort did, in two sentences, follow-through
- *  first. Undefined while the figures are hidden. */
-export function reportSummary(cohort: Cohort, window: Period): string | undefined {
-  if (!isAboveMinimum(cohort, window)) return undefined;
-  const c = countsIn(cohort, window);
-  const n = (value: number) => count.format(value);
-  const long = isSinceLaunch(cohort, window) ? RANGE_PRESETS["since-launch"].inSentence : inWindow(window);
-  // Which way activity moved, when enough people are behind it to say so:
-  // the summary is the part most often read alone.
-  const moved = directionFor(cohort, "active", window);
-  const since = moved ? `, ${DIRECTION_COPY.clause[moved]}` : "";
-  return `Participants have completed ${n(c.actionsCompleted)} of the ${n(c.actionsAccepted)} planned actions they took on so far. ${n(c.active)} of the ${n(cohort.activated)} set up were active ${long}${since}.`;
-}
-
 /** "in the last 30 days", "this week", or "since the program started": a
  *  period as it reads inside a sentence. */
 function inWindow(window: Period): string {
   return periodWords(window).inSentence;
 }
-
-/** The work line: the pieces made, and how many of them were used, drawn
- *  as one part of one whole. Undefined while hidden. */
-export function reportWork(cohort: Cohort, window: Period): { made: string; rest: string; used: number; whole: number; usedLabel: string; restLabel: string } | undefined {
-  if (!isAboveMinimum(cohort, window)) return undefined;
-  const c = countsIn(cohort, window);
-  const n = (value: number) => count.format(value);
-  return {
-    made: n(c.artifacts),
-    rest: `pieces of work were made in ExecHQ ${inWindow(window)}, and ${n(c.artifactsUsed)} ${c.artifactsUsed === 1 ? "was" : "were"} used outside it.`,
-    used: c.artifactsUsed,
-    whole: c.artifacts,
-    usedLabel: `${n(c.artifactsUsed)} used outside ExecHQ`,
-    restLabel: `${n(c.artifacts - c.artifactsUsed)} not marked as used`,
-  };
-}
-
-/** The joining line and its funnel: expected, joined, set up. Choosing a
- *  plan is Follow-through's, so it is drawn there only (Kate, 2026-10-20).
- *  Joined always shows; setting up hides below the minimum. */
-export function reportJoining(cohort: Cohort, window: Period): { joined: string; rest: string; steps: { label: string; value?: number; outline?: boolean }[] } {
-  const above = isAboveMinimum(cohort, window);
-  const n = (value: number) => count.format(value);
-  const F = C2_COPY.funnel;
-  return {
-    joined: n(cohort.joined),
-    rest: above
-      ? `of the ${n(cohort.expectedSize)} leaders you expected have joined, and ${n(cohort.activated)} have finished setting up.`
-      : `of the ${n(cohort.expectedSize)} leaders you expected have joined so far.`,
-    steps: [
-      { label: F.expected, value: cohort.expectedSize, outline: true },
-      { label: F.joined, value: cohort.joined },
-      { label: F.setUp, value: above ? cohort.activated : undefined },
-    ],
-  };
-}
-
-export function reportLine(cohort: Cohort, id: DataPointId, window: Period): ReportLine {
-  const figure = figureFor(cohort, id, window);
-  if (figure.state === "suppressed") return { figure };
-  const c = countsIn(cohort, window);
-  const long = inWindow(window);
-  const n = (value: number) => count.format(value);
-  const rest: Record<DataPointId, string> = {
-    invites: `of the ${n(cohort.expectedSize)} leaders you expected have joined.`,
-    onboarding: `of them finished setting up (${n(cohort.activated)} of ${n(cohort.joined)}).`,
-    active: `of those set up were active ${long} (${n(c.active)} of ${n(cohort.activated)}).`,
-    briefing: `of active participants read the Daily Briefing at least once a week (${n(c.briefingWeekly)} of ${n(c.active)}).`,
-    plans: `of those set up chose a development plan (${n(cohort.planAccepted)} of ${n(cohort.activated)}).`,
-    "follow-through": `of the planned actions participants took on have been completed so far (${n(c.actionsCompleted)} of ${n(c.actionsAccepted)}). Some are still within their 30 days.`,
-    artifacts: `pieces of work were made in ExecHQ ${long}.`,
-    loop: `of that work was marked as used outside ExecHQ (${n(c.artifactsUsed)} of ${n(c.artifacts)}).`,
-  };
-  const direction = directionFor(cohort, id, window);
-  const words = direction ? rest[id].replace(/\.$/, `, ${DIRECTION_COPY.clause[direction]}.`) : rest[id];
-  return { figure, rest: words, direction };
-}
-
-export const C2_COPY = {
-  letterhead: "Cohort report",
-  sponsor: "Northgate",
-  windowLine: (long: string) => `Figures cover ${long}.`,
-  windowLineSinceLaunch: "Figures cover the program since it started.",
-  asOf: (asOf: string) => `As of ${formatAsOf(asOf)}.`,
-  firstUpdate: (asOf: string) => `First figures on ${formatAsOf(asOf)}.`,
-  started: (startsOn: string) => `Started ${formatDate(startsOn)}`,
-  starts: (startsOn: string) => `Starts ${formatDate(startsOn)}`,
-  weeksIn: (day: number) => weeksIn(day).toLowerCase(),
-  building: `Only the number who joined is shown until ${MIN_COHORT_SIZE} or more participants are active, so no figure can point to one person.`,
-  hiddenLine: `hidden until ${MIN_COHORT_SIZE} or more participants are active.`,
-  /** One paragraph at the foot: privacy, the change rule when it applies,
-   *  where the numbers come from, and who prepared it. */
-  footer: (comparing: boolean) =>
-    [
-      "Totals for the whole cohort. Northgate never sees a participant, their plan or their work.",
-      comparing ? `A change since a week ago is mentioned only when at least ${MIN_COHORT_SIZE} participants are behind it.` : null,
-      "Sources: codes redeemed, and setup, sign-ins, plans, planned actions and work in ExecHQ. Prepared by ExecHQ.",
-    ]
-      .filter(Boolean)
-      .join(" "),
-  exportMenu: "Export",
-  exportPdf: "PDF",
-  exportCsv: "CSV",
-  funnel: { label: "Joining, step by step", expected: "Expected", joined: "Joined", setUp: "Set up", hidden: "Hidden" },
-  setup: {
-    title: "Untitled cohort",
-    lead: "Fill in the cohort’s details to start its report. You will get one code to share.",
-    empty: "The report starts here once people join.",
-  },
-} as const;
 
 /* -----------------------------------------------------------------------------
    CONCEPT 3 — THE WEEKLY LETTER

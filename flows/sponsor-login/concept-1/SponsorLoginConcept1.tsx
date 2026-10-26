@@ -44,11 +44,11 @@ import { SPONSOR_LOGIN_COPY as C, SPONSOR_PROVIDER_ACCOUNTS } from "@/mock/spons
  * invitation; help goes to that contact; and the privacy line says what a
  * sponsor sees, totals and never a participant, before they are even in.
  *
- * A successful sign-in goes to the dashboard (Enterprise Concept 1). Nothing
+ * A successful sign-in goes to the dashboard (Enterprise Concept 1b). Nothing
  * is sent and nothing is stored.
  */
 
-const DASHBOARD = conceptHref("enterprise", "concept-1");
+const DASHBOARD = conceptHref("enterprise", "concept-1b");
 const HEADING = "sponsor-login-heading";
 
 type Screen = "sign-in" | "inbox" | "expired" | "other-account";

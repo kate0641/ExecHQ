@@ -292,24 +292,10 @@ export const prototypeConfig: PrototypeConfig = {
         "The enterprise surface. Cohort level only, never individual identity. Web only.",
       concepts: [
         {
-          slug: "concept-1",
-          title: "Concept 1 — The four measures",
-          summary:
-            "The dashboard is four cards, each a measure of how the cohort is doing: Putting it into practice leads, then Staying with it, Showing up in the world and Getting started. Each opens with a one-sentence answer, with the figures under it. The cohort's code and settings are a Cohort page of their own.",
-        },
-        {
           slug: "concept-1b",
           title: "Concept 1b — With readiness",
           summary:
-            "Concept 1 with a readiness pulse, after Eric asked for value beyond use (Kate, 2026-10-23): participants answer “How ready do you feel to …?”, with their own direction, when they start and every 7 days after, and a card under the opening shows the cohort’s answers then and now, once 10 or more have answered twice.",
-        },
-        {
-          slug: "concept-2",
-          title: "Concept 2 — The report",
-          // Kate, 2026-10-22: Concept 1 chosen; to move to scratch later.
-          scratched: true,
-          summary:
-            "The screen is the one-page report the sponsor exports: figures set in sentences, each definition in the margin beside it. Setting up the cohort writes the report's header; the code sits in a box in the margin.",
+            "The cohort’s story in four measures, with readiness: an opening in the order it happened, a Ready for what’s next card (participants’ weekly “How ready do you feel to …?”, then and now, once 10 or more have answered twice), Putting it into practice as the hero, then Staying with it, Showing up in the world and Getting started, ending on who is still to join, with the code. Chosen to go forward (Kate, 2026-10-26); Concepts 1 and 2 are on the scratch branch.",
         },
         {
           slug: "concept-3",
@@ -317,7 +303,7 @@ export const prototypeConfig: PrototypeConfig = {
           // Kate, 2026-10-21: to go with the dashboard concept chosen, in V2.
           savedFor: "V2",
           summary:
-            "Saved for V2, to go alongside whichever dashboard concept is chosen. No dashboard: each Monday an issue in the advisor's voice, leading with follow-through, and past issues stack into an archive. Setting up the cohort is Issue 0.",
+            "Saved for V2, to go alongside Concept 1b. No dashboard: each Monday an issue in the advisor's voice, leading with follow-through, and past issues stack into an archive. Setting up the cohort is Issue 0.",
         },
       ],
     },
