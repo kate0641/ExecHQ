@@ -23,8 +23,10 @@ export const readinessCheckInStates = defineComponentStates({
       },
   variants: [
     { label: "Asking — default", props: { toward, history: READINESS_HISTORY, onAnswer: noop, onNotNow: noop } },
-    { label: "Answered, up from the start", props: { history: READINESS_HISTORY, answer: 3 } },
-    { label: "Answered, the same as the start", props: { history: READINESS_HISTORY, answer: 1 } },
+    { label: "Answered Ready: a stretch step offered", props: { history: READINESS_HISTORY, answer: 3, stretch: "Put yourself forward for the Q1 planning review" } },
+    { label: "Answered Ready, no stretch step: the plan stays", props: { history: READINESS_HISTORY, answer: 3 } },
+    { label: "Answered Not yet: a lighter step", props: { history: READINESS_HISTORY, answer: 1 } },
+    { label: "Answered Getting there: the plan stays", props: { history: READINESS_HISTORY, answer: 2 } },
     { label: "Answered, down from the start", props: { history: [2, 2, 2], answer: 1 } },
     { label: "Her first answer — empty history", props: { history: [], answer: 2 } },
     { label: "After Not now", props: { history: READINESS_HISTORY, later: true } },

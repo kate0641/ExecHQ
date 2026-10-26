@@ -10772,6 +10772,31 @@ ol.signal__list {
   color: var(--color-text-secondary);
 }
 
+/* What the answer changes in her plan, under her answers: a hairline, the
+   line, and for Ready the offer with its two buttons at the right. */
+.readiness-check__plan {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+  padding-top: var(--space-md);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
+  text-align: left;
+}
+
+.readiness-check__plan b {
+  color: var(--color-text-primary);
+}
+
+.readiness-check__plan-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-xs);
+}
+
 /* Her answers week by week, this week's darkest. */
 .readiness-check__trend {
   display: flex;

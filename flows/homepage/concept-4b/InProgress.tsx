@@ -31,6 +31,10 @@ function focusSoon(id: string) {
 
 export function InProgress({ loop }: { loop: LoopView }) {
   const [readiness, setReadiness] = useState<{ answer?: number; later?: boolean }>({});
+  /* What a Ready answer offers to bring forward: the first medium-term step
+     not yet on her way (Kate, 2026-10-26). In the product it comes from her
+     plan brief's "bring forward" rules. */
+  const stretchStep = ACTIONS.find((a) => a.horizon === "medium" && !loop.tasks?.[a.id] && !loop.records.some((r) => r.id === a.artifactId));
   const due = dueFollowUps(loop.records, loop.today);
   const forAction = (recordId: string) => {
     const action = ACTIONS.find((a) => a.artifactId === recordId);
@@ -166,6 +170,7 @@ export function InProgress({ loop }: { loop: LoopView }) {
     node: (
       <ReadinessCheckIn
         toward={loop.account.towardVerb}
+        stretch={stretchStep?.title}
         history={READINESS_HISTORY}
         answer={readiness.answer}
         later={readiness.later}

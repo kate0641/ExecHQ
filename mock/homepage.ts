@@ -364,6 +364,19 @@ export const READINESS_HOME_COPY = {
   now: "Now",
   week: (n: number) => `Wk ${n}`,
   later: "No problem. I’ll ask again next week.",
+  /** What the answer changes in her plan, said in the read-back (Kate,
+   *  2026-10-26), so the line under the question is visibly true. Not yet
+   *  gives a lighter step, one at a time; Getting there keeps the plan;
+   *  Ready offers a stretch step, and only adds it if she says so. */
+  plan: {
+    notYet: "Next on your plan: a lighter first step, one at a time.",
+    gettingThere: "Your plan stays as it is. Keep going.",
+    readyAsk: "Want something bigger this week?",
+    add: "Add it",
+    notNow: "Not now",
+    added: (step: string) => `Added. “${step}” is next on your plan.`,
+    declined: "No problem. Your plan stays as it is.",
+  },
 } as const;
 
 export const STAY_COPY = {

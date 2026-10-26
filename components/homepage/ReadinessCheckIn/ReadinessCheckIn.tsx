@@ -18,6 +18,9 @@ export interface ReadinessCheckInProps {
   answer?: number;
   /** She chose Not now this week. */
   later?: boolean;
+  /** The stretch step a Ready answer offers to bring forward. Without one,
+   *  Ready keeps the plan as it is. */
+  stretch?: string;
   onAnswer?: (value: number) => void;
   onNotNow?: () => void;
   headingId?: string;
@@ -39,15 +42,18 @@ const word = (value: number) => C.answers[value - 1];
  * The slider starts on her last answer, so a week with no change is one
  * press. Not now, which costs nothing, is an x in the card's top corner.
  * Behind the words the answers are 1 to 3, for her trend and the
- * dashboard's totals. Once answered it reads back this
+ * dashboard's totals. The read-back ends on what the answer changes in her
+ * plan: a lighter step, the plan as it is, or a stretch step offered (Kate,
+ * 2026-10-26). Once answered it reads back this
  * week against where she started, in the same words, with her answers week
  * by week. Drawn as the other Stay on track cards are.
  */
-export function ReadinessCheckIn({ toward, history, answer, later, onAnswer, onNotNow, headingId = "readiness-check-in", demo, className }: ReadinessCheckInProps) {
+export function ReadinessCheckIn({ toward, history, answer, later, stretch, onAnswer, onNotNow, headingId = "readiness-check-in", demo, className }: ReadinessCheckInProps) {
   const classes = ["check-in", "check-in--question", "readiness-check", className].filter(Boolean).join(" ");
   const start = history[0] ?? answer ?? 0;
   const middle = Math.ceil(C.answers.length / 2);
   const [picked, setPicked] = useState(history[history.length - 1] ?? middle);
+  const [offer, setOffer] = useState<"ask" | "added" | "declined">("ask");
 
   if (answer !== undefined) {
     const answers = [...history, answer];
@@ -68,6 +74,32 @@ export function ReadinessCheckIn({ toward, history, answer, later, onAnswer, onN
                 <small>{i === 0 ? C.start : i === answers.length - 1 ? C.now : C.week(i + 1)}</small>
               </span>
             ))}
+          </div>
+          {/* What the answer changes in her plan (Kate, 2026-10-26). */}
+          <div className="readiness-check__plan" aria-live="polite">
+            {answer === 1 ? (
+              <p>{C.plan.notYet}</p>
+            ) : answer === 2 || !stretch ? (
+              <p>{C.plan.gettingThere}</p>
+            ) : offer === "added" ? (
+              <p>{C.plan.added(stretch)}</p>
+            ) : offer === "declined" ? (
+              <p>{C.plan.declined}</p>
+            ) : (
+              <>
+                <p>
+                  <b>{C.plan.readyAsk}</b> {stretch}
+                </p>
+                <div className="readiness-check__plan-actions">
+                  <Button variant="secondary" size="sm" onClick={() => setOffer("declined")}>
+                    {C.plan.notNow}
+                  </Button>
+                  <Button size="sm" onClick={() => setOffer("added")}>
+                    {C.plan.add}
+                  </Button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </section>
