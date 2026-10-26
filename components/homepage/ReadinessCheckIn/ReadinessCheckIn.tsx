@@ -1,3 +1,4 @@
+import { Icon } from "@/components/primitives/Icon";
 import { READINESS_HOME_COPY as C } from "@/mock/homepage";
 
 export interface ReadinessCheckInProps {
@@ -28,7 +29,8 @@ const word = (value: number) => C.answers[value - 1];
  * The weekly check-in in Stay on track (Homepage Concept 4b, Kate,
  * 2026-10-23, simplified 2026-10-26): one question with her direction in it,
  * "How ready do you feel to lead a broader marketing organization?", five
- * answers in words, from Not yet to Ready, and Not now, which costs nothing.
+ * answers in words, from Not yet to Ready, and Not now, which costs nothing:
+ * an x in the card's top corner (Kate, 2026-10-26).
  * The words need no scale or explanation; behind them they are 1 to 5, for
  * her trend and the dashboard's totals. Once answered it reads back this
  * week against where she started, in the same words, with her answers week
@@ -77,6 +79,15 @@ export function ReadinessCheckIn({ toward, history, answer, later, onAnswer, onN
   return (
     <section className={classes} aria-labelledby={headingId}>
       <p className="check-in__about">{C.about}</p>
+      <button
+        type="button"
+        className="readiness-check__close"
+        title={C.notNow}
+        onClick={onNotNow}
+      >
+        <Icon name="close" size={18} />
+        <span className="u-visually-hidden">{C.notNow}</span>
+      </button>
       <h3 className="check-in__question" id={headingId} tabIndex={-1}>
         {C.question(toward)}
       </h3>
@@ -93,11 +104,6 @@ export function ReadinessCheckIn({ toward, history, answer, later, onAnswer, onN
           </button>
         ))}
       </fieldset>
-      <div className="check-in__quiet">
-        <button type="button" className="link link--standalone" onClick={onNotNow}>
-          {C.notNow}
-        </button>
-      </div>
     </section>
   );
 }

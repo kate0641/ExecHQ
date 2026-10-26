@@ -341,6 +341,7 @@ export const READINESS_HOME_COPY = {
   /** The five answers, in words, so none needs explaining. They are 1 to 5
    *  behind the scenes, for her trend and the dashboard. */
   answers: ["Not yet", "A little", "Getting there", "Mostly", "Ready"],
+  /** The x's name and tooltip. */
   notNow: "Not now",
   counted: "Counted",
   thisWeek: (word: string) => `${word} this week.`,

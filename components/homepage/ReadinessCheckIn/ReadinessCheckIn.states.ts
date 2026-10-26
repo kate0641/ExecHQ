@@ -13,7 +13,7 @@ export const readinessCheckInStates = defineComponentStates({
   status: "draft",
   flows: ["homepage"],
   description:
-    "The weekly check-in in Stay on track (Homepage Concept 4b, Kate, 2026-10-23, simplified 2026-10-26): one question with her direction in it, “How ready do you feel to lead a broader marketing organization?”, five answers in words (Not yet, A little, Getting there, Mostly, Ready) and Not now. The words are 1 to 5 behind the scenes. Once answered, it reads back this week against where she started, in the same words, with her answers week by week. Feeds the enterprise dashboard’s Concept 1b.",
+    "The weekly check-in in Stay on track (Homepage Concept 4b, Kate, 2026-10-23, simplified 2026-10-26): one question with her direction in it, “How ready do you feel to lead a broader marketing organization?”, five answers in words (Not yet, A little, Getting there, Mostly, Ready), and Not now as an x in the top corner. The words are 1 to 5 behind the scenes. Once answered, it reads back this week against where she started, in the same words, with her answers week by week. Feeds the enterprise dashboard’s Concept 1b.",
   component: ReadinessCheckIn,
   notApplicable: {
     disabled: "Always answerable while it is shown; it is only shown once a week.",
@@ -27,7 +27,7 @@ export const readinessCheckInStates = defineComponentStates({
     { label: "Answered, the same as the start", props: { history: READINESS_HISTORY, answer: 3 } },
     { label: "Answered, down from the start", props: { history: READINESS_HISTORY, answer: 2 } },
     { label: "Her first answer — empty history", props: { history: [], answer: 3 } },
-    { label: "Not now", props: { history: READINESS_HISTORY, later: true } },
+    { label: "After Not now", props: { history: READINESS_HISTORY, later: true } },
     { label: "No direction yet: asks about her next move", props: { history: READINESS_HISTORY, onAnswer: noop, onNotNow: noop } },
     {
       label: "Long text: a long direction wraps",

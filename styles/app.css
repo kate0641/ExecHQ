@@ -10591,6 +10591,36 @@ ol.signal__list {
 /* The weekly check-in (Homepage Concept 4b, Kate, 2026-10-23): five answers
    in a row, one tap each, the scale's ends under them, and once answered her
    answers week by week. */
+/* Not now, as an x in the band's right-hand corner (Kate, 2026-10-26). */
+.readiness-check {
+  position: relative;
+}
+
+.readiness-check__close {
+  position: absolute;
+  top: var(--space-2xs);
+  right: var(--space-2xs);
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--color-text-on-check-in-band);
+  cursor: pointer;
+}
+
+.readiness-check__close:hover {
+  background-color: var(--color-surface-quiet-hover);
+}
+
+.readiness-check__close:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
 /* Five answers in words, as chips that wrap: three and two on the phone. */
 .readiness-check__scale {
   display: flex;
