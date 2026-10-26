@@ -160,7 +160,7 @@ export const prototypeConfig: PrototypeConfig = {
           slug: "concept-4b",
           title: "Concept 4b — With the weekly check-in",
           summary:
-            "Concept 4 with one card added to Stay on track (Kate, 2026-10-23): “How ready do you feel for your next step?”, once a week, in one tap. She sees her answers week by week; her organisation sees only the group’s totals, on the enterprise dashboard’s Concept 1b.",
+            "Concept 4 with one card added to Stay on track (Kate, 2026-10-23): “How ready do you feel for your next move?”, once a week, in one tap. She sees her answers week by week; her organisation sees only the group’s totals, on the enterprise dashboard’s Concept 1b.",
         },
       ],
     },
@@ -301,7 +301,7 @@ export const prototypeConfig: PrototypeConfig = {
           slug: "concept-1b",
           title: "Concept 1b — With readiness",
           summary:
-            "Concept 1 with a readiness pulse, after Eric asked for value beyond use (Kate, 2026-10-23): participants answer “How ready do you feel for your next step?” when they start and every 7 days after, and a card under the opening shows the cohort’s answers then and now, once 10 or more have answered twice.",
+            "Concept 1 with a readiness pulse, after Eric asked for value beyond use (Kate, 2026-10-23): participants answer “How ready do you feel for your next move?” when they start and every 7 days after, and a card under the opening shows the cohort’s answers then and now, once 10 or more have answered twice.",
         },
         {
           slug: "concept-2",

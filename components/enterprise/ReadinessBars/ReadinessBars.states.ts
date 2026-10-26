@@ -11,7 +11,7 @@ export const readinessBarsStates = defineComponentStates({
   status: "draft",
   flows: ["enterprise"],
   description:
-    "The readiness pulse's spread on the sponsor dashboard (Concept 1b, Kate, 2026-10-23): the same people's answers to “How ready do you feel for your next step?”, at the start and now, as two bars split into the five answers, lightest to darkest. Each bar says its counts to a screen reader. The card around it hides it until 10 or more have answered twice.",
+    "The readiness pulse's spread on the sponsor dashboard (Concept 1b, Kate, 2026-10-23): the same people's answers to “How ready do you feel for your next move?”, at the start and now, as two bars split into the five answers, lightest to darkest. Each bar says its counts to a screen reader. The card around it hides it until 10 or more have answered twice.",
   component: ReadinessBars,
   notApplicable: {
     hover: "Not interactive.",

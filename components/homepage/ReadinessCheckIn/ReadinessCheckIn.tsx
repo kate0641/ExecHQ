@@ -2,7 +2,7 @@ import { READINESS_HOME_COPY as C } from "@/mock/homepage";
 
 export interface ReadinessCheckInProps {
   /** Her direction, short: "leading a broader marketing organization". It
-   *  says what "your next step" is. */
+   *  says what "your next move" is. */
   toward?: string;
   /** Her answers before this week's, oldest first. The first is her
    *  starting point. */
@@ -22,9 +22,9 @@ export interface ReadinessCheckInProps {
 
 /**
  * The weekly check-in in Stay on track (Homepage Concept 4b, Kate,
- * 2026-10-23): "How ready do you feel for your next step?", five answers in
+ * 2026-10-23): "How ready do you feel for your next move?", five answers in
  * one tap, and Not now, which costs nothing. Above the question, what her
- * next step is (her direction); under it, what "ready" means (Kate,
+ * next move is (her direction); under it, what "ready" means (Kate,
  * 2026-10-26). Once answered it reads back this week against
  * where she started, with her answers week by week, so the one tap gives her
  * something back. Drawn as the other Stay on track cards are.

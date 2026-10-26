@@ -321,7 +321,7 @@ export const BRIEFING_STUB = {
 /* -----------------------------------------------------------------------------
    THE WEEKLY CHECK-IN (Homepage Concept 4b, Kate, 2026-10-23)
    The readiness pulse, on her side: one card in Stay on track, once a week,
-   "How ready do you feel for your next step?", 1 to 5. Her answers are hers
+   "How ready do you feel for your next move?", 1 to 5. Her answers are hers
    to see over time; her organisation sees only the group's totals (the
    enterprise dashboard's Concept 1b). Only Home changes: onboarding asks
    nothing, so her first answer here is her starting point.
@@ -334,10 +334,11 @@ export const READINESS_HISTORY: readonly number[] = [3, 3, 4];
 
 export const READINESS_HOME_COPY = {
   about: "Your weekly check-in",
-  /** What "your next step" is: her direction, from onboarding (Kate,
-   *  2026-10-26: say what the next step is and what it asks). */
-  toward: (towardShort: string) => `Your next step: ${towardShort}`,
-  question: "How ready do you feel for your next step?",
+  /** What "your next move" is: her direction, from onboarding (Kate,
+   *  2026-10-26: say what it is and what it asks; "move", not "step", so it
+   *  never reads as the next step under the rings). */
+  toward: (towardShort: string) => `Your next move: ${towardShort}`,
+  question: "How ready do you feel for your next move?",
   /** What "ready" means, under the question. */
   meaning: "How prepared you feel to make that move today. There’s no right answer: it’s how it feels this week.",
   low: "Not at all",
