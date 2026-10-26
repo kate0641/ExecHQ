@@ -1,5 +1,5 @@
 /**
- * Sponsor login (Kate, 2026-10-23). How a sponsor, the person at the client
+ * Admin login, was Sponsor login (Kate, 2026-10-23). How an admin, the person at the client
  * who runs the program, gets back into the enterprise dashboard. Desktop
  * only. The same three ways in as participants (an emailed code, Google,
  * Apple) and the same rules: no password, and the code screen never says

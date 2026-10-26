@@ -31,7 +31,7 @@ import { PROFILE_COPY } from "@/mock/profile";
 import { SPONSOR_LOGIN_COPY as C, SPONSOR_PROVIDER_ACCOUNTS } from "@/mock/sponsor-login";
 
 /**
- * Sponsor login, Concept 1 — Work email (Kate, 2026-10-23).
+ * Admin login (was Sponsor login), Concept 1 — Work email (Kate, 2026-10-23).
  *
  * The participant Login's page for the enterprise side, on the desktop: the
  * dark panel with the wordmark, "Enterprise" and one serif line, beside a

@@ -441,7 +441,7 @@ function Concept1bForCohort({ id }: { id: ReturnType<typeof useCohortId> }) {
 }
 
 /**
- * Enterprise Dashboard, Concept 1b — With readiness. Chosen to go forward
+ * Admin Dashboard (was Enterprise Dashboard), Concept 1b — With readiness. Chosen to go forward
  * (Kate, 2026-10-26); Concepts 1 and 2 are on the scratch branch.
  *
  * Concept 1 with the readiness pulse Eric asked for (2026-10-23): a card

@@ -26,7 +26,7 @@ const STORAGE_KEY = "exechq.viewport";
 /**
  * ExecHQ is a mobile-first product, so a product page opens on the phone unless
  * the reviewer has chosen otherwise. The prototype's own pages — the hub, the
- * catalogue and the stylesheet — and the Enterprise Dashboard are web only, and
+ * catalogue and the stylesheet — and the Admin Dashboard are web only, and
  * override this.
  */
 const DEFAULT_VIEWPORT: Viewport = "mobile";

@@ -144,7 +144,7 @@ The first screen's foot line is "Private to you." followed by **Learn more**. It
 - **Your colleagues:** nothing is shared with the people you work with.
 - **Your network:** nothing is posted, and no one is told you're here.
 
-One button, **Got it**, closes it. This is the privacy statement a person sees at sign-in, and it must stay true to what the Enterprise Dashboard shows (see the Profile spec).
+One button, **Got it**, closes it. This is the privacy statement a person sees at sign-in, and it must stay true to what the Admin Dashboard shows (see the Profile spec).
 
 ### 3.8 Dialogs, in general
 

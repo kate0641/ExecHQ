@@ -1180,7 +1180,7 @@ export const SPONSOR_PROFILE_COPY = {
   },
   /** No Signing in section (Kate, 2026-10-23): Sign out closes the list of
    *  sections. */
-  /** Lands on the Sponsor login (2026-10-23). */
+  /** Lands on the Admin login (2026-10-23). */
   signOut: {
     label: "Sign out",
   },

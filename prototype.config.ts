@@ -160,7 +160,7 @@ export const prototypeConfig: PrototypeConfig = {
           slug: "concept-4b",
           title: "Concept 4b — With the weekly check-in",
           summary:
-            "Concept 4 with one card added to Stay on track (Kate, 2026-10-23): “How ready do you feel to lead a broader marketing organization?”, her own direction, once a week, on a slider with three answers. She sees her answers week by week; her organisation sees only the group’s totals, on the enterprise dashboard’s Concept 1b.",
+            "Concept 4 with one card added to Stay on track (Kate, 2026-10-23): “How ready do you feel to lead a broader marketing organization?”, her own direction, once a week, on a slider with three answers. She sees her answers week by week; her organisation sees only the group’s totals, on the Admin Dashboard’s Concept 1b.",
         },
       ],
     },
@@ -284,12 +284,13 @@ export const prototypeConfig: PrototypeConfig = {
     },
     {
       slug: "enterprise",
-      title: "Enterprise Dashboard",
+      // Renamed from Enterprise Dashboard (Kate, 2026-10-26); the route stays.
+      title: "Admin Dashboard",
       sprint: 5,
       chrome: "enterprise",
       webOnly: true,
       description:
-        "The enterprise surface. Cohort level only, never individual identity. Web only.",
+        "What the client's program admin sees: their cohort, at cohort level only, never individual identity. Web only.",
       concepts: [
         {
           slug: "concept-1b",
@@ -311,36 +312,38 @@ export const prototypeConfig: PrototypeConfig = {
     },
     {
       slug: "sponsor-profile",
-      title: "Sponsor profile",
+      // Renamed from Sponsor profile (Kate, 2026-10-26); the route stays.
+      title: "Admin profile",
       sprint: 5,
       chrome: "enterprise",
       webOnly: true,
       description:
-        "The sponsor's own account, opened from the initials in the dashboard's header. No brief: plain and practical (Kate, 2026-10-22).",
+        "The admin's own account, opened from the initials in the dashboard's header. No brief: plain and practical (Kate, 2026-10-22).",
       concepts: [
         {
           slug: "concept-1",
           title: "Concept 1 — Sections",
           summary:
-            "A list of sections on the left, as the participant Profile on web: Your details, Your cohort and What you can see, with Sign out closing the list; it goes to the Sponsor login. The chosen section shows on the right. One Edit changes the name and job title; the cohort's details are shown, not edited.",
+            "A list of sections on the left, as the participant Profile on web: Your details, Your cohort and What you can see, with Sign out closing the list; it goes to the Admin login. The chosen section shows on the right. One Edit changes the name and job title; the cohort's details are shown, not edited.",
         },
       ],
     },
     {
       slug: "sponsor-login",
-      title: "Sponsor login",
+      // Renamed from Sponsor login (Kate, 2026-10-26); the route stays.
+      title: "Admin login",
       sprint: 5,
       chrome: "minimal",
       header: false,
       webOnly: true,
       description:
-        "How a sponsor gets back into the dashboard. Desktop only. The same three ways in as participants: an emailed code, Google or Apple (Kate, 2026-10-23).",
+        "How an admin gets back into the dashboard. Desktop only. The same three ways in as participants: an emailed code, Google or Apple (Kate, 2026-10-23).",
       concepts: [
         {
           slug: "concept-1",
           title: "Concept 1 — Work email",
           summary:
-            "The participant Login's split page, for the enterprise side: the work email ExecHQ set up, a code by email, Google or Apple. No sign-up: the ExecHQ contact sends the invitation. The privacy line says sponsors see totals, never a participant.",
+            "The participant Login's split page, for the enterprise side: the work email ExecHQ set up, a code by email, Google or Apple. No sign-up: the ExecHQ contact sends the invitation. The privacy line says admins see totals, never a participant.",
         },
       ],
     },

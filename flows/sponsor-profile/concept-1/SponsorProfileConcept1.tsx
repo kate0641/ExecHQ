@@ -112,7 +112,7 @@ type SectionId = "you" | "cohort" | "privacy";
 const SECTIONS: SectionId[] = ["you", "cohort", "privacy"];
 
 /**
- * Sponsor profile, Concept 1 — Sections.
+ * Admin profile (was Sponsor profile), Concept 1 — Sections.
  *
  * Kate, 2026-10-23, option Sections from
  * https://claude.ai/artifact/F3EcH7M8GsygRqraLPP9DK: the page uses the width,
@@ -122,7 +122,7 @@ const SECTIONS: SectionId[] = ["you", "cohort", "privacy"];
  * Only the name and job title change here, with one Edit. The cohort is
  * shown, not edited: its code and figures are on the dashboard. What they
  * can see sits beside what participants are told. Sign out goes to the
- * Sponsor login (2026-10-23, stage 2). Nothing is stored.
+ * Admin login (2026-10-23, stage 2). Nothing is stored.
  */
 export function SponsorProfileConcept1() {
   const [person, setPerson] = useState<{ name: string; role: string }>({ name: SPONSOR_PERSON.name, role: SPONSOR_PERSON.role });
