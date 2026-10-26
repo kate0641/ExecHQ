@@ -14,6 +14,9 @@ export interface LinkedInMoreProps {
   /** A file was picked. Only its name is passed on: nothing is read. */
   onChoose: (fileName: string) => void;
   onSendSteps: () => void;
+  /** Under the view of her export, as its footnote: the heading is for screen readers only and the words
+   *  are small, so the view's own heading is the section's one heading (designer, 2026-10-21). */
+  footnote?: boolean;
   /** Catalogue only: opens the upload, in place, to show what is inside. */
   demoOpen?: boolean;
   className?: string;
@@ -28,7 +31,7 @@ export interface LinkedInMoreProps {
  * connection to make: she exports a spreadsheet and brings it here, and the
  * file is never read or sent in the prototype.
  */
-export function LinkedInMore({ status, fileName, email, onChoose, onSendSteps, demoOpen, className }: LinkedInMoreProps) {
+export function LinkedInMore({ status, fileName, email, onChoose, onSendSteps, footnote, demoOpen, className }: LinkedInMoreProps) {
   const id = useId();
   const [opened, setOpened] = useState(false);
   const open = opened || Boolean(demoOpen);
@@ -38,8 +41,8 @@ export function LinkedInMore({ status, fileName, email, onChoose, onSendSteps, d
   const file = fileName ?? "";
   const body = reading ? C.bodyReading : status === "ready" ? C.bodyReady(file) : status === "empty" ? C.bodyEmpty(file) : C.body;
   return (
-    <section className={["linkedin-more", className].filter(Boolean).join(" ")} aria-labelledby={id}>
-      <h3 className="linkedin-more__title" id={id}>
+    <section className={["linkedin-more", footnote ? "linkedin-more--footnote" : "", className].filter(Boolean).join(" ")} aria-labelledby={id}>
+      <h3 className={footnote ? "u-visually-hidden" : "linkedin-more__title"} id={id}>
         {title}
       </h3>
       <p className="linkedin-more__body">{body}</p>

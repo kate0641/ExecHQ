@@ -3395,6 +3395,22 @@ ol.concierge-list {
   color: var(--color-text-inverse);
 }
 
+/* The compact header: a short band whose title is a label in small capitals, as Your direction's lime
+   band, for a card whose body says the rest (designer, 2026-10-20). Same padding as that band. */
+.feature-card__head--strip {
+  padding: var(--space-sm) var(--space-feature-padding);
+}
+
+.feature-card__head--strip .feature-card__title {
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
+  text-transform: uppercase;
+}
+
 /* Text in a navy header wraps onto as many lines as it needs (designer,
    2026-10-12). It used to be held to one line and cut with an ellipsis so
    over-long copy showed up in review; a header that grows is better than a
@@ -8602,6 +8618,13 @@ ol.ring-detail__timeline {
    same place. */
 /* Why this matters sits on the page, not in a card, so its label is a group
    title, then the words, with no rule beside it. */
+/* The page's main action straight under its top card, at the right, under the right thumb; the page's
+   own gap sits above it (designer, 2026-10-21: inside the card was crowded). */
+.guide__head-action {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .guide__why {
   margin-top: auto;
   display: flex;
@@ -8661,11 +8684,11 @@ ol.ring-detail__timeline {
    sticks to the foot of the screen and the content scrolls behind it, as the
    wizard's does. The button is always where the thumb expects it. The
    actions carry the bottom inset, so it holds while content scrolls. */
-[data-viewport="mobile"] .guide:not(.guide--drawer, .guide--cover) {
+[data-viewport="mobile"] .guide:not(.guide--drawer, .guide--cover, .guide--head-action) {
   padding-bottom: 0;
 }
 
-[data-viewport="mobile"] .guide:not(.guide--drawer, .guide--cover) > .guide__actions {
+[data-viewport="mobile"] .guide:not(.guide--drawer, .guide--cover, .guide--head-action) > .guide__actions {
   position: sticky;
   bottom: 0;
   z-index: var(--z-sticky);
@@ -8722,8 +8745,8 @@ ol.ring-detail__timeline {
   color: var(--color-headline-on-inverse);
 }
 
-.guide--navy :is(.recommendation, .next-steps, .point-box, .signal-list, .card, .feature-card__body, .stage-checkin__thing, .agenda__body, .agenda__stage-note, .reflection-reply__fact),
-.signals-page :is(.presence-clean__card, .li-picture, .came-of__row:not(.is-quiet) .came-of__reply) {
+.guide--navy :is(.recommendation, .next-steps, .point-box, .signal-list, .card, .feature-card__body, .plan-direction, .stage-checkin__thing, .agenda__body, .agenda__stage-note, .reflection-reply__fact),
+.signals-page :is(.presence-clean__card, .li-picture) {
   --color-text-primary: var(--light-text-primary);
   --color-text-secondary: var(--light-text-secondary);
   --color-text-muted: var(--light-text-muted);
@@ -9758,7 +9781,7 @@ ol.ring-detail__timeline {
 
 /* The actions are a group of their own, 24px under the body. */
 .answer-drawer__body + .answer-drawer__actions {
-  margin-top: calc(var(--space-drawer-groups) - var(--space-sm));
+  margin-top: calc(var(--space-before-actions) - var(--space-sm));
 }
 
 /* The main action is full width, and a second one (Skip, Back, Later…) is a
@@ -9775,7 +9798,6 @@ ol.ring-detail__timeline {
   padding: var(--space-2xs) 0 var(--space-lg);
   background-color: var(--color-surface);
 }
-
 
 /* Folded: one bar carrying the question. */
 .answer-drawer.is-peek {
@@ -11252,6 +11274,43 @@ ol.check-in__steps {
 .presence-clean__hero-sub b {
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
+}
+
+/* On the Signal Picture, what they were and how far they moved sit at the top right, on the label's line,
+   so the number stands alone under them (designer, 2026-10-21). Home keeps them under the number. */
+.signals-page .presence-clean__hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "label sub"
+    "now now";
+  align-items: baseline;
+  column-gap: var(--space-sm);
+  row-gap: var(--space-3xs);
+}
+
+/* Added since you started is its own section, not one more row of the table: the same pause above it as
+   the one above Counts, which the number's tall line gives it (16 + 12, designer, 2026-10-21). */
+.signals-page .presence-clean__added {
+  margin-top: var(--space-sm);
+}
+
+.signals-page .presence-clean__hero-label {
+  grid-area: label;
+}
+
+.signals-page .presence-clean__hero-sub {
+  grid-area: sub;
+  text-align: right;
+}
+
+.signals-page .presence-clean__hero-now {
+  grid-area: now;
+  /* One figure on its own needs no table columns: proportional figures, so a leading 1 starts at the
+     card's edge with the words above instead of centred in a wide digit slot (designer, 2026-10-21). */
+  font-variant-numeric: proportional-nums;
+  /* A touch more room between its digits than proportional figures give (designer, 2026-10-21). */
+  letter-spacing: var(--tracking-widest);
 }
 
 .presence-clean__table {
@@ -12823,7 +12882,6 @@ ul.stage-actions__list {
   --focus-ring: var(--focus-ring-width) solid var(--light-focus);
   color: var(--color-text-primary);
 }
-
 
 /* =============================================================================
    LOGIN — Concept 1, Open page
@@ -14798,6 +14856,8 @@ ul.card-carousel__track {
   display: flex;
   flex-direction: column;
   gap: var(--space-2xs);
+  /* Save my starting point and Start me at zero are their own group, not one more row (designer, 2026-10-21). */
+  margin-top: calc(var(--space-before-actions) - var(--space-md));
 }
 
 .stepper {
@@ -15153,7 +15213,7 @@ ul.roadmap__outcomes {
 ul.came-of__rows {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: var(--space-between-cards);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -15165,6 +15225,9 @@ ul.came-of__rows {
   gap: var(--space-md);
 }
 
+/* One card for each thing she did: the step at the top, and what came of it under it, set in and reached
+   by a lime curve from the step, so the step reads as leading to the result (designer, 2026-10-20; a
+   two-column grid with an arrow before). A Default card on the navy page, as Try this. */
 .came-of__row {
   display: flex;
   flex-direction: column;
@@ -15172,77 +15235,100 @@ ul.came-of__rows {
 }
 
 .came-of__flow {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) var(--space-sm) minmax(0, 1.25fr);
-  align-items: stretch;
-}
-
-.came-of__did,
-.came-of__reply {
-  padding: var(--space-xs) var(--space-sm);
-  font-size: var(--text-sm);
-  line-height: var(--leading-snug);
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-feature-padding);
+  border: var(--border-width-thin) solid transparent;
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-quiet-on-inverse);
+  color: var(--color-text-inverse);
 }
 
 .came-of__did {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3xs);
-  border-radius: var(--radius-md) 0 0 var(--radius-md);
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
-  font-weight: var(--weight-semibold);
+  gap: var(--space-eyebrow-title);
+  font-family: var(--type-card-title-font);
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  line-height: var(--type-card-title-leading);
+}
+
+.came-of__date,
+.came-of__label {
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  text-transform: uppercase;
 }
 
 .came-of__date {
-  font-size: var(--text-xs);
-  font-weight: var(--weight-regular);
   color: var(--color-text-inverse-muted);
 }
 
-.came-of__tip {
-  background-color: var(--color-surface-inverse);
-  clip-path: polygon(0 12%, 100% 50%, 0 88%);
-}
-
+/* Her words, 32 in from the step, with the curve dropping from under the step into their label. */
 .came-of__reply {
-  margin-left: var(--space-3xs);
-  border: var(--border-width-medium) solid var(--color-action);
-  border-radius: var(--radius-md);
-  background-color: var(--color-surface-feature);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+  margin: var(--space-md) 0 0 var(--space-xl);
+  padding: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
 }
 
-.came-of__row.is-quiet .came-of__did {
+.came-of__reply::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--space-lg));
+  /* Starts 8 under the step, not 4, so it doesn't touch the title (designer, 2026-10-21). */
+  top: calc(-1 * var(--space-xs));
+  width: var(--space-md);
+  height: calc(var(--space-xs) + 0.5rem);
+  border-left: var(--ring-today-width) solid var(--color-surface-her-band);
+  border-bottom: var(--ring-today-width) solid var(--color-surface-her-band);
+  border-bottom-left-radius: var(--space-sm);
+  pointer-events: none;
+}
+
+/* Her words carry her colour, lime; the label over them stays white (designer, 2026-10-21; the label was
+   lime before). */
+.came-of__label {
+  color: var(--color-text-inverse);
+}
+
+.came-of__row:not(.is-quiet) .came-of__reply {
+  color: var(--color-surface-her-band);
+}
+
+/* Nothing reported yet: neutral, never a miss. The card takes a dashed edge and no fill, so it takes the
+   page's own words (light on the navy page, dark in the catalogue), and the curve and label go quiet. */
+.came-of__row.is-quiet .came-of__flow {
   border: var(--border-width-thin) dashed var(--color-border-strong);
   background-color: transparent;
+  color: var(--color-text-primary);
+}
+
+.came-of__row.is-quiet :is(.came-of__date, .came-of__reply, .came-of__label) {
   color: var(--color-text-secondary);
-  /* Inter's medium. It pointed at the retired --weight-medium, so it fell back to its parent's weight. */
-  font-weight: var(--weight-body-medium);
 }
 
-.came-of__row.is-quiet .came-of__date {
-  color: var(--color-text-muted);
-}
-
-.came-of__row.is-quiet .came-of__tip {
-  background-color: transparent;
-}
-
-.came-of__row.is-quiet .came-of__reply {
-  border: var(--border-width-thin) dashed var(--color-border-strong);
-  background-color: transparent;
-  color: var(--color-text-muted);
+.came-of__row.is-quiet .came-of__reply::before {
+  border-color: var(--color-border-strong);
 }
 
 /* "Nothing reported yet", when she can tap it to report. */
 .came-of__reply--ask {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-3xs);
   min-height: var(--target-min, 2.75rem);
+  background: none;
+  border: 0;
   font: inherit;
   font-size: var(--text-sm);
+  color: inherit;
   text-align: left;
   cursor: pointer;
 }
@@ -15253,12 +15339,6 @@ ul.came-of__rows {
   color: var(--color-text-link);
   text-decoration: underline;
   text-underline-offset: 0.2em;
-}
-
-.came-of__row.is-quiet .came-of__reply--ask:hover,
-.came-of__row.is-quiet .came-of__reply--ask.is-hover {
-  border-color: var(--color-text-secondary);
-  color: var(--color-text-secondary);
 }
 
 .came-of__reply--ask:focus-visible,
@@ -15304,10 +15384,66 @@ ul.came-of__rows {
   font-weight: var(--weight-semibold);
 }
 
+/* What came of it?, on the drawer system (designer, 2026-10-21): its groups (the question and the thing it
+   asks about, How did it go?, her words, the actions) 24 apart; the privacy line stays with her words. */
+.report-drawer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-drawer-groups);
+}
+
+.report-drawer__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-drawer-inner);
+}
+
+.report-drawer__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.report-drawer__did {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-eyebrow-title);
+  margin: 0;
+}
+
+.report-drawer__date {
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.report-drawer__what {
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.report-drawer .report-drawer__privacy {
+  margin-top: calc(var(--space-drawer-inner) - var(--space-drawer-groups));
+}
+
+.report-drawer .report-drawer__actions {
+  margin-top: calc(var(--space-before-actions) - var(--space-drawer-groups));
+}
+
+/* Add what you did, on the drawer system (designer, 2026-10-20): no card inside the drawer; its groups (a
+   question, a field, the actions) 24 apart, and a second thing starts under a hairline with its name as a
+   group title. */
 .entry-drawer {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: var(--space-drawer-groups);
 }
 
 .entry-drawer__title {
@@ -15329,7 +15465,7 @@ ul.came-of__rows {
 ol.entry-drawer__rows {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: var(--space-drawer-groups);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -15339,10 +15475,17 @@ ol.entry-drawer__rows {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: var(--space-sm);
-  padding: var(--space-md);
-  border: var(--border-width-thin) solid var(--color-border-subtle);
-  border-radius: var(--radius-lg);
+  gap: var(--space-drawer-groups);
+}
+
+.entry-drawer__row + .entry-drawer__row {
+  padding-top: var(--space-drawer-groups);
+  border-top: var(--border-subtle);
+}
+
+/* Leave this one out stays with the note above it. */
+.entry-drawer__row > .entry-form__same {
+  margin-top: calc(var(--space-drawer-inner) - var(--space-drawer-groups));
 }
 
 .entry-drawer__row > .btn {
@@ -15350,12 +15493,15 @@ ol.entry-drawer__rows {
 }
 
 .entry-drawer__row-name {
-  margin: 0;
-  font-size: var(--text-xs);
-  letter-spacing: var(--tracking-widest);
+  margin: 0 0 calc(var(--space-group-title) - var(--space-drawer-groups));
+  font-family: var(--type-group-title-font);
+  font-size: var(--type-group-title-size);
+  font-weight: var(--type-group-title-weight);
+  line-height: var(--type-group-title-leading);
+  letter-spacing: var(--type-group-title-tracking);
+  word-spacing: var(--type-group-title-word-spacing);
   text-transform: uppercase;
-  color: var(--color-text-muted);
-  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
 }
 
 .entry-form__same {
@@ -15532,6 +15678,8 @@ ol.entry-drawer__rows {
   gap: var(--space-lg);
   max-width: var(--content-measure);
   margin-inline: auto;
+  /* Room under the last section, so it doesn't sit tight on Ask or go (designer, 2026-10-20). */
+  padding-bottom: var(--space-2xl);
 }
 
 .signals-page__title {
@@ -15745,6 +15893,14 @@ ol.entry-drawer__rows {
   gap: var(--space-between-sections);
 }
 
+/* The homepage's hairline under an account card divides it from what follows. On the Signal Picture it
+   ends the page with nothing under it, so the page finishes on Upload my LinkedIn export (designer,
+   2026-10-20). */
+.signals-page .account-card:not(.presence-card):last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
 .plan-stub__started,
 .plan-stub__linkedin {
   display: flex;
@@ -15769,7 +15925,7 @@ ol.entry-drawer__rows {
   column-gap: var(--space-sm);
 }
 
-.signals-page :is(.momentum__head, .signal-picture__head, .li-picture__head) {
+.signals-page :is(.momentum__head, .signal-picture__head) {
   row-gap: var(--space-title-copy);
 }
 
@@ -15784,6 +15940,20 @@ ol.entry-drawer__rows {
   border-top: 0;
 }
 
+/* Under the view of her export, the upload is its footnote: small words, the link close under them, no
+   heading of its own (designer, 2026-10-21). */
+.linkedin-more--footnote {
+  gap: 0;
+}
+
+.linkedin-more--footnote .linkedin-more__body {
+  font-size: var(--text-xs);
+}
+
+.linkedin-more--footnote .linkedin-more__open {
+  font-size: var(--text-xs);
+}
+
 .signals-page :is(.momentum__next-label, .presence-clean__try-label) + b {
   margin-top: calc(var(--space-eyebrow-title) - var(--space-xs));
 }
@@ -15792,9 +15962,10 @@ ol.entry-drawer__rows {
   margin-top: calc(var(--space-copy-action) - var(--space-xs));
 }
 
-/* What she did sits in the Plan's darkest-navy card, so it still reads as a block on the navy. */
-.signals-page .came-of__row:not(.is-quiet) :is(.came-of__did, .came-of__tip) {
-  background-color: var(--color-surface-quiet-on-inverse);
+/* A button inside a card sits at its right edge, under the right thumb, unless it is full width
+   (designer, 2026-10-20). */
+.signals-page :is(.presence-clean__try > .btn, .presence-clean__add) {
+  align-self: flex-end;
 }
 
 /* Momentum's card is the Plan's top card: the darkest navy, its words light. */
@@ -15885,23 +16056,37 @@ ol.entry-drawer__rows {
 
 .momentum__next .btn {
   margin-top: var(--space-xs);
+  /* Start sits on the right, under the right thumb (designer, 2026-10-20). */
+  align-self: flex-end;
 }
 
 .signals-page .momentum__card {
   --color-eyebrow: var(--color-eyebrow-on-inverse);
 }
 
+/* Today's ring is a gradient, 2px out from the circle's own line: the day sky's colours running round it
+   (designer, 2026-10-20; a 1.5px white ring before). The ring is a masked layer, so it can carry a gradient. */
 .signals-page .momentum__card .day-circles__dot.is-today:not(.is-on) {
-  /* Today's ring is a hair finer than before, still heavier than the circle's own line (designer, 2026-10-18). */
-  box-shadow:
-    0 0 0 var(--space-3xs) var(--color-surface-quiet-on-inverse),
-    0 0 0 calc(var(--space-3xs) + var(--border-width-thin) * 1.5) var(--color-text-inverse);
+  position: relative;
 }
 
-/* Never a yellow outline on a card unless the designer asks (2026-10-15): her replies take the
-   card's faint outline until What came of it is redesigned. */
-.signals-page .came-of__reply {
-  border-color: var(--color-border);
+.signals-page .momentum__card .day-circles__dot.is-today:not(.is-on)::after {
+  content: "";
+  position: absolute;
+  inset: calc(-1 * (var(--space-3xs) + var(--ring-today-width)));
+  padding: var(--ring-today-width);
+  border-radius: 50%;
+  background: var(--ring-today);
+  -webkit-mask: linear-gradient(var(--brand-stone-900) 0 0) content-box, linear-gradient(var(--brand-stone-900) 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(var(--brand-stone-900) 0 0) content-box exclude, linear-gradient(var(--brand-stone-900) 0 0);
+  pointer-events: none;
+}
+
+/* A day she logged is a small day sky (designer, 2026-10-20; flat lime before). */
+.signals-page .momentum__card .day-circles__dot.is-on {
+  background: var(--surface-her-day);
+  border-color: transparent;
 }
 
 /* Try this is a Default card on the navy page: darker navy, light words, the yellow action (designer,
@@ -15927,37 +16112,6 @@ ol.entry-drawer__rows {
   background-color: var(--color-surface-for-her);
 }
 
-/* The LinkedIn charts glow (designer, 2026-10-15): the followers' area from light green into sky
-   blue, every bar rising from navy into light green, so the end of the page has joy too. */
-.signals-page .li-line__area {
-  fill: var(--li-area-gradient);
-}
-
-.signals-page .li-spark__bar {
-  fill: var(--li-bar-gradient);
-}
-
-.signals-page .li-col__bar {
-  background-image: linear-gradient(to top in oklab, var(--color-chart-bar-base), var(--color-chart-bar-tip));
-}
-
-.li-gradient__glow-top {
-  stop-color: var(--color-chart-glow-top);
-}
-
-.li-gradient__glow-bottom {
-  stop-color: var(--color-chart-glow-bottom);
-  stop-opacity: 0.4;
-}
-
-.li-gradient__bar-base {
-  stop-color: var(--color-chart-bar-base);
-}
-
-.li-gradient__bar-tip {
-  stop-color: var(--color-chart-bar-tip);
-}
-
 /* Small labels in Inter, not Kulim. */
 .signals-page :is(.momentum__stage-title, .presence-clean__added h4) {
   font-family: var(--type-group-title-font);
@@ -15970,21 +16124,13 @@ ol.entry-drawer__rows {
   color: var(--color-text-primary);
 }
 
-.signals-page :is(.presence-clean__name, .presence-clean__try b, .linkedin-more__title, .li-picture__heading) {
+.signals-page :is(.presence-clean__name, .presence-clean__try b, .linkedin-more__title) {
   font-family: var(--type-card-title-font);
   font-size: var(--type-card-title-size);
   font-weight: var(--type-card-title-weight);
   line-height: var(--type-card-title-leading);
   letter-spacing: var(--type-card-title-tracking);
   word-spacing: var(--type-card-title-word-spacing);
-}
-
-.signals-page .li-row__label b {
-  font-family: var(--type-subheading-font);
-  font-size: var(--type-subheading-size);
-  font-weight: var(--type-subheading-weight);
-  letter-spacing: var(--type-subheading-tracking);
-  word-spacing: var(--type-subheading-word-spacing);
 }
 
 /* Try this's small label: the eyebrow role, as on every card. */
@@ -16564,23 +16710,26 @@ ol.rtl__rail::before {
 
 /* Plan Concept 3: her direction above the road, in full, in the system's
    white card (designer, 2026-10-13). It only reads: no chevron, no button. */
-/* Your direction is her own sentence, so it carries her colour: lime with dark green words, held by
-   the same stone 250 edge as every card (designer, 2026-10-15; a white card before). Lime cards, as a
-   flood or a header, always take this stroke. */
+/* Your direction is her own sentence, so its label carries her colour: a lime header with dark green
+   words over a white body with her words, held by the same stone 250 edge as every card. The same card on
+   the stone sheet and on the navy page, where the white body takes the light-surface text (designer,
+   2026-10-20; a full lime card from 2026-10-15). Lime cards, as a flood or a header, always take this
+   stroke. */
 .plan-direction {
   display: flex;
   flex-direction: column;
-  /* 8px from its label to her words, so the two read apart (designer, 2026-10-16; was 2). */
-  gap: var(--space-title-copy);
-  padding: var(--space-sm) var(--space-card-padding);
+  overflow: hidden;
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-card);
-  background: var(--color-surface-her-band);
-  color: var(--color-text-on-her-band);
+  background: var(--color-surface-raised);
+  color: var(--color-text-primary);
 }
 
 .plan-direction__label {
   margin: 0;
+  padding: var(--space-sm) var(--space-card-padding);
+  background: var(--color-surface-her-band);
+  border-bottom: var(--border-width-thin) solid var(--color-border);
   font-family: var(--type-eyebrow-font);
   font-size: var(--type-eyebrow-size);
   font-weight: var(--type-eyebrow-weight);
@@ -16592,6 +16741,7 @@ ol.rtl__rail::before {
 }
 
 .plan-direction__quote {
+  padding: var(--space-sm) var(--space-card-padding) var(--space-card-padding);
   /* Never cut off with an ellipsis: the words wrap (designer, 2026-10-13). */
   font-family: var(--font-serif);
   font-size: var(--text-sm-plus);
@@ -16704,7 +16854,8 @@ ol.plan-detail__stages {
   display: flex;
   align-items: baseline;
   gap: var(--space-sm);
-  padding-block: var(--space-sm);
+  /* Rows split by hairlines take the standard 20 either side of the line (designer, 2026-10-20; was 12). */
+  padding-block: var(--space-divided-item);
   border-top: var(--border-subtle);
   font-size: var(--text-sm);
   line-height: var(--leading-snug);
@@ -17217,10 +17368,9 @@ fieldset.agenda__whens {
    --space-md, so the body keeps that much more room under its last row. */
 .agenda--stack .agenda__body {
   gap: var(--space-xs);
-  /* With the last step's own padding and the next card over the foot, 12 here leaves the same space under
-     the last step's words as above Finishing looks like's, measured letter to edge (designer, 2026-10-16;
-     was 32). */
-  padding: var(--space-md) var(--space-md) var(--space-sm);
+  /* With the last step's own padding and the next card over the foot, 24 here leaves 24 under the last
+     step's words, the same as above the next card's Stage 2 of 4 (designer, 2026-10-20; was 12). */
+  padding: var(--space-md) var(--space-md) var(--space-lg);
   background-color: var(--color-surface-raised);
   box-shadow: inset var(--border-width-thin) 0 0 var(--color-border-subtle), inset calc(var(--border-width-thin) * -1) 0 0 var(--color-border-subtle);
   color: var(--color-text-primary);
@@ -17513,7 +17663,6 @@ fieldset.agenda__whens {
   border-color: var(--color-selected-hover);
 }
 
-
 /* The answers stay white with the ink, a ring of their own inside the navy. */
 :is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer .chip-group__chip {
   border-color: var(--color-surface-raised);
@@ -17699,7 +17848,9 @@ fieldset.agenda__whens {
 /* The roadmap under the move: a hairline divides the move above, which asks, from her direction and the
    roadmap below, which are there for reference (designer, 2026-10-14). */
 .plan-guided .guide__after {
-  margin-top: var(--space-xl);
+  /* With the page's own 24 gap, 32 from the last thing above (Why this matters, or Next) to the line
+     (designer, 2026-10-20; was 56). */
+  margin-top: calc(var(--space-xl) - var(--space-lg));
   padding-top: var(--space-xl);
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
 }
@@ -17927,6 +18078,11 @@ fieldset.agenda__whens {
   gap: var(--space-sm);
 }
 
+/* Skip, no reason sits a drawer group's 24 under the reasons, so it isn't hit by mistake (designer, 2026-10-20). */
+.plan-guided__reasons > .link {
+  margin-top: calc(var(--space-drawer-groups) - var(--space-sm));
+}
+
 .plan-guided__note {
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
@@ -17974,348 +18130,192 @@ ul.plan-guided__sparks {
   background-color: var(--color-surface-raised);
 }
 
-.li-picture__head {
+/* A section like Where you started: its heading and dates on the page, the card under them. */
+.li-section {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3xs);
+  gap: var(--space-copy-card);
 }
 
-.li-picture__heading {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
+.li-section__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-title-copy);
 }
 
-.li-picture__intro,
 .li-picture__empty {
   margin: 0;
   font-size: var(--text-sm);
   color: var(--color-text-secondary);
 }
 
-.li-rows {
+.li-figures {
+  /* The four totals in one row, the card's lime header: her own figures in her colour, as Your direction's
+     header is (designer, 2026-10-21). Edge to edge across the card's top, the first at the left padding and the
+     last at the right, each centred on its number, the card's edge under it as Your direction's has. */
   display: flex;
-  flex-direction: column;
-}
-
-.li-row {
-  border-top: var(--border-width-thin) solid var(--color-border-subtle);
-}
-
-.li-row:first-child {
-  border-top: 0;
-}
-
-.li-row__head {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto auto;
-  align-items: center;
-  gap: var(--space-sm);
-  width: 100%;
-  min-height: 4rem;
-  padding-block: var(--space-xs);
-  text-align: left;
-  cursor: pointer;
-}
-
-.li-row__head:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-  border-radius: var(--radius-md);
-}
-
-.li-row__label {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3xs);
-  min-width: 0;
-}
-
-.li-row__label b {
-  font-family: var(--font-body);
-  font-size: var(--text-md);
-  font-weight: var(--weight-semibold);
-}
-
-.li-row__label span {
-  font-size: var(--text-xs);
-  color: var(--color-text-secondary);
-}
-
-.li-row__value {
-  font-family: var(--font-display);
-  font-size: var(--text-2xl);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
-  font-variant-numeric: tabular-nums;
-}
-
-.li-row__chevron {
-  width: 0.5rem;
-  height: 0.5rem;
-  border-right: 2px solid var(--color-text-muted);
-  border-bottom: 2px solid var(--color-text-muted);
-  transform: rotate(45deg);
-  transition: transform var(--duration-fast) var(--easing-standard);
-}
-
-.li-row.is-open .li-row__chevron {
-  transform: rotate(-135deg);
-}
-
-.li-row__body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  padding-bottom: var(--space-md);
-}
-
-.li-spark {
-  width: 5.25rem;
-  height: 1.75rem;
-}
-
-.li-spark__line {
-  fill: none;
-  stroke: var(--color-surface-inverse);
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.li-spark__end,
-.li-spark__bar {
-  fill: var(--color-surface-inverse);
-}
-
-.li-caption {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  /* In a column too narrow for four, they wrap rather than run into each other. */
+  gap: var(--space-md) var(--space-sm);
   margin: 0;
-  font-size: var(--text-xs);
-  color: var(--color-text-secondary);
+  padding: var(--space-md-lg) var(--space-feature-padding);
+  border-bottom: var(--border-width-thin) solid var(--color-border);
+  background-color: var(--color-surface-her-band);
+  color: var(--color-text-on-her-band);
 }
 
-.li-line {
-  position: relative;
-  border-radius: var(--radius-md);
-  touch-action: pan-y;
+/* The card opens on the header, so the card's padding moves inside below it. */
+.li-picture:has(> .li-figures:first-child) {
+  overflow: hidden;
+  padding-top: 0;
+  padding-inline: 0;
 }
 
-.li-line:has(.li-line__scrub:focus-visible) {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
+.li-picture:has(> .li-figures:first-child) > :not(.li-figures) {
+  margin-inline: var(--space-feature-padding);
 }
 
-.li-line__svg {
-  display: block;
-  width: 100%;
-  height: auto;
+/* Under the header the body starts a card's padding down, as under Your direction's lime band. */
+.li-picture > .li-figures:first-child + * {
+  margin-top: calc(var(--space-feature-padding) - var(--space-md));
 }
 
-/* A real range control, laid over the plot and unseen: keyboard and touch use it. */
-.li-line__scrub {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  margin: 0;
-  opacity: 0;
-  cursor: crosshair;
-}
-
-.li-grid {
-  stroke: var(--color-border-subtle);
-  stroke-width: 1;
-  shape-rendering: crispEdges;
-}
-
-.li-axis {
-  fill: var(--color-text-muted);
-  font-family: var(--font-body);
-  font-size: 11px;
-}
-
-.li-line__area {
-  fill: color-mix(in srgb, var(--color-surface-inverse) 10%, transparent);
-}
-
-.li-line__path {
-  fill: none;
-  stroke: var(--color-surface-inverse);
-  stroke-width: 2;
-  stroke-linejoin: round;
-  stroke-linecap: round;
-}
-
-.li-dot {
-  fill: var(--color-surface-inverse);
-}
-
-.li-dot-ring {
-  fill: var(--color-surface-raised);
-}
-
-.li-value {
-  fill: var(--color-text-primary);
-  font-family: var(--font-body);
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.li-cross {
-  stroke: var(--color-border-strong);
-  stroke-width: 1;
-  shape-rendering: crispEdges;
-}
-
-.li-tip {
-  position: absolute;
-  top: 0;
+.li-figure {
   display: flex;
-  flex-direction: column;
-  padding: var(--space-2xs) var(--space-xs);
-  border: var(--border-width-thin) solid var(--color-border-strong);
-  border-radius: var(--radius-md);
-  background-color: var(--color-surface);
-  box-shadow: var(--shadow-md);
-  white-space: nowrap;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.li-tip--start {
-  transform: none;
-}
-
-.li-tip--mid {
-  transform: translateX(-50%);
-}
-
-.li-tip--end {
-  transform: translateX(-100%);
-}
-
-.li-tip strong {
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-primary);
-}
-
-.li-tip span {
-  font-size: var(--text-xs);
-  color: var(--color-text-secondary);
-}
-
-.li-columns {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(var(--li-months, 13), minmax(0, 1fr));
-  height: 8.25rem;
-  min-width: 0;
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
-
-.li-col {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100%;
-  min-width: 0;
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
-}
-
-.li-col:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-  border-radius: var(--radius-sm);
-}
-
-.li-col__plot {
-  position: relative;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
+  flex-direction: column-reverse;
   justify-content: flex-end;
   align-items: center;
-  width: 100%;
-  padding-top: var(--space-md);
-  border-bottom: var(--border-width-thin) solid var(--color-border);
+  gap: var(--space-3xs);
+  text-align: center;
 }
 
-.li-col__bar {
-  display: block;
-  width: min(1.125rem, 70%);
-  border-radius: var(--radius-xs) var(--radius-xs) 0 0;
-  background-color: var(--color-surface-inverse);
-  transition: background-color var(--duration-fast) var(--easing-standard);
-}
-
-.li-col:hover .li-col__bar,
-.li-col.is-active .li-col__bar {
-  background-color: color-mix(in srgb, var(--color-surface-inverse) 72%, var(--color-surface-raised));
-}
-
-.li-col__value {
-  position: absolute;
-  top: 0;
-  font-size: var(--text-xs);
+.li-figure__value {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
   font-weight: var(--weight-semibold);
-  color: var(--color-text-primary);
+  line-height: var(--leading-tight);
+  font-variant-numeric: proportional-nums;
 }
 
-.li-col__label {
-  margin-top: var(--space-3xs);
+.li-figure__label {
   font-size: var(--text-xs);
-  line-height: 1.2;
-  color: var(--color-text-muted);
+  line-height: var(--leading-snug);
 }
 
-.li-top__list {
+/* Each group after the figures is its own section: the same pause as before Counts on Where you started. */
+.li-group {
   display: flex;
   flex-direction: column;
+  /* A title over a list: the card-title step (20), wider than a group title's 12, so it reads as over every
+     row, not just the first (designer, 2026-10-21). */
+  gap: var(--space-card-title);
+}
+
+/* Each later group is its own section: 32 between them, the gap between sections. */
+.li-group + .li-group {
+  margin-top: var(--space-md);
+}
+
+.li-group__title {
+  margin: 0;
+  font-family: var(--type-group-title-font);
+  font-size: var(--type-group-title-size);
+  font-weight: var(--type-group-title-weight);
+  line-height: var(--type-group-title-leading);
+  letter-spacing: var(--type-group-title-tracking);
+  word-spacing: var(--type-group-title-word-spacing);
+  text-transform: uppercase;
+}
+
+ul.li-posts,
+ul.li-shares {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.li-top__item {
+.li-post {
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--space-sm);
-  padding-block: var(--space-xs);
+  gap: var(--space-3xs);
+  /* Rows split by hairlines take the standard 20 either side of the line. */
+  padding-block: var(--space-divided-item);
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
-.li-top__text {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3xs);
-  min-width: 0;
+.li-post:first-child {
+  border-top: 0;
+  padding-top: 0;
 }
 
-.li-top__text b {
+.li-post:last-child {
+  padding-bottom: 0;
+}
+
+.li-post__title {
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
+  /* A step more room between lines, so a wrapped title and its underline breathe (designer, 2026-10-21). */
+  line-height: var(--leading-normal);
 }
 
-.li-top__text span {
+/* The last word and the icon never part. */
+.li-post__last {
+  white-space: nowrap;
+}
+
+.li-post__last svg {
+  display: inline-block;
+  margin-left: var(--space-2xs);
+  vertical-align: -0.15em;
+  /* Quiet: the underline says it is a link; the icon only adds that it leaves (designer, 2026-10-21). */
+  color: var(--color-text-muted);
+}
+
+.li-post__meta {
   font-size: var(--text-xs);
   color: var(--color-text-secondary);
 }
 
-.li-top__value {
-  flex: none;
-  font-family: var(--font-display);
-  font-size: var(--text-md);
-  font-weight: var(--weight-semibold);
+.li-share {
+  display: grid;
+  /* The name gets the room; the bar is a short gauge beside the share. */
+  grid-template-columns: minmax(0, 1fr) 5rem 2.5rem;
+  align-items: center;
+  gap: var(--space-sm);
+  padding-block: var(--space-xs);
+  font-size: var(--text-sm);
+}
+
+.li-share__bar {
+  position: relative;
+  height: var(--space-2xs);
+  border-radius: var(--radius-pill);
+  /* The stone track the progress rings use, so the navy share reads against white; the lime was too light
+     (designer, 2026-10-21). */
+  background-color: var(--color-ring-track);
+}
+
+.li-share__bar > span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: inherit;
+  background-color: var(--color-surface-inverse);
+}
+
+.li-share__percent {
+  text-align: right;
   font-variant-numeric: tabular-nums;
+  color: var(--color-text-secondary);
+}
+
+.li-picture__privacy {
+  margin: var(--space-xs) 0 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
 }
 
 /* -----------------------------------------------------------------------------
@@ -21100,7 +21100,6 @@ ul.plan-guided__sparks {
   gap: var(--space-sm);
 }
 
-
 .library__status {
   margin-right: var(--space-3xs);
   vertical-align: baseline;
@@ -22727,7 +22726,6 @@ ul.plan-guided__sparks {
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
 }
-
 
 .library-folder__summary {
   font-family: var(--font-body);
