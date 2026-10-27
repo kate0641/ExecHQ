@@ -44,10 +44,10 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         uses: ["--color-surface", "--color-surface-raised", "--color-border", ".card"],
       },
       {
-        rule: "A coloured or gradient card has no edge. Only white cards get the soft stone edge; a card's colour already shows where it starts and ends.",
-        why: "One rule for borders on every page, so an edge never reads as a second meaning. Home's entry link still has the edge; it changes in the design system cleanup.",
+        rule: "A card gets an edge only when its colour sits close to the page's. White and light blue on stone take the soft stone edge; darker navy on navy takes a blue 700 edge. Navy and dark green on stone need none: the colour already draws the line. A gradient card follows the colour it starts from.",
+        why: "The edge is there to show where a card ends, so it goes only where the fill can't. Darker navy is as close to navy (1.2:1) as white is to stone, and fades on a dim phone; navy and green stand far off stone (14:1, 10:1), where an edge only frames them. The same logic as Material's filled and outlined cards.",
         from: "Playbook",
-        uses: ["--folder-card-wash", "--folder-card-glow", ".library-folder--button"],
+        uses: ["--color-border", "--color-border-inverse", "--color-surface-quiet-on-inverse"],
       },
       {
         rule: "Never a card inside a card, and never a stack of boxes for a list. One card holds the list; a hairline splits each item.",

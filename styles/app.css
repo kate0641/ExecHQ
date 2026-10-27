@@ -8779,6 +8779,9 @@ ol.ring-detail__timeline {
   /* The same width as every card under it, on the screen's side margin: no bleed (designer, 2026-10-16). */
   margin-inline: 0;
   padding: var(--space-lg) var(--space-md);
+  /* Darker navy sits close to the navy page, so it takes the blue 700 edge
+     (designer, 2026-10-27). */
+  border: var(--border-width-thin) solid var(--color-border-inverse);
   border-radius: var(--radius-xl);
   background-color: var(--color-surface-quiet-on-inverse);
 }
@@ -15361,7 +15364,7 @@ ul.came-of__rows {
   display: flex;
   flex-direction: column;
   padding: var(--space-feature-padding);
-  border: var(--border-width-thin) solid transparent;
+  border: var(--border-width-thin) solid var(--color-border-inverse);
   border-radius: var(--radius-card);
   background-color: var(--color-surface-quiet-on-inverse);
   color: var(--color-text-inverse);
@@ -16100,7 +16103,7 @@ ol.entry-drawer__rows {
   --color-border-strong: var(--color-divider-on-inverse);
   --color-focus: var(--color-focus-inverse);
   --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
-  border-color: var(--color-surface-quiet-on-inverse);
+  border-color: var(--color-border-inverse);
   background-color: var(--color-surface-quiet-on-inverse);
   color: var(--color-text-primary);
 }
@@ -16216,7 +16219,7 @@ ol.entry-drawer__rows {
    2026-10-18: the four card levels). Light blue is not a card colour on navy; what ExecHQ wrote for her is
    marked by a small sky dot before its label, here and on Your next move. */
 .signals-page .presence-clean__try {
-  border-color: transparent;
+  border-color: var(--color-border-inverse);
   background-color: var(--color-surface-quiet-on-inverse);
 }
 
