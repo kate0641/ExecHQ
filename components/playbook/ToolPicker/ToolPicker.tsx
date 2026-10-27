@@ -122,32 +122,18 @@ export function ToolPicker({ hrefFor, layout, lead, label = "Tools", demo, class
   );
 }
 
-/** The next step, as Home shows it (designer, 2026-10-27): the two-tone
- *  feature card, navy over white. The step is the title; the tool, with its
- *  drawing, sits in the body over the one action. */
+/** The next step's tool as one row: its drawing, "Next on your plan", the
+ *  tool and the step. */
 function LeadRow({ lead, demo }: { lead: ToolLead; demo?: ToolPickerProps["demo"] }) {
   return (
-    <section className="feature-card tool-picker__lead" aria-labelledby="tool-picker-lead-title">
-      <div className="feature-card__head feature-card__head--inverse">
-        <p className="feature-card__eyebrow">{PLAYBOOK_PAGE.nextOnPlan}</p>
-        <h2 className="feature-card__title" id="tool-picker-lead-title">
-          {lead.step}
-        </h2>
-      </div>
-      <div className="feature-card__body">
-        <p className="tool-picker__lead-tool">
-          <ToolIllustration tool={lead.kind} level="simple" size={40} />
-          <span className="tool-picker__name">{TOOLS[lead.kind].name}</span>
-        </p>
-        <Link
-          href={lead.href}
-          className={["btn btn--primary btn--md btn--full", demo ? `is-${demo}` : null].filter(Boolean).join(" ")}
-        >
-          {lead.action}
-          <Icon name="chevron" size={16} />
-        </Link>
-      </div>
-    </section>
+    <Link href={lead.href} className={["tool-picker__lead", demo ? `is-${demo}` : null].filter(Boolean).join(" ")}>
+      <ToolIllustration tool={lead.kind} level="simple" size={52} />
+      <span className="tool-picker__lead-text">
+        <span className="tool-picker__eyebrow">{PLAYBOOK_PAGE.nextOnPlan}</span>
+        <span className="tool-picker__name">{TOOLS[lead.kind].name}</span>
+        <span className="tool-picker__step">{lead.step}</span>
+      </span>
+    </Link>
   );
 }
 
