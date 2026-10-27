@@ -22694,6 +22694,17 @@ ul.li-shares {
 
 /* --- Icons with the next step under them (Concept 2) --------------------------- */
 
+/* Each tool's icon sits in a small dawn (designer, 2026-10-27): the sun
+   rises from the circle's base, so the row has colour without a card. */
+.tool-picker--icons .icon-row__chip {
+  background: radial-gradient(
+    circle at 50% 100%,
+    var(--tool-chip-heart),
+    var(--tool-chip-ring) 45%,
+    var(--tool-chip-sky) 90%
+  );
+}
+
 .tool-picker--with-lead {
   display: flex;
   flex-direction: column;

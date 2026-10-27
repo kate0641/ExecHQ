@@ -965,6 +965,12 @@
   --folder-pitch: var(--brand-green-200);
   --folder-situation-brief: var(--brand-green-200);
   --folder-thought-leadership: var(--brand-green-200);
+  /* The Playbook's four tools (ToolPicker, icon row): each icon in a small
+     dawn, Home's dawn sky in a circle, the sun rising from its base:
+     yellow 200 heart, orange 300 ring, blue 200 sky (designer, 2026-10-27). */
+  --tool-chip-heart: var(--color-sky-heart-light);
+  --tool-chip-ring: var(--color-sky-heart-warm);
+  --tool-chip-sky: var(--color-sky-dawn);
 
   /* Briefing Concept 2's picture panels: stand-ins for article images until
      image rights are settled, one tint per read with the publisher named. */
