@@ -10,9 +10,10 @@ export interface LibraryFolderProps {
   /** A folder: what is inside, "3 · 2 drafts · 1 waiting to hear". The
    *  open folder's heading: what the tool makes. */
   summary: string;
-  /** When it last changed: "22 Oct". Left out when the folder is empty. */
+  /** The label in the card's bottom corner: in the Playbook's grid, how many
+   *  it holds ("3 items"); else when it last changed. Left out when empty. */
   date?: string;
-  /** Read before the date by screen readers. */
+  /** Read before the corner label by screen readers; empty for none. */
   dateLabel?: string;
   /**
    * - `button`: one of the folders; pressing it opens the folder.
@@ -84,7 +85,7 @@ export function LibraryFolder({
           <span className="library-folder__date">
             {date ? (
               <>
-                <span className="u-visually-hidden">{dateLabel} </span>
+                {dateLabel ? <span className="u-visually-hidden">{dateLabel} </span> : null}
                 {date}
               </>
             ) : null}

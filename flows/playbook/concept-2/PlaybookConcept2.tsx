@@ -23,14 +23,6 @@ const ALL = "all";
 const TABS = "library-web";
 
 /** "3 · 2 drafts · 1 waiting to hear": how many, and where they stand. */
-function summaryOf(items: readonly LibraryItem[]): string {
-  if (items.length === 0) return F.empty;
-  const parts = STATUS_FILTERS.map((s) => [s.id, items.filter((i) => s.states.includes(i.record.state)).length] as const)
-    .filter(([, n]) => n > 0)
-    .map(([id, n]) => F.count(id, n));
-  return [String(items.length), ...parts].join(" · ");
-}
-
 /**
  * A folder's list with how many it holds and a Status menu on one line over
  * it (option A, 14 Oct): All, then each status the folder holds something
@@ -143,8 +135,10 @@ function Concept2Page() {
       kind,
       name: F.names[kind],
       items,
-      summary: summaryOf(items),
-      date: items[0] ? usDate(items[0].lastOn) : undefined,
+      // The card says when she last opened the folder and how much is in
+      // it; the open folder breaks it down by status (designer, 2026-10-27).
+      summary: items[0] ? F.lastOpened(usDate(items[0].lastOn)) : F.empty,
+      date: items.length ? F.items(items.length) : undefined,
     };
   });
 
@@ -277,7 +271,7 @@ function Concept2Page() {
                 name={f.name}
                 summary={f.summary}
                 date={f.date}
-                dateLabel={F.lastChange("").trim()}
+                dateLabel=""
                 // On a phone or tablet a folder is its own page.
                 onOpen={() => router.push(`${conceptHref("playbook", "concept-2")}?folder=${f.kind}`)}
               />
@@ -290,9 +284,8 @@ function Concept2Page() {
   );
 }
 
-/** "Oct 5": month, then day (designer, 2026-10-27). The card sets it in
- *  capitals as a label, OCT 5; the year is left off on a card this small.
- *  The shared short date in lib/ still reads "5 Oct" elsewhere. */
+/** "Oct 5": month, then day, no year on a card this small (designer,
+ *  2026-10-27). The shared short date in lib/ still reads "5 Oct" elsewhere. */
 function usDate(date: LoopDate): string {
   return new Date(`${date}T00:00:00Z`).toLocaleDateString("en-US", {
     month: "short",

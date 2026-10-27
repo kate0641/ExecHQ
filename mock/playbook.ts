@@ -684,6 +684,8 @@ export const LIBRARY_COPY = {
       "thought-leadership": "Posts",
     } as Record<ArtifactKind, string>,
     lastChange: (date: string) => `Last change ${date}`,
+    /** A folder card's line in the grid: when she last opened it (designer, 2026-10-27). */
+    lastOpened: (date: string) => `Last opened ${date}`,
     empty: "Nothing here yet",
     emptyBody: (tool: string) => `Anything you make in ${tool} is filed here.`,
     back: "Library",
