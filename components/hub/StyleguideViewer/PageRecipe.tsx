@@ -44,6 +44,12 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         uses: ["--color-surface", "--color-surface-raised", "--color-border", ".card"],
       },
       {
+        rule: "A coloured or gradient card has no edge. Only white cards get the soft stone edge; a card's colour already shows where it starts and ends.",
+        why: "One rule for borders on every page, so an edge never reads as a second meaning. Home's entry link still has the edge; it changes in the design system cleanup.",
+        from: "Playbook",
+        uses: ["--folder-card-wash", "--folder-card-glow", ".library-folder--button"],
+      },
+      {
         rule: "Never a card inside a card, and never a stack of boxes for a list. One card holds the list; a hairline splits each item.",
         why: "Nested or stacked rounded boxes read as bubbly; hairlines and type read as considered. Navigation's suggested questions were four boxes; now they are one card.",
         from: "Home, Profile, Navigation",
