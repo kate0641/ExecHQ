@@ -22754,7 +22754,7 @@ ul.li-shares {
     ellipse 150% 110% at 100% 110%,
     var(--folder-card-glow),
     var(--folder-card-wash) 70%
-  );
+  ) border-box;
   cursor: pointer;
   transition: border-color var(--duration-fast) var(--easing-standard);
 }
