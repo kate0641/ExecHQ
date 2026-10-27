@@ -288,6 +288,9 @@
   --color-border: var(--brand-stone-250);  /* card edges and dividers: soft, so outlined cards sit easily beside unoutlined ones */
   --color-border-strong: var(--brand-stone-400);
   --color-border-inverse: var(--brand-blue-700);
+  /* The edge of a light blue card, flat or gradient: blue 200, a step deeper
+     than its fill. White cards keep the stone edge (designer, 2026-10-27). */
+  --color-border-light-blue: var(--brand-blue-200);
 
   /* Action — the primary button, bright yellow on every surface. No border:
      stone 900 text on it is 13.5:1, and the label identifies the control, so it
@@ -956,7 +959,7 @@
   --illustration-shade: var(--brand-blue-300);
   --illustration-paper: var(--color-surface-raised);
   --illustration-card: var(--color-surface-feature);
-  --illustration-card-border: var(--brand-blue-200);
+  --illustration-card-border: var(--color-border-light-blue);
   /* The library's folders (components/playbook/LibraryFolder): the disc
      behind each tool's icon. One lime for every tool, like the other icon
      chips; the icon and the name tell the folders apart (designer,
