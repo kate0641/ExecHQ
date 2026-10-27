@@ -135,9 +135,9 @@ function Concept2Page() {
       kind,
       name: F.names[kind],
       items,
-      // The card says when she last opened the folder and how much is in
-      // it; the open folder breaks it down by status (designer, 2026-10-27).
-      summary: items[0] ? F.lastOpened(usDate(items[0].lastOn)) : F.empty,
+      // The card says when the folder last changed and how much is in it;
+      // the open folder breaks it down by status (designer, 2026-10-27).
+      summary: items[0] ? F.lastChange(usDate(items[0].lastOn)) : F.empty,
       date: items.length ? F.items(items.length) : undefined,
     };
   });
