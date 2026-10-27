@@ -26,7 +26,7 @@ export const libraryFolderStates = defineComponentStates({
     { label: "Briefs", props: { tool: "situation-brief", name: "Briefs", summary: "Last change Oct 22", date: "2 items", dateLabel: "", onOpen: noop } },
     { label: "Posts, nothing yet — empty", props: { tool: "thought-leadership", name: "Posts", summary: "Nothing here yet", onOpen: noop } },
     { label: "Open beside its list (web) — selected", props: { ...pitches, current: true } },
-    { label: "As the open folder's card, with Start", props: { ...pitches, summary: "Pitches for stages, shows and press", as: "header", headingLevel: 2, action: createElement("a", { href: "#", className: "btn btn--primary btn--md" }, "Start a pitch") } },
+    { label: "As the open folder's card, with Start", props: { ...pitches, summary: "Pitches for stages, shows and press", as: "header", headingLevel: 2, action: createElement("a", { href: "#", className: "btn btn--primary btn--md btn--full" }, "Start a pitch") } },
     { label: "Hover", props: { ...pitches, demo: "hover" } },
     { label: "Focus", props: { ...pitches, demo: "focus" } },
     { label: "Pressed", props: { ...pitches, demo: "active" } },

@@ -960,18 +960,8 @@
   --illustration-paper: var(--color-surface-raised);
   --illustration-card: var(--color-surface-feature);
   --illustration-card-border: var(--color-border-light-blue);
-  /* The library's folders (components/playbook/LibraryFolder): the disc
-     behind each tool's icon. One lime for every tool, like the other icon
-     chips; the icon and the name tell the folders apart (designer,
-     2026-10-27). */
-  --folder-positioning: var(--brand-green-200);
-  --folder-pitch: var(--brand-green-200);
-  --folder-situation-brief: var(--brand-green-200);
-  --folder-thought-leadership: var(--brand-green-200);
-  /* A folder card in the library's grid: light blue, deepening to blue 300
-     in the corner by its arrow, and the tool's icon in a small navy circle
-     (designer, 2026-10-27). */
-  /* Library folders: solid navy on stone, no edge (designer, 2026-10-27). */
+  /* Library folders, in the grid and as the open folder's card: solid navy
+     on stone, no edge (designer, 2026-10-27). */
   --folder-card: var(--color-surface-inverse);
   --folder-card-active: var(--color-surface-inverse-active);
   --folder-card-name: var(--brand-white);

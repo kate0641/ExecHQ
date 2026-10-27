@@ -22695,10 +22695,6 @@ ul.li-shares {
    folder tokens, then the name, what is inside and when it last changed.
    ======================================================================== */
 
-.library-folder--positioning { --folder-tint: var(--folder-positioning); }
-.library-folder--pitch { --folder-tint: var(--folder-pitch); }
-.library-folder--situation-brief { --folder-tint: var(--folder-situation-brief); }
-.library-folder--thought-leadership { --folder-tint: var(--folder-thought-leadership); }
 
 .library-folder {
   display: flex;
@@ -22712,17 +22708,6 @@ ul.li-shares {
   font: inherit;
   color: var(--color-text-primary);
   text-align: left;
-}
-
-.library-folder__disc {
-  display: grid;
-  flex: none;
-  place-items: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: var(--radius-pill);
-  background-color: var(--folder-tint);
-  color: var(--illustration-ink);
 }
 
 /* Solid navy on stone: the fill draws the line, so no edge (page recipe). */
@@ -22760,13 +22745,13 @@ ul.li-shares {
   border-color: var(--color-text-primary);
 }
 
-/* The open folder's card (option A, 14 Oct): the disc beside the name,
-   what the tool makes, and Start under them. */
+/* The open folder's card: the navy folder she tapped, opened, with Start
+   across it (designer, 2026-10-27). */
 .library-folder--header {
-  flex-direction: row;
-  align-items: flex-start;
-  gap: var(--space-sm);
-  padding: var(--space-md);
+  gap: var(--space-xs);
+  border-color: transparent;
+  background-color: var(--folder-card);
+  color: var(--folder-card-foot);
 }
 
 .library-folder__title {
@@ -22784,14 +22769,11 @@ ul.li-shares {
   color: var(--folder-mark-ink);
 }
 
-.library-folder--header .library-folder__text {
-  flex: 1;
-}
-
 .library-folder--header .library-folder__name {
   margin: 0;
   font-size: var(--text-xl);
   line-height: var(--leading-tight);
+  color: var(--folder-card-name);
 }
 
 .library-folder--header .library-folder__name:focus {
@@ -22801,20 +22783,13 @@ ul.li-shares {
 .library-folder--header .library-folder__summary {
   margin: 0;
   font-size: var(--text-sm);
-  color: var(--color-text-secondary);
+  color: var(--folder-card-text);
 }
 
 .library-folder__action {
   display: flex;
-  justify-content: flex-end;
-  margin-top: var(--space-xs);
-}
-
-.library-folder__text {
-  display: flex;
   flex-direction: column;
-  gap: var(--space-3xs);
-  min-width: 0;
+  margin-top: var(--space-sm);
 }
 
 .library-folder__name {

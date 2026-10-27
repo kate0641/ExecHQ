@@ -34,9 +34,9 @@ export interface LibraryFolderProps {
 
 /**
  * One of the library's folders: a folder per tool, filed by ExecHQ, never
- * made or moved by her. In the grid, a light blue card that deepens toward
- * its arrow, the tool's icon small in a navy circle beside its name
- * (designer, 2026-10-27). It says how many it holds, what state they are
+ * made or moved by her. In the grid, a solid navy card, the tool's icon
+ * beside its name (designer, 2026-10-27); open, the same navy card heads
+ * the folder's page. It says how many it holds, what state they are
  * in, and when it last changed.
  */
 export function LibraryFolder({
@@ -65,13 +65,8 @@ export function LibraryFolder({
     .filter(Boolean)
     .join(" ");
 
-  const disc = (
-    <span className="library-folder__disc" aria-hidden="true">
-      <Icon name={TOOL_ICONS[tool]} size={20} />
-    </span>
-  );
-  // In the grid the icon is small, in a navy circle beside the name, so the
-  // folders sit under the tools above them (designer, 2026-10-27).
+  // In the grid the icon sits beside the name, no circle, so the folders sit
+  // under the tools above them (designer, 2026-10-27).
   const body = (
     <>
       <span className="library-folder__title">
@@ -95,20 +90,23 @@ export function LibraryFolder({
       </>
     );
 
-  // The open folder's card (option A, 14 Oct): the disc, the heading and
-  // what the tool makes, and Start under them. Only the name is the heading.
+  // The open folder's card: the folder she tapped, opened (designer,
+  // 2026-10-27). The same navy, the icon beside the name, what the tool
+  // makes, and Start across the card under them. Only the name is the heading.
   if (as === "header") {
     const Heading = `h${headingLevel}` as const;
     return (
       <div className={classes}>
-        {disc}
-        <div className="library-folder__text">
+        <div className="library-folder__title">
+          <span className="library-folder__mark" aria-hidden="true">
+            <Icon name={TOOL_ICONS[tool]} size={20} />
+          </span>
           <Heading className="library-folder__name" id={headingId} tabIndex={-1}>
             {name}
           </Heading>
-          <p className="library-folder__summary">{summary}</p>
-          {action ? <div className="library-folder__action">{action}</div> : null}
         </div>
+        <p className="library-folder__summary">{summary}</p>
+        {action ? <div className="library-folder__action">{action}</div> : null}
       </div>
     );
   }

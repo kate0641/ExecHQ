@@ -142,7 +142,7 @@ function Concept2Page() {
     };
   });
 
-  /** The open folder's card: what the tool makes, and Start (option A, 14 Oct). */
+  /** The open folder's card: what the tool makes, and Start across it (designer, 2026-10-27). */
   const card = (kind: ArtifactKind, level: 1 | 2 | 3) => (
     <LibraryFolder
       as="header"
@@ -152,8 +152,9 @@ function Concept2Page() {
       headingId={OPEN_HEADING}
       headingLevel={level}
       action={
-        <Link href={p.toolHref(kind)} className="btn btn--primary btn--md">
+        <Link href={p.toolHref(kind)} className="btn btn--primary btn--md btn--full">
           {TOOLS[kind].start}
+          <Icon name="chevron" size={16} />
         </Link>
       }
     />
