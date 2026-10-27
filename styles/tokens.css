@@ -977,8 +977,7 @@
   --folder-card-name: var(--brand-white);
   --folder-card-text: var(--color-text-inverse-muted);
   --folder-card-foot: var(--color-text-inverse);
-  --folder-mark: var(--brand-blue-200);
-  --folder-mark-ink: var(--brand-navy);
+  --folder-mark-ink: var(--brand-white);  /* the icon beside the name, no circle (designer, 2026-10-27) */
   /* The Playbook's four tools (ToolPicker, icon row): each icon in a small
      dawn, Home's dawn sky in a circle, the sun rising from its base:
      yellow 200 heart, orange 300 ring, blue 200 sky (designer, 2026-10-27). */
