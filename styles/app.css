@@ -21091,7 +21091,7 @@ ul.li-shares {
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  color: var(--color-text-secondary);
+  color: var(--color-eyebrow);
 }
 
 /* A line of what it says, over the status. It wraps whole: nothing in the
@@ -22602,7 +22602,7 @@ ul.li-shares {
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  color: var(--color-text-secondary);
+  color: var(--color-eyebrow);
 }
 
 .tool-picker__step {
@@ -22757,7 +22757,7 @@ ul.li-shares {
   flex-direction: column;
   gap: var(--space-2xs);
   margin: 0;
-  padding: var(--space-sm);
+  padding: var(--space-card-padding);
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-card);
   background-color: var(--color-surface-raised);
@@ -22814,6 +22814,10 @@ ul.li-shares {
   padding: var(--space-md);
 }
 
+.library-folder--header .library-folder__text {
+  flex: 1;
+}
+
 .library-folder--header .library-folder__name {
   margin: 0;
   font-size: var(--text-xl);
@@ -22831,6 +22835,8 @@ ul.li-shares {
 }
 
 .library-folder__action {
+  display: flex;
+  justify-content: flex-end;
   margin-top: var(--space-xs);
 }
 

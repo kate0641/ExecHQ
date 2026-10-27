@@ -957,13 +957,14 @@
   --illustration-paper: var(--color-surface-raised);
   --illustration-card: var(--color-surface-feature);
   --illustration-card-border: var(--brand-blue-200);
-  /* The library's folders (components/playbook/LibraryFolder): one tint per
-     tool, for the disc behind the tool's icon, always with the tool's name,
-     so colour is never the only cue. */
-  --folder-positioning: var(--brand-blue-200);
-  --folder-pitch: var(--brand-yellow-200);
-  --folder-situation-brief: var(--brand-stone-200);
-  --folder-thought-leadership: var(--brand-blue-300);
+  /* The library's folders (components/playbook/LibraryFolder): the disc
+     behind each tool's icon. One lime for every tool, like the other icon
+     chips; the icon and the name tell the folders apart (designer,
+     2026-10-27). */
+  --folder-positioning: var(--brand-green-200);
+  --folder-pitch: var(--brand-green-200);
+  --folder-situation-brief: var(--brand-green-200);
+  --folder-thought-leadership: var(--brand-green-200);
 
   /* Briefing Concept 2's picture panels: stand-ins for article images until
      image rights are settled, one tint per read with the publisher named. */
