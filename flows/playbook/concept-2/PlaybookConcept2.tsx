@@ -290,20 +290,19 @@ function Concept2Page() {
   );
 }
 
-// The folder page reads `?folder=` from the address, which needs a Suspense
-// boundary or a full page load stays blank.
-/** "Oct 5, 2026": month, day, year, the US way (designer, 2026-10-27).
- *  The shared short date in lib/ still reads "5 Oct" elsewhere; that one is
- *  Kate's to change. */
+/** "Oct 5": month, then day (designer, 2026-10-27). The card sets it in
+ *  capitals as a label, OCT 5; the year is left off on a card this small.
+ *  The shared short date in lib/ still reads "5 Oct" elsewhere. */
 function usDate(date: LoopDate): string {
   return new Date(`${date}T00:00:00Z`).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
-    year: "numeric",
     timeZone: "UTC",
   });
 }
 
+// The folder page reads `?folder=` from the address, which needs a Suspense
+// boundary or a full page load stays blank.
 export function PlaybookConcept2() {
   return (
     <Suspense fallback={null}>
