@@ -146,15 +146,16 @@ import { briefingPictureStates } from "./briefing/BriefingPicture/BriefingPictur
 import { briefingFrontStates } from "./briefing/BriefingFront/BriefingFront.states";
 import { cohortFigureStates } from "./enterprise/CohortFigure/CohortFigure.states";
 import { figureDefinitionStates } from "./enterprise/FigureDefinition/FigureDefinition.states";
-import { accountMenuStates } from "./enterprise/AccountMenu/AccountMenu.states";
+import { profileLinkStates } from "./enterprise/ProfileLink/ProfileLink.states";
+import { readinessBarsStates } from "./enterprise/ReadinessBars/ReadinessBars.states";
+import { readinessCheckInStates } from "./homepage/ReadinessCheckIn/ReadinessCheckIn.states";
+import { sliderStates } from "./form/Slider/Slider.states";
 import { dateRangePickerStates } from "./enterprise/DateRangePicker/DateRangePicker.states";
 import { inviteCodeStates } from "./enterprise/InviteCode/InviteCode.states";
 import { cohortFormStates } from "./enterprise/CohortForm/CohortForm.states";
 import { weeklyTrendStates } from "./enterprise/WeeklyTrend/WeeklyTrend.states";
 import { meterStates } from "./enterprise/Meter/Meter.states";
 import { figurePopoverStates } from "./enterprise/FigurePopover/FigurePopover.states";
-import { funnelBarsStates } from "./enterprise/FunnelBars/FunnelBars.states";
-import { partBarStates } from "./enterprise/PartBar/PartBar.states";
 export const registry: RegisteredComponent[] = [
   badgeStates,
   buttonStates,
@@ -292,15 +293,16 @@ export const registry: RegisteredComponent[] = [
   briefingFrontStates,
   cohortFigureStates,
   figureDefinitionStates,
-  accountMenuStates,
+  profileLinkStates,
+  readinessBarsStates,
+  readinessCheckInStates,
+  sliderStates,
   dateRangePickerStates,
   inviteCodeStates,
   cohortFormStates,
   weeklyTrendStates,
   meterStates,
   figurePopoverStates,
-  funnelBarsStates,
-  partBarStates,
 ];
 
 /** URL-safe id for a component, used for catalogue deep links. */

@@ -98,3 +98,21 @@ export function flowsBySprint(): { sprint: number; flows: Flow[] }[] {
     .sort((a, b) => a[0] - b[0])
     .map(([sprint, list]) => ({ sprint, flows: list }));
 }
+
+/** Concepts kept for a later version (`savedFor`), grouped by that version
+ *  in order: the hub lists them in a section of their own after the sprints
+ *  (Kate, 2026-10-26), not under their flow. Their routes are unchanged. */
+export function savedForLater(): { version: string; items: { flow: Flow; concept: Concept }[] }[] {
+  const grouped = new Map<string, { flow: Flow; concept: Concept }[]>();
+  for (const flow of flows) {
+    for (const concept of flow.concepts) {
+      if (!concept.savedFor) continue;
+      const bucket = grouped.get(concept.savedFor);
+      if (bucket) bucket.push({ flow, concept });
+      else grouped.set(concept.savedFor, [{ flow, concept }]);
+    }
+  }
+  return [...grouped.entries()]
+    .sort((a, b) => a[0].localeCompare(b[0], undefined, { numeric: true }))
+    .map(([version, items]) => ({ version, items }));
+}

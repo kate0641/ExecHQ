@@ -1,8 +1,8 @@
 # Homepage — interaction spec
 
-Approved concept: **Concept 4 — Combined**, as of 2026-10-06. The Briefing card (section 5) was changed on 2026-10-12 to show all three reads with their publishers: the lead in the serif, the other two as small bullets. It is written so a developer can build it without the prototype open. Where the prototype fakes something, production behavior is stated under "Prototype versus production".
+Approved concept: **Concept 4b — With the weekly check-in**, as of 2026-10-26. It is Concept 4 — Combined (approved 2026-10-06) with one addition: a weekly check-in card in Stay on track (section 4.5). The Briefing card (section 5) was changed on 2026-10-12 to show all three reads with their publishers: the lead in the serif, the other two as small bullets. It is written so a developer can build it without the prototype open. Where the prototype fakes something, production behavior is stated under "Prototype versus production". What changed from Concept 4 is summed up for developers in the handoff note "Homepage: the weekly check-in".
 
-Concepts 1, 2 and 3 were the three ideas Concept 4 was built from. They are not specified here.
+Concepts 1, 2 and 3 were the three ideas Concept 4 was built from. They are not specified here. Concept 4 itself is on the `scratch` branch.
 
 ---
 
@@ -11,7 +11,7 @@ Concepts 1, 2 and 3 were the three ideas Concept 4 was built from. They are not 
 Home is the first screen a signed-in person sees. It answers four questions, in this order of weight:
 
 1. **Where am I, and what is next?** A map of three rings (short-term, medium-term, long-term), one segment per action on their plan, with the next step in a card under the rings.
-2. **What is waiting on my word?** "Stay on track": drafts they have not used yet, follow-ups that are due, and actions they can say they have done.
+2. **What is waiting on my word?** "Stay on track": drafts they have not used yet, follow-ups that are due, actions they can say they have done, and, once a week, how ready they feel for the move they're working toward.
 3. **What should I read today?** One card for today's Briefing.
 4. **Is anything moving?** "Your Signal Picture": where they started beside where they are now, entered by hand.
 
@@ -147,9 +147,10 @@ Everything waiting on the person's word, as a row of cards they step through.
 | 2 | **What they just answered** | They have just logged an outcome |
 | 3 | **What came of it?** A follow-up that is due | A used item's check-back date is today or earlier |
 | 4 | **{Draft} is ready. Have you used it?** | A draft is ready and not yet used |
-| 5 | A quiet row: **"I'll ask what came of it {when}."** or **"Used. No check-back set."** | An item has been used and its check-back is not yet due |
+| 5 | **Your weekly check-in** (4.5) | It is 7 days or more since their last check-in answer, or they have not answered one yet |
+| 6 | A quiet row: **"I'll ask what came of it {when}."** or **"Used. No check-back set."** | An item has been used and its check-back is not yet due |
 
-Cards 1 to 4 are questions she answers. Row 5 is information only, so it is smaller and has no buttons.
+Cards 1 to 5 are questions she answers. Row 6 is information only, so it is smaller and has no buttons. The weekly check-in comes after the cards about her work, so it never pushes them aside.
 
 Each question card says what it is for ("For your short-term action", with the action's title).
 
@@ -184,6 +185,75 @@ Five answers: **It went well**, **It was mixed**, **Not the way I hoped**, **Not
 - The person has never used anything yet: "When you use something you've made, it shows here, so you can tell ExecHQ what came of it."
 - Everything used has its outcome logged: "Nothing waiting on you. Everything you've used has its outcome logged."
 - **First return:** the whole Stay on track section is left out, because nothing can be waiting yet.
+- When the weekly check-in is the only card, it is shown on its own and neither empty line appears.
+
+### 4.5 The weekly check-in
+
+Added 2026-10-23 and settled 2026-10-26. One question, once a week, that tells the person how they're moving and gives their organization's admin a total for the Admin Dashboard (see the Admin Dashboard spec, 2.2).
+
+**The card**, top to bottom:
+
+- The card's band: **Your weekly check-in**, with an **×** at its right (its name, and tooltip, is "Not now").
+- The question: **How ready do you feel to {their direction}?**, for example "How ready do you feel to own a bigger area of the business?". The direction is the one they chose in onboarding, in the form in 4.6. Without one, the question reads "How ready do you feel for your next move?".
+- Under it, small and quiet: "Your answer helps ExecHQ shape what comes next in your plan."
+- A **slider** with three stops: **Not yet**, **Getting there**, **Ready**, with each word under its place on the track. The chosen word is bold and the track fills to the thumb. It starts on their last answer. With no answer yet, it starts in the middle.
+- At the foot: on the left, what pressing Save will record ("Same as last week", or "Changed to {word}"; left out on the very first check-in); on the right, at the card's right edge, **Save**.
+
+**What happens:**
+
+- **Save** records the answer for this week. The card reads back **Counted**, "{word} this week.", then against where they started: "Up from {start} when you started.", "The same as when you started. It moves in steps.", or "Down from {start} when you started. A harder week happens; your plan is still there." Under it, a small bar for each week's answer (Start, Wk 2, Wk 3 … Now), this week's darkest. Then, under a hairline, **what the answer changes in their plan** (4.7). Focus moves to the read-back.
+- **× (Not now)** reads "No problem. I'll ask again next week." and focus moves to that line. Skipping is never counted, shown to anyone, or asked about again that week.
+- **When it comes back:** 7 days after their last answer. It never appears twice in a day, and not on the first return.
+- **The first answer is the starting point.** Onboarding asks nothing.
+
+### 4.6 The direction in the question
+
+Onboarding has no free text: the person picks a direction and narrows it to one of two versions (see the Onboarding spec, 3.5), so there are 18 directions. Each has a fixed form that reads after "How ready do you feel to". It is written by hand, not generated (decided 2026-10-26). Most are the narrower version itself with its first letter lowered. "My" becomes "your" and "I" becomes "you":
+
+| Option | Narrower version | In the question: "How ready do you feel to …?" |
+| --- | --- | --- |
+| Reach the C-suite within three years | Become CEO or run a business unit | become CEO or run a business unit |
+| | Become a functional chief, like CMO, CFO or CTO | become a functional chief, like CMO, CFO or CTO |
+| Take on a bigger leadership role | Run a larger team, or more teams | run a larger team, or more teams |
+| | Own a bigger area of the business | own a bigger area of the business |
+| Be seen as an executive | Be seen as an executive by my own leadership | be seen as an executive by your own leadership |
+| | Be seen as an executive beyond my company | be seen as an executive beyond your company |
+| Nail an upcoming board presentation | Win the board's backing for a proposal | win the board's backing for a proposal |
+| | Present results and the plan ahead with confidence | present results and the plan ahead with confidence |
+| Find my next move | Move to a new company in my field | move to a new company in your field |
+| | Move into a different role or industry | move into a different role or industry |
+| Lead a bigger organization | Run a larger business or division | run a larger business or division |
+| | Lead across more functions or regions | lead across more functions or regions |
+| Carry more weight where I am | Have more say in company decisions | have more say in company decisions |
+| | Be trusted with bigger, more visible work | be trusted with bigger, more visible work |
+| Get out of where I am | Leave my industry for something new | leave your industry for something new |
+| | Leave my company, but stay in my field | leave your company, but stay in your field |
+| I do not know yet | Understand why I've hit a ceiling | understand why you've hit a ceiling |
+| | Explore what else is out there | explore what else is out there |
+
+- **Several picks:** the question uses the one they chose as mattering most, which is their direction.
+- **When the direction changes** (in onboarding's "Change", or later on the Plan), the question changes with it from the next check-in.
+- **The prototype's Maya** has "lead a broader marketing organization", written by hand from an older sample. It is not one of the 18. A real account always has one of them.
+
+### 4.7 What the answer changes in the plan
+
+The line under the question, "Your answer helps ExecHQ shape what comes next in your plan.", is kept true every week: each answer changes the next step offered, with levers the Plan already has (see the Plan spec and the plan briefs), and the read-back says what changed (decided 2026-10-26).
+
+| Answer | What changes | The read-back says |
+| --- | --- | --- |
+| **Not yet** | Their next step is the lighter version of itself, as when a step is turned down for "too much effort", and the coming week is one move at a time, as after a stage check-in where they felt stuck | "Next on your plan: a lighter first step, one at a time." |
+| **Getting there** | The plan stays as it is | "Your plan stays as it is. Keep going." |
+| **Ready** | It offers to bring forward their plan's next stretch step (the brief's "bring forward" rule), and adds it only if they say so | "**Want something bigger this week?** {the step}", with **Not now** and **Add it**. **Add it** reads "Added. "{step}" is next on your plan." **Not now** reads "No problem. Your plan stays as it is." |
+
+Limits:
+
+- **One change a week**, from the check-in. Steps they have already started are never changed.
+- **Stage timing is untouched.** Pace already follows what they actually finish.
+- **"Not yet" twice in a row:** Spark offers to talk it through, with nothing changed until they answer.
+- **"Not yet" three times in a row:** Spark can offer a different plan (for example Chart a New Course), only by asking, as the plan briefs allow. It never moves them without asking.
+- **Ready with no stretch step left** on the plan reads as Getting there.
+
+**What it feeds:** the answers count 1 to 3. The organization's admin sees only the cohort's totals: the average at the start and now, and how many moved up, once 10 or more have answered twice. They never see a person's answer. Answers belong to the person, like the rest of their account.
 
 ---
 
@@ -284,6 +354,7 @@ Changing the moment sets the ring selection back to its starting one (3.2).
 - The card carousel works by keyboard (Previous and Next) as well as by swipe.
 - The Briefing card is one link, with a name that reads its heading, date, and each read's headline in full with its publisher, even where the headline is cut short on screen.
 - Every control has a visible focus ring. Text contrast is at least 4.5:1, non-text at least 3:1, in greyscale and in colour.
+- The weekly check-in's slider is the browser's own range control: a finger drags it, a tap on the track moves it, and the arrow keys step it. A screen reader hears the word ("Getting there"), never a number. Its name is the question. The line beside Save is announced as it changes. The × has the name "Not now". The read-back's bars have a text equivalent ("Your answers each week: Not yet, Getting there, Getting there, Ready.").
 - The only motion is the notch sliding between rings, and it is skipped when the person has asked for reduced motion.
 
 ---
@@ -299,6 +370,9 @@ Changing the moment sets the ring selection back to its starting one (3.2).
 | The one "A next step" under the Signal Picture is a single stand-in, whatever the person entered | It is chosen from what they have entered and where they are on their plan |
 | The ring card's reasons (why this, why now, why you) are written for Maya | They are written for the person from their direction and plan |
 | Nothing is saved but in the browser | Account data, check-in answers, the starting point and dismissed notes are kept on the account |
+| The weekly check-in is due in every moment but the first return, with three invented past answers (Not yet, Getting there, Getting there); an answer lasts until the page reloads | It is due 7 days after the last answer, and every answer is kept on the account and counted in the organization's totals |
+| The read-back says what changes in the plan, but the plan does not change; Ready offers Maya's first medium-term step, and Add it only says it was added | The next step really changes as in 4.7, and the Plan page shows it with a "why it's here" line ("You said you're not ready yet, so this is a lighter first step.") |
+| Maya's direction in the question is written by hand | It is the form in 4.6 for the direction they chose |
 
 ---
 
@@ -311,3 +385,6 @@ Written from the approved prototype. These are choices the prototype makes that 
 3. **"I'm not doing it"** takes an action off the map. Turning down an action from the Plan page is described by the Plan spec when it is written.
 4. **Check-back days** by kind of draft (2, 5, 7 days) are proposed, not agreed.
 5. **The greeting** says "Good morning" at any hour in the prototype.
+6. **Telling the person their answer counts in their organization's totals.** The card no longer says so (removed 2026-10-26). The privacy policy, which Eric is updating, has to cover it.
+
+Settled for the weekly check-in (2026-10-23 to 26): in Stay on track, after the cards about their work; one question with their own direction in it, in the hand-written form for each of the 18 directions (4.6); three answers on a slider; Save at the right edge with what it records beside it; "Not now" as an ×; every 7 days; the first answer is the starting point; each answer changes the next step and the read-back says how (4.7); the Admin Dashboard sees totals only, once 10 have answered twice.

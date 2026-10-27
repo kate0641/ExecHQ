@@ -26,7 +26,12 @@ import { CHECKIN_COPY as CK } from "@/mock/homepage";
 import type { Horizon } from "@/mock/plan-stub";
 
 /**
- * Homepage Concept 4 — Combined.
+ * Homepage Concept 4b — Combined, with the weekly check-in (Kate,
+ * 2026-10-23; approved 2026-10-26, when Concept 4 moved to the scratch
+ * branch). Concept 4 with one addition in Stay on track (./InProgress): the
+ * readiness pulse that feeds the Admin Dashboard's Concept 1b.
+ *
+ * Concept 4, as it was:
  *
  * Built from the three concepts on 2026-10-02, from Kate's notes. Top to
  * bottom: the map, three rings with what is in each one under it; what she
@@ -113,7 +118,7 @@ function NoteCard({ eyebrow, title, note }: { eyebrow: string; title: string; no
   );
 }
 
-export function HomepageConcept4() {
+export function HomepageConcept4b() {
   const loop = useLoop();
   // A step opens its tool, or the artifact it already has (Sprint 4).
   const links = usePlaybookLinks();
@@ -319,4 +324,4 @@ export function HomepageConcept4() {
   );
 }
 
-export default HomepageConcept4;
+export default HomepageConcept4b;

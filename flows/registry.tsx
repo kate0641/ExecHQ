@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 import { OnboardingConcept3 } from "./onboarding/concept-3";
-import { HomepageConcept4 } from "./homepage/concept-4";
+import { HomepageConcept4b } from "./homepage/concept-4b";
 import { PlanConcept3 } from "./plan/concept-3";
 import { SignalsConcept2 } from "./signals/concept-2";
 import { ProfileConcept1 } from "./profile/concept-1";
@@ -9,9 +9,10 @@ import { BriefingConcept2 } from "./daily-briefing/concept-2";
 import { PlaybookConcept2 } from "./playbook/concept-2";
 import { ToolFlowConcept3 } from "./playbook-flow/concept-3";
 import { ToolFlowGate } from "./playbook-flow/ToolFlowGate";
-import { EnterpriseConcept1 } from "./enterprise/concept-1";
-import { EnterpriseConcept2 } from "./enterprise/concept-2";
+import { EnterpriseConcept1b } from "./enterprise/concept-1b";
 import { EnterpriseConcept3 } from "./enterprise/concept-3";
+import { SponsorProfileConcept1 } from "./sponsor-profile/concept-1";
+import { SponsorLoginConcept1 } from "./sponsor-login/concept-1";
 
 /**
  * Concept pages that have been built.
@@ -30,7 +31,7 @@ import { EnterpriseConcept3 } from "./enterprise/concept-3";
  */
 const BUILT_CONCEPTS: Record<string, ReactElement> = {
   "onboarding/concept-3": <OnboardingConcept3 />,
-  "homepage/concept-4": <HomepageConcept4 />,
+  "homepage/concept-4b": <HomepageConcept4b />,
   "plan/concept-3": <PlanConcept3 />,
   "signals/concept-2": <SignalsConcept2 />,
   "profile/concept-1": <ProfileConcept1 />,
@@ -38,9 +39,10 @@ const BUILT_CONCEPTS: Record<string, ReactElement> = {
   "daily-briefing/concept-2": <BriefingConcept2 />,
   "playbook/concept-2": <PlaybookConcept2 />,
   "playbook-flow/concept-3": <ToolFlowGate concept="concept-3"><ToolFlowConcept3 /></ToolFlowGate>,
-  "enterprise/concept-1": <EnterpriseConcept1 />,
-  "enterprise/concept-2": <EnterpriseConcept2 />,
+  "enterprise/concept-1b": <EnterpriseConcept1b />,
   "enterprise/concept-3": <EnterpriseConcept3 />,
+  "sponsor-profile/concept-1": <SponsorProfileConcept1 />,
+  "sponsor-login/concept-1": <SponsorLoginConcept1 />,
 };
 
 /** Every built concept, as manifest slugs, in the order they are listed above. */

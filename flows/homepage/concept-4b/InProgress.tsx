@@ -1,20 +1,27 @@
 "use client";
 
+import { useState } from "react";
 import { LoopRow } from "@/components/homepage/LoopRow";
+import { ReadinessCheckIn } from "@/components/homepage/ReadinessCheckIn";
 import { CardCarousel, type CarouselItem } from "@/components/layout/CardCarousel";
 import { CheckIn } from "@/components/loop/CheckIn";
 import { OutcomeNext } from "@/components/loop/OutcomeNext";
 import { useNextAfter } from "@/lib/use-next-after";
 import { addDays, aheadPhrase, dueFollowUps, outcomeReadback, type LoopRecord } from "@/lib/loop";
 import { loopActions, type LoopView } from "@/lib/loop-store";
-import { CHECKIN_COPY as CK, HOME_COPY, STAY_COPY as S } from "@/mock/homepage";
+import { CHECKIN_COPY as CK, HOME_COPY, READINESS_HISTORY, STAY_COPY as S } from "@/mock/homepage";
 import { FOLLOW_UP_POLICY, OUTCOME_READBACK } from "@/mock/loop";
 import { ACTIONS, HORIZONS } from "@/mock/plan-stub";
 
 /**
- * Stay on track, under the map (Homepage Concept 4): everything waiting on
+ * Stay on track, under the map (Homepage Concept 4b): everything waiting on
  * her word. Her next step is not here; it is the card under the rings. Left
  * out on the first return, when nothing is waiting.
+ *
+ * 4b adds the weekly check-in (Kate, 2026-10-23): due a week after her last
+ * answer, which in every moment but the first return is today. It comes after
+ * what came of her work, so it never pushes that aside. Her answer stays
+ * with this page: a reload asks again, as a prototype should.
  */
 
 /** Moves focus to a heading once the card it names has replaced the last. */
@@ -23,6 +30,11 @@ function focusSoon(id: string) {
 }
 
 export function InProgress({ loop }: { loop: LoopView }) {
+  const [readiness, setReadiness] = useState<{ answer?: number; later?: boolean }>({});
+  /* What a Ready answer offers to bring forward: the first medium-term step
+     not yet on her way (Kate, 2026-10-26). In the product it comes from her
+     plan brief's "bring forward" rules. */
+  const stretchStep = ACTIONS.find((a) => a.horizon === "medium" && !loop.tasks?.[a.id] && !loop.records.some((r) => r.id === a.artifactId));
   const due = dueFollowUps(loop.records, loop.today);
   const forAction = (recordId: string) => {
     const action = ACTIONS.find((a) => a.artifactId === recordId);
@@ -153,6 +165,26 @@ export function InProgress({ loop }: { loop: LoopView }) {
   if (answered) recordCard(answered, true);
   due.filter((r) => r.id !== answered?.id).forEach((r) => recordCard(r, false));
   readyRecords.filter((r) => r.id !== answered?.id).forEach((r) => recordCard(r, false));
+  cards.push({
+    id: "readiness",
+    node: (
+      <ReadinessCheckIn
+        toward={loop.account.towardVerb}
+        stretch={stretchStep?.title}
+        history={READINESS_HISTORY}
+        answer={readiness.answer}
+        later={readiness.later}
+        onAnswer={(answer) => {
+          setReadiness({ answer });
+          focusSoon("readiness-check-in");
+        }}
+        onNotNow={() => {
+          setReadiness({ later: true });
+          focusSoon("readiness-check-in");
+        }}
+      />
+    ),
+  });
   waitingRecords
     .filter((r) => r.id !== answered?.id)
     .forEach((r) =>

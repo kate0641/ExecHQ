@@ -3,6 +3,7 @@ import { defineComponentStates } from "@/components/types";
 import { CONTROLS_INSIDE, NOT_AN_INPUT } from "@/components/not-applicable";
 import { Input } from "@/components/form/Input";
 import { WELCOME } from "@/mock/onboarding";
+import { SPONSOR_LOGIN_COPY } from "@/mock/sponsor-login";
 import { WelcomeSplit } from "./WelcomeSplit";
 
 const email = createElement(Input, { label: "Email", type: "email", required: true });
@@ -11,7 +12,7 @@ export const welcomeSplitStates = defineComponentStates({
   name: "WelcomeSplit",
   group: "layout",
   status: "draft",
-  flows: ["onboarding", "login"],
+  flows: ["onboarding", "login", "sponsor-login"],
   description:
     "The onboarding and login welcome: a dark panel with the wordmark and one serif line, over (mobile) or beside (tablet, web) a white sheet with the welcome, the email field and the action. The screen that uses it switches the device status bar to the inverse tone so the dark panel runs to the top edge.",
   component: WelcomeSplit,
@@ -45,6 +46,18 @@ export const welcomeSplitStates = defineComponentStates({
           error: "We need an email address to create the account.",
         }),
         primaryLabel: WELCOME.cta,
+      },
+    },
+    {
+      label: "With a suffix, the sponsor login",
+      description: "The wordmark with “Enterprise” after it, and the sponsor’s own line (Kate, 2026-10-23).",
+      props: {
+        quote: SPONSOR_LOGIN_COPY.quote,
+        suffix: SPONSOR_LOGIN_COPY.suffix,
+        eyebrow: SPONSOR_LOGIN_COPY.signIn.kicker,
+        title: SPONSOR_LOGIN_COPY.signIn.heading,
+        description: SPONSOR_LOGIN_COPY.signIn.lede,
+        children: email,
       },
     },
     {

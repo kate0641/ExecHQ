@@ -265,6 +265,11 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         uses: ["--space-feature-padding"],
       },
       {
+        rule: "A button inside a card sits at the card's right edge, unless it is full width or the card centres it. Links stay where the copy starts.",
+        why: "Most people hold the phone in the right hand, so the thing to do sits under the right thumb.",
+        from: "Signals",
+      },
+      {
         rule: "Inside a card, three steps of space, each wider than the last: eyebrow to title 4px, title to copy 8px, copy to button 20px.",
         why: "The eyebrow and title read as one label, the copy belongs to them, and the button stands apart as the thing to do. Most cards take this; a card that needs otherwise is adjusted on its own.",
         from: "Home",

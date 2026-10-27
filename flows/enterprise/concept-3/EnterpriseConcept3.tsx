@@ -393,7 +393,7 @@ function Concept3ForCohort({ id }: { id: CohortId }) {
 }
 
 /**
- * Enterprise Dashboard, Concept 3 — The weekly letter (wildcard).
+ * Admin Dashboard (was Enterprise Dashboard), Concept 3 — The weekly letter (wildcard).
  *
  * No dashboard. The weekly refresh is the product's rhythm: each Monday an
  * issue, written in the advisor's voice, says how the cohort stands, in

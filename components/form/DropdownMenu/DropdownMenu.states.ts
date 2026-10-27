@@ -77,7 +77,7 @@ export const dropdownMenuStates = defineComponentStates({
     { label: "A long label wraps", props: { ...base, label: "Filter your library by tool, status and plan area" } },
     {
       label: "Initials, open with a heading",
-      description: "An account menu: initials in a round button, and who is signed in above the choices (AccountMenu).",
+      description: "An account menu: initials in a round button, and who is signed in above the choices.",
       props: {
         label: "Your account, Dana Okafor",
         avatar: "DO",

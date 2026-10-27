@@ -94,7 +94,7 @@ For a member it shows:
 - **What stays private:** "Your name, email and role. Your direction, drafts, progress record and plan." Two short sentences, in this order.
 - **Leave organization** (full-width secondary button), which opens the leave dialog (section 4.2).
 
-The rule behind it: an organization sees totals for the whole group together, on the Enterprise Dashboard, refreshed weekly. It never sees any individual's data. Below 10 active participants it sees only how many joined; every other figure stays hidden (Sprint 5). The copy on this page must match what the Enterprise Dashboard actually shows. If one changes, the other changes in the same release.
+The rule behind it: an organization sees totals for the whole group together, on the Admin Dashboard, refreshed weekly. It never sees any individual's data. Below 10 active participants it sees only how many joined; every other figure stays hidden (Sprint 5). The copy on this page must match what the Admin Dashboard actually shows. If one changes, the other changes in the same release.
 
 ### 3.4 Your data
 
@@ -278,7 +278,7 @@ Components built earlier and no longer on this page (`ConnectionDetail`, `UsesDe
 | Saving an email change takes effect at once. | A link is sent to the new address and the change takes effect when it is used (4.1). |
 | Download shows "Downloading…" for two seconds and produces no file. | Generates and downloads the PDF described in 4.3. |
 | Delete and sign out end the page in place, with a button to reset. | Delete removes the data and sends the confirmation (4.4). Sign out ends the session and goes to Login. |
-| Leaving an organization only changes the local record. | Removes the person from the group's summary on the Enterprise Dashboard straight away. |
+| Leaving an organization only changes the local record. | Removes the person from the group's summary on the Admin Dashboard straight away. |
 | Notifications are switches that change a local record. | The switches control which emails are sent. |
 
 ---
@@ -293,6 +293,6 @@ These are settled. They are the specified behavior.
 4. **No connections in V1.** Entry is manual.
 5. **The email is editable** but a change is confirmed by a link to the new address before it takes effect.
 6. **Deletion is immediate and final.** The person can take a copy first, in the same dialog.
-7. **Organizations see a summary only,** of everyone together, on the Enterprise Dashboard, with no minimum group size, and never any individual's data. Members can leave at any time.
+7. **Organizations see a summary only,** of everyone together, on the Admin Dashboard, with no minimum group size, and never any individual's data. Members can leave at any time.
 8. **Sign out is one tap,** with no confirmation.
 9. **Export is one PDF,** downloaded in one tap. There is no format choice.

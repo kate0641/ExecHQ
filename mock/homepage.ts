@@ -318,6 +318,67 @@ export const BRIEFING_STUB = {
    string, so "The Loop" is a one-word swap if the client prefers it.
    -------------------------------------------------------------------------- */
 
+/* -----------------------------------------------------------------------------
+   THE WEEKLY CHECK-IN (Homepage Concept 4b, Kate, 2026-10-23)
+   The readiness pulse, on her side: one card in Stay on track, once a week,
+   "How ready do you feel to {her direction}?", on a slider with three
+   answers that are 1 to 3 behind the scenes (Kate, 2026-10-26). Her answers are hers
+   to see over time; her organisation sees only the group's totals (the
+   enterprise dashboard's Concept 1b). Only Home changes: onboarding asks
+   nothing, so her first answer here is her starting point.
+   -------------------------------------------------------------------------- */
+
+/** Maya's answers so far, one a week, oldest first: the first was her
+ *  starting point. Her last was a week ago, so the next is due today.
+ *  Invented for the demo. */
+export const READINESS_HISTORY: readonly number[] = [1, 2, 2];
+
+export const READINESS_HOME_COPY = {
+  about: "Your weekly check-in",
+  /** One question, her direction inside it (Kate, 2026-10-26): no line
+   *  above it and no explanation under it. */
+  question: (towardVerb?: string) => (towardVerb ? `How ready do you feel to ${towardVerb}?` : "How ready do you feel for your next move?"),
+  /** Under the question, small: why it is asked (Kate, 2026-10-26). The
+   *  product must make it true, by shaping her plan from the answer. */
+  why: "Your answer helps ExecHQ shape what comes next in your plan.",
+  /** Three answers on a slider (Kate, 2026-10-26, was five chips). They
+   *  are 1 to 3 behind the scenes, for her trend and the dashboard. */
+  answers: ["Not yet", "Getting there", "Ready"],
+  save: "Save",
+  /** Beside Save, on its left: what pressing it will record (Kate,
+   *  2026-10-26). */
+  sameAsLast: "Same as last week",
+  changedTo: (word: string) => `Changed to ${word}`,
+  /** The x's name and tooltip. */
+  notNow: "Not now",
+  counted: "Counted",
+  thisWeek: (word: string) => `${word} this week.`,
+  versus: (n: number, start: number, startWord: string) =>
+    n > start
+      ? `Up from ${startWord} when you started.`
+      : n === start
+        ? "The same as when you started. It moves in steps."
+        : `Down from ${startWord} when you started. A harder week happens; your plan is still there.`,
+  trendLabel: (words: readonly string[]) => `Your answers each week: ${words.join(", ")}.`,
+  start: "Start",
+  now: "Now",
+  week: (n: number) => `Wk ${n}`,
+  later: "No problem. I’ll ask again next week.",
+  /** What the answer changes in her plan, said in the read-back (Kate,
+   *  2026-10-26), so the line under the question is visibly true. Not yet
+   *  gives a lighter step, one at a time; Getting there keeps the plan;
+   *  Ready offers a stretch step, and only adds it if she says so. */
+  plan: {
+    notYet: "Next on your plan: a lighter first step, one at a time.",
+    gettingThere: "Your plan stays as it is. Keep going.",
+    readyAsk: "Want something bigger this week?",
+    add: "Add it",
+    notNow: "Not now",
+    added: (step: string) => `Added. “${step}” is next on your plan.`,
+    declined: "No problem. Your plan stays as it is.",
+  },
+} as const;
+
 export const STAY_COPY = {
   nextHeading: "Your next step",
   addsTo: "Adds to:",

@@ -29,6 +29,10 @@ export interface CohortFigureProps {
   explaining?: boolean;
   /** The dates the page shows, for the popover's "Covers" line. */
   window?: Period;
+  /** One sentence of what it counts, shown under it, so no one has to open
+   *  the icon to read the number (Kate, 2026-10-22). The icon still opens the
+   *  full definition and its source. */
+  brief?: string;
   /** Catalogue only: shows a state a static page can't reach. */
   demo?: "hover" | "focus" | "active";
   className?: string;
@@ -44,7 +48,7 @@ export interface CohortFigureProps {
  * target and no colour carrying meaning. The one comparison is a direction
  * since last week, in words with an arrow, never a count (Kate, 2026-10-20).
  */
-export function CohortFigure({ figure, size = "md", direction, meter, onExplain, explaining, window = "30d", demo, className }: CohortFigureProps) {
+export function CohortFigure({ figure, size = "md", direction, meter, onExplain, explaining, window = "30d", brief, demo, className }: CohortFigureProps) {
   const icon = useRef<HTMLButtonElement>(null);
   const drawn = meter && figure.state !== "suppressed" && figure.fraction !== undefined ? meter : undefined;
   const muted = figure.state === "filling";
@@ -105,6 +109,7 @@ export function CohortFigure({ figure, size = "md", direction, meter, onExplain,
         </Badge>
       ) : null}
       {figure.note ? <p className="cohort-figure__note">{figure.note}</p> : null}
+      {brief ? <p className="cohort-figure__brief">{brief}</p> : null}
 
     </div>
   );

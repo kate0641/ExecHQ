@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { AccountMenu } from "@/components/enterprise/AccountMenu";
+import { ProfileLink } from "@/components/enterprise/ProfileLink";
 import { AppNav, AppNavSlot } from "@/components/layout/AppNav";
 import { Wordmark } from "@/components/primitives/Wordmark";
 import { navForChrome, type Flow } from "@/lib/manifest";
@@ -50,7 +50,7 @@ export function AppChrome({ flow, children, navConcept }: AppChromeProps) {
             size="md"
             suffix={flow.chrome === "enterprise" ? "Enterprise" : undefined}
           />
-          {flow.chrome === "enterprise" ? <AccountMenu /> : null}
+          {flow.chrome === "enterprise" ? <ProfileLink /> : null}
           {flow.chrome === "app" ? <AppNavSlot part="headerCentre" {...navProps} /> : null}
           {flow.chrome === "app" ? <AppNavSlot part="headerEnd" {...navProps} /> : null}
         </header>

@@ -130,7 +130,7 @@ export const prototypeConfig: PrototypeConfig = {
       chrome: "app",
       description:
         "How the signed-in app is structured and moved through on web, tablet and mobile. Each concept is reviewed on the homepage.",
-      navCanvas: { flowSlug: "homepage", conceptSlug: "concept-4" },
+      navCanvas: { flowSlug: "homepage", conceptSlug: "concept-4b" },
       concepts: [
         {
           slug: "concept-1",
@@ -150,11 +150,12 @@ export const prototypeConfig: PrototypeConfig = {
         "The signed-in landing surface: current direction, what to do next, and the way into the Plan, Playbook and Briefing.",
       concepts: [
         {
-          slug: "concept-4",
-          title: "Concept 4 — Combined",
+          slug: "concept-4b",
+          title: "Concept 4b — With the weekly check-in",
+          // Kate, 2026-10-26: approved; Concept 4 is on the scratch branch.
           status: "approved",
           summary:
-            "A map of three rings with the next step under it, Stay on track, today’s Briefing, and Your Signal Picture.",
+            "A map of three rings with the next step under it, Stay on track, today’s Briefing, and Your Signal Picture, with a weekly check-in in Stay on track (Kate, 2026-10-23): “How ready do you feel to lead a broader marketing organization?”, her own direction, once a week, on a slider with three answers. She sees her answers week by week; her organisation sees only the group’s totals, on the Admin Dashboard’s Concept 1b.",
         },
       ],
     },
@@ -278,24 +279,21 @@ export const prototypeConfig: PrototypeConfig = {
     },
     {
       slug: "enterprise",
-      title: "Enterprise Dashboard",
+      // Renamed from Enterprise Dashboard (Kate, 2026-10-26); the route stays.
+      title: "Admin Dashboard",
       sprint: 5,
       chrome: "enterprise",
       webOnly: true,
       description:
-        "The enterprise surface. Cohort level only, never individual identity. Web only.",
+        "What the client's program admin sees: their cohort, at cohort level only, never individual identity. Web only.",
       concepts: [
         {
-          slug: "concept-1",
-          title: "Concept 1 — The four measures",
+          slug: "concept-1b",
+          title: "Concept 1b — With readiness",
+          // Kate, 2026-10-26.
+          status: "approved",
           summary:
-            "The dashboard is four cards, each a measure of how the cohort is doing: Putting it into practice leads, then Staying with it, Showing up in the world and Getting started. Each opens with a one-sentence answer, with the figures under it. The cohort's code and settings are a Cohort page of their own.",
-        },
-        {
-          slug: "concept-2",
-          title: "Concept 2 — The report",
-          summary:
-            "The screen is the one-page report the sponsor exports: figures set in sentences, each definition in the margin beside it. Setting up the cohort writes the report's header; the code sits in a box in the margin.",
+            "The cohort’s story in four measures, with readiness: an opening in the order it happened, a Ready for what’s next card (participants’ weekly “How ready do you feel to …?”, then and now, once 10 or more have answered twice), Putting it into practice as the hero, then Staying with it, Showing up in the world and Getting started, ending on who is still to join, with the code. Chosen to go forward (Kate, 2026-10-26); Concepts 1 and 2 are on the scratch branch.",
         },
         {
           slug: "concept-3",
@@ -303,7 +301,48 @@ export const prototypeConfig: PrototypeConfig = {
           // Kate, 2026-10-21: to go with the dashboard concept chosen, in V2.
           savedFor: "V2",
           summary:
-            "Saved for V2, to go alongside whichever dashboard concept is chosen. No dashboard: each Monday an issue in the advisor's voice, leading with follow-through, and past issues stack into an archive. Setting up the cohort is Issue 0.",
+            "Saved for V2, to go alongside Concept 1b. No dashboard: each Monday an issue in the advisor's voice, leading with follow-through, and past issues stack into an archive. Setting up the cohort is Issue 0.",
+        },
+      ],
+    },
+    {
+      slug: "sponsor-profile",
+      // Renamed from Sponsor profile (Kate, 2026-10-26); the route stays.
+      title: "Admin profile",
+      sprint: 5,
+      chrome: "enterprise",
+      webOnly: true,
+      description:
+        "The admin's own account, opened from the initials in the dashboard's header. No brief: plain and practical (Kate, 2026-10-22).",
+      concepts: [
+        {
+          slug: "concept-1",
+          title: "Concept 1 — Sections",
+          // Kate, 2026-10-26.
+          status: "approved",
+          summary:
+            "A list of sections on the left, as the participant Profile on web: Your details, Your cohort and What you can see, with Sign out closing the list; it goes to the Admin login. The chosen section shows on the right. One Edit changes the name and job title; the cohort's details are shown, not edited.",
+        },
+      ],
+    },
+    {
+      slug: "sponsor-login",
+      // Renamed from Sponsor login (Kate, 2026-10-26); the route stays.
+      title: "Admin login",
+      sprint: 5,
+      chrome: "minimal",
+      header: false,
+      webOnly: true,
+      description:
+        "How an admin gets back into the dashboard. Desktop only. The same three ways in as participants: an emailed code, Google or Apple (Kate, 2026-10-23).",
+      concepts: [
+        {
+          slug: "concept-1",
+          title: "Concept 1 — Work email",
+          // Kate, 2026-10-26.
+          status: "approved",
+          summary:
+            "The participant Login's split page, for the enterprise side: the work email ExecHQ set up, a code by email, Google or Apple. No sign-up: the ExecHQ contact sends the invitation. The privacy line says admins see totals, never a participant.",
         },
       ],
     },

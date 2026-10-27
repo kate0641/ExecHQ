@@ -33,7 +33,7 @@ Playbook flow (the artifact builder) is a sub-flow of Playbook and is not a dest
 
 ### Where it appears
 
-On every page whose flow uses the `app` chrome: Homepage, Profile, Plan, Signal Picture, Playbook, Playbook flow and Daily Briefing. It does **not** appear on Onboarding or Login (`minimal` chrome) or on the Enterprise Dashboard (`enterprise` chrome, its own navigation).
+On every page whose flow uses the `app` chrome: Homepage, Profile, Plan, Signal Picture, Playbook, Playbook flow and Daily Briefing. It does **not** appear on Onboarding or Login (`minimal` chrome) or on the Admin Dashboard (`enterprise` chrome, its own navigation).
 
 ---
 
