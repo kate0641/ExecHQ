@@ -22600,66 +22600,6 @@ ul.li-shares {
   fill: var(--illustration-paper);
 }
 
-.tool-picker__eyebrow {
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--color-eyebrow);
-}
-
-.tool-picker__step {
-  font-size: var(--text-sm);
-  line-height: var(--leading-snug);
-  color: var(--color-text-primary);
-}
-
-/* The next step's row, under the tool row (Concept 2). The whole row is
-   the link. */
-.tool-picker__lead {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-sm);
-  border: var(--border-width-thin) solid var(--illustration-card-border);
-  border-radius: var(--radius-card);
-  background-color: var(--illustration-card);
-  color: var(--color-text-primary);
-  text-decoration: none;
-  transition: border-color var(--duration-fast) var(--easing-standard);
-}
-
-.tool-picker__lead-text {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3xs);
-  min-width: 0;
-}
-
-.tool-picker__lead .tool-picker__name {
-  font-family: var(--font-body);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-md);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-}
-
-.tool-picker__lead:hover,
-.tool-picker__lead.is-hover {
-  border-color: var(--color-border-strong);
-}
-
-.tool-picker__lead:active,
-.tool-picker__lead.is-active {
-  background-color: var(--color-surface-active);
-}
-
-.tool-picker__lead:focus-visible,
-.tool-picker__lead.is-focus {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
 /* --- The rail: a column of tools, then the next step (Concept 2, web) ------- */
 
 .tool-picker--rail {
@@ -22747,12 +22687,6 @@ ul.li-shares {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .tool-picker__lead {
-    transition: none;
-  }
 }
 
 /* ===========================================================================

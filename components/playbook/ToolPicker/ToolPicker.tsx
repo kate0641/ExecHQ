@@ -1,7 +1,7 @@
 import Link from "next/link";
+import { EntryLink } from "@/components/homepage/EntryLink";
 import { IconRow } from "@/components/navigation/IconRow";
 import { Icon, type IconName } from "@/components/primitives/Icon";
-import { ToolIllustration } from "@/components/playbook/ToolIllustration";
 import type { ArtifactKind } from "@/mock/loop";
 import { TOOL_ORDER, PLAYBOOK_PAGE, TOOLS } from "@/mock/playbook";
 
@@ -122,18 +122,19 @@ export function ToolPicker({ hrefFor, layout, lead, label = "Tools", demo, class
   );
 }
 
-/** The next step's tool as one row: its drawing, "Next on your plan", the
- *  tool and the step. */
+/** The next step's tool as the shared EntryLink card: the tool's icon on
+ *  the eyebrow's line, the tool and the step (designer, 2026-10-27: every
+ *  icon, eyebrow, title and line card is an EntryLink). */
 function LeadRow({ lead, demo }: { lead: ToolLead; demo?: ToolPickerProps["demo"] }) {
   return (
-    <Link href={lead.href} className={["tool-picker__lead", demo ? `is-${demo}` : null].filter(Boolean).join(" ")}>
-      <ToolIllustration tool={lead.kind} level="simple" size={52} />
-      <span className="tool-picker__lead-text">
-        <span className="tool-picker__eyebrow">{PLAYBOOK_PAGE.nextOnPlan}</span>
-        <span className="tool-picker__name">{TOOLS[lead.kind].name}</span>
-        <span className="tool-picker__step">{lead.step}</span>
-      </span>
-    </Link>
+    <EntryLink
+      href={lead.href}
+      icon={TOOL_ICONS[lead.kind]}
+      eyebrow={PLAYBOOK_PAGE.nextOnPlan}
+      title={TOOLS[lead.kind].name}
+      detail={lead.step}
+      demo={demo}
+    />
   );
 }
 

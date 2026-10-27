@@ -50,6 +50,12 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         uses: ["--color-border", "--color-border-light-blue", "--color-border-inverse"],
       },
       {
+        rule: "A card that takes her somewhere, with an icon, an eyebrow, a title and a line of copy, is always the EntryLink card: the icon on the eyebrow's line, the title, the line under it, a chevron at the right and the soft light blue to lime wash. The whole card is the link. Never a one-off restyle of the same content.",
+        why: "Same content, same card: she learns the shape once and reads it on any page. Next on your plan was its own row with a drawing; it is now the same card Navigation uses (designer, 2026-10-27).",
+        from: "Navigation, Playbook",
+        uses: ["EntryLink", ".entry-link", "--color-wash-start", "--color-wash-end"],
+      },
+      {
         rule: "Never a card inside a card, and never a stack of boxes for a list. One card holds the list; a hairline splits each item.",
         why: "Nested or stacked rounded boxes read as bubbly; hairlines and type read as considered. Navigation's suggested questions were four boxes; now they are one card.",
         from: "Home, Profile, Navigation",
