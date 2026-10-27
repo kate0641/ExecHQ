@@ -10,7 +10,7 @@ import { LibraryTabs } from "@/components/playbook/LibraryTabs";
 import { Icon } from "@/components/primitives/Icon";
 import { ToolPicker } from "@/components/playbook/ToolPicker";
 import type { LibraryItem } from "@/lib/library";
-import { shortDate } from "@/lib/loop";
+import type { LoopDate } from "@/lib/loop";
 import { conceptHref } from "@/lib/manifest";
 import { useViewport } from "@/lib/viewport-context";
 import type { ArtifactKind } from "@/mock/loop";
@@ -144,7 +144,7 @@ function Concept2Page() {
       name: F.names[kind],
       items,
       summary: summaryOf(items),
-      date: items[0] ? shortDate(items[0].lastOn) : undefined,
+      date: items[0] ? usDate(items[0].lastOn) : undefined,
     };
   });
 
@@ -292,6 +292,18 @@ function Concept2Page() {
 
 // The folder page reads `?folder=` from the address, which needs a Suspense
 // boundary or a full page load stays blank.
+/** "Oct 5, 2026": month, day, year, the US way (designer, 2026-10-27).
+ *  The shared short date in lib/ still reads "5 Oct" elsewhere; that one is
+ *  Kate's to change. */
+function usDate(date: LoopDate): string {
+  return new Date(`${date}T00:00:00Z`).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
+
 export function PlaybookConcept2() {
   return (
     <Suspense fallback={null}>

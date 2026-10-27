@@ -22870,8 +22870,6 @@ ul.li-shares {
 .library-folder__date {
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
 }
 
 .library-folder__go {
@@ -22880,10 +22878,14 @@ ul.li-shares {
 
 /* The chevron's drawing sits inside its 16px box, so the box is nudged out
    until the stroke itself meets the card's padding: its right and bottom
-   edges line up the way the navy circle's left and top edges do
-   (designer, 2026-10-27). */
+   edges line up the way the navy circle's left and top edges do. The date
+   moves down with it, level with the chevron's point (designer, 2026-10-27). */
+.library-folder--button .library-folder__foot {
+  transform: translateY(var(--space-2xs));
+}
+
 .library-folder--button .library-folder__go {
-  transform: translate(calc(var(--space-2xs) + var(--space-3xs) / 2), var(--space-2xs));
+  transform: translateX(calc(var(--space-2xs) + var(--space-3xs) / 2));
 }
 
 /* --- The folders, and an open one ------------------------------------------- */
