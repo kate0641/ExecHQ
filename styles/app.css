@@ -22749,6 +22749,12 @@ ul.li-shares {
 
 .library-folder--button {
   min-height: 7.5rem;
+  border-color: transparent;
+  background: radial-gradient(
+    ellipse 150% 110% at 100% 110%,
+    var(--folder-card-glow),
+    var(--folder-card-wash) 70%
+  );
   cursor: pointer;
   transition: border-color var(--duration-fast) var(--easing-standard);
 }
@@ -22760,7 +22766,7 @@ ul.li-shares {
 
 .library-folder--button:active,
 .library-folder--button.is-active {
-  background-color: var(--color-surface-active);
+  background: var(--folder-card-glow);
 }
 
 .library-folder--button:focus-visible,
@@ -22782,6 +22788,23 @@ ul.li-shares {
   align-items: flex-start;
   gap: var(--space-sm);
   padding: var(--space-md);
+}
+
+.library-folder__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.library-folder__mark {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--folder-mark);
+  color: var(--folder-mark-ink);
 }
 
 .library-folder--header .library-folder__text {

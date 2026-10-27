@@ -965,6 +965,13 @@
   --folder-pitch: var(--brand-green-200);
   --folder-situation-brief: var(--brand-green-200);
   --folder-thought-leadership: var(--brand-green-200);
+  /* A folder card in the library's grid: light blue, deepening to blue 300
+     in the corner by its arrow, and the tool's icon in a small navy circle
+     (designer, 2026-10-27). */
+  --folder-card-wash: var(--brand-blue-100);
+  --folder-card-glow: var(--brand-blue-300);
+  --folder-mark: var(--brand-navy);
+  --folder-mark-ink: var(--brand-white);
   /* The Playbook's four tools (ToolPicker, icon row): each icon in a small
      dawn, Home's dawn sky in a circle, the sun rising from its base:
      yellow 200 heart, orange 300 ring, blue 200 sky (designer, 2026-10-27). */

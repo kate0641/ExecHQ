@@ -33,10 +33,10 @@ export interface LibraryFolderProps {
 
 /**
  * One of the library's folders: a folder per tool, filed by ExecHQ, never
- * made or moved by her. A plain card, no folder drawing (look D, 14 Oct): the
- * tool's icon in a disc tinted for the tool, then its name, so the tint is
- * never the only cue. It says how many it holds, what state they are in, and
- * when it last changed.
+ * made or moved by her. In the grid, a light blue card that deepens toward
+ * its arrow, the tool's icon small in a navy circle beside its name
+ * (designer, 2026-10-27). It says how many it holds, what state they are
+ * in, and when it last changed.
  */
 export function LibraryFolder({
   tool,
@@ -69,10 +69,16 @@ export function LibraryFolder({
       <Icon name={TOOL_ICONS[tool]} size={20} />
     </span>
   );
+  // In the grid the icon is small, in a navy circle beside the name, so the
+  // folders sit under the tools above them (designer, 2026-10-27).
   const body = (
     <>
-      {disc}
+      <span className="library-folder__title">
+        <span className="library-folder__mark" aria-hidden="true">
+          <Icon name={TOOL_ICONS[tool]} size={12} />
+        </span>
         <span className="library-folder__name">{name}</span>
+      </span>
         <span className="library-folder__summary">{summary}</span>
         <span className="library-folder__foot">
           <span className="library-folder__date">
