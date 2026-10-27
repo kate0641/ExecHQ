@@ -22725,26 +22725,27 @@ ul.li-shares {
   color: var(--illustration-ink);
 }
 
+/* Solid navy on stone: the fill draws the line, so no edge (page recipe). */
 .library-folder--button {
   min-height: 7.5rem;
-  border-color: var(--color-border-light-blue);
-  background: radial-gradient(
-    ellipse 150% 110% at 100% 110%,
-    var(--folder-card-glow),
-    var(--folder-card-wash) 70%
-  ) border-box;
+  border-color: transparent;
+  background-color: var(--folder-card);
+  color: var(--folder-card-foot);
   cursor: pointer;
-  transition: border-color var(--duration-fast) var(--easing-standard);
+  transition: background-color var(--duration-fast) var(--easing-standard);
 }
 
-.library-folder--button:hover,
-.library-folder--button.is-hover {
-  border-color: var(--color-border-strong);
+.library-folder--button .library-folder__name {
+  color: var(--folder-card-name);
+}
+
+.library-folder--button .library-folder__summary {
+  color: var(--folder-card-text);
 }
 
 .library-folder--button:active,
 .library-folder--button.is-active {
-  background: var(--folder-card-glow);
+  background-color: var(--folder-card-active);
 }
 
 .library-folder--button:focus-visible,
