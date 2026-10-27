@@ -76,7 +76,7 @@ export function LibraryFolder({
     <>
       <span className="library-folder__title">
         <span className="library-folder__mark" aria-hidden="true">
-          <Icon name={TOOL_ICONS[tool]} size={12} />
+          <Icon name={TOOL_ICONS[tool]} size={16} />
         </span>
         <span className="library-folder__name">{name}</span>
       </span>
