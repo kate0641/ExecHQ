@@ -77,7 +77,12 @@ function FolderList({
         className="library-tabs--spread"
       />
       <div role="tabpanel" id={`${STATUS_TABS}-panel`} aria-labelledby={`${STATUS_TABS}-tab-${chosen?.id ?? ALL}`}>
-        {list(shown, mixed ? { mixed: true } : { folder: true })}
+        {/* A tab with nothing in it, Closed at 0, says so in Kate's words. */}
+        {shown.length ? (
+          list(shown, mixed ? { mixed: true } : { folder: true })
+        ) : (
+          <p className="library-folder-open__empty">{F.noneInStatus(chosen?.label ?? F.all)}</p>
+        )}
       </div>
     </>
   );
