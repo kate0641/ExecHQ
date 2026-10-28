@@ -96,6 +96,7 @@ export function usePlaybookPage(concept: PlaybookPage) {
    *  no menu (Kate, 14 Oct). */
   function itemOf(item: LibraryItem, options: { folder?: boolean; mixed?: boolean }): ListItemData {
     const { record } = item;
+    const cards = options.folder || options.mixed;
     return {
       id: record.id,
       primary: record.title,
@@ -104,42 +105,40 @@ export function usePlaybookPage(concept: PlaybookPage) {
           {/* In a folder, a line of what it says tells same-named ones apart
               (option A, 14 Oct). */}
           {(options.folder || options.mixed) && item.preview ? <span className="library__preview">{item.preview}</span> : null}
-          {/* Several folders in one list (web's All tab and search): the
-              folder, then where it stands. */}
-          {/* In a folder, where it stands and when sit over the title as
-              plain words, no tag (designer, 2026-10-28). */}
-          {options.folder ? (
+          {/* As cards (a folder, web's All tab and search), where it stands
+              and when sit over the title as plain words, no tag; across
+              several folders its folder comes first (designer, 2026-10-28). */}
+          {cards ? (
             <span className="library__stamp">
+              {options.mixed ? `${C.folders.names[record.kind]} · ` : null}
               {statusLabel(record)} · {when(item)}
             </span>
           ) : (
             <>
-              {options.mixed ? `${C.folders.names[record.kind]} · ${statusLabel(record)}` : item.tool}{" "}
-              <Badge className="library__when">{when(item)}</Badge>
+              {item.tool} <Badge className="library__when">{when(item)}</Badge>
             </>
           )}
         </>
       ),
-      // In a folder each item is a card the whole of which opens it, so it
-      // carries the chevron: only a card with a chevron is tappable
-      // (designer, 2026-10-13 and 10-28).
+      // As a card the whole of which opens it, it carries the chevron: only
+      // a card with a chevron is tappable (designer, 2026-10-13 and 10-28).
       // The List takes it in its badge place, the one trailing slot for a node that is not a button.
-      trailing: options.folder ? { badge: <Icon name="chevron" size={16} className="library__go" /> } : undefined,
+      trailing: cards ? { badge: <Icon name="chevron" size={16} className="library__go" /> } : undefined,
       href: artifactHref(record.id),
     };
   }
 
-  /** Library rows as a list, no card, a line between each. In an open
-   *  folder each row is its own card with the horizon line (designer,
-   *  2026-10-28). */
+  /** Library rows as a list, no card, a line between each. In a folder,
+   *  web's All tab and search each row is its own card with the horizon
+   *  line (designer, 2026-10-28). */
   const list = (items: readonly LibraryItem[], options: { folder?: boolean; mixed?: boolean; label?: string } = {}): ReactNode =>
     items.length ? (
       <List
         items={items.map((i) => itemOf(i, options))}
         label={options.label ?? C.heading}
-        dividers={options.folder ? "none" : "full"}
+        dividers={options.folder || options.mixed ? "none" : "full"}
         framed={false}
-        className={options.folder ? "library__rows list--horizon-cards" : "library__rows"}
+        className={options.folder || options.mixed ? "library__rows list--horizon-cards" : "library__rows"}
       />
     ) : null;
 
