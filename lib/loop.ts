@@ -485,10 +485,10 @@ function inWords(n: number): string {
 export function progressSentence(records: LoopRecord[], today: LoopDate): string {
   const { completedThisMonth: done, awaitingOutcome: awaiting, total } = loopProgress(records, today);
   if (done > 0 && awaiting > 0) {
-    return `${PROGRESS_COPY.completed(inWords(done), done !== 1)} and have ${PROGRESS_COPY.awaiting(inWords(awaiting), awaiting !== 1)}.`;
+    return `${PROGRESS_COPY.completed(String(done), done !== 1)} · ${PROGRESS_COPY.awaiting(String(awaiting))}`;
   }
-  if (done > 0) return `${PROGRESS_COPY.completed(inWords(done), done !== 1)}.`;
-  if (awaiting > 0) return `You have ${PROGRESS_COPY.awaiting(inWords(awaiting), awaiting !== 1)}.`;
+  if (done > 0) return PROGRESS_COPY.completed(String(done), done !== 1);
+  if (awaiting > 0) return PROGRESS_COPY.awaiting(String(awaiting));
   if (total === 1 && records[0].createdOn === today) return PROGRESS_COPY.firstToday;
   return PROGRESS_COPY.soFar(inWords(total), total !== 1);
 }

@@ -455,7 +455,7 @@ export const MAP_COPY = {
   ringComplete: (horizon: string) => `Every ${horizon.toLowerCase()} action is done.`,
   stepDone: (title: string) => `Done: ${title}`,
   doneIn: (horizon: string) => `Done in ${horizon.toLowerCase()}`,
-  stepDoneNote: "Nice work. Your Plan shows where this leaves you, and new actions come once everything in this stage is done.",
+  stepDoneNote: "Nice work! New actions come once this stage is finished.",
   ringCompleteNote: "New actions come with your plan's next stage.",
   seePlan: "See your Plan",
   /** The text link under the map. */

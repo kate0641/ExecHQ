@@ -117,7 +117,7 @@ What the card shows is decided by the first of these that is true:
 
 | # | When | The card |
 | --- | --- | --- |
-| 1 | The person has just logged an outcome for an action in this ring | A plain note: **"Done: {action}"**. "Nice work. Your Plan shows where this leaves you, and new actions come once everything in this stage is done." A full-width secondary button, **See your Plan** |
+| 1 | The person has just logged an outcome for an action in this ring | A plain note: **"Done: {action}"**. "Nice work! New actions come once this stage is finished." (shortened 2026-10-28) A full-width secondary button, **See your Plan** |
 | 2 | This ring holds their next step (the one action they are on that has not yet reached the Loop) | The **next-step card** with its eyebrow **"Next in {horizon}"** |
 | 3 | The ring has an action in progress, else one not started | The same next-step card for that action. Eyebrow **"Next in {horizon}"** for one in progress, **"Suggested in {horizon}"** for one not started |
 | 4 | Every action in the ring is done | A note: **"Every {horizon} action is done."**, then "New actions come with your plan's next stage." and a **See your Plan** button |

@@ -965,30 +965,41 @@ export const SPARK_NOTES = {
     record: "In ExecHQ",
     signal: "Signal Picture",
   },
+  /* A cheer only when she finishes something; passing on, putting off and
+     changing direction stay neutral. Timing says "planned", not "the draft",
+     so it isn't read as one of her Playbook drafts (Kate, 2026-10-28). */
   finished: (stage: string, weeks: number, next?: string) => {
+    const span = (n: number) => `${n} week${n === 1 ? "" : "s"}`;
     const when =
       weeks === 0
-        ? `You finished ${stage} about when the draft said.`
+        ? `Nice! You finished ${stage} right on pace.`
         : weeks < 0
-          ? `You finished ${stage} ${-weeks} week${weeks === -1 ? "" : "s"} ahead of the draft.`
-          : `You finished ${stage} ${weeks} week${weeks === 1 ? "" : "s"} after the draft.`;
+          ? `Nice! You finished ${stage} ${span(-weeks)} sooner than planned.`
+          : `You finished ${stage}! It took ${span(weeks)} longer than planned${next ? "," : "."}`;
     const moved = next
       ? weeks === 0
-        ? ` ${next} stays where it was.`
-        : ` ${next} moved ${weeks < 0 ? "up" : "back"} with you.`
-      : " That was the last stage, and the plan carries on.";
+        ? ` ${next} stays put.`
+        : weeks < 0
+          ? ` ${next} moves up with you.`
+          : ` so ${next} moves back with you.`
+      : " That was the last stage, and your plan keeps going.";
     return when + moved;
   },
-  pastPace: "This stage is running past the draft’s pace. The stages after it have moved back with you. There is no deadline.",
-  completed: (title: string) => `You finished “${title}”. It counts toward this stage.`,
-  declined: (title: string) => `You passed on “${title}”. ExecHQ offered a different step in its place.`,
-  deferred: (title: string, when?: string) => `You put off “${title}”.${when ? ` It comes back ${when.toLowerCase()}.` : ""}`,
+  pastPace: "This stage is taking longer than planned, and that’s OK. The stages after it move back with you.",
+  completed: (title: string) => `Done: “${title}”. Nice work.`,
+  declined: (title: string) => `You passed on “${title}”, so ExecHQ swapped in a different one.`,
+  /** `when` is a TIME_WORDS phrase: "Next week" reads "until next week", "This
+   *  month" reads "until later this month", and "Later" has no until. */
+  deferred: (title: string, when?: string) => {
+    const w = when?.toLowerCase();
+    const until = !w || w === "later" ? " for now" : w.startsWith("this ") ? ` until later ${w}` : ` until ${w}`;
+    return `“${title}” is on hold${until}.`;
+  },
   recorded: (text: string) => `${text}.`,
-  added: (text: string) => `You added to your Signal Picture: ${text}.`,
-  directionKept: "You updated your direction. Your plan stayed as it was.",
-  directionMoved: (from: string, to: string) =>
-    `You changed your direction, and your plan moved from ${from} to ${to}. ${from} stays above as the draft you started with.`,
-  planMoved: (from: string, to: string) => `You changed plan, from ${from} to ${to}. ${from} stays above as the draft you started with.`,
+  added: (text: string) => `Added to your Signal Picture: ${text}.`,
+  directionKept: "You updated your direction. Your plan stays the same.",
+  directionMoved: (from: string, to: string) => `New direction, new plan: ${to}. Your first draft, ${from}, stays above.`,
+  planMoved: (from: string, to: string) => `You switched to ${to}. Your first draft, ${from}, stays above.`,
 } as const;
 
 export const TIMELINE_COPY = {
