@@ -21162,8 +21162,20 @@ ul.li-shares {
   display: contents;
 }
 
+/* The page recipe's gaps: the status line to the title is the eyebrow's,
+   the title to the preview the widest (designer, 2026-10-28). */
+.library__rows.list--horizon-cards .list__text {
+  gap: 0;
+}
+
+.library__rows.list--horizon-cards .library__preview {
+  margin-top: var(--space-title-copy);
+  margin-bottom: 0;
+}
+
 .library__stamp {
   order: -1;
+  margin-bottom: var(--space-eyebrow-title);
   font-size: var(--type-caption-size);
   line-height: var(--type-caption-leading);
   color: var(--color-text-secondary);
