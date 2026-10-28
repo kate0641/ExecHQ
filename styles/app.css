@@ -22790,6 +22790,91 @@ ul.li-shares {
   }
 }
 
+/* --- The tools as rows in one card, on the phone (designer, 2026-10-28) ------- */
+
+/* The rail's rows in one white card: each tool's icon in its dawn, its name
+   as a subheading and what it makes as a caption, a chevron at the right,
+   and a hairline between rows that starts after the icon. 20px above and
+   below each row, as every divided row. */
+.tool-picker--card {
+  --tool-picker-chip: 2.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.tool-picker--card .tool-picker__list {
+  overflow: hidden;
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+}
+
+.tool-picker--card .tool-picker__item {
+  position: relative;
+}
+
+.tool-picker--card .tool-picker__item + .tool-picker__item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: var(--space-card-padding);
+  left: calc(var(--space-card-padding) + var(--tool-picker-chip) + var(--space-sm));
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+.tool-picker--card .tool-picker__tool {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-divided-item) var(--space-card-padding);
+  transition: background-color var(--duration-fast) var(--easing-standard);
+}
+
+.tool-picker--card .tool-picker__tool:active,
+.tool-picker--card .tool-picker__tool.is-active {
+  background-color: var(--color-surface-active);
+}
+
+.tool-picker--card .tool-picker__disc {
+  width: var(--tool-picker-chip);
+  height: var(--tool-picker-chip);
+  background: radial-gradient(
+    circle at 50% 100%,
+    var(--tool-chip-heart),
+    var(--tool-chip-ring) 45%,
+    var(--tool-chip-sky) 90%
+  );
+  color: var(--color-text-primary);
+}
+
+.tool-picker--card .tool-picker__text {
+  gap: 0;
+}
+
+.tool-picker--card .tool-picker__name {
+  font-family: var(--type-subheading-font);
+  font-size: var(--type-subheading-size);
+  font-weight: var(--type-subheading-weight);
+  line-height: var(--type-subheading-leading);
+  color: var(--color-text-primary);
+}
+
+.tool-picker--card .tool-picker__short {
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+}
+
+.tool-picker--card .tool-picker__go {
+  color: var(--color-text-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tool-picker--card .tool-picker__tool {
+    transition: none;
+  }
+}
+
 /* --- Icons with the next step under them (Concept 2) --------------------------- */
 
 /* Each tool's icon sits in a small dawn (designer, 2026-10-27): the sun

@@ -76,7 +76,10 @@ export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
     label: "Situation brief",
     name: "Situation Brief",
     makes: "A one-page brief for a moment that matters: what you want from it, what you will say, what they will ask.",
-    short: "One page before a moment that matters",
+    // Says what the brief holds, and fits one line on a phone at the
+    // caption size (designer, 28 Oct; was "One page before a moment that
+    // matters"). For Kate to confirm.
+    short: "Your case, talk track and follow-up",
     when: "Use it a day or two before a review, a board meeting, a negotiation or a hard conversation.",
     needs: ["What the moment is, and when", "What you want to come out of it"],
     planStepId: "brief-manager",

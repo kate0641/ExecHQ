@@ -260,7 +260,7 @@ function Concept2Page() {
   return (
     <div className="playbook-page playbook-page--c2">
       {p.header}
-      <ToolPicker layout="icons" lead={lead} hrefFor={(kind) => p.toolHref(kind)} />
+      <ToolPicker layout="card" lead={lead} hrefFor={(kind) => p.toolHref(kind)} />
       <section className="library" aria-labelledby={p.libraryId}>
         {p.libraryHeader}
         {p.empty ?? (
