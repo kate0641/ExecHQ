@@ -18,7 +18,7 @@ import { usePlaybookLinks } from "@/lib/playbook-links";
 import { PLAN_AGENDA_COPY, stepById } from "@/mock/plan";
 import { draftMeta, flowFor, playbookActions, usePlaybook, type PlaybookPage } from "@/lib/playbook-store";
 import type { ArtifactKind } from "@/mock/loop";
-import { LIBRARY_COPY as C, TOOL_ORDER, PLAYBOOK_PAGE, TOOLS } from "@/mock/playbook";
+import { LIBRARY_COPY as C, TOOL_COPY, TOOL_ORDER, PLAYBOOK_PAGE, TOOLS } from "@/mock/playbook";
 
 /** The tool her next plan step needs: the first step on her plan that makes
  *  something with a tool. None, and the four tools are equal. */
@@ -94,12 +94,22 @@ export function usePlaybookPage(concept: PlaybookPage) {
    *  Oct): the title, then where it stands (in a folder) or its tool, and
    *  when she last touched it as a tag. Tapping the row opens it; there is
    *  no menu (Kate, 14 Oct). */
+  /** Inside the Pitches folder "Pitch for" says nothing new, so the title
+   *  starts at who it is for: "The Q1 planning review" (designer,
+   *  2026-10-28). Everywhere else the saved name stays whole. */
+  const PITCH_PREFIX = TOOL_COPY.pitchTitle("");
+  const folderTitle = (record: LibraryItem["record"]) => {
+    if (record.kind !== "pitch" || !record.title.startsWith(PITCH_PREFIX)) return record.title;
+    const rest = record.title.slice(PITCH_PREFIX.length);
+    return rest.charAt(0).toUpperCase() + rest.slice(1);
+  };
+
   function itemOf(item: LibraryItem, options: { folder?: boolean; mixed?: boolean }): ListItemData {
     const { record } = item;
     const cards = options.folder || options.mixed;
     return {
       id: record.id,
-      primary: record.title,
+      primary: options.folder ? folderTitle(record) : record.title,
       secondary: (
         <>
           {/* In a folder, a line of what it says tells same-named ones apart
