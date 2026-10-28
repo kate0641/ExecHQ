@@ -106,8 +106,18 @@ export function usePlaybookPage(concept: PlaybookPage) {
           {(options.folder || options.mixed) && item.preview ? <span className="library__preview">{item.preview}</span> : null}
           {/* Several folders in one list (web's All tab and search): the
               folder, then where it stands. */}
-          {options.mixed ? `${C.folders.names[record.kind]} · ${statusLabel(record)}` : options.folder ? statusLabel(record) : item.tool}{" "}
-          <Badge className="library__when">{when(item)}</Badge>
+          {/* In a folder, where it stands and when sit over the title as
+              plain words, no tag (designer, 2026-10-28). */}
+          {options.folder ? (
+            <span className="library__stamp">
+              {statusLabel(record)} · {when(item)}
+            </span>
+          ) : (
+            <>
+              {options.mixed ? `${C.folders.names[record.kind]} · ${statusLabel(record)}` : item.tool}{" "}
+              <Badge className="library__when">{when(item)}</Badge>
+            </>
+          )}
         </>
       ),
       href: artifactHref(record.id),

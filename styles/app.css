@@ -21155,6 +21155,20 @@ ul.li-shares {
   vertical-align: baseline;
 }
 
+/* In an open folder, where it stands and when it last changed sit over the
+   title as a small grey line, so the title leads (designer, 2026-10-28).
+   The title comes first in the markup, so it is still read first. */
+.library__rows.list--horizon-cards .list__secondary {
+  display: contents;
+}
+
+.library__stamp {
+  order: -1;
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+  color: var(--color-text-secondary);
+}
+
 /* --- Search, in its sheet (Concept 2, 14 Oct) ----------------------------- */
 
 .library-search {
