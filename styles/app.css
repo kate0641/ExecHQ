@@ -23031,6 +23031,20 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
+/* Tabs spread across the width, the first word flush left and the last
+   flush right (an open folder's status, designer, 2026-10-28). */
+.library-tabs--spread {
+  justify-content: space-between;
+}
+
+.library-tabs--spread .library-tabs__tab:first-child {
+  padding-left: 0;
+}
+
+.library-tabs--spread .library-tabs__tab:last-child {
+  padding-right: 0;
+}
+
 .library-folder-open {
   display: flex;
   flex-direction: column;

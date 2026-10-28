@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState, type ReactNode } from "react";
-import { DropdownMenu } from "@/components/form/DropdownMenu";
 import { LibraryFolder } from "@/components/playbook/LibraryFolder";
 import { rank } from "@/components/playbook/LibrarySearch/LibrarySearch";
 import { LibraryTabs } from "@/components/playbook/LibraryTabs";
@@ -21,14 +20,14 @@ const F = LIBRARY_COPY.folders;
 const OPEN_HEADING = "library-folder-open";
 const ALL = "all";
 const TABS = "library-web";
+const STATUS_TABS = "library-status";
 
 /** "3 · 2 drafts · 1 waiting to hear": how many, and where they stand. */
 /**
- * A folder's list with how many it holds and a Status menu on one line over
- * it (option A, 14 Oct): All, then each status the folder holds something
- * in, each with its count; no menu when everything is in one status. The
- * button says what is chosen. Keyed by folder, so opening another starts on
- * All.
+ * A folder's list with how many it holds over it, then its status as tabs
+ * (designer, 28 Oct; it was a Status menu, option A, 14 Oct): All, each
+ * status the folder holds something in, and Closed always, each with its
+ * count. Keyed by folder, so opening another starts on All.
  */
 function FolderList({
   items,
@@ -55,7 +54,9 @@ function FolderList({
     ) : (
       <p className="library-folder-open__empty">{emptyBody}</p>
     );
-  const present = STATUS_FILTERS.filter((s) => items.some((i) => s.states.includes(i.record.state)));
+  // Each status the folder holds, and Closed always, so what she closed
+  // can always be found (designer, 2026-10-28).
+  const present = STATUS_FILTERS.filter((s) => s.id === "closed" || items.some((i) => s.states.includes(i.record.state)));
   const inStatus = (id: string) => items.filter((i) => present.find((s) => s.id === id)?.states.includes(i.record.state));
   const chosen = present.find((s) => s.id === status);
   const shown = chosen ? inStatus(chosen.id) : items;
@@ -63,30 +64,21 @@ function FolderList({
     <>
       <div className="library-folder-open__bar">
         <p className="library-folder-open__count">{F.items(items.length)}</p>
-        {/* Only when there is something to filter: two statuses or more. */}
-        {present.length > 1 ? (
-        <DropdownMenu
-          label={chosen ? F.chosen(F.filter, chosen.label) : F.filter}
-          className={chosen ? "is-set" : undefined}
-          entries={[
-            {
-              type: "radio-group",
-              id: "status",
-              label: F.filter,
-              labelHidden: true,
-              value: chosen?.id ?? ALL,
-              onValueChange: setStatus,
-              options: [
-                { value: ALL, label: F.all, hint: String(items.length) },
-                ...present.map((s) => ({ value: s.id, label: s.label, hint: String(inStatus(s.id).length) })),
-              ],
-            },
-          ]}
-        />
-        ) : null}
         {action}
       </div>
-      {list(shown, mixed ? { mixed: true } : { folder: true })}
+      {/* Status as tabs across the folder, the last flush right (designer,
+          2026-10-28), in place of a button that dropped into a menu. */}
+      <LibraryTabs
+        tabs={[{ id: ALL, label: F.all, count: items.length }, ...present.map((s) => ({ id: s.id, label: s.label, count: inStatus(s.id).length }))]}
+        value={chosen?.id ?? ALL}
+        onChange={setStatus}
+        label={F.filter}
+        idBase={STATUS_TABS}
+        className="library-tabs--spread"
+      />
+      <div role="tabpanel" id={`${STATUS_TABS}-panel`} aria-labelledby={`${STATUS_TABS}-tab-${chosen?.id ?? ALL}`}>
+        {list(shown, mixed ? { mixed: true } : { folder: true })}
+      </div>
     </>
   );
 }
