@@ -81,7 +81,7 @@ export const MAYA: Account = {
     formalName: "Increase leadership scope",
     startedOn: "2026-10-05",
   },
-  notify: { followUps: true, briefing: false, plan: true },
+  notify: { followUps: true, briefing: true, plan: true },
   org: {
     name: "Northgate Leadership Program",
     role: "Member",

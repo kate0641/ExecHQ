@@ -60,7 +60,7 @@ import { homeStateOf, type HomeStateId } from "@/mock/homepage";
 const STORAGE_KEY = "exechq.loop";
 /** Bumped whenever the stored shape or the snapshots' starting data change,
  *  so an old save is dropped rather than half-read. */
-const STORAGE_VERSION = 13;
+const STORAGE_VERSION = 14;
 
 export interface LoopStoreState {
   snapshot: SnapshotId;

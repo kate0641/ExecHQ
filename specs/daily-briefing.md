@@ -118,7 +118,7 @@ Opened from the Plan's "Read today's Briefing", opening one of today's three, or
 
 ### 5.4 Changing publishers
 
-In Profile, under **Daily Briefing**, the **Publishers** row opens the same list in Profile's sheet, with **Save** and **Cancel** ("Saved. Tomorrow's reads come from these."). The page itself has no publisher settings. The Briefing email is in Profile's Notifications, off by default, sent at 8 am in their time zone.
+In Profile, under **Daily Briefing**, the **Publishers** row opens the same list in Profile's sheet, with **Save** and **Cancel** ("Saved. Tomorrow's reads come from these."). The page itself has no publisher settings. The Briefing email is in Profile's Notifications, on by default, sent at 8 am in their time zone.
 
 ---
 
@@ -175,4 +175,4 @@ Written from the approved prototype. These are choices it makes that nobody has 
 4. **The suggested set** leans toward leadership titles, from Maya's direction, with one marketing title.
 5. **On web the lead counts as read when the page opens,** because the pane always shows a read.
 6. **"Read today's Briefing" completes** on one read opened, or a post started from one.
-7. **The Briefing is daily reads only,** and the email is off by default, at 8 am.
+7. **The Briefing is daily reads only,** and the email is on by default, at 8 am. The brief had it off; Kate turned it on on 2026-10-28.
