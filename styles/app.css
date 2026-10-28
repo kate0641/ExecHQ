@@ -23097,14 +23097,21 @@ ul.li-shares {
   background-color: var(--color-surface-selected);
 }
 
-/* Tabs spread across the width, the first word flush left and the last
-   flush right (an open folder's status, designer, 2026-10-28). */
+/* Tabs across the width: the first flush left and the rest packed after it
+   at the group gap, the last pushed flush right (an open folder's status:
+   Closed sits at the right, designer, 2026-10-28), so a folder with one or
+   two statuses has no wide holes between them. */
 .library-tabs--spread {
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: var(--space-lg);
 }
 
-/* The space between comes from the spread, so each underline is as wide
-   as its words. */
+.library-tabs--spread .library-tabs__tab:last-child {
+  margin-left: auto;
+}
+
+/* The space between comes from the gap, so each underline is as wide as
+   its words. */
 .library-tabs--spread .library-tabs__tab {
   padding-inline: 0;
 }
