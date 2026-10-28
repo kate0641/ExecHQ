@@ -109,6 +109,15 @@ export function usePlaybookPage(concept: PlaybookPage) {
     return rest.charAt(0).toUpperCase() + rest.slice(1);
   };
 
+  /** A positioning statement says what it is for, since she can have one
+   *  for each use (Kate, 28 Oct): the moments she picked in the builder,
+   *  else that it came from onboarding. */
+  const madeFor = (item: LibraryItem) => {
+    if (item.record.kind !== "positioning") return null;
+    const moments = (playbook.drafts[item.record.id]?.inputs.context ?? "").split("\n").map((m) => m.trim()).filter(Boolean);
+    return moments.length ? C.folders.madeFor(moments) : item.fromOnboarding ? C.folders.madeInOnboarding : null;
+  };
+
   function itemOf(item: LibraryItem, options: { folder?: boolean; mixed?: boolean }): ListItemData {
     const { record } = item;
     const cards = options.folder || options.mixed;
@@ -126,6 +135,7 @@ export function usePlaybookPage(concept: PlaybookPage) {
           {cards ? (
             <span className="library__stamp">
               {options.mixed ? `${C.folders.names[record.kind]} · ` : null}
+              {options.folder && madeFor(item) ? `${madeFor(item)} · ` : null}
               {statusLabel(record)} · {when(item)}
             </span>
           ) : (

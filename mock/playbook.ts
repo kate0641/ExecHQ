@@ -56,7 +56,9 @@ export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
     when: "Use it before anything that introduces you: a promotion conversation, a new boss, a conference program.",
     needs: ["Your statement from onboarding (ExecHQ has it)", "A few recent accomplishments, if you want them in"],
     planStepId: "bio",
-    start: "Build out your positioning",
+    // Like the other three: she can start a new one for each use (Kate,
+    // 28 Oct), so it starts one rather than building out the one.
+    start: "Start a positioning statement",
   },
   pitch: {
     kind: "pitch",
@@ -701,6 +703,14 @@ export const LIBRARY_COPY = {
     /** The menu's button once a status is chosen: "Status: Draft". */
     chosen: (filter: string, choice: string) => `${filter}: ${choice}`,
     noneInStatus: (status: string) => `Nothing here is ${status.toLowerCase()}.`,
+    /** Over a positioning statement in its folder: what it is for, from
+     *  the moments she picked, or where it came from (designer, 28 Oct). */
+    madeFor: (moments: readonly string[]) => {
+      const words = moments.map((m) => m.charAt(0).toLowerCase() + m.slice(1));
+      const list = words.length > 1 ? `${words.slice(0, -1).join(", ")} and ${words[words.length - 1]}` : words[0];
+      return `For ${list}`;
+    },
+    madeInOnboarding: "From onboarding",
     open: (name: string) => `Open ${name}`,
     /** One part of a folder's counts, by status filter id, in the Loop's words. */
     count: (status: string, n: number): string =>
