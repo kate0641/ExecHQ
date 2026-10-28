@@ -23037,12 +23037,10 @@ ul.li-shares {
   justify-content: space-between;
 }
 
-.library-tabs--spread .library-tabs__tab:first-child {
-  padding-left: 0;
-}
-
-.library-tabs--spread .library-tabs__tab:last-child {
-  padding-right: 0;
+/* The space between comes from the spread, so each underline is as wide
+   as its words. */
+.library-tabs--spread .library-tabs__tab {
+  padding-inline: 0;
 }
 
 .library-folder-open {
