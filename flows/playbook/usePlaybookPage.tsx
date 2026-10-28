@@ -120,6 +120,11 @@ export function usePlaybookPage(concept: PlaybookPage) {
           )}
         </>
       ),
+      // In a folder each item is a card the whole of which opens it, so it
+      // carries the chevron: only a card with a chevron is tappable
+      // (designer, 2026-10-13 and 10-28).
+      // The List takes it in its badge place, the one trailing slot for a node that is not a button.
+      trailing: options.folder ? { badge: <Icon name="chevron" size={16} className="library__go" /> } : undefined,
       href: artifactHref(record.id),
     };
   }

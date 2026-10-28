@@ -21173,6 +21173,18 @@ ul.li-shares {
   margin-bottom: 0;
 }
 
+/* The chevron sits level with the title, not the status line over it:
+   down by the status line and its gap, then centred on the title's first
+   line (designer, 2026-10-28). */
+.library__rows.list--horizon-cards .list__trailing {
+  align-self: flex-start;
+  margin-top: calc(
+    var(--type-caption-size) * var(--type-caption-leading) + var(--space-eyebrow-title) +
+      (var(--list-primary-size) * var(--list-primary-leading) - 1rem) / 2
+  );
+  color: var(--color-text-primary);
+}
+
 .library__stamp {
   order: -1;
   margin-bottom: var(--space-eyebrow-title);
