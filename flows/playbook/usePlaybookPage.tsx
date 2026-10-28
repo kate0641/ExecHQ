@@ -110,12 +110,13 @@ export function usePlaybookPage(concept: PlaybookPage) {
   };
 
   /** A positioning statement says what it is for, since she can have one
-   *  for each use (Kate, 28 Oct): the moments she picked in the builder,
-   *  else that it came from onboarding. */
-  const madeFor = (item: LibraryItem) => {
-    if (item.record.kind !== "positioning") return null;
+   *  for each use (Kate, 28 Oct): a lime tag for each moment she picked in
+   *  the builder, else one saying it came from onboarding. Lime, because
+   *  she chose them (designer, 28 Oct). */
+  const madeFor = (item: LibraryItem): string[] => {
+    if (item.record.kind !== "positioning") return [];
     const moments = (playbook.drafts[item.record.id]?.inputs.context ?? "").split("\n").map((m) => m.trim()).filter(Boolean);
-    return moments.length ? C.folders.madeFor(moments) : item.fromOnboarding ? C.folders.madeInOnboarding : null;
+    return moments.length ? moments.map(C.folders.moment) : item.fromOnboarding ? [C.folders.madeInOnboarding] : [];
   };
 
   function itemOf(item: LibraryItem, options: { folder?: boolean; mixed?: boolean }): ListItemData {
@@ -135,7 +136,6 @@ export function usePlaybookPage(concept: PlaybookPage) {
           {cards ? (
             <span className="library__stamp">
               {options.mixed ? `${C.folders.names[record.kind]} · ` : null}
-              {options.folder && madeFor(item) ? `${madeFor(item)} · ` : null}
               {statusLabel(record)} · {when(item)}
             </span>
           ) : (
@@ -143,6 +143,15 @@ export function usePlaybookPage(concept: PlaybookPage) {
               {item.tool} <Badge className="library__when">{when(item)}</Badge>
             </>
           )}
+          {options.folder && madeFor(item).length ? (
+            <span className="library__moments">
+              {madeFor(item).map((m) => (
+                <span key={m} className="library__moment">
+                  {m}
+                </span>
+              ))}
+            </span>
+          ) : null}
         </>
       ),
       // As a card the whole of which opens it, it carries the chevron: only

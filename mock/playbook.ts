@@ -703,12 +703,11 @@ export const LIBRARY_COPY = {
     /** The menu's button once a status is chosen: "Status: Draft". */
     chosen: (filter: string, choice: string) => `${filter}: ${choice}`,
     noneInStatus: (status: string) => `Nothing here is ${status.toLowerCase()}.`,
-    /** Over a positioning statement in its folder: what it is for, from
-     *  the moments she picked, or where it came from (designer, 28 Oct). */
-    madeFor: (moments: readonly string[]) => {
-      const words = moments.map((m) => m.charAt(0).toLowerCase() + m.slice(1));
-      const list = words.length > 1 ? `${words.slice(0, -1).join(", ")} and ${words[words.length - 1]}` : words[0];
-      return `For ${list}`;
+    /** Under a positioning statement in its folder, as tags: each moment
+     *  she picked, without its "A" or "An" (designer, 28 Oct). */
+    moment: (picked: string) => {
+      const bare = picked.replace(/^(a|an) /i, "");
+      return bare.charAt(0).toUpperCase() + bare.slice(1);
     },
     madeInOnboarding: "From onboarding",
     open: (name: string) => `Open ${name}`,

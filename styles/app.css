@@ -21193,6 +21193,25 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
+/* A positioning statement's moments, under its words: small lime tags with
+   dark green words, lime because she picked them (designer, 2026-10-28).
+   The words say it, so the colour is never the only cue. */
+.library__moments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  margin-top: var(--space-xs);
+}
+
+.library__moment {
+  padding: var(--space-3xs) var(--space-xs);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-her-band);
+  color: var(--color-text-on-her-band);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+}
+
 /* --- Search, in its sheet (Concept 2, 14 Oct) ----------------------------- */
 
 .library-search {
