@@ -23002,7 +23002,7 @@ ul.li-shares {
 /* Over a tab's list: how many, then the Status menu and, in a folder,
    Start, both at the right. */
 .library--web .library-folder-open__bar {
-  justify-content: flex-start;
+  justify-content: flex-end;
 }
 
 .library--web .library-folder-open__count {

@@ -24,7 +24,7 @@ const STATUS_TABS = "library-status";
 
 /** "3 · 2 drafts · 1 waiting to hear": how many, and where they stand. */
 /**
- * A folder's list with how many it holds over it, then its status as tabs
+ * A folder's list under its status as tabs
  * (designer, 28 Oct; it was a Status menu, option A, 14 Oct): All, each
  * status the folder holds something in, and Closed always, each with its
  * count. Keyed by folder, so opening another starts on All.
@@ -62,10 +62,9 @@ function FolderList({
   const shown = chosen ? inStatus(chosen.id) : items;
   return (
     <>
-      <div className="library-folder-open__bar">
-        <p className="library-folder-open__count">{F.items(items.length)}</p>
-        {action}
-      </div>
+      {/* No count over the tabs: All already says how many (designer,
+          2026-10-28). Start stays at the bar's right on web. */}
+      {action ? <div className="library-folder-open__bar">{action}</div> : null}
       {/* Status as tabs across the folder, the last flush right (designer,
           2026-10-28), in place of a button that dropped into a menu. */}
       <LibraryTabs
