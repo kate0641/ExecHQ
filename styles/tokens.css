@@ -202,6 +202,11 @@
   --surface-her-day: radial-gradient(circle at 35% 30% in oklab, var(--brand-yellow-300) 0%, var(--brand-green-300) 55%, var(--brand-blue-300) 100%);
   --ring-today: conic-gradient(from 200deg in oklab, var(--brand-blue-300), var(--brand-green-300), var(--brand-yellow-300), var(--brand-blue-300));
   --ring-today-width: calc(var(--border-width-thin) * 2);
+  /* The horizon line: a thin sky-to-peach-to-yellow line along a card's foot, the tools row's chip
+     colours laid flat (designer, 2026-10-28; first on the Playbook's open folder). Meant to be reused
+     so it isn't one page's trick. */
+  --gradient-horizon: linear-gradient(90deg, var(--brand-blue-200), var(--brand-orange-300) 55%, var(--brand-yellow-200));
+  --horizon-line-height: calc(var(--border-width-thin) * 4);
   /* For her: something written for her to read or use, such as her first draft. Sky blue with navy
      words (11.3:1), muted blue 700 (7.7:1), eyebrow blue 600 (4.9:1), edges blue 300. */
   --color-surface-for-her: var(--brand-blue-200);

@@ -114,15 +114,17 @@ export function usePlaybookPage(concept: PlaybookPage) {
     };
   }
 
-  /** Library rows as a list, no card, a line between each. */
+  /** Library rows as a list, no card, a line between each. In an open
+   *  folder each row is its own card with the horizon line (designer,
+   *  2026-10-28). */
   const list = (items: readonly LibraryItem[], options: { folder?: boolean; mixed?: boolean; label?: string } = {}): ReactNode =>
     items.length ? (
       <List
         items={items.map((i) => itemOf(i, options))}
         label={options.label ?? C.heading}
-        dividers="full"
+        dividers={options.folder ? "none" : "full"}
         framed={false}
-        className="library__rows"
+        className={options.folder ? "library__rows list--horizon-cards" : "library__rows"}
       />
     ) : null;
 

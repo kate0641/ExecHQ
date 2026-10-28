@@ -304,6 +304,41 @@ samp {
   color: var(--color-eyebrow);
 }
 
+/* A card with the horizon line along its foot (from the Playbook's open
+   folder, 2026-10-28): the warmth of the tools row's chips without
+   tinting the card, so the words stay on white. A list's rows take it
+   too, as each one is its own card. */
+.card--horizon,
+.list--horizon-cards > .list__item {
+  position: relative;
+  overflow: hidden;
+}
+
+.card--horizon::after,
+.list--horizon-cards > .list__item::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: var(--horizon-line-height);
+  background: var(--gradient-horizon);
+}
+
+/* A list whose rows are each a card (from the Playbook's open folder,
+   2026-10-28), stacked with the gap between cards in a group. */
+.list--horizon-cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.list--horizon-cards > .list__item,
+.list--horizon-cards > .list__item + .list__item {
+  padding: var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+}
+
 /* A card of reads: each child is one read, split from the next by a
    hairline instead of a box. */
 .card--reads {
@@ -21072,8 +21107,9 @@ ul.li-shares {
 }
 
 /* No card around the rows, so they line up with the chips and the page's
-   edge (Concept 1's list, 14 Oct). */
-.library__rows .list__item {
+   edge (Concept 1's list, 14 Oct). An open folder's rows are cards, so
+   they keep the card's padding. */
+.library__rows:not(.list--horizon-cards) .list__item {
   padding-inline: 0;
 }
 
