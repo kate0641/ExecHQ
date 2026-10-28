@@ -208,6 +208,7 @@ function Concept2Page() {
                   onChange={setTab}
                   label={F.tabs}
                   idBase={TABS}
+                  orientation="vertical"
                 />
                 <div role="tabpanel" id={`${TABS}-panel`} aria-labelledby={`${TABS}-tab-${tab}`} className="library-folder-open">
                   <FolderList

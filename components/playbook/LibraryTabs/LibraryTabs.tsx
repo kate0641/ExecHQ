@@ -19,6 +19,9 @@ export interface LibraryTabsProps {
   /** The id prefix tying each tab to its panel: tab `${idBase}-tab-${id}`,
    *  panel `${idBase}-panel`. */
   idBase: string;
+  /** A row (the default) or a column, as the library's folders on web
+   *  (designer, 2026-10-28): a column moves with the up and down arrows. */
+  orientation?: "horizontal" | "vertical";
   /** Catalogue only: shows the first unchosen tab in a state a static page can't reach. */
   demo?: "hover" | "focus" | "active";
   className?: string;
@@ -30,15 +33,16 @@ export interface LibraryTabsProps {
  * tab in the Tab order, arrow keys move between them and choose, Home and
  * End go to the ends. The panel is the page's, named by the chosen tab.
  */
-export function LibraryTabs({ tabs, value, onChange, label, idBase, demo, className }: LibraryTabsProps) {
+export function LibraryTabs({ tabs, value, onChange, label, idBase, orientation = "horizontal", demo, className }: LibraryTabsProps) {
+  const column = orientation === "vertical";
   const list = useRef<HTMLDivElement>(null);
   const demoAt = tabs.findIndex((t) => t.id !== value);
 
   const move = (event: KeyboardEvent<HTMLButtonElement>, at: number) => {
     const last = tabs.length - 1;
     const to =
-      event.key === "ArrowRight" ? (at === last ? 0 : at + 1)
-      : event.key === "ArrowLeft" ? (at === 0 ? last : at - 1)
+      event.key === (column ? "ArrowDown" : "ArrowRight") ? (at === last ? 0 : at + 1)
+      : event.key === (column ? "ArrowUp" : "ArrowLeft") ? (at === 0 ? last : at - 1)
       : event.key === "Home" ? 0
       : event.key === "End" ? last
       : -1;
@@ -49,7 +53,13 @@ export function LibraryTabs({ tabs, value, onChange, label, idBase, demo, classN
   };
 
   return (
-    <div ref={list} role="tablist" aria-label={label} className={["library-tabs", className].filter(Boolean).join(" ")}>
+    <div
+      ref={list}
+      role="tablist"
+      aria-label={label}
+      aria-orientation={orientation}
+      className={["library-tabs", column ? "library-tabs--column" : null, className].filter(Boolean).join(" ")}
+    >
       {tabs.map((tab, i) => {
         const chosen = tab.id === value;
         return (

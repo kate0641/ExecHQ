@@ -22958,6 +22958,20 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
+/* With the folders showing (not while searching): the folders as a column
+   at the library's left, the open one beside it with its status tabs across
+   its top, so the two rows of tabs never repeat (designer, 2026-10-28). */
+.library--web:has(> .library-tabs--column) {
+  display: grid;
+  grid-template-columns: 11.5rem minmax(0, 1fr);
+  column-gap: var(--space-xl);
+  align-items: start;
+}
+
+.library--web:has(> .library-tabs--column) > :not(.library-tabs--column, .library-folder-open) {
+  grid-column: 1 / -1;
+}
+
 /* Over a tab's list: how many, then the Status menu and, in a folder,
    Start, both at the right. */
 .library--web .library-folder-open__bar {
@@ -23029,6 +23043,31 @@ ul.li-shares {
   font-size: var(--text-xs);
   font-variant-numeric: tabular-nums;
   color: var(--color-text-secondary);
+}
+
+/* Tabs as a column (the library's folders on web, 2026-10-28): each a row
+   with its count at the right; the chosen one on the selected surface and
+   set heavier, so the fill is never the only cue. It stays put while the
+   list scrolls. */
+.library-tabs--column {
+  flex-direction: column;
+  gap: var(--space-3xs);
+  border-bottom: 0;
+  overflow: visible;
+  position: sticky;
+  top: var(--space-lg);
+}
+
+.library-tabs--column .library-tabs__tab {
+  justify-content: space-between;
+  margin-bottom: 0;
+  border-bottom: 0;
+  border-radius: var(--radius-sm);
+  text-align: left;
+}
+
+.library-tabs--column .library-tabs__tab[aria-selected="true"] {
+  background-color: var(--color-surface-selected);
 }
 
 /* Tabs spread across the width, the first word flush left and the last
