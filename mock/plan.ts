@@ -863,8 +863,8 @@ export const PLAN_DIRECTION_COPY = {
 export const STAGE_CHECKIN_COPY = {
   part: "Stage check-in",
   introKicker: (n: number, of: number) => `Stage ${n} of ${of} · Finished`,
-  introTitle: (stage: string) => `You finished ${stage}`,
-  introLede: "Here’s what you did. Before ExecHQ builds on it, tell it how it went.",
+  introTitle: (stage: string) => `You finished ${stage}!`,
+  introLede: "Here’s what you did. Tell me how it went, and I’ll build on it.",
   introQuestion: "Check in on this stage?",
   introNote: (unreported: number) =>
     `${unreported ? `${unreported === 1 ? "One thing" : `${unreported} things`} to hear about, then how the stage went.` : "How the stage went."} About two minutes. You can skip any of it.`,

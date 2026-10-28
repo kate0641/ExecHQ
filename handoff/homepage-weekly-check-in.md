@@ -10,7 +10,7 @@ One card, once a week, after the cards about their work:
 
 - **Band:** "Your weekly check-in", with an × that means "Not now".
 - **Question:** "How ready do you feel to {their direction}?". In the prototype that is "How ready do you feel to lead a broader marketing organization?".
-- **Under the question:** "Your answer helps ExecHQ shape what comes next in your plan.", small.
+- **Under the question:** "Your answer helps shape what comes next in your plan.", small. (It said "helps ExecHQ shape" until 28 Oct.)
 - **A slider with three stops:** Not yet · Getting there · Ready. It starts on their last answer.
 - **Save**, at the card's right edge, with "Same as last week" or "Changed to {word}" on its left.
 
@@ -22,7 +22,7 @@ After Save, the card reads back "{word} this week. Up from {start} when you star
 | --- | --- | --- |
 | The card | A new Stay on track card type, drawn like the others (band, question, foot) | `components/homepage/ReadinessCheckIn` |
 | The slider | A new form control: the browser's range input, styled from tokens, each stop's word under the track, the screen reader hearing the word | `components/form/Slider` |
-| Where it goes | After "Have you done this yet?", "What they just answered", "What came of it?" and "{Draft} is ready", before the quiet rows | `flows/homepage/concept-4b/InProgress.tsx` |
+| Where it goes | After "Have you done this yet?", "What they just answered", "How did it go?" and "{Draft} is ready", before the quiet rows | `flows/homepage/concept-4b/InProgress.tsx` |
 | The direction in the question | A fixed phrase per direction that reads after "How ready do you feel to" (below) | `Account.towardVerb` in `mock/account.ts` |
 | The plan line | The read-back's last part: what the answer changed, and for Ready an offer with Add it and Not now | `ReadinessCheckIn`, copy in `READINESS_HOME_COPY.plan` |
 
@@ -46,7 +46,7 @@ Onboarding has no free text. The person picks one of 9 options and narrows it to
 
 ## What the answer changes in the plan
 
-The line under the question, "Your answer helps ExecHQ shape what comes next in your plan.", has to be true every week. Each answer changes the next step offered, using levers the Plan already has, and the read-back says what changed.
+The line under the question, "Your answer helps shape what comes next in your plan.", has to be true every week. Each answer changes the next step offered, using levers the Plan already has, and the read-back says what changed.
 
 | Answer | Change | Plan lever it uses | Read-back |
 | --- | --- | --- | --- |

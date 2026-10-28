@@ -400,7 +400,7 @@ export function followUpQuestion(record: LoopRecord, today: LoopDate): string {
     pitch: "Did you hear back?",
     positioning: "How did it go when you used it?",
   };
-  const asks = ASKS[record.kind] ?? "What came of it?";
+  const asks = ASKS[record.kind] ?? "How did it go?";
   return `You ${verb} ${record.name}${when}. ${asks}`;
 }
 
@@ -525,7 +525,7 @@ export function shortDate(date: LoopDate): string {
 
 export interface JourneyStep {
   key: "drafted" | "used" | "outcome";
-  /** "Drafted", the kind's used word ("Sent", "Published"), "What came of it". */
+  /** "Drafted", the kind's used word ("Sent", "Published"), "How it went". */
   label: string;
   /** When it happened, if it has. */
   on?: LoopDate;
@@ -550,7 +550,7 @@ export function loopJourney(record: LoopRecord): JourneyStep[] {
     },
     {
       key: "outcome",
-      label: "What came of it",
+      label: "How it went",
       on: heard ? record.outcome!.on : undefined,
       done: heard,
       current: used && !heard,

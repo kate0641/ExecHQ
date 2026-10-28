@@ -340,7 +340,7 @@ export const READINESS_HOME_COPY = {
   question: (towardVerb?: string) => (towardVerb ? `How ready do you feel to ${towardVerb}?` : "How ready do you feel for your next move?"),
   /** Under the question, small: why it is asked (Kate, 2026-10-26). The
    *  product must make it true, by shaping her plan from the answer. */
-  why: "Your answer helps ExecHQ shape what comes next in your plan.",
+  why: "Your answer helps shape what comes next in your plan.",
   /** Three answers on a slider (Kate, 2026-10-26, was five chips). They
    *  are 1 to 3 behind the scenes, for her trend and the dashboard. */
   answers: ["Not yet", "Getting there", "Ready"],
@@ -387,11 +387,11 @@ export const STAY_COPY = {
   heading: "Stay on track",
   previous: "Previous card",
   next: "Next card",
-  dueLine: "What came of it?",
+  dueLine: "How did it go?",
   readyLine: "Ready. Have you used it yet?",
-  askOn: (when: string) => `I’ll ask what came of it ${when}.`,
+  askOn: (when: string) => `I’ll ask how it went ${when}.`,
   usedNoAsk: "Used. No check-back set.",
-  empty: "When you use something you’ve made, it shows here, so you can tell ExecHQ what came of it.",
+  empty: "When you use something you’ve made, it shows here, so you can tell me how it went.",
   allLogged: "Nothing waiting on you. Everything you’ve used has its outcome logged.",
 } as const;
 
@@ -410,7 +410,7 @@ export const CONCEPT3_COPY = {
 export const CHECKIN_COPY = {
   aboutFor: "For",
   readyQuestion: (title: string) => `${title} is ready. Have you used it?`,
-  readySub: "Tell me once it’s been used, and I’ll ask what came of it.",
+  readySub: "Let me know when you have, and I’ll ask how it went.",
   used: (verb: string) => `Yes, I’ve ${verb} it`,
   notYet: "Not yet",
   notYetReadback: "No problem. I’ll check in again in a couple of days.",
@@ -424,13 +424,13 @@ export const CHECKIN_COPY = {
   chatSend: "Send",
   chatDone: "That’s all",
   chatNoted: "Thanks. That’s saved with it.",
-  steps: { drafted: "Drafted", used: "Used", came: "What came of it", accepted: "On your plan", done: "Done" },
+  steps: { drafted: "Drafted", used: "Used", came: "How it went", accepted: "On your plan", done: "Done" },
   /* An action with no draft, done on her word. */
   taskQuestion: "Have you done this yet?",
-  taskSub: "Say when it’s done, and what came of it.",
+  taskSub: "Let me know when it’s done, and how it went.",
   taskDone: "Yes, it’s done",
   taskDrop: "I’m not doing it",
-  taskDoneQuestion: (when: string) => `You finished this ${when}. What came of it?`,
+  taskDoneQuestion: (when: string) => `You finished this ${when}. How did it go?`,
   taskNothingYet: "No problem. I’ll ask again in a couple of days.",
   /** On a next step with no draft: the way to say it's done. */
   markDone: "I’ve done this",

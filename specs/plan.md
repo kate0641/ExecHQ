@@ -213,7 +213,7 @@ ExecHQ decides a stage is finished, from their work: every step they took on in 
 
 The check-in uses the same page and answers as the moves, with "Stage check-in · {stage}" where the plan's name was, and a segment for each of its pages.
 
-1. **What you did.** Kicker "Stage {n} of {total} · Finished", heading "You finished {stage}", and "Here's what you did. Before ExecHQ builds on it, tell it how it went." Then one card per thing from the stage:
+1. **What you did.** Kicker "Stage {n} of {total} · Finished", heading "You finished {stage}!", and "Here's what you did. Tell me how it went, and I'll build on it." (2026-10-28) Then one card per thing from the stage:
    - its source: **Your steps**, **In ExecHQ** (something made with ExecHQ) or **Yours** (something they added),
    - its title, and what happened when ("Used 13 Oct", "Done 9 Oct", "Added 17 Oct"),
    - what they have said came of it ("It went well." and their words in the serif), or a **Not reported yet** tag,

@@ -6,9 +6,9 @@ import { CardCarousel } from "./CardCarousel";
 const card = (title: string, line: string) =>
   h("div", { className: "loop-row" }, h("span", { className: "loop-row__text" }, h("b", null, title), h("span", null, line)));
 const three = [
-  { id: "a", node: card("Your leadership story", "You used it last Tuesday. What came of it?") },
+  { id: "a", node: card("Your leadership story", "You used it last Tuesday. How did it go?") },
   { id: "b", node: card("Brief for your manager check-in", "Ready. Have you used it yet?") },
-  { id: "c", node: card("Pitch for the Q1 planning review", "I’ll ask what came of it on Friday.") },
+  { id: "c", node: card("Pitch for the Q1 planning review", "I’ll ask how it went on Friday.") },
 ];
 
 export const cardCarouselStates = defineComponentStates({
@@ -51,7 +51,7 @@ export const cardCarouselStates = defineComponentStates({
       props: {
         label: "Waiting on you (long)",
         items: [
-          { id: "l", node: card("Your pitch for the Q1 cross-functional planning review across brand, product marketing and communications", "I’ll ask what came of it on Friday.") },
+          { id: "l", node: card("Your pitch for the Q1 cross-functional planning review across brand, product marketing and communications", "I’ll ask how it went on Friday.") },
           { id: "m", node: card("Your leadership story", "Ready. Have you used it yet?") },
         ],
       },
