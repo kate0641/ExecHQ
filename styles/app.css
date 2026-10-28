@@ -23142,12 +23142,11 @@ ul.li-shares {
 }
 
 /* A folder's own page on a phone (Concept 2, option A). */
+/* No line under it, so it sits in the page's margins, lined up with the
+   card below (designer, 2026-10-28). */
 .folder-page__bar {
   display: flex;
   align-items: center;
-  margin-inline: calc(-1 * var(--space-screen-side));
-  padding-inline: var(--space-sm);
-  border-bottom: var(--border-width-thin) solid var(--color-border);
 }
 
 .folder-page__back {
