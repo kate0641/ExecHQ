@@ -6,8 +6,10 @@ import { Icon } from "@/components/primitives/Icon";
 export interface LibrarySearchItem {
   id: string;
   title: string;
-  /** Under the title: "Pitch builder · 2 days ago". */
+  /** Over the title: "Pitches · Waiting to hear · 5 days ago". */
   detail: string;
+  /** Under the title: a line of what it says. */
+  preview?: string;
   /** What else it is found by: what the draft says, the tool's name. */
   text?: string;
   href: string;
@@ -65,7 +67,9 @@ function marked(title: string, q: string) {
 
 /**
  * Finding something in the library, inside the sheet the magnifying glass
- * opens (Playbook Concept 2, 14 Oct). Before she types, her latest work; as
+ * opens (Playbook Concept 2, 14 Oct). Each is the library's card: where it
+ * stands over the title, what it says under it, the horizon line along its
+ * foot and a chevron (designer, 2026-10-28). Before she types, her latest work; as
  * she types, the matches update with each letter, the best first, with what
  * she typed marked in the title. Each match is a button that opens it; Tab
  * goes from the field to them, and the count is announced as it changes.
@@ -110,11 +114,15 @@ export function LibrarySearch({ items, onPick, copy, initial = "", limit = 8, de
             <li key={item.id}>
               <button
                 type="button"
-                className={["library-search__option", i === 0 && demo ? `is-${demo}` : null].filter(Boolean).join(" ")}
+                className={["library-search__option", "card--horizon", i === 0 && demo ? `is-${demo}` : null].filter(Boolean).join(" ")}
                 onClick={() => onPick(item)}
               >
-                <span className="library-search__title">{marked(item.title, q)}</span>
-                <span className="library-search__detail">{item.detail}</span>
+                <span className="library-search__text">
+                  <span className="library-search__detail">{item.detail}</span>
+                  <span className="library-search__title">{marked(item.title, q)}</span>
+                  {item.preview ? <span className="library-search__preview">{item.preview}</span> : null}
+                </span>
+                <Icon name="chevron" size={16} className="library-search__go" />
               </button>
             </li>
           ))}

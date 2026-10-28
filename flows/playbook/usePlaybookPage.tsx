@@ -193,7 +193,8 @@ export function usePlaybookPage(concept: PlaybookPage) {
           items={all.map((i) => ({
             id: i.record.id,
             title: i.record.title,
-            detail: `${i.tool} · ${when(i)}`,
+            detail: `${C.folders.names[i.record.kind]} · ${statusLabel(i.record)} · ${when(i)}`,
+            preview: i.preview,
             text: `${i.preview} ${i.tool}`,
             href: artifactHref(i.record.id),
           }))}

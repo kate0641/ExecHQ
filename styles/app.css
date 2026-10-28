@@ -21227,29 +21227,45 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
+/* The matches are the library's cards, 12px apart (designer, 2026-10-28). */
 .library-search__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.library-search__list > li + li {
-  border-top: var(--border-width-thin) solid var(--color-border);
-}
-
 .library-search__option {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-3xs);
+  align-items: flex-start;
+  gap: var(--list-item-gap);
   width: 100%;
-  min-height: 2.75rem;
-  padding: var(--space-sm) 0;
-  border: 0;
-  background: none;
+  padding: var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
   font: inherit;
   color: var(--color-text-primary);
   text-align: left;
   cursor: pointer;
+}
+
+.library-search__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Level with the title, as on the library's cards. */
+.library-search__go {
+  flex: none;
+  margin-top: calc(
+    var(--type-caption-size) * var(--type-caption-leading) + var(--space-eyebrow-title) +
+      (var(--list-primary-size) * var(--list-primary-leading) - 1rem) / 2
+  );
 }
 
 .library-search__option:hover,
@@ -21269,8 +21285,17 @@ ul.li-shares {
 }
 
 .library-search__title {
-  font-size: var(--text-sm);
-  line-height: var(--leading-snug);
+  font-family: var(--list-primary-font);
+  font-size: var(--list-primary-size);
+  font-weight: var(--list-primary-weight);
+  line-height: var(--list-primary-leading);
+}
+
+.library-search__preview {
+  margin-top: var(--space-title-copy);
+  font-size: var(--list-secondary-size);
+  line-height: var(--list-secondary-leading);
+  color: var(--color-text-secondary);
 }
 
 /* What she typed, in the title: heavier, never a highlighter colour. */
@@ -21281,7 +21306,9 @@ ul.li-shares {
 }
 
 .library-search__detail {
-  font-size: var(--text-xs);
+  margin-bottom: var(--space-eyebrow-title);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
   color: var(--color-text-secondary);
 }
 
