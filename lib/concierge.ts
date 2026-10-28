@@ -483,7 +483,7 @@ export function respond(
           paragraphs: [
             C.recallAll(
               `${words[used.length] ?? used.length} thing${used.length === 1 ? "" : "s"}`,
-              outcomes.length === 0 ? "none of them yet" : `${words[outcomes.length] ?? outcomes.length}`
+              `${words[outcomes.length] ?? outcomes.length}`
             ),
           ],
           list: lines.length ? lines : undefined,

@@ -568,14 +568,14 @@ export const SIGNAL_PICTURE_COPY = {
   deleteAsk: "Delete this entry?",
   deleteYes: "Delete",
   deleteNo: "Keep it",
-  impactHeading: "What came of it",
+  impactHeading: "How it went",
   nextLabel: "Next action",
-  impactAdd: "Add what came of it",
+  impactAdd: "Add how it went",
   /** The block that shows only what she says came of the things she did. */
   cameOf: {
-    heading: "What came of it",
-    intro: "What you told us came of the things you did, in your words. Nothing is worked out for you.",
-    none: "Nothing reported yet. When you add what came of something you did, it shows here.",
+    heading: "How it went",
+    intro: "What you told us about how the things you did went, in your words. Nothing is worked out for you.",
+    none: "Nothing reported yet. When you tell us how something went, it shows here.",
     /** A thing she did with no reply: neutral, never a miss. */
     noReply: "Nothing reported yet",
     /** Said under it when she can tap it. */
@@ -589,11 +589,11 @@ export const SIGNAL_PICTURE_COPY = {
 
 /** The drawer she reports what came of something in. */
 export const REPORT_COPY = {
-  title: "What came of it?",
-  toneLabel: "How did it go?",
-  textLabel: "What came of it, in your words",
+  title: "How did it go?",
+  toneLabel: "Overall",
+  textLabel: "In your words",
   textHint: "Just enough for you to recognise it.",
-  errorText: "Write a line about what came of it.",
+  errorText: "Write a line about how it went.",
   errorTone: "Choose how it went.",
   save: "Save",
   cancel: "Cancel",
@@ -631,7 +631,7 @@ export const ENTRY_COPY = {
   followersPlaceholder: "e.g. 1,310",
   followersDateLabel: "As of when?",
   errorFollowers: "Type a whole number, such as 1,310.",
-  impactLabel: "What came of it?",
+  impactLabel: "How did it go?",
   impactHint: "Optional. A reply, a comment, an invitation, or nothing yet. In your words.",
   save: "Add",
   saveEdit: "Save",
@@ -881,11 +881,11 @@ export const STAGE_CHECKIN_COPY = {
   done: (on: string) => `Done ${on}`,
   added: (on: string) => `Added ${on}`,
   // One page per thing she has not said what came of.
-  itemTitle: "What came of it?",
+  itemTitle: "How did it go?",
   itemWhyLabel: "Why ExecHQ asks",
   itemWhy: "What worked here decides what the next stage leans on.",
-  toneLabel: "How did it go?",
-  wordsLabel: "What came of it, in your words",
+  toneLabel: "Overall",
+  wordsLabel: "In your words",
   wordsHint: "Optional.",
   next: "Next",
   skipOne: "Skip this one",

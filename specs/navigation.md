@@ -185,7 +185,7 @@ Each of these changes real data (the Loop, section 7), so the effect shows up on
 | The user says (examples) | He does |
 | --- | --- |
 | Names a destination | Goes there (section 4). |
-| "Tell you what came of …", or answers about a follow-up ("it went well", "nothing yet") | Logs the outcome against the waiting item. See "Logging an outcome" below. |
+| "Tell you how … went", or answers about a follow-up ("it went well", "nothing yet") | Logs the outcome against the waiting item. See "Logging an outcome" below. |
 | "I used / sent / shared / presented …" | Marks the named artifact as used, today, and asks when to check back (in the usual number of days for that kind of artifact, in a week, or never). If the user names no artifact and exactly one is open, he assumes it. If several are open he asks which. |
 | "Help me finish …", "get ready for …" | Describes what is worth doing first, shows the draft as a card with its status, and offers "Open it". For a briefing to a manager or a pitch he also offers "Help me with the opening". |
 | "What should I say" / "how do I start" | Offers a suggested opening line to adapt, with a one-line reason it works. |
@@ -244,11 +244,11 @@ The record is in the waiting state, has a check-back date that has arrived, and 
 ### What a due follow-up changes
 
 - The pill shows the follow-up dot, and so does Home on the panel's destination list.
-- The first suggested question becomes "Tell you what came of {artifact}".
+- The first suggested question becomes "Tell you how {artifact} went".
 
 ### Suggested questions, in order, up to four
 
-1. "Tell you what came of {artifact}": only if a follow-up is due.
+1. "Tell you how {artifact} went": only if a follow-up is due.
 2. "Help me finish {artifact}": only if there is a draft or in-progress item.
 3. "What's next on my plan?"
 4. "How do I ask for more scope?"

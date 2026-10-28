@@ -11,7 +11,7 @@ Concepts 1 (How you've grown) and 3 were the other ideas tried for this page. Th
 The Signal Picture is the person's private record of how visible they are becoming, beside how they are keeping up. It answers three questions, in this order of weight:
 
 1. **Am I keeping up?** Momentum: this week, a circle a day, and the next move on their plan.
-2. **What came of what I did?** Each thing they put out in the world, and what they said came of it, in their words.
+2. **How did the things I did go?** Each thing they put out in the world, and what they said came of it, in their words.
 3. **How far have I come?** Where they started, beside where they are now, typed by hand.
 
 What it deliberately does not do:
@@ -36,13 +36,13 @@ A dot on Signals in the navigation says something new has been recorded on their
 | Production breakpoint | Below 768px | 768px to 1199px | 1200px and up |
 | Prototype frame | 393px wide | 820px wide | Fills the window |
 | Column | One, at the reading width | One, at the reading width, centered | A band across the top, then two columns, at most 65rem, centered |
-| Order | Title, Momentum, What came of it, Where you started (with Try this, then the LinkedIn export and what it says) | Same as phone | Title; Momentum as a band; then What came of it and what the LinkedIn export says (left, about 60%) beside Where you started, Try this and the LinkedIn upload (right, about 40%) |
+| Order | Title, Momentum, How it went, Where you started (with Try this, then the LinkedIn export and what it says) | Same as phone | Title; Momentum as a band; then How it went and what the LinkedIn export says (left, about 60%) beside Where you started, Try this and the LinkedIn upload (right, about 40%) |
 | A day in the week | Fills the row, up to 3.5rem | Up to 3.5rem | Up to 4rem |
 
 On web:
 
 - **The band.** Momentum runs across the top, split where the columns under it split: the week on the left, **Your next move** on the right, level with "This week". A rule separates the band from the columns.
-- **The columns.** What came of it is the wider. What the LinkedIn export says sits under it on web only, so the two columns run about the same length.
+- **The columns.** How it went is the wider. What the LinkedIn export says sits under it on web only, so the two columns run about the same length.
 - **When the left column is empty,** the right one takes the full width, so nothing sits beside an empty space (4.4).
 
 In the prototype, responsiveness follows the simulated device frame (`data-viewport`), never the browser window. In production use the real breakpoints above.
@@ -83,11 +83,13 @@ A card: **Your next move** in small capitals, the next step on their plan that i
 
 ---
 
-## 4. What came of it
+## 4. How it went
+
+This section was called "What came of it" until 2026-10-28; its words changed with the notifications sheet, and nothing else about it did.
 
 ### 4.1 The rows
 
-**What came of it**, then "What you told us came of the things you did, in your words. Nothing is worked out for you."
+**How it went**, then "What you told us about how the things you did went, in your words. Nothing is worked out for you."
 
 One row for each thing they did since their plan began, newest first: each thing they added themselves, and each thing made with ExecHQ that they used, sent or published. Each row is the thing on the left (its date, then what it was) pointing to what came of it on the right:
 
@@ -98,13 +100,13 @@ Five rows show; **Show {n} more** shows the rest, and **Show fewer** puts them a
 
 A row for something they added themselves carries **Edit** and **Delete**. Delete asks first, in place: "Delete this entry?" with **Delete** and **Keep it**.
 
-With no rows: "Nothing reported yet. When you add what came of something you did, it shows here."
+With no rows: "Nothing reported yet. When you tell us how something went, it shows here."
 
-### 4.2 Reporting what came of it
+### 4.2 Reporting how it went
 
-A drawer, **What came of it?**, with the date and what they did beneath.
+A drawer, **How did it go?**, with the date and what they did beneath.
 
-- For something made with ExecHQ: **How did it go?** as It went well, It was mixed, Not the way I hoped. Then **What came of it, in your words** ("Just enough for you to recognise it."). Both are needed: "Choose how it went." and "Write a line about what came of it." say what is missing.
+- For something made with ExecHQ: **Overall** as It went well, It was mixed, Not the way I hoped. Then **In your words** ("Just enough for you to recognise it."). Both are needed: "Choose how it went." and "Write a line about how it went." say what is missing.
 - For something they added: their words only.
 - "Only you see this. It is kept as you wrote it." **Save** and **Cancel**.
 
@@ -118,7 +120,7 @@ Only what they put out in the world goes on: something made with ExecHQ that the
 
 ### 4.4 The first visit
 
-Until they have said where they started, What came of it is not shown, and the page asks for a starting point (5.3). On web the starting point then has the full width (2).
+Until they have said where they started, How it went is not shown, and the page asks for a starting point (5.3). On web the starting point then has the full width (2).
 
 ---
 
@@ -142,7 +144,7 @@ A drawer, **Add what you did**, starting with one row ("Thing 1"):
 - **What did you do?** Published, Spoke, Podcast appearance, Press mention, Something else, or My LinkedIn followers.
 - **When was it?** Not in the future.
 - **A link or a note** (optional, "Just enough for you to recognise it.").
-- **What came of it?** (optional, "A reply, a comment, an invitation, or nothing yet. In your words.").
+- **How did it go?** (optional, "A reply, a comment, an invitation, or nothing yet. In your words.").
 - For followers instead: **How many followers now?** and **As of when?**
 
 **Add another thing** adds a row; a row can be removed or left out. The button says **Add**, or **Add {n} things**. If the same thing may already be on their picture, the row says so ("You already added this on {date}: “…”.") with **That's the one**. "Only you see this. Nothing is searched for or shared."
@@ -171,7 +173,7 @@ Optional, and the only file the page takes.
 | Read | "Added from {file}. Upload a newer one whenever you like and it will replace this." **Upload a newer export** |
 | Read, but empty | "Added from {file}. It had no posts in the last year. Upload a newer one…" |
 
-Once read, **Your LinkedIn, from your export** shows what it says: followers by week (a chart they can step through with the arrow keys), impressions added up by month, and the three posts LinkedIn showed most, with their reactions and comments. On phone and tablet it sits under Where you started; on web, under What came of it (2).
+Once read, **Your LinkedIn, from your export** shows what it says: followers by week (a chart they can step through with the arrow keys), impressions added up by month, and the three posts LinkedIn showed most, with their reactions and comments. On phone and tablet it sits under Where you started; on web, under How it went (2).
 
 ---
 
@@ -181,17 +183,17 @@ The page changes with where the person is. In the prototype the dock lists five 
 
 | Moment | What the page shows |
 | --- | --- |
-| **First return** | Momentum with Monday filled (their story drafted), and the starting-point form in place of What came of it and Where you started |
-| **Follow-up due** | An empty week so far, no count line, and What came of it with their story and pitch "Nothing reported yet" |
-| **Drafted, not used** | What came of it with their story's outcome in their words |
+| **First return** | Momentum with Monday filled (their story drafted), and the starting-point form in place of How it went and Where you started |
+| **Follow-up due** | An empty week so far, no count line, and How it went with their story and pitch "Nothing reported yet" |
+| **Drafted, not used** | How it went with their story's outcome in their words |
 | **Nothing pending** | A signal they added on Sunday filling that day, "1 signal added", and outcomes for everything they used |
-| **Just answered** | The outcome they just recorded, in their words, on their story's row in What came of it |
+| **Just answered** | The outcome they just recorded, in their words, on their story's row in How it went |
 
 ---
 
 ## 7. Accessibility
 
-- The page has one level 1, "Your Signal Picture". Momentum, What came of it and Where you started are level 2; This week is a level 3.
+- The page has one level 1, "Your Signal Picture". Momentum, How it went and Where you started are level 2; This week is a level 3.
 - Each day circle has a name that says the day and what it was: "you did something", "nothing recorded" or "not yet". The three looks (filled, solid outline, dashed outline) differ by shape, not by tone alone.
 - "Nothing reported yet" boxes that can be answered are buttons, named for their row. Ones that cannot are not.
 - Drawers take focus when they open, close on Escape and on their handle (a real button, so nothing needs dragging), and give focus back to what opened them. They never trap the page behind them.
