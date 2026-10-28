@@ -1,4 +1,4 @@
-import { nthOfKind, ordinal, recentlyAdded } from "@/lib/presence";
+import { nthOfKind, recentlyAdded } from "@/lib/presence";
 import { SPARK_COPY, type PresenceItem } from "@/mock/accounts-stub";
 
 export interface SparkNote {
@@ -7,25 +7,30 @@ export interface SparkNote {
   /** Where it came from: "Podcast", "LinkedIn". */
   source: string;
   text: string;
+  /** The word before the source: "Great job!", "Nice one!" or "Well done!". */
+  kicker: string;
   /** The day it happened, to put the newest first. */
   on: string;
 }
 
 function noteFor(item: PresenceItem, items: readonly PresenceItem[]): SparkNote {
-  const nth = ordinal(nthOfKind(item, items));
+  const n = nthOfKind(item, items);
   const text =
     item.kind !== "writing" && item.kind !== "other" && !item.where
       ? SPARK_COPY.other(item.note ?? item.title)
       : item.kind === "podcast"
-      ? SPARK_COPY.podcast(item.where, nth)
+      ? SPARK_COPY.podcast(item.where, n)
       : item.kind === "press"
-        ? SPARK_COPY.press(item.where, nth)
+        ? SPARK_COPY.press(item.where, n)
         : item.kind === "speaking"
-          ? SPARK_COPY.speaking(item.where, nth)
+          ? SPARK_COPY.speaking(item.where, n)
           : item.kind === "writing"
-            ? SPARK_COPY.writing(item.title, nth)
+            ? SPARK_COPY.writing(item.title, n)
             : SPARK_COPY.other(item.note ?? item.title);
-  return { id: `presence:${item.id}`, source: SPARK_COPY.source[item.kind], text, on: item.on };
+  /* The kickers take turns in the order things were added, so two notes in a
+     row never open with the same word. */
+  const kicker = SPARK_COPY.kickers[Math.max(0, items.indexOf(item)) % SPARK_COPY.kickers.length];
+  return { id: `presence:${item.id}`, source: SPARK_COPY.source[item.kind], text, kicker, on: item.on };
 }
 
 /**

@@ -320,8 +320,18 @@ The LinkedIn row appears only if a number was typed. Nothing is looked up from L
 
 ### 6.3 The note of movement
 
-- It shows one note: the most recent thing the person added in the last 7 days, in a warm sentence that names the thing and stops ("Great job! You're on The Modern CMO, your second podcast appearance.").
-- A mark and a small source label (Podcast, Press, Speaking, Writing) sit beside it.
+- It shows one note: the most recent thing the person added in the last 7 days, in a short, warm line that names the thing and gives the count, the one thing they don't already know (decided 2026-10-28):
+
+  | Kind | The line | Their first of that kind |
+  | --- | --- | --- |
+  | Podcast | "{Podcast}! That's podcast number {n}." | "{Podcast}! Your first podcast." |
+  | Press | "You made {Publication}. That's press mention number {n}." | "You made {Publication}. Your first press mention!" |
+  | Speaking | "On stage at {Event}. That's talk number {n}." | "On stage at {Event}. Your first talk!" |
+  | Writing | ""{Title}" is out there. That's piece number {n}!" | ""{Title}" is out there. Your first piece!" |
+  | Something else | "Nice. {What they added} is on your Signal Picture." | — |
+
+  The count is a digit and includes what they had at the start.
+- A mark and a small source label (Podcast, Press, Speaking, Writing) sit beside it, after a cheer that takes turns in the order things were added, so two notes in a row never match: "Great job!", "Nice one!", "Well done!" ("Nice one! · Podcast").
 - It never says the person's work caused a result, and there are no streaks.
 - A **Dismiss** button, named for the note it dismisses, removes it for good. Nothing else changes when it goes.
 - **Only ever the newest, never a stack** (decided 2026-10-28). Adding something new replaces the note. Once it is dismissed, nothing shows until the person adds something new, and older notes never come back. A note stops showing 7 days after the thing was added, dismissed or not.
