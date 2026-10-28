@@ -1,9 +1,6 @@
 import { nthOfKind, ordinal, recentlyAdded } from "@/lib/presence";
 import { SPARK_COPY, type PresenceItem } from "@/mock/accounts-stub";
 
-/** The most that show at once: a note, not a feed. */
-const MAX_SPARKS = 2;
-
 export interface SparkNote {
   /** Stable, so a dismissed note stays dismissed. */
   id: string;
@@ -34,17 +31,18 @@ function noteFor(item: PresenceItem, items: readonly PresenceItem[]): SparkNote 
 /**
  * What has moved in the last week that she can see for herself: something she
  * added, or her LinkedIn numbers arriving. It says what changed and never
- * that her work caused it. Newest first, at most two, none already dismissed.
+ * that her work caused it. Only ever the newest, by Kate's decision on
+ * 2026-10-28: once she dismisses it, nothing shows until she adds something
+ * new, and older notes never come back.
  */
 export function sparksFor(
   today: string,
   dismissed: readonly string[],
   items: readonly PresenceItem[]
 ): SparkNote[] {
-  const notes = recentlyAdded(today, items).map((item) => noteFor(item, items));
+  const newest = recentlyAdded(today, items)
+    .map((item) => noteFor(item, items))
+    .sort((a, b) => (a.on < b.on ? 1 : a.on > b.on ? -1 : 0))[0];
 
-  return notes
-    .filter((note) => !dismissed.includes(note.id))
-    .sort((a, b) => (a.on < b.on ? 1 : a.on > b.on ? -1 : 0))
-    .slice(0, MAX_SPARKS);
+  return newest && !dismissed.includes(newest.id) ? [newest] : [];
 }

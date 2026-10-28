@@ -324,6 +324,7 @@ The LinkedIn row appears only if a number was typed. Nothing is looked up from L
 - A mark and a small source label (Podcast, Press, Speaking, Writing) sit beside it.
 - It never says the person's work caused a result, and there are no streaks.
 - A **Dismiss** button, named for the note it dismisses, removes it for good. Nothing else changes when it goes.
+- **Only ever the newest, never a stack** (decided 2026-10-28). Adding something new replaces the note. Once it is dismissed, nothing shows until the person adds something new, and older notes never come back. A note stops showing 7 days after the thing was added, dismissed or not.
 - With nothing to note, there is no note and no gap.
 
 ---
