@@ -13,7 +13,7 @@ import type { LoopDate } from "@/lib/loop";
 import { conceptHref } from "@/lib/manifest";
 import { useViewport } from "@/lib/viewport-context";
 import type { ArtifactKind } from "@/mock/loop";
-import { LIBRARY_COPY, STATUS_FILTERS, TOOL_ORDER, TOOLS } from "@/mock/playbook";
+import { LIBRARY_COPY, POSITIONING_FILTERS, STATUS_FILTERS, TOOL_ORDER, TOOLS } from "@/mock/playbook";
 import { useLead, usePlaybookPage } from "../usePlaybookPage";
 
 const F = LIBRARY_COPY.folders;
@@ -54,9 +54,12 @@ function FolderList({
     ) : (
       <p className="library-folder-open__empty">{emptyBody}</p>
     );
-  // Each status the folder holds, and Closed always, so what she closed
-  // can always be found (designer, 2026-10-28).
-  const present = STATUS_FILTERS.filter((s) => s.id === "closed" || items.some((i) => s.states.includes(i.record.state)));
+  // Each status the folder holds, and the last (Closed, or Archived for
+  // statements) always, so what she put away can always be found
+  // (designer, 2026-10-28).
+  const filters = !mixed && items[0]?.record.kind === "positioning" ? POSITIONING_FILTERS : STATUS_FILTERS;
+  const last = filters[filters.length - 1].id;
+  const present = filters.filter((s) => s.id === last || items.some((i) => s.states.includes(i.record.state)));
   const inStatus = (id: string) => items.filter((i) => present.find((s) => s.id === id)?.states.includes(i.record.state));
   const chosen = present.find((s) => s.id === status);
   const shown = chosen ? inStatus(chosen.id) : items;

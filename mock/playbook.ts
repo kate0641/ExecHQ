@@ -777,6 +777,17 @@ export const STATUS_FILTERS: readonly { id: string; label: string; states: reado
   { id: "closed", label: "Closed", states: ["closed"] },
 ];
 
+/** In the Positioning folder only, a statement's life is shorter: one she
+ *  uses again and again is never "used" or "waiting to hear", so it is a
+ *  draft, then ready, then archived when she puts it away (designer, 28
+ *  Oct). Every other screen keeps the Loop's words. The last is always
+ *  shown, as Closed is in the other folders. */
+export const POSITIONING_FILTERS: readonly { id: string; label: string; states: readonly string[] }[] = [
+  { id: "draft", label: "Draft", states: ["drafted", "in-progress"] },
+  { id: "ready", label: "Ready", states: ["ready", "used", "waiting", "outcome"] },
+  { id: "archived", label: "Archived", states: ["closed"] },
+];
+
 /** Concept 2's groups: when she last touched it, newest first. */
 export const TOUCHED_GROUPS = {
   today: "Today",

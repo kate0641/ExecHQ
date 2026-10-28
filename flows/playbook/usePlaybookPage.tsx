@@ -18,7 +18,7 @@ import { usePlaybookLinks } from "@/lib/playbook-links";
 import { PLAN_AGENDA_COPY, stepById } from "@/mock/plan";
 import { draftMeta, flowFor, playbookActions, usePlaybook, type PlaybookPage } from "@/lib/playbook-store";
 import type { ArtifactKind } from "@/mock/loop";
-import { FLOW_COPY, LIBRARY_COPY as C, TOOL_COPY, TOOL_ORDER, PLAYBOOK_PAGE, TOOLS } from "@/mock/playbook";
+import { FLOW_COPY, LIBRARY_COPY as C, POSITIONING_FILTERS, TOOL_COPY, TOOL_ORDER, PLAYBOOK_PAGE, TOOLS } from "@/mock/playbook";
 
 /** The tool her next plan step needs: the first step on her plan that makes
  *  something with a tool. None, and the four tools are equal. */
@@ -119,6 +119,12 @@ export function usePlaybookPage(concept: PlaybookPage) {
     return moments.length ? moments.map(C.folders.moment) : item.fromOnboarding ? [C.folders.madeInOnboarding] : [];
   };
 
+  /** Where it stands, in its folder's words: statements take Draft, Ready
+   *  and Archived in the Positioning folder; everything else, and
+   *  statements anywhere else, the Loop's (designer, 2026-10-28). */
+  const folderStatus = (record: LibraryItem["record"]) =>
+    record.kind === "positioning" ? (POSITIONING_FILTERS.find((f) => f.states.includes(record.state))?.label ?? statusLabel(record)) : statusLabel(record);
+
   function itemOf(item: LibraryItem, options: { folder?: boolean; mixed?: boolean }): ListItemData {
     const { record } = item;
     const cards = options.folder || options.mixed;
@@ -136,7 +142,7 @@ export function usePlaybookPage(concept: PlaybookPage) {
           {cards ? (
             <span className="library__stamp">
               {options.mixed ? `${C.folders.names[record.kind]} · ` : null}
-              {statusLabel(record)} · {when(item)}
+              {options.folder ? folderStatus(record) : statusLabel(record)} · {when(item)}
             </span>
           ) : (
             <>
