@@ -20599,10 +20599,12 @@ ul.li-shares {
   opacity: 0.5;
 }
 
+/* The part's name to its words: the title-to-copy gap (designer,
+   2026-10-28; was 4). */
 .draft-editor__section {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xs);
+  gap: var(--space-title-copy);
 }
 
 /* Sections split by hairlines take the divided-row space either side, as
