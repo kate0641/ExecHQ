@@ -8874,7 +8874,7 @@ ol.ring-detail__timeline {
    light edge with light words; chosen, it turns white with navy words. The Plan's reasons on its navy
    page, and onboarding's answers in its navy drawer. */
 .guide--navy .guide__body .chip-group__chip,
-:is([data-viewport="mobile"], [data-viewport="tablet"]) .guide.guide--sky .answer-drawer .chip-group__chip {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .guide.guide--sky:not(.tool-flow-questions) .answer-drawer .chip-group__chip {
   color: var(--color-text-inverse);
   background-color: transparent;
   border-color: var(--color-pill-edge-on-inverse);
@@ -8882,12 +8882,12 @@ ol.ring-detail__timeline {
 }
 
 .guide--navy .guide__body .chip-group__chip:hover,
-:is([data-viewport="mobile"], [data-viewport="tablet"]) .guide.guide--sky .answer-drawer .chip-group__chip:hover {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .guide.guide--sky:not(.tool-flow-questions) .answer-drawer .chip-group__chip:hover {
   background-color: var(--color-surface-inverse-hover);
 }
 
 .guide--navy .guide__body .chip-group__chip[aria-pressed="true"],
-:is([data-viewport="mobile"], [data-viewport="tablet"]) .guide.guide--sky .answer-drawer .chip-group__chip[aria-pressed="true"] {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .guide.guide--sky:not(.tool-flow-questions) .answer-drawer .chip-group__chip[aria-pressed="true"] {
   color: var(--color-text-on-selected-inverse);
   background-color: var(--color-selected-on-inverse);
   border-color: var(--color-selected-on-inverse);
@@ -9640,6 +9640,7 @@ ol.ring-detail__timeline {
   min-height: auto;
   flex: 1 100 auto;
   padding-bottom: 0;
+  overflow: visible;
 }
 
 /* A drawer with fewer answers is only as tall as they are, and the page
@@ -17843,7 +17844,7 @@ fieldset.agenda__whens {
    about this move reads apart from the page: the yellow start button, white answers, light words. Its
    handle folds it to the peek bar, which shows the roadmap under the move. On the web the answers are
    part of the page. */
-:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer {
   color: var(--color-text-inverse);
   background-color: var(--color-surface-inverse);
   border-top: 0;
@@ -17854,43 +17855,43 @@ fieldset.agenda__whens {
   --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
 }
 
-:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer__grab::before {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer__grab::before {
   background-color: var(--color-text-inverse-muted);
 }
 
-:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer.is-peek {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer.is-peek {
   padding-top: var(--space-xs);
 }
 
-:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer :is(.answer-drawer__peek-q, .chip-group__label) {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer :is(.answer-drawer__peek-q, .chip-group__label) {
   color: var(--color-text-inverse);
 }
 
-:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer :is(.answer-drawer__peek-status, .answer-drawer__step, .field__hint) {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer :is(.answer-drawer__peek-status, .answer-drawer__step, .field__hint) {
   color: var(--color-text-inverse-muted);
 }
 
-:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer .btn--ghost:hover {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer .btn--ghost:hover {
   color: var(--color-text-link-hover);
   background-color: transparent;
 }
 
 /* Words written straight on the navy take its light ink; the sticky foot keeps the navy behind it. */
-:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer :is(.stage-checkin__note, .field__label, .input__label, legend) {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer :is(.stage-checkin__note, .field__label, .input__label, legend) {
   color: var(--color-text-inverse);
 }
 
 /* The email code's small lines and Send it again, on the navy: the same light ink (designer, 2026-10-15). */
-:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer :is(.login__small, .login__link) {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer :is(.login__small, .login__link) {
   color: var(--color-text-inverse);
 }
 
-:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer .answer-drawer__actions {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer .answer-drawer__actions {
   background-color: var(--color-surface-inverse);
 }
 
 /* The one she picks can't fill navy on navy: it takes blue 200 with the ink, its words bold. */
-:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer .chip-group__chip[aria-pressed="true"] {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer .chip-group__chip[aria-pressed="true"] {
   color: var(--color-text-primary);
   background-color: var(--color-surface-active);
   border-color: var(--color-surface-active);
@@ -17910,7 +17911,7 @@ fieldset.agenda__whens {
 }
 
 /* The answers stay white with the ink, a ring of their own inside the navy. */
-:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer .chip-group__chip {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer .chip-group__chip {
   border-color: var(--color-surface-raised);
   --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
 }

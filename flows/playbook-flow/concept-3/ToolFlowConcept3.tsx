@@ -376,6 +376,9 @@ function Interview() {
           title={input.label}
           lede={pick ? undefined : input.hint}
           headingId={STEP_HEADING}
+          // The question in onboarding's sky panel, so the white drawer has
+          // something to stand apart from (designer, 2026-10-30).
+          sky
           className="tool-flow-questions"
           drawer={
             <AnswerDrawer
