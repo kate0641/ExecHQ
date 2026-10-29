@@ -20758,15 +20758,30 @@ ul.li-shares {
    suggestion beside her own words. */
 /* --- Once it is ready: the clean read (Concept 1) and the page (Concept 2) --- */
 
+/* Questions left open: lime, her input, as the open questions are on the
+   working draft, with the green edge a lime card takes on stone; the card's
+   corners and padding (designer, 2026-10-30; it was light blue, too faint). */
 .draft-editor__open {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-xs);
-  padding: var(--space-sm) var(--space-md);
-  border-radius: var(--radius-md);
-  background-color: var(--color-surface-sunken);
+  padding: var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border-her-band);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-her-band);
+  color: var(--color-text-on-her-band);
   font-size: var(--text-sm);
+}
+
+.draft-editor__open .link {
+  color: var(--color-text-on-her-band);
+}
+
+/* On the open draft it is a group of its own: 24 under the name and For:,
+   as the key is on the working draft, and 24 over the first part. */
+.pinned-draft.is-open .draft-editor__open {
+  margin-top: var(--space-lg);
 }
 
 .draft-editor__open .draft-editor__gap {
@@ -20792,12 +20807,21 @@ ul.li-shares {
   cursor: pointer;
 }
 
+/* Ready, the draft reads clean (spec 5.5): an open question is only
+   quieter, with no fill and no line under it. */
 .draft-editor--clean .draft-editor__question {
   padding: 0;
   border: 0;
   background: none;
   font-style: italic;
   color: var(--color-text-muted);
+  text-decoration: none;
+}
+
+/* Change something is the way back into the working draft: its own group,
+   24 under the last part, as actions always are. */
+.draft-editor__reopen {
+  margin-top: var(--space-before-actions);
 }
 
 .draft-editor--clean .draft-editor__body {

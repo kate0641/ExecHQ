@@ -194,6 +194,9 @@
   /* Her: her own words and answers. Lime as a band, dark green words on it (8.9:1). */
   --color-surface-her-band: var(--brand-green-200);
   --color-text-on-her-band: var(--brand-green-800);
+  /* A lime card on stone gets a green edge, a step darker, so it holds its
+     shape on the light page (designer, 2026-10-30). */
+  --color-border-her-band: var(--brand-green-400);
   /* The light line under an open question in a draft, on the lime (designer, 2026-10-28). */
   --color-question-line: var(--brand-green-500);
   /* A soft lime glow round something of hers on navy, such as a day in Momentum (designer, 2026-10-15). */
