@@ -20631,6 +20631,16 @@ ul.li-shares {
   font-size: var(--type-caption-size);
 }
 
+/* Edit, then the part's menu at the far right. */
+.draft-editor__section-actions {
+  align-items: center;
+  column-gap: var(--space-xs);
+}
+
+.draft-editor__section-actions > .dropdown {
+  order: 1;
+}
+
 .draft-editor__section-actions {
   display: inline-flex;
   flex-wrap: wrap;
@@ -22262,6 +22272,25 @@ ul.li-shares {
 }
 
 /* An account menu: the person's initials in a round button. */
+/* Icon only (designer, 2026-10-28): the icon in the link's navy, no edge or
+   fill, at the 24px tap height WCAG 2.2 allows, for a quiet "more" beside a
+   link. */
+.dropdown__trigger--icon {
+  justify-content: center;
+  min-width: var(--space-lg);
+  min-height: var(--space-lg);
+  padding: 0;
+  border-color: transparent;
+  background-color: transparent;
+  color: var(--color-text-link);
+}
+
+.dropdown__trigger--icon:hover,
+.dropdown__trigger--icon.is-hover,
+.dropdown__trigger--icon.is-open {
+  background-color: var(--color-surface-hover);
+}
+
 .dropdown__trigger--avatar {
   justify-content: center;
   width: var(--button-target);

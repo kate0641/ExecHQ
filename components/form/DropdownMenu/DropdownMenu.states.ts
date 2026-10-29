@@ -72,6 +72,7 @@ export const dropdownMenuStates = defineComponentStates({
     { label: "Hover", props: { ...base, demo: "hover" } },
     { label: "Focus", props: { ...base, demo: "focus" } },
     { label: "Pressed", props: { ...base, demo: "active" } },
+    { label: "Icon only: a quiet more", description: "Three dots, no words or edge; the label is its accessible name (each part of a draft).", props: { ...base, label: "More for the short bio", icon: "more-horizontal", iconOnly: true } },
     { label: "Disabled", props: { ...base, disabled: true } },
     { label: "Nothing to choose — empty", props: { ...base, entries: [] } },
     { label: "A long label wraps", props: { ...base, label: "Filter your library by tool, status and plan area" } },

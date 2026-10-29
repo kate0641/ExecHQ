@@ -694,32 +694,40 @@ export function useToolFlow(concept: FlowConcept) {
   const sectionActions = (section: { id: string; heading?: string }): ReactNode => {
     const name = section.heading ?? "";
     const one = version?.sections.filter((x) => x.id === section.id) ?? [];
+    // One quiet menu per part, beside Edit (designer, 2026-10-28; it was a
+    // row of Copy, PDF and Word links on every part).
     return (
-      <>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => {
-            try {
-              void navigator.clipboard?.writeText(draftText(one, edits, draft?.answers));
-            } catch {
-              // Nothing depends on it.
-            }
-            setSectionMessage(POSITIONING_COPY.copied(name));
-          }}
-        >
-          {USE_COPY.copy}
-          <span className="u-visually-hidden"> {name}</span>
-        </Button>
-        {section.id.startsWith("bio")
-          ? (["PDF", "Word"] as const).map((format) => (
-              <Button key={format} variant="ghost" size="sm" onClick={() => setSectionMessage(USE_COPY.exported(format))}>
-                {format === "PDF" ? USE_COPY.pdfShort : USE_COPY.wordShort}
-                <span className="u-visually-hidden"> of the {name.toLowerCase()}</span>
-              </Button>
-            ))
-          : null}
-      </>
+      <DropdownMenu
+        label={POSITIONING_COPY.moreFor(name)}
+        icon="more-horizontal"
+        iconOnly
+        align="end"
+        entries={[
+          {
+            type: "item" as const,
+            id: "copy",
+            icon: "copy" as const,
+            label: USE_COPY.copy,
+            onSelect: () => {
+              try {
+                void navigator.clipboard?.writeText(draftText(one, edits, draft?.answers));
+              } catch {
+                // Nothing depends on it.
+              }
+              setSectionMessage(POSITIONING_COPY.copied(name));
+            },
+          },
+          ...(section.id.startsWith("bio")
+            ? (["PDF", "Word"] as const).map((format) => ({
+                type: "item" as const,
+                id: format,
+                icon: "download" as const,
+                label: format === "PDF" ? USE_COPY.exportPdf : USE_COPY.exportWord,
+                onSelect: () => setSectionMessage(USE_COPY.exported(format)),
+              }))
+            : []),
+        ]}
+      />
     );
   };
 

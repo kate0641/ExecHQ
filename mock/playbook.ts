@@ -1411,6 +1411,8 @@ export const WINS_INPUT: ToolInput = {
 };
 
 export const POSITIONING_COPY = {
+  /** The menu on each part of the draft, read with its name: "More for Short bio". */
+  moreFor: (part: string) => `More for ${part}`,
   fromOnboarding: "Your statement from onboarding",
   onboardingVersion: "Your statement, from onboarding",
   builtOut: "Built out in Positioning Builder",
