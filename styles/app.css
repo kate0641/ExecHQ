@@ -9638,8 +9638,16 @@ ol.ring-detail__timeline {
 [data-viewport="mobile"] .tool-flow-questions:has(.answer-drawer:not(.is-peek)) .guide__page,
 [data-viewport="tablet"] .tool-flow-questions:has(.answer-drawer:not(.is-peek)) .guide__page {
   min-height: auto;
-  flex-shrink: 100;
+  flex: 1 100 auto;
   padding-bottom: 0;
+}
+
+/* A drawer with fewer answers is only as tall as they are, and the page
+   keeps the room above it (designer, 2026-10-30): rising to the question is
+   for the long ones. */
+[data-viewport="mobile"] .tool-flow-questions:has(.answer-drawer:not(.is-peek)) :is(.answer-drawer__wrap, .answer-drawer),
+[data-viewport="tablet"] .tool-flow-questions:has(.answer-drawer:not(.is-peek)) :is(.answer-drawer__wrap, .answer-drawer) {
+  flex: 0 1 auto;
 }
 
 [data-viewport="mobile"] .tool-flow-questions:has(.answer-drawer:not(.is-peek)) .guide__body,
