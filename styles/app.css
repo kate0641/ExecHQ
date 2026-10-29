@@ -21940,6 +21940,12 @@ ul.li-shares {
   font-size: var(--type-heading-size-phone);
 }
 
+/* The line under the heading reads as its standfirst, a step under it. */
+.pinned-draft.is-open .draft-editor__intro {
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+}
+
 /* Each part is its own white card, 12px apart, as the library's items are. */
 .pinned-draft.is-open .draft-editor__body {
   gap: var(--space-sm);
