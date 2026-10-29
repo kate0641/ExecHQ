@@ -1053,7 +1053,7 @@ export function useToolFlow(concept: FlowConcept) {
       </form>
     ) : null;
 
-  const useBar = (options: { noStatus?: boolean; exportInMenu?: boolean; noNotes?: boolean; copyInMenu?: boolean; className?: string } = {}): ReactNode =>
+  const useBar = (options: { noStatus?: boolean; exportInMenu?: boolean; noNotes?: boolean; copyInMenu?: boolean; secondary?: boolean; className?: string } = {}): ReactNode =>
     record ? (
       <>
         <DraftUseBar
@@ -1072,6 +1072,7 @@ export function useToolFlow(concept: FlowConcept) {
           exportInMenu={options.exportInMenu}
           noNotes={options.noNotes}
           copyInMenu={options.copyInMenu}
+          secondary={options.secondary}
           className={options.className}
           note={
             record.kind === "situation-brief"

@@ -35,6 +35,9 @@ export interface DraftUseBarProps {
   copyInMenu?: boolean;
   /** Opens having just copied (catalogue). */
   justCopied?: boolean;
+  /** Its button as the same-size secondary, where the screen's main action
+   *  is another yellow button (Revise; designer, 2026-10-28). */
+  secondary?: boolean;
   className?: string;
 }
 
@@ -43,7 +46,7 @@ export interface DraftUseBarProps {
  * "Copy to post on LinkedIn"), export it where that is in scope, and mark it
  * ready. ExecHQ never posts or sends anything; the words say so.
  */
-export function DraftUseBar({ kind, ready = false, onCopy, onExport, onMarkReady, onMarkUsed, noStatus = false, exportable: canExport, exportInMenu = false, note, noNotes = false, copyInMenu = false, justCopied = false, className }: DraftUseBarProps) {
+export function DraftUseBar({ kind, ready = false, onCopy, onExport, onMarkReady, onMarkUsed, noStatus = false, exportable: canExport, exportInMenu = false, note, noNotes = false, copyInMenu = false, justCopied = false, secondary = false, className }: DraftUseBarProps) {
   const [message, setMessage] = useState(justCopied ? C.copied : "");
   const exportable = (canExport ?? C.exportable[kind]) && onExport && !copyInMenu;
   return (
@@ -102,10 +105,10 @@ export function DraftUseBar({ kind, ready = false, onCopy, onExport, onMarkReady
         ) : null}
         {noStatus ? null : ready ? (
           onMarkUsed ? (
-            <Button onClick={onMarkUsed}>{copyInMenu ? C.iveUsed(kind) : C.markUsed(kind)}</Button>
+            <Button variant={secondary ? "secondary" : "primary"} onClick={onMarkUsed}>{copyInMenu ? C.iveUsed(kind) : C.markUsed(kind)}</Button>
           ) : null
         ) : (
-          <Button onClick={onMarkReady}>{C.markReady}</Button>
+          <Button variant={secondary ? "secondary" : "primary"} onClick={onMarkReady}>{C.markReady}</Button>
         )}
       </div>
       {note && !noNotes ? <p className="draft-use__note">{note}</p> : null}

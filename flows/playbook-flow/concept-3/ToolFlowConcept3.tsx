@@ -219,7 +219,7 @@ function Interview() {
       {f.outcome}
       {/* Mark ready sits with Revise, so on a phone both stay at the foot
           of the screen while she chooses (Kate, 19 Oct). */}
-      {f.revision(() => setExpanded(true), f.useBar({ noNotes: true, copyInMenu: true, className: "draft-use--single" }))}
+      {f.revision(() => setExpanded(true), f.useBar({ noNotes: true, copyInMenu: true, secondary: true, className: "draft-use--single" }))}
       {f.versions}
     </div>
   );
