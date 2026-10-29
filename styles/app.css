@@ -22283,6 +22283,19 @@ ul.li-shares {
   font-weight: var(--weight-semibold);
 }
 
+/* On the phone's folded card, Show draft goes under the opening lines, at
+   the right under the thumb, so the draft's words get the card's whole width
+   (designer, 2026-10-30; it sat beside them). */
+.pinned-draft:not(.pinned-draft--side) .pinned-draft__toggle {
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-xs);
+}
+
+.pinned-draft:not(.pinned-draft--side) .pinned-draft__action {
+  align-self: flex-end;
+}
+
 .pinned-draft__chevron {
   transform: rotate(90deg);
 }
