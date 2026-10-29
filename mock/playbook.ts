@@ -511,6 +511,8 @@ export const VERSION_COPY = {
   /** What a version brought back says it is, in the list. */
   restoredWhat: (n: number) => `Version ${n}, brought back`,
   count: (n: number) => (n === 1 ? "1 version" : `${n} versions`),
+  /** Each row's number, read out but not shown (designer, 2026-10-30). */
+  number: (n: number) => `Version ${n}: `,
 } as const;
 
 /* -----------------------------------------------------------------------------

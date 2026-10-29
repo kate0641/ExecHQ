@@ -31,17 +31,23 @@ export function VersionHistory({ versions, showing, onView, onRestore, className
         {C.heading}
       </h2>
       <p className="version-history__lead">{C.lead}</p>
-      <ol className="version-history__list" reversed>
+      {/* The shared list's framed look (designer, 2026-10-30): a white card,
+          rows split by lines. */}
+      <ol className="version-history__list list list--framed list--dividers-full" reversed>
         {[...versions].reverse().map((v) => {
           const isShowing = v.n === showing;
           return (
-            <li key={v.n} className={["version-history__item", isShowing ? "is-showing" : null].filter(Boolean).join(" ")} aria-current={isShowing || undefined}>
-              <span className="version-history__n">{v.n}</span>
-              <span className="version-history__text">
-                <span className="version-history__what">{v.what}</span>
-                <span className="version-history__when">{v.when}</span>
+            <li key={v.n} className={["version-history__item", "list__item", "list__item--two", isShowing ? "is-showing" : null].filter(Boolean).join(" ")} aria-current={isShowing || undefined}>
+              {/* No number in a circle (designer, 2026-10-30): newest first, and
+                  Showing marks the one in the editor. It is still read out. */}
+              <span className="version-history__text list__text">
+                <span className="version-history__what list__primary">
+                  <span className="u-visually-hidden">{C.number(v.n)}</span>
+                  {v.what}
+                </span>
+                <span className="version-history__when list__secondary">{v.when}</span>
               </span>
-              <span className="version-history__actions">
+              <span className="version-history__actions list__trailing">
                 {isShowing ? (
                   <span className="version-history__showing">{C.current}</span>
                 ) : (
