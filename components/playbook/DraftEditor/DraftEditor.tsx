@@ -163,9 +163,9 @@ export function DraftEditor({
                 value={drafts[question] ?? ""}
                 onChange={(event) => setDrafts((d) => ({ ...d, [question]: event.target.value }))}
               />
-              {/* On the ready draft's lime card, the outlined button: never
+              {/* On the ready draft's lime card, the strong navy button: never
                   light blue on lime (designer, 2026-10-30). */}
-              <Button type="submit" variant={look === "clean" ? "outline" : "secondary"} size="sm">
+              <Button type="submit" variant={look === "clean" ? "strong" : "secondary"} size="sm">
                 {C.answer}
               </Button>
             </form>

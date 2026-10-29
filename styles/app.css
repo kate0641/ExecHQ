@@ -26370,6 +26370,26 @@ ul.letter-archive__list {
 
 /* Outline: an action on a surface yellow can't go on (light blue), or a second action that should read as
    a button but stay quiet. A navy edge and navy words. */
+/* Strong: navy with light words, where light blue would disappear (a lime
+   card); never the page's one main action, which stays yellow. */
+.btn--strong {
+  border-color: var(--color-action-strong);
+  background-color: var(--color-action-strong);
+  color: var(--color-text-on-action-strong);
+}
+
+.btn--strong:hover,
+.btn--strong.is-hover {
+  border-color: var(--color-action-strong-hover);
+  background-color: var(--color-action-strong-hover);
+}
+
+.btn--strong:active,
+.btn--strong.is-active {
+  border-color: var(--color-action-strong-active);
+  background-color: var(--color-action-strong-active);
+}
+
 .btn--outline {
   border: var(--border-width-medium) solid var(--color-outline-ink);
   background-color: transparent;

@@ -322,6 +322,14 @@
   --color-action-secondary-active: var(--brand-blue-400);
   --color-text-on-action-secondary: var(--brand-primary);
 
+  /* The strong button: navy with light words, for a light surface the light
+     blue disappears on, such as a lime card (designer, 2026-10-30). Darker
+     as it is pressed. */
+  --color-action-strong: var(--brand-navy);
+  --color-action-strong-hover: var(--brand-blue-700);
+  --color-action-strong-active: var(--brand-blue-900);
+  --color-text-on-action-strong: var(--brand-blue-100);
+
   /* Tags — small status words beside a heading, such as "Since 5 Oct".
      Pale lime with dark green text (8.9:1), the same pair as the icon chips. */
   --color-tag-surface: var(--brand-green-200);

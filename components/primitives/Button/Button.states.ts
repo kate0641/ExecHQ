@@ -43,6 +43,13 @@ export const buttonStates = defineComponentStates({
       label: "Secondary — disabled",
       props: { variant: "secondary", children: "Skip for now", disabled: true },
     },
+    {
+      label: "Strong — default",
+      description: "Navy, for a light surface the light blue disappears on, such as a lime card. Never the page's one main action.",
+      props: { variant: "strong", children: "Answer" },
+    },
+    { label: "Strong — hover", props: { variant: "strong", children: "Answer", className: "is-hover" } },
+    { label: "Strong — pressed", props: { variant: "strong", children: "Answer", className: "is-active" } },
     { label: "Outline — default, for a surface yellow can't go on", props: { variant: "outline", children: "Try this" } },
     { label: "Ghost — default", props: { variant: "ghost", children: "Cancel" } },
     {
