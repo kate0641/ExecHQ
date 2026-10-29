@@ -20558,6 +20558,15 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
+/* Only "Needs answer" shows: the one mark that asks her to act. Her words
+   and ExecHQ's are told apart by upright and italic, and screen readers
+   still hear "ExecHQ:" before its words (designer, 2026-10-28; to discuss
+   with Kate). */
+.draft-editor__key--you,
+.draft-editor__key--exechq {
+  display: none;
+}
+
 .draft-editor__key::before {
   content: "Aa";
   display: inline-block;
