@@ -38,14 +38,13 @@ export function VersionHistory({ versions, showing, onView, onRestore, className
           const isShowing = v.n === showing;
           return (
             <li key={v.n} className={["version-history__item", "list__item", "list__item--two", isShowing ? "is-showing" : null].filter(Boolean).join(" ")} aria-current={isShowing || undefined}>
-              {/* No number in a circle (designer, 2026-10-30): newest first, and
-                  Showing marks the one in the editor. It is still read out. */}
+              {/* The number leads the line under the name: "Version 2 · Tue 20
+                  Oct" (designer, 2026-10-30; it was in a circle). */}
               <span className="version-history__text list__text">
-                <span className="version-history__what list__primary">
-                  <span className="u-visually-hidden">{C.number(v.n)}</span>
-                  {v.what}
+                <span className="version-history__what list__primary">{v.what}</span>
+                <span className="version-history__when list__secondary">
+                  {C.number(v.n)} · {v.when}
                 </span>
-                <span className="version-history__when list__secondary">{v.when}</span>
               </span>
               <span className="version-history__actions list__trailing">
                 {isShowing ? (
