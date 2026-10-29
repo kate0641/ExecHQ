@@ -20892,16 +20892,13 @@ ul.li-shares {
   cursor: pointer;
 }
 
-/* ExecHQ's words are its own voice: the interface's Inter, a step smaller
-   and grey, so her words in the serif stand out (designer, 2026-10-28). */
-/* ExecHQ's words: the same serif as hers, so the draft reads as one piece
-   of writing, but italic and grey; the slant is the second cue beside the
-   ink, and there is no dotted line (designer, 2026-10-28, option A). */
+/* ExecHQ's words read as hers: the team decided the draft needn't tell
+   them apart (2026-10-30; they were italic and grey). Only open questions
+   are marked. */
 .draft-editor__exechq {
   font-family: var(--font-serif);
   font-size: 1em;
-  font-style: italic;
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
 }
 
 /* An open question is hers to fill, so it takes her colour: lime with dark
