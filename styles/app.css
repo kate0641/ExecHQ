@@ -20572,8 +20572,13 @@ ul.li-shares {
   content: "?";
   padding: 0 var(--space-2xs);
   border-radius: var(--radius-xs);
-  background-color: var(--color-surface-sunken);
+  background-color: var(--color-surface-her-band);
   font-family: var(--font-body);
+  color: var(--color-text-on-her-band);
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width-thin);
+  text-decoration-color: var(--color-question-line);
+  text-underline-offset: 0.28em;
 }
 
 .draft-editor__body {
@@ -20796,16 +20801,21 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
-/* An open question: a highlight in the sentence, no outline (designer,
-   2026-10-28; it was a dashed box). Inter in the serif is the second cue
-   beside the fill. */
+/* An open question is hers to fill, so it takes her colour: lime with dark
+   green words and a light green line under it, no outline (designer,
+   2026-10-28; it was a dashed box). The line and Inter in the serif are
+   the cues beside the fill, at any zoom. */
 .draft-editor__question {
   padding: 0 var(--space-2xs);
   border-radius: var(--radius-xs);
-  background-color: var(--color-surface-sunken);
+  background-color: var(--color-surface-her-band);
   font-family: var(--font-body);
   font-size: 1em;
-  color: var(--color-text-secondary);
+  color: var(--color-text-on-her-band);
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width-thin);
+  text-decoration-color: var(--color-question-line);
+  text-underline-offset: 0.28em;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
