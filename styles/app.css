@@ -20564,6 +20564,7 @@ ul.li-shares {
 }
 
 .draft-editor__key--exechq::before {
+  font-family: var(--font-body);
   text-decoration: underline dotted var(--color-text-secondary);
   text-decoration-thickness: var(--border-width-medium);
   text-underline-offset: 0.25em;
@@ -20761,7 +20762,11 @@ ul.li-shares {
   cursor: pointer;
 }
 
+/* ExecHQ's words are its own voice: the interface's Inter, a step smaller
+   and grey, so her words in the serif stand out (designer, 2026-10-28). */
 .draft-editor__exechq {
+  font-family: var(--font-body);
+  font-size: 0.88em;
   color: var(--color-text-secondary);
   text-decoration: underline dotted var(--color-border-strong);
   text-decoration-thickness: var(--border-width-medium);
@@ -21908,11 +21913,45 @@ ul.li-shares {
   box-shadow: var(--shadow-sm);
 }
 
-/* Open in the page it is a white card like any other: the edge, no
-   shadow. The shadow is for when it floats pinned over the page. */
+/* Open in the page the draft is the page, not a box (designer, 2026-10-28,
+   layout A): no edge, fill or shadow, so each part below can be its own
+   card. Folded and pinned over the page it stays a card with its shadow. */
 .pinned-draft.is-open:not(.pinned-draft--side) {
   position: relative;
+  border-color: transparent;
+  background-color: transparent;
   box-shadow: none;
+}
+
+.pinned-draft.is-open:not(.pinned-draft--side) :is(.pinned-draft__toggle, .pinned-draft__body) {
+  padding-inline: 0;
+}
+
+/* Its name is the page's heading. */
+.pinned-draft.is-open .draft-editor__label {
+  font-family: var(--type-heading-font);
+  font-size: var(--type-heading-size);
+  font-weight: var(--type-heading-weight);
+  line-height: var(--type-heading-leading);
+  letter-spacing: var(--type-heading-tracking);
+}
+
+[data-viewport="mobile"] .pinned-draft.is-open .draft-editor__label {
+  font-size: var(--type-heading-size-phone);
+}
+
+/* Each part is its own white card, 12px apart, as the library's items are. */
+.pinned-draft.is-open .draft-editor__body {
+  gap: var(--space-sm);
+}
+
+.pinned-draft.is-open .draft-editor__section,
+.pinned-draft.is-open .draft-editor__section + .draft-editor__section {
+  margin-top: 0;
+  padding: var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
 }
 
 .pinned-draft--side {
