@@ -26,7 +26,7 @@ export const loopStatusStates = defineComponentStates({
   status: "draft",
   flows: ["homepage", "playbook", "playbook-flow", "plan"],
   description:
-    "An artifact's place in the Loop, the same wherever the artifact appears. The word carries the meaning on its own, so status never depends on colour; there is no icon (designer, 2026-10-28).",
+    "An artifact's place in the Loop, the same wherever the artifact appears. The word always carries the meaning; the shape beside it fills in as the artifact moves along, so status never depends on colour.",
   component: LoopStatus,
   notApplicable: {
     ...NOT_INTERACTIVE,

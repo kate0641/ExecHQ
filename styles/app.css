@@ -846,9 +846,8 @@ button.link {
    Sentence case rather than the badge's capitals, because the labels are plain
    verbs ("Sent", "Waiting to hear") and read as words, not as tags. */
 
-/* Where a piece of work stands, set as an eyebrow (blue uppercase, the word
-   alone; the little shape beside it went 2026-10-28) rather than a pill, so
-   it can never be mistaken for a button. */
+/* Where a piece of work stands, set as an eyebrow (blue uppercase, with its
+   glyph) rather than a pill, so it can never be mistaken for a button. */
 .loop-status {
   display: inline-flex;
   align-items: center;
@@ -862,6 +861,10 @@ button.link {
   text-transform: uppercase;
   color: var(--color-eyebrow);
   white-space: nowrap;
+}
+
+.loop-status__glyph {
+  flex: none;
 }
 
 .loop-status__detail {
