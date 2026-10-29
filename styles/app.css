@@ -22100,6 +22100,12 @@ ul.li-shares {
   margin-top: var(--space-lg);
 }
 
+/* Questions for you sits 12 under the last part, as the parts sit apart
+   (designer, 2026-10-28; it touched). */
+.pinned-draft.is-open .draft-editor__body + .draft-editor__gaps {
+  margin-top: var(--space-sm);
+}
+
 /* Each part is its own white card, 12px apart, as the library's items are. */
 .pinned-draft.is-open .draft-editor__body {
   gap: var(--space-sm);
