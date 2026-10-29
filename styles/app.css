@@ -22046,15 +22046,17 @@ ul.li-shares {
   margin-top: calc(var(--space-eyebrow-title) - var(--space-xs));
 }
 
-/* The line under the heading reads as its standfirst, a step under it. */
+/* The intro joins the subtitle: right under "For:", 4 apart, in the same
+   small grey, so name, purpose and intro read as one header (designer,
+   2026-10-28). The key stands apart from it, 24 under, as its own group. */
 .pinned-draft.is-open .draft-editor__intro {
-  margin-top: var(--space-lg);
+  margin-top: var(--space-2xs);
   font-size: var(--type-body-sm-size);
   line-height: var(--type-body-sm-leading);
 }
 
 .pinned-draft.is-open .draft-editor__legend {
-  margin-top: var(--space-xs);
+  margin-top: var(--space-lg);
 }
 
 .pinned-draft.is-open .draft-editor__body {
