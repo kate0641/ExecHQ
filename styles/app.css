@@ -9593,9 +9593,13 @@ ol.ring-detail__timeline {
   flex: 1 1 auto;
 }
 
+/* Pushed to the drawer's foot, and never closer than the 24px the actions
+   always get above them: the drawer's gap plus this (designer, 2026-10-28;
+   a full drawer left them 16px under the last field). */
 [data-viewport="mobile"] .tool-flow-questions .answer-drawer__actions,
 [data-viewport="tablet"] .tool-flow-questions .answer-drawer__actions {
   margin-top: auto;
+  padding-top: calc(var(--space-before-actions) - var(--space-drawer-inner));
 }
 
 .chrome__main:has(> .guide) > .tool-flow__bar {
@@ -9845,6 +9849,14 @@ ol.ring-detail__timeline {
   margin-bottom: calc(var(--space-lg) * -1);
   padding: var(--space-2xs) 0 var(--space-lg);
   background-color: var(--color-surface);
+}
+
+/* A question's answers, then Other: two groups, 24px apart, as the
+   drawer's groups always are (designer, 2026-10-28; they touched). */
+.pick-answer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-drawer-groups);
 }
 
 /* Folded: one bar carrying the question. */
@@ -21924,27 +21936,42 @@ ul.li-shares {
 /* --- Positioning Builder ------------------------------------------------------ */
 
 /* Her statement from onboarding, carried onto the first screen. */
+/* What she brings with her (her statement, the draft she started from) is
+   hers, so it is Plan's Your direction card: a lime label with dark green
+   words over a white body with her words in the serif, held by the stone
+   250 edge every lime card takes (designer, 2026-10-28; was a light blue
+   panel with a gold bar). */
 .tool-flow__carried {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3xs);
-  padding: var(--space-sm) var(--space-md);
-  border-left: var(--border-width-medium) solid var(--color-accent);
-  background-color: var(--color-surface-sunken);
-  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  overflow: hidden;
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
 }
 
 .tool-flow__carried-label {
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-secondary);
+  padding: var(--space-sm) var(--space-card-padding);
+  border-bottom: var(--border-width-thin) solid var(--color-border);
+  background-color: var(--color-surface-her-band);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  text-transform: uppercase;
+  color: var(--color-text-on-her-band);
 }
 
 .tool-flow__carried-text {
   margin: 0;
+  padding: var(--space-sm) var(--space-card-padding) var(--space-card-padding);
   font-family: var(--font-serif);
+  font-size: var(--text-sm-plus);
+  font-weight: var(--weight-semibold);
   word-spacing: var(--word-spacing-normal);
   line-height: var(--leading-normal);
+  overflow-wrap: anywhere;
 }
 
 /* Offered, never forced, when her statement changes. */
