@@ -826,7 +826,9 @@ export function useToolFlow(concept: FlowConcept) {
         <DraftEditor
           key={`${artifactId}-${version.n}`}
           id={DRAFT_LABEL_ID}
-          label={look === "draft" ? DRAFT_COPY.label(version.n) : (record?.title ?? DRAFT_COPY.label(version.n))}
+          // Its name, while she edits too (designer, 2026-10-28; it was the
+          // version, "Draft, version 2", which the folded card still says).
+          label={record?.title ?? DRAFT_COPY.label(version.n)}
           look={look}
           onReopen={onReopen}
           hideOpen={Boolean(record && record.state !== "ready")}
