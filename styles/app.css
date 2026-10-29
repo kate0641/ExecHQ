@@ -22011,6 +22011,12 @@ ul.li-shares {
   min-height: var(--space-lg);
 }
 
+/* On the draft itself the status is the eyebrow, the word alone: no little
+   shape beside it (designer, 2026-10-28). Lists keep it. */
+.tool-flow__draft-head .loop-status__glyph {
+  display: none;
+}
+
 .pinned-draft.is-open:not(.pinned-draft--side) .draft-editor__label {
   order: -1;
   flex: 1 1 0;
