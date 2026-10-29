@@ -402,8 +402,9 @@ function Interview() {
   return (
     <div className={["tool-flow", "tool-flow--interview", !hasDraft ? "tool-flow--pinned" : null, hasDraft && expanded ? "tool-flow--has-bar" : null].filter(Boolean).join(" ")}>
       {f.header}
-      {/* Where it came from stays in sight while the draft is open. */}
-      {hasDraft && expanded ? f.source : null}
+      {/* Where it came from stays in sight while the draft is open; what it
+          is for now sits under the draft's name. */}
+      {hasDraft && expanded ? f.origin : null}
       {pinned}
       {underDraft}
       {expanded ? null : interview}

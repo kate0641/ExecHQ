@@ -22017,6 +22017,13 @@ ul.li-shares {
   row-gap: var(--space-xs);
 }
 
+/* What it is for, right under its name, as the name's subtitle: 4 under the
+   name, then 8 to the status (designer, 2026-10-28). */
+.draft-editor__top > .tool-flow__for {
+  flex: 1 1 100%;
+  margin-top: calc(var(--space-eyebrow-title) - var(--space-xs));
+}
+
 /* The line under the heading reads as its standfirst, a step under it. */
 .pinned-draft.is-open .draft-editor__intro {
   margin-top: var(--space-lg);

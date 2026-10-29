@@ -524,11 +524,12 @@ export function useToolFlow(concept: FlowConcept) {
   ) : null;
   // The plan step a draft serves stays on it, as it does in the library.
   const servesStep = draft ? (record?.recommendation ?? (draft.meta.planStepId ? stepById(draft.meta.planStepId)?.title : undefined)) : undefined;
+  const forLine: ReactNode = servesStep ? <p className="tool-flow__for">{LIBRARY_COPY.forStep(servesStep)}</p> : null;
   const source: ReactNode =
     origin || servesStep ? (
       <>
         {origin}
-        {servesStep ? <p className="tool-flow__for">{LIBRARY_COPY.forStep(servesStep)}</p> : null}
+        {forLine}
       </>
     ) : null;
 
@@ -847,6 +848,10 @@ export function useToolFlow(concept: FlowConcept) {
           answers={draft.answers}
           revising={revising ? REVISION_COPY.revising : undefined}
           header={
+            <>
+            {/* What it is for, read right after its name (designer,
+                2026-10-28; it sat above the draft, before the name). */}
+            {forLine}
             <span className="tool-flow__draft-head">
               {record ? <LoopStatus record={record} /> : null}
               {/* The draft's actions, in its corner, on every concept. Once it
@@ -915,6 +920,7 @@ export function useToolFlow(concept: FlowConcept) {
                 />
               ) : null}
             </span>
+            </>
           }
           onEditSection={(section, text) => {
             playbookActions.editSection(artifactId, section, text);
@@ -1311,6 +1317,7 @@ export function useToolFlow(concept: FlowConcept) {
     laterNote,
     header,
     source,
+    origin,
     useCase,
     inputPanel,
     draftEditor,
