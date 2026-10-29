@@ -20778,6 +20778,12 @@ ul.li-shares {
   color: var(--color-text-on-her-band);
 }
 
+/* Answer them sits at the card's right, under the thumb, as every card's
+   button does (designer, 2026-10-30). */
+.draft-editor__open > .draft-editor__open-toggle {
+  align-self: flex-end;
+}
+
 /* On the open draft it is a group of its own: 24 under the name and For:,
    as the key is on the working draft, and 24 over the first part. */
 .pinned-draft.is-open .draft-editor__open {
@@ -20957,6 +20963,18 @@ ul.li-shares {
 
 .draft-editor__gap .field {
   align-self: stretch;
+}
+
+/* Answer at the right, under the thumb, as every card's button
+   (designer, 2026-10-30). */
+.draft-editor__gap > .btn {
+  align-self: flex-end;
+}
+
+/* Opened on the ready draft, each question a group 24 from the last, as
+   in Questions for you. */
+.draft-editor__open > .draft-editor__gap {
+  margin-top: calc(var(--space-lg) - var(--space-xs));
 }
 
 /* --- Revising -------------------------------------------------------------- */
