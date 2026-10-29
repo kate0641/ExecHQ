@@ -21987,23 +21987,39 @@ ul.li-shares {
   white-space: nowrap;
 }
 
-/* Hide draft sits on the heading's line, at the right, and the heading
-   wraps before it rather than under it. */
+/* Open, the top reads: the status as the eyebrow with Hide draft at the
+   right; the name with Actions at the right; what it is for under it
+   (designer, 2026-10-28). The status line's pieces join the top's own
+   rows so they can be ordered. */
 .pinned-draft.is-open:not(.pinned-draft--side) .pinned-draft__toggle {
   position: absolute;
   top: 0;
   right: 0;
   z-index: 1;
   width: auto;
-  min-height: var(--button-target);
+  min-height: var(--space-lg);
   padding-block: 0;
 }
 
+.pinned-draft.is-open:not(.pinned-draft--side) .tool-flow__draft-head {
+  display: contents;
+}
+
+.pinned-draft.is-open:not(.pinned-draft--side) .tool-flow__draft-head > .loop-status {
+  order: -2;
+  flex: 1 1 100%;
+  min-height: var(--space-lg);
+}
+
 .pinned-draft.is-open:not(.pinned-draft--side) .draft-editor__label {
-  display: flex;
-  align-items: center;
-  min-height: var(--button-target);
-  padding-right: calc(var(--space-3xl) + var(--space-xl));
+  order: -1;
+  flex: 1 1 0;
+  margin-top: calc(var(--space-eyebrow-title) - var(--space-xs));
+}
+
+.pinned-draft.is-open:not(.pinned-draft--side) .tool-flow__draft-head > .dropdown {
+  order: -1;
+  margin-top: calc(var(--space-eyebrow-title) - var(--space-xs));
 }
 
 /* The top in three groups (designer, 2026-10-28; all was 12 apart): the
