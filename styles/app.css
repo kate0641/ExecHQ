@@ -9593,6 +9593,30 @@ ol.ring-detail__timeline {
   flex: 1 1 auto;
 }
 
+/* On the Playbook's stone page the answer drawer is white, a sheet rising
+   over the page as the stone drawer is over onboarding's sky and the Plan's
+   navy, with the item cards' horizon line along its top (designer,
+   2026-10-28; it was the page's own stone, so it read as a seam). */
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .tool-flow-questions .answer-drawer {
+  position: relative;
+  border: var(--border-width-thin) solid var(--color-border);
+  border-bottom: 0;
+  background-color: var(--color-surface-raised);
+}
+
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .tool-flow-questions .answer-drawer::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: var(--horizon-line-height);
+  background: var(--gradient-horizon);
+  pointer-events: none;
+}
+
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .tool-flow-questions .answer-drawer__actions {
+  background-color: var(--color-surface-raised);
+}
+
 /* Pushed to the drawer's foot, and never closer than the 24px the actions
    always get above them: the drawer's gap plus this (designer, 2026-10-28;
    a full drawer left them 16px under the last field). */
