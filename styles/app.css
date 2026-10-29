@@ -19757,6 +19757,22 @@ ul.li-shares {
   min-width: 0;
 }
 
+/* The page recipe's gaps on the start screen (designer, 2026-10-28; all
+   were 12): copy to a card under it 16, a card or the copy to the question
+   under it as a new group 24, and 24 above the start button, as actions
+   always get. */
+.tool-use-case__decide > :is(p, .tool-use-case__plan) + :is(.tool-flow__carried, .tool-flow__refresh) {
+  margin-top: calc(var(--space-copy-card) - var(--space-sm));
+}
+
+.tool-use-case__decide > * + .tool-use-case__choice {
+  margin-top: calc(var(--space-drawer-groups) - var(--space-sm));
+}
+
+.tool-use-case__decide > * + .btn {
+  margin-top: calc(var(--space-before-actions) - var(--space-sm));
+}
+
 .tool-use-case__name {
   margin: 0;
   font-family: var(--font-display);
