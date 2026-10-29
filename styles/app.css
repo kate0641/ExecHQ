@@ -21940,10 +21940,46 @@ ul.li-shares {
   font-size: var(--type-heading-size-phone);
 }
 
+/* Open, the folded card's label ("Draft, version 2") would repeat the
+   heading right under it, so it is read out but not shown; Hide draft keeps
+   its place at the right (designer, 2026-10-28). */
+.pinned-draft.is-open:not(.pinned-draft--side) .pinned-draft__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.pinned-draft.is-open:not(.pinned-draft--side) .pinned-draft__toggle {
+  padding-block: 0;
+}
+
+/* The top in three groups (designer, 2026-10-28; all was 12 apart): the
+   heading with its status and Actions, tight; 24 to the line and key that
+   say how to read it, which sit 8 apart; 24 to the first part. */
+.pinned-draft.is-open .draft-editor {
+  gap: 0;
+}
+
+.pinned-draft.is-open .draft-editor__top {
+  row-gap: var(--space-xs);
+}
+
 /* The line under the heading reads as its standfirst, a step under it. */
 .pinned-draft.is-open .draft-editor__intro {
+  margin-top: var(--space-lg);
   font-size: var(--type-body-sm-size);
   line-height: var(--type-body-sm-leading);
+}
+
+.pinned-draft.is-open .draft-editor__legend {
+  margin-top: var(--space-xs);
+}
+
+.pinned-draft.is-open .draft-editor__body {
+  margin-top: var(--space-lg);
 }
 
 /* Each part is its own white card, 12px apart, as the library's items are. */
