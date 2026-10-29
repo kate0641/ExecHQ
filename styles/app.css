@@ -20974,6 +20974,22 @@ ul.li-shares {
   box-shadow: 0 calc(-1 * var(--space-xs)) var(--space-sm) var(--color-surface);
 }
 
+/* Side by side on the phone, as the open draft's bar and the drawers are
+   (designer, 2026-10-30): Mark ready on the left, Revise on the right
+   under the thumb. */
+[data-viewport="mobile"] .tool-flow__interview .revision-controls__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+[data-viewport="mobile"] .tool-flow__interview .revision-controls__actions > .btn {
+  order: 1;
+}
+
+[data-viewport="mobile"] .tool-flow__interview .revision-controls__actions .draft-use__buttons > .btn {
+  width: 100%;
+}
+
 /* --- Versions -------------------------------------------------------------- */
 
 .version-history {
