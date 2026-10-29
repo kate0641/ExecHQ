@@ -20565,9 +20565,6 @@ ul.li-shares {
 
 .draft-editor__key--exechq::before {
   font-family: var(--font-body);
-  text-decoration: underline dotted var(--color-text-secondary);
-  text-decoration-thickness: var(--border-width-medium);
-  text-underline-offset: 0.25em;
   color: var(--color-text-secondary);
 }
 
@@ -20616,12 +20613,20 @@ ul.li-shares {
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
+/* The part's name sits at the card's top padding, not centred in a 44px
+   row (designer, 2026-10-28). */
 .draft-editor__section-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-sm);
-  min-height: var(--button-target);
+}
+
+/* Copy, PDF, Word and Edit a step under the name: the caption size, the
+   24px tap height WCAG 2.2 allows, so the name leads. */
+.draft-editor__section-actions .btn {
+  min-height: var(--space-lg);
+  font-size: var(--type-caption-size);
 }
 
 .draft-editor__section-actions {
@@ -20643,14 +20648,19 @@ ul.li-shares {
   letter-spacing: var(--type-eyebrow-tracking);
   word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-text-secondary);
+  /* Darker than the links beside it, so the part's name leads (designer,
+     2026-10-28; it was grey against navy links). */
+  color: var(--color-text-primary);
 }
 
+/* Her words in the serif a touch under body size, as Your direction's,
+   so ExecHQ's Inter beside them reads at the same size (designer,
+   2026-10-28). */
 .draft-editor__text {
   margin: 0;
   font-family: var(--font-serif);
   word-spacing: var(--word-spacing-normal);
-  font-size: var(--text-md);
+  font-size: var(--text-sm-plus);
   line-height: var(--leading-relaxed);
   white-space: pre-line;
 }
@@ -20764,13 +20774,12 @@ ul.li-shares {
 
 /* ExecHQ's words are its own voice: the interface's Inter, a step smaller
    and grey, so her words in the serif stand out (designer, 2026-10-28). */
+/* ExecHQ's words: Inter at the same size as her serif, grey, no dotted
+   line; the face is the second cue beside the ink (designer, 2026-10-28). */
 .draft-editor__exechq {
   font-family: var(--font-body);
-  font-size: 0.88em;
+  font-size: 1em;
   color: var(--color-text-secondary);
-  text-decoration: underline dotted var(--color-border-strong);
-  text-decoration-thickness: var(--border-width-medium);
-  text-underline-offset: 0.3em;
 }
 
 .draft-editor__question {
@@ -20779,7 +20788,7 @@ ul.li-shares {
   border-radius: var(--radius-xs);
   background-color: var(--color-surface-sunken);
   font-family: var(--font-body);
-  font-size: var(--text-sm);
+  font-size: 1em;
   color: var(--color-text-secondary);
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
