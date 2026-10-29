@@ -20544,8 +20544,9 @@ ul.li-shares {
 .draft-editor__legend {
   display: flex;
   flex-wrap: wrap;
-  /* One line: the three side by side, 12 apart (designer, 2026-10-28). */
-  gap: var(--space-2xs) var(--space-sm);
+  /* One line: the three side by side, 8 apart, so they fit a phone's width
+   (designer, 2026-10-28); a narrower screen wraps them. */
+  gap: var(--space-2xs) var(--space-xs);
   margin: 0;
   padding: 0;
   list-style: none;
