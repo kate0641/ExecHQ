@@ -20571,8 +20571,8 @@ ul.li-shares {
 .draft-editor__key--question::before {
   content: "?";
   padding: 0 var(--space-2xs);
-  border: var(--border-width-thin) dashed var(--color-border-strong);
   border-radius: var(--radius-xs);
+  background-color: var(--color-surface-sunken);
   font-family: var(--font-body);
 }
 
@@ -20796,9 +20796,11 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
+/* An open question: a highlight in the sentence, no outline (designer,
+   2026-10-28; it was a dashed box). Inter in the serif is the second cue
+   beside the fill. */
 .draft-editor__question {
   padding: 0 var(--space-2xs);
-  border: var(--border-width-thin) dashed var(--color-border-strong);
   border-radius: var(--radius-xs);
   background-color: var(--color-surface-sunken);
   font-family: var(--font-body);
