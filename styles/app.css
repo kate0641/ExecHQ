@@ -20505,6 +20505,14 @@ ul.li-shares {
   gap: var(--space-sm);
 }
 
+/* The draft's name is the card's title (the card-title role). */
+.draft-editor__label {
+  font-family: var(--type-card-title-font);
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  line-height: var(--type-card-title-leading);
+}
+
 .draft-editor__top {
   display: flex;
   flex-wrap: wrap;
@@ -20580,6 +20588,15 @@ ul.li-shares {
   background-color: var(--color-surface-raised);
 }
 
+/* Inside the draft card the body is open, not a second card: never a card
+   inside a card (designer, 2026-10-28). Its sections keep the hairlines. */
+.pinned-draft .draft-editor__body {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+}
+
 .draft-editor.is-revising .draft-editor__body {
   opacity: 0.5;
 }
@@ -20590,8 +20607,11 @@ ul.li-shares {
   gap: var(--space-2xs);
 }
 
+/* Sections split by hairlines take the divided-row space either side, as
+   every divided list does (designer, 2026-10-28; was 16 under the line). */
 .draft-editor__section + .draft-editor__section {
-  padding-top: var(--space-md);
+  margin-top: calc(var(--space-divided-item) - var(--space-md));
+  padding-top: var(--space-divided-item);
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
@@ -20610,10 +20630,18 @@ ul.li-shares {
   gap: var(--space-3xs);
 }
 
+/* Each part's name is a read's label: a grey eyebrow naming what is
+   under it, Inter, never the display face (designer, 2026-10-28; it fell
+   to Kulim as a heading). */
 .draft-editor__section-heading {
   margin: 0;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
+  text-transform: uppercase;
   color: var(--color-text-secondary);
 }
 
@@ -21880,8 +21908,11 @@ ul.li-shares {
   box-shadow: var(--shadow-sm);
 }
 
+/* Open in the page it is a white card like any other: the edge, no
+   shadow. The shadow is for when it floats pinned over the page. */
 .pinned-draft.is-open:not(.pinned-draft--side) {
   position: relative;
+  box-shadow: none;
 }
 
 .pinned-draft--side {
