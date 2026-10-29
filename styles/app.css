@@ -20564,7 +20564,7 @@ ul.li-shares {
 }
 
 .draft-editor__key--exechq::before {
-  font-family: var(--font-body);
+  font-style: italic;
   color: var(--color-text-secondary);
 }
 
@@ -20776,11 +20776,13 @@ ul.li-shares {
 
 /* ExecHQ's words are its own voice: the interface's Inter, a step smaller
    and grey, so her words in the serif stand out (designer, 2026-10-28). */
-/* ExecHQ's words: Inter at the same size as her serif, grey, no dotted
-   line; the face is the second cue beside the ink (designer, 2026-10-28). */
+/* ExecHQ's words: the same serif as hers, so the draft reads as one piece
+   of writing, but italic and grey; the slant is the second cue beside the
+   ink, and there is no dotted line (designer, 2026-10-28, option A). */
 .draft-editor__exechq {
-  font-family: var(--font-body);
+  font-family: var(--font-serif);
   font-size: 1em;
+  font-style: italic;
   color: var(--color-text-secondary);
 }
 
