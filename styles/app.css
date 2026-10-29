@@ -9629,6 +9629,44 @@ ol.ring-detail__timeline {
   padding-top: calc(var(--space-before-actions) - var(--space-drawer-inner));
 }
 
+/* The drawer rises to just under the question, so all the answers fit
+   (designer, 2026-10-30): the question keeps its place and the rest of the
+   page (her statement, a source) waits under the drawer, there again when
+   she folds it. The page's body is sized out of the sum, so the page is
+   only as tall as the question; the drawer takes the rest. Folded, the page
+   is whole again. */
+[data-viewport="mobile"] .tool-flow-questions:has(.answer-drawer:not(.is-peek)) .guide__page,
+[data-viewport="tablet"] .tool-flow-questions:has(.answer-drawer:not(.is-peek)) .guide__page {
+  min-height: auto;
+  flex-shrink: 100;
+  padding-bottom: 0;
+}
+
+[data-viewport="mobile"] .tool-flow-questions:has(.answer-drawer:not(.is-peek)) .guide__body,
+[data-viewport="tablet"] .tool-flow-questions:has(.answer-drawer:not(.is-peek)) .guide__body {
+  contain: size;
+  flex: 1 1 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Back and Next side by side, Next on the right under the thumb, so the
+   drawer has room for every answer (designer, 2026-10-30; they were
+   stacked, full width). Playbook drawers first; others may follow. */
+[data-viewport="mobile"] .tool-flow-questions .answer-drawer__actions,
+[data-viewport="tablet"] .tool-flow-questions .answer-drawer__actions {
+  flex-direction: row-reverse;
+}
+
+/* Each as wide as its words, the room left shared, so a long label
+   ("Write my first draft") stays on one line. */
+[data-viewport="mobile"] .tool-flow-questions .answer-drawer__actions > *,
+[data-viewport="tablet"] .tool-flow-questions .answer-drawer__actions > * {
+  flex: 1 1 auto;
+  width: auto;
+  white-space: nowrap;
+}
+
 .chrome__main:has(> .guide) > .tool-flow__bar {
   padding: var(--space-screen-top) var(--space-screen-side) 0;
 }
