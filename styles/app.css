@@ -20531,11 +20531,9 @@ ul.li-shares {
   gap: var(--space-sm);
 }
 
-.tool-flow__draft-head .dropdown__trigger {
-  min-height: 2rem;
-  padding: 0 var(--space-xs) 0 var(--space-sm);
-  font-size: var(--text-xs-plus);
-}
+/* Actions is the standard dropdown, the one size every dropdown takes
+   (designer, 2026-10-28; Kate's 13 Oct 32px version fitted the old status
+   line, which it no longer shares). */
 
 .draft-editor__intro {
   margin: 0;
@@ -21991,8 +21989,8 @@ ul.li-shares {
   white-space: nowrap;
 }
 
-/* Open, the top reads: the status as the eyebrow; the name with Actions at
-   the right; what it is for under it (designer, 2026-10-28). The status
+/* Open, the top reads: the status as the eyebrow with Actions at the right;
+   the name; what it is for under it (designer, 2026-10-28). The status
    line's pieces join the top's own rows so they can be ordered.
 
    No Hide draft here: Change the draft in the bar folds the draft the same
@@ -22007,7 +22005,7 @@ ul.li-shares {
 
 .pinned-draft.is-open:not(.pinned-draft--side) .tool-flow__draft-head > .loop-status {
   order: -2;
-  flex: 1 1 100%;
+  flex: 1 1 auto;
   min-height: var(--space-lg);
 }
 
@@ -22017,14 +22015,15 @@ ul.li-shares {
   display: none;
 }
 
-.pinned-draft.is-open:not(.pinned-draft--side) .draft-editor__label {
-  order: -1;
-  flex: 1 1 0;
-  margin-top: calc(var(--space-eyebrow-title) - var(--space-xs));
+/* Actions on the eyebrow's line, at the right; the name below it has the
+   full width (designer, 2026-10-28). */
+.pinned-draft.is-open:not(.pinned-draft--side) .tool-flow__draft-head > .dropdown {
+  order: -2;
 }
 
-.pinned-draft.is-open:not(.pinned-draft--side) .tool-flow__draft-head > .dropdown {
+.pinned-draft.is-open:not(.pinned-draft--side) .draft-editor__label {
   order: -1;
+  flex: 1 1 100%;
   margin-top: calc(var(--space-eyebrow-title) - var(--space-xs));
 }
 
