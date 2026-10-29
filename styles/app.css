@@ -22005,8 +22005,35 @@ ul.li-shares {
 
 .pinned-draft.is-open:not(.pinned-draft--side) .tool-flow__draft-head > .loop-status {
   order: -2;
-  flex: 1 1 auto;
   min-height: var(--space-lg);
+}
+
+/* "· Saved" after the status, in the status's own eyebrow type, the second
+   part in grey as "Still editing" was; it pushes Actions to the right. */
+.tool-flow__draft-saved {
+  display: none;
+}
+
+.pinned-draft.is-open:not(.pinned-draft--side) .tool-flow__draft-saved {
+  order: -2;
+  display: inline-flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: var(--space-2xs);
+  margin-left: calc(var(--space-2xs) - var(--space-sm));
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--weight-regular);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+/* With the draft open, the bar's own "Saved in your library" gives way to
+   it. */
+.tool-flow--has-bar .tool-flow__bar .tool-flow__saved {
+  display: none;
 }
 
 /* On the draft itself the status is the eyebrow, the word alone: no little

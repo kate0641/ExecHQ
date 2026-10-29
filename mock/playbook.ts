@@ -360,6 +360,8 @@ export const FLOW_COPY = {
   backLabel: "Back to the Playbook",
   /** Every change is kept as she goes. */
   saved: "Saved in your library",
+  /** On the open draft, after its status: "Draft · Saved" (designer, 28 Oct). */
+  savedShort: "Saved",
   step: (n: number, of: number) => `Step ${n} of ${of}`,
   /** Concept 2's bar at the foot of a draft, and its Inputs sheet. */
   draftTools: "Your draft",

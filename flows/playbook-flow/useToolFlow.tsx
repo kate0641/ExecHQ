@@ -856,6 +856,14 @@ export function useToolFlow(concept: FlowConcept) {
               {/* No "Still editing" here: she is looking at the draft
                   (designer, 2026-10-28). Lists elsewhere keep it. */}
               {record ? <LoopStatus record={record} detail={false} /> : null}
+              {/* That it is kept, beside where it stands, so the bar above
+                  needs no line of its own here (designer, 2026-10-28). */}
+              {record ? (
+                <span className="tool-flow__draft-saved">
+                  <span aria-hidden="true">·</span>
+                  <span className="u-visually-hidden">,</span> {C.savedShort}
+                </span>
+              ) : null}
               {/* The draft's actions, in its corner, on every concept. Once it
                   is ready, Copy and the downloads lead, so the bar holds only
                   "I've used this". Then what the library's row menu held
