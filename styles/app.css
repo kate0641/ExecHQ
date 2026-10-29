@@ -21952,8 +21952,21 @@ ul.li-shares {
   white-space: nowrap;
 }
 
+/* Hide draft sits on the heading's line, at the right, and the heading
+   wraps before it rather than under it. */
 .pinned-draft.is-open:not(.pinned-draft--side) .pinned-draft__toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  width: auto;
+  min-height: var(--button-target);
   padding-block: 0;
+}
+
+.pinned-draft.is-open:not(.pinned-draft--side) .draft-editor__label {
+  min-height: var(--button-target);
+  padding-right: calc(var(--space-3xl) + var(--space-xl));
 }
 
 /* The top in three groups (designer, 2026-10-28; all was 12 apart): the
