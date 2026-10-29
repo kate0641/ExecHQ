@@ -568,14 +568,14 @@ export const SIGNAL_PICTURE_COPY = {
   deleteAsk: "Delete this entry?",
   deleteYes: "Delete",
   deleteNo: "Keep it",
-  impactHeading: "What came of it",
+  impactHeading: "How it went",
   nextLabel: "Next action",
-  impactAdd: "Add what came of it",
+  impactAdd: "Add how it went",
   /** The block that shows only what she says came of the things she did. */
   cameOf: {
-    heading: "What came of it",
-    intro: "What you told us came of the things you did, in your words. Nothing is worked out for you.",
-    none: "Nothing reported yet. When you add what came of something you did, it shows here.",
+    heading: "How it went",
+    intro: "What you told us about how the things you did went, in your words. Nothing is worked out for you.",
+    none: "Nothing reported yet. When you tell us how something went, it shows here.",
     /** A thing she did with no reply: neutral, never a miss. */
     noReply: "Nothing reported yet",
     /** Said under it when she can tap it. */
@@ -589,11 +589,11 @@ export const SIGNAL_PICTURE_COPY = {
 
 /** The drawer she reports what came of something in. */
 export const REPORT_COPY = {
-  title: "What came of it?",
-  toneLabel: "How did it go?",
-  textLabel: "What came of it, in your words",
+  title: "How did it go?",
+  toneLabel: "Overall",
+  textLabel: "In your words",
   textHint: "Just enough for you to recognise it.",
-  errorText: "Write a line about what came of it.",
+  errorText: "Write a line about how it went.",
   errorTone: "Choose how it went.",
   save: "Save",
   cancel: "Cancel",
@@ -631,7 +631,7 @@ export const ENTRY_COPY = {
   followersPlaceholder: "e.g. 1,310",
   followersDateLabel: "As of when?",
   errorFollowers: "Type a whole number, such as 1,310.",
-  impactLabel: "What came of it?",
+  impactLabel: "How did it go?",
   impactHint: "Optional. A reply, a comment, an invitation, or nothing yet. In your words.",
   save: "Add",
   saveEdit: "Save",
@@ -863,8 +863,8 @@ export const PLAN_DIRECTION_COPY = {
 export const STAGE_CHECKIN_COPY = {
   part: "Stage check-in",
   introKicker: (n: number, of: number) => `Stage ${n} of ${of} · Finished`,
-  introTitle: (stage: string) => `You finished ${stage}`,
-  introLede: "Here’s what you did. Before ExecHQ builds on it, tell it how it went.",
+  introTitle: (stage: string) => `You finished ${stage}!`,
+  introLede: "Here’s what you did. Tell me how it went, and I’ll build on it.",
   introQuestion: "Check in on this stage?",
   introNote: (unreported: number) =>
     `${unreported ? `${unreported === 1 ? "One thing" : `${unreported} things`} to hear about, then how the stage went.` : "How the stage went."} About two minutes. You can skip any of it.`,
@@ -881,11 +881,11 @@ export const STAGE_CHECKIN_COPY = {
   done: (on: string) => `Done ${on}`,
   added: (on: string) => `Added ${on}`,
   // One page per thing she has not said what came of.
-  itemTitle: "What came of it?",
+  itemTitle: "How did it go?",
   itemWhyLabel: "Why ExecHQ asks",
   itemWhy: "What worked here decides what the next stage leans on.",
-  toneLabel: "How did it go?",
-  wordsLabel: "What came of it, in your words",
+  toneLabel: "Overall",
+  wordsLabel: "In your words",
   wordsHint: "Optional.",
   next: "Next",
   skipOne: "Skip this one",
@@ -965,30 +965,41 @@ export const SPARK_NOTES = {
     record: "In ExecHQ",
     signal: "Signal Picture",
   },
+  /* A cheer only when she finishes something; passing on, putting off and
+     changing direction stay neutral. Timing says "planned", not "the draft",
+     so it isn't read as one of her Playbook drafts (Kate, 2026-10-28). */
   finished: (stage: string, weeks: number, next?: string) => {
+    const span = (n: number) => `${n} week${n === 1 ? "" : "s"}`;
     const when =
       weeks === 0
-        ? `You finished ${stage} about when the draft said.`
+        ? `Nice! You finished ${stage} right on pace.`
         : weeks < 0
-          ? `You finished ${stage} ${-weeks} week${weeks === -1 ? "" : "s"} ahead of the draft.`
-          : `You finished ${stage} ${weeks} week${weeks === 1 ? "" : "s"} after the draft.`;
+          ? `Nice! You finished ${stage} ${span(-weeks)} sooner than planned.`
+          : `You finished ${stage}! It took ${span(weeks)} longer than planned${next ? "," : "."}`;
     const moved = next
       ? weeks === 0
-        ? ` ${next} stays where it was.`
-        : ` ${next} moved ${weeks < 0 ? "up" : "back"} with you.`
-      : " That was the last stage, and the plan carries on.";
+        ? ` ${next} stays put.`
+        : weeks < 0
+          ? ` ${next} moves up with you.`
+          : ` so ${next} moves back with you.`
+      : " That was the last stage, and your plan keeps going.";
     return when + moved;
   },
-  pastPace: "This stage is running past the draft’s pace. The stages after it have moved back with you. There is no deadline.",
-  completed: (title: string) => `You finished “${title}”. It counts toward this stage.`,
-  declined: (title: string) => `You passed on “${title}”. ExecHQ offered a different step in its place.`,
-  deferred: (title: string, when?: string) => `You put off “${title}”.${when ? ` It comes back ${when.toLowerCase()}.` : ""}`,
+  pastPace: "This stage is taking longer than planned, and that’s OK. The stages after it move back with you.",
+  completed: (title: string) => `Done: “${title}”. Nice work.`,
+  declined: (title: string) => `You passed on “${title}”, so ExecHQ swapped in a different one.`,
+  /** `when` is a TIME_WORDS phrase: "Next week" reads "until next week", "This
+   *  month" reads "until later this month", and "Later" has no until. */
+  deferred: (title: string, when?: string) => {
+    const w = when?.toLowerCase();
+    const until = !w || w === "later" ? " for now" : w.startsWith("this ") ? ` until later ${w}` : ` until ${w}`;
+    return `“${title}” is on hold${until}.`;
+  },
   recorded: (text: string) => `${text}.`,
-  added: (text: string) => `You added to your Signal Picture: ${text}.`,
-  directionKept: "You updated your direction. Your plan stayed as it was.",
-  directionMoved: (from: string, to: string) =>
-    `You changed your direction, and your plan moved from ${from} to ${to}. ${from} stays above as the draft you started with.`,
-  planMoved: (from: string, to: string) => `You changed plan, from ${from} to ${to}. ${from} stays above as the draft you started with.`,
+  added: (text: string) => `Added to your Signal Picture: ${text}.`,
+  directionKept: "You updated your direction. Your plan stays the same.",
+  directionMoved: (from: string, to: string) => `New direction, new plan: ${to}. Your first draft, ${from}, stays above.`,
+  planMoved: (from: string, to: string) => `You switched to ${to}. Your first draft, ${from}, stays above.`,
 } as const;
 
 export const TIMELINE_COPY = {

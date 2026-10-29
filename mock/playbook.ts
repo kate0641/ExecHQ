@@ -543,8 +543,8 @@ export const USE_COPY = {
   markReady: "Mark ready",
   /** "Mark published", "Mark sent", "Mark used". */
   markUsed: (kind: ArtifactKind) => `Mark ${ARTIFACT_KINDS[kind].usedLabel.toLowerCase()}`,
-  used: (kind: ArtifactKind) => `Marked ${ARTIFACT_KINDS[kind].usedLabel.toLowerCase()}. ExecHQ will ask what came of it.`,
-  ready: "Marked ready. ExecHQ will ask what came of it once you use it.",
+  used: (kind: ArtifactKind) => `Marked ${ARTIFACT_KINDS[kind].usedLabel.toLowerCase()}. ExecHQ will ask how it went.`,
+  ready: "Marked ready. ExecHQ will ask how it went once you use it.",
   /** Where she can export, by kind: copy for every output, PDF and Word for
    *  the Situation Brief, bios and long-form articles (brief's proposed answer). */
   exportable: {
@@ -1341,8 +1341,8 @@ export const SEND_STEPS_COPY = {
     title: "Mark it sent, and put the follow-up in your diary",
     done: "(done)",
     before: (days: number) =>
-      `Mark sent records where and when. ExecHQ asks what came of it ${days} days later, and the follow-up in the draft is for a week after you send it.`,
-    after: (on: string, to: string, followUp: string, ask: string) => `Sent ${on}${to ? ` to ${to}` : ""}. Send the follow-up ${followUp} if you’ve heard nothing; ExecHQ asks what came of it ${ask}.`,
+      `Mark sent records where and when. ExecHQ asks how it went ${days} days later, and the follow-up in the draft is for a week after you send it.`,
+    after: (on: string, to: string, followUp: string, ask: string) => `Sent ${on}${to ? ` to ${to}` : ""}. Send the follow-up ${followUp} if you’ve heard nothing; ExecHQ asks how it went ${ask}.`,
   },
   /** What a copy says it copied. */
   copied: (what: string) => `${what} copied.`,

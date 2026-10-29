@@ -11,7 +11,7 @@ export const signalEntrySheetStates = defineComponentStates({
   status: "draft",
   flows: ["plan"],
   description:
-    "How she tells ExecHQ about something she did outside it: what it was, when, an optional link or note, and what came of it. It also takes her LinkedIn followers, a number as of a day, which only moves the Now column. Nothing is searched for and nothing leaves the browser. It opens fresh each time and is offered at the moment it is relevant, never kept as a standing form. The same sheet edits what she added.",
+    "How she tells ExecHQ about something she did outside it: what it was, when, an optional link or note, and how it went. It also takes her LinkedIn followers, a number as of a day, which only moves the Now column. Nothing is searched for and nothing leaves the browser. It opens fresh each time and is offered at the moment it is relevant, never kept as a standing form. The same sheet edits what she added.",
   component: SignalEntrySheet,
   notApplicable: {
     ...CONTROLS_INSIDE,
@@ -31,7 +31,7 @@ export const signalEntrySheetStates = defineComponentStates({
       props: { ...base, editing: true, initial: { type: "podcast", on: "2026-10-17", text: "https://example.com/modern-cmo" } },
     },
     {
-      label: "Editing — with what came of it",
+      label: "Editing — with how it went",
       props: {
         ...base,
         editing: true,

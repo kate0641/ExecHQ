@@ -117,7 +117,7 @@ What the card shows is decided by the first of these that is true:
 
 | # | When | The card |
 | --- | --- | --- |
-| 1 | The person has just logged an outcome for an action in this ring | A plain note: **"Done: {action}"**. "Nice work. Your Plan shows where this leaves you, and new actions come once everything in this stage is done." A full-width secondary button, **See your Plan** |
+| 1 | The person has just logged an outcome for an action in this ring | A plain note: **"Done: {action}"**. "Nice work! New actions come once this stage is finished." (shortened 2026-10-28) A full-width secondary button, **See your Plan** |
 | 2 | This ring holds their next step (the one action they are on that has not yet reached the Loop) | The **next-step card** with its eyebrow **"Next in {horizon}"** |
 | 3 | The ring has an action in progress, else one not started | The same next-step card for that action. Eyebrow **"Next in {horizon}"** for one in progress, **"Suggested in {horizon}"** for one not started |
 | 4 | Every action in the ring is done | A note: **"Every {horizon} action is done."**, then "New actions come with your plan's next stage." and a **See your Plan** button |
@@ -126,7 +126,7 @@ What the card shows is decided by the first of these that is true:
 **The next-step card** has, top to bottom: the eyebrow; the action's title as a heading; three labeled rows, **Why this**, **Why now**, **Why you** (any that has no text is left out); a full-width primary button **Start in the Playbook**; and, for an action that is in progress and has no draft, a full-width secondary button **I've done this**.
 
 - **Start in the Playbook** opens the action's flow in the Playbook. For an action that was not started, pressing it also marks it **in progress**, so on return its segment is outlined.
-- **I've done this** marks the action done on the person's word. The card moves to the "Done" note (row 1), and focus moves to the check-in question in Stay on track, which now asks what came of it (4.3). The ring's segment becomes solid.
+- **I've done this** marks the action done on the person's word. The card moves to the "Done" note (row 1), and focus moves to the check-in question in Stay on track, which now asks how it went (4.3). The ring's segment becomes solid.
 - The card never offers to skip or set aside an action. Turning an action down is not a Home job.
 
 ### 3.4 See your Plan
@@ -145,10 +145,10 @@ Everything waiting on the person's word, as a row of cards they step through.
 | --- | --- | --- |
 | 1 | **Have you done this yet?** An action with no draft that they said they would do | The action is not dropped, and has either no outcome yet or one logged today |
 | 2 | **What they just answered** | They have just logged an outcome |
-| 3 | **What came of it?** A follow-up that is due | A used item's check-back date is today or earlier |
+| 3 | **How did it go?** A follow-up that is due | A used item's check-back date is today or earlier |
 | 4 | **{Draft} is ready. Have you used it?** | A draft is ready and not yet used |
 | 5 | **Your weekly check-in** (4.5) | It is 7 days or more since their last check-in answer, or they have not answered one yet |
-| 6 | A quiet row: **"I'll ask what came of it {when}."** or **"Used. No check-back set."** | An item has been used and its check-back is not yet due |
+| 6 | A quiet row: **"I'll ask how it went {when}."** or **"Used. No check-back set."** | An item has been used and its check-back is not yet due |
 
 Cards 1 to 5 are questions she answers. Row 6 is information only, so it is smaller and has no buttons. The weekly check-in comes after the cards about her work, so it never pushes them aside.
 
@@ -164,11 +164,11 @@ Each question card says what it is for ("For your short-term action", with the a
 ### 4.3 Answering a card
 
 **Ready: "{Draft} is ready. Have you used it?"**
-- "Tell me once it's been used, and I'll ask what came of it."
+- "Let me know when you have, and I'll ask how it went."
 - **Yes, I've {used / sent / published} it** marks it used. The verb matches the kind of draft. A check-back is set (two days for a situation brief, five for a pitch, seven for a story or a published piece). Focus returns to the "Stay on track" heading.
 - **Not yet** keeps it ready. "No problem. I'll check in again in a couple of days."
 
-**Due: "What came of it?"**
+**Due: "How did it go?"** (changed from "What came of it?" on 2026-10-28; Stay on track speaks as "I")
 Five answers: **It went well**, **It was mixed**, **Not the way I hoped**, **Nothing yet**, **It's no longer relevant**. Pressing one logs it.
 - After a real answer the card reads back **"Logged. {what that means}"**. Focus moves to the card's heading.
 - **Nothing yet** reads back **"No problem. I'll ask about {name} again {when}."** The check-back moves out.
@@ -176,13 +176,13 @@ Five answers: **It went well**, **It was mixed**, **Not the way I hoped**, **Not
 - Logging an outcome is what makes a ring segment done, and what brings the "Done: {action}" note (3.3, row 1).
 
 **Have you done this yet?** (no draft)
-- "Say when it's done, and what came of it."
-- **Yes, it's done** records the day, and the card becomes **"You finished this {when}. What came of it?"** with the same five answers.
+- "Let me know when it's done, and how it went."
+- **Yes, it's done** records the day, and the card becomes **"You finished this {when}. How did it go?"** with the same five answers.
 - **I'm not doing it** takes the action off the map.
 
 ### 4.4 When there is nothing
 
-- The person has never used anything yet: "When you use something you've made, it shows here, so you can tell ExecHQ what came of it."
+- The person has never used anything yet: "When you use something you've made, it shows here, so you can tell me how it went."
 - Everything used has its outcome logged: "Nothing waiting on you. Everything you've used has its outcome logged."
 - **First return:** the whole Stay on track section is left out, because nothing can be waiting yet.
 - When the weekly check-in is the only card, it is shown on its own and neither empty line appears.
@@ -195,7 +195,7 @@ Added 2026-10-23 and settled 2026-10-26. One question, once a week, that tells t
 
 - The card's band: **Your weekly check-in**, with an **×** at its right (its name, and tooltip, is "Not now").
 - The question: **How ready do you feel to {their direction}?**, for example "How ready do you feel to own a bigger area of the business?". The direction is the one they chose in onboarding, in the form in 4.6. Without one, the question reads "How ready do you feel for your next move?".
-- Under it, small and quiet: "Your answer helps ExecHQ shape what comes next in your plan."
+- Under it, small and quiet: "Your answer helps shape what comes next in your plan."
 - A **slider** with three stops: **Not yet**, **Getting there**, **Ready**, with each word under its place on the track. The chosen word is bold and the track fills to the thumb. It starts on their last answer. With no answer yet, it starts in the middle.
 - At the foot: on the left, what pressing Save will record ("Same as last week", or "Changed to {word}"; left out on the very first check-in); on the right, at the card's right edge, **Save**.
 
@@ -237,7 +237,7 @@ Onboarding has no free text: the person picks a direction and narrows it to one 
 
 ### 4.7 What the answer changes in the plan
 
-The line under the question, "Your answer helps ExecHQ shape what comes next in your plan.", is kept true every week: each answer changes the next step offered, with levers the Plan already has (see the Plan spec and the plan briefs), and the read-back says what changed (decided 2026-10-26).
+The line under the question, "Your answer helps shape what comes next in your plan.", is kept true every week: each answer changes the next step offered, with levers the Plan already has (see the Plan spec and the plan briefs), and the read-back says what changed (decided 2026-10-26).
 
 | Answer | What changes | The read-back says |
 | --- | --- | --- |
@@ -320,10 +320,21 @@ The LinkedIn row appears only if a number was typed. Nothing is looked up from L
 
 ### 6.3 The note of movement
 
-- It shows one note: the most recent thing the person added in the last 7 days, in a warm sentence that names the thing and stops ("Great job! You're on The Modern CMO, your second podcast appearance.").
-- A mark and a small source label (Podcast, Press, Speaking, Writing) sit beside it.
+- It shows one note: the most recent thing the person added in the last 7 days, in a short, warm line that names the thing and gives the count, the one thing they don't already know (decided 2026-10-28):
+
+  | Kind | The line | Their first of that kind |
+  | --- | --- | --- |
+  | Podcast | "{Podcast}! That's podcast number {n}." | "{Podcast}! Your first podcast." |
+  | Press | "You made {Publication}. That's press mention number {n}." | "You made {Publication}. Your first press mention!" |
+  | Speaking | "On stage at {Event}. That's talk number {n}." | "On stage at {Event}. Your first talk!" |
+  | Writing | ""{Title}" is out there. That's piece number {n}!" | ""{Title}" is out there. Your first piece!" |
+  | Something else | "Nice. {What they added} is on your Signal Picture." | — |
+
+  The count is a digit and includes what they had at the start.
+- A mark and a small source label (Podcast, Press, Speaking, Writing) sit beside it, after a cheer that takes turns in the order things were added, so two notes in a row never match: "Great job!", "Nice one!", "Well done!" ("Nice one! · Podcast").
 - It never says the person's work caused a result, and there are no streaks.
 - A **Dismiss** button, named for the note it dismisses, removes it for good. Nothing else changes when it goes.
+- **Only ever the newest, never a stack** (decided 2026-10-28). Adding something new replaces the note. Once it is dismissed, nothing shows until the person adds something new, and older notes never come back. A note stops showing 7 days after the thing was added, dismissed or not.
 - With nothing to note, there is no note and no gap.
 
 ---
@@ -335,7 +346,7 @@ Home changes with where the person is. In the prototype the dock lists five mome
 | Moment | What Home shows |
 | --- | --- |
 | **First return** | The greeting, the map with the card under its ring, the Briefing, and the starting-point form in the Signal Picture. Stay on track is not there |
-| **Follow-up due** | The next step under the rings, and a "What came of it?" card leads Stay on track |
+| **Follow-up due** | The next step under the rings, and a "How did it go?" card leads Stay on track |
 | **Drafted, not used** | A "{Draft} is ready. Have you used it?" card leads Stay on track |
 | **Nothing pending** | The next step under the rings, and Stay on track shows its empty line |
 | **Just answered** | The "Done: {action}" note under the ring, and the answered card, with its read-back, leads Stay on track |

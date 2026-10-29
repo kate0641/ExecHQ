@@ -26,7 +26,7 @@ const base = {
   headingId: "signal-picture-demo",
 };
 const spark = {
-  items: [{ id: "demo", source: SPARK_COPY.source.press, text: SPARK_COPY.press("Marketing Week", "third") }],
+  items: [{ id: "demo", source: SPARK_COPY.source.press, text: SPARK_COPY.press("Marketing Week", 3) }],
   label: SPARK_COPY.label,
   dismissLabel: SPARK_COPY.dismiss,
   dismissName: SPARK_COPY.dismissNote,

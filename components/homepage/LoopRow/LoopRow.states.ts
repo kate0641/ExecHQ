@@ -23,11 +23,11 @@ export const loopRowStates = defineComponentStates({
     filled: NOT_AN_INPUT,
   },
   variants: [
-    { label: "Needs her, a follow-up — default", props: { record: pitch, line: "Sent last Thursday. What came of it?", onOpen: noop } },
+    { label: "Needs her, a follow-up — default", props: { record: pitch, line: "Sent last Thursday. How did it go?", onOpen: noop } },
     { label: "Only waiting, quiet", props: { record: pitch, line: "I’ll ask about it on Tuesday." } },
-    { label: "A long title wraps", props: { record: { ...pitch, title: "Pitch for the Q1 planning review and the cross-functional planning office" }, line: "Sent last Thursday. What came of it?", onOpen: noop } },
-    { label: "Hover", props: { record: pitch, line: "Sent last Thursday. What came of it?", onOpen: noop, demo: "hover" } },
-    { label: "Focus", props: { record: pitch, line: "Sent last Thursday. What came of it?", onOpen: noop, demo: "focus" } },
-    { label: "Pressed", props: { record: pitch, line: "Sent last Thursday. What came of it?", onOpen: noop, demo: "active" } },
+    { label: "A long title wraps", props: { record: { ...pitch, title: "Pitch for the Q1 planning review and the cross-functional planning office" }, line: "Sent last Thursday. How did it go?", onOpen: noop } },
+    { label: "Hover", props: { record: pitch, line: "Sent last Thursday. How did it go?", onOpen: noop, demo: "hover" } },
+    { label: "Focus", props: { record: pitch, line: "Sent last Thursday. How did it go?", onOpen: noop, demo: "focus" } },
+    { label: "Pressed", props: { record: pitch, line: "Sent last Thursday. How did it go?", onOpen: noop, demo: "active" } },
   ],
 });

@@ -154,12 +154,12 @@ export const SPARK_COPY = {
   label: "Recent movement",
   /** A signal ExecHQ recorded for her, so she knows it did not come from her. */
   recordedSource: "Added for you",
-  recorded: (what: string) => `ExecHQ recorded: ${what}`,
+  recorded: (title: string) => `“${title}” is on your Signal Picture now.`,
   hide: "Not right? Hide it",
   dismiss: "Dismiss",
   /** Before the source on Home's Signal Picture strip: "Great job! · Press".
-   *  The designer's wording (2026-10-11), for Kate to confirm. */
-  kicker: "Great job!",
+   *  They take turns, so two notes in a row never match (Kate, 2026-10-28). */
+  kickers: ["Great job!", "Nice one!", "Well done!"],
   dismissNote: (text: string) => `Dismiss: ${text}`,
   /** The small words above each note, by where it came from. */
   source: {
@@ -169,11 +169,17 @@ export const SPARK_COPY = {
     writing: "Writing",
     other: "Something you added",
   },
-  other: (what: string) => `Added: ${what}.`,
-  podcast: (where: string, ordinal: string) => `You’re on ${where}, your ${ordinal} podcast appearance.`,
-  press: (where: string, ordinal: string) => `You’re in ${where}, your ${ordinal} press mention.`,
-  speaking: (where: string, ordinal: string) => `You’re speaking at ${where}, your ${ordinal} engagement.`,
-  writing: (title: string, ordinal: string) => `“${title}” is up, your ${ordinal} piece.`,
+  /** The count is the one thing she doesn't already know, so each line leads
+   *  to it; her first of a kind gets its own line (Kate, 2026-10-28). */
+  other: (what: string) => `Nice. ${what} is on your Signal Picture.`,
+  podcast: (where: string, n: number) =>
+    n === 1 ? `${where}! Your first podcast.` : `${where}! That’s podcast number ${n}.`,
+  press: (where: string, n: number) =>
+    n === 1 ? `You made ${where}. Your first press mention!` : `You made ${where}. That’s press mention number ${n}.`,
+  speaking: (where: string, n: number) =>
+    n === 1 ? `On stage at ${where}. Your first talk!` : `On stage at ${where}. That’s talk number ${n}.`,
+  writing: (title: string, n: number) =>
+    n === 1 ? `“${title}” is out there. Your first piece!` : `“${title}” is out there. That’s piece number ${n}!`,
 } as const;
 
 /* -----------------------------------------------------------------------------

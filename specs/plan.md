@@ -213,14 +213,14 @@ ExecHQ decides a stage is finished, from their work: every step they took on in 
 
 The check-in uses the same page and answers as the moves, with "Stage check-in · {stage}" where the plan's name was, and a segment for each of its pages.
 
-1. **What you did.** Kicker "Stage {n} of {total} · Finished", heading "You finished {stage}", and "Here's what you did. Before ExecHQ builds on it, tell it how it went." Then one card per thing from the stage:
+1. **What you did.** Kicker "Stage {n} of {total} · Finished", heading "You finished {stage}!", and "Here's what you did. Tell me how it went, and I'll build on it." (2026-10-28) Then one card per thing from the stage:
    - its source: **Your steps**, **In ExecHQ** (something made with ExecHQ) or **Yours** (something they added),
    - its title, and what happened when ("Used 13 Oct", "Done 9 Oct", "Added 17 Oct"),
    - what they have said came of it ("It went well." and their words in the serif), or a **Not reported yet** tag,
    - steps they passed on, listed with "You passed on it" and never asked about.
 
    The answers: "Check in on this stage?" with "{n} things to hear about, then how the stage went. About two minutes. You can skip any of it." **Start the check-in** and **Later**.
-2. **What came of it?** One page for each thing not yet reported, fixed when the check-in opens. The answers are "How did it go?" as It went well, It was mixed, Not the way I hoped and Nothing yet, then "What came of it, in your words" (optional). Something they added takes only their words. **Next** waits for an answer; **Skip this one** is always there. What they say is kept on the thing itself, the same record "What came of it?" keeps everywhere else.
+2. **How did it go?** One page for each thing not yet reported, fixed when the check-in opens. The answers are "Overall" as It went well, It was mixed, Not the way I hoped and Nothing yet, then "In your words" (optional). (The page asked "What came of it?" until 2026-10-28.) Something they added takes only their words. **Next** waits for an answer; **Skip this one** is always there. What they say is kept on the thing itself, the same record "What came of it?" keeps everywhere else.
 3. **Did you get what finishing looks like?** The stage's milestone as the margin note. "Where did you land?": **Yes**, **Partly**, **Not yet**. **Next**, or **Skip**.
 4. **How are you feeling about your plan now?** "However it went is useful. ExecHQ shapes what comes next around it." "Right now I'm feeling…": **More sure of it**, **About the same**, **Less sure**, **Stuck**, then "Anything ExecHQ should know?" (optional), "Only you see this. It is kept as you wrote it." **See your stage**, or **Skip**.
 5. **Your stage, in your words.** A reply that says what their answers changed (9.4), then **What you did** (the cards again, with what they said now) and **How the stage went** (where they landed, how they feel, their words), with "Not answered" for anything skipped. **On to {next stage}** (or **Back to your plan** after "Not yet", or when it was opened from the roadmap) and **Change an answer**, which goes back to the milestone with their answers chosen.

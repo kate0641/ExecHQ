@@ -11,7 +11,7 @@ export const loopTrackStates = defineComponentStates({
   status: "draft",
   flows: ["homepage"],
   description:
-    "An artifact’s way through the Loop, like a parcel tracker: Drafted, then used in the kind’s own word (Used, Sent, Published), then what came of it. A tick for each done step; the step it is waiting on is ringed.",
+    "An artifact’s way through the Loop, like a parcel tracker: Drafted, then used in the kind’s own word (Used, Sent, Published), then how it went. A tick for each done step; the step it is waiting on is ringed.",
   component: LoopTrack,
   notApplicable: {
     ...NOT_INTERACTIVE,
@@ -30,6 +30,6 @@ export const loopTrackStates = defineComponentStates({
       description: "Nothing yet leaves the last step open rather than marking it.",
       props: { record: rec("drafted-not-used", "pitch") },
     },
-    { label: "What came of it, logged", props: { record: rec("just-answered", "story") } },
+    { label: "How it went, logged", props: { record: rec("just-answered", "story") } },
   ],
 });

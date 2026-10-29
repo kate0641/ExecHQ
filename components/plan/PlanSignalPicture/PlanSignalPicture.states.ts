@@ -30,7 +30,7 @@ export const planSignalPictureStates = defineComponentStates({
   status: "draft",
   flows: ["signals"],
   description:
-    "What came of it, on the Signal Picture: a row for each thing she put out in the world since her plan began, newest first, what she did pointing at what she says came of it, in her words. A thing with no reply is a quiet dashed block, never a miss, and can be tapped to report. Five rows show, the rest one tap away. What came of a thing is only ever her own words. Nothing in it is a score, percentage or grade.",
+    "How it went, on the Signal Picture: a row for each thing she put out in the world since her plan began, newest first, what she did pointing at how she says it went, in her words. A thing with no reply is a quiet dashed block, never a miss, and can be tapped to report. Five rows show, the rest one tap away. How a thing went is only ever in her own words. Nothing in it is a score, percentage or grade.",
   component: PlanSignalPicture,
   notApplicable: {
     hover: "Its controls are Buttons, which show their own states.",
@@ -44,7 +44,7 @@ export const planSignalPictureStates = defineComponentStates({
   variants: [
     {
       label: "A row for each thing — default",
-      description: "Each thing she did is a dark card: the step at the top, and a lime curve down to what she says came of it, in her words. A thing with no reply is a quiet dashed card, never a miss. No next action and no add button: the page has those.",
+      description: "Each thing she did is a dark card: the step at the top, and a lime curve down to how she says it went, in her words. A thing with no reply is a quiet dashed card, never a miss. No next action and no add button: the page has those.",
       props: { ...base, headingId: "pc-came" },
     },
     {
@@ -54,7 +54,7 @@ export const planSignalPictureStates = defineComponentStates({
     },
     {
       label: "The quiet block is tappable, to report",
-      description: "Where a thing has no reply, the dashed block can be tapped and says so. It opens a drawer to say what came of it.",
+      description: "Where a thing has no reply, the dashed block can be tapped and says so. It opens a drawer to say how it went.",
       props: { ...base, items: items.map((i) => ({ ...i, impact: undefined })), onReport: noop, headingId: "pc-came-report" },
     },
     {

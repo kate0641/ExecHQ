@@ -131,7 +131,7 @@ Under Change the draft: **Versions**, "Every change is saved. Bring back any ear
 
 ### 5.5 Ready, used, and how it went
 
-- **Mark ready** (with Change the draft beside it on phone). "Marked ready. ExecHQ will ask what came of it once you use it." The draft then reads clean, with **Change something** to return to the working draft.
+- **Mark ready** (with Change the draft beside it on phone). "Marked ready. ExecHQ will ask how it went once you use it." The draft then reads clean, with **Change something** to return to the working draft.
 - Ready, the one button is **I've used this** (**I've sent this** for a pitch, **I've published this** for a post). A pitch first asks **Mark it sent**: Sent to, Contact and When (none required), then **Mark sent** or **Not yet**.
 - Once used, **How did it go?** asks in place, with It went well, It was mixed, Not the way I hoped, and Nothing yet. Their one tap is all the feedback: ExecHQ says it back and gives the next step, whatever they answered, by the rules each builder page sets out, with **Add a note** offered. A plan step goes on their Plan only when they tap Add. Nothing yet asks again later.
 - A Situation Brief with a date asks the day after the meeting, however early they mark it used; other tools ask after their own interval.

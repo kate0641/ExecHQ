@@ -11,7 +11,7 @@ export const reportDrawerStates = defineComponentStates({
   status: "draft",
   flows: ["signals"],
   description:
-    "Where she says what came of something she did, opened from the “Nothing reported yet” box on its row. Her words are kept as she wrote them and never changed or scored. A thing she added herself takes her words; a thing the Loop made also asks how it went, as the check-in does. The page stays above it.",
+    "Where she says how something went she did, opened from the “Nothing reported yet” box on its row. Her words are kept as she wrote them and never changed or scored. A thing she added herself takes her words; a thing the Loop made also asks how it went, as the check-in does. The page stays above it.",
   component: ReportDrawer,
   notApplicable: {
     ...CONTROLS_INSIDE,

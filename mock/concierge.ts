@@ -31,7 +31,7 @@ export const CONCIERGE_COPY = {
 
   /** Suggested questions, by what is going on. */
   suggest: {
-    followUp: (name: string) => `Tell you what came of ${name}`,
+    followUp: (name: string) => `Tell you how ${name} went`,
     // The draft's name is his ("your check-in brief"); this is her asking.
     prep: (name: string) => `Help me finish ${name.replace(/^your /, "my ")}`,
     next: "What’s next on my plan?",
@@ -84,7 +84,7 @@ export const CONCIERGE_COPY = {
   inDays: (days: number) => (days === 7 ? "In a week" : `In ${days} days`),
   inAWeek: "In a week",
   dontCheck: "Don’t check back",
-  markedNoCheck: (label: string) => `Marked as ${label.toLowerCase()}. I won’t ask about it; tell me what came of it any time.`,
+  markedNoCheck: (label: string) => `Marked as ${label.toLowerCase()}. I won’t ask about it; tell me how it went any time.`,
   marked: (label: string, when: string) => `Marked as ${label.toLowerCase()}, today. I’ll ask how it went ${when}.`,
   nothingToMark: "There’s nothing open to mark as used. Everything you’ve made is already used or done.",
 
@@ -98,10 +98,13 @@ export const CONCIERGE_COPY = {
     "It names the topic, points at evidence you already have, and asks for a conversation rather than a decision.",
   ],
 
-  recallWaiting: (sentence: string) => `${sentence} You haven’t told me what came of it yet.`,
+  recallWaiting: (sentence: string) => `${sentence} You haven’t told me how it went yet.`,
   tellYouNow: "Tell you now",
   recallNone: "You haven’t used anything yet. Your first draft is waiting on Home.",
-  recallAll: (count: string, outcomes: string) => `You’ve used ${count} so far, and told me what came of ${outcomes}.`,
+  recallAll: (count: string, outcomes: string) =>
+    outcomes === "none"
+      ? `You’ve used ${count} so far, and haven’t told me how any of them went yet.`
+      : `You’ve used ${count} so far, and told me how ${outcomes} of them went.`,
 
   next: (title: string, why: string) => `Next on your plan: ${title}. ${why}`,
   openPlan: "Open my plan",

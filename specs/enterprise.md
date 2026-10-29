@@ -320,5 +320,5 @@ These are settled. They are the specified behavior.
 ### Open
 
 - **Disclosure to participants.** Nothing on the participant's check-in card says the answer counts in the organization's totals. The privacy policy (Eric) has to cover it.
-- **The readiness line on Home promises the plan adapts** ("Your answer helps ExecHQ shape what comes next in your plan."). The product must make that true.
+- **The readiness line on Home promises the plan adapts** ("Your answer helps shape what comes next in your plan."). The product must make that true.
 - **Small counts above the minimum** (for example 7 recorded outcomes, if outcomes are ever shown) are still to be decided.

@@ -172,14 +172,13 @@ export const FOLLOW_UP_EMAIL = {
   preview: "Sign in to see it. It takes one tap to answer.",
 } as const;
 
-/** The progress sentence's parts. The PRD's own example is the model: "You
- *  completed two planned actions this month and have one artifact awaiting an
- *  outcome." Never a score, a streak or momentum language. */
+/** The progress line's parts, from the PRD's example ("You completed two
+ *  planned actions this month and have one artifact awaiting an outcome"),
+ *  made shorter on 2026-10-28: "2 actions done this month · 1 waiting to hear
+ *  how it went". Never a score, a streak or momentum language. */
 export const PROGRESS_COPY = {
-  completed: (count: string, plural: boolean) =>
-    `You completed ${count} planned action${plural ? "s" : ""} this month`,
-  awaiting: (count: string, plural: boolean) =>
-    `${count} artifact${plural ? "s" : ""} awaiting an outcome`,
+  completed: (count: string, plural: boolean) => `${count} action${plural ? "s" : ""} done this month`,
+  awaiting: (count: string) => `${count} waiting to hear how it went`,
   /** Nothing completed or awaiting yet: say what exists, no more. */
   soFar: (count: string, plural: boolean) =>
     `You have ${count} artifact${plural ? "s" : ""} so far.`,

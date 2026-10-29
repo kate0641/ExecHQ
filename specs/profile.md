@@ -128,7 +128,7 @@ Buttons: **Save** (primary, full width) and **Cancel** (secondary, full width), 
 - A valid Save updates the account, closes the dialog, updates the page at once and announces "Saved."
 - Cancel, ×, Escape, and tapping outside the dialog all close it and discard changes.
 
-**Changing the email in production.** The email is how the person signs in, so a change takes effect only after it is confirmed. On Save, the new address is shown as pending, a link is sent to the new address, and sign-in keeps working with the old address until the link is used. A notice goes to the old address. The prototype skips this and saves at once.
+**Changing the email in production.** The email is how the person signs in, so a change takes effect only after it is confirmed. On Save, a 6-digit code is sent to the new address and the dialog asks for it, the same code as Login's: it works for 10 minutes and only once. The change takes effect when the code is entered; until then the new address is shown as pending and sign-in keeps working with the old address. The email carries no link (decided 2026-10-28, to match Login and onboarding). A notice goes to the old address. The prototype skips this and saves at once.
 
 ### 4.2 Leave organization
 
@@ -275,7 +275,7 @@ Components built earlier and no longer on this page (`ConnectionDetail`, `UsesDe
 | Prototype | Production |
 | --- | --- |
 | The account is a local record and every change is kept in the browser. | A real account, saved on the server. |
-| Saving an email change takes effect at once. | A link is sent to the new address and the change takes effect when it is used (4.1). |
+| Saving an email change takes effect at once. | A 6-digit code is sent to the new address and the change takes effect when it is entered (4.1). |
 | Download shows "Downloading…" for two seconds and produces no file. | Generates and downloads the PDF described in 4.3. |
 | Delete and sign out end the page in place, with a button to reset. | Delete removes the data and sends the confirmation (4.4). Sign out ends the session and goes to Login. |
 | Leaving an organization only changes the local record. | Removes the person from the group's summary on the Admin Dashboard straight away. |
@@ -291,7 +291,7 @@ These are settled. They are the specified behavior.
 2. **Email only, and said on the page.** ExecHQ is a website, so notifications are email, in two switches: the plan and follow-ups together, and the Daily Briefing. A line under the heading says email is the only way ExecHQ reaches a person, and that there are no app or push notifications.
 3. **No role or title here.** It lives on the Plan page with the person's direction.
 4. **No connections in V1.** Entry is manual.
-5. **The email is editable** but a change is confirmed by a link to the new address before it takes effect.
+5. **The email is editable** but a change is confirmed by a 6-digit code sent to the new address before it takes effect, as on Login (2026-10-28).
 6. **Deletion is immediate and final.** The person can take a copy first, in the same dialog.
 7. **Organizations see a summary only,** of everyone together, on the Admin Dashboard, with no minimum group size, and never any individual's data. Members can leave at any time.
 8. **Sign out is one tap,** with no confirmation.

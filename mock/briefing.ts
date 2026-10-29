@@ -392,8 +392,8 @@ export const BRIEFING_COPY = {
     publishersSaved: "Saved. Tomorrow’s reads come from these.",
     inProfile: "Change publishers in Profile",
     emailLabel: "Email me the Briefing",
-    /** Off by default, per the brief. The 8 am send is from the 8 Oct
-     *  notifications sheet. */
+    /** On by default (Kate, 28 Oct; the brief had it off). The 8 am send is
+     *  from the 8 Oct notifications sheet. */
     emailHint: "Each morning at 8 am, your time. The same three reads, with links back here.",
   },
 } as const;
