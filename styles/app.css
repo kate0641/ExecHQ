@@ -20544,7 +20544,8 @@ ul.li-shares {
 .draft-editor__legend {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2xs) var(--space-md);
+  /* One line: the three side by side, 12 apart (designer, 2026-10-28). */
+  gap: var(--space-2xs) var(--space-sm);
   margin: 0;
   padding: 0;
   list-style: none;

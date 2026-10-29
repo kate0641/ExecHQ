@@ -433,8 +433,10 @@ export const DRAFT_COPY = {
     "thought-leadership": "Here is a first draft of your post. Change anything; it is yours.",
   } as Record<ArtifactKind, string>,
   legendYou: "Your words",
-  legendExechq: "ExecHQ’s wording",
-  legendQuestion: "A question only you can answer",
+  // Shorter, so the key is one line (designer, 28 Oct; was "ExecHQ's
+  // wording" and "A question only you can answer").
+  legendExechq: "ExecHQ’s words",
+  legendQuestion: "Needs answer",
   questionLabel: "To answer:",
   answer: "Answer",
   edit: "Edit",
