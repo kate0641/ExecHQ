@@ -22034,7 +22034,8 @@ ul.li-shares {
   display: none;
 }
 
-.pinned-draft.is-open:not(.pinned-draft--side) .tool-flow__draft-saved {
+.pinned-draft.is-open:not(.pinned-draft--side) .tool-flow__draft-saved,
+.tool-flow__draft-top .tool-flow__draft-saved {
   order: -2;
   display: inline-flex;
   flex: 1 1 auto;
@@ -22054,6 +22055,45 @@ ul.li-shares {
    it. */
 .tool-flow--has-bar .tool-flow__bar .tool-flow__saved {
   display: none;
+}
+
+/* Change the draft on a phone opens as the draft does (designer, 29 Oct):
+   16 under the bar, the "Draft · Saved" line the height of the draft's
+   Actions row, the name 4 under it in the heading role, "For:" 4 under the
+   name. So the bar's "Saved in your library" gives way here too. */
+.tool-flow:has(.tool-flow__draft-top) .tool-flow__bar .tool-flow__saved {
+  display: none;
+}
+
+.tool-flow__draft-top {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-eyebrow-title);
+  /* The open draft's top sits inside its card's hairline. */
+  padding-top: var(--border-width-thin);
+}
+
+.tool-flow__draft-top .tool-flow__draft-head {
+  justify-content: flex-start;
+  min-height: var(--button-target);
+}
+
+.tool-flow__draft-top .tool-flow__draft-saved {
+  order: 0;
+  flex: 0 0 auto;
+}
+
+.tool-flow__draft-name {
+  margin: 0;
+  font-family: var(--type-heading-font);
+  font-size: var(--type-heading-size);
+  font-weight: var(--type-heading-weight);
+  line-height: var(--type-heading-leading);
+  letter-spacing: var(--type-heading-tracking);
+}
+
+[data-viewport="mobile"] .tool-flow__draft-name {
+  font-size: var(--type-heading-size-phone);
 }
 
 /* On the draft itself the status is the eyebrow, the word alone: no little
