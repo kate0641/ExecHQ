@@ -20937,10 +20937,13 @@ ul.li-shares {
 
 /* --- Revising -------------------------------------------------------------- */
 
+/* Laid out as Questions for you is (designer, 2026-10-30): each choice,
+   its label 12 over its pills, is a group; the groups, the field and the
+   heading 24 apart, so each group reads as one. */
 .revision-controls {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: var(--space-drawer-groups);
 }
 
 .revision-controls__heading,
@@ -20953,7 +20956,7 @@ ul.li-shares {
 .revision-controls__options {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: var(--space-drawer-groups);
 }
 
 .revision-controls__actions {
@@ -20984,6 +20987,12 @@ ul.li-shares {
 
 [data-viewport="mobile"] .tool-flow__interview .revision-controls__actions > .btn {
   order: 1;
+}
+
+/* 24 from the field to the buttons, as actions always get, counting the
+   pinned bar's own 12 on top. */
+[data-viewport="mobile"] .tool-flow__interview .revision-controls__actions {
+  margin-top: calc(var(--space-before-actions) - var(--space-drawer-groups) - var(--space-sm));
 }
 
 [data-viewport="mobile"] .tool-flow__interview .revision-controls__actions .draft-use__buttons > .btn {
@@ -21017,7 +21026,8 @@ ul.li-shares {
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: var(--space-sm);
-  padding: var(--space-xs) 0;
+  /* Rows split by hairlines: 20 either side (designer, 2026-10-30). */
+  padding: var(--space-divided-item) 0;
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
@@ -21034,10 +21044,12 @@ ul.li-shares {
   font-variant-numeric: tabular-nums;
 }
 
+/* The version showing is selected: navy with light words, the one
+   selection colour (designer, 2026-10-30; it was near-black). */
 .version-history__item.is-showing .version-history__n {
-  border-color: var(--color-text-primary);
-  background-color: var(--color-text-primary);
-  color: var(--color-surface-raised);
+  border-color: var(--color-selected);
+  background-color: var(--color-selected);
+  color: var(--color-text-on-selected);
 }
 
 .version-history__text {
