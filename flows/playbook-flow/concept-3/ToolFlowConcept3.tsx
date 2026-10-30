@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useMemo, useState, type ReactNode } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { StepHeader } from "@/components/onboarding/StepHeader";
 import { Button } from "@/components/primitives/Button";
 import { Input } from "@/components/form/Input";
@@ -9,6 +9,7 @@ import { GuidePage } from "@/components/onboarding/GuidePage";
 import { PickAnswer, pickedPhrase } from "@/components/playbook/PickAnswer";
 import { InputPanel } from "@/components/playbook/InputPanel";
 import { PinnedDraft } from "@/components/playbook/PinnedDraft";
+import { LoopStatus } from "@/components/loop/LoopStatus";
 import { useStepNav } from "@/lib/step-nav";
 import { useViewport } from "@/lib/viewport-context";
 import { DRAFT_COPY, EXAMPLE_ANSWERS, FLOW_COPY as C, INPUT_COPY, INTERVIEW_PICKS, PICK_COPY, STEP_BAR_COPY, type ToolInput } from "@/mock/playbook";
@@ -97,6 +98,35 @@ function Interview() {
     setExpanded(id !== "revise");
   });
 
+  /* The showroom opens the interview on one of its screens with `?screen=`
+     (designer, 2026-10-21): a question, named as the step bar names it
+     (`q-<id>`), the last question (`q-final`), or the draft opened. The tool
+     comes from the address as usual. Only what shows changes; nothing she has
+     saved is. The questions and her draft load after the page, so it waits for
+     them and opens once. */
+  const [screen, setScreen] = useState<string | null>(null);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- the URL is only readable after mount
+    setScreen(new URLSearchParams(window.location.search).get("screen"));
+  }, []);
+  const screenOpened = useRef(false);
+  useEffect(() => {
+    if (!screen || screenOpened.current) return;
+    /* eslint-disable react-hooks/set-state-in-effect -- opens the screen the showroom asked for, once */
+    if (screen.startsWith("q-")) {
+      const k = screen === "q-final" ? asked.length - 1 : asked.findIndex((input) => `q-${input.id}` === screen);
+      if (k < 0) return;
+      setAt(k);
+    } else if (screen === "draft-open") {
+      if (!hasDraft) return;
+      setExpanded(true);
+    }
+    /* eslint-enable react-hooks/set-state-in-effect */
+    screenOpened.current = true;
+    // The key names the questions; the draft is there once hasDraft is.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [screen, stepKey, hasDraft]);
+
   if (f.later) return f.laterNote;
 
   const go = (next: number) => {
@@ -183,14 +213,39 @@ function Interview() {
     ) : null;
   /** Once written: the draft's title, what came of it, Change the draft,
    *  what to do with it and its versions. */
-  const afterDraft = (
-    <div className="tool-flow__interview">
+  const draftHead = (
+    <>
       <StepHeader eyebrow={f.tool.name} title={f.record?.title ?? f.tool.name} id={STEP_HEADING} />
       {f.source}
+    </>
+  );
+  /* On a phone, the top of Change the draft is the open draft's (designer,
+     29 Oct): "Draft · Saved" as the eyebrow, the name in the heading role,
+     "For:" 4 under it, at the same places, so nothing moves between them. */
+  const draftTop = (
+    <div className="tool-flow__draft-top">
+      <span className="tool-flow__draft-head">
+        {f.record ? <LoopStatus record={f.record} detail={false} /> : null}
+        {f.record ? (
+          <span className="tool-flow__draft-saved">
+            <span aria-hidden="true">·</span>
+            <span className="u-visually-hidden">,</span> {C.savedShort}
+          </span>
+        ) : null}
+      </span>
+      <h1 className="tool-flow__draft-name" id={STEP_HEADING} tabIndex={-1}>
+        {f.record?.title ?? f.tool.name}
+      </h1>
+      {f.source}
+    </div>
+  );
+  const afterDraft = (head: boolean) => (
+    <div className="tool-flow__interview">
+      {head ? draftHead : null}
       {f.outcome}
       {/* Mark ready sits with Revise, so on a phone both stay at the foot
           of the screen while she chooses (Kate, 19 Oct). */}
-      {f.revision(() => setExpanded(true), f.useBar({ noNotes: true, copyInMenu: true, className: "draft-use--single" }))}
+      {f.revision(() => setExpanded(true), f.useBar({ noNotes: true, copyInMenu: true, secondary: true, className: "draft-use--single" }))}
       {f.versions}
     </div>
   );
@@ -223,7 +278,7 @@ function Interview() {
     const input = !hasDraft && at >= 0 && at < asked.length ? asked[at] : undefined;
     const lit = hasDraft ? [] : f.sectionsFor(at < 0 ? f.firstChoice?.id : input?.id);
     let rail: ReactNode;
-    if (hasDraft) rail = afterDraft;
+    if (hasDraft) rail = afterDraft(true);
     else if (at < 0)
       rail = (
         <>
@@ -303,7 +358,9 @@ function Interview() {
 
   let interview;
   if (hasDraft) {
-    interview = afterDraft;
+    // On a phone the draft's name leads, above the draft card (designer,
+    // 29 Oct), so the card sits between it and Change the draft.
+    interview = afterDraft(false);
   } else if (at < asked.length) {
     // The question screens are onboarding's (13 Oct): the question on the
     // page with the draft so far, the answer in a drawer at the foot.
@@ -319,6 +376,9 @@ function Interview() {
           title={input.label}
           lede={pick ? undefined : input.hint}
           headingId={STEP_HEADING}
+          // The question in onboarding's sky panel, so the white drawer has
+          // something to stand apart from (designer, 2026-10-30).
+          sky
           className="tool-flow-questions"
           drawer={
             <AnswerDrawer
@@ -373,8 +433,10 @@ function Interview() {
   return (
     <div className={["tool-flow", "tool-flow--interview", !hasDraft ? "tool-flow--pinned" : null, hasDraft && expanded ? "tool-flow--has-bar" : null].filter(Boolean).join(" ")}>
       {f.header}
-      {/* Where it came from stays in sight while the draft is open. */}
-      {hasDraft && expanded ? f.source : null}
+      {/* Where it came from stays in sight while the draft is open; what it
+          is for now sits under the draft's name. */}
+      {hasDraft && expanded ? f.origin : null}
+      {hasDraft && !expanded ? draftTop : null}
       {pinned}
       {underDraft}
       {expanded ? null : interview}

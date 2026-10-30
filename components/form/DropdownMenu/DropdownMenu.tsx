@@ -503,6 +503,10 @@ export interface DropdownMenuProps {
   /** Initials in a round button in place of the words, which stay as its
    *  accessible name: an account menu. */
   avatar?: string;
+  /** The icon alone, no words, no edge: a quiet "more" beside a link, as on
+   *  each part of a draft (designer, 2026-10-28). The label stays as its
+   *  accessible name. Needs `icon`. */
+  iconOnly?: boolean;
   entries: readonly MenuEntry[];
   /** Which edge of the trigger the panel lines up with. It still flips to
    *  stay on screen. */
@@ -536,6 +540,7 @@ export interface DropdownMenuProps {
 export function DropdownMenu({
   label,
   icon,
+  iconOnly = false,
   badge,
   srSuffix,
   avatar,
@@ -574,7 +579,7 @@ export function DropdownMenu({
         ref={trigger}
         type="button"
         id={triggerId}
-        className={["dropdown__trigger", avatar ? "dropdown__trigger--avatar" : null, open ? "is-open" : null, demo ? `is-${demo}` : null].filter(Boolean).join(" ")}
+        className={["dropdown__trigger", avatar ? "dropdown__trigger--avatar" : null, iconOnly ? "dropdown__trigger--icon" : null, open ? "is-open" : null, demo ? `is-${demo}` : null].filter(Boolean).join(" ")}
         aria-haspopup="menu"
         aria-expanded={Boolean(open)}
         aria-controls={open ? menuId : undefined}
@@ -593,6 +598,11 @@ export function DropdownMenu({
         {avatar ? (
           <>
             <span aria-hidden="true">{avatar}</span>
+            <span className="u-visually-hidden">{label}</span>
+          </>
+        ) : iconOnly && icon ? (
+          <>
+            <Icon name={icon} size={20} />
             <span className="u-visually-hidden">{label}</span>
           </>
         ) : (

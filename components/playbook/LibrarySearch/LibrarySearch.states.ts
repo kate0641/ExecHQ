@@ -2,11 +2,11 @@ import { defineComponentStates } from "@/components/types";
 import { LibrarySearch, type LibrarySearchItem } from "./LibrarySearch";
 
 const items: LibrarySearchItem[] = [
-  { id: "post", title: "Post: What three regions taught me about planning", detail: "Thought leadership · Today", href: "#" },
-  { id: "brief", title: "Brief for your manager check-in", detail: "Situation brief · 2 days ago", href: "#", text: "Thursday check-in scope" },
-  { id: "pitch", title: "Podcast pitch: Leading through change", detail: "Pitch builder · 1 week ago", href: "#" },
-  { id: "panel", title: "Conference panel pitch", detail: "Pitch builder · 2 weeks ago", href: "#" },
-  { id: "story", title: "Your positioning statement", detail: "Positioning statement · 2 Oct", href: "#", text: "I turn regional campaigns into one plan" },
+  { id: "post", title: "Post: What three regions taught me about planning", detail: "Posts · Draft · Today", preview: "Running campaigns in three regions taught me that the plan is where scope gets decided.", href: "#" },
+  { id: "brief", title: "Brief for your manager check-in", detail: "Briefs · Draft · 2 days ago", preview: "Objective: leave Thursday’s check-in with the planning workstream agreed as mine.", href: "#", text: "Thursday check-in scope" },
+  { id: "pitch", title: "Podcast pitch: Leading through change", detail: "Pitches · Waiting to hear · 1 week ago", href: "#" },
+  { id: "panel", title: "Conference panel pitch", detail: "Pitches · Draft · 2 weeks ago", href: "#" },
+  { id: "story", title: "Your positioning statement", detail: "Positioning · Ready to use · Oct 2", href: "#", text: "I turn regional campaigns into one plan" },
 ];
 
 const copy = {

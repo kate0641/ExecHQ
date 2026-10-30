@@ -59,9 +59,11 @@ export function sectionText(section: DraftSection, answers: Readonly<Record<stri
     .trim();
 }
 
-/** The questions a draft leaves for her, unanswered first. */
+/** The questions a draft leaves for her, unanswered first. A question two
+ *  parts share is asked once (designer, 2026-10-30): an answer is kept by
+ *  its question, so one answer fills both. */
 export function draftQuestions(sections: readonly DraftSection[]): string[] {
-  return sections.flatMap((section) => section.segments.filter(isQuestion).map((s) => s.question));
+  return [...new Set(sections.flatMap((section) => section.segments.filter(isQuestion).map((s) => s.question)))];
 }
 
 function SectionEditor({
@@ -161,7 +163,9 @@ export function DraftEditor({
                 value={drafts[question] ?? ""}
                 onChange={(event) => setDrafts((d) => ({ ...d, [question]: event.target.value }))}
               />
-              <Button type="submit" variant="secondary" size="sm">
+              {/* On the ready draft's lime card, the strong navy button: never
+                  light blue on lime (designer, 2026-10-30). */}
+              <Button type="submit" variant={look === "clean" ? "strong" : "secondary"} size="sm">
                 {C.answer}
               </Button>
             </form>

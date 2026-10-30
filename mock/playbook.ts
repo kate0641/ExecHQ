@@ -56,7 +56,9 @@ export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
     when: "Use it before anything that introduces you: a promotion conversation, a new boss, a conference program.",
     needs: ["Your statement from onboarding (ExecHQ has it)", "A few recent accomplishments, if you want them in"],
     planStepId: "bio",
-    start: "Build out your positioning",
+    // Like the other three: she can start a new one for each use (Kate,
+    // 28 Oct), so it starts one rather than building out the one.
+    start: "Start a positioning statement",
   },
   pitch: {
     kind: "pitch",
@@ -74,7 +76,10 @@ export const TOOLS: Record<ArtifactKind, ToolUseCase> = {
     label: "Situation brief",
     name: "Situation Brief",
     makes: "A one-page brief for a moment that matters: what you want from it, what you will say, what they will ask.",
-    short: "One page before a moment that matters",
+    // Says what the brief holds, and fits one line on a phone at the
+    // caption size (designer, 28 Oct; was "One page before a moment that
+    // matters"). For Kate to confirm.
+    short: "Your case, talk track and follow-up",
     when: "Use it a day or two before a review, a board meeting, a negotiation or a hard conversation.",
     needs: ["What the moment is, and when", "What you want to come out of it"],
     planStepId: "brief-manager",
@@ -355,6 +360,8 @@ export const FLOW_COPY = {
   backLabel: "Back to the Playbook",
   /** Every change is kept as she goes. */
   saved: "Saved in your library",
+  /** On the open draft, after its status: "Draft · Saved" (designer, 28 Oct). */
+  savedShort: "Saved",
   step: (n: number, of: number) => `Step ${n} of ${of}`,
   /** Concept 2's bar at the foot of a draft, and its Inputs sheet. */
   draftTools: "Your draft",
@@ -426,8 +433,10 @@ export const DRAFT_COPY = {
     "thought-leadership": "Here is a first draft of your post. Change anything; it is yours.",
   } as Record<ArtifactKind, string>,
   legendYou: "Your words",
-  legendExechq: "ExecHQ’s wording",
-  legendQuestion: "A question only you can answer",
+  // Shorter, so the key is one line (designer, 28 Oct; was "ExecHQ's
+  // wording" and "A question only you can answer").
+  legendExechq: "ExecHQ’s words",
+  legendQuestion: "Needs answer",
   questionLabel: "To answer:",
   answer: "Answer",
   edit: "Edit",
@@ -502,6 +511,8 @@ export const VERSION_COPY = {
   /** What a version brought back says it is, in the list. */
   restoredWhat: (n: number) => `Version ${n}, brought back`,
   count: (n: number) => (n === 1 ? "1 version" : `${n} versions`),
+  /** Each row's number (designer, 2026-10-30; it was in a circle). */
+  number: (n: number) => `Version ${n}`,
 } as const;
 
 /* -----------------------------------------------------------------------------
@@ -701,6 +712,13 @@ export const LIBRARY_COPY = {
     /** The menu's button once a status is chosen: "Status: Draft". */
     chosen: (filter: string, choice: string) => `${filter}: ${choice}`,
     noneInStatus: (status: string) => `Nothing here is ${status.toLowerCase()}.`,
+    /** Under a positioning statement in its folder, as tags: each moment
+     *  she picked, without its "A" or "An" (designer, 28 Oct). */
+    moment: (picked: string) => {
+      const bare = picked.replace(/^(a|an) /i, "");
+      return bare.charAt(0).toUpperCase() + bare.slice(1);
+    },
+    madeInOnboarding: "From onboarding",
     open: (name: string) => `Open ${name}`,
     /** One part of a folder's counts, by status filter id, in the Loop's words. */
     count: (status: string, n: number): string =>
@@ -766,6 +784,17 @@ export const STATUS_FILTERS: readonly { id: string; label: string; states: reado
   { id: "waiting", label: "Waiting to hear", states: ["waiting"] },
   { id: "outcome", label: "Outcome logged", states: ["outcome"] },
   { id: "closed", label: "Closed", states: ["closed"] },
+];
+
+/** In the Positioning folder only, a statement's life is shorter: one she
+ *  uses again and again is never "used" or "waiting to hear", so it is a
+ *  draft, then ready, then archived when she puts it away (designer, 28
+ *  Oct). Every other screen keeps the Loop's words. The last is always
+ *  shown, as Closed is in the other folders. */
+export const POSITIONING_FILTERS: readonly { id: string; label: string; states: readonly string[] }[] = [
+  { id: "draft", label: "Draft", states: ["drafted", "in-progress"] },
+  { id: "ready", label: "Ready", states: ["ready", "used", "waiting", "outcome"] },
+  { id: "archived", label: "Archived", states: ["closed"] },
 ];
 
 /** Concept 2's groups: when she last touched it, newest first. */
@@ -1388,6 +1417,8 @@ export const WINS_INPUT: ToolInput = {
 };
 
 export const POSITIONING_COPY = {
+  /** The menu on each part of the draft, read with its name: "More for Short bio". */
+  moreFor: (part: string) => `More for ${part}`,
   fromOnboarding: "Your statement from onboarding",
   onboardingVersion: "Your statement, from onboarding",
   builtOut: "Built out in Positioning Builder",

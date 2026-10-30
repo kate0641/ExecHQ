@@ -18,7 +18,7 @@ import { usePlaybookLinks } from "@/lib/playbook-links";
 import { PLAN_AGENDA_COPY, stepById } from "@/mock/plan";
 import { draftMeta, flowFor, playbookActions, usePlaybook, type PlaybookPage } from "@/lib/playbook-store";
 import type { ArtifactKind } from "@/mock/loop";
-import { LIBRARY_COPY as C, TOOL_ORDER, PLAYBOOK_PAGE, TOOLS } from "@/mock/playbook";
+import { FLOW_COPY, LIBRARY_COPY as C, POSITIONING_FILTERS, TOOL_COPY, TOOL_ORDER, PLAYBOOK_PAGE, TOOLS } from "@/mock/playbook";
 
 /** The tool her next plan step needs: the first step on her plan that makes
  *  something with a tool. None, and the four tools are equal. */
@@ -61,6 +61,21 @@ export function usePlaybookPage(concept: PlaybookPage) {
     playbookActions.openConcept(concept);
   }, [concept]);
 
+  /* The showroom opens the page on one of its screens with `?screen=` (designer,
+     2026-10-21), so every piece can be reviewed at once: search with nothing
+     typed, with matches and with none, an empty folder and the empty library. Only what shows
+     changes; nothing she has saved is. */
+  const [screen, setScreen] = useState<string | null>(null);
+  useEffect(() => {
+    const asked = new URLSearchParams(window.location.search).get("screen");
+    /* eslint-disable react-hooks/set-state-in-effect -- the URL is only readable after mount */
+    setScreen(asked);
+    if (asked?.startsWith("search")) setSearching(true);
+    /* eslint-enable react-hooks/set-state-in-effect */
+  }, []);
+  // "leadership" finds her statement in every dock state; "budget" finds nothing.
+  const searchFor = { "search-match": "leadership", "search-none": "budget" }[screen ?? ""];
+
   // Tools open in the tool flow concept the reviewer last opened.
   const flow = conceptHref("playbook-flow", flowFor(playbook));
   const toolHref = (kind: ArtifactKind, moment?: string) => {
@@ -70,7 +85,8 @@ export function usePlaybookPage(concept: PlaybookPage) {
   };
   const artifactHref = (id: string) => `${flow}?artifact=${encodeURIComponent(id)}`;
 
-  const all = libraryItems(loop.records, draftMeta(playbook));
+  // The showroom's empty library, and an empty folder whatever the dock's state holds.
+  const all = screen === "empty" || screen === "folder-empty" ? [] : libraryItems(loop.records, draftMeta(playbook));
   /** "Today", "3 days ago", "2 weeks ago", then the date. */
   const when = (item: LibraryItem) => touchedTag(item.lastOn, loop.today);
 
@@ -78,35 +94,91 @@ export function usePlaybookPage(concept: PlaybookPage) {
    *  Oct): the title, then where it stands (in a folder) or its tool, and
    *  when she last touched it as a tag. Tapping the row opens it; there is
    *  no menu (Kate, 14 Oct). */
+  /** Inside the Pitches and Posts folders the name's opening words say
+   *  nothing new, so the title starts after them: "The Q1 planning review",
+   *  "What three regions taught me about planning" (designer, 2026-10-28).
+   *  Everywhere else the saved name stays whole. */
+  const FOLDER_PREFIX: Partial<Record<ArtifactKind, string>> = {
+    pitch: TOOL_COPY.pitchTitle(""),
+    "thought-leadership": FLOW_COPY.postTitle(""),
+  };
+  const folderTitle = (record: LibraryItem["record"]) => {
+    const prefix = FOLDER_PREFIX[record.kind];
+    if (!prefix || !record.title.startsWith(prefix)) return record.title;
+    const rest = record.title.slice(prefix.length);
+    return rest.charAt(0).toUpperCase() + rest.slice(1);
+  };
+
+  /** A positioning statement says what it is for, since she can have one
+   *  for each use (Kate, 28 Oct): a lime tag for each moment she picked in
+   *  the builder, else one saying it came from onboarding. Lime, because
+   *  she chose them (designer, 28 Oct). */
+  const madeFor = (item: LibraryItem): string[] => {
+    if (item.record.kind !== "positioning") return [];
+    const moments = (playbook.drafts[item.record.id]?.inputs.context ?? "").split("\n").map((m) => m.trim()).filter(Boolean);
+    return moments.length ? moments.map(C.folders.moment) : item.fromOnboarding ? [C.folders.madeInOnboarding] : [];
+  };
+
+  /** Where it stands, in its folder's words: statements take Draft, Ready
+   *  and Archived in the Positioning folder; everything else, and
+   *  statements anywhere else, the Loop's (designer, 2026-10-28). */
+  const folderStatus = (record: LibraryItem["record"]) =>
+    record.kind === "positioning" ? (POSITIONING_FILTERS.find((f) => f.states.includes(record.state))?.label ?? statusLabel(record)) : statusLabel(record);
+
   function itemOf(item: LibraryItem, options: { folder?: boolean; mixed?: boolean }): ListItemData {
     const { record } = item;
+    const cards = options.folder || options.mixed;
     return {
       id: record.id,
-      primary: record.title,
+      primary: options.folder ? folderTitle(record) : record.title,
       secondary: (
         <>
           {/* In a folder, a line of what it says tells same-named ones apart
               (option A, 14 Oct). */}
           {(options.folder || options.mixed) && item.preview ? <span className="library__preview">{item.preview}</span> : null}
-          {/* Several folders in one list (web's All tab and search): the
-              folder, then where it stands. */}
-          {options.mixed ? `${C.folders.names[record.kind]} · ${statusLabel(record)}` : options.folder ? statusLabel(record) : item.tool}{" "}
-          <Badge className="library__when">{when(item)}</Badge>
+          {/* As cards (a folder, web's All tab and search), where it stands
+              and when sit over the title as plain words, no tag; across
+              several folders its folder comes first (designer, 2026-10-28). */}
+          {cards ? (
+            <span className="library__stamp">
+              {options.mixed ? `${C.folders.names[record.kind]} · ` : null}
+              {options.folder ? folderStatus(record) : statusLabel(record)} · {when(item)}
+            </span>
+          ) : (
+            <>
+              {item.tool} <Badge className="library__when">{when(item)}</Badge>
+            </>
+          )}
+          {options.folder && madeFor(item).length ? (
+            <span className="library__moments">
+              {madeFor(item).map((m) => (
+                <span key={m} className="library__moment">
+                  {m}
+                </span>
+              ))}
+            </span>
+          ) : null}
         </>
       ),
+      // As a card the whole of which opens it, it carries the chevron: only
+      // a card with a chevron is tappable (designer, 2026-10-13 and 10-28).
+      // The List takes it in its badge place, the one trailing slot for a node that is not a button.
+      trailing: cards ? { badge: <Icon name="chevron" size={16} className="library__go" /> } : undefined,
       href: artifactHref(record.id),
     };
   }
 
-  /** Library rows as a list, no card, a line between each. */
+  /** Library rows as a list, no card, a line between each. In a folder,
+   *  web's All tab and search each row is its own card with the horizon
+   *  line (designer, 2026-10-28). */
   const list = (items: readonly LibraryItem[], options: { folder?: boolean; mixed?: boolean; label?: string } = {}): ReactNode =>
     items.length ? (
       <List
         items={items.map((i) => itemOf(i, options))}
         label={options.label ?? C.heading}
-        dividers="full"
+        dividers={options.folder || options.mixed ? "none" : "full"}
         framed={false}
-        className="library__rows"
+        className={options.folder || options.mixed ? "library__rows list--horizon-cards" : "library__rows"}
       />
     ) : null;
 
@@ -161,11 +233,13 @@ export function usePlaybookPage(concept: PlaybookPage) {
           items={all.map((i) => ({
             id: i.record.id,
             title: i.record.title,
-            detail: `${i.tool} · ${when(i)}`,
+            detail: `${C.folders.names[i.record.kind]} · ${statusLabel(i.record)} · ${when(i)}`,
+            preview: i.preview,
             text: `${i.preview} ${i.tool}`,
             href: artifactHref(i.record.id),
           }))}
           copy={C.searchSheet}
+          initial={searchFor}
           onPick={(item) => {
             setSearching(false);
             router.push(item.href);

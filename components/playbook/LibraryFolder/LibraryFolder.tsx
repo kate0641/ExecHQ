@@ -10,9 +10,10 @@ export interface LibraryFolderProps {
   /** A folder: what is inside, "3 · 2 drafts · 1 waiting to hear". The
    *  open folder's heading: what the tool makes. */
   summary: string;
-  /** When it last changed: "22 Oct". Left out when the folder is empty. */
+  /** The label in the card's bottom corner: in the Playbook's grid, how many
+   *  it holds ("3 items"); else when it last changed. Left out when empty. */
   date?: string;
-  /** Read before the date by screen readers. */
+  /** Read before the corner label by screen readers; empty for none. */
   dateLabel?: string;
   /**
    * - `button`: one of the folders; pressing it opens the folder.
@@ -33,10 +34,10 @@ export interface LibraryFolderProps {
 
 /**
  * One of the library's folders: a folder per tool, filed by ExecHQ, never
- * made or moved by her. A plain card, no folder drawing (look D, 14 Oct): the
- * tool's icon in a disc tinted for the tool, then its name, so the tint is
- * never the only cue. It says how many it holds, what state they are in, and
- * when it last changed.
+ * made or moved by her. In the grid, a solid navy card, the tool's icon
+ * beside its name (designer, 2026-10-27); open, the same navy card heads
+ * the folder's page. It says how many it holds, what state they are
+ * in, and when it last changed.
  */
 export function LibraryFolder({
   tool,
@@ -64,21 +65,22 @@ export function LibraryFolder({
     .filter(Boolean)
     .join(" ");
 
-  const disc = (
-    <span className="library-folder__disc" aria-hidden="true">
-      <Icon name={TOOL_ICONS[tool]} size={20} />
-    </span>
-  );
+  // In the grid the icon sits beside the name, no circle, so the folders sit
+  // under the tools above them (designer, 2026-10-27).
   const body = (
     <>
-      {disc}
+      <span className="library-folder__title">
+        <span className="library-folder__mark" aria-hidden="true">
+          <Icon name={TOOL_ICONS[tool]} size={16} />
+        </span>
         <span className="library-folder__name">{name}</span>
+      </span>
         <span className="library-folder__summary">{summary}</span>
         <span className="library-folder__foot">
           <span className="library-folder__date">
             {date ? (
               <>
-                <span className="u-visually-hidden">{dateLabel} </span>
+                {dateLabel ? <span className="u-visually-hidden">{dateLabel} </span> : null}
                 {date}
               </>
             ) : null}
@@ -88,20 +90,23 @@ export function LibraryFolder({
       </>
     );
 
-  // The open folder's card (option A, 14 Oct): the disc, the heading and
-  // what the tool makes, and Start under them. Only the name is the heading.
+  // The open folder's card: the folder she tapped, opened (designer,
+  // 2026-10-27). The same navy, the icon beside the name, what the tool
+  // makes, and Start across the card under them. Only the name is the heading.
   if (as === "header") {
     const Heading = `h${headingLevel}` as const;
     return (
       <div className={classes}>
-        {disc}
-        <div className="library-folder__text">
+        <div className="library-folder__title">
+          <span className="library-folder__mark" aria-hidden="true">
+            <Icon name={TOOL_ICONS[tool]} size={20} />
+          </span>
           <Heading className="library-folder__name" id={headingId} tabIndex={-1}>
             {name}
           </Heading>
-          <p className="library-folder__summary">{summary}</p>
-          {action ? <div className="library-folder__action">{action}</div> : null}
         </div>
+        <p className="library-folder__summary">{summary}</p>
+        {action ? <div className="library-folder__action">{action}</div> : null}
       </div>
     );
   }

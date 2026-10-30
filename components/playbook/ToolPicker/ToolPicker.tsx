@@ -1,7 +1,7 @@
 import Link from "next/link";
+import { EntryLink } from "@/components/homepage/EntryLink";
 import { IconRow } from "@/components/navigation/IconRow";
 import { Icon, type IconName } from "@/components/primitives/Icon";
-import { ToolIllustration } from "@/components/playbook/ToolIllustration";
 import type { ArtifactKind } from "@/mock/loop";
 import { TOOL_ORDER, PLAYBOOK_PAGE, TOOLS } from "@/mock/playbook";
 
@@ -36,9 +36,12 @@ export interface ToolPickerProps {
    * - `rail`: a column of four rows, each the icon, the name and what it
    *   makes, for the column down the left of the page on web (Concept 2,
    *   option A, 15 Oct). With a `lead`, the next step's tool is under them.
+   * - `card`: the rail's rows in one card, a hairline between them and
+   *   each icon in its dawn, for the phone, so what each tool makes is
+   *   said there too (designer, 2026-10-28). With a `lead`, under them.
    */
-  layout: "tiles" | "chips" | "icons" | "rail";
-  /** `icons` and `rail`: the tool her next plan step needs, as one row
+  layout: "tiles" | "chips" | "icons" | "rail" | "card";
+  /** `icons`, `rail` and `card`: the tool her next plan step needs, as one row
    *  under the four. Without one, the four alone. */
   lead?: ToolLead;
   /** The group's accessible name. */
@@ -76,9 +79,9 @@ export function ToolPicker({ hrefFor, layout, lead, label = "Tools", demo, class
     );
   }
   // The rail: the tools first, then the step that needs one (Kate, 15 Oct).
-  if (shape === "rail") {
+  if (shape === "rail" || shape === "card") {
     return (
-      <nav className={["tool-picker", "tool-picker--rail", className].filter(Boolean).join(" ")} aria-label={label}>
+      <nav className={["tool-picker", `tool-picker--${shape}`, className].filter(Boolean).join(" ")} aria-label={label}>
         <ul className="tool-picker__list">
           {TOOL_ORDER.map((kind, i) => (
             <li key={kind} className="tool-picker__item">
@@ -122,18 +125,19 @@ export function ToolPicker({ hrefFor, layout, lead, label = "Tools", demo, class
   );
 }
 
-/** The next step's tool as one row: its drawing, "Next on your plan", the
- *  tool and the step. */
+/** The next step's tool as the shared EntryLink card: the tool's icon on
+ *  the eyebrow's line, the tool and the step (designer, 2026-10-27: every
+ *  icon, eyebrow, title and line card is an EntryLink). */
 function LeadRow({ lead, demo }: { lead: ToolLead; demo?: ToolPickerProps["demo"] }) {
   return (
-    <Link href={lead.href} className={["tool-picker__lead", demo ? `is-${demo}` : null].filter(Boolean).join(" ")}>
-      <ToolIllustration tool={lead.kind} level="simple" size={52} />
-      <span className="tool-picker__lead-text">
-        <span className="tool-picker__eyebrow">{PLAYBOOK_PAGE.nextOnPlan}</span>
-        <span className="tool-picker__name">{TOOLS[lead.kind].name}</span>
-        <span className="tool-picker__step">{lead.step}</span>
-      </span>
-    </Link>
+    <EntryLink
+      href={lead.href}
+      icon={TOOL_ICONS[lead.kind]}
+      eyebrow={PLAYBOOK_PAGE.nextOnPlan}
+      title={TOOLS[lead.kind].name}
+      detail={lead.step}
+      demo={demo}
+    />
   );
 }
 

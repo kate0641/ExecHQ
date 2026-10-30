@@ -524,11 +524,12 @@ export function useToolFlow(concept: FlowConcept) {
   ) : null;
   // The plan step a draft serves stays on it, as it does in the library.
   const servesStep = draft ? (record?.recommendation ?? (draft.meta.planStepId ? stepById(draft.meta.planStepId)?.title : undefined)) : undefined;
+  const forLine: ReactNode = servesStep ? <p className="tool-flow__for">{LIBRARY_COPY.forStep(servesStep)}</p> : null;
   const source: ReactNode =
     origin || servesStep ? (
       <>
         {origin}
-        {servesStep ? <p className="tool-flow__for">{LIBRARY_COPY.forStep(servesStep)}</p> : null}
+        {forLine}
       </>
     ) : null;
 
@@ -694,32 +695,40 @@ export function useToolFlow(concept: FlowConcept) {
   const sectionActions = (section: { id: string; heading?: string }): ReactNode => {
     const name = section.heading ?? "";
     const one = version?.sections.filter((x) => x.id === section.id) ?? [];
+    // One quiet menu per part, beside Edit (designer, 2026-10-28; it was a
+    // row of Copy, PDF and Word links on every part).
     return (
-      <>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => {
-            try {
-              void navigator.clipboard?.writeText(draftText(one, edits, draft?.answers));
-            } catch {
-              // Nothing depends on it.
-            }
-            setSectionMessage(POSITIONING_COPY.copied(name));
-          }}
-        >
-          {USE_COPY.copy}
-          <span className="u-visually-hidden"> {name}</span>
-        </Button>
-        {section.id.startsWith("bio")
-          ? (["PDF", "Word"] as const).map((format) => (
-              <Button key={format} variant="ghost" size="sm" onClick={() => setSectionMessage(USE_COPY.exported(format))}>
-                {format === "PDF" ? USE_COPY.pdfShort : USE_COPY.wordShort}
-                <span className="u-visually-hidden"> of the {name.toLowerCase()}</span>
-              </Button>
-            ))
-          : null}
-      </>
+      <DropdownMenu
+        label={POSITIONING_COPY.moreFor(name)}
+        icon="more-horizontal"
+        iconOnly
+        align="end"
+        entries={[
+          {
+            type: "item" as const,
+            id: "copy",
+            icon: "copy" as const,
+            label: USE_COPY.copy,
+            onSelect: () => {
+              try {
+                void navigator.clipboard?.writeText(draftText(one, edits, draft?.answers));
+              } catch {
+                // Nothing depends on it.
+              }
+              setSectionMessage(POSITIONING_COPY.copied(name));
+            },
+          },
+          ...(section.id.startsWith("bio")
+            ? (["PDF", "Word"] as const).map((format) => ({
+                type: "item" as const,
+                id: format,
+                icon: "download" as const,
+                label: format === "PDF" ? USE_COPY.exportPdf : USE_COPY.exportWord,
+                onSelect: () => setSectionMessage(USE_COPY.exported(format)),
+              }))
+            : []),
+        ]}
+      />
     );
   };
 
@@ -826,7 +835,9 @@ export function useToolFlow(concept: FlowConcept) {
         <DraftEditor
           key={`${artifactId}-${version.n}`}
           id={DRAFT_LABEL_ID}
-          label={look === "draft" ? DRAFT_COPY.label(version.n) : (record?.title ?? DRAFT_COPY.label(version.n))}
+          // Its name, while she edits too (designer, 2026-10-28; it was the
+          // version, "Draft, version 2", which the folded card still says).
+          label={record?.title ?? DRAFT_COPY.label(version.n)}
           look={look}
           onReopen={onReopen}
           hideOpen={Boolean(record && record.state !== "ready")}
@@ -837,8 +848,22 @@ export function useToolFlow(concept: FlowConcept) {
           answers={draft.answers}
           revising={revising ? REVISION_COPY.revising : undefined}
           header={
+            <>
+            {/* What it is for, read right after its name (designer,
+                2026-10-28; it sat above the draft, before the name). */}
+            {forLine}
             <span className="tool-flow__draft-head">
-              {record ? <LoopStatus record={record} /> : null}
+              {/* No "Still editing" here: she is looking at the draft
+                  (designer, 2026-10-28). Lists elsewhere keep it. */}
+              {record ? <LoopStatus record={record} detail={false} /> : null}
+              {/* That it is kept, beside where it stands, so the bar above
+                  needs no line of its own here (designer, 2026-10-28). */}
+              {record ? (
+                <span className="tool-flow__draft-saved">
+                  <span aria-hidden="true">·</span>
+                  <span className="u-visually-hidden">,</span> {C.savedShort}
+                </span>
+              ) : null}
               {/* The draft's actions, in its corner, on every concept. Once it
                   is ready, Copy and the downloads lead, so the bar holds only
                   "I've used this". Then what the library's row menu held
@@ -905,6 +930,7 @@ export function useToolFlow(concept: FlowConcept) {
                 />
               ) : null}
             </span>
+            </>
           }
           onEditSection={(section, text) => {
             playbookActions.editSection(artifactId, section, text);
@@ -1027,7 +1053,7 @@ export function useToolFlow(concept: FlowConcept) {
       </form>
     ) : null;
 
-  const useBar = (options: { noStatus?: boolean; exportInMenu?: boolean; noNotes?: boolean; copyInMenu?: boolean; className?: string } = {}): ReactNode =>
+  const useBar = (options: { noStatus?: boolean; exportInMenu?: boolean; noNotes?: boolean; copyInMenu?: boolean; secondary?: boolean; className?: string } = {}): ReactNode =>
     record ? (
       <>
         <DraftUseBar
@@ -1046,6 +1072,7 @@ export function useToolFlow(concept: FlowConcept) {
           exportInMenu={options.exportInMenu}
           noNotes={options.noNotes}
           copyInMenu={options.copyInMenu}
+          secondary={options.secondary}
           className={options.className}
           note={
             record.kind === "situation-brief"
@@ -1301,6 +1328,7 @@ export function useToolFlow(concept: FlowConcept) {
     laterNote,
     header,
     source,
+    origin,
     useCase,
     inputPanel,
     draftEditor,

@@ -194,6 +194,11 @@
   /* Her: her own words and answers. Lime as a band, dark green words on it (8.9:1). */
   --color-surface-her-band: var(--brand-green-200);
   --color-text-on-her-band: var(--brand-green-800);
+  /* A lime card on stone gets a green edge, a step darker, so it holds its
+     shape on the light page (designer, 2026-10-30). */
+  --color-border-her-band: var(--brand-green-400);
+  /* The light line under an open question in a draft, on the lime (designer, 2026-10-28). */
+  --color-question-line: var(--brand-green-500);
   /* A soft lime glow round something of hers on navy, such as a day in Momentum (designer, 2026-10-15). */
   --color-her-halo: color-mix(in srgb, var(--brand-green-200) 25%, transparent);
   /* A day she logged in Momentum is a small day sky: a yellow heart through lime to sky blue, as Home's day
@@ -202,6 +207,11 @@
   --surface-her-day: radial-gradient(circle at 35% 30% in oklab, var(--brand-yellow-300) 0%, var(--brand-green-300) 55%, var(--brand-blue-300) 100%);
   --ring-today: conic-gradient(from 200deg in oklab, var(--brand-blue-300), var(--brand-green-300), var(--brand-yellow-300), var(--brand-blue-300));
   --ring-today-width: calc(var(--border-width-thin) * 2);
+  /* The horizon line: a thin sky-to-peach-to-yellow line along a card's foot, the tools row's chip
+     colours laid flat (designer, 2026-10-28; first on the Playbook's open folder). Meant to be reused
+     so it isn't one page's trick. */
+  --gradient-horizon: linear-gradient(90deg, var(--brand-blue-200), var(--brand-orange-300) 55%, var(--brand-yellow-200));
+  --horizon-line-height: calc(var(--border-width-thin) * 4);
   /* For her: something written for her to read or use, such as her first draft. Sky blue with navy
      words (11.3:1), muted blue 700 (7.7:1), eyebrow blue 600 (4.9:1), edges blue 300. */
   --color-surface-for-her: var(--brand-blue-200);
@@ -288,6 +298,9 @@
   --color-border: var(--brand-stone-250);  /* card edges and dividers: soft, so outlined cards sit easily beside unoutlined ones */
   --color-border-strong: var(--brand-stone-400);
   --color-border-inverse: var(--brand-blue-700);
+  /* The edge of a light blue card, flat or gradient: blue 200, a step deeper
+     than its fill. White cards keep the stone edge (designer, 2026-10-27). */
+  --color-border-light-blue: var(--brand-blue-200);
 
   /* Action — the primary button, bright yellow on every surface. No border:
      stone 900 text on it is 13.5:1, and the label identifies the control, so it
@@ -308,6 +321,14 @@
   --color-action-secondary-hover: var(--brand-blue-300);
   --color-action-secondary-active: var(--brand-blue-400);
   --color-text-on-action-secondary: var(--brand-primary);
+
+  /* The strong button: navy with light words, for a light surface the light
+     blue disappears on, such as a lime card (designer, 2026-10-30). Darker
+     as it is pressed. */
+  --color-action-strong: var(--brand-navy);
+  --color-action-strong-hover: var(--brand-blue-700);
+  --color-action-strong-active: var(--brand-blue-900);
+  --color-text-on-action-strong: var(--brand-blue-100);
 
   /* Tags — small status words beside a heading, such as "Since 5 Oct".
      Pale lime with dark green text (8.9:1), the same pair as the icon chips. */
@@ -956,14 +977,21 @@
   --illustration-shade: var(--brand-blue-300);
   --illustration-paper: var(--color-surface-raised);
   --illustration-card: var(--color-surface-feature);
-  --illustration-card-border: var(--brand-blue-200);
-  /* The library's folders (components/playbook/LibraryFolder): one tint per
-     tool, for the disc behind the tool's icon, always with the tool's name,
-     so colour is never the only cue. */
-  --folder-positioning: var(--brand-blue-200);
-  --folder-pitch: var(--brand-yellow-200);
-  --folder-situation-brief: var(--brand-stone-200);
-  --folder-thought-leadership: var(--brand-blue-300);
+  --illustration-card-border: var(--color-border-light-blue);
+  /* Library folders, in the grid and as the open folder's card: solid navy
+     on stone, no edge (designer, 2026-10-27). */
+  --folder-card: var(--color-surface-inverse);
+  --folder-card-active: var(--color-surface-inverse-active);
+  --folder-card-name: var(--brand-white);
+  --folder-card-text: var(--color-text-inverse-muted);
+  --folder-card-foot: var(--color-text-inverse);
+  --folder-mark-ink: var(--brand-white);  /* the icon beside the name, no circle (designer, 2026-10-27) */
+  /* The Playbook's four tools (ToolPicker, icon row): each icon in a small
+     dawn, Home's dawn sky in a circle, the sun rising from its base:
+     yellow 200 heart, orange 300 ring, blue 200 sky (designer, 2026-10-27). */
+  --tool-chip-heart: var(--color-sky-heart-light);
+  --tool-chip-ring: var(--color-sky-heart-warm);
+  --tool-chip-sky: var(--color-sky-dawn);
 
   /* Briefing Concept 2's picture panels: stand-ins for article images until
      image rights are settled, one tint per read with the publisher named. */

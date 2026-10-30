@@ -304,6 +304,41 @@ samp {
   color: var(--color-eyebrow);
 }
 
+/* A card with the horizon line along its foot (from the Playbook's open
+   folder, 2026-10-28): the warmth of the tools row's chips without
+   tinting the card, so the words stay on white. A list's rows take it
+   too, as each one is its own card. */
+.card--horizon,
+.list--horizon-cards > .list__item {
+  position: relative;
+  overflow: hidden;
+}
+
+.card--horizon::after,
+.list--horizon-cards > .list__item::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: var(--horizon-line-height);
+  background: var(--gradient-horizon);
+}
+
+/* A list whose rows are each a card (from the Playbook's open folder,
+   2026-10-28), stacked with the gap between cards in a group. */
+.list--horizon-cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.list--horizon-cards > .list__item,
+.list--horizon-cards > .list__item + .list__item {
+  padding: var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+}
+
 /* A card of reads: each child is one read, split from the next by a
    hairline instead of a box. */
 .card--reads {
@@ -3785,7 +3820,7 @@ ul.briefing-card__others {
   align-items: center;
   gap: var(--space-sm);
   padding: var(--space-feature-padding) var(--space-md);
-  border: var(--border-width-thin) solid var(--color-border);
+  border: var(--border-width-thin) solid var(--color-border-light-blue);
   border-radius: var(--radius-xl);
   background-color: var(--color-wash-mid);
   background-image: linear-gradient(115deg in oklab, var(--color-wash-start) 0%, var(--color-wash-mid) 55%, var(--color-wash-end) 100%);
@@ -4966,6 +5001,16 @@ ol.ring-detail__timeline {
   border: 0;
   border-radius: var(--radius-card);
   background-color: var(--color-canvas);
+}
+
+/* The screen's number, above its frame: frames can be a whole page tall, so
+   the number is where the eye starts. */
+.screen-frames__number {
+  padding-inline: var(--space-sm);
+  font-family: var(--type-heading-font);
+  font-size: var(--type-heading-size);
+  font-weight: var(--type-heading-weight);
+  line-height: var(--type-heading-leading);
 }
 
 .screen-frames__caption {
@@ -8769,6 +8814,9 @@ ol.ring-detail__timeline {
   /* The same width as every card under it, on the screen's side margin: no bleed (designer, 2026-10-16). */
   margin-inline: 0;
   padding: var(--space-lg) var(--space-md);
+  /* Darker navy sits close to the navy page, so it takes the blue 700 edge
+     (designer, 2026-10-27). */
+  border: var(--border-width-thin) solid var(--color-border-inverse);
   border-radius: var(--radius-xl);
   background-color: var(--color-surface-quiet-on-inverse);
 }
@@ -8826,7 +8874,7 @@ ol.ring-detail__timeline {
    light edge with light words; chosen, it turns white with navy words. The Plan's reasons on its navy
    page, and onboarding's answers in its navy drawer. */
 .guide--navy .guide__body .chip-group__chip,
-:is([data-viewport="mobile"], [data-viewport="tablet"]) .guide.guide--sky .answer-drawer .chip-group__chip {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .guide.guide--sky:not(.tool-flow-questions) .answer-drawer .chip-group__chip {
   color: var(--color-text-inverse);
   background-color: transparent;
   border-color: var(--color-pill-edge-on-inverse);
@@ -8834,12 +8882,12 @@ ol.ring-detail__timeline {
 }
 
 .guide--navy .guide__body .chip-group__chip:hover,
-:is([data-viewport="mobile"], [data-viewport="tablet"]) .guide.guide--sky .answer-drawer .chip-group__chip:hover {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .guide.guide--sky:not(.tool-flow-questions) .answer-drawer .chip-group__chip:hover {
   background-color: var(--color-surface-inverse-hover);
 }
 
 .guide--navy .guide__body .chip-group__chip[aria-pressed="true"],
-:is([data-viewport="mobile"], [data-viewport="tablet"]) .guide.guide--sky .answer-drawer .chip-group__chip[aria-pressed="true"] {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .guide.guide--sky:not(.tool-flow-questions) .answer-drawer .chip-group__chip[aria-pressed="true"] {
   color: var(--color-text-on-selected-inverse);
   background-color: var(--color-selected-on-inverse);
   border-color: var(--color-selected-on-inverse);
@@ -9545,9 +9593,100 @@ ol.ring-detail__timeline {
   flex: 1 1 auto;
 }
 
+/* On the Playbook's stone page the answer drawer is white, a sheet rising
+   over the page as the stone drawer is over onboarding's sky and the Plan's
+   navy, with the item cards' horizon line along its top (designer,
+   2026-10-28; it was the page's own stone, so it read as a seam). */
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .tool-flow-questions .answer-drawer {
+  position: relative;
+  /* Room under the line, so the handle sits as far below it as above the
+     first answer (it was 11 over and 22 under). */
+  padding-top: var(--space-md);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-bottom: 0;
+  background-color: var(--color-surface-raised);
+}
+
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .tool-flow-questions .answer-drawer::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: var(--horizon-line-height);
+  background: var(--gradient-horizon);
+  pointer-events: none;
+}
+
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .tool-flow-questions .answer-drawer__actions {
+  background-color: var(--color-surface-raised);
+}
+
+/* Pushed to the drawer's foot, and never closer than the 24px the actions
+   always get above them: the drawer's gap plus this (designer, 2026-10-28;
+   a full drawer left them 16px under the last field). */
 [data-viewport="mobile"] .tool-flow-questions .answer-drawer__actions,
 [data-viewport="tablet"] .tool-flow-questions .answer-drawer__actions {
   margin-top: auto;
+  padding-top: calc(var(--space-before-actions) - var(--space-drawer-inner));
+}
+
+/* The top of a question sits closer (designer, 2026-10-30): 8 under the
+   back link, whose tap area already adds room, and the eyebrow 12 over the
+   question's card, a group title over what it names; the card rises 28. */
+[data-viewport="mobile"] .tool-flow-questions .guide__page,
+[data-viewport="tablet"] .tool-flow-questions .guide__page {
+  padding-top: var(--space-xs);
+}
+
+[data-viewport="mobile"] .tool-flow-questions .guide__top + .guide__head,
+[data-viewport="tablet"] .tool-flow-questions .guide__top + .guide__head {
+  margin-top: calc(var(--space-group-title) - var(--space-lg));
+}
+
+/* The drawer rises to just under the question, so all the answers fit
+   (designer, 2026-10-30): the question keeps its place and the rest of the
+   page (her statement, a source) waits under the drawer, there again when
+   she folds it. The page's body is sized out of the sum, so the page is
+   only as tall as the question; the drawer takes the rest. Folded, the page
+   is whole again. */
+[data-viewport="mobile"] .tool-flow-questions:has(.answer-drawer:not(.is-peek)) .guide__page,
+[data-viewport="tablet"] .tool-flow-questions:has(.answer-drawer:not(.is-peek)) .guide__page {
+  min-height: auto;
+  flex: 1 100 auto;
+  padding-bottom: 0;
+  overflow: visible;
+}
+
+/* A drawer with fewer answers is only as tall as they are, and the page
+   keeps the room above it (designer, 2026-10-30): rising to the question is
+   for the long ones. */
+[data-viewport="mobile"] .tool-flow-questions:has(.answer-drawer:not(.is-peek)) :is(.answer-drawer__wrap, .answer-drawer),
+[data-viewport="tablet"] .tool-flow-questions:has(.answer-drawer:not(.is-peek)) :is(.answer-drawer__wrap, .answer-drawer) {
+  flex: 0 1 auto;
+}
+
+[data-viewport="mobile"] .tool-flow-questions:has(.answer-drawer:not(.is-peek)) .guide__body,
+[data-viewport="tablet"] .tool-flow-questions:has(.answer-drawer:not(.is-peek)) .guide__body {
+  contain: size;
+  flex: 1 1 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Back and Next side by side, Next on the right under the thumb, so the
+   drawer has room for every answer (designer, 2026-10-30; they were
+   stacked, full width). Playbook drawers first; others may follow. */
+[data-viewport="mobile"] .tool-flow-questions .answer-drawer__actions,
+[data-viewport="tablet"] .tool-flow-questions .answer-drawer__actions {
+  flex-direction: row-reverse;
+}
+
+/* Each as wide as its words, the room left shared, so a long label
+   ("Write my first draft") stays on one line. */
+[data-viewport="mobile"] .tool-flow-questions .answer-drawer__actions > *,
+[data-viewport="tablet"] .tool-flow-questions .answer-drawer__actions > * {
+  flex: 1 1 auto;
+  width: auto;
+  white-space: nowrap;
 }
 
 .chrome__main:has(> .guide) > .tool-flow__bar {
@@ -9797,6 +9936,14 @@ ol.ring-detail__timeline {
   margin-bottom: calc(var(--space-lg) * -1);
   padding: var(--space-2xs) 0 var(--space-lg);
   background-color: var(--color-surface);
+}
+
+/* A question's answers, then Other: two groups, 24px apart, as the
+   drawer's groups always are (designer, 2026-10-28; they touched). */
+.pick-answer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-drawer-groups);
 }
 
 /* Folded: one bar carrying the question. */
@@ -15351,7 +15498,7 @@ ul.came-of__rows {
   display: flex;
   flex-direction: column;
   padding: var(--space-feature-padding);
-  border: var(--border-width-thin) solid transparent;
+  border: var(--border-width-thin) solid var(--color-border-inverse);
   border-radius: var(--radius-card);
   background-color: var(--color-surface-quiet-on-inverse);
   color: var(--color-text-inverse);
@@ -16090,7 +16237,7 @@ ol.entry-drawer__rows {
   --color-border-strong: var(--color-divider-on-inverse);
   --color-focus: var(--color-focus-inverse);
   --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
-  border-color: var(--color-surface-quiet-on-inverse);
+  border-color: var(--color-border-inverse);
   background-color: var(--color-surface-quiet-on-inverse);
   color: var(--color-text-primary);
 }
@@ -16206,7 +16353,7 @@ ol.entry-drawer__rows {
    2026-10-18: the four card levels). Light blue is not a card colour on navy; what ExecHQ wrote for her is
    marked by a small sky dot before its label, here and on Your next move. */
 .signals-page .presence-clean__try {
-  border-color: transparent;
+  border-color: var(--color-border-inverse);
   background-color: var(--color-surface-quiet-on-inverse);
 }
 
@@ -17710,7 +17857,7 @@ fieldset.agenda__whens {
    about this move reads apart from the page: the yellow start button, white answers, light words. Its
    handle folds it to the peek bar, which shows the roadmap under the move. On the web the answers are
    part of the page. */
-:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer {
   color: var(--color-text-inverse);
   background-color: var(--color-surface-inverse);
   border-top: 0;
@@ -17721,43 +17868,43 @@ fieldset.agenda__whens {
   --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
 }
 
-:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer__grab::before {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer__grab::before {
   background-color: var(--color-text-inverse-muted);
 }
 
-:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer.is-peek {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer.is-peek {
   padding-top: var(--space-xs);
 }
 
-:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer :is(.answer-drawer__peek-q, .chip-group__label) {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer :is(.answer-drawer__peek-q, .chip-group__label) {
   color: var(--color-text-inverse);
 }
 
-:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer :is(.answer-drawer__peek-status, .answer-drawer__step, .field__hint) {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer :is(.answer-drawer__peek-status, .answer-drawer__step, .field__hint) {
   color: var(--color-text-inverse-muted);
 }
 
-:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer .btn--ghost:hover {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer .btn--ghost:hover {
   color: var(--color-text-link-hover);
   background-color: transparent;
 }
 
 /* Words written straight on the navy take its light ink; the sticky foot keeps the navy behind it. */
-:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer :is(.stage-checkin__note, .field__label, .input__label, legend) {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer :is(.stage-checkin__note, .field__label, .input__label, legend) {
   color: var(--color-text-inverse);
 }
 
 /* The email code's small lines and Send it again, on the navy: the same light ink (designer, 2026-10-15). */
-:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer :is(.login__small, .login__link) {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer :is(.login__small, .login__link) {
   color: var(--color-text-inverse);
 }
 
-:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer .answer-drawer__actions {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer .answer-drawer__actions {
   background-color: var(--color-surface-inverse);
 }
 
 /* The one she picks can't fill navy on navy: it takes blue 200 with the ink, its words bold. */
-:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer .chip-group__chip[aria-pressed="true"] {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer .chip-group__chip[aria-pressed="true"] {
   color: var(--color-text-primary);
   background-color: var(--color-surface-active);
   border-color: var(--color-surface-active);
@@ -17777,7 +17924,7 @@ fieldset.agenda__whens {
 }
 
 /* The answers stay white with the ink, a ring of their own inside the navy. */
-:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky) .answer-drawer .chip-group__chip {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer .chip-group__chip {
   border-color: var(--color-surface-raised);
   --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
 }
@@ -19437,7 +19584,7 @@ ul.li-shares {
   flex-direction: column;
   gap: var(--space-3xs);
   padding: var(--space-sm);
-  border: var(--border-width-thin) solid var(--color-border);
+  border: var(--border-width-thin) solid var(--color-border-light-blue);
   border-radius: var(--radius-md);
   background-color: var(--color-surface-sunken);
 }
@@ -19695,6 +19842,22 @@ ul.li-shares {
   flex-direction: column;
   gap: var(--space-sm);
   min-width: 0;
+}
+
+/* The page recipe's gaps on the start screen (designer, 2026-10-28; all
+   were 12): copy to a card under it 16, a card or the copy to the question
+   under it as a new group 24, and 24 above the start button, as actions
+   always get. */
+.tool-use-case__decide > :is(p, .tool-use-case__plan) + :is(.tool-flow__carried, .tool-flow__refresh) {
+  margin-top: calc(var(--space-copy-card) - var(--space-sm));
+}
+
+.tool-use-case__decide > * + .tool-use-case__choice {
+  margin-top: calc(var(--space-drawer-groups) - var(--space-sm));
+}
+
+.tool-use-case__decide > * + .btn {
+  margin-top: calc(var(--space-before-actions) - var(--space-sm));
 }
 
 .tool-use-case__name {
@@ -20402,6 +20565,14 @@ ul.li-shares {
   gap: var(--space-sm);
 }
 
+/* The draft's name is the card's title (the card-title role). */
+.draft-editor__label {
+  font-family: var(--type-card-title-font);
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  line-height: var(--type-card-title-leading);
+}
+
 .draft-editor__top {
   display: flex;
   flex-wrap: wrap;
@@ -20420,11 +20591,9 @@ ul.li-shares {
   gap: var(--space-sm);
 }
 
-.tool-flow__draft-head .dropdown__trigger {
-  min-height: 2rem;
-  padding: 0 var(--space-xs) 0 var(--space-sm);
-  font-size: var(--text-xs-plus);
-}
+/* Actions is the standard dropdown, the one size every dropdown takes
+   (designer, 2026-10-28; Kate's 13 Oct 32px version fitted the old status
+   line, which it no longer shares). */
 
 .draft-editor__intro {
   margin: 0;
@@ -20435,36 +20604,54 @@ ul.li-shares {
 .draft-editor__legend {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2xs) var(--space-md);
+  /* One line: the three side by side, 8 apart, so they fit a phone's width
+   (designer, 2026-10-28); a narrower screen wraps them. */
+  gap: var(--space-2xs) var(--space-xs);
   margin: 0;
   padding: 0;
   list-style: none;
-  font-size: var(--text-xs);
+  /* The key at the intro's size, its samples too, so it reads as part of
+     the intro and not a third style (designer, 2026-10-28; 12px words beside
+     14px samples). */
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
   color: var(--color-text-secondary);
+}
+
+/* Only "Needs answer" shows: the one mark that asks her to act. Her words
+   and ExecHQ's are told apart by upright and italic, and screen readers
+   still hear "ExecHQ:" before its words (designer, 2026-10-28; to discuss
+   with Kate). */
+.draft-editor__key--you,
+.draft-editor__key--exechq {
+  display: none;
 }
 
 .draft-editor__key::before {
   content: "Aa";
   display: inline-block;
-  margin-right: var(--space-3xs);
+  margin-right: var(--space-2xs);
   font-family: var(--font-serif);
-  font-size: var(--text-sm);
+  font-size: 1em;
   color: var(--color-text-primary);
 }
 
 .draft-editor__key--exechq::before {
-  text-decoration: underline dotted var(--color-text-secondary);
-  text-decoration-thickness: var(--border-width-medium);
-  text-underline-offset: 0.25em;
+  font-style: italic;
   color: var(--color-text-secondary);
 }
 
 .draft-editor__key--question::before {
   content: "?";
   padding: 0 var(--space-2xs);
-  border: var(--border-width-thin) dashed var(--color-border-strong);
   border-radius: var(--radius-xs);
+  background-color: var(--color-surface-her-band);
   font-family: var(--font-body);
+  color: var(--color-text-on-her-band);
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width-thin);
+  text-decoration-color: var(--color-question-line);
+  text-underline-offset: 0.28em;
 }
 
 .draft-editor__body {
@@ -20477,27 +20664,59 @@ ul.li-shares {
   background-color: var(--color-surface-raised);
 }
 
+/* Inside the draft card the body is open, not a second card: never a card
+   inside a card (designer, 2026-10-28). Its sections keep the hairlines. */
+.pinned-draft .draft-editor__body {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+}
+
 .draft-editor.is-revising .draft-editor__body {
   opacity: 0.5;
 }
 
+/* The part's name to its words: the group-title gap, a label over what it
+   names (designer, 2026-10-28; was 4, then 8). */
 .draft-editor__section {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xs);
+  gap: var(--space-group-title);
 }
 
+/* Sections split by hairlines take the divided-row space either side, as
+   every divided list does (designer, 2026-10-28; was 16 under the line). */
 .draft-editor__section + .draft-editor__section {
-  padding-top: var(--space-md);
+  margin-top: calc(var(--space-divided-item) - var(--space-md));
+  padding-top: var(--space-divided-item);
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
+/* The part's name sits at the card's top padding, not centred in a 44px
+   row (designer, 2026-10-28). */
 .draft-editor__section-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-sm);
-  min-height: var(--button-target);
+}
+
+/* Copy, PDF, Word and Edit a step under the name: the caption size, the
+   24px tap height WCAG 2.2 allows, so the name leads. */
+.draft-editor__section-actions .btn {
+  min-height: var(--space-lg);
+  font-size: var(--type-caption-size);
+}
+
+/* Edit, then the part's menu at the far right. */
+.draft-editor__section-actions {
+  align-items: center;
+  column-gap: var(--space-xs);
+}
+
+.draft-editor__section-actions > .dropdown {
+  order: 1;
 }
 
 .draft-editor__section-actions {
@@ -20507,18 +20726,31 @@ ul.li-shares {
   gap: var(--space-3xs);
 }
 
+/* Each part's name is a read's label: a grey eyebrow naming what is
+   under it, Inter, never the display face (designer, 2026-10-28; it fell
+   to Kulim as a heading). */
 .draft-editor__section-heading {
   margin: 0;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-secondary);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
+  text-transform: uppercase;
+  /* Darker than the links beside it, so the part's name leads (designer,
+     2026-10-28; it was grey against navy links). */
+  color: var(--color-text-primary);
 }
 
+/* Her words in the serif a touch under body size, as Your direction's,
+   so ExecHQ's Inter beside them reads at the same size (designer,
+   2026-10-28). */
 .draft-editor__text {
   margin: 0;
   font-family: var(--font-serif);
   word-spacing: var(--word-spacing-normal);
-  font-size: var(--text-md);
+  font-size: var(--text-sm-plus);
   line-height: var(--leading-relaxed);
   white-space: pre-line;
 }
@@ -20539,15 +20771,36 @@ ul.li-shares {
    suggestion beside her own words. */
 /* --- Once it is ready: the clean read (Concept 1) and the page (Concept 2) --- */
 
+/* Questions left open: lime, her input, as the open questions are on the
+   working draft, with the green edge a lime card takes on stone; the card's
+   corners and padding (designer, 2026-10-30; it was light blue, too faint). */
 .draft-editor__open {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-xs);
-  padding: var(--space-sm) var(--space-md);
-  border-radius: var(--radius-md);
-  background-color: var(--color-surface-sunken);
+  padding: var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border-her-band);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-her-band);
+  color: var(--color-text-on-her-band);
   font-size: var(--text-sm);
+}
+
+.draft-editor__open .link {
+  color: var(--color-text-on-her-band);
+}
+
+/* Answer them sits at the card's right, under the thumb, as every card's
+   button does (designer, 2026-10-30). */
+.draft-editor__open > .draft-editor__open-toggle {
+  align-self: flex-end;
+}
+
+/* On the open draft it is a group of its own: 24 under the name and For:,
+   as the key is on the working draft, and 24 over the first part. */
+.pinned-draft.is-open .draft-editor__open {
+  margin-top: var(--space-lg);
 }
 
 .draft-editor__open .draft-editor__gap {
@@ -20573,12 +20826,21 @@ ul.li-shares {
   cursor: pointer;
 }
 
+/* Ready, the draft reads clean (spec 5.5): an open question is only
+   quieter, with no fill and no line under it. */
 .draft-editor--clean .draft-editor__question {
   padding: 0;
   border: 0;
   background: none;
   font-style: italic;
   color: var(--color-text-muted);
+  text-decoration: none;
+}
+
+/* Change something is the way back into the working draft: its own group,
+   24 under the last part, as actions always are. */
+.draft-editor__reopen {
+  margin-top: var(--space-before-actions);
 }
 
 .draft-editor--clean .draft-editor__body {
@@ -20630,21 +20892,30 @@ ul.li-shares {
   cursor: pointer;
 }
 
+/* ExecHQ's words read as hers: the team decided the draft needn't tell
+   them apart (2026-10-30; they were italic and grey). Only open questions
+   are marked. */
 .draft-editor__exechq {
-  color: var(--color-text-secondary);
-  text-decoration: underline dotted var(--color-border-strong);
-  text-decoration-thickness: var(--border-width-medium);
-  text-underline-offset: 0.3em;
+  font-family: var(--font-serif);
+  font-size: 1em;
+  color: var(--color-text-primary);
 }
 
+/* An open question is hers to fill, so it takes her colour: lime with dark
+   green words and a light green line under it, no outline (designer,
+   2026-10-28; it was a dashed box). The line and Inter in the serif are
+   the cues beside the fill, at any zoom. */
 .draft-editor__question {
   padding: 0 var(--space-2xs);
-  border: var(--border-width-thin) dashed var(--color-border-strong);
   border-radius: var(--radius-xs);
-  background-color: var(--color-surface-sunken);
+  background-color: var(--color-surface-her-band);
   font-family: var(--font-body);
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
+  font-size: 1em;
+  color: var(--color-text-on-her-band);
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width-thin);
+  text-decoration-color: var(--color-question-line);
+  text-underline-offset: 0.28em;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
@@ -20666,16 +20937,23 @@ ul.li-shares {
   gap: var(--space-xs);
 }
 
+/* Questions for you is a section of the page, not a box: no dashed card
+   (designer, 2026-10-28). Each question with its field and Answer is a
+   group, 12 apart inside; the groups 24 apart; the heading and its line
+   above them. */
 .draft-editor__gaps {
-  padding: var(--space-md);
-  border: var(--border-width-thin) dashed var(--color-border-strong);
-  border-radius: var(--radius-card);
+  gap: var(--space-lg);
 }
 
+/* The heading starts a new section: the Playbook's section heading size. */
 .draft-editor__gaps-heading {
   margin: 0;
-  font-size: var(--text-md);
+  font-size: var(--text-lg);
   font-weight: var(--weight-semibold);
+}
+
+.draft-editor__gaps-heading + .draft-editor__gaps-lead {
+  margin-top: calc(var(--space-title-copy) - var(--space-lg));
 }
 
 .draft-editor__gaps-lead {
@@ -20684,23 +20962,40 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
+/* The question, its field and Answer equally apart: the field's own 12
+   from label to box, and 12 to the button. */
 .draft-editor__gap {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--space-xs);
+  gap: var(--space-group-title);
 }
 
 .draft-editor__gap .field {
   align-self: stretch;
 }
 
+/* Answer at the right, under the thumb, as every card's button
+   (designer, 2026-10-30). */
+.draft-editor__gap > .btn {
+  align-self: flex-end;
+}
+
+/* Opened on the ready draft, each question a group 24 from the last, as
+   in Questions for you. */
+.draft-editor__open > .draft-editor__gap {
+  margin-top: calc(var(--space-lg) - var(--space-xs));
+}
+
 /* --- Revising -------------------------------------------------------------- */
 
+/* Laid out as Questions for you is (designer, 2026-10-30): each choice,
+   its label 12 over its pills, is a group; the groups, the field and the
+   heading 24 apart, so each group reads as one. */
 .revision-controls {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: var(--space-drawer-groups);
 }
 
 .revision-controls__heading,
@@ -20713,7 +21008,7 @@ ul.li-shares {
 .revision-controls__options {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: var(--space-drawer-groups);
 }
 
 .revision-controls__actions {
@@ -20734,6 +21029,28 @@ ul.li-shares {
   box-shadow: 0 calc(-1 * var(--space-xs)) var(--space-sm) var(--color-surface);
 }
 
+/* Side by side on the phone, as the open draft's bar and the drawers are
+   (designer, 2026-10-30): Mark ready on the left, Revise on the right
+   under the thumb. */
+[data-viewport="mobile"] .tool-flow__interview .revision-controls__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+[data-viewport="mobile"] .tool-flow__interview .revision-controls__actions > .btn {
+  order: 1;
+}
+
+/* 24 from the field to the buttons, as actions always get, counting the
+   pinned bar's own 12 on top. */
+[data-viewport="mobile"] .tool-flow__interview .revision-controls__actions {
+  margin-top: calc(var(--space-before-actions) - var(--space-drawer-groups) - var(--space-sm));
+}
+
+[data-viewport="mobile"] .tool-flow__interview .revision-controls__actions .draft-use__buttons > .btn {
+  width: 100%;
+}
+
 /* --- Versions -------------------------------------------------------------- */
 
 .version-history {
@@ -20748,55 +21065,19 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
-.version-history__list {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+/* The rows are the shared list's (.list--framed, .list--dividers-full);
+   only Showing is the history's own. */
+.version-history__lead + .version-history__list {
+  margin-top: var(--space-xs);
 }
 
 .version-history__item {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-xs) 0;
-  border-top: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
-.version-history__n {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.75rem;
-  height: 1.75rem;
-  border: var(--border-width-thin) solid var(--color-border-strong);
-  border-radius: var(--radius-pill);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  font-variant-numeric: tabular-nums;
-}
-
-.version-history__item.is-showing .version-history__n {
-  border-color: var(--color-text-primary);
-  background-color: var(--color-text-primary);
-  color: var(--color-surface-raised);
-}
-
-.version-history__text {
-  display: flex;
-  flex-direction: column;
-}
-
-.version-history__what {
-  font-weight: var(--weight-semibold);
-}
-
-.version-history__when,
 .version-history__showing {
-  font-size: var(--text-xs);
-  color: var(--color-text-secondary);
+  font-size: var(--list-meta-size);
+  color: var(--list-meta-color);
 }
 
 .version-history__actions {
@@ -21059,8 +21340,9 @@ ul.li-shares {
 }
 
 /* No card around the rows, so they line up with the chips and the page's
-   edge (Concept 1's list, 14 Oct). */
-.library__rows .list__item {
+   edge (Concept 1's list, 14 Oct). An open folder's rows are cards, so
+   they keep the card's padding. */
+.library__rows:not(.list--horizon-cards) .list__item {
   padding-inline: 0;
 }
 
@@ -21081,7 +21363,7 @@ ul.li-shares {
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  color: var(--color-text-secondary);
+  color: var(--color-eyebrow);
 }
 
 /* A line of what it says, over the status. It wraps whole: nothing in the
@@ -21104,6 +21386,63 @@ ul.li-shares {
   text-transform: none;
   letter-spacing: var(--tracking-normal);
   vertical-align: baseline;
+}
+
+/* In an open folder, where it stands and when it last changed sit over the
+   title as a small grey line, so the title leads (designer, 2026-10-28).
+   The title comes first in the markup, so it is still read first. */
+.library__rows.list--horizon-cards .list__secondary {
+  display: contents;
+}
+
+/* The page recipe's gaps: the status line to the title is the eyebrow's,
+   the title to the preview the widest (designer, 2026-10-28). */
+.library__rows.list--horizon-cards .list__text {
+  gap: 0;
+}
+
+.library__rows.list--horizon-cards .library__preview {
+  margin-top: var(--space-title-copy);
+  margin-bottom: 0;
+}
+
+/* The chevron sits level with the title, not the status line over it:
+   down by the status line and its gap, then centred on the title's first
+   line (designer, 2026-10-28). */
+.library__rows.list--horizon-cards .list__trailing {
+  align-self: flex-start;
+  margin-top: calc(
+    var(--type-caption-size) * var(--type-caption-leading) + var(--space-eyebrow-title) +
+      (var(--list-primary-size) * var(--list-primary-leading) - 1rem) / 2
+  );
+  color: var(--color-text-primary);
+}
+
+.library__stamp {
+  order: -1;
+  margin-bottom: var(--space-eyebrow-title);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+  color: var(--color-text-secondary);
+}
+
+/* A positioning statement's moments, under its words: small lime tags with
+   dark green words, lime because she picked them (designer, 2026-10-28).
+   The words say it, so the colour is never the only cue. */
+.library__moments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  margin-top: var(--space-xs);
+}
+
+.library__moment {
+  padding: var(--space-3xs) var(--space-xs);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-her-band);
+  color: var(--color-text-on-her-band);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
 }
 
 /* --- Search, in its sheet (Concept 2, 14 Oct) ----------------------------- */
@@ -21140,29 +21479,45 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
+/* The matches are the library's cards, 12px apart (designer, 2026-10-28). */
 .library-search__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.library-search__list > li + li {
-  border-top: var(--border-width-thin) solid var(--color-border);
-}
-
 .library-search__option {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-3xs);
+  align-items: flex-start;
+  gap: var(--list-item-gap);
   width: 100%;
-  min-height: 2.75rem;
-  padding: var(--space-sm) 0;
-  border: 0;
-  background: none;
+  padding: var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
   font: inherit;
   color: var(--color-text-primary);
   text-align: left;
   cursor: pointer;
+}
+
+.library-search__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Level with the title, as on the library's cards. */
+.library-search__go {
+  flex: none;
+  margin-top: calc(
+    var(--type-caption-size) * var(--type-caption-leading) + var(--space-eyebrow-title) +
+      (var(--list-primary-size) * var(--list-primary-leading) - 1rem) / 2
+  );
 }
 
 .library-search__option:hover,
@@ -21182,8 +21537,17 @@ ul.li-shares {
 }
 
 .library-search__title {
-  font-size: var(--text-sm);
-  line-height: var(--leading-snug);
+  font-family: var(--list-primary-font);
+  font-size: var(--list-primary-size);
+  font-weight: var(--list-primary-weight);
+  line-height: var(--list-primary-leading);
+}
+
+.library-search__preview {
+  margin-top: var(--space-title-copy);
+  font-size: var(--list-secondary-size);
+  line-height: var(--list-secondary-leading);
+  color: var(--color-text-secondary);
 }
 
 /* What she typed, in the title: heavier, never a highlighter colour. */
@@ -21194,7 +21558,9 @@ ul.li-shares {
 }
 
 .library-search__detail {
-  font-size: var(--text-xs);
+  margin-bottom: var(--space-eyebrow-title);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
   color: var(--color-text-secondary);
 }
 
@@ -21692,8 +22058,218 @@ ul.li-shares {
   box-shadow: var(--shadow-sm);
 }
 
+/* Folded, the card takes the horizon line along its foot, as the folder's
+   item cards do (designer, 2026-10-30). */
+.pinned-draft:not(.is-open):not(.pinned-draft--side) {
+  overflow: hidden;
+}
+
+.pinned-draft:not(.is-open):not(.pinned-draft--side)::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: var(--horizon-line-height);
+  background: var(--gradient-horizon);
+  pointer-events: none;
+}
+
+/* Open in the page the draft is the page, not a box (designer, 2026-10-28,
+   layout A): no edge, fill or shadow, so each part below can be its own
+   card. Folded and pinned over the page it stays a card with its shadow. */
 .pinned-draft.is-open:not(.pinned-draft--side) {
   position: relative;
+  border-color: transparent;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.pinned-draft.is-open:not(.pinned-draft--side) :is(.pinned-draft__toggle, .pinned-draft__body) {
+  padding-inline: 0;
+}
+
+/* Its name is the page's heading. */
+.pinned-draft.is-open .draft-editor__label {
+  font-family: var(--type-heading-font);
+  font-size: var(--type-heading-size);
+  font-weight: var(--type-heading-weight);
+  line-height: var(--type-heading-leading);
+  letter-spacing: var(--type-heading-tracking);
+}
+
+[data-viewport="mobile"] .pinned-draft.is-open .draft-editor__label {
+  font-size: var(--type-heading-size-phone);
+}
+
+/* Open, the folded card's label ("Draft, version 2") would repeat the
+   heading right under it, so it is read out but not shown; Hide draft keeps
+   its place at the right (designer, 2026-10-28). */
+.pinned-draft.is-open:not(.pinned-draft--side) .pinned-draft__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Open, the top reads: the status as the eyebrow with Actions at the right;
+   the name; what it is for under it (designer, 2026-10-28). The status
+   line's pieces join the top's own rows so they can be ordered.
+
+   No Hide draft here: Change the draft in the bar folds the draft the same
+   way, and the folded card's Show draft brings it back. */
+.pinned-draft.is-open:not(.pinned-draft--side) .pinned-draft__toggle {
+  display: none;
+}
+
+.pinned-draft.is-open:not(.pinned-draft--side) .tool-flow__draft-head {
+  display: contents;
+}
+
+.pinned-draft.is-open:not(.pinned-draft--side) .tool-flow__draft-head > .loop-status {
+  order: -2;
+  min-height: var(--space-lg);
+}
+
+/* "· Saved" after the status, in the status's own eyebrow type, the second
+   part in grey as "Still editing" was; it pushes Actions to the right. */
+.tool-flow__draft-saved {
+  display: none;
+}
+
+.pinned-draft.is-open:not(.pinned-draft--side) .tool-flow__draft-saved,
+.tool-flow__draft-top .tool-flow__draft-saved {
+  order: -2;
+  display: inline-flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: var(--space-2xs);
+  margin-left: calc(var(--space-2xs) - var(--space-sm));
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--weight-regular);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+/* With the draft open, the bar's own "Saved in your library" gives way to
+   it. */
+.tool-flow--has-bar .tool-flow__bar .tool-flow__saved {
+  display: none;
+}
+
+/* Change the draft on a phone opens as the draft does (designer, 29 Oct):
+   16 under the bar, the "Draft · Saved" line the height of the draft's
+   Actions row, the name 4 under it in the heading role, "For:" 4 under the
+   name. So the bar's "Saved in your library" gives way here too. */
+.tool-flow:has(.tool-flow__draft-top) .tool-flow__bar .tool-flow__saved {
+  display: none;
+}
+
+.tool-flow__draft-top {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-eyebrow-title);
+  /* The open draft's top sits inside its card's hairline. */
+  padding-top: var(--border-width-thin);
+}
+
+.tool-flow__draft-top .tool-flow__draft-head {
+  justify-content: flex-start;
+  min-height: var(--button-target);
+}
+
+.tool-flow__draft-top .tool-flow__draft-saved {
+  order: 0;
+  flex: 0 0 auto;
+}
+
+.tool-flow__draft-name {
+  margin: 0;
+  font-family: var(--type-heading-font);
+  font-size: var(--type-heading-size);
+  font-weight: var(--type-heading-weight);
+  line-height: var(--type-heading-leading);
+  letter-spacing: var(--type-heading-tracking);
+}
+
+[data-viewport="mobile"] .tool-flow__draft-name {
+  font-size: var(--type-heading-size-phone);
+}
+
+/* On the draft itself the status is the eyebrow, the word alone: no little
+   shape beside it (designer, 2026-10-28). Lists keep it. */
+.tool-flow__draft-head .loop-status__glyph {
+  display: none;
+}
+
+/* Actions on the eyebrow's line, at the right; the name below it has the
+   full width (designer, 2026-10-28). */
+.pinned-draft.is-open:not(.pinned-draft--side) .tool-flow__draft-head > .dropdown {
+  order: -2;
+}
+
+.pinned-draft.is-open:not(.pinned-draft--side) .draft-editor__label {
+  order: -1;
+  flex: 1 1 100%;
+  margin-top: calc(var(--space-eyebrow-title) - var(--space-xs));
+}
+
+/* The top in three groups (designer, 2026-10-28; all was 12 apart): the
+   heading with its status and Actions, tight; 24 to the line and key that
+   say how to read it, which sit 8 apart; 24 to the first part. */
+.pinned-draft.is-open .draft-editor {
+  gap: 0;
+}
+
+.pinned-draft.is-open .draft-editor__top {
+  row-gap: var(--space-xs);
+}
+
+/* What it is for, right under its name, as the name's subtitle: 4 under the
+   name, then 8 to the status (designer, 2026-10-28). */
+.draft-editor__top > .tool-flow__for {
+  flex: 1 1 100%;
+  margin-top: calc(var(--space-eyebrow-title) - var(--space-xs));
+}
+
+/* The intro joins the subtitle: right under "For:", 4 apart, in the same
+   small grey, so name, purpose and intro read as one header (designer,
+   2026-10-28). The key stands apart from it, 24 under, as its own group. */
+.pinned-draft.is-open .draft-editor__intro {
+  margin-top: var(--space-2xs);
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+}
+
+.pinned-draft.is-open .draft-editor__legend {
+  margin-top: var(--space-lg);
+}
+
+.pinned-draft.is-open .draft-editor__body {
+  margin-top: var(--space-lg);
+}
+
+/* Questions for you starts a new section, 24 under the last part
+   (designer, 2026-10-28; it touched, then 12 while it was a card). */
+.pinned-draft.is-open .draft-editor__body + .draft-editor__gaps {
+  margin-top: var(--space-lg);
+}
+
+/* Each part is its own white card, 12px apart, as the library's items are. */
+.pinned-draft.is-open .draft-editor__body {
+  gap: var(--space-sm);
+}
+
+.pinned-draft.is-open .draft-editor__section,
+.pinned-draft.is-open .draft-editor__section + .draft-editor__section {
+  margin-top: 0;
+  padding: var(--space-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
 }
 
 .pinned-draft--side {
@@ -21763,6 +22339,19 @@ ul.li-shares {
   font-weight: var(--weight-semibold);
 }
 
+/* On the phone's folded card, Show draft goes under the opening lines, at
+   the right under the thumb, so the draft's words get the card's whole width
+   (designer, 2026-10-30; it sat beside them). */
+.pinned-draft:not(.pinned-draft--side) .pinned-draft__toggle {
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-xs);
+}
+
+.pinned-draft:not(.pinned-draft--side) .pinned-draft__action {
+  align-self: flex-end;
+}
+
 .pinned-draft__chevron {
   transform: rotate(90deg);
 }
@@ -21791,27 +22380,42 @@ ul.li-shares {
 /* --- Positioning Builder ------------------------------------------------------ */
 
 /* Her statement from onboarding, carried onto the first screen. */
+/* What she brings with her (her statement, the draft she started from) is
+   hers, so it is Plan's Your direction card: a lime label with dark green
+   words over a white body with her words in the serif, held by the stone
+   250 edge every lime card takes (designer, 2026-10-28; was a light blue
+   panel with a gold bar). */
 .tool-flow__carried {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3xs);
-  padding: var(--space-sm) var(--space-md);
-  border-left: var(--border-width-medium) solid var(--color-accent);
-  background-color: var(--color-surface-sunken);
-  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  overflow: hidden;
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
 }
 
 .tool-flow__carried-label {
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-secondary);
+  padding: var(--space-sm) var(--space-card-padding);
+  border-bottom: var(--border-width-thin) solid var(--color-border);
+  background-color: var(--color-surface-her-band);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  text-transform: uppercase;
+  color: var(--color-text-on-her-band);
 }
 
 .tool-flow__carried-text {
   margin: 0;
+  padding: var(--space-sm) var(--space-card-padding) var(--space-card-padding);
   font-family: var(--font-serif);
+  font-size: var(--text-sm-plus);
+  font-weight: var(--weight-semibold);
   word-spacing: var(--word-spacing-normal);
   line-height: var(--leading-normal);
+  overflow-wrap: anywhere;
 }
 
 /* Offered, never forced, when her statement changes. */
@@ -21919,6 +22523,25 @@ ul.li-shares {
 }
 
 /* An account menu: the person's initials in a round button. */
+/* Icon only (designer, 2026-10-28): the icon in the link's navy, no edge or
+   fill, at the 24px tap height WCAG 2.2 allows, for a quiet "more" beside a
+   link. */
+.dropdown__trigger--icon {
+  justify-content: center;
+  min-width: var(--space-lg);
+  min-height: var(--space-lg);
+  padding: 0;
+  border-color: transparent;
+  background-color: transparent;
+  color: var(--color-text-link);
+}
+
+.dropdown__trigger--icon:hover,
+.dropdown__trigger--icon.is-hover,
+.dropdown__trigger--icon.is-open {
+  background-color: var(--color-surface-hover);
+}
+
 .dropdown__trigger--avatar {
   justify-content: center;
   width: var(--button-target);
@@ -22587,66 +23210,6 @@ ul.li-shares {
   fill: var(--illustration-paper);
 }
 
-.tool-picker__eyebrow {
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-}
-
-.tool-picker__step {
-  font-size: var(--text-sm);
-  line-height: var(--leading-snug);
-  color: var(--color-text-primary);
-}
-
-/* The next step's row, under the tool row (Concept 2). The whole row is
-   the link. */
-.tool-picker__lead {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-sm);
-  border: var(--border-width-thin) solid var(--illustration-card-border);
-  border-radius: var(--radius-card);
-  background-color: var(--illustration-card);
-  color: var(--color-text-primary);
-  text-decoration: none;
-  transition: border-color var(--duration-fast) var(--easing-standard);
-}
-
-.tool-picker__lead-text {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3xs);
-  min-width: 0;
-}
-
-.tool-picker__lead .tool-picker__name {
-  font-family: var(--font-body);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-md);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-}
-
-.tool-picker__lead:hover,
-.tool-picker__lead.is-hover {
-  border-color: var(--color-border-strong);
-}
-
-.tool-picker__lead:active,
-.tool-picker__lead.is-active {
-  background-color: var(--color-surface-active);
-}
-
-.tool-picker__lead:focus-visible,
-.tool-picker__lead.is-focus {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
 /* --- The rail: a column of tools, then the next step (Concept 2, web) ------- */
 
 .tool-picker--rail {
@@ -22717,18 +23280,108 @@ ul.li-shares {
   }
 }
 
-/* --- Icons with the next step under them (Concept 2) --------------------------- */
+/* --- The tools as rows in one card, on the phone (designer, 2026-10-28) ------- */
 
-.tool-picker--with-lead {
+/* The rail's rows in one white card: each tool's icon in its dawn, its name
+   as a subheading and what it makes as a caption, a chevron at the right,
+   and a hairline between rows that starts after the icon. 20px above and
+   below each row, as every divided row. */
+.tool-picker--card {
+  --tool-picker-chip: 2.75rem;
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
 }
 
+.tool-picker--card .tool-picker__list {
+  overflow: hidden;
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+}
+
+.tool-picker--card .tool-picker__item {
+  position: relative;
+}
+
+.tool-picker--card .tool-picker__item + .tool-picker__item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: var(--space-card-padding);
+  left: calc(var(--space-card-padding) + var(--tool-picker-chip) + var(--space-sm));
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+}
+
+.tool-picker--card .tool-picker__tool {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-divided-item) var(--space-card-padding);
+  transition: background-color var(--duration-fast) var(--easing-standard);
+}
+
+.tool-picker--card .tool-picker__tool:active,
+.tool-picker--card .tool-picker__tool.is-active {
+  background-color: var(--color-surface-active);
+}
+
+.tool-picker--card .tool-picker__disc {
+  width: var(--tool-picker-chip);
+  height: var(--tool-picker-chip);
+  background: radial-gradient(
+    circle at 50% 100%,
+    var(--tool-chip-heart),
+    var(--tool-chip-ring) 45%,
+    var(--tool-chip-sky) 90%
+  );
+  color: var(--color-text-primary);
+}
+
+.tool-picker--card .tool-picker__text {
+  gap: 0;
+}
+
+.tool-picker--card .tool-picker__name {
+  font-family: var(--type-subheading-font);
+  font-size: var(--type-subheading-size);
+  font-weight: var(--type-subheading-weight);
+  line-height: var(--type-subheading-leading);
+  color: var(--color-text-primary);
+}
+
+.tool-picker--card .tool-picker__short {
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+}
+
+.tool-picker--card .tool-picker__go {
+  color: var(--color-text-primary);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .tool-picker__lead {
+  .tool-picker--card .tool-picker__tool {
     transition: none;
   }
+}
+
+/* --- Icons with the next step under them (Concept 2) --------------------------- */
+
+/* Each tool's icon sits in a small dawn (designer, 2026-10-27): the sun
+   rises from the circle's base, so the row has colour without a card. */
+.tool-picker--icons .icon-row__chip {
+  background: radial-gradient(
+    circle at 50% 100%,
+    var(--tool-chip-heart),
+    var(--tool-chip-ring) 45%,
+    var(--tool-chip-sky) 90%
+  );
+}
+
+.tool-picker--with-lead {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
 }
 
 /* ===========================================================================
@@ -22737,17 +23390,13 @@ ul.li-shares {
    folder tokens, then the name, what is inside and when it last changed.
    ======================================================================== */
 
-.library-folder--positioning { --folder-tint: var(--folder-positioning); }
-.library-folder--pitch { --folder-tint: var(--folder-pitch); }
-.library-folder--situation-brief { --folder-tint: var(--folder-situation-brief); }
-.library-folder--thought-leadership { --folder-tint: var(--folder-thought-leadership); }
 
 .library-folder {
   display: flex;
   flex-direction: column;
   gap: var(--space-2xs);
   margin: 0;
-  padding: var(--space-sm);
+  padding: var(--space-card-padding);
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-card);
   background-color: var(--color-surface-raised);
@@ -22756,31 +23405,27 @@ ul.li-shares {
   text-align: left;
 }
 
-.library-folder__disc {
-  display: grid;
-  flex: none;
-  place-items: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: var(--radius-pill);
-  background-color: var(--folder-tint);
-  color: var(--illustration-ink);
-}
-
+/* Solid navy on stone: the fill draws the line, so no edge (page recipe). */
 .library-folder--button {
   min-height: 7.5rem;
+  border-color: transparent;
+  background-color: var(--folder-card);
+  color: var(--folder-card-foot);
   cursor: pointer;
-  transition: border-color var(--duration-fast) var(--easing-standard);
+  transition: background-color var(--duration-fast) var(--easing-standard);
 }
 
-.library-folder--button:hover,
-.library-folder--button.is-hover {
-  border-color: var(--color-border-strong);
+.library-folder--button .library-folder__name {
+  color: var(--folder-card-name);
+}
+
+.library-folder--button .library-folder__summary {
+  color: var(--folder-card-text);
 }
 
 .library-folder--button:active,
 .library-folder--button.is-active {
-  background-color: var(--color-surface-active);
+  background-color: var(--folder-card-active);
 }
 
 .library-folder--button:focus-visible,
@@ -22795,19 +23440,35 @@ ul.li-shares {
   border-color: var(--color-text-primary);
 }
 
-/* The open folder's card (option A, 14 Oct): the disc beside the name,
-   what the tool makes, and Start under them. */
+/* The open folder's card: the navy folder she tapped, opened, with Start
+   across it (designer, 2026-10-27). */
 .library-folder--header {
-  flex-direction: row;
-  align-items: flex-start;
-  gap: var(--space-sm);
-  padding: var(--space-md);
+  gap: var(--space-xs);
+  border-color: transparent;
+  background-color: var(--folder-card);
+  color: var(--folder-card-foot);
+}
+
+.library-folder__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.library-folder__mark {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--folder-mark-ink);
 }
 
 .library-folder--header .library-folder__name {
   margin: 0;
   font-size: var(--text-xl);
   line-height: var(--leading-tight);
+  color: var(--folder-card-name);
 }
 
 .library-folder--header .library-folder__name:focus {
@@ -22817,18 +23478,13 @@ ul.li-shares {
 .library-folder--header .library-folder__summary {
   margin: 0;
   font-size: var(--text-sm);
-  color: var(--color-text-secondary);
+  color: var(--folder-card-text);
 }
 
 .library-folder__action {
-  margin-top: var(--space-xs);
-}
-
-.library-folder__text {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3xs);
-  min-width: 0;
+  margin-top: var(--space-sm);
 }
 
 .library-folder__name {
@@ -22867,6 +23523,18 @@ ul.li-shares {
 
 .library-folder__go {
   flex: none;
+}
+
+/* The chevron's drawing sits inside its 16px box, so the box is nudged out
+   until the stroke itself meets the card's padding: its right and bottom
+   edges line up the way the navy circle's left and top edges do. The date
+   moves down with it, level with the chevron's point (designer, 2026-10-27). */
+.library-folder--button .library-folder__foot {
+  transform: translateY(var(--space-2xs));
+}
+
+.library-folder--button .library-folder__go {
+  transform: translateX(calc(var(--space-2xs) + var(--space-3xs) / 2));
 }
 
 /* --- The folders, and an open one ------------------------------------------- */
@@ -22911,10 +23579,24 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
+/* With the folders showing (not while searching): the folders as a column
+   at the library's left, the open one beside it with its status tabs across
+   its top, so the two rows of tabs never repeat (designer, 2026-10-28). */
+.library--web:has(> .library-tabs--column) {
+  display: grid;
+  grid-template-columns: 11.5rem minmax(0, 1fr);
+  column-gap: var(--space-xl);
+  align-items: start;
+}
+
+.library--web:has(> .library-tabs--column) > :not(.library-tabs--column, .library-folder-open) {
+  grid-column: 1 / -1;
+}
+
 /* Over a tab's list: how many, then the Status menu and, in a folder,
    Start, both at the right. */
 .library--web .library-folder-open__bar {
-  justify-content: flex-start;
+  justify-content: flex-end;
 }
 
 .library--web .library-folder-open__count {
@@ -22984,6 +23666,50 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
+/* Tabs as a column (the library's folders on web, 2026-10-28): each a row
+   with its count at the right; the chosen one on the selected surface and
+   set heavier, so the fill is never the only cue. It stays put while the
+   list scrolls. */
+.library-tabs--column {
+  flex-direction: column;
+  gap: var(--space-3xs);
+  border-bottom: 0;
+  overflow: visible;
+  position: sticky;
+  top: var(--space-lg);
+}
+
+.library-tabs--column .library-tabs__tab {
+  justify-content: space-between;
+  margin-bottom: 0;
+  border-bottom: 0;
+  border-radius: var(--radius-sm);
+  text-align: left;
+}
+
+.library-tabs--column .library-tabs__tab[aria-selected="true"] {
+  background-color: var(--color-surface-selected);
+}
+
+/* Tabs across the width: the first flush left and the rest packed after it
+   at the group gap, the last pushed flush right (an open folder's status:
+   Closed sits at the right, designer, 2026-10-28), so a folder with one or
+   two statuses has no wide holes between them. */
+.library-tabs--spread {
+  justify-content: flex-start;
+  gap: var(--space-lg);
+}
+
+.library-tabs--spread .library-tabs__tab:last-child {
+  margin-left: auto;
+}
+
+/* The space between comes from the gap, so each underline is as wide as
+   its words. */
+.library-tabs--spread .library-tabs__tab {
+  padding-inline: 0;
+}
+
 .library-folder-open {
   display: flex;
   flex-direction: column;
@@ -23017,12 +23743,11 @@ ul.li-shares {
 }
 
 /* A folder's own page on a phone (Concept 2, option A). */
+/* No line under it, so it sits in the page's margins, lined up with the
+   card below (designer, 2026-10-28). */
 .folder-page__bar {
   display: flex;
   align-items: center;
-  margin-inline: calc(-1 * var(--space-screen-side));
-  padding-inline: var(--space-sm);
-  border-bottom: var(--border-width-thin) solid var(--color-border);
 }
 
 .folder-page__back {
@@ -25655,6 +26380,26 @@ ul.letter-archive__list {
 
 /* Outline: an action on a surface yellow can't go on (light blue), or a second action that should read as
    a button but stay quiet. A navy edge and navy words. */
+/* Strong: navy with light words, where light blue would disappear (a lime
+   card); never the page's one main action, which stays yellow. */
+.btn--strong {
+  border-color: var(--color-action-strong);
+  background-color: var(--color-action-strong);
+  color: var(--color-text-on-action-strong);
+}
+
+.btn--strong:hover,
+.btn--strong.is-hover {
+  border-color: var(--color-action-strong-hover);
+  background-color: var(--color-action-strong-hover);
+}
+
+.btn--strong:active,
+.btn--strong.is-active {
+  border-color: var(--color-action-strong-active);
+  background-color: var(--color-action-strong-active);
+}
+
 .btn--outline {
   border: var(--border-width-medium) solid var(--color-outline-ink);
   background-color: transparent;
