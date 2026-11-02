@@ -25393,6 +25393,13 @@ ul.li-shares {
   max-width: none;
 }
 
+/* Dusk's mauve is too deep for grey words (2.1 to 2.8 to 1): every word in
+   the band takes the darkest ink, 5.2 to 1 at its lowest. */
+.ent-band[data-sky="dusk"] .ent-header__meta,
+.ent-band[data-sky="dusk"] .ent-story {
+  color: var(--color-text-primary);
+}
+
 /* Night's sky is navy behind the band: its words take the inverse inks. */
 .ent-band[data-sky="night"] .ent-header__name,
 .ent-band[data-sky="night"] .ent-story,
