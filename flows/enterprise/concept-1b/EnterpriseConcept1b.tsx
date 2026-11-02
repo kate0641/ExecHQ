@@ -8,7 +8,6 @@ import { Meter } from "@/components/enterprise/Meter";
 import { WeeklyTrend } from "@/components/enterprise/WeeklyTrend";
 import { ReadinessBars } from "@/components/enterprise/ReadinessBars";
 import { DateRangePicker } from "@/components/enterprise/DateRangePicker";
-import { useSky } from "@/components/hub/SnapshotPicker/use-sky";
 import { DropdownMenu } from "@/components/form/DropdownMenu";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
@@ -63,19 +62,18 @@ function CohortHeader({
   /** The opening, under the name and over the dates. */
   children?: React.ReactNode;
 }) {
-  const sky = useSky();
   const day = programDay(cohort);
   const started = day > 0 && !cohort.fresh;
   const meta = started
     ? [C.meta.started(cohort.startsOn), weeksIn(day), C.meta.people(cohort.joined)]
     : [C.meta.starts(cohort.startsOn), C.meta.people(cohort.joined)];
 
-  /* A band across the page under Home's sky for the hour (designer,
-     2026-11-02): on the left the cohort's name, its lines, then the dates
-     and Export; on the right, a little wider, the opening, level with the
-     first line under the name. */
+  /* A navy band across the page (designer, 2026-11-02): on the left the
+     cohort's name in yellow, its lines, then the dates and Export; on the
+     right, a little wider, the opening, level with the first line under
+     the name. */
   return (
-    <header className="ent-header ent-band" data-sky={sky}>
+    <header className="ent-header ent-band">
       <div className="ent-band__inner">
         <div className="ent-header__title">
           <h1 className="ent-header__name" ref={headingRef} tabIndex={headingRef ? -1 : undefined}>
