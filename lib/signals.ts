@@ -17,7 +17,7 @@
  * Wording is in `mock/plan-stub.ts`.
  */
 
-import { addDays, outcomeLabel, shortDate, type LoopDate, type LoopRecord } from "@/lib/loop";
+import { addDays, outcomeLabel, fullDate, type LoopDate, type LoopRecord } from "@/lib/loop";
 import { ARTIFACT_KINDS } from "@/mock/loop";
 import {
   ACTIONS,
@@ -70,11 +70,11 @@ export function entriesFor(record: LoopRecord): SignalActivityEntry[] {
           source: "reported",
           text: C.used(ARTIFACT_KINDS[record.kind].usedVerb, record.name),
           on: event.on,
-          how: C.howUsed(shortDate(event.on)),
+          how: C.howUsed(fullDate(event.on)),
         });
         break;
       case "nothing-yet":
-        out.push({ source: "reported", text: C.nothingYet(record.name), on: event.on, how: C.howNothingYet(shortDate(event.on)) });
+        out.push({ source: "reported", text: C.nothingYet(record.name), on: event.on, how: C.howNothingYet(fullDate(event.on)) });
         break;
       case "outcome": {
         if (event.outcome === "no-longer-relevant") break;
@@ -82,8 +82,8 @@ export function entriesFor(record: LoopRecord): SignalActivityEntry[] {
         const label = event.outcome ? outcomeLabel(event.outcome, record.kind) : "";
         out.push(
           detail
-            ? { source: "reported", text: detail, on: event.on, quote: true, how: C.howOutcome(shortDate(event.on)) }
-            : { source: "reported", text: C.outcome(record.name, label), on: event.on, how: C.howOutcome(shortDate(event.on)) }
+            ? { source: "reported", text: detail, on: event.on, quote: true, how: C.howOutcome(fullDate(event.on)) }
+            : { source: "reported", text: C.outcome(record.name, label), on: event.on, how: C.howOutcome(fullDate(event.on)) }
         );
         break;
       }
@@ -101,7 +101,7 @@ export function windowStart(today: LoopDate): LoopDate {
 
 /** "Last 7 days · 13 Oct – 20 Oct". */
 export function windowLabel(today: LoopDate): string {
-  return C.window(shortDate(windowStart(today)), shortDate(today));
+  return C.window(fullDate(windowStart(today)), fullDate(today));
 }
 
 /** Each tracked signal, in the Plan's order, with its facts from the window. */

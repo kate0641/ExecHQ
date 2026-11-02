@@ -4,8 +4,7 @@ import { Fragment, useId, useState, type ReactNode } from "react";
 import type { RoadmapChoices } from "@/lib/roadmap-choices";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
-import { dayLabel } from "@/lib/calendar";
-import type { LoopDate } from "@/lib/loop";
+import { fullDate, type LoopDate } from "@/lib/loop";
 import { NO_SPARKS, type PlanSpark, type TimelineSparks } from "@/lib/plan-sparks";
 import { dismissNext, finishStage, startNext } from "@/lib/roadmap-choices";
 import { roadmapWindows, totalWeeks, type StageWindow } from "@/lib/roadmap-dates";
@@ -357,7 +356,7 @@ function StageEntries({ w, items, today, onAdd }: { w: StageWindow; items: Entry
               <span className="rtl__tag">
                 {item.kind === "step" ? `${A.step}${item.suggested ? ` · ${CAL.suggested}` : ""}` : A.yours} ·{" "}
                 {/* A step from her plan says when in words. What she put there herself keeps the day she chose. */}
-                {item.kind === "step" ? whenWords(item.date, today) : dayLabel(item.date)}
+                {item.kind === "step" ? whenWords(item.date, today) : fullDate(item.date)}
               </span>
               <span className="rtl__item">{item.title}</span>
               {item.note ? <span className="rtl__small">{item.note}</span> : null}

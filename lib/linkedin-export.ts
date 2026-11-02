@@ -37,18 +37,6 @@ export function monthlyImpressions(posts: readonly LinkedInPost[], from: string,
   return out;
 }
 
-/** "6 Oct 2025". */
-export function fullDate(date: string): string {
-  const [y, m, d] = date.split("-").map(Number);
-  return `${d} ${MONTHS[m - 1]} ${y}`;
-}
-
-/** "6 Oct". */
-export function dayMonth(date: string): string {
-  const [, m, d] = date.split("-").map(Number);
-  return `${d} ${MONTHS[m - 1]}`;
-}
-
 /** Her most-seen posts, most first. */
 export const topPosts = (posts: readonly LinkedInPost[], n: number) => [...posts].sort((a, b) => b.impressions - a.impressions).slice(0, n);
 

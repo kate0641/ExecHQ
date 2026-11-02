@@ -1,4 +1,4 @@
-import { loopJourney, shortDate, type LoopRecord } from "@/lib/loop";
+import { loopJourney, fullDate, type LoopRecord } from "@/lib/loop";
 
 export interface LoopTrackProps {
   record: LoopRecord;
@@ -32,7 +32,7 @@ export function LoopTrack({ record, waitingLabel = "Waiting to hear", className 
       aria-label="Where it is in the Loop"
     >
       {steps.map((step, i) => {
-        const when = step.on ? shortDate(step.on) : step.current && i === 2 ? waitingLabel : step.current ? "Not yet" : "";
+        const when = step.on ? fullDate(step.on) : step.current && i === 2 ? waitingLabel : step.current ? "Not yet" : "";
         return (
           <li
             key={step.key}

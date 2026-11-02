@@ -1,5 +1,5 @@
 import { ARTIFACT_KINDS } from "@/mock/loop";
-import { shortDate } from "@/lib/loop";
+import { fullDate } from "@/lib/loop";
 import type { Ring } from "@/lib/rings";
 import type { TrackedSignal } from "@/mock/plan-stub";
 
@@ -35,7 +35,7 @@ export function RingDetail({ ring, signals, today, id = "ring-detail", className
             <span className="ring-detail__title">{action.title}</span>
             <span className="ring-detail__state">
               {filled && record?.usedOn
-                ? `Confirmed · ${ARTIFACT_KINDS[record.kind].usedVerb} ${shortDate(record.usedOn)}`
+                ? `Confirmed · ${ARTIFACT_KINDS[record.kind].usedVerb} ${fullDate(record.usedOn)}`
                 : record
                   ? "Not used yet"
                   : "Not started yet"}
@@ -49,7 +49,7 @@ export function RingDetail({ ring, signals, today, id = "ring-detail", className
           <ol className="ring-detail__timeline">
             {entries.map((e) => (
               <li key={`${e.on}-${e.text}`}>
-                <time dateTime={e.on}>{shortDate(e.on)}</time>
+                <time dateTime={e.on}>{fullDate(e.on)}</time>
                 <span className="ring-detail__dot" aria-hidden="true" />
                 <span>
                   {e.text}{" "}

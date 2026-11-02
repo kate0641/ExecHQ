@@ -1,5 +1,5 @@
 import { Icon } from "@/components/primitives/Icon";
-import { daysBetween, shortDate } from "@/lib/loop";
+import { daysBetween, fullDate } from "@/lib/loop";
 import { OUTLET_COPY as C, OUTLET_STALE_DAYS, type Outlet, type PitchType } from "@/mock/playbook";
 
 export interface OutletCardProps {
@@ -83,7 +83,7 @@ export function OutletCard({ name, type, outlet, today, className }: OutletCardP
                 {ask.deadline || ask.cycle ? (
                   <>
                     <dt>{C.when}</dt>
-                    <dd>{ask.deadline ? C.deadline(shortDate(ask.deadline)) : ask.cycle}</dd>
+                    <dd>{ask.deadline ? C.deadline(fullDate(ask.deadline)) : ask.cycle}</dd>
                   </>
                 ) : null}
               </dl>
@@ -142,7 +142,7 @@ export function OutletCard({ name, type, outlet, today, className }: OutletCardP
               <Icon name="link" size={14} />
               <span>
                 <span className="outlet-card__address">{outlet.source.url}</span>
-                {` · ${C.checked(shortDate(outlet.source.checked))}`}
+                {` · ${C.checked(fullDate(outlet.source.checked))}`}
               </span>
             </p>
           ) : null}

@@ -5,7 +5,7 @@ import { useId, useState, type ReactNode } from "react";
 import { Checkbox } from "@/components/form/Checkbox";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
-import { addDays, aheadPhrase, datePhrase, shortDate, whenPhrase } from "@/lib/loop";
+import { addDays, aheadPhrase, datePhrase, fullDate, whenPhrase } from "@/lib/loop";
 import { OUTLET_COPY, SEND_STEPS_COPY as C, type Outlet, type PitchPart, type PitchType } from "@/mock/playbook";
 
 /** What a Copy button copies: a part of the draft, or the outlet's address. */
@@ -153,7 +153,7 @@ export function SendSteps({
       </>
     );
   }
-  const closes = ask?.deadline && ask.deadline >= today ? <p className="send-steps__text send-steps__deadline">{C.send.before(shortDate(ask.deadline))}</p> : null;
+  const closes = ask?.deadline && ask.deadline >= today ? <p className="send-steps__text send-steps__deadline">{C.send.before(fullDate(ask.deadline))}</p> : null;
 
   // 4. Mark it sent, and the follow-up.
   const sent = sentOn

@@ -22,7 +22,7 @@ import { ReportDrawer, type ReportValues } from "@/components/plan/ReportDrawer"
 import { SignalEntrySheet, type EntryValues } from "@/components/plan/SignalEntrySheet";
 import { accept, complete, decline, edit as editStep, initialPlanState, liveSteps, stepDay, type PlanState } from "@/lib/action-steps";
 import { askConcierge } from "@/flows/navigation/concept-1/ConciergeConcept";
-import { shortDate, type OutcomeType } from "@/lib/loop";
+import { fullDate, type OutcomeType } from "@/lib/loop";
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { usePlaybookLinks } from "@/lib/playbook-links";
 import { momentumEvents } from "@/lib/momentum";
@@ -324,7 +324,7 @@ export function usePlanPage() {
   // What the plan detail reads: Concept 1's header and Concept 3's See your plan open the same sheet.
   const planDetail = {
     planId,
-    rationale: switchedTo ? RM.switchedOn(shortDate(choices?.startedOn ?? loop.today)) : (recommendPlan(start.account.direction).rationale ?? ""),
+    rationale: switchedTo ? RM.switchedOn(fullDate(choices?.startedOn ?? loop.today)) : (recommendPlan(start.account.direction).rationale ?? ""),
     stage: Math.max(0, windows.findIndex((w) => w.status === "current")),
     direction: loop.account.direction,
     edited: loop.account.direction !== start.account.direction,
@@ -358,7 +358,7 @@ export function usePlanPage() {
           id: step.id,
           from: "execHQ",
           title: record.title,
-          what: record.usedOn ? STAGE_CHECKIN_COPY.used(shortDate(record.usedOn)) : step.title,
+          what: record.usedOn ? STAGE_CHECKIN_COPY.used(fullDate(record.usedOn)) : step.title,
           feedback: said ? { tone: record.outcome?.type, words: record.outcome?.detail } : undefined,
           asksTone: true,
         }];
@@ -368,7 +368,7 @@ export function usePlanPage() {
         id: step.id,
         from: "step",
         title: step.title,
-        what: task?.doneOn ? STAGE_CHECKIN_COPY.done(shortDate(task.doneOn)) : "",
+        what: task?.doneOn ? STAGE_CHECKIN_COPY.done(fullDate(task.doneOn)) : "",
         feedback: task?.outcome ? { tone: task.outcome.type, words: task.outcome.detail } : undefined,
         asksTone: true,
       }];
@@ -386,7 +386,7 @@ export function usePlanPage() {
         from: "you",
         title: split ? p.title : i.text,
         detail: split ? p.where : undefined,
-        what: STAGE_CHECKIN_COPY.added(shortDate(i.on)),
+        what: STAGE_CHECKIN_COPY.added(fullDate(i.on)),
         feedback: i.impact ? { words: i.impact } : i.editable ? undefined : {},
         asksTone: false,
         };
@@ -548,7 +548,7 @@ export function usePlanPage() {
 
   // The homepage's starting-point counts, kept until the homepage concept is chosen.
   const rows = signalRows(loop.today, items, baseline, seeded, (item) =>
-    [item.note ?? item.title, item.where, shortDate(item.on)].filter(Boolean).join(" · "),
+    [item.note ?? item.title, item.where, fullDate(item.on)].filter(Boolean).join(" · "),
     current
   );
   /* The upload stays: on the first visit it sits under the starting-point form, and after that under
@@ -576,7 +576,7 @@ export function usePlanPage() {
             <h2 className="signal-picture__heading" id="plan-signals-heading">
               {SPIC.startedHeading}
             </h2>
-            <span className="presence-clean__asof">{PR.asOf(shortDate(loop.account.plan.startedOn))}</span>
+            <span className="presence-clean__asof">{PR.asOf(fullDate(loop.account.plan.startedOn))}</span>
           </div>
         <PresenceCard
           mark={PR.mark}

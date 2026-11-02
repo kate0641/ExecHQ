@@ -1,4 +1,4 @@
-import { daysBetween, shortDate, type LoopDate } from "@/lib/loop";
+import { daysBetween, fullDate, type LoopDate } from "@/lib/loop";
 import { Icon } from "@/components/primitives/Icon";
 import type { MomentumEvent } from "@/lib/momentum";
 import { MOMENTUM_COPY as C } from "@/mock/plan";
@@ -25,7 +25,7 @@ export function DayCircles({ events, today, history }: { events: MomentumEvent[]
     <div className="day-circles">
       <ol className="day-circles__row">
         {days.map((d) => {
-          const date = shortDate(addBack(today, d));
+          const date = fullDate(addBack(today, d));
           const future = d < 0 || d >= history;
           const on = has.has(d) && !future;
           return (

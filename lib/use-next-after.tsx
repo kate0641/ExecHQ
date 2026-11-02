@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { OutcomeNextOffer } from "@/components/loop/OutcomeNext";
-import { aheadPhrase, shortDate, type LoopRecord, type OutcomeType } from "@/lib/loop";
+import { aheadPhrase, fullDate, type LoopRecord, type OutcomeType } from "@/lib/loop";
 import { useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { resolveNextAfter, resolveTaskNext, type NextAfter, type ResolvedOffer } from "@/lib/next-after";
@@ -12,10 +12,9 @@ import { flowFor, playbookActions, playbookNow, usePlaybook, type DraftState } f
 import { ACTION_QUEUE } from "@/mock/plan";
 import { NEXT_STEP_COPY as N, REVISION_COPY } from "@/mock/playbook";
 
-const DAY = new Intl.DateTimeFormat("en-GB", { weekday: "short", timeZone: "UTC" });
 function stamp(today: string): string {
   const now = new Date();
-  return `${DAY.format(new Date(`${today}T00:00:00Z`))} ${shortDate(today)}, ${now.getHours()}:${String(now.getMinutes()).padStart(2, "0")}`;
+  return `${fullDate(today)}, ${now.getHours()}:${String(now.getMinutes()).padStart(2, "0")}`;
 }
 
 /** The step a piece of work was for, by its recommendation's title. */

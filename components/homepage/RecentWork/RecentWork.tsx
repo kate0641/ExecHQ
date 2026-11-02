@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { LoopStatus } from "@/components/loop/LoopStatus";
 import { Icon } from "@/components/primitives/Icon";
-import { lastTouched, shortDate, type LoopRecord } from "@/lib/loop";
+import { lastTouched, fullDate, type LoopRecord } from "@/lib/loop";
 import { ARTIFACT_KINDS } from "@/mock/loop";
 
 export type RecentWorkFilter = "all" | "progress" | "waiting" | "done";
@@ -49,9 +49,9 @@ const FILTERS: [Filter, string][] = [
 
 /** When it last moved, said the way the list wants it. */
 function whenLine(record: LoopRecord): string {
-  if (record.usedOn) return `${ARTIFACT_KINDS[record.kind].usedLabel} ${shortDate(record.usedOn)}`;
+  if (record.usedOn) return `${ARTIFACT_KINDS[record.kind].usedLabel} ${fullDate(record.usedOn)}`;
   const touched = lastTouched(record);
-  return touched === record.createdOn ? `Drafted ${shortDate(touched)}` : `Edited ${shortDate(touched)}`;
+  return touched === record.createdOn ? `Drafted ${fullDate(touched)}` : `Edited ${fullDate(touched)}`;
 }
 
 /**

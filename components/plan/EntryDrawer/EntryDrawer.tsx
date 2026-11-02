@@ -7,7 +7,7 @@ import { Drawer } from "@/components/layout/Drawer";
 import type { EntryValues } from "@/components/plan/SignalEntrySheet";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
-import { shortDate, type LoopDate } from "@/lib/loop";
+import { fullDate, type LoopDate } from "@/lib/loop";
 import { likelyDuplicates, type PictureItem } from "@/lib/signal-picture";
 import { ENTRY_COPY as E, ENTRY_DRAWER_COPY as B, ENTRY_TYPES, FOLLOWERS_CHOICE, type EntryChoice } from "@/mock/plan";
 
@@ -156,7 +156,7 @@ function EntryForm({ onClose, onSave, today, existing, initial, demoRows, demoEr
               {same.length ? (
                 <div className="entry-form__same" aria-live="polite">
                   {same.map((item) => (
-                    <p key={item.id}>{(item.source === "recorded" ? E.sameRecorded : E.sameAdded)(item.text, shortDate(item.on))}</p>
+                    <p key={item.id}>{(item.source === "recorded" ? E.sameRecorded : E.sameAdded)(item.text, fullDate(item.on))}</p>
                   ))}
                   <p className="entry-form__same-hint">{E.sameNot}</p>
                   <Button variant="secondary" size="sm" onClick={() => remove(row.key)}>
