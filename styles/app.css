@@ -25674,38 +25674,13 @@ ul.li-shares {
   background-color: var(--color-surface-raised);
 }
 
-/* The hero: the full width, its answer beside its figures. It is the page's
-   one Strong card, navy (designer, 2026-11-02, option B): follow-through is
-   what the admin defends to their leadership. Its heading is yellow, as on
-   Home and Plan; follow-through sits on the navy, and the three tiles stay
-   white cards on it, the next level down. */
+/* The hero: the full width, its answer beside its figures. A white card
+   like the rest (Kate, 2026-11-02: the navy call-out wasn't meant). */
 .ent-card--following {
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: minmax(14rem, 1fr) 2fr;
   align-items: start;
-  border-color: transparent;
-  background-color: var(--color-surface-inverse);
-}
-
-/* Everything on the navy, but not the white tiles, takes the inverse inks. */
-.ent-card--following > .ent-card__lead,
-.ent-card--following .ent-card__figures > :not(.ent-tile) {
-  --color-text-primary: var(--color-text-inverse);
-  --color-text-secondary: var(--color-text-inverse-muted);
-  --color-text-muted: var(--color-text-inverse-muted);
-  --color-border: var(--color-border-inverse);
-  --color-chart-line: var(--color-chart-line-on-inverse);
-  --color-chart-grid: var(--color-chart-grid-on-inverse);
-  color: var(--color-text-primary);
-}
-
-.ent-card--following .ent-card__heading {
-  color: var(--color-headline-on-inverse);
-}
-
-.ent-card--following .ent-card__answer {
-  color: var(--color-text-inverse);
 }
 
 .ent-card__lead {
@@ -25739,8 +25714,8 @@ ul.li-shares {
   gap: var(--space-xl) var(--space-lg);
 }
 
-/* In the hero: follow-through itself across the top, the rest as tiles on
-   white beneath it, like the points and vouchers on a rewards card. */
+/* In the hero: follow-through itself across the top, the other three in a
+   row beneath it. */
 .ent-card--following .ent-card__figures {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-md);
@@ -25751,11 +25726,12 @@ ul.li-shares {
   margin-bottom: var(--space-xs);
 }
 
+/* Inside the white hero the three are open, a hairline over each rather
+   than a box inside the card (designer, 2026-11-02). */
 .ent-tile {
   align-self: stretch;
-  padding: var(--space-feature-padding);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
+  padding-top: var(--space-md);
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
 /* A third of the width: joining's ring and Set up stack. */
