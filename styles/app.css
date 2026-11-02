@@ -25351,7 +25351,7 @@ ul.li-shares {
     "meta story"
     "covers story"
     "tools story";
-  column-gap: var(--space-2xl);
+  column-gap: var(--space-3xl);
   align-items: start;
   width: 100%;
   max-width: calc(var(--viewport-web-max) + var(--space-lg) * 2);
@@ -25365,7 +25365,7 @@ ul.li-shares {
 
 .ent-band .ent-header__name {
   grid-area: name;
-  margin-bottom: var(--space-2xs);
+  margin-bottom: var(--space-sm);
 }
 
 .ent-band .ent-header__meta {
