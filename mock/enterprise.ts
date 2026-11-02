@@ -1413,6 +1413,26 @@ export function storyFor(cohort: Cohort, window: Period, withReadiness = false):
   return ready?.state === "shown" ? [...story, READINESS_COPY.story(ready.movedUp!, ready.answered)] : story;
 }
 
+/** The number that leads each sentence of the opening, in the same order as
+ *  storyFor, for the stats under the header (designer, 2026-11-02): its bold
+ *  figure as a count, and what it is out of where it says. */
+export interface StoryFigure {
+  value: number;
+  of?: number;
+}
+
+export function storyFigures(cohort: Cohort, window: Period, withReadiness = false): StoryFigure[] | undefined {
+  if (!isAboveMinimum(cohort, window)) return undefined;
+  const c = countsIn(cohort, window);
+  const figures: StoryFigure[] = [
+    { value: cohort.joined, of: cohort.expectedSize },
+    { value: c.active },
+    { value: c.actionsCompleted, of: c.actionsAccepted },
+  ];
+  const ready = withReadiness ? readinessFor(cohort) : undefined;
+  return ready?.state === "shown" ? [...figures, { value: ready.movedUp!, of: ready.answered }] : figures;
+}
+
 /** The sentence that opens each card: what the opening doesn't say, plainly,
  *  with no lead-in from the card before (Kate, 2026-10-22, Bookends).
  *  Reports activity, never results: what participants did, not what ExecHQ

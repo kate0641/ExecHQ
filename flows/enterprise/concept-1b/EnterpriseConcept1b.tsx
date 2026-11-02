@@ -10,7 +10,7 @@ import { ReadinessBars } from "@/components/enterprise/ReadinessBars";
 import { DateRangePicker } from "@/components/enterprise/DateRangePicker";
 import { DropdownMenu } from "@/components/form/DropdownMenu";
 import { Button } from "@/components/primitives/Button";
-import { Icon } from "@/components/primitives/Icon";
+import { Icon, type IconName } from "@/components/primitives/Icon";
 import {
   C1_COPY,
   DATA_POINTS,
@@ -30,6 +30,7 @@ import {
   resolveRange,
   seenFor,
   stillToJoin,
+  storyFigures,
   storyFor,
   weeksIn,
   TREND_COPY,
@@ -52,13 +53,10 @@ function CohortHeader({
   cohort,
   window,
   headingRef,
-  children,
 }: {
   cohort: Cohort;
   window: DateRange;
   headingRef?: React.Ref<HTMLHeadingElement>;
-  /** The opening, beside the name's lines. */
-  children?: React.ReactNode;
 }) {
   const day = programDay(cohort);
   const started = day > 0 && !cohort.fresh;
@@ -92,9 +90,37 @@ function CohortHeader({
           </p>
           <p className="ent-header__meta">{C.covers(periodWords(window).covers, cohort.asOf)}</p>
         </div>
-        {children}
       </div>
     </header>
+  );
+}
+
+/** What each of the opening's sentences is about, in its order. */
+const STORY_ICONS: IconName[] = ["person-add", "spark", "target", "trend-up"];
+
+/**
+ * The opening as four stats under the header (designer, 2026-11-02): each
+ * sentence led by an icon and its number, the sentence kept whole as its
+ * caption. On the page, not in a card. The number repeats the sentence's
+ * figure, so screen readers hear only the sentence.
+ */
+function OpeningStats({ cohort, window }: { cohort: Cohort; window: DateRange }) {
+  const story = storyFor(cohort, window, true);
+  const figures = storyFigures(cohort, window, true);
+  if (!story || !figures) return null;
+  return (
+    <ul className="ent-stats">
+      {story.map((sentence, i) => (
+        <li key={i} className="ent-stats__item">
+          <Icon name={STORY_ICONS[i]} size={20} className="ent-stats__icon" />
+          <p className="ent-stats__figure" aria-hidden="true">
+            <span className="ent-stats__value">{figures[i].value.toLocaleString("en-US")}</span>
+            {figures[i].of !== undefined ? <span className="ent-stats__of">of {figures[i].of!.toLocaleString("en-US")}</span> : null}
+          </p>
+          <p className="ent-stats__words">{sentence.map((part) => (typeof part === "string" ? part : part.strong)).join("")}</p>
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -297,26 +323,16 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
   const [choice, setChoice] = useState<DateRange>(DEFAULT_RANGE);
   const window = resolveRange(choice, cohort);
   const above = isAboveMinimum(cohort, window);
-  const story = storyFor(cohort, window, true);
 
   return (
     <>
-      <CohortHeader cohort={cohort} window={window} headingRef={headingRef}>
-        {/* The story in the order it happened, before the evidence (Kate,
-            2026-10-22, Bookends). */}
-        {story ? (
-          <p className="ent-story">
-            {story.map((sentence, i) => (
-              <Fragment key={i}>
-                {i > 0 ? " " : null}
-                {sentence.map((part, j) => (typeof part === "string" ? <Fragment key={j}>{part}</Fragment> : <strong key={j}>{part.strong}</strong>))}
-              </Fragment>
-            ))}
-          </p>
-        ) : null}
-      </CohortHeader>
+      <CohortHeader cohort={cohort} window={window} headingRef={headingRef} />
 
       <div className="ent-page">
+        {/* The story in the order it happened, before the evidence (Kate,
+            2026-10-22, Bookends), as four stats (designer, 2026-11-02). */}
+        <OpeningStats cohort={cohort} window={window} />
+
         <CohortTools cohort={cohort} window={window} onWindow={setChoice} />
 
         {cohort.lateSince ? (

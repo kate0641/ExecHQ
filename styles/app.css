@@ -25331,57 +25331,72 @@ ul.li-shares {
   color: var(--color-headline-on-inverse);
 }
 
-.ent-band .ent-story,
-.ent-band .ent-story strong {
-  color: var(--color-text-inverse);
-}
-
 .ent-band .ent-header__meta {
   color: var(--color-text-inverse-muted);
 }
 
-/* The name over its two lines on the left; the opening on
-   the right, a little wider (5 to 7), from the first line under the name. */
+/* The band holds only the name and its two lines (designer, 2026-11-02);
+   the opening sits under it on the page, as stats. */
 .ent-band__inner {
-  display: grid;
-  /* The left side keeps the width it had at 5 to 7 with a 48 gap; the wider
-     gap comes out of the opening's side (designer, 2026-11-02). */
-  grid-template-columns: minmax(min-content, calc((100% - var(--space-2xl)) * 5 / 12)) minmax(0, 1fr);
-  grid-template-rows: auto auto auto 1fr;
-  grid-template-areas:
-    "name ."
-    "meta story"
-    "covers story"
-    ". story";
-  column-gap: var(--space-3xl);
-  align-items: start;
   width: 100%;
   max-width: calc(var(--viewport-web-max) + var(--space-lg) * 2);
   margin-inline: auto;
   padding: var(--space-xl) calc(var(--space-lg) * 2);
 }
 
-.ent-band .ent-header__title {
-  display: contents;
-}
-
 .ent-band .ent-header__name {
-  grid-area: name;
-  margin-bottom: var(--space-sm);
+  margin-bottom: var(--space-xs);
 }
 
-.ent-band .ent-header__meta {
-  grid-area: meta;
+/* The opening as four stats under the header, on the page, not in a card
+   (designer, 2026-11-02): an icon, the sentence's number, then the sentence
+   whole as its caption. Four across, so each caption has room. */
+.ent-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: var(--space-2xl);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.ent-band .ent-header__meta + .ent-header__meta {
-  grid-area: covers;
-  margin-top: var(--space-2xs);
+.ent-stats__item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
 }
 
-.ent-band .ent-story {
-  grid-area: story;
-  max-width: none;
+.ent-stats__icon {
+  color: var(--color-eyebrow);
+}
+
+.ent-stats__figure {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-xs);
+  margin: var(--space-sm) 0 var(--space-xs);
+}
+
+.ent-stats__value {
+  font-family: var(--type-figure-font);
+  font-size: var(--type-figure-size-lg);
+  font-weight: var(--type-figure-weight);
+  line-height: var(--type-figure-leading);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-primary);
+}
+
+.ent-stats__of {
+  font-family: var(--type-label-font);
+  font-size: var(--type-label-size);
+  color: var(--color-text-secondary);
+}
+
+.ent-stats__words {
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
 }
 
 /* The dates and Export on the page, over the first card (designer,
