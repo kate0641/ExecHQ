@@ -8,11 +8,10 @@ import { SettingsGroup } from "@/components/profile/SettingsGroup";
 import { SettingsRow } from "@/components/profile/SettingsRow";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
-import { useCohortId } from "@/lib/cohort-store";
 import { conceptHref } from "@/lib/manifest";
 import { SPONSOR_PERSON, SPONSOR_PROFILE_COPY as C, abbrevDate, programDay } from "@/mock/enterprise";
 import { PROFILE_COPY } from "@/mock/profile";
-import { useCohort } from "../../enterprise/useCohort";
+import { useCohort, useShownCohortId } from "../../enterprise/useCohort";
 
 /** The dashboard concept chosen (Kate, 2026-10-26). */
 const DASHBOARD = conceptHref("enterprise", "concept-1b");
@@ -89,7 +88,7 @@ function YouEdit({
 /** Their cohort at a glance. Changing it happens on the dashboard, where its
  *  code and figures are. */
 function CohortGroup() {
-  const id = useCohortId();
+  const id = useShownCohortId();
   const { cohort } = useCohort(id);
   const started = cohort ? programDay(cohort) > 0 && !cohort.fresh : false;
   return (
@@ -132,7 +131,7 @@ export function SponsorProfileConcept1() {
   const router = useRouter();
   const paneRef = useRef<HTMLElement>(null);
   const wasEditing = useRef(false);
-  const id = useCohortId();
+  const id = useShownCohortId();
   const { cohort } = useCohort(id);
 
   // Closing the form returns focus to the Edit button that opened it.

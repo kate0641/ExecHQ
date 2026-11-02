@@ -11,7 +11,6 @@ import { DateRangePicker } from "@/components/enterprise/DateRangePicker";
 import { DropdownMenu } from "@/components/form/DropdownMenu";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
-import { useCohortId } from "@/lib/cohort-store";
 import {
   C1_COPY,
   DATA_POINTS,
@@ -42,7 +41,7 @@ import {
 } from "@/mock/enterprise";
 import { downloadCsv } from "../downloadCsv";
 import { CohortConcierge } from "./CohortConcierge";
-import { useCohort, type CohortControls } from "../useCohort";
+import { useCohort, useShownCohortId, type CohortControls } from "../useCohort";
 
 const C = C1_COPY;
 
@@ -435,7 +434,7 @@ function Concept1bPage({ controls }: { controls: CohortControls }) {
   );
 }
 
-function Concept1bForCohort({ id }: { id: ReturnType<typeof useCohortId> }) {
+function Concept1bForCohort({ id }: { id: ReturnType<typeof useShownCohortId> }) {
   const controls = useCohort(id);
   return <Concept1bPage controls={controls} />;
 }
@@ -459,7 +458,7 @@ function Concept1bForCohort({ id }: { id: ReturnType<typeof useCohortId> }) {
  * A sponsor with no cohort yet sees only the setup.
  */
 export function EnterpriseConcept1b() {
-  const id = useCohortId();
+  const id = useShownCohortId();
   return <Concept1bForCohort key={id} id={id} />;
 }
 
