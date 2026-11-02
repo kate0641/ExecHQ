@@ -54,6 +54,14 @@ export function useCohort(id: CohortId): CohortControls {
   const [cohort, setCohort] = useState<Cohort | undefined>(id === "none" ? undefined : COHORTS[id]);
   const [justCreated, setJustCreated] = useState(false);
   const [justRegenerated, setJustRegenerated] = useState(false);
+  // A new pick, or `?cohort=` read after mount, starts clean.
+  const [shownId, setShownId] = useState(id);
+  if (shownId !== id) {
+    setShownId(id);
+    setCohort(id === "none" ? undefined : COHORTS[id]);
+    setJustCreated(false);
+    setJustRegenerated(false);
+  }
   const urlLate = useUrlChoice().late;
   const pickedLate = useUpdateLate();
   const late = urlLate ?? pickedLate;
