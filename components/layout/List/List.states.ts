@@ -38,7 +38,7 @@ const artifacts: ListItemData[] = [
     primary: "Your leadership story",
     secondary: "Positioning Builder · Last changed on Tuesday · 2 versions",
     leading: { type: "icon", name: "person" },
-    trailing: { meta: "5 Oct", actions: more("Your leadership story") },
+    trailing: { meta: "Monday, October 5, 2026", actions: more("Your leadership story") },
     href: "/playbook-flow/concept-3?artifact=story",
   },
 ];

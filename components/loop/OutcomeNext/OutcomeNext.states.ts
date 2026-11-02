@@ -39,7 +39,7 @@ export const outcomeNextStates = defineComponentStates({
     { label: "A note added — filled", props: { ...base, noted: "The CFO wants numbers before the offsite." } },
     { label: "Added to the Plan", props: { ...base, offers: [{ ...planStep, done: { said: C.planStep.added, link: { label: C.planStep.open, href: "/plan/concept-3" } } }, followUp] } },
     { label: "Not the way I hoped: a new brief", props: { readback: BRIEF_AFTER.negative.readback, offers: [{ id: "new-brief", title: "Prepare the next conversation", body: "A new brief for what comes next, starting from this one.", action: { label: "Start a new brief", href: "/playbook-flow/concept-3" } }, nextOnPlan], onNotNow: noop } },
-    { label: "It hasn't happened yet: next on her Plan", props: { readback: BRIEF_AFTER["no-response-yet"].readback, offers: [nextOnPlan], note: C.askAgain("situation-brief", "on Friday 30 October"), onNotNow: noop } },
+    { label: "It hasn't happened yet: next on her Plan", props: { readback: BRIEF_AFTER["no-response-yet"].readback, offers: [nextOnPlan], note: C.askAgain("situation-brief", "on Friday, October 30, 2026"), onNotNow: noop } },
     {
       label: "A pitch that went well: prepare for it",
       props: {

@@ -4,10 +4,10 @@ import { COUNT_COPY as AC } from "@/mock/accounts-stub";
 import { BaselineList } from "./BaselineList";
 
 const moved = [
-  { id: "podcast", label: "Podcast appearances", then: 1, now: 2, latest: "Planning as a leadership skill · The Modern CMO · 17 Oct" },
-  { id: "press", label: "Press mentions", then: 2, now: 3, latest: "Quoted on planning cycles · Marketing Week · 1 Nov" },
-  { id: "speaking", label: "Speaking engagements", then: 1, now: 2, latest: "Panel: planning for growth · Growth Summit · 29 Oct" },
-  { id: "writing", label: "Thought pieces", then: 3, now: 4, latest: "Why I review my plan every quarter · LinkedIn article · 9 Oct" },
+  { id: "podcast", label: "Podcast appearances", then: 1, now: 2, latest: "Planning as a leadership skill · The Modern CMO · Saturday, October 17, 2026" },
+  { id: "press", label: "Press mentions", then: 2, now: 3, latest: "Quoted on planning cycles · Marketing Week · Sunday, November 1, 2026" },
+  { id: "speaking", label: "Speaking engagements", then: 1, now: 2, latest: "Panel: planning for growth · Growth Summit · Thursday, October 29, 2026" },
+  { id: "writing", label: "Thought pieces", then: 3, now: 4, latest: "Why I review my plan every quarter · LinkedIn article · Friday, October 9, 2026" },
 ];
 
 const base = { thenLabel: AC.then, nowLabel: AC.now };
@@ -61,7 +61,7 @@ export const baselineListStates = defineComponentStates({
             label: "Speaking engagements at industry conferences and internal events",
             then: 1,
             now: 2,
-            latest: "Why the quarterly planning review is the most underrated leadership habit I have, and what it took to make it stick · 17 Oct",
+            latest: "Why the quarterly planning review is the most underrated leadership habit I have, and what it took to make it stick · Saturday, October 17, 2026",
           },
         ],
       },
