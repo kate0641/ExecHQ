@@ -451,6 +451,9 @@
   --color-outcome-positive: var(--brand-green-500);
   --color-outcome-neutral: var(--brand-yellow-500);
   --color-outcome-negative: var(--brand-orange-500);
+  /* A late update's warning sign, beside the dates (designer, 2026-11-02):
+     orange 600, a step deeper than the outcome dot so it holds 3:1 on stone. */
+  --color-icon-late: var(--brand-orange-600);
 
   /* Accent — gold yellow, for small accents on light: the active nav
      underline, the privacy lock, link hover. */

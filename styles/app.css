@@ -25348,15 +25348,18 @@ ul.li-shares {
   margin-bottom: var(--space-xs);
 }
 
-/* The opening as four stats under the header, on the page, not in a card
-   (designer, 2026-11-02): an icon, the sentence's number, then the sentence
-   whole as its caption. Four across, so each caption has room. */
+/* The opening as four stats under the header, in a white card (designer,
+   2026-11-02): an icon, the sentence's number, then the sentence whole as
+   its caption. Four across, so each caption has room. */
 .ent-stats {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   column-gap: var(--space-2xl);
   margin: 0;
-  padding: 0;
+  padding: var(--space-feature-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
   list-style: none;
 }
 
@@ -25429,6 +25432,31 @@ ul.li-shares {
   flex-wrap: wrap;
   align-items: center;
   gap: var(--space-sm);
+}
+
+/* Today's update is late (designer, 2026-11-02): on the dates' line, after
+   Export, its words taking the rest of the width and wrapping there. */
+.ent-tools {
+  flex-wrap: nowrap;
+}
+
+.ent-late {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  flex: 1;
+  min-width: 0;
+  max-width: var(--content-measure);
+  margin-left: var(--space-sm);
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
+}
+
+.ent-late__icon {
+  flex: none;
+  margin-top: var(--space-3xs);
+  color: var(--color-icon-late);
 }
 
 /* Two short words: the panel is as wide as its button, not the menu's usual
@@ -26000,7 +26028,8 @@ ul.sponsor-profile__points {
     display: none;
   }
 
-  .ent-header__tools {
+  /* The dates and Export are left out; a late update is still said. */
+  .ent-header__tools > :not(.ent-late) {
     display: none;
   }
 

@@ -125,7 +125,8 @@ function OpeningStats({ cohort, window }: { cohort: Cohort; window: DateRange })
 }
 
 /** The dates and the export (designer, 2026-11-02): on the page, over the
- *  first card, by the figures they change rather than in the header. */
+ *  first card, by the figures they change rather than in the header. A late
+ *  update is said beside them. */
 function CohortTools({ cohort, window, onWindow }: { cohort: Cohort; window: DateRange; onWindow: (next: DateRange) => void }) {
   return (
     <div className="ent-header__tools ent-tools">
@@ -140,6 +141,15 @@ function CohortTools({ cohort, window, onWindow }: { cohort: Cohort; window: Dat
           { type: "item", id: "csv", label: C.exportCsv, onSelect: () => downloadCsv(cohort, window, { signals: true }) },
         ]}
       />
+      {/* Today's update is late (designer, 2026-11-02): said on the same
+          line as the dates, beside what it is about, not in a box above the
+          cards. */}
+      {cohort.lateSince ? (
+        <p className="ent-late">
+          <Icon name="warning" size={18} className="ent-late__icon" />
+          {LATE_COPY.notice(cohort.asOf)}
+        </p>
+      ) : null}
     </div>
   );
 }
@@ -334,13 +344,6 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
         <OpeningStats cohort={cohort} window={window} />
 
         <CohortTools cohort={cohort} window={window} onWindow={setChoice} />
-
-        {cohort.lateSince ? (
-          <p className="ent-notice">
-            <Icon name="warning" size={18} />
-            {LATE_COPY.notice(cohort.asOf)}
-          </p>
-        ) : null}
 
         {!above ? (
           <div className="ent-notice">
