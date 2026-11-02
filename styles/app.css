@@ -25347,8 +25347,34 @@ ul.li-shares {
   padding: var(--space-xl) calc(var(--space-lg) * 2);
 }
 
+/* The name at the display size, 48 (designer, 2026-11-02); one too long
+   for a line at 48 takes the title size, 36 (useLongName sets data-long). */
 .ent-band .ent-header__name {
   margin-bottom: var(--space-xs);
+  font-family: var(--type-display-font);
+  font-size: var(--type-display-size);
+  font-weight: var(--type-display-weight);
+  line-height: var(--type-display-leading);
+  letter-spacing: var(--type-display-tracking);
+}
+
+.ent-band .ent-header__name[data-long] {
+  font-family: var(--type-title-font);
+  font-size: var(--type-title-size);
+  font-weight: var(--type-title-weight);
+  line-height: var(--type-title-leading);
+  letter-spacing: var(--type-title-tracking);
+}
+
+/* When the figures are from, as the eyebrow over the name. */
+.ent-band .ent-header__asof {
+  margin-bottom: var(--space-eyebrow-title);
+  color: var(--color-eyebrow-on-inverse);
+}
+
+/* "Figures cover …" is on paper only: on screen the dates button says it. */
+.ent-band .ent-header__covers {
+  display: none;
 }
 
 /* The opening as four stats under the header, in a white card (designer,
@@ -26030,6 +26056,11 @@ ul.sponsor-profile__points {
 
   .ent-close .invite-code {
     display: none;
+  }
+
+  /* On paper the dates button is left out, so the header says the dates. */
+  .ent-band .ent-header__covers {
+    display: block;
   }
 
   /* The dates and Export are left out; a late update is still said. */

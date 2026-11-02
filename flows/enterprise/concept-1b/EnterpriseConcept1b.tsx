@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { CohortFigure } from "@/components/enterprise/CohortFigure";
 import { CohortForm } from "@/components/enterprise/CohortForm";
 import { InviteCode } from "@/components/enterprise/InviteCode";
@@ -64,14 +64,16 @@ function CohortHeader({
     ? [C.meta.started(cohort.startsOn), weeksIn(day), C.meta.people(cohort.joined)]
     : [C.meta.starts(cohort.startsOn), C.meta.people(cohort.joined)];
 
-  /* A navy band across the page (designer, 2026-11-02): on the left the
-     cohort's name in yellow, its lines, then the dates and Export; on the
-     right, a little wider, the opening, level with the first line under
-     the name. */
+  const bandRef = useRef<HTMLElement>(null);
+  useLongName(bandRef, cohort.name);
+
+  /* A navy band across the page (designer, 2026-11-02): when the figures
+     are from as an eyebrow, the cohort's name large in yellow, and its line. */
   return (
-    <header className="ent-header ent-band">
+    <header className="ent-header ent-band" ref={bandRef}>
       <div className="ent-band__inner">
         <div className="ent-header__title">
+          <p className="t-eyebrow ent-header__asof">{C.asOf(cohort.asOf)}</p>
           <h1 className="ent-header__name" ref={headingRef} tabIndex={headingRef ? -1 : undefined}>
             {cohort.name}
           </h1>
@@ -88,11 +90,37 @@ function CohortHeader({
               </span>
             ))}
           </p>
-          <p className="ent-header__meta">{C.covers(periodWords(window).covers, cohort.asOf)}</p>
+          <p className="ent-header__meta ent-header__covers">{C.coversOnly(periodWords(window).covers)}</p>
         </div>
       </div>
     </header>
   );
+}
+
+/**
+ * The name is set at the display size, 48; a name too long for one line at
+ * 48 steps down to the title size, 36 (designer, 2026-11-02). It is always
+ * measured at 48, so it never flips back and forth, and again whenever the
+ * band's width changes.
+ */
+function useLongName(bandRef: React.RefObject<HTMLElement | null>, name: string) {
+  useLayoutEffect(() => {
+    const band = bandRef.current;
+    const heading = band?.querySelector<HTMLElement>(".ent-header__name");
+    if (!band || !heading) return;
+    let width = -1;
+    const check = () => {
+      if (band.clientWidth === width) return;
+      width = band.clientWidth;
+      delete heading.dataset.long;
+      const line = parseFloat(getComputedStyle(heading).lineHeight);
+      if (heading.getBoundingClientRect().height > line * 1.5) heading.dataset.long = "true";
+    };
+    check();
+    const watch = new ResizeObserver(check);
+    watch.observe(band);
+    return () => watch.disconnect();
+  }, [bandRef, name]);
 }
 
 /** What each of the opening's sentences is about, in its order. */

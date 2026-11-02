@@ -1478,6 +1478,11 @@ export const C1_COPY = {
   exportCsv: "CSV",
   /** Under the name, on screen and on paper (Kate, 2026-10-22). */
   covers: (covers: string, asOf: string) => `Figures cover ${covers}. As of ${formatAsOf(asOf)}.`,
+  /** The same two sentences apart (designer, 2026-11-02): "As of" is the
+   *  eyebrow over the name; "Figures cover" is printed only, since on
+   *  screen the dates button says it. */
+  asOf: (asOf: string) => `As of ${formatAsOf(asOf)}`,
+  coversOnly: (covers: string) => `Figures cover ${covers}.`,
   storyLabel: "In short",
   closeLabel: "Still to join",
   /** Card headings: statements, not questions (Kate, 2026-10-21, option E). */
