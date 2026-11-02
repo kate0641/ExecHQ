@@ -60,9 +60,10 @@ function CohortHeader({
 }) {
   const day = programDay(cohort);
   const started = day > 0 && !cohort.fresh;
+  // How many people first (designer, 2026-11-02), then when it started.
   const meta = started
-    ? [C.meta.started(cohort.startsOn), weeksIn(day), C.meta.people(cohort.joined)]
-    : [C.meta.starts(cohort.startsOn), C.meta.people(cohort.joined)];
+    ? [C.meta.people(cohort.joined), C.meta.started(cohort.startsOn), weeksIn(day)]
+    : [C.meta.people(cohort.joined), C.meta.starts(cohort.startsOn)];
 
   const bandRef = useRef<HTMLElement>(null);
   useLongName(bandRef, cohort.name);
