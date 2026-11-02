@@ -25276,9 +25276,12 @@ ul.li-shares {
 
 /* The admin pages under the design system (designer, 2026-11-02), as the
    Signal Picture's cleaned-up page: sections 32 apart, cards 12 apart, every
-   card the same 20px corners and 20px padding. */
+   card the same 20px corners and padding. */
 .ent-page {
   --radius-card: var(--radius-xl);
+  /* Cards on the admin pages hold more, on a wide screen: 32 inside
+     (designer, 2026-11-02, "things look tight"). */
+  --ent-card-padding: var(--space-xl);
   display: flex;
   flex-direction: column;
   gap: var(--space-between-sections);
@@ -25351,12 +25354,13 @@ ul.li-shares {
 /* The opening as four stats under the header, in a white card (designer,
    2026-11-02): an icon, the sentence's number, then the sentence whole as
    its caption. Four across, so each caption has room. */
-.ent-stats {
+/* Under .ent-page, so it outranks the reset that clears a list's padding. */
+.ent-page .ent-stats {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   column-gap: var(--space-2xl);
   margin: 0;
-  padding: var(--space-feature-padding);
+  padding: var(--ent-card-padding);
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-card);
   background-color: var(--color-surface-raised);
@@ -25638,7 +25642,7 @@ ul.li-shares {
   flex-direction: column;
   gap: var(--space-md-lg);
   min-width: 0;
-  padding: var(--space-feature-padding);
+  padding: var(--ent-card-padding);
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-card);
   background-color: var(--color-surface-raised);
@@ -25723,7 +25727,7 @@ ul.li-shares {
 
 .ent-tile {
   align-self: stretch;
-  padding: var(--space-card-padding);
+  padding: var(--space-feature-padding);
   border-radius: var(--radius-card);
   background-color: var(--color-surface-raised);
 }
@@ -25803,7 +25807,7 @@ ul.li-shares {
   display: flex;
   flex-direction: column;
   gap: var(--space-md-lg);
-  padding: var(--space-feature-padding);
+  padding: var(--ent-card-padding);
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-card);
   background-color: var(--color-surface-raised);
