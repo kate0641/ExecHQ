@@ -25315,6 +25315,41 @@ ul.li-shares {
   min-width: 0;
 }
 
+/* The header as a navy band across the page (designer, 2026-11-02): the
+   cohort's name and lines, the opening at a long measure, then the dates
+   and Export under it. Inside it, the inks are the inverse ones. */
+.ent-band {
+  --color-text-primary: var(--color-text-inverse);
+  --color-text-secondary: var(--color-text-inverse);
+  --color-text-muted: var(--color-text-inverse-muted);
+  gap: 0;
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-primary);
+}
+
+.ent-band__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-lg);
+  width: 100%;
+  max-width: var(--viewport-web-max);
+  margin-inline: auto;
+  padding: var(--space-xl) var(--space-lg);
+}
+
+.ent-band .ent-header__meta {
+  color: var(--color-text-inverse-muted);
+}
+
+.ent-band .ent-story {
+  max-width: 88ch;
+}
+
+.ent-band + .ent-page {
+  padding-top: var(--space-between-sections);
+}
+
 .ent-header__name {
   font-family: var(--type-title-font);
   font-size: var(--type-title-size);

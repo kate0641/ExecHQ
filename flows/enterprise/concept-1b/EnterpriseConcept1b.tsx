@@ -53,11 +53,14 @@ function CohortHeader({
   window,
   onWindow,
   headingRef,
+  children,
 }: {
   cohort: Cohort;
   window: DateRange;
   onWindow: (next: DateRange) => void;
   headingRef?: React.Ref<HTMLHeadingElement>;
+  /** The opening, under the name and over the dates. */
+  children?: React.ReactNode;
 }) {
   const day = programDay(cohort);
   const started = day > 0 && !cohort.fresh;
@@ -65,9 +68,12 @@ function CohortHeader({
     ? [C.meta.started(cohort.startsOn), weeksIn(day), C.meta.people(cohort.joined)]
     : [C.meta.starts(cohort.startsOn), C.meta.people(cohort.joined)];
 
+  /* A navy band across the page (designer, 2026-11-02): the cohort's name,
+     its lines, the opening at a long measure, then the dates and Export
+     under it, where the eye arrives after reading. */
   return (
-    <header className="ent-header">
-      <div className="ent-header__row">
+    <header className="ent-header ent-band">
+      <div className="ent-band__inner">
         <div className="ent-header__title">
           <h1 className="ent-header__name" ref={headingRef} tabIndex={headingRef ? -1 : undefined}>
             {cohort.name}
@@ -87,13 +93,14 @@ function CohortHeader({
           </p>
           <p className="ent-header__meta">{C.covers(periodWords(window).covers, cohort.asOf)}</p>
         </div>
+        {children}
         <div className="ent-header__tools">
-          <DateRangePicker cohort={cohort} value={window} onChange={onWindow} align="end" />
+          <DateRangePicker cohort={cohort} value={window} onChange={onWindow} align="start" />
           <DropdownMenu
             className="ent-export"
             label={C.exportMenu}
             icon="download"
-            align="end"
+            align="start"
             entries={[
               { type: "item", id: "pdf", label: C.exportPdf, onSelect: () => globalThis.print() },
               { type: "item", id: "csv", label: C.exportCsv, onSelect: () => downloadCsv(cohort, window, { signals: true }) },
@@ -287,86 +294,88 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
   const story = storyFor(cohort, window, true);
 
   return (
-    <div className="ent-page">
-      <CohortHeader cohort={cohort} window={window} onWindow={setChoice} headingRef={headingRef} />
+    <>
+      <CohortHeader cohort={cohort} window={window} onWindow={setChoice} headingRef={headingRef}>
+        {/* The story in the order it happened, before the evidence (Kate,
+            2026-10-22, Bookends). */}
+        {story ? (
+          <p className="ent-story">
+            {story.map((sentence, i) => (
+              <Fragment key={i}>
+                {i > 0 ? " " : null}
+                {sentence.map((part, j) => (typeof part === "string" ? <Fragment key={j}>{part}</Fragment> : <strong key={j}>{part.strong}</strong>))}
+              </Fragment>
+            ))}
+          </p>
+        ) : null}
+      </CohortHeader>
 
-      {cohort.lateSince ? (
-        <p className="ent-notice">
-          <Icon name="warning" size={18} />
-          {LATE_COPY.notice(cohort.asOf)}
-        </p>
-      ) : null}
+      <div className="ent-page">
+        {cohort.lateSince ? (
+          <p className="ent-notice">
+            <Icon name="warning" size={18} />
+            {LATE_COPY.notice(cohort.asOf)}
+          </p>
+        ) : null}
 
-      {!above ? (
-        <div className="ent-notice">
-          <Icon name="lock" size={18} />
-          <div>
-            <h2 className="ent-notice__heading">{C.building.heading}</h2>
-            <p>{C.building.body}</p>
+        {!above ? (
+          <div className="ent-notice">
+            <Icon name="lock" size={18} />
+            <div>
+              <h2 className="ent-notice__heading">{C.building.heading}</h2>
+              <p>{C.building.body}</p>
+            </div>
           </div>
-        </div>
-      ) : null}
+        ) : null}
 
-      {/* The story in the order it happened, before the evidence (Kate,
-          2026-10-22, Bookends). */}
-      {story ? (
-        <p className="ent-story">
-          {story.map((sentence, i) => (
-            <Fragment key={i}>
-              {i > 0 ? " " : null}
-              {sentence.map((part, j) => (typeof part === "string" ? <Fragment key={j}>{part}</Fragment> : <strong key={j}>{part.strong}</strong>))}
+        <ReadinessCard cohort={cohort} />
+
+        <div className="ent-board">
+          {CARD_ORDER.map((question) => (
+            <Fragment key={question}>
+              {/* Being seen sits between using and joining (Kate, 2026-10-20). */}
+              {question === "joined" ? <SeenCard cohort={cohort} window={window} /> : null}
+              <QuestionCard cohort={cohort} question={question} window={window}>
+                {/* Whether they are still using it is a trend, not a snapshot:
+                    always since launch, whichever dates are chosen. */}
+                {question === "using" ? (
+                  <div className="ent-card__trend">
+                    <WeeklyTrend trend={trendFor(cohort)} highlight={window} />
+                    <p className="cohort-figure__brief">{TREND_COPY.brief}</p>
+                  </div>
+                ) : null}
+              </QuestionCard>
             </Fragment>
           ))}
-        </p>
-      ) : null}
+        </div>
 
-      <ReadinessCard cohort={cohort} />
+        {/* The page ends on who is still to come, with the code to bring them
+            in (Kate, 2026-10-22): the end of the story, not part of a card. */}
+        <section className="ent-close" aria-label={C.closeLabel}>
+          <p className="ent-close__line">{stillToJoin(cohort, window)}</p>
+          <InviteCode
+            layout="compact"
+            hideJoined
+            code={cohort.code}
+            joined={cohort.joined}
+            expectedSize={cohort.expectedSize}
+            open={cohort.open}
+            onRegenerate={controls.regenerate}
+            onClose={controls.close}
+            justRegenerated={controls.justRegenerated}
+          />
+        </section>
 
-      <div className="ent-board">
-        {CARD_ORDER.map((question) => (
-          <Fragment key={question}>
-            {/* Being seen sits between using and joining (Kate, 2026-10-20). */}
-            {question === "joined" ? <SeenCard cohort={cohort} window={window} /> : null}
-            <QuestionCard cohort={cohort} question={question} window={window}>
-              {/* Whether they are still using it is a trend, not a snapshot:
-                  always since launch, whichever dates are chosen. */}
-              {question === "using" ? (
-                <div className="ent-card__trend">
-                  <WeeklyTrend trend={trendFor(cohort)} highlight={window} />
-                  <p className="cohort-figure__brief">{TREND_COPY.brief}</p>
-                </div>
-              ) : null}
-            </QuestionCard>
-          </Fragment>
-        ))}
+        <footer className="ent-page__foot">
+          <p className="ent-page__privacy">
+            <Icon name="shield" size={16} />
+            {C.footer(comparesWeeks(cohort, window))}
+          </p>
+        </footer>
+
+        <CohortConcierge cohort={cohort} window={window} />
       </div>
-
-      {/* The page ends on who is still to come, with the code to bring them
-          in (Kate, 2026-10-22): the end of the story, not part of a card. */}
-      <section className="ent-close" aria-label={C.closeLabel}>
-        <p className="ent-close__line">{stillToJoin(cohort, window)}</p>
-        <InviteCode
-          layout="compact"
-          hideJoined
-          code={cohort.code}
-          joined={cohort.joined}
-          expectedSize={cohort.expectedSize}
-          open={cohort.open}
-          onRegenerate={controls.regenerate}
-          onClose={controls.close}
-          justRegenerated={controls.justRegenerated}
-        />
-      </section>
-
-      <footer className="ent-page__foot">
-        <p className="ent-page__privacy">
-          <Icon name="shield" size={16} />
-          {C.footer(comparesWeeks(cohort, window))}
-        </p>
-      </footer>
-
-      <CohortConcierge cohort={cohort} window={window} />
-    </div>
+    </>
   );
 }
 
