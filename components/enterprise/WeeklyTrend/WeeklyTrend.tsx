@@ -13,9 +13,9 @@ const PAD = { top: 20, right: 4, bottom: 0, left: 4 };
 /** Below this the scale would be too fine for so few people. */
 const MIN_PEAK = 10;
 const count = new Intl.NumberFormat("en-GB");
-/** "14 Sep": three-letter months throughout, as `abbrevDate` (en-GB would
- *  write "Sept"). */
-const dayOf = (iso: string) => abbrevDate(iso).slice(0, -5);
+/** "14 Sep": the chart's axis ends, kept short. Every other date is written in full. */
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const axisDay = (iso: string) => `${Number(iso.slice(8, 10))} ${MONTHS[Number(iso.slice(5, 7)) - 1]}`;
 
 export interface WeeklyTrendProps {
   trend: TrendView;
@@ -105,7 +105,7 @@ export function WeeklyTrend({ trend, highlight, demoWeek, className }: WeeklyTre
           in a sentence, then the weeks in the table below. */}
       <p className="u-visually-hidden">
         {shown.length ? C.summary(shown[0], Math.max(...shown), latest.active ?? shown[shown.length - 1], weeks.length) : null}{" "}
-        {highlight && shadedWeeks.length ? C.shaded(dayOf(shadedWeeks[0].weekOf), dayOf(shadedWeeks[shadedWeeks.length - 1].weekOf)) : null}
+        {highlight && shadedWeeks.length ? C.shaded(abbrevDate(shadedWeeks[0].weekOf), abbrevDate(shadedWeeks[shadedWeeks.length - 1].weekOf)) : null}
       </p>
       <div className="weekly-trend__plot" ref={plotRef}>
         <span className="weekly-trend__scale" aria-hidden="true">
@@ -171,20 +171,20 @@ export function WeeklyTrend({ trend, highlight, demoWeek, className }: WeeklyTre
             style={{ left: `${((x(picked!) + barWidth) / width) * 100}%` }}
             data-side={picked! > latestIndex * 0.66 ? "left" : undefined}
           >
-            <span>{pickedWeek.partial ? C.thisWeek : `${C.week} ${dayOf(pickedWeek.weekOf)}`}</span>
+            <span>{pickedWeek.partial ? C.thisWeek : `${C.week} ${abbrevDate(pickedWeek.weekOf)}`}</span>
             <strong>{pickedWeek.active === undefined ? C.hiddenWeek : count.format(pickedWeek.active)}</strong>
           </p>
         ) : null}
       </div>
 
       <div className="weekly-trend__axis" aria-hidden="true">
-        <span>{dayOf(weeks[0].weekOf)}</span>
+        <span>{axisDay(weeks[0].weekOf)}</span>
         <span>
           {latest.partial
             ? latest.active === undefined
               ? `${C.thisWeek}: ${C.hiddenWeek.toLowerCase()}`
               : C.latest(count.format(latest.active))
-            : dayOf(latest.weekOf)}
+            : axisDay(latest.weekOf)}
         </span>
       </div>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
+import { fullDate } from "@/lib/loop";
 import type { SignalActivityEntry } from "@/lib/signals";
 import { SIGNAL_COPY } from "@/mock/plan-stub";
 
@@ -30,14 +31,9 @@ export interface SignalActivityProps {
   className?: string;
 }
 
-const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-/** "Tue 13 Oct", or "Today". */
+/** "Tuesday, October 13, 2026", or "Today". */
 function dayLabel(date: string, today?: string): string {
-  if (date === today) return "Today";
-  const d = new Date(`${date}T00:00:00Z`);
-  return `${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
+  return date === today ? "Today" : fullDate(date);
 }
 
 /**

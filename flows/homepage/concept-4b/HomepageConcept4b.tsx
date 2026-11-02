@@ -46,14 +46,6 @@ import type { Horizon } from "@/mock/plan-stub";
 const PLAN = conceptHref("plan", "concept-3");
 const SIGNALS = conceptHref("signals", "concept-2");
 const BRIEFING = conceptHref("daily-briefing", "concept-2");
-const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-function longDate(date: string): string {
-  const d = new Date(`${date}T00:00:00Z`);
-  return `${WEEKDAYS[d.getUTCDay()]}, ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
-}
-
 /** The sky behind the greeting follows the hour she opens Home: dawn from
  *  5, day from 9, dusk from 17 and night from 20. */
 function skyAt(hour: number): Sky {
@@ -85,12 +77,6 @@ function currentMoment(): string {
 }
 
 /* Nothing re-draws the sky as time passes; only the dock's switcher does. */
-
-/** "Mon 5 Oct": the Briefing's day, as the card's small print. */
-function shortDay(date: string): string {
-  const d = new Date(`${date}T00:00:00Z`);
-  return `${WEEKDAYS[d.getUTCDay()].slice(0, 3)} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()].slice(0, 3)}`;
-}
 
 /**
  * A note in the tray under the rings (a step just done, a ring all done, an
@@ -235,7 +221,7 @@ export function HomepageConcept4b() {
       <div className="map-home__lead">
         <p className="map-home__greeting" data-sky={sky}>
           <b>{C.greeting(loop.account.name ?? "", part)}</b>
-          <span>{longDate(loop.today)}</span>
+          <span>{fullDate(loop.today)}</span>
         </p>
         <section className="map-home__section" aria-labelledby="map-heading">
           <h2 className="map-home__heading" id="map-heading">
@@ -266,7 +252,7 @@ export function HomepageConcept4b() {
           <BriefingEditorial
             href={BRIEFING}
             heading={B.heading}
-            meta={B.meta(shortDay(loop.today), B.reads)}
+            meta={B.meta(fullDate(loop.today), B.reads)}
             reads={B.list}
           />
         </div>

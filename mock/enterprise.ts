@@ -13,6 +13,8 @@
  * decision on 2026-10-15.
  */
 
+import { fullDate } from "@/lib/loop";
+
 /** No figure is shown for fewer active participants than this. Settled in the
  *  brief of 2026-10-20. */
 export const MIN_COHORT_SIZE = 10;
@@ -132,11 +134,10 @@ export function rangeHasFigures(range: DateRange, cohort: Cohort): boolean {
   return daysIn(range.from < cohort.startsOn ? cohort.startsOn : range.from, range.to > cohort.asOf ? cohort.asOf : range.to) > 0;
 }
 
-/** "18 Oct – 24 Oct 2026", "28 Dec 2026 – 3 Jan 2027", or one day. */
+/** "Sunday, October 18, 2026 – Saturday, October 24, 2026", or one day. */
 export function rangeLabel(range: DateRange): string {
   if (range.from === range.to) return abbrevDate(range.from);
-  const [from, to] = [abbrevDate(range.from), abbrevDate(range.to)];
-  return range.from.slice(0, 4) === range.to.slice(0, 4) ? `${from.slice(0, -5)} – ${to}` : `${from} – ${to}`;
+  return `${abbrevDate(range.from)} – ${abbrevDate(range.to)}`;
 }
 
 /** What the dashboard opens on, before it knows the cohort. */
@@ -591,13 +592,9 @@ export function weeksIn(day: number): string {
   return weeks < 1 ? "First week" : weeks === 1 ? "1 week in" : `${weeks} weeks in`;
 }
 
-/** "14 Sep 2026": a short date, with three-letter months throughout (en-GB
- *  would write "Sept"). */
-export function abbrevDate(iso: string): string {
-  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  const date = new Date(`${iso}T00:00:00Z`);
-  return `${date.getUTCDate()} ${months[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
-}
+/** "Monday, September 14, 2026": every date on the dashboard, as everywhere
+ *  else (Kate, 2 Nov). */
+export const abbrevDate = fullDate;
 
 /** How many days old the program was when the figures were refreshed. */
 export function programDay(cohort: Cohort): number {
@@ -1086,27 +1083,8 @@ export const CSV_COPY = {
    COPY
    -------------------------------------------------------------------------- */
 
-const dateFormat = new Intl.DateTimeFormat("en-GB", {
-  weekday: "long",
-  day: "numeric",
-  month: "long",
-  timeZone: "UTC",
-});
-
-const shortDate = new Intl.DateTimeFormat("en-GB", {
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-  timeZone: "UTC",
-});
-
-export function formatAsOf(iso: string): string {
-  return dateFormat.format(new Date(`${iso}T00:00:00Z`));
-}
-
-export function formatDate(iso: string): string {
-  return shortDate.format(new Date(`${iso}T00:00:00Z`));
-}
+export const formatAsOf = fullDate;
+export const formatDate = fullDate;
 
 /** The person signed in for the sponsor: the account menu's owner. */
 export const SPONSOR_PERSON = {
@@ -1650,8 +1628,7 @@ export function whatMoved(issue: LetterIssue, previous?: LetterIssue): string[] 
   return lines;
 }
 
-const longDate = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", timeZone: "UTC" });
-const fmtDay = (iso: string) => longDate.format(new Date(`${iso}T00:00:00Z`));
+const fmtDay = fullDate;
 
 export const C3_COPY = {
   archive: "Issues",
