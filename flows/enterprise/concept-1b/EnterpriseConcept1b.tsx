@@ -46,20 +46,18 @@ import { useCohort, useShownCohortId, type CohortControls } from "../useCohort";
 const C = C1_COPY;
 
 /** One band (Kate, 2026-10-20, option A): the name, a line of what
- *  matters about the program and the dates the figures cover on the left,
- *  the dates and the export on the right. */
+ *  matters about the program and the dates the figures cover, with the
+ *  opening beside them. The dates and the export sit on the page. */
 function CohortHeader({
   cohort,
   window,
-  onWindow,
   headingRef,
   children,
 }: {
   cohort: Cohort;
   window: DateRange;
-  onWindow: (next: DateRange) => void;
   headingRef?: React.Ref<HTMLHeadingElement>;
-  /** The opening, under the name and over the dates. */
+  /** The opening, beside the name's lines. */
   children?: React.ReactNode;
 }) {
   const day = programDay(cohort);
@@ -95,21 +93,28 @@ function CohortHeader({
           <p className="ent-header__meta">{C.covers(periodWords(window).covers, cohort.asOf)}</p>
         </div>
         {children}
-        <div className="ent-header__tools">
-          <DateRangePicker cohort={cohort} value={window} onChange={onWindow} align="start" />
-          <DropdownMenu
-            className="ent-export"
-            label={C.exportMenu}
-            icon="download"
-            align="start"
-            entries={[
-              { type: "item", id: "pdf", label: C.exportPdf, onSelect: () => globalThis.print() },
-              { type: "item", id: "csv", label: C.exportCsv, onSelect: () => downloadCsv(cohort, window, { signals: true }) },
-            ]}
-          />
-        </div>
       </div>
     </header>
+  );
+}
+
+/** The dates and the export (designer, 2026-11-02): on the page, over the
+ *  first card, by the figures they change rather than in the header. */
+function CohortTools({ cohort, window, onWindow }: { cohort: Cohort; window: DateRange; onWindow: (next: DateRange) => void }) {
+  return (
+    <div className="ent-header__tools ent-tools">
+      <DateRangePicker cohort={cohort} value={window} onChange={onWindow} align="start" />
+      <DropdownMenu
+        className="ent-export"
+        label={C.exportMenu}
+        icon="download"
+        align="start"
+        entries={[
+          { type: "item", id: "pdf", label: C.exportPdf, onSelect: () => globalThis.print() },
+          { type: "item", id: "csv", label: C.exportCsv, onSelect: () => downloadCsv(cohort, window, { signals: true }) },
+        ]}
+      />
+    </div>
   );
 }
 
@@ -296,7 +301,7 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
 
   return (
     <>
-      <CohortHeader cohort={cohort} window={window} onWindow={setChoice} headingRef={headingRef}>
+      <CohortHeader cohort={cohort} window={window} headingRef={headingRef}>
         {/* The story in the order it happened, before the evidence (Kate,
             2026-10-22, Bookends). */}
         {story ? (
@@ -312,6 +317,8 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
       </CohortHeader>
 
       <div className="ent-page">
+        <CohortTools cohort={cohort} window={window} onWindow={setChoice} />
+
         {cohort.lateSince ? (
           <p className="ent-notice">
             <Icon name="warning" size={18} />

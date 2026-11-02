@@ -25340,7 +25340,7 @@ ul.li-shares {
   color: var(--color-text-inverse-muted);
 }
 
-/* The name over its two lines and the dates on the left; the opening on
+/* The name over its two lines on the left; the opening on
    the right, a little wider (5 to 7), from the first line under the name. */
 .ent-band__inner {
   display: grid;
@@ -25352,7 +25352,7 @@ ul.li-shares {
     "name ."
     "meta story"
     "covers story"
-    "tools story";
+    ". story";
   column-gap: var(--space-3xl);
   align-items: start;
   width: 100%;
@@ -25379,15 +25379,15 @@ ul.li-shares {
   margin-top: var(--space-2xs);
 }
 
-.ent-band .ent-header__tools {
-  grid-area: tools;
-  flex-wrap: nowrap;
-  margin-top: var(--space-lg);
-}
-
 .ent-band .ent-story {
   grid-area: story;
   max-width: none;
+}
+
+/* The dates and Export on the page, over the first card (designer,
+   2026-11-02): close to the figures they change, 12 above them. */
+.ent-tools + * {
+  margin-top: calc(var(--space-sm) - var(--space-between-sections));
 }
 
 .ent-band + .ent-page {
