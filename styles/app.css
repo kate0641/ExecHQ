@@ -25318,13 +25318,13 @@ ul.li-shares {
 /* The header as a navy band across the page (designer, 2026-11-02): the
    cohort's name and lines, the opening at a long measure, then the dates
    and Export under it. Inside it, the inks are the inverse ones. */
+/* Edge to edge: out over the chrome's padding, its words lined up with the
+   cards under it (the chrome's 24 plus the page's 24). */
 .ent-band {
-  --color-text-primary: var(--color-text-inverse);
-  --color-text-secondary: var(--color-text-inverse);
-  --color-text-muted: var(--color-text-inverse-muted);
   gap: 0;
+  margin: calc(var(--space-xl) * -1) calc(var(--space-lg) * -1) 0;
   background-color: var(--color-surface-inverse);
-  color: var(--color-text-primary);
+  color: var(--color-text-inverse);
 }
 
 .ent-band__inner {
@@ -25333,9 +25333,15 @@ ul.li-shares {
   align-items: flex-start;
   gap: var(--space-lg);
   width: 100%;
-  max-width: var(--viewport-web-max);
+  max-width: calc(var(--viewport-web-max) + var(--space-lg) * 2);
   margin-inline: auto;
-  padding: var(--space-xl) var(--space-lg);
+  padding: var(--space-xl) calc(var(--space-lg) * 2);
+}
+
+.ent-band .ent-header__name,
+.ent-band .ent-story,
+.ent-band .ent-story strong {
+  color: var(--color-text-inverse);
 }
 
 .ent-band .ent-header__meta {
