@@ -24328,14 +24328,13 @@ ul.li-shares {
   min-height: calc(var(--type-figure-size) * var(--type-figure-leading));
   font-family: var(--type-label-font);
   word-spacing: var(--type-label-word-spacing);
-  font-size: var(--text-md);
+  font-size: var(--type-subheading-size);
   font-weight: var(--weight-semibold);
   color: var(--color-text-secondary);
 }
 
 .cohort-figure--lg .cohort-figure__hidden {
   min-height: calc(var(--type-figure-size-lg) * var(--type-figure-leading));
-  font-size: var(--text-lg);
 }
 
 /* What the figure counts, in one sentence under it (Kate, 2026-10-22): set
@@ -25275,14 +25274,18 @@ ul.li-shares {
   min-height: 100%;
 }
 
+/* The admin pages under the design system (designer, 2026-11-02), as the
+   Signal Picture's cleaned-up page: sections 32 apart, cards 12 apart, every
+   card the same 20px corners and 20px padding. */
 .ent-page {
+  --radius-card: var(--radius-xl);
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xl);
+  gap: var(--space-between-sections);
   width: 100%;
   max-width: var(--viewport-web-max);
   margin-inline: auto;
-  padding: var(--space-xl) var(--space-lg) var(--space-3xl);
+  padding: var(--space-screen-top) var(--space-lg) var(--space-3xl);
 }
 
 .ent-page--narrow {
@@ -25350,7 +25353,7 @@ ul.li-shares {
   display: flex;
   align-items: flex-start;
   gap: var(--space-sm);
-  padding: var(--space-md) var(--space-lg);
+  padding: var(--space-card-padding);
   border-radius: var(--radius-card);
   background-color: var(--color-surface-sunken);
   max-width: var(--content-measure);
@@ -25394,7 +25397,7 @@ ul.li-shares {
 
 .ent-readiness__arrow {
   font-family: var(--font-body);
-  font-size: var(--text-xl);
+  font-size: inherit;
   color: var(--color-text-muted);
 }
 
@@ -25434,20 +25437,22 @@ ul.li-shares {
   height: 100%;
 }
 
+/* The chart's scale, then its line (designer, 2026-11-02). Three answers
+   use 1, 3 and 5. */
 .readiness-bars__part--1 {
-  background-color: color-mix(in srgb, var(--color-chart-line) 14%, var(--color-surface-raised));
+  background-color: var(--color-chart-scale-1);
 }
 
 .readiness-bars__part--2 {
-  background-color: color-mix(in srgb, var(--color-chart-line) 32%, var(--color-surface-raised));
+  background-color: var(--color-chart-scale-2);
 }
 
 .readiness-bars__part--3 {
-  background-color: color-mix(in srgb, var(--color-chart-line) 52%, var(--color-surface-raised));
+  background-color: var(--color-chart-scale-3);
 }
 
 .readiness-bars__part--4 {
-  background-color: color-mix(in srgb, var(--color-chart-line) 76%, var(--color-surface-raised));
+  background-color: var(--color-chart-scale-4);
 }
 
 .readiness-bars__part--5 {
@@ -25477,7 +25482,9 @@ ul.li-shares {
    sentence, follow-through, carries the weight. */
 .ent-story {
   max-width: 60ch;
-  font-size: var(--text-lg);
+  font-family: var(--type-body-font);
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
   line-height: var(--leading-relaxed);
   color: var(--color-text-secondary);
 }
@@ -25501,17 +25508,17 @@ ul.li-shares {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: stretch;
-  gap: var(--space-lg);
+  gap: var(--space-between-cards);
 }
 
 .ent-card {
   display: flex;
   flex-direction: column;
-  gap: var(--space-lg);
+  gap: var(--space-md-lg);
   min-width: 0;
-  padding: var(--space-xl);
-  border: var(--border-width-thin) solid var(--color-border-subtle);
-  border-radius: var(--radius-xl);
+  padding: var(--space-feature-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
   background-color: var(--color-surface-raised);
 }
 
@@ -25522,7 +25529,7 @@ ul.li-shares {
   display: grid;
   grid-template-columns: minmax(14rem, 1fr) 2fr;
   align-items: start;
-  border-color: transparent;
+  border-color: var(--color-border-light-blue);
   background-color: var(--color-surface-feature);
 }
 
@@ -25543,6 +25550,9 @@ ul.li-shares {
 
 .ent-card__answer {
   max-width: 40ch;
+  font-family: var(--type-body-font);
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
   line-height: var(--leading-relaxed);
   color: var(--color-text-secondary);
 }
@@ -25568,7 +25578,7 @@ ul.li-shares {
 
 .ent-tile {
   align-self: stretch;
-  padding: var(--space-md);
+  padding: var(--space-card-padding);
   border-radius: var(--radius-card);
   background-color: var(--color-surface-raised);
 }
@@ -25647,17 +25657,21 @@ ul.li-shares {
 .ent-close {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
-  padding: var(--space-xl);
-  border: var(--border-width-thin) solid var(--color-border-subtle);
-  border-radius: var(--radius-xl);
+  gap: var(--space-md-lg);
+  padding: var(--space-feature-padding);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-card);
   background-color: var(--color-surface-raised);
 }
 
 .ent-close__line {
   max-width: var(--content-measure);
-  font-size: var(--text-lg);
-  line-height: var(--leading-relaxed);
+  font-family: var(--type-card-title-font);
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  line-height: var(--type-card-title-leading);
+  letter-spacing: var(--type-card-title-tracking);
+  word-spacing: var(--type-card-title-word-spacing);
 }
 
 .ent-page__foot {
@@ -25672,6 +25686,7 @@ ul.li-shares {
   max-width: var(--content-measure);
   gap: var(--space-xs);
   font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
   color: var(--color-text-secondary);
 }
 

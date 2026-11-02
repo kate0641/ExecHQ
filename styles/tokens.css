@@ -233,6 +233,12 @@
   /* The sponsor's weekly trend (2026-10-20): one navy line on recessive grey rules. */
   --color-chart-line: var(--brand-primary);
   --color-chart-grid: var(--brand-stone-250);
+  /* A chart's scale, lightest to darkest, ending on the chart line: palette
+     steps, never blends (designer, 2026-11-02). The readiness bars use it. */
+  --color-chart-scale-1: var(--brand-blue-200);
+  --color-chart-scale-2: var(--brand-blue-300);
+  --color-chart-scale-3: var(--brand-blue-500);
+  --color-chart-scale-4: var(--brand-blue-700);
   /* A navy page: an onboarding step with no drawer, flooded navy so the flow alternates quiet screens
      with ExecHQ moments (designer, 2026-10-15). Headlines and section labels in yellow 400 (10.3:1);
      the kicker blue 200; a numbered circle the same yellow with its navy numeral. */
