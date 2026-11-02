@@ -25522,15 +25522,38 @@ ul.li-shares {
   background-color: var(--color-surface-raised);
 }
 
-/* The hero: the full width, on the feature tint, its answer beside its
-   figures. */
+/* The hero: the full width, its answer beside its figures. It is the page's
+   one Strong card, navy (designer, 2026-11-02, option B): follow-through is
+   what the admin defends to their leadership. Its heading is yellow, as on
+   Home and Plan; follow-through sits on the navy, and the three tiles stay
+   white cards on it, the next level down. */
 .ent-card--following {
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: minmax(14rem, 1fr) 2fr;
   align-items: start;
-  border-color: var(--color-border-light-blue);
-  background-color: var(--color-surface-feature);
+  border-color: transparent;
+  background-color: var(--color-surface-inverse);
+}
+
+/* Everything on the navy, but not the white tiles, takes the inverse inks. */
+.ent-card--following > .ent-card__lead,
+.ent-card--following .ent-card__figures > :not(.ent-tile) {
+  --color-text-primary: var(--color-text-inverse);
+  --color-text-secondary: var(--color-text-inverse-muted);
+  --color-text-muted: var(--color-text-inverse-muted);
+  --color-border: var(--color-border-inverse);
+  --color-chart-line: var(--color-chart-line-on-inverse);
+  --color-chart-grid: var(--color-chart-grid-on-inverse);
+  color: var(--color-text-primary);
+}
+
+.ent-card--following .ent-card__heading {
+  color: var(--color-headline-on-inverse);
+}
+
+.ent-card--following .ent-card__answer {
+  color: var(--color-text-inverse);
 }
 
 .ent-card__lead {

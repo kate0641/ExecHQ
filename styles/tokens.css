@@ -239,6 +239,9 @@
   --color-chart-scale-2: var(--brand-blue-300);
   --color-chart-scale-3: var(--brand-blue-500);
   --color-chart-scale-4: var(--brand-blue-700);
+  /* A chart on navy (designer, 2026-11-02): blue 200 on a blue 700 track. */
+  --color-chart-line-on-inverse: var(--brand-blue-200);
+  --color-chart-grid-on-inverse: var(--brand-blue-700);
   /* A navy page: an onboarding step with no drawer, flooded navy so the flow alternates quiet screens
      with ExecHQ moments (designer, 2026-10-15). Headlines and section labels in yellow 400 (10.3:1);
      the kicker blue 200; a numbered circle the same yellow with its navy numeral. */
