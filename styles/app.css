@@ -25408,7 +25408,7 @@ ul.li-shares {
 
 /* The dates and Export first on the page (designer, 2026-11-02): close to
    the figures they change, 12 above the stats. */
-.ent-tools + * {
+.ent-page > .ent-tools + * {
   margin-top: calc(var(--space-sm) - var(--space-between-sections));
 }
 
