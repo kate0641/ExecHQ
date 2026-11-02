@@ -14099,7 +14099,8 @@ ul.login__never {
    about halfway down the next-step card's navy head. One gradient, painted
    in three slices (status bar, band, and a tail under the band) that line
    up as one. */
-.device__display:has(.map-home) {
+.device__display:has(.map-home),
+.chrome__main:has(.ent-band) {
   --home-sky-tail: 18.25rem;
   --home-sky-total: calc(var(--home-header-height) + var(--home-sky-tail));
   --sky-top-edge: var(--color-sky-day);
@@ -14129,7 +14130,8 @@ ul.login__never {
   );
 }
 
-.device__display:has(.map-home__greeting[data-sky="dawn"]) {
+.device__display:has(.map-home__greeting[data-sky="dawn"]),
+.chrome__main:has(.ent-band[data-sky="dawn"]) {
   --sky-top-edge: var(--color-sky-dawn);
   --sky-top-core-size: 55% 24%;
   --sky-top-ring: var(--color-sky-heart-warm);
@@ -14143,7 +14145,8 @@ ul.login__never {
    soft. Every colour named is a palette step; only the shades between are
    blended. The blue eases out over the last stretch rather than stopping,
    so it leaves no edge, and the fade under it starts from the same blue. */
-.device__display:has(.map-home__greeting[data-sky="dusk"]) {
+.device__display:has(.map-home__greeting[data-sky="dusk"]),
+.chrome__main:has(.ent-band[data-sky="dusk"]) {
   --sky-top-edge: var(--color-sky-dusk-edge-top);
   --sky-top-ring: var(--color-sky-dusk-top-ring);
   --sky-top-core: var(--color-sky-dusk-top-core);
@@ -14186,7 +14189,8 @@ ul.login__never {
    same radiating shape, the darkest navy at the centre in a navy ring, over
    a deeper blue than day's so no light blue gap opens between the navy and
    the lime it fades out to behind the rings. */
-.device__display:has(.map-home__greeting[data-sky="night"]) {
+.device__display:has(.map-home__greeting[data-sky="night"]),
+.chrome__main:has(.ent-band[data-sky="night"]) {
   --sky-top-edge: var(--color-sky-night-edge);
   --sky-top-ring: var(--color-sky-night-top-ring);
   --sky-top-core: var(--color-sky-night-top-core);
@@ -25315,41 +25319,83 @@ ul.li-shares {
   min-width: 0;
 }
 
-/* The header as a navy band across the page (designer, 2026-11-02): the
-   cohort's name and lines, the opening at a long measure, then the dates
-   and Export under it. Inside it, the inks are the inverse ones. */
-/* Edge to edge: out over the chrome's padding, its words lined up with the
-   cards under it (the chrome's 24 plus the page's 24). */
+/* The header as a band across the page under Home's sky (designer,
+   2026-11-02): the same four skies, by the admin's clock (dawn, day, dusk,
+   night; `?sky=` or the dock for review), glowing from the top and fading
+   behind the first cards into the page, as Home's does behind its rings.
+   The sky is painted on the chrome's main, so it runs edge to edge; it is
+   tall enough that night's navy holds behind the whole band. */
+.chrome__main:has(.ent-band) {
+  --ent-sky-height: 44rem;
+  background-image: var(--home-sky-full);
+  background-size: 100% var(--ent-sky-height);
+  background-repeat: no-repeat;
+}
+
+/* Out over the chrome's padding, its words lined up with the cards under
+   it (the chrome's 24 plus the page's 24). */
 .ent-band {
   gap: 0;
   margin: calc(var(--space-xl) * -1) calc(var(--space-lg) * -1) 0;
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
 }
 
+/* The name over its two lines and the dates on the left; the opening on
+   the right, a little wider (5 to 7), from the first line under the name. */
 .ent-band__inner {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-lg);
+  display: grid;
+  grid-template-columns: minmax(min-content, 5fr) minmax(0, 7fr);
+  grid-template-rows: auto auto auto 1fr;
+  grid-template-areas:
+    "name ."
+    "meta story"
+    "covers story"
+    "tools story";
+  column-gap: var(--space-2xl);
+  align-items: start;
   width: 100%;
   max-width: calc(var(--viewport-web-max) + var(--space-lg) * 2);
   margin-inline: auto;
   padding: var(--space-xl) calc(var(--space-lg) * 2);
 }
 
-.ent-band .ent-header__name,
-.ent-band .ent-story,
-.ent-band .ent-story strong {
-  color: var(--color-text-inverse);
+.ent-band .ent-header__title {
+  display: contents;
+}
+
+.ent-band .ent-header__name {
+  grid-area: name;
+  margin-bottom: var(--space-2xs);
 }
 
 .ent-band .ent-header__meta {
-  color: var(--color-text-inverse-muted);
+  grid-area: meta;
+}
+
+.ent-band .ent-header__meta + .ent-header__meta {
+  grid-area: covers;
+  margin-top: var(--space-2xs);
+}
+
+.ent-band .ent-header__tools {
+  grid-area: tools;
+  flex-wrap: nowrap;
+  margin-top: var(--space-lg);
 }
 
 .ent-band .ent-story {
-  max-width: 88ch;
+  grid-area: story;
+  max-width: none;
+}
+
+/* Night's sky is navy behind the band: its words take the inverse inks. */
+.ent-band[data-sky="night"] .ent-header__name,
+.ent-band[data-sky="night"] .ent-story,
+.ent-band[data-sky="night"] .ent-story strong {
+  color: var(--color-text-inverse);
+}
+
+.ent-band[data-sky="night"] .ent-header__meta {
+  color: var(--color-text-inverse-muted);
 }
 
 .ent-band + .ent-page {
