@@ -124,8 +124,8 @@ function OpeningStats({ cohort, window }: { cohort: Cohort; window: DateRange })
   );
 }
 
-/** The dates and the export (designer, 2026-11-02): on the page, over the
- *  first card, by the figures they change rather than in the header. A late
+/** The dates and the export (designer, 2026-11-02): on the page, first,
+ *  over the stats and cards they change rather than in the header. A late
  *  update is said beside them. */
 function CohortTools({ cohort, window, onWindow }: { cohort: Cohort; window: DateRange; onWindow: (next: DateRange) => void }) {
   return (
@@ -339,11 +339,13 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
       <CohortHeader cohort={cohort} window={window} headingRef={headingRef} />
 
       <div className="ent-page">
+        {/* The dates and Export first, over everything they change
+            (designer, 2026-11-02). */}
+        <CohortTools cohort={cohort} window={window} onWindow={setChoice} />
+
         {/* The story in the order it happened, before the evidence (Kate,
             2026-10-22, Bookends), as four stats (designer, 2026-11-02). */}
         <OpeningStats cohort={cohort} window={window} />
-
-        <CohortTools cohort={cohort} window={window} onWindow={setChoice} />
 
         {!above ? (
           <div className="ent-notice">

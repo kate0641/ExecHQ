@@ -25406,8 +25406,8 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
-/* The dates and Export on the page, over the first card (designer,
-   2026-11-02): close to the figures they change, 12 above them. */
+/* The dates and Export first on the page (designer, 2026-11-02): close to
+   the figures they change, 12 above the stats. */
 .ent-tools + * {
   margin-top: calc(var(--space-sm) - var(--space-between-sections));
 }
