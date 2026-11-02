@@ -25344,7 +25344,9 @@ ul.li-shares {
    the right, a little wider (5 to 7), from the first line under the name. */
 .ent-band__inner {
   display: grid;
-  grid-template-columns: minmax(min-content, 5fr) minmax(0, 7fr);
+  /* The left side keeps the width it had at 5 to 7 with a 48 gap; the wider
+     gap comes out of the opening's side (designer, 2026-11-02). */
+  grid-template-columns: minmax(min-content, calc((100% - var(--space-2xl)) * 5 / 12)) minmax(0, 1fr);
   grid-template-rows: auto auto auto 1fr;
   grid-template-areas:
     "name ."
