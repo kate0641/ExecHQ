@@ -25010,7 +25010,9 @@ ul.li-shares {
   align-items: center;
   justify-content: center;
   min-height: var(--space-xl);
-  margin-bottom: var(--space-2xs);
+  /* 24 under the month names, so the days sit with the same room above and
+     below them beside the taller list of presets (designer, 2026-11-03). */
+  margin-bottom: var(--space-lg);
 }
 
 .date-range__month-name {
