@@ -25585,8 +25585,8 @@ ul.li-shares {
 }
 
 /* The readiness spread: a group per answer, Not yet to Ready, each a stone
-   bar for the start beside a navy one for now, on one baseline and one
-   scale, its count above it. */
+   bar for the start beside one for now in the answer's colour, on one
+   baseline and one scale, its count above it. */
 ul.readiness-bars {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -25610,11 +25610,47 @@ ul.readiness-bars {
   padding-right: 0;
 }
 
+/* Each answer named as Home's "How did it go?" answers are (designer,
+   2026-11-03): an outlined pill with its outcome dot, drawn like the
+   check-in's pills but not a button. Its now bar takes the same colour. */
+.readiness-bars__group--negative {
+  --readiness-dot: var(--color-outcome-negative);
+  --readiness-now: var(--gradient-outcome-negative);
+}
+
+.readiness-bars__group--neutral {
+  --readiness-dot: var(--color-outcome-neutral);
+  --readiness-now: var(--gradient-outcome-neutral);
+}
+
+.readiness-bars__group--positive {
+  --readiness-dot: var(--color-outcome-positive);
+  --readiness-now: var(--gradient-outcome-positive);
+}
+
 .readiness-bars__answer {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-height: var(--button-target);
   margin-bottom: var(--space-md-lg);
-  font-size: var(--type-label-size);
+  padding-inline: var(--space-md);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-raised);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
+}
+
+.readiness-bars__answer::before {
+  content: "";
+  flex: none;
+  width: var(--space-sm);
+  height: var(--space-sm);
+  border-radius: var(--radius-pill);
+  background-color: var(--readiness-dot);
 }
 
 .readiness-bars__plot {
@@ -25647,7 +25683,7 @@ ul.readiness-bars {
 }
 
 .readiness-bars__bar--now .readiness-bars__fill {
-  background: var(--gradient-chart-now);
+  background: var(--readiness-now);
 }
 
 .readiness-bars__count {

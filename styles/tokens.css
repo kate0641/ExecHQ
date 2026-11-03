@@ -233,10 +233,8 @@
   /* The sponsor's weekly trend (2026-10-20): one navy line on recessive grey rules. */
   --color-chart-line: var(--brand-primary);
   --color-chart-grid: var(--brand-stone-250);
-  /* Before and after in a chart (designer, 2026-11-03): the start in stone,
-     now in navy fading up to blue 300. */
+  /* Before and after in a chart (designer, 2026-11-03): the start in stone. */
   --color-chart-before: var(--brand-stone-200);
-  --gradient-chart-now: linear-gradient(0deg, var(--brand-blue-900), var(--brand-blue-300));
   /* A chart's scale, lightest to darkest, ending on the chart line: palette
      steps, never blends (designer, 2026-11-02). The readiness bars use it. */
   --color-chart-scale-1: var(--brand-blue-200);
@@ -452,6 +450,11 @@
   --color-outcome-positive: var(--brand-green-500);
   --color-outcome-neutral: var(--brand-yellow-500);
   --color-outcome-negative: var(--brand-orange-500);
+  /* The outcome colours as a bar, deepest at its base (designer,
+     2026-11-03): the readiness answers on the admin dashboard. */
+  --gradient-outcome-positive: linear-gradient(0deg, var(--brand-green-600), var(--brand-green-400));
+  --gradient-outcome-neutral: linear-gradient(0deg, var(--brand-yellow-500), var(--brand-yellow-300));
+  --gradient-outcome-negative: linear-gradient(0deg, var(--brand-orange-500), var(--brand-orange-300));
   /* A late update's warning sign, beside the dates (designer, 2026-11-02):
      orange 600, a step deeper than the outcome dot so it holds 3:1 on stone. */
   --color-icon-late: var(--brand-orange-600);
