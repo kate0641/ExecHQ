@@ -2373,6 +2373,14 @@ ul.chrome__nav-list {
 /* The enterprise header: the wordmark, and the profile link at the right. */
 .chrome--enterprise .chrome__header {
   align-items: center;
+  /* A slimmer bar, 8 above and below the profile button (designer,
+     2026-11-03), with the logo and the button on the page's own edges: the
+     main area's 24, the centred column's spare room, then the page's 24. */
+  padding-block: var(--space-xs);
+  padding-inline: calc(
+    var(--space-lg) * 2 +
+      max(0px, (100% - var(--viewport-web-max) - var(--space-lg) * 2) / 2)
+  );
 }
 
 .chrome__header:has(> .chrome__header-start),
