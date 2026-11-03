@@ -25387,9 +25387,8 @@ ul.li-shares {
   column-gap: var(--space-2xl);
   margin: 0;
   padding: var(--ent-card-padding);
-  border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
+  background-color: var(--color-surface-inverse);
   list-style: none;
 }
 
@@ -25401,7 +25400,7 @@ ul.li-shares {
 }
 
 .ent-stats__icon {
-  color: var(--color-eyebrow);
+  color: var(--color-eyebrow-on-inverse);
 }
 
 .ent-stats__figure {
@@ -25417,19 +25416,19 @@ ul.li-shares {
   font-weight: var(--type-figure-weight);
   line-height: var(--type-figure-leading);
   font-variant-numeric: tabular-nums;
-  color: var(--color-text-primary);
+  color: var(--color-text-inverse);
 }
 
 .ent-stats__of {
   font-family: var(--type-label-font);
   font-size: var(--type-label-size);
-  color: var(--color-text-secondary);
+  color: var(--color-text-inverse-muted);
 }
 
 .ent-stats__words {
   font-size: var(--type-body-sm-size);
   line-height: var(--type-body-sm-leading);
-  color: var(--color-text-secondary);
+  color: var(--color-text-inverse-muted);
 }
 
 /* The dates and Export first on the page (designer, 2026-11-02): close to
