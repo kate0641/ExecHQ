@@ -25429,6 +25429,15 @@ ul.li-shares {
   color: var(--color-text-inverse);
 }
 
+.ent-stats__value,
+.ent-stats__count {
+  color: var(--color-headline-on-inverse);
+}
+
+.ent-stats__count {
+  font-weight: var(--weight-semibold);
+}
+
 .ent-stats__of {
   font-family: var(--type-label-font);
   font-size: var(--type-label-size);

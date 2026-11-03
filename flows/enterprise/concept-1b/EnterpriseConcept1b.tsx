@@ -133,6 +133,22 @@ const STORY_ICONS: IconName[] = ["person-add", "spark", "target", "trend-up"];
  * caption. On the page, not in a card. The number repeats the sentence's
  * figure, so screen readers hear only the sentence.
  */
+/** The counts in a stat's sentence stand out in yellow, like its big
+ *  number (designer, 2026-11-03), so the figures it doesn't lead with are
+ *  seen too. Spans of time ("30 days", "12 weeks") aren't counts and stay
+ *  in the sentence's colour. */
+function statWords(text: string) {
+  return text.split(/(\d[\d,]*(?! days| weeks)(?=\D|$))/).map((part, i) =>
+    i % 2 === 1 ? (
+      <span key={i} className="ent-stats__count">
+        {part}
+      </span>
+    ) : (
+      part
+    ),
+  );
+}
+
 function OpeningStats({ cohort, window }: { cohort: Cohort; window: DateRange }) {
   const story = storyFor(cohort, window, true);
   const figures = storyFigures(cohort, window, true);
@@ -146,7 +162,7 @@ function OpeningStats({ cohort, window }: { cohort: Cohort; window: DateRange })
             <span className="ent-stats__value">{figures[i].value.toLocaleString("en-US")}</span>
             {figures[i].of !== undefined ? <span className="ent-stats__of">of {figures[i].of!.toLocaleString("en-US")}</span> : null}
           </p>
-          <p className="ent-stats__words">{sentence.map((part) => (typeof part === "string" ? part : part.strong)).join("")}</p>
+          <p className="ent-stats__words">{statWords(sentence.map((part) => (typeof part === "string" ? part : part.strong)).join(""))}</p>
         </li>
       ))}
     </ul>
