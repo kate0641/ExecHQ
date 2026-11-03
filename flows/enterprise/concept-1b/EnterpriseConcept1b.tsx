@@ -337,29 +337,22 @@ function ReadinessCard({ cohort }: { cohort: Cohort }) {
   const R = READINESS_COPY;
   return (
     <section className="ent-card ent-card--readiness" aria-labelledby="q-readiness">
-      <div className="ent-card__lead">
+      {/* The card's anatomy (designer, 2026-11-03): the heading with who
+          answered across from it, the answers start against now, then the
+          definition at its foot. The opening already says how many feel
+          more ready, so the card doesn't say it again, and the average
+          gives way to the answers themselves. */}
+      <div className="ent-readiness__top">
         <h2 className="ent-card__heading" id="q-readiness">
           {R.heading}
         </h2>
-        {ready.state === "shown" ? <p className="ent-card__answer">{R.answer(ready.movedUp!, ready.answered)}</p> : null}
+        {ready.state === "shown" ? <p className="ent-readiness__answered">{R.answered(ready.answered, cohort.activated)}</p> : null}
       </div>
       {ready.state === "shown" ? (
-        <div className="ent-readiness">
-          <div className="cohort-figure cohort-figure--lg">
-            <p className="cohort-figure__label">{R.label}</p>
-            <p className="cohort-figure__value">
-              {ready.start!.average}
-              <span className="ent-readiness__arrow" aria-hidden="true">
-                →
-              </span>
-              <span className="u-visually-hidden"> to </span>
-              {ready.now!.average}
-              <span className="cohort-figure__detail">{R.detail(ready.answered, cohort.activated)}</span>
-            </p>
-            <p className="cohort-figure__brief">{R.brief}</p>
-          </div>
+        <>
           <ReadinessBars start={ready.start!.spread} now={ready.now!.spread} />
-        </div>
+          <p className="ent-readiness__brief">{R.brief}</p>
+        </>
       ) : (
         <p className="ent-seen__locked">
           <Icon name="lock" size={16} />

@@ -25560,100 +25560,124 @@ ul.li-shares {
 
 /* Ready for what's next (Concept 1b, Kate, 2026-10-23): a card of its own
    under the opening, laid out as the hero is, its words beside its figures. */
-.ent-card.ent-card--readiness {
-  display: grid;
-  grid-template-columns: minmax(14rem, 1fr) 2fr;
-  align-items: start;
-}
-
-.ent-readiness {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: start;
-  gap: var(--space-xl);
-}
-
-.ent-readiness__arrow {
-  font-family: var(--font-body);
-  font-size: inherit;
-  color: var(--color-text-muted);
-}
-
-/* The readiness spread: two bars, start and now, each split into the five
-   answers, lightest (1) to darkest (5), all from the chart's ink. */
-.readiness-bars {
+/* Ready for what's next (designer, 2026-11-03): the heading with who
+   answered across from it, the answers start against now, the definition
+   at the foot under a hairline. */
+.ent-readiness__top {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  min-width: 0;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-lg);
 }
 
-.readiness-bars__row {
-  display: grid;
-  grid-template-columns: 5.5rem minmax(0, 1fr);
-  align-items: center;
-  gap: var(--space-sm);
-}
-
-.readiness-bars__label,
-.readiness-bars__legend {
+.ent-readiness__answered {
   font-size: var(--type-caption-size);
   line-height: var(--type-caption-leading);
   color: var(--color-text-secondary);
 }
 
-.readiness-bars__bar {
-  display: flex;
-  height: 1.5rem;
-  overflow: hidden;
-  border-radius: var(--radius-sm);
-  background-color: var(--color-chart-grid);
+.ent-readiness__brief {
+  padding-top: var(--space-md);
+  border-top: var(--border-width-thin) solid var(--color-border);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+  color: var(--color-text-secondary);
 }
 
-.readiness-bars__part {
-  display: block;
+/* The readiness spread: a group per answer, Not yet to Ready, each a stone
+   bar for the start beside a navy one for now, on one baseline and one
+   scale, its count above it. */
+ul.readiness-bars {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: var(--space-md) 0 var(--space-xs);
+  padding: 0;
+  list-style: none;
+}
+
+.readiness-bars__group {
+  min-width: 0;
+  padding-inline: var(--space-xl);
+  border-left: var(--border-width-thin) solid var(--color-border);
+}
+
+.readiness-bars__group:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.readiness-bars__group:last-child {
+  padding-right: 0;
+}
+
+.readiness-bars__answer {
+  margin-bottom: var(--space-md-lg);
+  font-size: var(--type-label-size);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.readiness-bars__plot {
+  --readiness-count-room: var(--space-xl);
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-sm);
+  height: 8.75rem;
+}
+
+.readiness-bars__bar {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--space-2xs);
   height: 100%;
 }
 
-/* The chart's scale, then its line (designer, 2026-11-02). Three answers
-   use 1, 3 and 5. */
-.readiness-bars__part--1 {
-  background-color: var(--color-chart-scale-1);
+/* Bars scale in the plot's height less the room for the count over the
+   tallest. */
+.readiness-bars__fill {
+  width: 100%;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
 }
 
-.readiness-bars__part--2 {
-  background-color: var(--color-chart-scale-2);
+.readiness-bars__bar--start .readiness-bars__fill {
+  background-color: var(--color-chart-before);
 }
 
-.readiness-bars__part--3 {
-  background-color: var(--color-chart-scale-3);
+.readiness-bars__bar--now .readiness-bars__fill {
+  background: var(--gradient-chart-now);
 }
 
-.readiness-bars__part--4 {
-  background-color: var(--color-chart-scale-4);
+.readiness-bars__count {
+  font-family: var(--type-figure-font);
+  font-size: var(--type-figure-size);
+  font-weight: var(--type-figure-weight);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-primary);
 }
 
-.readiness-bars__part--5 {
-  background-color: var(--color-chart-line);
+.readiness-bars__bar--start .readiness-bars__count {
+  font-family: var(--type-label-font);
+  font-size: var(--type-label-size);
+  color: var(--color-text-secondary);
 }
 
-.readiness-bars__legend {
+.readiness-bars__when {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3xs) var(--space-md);
-  margin-left: calc(5.5rem + var(--space-sm));
+  gap: var(--space-sm);
+  padding-top: var(--space-xs);
+  border-top: var(--border-width-thin) solid var(--color-border);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+  color: var(--color-text-secondary);
 }
 
-.readiness-bars__legend span {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2xs);
-}
-
-.readiness-bars__legend .readiness-bars__part {
-  width: 0.75rem;
-  height: 0.75rem;
-  border-radius: var(--radius-xs);
+.readiness-bars__when span {
+  flex: 1;
+  text-align: center;
 }
 
 /* The story in short, before the cards (Kate, 2026-10-22): the first

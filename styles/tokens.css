@@ -233,6 +233,10 @@
   /* The sponsor's weekly trend (2026-10-20): one navy line on recessive grey rules. */
   --color-chart-line: var(--brand-primary);
   --color-chart-grid: var(--brand-stone-250);
+  /* Before and after in a chart (designer, 2026-11-03): the start in stone,
+     now in navy fading up to blue 300. */
+  --color-chart-before: var(--brand-stone-200);
+  --gradient-chart-now: linear-gradient(0deg, var(--brand-blue-900), var(--brand-blue-300));
   /* A chart's scale, lightest to darkest, ending on the chart line: palette
      steps, never blends (designer, 2026-11-02). The readiness bars use it. */
   --color-chart-scale-1: var(--brand-blue-200);

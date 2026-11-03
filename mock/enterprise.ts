@@ -1360,6 +1360,10 @@ export const READINESS_COPY = {
   now: "Now",
   /** The answers participants choose from (Homepage 4b), 1 to 3. */
   scale: ["Not yet", "Getting there", "Ready"],
+  /** Who answered, at the card's top right (designer, 2026-11-03). */
+  answered: (answered: number, setUp: number) => `${count.format(answered)} of ${count.format(setUp)} answered`,
+  /** One answer's group, said to a screen reader. */
+  groupLabel: (answer: string, start: number, now: number) => `${answer}: ${count.format(start)} at the start, ${count.format(now)} now`,
   spreadLabel: (when: string, spread: number[]) =>
     `${when}: ${spread.map((n, i) => `${count.format(n)} ${["Not yet", "Getting there", "Ready"][i]}`).join(", ")}`,
   /** The opening's last sentence, in Concept 1b. */

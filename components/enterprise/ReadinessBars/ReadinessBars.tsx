@@ -8,49 +8,39 @@ export interface ReadinessBarsProps {
   className?: string;
 }
 
-/** The ramp's five shades, spread over however many answers there are:
- *  three answers take the lightest, the middle and the darkest. */
-function shade(i: number, of: number): number {
-  return of <= 1 ? 5 : Math.round((i / (of - 1)) * 4) + 1;
-}
-
 /**
- * The readiness pulse's spread (Concept 1b, Kate, 2026-10-23): two bars of
- * the same width, at the start and now, each split into the answers from
- * lightest (Not yet) to darkest (Ready), so a shift to the right
- * reads at a glance. A legend names the answers. Each bar's counts are said in
- * words to a screen reader, in place of the drawing.
+ * The readiness pulse's spread (Concept 1b, Kate, 2026-10-23), drawn as one
+ * group per answer, Not yet to Ready, left to right (designer, 2026-11-03):
+ * in each, a stone bar for the start beside a navy one for now, its count
+ * above it, so how each answer grew or shrank reads at a glance. Every bar
+ * shares one baseline and one scale. Each group's counts are said in words
+ * to a screen reader, in place of the drawing.
  */
 export function ReadinessBars({ start, now, className }: ReadinessBarsProps) {
-  const row = (label: string, spread: number[]) => {
-    const total = spread.reduce((sum, n) => sum + n, 0);
-    return (
-      <div className="readiness-bars__row">
-        <span className="readiness-bars__label" aria-hidden="true">
-          {label}
-        </span>
-        <span className="u-visually-hidden">{C.spreadLabel(label, spread)}</span>
-        <span className="readiness-bars__bar" aria-hidden="true">
-          {spread.map((n, i) =>
-            n > 0 ? <i key={i} className={`readiness-bars__part readiness-bars__part--${shade(i, spread.length)}`} style={{ width: `${(n / total) * 100}%` }} /> : null,
-          )}
-        </span>
-      </div>
-    );
-  };
+  const most = Math.max(1, ...start, ...now);
+  const bar = (n: number, when: "start" | "now") => (
+    <span className={`readiness-bars__bar readiness-bars__bar--${when}`}>
+      <span className="readiness-bars__count">{n.toLocaleString("en-US")}</span>
+      <i className="readiness-bars__fill" style={{ height: `calc((100% - var(--readiness-count-room)) * ${n / most})` }} />
+    </span>
+  );
   return (
-    <div className={["readiness-bars", className].filter(Boolean).join(" ")}>
-      {row(C.start, start)}
-      {row(C.now, now)}
-      <p className="readiness-bars__legend" aria-hidden="true">
-        {C.scale.map((label, i) => (
-          <span key={label}>
-            <i className={`readiness-bars__part readiness-bars__part--${shade(i, C.scale.length)}`} />
-            {label}
-          </span>
-        ))}
-      </p>
-    </div>
+    <ul className={["readiness-bars", className].filter(Boolean).join(" ")}>
+      {C.scale.map((answer, i) => (
+        <li key={answer} className="readiness-bars__group">
+          <p className="readiness-bars__answer">{answer}</p>
+          <p className="u-visually-hidden">{C.groupLabel(answer, start[i], now[i])}</p>
+          <div className="readiness-bars__plot" aria-hidden="true">
+            {bar(start[i], "start")}
+            {bar(now[i], "now")}
+          </div>
+          <p className="readiness-bars__when" aria-hidden="true">
+            <span>{C.start}</span>
+            <span>{C.now}</span>
+          </p>
+        </li>
+      ))}
+    </ul>
   );
 }
 
