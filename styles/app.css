@@ -25454,7 +25454,8 @@ ul.li-shares {
 .ent-stats__words {
   font-size: var(--type-body-sm-size);
   line-height: var(--type-body-sm-leading);
-  color: var(--color-text-inverse-muted);
+  /* The sentences in the light ink, not pushed back (designer, 2026-11-03). */
+  color: var(--color-text-inverse);
 }
 
 /* The dates and Export first on the page (designer, 2026-11-02): close to
