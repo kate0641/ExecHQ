@@ -22571,10 +22571,17 @@ ul.li-shares {
   display: inline-grid;
   place-items: center;
   flex: none;
+  /* A 32 circle in the 44 target (designer, 2026-11-03): the colour is
+     painted only inside the 6 of padding, and the button reaches 6 past the
+     page edge so the circle, not the target, lines up with it. */
+  --profile-link-inset: calc((var(--button-target) - var(--space-xl)) / 2);
   width: var(--button-target);
   height: var(--button-target);
   margin-left: auto;
+  margin-right: calc(var(--profile-link-inset) * -1);
+  padding: var(--profile-link-inset);
   border-radius: var(--radius-pill);
+  background-clip: content-box;
   background-color: var(--color-surface-quiet);
   font-family: var(--font-display);
   font-size: var(--text-xs);
