@@ -25959,17 +25959,23 @@ ul.readiness-bars {
 .weekly-trend--fade .weekly-trend__tip {
   --tip-arrow: 6px;
   transform: translate(-50%, calc(-100% - var(--tip-arrow) - var(--space-2xs)));
+  /* Its words centred, wherever the pill sits (designer, 2026-11-03). */
   align-items: center;
+  text-align: center;
 }
 
 .weekly-trend--fade .weekly-trend__tip[data-side="start"] {
   transform: translate(calc(-1 * var(--space-md)), calc(-100% - var(--tip-arrow) - var(--space-2xs)));
-  align-items: flex-start;
 }
 
 .weekly-trend--fade .weekly-trend__tip[data-side="end"] {
   transform: translate(calc(-100% + var(--space-md)), calc(-100% - var(--tip-arrow) - var(--space-2xs)));
-  align-items: flex-end;
+}
+
+.weekly-trend__tip-so-far {
+  font-size: var(--type-caption-size);
+  font-weight: var(--weight-regular);
+  color: var(--color-text-secondary);
 }
 
 /* The arrow: the edge's colour underneath, the pill's white over it, a

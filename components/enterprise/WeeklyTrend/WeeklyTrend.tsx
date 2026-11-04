@@ -14,12 +14,16 @@ const PAD = { top: 20, right: 4, bottom: 0, left: 4 };
  *  top line for the hover pill over the tallest week (designer, 2026-11-03). */
 const FADE_GUTTER = 40;
 const FADE_HEADROOM = 64;
+/** About half the hover pill's width: closer to an edge than this, it leans in. */
+const TIP_HALF = 64;
 /** Below this the scale would be too fine for so few people. */
 const MIN_PEAK = 10;
 const count = new Intl.NumberFormat("en-GB");
 /** "14 Sep": three-letter months throughout, as `abbrevDate` (en-GB would
  *  write "Sept"). */
 const dayOf = (iso: string) => abbrevDate(iso).slice(0, -5);
+/** A day a number of days on, for a week's last day. */
+const daysOn = (iso: string, days: number) => new Date(Date.parse(`${iso}T00:00:00Z`) + days * 86_400_000).toISOString().slice(0, 10);
 
 export interface WeeklyTrendProps {
   trend: TrendView;
@@ -270,11 +274,34 @@ export function WeeklyTrend({ trend, highlight, height = DEFAULT_HEIGHT, look = 
                 : { left: `${((x(picked!) + barWidth) / width) * 100}%` }
             }
             data-side={
-              look === "fade" ? (shownIndex === 0 ? "start" : shownIndex === latestIndex ? "end" : "middle") : picked! > latestIndex * 0.66 ? "left" : undefined
+              look === "fade"
+                ? // Centred on the bar wherever it fits; leaning in only at an edge.
+                  x(shownIndex!) + barWidth / 2 < TIP_HALF
+                  ? "start"
+                  : x(shownIndex!) + barWidth / 2 > width - TIP_HALF
+                    ? "end"
+                    : "middle"
+                : picked! > latestIndex * 0.66
+                  ? "left"
+                  : undefined
             }
           >
-            <span>{pickedWeek.partial ? C.thisWeek : `${C.week} ${dayOf(pickedWeek.weekOf)}`}</span>
-            <strong>{pickedWeek.active === undefined ? C.hiddenWeek : count.format(pickedWeek.active)}</strong>
+            {look === "fade" ? (
+              <>
+                {/* Its dates, Monday to Sunday, or to today for this week
+                    (designer, 2026-11-03). */}
+                <span>{C.weekRange(dayOf(pickedWeek.weekOf), dayOf(pickedWeek.partial && today ? today : daysOn(pickedWeek.weekOf, 6)))}</span>
+                <strong>
+                  {pickedWeek.active === undefined ? C.hiddenWeek : count.format(pickedWeek.active)}
+                  {pickedWeek.partial && pickedWeek.active !== undefined ? <span className="weekly-trend__tip-so-far"> {C.soFarAfter}</span> : null}
+                </strong>
+              </>
+            ) : (
+              <>
+                <span>{pickedWeek.partial ? C.thisWeek : `${C.week} ${dayOf(pickedWeek.weekOf)}`}</span>
+                <strong>{pickedWeek.active === undefined ? C.hiddenWeek : count.format(pickedWeek.active)}</strong>
+              </>
+            )}
           </p>
         ) : null}
       </div>

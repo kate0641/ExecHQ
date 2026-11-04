@@ -939,6 +939,13 @@ export const TREND_COPY = {
   thisWeek: "This week, so far",
   /** The chart as a slider over the weeks, for the keyboard (designer, 2026-11-03). */
   readWeeks: "Active each week: use the arrow keys to read each week",
+  /** A week in the hover pill (designer, 2026-11-03): its dates, not "Week of". */
+  weekRange: (from: string, to: string) => {
+    const [d1, m1] = from.split(" "), [d2, m2] = to.split(" ");
+    return m1 === m2 ? `${d1}–${d2} ${m2}` : `${from} – ${to}`;
+  },
+  /** After this week's figure in the pill: "20 so far". */
+  soFarAfter: "so far",
   shaded: (from: string, to: string) => (from === to ? `Your dates fall in the week of ${from}.` : `Your dates cover the weeks of ${from} to ${to}.`),
 } as const;
 
