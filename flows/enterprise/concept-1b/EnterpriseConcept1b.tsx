@@ -170,31 +170,31 @@ function OpeningStats({ cohort, window }: { cohort: Cohort; window: DateRange })
 }
 
 /** The dates and the export (designer, 2026-11-02): on the page, first,
- *  over the stats and cards they change rather than in the header. A late
- *  update is said beside them. */
+ *  over the stats and cards they change rather than in the header, at its
+ *  right edge (2026-11-03). A late update is said on their left. */
 function CohortTools({ cohort, window, onWindow }: { cohort: Cohort; window: DateRange; onWindow: (next: DateRange) => void }) {
   return (
     <div className="ent-header__tools ent-tools">
-      <DateRangePicker cohort={cohort} value={window} onChange={onWindow} align="start" />
-      <DropdownMenu
-        className="ent-export"
-        label={C.exportMenu}
-        icon="download"
-        align="start"
-        entries={[
-          { type: "item", id: "pdf", label: C.exportPdf, onSelect: () => globalThis.print() },
-          { type: "item", id: "csv", label: C.exportCsv, onSelect: () => downloadCsv(cohort, window, { signals: true }) },
-        ]}
-      />
       {/* Today's update is late (designer, 2026-11-02): said on the same
           line as the dates, beside what it is about, not in a box above the
-          cards. */}
+          cards; on their left, as the buttons sit at the right edge. */}
       {cohort.lateSince ? (
         <p className="ent-late">
           <Icon name="warning" size={18} className="ent-late__icon" />
           {LATE_COPY.notice(cohort.asOf)}
         </p>
       ) : null}
+      <DateRangePicker cohort={cohort} value={window} onChange={onWindow} align="end" />
+      <DropdownMenu
+        className="ent-export"
+        label={C.exportMenu}
+        icon="download"
+        align="end"
+        entries={[
+          { type: "item", id: "pdf", label: C.exportPdf, onSelect: () => globalThis.print() },
+          { type: "item", id: "csv", label: C.exportCsv, onSelect: () => downloadCsv(cohort, window, { signals: true }) },
+        ]}
+      />
     </div>
   );
 }

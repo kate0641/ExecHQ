@@ -25490,10 +25490,14 @@ ul.li-shares {
   gap: var(--space-sm);
 }
 
-/* Today's update is late (designer, 2026-11-02): on the dates' line, after
-   Export, its words taking the rest of the width and wrapping there. */
+/* Today's update is late (designer, 2026-11-02): on the dates' line, to
+   the left of the dates and Export, its words wrapping there. */
 .ent-tools {
   flex-wrap: nowrap;
+  /* The dates and Export at the right edge (designer, 2026-11-03), under
+     the right thumb, their menus opening from the right; a late notice
+     takes the room on their left. */
+  justify-content: flex-end;
 }
 
 .ent-late {
@@ -25503,7 +25507,7 @@ ul.li-shares {
   flex: 1;
   min-width: 0;
   max-width: var(--content-measure);
-  margin-left: var(--space-sm);
+  margin-right: auto;
   font-size: var(--type-body-sm-size);
   line-height: var(--type-body-sm-leading);
   color: var(--color-text-secondary);
