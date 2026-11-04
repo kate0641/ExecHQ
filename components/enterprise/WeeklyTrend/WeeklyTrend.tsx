@@ -24,9 +24,10 @@ export interface WeeklyTrendProps {
   /** The dates chosen in the picker: the weeks they touch are shaded. Left
    *  off, every week is drawn as chosen. */
   highlight?: { from: string; to: string };
-  /** The drawing's height in px, 120 unless a card has room to give it
-   *  (designer, 2026-11-03: the admin card fills its half). */
-  height?: number;
+  /** The drawing's height in px, 120 unless a card has room to give it.
+   *  `fill` grows it into whatever height its container leaves, never under
+   *  that minimum (designer, 2026-11-03: the admin card's half). */
+  height?: number | "fill";
   /** `fade` (designer, 2026-11-03): each bar fades from its colour at the top
    *  to a pale one at its base, this week in a darker fade so it stands out,
    *  and no numbers over the bars: hovering a week shows its figure. */
@@ -46,23 +47,33 @@ export interface WeeklyTrendProps {
  * small number; a cohort below the minimum hides it. Hovering a week shows
  * its figure; the same figures sit in a table for screen readers.
  */
-export function WeeklyTrend({ trend, highlight, height: HEIGHT = DEFAULT_HEIGHT, look = "flat", demoWeek, className }: WeeklyTrendProps) {
+export function WeeklyTrend({ trend, highlight, height = DEFAULT_HEIGHT, look = "flat", demoWeek, className }: WeeklyTrendProps) {
+  const fill = height === "fill";
   const plotRef = useRef<HTMLDivElement>(null);
   // React's ids hold colons, which a url() reference can't: keep the rest.
   const hatchId = `hatch${useId().replace(/[^a-zA-Z0-9]/g, "")}`;
   const [width, setWidth] = useState(560);
+  const [room, setRoom] = useState(DEFAULT_HEIGHT);
+  const HEIGHT = fill ? Math.max(DEFAULT_HEIGHT, room) : height;
   const [hovered, setHovered] = useState<number | undefined>(undefined);
   const picked = demoWeek ?? hovered;
 
   useEffect(() => {
     const plot = plotRef.current;
     if (!plot) return;
-    const observer = new ResizeObserver(([entry]) => setWidth(Math.max(160, Math.round(entry.contentRect.width))));
+    const observer = new ResizeObserver(([entry]) => {
+      setWidth(Math.max(160, Math.round(entry.contentRect.width)));
+      // Filling, the drawing is laid over the plot, so the plot's height is
+      // the room it is given, never the drawing's own.
+      if (fill) setRoom(Math.round(entry.contentRect.height));
+    });
     observer.observe(plot);
     return () => observer.disconnect();
-  }, [trend.state]);
+  }, [trend.state, fill]);
 
-  const classes = ["weekly-trend", `weekly-trend--${trend.state}`, look === "fade" ? "weekly-trend--fade" : null, className].filter(Boolean).join(" ");
+  const classes = ["weekly-trend", `weekly-trend--${trend.state}`, look === "fade" ? "weekly-trend--fade" : null, fill ? "weekly-trend--fill" : null, className]
+    .filter(Boolean)
+    .join(" ");
   const heading = <p className="weekly-trend__label">{C.heading}</p>;
 
   if (trend.state === "suppressed") {

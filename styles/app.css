@@ -25872,6 +25872,23 @@ ul.readiness-bars {
   stroke-dasharray: 3 3;
 }
 
+/* Filling: the figure takes its container's free height, the plot the
+   figure's, and the drawing is laid over the plot so it never props it up. */
+.weekly-trend--fill {
+  flex: 1;
+}
+
+.weekly-trend--fill .weekly-trend__plot {
+  flex: 1;
+  min-height: calc(var(--weekly-trend-plot-top) + 7.5rem);
+}
+
+.weekly-trend--fill .weekly-trend__svg {
+  position: absolute;
+  top: var(--weekly-trend-plot-top);
+  left: 0;
+}
+
 /* Hover: the week picked turns a step darker; the rest stay as they are
    (designer, 2026-11-03). */
 .weekly-trend--fade .weekly-trend__bar {

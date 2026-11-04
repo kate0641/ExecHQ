@@ -460,7 +460,7 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
                   <div className="ent-card__trend">
                     {/* No shading for the dates (designer, 2026-11-03): this week's
                         hatching is the one mark, and every week is in navy. */}
-                    <WeeklyTrend trend={trendFor(cohort)} height={240} look="fade" />
+                    <WeeklyTrend trend={trendFor(cohort)} height="fill" look="fade" />
                     <p className="cohort-figure__brief">{TREND_COPY.brief}</p>
                   </div>
                 ) : null}
