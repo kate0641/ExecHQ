@@ -1384,6 +1384,17 @@ export type StoryPart = string | { strong: string };
  * it, ending on where follow-through is heading. Undefined while the figures
  * are hidden: the notice says why.
  */
+/** Follow-through split (designer, 2026-11-03): of the actions taken on in
+ *  the dates, how many are done and how many aren't yet. Every one not done
+ *  is still inside its 30 days only when the dates began within the last 30:
+ *  only then can a page say so of all of them. */
+export function followSplit(cohort: Cohort, window: Period): { done: number; open: number; allOpen: boolean } {
+  const c = countsIn(cohort, window);
+  const from = typeof window === "string" ? (window === "30d" ? addDays(cohort.asOf, -29) : cohort.startsOn) : window.from;
+  const allOpen = daysIn(from < cohort.startsOn ? cohort.startsOn : from, todayFor(cohort)) <= 30;
+  return { done: c.actionsCompleted, open: c.actionsAccepted - c.actionsCompleted, allOpen };
+}
+
 export function storyFor(cohort: Cohort, window: Period, withReadiness = false): StoryPart[][] | undefined {
   if (!isAboveMinimum(cohort, window)) return undefined;
   const c = countsIn(cohort, window);
@@ -1397,11 +1408,7 @@ export function storyFor(cohort: Cohort, window: Period, withReadiness = false):
   const weeks = Math.floor(day / 7);
   const words = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"];
   const when = weeks < 1 ? "In the first week" : weeks <= 10 ? `${words[weeks - 1]} week${weeks === 1 ? "" : "s"} in` : `After ${weeks} weeks`;
-  const open = c.actionsAccepted - c.actionsCompleted;
-  // Every action taken on in the dates is still inside its 30 days only when
-  // the dates began within the last 30: only then can it say all of them.
-  const from = typeof window === "string" ? (window === "30d" ? addDays(cohort.asOf, -29) : cohort.startsOn) : window.from;
-  const allOpen = daysIn(from < cohort.startsOn ? cohort.startsOn : from, todayFor(cohort)) <= 30;
+  const { open, allOpen } = followSplit(cohort, window);
   const story: StoryPart[][] = [
     [`${when}, `, { strong: `${n(cohort.joined)} of the ${n(cohort.expectedSize)} leaders` }, ` you expected have joined and ${n(cohort.activated)} have finished setting up.`],
     [{ strong: `${n(c.active)} were active` }, ` ${long}${since}, and ${n(signalsIn(cohort, window).any)} put something out in the world.`],
@@ -1470,6 +1477,12 @@ export function stillToJoin(cohort: Cohort, window: Period): string {
 }
 
 export const C1_COPY = {
+  /** Follow-through's ring, said beside it (designer, 2026-11-03): done, and
+   *  the rest, still inside their 30 days when all of them are. */
+  followKey: {
+    done: (n: number) => `${count.format(n)} done`,
+    open: (n: number, allOpen: boolean) => `${count.format(n)} ${allOpen ? "still within their 30 days" : "not done yet"}`,
+  },
   /** The line under the name: when it started, how long it has run, and
    *  how many people are in it. No end date: there is none. */
   meta: {

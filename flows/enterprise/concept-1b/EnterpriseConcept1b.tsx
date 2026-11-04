@@ -16,6 +16,7 @@ import {
   DATA_POINTS,
   DEFAULT_RANGE,
   LATE_COPY,
+  followSplit,
   READINESS_COPY,
   QUESTION_POINTS,
   SEEN_COPY,
@@ -206,7 +207,9 @@ const CARD_ORDER: QuestionId[] = ["following", "using", "joined"];
 /** Shares drawn as well as said: a ring for joining against the size
  *  expected, bars for the lead share of follow-through and for setting up. */
 const METERS: Partial<Record<DataPointId, "ring" | "bar">> = {
-  "follow-through": "bar",
+  // A ring, not a bar, so it doesn't read as time passing (designer,
+  // 2026-11-03): done, and the rest still to do.
+  "follow-through": "ring",
   invites: "ring",
   onboarding: "bar",
 };
@@ -229,36 +232,61 @@ function QuestionCard({
 }) {
   const answer = answerFor(cohort, question, window);
   const points = QUESTION_POINTS[question];
+  const hero = question === "following";
+  const split = hero ? followSplit(cohort, window) : undefined;
+  const figures = points.map((id, i) => {
+    const figure = figureFor(cohort, id, window);
+    // No Filling in tag here (Kate, 2026-10-20): a young window shows as it
+    // is. Followed through's definition says recent actions still have time.
+    const shown: typeof figure = figure.state === "filling" ? { ...figure, state: "shown", note: undefined } : figure;
+    const sinceLaunch = DATA_POINTS[id].sinceLaunch && shown.detail;
+    return (
+      <CohortFigure
+        key={id}
+        figure={sinceLaunch ? { ...shown, detail: C.sinceLaunch(shown.detail!) } : shown}
+        size={i === 0 ? "lg" : "md"}
+        direction={directionFor(cohort, id, window)}
+        meter={METERS[id]}
+        // In the hero, the figures after the first are tiles.
+        className={hero && i > 0 ? "ent-tile" : undefined}
+        brief={C.briefs[id] ?? DATA_POINTS[id].brief}
+      >
+        {hero && i === 0 && split && shown.state !== "suppressed" ? (
+          <ul className="ent-follow-key" aria-hidden="true">
+            <li className="ent-follow-key__done">{C1_COPY.followKey.done(split.done)}</li>
+            <li className="ent-follow-key__open">{C1_COPY.followKey.open(split.open, split.allOpen)}</li>
+          </ul>
+        ) : null}
+      </CohortFigure>
+    );
+  });
+  const lead = (
+    <div className="ent-card__lead">
+      <h2 className="ent-card__heading" id={`q-${question}`}>
+        {C.questions[question]}
+      </h2>
+      {answer ? <p className="ent-card__answer">{answer}</p> : null}
+    </div>
+  );
   return (
     <section className={`ent-card ent-card--${question}`} aria-labelledby={`q-${question}`}>
-      <div className="ent-card__lead">
-        <h2 className="ent-card__heading" id={`q-${question}`}>
-          {C.questions[question]}
-        </h2>
-        {answer ? <p className="ent-card__answer">{answer}</p> : null}
-      </div>
-      <div className="ent-card__figures">
-        {points.map((id, i) => {
-          const figure = figureFor(cohort, id, window);
-          // No Filling in tag here (Kate, 2026-10-20): a young window shows
-          // as it is. Followed through's definition says recent actions
-          // still have time.
-          const shown: typeof figure = figure.state === "filling" ? { ...figure, state: "shown", note: undefined } : figure;
-          const sinceLaunch = DATA_POINTS[id].sinceLaunch && shown.detail;
-          return (
-            <CohortFigure
-              key={id}
-              figure={sinceLaunch ? { ...shown, detail: C.sinceLaunch(shown.detail!) } : shown}
-              size={i === 0 ? "lg" : "md"}
-              direction={directionFor(cohort, id, window)}
-              meter={METERS[id]}
-              // In the hero, the figures after the first are tiles.
-              className={question === "following" && i > 0 ? "ent-tile" : undefined}
-              brief={C.briefs[id] ?? DATA_POINTS[id].brief}
-            />
-          );
-        })}
-      </div>
+      {hero ? (
+        // The hero (designer, 2026-11-03): the heading, its answer and
+        // follow-through's ring on the left; the other three stacked on the
+        // right.
+        <div className="ent-following">
+          <div className="ent-following__main">
+            {lead}
+            {figures[0]}
+          </div>
+          <div className="ent-following__more">{figures.slice(1)}</div>
+        </div>
+      ) : (
+        <>
+          {lead}
+          <div className="ent-card__figures">{figures}</div>
+        </>
+      )}
       {children}
     </section>
   );

@@ -25765,13 +25765,113 @@ ul.readiness-bars {
   background-color: var(--color-surface-raised);
 }
 
-/* The hero, in the card anatomy (designer, 2026-11-03): its heading and
-   answer at the top, follow-through as the one lead figure across the
-   card, then the other three in a row under a hairline, split by hairlines.
-   A white card like the rest (Kate, 2026-11-02: the navy call-out wasn't
+/* The hero (designer, 2026-11-03): the heading, its answer and
+   follow-through's ring on the left; Chose a plan, Work made and Work used
+   stacked on the right, a hairline between the sides and between them. A
+   white card like the rest (Kate, 2026-11-02: the navy call-out wasn't
    meant). */
 .ent-card--following {
   grid-column: 1 / -1;
+}
+
+.ent-following {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: var(--space-2xl);
+  align-items: start;
+}
+
+.ent-following__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.ent-following__more {
+  display: flex;
+  flex-direction: column;
+  padding-left: var(--space-2xl);
+  border-left: var(--border-width-thin) solid var(--color-border);
+}
+
+/* Follow-through: its ring on the left, what it is and its key beside it. */
+.ent-card--following .cohort-figure--ring {
+  display: grid;
+  grid-template-columns: var(--follow-ring-size) minmax(0, 1fr);
+  column-gap: var(--space-lg);
+  align-items: center;
+}
+
+.ent-card--following .cohort-figure--ring > *,
+.ent-card--following .cohort-figure--ring .cohort-figure__ringed > * {
+  grid-column: 2;
+}
+
+.ent-card--following .cohort-figure--ring .cohort-figure__ringed {
+  display: contents;
+}
+
+.ent-card--following .cohort-figure--ring .meter--ring {
+  grid-column: 1;
+  grid-row: 1 / span 6;
+  inline-size: var(--follow-ring-size);
+  block-size: var(--follow-ring-size);
+}
+
+.ent-card--following {
+  --follow-ring-size: 8.5rem;
+}
+
+.ent-card--following .meter--ring .meter__track,
+.ent-card--following .meter--ring .meter__fill {
+  stroke-width: 3.6;
+}
+
+.ent-card--following .meter--ring .meter__track {
+  stroke: var(--color-follow-open);
+}
+
+.ent-card--following .meter--ring .meter__fill {
+  stroke: var(--color-follow-done);
+  stroke-linecap: butt;
+}
+
+.ent-card--following .meter--ring .cohort-figure__value {
+  font-size: var(--type-figure-size-lg);
+}
+
+.ent-follow-key {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  margin-block: var(--space-xs) var(--space-3xs);
+  padding: 0;
+  list-style: none;
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+  color: var(--color-text-secondary);
+}
+
+.ent-follow-key li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.ent-follow-key li::before {
+  content: "";
+  flex: none;
+  inline-size: var(--space-sm);
+  block-size: var(--space-sm);
+  border-radius: var(--radius-xs);
+}
+
+.ent-follow-key__done::before {
+  background-color: var(--color-follow-done);
+}
+
+.ent-follow-key__open::before {
+  background-color: var(--color-follow-open);
 }
 
 .ent-card__lead {
@@ -25805,52 +25905,30 @@ ul.readiness-bars {
   gap: var(--space-xl) var(--space-lg);
 }
 
-.ent-card--following .ent-card__figures {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0;
-  margin-top: var(--space-xs);
-}
-
-/* Follow-through leads, across the card, its bar the card's width. */
-.ent-card--following .ent-card__figures > :first-child {
-  grid-column: 1 / -1;
-  padding-bottom: var(--space-xl);
-}
-
-.ent-card--following .cohort-figure--lg {
-  align-items: stretch;
-}
-
-.ent-card--following .cohort-figure--lg .meter--bar {
-  max-inline-size: none;
-  block-size: var(--space-xs);
-  margin-block: var(--space-xs);
-}
-
-/* The other three: open, a hairline over the row and between them
-   (designer, 2026-11-02 and 2026-11-03), as the readiness groups are. */
+/* The other three, stacked: room between them, a hairline over each but
+   the first (designer, 2026-11-03: not tight). */
 .ent-tile {
-  align-self: stretch;
-  padding: var(--space-lg) var(--space-xl) 0;
+  padding-block: var(--space-xl);
   border-top: var(--border-width-thin) solid var(--color-border);
 }
 
-.ent-tile + .ent-tile {
-  border-left: var(--border-width-thin) solid var(--color-border);
-}
-
-.ent-card__figures > :first-child + .ent-tile {
-  padding-left: 0;
+.ent-tile:first-child {
+  padding-top: 0;
+  border-top: 0;
 }
 
 .ent-tile:last-child {
-  padding-right: 0;
+  padding-bottom: 0;
+}
+
+.ent-tile .cohort-figure__brief {
+  max-width: 36ch;
+  margin-top: var(--space-xs);
 }
 
 /* Inside the hero the hairlines do the structuring, so a definition loses
    its left rule. */
 .ent-card--following .cohort-figure__brief {
-  max-width: none;
   padding-left: 0;
   border-left: 0;
 }
