@@ -26213,7 +26213,9 @@ ol.ent-chain__steps {
 .ent-chain__value {
   margin-bottom: var(--space-2xs);
   font-family: var(--type-figure-font);
-  font-size: var(--type-figure-size-lg);
+  /* The figure size, not the large one: the card already holds a lot
+     (designer, 2026-11-03). */
+  font-size: var(--type-figure-size);
   font-weight: var(--type-figure-weight);
   line-height: 1;
   font-variant-numeric: tabular-nums;
