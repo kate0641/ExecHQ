@@ -25299,6 +25299,13 @@ ul.li-shares {
   /* Cards on the admin pages hold more, on a wide screen: 32 inside
      (designer, 2026-11-02, "things look tight"). */
   --ent-card-padding: var(--space-xl);
+  /* The card spacing roles, one step up from the phone's 20 to match the
+     padding (designer, 2026-11-03), so every admin card reads the same
+     numbers: a heading to what's under it, either side of a hairline (a
+     column split or a row), and above a card's definition at its foot. */
+  --ent-card-title: var(--space-xl);
+  --ent-divided-item: var(--space-xl);
+  --ent-card-foot: var(--space-lg);
   display: flex;
   flex-direction: column;
   gap: var(--space-between-sections);
@@ -25416,7 +25423,7 @@ ul.li-shares {
   flex-direction: column;
   align-items: flex-start;
   min-width: 0;
-  padding-inline: var(--space-xl);
+  padding-inline: var(--ent-divided-item);
 }
 
 .ent-stats__item:first-child {
@@ -25605,8 +25612,17 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
+.ent-card--readiness {
+  gap: 0;
+}
+
+.ent-readiness__top {
+  margin-bottom: var(--ent-card-title);
+}
+
 .ent-readiness__brief {
-  padding-top: var(--space-md);
+  margin-top: var(--ent-card-foot);
+  padding-top: var(--space-copy-card);
   border-top: var(--border-width-thin) solid var(--color-border);
   font-size: var(--type-caption-size);
   line-height: var(--type-caption-leading);
@@ -25619,14 +25635,14 @@ ul.li-shares {
 ul.readiness-bars {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin: var(--space-md) 0 var(--space-xs);
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .readiness-bars__group {
   min-width: 0;
-  padding-inline: var(--space-xl);
+  padding-inline: var(--ent-divided-item, var(--space-xl));
   border-left: var(--border-width-thin) solid var(--color-border);
 }
 
@@ -25801,20 +25817,25 @@ ul.readiness-bars {
 .ent-following {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-  gap: var(--space-2xl);
-  align-items: start;
 }
 
+/* The ring sits centred between the answer's last line and the card's
+   padded foot (designer, 2026-11-03), at least a heading's gap from each. */
 .ent-following__main {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xl);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  padding-right: var(--ent-divided-item);
+}
+
+.ent-following__main > .cohort-figure {
+  align-self: center;
+  margin-block: var(--ent-card-title);
 }
 
 .ent-following__more {
   display: flex;
   flex-direction: column;
-  padding-left: var(--space-2xl);
+  padding-left: var(--ent-divided-item);
   border-left: var(--border-width-thin) solid var(--color-border);
 }
 
@@ -25843,7 +25864,7 @@ ul.readiness-bars {
 }
 
 .ent-card--following {
-  --follow-ring-size: 8.5rem;
+  --follow-ring-size: 10.5rem;
 }
 
 .ent-card--following .meter--ring .meter__track,
@@ -25932,7 +25953,7 @@ ul.readiness-bars {
 /* The other three, stacked: room between them, a hairline over each but
    the first (designer, 2026-11-03: not tight). */
 .ent-tile {
-  padding-block: var(--space-xl);
+  padding-block: var(--ent-divided-item);
   border-top: var(--border-width-thin) solid var(--color-border);
 }
 
