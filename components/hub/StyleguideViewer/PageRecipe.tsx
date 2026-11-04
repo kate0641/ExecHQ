@@ -97,10 +97,51 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
     note: "Kulim Park for headings only; Inter for everything she reads or presses.",
     rules: [
       {
-        rule: "Only paragraphs get the airy 1.7 line spacing. A one-line label, date or note uses tight spacing (1.3), so a card that ends in one doesn't look heavier at the bottom than at the top.",
-        why: "Line spacing adds invisible space above and below each line. On a single line it pads the card's edge, so 20px of padding looks like 25.",
-        from: "Navigation",
-        uses: ["--leading-snug"],
+        rule: "Line spacing follows the job, not the size. Only paragraphs get the airy 1.7. A one-line label, date or note uses tight spacing (1.3), so a card that ends in one doesn't look heavier at the bottom than at the top. Anything read as a sentence over two or more lines, a definition included, gets at least 1.55, never the tight 1.3.",
+        why: "Line spacing adds invisible space above and below each line. On a single line it pads the card's edge, so 20px of padding looks like 25. On a sentence that wraps, tight spacing turns it into fine print: the admin dashboard's definitions read as disclaimers at 1.3 (designer, 2026-11-03).",
+        from: "Navigation, Admin Dashboard",
+        uses: ["--leading-snug", "--leading-normal", "--leading-relaxed"],
+      },
+      {
+        rule: "Hierarchy comes from meaning, not even spacing. Lines that belong together sit tight: a label, then what its number is out of, 2 to 4px apart. A clear break, about 12px, comes before a new kind of information, such as the definition.",
+        why: "Lines spaced evenly read as one paragraph, so the eye can't tell the statement from its explanation (designer, 2026-11-03).",
+        from: "Admin Dashboard",
+        uses: ["--space-3xs", "--space-2xs", "--space-sm"],
+      },
+      {
+        rule: "What has to be read is never set smaller to make it quieter. Order comes from colour and weight: the line that describes a number in ink, the explanation under it in grey, both the same size.",
+        why: "A 14px grey line under 16px reads as a disclaimer or an asterisk note, even when it holds what the figure means (designer, 2026-11-03).",
+        from: "Admin Dashboard",
+        uses: ["--color-text-primary", "--color-text-secondary"],
+      },
+      {
+        rule: "Cap the line length: about 40 characters for a short definition beside a figure, about 70 for a note across a card. Short multi-line definitions balance their lines.",
+        why: "Long lines are hard to track and leave a ragged last line; balanced lines read as one considered block.",
+        from: "Admin Dashboard",
+        uses: ["max-width: 40ch", "text-wrap: balance"],
+      },
+      {
+        rule: "Line breaks come from rules that hold at any width, never set by hand. No manual breaks or non-breaking spaces tuned to one screen.",
+        why: "Hand-set breaks look right at one width and wrong at the next, and break again whenever the copy changes. The designer chose a balance rule over their own preferred breaks for this reason (2026-11-03).",
+        from: "Admin Dashboard",
+        uses: ["text-wrap: balance", "text-wrap: pretty"],
+      },
+      {
+        rule: "A figure and its label read as one phrase: \"79% chose a plan\", \"14 pieces of work made\". The line under says what it is out of and when; the definition says how it is counted. Figures share one size across a page, close enough to their label to jump to without touching it.",
+        why: "\"14 · Work made · pieces of work\" read as nonsense. When the number, label and detail form a sentence, nothing needs decoding (designer, 2026-11-03).",
+        from: "Admin Dashboard",
+        uses: ["--type-figure-size-lg", ".cohort-figure--row"],
+      },
+      {
+        rule: "The type and spacing scale stays tight, as a system's should, phone first. A desktop-only surface steps its roles up once, on its page wrapper, never per card: nothing under 14, sentences at 16 to 18, gaps at 32.",
+        why: "12 and 13px text and 20px gaps read as mobile styles on a laptop. Overriding the roles once keeps every card on that surface consistent and leaves the phone untouched (designer, 2026-11-03).",
+        from: "Admin Dashboard",
+        uses: [".ent-page", "--type-caption-size", "--type-body-sm-size", "--ent-card-padding", "--ent-card-title", "--ent-divided-item"],
+      },
+      {
+        rule: "Check type by measuring, not by eye: text contrast at least 4.5:1, sizes and line heights read from the page, every last line checked for a word left alone.",
+        why: "Assumptions drift. Measuring caught gaps of 36, 48 and 28 where 32 was meant, and confirmed the grey text at 7.97:1 (2026-11-03).",
+        from: "Admin Dashboard",
       },
       {
         rule: "No text anywhere in the product is cut off with an ellipsis. Titles, headers, previews and placeholders wrap and show every word. An ellipsis written into the words stays: something in progress (Writing your first draft\u2026) and a prompt to type (Ask or go\u2026). One exception: a tool's pinned draft preview stops after two lines, because the card sits over the page and Show draft opens the whole draft.",
@@ -175,7 +216,7 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
       {
         rule: "No line of copy leaves one word alone on its last line, and no line ends on a single word after a comma: that word drops to the next line.",
         why: "A lone word reads as a mistake and makes a short paragraph look unfinished; \"a result, so\" at a line's end hangs the same way. Both are set as the copy renders, never by editing it.",
-        from: "Onboarding",
+        from: "Onboarding, Admin Dashboard",
         uses: ["text-wrap: pretty", "keepAfterComma()"],
       },
       {
