@@ -25302,6 +25302,9 @@ ul.li-shares {
 .ent-page {
   --type-eyebrow-size: var(--text-sm);
   --type-caption-size: var(--text-sm);
+  /* Captions here are sentences (the definitions), read, not glanced at:
+     normal leading, not the snug of a label (designer, 2026-11-03). */
+  --type-caption-leading: var(--leading-normal);
   --type-body-sm-size: var(--text-md);
   --type-label-size: var(--text-md);
   --type-body-size: var(--text-lg);
