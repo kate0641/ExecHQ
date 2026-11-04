@@ -277,9 +277,14 @@ function QuestionCard({
       <h2 className="ent-card__heading" id={`q-${question}`}>
         {C.questions[question]}
       </h2>
-      {answer ? <p className="ent-card__answer">{answer}</p> : null}
+      {/* Getting started's line repeated its figures (designer,
+          2026-11-03); the chain says it. */}
+      {answer && question !== "joined" ? <p className="ent-card__answer">{answer}</p> : null}
     </div>
   );
+  // Getting started as the joining chain, once Set up can be shown
+  // (designer, 2026-11-03); below the minimum its rings stay, Set up locked.
+  const chain = question === "joined" && figureFor(cohort, "onboarding", window).state !== "suppressed";
   return (
     <section className={`ent-card ent-card--${question}`} aria-labelledby={`q-${question}`}>
       {hero ? (
@@ -296,11 +301,64 @@ function QuestionCard({
       ) : (
         <>
           {lead}
-          <div className="ent-card__figures">{figures}</div>
+          {chain ? <JoiningChain cohort={cohort} /> : <div className="ent-card__figures">{figures}</div>}
         </>
       )}
       {children}
     </section>
+  );
+}
+
+/**
+ * Getting started as the joining chain (designer, 2026-11-03): who was
+ * expected, who joined, who finished setting up, side by side, then one bar
+ * split into the three groups, all parts of the same expected number, with
+ * its key, and the two definitions at the foot. Since launch, whatever the
+ * dates.
+ */
+function JoiningChain({ cohort }: { cohort: Cohort }) {
+  const { expectedSize: expected, joined, activated: setUp } = cohort;
+  const pct = (part: number, whole: number) => (whole === 0 ? "0%" : `${Math.round((part / whole) * 100)}%`);
+  const n = (value: number) => value.toLocaleString("en-US");
+  const K = C1_COPY.chain;
+  return (
+    <div className="ent-chain">
+      <ol className="ent-chain__steps">
+        <li>
+          <span className="ent-chain__value">{n(expected)}</span>
+          <span className="ent-chain__name">{K.expected}</span>
+          <span className="ent-chain__of">{K.sinceLaunch}</span>
+        </li>
+        <li>
+          <span className="ent-chain__value">{n(joined)}</span>
+          <span className="ent-chain__name">{K.joined}</span>
+          <span className="ent-chain__of">{K.ofExpected(pct(joined, expected))}</span>
+        </li>
+        <li>
+          <span className="ent-chain__value">{n(setUp)}</span>
+          <span className="ent-chain__name">{K.setUp}</span>
+          <span className="ent-chain__of">{K.ofJoined(pct(setUp, joined))}</span>
+        </li>
+      </ol>
+      <div className="ent-chain__bar" aria-hidden="true">
+        <i className="ent-chain__part ent-chain__part--set-up" style={{ flex: setUp }} />
+        <i className="ent-chain__part ent-chain__part--joined" style={{ flex: Math.max(0, joined - setUp) }} />
+        <i className="ent-chain__part ent-chain__part--not-yet" style={{ flex: Math.max(0, expected - joined) }} />
+      </div>
+      <ul className="ent-chain__key" aria-hidden="true">
+        <li className="ent-chain__key--set-up">{K.keySetUp(setUp)}</li>
+        <li className="ent-chain__key--joined">{K.keyJoined(Math.max(0, joined - setUp))}</li>
+        <li className="ent-chain__key--not-yet">{K.keyNotYet(Math.max(0, expected - joined))}</li>
+      </ul>
+      <div className="ent-chain__defs">
+        <p>
+          <b>{DATA_POINTS.invites.label}</b> · {DATA_POINTS.invites.brief}
+        </p>
+        <p>
+          <b>{DATA_POINTS.onboarding.label}</b> · {DATA_POINTS.onboarding.brief}
+        </p>
+      </div>
+    </div>
   );
 }
 

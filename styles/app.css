@@ -26174,6 +26174,125 @@ ul.readiness-bars {
   text-transform: uppercase;
 }
 
+/* Getting started as the joining chain (designer, 2026-11-03): three steps
+   split by hairlines, one bar of the three groups with its key, the
+   definitions at the foot. Room between each part, so it isn't tight. */
+.ent-chain {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ent-card-title);
+  flex: 1;
+}
+
+ol.ent-chain__steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ent-chain__steps li {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  min-width: 0;
+  padding-inline: var(--space-lg);
+  border-left: var(--border-width-thin) solid var(--color-border);
+}
+
+.ent-chain__steps li:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.ent-chain__steps li:last-child {
+  padding-right: 0;
+}
+
+.ent-chain__value {
+  margin-bottom: var(--space-2xs);
+  font-family: var(--type-figure-font);
+  font-size: var(--type-figure-size-lg);
+  font-weight: var(--type-figure-weight);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-primary);
+}
+
+.ent-chain__name {
+  font-size: var(--type-body-sm-size);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+  color: var(--color-text-primary);
+}
+
+.ent-chain__of {
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
+}
+
+.ent-chain__bar {
+  display: flex;
+  gap: 2px;
+  block-size: var(--space-sm);
+}
+
+.ent-chain__part {
+  border-radius: var(--radius-xs);
+}
+
+.ent-chain__part--set-up { background-color: var(--color-trend-now-top); }
+.ent-chain__part--joined { background-color: var(--color-trend-week-top); }
+.ent-chain__part--not-yet { background-color: var(--color-chart-grid); }
+
+ul.ent-chain__key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs) var(--space-lg);
+  margin: calc(var(--space-sm) - var(--ent-card-title)) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
+}
+
+.ent-chain__key li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.ent-chain__key li::before {
+  content: "";
+  inline-size: var(--space-sm);
+  block-size: var(--space-sm);
+  border-radius: var(--radius-xs);
+}
+
+.ent-chain__key--set-up::before { background-color: var(--color-trend-now-top); }
+.ent-chain__key--joined::before { background-color: var(--color-trend-week-top); }
+.ent-chain__key--not-yet::before { background-color: var(--color-chart-grid); }
+
+.ent-chain__defs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-top: auto;
+  padding-top: var(--space-copy-card);
+  border-top: var(--border-width-thin) solid var(--color-border);
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-secondary);
+}
+
+.ent-chain__defs b {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
 /* Getting started's two rings, a hairline between. */
 .ent-card--joined .ent-card__figures {
   display: flex;

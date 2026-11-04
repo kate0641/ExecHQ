@@ -1498,6 +1498,19 @@ export function stillToJoin(cohort: Cohort, window: Period): string {
 }
 
 export const C1_COPY = {
+  /** Getting started as the joining chain (designer, 2026-11-03): who was
+   *  expected, who joined, who finished setting up. */
+  chain: {
+    expected: "expected",
+    sinceLaunch: "since launch",
+    joined: "joined",
+    ofExpected: (pct: string) => `${pct} of those expected`,
+    setUp: "finished setting up",
+    ofJoined: (pct: string) => `${pct} of those who joined`,
+    keySetUp: (n: number) => `${count.format(n)} set up`,
+    keyJoined: (n: number) => `${count.format(n)} joined, not set up`,
+    keyNotYet: (n: number) => `${count.format(n)} not joined yet`,
+  },
   /** Follow-through's ring, said beside it (designer, 2026-11-03): done, and
    *  the rest, still inside their 30 days when all of them are. */
   followKey: {
