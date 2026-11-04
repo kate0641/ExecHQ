@@ -25872,16 +25872,22 @@ ul.readiness-bars {
   stroke-dasharray: 3 3;
 }
 
+/* Hover: the week picked turns a step darker; the rest stay as they are
+   (designer, 2026-11-03). */
 .weekly-trend--fade .weekly-trend__bar {
-  transition: opacity 120ms ease;
-}
-
-.weekly-trend--fade .weekly-trend__svg:has(.is-picked) .weekly-trend__bar:not(.is-picked) {
-  opacity: 0.35;
+  transition: filter 120ms ease;
 }
 
 .weekly-trend--fade .weekly-trend__bar.is-picked {
   opacity: 1;
+  filter: brightness(0.82);
+}
+
+/* This week's figure sits over its bar, in ink. */
+.weekly-trend--fade .weekly-trend__value {
+  font-size: var(--type-label-size);
+  font-weight: var(--weight-semibold);
+  fill: var(--color-text-primary);
 }
 
 .weekly-trend--fade .weekly-trend__tip {

@@ -10,6 +10,8 @@ const C = TREND_COPY;
  *  lines and words never scale with it. */
 const DEFAULT_HEIGHT = 120;
 const PAD = { top: 20, right: 4, bottom: 0, left: 4 };
+/** Room on the left for the scale's numbers in the fade look. */
+const FADE_GUTTER = 40;
 /** Below this the scale would be too fine for so few people. */
 const MIN_PEAK = 10;
 const count = new Intl.NumberFormat("en-GB");
@@ -88,15 +90,18 @@ export function WeeklyTrend({ trend, highlight, height: HEIGHT = DEFAULT_HEIGHT,
   // Values sit over the bars while there is room for them.
   const labelled = look === "flat" && weeks.length <= 10;
 
-  const slot = (width - PAD.left - PAD.right) / weeks.length;
-  const barWidth = Math.min(44, Math.max(4, slot * 0.64));
-  const x = (i: number) => PAD.left + slot * i + (slot - barWidth) / 2;
+  // The fade look keeps a gutter on the left for the scale's numbers, so no
+  // bar runs under them (designer, 2026-11-03).
+  const pad = look === "fade" ? { ...PAD, left: FADE_GUTTER } : PAD;
+  const slot = (width - pad.left - pad.right) / weeks.length;
+  const barWidth = Math.min(look === "fade" ? 36 : 44, Math.max(4, slot * (look === "fade" ? 0.56 : 0.64)));
+  const x = (i: number) => pad.left + slot * i + (slot - barWidth) / 2;
   const y = (value: number) => PAD.top + (1 - value / top) * (HEIGHT - PAD.top - PAD.bottom);
   const base = y(0);
 
   function pick(event: PointerEvent<SVGSVGElement>) {
     const box = event.currentTarget.getBoundingClientRect();
-    const at = Math.floor(((event.clientX - box.left) * (width / box.width) - PAD.left) / slot);
+    const at = Math.floor(((event.clientX - box.left) * (width / box.width) - pad.left) / slot);
     setHovered(Math.min(latestIndex, Math.max(0, at)));
   }
 
@@ -152,7 +157,7 @@ export function WeeklyTrend({ trend, highlight, height: HEIGHT = DEFAULT_HEIGHT,
           {/* The dates chosen: a band behind the weeks they touch. */}
           {highlight
             ? weeks.map((week, i) =>
-                inDates[i] ? <rect key={`band-${week.weekOf}`} className="weekly-trend__band" x={PAD.left + slot * i} y={0} width={slot} height={base} /> : null,
+                inDates[i] ? <rect key={`band-${week.weekOf}`} className="weekly-trend__band" x={pad.left + slot * i} y={0} width={slot} height={base} /> : null,
               )
             : null}
           {steps.map((value) => (
@@ -184,7 +189,7 @@ export function WeeklyTrend({ trend, highlight, height: HEIGHT = DEFAULT_HEIGHT,
                         : undefined
                   }
                 />
-                {labelled ? (
+                {labelled || (look === "fade" && week.partial) ? (
                   <text className={`weekly-trend__value weekly-trend__value--${tone}`} x={x(i) + barWidth / 2} y={base - h - 4} textAnchor="middle">
                     {count.format(week.active)}
                   </text>
@@ -210,7 +215,9 @@ export function WeeklyTrend({ trend, highlight, height: HEIGHT = DEFAULT_HEIGHT,
       <div className="weekly-trend__axis" aria-hidden="true">
         <span>{dayOf(weeks[0].weekOf)}</span>
         <span>
-          {latest.partial
+          {latest.partial && look === "fade"
+            ? C.thisWeek
+            : latest.partial
             ? latest.active === undefined
               ? `${C.thisWeek}: ${C.hiddenWeek.toLowerCase()}`
               : C.latest(count.format(latest.active))
