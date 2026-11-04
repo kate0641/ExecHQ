@@ -25997,10 +25997,11 @@ ul.readiness-bars {
    words read as a heading and a note, not one paragraph. */
 .cohort-figure--row {
   display: grid;
-  /* Just wide enough for "79%" at 36, so the eye goes straight from the
-     number to its label (designer, 2026-11-03). */
+  /* Just wide enough for "79%" at 36, then 24 to its label, so the eye
+     goes from the number to its label without a gap to cross (designer,
+     2026-11-03: 70 too far, 16 too close). */
   grid-template-columns: var(--figure-row-number, 4.5rem) minmax(0, 1fr);
-  column-gap: var(--space-md);
+  column-gap: var(--space-lg);
   align-items: start;
 }
 
