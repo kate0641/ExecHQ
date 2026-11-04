@@ -211,7 +211,9 @@ const METERS: Partial<Record<DataPointId, "ring" | "bar">> = {
   // 2026-11-03): done, and the rest still to do.
   "follow-through": "ring",
   invites: "ring",
-  onboarding: "bar",
+  // A ring too, so Getting started's two figures read alike (designer,
+  // 2026-11-03).
+  onboarding: "ring",
 };
 
 /** One question as a card: its heading and one-sentence answer, its figures
@@ -242,7 +244,7 @@ function QuestionCard({
     const row = (hero && i > 0) || question === "using";
     // A row's definition says "since the program launched" itself, so its
     // detail stays short (designer, 2026-11-03).
-    const sinceLaunch = DATA_POINTS[id].sinceLaunch && shown.detail && !row;
+    const sinceLaunch = DATA_POINTS[id].sinceLaunch && shown.detail && !row && question !== "joined";
     return (
       <CohortFigure
         key={id}
@@ -321,16 +323,18 @@ function SeenCard({ cohort, window }: { cohort: Cohort; window: DateRange }) {
       </div>
       {seen ? (
         <>
-          <p className="ent-seen__any">
-            <Meter kind="ring" fraction={seen.any.fraction}>
-              <span className="cohort-figure__value">{seen.any.value}</span>
-            </Meter>
-            <span className="ent-seen__any-label">
-              {SEEN_COPY.ring}
-              <span className="u-visually-hidden">: {seen.any.detail}</span>
-            </span>
-          </p>
-          <p className="cohort-figure__brief">{SEEN_COPY.brief}</p>
+          {/* Laid out as the page's other rings (designer, 2026-11-03): the
+              ring, then its words beside it, the count now shown. */}
+          <div className="cohort-figure cohort-figure--md cohort-figure--ring ent-seen__any">
+            <p className="cohort-figure__label">{SEEN_COPY.ring}</p>
+            <p className="cohort-figure__ringed">
+              <Meter kind="ring" fraction={seen.any.fraction}>
+                <span className="cohort-figure__value">{seen.any.value}</span>
+              </Meter>
+              <span className="cohort-figure__detail">{seen.any.detail}</span>
+            </p>
+            <p className="cohort-figure__brief">{SEEN_COPY.brief}</p>
+          </div>
           <ul className="ent-seen__channels" aria-label={SEEN_COPY.listLabel}>
             {seen.shown.map((channel) => (
               <li key={channel.label}>
@@ -423,6 +427,10 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
           <linearGradient id="ent-follow-done" x1={1} y1={0.4} x2={0.2} y2={1}>
             <stop offset={0} className="ent-follow-done__start" />
             <stop offset={1} className="ent-follow-done__end" />
+          </linearGradient>
+          <linearGradient id="ent-people-ring" x1={1} y1={0.4} x2={0.2} y2={1}>
+            <stop offset={0} className="ent-people-ring__start" />
+            <stop offset={1} className="ent-people-ring__end" />
           </linearGradient>
         </defs>
       </svg>

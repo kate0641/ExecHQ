@@ -652,7 +652,7 @@ export const DATA_POINTS: Record<DataPointId, DataPoint> = {
     label: "Joined",
     question: "joined",
     definition: "How many people made an account with your cohort’s code, against the size you expected.",
-    brief: "Accounts made with your cohort’s code, against the size you expected.",
+    brief: "Accounts made with your cohort’s code, against the size you expected, since the program launched.",
     source: "Codes redeemed. You see the count, never who.",
     sinceLaunch: true,
     alwaysShown: true,
@@ -661,7 +661,7 @@ export const DATA_POINTS: Record<DataPointId, DataPoint> = {
     label: "Set up",
     question: "joined",
     definition: "Of the people who joined, how many finished setting up and reached their first piece of work.",
-    brief: "Of those who joined, how many finished setting up.",
+    brief: "Counts once they finish setting up, since the program launched.",
     source: "The end of setup in ExecHQ.",
     sinceLaunch: true,
   },
@@ -763,7 +763,7 @@ export function figureFor(cohort: Cohort, id: DataPointId, window: Period): Figu
     },
     onboarding: {
       value: share(cohort.activated, cohort.joined),
-      detail: `${count.format(cohort.activated)} of ${count.format(cohort.joined)} who joined`,
+      detail: `${count.format(cohort.activated)} of the ${count.format(cohort.joined)} who joined`,
       fraction: fraction(cohort.activated, cohort.joined),
     },
     active: {

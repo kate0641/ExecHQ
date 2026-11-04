@@ -26082,8 +26082,10 @@ ul.readiness-bars {
   border-left: var(--border-width-thin) solid var(--color-border);
 }
 
-/* Follow-through: its ring on the left, what it is and its key beside it. */
-.ent-card--following .cohort-figure--ring {
+/* A ring figure on the admin pages (designer, 2026-11-03): the ring on the
+   left, what it is, its detail and definition beside it. Follow-through's
+   ring is the largest; the lower cards' are smaller. */
+.ent-page .cohort-figure--ring {
   display: grid;
   grid-template-columns: var(--follow-ring-size) minmax(0, 1fr);
   /* Room between the ring and its words (designer, 2026-11-03). */
@@ -26092,20 +26094,24 @@ ul.readiness-bars {
   align-items: center;
 }
 
-.ent-card--following .cohort-figure--ring > *,
-.ent-card--following .cohort-figure--ring .cohort-figure__ringed > * {
+.ent-page .cohort-figure--ring > *,
+.ent-page .cohort-figure--ring .cohort-figure__ringed > * {
   grid-column: 2;
 }
 
-.ent-card--following .cohort-figure--ring .cohort-figure__ringed {
+.ent-page .cohort-figure--ring .cohort-figure__ringed {
   display: contents;
 }
 
-.ent-card--following .cohort-figure--ring .meter--ring {
+.ent-page .cohort-figure--ring .meter--ring {
   grid-column: 1;
   grid-row: 1 / span 6;
   inline-size: var(--follow-ring-size);
   block-size: var(--follow-ring-size);
+}
+
+.ent-page {
+  --follow-ring-size: 7.5rem;
 }
 
 .ent-card--following {
@@ -26129,6 +26135,52 @@ ul.readiness-bars {
 .ent-card--following .meter--ring .meter__fill {
   stroke: url(#ent-follow-done);
   stroke-linecap: butt;
+}
+
+/* The lower cards' rings (designer, 2026-11-03): the weekly bars' colours,
+   fading from this week's darkest to a full week's, on the stone track. */
+.ent-card--seen .meter--ring .meter__track,
+.ent-card--seen .meter--ring .meter__fill,
+.ent-card--joined .meter--ring .meter__track,
+.ent-card--joined .meter--ring .meter__fill {
+  stroke-width: 3.6;
+}
+
+.ent-card--seen .meter--ring .meter__track,
+.ent-card--joined .meter--ring .meter__track {
+  stroke: var(--color-follow-open);
+}
+
+.ent-card--seen .meter--ring .meter__fill,
+.ent-card--joined .meter--ring .meter__fill {
+  stroke: url(#ent-people-ring);
+  stroke-linecap: butt;
+}
+
+.ent-people-ring__start { stop-color: var(--color-trend-now-top); }
+.ent-people-ring__end { stop-color: var(--color-trend-week-top); }
+
+.ent-card--seen .meter--ring .cohort-figure__value,
+.ent-card--joined .meter--ring .cohort-figure__value {
+  font-size: var(--type-figure-size);
+}
+
+/* The label of Showing up's ring is its sentence; it starts capitalised. */
+.ent-seen__any .cohort-figure__label::first-letter {
+  text-transform: uppercase;
+}
+
+/* Getting started's two rings, a hairline between. */
+.ent-card--joined .ent-card__figures {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.ent-card--joined .ent-card__figures > * + * {
+  margin-top: var(--ent-divided-item);
+  padding-top: var(--ent-divided-item);
+  border-top: var(--border-width-thin) solid var(--color-border);
 }
 
 .ent-card--following .meter--ring .cohort-figure__value {
@@ -26249,7 +26301,7 @@ ul.readiness-bars {
 }
 
 .cohort-figure--row > .cohort-figure__label,
-.ent-card--following .cohort-figure--ring > .cohort-figure__label {
+.ent-page .cohort-figure--ring > .cohort-figure__label {
   grid-row: 1;
   font-family: var(--type-subheading-font, var(--type-label-font));
   font-size: var(--type-body-size);
@@ -26299,14 +26351,16 @@ ul.readiness-bars {
 }
 
 .ent-page .cohort-figure--row > .cohort-figure__detail,
-.ent-card--following .cohort-figure--ring .cohort-figure__detail {
+.ent-page .cohort-figure--ring .cohort-figure__detail {
   color: var(--color-text-primary);
 }
 
 /* Inside the hero and Staying with it the hairlines do the structuring, so
    a definition loses its left rule. */
 .ent-card--following .cohort-figure__brief,
-.ent-card--using .cohort-figure__brief {
+.ent-card--using .cohort-figure__brief,
+.ent-card--seen .cohort-figure__brief,
+.ent-card--joined .cohort-figure__brief {
   padding-left: 0;
   border-left: 0;
 }
@@ -26366,6 +26420,8 @@ ul.readiness-bars {
 
 .ent-seen__note {
   margin-top: auto;
+  padding-top: var(--space-copy-card);
+  border-top: var(--border-width-thin) solid var(--color-border);
   font-size: var(--type-caption-size);
   line-height: var(--type-caption-leading);
   color: var(--color-text-secondary);
