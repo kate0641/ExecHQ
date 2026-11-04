@@ -1459,8 +1459,16 @@ export function answerFor(cohort: Cohort, question: QuestionId, window: Period):
   switch (question) {
     case "following":
       return above ? `They made ${n(c.artifacts)} pieces of work ${inWindow(window)} and used ${n(c.artifactsUsed)} of them outside ExecHQ.` : undefined;
-    case "using":
-      return above ? `${n(c.briefingWeekly)} of the ${n(c.active)} active read the Daily Briefing at least once a week.` : undefined;
+    case "using": {
+      // The trend in a sentence, not the Briefing figure beside it again
+      // (designer, 2026-11-03): the chart's own summary, said aloud.
+      if (!above) return undefined;
+      const trend = trendFor(cohort);
+      const shown = trend.weeks.filter((week) => week.active !== undefined).map((week) => week.active!);
+      if (!shown.length) return undefined;
+      const last = trend.weeks[trend.weeks.length - 1];
+      return TREND_COPY.summary(shown[0], Math.max(...shown), last.active ?? shown[shown.length - 1], trend.weeks.length);
+    }
     case "joined":
       return above
         ? `${n(cohort.activated)} of the ${n(cohort.joined)} who joined have finished setting up.`

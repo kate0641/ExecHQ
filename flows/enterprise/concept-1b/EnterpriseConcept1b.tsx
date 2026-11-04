@@ -442,7 +442,9 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
                     always since launch, whichever dates are chosen. */}
                 {question === "using" ? (
                   <div className="ent-card__trend">
-                    <WeeklyTrend trend={trendFor(cohort)} highlight={window} />
+                    {/* No shading for the dates (designer, 2026-11-03): this week's
+                        hatching is the one mark, and every week is in navy. */}
+                    <WeeklyTrend trend={trendFor(cohort)} />
                     <p className="cohort-figure__brief">{TREND_COPY.brief}</p>
                   </div>
                 ) : null}
