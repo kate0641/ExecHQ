@@ -25802,12 +25802,44 @@ ul.readiness-bars {
 /* The board (Kate, 2026-10-20): the three questions as cards on the page's
    grey. Follow-through leads across the full width; still using it and did
    they join sit side by side under it. */
-/* Three cards under the hero: using, being seen, joining (Kate, 2026-10-20). */
+/* Under the hero (designer, 2026-11-03): Staying with it across the full
+   width, its weekly chart given room to grow a bar a week; Showing up in
+   the world and Getting started side by side, two cards of a size. The
+   spec's order holds; only the widths change (Kate, 2026-10-20: three in a
+   row). */
 .ent-board {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: stretch;
   gap: var(--space-between-cards);
+}
+
+/* Staying with it: the heading and its two figures on the left, the chart
+   on the right, a hairline between. */
+.ent-board > .ent-card--using {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+  grid-template-rows: auto 1fr;
+  column-gap: 0;
+  row-gap: var(--ent-card-title);
+}
+
+.ent-card--using > .ent-card__lead,
+.ent-card--using > .ent-card__figures {
+  grid-column: 1;
+  padding-right: var(--ent-divided-item);
+}
+
+.ent-card--using > .ent-card__figures {
+  align-content: start;
+}
+
+.ent-card--using > .ent-card__trend {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  padding-left: var(--ent-divided-item);
+  border-left: var(--border-width-thin) solid var(--color-border);
 }
 
 .ent-card {
