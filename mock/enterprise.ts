@@ -1510,6 +1510,10 @@ export const C1_COPY = {
     keySetUp: (n: number) => `${count.format(n)} set up`,
     keyJoined: (n: number) => `${count.format(n)} joined, not set up`,
     keyNotYet: (n: number) => `${count.format(n)} not joined yet`,
+    /** The chain's definitions say only what counts: "since launch" is said
+     *  once, under expected, and the share of those expected is a step's. */
+    joinedDef: "Accounts made with your cohort’s code.",
+    setUpDef: "Counts once they finish setting up.",
   },
   /** Follow-through's ring, said beside it (designer, 2026-11-03): done, and
    *  the rest, still inside their 30 days when all of them are. */

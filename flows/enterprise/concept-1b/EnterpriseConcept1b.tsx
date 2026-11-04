@@ -352,10 +352,10 @@ function JoiningChain({ cohort }: { cohort: Cohort }) {
       </ul>
       <div className="ent-chain__defs">
         <p>
-          <b>{DATA_POINTS.invites.label}</b> · {DATA_POINTS.invites.brief}
+          <b>{DATA_POINTS.invites.label}</b> · {K.joinedDef}
         </p>
         <p>
-          <b>{DATA_POINTS.onboarding.label}</b> · {DATA_POINTS.onboarding.brief}
+          <b>{DATA_POINTS.onboarding.label}</b> · {K.setUpDef}
         </p>
       </div>
     </div>
