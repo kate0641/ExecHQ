@@ -26034,8 +26034,35 @@ ul.readiness-bars {
 }
 
 .cohort-figure--row > .cohort-figure__brief {
-  max-width: 46ch;
   margin-top: var(--space-sm);
+}
+
+/* Definitions and directions at the size of the line above them on the
+   admin pages (designer, 2026-11-03: at 14 they read as disclaimers). The
+   order comes from colour and the break instead: the line under a label
+   in ink describes the number, the grey lines under it explain it. A
+   shorter measure and balanced last lines, so no word is left alone. */
+.ent-page .cohort-figure__brief,
+.ent-page .cohort-figure__direction,
+.ent-page .ent-readiness__brief {
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+}
+
+.ent-page .cohort-figure__brief,
+.ent-page .cohort-figure__detail,
+.ent-page .ent-readiness__brief {
+  max-width: 40ch;
+  text-wrap: pretty;
+}
+
+.ent-page .ent-readiness__brief {
+  max-width: 72ch;
+}
+
+.ent-page .cohort-figure--row > .cohort-figure__detail,
+.ent-card--following .cohort-figure--ring .cohort-figure__detail {
+  color: var(--color-text-primary);
 }
 
 /* Inside the hero the hairlines do the structuring, so a definition loses
