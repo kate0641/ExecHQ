@@ -768,7 +768,8 @@ export function figureFor(cohort: Cohort, id: DataPointId, window: Period): Figu
     },
     active: {
       value: share(c.active, cohort.activated),
-      detail: `${count.format(c.active)} of ${count.format(cohort.activated)} set up`,
+      // Said in full, so "of 33" has its source (designer, 2026-11-03).
+      detail: `${count.format(c.active)} of the ${count.format(cohort.activated)} who finished setting up`,
       fraction: fraction(c.active, cohort.activated),
     },
     briefing: {
@@ -779,7 +780,7 @@ export function figureFor(cohort: Cohort, id: DataPointId, window: Period): Figu
     plans: {
       value: share(cohort.planAccepted, cohort.activated),
       // "of the 33 set up" ties the fraction to what it counts (designer, 2026-11-03).
-      detail: `${count.format(cohort.planAccepted)} of the ${count.format(cohort.activated)} set up`,
+      detail: `${count.format(cohort.planAccepted)} of the ${count.format(cohort.activated)} who finished setting up`,
       fraction: fraction(cohort.planAccepted, cohort.activated),
     },
     "follow-through": {
