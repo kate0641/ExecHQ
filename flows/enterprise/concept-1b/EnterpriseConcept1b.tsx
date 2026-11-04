@@ -239,7 +239,10 @@ function QuestionCard({
     // No Filling in tag here (Kate, 2026-10-20): a young window shows as it
     // is. Followed through's definition says recent actions still have time.
     const shown: typeof figure = figure.state === "filling" ? { ...figure, state: "shown", note: undefined } : figure;
-    const sinceLaunch = DATA_POINTS[id].sinceLaunch && shown.detail;
+    const row = (hero && i > 0) || question === "using";
+    // A row's definition says "since the program launched" itself, so its
+    // detail stays short (designer, 2026-11-03).
+    const sinceLaunch = DATA_POINTS[id].sinceLaunch && shown.detail && !row;
     return (
       <CohortFigure
         key={id}
@@ -250,8 +253,8 @@ function QuestionCard({
         // In the hero, the figures after the first are rows: the number on
         // the left, its words to the right (designer, 2026-11-03).
         // Staying with it's two figures are rows too (designer, 2026-11-03).
-        className={(hero && i > 0) || question === "using" ? "ent-tile" : undefined}
-        layout={(hero && i > 0) || question === "using" ? "row" : "stack"}
+        className={row ? "ent-tile" : undefined}
+        layout={row ? "row" : "stack"}
         brief={C.briefs[id] ?? DATA_POINTS[id].brief}
       >
         {hero && i === 0 && split && shown.state !== "suppressed" ? (

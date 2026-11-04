@@ -683,7 +683,7 @@ export const DATA_POINTS: Record<DataPointId, DataPoint> = {
     label: "Chose a plan",
     question: "following",
     definition: "Of the people set up, how many accepted a development plan.",
-    brief: "Counts once they accept their development plan in ExecHQ.",
+    brief: "Counts once they accept their development plan in ExecHQ, since the program launched.",
     source: "Plans accepted in ExecHQ.",
     sinceLaunch: true,
   },
