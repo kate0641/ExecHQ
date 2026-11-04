@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
 import { Icon } from "@/components/primitives/Icon";
 import { ENTERPRISE_COPY, TREND_COPY, abbrevDate, formatDate, weekInRange, type TrendView } from "@/mock/enterprise";
 
@@ -14,8 +14,8 @@ const PAD = { top: 20, right: 4, bottom: 0, left: 4 };
  *  top line for the hover pill over the tallest week (designer, 2026-11-03). */
 const FADE_GUTTER = 40;
 const FADE_HEADROOM = 64;
-/** About half the hover pill's width: closer to an edge than this, it leans in. */
-const TIP_HALF = 64;
+/** How far the pill may reach past the plot, into the card's padding. */
+const TIP_OVERHANG = 16;
 /** Below this the scale would be too fine for so few people. */
 const MIN_PEAK = 10;
 const count = new Intl.NumberFormat("en-GB");
@@ -66,6 +66,14 @@ export function WeeklyTrend({ trend, highlight, height = DEFAULT_HEIGHT, look = 
   const HEIGHT = fill ? Math.max(DEFAULT_HEIGHT, room) : height;
   const [hovered, setHovered] = useState<number | undefined>(undefined);
   const picked = demoWeek ?? hovered;
+  // The pill's own width, measured, so it leans in only when centring it
+  // would run it off the chart.
+  const tipRef = useRef<HTMLParagraphElement>(null);
+  const [tipWidth, setTipWidth] = useState(0);
+  useLayoutEffect(() => {
+    const measured = tipRef.current?.offsetWidth ?? 0;
+    if (measured && measured !== tipWidth) setTipWidth(measured);
+  }, [hovered, demoWeek, trend, tipWidth]);
 
   useEffect(() => {
     const plot = plotRef.current;
@@ -262,6 +270,7 @@ export function WeeklyTrend({ trend, highlight, height = DEFAULT_HEIGHT, look = 
 
         {pickedWeek ? (
           <p
+            ref={tipRef}
             className="weekly-trend__tip"
             aria-hidden="true"
             style={
@@ -276,9 +285,9 @@ export function WeeklyTrend({ trend, highlight, height = DEFAULT_HEIGHT, look = 
             data-side={
               look === "fade"
                 ? // Centred on the bar wherever it fits; leaning in only at an edge.
-                  x(shownIndex!) + barWidth / 2 < TIP_HALF
+                  x(shownIndex!) + barWidth / 2 - tipWidth / 2 < -TIP_OVERHANG
                   ? "start"
-                  : x(shownIndex!) + barWidth / 2 > width - TIP_HALF
+                  : x(shownIndex!) + barWidth / 2 + tipWidth / 2 > width + TIP_OVERHANG
                     ? "end"
                     : "middle"
                 : picked! > latestIndex * 0.66
