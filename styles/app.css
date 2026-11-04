@@ -25997,8 +25997,10 @@ ul.readiness-bars {
    words read as a heading and a note, not one paragraph. */
 .cohort-figure--row {
   display: grid;
-  grid-template-columns: var(--figure-row-number, 6.5rem) minmax(0, 1fr);
-  column-gap: var(--space-lg);
+  /* Just wide enough for "79%" at 36, so the eye goes straight from the
+     number to its label (designer, 2026-11-03). */
+  grid-template-columns: var(--figure-row-number, 4.5rem) minmax(0, 1fr);
+  column-gap: var(--space-md);
   align-items: start;
 }
 
