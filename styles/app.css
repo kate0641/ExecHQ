@@ -13821,6 +13821,25 @@ ul.login__never {
 }
 
 /* The drawn email rises almost to the top, as another app would. */
+/* The admin login's panels on the web (designer, 2026-11-04): taller than
+   wide, as a dialog, not a banner across the page. A narrow column of 28rem,
+   the admin cards' 32 padding all round, and the admin type roles, so the
+   words read at the same sizes as the dashboard's. The button keeps the
+   gap before actions above it, like a heading. */
+[data-viewport="web"] .sheet--admin:not(.sheet--tall) .sheet__panel:not(:where([data-viewport="mobile"] *)) {
+  --type-caption-size: var(--text-sm);
+  --type-caption-leading: var(--leading-normal);
+  --type-body-sm-size: var(--text-md);
+  --type-label-size: var(--text-md);
+  --type-body-size: var(--text-lg);
+  max-width: 28rem;
+  padding: var(--space-xl);
+}
+
+.sheet--admin .detail-panel > .btn:last-child {
+  margin-top: calc(var(--space-before-actions) - var(--space-md));
+}
+
 .sheet--tall .sheet__panel {
   max-height: 94%;
   padding: 0;

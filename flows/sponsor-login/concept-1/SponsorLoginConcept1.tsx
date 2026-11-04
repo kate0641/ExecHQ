@@ -356,7 +356,7 @@ export function SponsorLoginConcept1() {
       >
         <div className="login">{view.children}</div>
       </WelcomeSplit>
-      <Sheet open={sheet !== null} onClose={() => setSheet(null)} label={sheetLabel} className={sheet === "email" ? "sheet--tall" : undefined}>
+      <Sheet open={sheet !== null} onClose={() => setSheet(null)} label={sheetLabel} className={sheet === "email" ? "sheet--admin sheet--tall" : "sheet--admin"}>
         {sheetContent()}
       </Sheet>
       <output className="u-visually-hidden">{message}</output>
