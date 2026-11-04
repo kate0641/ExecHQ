@@ -25854,7 +25854,9 @@ ul.readiness-bars {
 .ent-card--using > .ent-card__trend {
   grid-column: 2;
   grid-row: 1 / span 2;
-  align-self: center;
+  /* Full height, so the divider runs the card's height; the chart centred
+     inside it. */
+  justify-content: center;
   padding-left: var(--ent-divided-item);
   border-left: var(--border-width-thin) solid var(--color-border);
 }
