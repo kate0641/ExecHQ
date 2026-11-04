@@ -247,8 +247,10 @@ function QuestionCard({
         size={i === 0 ? "lg" : "md"}
         direction={directionFor(cohort, id, window)}
         meter={METERS[id]}
-        // In the hero, the figures after the first are tiles.
+        // In the hero, the figures after the first are rows: the number on
+        // the left, its words to the right (designer, 2026-11-03).
         className={hero && i > 0 ? "ent-tile" : undefined}
+        layout={hero && i > 0 ? "row" : "stack"}
         brief={C.briefs[id] ?? DATA_POINTS[id].brief}
       >
         {hero && i === 0 && split && shown.state !== "suppressed" ? (

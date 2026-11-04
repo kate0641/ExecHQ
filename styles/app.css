@@ -25893,7 +25893,7 @@ ul.readiness-bars {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
-  margin-block: var(--space-md);
+  margin-block: var(--space-md) var(--space-sm);
   padding: 0;
   list-style: none;
   font-size: var(--type-body-sm-size);
@@ -25975,9 +25975,48 @@ ul.readiness-bars {
   padding-bottom: 0;
 }
 
-.ent-tile .cohort-figure__brief {
-  max-width: 36ch;
-  margin-top: var(--space-xs);
+/* A row figure (designer, 2026-11-03): the number on the left at the large
+   figure size, as the stats and the ring; to its right the label and what
+   it's out of held together, then a break before the definition, so the
+   words read as a heading and a note, not one paragraph. */
+.cohort-figure--row {
+  display: grid;
+  grid-template-columns: var(--figure-row-number, 6.5rem) minmax(0, 1fr);
+  column-gap: var(--space-lg);
+  align-items: start;
+}
+
+.cohort-figure--row > * {
+  grid-column: 2;
+}
+
+.cohort-figure--row > .cohort-figure__value {
+  grid-column: 1;
+  grid-row: 1 / span 5;
+  font-size: var(--type-figure-size-lg);
+  line-height: 1;
+}
+
+.cohort-figure--row > .cohort-figure__label,
+.ent-card--following .cohort-figure--ring > .cohort-figure__label {
+  grid-row: 1;
+  font-family: var(--type-subheading-font, var(--type-label-font));
+  font-size: var(--type-body-size);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.cohort-figure--row > .cohort-figure__detail {
+  margin-top: var(--space-3xs);
+}
+
+.cohort-figure--row > .cohort-figure__direction {
+  margin-top: var(--space-2xs);
+}
+
+.cohort-figure--row > .cohort-figure__brief {
+  max-width: 46ch;
+  margin-top: var(--space-sm);
 }
 
 /* Inside the hero the hairlines do the structuring, so a definition loses

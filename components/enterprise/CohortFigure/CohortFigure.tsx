@@ -19,6 +19,10 @@ export interface CohortFigureProps {
   /** Draws the share as a ring (the number in its middle) or a bar under the
    *  number. Only for figures that are a share, and never while hidden. */
   meter?: "ring" | "bar";
+  /** `row` (designer, 2026-11-03): the number in a column of its own on the
+   *  left, and the label, what it is out of and its definition read to its
+   *  right, as the hero's three on the right. */
+  layout?: "stack" | "row";
   /** Opens how the figure is measured, from the info icon beside its name.
    *  Every figure has one, so a page always passes it; the catalogue may
    *  leave it off. */
@@ -51,11 +55,11 @@ export interface CohortFigureProps {
  * target and no colour carrying meaning. The one comparison is a direction
  * since last week, in words with an arrow, never a count (Kate, 2026-10-20).
  */
-export function CohortFigure({ figure, size = "md", direction, meter, onExplain, explaining, window = "30d", brief, children, demo, className }: CohortFigureProps) {
+export function CohortFigure({ figure, size = "md", direction, meter, onExplain, explaining, window = "30d", brief, children, layout = "stack", demo, className }: CohortFigureProps) {
   const icon = useRef<HTMLButtonElement>(null);
   const drawn = meter && figure.state !== "suppressed" && figure.fraction !== undefined ? meter : undefined;
   const muted = figure.state === "filling";
-  const classes = ["cohort-figure", `cohort-figure--${size}`, `cohort-figure--${figure.state}`, drawn ? `cohort-figure--${drawn}` : null, className]
+  const classes = ["cohort-figure", `cohort-figure--${size}`, `cohort-figure--${figure.state}`, drawn ? `cohort-figure--${drawn}` : null, layout === "row" ? "cohort-figure--row" : null, className]
     .filter(Boolean)
     .join(" ");
 
@@ -91,6 +95,11 @@ export function CohortFigure({ figure, size = "md", direction, meter, onExplain,
           </Meter>
           {figure.detail ? <span className="cohort-figure__detail">{figure.detail}</span> : null}
         </p>
+      ) : layout === "row" ? (
+        <>
+          <p className="cohort-figure__value">{figure.value}</p>
+          {figure.detail ? <p className="cohort-figure__detail">{figure.detail}</p> : null}
+        </>
       ) : (
         <p className="cohort-figure__value">
           {figure.value}

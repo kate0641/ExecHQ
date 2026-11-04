@@ -32,6 +32,7 @@ export const cohortFigureStates = defineComponentStates({
     { label: "With a ring", props: { figure: figureFor(pilot, "invites", "launch"), size: "lg", meter: "ring", onExplain: noop } },
     { label: "Bar while filling in", props: { figure: figureFor(pilot, "onboarding", "30d"), meter: "bar", onExplain: noop } },
     { label: "Moving up since last week", props: { figure: active, direction: "up", onExplain: noop } },
+    { label: "Row: the number on the left, its words to the right", props: { figure: figureFor(pilot, "plans", "launch"), layout: "row", direction: "up", brief: "Of those set up, how many accepted a development plan." } },
     { label: "Moving down since last week", props: { figure: figureFor(COHORTS.demo, "active", "30d"), direction: "down", onExplain: noop } },
     { label: "Large, moving up", props: { figure: figureFor(pilot, "plans", "launch"), size: "lg", direction: "up", onExplain: noop } },
     { label: "Filling in, 30 days at day 17", props: { figure: figureFor(pilot, "active", "30d"), onExplain: noop } },
