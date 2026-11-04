@@ -25508,14 +25508,15 @@ ul.li-shares {
   min-width: 0;
   max-width: var(--content-measure);
   margin-right: auto;
-  font-size: var(--type-body-sm-size);
-  line-height: var(--type-body-sm-leading);
+  /* The caption role, so it fits beside the buttons (designer, 2026-11-03). */
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
   color: var(--color-text-secondary);
 }
 
 .ent-late__icon {
   flex: none;
-  margin-top: var(--space-3xs);
+  margin-top: 0;
   color: var(--color-icon-late);
 }
 

@@ -180,7 +180,7 @@ function CohortTools({ cohort, window, onWindow }: { cohort: Cohort; window: Dat
           cards; on their left, as the buttons sit at the right edge. */}
       {cohort.lateSince ? (
         <p className="ent-late">
-          <Icon name="warning" size={18} className="ent-late__icon" />
+          <Icon name="warning" size={16} className="ent-late__icon" />
           {LATE_COPY.notice(cohort.asOf)}
         </p>
       ) : null}
