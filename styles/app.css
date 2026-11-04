@@ -26606,6 +26606,47 @@ ul.ent-chain__key {
   word-spacing: var(--type-card-title-word-spacing);
 }
 
+/* The closing card in the system (designer, 2026-11-04): split in half as
+   the full-width cards above are, so its divider lines up with theirs. Who
+   is still to come on the left, as the card's heading; the code to bring
+   them in on the right, the code itself large. */
+.ent-page > .ent-close {
+  display: grid;
+  grid-template-columns: var(--ent-split);
+  gap: 0;
+  align-items: start;
+}
+
+.ent-page > .ent-close .ent-close__line {
+  padding-right: var(--ent-divided-item);
+  font-family: var(--type-heading-font);
+  font-size: var(--type-heading-size);
+  font-weight: var(--type-heading-weight);
+  line-height: var(--type-heading-leading);
+  letter-spacing: var(--type-heading-tracking);
+  text-wrap: balance;
+}
+
+.ent-page > .ent-close .invite-code {
+  align-self: stretch;
+  gap: var(--space-sm);
+  padding-left: var(--ent-divided-item);
+  border-left: var(--border-width-thin) solid var(--color-border);
+}
+
+.ent-page > .ent-close .invite-code__heading {
+  font-size: var(--type-body-size);
+  font-weight: var(--weight-semibold);
+}
+
+.ent-page > .ent-close .invite-code__code {
+  font-size: var(--text-2xl);
+}
+
+.ent-page > .ent-close .invite-code__actions {
+  margin-top: var(--space-sm);
+}
+
 .ent-page__foot {
   display: flex;
   flex-direction: column;
