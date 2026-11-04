@@ -25612,7 +25612,7 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
-.ent-card--readiness {
+.ent-card.ent-card--readiness {
   gap: 0;
 }
 
