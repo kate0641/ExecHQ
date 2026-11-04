@@ -26816,7 +26816,9 @@ ul.sponsor-profile__points {
   line-height: var(--type-body-sm-leading);
 }
 
-.sponsor-profile .settings-row__value {
+.sponsor-profile .settings-row__value,
+ul.sponsor-profile__points li,
+.sponsor-profile__told {
   text-wrap: pretty;
 }
 
