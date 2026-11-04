@@ -25849,9 +25849,12 @@ ul.readiness-bars {
   color: var(--color-text-primary);
 }
 
+/* The chart sits centred in its half (designer, 2026-11-03), as the
+   follow-through ring sits centred in Putting it into practice. */
 .ent-card--using > .ent-card__trend {
   grid-column: 2;
   grid-row: 1 / span 2;
+  align-self: center;
   padding-left: var(--ent-divided-item);
   border-left: var(--border-width-thin) solid var(--color-border);
 }
