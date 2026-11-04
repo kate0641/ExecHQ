@@ -25859,12 +25859,11 @@ ul.readiness-bars {
   fill: var(--color-trend-bar);
 }
 
+/* This week, still going: a lighter solid blue, not stripes. The chart
+   sets the hatching inline, so this has to outrank it. */
 .ent-card--using .weekly-trend__bar--on.is-partial {
-  stroke: var(--color-trend-bar-partial);
-}
-
-.ent-card--using .weekly-trend__hatch--on {
-  stroke: var(--color-trend-bar-partial);
+  fill: var(--color-trend-bar-partial) !important;
+  stroke: none;
 }
 
 /* The chart's name reads as the figures' labels do (designer, 2026-11-03). */

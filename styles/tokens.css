@@ -242,9 +242,9 @@
   /* The stats' short bars (designer, 2026-11-03): navy. */
   --color-stats-bar: var(--brand-navy);
   /* Active each week's bars on the admin dashboard (designer, 2026-11-03):
-     blue 300, this week's hatching and outline a step deeper so it reads. */
-  --color-trend-bar: var(--brand-blue-300);
-  --color-trend-bar-partial: var(--brand-blue-500);
+     full weeks blue 500, this week, still going, a lighter blue 300. */
+  --color-trend-bar: var(--brand-blue-500);
+  --color-trend-bar-partial: var(--brand-blue-300);
   /* A chart's scale, lightest to darkest, ending on the chart line: palette
      steps, never blends (designer, 2026-11-02). The readiness bars use it. */
   --color-chart-scale-1: var(--brand-blue-200);
