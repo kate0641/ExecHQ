@@ -26095,10 +26095,11 @@ ul.readiness-bars {
   line-height: var(--type-body-sm-leading);
 }
 
+/* The words beside a figure use their column's width now the cards split
+   in half (designer, 2026-11-03), the copy trimmed to fit one line. */
 .ent-page .cohort-figure__brief,
 .ent-page .cohort-figure__detail,
 .ent-page .ent-readiness__brief {
-  max-width: 40ch;
   text-wrap: pretty;
 }
 
