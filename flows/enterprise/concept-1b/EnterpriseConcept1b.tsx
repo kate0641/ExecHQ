@@ -249,8 +249,9 @@ function QuestionCard({
         meter={METERS[id]}
         // In the hero, the figures after the first are rows: the number on
         // the left, its words to the right (designer, 2026-11-03).
-        className={hero && i > 0 ? "ent-tile" : undefined}
-        layout={hero && i > 0 ? "row" : "stack"}
+        // Staying with it's two figures are rows too (designer, 2026-11-03).
+        className={(hero && i > 0) || question === "using" ? "ent-tile" : undefined}
+        layout={(hero && i > 0) || question === "using" ? "row" : "stack"}
         brief={C.briefs[id] ?? DATA_POINTS[id].brief}
       >
         {hero && i === 0 && split && shown.state !== "suppressed" ? (

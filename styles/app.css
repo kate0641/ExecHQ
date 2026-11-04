@@ -25832,7 +25832,16 @@ ul.readiness-bars {
 }
 
 .ent-card--using > .ent-card__figures {
-  align-content: start;
+  display: flex;
+  flex-direction: column;
+}
+
+/* The chart's name reads as the figures' labels do (designer, 2026-11-03). */
+.ent-card--using .weekly-trend__label {
+  font-family: var(--type-subheading-font);
+  font-size: var(--type-body-size);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
 }
 
 .ent-card--using > .ent-card__trend {
@@ -26103,9 +26112,10 @@ ul.readiness-bars {
   color: var(--color-text-primary);
 }
 
-/* Inside the hero the hairlines do the structuring, so a definition loses
-   its left rule. */
-.ent-card--following .cohort-figure__brief {
+/* Inside the hero and Staying with it the hairlines do the structuring, so
+   a definition loses its left rule. */
+.ent-card--following .cohort-figure__brief,
+.ent-card--using .cohort-figure__brief {
   padding-left: 0;
   border-left: 0;
 }
