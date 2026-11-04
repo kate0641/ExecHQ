@@ -26056,6 +26056,12 @@ ul.readiness-bars {
   text-wrap: pretty;
 }
 
+/* Definitions even their lines at whatever width the card is (designer,
+   2026-11-03), rather than breaks set by hand that only hold at one width. */
+.ent-page .cohort-figure__brief {
+  text-wrap: balance;
+}
+
 .ent-page .ent-readiness__brief {
   max-width: 72ch;
 }
