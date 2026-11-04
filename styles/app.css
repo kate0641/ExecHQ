@@ -25922,6 +25922,43 @@ ul.readiness-bars {
   color: var(--color-text-inverse);
 }
 
+/* The pill floats over the bar picked, an arrow on its foot pointing at the
+   bar's top (designer, 2026-11-03), never pinned to the chart's top line.
+   At the first and last week it leans inward so it stays on the card. */
+.weekly-trend--fade .weekly-trend__tip {
+  --tip-arrow: 6px;
+  transform: translate(-50%, calc(-100% - var(--tip-arrow) - var(--space-2xs)));
+  align-items: center;
+}
+
+.weekly-trend--fade .weekly-trend__tip[data-side="start"] {
+  transform: translate(calc(-1 * var(--space-md)), calc(-100% - var(--tip-arrow) - var(--space-2xs)));
+  align-items: flex-start;
+}
+
+.weekly-trend--fade .weekly-trend__tip[data-side="end"] {
+  transform: translate(calc(-100% + var(--space-md)), calc(-100% - var(--tip-arrow) - var(--space-2xs)));
+  align-items: flex-end;
+}
+
+.weekly-trend--fade .weekly-trend__tip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  border: var(--tip-arrow) solid transparent;
+  border-top-color: var(--color-surface-inverse);
+  transform: translateX(-50%);
+}
+
+.weekly-trend--fade .weekly-trend__tip[data-side="start"]::after {
+  left: var(--space-md);
+}
+
+.weekly-trend--fade .weekly-trend__tip[data-side="end"]::after {
+  left: calc(100% - var(--space-md));
+}
+
 @media (prefers-reduced-motion: reduce) {
   .weekly-trend--fade .weekly-trend__bar {
     transition: none;

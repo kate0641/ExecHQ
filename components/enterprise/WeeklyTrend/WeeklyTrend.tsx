@@ -214,8 +214,18 @@ export function WeeklyTrend({ trend, highlight, height = DEFAULT_HEIGHT, look = 
           <p
             className="weekly-trend__tip"
             aria-hidden="true"
-            style={{ left: `${((x(picked!) + barWidth) / width) * 100}%` }}
-            data-side={picked! > latestIndex * 0.66 ? "left" : undefined}
+            style={
+              look === "fade"
+                ? // Over the bar picked, its arrow on the bar's top (designer, 2026-11-03).
+                  {
+                    left: `${((x(picked!) + barWidth / 2) / width) * 100}%`,
+                    top: `calc(var(--weekly-trend-plot-top) + ${pickedWeek.active === undefined ? base : y(pickedWeek.active)}px)`,
+                  }
+                : { left: `${((x(picked!) + barWidth) / width) * 100}%` }
+            }
+            data-side={
+              look === "fade" ? (picked === 0 ? "start" : picked === latestIndex ? "end" : "middle") : picked! > latestIndex * 0.66 ? "left" : undefined
+            }
           >
             <span>{pickedWeek.partial ? C.thisWeek : `${C.week} ${dayOf(pickedWeek.weekOf)}`}</span>
             <strong>{pickedWeek.active === undefined ? C.hiddenWeek : count.format(pickedWeek.active)}</strong>
