@@ -26620,7 +26620,9 @@ ul.ent-chain__key {
 .ent-page > .ent-close .ent-close__line {
   padding-right: var(--ent-divided-item);
   font-family: var(--type-heading-font);
-  font-size: var(--type-heading-size);
+  /* A step under the cards' headings: it's a sentence (designer,
+     2026-11-04). */
+  font-size: var(--text-xl);
   font-weight: var(--type-heading-weight);
   line-height: var(--type-heading-leading);
   letter-spacing: var(--type-heading-tracking);
@@ -26656,7 +26658,7 @@ ul.ent-chain__key {
 .ent-page__privacy {
   display: flex;
   align-items: flex-start;
-  max-width: var(--content-measure);
+  /* Across the page's full width (designer, 2026-11-04). */
   gap: var(--space-xs);
   font-size: var(--type-caption-size);
   line-height: var(--type-caption-leading);
