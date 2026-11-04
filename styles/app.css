@@ -25912,14 +25912,16 @@ ul.readiness-bars {
   paint-order: stroke;
 }
 
+/* The pill is white, with the card's soft edge and a light shadow
+   (designer, 2026-11-03: not navy). */
 .weekly-trend--fade .weekly-trend__tip {
-  border-color: transparent;
-  background: var(--color-surface-inverse);
-  color: var(--color-text-inverse-muted);
+  border-color: var(--color-border);
+  background: var(--color-surface-raised);
+  color: var(--color-text-secondary);
 }
 
 .weekly-trend--fade .weekly-trend__tip strong {
-  color: var(--color-text-inverse);
+  color: var(--color-text-primary);
 }
 
 /* The pill floats over the bar picked, an arrow on its foot pointing at the
@@ -25947,20 +25949,33 @@ ul.readiness-bars {
   visibility: hidden;
 }
 
+/* The arrow: the edge's colour underneath, the pill's white over it, a
+   pixel higher, so the arrow keeps the pill's outline. */
+.weekly-trend--fade .weekly-trend__tip::before,
 .weekly-trend--fade .weekly-trend__tip::after {
   content: "";
   position: absolute;
   top: 100%;
   left: 50%;
   border: var(--tip-arrow) solid transparent;
-  border-top-color: var(--color-surface-inverse);
   transform: translateX(-50%);
 }
 
+.weekly-trend--fade .weekly-trend__tip::before {
+  border-top-color: var(--color-border);
+}
+
+.weekly-trend--fade .weekly-trend__tip::after {
+  margin-top: calc(-1 * var(--border-width-thin) - 0.5px);
+  border-top-color: var(--color-surface-raised);
+}
+
+.weekly-trend--fade .weekly-trend__tip[data-side="start"]::before,
 .weekly-trend--fade .weekly-trend__tip[data-side="start"]::after {
   left: var(--space-md);
 }
 
+.weekly-trend--fade .weekly-trend__tip[data-side="end"]::before,
 .weekly-trend--fade .weekly-trend__tip[data-side="end"]::after {
   left: calc(100% - var(--space-md));
 }
