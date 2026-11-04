@@ -25841,6 +25841,17 @@ ul.readiness-bars {
   gap: 0;
 }
 
+/* The chart and its definition (designer, 2026-11-03): room above and
+   below the bars, and the definition across the chart's full width. */
+.ent-card--using .weekly-trend__plot {
+  margin-block: var(--space-md);
+}
+
+.ent-card--using .ent-card__trend > .cohort-figure__brief {
+  max-width: none;
+  margin-top: var(--space-md);
+}
+
 /* The chart's name reads as the figures' labels do (designer, 2026-11-03). */
 .ent-card--using .weekly-trend__label {
   font-family: var(--type-subheading-font);
