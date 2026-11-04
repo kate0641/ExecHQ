@@ -696,14 +696,14 @@ export const DATA_POINTS: Record<DataPointId, DataPoint> = {
     source: "Planned actions in ExecHQ.",
   },
   artifacts: {
-    label: "Work made",
+    label: "Pieces of work made",
     question: "following",
     definition: "How many drafts, briefs and statements the cohort made in ExecHQ in the dates chosen.",
-    brief: "Drafts, briefs and statements made in ExecHQ in the dates chosen.",
+    brief: "Everything participants made in ExecHQ in the dates chosen.",
     source: "The Playbook and its library.",
   },
   loop: {
-    label: "Work used",
+    label: "Used outside ExecHQ",
     question: "following",
     definition:
       "Of the work made, how much participants marked as used outside ExecHQ.",
@@ -778,7 +778,8 @@ export function figureFor(cohort: Cohort, id: DataPointId, window: Period): Figu
     },
     plans: {
       value: share(cohort.planAccepted, cohort.activated),
-      detail: `${count.format(cohort.planAccepted)} of ${count.format(cohort.activated)} set up`,
+      // "of the 33 set up" ties the fraction to what it counts (designer, 2026-11-03).
+      detail: `${count.format(cohort.planAccepted)} of the ${count.format(cohort.activated)} set up`,
       fraction: fraction(cohort.planAccepted, cohort.activated),
     },
     "follow-through": {
@@ -788,11 +789,13 @@ export function figureFor(cohort: Cohort, id: DataPointId, window: Period): Figu
     },
     artifacts: {
       value: count.format(c.artifacts),
-      detail: "pieces of work",
+      // The number and label read as one phrase, "14 pieces of work made";
+      // the detail says what kinds and when (designer, 2026-11-03).
+      detail: `Drafts, briefs and statements, ${inWindow(window)}`,
     },
     loop: {
       value: share(c.artifactsUsed, c.artifacts),
-      detail: `${count.format(c.artifactsUsed)} of ${count.format(c.artifacts)} pieces`,
+      detail: `${count.format(c.artifactsUsed)} of the ${count.format(c.artifacts)} pieces made`,
       fraction: fraction(c.artifactsUsed, c.artifacts),
     },
   };
@@ -849,7 +852,7 @@ export const DIRECTION_COPY = {
     onboarding: { up: "More set up than a week ago", down: "Fewer set up than a week ago" },
     active: { up: "More active than a week ago", down: "Fewer active than a week ago" },
     briefing: { up: "More reading it than a week ago", down: "Fewer reading it than a week ago" },
-    plans: { up: "More with a plan than a week ago", down: "Fewer with a plan than a week ago" },
+    plans: { up: "Up since last week", down: "Down since last week" },
   } satisfies Partial<Record<DataPointId, Record<Direction, string>>>,
   /** The clause in the opening's sentence, after its figures. */
   clause: { up: "more than a week ago", down: "fewer than a week ago" } satisfies Record<Direction, string>,
