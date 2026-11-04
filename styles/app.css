@@ -25913,8 +25913,8 @@ ul.readiness-bars {
   border-radius: var(--radius-sm);
 }
 
-/* Every week's figure is drawn, but on screen only this week's shows; the
-   rest are for print, where nothing can be hovered. */
+/* Every week's figure is drawn for print, where nothing can be hovered; on
+   screen this week's pill and a hover say them. */
 .weekly-trend--fade .weekly-trend__value.is-print-only {
   display: none;
 }
@@ -25970,12 +25970,6 @@ ul.readiness-bars {
 .weekly-trend--fade .weekly-trend__tip[data-side="end"] {
   transform: translate(calc(-100% + var(--space-md)), calc(-100% - var(--tip-arrow) - var(--space-2xs)));
   align-items: flex-end;
-}
-
-/* Picking this week, the pill says its figure, so the label over the bar
-   steps aside rather than peek out under the pill. */
-.weekly-trend--fade .weekly-trend__bar.is-picked + .weekly-trend__value {
-  visibility: hidden;
 }
 
 /* The arrow: the edge's colour underneath, the pill's white over it, a

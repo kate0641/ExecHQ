@@ -34,6 +34,9 @@ export interface WeeklyTrendProps {
    *  to a pale one at its base, this week in a darker fade so it stands out,
    *  and no numbers over the bars: hovering a week shows its figure. */
   look?: "flat" | "fade";
+  /** Today, for the axis's right end in the fade look, which names the date
+   *  rather than "this week" (its pill says that). */
+  today?: string;
   /** Catalogue only: the week a hover would pick, so the tooltip shows. */
   demoWeek?: number;
   className?: string;
@@ -49,7 +52,7 @@ export interface WeeklyTrendProps {
  * small number; a cohort below the minimum hides it. Hovering a week shows
  * its figure; the same figures sit in a table for screen readers.
  */
-export function WeeklyTrend({ trend, highlight, height = DEFAULT_HEIGHT, look = "flat", demoWeek, className }: WeeklyTrendProps) {
+export function WeeklyTrend({ trend, highlight, height = DEFAULT_HEIGHT, look = "flat", today, demoWeek, className }: WeeklyTrendProps) {
   const fill = height === "fill";
   const plotRef = useRef<HTMLDivElement>(null);
   // React's ids hold colons, which a url() reference can't: keep the rest.
@@ -118,7 +121,10 @@ export function WeeklyTrend({ trend, highlight, height = DEFAULT_HEIGHT, look = 
     setHovered(Math.min(latestIndex, Math.max(0, at)));
   }
 
-  const pickedWeek = picked === undefined ? undefined : weeks[picked];
+  // In the fade look this week's pill shows until another week is picked
+  // (designer, 2026-11-03), so the figure so far is always in view.
+  const shownIndex = picked ?? (look === "fade" && latest.partial ? latestIndex : undefined);
+  const pickedWeek = shownIndex === undefined ? undefined : weeks[shownIndex];
   const weekName = (i: number) => (weeks[i].partial ? C.thisWeek : `${C.week} ${dayOf(weeks[i].weekOf)}`);
   const weekFigure = (i: number) => (weeks[i].active === undefined ? C.hiddenWeek : count.format(weeks[i].active!));
 
@@ -241,7 +247,7 @@ export function WeeklyTrend({ trend, highlight, height = DEFAULT_HEIGHT, look = 
                 />
                 {labelled || look === "fade" ? (
                   <text
-                    className={["weekly-trend__value", `weekly-trend__value--${tone}`, look === "fade" && !week.partial ? "is-print-only" : null].filter(Boolean).join(" ")} x={x(i) + barWidth / 2} y={base - h - 4} textAnchor="middle">
+                    className={["weekly-trend__value", `weekly-trend__value--${tone}`, look === "fade" ? "is-print-only" : null].filter(Boolean).join(" ")} x={x(i) + barWidth / 2} y={base - h - 4} textAnchor="middle">
                     {count.format(week.active)}
                   </text>
                 ) : null}
@@ -258,13 +264,13 @@ export function WeeklyTrend({ trend, highlight, height = DEFAULT_HEIGHT, look = 
               look === "fade"
                 ? // Over the bar picked, its arrow on the bar's top (designer, 2026-11-03).
                   {
-                    left: `${((x(picked!) + barWidth / 2) / width) * 100}%`,
+                    left: `${((x(shownIndex!) + barWidth / 2) / width) * 100}%`,
                     top: `calc(var(--weekly-trend-plot-top) + ${pickedWeek.active === undefined ? base : y(pickedWeek.active)}px)`,
                   }
                 : { left: `${((x(picked!) + barWidth) / width) * 100}%` }
             }
             data-side={
-              look === "fade" ? (picked === 0 ? "start" : picked === latestIndex ? "end" : "middle") : picked! > latestIndex * 0.66 ? "left" : undefined
+              look === "fade" ? (shownIndex === 0 ? "start" : shownIndex === latestIndex ? "end" : "middle") : picked! > latestIndex * 0.66 ? "left" : undefined
             }
           >
             <span>{pickedWeek.partial ? C.thisWeek : `${C.week} ${dayOf(pickedWeek.weekOf)}`}</span>
@@ -277,7 +283,9 @@ export function WeeklyTrend({ trend, highlight, height = DEFAULT_HEIGHT, look = 
         <span>{dayOf(weeks[0].weekOf)}</span>
         <span>
           {latest.partial && look === "fade"
-            ? C.thisWeek
+            ? today
+              ? dayOf(today)
+              : C.thisWeek
             : latest.partial
             ? latest.active === undefined
               ? `${C.thisWeek}: ${C.hiddenWeek.toLowerCase()}`
