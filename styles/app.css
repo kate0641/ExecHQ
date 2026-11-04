@@ -26165,9 +26165,12 @@ ul.readiness-bars {
 .ent-people-ring__start { stop-color: var(--color-trend-now-top); }
 .ent-people-ring__end { stop-color: var(--color-trend-week-top); }
 
+/* Every ring's number at the large figure size, as follow-through's
+   (designer, 2026-11-04). */
 .ent-card--seen .meter--ring .cohort-figure__value,
 .ent-card--joined .meter--ring .cohort-figure__value {
-  font-size: var(--type-figure-size);
+  font-size: var(--type-figure-size-lg);
+  line-height: 1;
 }
 
 /* The label of Showing up's ring is its sentence; it starts capitalised. */
