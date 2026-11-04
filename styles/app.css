@@ -25322,9 +25322,9 @@ ul.li-shares {
   --ent-card-title: var(--space-xl);
   --ent-divided-item: var(--space-xl);
   --ent-card-foot: var(--space-lg);
-  /* Full-width cards split into two the same way, so their dividers line
-     up down the page (designer, 2026-11-03). */
-  --ent-split: minmax(0, 1.1fr) minmax(0, 1fr);
+  /* Full-width cards split exactly in half, so their dividers line up down
+     the centre of the page (designer, 2026-11-03). */
+  --ent-split: minmax(0, 1fr) minmax(0, 1fr);
   display: flex;
   flex-direction: column;
   gap: var(--space-between-sections);
