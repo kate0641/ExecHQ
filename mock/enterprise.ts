@@ -669,21 +669,21 @@ export const DATA_POINTS: Record<DataPointId, DataPoint> = {
     label: "Active",
     question: "using",
     definition: "Of the people set up, how many signed in and did at least one thing in the dates chosen.",
-    brief: "Of those set up, how many did something in the dates chosen.",
+    brief: "Active means they signed in and did at least one thing in the dates chosen.",
     source: "Sign-ins and actions in ExecHQ.",
   },
   briefing: {
     label: "Read the Briefing weekly",
     question: "using",
     definition: "Of the active participants, how many opened the Daily Briefing at least once a week.",
-    brief: "Of those active, how many opened the Briefing every week.",
+    brief: "Opened the Daily Briefing at least once in every week.",
     source: "Opens of the Daily Briefing.",
   },
   plans: {
     label: "Chose a plan",
     question: "following",
     definition: "Of the people set up, how many accepted a development plan.",
-    brief: "Of those set up, how many accepted a plan.",
+    brief: "Counts once they accept their development plan in ExecHQ.",
     source: "Plans accepted in ExecHQ.",
     sinceLaunch: true,
   },
@@ -699,7 +699,7 @@ export const DATA_POINTS: Record<DataPointId, DataPoint> = {
     label: "Pieces of work made",
     question: "following",
     definition: "How many drafts, briefs and statements the cohort made in ExecHQ in the dates chosen.",
-    brief: "Everything made in ExecHQ in the dates chosen.",
+    brief: "Counts what they make in the Playbook, in the dates chosen.",
     source: "The Playbook and its library.",
   },
   loop: {
@@ -707,7 +707,7 @@ export const DATA_POINTS: Record<DataPointId, DataPoint> = {
     question: "following",
     definition:
       "Of the work made, how much participants marked as used outside ExecHQ.",
-    brief: "Of the work made, how much was marked as used outside ExecHQ.",
+    brief: "Participants mark a piece in the Playbook once they’ve used it outside ExecHQ.",
     source: "Work marked used in ExecHQ.",
   },
 };
@@ -1537,7 +1537,7 @@ export const C1_COPY = {
    *  behind an icon. Followed through takes in its popover's two caveats. */
   briefs: {
     "follow-through":
-      "Of the planned actions taken on, how many are done, each within 30 days. Recent ones still have time; declined ones don’t count.",
+      "A planned action from their development plan counts once it’s done within 30 days of taking it on. Recent ones still have time; declined ones don’t count.",
   } as Partial<Record<DataPointId, string>>,
   setup: {
     heading: "Set up your cohort",
