@@ -26531,9 +26531,10 @@ ul.ent-chain__key {
   flex-direction: column;
   gap: var(--space-xs);
   margin: 0;
-  padding: var(--space-sm) 0 0;
+  /* The same room under its hairline as the note's (designer, 2026-11-04). */
+  padding: var(--space-copy-card) 0 0;
   list-style: none;
-  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+  border-top: var(--border-width-thin) solid var(--color-border);
   font-size: var(--type-body-sm-size);
   line-height: var(--type-body-sm-leading);
 }
