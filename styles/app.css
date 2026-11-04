@@ -26111,7 +26111,8 @@ ul.readiness-bars {
 }
 
 .ent-page {
-  --follow-ring-size: 7.5rem;
+  /* Room round a number at the large figure size (designer, 2026-11-04). */
+  --follow-ring-size: 9.5rem;
 }
 
 .ent-card--following {
