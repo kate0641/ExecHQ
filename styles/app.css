@@ -25843,7 +25843,9 @@ ul.readiness-bars {
 .ent-card--following .cohort-figure--ring {
   display: grid;
   grid-template-columns: var(--follow-ring-size) minmax(0, 1fr);
-  column-gap: var(--space-lg);
+  /* Room between the ring and its words (designer, 2026-11-03). */
+  column-gap: var(--ent-divided-item);
+  row-gap: var(--space-2xs);
   align-items: center;
 }
 
@@ -25885,15 +25887,17 @@ ul.readiness-bars {
   font-size: var(--type-figure-size-lg);
 }
 
+/* The key, called out at the size of the line above it (designer,
+   2026-11-03): each count in semibold ink, with room between the lines. */
 .ent-follow-key {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xs);
-  margin-block: var(--space-xs) var(--space-3xs);
+  gap: var(--space-xs);
+  margin-block: var(--space-md);
   padding: 0;
   list-style: none;
-  font-size: var(--type-caption-size);
-  line-height: var(--type-caption-leading);
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
   color: var(--color-text-secondary);
 }
 
@@ -25901,6 +25905,11 @@ ul.readiness-bars {
   display: flex;
   align-items: center;
   gap: var(--space-xs);
+}
+
+.ent-follow-key b {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
 }
 
 .ent-follow-key li::before {

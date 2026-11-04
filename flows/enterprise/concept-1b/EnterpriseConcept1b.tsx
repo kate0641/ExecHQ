@@ -253,8 +253,12 @@ function QuestionCard({
       >
         {hero && i === 0 && split && shown.state !== "suppressed" ? (
           <ul className="ent-follow-key" aria-hidden="true">
-            <li className="ent-follow-key__done">{C1_COPY.followKey.done(split.done)}</li>
-            <li className="ent-follow-key__open">{C1_COPY.followKey.open(split.open, split.allOpen)}</li>
+            <li className="ent-follow-key__done">
+              <b>{C1_COPY.followKey.count(split.done)}</b> {C1_COPY.followKey.done}
+            </li>
+            <li className="ent-follow-key__open">
+              <b>{C1_COPY.followKey.count(split.open)}</b> {C1_COPY.followKey.open(split.allOpen)}
+            </li>
           </ul>
         ) : null}
       </CohortFigure>

@@ -1480,8 +1480,9 @@ export const C1_COPY = {
   /** Follow-through's ring, said beside it (designer, 2026-11-03): done, and
    *  the rest, still inside their 30 days when all of them are. */
   followKey: {
-    done: (n: number) => `${count.format(n)} done`,
-    open: (n: number, allOpen: boolean) => `${count.format(n)} ${allOpen ? "still within their 30 days" : "not done yet"}`,
+    count: (n: number) => count.format(n),
+    done: "done",
+    open: (allOpen: boolean) => (allOpen ? "still within their 30 days" : "not done yet"),
   },
   /** The line under the name: when it started, how long it has run, and
    *  how many people are in it. No end date: there is none. */
