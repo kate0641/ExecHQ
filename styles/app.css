@@ -24581,7 +24581,7 @@ ul.li-shares {
 }
 
 .weekly-trend__value {
-  font-size: var(--text-xs);
+  font-size: var(--type-caption-size);
   font-variant-numeric: tabular-nums;
 }
 
@@ -25294,6 +25294,19 @@ ul.li-shares {
 /* The admin pages under the design system (designer, 2026-11-02), as the
    Signal Picture's cleaned-up page: sections 32 apart, cards 12 apart, every
    card the same 20px corners and padding. */
+/* Desktop type (designer, 2026-11-03): the admin pages are read on a
+   laptop, not a phone, so the type roles step up one, set once here for the
+   header band and the page. Nothing goes under 14; headings and numbers
+   stay as they are. */
+.ent-band,
+.ent-page {
+  --type-eyebrow-size: var(--text-sm);
+  --type-caption-size: var(--text-sm);
+  --type-body-sm-size: var(--text-md);
+  --type-label-size: var(--text-md);
+  --type-body-size: var(--text-lg);
+}
+
 .ent-page {
   --radius-card: var(--radius-xl);
   /* Cards on the admin pages hold more, on a wide screen: 32 inside
