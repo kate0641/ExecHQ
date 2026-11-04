@@ -8,7 +8,7 @@ const C = TREND_COPY;
 
 /** The plot's own measures, in pixels: drawn at the width it is given, so
  *  lines and words never scale with it. */
-const HEIGHT = 120;
+const DEFAULT_HEIGHT = 120;
 const PAD = { top: 20, right: 4, bottom: 0, left: 4 };
 /** Below this the scale would be too fine for so few people. */
 const MIN_PEAK = 10;
@@ -22,6 +22,9 @@ export interface WeeklyTrendProps {
   /** The dates chosen in the picker: the weeks they touch are shaded. Left
    *  off, every week is drawn as chosen. */
   highlight?: { from: string; to: string };
+  /** The drawing's height in px, 120 unless a card has room to give it
+   *  (designer, 2026-11-03: the admin card fills its half). */
+  height?: number;
   /** Catalogue only: the week a hover would pick, so the tooltip shows. */
   demoWeek?: number;
   className?: string;
@@ -37,7 +40,7 @@ export interface WeeklyTrendProps {
  * small number; a cohort below the minimum hides it. Hovering a week shows
  * its figure; the same figures sit in a table for screen readers.
  */
-export function WeeklyTrend({ trend, highlight, demoWeek, className }: WeeklyTrendProps) {
+export function WeeklyTrend({ trend, highlight, height: HEIGHT = DEFAULT_HEIGHT, demoWeek, className }: WeeklyTrendProps) {
   const plotRef = useRef<HTMLDivElement>(null);
   // React's ids hold colons, which a url() reference can't: keep the rest.
   const hatchId = `hatch${useId().replace(/[^a-zA-Z0-9]/g, "")}`;
