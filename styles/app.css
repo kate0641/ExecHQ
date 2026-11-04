@@ -26791,6 +26791,33 @@ ul.sponsor-profile__points {
   color: var(--color-text-primary);
 }
 
+/* The admin system on the profile (designer, 2026-11-04): the dashboard's
+   desktop card roles, set once on the page. Rows and cards take the 32 card
+   padding, so every admin card's words start the same distance in; the
+   hairline between rows stops at that padding. Lines under a row's name are
+   read, so they stay at the small body size, in grey, not shrunk to a
+   caption (typography principles). */
+.sponsor-profile {
+  --space-card-padding: var(--ent-card-padding);
+}
+
+.sponsor-profile .settings-row {
+  padding: var(--space-lg) var(--ent-card-padding);
+}
+
+.sponsor-profile .settings-group__rows > * + * {
+  background-size: calc(100% - 2 * var(--ent-card-padding)) var(--border-width-thin);
+}
+
+.sponsor-profile .settings-row__description {
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+}
+
+.sponsor-profile .settings-row__value {
+  text-wrap: pretty;
+}
+
 .ent-setup__lead {
   display: flex;
   flex-direction: column;
