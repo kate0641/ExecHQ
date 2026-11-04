@@ -26493,8 +26493,9 @@ ul.ent-chain__key {
    against its own length, so a short one stopped far short of a long one).
    No lone last words; breaks stay rules, never set by hand. */
 
+/* Across the card, under all three groups (designer, 2026-11-04). */
 .ent-page .ent-readiness__brief {
-  max-width: 72ch;
+  max-width: none;
 }
 
 .ent-page .cohort-figure--row > .cohort-figure__detail,
