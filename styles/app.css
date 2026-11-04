@@ -25764,13 +25764,13 @@ ul.readiness-bars {
   background-color: var(--color-surface-raised);
 }
 
-/* The hero: the full width, its answer beside its figures. A white card
-   like the rest (Kate, 2026-11-02: the navy call-out wasn't meant). */
+/* The hero, in the card anatomy (designer, 2026-11-03): its heading and
+   answer at the top, follow-through as the one lead figure across the
+   card, then the other three in a row under a hairline, split by hairlines.
+   A white card like the rest (Kate, 2026-11-02: the navy call-out wasn't
+   meant). */
 .ent-card--following {
   grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: minmax(14rem, 1fr) 2fr;
-  align-items: start;
 }
 
 .ent-card__lead {
@@ -25804,24 +25804,54 @@ ul.readiness-bars {
   gap: var(--space-xl) var(--space-lg);
 }
 
-/* In the hero: follow-through itself across the top, the other three in a
-   row beneath it. */
 .ent-card--following .ent-card__figures {
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-md);
+  gap: 0;
+  margin-top: var(--space-xs);
 }
 
+/* Follow-through leads, across the card, its bar the card's width. */
 .ent-card--following .ent-card__figures > :first-child {
   grid-column: 1 / -1;
-  margin-bottom: var(--space-xs);
+  padding-bottom: var(--space-xl);
 }
 
-/* Inside the white hero the three are open, a hairline over each rather
-   than a box inside the card (designer, 2026-11-02). */
+.ent-card--following .cohort-figure--lg {
+  align-items: stretch;
+}
+
+.ent-card--following .cohort-figure--lg .meter--bar {
+  max-inline-size: none;
+  block-size: var(--space-xs);
+  margin-block: var(--space-xs);
+}
+
+/* The other three: open, a hairline over the row and between them
+   (designer, 2026-11-02 and 2026-11-03), as the readiness groups are. */
 .ent-tile {
   align-self: stretch;
-  padding-top: var(--space-md);
-  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+  padding: var(--space-lg) var(--space-xl) 0;
+  border-top: var(--border-width-thin) solid var(--color-border);
+}
+
+.ent-tile + .ent-tile {
+  border-left: var(--border-width-thin) solid var(--color-border);
+}
+
+.ent-card__figures > :first-child + .ent-tile {
+  padding-left: 0;
+}
+
+.ent-tile:last-child {
+  padding-right: 0;
+}
+
+/* Inside the hero the hairlines do the structuring, so a definition loses
+   its left rule. */
+.ent-card--following .cohort-figure__brief {
+  max-width: none;
+  padding-left: 0;
+  border-left: 0;
 }
 
 /* A third of the width: joining's ring and Set up stack. */
