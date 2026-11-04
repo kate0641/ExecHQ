@@ -1,7 +1,6 @@
-const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+import { fullDate } from "@/lib/loop";
 
-/** "Oct 6, 2025": month, day, year, every time a date shows on her LinkedIn (designer, 2026-10-20). */
+/** "Monday, October 6, 2025": every date on her LinkedIn, written as every other date is (Kate, 2 Nov). */
 export function monthDayYear(date: string): string {
-  const [y, m, d] = date.split("-").map(Number);
-  return `${MONTHS[m - 1]} ${d}, ${y}`;
+  return fullDate(date);
 }

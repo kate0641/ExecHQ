@@ -270,7 +270,7 @@ export const BRIEFING_COPY = {
   /** Said once, when reading completes the Plan's step. Done is the word for
    *  action steps, so it is right here. */
   stepDone: "Done on your plan: Read today’s Briefing.",
-  /** "Monday 12 October · Three reads". Words, not a count to work through. */
+  /** "Monday, October 12, 2026 · Three reads". Words, not a count to work through. */
   dateLine: (date: string) => `${date} · Three reads`,
   lead: "Three reads, chosen for where you’re headed.",
 

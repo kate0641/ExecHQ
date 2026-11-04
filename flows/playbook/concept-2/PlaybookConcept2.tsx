@@ -9,7 +9,7 @@ import { LibraryTabs } from "@/components/playbook/LibraryTabs";
 import { Icon } from "@/components/primitives/Icon";
 import { ToolPicker } from "@/components/playbook/ToolPicker";
 import type { LibraryItem } from "@/lib/library";
-import type { LoopDate } from "@/lib/loop";
+import { fullDate } from "@/lib/loop";
 import { conceptHref } from "@/lib/manifest";
 import { useViewport } from "@/lib/viewport-context";
 import type { ArtifactKind } from "@/mock/loop";
@@ -136,7 +136,7 @@ function Concept2Page() {
       items,
       // The card says when the folder last changed and how much is in it;
       // the open folder breaks it down by status (designer, 2026-10-27).
-      summary: items[0] ? F.lastChange(usDate(items[0].lastOn)) : F.empty,
+      summary: items[0] ? F.lastChange(fullDate(items[0].lastOn)) : F.empty,
       date: items.length ? F.items(items.length) : undefined,
     };
   });
@@ -283,16 +283,6 @@ function Concept2Page() {
       {p.sheet}
     </div>
   );
-}
-
-/** "Oct 5": month, then day, no year on a card this small (designer,
- *  2026-10-27). The shared short date in lib/ still reads "5 Oct" elsewhere. */
-function usDate(date: LoopDate): string {
-  return new Date(`${date}T00:00:00Z`).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    timeZone: "UTC",
-  });
 }
 
 // The folder page reads `?folder=` from the address, which needs a Suspense

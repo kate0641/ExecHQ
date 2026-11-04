@@ -6,7 +6,7 @@
 
 import { recordedItems } from "@/lib/signal-picture";
 import { signalOfRecord } from "@/lib/signals";
-import { daysBetween, lastTouched, shortDate, whenPhrase, type LoopDate, type LoopRecord } from "@/lib/loop";
+import { daysBetween, lastTouched, fullDate, whenPhrase, type LoopDate, type LoopRecord } from "@/lib/loop";
 import { SIGNALS } from "@/mock/plan-stub";
 import { stepById } from "@/mock/plan";
 import { LIBRARY_COPY, LIBRARY_SEED, TOOLS, type ArtifactMeta } from "@/mock/playbook";
@@ -71,7 +71,7 @@ export function touchedTag(date: LoopDate, today: LoopDate): string {
   if (ago <= 0) return T.today;
   if (ago < 7) return T.days(ago);
   if (ago <= 14) return T.weeks(Math.floor(ago / 7));
-  return shortDate(date);
+  return fullDate(date);
 }
 
 /** "today", "on Tuesday", "on 13 October". */

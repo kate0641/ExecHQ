@@ -13,14 +13,12 @@ import { briefingActions, respondHref, useBriefing, type ReadState, type Relevan
 import { loopActions, useLoop } from "@/lib/loop-store";
 import { READ_BRIEFING_STEP } from "@/lib/playbook-links";
 import { flowFor, usePlaybook } from "@/lib/playbook-store";
-import { addDays } from "@/lib/loop";
+import { addDays, fullDate } from "@/lib/loop";
 import { touchedTag } from "@/lib/library";
 import { BRIEFING_COPY as C, EARLIER_SAVED, publisherName, TODAYS_READS, type BriefingRead } from "@/mock/briefing";
 
 export const PROFILE_HREF = "/profile/concept-1";
 export const TITLE_ID = "briefing-title";
-
-const DATE = new Intl.DateTimeFormat("en-GB", { weekday: "long", day: "numeric", month: "long", timeZone: "UTC" });
 
 /** The address does not change while the page is open, so nothing to watch. */
 const noSubscribe = () => () => {};
@@ -82,7 +80,7 @@ export function useBriefingPage() {
   const view = useSearchParams().get("view");
   const savedHref = `${pathname}?view=saved`;
   const [removed, setRemoved] = useState<string | null>(null);
-  const dateLine = C.dateLine(DATE.format(new Date(`${loop.today}T00:00:00Z`)));
+  const dateLine = C.dateLine(fullDate(loop.today));
 
   const close = () => setOpen(null);
 

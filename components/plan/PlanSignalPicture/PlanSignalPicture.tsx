@@ -4,7 +4,7 @@ import { useState } from "react";
 import { didParts } from "./did-parts";
 import { Button } from "@/components/primitives/Button";
 import { cameOfRows, type CameOfRow, type PictureItem } from "@/lib/signal-picture";
-import { shortDate, type LoopDate } from "@/lib/loop";
+import { fullDate, type LoopDate } from "@/lib/loop";
 import { SIGNAL_PICTURE_COPY as C } from "@/mock/plan";
 
 export interface PlanSignalPictureProps {
@@ -118,7 +118,7 @@ function CameOfRowView({
     <li className={["came-of__row", row.came ? "" : "is-quiet"].filter(Boolean).join(" ")}>
       <div className="came-of__flow">
         <div className="came-of__did">
-          <span className="came-of__date">{[shortDate(row.on), didParts(row.did).detail].filter(Boolean).join(" · ")}</span>
+          <span className="came-of__date">{[fullDate(row.on), didParts(row.did).detail].filter(Boolean).join(" · ")}</span>
           {didParts(row.did).title}
         </div>
         {row.came ? (

@@ -5,7 +5,7 @@ import { VersionHistory } from "./VersionHistory";
 
 const noop = () => {};
 const versions = TL_VERSIONS.map(({ n, when, what }) => ({ n, when, what }));
-const three = [...versions, { n: 3, when: "Mon 5 Oct, 9:31", what: "Your edits" }];
+const three = [...versions, { n: 3, when: "Monday, October 5, 2026, 9:31", what: "Your edits" }];
 
 export const versionHistoryStates = defineComponentStates({
   name: "VersionHistory",
@@ -25,6 +25,6 @@ export const versionHistoryStates = defineComponentStates({
     { label: "Showing the latest — default", props: { versions: three, showing: 3, onView: noop, onRestore: noop } },
     { label: "Viewing an earlier one", description: "Bring this back appears on the one she is looking at.", props: { versions: three, showing: 1, onView: noop, onRestore: noop } },
     { label: "Only the first draft — none earlier", props: { versions: versions.slice(0, 1), showing: 1, onView: noop, onRestore: noop } },
-    { label: "A long description wraps", props: { versions: [...versions, { n: 3, when: "Mon 5 Oct, 9:40", what: "Warmer, for senior leaders, leading with your example" }], showing: 3, onView: noop, onRestore: noop } },
+    { label: "A long description wraps", props: { versions: [...versions, { n: 3, when: "Monday, October 5, 2026, 9:40", what: "Warmer, for senior leaders, leading with your example" }], showing: 3, onView: noop, onRestore: noop } },
   ],
 });

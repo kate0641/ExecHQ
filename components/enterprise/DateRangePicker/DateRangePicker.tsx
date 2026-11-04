@@ -2,8 +2,8 @@
 
 import { useEffect, useId, useLayoutEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent, type RefObject } from "react";
 import { Icon } from "@/components/primitives/Icon";
-import { WEEKDAYS_SHORT, longDay, monthGrid, monthKey, monthLabel, monthOf, shiftMonth, type Month } from "@/lib/calendar";
-import { addDays } from "@/lib/loop";
+import { WEEKDAYS_SHORT, monthGrid, monthKey, monthLabel, monthOf, shiftMonth, type Month } from "@/lib/calendar";
+import { addDays, fullDate } from "@/lib/loop";
 import {
   DATE_PICKER_COPY as C,
   RANGE_PRESETS,
@@ -346,7 +346,7 @@ function RangePanel({ id, cohort, range, align, inline, pickingFrom, anchor, onP
                         if (monthKey(monthOf(day)) !== monthKey(month)) {
                           return (
                             <td key={day}>
-                              <button type="button" className="date-range__day is-outside" tabIndex={-1} aria-label={`${longDay(day)} ${day.slice(0, 4)}`} aria-disabled="true">
+                              <button type="button" className="date-range__day is-outside" tabIndex={-1} aria-label={fullDate(day)} aria-disabled="true">
                                 {Number(day.slice(8, 10))}
                               </button>
                             </td>
@@ -370,7 +370,7 @@ function RangePanel({ id, cohort, range, align, inline, pickingFrom, anchor, onP
                               data-day={day}
                               className={["date-range__day", inRange ? "is-in-range" : null, ...ends, day === max ? "is-today" : null].filter(Boolean).join(" ")}
                               tabIndex={day === focusDay ? 0 : -1}
-                              aria-label={`${longDay(day)} ${day.slice(0, 4)}${day === max ? `, ${C.today}` : ""}`}
+                              aria-label={`${fullDate(day)}${day === max ? `, ${C.today}` : ""}`}
                               aria-pressed={inRange}
                               aria-disabled={off || undefined}
                               aria-current={day === max ? "date" : undefined}

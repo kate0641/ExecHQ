@@ -19,9 +19,11 @@ const TIP_OVERHANG = 24;
 /** Below this the scale would be too fine for so few people. */
 const MIN_PEAK = 10;
 const count = new Intl.NumberFormat("en-GB");
-/** "14 Sep": three-letter months throughout, as `abbrevDate` (en-GB would
- *  write "Sept"). */
-const dayOf = (iso: string) => abbrevDate(iso).slice(0, -5);
+/** "Sep 14": the chart's short dates, month first as Kate's full dates
+ *  are ("Monday, September 14, 2026"), with three-letter months
+ *  (designer, 2026-11-04). */
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const dayOf = (iso: string) => `${MONTHS[Number(iso.slice(5, 7)) - 1]} ${Number(iso.slice(8, 10))}`;
 /** A day a number of days on, for a week's last day. */
 const daysOn = (iso: string, days: number) => new Date(Date.parse(`${iso}T00:00:00Z`) + days * 86_400_000).toISOString().slice(0, 10);
 
@@ -186,7 +188,7 @@ export function WeeklyTrend({ trend, highlight, height = DEFAULT_HEIGHT, look = 
           in a sentence, then the weeks in the table below. */}
       <p className="u-visually-hidden">
         {shown.length ? C.summary(shown[0], Math.max(...shown), latest.active ?? shown[shown.length - 1], weeks.length) : null}{" "}
-        {highlight && shadedWeeks.length ? C.shaded(dayOf(shadedWeeks[0].weekOf), dayOf(shadedWeeks[shadedWeeks.length - 1].weekOf)) : null}
+        {highlight && shadedWeeks.length ? C.shaded(abbrevDate(shadedWeeks[0].weekOf), abbrevDate(shadedWeeks[shadedWeeks.length - 1].weekOf)) : null}
       </p>
       <div className="weekly-trend__plot" ref={plotRef} {...slider}>
         {/* A line at each step of the scale, each labelled above its left

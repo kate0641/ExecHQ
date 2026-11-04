@@ -136,14 +136,20 @@ export function daysBetween(from: LoopDate, to: LoopDate): number {
   return Math.round((toUtc(to).getTime() - toUtc(from).getTime()) / DAY_MS);
 }
 
-/** "on 13 October": a fixed date, for records read long after the event. */
-export function datePhrase(date: LoopDate): string {
+/** "Tuesday, October 13, 2026": day name, month, day, year. Every date the
+ *  product shows is written this way (Kate, 2 Nov). */
+export function fullDate(date: LoopDate): string {
   const d = toUtc(date);
-  return `on ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
+  return `${WEEKDAYS[d.getUTCDay()]}, ${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
+}
+
+/** "on Tuesday, October 13, 2026": a fixed date, for records read long after the event. */
+export function datePhrase(date: LoopDate): string {
+  return `on ${fullDate(date)}`;
 }
 
 /** "today", "yesterday", "on Tuesday" (this week), "last Tuesday" (the week
- *  before), or "on 13 October": how an advisor would say when something
+ *  before), or "on Tuesday, October 13, 2026": how an advisor would say when something
  *  happened. Weeks start on Monday. */
 export function whenPhrase(date: LoopDate, today: LoopDate): string {
   const ago = daysBetween(date, today);
@@ -516,12 +522,6 @@ export function lastWorkedOn(records: LoopRecord[]): LoopRecord | undefined {
 /* -----------------------------------------------------------------------------
    THE JOURNEY
    -------------------------------------------------------------------------- */
-
-/** "13 Oct": a short date for a tracker or a list. */
-export function shortDate(date: LoopDate): string {
-  const d = toUtc(date);
-  return `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()].slice(0, 3)}`;
-}
 
 export interface JourneyStep {
   key: "drafted" | "used" | "outcome";

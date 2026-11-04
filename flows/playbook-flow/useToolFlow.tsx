@@ -27,7 +27,7 @@ import { InputPanel } from "@/components/playbook/InputPanel";
 import { RevisionControls, type RevisionChoice } from "@/components/playbook/RevisionControls/RevisionControls";
 import { ToolUseCase } from "@/components/playbook/ToolUseCase";
 import { VersionHistory } from "@/components/playbook/VersionHistory";
-import { addDays, aheadPhrase, createRecord, daysBetween, datePhrase, lastClosedOn, outcomeReadback, shortDate, type LoopRecord } from "@/lib/loop";
+import { addDays, aheadPhrase, createRecord, daysBetween, datePhrase, lastClosedOn, outcomeReadback, fullDate, type LoopRecord } from "@/lib/loop";
 import { currentSnapshot, getLoopState, loopActions, useLoop } from "@/lib/loop-store";
 import { conceptHref } from "@/lib/manifest";
 import { briefDraft, draftText, firstDraft, wordCount, pitchDraft, positioningDraft, revise, revisionLabel, statementOnly } from "@/lib/playbook-draft";
@@ -87,11 +87,10 @@ export function focusSoon(id: string): void {
   setTimeout(() => document.getElementById(id)?.focus({ preventScroll: true }), 0);
 }
 
-const DAY = new Intl.DateTimeFormat("en-GB", { weekday: "short", timeZone: "UTC" });
-/** "Mon 5 Oct, 9:14": the snapshot's day, the reviewer's time. */
+/** "Monday, October 5, 2026, 9:14": the snapshot's day, the reviewer's time. */
 function stamp(today: string): string {
   const now = new Date();
-  return `${DAY.format(new Date(`${today}T00:00:00Z`))} ${shortDate(today)}, ${now.getHours()}:${String(now.getMinutes()).padStart(2, "0")}`;
+  return `${fullDate(today)}, ${now.getHours()}:${String(now.getMinutes()).padStart(2, "0")}`;
 }
 
 /** The kind of moment, from what she said, for the Situation Brief. */
@@ -399,7 +398,7 @@ export function useToolFlow(concept: FlowConcept) {
       playbookActions.saveDraft(artifactId, {
         meta: { ...(seed ?? { versions: 2, preview }), versions: 2, preview, fromOnboarding: false },
         versions: [
-          { n: 1, when: shortDate(record.createdOn), what: POSITIONING_COPY.onboardingVersion, sections: statementOnly(v.statement) },
+          { n: 1, when: fullDate(record.createdOn), what: POSITIONING_COPY.onboardingVersion, sections: statementOnly(v.statement) },
           { n: 2, when: stamp(loop.today), what: POSITIONING_COPY.builtOut, sections },
         ],
         showing: 2,
@@ -454,7 +453,7 @@ export function useToolFlow(concept: FlowConcept) {
       meta: seed ?? { versions: count, preview: "" },
       versions: Array.from({ length: count }, (_, i) => ({
         n: i + 1,
-        when: shortDate(record.createdOn),
+        when: fullDate(record.createdOn),
         what: i === 0 ? DRAFT_COPY.label(1) : C.yourEdits,
         sections,
       })),
@@ -512,7 +511,7 @@ export function useToolFlow(concept: FlowConcept) {
     // She had covered this before: the statement she closed, referenced.
     <div className="tool-flow__carried">
       <span className="tool-flow__carried-label">
-        {positioningRecord?.state === "closed" ? POSITIONING_COPY.closedBefore(shortDate(statementClosedOn)) : POSITIONING_COPY.reopened(shortDate(statementClosedOn))}
+        {positioningRecord?.state === "closed" ? POSITIONING_COPY.closedBefore(fullDate(statementClosedOn)) : POSITIONING_COPY.reopened(fullDate(statementClosedOn))}
       </span>
       <p className="tool-flow__carried-text">{statementNow}</p>
     </div>

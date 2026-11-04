@@ -16,7 +16,7 @@ const rows = presenceCounts("2026-11-03", withAdded([])).map((p) => ({
 }));
 const base = {
   name: C.heading,
-  asOf: C.asOf("5 Oct"),
+  asOf: C.asOf("Monday, October 5, 2026"),
   rows,
   thenLabel: "Start",
   nowLabel: "Now",

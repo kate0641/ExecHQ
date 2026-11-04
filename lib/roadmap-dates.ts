@@ -7,7 +7,7 @@
  * later. Nothing here locks, expires or counts against her.
  */
 
-import { addDays, daysBetween, shortDate, type LoopDate } from "@/lib/loop";
+import { addDays, daysBetween, fullDate, type LoopDate } from "@/lib/loop";
 import { roadmapFor, type RoadmapStep } from "@/mock/plan";
 import type { RoadmapChoices } from "@/lib/roadmap-choices";
 
@@ -85,7 +85,7 @@ export function stageAt(windows: StageWindow[], date: LoopDate): number {
 
 /** "5 Oct – 1 Nov". */
 export function periodLabel(w: Pick<StageWindow, "start" | "end">): string {
-  return `${shortDate(w.start)} – ${shortDate(w.end)}`;
+  return `${fullDate(w.start)} – ${fullDate(w.end)}`;
 }
 
 /** Whole weeks from the first window's start to the last window's end. */

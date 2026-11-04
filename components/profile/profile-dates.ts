@@ -1,6 +1,6 @@
-import { shortDate } from "@/lib/loop";
+import { fullDate } from "@/lib/loop";
 
-/** "9 Oct 2026": when she joined or something happened. */
+/** "Friday, October 9, 2026": when she joined or something happened. */
 export function dayMonthYear(date: string): string {
-  return `${shortDate(date)} ${date.slice(0, 4)}`;
+  return fullDate(date);
 }

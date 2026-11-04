@@ -22,7 +22,7 @@ import {
   type ConciergeReply,
   type Asked,
 } from "@/lib/concierge";
-import { nextFollowUp, shortDate } from "@/lib/loop";
+import { nextFollowUp, fullDate } from "@/lib/loop";
 import {
   currentSnapshot,
   getLoopState,
@@ -522,7 +522,7 @@ function Start({
           icon="draft"
           eyebrow={C.resumeEyebrow}
           title={resume.title}
-          detail={`${resumeLast.type === "drafted" ? "Drafted" : "Edited"} ${shortDate(resumeLast.on)}`}
+          detail={`${resumeLast.type === "drafted" ? "Drafted" : "Edited"} ${fullDate(resumeLast.on)}`}
           onClick={() => closePanel(false)}
         />
       ) : null}

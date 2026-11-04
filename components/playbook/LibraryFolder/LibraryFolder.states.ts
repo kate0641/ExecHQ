@@ -4,7 +4,7 @@ import { NOT_AN_INPUT } from "@/components/not-applicable";
 import { LibraryFolder } from "./LibraryFolder";
 
 const noop = () => {};
-const pitches = { tool: "pitch" as const, name: "Pitches", summary: "Last change Oct 21", date: "3 items", dateLabel: "", onOpen: noop };
+const pitches = { tool: "pitch" as const, name: "Pitches", summary: "Last change Wednesday, October 21, 2026", date: "3 items", dateLabel: "", onOpen: noop };
 
 export const libraryFolderStates = defineComponentStates({
   name: "LibraryFolder",
@@ -22,15 +22,15 @@ export const libraryFolderStates = defineComponentStates({
   },
   variants: [
     { label: "Pitches — default", props: pitches },
-    { label: "Positioning", props: { tool: "positioning", name: "Positioning", summary: "Last change Oct 5", date: "1 item", dateLabel: "", onOpen: noop } },
-    { label: "Briefs", props: { tool: "situation-brief", name: "Briefs", summary: "Last change Oct 22", date: "2 items", dateLabel: "", onOpen: noop } },
+    { label: "Positioning", props: { tool: "positioning", name: "Positioning", summary: "Last change Monday, October 5, 2026", date: "1 item", dateLabel: "", onOpen: noop } },
+    { label: "Briefs", props: { tool: "situation-brief", name: "Briefs", summary: "Last change Thursday, October 22, 2026", date: "2 items", dateLabel: "", onOpen: noop } },
     { label: "Posts, nothing yet — empty", props: { tool: "thought-leadership", name: "Posts", summary: "Nothing here yet", onOpen: noop } },
     { label: "Open beside its list (web) — selected", props: { ...pitches, current: true } },
     { label: "As the open folder's card, with Start", props: { ...pitches, summary: "Pitches for stages, shows and press", as: "header", headingLevel: 2, action: createElement("a", { href: "#", className: "btn btn--primary btn--md btn--full" }, "Start a pitch") } },
     { label: "Hover", props: { ...pitches, demo: "hover" } },
     { label: "Focus", props: { ...pitches, demo: "focus" } },
     { label: "Pressed", props: { ...pitches, demo: "active" } },
-    { label: "Many items", props: { ...pitches, summary: "Last change Oct 9", date: "24 items" } },
+    { label: "Many items", props: { ...pitches, summary: "Last change Friday, October 9, 2026", date: "24 items" } },
     { label: "A long name wraps", props: { ...pitches, name: "Thought leadership pieces" } },
   ],
 });

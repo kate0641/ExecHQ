@@ -299,7 +299,7 @@ export interface DraftSection {
 
 export interface DraftVersion {
   n: number;
-  /** "Mon 12 Oct, 9:14". */
+  /** "Monday, October 12, 2026, 9:14". */
   when: string;
   /** What made it: "First draft", "Shorter, more direct", "Your edits". */
   what: string;
@@ -351,8 +351,8 @@ const POST_V2: DraftSection[] = [
 ];
 
 export const TL_VERSIONS: readonly DraftVersion[] = [
-  { n: 1, when: "Mon 5 Oct, 9:14", what: "First draft", sections: POST_V1 },
-  { n: 2, when: "Mon 5 Oct, 9:20", what: "Shorter, more direct", sections: POST_V2 },
+  { n: 1, when: "Monday, October 5, 2026, 9:14", what: "First draft", sections: POST_V1 },
+  { n: 2, when: "Monday, October 5, 2026, 9:20", what: "Shorter, more direct", sections: POST_V2 },
 ];
 
 export const FLOW_COPY = {

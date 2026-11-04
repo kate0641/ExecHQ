@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ChatMessage } from "@/components/chat/ChatMessage";
 import { QuickReplies } from "@/components/chat/QuickReplies";
 import { Button } from "@/components/primitives/Button";
-import { followUpQuestion, outcomeLabel, shortDate, whenPhrase, type LoopRecord, type OutcomeType } from "@/lib/loop";
+import { followUpQuestion, outcomeLabel, fullDate, whenPhrase, type LoopRecord, type OutcomeType } from "@/lib/loop";
 import { CHECKIN_COPY as C } from "@/mock/homepage";
 import { ARTIFACT_KINDS, OUTCOME_NOTE_BY_KIND } from "@/mock/loop";
 
@@ -253,13 +253,13 @@ export function CheckIn({
   if (layout === "stepper") {
     const steps = record
       ? [
-          { label: C.steps.drafted, when: shortDate(record.createdOn) },
-          { label: C.steps.used, when: record.usedOn ? shortDate(record.usedOn) : C.stepNotYet },
+          { label: C.steps.drafted, when: fullDate(record.createdOn) },
+          { label: C.steps.used, when: record.usedOn ? fullDate(record.usedOn) : C.stepNotYet },
           { label: C.steps.came, when: record.outcome ? C.stepLogged : record.usedOn ? C.stepWaiting : "" },
         ]
       : [
           { label: C.steps.accepted, when: "" },
-          { label: C.steps.done, when: task?.doneOn ? shortDate(task.doneOn) : C.stepNotYet },
+          { label: C.steps.done, when: task?.doneOn ? fullDate(task.doneOn) : C.stepNotYet },
           { label: C.steps.came, when: task?.outcome ? C.stepLogged : task?.doneOn ? C.stepWaiting : "" },
         ];
     return (
