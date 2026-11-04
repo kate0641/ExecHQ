@@ -25325,12 +25325,16 @@ ul.li-shares {
   --ent-card-title: var(--space-xl);
   --ent-divided-item: var(--space-xl);
   --ent-card-foot: var(--space-lg);
+  /* One gap between every card on the page, across and down (designer,
+     2026-11-04): the phone's 12 between cards and 32 between sections made
+     a mixed rhythm here, where every block is a card. */
+  --ent-between-cards: var(--space-lg);
   /* Full-width cards split exactly in half, so their dividers line up down
      the centre of the page (designer, 2026-11-03). */
   --ent-split: minmax(0, 1fr) minmax(0, 1fr);
   display: flex;
   flex-direction: column;
-  gap: var(--space-between-sections);
+  gap: var(--ent-between-cards);
   width: 100%;
   max-width: var(--viewport-web-max);
   margin-inline: auto;
@@ -25514,7 +25518,7 @@ ul.li-shares {
 /* The dates and Export first on the page (designer, 2026-11-02): close to
    the figures they change, 12 above the stats. */
 .ent-page > .ent-tools + * {
-  margin-top: calc(var(--space-sm) - var(--space-between-sections));
+  margin-top: calc(var(--space-sm) - var(--ent-between-cards));
 }
 
 .ent-band + .ent-page {
@@ -25817,7 +25821,7 @@ ul.readiness-bars {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: stretch;
-  gap: var(--space-between-cards);
+  gap: var(--ent-between-cards);
 }
 
 /* Staying with it: the heading and its two figures on the left, the chart
