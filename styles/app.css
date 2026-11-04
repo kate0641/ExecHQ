@@ -26241,7 +26241,8 @@ ol.ent-chain__steps {
 .ent-chain__bar {
   display: flex;
   gap: 2px;
-  block-size: var(--space-sm);
+  /* Taller, so its parts read as shapes (designer, 2026-11-03). */
+  block-size: var(--space-lg);
   margin-top: auto;
 }
 
