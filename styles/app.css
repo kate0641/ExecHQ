@@ -26703,7 +26703,9 @@ ul.ent-chain__key {
    the chosen section on the right, as the participant Profile on web. */
 .sponsor-profile__layout {
   display: grid;
-  grid-template-columns: minmax(15rem, 20rem) minmax(0, 46rem);
+  /* The list widened from 15–20rem to 18–24rem (designer, 2026-11-04): at
+     the 32 card padding its lines, a cohort's name, would break. */
+  grid-template-columns: minmax(18rem, 24rem) minmax(0, 46rem);
   align-items: start;
   /* The page's own rhythm between blocks. */
   gap: var(--space-xl);
