@@ -26249,8 +26249,17 @@ ol.ent-chain__steps {
   border-radius: var(--radius-xs);
 }
 
-.ent-chain__part--set-up { background-color: var(--color-trend-now-top); }
-.ent-chain__part--joined { background-color: var(--color-trend-week-top); }
+/* The weekly bars' colours (designer, 2026-11-03): set up in this week's
+   dark fade, joined in a full week's fade. */
+.ent-chain__part--set-up,
+.ent-chain__key--set-up::before {
+  background-image: linear-gradient(var(--color-trend-now-top), var(--color-trend-now-base));
+}
+
+.ent-chain__part--joined,
+.ent-chain__key--joined::before {
+  background-image: linear-gradient(var(--color-trend-week-top), var(--color-trend-week-base));
+}
 .ent-chain__part--not-yet { background-color: var(--color-chart-grid); }
 
 ul.ent-chain__key {
@@ -26278,8 +26287,6 @@ ul.ent-chain__key {
   border-radius: var(--radius-xs);
 }
 
-.ent-chain__key--set-up::before { background-color: var(--color-trend-now-top); }
-.ent-chain__key--joined::before { background-color: var(--color-trend-week-top); }
 .ent-chain__key--not-yet::before { background-color: var(--color-chart-grid); }
 
 .ent-chain__defs {
