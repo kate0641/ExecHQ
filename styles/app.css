@@ -25834,6 +25834,8 @@ ul.readiness-bars {
 .ent-card--using > .ent-card__figures {
   display: flex;
   flex-direction: column;
+  /* The rows' own padding spaces them, either side of the hairline. */
+  gap: 0;
 }
 
 /* The chart's name reads as the figures' labels do (designer, 2026-11-03). */
