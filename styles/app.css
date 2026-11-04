@@ -26003,7 +26003,7 @@ ul.readiness-bars {
 .ent-follow-done__start { stop-color: var(--color-follow-done); }
 .ent-follow-done__end { stop-color: var(--color-follow-done-end); }
 
-/* Done fades from green 700 to green 500 (designer, 2026-11-03), subtle,
+/* Done fades from green 700 to green 600 (designer, 2026-11-03), subtle,
    as the page's other charts do. */
 .ent-card--following .meter--ring .meter__fill {
   stroke: url(#ent-follow-done);

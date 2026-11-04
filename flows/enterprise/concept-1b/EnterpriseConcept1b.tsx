@@ -418,7 +418,9 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
           (designer, 2026-11-03); its stroke points at this. */}
       <svg className="u-visually-hidden" aria-hidden="true" focusable="false">
         <defs>
-          <linearGradient id="ent-follow-done" x1={0} y1={0} x2={1} y2={1}>
+          {/* The ring is drawn turned a quarter, so its start is this box's
+              right edge: dark there, lighter as the arc goes round. */}
+          <linearGradient id="ent-follow-done" x1={1} y1={0.4} x2={0.2} y2={1}>
             <stop offset={0} className="ent-follow-done__start" />
             <stop offset={1} className="ent-follow-done__end" />
           </linearGradient>
