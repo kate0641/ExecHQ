@@ -249,6 +249,9 @@
   --color-trend-week-base: var(--brand-blue-200);
   --color-trend-now-top: var(--brand-navy);
   --color-trend-now-base: var(--brand-blue-600);
+  /* The week picked, by hover or the keyboard: the same fade a step darker. */
+  --color-trend-picked-top: var(--brand-blue-600);
+  --color-trend-picked-base: var(--brand-blue-300);
   /* A chart's scale, lightest to darkest, ending on the chart line: palette
      steps, never blends (designer, 2026-11-02). The readiness bars use it. */
   --color-chart-scale-1: var(--brand-blue-200);

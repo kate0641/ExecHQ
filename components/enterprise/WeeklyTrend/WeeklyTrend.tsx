@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type PointerEvent } from "react";
+import { useEffect, useId, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
 import { Icon } from "@/components/primitives/Icon";
 import { ENTERPRISE_COPY, TREND_COPY, abbrevDate, formatDate, weekInRange, type TrendView } from "@/mock/enterprise";
 
@@ -119,6 +119,43 @@ export function WeeklyTrend({ trend, highlight, height = DEFAULT_HEIGHT, look = 
   }
 
   const pickedWeek = picked === undefined ? undefined : weeks[picked];
+  const weekName = (i: number) => (weeks[i].partial ? C.thisWeek : `${C.week} ${dayOf(weeks[i].weekOf)}`);
+  const weekFigure = (i: number) => (weeks[i].active === undefined ? C.hiddenWeek : count.format(weeks[i].active!));
+
+  // The fade look reads week by week from the keyboard too (designer,
+  // 2026-11-03): the plot is a slider over the weeks; the arrows, Home and
+  // End move the pill a hover would show.
+  function step(event: KeyboardEvent<HTMLDivElement>) {
+    const from = hovered ?? latestIndex;
+    const to =
+      event.key === "ArrowLeft" || event.key === "ArrowDown"
+        ? from - 1
+        : event.key === "ArrowRight" || event.key === "ArrowUp"
+          ? from + 1
+          : event.key === "Home"
+            ? 0
+            : event.key === "End"
+              ? latestIndex
+              : undefined;
+    if (to === undefined) return;
+    event.preventDefault();
+    setHovered(Math.min(latestIndex, Math.max(0, to)));
+  }
+  const slider =
+    look === "fade"
+      ? {
+          role: "slider",
+          tabIndex: 0,
+          "aria-label": C.readWeeks,
+          "aria-valuemin": 0,
+          "aria-valuemax": latestIndex,
+          "aria-valuenow": hovered ?? latestIndex,
+          "aria-valuetext": `${weekName(hovered ?? latestIndex)}: ${weekFigure(hovered ?? latestIndex)}`,
+          onKeyDown: step,
+          onFocus: () => setHovered((now) => now ?? latestIndex),
+          onBlur: () => setHovered(undefined),
+        }
+      : {};
 
   return (
     <figure className={classes}>
@@ -133,7 +170,7 @@ export function WeeklyTrend({ trend, highlight, height = DEFAULT_HEIGHT, look = 
         {shown.length ? C.summary(shown[0], Math.max(...shown), latest.active ?? shown[shown.length - 1], weeks.length) : null}{" "}
         {highlight && shadedWeeks.length ? C.shaded(dayOf(shadedWeeks[0].weekOf), dayOf(shadedWeeks[shadedWeeks.length - 1].weekOf)) : null}
       </p>
-      <div className="weekly-trend__plot" ref={plotRef}>
+      <div className="weekly-trend__plot" ref={plotRef} {...slider}>
         {/* A line at each step of the scale, each labelled above its left
             end (designer, 2026-11-03), so the bars have benchmarks between 0
             and the top. */}
@@ -159,7 +196,7 @@ export function WeeklyTrend({ trend, highlight, height = DEFAULT_HEIGHT, look = 
               </pattern>
             ))}
             {look === "fade"
-              ? (["week", "now"] as const).map((kind) => (
+              ? (["week", "picked", "now"] as const).map((kind) => (
                   <linearGradient key={kind} id={`${hatchId}-${kind}`} x1={0} y1={0} x2={0} y2={1}>
                     <stop offset={0} className={`weekly-trend__stop weekly-trend__stop--${kind}-top`} />
                     <stop offset={1} className={`weekly-trend__stop weekly-trend__stop--${kind}-base`} />
@@ -196,14 +233,15 @@ export function WeeklyTrend({ trend, highlight, height = DEFAULT_HEIGHT, look = 
                   // the stylesheet.
                   style={
                     look === "fade"
-                      ? { fill: `url(#${hatchId}-${week.partial ? "now" : "week"})` }
+                      ? { fill: `url(#${hatchId}-${week.partial ? "now" : picked === i ? "picked" : "week"})` }
                       : week.partial
                         ? { fill: `url(#${hatchId}-${tone})` }
                         : undefined
                   }
                 />
-                {labelled || (look === "fade" && week.partial) ? (
-                  <text className={`weekly-trend__value weekly-trend__value--${tone}`} x={x(i) + barWidth / 2} y={base - h - 4} textAnchor="middle">
+                {labelled || look === "fade" ? (
+                  <text
+                    className={["weekly-trend__value", `weekly-trend__value--${tone}`, look === "fade" && !week.partial ? "is-print-only" : null].filter(Boolean).join(" ")} x={x(i) + barWidth / 2} y={base - h - 4} textAnchor="middle">
                     {count.format(week.active)}
                   </text>
                 ) : null}

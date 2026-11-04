@@ -25862,6 +25862,8 @@ ul.readiness-bars {
 .weekly-trend__stop--week-base { stop-color: var(--color-trend-week-base); }
 .weekly-trend__stop--now-top { stop-color: var(--color-trend-now-top); }
 .weekly-trend__stop--now-base { stop-color: var(--color-trend-now-base); }
+.weekly-trend__stop--picked-top { stop-color: var(--color-trend-picked-top); }
+.weekly-trend__stop--picked-base { stop-color: var(--color-trend-picked-base); }
 
 .weekly-trend--fade .weekly-trend__bar.is-partial {
   stroke: none;
@@ -25897,7 +25899,34 @@ ul.readiness-bars {
 
 .weekly-trend--fade .weekly-trend__bar.is-picked {
   opacity: 1;
-  filter: brightness(0.82);
+}
+
+/* This week, already the darkest, only deepens a touch when picked. */
+.weekly-trend--fade .weekly-trend__bar.is-partial.is-picked {
+  filter: brightness(0.9);
+}
+
+/* The plot reads week by week from the keyboard; its focus shows. */
+.weekly-trend--fade .weekly-trend__plot:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-sm);
+}
+
+/* Every week's figure is drawn, but on screen only this week's shows; the
+   rest are for print, where nothing can be hovered. */
+.weekly-trend--fade .weekly-trend__value.is-print-only {
+  display: none;
+}
+
+@media print {
+  .weekly-trend--fade .weekly-trend__value.is-print-only {
+    display: inline;
+  }
+
+  .weekly-trend--fade .weekly-trend__tip {
+    display: none;
+  }
 }
 
 /* This week's figure sits over its bar, in ink. */

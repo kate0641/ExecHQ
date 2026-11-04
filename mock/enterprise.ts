@@ -937,6 +937,8 @@ export const TREND_COPY = {
   latest: (active: string) => `${active} so far this week`,
   soFar: "So far",
   thisWeek: "This week, so far",
+  /** The chart as a slider over the weeks, for the keyboard (designer, 2026-11-03). */
+  readWeeks: "Active each week: use the arrow keys to read each week",
   shaded: (from: string, to: string) => (from === to ? `Your dates fall in the week of ${from}.` : `Your dates cover the weeks of ${from} to ${to}.`),
 } as const;
 
