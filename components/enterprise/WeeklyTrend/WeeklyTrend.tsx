@@ -15,7 +15,7 @@ const PAD = { top: 20, right: 4, bottom: 0, left: 4 };
 const FADE_GUTTER = 40;
 const FADE_HEADROOM = 64;
 /** How far the pill may reach past the plot, into the card's padding. */
-const TIP_OVERHANG = 16;
+const TIP_OVERHANG = 24;
 /** Below this the scale would be too fine for so few people. */
 const MIN_PEAK = 10;
 const count = new Intl.NumberFormat("en-GB");
