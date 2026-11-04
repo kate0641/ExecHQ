@@ -25855,6 +25855,18 @@ ul.readiness-bars {
   margin-top: var(--space-md);
 }
 
+.ent-card--using .weekly-trend__bar--on {
+  fill: var(--color-trend-bar);
+}
+
+.ent-card--using .weekly-trend__bar--on.is-partial {
+  stroke: var(--color-trend-bar-partial);
+}
+
+.ent-card--using .weekly-trend__hatch--on {
+  stroke: var(--color-trend-bar-partial);
+}
+
 /* The chart's name reads as the figures' labels do (designer, 2026-11-03). */
 .ent-card--using .weekly-trend__label {
   font-family: var(--type-subheading-font);
