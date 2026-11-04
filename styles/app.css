@@ -24497,8 +24497,9 @@ ul.li-shares {
 }
 
 .weekly-trend__plot {
+  --weekly-trend-plot-top: var(--space-md);
   position: relative;
-  padding-top: var(--space-md);
+  padding-top: var(--weekly-trend-plot-top);
 }
 
 /* The one labelled rule, at the round number above the peak. */
@@ -24506,6 +24507,8 @@ ul.li-shares {
   position: absolute;
   top: 0;
   left: 0;
+  /* Set by each label to its line; it sits just above it. */
+  transform: translateY(-100%);
 }
 
 /* Full width from CSS, so the drawing never props its box open; the width

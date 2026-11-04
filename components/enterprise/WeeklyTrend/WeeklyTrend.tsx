@@ -75,6 +75,7 @@ export function WeeklyTrend({ trend, highlight, height: HEIGHT = DEFAULT_HEIGHT,
   const shown = weeks.filter((week) => week.active !== undefined).map((week) => week.active!);
   const peak = Math.max(MIN_PEAK, ...shown);
   const top = niceCeiling(peak);
+  const steps = scaleSteps(top);
   const latestIndex = weeks.length - 1;
   const latest = weeks[latestIndex];
   const hasGap = shown.length < weeks.length;
@@ -111,9 +112,14 @@ export function WeeklyTrend({ trend, highlight, height: HEIGHT = DEFAULT_HEIGHT,
         {highlight && shadedWeeks.length ? C.shaded(dayOf(shadedWeeks[0].weekOf), dayOf(shadedWeeks[shadedWeeks.length - 1].weekOf)) : null}
       </p>
       <div className="weekly-trend__plot" ref={plotRef}>
-        <span className="weekly-trend__scale" aria-hidden="true">
-          {count.format(top)}
-        </span>
+        {/* A line at each step of the scale, each labelled above its left
+            end (designer, 2026-11-03), so the bars have benchmarks between 0
+            and the top. */}
+        {steps.map((value) => (
+          <span key={value} className="weekly-trend__scale" style={{ top: `calc(var(--weekly-trend-plot-top) + ${y(value)}px)` }} aria-hidden="true">
+            {count.format(value)}
+          </span>
+        ))}
         <svg
           className="weekly-trend__svg"
           width={width}
@@ -137,7 +143,9 @@ export function WeeklyTrend({ trend, highlight, height: HEIGHT = DEFAULT_HEIGHT,
                 inDates[i] ? <rect key={`band-${week.weekOf}`} className="weekly-trend__band" x={PAD.left + slot * i} y={0} width={slot} height={base} /> : null,
               )
             : null}
-          <line className="weekly-trend__grid" x1={0} x2={width} y1={y(top)} y2={y(top)} />
+          {steps.map((value) => (
+            <line key={value} className="weekly-trend__grid" x1={0} x2={width} y1={y(value)} y2={y(value)} />
+          ))}
           <line className="weekly-trend__grid weekly-trend__grid--base" x1={0} x2={width} y1={base} y2={base} />
           {weeks.map((week, i) => {
             const tone = inDates[i] ? "on" : "off";
@@ -221,6 +229,16 @@ export function WeeklyTrend({ trend, highlight, height: HEIGHT = DEFAULT_HEIGHT,
 function niceCeiling(value: number): number {
   const step = 10 ** Math.max(1, Math.floor(Math.log10(value)));
   return Math.ceil(value / step) * step;
+}
+
+/** The scale's gridlines above zero: three or four even steps up to the top,
+ *  at round numbers (10, 20, 30; 250, 500, 750, 1,000). */
+function scaleSteps(top: number): number[] {
+  for (const parts of [3, 4, 5, 2]) {
+    const step = top / parts;
+    if (Number.isInteger(step) && /^(1|2|25|3|4|5)0*$/.test(String(step))) return Array.from({ length: parts }, (_, i) => step * (i + 1));
+  }
+  return [top];
 }
 
 export default WeeklyTrend;
