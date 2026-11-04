@@ -414,6 +414,17 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
     <>
       <CohortHeader cohort={cohort} window={window} headingRef={headingRef} />
 
+      {/* Follow-through's ring fades, as the page's other charts do
+          (designer, 2026-11-03); its stroke points at this. */}
+      <svg className="u-visually-hidden" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="ent-follow-done" x1={0} y1={0} x2={1} y2={1}>
+            <stop offset={0} className="ent-follow-done__start" />
+            <stop offset={1} className="ent-follow-done__end" />
+          </linearGradient>
+        </defs>
+      </svg>
+
       <div className="ent-page">
         {/* The dates and Export first, over everything they change
             (designer, 2026-11-02). */}

@@ -238,6 +238,7 @@
   /* Follow-through's ring (designer, 2026-11-03): done in dark green, the
      rest in plain stone, no fade. */
   --color-follow-done: var(--brand-green-700);
+  --color-follow-done-end: var(--brand-green-500);  /* the ring's fade, from green 700 (designer, 2026-11-03) */
   --color-follow-open: var(--brand-stone-250);
   /* The stats' short bars (designer, 2026-11-03): navy. */
   --color-stats-bar: var(--brand-navy);

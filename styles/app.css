@@ -26000,8 +26000,13 @@ ul.readiness-bars {
   stroke: var(--color-follow-open);
 }
 
+.ent-follow-done__start { stop-color: var(--color-follow-done); }
+.ent-follow-done__end { stop-color: var(--color-follow-done-end); }
+
+/* Done fades from green 700 to green 500 (designer, 2026-11-03), subtle,
+   as the page's other charts do. */
 .ent-card--following .meter--ring .meter__fill {
-  stroke: var(--color-follow-done);
+  stroke: url(#ent-follow-done);
   stroke-linecap: butt;
 }
 
