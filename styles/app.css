@@ -26166,6 +26166,10 @@ ul.readiness-bars {
 }
 
 /* The label of Showing up's ring is its sentence; it starts capitalised. */
+.ent-seen__any .cohort-figure__label {
+  display: block;
+}
+
 .ent-seen__any .cohort-figure__label::first-letter {
   text-transform: uppercase;
 }
