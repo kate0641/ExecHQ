@@ -26157,6 +26157,11 @@ ul.readiness-bars {
   stroke-linecap: butt;
 }
 
+/* Showing up's ring in follow-through's green (designer, 2026-11-04). */
+.ent-card--seen .meter--ring .meter__fill {
+  stroke: url(#ent-follow-done);
+}
+
 .ent-people-ring__start { stop-color: var(--color-trend-now-top); }
 .ent-people-ring__end { stop-color: var(--color-trend-week-top); }
 
