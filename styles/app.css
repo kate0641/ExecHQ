@@ -25888,6 +25888,11 @@ ul.readiness-bars {
   font-size: var(--type-label-size);
   font-weight: var(--weight-semibold);
   fill: var(--color-text-primary);
+  /* A halo of the card's white, so a gridline behind it never cuts it. */
+  stroke: var(--color-surface-raised);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+  paint-order: stroke;
 }
 
 .weekly-trend--fade .weekly-trend__tip {
