@@ -26240,7 +26240,8 @@ ol.ent-chain__steps {
    bar and above the hairline. */
 .ent-chain__bar {
   display: flex;
-  gap: 2px;
+  /* Clear gaps between the three groups (designer, 2026-11-03). */
+  gap: var(--space-2xs);
   /* Taller, so its parts read as shapes (designer, 2026-11-03). */
   block-size: var(--space-lg);
   margin-top: auto;
