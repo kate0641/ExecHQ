@@ -25924,9 +25924,11 @@ ul.readiness-bars {
 .ent-card--using > .ent-card__trend {
   grid-column: 2;
   grid-row: 1 / span 2;
-  /* Full height, so the divider runs the card's height; the chart centred
-     inside it. */
-  justify-content: center;
+  /* Full height, so the divider runs the card's height. The chart's name
+     sits at the top, level with the card's heading, and its definition at
+     the foot, level with the last line on the left; the bars take the room
+     between (designer, 2026-11-03). */
+  justify-content: space-between;
   padding-left: var(--ent-divided-item);
   border-left: var(--border-width-thin) solid var(--color-border);
 }
