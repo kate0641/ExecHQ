@@ -699,7 +699,9 @@ export const DATA_POINTS: Record<DataPointId, DataPoint> = {
     label: "Pieces of work made",
     question: "following",
     definition: "How many drafts, briefs and statements the cohort made in ExecHQ in the dates chosen.",
-    brief: "Everything participants made in ExecHQ in the dates chosen.",
+    // Non-breaking spaces hold "ExecHQ in the dates chosen." together, so
+    // the definition breaks after "made in" (designer, 2026-11-03).
+    brief: "Everything participants made in ExecHQ\u00a0in\u00a0the\u00a0dates\u00a0chosen.",
     source: "The Playbook and its library.",
   },
   loop: {
@@ -707,7 +709,8 @@ export const DATA_POINTS: Record<DataPointId, DataPoint> = {
     question: "following",
     definition:
       "Of the work made, how much participants marked as used outside ExecHQ.",
-    brief: "Of the work made, how much was marked as used outside ExecHQ.",
+    // Held together so it breaks after "marked as" (designer, 2026-11-03).
+    brief: "Of the work made, how much was marked as used\u00a0outside\u00a0ExecHQ.",
     source: "Work marked used in ExecHQ.",
   },
 };
