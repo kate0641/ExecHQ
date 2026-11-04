@@ -43,6 +43,8 @@ export const weeklyTrendStates = defineComponentStates({
     { label: "Last month shaded", props: { trend: demo, highlight: lastMonth } },
     { label: "Every week, with no dates", props: { trend: demo } },
     { label: "Taller, as on the admin card", props: { trend: demo, height: 240 } },
+    { label: "Fading bars, this week darker, numbers on hover", props: { trend: demo, height: 240, look: "fade" } },
+    { label: "Fading bars, a week picked — hover", props: { trend: demo, height: 240, look: "fade", demoWeek: 7 } },
     { label: "A week picked — hover", props: { trend: demo, highlight: thisWeek, demoWeek: 7 } },
     { label: "A gap where a week was hidden", props: { trend: withGap, highlight: thisWeek } },
     { label: "Three weeks in, the pilot", props: { trend: trendFor(COHORTS.pilot), highlight: presetRange("this-week", COHORTS.pilot) } },

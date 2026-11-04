@@ -925,7 +925,7 @@ export const TREND_COPY = {
   coversAll: "Since the program started.",
   inDates: "in your dates",
   definition: "How many people signed in and did at least one thing in each week, Monday to Sunday, since the program started. The dates you choose are shaded.",
-  brief: "People who did at least one thing in each week, Monday to Sunday, since the program started. This week so far is lighter.",
+  brief: "People who did at least one thing in each week, Monday to Sunday, since the program started. This week so far is the darkest.",
   source: "Sign-ins and actions in ExecHQ.",
   gap: `A gap is a week with fewer than ${MIN_COHORT_SIZE} active, left out to protect privacy.`,
   summary: (first: number, peak: number, latest: number, weeks: number) =>

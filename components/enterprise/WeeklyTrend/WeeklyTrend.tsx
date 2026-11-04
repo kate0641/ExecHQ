@@ -25,6 +25,10 @@ export interface WeeklyTrendProps {
   /** The drawing's height in px, 120 unless a card has room to give it
    *  (designer, 2026-11-03: the admin card fills its half). */
   height?: number;
+  /** `fade` (designer, 2026-11-03): each bar fades from its colour at the top
+   *  to a pale one at its base, this week in a darker fade so it stands out,
+   *  and no numbers over the bars: hovering a week shows its figure. */
+  look?: "flat" | "fade";
   /** Catalogue only: the week a hover would pick, so the tooltip shows. */
   demoWeek?: number;
   className?: string;
@@ -40,7 +44,7 @@ export interface WeeklyTrendProps {
  * small number; a cohort below the minimum hides it. Hovering a week shows
  * its figure; the same figures sit in a table for screen readers.
  */
-export function WeeklyTrend({ trend, highlight, height: HEIGHT = DEFAULT_HEIGHT, demoWeek, className }: WeeklyTrendProps) {
+export function WeeklyTrend({ trend, highlight, height: HEIGHT = DEFAULT_HEIGHT, look = "flat", demoWeek, className }: WeeklyTrendProps) {
   const plotRef = useRef<HTMLDivElement>(null);
   // React's ids hold colons, which a url() reference can't: keep the rest.
   const hatchId = `hatch${useId().replace(/[^a-zA-Z0-9]/g, "")}`;
@@ -56,7 +60,7 @@ export function WeeklyTrend({ trend, highlight, height: HEIGHT = DEFAULT_HEIGHT,
     return () => observer.disconnect();
   }, [trend.state]);
 
-  const classes = ["weekly-trend", `weekly-trend--${trend.state}`, className].filter(Boolean).join(" ");
+  const classes = ["weekly-trend", `weekly-trend--${trend.state}`, look === "fade" ? "weekly-trend--fade" : null, className].filter(Boolean).join(" ");
   const heading = <p className="weekly-trend__label">{C.heading}</p>;
 
   if (trend.state === "suppressed") {
@@ -82,7 +86,7 @@ export function WeeklyTrend({ trend, highlight, height: HEIGHT = DEFAULT_HEIGHT,
   const inDates = weeks.map((week) => (highlight ? weekInRange(week.weekOf, highlight) : true));
   const shadedWeeks = weeks.filter((_, i) => inDates[i]);
   // Values sit over the bars while there is room for them.
-  const labelled = weeks.length <= 10;
+  const labelled = look === "flat" && weeks.length <= 10;
 
   const slot = (width - PAD.left - PAD.right) / weeks.length;
   const barWidth = Math.min(44, Math.max(4, slot * 0.64));
@@ -136,6 +140,14 @@ export function WeeklyTrend({ trend, highlight, height: HEIGHT = DEFAULT_HEIGHT,
                 <line className={`weekly-trend__hatch weekly-trend__hatch--${tone}`} x1={0} y1={0} x2={0} y2={6} />
               </pattern>
             ))}
+            {look === "fade"
+              ? (["week", "now"] as const).map((kind) => (
+                  <linearGradient key={kind} id={`${hatchId}-${kind}`} x1={0} y1={0} x2={0} y2={1}>
+                    <stop offset={0} className={`weekly-trend__stop weekly-trend__stop--${kind}-top`} />
+                    <stop offset={1} className={`weekly-trend__stop weekly-trend__stop--${kind}-base`} />
+                  </linearGradient>
+                ))
+              : null}
           </defs>
           {/* The dates chosen: a band behind the weeks they touch. */}
           {highlight
@@ -162,8 +174,15 @@ export function WeeklyTrend({ trend, highlight, height: HEIGHT = DEFAULT_HEIGHT,
                   width={barWidth}
                   height={h}
                   rx={Math.min(4, barWidth / 4)}
-                  // Inline, so the hatching wins over the bar's fill in the stylesheet.
-                  style={week.partial ? { fill: `url(#${hatchId}-${tone})` } : undefined}
+                  // Inline, so the hatching or the fade wins over the bar's fill in
+                  // the stylesheet.
+                  style={
+                    look === "fade"
+                      ? { fill: `url(#${hatchId}-${week.partial ? "now" : "week"})` }
+                      : week.partial
+                        ? { fill: `url(#${hatchId}-${tone})` }
+                        : undefined
+                  }
                 />
                 {labelled ? (
                   <text className={`weekly-trend__value weekly-trend__value--${tone}`} x={x(i) + barWidth / 2} y={base - h - 4} textAnchor="middle">

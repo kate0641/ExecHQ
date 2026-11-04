@@ -25855,15 +25855,45 @@ ul.readiness-bars {
   margin-top: var(--space-md);
 }
 
-.ent-card--using .weekly-trend__bar--on {
-  fill: var(--color-trend-bar);
+/* Active each week on the admin card (designer, 2026-11-03): fading bars,
+   this week a dark navy fade, clearer scale lines, and a hover that dims
+   the other weeks and names the one picked in a navy pill. */
+.weekly-trend__stop--week-top { stop-color: var(--color-trend-week-top); }
+.weekly-trend__stop--week-base { stop-color: var(--color-trend-week-base); }
+.weekly-trend__stop--now-top { stop-color: var(--color-trend-now-top); }
+.weekly-trend__stop--now-base { stop-color: var(--color-trend-now-base); }
+
+.weekly-trend--fade .weekly-trend__bar.is-partial {
+  stroke: none;
 }
 
-/* This week, still going: a lighter solid blue, not stripes. The chart
-   sets the hatching inline, so this has to outrank it. */
-.ent-card--using .weekly-trend__bar--on.is-partial {
-  fill: var(--color-trend-bar-partial) !important;
-  stroke: none;
+.weekly-trend--fade .weekly-trend__grid {
+  stroke: var(--color-border-strong);
+  stroke-dasharray: 3 3;
+}
+
+.weekly-trend--fade .weekly-trend__bar {
+  transition: opacity 120ms ease;
+}
+
+.weekly-trend--fade .weekly-trend__svg:has(.is-picked) .weekly-trend__bar:not(.is-picked) {
+  opacity: 0.35;
+}
+
+.weekly-trend--fade .weekly-trend__tip {
+  border-color: transparent;
+  background: var(--color-surface-inverse);
+  color: var(--color-text-inverse-muted);
+}
+
+.weekly-trend--fade .weekly-trend__tip strong {
+  color: var(--color-text-inverse);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .weekly-trend--fade .weekly-trend__bar {
+    transition: none;
+  }
 }
 
 /* The chart's name reads as the figures' labels do (designer, 2026-11-03). */
