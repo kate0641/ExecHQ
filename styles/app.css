@@ -26235,10 +26235,14 @@ ol.ent-chain__steps {
   color: var(--color-text-secondary);
 }
 
+/* The bar and its key sit midway between the steps and the definitions'
+   hairline (designer, 2026-11-03): the free room splits equally above the
+   bar and above the hairline. */
 .ent-chain__bar {
   display: flex;
   gap: 2px;
   block-size: var(--space-sm);
+  margin-top: auto;
 }
 
 .ent-chain__part {
