@@ -26823,6 +26823,18 @@ ul.sponsor-profile__points {
   line-height: var(--type-body-sm-leading);
 }
 
+/* A value takes the room it needs, so an email address is never broken
+   mid-word ("northgate.co / m"); it wraps only if it can't fit the row at
+   all (designer, 2026-11-04). */
+.sponsor-profile .settings-row__value {
+  max-width: none;
+  overflow-wrap: break-word;
+}
+
+.sponsor-profile .settings-row__text {
+  flex: 1 0 auto;
+}
+
 .sponsor-profile .settings-row__value,
 ul.sponsor-profile__points li,
 .sponsor-profile__told {

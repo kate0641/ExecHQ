@@ -213,8 +213,10 @@ export function SponsorProfileConcept1() {
                 <SettingsRow kind="static" label={C.you.email} value={SPONSOR_PERSON.email} />
                 <SettingsRow kind="static" label={C.you.org} value={SPONSOR_PERSON.org} />
                 {/* One Edit for the section (Kate, 2026-10-23): the name and
-                    job title, the only two that change here. */}
-                <SettingsRow kind="action" icon="edit" label={C.you.editLabel} description={C.you.editHint} onAction={() => setEditing(true)} />
+                    job title, the only two that change here. What it changes sits at
+                    the row's end, lined up with the values above (designer,
+                    2026-11-04). */}
+                <SettingsRow kind="action" icon="edit" label={C.you.editLabel} value={C.you.editHint} onAction={() => setEditing(true)} />
               </SettingsGroup>
             )
           ) : null}
