@@ -25398,14 +25398,16 @@ ul.li-shares {
    2026-11-02): an icon, the sentence's number, then the sentence whole as
    its caption. Four across, so each caption has room. */
 /* Under .ent-page, so it outranks the reset that clears a list's padding. */
+/* The opening's stats: a white card like the ones under it, split by
+   hairlines (designer, 2026-11-03: navy felt too colourful). */
 .ent-page .ent-stats {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  column-gap: var(--space-2xl);
   margin: 0;
   padding: var(--ent-card-padding);
+  border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-card);
-  background-color: var(--color-surface-inverse);
+  background-color: var(--color-surface-raised);
   list-style: none;
 }
 
@@ -25414,10 +25416,37 @@ ul.li-shares {
   flex-direction: column;
   align-items: flex-start;
   min-width: 0;
+  padding-inline: var(--space-xl);
 }
 
-.ent-stats__icon {
-  color: var(--color-eyebrow-on-inverse);
+.ent-stats__item:first-child {
+  padding-left: 0;
+}
+
+.ent-stats__item:last-child {
+  padding-right: 0;
+}
+
+.ent-stats__item + .ent-stats__item {
+  border-left: var(--border-width-thin) solid var(--color-border);
+}
+
+/* Where the icon was: a short bar of the number against what it's out of. */
+.ent-stats__bar {
+  display: block;
+  inline-size: 100%;
+  max-inline-size: 9rem;
+  block-size: var(--space-xs);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-chart-grid);
+  overflow: hidden;
+}
+
+.ent-stats__bar i {
+  display: block;
+  block-size: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--color-stats-bar);
 }
 
 .ent-stats__figure {
@@ -25433,29 +25462,24 @@ ul.li-shares {
   font-weight: var(--type-figure-weight);
   line-height: var(--type-figure-leading);
   font-variant-numeric: tabular-nums;
-  color: var(--color-text-inverse);
-}
-
-.ent-stats__value,
-.ent-stats__count {
-  color: var(--color-headline-on-inverse);
+  color: var(--color-text-primary);
 }
 
 .ent-stats__count {
   font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
 }
 
 .ent-stats__of {
   font-family: var(--type-label-font);
   font-size: var(--type-label-size);
-  color: var(--color-text-inverse-muted);
+  color: var(--color-text-secondary);
 }
 
 .ent-stats__words {
   font-size: var(--type-body-sm-size);
   line-height: var(--type-body-sm-leading);
-  /* The sentences in the light ink, not pushed back (designer, 2026-11-03). */
-  color: var(--color-text-inverse);
+  color: var(--color-text-secondary);
 }
 
 /* The dates and Export first on the page (designer, 2026-11-02): close to

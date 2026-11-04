@@ -239,6 +239,8 @@
      rest in plain stone, no fade. */
   --color-follow-done: var(--brand-green-700);
   --color-follow-open: var(--brand-stone-250);
+  /* The stats' short bars (designer, 2026-11-03): navy. */
+  --color-stats-bar: var(--brand-navy);
   /* A chart's scale, lightest to darkest, ending on the chart line: palette
      steps, never blends (designer, 2026-11-02). The readiness bars use it. */
   --color-chart-scale-1: var(--brand-blue-200);

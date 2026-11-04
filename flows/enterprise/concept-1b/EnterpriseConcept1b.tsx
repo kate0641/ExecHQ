@@ -10,7 +10,7 @@ import { ReadinessBars } from "@/components/enterprise/ReadinessBars";
 import { DateRangePicker } from "@/components/enterprise/DateRangePicker";
 import { DropdownMenu } from "@/components/form/DropdownMenu";
 import { Button } from "@/components/primitives/Button";
-import { Icon, type IconName } from "@/components/primitives/Icon";
+import { Icon } from "@/components/primitives/Icon";
 import {
   C1_COPY,
   DATA_POINTS,
@@ -125,19 +125,9 @@ function useLongName(bandRef: React.RefObject<HTMLElement | null>, name: string)
   }, [bandRef, name]);
 }
 
-/** What each of the opening's sentences is about, in its order. */
-const STORY_ICONS: IconName[] = ["person-add", "spark", "target", "trend-up"];
-
-/**
- * The opening as four stats under the header (designer, 2026-11-02): each
- * sentence led by an icon and its number, the sentence kept whole as its
- * caption. On the page, not in a card. The number repeats the sentence's
- * figure, so screen readers hear only the sentence.
- */
-/** The counts in a stat's sentence stand out in yellow, like its big
- *  number (designer, 2026-11-03), so the figures it doesn't lead with are
- *  seen too. Spans of time ("30 days", "12 weeks") aren't counts and stay
- *  in the sentence's colour. */
+/** The counts in a stat's sentence stand out in semibold ink (designer,
+ *  2026-11-03), so the figures it doesn't lead with are seen too. Spans of
+ *  time ("30 days", "12 weeks") aren't counts and stay as the sentence is. */
 function statWords(text: string) {
   return text.split(/(\d[\d,]*(?! days| weeks)(?=\D|$))/).map((part, i) =>
     i % 2 === 1 ? (
@@ -150,6 +140,14 @@ function statWords(text: string) {
   );
 }
 
+/**
+ * The opening as four stats under the header (designer, 2026-11-02, white
+ * 2026-11-03): each sentence led by a short bar of its number against what
+ * it's out of, and the number itself, the sentence kept whole as its
+ * caption. "Active" has no "of", so its bar is drawn against everyone who
+ * joined. The bar and number repeat the sentence, so screen readers hear
+ * only the sentence.
+ */
 function OpeningStats({ cohort, window }: { cohort: Cohort; window: DateRange }) {
   const story = storyFor(cohort, window, true);
   const figures = storyFigures(cohort, window, true);
@@ -158,7 +156,9 @@ function OpeningStats({ cohort, window }: { cohort: Cohort; window: DateRange })
     <ul className="ent-stats">
       {story.map((sentence, i) => (
         <li key={i} className="ent-stats__item">
-          <Icon name={STORY_ICONS[i]} size={20} className="ent-stats__icon" />
+          <span className="ent-stats__bar" aria-hidden="true">
+            <i style={{ inlineSize: `${Math.min(100, (figures[i].value / Math.max(1, figures[i].of ?? cohort.joined)) * 100)}%` }} />
+          </span>
           <p className="ent-stats__figure" aria-hidden="true">
             <span className="ent-stats__value">{figures[i].value.toLocaleString("en-US")}</span>
             {figures[i].of !== undefined ? <span className="ent-stats__of">of {figures[i].of!.toLocaleString("en-US")}</span> : null}
