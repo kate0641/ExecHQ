@@ -71,7 +71,7 @@ export function OutcomeNext({
   }
 
   return (
-    <section className={["outcome-next", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
+    <section className={["card", "outcome-next", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
       <p className="outcome-next__readback">
         <Icon name="check" size={16} />
         {readback}

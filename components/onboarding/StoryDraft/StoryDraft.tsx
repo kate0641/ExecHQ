@@ -67,7 +67,7 @@ export function StoryDraft({
 
   return (
     <div className={["story-draft", className].filter(Boolean).join(" ")}>
-      <div className="story-draft__card">
+      <div className="card story-draft__card">
         <div className="read-head">
           <p className="story-draft__label">{label}</p>
           {editing ? null : (

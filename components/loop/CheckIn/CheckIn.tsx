@@ -202,7 +202,7 @@ export function CheckIn({
       ? [{ label: C.used(usedVerb) }, { label: C.notYet, quiet: true }]
       : [...MAIN.map((t) => ({ label: labelOf(t) })), ...QUIET.map((t) => ({ label: labelOf(t), quiet: true }))];
     return (
-      <section className={["check-in", "check-in--chat", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
+      <section className={["card", "check-in", "check-in--chat", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
         <div className="check-in__thread" role="log" aria-live="polite">
           <ChatMessage from="advisor" lead>
             <span id={headingId} tabIndex={-1}>
@@ -263,7 +263,7 @@ export function CheckIn({
           { label: C.steps.came, when: task?.outcome ? C.stepLogged : task?.doneOn ? C.stepWaiting : "" },
         ];
     return (
-      <section className={["check-in", "check-in--stepper", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
+      <section className={["card", "check-in", "check-in--stepper", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
         {about ? <p className="check-in__about">{about}</p> : null}
         <ol className="check-in__steps" aria-label="Where it is in the Loop">
           {steps.map((s, i) => (
@@ -299,7 +299,7 @@ export function CheckIn({
 
   /* Question first: one question, its answers, and a note after. */
   return (
-    <section className={["check-in", "check-in--question", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
+    <section className={["card", "check-in", "check-in--question", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
       {about ? (
         <p className="check-in__about">
           {C.aboutFor}: {about}

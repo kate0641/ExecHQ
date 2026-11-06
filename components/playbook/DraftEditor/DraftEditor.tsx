@@ -222,7 +222,7 @@ export function DraftEditor({
 
       {revising ? <GeneratingState label={revising} /> : null}
 
-      <div className="draft-editor__body" aria-busy={Boolean(revising) || undefined}>
+      <div className="card draft-editor__body" aria-busy={Boolean(revising) || undefined}>
         {sections.map((section) => {
           const name = section.heading ?? "the draft";
           const edited = edits[section.id];

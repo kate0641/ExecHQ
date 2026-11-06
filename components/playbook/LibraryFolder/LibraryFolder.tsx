@@ -55,6 +55,7 @@ export function LibraryFolder({
   className,
 }: LibraryFolderProps) {
   const classes = [
+    "card",
     "library-folder",
     `library-folder--${tool}`,
     `library-folder--${as}`,

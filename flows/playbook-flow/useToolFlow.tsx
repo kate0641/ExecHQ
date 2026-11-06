@@ -1023,7 +1023,7 @@ export function useToolFlow(concept: FlowConcept) {
   const sentForm: ReactNode =
     sending && record ? (
       <form
-        className="tool-flow__sent"
+        className="card tool-flow__sent"
         onSubmit={(event) => {
           event.preventDefault();
           const on = sentOn || loop.today;

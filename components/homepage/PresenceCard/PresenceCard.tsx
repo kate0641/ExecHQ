@@ -140,7 +140,7 @@ export function PresenceCard({
   }
 
   return (
-    <section className={["account-card", "presence-card", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
+    <section className={["card", "account-card", "presence-card", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
       <div className="account-card__top">
         <h3 className="account-card__name" id={headingId}>
           <span className="account-card__mark" aria-hidden="true">

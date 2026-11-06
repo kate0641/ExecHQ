@@ -71,7 +71,7 @@ export function LinkedInPicture({ data, initialKind = "location", headingId, cla
         </h2>
         <p className="signal-picture__intro">{C.intro(monthDayYear(data.from), monthDayYear(data.to))}</p>
       </div>
-      <div className="li-picture">
+      <div className="card li-picture">
 
       {nothing ? (
         <p className="li-picture__empty">{C.empty}</p>

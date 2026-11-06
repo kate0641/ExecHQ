@@ -129,7 +129,7 @@ export function PublisherPicker({ mode, chosen = [], onDone, onCancel, startOwn 
         </>
       ) : (
         <>
-          <section className="publisher-picker__suggested" aria-labelledby="publisher-suggested-heading">
+          <section className="card publisher-picker__suggested" aria-labelledby="publisher-suggested-heading">
             <h3 className="publisher-picker__suggested-heading" id="publisher-suggested-heading">
               {C.suggestedHeading}
             </h3>

@@ -78,7 +78,7 @@ export function SignalPicture({
   return (
     <>
       <section
-        className={["account-card", "signal-picture", className]
+        className={["card", "account-card", "signal-picture", className]
           .filter(Boolean)
           .join(" ")}
         aria-labelledby={headingId}

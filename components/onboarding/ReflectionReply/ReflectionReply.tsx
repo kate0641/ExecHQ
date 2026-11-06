@@ -25,7 +25,7 @@ export function ReflectionReply({ from, text, fact, className }: ReflectionReply
         <figcaption>{from}</figcaption>
       </figure>
       {fact ? (
-        <div className={["reflection-reply__fact", fact.placeholder ? "is-placeholder" : null].filter(Boolean).join(" ")}>
+        <div className={["card", "reflection-reply__fact", fact.placeholder ? "is-placeholder" : null].filter(Boolean).join(" ")}>
           <p className="reflection-reply__fact-label">{fact.label}</p>
           <p className="reflection-reply__fact-text">{fact.text}</p>
           {fact.source ? <p className="reflection-reply__fact-source">{fact.source}</p> : null}

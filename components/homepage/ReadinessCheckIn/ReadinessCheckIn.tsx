@@ -49,7 +49,7 @@ const word = (value: number) => C.answers[value - 1];
  * by week. Drawn as the other Stay on track cards are.
  */
 export function ReadinessCheckIn({ toward, history, answer, later, stretch, onAnswer, onNotNow, headingId = "readiness-check-in", demo, className }: ReadinessCheckInProps) {
-  const classes = ["check-in", "check-in--question", "readiness-check", className].filter(Boolean).join(" ");
+  const classes = ["card", "check-in", "check-in--question", "readiness-check", className].filter(Boolean).join(" ");
   const start = history[0] ?? answer ?? 0;
   const middle = Math.ceil(C.answers.length / 2);
   const [picked, setPicked] = useState(history[history.length - 1] ?? middle);

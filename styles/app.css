@@ -6872,10 +6872,6 @@ ol.ring-detail__timeline {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
-  padding: var(--space-card-padding);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
 }
 
 .story-draft__label {
@@ -7396,10 +7392,6 @@ ol.ring-detail__timeline {
   display: flex;
   flex-direction: column;
   gap: var(--space-card-title);
-  padding: var(--space-card-padding);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
   /* The header band runs to the card's edge, so it is clipped to its corners. */
   overflow: hidden;
 }
@@ -8260,10 +8252,6 @@ ol.ring-detail__timeline {
   display: flex;
   flex-direction: column;
   gap: var(--space-card-title);
-  padding: var(--space-card-padding);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
 }
 
 .point-box__label {
@@ -8336,10 +8324,6 @@ ol.ring-detail__timeline {
   display: flex;
   flex-direction: column;
   gap: var(--space-eyebrow-title);
-  padding: var(--space-card-padding);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
 }
 
 /* Unsourced: dashed, so it can never pass for finished copy. */
@@ -8387,10 +8371,6 @@ ol.ring-detail__timeline {
   display: flex;
   flex-direction: column;
   gap: var(--space-2xs);
-  padding: var(--space-card-padding);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
 }
 
 .recommendation__lead {
@@ -8522,10 +8502,6 @@ ol.ring-detail__timeline {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
-  padding: var(--space-card-padding);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
 }
 
 .good-example__label {
@@ -9295,11 +9271,7 @@ ol.signal__list {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
-  padding: var(--space-md);
-  border: var(--border-width-thin) solid var(--color-border);
   border-top: var(--border-width-thick) solid var(--color-text-primary);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
   color: var(--color-text-primary);
   text-decoration: none;
   transition: border-color var(--duration-fast) var(--easing-standard), transform var(--duration-fast) var(--easing-standard);
@@ -9663,10 +9635,6 @@ ol.signal__list {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-  padding: var(--space-md);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
   /* The blue band at the head runs to the card's edge, so it is clipped to
      its corners. */
   overflow: hidden;
@@ -10292,10 +10260,6 @@ ol.check-in__steps {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-  padding: var(--space-md);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
 }
 
 /* Cards are outlined only when the whole card can be tapped. An account card
@@ -16604,10 +16568,6 @@ ul.plan-guided__sparks {
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
-  padding: var(--space-md);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
 }
 
 /* A section like Where you started: its heading and dates on the page, the card under them. */
@@ -17459,10 +17419,6 @@ ul.li-shares {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
-  padding: var(--space-card-padding);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
 }
 
 .publisher-picker__suggested-heading {
@@ -18770,10 +18726,6 @@ ul.li-shares {
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
-  padding: var(--space-md);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
 }
 
 /* Inside the draft card the body is open, not a second card: never a card
@@ -19203,10 +19155,6 @@ ul.li-shares {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-  padding: var(--space-md);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
 }
 
 .tool-flow__sent-heading {
@@ -21372,10 +21320,6 @@ ul.li-shares {
   flex-direction: column;
   gap: var(--space-2xs);
   margin: 0;
-  padding: var(--space-card-padding);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
   font: inherit;
   color: var(--color-text-primary);
   text-align: left;
@@ -22048,10 +21992,6 @@ ul.li-shares {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-  padding: var(--space-md);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
 }
 
 .outcome-next__heading {
