@@ -486,7 +486,7 @@ export function useToolFlow(concept: FlowConcept) {
   const backHref = conceptHref("playbook", playbookPageFor(concept));
   const header: ReactNode = (
     <div className="tool-flow__bar">
-      <Link href={backHref} className="tool-flow__back">
+      <Link href={backHref} className="back-link">
         <Icon name="chevron" size={16} className="tool-flow__back-icon" />
         {C.back}
         <span className="u-visually-hidden"> ({C.backLabel})</span>

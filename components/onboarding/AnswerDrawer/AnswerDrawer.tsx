@@ -145,7 +145,7 @@ export function AnswerDrawer({
       >
         <button
           type="button"
-          className="answer-drawer__grab"
+          className="drawer__grab"
           aria-expanded
           aria-label={foldLabel}
           onClick={onToggle}

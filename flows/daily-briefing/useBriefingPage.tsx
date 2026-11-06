@@ -195,7 +195,7 @@ export function useBriefingPage() {
   const savedPage = (
     <div className="briefing-page saved-page">
       <div className="folder-page__bar">
-        <Link href={pathname} className="folder-page__back">
+        <Link href={pathname} className="back-link">
           <Icon name="chevron-left" size={18} />
           {S.back}
         </Link>
