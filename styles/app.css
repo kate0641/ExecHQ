@@ -9061,7 +9061,7 @@ button.device-keyboard__key {
   letter-spacing: var(--type-eyebrow-tracking);
   word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-eyebrow);
+  color: var(--color-text-secondary);
   margin: 0;
 }
 
@@ -10482,7 +10482,7 @@ ol.check-in__steps {
   letter-spacing: var(--type-eyebrow-tracking);
   word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-eyebrow);
+  color: var(--color-text-secondary);
   margin: 0;
 }
 
@@ -10504,7 +10504,7 @@ ol.check-in__steps {
   letter-spacing: var(--type-eyebrow-tracking);
   word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-eyebrow);
+  color: var(--color-text-secondary);
 }
 
 .presence-clean__try b {
@@ -14921,7 +14921,7 @@ ul.rtl__agenda {
   letter-spacing: var(--type-eyebrow-tracking);
   word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-eyebrow);
+  color: var(--color-text-secondary);
   margin: 0;
 }
 
@@ -15518,7 +15518,7 @@ h3.agenda__stage-head {
   letter-spacing: var(--type-eyebrow-tracking);
   word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-eyebrow);
+  color: var(--color-text-secondary);
 }
 
 .agenda__when {
@@ -16372,7 +16372,7 @@ fieldset.agenda__whens {
   letter-spacing: var(--type-eyebrow-tracking);
   word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-eyebrow);
+  color: var(--color-text-secondary);
   margin: 0;
 }
 
@@ -18150,7 +18150,7 @@ ul.li-shares {
   letter-spacing: var(--type-eyebrow-tracking);
   word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-eyebrow);
+  color: var(--color-text-secondary);
   margin: 0;
 }
 
@@ -18346,7 +18346,7 @@ ul.li-shares {
   letter-spacing: var(--type-eyebrow-tracking);
   word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-eyebrow);
+  color: var(--color-text-secondary);
   display: inline-flex;
   align-items: center;
   gap: var(--space-3xs);
@@ -18975,7 +18975,7 @@ ul.li-shares {
   letter-spacing: var(--type-eyebrow-tracking);
   word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-eyebrow);
+  color: var(--color-text-secondary);
 }
 
 .draft-editor--page .draft-editor__text {
@@ -19528,7 +19528,7 @@ ul.li-shares {
   letter-spacing: var(--type-eyebrow-tracking);
   word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-eyebrow);
+  color: var(--color-text-secondary);
   margin: 0;
 }
 
@@ -20306,7 +20306,7 @@ ul.li-shares {
   letter-spacing: var(--type-eyebrow-tracking);
   word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-eyebrow);
+  color: var(--color-text-secondary);
 }
 
 .pinned-draft__preview {
@@ -22079,7 +22079,7 @@ ul.li-shares {
   letter-spacing: var(--type-eyebrow-tracking);
   word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-eyebrow);
+  color: var(--color-text-secondary);
 }
 
 .outcome-next__title {
