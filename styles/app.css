@@ -3249,7 +3249,7 @@ ol.concierge-list {
   flex-direction: column;
   gap: var(--space-md);
   padding: var(--space-md) var(--space-md) var(--space-lg);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-card);
   background-color: var(--color-surface-feature);
   /* The same 2px white ring as the Spark, so the pale blue sits cleanly on
      the stone. */
@@ -3659,7 +3659,7 @@ ol.loop-track {
   gap: var(--space-sm);
   padding: var(--space-sm) var(--space-md);
   border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-card);
   color: var(--color-text-primary);
   text-decoration: none;
   transition: border-color var(--duration-fast), transform var(--duration-fast);
@@ -3712,7 +3712,7 @@ ol.loop-track {
   gap: var(--space-sm);
   padding: var(--space-md) var(--space-sm) calc(var(--space-md) + var(--space-2xs)) var(--space-md);
   border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-card);
   background-color: var(--color-surface-raised);
 }
 
@@ -3829,7 +3829,7 @@ ul.briefing-card__others {
   gap: var(--space-sm);
   padding: var(--space-feature-padding) var(--space-md);
   border: var(--border-width-thin) solid var(--color-border-light-blue);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-card);
   background-color: var(--color-wash-mid);
   background-image: linear-gradient(115deg in oklab, var(--color-wash-start) 0%, var(--color-wash-mid) 55%, var(--color-wash-end) 100%);
   color: var(--color-text-primary);
@@ -3987,7 +3987,7 @@ ul.recent-work__list {
   gap: var(--space-2xs) var(--space-sm);
   padding: var(--space-sm) var(--space-md);
   border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-card);
   color: var(--color-text-primary);
   text-decoration: none;
   transition: border-color var(--duration-fast), transform var(--duration-fast);
@@ -4127,7 +4127,7 @@ ul.recent-work__list {
   flex-direction: column;
   gap: var(--space-md);
   padding: var(--space-lg) var(--space-md);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-card);
   background-color: var(--color-surface-inverse);
   color: var(--color-text-inverse);
 }
@@ -4334,7 +4334,7 @@ ul.rings-hero__row {
   flex-direction: column;
   gap: var(--space-sm);
   padding: var(--space-md);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-card);
   background-color: var(--color-surface-sunken);
 }
 
@@ -10067,7 +10067,7 @@ button.device-keyboard__key {
 /* The card tucks up under the panel, so the step reads as part of the signal. */
 .signals-home__focus > .signal--focal {
   padding-bottom: calc(var(--space-xl) + var(--space-md));
-  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  border-radius: var(--radius-card) var(--radius-xl) 0 0;
 }
 
 .signals-home__focus > .home-card {
@@ -10118,7 +10118,7 @@ button.device-keyboard__key {
 
 .signal--focal {
   padding: var(--space-lg) var(--space-md);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-card);
   background-color: var(--color-surface-inverse);
   color: var(--color-text-inverse);
 }
@@ -10363,7 +10363,7 @@ ol.signal__list {
   padding: var(--space-md);
   border: var(--border-width-thin) solid var(--color-border);
   border-top: var(--border-width-thick) solid var(--color-text-primary);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-card);
   background-color: var(--color-surface-raised);
   color: var(--color-text-primary);
   text-decoration: none;
@@ -10758,7 +10758,7 @@ ol.signal__list {
   gap: var(--space-sm);
   padding: var(--space-md);
   border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-card);
   background-color: var(--color-surface-raised);
   /* The blue band at the head runs to the card's edge, so it is clipped to
      its corners. */
@@ -11439,7 +11439,7 @@ ol.check-in__steps {
   gap: var(--space-sm);
   padding: var(--space-md);
   border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-card);
   background-color: var(--color-surface-raised);
 }
 
@@ -11765,7 +11765,7 @@ ol.check-in__steps {
      standard 20px. */
   padding: var(--space-feature-padding) var(--space-md);
   border: var(--border-width-thin) solid transparent;
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-card);
   --color-surface-raised: var(--color-surface-inverse);
   --color-surface-hover: var(--color-surface-inverse-hover);
   --color-text-primary: var(--color-text-inverse);
@@ -14641,7 +14641,7 @@ p.map-legend {
   gap: var(--space-xs);
   padding: var(--space-md);
   border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-card);
   background-color: var(--color-surface-raised);
 }
 
@@ -14940,7 +14940,7 @@ ul.card-carousel__track {
   gap: var(--space-sm);
   padding: var(--space-md);
   border-color: var(--color-border);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-card);
   background-color: var(--color-surface-raised);
 }
 
@@ -16164,14 +16164,7 @@ ol.entry-drawer__rows {
   color: var(--color-headline-on-inverse);
 }
 
-/* The Signal Picture under the cleaned-up system (designer, 2026-10-18; see the design system review). Spacing
-   follows the proximity rule: sections 32 apart, twice the biggest gap inside them; cards in one section 12
-   apart; a heading 8 above its copy, the copy 16 above its card. Every card on the page has the same 20px
-   corners and 20px padding. An eyebrow sits 4 over its title, and copy 20 over its button. */
-.signals-page {
-  --radius-card: var(--radius-xl);
-}
-
+/* Signal Picture spacing: sections 32, cards 12, heading 8 over copy, copy 16 over its card. */
 .signals-page,
 .signals-page__lead,
 .signals-page__main,
@@ -18413,7 +18406,7 @@ ul.plan-guided__sparks {
   gap: var(--space-md);
   padding: var(--space-md);
   border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-card);
   background-color: var(--color-surface-raised);
 }
 
@@ -18840,7 +18833,7 @@ ul.li-shares {
   --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
   gap: var(--space-sm);
   padding: var(--space-lg) var(--space-md) var(--space-md);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-card);
   background-color: var(--color-surface-inverse);
 }
 
@@ -19593,7 +19586,7 @@ ul.li-shares {
 [data-viewport="web"] .briefing-one {
   padding: var(--space-lg);
   border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-card);
   background-color: var(--color-surface-raised);
 }
 
@@ -19842,7 +19835,7 @@ ul.li-shares {
   height: 8.5rem;
   padding: var(--space-sm);
   border: var(--border-width-thin) solid var(--illustration-card-border);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-card);
   background-color: var(--illustration-card);
 }
 
@@ -24179,7 +24172,7 @@ ul.li-shares {
   gap: var(--space-sm);
   padding: var(--space-md);
   border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-card);
   background-color: var(--color-surface-raised);
 }
 
@@ -25333,7 +25326,6 @@ ul.li-shares {
 }
 
 .ent-page {
-  --radius-card: var(--radius-xl);
   /* Cards on the admin pages hold more, on a wide screen: 32 inside
      (designer, 2026-11-02, "things look tight"). */
   --ent-card-padding: var(--space-xl);
