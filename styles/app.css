@@ -2390,24 +2390,6 @@ ul.chrome__nav-list {
   justify-content: flex-start;
 }
 
-.chrome__header-start,
-.chrome__header-end {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-}
-
-.chrome__header-end {
-  margin-left: auto;
-}
-
-.chrome__header-centre {
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  min-width: 0;
-}
-
 /* Concierge — Navigation Concept 1 ----------------------------------------
 
    One pill, "Ask or go", and the advisor behind it. Everything is drawn on
@@ -2878,7 +2860,6 @@ ul.chrome__nav-list {
 }
 
 ul.icon-row,
-ul.concierge-work,
 ul.concierge-suggest {
   margin: 0;
   padding: 0;
@@ -2978,52 +2959,6 @@ ul.concierge-suggest {
   gap: var(--space-xs);
 }
 
-.concierge-row {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  width: 100%;
-  padding: var(--space-sm);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface);
-  color: var(--color-text-primary);
-  text-align: left;
-  text-decoration: none;
-}
-
-.concierge-row:hover {
-  border-color: var(--color-border-strong);
-}
-
-.concierge-row__icon {
-  display: grid;
-  flex: none;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-md);
-  background-color: var(--color-icon-surface);
-  color: var(--color-icon);
-}
-
-.concierge-row__text {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2xs);
-  min-width: 0;
-}
-
-.concierge-row__title {
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-}
-
-.concierge-row__hint {
-  font-size: var(--text-xs);
-  color: var(--color-text-muted);
-}
-
 /* Every prompt in the sheet: the raised surface, a thin edge, and fixed 20px corners so
    one line is a pill and two lines a rounded box, never a stretched one. */
 .concierge-suggest__item,
@@ -3089,7 +3024,6 @@ ul.concierge-suggest {
 
 .icon-row__item:focus-visible,
 .icon-row__item.is-focus,
-.concierge-row:focus-visible,
 .concierge-suggest__item:focus-visible,
 .concierge-go:focus-visible {
   outline: var(--focus-ring);
@@ -3703,122 +3637,6 @@ ol.loop-track {
   color: var(--color-text-muted);
 }
 
-/* Today's Briefing at the head of the homepage (Concept 2): a light card,
-   apart from the dark signal panel, that closes for the day. */
-
-.briefing-card {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  padding: var(--space-md) var(--space-sm) calc(var(--space-md) + var(--space-2xs)) var(--space-md);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
-}
-
-.briefing-card__top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-sm);
-}
-
-.briefing-card__eyebrow {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-2xs);
-  margin: 0;
-  font-size: var(--text-xs);
-  color: var(--color-text-muted);
-}
-
-.briefing-card__label {
-  display: flex;
-  flex-direction: column;
-}
-
-.briefing-card__eyebrow b {
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-}
-
-.briefing-card__close {
-  display: grid;
-  flex: none;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  color: var(--color-text-secondary);
-  transition: background-color var(--duration-fast) var(--easing-standard);
-}
-
-.briefing-card__close:hover,
-.briefing-card__close.is-hover {
-  background-color: var(--color-surface-hover);
-}
-
-.briefing-card__close:active,
-.briefing-card__close.is-active {
-  background-color: var(--color-surface-active);
-}
-
-.briefing-card__close:focus-visible,
-.briefing-card__close.is-focus {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-/* The lead read is the card's heading, set bold so it leads the reads below. */
-.briefing-card__lead {
-  font-family: var(--type-heading-font);
-  font-size: var(--type-heading-size);
-  font-weight: var(--weight-bold);
-  line-height: var(--type-heading-leading);
-  letter-spacing: var(--type-heading-tracking);
-  word-spacing: var(--type-heading-word-spacing);
-  margin: 0;
-  padding-right: var(--space-sm);
-}
-
-.briefing-card__why {
-  font-family: var(--type-body-sm-font);
-  font-size: var(--type-body-sm-size);
-  font-weight: var(--type-body-sm-weight);
-  line-height: var(--type-body-sm-leading);
-  letter-spacing: var(--type-body-sm-tracking);
-  word-spacing: var(--type-body-sm-word-spacing);
-  margin: 0;
-  color: var(--color-text-secondary);
-}
-
-ul.briefing-card__others {
-  font-family: var(--type-body-sm-font);
-  font-size: var(--type-body-sm-size);
-  font-weight: var(--type-body-sm-weight);
-  line-height: var(--type-body-sm-leading);
-  letter-spacing: var(--type-body-sm-tracking);
-  word-spacing: var(--type-body-sm-word-spacing);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-paragraph);
-  margin: 0;
-  padding: calc(var(--space-md) + var(--space-2xs)) var(--space-sm) 0 0; /* 20px: more room under the divider than above it */
-  border-top: var(--border-width-thin) solid var(--color-border-subtle);
-  list-style: none;
-  color: var(--color-text-primary);
-}
-
-.briefing-card__open {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2xs);
-  align-self: flex-start;
-  margin-top: var(--space-2xs);
-}
-
 /* Entry links: a way to another destination that says what's there. */
 
 /* A soft wash, blue into pale lime, outlined like every card, with the card
@@ -4107,224 +3925,6 @@ ul.recent-work__list {
 .home__greeting span span {
   font-size: var(--text-sm);
   color: var(--color-text-muted);
-}
-
-.home__another {
-  align-self: flex-start;
-  margin-top: calc(-1 * var(--space-sm));
-}
-
-.home__last {
-  margin: 0;
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-}
-
-/* The hero: a dark card holding the three rings and the one action. */
-
-.rings-hero {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-  padding: var(--space-lg) var(--space-md);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
-}
-
-[data-viewport="tablet"] .rings-hero:not(:where([data-viewport="mobile"] *)),
-[data-viewport="web"] .rings-hero:not(:where([data-viewport="mobile"] *)) {
-  padding: var(--space-lg);
-}
-
-.rings-hero__greeting {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3xs);
-  margin: 0;
-}
-
-.rings-hero__greeting b {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-}
-
-.rings-hero__greeting span {
-  font-size: var(--text-sm);
-  color: var(--color-text-inverse-muted);
-}
-
-/* A caption for the rings on the first return: smaller and quieter than
-   the plan line, and under the rings it explains. */
-.rings-hero__note {
-  margin: 0;
-  font-size: var(--text-xs);
-  line-height: var(--leading-snug);
-  color: var(--color-text-inverse-muted);
-  text-align: center;
-}
-
-ul.rings-hero__row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-2xs);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.rings-hero__ring {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-2xs);
-  width: 100%;
-  padding: var(--space-sm) var(--space-2xs);
-  border-radius: var(--radius-lg);
-  color: var(--color-text-inverse);
-  text-align: center;
-  transition: background-color var(--duration-fast);
-}
-
-.rings-hero__ring:hover,
-.rings-hero__ring.is-hover,
-.rings-hero__ring[aria-expanded="true"] {
-  background-color: var(--color-surface-inverse-hover);
-}
-
-.rings-hero__ring:focus-visible,
-.rings-hero__ring.is-focus {
-  outline: var(--focus-ring-width) solid var(--color-focus-inverse);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.rings-hero__ring:active,
-.rings-hero__ring.is-active {
-  background-color: var(--color-surface-inverse-active);
-}
-
-.rings-hero__svg {
-  width: 100%;
-  max-width: 5rem;
-  overflow: visible;
-}
-
-[data-viewport="tablet"] .rings-hero__svg:not(:where([data-viewport="mobile"] *)),
-[data-viewport="web"] .rings-hero__svg:not(:where([data-viewport="mobile"] *)) {
-  max-width: 6.5rem;
-}
-
-/* Solid when confirmed; a hollow outline when not; the next to fill is
-   outlined in the accent. Shape tells them apart, not colour alone. */
-.rings-hero__svg circle,
-.rings-hero__svg path {
-  fill: none;
-  transition: stroke var(--duration-base);
-}
-
-.rings-hero__fill { stroke: var(--color-text-inverse); }
-.rings-hero__track { stroke: var(--color-text-inverse-muted); }
-.rings-hero__next { stroke: var(--color-accent-on-inverse); }
-.rings-hero__hole { stroke: var(--color-surface-inverse); }
-
-.rings-hero__ring:hover .rings-hero__hole,
-.rings-hero__ring.is-hover .rings-hero__hole,
-.rings-hero__ring[aria-expanded="true"] .rings-hero__hole {
-  stroke: var(--color-surface-inverse-hover);
-}
-
-.rings-hero__ring:active .rings-hero__hole,
-.rings-hero__ring.is-active .rings-hero__hole {
-  stroke: var(--color-surface-inverse-active);
-}
-
-.rings-hero__name {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-bold);
-}
-
-.rings-hero__count {
-  font-size: var(--text-xs);
-  color: var(--color-text-inverse-muted);
-  font-variant-numeric: tabular-nums;
-}
-
-/* The tray: what the moment asks for, inside the card, above the rings. Its
-   notch points down at the ring it belongs to; --at is that ring's place in the row, from 0. The
-   tray and the row share a width, so the ring's centre is at (2 × at + 1) / 6. */
-
-.rings-hero__ring.is-pointed .rings-hero__name {
-  color: var(--color-accent-on-inverse);
-}
-
-.rings-hero__tray {
-  position: relative;
-  padding: var(--space-md);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface-raised);
-  color: var(--color-text-primary);
-}
-
-.rings-hero__notch {
-  position: absolute;
-  bottom: calc(-1 * var(--space-xs));
-  left: calc(100% * (var(--at) * 2 + 1) / 6);
-  width: var(--space-md);
-  height: var(--space-md);
-  border-radius: var(--radius-xs);
-  background-color: var(--color-surface-raised);
-  transform: translateX(-50%) rotate(45deg);
-  transition: left var(--duration-base) var(--easing-standard);
-}
-
-/* A shared card inside the tray gives up its own chrome: the tray is the card. */
-.rings-hero__tray > .home-card {
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  background-color: transparent;
-}
-
-.rings-hero__tray :focus-visible {
-  outline-color: var(--color-focus);
-}
-
-/* In the tray the check-in, like the cards, gives up its own chrome. */
-.rings-hero__tray > .check-in {
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  background-color: transparent;
-}
-
-.rings-hero__tray > .home-card--after-check-in {
-  margin-top: var(--space-md);
-  padding-top: var(--space-md);
-  border-top: var(--border-subtle);
-}
-
-.rings-hero__tray > .home__back {
-  margin-bottom: var(--space-sm);
-}
-
-.rings-hero__tray > .home__another {
-  margin-top: var(--space-md);
-}
-
-.rings-hero__done {
-  margin: 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
 }
 
 /* The ring opened: its actions and a timeline of what they track. */
@@ -5367,7 +4967,6 @@ ol.ring-detail__timeline {
   color: var(--color-text-secondary);
 }
 
-.styleguide__swatches,
 .styleguide__type-scale,
 .styleguide__bars,
 .styleguide__tiles {
@@ -5377,7 +4976,6 @@ ol.ring-detail__timeline {
   list-style: none;
 }
 
-.styleguide__swatches,
 .styleguide__tiles {
   flex-wrap: wrap;
   gap: var(--space-md);
@@ -5396,7 +4994,6 @@ ol.ring-detail__timeline {
   min-width: 0;
 }
 
-.styleguide__swatches .styleguide__token,
 .styleguide__tiles .styleguide__token {
   flex-direction: column;
   align-items: flex-start;
@@ -5422,14 +5019,6 @@ ol.ring-detail__timeline {
   font-size: var(--text-2xs);
   color: var(--color-text-muted);
   word-break: break-all;
-}
-
-.styleguide__swatch {
-  display: block;
-  width: 100%;
-  height: 56px;
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-sm);
 }
 
 /* A brand scale: its nine steps in one row, lightest first. */
@@ -5893,11 +5482,6 @@ ol.ring-detail__timeline {
   /* Two short lines rather than a long one and a stranded word. */
 }
 
-.step-progress {
-  display: flex;
-  align-items: center;
-}
-
 .step-actions {
   display: flex;
   flex-direction: column;
@@ -6075,25 +5659,6 @@ ol.ring-detail__timeline {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-}
-
-.welcome__invite {
-  display: flex;
-}
-
-/* Reads as a link, and lines up with the field's edge rather than sitting in
-   a ghost button's padding. */
-.welcome__invite .btn {
-  padding-inline: 0;
-  font-size: var(--text-sm);
-  text-decoration: underline;
-  text-decoration-thickness: var(--border-width-thin);
-  text-underline-offset: 0.2em;
-}
-
-.welcome__invite .btn:hover {
-  background-color: transparent;
-  text-decoration-thickness: var(--border-width-medium);
 }
 
 /* Login's welcome: a line at the foot of the sheet, and on the phone, after the
@@ -6368,17 +5933,6 @@ ol.ring-detail__timeline {
   }
 }
 
-/* --- Interpreted direction ------------------------------------------------ */
-
-.interpreted {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-  padding: var(--space-lg);
-  background-color: var(--color-surface-sunken);
-  border-radius: var(--radius-md);
-}
-
 /* --- Refinement ----------------------------------------------------------- */
 
 .refinement {
@@ -6621,8 +6175,7 @@ ol.ring-detail__timeline {
    choice stays an accessibility decision rather than a styling constraint. */
 .assumption,
 .generating,
-.notice,
-.connect__status {
+.notice {
   display: flex;
 }
 
@@ -6644,42 +6197,10 @@ ol.ring-detail__timeline {
   gap: var(--space-xl);
 }
 
-.wizard__body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-}
-
-.wizard__restart {
-  display: flex;
-}
-
 .plan-set {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-}
-
-.plan-set__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-xs);
-}
-
-.plan-set__actions > .btn {
-  flex: 1 1 auto;
-}
-
-.connect-set {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-/* A single control that should sit at its natural width rather than stretch to
-   the step's measure. */
-.wizard__inline-action {
-  display: flex;
 }
 
 /* Concept 1's claim is that the decision on a screen is never hidden. On a
@@ -6749,97 +6270,6 @@ ol.ring-detail__timeline {
   width: 100%;
   max-width: var(--content-measure);
   margin: 0 auto;
-}
-
-.chat__head {
-  flex: none;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3xs);
-  padding: var(--space-2xs) var(--space-lg) var(--space-sm);
-  border-bottom: var(--border-subtle);
-}
-
-.chat__quote {
-  font-family: var(--type-editorial-font);
-  font-size: var(--type-editorial-size-xs);
-  font-weight: var(--type-editorial-weight-xs);
-  font-style: italic;
-  color: var(--color-text-secondary);
-}
-
-.chat__avatar {
-  flex: none;
-  display: grid;
-  place-items: center;
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-weight: var(--weight-bold);
-  letter-spacing: var(--font-display-tracking-heading);
-}
-
-.chat__avatar {
-  width: var(--space-xl);
-  height: var(--space-xl);
-  font-size: var(--text-2xs);
-}
-
-.chat__name {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-md);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
-  color: var(--color-text-primary);
-}
-
-.chat__name:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.chat__role {
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-muted);
-}
-
-.chat__thread {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  /* The foot pads by the fade's height, so the last message clears the fade
-     once the thread is scrolled to the end. */
-  padding: var(--space-md) var(--space-md) var(--space-lg);
-  overflow-y: auto;
-  /* The conversation fades out above the chips and the composer rather than
-     stopping at a hard edge. */
-  mask-image: linear-gradient(
-    to bottom,
-    var(--color-mask) calc(100% - var(--space-lg)),
-    transparent
-  );
-  /* The containing block for the visually-hidden labels inside, so they
-     scroll with the thread rather than stretching the device screen. */
-  position: relative;
-}
-
-.chat__foot {
-  flex: none;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  padding: var(--space-xs) var(--space-sm) var(--space-lg);
-  background-color: var(--color-surface);
 }
 
 /* The open door: the empty chat is the welcome. */
@@ -7035,11 +6465,6 @@ ol.ring-detail__timeline {
     opacity: 1;
     translate: 0 0;
   }
-}
-
-.chat-story__export {
-  padding-top: var(--space-sm);
-  border-top: var(--border-thin);
 }
 
 /* Quick replies: tap to answer. */
@@ -7307,112 +6732,6 @@ ol.ring-detail__timeline {
   background-color: var(--color-selected-hover);
 }
 
-/* Back top-left, skip top-right. The bar keeps both out of the primary action's
-   way and off the bottom of the screen, where the one thing to press should be
-   the only thing to press. */
-.wizard__bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-sm);
-  min-height: var(--space-2xl);
-}
-
-.wizard__back {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--space-2xl);
-  height: var(--space-2xl);
-  color: var(--color-text-primary);
-  background-color: var(--color-surface);
-  border: var(--border-thin);
-  border-radius: var(--radius-pill);
-  cursor: pointer;
-}
-
-.wizard__back:hover {
-  background-color: var(--color-surface-hover);
-}
-
-.wizard__skip {
-  font-family: var(--font-body);
-  word-spacing: var(--word-spacing-normal);
-  letter-spacing: var(--tracking-normal);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-secondary);
-  background: none;
-  border: 0;
-  padding: var(--space-xs) var(--space-2xs);
-  cursor: pointer;
-  border-radius: var(--radius-xs);
-}
-
-.wizard__skip:hover {
-  color: var(--color-text-primary);
-}
-
-.wizard__footer {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
-/* --- Positioning Builder (Concept 1) -------------------------------------- */
-/* Build page: the story's parts, each a group of fields and chips. */
-
-.builder-part {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-  padding-top: var(--space-md);
-  border-top: var(--border-subtle);
-}
-
-.builder-part__title {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-md);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-  color: var(--color-text-primary);
-}
-
-.builder-known {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  padding: var(--space-sm) var(--space-md);
-  background-color: var(--color-surface-sunken);
-  border-radius: var(--radius-md);
-}
-
-.builder-known__label {
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-}
-
-.builder-known__tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2xs);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.builder-known__tags > li {
-  padding: var(--space-3xs) var(--space-xs);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-primary);
-  background-color: var(--color-surface);
-  border: var(--border-thin);
-  border-radius: var(--radius-pill);
-}
-
 /* Pill tabs: a rounded track, the chosen view raised in white. */
 .toggle-group--pill .toggle-group__options {
   align-self: flex-start;
@@ -7654,17 +6973,10 @@ ol.ring-detail__timeline {
   gap: var(--space-xs);
 }
 
-.builder-output__edit-actions,
-.builder-output__tools {
+.builder-output__edit-actions {
   display: flex;
   justify-content: flex-start;
   gap: var(--space-xs);
-}
-
-/* Edit sits flush with the draft's words, its pencil before it. */
-.builder-output__tools .btn {
-  gap: var(--space-2xs);
-  padding-inline: 0;
 }
 
 /* Export, pinned with the action so it is always in reach. */
@@ -8243,38 +7555,6 @@ ol.ring-detail__timeline {
   border-radius: var(--radius-xl);
 }
 
-/* --- Starting plan (Concept 1) --------------------------------------------- */
-
-.plan-built {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
-.plan-built__label {
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-}
-
-.plan-built__tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2xs);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.plan-built__tags > li {
-  padding: var(--space-3xs) var(--space-sm);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-primary);
-  background-color: var(--color-surface-sunken);
-  border: var(--border-thin);
-  border-radius: var(--radius-pill);
-}
-
 /* The ways on are one card, as Done's list is: the raised surface, a soft
    edge, its group title inside, and a hairline between choices with 20px
    either side. Each choice is a row ending in a chevron, since only a card
@@ -8408,21 +7688,6 @@ ol.ring-detail__timeline {
   display: none;
 }
 
-.plan-reason {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2xs);
-  padding: var(--space-md);
-  background-color: var(--color-surface-sunken);
-  border-radius: var(--radius-md);
-}
-
-.plan-reason__text {
-  font-size: var(--text-md);
-  line-height: var(--leading-normal);
-  color: var(--color-text-primary);
-}
-
 /* A single rule down the left with a mark per stage: the plan reads as a
    sequence without drawing a timeline that implies dates we do not have. */
 .plan-stages {
@@ -8455,39 +7720,6 @@ ol.ring-detail__timeline {
   background-color: var(--color-text-primary);
 }
 
-.plan-stage__window {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-}
-
-.plan-stage__title {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-  color: var(--color-text-primary);
-  margin: var(--space-3xs) 0 var(--space-2xs);
-}
-
-/* Outcomes, not activities: what the user will have by the end of the stage. */
-.plan-stage__outcomes {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2xs);
-  margin: 0;
-  padding-left: var(--space-md);
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--color-text-secondary);
-}
-
 /* --- Export, and the last step's fields ----------------------------------- */
 
 .export {
@@ -8498,20 +7730,6 @@ ol.ring-detail__timeline {
 .export > .btn {
   flex: 1 1 0;
   min-width: 0;
-}
-
-.connect-fields {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-  border: 0;
-  margin: 0;
-  padding: 0;
-  min-width: 0;
-}
-
-.connect-fields > .t-eyebrow {
-  padding: 0;
 }
 
 /* --- The statement field ------------------------------------------------- */
@@ -9072,10 +8290,6 @@ ol.ring-detail__timeline {
   color: var(--color-text-primary);
 }
 
-.guide__invite {
-  display: flex;
-}
-
 /* What ExecHQ knows so far. */
 .advisor-file {
   border: var(--border-thin);
@@ -9173,10 +8387,6 @@ ol.ring-detail__timeline {
 .advisor-file__empty {
   font-size: var(--text-sm);
   color: var(--color-text-secondary);
-}
-
-.guide__file-end .advisor-file__list {
-  padding-top: var(--space-xs);
 }
 
 /* Explained points. */
@@ -9447,12 +8657,6 @@ ol.ring-detail__timeline {
   word-spacing: var(--type-group-title-word-spacing);
   text-transform: uppercase;
   color: var(--color-text-primary);
-}
-
-.guide__plan-start {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
 }
 
 .guide__stages {
@@ -10052,34 +9256,6 @@ button.device-keyboard__key {
   background-color: var(--color-surface-inverse);
 }
 
-/* Homepage Concept 2 — Signals (Ledger) -------------------------------------
-
-   PROVISIONAL signal area, until the Signal Picture in Sprint 3. The signal
-   the next step touches leads in a dark panel, with the step's card joined
-   beneath it; then the other signals as quiet headed lists. Facts only: no
-   bars, counts or trends. Layout columns come from `.home` above. */
-
-.signals-home__focus {
-  display: flex;
-  flex-direction: column;
-}
-
-/* The card tucks up under the panel, so the step reads as part of the signal. */
-.signals-home__focus > .signal--focal {
-  padding-bottom: calc(var(--space-xl) + var(--space-md));
-  border-radius: var(--radius-card) var(--radius-xl) 0 0;
-}
-
-.signals-home__focus > .home-card {
-  margin-top: calc(-1 * var(--space-xl));
-}
-
-.signals-home__others {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-
 .signals-home__intro {
   display: flex;
   flex-direction: column;
@@ -10094,17 +9270,6 @@ button.device-keyboard__key {
   font-size: var(--text-lg);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
-}
-
-.signals-home__window {
-  margin: 0;
-  font-size: var(--text-xs);
-  color: var(--color-text-muted);
-}
-
-.signals-home__others > .signal {
-  padding-top: var(--space-md);
-  border-top: var(--border-subtle);
 }
 
 /* SignalActivity -------------------------------------------------------- */
@@ -10373,7 +9538,6 @@ ol.signal__list {
 /* The Briefing is a dark card wherever it appears: navy, no outline. Its
    colours switch to the inverse set here, so the text, links, dividers and
    tiles inside follow without their own rules. */
-.briefing-card,
 .briefing-editorial,
 .briefing-entry,
 .spark--celebrate .spark__note {
@@ -10396,19 +9560,6 @@ ol.signal__list {
   background-color: var(--color-surface-inverse);
   border-color: transparent;
   color: var(--color-text-inverse);
-}
-
-/* The subtitle sits close under the headline it explains: 8px, not the
-   card's 12px. */
-.briefing-card__lead + .briefing-card__why {
-  margin-top: calc(-1 * var(--space-2xs));
-}
-
-/* On the Briefing card, its name and the lead read are in yellow. */
-.briefing-card__eyebrow b,
-.briefing-card__eyebrow svg,
-.briefing-card__lead {
-  color: var(--color-accent-on-inverse);
 }
 
 .briefing-editorial:hover,
@@ -11057,28 +10208,6 @@ ol.signal__list {
   gap: var(--space-xs) var(--space-md);
 }
 
-.check-in__dots {
-  display: inline-flex;
-  flex: none;
-  gap: var(--space-3xs);
-}
-
-.check-in__dots i {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background-color: var(--color-border);
-}
-
-.check-in__dots i.is-done {
-  background-color: var(--color-text-primary);
-}
-
-.check-in__dots i.is-now {
-  background-color: var(--color-surface-raised);
-  box-shadow: inset 0 0 0 2px var(--color-text-primary);
-}
-
 .check-in__question {
   margin: 0;
   font-family: var(--type-subheading-font);
@@ -11359,15 +10488,6 @@ ol.check-in__steps {
 .home-card__adds b {
   font-weight: var(--weight-semibold);
   color: var(--color-text-secondary);
-}
-
-.loop-rows {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  margin: 0;
-  padding: 0;
-  list-style: none;
 }
 
 .loop-row {
@@ -11725,23 +10845,6 @@ ol.check-in__steps {
   color: var(--color-text-secondary);
 }
 
-.account-card__stat-label {
-  font-family: var(--type-caption-font);
-  font-size: var(--type-caption-size);
-  font-weight: var(--type-caption-weight);
-  line-height: var(--type-caption-leading);
-  letter-spacing: var(--type-caption-tracking);
-  word-spacing: var(--type-caption-word-spacing);
-  color: var(--color-text-muted);
-}
-
-.account-card__stat-note {
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-secondary);
-}
-
-.account-card__says span,
 .account-card__try-label {
   font-family: var(--type-eyebrow-font);
   font-size: var(--type-eyebrow-size);
@@ -11971,36 +11074,6 @@ ul.spark {
   color: var(--color-text-primary);
 }
 
-/* AddPresenceSheet: the form she adds a podcast, mention, talk or piece with. */
-
-.add-presence {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-
-.add-presence__title {
-  margin: 0;
-  font-family: var(--type-subheading-font);
-  font-size: var(--type-subheading-size);
-  font-weight: var(--type-subheading-weight);
-  line-height: var(--type-subheading-leading);
-  letter-spacing: var(--type-subheading-tracking);
-  word-spacing: var(--type-subheading-word-spacing);
-}
-
-.add-presence__error {
-  margin: var(--space-2xs) 0 0;
-  font-size: var(--text-sm);
-  color: var(--color-danger);
-}
-
-.add-presence__actions {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2xs);
-}
-
 /* Where she started beside where she is now, a row per signal (BaselineList),
    and Your presence (Concept 2), which holds the four she adds herself. */
 
@@ -12103,279 +11176,11 @@ ul.baseline-list__rows {
   color: var(--color-text-secondary);
 }
 
-.presence-card__summary {
-  font-family: var(--type-body-sm-font);
-  font-size: var(--type-body-sm-size);
-  font-weight: var(--type-body-sm-weight);
-  line-height: var(--type-body-sm-leading);
-  letter-spacing: var(--type-body-sm-tracking);
-  word-spacing: var(--type-body-sm-word-spacing);
-  margin: 0;
-  color: var(--color-text-secondary);
-}
-
 /* Homepage Concept 3 — Plan (Chapters) --------------------------------------
 
    The roadmap as a table of contents: the current stage opens up in large
    type, the others stay one line. Then the focal card, then the stage's other
    actions. Layout columns come from `.home` above. */
-
-/* StageTrack ------------------------------------------------------------- */
-
-.stage-track {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.stage-track__top {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--space-2xs) var(--space-md);
-}
-
-.stage-track__heading {
-  margin: 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--color-eyebrow);
-}
-
-.stage-track__plan {
-  font-size: var(--text-sm);
-}
-
-ol.stage-track__list {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  border-top: var(--border-width-medium) solid var(--color-text-primary);
-}
-
-.stage-track__stage {
-  display: grid;
-  grid-template-columns: 2.25rem minmax(0, 1fr) auto;
-  gap: var(--space-sm);
-  align-items: baseline;
-  padding: var(--space-sm) 0;
-  border-bottom: var(--border-thin);
-}
-
-.stage-track__n {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  font-variant-numeric: tabular-nums;
-  color: var(--color-text-muted);
-}
-
-.stage-track__name {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-md);
-  line-height: var(--leading-snug);
-  color: var(--color-text-secondary);
-}
-
-.stage-track__done {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2xs);
-  font-size: var(--text-xs);
-  color: var(--color-text-secondary);
-}
-
-.stage-track__tick {
-  display: grid;
-  place-items: center;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background-color: var(--color-text-primary);
-  color: var(--color-surface);
-}
-
-/* The stage the user is in. */
-.stage-track__stage.is-current {
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-xs);
-  padding: var(--space-md) 0 var(--space-lg);
-}
-
-.stage-track__here {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2xs) var(--space-sm);
-  font-size: var(--text-xs);
-  color: var(--color-text-secondary);
-}
-
-.stage-track__chip {
-  padding: var(--space-3xs) var(--space-sm);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface-inverse);
-  font-family: var(--font-body);
-  word-spacing: var(--word-spacing-normal);
-  letter-spacing: var(--tracking-normal);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-inverse);
-}
-
-.stage-track__row {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-sm);
-}
-
-.stage-track__big-n {
-  font-family: var(--type-figure-font);
-  font-weight: var(--type-figure-weight);
-  letter-spacing: var(--type-figure-tracking);
-  word-spacing: var(--type-figure-word-spacing);
-  flex: none;
-  font-size: var(--type-figure-size-lg);
-  font-variant-numeric: tabular-nums;
-  line-height: 0.9;
-}
-
-.stage-track__big-name {
-  font-family: var(--type-title-font);
-  font-size: var(--type-title-size);
-  font-weight: var(--type-title-weight);
-  line-height: var(--type-title-leading);
-  letter-spacing: var(--type-title-tracking);
-  word-spacing: var(--type-title-word-spacing);
-  min-width: 0;
-}
-
-.stage-track__asks {
-  max-width: 34ch;
-  margin: var(--space-2xs) 0 0;
-  font-size: var(--text-md);
-  line-height: var(--leading-normal);
-}
-
-/* StageActions ----------------------------------------------------------- */
-
-.stage-actions {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.stage-actions__heading {
-  margin: 0;
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-}
-
-ul.stage-actions__list {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  border: var(--border-thin);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface-raised);
-}
-
-.stage-actions__list li {
-  border-top: var(--border-subtle);
-}
-
-.stage-actions__list li:first-child {
-  border-top: 0;
-}
-
-.stage-actions__row {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-md);
-  color: var(--color-text-primary);
-  text-decoration: none;
-  transition: background-color var(--duration-fast) var(--easing-standard);
-}
-
-.stage-actions__list li:first-child .stage-actions__row {
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-}
-
-.stage-actions__list li:last-child .stage-actions__row {
-  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-}
-
-.stage-actions__list li:only-child .stage-actions__row {
-  border-radius: var(--radius-lg);
-}
-
-.stage-actions__row:hover,
-.is-demo-hover .stage-actions__list li:first-child .stage-actions__row {
-  background-color: var(--color-surface-hover);
-}
-
-.stage-actions__row:active,
-.is-demo-active .stage-actions__list li:first-child .stage-actions__row {
-  background-color: var(--color-surface-active);
-}
-
-.stage-actions__row:focus-visible,
-.is-demo-focus .stage-actions__list li:first-child .stage-actions__row {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.stage-actions__text {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: var(--space-3xs);
-  min-width: 0;
-}
-
-.stage-actions__title {
-  font-family: var(--font-display);
-  word-spacing: var(--font-display-word-spacing);
-  letter-spacing: var(--font-display-tracking);
-  font-size: var(--text-md);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-  /* Avoids a lone last word, like "in" from "check-in". */
-}
-
-.stage-actions__meta {
-  font-size: var(--text-xs);
-  color: var(--color-text-secondary);
-}
-
-.stage-actions__go {
-  flex: none;
-  color: var(--color-text-muted);
-}
-
-.stage-actions__empty {
-  margin: 0;
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
-}
 
 /* =============================================================================
    PROFILE — Concept 1, Grouped
@@ -12799,14 +11604,6 @@ ul.stage-actions__list {
   text-wrap: pretty;
 }
 
-.detail-panel__quote {
-  margin: 0;
-  font-family: var(--type-editorial-font);
-  font-size: var(--type-editorial-size-sm);
-  font-style: italic;
-  line-height: var(--type-editorial-leading-quote);
-}
-
 .detail-panel__actions,
 .detail-panel__form {
   display: flex;
@@ -12860,41 +11657,6 @@ ul.stage-actions__list {
 /* What deleting removes is marked in the danger red (designer, 2026-10-15). */
 .detail-list--removes .icon {
   color: var(--color-feedback-danger-text);
-}
-
-/* --- Notifications --------------------------------------------------------- */
-.notify-topics {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-
-.notify-topic {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2xs);
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
-
-.notify-topic__label {
-  padding: 0;
-  font-size: var(--text-md);
-  font-weight: var(--weight-semibold);
-}
-
-.notify-topic__hint {
-  margin: 0;
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
-}
-
-.notify-topic__channels {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-xs) var(--space-lg);
-  margin-top: var(--space-2xs);
 }
 
 /* --- The Profile page (Concept 1, Grouped) --------------------------------- */
@@ -12963,11 +11725,6 @@ ul.stage-actions__list {
   margin-top: calc(var(--space-copy-card) - var(--space-sm));
 }
 
-/* The follow-up note belongs to the Email group, so it sits close under it. */
-.profile__note {
-  margin-top: calc(-1 * var(--space-sm));
-}
-
 .profile__list .btn[aria-current="true"] {
   border-color: var(--color-surface-inverse);
   background-color: var(--color-surface-selected);
@@ -13034,14 +11791,6 @@ ul.stage-actions__list {
   letter-spacing: var(--type-body-sm-tracking);
   word-spacing: var(--type-body-sm-word-spacing);
   overflow-wrap: anywhere;
-}
-
-.profile-fact__hint {
-  font-family: var(--type-caption-font);
-  font-size: var(--type-caption-size);
-  font-weight: var(--type-caption-weight);
-  line-height: var(--type-caption-leading);
-  color: var(--color-text-muted);
 }
 
 /* Signed out, or deleted: the page ends in place. */
@@ -14464,24 +13213,6 @@ ul.login__never {
   transform: translateX(-50%);
 }
 
-/* A note in place of a card (a ring that is empty or finished): the same
-   raised surface, so the notch still belongs to something. */
-.map-tray__box {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  padding: var(--space-md);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-feature);
-  color: var(--color-text-primary);
-}
-
-.map-tray__box > p {
-  margin: 0;
-}
-
 .map-tray .feature-card,
 .map-tray .home-card {
   position: relative;
@@ -14778,13 +13509,6 @@ ul.map-panel__list {
 
 .map-home__plan {
   align-self: flex-start;
-}
-
-.map-home__hint {
-  margin: 0;
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-  text-align: center;
 }
 
 /* Concept 4 on web: the greeting, then the briefing across the full width,
@@ -15223,17 +13947,6 @@ ul.card-carousel__track {
   flex: 1;
 }
 
-.baseline-form__with-icon {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-sm);
-}
-
-.baseline-form__with-icon > :last-child {
-  flex: 1;
-  min-width: 0;
-}
-
 .stepper__text {
   display: flex;
   flex-direction: column;
@@ -15369,12 +14082,6 @@ ul.roadmap__outcomes {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-xs);
-}
-
-.plan-stub__note {
-  margin: 0;
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
 }
 
 /* On Home the Signal Picture is a two-tone card: its title in a navy head,
@@ -16444,7 +15151,6 @@ ol.entry-drawer__rows {
   font-weight: var(--weight-semibold);
 }
 
-.rtl__pace,
 .rtl__small {
   margin: 0;
   font-size: var(--text-sm);
@@ -16471,11 +15177,6 @@ ol.entry-drawer__rows {
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   white-space: nowrap;
-}
-
-.rtl__pill--quiet {
-  border-color: var(--color-border-strong);
-  color: var(--color-text-secondary);
 }
 
 .rtl__suggest {
@@ -16524,12 +15225,6 @@ ol.rtl__earlier-stages {
 
 .rtl__earlier-stages li.is-here {
   font-weight: var(--weight-semibold);
-}
-
-.rtl__end {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2xs);
 }
 
 /* Sparks: little notes on the rail. Warm, brief, and never dismissed, because they are what happened. */
@@ -16735,8 +15430,7 @@ ol.rtl__rail::before {
   background-color: var(--color-border-strong);
 }
 
-.rtl__point.is-current::before,
-.rtl__point.is-recommended.has-card::before {
+.rtl__point.is-current::before {
   inset-block-start: var(--space-md);
   border-color: var(--color-text-primary);
   background-color: var(--color-text-primary);
@@ -17910,7 +16604,7 @@ fieldset.agenda__whens {
 }
 
 /* Words written straight on the navy take its light ink; the sticky foot keeps the navy behind it. */
-:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer :is(.stage-checkin__note, .field__label, .input__label, legend) {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer :is(.stage-checkin__note, .field__label, legend) {
   color: var(--color-text-inverse);
 }
 
@@ -19469,15 +18163,6 @@ ul.li-shares {
   font-weight: var(--weight-regular);
 }
 
-.brief-end__reads {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  margin: var(--space-xs) 0 0;
-  padding: 0;
-  list-style: none;
-}
-
 /* --- Concept 1: front page ------------------------------------------------- */
 
 .briefing-front {
@@ -19486,27 +18171,10 @@ ul.li-shares {
   gap: var(--space-sm);
 }
 
-.briefing-front__others {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
 [data-viewport="web"] .briefing-front {
   display: grid;
   grid-template-columns: 2fr 1fr;
   align-items: start;
-  gap: var(--space-md);
-}
-
-/* --- Concept 2: one at a time --------------------------------------------- */
-
-.briefing-one {
-  display: flex;
-  flex-direction: column;
   gap: var(--space-md);
 }
 
@@ -19556,45 +18224,6 @@ ul.li-shares {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
   border-radius: var(--radius-xs);
-}
-
-/* Next sits in the thumb zone, held at the foot of the screen while the read
-   scrolls under it. */
-.briefing-one__next {
-  position: sticky;
-  bottom: 0;
-  z-index: var(--z-sticky);
-  margin-inline: calc(-1 * var(--space-screen-side));
-  padding: var(--space-sm) var(--space-screen-side) var(--space-md);
-  background-color: var(--color-canvas);
-  border-top: var(--border-width-thin) solid var(--color-border-subtle);
-}
-
-/* With the Ask or go pill at the foot of the screen, Next rides just above
-   it: still in the thumb zone, and the pill stays the way to the rest of
-   ExecHQ. */
-.device__screen:has(.concierge-host) .briefing-one__next {
-  bottom: var(--space-4xl);
-  padding-bottom: var(--space-sm);
-  border-top: 0;
-}
-
-[data-viewport="web"] .briefing-page--one {
-  max-width: 40rem;
-}
-
-[data-viewport="web"] .briefing-one {
-  padding: var(--space-lg);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
-}
-
-[data-viewport="web"] .briefing-one__next {
-  position: static;
-  margin-inline: 0;
-  padding: var(--space-sm) 0 0;
-  background-color: transparent;
 }
 
 /* --- Where a draft came from ----------------------------------------------- */
@@ -21132,14 +19761,6 @@ ul.li-shares {
   display: none;
 }
 
-.draft-use__ready {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2xs);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-}
-
 .draft-use__note {
   margin: 0;
   font-size: var(--text-xs);
@@ -21377,26 +19998,12 @@ ul.li-shares {
   min-height: 2.75rem;
 }
 
-.library-folder-open__count {
-  margin: 0;
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--color-eyebrow);
-}
-
 /* A line of what it says, over the status. It wraps whole: nothing in the
    product is cut off with an ellipsis. */
 .library__preview {
   display: block;
   margin-bottom: var(--space-3xs);
   color: var(--color-text-secondary);
-}
-
-.library-folder-open__bar .dropdown.is-set .dropdown__trigger {
-  border-color: var(--color-text-primary);
-  background-color: var(--color-surface-selected);
 }
 
 /* When she last touched it, as a tag after the status or tool. Sentence
@@ -21591,12 +20198,6 @@ ul.li-shares {
   margin: 0;
   font-size: var(--text-lg);
   font-weight: var(--weight-semibold);
-}
-
-.library__groups {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
 }
 
 .library__status {
@@ -23417,7 +22018,6 @@ ul.li-shares {
    folder tokens, then the name, what is inside and when it last changed.
    ======================================================================== */
 
-
 .library-folder {
   display: flex;
   flex-direction: column;
@@ -23626,10 +22226,6 @@ ul.li-shares {
   justify-content: flex-end;
 }
 
-.library--web .library-folder-open__count {
-  margin-right: auto;
-}
-
 .library-folder-open__empty-start {
   display: flex;
   flex-direction: column;
@@ -23744,31 +22340,6 @@ ul.li-shares {
   min-width: 0;
 }
 
-.library-folder-open__back {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2xs);
-  align-self: flex-start;
-  min-height: var(--button-target);
-  padding: 0;
-  border: 0;
-  background: none;
-  font: inherit;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-link);
-  text-decoration: none;
-  cursor: pointer;
-  text-decoration: underline;
-  text-decoration-thickness: var(--border-width-thin);
-  text-underline-offset: 0.2em;
-}
-
-.library-folder-open__back:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
 /* A folder's own page on a phone (Concept 2, option A). */
 /* No line under it, so it sits in the page's margins, lined up with the
    card below (designer, 2026-10-28). */
@@ -23794,12 +22365,6 @@ ul.li-shares {
 .folder-page__back:focus-visible {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
-}
-
-.folder-page__head {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3xs);
 }
 
 .folder-page__title {
@@ -23828,12 +22393,6 @@ ul.li-shares {
 
 .folder-page__bar {
   margin-top: calc(-1 * var(--space-screen-top));
-}
-
-.folder-page__date {
-  margin: 0;
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
 }
 
 .library-folder-open__empty {
@@ -24135,13 +22694,6 @@ ul.li-shares {
 .briefing-list__item.is-current {
   background-color: var(--color-surface-raised);
   border-color: var(--color-border-strong);
-}
-
-/* Concept 3 on a phone: what she does next, under the open draft. */
-.tool-flow__under-draft {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
 }
 
 /* Concept 2's panel: the optional questions open from here. */
@@ -25174,7 +23726,6 @@ ul.li-shares {
   font-weight: var(--weight-semibold);
 }
 
-
 /* The panel is a screen thing: printing says the dates in words. */
 @media print {
   .date-range__panel,
@@ -25361,15 +23912,6 @@ ul.li-shares {
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
-}
-
-/* The name and its line on the left, the window and the export on the right. */
-.ent-header__row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--space-md) var(--space-xl);
 }
 
 .ent-header__title {
@@ -25594,12 +24136,6 @@ ul.li-shares {
   min-width: 100%;
 }
 
-/* PDF and CSV stay side by side, and wrap as a pair. */
-.ent-exports {
-  display: flex;
-  gap: var(--space-sm);
-}
-
 .ent-notice {
   display: flex;
   align-items: flex-start;
@@ -25623,12 +24159,6 @@ ul.li-shares {
   line-height: var(--type-card-title-leading);
   letter-spacing: var(--type-card-title-tracking);
   word-spacing: var(--type-card-title-word-spacing);
-}
-
-.ent-notice--quiet {
-  align-items: center;
-  padding-block: var(--space-sm);
-  color: var(--color-text-secondary);
 }
 
 /* Ready for what's next (Concept 1b, Kate, 2026-10-23): a card of its own
@@ -25796,22 +24326,6 @@ ul.readiness-bars {
 .readiness-bars__when span {
   flex: 1;
   text-align: center;
-}
-
-/* The story in short, before the cards (Kate, 2026-10-22): the first
-   sentence, follow-through, carries the weight. */
-.ent-story {
-  max-width: 60ch;
-  font-family: var(--type-body-font);
-  font-size: var(--type-body-size);
-  font-weight: var(--type-body-weight);
-  line-height: var(--leading-relaxed);
-  color: var(--color-text-secondary);
-}
-
-.ent-story strong {
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-primary);
 }
 
 .ent-card__trend {
@@ -26538,12 +25052,6 @@ ul.ent-chain__key {
   display: flex;
   align-items: center;
   gap: var(--space-md);
-}
-
-.ent-seen__any-label {
-  font-size: var(--type-body-sm-size);
-  line-height: var(--type-body-sm-leading);
-  color: var(--color-text-secondary);
 }
 
 .ent-seen__channels {
