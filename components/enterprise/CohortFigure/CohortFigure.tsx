@@ -19,7 +19,7 @@ export interface CohortFigureProps {
   /** Draws the share as a ring (the number in its middle) or a bar under the
    *  number. Only for figures that are a share, and never while hidden. */
   meter?: "ring" | "bar";
-  /** `row` (designer, 2026-11-03): the number in a column of its own on the
+  /** `row`: the number in a column of its own on the
    *  left, and the label, what it is out of and its definition read to its
    *  right, as the hero's three on the right. */
   layout?: "stack" | "row";
@@ -34,11 +34,11 @@ export interface CohortFigureProps {
   /** The dates the page shows, for the popover's "Covers" line. */
   window?: Period;
   /** One sentence of what it counts, shown under it, so no one has to open
-   *  the icon to read the number (Kate, 2026-10-22). The icon still opens the
+   *  the icon to read the number. The icon still opens the
    *  full definition and its source. */
   brief?: string;
   /** Anything said about the number before its definition: the hero's key
-   *  to its ring (designer, 2026-11-03). */
+   *  to its ring. */
   children?: React.ReactNode;
   /** Catalogue only: shows a state a static page can't reach. */
   demo?: "hover" | "focus" | "active";
@@ -53,7 +53,7 @@ export interface CohortFigureProps {
  * stated. Hidden, while too few participants are active, which names the
  * rule rather than apologising for it. Nothing here reads as a score: no
  * target and no colour carrying meaning. The one comparison is a direction
- * since last week, in words with an arrow, never a count (Kate, 2026-10-20).
+ * since last week, in words with an arrow, never a count.
  */
 export function CohortFigure({ figure, size = "md", direction, meter, onExplain, explaining, window = "30d", brief, children, layout = "stack", demo, className }: CohortFigureProps) {
   const icon = useRef<HTMLButtonElement>(null);

@@ -39,7 +39,7 @@ export interface SendStepsProps {
 }
 
 /**
- * Send it in four steps (Kate, 14 Oct): under the pitch draft, filled in from
+ * Send it in four steps: under the pitch draft, filled in from
  * Where it goes. Check it against their ask, get the extras, send it their
  * way with a Copy on each part, then mark it sent. Ticks are hers alone;
  * nothing is sent from here.

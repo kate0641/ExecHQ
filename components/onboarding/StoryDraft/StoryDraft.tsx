@@ -20,7 +20,7 @@ export interface StoryDraftProps {
   usesLabel: string;
   uses: readonly string[];
   /** What she can do with the draft (Copy, Download, Email), at the foot of the card under a hairline, so
-   *  they sit on the thing they act on (designer, 2026-10-15). Hidden while she edits. */
+   *  they sit on the thing they act on. Hidden while she edits. */
   actions?: ReactNode;
   /** Opens in a state, for the catalogue: the editor, or the editor after
    *  saving an empty version. */

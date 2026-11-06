@@ -35,7 +35,7 @@ const GLYPHS: Record<Sky, React.ReactNode> = {
 };
 
 /** The pages that draw a sky: Home's header, and the panel behind the question on onboarding's guided pages.
- *  The Plan's moves sit on navy instead (designer, 2026-10-15). */
+ *  The Plan's moves sit on navy instead. */
 const SKY_PAGES = ["/homepage/concept-4b", "/onboarding/"];
 
 /**

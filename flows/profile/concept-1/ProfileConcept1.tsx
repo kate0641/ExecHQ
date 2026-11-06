@@ -179,7 +179,7 @@ export function ProfileConcept1() {
   const loop = useLoop();
   const account = loop.account;
   const publishers = useBriefing().publishers ?? [];
-  // A navy page (designer, 2026-10-15): the status bar runs the navy to the top.
+  // A navy page: the status bar runs the navy to the top.
   useStatusBarTone("inverse");
 
   /** The sheet that is open, on every viewport. */

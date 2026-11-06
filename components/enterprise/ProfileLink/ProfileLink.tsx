@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { conceptHref } from "@/lib/manifest";
 import { PROFILE_LINK_COPY as C, SPONSOR_PERSON } from "@/mock/enterprise";
 
-/** The sponsor profile (Kate, 2026-10-22). */
+/** The sponsor profile. */
 const PROFILE = conceptHref("sponsor-profile", "concept-1");
 
 export interface ProfileLinkProps {

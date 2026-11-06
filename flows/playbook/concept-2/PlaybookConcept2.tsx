@@ -25,7 +25,7 @@ const STATUS_TABS = "library-status";
 /** "3 · 2 drafts · 1 waiting to hear": how many, and where they stand. */
 /**
  * A folder's list under its status as tabs
- * (designer, 28 Oct; it was a Status menu, option A, 14 Oct): All, each
+ *: All, each
  * status the folder holds something in, and Closed always, each with its
  * count. Keyed by folder, so opening another starts on All.
  */
@@ -56,7 +56,7 @@ function FolderList({
     );
   // Each status the folder holds, and the last (Closed, or Archived for
   // statements) always, so what she put away can always be found
-  // (designer, 2026-10-28).
+  //.
   const filters = !mixed && items[0]?.record.kind === "positioning" ? POSITIONING_FILTERS : STATUS_FILTERS;
   const last = filters[filters.length - 1].id;
   const present = filters.filter((s) => s.id === last || items.some((i) => s.states.includes(i.record.state)));
@@ -135,13 +135,13 @@ function Concept2Page() {
       name: F.names[kind],
       items,
       // The card says when the folder last changed and how much is in it;
-      // the open folder breaks it down by status (designer, 2026-10-27).
+      // the open folder breaks it down by status.
       summary: items[0] ? F.lastChange(fullDate(items[0].lastOn)) : F.empty,
       date: items.length ? F.items(items.length) : undefined,
     };
   });
 
-  /** The open folder's card: what the tool makes, and Start across it (designer, 2026-10-27). */
+  /** The open folder's card: what the tool makes, and Start across it. */
   const card = (kind: ArtifactKind, level: 1 | 2 | 3) => (
     <LibraryFolder
       as="header"

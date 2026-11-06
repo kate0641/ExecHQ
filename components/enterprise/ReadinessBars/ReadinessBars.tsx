@@ -14,7 +14,7 @@ const TONES = ["negative", "neutral", "positive"] as const;
 
 /**
  * The readiness pulse's spread (Concept 1b, Kate, 2026-10-23), drawn as one
- * group per answer, Not yet to Ready, left to right (designer, 2026-11-03):
+ * group per answer, Not yet to Ready, left to right:
  * each answer named in a pill like Home's "How did it go?" answers, with its
  * outcome dot (a label, not a button), then a stone bar for the start beside
  * one for now in the answer's colour, its count above it, so how each answer

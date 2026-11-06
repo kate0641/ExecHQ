@@ -173,7 +173,7 @@ const PATHS: Record<IconName, React.ReactNode> = {
       <path d="M11.8 5.2l3 3" strokeWidth="1.3" />
     </>
   ),
-  // The main Edit icon (designer, 2026-10-13): the pencil leaning out of a
+  // The main Edit icon: the pencil leaning out of a
   // square left open at its top right, where the pencil writes in.
   edit: (
     <>

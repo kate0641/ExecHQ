@@ -18,7 +18,7 @@ import { ACTIONS, HORIZONS } from "@/mock/plan-stub";
  * her word. Her next step is not here; it is the card under the rings. Left
  * out on the first return, when nothing is waiting.
  *
- * 4b adds the weekly check-in (Kate, 2026-10-23): due a week after her last
+ * 4b adds the weekly check-in: due a week after her last
  * answer, which in every moment but the first return is today. It comes after
  * what came of her work, so it never pushes that aside. Her answer stays
  * with this page: a reload asks again, as a prototype should.

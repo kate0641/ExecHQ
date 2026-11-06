@@ -9,7 +9,7 @@ export interface PlanDirectionProps {
 
 /**
  * Her direction, above the road it leads to: "Your direction" as a grey eyebrow, then her words in
- * full in the serif, in the system's white card. It only reads (designer, 2026-10-13): with no text
+ * full in the serif, in the system's white card. It only reads: with no text
  * ever cut short there was nothing for an accordion to open, so the chevron and the button went.
  * Changing her direction stays in the plan sheet.
  */

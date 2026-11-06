@@ -28,7 +28,7 @@ const READ_HEADING = "briefing-read-heading";
  * through. Back to the front page sits at the top beside "1 of 3". Where
  * she finishes the article: Save, "Was this worth your time?", the "Write a
  * post about this" card, then Next. No bar at the foot and no Ask or go pill
- * while she reads (Kate, 14 Oct).
+ * while she reads.
  *
  * On web it is one screen, a reading pane (option B, 19 Oct): today's three
  * down the left, each with why it is here and Read once opened, and the open

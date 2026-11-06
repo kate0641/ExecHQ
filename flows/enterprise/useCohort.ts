@@ -22,7 +22,7 @@ function useUrlChoice(): { cohort?: CohortId; late?: boolean } {
 
 /**
  * The cohort the admin pages show: the dock's pick, unless the page was
- * opened with `?cohort=` (designer, 2026-11-02), so the playground can show
+ * opened with `?cohort=`, so the playground can show
  * each cohort side by side. The dock's pick is one per browser.
  */
 export function useShownCohortId(): CohortId {

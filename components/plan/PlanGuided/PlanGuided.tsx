@@ -130,7 +130,7 @@ export function PlanGuided({
     partCount: stages.length,
     after: roadmap,
     // The Plan is a navy place: the page navy, its top section in a darkest-navy card, the drawer stone
-    // (designer, 2026-10-16).
+    //.
     navy: true,
   };
   const sheets = (

@@ -49,7 +49,7 @@ function ShellStepBar() {
 
 /**
  * How the page is shown when the showroom embeds it as one screen of a flow
- * (designer, 2026-10-15): `?frame=1` drops the dock, step bar and hub and
+ *: `?frame=1` drops the dock, step bar and hub and
  * shows the phone; `&full=1` lets the phone grow to the page's whole length.
  * Read after mount, so the server and the first client paint agree.
  */
@@ -64,7 +64,7 @@ function useFrameMode(): { frame: boolean; full: boolean } {
 }
 
 function PrototypeShellInner({ hubIndex, children }: PrototypeShellProps) {
-  // A hyphenated word never breaks across lines, on any page (designer, 2026-10-16).
+  // A hyphenated word never breaks across lines, on any page.
   useWholeHyphenatedWords();
   const { viewport: chosen } = useViewport();
   const { frame, full } = useFrameMode();

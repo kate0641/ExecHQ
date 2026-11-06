@@ -126,7 +126,7 @@ export function useBriefingPage() {
   }
 
   /** Saved, at the top right of the page every day, so a read she kept is
-   *  always one tap away (Kate, 14 Oct). It opens her saved reads. */
+   *  always one tap away. It opens her saved reads. */
   const savedButton = (
     <Link href={savedHref} className="briefing-page__saved">
       <Icon name="bookmark" size={18} />

@@ -226,7 +226,7 @@ export function useToolFlow(concept: FlowConcept) {
   // Positioning Builder is one artifact: her statement from onboarding. Opened
   // as a tool, from a plan step or from the Playbook, it goes to that artifact.
   // Once built out, the start screen shows first, and starting opens it
-  // (Kate, 15 Oct).
+  //.
   const positioningRecord = loop.records.find((r) => r.kind === "positioning");
   const statementHref = positioningRecord
     ? `${conceptHref("playbook-flow", concept)}?artifact=${positioningRecord.id}${stepId ? `&step=${stepId}` : ""}`
@@ -357,7 +357,7 @@ export function useToolFlow(concept: FlowConcept) {
 
   const currentValues = () => Object.fromEntries(inputs.map((i) => [i.id, valueOf(i.id)]));
 
-  /** "Not sure yet" under Who are you pitching? (Kate, 14 Oct): up to three
+  /** "Not sure yet" under Who are you pitching?: up to three
    *  outlets of the kind she is pitching for. */
   const outletChoices = kind === "pitch" ? suggestedOutlets(pitchTypeOf(valueOf("type")), { audience: valueOf("audience"), area: step?.area }) : [];
   const fieldExtras: Record<string, ReactNode> =
@@ -768,7 +768,7 @@ export function useToolFlow(concept: FlowConcept) {
       : USE_COPY.exportable[record.kind]
     : false;
 
-  /** Send it in four steps, under a pitch's draft (Kate, 14 Oct). */
+  /** Send it in four steps, under a pitch's draft. */
   const pitchOutlet = kind === "pitch" ? outletFor(draft?.inputs.target) : undefined;
   const words = (part: string): number | undefined => {
     const section = version?.sections.find((x) => x.id === part);

@@ -38,7 +38,7 @@ const FEED = "https://www.linkedin.com/feed/";
 
 /**
  * How far her posts reach and who they reach, from her LinkedIn export, as the onboarding spec puts it
- * (designer with Kate, 2026-10-21; three rows of charts before). Only what the export holds: four totals,
+ *. Only what the export holds: four totals,
  * her posts that went furthest by title, date and reach with a link to each, and who
  * she is reaching, one kind of demographic at a time. Counts only: no score, no comparison, and nothing
  * says her work caused any of it.
@@ -57,7 +57,7 @@ export function LinkedInPicture({ data, initialKind = "location", headingId, cla
     data.posts.length ? { key: "seen", value: compact(t.impressions), label: C.seen } : null,
     data.membersReached ? { key: "reached", value: compact(data.membersReached), label: C.reached } : null,
     // The followers she has now, with no change beside it: this is an overview of her year, not a comparison
-    // over time, and only followers could show one (designer, 2026-10-21).
+    // over time, and only followers could show one.
     hasFollowers ? { key: "followers", value: t.followersNow.toLocaleString("en-US"), label: C.followers } : null,
     data.posts.length ? { key: "posts", value: String(t.posts), label: C.posts(t.posts) } : null,
   ].filter((f): f is NonNullable<typeof f> => f !== null);

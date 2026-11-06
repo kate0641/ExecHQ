@@ -12,7 +12,7 @@ const PROVIDERS: Provider[] = ["google", "apple"];
 
 /** The providers' marks as their guidelines require: Google's standard
  *  four-colour G, which may not be recoloured, and Apple's logo in the same
- *  white as the words (designer, 2026-10-13). */
+ *  white as the words. */
 function Mark({ provider }: { provider: Provider }) {
   if (provider === "google") {
     return (

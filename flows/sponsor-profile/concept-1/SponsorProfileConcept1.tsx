@@ -13,9 +13,9 @@ import { SPONSOR_PERSON, SPONSOR_PROFILE_COPY as C, abbrevDate, programDay } fro
 import { PROFILE_COPY } from "@/mock/profile";
 import { useCohort, useShownCohortId } from "../../enterprise/useCohort";
 
-/** The dashboard concept chosen (Kate, 2026-10-26). */
+/** The dashboard concept chosen. */
 const DASHBOARD = conceptHref("enterprise", "concept-1b");
-/** Where signing out lands (Kate, 2026-10-23). */
+/** Where signing out lands. */
 const LOGIN = conceptHref("sponsor-login", "concept-1");
 
 /** Their name and job title, changed in place of the group's rows. */

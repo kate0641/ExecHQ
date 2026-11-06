@@ -60,7 +60,7 @@ export function sectionText(section: DraftSection, answers: Readonly<Record<stri
 }
 
 /** The questions a draft leaves for her, unanswered first. A question two
- *  parts share is asked once (designer, 2026-10-30): an answer is kept by
+ *  parts share is asked once: an answer is kept by
  *  its question, so one answer fills both. */
 export function draftQuestions(sections: readonly DraftSection[]): string[] {
   return [...new Set(sections.flatMap((section) => section.segments.filter(isQuestion).map((s) => s.question)))];

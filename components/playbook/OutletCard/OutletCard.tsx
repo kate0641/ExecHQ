@@ -25,7 +25,7 @@ function Question({ children }: { children: string }) {
 }
 
 /**
- * Where a pitch goes (Kate, 14 Oct): the outlet, what it asks for, who
+ * Where a pitch goes: the outlet, what it asks for, who
  * receives it and how to send it, above the draft, so she reads where it is
  * going before what it says. Every fact is from the outlet's own page, linked
  * and dated; what the page doesn't say is a question to her, never a guess.

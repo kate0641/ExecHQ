@@ -504,7 +504,7 @@ export interface DropdownMenuProps {
    *  accessible name: an account menu. */
   avatar?: string;
   /** The icon alone, no words, no edge: a quiet "more" beside a link, as on
-   *  each part of a draft (designer, 2026-10-28). The label stays as its
+   *  each part of a draft. The label stays as its
    *  accessible name. Needs `icon`. */
   iconOnly?: boolean;
   entries: readonly MenuEntry[];

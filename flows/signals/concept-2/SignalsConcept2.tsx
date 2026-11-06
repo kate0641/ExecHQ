@@ -18,7 +18,7 @@ import { SignalsPage } from "../SignalsPage";
  */
 export function SignalsConcept2() {
   const p = usePlanPage();
-  // The page is navy (designer, 2026-10-18), so the phone's status bar runs navy to the top edge.
+  // The page is navy, so the phone's status bar runs navy to the top edge.
   useStatusBarTone("inverse");
   // On the web, what her LinkedIn export says sits under what came of it rather than under where she
   // started, so the two columns run about the same length. Phone and tablet keep the order written.

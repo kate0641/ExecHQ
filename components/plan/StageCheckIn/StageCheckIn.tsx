@@ -141,7 +141,7 @@ export function StageCheckIn({
     go(page + 1);
   };
   const web = useViewport().viewport === "web";
-  // Navy, as every Plan page is (designer, 2026-10-16).
+  // Navy, as every Plan page is.
   const top = { part: C.part, position: stageTitle, partIndex: page, partCount: pages.length, headingId, after: web ? aside : undefined, navy: true };
   const classes = ["stage-checkin", "plan-guided", className].filter(Boolean).join(" ");
   const unreported = items.filter((i) => !i.passed && !i.feedback).length;
@@ -371,7 +371,7 @@ export function StageCheckIn({
       kicker={C.summaryKicker(stageTitle)}
       title={C.summaryTitle}
       className={classes}
-      // On to the next stage sits in the top card, at its right, not pinned to the foot (designer, 2026-10-21).
+      // On to the next stage sits in the top card, at its right, not pinned to the foot.
       // Not on to the next stage when she is already in it, or when she said this one is not finished yet.
       headAction={
         <Button variant="primary" onClick={onContinue}>

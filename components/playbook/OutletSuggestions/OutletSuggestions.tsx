@@ -20,7 +20,7 @@ export interface OutletSuggestionsProps {
 }
 
 /**
- * "Not sure yet" under Who are you pitching? (Kate, 14 Oct): up to three
+ * "Not sure yet" under Who are you pitching?: up to three
  * outlets that fit what she is pitching for, each with one line on why.
  * Picking one fills in the answer; she can still type her own.
  */

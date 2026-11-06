@@ -47,7 +47,7 @@ import { useCohort, useShownCohortId, type CohortControls } from "../useCohort";
 
 const C = C1_COPY;
 
-/** One band (Kate, 2026-10-20, option A): the name, a line of what
+/** One band: the name, a line of what
  *  matters about the program and the dates the figures cover, with the
  *  opening beside them. The dates and the export sit on the page. */
 function CohortHeader({
@@ -61,7 +61,7 @@ function CohortHeader({
 }) {
   const day = programDay(cohort);
   const started = day > 0 && !cohort.fresh;
-  // How many people first (designer, 2026-11-02), then when it started.
+  // How many people first, then when it started.
   const meta = started
     ? [C.meta.people(cohort.joined), C.meta.started(cohort.startsOn), weeksIn(day)]
     : [C.meta.people(cohort.joined), C.meta.starts(cohort.startsOn)];
@@ -69,7 +69,7 @@ function CohortHeader({
   const bandRef = useRef<HTMLElement>(null);
   useLongName(bandRef, cohort.name);
 
-  /* A navy band across the page (designer, 2026-11-02): when the figures
+  /* A navy band across the page: when the figures
      are from as an eyebrow, the cohort's name large in yellow, and its line. */
   return (
     <header className="ent-header ent-band" ref={bandRef}>
@@ -101,7 +101,7 @@ function CohortHeader({
 
 /**
  * The name is set at the display size, 48; a name too long for one line at
- * 48 steps down to the title size, 36 (designer, 2026-11-02). It is always
+ * 48 steps down to the title size, 36. It is always
  * measured at 48, so it never flips back and forth, and again whenever the
  * band's width changes.
  */
@@ -170,7 +170,7 @@ function OpeningStats({ cohort, window }: { cohort: Cohort; window: DateRange })
   );
 }
 
-/** The dates and the export (designer, 2026-11-02): on the page, first,
+/** The dates and the export: on the page, first,
  *  over the stats and cards they change rather than in the header, at its
  *  right edge (2026-11-03). A late update is said on their left. */
 function CohortTools({ cohort, window, onWindow }: { cohort: Cohort; window: DateRange; onWindow: (next: DateRange) => void }) {
@@ -218,7 +218,7 @@ const METERS: Partial<Record<DataPointId, "ring" | "bar">> = {
 
 /** One question as a card: its heading and one-sentence answer, its figures
  *  each with its definition under it, and anything that belongs with it.
- *  No info icons (Kate, 2026-10-22): the definitions say what the popover
+ *  No info icons: the definitions say what the popover
  *  did, the footer gives the sources and the rule, and a figure that counts
  *  since launch whatever the dates says so beside its number. */
 function QuestionCard({
@@ -238,12 +238,12 @@ function QuestionCard({
   const split = hero ? followSplit(cohort, window) : undefined;
   const figures = points.map((id, i) => {
     const figure = figureFor(cohort, id, window);
-    // No Filling in tag here (Kate, 2026-10-20): a young window shows as it
+    // No Filling in tag here: a young window shows as it
     // is. Followed through's definition says recent actions still have time.
     const shown: typeof figure = figure.state === "filling" ? { ...figure, state: "shown", note: undefined } : figure;
     const row = (hero && i > 0) || question === "using";
     // A row's definition says "since the program launched" itself, so its
-    // detail stays short (designer, 2026-11-03).
+    // detail stays short.
     const sinceLaunch = DATA_POINTS[id].sinceLaunch && shown.detail && !row && question !== "joined";
     return (
       <CohortFigure
@@ -253,8 +253,8 @@ function QuestionCard({
         direction={directionFor(cohort, id, window)}
         meter={METERS[id]}
         // In the hero, the figures after the first are rows: the number on
-        // the left, its words to the right (designer, 2026-11-03).
-        // Staying with it's two figures are rows too (designer, 2026-11-03).
+        // the left, its words to the right.
+        // Staying with it's two figures are rows too.
         className={row ? "ent-tile" : undefined}
         layout={row ? "row" : "stack"}
         brief={C.briefs[id] ?? DATA_POINTS[id].brief}
@@ -283,12 +283,12 @@ function QuestionCard({
     </div>
   );
   // Getting started as the joining chain, once Set up can be shown
-  // (designer, 2026-11-03); below the minimum its rings stay, Set up locked.
+  //; below the minimum its rings stay, Set up locked.
   const chain = question === "joined" && figureFor(cohort, "onboarding", window).state !== "suppressed";
   return (
     <section className={`ent-card ent-card--${question}`} aria-labelledby={`q-${question}`}>
       {hero ? (
-        // The hero (designer, 2026-11-03): the heading, its answer and
+        // The hero: the heading, its answer and
         // follow-through's ring on the left; the other three stacked on the
         // right.
         <div className="ent-following">
@@ -310,7 +310,7 @@ function QuestionCard({
 }
 
 /**
- * Getting started as the joining chain (designer, 2026-11-03): who was
+ * Getting started as the joining chain: who was
  * expected, who joined, who finished setting up, side by side, then one bar
  * split into the three groups, all parts of the same expected number, with
  * its key, and the two definitions at the foot. Since launch, whatever the
@@ -363,7 +363,7 @@ function JoiningChain({ cohort }: { cohort: Cohort }) {
 }
 
 /**
- * Are they being seen? (Kate, 2026-10-20, option C): signals, what
+ * Are they being seen?: signals, what
  * participants put out in the world, as a third card in the row. A ring for
  * any channel, then the channels with at least the minimum of people behind
  * them; the rest are named together and held back, since a public signal
@@ -426,7 +426,7 @@ function SeenCard({ cohort, window }: { cohort: Cohort; window: DateRange }) {
 }
 
 /**
- * Ready for what's next (Kate, 2026-10-23): the readiness pulse, a card of
+ * Ready for what's next: the readiness pulse, a card of
  * its own under the opening, before the measures. The cohort's
  * average answer at the start and now, and the spread of both. Hidden until
  * the minimum have answered twice; not tied to the dates chosen.
@@ -467,7 +467,7 @@ function ReadinessCard({ cohort }: { cohort: Cohort }) {
  *  page closing on who is still to join, with the cohort's code. */
 function Dashboard({ controls, headingRef }: { controls: CohortControls; headingRef?: React.Ref<HTMLHeadingElement> }) {
   const cohort = controls.cohort!;
-  // The dates chosen (Kate, 2026-10-22): this week to start with.
+  // The dates chosen: this week to start with.
   const [choice, setChoice] = useState<DateRange>(DEFAULT_RANGE);
   const window = resolveRange(choice, cohort);
   const above = isAboveMinimum(cohort, window);
@@ -636,13 +636,13 @@ function Concept1bForCohort({ id }: { id: ReturnType<typeof useShownCohortId> })
 
 /**
  * Admin Dashboard (was Enterprise Dashboard), Concept 1b — With readiness. Chosen to go forward
- * (Kate, 2026-10-26); Concepts 1 and 2 are on the scratch branch.
+ *; Concepts 1 and 2 are on the scratch branch.
  *
  * Concept 1 with the readiness pulse Eric asked for (2026-10-23): a card
  * under the opening, "Ready for what's next", and a last sentence in the
  * opening. What follows is Concept 1 as it was.
  *
- * One page that tells the cohort's story (Kate, 2026-10-22, Bookends): an
+ * One page that tells the cohort's story: an
  * opening in the order it happened, then four cards, each a measure headed
  * by a statement, opened by one plain sentence and evidenced by its figures,
  * the first set large, each with its definition under it. It ends on who is

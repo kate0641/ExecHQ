@@ -64,7 +64,7 @@ export function Sheet({
     // browser scroll it to reveal the field would drag the sheet out of place.
     // The sheet's heading takes focus when it can (one with tabindex="-1"), so
     // a screen reader starts at the top and no ring sits on the close button
-    // as the sheet opens (designer, 2026-10-15). Otherwise the first control.
+    // as the sheet opens. Otherwise the first control.
     const start =
       panel.current?.querySelector<HTMLElement>(':is(h1, h2, h3)[tabindex="-1"]') ??
       panel.current?.querySelector<HTMLElement>(FOCUSABLE);

@@ -48,7 +48,7 @@ function Interview() {
     const pick = INTERVIEW_PICKS[f.kind]?.[input.id];
     if (!pick) return undefined;
     // Who she is pitching: the outlets that fit what she is pitching for
-    // (Kate, 14 Oct). Other is still there for her own.
+    //. Other is still there for her own.
     if (f.kind === "pitch" && input.id === "target" && f.outletChoices.length) return { ...pick, options: f.outletChoices.map((o) => o.name) };
     const hers = pick.fromHer ? EXAMPLE_ANSWERS[f.kind]?.[input.id] : undefined;
     return { ...pick, options: hers && !pick.options.includes(hers) ? [hers, ...pick.options] : pick.options };
@@ -377,7 +377,7 @@ function Interview() {
           lede={pick ? undefined : input.hint}
           headingId={STEP_HEADING}
           // The question in onboarding's sky panel, so the white drawer has
-          // something to stand apart from (designer, 2026-10-30).
+          // something to stand apart from.
           sky
           className="tool-flow-questions"
           drawer={

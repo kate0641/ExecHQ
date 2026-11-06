@@ -15,7 +15,7 @@ const PILL_ID = "cohort-concierge-pill";
 const PANEL_ID = "cohort-concierge-panel";
 
 /**
- * The assistant on the dashboard (Kate, 2026-10-20): the same floating bar as
+ * The assistant on the dashboard: the same floating bar as
  * the app's navigation, "Your cohort · Ask about your cohort", at the foot of
  * the page. It grows into a card over a soft scrim, as the navigation's does:
  * suggested questions first, then the conversation. Escape, the scrim or the

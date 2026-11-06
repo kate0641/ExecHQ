@@ -11,7 +11,7 @@ const C = TREND_COPY;
 const DEFAULT_HEIGHT = 120;
 const PAD = { top: 20, right: 4, bottom: 0, left: 4 };
 /** Room on the left for the scale's numbers in the fade look, and above the
- *  top line for the hover pill over the tallest week (designer, 2026-11-03). */
+ *  top line for the hover pill over the tallest week. */
 const FADE_GUTTER = 40;
 const FADE_HEADROOM = 64;
 /** How far the pill may reach past the plot, into the card's padding. */
@@ -21,7 +21,7 @@ const MIN_PEAK = 10;
 const count = new Intl.NumberFormat("en-GB");
 /** "Sep 14": the chart's short dates, month first as Kate's full dates
  *  are ("Monday, September 14, 2026"), with three-letter months
- *  (designer, 2026-11-04). */
+ *. */
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const dayOf = (iso: string) => `${MONTHS[Number(iso.slice(5, 7)) - 1]} ${Number(iso.slice(8, 10))}`;
 /** A day a number of days on, for a week's last day. */
@@ -34,9 +34,9 @@ export interface WeeklyTrendProps {
   highlight?: { from: string; to: string };
   /** The drawing's height in px, 120 unless a card has room to give it.
    *  `fill` grows it into whatever height its container leaves, never under
-   *  that minimum (designer, 2026-11-03: the admin card's half). */
+   *  that minimum. */
   height?: number | "fill";
-  /** `fade` (designer, 2026-11-03): each bar fades from its colour at the top
+  /** `fade`: each bar fades from its colour at the top
    *  to a pale one at its base, this week in a darker fade so it stands out,
    *  and no numbers over the bars: hovering a week shows its figure. */
   look?: "flat" | "fade";
@@ -50,7 +50,7 @@ export interface WeeklyTrendProps {
 
 /**
  * People active each week since the program started, Monday to Sunday, as
- * bars (Kate, 2026-10-22). There are no weekly updates: the chart shows from
+ * bars. There are no weekly updates: the chart shows from
  * the first week, and this week, still going, is hatched and labelled so far
  * so a short week never reads as a drop. It always shows every week; the
  * dates chosen in the picker are shaded on it, so it follows the picker and
@@ -121,7 +121,7 @@ export function WeeklyTrend({ trend, highlight, height = DEFAULT_HEIGHT, look = 
   const labelled = look === "flat" && weeks.length <= 10;
 
   // The fade look keeps a gutter on the left for the scale's numbers, so no
-  // bar runs under them (designer, 2026-11-03).
+  // bar runs under them.
   const pad = look === "fade" ? { ...PAD, left: FADE_GUTTER, top: FADE_HEADROOM } : PAD;
   const slot = (width - pad.left - pad.right) / weeks.length;
   const barWidth = Math.min(look === "fade" ? 36 : 44, Math.max(4, slot * (look === "fade" ? 0.56 : 0.64)));
@@ -136,7 +136,7 @@ export function WeeklyTrend({ trend, highlight, height = DEFAULT_HEIGHT, look = 
   }
 
   // In the fade look this week's pill shows until another week is picked
-  // (designer, 2026-11-03), so the figure so far is always in view.
+  //, so the figure so far is always in view.
   const shownIndex = picked ?? (look === "fade" && latest.partial ? latestIndex : undefined);
   const pickedWeek = shownIndex === undefined ? undefined : weeks[shownIndex];
   const weekName = (i: number) => (weeks[i].partial ? C.thisWeek : `${C.week} ${dayOf(weeks[i].weekOf)}`);
@@ -277,7 +277,7 @@ export function WeeklyTrend({ trend, highlight, height = DEFAULT_HEIGHT, look = 
             aria-hidden="true"
             style={
               look === "fade"
-                ? // Over the bar picked, its arrow on the bar's top (designer, 2026-11-03).
+                ? // Over the bar picked, its arrow on the bar's top.
                   {
                     left: `${((x(shownIndex!) + barWidth / 2) / width) * 100}%`,
                     top: `calc(var(--weekly-trend-plot-top) + ${pickedWeek.active === undefined ? base : y(pickedWeek.active)}px)`,
