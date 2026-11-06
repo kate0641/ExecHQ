@@ -7656,7 +7656,7 @@ ol.ring-detail__timeline {
   letter-spacing: var(--type-eyebrow-tracking);
   word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
 }
 
 .guide__parts {
@@ -18150,7 +18150,6 @@ ul.li-shares {
   letter-spacing: var(--type-eyebrow-tracking);
   word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-text-secondary);
   margin: 0;
 }
 
@@ -21489,7 +21488,6 @@ ul.li-shares {
   letter-spacing: var(--type-eyebrow-tracking);
   word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  color: var(--color-text-secondary);
 }
 
 .library-folder__go {
