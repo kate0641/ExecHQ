@@ -18021,14 +18021,8 @@ ul.li-shares {
 
 .tool-use-case__needs-label,
 .tool-use-case__plan-label {
-  font-family: var(--type-eyebrow-font);
-  font-size: var(--type-eyebrow-size);
-  font-weight: var(--type-eyebrow-weight);
-  line-height: var(--type-eyebrow-leading);
-  letter-spacing: var(--type-eyebrow-tracking);
-  word-spacing: var(--type-eyebrow-word-spacing);
-  text-transform: uppercase;
-  color: var(--color-eyebrow);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
 }
 
 .tool-use-case__plan {
@@ -18046,8 +18040,12 @@ ul.li-shares {
 
 .tool-use-case__plan-label {
   display: block;
-  font-size: var(--text-xs);
-  letter-spacing: var(--tracking-label);
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
   color: var(--color-text-secondary);
 }
