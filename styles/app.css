@@ -1,27 +1,6 @@
-/* =============================================================================
-   ExecHQ prototype — the shared stylesheet
-   -----------------------------------------------------------------------------
-   Every reusable class in the prototype lives here. No CSS modules, no inline
-   colour, no utility framework.
+/* --- ExecHQ prototype — the shared stylesheet --- */
 
-   Rules:
-   - Colour, spacing, type, radii, borders and shadows come from tokens only.
-   - Responsive layout is written against [data-viewport="…"], never @media.
-     @media is reserved for prefers-reduced-motion and print.
-
-   Sections
-     1. Reset and base elements
-     2. Typography
-     3. Utilities
-     4. Components — button, link, badge, field, toggle group, panel
-     5. Shell — canvas, device frame, dev toolbar, hub panel
-     6. Navigation chrome and page anatomy
-     7. The hub — index, component catalogue, stylesheet viewer
-   ========================================================================== */
-
-/* -----------------------------------------------------------------------------
-   1. RESET AND BASE ELEMENTS
-   -------------------------------------------------------------------------- */
+/* --- 1. RESET AND BASE ELEMENTS --- */
 
 *,
 *::before,
@@ -98,9 +77,7 @@ hr {
   color: var(--color-text-primary);
 }
 
-/* -----------------------------------------------------------------------------
-   2. TYPOGRAPHY
-   -------------------------------------------------------------------------- */
+/* --- 2. TYPOGRAPHY --- */
 
 h1,
 h2,
@@ -269,13 +246,9 @@ samp {
   color: var(--color-text-secondary);
 }
 
-/* -----------------------------------------------------------------------------
-   SHARED PATTERNS — lifted from one page so the next starts with them. Each
-   came from a decision on a real screen; /showroom/design-system#page-recipe
-   lists them and the page they came from.
-   -------------------------------------------------------------------------- */
+/* --- SHARED PATTERNS — lifted from one page so the next starts with them. Each --- */
 
-/* The card (from Home, 2026-10-06): the raised surface on the page, a soft
+/* The card: the raised surface on the page, a soft
    edge, no shadow. One per job; never a card inside a card. */
 .card {
   display: flex;
@@ -287,9 +260,6 @@ samp {
   background-color: var(--color-surface-raised);
 }
 
-/* A card that ends in an action (from Home's A next step, 2026-10-11): the
-   card recipe's 20px top and bottom, the copy tight under its eyebrow, and
-   the widest gap, 20px, above a button sized to its words. */
 .card--action {
   gap: 0;
   padding-block: var(--space-feature-padding);
@@ -304,8 +274,7 @@ samp {
   color: var(--color-eyebrow);
 }
 
-/* A card with the horizon line along its foot (from the Playbook's open
-   folder, 2026-10-28): the warmth of the tools row's chips without
+/* A card with the horizon line along its foot: the warmth of the tools row's chips without
    tinting the card, so the words stay on white. A list's rows take it
    too, as each one is its own card. */
 .card--horizon,
@@ -323,8 +292,6 @@ samp {
   background: var(--gradient-horizon);
 }
 
-/* A list whose rows are each a card (from the Playbook's open folder,
-   2026-10-28), stacked with the gap between cards in a group. */
 .list--horizon-cards {
   display: flex;
   flex-direction: column;
@@ -387,18 +354,13 @@ samp {
   overflow-wrap: anywhere;
 }
 
-/* Her input, with the way to redo it (from Onboarding, 2026-10-13): what she
-   said or made always sits in a card, and its action is a flat underlined
-   link at the card's top right, centred on the line of the eyebrow or title
-   it sits beside. Change when she picks again from choices; Edit when she
-   types again. The link's tap area is 44px tall without moving anything. */
 .read-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-sm);
   /* 4px more under a label that carries an action, so her words below it
-     never run up against the link (designer, 2026-10-13). */
+     never run up against the link. */
   margin-bottom: var(--space-2xs);
 }
 
@@ -411,7 +373,7 @@ samp {
   margin-block: calc((var(--button-target) - 1lh) / -2);
   font-family: var(--type-label-font);
   /* The eyebrow's size, so the link sits on the label's line without its
-     underline reaching the words under it (designer, 2026-10-13). */
+     underline reaching the words under it. */
   font-size: var(--type-eyebrow-size);
   font-weight: var(--type-label-weight);
   line-height: var(--type-label-leading);
@@ -455,9 +417,7 @@ samp {
   max-width: var(--content-measure);
 }
 
-/* -----------------------------------------------------------------------------
-   3. UTILITIES
-   -------------------------------------------------------------------------- */
+/* --- 3. UTILITIES --- */
 
 /* Available to screen readers, invisible on screen. */
 .u-visually-hidden {
@@ -507,10 +467,7 @@ samp {
   flex-wrap: wrap;
 }
 
-/* -----------------------------------------------------------------------------
-   REDUCED MOTION
-   The only permitted @media rules are this one and print.
-   -------------------------------------------------------------------------- */
+/* --- REDUCED MOTION --- */
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -523,15 +480,9 @@ samp {
   }
 }
 
-/* -----------------------------------------------------------------------------
-   4. COMPONENTS
+/* --- 4. COMPONENTS --- */
 
-   The `.is-hover` / `.is-focus` / `.is-active` classes sit on the same rules as
-   the real interaction selectors so the component catalogue can show states that
-   props cannot express, without ever restating the styling.
-   -------------------------------------------------------------------------- */
-
-/* Button ------------------------------------------------------------------- */
+/* --- Button --- */
 
 .btn {
   font-family: var(--type-label-font);
@@ -577,7 +528,6 @@ samp {
 }
 
 .btn--sm {
-  /* The pills' size, so a small button and a pill line up (designer, 2026-10-16; 12px words before). */
   min-height: var(--pill-height);
   padding: 0 var(--pill-padding-inline);
   font-size: var(--text-sm);
@@ -627,8 +577,6 @@ samp {
 }
 
 .btn--ghost {
-  /* Retired into the link (designer, 2026-10-16): a quiet action is the underlined link, navy, flush to
-     the text around it, with the button's 44px tap height. */
   padding-inline: 0;
   background-color: transparent;
   border-color: transparent;
@@ -701,7 +649,7 @@ samp {
   }
 }
 
-/* Link --------------------------------------------------------------------- */
+/* --- Link --- */
 
 .link {
   border-radius: var(--radius-xs);
@@ -750,7 +698,7 @@ button.link {
   padding-inline: 0;
 }
 
-/* Badge -------------------------------------------------------------------- */
+/* --- Badge --- */
 
 .badge {
   font-family: var(--type-eyebrow-font);
@@ -840,11 +788,7 @@ button.link {
   box-shadow: 0 0 0 var(--feedback-dot-halo-sm) var(--badge-halo);
 }
 
-/* Loop status ---------------------------------------------------------------
-
-   One treatment for an artifact's place in the Loop, wherever it appears.
-   Sentence case rather than the badge's capitals, because the labels are plain
-   verbs ("Sent", "Waiting to hear") and read as words, not as tags. */
+/* --- Loop status --- */
 
 /* Where a piece of work stands, set as an eyebrow (blue uppercase, with its
    glyph) rather than a pill, so it can never be mistaken for a button. */
@@ -878,13 +822,11 @@ button.link {
   color: var(--color-text-secondary);
 }
 
-/* Field -------------------------------------------------------------------- */
+/* --- Field --- */
 
 .field {
   display: flex;
   flex-direction: column;
-  /* A field's label sits 12px above it, as a group title does above its
-     group, so it reads as the field's title (designer, 2026-10-13). */
   gap: var(--space-group-title);
 }
 
@@ -903,8 +845,6 @@ button.link {
   color: var(--color-text-secondary);
 }
 
-/* A hint reads with its label as one piece: 4px under it, and the field's 12px follows the hint
-   (designer, 2026-10-16). */
 .field__label + .field__hint {
   margin-top: calc(var(--space-2xs) - var(--space-group-title));
 }
@@ -1069,7 +1009,7 @@ button.link {
   padding-inline: var(--space-lg);
 }
 
-/* Toggle group ------------------------------------------------------------- */
+/* --- Toggle group --- */
 
 .toggle-group {
   display: flex;
@@ -1201,7 +1141,7 @@ button.link {
   color: var(--color-text-disabled);
 }
 
-/* Panel -------------------------------------------------------------------- */
+/* --- Panel --- */
 
 .panel {
   display: flex;
@@ -1272,13 +1212,7 @@ button.link {
   min-width: 0;
 }
 
-/* -----------------------------------------------------------------------------
-   5. SHELL
-
-   `data-viewport` sits on `.prototype` and every responsive rule below keys off
-   it. No @media queries: a 390px container inside a 1400px window would never
-   pick up mobile styles from one.
-   -------------------------------------------------------------------------- */
+/* --- 5. SHELL --- */
 
 .prototype {
   display: flex;
@@ -1287,7 +1221,7 @@ button.link {
   height: 100dvh;
 }
 
-/* One screen of a flow, embedded in the showroom (designer, 2026-10-15): just
+/* One screen of a flow, embedded in the showroom: just
    the phone, on the canvas, with a little room round it. The page is as tall
    as the phone, so the showroom can size the frame to it. */
 .prototype--frame {
@@ -1485,8 +1419,7 @@ button.link {
 }
 
 /* No scroll bars inside the phone or tablet, as on a real device: the
-   desktop's bar sat over the right edge of the design being reviewed
-   (designer, 2026-10-07). Trackpad, wheel, touch and keyboard still scroll. */
+   desktop's bar sat over the right edge of the design being reviewed. Trackpad, wheel, touch and keyboard still scroll. */
 .device--mobile .device__screen,
 .device--mobile .device__screen *,
 .device--tablet .device__screen,
@@ -2188,9 +2121,7 @@ button.link {
   white-space: nowrap;
 }
 
-/* -----------------------------------------------------------------------------
-   6. NAVIGATION CHROME AND PAGE ANATOMY
-   -------------------------------------------------------------------------- */
+/* --- 6. NAVIGATION CHROME AND PAGE ANATOMY --- */
 
 .chrome {
   display: flex;
@@ -2373,9 +2304,6 @@ ul.chrome__nav-list {
 /* The enterprise header: the wordmark, and the profile link at the right. */
 .chrome--enterprise .chrome__header {
   align-items: center;
-  /* A slimmer bar, 8 above and below the profile button (designer,
-     2026-11-03), with the logo and the button on the page's own edges: the
-     main area's 24, the centred column's spare room, then the page's 24. */
   padding-block: var(--space-xs);
   padding-inline: calc(
     var(--space-lg) * 2 +
@@ -2390,12 +2318,7 @@ ul.chrome__nav-list {
   justify-content: flex-start;
 }
 
-/* Concierge — Navigation Concept 1 ----------------------------------------
-
-   One pill, "Ask or go", and the advisor behind it. Everything is drawn on
-   the device screen. The pill floats above the foot of the page on every
-   viewport. On the phone it opens a sheet that rises over the page; on tablet
-   and web the pill itself grows into a centred card, over a soft scrim. */
+/* --- Concierge — Navigation Concept 1 --- */
 
 .concierge-pill {
   display: flex;
@@ -2403,8 +2326,6 @@ ul.chrome__nav-list {
   gap: var(--space-sm);
   width: 100%;
   height: 58px;
-  /* The same inset on every side of the lime chip (designer, 2026-10-12);
-     the right keeps a little more, for the advisor's mark. */
   padding: var(--space-xs) var(--space-sm) var(--space-xs) var(--space-xs);
   border: var(--border-width-thin) solid transparent;
   border-radius: var(--radius-pill);
@@ -2456,14 +2377,11 @@ ul.chrome__nav-list {
 .concierge-pill__ask {
   flex: 1;
   min-width: 0;
-  /* Never cut off with an ellipsis: the words wrap (designer, 2026-10-13). */
+  /* Never cut off with an ellipsis: the words wrap. */
   font-size: var(--text-md);
   overflow-wrap: anywhere;
 }
 
-/* The same orange dot the sheet's nav uses, treated the same way: on the
-   corner of the chip, with the bar's own surface as a thin ring around it,
-   so it stays clear of the lime underneath (designer, 2026-10-12). */
 .concierge-pill__dot {
   position: absolute;
   top: var(--space-3xs);
@@ -2685,9 +2603,6 @@ ul.chrome__nav-list {
   left: calc(var(--space-lg) - var(--space-sm));
 }
 
-/* No mark or name in the header (designer, 2026-10-07): the sheet is plainly
-   the advisor. "ExecHQ, Your advisor" is still there for screen
-   readers. */
 .concierge-panel__head .concierge-who > :not(.concierge-panel__who) {
   display: none;
 }
@@ -2721,8 +2636,6 @@ ul.chrome__nav-list {
   margin-bottom: var(--space-sm);
 }
 
-/* The start screen introduces the advisor with the logo, and the role
-   beside it on one line (designer, 2026-10-11). */
 .concierge-who--brand {
   gap: var(--space-xs);
 }
@@ -2772,8 +2685,6 @@ ul.chrome__nav-list {
   color: var(--color-text-secondary);
 }
 
-/* A flat link, not a button (designer, 2026-10-07): like .link--quiet, no
-   fill on hover, only the text darkening and an underline. */
 .concierge-panel__new:hover {
   color: var(--color-text-primary);
   text-decoration: underline;
@@ -2846,8 +2757,6 @@ ul.chrome__nav-list {
   gap: var(--space-lg);
 }
 
-/* "Ask me": the nav's own small label, its current-page weight (designer,
-   2026-10-11). "Go to" is the same heading, read only by screen readers. */
 .concierge-start__title {
   margin: 0 0 var(--space-xs);
   font-family: var(--font-body);
@@ -2874,11 +2783,6 @@ ul.concierge-suggest {
   gap: var(--space-2xs);
 }
 
-/* IconRow. The advisor's nav (designer, 2026-10-11): plain icons and their names, no
-   tile and no strip. Only the current page is marked: its icon sits in a
-   yellow circle and its name steps up to semibold. Nothing changes on hover,
-   which carries no meaning on a phone. Playbook Concept 2's tools use the
-   same row, with no current item. */
 .icon-row__item {
   position: relative;
   display: flex;
@@ -2951,8 +2855,6 @@ ul.concierge-suggest {
 /* The suggested questions: one card, a hairline between them, rather than a
    stack of outlined boxes (the page recipe: never box what a hairline can
    split). */
-/* The suggested questions: each its own button, sized to its words and
-   wrapping, as every prompt in the sheet is (designer, 2026-10-11). */
 .concierge-suggest {
   display: flex;
   flex-wrap: wrap;
@@ -2967,9 +2869,6 @@ ul.concierge-suggest {
   align-items: center;
   min-height: var(--button-target);
   padding: var(--space-xs) var(--space-md);
-  /* Navy, like the bubbles they become: what she might say — the prompts
-     under "Ask me" and the quick replies alike — is in her own colour
-     before she says it (designer, 2026-10-12). */
   border: var(--border-width-thin) solid transparent;
   border-radius: var(--radius-xl);
   background-color: var(--color-surface-inverse);
@@ -3058,8 +2957,7 @@ ul.concierge-suggest {
 }
 
 /* One even gap between every message, his and hers: 28px, so the chat
-   breathes (designer, 2026-10-07: 16px felt tight, then 24px a touch tight
-   once answers were set at 1.55). */
+   breathes. */
 .concierge-thread {
   display: flex;
   flex-direction: column;
@@ -3072,8 +2970,6 @@ ul.concierge-suggest {
 }
 
 /* His answers: room between paragraphs, and numbered steps kept numbered. */
-/* Set like Claude's own chat (designer, 2026-10-07): 1.55 leading and 12px
-   between paragraphs, tighter than the page's 1.7 body copy. */
 .concierge-thread .chat-message__body {
   line-height: var(--leading-normal);
 }
@@ -3097,8 +2993,7 @@ ul.concierge-suggest {
 }
 
 /* An indented list: the numbers sit inside the text's margin and the lines
-   indent after them, never hanging out past the padding (designer,
-   2026-10-07). Element and class, to outrank the ol[class] reset. */
+   indent after them, never hanging out past the padding. Element and class, to outrank the ol[class] reset. */
 ol.concierge-list {
   display: flex;
   flex-direction: column;
@@ -3116,9 +3011,6 @@ ol.concierge-list {
   font-weight: var(--weight-semibold);
 }
 
-/* What a reply names (a draft, the next step): a small stone chip, as wide
-   as its words. Not a card and not a button; the action stays on the reply
-   buttons under the message (designer, 2026-10-11). */
 .concierge-card {
   display: inline-flex;
   flex-direction: column;
@@ -3173,10 +3065,7 @@ ol.concierge-list {
   display: none;
 }
 
-/* Homepage — the shared components -----------------------------------------
-
-   Reused by every homepage concept without forking: anything a concept needs
-   to do differently is a prop, not a copy. */
+/* --- Homepage — the shared components --- */
 
 .home-card {
   display: flex;
@@ -3298,14 +3187,7 @@ ol.concierge-list {
   color: var(--color-text-primary);
 }
 
-/* ---------------------------------------------------------------------------
-   Feature card — the two-tone pattern. A coloured head holding only an
-   eyebrow and a short title, over a white body that runs to the edges, with
-   rows split by hairlines and one action at the foot. Only for cards whose
-   head is an eyebrow and a title and nothing more; a card that needs more up
-   there gets its own design. Layered, but nothing rounded inside, so it reads
-   as considered rather than soft.
-   ------------------------------------------------------------------------ */
+/* --- Feature card — the two-tone pattern. A coloured head holding only an --- */
 
 .feature-card {
   display: flex;
@@ -3372,8 +3254,6 @@ ol.concierge-list {
   color: var(--color-text-inverse);
 }
 
-/* The compact header: a short band whose title is a label in small capitals, as Your direction's lime
-   band, for a card whose body says the rest (designer, 2026-10-20). Same padding as that band. */
 .feature-card__head--strip {
   padding: var(--space-sm) var(--space-feature-padding);
 }
@@ -3387,11 +3267,6 @@ ol.concierge-list {
   word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
 }
-
-/* Text in a navy header wraps onto as many lines as it needs (designer,
-   2026-10-12). It used to be held to one line and cut with an ellipsis so
-   over-long copy showed up in review; a header that grows is better than a
-   title a reader cannot finish, so nothing here is ever cut off. */
 
 .feature-card__body {
   display: flex;
@@ -3639,8 +3514,6 @@ ol.loop-track {
 
 /* Entry links: a way to another destination that says what's there. */
 
-/* A soft wash, blue into pale lime, outlined like every card, with the card
-   recipe's spacing (designer, 2026-10-11). The chevron says it is a link. */
 .entry-link {
   display: flex;
   align-items: center;
@@ -3871,12 +3744,7 @@ ul.recent-work__list {
   text-align: center;
 }
 
-/* Homepage Concept 1 — Rings (Row) ----------------------------------------
-
-   The rings and the one action lead; then the card the moment calls for;
-   then the Briefing, then the user's work. One column on mobile and tablet;
-   on web the Briefing and the work move to a second column, in the same
-   order. */
+/* --- Homepage Concept 1 — Rings (Row) --- */
 
 .home {
   display: flex;
@@ -4145,9 +4013,7 @@ ol.ring-detail__timeline {
   color: var(--color-text-muted);
 }
 
-/* -----------------------------------------------------------------------------
-   7. THE HUB
-   -------------------------------------------------------------------------- */
+/* --- 7. THE HUB --- */
 
 .hub {
   display: flex;
@@ -4331,7 +4197,7 @@ ol.ring-detail__timeline {
   font-size: var(--text-2xl);
 }
 
-/* Component catalogue ------------------------------------------------------ */
+/* --- Component catalogue --- */
 
 .catalogue {
   display: grid;
@@ -4581,10 +4447,8 @@ ol.ring-detail__timeline {
   color: var(--color-text-secondary);
 }
 
-/* Playground -------------------------------------------------------------- */
+/* --- Playground --- */
 
-/* The playground's every-screen view (designer, 2026-10-15): each screen of a
-   flow at true phone size, side by side, with what it is under it. */
 .screen-frames {
   display: flex;
   flex-wrap: wrap;
@@ -4653,7 +4517,7 @@ ol.ring-detail__timeline {
   color: var(--color-text-secondary);
 }
 
-/* Design system viewer ----------------------------------------------------- */
+/* --- Design system viewer --- */
 
 /* The design system runs the full width of the window, not the hub's usual
    measure, so a scale's nine steps have room in one row. Header, main and
@@ -5419,10 +5283,7 @@ ol.ring-detail__timeline {
   width: 160px;
 }
 
-/* -----------------------------------------------------------------------------
-   8. ONBOARDING (SPRINT 1)
-   Step frame: the parts every concept shares regardless of its direction.
-   -------------------------------------------------------------------------- */
+/* --- 8. ONBOARDING (SPRINT 1) --- */
 
 /* Stand-in for navigation that Sprint 2 designs. Reads as unfinished on
    purpose — a dashed edge and a lowercase label, so nobody mistakes it for a
@@ -5513,7 +5374,7 @@ ol.ring-detail__timeline {
   display: flex;
 }
 
-/* --- Welcome ------------------------------------------------------------- */
+/* --- Welcome --- */
 /* The first screen of onboarding. A dark panel with the wordmark and one serif
    line, and a white sheet with the welcome and the ask. Full-bleed, so the
    chrome's own padding is dropped around it. */
@@ -5687,7 +5548,7 @@ ol.ring-detail__timeline {
   flex: 1;
 }
 
-/* In the phone's browser (Kate, 2026-10-19) Login's first screen has 670px,
+/* In the phone's browser Login's first screen has 670px,
    not the app's 808, so the dark panel gives up its spare padding first and
    the email field and Log in sit in view on arrival. The wordmark and the
    line stay; with room to spare the panel still grows to fill it. */
@@ -5840,8 +5701,6 @@ ol.ring-detail__timeline {
   margin-block: auto;
 }
 
-/* The button sits with the words, the two centred down the sheet together,
-   rather than pinned at its foot (designer, 2026-10-13). */
 [data-viewport="tablet"] .welcome--centred.welcome--stacked .welcome__body:has(+ .step-actions):not(:where([data-viewport="mobile"] *)),
 [data-viewport="web"] .welcome--centred .welcome__body:has(+ .step-actions):not(:where([data-viewport="mobile"] *)) {
   margin-bottom: 0;
@@ -5852,8 +5711,6 @@ ol.ring-detail__timeline {
   margin-bottom: auto;
 }
 
-/* On web the dark panel holds the wordmark and the line together at its top
-   left, left aligned (designer, 2026-10-13). */
 [data-viewport="web"] .welcome--centred .welcome__hero:not(:where([data-viewport="mobile"] *)) {
   align-items: flex-start;
   justify-content: flex-start;
@@ -5861,7 +5718,7 @@ ol.ring-detail__timeline {
   text-align: start;
 }
 
-/* --- Privacy promise ------------------------------------------------------ */
+/* --- Privacy promise --- */
 
 .privacy {
   display: flex;
@@ -5870,7 +5727,7 @@ ol.ring-detail__timeline {
   max-width: var(--content-measure);
 }
 
-/* --- Direction field ------------------------------------------------------ */
+/* --- Direction field --- */
 
 @keyframes direction-bars {
   0%,
@@ -5882,7 +5739,7 @@ ol.ring-detail__timeline {
   }
 }
 
-/* --- Mic button ------------------------------------------------------------ */
+/* --- Mic button --- */
 
 .mic-button,
 .chat-composer__attach {
@@ -5933,7 +5790,7 @@ ol.ring-detail__timeline {
   }
 }
 
-/* --- Refinement ----------------------------------------------------------- */
+/* --- Refinement --- */
 
 .refinement {
   display: flex;
@@ -5941,7 +5798,7 @@ ol.ring-detail__timeline {
   gap: var(--space-md);
 }
 
-/* --- Notice --------------------------------------------------------------- */
+/* --- Notice --- */
 
 /* A white card on the page. Tone is the halo dot on the label line; the card
    itself stays neutral, so the bright accents show without tinting it. */
@@ -6026,7 +5883,7 @@ ol.ring-detail__timeline {
   margin-top: var(--space-2xs);
 }
 
-/* --- Assumption ----------------------------------------------------------- */
+/* --- Assumption --- */
 
 .assumption {
   display: flex;
@@ -6037,7 +5894,7 @@ ol.ring-detail__timeline {
   border-radius: var(--radius-md);
 }
 
-/* --- Generating ----------------------------------------------------------- */
+/* --- Generating --- */
 
 .generating {
   display: flex;
@@ -6072,7 +5929,7 @@ ol.ring-detail__timeline {
   color: var(--color-text-secondary);
 }
 
-/* --- Plan card ------------------------------------------------------------ */
+/* --- Plan card --- */
 
 .plan-card {
   position: relative;
@@ -6138,7 +5995,7 @@ ol.ring-detail__timeline {
   color: var(--color-text-muted);
 }
 
-/* --- Artifact ------------------------------------------------------------- */
+/* --- Artifact --- */
 
 .artifact {
   display: flex;
@@ -6151,7 +6008,7 @@ ol.ring-detail__timeline {
   box-shadow: var(--shadow-sm);
 }
 
-/* --- Connect offer -------------------------------------------------------- */
+/* --- Connect offer --- */
 
 .connect {
   display: flex;
@@ -6179,7 +6036,7 @@ ol.ring-detail__timeline {
   display: flex;
 }
 
-/* --- The paged wizard ----------------------------------------------------- */
+/* --- The paged wizard --- */
 
 .wizard {
   display: flex;
@@ -6244,7 +6101,7 @@ ol.ring-detail__timeline {
   flex: 0 0 auto;
 }
 
-/* --- Concept 2: the chat ---------------------------------------------------- */
+/* --- Concept 2: the chat --- */
 /* A conversation from the first moment. The chat fills the screen: header,
    a thread that scrolls on its own, and a foot with quick replies over the
    composer. */
@@ -6391,8 +6248,6 @@ ol.ring-detail__timeline {
   padding: var(--space-xs) var(--space-sm);
   /* Keep the lines the user broke with Shift+Enter in the composer. */
   white-space: pre-line;
-  /* Navy with light text (designer, 2026-10-12, replacing the light blue of
-     2026-10-07): her words carry the one strong colour in the panel. */
   color: var(--color-text-inverse);
   background-color: var(--color-surface-inverse);
   border-radius: var(--radius-lg);
@@ -6517,8 +6372,6 @@ ol.ring-detail__timeline {
   letter-spacing: var(--type-label-tracking);
   font-size: var(--text-sm);
   font-weight: var(--weight-regular);
-  /* The one choice pill: the raised surface, the faint edge, the selected fill when chosen (designer,
-     2026-10-16; the secondary blue from 2026-10-07). */
   color: var(--color-text-primary);
   background-color: var(--color-surface-raised);
   border: var(--border-width-thin) solid var(--color-border);
@@ -6801,7 +6654,6 @@ ol.ring-detail__timeline {
   color: var(--color-text-muted);
 }
 
-/* Every pill group: one gap across and down (designer, 2026-10-16). */
 .chip-group__options {
   display: flex;
   flex-wrap: wrap;
@@ -6843,8 +6695,6 @@ ol.ring-detail__timeline {
   font-size: var(--text-sm);
   font-weight: var(--weight-regular);
   color: var(--color-text-primary);
-  /* One choice pill everywhere: the raised surface, the faint edge, regular words; the selected fill when
-     chosen (designer, 2026-10-16). */
   background-color: var(--color-surface-raised);
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-pill);
@@ -6869,12 +6719,6 @@ ol.ring-detail__timeline {
   cursor: not-allowed;
 }
 
-/* An answer in a guided step's drawer (Onboarding, the Plan's guided steps)
-   is her side of a conversation, so it is branded like the chat: an answer
-   not chosen is the raised surface with a thin edge, 20px corners and Inter,
-   its words at the left; the one she picks fills navy with light text, as
-   her own messages do, and its words step up to bold (designer, 2026-10-13).
-   The answers sit 12px apart. */
 .answer-drawer .chip-group__options {
   gap: var(--space-between-pills);
 }
@@ -6891,7 +6735,6 @@ ol.ring-detail__timeline {
   text-align: left;
   background-color: var(--color-surface-raised);
   border: var(--border-width-thin) solid var(--color-border);
-  /* Fully round, as the buttons are, on one line or two (designer, 2026-10-16). */
   border-radius: var(--radius-pill);
 }
 
@@ -7014,13 +6857,11 @@ ol.ring-detail__timeline {
   color: var(--color-text-secondary);
 }
 
-/* --- First draft (all concepts) ------------------------------------------ */
+/* --- First draft (all concepts) --- */
 
 .story-draft {
   display: flex;
   flex-direction: column;
-  /* A section's width of space after the draft's card (designer,
-     2026-10-13). */
   gap: var(--space-xl);
 }
 
@@ -7065,7 +6906,7 @@ ol.ring-detail__timeline {
   color: var(--color-text-secondary);
 }
 
-/* --- LinkedIn upload (all concepts) -------------------------------------- */
+/* --- LinkedIn upload (all concepts) --- */
 
 .linkedin-upload {
   display: flex;
@@ -7140,9 +6981,6 @@ ol.ring-detail__timeline {
   color: var(--color-text-secondary);
 }
 
-/* The disclosure's marker is the icon set's chevron rather than the
-   browser's triangle: it sits after the words, points down while closed and
-   up once open (designer, 2026-10-13). */
 .linkedin-upload__help summary {
   display: inline-flex;
   align-items: center;
@@ -7178,8 +7016,7 @@ ol.ring-detail__timeline {
   display: flex;
   flex-direction: column;
   gap: var(--space-2xs);
-  /* 24px more above the button, so the steps have room before it (designer,
-     2026-10-13). */
+  /* 24px more above the button, so the steps have room before it. */
   margin-top: var(--space-lg);
 }
 
@@ -7273,7 +7110,7 @@ ol.ring-detail__timeline {
   }
 }
 
-/* --- Ending and signals (Concept 1) --------------------------------------- */
+/* --- Ending and signals (Concept 1) --- */
 
 .signal-sources {
   display: flex;
@@ -7303,7 +7140,7 @@ ol.ring-detail__timeline {
   height: var(--space-xl);
   border-radius: var(--radius-sm);
   /* A stone square with the ink, so the source reads as a quiet tag, not a navy button; the mark two
-     pixels larger, 13px (designer, 2026-10-15). */
+     pixels larger, 13px. */
   background-color: var(--color-surface-quiet);
   color: var(--color-text-primary);
   font-family: var(--font-display);
@@ -7466,7 +7303,7 @@ ol.ring-detail__timeline {
 
 /* In the device frame the drawer spans the whole screen (it passes the pointer through), so the panel's
    70% is of the screen. Without it the 70% had nothing to measure against, and a long drawer like Add what
-   you did ran off the top of the phone, its title out of sight (2026-10-18). */
+   you did ran off the top of the phone, its title out of sight. */
 .device__screen .drawer {
   top: 0;
 }
@@ -7555,10 +7392,6 @@ ol.ring-detail__timeline {
   border-radius: var(--radius-xl);
 }
 
-/* The ways on are one card, as Done's list is: the raised surface, a soft
-   edge, its group title inside, and a hairline between choices with 20px
-   either side. Each choice is a row ending in a chevron, since only a card
-   row with a chevron is tappable (designer, 2026-10-13). */
 .next-steps {
   display: flex;
   flex-direction: column;
@@ -7571,8 +7404,6 @@ ol.ring-detail__timeline {
   overflow: hidden;
 }
 
-/* What next? sits in a sky blue header, navy words on it (11.3:1), title only (designer, 2026-10-15).
-   Every choice under it acts on her draft, so it takes the draft's colour: written for her to use. */
 .next-steps__label {
   /* The title inside a list card: the card title role. */
   margin: calc(var(--space-card-padding) * -1) calc(var(--space-card-padding) * -1) 0;
@@ -7720,7 +7551,7 @@ ol.ring-detail__timeline {
   background-color: var(--color-text-primary);
 }
 
-/* --- Export, and the last step's fields ----------------------------------- */
+/* --- Export, and the last step's fields --- */
 
 .export {
   display: flex;
@@ -7732,7 +7563,7 @@ ol.ring-detail__timeline {
   min-width: 0;
 }
 
-/* --- The statement field ------------------------------------------------- */
+/* --- The statement field --- */
 
 /* No box: a line being written rather than a field being completed. The
    underline is the whole affordance, so it is the strong border weight and the
@@ -7759,7 +7590,7 @@ ol.ring-detail__timeline {
   border-bottom-color: var(--color-text-primary);
 }
 
-/* --- Concept 3: the guided onboarding ------------------------------------ */
+/* --- Concept 3: the guided onboarding --- */
 /* Paged like Concept 1, but read like an advisor's briefing: progress said in
    words, a file of what ExecHQ knows, and a margin note on every page in the
    same place, just above the action. */
@@ -7790,7 +7621,6 @@ ol.ring-detail__timeline {
   gap: var(--space-xs);
 }
 
-/* In Inter, as every small label is (designer, 2026-10-16; small labels moved on 2026-10-15). */
 .guide__where {
   font-family: var(--type-eyebrow-font);
   word-spacing: var(--word-spacing-normal);
@@ -7806,12 +7636,8 @@ ol.ring-detail__timeline {
   color: var(--color-text-primary);
 }
 
-/* The segments sit 8px apart so each reads as its own stage (designer,
-   2026-10-13). */
 .guide__parts {
   display: grid;
-  /* One segment per part on a single line, however many there are: the stage check-in has five
-     (designer, 2026-10-15), so a fixed four wrapped the fifth onto a line of its own. */
   grid-auto-flow: column;
   grid-auto-columns: minmax(0, 1fr);
   gap: var(--space-xs);
@@ -7861,8 +7687,6 @@ ol.ring-detail__timeline {
   line-height: var(--leading-tight);
   letter-spacing: var(--font-display-tracking-heading);
   color: var(--color-text-primary);
-  /* Each line as full as it fits. A lone last word is allowed: a short line with room left for the next
-     word reads worse than an orphan (designer, 2026-10-16). */
   text-wrap: wrap;
 }
 
@@ -7889,8 +7713,6 @@ ol.ring-detail__timeline {
    same place. */
 /* Why this matters sits on the page, not in a card, so its label is a group
    title, then the words, with no rule beside it. */
-/* The page's main action straight under its top card, at the right, under the right thumb; the page's
-   own gap sits above it (designer, 2026-10-21: inside the card was crowded). */
 .guide__head-action {
   display: flex;
   justify-content: flex-end;
@@ -7900,7 +7722,6 @@ ol.ring-detail__timeline {
   margin-top: auto;
   display: flex;
   flex-direction: column;
-  /* A title to its copy, 8px: the reason reads as one piece (designer, 2026-10-15; was 12). */
   gap: var(--space-title-copy);
 }
 
@@ -7929,8 +7750,7 @@ ol.ring-detail__timeline {
 
 /* With a drawer the reason follows the question directly, instead of sinking
    to the foot of the page and leaving a gap between them. It sits 16px under
-   the question, not the page's 24, so it clears the open drawer (designer,
-   2026-10-15). */
+   the question, not the page's 24, so it clears the open drawer. */
 .guide--drawer .guide__why {
   margin-top: calc(var(--space-md) - var(--space-lg));
 }
@@ -7951,7 +7771,7 @@ ol.ring-detail__timeline {
 }
 
 /* In the phone's browser a guided page can be taller than the room Safari
-   leaves it (Kate, 2026-10-19), so on a page with no drawer the main action
+   leaves it, so on a page with no drawer the main action
    sticks to the foot of the screen and the content scrolls behind it, as the
    wizard's does. The button is always where the thumb expects it. The
    actions carry the bottom inset, so it holds while content scrolls. */
@@ -7978,14 +7798,13 @@ ol.ring-detail__timeline {
   margin-top: 0;
 }
 
-/* In the phone's browser the last page fits without scrolling (Kate,
-   2026-10-19): a little less room between its parts. */
+/* In the phone's browser the last page fits without scrolling: a little less room between its parts. */
 [data-viewport="mobile"] .guide--done {
   gap: var(--space-sm);
   padding-top: var(--space-md);
 }
 
-/* A navy page (designer, 2026-10-15): onboarding's steps with no drawer (Signals, the recommendation,
+/* A navy page: onboarding's steps with no drawer (Signals, the recommendation,
    the first draft, Done) are flooded navy, so the flow alternates quiet screens with ExecHQ moments.
    A screen with a navy drawer stays light: the drawer is already its colour. The page's tokens remap
    to the inverse set so its words, links and focus follow; headlines and section labels are yellow,
@@ -8033,15 +7852,9 @@ ol.ring-detail__timeline {
   color: var(--color-text-primary);
 }
 
-/* The Plan on navy (designer, 2026-10-16). Its top section sits in a quiet darkest-navy card, there without
-   being loudly a container while the drawer and prompts are on screen; the move's headline keeps its larger
-   size. Every headline stays yellow. */
 .guide--navy.plan-guided .guide__head {
-  /* The same width as every card under it, on the screen's side margin: no bleed (designer, 2026-10-16). */
   margin-inline: 0;
   padding: var(--space-lg) var(--space-md);
-  /* Darker navy sits close to the navy page, so it takes the blue 700 edge
-     (designer, 2026-10-27). */
   border: var(--border-width-thin) solid var(--color-border-inverse);
   border-radius: var(--radius-xl);
   background-color: var(--color-surface-quiet-on-inverse);
@@ -8051,9 +7864,6 @@ ol.ring-detail__timeline {
   font-size: var(--text-2xl-plus);
 }
 
-/* On the navy Plan, Your roadmap is a headline like the page's, yellow, and the add button is yellow, the
-   action colour, with dark ink (designer, 2026-10-16). On a phone or tablet the button sits on the screen
-   itself, outside the page, so it follows the page it is over. */
 .guide--navy .agenda__heading {
   color: var(--color-headline-on-inverse);
 }
@@ -8074,8 +7884,6 @@ ol.ring-detail__timeline {
   background-color: var(--color-action-active);
 }
 
-/* The add button is round, with a thin yellow 500 edge and its shadow to set it off the surface under it
-   (designer, 2026-10-16: a 2px navy ring read as heavy, a gold edge as navy from a distance). */
 .guide--navy .agenda__fab,
 .device__screen:has(.guide--navy.plan-guided) .agenda__fab {
   border-radius: 50%;
@@ -8083,7 +7891,7 @@ ol.ring-detail__timeline {
 }
 
 /* Folded on a phone or a tablet, the stone drawer runs to the foot of the screen and the Ask or go bar sits
-   in it, so the two read as one surface instead of stone, navy, white (designer, 2026-10-16). */
+   in it, so the two read as one surface instead of stone, navy, white. */
 .device__screen:has(.concierge-host) .chrome__main:has(> .guide--navy.plan-guided):has(.answer-drawer.is-peek) {
   padding-bottom: 0;
 }
@@ -8096,9 +7904,6 @@ ol.ring-detail__timeline {
   border-color: var(--light-border);
 }
 
-/* A choice pill on navy (designer, 2026-10-16): the mirror of the formula. Not chosen, it is outlined in a
-   light edge with light words; chosen, it turns white with navy words. The Plan's reasons on its navy
-   page, and onboarding's answers in its navy drawer. */
 .guide--navy .guide__body .chip-group__chip,
 :is([data-viewport="mobile"], [data-viewport="tablet"]) .guide.guide--sky:not(.tool-flow-questions) .answer-drawer .chip-group__chip {
   color: var(--color-text-inverse);
@@ -8147,8 +7952,6 @@ ol.ring-detail__timeline {
 }
 
 /* The white answers keep dark words wherever they sit: in the stone drawer, or on the navy page on the web. */
-/* They keep the stroke every white card has, stone 250, so each reads as its own button on the stone drawer
-   and on the navy page (designer, 2026-10-16). */
 .guide.guide--navy.plan-guided .answer-drawer .chip-group__chip {
   border-color: var(--light-border);
   --color-text-primary: var(--light-text-primary);
@@ -8167,8 +7970,7 @@ ol.ring-detail__timeline {
 }
 
 /* On a navy page a navy header would sink into the page, so the card's header turns light blue, navy words
-   on it (11.3:1), the same header as What next?, and the card keeps the stone 250 edge every card has
-   (designer, 2026-10-15). */
+   on it (11.3:1), the same header as What next?, and the card keeps the stone 250 edge every card has. */
 .guide--navy .feature-card__head--inverse {
   background-color: var(--color-surface-for-her);
 }
@@ -8182,7 +7984,7 @@ ol.ring-detail__timeline {
 }
 
 /* On a navy page the lime header keeps the card's stone 250 edge, as the white body under it does, so the
-   two read as one card rather than a header inset from it (designer, 2026-10-15). */
+   two read as one card rather than a header inset from it. */
 .guide--navy .guide__heard-rows > .guide__yours-label {
   border-color: var(--light-border);
 }
@@ -8193,7 +7995,7 @@ ol.ring-detail__timeline {
 }
 
 /* Copy, Download and Email sit inside the draft's card, under a hairline, so the most important card on
-   the screen carries its own actions (designer, 2026-10-15; they sat under the uses before). */
+   the screen carries its own actions. */
 .story-draft__actions {
   margin-top: var(--space-xs);
   padding-top: var(--space-sm);
@@ -8205,9 +8007,6 @@ ol.ring-detail__timeline {
   min-height: 0;
 }
 
-/* A light blue rule under where she could use it closes the draft's part of the page before the Playbook
-   line and why it matters (designer, 2026-10-15). The same 28px above and below it: the page's 24px
-   section gap, opened a hair. */
 .guide--navy .story-draft__uses {
   padding-bottom: calc(var(--space-lg) + var(--space-2xs));
   margin-bottom: var(--space-2xs);
@@ -8237,10 +8036,6 @@ ol.ring-detail__timeline {
   color: var(--color-text-primary);
 }
 
-/* The cover is navy edge to edge (designer, 2026-10-13): the light logo, the
-   light title and line, and the quote in the muted light. The yellow button
-   stays the one main action. The logo sits between the two Wordmark sizes,
-   48px tall, with 32px between it and the title. */
 .guide--cover {
   max-width: none;
   background-color: var(--color-surface-inverse);
@@ -8334,7 +8129,7 @@ ol.ring-detail__timeline {
 
 .advisor-file__new {
   margin-left: auto;
-  /* Never cut off with an ellipsis: the words wrap (designer, 2026-10-13). */
+  /* Never cut off with an ellipsis: the words wrap. */
   font-size: var(--text-xs);
   color: var(--color-text-secondary);
   text-align: right;
@@ -8783,9 +8578,6 @@ ol.ring-detail__timeline {
   overflow: clip;
 }
 
-/* Playbook flow Concept 3's questions use the same drawer (13 Oct): inside a
-   tool the Ask or go pill steps aside, so no room is kept for it, and the
-   way back to the Playbook keeps the screen's side margin. */
 .device__screen:has(.concierge-host) .chrome__main:has(> .guide--drawer) {
   padding-bottom: 0;
 }
@@ -8805,10 +8597,6 @@ ol.ring-detail__timeline {
   flex: 1 1 auto;
 }
 
-/* On the Playbook's stone page the answer drawer is white, a sheet rising
-   over the page as the stone drawer is over onboarding's sky and the Plan's
-   navy, with the item cards' horizon line along its top (designer,
-   2026-10-28; it was the page's own stone, so it read as a seam). */
 :is([data-viewport="mobile"], [data-viewport="tablet"]) .tool-flow-questions .answer-drawer {
   position: relative;
   /* Room under the line, so the handle sits as far below it as above the
@@ -8833,17 +8621,13 @@ ol.ring-detail__timeline {
 }
 
 /* Pushed to the drawer's foot, and never closer than the 24px the actions
-   always get above them: the drawer's gap plus this (designer, 2026-10-28;
-   a full drawer left them 16px under the last field). */
+   always get above them: the drawer's gap plus this. */
 [data-viewport="mobile"] .tool-flow-questions .answer-drawer__actions,
 [data-viewport="tablet"] .tool-flow-questions .answer-drawer__actions {
   margin-top: auto;
   padding-top: calc(var(--space-before-actions) - var(--space-drawer-inner));
 }
 
-/* The top of a question sits closer (designer, 2026-10-30): 8 under the
-   back link, whose tap area already adds room, and the eyebrow 12 over the
-   question's card, a group title over what it names; the card rises 28. */
 [data-viewport="mobile"] .tool-flow-questions .guide__page,
 [data-viewport="tablet"] .tool-flow-questions .guide__page {
   padding-top: var(--space-xs);
@@ -8854,8 +8638,7 @@ ol.ring-detail__timeline {
   margin-top: calc(var(--space-group-title) - var(--space-lg));
 }
 
-/* The drawer rises to just under the question, so all the answers fit
-   (designer, 2026-10-30): the question keeps its place and the rest of the
+/* The drawer rises to just under the question, so all the answers fit: the question keeps its place and the rest of the
    page (her statement, a source) waits under the drawer, there again when
    she folds it. The page's body is sized out of the sum, so the page is
    only as tall as the question; the drawer takes the rest. Folded, the page
@@ -8868,9 +8651,6 @@ ol.ring-detail__timeline {
   overflow: visible;
 }
 
-/* A drawer with fewer answers is only as tall as they are, and the page
-   keeps the room above it (designer, 2026-10-30): rising to the question is
-   for the long ones. */
 [data-viewport="mobile"] .tool-flow-questions:has(.answer-drawer:not(.is-peek)) :is(.answer-drawer__wrap, .answer-drawer),
 [data-viewport="tablet"] .tool-flow-questions:has(.answer-drawer:not(.is-peek)) :is(.answer-drawer__wrap, .answer-drawer) {
   flex: 0 1 auto;
@@ -8885,15 +8665,12 @@ ol.ring-detail__timeline {
 }
 
 /* Back and Next side by side, Next on the right under the thumb, so the
-   drawer has room for every answer (designer, 2026-10-30; they were
-   stacked, full width). Playbook drawers first; others may follow. */
+   drawer has room for every answer. Playbook drawers first; others may follow. */
 [data-viewport="mobile"] .tool-flow-questions .answer-drawer__actions,
 [data-viewport="tablet"] .tool-flow-questions .answer-drawer__actions {
   flex-direction: row-reverse;
 }
 
-/* Each as wide as its words, the room left shared, so a long label
-   ("Write my first draft") stays on one line. */
 [data-viewport="mobile"] .tool-flow-questions .answer-drawer__actions > *,
 [data-viewport="tablet"] .tool-flow-questions .answer-drawer__actions > * {
   flex: 1 1 auto;
@@ -9118,7 +8895,6 @@ ol.ring-detail__timeline {
 .answer-drawer__body {
   display: flex;
   flex-direction: column;
-  /* Its groups 24px apart (designer, 2026-10-16; was 12 between everything). */
   gap: var(--space-drawer-groups);
 }
 
@@ -9137,7 +8913,7 @@ ol.ring-detail__timeline {
 
 /* The main action is full width, and a second one (Skip, Back, Later…) is a
    secondary button the same size under it: a peer, never a smaller link, so
-   skipping reads as a real choice (Kate's spec; designer, 2026-10-13). */
+   skipping reads as a real choice. */
 .answer-drawer__actions {
   display: flex;
   flex-direction: column;
@@ -9150,8 +8926,6 @@ ol.ring-detail__timeline {
   background-color: var(--color-surface);
 }
 
-/* A question's answers, then Other: two groups, 24px apart, as the
-   drawer's groups always are (designer, 2026-10-28; they touched). */
 .pick-answer {
   display: flex;
   flex-direction: column;
@@ -9175,7 +8949,6 @@ ol.ring-detail__timeline {
 }
 
 .answer-drawer__peek-q {
-  /* Inter, as the drawer's other words are (designer, 2026-10-16). */
   font-family: var(--font-body);
   word-spacing: var(--word-spacing-normal);
   letter-spacing: var(--tracking-normal);
@@ -9272,7 +9045,7 @@ button.device-keyboard__key {
   line-height: var(--leading-snug);
 }
 
-/* SignalActivity -------------------------------------------------------- */
+/* --- SignalActivity --- */
 
 .signal {
   display: flex;
@@ -9522,9 +9295,6 @@ ol.signal__list {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
-  /* The same 16px on every side (designer, 2026-10-12): the foot used to
-     take 12, which left the last publication sitting closer to the card's
-     edge than the eyebrow does to the top. */
   padding: var(--space-md);
   border: var(--border-width-thin) solid var(--color-border);
   border-top: var(--border-width-thick) solid var(--color-text-primary);
@@ -9579,10 +9349,6 @@ ol.signal__list {
   outline-offset: var(--focus-ring-offset);
 }
 
-/* The Briefing card is dark green, not navy (designer, 2026-10-12): the
-   day's reading sits apart from the navy cards around it, and it keeps the
-   green the cover faded into. Its tokens remap the way the progress
-   card's do. */
 .briefing-editorial {
   --color-surface-raised: var(--color-surface-progress);
   --color-text-secondary: var(--color-text-on-progress-muted);
@@ -9593,9 +9359,6 @@ ol.signal__list {
   background-color: var(--color-surface-progress);
 }
 
-/* With a cover: a photograph across the top of a taller card, fading into
-   the navy, and the words in white on the navy below it (designer,
-   2026-10-09). The picture is decoration, so it lives in CSS. */
 .briefing-editorial--cover {
   --briefing-cover-height: 9.5rem;
   position: relative;
@@ -9750,9 +9513,6 @@ ol.signal__list {
   gap: var(--space-3xs) var(--space-sm);
 }
 
-/* The card's name is a true eyebrow: the system's eyebrow role and its
-   eyebrow colour, which on this green card is the light green (designer,
-   2026-10-12), so it matches every other eyebrow on the page. */
 .briefing-editorial__heading {
   font-family: var(--type-eyebrow-font);
   font-size: var(--type-eyebrow-size);
@@ -9798,7 +9558,7 @@ ol.signal__list {
 }
 
 /* The headline in white on the navy, a step heavier than regular. It runs
-   to as many lines as it needs (designer, 2026-10-12): it used to stop at
+   to as many lines as it needs: it used to stop at
    two so the card kept its height, but a headline a reader cannot finish is
    worse than a card that grows. Nothing here is cut. */
 .briefing-editorial__lead {
@@ -9809,8 +9569,6 @@ ol.signal__list {
   line-height: var(--leading-normal);
 }
 
-/* On the cover, the name and date sit at the top on the pale photograph,
-   in the page's near-black (designer, 2026-10-09). */
 .briefing-editorial--cover .briefing-editorial__top {
   position: absolute;
   top: var(--space-md);
@@ -9824,14 +9582,12 @@ ol.signal__list {
   color: var(--color-text-on-cover);
 }
 
-/* On the cover the headline is a step larger (designer, 2026-10-09). */
 .briefing-editorial--cover .briefing-editorial__lead {
   font-size: var(--text-xl);
   line-height: var(--leading-snug);
 }
 
-/* The publication under its headline, quieter than the read it belongs to
-   (designer, 2026-10-12): the caption role at its own regular weight, in the
+/* The publication under its headline, quieter than the read it belongs to: the caption role at its own regular weight, in the
    card's softer green. The headline above it carries the weight and the
    full-strength ink, so the read is what is seen first. */
 .briefing-editorial__source {
@@ -9875,7 +9631,7 @@ ol.signal__list {
 
 /* The two lesser reads are headlines, so they lead their own bullet: the
    size Kate set for them, a step heavier than their publication and in the
-   card's full-strength ink (designer, 2026-10-12). */
+   card's full-strength ink. */
 .briefing-editorial__title {
   font-family: var(--type-body-sm-font);
   font-size: var(--type-body-sm-size);
@@ -9916,13 +9672,7 @@ ol.signal__list {
   overflow: hidden;
 }
 
-/* The weekly check-in (Homepage Concept 4b, Kate, 2026-10-23): five answers
-   in a row, one tap each, the scale's ends under them, and once answered her
-   answers week by week. */
-/* --- Slider (2026-10-26) --------------------------------------------------
-   The browser's range input, drawn from tokens: a track that fills to the
-   thumb, a round thumb, and each stop's word under its place. The words
-   sit at the track's ends and middle by their own alignment. */
+/* --- Slider --- */
 .slider {
   display: flex;
   flex-direction: column;
@@ -10019,7 +9769,6 @@ ol.signal__list {
   color: var(--color-text-primary);
 }
 
-/* Not now, as an x in the band's right-hand corner (Kate, 2026-10-26). */
 .readiness-check {
   position: relative;
 }
@@ -10049,8 +9798,6 @@ ol.signal__list {
   outline-offset: var(--focus-ring-offset);
 }
 
-/* The slider runs the card's width. Save sits at the right edge, under the
-   right thumb, with what it will record on its left (Kate, 2026-10-26). */
 .readiness-check .slider {
   align-self: stretch;
 }
@@ -10184,10 +9931,6 @@ ol.signal__list {
   line-height: var(--type-caption-leading);
   /* Navy on the band, not the page's grey: 11.3:1. */
   color: var(--color-text-on-check-in-band);
-  /* What it is about rides in a light blue band across the head of the
-     card, to the edges. The band sets it apart from the question, so it
-     needs no hairline under it (designer, 2026-10-12). The lesser answers
-     at the foot keep theirs. */
   margin: calc(-1 * var(--space-md)) calc(-1 * var(--space-md)) 0;
   padding: var(--space-sm) var(--space-md);
   background-color: var(--color-surface-check-in-band);
@@ -10252,9 +9995,6 @@ ol.signal__list {
 /* The main answers are quiet outlined pills, so a card of choices reads as
    one set. Yellow stays for a single "yes, done" answer. */
 .check-in__answers .btn--secondary {
-  /* A little less to each side than a full button, so on a phone the first
-     two answers share a line and the three take two lines, not three. A
-     question's own answers: the raised surface with the faint edge (designer, 2026-10-16). */
   padding-inline: var(--space-md);
   border: var(--border-width-thin) solid var(--color-border);
   background-color: var(--color-surface-raised);
@@ -10279,10 +10019,6 @@ ol.signal__list {
 
 /* Once answered, the read-back takes the question's place and its type,
    with no box of its own inside the card. */
-/* Logged: three rows over the white area, the outer two equal, so what she
-   said is dead centre whatever its length. The pill sits in the row above
-   it, centred in that row — halfway between the blue band and her words
-   (designer, 2026-10-12). */
 .check-in--question > .check-in__logged-body {
   flex: 1;
   display: grid;
@@ -10320,7 +10056,6 @@ ol.signal__list {
   text-transform: uppercase;
 }
 
-/* "You told me:" sits on its own line above the quote, quieter than it. */
 .check-in__readback-lead {
   display: block;
   margin-bottom: var(--space-3xs);
@@ -10665,7 +10400,7 @@ ol.check-in__steps {
 }
 
 /* On the Signal Picture, what they were and how far they moved sit at the top right, on the label's line,
-   so the number stands alone under them (designer, 2026-10-21). Home keeps them under the number. */
+   so the number stands alone under them. Home keeps them under the number. */
 .signals-page .presence-clean__hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -10677,8 +10412,6 @@ ol.check-in__steps {
   row-gap: var(--space-3xs);
 }
 
-/* Added since you started is its own section, not one more row of the table: the same pause above it as
-   the one above Counts, which the number's tall line gives it (16 + 12, designer, 2026-10-21). */
 .signals-page .presence-clean__added {
   margin-top: var(--space-sm);
 }
@@ -10695,9 +10428,8 @@ ol.check-in__steps {
 .signals-page .presence-clean__hero-now {
   grid-area: now;
   /* One figure on its own needs no table columns: proportional figures, so a leading 1 starts at the
-     card's edge with the words above instead of centred in a wide digit slot (designer, 2026-10-21). */
+     card's edge with the words above instead of centred in a wide digit slot. */
   font-variant-numeric: proportional-nums;
-  /* A touch more room between its digits than proportional figures give (designer, 2026-10-21). */
   letter-spacing: var(--tracking-widest);
 }
 
@@ -10861,11 +10593,6 @@ ol.check-in__steps {
 .account-card__try {
   display: flex;
   flex-direction: column;
-  /* A navy card (designer, 2026-10-12): the one thing to try next, at the
-     foot of the page, reads as a callout rather than another white card.
-     Its tokens remap the way the Briefing's do, and its eyebrow takes the
-     gold that every eyebrow on navy does. Top and bottom take the cards'
-     standard 20px. */
   padding: var(--space-feature-padding) var(--space-md);
   border: var(--border-width-thin) solid transparent;
   border-radius: var(--radius-card);
@@ -10923,9 +10650,6 @@ ul.account-card__shows {
   align-self: flex-start;
 }
 
-/* The card recipe's three steps of space, each wider than the last
-   (designer, 2026-10-11): the eyebrow stays with its title, the sentence
-   comes a little further down, and the button has the widest gap above it. */
 .account-card__try > .account-card__try-label {
   margin-bottom: var(--space-eyebrow-title);
 }
@@ -11176,20 +10900,11 @@ ul.baseline-list__rows {
   color: var(--color-text-secondary);
 }
 
-/* Homepage Concept 3 — Plan (Chapters) --------------------------------------
+/* --- Homepage Concept 3 — Plan (Chapters) --- */
 
-   The roadmap as a table of contents: the current stage opens up in large
-   type, the others stay one line. Then the focal card, then the stage's other
-   actions. Layout columns come from `.home` above. */
+/* --- PROFILE — Concept 1, Grouped --- */
 
-/* =============================================================================
-   PROFILE — Concept 1, Grouped
-   Grouped white cards on the stone page, each under a small label. On mobile
-   and tablet a row opens its detail in a sheet; on web the list and the
-   detail sit side by side.
-   ========================================================================== */
-
-/* --- Monogram -------------------------------------------------------------- */
+/* --- Monogram --- */
 .monogram {
   display: grid;
   flex: none;
@@ -11216,7 +10931,7 @@ ul.baseline-list__rows {
   font-size: var(--text-3xl);
 }
 
-/* --- Switch ---------------------------------------------------------------- */
+/* --- Switch --- */
 .switch {
   position: relative;
   flex: none;
@@ -11303,7 +11018,7 @@ ul.baseline-list__rows {
   }
 }
 
-/* --- Profile header -------------------------------------------------------- */
+/* --- Profile header --- */
 .profile-header {
   display: flex;
   align-items: center;
@@ -11347,12 +11062,12 @@ ul.baseline-list__rows {
   line-height: var(--type-body-sm-leading);
   letter-spacing: var(--type-body-sm-tracking);
   word-spacing: var(--type-body-sm-word-spacing);
-  /* Never cut off with an ellipsis: the words wrap (designer, 2026-10-13). */
+  /* Never cut off with an ellipsis: the words wrap. */
   color: var(--color-text-muted);
   overflow-wrap: anywhere;
 }
 
-/* --- Settings groups and rows ---------------------------------------------- */
+/* --- Settings groups and rows --- */
 .settings-group {
   display: flex;
   flex-direction: column;
@@ -11398,7 +11113,6 @@ ul.baseline-list__rows {
   gap: var(--space-sm);
   width: 100%;
   min-height: 3.25rem;
-  /* The card's padding all round, as every list card has (designer, 2026-10-15). */
   padding: var(--space-card-padding);
   border: 0;
   background-color: var(--color-surface-raised);
@@ -11439,7 +11153,6 @@ ul.baseline-list__rows {
   letter-spacing: var(--type-caption-tracking);
   word-spacing: var(--type-caption-word-spacing);
   color: var(--color-text-muted);
-  /* Lines of even length, so no first line runs past the rest of the card's copy (designer, 2026-10-15). */
   text-wrap: balance;
 }
 
@@ -11452,7 +11165,7 @@ ul.baseline-list__rows {
   word-spacing: var(--type-body-sm-word-spacing);
   flex: 0 1 auto;
   max-width: 50%;
-  /* Never cut off with an ellipsis: the words wrap (designer, 2026-10-13). */
+  /* Never cut off with an ellipsis: the words wrap. */
   color: var(--color-text-secondary);
   text-align: right;
   overflow-wrap: anywhere;
@@ -11543,7 +11256,7 @@ ul.baseline-list__rows {
   color: var(--color-text-disabled);
 }
 
-/* --- Detail panel ---------------------------------------------------------- */
+/* --- Detail panel --- */
 .detail-panel {
   display: flex;
   flex-direction: column;
@@ -11654,12 +11367,11 @@ ul.baseline-list__rows {
   color: var(--color-text-secondary);
 }
 
-/* What deleting removes is marked in the danger red (designer, 2026-10-15). */
 .detail-list--removes .icon {
   color: var(--color-feedback-danger-text);
 }
 
-/* --- The Profile page (Concept 1, Grouped) --------------------------------- */
+/* --- The Profile page (Concept 1, Grouped) --- */
 .profile {
   display: flex;
   flex-direction: column;
@@ -11682,10 +11394,6 @@ ul.baseline-list__rows {
   font-size: var(--type-title-size-phone);
 }
 
-/* No signed-in page has a logo bar (designer, 2026-10-13; Profile and Home
-   first): each page's own top opens the screen. On Profile the page's own
-   title stands where the logo was, and on the phone it runs edge to edge at
-   the top with the header's divider under it. */
 .chrome--app > .chrome__header {
   display: none;
 }
@@ -11695,7 +11403,6 @@ ul.baseline-list__rows {
   padding: var(--space-sm) var(--space-screen-side);
 }
 
-/* The page's name, centred with no rule under it (designer, 2026-10-15). */
 .profile__title {
   text-align: center;
 }
@@ -11715,8 +11422,6 @@ ul.baseline-list__rows {
   gap: var(--space-sm);
 }
 
-/* A section's copy sits closer to its title than the card does to the copy, so title and copy read
-   as one and the card as what follows (designer, 2026-10-15). The panel's own gap is 12px. */
 .profile__section .detail-panel__head + .detail-panel__lead {
   margin-top: calc(var(--space-title-copy) - var(--space-sm));
 }
@@ -11804,7 +11509,6 @@ ul.baseline-list__rows {
   text-align: center;
 }
 
-/* The logo stands above the heading, at the header's size (designer, 2026-10-15). */
 .profile-end__mark {
   margin: 0;
 }
@@ -11829,27 +11533,18 @@ ul.baseline-list__rows {
   color: var(--color-text-secondary);
 }
 
-/* The button sits lower, apart from the words above it (designer, 2026-10-15). */
 .profile-end > .btn {
   margin-top: var(--space-xl);
 }
 
-/* Profile is a navy page (designer, 2026-10-15), as onboarding's steps with no drawer are. The page
-   remaps its tokens to the inverse set, so its words, rules and focus follow; the title and section
-   headings are yellow. Its white cards, and the sheet a row opens, take the light set back. The
-   navigation pill and the light blue buttons keep their own colours. */
 .chrome:has(.profile, .profile-end) {
   background-color: var(--color-surface-inverse);
 }
 
-/* Signed out or deleted, the header and its rule stay away: the logo sits above the heading
-   instead (designer, 2026-10-15). */
 .chrome:has(.profile-end) > .chrome__header {
   display: none;
 }
 
-/* Signed out, she has no app to move around: the navigation and the chat bar go (designer,
-   2026-10-15), and the logo, heading, note and button sit centred on the screen. */
 .chrome:has(.profile-end) .app-nav,
 .prototype:has(.profile-end) .concierge-host {
   display: none;
@@ -11900,13 +11595,9 @@ ul.baseline-list__rows {
   color: var(--color-text-primary);
 }
 
-/* =============================================================================
-   LOGIN — Concept 1, Open page
-   White and quiet, a light blue glow in the corner, pill fields, the button
-   to the right with an arrow, and round provider buttons.
-   ========================================================================== */
+/* --- LOGIN — Concept 1, Open page --- */
 
-/* --- Checkbox -------------------------------------------------------------- */
+/* --- Checkbox --- */
 .checkbox {
   display: flex;
   align-items: flex-start;
@@ -11951,11 +11642,10 @@ ul.baseline-list__rows {
   cursor: not-allowed;
 }
 
-/* --- Code field ------------------------------------------------------------ */
+/* --- Code field --- */
 .code-field {
   display: flex;
   flex-direction: column;
-  /* 12px under its label, as every field's label (designer, 2026-10-13). */
   gap: var(--space-group-title);
 }
 
@@ -11980,8 +11670,6 @@ ul.baseline-list__rows {
   cursor: text;
 }
 
-/* Six equal boxes, the same distance apart: no wider break between the halves
-   (designer, 2026-10-15; it was three and three from 2026-10-13). */
 .code-field__cells {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -11997,7 +11685,7 @@ ul.baseline-list__rows {
   border: var(--border-width-thin) solid var(--color-border-strong);
   border-radius: var(--radius-field);
   background-color: var(--color-surface-raised);
-  /* Its own ink, so a box on a navy drawer never takes the drawer's light words (designer, 2026-10-15). */
+  /* Its own ink, so a box on a navy drawer never takes the drawer's light words. */
   color: var(--color-code-digit);
   font-family: var(--font-display);
   word-spacing: var(--font-display-word-spacing);
@@ -12016,7 +11704,7 @@ ul.baseline-list__rows {
   border-color: var(--color-feedback-danger-border);
 }
 
-/* --- Provider buttons ------------------------------------------------------ */
+/* --- Provider buttons --- */
 .provider-buttons {
   display: flex;
   flex-direction: column;
@@ -12042,10 +11730,6 @@ ul.baseline-list__rows {
   transition: background-color var(--duration-fast) var(--easing-standard);
 }
 
-/* Google's dark theme, as its branding guidelines set it (values in
-   tokens.css): the dark fill with a 1px edge, light words in Google Sans
-   Medium 14/20, 10px between the standard four-colour G and the words
-   (designer, 2026-10-13). */
 .provider-button--google {
   gap: calc(var(--space-xs) + var(--space-3xs));
   border-color: var(--brand-google-dark-edge);
@@ -12104,7 +11788,7 @@ ul.baseline-list__rows {
   flex: none;
 }
 
-/* --- Mail notification ----------------------------------------------------- */
+/* --- Mail notification --- */
 .mail-notification {
   display: flex;
   align-items: center;
@@ -12162,7 +11846,7 @@ ul.baseline-list__rows {
 }
 
 .mail-notification__preview {
-  /* Never cut off with an ellipsis: the words wrap (designer, 2026-10-13). */
+  /* Never cut off with an ellipsis: the words wrap. */
   font-size: var(--text-xs);
   color: var(--color-text-muted);
   overflow-wrap: anywhere;
@@ -12193,7 +11877,7 @@ ul.baseline-list__rows {
   }
 }
 
-/* --- The drawn email ------------------------------------------------------- */
+/* --- The drawn email --- */
 .sign-in-email {
   display: flex;
   flex-direction: column;
@@ -12334,7 +12018,7 @@ ul.baseline-list__rows {
   margin: 0 var(--space-lg) var(--space-lg);
 }
 
-/* --- Account picker -------------------------------------------------------- */
+/* --- Account picker --- */
 .account-picker {
   display: flex;
   flex-direction: column;
@@ -12403,7 +12087,7 @@ ul.baseline-list__rows {
   color: var(--color-text-muted);
 }
 
-/* --- The Login page (Concept 1, Open page) --------------------------------- */
+/* --- The Login page (Concept 1, Open page) --- */
 /* The login page fills the screen, so its privacy line can sit at the foot. */
 .chrome__main:has(> .login) {
   display: flex;
@@ -12473,7 +12157,6 @@ ul.baseline-list__rows {
   color: var(--color-accent);
 }
 
-/* What "Learn more" opens: who does not see the account. */
 ul.login__never {
   display: flex;
   flex-direction: column;
@@ -12529,7 +12212,6 @@ ul.login__never {
   transform: translateY(-50%);
 }
 
-/* The "keep me logged in" row is 44px tall, and the whole row is its label. */
 .login__form .checkbox {
   align-items: center;
 }
@@ -12570,7 +12252,7 @@ ul.login__never {
 }
 
 /* The drawn email rises almost to the top, as another app would. */
-/* The admin login's panels on the web (designer, 2026-11-04): taller than
+/* The admin login's panels on the web: taller than
    wide, as a dialog, not a banner across the page. A narrow column of 28rem,
    the admin cards' 32 padding all round, and the admin type roles, so the
    words read at the same sizes as the dashboard's. The button keeps the
@@ -12758,10 +12440,7 @@ ul.login__never {
   color: var(--color-text-muted);
 }
 
-/* -----------------------------------------------------------------------------
-   Homepage Concept 4 — Combined. The briefing callout, the map of rings and
-   the list under it, and the sheet an unstarted action opens.
-   -------------------------------------------------------------------------- */
+/* --- Homepage Concept 4 — Combined. The briefing callout, the map of rings and --- */
 
 .map-home {
   display: flex;
@@ -12816,16 +12495,10 @@ ul.login__never {
 .device__display:has(.map-home) {
   --home-header-band: calc(var(--device-statusbar-height) + 2.5rem);
   --home-header-height: var(--home-header-band);
-  /* The warm jewel wash, kept ready while the team decides between it and
-     navy. To bring it back, point --home-header-wash at it and set the
-     greeting's text back to the primary colour. */
   --home-header-jewel:
     radial-gradient(ellipse 26% 65% at 50% 100%, var(--color-ring-complete-light), transparent),
     radial-gradient(ellipse 58% 150% at 50% 100%, var(--color-ring-complete-mid), color-mix(in srgb, var(--color-ring-complete-core) 75%, transparent) 30%, color-mix(in srgb, var(--color-ring-complete-core) 30%, transparent) 60%, transparent 95%),
     radial-gradient(ellipse 95% 240% at 50% 100%, var(--color-ring-complete-light) 15%, var(--color-ring-complete-edge) 55%, var(--color-ring-complete-deep) 85%, var(--color-ring-complete-edge) 100%);
-  /* The sky follows the time of day (designer, 2026-10-09). Dawn, day and
-     dusk: one warm heart rising from the bottom edge in a blue that deepens
-     through the day. Day is the default, and what the server draws. */
   --sky-blue: var(--color-sky-day);
   --sky-heart: var(--color-sky-day-heart);
   --sky-ring: var(--color-sky-day-ring);
@@ -12839,7 +12512,7 @@ ul.login__never {
     linear-gradient(var(--sky-blue), var(--sky-blue));
 }
 
-/* Dawn uses day's blue for now (designer, 2026-10-09), kept as its own
+/* Dawn uses day's blue for now, kept as its own
    token so the two can part later. */
 .device__display:has(.map-home__greeting[data-sky="dawn"]) {
   --sky-blue: var(--color-sky-dawn);
@@ -12869,12 +12542,6 @@ ul.login__never {
     linear-gradient(var(--color-sky-night-top), var(--color-sky-night) 60%, var(--color-sky-night-low));
 }
 
-/* Trial (designer, 2026-10-10): the sky turned the other way up. Its glow
-   sits at the very top of the screen, round the camera and the status bar,
-   and it fades down through the date and behind the rings into the page,
-   about halfway down the next-step card's navy head. One gradient, painted
-   in three slices (status bar, band, and a tail under the band) that line
-   up as one. */
 .device__display:has(.map-home) {
   --home-sky-tail: 18.25rem;
   --home-sky-total: calc(var(--home-header-height) + var(--home-sky-tail));
@@ -12912,13 +12579,6 @@ ul.login__never {
   --sky-top-core: var(--color-sky-heart-light);
 }
 
-/* Dusk is the sun going down into night (designer, 2026-10-14, option 2a):
-   a small peach centre, then peach turning into blue 500. Half of that turn
-   goes round the colour wheel (in oklch), which passes through mauve and
-   dusty pink, and half goes straight across (in oklab), which keeps them
-   soft. Every colour named is a palette step; only the shades between are
-   blended. The blue eases out over the last stretch rather than stopping,
-   so it leaves no edge, and the fade under it starts from the same blue. */
 .device__display:has(.map-home__greeting[data-sky="dusk"]) {
   --sky-top-edge: var(--color-sky-dusk-edge-top);
   --sky-top-ring: var(--color-sky-dusk-top-ring);
@@ -12958,10 +12618,6 @@ ul.login__never {
     );
 }
 
-/* Night is day's sky with the sun put out (designer, 2026-10-11): the
-   same radiating shape, the darkest navy at the centre in a navy ring, over
-   a deeper blue than day's so no light blue gap opens between the navy and
-   the lime it fades out to behind the rings. */
 .device__display:has(.map-home__greeting[data-sky="night"]) {
   --sky-top-edge: var(--color-sky-night-edge);
   --sky-top-ring: var(--color-sky-night-top-ring);
@@ -13084,10 +12740,6 @@ ul.login__never {
   color: var(--color-text-secondary);
 }
 
-/* With motion allowed, the greeting holds for 5 seconds (designer,
-   2026-10-09), then the date gently takes its place: the greeting lifts and fades out as the date rises and fades in,
-   in the same spot and the same size. Both stay in the page for screen
-   readers. Without motion, the date stays as the line under the greeting. */
 @media (prefers-reduced-motion: no-preference) {
   .map-home__greeting {
     display: grid;
@@ -13287,8 +12939,7 @@ ul.map-rings {
 .map-rings__done { stroke: var(--color-ring-done); }
 .map-rings__track { stroke: var(--color-ring-track); }
 /* Over the sky, the rings not chosen carry a soft light blue glow, every
-   piece and every sky, so they sit on the sky rather than in it (designer,
-   2026-10-11, trial; it was white, which vanished on the pale skies). */
+   piece and every sky, so they sit on the sky rather than in it. */
 .map-home .map-rings__ring:not([aria-pressed="true"]) :is(.map-rings__done, .map-rings__track, .map-rings__fades) {
   filter:
     drop-shadow(0 0 2px color-mix(in srgb, var(--color-ring-lift) 75%, transparent))
@@ -13531,8 +13182,6 @@ ul.map-panel__list {
   gap: var(--space-lg);
 }
 
-/* Sections sit 24px apart; a card straight under another card sits half
-   that, 12px, so stacked cards read as one group (designer, 2026-10-11). */
 .map-home__side > * + * {
   margin-top: var(--space-lg);
 }
@@ -13867,7 +13516,6 @@ ul.card-carousel__track {
   display: flex;
   flex-direction: column;
   gap: var(--space-2xs);
-  /* Save my starting point and Start me at zero are their own group, not one more row (designer, 2026-10-21). */
   margin-top: calc(var(--space-before-actions) - var(--space-md));
 }
 
@@ -14024,13 +13672,7 @@ ul.card-carousel__track {
   font-weight: var(--weight-bold);
 }
 
-/* -----------------------------------------------------------------------------
-   ACTION STEPS (Plan, Sprint 3)
-   Never more than five at once. The limit shows as a count and as free places,
-   never a bar. Horizons differ by structure as well as by label: short-term
-   cards are plain, medium-term has a heavier edge, the long-term milestone sits
-   on the feature surface. Not the Briefing's card pattern.
-   -------------------------------------------------------------------------- */
+/* --- ACTION STEPS (Plan, Sprint 3) --- */
 
 .roadmap__head {
   display: flex;
@@ -14088,9 +13730,6 @@ ul.roadmap__outcomes {
    everything else on a white body below, as the feature card does. */
 .map-home .signal-picture--card.account-card {
   gap: var(--space-md);
-  /* The card's standard foot: the last thing in it sits a feature card's
-     padding (20px) from the bottom, as the next-step card's button does
-     (designer, 2026-10-11). */
   padding: 0 0 var(--space-feature-padding);
   overflow: hidden;
   border: var(--border-width-thin) solid var(--color-border);
@@ -14098,9 +13737,6 @@ ul.roadmap__outcomes {
   background-color: var(--color-surface-raised);
 }
 
-/* Skip for now is a 44px tap target, so its words sit 14px above the
-   button's foot; a short pad leaves them as far from the card's bottom as
-   the title is from its top (designer, 2026-10-10). */
 .map-home .signal-picture--card.account-card:has(form) {
   padding-bottom: var(--space-xs);
 }
@@ -14110,8 +13746,6 @@ ul.roadmap__outcomes {
   background-color: var(--color-surface-inverse);
 }
 
-/* The head is navy with the title in the yellow used on navy, as the
-   next-step card's eyebrow (designer, 2026-10-10). */
 .map-home .signal-picture--card > .account-card__top .account-card__name {
   color: var(--color-accent-on-inverse);
 }
@@ -14125,8 +13759,6 @@ ul.roadmap__outcomes {
   color: var(--color-text-inverse-muted);
 }
 
-/* The note of what has moved is a lime strip straight under the navy head,
-   edge to edge, not a box inside the card (designer, 2026-10-11). */
 .map-home .signal-picture--card > ul.spark {
   margin-inline: 0;
   margin-top: calc(-1 * var(--space-md));
@@ -14175,11 +13807,7 @@ ul.roadmap__outcomes {
   margin-inline: var(--space-feature-padding);
 }
 
-/* -----------------------------------------------------------------------------
-   SIGNAL PICTURE (Plan, Sprint 3)
-   Private, factual, never scored. The source of every item is said in words
-   and carries a mark, so it never rests on colour. No gauges, bars or rings.
-   -------------------------------------------------------------------------- */
+/* --- SIGNAL PICTURE (Plan, Sprint 3) --- */
 .signal-picture {
   display: flex;
   flex-direction: column;
@@ -14220,8 +13848,7 @@ ul.came-of__rows {
 }
 
 /* One card for each thing she did: the step at the top, and what came of it under it, set in and reached
-   by a lime curve from the step, so the step reads as leading to the result (designer, 2026-10-20; a
-   two-column grid with an arrow before). A Default card on the navy page, as Try this. */
+   by a lime curve from the step, so the step reads as leading to the result. A Default card on the navy page, as Try this. */
 .came-of__row {
   display: flex;
   flex-direction: column;
@@ -14279,7 +13906,6 @@ ul.came-of__rows {
   content: "";
   position: absolute;
   left: calc(-1 * var(--space-lg));
-  /* Starts 8 under the step, not 4, so it doesn't touch the title (designer, 2026-10-21). */
   top: calc(-1 * var(--space-xs));
   width: var(--space-md);
   height: calc(var(--space-xs) + 0.5rem);
@@ -14289,8 +13915,6 @@ ul.came-of__rows {
   pointer-events: none;
 }
 
-/* Her words carry her colour, lime; the label over them stays white (designer, 2026-10-21; the label was
-   lime before). */
 .came-of__label {
   color: var(--color-text-inverse);
 }
@@ -14315,7 +13939,6 @@ ul.came-of__rows {
   border-color: var(--color-border-strong);
 }
 
-/* "Nothing reported yet", when she can tap it to report. */
 .came-of__reply--ask {
   min-height: var(--target-min, 2.75rem);
   background: none;
@@ -14378,8 +14001,6 @@ ul.came-of__rows {
   font-weight: var(--weight-semibold);
 }
 
-/* What came of it?, on the drawer system (designer, 2026-10-21): its groups (the question and the thing it
-   asks about, How did it go?, her words, the actions) 24 apart; the privacy line stays with her words. */
 .report-drawer {
   display: flex;
   flex-direction: column;
@@ -14431,9 +14052,6 @@ ul.came-of__rows {
   margin-top: calc(var(--space-before-actions) - var(--space-drawer-groups));
 }
 
-/* Add what you did, on the drawer system (designer, 2026-10-20): no card inside the drawer; its groups (a
-   question, a field, the actions) 24 apart, and a second thing starts under a hairline with its name as a
-   group title. */
 .entry-drawer {
   display: flex;
   flex-direction: column;
@@ -14538,10 +14156,7 @@ ol.entry-drawer__rows {
   gap: var(--space-xs);
 }
 
-/* -----------------------------------------------------------------------------
-   MOMENTUM (Plan, Sprint 3)
-   Counts of real things, in words. No gauge, bar, ring, percentage or streak.
-   -------------------------------------------------------------------------- */
+/* --- MOMENTUM (Plan, Sprint 3) --- */
 .momentum {
   display: flex;
   flex-direction: column;
@@ -14581,7 +14196,7 @@ ol.entry-drawer__rows {
   border-top: var(--border-subtle);
 }
 
-/* The week as a card of its own (designer, 2026-10-15): a moment of joy, held to one card so the
+/* The week as a card of its own: a moment of joy, held to one card so the
    week's circles have quiet behind them. Its color is set where it is shown (the Signal Picture). */
 .momentum__card {
   display: flex;
@@ -14672,7 +14287,6 @@ ol.entry-drawer__rows {
   gap: var(--space-lg);
   max-width: var(--content-measure);
   margin-inline: auto;
-  /* Room under the last section, so it doesn't sit tight on Ask or go (designer, 2026-10-20). */
   padding-bottom: var(--space-2xl);
 }
 
@@ -14727,9 +14341,6 @@ ol.entry-drawer__rows {
   grid-column: 2;
 }
 
-/* Signal Picture Concept 2 on the web (option C, 2026-10-08): this week and the next move side by side
-   across the top, then what came of it, the wider, beside where she started. What ExecHQ added for her
-   reads as one list rather than a card each. */
 [data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) {
   max-width: 65rem;
   column-gap: var(--space-2xl);
@@ -14798,9 +14409,6 @@ ol.entry-drawer__rows {
   grid-column: 1 / -1;
 }
 
-/* Her first visit on the web (option 1, 2026-10-08): the starting point has the width, as a two-column
-   form. What to read and type, and the LinkedIn export, on the left; what to count and the buttons on the
-   right. Once she saves, the page has its usual two columns again. */
 [data-viewport="web"] .signals-page:has(> .signals-page__main:empty):not(:where([data-viewport="mobile"] *)) .baseline-form {
   display: grid;
   grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
@@ -14831,21 +14439,8 @@ ol.entry-drawer__rows {
   grid-row: 1 / span 2;
 }
 
-/* --- The Signal Picture's color (designer, 2026-10-15) ----------------------
-   Built on Home's way with color: the stone page, white cards with a faint
-   outline, and one strong navy moment. Here that moment is Momentum, a navy
-   card where the days she did something light up in lime, her color. Sky
-   blue is what ExecHQ wrote for her (her next move, Try this), with a navy
-   button, never yellow on light blue. Scoped to the page, so Home and Plan,
-   which share these pieces, keep their look until this one is settled.
+/* --- The Signal Picture's color --- */
 
-   Type: Kulim is for the title and section headings only. Every smaller
-   label takes an Inter role: group titles in small capitals, card titles in
-   Inter semibold. */
-
-/* The Signal Picture on navy, as the Plan (designer, 2026-10-18): the page takes the inverse set, every
-   headline is yellow, and its white cards take the light set back (with the Plan's, above). The app's
-   frame around it only takes the colour, so a sheet opening over it stays light. */
 .chrome:has(.signals-page) {
   background-color: var(--color-surface-inverse);
 }
@@ -14881,8 +14476,7 @@ ol.entry-drawer__rows {
 }
 
 /* The homepage's hairline under an account card divides it from what follows. On the Signal Picture it
-   ends the page with nothing under it, so the page finishes on Upload my LinkedIn export (designer,
-   2026-10-20). */
+   ends the page with nothing under it, so the page finishes on Upload my LinkedIn export. */
 .signals-page .account-card:not(.presence-card):last-child {
   padding-bottom: 0;
   border-bottom: 0;
@@ -14927,8 +14521,6 @@ ol.entry-drawer__rows {
   border-top: 0;
 }
 
-/* Under the view of her export, the upload is its footnote: small words, the link close under them, no
-   heading of its own (designer, 2026-10-21). */
 .linkedin-more--footnote {
   gap: 0;
 }
@@ -14949,8 +14541,6 @@ ol.entry-drawer__rows {
   margin-top: calc(var(--space-copy-action) - var(--space-xs));
 }
 
-/* A button inside a card sits at its right edge, under the right thumb, unless it is full width
-   (designer, 2026-10-20). */
 .signals-page :is(.presence-clean__try > .btn, .presence-clean__add) {
   align-self: flex-end;
 }
@@ -14975,7 +14565,7 @@ ol.entry-drawer__rows {
   border-color: var(--color-surface-her-band);
   background-color: var(--color-surface-her-band);
   color: var(--color-text-on-her-band);
-  /* Half the gap between days, so the halo never reaches the next circle (designer, 2026-10-18). */
+  /* Half the gap between days, so the halo never reaches the next circle. */
   box-shadow: 0 0 0 var(--space-2xs) var(--color-her-halo);
 }
 
@@ -14984,12 +14574,10 @@ ol.entry-drawer__rows {
   stroke-width: 3;
 }
 
-/* The weekday letters sit a little further under their circles (designer, 2026-10-18). */
 .signals-page .momentum__card .day-circles {
   gap: var(--space-sm);
 }
 
-/* This week and what she did share a line; the circles get more room under them (designer, 2026-10-18). */
 .momentum__week-head {
   display: flex;
   flex-wrap: wrap;
@@ -15006,7 +14594,7 @@ ol.entry-drawer__rows {
   gap: var(--space-lg);
 }
 
-/* Her next move, at the foot of Momentum's card under a quiet rule (designer, 2026-10-18). It was a light
+/* Her next move, at the foot of Momentum's card under a quiet rule. It was a light
    blue card of its own, which on the navy page outranked Momentum; the spec has it as part of Momentum.
    On the card's navy its button takes the action yellow. */
 .momentum__next {
@@ -15043,7 +14631,6 @@ ol.entry-drawer__rows {
 
 .momentum__next .btn {
   margin-top: var(--space-xs);
-  /* Start sits on the right, under the right thumb (designer, 2026-10-20). */
   align-self: flex-end;
 }
 
@@ -15051,8 +14638,6 @@ ol.entry-drawer__rows {
   --color-eyebrow: var(--color-eyebrow-on-inverse);
 }
 
-/* Today's ring is a gradient, 2px out from the circle's own line: the day sky's colours running round it
-   (designer, 2026-10-20; a 1.5px white ring before). The ring is a masked layer, so it can carry a gradient. */
 .signals-page .momentum__card .day-circles__dot.is-today:not(.is-on) {
   position: relative;
 }
@@ -15070,15 +14655,11 @@ ol.entry-drawer__rows {
   pointer-events: none;
 }
 
-/* A day she logged is a small day sky (designer, 2026-10-20; flat lime before). */
 .signals-page .momentum__card .day-circles__dot.is-on {
   background: var(--surface-her-day);
   border-color: transparent;
 }
 
-/* Try this is a Default card on the navy page: darker navy, light words, the yellow action (designer,
-   2026-10-18: the four card levels). Light blue is not a card colour on navy; what ExecHQ wrote for her is
-   marked by a small sky dot before its label, here and on Your next move. */
 .signals-page .presence-clean__try {
   border-color: var(--color-border-inverse);
   background-color: var(--color-surface-quiet-on-inverse);
@@ -15129,11 +14710,7 @@ ol.entry-drawer__rows {
   color: var(--color-eyebrow);
 }
 
-/* -----------------------------------------------------------------------------
-   THE ROADMAP AS AN AGENDA (Plan, Concept 1)
-   Stages stacked as cards with their periods and what she has inside them.
-   Position is carried by words ("You are here", "Done"), never colour alone.
-   -------------------------------------------------------------------------- */
+/* --- THE ROADMAP AS AN AGENDA (Plan, Concept 1) --- */
 .rtl {
   display: flex;
   flex-direction: column;
@@ -15667,14 +15244,9 @@ ol.rtl__rail::before {
 
 /* When, as a plain line under the glance: a label and its words, no container. */
 
-/* The questions she can ask about the step (Concept 1, 2026-10-07): a 2 × 3 grid of equal tiles,
-   each opening the chat on its answer. */
-
 /* A quiet text link on the next-step card, so the step's title stays the loudest thing. */
 
-/* -----------------------------------------------------------------------------
-   THE PLAN DETAIL (the sheet See your plan opens)
-   -------------------------------------------------------------------------- */
+/* --- THE PLAN DETAIL (the sheet See your plan opens) --- */
 /* Plan Concept 3: the road under the move, her direction above the roadmap. */
 .plan-road {
   display: flex;
@@ -15682,13 +15254,6 @@ ol.rtl__rail::before {
   gap: var(--space-lg);
 }
 
-/* Plan Concept 3: her direction above the road, in full, in the system's
-   white card (designer, 2026-10-13). It only reads: no chevron, no button. */
-/* Your direction is her own sentence, so its label carries her colour: a lime header with dark green
-   words over a white body with her words, held by the same stone 250 edge as every card. The same card on
-   the stone sheet and on the navy page, where the white body takes the light-surface text (designer,
-   2026-10-20; a full lime card from 2026-10-15). Lime cards, as a flood or a header, always take this
-   stroke. */
 .plan-direction {
   display: flex;
   flex-direction: column;
@@ -15716,17 +15281,16 @@ ol.rtl__rail::before {
 
 .plan-direction__quote {
   padding: var(--space-sm) var(--space-card-padding) var(--space-card-padding);
-  /* Never cut off with an ellipsis: the words wrap (designer, 2026-10-13). */
+  /* Never cut off with an ellipsis: the words wrap. */
   font-family: var(--font-serif);
   font-size: var(--text-sm-plus);
   /* Two steps heavier than the serif's regular, so her direction holds its own, and a touch smaller so the
-     weight doesn't make it loud (designer, 2026-10-16). */
+     weight doesn't make it loud. */
   font-weight: var(--weight-semibold);
   line-height: var(--leading-normal);
   overflow-wrap: anywhere;
 }
 
-/* "See your plan" beside the roadmap's heading: opens the plan detail. */
 .plan-detail-link {
   display: inline-flex;
   flex: none;
@@ -15759,9 +15323,6 @@ ol.rtl__rail::before {
   border-radius: var(--radius-xs);
 }
 
-/* See your plan, on the system (designer, 2026-10-16): its groups 24 apart and 12 inside, section titles
-   as the group title Why this matters uses, the stages as one strip-header card with hairline rows, and
-   her direction in the Plan's own card. */
 .plan-detail {
   display: flex;
   flex-direction: column;
@@ -15828,7 +15389,6 @@ ol.plan-detail__stages {
   display: flex;
   align-items: baseline;
   gap: var(--space-sm);
-  /* Rows split by hairlines take the standard 20 either side of the line (designer, 2026-10-20; was 12). */
   padding-block: var(--space-divided-item);
   border-top: var(--border-subtle);
   font-size: var(--text-sm);
@@ -15880,11 +15440,7 @@ ol.plan-detail__stages {
   gap: var(--space-sm);
 }
 
-/* -----------------------------------------------------------------------------
-   THE AGENDA (Plan, Concept 2)
-   A drawer for each stage and only the one she is on open. Headings sets each stage as a big
-   name on a line; Stack sets them as overlapping cards in the stage colours.
-   -------------------------------------------------------------------------- */
+/* --- THE AGENDA (Plan, Concept 2) --- */
 .agenda {
   display: flex;
   flex-direction: column;
@@ -16069,7 +15625,7 @@ ul.agenda__list {
   gap: var(--space-md);
 }
 
-/* The start button in the roadmap is the light blue pill at full width (designer, 2026-10-14): the
+/* The start button in the roadmap is the light blue pill at full width: the
    move above already leads with the yellow one, so here colour stays quiet and width says it comes first.
    The questions under it are smaller, so the order reads without a second loud colour. The button has
    room of its own above and below, apart from the step's title and from the questions. */
@@ -16091,12 +15647,10 @@ ul.agenda__ask-list {
 
 /* The questions about a step open the chat, so they keep the chat's prompt shape and the advisor's mark,
    sized to their words and wrapping. They are the same on every step, so they are quiet: the quiet surface, the small
-   size (about 32px), second to the blue start button, which is what changes from step to step
-   (designer, 2026-10-14). An invisible band keeps each one 44px to tap. */
+   size (about 32px), second to the blue start button, which is what changes from step to step. An invisible band keeps each one 44px to tap. */
 .agenda__ask-list {
   display: flex;
   flex-wrap: wrap;
-  /* A little more than 8px between the pills (designer, 2026-10-14). */
   gap: var(--space-sm);
 }
 
@@ -16245,9 +15799,6 @@ fieldset.agenda__whens {
   isolation: isolate;
 }
 
-/* The stages in full colour (designer, 2026-10-13), from tokens.css, each card
-   overlapping the foot of the one before. Light cards take the ink and a deep eyebrow of their own hue;
-   dark cards take white and a pale one. */
 .agenda--stack .agenda__stage {
   position: relative;
   margin-top: calc(var(--space-md) * -1);
@@ -16264,7 +15815,6 @@ fieldset.agenda__whens {
   border-radius: var(--radius-xl);
 }
 
-/* Navy in descending shades, stage 1 the darkest, with white words (designer, 2026-10-14). */
 .agenda--stack .agenda__stage { --stage-ink: var(--color-text-inverse); --stage-eyebrow: var(--color-text-inverse); }
 .agenda--stack .agenda__stage--0 { background-color: var(--color-stage-1); z-index: 1; }
 .agenda--stack .agenda__stage--1 { background-color: var(--color-stage-2); z-index: 2; }
@@ -16276,7 +15826,6 @@ fieldset.agenda__whens {
   flex-direction: column;
   align-items: stretch;
   gap: var(--space-xs);
-  /* More of each closed stage shows under the next, so each reads as its own drawer (designer, 2026-10-14). */
   padding: var(--space-lg) var(--space-md) var(--space-2xl);
   /* The ring takes the card's own ink, so it shows on every stage colour. */
   --focus-ring: var(--focus-ring-width) solid var(--stage-ink);
@@ -16311,7 +15860,6 @@ fieldset.agenda__whens {
   background: none;
 }
 
-/* The stage's name in the Card title role, a size up at 18px now each stage has more room (designer, 2026-10-14). */
 .agenda--stack .agenda__stage-name {
   display: block;
   font-family: var(--type-card-title-font);
@@ -16336,14 +15884,12 @@ fieldset.agenda__whens {
   padding-bottom: var(--space-sm);
 }
 
-/* Two-tone, as Feature card pattern D (designer, 2026-10-14): the stage's colour holds only its eyebrow
+/* Two-tone, as Feature card pattern D: the stage's colour holds only its eyebrow
    and name; the open stage's body is white, with Finishing looks like and the steps as rows split by
    hairlines. One card, never a card inside it. The next stage overlaps the foot of this body by
    --space-md, so the body keeps that much more room under its last row. */
 .agenda--stack .agenda__body {
   gap: var(--space-xs);
-  /* With the last step's own padding and the next card over the foot, 24 here leaves 24 under the last
-     step's words, the same as above the next card's Stage 2 of 4 (designer, 2026-10-20; was 12). */
   padding: var(--space-md) var(--space-md) var(--space-lg);
   background-color: var(--color-surface-raised);
   box-shadow: inset var(--border-width-thin) 0 0 var(--color-border-subtle), inset calc(var(--border-width-thin) * -1) 0 0 var(--color-border-subtle);
@@ -16415,7 +15961,6 @@ fieldset.agenda__whens {
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  /* The time stands out in the eyebrow blue, as every eyebrow on the page does (designer, 2026-10-14). */
   color: var(--color-eyebrow);
 }
 
@@ -16424,7 +15969,6 @@ fieldset.agenda__whens {
   font-family: var(--font-body);
   word-spacing: normal;
   font-size: var(--text-sm);
-  /* Semibold, so each step holds its own under the stage's name (designer, 2026-10-14). */
   font-weight: var(--weight-semibold);
   line-height: var(--leading-snug);
   text-wrap: pretty;
@@ -16446,11 +15990,7 @@ fieldset.agenda__whens {
   letter-spacing: var(--tracking-label);
 }
 
-/* -----------------------------------------------------------------------------
-   THE GUIDED CHECK-IN (Plan, Concept 3)
-   Onboarding's page and drawer, used for the Plan. The page fills the screen, so the floating pill
-   sits below the drawer, in the room the chrome keeps for it.
-   -------------------------------------------------------------------------- */
+/* --- THE GUIDED CHECK-IN (Plan, Concept 3) --- */
 .device__screen:has(.concierge-host) .chrome__main:has(> .plan-guided) {
   padding-bottom: var(--space-4xl);
 }
@@ -16500,10 +16040,6 @@ fieldset.agenda__whens {
   align-self: flex-start;
 }
 
-/* Plan Concept 3 on the web (option B, 2026-10-08): the page and its answers read top to bottom on the
-   left, and her direction with the roadmap sits on the right, sticky, the same on every page, the
-   stage check-in included, so nothing moves from one page to the next. The page's own parts become the
-   grid's items; the answers lose the card and read as part of the page, under their question. */
 [data-viewport="web"] .guide.plan-guided:not(:where([data-viewport="mobile"] *)) {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 26rem;
@@ -16566,8 +16102,8 @@ fieldset.agenda__whens {
   flex: 1 1 auto;
 }
 
-/* The Plan's answer drawer is navy on a phone and a tablet (designer, 2026-10-13), and onboarding's too
-   wherever its question sits in a sky panel (2026-10-14), so the question
+/* The Plan's answer drawer is navy on a phone and a tablet, and onboarding's too
+   wherever its question sits in a sky panel, so the question
    about this move reads apart from the page: the yellow start button, white answers, light words. Its
    handle folds it to the peek bar, which shows the roadmap under the move. On the web the answers are
    part of the page. */
@@ -16608,7 +16144,6 @@ fieldset.agenda__whens {
   color: var(--color-text-inverse);
 }
 
-/* The email code's small lines and Send it again, on the navy: the same light ink (designer, 2026-10-15). */
 :is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer :is(.login__small, .login__link) {
   color: var(--color-text-inverse);
 }
@@ -16624,8 +16159,6 @@ fieldset.agenda__whens {
   border-color: var(--color-surface-active);
   font-weight: var(--weight-semibold);
 }
-/* The Plan's stone drawer follows the formula, not the navy drawer: a selected white answer turns navy
-   with light words (designer, 2026-10-16). */
 :is([data-viewport="mobile"], [data-viewport="tablet"]) .guide.guide--navy.plan-guided .answer-drawer .chip-group__chip[aria-pressed="true"] {
   color: var(--color-text-on-selected);
   background-color: var(--color-selected);
@@ -16643,10 +16176,6 @@ fieldset.agenda__whens {
   --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
 }
 
-/* Onboarding's cards take Home's colour (designer, 2026-10-15). The recommendation's "This plan is for" and
-   Your plan's "Built from what you said" ride in the light blue band Home's check-in card carries its
-   context in, navy on blue 200 (11.3:1). The first draft is the Briefing's dark green: something of hers
-   to read, apart from the navy around it. */
 .recommendation {
   overflow: hidden;
 }
@@ -16655,7 +16184,6 @@ fieldset.agenda__whens {
   order: -1;
   margin: calc(-1 * var(--space-card-padding)) calc(-1 * var(--space-card-padding)) var(--space-xs);
   padding: var(--space-sm) var(--space-card-padding);
-  /* ExecHQ describing the plan to her: written for her, so sky blue (designer, 2026-10-15). */
   background-color: var(--color-surface-for-her);
   color: var(--color-text-on-for-her);
 }
@@ -16665,7 +16193,7 @@ fieldset.agenda__whens {
 }
 
 /* Built from what you said is her own answers, so its header carries her colour: lime with dark
-   green words (designer, 2026-10-15; light blue before). The card's edge runs on around the header,
+   green words. The card's edge runs on around the header,
    so the two read as one piece. */
 .guide__heard-rows > .guide__yours-label {
   padding: var(--space-sm) var(--space-card-padding);
@@ -16682,8 +16210,7 @@ fieldset.agenda__whens {
   border-top-right-radius: 0;
 }
 
-/* The first draft is written for her to use, so it is sky blue with navy words (designer,
-   2026-10-15; dark green before). Its tokens remap so the label, edit link and edit field follow. */
+/* The first draft is written for her to use, so it is sky blue with navy words. Its tokens remap so the label, edit link and edit field follow. */
 .story-draft__card {
   --color-surface-raised: var(--color-surface-for-her);
   --color-text-primary: var(--color-text-on-for-her);
@@ -16703,13 +16230,9 @@ fieldset.agenda__whens {
   color: var(--color-eyebrow);
 }
 
-/* The sky panel (designer, 2026-10-14): on onboarding's and the Plan's guided pages the question (its
-   eyebrow, heading and line) sits in its own panel of the sky Home shows at this hour. The glow rises
-   from the panel's bottom-right corner; Why this matters stays on the page. Dawn and day take the ink,
-   dusk and night white. The line under the heading has the same room above it as below. */
 .guide__head--sky {
   /* Where the sky's glow sits. Each onboarding question moves it to another corner, so the yellow heart is
-     not in the same place screen after screen (designer, 2026-10-15). */
+     not in the same place screen after screen. */
   --sky-glow-at: 100% 100%;
   margin-inline: calc(var(--space-sm) * -1);
   padding: var(--space-lg) var(--space-md);
@@ -16718,7 +16241,6 @@ fieldset.agenda__whens {
   --sky-panel-soft: var(--color-text-secondary);
 }
 
-/* The Plan's moves: the sky panel's place and shape in plain navy, its headline lime (designer, 2026-10-15). */
 .guide__head--navy-panel {
   --sky-panel-ink: var(--color-text-inverse);
   --sky-panel-soft: var(--color-text-inverse);
@@ -16754,7 +16276,7 @@ fieldset.agenda__whens {
 .guide__head--sky .guide__title {
   font-size: var(--text-2xl-plus);
   /* Each line as full as it fits, so a headline never opens on a short line ("Brief your" alone), and a
-     lone last word is allowed rather than a gap (designer, 2026-10-16). */
+     lone last word is allowed rather than a gap. */
   text-wrap: wrap;
   color: var(--sky-panel-ink);
 }
@@ -16778,7 +16300,7 @@ fieldset.agenda__whens {
     linear-gradient(in oklab, var(--color-sky-day), color-mix(in oklab, var(--color-sky-day) 70%, var(--color-surface-raised)));
 }
 
-/* Dusk (designer, 2026-10-15): a peach heart that walks through rose and violet into a deep blue sky,
+/* Dusk: a peach heart that walks through rose and violet into a deep blue sky,
    instead of blending straight to grey. Its centre sits just past the panel's edge, so the warm part stays
    off the words; the glow keeps to the right corners, bottom right where the page names it and top right
    otherwise. White words pass AA over every part of it (5.6:1 or more, measured). */
@@ -16803,8 +16325,8 @@ fieldset.agenda__whens {
   --sky-glow-at: 106% 112%;
 }
 
-/* Night keeps a touch of Home's lime horizon (designer, 2026-10-14), a deeper green on the panel so the white
-   words pass (2026-10-15): a soft green ring round the blue spark, held to the right corners. */
+/* Night keeps a touch of Home's lime horizon, a deeper green on the panel so the white
+   words pass: a soft green ring round the blue spark, held to the right corners. */
 .guide__head--sky[data-sky="night"] {
   --sky-panel-ink: var(--color-text-inverse);
   --sky-panel-soft: var(--color-text-inverse);
@@ -16819,11 +16341,7 @@ fieldset.agenda__whens {
   --sky-glow-at: 100% 0%;
 }
 
-/* The roadmap under the move: a hairline divides the move above, which asks, from her direction and the
-   roadmap below, which are there for reference (designer, 2026-10-14). */
 .plan-guided .guide__after {
-  /* With the page's own 24 gap, 32 from the last thing above (Why this matters, or Next) to the line
-     (designer, 2026-10-20; was 56). */
   margin-top: calc(var(--space-xl) - var(--space-lg));
   padding-top: var(--space-xl);
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
@@ -16915,7 +16433,6 @@ fieldset.agenda__whens {
   list-style: none;
 }
 
-/* Stone with the faint edge (designer, 2026-10-16; white earlier the same day, light blue before). */
 .stage-checkin__thing {
   display: flex;
   flex-direction: column;
@@ -16932,7 +16449,6 @@ fieldset.agenda__whens {
   justify-content: space-between;
   align-items: baseline;
   gap: var(--space-sm);
-  /* 8px under the eyebrow line, with the card's own 4 (designer, 2026-10-16). */
   margin-bottom: var(--space-2xs);
 }
 
@@ -16954,8 +16470,7 @@ fieldset.agenda__whens {
   line-height: var(--leading-snug);
 }
 
-/* Where something she added ran: a detail under the title, Inter regular, so the title is the read
-   (designer, 2026-10-16). */
+/* Where something she added ran: a detail under the title, Inter regular, so the title is the read. */
 .stage-checkin__detail {
   font-size: var(--text-sm);
   font-weight: var(--weight-regular);
@@ -16965,7 +16480,7 @@ fieldset.agenda__whens {
 
 /* What came of it, on one run of text under the title: the verdict is the main read; her own words follow
    in Libre at the same 14px, its medium weight, in grey, so they are there if she wants them and never
-   compete (designer, 2026-10-16). */
+   compete. */
 .stage-checkin__said {
   margin-top: var(--space-2xs);
   font-size: var(--text-sm);
@@ -16974,7 +16489,7 @@ fieldset.agenda__whens {
 }
 
 .stage-checkin__tone {
-  /* A step up from her words beside it, so the verdict leads (designer, 2026-10-16). */
+  /* A step up from her words beside it, so the verdict leads. */
   font-size: var(--text-sm-plus);
   font-weight: var(--weight-semibold);
 }
@@ -17029,8 +16544,6 @@ fieldset.agenda__whens {
   line-height: var(--leading-normal);
 }
 
-/* Why not? is a section title, as Why this matters is: the group title, uppercase, and yellow on the navy
-   Plan (designer, 2026-10-16). */
 .plan-guided__reasons .chip-group__label {
   font-family: var(--type-group-title-font);
   font-size: var(--type-group-title-size);
@@ -17052,7 +16565,6 @@ fieldset.agenda__whens {
   gap: var(--space-sm);
 }
 
-/* Skip, no reason sits a drawer group's 24 under the reasons, so it isn't hit by mistake (designer, 2026-10-20). */
 .plan-guided__reasons > .link {
   margin-top: calc(var(--space-drawer-groups) - var(--space-sm));
 }
@@ -17076,7 +16588,6 @@ ul.plan-guided__sparks {
   padding: 0 var(--space-feature-padding);
 }
 
-/* Each change on its own line, split by hairlines, with nothing that looks tappable (designer, 2026-10-16). */
 .plan-guided__sparks li {
   padding-block: var(--space-divided-item);
   border-top: var(--border-subtle);
@@ -17088,12 +16599,7 @@ ul.plan-guided__sparks {
   border-top: 0;
 }
 
-/* -----------------------------------------------------------------------------
-   YOUR LINKEDIN, FROM YOUR EXPORT (Signals)
-   Three rows, each a figure with its shape in miniature. Tap one and its full
-   chart opens beneath it; one is open at a time. One hue throughout. Marks are
-   thin, the grid is a hairline, text wears text tokens.
-   -------------------------------------------------------------------------- */
+/* --- YOUR LINKEDIN, FROM YOUR EXPORT (Signals) --- */
 .li-picture {
   display: flex;
   flex-direction: column;
@@ -17124,9 +16630,6 @@ ul.plan-guided__sparks {
 }
 
 .li-figures {
-  /* The four totals in one row, the card's lime header: her own figures in her colour, as Your direction's
-     header is (designer, 2026-10-21). Edge to edge across the card's top, the first at the left padding and the
-     last at the right, each centred on its number, the card's edge under it as Your direction's has. */
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -17182,8 +16685,6 @@ ul.plan-guided__sparks {
 .li-group {
   display: flex;
   flex-direction: column;
-  /* A title over a list: the card-title step (20), wider than a group title's 12, so it reads as over every
-     row, not just the first (designer, 2026-10-21). */
   gap: var(--space-card-title);
 }
 
@@ -17232,7 +16733,6 @@ ul.li-shares {
 .li-post__title {
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
-  /* A step more room between lines, so a wrapped title and its underline breathe (designer, 2026-10-21). */
   line-height: var(--leading-normal);
 }
 
@@ -17245,7 +16745,6 @@ ul.li-shares {
   display: inline-block;
   margin-left: var(--space-2xs);
   vertical-align: -0.15em;
-  /* Quiet: the underline says it is a link; the icon only adds that it leaves (designer, 2026-10-21). */
   color: var(--color-text-muted);
 }
 
@@ -17268,8 +16767,7 @@ ul.li-shares {
   position: relative;
   height: var(--space-2xs);
   border-radius: var(--radius-pill);
-  /* The stone track the progress rings use, so the navy share reads against white; the lime was too light
-     (designer, 2026-10-21). */
+  /* The stone track the progress rings use, so the navy share reads against white; the lime was too light. */
   background-color: var(--color-ring-track);
 }
 
@@ -17292,13 +16790,7 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
-/* -----------------------------------------------------------------------------
-   SELECTED STEPS UP A WEIGHT (designer, 2026-10-11)
-   Across the product, the label of whatever is chosen or current — a ring,
-   a chip, a nav item, a step — steps up to bold, so the choice is said by
-   the type as well as by colour. Each label sits in .u-bold-hold, which
-   holds its bold width in reserve, so nothing shifts when the choice moves.
-   -------------------------------------------------------------------------- */
+/* --- SELECTED STEPS UP A WEIGHT --- */
 .u-bold-hold {
   display: inline-grid;
   /* Its baseline comes from the hidden bold copy, which has no height, so
@@ -17323,12 +16815,7 @@ ul.li-shares {
   font-weight: var(--weight-bold);
 }
 
-/* ===========================================================================
-   DAILY BRIEFING (Sprint 4)
-   Three reads, each with why it is here. Its own pattern, never a plan
-   step's: no horizon, effort or done state. The lead read on the front page
-   is the Briefing's dark card, as on the homepage.
-   ======================================================================== */
+/* --- DAILY BRIEFING (Sprint 4) --- */
 
 .briefing-page {
   display: flex;
@@ -17338,7 +16825,6 @@ ul.li-shares {
   margin-inline: auto;
 }
 
-/* The title and date, with Saved at the top right (14 Oct). */
 .briefing-page__header {
   display: flex;
   align-items: flex-start;
@@ -17422,7 +16908,7 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
-/* --- A read --------------------------------------------------------------- */
+/* --- A read --- */
 
 .brief-read {
   display: flex;
@@ -17590,7 +17076,7 @@ ul.li-shares {
   gap: var(--space-sm);
 }
 
-/* --- What she can do with a read --------------------------------------- */
+/* --- What she can do with a read --- */
 
 .read-actions {
   display: flex;
@@ -17705,7 +17191,7 @@ ul.li-shares {
   cursor: pointer;
 }
 
-/* --- Write a post about this (RespondLink) ------------------------------- */
+/* --- Write a post about this (RespondLink) --- */
 
 .respond-link {
   display: flex;
@@ -17756,7 +17242,7 @@ ul.li-shares {
   color: var(--color-text-muted);
 }
 
-/* --- A read, opened ----------------------------------------------------- */
+/* --- A read, opened --- */
 
 .brief-reader {
   display: flex;
@@ -17829,7 +17315,7 @@ ul.li-shares {
   color: var(--color-text-muted);
 }
 
-/* --- An article read in ExecHQ, with ExecHQ's notes (Concept 2) ---------- */
+/* --- An article read in ExecHQ, with ExecHQ's notes (Concept 2) --- */
 
 [data-viewport="web"] .briefing-page--news.briefing-page--reading {
   max-width: 62rem;
@@ -17936,7 +17422,7 @@ ul.li-shares {
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
-/* --- Publishers ----------------------------------------------------------- */
+/* --- Publishers --- */
 
 .publisher-picker {
   display: flex;
@@ -18006,7 +17492,6 @@ ul.li-shares {
   gap: var(--space-lg);
 }
 
-/* Each group: its title, then a white card of rows (designer, 2026-10-15). */
 .publisher-picker__group {
   display: flex;
   flex-direction: column;
@@ -18052,8 +17537,6 @@ ul.li-shares {
   border: 0;
   background-color: transparent;
   color: var(--color-text-primary);
-  /* The label role, 14px: the list will grow, so each row stays compact
-     (designer, 2026-10-15). */
   font-family: var(--type-label-font);
   font-size: var(--type-label-size);
   font-weight: var(--type-label-weight);
@@ -18116,7 +17599,7 @@ ul.li-shares {
   max-width: 36rem;
 }
 
-/* --- The end of the day's set --------------------------------------------- */
+/* --- The end of the day's set --- */
 
 .brief-end {
   display: flex;
@@ -18163,7 +17646,7 @@ ul.li-shares {
   font-weight: var(--weight-regular);
 }
 
-/* --- Concept 1: front page ------------------------------------------------- */
+/* --- Concept 1: front page --- */
 
 .briefing-front {
   display: flex;
@@ -18226,7 +17709,7 @@ ul.li-shares {
   border-radius: var(--radius-xs);
 }
 
-/* --- Where a draft came from ----------------------------------------------- */
+/* --- Where a draft came from --- */
 
 .source-label {
   display: flex;
@@ -18266,7 +17749,7 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
-/* --- Saved reads: their own page (option B, 14 Oct) ----------------------- */
+/* --- Saved reads: their own page --- */
 
 .saved-page {
   display: flex;
@@ -18433,13 +17916,9 @@ ul.li-shares {
   overflow-y: auto;
 }
 
-/* ===========================================================================
-   PLAYBOOK: THE SHARED WORKFLOW (Sprint 4)
-   One pattern for all four tools: use case, inputs, draft, revise, versions,
-   copy or export. The tools differ in words, not in these parts.
-   ======================================================================== */
+/* --- PLAYBOOK: THE SHARED WORKFLOW (Sprint 4) --- */
 
-/* --- Use case ------------------------------------------------------------- */
+/* --- Use case --- */
 
 .tool-use-case {
   display: flex;
@@ -18493,10 +17972,6 @@ ul.li-shares {
   min-width: 0;
 }
 
-/* The page recipe's gaps on the start screen (designer, 2026-10-28; all
-   were 12): copy to a card under it 16, a card or the copy to the question
-   under it as a new group 24, and 24 above the start button, as actions
-   always get. */
 .tool-use-case__decide > :is(p, .tool-use-case__plan) + :is(.tool-flow__carried, .tool-flow__refresh) {
   margin-top: calc(var(--space-copy-card) - var(--space-sm));
 }
@@ -18664,7 +18139,7 @@ ul.li-shares {
   text-transform: uppercase;
 }
 
-/* --- Inputs ---------------------------------------------------------------- */
+/* --- Inputs --- */
 
 .input-panel {
   display: flex;
@@ -18791,7 +18266,7 @@ ul.li-shares {
   text-align: center;
 }
 
-/* --- Enricher -------------------------------------------------------------- */
+/* --- Enricher --- */
 
 .enricher {
   display: flex;
@@ -18835,7 +18310,7 @@ ul.li-shares {
   font-size: var(--text-sm);
 }
 
-/* --- Where a pitch goes ----------------------------------------------------- */
+/* --- Where a pitch goes --- */
 
 .outlet-card {
   display: flex;
@@ -18971,7 +18446,7 @@ ul.li-shares {
   margin-top: var(--space-3xs);
 }
 
-/* --- Send it in four steps ------------------------------------------------- */
+/* --- Send it in four steps --- */
 
 .send-steps {
   display: flex;
@@ -19091,7 +18566,7 @@ ul.li-shares {
   gap: var(--space-xs);
 }
 
-/* --- Not sure yet: outlets that fit ---------------------------------------- */
+/* --- Not sure yet: outlets that fit --- */
 
 .outlet-suggest {
   display: flex;
@@ -19206,7 +18681,7 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
-/* --- The draft ------------------------------------------------------------- */
+/* --- The draft --- */
 
 .draft-editor {
   display: flex;
@@ -19240,10 +18715,6 @@ ul.li-shares {
   gap: var(--space-sm);
 }
 
-/* Actions is the standard dropdown, the one size every dropdown takes
-   (designer, 2026-10-28; Kate's 13 Oct 32px version fitted the old status
-   line, which it no longer shares). */
-
 .draft-editor__intro {
   margin: 0;
   color: var(--color-text-secondary);
@@ -19253,24 +18724,16 @@ ul.li-shares {
 .draft-editor__legend {
   display: flex;
   flex-wrap: wrap;
-  /* One line: the three side by side, 8 apart, so they fit a phone's width
-   (designer, 2026-10-28); a narrower screen wraps them. */
+  /* One line: the three side by side, 8 apart, so they fit a phone's width; a narrower screen wraps them. */
   gap: var(--space-2xs) var(--space-xs);
   margin: 0;
   padding: 0;
   list-style: none;
-  /* The key at the intro's size, its samples too, so it reads as part of
-     the intro and not a third style (designer, 2026-10-28; 12px words beside
-     14px samples). */
   font-size: var(--type-body-sm-size);
   line-height: var(--type-body-sm-leading);
   color: var(--color-text-secondary);
 }
 
-/* Only "Needs answer" shows: the one mark that asks her to act. Her words
-   and ExecHQ's are told apart by upright and italic, and screen readers
-   still hear "ExecHQ:" before its words (designer, 2026-10-28; to discuss
-   with Kate). */
 .draft-editor__key--you,
 .draft-editor__key--exechq {
   display: none;
@@ -19314,7 +18777,7 @@ ul.li-shares {
 }
 
 /* Inside the draft card the body is open, not a second card: never a card
-   inside a card (designer, 2026-10-28). Its sections keep the hairlines. */
+   inside a card. Its sections keep the hairlines. */
 .pinned-draft .draft-editor__body {
   padding: 0;
   border: 0;
@@ -19326,24 +18789,18 @@ ul.li-shares {
   opacity: 0.5;
 }
 
-/* The part's name to its words: the group-title gap, a label over what it
-   names (designer, 2026-10-28; was 4, then 8). */
 .draft-editor__section {
   display: flex;
   flex-direction: column;
   gap: var(--space-group-title);
 }
 
-/* Sections split by hairlines take the divided-row space either side, as
-   every divided list does (designer, 2026-10-28; was 16 under the line). */
 .draft-editor__section + .draft-editor__section {
   margin-top: calc(var(--space-divided-item) - var(--space-md));
   padding-top: var(--space-divided-item);
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
-/* The part's name sits at the card's top padding, not centred in a 44px
-   row (designer, 2026-10-28). */
 .draft-editor__section-head {
   display: flex;
   align-items: center;
@@ -19376,8 +18833,7 @@ ul.li-shares {
 }
 
 /* Each part's name is a read's label: a grey eyebrow naming what is
-   under it, Inter, never the display face (designer, 2026-10-28; it fell
-   to Kulim as a heading). */
+   under it, Inter, never the display face. */
 .draft-editor__section-heading {
   margin: 0;
   font-family: var(--type-eyebrow-font);
@@ -19387,14 +18843,10 @@ ul.li-shares {
   letter-spacing: var(--type-eyebrow-tracking);
   word-spacing: var(--type-eyebrow-word-spacing);
   text-transform: uppercase;
-  /* Darker than the links beside it, so the part's name leads (designer,
-     2026-10-28; it was grey against navy links). */
+  /* Darker than the links beside it, so the part's name leads. */
   color: var(--color-text-primary);
 }
 
-/* Her words in the serif a touch under body size, as Your direction's,
-   so ExecHQ's Inter beside them reads at the same size (designer,
-   2026-10-28). */
 .draft-editor__text {
   margin: 0;
   font-family: var(--font-serif);
@@ -19420,9 +18872,6 @@ ul.li-shares {
    suggestion beside her own words. */
 /* --- Once it is ready: the clean read (Concept 1) and the page (Concept 2) --- */
 
-/* Questions left open: lime, her input, as the open questions are on the
-   working draft, with the green edge a lime card takes on stone; the card's
-   corners and padding (designer, 2026-10-30; it was light blue, too faint). */
 .draft-editor__open {
   display: flex;
   flex-direction: column;
@@ -19440,8 +18889,6 @@ ul.li-shares {
   color: var(--color-text-on-her-band);
 }
 
-/* Answer them sits at the card's right, under the thumb, as every card's
-   button does (designer, 2026-10-30). */
 .draft-editor__open > .draft-editor__open-toggle {
   align-self: flex-end;
 }
@@ -19541,19 +18988,12 @@ ul.li-shares {
   cursor: pointer;
 }
 
-/* ExecHQ's words read as hers: the team decided the draft needn't tell
-   them apart (2026-10-30; they were italic and grey). Only open questions
-   are marked. */
 .draft-editor__exechq {
   font-family: var(--font-serif);
   font-size: 1em;
   color: var(--color-text-primary);
 }
 
-/* An open question is hers to fill, so it takes her colour: lime with dark
-   green words and a light green line under it, no outline (designer,
-   2026-10-28; it was a dashed box). The line and Inter in the serif are
-   the cues beside the fill, at any zoom. */
 .draft-editor__question {
   padding: 0 var(--space-2xs);
   border-radius: var(--radius-xs);
@@ -19586,10 +19026,6 @@ ul.li-shares {
   gap: var(--space-xs);
 }
 
-/* Questions for you is a section of the page, not a box: no dashed card
-   (designer, 2026-10-28). Each question with its field and Answer is a
-   group, 12 apart inside; the groups 24 apart; the heading and its line
-   above them. */
 .draft-editor__gaps {
   gap: var(--space-lg);
 }
@@ -19624,8 +19060,6 @@ ul.li-shares {
   align-self: stretch;
 }
 
-/* Answer at the right, under the thumb, as every card's button
-   (designer, 2026-10-30). */
 .draft-editor__gap > .btn {
   align-self: flex-end;
 }
@@ -19636,11 +19070,8 @@ ul.li-shares {
   margin-top: calc(var(--space-lg) - var(--space-xs));
 }
 
-/* --- Revising -------------------------------------------------------------- */
+/* --- Revising --- */
 
-/* Laid out as Questions for you is (designer, 2026-10-30): each choice,
-   its label 12 over its pills, is a group; the groups, the field and the
-   heading 24 apart, so each group reads as one. */
 .revision-controls {
   display: flex;
   flex-direction: column;
@@ -19666,8 +19097,7 @@ ul.li-shares {
   gap: var(--space-sm);
 }
 
-/* In the phone's browser the choices run past the foot of the screen (Kate,
-   2026-10-19), so Revise and Mark ready stay pinned there while she chooses,
+/* In the phone's browser the choices run past the foot of the screen, so Revise and Mark ready stay pinned there while she chooses,
    with the choices scrolling behind them. */
 [data-viewport="mobile"] .tool-flow__interview .revision-controls__actions {
   position: sticky;
@@ -19678,9 +19108,6 @@ ul.li-shares {
   box-shadow: 0 calc(-1 * var(--space-xs)) var(--space-sm) var(--color-surface);
 }
 
-/* Side by side on the phone, as the open draft's bar and the drawers are
-   (designer, 2026-10-30): Mark ready on the left, Revise on the right
-   under the thumb. */
 [data-viewport="mobile"] .tool-flow__interview .revision-controls__actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -19700,7 +19127,7 @@ ul.li-shares {
   width: 100%;
 }
 
-/* --- Versions -------------------------------------------------------------- */
+/* --- Versions --- */
 
 .version-history {
   display: flex;
@@ -19737,7 +19164,7 @@ ul.li-shares {
   gap: var(--space-2xs);
 }
 
-/* --- Using it -------------------------------------------------------------- */
+/* --- Using it --- */
 
 .draft-use {
   display: flex;
@@ -19800,11 +19227,7 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
-/* ===========================================================================
-   PLAYBOOK PAGE AND LIBRARY (Sprint 4)
-   The four tools always lead, the library below. On a phone the tools stay
-   compact, so the library is reachable without a long scroll.
-   ======================================================================== */
+/* --- PLAYBOOK PAGE AND LIBRARY (Sprint 4) --- */
 
 .playbook-page {
   display: flex;
@@ -19844,7 +19267,7 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
-/* --- Tools ------------------------------------------------------------------ */
+/* --- Tools --- */
 
 .tool-picker__list {
   margin: 0;
@@ -19958,7 +19381,7 @@ ul.li-shares {
   background-color: var(--color-surface-active);
 }
 
-/* --- The library ------------------------------------------------------------- */
+/* --- The library --- */
 
 .library {
   display: flex;
@@ -19966,7 +19389,6 @@ ul.li-shares {
   gap: var(--space-sm);
 }
 
-/* Library, with the magnifying glass at the right (Concept 2, 14 Oct). */
 .library__header {
   display: flex;
   align-items: center;
@@ -19981,15 +19403,12 @@ ul.li-shares {
 }
 
 /* No card around the rows, so they line up with the chips and the page's
-   edge (Concept 1's list, 14 Oct). An open folder's rows are cards, so
+   edge. An open folder's rows are cards, so
    they keep the card's padding. */
 .library__rows:not(.list--horizon-cards) .list__item {
   padding-inline: 0;
 }
 
-/* Over a folder's list: how many on the left, the Status menu on the right
-   (option A, 14 Oct). With a status chosen the menu reads as on: a dark
-   edge, the choice in its words. */
 .library-folder-open__bar {
   display: flex;
   align-items: center;
@@ -20006,8 +19425,6 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
-/* When she last touched it, as a tag after the status or tool. Sentence
-   case, so "2 weeks ago" reads as said. */
 .library__when {
   margin-left: var(--space-3xs);
   text-transform: none;
@@ -20016,14 +19433,12 @@ ul.li-shares {
 }
 
 /* In an open folder, where it stands and when it last changed sit over the
-   title as a small grey line, so the title leads (designer, 2026-10-28).
+   title as a small grey line, so the title leads.
    The title comes first in the markup, so it is still read first. */
 .library__rows.list--horizon-cards .list__secondary {
   display: contents;
 }
 
-/* The page recipe's gaps: the status line to the title is the eyebrow's,
-   the title to the preview the widest (designer, 2026-10-28). */
 .library__rows.list--horizon-cards .list__text {
   gap: 0;
 }
@@ -20033,9 +19448,6 @@ ul.li-shares {
   margin-bottom: 0;
 }
 
-/* The chevron sits level with the title, not the status line over it:
-   down by the status line and its gap, then centred on the title's first
-   line (designer, 2026-10-28). */
 .library__rows.list--horizon-cards .list__trailing {
   align-self: flex-start;
   margin-top: calc(
@@ -20054,7 +19466,7 @@ ul.li-shares {
 }
 
 /* A positioning statement's moments, under its words: small lime tags with
-   dark green words, lime because she picked them (designer, 2026-10-28).
+   dark green words, lime because she picked them.
    The words say it, so the colour is never the only cue. */
 .library__moments {
   display: flex;
@@ -20072,7 +19484,7 @@ ul.li-shares {
   line-height: var(--type-caption-leading);
 }
 
-/* --- Search, in its sheet (Concept 2, 14 Oct) ----------------------------- */
+/* --- Search, in its sheet --- */
 
 .library-search {
   display: flex;
@@ -20106,7 +19518,6 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
-/* The matches are the library's cards, 12px apart (designer, 2026-10-28). */
 .library-search__list {
   display: flex;
   flex-direction: column;
@@ -20205,7 +19616,7 @@ ul.li-shares {
   vertical-align: baseline;
 }
 
-/* --- Empty ----------------------------------------------------------------------- */
+/* --- Empty --- */
 
 .library-empty {
   display: flex;
@@ -20248,7 +19659,7 @@ ul.li-shares {
   outline-offset: var(--focus-ring-offset);
 }
 
-/* --- An artifact's actions ---------------------------------------------------- */
+/* --- An artifact's actions --- */
 
 .artifact-actions {
   display: flex;
@@ -20339,14 +19750,8 @@ ul.li-shares {
   overflow-y: auto;
 }
 
-/* ===========================================================================
-   PLAYBOOK FLOWS (Sprint 4): guided steps, document workspace, interview
-   ======================================================================== */
+/* --- PLAYBOOK FLOWS (Sprint 4): guided steps, document workspace, interview --- */
 
-/* Inside a tool, the Ask or go pill is not there at all (Kate, 13 Oct): the
-   tool's own bar, drawer or panel holds the foot of the screen, on every
-   screen size, Concept 3's question pages included. Hidden, not faded, so it
-   leaves the tab order. */
 .device__screen:has(.tool-flow, .tool-flow-questions) .concierge-host__pill {
   visibility: hidden;
 }
@@ -20465,7 +19870,7 @@ ul.li-shares {
   line-height: var(--leading-relaxed);
 }
 
-/* --- Concept 1: the fixed bar at the foot of the draft --------------------- */
+/* --- Concept 1: the fixed bar at the foot of the draft --- */
 
 .tool-flow__fixed {
   position: sticky;
@@ -20532,7 +19937,7 @@ ul.li-shares {
   padding-inline: 0;
 }
 
-/* --- Concept 3: the interview and the pinned draft ------------------------- */
+/* --- Concept 3: the interview and the pinned draft --- */
 
 .tool-flow__interview {
   display: flex;
@@ -20540,9 +19945,7 @@ ul.li-shares {
   gap: var(--space-md);
 }
 
-/* --- Web: the page leads (Concept 3, option B, 19 Oct) --------------------
-   The draft is the page, on the left; the interview is a rail on the right.
-   The rail comes first in the source, so the question is read first. */
+/* --- Web: the page leads --- */
 .tool-flow--page {
   max-width: 76rem;
 }
@@ -20679,8 +20082,6 @@ ul.li-shares {
   box-shadow: var(--shadow-sm);
 }
 
-/* Folded, the card takes the horizon line along its foot, as the folder's
-   item cards do (designer, 2026-10-30). */
 .pinned-draft:not(.is-open):not(.pinned-draft--side) {
   overflow: hidden;
 }
@@ -20694,9 +20095,6 @@ ul.li-shares {
   pointer-events: none;
 }
 
-/* Open in the page the draft is the page, not a box (designer, 2026-10-28,
-   layout A): no edge, fill or shadow, so each part below can be its own
-   card. Folded and pinned over the page it stays a card with its shadow. */
 .pinned-draft.is-open:not(.pinned-draft--side) {
   position: relative;
   border-color: transparent;
@@ -20721,9 +20119,6 @@ ul.li-shares {
   font-size: var(--type-heading-size-phone);
 }
 
-/* Open, the folded card's label ("Draft, version 2") would repeat the
-   heading right under it, so it is read out but not shown; Hide draft keeps
-   its place at the right (designer, 2026-10-28). */
 .pinned-draft.is-open:not(.pinned-draft--side) .pinned-draft__label {
   position: absolute;
   width: 1px;
@@ -20734,7 +20129,7 @@ ul.li-shares {
 }
 
 /* Open, the top reads: the status as the eyebrow with Actions at the right;
-   the name; what it is for under it (designer, 2026-10-28). The status
+   the name; what it is for under it. The status
    line's pieces join the top's own rows so they can be ordered.
 
    No Hide draft here: Change the draft in the bar folds the draft the same
@@ -20752,8 +20147,6 @@ ul.li-shares {
   min-height: var(--space-lg);
 }
 
-/* "· Saved" after the status, in the status's own eyebrow type, the second
-   part in grey as "Still editing" was; it pushes Actions to the right. */
 .tool-flow__draft-saved {
   display: none;
 }
@@ -20775,13 +20168,11 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
-/* With the draft open, the bar's own "Saved in your library" gives way to
-   it. */
 .tool-flow--has-bar .tool-flow__bar .tool-flow__saved {
   display: none;
 }
 
-/* Change the draft on a phone opens as the draft does (designer, 29 Oct):
+/* Change the draft on a phone opens as the draft does:
    16 under the bar, the "Draft · Saved" line the height of the draft's
    Actions row, the name 4 under it in the heading role, "For:" 4 under the
    name. So the bar's "Saved in your library" gives way here too. */
@@ -20820,14 +20211,10 @@ ul.li-shares {
   font-size: var(--type-heading-size-phone);
 }
 
-/* On the draft itself the status is the eyebrow, the word alone: no little
-   shape beside it (designer, 2026-10-28). Lists keep it. */
 .tool-flow__draft-head .loop-status__glyph {
   display: none;
 }
 
-/* Actions on the eyebrow's line, at the right; the name below it has the
-   full width (designer, 2026-10-28). */
 .pinned-draft.is-open:not(.pinned-draft--side) .tool-flow__draft-head > .dropdown {
   order: -2;
 }
@@ -20838,9 +20225,6 @@ ul.li-shares {
   margin-top: calc(var(--space-eyebrow-title) - var(--space-xs));
 }
 
-/* The top in three groups (designer, 2026-10-28; all was 12 apart): the
-   heading with its status and Actions, tight; 24 to the line and key that
-   say how to read it, which sit 8 apart; 24 to the first part. */
 .pinned-draft.is-open .draft-editor {
   gap: 0;
 }
@@ -20849,16 +20233,11 @@ ul.li-shares {
   row-gap: var(--space-xs);
 }
 
-/* What it is for, right under its name, as the name's subtitle: 4 under the
-   name, then 8 to the status (designer, 2026-10-28). */
 .draft-editor__top > .tool-flow__for {
   flex: 1 1 100%;
   margin-top: calc(var(--space-eyebrow-title) - var(--space-xs));
 }
 
-/* The intro joins the subtitle: right under "For:", 4 apart, in the same
-   small grey, so name, purpose and intro read as one header (designer,
-   2026-10-28). The key stands apart from it, 24 under, as its own group. */
 .pinned-draft.is-open .draft-editor__intro {
   margin-top: var(--space-2xs);
   font-size: var(--type-body-sm-size);
@@ -20873,8 +20252,6 @@ ul.li-shares {
   margin-top: var(--space-lg);
 }
 
-/* Questions for you starts a new section, 24 under the last part
-   (designer, 2026-10-28; it touched, then 12 while it was a card). */
 .pinned-draft.is-open .draft-editor__body + .draft-editor__gaps {
   margin-top: var(--space-lg);
 }
@@ -20936,9 +20313,6 @@ ul.li-shares {
 }
 
 .pinned-draft__preview {
-  /* The one place text stops after two lines with an ellipsis (Kate's, kept
-     by the designer, 2026-10-13): the card is pinned over the page and the
-     draft keeps growing, and Show draft opens all of it. */
   display: -webkit-box;
   overflow: hidden;
   -webkit-box-orient: vertical;
@@ -20961,8 +20335,7 @@ ul.li-shares {
 }
 
 /* On the phone's folded card, Show draft goes under the opening lines, at
-   the right under the thumb, so the draft's words get the card's whole width
-   (designer, 2026-10-30; it sat beside them). */
+   the right under the thumb, so the draft's words get the card's whole width. */
 .pinned-draft:not(.pinned-draft--side) .pinned-draft__toggle {
   flex-direction: column;
   align-items: stretch;
@@ -20998,14 +20371,9 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
-/* --- Positioning Builder ------------------------------------------------------ */
+/* --- Positioning Builder --- */
 
 /* Her statement from onboarding, carried onto the first screen. */
-/* What she brings with her (her statement, the draft she started from) is
-   hers, so it is Plan's Your direction card: a lime label with dark green
-   words over a white body with her words in the serif, held by the stone
-   250 edge every lime card takes (designer, 2026-10-28; was a light blue
-   panel with a gold bar). */
 .tool-flow__carried {
   display: flex;
   flex-direction: column;
@@ -21068,11 +20436,7 @@ ul.li-shares {
   padding-top: var(--space-2xs);
 }
 
-/* ===========================================================================
-   DROPDOWN MENU — a menu button and its floating panel, from the MENUS
-   tokens. Submenus open beside their item. Placement classes come from the
-   component, which flips the panel to stay on screen.
-   ======================================================================== */
+/* --- DROPDOWN MENU — a menu button and its floating panel, from the MENUS --- */
 
 .dropdown {
   position: relative;
@@ -21144,9 +20508,6 @@ ul.li-shares {
 }
 
 /* An account menu: the person's initials in a round button. */
-/* Icon only (designer, 2026-10-28): the icon in the link's navy, no edge or
-   fill, at the 24px tap height WCAG 2.2 allows, for a quiet "more" beside a
-   link. */
 .dropdown__trigger--icon {
   justify-content: center;
   min-width: var(--space-lg);
@@ -21178,13 +20539,13 @@ ul.li-shares {
   background-color: var(--color-surface-quiet-hover);
 }
 
-/* The sponsor's initials, opening their profile (2026-10-22): drawn as the
+/* The sponsor's initials, opening their profile: drawn as the
    account menu's button was, so the header is unchanged. */
 .profile-link {
   display: inline-grid;
   place-items: center;
   flex: none;
-  /* A 32 circle in the 44 target (designer, 2026-11-03): the colour is
+  /* A 32 circle in the 44 target: the colour is
      painted only inside the 6 of padding, and the button reaches 6 past the
      page edge so the circle, not the target, lines up with it. */
   --profile-link-inset: calc((var(--button-target) - var(--space-xl)) / 2);
@@ -21232,7 +20593,7 @@ ul.li-shares {
   gap: var(--space-3xs);
 }
 
-/* --- The panel ------------------------------------------------------------- */
+/* --- The panel --- */
 
 .menu {
   position: absolute;
@@ -21303,7 +20664,7 @@ ul.li-shares {
   overflow: visible;
 }
 
-/* --- Items ------------------------------------------------------------------ */
+/* --- Items --- */
 
 .menu__item {
   display: flex;
@@ -21462,11 +20823,7 @@ ul.li-shares {
   }
 }
 
-/* ===========================================================================
-   LIST — rows of one or two lines, from the LISTS tokens. Plain, selectable
-   or reorderable. A row with a link is one target: the primary line's link
-   is stretched over it, and the row's own actions sit above that.
-   ======================================================================== */
+/* --- LIST — rows of one or two lines, from the LISTS tokens. Plain, selectable --- */
 
 .list {
   display: flex;
@@ -21552,7 +20909,7 @@ ul.li-shares {
   text-underline-offset: 0.15em;
 }
 
-/* --- Leading ------------------------------------------------------------- */
+/* --- Leading --- */
 
 .list__leading {
   display: inline-flex;
@@ -21605,7 +20962,7 @@ ul.li-shares {
   color: var(--color-surface-raised);
 }
 
-/* --- Text ---------------------------------------------------------------- */
+/* --- Text --- */
 
 .list__text {
   display: flex;
@@ -21624,14 +20981,14 @@ ul.li-shares {
 }
 
 .list__secondary {
-  /* Never cut off with an ellipsis: the words wrap (designer, 2026-10-13). */
+  /* Never cut off with an ellipsis: the words wrap. */
   font-family: var(--list-secondary-font);
   font-size: var(--list-secondary-size);
   line-height: var(--list-secondary-leading);
   color: var(--list-secondary-color);
 }
 
-/* --- Trailing ------------------------------------------------------------ */
+/* --- Trailing --- */
 
 .list__trailing {
   display: inline-flex;
@@ -21663,7 +21020,7 @@ ul.li-shares {
   gap: var(--space-3xs);
 }
 
-/* --- Selectable ---------------------------------------------------------- */
+/* --- Selectable --- */
 
 .list--selectable .list__item {
   padding: 0;
@@ -21723,7 +21080,7 @@ ul.li-shares {
   align-self: center;
 }
 
-/* --- Reorderable --------------------------------------------------------- */
+/* --- Reorderable --- */
 
 .list--reorderable .list__item {
   padding-left: var(--space-2xs);
@@ -21819,9 +21176,7 @@ ul.li-shares {
   }
 }
 
-/* ===========================================================================
-   TOOL ILLUSTRATIONS AND THE NEXT STEP'S ROW (Playbook Concept 2)
-   ======================================================================== */
+/* --- TOOL ILLUSTRATIONS AND THE NEXT STEP'S ROW (Playbook Concept 2) --- */
 
 .tool-illustration {
   display: block;
@@ -21908,8 +21263,6 @@ ul.li-shares {
   }
 }
 
-/* --- The tools as rows in one card, on the phone (designer, 2026-10-28) ------- */
-
 /* The rail's rows in one white card: each tool's icon in its dawn, its name
    as a subheading and what it makes as a caption, a chevron at the right,
    and a hairline between rows that starts after the icon. 20px above and
@@ -21993,9 +21346,9 @@ ul.li-shares {
   }
 }
 
-/* --- Icons with the next step under them (Concept 2) --------------------------- */
+/* --- Icons with the next step under them (Concept 2) --- */
 
-/* Each tool's icon sits in a small dawn (designer, 2026-10-27): the sun
+/* Each tool's icon sits in a small dawn: the sun
    rises from the circle's base, so the row has colour without a card. */
 .tool-picker--icons .icon-row__chip {
   background: radial-gradient(
@@ -22012,11 +21365,7 @@ ul.li-shares {
   gap: var(--space-sm);
 }
 
-/* ===========================================================================
-   LIBRARY FOLDERS (Playbook Concept 2, option A; look D, 14 Oct) — one card
-   per tool, no folder drawing: the tool's icon in a disc tinted from the
-   folder tokens, then the name, what is inside and when it last changed.
-   ======================================================================== */
+/* --- LIBRARY FOLDERS — one card --- */
 
 .library-folder {
   display: flex;
@@ -22067,8 +21416,6 @@ ul.li-shares {
   border-color: var(--color-text-primary);
 }
 
-/* The open folder's card: the navy folder she tapped, opened, with Start
-   across it (designer, 2026-10-27). */
 .library-folder--header {
   gap: var(--space-xs);
   border-color: transparent;
@@ -22155,7 +21502,7 @@ ul.li-shares {
 /* The chevron's drawing sits inside its 16px box, so the box is nudged out
    until the stroke itself meets the card's padding: its right and bottom
    edges line up the way the navy circle's left and top edges do. The date
-   moves down with it, level with the chevron's point (designer, 2026-10-27). */
+   moves down with it, level with the chevron's point. */
 .library-folder--button .library-folder__foot {
   transform: translateY(var(--space-2xs));
 }
@@ -22164,7 +21511,7 @@ ul.li-shares {
   transform: translateX(calc(var(--space-2xs) + var(--space-3xs) / 2));
 }
 
-/* --- The folders, and an open one ------------------------------------------- */
+/* --- The folders, and an open one --- */
 
 .library-folders {
   display: grid;
@@ -22172,9 +21519,6 @@ ul.li-shares {
   gap: var(--space-sm) var(--space-xs);
 }
 
-/* Web, option A (Tools rail, Kate 15 Oct): the title, the tools and the
-   next step in a column down the left that stays in view; the library
-   takes the rest of the width. */
 [data-viewport="web"] .playbook-page--rail {
   display: grid;
   grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
@@ -22208,7 +21552,7 @@ ul.li-shares {
 
 /* With the folders showing (not while searching): the folders as a column
    at the library's left, the open one beside it with its status tabs across
-   its top, so the two rows of tabs never repeat (designer, 2026-10-28). */
+   its top, so the two rows of tabs never repeat. */
 .library--web:has(> .library-tabs--column) {
   display: grid;
   grid-template-columns: 11.5rem minmax(0, 1fr);
@@ -22289,7 +21633,7 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
-/* Tabs as a column (the library's folders on web, 2026-10-28): each a row
+/* Tabs as a column: each a row
    with its count at the right; the chosen one on the selected surface and
    set heavier, so the fill is never the only cue. It stays put while the
    list scrolls. */
@@ -22314,10 +21658,6 @@ ul.li-shares {
   background-color: var(--color-surface-selected);
 }
 
-/* Tabs across the width: the first flush left and the rest packed after it
-   at the group gap, the last pushed flush right (an open folder's status:
-   Closed sits at the right, designer, 2026-10-28), so a folder with one or
-   two statuses has no wide holes between them. */
 .library-tabs--spread {
   justify-content: flex-start;
   gap: var(--space-lg);
@@ -22341,8 +21681,6 @@ ul.li-shares {
 }
 
 /* A folder's own page on a phone (Concept 2, option A). */
-/* No line under it, so it sits in the page's margins, lined up with the
-   card below (designer, 2026-10-28). */
 .folder-page__bar {
   display: flex;
   align-items: center;
@@ -22407,15 +21745,8 @@ ul.li-shares {
   }
 }
 
-/* ===========================================================================
-   BRIEFING NEWS APP (Briefing Concept 2, option A) — a front page as a news
-   app opens on: the lead story with a big picture, two rows with a small
-   one. Each opens a reader screen with a bar at the foot.
-   ======================================================================== */
+/* --- BRIEFING NEWS APP (Briefing Concept 2, option A) — a front page as a news --- */
 
-/* Reading an article (Concept 2), the Ask or go pill is not there at all
-   (Kate, 14 Oct): the article ends in its own actions and Next. Hidden, not
-   faded, so it leaves the tab order, as inside a tool. */
 .device__screen:has(.briefing-page--reading) .concierge-host__pill {
   visibility: hidden;
 }
@@ -22424,7 +21755,7 @@ ul.li-shares {
   padding-bottom: var(--space-lg);
 }
 
-/* --- Picture panels: stand-ins for the publisher's image -------------- */
+/* --- Picture panels: stand-ins for the publisher's image --- */
 
 .briefing-picture {
   position: relative;
@@ -22482,7 +21813,7 @@ ul.li-shares {
   display: none;
 }
 
-/* --- The front page ---------------------------------------------------- */
+/* --- The front page --- */
 
 .briefing-front2 {
   display: flex;
@@ -22633,9 +21964,7 @@ ul.li-shares {
   color: var(--color-text-muted);
 }
 
-/* --- Web: the reading pane (option B, 19 Oct) ---------------------------
-   One screen: today's three down the left, the open read beside them. No
-   front page to go back to; the list ends with That's today's three. */
+/* --- Web: the reading pane --- */
 .briefing-page--pane {
   display: grid;
   grid-template-columns: 22rem minmax(0, 1fr);
@@ -22713,10 +22042,7 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
-/* ===========================================================================
-   OUTCOME NEXT — what comes after she says how something went
-   (components/loop/OutcomeNext). The Situation Brief first.
-   ======================================================================== */
+/* --- OUTCOME NEXT — what comes after she says how something went --- */
 
 .outcome-next {
   display: flex;
@@ -22840,12 +22166,9 @@ ul.li-shares {
   color: var(--color-text-primary);
 }
 
-/* ===========================================================================
-   ENTERPRISE — the sponsor's dashboard and cohort tools (Sprint 5). Counts and
-   shares, set plainly: no gauges, no targets, no colour carrying meaning.
-   ======================================================================== */
+/* --- ENTERPRISE — the sponsor's dashboard and cohort tools (Sprint 5). Counts and --- */
 
-/* --- A figure ------------------------------------------------------------ */
+/* --- A figure --- */
 
 .cohort-figure {
   display: flex;
@@ -22916,8 +22239,6 @@ ul.li-shares {
   min-height: calc(var(--type-figure-size-lg) * var(--type-figure-leading));
 }
 
-/* What the figure counts, in one sentence under it (Kate, 2026-10-22): set
-   like Concept 2's margin notes, a rule on the left. */
 .cohort-figure__brief {
   max-width: 40ch;
   margin-top: var(--space-2xs);
@@ -22935,8 +22256,6 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
-/* A meter (2026-10-20): a share as a ring or a bar, in the chart line's ink
-   on the grid's track. Filling in mutes it, like the number. */
 .meter--bar {
   display: block;
   inline-size: 100%;
@@ -23008,7 +22327,7 @@ ul.li-shares {
   margin-block: var(--space-2xs) var(--space-3xs);
 }
 
-/* The weekly trend (2026-10-22): a bar a week since launch, drawn at the
+/* The weekly trend: a bar a week since launch, drawn at the
    width it is given so bars and words never scale. The heading names it; no
    legend. The dates chosen are a band behind their weeks. */
 .weekly-trend {
@@ -23213,8 +22532,6 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
-/* The info icon beside a figure's name (Kate, 2026-10-20): opens how the
-   figure is measured. Dark while its panel is open. */
 .cohort-figure__explain {
   display: inline-grid;
   place-items: center;
@@ -23249,9 +22566,6 @@ ul.li-shares {
   outline-offset: var(--focus-ring-offset);
 }
 
-/* How a figure is measured (Kate, 2026-10-20): beside its info icon, over
-   the page, so nothing moves. Below and start-aligned; flips above or to the
-   end to stay on screen. */
 .figure-popover {
   position: absolute;
   /* A <dialog> centres itself by default: undo that, then place it. */
@@ -23353,7 +22667,7 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
-/* --- What a figure counts -------------------------------------------------- */
+/* --- What a figure counts --- */
 
 .figure-definition {
   display: flex;
@@ -23392,10 +22706,7 @@ ul.li-shares {
   line-height: var(--type-body-sm-leading);
 }
 
-/* --- The dates (Kate, 2026-10-21) --------------------------------------------
-   A field with the dates and arrows either side of nothing: the field, then
-   earlier and later. Its panel: ranges on the left, two months on the right.
-   Chosen days are a band; its two ends are filled. */
+/* --- The dates --- */
 
 .date-range {
   position: relative;
@@ -23593,7 +22904,7 @@ ul.li-shares {
   justify-content: center;
   min-height: var(--space-xl);
   /* 24 under the month names, so the days sit with the same room above and
-     below them beside the taller list of presets (designer, 2026-11-03). */
+     below them beside the taller list of presets. */
   margin-bottom: var(--space-lg);
 }
 
@@ -23661,8 +22972,6 @@ ul.li-shares {
   background-color: var(--color-surface-selected);
 }
 
-/* Closed at the range's ends and wherever it breaks: a week's edge, a
-   month's edge (2026-10-22). */
 .date-range__grid td.is-band-start {
   border-start-start-radius: var(--radius-pill);
   border-end-start-radius: var(--radius-pill);
@@ -23734,7 +23043,7 @@ ul.li-shares {
   }
 }
 
-/* --- The cohort's code ------------------------------------------------------ */
+/* --- The cohort's code --- */
 
 .invite-code {
   display: flex;
@@ -23815,7 +23124,7 @@ ul.li-shares {
   margin-top: var(--space-2xs);
 }
 
-/* --- Starting a cohort -------------------------------------------------------- */
+/* --- Starting a cohort --- */
 
 .cohort-form {
   display: flex;
@@ -23849,7 +23158,7 @@ ul.li-shares {
   outline-offset: var(--focus-ring-offset);
 }
 
-/* --- The enterprise pages ------------------------------------------------------ */
+/* --- The enterprise pages --- */
 
 .ent {
   display: flex;
@@ -23857,10 +23166,7 @@ ul.li-shares {
   min-height: 100%;
 }
 
-/* The admin pages under the design system (designer, 2026-11-02), as the
-   Signal Picture's cleaned-up page: sections 32 apart, cards 12 apart, every
-   card the same 20px corners and padding. */
-/* Desktop type (designer, 2026-11-03): the admin pages are read on a
+/* Desktop type: the admin pages are read on a
    laptop, not a phone, so the type roles step up one, set once here for the
    header band and the page. Nothing goes under 14; headings and numbers
    stay as they are. */
@@ -23868,8 +23174,6 @@ ul.li-shares {
 .ent-page {
   --type-eyebrow-size: var(--text-sm);
   --type-caption-size: var(--text-sm);
-  /* Captions here are sentences (the definitions), read, not glanced at:
-     normal leading, not the snug of a label (designer, 2026-11-03). */
   --type-caption-leading: var(--leading-normal);
   --type-body-sm-size: var(--text-md);
   --type-label-size: var(--text-md);
@@ -23877,22 +23181,13 @@ ul.li-shares {
 }
 
 .ent-page {
-  /* Cards on the admin pages hold more, on a wide screen: 32 inside
-     (designer, 2026-11-02, "things look tight"). */
   --ent-card-padding: var(--space-xl);
-  /* The card spacing roles, one step up from the phone's 20 to match the
-     padding (designer, 2026-11-03), so every admin card reads the same
-     numbers: a heading to what's under it, either side of a hairline (a
-     column split or a row), and above a card's definition at its foot. */
   --ent-card-title: var(--space-xl);
   --ent-divided-item: var(--space-xl);
   --ent-card-foot: var(--space-lg);
-  /* One gap between every card on the page, across and down (designer,
-     2026-11-04): the phone's 12 between cards and 32 between sections made
-     a mixed rhythm here, where every block is a card. */
   --ent-between-cards: var(--space-lg);
   /* Full-width cards split exactly in half, so their dividers line up down
-     the centre of the page (designer, 2026-11-03). */
+     the centre of the page. */
   --ent-split: minmax(0, 1fr) minmax(0, 1fr);
   display: flex;
   flex-direction: column;
@@ -23923,9 +23218,6 @@ ul.li-shares {
 
 /* Out over the chrome's padding, its words lined up with the cards under
    it (the chrome's 24 plus the page's 24). */
-/* The header as a navy band across the page (designer, 2026-11-02): the
-   cohort's name in yellow, as headlines on navy are on Home and Plan; its
-   words in the inverse inks. */
 .ent-band {
   gap: 0;
   margin: calc(var(--space-xl) * -1) calc(var(--space-lg) * -1) 0;
@@ -23941,8 +23233,6 @@ ul.li-shares {
   color: var(--color-text-inverse-muted);
 }
 
-/* The band holds only the name and its two lines (designer, 2026-11-02);
-   the opening sits under it on the page, as stats. */
 .ent-band__inner {
   width: 100%;
   max-width: calc(var(--viewport-web-max) + var(--space-lg) * 2);
@@ -23950,8 +23240,6 @@ ul.li-shares {
   padding: var(--space-xl) calc(var(--space-lg) * 2);
 }
 
-/* The name at the display size, 48 (designer, 2026-11-02); one too long
-   for a line at 48 takes the title size, 36 (useLongName sets data-long). */
 .ent-band .ent-header__name {
   margin-bottom: var(--space-xs);
   font-family: var(--type-display-font);
@@ -23975,17 +23263,11 @@ ul.li-shares {
   color: var(--color-eyebrow-on-inverse);
 }
 
-/* "Figures cover …" is on paper only: on screen the dates button says it. */
 .ent-band .ent-header__covers {
   display: none;
 }
 
-/* The opening as four stats under the header, in a white card (designer,
-   2026-11-02): an icon, the sentence's number, then the sentence whole as
-   its caption. Four across, so each caption has room. */
 /* Under .ent-page, so it outranks the reset that clears a list's padding. */
-/* The opening's stats: a white card like the ones under it, split by
-   hairlines (designer, 2026-11-03: navy felt too colourful). */
 .ent-page .ent-stats {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -24068,8 +23350,6 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
-/* The dates and Export first on the page (designer, 2026-11-02): close to
-   the figures they change, 12 above the stats. */
 .ent-page > .ent-tools + * {
   margin-top: calc(var(--space-sm) - var(--ent-between-cards));
 }
@@ -24100,13 +23380,8 @@ ul.li-shares {
   gap: var(--space-sm);
 }
 
-/* Today's update is late (designer, 2026-11-02): on the dates' line, to
-   the left of the dates and Export, its words wrapping there. */
 .ent-tools {
   flex-wrap: nowrap;
-  /* The dates and Export at the right edge (designer, 2026-11-03), under
-     the right thumb, their menus opening from the right; a late notice
-     takes the room on their left. */
   justify-content: flex-end;
 }
 
@@ -24118,7 +23393,6 @@ ul.li-shares {
   min-width: 0;
   max-width: var(--content-measure);
   margin-right: auto;
-  /* The caption role, so it fits beside the buttons (designer, 2026-11-03). */
   font-size: var(--type-caption-size);
   line-height: var(--type-caption-leading);
   color: var(--color-text-secondary);
@@ -24161,11 +23435,6 @@ ul.li-shares {
   word-spacing: var(--type-card-title-word-spacing);
 }
 
-/* Ready for what's next (Concept 1b, Kate, 2026-10-23): a card of its own
-   under the opening, laid out as the hero is, its words beside its figures. */
-/* Ready for what's next (designer, 2026-11-03): the heading with who
-   answered across from it, the answers start against now, the definition
-   at the foot under a hairline. */
 .ent-readiness__top {
   display: flex;
   align-items: baseline;
@@ -24222,9 +23491,6 @@ ul.readiness-bars {
   padding-right: 0;
 }
 
-/* Each answer named as Home's "How did it go?" answers are (designer,
-   2026-11-03): an outlined pill with its outcome dot, drawn like the
-   check-in's pills but not a button. Its now bar takes the same colour. */
 .readiness-bars__group--negative {
   --readiness-dot: var(--color-outcome-negative);
   --readiness-now: var(--gradient-outcome-negative);
@@ -24334,14 +23600,6 @@ ul.readiness-bars {
   gap: var(--space-xs);
 }
 
-/* The board (Kate, 2026-10-20): the three questions as cards on the page's
-   grey. Follow-through leads across the full width; still using it and did
-   they join sit side by side under it. */
-/* Under the hero (designer, 2026-11-03): Staying with it across the full
-   width, its weekly chart given room to grow a bar a week; Showing up in
-   the world and Getting started side by side, two cards of a size. The
-   spec's order holds; only the widths change (Kate, 2026-10-20: three in a
-   row). */
 .ent-board {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -24373,8 +23631,6 @@ ul.readiness-bars {
   gap: 0;
 }
 
-/* The chart and its definition (designer, 2026-11-03): room above and
-   below the bars, and the definition across the chart's full width. */
 .ent-card--using .weekly-trend__plot {
   margin-block: var(--space-md);
 }
@@ -24384,9 +23640,6 @@ ul.readiness-bars {
   margin-top: var(--space-md);
 }
 
-/* Active each week on the admin card (designer, 2026-11-03): fading bars,
-   this week a dark navy fade, clearer scale lines, and a hover that dims
-   the other weeks and names the one picked in a navy pill. */
 .weekly-trend__stop--week-top { stop-color: var(--color-trend-week-top); }
 .weekly-trend__stop--week-base { stop-color: var(--color-trend-week-base); }
 .weekly-trend__stop--now-top { stop-color: var(--color-trend-now-top); }
@@ -24420,8 +23673,6 @@ ul.readiness-bars {
   left: 0;
 }
 
-/* Hover: the week picked turns a step darker; the rest stay as they are
-   (designer, 2026-11-03). */
 .weekly-trend--fade .weekly-trend__bar {
   transition: filter 120ms ease;
 }
@@ -24470,8 +23721,6 @@ ul.readiness-bars {
   paint-order: stroke;
 }
 
-/* The pill is white, with the card's soft edge and a light shadow
-   (designer, 2026-11-03: not navy). */
 .weekly-trend--fade .weekly-trend__tip {
   border-color: var(--color-border);
   background: var(--color-surface-raised);
@@ -24483,12 +23732,11 @@ ul.readiness-bars {
 }
 
 /* The pill floats over the bar picked, an arrow on its foot pointing at the
-   bar's top (designer, 2026-11-03), never pinned to the chart's top line.
+   bar's top, never pinned to the chart's top line.
    At the first and last week it leans inward so it stays on the card. */
 .weekly-trend--fade .weekly-trend__tip {
   --tip-arrow: 6px;
   transform: translate(-50%, calc(-100% - var(--tip-arrow) - var(--space-2xs)));
-  /* Its words centred, wherever the pill sits (designer, 2026-11-03). */
   align-items: center;
   text-align: center;
 }
@@ -24544,7 +23792,6 @@ ul.readiness-bars {
   }
 }
 
-/* The chart's name reads as the figures' labels do (designer, 2026-11-03). */
 .ent-card--using .weekly-trend__label {
   font-family: var(--type-subheading-font);
   font-size: var(--type-body-size);
@@ -24552,15 +23799,13 @@ ul.readiness-bars {
   color: var(--color-text-primary);
 }
 
-/* The chart sits centred in its half (designer, 2026-11-03), as the
-   follow-through ring sits centred in Putting it into practice. */
 .ent-card--using > .ent-card__trend {
   grid-column: 2;
   grid-row: 1 / span 2;
   /* Full height, so the divider runs the card's height. The chart's name
      sits at the top, level with the card's heading, and its definition at
      the foot, level with the last line on the left; the bars take the room
-     between (designer, 2026-11-03). */
+     between. */
   justify-content: space-between;
   padding-left: var(--ent-divided-item);
   border-left: var(--border-width-thin) solid var(--color-border);
@@ -24577,11 +23822,6 @@ ul.readiness-bars {
   background-color: var(--color-surface-raised);
 }
 
-/* The hero (designer, 2026-11-03): the heading, its answer and
-   follow-through's ring on the left; Chose a plan, Work made and Work used
-   stacked on the right, a hairline between the sides and between them. A
-   white card like the rest (Kate, 2026-11-02: the navy call-out wasn't
-   meant). */
 .ent-card--following {
   grid-column: 1 / -1;
 }
@@ -24591,8 +23831,6 @@ ul.readiness-bars {
   grid-template-columns: var(--ent-split);
 }
 
-/* The ring sits centred between the answer's last line and the card's
-   padded foot (designer, 2026-11-03), at least a heading's gap from each. */
 .ent-following__main {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
@@ -24611,13 +23849,9 @@ ul.readiness-bars {
   border-left: var(--border-width-thin) solid var(--color-border);
 }
 
-/* A ring figure on the admin pages (designer, 2026-11-03): the ring on the
-   left, what it is, its detail and definition beside it. Follow-through's
-   ring is the largest; the lower cards' are smaller. */
 .ent-page .cohort-figure--ring {
   display: grid;
   grid-template-columns: var(--follow-ring-size) minmax(0, 1fr);
-  /* Room between the ring and its words (designer, 2026-11-03). */
   column-gap: var(--ent-divided-item);
   row-gap: var(--space-2xs);
   align-items: center;
@@ -24640,7 +23874,6 @@ ul.readiness-bars {
 }
 
 .ent-page {
-  /* Room round a number at the large figure size (designer, 2026-11-04). */
   --follow-ring-size: 9.5rem;
 }
 
@@ -24660,15 +23893,11 @@ ul.readiness-bars {
 .ent-follow-done__start { stop-color: var(--color-follow-done); }
 .ent-follow-done__end { stop-color: var(--color-follow-done-end); }
 
-/* Done fades from green 700 to green 600 (designer, 2026-11-03), subtle,
-   as the page's other charts do. */
 .ent-card--following .meter--ring .meter__fill {
   stroke: url(#ent-follow-done);
   stroke-linecap: butt;
 }
 
-/* The lower cards' rings (designer, 2026-11-03): the weekly bars' colours,
-   fading from this week's darkest to a full week's, on the stone track. */
 .ent-card--seen .meter--ring .meter__track,
 .ent-card--seen .meter--ring .meter__fill,
 .ent-card--joined .meter--ring .meter__track,
@@ -24687,7 +23916,6 @@ ul.readiness-bars {
   stroke-linecap: butt;
 }
 
-/* Showing up's ring in follow-through's green (designer, 2026-11-04). */
 .ent-card--seen .meter--ring .meter__fill {
   stroke: url(#ent-follow-done);
 }
@@ -24695,8 +23923,6 @@ ul.readiness-bars {
 .ent-people-ring__start { stop-color: var(--color-trend-now-top); }
 .ent-people-ring__end { stop-color: var(--color-trend-week-top); }
 
-/* Every ring's number at the large figure size, as follow-through's
-   (designer, 2026-11-04). */
 .ent-card--seen .meter--ring .cohort-figure__value,
 .ent-card--joined .meter--ring .cohort-figure__value {
   font-size: var(--type-figure-size-lg);
@@ -24712,9 +23938,6 @@ ul.readiness-bars {
   text-transform: uppercase;
 }
 
-/* Getting started as the joining chain (designer, 2026-11-03): three steps
-   split by hairlines, one bar of the three groups with its key, the
-   definitions at the foot. Room between each part, so it isn't tight. */
 .ent-chain {
   display: flex;
   flex-direction: column;
@@ -24751,8 +23974,6 @@ ol.ent-chain__steps {
 .ent-chain__value {
   margin-bottom: var(--space-2xs);
   font-family: var(--type-figure-font);
-  /* The figure size, not the large one: the card already holds a lot
-     (designer, 2026-11-03). */
   font-size: var(--type-figure-size);
   font-weight: var(--type-figure-weight);
   line-height: 1;
@@ -24773,14 +23994,9 @@ ol.ent-chain__steps {
   color: var(--color-text-secondary);
 }
 
-/* The bar and its key sit midway between the steps and the definitions'
-   hairline (designer, 2026-11-03): the free room splits equally above the
-   bar and above the hairline. */
 .ent-chain__bar {
   display: flex;
-  /* Clear gaps between the three groups (designer, 2026-11-03). */
   gap: var(--space-2xs);
-  /* Taller, so its parts read as shapes (designer, 2026-11-03). */
   block-size: var(--space-lg);
   margin-top: auto;
 }
@@ -24789,8 +24005,6 @@ ol.ent-chain__steps {
   border-radius: var(--radius-xs);
 }
 
-/* The weekly bars' colours (designer, 2026-11-03): set up in this week's
-   dark fade, joined in a full week's fade. */
 .ent-chain__part--set-up,
 .ent-chain__key--set-up::before {
   background-image: linear-gradient(var(--color-trend-now-top), var(--color-trend-now-base));
@@ -24863,8 +24077,6 @@ ul.ent-chain__key {
   font-size: var(--type-figure-size-lg);
 }
 
-/* The key, called out at the size of the line above it (designer,
-   2026-11-03): each count in semibold ink, with room between the lines. */
 .ent-follow-key {
   display: flex;
   flex-direction: column;
@@ -24935,8 +24147,6 @@ ul.ent-chain__key {
   gap: var(--space-xl) var(--space-lg);
 }
 
-/* The other three, stacked: room between them, a hairline over each but
-   the first (designer, 2026-11-03: not tight). */
 .ent-tile {
   padding-block: var(--ent-divided-item);
   border-top: var(--border-width-thin) solid var(--color-border);
@@ -24951,15 +24161,14 @@ ul.ent-chain__key {
   padding-bottom: 0;
 }
 
-/* A row figure (designer, 2026-11-03): the number on the left at the large
+/* A row figure: the number on the left at the large
    figure size, as the stats and the ring; to its right the label and what
    it's out of held together, then a break before the definition, so the
    words read as a heading and a note, not one paragraph. */
 .cohort-figure--row {
   display: grid;
   /* Just wide enough for "79%" at 36, then 24 to its label, so the eye
-     goes from the number to its label without a gap to cross (designer,
-     2026-11-03: 70 too far, 16 too close). */
+     goes from the number to its label without a gap to cross. */
   grid-template-columns: var(--figure-row-number, 4.5rem) minmax(0, 1fr);
   column-gap: var(--space-lg);
   align-items: start;
@@ -24997,11 +24206,6 @@ ul.ent-chain__key {
   margin-top: var(--space-sm);
 }
 
-/* Definitions and directions at the size of the line above them on the
-   admin pages (designer, 2026-11-03: at 14 they read as disclaimers). The
-   order comes from colour and the break instead: the line under a label
-   in ink describes the number, the grey lines under it explain it. A
-   shorter measure and balanced last lines, so no word is left alone. */
 .ent-page .cohort-figure__brief,
 .ent-page .cohort-figure__direction,
 .ent-page .ent-readiness__brief {
@@ -25009,8 +24213,6 @@ ul.ent-chain__key {
   line-height: var(--type-body-sm-leading);
 }
 
-/* The words beside a figure use their column's width now the cards split
-   in half (designer, 2026-11-03), the copy trimmed to fit one line. */
 .ent-page .cohort-figure__brief,
 .ent-page .cohort-figure__detail,
 .ent-page .ent-readiness__brief {
@@ -25018,11 +24220,9 @@ ul.ent-chain__key {
 }
 
 /* Definitions fill their column to one shared right edge, so rows side by
-   side or stacked line up (designer, 2026-11-03: balancing evened each
-   against its own length, so a short one stopped far short of a long one).
+   side or stacked line up.
    No lone last words; breaks stay rules, never set by hand. */
 
-/* Across the card, under all three groups (designer, 2026-11-04). */
 .ent-page .ent-readiness__brief {
   max-width: none;
 }
@@ -25059,7 +24259,6 @@ ul.ent-chain__key {
   flex-direction: column;
   gap: var(--space-xs);
   margin: 0;
-  /* The same room under its hairline as the note's (designer, 2026-11-04). */
   padding: var(--space-copy-card) 0 0;
   list-style: none;
   border-top: var(--border-width-thin) solid var(--color-border);
@@ -25108,8 +24307,6 @@ ul.ent-chain__key {
   color: var(--color-text-secondary);
 }
 
-/* The page's end (2026-10-22): who is still to join, and the code to bring
-   them in, on a card of its own. */
 .ent-close {
   display: flex;
   flex-direction: column;
@@ -25130,10 +24327,6 @@ ul.ent-chain__key {
   word-spacing: var(--type-card-title-word-spacing);
 }
 
-/* The closing card in the system (designer, 2026-11-04): split in half as
-   the full-width cards above are, so its divider lines up with theirs. Who
-   is still to come on the left, as the card's heading; the code to bring
-   them in on the right, the code itself large. */
 .ent-page > .ent-close {
   display: grid;
   grid-template-columns: var(--ent-split);
@@ -25180,7 +24373,6 @@ ul.ent-chain__key {
 .ent-page__privacy {
   display: flex;
   align-items: flex-start;
-  /* Across the page's full width (designer, 2026-11-04). */
   gap: var(--space-xs);
   font-size: var(--type-caption-size);
   line-height: var(--type-caption-leading);
@@ -25192,7 +24384,7 @@ ul.ent-chain__key {
   margin-top: var(--space-3xs);
 }
 
-/* --- Sponsor profile (Kate, 2026-10-22) -------------------------------------- */
+/* --- Sponsor profile --- */
 
 .sponsor-profile {
   gap: var(--space-xl);
@@ -25218,12 +24410,8 @@ ul.ent-chain__key {
   color: var(--color-text-primary);
 }
 
-/* Sections (Kate, 2026-10-23): the list on the left, Sign out closing it,
-   the chosen section on the right, as the participant Profile on web. */
 .sponsor-profile__layout {
   display: grid;
-  /* The list widened from 15–20rem to 18–24rem (designer, 2026-11-04): at
-     the 32 card padding its lines, a cohort's name, would break. */
   grid-template-columns: minmax(18rem, 24rem) minmax(0, 46rem);
   align-items: start;
   /* The page's own rhythm between blocks. */
@@ -25312,10 +24500,10 @@ ul.sponsor-profile__points {
   color: var(--color-text-primary);
 }
 
-/* The admin system on the profile (designer, 2026-11-04): the dashboard's
+/* The admin system on the profile: the dashboard's
    desktop card roles, set once on the page. Rows and cards take the 32 card
    padding at the sides, so every admin card's words start the same distance
-   in, and the phone's 16 above and below (designer, 2026-11-04); the
+   in, and the phone's 16 above and below; the
    hairline between rows stops at that padding. Lines under a row's name are
    read, so they stay at the small body size, in grey, not shrunk to a
    caption (typography principles). */
@@ -25327,8 +24515,6 @@ ul.sponsor-profile__points {
   padding: var(--space-md) var(--ent-card-padding);
 }
 
-/* The chosen section is the fill and the bolder name, with no bar at its
-   edge (designer, 2026-11-04): the bar met the card's rounded corner. */
 .sponsor-profile .settings-row[aria-current="true"] {
   box-shadow: none;
 }
@@ -25344,7 +24530,7 @@ ul.sponsor-profile__points {
 
 /* A value takes the room it needs, so an email address is never broken
    mid-word ("northgate.co / m"); it wraps only if it can't fit the row at
-   all (designer, 2026-11-04). */
+   all. */
 .sponsor-profile .settings-row__value {
   max-width: none;
   overflow-wrap: break-word;
@@ -25375,11 +24561,7 @@ ul.sponsor-profile__points li,
   align-self: flex-start;
 }
 
-/* --- Export: printing a page saves it as a PDF -------------------------------------
-   The prototype's own controls never print, and the frames that make the
-   canvas scroll let go, so the page runs to its full length. The export
-   holds the figures, never the means of joining, so the code stays on
-   screen. */
+/* --- Export: printing a page saves it as a PDF --- */
 
 @media print {
   @page {
@@ -25445,15 +24627,13 @@ ul.sponsor-profile__points li,
   }
 }
 
-/* --- Concept 3: the weekly letter ------------------------------------------------ */
+/* --- Concept 3: the weekly letter --- */
 
 .chrome__main:has(> .letter-view) {
   padding: 0;
 }
 
 /* The archive down the left, the letter in a reading column beside it. */
-/* The letter is 52rem wide (Kate, 2026-10-20: 40rem read too narrow); its
-   paragraphs still stop at a comfortable measure. */
 .letter-view {
   display: grid;
   grid-template-columns: 14rem minmax(0, 52rem);
@@ -25636,8 +24816,6 @@ ul.letter-archive__list {
   border-top: 0;
 }
 
-/* Replies to the letter (Kate, 2026-10-20): each turn under a margin rule,
-   the sponsor's grey, ExecHQ's dark, in the letter's own type. */
 .letter-replies {
   display: flex;
   flex-direction: column;
@@ -25721,8 +24899,6 @@ ul.letter-archive__list {
   outline-offset: var(--focus-ring-offset);
 }
 
-/* By the numbers (Kate, 2026-10-20): three figures between rules, each
-   "31 of 74" in the figure face over what it counts. */
 .letter__numbers {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -25923,12 +25099,7 @@ ul.letter-archive__list {
   }
 }
 
-/* -----------------------------------------------------------------------------
-   SHEET ACTIONS (designer, 2026-10-16)
-   How a sheet ends, everywhere: the main action full width, so even switched off it never reads as a
-   choice pill, and leaving (Cancel, Close) is the underlined link, centred under it. A way past a question
-   (Skip, Later) is not this: Kate's spec keeps it a same-size button.
-   -------------------------------------------------------------------------- */
+/* --- SHEET ACTIONS --- */
 .sheet-actions {
   display: flex;
   flex-direction: column;
@@ -25942,9 +25113,7 @@ ul.letter-archive__list {
   min-height: var(--button-target);
 }
 
-/* -----------------------------------------------------------------------------
-   CONSOLIDATED CONTROLS (designer, 2026-10-16)
-   -------------------------------------------------------------------------- */
+/* --- CONSOLIDATED CONTROLS --- */
 
 /* Outline: an action on a surface yellow can't go on (light blue), or a second action that should read as
    a button but stay quiet. A navy edge and navy words. */
