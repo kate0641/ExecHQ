@@ -717,6 +717,11 @@ button.link {
   white-space: nowrap;
 }
 
+.badge--when {
+  text-transform: none;
+  letter-spacing: var(--tracking-normal);
+}
+
 .badge--sprint {
   background-color: var(--color-surface);
   border-color: var(--color-border-strong);
@@ -15291,17 +15296,6 @@ ul.agenda__list {
   outline-offset: var(--focus-ring-offset);
 }
 
-.agenda__pill {
-  justify-self: start;
-  padding: var(--space-3xs) var(--space-xs);
-  border-radius: var(--radius-tag);
-  background-color: var(--color-surface-sunken);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-secondary);
-  white-space: nowrap;
-}
-
 .agenda__title {
   font-family: var(--font-display);
   font-size: var(--text-md);
@@ -15653,8 +15647,7 @@ fieldset.agenda__whens {
 
 .agenda--stack .agenda__line .agenda__pill {
   grid-area: when;
-  padding: 0;
-  background: none;
+  white-space: nowrap;
   font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
@@ -17544,14 +17537,6 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
-.saved-page__tag {
-  padding: 0 var(--space-xs);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface-sunken);
-  font-weight: var(--weight-semibold);
-}
-
 /* The filled bookmark: pressing it removes the read, with Undo. */
 .saved-page__remove {
   display: grid;
@@ -19106,8 +19091,6 @@ ul.li-shares {
 
 .library__when {
   margin-left: var(--space-3xs);
-  text-transform: none;
-  letter-spacing: var(--tracking-normal);
   vertical-align: baseline;
 }
 

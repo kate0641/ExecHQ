@@ -1,5 +1,6 @@
 "use client";
 
+import { Badge } from "@/components/primitives/Badge";
 import { useState, useSyncExternalStore, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -233,7 +234,7 @@ export function useBriefingPage() {
                 <span className="saved-page__headline">{read.title}</span>
                 <span className="saved-page__why">{read.reason}</span>
                 <span className="saved-page__when">
-                  {S.savedWhen} <span className="saved-page__tag">{when}</span>
+                  {S.savedWhen} <Badge tone="when">{when}</Badge>
                 </span>
               </button>
               <button

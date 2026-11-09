@@ -146,7 +146,7 @@ export function usePlaybookPage(concept: PlaybookPage) {
             </span>
           ) : (
             <>
-              {item.tool} <Badge className="library__when">{when(item)}</Badge>
+              {item.tool} <Badge tone="when" className="library__when">{when(item)}</Badge>
             </>
           )}
           {options.folder && madeFor(item).length ? (
