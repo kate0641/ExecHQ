@@ -14849,6 +14849,14 @@ ul.map-panel__list {
   display: none;
 }
 
+/* On web each Stay on track card is as wide as the column beside Your
+   Progress Tracker (3 parts in 10 of the row, less the column gap), so the
+   cards line up with the Signal Picture card and up to three sit side by
+   side. The carousel is the container, so 100cqi is the row's width. */
+[data-viewport="web"] .map-home:not(:where([data-viewport="mobile"] *)) .map-home__stay .card-carousel--fixed {
+  --card-carousel-width: calc((100cqi - var(--space-2xl)) * 3 / 10);
+}
+
 [data-viewport="mobile"] .map-home {
   padding-bottom: var(--space-lg);
 }
@@ -16882,15 +16890,18 @@ ol.rtl__rail::before {
 /* The swiping row: a fixed card width where there is room, and the horizon marks between the dots. */
 .card-carousel--fixed {
   container-type: inline-size;
+  /* A size container has no width of its own, so in a parent that shrinks
+     to fit (the catalogue's stage) it would collapse. It takes the row. */
+  width: 100%;
 }
 
 @container (min-width: 36rem) {
   .card-carousel--fixed .card-carousel__slide {
-    flex-basis: 21rem;
+    flex-basis: var(--card-carousel-width, 21rem);
   }
 
   .card-carousel--fixed .card-carousel__slide:only-child {
-    flex-basis: 21rem;
+    flex-basis: var(--card-carousel-width, 21rem);
   }
 }
 
