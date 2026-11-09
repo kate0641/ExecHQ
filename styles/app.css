@@ -19955,6 +19955,8 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
+/* The one place text is clamped with an ellipsis: the pinned draft shows two lines and Show draft
+   opens the rest. Nowhere else cuts text off. */
 .pinned-draft__preview {
   display: -webkit-box;
   overflow: hidden;
