@@ -196,7 +196,7 @@ export function useBriefingPage() {
   const savedPage = (
     <div className="briefing-page saved-page">
       <div className="folder-page__bar">
-        <Link href={pathname} className="back-link">
+        <Link href={pathname} className="text-link">
           <Icon name="chevron-left" size={18} />
           {S.back}
         </Link>
@@ -212,7 +212,7 @@ export function useBriefingPage() {
           <output>{S.removed}</output>{" "}
           <button
             type="button"
-            className="saved-page__undo"
+            className="text-link saved-page__undo"
             onClick={() => {
               briefingActions.setSaved(removed, true);
               const id = removed;

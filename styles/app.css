@@ -678,21 +678,26 @@ button.link {
   padding-inline: 0;
 }
 
-/* Back: the one back link, top-left above a page. */
-.back-link {
+/* Text link: a button or link drawn as underlined words, 44px tall. Back links put the chevron first. */
+.text-link {
   display: inline-flex;
   align-items: center;
   gap: var(--space-3xs);
   min-height: var(--button-target);
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   color: var(--color-text-link);
   text-decoration: underline;
   text-decoration-thickness: var(--border-width-thin);
   text-underline-offset: 0.2em;
+  cursor: pointer;
 }
 
-.back-link:focus-visible {
+.text-link:focus-visible {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
   border-radius: var(--radius-xs);
@@ -16091,26 +16096,6 @@ fieldset.agenda__whens {
   font-family: var(--font-serif);
 }
 
-.checkin-recap__open {
-  min-height: var(--button-target);
-  margin: 0;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--color-text-link);
-  font: inherit;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-  cursor: pointer;
-}
-
-.checkin-recap__open:hover,
-.checkin-recap.is-hover .checkin-recap__open {
-  text-decoration-thickness: var(--border-width-medium);
-}
-
 .checkin-recap.is-focus .checkin-recap__open {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
@@ -16864,20 +16849,6 @@ ul.li-shares {
   color: var(--color-text-primary);
 }
 
-.read-actions__undo {
-  min-height: var(--button-target);
-  padding: 0 var(--space-2xs);
-  border: 0;
-  background: none;
-  font: inherit;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-link);
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-  cursor: pointer;
-}
-
 /* --- Write a post about this (RespondLink) --- */
 
 .respond-link {
@@ -16965,26 +16936,7 @@ ul.li-shares {
 }
 
 .brief-reader__out {
-  display: inline-flex;
-  align-items: center;
   align-self: flex-start;
-  gap: var(--space-2xs);
-  min-height: var(--button-target);
-  padding: 0;
-  border: 0;
-  background: none;
-  font: inherit;
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-link);
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-  cursor: pointer;
-}
-
-.brief-reader__out:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-  border-radius: var(--radius-xs);
 }
 
 .brief-reader__out-note {
@@ -17446,19 +17398,6 @@ ul.li-shares {
   margin: 0;
   font-size: var(--text-sm);
   color: var(--color-text-secondary);
-}
-
-.saved-page__undo {
-  min-height: var(--button-target);
-  padding: 0 var(--space-2xs);
-  border: 0;
-  background: none;
-  font: inherit;
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-link);
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-  cursor: pointer;
 }
 
 .saved-page__list {

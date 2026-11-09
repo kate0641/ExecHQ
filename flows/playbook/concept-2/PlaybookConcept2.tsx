@@ -245,7 +245,7 @@ function Concept2Page() {
     return (
       <div className="playbook-page playbook-page--c2 folder-page">
         <div className="folder-page__bar">
-          <Link href={conceptHref("playbook", "concept-2")} className="back-link">
+          <Link href={conceptHref("playbook", "concept-2")} className="text-link">
             <Icon name="chevron-left" size={18} />
             {F.backToPlaybook}
           </Link>

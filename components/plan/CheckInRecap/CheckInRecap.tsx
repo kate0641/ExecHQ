@@ -53,7 +53,7 @@ export function CheckInRecap({ status, milestone, feeling, words, onOpen, classN
           <q>{words}</q>
         </p>
       ) : null}
-      <button type="button" className="checkin-recap__open" onClick={onOpen}>
+      <button type="button" className="text-link checkin-recap__open" onClick={onOpen}>
         {C.recapOpen}
       </button>
     </div>
