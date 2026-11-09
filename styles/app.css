@@ -11062,6 +11062,11 @@ ul.baseline-list__rows {
   box-shadow: inset var(--border-width-thick) 0 0 var(--color-surface-inverse);
 }
 
+/* On the light blue fill the muted grey falls short of 4.5:1, so the line under the name darkens one step. */
+.settings-row[aria-current="true"] .settings-row__description {
+  color: var(--color-text-secondary);
+}
+
 .settings-row--open:disabled {
   cursor: not-allowed;
 }
