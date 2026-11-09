@@ -12439,19 +12439,20 @@ ul.login__never {
   --sky-top-core: var(--color-sky-night-top-core);
   --sky-top-core-size: 85% 34%;
   --sky-top-ring-size: 140% 48%;
+  /* The blue holds to half way, so the heading sits on it (3.7:1), then fades to lime. */
   --sky-top-fade: linear-gradient(
     in oklab,
     var(--color-sky-night-edge) 0%,
-    var(--color-sky-night-edge) 36%,
-    color-mix(in oklab, var(--color-sky-night-edge) 97%, var(--color-sky-night-fade-end)) 40.0%,
-    color-mix(in oklab, var(--color-sky-night-edge) 90%, var(--color-sky-night-fade-end)) 44.0%,
-    color-mix(in oklab, var(--color-sky-night-edge) 78%, var(--color-sky-night-fade-end)) 48.0%,
-    color-mix(in oklab, var(--color-sky-night-edge) 65%, var(--color-sky-night-fade-end)) 52.0%,
-    color-mix(in oklab, var(--color-sky-night-edge) 50%, var(--color-sky-night-fade-end)) 56.0%,
-    color-mix(in oklab, var(--color-sky-night-edge) 35%, var(--color-sky-night-fade-end)) 60.0%,
-    color-mix(in oklab, var(--color-sky-night-edge) 22%, var(--color-sky-night-fade-end)) 64.0%,
-    color-mix(in oklab, var(--color-sky-night-edge) 10%, var(--color-sky-night-fade-end)) 68.0%,
-    color-mix(in oklab, var(--color-sky-night-edge) 3%, var(--color-sky-night-fade-end)) 72.0%,
+    var(--color-sky-night-edge) 50%,
+    color-mix(in oklab, var(--color-sky-night-edge) 97%, var(--color-sky-night-fade-end)) 52.6%,
+    color-mix(in oklab, var(--color-sky-night-edge) 90%, var(--color-sky-night-fade-end)) 55.2%,
+    color-mix(in oklab, var(--color-sky-night-edge) 78%, var(--color-sky-night-fade-end)) 57.8%,
+    color-mix(in oklab, var(--color-sky-night-edge) 65%, var(--color-sky-night-fade-end)) 60.4%,
+    color-mix(in oklab, var(--color-sky-night-edge) 50%, var(--color-sky-night-fade-end)) 63.0%,
+    color-mix(in oklab, var(--color-sky-night-edge) 35%, var(--color-sky-night-fade-end)) 65.6%,
+    color-mix(in oklab, var(--color-sky-night-edge) 22%, var(--color-sky-night-fade-end)) 68.2%,
+    color-mix(in oklab, var(--color-sky-night-edge) 10%, var(--color-sky-night-fade-end)) 70.8%,
+    color-mix(in oklab, var(--color-sky-night-edge) 3%, var(--color-sky-night-fade-end)) 73.4%,
     var(--color-sky-night-fade-end) 76%,
     color-mix(in oklab, var(--color-sky-night-fade-end) 90%, var(--color-surface)) 80.8%,
     color-mix(in oklab, var(--color-sky-night-fade-end) 65%, var(--color-surface)) 85.6%,
