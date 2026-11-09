@@ -168,7 +168,7 @@ export function SendSteps({
   ];
 
   return (
-    <section className={["send-steps", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
+    <section className={["card", "send-steps", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
       <h2 className="send-steps__heading" id={headingId}>
         {C.heading}
       </h2>

@@ -735,7 +735,7 @@ export function useToolFlow(concept: FlowConcept) {
   const [refreshOffer, setRefreshOffer] = useState(false);
   const refresh: ReactNode =
     refreshOffer && draft && version && artifactId ? (
-      <aside className="tool-flow__refresh" aria-label={POSITIONING_COPY.refresh.heading}>
+      <aside className="card tool-flow__refresh" aria-label={POSITIONING_COPY.refresh.heading}>
         <p className="tool-flow__refresh-heading">{POSITIONING_COPY.refresh.heading}</p>
         <p className="tool-flow__refresh-body">{POSITIONING_COPY.refresh.body}</p>
         <div className="tool-flow__refresh-actions">

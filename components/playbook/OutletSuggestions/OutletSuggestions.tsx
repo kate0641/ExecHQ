@@ -39,7 +39,7 @@ export function OutletSuggestions({ outlets, type, chosen, onPick, startOpen = f
         <ul className="outlet-suggest__list">
           {outlets.map((o) => (
             <li key={o.id}>
-              <button type="button" className={["outlet-suggest__option", optionClassName].filter(Boolean).join(" ")} aria-pressed={isChosen(o)} onClick={() => onPick(o.name)}>
+              <button type="button" className={["card", "outlet-suggest__option", optionClassName].filter(Boolean).join(" ")} aria-pressed={isChosen(o)} onClick={() => onPick(o.name)}>
                 <span className="outlet-suggest__name">
                   {o.name}
                   {isChosen(o) ? (

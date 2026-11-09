@@ -154,7 +154,7 @@ function EntryForm({ onClose, onSave, today, existing, initial, demoRows, demoEr
                 </p>
               ) : null}
               {same.length ? (
-                <div className="entry-form__same" aria-live="polite">
+                <div className="card entry-form__same" aria-live="polite">
                   {same.map((item) => (
                     <p key={item.id}>{(item.source === "recorded" ? E.sameRecorded : E.sameAdded)(item.text, fullDate(item.on))}</p>
                   ))}

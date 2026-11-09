@@ -31,7 +31,7 @@ function Question({ children }: { children: string }) {
  * and dated; what the page doesn't say is a question to her, never a guess.
  */
 export function OutletCard({ name, type, outlet, today, className }: OutletCardProps) {
-  const classes = ["outlet-card", className].filter(Boolean).join(" ");
+  const classes = ["card", "outlet-card", className].filter(Boolean).join(" ");
   const kind: PitchType = outlet?.type ?? type ?? "Speaking";
   const watch = C.watchFor[kind];
   const ask = outlet?.ask;
