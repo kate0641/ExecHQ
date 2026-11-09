@@ -2863,8 +2863,6 @@ ul.concierge-suggest {
   letter-spacing: normal;
   line-height: var(--leading-snug);
   color: var(--color-text-inverse);
-  --color-focus: var(--color-focus-inverse);
-  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
   text-align: left;
   white-space: normal;
 }
