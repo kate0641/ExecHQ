@@ -2193,27 +2193,27 @@ button.link {
 }
 
 .logo--md {
-  block-size: var(--space-lg);
+  block-size: var(--logo-height-md);
 }
 
 .logo--xl {
-  block-size: var(--space-3xl);
+  block-size: var(--logo-height-xl);
 }
 
 .logo--dark .logo__exec {
   fill: var(--color-logo-exec);
 }
 
-.logo--dark .logo__hq {
-  fill: var(--color-logo-hq);
+.logo--dark .logo__engine {
+  fill: var(--color-logo-engine);
 }
 
 .logo--light .logo__exec {
   fill: var(--color-logo-exec-on-inverse);
 }
 
-.logo--light .logo__hq {
-  fill: var(--color-logo-hq-on-inverse);
+.logo--light .logo__engine {
+  fill: var(--color-logo-engine-on-inverse);
 }
 
 /* The navigation concept's wrapper. Takes no box, so the nav inside it is laid
