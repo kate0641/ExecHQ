@@ -394,6 +394,19 @@ const PAGES: { page: string; date: string; added: string[] }[] = [
       "Kulim's letters close up: headings keep Kulim's own spacing (0), its text opens 0.01em and its labels 0.02em. The tighter word spacing stays.",
     ],
   },
+  {
+    page: "System cleanup and rebrand",
+    date: "9 November 2026",
+    added: [
+      "Rethink Sans replaces Kulim Park for display, title and heading, at the same sizes (its letters stand as tall) and its own spacing: display tracking and word spacing are 0.",
+      "The ExecEngine logo replaces ExecHQ: Exec gold or bright yellow, Engine navy or light blue, sized so its letters match the old mark's height.",
+      "One white card (.card), one card corner (20px, --radius-card), one text link (.text-link), one Close (the 44px icon button), one date tag (Badge tone when).",
+      "Small capitals are one type, the eyebrow at 12px: blue when it names a card, grey for dates, steps and publishers.",
+      "A white card of rows has 16px rows and a line that stops at the padding (the --list-* tokens, shared by List, SettingsGroup and .card--reads); rows split by a line outside a card sit 20 either side (--space-divided-item).",
+      "The 44px tap height is --button-target everywhere. The one text cut short with an ellipsis is the pinned draft preview, and Show draft opens it.",
+      "Tokens: one name per palette colour, no unused tokens, no Kulim spacing; unused styles and dated notes removed.",
+    ],
+  },
 ];
 
 /** A section built only from the shared pieces, at phone width. */

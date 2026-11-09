@@ -8,7 +8,7 @@ export const logoStates = defineComponentStates({
   status: "draft",
   flows: [],
   description:
-    "The ExecEngine logo, in two versions. Dark (gold and navy) sits on stone and blue 100; light (bright yellow and light blue) sits on any dark color. Not yet in the product: the Wordmark still stands in for it.",
+    "The ExecEngine logo, in two versions. Dark (gold and navy) sits on stone and blue 100; light (bright yellow and light blue) sits on any dark color. The Wordmark places it in the product.",
   component: Logo,
   notApplicable: {
     ...NOT_INTERACTIVE,
