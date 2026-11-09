@@ -11722,7 +11722,7 @@ ul.baseline-list__rows {
   display: inline-flex;
   align-items: center;
   gap: var(--space-3xs);
-  min-height: 2.75rem;
+  min-height: var(--button-target);
   padding: 0;
   border: 0;
   background: none;
@@ -13304,7 +13304,7 @@ ul.card-carousel__track {
 
 .linkedin-more__open {
   align-self: flex-start;
-  min-height: var(--target-min, 2.75rem);
+  min-height: var(--button-target);
   padding-block: 0;
   background: none;
   border: 0;
@@ -13757,7 +13757,7 @@ ul.came-of__rows {
 }
 
 .came-of__reply--ask {
-  min-height: var(--target-min, 2.75rem);
+  min-height: var(--button-target);
   background: none;
   border: 0;
   font: inherit;
@@ -13884,7 +13884,7 @@ ul.came-of__rows {
 
 .entry-drawer__more {
   align-self: flex-start;
-  min-height: var(--target-min, 2.75rem);
+  min-height: var(--button-target);
   padding-block: 0;
   background: none;
   border: 0;
@@ -15140,7 +15140,7 @@ ol.rtl__rail::before {
   display: inline-flex;
   align-self: flex-start;
   align-items: center;
-  min-height: 2.75rem;
+  min-height: var(--button-target);
   margin-block: calc((1lh - 2.75rem) / 2);
 }
 
@@ -16089,7 +16089,7 @@ fieldset.agenda__whens {
 }
 
 .checkin-recap__open {
-  min-height: 2.75rem;
+  min-height: var(--button-target);
   margin: 0;
   padding: 0;
   border: 0;
@@ -16530,7 +16530,7 @@ ul.li-shares {
   flex: none;
   align-items: center;
   gap: var(--space-2xs);
-  min-height: 2.75rem;
+  min-height: var(--button-target);
   padding: 0 var(--space-xs);
   border: 0;
   border-radius: var(--radius-pill);
@@ -17209,7 +17209,7 @@ ul.li-shares {
   justify-content: space-between;
   gap: var(--space-sm);
   width: 100%;
-  min-height: 2.75rem;
+  min-height: var(--button-target);
   padding: var(--space-card-padding);
   border: 0;
   background-color: transparent;
@@ -17446,7 +17446,7 @@ ul.li-shares {
 }
 
 .saved-page__undo {
-  min-height: 2.75rem;
+  min-height: var(--button-target);
   padding: 0 var(--space-2xs);
   border: 0;
   background: none;
@@ -17542,8 +17542,8 @@ ul.li-shares {
   display: grid;
   flex: none;
   place-items: center;
-  width: 2.75rem;
-  height: 2.75rem;
+  width: var(--button-target);
+  height: var(--button-target);
   border: 0;
   border-radius: var(--radius-pill);
   background: none;
@@ -19063,7 +19063,7 @@ ul.li-shares {
 .library__search-button {
   flex: none;
   min-width: 2.75rem;
-  min-height: 2.75rem;
+  min-height: var(--button-target);
 }
 
 /* No card around the rows, so they line up with the chips and the page's
@@ -19078,7 +19078,7 @@ ul.li-shares {
   align-items: center;
   justify-content: space-between;
   gap: var(--space-xs);
-  min-height: 2.75rem;
+  min-height: var(--button-target);
 }
 
 /* A line of what it says, over the status. It wraps whole: nothing in the
