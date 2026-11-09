@@ -15107,7 +15107,6 @@ ol.rtl__rail::before {
   overflow-wrap: anywhere;
 }
 
-/* "Edited by you." sits with her words, a small step under them, inside the quote's own padding. */
 .plan-direction__quote:has(+ .plan-direction__edited) {
   padding-bottom: 0;
 }
@@ -15120,8 +15119,6 @@ ol.rtl__rail::before {
   color: var(--color-text-secondary);
 }
 
-/* Under a hairline: why she has this plan, then the way to change her direction (9 Nov, in place of the
-   plan sheet). 12px between them; the link's extra target height reaches into it. */
 .plan-direction__foot {
   display: flex;
   flex-direction: column;
@@ -15130,7 +15127,6 @@ ol.rtl__rail::before {
   border-top: var(--border-subtle);
 }
 
-/* Why she has this plan: a quiet paragraph, no heading. It starts "You said …", so it explains itself. */
 .plan-direction__why {
   margin: 0;
   font-size: var(--text-sm);
