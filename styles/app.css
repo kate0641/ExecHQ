@@ -7867,6 +7867,12 @@ ol.ring-detail__timeline {
   color: var(--light-text-primary);
 }
 
+/* On web the drawer is see-through, so the white choices sit on the navy page: their ring is the light one. */
+[data-viewport="web"] .guide.guide--navy.plan-guided .answer-drawer .chip-group__chip:not(:where([data-viewport="mobile"] *)) {
+  --color-focus: var(--color-focus-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
+}
+
 /* On the navy, the LinkedIn source sits in its own white card, so the one thing she adds stands out. */
 .guide--navy .signal-list {
   padding: var(--space-card-padding);
