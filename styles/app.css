@@ -15807,7 +15807,7 @@ fieldset.agenda__whens {
   color: var(--color-text-inverse);
 }
 
-:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer :is(.answer-drawer__peek-status, .answer-drawer__step, .field__hint) {
+:is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer :is(.answer-drawer__peek-status, .answer-drawer__step, .field__hint, .login__or) {
   color: var(--color-text-inverse-muted);
 }
 
