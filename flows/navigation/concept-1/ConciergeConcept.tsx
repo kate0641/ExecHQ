@@ -241,7 +241,7 @@ export function ConciergeNav(props: NavConceptProps) {
       {screen
         ? createPortal(
             <div className={`concierge-host concierge-host--${mobile ? "mobile" : "card"}`}>
-              <div className="concierge-host__pill">
+              <div className="concierge-host__pill" inert={concierge.open}>
                 <Pill {...props} />
               </div>
               <button

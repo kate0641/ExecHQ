@@ -74,7 +74,7 @@ export function CohortConcierge({ cohort, window }: { cohort: Cohort; window: Da
       {screen
         ? createPortal(
             <div className="concierge-host concierge-host--card">
-              <div className="concierge-host__pill">
+              <div className="concierge-host__pill" inert={open}>
                 <ConciergePill
                   id={PILL_ID}
                   here={{ label: C.pillHere, icon: "people" }}
