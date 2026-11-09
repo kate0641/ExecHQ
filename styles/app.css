@@ -15626,7 +15626,7 @@ fieldset.agenda__whens {
 
 .agenda--stack .agenda__item {
   gap: 0;
-  padding: var(--space-md) 0;
+  padding: var(--space-divided-item) 0;
   border: 0;
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
   border-radius: 0;
@@ -17468,7 +17468,7 @@ ul.li-shares {
   display: flex;
   align-items: flex-start;
   gap: var(--space-sm);
-  padding: var(--space-sm) 0;
+  padding: var(--space-divided-item) 0;
 }
 
 .saved-page__item + .saved-page__item {
@@ -19666,7 +19666,7 @@ ul.li-shares {
 }
 
 .draft-page__section + .draft-page__section {
-  padding-top: var(--space-md);
+  padding-top: var(--space-divided-item);
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
@@ -21717,7 +21717,7 @@ ul.li-shares {
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-2xs);
-  padding: var(--space-sm) 0;
+  padding: var(--space-divided-item) 0;
 }
 
 .outcome-next__offer + .outcome-next__offer {
