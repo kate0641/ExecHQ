@@ -15141,7 +15141,7 @@ ol.rtl__rail::before {
   align-self: flex-start;
   align-items: center;
   min-height: var(--button-target);
-  margin-block: calc((1lh - 2.75rem) / 2);
+  margin-block: calc((1lh - var(--button-target)) / 2);
 }
 
 /* --- THE AGENDA (Plan, Concept 2) --- */
@@ -19062,7 +19062,7 @@ ul.li-shares {
 
 .library__search-button {
   flex: none;
-  min-width: 2.75rem;
+  min-width: var(--button-target);
   min-height: var(--button-target);
 }
 
