@@ -12,7 +12,7 @@ export const pickAnswerStates = defineComponentStates({
   status: "draft",
   flows: ["playbook-flow"],
   description:
-    "Playbook flow Concept 3's way of answering: the options one to a line, the same width, to check all that apply (or pick one, where there is only one answer), then Other, a field always there for her own words. Where ExecHQ knows something only she would say, it leads the chips.",
+    "Playbook flow Concept 3's way of answering: the options one to a line, the same width, to check all that apply (or pick one, where there is only one answer), then Other, a field always there for her own words. Where ExecEngine knows something only she would say, it leads the chips.",
   component: PickAnswer,
   notApplicable: {
     ...FIXED_CONTENT,

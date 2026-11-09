@@ -9,7 +9,7 @@ export interface CheckInRecapProps {
   status: "done" | "later";
   milestone?: MilestoneAnswer;
   feeling?: StageFeeling;
-  /** Anything she said ExecHQ should know, in her words. */
+  /** Anything she said ExecEngine should know, in her words. */
   words?: string;
   /** Opens the check-in: on its read-back when she has done it, at the start when she put it off. */
   onOpen: () => void;

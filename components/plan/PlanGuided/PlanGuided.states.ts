@@ -14,7 +14,7 @@ const stages = [
 ];
 const sparks = [
   { id: "s1", kind: "step" as const, label: "Your steps", text: "“Add three recent accomplishments” is on hold until next week.", on: "2026-10-05" },
-  { id: "s2", kind: "record" as const, label: "In ExecHQ", text: "Drafted your leadership story.", on: "2026-10-06" },
+  { id: "s2", kind: "record" as const, label: "In ExecEngine", text: "Drafted your leadership story.", on: "2026-10-06" },
 ];
 // The roadmap under the move: the Plan agenda, with its first step closed.
 const finishing = [

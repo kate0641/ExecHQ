@@ -10,7 +10,7 @@ export const respondLinkStates = defineComponentStates({
   status: "draft",
   flows: ["daily-briefing"],
   description:
-    "The way from a read into Thought Leadership Builder: Write a post about this, and what will happen, as one link. Under a read's actions, and at the end of an article read in ExecHQ (Briefing Concept 2). Never a gate.",
+    "The way from a read into Thought Leadership Builder: Write a post about this, and what will happen, as one link. Under a read's actions, and at the end of an article read in ExecEngine (Briefing Concept 2). Never a gate.",
   component: RespondLink,
   notApplicable: {
     ...FIXED_CONTENT,

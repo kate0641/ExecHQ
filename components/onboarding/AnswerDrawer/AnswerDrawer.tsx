@@ -44,7 +44,7 @@ const TEXT_FIELD = 'input:not([type="checkbox"]):not([type="radio"]):not([type="
 /**
  * Concept 3's answers come up in a drawer, by decision on 2026-09-24. Since
  * 2026-09-30 it holds only the answer: the question, what it is for and why
- * ExecHQ is asking stay together on the page above it (option B of three
+ * ExecEngine is asking stay together on the page above it (option B of three
  * tried). Where the drawer's field asks something more particular than the
  * page's heading, the field's own label says so.
  *

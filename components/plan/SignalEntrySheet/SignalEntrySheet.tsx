@@ -38,7 +38,7 @@ export interface SignalEntrySheetProps {
 }
 
 /**
- * The entry flow for something she did outside ExecHQ: four fields, the type,
+ * The entry flow for something she did outside ExecEngine: four fields, the type,
  * the date, and an optional link or note and what came of it. Nothing is searched for and nothing
  * leaves the browser. It opens fresh each time, and is offered at the moment it
  * is relevant, never kept as a standing form.

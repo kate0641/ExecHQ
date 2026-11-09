@@ -16,7 +16,7 @@ export interface WordmarkProps {
 }
 
 /**
- * The ExecHQ mark wherever the product shows it: the logo, with an optional
+ * The ExecEngine mark wherever the product shows it: the logo, with an optional
  * product line after it.
  *
  * Every place the brand appears as a mark goes through here. The tone follows

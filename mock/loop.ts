@@ -92,7 +92,7 @@ export const OUTCOME_OPTIONS = [
 ] as const;
 
 /** A kind's own answers, where the general ones don't fit. The Situation
- *  Brief asks how it went, like the rest, and ExecHQ gives the next step
+ *  Brief asks how it went, like the rest, and ExecEngine gives the next step
  *  whatever she answers (Kate, 13 Oct): it never asks her for one. Only
  *  "Nothing yet" is its own, because a meeting can move. The outcome each
  *  records is the same. */
@@ -133,7 +133,7 @@ export const OUTCOME_READBACK_BY_KIND: Partial<Record<ArtifactKind, Partial<Reco
 
 /** The note offered after an answer, where a kind asks for something
  *  particular: after any answer about a post, the engagement she saw. `any`
- *  is every answer. The brief offers none: ExecHQ gives the next step. */
+ *  is every answer. The brief offers none: ExecEngine gives the next step. */
 export const OUTCOME_NOTE_BY_KIND: Partial<Record<ArtifactKind, Partial<Record<(typeof OUTCOME_OPTIONS)[number]["type"] | "any", string>>>> = {
   "thought-leadership": { any: "Anything to note? Comments, messages, who reached out." },
 };
@@ -168,7 +168,7 @@ export const FOLLOW_UP_POLICY = {
  *  neutral, because a lock screen reading "How did your promotion pitch go?"
  *  is a privacy leak even in a personal inbox. Specifics sit behind sign-in. */
 export const FOLLOW_UP_EMAIL = {
-  subject: "A quick question from ExecHQ",
+  subject: "A quick question from ExecEngine",
   preview: "Sign in to see it. It takes one tap to answer.",
 } as const;
 

@@ -35,7 +35,7 @@ export const sparkStates = defineComponentStates({
     { label: "Dismissed with an ×, a cheer before the source — as in Home's Signal Picture", props: { ...base, items: [press], closeIcon: true, kicker: S.kickers[0] } },
     {
       label: "Added for you — with a way to hide it",
-      description: "On the Signal Picture, when ExecHQ recorded something she did not add herself. It says so, and if the system got it wrong she can hide it from her picture.",
+      description: "On the Signal Picture, when ExecEngine recorded something she did not add herself. It says so, and if the system got it wrong she can hide it from her picture.",
       props: { ...base, items: [recorded, press] },
     },
     {

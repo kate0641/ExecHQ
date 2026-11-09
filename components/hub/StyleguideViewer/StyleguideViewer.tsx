@@ -48,7 +48,7 @@ const BRAND_GROUPS: {
 }[] = [
   {
     title: "Primary",
-    role: "The colors that make a screen ExecHQ.",
+    role: "The colors that make a screen ExecEngine.",
     colours: [
       { token: "--brand-blue-800", name: "Navy" },
       { token: "--brand-yellow-400", name: "Bright yellow" },

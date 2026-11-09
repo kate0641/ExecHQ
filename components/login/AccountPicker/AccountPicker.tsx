@@ -9,8 +9,8 @@ export interface AccountPickerProps {
 
 /**
  * A stand-in for the account picker Google or Apple would show. It offers
- * the case that matters for ExecHQ beside the easy one: a work account, or a
- * hidden relay address, neither of which matches her ExecHQ account.
+ * the case that matters for ExecEngine beside the easy one: a work account, or a
+ * hidden relay address, neither of which matches her ExecEngine account.
  */
 export function AccountPicker({ accounts, onChoose, accountClassName }: AccountPickerProps) {
   return (

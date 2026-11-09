@@ -27,7 +27,7 @@ export interface BriefingReadCardProps {
 
 /**
  * One of the day's three reads: the publisher, the headline in the serif,
- * and why it is here, in ExecHQ's words, set apart from the publisher's.
+ * and why it is here, in ExecEngine's words, set apart from the publisher's.
  * It has its own pattern, never a plan step's: no horizon, no effort, no
  * reading time, and no done state. A read is read or not, and that is all.
  */
@@ -76,7 +76,7 @@ export function BriefingReadCard({
             {read.title}
           </button>
         </Heading>
-        {/* Compact: the rule alone marks it as ExecHQ's words. The label is
+        {/* Compact: the rule alone marks it as ExecEngine's words. The label is
             still there for a screen reader. */}
         <p className="brief-read__reason">
           <span className="u-visually-hidden">{C.read.reasonLabel}: </span>

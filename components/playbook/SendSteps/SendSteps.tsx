@@ -15,7 +15,7 @@ export interface SendStepsProps {
   /** Where she is pitching, as she named it. */
   name: string;
   type?: PitchType;
-  /** The outlet's published page, when ExecHQ has it. */
+  /** The outlet's published page, when ExecEngine has it. */
   outlet?: Outlet;
   /** The day it is, ISO. */
   today: string;
@@ -27,7 +27,7 @@ export interface SendStepsProps {
   sentOn?: string;
   /** Where and to whom she says it went, once sent. */
   sentTo?: string;
-  /** Days until ExecHQ asks what came of it. */
+  /** Days until ExecEngine asks what came of it. */
   checkBackDays?: number;
   /** Where a bio is made (Positioning Builder). */
   bioHref?: string;

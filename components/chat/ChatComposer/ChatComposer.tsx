@@ -21,7 +21,7 @@ export interface ChatComposerProps {
   fieldLabel?: string;
   /** The send button's name. "Send" in the chat. */
   sendLabel?: string;
-  /** On while ExecHQ is writing, so an answer cannot overtake the question.
+  /** On while ExecEngine is writing, so an answer cannot overtake the question.
    *  The field stays focusable; only sending is held back. */
   disabled?: boolean;
   /** Holds back sending only: the field stays as it is and can be typed in,
@@ -31,7 +31,7 @@ export interface ChatComposerProps {
   holdSend?: boolean;
   /** Speak instead of type. */
   voice?: { listening: boolean; onToggle: () => void };
-  /** Rests the mic while ExecHQ is writing, without hiding it. */
+  /** Rests the mic while ExecEngine is writing, without hiding it. */
   micDisabled?: boolean;
   /** Attach a file. Only offered while a file is what is being asked for, so
    *  it appears and goes with that question rather than resting disabled. */
@@ -122,7 +122,7 @@ export function ChatComposer({
         autoComplete="off"
         placeholder={placeholder}
         value={value}
-        // Read-only rather than disabled while ExecHQ is writing: a disabled
+        // Read-only rather than disabled while ExecEngine is writing: a disabled
         // field drops focus, and the user would lose their place every turn.
         readOnly={disabled}
         aria-disabled={disabled || undefined}

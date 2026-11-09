@@ -8,13 +8,13 @@ export interface RecommendationCardProps {
   forWhom?: string;
   /** Why this plan. Left out where the page has already said it. */
   reason?: string;
-  /** How sure ExecHQ is, said in words, e.g. "Checked against your answers". */
+  /** How sure ExecEngine is, said in words, e.g. "Checked against your answers". */
   status?: string;
   className?: string;
 }
 
 /**
- * ExecHQ's recommendation, stated as one: a plan and the reason for it, not a
+ * ExecEngine's recommendation, stated as one: a plan and the reason for it, not a
  * menu. Concept 3 makes it as soon as it hears where the user wants to go,
  * then tests it with every question after.
  */

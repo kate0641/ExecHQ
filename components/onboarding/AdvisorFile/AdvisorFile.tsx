@@ -22,7 +22,7 @@ export interface AdvisorFileProps {
 }
 
 /**
- * What ExecHQ knows so far: a file that gains a line with every answer, by
+ * What ExecEngine knows so far: a file that gains a line with every answer, by
  * decision on 2026-09-24. It shows "it remembers" rather than claiming it.
  * Closed, it is one line with a count and what was just added; open, the
  * whole list. The disclosure is a real button, and the list leaves the page

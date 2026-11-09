@@ -29,7 +29,7 @@ export interface DraftEditorProps {
   id?: string;
   /**
    * How it reads once she has marked it ready:
-   * - `draft`: the working draft, with the key, ExecHQ's wording marked and
+   * - `draft`: the working draft, with the key, ExecEngine's wording marked and
    *   Edit on every section.
    * - `clean`: a finished document (Concept 1, option A). No key, no marking,
    *   no Edit; the questions still open gather in one folded box at the top.
@@ -118,7 +118,7 @@ function SectionEditor({
 
 /**
  * The draft, where she reads and changes it. It is always called a draft
- * until she marks it ready. Her words and ExecHQ's wording look different,
+ * until she marks it ready. Her words and ExecEngine's wording look different,
  * with a key to say which is which, so generated framing is never mistaken
  * for what she said. Anything only she knows is a question in the text, not
  * an invented number or name, and the questions are gathered under the draft
@@ -274,7 +274,7 @@ export function DraftEditor({
                       )
                     ) : (
                       <li key={i} className={segment.by === "you" || !working ? "draft-editor__you" : "draft-editor__exechq"}>
-                        {segment.by === "exechq" && working ? <span className="u-visually-hidden">ExecHQ: </span> : null}
+                        {segment.by === "exechq" && working ? <span className="u-visually-hidden">ExecEngine: </span> : null}
                         {segment.text}
                       </li>
                     )
@@ -293,7 +293,7 @@ export function DraftEditor({
                       )
                     ) : (
                       <span key={i} className={segment.by === "you" || !working ? "draft-editor__you" : "draft-editor__exechq"}>
-                        {segment.by === "exechq" && working ? <span className="u-visually-hidden">ExecHQ: </span> : null}
+                        {segment.by === "exechq" && working ? <span className="u-visually-hidden">ExecEngine: </span> : null}
                         {segment.text}
                       </span>
                     )

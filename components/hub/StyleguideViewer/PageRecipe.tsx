@@ -26,14 +26,14 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
     note: "What the page is made of.",
     rules: [
       {
-        rule: "Your day lives in daylight; your plan and your progress live in ExecHQ's room. A page about today (Home, the Briefing, the Playbook and her drafts, onboarding's quiet steps) is stone: she reads, writes and acts there. A page about her direction and where she stands (the Plan, the Signal Picture, Profile, onboarding's ExecHQ moments) is navy. For a new screen, ask: is this about today, or about her trajectory?",
+        rule: "Your day lives in daylight; your plan and your progress live in ExecEngine's room. A page about today (Home, the Briefing, the Playbook and her drafts, onboarding's quiet steps) is stone: she reads, writes and acts there. A page about her direction and where she stands (the Plan, the Signal Picture, Profile, onboarding's ExecEngine moments) is navy. For a new screen, ask: is this about today, or about her trajectory?",
         why: "Dark text on a light page reads best for long reading and writing, older readers included (Nielsen Norman Group, 2020), and Home's skies need a light ground to show. Navy makes the few-words, look-once pages feel private and focused. The daily check-in on Home is the day; the Plan's stage check-in is the room. The advisor's sheet and drawers keep their own navy look on any page. The doors (the welcome, Login, signed out) keep the dark brand cover. Long text on a navy page sits on a white card, never light on dark (designer, 2026-10-18).",
         from: "Home, Plan, Signal Picture, Profile, Onboarding",
         uses: ["--color-surface", "--color-surface-inverse", ".guide--navy", ".signals-page"],
       },
       {
         rule: "Cards come in four levels, named the same on every page. Strong, look here first, is navy on stone and white on navy, at most one on a stone page. Accent, a step below, is light blue on stone; on navy it is not a card, only the mark. Default, the normal card, is white on stone and darker navy on navy. Open is no card, straight on the page. A navy page's opening section may sit in darker navy and lead by coming first, with its yellow headline and its one yellow button.",
-        why: "A card's colour says how much it stands out on that page, and nothing else, so it works on stone and navy alike. Light tints wash toward white on navy, so the accent level turns into a mark there. What a card means (written for her, her words, ExecHQ) is a small mark or band, the same on any page (designer, 2026-10-18).",
+        why: "A card's colour says how much it stands out on that page, and nothing else, so it works on stone and navy alike. Light tints wash toward white on navy, so the accent level turns into a mark there. What a card means (written for her, her words, ExecEngine) is a small mark or band, the same on any page (designer, 2026-10-18).",
         from: "Signal Picture, Plan, Home",
         uses: ["--color-surface-inverse", "--color-surface-for-her", "--color-surface-raised", "--color-surface-quiet-on-inverse"],
       },
@@ -196,13 +196,13 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         from: "Navigation",
       },
       {
-        rule: "Libre Baskerville italic is only for words that are said: a welcome line, ExecHQ speaking, her own words quoted back, a publication's name. Never a title, a label or interface text, and always clearly smaller than the screen's title.",
+        rule: "Libre Baskerville italic is only for words that are said: a welcome line, ExecEngine speaking, her own words quoted back, a publication's name. Never a title, a label or interface text, and always clearly smaller than the screen's title.",
         why: "One clear job keeps the serif meaning the same thing wherever it shows. At 22px under a 28px title it competed with the title on Reflection.",
         from: "Onboarding",
         uses: ["--type-editorial-*"],
       },
       {
-        rule: "The editorial role has four sizes, each with one job. 28px: the web welcome's statement on its dark panel. 18px: ExecHQ speaking on a guided step. 16px: her words quoted back, and the chat's welcome line. 14px, at the 500 weight: a short line under a heading, a quote inside the chat, a publication's name.",
+        rule: "The editorial role has four sizes, each with one job. 28px: the web welcome's statement on its dark panel. 18px: ExecEngine speaking on a guided step. 16px: her words quoted back, and the chat's welcome line. 14px, at the 500 weight: a short line under a heading, a quote inside the chat, a publication's name.",
         why: "The sizes had grown one per screen (14, 16, 22, 28). Four, each named for its job, make the choice obvious, and 14px italic needs the heavier weight to read.",
         from: "Onboarding",
         uses: ["--type-editorial-size", "--type-editorial-size-md", "--type-editorial-size-sm", "--type-editorial-size-xs", "--type-editorial-weight-xs"],
@@ -273,7 +273,7 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
       },
       {
         rule: "Hover never carries meaning. Every tap target is at least 44px.",
-        why: "ExecHQ is used on a phone first.",
+        why: "ExecEngine is used on a phone first.",
         from: "Home",
       },
     ],

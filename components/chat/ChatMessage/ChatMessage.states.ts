@@ -10,15 +10,15 @@ export const chatMessageStates = defineComponentStates({
   status: "draft",
   flows: ["onboarding"],
   description:
-    "One message in Concept 2's conversation. ExecHQ's words are uncontained, on the page at full width, with the mark and name at the start of each run. The user's sit right as dark bubbles and can carry a “Change this answer” link. Typing shows three dots, hidden from screen readers because the message itself is announced when it lands.",
+    "One message in Concept 2's conversation. ExecEngine's words are uncontained, on the page at full width, with the mark and name at the start of each run. The user's sit right as dark bubbles and can carry a “Change this answer” link. Typing shows three dots, hidden from screen readers because the message itself is announced when it lands.",
   component: ChatMessage,
   notApplicable: {
     empty: "A message only appears once it has text; Typing covers the wait before it.",
     filled: NOT_AN_INPUT,
   },
   variants: [
-    { label: "From ExecHQ — starts a run", props: { from: "advisor", lead: true, children: CHAT_C2.direction } },
-    { label: "From ExecHQ — later in a run", props: { from: "advisor", children: CHAT_C2.directionHint } },
+    { label: "From ExecEngine — starts a run", props: { from: "advisor", lead: true, children: CHAT_C2.direction } },
+    { label: "From ExecEngine — later in a run", props: { from: "advisor", children: CHAT_C2.directionHint } },
     { label: "From you", props: { from: "you", children: "Reach the C-suite within three years", onEdit: () => {} } },
     { label: "Typing", states: ["loading"], props: { from: "advisor", lead: true, typing: true } },
     {

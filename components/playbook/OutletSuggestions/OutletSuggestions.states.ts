@@ -16,7 +16,7 @@ export const outletSuggestionsStates = defineComponentStates({
   component: OutletSuggestions,
   notApplicable: {
     disabled: "Every outlet can always be picked.",
-    loading: "The outlets are ExecHQ’s own list; nothing to wait for.",
+    loading: "The outlets are ExecEngine’s own list; nothing to wait for.",
     error: CONTENT_INSIDE.error,
     filled: NOT_AN_INPUT,
   },

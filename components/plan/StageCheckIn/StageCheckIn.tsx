@@ -20,7 +20,7 @@ const TONES = OUTCOME_OPTIONS.filter((o) => o.type !== "no-longer-relevant");
 /** One thing she did in the stage. */
 export interface CheckInItem {
   id: string;
-  /** Where it came from: one of her steps, something ExecHQ made with her, or something she added. */
+  /** Where it came from: one of her steps, something ExecEngine made with her, or something she added. */
   from: "step" | "execHQ" | "you";
   title: string;
   /** A detail under the title, in regular weight: where something she added ran ("LinkedIn article"). */
@@ -81,7 +81,7 @@ export interface StageCheckInProps {
 }
 
 /**
- * The stage check-in. ExecHQ decides a stage is finished, from her work, and before it builds on it, asks
+ * The stage check-in. ExecEngine decides a stage is finished, from her work, and before it builds on it, asks
  * how it went, one thing a page, with onboarding's page and answer drawer: what she did, with what she has
  * already said; what came of each thing she has not said yet; whether she got what finishing looks like;
  * and how she feels about her plan now. It ends on a read-back in her words. Every part can be skipped,
@@ -385,7 +385,7 @@ export function StageCheckIn({
         </Button>
       }
     >
-      <ReflectionReply from="ExecHQ" text={reply} />
+      <ReflectionReply from="ExecEngine" text={reply} />
       <section className="stage-checkin__section" aria-labelledby={`${headingId}-did`}>
         <h2 className="stage-checkin__heading" id={`${headingId}-did`}>
           {C.didHeading}

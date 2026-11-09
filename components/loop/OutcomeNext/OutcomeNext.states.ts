@@ -24,7 +24,7 @@ export const outcomeNextStates = defineComponentStates({
   status: "draft",
   flows: ["playbook-flow"],
   description:
-    "What comes after she says how something went (the Situation Brief first). Her one-tap answer is all the feedback: ExecHQ asks nothing more, says it back, and gives the next step whatever it was, each with one action: a Plan step from the work's own goal (added only when she says so), the follow-up email, a new brief, or what's next on her Plan. Not now folds it to one line.",
+    "What comes after she says how something went (the Situation Brief first). Her one-tap answer is all the feedback: ExecEngine asks nothing more, says it back, and gives the next step whatever it was, each with one action: a Plan step from the work's own goal (added only when she says so), the follow-up email, a new brief, or what's next on her Plan. Not now folds it to one line.",
   component: OutcomeNext,
   notApplicable: {
     ...CONTROLS_INSIDE,

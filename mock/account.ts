@@ -11,7 +11,7 @@
  * she sees it.
  */
 
-/** What ExecHQ can email her about. Email is the only way it reaches her:
+/** What ExecEngine can email her about. Email is the only way it reaches her:
  *  there are no app or push notifications, no frequency setting and no quiet
  *  hours. */
 export type NotifyTopic = "followUps" | "briefing" | "plan";

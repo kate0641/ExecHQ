@@ -1,5 +1,5 @@
 /* =============================================================================
-   ExecHQ design tokens. The only file with literal colour values
+   ExecEngine design tokens. The only file with literal colour values
    (`npm run check:tokens` enforces it).
 
    1. Palette   blue, green, yellow, orange, stone, 100–900 (stone adds 75, 250)

@@ -12,7 +12,7 @@ export interface LogoProps {
 }
 
 /**
- * The ExecHQ logo: "Exec" in a serif, "HQ" in a sans, drawn from the brand
+ * The ExecEngine logo: "Exec" in a serif, "HQ" in a sans, drawn from the brand
  * files. Its colours are tokens (--color-logo-*), so it follows the palette.
  *
  * The artwork is hidden from screen readers, which read the name beside it.

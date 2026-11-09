@@ -16,7 +16,7 @@ export interface RingDetailProps {
 /**
  * What a ring holds, opened from RingsHero: each action and where it stands,
  * then a dated timeline of what they are tracking, every entry marked as
- * observed (it happened in ExecHQ) or reported (the user told us). Actions
+ * observed (it happened in ExecEngine) or reported (the user told us). Actions
  * declined or set aside are mentioned once, quietly, and never as missed.
  */
 export function RingDetail({ ring, signals, today, id = "ring-detail", className }: RingDetailProps) {

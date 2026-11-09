@@ -14,7 +14,7 @@ export interface RespondLinkProps {
 /**
  * The way from a read into Thought Leadership Builder: "Write a post about
  * this", and what will happen, as one link. Under a read's actions, and at the
- * end of an article read in ExecHQ (Concept 2), where she has just finished
+ * end of an article read in ExecEngine (Concept 2), where she has just finished
  * it. Never a gate: the read is done whether she writes or not.
  */
 export function RespondLink({ href, onClick, demo, className }: RespondLinkProps) {

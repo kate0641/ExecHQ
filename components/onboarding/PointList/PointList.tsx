@@ -19,7 +19,7 @@ export interface PointListProps {
 }
 
 /**
- * A short list of explained points: what ExecHQ is, how it is built, the
+ * A short list of explained points: what ExecEngine is, how it is built, the
  * parts of a plan. Each point is a title and a line; a plan part also says how
  * it helps, because the guided concept explains what things are for, not just
  * what they are.

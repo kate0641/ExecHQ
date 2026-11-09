@@ -31,11 +31,11 @@ export interface InputPanelProps {
   collapseOptional?: boolean;
   /** Opens with the optional questions showing (catalogue). */
   startExpanded?: boolean;
-  /** One instruction line only (what ExecHQ has), each known fact as one
+  /** One instruction line only (what ExecEngine has), each known fact as one
    *  compact row (the fact, then its name and source with Edit on one quiet
    *  line), and no note under the button. Concept 1's last step. */
   compact?: boolean;
-  /** What ExecHQ already has comes last, just above the button, as one
+  /** What ExecEngine already has comes last, just above the button, as one
    *  quiet line: "Built with your positioning statement · Edit"; and each
    *  question's hint is its placeholder, so a question is one field
    *  (Playbook flow Concept 2's start, 13 October). */
@@ -57,7 +57,7 @@ export interface InputPanelProps {
 const shortName = (input: ToolInput): string =>
   C.names[input.id] ?? input.label.replace(/^your /i, "").split(",")[0].replace(/^./, (c) => c.toLowerCase());
 
-/** What ExecHQ already knows: read, with where it came from, and Edit. */
+/** What ExecEngine already knows: read, with where it came from, and Edit. */
 function KnownRow({ input, value, onChange, compact = false }: { input: ToolInput; value: string; onChange: (value: string) => void; compact?: boolean }) {
   const [editing, setEditing] = useState(false);
   const box = useRef<HTMLDivElement>(null);
@@ -128,7 +128,7 @@ function KnownRow({ input, value, onChange, compact = false }: { input: ToolInpu
 }
 
 /**
- * What a tool needs before its first draft, and nothing more. Anything ExecHQ
+ * What a tool needs before its first draft, and nothing more. Anything ExecEngine
  * already knows arrives filled in, says where it came from, and can be
  * changed; only what only she can answer is asked. An enricher may be offered,
  * but the draft never waits for it.
@@ -232,7 +232,7 @@ export function InputPanel({
       ) : null}
 
       {known.length && builtWith ? (
-        // One line and one Edit, however many things ExecHQ has: Edit opens
+        // One line and one Edit, however many things ExecEngine has: Edit opens
         // them all, together, under the line (13 Oct).
         <section className="input-panel__built" aria-label={C.known}>
           <p className="input-panel__built-line">

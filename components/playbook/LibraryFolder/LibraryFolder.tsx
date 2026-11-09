@@ -33,7 +33,7 @@ export interface LibraryFolderProps {
 }
 
 /**
- * One of the library's folders: a folder per tool, filed by ExecHQ, never
+ * One of the library's folders: a folder per tool, filed by ExecEngine, never
  * made or moved by her. In the grid, a solid navy card, the tool's icon
  * beside its name; open, the same navy card heads
  * the folder's page. It says how many it holds, what state they are

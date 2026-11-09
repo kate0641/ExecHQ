@@ -28,7 +28,7 @@ export default function ShowroomPage() {
       page="showroom"
       intro={
         <p>
-          Where ExecHQ is designed. Every room shows the real tokens, components
+          Where ExecEngine is designed. Every room shows the real tokens, components
           and flows from this repo — not copies — on sample data. It runs on a
           laptop and on every pull request&apos;s preview link, and is never
           built into the public site.

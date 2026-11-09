@@ -30,7 +30,7 @@ const isOn = (notify: Account["notify"], item: NotifyItem) =>
 
 /**
  * The only notifications there are: email, one switch for the plan and one
- * for the Daily Briefing. ExecHQ is a website, so nothing else can reach her.
+ * for the Daily Briefing. ExecEngine is a website, so nothing else can reach her.
  * Each takes effect at once, with no save step.
  */
 export function NotificationsDetail({

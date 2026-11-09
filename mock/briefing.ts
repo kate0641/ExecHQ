@@ -90,20 +90,20 @@ export interface BriefingRead {
   /** What it grounds in, for the spec and the review notes. Never shown. */
   groundedIn: "plan" | "direction";
   /** Two or three sentences on what it says, shown when she opens it. In the
-   *  product this is the publisher's own standfirst, not ExecHQ's summary. */
+   *  product this is the publisher's own standfirst, not ExecEngine's summary. */
   standfirst: string;
   /** One passage from the article: what a post started from a passage
    *  quotes (Thought Leadership Builder's source). The first noted passage
    *  in `body`. */
   passage: string;
-  /** Concept 2: the whole article, read in ExecHQ, as paragraphs. A part
-   *  with a note is a highlighted passage with ExecHQ's note on it, so the
+  /** Concept 2: the whole article, read in ExecEngine, as paragraphs. A part
+   *  with a note is a highlighted passage with ExecEngine's note on it, so the
    *  notes run all the way through. Invented, like everything here; in the
    *  product it needs a licence from the publisher. */
   body: ArticlePart[][];
 }
 
-/** A run of an article's text, or a highlighted passage with ExecHQ's note. */
+/** A run of an article's text, or a highlighted passage with ExecEngine's note. */
 export type ArticlePart = string | { text: string; note: string };
 
 export const TODAYS_READS: BriefingRead[] = [
@@ -277,7 +277,7 @@ export const BRIEFING_COPY = {
   /* --- First visit: no publishers chosen ---------------------------------- */
   firstVisit: {
     heading: "Where should your reads come from?",
-    body: "Choose the publishers you trust. Each morning ExecHQ picks three reads from them and says why each one is there.",
+    body: "Choose the publishers you trust. Each morning ExecEngine picks three reads from them and says why each one is there.",
     suggestedHeading: "Suggested for you",
     suggestedWhy: "Chosen for leading a broader marketing organization. Change any of them.",
     useSuggested: "Start with these",
@@ -290,7 +290,7 @@ export const BRIEFING_COPY = {
 
   /* --- A read ------------------------------------------------------------- */
   read: {
-    /** Above the reason line, so it reads as ExecHQ's words, not the publisher's. */
+    /** Above the reason line, so it reads as ExecEngine's words, not the publisher's. */
     reasonLabel: "Why it’s here",
     open: "Read",
     /** In the product this leaves for the publisher's site. */
@@ -347,13 +347,13 @@ export const BRIEFING_COPY = {
     label: "Today’s three reads",
   },
 
-  /* --- Concept 2: ExecHQ's notes on highlighted passages -------------------- */
+  /* --- Concept 2: ExecEngine's notes on highlighted passages -------------------- */
   passage: {
-    noteLabel: "ExecHQ’s note",
+    noteLabel: "ExecEngine’s note",
     /** Concept 2: after a highlighted passage, for screen readers. */
-    noteRef: (n: number) => `ExecHQ’s note ${n} follows`,
-    /** Concept 2: the foot of an article read in ExecHQ. */
-    credit: (publisher: string) => `Published by ${publisher}. Highlights and notes by ExecHQ.`,
+    noteRef: (n: number) => `ExecEngine’s note ${n} follows`,
+    /** Concept 2: the foot of an article read in ExecEngine. */
+    credit: (publisher: string) => `Published by ${publisher}. Highlights and notes by ExecEngine.`,
   },
 
   /* --- End of the day's set ----------------------------------------------- */

@@ -31,7 +31,7 @@ function Interview() {
   // The start screen asks the tool's first question, as in Concept 1, so the
   // interview leaves that one out. Every other question is its own screen,
   // answered with taps, the optional ones too, with Skip (13 Oct); only what
-  // ExecHQ already has waits for the last screen.
+  // ExecEngine already has waits for the last screen.
   const isKnown = (input: ToolInput) => Boolean(input.source && input.kind !== "choice");
   const open = f.notFirst(f.inputs.filter((input) => !isKnown(input)));
   // What she must answer first, then the optional questions.
@@ -43,7 +43,7 @@ function Interview() {
   // button that is simply off (13 Oct).
   const [missing, setMissing] = useState(false);
   const [picks, setPicks] = useState<Record<string, { picked: string[]; other: string }>>({});
-  /** A question's chips: her own answer first, where ExecHQ knows it. */
+  /** A question's chips: her own answer first, where ExecEngine knows it. */
   const pickFor = (input: ToolInput) => {
     const pick = INTERVIEW_PICKS[f.kind]?.[input.id];
     if (!pick) return undefined;
@@ -196,7 +196,7 @@ function Interview() {
       },
     };
   };
-  /** The last question writes the draft; what ExecHQ has is one line above
+  /** The last question writes the draft; what ExecEngine has is one line above
    *  its button (13 Oct), so there is no check page. */
   const builtWith =
     at === asked.length - 1 && hasKnown ? (
@@ -249,7 +249,7 @@ function Interview() {
       {f.versions}
     </div>
   );
-  /** The screen after the questions, when ExecHQ has things to check. */
+  /** The screen after the questions, when ExecEngine has things to check. */
   const knownStep = (
     <div className="tool-flow__interview">
       <StepHeader eyebrow={C.step(asked.length + 1, asked.length + 1)} title={hasKnown ? C.knownStep : C.lastStep} id={STEP_HEADING} />
@@ -347,7 +347,7 @@ function Interview() {
     <PinnedDraft
       label={f.version ? DRAFT_COPY.label(f.version.n) : C.soFar}
       // Collapsed, the draft's opening; open, marked as the draft is: her
-      // words apart from ExecHQ's wording.
+      // words apart from ExecEngine's wording.
       preview={f.draftPreview()}
       expanded={expanded}
       onToggle={() => setExpanded(!expanded)}

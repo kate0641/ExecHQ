@@ -35,7 +35,7 @@ export function pickedPhrase(picked: readonly string[], other: string): string {
  * Playbook flow Concept 3's way of answering (13 October): tap, don't type.
  * The options one to a line, the same width, to check all that apply (or
  * pick one, where there is only one answer), then a field for anything else
- * in her own words, always there to tap into. Where ExecHQ knows something
+ * in her own words, always there to tap into. Where ExecEngine knows something
  * only she would say, it leads the options, so a tap still says something
  * specific.
  */

@@ -2,15 +2,15 @@ import type { ReactNode } from "react";
 import { AdvisorMark } from "@/components/chat/AdvisorMark";
 
 export interface ChatMessageProps {
-  /** ExecHQ's words sit on the page; the user's sit right, in a bubble. */
+  /** ExecEngine's words sit on the page; the user's sit right, in a bubble. */
   from: "advisor" | "you";
   children?: ReactNode;
-  /** Starts a run of ExecHQ's messages: shows the mark and the name above.
+  /** Starts a run of ExecEngine's messages: shows the mark and the name above.
    *  The rest of the run follows without them. */
   lead?: boolean;
   /** A wider message for a read-back, a plan or a story. */
   card?: boolean;
-  /** Shows ExecHQ is writing: three dots in place of the words. */
+  /** Shows ExecEngine is writing: three dots in place of the words. */
   typing?: boolean;
   /** Lets the user change what they said. The conversation carries on from
    *  there. Only on the user's own messages. */
@@ -24,7 +24,7 @@ export interface ChatMessageProps {
 /**
  * One message in the conversation.
  *
- * ExecHQ's messages are uncontained, by decision on 2026-09-24: its words sit
+ * ExecEngine's messages are uncontained, by decision on 2026-09-24: its words sit
  * directly on the page at full width, like an advisor writing to you, and the
  * mark and name appear once at the start of each run. The user's messages
  * stay as dark bubbles on the right, so who said what is never in doubt.
@@ -40,7 +40,7 @@ export function ChatMessage({
   typing = false,
   onEdit,
   editLabel = "Change this answer",
-  advisorName = "ExecHQ",
+  advisorName = "ExecEngine",
   className,
 }: ChatMessageProps) {
   const classes = [

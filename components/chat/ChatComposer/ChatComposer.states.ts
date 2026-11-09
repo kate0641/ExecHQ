@@ -10,7 +10,7 @@ export const chatComposerStates = defineComponentStates({
   status: "draft",
   flows: ["onboarding"],
   description:
-    "The chat's message field, pinned to the foot: type or speak, then send. Disabled while ExecHQ is writing. Send stays disabled until there is something to send.",
+    "The chat's message field, pinned to the foot: type or speak, then send. Disabled while ExecEngine is writing. Send stays disabled until there is something to send.",
   component: ChatComposer,
   variants: [
     { label: "Empty", props: { value: "", onChange: noop, onSend: noop, placeholder: CHAT_C2.emailPlaceholder } },
@@ -27,7 +27,7 @@ export const chatComposerStates = defineComponentStates({
       label: "Listening",
       props: { value: "I want to move from", onChange: noop, onSend: noop, voice: { listening: true, onToggle: noop } },
     },
-    { label: "Disabled", description: "While ExecHQ is writing.", props: { value: "", onChange: noop, onSend: noop, disabled: true } },
+    { label: "Disabled", description: "While ExecEngine is writing.", props: { value: "", onChange: noop, onSend: noop, disabled: true } },
     {
       label: "Sending held, still typeable",
       description: "The advisor's sheet while he replies: the box looks as usual and takes typing; only send rests.",

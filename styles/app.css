@@ -1,4 +1,4 @@
-/* --- ExecHQ prototype — the shared stylesheet --- */
+/* --- ExecEngine prototype — the shared stylesheet --- */
 
 /* --- 1. RESET AND BASE ELEMENTS --- */
 
@@ -3000,7 +3000,7 @@ ul.concierge-suggest {
 }
 
 /* The same distance above and below every one of her messages. The first
-   line of an answer follows the hidden "ExecHQ:" label, so it takes no
+   line of an answer follows the hidden "ExecEngine:" label, so it takes no
    paragraph gap from it, and its half-leading is trimmed so the words, not
    the line box, sit the full gap under her bubble. */
 .concierge-thread .chat-message--advisor .chat-message__body > .u-visually-hidden + * {
@@ -6220,7 +6220,7 @@ ol.ring-detail__timeline {
   color: var(--color-text-inverse-muted);
 }
 
-/* Messages. ExecHQ's words sit on the page, uncontained, with the mark and
+/* Messages. ExecEngine's words sit on the page, uncontained, with the mark and
    name at the start of each run; the user's are dark bubbles on the right. */
 .chat-message {
   display: flex;
@@ -7611,7 +7611,7 @@ ol.ring-detail__timeline {
 
 /* --- Concept 3: the guided onboarding --- */
 /* Paged like Concept 1, but read like an advisor's briefing: progress said in
-   words, a file of what ExecHQ knows, and a margin note on every page in the
+   words, a file of what ExecEngine knows, and a margin note on every page in the
    same place, just above the action. */
 
 .guide {
@@ -7828,7 +7828,7 @@ ol.ring-detail__timeline {
 }
 
 /* A navy page: onboarding's steps with no drawer (Signals, the recommendation,
-   the first draft, Done) are flooded navy, so the flow alternates quiet screens with ExecHQ moments.
+   the first draft, Done) are flooded navy, so the flow alternates quiet screens with ExecEngine moments.
    A screen with a navy drawer stays light: the drawer is already its colour. The page's tokens remap
    to the inverse set so its words, links and focus follow; headlines and section labels are yellow,
    the one warm thing above the action. White cards on it take the light set back. The page itself
@@ -8108,7 +8108,7 @@ ol.ring-detail__timeline {
   color: var(--color-text-primary);
 }
 
-/* What ExecHQ knows so far. */
+/* What ExecEngine knows so far. */
 .advisor-file {
   border: var(--border-thin);
   border-radius: var(--radius-md);
@@ -8327,7 +8327,7 @@ ol.ring-detail__timeline {
   padding: var(--space-xs) 0;
 }
 
-/* ExecHQ speaking: the editorial role's medium size, well under the title. */
+/* ExecEngine speaking: the editorial role's medium size, well under the title. */
 .reflection-reply__quote blockquote {
   margin: 0;
   font-family: var(--type-editorial-font);
@@ -8446,7 +8446,7 @@ ol.ring-detail__timeline {
   color: var(--color-text-secondary);
 }
 
-/* What ExecHQ heard, and a plan's open end: set as statements. */
+/* What ExecEngine heard, and a plan's open end: set as statements. */
 .guide__heard {
   font-size: var(--text-lg);
   line-height: var(--leading-relaxed);
@@ -9141,7 +9141,7 @@ ol.signal__list {
   background-color: var(--color-border-inverse);
 }
 
-/* Filled: seen in ExecHQ. Hollow: the user told us. The words say it too. */
+/* Filled: seen in ExecEngine. Hollow: the user told us. The words say it too. */
 .signal__node {
   width: 14px;
   height: 14px;
@@ -9197,7 +9197,7 @@ ol.signal__list {
   color: var(--color-text-inverse-muted);
 }
 
-/* "Your word": a reported fact, tappable to say how ExecHQ knows. At least
+/* "Your word": a reported fact, tappable to say how ExecEngine knows. At least
    24px tall, for WCAG 2.2's minimum target size. */
 .signal__source {
   display: inline-flex;
@@ -16982,7 +16982,7 @@ ul.li-shares {
   border-radius: var(--radius-xs);
 }
 
-/* Why it is here, in ExecHQ's words: a rule to its left sets it apart from
+/* Why it is here, in ExecEngine's words: a rule to its left sets it apart from
    the publisher's headline. */
 .brief-read__reason {
   display: flex;
@@ -17323,7 +17323,7 @@ ul.li-shares {
   color: var(--color-text-muted);
 }
 
-/* --- An article read in ExecHQ, with ExecHQ's notes (Concept 2) --- */
+/* --- An article read in ExecEngine, with ExecEngine's notes (Concept 2) --- */
 
 [data-viewport="web"] .briefing-page--news.briefing-page--reading {
   max-width: 62rem;
@@ -18179,7 +18179,7 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
-/* What ExecHQ already knows: read like a fact, not a form. */
+/* What ExecEngine already knows: read like a fact, not a form. */
 .input-panel__known {
   display: flex;
   flex-direction: column;
@@ -18880,7 +18880,7 @@ ul.li-shares {
   white-space: normal;
 }
 
-/* ExecHQ's wording: a dotted underline and a quieter ink, so it reads as a
+/* ExecEngine's wording: a dotted underline and a quieter ink, so it reads as a
    suggestion beside her own words. */
 /* --- Once it is ready: the clean read (Concept 1) and the page (Concept 2) --- */
 

@@ -14,7 +14,7 @@ export const signInEmailStates = defineComponentStates({
   status: "draft",
   flows: ["login", "onboarding"],
   description:
-    "The sign-in email drawn as a message in a mail app: neutral subject and the one-time code. No button: she types the code into ExecHQ.",
+    "The sign-in email drawn as a message in a mail app: neutral subject and the one-time code. No button: she types the code into ExecEngine.",
   component: SignInEmail,
   notApplicable: {
     ...FIXED_CONTENT,

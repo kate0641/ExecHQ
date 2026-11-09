@@ -36,7 +36,7 @@ export const stageCheckInStates = defineComponentStates({
   status: "draft",
   flows: ["plan"],
   description:
-    "The stage check-in in Plan Concept 3. ExecHQ decides a stage is finished, from her work, and opens this in place of the moves: what she did in the stage, with what she has already said and a mark on what she has not; one page for each thing not yet reported (how it went and her words, kept on the thing itself, as How did it go? does); whether she got what finishing looks like; how she feels about her plan now; then a read-back in her words. Every page can be skipped, and Later puts the whole check-in off.",
+    "The stage check-in in Plan Concept 3. ExecEngine decides a stage is finished, from her work, and opens this in place of the moves: what she did in the stage, with what she has already said and a mark on what she has not; one page for each thing not yet reported (how it went and her words, kept on the thing itself, as How did it go? does); whether she got what finishing looks like; how she feels about her plan now; then a read-back in her words. Every page can be skipped, and Later puts the whole check-in off.",
   component: StageCheckIn,
   notApplicable: {
     hover: "Its controls are chips, fields and Buttons, which show their own states.",
@@ -49,7 +49,7 @@ export const stageCheckInStates = defineComponentStates({
   variants: [
     { label: "What you did — default, two things unreported", props: base },
     { label: "Folded to a peek", props: { ...base, demoFolded: true } },
-    { label: "How did it go? — something ExecHQ made with her", props: { ...base, demoPage: 1 } },
+    { label: "How did it go? — something ExecEngine made with her", props: { ...base, demoPage: 1 } },
     { label: "How did it go? — something she added, her words only", props: { ...base, demoPage: 2 } },
     { label: "Did you get what finishing looks like?", props: { ...base, demoPage: 3, demoAnswers: { milestone: "partly" as const } } },
     { label: "How are you feeling about your plan now?", props: { ...base, demoPage: 4, demoAnswers: { milestone: "partly" as const, feeling: "more-sure" as const } } },
@@ -66,7 +66,7 @@ export const stageCheckInStates = defineComponentStates({
       props: { ...base, items: reported, demoPage: 3, offeredAgain: true, demoAnswers: { milestone: "not-yet" as const, feeling: "same" as const } },
     },
     { label: "Everything already reported: straight to how the stage went", props: { ...base, items: reported } },
-    { label: "Empty — nothing from the stage in ExecHQ", props: { ...base, items: [] } },
+    { label: "Empty — nothing from the stage in ExecEngine", props: { ...base, items: [] } },
     {
       label: "Long text wraps",
       props: {

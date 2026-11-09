@@ -7,7 +7,7 @@ export interface OutletCardProps {
   name: string;
   /** What she is pitching for, when no outlet is matched. */
   type?: PitchType;
-  /** The outlet's published page, when ExecHQ has it. */
+  /** The outlet's published page, when ExecEngine has it. */
   outlet?: Outlet;
   /** The day it is, ISO: an old check or a passed deadline says so. */
   today: string;

@@ -15,7 +15,7 @@ export const ringDetailStates = defineComponentStates({
   status: "draft",
   flows: ["homepage"],
   description:
-    "What a ring holds, opened from RingsHero: each action and where it stands, then a dated timeline of what they track, each entry marked Observed (it happened in ExecHQ) or Reported (the user told us). Declined or set-aside actions are mentioned once, quietly.",
+    "What a ring holds, opened from RingsHero: each action and where it stands, then a dated timeline of what they track, each entry marked Observed (it happened in ExecEngine) or Reported (the user told us). Declined or set-aside actions are mentioned once, quietly.",
   component: RingDetail,
   notApplicable: {
     ...NOT_INTERACTIVE,
