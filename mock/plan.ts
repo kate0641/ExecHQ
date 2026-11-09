@@ -829,30 +829,12 @@ export const timingWords = (step: { id: string; horizon: Horizon }): string => T
    -------------------------------------------------------------------------- */
 
 
-/* -----------------------------------------------------------------------------
-   THE PLAN DETAIL (2026-10-06)
-   See your plan opens the detail: the plan, where she is on it and her
-   direction, with the way into the edit flow. Her direction is changed there,
-   by the onboarding questions again, not typed in place.
-   -------------------------------------------------------------------------- */
-
-export const PLAN_DETAIL_COPY = {
-  title: "Your plan and your direction",
-  why: "Why this plan",
-  here: "Where you are",
-  stages: "The stages",
-  youAreHere: "You are here",
-  direction: "Your direction",
-  edited: "Edited by you.",
-  how: "Changing your direction takes you through the questions again. At the end you choose your plan, and you can keep this one. Everything you have done stays.",
-  change: "Change my direction",
-  close: "Close",
-} as const;
-
-/** Plan Concept 3: her direction above the road, opening like an accordion, and the way into the plan detail. */
+/** Plan Concept 3: her direction above the road, why she has this plan, and the way to change her direction (9 Nov,
+ *  in place of the plan sheet). What changing it means is said in the edit flow, not here. */
 export const PLAN_DIRECTION_COPY = {
   label: "Your direction",
-  more: "See your plan",
+  edited: "Edited by you.",
+  change: "Change your direction",
 } as const;
 
 /**

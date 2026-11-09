@@ -24,7 +24,8 @@ export interface CardCarouselProps {
   goTo?: { id: string; n: number };
   /** Told which card the track has settled on. */
   onCurrent?: (id: string, index: number) => void;
-  /** A fixed card width where there is room, in place of most of the row. */
+  /** A fixed card width where there is room, in place of most of the row.
+   *  21rem, unless the page sets `--card-carousel-width`. */
   fixed?: boolean;
   /** How the place in the row is shown between the buttons. `dots` is a dot for each card and the
    *  count in words; `strip` is one thin bar split into a part for each card, each part a way to
@@ -45,7 +46,8 @@ export interface CardCarouselProps {
  * cannot swipe, and they are the keyboard route along the track.
  *
  * With one card there is nothing to step through, so the controls are left
- * out and the card takes the full width.
+ * out and the card takes the full width. The same goes when every card is
+ * already in view, as fixed-width cards on a wide screen can be.
  */
 export function CardCarousel({
   label,
@@ -83,6 +85,22 @@ export function CardCarousel({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wanted]);
 
+  // Every card already in view, as on a wide screen with fixed widths:
+  // there is nothing to step through, so the controls are left out.
+  const [allInView, setAllInView] = useState(false);
+  useEffect(() => {
+    const el = track.current;
+    if (!el) return;
+    const measure = () => setAllInView(el.scrollWidth <= el.clientWidth + 1);
+    measure();
+    // The row and every card in it: a card can change width while the row
+    // keeps its own, as when the width goes fixed.
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    for (const slide of Array.from(el.children)) observer.observe(slide);
+    return () => observer.disconnect();
+  }, [total, fixed]);
+
   if (total === 0) return null;
 
   /** The card whose left edge is nearest the track's. */
@@ -114,7 +132,7 @@ export function CardCarousel({
           </li>
         ))}
       </ul>
-      {total > 1 && !arrows ? (
+      {total < 2 || allInView ? null : !arrows ? (
         <div className="card-carousel__controls card-carousel__controls--dots">
           <div className="card-carousel__dots card-carousel__dots--buttons">
             {items.map((item, i) => (
@@ -135,7 +153,7 @@ export function CardCarousel({
             {position(current + 1, total)}
           </span>
         </div>
-      ) : total > 1 ? (
+      ) : (
         <div className="card-carousel__controls">
           <Button variant="secondary" size="sm" aria-label={previousLabel} disabled={current === 0} onClick={() => go(current - 1)}>
             <Icon name="chevron" size={16} className="card-carousel__back" />
@@ -177,7 +195,7 @@ export function CardCarousel({
             <Icon name="chevron" size={16} />
           </Button>
         </div>
-      ) : null}
+      )}
     </section>
   );
 }

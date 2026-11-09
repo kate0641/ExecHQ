@@ -1295,6 +1295,7 @@ function DirectionPage({
             children: (
               <>
                 <p className="guide__next">{EDIT_FLOW_COPY.now(current)}</p>
+                <p className="guide__next">{EDIT_FLOW_COPY.stays}</p>
                 <div>
                   <Button
                     variant="secondary"

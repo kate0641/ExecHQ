@@ -21,6 +21,7 @@ import { sparksFor } from "@/lib/sparks";
 import { BASELINE_COPY as BC, PRESENCE_STUB as PR, SPARK_COPY as SP } from "@/mock/accounts-stub";
 import { BRIEFING_STUB as B, HOME_COPY as C, MAP_COPY as M, SIGNAL_PICTURE_COPY as SPC } from "@/mock/homepage";
 import { fullDate } from "@/lib/loop";
+import { useViewport } from "@/lib/viewport-context";
 import { SKIES, pickedSky, subscribeSky, type Sky } from "@/components/hub/SnapshotPicker/sky-store";
 import { CHECKIN_COPY as CK } from "@/mock/homepage";
 import type { Horizon } from "@/mock/plan-stub";
@@ -108,6 +109,9 @@ export function HomepageConcept4b() {
   const loop = useLoop();
   // A step opens its tool, or the artifact it already has (Sprint 4).
   const links = usePlaybookLinks();
+  // On web the next step sits inside the Signal Picture card, under the
+  // numbers; on the phone and tablet it is its own card under it.
+  const web = useViewport().viewport === "web";
   /* The server, which has no clock of hers, draws a day morning. */
   /* Once she scrolls, the status bar and Safari's address bar stop showing
      the top of the sky and take the sky's middle colour (designer, 2026-10-11). */
@@ -303,7 +307,7 @@ export function HomepageConcept4b() {
           }
           headingId="signal-picture-heading"
           className="signal-picture--card"
-          nextOutside
+          nextOutside={!web}
         />
       </div>
     </div>
