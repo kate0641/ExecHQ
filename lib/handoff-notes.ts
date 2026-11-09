@@ -18,6 +18,18 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "plan-timing",
+    title: "Plan: when a move falls",
+    description:
+      "The exact rules for each move's suggested day and its words (\"This week\", \"Next month\"), Change when's choices and stage periods, with a worked example and four choices still open (9 Nov).",
+  },
+  {
+    slug: "stay-on-track-web",
+    title: "Home on web: Stay on track's cards",
+    description:
+      "A web-only change to Homepage 4b (9 Nov): Stay on track's cards keep the Signal Picture column's width and sit side by side, with the dots left out when every card is in view.",
+  },
+  {
     slug: "homepage-weekly-check-in",
     title: "Homepage: the weekly check-in",
     description:
