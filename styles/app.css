@@ -16110,9 +16110,10 @@ fieldset.agenda__whens {
 /* Where it came from and when, as one eyebrow line: the source at the left, the date at the right. */
 .stage-checkin__top {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: baseline;
-  gap: var(--space-sm);
+  gap: 0 var(--space-sm);
   margin-bottom: var(--space-2xs);
 }
 
@@ -16124,6 +16125,7 @@ fieldset.agenda__whens {
   line-height: var(--type-eyebrow-leading);
   letter-spacing: var(--type-eyebrow-tracking);
   text-transform: uppercase;
+  white-space: nowrap;
   color: var(--color-text-secondary);
 }
 
