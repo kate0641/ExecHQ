@@ -21000,6 +21000,8 @@ ul.li-shares {
   border-color: transparent;
   background-color: var(--folder-card);
   color: var(--folder-card-foot);
+  --color-focus: var(--color-focus-inverse);
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
 }
 
 .library-folder__title {
