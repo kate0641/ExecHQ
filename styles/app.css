@@ -9631,15 +9631,11 @@ ol.signal__list {
 
 .readiness-check__close {
   position: absolute;
-  top: var(--space-2xs);
-  right: var(--space-2xs);
+  top: calc(var(--space-2xs) - (var(--icon-button-size) - 2rem) / 2);
+  right: calc(var(--space-2xs) - (var(--icon-button-size) - 2rem) / 2);
   display: inline-grid;
   place-items: center;
-  width: 2rem;
-  height: 2rem;
-  padding: 0;
   border: 0;
-  border-radius: var(--radius-pill);
   background: none;
   color: var(--color-text-on-check-in-band);
   cursor: pointer;
@@ -22259,12 +22255,8 @@ ul.li-shares {
   display: inline-grid;
   place-items: center;
   flex: none;
-  width: var(--space-xl);
-  height: var(--space-xl);
-  margin: calc(var(--space-2xs) * -1) calc(var(--space-2xs) * -1) 0 0;
-  padding: 0;
+  margin: calc(-1 * (var(--space-2xs) + (var(--icon-button-size) - var(--space-xl)) / 2)) calc(-1 * (var(--space-2xs) + (var(--icon-button-size) - var(--space-xl)) / 2)) calc(-1 * (var(--icon-button-size) - var(--space-xl)) / 2) 0;
   border: 0;
-  border-radius: var(--radius-pill);
   background: none;
   color: var(--color-text-secondary);
   cursor: pointer;
@@ -24770,11 +24762,13 @@ ul.letter-archive__list {
 }
 
 /* One icon button: round, 44px; 32px inside a field (the chat composer), where the field gives the tap
-   room. Carousel arrows, the stepper, Saved's remove and the chat's close all share it. */
+   room. Carousel arrows, the stepper, Saved's remove and every close share it. */
 .card-carousel__controls > .btn,
 .stepper__button,
 .saved-page__remove,
 .concierge-panel__close,
+.readiness-check__close,
+.figure-popover__close,
 .mic-button,
 .chat-composer__attach {
   width: var(--icon-button-size);
