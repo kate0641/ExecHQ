@@ -55,7 +55,7 @@ export function LetterReplies({ issue }: { issue: LetterIssue }) {
       <ul className="letter-replies__suggest" aria-label={C.suggested}>
         {C.prompts.letter.map((prompt) => (
           <li key={prompt.label}>
-            <button type="button" className="letter-replies__chip" onClick={() => assistant.ask(prompt.label, prompt.key)}>
+            <button type="button" className="choice-pill letter-replies__chip" onClick={() => assistant.ask(prompt.label, prompt.key)}>
               {prompt.label}
             </button>
           </li>

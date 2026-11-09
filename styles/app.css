@@ -234,6 +234,20 @@ samp {
 
 /* --- SHARED PATTERNS --- */
 
+/* Choice pill: a white pill she taps to pick or send something (ChipGroup, ToggleGroup chips, quick replies,
+   read actions, add-to-plan). Each component keeps its own selected and hover states. */
+.choice-pill {
+  min-height: var(--pill-height);
+  padding: var(--pill-padding-block) var(--pill-padding-inline);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-raised);
+  color: var(--color-text-primary);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-regular);
+  cursor: pointer;
+}
+
 /* The card: the raised surface on the page, a soft
    edge, no shadow. One per job; never a card inside a card. */
 .card {
@@ -6296,18 +6310,9 @@ ol.ring-detail__timeline {
 }
 
 .quick-replies__chip {
-  min-height: var(--pill-height);
-  padding: var(--pill-padding-block) var(--pill-padding-inline);
   white-space: nowrap;
   font-family: var(--type-label-font);
   letter-spacing: var(--type-label-tracking);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-regular);
-  color: var(--color-text-primary);
-  background-color: var(--color-surface-raised);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-pill);
-  cursor: pointer;
 }
 
 .quick-replies__chip:hover {
@@ -6494,12 +6499,6 @@ ol.ring-detail__timeline {
 }
 
 .toggle-group--chips .toggle-group__option {
-  min-height: var(--pill-height);
-  padding: var(--pill-padding-block) var(--pill-padding-inline);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface-raised);
-  font-weight: var(--weight-regular);
 }
 
 .toggle-group--chips .toggle-group__input:checked + .toggle-group__option {
@@ -6616,17 +6615,8 @@ ol.ring-detail__timeline {
 }
 
 .chip-group__chip {
-  min-height: var(--pill-height);
-  padding: var(--pill-padding-block) var(--pill-padding-inline);
   font-family: var(--font-body);
   letter-spacing: var(--tracking-normal);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-regular);
-  color: var(--color-text-primary);
-  background-color: var(--color-surface-raised);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-pill);
-  cursor: pointer;
   transition: background-color var(--duration-fast) var(--easing-standard);
 }
 
@@ -15394,15 +15384,8 @@ fieldset.agenda__whens {
 }
 
 .agenda__chip {
-  min-height: var(--pill-height);
-  padding: var(--pill-padding-block) var(--pill-padding-inline);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface-raised);
-  color: var(--color-text-primary);
-  font: inherit;
-  font-size: var(--text-sm);
-  cursor: pointer;
+  font-family: inherit;
+  line-height: inherit;
 }
 
 .agenda__chip:hover {
@@ -16756,19 +16739,11 @@ ul.li-shares {
 
 .read-actions__toggle,
 .read-actions__answer {
-  min-height: var(--pill-height);
-  padding: var(--pill-padding-block) var(--pill-padding-inline);
   display: inline-flex;
   align-items: center;
   gap: var(--space-2xs);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface-raised);
-  font: inherit;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-regular);
-  color: var(--color-text-primary);
-  cursor: pointer;
+  font-family: inherit;
+  line-height: inherit;
 }
 
 .read-actions__toggle:hover,
@@ -24423,16 +24398,9 @@ ul.letter-archive__list {
 }
 
 .letter-replies__chip {
-  min-height: var(--space-xl);
-  padding: var(--space-2xs) var(--space-md);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface-raised);
-  color: var(--color-text-primary);
-  font: inherit;
-  font-size: var(--type-body-sm-size);
+  font-family: inherit;
+  line-height: inherit;
   text-align: left;
-  cursor: pointer;
 }
 
 .letter-replies__chip:hover {

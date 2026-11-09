@@ -51,7 +51,7 @@ export function AddToPlanSheet({ open, onClose, today, onAdd, inline }: AddToPla
         <fieldset className="agenda__whens">
           <legend className="agenda__legend">{A.addWhen}</legend>
           {choices.map((c, i) => (
-            <button key={c.bucket} type="button" className="agenda__chip" aria-pressed={when === i} onClick={() => setWhen(i)}>
+            <button key={c.bucket} type="button" className="choice-pill agenda__chip" aria-pressed={when === i} onClick={() => setWhen(i)}>
               <span className="u-bold-hold" data-label={c.label}>{c.label}</span>
             </button>
           ))}

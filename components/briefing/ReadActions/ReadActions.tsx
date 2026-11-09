@@ -69,7 +69,7 @@ export function ReadActions({
       <div className="read-actions__row">
         <button
           type="button"
-          className={["read-actions__toggle", saved ? "is-on" : null, demo ? `is-${demo}` : null].filter(Boolean).join(" ")}
+          className={["choice-pill", "read-actions__toggle", saved ? "is-on" : null, demo ? `is-${demo}` : null].filter(Boolean).join(" ")}
           aria-pressed={saved}
           onClick={() => onSave(!saved)}
         >
@@ -78,14 +78,14 @@ export function ReadActions({
           <span className="u-visually-hidden">: {title}</span>
         </button>
         {onMarkRead ? (
-          <button type="button" className="read-actions__toggle" onClick={() => onMarkRead(!isRead)}>
+          <button type="button" className="choice-pill read-actions__toggle" onClick={() => onMarkRead(!isRead)}>
             <Icon name={isRead ? "undo" : "check"} size={16} />
             {isRead ? C.read.markUnread : C.read.markRead}
             <span className="u-visually-hidden">: {title}</span>
           </button>
         ) : null}
         {compact && respondHref ? (
-          <Link href={respondHref} className="read-actions__toggle" onClick={onRespond}>
+          <Link href={respondHref} className="choice-pill read-actions__toggle" onClick={onRespond}>
             <Icon name="pencil" size={16} />
             {C.respond.action}
           </Link>
@@ -110,10 +110,10 @@ export function ReadActions({
                 <span className="u-visually-hidden"> {title}</span>
               </legend>
               <span className="read-actions__answers">
-                <button type="button" className="read-actions__answer" onClick={() => answer("yes")}>
+                <button type="button" className="choice-pill read-actions__answer" onClick={() => answer("yes")}>
                   {R.yes}
                 </button>
-                <button type="button" className="read-actions__answer" onClick={() => answer("no")}>
+                <button type="button" className="choice-pill read-actions__answer" onClick={() => answer("no")}>
                   {R.no}
                 </button>
               </span>
