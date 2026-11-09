@@ -372,15 +372,7 @@
   --tracking-widest: 0.04em;
   --tracking-label: 0.08em;
 
-  --word-spacing-snug: -0.06em;
-  --word-spacing-tight: -0.12em;
-  --word-spacing-tightest: -0.18em;
-  --word-spacing-normal: 0;
 
-  --font-display-tracking-heading: var(--tracking-normal);
-  --font-display-tracking: var(--tracking-normal);
-  --font-display-tracking-label: var(--tracking-normal);
-  --font-display-word-spacing: var(--word-spacing-normal);
 
   /* --- TYPE ROLES --- */
 
@@ -389,16 +381,14 @@
   --type-display-size-phone: var(--text-3xl);
   --type-display-weight: var(--weight-semibold);
   --type-display-leading: var(--leading-tight);
-  --type-display-tracking: var(--font-display-tracking-heading);
-  --type-display-word-spacing: var(--font-display-word-spacing);
+  --type-display-tracking: var(--tracking-normal);
 
   --type-title-font: var(--font-display);
   --type-title-size: var(--text-3xl);
   --type-title-size-phone: var(--text-2xl);
   --type-title-weight: var(--weight-semibold);
   --type-title-leading: var(--leading-tight);
-  --type-title-tracking: var(--font-display-tracking-heading);
-  --type-title-word-spacing: var(--font-display-word-spacing);
+  --type-title-tracking: var(--tracking-normal);
 
   /* Heading — a section or a card's title. */
   --type-heading-font: var(--font-display);
@@ -406,15 +396,13 @@
   --type-heading-size-phone: var(--text-xl);
   --type-heading-weight: var(--weight-semibold);
   --type-heading-leading: var(--leading-snug);
-  --type-heading-tracking: var(--font-display-tracking-heading);
-  --type-heading-word-spacing: var(--font-display-word-spacing);
+  --type-heading-tracking: var(--tracking-normal);
 
   --type-subheading-font: var(--font-body);
   --type-subheading-size: var(--text-md);
   --type-subheading-weight: var(--weight-semibold);
   --type-subheading-leading: var(--leading-snug);
   --type-subheading-tracking: var(--tracking-normal);
-  --type-subheading-word-spacing: var(--word-spacing-normal);
 
   /* Body — reading text. */
   --type-body-font: var(--font-body);
@@ -422,47 +410,40 @@
   --type-body-weight: var(--weight-regular);
   --type-body-leading: var(--leading-relaxed);
   --type-body-tracking: var(--tracking-normal);
-  --type-body-word-spacing: var(--word-spacing-normal);
 
   --type-body-sm-font: var(--font-body);
   --type-body-sm-size: var(--text-sm);
   --type-body-sm-weight: var(--weight-regular);
   --type-body-sm-leading: var(--leading-relaxed);
   --type-body-sm-tracking: var(--tracking-normal);
-  --type-body-sm-word-spacing: var(--word-spacing-normal);
 
   --type-label-font: var(--font-body);
   --type-label-size: var(--text-sm);
   --type-label-weight: var(--weight-semibold);
   --type-label-leading: var(--leading-snug);
   --type-label-tracking: var(--tracking-normal);
-  --type-label-word-spacing: var(--word-spacing-normal);
 
   --type-caption-font: var(--font-body);
   --type-caption-size: var(--text-xs-plus);
   --type-caption-weight: var(--weight-regular);
   --type-caption-leading: var(--leading-snug);
   --type-caption-tracking: var(--tracking-normal);
-  --type-caption-word-spacing: var(--word-spacing-normal);
 
   --type-eyebrow-font: var(--font-body);
   --type-eyebrow-size: var(--text-xs);
   --type-eyebrow-weight: var(--weight-semibold);
   --type-eyebrow-leading: var(--leading-snug);
   --type-eyebrow-tracking: var(--tracking-label);
-  --type-eyebrow-word-spacing: var(--word-spacing-normal);
   --type-group-title-font: var(--font-body);
   --type-group-title-size: var(--text-sm);
   --type-group-title-weight: var(--weight-semibold);
   --type-group-title-leading: var(--leading-snug);
   --type-group-title-tracking: var(--tracking-label);
-  --type-group-title-word-spacing: var(--word-spacing-normal);
   --type-card-title-font: var(--font-body);
   --type-card-title-size: var(--text-md);
   --type-card-title-weight: var(--weight-semibold);
   --type-card-title-leading: var(--leading-snug);
   --type-card-title-tracking: var(--tracking-normal);
-  --type-card-title-word-spacing: var(--word-spacing-normal);
 
   --type-figure-font: var(--font-serif);
   --type-figure-size: var(--text-xl);
@@ -470,7 +451,6 @@
   --type-figure-weight: var(--weight-bold);
   --type-figure-leading: var(--leading-tight);
   --type-figure-tracking: var(--tracking-widest);
-  --type-figure-word-spacing: var(--word-spacing-normal);
 
   --type-editorial-font: var(--font-serif);
   --type-editorial-size: var(--text-2xl);
@@ -483,7 +463,6 @@
   --type-editorial-weight: var(--weight-regular);
   --type-editorial-leading: var(--leading-snug);
   --type-editorial-tracking: var(--tracking-normal);
-  --type-editorial-word-spacing: var(--word-spacing-normal);
 
   /* --- SPACING --- */
   --space-3xs: 0.125rem; /* 2px  */
