@@ -77,8 +77,8 @@ Under the question **"Where are you with this?"**:
 | Answer | What it does | ExecHQ's reply |
 | --- | --- | --- |
 | **The start button** | Opens the step's tool in the Playbook, and puts it on their plan as taken on. It says "Start in {tool}", or "Get started" for a step with no tool, and **"Keep working on it"** once a draft for it is under way. A step with no tool is started by putting it on their plan for its time | None: the tool opens |
-| **I'll do it {when}** | Puts the step on their plan for its suggested time, which the label says ("I'll do it this week") | "Good. It is on your plan for {when}, and ExecHQ will ask you how it went." |
-| **Change when** | Shows the time words instead, from now on (This week, Next week, This month, Next month, This quarter, Next quarter, Later). Choosing one puts the step on their plan for then | The same reply, with the time they chose |
+| **I'll do it {when}** | Puts the step on their plan for its suggested day (4.7), which the label says in words ("I'll do it this week") | "Good. It is on your plan for {when}, and ExecHQ will ask you how it went." |
+| **Change when** | Shows the time words instead, from now on (This week, Next week, This month, Next month, This quarter, Next quarter; see 4.7 for which are offered and the day each stands for). Choosing one puts the step on their plan for then | The same reply, with the time they chose |
 | **Talk it through** | Opens the chat on the step, asking "What's getting in the way? Pick one, or tell me in your own words." Nothing about their plan changes | In the chat |
 | **Not for me** | Asks why, one optional tap (4.3), then takes the step off their plan and offers another in its place | "Say why, if you like. One tap, and it shapes what ExecHQ offers next." Then "That is fine. ExecHQ will not offer this one again." and, when one is offered, "Now offered: {step}." |
 
@@ -121,6 +121,71 @@ A step brought onto their plan by a stage check-in carries one line saying why, 
 After the last move: kicker "The road ahead", heading "That's this stretch of the plan.", the line "Here is where your plan stands.", what changed on their plan most recently (up to six notes), and the reply "Then ExecHQ builds the next stage, from what worked and what didn't." Buttons: **Go through them again** and **Add to your plan**.
 
 With no moves at all: "Nothing to answer right now." and "Your plan offers the next move when one fits.", with **Add to your plan**.
+
+### 4.7 When a move falls
+
+Every step has a real day underneath, so the calendar, the roadmap and the check-ins can work. The person never sees that day on a move: they see the stretch of time it falls in, in words, because a date on a card reads as a deadline.
+
+**The suggested day.** Worked out when the step is offered, in this order. The first rule that applies wins.
+
+| Step | Suggested day | In the prototype |
+| --- | --- | --- |
+| Tied to a weekly event (their 1:1, a standing check-in) | The next time that weekday comes round, today included | "Use your leadership story": Tuesday. "Brief your manager": Thursday |
+| Tied to the end of the month | The last weekday (Monday to Friday) of this month; if that has passed, of next month | "Q1 planning review" |
+| Tied to a fixed date | That date; if it has passed, today | "Scope case": 11 January 2027 |
+| Anything else, short-term | Today + 3 days | |
+| Anything else, medium-term | Today + 14 days | |
+| Anything else, long-term | Today + 60 days | |
+
+A suggested day is never before today. Until the step is on their plan, the suggested day is worked out afresh from each day's date, so it moves forward with time.
+
+**Pinned.** **I'll do it {when}** and the start button pin the suggested day as it stands that day. **Change when** pins the day its choice stands for (below). Once pinned, a step's day never moves on its own; only the person moves it. A step that leaves their plan loses its day.
+
+**Spacing.** Each step's day is worked out on its own. Nothing spreads moves apart: two short-term steps offered on the same day get the same suggested day, and the same words. (See Decisions to confirm, 13.)
+
+**The words for a day.** A day is described by the first of these stretches it falls in, nearest first:
+
+| Words | The stretch runs to |
+| --- | --- |
+| This week | This Sunday. Weeks run Monday to Sunday. A day already past is also "This week" |
+| Next week | The Sunday after |
+| This month | The last day of this calendar month |
+| Next month | The last day of next calendar month |
+| This quarter | The last day of this calendar quarter (quarters are January to March, April to June, and so on) |
+| Next quarter | The last day of next calendar quarter |
+| Later | Anything after that |
+
+Stretches overlap, and the nearest wins: a day in next week is "Next week" even though it is also this month. The words are worked out against today every time they are shown, so a step pinned for "Next week" says "This week" once that week arrives.
+
+The same words are used for the move's kicker (3), the label of **I'll do it {when}**, the pill on each line of the roadmap (7.3), and the time on a stage's head (7.2).
+
+**Change when.** Offers each stretch from This week to Next quarter, nearest first, with two rules:
+
+- A stretch is left out when it would hold no days that a nearer stretch has not already taken. In November, "This quarter" ends on 31 December, the same day as "Next month", so it is left out.
+- Each choice stands for the last weekday of its stretch that no nearer stretch has taken (never before today). Choosing it pins that day, so the step's words come back as the choice they made.
+
+Later is not offered in the prototype (see 13).
+
+**Wrong timing.** A step passed on for "Wrong timing" (4.3) comes back once, 14 days after the day it was passed on.
+
+**Worked example.** Today is Monday 9 November 2026.
+
+| | Suggested day | Shown as |
+| --- | --- | --- |
+| A short-term step | Thursday 12 November | This week |
+| A medium-term step | Monday 23 November | This month (next week ends Sunday 22nd) |
+| A long-term step | Friday 8 January 2027 | Next quarter |
+| "Use your leadership story" | Tuesday 10 November | This week |
+
+**Change when** offers This week (Friday 13 November), Next week (Friday 20 November), This month (Monday 30 November), Next month (Thursday 31 December) and Next quarter (Wednesday 31 March 2027). This quarter is left out.
+
+**When a stage runs.** Each stage is suggested to last 4 weeks. Stage 1 starts the day their plan began; each later stage starts the day after the one before it ends. A stage ends:
+
+- on the day they finished it, when they have (never before it began);
+- on today, when they are already past it with no day recorded, unless its 4 weeks ended sooner;
+- otherwise 4 weeks after it starts.
+
+So finishing a stage early pulls every later stage earlier, and finishing late pushes them later. The stage's head shows its end day in words (7.2). A stage still open after its 4 weeks says nothing about it: running past the pace is never a failing (1).
 
 ---
 
@@ -286,6 +351,8 @@ The Plan changes with where the person is. In the prototype the dock lists five 
 | Which steps are "important", the step aimed at each stage's gap, and the different way at each step are fixed lists in the mock | ExecHQ chooses them from the plan and what the person has said |
 | "Talk it through" offers fixed replies in the chat, and "It feels too big" changes nothing | The advisor answers, and what they say can change the plan |
 | A stage is finished when every step taken on in it is confirmed in the Loop, against fixed sample work | The same rule, against their real work |
+| Which steps are tied to an event, and the event's day (their 1:1 on Tuesday, the review at month end, the January planning cycle), are a fixed list in the mock (4.7) | Taken from what the person has told ExecHQ about their calendar and their work; a step with nothing to tie it to falls back on its horizon |
+| "Today" is the prototype's fixed sample day, moved on by the dock | The person's own date, in their time zone; weeks still run Monday to Sunday |
 | Things they added that came with the sample data cannot take new words | Everything they added can |
 | The Playbook tools the start buttons open are placeholders until Sprint 4 | They open the real tools |
 | Nothing is saved but in the browser, and the dock's reset clears it | Answers, check-ins, passes and the open state of Your direction are kept on the account |
@@ -303,3 +370,7 @@ Written from the approved prototype. These are choices the prototype makes that 
 5. **Things passed on** are listed in the check-in but never asked about.
 6. **The open drawer on tablet** leaves room under its answers on a tall screen (5.2). Whether the answers sit at the top or nearer the thumb is open.
 7. **Steps for another plan.** Only "Step up" has steps in the prototype; switching plans starts with none.
+8. **Moves are not spaced apart** (4.7). Steps offered together that are not tied to an event get the same suggested day, so up to three short-term moves can all say "This week". A rule could stagger them, for example a week apart in the plan's order.
+9. **The horizon offsets are shorter than the plans' own horizons.** The plan rules give medium-term as about 30 to 60 days and long-term as a quarter or longer; the prototype suggests 14 and 60 days.
+10. **"Later" in Change when.** This spec listed it as a choice, but the prototype does not offer it, and it would need a day to stand for (4.7).
+11. **Every stage is 4 weeks.** Each plan could instead give its stages their own lengths.
