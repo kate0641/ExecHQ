@@ -101,9 +101,7 @@ import { accountPickerStates } from "./login/AccountPicker/AccountPicker.states"
 import { planSignalPictureStates } from "./plan/PlanSignalPicture/PlanSignalPicture.states";
 import { signalEntrySheetStates } from "./plan/SignalEntrySheet/SignalEntrySheet.states";
 import { momentumLabeledStates } from "./plan/MomentumLabeled/MomentumLabeled.states";
-import { planDetailSheetStates } from "./plan/PlanDetailSheet/PlanDetailSheet.states";
 import { planDirectionStates } from "./plan/PlanDirection/PlanDirection.states";
-import { planDetailLinkStates } from "./plan/PlanDetailLink/PlanDetailLink.states";
 import { addToPlanSheetStates } from "./plan/AddToPlanSheet/AddToPlanSheet.states";
 import { planGuidedStates } from "./plan/PlanGuided/PlanGuided.states";
 import { stageCheckInStates } from "./plan/StageCheckIn/StageCheckIn.states";
@@ -251,9 +249,7 @@ export const registry: RegisteredComponent[] = [
   linkedInPictureStates,
   signalEntrySheetStates,
   momentumLabeledStates,
-  planDetailSheetStates,
   planDirectionStates,
-  planDetailLinkStates,
   addToPlanSheetStates,
   planGuidedStates,
   stageCheckInStates,

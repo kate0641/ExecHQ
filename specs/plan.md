@@ -211,11 +211,15 @@ There is no drawer. The answers sit in the page, under the question as a heading
 
 ## 6. Your direction
 
-Above the roadmap, a soft row: **"Your direction"** in small capitals, the first line of their direction in their own words, in the serif, cut off with an ellipsis, and a chevron.
+Above the roadmap, a white card. Updated 9 November 2026: it now also holds why they have this plan and the way to change their direction, which used to be in the plan sheet (8).
 
-- The whole row is one button. Pressing it opens the row to their direction in full and turns the chevron up; pressing again closes it.
-- It starts closed. Opening it is remembered on the device until they close it again.
-- Changing their direction is not done here: it is in the plan sheet (8).
+1. **"Your direction"** in small capitals, on a soft band.
+2. Their direction in their own words, in full, in the serif. It wraps; it is never cut off. (Until 13 October it was a row that opened and closed; it no longer does, and nothing on the card opens or closes.)
+3. **"Edited by you."**, small, when they have changed their direction since onboarding.
+4. Under a hairline, why they have this plan, as a quiet paragraph in secondary text with no heading: it is tied to what they said in onboarding and starts "You said…", so it explains itself ("You said you want a larger organization and a broader remit, so this plan starts with…"). When they chose the plan themselves, it says "You chose this plan on {date}."
+5. **Change your direction**, a text link, 12px under it. It takes them through the onboarding questions again, filled in, ending back on the Plan, where they choose their plan and can keep this one. Nothing on the card explains that: the flow's first page does, under "Right now it says: …", with "Everything you've done stays, whichever plan you choose." and **Keep it as it is**.
+
+The link's target is 44px tall, though it is drawn at the text's height.
 
 ---
 
@@ -223,7 +227,7 @@ Above the roadmap, a soft row: **"Your direction"** in small capitals, the first
 
 ### 7.1 The heading
 
-**Your roadmap**, with **See your plan →** at its right, which opens the plan sheet (8).
+**Your roadmap**. Nothing sits beside it (until 9 November 2026, **See your plan →** did; see 8).
 
 ### 7.2 The stages
 
@@ -255,16 +259,9 @@ The floating **+** (phone and tablet) or **Add to your plan** (web) opens a shee
 
 ---
 
-## 8. Your plan sheet
+## 8. Your plan sheet (removed)
 
-**See your plan** opens a sheet, the same one the Plan has always used for this. It rises from the foot on phone and tablet and sits centered on web, over a scrim.
-
-1. The plan's name, and its formal name beneath ("Step up", "Increase leadership scope").
-2. **Why this plan**: why they have it, tied to what they said in onboarding.
-3. **The stages**, numbered, with **You are here** on theirs.
-4. **Your direction**, in their words, in the serif, with "Edited by you." when they have changed it since onboarding.
-5. "Changing your direction takes you through the questions again. At the end you choose your plan, and you can keep this one. Everything you have done stays."
-6. **Change my direction**, which starts the onboarding questions again, filled in, ending back on the Plan, and **Close**.
+Removed 9 November 2026. **See your plan** opened a sheet with the plan's name, why they have it, its stages, their direction and **Change my direction**. Most of it repeated the page: the plan's name is at the top of every page (3), the stages are the roadmap (7), and their direction is its own card (6). The two things only the sheet had, why this plan and the way to change their direction, are now on the direction card (6). Do not build the sheet.
 
 ---
 

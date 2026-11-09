@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "plan-direction-card",
+    title: "Plan: See your plan is gone",
+    description:
+      "The plan sheet and its See your plan link are removed (9 Nov). Why this plan and Change your direction, the two things only the sheet had, move onto the Your direction card above the roadmap.",
+  },
+  {
     slug: "plan-timing",
     title: "Plan: when a move falls",
     description:

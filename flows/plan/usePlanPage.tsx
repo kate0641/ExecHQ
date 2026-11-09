@@ -11,7 +11,6 @@ import { PresenceCard } from "@/components/homepage/PresenceCard";
 import { SignalPicture } from "@/components/homepage/SignalPicture";
 import { PlanAgenda, type AgendaItem } from "@/components/plan/PlanAgenda";
 import { PlanGuided } from "@/components/plan/PlanGuided";
-import { PlanDetailLink } from "@/components/plan/PlanDetailLink";
 import { StageCheckIn, type CheckInItem } from "@/components/plan/StageCheckIn";
 import { CheckInRecap } from "@/components/plan/CheckInRecap";
 import { PlanDirection } from "@/components/plan/PlanDirection";
@@ -321,15 +320,8 @@ export function usePlanPage() {
     const record = step.artifactId ? loop.records.find((r) => r.id === step.artifactId) : undefined;
     return Boolean(record && ["drafted", "in-progress", "ready"].includes(record.state));
   };
-  // What the plan detail reads: Concept 1's header and Concept 3's See your plan open the same sheet.
-  const planDetail = {
-    planId,
-    rationale: switchedTo ? RM.switchedOn(fullDate(choices?.startedOn ?? loop.today)) : (recommendPlan(start.account.direction).rationale ?? ""),
-    stage: Math.max(0, windows.findIndex((w) => w.status === "current")),
-    direction: loop.account.direction,
-    edited: loop.account.direction !== start.account.direction,
-    editHref: EDIT_FLOW_HREF,
-  };
+  // Why she has this plan, under her direction: what she said in onboarding, or the day she chose it.
+  const whyThisPlan = switchedTo ? RM.switchedOn(fullDate(choices?.startedOn ?? loop.today)) : (recommendPlan(start.account.direction).rationale ?? "");
   // The stage check-in. ExecHQ decides a stage is finished, from her work; the most recent finished stage
   // she has not checked in on (or put off) opens the check-in in place of the moves. Older ones stay history.
   const lastDone = [...windows].reverse().find((w) => w.status === "done");
@@ -421,17 +413,21 @@ export function usePlanPage() {
       />
     );
   };
-  // Her direction sits above the road it leads to, and opens like an accordion. The way into her
-  // whole plan, the same detail Concept 1's Edit opens, sits beside the roadmap's heading. Under the move
-  // in the check-in, and beside every page of the stage check-in on the web.
+  // Her direction sits above the road it leads to, with why she has this plan and the way to change her
+  // direction (9 Nov: in place of the plan sheet). Under the move, and beside every page of the stage
+  // check-in on the web.
   const roadmap = (
     <div className="plan-road">
-      <PlanDirection direction={loop.account.direction} />
+      <PlanDirection
+        direction={loop.account.direction}
+        edited={loop.account.direction !== start.account.direction}
+        why={whyThisPlan}
+        editHref={EDIT_FLOW_HREF}
+      />
       <PlanAgenda
         key={`agenda-${stepsKey}`}
         openFirstStep={false}
         stageNote={checkInNote}
-        action={<PlanDetailLink key={`plan-detail-${loop.id}-${planId}-${planScreen ?? ""}`} {...planDetail} demoSheet={movesScreen === "detail"} />}
         {...agendaProps}
       />
     </div>

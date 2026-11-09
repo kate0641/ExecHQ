@@ -53,8 +53,6 @@ export interface PlanAgendaProps {
   onAdd: (item: { title: string; date: LoopDate }) => number | void;
   /** Whether the open stage opens on its first step. Off where the step is already said elsewhere on the page. */
   openFirstStep?: boolean;
-  /** Something beside the heading, such as the way into her whole plan. */
-  action?: ReactNode;
   /** Something on a stage under its name, shown whether the stage is open or not: her check-in on a finished one, say. */
   stageNote?: (index: number) => ReactNode;
   /** Catalogue only. */
@@ -84,7 +82,6 @@ export function PlanAgenda({
   onComplete,
   onAdd,
   openFirstStep = true,
-  action,
   stageNote,
   demoStage,
   demoStep,
@@ -138,7 +135,6 @@ export function PlanAgenda({
         <h2 className="agenda__heading" id={headingId}>
           {A.heading}
         </h2>
-        {action}
       </div>
       <output className="agenda__note" aria-live="polite">
         {note}

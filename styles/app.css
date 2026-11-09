@@ -17023,158 +17023,44 @@ ol.rtl__rail::before {
   overflow-wrap: anywhere;
 }
 
-/* "See your plan" beside the roadmap's heading: opens the plan detail. */
-.plan-detail-link {
-  display: inline-flex;
-  flex: none;
-  align-items: center;
-  gap: var(--space-2xs);
-  min-height: 2.75rem;
+/* "Edited by you." sits with her words, a small step under them, inside the quote's own padding. */
+.plan-direction__quote:has(+ .plan-direction__edited) {
+  padding-bottom: 0;
+}
+
+.plan-direction__edited {
   margin: 0;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--color-text-link);
-  font: inherit;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  cursor: pointer;
-  text-decoration: underline;
-  text-decoration-thickness: var(--border-width-thin);
-  text-underline-offset: 0.2em;
-}
-
-.plan-detail-link:hover,
-.plan-detail-link.is-hover {
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-}
-
-.plan-detail-link.is-focus {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-  border-radius: var(--radius-xs);
-}
-
-/* See your plan, on the system (designer, 2026-10-16): its groups 24 apart and 12 inside, section titles
-   as the group title Why this matters uses, the stages as one strip-header card with hairline rows, and
-   her direction in the Plan's own card. */
-.plan-detail {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-drawer-groups);
-}
-
-.plan-detail__head {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-eyebrow-title);
-}
-
-.plan-detail__title {
-  margin: 0;
-  font-family: var(--type-heading-font);
-  font-size: var(--type-heading-size);
-  font-weight: var(--type-heading-weight);
-  line-height: var(--type-heading-leading);
-  letter-spacing: var(--type-heading-tracking);
-  word-spacing: var(--type-heading-word-spacing);
-}
-
-.plan-detail__formal,
-.plan-detail__note {
-  margin: 0;
+  padding: var(--space-2xs) var(--space-card-padding) var(--space-card-padding);
   font-size: var(--text-sm);
   line-height: var(--leading-normal);
   color: var(--color-text-secondary);
 }
 
-.plan-detail__section {
+/* Under a hairline: why she has this plan, then the way to change her direction (9 Nov, in place of the
+   plan sheet). 12px between them; the link's extra target height reaches into it. */
+.plan-direction__foot {
   display: flex;
   flex-direction: column;
-  gap: var(--space-group-title);
-}
-
-.plan-detail__label {
-  margin: 0;
-  font-family: var(--type-group-title-font);
-  font-size: var(--type-group-title-size);
-  font-weight: var(--type-group-title-weight);
-  line-height: var(--type-group-title-leading);
-  letter-spacing: var(--type-group-title-tracking);
-  word-spacing: var(--type-group-title-word-spacing);
-  text-transform: uppercase;
-  color: var(--color-text-primary);
-}
-
-.plan-detail__text {
-  margin: 0;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-}
-
-ol.plan-detail__stages {
-  gap: 0;
-  margin: 0;
-  padding: 0 var(--space-feature-padding);
-  list-style: none;
-}
-
-/* A row a stage: its number, its name, and where she is at the right, split by hairlines. */
-.plan-detail__stages li {
-  display: flex;
-  align-items: baseline;
   gap: var(--space-sm);
-  /* Rows split by hairlines take the standard 20 either side of the line (designer, 2026-10-20; was 12). */
-  padding-block: var(--space-divided-item);
+  padding: var(--space-card-padding);
   border-top: var(--border-subtle);
+}
+
+/* Why she has this plan: a quiet paragraph, no heading. It starts "You said …", so it explains itself. */
+.plan-direction__why {
+  margin: 0;
   font-size: var(--text-sm);
-  line-height: var(--leading-snug);
-}
-
-.plan-detail__stages li:first-child {
-  border-top: 0;
-}
-
-.plan-detail__n {
-  flex: none;
-  min-width: 1ch;
-  font-variant-numeric: tabular-nums;
+  line-height: var(--leading-normal);
   color: var(--color-text-secondary);
 }
 
-.plan-detail__stage {
-  flex: 1;
-}
-
-.plan-detail__stages li.is-current :is(.plan-detail__stage, .plan-detail__n) {
-  font-weight: var(--weight-semibold);
-}
-
-.plan-detail__stages li.is-current .plan-detail__n {
-  color: var(--color-text-primary);
-}
-
-.plan-detail__here {
-  flex: none;
-  font-family: var(--type-eyebrow-font);
-  font-size: var(--type-eyebrow-size);
-  font-weight: var(--type-eyebrow-weight);
-  letter-spacing: var(--type-eyebrow-tracking);
-  text-transform: uppercase;
-  color: var(--color-eyebrow);
-}
-
-/* The note on what changing her direction does belongs to the button under it. */
-.plan-detail > .plan-detail__note + .plan-detail__actions {
-  margin-top: calc(var(--space-copy-action) - var(--space-drawer-groups));
-}
-
-.plan-detail__actions {
-  display: flex;
-  flex-wrap: wrap;
+/* A 44px target, drawn at the text's height: the extra reaches into the space above and below. */
+.plan-direction__change {
+  display: inline-flex;
+  align-self: flex-start;
   align-items: center;
-  gap: var(--space-sm);
+  min-height: 2.75rem;
+  margin-block: calc((1lh - 2.75rem) / 2);
 }
 
 /* -----------------------------------------------------------------------------
