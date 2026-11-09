@@ -7,6 +7,7 @@ import { CardCarousel, type CarouselItem } from "@/components/layout/CardCarouse
 import { CheckIn } from "@/components/loop/CheckIn";
 import { OutcomeNext } from "@/components/loop/OutcomeNext";
 import { useNextAfter } from "@/lib/use-next-after";
+import { useViewport } from "@/lib/viewport-context";
 import { addDays, aheadPhrase, dueFollowUps, outcomeReadback, type LoopRecord } from "@/lib/loop";
 import { loopActions, type LoopView } from "@/lib/loop-store";
 import { CHECKIN_COPY as CK, HOME_COPY, READINESS_HISTORY, STAY_COPY as S } from "@/mock/homepage";
@@ -31,6 +32,9 @@ function focusSoon(id: string) {
 
 export function InProgress({ loop }: { loop: LoopView }) {
   const [readiness, setReadiness] = useState<{ answer?: number; later?: boolean }>({});
+  // On web the cards keep a fixed width and sit side by side; on the phone
+  // and tablet each takes most of the row, the next peeking in.
+  const web = useViewport().viewport === "web";
   /* What a Ready answer offers to bring forward: the first medium-term step
      not yet on her way (Kate, 2026-10-26). In the product it comes from her
      plan brief's "bring forward" rules. */
@@ -204,7 +208,7 @@ export function InProgress({ loop }: { loop: LoopView }) {
           {S.heading}
         </h2>
       </div>
-      <CardCarousel label={S.heading} items={cards} arrows={false} />
+      <CardCarousel label={S.heading} items={cards} arrows={false} fixed={web} />
       {cards.length === 0 ? <p className="c2-section__note">{anyUsed ? S.allLogged : S.empty}</p> : null}
     </section>
   );

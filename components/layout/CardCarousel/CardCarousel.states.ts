@@ -17,7 +17,7 @@ export const cardCarouselStates = defineComponentStates({
   status: "draft",
   flows: ["homepage"],
   description:
-    "A row of cards she swipes or steps through, with the next card peeking in. Native scrolling and snapping, so touch, trackpad and keyboard work; Previous and Next, and a count, are there for anyone who cannot swipe. With one card the controls are left out.",
+    "A row of cards she swipes or steps through, with the next card peeking in. Native scrolling and snapping, so touch, trackpad and keyboard work; Previous and Next, and a count, are there for anyone who cannot swipe. With one card, or every card already in view, the controls are left out.",
   component: CardCarousel,
   notApplicable: {
     hover: "Its only controls are Buttons, which show their own states.",
@@ -41,6 +41,12 @@ export const cardCarouselStates = defineComponentStates({
       props: { label: "Waiting on you (no arrows)", items: three, arrows: false },
     },
     { label: "One card — no controls", props: { label: "Waiting on you (one)", items: three.slice(0, 1) } },
+    {
+      label: "All in view — fixed widths, no controls",
+      description:
+        "With fixed card widths on a wide screen every card can be in view at once (Home's Stay on track on web). There is nothing to step through, so the controls are left out; narrow the window and they come back.",
+      props: { label: "Waiting on you (all in view)", items: three.slice(0, 2), fixed: true, arrows: false },
+    },
     {
       label: "Disabled — Previous at the first card",
       description: "At the first card Previous is switched off, and at the last Next is.",

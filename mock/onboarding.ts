@@ -2604,6 +2604,8 @@ export const EDIT_FLOW_COPY = {
   /** On the direction page: what it says now, and keeping it. */
   now: (direction: string) => `Right now it says: \u201c${direction}\u201d`,
   keep: "Keep it as it is",
+  /** Under it: changing it loses nothing (9 Nov: moved here from the Plan's direction card). */
+  stays: "Everything you’ve done stays, whichever plan you choose.",
   /** The last page of the flow. */
   save: "Save my plan",
   /** Where she lands. */
