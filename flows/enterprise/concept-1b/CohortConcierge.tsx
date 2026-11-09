@@ -1,5 +1,6 @@
 "use client";
 
+import { keepTabInside } from "@/components/focus";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { ChatComposer } from "@/components/chat/ChatComposer";
@@ -43,9 +44,12 @@ export function CohortConcierge({ cohort, window }: { cohort: Cohort; window: Da
     if (content) content.inert = true;
     screen.querySelector<HTMLInputElement>(`#${PANEL_ID} .chat-composer__field`)?.focus();
     function onKey(event: KeyboardEvent) {
-      if (event.key !== "Escape") return;
-      event.preventDefault();
-      close();
+      if (event.key === "Escape") {
+        event.preventDefault();
+        close();
+        return;
+      }
+      keepTabInside(event, document.getElementById(PANEL_ID));
     }
     document.addEventListener("keydown", onKey);
     return () => {

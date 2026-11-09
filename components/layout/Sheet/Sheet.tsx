@@ -1,5 +1,6 @@
 "use client";
 
+import { FOCUSABLE, keepTabInside } from "@/components/focus";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 
@@ -17,9 +18,6 @@ export interface SheetProps {
   inline?: boolean;
   className?: string;
 }
-
-const FOCUSABLE =
-  'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 /**
  * A sheet that slides up over the phone screen, not the browser window.
@@ -76,18 +74,7 @@ export function Sheet({
         handlers.current.onClose();
         return;
       }
-      if (event.key !== "Tab" || !panel.current) return;
-      const items = [...panel.current.querySelectorAll<HTMLElement>(FOCUSABLE)];
-      if (!items.length) return;
-      const first = items[0];
-      const last = items[items.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
-      }
+      keepTabInside(event, panel.current);
     }
     document.addEventListener("keydown", onKey);
     return () => {
