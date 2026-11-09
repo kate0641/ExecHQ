@@ -2307,13 +2307,6 @@ ul.chrome__nav-list {
   );
 }
 
-.chrome__header:has(> .chrome__header-start),
-.chrome__header:has(> .chrome__header-centre),
-.chrome__header:has(> .chrome__header-end) {
-  align-items: center;
-  justify-content: flex-start;
-}
-
 /* --- Concierge — Navigation Concept 1 --- */
 
 .concierge-pill {
@@ -2844,7 +2837,6 @@ ul.concierge-suggest {
   padding-top: 0;
 }
 
-.concierge-work,
 /* The suggested questions: one card, a hairline between them, rather than a
    stack of outlined boxes (the page recipe: never box what a hairline can
    split). */
@@ -3237,19 +3229,6 @@ ol.concierge-list {
 
 .feature-card__head--inverse .feature-card__title {
   color: var(--color-text-inverse);
-}
-
-.feature-card__head--strip {
-  padding: var(--space-sm) var(--space-feature-padding);
-}
-
-.feature-card__head--strip .feature-card__title {
-  font-family: var(--type-eyebrow-font);
-  font-size: var(--type-eyebrow-size);
-  font-weight: var(--type-eyebrow-weight);
-  line-height: var(--type-eyebrow-leading);
-  letter-spacing: var(--type-eyebrow-tracking);
-  text-transform: uppercase;
 }
 
 .feature-card__body {
