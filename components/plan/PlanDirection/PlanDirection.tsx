@@ -16,15 +16,9 @@ export interface PlanDirectionProps {
 
 /**
  * Her direction, above the road it leads to: "Your direction" as a grey eyebrow, then her words in
-<<<<<<< HEAD
- * full in the serif, in the system's white card. It only reads: with no text
- * ever cut short there was nothing for an accordion to open, so the chevron and the button went.
- * Changing her direction stays in the plan sheet.
-=======
  * full in the serif, in the system's white card. Under a hairline, why she has this plan, as a quiet
  * paragraph that explains itself ("You said …"), and Change your direction, a text link (9 Nov: in place
  * of the plan sheet See your plan opened). What changing it means is said on the edit flow's first page.
->>>>>>> origin/main
  */
 export function PlanDirection({ direction, edited, why, editHref, className }: PlanDirectionProps) {
   const labelId = useId();

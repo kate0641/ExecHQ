@@ -320,22 +320,9 @@ export function usePlanPage() {
     const record = step.artifactId ? loop.records.find((r) => r.id === step.artifactId) : undefined;
     return Boolean(record && ["drafted", "in-progress", "ready"].includes(record.state));
   };
-<<<<<<< HEAD
-  // What the plan detail reads: Concept 1's header and Concept 3's See your plan open the same sheet.
-  const planDetail = {
-    planId,
-    rationale: switchedTo ? RM.switchedOn(fullDate(choices?.startedOn ?? loop.today)) : (recommendPlan(start.account.direction).rationale ?? ""),
-    stage: Math.max(0, windows.findIndex((w) => w.status === "current")),
-    direction: loop.account.direction,
-    edited: loop.account.direction !== start.account.direction,
-    editHref: EDIT_FLOW_HREF,
-  };
-  // The stage check-in. ExecEngine decides a stage is finished, from her work; the most recent finished stage
-=======
   // Why she has this plan, under her direction: what she said in onboarding, or the day she chose it.
   const whyThisPlan = switchedTo ? RM.switchedOn(fullDate(choices?.startedOn ?? loop.today)) : (recommendPlan(start.account.direction).rationale ?? "");
   // The stage check-in. ExecEngine decides a stage is finished, from her work; the most recent finished stage
->>>>>>> origin/main
   // she has not checked in on (or put off) opens the check-in in place of the moves. Older ones stay history.
   const lastDone = [...windows].reverse().find((w) => w.status === "done");
   // Never one behind a stage she has already checked in on, such as one she said is not finished yet.
