@@ -14670,7 +14670,7 @@ ol.entry-drawer__rows {
   background-color: var(--color-surface-for-her);
 }
 
-/* Small labels in Inter, not Kulim. */
+/* Small labels in Inter, not the display face. */
 .signals-page :is(.momentum__stage-title, .presence-clean__added h4) {
   font-family: var(--type-group-title-font);
   font-size: var(--type-group-title-size);

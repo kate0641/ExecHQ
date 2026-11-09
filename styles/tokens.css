@@ -378,9 +378,9 @@
   --word-spacing-normal: 0;
 
   --font-display-tracking-heading: var(--tracking-normal);
-  --font-display-tracking: var(--tracking-slight);
-  --font-display-tracking-label: var(--tracking-wide);
-  --font-display-word-spacing: var(--word-spacing-tightest);
+  --font-display-tracking: var(--tracking-normal);
+  --font-display-tracking-label: var(--tracking-normal);
+  --font-display-word-spacing: var(--word-spacing-normal);
 
   /* --- TYPE ROLES --- */
 

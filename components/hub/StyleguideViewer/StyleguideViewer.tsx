@@ -494,9 +494,9 @@ const SURFACES: { token: string; role: string; inverse?: boolean }[] = [
 
 const TYPE_ROLES: { font: string; token: string; role: string }[] = [
   {
-    font: "Kulim Park",
+    font: "Rethink Sans",
     token: "--font-display",
-    role: "Headings and UI labels. The primary face.",
+    role: "Headings. The primary face.",
   },
   {
     font: "Libre Baskerville",

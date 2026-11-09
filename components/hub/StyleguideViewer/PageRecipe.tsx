@@ -94,7 +94,7 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
   },
   {
     title: "Type",
-    note: "Kulim Park for headings only; Inter for everything she reads or presses.",
+    note: "Rethink Sans for headings only; Inter for everything she reads or presses.",
     rules: [
       {
         rule: "Line spacing follows the job, not the size. Only paragraphs get the airy 1.7. A one-line label, date or note uses tight spacing (1.3), so a card that ends in one doesn't look heavier at the bottom than at the top. Anything read as a sentence over two or more lines, a definition included, gets at least 1.55, never the tight 1.3.",
@@ -155,8 +155,8 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
         uses: ["--weight-bold", ".u-bold-hold"],
       },
       {
-        rule: "Kulim Park is for display, title and heading. Labels, eyebrows, subheadings, body and captions are Inter.",
-        why: "Kulim gives the page its voice in a few places; Inter keeps everything else calm and easy to read. This covers the advisor's name, the where-you-are chip and chat replies too.",
+        rule: "Rethink Sans is for display, title and heading. Labels, eyebrows, subheadings, body and captions are Inter.",
+        why: "Rethink Sans gives the page its voice in a few places; Inter keeps everything else calm and easy to read. This covers the advisor's name, the where-you-are chip and chat replies too.",
         from: "Home, Navigation",
         uses: ["--type-label-font", "--type-eyebrow-font", "--type-subheading-font"],
       },
