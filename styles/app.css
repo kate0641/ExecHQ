@@ -9195,7 +9195,8 @@ ol.signal__list {
 
 .briefing-editorial:focus-visible,
 .briefing-editorial.is-focus {
-  outline: var(--focus-ring);
+  /* The ring sits outside the card, on the page, so it keeps the page's navy, not the card's white. */
+  outline: var(--focus-ring-width) solid var(--color-surface-inverse);
   outline-offset: var(--focus-ring-offset);
 }
 
