@@ -18,6 +18,8 @@ export interface CheckInProps {
   task?: { doneOn?: string; outcome?: { type: OutcomeType; detail?: string } };
   /** The snapshot's today, for "last Tuesday". */
   today: string;
+  /** The question's heading level: 3 under a page section (default), 2 when it sits right under the page's title. */
+  headingLevel?: 2 | 3;
   /** The Plan action it belongs to, named in the context line. */
   about?: string;
   /** How it's drawn: Question first (Concept 1), Stepper (Concept 2) or
@@ -78,8 +80,10 @@ export function CheckIn({
   onAnswer,
   onNote,
   headingId = "check-in-question",
+  headingLevel = 3,
   className,
 }: CheckInProps) {
+  const QuestionHeading = headingLevel === 2 ? "h2" : "h3";
   const [later, setLater] = useState(false);
   const [noteOpen, setNoteOpen] = useState(false);
   const [note, setNote] = useState("");
@@ -285,9 +289,9 @@ export function CheckIn({
             </>
           ) : (
             <>
-              <h3 className="check-in__question" id={headingId} tabIndex={-1}>
+              <QuestionHeading className="check-in__question" id={headingId} tabIndex={-1}>
                 {question}
-              </h3>
+              </QuestionHeading>
               {ready ? <p className="check-in__sub">{C.readySub}</p> : todo ? <p className="check-in__sub">{C.taskSub}</p> : null}
               {answerButtons}
             </>
@@ -323,9 +327,9 @@ export function CheckIn({
         </>
       ) : (
         <>
-          <h3 className="check-in__question" id={headingId} tabIndex={-1}>
+          <QuestionHeading className="check-in__question" id={headingId} tabIndex={-1}>
             {question}
-          </h3>
+          </QuestionHeading>
           {ready ? <p className="check-in__sub">{C.readySub}</p> : todo ? <p className="check-in__sub">{C.taskSub}</p> : null}
           {answerButtons}
         </>

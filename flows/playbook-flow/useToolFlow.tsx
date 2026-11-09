@@ -1211,6 +1211,7 @@ export function useToolFlow(concept: FlowConcept) {
         answered={answeredHere}
         readback={outcomeSaid}
         headingId={outcomeHeading}
+        headingLevel={2}
         onAnswer={(type) => {
           loopActions.answer(record.id, { type });
           setAnsweredHere(true);

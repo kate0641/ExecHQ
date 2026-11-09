@@ -114,7 +114,7 @@ export function PresenceCard({
             </table>
           ) : null}
           <div className="presence-clean__added">
-            <h4>{C.addedHeading}</h4>
+            {name ? <h4>{C.addedHeading}</h4> : <h3>{C.addedHeading}</h3>}
             <p>{summary || C.addedNone}</p>
           </div>
           {onAdd ? (
