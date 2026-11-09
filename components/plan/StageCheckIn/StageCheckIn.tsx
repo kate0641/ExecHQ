@@ -153,7 +153,7 @@ export function StageCheckIn({
         <li key={item.id} className="stage-checkin__thing">
           {/* Where it came from at the left of one eyebrow line and when at the right, as the roadmap's stages
               have it; then what it is; then what came of it: the verdict first, her own words after it in a
-              quieter grey, there if she wants them (designer, 2026-10-16). */}
+              quieter grey, there if she wants them. */}
           <span className="stage-checkin__top">
             <span className="stage-checkin__from">{item.from === "execHQ" ? C.fromExecHQ : item.from === "you" ? C.fromYou : C.fromSteps}</span>
             {item.passed || item.what ? <span className="stage-checkin__when">{item.passed ? C.passed : item.what}</span> : null}

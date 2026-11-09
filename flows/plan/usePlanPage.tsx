@@ -1,5 +1,6 @@
 "use client";
 
+import { shortCapsDate } from "@/components/dates";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { BaselineForm } from "@/components/homepage/BaselineForm";
@@ -350,7 +351,7 @@ export function usePlanPage() {
           id: step.id,
           from: "execHQ",
           title: record.title,
-          what: record.usedOn ? STAGE_CHECKIN_COPY.used(fullDate(record.usedOn)) : step.title,
+          what: record.usedOn ? STAGE_CHECKIN_COPY.used(shortCapsDate(record.usedOn)) : step.title,
           feedback: said ? { tone: record.outcome?.type, words: record.outcome?.detail } : undefined,
           asksTone: true,
         }];
@@ -360,7 +361,7 @@ export function usePlanPage() {
         id: step.id,
         from: "step",
         title: step.title,
-        what: task?.doneOn ? STAGE_CHECKIN_COPY.done(fullDate(task.doneOn)) : "",
+        what: task?.doneOn ? STAGE_CHECKIN_COPY.done(shortCapsDate(task.doneOn)) : "",
         feedback: task?.outcome ? { tone: task.outcome.type, words: task.outcome.detail } : undefined,
         asksTone: true,
       }];
@@ -378,7 +379,7 @@ export function usePlanPage() {
         from: "you",
         title: split ? p.title : i.text,
         detail: split ? p.where : undefined,
-        what: STAGE_CHECKIN_COPY.added(fullDate(i.on)),
+        what: STAGE_CHECKIN_COPY.added(shortCapsDate(i.on)),
         feedback: i.impact ? { words: i.impact } : i.editable ? undefined : {},
         asksTone: false,
         };

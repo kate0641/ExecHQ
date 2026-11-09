@@ -1,5 +1,6 @@
 "use client";
 
+import { shortCapsDate } from "@/components/dates";
 import { useState, type FormEvent } from "react";
 import { didParts } from "@/components/plan/PlanSignalPicture/did-parts";
 import { ChipGroup } from "@/components/form/ChipGroup";
@@ -7,7 +8,7 @@ import { Input } from "@/components/form/Input";
 import { Drawer } from "@/components/layout/Drawer";
 import { Button } from "@/components/primitives/Button";
 import { Icon } from "@/components/primitives/Icon";
-import { fullDate, type LoopDate, type OutcomeType } from "@/lib/loop";
+import { type LoopDate, type OutcomeType } from "@/lib/loop";
 import { OUTCOME_OPTIONS } from "@/mock/loop";
 import { REPORT_COPY as C } from "@/mock/plan";
 
@@ -74,7 +75,7 @@ function ReportForm({ onClose, onSave, did, on, asksTone, demoErrors }: Omit<Rep
       <div className="report-drawer__head">
         <h2 className="report-drawer__title">{C.title}</h2>
         <p className="report-drawer__did">
-          <span className="report-drawer__date">{[fullDate(on), didParts(did).detail].filter(Boolean).join(" · ")}</span>
+          <span className="report-drawer__date">{[shortCapsDate(on), didParts(did).detail].filter(Boolean).join(" · ")}</span>
           <span className="report-drawer__what">{didParts(did).title}</span>
         </p>
       </div>
