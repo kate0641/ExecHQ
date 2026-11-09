@@ -300,11 +300,11 @@ samp {
 }
 
 .card--reads > * {
-  padding-block: var(--space-card-padding);
+  padding-block: var(--list-item-padding-block);
 }
 
 .card--reads > * + * {
-  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+  border-top: var(--border-width-thin) solid var(--list-divider);
 }
 
 /* A read (from Home's "Why this / Why now / Why you"): a grey eyebrow naming
@@ -10927,9 +10927,9 @@ ul.baseline-list__rows {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
-  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--list-radius);
+  background-color: var(--list-surface);
+  border: var(--border-width-thin) solid var(--list-border);
 }
 
 /* The divider between rows stops short of the card's edges, lined up with
@@ -10938,10 +10938,10 @@ ul.baseline-list__rows {
    outranks .settings-row's own background further down. */
 .settings-group__rows > .settings-row + .settings-row,
 .settings-group__rows > * + * {
-  background-image: linear-gradient(var(--color-border-subtle), var(--color-border-subtle));
+  background-image: linear-gradient(var(--list-divider), var(--list-divider));
   background-position: top center;
   background-repeat: no-repeat;
-  background-size: calc(100% - 2 * var(--space-md)) var(--border-width-thin);
+  background-size: calc(100% - 2 * var(--list-item-padding-inline)) var(--border-width-thin);
 }
 
 .settings-row {
@@ -10950,9 +10950,9 @@ ul.baseline-list__rows {
   gap: var(--space-sm);
   width: 100%;
   min-height: 3.25rem;
-  padding: var(--space-card-padding);
+  padding: var(--list-item-padding-block) var(--list-item-padding-inline);
   border: 0;
-  background-color: var(--color-surface-raised);
+  background-color: var(--list-surface);
   color: var(--color-text-primary);
   font: inherit;
   text-align: left;
@@ -20498,6 +20498,20 @@ ul.li-shares {
 
 /* Dividers between rows, across the row or past the leading element. */
 .list--dividers-full .list__item + .list__item {
+  border-top: var(--border-width-thin) solid var(--list-divider);
+}
+
+.list--framed.list--dividers-full .list__item + .list__item {
+  border-top: 0;
+}
+
+/* In a white card the line stops at the row padding, like every card of rows. */
+.list--framed.list--dividers-full .list__item + .list__item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: var(--list-item-padding-inline);
+  left: var(--list-item-padding-inline);
   border-top: var(--border-width-thin) solid var(--list-divider);
 }
 

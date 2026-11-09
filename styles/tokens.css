@@ -632,7 +632,7 @@
   --list-item-hover: var(--color-surface-hover);
   --list-item-active: var(--color-surface-active);
   --list-item-selected: var(--color-surface-selected);
-  --list-item-padding-block: var(--space-sm);
+  --list-item-padding-block: var(--space-card-padding);
   --list-item-padding-inline: var(--space-md);
   --list-item-gap: var(--space-sm);
   --list-leading-size: 2.25rem;
