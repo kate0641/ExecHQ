@@ -36,7 +36,7 @@ export function InProgress({ loop }: { loop: LoopView }) {
   // and tablet each takes most of the row, the next peeking in.
   const web = useViewport().viewport === "web";
   /* What a Ready answer offers to bring forward: the first medium-term step
-     not yet on her way (Kate, 2026-10-26). In the product it comes from her
+     not yet on her way. In the product it comes from her
      plan brief's "bring forward" rules. */
   const stretchStep = ACTIONS.find((a) => a.horizon === "medium" && !loop.tasks?.[a.id] && !loop.records.some((r) => r.id === a.artifactId));
   const due = dueFollowUps(loop.records, loop.today);

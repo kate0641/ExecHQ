@@ -31,7 +31,7 @@ export function VersionHistory({ versions, showing, onView, onRestore, className
         {C.heading}
       </h2>
       <p className="version-history__lead">{C.lead}</p>
-      {/* The shared list's framed look (designer, 2026-10-30): a white card,
+      {/* The shared list's framed look: a white card,
           rows split by lines. */}
       <ol className="version-history__list list list--framed list--dividers-full" reversed>
         {[...versions].reverse().map((v) => {
@@ -39,7 +39,7 @@ export function VersionHistory({ versions, showing, onView, onRestore, className
           return (
             <li key={v.n} className={["version-history__item", "list__item", "list__item--two", isShowing ? "is-showing" : null].filter(Boolean).join(" ")} aria-current={isShowing || undefined}>
               {/* The number leads the line under the name: "Version 2 · Tue 20
-                  Oct" (designer, 2026-10-30; it was in a circle). */}
+                  Oct". */}
               <span className="version-history__text list__text">
                 <span className="version-history__what list__primary">{v.what}</span>
                 <span className="version-history__when list__secondary">

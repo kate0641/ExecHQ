@@ -126,8 +126,7 @@ export function ToolPicker({ hrefFor, layout, lead, label = "Tools", demo, class
 }
 
 /** The next step's tool as the shared EntryLink card: the tool's icon on
- *  the eyebrow's line, the tool and the step (designer, 2026-10-27: every
- *  icon, eyebrow, title and line card is an EntryLink). */
+ *  the eyebrow's line, the tool and the step. */
 function LeadRow({ lead, demo }: { lead: ToolLead; demo?: ToolPickerProps["demo"] }) {
   return (
     <EntryLink

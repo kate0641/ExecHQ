@@ -50,7 +50,7 @@ export function PublisherPicker({ mode, chosen = [], onDone, onCancel, startOwn 
     setPicked((now) => (now.includes(id) ? now.filter((p) => p !== id) : [...now, id]));
 
   /* Every publisher always shows, in its group's card: a check on the right
-     says it feeds her Briefing (designer, 2026-10-15). */
+     says it feeds her Briefing. */
   const groups = PUBLISHER_GROUPS.map((group) => {
     const titleId = `publisher-group-${group.id}`;
     return (

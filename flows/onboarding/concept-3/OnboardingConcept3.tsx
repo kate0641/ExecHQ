@@ -1212,7 +1212,7 @@ function VerifyPage({ flow, frame, drawer, onDone, onOtherAddress }: PageProps &
         }
       >
         {/* What she typed sits in a card with Change, as all her input does;
-            Change does what Use a different address did (designer, 2026-10-13). */}
+            Change does what Use a different address did. */}
         <Said label={c.sentTo} value={email} onChange={onOtherAddress} />
       </GuidePage>
       <Sheet open={reading} onClose={() => setReading(false)} label={c.email.subject} className="sheet--tall">

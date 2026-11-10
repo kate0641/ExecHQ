@@ -37,7 +37,7 @@ export const storyDraftStates = defineComponentStates({
     { label: "Default", props: base },
     {
       label: "With its actions in the card",
-      description: "Copy, Download and Email at the foot of the card, on the draft they act on (designer, 2026-10-15).",
+      description: "Copy, Download and Email at the foot of the card, on the draft they act on.",
       props: { ...base, actions: createElement(ExportLinks, { actions: DRAFT_EXPORTS }) },
     },
     {

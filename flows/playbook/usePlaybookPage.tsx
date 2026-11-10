@@ -61,8 +61,7 @@ export function usePlaybookPage(concept: PlaybookPage) {
     playbookActions.openConcept(concept);
   }, [concept]);
 
-  /* The showroom opens the page on one of its screens with `?screen=` (designer,
-     2026-10-21), so every piece can be reviewed at once: search with nothing
+  /* The showroom opens the page on one of its screens with `?screen=`, so every piece can be reviewed at once: search with nothing
      typed, with matches and with none, an empty folder and the empty library. Only what shows
      changes; nothing she has saved is. */
   const [screen, setScreen] = useState<string | null>(null);
@@ -138,7 +137,7 @@ export function usePlaybookPage(concept: PlaybookPage) {
           {(options.folder || options.mixed) && item.preview ? <span className="library__preview">{item.preview}</span> : null}
           {/* As cards (a folder, web's All tab and search), where it stands
               and when sit over the title as plain words, no tag; across
-              several folders its folder comes first (designer, 2026-10-28). */}
+              several folders its folder comes first. */}
           {cards ? (
             <span className="library__stamp">
               {options.mixed ? `${C.folders.names[record.kind]} · ` : null}

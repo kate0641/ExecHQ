@@ -125,8 +125,7 @@ function useLongName(bandRef: React.RefObject<HTMLElement | null>, name: string)
   }, [bandRef, name]);
 }
 
-/** The counts in a stat's sentence stand out in semibold ink (designer,
- *  2026-11-03), so the figures it doesn't lead with are seen too. Spans of
+/** The counts in a stat's sentence stand out in semibold ink, so the figures it doesn't lead with are seen too. Spans of
  *  time ("30 days", "12 weeks") aren't counts and stay as the sentence is. */
 function statWords(text: string) {
   return text.split(/(\d[\d,]*(?! days| weeks)(?=\D|$))/).map((part, i) =>
@@ -141,8 +140,7 @@ function statWords(text: string) {
 }
 
 /**
- * The opening as four stats under the header (designer, 2026-11-02, white
- * 2026-11-03): each sentence led by a short bar of its number against what
+ * The opening as four stats under the header: each sentence led by a short bar of its number against what
  * it's out of, and the number itself, the sentence kept whole as its
  * caption. "Active" has no "of", so its bar is drawn against everyone who
  * joined. The bar and number repeat the sentence, so screen readers hear
@@ -176,7 +174,7 @@ function OpeningStats({ cohort, window }: { cohort: Cohort; window: DateRange })
 function CohortTools({ cohort, window, onWindow }: { cohort: Cohort; window: DateRange; onWindow: (next: DateRange) => void }) {
   return (
     <div className="ent-header__tools ent-tools">
-      {/* Today's update is late (designer, 2026-11-02): said on the same
+      {/* Today's update is late: said on the same
           line as the dates, beside what it is about, not in a box above the
           cards; on their left, as the buttons sit at the right edge. */}
       {cohort.lateSince ? (
@@ -207,12 +205,10 @@ const CARD_ORDER: QuestionId[] = ["following", "using", "joined"];
 /** Shares drawn as well as said: a ring for joining against the size
  *  expected, bars for the lead share of follow-through and for setting up. */
 const METERS: Partial<Record<DataPointId, "ring" | "bar">> = {
-  // A ring, not a bar, so it doesn't read as time passing (designer,
-  // 2026-11-03): done, and the rest still to do.
+  // A ring, not a bar, so it doesn't read as time passing: done, and the rest still to do.
   "follow-through": "ring",
   invites: "ring",
-  // A ring too, so Getting started's two figures read alike (designer,
-  // 2026-11-03).
+  // A ring too, so Getting started's two figures read alike.
   onboarding: "ring",
 };
 
@@ -277,8 +273,7 @@ function QuestionCard({
       <h2 className="ent-card__heading" id={`q-${question}`}>
         {C.questions[question]}
       </h2>
-      {/* Getting started's line repeated its figures (designer,
-          2026-11-03); the chain says it. */}
+      {/* Getting started's line repeated its figures; the chain says it. */}
       {answer && question !== "joined" ? <p className="ent-card__answer">{answer}</p> : null}
     </div>
   );
@@ -381,7 +376,7 @@ function SeenCard({ cohort, window }: { cohort: Cohort; window: DateRange }) {
       </div>
       {seen ? (
         <>
-          {/* Laid out as the page's other rings (designer, 2026-11-03): the
+          {/* Laid out as the page's other rings: the
               ring, then its words beside it, the count now shown. */}
           <div className="cohort-figure cohort-figure--md cohort-figure--ring ent-seen__any">
             <p className="cohort-figure__label">{SEEN_COPY.ring}</p>
@@ -437,7 +432,7 @@ function ReadinessCard({ cohort }: { cohort: Cohort }) {
   const R = READINESS_COPY;
   return (
     <section className="ent-card ent-card--readiness" aria-labelledby="q-readiness">
-      {/* The card's anatomy (designer, 2026-11-03): the heading with who
+      {/* The card's anatomy: the heading with who
           answered across from it, the answers start against now, then the
           definition at its foot. The opening already says how many feel
           more ready, so the card doesn't say it again, and the average
@@ -477,7 +472,7 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
       <CohortHeader cohort={cohort} window={window} headingRef={headingRef} />
 
       {/* Follow-through's ring fades, as the page's other charts do
-          (designer, 2026-11-03); its stroke points at this. */}
+; its stroke points at this. */}
       <svg className="u-visually-hidden" aria-hidden="true" focusable="false">
         <defs>
           {/* The ring is drawn turned a quarter, so its start is this box's
@@ -495,11 +490,10 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
 
       <div className="ent-page">
         {/* The dates and Export first, over everything they change
-            (designer, 2026-11-02). */}
+. */}
         <CohortTools cohort={cohort} window={window} onWindow={setChoice} />
 
-        {/* The story in the order it happened, before the evidence (Kate,
-            2026-10-22, Bookends), as four stats (designer, 2026-11-02). */}
+        {/* The story in the order it happened, before the evidence, as four stats. */}
         <OpeningStats cohort={cohort} window={window} />
 
         {!above ? (
@@ -517,14 +511,14 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
         <div className="ent-board">
           {CARD_ORDER.map((question) => (
             <Fragment key={question}>
-              {/* Being seen sits between using and joining (Kate, 2026-10-20). */}
+              {/* Being seen sits between using and joining. */}
               {question === "joined" ? <SeenCard cohort={cohort} window={window} /> : null}
               <QuestionCard cohort={cohort} question={question} window={window}>
                 {/* Whether they are still using it is a trend, not a snapshot:
                     always since launch, whichever dates are chosen. */}
                 {question === "using" ? (
                   <div className="ent-card__trend">
-                    {/* No shading for the dates (designer, 2026-11-03): this week's
+                    {/* No shading for the dates: this week's
                         hatching is the one mark, and every week is in navy. */}
                     <WeeklyTrend trend={trendFor(cohort)} height="fill" look="fade" today={cohort.asOf} />
                     <p className="cohort-figure__brief">{TREND_COPY.brief}</p>
@@ -536,7 +530,7 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
         </div>
 
         {/* The page ends on who is still to come, with the code to bring them
-            in (Kate, 2026-10-22): the end of the story, not part of a card. */}
+            in: the end of the story, not part of a card. */}
         <section className="ent-close" aria-label={C.closeLabel}>
           <p className="ent-close__line">{stillToJoin(cohort, window)}</p>
           <InviteCode
@@ -647,8 +641,7 @@ function Concept1bForCohort({ id }: { id: ReturnType<typeof useShownCohortId> })
  * by a statement, opened by one plain sentence and evidenced by its figures,
  * the first set large, each with its definition under it. It ends on who is
  * still to join, with the code. Putting it into practice leads, as the hero,
- * because it is what a sponsor defends to their leadership (Kate,
- * 2026-10-20); Staying with it, Showing up in the world and Getting started
+ * because it is what a sponsor defends to their leadership; Staying with it, Showing up in the world and Getting started
  * sit side by side under it, with the weekly trend in the first.
  * A sponsor with no cohort yet sees only the setup.
  */

@@ -13,7 +13,7 @@ export const outletCardStates = defineComponentStates({
   status: "draft",
   flows: ["playbook-flow"],
   description:
-    "Where a pitch goes, above the draft (Kate, 14 Oct): the outlet, what it asks for, the contact, how to send it, and the page it came from with the day it was checked. What the page doesn’t say is a question to her, never a guess. Every outlet here is made up.",
+    "Where a pitch goes, above the draft: the outlet, what it asks for, the contact, how to send it, and the page it came from with the day it was checked. What the page doesn’t say is a question to her, never a guess. Every outlet here is made up.",
   component: OutletCard,
   notApplicable: {
     ...NOT_INTERACTIVE,

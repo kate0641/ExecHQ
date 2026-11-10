@@ -27,13 +27,13 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
     rules: [
       {
         rule: "Your day lives in daylight; your plan and your progress live in ExecEngine's room. A page about today (Home, the Briefing, the Playbook and her drafts, onboarding's quiet steps) is stone: she reads, writes and acts there. A page about her direction and where she stands (the Plan, the Signal Picture, Profile, onboarding's ExecEngine moments) is navy. For a new screen, ask: is this about today, or about her trajectory?",
-        why: "Dark text on a light page reads best for long reading and writing, older readers included (Nielsen Norman Group, 2020), and Home's skies need a light ground to show. Navy makes the few-words, look-once pages feel private and focused. The daily check-in on Home is the day; the Plan's stage check-in is the room. The advisor's sheet and drawers keep their own navy look on any page. The doors (the welcome, Login, signed out) keep the dark brand cover. Long text on a navy page sits on a white card, never light on dark (designer, 2026-10-18).",
+        why: "Dark text on a light page reads best for long reading and writing, older readers included (Nielsen Norman Group, 2020), and Home's skies need a light ground to show. Navy makes the few-words, look-once pages feel private and focused. The daily check-in on Home is the day; the Plan's stage check-in is the room. The advisor's sheet and drawers keep their own navy look on any page. The doors (the welcome, Login, signed out) keep the dark brand cover. Long text on a navy page sits on a white card, never light on dark.",
         from: "Home, Plan, Signal Picture, Profile, Onboarding",
         uses: ["--color-surface", "--color-surface-inverse", ".guide--navy", ".signals-page"],
       },
       {
         rule: "Cards come in four levels, named the same on every page. Strong, look here first, is navy on stone and white on navy, at most one on a stone page. Accent, a step below, is light blue on stone; on navy it is not a card, only the mark. Default, the normal card, is white on stone and darker navy on navy. Open is no card, straight on the page. A navy page's opening section may sit in darker navy and lead by coming first, with its yellow headline and its one yellow button.",
-        why: "A card's colour says how much it stands out on that page, and nothing else, so it works on stone and navy alike. Light tints wash toward white on navy, so the accent level turns into a mark there. What a card means (written for her, her words, ExecEngine) is a small mark or band, the same on any page (designer, 2026-10-18).",
+        why: "A card's colour says how much it stands out on that page, and nothing else, so it works on stone and navy alike. Light tints wash toward white on navy, so the accent level turns into a mark there. What a card means (written for her, her words, ExecEngine) is a small mark or band, the same on any page.",
         from: "Signal Picture, Plan, Home",
         uses: ["--color-surface-inverse", "--color-surface-for-her", "--color-surface-raised", "--color-surface-quiet-on-inverse"],
       },
@@ -51,7 +51,7 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
       },
       {
         rule: "A card that takes her somewhere, with an icon, an eyebrow, a title and a line of copy, is always the EntryLink card: the icon on the eyebrow's line, the title, the line under it, a chevron at the right and the soft light blue to lime wash. The whole card is the link. Never a one-off restyle of the same content.",
-        why: "Same content, same card: she learns the shape once and reads it on any page. Next on your plan was its own row with a drawing; it is now the same card Navigation uses (designer, 2026-10-27).",
+        why: "Same content, same card: she learns the shape once and reads it on any page. Next on your plan was its own row with a drawing; it is now the same card Navigation uses.",
         from: "Navigation, Playbook",
         uses: ["EntryLink", ".entry-link", "--color-wash-start", "--color-wash-end"],
       },
@@ -98,19 +98,19 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
     rules: [
       {
         rule: "Line spacing follows the job, not the size. Only paragraphs get the airy 1.7. A one-line label, date or note uses tight spacing (1.3), so a card that ends in one doesn't look heavier at the bottom than at the top. Anything read as a sentence over two or more lines, a definition included, gets at least 1.55, never the tight 1.3.",
-        why: "Line spacing adds invisible space above and below each line. On a single line it pads the card's edge, so 20px of padding looks like 25. On a sentence that wraps, tight spacing turns it into fine print: the admin dashboard's definitions read as disclaimers at 1.3 (designer, 2026-11-03).",
+        why: "Line spacing adds invisible space above and below each line. On a single line it pads the card's edge, so 20px of padding looks like 25. On a sentence that wraps, tight spacing turns it into fine print: the admin dashboard's definitions read as disclaimers at 1.3.",
         from: "Navigation, Admin Dashboard",
         uses: ["--leading-snug", "--leading-normal", "--leading-relaxed"],
       },
       {
         rule: "Hierarchy comes from meaning, not even spacing. Lines that belong together sit tight: a label, then what its number is out of, 2 to 4px apart. A clear break, about 12px, comes before a new kind of information, such as the definition.",
-        why: "Lines spaced evenly read as one paragraph, so the eye can't tell the statement from its explanation (designer, 2026-11-03).",
+        why: "Lines spaced evenly read as one paragraph, so the eye can't tell the statement from its explanation.",
         from: "Admin Dashboard",
         uses: ["--space-3xs", "--space-2xs", "--space-sm"],
       },
       {
         rule: "What has to be read is never set smaller to make it quieter. Order comes from colour and weight: the line that describes a number in ink, the explanation under it in grey, both the same size.",
-        why: "A 14px grey line under 16px reads as a disclaimer or an asterisk note, even when it holds what the figure means (designer, 2026-11-03).",
+        why: "A 14px grey line under 16px reads as a disclaimer or an asterisk note, even when it holds what the figure means.",
         from: "Admin Dashboard",
         uses: ["--color-text-primary", "--color-text-secondary"],
       },
@@ -128,13 +128,13 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
       },
       {
         rule: "A figure and its label read as one phrase: \"79% chose a plan\", \"14 pieces of work made\". The line under says what it is out of and when; the definition says how it is counted. Figures share one size across a page, close enough to their label to jump to without touching it.",
-        why: "\"14 · Work made · pieces of work\" read as nonsense. When the number, label and detail form a sentence, nothing needs decoding (designer, 2026-11-03).",
+        why: "\"14 · Work made · pieces of work\" read as nonsense. When the number, label and detail form a sentence, nothing needs decoding.",
         from: "Admin Dashboard",
         uses: ["--type-figure-size-lg", ".cohort-figure--row"],
       },
       {
         rule: "The type and spacing scale stays tight, as a system's should, phone first. A desktop-only surface steps its roles up once, on its page wrapper, never per card: nothing under 14, sentences at 16 to 18, gaps at 32.",
-        why: "12 and 13px text and 20px gaps read as mobile styles on a laptop. Overriding the roles once keeps every card on that surface consistent and leaves the phone untouched (designer, 2026-11-03).",
+        why: "12 and 13px text and 20px gaps read as mobile styles on a laptop. Overriding the roles once keeps every card on that surface consistent and leaves the phone untouched.",
         from: "Admin Dashboard",
         uses: [".ent-page", "--type-caption-size", "--type-body-sm-size", "--ent-card-padding", "--ent-card-title", "--ent-divided-item"],
       },
@@ -145,7 +145,7 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
       },
       {
         rule: "No text anywhere in the product is cut off with an ellipsis. Titles, headers, previews and placeholders wrap and show every word. An ellipsis written into the words stays: something in progress (Writing your first draft\u2026) and a prompt to type (Ask or go\u2026). One exception: a tool's pinned draft preview stops after two lines, because the card sits over the page and Show draft opens the whole draft.",
-        why: "Cut-off words hide what she needs to read. Keep a navy header short so it rarely needs a second line, but when it does, it wraps (designer, 2026-10-13).",
+        why: "Cut-off words hide what she needs to read. Keep a navy header short so it rarely needs a second line, but when it does, it wraps.",
         from: "Home, Onboarding",
       },
       {
@@ -295,7 +295,7 @@ const RULES: { title: string; note: string; rules: Rule[] }[] = [
       },
       {
         rule: "The product's places are one row of icon tiles, all six in view, the one she is on in navy. While she chats the row stays put above the conversation.",
-        why: "Destinations stay in reach while chatting. Kate's icon row was kept over text tabs (designer, 2026-10-09).",
+        why: "Destinations stay in reach while chatting. Kate's icon row was kept over text tabs.",
         from: "Navigation",
         uses: ["--color-surface-inverse"],
       },

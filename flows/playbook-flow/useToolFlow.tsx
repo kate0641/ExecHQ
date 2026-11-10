@@ -694,8 +694,7 @@ export function useToolFlow(concept: FlowConcept) {
   const sectionActions = (section: { id: string; heading?: string }): ReactNode => {
     const name = section.heading ?? "";
     const one = version?.sections.filter((x) => x.id === section.id) ?? [];
-    // One quiet menu per part, beside Edit (designer, 2026-10-28; it was a
-    // row of Copy, PDF and Word links on every part).
+    // One quiet menu per part, beside Edit.
     return (
       <DropdownMenu
         label={POSITIONING_COPY.moreFor(name)}
@@ -826,7 +825,7 @@ export function useToolFlow(concept: FlowConcept) {
       <>
         {refresh}
         <output className="u-visually-hidden">{sectionMessage}</output>
-        {/* A pitch is for one place (Kate, 14 Oct): where it goes, above
+        {/* A pitch is for one place: where it goes, above
             what it says. */}
         {kind === "pitch" && draft.inputs.target?.trim() ? (
           <OutletCard name={draft.inputs.target} type={pitchTypeOf(draft.inputs.type)} outlet={outletFor(draft.inputs.target)} today={loop.today} />
@@ -834,8 +833,7 @@ export function useToolFlow(concept: FlowConcept) {
         <DraftEditor
           key={`${artifactId}-${version.n}`}
           id={DRAFT_LABEL_ID}
-          // Its name, while she edits too (designer, 2026-10-28; it was the
-          // version, "Draft, version 2", which the folded card still says).
+          // Its name, while she edits too.
           label={record?.title ?? DRAFT_COPY.label(version.n)}
           look={look}
           onReopen={onReopen}
@@ -848,15 +846,14 @@ export function useToolFlow(concept: FlowConcept) {
           revising={revising ? REVISION_COPY.revising : undefined}
           header={
             <>
-            {/* What it is for, read right after its name (designer,
-                2026-10-28; it sat above the draft, before the name). */}
+            {/* What it is for, read right after its name. */}
             {forLine}
             <span className="tool-flow__draft-head">
               {/* No "Still editing" here: she is looking at the draft
-                  (designer, 2026-10-28). Lists elsewhere keep it. */}
+. Lists elsewhere keep it. */}
               {record ? <LoopStatus record={record} detail={false} /> : null}
               {/* That it is kept, beside where it stands, so the bar above
-                  needs no line of its own here (designer, 2026-10-28). */}
+                  needs no line of its own here. */}
               {record ? (
                 <span className="tool-flow__draft-saved">
                   <span aria-hidden="true">·</span>
@@ -866,7 +863,7 @@ export function useToolFlow(concept: FlowConcept) {
               {/* The draft's actions, in its corner, on every concept. Once it
                   is ready, Copy and the downloads lead, so the bar holds only
                   "I've used this". Then what the library's row menu held
-                  (Kate, 14 Oct): start a new draft from this one, close it,
+: start a new draft from this one, close it,
                   delete it. */}
               {record ? (
                 <DropdownMenu

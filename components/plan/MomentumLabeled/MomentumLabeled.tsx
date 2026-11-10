@@ -37,7 +37,7 @@ export function MomentumLabeled({ events, today, history, nextMove, headingId = 
 
   return (
     <section className={["momentum", className].filter(Boolean).join(" ")} aria-labelledby={headingId}>
-      {/* The week is its own card, a moment of joy (designer, 2026-10-15): the heading, what it counts,
+      {/* The week is its own card, a moment of joy: the heading, what it counts,
           the week and its count together, and her next move at its foot. */}
       <div className="momentum__card">
         <div className="momentum__head">
@@ -48,7 +48,7 @@ export function MomentumLabeled({ events, today, history, nextMove, headingId = 
         </div>
         <section className="momentum__stage" aria-labelledby={`${headingId}-week`}>
           {/* What she did sits beside This week after a dot, in its own words with no badge, so nothing comes under
-              the circles (designer, 2026-10-18). */}
+              the circles. */}
           <div className="momentum__week-head">
             <h3 className="momentum__stage-title" id={`${headingId}-week`}>
               {C.week.heading}
@@ -64,7 +64,7 @@ export function MomentumLabeled({ events, today, history, nextMove, headingId = 
           </div>
           <DayCircles events={thisWeek} today={today} history={history} />
         </section>
-        {/* Her next move is part of Momentum, not a card of its own (designer, 2026-10-18; spec 3.3): it
+        {/* Her next move is part of Momentum, not a card of its own: it
             closes the card under a rule, beside the week on the web. */}
         {nextMove ? (
           <section className="momentum__next" aria-label={C.nextMove}>

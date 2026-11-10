@@ -166,7 +166,7 @@ export function PlanGuided({
         >
           {note ? <output className="plan-guided__note">{note}</output> : null}
           {/* What changed is a record, not something to tap: one card with its title in a strip and the changes
-              split by dividers (designer, 2026-10-16). */}
+              split by dividers. */}
           {sparks.length ? (
             <section className="feature-card plan-guided__changed" aria-labelledby={`${headingId}-changed`}>
               <div className="feature-card__head feature-card__head--inverse">
@@ -301,7 +301,7 @@ export function PlanGuided({
                 if (picked) pass(picked.id);
               }}
             />
-            {/* A plain underlined link, not another button shape (designer, 2026-10-16). */}
+            {/* A plain underlined link, not another button shape. */}
             <button type="button" className="link link--standalone" onClick={() => pass(undefined)}>
               {G.noReason}
             </button>

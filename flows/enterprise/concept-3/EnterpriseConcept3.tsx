@@ -88,7 +88,7 @@ function Issue({ issue, previous, late, headingRef }: { issue: LetterIssue; prev
       </header>
 
       {/* By the numbers: the three figures a reader skims for, before the
-          prose (Kate, 2026-10-20). Only once they can be shown. */}
+          prose. Only once they can be shown. */}
       {above ? (
         <dl className="letter__numbers" aria-label={C.numbers.label}>
           {[
@@ -108,7 +108,7 @@ function Issue({ issue, previous, late, headingRef }: { issue: LetterIssue; prev
 
       <div className="letter__body">
         {/* What changed is why a weekly letter exists: it comes first
-            (Kate, 2026-10-20). */}
+. */}
         {previous && above ? (
           <section className="letter__moved" aria-labelledby="letter-moved">
             <h2 className="letter__subheading" id="letter-moved">
@@ -151,7 +151,7 @@ function Issue({ issue, previous, late, headingRef }: { issue: LetterIssue; prev
         </p>
       </div>
 
-      {/* Asking about an issue is replying to it (Kate, 2026-10-20). */}
+      {/* Asking about an issue is replying to it. */}
       <LetterReplies key={issue.number} issue={issue} />
 
       <details className="letter__definitions">

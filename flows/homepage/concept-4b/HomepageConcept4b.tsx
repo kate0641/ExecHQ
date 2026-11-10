@@ -27,9 +27,7 @@ import { CHECKIN_COPY as CK } from "@/mock/homepage";
 import type { Horizon } from "@/mock/plan-stub";
 
 /**
- * Homepage Concept 4b — Combined, with the weekly check-in (Kate,
- * 2026-10-23; approved 2026-10-26, when Concept 4 moved to the scratch
- * branch). Concept 4 with one addition in Stay on track (./InProgress): the
+ * Homepage Concept 4b — Combined, with the weekly check-in. Concept 4 with one addition in Stay on track (./InProgress): the
  * readiness pulse that feeds the Admin Dashboard's Concept 1b.
  *
  * Concept 4, as it was:
@@ -114,7 +112,7 @@ export function HomepageConcept4b() {
   const web = useViewport().viewport === "web";
   /* The server, which has no clock of hers, draws a day morning. */
   /* Once she scrolls, the status bar and Safari's address bar stop showing
-     the top of the sky and take the sky's middle colour (designer, 2026-10-11). */
+     the top of the sky and take the sky's middle colour. */
   const homeRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const home = homeRef.current;

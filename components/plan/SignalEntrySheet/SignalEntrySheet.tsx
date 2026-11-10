@@ -133,7 +133,7 @@ function EntryForm({ onClose, onSave, today, initial, editing, demoErrors }: Omi
         </>
       )}
       <p className="entry-form__privacy">{C.privacy}</p>
-      {/* The main action full width; leaving is the underlined link under it (designer, 2026-10-16). */}
+      {/* The main action full width; leaving is the underlined link under it. */}
       <div className="entry-form__actions sheet-actions">
         <Button type="submit" variant="primary" fullWidth>
           {editing ? C.saveEdit : C.save}

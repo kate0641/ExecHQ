@@ -106,8 +106,7 @@ export function usePlanPage() {
   }, [onSignals, freshKey]);
   const editing = editingItem ? items.find((i) => i.id === editingItem.id) : undefined;
 
-  /* The showroom opens the Signal Picture on one of its sheets with `?screen=` (designer,
-     2026-10-15): add, edit, or report on something she added or something the Loop made. Only
+  /* The showroom opens the Signal Picture on one of its sheets with `?screen=`: add, edit, or report on something she added or something the Loop made. Only
      sheets open this way; nothing she has saved is changed. Her picture loads after the page, so
      a sheet that needs a row waits for one, and opens once. */
   const screenOpened = useRef(false);
@@ -370,8 +369,7 @@ export function usePlanPage() {
     const added = pictureItems
       .filter((i) => i.source === "added" && w && i.on >= w.start && i.on <= w.end)
       .map((i): CheckInItem => {
-        // Its title, and where it ran as a detail under it, rather than one line joined by a dot (designer,
-        // 2026-10-16). A note she wrote in place of a title stays as it is.
+        // Its title, and where it ran as a detail under it, rather than one line joined by a dot. A note she wrote in place of a title stays as it is.
         const p = items.find((x) => x.id === i.id);
         const split = p && !p.note && p.where;
         return {
@@ -565,7 +563,7 @@ export function usePlanPage() {
   const startedOf = (withLinkedInView: boolean) => (
     <section className="plan-stub__signals" aria-labelledby="plan-signals-heading">
       {/* Once she has a starting point, Where you started is a section like What came of it: its heading on
-          the page, the card under it (designer, 2026-10-18). Before, the form carries its own heading. */}
+          the page, the card under it. Before, the form carries its own heading. */}
       {hasBaseline(baseline, seeded) ? (
         <>
         <div className="plan-stub__started">
@@ -590,7 +588,7 @@ export function usePlanPage() {
         </div>
         <div className="plan-stub__linkedin">
           {/* With the view of her export beside it, the upload is that view's footnote, under it; on its own
-              it keeps its heading (designer, 2026-10-21). */}
+              it keeps its heading. */}
           {withLinkedInView && linkedInView ? (
             <>
               {linkedInView}

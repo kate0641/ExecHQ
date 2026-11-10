@@ -71,7 +71,7 @@ function ReportForm({ onClose, onSave, did, on, asksTone, demoErrors }: Omit<Rep
   return (
     <form className="report-drawer" onSubmit={submit} noValidate>
       {/* The question and what it is about read as one group: the thing she did, its date as an eyebrow over
-          it, as on the What came of it cards (designer, 2026-10-21). */}
+          it, as on the What came of it cards. */}
       <div className="report-drawer__head">
         <h2 className="report-drawer__title">{C.title}</h2>
         <p className="report-drawer__did">
@@ -104,7 +104,7 @@ function ReportForm({ onClose, onSave, did, on, asksTone, demoErrors }: Omit<Rep
         error={tried ? errors.text : undefined}
       />
       <p className="entry-form__privacy report-drawer__privacy">{C.privacy}</p>
-      {/* The main action full width; leaving is the underlined link under it (designer, 2026-10-16). */}
+      {/* The main action full width; leaving is the underlined link under it. */}
       <div className="entry-form__actions sheet-actions report-drawer__actions">
         <Button type="submit" variant="primary" fullWidth>
           {C.save}

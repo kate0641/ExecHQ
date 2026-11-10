@@ -25,7 +25,7 @@ export const cohortFigureStates = defineComponentStates({
     { label: "Shown, large", props: { figure: figureFor(pilot, "invites", "launch"), size: "lg", onExplain: noop } },
     {
       label: "With its definition shown",
-      description: "On the dashboard every figure carries its one-sentence definition (Kate, 2026-10-22).",
+      description: "On the dashboard every figure carries its one-sentence definition.",
       props: { figure: figureFor(pilot, "follow-through", "launch"), size: "lg", meter: "bar", brief: DATA_POINTS["follow-through"].brief, onExplain: noop },
     },
     { label: "With a bar", props: { figure: figureFor(pilot, "follow-through", "launch"), size: "lg", meter: "bar", onExplain: noop } },

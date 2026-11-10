@@ -64,7 +64,7 @@ export function LinkedInPicture({ data, initialKind = "location", headingId, cla
 
   return (
     <section className={["li-section", className].filter(Boolean).join(" ")} aria-labelledby={id}>
-      {/* The heading and its dates sit on the page above the card, as every section's do (designer, 2026-10-21). */}
+      {/* The heading and its dates sit on the page above the card, as every section's do. */}
       <div className="signal-picture__head li-section__head">
         <h2 className="signal-picture__heading" id={id}>
           {C.heading}
@@ -94,8 +94,7 @@ export function LinkedInPicture({ data, initialKind = "location", headingId, cla
               <ul className="li-posts">
                 {best.map((p) => (
                   <li key={p.id} className="li-post">
-                    {/* The title is the link out, with the external-link icon held to its last word (designer,
-                        2026-10-21; a separate icon button before). Under it, when and how far it went. */}
+                    {/* The title is the link out, with the external-link icon held to its last word. Under it, when and how far it went. */}
                     <a className="link li-post__title" href={p.url ?? FEED} target="_blank" rel="noreferrer">
                       {titleWithIcon(p.title)}
                       <span className="u-visually-hidden"> {C.opensNewTab}</span>

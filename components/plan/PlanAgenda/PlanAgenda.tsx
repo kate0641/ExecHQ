@@ -300,7 +300,7 @@ function StepItem({
           )}
           <div className="agenda__ask">
             {/* Each question opens the chat on it, so it looks like the chat's own prompts: a navy pill with the
-                advisor's mark (designer, 2026-10-14). Their short answers are left for the chat to give. */}
+                advisor's mark. Their short answers are left for the chat to give. */}
             <ul className="agenda__ask-list" aria-label={A.askLabel}>
               {STEP_QUESTIONS.map((q) => (
                 <li key={q.id}>

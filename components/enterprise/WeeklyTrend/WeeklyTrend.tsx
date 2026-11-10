@@ -142,8 +142,7 @@ export function WeeklyTrend({ trend, highlight, height = DEFAULT_HEIGHT, look = 
   const weekName = (i: number) => (weeks[i].partial ? C.thisWeek : `${C.week} ${dayOf(weeks[i].weekOf)}`);
   const weekFigure = (i: number) => (weeks[i].active === undefined ? C.hiddenWeek : count.format(weeks[i].active!));
 
-  // The fade look reads week by week from the keyboard too (designer,
-  // 2026-11-03): the plot is a slider over the weeks; the arrows, Home and
+  // The fade look reads week by week from the keyboard too: the plot is a slider over the weeks; the arrows, Home and
   // End move the pill a hover would show.
   function step(event: KeyboardEvent<HTMLDivElement>) {
     const from = hovered ?? latestIndex;
@@ -192,7 +191,7 @@ export function WeeklyTrend({ trend, highlight, height = DEFAULT_HEIGHT, look = 
       </p>
       <div className="weekly-trend__plot" ref={plotRef} {...slider}>
         {/* A line at each step of the scale, each labelled above its left
-            end (designer, 2026-11-03), so the bars have benchmarks between 0
+            end, so the bars have benchmarks between 0
             and the top. */}
         {steps.map((value) => (
           <span key={value} className="weekly-trend__scale" style={{ top: `calc(var(--weekly-trend-plot-top) + ${y(value)}px)` }} aria-hidden="true">
@@ -300,7 +299,7 @@ export function WeeklyTrend({ trend, highlight, height = DEFAULT_HEIGHT, look = 
             {look === "fade" ? (
               <>
                 {/* Its dates, Monday to Sunday, or to today for this week
-                    (designer, 2026-11-03). */}
+. */}
                 <span>{C.weekRange(dayOf(pickedWeek.weekOf), dayOf(pickedWeek.partial && today ? today : daysOn(pickedWeek.weekOf, 6)))}</span>
                 <strong>
                   {pickedWeek.active === undefined ? C.hiddenWeek : count.format(pickedWeek.active)}

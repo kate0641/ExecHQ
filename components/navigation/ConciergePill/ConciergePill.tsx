@@ -54,7 +54,7 @@ export function ConciergePill({
           <span className="u-visually-hidden">. </span>
         </span>
         {/* The dot rides on the chip's top right corner, not out beside the
-            advisor's mark (designer, 2026-10-12). */}
+            advisor's mark. */}
         {followUpDue || newSignals ? <span className="concierge-pill__dot" aria-hidden="true" /> : null}
       </span>
       <span className="concierge-pill__ask">{ask}</span>

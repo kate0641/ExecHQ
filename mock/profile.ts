@@ -123,7 +123,7 @@ export const PROFILE_COPY = {
     prepare: "Prepare download",
     ready: (file: string) =>
       `Ready. In the product this saves ${file}. The prototype doesn’t make a file.`,
-    fileName: (format: string) => `exechq-maya-chen.${format}`,
+    fileName: (format: string) => `execengine-maya-chen.${format}`,
     done: "Done",
   },
 

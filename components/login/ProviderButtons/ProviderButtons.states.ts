@@ -10,7 +10,7 @@ export const providerButtonsStates = defineComponentStates({
   status: "draft",
   flows: ["login"],
   description:
-    "Google and Apple as full-width buttons in the traditional form: the mark and “Continue with …”. Each follows its maker's guidelines exactly: Google's dark theme in Google Sans with the standard four-colour G, and Apple's black style with the logo and words in white (designer, 2026-10-13).",
+    "Google and Apple as full-width buttons in the traditional form: the mark and “Continue with …”. Each follows its maker's guidelines exactly: Google's dark theme in Google Sans with the standard four-colour G, and Apple's black style with the logo and words in white.",
   component: ProviderButtons,
   notApplicable: {
     loading: "The provider's own window takes over; this page has nothing to wait for.",

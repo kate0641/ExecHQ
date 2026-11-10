@@ -48,7 +48,7 @@ export const guidePageStates = defineComponentStates({
     {
       label: "On a navy page",
       description:
-        "A step with no drawer, flooded navy: the headline and section labels in yellow, white cards on it. Signals, the recommendation, the first draft and Done (designer, 2026-10-15).",
+        "A step with no drawer, flooded navy: the headline and section labels in yellow, white cards on it. Signals, the recommendation, the first draft and Done.",
       props: {
         navy: true,
         kicker: GUIDE_C3.signals.kicker,

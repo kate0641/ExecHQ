@@ -28,7 +28,7 @@ export const weeklyTrendStates = defineComponentStates({
   status: "draft",
   flows: ["enterprise"],
   description:
-    "People active each week since the program started, Monday to Sunday, as bars (Kate, 2026-10-22). There are no weekly updates, so it shows from the first week; this week, still going, is hatched. It always shows every week and shades the ones the dates chosen touch. A week below 10 is a gap; below the minimum cohort size it is hidden. Hovering picks a week; the figures are also in a table for screen readers.",
+    "People active each week since the program started, Monday to Sunday, as bars. There are no weekly updates, so it shows from the first week; this week, still going, is hatched. It always shows every week and shades the ones the dates chosen touch. A week below 10 is a gap; below the minimum cohort size it is hidden. Hovering picks a week; the figures are also in a table for screen readers.",
   component: WeeklyTrend,
   notApplicable: {
     focus: "Nothing in it takes focus: the weekly figures are in a table for keyboard and screen reader users.",

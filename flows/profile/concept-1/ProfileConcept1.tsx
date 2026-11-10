@@ -190,7 +190,7 @@ export function ProfileConcept1() {
   const [downloading, setDownloading] = useState(false);
 
   /* The showroom opens the page on one of its screens or sheets with
-     `?screen=` (designer, 2026-10-15), so every piece can be reviewed at once. */
+     `?screen=`, so every piece can be reviewed at once. */
   useEffect(() => {
     const screen = new URLSearchParams(window.location.search).get("screen");
     /* eslint-disable react-hooks/set-state-in-effect -- the URL is only readable after mount */

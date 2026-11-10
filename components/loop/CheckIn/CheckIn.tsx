@@ -313,7 +313,7 @@ export function CheckIn({
         <>
           {/* The pill rides at the top of the white area without taking any
               of it, so what she said is dead centre in the whole of it
-              (designer, 2026-10-12). */}
+. */}
           <div className="check-in__logged-body">
             {logged && !later ? <p className="check-in__logged">{C.loggedLabel}</p> : null}
             {shown ? (

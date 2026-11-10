@@ -182,7 +182,7 @@ export function SponsorProfileConcept1() {
               />
             ))}
           </SettingsGroup>
-          {/* Sign out closes the list (Kate, 2026-10-23). */}
+          {/* Sign out closes the list. */}
           <Button className="sponsor-profile__sign-out" variant="secondary" onClick={() => router.push(LOGIN)}>
             <Icon name="sign-out" size={20} />
             {C.signOut.label}
@@ -212,10 +212,9 @@ export function SponsorProfileConcept1() {
                 <SettingsRow kind="static" label={C.you.role} value={person.role} />
                 <SettingsRow kind="static" label={C.you.email} value={SPONSOR_PERSON.email} />
                 <SettingsRow kind="static" label={C.you.org} value={SPONSOR_PERSON.org} />
-                {/* One Edit for the section (Kate, 2026-10-23): the name and
+                {/* One Edit for the section: the name and
                     job title, the only two that change here. What it changes sits at
-                    the row's end, lined up with the values above (designer,
-                    2026-11-04). */}
+                    the row's end, lined up with the values above. */}
                 <SettingsRow kind="action" icon="edit" label={C.you.editLabel} value={C.you.editHint} onAction={() => setEditing(true)} />
               </SettingsGroup>
             )

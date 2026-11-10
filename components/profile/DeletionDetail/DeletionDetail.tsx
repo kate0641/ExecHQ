@@ -45,7 +45,7 @@ export function DeletionDetail({
   return (
     <DetailPanel heading={C.heading} headingId={headingId} lead={C.body} onClose={onClose}>
       {/* Taking a copy sits up here, with the list between it and Delete, so
-          one can't be tapped for the other (designer, 2026-10-15). */}
+          one can't be tapped for the other. */}
       <p className="detail-panel__body">
         {C.copyFirst}{" "}
         <button

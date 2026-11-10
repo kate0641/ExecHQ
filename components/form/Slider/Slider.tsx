@@ -17,8 +17,7 @@ export interface SliderProps {
 }
 
 /**
- * A choice along a short scale, dragged or tapped (Kate, 2026-10-26, for the
- * weekly check-in): the browser's own range input, so a finger drags it, a
+ * A choice along a short scale, dragged or tapped: the browser's own range input, so a finger drags it, a
  * tap on the track moves it and the arrow keys step it, with each stop's
  * word under its place on the track. A screen reader hears the word, not a
  * number. The track fills to the thumb, and the stop chosen is set bold, so

@@ -99,7 +99,7 @@ function Interview() {
   });
 
   /* The showroom opens the interview on one of its screens with `?screen=`
-     (designer, 2026-10-21): a question, named as the step bar names it
+: a question, named as the step bar names it
      (`q-<id>`), the last question (`q-final`), or the draft opened. The tool
      comes from the address as usual. Only what shows changes; nothing she has
      saved is. The questions and her draft load after the page, so it waits for
@@ -219,8 +219,7 @@ function Interview() {
       {f.source}
     </>
   );
-  /* On a phone, the top of Change the draft is the open draft's (designer,
-     29 Oct): "Draft · Saved" as the eyebrow, the name in the heading role,
+  /* On a phone, the top of Change the draft is the open draft's: "Draft · Saved" as the eyebrow, the name in the heading role,
      "For:" 4 under it, at the same places, so nothing moves between them. */
   const draftTop = (
     <div className="tool-flow__draft-top">
@@ -244,7 +243,7 @@ function Interview() {
       {head ? draftHead : null}
       {f.outcome}
       {/* Mark ready sits with Revise, so on a phone both stay at the foot
-          of the screen while she chooses (Kate, 19 Oct). */}
+          of the screen while she chooses. */}
       {f.revision(() => setExpanded(true), f.useBar({ noNotes: true, copyInMenu: true, secondary: true, className: "draft-use--single" }))}
       {f.versions}
     </div>
@@ -358,8 +357,7 @@ function Interview() {
 
   let interview;
   if (hasDraft) {
-    // On a phone the draft's name leads, above the draft card (designer,
-    // 29 Oct), so the card sits between it and Change the draft.
+    // On a phone the draft's name leads, above the draft card, so the card sits between it and Change the draft.
     interview = afterDraft(false);
   } else if (at < asked.length) {
     // The question screens are onboarding's (13 Oct): the question on the

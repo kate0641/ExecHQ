@@ -394,8 +394,8 @@ function RangePanel({ id, cohort, range, align, inline, pickingFrom, anchor, onP
             </div>
           ))}
         </div>
-        {/* Only before the first figures is anything said on screen
-            (Kate, 2026-10-22): greyed days show the bounds, and the page says
+        {/* Only before the first figures is anything said on screen:
+            greyed days show the bounds, and the page says
             the privacy rule. Picking is still announced. */}
         <p className={started ? "u-visually-hidden" : "date-range__status"} aria-live="polite">
           {status}
