@@ -736,9 +736,11 @@ button.link {
   white-space: nowrap;
 }
 
+/* A long date wraps rather than push a narrow screen sideways (320px reflow). */
 .badge--when {
   text-transform: none;
   letter-spacing: var(--tracking-normal);
+  white-space: normal;
 }
 
 .badge--sprint {
