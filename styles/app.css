@@ -13148,6 +13148,7 @@ ul.card-carousel__track {
 .card-carousel__slide > .loop-row:has(> .loop-status--waiting) > .loop-row__text {
   justify-content: center;
   text-align: center;
+  text-wrap: balance;
 }
 
 .card-carousel__slide > .loop-row .loop-row__text b {
