@@ -9659,6 +9659,7 @@ ol.signal__list {
 /* After Not now the card holds only its line, centred in the space under the band. */
 .readiness-check > .check-in__about + .check-in__readback:last-child {
   margin-block: auto;
+  text-wrap: balance;
 }
 
 .readiness-check__hint {
