@@ -9652,6 +9652,13 @@ ol.signal__list {
   justify-content: flex-end;
   gap: var(--space-sm);
   align-self: stretch;
+  /* The card is as tall as the row's tallest card: the answer and Save sit at its foot. */
+  margin-top: auto;
+}
+
+/* After Not now the card holds only its line, centred in the space under the band. */
+.readiness-check > .check-in__about + .check-in__readback:last-child {
+  margin-block: auto;
 }
 
 .readiness-check__hint {
