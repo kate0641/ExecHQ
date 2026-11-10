@@ -13144,6 +13144,12 @@ ul.card-carousel__track {
   border-top: var(--border-width-thin) solid var(--color-border-subtle);
 }
 
+/* Waiting to hear has nothing to answer: its title and line sit in the middle of the card, like the check-in's Not now. */
+.card-carousel__slide > .loop-row:has(> .loop-status--waiting) > .loop-row__text {
+  justify-content: center;
+  text-align: center;
+}
+
 .card-carousel__slide > .loop-row .loop-row__text b {
   font-family: var(--type-subheading-font);
   font-size: var(--type-subheading-size);
