@@ -397,7 +397,7 @@ function Conversation({ destinations, currentFlow, mode }: NavConceptProps & { m
                 send(draft.trim(), { kind: "go", flow: goTo.flowSlug });
               }}
             >
-              <Icon name={ICONS[goTo.flowSlug] ?? "home"} size={18} />
+              <Icon name={ICONS[goTo.flowSlug] ?? "home"} size={20} />
               {C.goHint(goTo.label)}
               <Icon name="chevron" size={16} className="concierge-go__go" />
             </button>

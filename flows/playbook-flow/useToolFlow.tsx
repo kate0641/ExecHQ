@@ -493,7 +493,7 @@ export function useToolFlow(concept: FlowConcept) {
       </Link>
       {draft ? (
         <span className="tool-flow__saved">
-          <Icon name="check" size={14} />
+          <Icon name="check" size={16} />
           {C.saved}
         </span>
       ) : null}

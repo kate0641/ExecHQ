@@ -44,7 +44,7 @@ export function OutletSuggestions({ outlets, type, chosen, onPick, startOpen = f
                   {o.name}
                   {isChosen(o) ? (
                     <span className="outlet-suggest__chosen">
-                      <Icon name="check" size={14} />
+                      <Icon name="check" size={16} />
                       {C.chosen}
                     </span>
                   ) : null}

@@ -150,7 +150,7 @@ function EntryForm({ onClose, onSave, today, existing, initial, demoRows, demoEr
               )}
               {error ? (
                 <p className="entry-form__error" role="alert">
-                  <Icon name="flag" size={14} /> {error}
+                  <Icon name="flag" size={16} /> {error}
                 </p>
               ) : null}
               {same.length ? (
@@ -178,7 +178,7 @@ function EntryForm({ onClose, onSave, today, existing, initial, demoRows, demoEr
       </button>
       {tried && filled.length === 0 ? (
         <p className="entry-form__error" role="alert">
-          <Icon name="flag" size={14} /> {B.errorNone}
+          <Icon name="flag" size={16} /> {B.errorNone}
         </p>
       ) : null}
       <p className="entry-form__privacy">{E.privacy}</p>

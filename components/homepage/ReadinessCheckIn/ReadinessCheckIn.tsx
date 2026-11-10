@@ -131,7 +131,7 @@ export function ReadinessCheckIn({ toward, history, answer, later, stretch, onAn
         title={C.notNow}
         onClick={onNotNow}
       >
-        <Icon name="close" size={18} />
+        <Icon name="close" size={20} />
         <span className="u-visually-hidden">{C.notNow}</span>
       </button>
       <h3 className="check-in__question" id={headingId} tabIndex={-1}>

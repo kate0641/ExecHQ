@@ -277,7 +277,7 @@ function StepItem({
       <button type="button" className="agenda__line" aria-expanded={open} onClick={onToggle}>
         <span className="agenda__pill">{whenWords(item.date, today)}</span>
         <span className="agenda__title">{item.title}</span>
-        <Icon name="chevron" size={18} className="agenda__open" />
+        <Icon name="chevron" size={20} className="agenda__open" />
       </button>
       {open ? (
         <div className="agenda__reveal">
@@ -305,7 +305,7 @@ function StepItem({
               {STEP_QUESTIONS.map((q) => (
                 <li key={q.id}>
                   <button type="button" className="agenda__ask-pill" onClick={() => onAsk(step, q.id)}>
-                    <AdvisorMark size={14} />
+                    <AdvisorMark size={16} />
                     {q.label}
                   </button>
                 </li>

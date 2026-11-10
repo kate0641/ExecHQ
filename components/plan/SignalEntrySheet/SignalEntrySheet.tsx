@@ -92,7 +92,7 @@ function EntryForm({ onClose, onSave, today, initial, editing, demoErrors }: Omi
         />
         {tried && errors.type ? (
           <p className="entry-form__error" role="alert">
-            <Icon name="flag" size={14} /> {errors.type}
+            <Icon name="flag" size={16} /> {errors.type}
           </p>
         ) : null}
       </div>

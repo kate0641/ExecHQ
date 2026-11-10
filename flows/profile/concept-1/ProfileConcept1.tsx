@@ -81,7 +81,7 @@ function AccountSummary({ account, onEdit }: { account: Account; onEdit: () => v
           <div className="read-head">
             <span className="profile-fact__label">{C.account.nameLabel}</span>
             <button type="button" className="edit-link edit-link--icon" onClick={onEdit}>
-              <Icon name="edit" size={18} />
+              <Icon name="edit" size={20} />
               <span className="u-visually-hidden">{C.account.edit} your account</span>
             </button>
           </div>

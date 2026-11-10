@@ -70,7 +70,7 @@ export function SendSteps({
 
   const copyButton = (what: SendCopy, label: string) => (
     <Button variant="ghost" size="sm" onClick={() => onCopy?.(what, label)}>
-      <Icon name="copy" size={14} />
+      <Icon name="copy" size={16} />
       {C.send.copy}
       <span className="u-visually-hidden"> {label.toLowerCase()}</span>
     </Button>
@@ -184,7 +184,7 @@ export function SendSteps({
               {n === 4 ? (
                 <p className="send-steps__mark">
                   <span className="send-steps__box" aria-hidden="true">
-                    {isDone ? <Icon name="check" size={14} /> : null}
+                    {isDone ? <Icon name="check" size={16} /> : null}
                   </span>
                   <span>
                     {`${n}. ${step.title}`}

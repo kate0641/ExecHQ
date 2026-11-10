@@ -34,7 +34,7 @@ export function DayCircles({ events, today, history }: { events: MomentumEvent[]
               className={["day-circles__dot", future ? "is-future" : on ? "is-on" : "", d === 0 ? "is-today" : ""].filter(Boolean).join(" ")}
               aria-label={`${date}: ${future ? C.week.notYet : on ? C.week.did : C.week.none}`}
             >
-              {on ? <Icon name="check" size={14} /> : null}
+              {on ? <Icon name="check" size={16} /> : null}
             </li>
           );
         })}

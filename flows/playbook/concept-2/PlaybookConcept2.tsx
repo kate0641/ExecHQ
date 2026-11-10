@@ -182,7 +182,7 @@ function Concept2Page() {
             </h2>
             {p.all.length ? (
               <div className="library-search__field library__search">
-                <Icon name="search" size={18} className="library-search__icon" />
+                <Icon name="search" size={20} className="library-search__icon" />
                 <input
                   type="search"
                   aria-label={LIBRARY_COPY.search}
@@ -246,7 +246,7 @@ function Concept2Page() {
       <div className="playbook-page playbook-page--c2 folder-page">
         <div className="folder-page__bar">
           <Link href={conceptHref("playbook", "concept-2")} className="text-link">
-            <Icon name="chevron-left" size={18} />
+            <Icon name="chevron-left" size={16} />
             {F.backToPlaybook}
           </Link>
         </div>

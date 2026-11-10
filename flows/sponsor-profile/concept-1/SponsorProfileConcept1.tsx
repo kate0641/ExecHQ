@@ -184,7 +184,7 @@ export function SponsorProfileConcept1() {
           </SettingsGroup>
           {/* Sign out closes the list (Kate, 2026-10-23). */}
           <Button className="sponsor-profile__sign-out" variant="secondary" onClick={() => router.push(LOGIN)}>
-            <Icon name="sign-out" size={18} />
+            <Icon name="sign-out" size={20} />
             {C.signOut.label}
           </Button>
         </nav>

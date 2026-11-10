@@ -93,7 +93,7 @@ export function LibrarySearch({ items, onPick, copy, initial = "", limit = 8, de
   return (
     <div className={["library-search", className].filter(Boolean).join(" ")}>
       <div className="library-search__field">
-        <Icon name="search" size={18} className="library-search__icon" />
+        <Icon name="search" size={20} className="library-search__icon" />
         <input
           type="search"
           aria-label={copy.field}

@@ -33,7 +33,7 @@ export function LetterReplies({ issue }: { issue: LetterIssue }) {
               <p className="letter-replies__who">
                 {m.from === "advisor" ? (
                   <>
-                    <AdvisorMark size={14} />
+                    <AdvisorMark size={16} />
                     {C.name}
                   </>
                 ) : (
@@ -45,7 +45,7 @@ export function LetterReplies({ issue }: { issue: LetterIssue }) {
           ))}
           {assistant.typing ? (
             <p className="letter-replies__writing">
-              <AdvisorMark size={14} />
+              <AdvisorMark size={16} />
               {C.writing}
             </p>
           ) : null}

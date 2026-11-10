@@ -146,7 +146,7 @@ function Issue({ issue, previous, late, headingRef }: { issue: LetterIssue; prev
         )}
 
         <p className="letter__sign">
-          <AdvisorMark size={18} />
+          <AdvisorMark size={20} />
           {C.signOff}
         </p>
       </div>
@@ -279,7 +279,7 @@ function ReadyLetter({ cohort, controls, headingRef }: { cohort: Cohort; control
         />
         <p>{C.ready.then(firstIssueOn(cohort))}</p>
         <p className="letter__sign">
-          <AdvisorMark size={18} />
+          <AdvisorMark size={20} />
           {C.signOff}
         </p>
       </div>
@@ -366,7 +366,7 @@ function Concept3Page({ controls }: { controls: CohortControls }) {
           <footer className="letter__foot">
             {issue ? <CodeLine cohort={cohort} controls={controls} /> : null}
             <p className="letter__privacy">
-              <Icon name="shield" size={14} />
+              <Icon name="shield" size={16} />
               {C.privacy}
             </p>
             {issue ? (

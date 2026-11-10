@@ -130,7 +130,7 @@ export function useBriefingPage() {
    *  always one tap away. It opens her saved reads. */
   const savedButton = (
     <Link href={savedHref} className="briefing-page__saved">
-      <Icon name="bookmark" size={18} />
+      <Icon name="bookmark" size={20} />
       {C.savedReads.button}
       {savedReads.length ? <span className="briefing-page__saved-count">{savedReads.length}</span> : null}
       <span className="u-visually-hidden">{C.savedReads.count(savedReads.length)}</span>
@@ -197,7 +197,7 @@ export function useBriefingPage() {
     <div className="briefing-page saved-page">
       <div className="folder-page__bar">
         <Link href={pathname} className="text-link">
-          <Icon name="chevron-left" size={18} />
+          <Icon name="chevron-left" size={16} />
           {S.back}
         </Link>
       </div>

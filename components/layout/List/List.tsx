@@ -83,7 +83,7 @@ function Leading({ leading, label }: { leading: ListLeading; label: string }) {
   if (leading.type === "icon") {
     return (
       <span className="list__leading list__leading--icon" aria-hidden="true">
-        <Icon name={leading.name} size={18} />
+        <Icon name={leading.name} size={20} />
       </span>
     );
   }
@@ -380,7 +380,7 @@ export function List({
                     // The row is the control: the box only shows the choice.
                     <span className="list__leading list__leading--checkbox" aria-hidden="true">
                       <span className={["list__check", isSelected ? "is-on" : null].filter(Boolean).join(" ")}>
-                        {isSelected ? <Icon name="check" size={14} /> : null}
+                        {isSelected ? <Icon name="check" size={16} /> : null}
                       </span>
                     </span>
                   ) : item.leading ? (
@@ -424,7 +424,7 @@ export function List({
               {reorderable ? (
                 <span className="list__nudge">
                   <button type="button" className="list__nudge-button" aria-label={`Move ${item.primary} up`} disabled={index === 0} onClick={() => nudge(item.id, -1)}>
-                    <Icon name="chevron" size={14} className="list__nudge-up" />
+                    <Icon name="chevron" size={16} className="list__nudge-up" />
                   </button>
                   <button
                     type="button"
@@ -433,7 +433,7 @@ export function List({
                     disabled={index === shown.length - 1}
                     onClick={() => nudge(item.id, 1)}
                   >
-                    <Icon name="chevron" size={14} className="list__nudge-down" />
+                    <Icon name="chevron" size={16} className="list__nudge-down" />
                   </button>
                 </span>
               ) : null}

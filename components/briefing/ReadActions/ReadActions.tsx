@@ -96,7 +96,7 @@ export function ReadActions({
         <div className="read-actions__relevance" ref={box}>
           {relevance ? (
             <p className="read-actions__ack">
-              <Icon name="check" size={14} />
+              <Icon name="check" size={16} />
               <output>{relevance === "yes" ? R.ackYes : R.ackNo}</output>
               <button type="button" className="text-link read-actions__undo" onClick={() => answer(undefined)}>
                 {R.undo}

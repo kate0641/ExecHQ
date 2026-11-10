@@ -119,7 +119,7 @@ export function PresenceCard({
           </div>
           {onAdd ? (
             <Button variant="secondary" className="presence-clean__add" onClick={onAdd}>
-              <Icon name="plus" size={14} />
+              <Icon name="plus" size={16} />
               {addLabel}
             </Button>
           ) : null}

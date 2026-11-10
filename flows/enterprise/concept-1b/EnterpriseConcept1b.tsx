@@ -406,7 +406,7 @@ function SeenCard({ cohort, window }: { cohort: Cohort; window: DateRange }) {
               <li className="ent-seen__hidden">
                 <span>{SEEN_COPY.hidden(seen.hidden)}</span>
                 <span className="ent-seen__count">
-                  <Icon name="lock" size={14} />
+                  <Icon name="lock" size={16} />
                   {SEEN_COPY.fewer}
                   <span className="u-visually-hidden">: {SEEN_COPY.fewerLabel}</span>
                 </span>
@@ -504,7 +504,7 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
 
         {!above ? (
           <div className="ent-notice">
-            <Icon name="lock" size={18} />
+            <Icon name="lock" size={20} />
             <div>
               <h2 className="ent-notice__heading">{C.building.heading}</h2>
               <p>{C.building.body}</p>

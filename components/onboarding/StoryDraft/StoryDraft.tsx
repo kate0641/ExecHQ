@@ -80,7 +80,7 @@ export function StoryDraft({
                 setEditing(true);
               }}
             >
-              <Icon name="edit" size={18} />
+              <Icon name="edit" size={20} />
             </button>
           )}
         </div>

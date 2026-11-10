@@ -110,7 +110,7 @@ export function CohortFigure({ figure, size = "md", direction, meter, onExplain,
 
       {direction && figure.state !== "suppressed" ? (
         <p className="cohort-figure__direction">
-          <Icon name={direction === "up" ? "arrow-up" : "arrow-down"} size={14} />
+          <Icon name={direction === "up" ? "arrow-up" : "arrow-down"} size={16} />
           {directionText(figure.id, direction)}
         </p>
       ) : null}

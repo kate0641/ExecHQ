@@ -49,7 +49,7 @@ export function BriefingReadCard({
 
   const readMark = isRead ? (
     <span className="brief-read__read">
-      <Icon name="check" size={14} />
+      <Icon name="check" size={16} />
       {C.read.readState}
     </span>
   ) : null;

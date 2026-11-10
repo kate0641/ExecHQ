@@ -89,7 +89,7 @@ function ReportForm({ onClose, onSave, did, on, asksTone, demoErrors }: Omit<Rep
           />
           {tried && errors.tone ? (
             <p className="entry-form__error" role="alert">
-              <Icon name="flag" size={14} /> {errors.tone}
+              <Icon name="flag" size={16} /> {errors.tone}
             </p>
           ) : null}
         </div>

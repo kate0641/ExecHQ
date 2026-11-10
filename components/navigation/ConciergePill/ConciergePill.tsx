@@ -47,7 +47,7 @@ export function ConciergePill({
       onClick={onClick}
     >
       <span className="concierge-pill__here">
-        <Icon name={here.icon} size={18} />
+        <Icon name={here.icon} size={20} />
         <span>
           <span className="u-visually-hidden">You’re on </span>
           {here.label}

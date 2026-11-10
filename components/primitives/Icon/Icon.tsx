@@ -88,7 +88,7 @@ export type IconName =
 
 export interface IconProps {
   name: IconName;
-  /** Square edge length in pixels. */
+  /** Square edge length in pixels: 16 beside text, 20 for an icon that is or sits in a control, 24 large. */
   size?: number;
   className?: string;
 }
@@ -527,7 +527,7 @@ const PATHS: Record<IconName, React.ReactNode> = {
   ),
 };
 
-export function Icon({ name, size = 18, className }: IconProps) {
+export function Icon({ name, size = 20, className }: IconProps) {
   return (
     <svg
       className={["icon", `icon--${name}`, className].filter(Boolean).join(" ")}

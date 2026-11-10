@@ -42,7 +42,7 @@ export function OutletCard({ name, type, outlet, today, className }: OutletCardP
   return (
     <aside className={classes} aria-label={C.heading}>
       <p className="outlet-card__eyebrow">
-        <Icon name="send" size={14} />
+        <Icon name="send" size={16} />
         {C.heading}
       </p>
       <p className="outlet-card__name">{outlet?.name ?? name}</p>
@@ -59,7 +59,7 @@ export function OutletCard({ name, type, outlet, today, className }: OutletCardP
         <>
           {closed || stale ? (
             <p className="outlet-card__notice">
-              <Icon name="clock" size={14} />
+              <Icon name="clock" size={16} />
               {closed ? C.closed : C.stale}
             </p>
           ) : null}
@@ -139,7 +139,7 @@ export function OutletCard({ name, type, outlet, today, className }: OutletCardP
 
           {outlet?.source ? (
             <p className="outlet-card__source">
-              <Icon name="link" size={14} />
+              <Icon name="link" size={16} />
               <span>
                 <span className="outlet-card__address">{outlet.source.url}</span>
                 {` · ${C.checked(fullDate(outlet.source.checked))}`}
