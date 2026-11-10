@@ -98,8 +98,8 @@ function Interview() {
     setExpanded(id !== "revise");
   });
 
-  /* The showroom opens the interview on one of its screens with `?screen=`
-: a question, named as the step bar names it
+  /* The showroom opens the interview on one of its screens with `?screen=`:
+     a question, named as the step bar names it
      (`q-<id>`), the last question (`q-final`), or the draft opened. The tool
      comes from the address as usual. Only what shows changes; nothing she has
      saved is. The questions and her draft load after the page, so it waits for

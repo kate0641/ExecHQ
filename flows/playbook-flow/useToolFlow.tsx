@@ -862,8 +862,8 @@ export function useToolFlow(concept: FlowConcept) {
               ) : null}
               {/* The draft's actions, in its corner, on every concept. Once it
                   is ready, Copy and the downloads lead, so the bar holds only
-                  "I've used this". Then what the library's row menu held
-: start a new draft from this one, close it,
+                  "I've used this". Then what the library's row menu held:
+                  start a new draft from this one, close it,
                   delete it. */}
               {record ? (
                 <DropdownMenu
