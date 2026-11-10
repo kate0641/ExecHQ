@@ -111,7 +111,12 @@ export function ReadinessCheckIn({ toward, history, answer, later, stretch, onAn
       <section className={classes} aria-labelledby={headingId}>
         <p className="check-in__about">{C.about}</p>
         <p className="check-in__readback" id={headingId} tabIndex={-1}>
-          {C.later}
+          {/* One sentence to a line. */}
+          {C.later.split(/(?<=\.)\s+/).map((sentence) => (
+            <span key={sentence} className="readiness-check__line">
+              {sentence}
+            </span>
+          ))}
         </p>
       </section>
     );
