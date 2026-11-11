@@ -17661,6 +17661,17 @@ fieldset.agenda__whens {
   padding-bottom: var(--space-4xl);
 }
 
+/* The pill floats (Kate, 2026-11-11). With the drawer folded off the screen on a phone or tablet, the page
+   is its own scroller, so the room for the pill goes inside it: the navy page runs on under the pill instead
+   of stopping at a plain band above it. */
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .device__screen:has(.concierge-host) .chrome__main:has(> .plan-guided.guide--drawer):not(:has(.answer-drawer)) {
+  padding-bottom: 0;
+}
+
+:is([data-viewport="mobile"], [data-viewport="tablet"]) .device__screen:has(.concierge-host) .plan-guided.guide--drawer:not(:has(.answer-drawer)) > .guide__page {
+  padding-bottom: calc(var(--space-xl) + var(--space-4xl));
+}
+
 /* While the drawer is open it is the whole foot of the screen, so the pill steps aside. Folded, the drawer
    leaves the screen (the move card asks the question instead), and the pill is back, as it is once she has
    answered. */

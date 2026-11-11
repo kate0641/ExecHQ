@@ -200,6 +200,7 @@ The answers sit in a drawer pinned to the foot of the screen. The page scrolls a
   - **Folded:** outlined. Pressing it opens the drawer.
   - **Open:** filled white with navy words, the way a chosen pill looks on navy, to say the drawer is open. Pressing it folds the drawer. On a phone the open drawer may cover it; that is fine.
 - **Focus.** Pressing the card's button leaves focus on it. Folding with the drawer's handle moves focus to the card's button.
+- **The pill floats.** Folded, the page scrolls on under the Ask or go pill, with room at its foot so its last card clears it; there is no band behind the pill.
 - **While the drawer is open**, the navigation's "Ask or go" pill and the roadmap's add button step aside. Folded, or once they have answered, both come back, the add button in its usual place above the pill.
 - Folding the drawer is how they see the roadmap under the move on a phone.
 

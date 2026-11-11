@@ -39,6 +39,7 @@ Once they have answered a move, the drawer and the button are both gone.
 - **Pressing it** opens the drawer when folded and folds it when open.
 - **The drawer still opens on arrival** at each move, as before.
 - **Focus:** pressing the card's button leaves focus on it. Folding with the drawer's handle moves focus to the card's button. Both buttons carry `aria-expanded`.
+- **The Ask or go pill floats over the page.** With the drawer folded, the page scrolls on under the pill: no plain band behind it. The page keeps 128px of room at its foot (its own 32px plus the pill's 96px), so its last card can scroll clear of the pill.
 - **The stage check-in is not changed.** Its drawer still folds to a peek bar.
 
 ## Where it is in the prototype
@@ -48,6 +49,6 @@ Once they have answered a move, the drawer and the button are both gone.
 | The button and folding | `components/plan/PlanGuided/PlanGuided.tsx` |
 | The card's slot for it | `headFoot` on `components/onboarding/GuidePage` |
 | Folding off the screen | `noPeek` on `components/onboarding/AnswerDrawer` |
-| Styles | `.guide__head-foot` and `.plan-guided__ask` in `styles/app.css` |
+| Styles | `.guide__head-foot`, `.plan-guided__ask`, and the folded page's room for the pill (under THE GUIDED CHECK-IN) in `styles/app.css` |
 | In the catalogue | Plan guided check-in: the default variant (open, filled) and "Folded: the card’s “Where are you with this?” outlined" |
 | Removed | `GUIDED_COPY.peek` ("Tap to answer") in `mock/plan.ts` |
