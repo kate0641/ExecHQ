@@ -5515,6 +5515,8 @@ ol.ring-detail__timeline {
 [data-viewport="mobile"] .welcome:not(.welcome--compact):has(.login) .welcome__hero {
   gap: var(--space-md);
   padding-block: var(--space-lg);
+  /* The panel keeps the height it had with the 64px logo; the smaller logo's room goes above it. */
+  padding-top: calc(var(--space-lg) + var(--space-3xl) - var(--logo-height-xl));
 }
 
 [data-viewport="mobile"] .welcome:has(.login) .welcome__sheet {
