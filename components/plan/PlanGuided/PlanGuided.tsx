@@ -8,6 +8,7 @@ import { AnswerDrawer } from "@/components/onboarding/AnswerDrawer";
 import { GuidePage } from "@/components/onboarding/GuidePage";
 import { ReflectionReply } from "@/components/onboarding/ReflectionReply";
 import { Button } from "@/components/primitives/Button";
+import { Icon } from "@/components/primitives/Icon";
 import type { LoopDate } from "@/lib/loop";
 import { timeChoices } from "@/lib/time-words";
 import type { PlanSpark } from "@/lib/plan-sparks";
@@ -107,6 +108,22 @@ export function PlanGuided({
   const [adding, setAdding] = useState(Boolean(demoAdding));
   const [note, setNote] = useState("");
   const first = useRef(true);
+  // Folding and unfolding hand focus across: to the card's button when the drawer leaves, to the drawer's
+  // handle when it comes back. Never on first paint.
+  const askRef = useRef<HTMLButtonElement>(null);
+  const guideRef = useRef<Element | null>(null);
+  const toggled = useRef(false);
+  useEffect(() => {
+    if (!toggled.current) return;
+    toggled.current = false;
+    if (open) guideRef.current?.querySelector<HTMLElement>(".answer-drawer__grab")?.focus();
+    else askRef.current?.focus();
+  }, [open]);
+  const toggle = (next: boolean, from?: Element | null) => {
+    if (from) guideRef.current = from.closest(".guide");
+    toggled.current = true;
+    setOpen(next);
+  };
   // Once she answers, the order is frozen: a step that leaves her plan stays on its page, and any step offered
   // in its place comes after the rest.
   const [frozen, setFrozen] = useState<string[] | null>(null);
@@ -231,6 +248,23 @@ export function PlanGuided({
         title={step.title}
         lede={step.whyLine}
         why={step.whyThis}
+        headFoot={
+          // Folded, the drawer leaves the screen and the move card asks the question instead: one less bar
+          // at the foot, where the add button, Ask or go and the browser's toolbar already sit (Kate,
+          // 2026-11-11). Open, the drawer covers the card, so the button isn't needed.
+          answer || open ? undefined : (
+            <button
+              ref={askRef}
+              type="button"
+              className="btn btn--outline btn--md btn--full plan-guided__ask"
+              aria-expanded={false}
+              onClick={(event) => toggle(true, event.currentTarget)}
+            >
+              <span>{G.question}</span>
+              <Icon name="chevron-up" size={18} />
+            </button>
+          )
+        }
         className={["plan-guided", className].filter(Boolean).join(" ")}
         primaryLabel={done ? (page + 1 < moves.length ? G.next : G.seeRoad) : undefined}
         onPrimary={done ? () => (setPage(page + 1), setOpen(true)) : undefined}
@@ -241,8 +275,11 @@ export function PlanGuided({
               webTitle={G.question}
               questionId={headingId}
               open={open}
-              onToggle={() => setOpen(!open)}
-              peekStatus={G.peek}
+              onToggle={() => {
+                guideRef.current = document.getElementById(headingId)?.closest(".guide") ?? null;
+                toggle(!open);
+              }}
+              noPeek
               primaryLabel={label}
               onPrimary={() => undefined}
               hideActions

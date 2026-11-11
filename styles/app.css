@@ -8857,7 +8857,8 @@ ol.ring-detail__timeline {
 }
 
 /* Folded on a phone or a tablet, the stone drawer runs to the foot of the screen and the Ask or go bar sits
-   in it, so the two read as one surface instead of stone, navy, white (designer, 2026-10-16). */
+   in it, so the two read as one surface instead of stone, navy, white (designer, 2026-10-16). Since
+   2026-11-11 only the stage check-in still folds to a peek; the move pages' drawer leaves the screen. */
 .device__screen:has(.concierge-host) .chrome__main:has(> .guide--navy.plan-guided):has(.answer-drawer.is-peek) {
   padding-bottom: 0;
 }
@@ -8868,6 +8869,22 @@ ol.ring-detail__timeline {
 
 .device__screen:has(.guide--navy.plan-guided .answer-drawer.is-peek) .concierge-pill {
   border-color: var(--light-border);
+}
+
+/* Folded, the Plan's drawer leaves the screen and the move card asks the question itself (Kate, 2026-11-11):
+   an outline button in the card's light words, its arrow saying the answers come up from below. */
+.guide__head-foot {
+  margin-top: var(--space-md);
+}
+
+.guide--navy .plan-guided__ask {
+  --color-outline-ink: var(--color-text-inverse);
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.guide--navy .plan-guided__ask:hover {
+  background-color: var(--color-surface-inverse);
 }
 
 /* A choice pill on navy (designer, 2026-10-16): the mirror of the formula. Not chosen, it is outlined in a
@@ -17638,8 +17655,9 @@ fieldset.agenda__whens {
   padding-bottom: var(--space-4xl);
 }
 
-/* While the drawer is open it is the whole foot of the screen, so the pill steps aside. Folded to a
-   peek, or once she has answered, the pill is back. */
+/* While the drawer is open it is the whole foot of the screen, so the pill steps aside. Folded, the drawer
+   leaves the screen (the move card asks the question instead), and the pill is back, as it is once she has
+   answered. */
 .device__screen:has(.plan-guided .answer-drawer:not(.is-peek)) .concierge-host__pill {
   opacity: 0;
   transform: translateY(16px);
@@ -17656,7 +17674,7 @@ fieldset.agenda__whens {
   visibility: hidden;
 }
 
-/* Folded, the peek bar sits above the pill, so the add button rises clear of both. */
+/* Folded to a peek (the stage check-in), the peek bar sits above the pill, so the add button rises clear of both. */
 .device__screen:has(.plan-guided .answer-drawer.is-peek) .agenda__fab {
   inset-block-end: calc(var(--space-4xl) + var(--space-3xl) + var(--space-lg));
 }

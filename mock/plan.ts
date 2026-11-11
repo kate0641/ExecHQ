@@ -1091,7 +1091,6 @@ export type GuidedAnswer = "plan" | "talk" | "pass";
 export const GUIDED_COPY = {
   kicker: (n: number, total: number, when: string) => `Move ${n} of ${total} · ${when}`,
   question: "Where are you with this?",
-  peek: "Tap to answer",
   /** The answers. Working on it is the start button, which opens the step. */
   answers: (when: string) =>
     [
