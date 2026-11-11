@@ -255,7 +255,7 @@ export function HomepageConcept4b() {
           <BriefingEditorial
             href={BRIEFING}
             heading={B.heading}
-            meta={B.meta(fullDate(loop.today), B.reads)}
+            meta={B.meta(shortCapsDate(loop.today), B.reads)}
             reads={B.list}
           />
         </div>
