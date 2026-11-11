@@ -5497,6 +5497,8 @@ ol.ring-detail__timeline {
 
 [data-viewport="mobile"] .welcome--compact .welcome__hero {
   flex: none;
+  /* Keeps the height it had with the 64px logo; the smaller logo's room goes above it. */
+  padding-top: calc(var(--space-2xl) + var(--space-3xl) - var(--logo-height-xl));
   padding-bottom: var(--space-lg);
 }
 
