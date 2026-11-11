@@ -7962,10 +7962,6 @@ ol.ring-detail__timeline {
   color: var(--color-text-inverse-muted);
 }
 
-.guide__wordmark .logo {
-  block-size: var(--space-2xl);
-}
-
 .guide--cover .guide__wordmark {
   margin-bottom: var(--space-md);
 }
