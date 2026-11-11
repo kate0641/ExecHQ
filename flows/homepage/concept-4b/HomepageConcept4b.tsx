@@ -20,6 +20,7 @@ import { dismissSpark, useDismissedSparks } from "@/lib/spark-dismissal";
 import { sparksFor } from "@/lib/sparks";
 import { BASELINE_COPY as BC, PRESENCE_STUB as PR, SPARK_COPY as SP } from "@/mock/accounts-stub";
 import { BRIEFING_STUB as B, HOME_COPY as C, MAP_COPY as M, SIGNAL_PICTURE_COPY as SPC } from "@/mock/homepage";
+import { shortCapsDate } from "@/components/dates";
 import { fullDate } from "@/lib/loop";
 import { useViewport } from "@/lib/viewport-context";
 import { SKIES, pickedSky, subscribeSky, type Sky } from "@/components/hub/SnapshotPicker/sky-store";
@@ -260,7 +261,7 @@ export function HomepageConcept4b() {
         </div>
         <SignalPicture
           name={SPC.heading}
-          asOf={SPC.asOf(fullDate(loop.account.plan.startedOn))}
+          asOf={SPC.asOf(shortCapsDate(loop.account.plan.startedOn))}
           rows={rows}
           thenLabel="Start"
           nowLabel="Now"

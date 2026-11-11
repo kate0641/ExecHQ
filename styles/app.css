@@ -13574,8 +13574,21 @@ ul.roadmap__outcomes {
   border-top-color: var(--color-surface-inverse);
 }
 
-/* The date beside the title sits on the navy too. */
+/* The date is the eyebrow over the title (title first in the markup), so the title keeps one line. */
+.map-home .signal-picture--card > .account-card__top {
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: var(--space-eyebrow-title);
+}
+
 .map-home .signal-picture--card > .account-card__top .account-card__asof {
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  line-height: var(--type-eyebrow-leading);
+  letter-spacing: var(--type-eyebrow-tracking);
+  text-transform: uppercase;
   color: var(--color-text-inverse-muted);
 }
 
