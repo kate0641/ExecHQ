@@ -3276,6 +3276,11 @@ ol.concierge-list {
   border-top: 0;
 }
 
+/* When rows end the card, the card's padding is the space under the last one. */
+.feature-card__body > .feature-card__rows:last-child > .feature-card__row:last-child {
+  padding-bottom: 0;
+}
+
 .feature-card__label {
   font-family: var(--type-eyebrow-font);
   font-size: var(--type-eyebrow-size);
