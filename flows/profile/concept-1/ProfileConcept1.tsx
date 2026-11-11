@@ -284,7 +284,7 @@ export function ProfileConcept1() {
     const copy = ended === "deleted" ? C.delete : C.signOut;
     return (
       <div className="profile-end">
-        <Wordmark tone="light" className="profile-end__mark" />
+        <Wordmark size="xl" tone="light" className="profile-end__mark" />
         <h1 className="profile-end__heading" id="profile-end-heading" tabIndex={-1}>
           {copy.doneHeading}
         </h1>
