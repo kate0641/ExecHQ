@@ -196,8 +196,10 @@ So finishing a stage early pulls every later stage earlier, and finishing late p
 The answers sit in a drawer pinned to the foot of the screen. The page scrolls above it, so the question and its reason are read together and the drawer holds only the answer.
 
 - The drawer's **handle** is a button that folds it **off the screen**. Nothing is left at the foot for it: no peek bar (Kate, 11 Nov 2026).
-- **Folded, the move card asks the question.** Under the lede, inside the card, a full-width outline button: "Where are you with this?" with an up chevron at its right, in the card's light text, 16px below the lede. It opens the drawer again. It shows only while the drawer is folded and they have not answered; open, the drawer covers the card.
-- **Focus follows the drawer.** Folding it moves focus to the card's button; the button moves focus to the drawer's handle.
+- **The move card asks the question.** Under the lede, inside the card, a full-width outline button, "Where are you with this?", in the card's light text, 16px below the lede, with no icon. It is there until they answer the move, whether the drawer is open or folded.
+  - **Folded:** outlined. Pressing it opens the drawer.
+  - **Open:** filled white with navy words, the way a chosen pill looks on navy, to say the drawer is open. Pressing it folds the drawer. On a phone the open drawer may cover it; that is fine.
+- **Focus.** Pressing the card's button leaves focus on it. Folding with the drawer's handle moves focus to the card's button.
 - **While the drawer is open**, the navigation's "Ask or go" pill and the roadmap's add button step aside. Folded, or once they have answered, both come back, the add button in its usual place above the pill.
 - Folding the drawer is how they see the roadmap under the move on a phone.
 

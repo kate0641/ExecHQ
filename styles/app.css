@@ -8871,20 +8871,26 @@ ol.ring-detail__timeline {
   border-color: var(--light-border);
 }
 
-/* Folded, the Plan's drawer leaves the screen and the move card asks the question itself (Kate, 2026-11-11):
-   an outline button in the card's light words, its arrow saying the answers come up from below. */
+/* The Plan's move card asks the question itself, and its drawer folds off the screen (Kate, 2026-11-11): an
+   outline button in the card's light words. While the drawer is open it is filled white with navy words, the
+   way a chosen pill is on navy. */
 .guide__head-foot {
   margin-top: var(--space-md);
 }
 
 .guide--navy .plan-guided__ask {
   --color-outline-ink: var(--color-text-inverse);
-  justify-content: space-between;
-  gap: var(--space-sm);
 }
 
 .guide--navy .plan-guided__ask:hover {
   background-color: var(--color-surface-inverse);
+}
+
+.guide--navy .plan-guided__ask.is-open,
+.guide--navy .plan-guided__ask.is-open:hover {
+  border-color: var(--color-text-inverse);
+  background-color: var(--color-text-inverse);
+  color: var(--color-surface-quiet-on-inverse);
 }
 
 /* A choice pill on navy (designer, 2026-10-16): the mirror of the formula. Not chosen, it is outlined in a

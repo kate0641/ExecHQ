@@ -8,7 +8,6 @@ import { AnswerDrawer } from "@/components/onboarding/AnswerDrawer";
 import { GuidePage } from "@/components/onboarding/GuidePage";
 import { ReflectionReply } from "@/components/onboarding/ReflectionReply";
 import { Button } from "@/components/primitives/Button";
-import { Icon } from "@/components/primitives/Icon";
 import type { LoopDate } from "@/lib/loop";
 import { timeChoices } from "@/lib/time-words";
 import type { PlanSpark } from "@/lib/plan-sparks";
@@ -108,20 +107,17 @@ export function PlanGuided({
   const [adding, setAdding] = useState(Boolean(demoAdding));
   const [note, setNote] = useState("");
   const first = useRef(true);
-  // Folding and unfolding hand focus across: to the card's button when the drawer leaves, to the drawer's
-  // handle when it comes back. Never on first paint.
+  // Folding with the drawer's handle hands focus to the card's button. Never on first paint.
   const askRef = useRef<HTMLButtonElement>(null);
-  const guideRef = useRef<Element | null>(null);
   const toggled = useRef(false);
   useEffect(() => {
     if (!toggled.current) return;
     toggled.current = false;
-    if (open) guideRef.current?.querySelector<HTMLElement>(".answer-drawer__grab")?.focus();
-    else askRef.current?.focus();
+    if (!open) askRef.current?.focus();
   }, [open]);
-  const toggle = (next: boolean, from?: Element | null) => {
-    if (from) guideRef.current = from.closest(".guide");
-    toggled.current = true;
+  // Pressed on the card, focus stays on the card's button, which is still there either way.
+  const toggle = (next: boolean, stay = false) => {
+    toggled.current = !stay;
     setOpen(next);
   };
   // Once she answers, the order is frozen: a step that leaves her plan stays on its page, and any step offered
@@ -249,19 +245,18 @@ export function PlanGuided({
         lede={step.whyLine}
         why={step.whyThis}
         headFoot={
-          // Folded, the drawer leaves the screen and the move card asks the question instead: one less bar
-          // at the foot, where the add button, Ask or go and the browser's toolbar already sit (Kate,
-          // 2026-11-11). Open, the drawer covers the card, so the button isn't needed.
-          answer || open ? undefined : (
+          // The move card asks the question, and the drawer's foot bar is gone: one less bar at the foot,
+          // where the add button, Ask or go and the browser's toolbar already sit (Kate, 2026-11-11). It stays
+          // while the drawer is open, filled to say so, and pressing it then folds the drawer.
+          answer ? undefined : (
             <button
               ref={askRef}
               type="button"
-              className="btn btn--outline btn--md btn--full plan-guided__ask"
-              aria-expanded={false}
-              onClick={(event) => toggle(true, event.currentTarget)}
+              className={["btn btn--outline btn--md btn--full plan-guided__ask", open ? "is-open" : null].filter(Boolean).join(" ")}
+              aria-expanded={open}
+              onClick={() => toggle(!open, true)}
             >
-              <span>{G.question}</span>
-              <Icon name="chevron-up" size={18} />
+              {G.question}
             </button>
           )
         }
@@ -275,10 +270,7 @@ export function PlanGuided({
               webTitle={G.question}
               questionId={headingId}
               open={open}
-              onToggle={() => {
-                guideRef.current = document.getElementById(headingId)?.closest(".guide") ?? null;
-                toggle(!open);
-              }}
+              onToggle={() => toggle(!open)}
               noPeek
               primaryLabel={label}
               onPrimary={() => undefined}

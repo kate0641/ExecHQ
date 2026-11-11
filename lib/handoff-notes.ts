@@ -21,7 +21,7 @@ export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
     slug: "plan-fold-to-card",
     title: "Plan: folding leaves no bar",
     description:
-      "On phone and tablet, folding the answer drawer takes it off the screen; the move card gains a \"Where are you with this?\" button that opens it again (11 Nov).",
+      "On phone and tablet, folding the answer drawer takes it off the screen; the move card gains a \"Where are you with this?\" button that opens and folds it, filled while open (11 Nov).",
   },
   {
     slug: "plan-direction-card",

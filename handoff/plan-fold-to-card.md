@@ -7,7 +7,7 @@ One change to Plan Concept 3's move pages, on **phone and tablet** only. Web is 
 ## What to do
 
 1. **Remove the peek bar.** Folding the answer drawer takes it off the screen completely.
-2. **Add a "Where are you with this?" button to the move card**, under the lede. It opens the drawer again.
+2. **Add a "Where are you with this?" button to the move card**, under the lede. It opens and folds the drawer, and shows which it is.
 
 ## Why
 
@@ -24,18 +24,21 @@ Folded, four things stacked at the foot of the phone: the roadmap's add button, 
 
 | Drawer | At the foot of the screen | On the move card |
 | --- | --- | --- |
-| Open | The drawer (unchanged) | Covered by the drawer |
-| Folded | The pill, with the add button in its usual place above it | Kicker, headline, lede, then **Where are you with this?** |
+| Open | The drawer (unchanged) | Kicker, headline, lede, then **Where are you with this?**, filled (may sit under the drawer on a phone) |
+| Folded | The pill, with the add button in its usual place above it | Kicker, headline, lede, then **Where are you with this?**, outlined |
 
-Once they have answered a move, the drawer and the button are both gone, as before.
+Once they have answered a move, the drawer and the button are both gone.
 
 ## Rules
 
-- **The button:** full width of the card's content, outline style, 44px tall. "Where are you with this?" at its left, an up chevron (18px) at its right. Its text and 2px edge use the light text on the dark card; hover fills it with the page navy.
+- **The button:** full width of the card's content, 44px tall, "Where are you with this?" and no icon.
+  - **Folded:** outlined. Its text and 2px edge use the light text on the dark card; hover fills it with the page navy.
+  - **Open:** filled with the light text color, navy words (the card's color), the way a chosen pill looks on navy.
 - **Spacing:** 16px between the lede and the button.
-- **When it shows:** only while the drawer is folded and the move is not yet answered.
+- **When it shows:** until the move is answered, open or folded. On a phone the open drawer can cover it; that is intended.
+- **Pressing it** opens the drawer when folded and folds it when open.
 - **The drawer still opens on arrival** at each move, as before.
-- **Focus:** folding moves focus to the card's button; the button opens the drawer and moves focus to its handle. Both buttons carry `aria-expanded`.
+- **Focus:** pressing the card's button leaves focus on it. Folding with the drawer's handle moves focus to the card's button. Both buttons carry `aria-expanded`.
 - **The stage check-in is not changed.** Its drawer still folds to a peek bar.
 
 ## Where it is in the prototype
@@ -46,5 +49,5 @@ Once they have answered a move, the drawer and the button are both gone, as befo
 | The card's slot for it | `headFoot` on `components/onboarding/GuidePage` |
 | Folding off the screen | `noPeek` on `components/onboarding/AnswerDrawer` |
 | Styles | `.guide__head-foot` and `.plan-guided__ask` in `styles/app.css` |
-| In the catalogue | Plan guided check-in, "Folded: the move card asks “Where are you with this?”" |
+| In the catalogue | Plan guided check-in: the default variant (open, filled) and "Folded: the card’s “Where are you with this?” outlined" |
 | Removed | `GUIDED_COPY.peek` ("Tap to answer") in `mock/plan.ts` |
