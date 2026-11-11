@@ -11344,8 +11344,9 @@ ul.baseline-list__rows {
   text-align: center;
 }
 
+/* The logo stands apart from the message: twice the gap above the heading. */
 .profile-end__mark {
-  margin: 0;
+  margin: 0 0 var(--space-md);
 }
 
 .profile-end__heading {
