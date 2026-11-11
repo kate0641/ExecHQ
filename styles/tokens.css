@@ -558,7 +558,7 @@
 
   /* --- LAYOUT / DEVICE --- */
   --logo-height-md: 1.3rem;    /* 20.8px: the old mark's letter height */
-  --logo-height-xl: 3.4375rem; /* 55px */
+  --logo-height-xl: 2.25rem;   /* 36px */
   --viewport-mobile-width: 393px;
   --viewport-mobile-height: 852px;
   --viewport-tablet-width: 820px;
