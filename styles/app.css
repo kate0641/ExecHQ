@@ -6034,11 +6034,6 @@ ol.ring-detail__timeline {
   box-shadow: 0 calc(-1 * var(--space-3xs)) var(--space-xs) var(--color-surface);
 }
 
-/* A card pinned at the foot (First draft's What next?) sits as far from the bottom as from the sides. */
-[data-viewport="mobile"] .guide:not(.guide--drawer, .guide--cover, .guide--head-action) > .guide__actions:has(> .card) {
-  padding-bottom: var(--space-lg);
-}
-
 /* The wizard fills the screen so the actions can sit at its foot, and takes
    the same side inset as the welcome and privacy screens. The actions carry
    the bottom inset themselves. */
@@ -7692,7 +7687,12 @@ ol.ring-detail__timeline {
   z-index: var(--z-sticky);
   padding: var(--space-sm) 0 var(--space-xl);
   background-color: var(--color-surface);
-  box-shadow: 0 calc(-1 * var(--space-xs)) var(--space-sm) var(--color-surface);
+  box-shadow: 0 calc(-1 * var(--space-3xs)) var(--space-xs) var(--color-surface);
+}
+
+/* A card pinned at the foot (First draft's What next?) sits as far from the bottom as from the sides. */
+[data-viewport="mobile"] .guide:not(.guide--drawer, .guide--cover, .guide--head-action) > .guide__actions:has(> .card) {
+  padding-bottom: var(--space-lg);
 }
 
 /* The last page: the list of what to do next sits in the middle of the space
@@ -18705,7 +18705,7 @@ ul.li-shares {
   z-index: var(--z-sticky);
   padding: var(--space-sm) 0 var(--space-md);
   background-color: var(--color-surface);
-  box-shadow: 0 calc(-1 * var(--space-xs)) var(--space-sm) var(--color-surface);
+  box-shadow: 0 calc(-1 * var(--space-3xs)) var(--space-xs) var(--color-surface);
 }
 
 [data-viewport="mobile"] .tool-flow__interview .revision-controls__actions {
