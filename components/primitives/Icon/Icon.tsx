@@ -315,7 +315,7 @@ const PATHS: Record<IconName, React.ReactNode> = {
   "arrow-left": <path d="M16.5 10h-13M9 4.5 3.5 10 9 15.5" />,
   "arrow-up": <path d="M10 16.5v-13M4.5 9 10 3.5 15.5 9" />,
   "arrow-down": <path d="M10 3.5v13M4.5 11l5.5 5.5 5.5-5.5" />,
-  // Leaving ExecHQ for somewhere else: out of the box, up and to the right.
+  // Leaving ExecEngine for somewhere else: out of the box, up and to the right.
   "external-link": (
     <>
       <path d="M15.5 11.5v4a1.5 1.5 0 0 1-1.5 1.5H5a1.5 1.5 0 0 1-1.5-1.5V6A1.5 1.5 0 0 1 5 4.5h4" />

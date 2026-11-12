@@ -1,7 +1,7 @@
 // TEMPORARY. Sprint 3 designs the Signal Picture and replaces this file.
 
 /* V1 has no account connections: LinkedIn and her website are never read or
-   connected, so everything here is what she types or ExecHQ records. The only
+   connected, so everything here is what she types or ExecEngine records. The only
    LinkedIn thing is an optional spreadsheet she uploads, as in onboarding. */
 
 /** The column captions over a start-and-now pair, and the suggestion's caption. */
@@ -152,7 +152,7 @@ export const PRESENCE_STUB = {
 
 export const SPARK_COPY = {
   label: "Recent movement",
-  /** A signal ExecHQ recorded for her, so she knows it did not come from her. */
+  /** A signal ExecEngine recorded for her, so she knows it did not come from her. */
   recordedSource: "Added for you",
   recorded: (title: string) => `“${title}” is on your Signal Picture now.`,
   hide: "Not right? Hide it",

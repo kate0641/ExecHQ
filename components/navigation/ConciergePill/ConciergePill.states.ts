@@ -30,7 +30,7 @@ export const conciergePillStates = defineComponentStates({
     { label: "A follow-up is due", props: { here: home, followUpDue: true } },
     {
       label: "New in the Signal Picture",
-      description: "ExecHQ recorded something for her that she has not seen yet: the same quiet dot as a follow-up, never a count.",
+      description: "ExecEngine recorded something for her that she has not seen yet: the same quiet dot as a follow-up, never a count.",
       props: { here: home, newSignals: true },
     },
     { label: "Open", description: "While the advisor is showing.", props: { here: home, expanded: true } },

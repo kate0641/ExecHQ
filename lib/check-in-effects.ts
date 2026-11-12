@@ -9,7 +9,7 @@
  * - Not yet: the same step first, and the stage stays open until it is done (the page reads that from her
  *   answer, so changing it later changes it back).
  * - Something did not go the way she hoped: a different way at the same thing is offered. Never the same step.
- * - A step she passed on that ExecHQ rates important is offered once more. Passed on twice, never again.
+ * - A step she passed on that ExecEngine rates important is offered once more. Passed on twice, never again.
  * - Stuck or less sure: nothing here; the page shows one step at a time while the next stage runs.
  *
  * It never goes past the live limits: a step it brings in takes the place of one she has not taken on yet,

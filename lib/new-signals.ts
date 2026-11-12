@@ -5,7 +5,7 @@ import { newlyRecorded, recordedItems } from "@/lib/signal-picture";
 import { useSignalNotices } from "@/lib/signal-notices";
 
 /**
- * Whether ExecHQ has recorded something for her that she has not yet seen on
+ * Whether ExecEngine has recorded something for her that she has not yet seen on
  * the Signal Picture: the quiet dot on the navigation. Never a count.
  */
 export function useNewSignals(): boolean {

@@ -11,7 +11,7 @@ const C = ASSISTANT_COPY;
 
 /**
  * Replying to the letter (Kate, 2026-10-20). The letter is already written
- * in ExecHQ's voice, so asking it something is a reply, and the answer comes
+ * in ExecEngine's voice, so asking it something is a reply, and the answer comes
  * back under the issue in the same voice: no chat window. Suggested replies
  * first, then a box to write one. Mount it with the issue's number as its
  * key, so each issue keeps its own replies.

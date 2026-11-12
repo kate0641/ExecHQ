@@ -23,7 +23,7 @@ export const briefingReaderStates = defineComponentStates({
   status: "draft",
   flows: ["daily-briefing"],
   description:
-    "A read, opened: why it is here, what the publisher says it is about, and the way out to the publisher's site, with the read's actions under it. Opening it counts as reading it. ExecHQ never shows the whole article.",
+    "A read, opened: why it is here, what the publisher says it is about, and the way out to the publisher's site, with the read's actions under it. Opening it counts as reading it. ExecEngine never shows the whole article.",
   component: BriefingReader,
   notApplicable: {
     ...CONTROLS_INSIDE,

@@ -78,7 +78,7 @@ export const welcomeSplitStates = defineComponentStates({
       props: {
         quote: WELCOME.quote,
         eyebrow: "Welcome back",
-        title: "Log in to ExecHQ",
+        title: "Log in to ExecEngine",
         description: WELCOME.lede,
         children: email,
         footer: "Private to you. Learn more",

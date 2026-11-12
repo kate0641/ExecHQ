@@ -480,7 +480,7 @@ export const MAP_COPY = {
     close: "Close",
     skipTitle: "Why not?",
     reasonLabel: "Reason",
-    skipHint: "Optional. It helps ExecHQ suggest better ones.",
+    skipHint: "Optional. It helps ExecEngine suggest better ones.",
     reasons: ["Not relevant now", "Already done", "Not my priority", "Something else"] as const,
     noteLabel: "Anything to add?",
     skip: "Skip this one",

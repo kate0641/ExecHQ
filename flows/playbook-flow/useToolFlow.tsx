@@ -334,7 +334,7 @@ export function useToolFlow(concept: FlowConcept) {
   const valueOf = (id: string) => values[id] ?? inputs.find((i) => i.id === id)?.value ?? "";
   const setValue = (id: string, value: string) => setValues((v) => ({ ...v, [id]: value }));
   /** What only she can answer, one a screen in Concepts 1 and 3; what
-   *  ExecHQ already knows, and anything optional, go on one last screen. */
+   *  ExecEngine already knows, and anything optional, go on one last screen. */
   const asked = inputs.filter((i) => !(i.source && i.kind !== "choice") && !i.optional);
   const rest = inputs.filter((i) => !asked.includes(i));
   /** The tool's first question, which the use case screen asks beside its
@@ -1168,7 +1168,7 @@ export function useToolFlow(concept: FlowConcept) {
   }
 
   /** What came of it, asked in the builder itself once she has used it, so
-   *  she can answer before ExecHQ checks back (the PRD's "Mark used and
+   *  she can answer before ExecEngine checks back (the PRD's "Mark used and
    *  report outcome"). The Loop's own check-in, as Home uses it. */
   const [answeredHere, setAnsweredHere] = useState(false);
   const outcomeHeading = "tool-outcome-heading";
@@ -1181,7 +1181,7 @@ export function useToolFlow(concept: FlowConcept) {
           : HOME_COPY.loggedPlain(outcomeReadback(record.outcome.type, record.kind))
       : undefined;
   /* After she says how it went (13 Oct): her one tap is all the feedback.
-     ExecHQ asks nothing more and always gives the next step, by the rules
+     ExecEngine asks nothing more and always gives the next step, by the rules
      Home and the advisor share (lib/next-after.ts). A note is hers to add. */
   const [after, setAfter] = useState<{ type: OutcomeType; folded?: boolean } | null>(null);
   const servedStepId = step?.id ?? stepServed(record);
@@ -1243,11 +1243,11 @@ export function useToolFlow(concept: FlowConcept) {
       </span>
     ) : (
       <span key={i} className={seg.by === "you" ? "draft-editor__you" : "draft-editor__exechq"}>
-        {seg.by === "exechq" ? <span className="u-visually-hidden">ExecHQ: </span> : null}
+        {seg.by === "exechq" ? <span className="u-visually-hidden">ExecEngine: </span> : null}
         {seg.text}
       </span>
     );
-  /** Draft text with her words, ExecHQ's wording and the questions for her
+  /** Draft text with her words, ExecEngine's wording and the questions for her
    *  marked. A section she rewrote is all hers. */
   const marked = (sections: readonly DraftSection[], sectionEdits: Record<string, string> = {}): ReactNode =>
     sections

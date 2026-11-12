@@ -48,8 +48,8 @@ export function ConciergePanel({
   children,
   top,
   footer,
-  label = "ExecHQ, your advisor",
-  name = "ExecHQ",
+  label = "ExecEngine, your advisor",
+  name = "ExecEngine",
   role = "Your advisor",
   whoInHead = true,
   newLabel = "New chat",
@@ -134,7 +134,7 @@ export function ConciergePanel({
 /** The advisor's mark, name and role. With `brand`, the logo stands for
  *  the mark and name, the role beside it (the start screen). */
 export function AdvisorWho({
-  name = "ExecHQ",
+  name = "ExecEngine",
   role = "Your advisor",
   brand,
   className,

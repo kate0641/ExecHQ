@@ -11,7 +11,7 @@ export const reflectionReplyStates = defineComponentStates({
   status: "draft",
   flows: ["onboarding"],
   description:
-    "ExecHQ's answer to a reflection question as a pull quote, with a fact after it and where the fact comes from. A fact not yet sourced shows as a marked placeholder.",
+    "ExecEngine's answer to a reflection question as a pull quote, with a fact after it and where the fact comes from. A fact not yet sourced shows as a marked placeholder.",
   component: ReflectionReply,
   notApplicable: {
     ...NOT_INTERACTIVE,

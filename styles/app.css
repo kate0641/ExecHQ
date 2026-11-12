@@ -1,5 +1,5 @@
 /* =============================================================================
-   ExecHQ prototype — the shared stylesheet
+   ExecEngine prototype — the shared stylesheet
    -----------------------------------------------------------------------------
    Every reusable class in the prototype lives here. No CSS modules, no inline
    colour, no utility framework.
@@ -2696,7 +2696,7 @@ ul.chrome__nav-list {
 }
 
 /* No mark or name in the header (designer, 2026-10-07): the sheet is plainly
-   the advisor. "ExecHQ, Your advisor" is still there for screen
+   the advisor. "ExecEngine, Your advisor" is still there for screen
    readers. */
 .concierge-panel__head .concierge-who > :not(.concierge-panel__who) {
   display: none;
@@ -3141,7 +3141,7 @@ ul.concierge-suggest {
 }
 
 /* The same distance above and below every one of her messages. The first
-   line of an answer follows the hidden "ExecHQ:" label, so it takes no
+   line of an answer follows the hidden "ExecEngine:" label, so it takes no
    paragraph gap from it, and its half-leading is trimmed so the words, not
    the line box, sit the full gap under her bubble. */
 .concierge-thread .chat-message--advisor .chat-message__body > .u-visually-hidden + * {
@@ -6898,7 +6898,7 @@ ol.ring-detail__timeline {
   color: var(--color-text-inverse-muted);
 }
 
-/* Messages. ExecHQ's words sit on the page, uncontained, with the mark and
+/* Messages. ExecEngine's words sit on the page, uncontained, with the mark and
    name at the start of each run; the user's are dark bubbles on the right. */
 .chat-message {
   display: flex;
@@ -8535,7 +8535,7 @@ ol.ring-detail__timeline {
 
 /* --- Concept 3: the guided onboarding ------------------------------------ */
 /* Paged like Concept 1, but read like an advisor's briefing: progress said in
-   words, a file of what ExecHQ knows, and a margin note on every page in the
+   words, a file of what ExecEngine knows, and a margin note on every page in the
    same place, just above the action. */
 
 .guide {
@@ -8760,7 +8760,7 @@ ol.ring-detail__timeline {
 }
 
 /* A navy page (designer, 2026-10-15): onboarding's steps with no drawer (Signals, the recommendation,
-   the first draft, Done) are flooded navy, so the flow alternates quiet screens with ExecHQ moments.
+   the first draft, Done) are flooded navy, so the flow alternates quiet screens with ExecEngine moments.
    A screen with a navy drawer stays light: the drawer is already its colour. The page's tokens remap
    to the inverse set so its words, links and focus follow; headlines and section labels are yellow,
    the one warm thing above the action. White cards on it take the light set back. The page itself
@@ -9091,7 +9091,7 @@ ol.ring-detail__timeline {
   display: flex;
 }
 
-/* What ExecHQ knows so far. */
+/* What ExecEngine knows so far. */
 .advisor-file {
   border: var(--border-thin);
   border-radius: var(--radius-md);
@@ -9317,7 +9317,7 @@ ol.ring-detail__timeline {
   padding: var(--space-xs) 0;
 }
 
-/* ExecHQ speaking: the editorial role's medium size, well under the title. */
+/* ExecEngine speaking: the editorial role's medium size, well under the title. */
 .reflection-reply__quote blockquote {
   margin: 0;
   font-family: var(--type-editorial-font);
@@ -9444,7 +9444,7 @@ ol.ring-detail__timeline {
   color: var(--color-text-secondary);
 }
 
-/* What ExecHQ heard, and a plan's open end: set as statements. */
+/* What ExecEngine heard, and a plan's open end: set as statements. */
 .guide__heard {
   font-size: var(--text-lg);
   line-height: var(--leading-relaxed);
@@ -10225,7 +10225,7 @@ ol.signal__list {
   background-color: var(--color-border-inverse);
 }
 
-/* Filled: seen in ExecHQ. Hollow: the user told us. The words say it too. */
+/* Filled: seen in ExecEngine. Hollow: the user told us. The words say it too. */
 .signal__node {
   width: 14px;
   height: 14px;
@@ -10281,7 +10281,7 @@ ol.signal__list {
   color: var(--color-text-inverse-muted);
 }
 
-/* "Your word": a reported fact, tappable to say how ExecHQ knows. At least
+/* "Your word": a reported fact, tappable to say how ExecEngine knows. At least
    24px tall, for WCAG 2.2's minimum target size. */
 .signal__source {
   display: inline-flex;
@@ -16025,7 +16025,7 @@ ol.entry-drawer__rows {
 }
 
 /* Signal Picture Concept 2 on the web (option C, 2026-10-08): this week and the next move side by side
-   across the top, then what came of it, the wider, beside where she started. What ExecHQ added for her
+   across the top, then what came of it, the wider, beside where she started. What ExecEngine added for her
    reads as one list rather than a card each. */
 [data-viewport="web"] .signals-page--c2:not(:where([data-viewport="mobile"] *)) {
   max-width: 65rem;
@@ -16132,7 +16132,7 @@ ol.entry-drawer__rows {
    Built on Home's way with color: the stone page, white cards with a faint
    outline, and one strong navy moment. Here that moment is Momentum, a navy
    card where the days she did something light up in lime, her color. Sky
-   blue is what ExecHQ wrote for her (her next move, Try this), with a navy
+   blue is what ExecEngine wrote for her (her next move, Try this), with a navy
    button, never yellow on light blue. Scoped to the page, so Home and Plan,
    which share these pieces, keep their look until this one is settled.
 
@@ -16381,7 +16381,7 @@ ol.entry-drawer__rows {
 }
 
 /* Try this is a Default card on the navy page: darker navy, light words, the yellow action (designer,
-   2026-10-18: the four card levels). Light blue is not a card colour on navy; what ExecHQ wrote for her is
+   2026-10-18: the four card levels). Light blue is not a card colour on navy; what ExecEngine wrote for her is
    marked by a small sky dot before its label, here and on Your next move. */
 .signals-page .presence-clean__try {
   border-color: var(--color-border-inverse);
@@ -17873,7 +17873,7 @@ fieldset.agenda__whens {
   order: -1;
   margin: calc(-1 * var(--space-card-padding)) calc(-1 * var(--space-card-padding)) var(--space-xs);
   padding: var(--space-sm) var(--space-card-padding);
-  /* ExecHQ describing the plan to her: written for her, so sky blue (designer, 2026-10-15). */
+  /* ExecEngine describing the plan to her: written for her, so sky blue (designer, 2026-10-15). */
   background-color: var(--color-surface-for-her);
   color: var(--color-text-on-for-her);
 }
@@ -18706,7 +18706,7 @@ ul.li-shares {
   border-radius: var(--radius-xs);
 }
 
-/* Why it is here, in ExecHQ's words: a rule to its left sets it apart from
+/* Why it is here, in ExecEngine's words: a rule to its left sets it apart from
    the publisher's headline. */
 .brief-read__reason {
   display: flex;
@@ -19047,7 +19047,7 @@ ul.li-shares {
   color: var(--color-text-muted);
 }
 
-/* --- An article read in ExecHQ, with ExecHQ's notes (Concept 2) ---------- */
+/* --- An article read in ExecEngine, with ExecEngine's notes (Concept 2) ---------- */
 
 [data-viewport="web"] .briefing-page--news.briefing-page--reading {
   max-width: 62rem;
@@ -19484,7 +19484,7 @@ ul.li-shares {
 
 /* With the Ask or go pill at the foot of the screen, Next rides just above
    it: still in the thumb zone, and the pill stays the way to the rest of
-   ExecHQ. */
+   ExecEngine. */
 .device__screen:has(.concierge-host) .briefing-one__next {
   bottom: var(--space-4xl);
   padding-bottom: var(--space-sm);
@@ -19973,7 +19973,7 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
-/* What ExecHQ already knows: read like a fact, not a form. */
+/* What ExecEngine already knows: read like a fact, not a form. */
 .input-panel__known {
   display: flex;
   flex-direction: column;
@@ -20551,8 +20551,8 @@ ul.li-shares {
 }
 
 /* Only "Needs answer" shows: the one mark that asks her to act. Her words
-   and ExecHQ's are told apart by upright and italic, and screen readers
-   still hear "ExecHQ:" before its words (designer, 2026-10-28; to discuss
+   and ExecEngine's are told apart by upright and italic, and screen readers
+   still hear "ExecEngine:" before its words (designer, 2026-10-28; to discuss
    with Kate). */
 .draft-editor__key--you,
 .draft-editor__key--exechq {
@@ -20676,7 +20676,7 @@ ul.li-shares {
 }
 
 /* Her words in the serif a touch under body size, as Your direction's,
-   so ExecHQ's Inter beside them reads at the same size (designer,
+   so ExecEngine's Inter beside them reads at the same size (designer,
    2026-10-28). */
 .draft-editor__text {
   margin: 0;
@@ -20699,7 +20699,7 @@ ul.li-shares {
   white-space: normal;
 }
 
-/* ExecHQ's wording: a dotted underline and a quieter ink, so it reads as a
+/* ExecEngine's wording: a dotted underline and a quieter ink, so it reads as a
    suggestion beside her own words. */
 /* --- Once it is ready: the clean read (Concept 1) and the page (Concept 2) --- */
 
@@ -20824,7 +20824,7 @@ ul.li-shares {
   cursor: pointer;
 }
 
-/* ExecHQ's words read as hers: the team decided the draft needn't tell
+/* ExecEngine's words read as hers: the team decided the draft needn't tell
    them apart (2026-10-30; they were italic and grey). Only open questions
    are marked. */
 .draft-editor__exechq {
@@ -26001,7 +26001,7 @@ ul.letter-archive__list {
 }
 
 /* Replies to the letter (Kate, 2026-10-20): each turn under a margin rule,
-   the sponsor's grey, ExecHQ's dark, in the letter's own type. */
+   the sponsor's grey, ExecEngine's dark, in the letter's own type. */
 .letter-replies {
   display: flex;
   flex-direction: column;

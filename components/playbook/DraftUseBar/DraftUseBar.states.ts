@@ -10,7 +10,7 @@ export const draftUseBarStates = defineComponentStates({
   status: "draft",
   flows: ["playbook-flow"],
   description:
-    "What she does with a draft: copy it, worded for what she'll do (\"Copy to post on LinkedIn\"), PDF and Word where they are in scope (Situation Brief, bios, long-form articles), and Mark ready. ExecHQ never posts or sends.",
+    "What she does with a draft: copy it, worded for what she'll do (\"Copy to post on LinkedIn\"), PDF and Word where they are in scope (Situation Brief, bios, long-form articles), and Mark ready. ExecEngine never posts or sends.",
   component: DraftUseBar,
   notApplicable: {
     ...CONTROLS_INSIDE,

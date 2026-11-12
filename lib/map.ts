@@ -6,7 +6,7 @@
  *   Concept 1 use, `isDone` in `lib/rings.ts`). Nothing else fills a segment.
  * - `in-progress`: she has taken it up: pressed Start, or work on it is already
  *   in the Loop. Accepting it into her plan does not count.
- * - `not-started`: ExecHQ has suggested it and she has neither started it nor
+ * - `not-started`: ExecEngine has suggested it and she has neither started it nor
  *   turned it down, including one she accepted into her plan and has not touched.
  *   Starting it from the card under the rings makes it in progress.
  *

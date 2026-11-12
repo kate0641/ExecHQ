@@ -16,7 +16,7 @@ export const advisorFileStates = defineComponentStates({
   status: "draft",
   flows: ["onboarding"],
   description:
-    "What ExecHQ knows so far: one line with a count and what was just added, opening to the whole list. Concept 3 carries it on every page.",
+    "What ExecEngine knows so far: one line with a count and what was just added, opening to the whole list. Concept 3 carries it on every page.",
   component: AdvisorFile,
   notApplicable: {
     filled: NOT_AN_INPUT,

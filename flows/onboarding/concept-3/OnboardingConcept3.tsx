@@ -96,7 +96,7 @@ import {
  * Concept 3 — the guided onboarding.
  *
  * Rebuilt on 2026-09-24 from the living canvas. It keeps Concepts 1 and 2's
- * steps and logic, and explains as it goes: what ExecHQ is and how it is
+ * steps and logic, and explains as it goes: what ExecEngine is and how it is
  * built, why each thing is asked, what a plan is and how each part helps. It
  * is paged, like Concept 1, and differs from it on purpose:
  *
@@ -114,7 +114,7 @@ import {
  * Signals come early, straight after the account, by decision on
  * 2026-09-24: connecting LinkedIn first means the first draft
  * already sounds like the user. The privacy promise is said before that, on
- * the page that says what ExecHQ is (2026-10-02), because signals are the
+ * the page that says what ExecEngine is (2026-10-02), because signals are the
  * first time the user is asked for their data.
  *
  * Pages are this concept's own; each maps to the shared step it belongs to,
@@ -160,7 +160,7 @@ interface Page {
 
 const PAGES: Page[] = [
   { id: "welcome", label: "Welcome", step: "account" },
-  { id: "about", label: "What ExecHQ is", step: "account" },
+  { id: "about", label: "What ExecEngine is", step: "account" },
   { id: "account", label: "Account", step: "account" },
   // The emailed code, for a typed address only: Google and Apple have
   // confirmed theirs, so Account moves past it (2026-10-08).
@@ -205,7 +205,7 @@ interface DrawerControl {
 }
 
 /** What every page is handed about where it sits. */
-/** Steps with no drawer, flooded navy so the flow alternates quiet screens with ExecHQ moments
+/** Steps with no drawer, flooded navy so the flow alternates quiet screens with ExecEngine moments
  *  (designer, 2026-10-15). A step with a navy drawer stays light. */
 const NAVY_PAGES = new Set<string>(["about", "signals", "rec", "plan-week", "draft", "done"]);
 
@@ -373,7 +373,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
     document.getElementById(headingId)?.focus();
   }, [pageId, headingId]);
 
-  /* ---- What ExecHQ has learned, in the order it learned it: the summary
+  /* ---- What ExecEngine has learned, in the order it learned it: the summary
      on the last page. */
   const direction = a.direction ?? "";
   // The recommendation as the answers so far leave it, or the plan chosen.
@@ -400,7 +400,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
     });
   });
   /** Where the page sits. Progress and the running file were cut from the
-   *  pages by decision on 2026-09-24; what ExecHQ learned is shown once, as
+   *  pages by decision on 2026-09-24; what ExecEngine learned is shown once, as
    *  the summary on the last page. */
   function frame(): Frame {
     // Every question sits in its sky panel; a page without a drawer ignores it.
@@ -1622,7 +1622,7 @@ function DraftPage({
 }
 
 /**
- * The same story in three lengths. A fact ExecHQ doesn't know yet is a
+ * The same story in three lengths. A fact ExecEngine doesn't know yet is a
  * marked gap rather than something made up; the drawer asks for the few a
  * bio needs that the draft didn't (name, team size, strengths), and "add more
  * detail" covers the role and a result.

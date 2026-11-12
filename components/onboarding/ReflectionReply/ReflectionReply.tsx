@@ -1,5 +1,5 @@
 export interface ReflectionReplyProps {
-  /** Who is speaking, e.g. "ExecHQ". */
+  /** Who is speaking, e.g. "ExecEngine". */
   from: string;
   text: string;
   /** A fact to go with it, with where it comes from. Until sourced, it is
@@ -9,7 +9,7 @@ export interface ReflectionReplyProps {
 }
 
 /**
- * ExecHQ's answer to a reflection question, set as a pull quote: one of the
+ * ExecEngine's answer to a reflection question, set as a pull quote: one of the
  * editorial moments Libre Baskerville is kept for. A fact can follow. Facts
  * must be real and sourced before this ships, so until then they are drawn as
  * placeholders that cannot be mistaken for copy, and none of them ranks the

@@ -1,5 +1,5 @@
 /**
- * ExecHQ prototype — the manifest.
+ * ExecEngine prototype — the manifest.
  *
  * This is the single source of truth. The file hub, the slide-out hub panel, the
  * navigation chrome and every route are generated from it.
@@ -101,7 +101,7 @@ export const prototypeConfig: PrototypeConfig = {
           title: "Concept 3 — Guided",
           status: "approved",
           summary:
-            "Explains as it goes: what ExecHQ is, why each thing is asked, and what a plan is. Asks what decides the plan first, recommends once, then asks what makes it hers.",
+            "Explains as it goes: what ExecEngine is, why each thing is asked, and what a plan is. Asks what decides the plan first, recommends once, then asks what makes it hers.",
         },
       ],
     },
@@ -273,7 +273,7 @@ export const prototypeConfig: PrototypeConfig = {
           title: "Concept 2 — News app",
           status: "approved",
           summary:
-            "A front page like a news app: the lead story with a big picture, two rows with small ones, each saying why it is here. A story opens the whole article in ExecHQ, with ExecHQ’s notes on highlighted passages all the way through, and a bar at the foot: Back, Relevant, Not for me, Save, Write a post.",
+            "A front page like a news app: the lead story with a big picture, two rows with small ones, each saying why it is here. A story opens the whole article in ExecEngine, with ExecEngine’s notes on highlighted passages all the way through, and a bar at the foot: Back, Relevant, Not for me, Save, Write a post.",
         },
       ],
     },
@@ -342,7 +342,7 @@ export const prototypeConfig: PrototypeConfig = {
           // Kate, 2026-10-26.
           status: "approved",
           summary:
-            "The participant Login's split page, for the enterprise side: the work email ExecHQ set up, a code by email, Google or Apple. No sign-up: the ExecHQ contact sends the invitation. The privacy line says admins see totals, never a participant.",
+            "The participant Login's split page, for the enterprise side: the work email ExecEngine set up, a code by email, Google or Apple. No sign-up: the ExecEngine contact sends the invitation. The privacy line says admins see totals, never a participant.",
         },
       ],
     },

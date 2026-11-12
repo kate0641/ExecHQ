@@ -28,7 +28,7 @@ import { PROFILE_COPY as C, type ProfileDetailId } from "@/mock/profile";
  * and tablet a row opens its detail in a sheet; on web the list and the
  * detail sit side by side, with the account open to begin with.
  *
- * Cut on 2026-10-01: the "You" and "Connections" groups, and "What ExecHQ
+ * Cut on 2026-10-01: the "You" and "Connections" groups, and "What ExecEngine
  * uses". Notifications sits open on the page rather than behind a row, so
  * nothing there is hidden.
  *

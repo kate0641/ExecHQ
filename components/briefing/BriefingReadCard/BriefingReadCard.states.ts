@@ -12,7 +12,7 @@ export const briefingReadCardStates = defineComponentStates({
   status: "draft",
   flows: ["daily-briefing"],
   description:
-    "One of the day's three reads: publisher, headline in the serif, and why it is here, in ExecHQ's words beside a rule. Its own pattern, never a plan step's: no horizon, effort, reading time or done state. Lead (the dark card), row (the whole row opens it) and stack (Concept 3, a passage under it).",
+    "One of the day's three reads: publisher, headline in the serif, and why it is here, in ExecEngine's words beside a rule. Its own pattern, never a plan step's: no horizon, effort, reading time or done state. Lead (the dark card), row (the whole row opens it) and stack (Concept 3, a passage under it).",
   component: BriefingReadCard,
   notApplicable: {
     disabled: "A read is always there to open.",

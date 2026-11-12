@@ -1,5 +1,5 @@
 /* =============================================================================
-   ExecHQ prototype — design tokens
+   ExecEngine prototype — design tokens
    -----------------------------------------------------------------------------
    THIS IS THE ONLY FILE IN THE REPO THAT MAY CONTAIN A LITERAL COLOUR VALUE.
    `npm run check:tokens` fails the build if one appears anywhere else.
@@ -96,7 +96,7 @@
 
   /* Sign in with Google and Sign in with Apple, in the colours their makers'
      guidelines require (designer, 2026-10-13: "we should be following those
-     guidelines"). Not part of ExecHQ's palette and never used elsewhere.
+     guidelines"). Not part of ExecEngine's palette and never used elsewhere.
      Google's dark theme: fill #131314, a 1px #8E918F edge, #E3E3E3 words, and
      the standard four-colour G. Apple's black style: black, with the logo and
      words in white. */
@@ -189,7 +189,7 @@
   --color-surface-selected: var(--brand-blue-200); /* the item a detail pane is showing: a step stronger than hover */
   --color-surface-feature: var(--brand-blue-100);  /* the card that says what to do next, on trial */
   /* Colour carries meaning (designer, 2026-10-15): the same colour does the same job on every screen, so
-     she knows what a card is for before she reads it. Navy is ExecHQ and priority; yellow is the one
+     she knows what a card is for before she reads it. Navy is ExecEngine and priority; yellow is the one
      main action. Home is approved and keeps its own colours. */
   /* Her: her own words and answers. Lime as a band, dark green words on it (8.9:1). */
   --color-surface-her-band: var(--brand-green-200);
@@ -234,7 +234,7 @@
   --color-chart-line: var(--brand-primary);
   --color-chart-grid: var(--brand-stone-250);
   /* A navy page: an onboarding step with no drawer, flooded navy so the flow alternates quiet screens
-     with ExecHQ moments (designer, 2026-10-15). Headlines and section labels in yellow 400 (10.3:1);
+     with ExecEngine moments (designer, 2026-10-15). Headlines and section labels in yellow 400 (10.3:1);
      the kicker blue 200; a numbered circle the same yellow with its navy numeral. */
   --color-headline-on-inverse: var(--color-accent-on-inverse);
   --color-eyebrow-on-inverse: var(--brand-blue-200);
@@ -562,7 +562,7 @@
   --color-device-edge: var(--brand-stone-600);
   --color-device-screen: var(--color-surface);
   --color-device-hardware: var(--brand-stone-600);
-  /* Safari's bars, drawn around the page: ExecHQ runs in the phone's browser. */
+  /* Safari's bars, drawn around the page: ExecEngine runs in the phone's browser. */
   --color-browser-chrome: var(--brand-stone-100);
   --color-browser-bar: var(--brand-stone-600);
   --color-browser-bar-text: var(--brand-white);
@@ -743,12 +743,12 @@
   --type-figure-word-spacing: var(--word-spacing-normal);
 
   /* Editorial — Libre Baskerville's voice, always italic, and only for words
-     that are said: a welcome line, ExecHQ speaking, her own words quoted
+     that are said: a welcome line, ExecEngine speaking, her own words quoted
      back, a publication's name. Never for a title or for interface text, and
      always clearly smaller than the screen's title (designer, 2026-10-13).
      Four sizes, each with one job:
        large  28px  the web welcome's statement, alone on its dark panel
-       medium 18px  ExecHQ speaking to her on a guided step (Reflection)
+       medium 18px  ExecEngine speaking to her on a guided step (Reflection)
        small  16px  her words quoted back; the chat's welcome line
        xsmall 14px  a short line under a heading, a quote inside the chat, a
                     publication's name; set at 500 so the small italic holds */

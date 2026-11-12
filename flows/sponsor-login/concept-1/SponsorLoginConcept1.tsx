@@ -39,8 +39,8 @@ import { SPONSOR_LOGIN_COPY as C, SPONSOR_PROVIDER_ACCOUNTS } from "@/mock/spons
  * emailed code, Google or Apple, and the same rules: no password, and the
  * code screen says the same whether or not an account exists.
  *
- * What differs: it asks for the work email ExecHQ set up when the program
- * was agreed; there is no sign-up, since the ExecHQ contact sends the
+ * What differs: it asks for the work email ExecEngine set up when the program
+ * was agreed; there is no sign-up, since the ExecEngine contact sends the
  * invitation; help goes to that contact; and the privacy line says what a
  * sponsor sees, totals and never a participant, before they are even in.
  *
@@ -230,7 +230,7 @@ export function SponsorLoginConcept1() {
           </form>
           <p className="login__or">{C.signIn.or}</p>
           <ProviderButtons onChoose={(p) => setSheet(p)} />
-          {/* No sign-up: ExecHQ sets the account up when the program is
+          {/* No sign-up: ExecEngine sets the account up when the program is
               agreed, so this says who sends the way in. */}
           <p className="login__small login__new">{C.signIn.notSetUp}</p>
         </>

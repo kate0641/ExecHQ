@@ -52,7 +52,7 @@ export function nextAfterNow(record: LoopRecord, type: OutcomeType, scenario: st
 export interface UseNextAfter {
   readback: string;
   offers: OutcomeNextOffer[];
-  /** After "Nothing yet": when ExecHQ asks again. */
+  /** After "Nothing yet": when ExecEngine asks again. */
   note?: string;
 }
 

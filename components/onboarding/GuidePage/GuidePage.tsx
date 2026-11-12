@@ -17,10 +17,10 @@ export interface GuidePageProps {
   /** Which part is current, 0-based, and how many there are: the segments. */
   partIndex?: number;
   partCount?: number;
-  /** What ExecHQ knows so far, carried on every page. */
+  /** What ExecEngine knows so far, carried on every page. */
   file?: ReactNode;
   kicker?: string;
-  /** The ExecHQ logo above the title, in place of a kicker: the cover, where
+  /** The ExecEngine logo above the title, in place of a kicker: the cover, where
    *  the brand is the first thing on the screen. */
   wordmark?: boolean;
   title: string;
@@ -71,7 +71,7 @@ export interface GuidePageProps {
    *  they read apart from onboarding; lime is there when yellow isn't justified (designer, 2026-10-15). */
   navyPanel?: boolean;
   /** Flooded navy: headlines and section labels yellow, white cards on it. Onboarding's steps with no drawer,
-   *  so the flow alternates quiet screens with ExecHQ moments (designer, 2026-10-15), and every Plan page,
+   *  so the flow alternates quiet screens with ExecEngine moments (designer, 2026-10-15), and every Plan page,
    *  where the top section sits in a darkest-navy card and the drawer turns stone (2026-10-16). */
   navy?: boolean;
   className?: string;
@@ -80,7 +80,7 @@ export interface GuidePageProps {
 /**
  * One page of Concept 3, the guided onboarding. It reads like an advisor's
  * briefing rather than a form, by decision on 2026-09-24: progress is said in
- * words, what ExecHQ has learned travels with the user, and every page says
+ * words, what ExecEngine has learned travels with the user, and every page says
  * why it is there in a margin note, in the same place each time.
  *
  * With a drawer, the question and its reason stay on the page together and

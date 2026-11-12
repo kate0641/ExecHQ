@@ -373,7 +373,7 @@ export interface CohortCounts {
   actionsAccepted: number;
   actionsCompleted: number;
   /** Artifacts made, and how many were marked used. Recorded outcomes are
-   *  tracked inside ExecHQ, never shown to the sponsor: without the work or
+   *  tracked inside ExecEngine, never shown to the sponsor: without the work or
    *  the person behind them they give no context (Kate, 2026-10-20). */
   artifacts: number;
   artifactsUsed: number;
@@ -659,7 +659,7 @@ export const DATA_POINTS: Record<DataPointId, DataPoint> = {
     question: "joined",
     definition: "Of the people who joined, how many finished setting up and reached their first piece of work.",
     brief: "Of those who joined, how many finished setting up.",
-    source: "The end of setup in ExecHQ.",
+    source: "The end of setup in ExecEngine.",
     sinceLaunch: true,
   },
   active: {
@@ -667,7 +667,7 @@ export const DATA_POINTS: Record<DataPointId, DataPoint> = {
     question: "using",
     definition: "Of the people set up, how many signed in and did at least one thing in the dates chosen.",
     brief: "Of those set up, how many did at least one thing in the dates chosen.",
-    source: "Sign-ins and actions in ExecHQ.",
+    source: "Sign-ins and actions in ExecEngine.",
   },
   briefing: {
     label: "Read the Briefing weekly",
@@ -681,7 +681,7 @@ export const DATA_POINTS: Record<DataPointId, DataPoint> = {
     question: "following",
     definition: "Of the people set up, how many accepted a development plan.",
     brief: "Of those set up, how many accepted a development plan.",
-    source: "Plans accepted in ExecHQ.",
+    source: "Plans accepted in ExecEngine.",
     sinceLaunch: true,
   },
   "follow-through": {
@@ -690,22 +690,22 @@ export const DATA_POINTS: Record<DataPointId, DataPoint> = {
     definition:
       "Of the planned actions participants accepted, how many they have completed so far, each within 30 days of accepting it. Actions accepted recently still have time, so this rises as they come due. Actions they declined or put off are not counted.",
     brief: "Of the planned actions taken on, how many are done, each within 30 days.",
-    source: "Planned actions in ExecHQ.",
+    source: "Planned actions in ExecEngine.",
   },
   artifacts: {
     label: "Work made",
     question: "following",
-    definition: "How many drafts, briefs and statements the cohort made in ExecHQ in the dates chosen.",
-    brief: "Drafts, briefs and statements made in ExecHQ in the dates chosen.",
+    definition: "How many drafts, briefs and statements the cohort made in ExecEngine in the dates chosen.",
+    brief: "Drafts, briefs and statements made in ExecEngine in the dates chosen.",
     source: "The Playbook and its library.",
   },
   loop: {
     label: "Work used",
     question: "following",
     definition:
-      "Of the work made, how much participants marked as used outside ExecHQ.",
-    brief: "Of the work made, how much was marked as used outside ExecHQ.",
-    source: "Work marked used in ExecHQ.",
+      "Of the work made, how much participants marked as used outside ExecEngine.",
+    brief: "Of the work made, how much was marked as used outside ExecEngine.",
+    source: "Work marked used in ExecEngine.",
   },
 };
 
@@ -919,7 +919,7 @@ export const TREND_COPY = {
   inDates: "in your dates",
   definition: "How many people signed in and did at least one thing in each week, Monday to Sunday, since the program started. The dates you choose are shaded.",
   brief: "People who did at least one thing in each week, Monday to Sunday, since the program started. This week so far is hatched.",
-  source: "Sign-ins and actions in ExecHQ.",
+  source: "Sign-ins and actions in ExecEngine.",
   gap: `A gap is a week with fewer than ${MIN_COHORT_SIZE} active, left out to protect privacy.`,
   summary: (first: number, peak: number, latest: number, weeks: number) =>
     `People active each week over ${weeks} weeks: ${count.format(first)} in the first week, ${count.format(peak)} at the most, ${count.format(latest)} so far this week.`,
@@ -982,7 +982,7 @@ export const SEEN_COPY = {
   hidden: (labels: string[]) => listChannels(labels),
   fewer: `Fewer than ${MIN_COHORT_SIZE}`,
   fewerLabel: `Fewer than ${MIN_COHORT_SIZE} people each, held back so none can point to one person`,
-  note: "Recorded in ExecHQ or added by the participant. Someone on two channels counts in both.",
+  note: "Recorded in ExecEngine or added by the participant. Someone on two channels counts in both.",
   hiddenAll: `Hidden until ${MIN_COHORT_SIZE} or more participants are active.`,
   listLabel: "By channel",
 } as const;
@@ -1072,7 +1072,7 @@ export const CSV_COPY = {
   signals: {
     any: "Put something out (any channel)",
     prefix: "Signals: ",
-    anyCounts: "Of the active participants, how many put something out in the world on any channel, recorded in ExecHQ or added by them.",
+    anyCounts: "Of the active participants, how many put something out in the world on any channel, recorded in ExecEngine or added by them.",
     channel: "Of the active participants, how many put something out on this channel. Someone on two channels counts in both.",
     held: `Fewer than ${MIN_COHORT_SIZE} people, held back so it can't point to one person.`,
   },
@@ -1291,7 +1291,7 @@ export const QUESTION_POINTS: Record<QuestionId, DataPointId[]> = {
    The sponsor sees the cohort's
    answers at the start and now, as totals, once at least the minimum have
    answered twice. Self-reported, so it says what they feel, never what
-   ExecHQ caused. From https://claude.ai/artifact/2fm8TRsuNxABfFJ88JBh6i.
+   ExecEngine caused. From https://claude.ai/artifact/2fm8TRsuNxABfFJ88JBh6i.
    -------------------------------------------------------------------------- */
 
 export interface ReadinessView {
@@ -1393,7 +1393,7 @@ export function storyFor(cohort: Cohort, window: Period, withReadiness = false):
 
 /** The sentence that opens each card: what the opening doesn't say, plainly,
  *  with no lead-in from the card before (Kate, 2026-10-22, Bookends).
- *  Reports activity, never results: what participants did, not what ExecHQ
+ *  Reports activity, never results: what participants did, not what ExecEngine
  *  caused. Undefined while the card's figures are hidden. */
 export function answerFor(cohort: Cohort, question: QuestionId, window: Period): string | undefined {
   const c = countsIn(cohort, window);
@@ -1401,7 +1401,7 @@ export function answerFor(cohort: Cohort, question: QuestionId, window: Period):
   const n = (value: number) => count.format(value);
   switch (question) {
     case "following":
-      return above ? `They made ${n(c.artifacts)} pieces of work ${inWindow(window)} and used ${n(c.artifactsUsed)} of them outside ExecHQ.` : undefined;
+      return above ? `They made ${n(c.artifacts)} pieces of work ${inWindow(window)} and used ${n(c.artifactsUsed)} of them outside ExecEngine.` : undefined;
     case "using":
       return above ? `${n(c.briefingWeekly)} of the ${n(c.active)} active read the Daily Briefing at least once a week.` : undefined;
     case "joined":
@@ -1457,7 +1457,7 @@ export const C1_COPY = {
       "Totals for the whole cohort. Northgate never sees a participant, their plan or their work.",
       `Figures show once ${MIN_COHORT_SIZE} or more are active in the dates you choose, and update daily.`,
       comparing ? DIRECTION_COPY.rule : null,
-      "Sources: codes redeemed, and setup, sign-ins, plans, planned actions, work and what participants put out in the world, recorded in ExecHQ. Prepared by ExecHQ.",
+      "Sources: codes redeemed, and setup, sign-ins, plans, planned actions, work and what participants put out in the world, recorded in ExecEngine. Prepared by ExecEngine.",
     ]
       .filter(Boolean)
       .join(" "),
@@ -1589,7 +1589,7 @@ export function lateCohort(cohort: Cohort): Cohort | undefined {
 
 export const LATE_COPY = {
   notice: (asOf: string) =>
-    `Today’s update is late. The figures here are from ${formatAsOf(asOf)}. ExecHQ is looking into it, and changes since a week ago return with the next update.`,
+    `Today’s update is late. The figures here are from ${formatAsOf(asOf)}. ExecEngine is looking into it, and changes since a week ago return with the next update.`,
   letter: (asOf: string) =>
     `This week’s issue is late. Here is the last one, from ${formatAsOf(asOf)}. The next comes as soon as the figures are in.`,
   archive: "Late",
@@ -1661,7 +1661,7 @@ export const C3_COPY = {
   using: (active: number, share: string, briefing: number) =>
     `${count.format(active)} were active, ${share} of those set up, and ${count.format(briefing)} read the Daily Briefing at least once a week.`,
   following: (plans: number, artifacts: number, used: number) =>
-    `${count.format(plans)} have chosen a development plan, and the cohort made ${count.format(artifacts)} pieces of work: ${count.format(used)} were used outside ExecHQ. Some planned actions are still within their 30 days.`,
+    `${count.format(plans)} have chosen a development plan, and the cohort made ${count.format(artifacts)} pieces of work: ${count.format(used)} were used outside ExecEngine. Some planned actions are still within their 30 days.`,
   hidden: `Everything else stays hidden until ${MIN_COHORT_SIZE} or more participants are active, so no figure can point to one person. I’ll tell you when it opens.`,
   movedHeading: "Since the last issue",
   movedNone: `Nothing moved by enough to mention. I only mention a change when at least ${MIN_COHORT_SIZE} participants are behind it.`,
@@ -1673,7 +1673,7 @@ export const C3_COPY = {
     activeDown: "Fewer participants were active.",
   },
   definitions: "How these are measured",
-  signOff: "ExecHQ",
+  signOff: "ExecEngine",
   privacy: "Totals for the whole cohort. You never see a participant, their plan or their work.",
   save: "Save this issue",
   savePdf: "PDF",
@@ -1704,11 +1704,11 @@ export const C3_COPY = {
 
 /* -----------------------------------------------------------------------------
    THE ASSISTANT
-   The ExecHQ assistant for sponsors (Kate, 2026-10-20), in each concept: a
+   The ExecEngine assistant for sponsors (Kate, 2026-10-20), in each concept: a
    floating bar on the dashboard, "Ask about this report" beside the report,
    and replies to the letter. Answers come from the cohort's totals only, under
    the page's own rules: nothing below the minimum, directions rather than
-   week-on-week counts, what participants did rather than what ExecHQ caused,
+   week-on-week counts, what participants did rather than what ExecEngine caused,
    and never anything about one person. The prototype has no AI: each
    suggested question has an answer written from the cohort's figures.
    -------------------------------------------------------------------------- */
@@ -1721,7 +1721,7 @@ export interface AssistantPrompt {
 }
 
 export const ASSISTANT_COPY = {
-  name: "ExecHQ",
+  name: "ExecEngine",
   role: "About your cohort",
   pillHere: "Your cohort",
   pillAsk: "Ask about your cohort",
@@ -1741,7 +1741,7 @@ export const ASSISTANT_COPY = {
   replySend: "Send reply",
   replyPlaceholder: "Write a reply",
   you: "You",
-  writing: "ExecHQ is writing…",
+  writing: "ExecEngine is writing…",
   suggested: "Suggested replies",
   prompts: {
     dashboard: [
@@ -1778,7 +1778,7 @@ export function assistantAnswer(cohort: Cohort, window: Period, key: AssistantKe
   const notYetSetUp = cohort.joined - cohort.activated;
 
   if (key === "who") {
-    return `I can’t tell you about any one person. That promise is why leaders use ExecHQ honestly.\n\nWhat I can tell you: ${n(cohort.joined)} of the ${n(cohort.expectedSize)} leaders you expected have joined.`;
+    return `I can’t tell you about any one person. That promise is why leaders use ExecEngine honestly.\n\nWhat I can tell you: ${n(cohort.joined)} of the ${n(cohort.expectedSize)} leaders you expected have joined.`;
   }
   if (key === "other") {
     return "In this prototype I answer the suggested questions. In the product I’d answer from your cohort’s totals, and never about one person.";
@@ -1794,12 +1794,12 @@ export function assistantAnswer(cohort: Cohort, window: Period, key: AssistantKe
     case "summary": {
       const moved = directionFor(cohort, "active", window);
       const since = moved ? `, ${DIRECTION_COPY.clause[moved]}` : "";
-      return `${cohort.name}, ${weeksIn(day).toLowerCase()}: ${n(cohort.joined)} of the ${n(cohort.expectedSize)} leaders we expected have joined, and ${n(cohort.activated)} have set up. Participants have completed ${n(c.actionsCompleted)} of the ${n(c.actionsAccepted)} planned actions they took on, and ${n(c.active)} of those set up were active ${inWindow(window)}${since}.\n\nTotals only: ExecHQ never shows ${sponsor} a participant, their plan or their work.`;
+      return `${cohort.name}, ${weeksIn(day).toLowerCase()}: ${n(cohort.joined)} of the ${n(cohort.expectedSize)} leaders we expected have joined, and ${n(cohort.activated)} have set up. Participants have completed ${n(c.actionsCompleted)} of the ${n(c.actionsAccepted)} planned actions they took on, and ${n(c.active)} of those set up were active ${inWindow(window)}${since}.\n\nTotals only: ExecEngine never shows ${sponsor} a participant, their plan or their work.`;
     }
     case "setup":
       return notYetSetUp === 0
         ? "Everyone who has joined has finished setting up."
-        : `${n(notYetSetUp)} of the ${n(cohort.joined)} who joined haven’t finished setting up yet. ExecHQ never contacts them on your behalf, but a note from you or their manager, through your own channels, tends to help. Say that it’s private: ${sponsor} never sees their plan or their work.`;
+        : `${n(notYetSetUp)} of the ${n(cohort.joined)} who joined haven’t finished setting up yet. ExecEngine never contacts them on your behalf, but a note from you or their manager, through your own channels, tends to help. Say that it’s private: ${sponsor} never sees their plan or their work.`;
     case "change": {
       const moved = directionFor(cohort, "active", window);
       if (!moved) return `Activity hasn’t moved by enough to mention. I only say so when at least ${MIN_COHORT_SIZE} people are behind a change, so it can never point to one person’s week.`;

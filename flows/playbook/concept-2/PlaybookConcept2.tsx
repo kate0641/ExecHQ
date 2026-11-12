@@ -99,7 +99,7 @@ function FolderList({
  * (Concept 1's "Next on your plan", brought over 14 Oct). Finding the right
  * tool isn't on the page: it is the advisor's first prompt on the Playbook,
  * "Which tool do I need?" (14 Oct). The library is four folders, one per
- * tool (option A, chosen 11 October), filed by ExecHQ: each says how many it
+ * tool (option A, chosen 11 October), filed by ExecEngine: each says how many it
  * holds, where they stand and when it last changed. The folders are 2×2 and
  * one opens as its own page (`?folder=`), newest first, with a Back to the
  * Playbook (option A with option B's next-step line, Kate, 13 Oct). The

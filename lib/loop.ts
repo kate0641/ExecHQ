@@ -1,5 +1,5 @@
 /**
- * The Loop: the status and outcome record on every artifact ExecHQ produces.
+ * The Loop: the status and outcome record on every artifact ExecEngine produces.
  *
  * Pure rules, no screens and no storage. Every function takes a record (or the
  * list of them) and returns a new one; nothing is changed in place, so the

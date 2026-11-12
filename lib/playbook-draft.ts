@@ -1,6 +1,6 @@
 /**
  * Thought Leadership Builder's drafts, made in the prototype without a model:
- * her words go in as hers, ExecHQ's framing goes round them, and anything only
+ * her words go in as hers, ExecEngine's framing goes round them, and anything only
  * she knows is a question. Nothing here invents a number, a name or a result.
  */
 
@@ -40,7 +40,7 @@ function topicLine(topic: string): string {
   return t ? t[0].toUpperCase() + t.slice(1) : "";
 }
 
-/** ExecHQ's closing line when she gives no call to action, by voice. */
+/** ExecEngine's closing line when she gives no call to action, by voice. */
 const CLOSE_BY_VOICE: Record<string, string> = {
   Plainer: "How does it work where you are?",
   Warmer: "I’d love to hear how it works where you are.",
@@ -64,7 +64,7 @@ function openingFor(topic: string, voice?: string): string {
 }
 
 /** What to do with it next, and after: how to publish, the plan step it
- *  serves, and that ExecHQ will ask how it landed. Started from a Briefing
+ *  serves, and that ExecEngine will ask how it landed. Started from a Briefing
  *  read, it says the Briefing is a good source for posts, never when to post
  *  (CEO, 19 Oct). */
 function nextUse(article: boolean, nextStep?: string, fromRead = false): DraftSection {
@@ -76,14 +76,14 @@ function nextUse(article: boolean, nextStep?: string, fromRead = false): DraftSe
         : "Post it on a weekday morning, and reply to comments the same day.",
     fromRead ? "Your Briefing is a good place to find your next post: when a read speaks to what you lead, start one from it." : "",
     nextStep ? `It serves your next step: ${nextStep[0].toLowerCase()}${nextStep.slice(1)}.` : "",
-    "When someone responds, answer in your own words. ExecHQ will ask how it landed in a week.",
+    "When someone responds, answer in your own words. ExecEngine will ask how it landed in a week.",
   ].filter(Boolean);
   return { id: "next-use", heading: "Recommended next use", segments: [ex(parts.join(" "))] };
 }
 
 /** The first draft, from what she said and where she started: a post, or an
  *  article when she chose one, then what to do with it. Her voice sets
- *  ExecHQ's opening and closing lines; her length applies the same rules as
+ *  ExecEngine's opening and closing lines; her length applies the same rules as
  *  Shorter and Longer. Evidence she gives fills "What I have seen so far";
  *  without it, that stays a question for her. */
 export function firstDraft(inputs: DraftInputs, readId?: string, passage?: string, nextStep?: string): DraftSection[] {
@@ -164,7 +164,7 @@ export function firstDraft(inputs: DraftInputs, readId?: string, passage?: strin
         heading: "What to do about it",
         segments: [inputs.cta?.trim() ? you(sentence(inputs.cta)) : ask("What should a reader do differently?")],
       },
-      // ExecHQ's closing line by voice; her call to action is already in "What to do about it".
+      // ExecEngine's closing line by voice; her call to action is already in "What to do about it".
       ...(long ? [{ id: "closing", heading: "Closing", segments: [...part("close", [ex(CLOSE_BY_VOICE[inputs.voice ?? ""] ?? "How does it work where you are?")])] }] : []),
     ];
   }
@@ -183,7 +183,7 @@ export function revisionLabel(choice: RevisionChoice, followUp: string): string 
   return words;
 }
 
-/** A revision, made without a model: shorter drops ExecHQ's framing but
+/** A revision, made without a model: shorter drops ExecEngine's framing but
  *  keeps her words and the questions; longer adds a question for her, never
  *  a fact; leading with her example moves it to the front. */
 export function revise(sections: readonly DraftSection[], choice: RevisionChoice): DraftSection[] {
@@ -210,7 +210,7 @@ export function revise(sections: readonly DraftSection[], choice: RevisionChoice
   });
 }
 
-/** The narrative's three parts, by the label ExecHQ gave each. */
+/** The narrative's three parts, by the label ExecEngine gave each. */
 const NARRATIVE_PARTS = [
   { key: "do", label: "What I do: ", emphasis: "What I lead" },
   { key: "known", label: "What I am known for: ", emphasis: "What I’m known for" },
@@ -257,7 +257,7 @@ function revisePositioning(sections: readonly DraftSection[], choice: RevisionCh
  *  - Shorter: a post loses the quoted line and an unanswered "What I have
  *    seen so far"; an article loses "The idea" and "Where it gets hard".
  *  - Longer: asks why it matters to her, never adds a fact.
- *  - Voice and audience: change ExecHQ's closing line (never hers).
+ *  - Voice and audience: change ExecEngine's closing line (never hers).
  *  - Emphasis: My example or The article's point comes straight after the
  *    opening; The question at the end opens the post as well as closing it. */
 function reviseThought(sections: readonly DraftSection[], choice: RevisionChoice): DraftSection[] {
@@ -266,7 +266,7 @@ function reviseThought(sections: readonly DraftSection[], choice: RevisionChoice
   let out = sections.map((section) => {
     let segments = [...section.segments];
     const of = (name: string) => segments.filter((seg) => seg.part === name);
-    // ExecHQ's own closing line, re-said for the voice or audience asked for.
+    // ExecEngine's own closing line, re-said for the voice or audience asked for.
     const newClose = (choice.audience && CLOSE_BY_AUDIENCE[choice.audience]) || (choice.voice && CLOSE_BY_VOICE[choice.voice]);
     if (newClose) segments = segments.map((seg) => (seg.part === "close" && isEx(seg) ? { ...seg, text: newClose } : seg));
     if (section.id === "post") {
@@ -346,7 +346,7 @@ function revisePitch(sections: readonly DraftSection[], choice: RevisionChoice):
       } else if (choice.emphasis === "The angle") {
         segments = ["greeting", "ask", "proof", "why-now", "close"].flatMap(of);
       }
-      // Straight after "Hi …, " a sentence of ExecHQ's starts small ("it matters now").
+      // Straight after "Hi …, " a sentence of ExecEngine's starts small ("it matters now").
       const after = segments.findIndex((seg) => seg.part !== "greeting");
       const next = segments[after];
       if (next && "by" in next && next.by === "exechq" && /^[A-Z][a-z]/.test(next.text) && !/^I[’' ]/.test(next.text)) {
@@ -460,7 +460,7 @@ export function pitchDraft(v: Record<string, string>): DraftSection[] {
   ]);
 }
 
-/** Words in a section, her words and ExecHQ's, leaving out its questions. */
+/** Words in a section, her words and ExecEngine's, leaving out its questions. */
 export function wordCount(section: DraftSection): number {
   return section.segments
     .map((seg) => ("text" in seg ? seg.text : ""))
@@ -551,7 +551,7 @@ export function briefDraft(v: Record<string, string>, when?: string): DraftSecti
       id: "questions",
       heading: "Likely questions",
       list: true,
-      // Her own risks first, as questions to prepare for, then ExecHQ's.
+      // Her own risks first, as questions to prepare for, then ExecEngine's.
       segments: [
         ...risks.map((r) => you(riskQuestion(r))),
         ex("What does this take from your current work?"),
@@ -667,7 +667,7 @@ function formatVersion(format: string, p: { name: string; first: string; roleSeg
 /** Her statement, carried from onboarding, then bios in three lengths, the
  *  leadership narrative, an introduction for each moment she chose (CEO, 19
  *  Oct: more than one), a version for where she'll use it first, and what to
- *  use it for next. Bios use her name, never a pronoun ExecHQ assumed.
+ *  use it for next. Bios use her name, never a pronoun ExecEngine assumed.
  *
  *  The PRD's optional inputs each change something: who it is mainly for
  *  sets the long bio's last question; where she'll use it first adds a

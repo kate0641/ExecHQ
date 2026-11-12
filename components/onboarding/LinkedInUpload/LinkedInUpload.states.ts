@@ -31,7 +31,7 @@ export const linkedInUploadStates = defineComponentStates({
     { label: "Steps emailed for later", props: { ...base, status: "sent" as const } },
     {
       label: "Long file name wraps",
-      props: { ...base, status: "reading" as const, fileName: "Content_2025-09-28_2026-09-28 (2) copy for ExecHQ final.xlsx" },
+      props: { ...base, status: "reading" as const, fileName: "Content_2025-09-28_2026-09-28 (2) copy for ExecEngine final.xlsx" },
     },
   ],
 });

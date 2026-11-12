@@ -19,7 +19,7 @@ export interface HubChromeProps {
  * pages (design system, component catalogue, playground).
  *
  * Deliberately not the product's `AppChrome`: these are reference tools for
- * designing ExecHQ, not screens in it.
+ * designing ExecEngine, not screens in it.
  */
 export function HubChrome({ page, title, intro, bare = false, children }: HubChromeProps) {
   const hubPage = getHubPage(page);
@@ -29,8 +29,8 @@ export function HubChrome({ page, title, intro, bare = false, children }: HubChr
       <header className="hub__header">
         <p className="t-eyebrow">
           {hubPage.showroom
-            ? "ExecHQ showroom · private"
-            : "ExecHQ design prototype"}
+            ? "ExecEngine showroom · private"
+            : "ExecEngine design prototype"}
         </p>
         <h1 className="hub__title">{title ?? hubPage.title}</h1>
         {intro ? <div className="hub__intro t-measure">{intro}</div> : null}

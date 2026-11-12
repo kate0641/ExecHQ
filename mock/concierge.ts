@@ -16,7 +16,7 @@
  */
 
 export const CONCIERGE_COPY = {
-  name: "ExecHQ",
+  name: "ExecEngine",
   role: "Your advisor",
   pillAsk: "Ask or go",
   placeholder: "Ask or go…",

@@ -96,7 +96,7 @@ export function usePlanPage() {
   const seeded = loop.homeState !== "first-return";
   const recorded = recordedItems(loop.records, loop.tasks).filter((i) => !notices.hidden.includes(i.id));
   const pictureItems = [...recorded, ...addedItems(items, loop.today)];
-  /* What ExecHQ recorded in the last week, so she can tell it from what she added. */
+  /* What ExecEngine recorded in the last week, so she can tell it from what she added. */
   const freshRecorded = newlyRecorded(recorded, loop.today, notices.hidden);
   const freshKey = freshRecorded.map((i) => i.id).join("|");
   // Being on the Signal Picture is seeing them: the dot on the navigation clears.
@@ -127,7 +127,7 @@ export function usePlanPage() {
     const rows = cameOfRows(pictureItems, loop.account.plan.startedOn, loop.today);
     const item = pictureItems.find((i) => i.editable);
     // A row she can still report on (nothing said yet) when the dock's state has one, so the sheet shows
-    // what tapping "Nothing reported yet" opens: for something ExecHQ made, How did it go? first.
+    // what tapping "Nothing reported yet" opens: for something ExecEngine made, How did it go? first.
     const kind = rows.filter((r) => (screen === "report-loop" ? Boolean(r.recordId) : Boolean(r.item)));
     const row = kind.find((r) => !r.came) ?? kind[0];
     /* eslint-disable react-hooks/set-state-in-effect -- the URL is only readable after mount */
@@ -322,7 +322,7 @@ export function usePlanPage() {
   };
   // Why she has this plan, under her direction: what she said in onboarding, or the day she chose it.
   const whyThisPlan = switchedTo ? RM.switchedOn(fullDate(choices?.startedOn ?? loop.today)) : (recommendPlan(start.account.direction).rationale ?? "");
-  // The stage check-in. ExecHQ decides a stage is finished, from her work; the most recent finished stage
+  // The stage check-in. ExecEngine decides a stage is finished, from her work; the most recent finished stage
   // she has not checked in on (or put off) opens the check-in in place of the moves. Older ones stay history.
   const lastDone = [...windows].reverse().find((w) => w.status === "done");
   // Never one behind a stage she has already checked in on, such as one she said is not finished yet.
@@ -517,7 +517,7 @@ export function usePlanPage() {
     />
   );
 
-  // Momentum: her week, counted from her plan, her work in ExecHQ, and the signals she added.
+  // Momentum: her week, counted from her plan, her work in ExecEngine, and the signals she added.
   const momentum = (
     <PlanMomentum
       key={`momentum-${loop.id}`}

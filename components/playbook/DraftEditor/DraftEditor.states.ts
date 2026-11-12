@@ -23,7 +23,7 @@ export const draftEditorStates = defineComponentStates({
   status: "draft",
   flows: ["playbook-flow"],
   description:
-    "The draft, where she reads and changes it. Always a draft until she marks it ready. Her words and ExecHQ's wording look different (ExecHQ's is quieter with a dotted underline), with a key. What only she knows is a question in the text, never invented, gathered under the draft to answer. Any part can be rewritten in place; once she does, it is hers.",
+    "The draft, where she reads and changes it. Always a draft until she marks it ready. Her words and ExecEngine's wording look different (ExecEngine's is quieter with a dotted underline), with a key. What only she knows is a question in the text, never invented, gathered under the draft to answer. Any part can be rewritten in place; once she does, it is hers.",
   component: DraftEditor,
   notApplicable: {
     hover: "Its controls are Buttons and fields, which show their own states.",

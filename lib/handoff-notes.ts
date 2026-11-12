@@ -1,7 +1,7 @@
 /**
  * Dev handoff notes.
  *
- * Notes for the developers building ExecHQ: how a design decision becomes a
+ * Notes for the developers building ExecEngine: how a design decision becomes a
  * build rule, and what each screen does. Reference pages like the plan and
  * builder briefs, not product screens. One markdown file per note in
  * `/handoff`, read at build time on the server and drawn by the spec renderer.
@@ -51,7 +51,7 @@ export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
     slug: "mobile-browser",
     title: "Mobile browser",
     description:
-      "ExecHQ runs in the phone's browser, not as an app (19 Oct). How to size screens to the room Safari leaves, the four layout patterns, and what each screen pins and flexes.",
+      "ExecEngine runs in the phone's browser, not as an app (19 Oct). How to size screens to the room Safari leaves, the four layout patterns, and what each screen pins and flexes.",
   },
 ];
 

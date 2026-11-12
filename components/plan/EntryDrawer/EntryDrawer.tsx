@@ -42,7 +42,7 @@ interface Draft {
 const CHOICES = [...ENTRY_TYPES, FOLLOWERS_CHOICE];
 
 /**
- * How she tells ExecHQ about what she did outside it: one row for each thing,
+ * How she tells ExecEngine about what she did outside it: one row for each thing,
  * what it was, when, an optional link or note and what came of it, or her
  * LinkedIn followers as of a day. It opens with one row and grows when she
  * wants to add more, so one thing is as quick as it always was and several

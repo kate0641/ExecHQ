@@ -243,7 +243,7 @@ export function RoadmapTimeline({
             </Fragment>
           );
         })}
-        {/* The rail does not stop at the last stage: ExecHQ builds the next one as she finishes these. */}
+        {/* The rail does not stop at the last stage: ExecEngine builds the next one as she finishes these. */}
         <li className="rtl__point rtl__point--after">
           <p className="rtl__name">{finished ? A.allDone : T.afterTitle}</p>
           <p className="rtl__small">{finished ? A.allDoneBody : T.afterBody}</p>

@@ -194,7 +194,7 @@ export function PlanGuided({
               </ul>
             </section>
           ) : null}
-          <ReflectionReply from="ExecHQ" text={G.after} />
+          <ReflectionReply from="ExecEngine" text={G.after} />
         </GuidePage>
         {sheets}
       </>
@@ -318,7 +318,7 @@ export function PlanGuided({
         }
       >
         {!answer && heardOf?.(step) ? <p className="plan-guided__heard">{heardOf(step)}</p> : null}
-        {answer ? <ReflectionReply from="ExecHQ" text={asking ? replyText : answer === "pass" ? [G.passed, passedLine[step.id]].filter(Boolean).join(" ") : replyText} /> : null}
+        {answer ? <ReflectionReply from="ExecEngine" text={asking ? replyText : answer === "pass" ? [G.passed, passedLine[step.id]].filter(Boolean).join(" ") : replyText} /> : null}
         {asking ? (
           <div className="plan-guided__reasons">
             <ChipGroup

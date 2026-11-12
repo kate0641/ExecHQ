@@ -32,7 +32,7 @@ export const outletCardStates = defineComponentStates({
       label: "No page found — failed to find it",
       props: { name: "The Growth Summit", type: "Speaking" as const, today },
       states: ["error"],
-      description: "Somewhere she named that ExecHQ has no page for.",
+      description: "Somewhere she named that ExecEngine has no page for.",
     },
     { label: "Inside her company", props: card("q1-planning-review") },
     {

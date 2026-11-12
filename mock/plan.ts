@@ -361,7 +361,7 @@ export const stepById = (id: string): ActionStep | undefined => ACTION_QUEUE.fin
    model chooses these from what she said. Step up only; another plan has none.
    -------------------------------------------------------------------------- */
 
-/** Steps ExecHQ rates important: passed on once, they are offered once more at her next stage check-in.
+/** Steps ExecEngine rates important: passed on once, they are offered once more at her next stage check-in.
  *  Passed on twice, no step is ever offered again. */
 export const IMPORTANT_STEPS: readonly string[] = ["add-wins", "cross-functional", "ask-manager-scope"];
 
@@ -436,7 +436,7 @@ export const PLAN_COPY = {
 
 export const KIND_LABELS: Record<StepKind, string> = {
   artifact: "Write something",
-  context: "Add to what ExecHQ knows",
+  context: "Add to what ExecEngine knows",
   opportunity: "Prepare for a moment",
   reading: "Read",
 };
@@ -493,7 +493,7 @@ export const ROADMAP_COPY = {
 /* -----------------------------------------------------------------------------
    THE SIGNAL PICTURE
    A private, factual record. Not scored and not compared. Two sources, always
-   labelled in words (not by colour alone): what ExecHQ recorded, and what she
+   labelled in words (not by colour alone): what ExecEngine recorded, and what she
    added. Nothing in it becomes a number, a percentage or a grade.
    -------------------------------------------------------------------------- */
 
@@ -560,7 +560,7 @@ export const SIGNAL_PICTURE_COPY = {
   heading: "Your Signal Picture",
   /** The homepage’s starting-point counts, kept under the new picture until the homepage is chosen. */
   startedHeading: "Where you started",
-  recorded: "Recorded in ExecHQ",
+  recorded: "Recorded in ExecEngine",
   added: "You added",
   add: "Add something you did",
   edit: "Edit",
@@ -622,7 +622,7 @@ export const ENTRY_COPY = {
   noteHint: "Optional. Just enough for you to recognise it.",
   notePlaceholder: "https://",
   /** Shown while she adds, when the same kind of thing is already in her picture. */
-  sameRecorded: (text: string, when: string) => `ExecHQ already recorded this on ${when}: “${text}”.`,
+  sameRecorded: (text: string, when: string) => `ExecEngine already recorded this on ${when}: “${text}”.`,
   sameAdded: (text: string, when: string) => `You already added this on ${when}: “${text}”.`,
   sameIs: "That’s the one",
   sameNot: "If it is a different one, add it as normal.",
@@ -730,7 +730,7 @@ export const AGENDA_COPY = {
   recommendedBody: (when: string, weeks: number) => `Aim for ${when.toLowerCase()} · about ${weeks} weeks.`,
   start: "Start this stage",
   allDone: "That’s every stage.",
-  allDoneBody: "ExecHQ plans the next stretch with you, from what worked and what didn’t.",
+  allDoneBody: "ExecEngine plans the next stretch with you, from what worked and what didn’t.",
   outside: "Outside the stage windows",
   yours: "Yours",
   step: "Step from your plan",
@@ -838,7 +838,7 @@ export const PLAN_DIRECTION_COPY = {
 } as const;
 
 /**
- * The stage check-in (Plan Concept 3). ExecHQ decides a stage is finished, from her work, and asks how it
+ * The stage check-in (Plan Concept 3). ExecEngine decides a stage is finished, from her work, and asks how it
  * went before it builds on it: what came of anything she has not said yet, whether she got what finishing
  * looks like, and how she feels about her plan now. Every part can be skipped, and "Later" is always there.
  */
@@ -852,10 +852,10 @@ export const STAGE_CHECKIN_COPY = {
     `${unreported ? `${unreported === 1 ? "One thing" : `${unreported} things`} to hear about, then how the stage went.` : "How the stage went."} About two minutes. You can skip any of it.`,
   start: "Start the check-in",
   later: "Later",
-  nothingDone: "Nothing from this stage is in ExecHQ yet.",
+  nothingDone: "Nothing from this stage is in ExecEngine yet.",
   // What she did, by where it came from.
   fromSteps: "Your steps",
-  fromExecHQ: "In ExecHQ",
+  fromExecEngine: "In ExecEngine",
   fromYou: "Yours",
   passed: "You passed on it",
   unreported: "Not reported yet",
@@ -864,7 +864,7 @@ export const STAGE_CHECKIN_COPY = {
   added: (on: string) => `Added ${on}`,
   // One page per thing she has not said what came of.
   itemTitle: "How did it go?",
-  itemWhyLabel: "Why ExecHQ asks",
+  itemWhyLabel: "Why ExecEngine asks",
   itemWhy: "What worked here decides what the next stage leans on.",
   toneLabel: "Overall",
   wordsLabel: "In your words",
@@ -885,7 +885,7 @@ export const STAGE_CHECKIN_COPY = {
   // How she feels about her plan now.
   feelingKicker: "Before the next stage",
   feelingTitle: "How are you feeling about your plan now?",
-  feelingLede: "However it went is useful. ExecHQ shapes what comes next around it.",
+  feelingLede: "However it went is useful. ExecEngine shapes what comes next around it.",
   feelingQuestion: "Right now I’m feeling…",
   feelings: [
     { id: "more-sure", label: "More sure of it" },
@@ -893,14 +893,14 @@ export const STAGE_CHECKIN_COPY = {
     { id: "less-sure", label: "Less sure" },
     { id: "stuck", label: "Stuck" },
   ],
-  feelingWordsLabel: "Anything ExecHQ should know?",
+  feelingWordsLabel: "Anything ExecEngine should know?",
   privacy: "Only you see this. It is kept as you wrote it.",
   seeStage: "See your stage",
   // The read-back.
   summaryKicker: (stage: string) => `Your check-in · ${stage}`,
   summaryTitle: "Your stage, in your words",
   didHeading: "What you did",
-  stillOpen: (n: number) => `${n === 1 ? "One thing is" : `${n} things are`} still unreported. You can tell ExecHQ later, from the thing itself.`,
+  stillOpen: (n: number) => `${n === 1 ? "One thing is" : `${n} things are`} still unreported. You can tell ExecEngine later, from the thing itself.`,
   wentHeading: "How the stage went",
   milestoneLabel: "Finishing looks like",
   feelingLabel: "How you’re feeling",
@@ -911,7 +911,7 @@ export const STAGE_CHECKIN_COPY = {
   recapLabel: "Your check-in",
   recapLanded: "Where you landed",
   recapOpen: "See your check-in",
-  recapLater: "Tell ExecHQ how this stage went, and it builds on what worked.",
+  recapLater: "Tell ExecEngine how this stage went, and it builds on what worked.",
   recapStart: "Check in on this stage",
   // What the check-in changes, said on the step it changed and in the read-back.
   heardGapPartly: "You said you partly got what finishing looks like. This picks up what’s still missing.",
@@ -944,7 +944,7 @@ export const SPARK_NOTES = {
     direction: "Your direction",
     plan: "Plan changed",
     step: "Your steps",
-    record: "In ExecHQ",
+    record: "In ExecEngine",
     signal: "Signal Picture",
   },
   /* A cheer only when she finishes something; passing on, putting off and
@@ -969,7 +969,7 @@ export const SPARK_NOTES = {
   },
   pastPace: "This stage is taking longer than planned, and that’s OK. The stages after it move back with you.",
   completed: (title: string) => `Done: “${title}”. Nice work.`,
-  declined: (title: string) => `You passed on “${title}”, so ExecHQ swapped in a different one.`,
+  declined: (title: string) => `You passed on “${title}”, so ExecEngine swapped in a different one.`,
   /** `when` is a TIME_WORDS phrase: "Next week" reads "until next week", "This
    *  month" reads "until later this month", and "Later" has no until. */
   deferred: (title: string, when?: string) => {
@@ -986,8 +986,8 @@ export const SPARK_NOTES = {
 
 export const TIMELINE_COPY = {
   /** After the last stage: the plan does not end there. */
-  afterTitle: "Then ExecHQ builds the next stage",
-  afterBody: "As you finish these stages, ExecHQ builds the next one for your plan with you, from what worked and what didn’t.",
+  afterTitle: "Then ExecEngine builds the next stage",
+  afterBody: "As you finish these stages, ExecEngine builds the next one for your plan with you, from what worked and what didn’t.",
   haveLabel: "What you’ll have",
   calendarCount: (n: number) => `On your calendar in this stage (${n})`,
   calendarEmpty: "Add to this stage",
@@ -1064,7 +1064,7 @@ export const PLAN_AGENDA_COPY = {
   finishing: "Finishing looks like",
   yours: "Yours",
   done: "Done",
-  askLabel: "Ask ExecHQ",
+  askLabel: "Ask ExecEngine",
   getStarted: "Get started",
   /** Sprint 4: the step already has a draft, so the button opens it. */
   openDraft: "Open your draft",
@@ -1095,26 +1095,26 @@ export const GUIDED_COPY = {
   answers: (when: string) =>
     [
       { id: "plan", label: `I’ll do it ${when.toLowerCase()}`, hint: "It goes on your plan for then" },
-      { id: "talk", label: "Talk it through", hint: "Ask ExecHQ what’s in the way" },
-      { id: "pass", label: "Not for me", hint: "ExecHQ offers a different step" },
+      { id: "talk", label: "Talk it through", hint: "Ask ExecEngine what’s in the way" },
+      { id: "pass", label: "Not for me", hint: "ExecEngine offers a different step" },
     ] as { id: GuidedAnswer; label: string; hint: string }[],
   /** Moving it: the time words she can choose instead. */
   changeWhen: "Change when",
   /** The start button, which is also her answer that she is working on it. */
   working: "Keep working on it",
-  /** What ExecHQ says back. It says what happened and what moved, never why. */
+  /** What ExecEngine says back. It says what happened and what moved, never why. */
   reply: (answer: Exclude<GuidedAnswer, "talk">, o: { when: string }) =>
     ({
-      plan: `Good. It is on your plan for ${o.when.toLowerCase()}, and ExecHQ will ask you how it went.`,
-      pass: "Say why, if you like. One tap, and it shapes what ExecHQ offers next.",
+      plan: `Good. It is on your plan for ${o.when.toLowerCase()}, and ExecEngine will ask you how it went.`,
+      pass: "Say why, if you like. One tap, and it shapes what ExecEngine offers next.",
     })[answer],
   /** After the reason, or none. */
-  passed: "That is fine. ExecHQ will not offer this one again.",
+  passed: "That is fine. ExecEngine will not offer this one again.",
   noReason: "Skip, no reason",
   reasonLabel: "Why not?",
   next: "Next move",
   seeRoad: "See the road",
-  after: "Then ExecHQ builds the next stage, from what worked and what didn’t.",
+  after: "Then ExecEngine builds the next stage, from what worked and what didn’t.",
   /** The title over what changed, the timeline's own words for it (designer, 2026-10-16). */
   sparksTitle: TIMELINE_COPY.sparksLabel,
   lastKicker: "The road ahead",

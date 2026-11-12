@@ -8,7 +8,7 @@ export interface ConciergePillProps {
   ask?: string;
   /** A follow-up is due: the quiet dot. Never a count. */
   followUpDue?: boolean;
-  /** ExecHQ recorded something for her that she has not seen yet: the same quiet dot. */
+  /** ExecEngine recorded something for her that she has not seen yet: the same quiet dot. */
   newSignals?: boolean;
   expanded?: boolean;
   /** The id of the panel it opens. */

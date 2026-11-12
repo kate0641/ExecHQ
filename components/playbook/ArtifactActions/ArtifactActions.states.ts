@@ -12,7 +12,7 @@ export const artifactActionsStates = defineComponentStates({
   status: "draft",
   flows: ["playbook"],
   description:
-    "Everything she can do with an artifact from the library, in a sheet: open it, use it as the start of a new one, move its status on (Mark ready, Mark sent), export where in scope, close it, or delete it. Deleting asks once and says exactly what else goes: its record in ExecHQ and its items on her Signal Picture.",
+    "Everything she can do with an artifact from the library, in a sheet: open it, use it as the start of a new one, move its status on (Mark ready, Mark sent), export where in scope, close it, or delete it. Deleting asks once and says exactly what else goes: its record in ExecEngine and its items on her Signal Picture.",
   component: ArtifactActions,
   notApplicable: {
     ...CONTROLS_INSIDE,

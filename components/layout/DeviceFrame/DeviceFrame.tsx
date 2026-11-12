@@ -13,7 +13,7 @@ import { useViewport, type Viewport } from "@/lib/viewport-context";
  * corners, and a status bar area on mobile. No image assets. Web fills the
  * available width with no frame.
  *
- * ExecHQ runs in the phone's browser, not as an app (Kate, 2026-10-19), so
+ * ExecEngine runs in the phone's browser, not as an app (Kate, 2026-10-19), so
  * the phone and tablet draw Safari around the page: its address bar at the
  * top and, on the phone, its toolbar at the foot, both as they are when a
  * page first loads. `.device__screen` is only the space between them, the
@@ -77,7 +77,7 @@ export function DeviceFrame({
             <div className="browser-bar browser-bar--address">
               <span className="browser-bar__pill">
                 <Icon name="menu" />
-                <span className="browser-bar__address">exechq.com</span>
+                <span className="browser-bar__address">execengine.com</span>
                 <Icon name="refresh" />
               </span>
             </div>

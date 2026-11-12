@@ -1,6 +1,6 @@
 /**
  * Momentum: her week in motion, as counts: what she did on her plan, in
- * ExecHQ, and on her Signal Picture.
+ * ExecEngine, and on her Signal Picture.
  *
  * Four figures, each a count of real events with the events behind it:
  * completed actions, artifacts created or used, outcomes updated, and signals

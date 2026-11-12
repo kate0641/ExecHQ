@@ -19,7 +19,7 @@ export const guidePageStates = defineComponentStates({
   status: "draft",
   flows: ["onboarding"],
   description:
-    "One page of Concept 3, the guided onboarding: progress in words, what ExecHQ knows so far, the page, and a margin note saying why it is there. With an answer drawer, the question and its reason stay on the page and the drawer holds only the answer.",
+    "One page of Concept 3, the guided onboarding: progress in words, what ExecEngine knows so far, the page, and a margin note saying why it is there. With an answer drawer, the question and its reason stay on the page and the drawer holds only the answer.",
   component: GuidePage,
   notApplicable: {
     ...CONTENT_INSIDE,
