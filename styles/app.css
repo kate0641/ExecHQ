@@ -9846,6 +9846,11 @@ ol.signal__list {
   text-wrap: balance;
 }
 
+/* The line under the question breaks evenly too, never one word alone ("…in your / plan."). */
+.card-carousel__slide .check-in__sub {
+  text-wrap: balance;
+}
+
 .check-in__question:focus,
 .check-in__readback:focus,
 .check-in__thread span:focus {
