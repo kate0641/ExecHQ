@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "onboarding-meatier-influence-questions",
+    title: "Onboarding: meatier influence questions, and nothing that assumes leaving",
+    description:
+      "The influence path asks which decision she wants a say in and who decides it; answers that assumed leaving the company are swapped for ones inside it (12 Nov).",
+  },
+  {
     slug: "onboarding-drop-holding-you-back",
     title: "Onboarding: \"What's holding you back?\" is dropped",
     description:

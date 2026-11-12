@@ -404,7 +404,7 @@ The need also picks the questions (Appendix B). Each need has three, of which at
 | Need | Deciding question | Making it yours |
 | --- | --- | --- |
 | positioning | What's in the way? | What kind of step up? When do you want to get there? |
-| influence | none (What's holding you back? dropped 2026-11-12) | Where do you want more say? Who do you most need on side? |
+| influence | none (What's holding you back? dropped 2026-11-12) | Which decision in the next few months do you most want a say in? Who decides it, and how well do they know your work? |
 | visibility | none | Who needs to see you differently? How do they see you now? Where do you show up today? |
 | preparation | none | What's coming up? When is it? How ready do you feel? |
 | exploration | What's making you want a change? | What would you keep? How soon? |
@@ -418,7 +418,6 @@ Three answers, if chosen, send the plan somewhere else. The reason shown is thei
 | Question | Answer | Plan becomes | Reason shown |
 | --- | --- | --- | --- |
 | What's in the way? | Nobody sees my work | Make Your Mark | The results are there. What's missing is being seen by the people deciding, and that's what this plan is for. |
-| What's in the way? | Wrong company for it | Find your next direction | If the next step may not be where you are, it's worth working out the direction before making the case. |
 | What's making you want a change? | Hit a ceiling | Step Up | A ceiling is a scope problem. Making the case for a bigger role comes before looking elsewhere. |
 
 If several answers are chosen, **the first one chosen that changes the plan decides.** The recommendation is made once, after this question. Nothing asked later can reverse it.
@@ -593,6 +592,7 @@ These are settled. They are the specified behavior. The dates are when they were
 26. **The plans take the plan briefs' names:** Step Up, Make Your Mark, Make the Move, Lead Where You Are, everywhere a person sees them (onboarding, Home, the Plan page, Profile). The fifth stays Find your next direction until its brief is rewritten. Stages and first steps are not changed yet (open question 12). (2026-11-12)
 27. **The person chooses the plan.** Choose your plan replaces the Recommendation and See other plans: five cards, ExecEngine's pick first, marked and chosen to start with, its reason on it; "Whichever you choose, the next few questions make it yours." (2026-11-12)
 28. **No deciding question on the influence path.** What's holding you back? is dropped; the influence directions go from narrowing straight to Choose your plan, and "Too junior on paper" no longer sends anyone to Step Up. (2026-11-12)
+29. **Meatier influence questions, and nothing that assumes leaving.** The influence path asks which decision in the next few months the person wants a say in, and who decides it and how well they know her work, one answer each. Answers that assumed leaving the company are swapped for ones inside it (Appendix B); "Wrong company for it" no longer sends anyone to Find your next direction. (2026-11-12)
 23. **LinkedIn is not in onboarding.** No Signals step and no upload page; Account goes straight to Direction, and Done does not mention it. It lives on the Signals page. (2026-11-12, reversing "signals come early", 2026-09-24)
 
 ---
@@ -611,7 +611,7 @@ These are not decided. They need an answer before this is built.
 8. **More plans and options.** The flow has five plans and eight directions. Whether more are wanted, and who writes them, is a content decision.
 9. **Status.** The concept is approved, but its status in the manifest stays `draft` until Kate says it has passed final review.
 10. **The full privacy promise.** What ExecEngine is now says only "Private. For your eyes only." Where the longer promise (not your employer or manager; everything is yours to keep, edit and export) is said, in onboarding or the product, is not decided.
-11. **Later questions that assume leaving the company** (Appendix B): "A move to another company", "Wrong company for it", "Industry is shrinking", "The culture doesn't fit", "Better pay or flexibility", "My industry", "My location", "Actively looking", "Only if the offer's right", "Negotiation or offer", "Job interview". To be changed with the questions (decision 25).
+11. **Later questions that assume leaving the company:** settled 2026-11-12 (decision 29).
 12. **The plans' stages and first steps** still follow onboarding as built (three stages each), not the plan briefs (three to five, and a different first step for Make the Move, Lead Where You Are and Find your next direction). Lining them up changes the Plan page's roadmap. The names already match (decision 26).
 
 ---
@@ -643,22 +643,22 @@ The first page shows the five **first options**. "None of these? Show me more op
 
 | Question | Kind | Asked | Options | Held back |
 | --- | --- | --- | --- | --- |
-| What kind of step up? | Multiple | Making it yours | Bigger team; Broader remit; A seat at the top table; A new title; More budget and say | A move to another company; A bigger P&L; Visibility with the board; A role that doesn’t exist yet |
+| What kind of step up? | Multiple | Making it yours | Bigger team; Broader remit; A seat at the top table; A new title; More budget and say | A bigger role in another part of the business; A bigger P&L; Visibility with the board; A role that doesn’t exist yet |
 | When do you want to get there? | Single | Making it yours (skipped when the direction already says it) | Within a year; 1–2 years; 3+ years; No fixed timeline; When the right role opens | Within six months; In about five years; After my next promotion; Depends on the company |
-| What’s in the way? | Multiple | Deciding | No clear path up; Nobody sees my work; I can’t make my case; Wrong company for it; My boss isn’t backing me | The role I want is taken; I don’t have the experience yet; A reorganization has stalled things; I don’t know what it would take |
+| What’s in the way? | Multiple | Deciding | No clear path up; Nobody sees my work; I can’t make my case; The company isn’t growing; My boss isn’t backing me | The role I want is taken; I don’t have the experience yet; A reorganization has stalled things; I don’t know what it would take |
 
 **Need: influence**
 
 | Question | Kind | Asked | Options | Held back |
 | --- | --- | --- | --- | --- |
-| Where do you want more say? | Multiple | Making it yours | My team’s direction; Company strategy; Budget and headcount; Across other teams; Hiring and promotions | Customers and partners; What we make and sell; How we’re organized; Which projects get funded |
-| Who do you most need on side? | Multiple | Making it yours | My boss; My boss’s peers; The exec team; My own team; Peers across the company | The CEO; The board; Finance; People outside the company |
+| Which decision in the next few months do you most want a say in? | Single | Making it yours | Next year’s budget; A reorganization; Who gets promoted or hired; Which projects get funded; Where the company is heading | A big customer or partner deal; How my function is run; Pricing or go-to-market; Where we invest in AI |
+| Who decides it, and how well do they know your work? | Single | Making it yours | My boss, and they know it well; My boss, but they undersell me; My boss’s boss, who barely knows me; A group of execs I rarely see; I don’t know who decides | The CEO; Finance; A peer who sees me as a rival; The board |
 
 **Need: visibility**
 
 | Question | Kind | Asked | Options | Held back |
 | --- | --- | --- | --- | --- |
-| Who needs to see you differently? | Multiple | Making it yours | Leaders in my company; My industry; Recruiters and boards; All of them; Customers and clients | Peers at other companies; Investors; The press and conferences; My own team |
+| Who needs to see you differently? | Multiple | Making it yours | Leaders in my company; My industry; The board; All of them; Customers and clients | Peers at other companies; Investors; The press and conferences; My own team |
 | How do they see you now? | Single | Making it yours | Strong operator; Specialist; Hard worker, low profile; Not sure; Reliable but forgettable | A technical expert; A fixer; More junior than I am; Someone to watch |
 | Where do you show up today? | Multiple | Making it yours | Meetings only; LinkedIn now and then; Industry events; Nowhere yet; Speaking or panels | Writing or articles; Podcasts or interviews; Boards or advisory roles; Internal town halls |
 
@@ -666,7 +666,7 @@ The first page shows the five **first options**. "None of these? Show me more op
 
 | Question | Kind | Asked | Options | Held back |
 | --- | --- | --- | --- | --- |
-| What’s coming up? | Multiple | Making it yours (skipped when the direction already says it) | Promotion conversation; Performance review; Board or exec presentation; Negotiation or offer; Job interview | Investor or client pitch; A reorganization; A talk or keynote; A difficult conversation |
+| What’s coming up? | Multiple | Making it yours (skipped when the direction already says it) | Promotion conversation; Performance review; Board or exec presentation; A negotiation; An interview for a role here | Investor or client pitch; A reorganization; A talk or keynote; A difficult conversation |
 | When is it? | Single | Making it yours (skipped when the direction already says it) | This week; This month; Next few months; Not scheduled yet; Tomorrow | In a day or two; In about six months; Next year; It depends on someone else |
 | How ready do you feel? | Single | Making it yours | Ready, want a check; Know what, not how; Not sure where to start; Dreading it; Nervous but prepared | Overprepared; Usually winging it; Worried about one person; Haven’t thought about it yet |
 
@@ -674,9 +674,9 @@ The first page shows the five **first options**. "None of these? Show me more op
 
 | Question | Kind | Asked | Options | Held back |
 | --- | --- | --- | --- | --- |
-| What’s making you want a change? | Multiple | Deciding | Hit a ceiling; Lost interest; Industry is shrinking; Life has changed; Passed over for a role | New boss or reorganization; Better pay or flexibility; The culture doesn’t fit; Ready for a new challenge |
-| What would you keep? | Multiple | Making it yours | My function; My industry; My seniority; Nothing in particular; My location | My team; My pay; My flexibility; My values |
-| How soon? | Single | Making it yours (skipped when the direction already says it) | Actively looking; Within a year; Just exploring; Not sure; When the right thing appears | Within three months; In a year or two; After something big at work; Only if the offer’s right |
+| What’s making you want a change? | Multiple | Deciding | Hit a ceiling; Lost interest; My area is shrinking; Life has changed; Passed over for a role | New boss or reorganization; Better pay or flexibility; My work doesn’t use my strengths; Ready for a new challenge |
+| What would you keep? | Multiple | Making it yours | My team; My boss; My seniority; Nothing in particular; My location | My function; My pay; My flexibility; My values |
+| How soon? | Single | Making it yours (skipped when the direction already says it) | As soon as a role opens; Within a year; Just exploring; Not sure; When the right thing appears | Within three months; In a year or two; After something big at work; Only if the right role opens |
 
 ### C. Plans
 
