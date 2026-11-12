@@ -245,6 +245,8 @@ samp {
   color: var(--color-text-primary);
   font-size: var(--text-sm);
   font-weight: var(--weight-regular);
+  /* Its own leading, so a pill is 36 tall wherever it sits (the page's body leading made some 40). */
+  line-height: var(--leading-snug);
   cursor: pointer;
 }
 
