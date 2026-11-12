@@ -121,6 +121,7 @@ type PageId =
   | "about"
   | "account"
   | "verify"
+  | "today"
   | "direction"
   | "decide"
   | "rec"
@@ -158,6 +159,8 @@ const PAGES: Page[] = [
   // The emailed code, for a typed address only: Google and Apple have
   // confirmed theirs, so Account moves past it (2026-10-08).
   { id: "verify", label: "Check your email", step: "account", offBar: true, aside: true },
+  // Where she is now, before where she wants to go (Kate, 2026-11-12).
+  { id: "today", label: "Where you are", step: "direction" },
   { id: "direction", label: "Direction", step: "direction" },
   // The question that decides the plan comes first, so the recommendation is
   // made once. Only some directions have one; the page is passed otherwise.
@@ -207,6 +210,7 @@ type Frame = Pick<ComponentProps<typeof GuidePage>, "headingId" | "part" | "file
 const GLOW_FOR: Partial<Record<PageId, SkyGlow>> = {
   account: "top-right",
   verify: "bottom-right",
+  today: "top-left",
   direction: "bottom-right",
   decide: "top-right",
   "reflect-time": "top-left",
@@ -286,6 +290,8 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
 
   const [pageId, setPageId] = useState<PageId>(edit ? "direction" : "welcome");
   const [reflections, setReflections] = useState<Record<string, string>>({});
+  // Where she is today: as many as are true, and her own words for Other.
+  const [today, setToday] = useState<TodayAnswer>({ picks: [], other: "" });
   // The current page's answer drawer: open, folded to a peek, or answered.
   const [chosenMode, setMode] = useState<DrawerMode>("open");
   const { viewport } = useViewport();
@@ -390,6 +396,8 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
   const sharpened = isSharpened(a.positioning);
   // The answers the plan is built from, each with the page to change it on.
   const heardRows: { label: string; value: string; target: PageId }[] = [];
+  const todaySaid = todayValue(today);
+  if (todaySaid) heardRows.push({ label: GUIDE_C3.today.heard, value: todaySaid, target: "today" });
   if (direction)
     heardRows.push({
       label: GUIDE_C3.plan.heardDirection,
@@ -494,6 +502,9 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
           onOtherAddress={() => goTo("account")}
         />
       );
+
+    case "today":
+      return <TodayPage frame={frame()} drawer={{ mode, setMode }} value={today} onChange={setToday} onDone={next} />;
 
     case "direction":
       return (
@@ -1174,6 +1185,93 @@ function VerifyPage({ flow, frame, drawer, onDone, onOtherAddress }: PageProps &
  * is picked the drawer asks which matters most, and the rest are kept in
  * view rather than lost.
  */
+/** Where she is today, and her own words when none of the answers fits. */
+interface TodayAnswer {
+  picks: string[];
+  other: string;
+}
+
+/** What she said, as the plan page reads it back: her picks, with her own
+ *  words in place of "Other". */
+function todayValue(answer: TodayAnswer): string {
+  const c = GUIDE_C3.today;
+  // In the list's order, whatever order they were ticked in; her own words last.
+  const order: readonly string[] = [...c.options, c.other];
+  return [...answer.picks]
+    .sort((x, y) => order.indexOf(x) - order.indexOf(y))
+    .map((pick) => (pick === c.other ? answer.other.trim() : pick))
+    .filter(Boolean)
+    .join(", ");
+}
+
+/**
+ * Where are you today? (Kate, 2026-11-12). Her situation at work, as many as
+ * are true, each answer with a tick box. "Other" stands in for "None of these?
+ * Show me more options": ticked, it opens a field for her own words and puts
+ * the cursor in it. Next waits for an answer, and for words if Other is ticked.
+ */
+function TodayPage({
+  frame,
+  drawer,
+  value,
+  onChange,
+  onDone,
+}: Pick<PageProps, "frame" | "drawer" | "onDone"> & { value: TodayAnswer; onChange: (next: TodayAnswer) => void }) {
+  const c = GUIDE_C3.today;
+  const d = GUIDE_C3.drawer;
+  const otherOn = value.picks.includes(c.other);
+  const otherBox = useRef<HTMLDivElement>(null);
+  // Set when Other is ticked: the field it opens takes the cursor once drawn.
+  const focusOther = useRef(false);
+  useEffect(() => {
+    if (!otherOn || !focusOther.current) return;
+    focusOther.current = false;
+    otherBox.current?.querySelector("input")?.focus();
+  }, [otherOn]);
+  const ready = value.picks.length > 0 && (!otherOn || Boolean(value.other.trim()));
+  const options = [...c.options, c.other];
+  return (
+    <GuidePage
+      {...frame}
+      kicker={c.kicker}
+      title={c.title}
+      lede={c.lede}
+      why={c.why}
+      drawer={
+        <AnswerDrawer
+          question={c.title}
+          questionId={frame.headingId}
+          open={drawer.mode === "open"}
+          onToggle={toggle(drawer)}
+          peekStatus={value.picks.length ? `${value.picks.length} picked` : d.peek}
+          primaryLabel={c.cta}
+          primaryDisabled={!ready}
+          onPrimary={() => ready && onDone()}
+        >
+          <ChipGroup
+            label={c.title}
+            labelHidden
+            options={options}
+            value={value.picks}
+            equalWidth
+            ticks
+            max={options.length}
+            onChange={(picks) => {
+              if (picks.includes(c.other) && !otherOn) focusOther.current = true;
+              onChange({ picks, other: picks.includes(c.other) ? value.other : "" });
+            }}
+          />
+          {otherOn ? (
+            <div ref={otherBox}>
+              <Input label={c.otherField} value={value.other} onChange={(event) => onChange({ ...value, other: event.target.value })} />
+            </div>
+          ) : null}
+        </AnswerDrawer>
+      }
+    />
+  );
+}
+
 function DirectionPage({
   flow,
   frame,
@@ -1187,6 +1285,10 @@ function DirectionPage({
   const c = GUIDE_C3.direction;
   const d = GUIDE_C3.drawer;
   const allPrompts = [...DIRECTION_PROMPTS_C1, ...DIRECTION_MORE_C3];
+  // "I'm not sure yet" shows with the first five, not behind "Show me more options" (Kate, 2026-11-12).
+  const unsure = DIRECTION_MORE_C3.filter((p) => p.id === "unsure");
+  const first = [...DIRECTION_PROMPTS_C1, ...unsure];
+  const held = DIRECTION_MORE_C3.filter((p) => p.id !== "unsure");
   const labels = (list: typeof allPrompts) => list.map((p) => p.label);
   const promptFor = (text: string) => allPrompts.find((p) => p.label === text || p.text === text);
 
@@ -1195,7 +1297,7 @@ function DirectionPage({
   const earlierLead = state.answers.direction;
   const earlier = earlierLead ? [promptFor(baseDirection(earlierLead))?.label ?? earlierLead, ...also] : [];
   const [picks, setPicks] = useState<string[]>(earlier.filter((item) => promptFor(item)));
-  const [more, setMore] = useState(earlier.some((item) => DIRECTION_MORE_C3.some((p) => p.label === item)));
+  const [more, setMore] = useState(earlier.some((item) => held.some((p) => p.label === item)));
   // The second question's answer: one of the narrower versions.
   const [lead, setLead] = useState<string | null>(earlierLead && isNarrowedDirection(earlierLead) ? earlierLead : null);
   const [asking, setAsking] = useState(false);
@@ -1211,15 +1313,16 @@ function DirectionPage({
     onDone();
   }
 
-  const options = [...labels(DIRECTION_PROMPTS_C1), ...(more ? labels(DIRECTION_MORE_C3) : [])];
+  const options = [...labels(first), ...(more ? labels(held) : [])];
   const several = picks.length > 1;
+  const onlyUnsure = !several && picks.length === 1 && unsure.some((p) => p.label === picks[0]);
   const open = drawer.mode === "open";
   return (
     <GuidePage
       {...frame}
       kicker={c.kicker}
       title={asking ? (several ? c.first : c.narrowTitle) : c.title}
-      lede={asking ? (several ? c.firstLede : c.narrowLede) : c.lede}
+      lede={asking ? (several ? c.firstLede : onlyUnsure ? c.narrowUnsureLede : c.narrowLede) : c.lede}
       why={asking ? (several ? c.firstWhy : c.narrowWhy) : c.why}
       // Changing it from the Plan: what it says now, and a way to keep it.
       {...(current && !asking

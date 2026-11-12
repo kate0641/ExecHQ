@@ -209,7 +209,8 @@ export const DIRECTION_MORE_C3: PromptedDirection[] = [
   { id: "bigger-org", label: "Lead a bigger organization", text: "Lead a bigger organization", blurb: "A larger remit than the one you have now.", need: "positioning" },
   { id: "weigh-more", label: "Carry more weight where I am", text: "Carry more weight where I am", blurb: "More say where you already are, without moving to get it.", need: "influence" },
   { id: "leaving", label: "Get out of where I am", text: "Get out of where I am", blurb: "Out of where you are, before you have named what replaces it.", need: "exploration" },
-  { id: "unsure", label: "I do not know yet", text: "I do not know yet", blurb: "A ceiling you can feel but cannot put a title to.", need: "exploration" },
+  // Shown with the first five in Concept 3 (Kate, 2026-11-12), worded as she'd say it.
+  { id: "unsure", label: "I\u2019m not sure yet", text: "I do not know yet", blurb: "A ceiling you can feel but cannot put a title to.", need: "exploration" },
 ];
 
 /** What the simulated mic "hears". The prototype has no speech input, so the
@@ -2123,6 +2124,26 @@ export const GUIDE_C3 = {
     pickerLede: (name: string) =>
       `In the product, ${name}\u2019s own window opens here. This stands in for it.`,
   },
+  /** Where she is now, asked before where she wants to go (Kate, 2026-11-12): her situation at work,
+   *  as many as are true, with Other for her own words in place of more options. 25 words. */
+  today: {
+    kicker: "Where you are",
+    title: "Where are you today?",
+    lede: "Pick as many as are true.",
+    why: "Your plan starts from where you are, not from a template.",
+    options: [
+      "Doing well, and ready for more",
+      "New in my role",
+      "Stuck, or passed over",
+      "Going through a restructure or merger",
+      "My role is changing with AI",
+    ],
+    other: "Other",
+    otherField: "In your own words",
+    /** Its row on the plan page's "Built from what you said". */
+    heard: "Where you are today",
+    cta: "Next",
+  },
   /** Confirming a typed address, by decision on 2026-10-08: a 6-digit code,
    *  the same as Login's. Google and Apple have confirmed it already, so
    *  they pass this page. */
@@ -2175,6 +2196,8 @@ export const GUIDE_C3 = {
     narrow: "Narrow it down",
     narrowTitle: "Which is closest?",
     narrowLede: "A little more detail gives ExecEngine a clearer first step.",
+    /** "I'm not sure yet" picked on its own (Kate, 2026-11-12). */
+    narrowUnsureLede: "That\u2019s what ExecEngine is for: it will help you figure it out.",
     narrowWhy: "Your plan needs a first step. The more specific the starting point, the clearer that step is.",
     firstLede: "ExecEngine will start there, and keep the rest in view.",
     /** Why the second question is asked, on its own: the first is already answered. */
