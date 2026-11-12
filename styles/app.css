@@ -16310,11 +16310,13 @@ fieldset.agenda__whens {
 }
 
 /* Why a move is on her plan, when something she said at a stage check-in brought it there. */
+/* A light note on the navy page, so its words take the light-surface ink (they were light on light). */
 .plan-guided__heard {
   margin: 0;
   padding: var(--space-xs) var(--space-sm);
   border-radius: var(--radius-md);
   background: var(--color-surface-sunken);
+  color: var(--light-text-primary);
   font-size: var(--text-sm);
   line-height: var(--leading-normal);
 }
