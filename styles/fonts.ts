@@ -27,7 +27,7 @@ export const displayFont = Rethink_Sans({
 export const serifFont = Libre_Baskerville({
   subsets: ["latin"],
   display: "swap",
-  // 600 for Your direction on the Plan (designer, 2026-10-16).
+  // 600 for Your direction on the Plan.
   weight: ["400", "500", "600", "700"],
   style: ["normal", "italic"],
   variable: "--font-serif-face",
@@ -41,7 +41,7 @@ export const bodyFont = Inter({
 
 /**
  * Google Sans, for the Continue with Google button only: Google's branding
- * guidelines set its text in Google Sans Medium (designer, 2026-10-13). The
+ * guidelines set its text in Google Sans Medium. The
  * button applies its `.className` itself, so nothing else uses it.
  */
 export const googleFont = Google_Sans({

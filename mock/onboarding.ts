@@ -223,7 +223,7 @@ export const VOICE_SAMPLE = {
 
 /** What the plan was built from, as short tags: the direction, then each
  *  refinement answer. Every answer is shown whole: no text in the product
- *  is cut off with an ellipsis (designer, 2026-10-13). */
+ *  is cut off with an ellipsis. */
 export function builtFrom(direction: string, answers: Record<string, string>): string[] {
   const directionTag = direction.trim();
   const labels = refinementFor(direction)
@@ -2142,7 +2142,7 @@ export const GUIDE_C3 = {
     resend: "Send it again",
     resent: "Sent again.",
     otherAddress: "Use a different address",
-    /** The address she typed, in its own card with Change (designer, 2026-10-13). */
+    /** The address she typed, in its own card with Change. */
     sentTo: "Sent to",
     nothing: "Nothing arrived? Check your junk folder.",
     arrived: "New email from ExecEngine: Confirm your email.",
@@ -2364,7 +2364,7 @@ export const GUIDE_C3 = {
         detail: {
           label: "Add more detail",
           // "and a" held together so "and" opens the second line: the first line
-          // is the longest of the three choices (designer, 2026-10-13).
+          // is the longest of the three choices.
           detail: "Your role, what you\u2019re responsible for and\u00a0a result, so it says what you lead.",
         },
         versions: {
@@ -2374,7 +2374,7 @@ export const GUIDE_C3 = {
         later: {
           label: "Save it and come back later",
           // "as next" held together so "as" opens the second line instead of
-          // hanging at the end of the first (designer, 2026-10-13).
+          // hanging at the end of the first.
           detail: "It\u2019s saved. Both of these wait for you as\u00a0next steps on your plan.",
         },
       },

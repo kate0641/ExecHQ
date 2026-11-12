@@ -158,7 +158,7 @@ export const SPARK_COPY = {
   hide: "Not right? Hide it",
   dismiss: "Dismiss",
   /** Before the source on Home's Signal Picture strip: "Great job! · Press".
-   *  They take turns, so two notes in a row never match (Kate, 2026-10-28). */
+   *  They take turns, so two notes in a row never match. */
   kickers: ["Great job!", "Nice one!", "Well done!"],
   dismissNote: (text: string) => `Dismiss: ${text}`,
   /** The small words above each note, by where it came from. */
@@ -170,7 +170,7 @@ export const SPARK_COPY = {
     other: "Something you added",
   },
   /** The count is the one thing she doesn't already know, so each line leads
-   *  to it; her first of a kind gets its own line (Kate, 2026-10-28). */
+   *  to it; her first of a kind gets its own line. */
   other: (what: string) => `Nice. ${what} is on your Signal Picture.`,
   podcast: (where: string, n: number) =>
     n === 1 ? `${where}! Your first podcast.` : `${where}! That’s podcast number ${n}.`,

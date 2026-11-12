@@ -256,7 +256,7 @@ export function homeStateOf(snapshot: Pick<Snapshot, "records" | "justAnswered">
  *  "Welcome back!", no counts of what's waiting. */
 export const HOME_COPY = {
   /** By the hour she opens Home: morning until noon, afternoon until 5pm,
-   *  evening through dusk and night (designer, 2026-10-09). */
+   *  evening through dusk and night. */
   greeting: (name: string, part: "morning" | "afternoon" | "evening") => `Good ${part}, ${name}`,
   toward: (where: string) => `toward ${where}`,
   allDone: "Every action on your plan is in hand.",
@@ -322,7 +322,7 @@ export const BRIEFING_STUB = {
    THE WEEKLY CHECK-IN (Homepage Concept 4b, Kate, 2026-10-23)
    The readiness pulse, on her side: one card in Stay on track, once a week,
    "How ready do you feel to {her direction}?", on a slider with three
-   answers that are 1 to 3 behind the scenes (Kate, 2026-10-26). Her answers are hers
+   answers that are 1 to 3 behind the scenes. Her answers are hers
    to see over time; her organisation sees only the group's totals (the
    enterprise dashboard's Concept 1b). Only Home changes: onboarding asks
    nothing, so her first answer here is her starting point.
@@ -335,13 +335,13 @@ export const READINESS_HISTORY: readonly number[] = [1, 2, 2];
 
 export const READINESS_HOME_COPY = {
   about: "Your weekly check-in",
-  /** One question, her direction inside it (Kate, 2026-10-26): no line
+  /** One question, her direction inside it: no line
    *  above it and no explanation under it. */
   question: (towardVerb?: string) => (towardVerb ? `How ready do you feel to ${towardVerb}?` : "How ready do you feel for your next move?"),
-  /** Under the question, small: why it is asked (Kate, 2026-10-26). The
+  /** Under the question, small: why it is asked. The
    *  product must make it true, by shaping her plan from the answer. */
   why: "Your answer helps shape what comes next in your plan.",
-  /** Three answers on a slider (Kate, 2026-10-26, was five chips). They
+  /** Three answers on a slider. They
    *  are 1 to 3 behind the scenes, for her trend and the dashboard. */
   answers: ["Not yet", "Getting there", "Ready"],
   save: "Save",
@@ -415,7 +415,7 @@ export const CHECKIN_COPY = {
   notYet: "Not yet",
   notYetReadback: "No problem. I’ll check in again in a couple of days.",
   /* "Logged" rides in a pill above the readback, so it is not read as part
-     of the sentence (designer, 2026-10-12). */
+     of the sentence. */
   loggedLabel: "Logged",
   addNote: "Add a note",
   noteLabel: "Anything to add? Optional. Only you see it.",

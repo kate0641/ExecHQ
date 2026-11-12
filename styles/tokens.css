@@ -218,13 +218,13 @@
   --color-sky-day-heart: var(--brand-yellow-400);
   --color-sky-day-ring: var(--brand-yellow-300);
   --color-sky-dawn: var(--brand-blue-200);
-  --color-sky-day: var(--brand-blue-300);  /* deeper than dawn (designer, 2026-10-09) */
+  --color-sky-day: var(--brand-blue-300);  /* deeper than dawn */
   --color-sky-dusk: var(--brand-blue-300);
   --color-sky-dusk-heart: var(--brand-orange-400);
   --color-sky-dusk-ring: var(--brand-orange-300);
   --color-sky-dusk-outer: var(--brand-blue-600);
   --color-sky-dusk-edge-top: var(--brand-blue-500);
-  --color-sky-day-top-core: var(--brand-yellow-300);  /* a golden centre (designer, 2026-10-10) */
+  --color-sky-day-top-core: var(--brand-yellow-300);  /* a golden centre */
   --color-sky-day-top-ring: var(--brand-green-300);
   --color-sky-dusk-top-core: var(--brand-orange-200);
   --color-sky-dusk-top-ring: var(--brand-orange-300);

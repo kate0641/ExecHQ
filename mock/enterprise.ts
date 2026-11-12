@@ -25,7 +25,7 @@ export const MIN_COHORT_SIZE = 10;
    -------------------------------------------------------------------------- */
 
 /** The three spans each cohort's figures are stored for. The dashboard lets
- *  a sponsor choose any dates (Kate, 2026-10-21), worked out from these
+ *  a sponsor choose any dates, worked out from these
  *  (`countsIn`); the weekly letter still reads them directly. */
 export const WINDOW_IDS = ["30d", "90d", "launch"] as const;
 export type WindowId = (typeof WINDOW_IDS)[number];
@@ -38,7 +38,7 @@ export const WINDOWS: Record<WindowId, { label: string; long: string; days?: num
 
 /* -----------------------------------------------------------------------------
    DATES
-   The dashboard's dates (Kate, 2026-10-21): a preset or any range picked on
+   The dashboard's dates: a preset or any range picked on
    the calendar, as short as one day. Figures update daily. The minimum still
    holds on every range: fewer than MIN_COHORT_SIZE active in the dates chosen
    and the figures are hidden, so a short range on a small cohort shows little.
@@ -56,7 +56,7 @@ export interface DateRange {
 /** What a figure covers: one of the stored windows, or dates. */
 export type Period = WindowId | DateRange;
 
-/** The ranges in the list, in order (Kate, 2026-10-22): this week first,
+/** The ranges in the list, in order: this week first,
  *  as the dashboard opens on it. Last week is a whole Monday-to-Sunday week,
  *  as the trend's weeks are. No This year: in V1 no cohort is a year old, so
  *  it was always Since launch. Any other dates are picked on the calendar. */
@@ -87,7 +87,7 @@ export const RANGE_PRESETS: Record<RangePresetId, { label: string; inSentence: s
   "since-launch": { label: "Since launch", inSentence: "since the program started", covers: "the program since it started" },
 };
 
-/** What the dashboard opens on: this week (Kate, 2026-10-22). */
+/** What the dashboard opens on: this week. */
 export const DEFAULT_PRESET: RangePresetId = "this-week";
 
 /** The sponsor's today: the day of the latest update, or the day it is late
@@ -215,7 +215,7 @@ export function shiftRange(range: DateRange, by: 1 | -1, cohort: Cohort): DateRa
   return withPreset({ from: next.from, to: next.to > today ? today : next.to }, cohort, prefer);
 }
 
-/** The date picker's words (Kate, 2026-10-21). */
+/** The date picker's words. */
 export const DATE_PICKER_COPY = {
   label: "Dates",
   open: (label: string) => `Dates, ${label}. Change the dates`,
@@ -225,7 +225,7 @@ export const DATE_PICKER_COPY = {
   calendar: "Calendar",
   prevMonth: "Previous month",
   nextMonth: "Next month",
-  /** Said to screen readers only (Kate, 2026-10-22): on screen the band
+  /** Said to screen readers only: on screen the band
    *  following the pointer says it. */
   chooseStart: "Choose the first day, or a range on the left.",
   chooseEnd: (from: string) => `From ${abbrevDate(from)}. Now choose the last day.`,
@@ -375,7 +375,7 @@ export interface CohortCounts {
   actionsCompleted: number;
   /** Artifacts made, and how many were marked used. Recorded outcomes are
    *  tracked inside ExecEngine, never shown to the sponsor: without the work or
-   *  the person behind them they give no context (Kate, 2026-10-20). */
+   *  the person behind them they give no context. */
   artifacts: number;
   artifactsUsed: number;
   /** Active participants who opened the Briefing at least once a week. */
@@ -399,7 +399,7 @@ export interface Cohort {
   name: string;
   expectedSize: number;
   /** When the program started. There is no end date: a cohort stops
-   *  growing when its code is closed (Kate, 2026-10-20). */
+   *  growing when its code is closed. */
   startsOn: string;
   /** The day the figures were last updated. They update daily (Kate,
    *  2026-10-21); the weekly letter still goes out on Mondays. */
@@ -415,7 +415,7 @@ export interface Cohort {
   planAccepted: number;
   byWindow: Record<WindowId, CohortCounts>;
   /** Signals: what participants put out in the world, by channel, per
-   *  window (Kate, 2026-10-20, Concept 1 only). */
+   *  window. */
   signals: Record<WindowId, SignalCounts>;
   /** People active in each whole week, Monday to Sunday, from the week the
    *  program started, oldest first. This week, still going, comes from the
@@ -766,7 +766,7 @@ export function figureFor(cohort: Cohort, id: DataPointId, window: Period): Figu
     },
     active: {
       value: share(c.active, cohort.activated),
-      // Said in full, so "of 33" has its source (designer, 2026-11-03).
+      // Said in full, so "of 33" has its source.
       detail: `${count.format(c.active)} of the ${count.format(cohort.activated)} who finished setting up`,
       fraction: fraction(c.active, cohort.activated),
     },
@@ -777,7 +777,7 @@ export function figureFor(cohort: Cohort, id: DataPointId, window: Period): Figu
     },
     plans: {
       value: share(cohort.planAccepted, cohort.activated),
-      // "of the 33 set up" ties the fraction to what it counts (designer, 2026-11-03).
+      // "of the 33 set up" ties the fraction to what it counts.
       detail: `${count.format(cohort.planAccepted)} of the ${count.format(cohort.activated)} who finished setting up`,
       fraction: fraction(cohort.planAccepted, cohort.activated),
     },
@@ -789,7 +789,7 @@ export function figureFor(cohort: Cohort, id: DataPointId, window: Period): Figu
     artifacts: {
       value: count.format(c.artifacts),
       // The number and label read as one phrase, "14 pieces of work made";
-      // the detail says what kinds and when (designer, 2026-11-03).
+      // the detail says what kinds and when.
       detail: `Drafts, briefs and statements, ${inWindow(window)}`,
     },
     loop: {
@@ -893,7 +893,7 @@ export interface TrendView {
 }
 
 /**
- * People active each week since launch, ready to draw (Kate, 2026-10-22).
+ * People active each week since launch, ready to draw.
  * There are no weekly updates: figures update daily, so the weeks are the
  * program's own, Monday to Sunday from the week it started, drawn from the
  * first week on, with this week so far worked out from the daily figures.
@@ -935,9 +935,9 @@ export const TREND_COPY = {
   latest: (active: string) => `${active} so far this week`,
   soFar: "So far",
   thisWeek: "This week, so far",
-  /** The chart as a slider over the weeks, for the keyboard (designer, 2026-11-03). */
+  /** The chart as a slider over the weeks, for the keyboard. */
   readWeeks: "Active each week: use the arrow keys to read each week",
-  /** A week in the hover pill (designer, 2026-11-03): its dates, not "Week of". */
+  /** A week in the hover pill: its dates, not "Week of". */
   weekRange: (from: string, to: string) => {
     // Month first, as Kate's dates (2026-11-04): "Sep 14–20", "Sep 28 – Oct 4".
     const [m1] = from.split(" "), [m2, d2] = to.split(" ");
@@ -950,7 +950,7 @@ export const TREND_COPY = {
 
 /* -----------------------------------------------------------------------------
    ARE THEY BEING SEEN?
-   Signals (Kate, 2026-10-20, Concept 1 only): what participants put out in
+   Signals: what participants put out in
    the world. Signals are public by nature, so each channel needs its own
    minimum: fewer than MIN_COHORT_SIZE people on a channel and it is held
    back, or a sponsor could search for the one podcast and find the person.
@@ -989,7 +989,7 @@ function listChannels(labels: string[]): string {
 
 export const SEEN_COPY = {
   heading: "Showing up in the world",
-  /** The count is the ring's, and the opening's (Kate, 2026-10-22). */
+  /** The count is the ring's, and the opening's. */
   answer: (window: Period) => `What participants put out where others can see it, ${inWindow(window)}.`,
   brief: "Of those active, how many posted, published, spoke or were quoted in the dates chosen.",
   ring: "put something out, on any channel",
@@ -1033,7 +1033,7 @@ export function cohortCsv(cohort: Cohort, window: Period, options: { signals?: b
       point.sinceLaunch ? CSV_COPY.sinceLaunch : covers,
       cohort.asOf,
       point.definition,
-      // The page no longer says "filling in" (Kate, 2026-10-20), so the file
+      // The page no longer says "filling in", so the file
       // doesn't either; a hidden figure still says why.
       figure.state === "suppressed" ? (figure.note ?? "") : "",
     ]);
@@ -1121,7 +1121,7 @@ export const PROFILE_LINK_COPY = {
 
 /* -----------------------------------------------------------------------------
    SPONSOR PROFILE
-   No brief (Kate, 2026-10-22): plain and practical. Who they are, their
+   No brief: plain and practical. Who they are, their
    cohort at a glance, the emails they get, what they can and can't see, and
    signing out. Billing, seats and other admins are left out until a brief
    asks for them.
@@ -1171,7 +1171,7 @@ export const SPONSOR_PROFILE_COPY = {
     /** Under its name in the list of sections. */
     sub: `Totals only, ${MIN_COHORT_SIZE} or more`,
   },
-  /** No Signing in section (Kate, 2026-10-23): Sign out closes the list of
+  /** No Signing in section: Sign out closes the list of
    *  sections. */
   /** Lands on the Admin login (2026-10-23). */
   signOut: {
@@ -1190,7 +1190,7 @@ export const ENTERPRISE_COPY = {
 
   definition: {
     open: "How it’s measured",
-    /** The icon's name and the panel's heading (Kate, 2026-10-20). */
+    /** The icon's name and the panel's heading. */
     measured: (label: string) => `How ${label} is measured`,
     close: "Close",
     counts: "Measures",
@@ -1353,7 +1353,7 @@ export const READINESS_COPY = {
   now: "Now",
   /** The answers participants choose from (Homepage 4b), 1 to 3. */
   scale: ["Not yet", "Getting there", "Ready"],
-  /** Who answered, at the card's top right (designer, 2026-11-03). */
+  /** Who answered, at the card's top right. */
   answered: (answered: number, setUp: number) => `${count.format(answered)} of ${count.format(setUp)} answered`,
   /** One answer's group, said to a screen reader. */
   groupLabel: (answer: string, start: number, now: number) => `${answer}: ${count.format(start)} at the start, ${count.format(now)} now`,
@@ -1371,13 +1371,13 @@ export const READINESS_COPY = {
 export type StoryPart = string | { strong: string };
 
 /**
- * The page's opening (Kate, 2026-10-22, option Bookends): the story in the
+ * The page's opening: the story in the
  * order it happened, so it can be read alone and repeated. How many came,
  * whether they are using it and being seen, then what they have done with
  * it, ending on where follow-through is heading. Undefined while the figures
  * are hidden: the notice says why.
  */
-/** Follow-through split (designer, 2026-11-03): of the actions taken on in
+/** Follow-through split: of the actions taken on in
  *  the dates, how many are done and how many aren't yet. Every one not done
  *  is still inside its 30 days only when the dates began within the last 30:
  *  only then can a page say so of all of them. */
@@ -1418,7 +1418,7 @@ export function storyFor(cohort: Cohort, window: Period, withReadiness = false):
 }
 
 /** The number that leads each sentence of the opening, in the same order as
- *  storyFor, for the stats under the header (designer, 2026-11-02): its bold
+ *  storyFor, for the stats under the header: its bold
  *  figure as a count, and what it is out of where it says. */
 export interface StoryFigure {
   value: number;
@@ -1438,7 +1438,7 @@ export function storyFigures(cohort: Cohort, window: Period, withReadiness = fal
 }
 
 /** The sentence that opens each card: what the opening doesn't say, plainly,
- *  with no lead-in from the card before (Kate, 2026-10-22, Bookends).
+ *  with no lead-in from the card before.
  *  Reports activity, never results: what participants did, not what ExecEngine
  *  caused. Undefined while the card's figures are hidden. */
 export function answerFor(cohort: Cohort, question: QuestionId, window: Period): string | undefined {
@@ -1450,7 +1450,7 @@ export function answerFor(cohort: Cohort, question: QuestionId, window: Period):
       return above ? `They made ${n(c.artifacts)} pieces of work ${inWindow(window)} and used ${n(c.artifactsUsed)} of them outside ExecEngine.` : undefined;
     case "using": {
       // The trend in a sentence, not the Briefing figure beside it again
-      // (designer, 2026-11-03): the chart's own summary, said aloud.
+      //: the chart's own summary, said aloud.
       if (!above) return undefined;
       const trend = trendFor(cohort);
       const shown = trend.weeks.filter((week) => week.active !== undefined).map((week) => week.active!);
@@ -1465,7 +1465,7 @@ export function answerFor(cohort: Cohort, question: QuestionId, window: Period):
   }
 }
 
-/** The page's last line, above the code (Kate, 2026-10-22): who hasn't
+/** The page's last line, above the code: who hasn't
  *  joined or finished setting up. Setting up is left out while it is
  *  hidden. The code under it says how to share it. */
 export function stillToJoin(cohort: Cohort, window: Period): string {
@@ -1478,7 +1478,7 @@ export function stillToJoin(cohort: Cohort, window: Period): string {
 }
 
 export const C1_COPY = {
-  /** Getting started as the joining chain (designer, 2026-11-03): who was
+  /** Getting started as the joining chain: who was
    *  expected, who joined, who finished setting up. */
   chain: {
     expected: "expected",
@@ -1495,7 +1495,7 @@ export const C1_COPY = {
     joinedDef: "Accounts made with your cohort’s code.",
     setUpDef: "Counts once they finish setting up.",
   },
-  /** Follow-through's ring, said beside it (designer, 2026-11-03): done, and
+  /** Follow-through's ring, said beside it: done, and
    *  the rest, still inside their 30 days when all of them are. */
   followKey: {
     count: (n: number) => count.format(n),
@@ -1512,7 +1512,7 @@ export const C1_COPY = {
   exportMenu: "Export",
   exportPdf: "PDF",
   exportCsv: "CSV",
-  /** Under the name, on screen and on paper (Kate, 2026-10-22). */
+  /** Under the name, on screen and on paper. */
   covers: (covers: string, asOf: string) => `Figures cover ${covers}. As of ${formatAsOf(asOf)}.`,
   /** The same two sentences apart: "As of" is the eyebrow over the name (short date, it is set in
    *  small capitals); "Figures cover" is printed only, since on
@@ -1521,7 +1521,7 @@ export const C1_COPY = {
   coversOnly: (covers: string) => `Figures cover ${covers}.`,
   storyLabel: "In short",
   closeLabel: "Still to join",
-  /** Card headings: statements, not questions (Kate, 2026-10-21, option E). */
+  /** Card headings: statements, not questions. */
   questions: {
     joined: "Getting started",
     using: "Staying with it",
@@ -1545,7 +1545,7 @@ export const C1_COPY = {
       .filter(Boolean)
       .join(" "),
   /** Beside a figure that counts since launch whatever the dates chosen
-   *  (Kate, 2026-10-22): the info popover said it, and it is gone. */
+   * : the info popover said it, and it is gone. */
   sinceLaunch: (detail: string) => `${detail} · since launch`,
   /** Definitions that say more here than the shared one, now nothing sits
    *  behind an icon. Followed through takes in its popover's two caveats. */
@@ -1722,13 +1722,13 @@ export const C3_COPY = {
   upcoming: "Next issue",
   eyebrow: (n: number, on: string) => `${n === 0 ? "Issue 0" : `Issue ${n}`} · ${formatAsOf(on)}`,
   to: "To Northgate, about",
-  /** Follow-through leads (Kate, 2026-10-20). Below the minimum, only how
+  /** Follow-through leads. Below the minimum, only how
    *  many joined can be said. */
   headline: (completed: number, accepted: number) =>
     `Participants have completed ${count.format(completed)} of the ${count.format(accepted)} planned actions they took on.`,
   headlineHidden: (joined: number, expected: number) => `${count.format(joined)} of ${count.format(expected)} have joined.`,
   covers: (day: number) => (day >= 30 ? "These figures cover the last 30 days." : `These figures cover the first ${day} days.`),
-  /** By the numbers, under the headline (Kate, 2026-10-20): three figures,
+  /** By the numbers, under the headline: three figures,
    *  each "31 of 74" over what it counts. */
   numbers: {
     label: "By the numbers",
@@ -1787,7 +1787,7 @@ export const C3_COPY = {
 
 /* -----------------------------------------------------------------------------
    THE ASSISTANT
-   The ExecEngine assistant for sponsors (Kate, 2026-10-20), in each concept: a
+   The ExecEngine assistant for sponsors, in each concept: a
    floating bar on the dashboard, "Ask about this report" beside the report,
    and replies to the letter. Answers come from the cohort's totals only, under
    the page's own rules: nothing below the minimum, directions rather than

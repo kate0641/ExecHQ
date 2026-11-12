@@ -58,7 +58,7 @@ export default function PlaygroundPage() {
       </section>
 
       {/* Every screen of a flow at once: the page and each sheet and end
-          state, so nothing is missed in a review (designer, 2026-10-15). */}
+          state, so nothing is missed in a review. */}
       {FLOW_SCREENS.map((entry) => (
         <section key={entry.flow} className="hub__section" aria-labelledby={`screens-${entry.flow}`}>
           <h2 className="hub__section-title" id={`screens-${entry.flow}`}>
