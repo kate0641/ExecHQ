@@ -484,14 +484,8 @@ export const REFINEMENT_BY_NEED: Record<DirectionNeed, TailoredQuestion[]> = {
       options: opts("My boss", "My boss\u2019s peers", "The exec team", "My own team", "Peers across the company").map(withHeard("Your boss is who you most need on side, so that relationship comes first.", "Your boss\u2019s peers are who you most need on side: the people whose view of you travels upward.", "The exec team is who you most need on side: the people who decide what you get to lead.", "Your own team is who you most need on side, because influence starts with the people who already follow you.", "Your peers across the company are who you most need on side: the people whose cooperation you rely on every day.")),
       more: opts("The CEO", "The board", "Finance", "People outside the company").map(withHeard("The CEO is who you most need on side, so getting in front of them comes first.", "The board is who you most need on side: the people above the exec team.", "Finance is who you most need on side, because budget runs through them.", "The people outside the company matter most: customers, partners and investors.")),
     },
-    {
-      id: "influence-block",
-      multi: true,
-      question: "What\u2019s holding you back?",
-      hint: REFINEMENT_C1.instruction,
-      options: opts("I\u2019m not in the room", "I\u2019m in the room but not heard", "Too junior on paper", "Politics", "Decisions are made before the meeting").map(withHeard("You\u2019re not in the room yet. The decisions that matter to you are made without you.", "You\u2019re in the room but not heard. You\u2019re there, but your view doesn\u2019t carry.", "You\u2019re too junior on paper. Your title undersells what you actually do.", "Politics is getting in the way. Being right isn\u2019t enough; you need people behind you.", "Decisions are made before the meeting, so your influence has to happen earlier, in the conversations that come first.")),
-      more: opts("I\u2019m seen as too operational", "The company moves slowly", "I don\u2019t know who really decides", "I\u2019m new here").map(withHeard("You\u2019re seen as too operational: valued for delivering, not for shaping direction.", "The company moves slowly, so influence is a long game and needs patience built in.", "You don\u2019t know who really decides, so mapping that comes first.", "You\u2019re new here, so building credibility is part of the job.")),
-    },
+    // "What\u2019s holding you back?" was asked here, before the plan: dropped (Kate, 2026-11-12).
+
   ],
   visibility: [
     {
@@ -1704,17 +1698,7 @@ const SAID: Record<string, string[]> = {
     "I need Finance on side, because budget runs through them.",
     "The people outside the company matter most to me.",
   ],
-  "influence-block": [
-    "Right now the decisions that matter to me are made without me in the room.",
-    "I’m in the room. What I’m working on is making my view carry.",
-    "My title undersells what I actually do.",
-    "Being right isn’t enough here, so I’m building support behind my ideas.",
-    "Decisions are made before the meeting, so I’m working earlier, in the conversations that come first.",
-    "I’m seen as too operational, and I want to be known for shaping direction.",
-    "The company moves slowly, so I’m playing a longer game.",
-    "I’m finding out who really decides.",
-    "I’m new here, and I’m building credibility.",
-  ],
+
   "presence-who": [
     "I want leaders in my company to see me as someone they’d promote, not just rely on.",
     "I want to be known across my industry, beyond my own company.",
@@ -2257,7 +2241,6 @@ export const GUIDE_C3 = {
       "scope-block": "What\u2019s in the way decides what to do first, so ExecEngine asks it before it recommends a plan.",
       "influence-where": "Influence is always over something. Knowing what tells ExecEngine where your plan should push.",
       "influence-who": "Influence travels through people. Knowing whose backing matters most tells ExecEngine where to start.",
-      "influence-block": "What\u2019s holding you back decides what to do first, so ExecEngine asks it before it recommends a plan.",
       "presence-who": "Being seen means being seen by someone. The audience decides the kind of presence you build.",
       "presence-now": "How you\u2019re seen today is the starting line. The plan closes the gap between that and how you want to be seen.",
       "presence-where": "Where you show up today tells ExecEngine what to build on, and what to start from scratch.",
@@ -2470,12 +2453,6 @@ const SWITCHES_C3: Record<string, Record<string, { planId: string; reason: strin
     "wrong-company-for-it": {
       planId: "explore",
       reason: "If the next step may not be where you are, it\u2019s worth working out the direction before making the case.",
-    },
-  },
-  "influence-block": {
-    "too-junior-on-paper": {
-      planId: "leadership-scope",
-      reason: "Your title undersells what you do, so the case for a bigger role comes first.",
     },
   },
   "explore-why": {

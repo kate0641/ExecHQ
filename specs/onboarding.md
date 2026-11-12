@@ -199,7 +199,7 @@ What is kept:
 
 ### 3.6 What's in the way (the deciding question)
 
-For most directions, one question is asked before the recommendation, because its answer can change the plan. Label **Before ExecEngine recommends anything.** Its heading depends on the direction: **What's in the way?** (a bigger role), **What's holding you back?** (more weight where you are) or **What's making you want a change?** (finding a next move). The line is "Pick as many as are true."
+For most directions, one question is asked before the recommendation, because its answer can change the plan. Label **Before ExecEngine recommends anything.** Its heading depends on the direction: **What's in the way?** (a bigger role) or **What's making you want a change?** (a move within the company). The influence directions (Take on a bigger leadership role, Carry more weight where I am) have none: **What's holding you back?** was dropped (Kate, 2026-11-12). The line is "Pick as many as are true."
 
 - Five options, multiple choice, and **None of these? Show me more options** (four more). See Appendix B.
 - Buttons: **Next** and **Skip this one.** The person can skip.
@@ -404,7 +404,7 @@ The need also picks the questions (Appendix B). Each need has three, of which at
 | Need | Deciding question | Making it yours |
 | --- | --- | --- |
 | positioning | What's in the way? | What kind of step up? When do you want to get there? |
-| influence | What's holding you back? | Where do you want more say? Who do you most need on side? |
+| influence | none (What's holding you back? dropped 2026-11-12) | Where do you want more say? Who do you most need on side? |
 | visibility | none | Who needs to see you differently? How do they see you now? Where do you show up today? |
 | preparation | none | What's coming up? When is it? How ready do you feel? |
 | exploration | What's making you want a change? | What would you keep? How soon? |
@@ -419,7 +419,6 @@ Three answers, if chosen, send the plan somewhere else. The reason shown is thei
 | --- | --- | --- | --- |
 | What's in the way? | Nobody sees my work | Make Your Mark | The results are there. What's missing is being seen by the people deciding, and that's what this plan is for. |
 | What's in the way? | Wrong company for it | Find your next direction | If the next step may not be where you are, it's worth working out the direction before making the case. |
-| What's holding you back? | Too junior on paper | Step Up | Your title undersells what you do, so the case for a bigger role comes first. |
 | What's making you want a change? | Hit a ceiling | Step Up | A ceiling is a scope problem. Making the case for a bigger role comes before looking elsewhere. |
 
 If several answers are chosen, **the first one chosen that changes the plan decides.** The recommendation is made once, after this question. Nothing asked later can reverse it.
@@ -593,6 +592,7 @@ These are settled. They are the specified behavior. The dates are when they were
 25. **No answer leads out of the person's company.** A move within it is in: "Make a move within my company" (another function, or another part of the business) replaces "Find my next move", and "Get out of where I am" is removed. "Nail an upcoming presentation" drops "board". Find your next direction stays, as the plan for a move inside the company. (2026-11-12)
 26. **The plans take the plan briefs' names:** Step Up, Make Your Mark, Make the Move, Lead Where You Are, everywhere a person sees them (onboarding, Home, the Plan page, Profile). The fifth stays Find your next direction until its brief is rewritten. Stages and first steps are not changed yet (open question 12). (2026-11-12)
 27. **The person chooses the plan.** Choose your plan replaces the Recommendation and See other plans: five cards, ExecEngine's pick first, marked and chosen to start with, its reason on it; "Whichever you choose, the next few questions make it yours." (2026-11-12)
+28. **No deciding question on the influence path.** What's holding you back? is dropped; the influence directions go from narrowing straight to Choose your plan, and "Too junior on paper" no longer sends anyone to Step Up. (2026-11-12)
 23. **LinkedIn is not in onboarding.** No Signals step and no upload page; Account goes straight to Direction, and Done does not mention it. It lives on the Signals page. (2026-11-12, reversing "signals come early", 2026-09-24)
 
 ---
@@ -653,7 +653,6 @@ The first page shows the five **first options**. "None of these? Show me more op
 | --- | --- | --- | --- | --- |
 | Where do you want more say? | Multiple | Making it yours | My team’s direction; Company strategy; Budget and headcount; Across other teams; Hiring and promotions | Customers and partners; What we make and sell; How we’re organized; Which projects get funded |
 | Who do you most need on side? | Multiple | Making it yours | My boss; My boss’s peers; The exec team; My own team; Peers across the company | The CEO; The board; Finance; People outside the company |
-| What’s holding you back? | Multiple | Deciding | I’m not in the room; I’m in the room but not heard; Too junior on paper; Politics; Decisions are made before the meeting | I’m seen as too operational; The company moves slowly; I don’t know who really decides; I’m new here |
 
 **Need: visibility**
 

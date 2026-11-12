@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "onboarding-drop-holding-you-back",
+    title: "Onboarding: \"What's holding you back?\" is dropped",
+    description:
+      "The question before the plan on the influence path is removed, with its routing; those directions go from narrowing straight to Choose your plan (12 Nov).",
+  },
+  {
     slug: "onboarding-choose-your-plan",
     title: "Onboarding: she chooses her plan",
     description:
