@@ -5815,7 +5815,7 @@ ol.concierge-list {
 }
 
 .quick-replies__chip:hover {
-  background-color: var(--color-action-secondary-hover);
+  background-color: var(--color-surface-active);
 }
 
 .quick-replies__chip:active {
@@ -6007,7 +6007,7 @@ ol.concierge-list {
 }
 
 .toggle-group--chips .toggle-group__option:hover {
-  background-color: var(--color-surface-hover);
+  background-color: var(--color-surface-active);
 }
 
 .toggle-group--chips .toggle-group__input:checked + .toggle-group__option:hover {
@@ -6120,7 +6120,7 @@ ol.concierge-list {
 }
 
 .chip-group__chip:hover {
-  background-color: var(--color-surface-hover);
+  background-color: var(--color-surface-active);
 }
 
 .chip-group__chip[aria-pressed="true"] {
@@ -6174,8 +6174,7 @@ ol.concierge-list {
 }
 
 .answer-drawer .chip-group__chip:hover {
-  border-color: var(--color-border-strong);
-  background-color: var(--color-surface-raised);
+  background-color: var(--color-surface-active);
 }
 
 .answer-drawer .chip-group__chip[aria-pressed="true"] {
@@ -9086,7 +9085,7 @@ button.device-keyboard__key {
 }
 
 .check-in__answers .btn--secondary:hover {
-  background-color: var(--color-surface-hover);
+  background-color: var(--color-surface-active);
 }
 
 /* A small coloured dot before each main answer, for a faster read. */
@@ -13911,7 +13910,7 @@ fieldset.agenda__whens {
 }
 
 .agenda__chip:hover {
-  background-color: var(--color-surface-hover);
+  background-color: var(--color-surface-active);
 }
 
 .agenda__chip[aria-pressed="true"] {
@@ -14363,11 +14362,8 @@ fieldset.agenda__whens {
   background-color: var(--color-surface-inverse);
 }
 
-/* The one she picks can't fill navy on navy: it takes blue 200 with the ink, its words bold. */
+/* The one she picks sets its words bold. */
 :is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer .chip-group__chip[aria-pressed="true"] {
-  color: var(--color-text-primary);
-  background-color: var(--color-surface-active);
-  border-color: var(--color-surface-active);
   font-weight: var(--weight-semibold);
 }
 :is([data-viewport="mobile"], [data-viewport="tablet"]) .guide.guide--navy.plan-guided .answer-drawer .chip-group__chip[aria-pressed="true"] {
@@ -20495,7 +20491,7 @@ ul.li-shares {
 
 .cohort-figure__explain:hover,
 .cohort-figure__explain.is-hover {
-  background-color: var(--color-surface-hover);
+  background-color: var(--color-surface-active);
   color: var(--color-text-primary);
 }
 
@@ -22778,7 +22774,7 @@ ul.letter-archive__list {
 }
 
 .letter-replies__chip:hover {
-  background-color: var(--color-surface-hover);
+  background-color: var(--color-surface-active);
 }
 
 .letter-replies__chip:focus-visible {
@@ -23030,7 +23026,7 @@ ul.letter-archive__list {
 
 .btn--outline:hover,
 .btn--outline.is-hover {
-  background-color: var(--color-surface-hover);
+  background-color: var(--color-surface-active);
 }
 
 .btn--outline:active,
