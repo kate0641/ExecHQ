@@ -22899,37 +22899,49 @@ ul.li-shares {
   color: var(--color-text-inverse-muted);
 }
 
-/* Notices: a light blue band under the header, full width, one line each; a hairline between two. */
+/* Still filling: a light blue band under the header, full width, one line. */
 .ent-notices {
   margin-inline: calc(var(--space-lg) * -1);
   background-color: var(--color-surface-check-in-band);
   color: var(--color-text-primary);
 }
 
-.ent-notices__inner {
-  width: 100%;
-  max-width: calc(var(--viewport-web-max) + var(--space-lg) * 2);
-  margin-inline: auto;
-  padding: 0 calc(var(--space-lg) * 2);
-}
-
 .ent-notice {
   display: flex;
   align-items: flex-start;
   gap: var(--space-xs);
-  margin: 0;
-  padding-block: var(--space-sm);
+  width: 100%;
+  max-width: calc(var(--viewport-web-max) + var(--space-lg) * 2);
+  margin: 0 auto;
+  padding: var(--space-sm) calc(var(--space-lg) * 2);
   font-size: var(--type-body-sm-size);
   line-height: var(--type-body-sm-leading);
 }
 
-.ent-notice + .ent-notice {
-  border-top: var(--border-width-thin) solid var(--color-border-on-for-her);
+/* Today's update is late: a line in the header, under when the figures are from. */
+.ent-header__late {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  max-width: var(--content-measure);
+  margin: var(--space-sm) 0 0;
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  color: var(--color-text-inverse-muted);
 }
 
-.ent-notice__icon {
+.ent-header__late b {
+  color: var(--color-text-inverse);
+}
+
+.ent-notice__icon,
+.ent-header__late-icon {
   flex: none;
   margin-top: calc((1lh - 16px) / 2);
+}
+
+.ent-header__late-icon {
+  color: var(--color-text-inverse);
 }
 
 .ent-band__inner {

@@ -93,6 +93,15 @@ function CohortHeader({
             ))}
           </p>
           <p className="ent-header__meta ent-header__covers">{C.coversOnly(periodWords(window).covers)}</p>
+          {/* Today's update is late: said in the header, beside when the figures are from. */}
+          {cohort.lateSince ? (
+            <p className="ent-header__late">
+              <Icon name="warning" size={16} className="ent-header__late-icon" />
+              <span>
+                <b>{LATE_COPY.lead}</b> {LATE_COPY.rest(cohort.asOf)}
+              </span>
+            </p>
+          ) : null}
         </div>
       </div>
     </header>
@@ -462,28 +471,15 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
     <>
       <CohortHeader cohort={cohort} window={window} headingRef={headingRef} />
 
-      {/* What changes how the whole page reads, in a light blue band right under the header: the update
-          being late, then the cohort still filling. Either, both or neither. */}
-      {cohort.lateSince || !above ? (
+      {/* Still filling changes how the whole page reads: a light blue band right under the header. */}
+      {!above ? (
         <div className="ent-notices">
-          <div className="ent-notices__inner">
-            {cohort.lateSince ? (
-              <p className="ent-notice">
-                <Icon name="warning" size={16} className="ent-notice__icon" />
-                <span>
-                  <b>{LATE_COPY.lead}</b> {LATE_COPY.rest(cohort.asOf)}
-                </span>
-              </p>
-            ) : null}
-            {!above ? (
-              <p className="ent-notice">
-                <Icon name="lock" size={16} className="ent-notice__icon" />
-                <span>
-                  <b>{C.building.heading}.</b> {C.building.body}
-                </span>
-              </p>
-            ) : null}
-          </div>
+          <p className="ent-notice">
+            <Icon name="lock" size={16} className="ent-notice__icon" />
+            <span>
+              <b>{C.building.heading}.</b> {C.building.body}
+            </span>
+          </p>
         </div>
       ) : null}
 
