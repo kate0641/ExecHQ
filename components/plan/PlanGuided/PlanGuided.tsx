@@ -247,12 +247,12 @@ export function PlanGuided({
         headFoot={
           // The move card asks the question, and the drawer's foot bar is gone: one less bar at the foot,
           // where the add button, Ask or go and the browser's toolbar already sit. It stays
-          // while the drawer is open, filled to say so, and pressing it then folds the drawer.
+          // while the drawer is open, and pressing it then folds the drawer.
           answer ? undefined : (
             <button
               ref={askRef}
               type="button"
-              className={["btn btn--md btn--full plan-guided__ask", open ? "is-open" : null].filter(Boolean).join(" ")}
+              className="btn btn--secondary btn--md btn--full"
               aria-expanded={open}
               onClick={() => toggle(!open, true)}
             >

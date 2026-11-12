@@ -7303,29 +7303,9 @@ ol.concierge-list {
   border-color: var(--light-border);
 }
 
-/* The Plan's move card asks the question itself, and its drawer folds off the screen: an
-   pill on navy at button size: the light edge every pill on navy has, and light words. While the drawer is
-   open it is filled white with navy words, the way a chosen pill is on navy. */
+/* The Plan's move card asks the question itself, with a secondary button; its drawer folds off the screen. */
 .guide__head-foot {
   margin-top: var(--space-md);
-}
-
-.guide--navy .plan-guided__ask {
-  border: var(--border-width-thin) solid var(--color-pill-edge-on-inverse);
-  background-color: transparent;
-  color: var(--color-text-inverse);
-}
-
-.guide--navy .plan-guided__ask:hover,
-.guide--navy .plan-guided__ask:active {
-  background-color: var(--color-surface-inverse);
-}
-
-.guide--navy .plan-guided__ask.is-open,
-.guide--navy .plan-guided__ask.is-open:hover {
-  border-color: var(--color-text-inverse);
-  background-color: var(--color-text-inverse);
-  color: var(--color-surface-quiet-on-inverse);
 }
 
 /* A choice pill on navy: the mirror of the formula. Not chosen, it is outlined in a
