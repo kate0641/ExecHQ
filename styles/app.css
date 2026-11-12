@@ -15537,7 +15537,8 @@ fieldset.agenda__whens {
   flex-direction: column;
   align-items: stretch;
   gap: var(--space-xs);
-  padding: var(--space-lg) var(--space-md) var(--space-2xl);
+  /* 40 shows under the name: the next card overlaps the foot by --space-md. */
+  padding: var(--space-lg) var(--space-md) calc(var(--space-xl) + var(--space-md));
   /* The ring takes the card's own ink, so it shows on every stage colour. */
   --focus-ring: var(--focus-ring-width) solid var(--stage-ink);
 }
@@ -15600,7 +15601,7 @@ fieldset.agenda__whens {
    --space-md, so the body keeps that much more room under its last row. */
 .agenda--stack .agenda__body {
   gap: var(--space-xs);
-  padding: var(--space-md) var(--space-md) var(--space-lg);
+  padding: var(--space-md) var(--space-md) calc(var(--space-xl) + var(--space-md));
   background-color: var(--color-surface-raised);
   box-shadow: inset var(--border-width-thin) 0 0 var(--color-border-subtle), inset calc(var(--border-width-thin) * -1) 0 0 var(--color-border-subtle);
   color: var(--color-text-primary);
