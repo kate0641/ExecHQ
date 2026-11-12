@@ -9784,14 +9784,22 @@ ol.signal__list {
   margin-block: auto;
 }
 
-/* In Stay on track, a question card with no footer links (Brief your manager…) centres its whole group,
-   question, line and buttons, in the space under the band; the buttons keep 24 above them. */
-.card-carousel__slide .check-in--question:not(.readiness-check, :has(> .check-in__quiet)) > .check-in__question {
+/* Stay on track: every card centres its content in the white space under its band; a foot (Save, or
+   the links along the bottom) stays at the bottom. The answers keep 24 above them. */
+.card-carousel__slide .check-in--question > .check-in__question {
   margin-top: auto;
 }
 
-.card-carousel__slide .check-in--question:not(.readiness-check, :has(> .check-in__quiet)) > .check-in__answers {
+.card-carousel__slide .check-in--question > .check-in__answers {
   margin-block: calc(var(--space-before-actions) - var(--space-md)) auto;
+}
+
+.card-carousel__slide .readiness-check > .slider {
+  margin-bottom: auto;
+}
+
+.card-carousel__slide .readiness-check > .readiness-check__foot {
+  margin-top: 0;
 }
 
 /* On trial: everything in the question card centred. */
