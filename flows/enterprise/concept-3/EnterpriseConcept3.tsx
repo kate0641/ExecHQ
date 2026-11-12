@@ -107,8 +107,7 @@ function Issue({ issue, previous, late, headingRef }: { issue: LetterIssue; prev
       ) : null}
 
       <div className="letter__body">
-        {/* What changed is why a weekly letter exists: it comes first
-. */}
+        {/* What changed is why a weekly letter exists: it comes first. */}
         {previous && above ? (
           <section className="letter__moved" aria-labelledby="letter-moved">
             <h2 className="letter__subheading" id="letter-moved">

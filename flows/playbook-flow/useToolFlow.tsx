@@ -849,8 +849,7 @@ export function useToolFlow(concept: FlowConcept) {
             {/* What it is for, read right after its name. */}
             {forLine}
             <span className="tool-flow__draft-head">
-              {/* No "Still editing" here: she is looking at the draft
-. Lists elsewhere keep it. */}
+              {/* No "Still editing" here: she is looking at the draft. Lists elsewhere keep it. */}
               {record ? <LoopStatus record={record} detail={false} /> : null}
               {/* That it is kept, beside where it stands, so the bar above
                   needs no line of its own here. */}

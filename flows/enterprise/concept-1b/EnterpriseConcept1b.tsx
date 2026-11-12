@@ -489,8 +489,7 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
       </svg>
 
       <div className="ent-page">
-        {/* The dates and Export first, over everything they change
-. */}
+        {/* The dates and Export first, over everything they change. */}
         <CohortTools cohort={cohort} window={window} onWindow={setChoice} />
 
         {/* The story in the order it happened, before the evidence, as four stats. */}

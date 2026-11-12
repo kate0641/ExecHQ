@@ -298,8 +298,7 @@ export function WeeklyTrend({ trend, highlight, height = DEFAULT_HEIGHT, look = 
           >
             {look === "fade" ? (
               <>
-                {/* Its dates, Monday to Sunday, or to today for this week
-. */}
+                {/* Its dates, Monday to Sunday, or to today for this week. */}
                 <span>{C.weekRange(dayOf(pickedWeek.weekOf), dayOf(pickedWeek.partial && today ? today : daysOn(pickedWeek.weekOf, 6)))}</span>
                 <strong>
                   {pickedWeek.active === undefined ? C.hiddenWeek : count.format(pickedWeek.active)}

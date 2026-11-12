@@ -229,7 +229,7 @@ export function DraftEditor({
           return (
             <section key={section.id} className="draft-editor__section" aria-label={section.heading ?? label}>
               <div className="draft-editor__section-head">
-                {section.heading ? <h3 className="draft-editor__section-heading">{section.heading}</h3> : <span />}
+                {section.heading ? <h2 className="draft-editor__section-heading">{section.heading}</h2> : <span />}
                 {editing === section.id || !working ? null : (
                   <span className="draft-editor__section-actions">
                     {sectionActions?.(section)}
@@ -307,9 +307,9 @@ export function DraftEditor({
 
       {working && open.length ? (
         <section className="draft-editor__gaps" aria-labelledby="draft-gaps-heading">
-          <h3 className="draft-editor__gaps-heading" id="draft-gaps-heading">
+          <h2 className="draft-editor__gaps-heading" id="draft-gaps-heading">
             {C.gapsHeading}
-          </h3>
+          </h2>
           <p className="draft-editor__gaps-lead">{C.gapsLead}</p>
           {gapForms}
         </section>
