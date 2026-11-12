@@ -10528,8 +10528,9 @@ ul.account-card__shows {
   margin-top: var(--space-copy-action);
 }
 
+/* A card's own button sits right, in reach of the thumb (page recipe). */
 .account-card__cta {
-  align-self: flex-start;
+  align-self: flex-end;
   margin-top: var(--space-2xs);
 }
 
