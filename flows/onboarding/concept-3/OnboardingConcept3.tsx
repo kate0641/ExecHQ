@@ -27,6 +27,7 @@ import { NextSteps } from "@/components/onboarding/NextSteps";
 import { Notice } from "@/components/onboarding/Notice";
 import { WelcomeSplit } from "@/components/onboarding/WelcomeSplit";
 import { PointList } from "@/components/onboarding/PointList";
+import { ProductIntro } from "@/components/onboarding/ProductIntro";
 import { RecommendationCard } from "@/components/onboarding/RecommendationCard";
 import { ReflectionReply } from "@/components/onboarding/ReflectionReply";
 import { SignalSources } from "@/components/onboarding/SignalSources";
@@ -479,9 +480,8 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
     case "about": {
       const c = GUIDE_C3.about;
       return (
-        <GuidePage {...frame()} navy kicker={c.kicker} title={c.title} lede={c.lede} primaryLabel={c.cta} onPrimary={next}>
-          <PointList items={c.points} numbered />
-          <PointList items={c.before} />
+        <GuidePage {...frame()} navy kicker={c.kicker} title={c.title} primaryLabel={c.cta} onPrimary={next}>
+          <ProductIntro points={c.points} toolsLabel={c.toolsLabel} tools={c.tools} privacy={c.privacy} />
         </GuidePage>
       );
     }

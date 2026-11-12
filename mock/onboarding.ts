@@ -2083,33 +2083,27 @@ export const GUIDE_C3 = {
     quote: "From \u201cI\u2019d like to be\u201d to \u201cI\u2019m going to be.\u201d",
     cta: "Get started",
   },
+  /** What ExecEngine is: three statements, the Playbook's tools by name and
+   *  privacy in a line, built in one idea at a time (Kate, 2026-11-12; was a
+   *  heading, a line, three explained points and a privacy box, about 120
+   *  words). 40 words. */
   about: {
     kicker: "What ExecEngine is",
-    title: "Crafting a plan for your career and the work to carry it out",
-    lede: "A private career advisor for modern professionals ready to grow, with no agenda but your own.",
+    title: "Everything you need for what comes next.",
     points: [
-      {
-        title: "A plan for where you want to go",
-        detail: "Short-, medium-, and long-term steps with clear benchmarks. Not a list of forty tasks that get you nowhere.",
-      },
-      {
-        title: "Work done, not just advice",
-        detail: "Most steps come with artifacts made for you to use: ExecEngine drafts them, you make them yours.",
-      },
-      {
-        title: "Something that grows with you",
-        detail: "Finish a step, share what happened, or change direction, and ExecEngine updates the plan.",
-      },
+      { title: "Know where you stand", glyph: "stand" },
+      { title: "Plan where you\u2019re going", glyph: "plan" },
+      { title: "The tools to get you there", glyph: "tools" },
     ],
-    before: [
-      {
-        title: "Private by design",
-        detail: [
-          "For your eyes only. Not your employer, not your manager, not anyone else.",
-          "Everything ExecEngine makes is yours to keep, edit, and export.",
-        ],
-      },
+    toolsLabel: "In your Playbook",
+    /** The Playbook's own short labels, in its order. */
+    tools: [
+      { kind: "positioning", label: "Positioning statement" },
+      { kind: "pitch", label: "Pitch builder" },
+      { kind: "situation-brief", label: "Situation brief" },
+      { kind: "thought-leadership", label: "Thought leadership" },
     ],
+    privacy: "Private. For your eyes only.",
     cta: "Continue",
   },
   account: {

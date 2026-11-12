@@ -108,16 +108,25 @@ The same wordmark and serif line open Login, so a returning person and a new one
 
 ### 3.2 What ExecEngine is
 
-- Label **What ExecEngine is.** Heading: **Crafting a plan for your career and the work to carry it out.**
-- Line: "A private career advisor for modern professionals ready to grow, with no agenda but your own."
-- Three numbered points, each a heading and a line:
-  1. **A plan for where you want to go.** Short-, medium-, and long-term steps with clear benchmarks. Not a list of forty tasks that get you nowhere.
-  2. **Work done, not just advice.** Most steps come with artifacts made for you to use: ExecEngine drafts them, you make them yours.
-  3. **Something that grows with you.** Finish a step, share what happened, or change direction, and ExecEngine updates the plan.
-- **Private by design.** For your eyes only. Not your employer, not your manager, not anyone else. Everything ExecEngine makes is yours to keep, edit, and export.
+What ExecEngine is, said in a glance and built in one idea at a time (Kate, 2026-11-12; it was a heading, a line, three explained points and a privacy box, about 120 words, which ran below the fold). 40 words. The detail is left for the product, where the person sees it.
+
+- Label **What ExecEngine is.** Heading: **Everything you need for what comes next.**
+- Three statements, each with a small drawing in a tile:
+  1. **Know where you stand** (a pin)
+  2. **Plan where you're going** (a path through three points)
+  3. **The tools to get you there** (four squares)
+- **In your Playbook**, with the four tools by their Playbook labels, each with its own illustration: **Positioning statement, Pitch builder, Situation brief, Thought leadership.** Two to a row on phone and tablet, four in a row on web.
+- With a lock: "Private. For your eyes only."
 - Button: **Continue.**
 
-The privacy promise is said here, before anything personal is asked. There is no separate privacy page.
+**It builds in once,** when the page arrives, over about five seconds. Each piece rises into place at its own moment: the first statement at 0.6s, the second at 1.4s, the third at 2.2s, the Playbook label at 3.2s, the tools at 3.4s to 3.85s (0.15s apart), privacy at 4.3s. Inside each tile, the drawing says the idea: the pin drops in, the path draws and its points appear, the squares appear one by one. Each piece takes 320ms (`--duration-slow`).
+
+- **Continue is there from the first frame,** so nothing waits on the motion.
+- **Everything is in the page from the start;** only its showing is delayed, so a screen reader reads the page whole.
+- **With reduced motion asked for,** the page shows at rest, with no movement.
+- It plays again only if the person comes back to the page.
+
+The privacy promise is said here, before anything personal is asked. There is no separate privacy page. Its longer wording ("Not your employer, not your manager, not anyone else. Everything ExecEngine makes is yours to keep, edit, and export.") is no longer on this page. Where the product says it in full is open (section 11).
 
 ### 3.3 Account
 
@@ -380,7 +389,7 @@ Every screen says what it needs in **40 words or fewer.** (Kate, 2026-11-12.)
 
 - **Counts:** the label, the heading, the line, "Why this matters", and every card, reply and "Worth knowing" fact.
 - **Does not count:** answer options, buttons and links (including "None of these? Show me more options"), the person's own words (what they picked, their draft, what they typed), a fact's source line.
-- **Where it stands.** Most screens are over today: about 120 words on What ExecEngine is, the Recommendation and the First draft. Each is cut to fit as its own edit is approved; this section is updated as they are.
+- **Where it stands.** Within it: Welcome (33), What ExecEngine is (40). Most other screens are over: about 110 to 120 words on the Recommendation and the First draft. Each is cut to fit as its own edit is approved; this section is updated as they are.
 
 ---
 
@@ -540,7 +549,8 @@ Production must give every control a tappable area of at least 44px, drawn small
 | `ChipGroup`, `Input`, `ToggleGroup` | The options (equal-width, single or several), the fields, and the length switch. |
 | `ProviderButtons`, `AccountPicker` | Continue with Google and Apple, and the stand-in for each provider's picker. Shared with Login. |
 | `CodeField`, `MailNotification`, `SignInEmail`, `Sheet` | The six code cells, the email's notification (carried by `GuidePage`'s overlay), the drawn email with onboarding's wording, and the sheet it opens in. Shared with Login. |
-| `PointList`, `RecommendationCard`, `ReflectionReply` | Numbered points and the private promise; the plan card; the pull-quote reply and its fact. |
+| `ProductIntro` | What ExecEngine is: the three statements and their drawings, the Playbook's tools and the privacy line, and the build-in. |
+| `PointList`, `RecommendationCard`, `ReflectionReply` | Numbered points; the plan card; the pull-quote reply and its fact. |
 | `ThisWeekCard`, `StoryDraft`, `StoryText`, `ExportLinks`, `NextSteps` | The task card with its data; the editable draft; the story with its gaps; Copy, Download and Email; the "What next?" choices. |
 | `SignalSources`, `LinkedInUpload`, `LinkedInSteps` | The LinkedIn row, and the upload page and its steps. |
 | `PlanTemplateCard`, `GoodExample`, `GeneratingState`, `Notice` | The other plans; what good looks like; the waiting state; the invite-code notice. |
@@ -584,7 +594,7 @@ These are settled. They are the specified behavior. The dates are when they were
 10. **Data is real or marked.** A figure is shown with its source, or as a placeholder. (2026-10-02)
 11. **Nothing is connected in V1.** LinkedIn is a spreadsheet the person uploads. (2026-09-28)
 12. **Any email is accepted,** work or personal. (2026-09-22)
-13. **Privacy is said once, on "What ExecEngine is,"** before anything personal is asked. (2026-10-02)
+13. **Privacy is said once, on "What ExecEngine is,"** before anything personal is asked, in one line. (2026-10-02; one line from 2026-11-12)
 14. **The Done page lists only what is left,** and does not repeat what the person has seen. (2026-10-02)
 15. **No step counters, percentages or scores** appear anywhere in the flow. **Progress is a thin line with no words** at the top of every page after the Welcome (4.9). (2026-11-12, replacing "no progress", 2026-09-24)
 16. **No open responses.** Every answer in onboarding is a choice. The only typing is the account email, an invite code, and refining the story (a role, what the person is responsible for, a result, a name for the bio, and editing the draft). (2026-10-02)
@@ -610,6 +620,7 @@ These are not decided. They need an answer before this is built.
 7. **How the draft and the longer versions are written** for real is not specified. The prototype uses fixed templates with the person's words dropped in.
 8. **More plans and options.** The flow has five plans and nine directions. Whether more are wanted, and who writes them, is a content decision.
 9. **Status.** The concept is approved, but its status in the manifest stays `draft` until Kate says it has passed final review.
+10. **The full privacy promise.** What ExecEngine is now says only "Private. For your eyes only." Where the longer promise (not your employer or manager; everything is yours to keep, edit and export) is said, in onboarding or the product, is not decided.
 
 ---
 

@@ -53,6 +53,7 @@ import { goodExampleStates } from "./onboarding/GoodExample/GoodExample.states";
 import { guidePageStates } from "./onboarding/GuidePage/GuidePage.states";
 import { advisorFileStates } from "./onboarding/AdvisorFile/AdvisorFile.states";
 import { pointListStates } from "./onboarding/PointList/PointList.states";
+import { productIntroStates } from "./onboarding/ProductIntro/ProductIntro.states";
 import { reflectionReplyStates } from "./onboarding/ReflectionReply/ReflectionReply.states";
 import { recommendationCardStates } from "./onboarding/RecommendationCard/RecommendationCard.states";
 import { signalSourcesStates } from "./onboarding/SignalSources/SignalSources.states";
@@ -189,6 +190,7 @@ export const registry: RegisteredComponent[] = [
   deviceKeyboardStates,
   advisorFileStates,
   pointListStates,
+  productIntroStates,
   reflectionReplyStates,
   recommendationCardStates,
   storyDraftStates,

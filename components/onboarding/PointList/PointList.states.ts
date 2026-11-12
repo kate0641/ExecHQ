@@ -1,6 +1,5 @@
 import { defineComponentStates } from "@/components/types";
 import { FIXED_CONTENT, NOT_AN_INPUT, NOT_INTERACTIVE } from "@/components/not-applicable";
-import { GUIDE_C3 } from "@/mock/onboarding";
 import { PointList } from "./PointList";
 
 export const pointListStates = defineComponentStates({
@@ -17,8 +16,24 @@ export const pointListStates = defineComponentStates({
     filled: NOT_AN_INPUT,
   },
   variants: [
-    { label: "Numbered", props: { items: GUIDE_C3.about.points, numbered: true } },
-    { label: "Boxed", props: { items: GUIDE_C3.about.before, label: "Before we begin" } },
+    {
+      label: "Numbered",
+      props: {
+        items: [
+          { title: "A plan for where you want to go", detail: "Short-, medium-, and long-term steps with clear benchmarks." },
+          { title: "Work done, not just advice", detail: "Most steps come with drafts made for you to use." },
+          { title: "Something that grows with you", detail: "Finish a step or change direction, and the plan updates." },
+        ],
+        numbered: true,
+      },
+    },
+    {
+      label: "Boxed",
+      props: {
+        items: [{ title: "Private by design", detail: ["For your eyes only. Not your employer, not your manager, not anyone else."] }],
+        label: "Before we begin",
+      },
+    },
     {
       label: "With how it helps",
       props: {
