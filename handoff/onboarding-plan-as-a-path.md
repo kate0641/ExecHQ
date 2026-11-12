@@ -39,9 +39,9 @@ All fifteen are in the spec, Appendix C. Some depend on other people ("asks to t
 - **Motion:** each point rises into place, 0.2s then 0.4s apart, 320ms each; at rest with reduced motion.
 - **Progress line:** 16 pages now (the second plan page is gone).
 
-## Still open
+## The 40-word rule
 
-- **Over the 40-word rule:** about 85 words with all three finish lines showing (Kate's choice). Ways to bring it under: show "Done when" on the current stage only, or drop the stage line under the heading.
+The plan page is exempt (Kate, 12 November). It runs to about 85 words with all three finish lines showing.
 
 ## Where it is in the prototype
 
