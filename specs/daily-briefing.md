@@ -8,7 +8,7 @@ Concepts 1 (Front page) and 3 (Annotated) were the other ideas tried for this pa
 
 ## 1. What it is
 
-The Daily Briefing is a short daily read: three articles a day from publishers the person chose, each with one line on why it is there for them. It is read whole inside ExecHQ, with ExecHQ's notes on the passages that matter to them, and any read can start a post in Thought Leadership Builder.
+The Daily Briefing is a short daily read: three articles a day from publishers the person chose, each with one line on why it is there for them. It is read whole inside ExecEngine, with ExecEngine's notes on the passages that matter to them, and any read can start a post in Thought Leadership Builder.
 
 What it deliberately does not do:
 
@@ -64,8 +64,8 @@ From top to bottom:
 
 1. **The place in the set:** "1 of 3". On phone and tablet, **Today's three** at its left goes back to the front page. On web there is nothing to go back to, so it is the count alone.
 2. **The picture,** the publisher, the headline (level 2, takes focus when the read opens), **Why it's here**, and the publisher's standfirst set larger, in secondary ink.
-3. **The whole article.** Each passage ExecHQ has a note on is highlighted and numbered, and its note follows: "1 · ExecHQ's note" and why that sentence matters to them. Notes are for reading; they are not controls.
-4. **The credit:** "Published by {publisher}. Highlights and notes by ExecHQ."
+3. **The whole article.** Each passage ExecEngine has a note on is highlighted and numbered, and its note follows: "1 · ExecEngine's note" and why that sentence matters to them. Notes are for reading; they are not controls.
+4. **The credit:** "Published by {publisher}. Highlights and notes by ExecEngine."
 5. **The read's actions** (3.5).
 6. **Next: {the next read's publisher}**, a full-width button. On phone and tablet, after the third read it says **That's today's three** and goes back to the front page. On web there is no Next on the third read.
 
@@ -104,7 +104,7 @@ A read is marked read when it opens: by its story on the front page, by Next, by
 
 ### 5.2 The first visit: choosing publishers
 
-Until they have chosen publishers, the page is the header and **Where should your reads come from?**: "Choose the publishers you trust. Each morning ExecHQ picks three reads from them and says why each one is there."
+Until they have chosen publishers, the page is the header and **Where should your reads come from?**: "Choose the publishers you trust. Each morning ExecEngine picks three reads from them and says why each one is there."
 
 - **Suggested for you**, "Chosen for leading a broader marketing organization. Change any of them.", with the suggested publishers listed, then **Start with these** (one press, and the day's three load).
 - **Choose my own** opens every publisher, in three cards: Leadership and management, Business news, Marketing. Each row is a toggle with a check on the right. "{n} chosen", and "Choose at least 3." until there are three. **Show today's three** finishes.
@@ -127,7 +127,7 @@ In Profile, under **Daily Briefing**, the **Publishers** row opens the same list
 - One level 1 per screen: "Today's Briefing", or "Saved" on the Saved page. The open read's headline and the close are level 2.
 - Each story's headline is a real button; the whole story is its target, with a visible focus ring around the story.
 - On web the list is a navigation landmark named "Today's three", and the open read's button carries `aria-current`.
-- A highlighted passage tells screen readers that ExecHQ's note follows ("ExecHQ's note 1 follows"); each note is a labelled region. The numbers are hidden from screen readers so they are not read twice.
+- A highlighted passage tells screen readers that ExecEngine's note follows ("ExecEngine's note 1 follows"); each note is a labelled region. The numbers are hidden from screen readers so they are not read twice.
 - Save is a toggle button (`aria-pressed`). The relevance question is a fieldset; its acknowledgement is announced. Every action names its read for screen readers ("Save: How planning season decides who gets new work").
 - Messages (saved, removed, step done) are announced in a live region.
 - Opening a read or going back moves focus to the new heading, or back to the story it came from.
@@ -169,7 +169,7 @@ In Profile, under **Daily Briefing**, the **Publishers** row opens the same list
 
 Written from the approved prototype. These are choices it makes that nobody has yet confirmed:
 
-1. **Licensing.** Reading the whole article in ExecHQ needs a licence from each publisher.
+1. **Licensing.** Reading the whole article in ExecEngine needs a licence from each publisher.
 2. **Who chooses the highlighted passages, and who writes the notes.** An editor or a model reading the article; both carry a cost the brief does not price.
 3. **At least three publishers,** to match three reads a day. The brief gives no minimum.
 4. **The suggested set** leans toward leadership titles, from Maya's direction, with one marketing title.

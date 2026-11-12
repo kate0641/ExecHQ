@@ -1,6 +1,6 @@
-# ExecHQ prototype
+# ExecEngine prototype
 
-A design prototype for **ExecHQ** — a private career advisor for senior managers
+A design prototype for **ExecEngine** — a private career advisor for senior managers
 through SVPs that turns a stated career direction into an actionable plan.
 
 This repo exists to design and review screens. It is not the product. There is
@@ -80,7 +80,7 @@ underneath.
 
 ## The showroom
 
-`/showroom` is the private workspace for designing ExecHQ. It has three rooms:
+`/showroom` is the private workspace for designing ExecEngine. It has three rooms:
 
 | Page                      | What it is                                                     |
 | ------------------------- | -------------------------------------------------------------- |
@@ -98,7 +98,7 @@ cp .env.example .env.local
 
 The hub and the showroom share a header with navigation between them, and they
 are declared in `lib/hub-pages.ts` rather than the manifest — they are tools for
-designing ExecHQ, not screens in it.
+designing ExecEngine, not screens in it.
 
 The **hub button** in the dock opens a slide-out panel, from the left, with links to
 the hub, the showroom and the full flow index, so you can jump anywhere without
@@ -134,7 +134,7 @@ Mobile and tablet render inside a device frame drawn in CSS — bezel, rounded
 corners, and a status bar on mobile. Content scrolls inside the frame, so the
 frame stays put.
 
-**Concept pages open on Mobile**, because that is what ExecHQ is. The routes that are
+**Concept pages open on Mobile**, because that is what ExecEngine is. The routes that are
 web only and show Mobile and Tablet struck through, with the reason in the
 tooltip: the
 Enterprise Dashboard, and the prototype's own pages — the hub and the

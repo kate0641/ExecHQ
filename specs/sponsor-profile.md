@@ -43,7 +43,7 @@ The list's card lines up with the section's card, not with the section's heading
 
 Four rows: **Name**, **Job title**, **Work email** and **Organization**, each with its value on the right. A fifth row, **Edit** ("Your name and job title"), is the only control: one Edit for the section (decided 2026-10-23).
 
-Only the name and job title can be changed here. The work email is how the admin signs in, so it changes through their ExecHQ contact. The organization is set by ExecHQ.
+Only the name and job title can be changed here. The work email is how the admin signs in, so it changes through their ExecEngine contact. The organization is set by ExecEngine.
 
 ### 3.2 Your cohort
 
@@ -159,4 +159,4 @@ These are settled. They are the specified behavior.
 
 ### Open
 
-- How an admin's work email is changed (through the ExecHQ contact) is a support process, still to be written up.
+- How an admin's work email is changed (through the ExecEngine contact) is a support process, still to be written up.

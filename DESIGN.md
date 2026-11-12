@@ -1,6 +1,6 @@
-# Designing ExecHQ: laptop setup
+# Designing ExecEngine: laptop setup
 
-This gets the ExecHQ prototype running on your laptop so you can work in the
+This gets the ExecEngine prototype running on your laptop so you can work in the
 **showroom** — the design system, every component in every state, and a
 playground for stepping through flows. Everything you see there is the real
 thing from this repo, not a copy.
@@ -13,7 +13,7 @@ what has been merged: your changes appear there once Kate merges them.
 
 About twenty minutes, most of it downloads.
 
-1. **Accept the GitHub invitation.** Kate adds you to the `kate0641/ExecHQ`
+1. **Accept the GitHub invitation.** Kate adds you to the `kate0641/ExecEngine`
    repository. Accept the email invitation before going on.
 
 2. **Install Node.js 24.** Download the 24.x installer from
@@ -64,14 +64,14 @@ About twenty minutes, most of it downloads.
 
 5. **Install Claude Code** from [claude.com/claude-code](https://claude.com/claude-code).
 
-6. **Get the code.** This makes an `ExecHQ` folder wherever you run it:
+6. **Get the code.** This makes an `ExecEngine` folder wherever you run it:
 
    ```bash
-   gh repo clone kate0641/ExecHQ
+   gh repo clone kate0641/ExecEngine
    ```
 
    ```bash
-   cd ExecHQ
+   cd ExecEngine
    ```
 
 7. **Copy the settings file.** It has nothing secret in it; it only turns the
@@ -93,7 +93,7 @@ About twenty minutes, most of it downloads.
 
 ## Every day after that
 
-From the `ExecHQ` folder:
+From the `ExecEngine` folder:
 
 ```bash
 npm run showroom
@@ -104,7 +104,7 @@ browser straight away; there is no need to restart.
 
 ## Running a design session
 
-Open Claude Code in the `ExecHQ` folder and say what you want to try, in your
+Open Claude Code in the `ExecEngine` folder and say what you want to try, in your
 own words. Claude handles every git step the same way each time:
 
 1. **Start.** *"Start a design session: I want to try warmer cards on the plan

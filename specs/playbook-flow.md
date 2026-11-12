@@ -12,10 +12,10 @@ Making one artifact, end to end, with any of the four tools: decide on the tool,
 
 What it deliberately does not do:
 
-- **Ask what ExecHQ already knows.** What their plan, their direction or their onboarding already says arrives filled in and is shown, not asked (4.4).
-- **Put generic words in their mouth.** The answers offered lead with what only they would say, from their plan and direction. ExecHQ's own wording is always marked apart from theirs (5.1).
+- **Ask what ExecEngine already knows.** What their plan, their direction or their onboarding already says arrives filled in and is shown, not asked (4.4).
+- **Put generic words in their mouth.** The answers offered lead with what only they would say, from their plan and direction. ExecEngine's own wording is always marked apart from theirs (5.1).
 - **Make a fact up.** Where the draft needs something only they know, it leaves a question in place rather than guess.
-- **Send or post anything.** "ExecHQ never posts or sends anything for you." They copy or download it, and say when they used it.
+- **Send or post anything.** "ExecEngine never posts or sends anything for you." They copy or download it, and say when they used it.
 
 ### Where it appears
 
@@ -46,7 +46,7 @@ The draft is the page, there from the first screen with every section named (5.1
 
 ### 2.2 Phone and tablet
 
-There is no live draft while they answer: the question pages show only the question. Once written, the draft is a card pinned at the top, collapsed to its opening with her words and ExecHQ's marked; tapping it opens it full screen, with a fixed bar at the foot (5.6). Tablet is the phone's layout at its width.
+There is no live draft while they answer: the question pages show only the question. Once written, the draft is a card pinned at the top, collapsed to its opening with her words and ExecEngine's marked; tapping it opens it full screen, with a fixed bar at the foot (5.6). Tablet is the phone's layout at its width.
 
 In the prototype, responsiveness follows the simulated device frame (`data-viewport`), never the browser window. In production use the real breakpoints above.
 
@@ -77,7 +77,7 @@ Each question is its own screen: "{Tool} · Step {n} of {total}", the question (
 
 ### 4.2 Answering with taps
 
-Most questions are answered with chips, one per line: **Pick all that apply** where several fit, or pick one where only one does, plus **Other**, an always-visible field for their own words. Where ExecHQ knows what only they would say (from their plan or direction), that answer leads the chips. A date or a pasted bio stays a field.
+Most questions are answered with chips, one per line: **Pick all that apply** where several fit, or pick one where only one does, plus **Other**, an always-visible field for their own words. Where ExecEngine knows what only they would say (from their plan or direction), that answer leads the chips. A date or a pasted bio stays a field.
 
 ### 4.3 Moving on
 
@@ -86,9 +86,9 @@ Most questions are answered with chips, one per line: **Pick all that apply** wh
 - **Back** goes to the question before, keeping every answer; from the first question, to the start screen.
 - On the last question the button is **Write my first draft**.
 
-### 4.4 What ExecHQ already has
+### 4.4 What ExecEngine already has
 
-What ExecHQ knows (their role, direction, positioning statement) is never asked. On the last question, one **Built with your {role}, {direction} and {positioning statement}** line sits above Write my first draft, with **Edit** to change any of it. If anything must be checked, a last screen, **Check what ExecHQ has**, lists it as compact rows, with Write my first draft and Back.
+What ExecEngine knows (their role, direction, positioning statement) is never asked. On the last question, one **Built with your {role}, {direction} and {positioning statement}** line sits above Write my first draft, with **Edit** to change any of it. If anything must be checked, a last screen, **Check what ExecEngine has**, lists it as compact rows, with Write my first draft and Back.
 
 ### 4.5 Writing the draft
 
@@ -105,7 +105,7 @@ What ExecHQ knows (their role, direction, positioning statement) is never asked.
 | Mark | Means |
 | --- | --- |
 | Primary ink | Their words, as they gave them |
-| Secondary ink with a dotted underline | ExecHQ's wording |
+| Secondary ink with a dotted underline | ExecEngine's wording |
 | A dashed box | A question only they can answer |
 
 Each section has its heading and **Edit**. Editing a section makes it all theirs ("Edited by you"); emptying it asks them to write something or cancel. Questions left open are counted ("6 questions left open. It works without them; the answers make it yours.") with **Answer them**, which opens each in place.
@@ -123,7 +123,7 @@ The draft's corner menu holds what a library row would:
 
 **Change the draft**, with choices in groups: Voice (Plainer, Warmer, More direct), Specificity (Broader, More specific), Length (Shorter, Longer), Audience (Peers, Senior leaders, My team) and Emphasis (the tool's own: for a brief, The ask, The evidence, The risks). A pitch has no Audience, and calls Voice "Tone". Then **Or say what to change** and **Revise**. With nothing chosen or said: "Choose a change, or say one." Revising shows "Revising your draft…" and saves a new version: "Saved as version {n}. The earlier one is still there."
 
-Revisions never add a fact. Shorter drops ExecHQ's framing but keeps their words and the questions; Longer adds a question for them.
+Revisions never add a fact. Shorter drops ExecEngine's framing but keeps their words and the questions; Longer adds a question for them.
 
 ### 5.4 Versions
 
@@ -131,9 +131,9 @@ Under Change the draft: **Versions**, "Every change is saved. Bring back any ear
 
 ### 5.5 Ready, used, and how it went
 
-- **Mark ready** (with Change the draft beside it on phone). "Marked ready. ExecHQ will ask how it went once you use it." The draft then reads clean, with **Change something** to return to the working draft.
+- **Mark ready** (with Change the draft beside it on phone). "Marked ready. ExecEngine will ask how it went once you use it." The draft then reads clean, with **Change something** to return to the working draft.
 - Ready, the one button is **I've used this** (**I've sent this** for a pitch, **I've published this** for a post). A pitch first asks **Mark it sent**: Sent to, Contact and When (none required), then **Mark sent** or **Not yet**.
-- Once used, **How did it go?** asks in place, with It went well, It was mixed, Not the way I hoped, and Nothing yet. Their one tap is all the feedback: ExecHQ says it back and gives the next step, whatever they answered, by the rules each builder page sets out, with **Add a note** offered. A plan step goes on their Plan only when they tap Add. Nothing yet asks again later.
+- Once used, **How did it go?** asks in place, with It went well, It was mixed, Not the way I hoped, and Nothing yet. Their one tap is all the feedback: ExecEngine says it back and gives the next step, whatever they answered, by the rules each builder page sets out, with **Add a note** offered. A plan step goes on their Plan only when they tap Add. Nothing yet asks again later.
 - A Situation Brief with a date asks the day after the meeting, however early they mark it used; other tools ask after their own interval.
 
 ### 5.6 The fixed bar (phone and tablet)
@@ -147,7 +147,7 @@ With the draft open: **Change the draft** and **Mark ready**. Ready: **I've used
 What each tool asks, what its draft holds and what comes next after its outcome are in the builder pages. The flow itself differs only here:
 
 - **Positioning Builder** is one artifact: their statement from onboarding, opened as version 1, never copied. Once built out, opening the tool shows the start screen first, and starting opens the statement; **Build it out again** asks the questions again, filled with their last answers, and adds the next version, never replacing the last. Building out a statement they closed reopens it as a draft, saying "You closed this statement on {date}." with the statement. They can pick more than one introduction, a pasted bio is read whole, and where they will use it first adds a version made for it (see the Positioning Builder page). It offers to add their accomplishments, never waiting on it. Each part (statement, each bio, the narrative) has its own Copy, and the bios PDF and Word. Changing the statement offers, never forces, a refresh of the rest.
-- **Pitch Builder** names where it goes, above what it says, and ends with **Send it in four steps** ("Ticks are only for you. ExecHQ never sends anything for you."). Under who they're pitching, "Not sure yet? See three that fit" offers up to three outlets of the kind they chose. The follow-up draft lives on the same artifact.
+- **Pitch Builder** names where it goes, above what it says, and ends with **Send it in four steps** ("Ticks are only for you. ExecEngine never sends anything for you."). Under who they're pitching, "Not sure yet? See three that fit" offers up to three outlets of the kind they chose. The follow-up draft lives on the same artifact.
 - **Situation Brief** takes a date, and its follow-up lands the day after it.
 - **Thought Leadership Builder** started from a read carries the read as its source for the life of the draft.
 
@@ -158,7 +158,7 @@ What each tool asks, what its draft holds and what comes next after its outcome 
 - One level 1 per screen: the tool's name, the question, or the draft's title. On web the page's "Your draft so far" is level 2 and its sections level 3; a shaded section says "where this answer goes" to screen readers.
 - Changing screen moves focus to the new heading. On web the rail comes before the page in the reading order.
 - Chips are toggle buttons in a labelled group; Other is a labelled field. Errors are tied to the question and announced.
-- Her words, ExecHQ's wording and open questions differ by ink, underline and border, not by colour alone, and screen readers hear "ExecHQ:" before ExecHQ's wording and "To answer:" before a question.
+- Her words, ExecEngine's wording and open questions differ by ink, underline and border, not by colour alone, and screen readers hear "ExecEngine:" before ExecEngine's wording and "To answer:" before a question.
 - The phone's drawer and the delete sheet take focus, close on Escape, and give focus back. The drawer's handle is a real button, so nothing needs dragging.
 - Messages (copied, saved as version {n}, marked ready) are announced in a live region.
 - Text contrast is at least 4.5:1, non-text at least 3:1, in greyscale and in colour.
@@ -173,7 +173,7 @@ What each tool asks, what its draft holds and what comes next after its outcome 
 | `GuidePage`, `AnswerDrawer` | A question on phone and tablet |
 | `StepHeader` | A question, and the draft's title, in the web rail |
 | `PickAnswer` | Chip answers, with Other |
-| `InputPanel` | Built with, and Check what ExecHQ has |
+| `InputPanel` | Built with, and Check what ExecEngine has |
 | `PinnedDraft` | The draft card on phone and tablet |
 | `DraftEditor` | The draft, working and clean |
 | `RevisionControls` | Change the draft |
@@ -205,7 +205,7 @@ What each tool asks, what its draft holds and what comes next after its outcome 
 
 Written from the approved prototype. These are choices it makes that nobody has yet confirmed:
 
-1. **Telling ExecHQ's wording from hers** stays on screen only: Copy takes plain text, with no marks.
+1. **Telling ExecEngine's wording from hers** stays on screen only: Copy takes plain text, with no marks.
 2. **Any artifact can be closed at any time,** and closing one waiting to hear stops its follow-ups.
 3. **Use as a starting point** makes a new, linked artifact; nothing is edited in place.
 4. **PDF and Word** for the Situation Brief, the bios and the pitch; a post is copied.

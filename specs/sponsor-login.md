@@ -20,7 +20,7 @@ Sign-in always lands on the **Admin Dashboard** (Concept 1b).
 
 What it deliberately does not do:
 
-- **Sign anyone up.** ExecHQ sets up an admin's account when the program is agreed, and the ExecHQ contact sends the invitation. There is no "Start here".
+- **Sign anyone up.** ExecEngine sets up an admin's account when the program is agreed, and the ExecEngine contact sends the invitation. There is no "Start here".
 - **Reveal who has an account.** The code screen says the same thing whether or not an account exists, as on the participant Login.
 - **Offer a password,** "forgot password", Microsoft, or any other sign-in.
 
@@ -36,18 +36,18 @@ It uses the `minimal` chrome with no header, as the participant Login does. It i
 
 The participant Login's web layout: a dark panel on the left (40%) and a white sheet on the right.
 
-In the dark panel: the **ExecHQ wordmark followed by "Enterprise"**, and the line *"See how your leaders are putting their plans into practice."* in italic serif. On web the wordmark and line sit at the top left of the panel, as on the participant Login's web layout today.
+In the dark panel: the **ExecEngine wordmark followed by "Enterprise"**, and the line *"See how your leaders are putting their plans into practice."* in italic serif. On web the wordmark and line sit at the top left of the panel, as on the participant Login's web layout today.
 
 In the sheet, centered, at most 28rem wide, top to bottom:
 
-1. **Welcome back** (small label), then the heading **Log in to ExecHQ Enterprise**.
-2. "Use the work email your ExecHQ contact set up for you."
+1. **Welcome back** (small label), then the heading **Log in to ExecEngine Enterprise**.
+2. "Use the work email your ExecEngine contact set up for you."
 3. **Email field:** a pill-shaped field labeled "Your work email".
 4. **Keep me logged in on this computer:** a checkbox, ticked by default.
 5. **Log in:** a full-width primary button.
 6. **or**, with a thin line either side.
 7. **Continue with Google** and **Continue with Apple:** two full-width buttons with their marks.
-8. "Not set up yet? Your ExecHQ contact sends the invitation." This replaces the participant's "New to ExecHQ? Start here", and is not a link.
+8. "Not set up yet? Your ExecEngine contact sends the invitation." This replaces the participant's "New to ExecEngine? Start here", and is not a link.
 9. At the very foot: a lock icon, "Totals for your cohort. Never a participant.", and a **Learn more** link.
 
 ---
@@ -69,18 +69,18 @@ Build these from the same parts and rules, as written in the Login spec:
 
 ### 4.1 The work email
 
-The admin's account is tied to the **work email** ExecHQ set up for them, the opposite of participants, whose accounts are tied to a personal email. The field is labeled "Your work email" and the line above it says to use it.
+The admin's account is tied to the **work email** ExecEngine set up for them, the opposite of participants, whose accounts are tied to a personal email. The field is labeled "Your work email" and the line above it says to use it.
 
 ### 4.2 Google and Apple
 
-Pressing **Continue with Google** or **Continue with Apple** opens the provider's own window, which returns an address. ExecHQ compares it with the work email on the admin's account.
+Pressing **Continue with Google** or **Continue with Apple** opens the provider's own window, which returns an address. ExecEngine compares it with the work email on the admin's account.
 
 - **The address matches** (for example, the admin's work Google account): signed in, to the Admin Dashboard.
-- **The address does not match** (a personal Google account, or Apple's Hide My Email relay): the sheet shows **That account isn't set up** / "No ExecHQ Enterprise account uses that address. Log in with the work email your ExecHQ contact set up.", with one button, **Log in with my work email**, back to the first screen. There is no "Start fresh": admins cannot sign up.
+- **The address does not match** (a personal Google account, or Apple's Hide My Email relay): the sheet shows **That account isn't set up** / "No ExecEngine Enterprise account uses that address. Log in with the work email your ExecEngine contact set up.", with one button, **Log in with my work email**, back to the first screen. There is no "Start fresh": admins cannot sign up.
 
 ### 4.3 "Can't get into that inbox?"
 
-On the code screen, the link opens a dialog: **Can't get into that inbox?** / "Write to your ExecHQ contact from any address. They can check the email on your account, and send a new invitation if it has changed." One button, **Close**.
+On the code screen, the link opens a dialog: **Can't get into that inbox?** / "Write to your ExecEngine contact from any address. They can check the email on your account, and send a new invitation if it has changed." One button, **Close**.
 
 ### 4.4 "Learn more" (privacy)
 
@@ -125,7 +125,7 @@ All colors are tokens. No color is hard-coded.
 As the participant Login (Login spec section 5), with these notes:
 
 - **Tab order:** email, keep me logged in, Log in, Google, Apple, Learn more. "Not set up yet?" is text, not a control.
-- **The wordmark's suffix** is read with it: "ExecHQ Enterprise".
+- **The wordmark's suffix** is read with it: "ExecEngine Enterprise".
 - **Focus** moves to the new screen's heading on each change, and not on first paint.
 
 ---
@@ -150,7 +150,7 @@ Copy: `mock/sponsor-login.ts`, which takes the code, the code's rules and the dr
 | Nothing is sent. The email arrives as a drawn notification. Only the code 482913 signs in. | A real email is sent to the work address. |
 | The stand-in Google picker offers the admin's work account (matches) and a personal one (doesn't). Apple offers Share my email (matches) and Hide my email (doesn't). | The provider's own window returns an address, compared with the account's work email. |
 | Sign-in goes to the dashboard for the cohort picked in the dock. | The admin's own cohort. |
-| The contact dialog only explains. | The ExecHQ contact checks the account and re-sends an invitation. |
+| The contact dialog only explains. | The ExecEngine contact checks the account and re-sends an invitation. |
 
 ---
 
@@ -159,8 +159,8 @@ Copy: `mock/sponsor-login.ts`, which takes the code, the code's rules and the dr
 These are settled. They are the specified behavior.
 
 1. **The same three ways in as participants:** an emailed code, Google and Apple. No Microsoft, no password (2026-10-23).
-2. **Work email.** The admin's account is tied to the work email ExecHQ set up.
-3. **No sign-up.** The ExecHQ contact sends the invitation; the page says so.
+2. **Work email.** The admin's account is tied to the work email ExecEngine set up.
+3. **No sign-up.** The ExecEngine contact sends the invitation; the page says so.
 4. **Providers match on the work address.** Personal accounts and Hide My Email fall to "That account isn't set up".
 5. **The privacy line says what admins see,** before they are in.
 6. **Sign-in lands on the Admin Dashboard;** Sign out on the Admin profile lands here.

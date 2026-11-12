@@ -96,7 +96,7 @@ An action is on the map, and in which state, by these rules:
 | --- | --- |
 | Done | The action's work is confirmed in the Loop (the person has logged what came of it), or, for an action that has no draft, the person has said it is done |
 | In progress | The person has pressed Start on it, or there is already work on it (a draft, or a task they have begun). Having accepted it into the plan is not enough |
-| Not started | ExecHQ has suggested it or the person accepted it, and they have not touched it |
+| Not started | ExecEngine has suggested it or the person accepted it, and they have not touched it |
 | Off the map | The person turned it down or retired it, or said they are not doing it |
 
 A finished action stays on its ring until the person asks for a new one. New actions come with the plan's next stage.

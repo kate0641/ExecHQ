@@ -1,9 +1,18 @@
-# ExecHQ prototype — standing rules
+# ExecEngine prototype — standing rules
 
-A React/Next.js **design prototype** for ExecHQ: a private career advisor for senior
+A React/Next.js **design prototype** for ExecEngine: a private career advisor for senior
 managers through SVPs. This repo exists to design and review screens, not to ship a
 product. There is no backend, no API, no database, no auth, and no AI integration.
 Nothing in this repo talks to a network.
+
+The product was called **ExecHQ** until 2026-11-12, when it became **ExecEngine**
+(Kate, from Eric's why statement). Every word on screen says ExecEngine. What
+nobody sees keeps the old name on purpose: the repo and folders, the
+`package.json` name, the `exechq…` `localStorage` keys (renaming them would wipe
+saved state), code identifiers such as `by: "exechq"`, the source PDFs in
+`docs/`, and the dated handoff notes written before the change. The logo's
+"Engine" is set in type as a stand-in until the brand artwork arrives
+(`components/primitives/Logo`).
 
 ## Design sessions — read this first
 
@@ -238,7 +247,7 @@ drag interaction must come with the same two alternatives.
 
 Switches the canvas between Web, Tablet and Mobile.
 
-- **Product pages default to Mobile.** ExecHQ is a mobile-first product, so a
+- **Product pages default to Mobile.** ExecEngine is a mobile-first product, so a
   concept page opens on the phone unless the reviewer has chosen otherwise.
 - **Web-only routes** are locked to web with the Mobile and Tablet options
   visibly disabled and an accessible explanation: the Enterprise Dashboard
@@ -255,7 +264,7 @@ Switches the canvas between Web, Tablet and Mobile.
 - Widths: mobile 393px, tablet 820px, web fills available width.
 - Mobile and tablet render inside a device frame drawn in CSS — bezel, rounded
   corners, and a status bar area on mobile. No image assets.
-- **ExecHQ is designed for the phone's browser, not an app** (Kate, 2026-10-19).
+- **ExecEngine is designed for the phone's browser, not an app** (Kate, 2026-10-19).
   The frames draw Safari as a page first loads, bars showing: the address bar
   on top and, on the phone, the toolbar at the foot. The page gets only the
   space between them (670px on the phone, 1124px on the tablet), and sheets

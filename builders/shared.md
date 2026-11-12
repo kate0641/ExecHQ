@@ -49,15 +49,15 @@ An artifact already in her library opens straight into its draft, never through 
 - Create the Loop record the moment the first draft exists, not before.
 - Keep the draft where she left it if she leaves part way, so the library finds it exactly as it was.
 - Never present a draft as finished or as fact.
-- Keep what ExecHQ wrote distinguishable from what she supplied (section 4).
+- Keep what ExecEngine wrote distinguishable from what she supplied (section 4).
 
 ---
 
 ## 3. What goes into a draft
 
-- **Ask only for what this artifact needs.** Anything ExecHQ already knows is shown filled in and editable, never asked again.
+- **Ask only for what this artifact needs.** Anything ExecEngine already knows is shown filled in and editable, never asked again.
 - **The first question sits on the use case screen,** beside the start button, so the steps after it don't repeat it. When a plan step has already answered it, it arrives chosen and says so.
-- **Required and optional.** A builder asks the questions only she can answer, one at a time in the guided concepts. What ExecHQ already has, and anything optional, waits on one last screen to check.
+- **Required and optional.** A builder asks the questions only she can answer, one at a time in the guided concepts. What ExecEngine already has, and anything optional, waits on one last screen to check.
 - **Enrichers are offers, never gates.** When something would improve the draft ("Add three recent accomplishments"), it is offered inside the flow with why, and she can skip it. The draft never waits for one.
 - **She supplies the facts.** In V1 nothing is imported. No LinkedIn, no company data, no scraping. Every fact in a draft is one she typed or chose.
 - **Private stays private.** Nothing she said about her company, her manager or internal politics goes into a draft unless she puts it there herself.
@@ -71,13 +71,13 @@ Every draft is made of three kinds of text, and she can always tell them apart:
 | Kind | What it is | How it looks |
 | --- | --- | --- |
 | **Your words** | What she typed or chose, placed as she said it | Primary ink |
-| **ExecHQ's wording** | Framing around her words: openings, transitions, the structure of a section | Secondary ink, dotted underline, a key above the draft |
-| **A question only you can answer** | A gap ExecHQ will not guess at: a result, a name, a date | A marked question in place; listed again under "Questions for you" |
+| **ExecEngine's wording** | Framing around her words: openings, transitions, the structure of a section | Secondary ink, dotted underline, a key above the draft |
+| **A question only you can answer** | A gap ExecEngine will not guess at: a result, a name, a date | A marked question in place; listed again under "Questions for you" |
 
 Rules:
 
 - **Never invent specifics.** No names, numbers, results, dates, quotes or employers she did not give. A gap is a question to her ("What result did the team deliver?"), never a plausible filler.
-- **Her words fit the sentence.** Placed mid-sentence, her words take a small first letter (unless they start with "I" or a proper name) and lose their own full stop. ExecHQ phrases around what she said rather than forcing it into a lead-in it doesn't fit.
+- **Her words fit the sentence.** Placed mid-sentence, her words take a small first letter (unless they start with "I" or a proper name) and lose their own full stop. ExecEngine phrases around what she said rather than forcing it into a lead-in it doesn't fit.
 - **Call it a draft until she marks it ready.** "Here is a first draft of your brief", never "Here is your brief".
 - **An edited section becomes hers.** Once she rewrites a section, all of it is her words.
 - **Answering a question** puts her answer in its place, in her words.
@@ -105,19 +105,19 @@ The Sprint 2 Loop statuses, identical everywhere an artifact appears (the Playbo
 | **Draft** | Created and saved; she may still be editing ("Still editing") |
 | **Ready to use** | She says it is ready |
 | **Used / Sent / Published** | She used it, by the kind's own word (section 1) |
-| **Waiting to hear** | Used, and ExecHQ will check back |
+| **Waiting to hear** | Used, and ExecEngine will check back |
 | **Outcome logged** | She said what came of it |
 | **Closed** | No further action needed. Never "Done" or "Complete", which belong to action steps. |
 
 ### 6.2 Marking it
 
-- **Mark ready,** then **Mark used / sent / published.** Posting or sending is always something she does outside ExecHQ. Nothing implies ExecHQ posts or sends ("Copy to post on LinkedIn", never "Post to LinkedIn").
-- **Check back.** Once used, ExecHQ asks what came of it after the builder's check-back days (section 1), unless she chose otherwise when she marked it ready.
-- **The question:** "You sent your pitch for the Q1 planning review on Thursday. What came of it?" Five answers, one tap each: It went well, It was mixed, Not the way I hoped, Nothing yet, It's no longer relevant. Each builder words its own: Positioning asks "How did it go when you used it?", Pitch "Did you hear back?" (Yes, it's on · They want changes · They said not now · Not yet · I'll try somewhere else), the Situation Brief "How did it go?" (with "It hasn't happened yet" for a meeting that moved) and Thought Leadership "How did it land?", with answers to match (13 and 19 Oct). Her tap is all the feedback: ExecHQ never asks a second question, and gives the next step whatever she answers (13 Oct). Each builder's own table is under "After she answers" in its page. The outcome each answer records is the same.
+- **Mark ready,** then **Mark used / sent / published.** Posting or sending is always something she does outside ExecEngine. Nothing implies ExecEngine posts or sends ("Copy to post on LinkedIn", never "Post to LinkedIn").
+- **Check back.** Once used, ExecEngine asks what came of it after the builder's check-back days (section 1), unless she chose otherwise when she marked it ready.
+- **The question:** "You sent your pitch for the Q1 planning review on Thursday. What came of it?" Five answers, one tap each: It went well, It was mixed, Not the way I hoped, Nothing yet, It's no longer relevant. Each builder words its own: Positioning asks "How did it go when you used it?", Pitch "Did you hear back?" (Yes, it's on · They want changes · They said not now · Not yet · I'll try somewhere else), the Situation Brief "How did it go?" (with "It hasn't happened yet" for a meeting that moved) and Thought Leadership "How did it land?", with answers to match (13 and 19 Oct). Her tap is all the feedback: ExecEngine never asks a second question, and gives the next step whatever she answers (13 Oct). Each builder's own table is under "After she answers" in its page. The outcome each answer records is the same.
 - **She can answer early, in the builder.** Once it is used, the draft itself asks "What came of it?" with the same five answers, so she never has to wait for the check-back (the PRD's "Mark used and report outcome"). It is the Loop's own check-in, the one Home uses; answering here is the same as answering there.
 - **"Nothing yet" is normal,** never a failure. It asks again 3 days later, then 7 days after that; after a third "Nothing yet" it stops asking, and she can still report an outcome whenever she likes. It never asks about more than one thing at a time.
-- **After an outcome, the next step.** Whatever she answers, ExecHQ says it back and offers what to do next: one leads, with at most one more, each with one action (a Plan step to add, part of the work to copy, a new one starting from this one, another tool starting from this work, today's Briefing, a sharper version, or what's next on her Plan). A Plan step goes on her Plan only when she says so. Every builder, every concept, and the same next step wherever she answers: in the builder, on Home and to the advisor (one set of rules, `lib/next-after.ts`).
-- **A note is hers to add.** Every feedback card offers "Add a note" (optional, only she sees it), alongside the next step. ExecHQ never asks for one.
+- **After an outcome, the next step.** Whatever she answers, ExecEngine says it back and offers what to do next: one leads, with at most one more, each with one action (a Plan step to add, part of the work to copy, a new one starting from this one, another tool starting from this work, today's Briefing, a sharper version, or what's next on her Plan). A Plan step goes on her Plan only when she says so. Every builder, every concept, and the same next step wherever she answers: in the builder, on Home and to the advisor (one set of rules, `lib/next-after.ts`).
+- **A note is hers to add.** Every feedback card offers "Add a note" (optional, only she sees it), alongside the next step. ExecEngine never asks for one.
 - **Closing.** She can close anything, any time. "It's no longer relevant" closes it, except her positioning statement, which Pitch Builder and the Situation Brief draw on: there it only stops the asking.
 
 ### 6.3 The Signal Picture
@@ -154,8 +154,8 @@ From the PRD (Kate, 13 October). They hold in every builder and in all three bui
 
 | Guardrail | How every builder keeps it |
 | --- | --- |
-| **Never publish automatically.** She authorizes and performs any external posting. | Nothing in ExecHQ posts, sends or schedules. Copy is worded for what she will do herself ("Copy to send", "Copy to post on LinkedIn"). "Mark sent" and "Mark published" record what she did; they do nothing outside ExecHQ. A pitch and a post say so under their buttons: "ExecHQ never posts or sends anything for you." |
-| **Clearly distinguish user-provided evidence from generated framing.** | Every draft marks three kinds of text (section 4): her words, ExecHQ's wording (quieter ink, dotted underline) and questions for her, with a key above the draft. The same marks hold wherever a draft appears: the full draft, Concept 3's draft as it fills in, and its collapsed card. Her evidence is always her words; ExecHQ never writes evidence, only questions asking for it. A section she rewrites becomes all hers. |
+| **Never publish automatically.** She authorizes and performs any external posting. | Nothing in ExecEngine posts, sends or schedules. Copy is worded for what she will do herself ("Copy to send", "Copy to post on LinkedIn"). "Mark sent" and "Mark published" record what she did; they do nothing outside ExecEngine. A pitch and a post say so under their buttons: "ExecEngine never posts or sends anything for you." |
+| **Clearly distinguish user-provided evidence from generated framing.** | Every draft marks three kinds of text (section 4): her words, ExecEngine's wording (quieter ink, dotted underline) and questions for her, with a key above the draft. The same marks hold wherever a draft appears: the full draft, Concept 3's draft as it fills in, and its collapsed card. Her evidence is always her words; ExecEngine never writes evidence, only questions asking for it. A section she rewrites becomes all hers. |
 | **Do not infer or export private Signal Background information without explicit, scoped permission.** | No builder reads her Signal Background. Everything a draft uses is shown before the draft, with where it came from (her plan, her direction, onboarding), and can be changed. What she adds in a builder (accomplishments, risks, a pasted bio) is used in that draft only. If a later version draws on Signal Background, it asks first, names exactly what it would use, and the draft labels it. |
 | **Make provenance visible when a draft derives from LinkedIn-imported context or a Daily Intelligence Briefing item.** | A draft started from a Briefing read shows its source (title, publisher, the passage) on the draft and in the library, for the life of the artifact ("Started from today's Briefing"). Her statement from onboarding and the plan step a draft serves ("For: …") show on the draft too. V1 imports nothing from LinkedIn (manual input only); if it ever does, the draft says "Uses your LinkedIn context" in the same place. In Concept 3 on a phone, the source stays above the open draft. |
 

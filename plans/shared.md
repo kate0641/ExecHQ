@@ -1,6 +1,6 @@
 # Rules for every plan
 
-**Status: draft.** From *ExecHQ: Content and Mapping* (Kate, 12 October 2026). Lines marked **Proposed** are Claude's, for Kate to confirm.
+**Status: draft.** From *ExecEngine: Content and Mapping* (Kate, 12 October 2026). Lines marked **Proposed** are Claude's, for Kate to confirm.
 
 These are the agent's background rules. They are never shown to the user as written. Each plan has its own brief; this page holds what every plan shares.
 
@@ -47,7 +47,7 @@ Optional questions that sharpen the route and the first recommendation. Still op
 | --- | --- | --- | --- |
 | How soon do you want to make meaningful progress? | "I have an important moment in the next 30 days" · "I want visible progress in the next 3 months" · "I am building toward a longer-term change" · "I am still figuring it out" | Sets urgency and the right first-win artifact | Changes urgency, the plan route, and whether the first recommendation centres on immediate preparation, near-term evidence-building, or exploration |
 | What are the areas you're seeking to build or enhance? What needs the most attention right now? | "My case for broader scope or promotion" · "My visibility and point of view" · "A specific upcoming conversation or opportunity" · "My ability to influence where I am" · "Clarifying what comes next" | Confirms or corrects the direction she gave and clarifies the main outcome | Confirms the template and picks the first plan area to prioritize |
-| What's driving you? (the why) | "My desire to stand out in my field as an influential thought leader" · "My career aspirations" · "I want to continue growing in my career" · "I feel stagnant in my career" | The core reason she needs ExecHQ | Shapes the plan route and the whole journey |
+| What's driving you? (the why) | "My desire to stand out in my field as an influential thought leader" · "My career aspirations" · "I want to continue growing in my career" · "I feel stagnant in my career" | The core reason she needs ExecEngine | Shapes the plan route and the whole journey |
 | How much time can you realistically give this each week? | "15 minutes or less" · "30–60 minutes" · "1–2 hours" · "More than 2 hours" | Sets realistic effort and cadence | Changes the size, cadence and effort of recommendations. It never decides which plan she can have |
 
 **To confirm:** in the source table, the "Why it matters" cell for "What's driving you?" reads "I want to continue growing in my career. I feel stagnant in my career." This page treats those as two more answer options, since they read as answers rather than a reason.
@@ -58,7 +58,7 @@ If her answers don't map cleanly to one template, the agent does one of three th
 
 1. **Choose the closest template, with explicit assumptions.** Say which plan it chose and what it assumed, in one plain sentence she can correct: "I've started you on Step Up, assuming the broader role is in your current company."
 2. **Offer a short refinement conversation.** A few questions at most, to tell two close plans apart. It ends in a choice; it is not an open-ended chat.
-3. **Say the direction is outside V1.** Name what ExecHQ can help with now and offer the closest plan, without pretending the fit is better than it is.
+3. **Say the direction is outside V1.** Name what ExecEngine can help with now and offer the closest plan, without pretending the fit is better than it is.
 
 **Proposed:** use 1 when one plan is clearly closest; 2 when two plans are equally close; 3 when no plan's outcome matches what she wants.
 
@@ -69,7 +69,7 @@ If her answers don't map cleanly to one template, the agent does one of three th
 Every plan brief has the same six parts:
 
 1. **Plan card.** Who it is for, the outcome, common constraints, how people arrive at it, and its stages, each with a success signal.
-2. **Action set.** The operational layer: for each stage, the action steps the product can recommend, when each becomes appropriate, what counts as done, what evidence ExecHQ keeps, and which plan area and signal it moves. It is conditional logic, not a longer list of tasks.
+2. **Action set.** The operational layer: for each stage, the action steps the product can recommend, when each becomes appropriate, what counts as done, what evidence ExecEngine keeps, and which plan area and signal it moves. It is conditional logic, not a longer list of tasks.
 3. **Feedback.** Which steps ask her for feedback, of which type (section 6), when, and what her answer changes (Kate, 14 Oct).
 4. **Signal emphasis.** Which of the six signals each stage leans on.
 5. **How the agent behaves** on this plan.
@@ -132,16 +132,16 @@ The labels are internal recommendation inputs. They are **never shown to her as 
 Kate, 14 Oct. Each plan's section 3 says which of its steps ask her for feedback, and of which type. The types are what the prototype already asks, plus one **Proposed** (a progress check). Every type follows the same rules:
 
 - **One tap is enough.** Each question has a few answers, one tap each. Words are always optional ("Add a note"), never asked for.
-- **One at a time.** ExecHQ never asks about more than one thing at once.
+- **One at a time.** ExecEngine never asks about more than one thing at once.
 - **Her answer always changes something:** the next step, the stage, or the plan. A question whose answer changes nothing is not asked.
-- **Not every step asks.** Where the step's own "Done when" is the answer (she saves it, she records it), ExecHQ asks nothing more.
+- **Not every step asks.** Where the step's own "Done when" is the answer (she saves it, she records it), ExecEngine asks nothing more.
 
 | Type | What it asks | Her answers | When | Where it lives |
 | --- | --- | --- | --- | --- |
 | **What came of it?** | What happened after she used, sent or published something | It went well · It was mixed · Not the way I hoped · Nothing yet · It's no longer relevant (each builder words its own, e.g. "How did it land?") | The builder's check-back days after she marks it used (`builders/shared.md`, section 1); "Nothing yet" asks again 3 days later, then 7, then stops | The Loop: Home, the builder, the advisor |
 | **How did it go?** | How a dated moment went: a conversation, a review, a talk | It went well · It was mixed · Not the way I hoped · It hasn't happened yet · It's no longer relevant | The day after the moment's date | The Loop, on the brief she prepared with |
-| **Is this right?** | Whether something ExecHQ helped write says what she means | Yes, that's it · Change it | As soon as it is drafted; "Yes" completes the step | On the thing itself |
+| **Is this right?** | Whether something ExecEngine helped write says what she means | Yes, that's it · Change it | As soon as it is drafted; "Yes" completes the step | On the thing itself |
 | **Anything new?** | A short reflection on her current context: new work, outcomes, moments coming up | Something new (with what, in her words) · Nothing has changed | On the step's rhythm (weekly, in Step Up) | Its own check-in card |
-| **Stage check-in** | When ExecHQ decides a stage is finished: did she get what finishing looks like, and how she feels about her plan now | Milestone: Yes · Partly · Not yet. Feeling: More sure · The same · Less sure · Stuck | Once per stage, when its work is done; "Later" waits until she comes back to it | The Plan page |
+| **Stage check-in** | When ExecEngine decides a stage is finished: did she get what finishing looks like, and how she feels about her plan now | Milestone: Yes · Partly · Not yet. Feeling: More sure · The same · Less sure · Stuck | Once per stage, when its work is done; "Later" waits until she comes back to it | The Plan page |
 | **Progress check** (**Proposed**) | Where a long-term step stands | Moving · Slipped · Done · Not doing this now | Every 4 weeks while a long-term step is open | On the step |
 | **None** | Nothing: the step's own "Done when" is the answer | | | |

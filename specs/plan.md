@@ -8,16 +8,16 @@ Concepts 1 (Steps forward), 2 (Road forward) and 4 were the other ideas tried fo
 
 ## 1. What it is
 
-The Plan is where the person works through their plan with ExecHQ, one thing at a time, the way onboarding asked one question at a time. It answers three questions, in this order of weight:
+The Plan is where the person works through their plan with ExecEngine, one thing at a time, the way onboarding asked one question at a time. It answers three questions, in this order of weight:
 
 1. **What should I do next, and where am I with it?** One move at a time: what it is, why it matters, and a set of answers that say where they are with it. Answering changes their plan for real.
 2. **Where is this all going?** Their direction, in their own words, and the roadmap: the stages of their plan, with the steps in each.
-3. **How did that stage go?** When ExecHQ sees they have finished a stage, it asks before it builds on it: what came of what they did, whether they got what finishing looks like, and how they feel about their plan.
+3. **How did that stage go?** When ExecEngine sees they have finished a stage, it asks before it builds on it: what came of what they did, whether they got what finishing looks like, and how they feel about their plan.
 
 What it deliberately does not do:
 
 - **Score or grade.** Nothing on the Plan is a percentage, a streak or a deadline. A stage has a suggested pace in words ("Next month"), never a due date, and running past it is never a failing.
-- **Let the person mark a stage finished.** ExecHQ decides a stage is finished, from their work (9.1). The person can say they did not get there, and the stage stays open (9.4).
+- **Let the person mark a stage finished.** ExecEngine decides a stage is finished, from their work (9.1). The person can say they did not get there, and the stage stays open (9.4).
 - **Offer anything they have turned down twice.** A step passed on twice is never offered again, by any route (4.4).
 - **Say their work caused a result.** Replies say what happened and what moved, never why.
 
@@ -74,17 +74,17 @@ After a stage check-in where they said they feel stuck or less sure, the moves s
 
 Under the question **"Where are you with this?"**:
 
-| Answer | What it does | ExecHQ's reply |
+| Answer | What it does | ExecEngine's reply |
 | --- | --- | --- |
 | **The start button** | Opens the step's tool in the Playbook, and puts it on their plan as taken on. It says "Start in {tool}", or "Get started" for a step with no tool, and **"Keep working on it"** once a draft for it is under way. A step with no tool is started by putting it on their plan for its time | None: the tool opens |
-| **I'll do it {when}** | Puts the step on their plan for its suggested day (4.7), which the label says in words ("I'll do it this week") | "Good. It is on your plan for {when}, and ExecHQ will ask you how it went." |
+| **I'll do it {when}** | Puts the step on their plan for its suggested day (4.7), which the label says in words ("I'll do it this week") | "Good. It is on your plan for {when}, and ExecEngine will ask you how it went." |
 | **Change when** | Shows the time words instead, from now on (This week, Next week, This month, Next month, This quarter, Next quarter; see 4.7 for which are offered and the day each stands for). Choosing one puts the step on their plan for then | The same reply, with the time they chose |
 | **Talk it through** | Opens the chat on the step, asking "What's getting in the way? Pick one, or tell me in your own words." Nothing about their plan changes | In the chat |
-| **Not for me** | Asks why, one optional tap (4.3), then takes the step off their plan and offers another in its place | "Say why, if you like. One tap, and it shapes what ExecHQ offers next." Then "That is fine. ExecHQ will not offer this one again." and, when one is offered, "Now offered: {step}." |
+| **Not for me** | Asks why, one optional tap (4.3), then takes the step off their plan and offers another in its place | "Say why, if you like. One tap, and it shapes what ExecEngine offers next." Then "That is fine. ExecEngine will not offer this one again." and, when one is offered, "Now offered: {step}." |
 
 There is no "I've done it" here on purpose. Saying a step is done, and what came of it, belongs to Home's "Stay on track" (see the Homepage spec).
 
-After an answer the reply replaces the answers, in the serif voice, signed "ExecHQ", and a **Next move** button goes on. On the last move the button says **See the road**.
+After an answer the reply replaces the answers, in the serif voice, signed "ExecEngine", and a **Next move** button goes on. On the last move the button says **See the road**.
 
 ### 4.3 Why not
 
@@ -96,7 +96,7 @@ After an answer the reply replaces the answers, in the serif voice, signed "Exec
 | Wrong timing | The step comes back once, 14 days later |
 | Too much effort | The step offered in its place is lighter, and the reply says so only when it is |
 | Uncomfortable channel | That channel is never offered again |
-| Already done | ExecHQ offers to add it to their record as theirs |
+| Already done | ExecEngine offers to add it to their record as theirs |
 | Other | Nothing more than the pass |
 
 A step offered in its place is never the same suggestion reworded: it never shares the same kind, area and channel. Replacements are capped at one per horizon per visit; after that the place stays empty and says so.
@@ -118,7 +118,7 @@ A step brought onto their plan by a stage check-in carries one line saying why, 
 
 ### 4.6 The last page, and when there is nothing
 
-After the last move: kicker "The road ahead", heading "That's this stretch of the plan.", the line "Here is where your plan stands.", what changed on their plan most recently (up to six notes), and the reply "Then ExecHQ builds the next stage, from what worked and what didn't." Buttons: **Go through them again** and **Add to your plan**.
+After the last move: kicker "The road ahead", heading "That's this stretch of the plan.", the line "Here is where your plan stands.", what changed on their plan most recently (up to six notes), and the reply "Then ExecEngine builds the next stage, from what worked and what didn't." Buttons: **Go through them again** and **Add to your plan**.
 
 With no moves at all: "Nothing to answer right now." and "Your plan offers the next move when one fits.", with **Add to your plan**.
 
@@ -253,7 +253,7 @@ An open stage shows **Finishing looks like** {the stage's milestone}, then what 
 
 Each line has its time in words on a pill, then its title.
 
-- **A step** is a button that opens it, one at a time: the start button (as 4.2; "I've done this" for a step with no tool that is already on their plan), then **Ask ExecHQ** with three rows, "Why this step?", "What will it take?" and "Ask something else", each opening the chat on its answer. On the roadmap under a move, the stage opens with every step closed, because the move above already offers the way to start it.
+- **A step** is a button that opens it, one at a time: the start button (as 4.2; "I've done this" for a step with no tool that is already on their plan), then **Ask ExecEngine** with three rows, "Why this step?", "What will it take?" and "Ask something else", each opening the chat on its answer. On the roadmap under a move, the stage opens with every step closed, because the move above already offers the way to start it.
 - **Something they added** shows its title and "· Yours", and does not open.
 
 A step goes in the stage its day falls in. A step still to do always goes in the stage they are in or the one they are about to start, never in one they have finished.
@@ -274,14 +274,14 @@ Removed 9 November 2026. **See your plan** opened a sheet with the plan's name, 
 
 ### 9.1 When it opens
 
-ExecHQ decides a stage is finished, from their work: every step they took on in it is done. When the most recent finished stage has no check-in yet, the Plan opens on the check-in instead of the moves. Older finished stages are history and are not asked about, and a stage is never asked about while they have checked in on a later one.
+ExecEngine decides a stage is finished, from their work: every step they took on in it is done. When the most recent finished stage has no check-in yet, the Plan opens on the check-in instead of the moves. Older finished stages are history and are not asked about, and a stage is never asked about while they have checked in on a later one.
 
 ### 9.2 The pages
 
 The check-in uses the same page and answers as the moves, with "Stage check-in · {stage}" where the plan's name was, and a segment for each of its pages.
 
 1. **What you did.** Kicker "Stage {n} of {total} · Finished", heading "You finished {stage}!", and "Here's what you did. Tell me how it went, and I'll build on it." (2026-10-28) Then one card per thing from the stage:
-   - its source: **Your steps**, **In ExecHQ** (something made with ExecHQ) or **Yours** (something they added),
+   - its source: **Your steps**, **In ExecEngine** (something made with ExecEngine) or **Yours** (something they added),
    - its title, and what happened when ("Used 13 Oct", "Done 9 Oct", "Added 17 Oct"),
    - what they have said came of it ("It went well." and their words in the serif), or a **Not reported yet** tag,
    - steps they passed on, listed with "You passed on it" and never asked about.
@@ -289,12 +289,12 @@ The check-in uses the same page and answers as the moves, with "Stage check-in �
    The answers: "Check in on this stage?" with "{n} things to hear about, then how the stage went. About two minutes. You can skip any of it." **Start the check-in** and **Later**.
 2. **How did it go?** One page for each thing not yet reported, fixed when the check-in opens. The answers are "Overall" as It went well, It was mixed, Not the way I hoped and Nothing yet, then "In your words" (optional). (The page asked "What came of it?" until 2026-10-28.) Something they added takes only their words. **Next** waits for an answer; **Skip this one** is always there. What they say is kept on the thing itself, the same record "What came of it?" keeps everywhere else.
 3. **Did you get what finishing looks like?** The stage's milestone as the margin note. "Where did you land?": **Yes**, **Partly**, **Not yet**. **Next**, or **Skip**.
-4. **How are you feeling about your plan now?** "However it went is useful. ExecHQ shapes what comes next around it." "Right now I'm feeling…": **More sure of it**, **About the same**, **Less sure**, **Stuck**, then "Anything ExecHQ should know?" (optional), "Only you see this. It is kept as you wrote it." **See your stage**, or **Skip**.
+4. **How are you feeling about your plan now?** "However it went is useful. ExecEngine shapes what comes next around it." "Right now I'm feeling…": **More sure of it**, **About the same**, **Less sure**, **Stuck**, then "Anything ExecEngine should know?" (optional), "Only you see this. It is kept as you wrote it." **See your stage**, or **Skip**.
 5. **Your stage, in your words.** A reply that says what their answers changed (9.4), then **What you did** (the cards again, with what they said now) and **How the stage went** (where they landed, how they feel, their words), with "Not answered" for anything skipped. **On to {next stage}** (or **Back to your plan** after "Not yet", or when it was opened from the roadmap) and **Change an answer**, which goes back to the milestone with their answers chosen.
 
 ### 9.3 Later
 
-**Later** puts the whole check-in off: the Plan opens on the moves, and the finished stage in the roadmap carries "Tell ExecHQ how this stage went, and it builds on what worked." with **Check in on this stage**, which opens the check-in at its start. Nothing else nags.
+**Later** puts the whole check-in off: the Plan opens on the moves, and the finished stage in the roadmap carries "Tell ExecEngine how this stage went, and it builds on what worked." with **Check in on this stage**, which opens the check-in at its start. Nothing else nags.
 
 ### 9.4 What the answers change
 
@@ -350,10 +350,10 @@ The Plan changes with where the person is. In the prototype the dock lists five 
 | --- | --- |
 | Maya is the only person, with five fixed moments picked from the dock | The Plan is built from the person's own account, plan and work |
 | Steps, their order and their reasons are a fixed queue written for "Step up" | They are chosen and ranked for the person by the model; another plan has none in the prototype |
-| Which steps are "important", the step aimed at each stage's gap, and the different way at each step are fixed lists in the mock | ExecHQ chooses them from the plan and what the person has said |
+| Which steps are "important", the step aimed at each stage's gap, and the different way at each step are fixed lists in the mock | ExecEngine chooses them from the plan and what the person has said |
 | "Talk it through" offers fixed replies in the chat, and "It feels too big" changes nothing | The advisor answers, and what they say can change the plan |
 | A stage is finished when every step taken on in it is confirmed in the Loop, against fixed sample work | The same rule, against their real work |
-| Which steps are tied to an event, and the event's day (their 1:1 on Tuesday, the review at month end, the January planning cycle), are a fixed list in the mock (4.7) | Taken from what the person has told ExecHQ about their calendar and their work; a step with nothing to tie it to falls back on its horizon |
+| Which steps are tied to an event, and the event's day (their 1:1 on Tuesday, the review at month end, the January planning cycle), are a fixed list in the mock (4.7) | Taken from what the person has told ExecEngine about their calendar and their work; a step with nothing to tie it to falls back on its horizon |
 | "Today" is the prototype's fixed sample day, moved on by the dock | The person's own date, in their time zone; weeks still run Monday to Sunday |
 | Things they added that came with the sample data cannot take new words | Everything they added can |
 | The Playbook tools the start buttons open are placeholders until Sprint 4 | They open the real tools |
@@ -368,7 +368,7 @@ Written from the approved prototype. These are choices the prototype makes that 
 1. **Which steps count as important,** the step aimed at each stage's gap, and the different way at each step (12). The prototype's lists are stand-ins.
 2. **Any important step passed on up to this stage** comes back at the check-in, not only that stage's own.
 3. **One at a time** lasts for the whole of the stage after a stuck or less-sure check-in. It could instead end after the first move is answered.
-4. **"Not yet" keeps the stage open** only until the one step aimed at the gap is done; ExecHQ does not ask again when it closes.
+4. **"Not yet" keeps the stage open** only until the one step aimed at the gap is done; ExecEngine does not ask again when it closes.
 5. **Things passed on** are listed in the check-in but never asked about.
 6. **The open drawer on tablet** leaves room under its answers on a tall screen (5.2). Whether the answers sit at the top or nearer the thumb is open.
 7. **Steps for another plan.** Only "Step up" has steps in the prototype; switching plans starts with none.

@@ -44,7 +44,7 @@
 
 ### 2.1 What it already has
 
-- **Her positioning statement,** shown on the last screen to check ("Check what ExecHQ has", from onboarding, with Edit). The opening statement draws on it, as the use case screen's "Goes with this" says. Like the other three builders, the last screen opens on what it already knows.
+- **Her positioning statement,** shown on the last screen to check ("Check what ExecEngine has", from onboarding, with Edit). The opening statement draws on it, as the use case screen's "Goes with this" says. Like the other three builders, the last screen opens on what it already knows.
 - **Anything she is waiting to hear about** (a pitch, her story), shown as "Still waiting to hear. Worth raising in the conversation."
 - **From an action step:** the moment's type and who will be there, when the step says them.
 
@@ -56,7 +56,7 @@
 | What is it? | Its name | Her words | Yes, only after Something else | Asked only when she picks Something else, so the brief names it rather than saying "The meeting" (CEO, 19 Oct). "A skip-level, an offsite, a dinner. As much as you like." |
 | What do you want to come out of it? | Outcome | Her words | Yes | "The decision or next step you'd count as a good result." |
 | Who will be there? | Who's there | Her words | Yes | Arrives filled from an action step ("My manager"). |
-| When is it? | When | A date | No | "If you know. ExecHQ asks how it went after it." Times the follow-up. |
+| When is it? | When | A date | No | "If you know. ExecEngine asks how it went after it." Times the follow-up. |
 | What do they care about? | Their stakes | Her words | No | "What's at stake for them, in a line." The PRD's stakeholder context. |
 | Anything to draw on | Draw on | Her words, long | No | "Evidence, notes or source material you already have. Paste them in." |
 | Any risks or concerns? | Risks | Her words, one a line | No | "Each becomes a question to prepare for." |
@@ -72,7 +72,7 @@ None in the prototype. **Proposed:** after the first draft, if Supporting eviden
 
 "Here is a first draft of your brief. Change anything; it is yours." It exports as one page.
 
-| Section | What it is for | Her words | ExecHQ's wording | Left as a question when missing |
+| Section | What it is for | Her words | ExecEngine's wording | Left as a question when missing |
 | --- | --- | --- | --- | --- |
 | **Objective** | What a good result is | Her outcome, as she said it | None | What do you want to come out of it? |
 | **Context** | The moment in one line, what they care about, and what they need to know | The moment's name (for Something else), who will be there, what they care about, the background she gave | "[The moment] [on its date], with … They care about …" | What has happened so far that they need to know? (unless she gave the background) |
@@ -111,21 +111,21 @@ The shared options (voice, specificity, length, audience) and the conversational
 | --- | --- |
 | **Copy** | "Copy", the whole brief, with "Exports as one page." |
 | **Export** | Download as PDF, Download as Word |
-| **Mark ready, then used** | "Mark ready", then "Mark used". Using it is having the conversation; ExecHQ never sends the email. |
-| **Check back** | When she gave a date, the day after it, however early she marks it used ("ExecHQ will ask how it went on Friday."). Otherwise 2 days after she marks it used. |
-| **The question** | "You used your check-in brief on Thursday. How did it go?" Answers, one tap each: It went well · It was mixed · Not the way I hoped · It hasn't happened yet · It's no longer relevant. Her tap is all the feedback: ExecHQ asks nothing more (Kate, 13 Oct). The same wording wherever a brief is checked in on: here, Home and the advisor. She can answer in the builder as soon as it is used. |
+| **Mark ready, then used** | "Mark ready", then "Mark used". Using it is having the conversation; ExecEngine never sends the email. |
+| **Check back** | When she gave a date, the day after it, however early she marks it used ("ExecEngine will ask how it went on Friday."). Otherwise 2 days after she marks it used. |
+| **The question** | "You used your check-in brief on Thursday. How did it go?" Answers, one tap each: It went well · It was mixed · Not the way I hoped · It hasn't happened yet · It's no longer relevant. Her tap is all the feedback: ExecEngine asks nothing more (Kate, 13 Oct). The same wording wherever a brief is checked in on: here, Home and the advisor. She can answer in the builder as soon as it is used. |
 | **Signal Picture** | Once used, the moment and what came of it, under the plan area of the step it served. |
 
 ### After she answers
 
-Her tap is all the feedback: ExecHQ asks nothing more, says her answer back, and always gives the next step (Kate, 13 Oct). One leads, with at most one more. A Plan step goes on her Plan only when she taps **Add it to your plan**; where a step is already done or passed on, the next step on her Plan takes its place. "Not now" folds it to one line. Built by rules (`AFTER_ANSWER` in `mock/playbook.ts`); no model in the pilot.
+Her tap is all the feedback: ExecEngine asks nothing more, says her answer back, and always gives the next step (Kate, 13 Oct). One leads, with at most one more. A Plan step goes on her Plan only when she taps **Add it to your plan**; where a step is already done or passed on, the next step on her Plan takes its place. "Not now" folds it to one line. Built by rules (`AFTER_ANSWER` in `mock/playbook.ts`); no model in the pilot.
 
 | Answer | Next step | Then |
 | --- | --- | --- |
 | It went well | **Add to plan:** the step the brief's goal points to ("For what you wanted from it: …"; e.g. *Build a stakeholder message map for the workstream*) | **Send the follow-up email** (copies it) |
 | It was mixed | **Send the follow-up email** | **Add to plan:** the step the goal points to |
 | Not the way I hoped | **Prepare the next conversation:** a new brief starting from this one | Next on your plan |
-| It hasn't happened yet | Next on your plan | "ExecHQ will ask how it went on …" |
+| It hasn't happened yet | Next on your plan | "ExecEngine will ask how it went on …" |
 | It's no longer relevant | Closed. Next on your plan | |
 
 ---

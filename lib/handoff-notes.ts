@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "renamed-execengine",
+    title: "Renamed: ExecHQ is now ExecEngine",
+    description:
+      "Every on-screen mention, the address bar and the Profile download say ExecEngine; the logo sets \"Engine\" in type until the artwork arrives. Storage keys and code names keep exechq (12 Nov).",
+  },
+  {
     slug: "plan-fold-to-card",
     title: "Plan: folding leaves no bar",
     description:

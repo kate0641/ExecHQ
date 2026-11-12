@@ -6,11 +6,11 @@ Approved concept: **Concept 1 — Open page**, with the welcome from the start o
 
 ## 1. What it is
 
-Login is how a returning person gets back into their private account. It does two jobs: it gets them in with as little effort as possible, and it reminds them what ExecHQ is, in the same words and the same look as the first moment of onboarding, so a returning person and a new one see one product.
+Login is how a returning person gets back into their private account. It does two jobs: it gets them in with as little effort as possible, and it reminds them what ExecEngine is, in the same words and the same look as the first moment of onboarding, so a returning person and a new one see one product.
 
 There is no password. A person signs in one of three ways:
 
-1. **An emailed code (the main way).** They enter their email, ExecHQ sends a 6-digit code, and they type it in.
+1. **An emailed code (the main way).** They enter their email, ExecEngine sends a 6-digit code, and they type it in.
 2. **Google.**
 3. **Apple.**
 
@@ -34,17 +34,17 @@ Login uses the `minimal` chrome: no header, no navigation, no footer line. It is
 
 In the sheet, top to bottom:
 
-1. **Welcome back** (small label), then the heading **Log in to ExecHQ**.
+1. **Welcome back** (small label), then the heading **Log in to ExecEngine**.
 2. **The promise:** "A private career advisor that takes you from "I'd like to be" to "I'm going to be". It doesn't just show you the way. It works for you to get you there." These are the exact words from the start of onboarding. They come from one place in the copy, so the two cannot drift apart.
 3. **Email field:** a pill-shaped field labeled "Your email".
 4. **Keep me logged in on this device:** a checkbox, ticked by default.
 5. **Log in:** a full-width primary button.
 6. **or**, with a thin line either side.
 7. **Continue with Google** and **Continue with Apple:** two full-width secondary buttons with their marks.
-8. **New to ExecHQ? Start here.** "Start here" goes to the start of onboarding.
+8. **New to ExecEngine? Start here.** "Start here" goes to the start of onboarding.
 9. At the very foot: a lock icon, "Private to you.", and a **Learn more** link.
 
-In the dark panel: the **ExecHQ wordmark** and the line **"Somewhere to work on what comes next."** in italic serif.
+In the dark panel: the **ExecEngine wordmark** and the line **"Somewhere to work on what comes next."** in italic serif.
 
 ### 2.2 Layout by viewport
 
@@ -110,7 +110,7 @@ How it behaves:
 - **Use a different address** returns to the first screen.
 - **Can't get into that inbox?** opens the recovery dialog (3.6).
 
-**The email arrives.** About 1.6 seconds after the person asks for a code, a notification drops in at the top of the screen, as a phone would show it: "ExecHQ · Your login code · Here's the code you asked for." Screen readers hear "New email from ExecHQ: Your login code." In the prototype, tapping it opens the drawn email (3.5). In production the person opens their own mail app.
+**The email arrives.** About 1.6 seconds after the person asks for a code, a notification drops in at the top of the screen, as a phone would show it: "ExecEngine · Your login code · Here's the code you asked for." Screen readers hear "New email from ExecEngine: Your login code." In the prototype, tapping it opens the drawn email (3.5). In production the person opens their own mail app.
 
 ### 3.3 "That code has expired"
 
@@ -118,19 +118,19 @@ Reached when the code is too old or has had too many wrong tries. The sheet show
 
 ### 3.4 Google and Apple
 
-Pressing **Continue with Google** or **Continue with Apple** opens that provider's own window, where the person chooses an account. The window returns an email address, and ExecHQ compares it with the address on the person's ExecHQ account.
+Pressing **Continue with Google** or **Continue with Apple** opens that provider's own window, where the person chooses an account. The window returns an email address, and ExecEngine compares it with the address on the person's ExecEngine account.
 
 - **The address matches:** the person is signed in and goes to Home.
-- **The address does not match:** the person sees **That's a different account** ("No ExecHQ account uses that address. Log in with the email you used when you joined, or start fresh."), with **Log in with my email** (back to the first screen) and **Start fresh** (to onboarding).
+- **The address does not match:** the person sees **That's a different account** ("No ExecEngine account uses that address. Log in with the email you used when you joined, or start fresh."), with **Log in with my email** (back to the first screen) and **Start fresh** (to onboarding).
 
-Two cases always fall into "different account", because ExecHQ's accounts are tied to a personal email:
+Two cases always fall into "different account", because ExecEngine's accounts are tied to a personal email:
 
-- **A work Google account.** A provider cannot say whether an address is personal or a work one. ExecHQ does not try to guess: it only compares addresses. A person whose account was made with their personal address cannot get in with their work address.
-- **Apple's Hide My Email.** Apple gives ExecHQ a made-up relay address, which cannot match the address on the account. The person is sent to log in by email instead. In V1 there is no way to link the two.
+- **A work Google account.** A provider cannot say whether an address is personal or a work one. ExecEngine does not try to guess: it only compares addresses. A person whose account was made with their personal address cannot get in with their work address.
+- **Apple's Hide My Email.** Apple gives ExecEngine a made-up relay address, which cannot match the address on the account. The person is sent to log in by email instead. In V1 there is no way to link the two.
 
 ### 3.5 The drawn email (prototype only)
 
-Tapping the notification opens the email as a tall sheet in a mail app. It shows: from "ExecHQ", to the person's address, the subject **Your login code**, the line "Here's the code you asked for.", "Type this code in ExecHQ to log in:", the code in large type split in two groups of three, and "This code works for 10 minutes and only once. If you didn't ask for it, you can ignore this email. No one can log in without it." There is no button or link in the email. The person types the code. The subject and preview say nothing about the person's career. A note on the sheet says so, for reviewers.
+Tapping the notification opens the email as a tall sheet in a mail app. It shows: from "ExecEngine", to the person's address, the subject **Your login code**, the line "Here's the code you asked for.", "Type this code in ExecEngine to log in:", the code in large type split in two groups of three, and "This code works for 10 minutes and only once. If you didn't ask for it, you can ignore this email. No one can log in without it." There is no button or link in the email. The person types the code. The subject and preview say nothing about the person's career. A note on the sheet says so, for reviewers.
 
 ### 3.6 "Can't get into that inbox?"
 
@@ -159,7 +159,7 @@ Every dialog on Login (the drawn email, the recovery dialog, the privacy dialog,
 ### 3.9 Focus and announcements
 
 - Each time the screen changes (first screen to code screen, and so on), focus moves to the new screen's heading. It does not move on the first paint. The heading shows a visible focus ring when it takes focus from the keyboard.
-- A polite live region announces: "New email from ExecHQ: Your login code.", "Sent again.", and "Logged in."
+- A polite live region announces: "New email from ExecEngine: Your login code.", "Sent again.", and "Logged in."
 
 ---
 
@@ -192,7 +192,7 @@ All colors are tokens. No color is hard-coded.
 
 ### Touch targets
 
-Every interactive control is at least **44 × 44px** (`--button-target`) on every viewport, tablet and web included. WCAG 2.2 AA requires only 24px (SC 2.5.8). 44px is the ExecHQ standard because this is a mobile-first product used one-handed.
+Every interactive control is at least **44 × 44px** (`--button-target`) on every viewport, tablet and web included. WCAG 2.2 AA requires only 24px (SC 2.5.8). 44px is the ExecEngine standard because this is a mobile-first product used one-handed.
 
 | Control | Size |
 | --- | --- |
@@ -259,7 +259,7 @@ These are settled. They are the specified behavior.
 2. **One welcome.** Login opens with the same dark panel, line and promise as the start of onboarding, so returning and new people see the same first moment.
 3. **The code, not a link.** The email carries a 6-digit code and no button. It works for 10 minutes and once, and a new code replaces the old one. After five wrong tries it stops.
 4. **The same message whether or not an account exists.** The code screen never reveals who has an account.
-5. **Providers match on address.** A Google or Apple account signs in only if its address is the one on the ExecHQ account. Work Google accounts and Apple's Hide My Email fall to "different account", and V1 has no linking.
+5. **Providers match on address.** A Google or Apple account signs in only if its address is the one on the ExecEngine account. Work Google accounts and Apple's Hide My Email fall to "different account", and V1 has no linking.
 6. **Keep me logged in** is on by default and lasts 30 days on that device. Off, it lasts until the browser closes.
 7. **Lost inbox goes to a person.** The person writes to support from any address, and support verifies them before changing the account's email. V1 has no self-service recovery.
 8. **Privacy is stated at sign-in.** "Private to you. Learn more" sits at the foot of the first screen and opens the three-line statement.

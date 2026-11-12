@@ -6,16 +6,16 @@ Approved concept: **Concept 3 — Guided**, as refined on 2026-10-02. It is writ
 
 ## 1. What it is
 
-Onboarding is a person’s first session with ExecHQ. A new person arrives not knowing what ExecHQ is. They leave with an account, a plan they chose, and a first draft of the story of what they lead, all saved, and a short list of what to do next.
+Onboarding is a person’s first session with ExecEngine. A new person arrives not knowing what ExecEngine is. They leave with an account, a plan they chose, and a first draft of the story of what they lead, all saved, and a short list of what to do next.
 
 It does four jobs, in this order:
 
-1. **Say what ExecHQ is,** plainly, before asking for anything.
+1. **Say what ExecEngine is,** plainly, before asking for anything.
 2. **Learn where the person wants to go,** and what is in their way.
 3. **Give them a plan,** chosen once, then made theirs by a few more questions.
 4. **Give them something usable today:** a first draft of their story, with a clear choice of what to do with it next.
 
-The whole flow speaks in ExecHQ's voice, in the third person ("ExecHQ will…"). It explains as it goes: what each thing is, and why it is being asked, until the person has answered, after which the explanation steps aside.
+The whole flow speaks in ExecEngine's voice, in the third person ("ExecEngine will…"). It explains as it goes: what each thing is, and why it is being asked, until the person has answered, after which the explanation steps aside.
 
 What it deliberately does not do:
 
@@ -41,7 +41,7 @@ The prototype's step bar names twelve steps. A few pages are reached only from a
 | # | Step bar | What happens | Required |
 | --- | --- | --- | --- |
 | 1 | Welcome | The opening statement | — |
-| 2 | What ExecHQ is | What it is, in one page, and the privacy promise | — |
+| 2 | What ExecEngine is | What it is, in one page, and the privacy promise | — |
 | 3 | Account | Google, Apple or an email, and whether they have an invite code. *Aside:* Check your email, for a typed address | An email, confirmed by its code or by Google or Apple, and an invite code or "I don't have a code" |
 | 4 | Signals | Optionally bring in LinkedIn numbers. *Aside:* the LinkedIn upload page | No |
 | 5 | Direction | Where the person wants to go: pick, then narrow it down | At least one pick |
@@ -54,7 +54,7 @@ The prototype's step bar names twelve steps. A few pages are reached only from a
 | 12 | Done | What is saved and what to do next | — |
 
 ```
-Welcome ─▶ What ExecHQ is ─▶ Account ──(typed email)──▶ Check your email ─┐
+Welcome ─▶ What ExecEngine is ─▶ Account ──(typed email)──▶ Check your email ─┐
                                 │ (Google or Apple)                         │
                                 ▼                                           │
                              Signals ◀──────────────────────────────────────┘
@@ -96,7 +96,7 @@ The order is a decision, not an accident of the list (see section 10). Three poi
 
 The cover. A large statement on the page surface.
 
-- Small label: **ExecHQ**.
+- Small label: **ExecEngine**.
 - Heading: **Somewhere to work on what comes next.**
 - Line: "Your private career advisor that doesn't just show you the way — it works for you and with you to get you there."
 - Closing line, in italic serif: "From "I'd like to be" to "I'm going to be.""
@@ -104,17 +104,17 @@ The cover. A large statement on the page surface.
 
 The same wordmark and line open Login, so a returning person and a new one see one product.
 
-**On web the Welcome splits,** as Login's does. A dark panel on the left (40% of the width) carries the **ExecHQ** wordmark and, in italic serif, "Somewhere to work on what comes next." The sheet on the right carries the heading **From "I'd like to be" to "I'm going to be."**, the line "Your private career advisor that doesn't just show you the way — it works for you and with you to get you there.", and **Get started**, centered across and down the sheet. Phone and tablet keep the cover above.
+**On web the Welcome splits,** as Login's does. A dark panel on the left (40% of the width) carries the **ExecEngine** wordmark and, in italic serif, "Somewhere to work on what comes next." The sheet on the right carries the heading **From "I'd like to be" to "I'm going to be."**, the line "Your private career advisor that doesn't just show you the way — it works for you and with you to get you there.", and **Get started**, centered across and down the sheet. Phone and tablet keep the cover above.
 
-### 3.2 What ExecHQ is
+### 3.2 What ExecEngine is
 
-- Label **What ExecHQ is.** Heading: **Crafting a plan for your career and the work to carry it out.**
+- Label **What ExecEngine is.** Heading: **Crafting a plan for your career and the work to carry it out.**
 - Line: "A private career advisor for modern professionals ready to grow, with no agenda but your own."
 - Three numbered points, each a heading and a line:
   1. **A plan for where you want to go.** Short-, medium-, and long-term steps with clear benchmarks. Not a list of forty tasks that get you nowhere.
-  2. **Work done, not just advice.** Most steps come with artifacts made for you to use: ExecHQ drafts them, you make them yours.
-  3. **Something that grows with you.** Finish a step, share what happened, or change direction, and ExecHQ updates the plan.
-- **Private by design.** For your eyes only. Not your employer, not your manager, not anyone else. Everything ExecHQ makes is yours to keep, edit, and export.
+  2. **Work done, not just advice.** Most steps come with artifacts made for you to use: ExecEngine drafts them, you make them yours.
+  3. **Something that grows with you.** Finish a step, share what happened, or change direction, and ExecEngine updates the plan.
+- **Private by design.** For your eyes only. Not your employer, not your manager, not anyone else. Everything ExecEngine makes is yours to keep, edit, and export.
 - Button: **Continue.**
 
 The privacy promise is said here, before anything personal is asked. There is no separate privacy page.
@@ -122,7 +122,7 @@ The privacy promise is said here, before anything personal is asked. There is no
 ### 3.3 Account
 
 - Label **Your account.** Heading: **First, somewhere to keep all this.** Line: "Your plan and your story are saved to your account, so you can come back to them."
-- "Why this matters": "Everything you tell ExecHQ builds on what came before. Your account is how it remembers, and how you come back to it."
+- "Why this matters": "Everything you tell ExecEngine builds on what came before. Your account is how it remembers, and how you come back to it."
 - The answer drawer opens with **Continue with Google** and **Continue with Apple**, the same buttons as Login's, then a divider reading "or", then **What's your email?** (one field, placeholder you@example.com). Under them, **Do you have an invite code?** with two equal choices, **I have an invite code** and **I don't have a code.** Choosing the first opens an **Invite code** field and puts the cursor in it. Button **Continue.**
 - **Google or Apple** opens that provider's own account picker (a stand-in in the prototype, as on Login). Once an account is picked, the buttons, the divider and the field give way to one line: a small label **With Google** (or **With Apple**), the address, and **Change.** Change brings the buttons and an empty field back, with the cursor in the field. The invite-code question stays, and is still required.
 
@@ -137,10 +137,10 @@ Rules:
 
 Reached only from Account, for a typed address, by decision on 2026-10-08. It has no step of its own on the step bar. The code works the same way as Login's (see the Login spec).
 
-- Label **Your account.** Heading: **Check your email.** Line: "ExecHQ has sent a 6-digit code to {email}. It works for 10 minutes."
+- Label **Your account.** Heading: **Check your email.** Line: "ExecEngine has sent a 6-digit code to {email}. It works for 10 minutes."
 - "Why this matters": "So the account is yours: only someone with your inbox can open it, and it's where your plan and your story come back to you."
 - The answer drawer asks **Type the code from the email.** with six code cells (one real field, so pasting and the phone's code suggestion work). Under it, a row with **Send it again** (after a 30-second wait, shown as "Send it again in 29s") and **Use a different address**, which goes back to Account with the address in its field. Then "Nothing arrived? Check your junk folder." Button **Continue**, off until six digits are typed.
-- **The email arrives** about 1.6 seconds after the page opens, as the phone's own notification over the top of the page: **ExecHQ**, **Confirm your email**, "Here's the code to finish setting up." Its arrival is announced politely. Tapping it opens the email in a sheet: subject **Confirm your email**, the line "Type this code in ExecHQ to confirm your email:", the code large, and "This code works for 10 minutes and only once. If you didn't ask for it, you can ignore this email." **Inbox** closes it.
+- **The email arrives** about 1.6 seconds after the page opens, as the phone's own notification over the top of the page: **ExecEngine**, **Confirm your email**, "Here's the code to finish setting up." Its arrival is announced politely. Tapping it opens the email in a sheet: subject **Confirm your email**, the line "Type this code in ExecEngine to confirm your email:", the code large, and "This code works for 10 minutes and only once. If you didn't ask for it, you can ignore this email." **Inbox** closes it.
 - **The subject and preview say nothing about the person's career,** so nothing private shows on a lock screen, the same rule as Login's email.
 - **Send it again** clears the cells, sends a new email (it arrives the same way) and announces "Sent again."
 - Continue confirms the address and goes on to Signals.
@@ -148,11 +148,11 @@ Reached only from Account, for a typed address, by decision on 2026-10-08. It ha
 **Wrong and expired codes** use Login's screens, by decision on 2026-10-08:
 
 - **A wrong code.** Continue with six digits that are not the emailed code keeps the person on the page, shows Login's error under the cells ("That code doesn't match. Check the latest email and try again."), clears the cells and puts focus back in the first one. The cells are marked invalid and the error is announced. Typing again clears it. **After five wrong tries** the code stops working and the expired screen shows, as on Login.
-- **An expired code** (10 minutes, or five wrong tries). The page becomes Login's expired screen, still labeled **Your account**, with no drawer: heading **That code has expired**, line "Codes work for 10 minutes and only once. ExecHQ can send a new one to {email}." (Login's line, in onboarding's voice.) Button **Send a new code**, which brings the code page back with empty cells, the 30-second wait restarted and the new email on its way, and announces "Sent again." Under it, **Use a different address**, back to Account. Focus moves to the heading each way. In the prototype the 10 minutes are reached from the drawn email's **Open it again after 10 minutes**, as on Login.
+- **An expired code** (10 minutes, or five wrong tries). The page becomes Login's expired screen, still labeled **Your account**, with no drawer: heading **That code has expired**, line "Codes work for 10 minutes and only once. ExecEngine can send a new one to {email}." (Login's line, in onboarding's voice.) Button **Send a new code**, which brings the code page back with empty cells, the 30-second wait restarted and the new email on its way, and announces "Sent again." Under it, **Use a different address**, back to Account. Focus moves to the heading each way. In the prototype the 10 minutes are reached from the drawn email's **Open it again after 10 minutes**, as on Login.
 
 ### 3.4 Signals
 
-- Label **Optional.** Heading: **Start from how you already show up.** Line: "ExecHQ reads how far your posts reach, and who they reach, so your plan starts from where you already are."
+- Label **Optional.** Heading: **Start from how you already show up.** Line: "ExecEngine reads how far your posts reach, and who they reach, so your plan starts from where you already are."
 - One row: the LinkedIn mark, **LinkedIn**, "Your posts and audience, from the past year." It is not a button.
 - "You'll be able to add other signals later." and, with a lock: "Nothing is posted or shared. Delete the file anytime."
 - Actions, as equal peers: **Add LinkedIn numbers** and **Skip for now.** Once a file is in, or the steps have been emailed, there is one button, **Continue**, and the row shows a status chip (**Reading…**, **Ready**, **Read**, **Steps sent**) that opens the upload page again.
@@ -181,7 +181,7 @@ Reading happens in the background and never makes the person wait. Once a file i
 
 ### 3.5 Direction
 
-The first question that matters. The heading is **Where do you want to go next?** with "Pick as many as are true." The "Why this matters" note says: "Everything ExecHQ builds points here. Pick all that are true, and it will start with the one that matters most." The answers come up in the drawer.
+The first question that matters. The heading is **Where do you want to go next?** with "Pick as many as are true." The "Why this matters" note says: "Everything ExecEngine builds points here. Pick all that are true, and it will start with the one that matters most." The answers come up in the drawer.
 
 **Page one.** Five options, as equal-width buttons, one to a row, and as many as are true can be picked (Appendix A):
 
@@ -193,7 +193,7 @@ The first question that matters. The heading is **Where do you want to go next?*
 
 Below them: **None of these? Show me more options** (adds four: Lead a bigger organization; Carry more weight where I am; Get out of where I am; I do not know yet; the button then disappears). The drawer's peek bar says how many are picked. The button reads **Narrow it down** with one option picked and **Which matters most?** with more than one. There is no field to type in: every answer is a choice.
 
-**Page two, narrowing.** Each option picked becomes a group of **two more specific versions**, to tap (Appendix A). One is chosen. With several picks the heading is **Which matters most right now?** and the line "ExecHQ will start there, and keep the rest in view." With one pick it is **Which is closest?** and "A little more detail gives ExecHQ a clearer first step."
+**Page two, narrowing.** Each option picked becomes a group of **two more specific versions**, to tap (Appendix A). One is chosen. With several picks the heading is **Which matters most right now?** and the line "ExecEngine will start there, and keep the rest in view." With one pick it is **Which is closest?** and "A little more detail gives ExecEngine a clearer first step."
 
 What is kept:
 
@@ -202,7 +202,7 @@ What is kept:
 
 ### 3.6 What's in the way (the deciding question)
 
-For most directions, one question is asked before the recommendation, because its answer can change the plan. Label **Before ExecHQ recommends anything.** Its heading depends on the direction: **What's in the way?** (a bigger role), **What's holding you back?** (more weight where you are) or **What's making you want a change?** (finding a next move). The line is "Pick as many as are true."
+For most directions, one question is asked before the recommendation, because its answer can change the plan. Label **Before ExecEngine recommends anything.** Its heading depends on the direction: **What's in the way?** (a bigger role), **What's holding you back?** (more weight where you are) or **What's making you want a change?** (finding a next move). The line is "Pick as many as are true."
 
 - Five options, multiple choice, and **None of these? Show me more options** (four more). See Appendix B.
 - Buttons: **Next** and **Skip this one.** The person can skip.
@@ -212,14 +212,14 @@ For most directions, one question is asked before the recommendation, because it
 
 This is where the plan is chosen.
 
-- Label **ExecHQ's recommendation.** The heading is the **plan's name** (for example **Step up**).
+- Label **ExecEngine's recommendation.** The heading is the **plan's name** (for example **Step up**).
 - A card: "This plan is for when you're ready for a bigger role and want the promotion or remit to match." Then the reason, built from what the person said: their direction, then what is in their way, then "That's what this plan is for." If an answer sent the plan somewhere else, that answer's own reason is used.
-- If other directions were picked: "You also picked: {them}. ExecHQ will keep {it/them} in view as your plan grows."
-- "A plan is how you get from where you are to where you want to be. Yours has two parts." with two numbered lines: **This week:** the one thing to do first. **Three stages:** what your plan builds toward, in order, each with a finish line. When they're done, ExecHQ plans the next stretch with you.
+- If other directions were picked: "You also picked: {them}. ExecEngine will keep {it/them} in view as your plan grows."
+- "A plan is how you get from where you are to where you want to be. Yours has two parts." with two numbered lines: **This week:** the one thing to do first. **Three stages:** what your plan builds toward, in order, each with a finish line. When they're done, ExecEngine plans the next stretch with you.
 - "Next, a few quick questions to make it yours."
 - Buttons: **Use this plan** and **See other plans.**
 
-**See other plans** opens the five plans as cards to compare (Appendix C), with ExecHQ's recommendation marked. Choosing one and pressing **Use this one** chooses it and **goes straight on** to the next page. It does not return to the Recommendation. If the person chose a different plan, the Recommendation (if they come back to it) says "You chose this one instead. ExecHQ recommended {plan}."
+**See other plans** opens the five plans as cards to compare (Appendix C), with ExecEngine's recommendation marked. Choosing one and pressing **Use this one** chooses it and **goes straight on** to the next page. It does not return to the Recommendation. If the person chose a different plan, the Recommendation (if they come back to it) says "You chose this one instead. ExecEngine recommended {plan}."
 
 ### 3.8 Reflection and the questions that make it yours
 
@@ -231,7 +231,7 @@ Order, with up to three of each: **Reflection (time) → Question → Reflection
 
 - The line and the "Why this matters" note go away.
 - A quiet line shows **You said** with the answer and **Change.**
-- ExecHQ's reply appears as a pull quote in serif, one or two sentences, one reply per option.
+- ExecEngine's reply appears as a pull quote in serif, one or two sentences, one reply per option.
 - A **Worth knowing** card gives a sourced fact (rules in 4.6).
 - **Continue** stays pinned at the foot.
 
@@ -259,7 +259,7 @@ The plan, tuned to what the person said. Two pages.
 **Page two: Three stages.** Heading **Three stages**, with "Each stage sets up the next, so the effort adds up." and "Stage by stage, toward {the goal}."
 
 - Three stages, each with its name, what the person will have, and **Done when:** a checkable finish line. The first stage is marked **First · This week**, so the task on the first page is seen as the first step of stage one.
-- A closing line: "Once these stages are done, ExecHQ will plan the next stretch with you, based on what worked and what didn't. It sharpens as you go: every draft you make and every conversation you log tells ExecHQ what to do next."
+- A closing line: "Once these stages are done, ExecEngine will plan the next stretch with you, based on what worked and what didn't. It sharpens as you go: every draft you make and every conversation you log tells ExecEngine what to do next."
 - Button **Continue.**
 
 A plan has no end date and no length. A stage is never given a deadline.
@@ -273,7 +273,7 @@ A plan has no end date and no length. A stage is never given a deadline.
 - The draft, in the person's voice ("I'm building toward a C-suite role within the next three years. What I want next is…"), with **Edit.** An edited draft is kept as written until the detail changes and the draft is rewritten.
 - **Where you could use it:** three uses, from the plan.
 - **Copy, Download, Email it to me.**
-- Said once, on the first time the draft is seen, a line under the draft: "This is the Playbook, where ExecHQ makes your drafts. You'll find it any time from Ask or go." It is not shown again when the person returns to the draft.
+- Said once, on the first time the draft is seen, a line under the draft: "This is the Playbook, where ExecEngine makes your drafts. You'll find it any time from Ask or go." It is not shown again when the person returns to the draft.
 - "Why this matters": "You can use this today. Add detail or build longer versions now, or come back to them from your plan."
 - **What next?** at the foot, three equal choices, each a full-width outlined button with a line saying what it does:
   - **Add more detail:** "Your role, what you're responsible for and a result, so it says what you lead."
@@ -286,8 +286,8 @@ None is the default, so leaving it for later is a real choice.
 
 **Longer versions.** Label **Playbook · Positioning Builder.** Heading **Longer versions.** Line "The same story in three lengths, for different places: a line, a paragraph and the full bio."
 
-- A switch for **Short / Medium / Long** shows the same story at each length. A fact ExecHQ doesn't know yet is a **dashed gap** ("To add: your name"), never something made up.
-- When there are gaps: "The dashed parts are things ExecHQ doesn't know yet. Add them with the fields, or add more detail to your story." (worded to be true on every viewport, since the fields are below the bio on phone and tablet and beside it on web) and a set of fields, **What's missing from your bio?**: **Your name**, **How big is your team?** (five choices) and **What you're strongest at** (up to three of seven). **Add more detail** goes to the three questions above and returns here.
+- A switch for **Short / Medium / Long** shows the same story at each length. A fact ExecEngine doesn't know yet is a **dashed gap** ("To add: your name"), never something made up.
+- When there are gaps: "The dashed parts are things ExecEngine doesn't know yet. Add them with the fields, or add more detail to your story." (worded to be true on every viewport, since the fields are below the bio on phone and tablet and beside it on web) and a set of fields, **What's missing from your bio?**: **Your name**, **How big is your team?** (five choices) and **What you're strongest at** (up to three of seven). **Add more detail** goes to the three questions above and returns here.
   - **On web the bio fills in as the fields are answered.** The fields sit right beside it, so there is no button: each answer is kept at once and the text changes as it is given. The card shows its question as a visible title, since the page's heading is far from it.
   - **On phone and tablet the drawer covers the bio,** so **Update my bio** applies what was typed, and "Bio updated." is announced to screen readers.
   - **The fields stay for as long as the person is on the page,** even once the last gap is filled, so they can change an answer.
@@ -339,14 +339,14 @@ Used by Direction, the deciding question, the "Making it yours" questions and th
 
 ### 4.4 Voice
 
-- **ExecHQ speaks in the third person.** "ExecHQ will draft that sentence for you next." The product never says "I".
+- **ExecEngine speaks in the third person.** "ExecEngine will draft that sentence for you next." The product never says "I".
 - **The person's own words stay in the first person:** the options they pick ("Find my next move"), their drafts, and the details they type to refine their story.
-- **"We" is not used** for ExecHQ. ("Before we begin" and similar inclusive uses were removed.)
+- **"We" is not used** for ExecEngine. ("Before we begin" and similar inclusive uses were removed.)
 - **No pressure and no scoring.** Replies are warm and specific, never ranking.
 
 ### 4.5 Explanation steps aside
 
-What a page explains is said once, and in one place: what a plan is, at the choice; what ExecHQ heard, on the plan page; why a question is asked, before it is answered. After an answer, the page does not repeat the explanation.
+What a page explains is said once, and in one place: what a plan is, at the choice; what ExecEngine heard, on the plan page; why a question is asked, before it is answered. After an answer, the page does not repeat the explanation.
 
 ### 4.6 Facts and data
 
@@ -354,7 +354,7 @@ Every figure shown as data is **real, sourced and shown with its source.** It ap
 
 ### 4.7 Waiting
 
-Where ExecHQ writes something, a short state names it. The draft shows "Writing your first draft", for 1.1 seconds in the prototype. The LinkedIn file reads in the background for 8 seconds and the person is never kept waiting for it.
+Where ExecEngine writes something, a short state names it. The draft shows "Writing your first draft", for 1.1 seconds in the prototype. The LinkedIn file reads in the background for 8 seconds and the person is never kept waiting for it.
 
 ### 4.8 Focus and announcements
 
@@ -409,7 +409,7 @@ If several answers are chosen, **the first one chosen that changes the plan deci
 
 ### 5.4 Several answers
 
-A question can hold several chosen options. Each chosen option adds its own sentence to what ExecHQ says back ("Right now nobody sees your work. The results are there…"), in the order chosen, and its own line to the first draft ("The results are there. My focus now is making sure the people who decide can see them.").
+A question can hold several chosen options. Each chosen option adds its own sentence to what ExecEngine says back ("Right now nobody sees your work. The results are there…"), in the order chosen, and its own line to the first draft ("The results are there. My focus now is making sure the people who decide can see them.").
 
 ### 5.5 Choosing and changing the plan
 
@@ -472,7 +472,7 @@ In the prototype, responsiveness follows the simulated device frame (`data-viewp
 
 ### Touch targets
 
-Every interactive control is meant to be at least **44 × 44px** (`--button-target`) on every viewport, as in the Login and Profile specs. WCAG 2.2 AA requires only 24px (SC 2.5.8). 44px is the ExecHQ standard because the product is used one-handed.
+Every interactive control is meant to be at least **44 × 44px** (`--button-target`) on every viewport, as in the Login and Profile specs. WCAG 2.2 AA requires only 24px (SC 2.5.8). 44px is the ExecEngine standard because the product is used one-handed.
 
 **The prototype does not yet meet this.** Measured on the phone frame:
 
@@ -553,10 +553,10 @@ Production must give every control a tappable area of at least 44px, drawn small
 These are settled. They are the specified behavior. The dates are when they were made.
 
 1. **Concept 3 is the onboarding.** (2026-10-02)
-2. **ExecHQ speaks in the third person,** and the person's own words stay in the first. (2026-10-02)
+2. **ExecEngine speaks in the third person,** and the person's own words stay in the first. (2026-10-02)
 3. **The plan is chosen at the Recommendation,** with what a plan is said there, before the personalising questions. Choosing another plan goes straight on. (2026-10-02)
 4. **The question that can change the plan is asked before the recommendation,** so it is made once. (2026-09-30)
-5. **The read-back page is gone.** What ExecHQ heard is a list on the plan page, each row with a way to change it. A free-text edit that changed nothing downstream is removed. (2026-10-02)
+5. **The read-back page is gone.** What ExecEngine heard is a list on the plan page, each row with a way to change it. A free-text edit that changed nothing downstream is removed. (2026-10-02)
 6. **The plan is two pages:** this week, then three stages with a finish line each. No part counters. A plan has no end date. (2026-10-02, 2026-09-29)
 7. **One answer pattern across the flow:** equal-width options, five options and a way to more, several answers for lists and one for scales. (2026-10-02)
 8. **Direction is two steps:** pick, then narrow each pick to one of two more specific versions. (2026-10-02)
@@ -564,7 +564,7 @@ These are settled. They are the specified behavior. The dates are when they were
 10. **Data is real or marked.** A figure is shown with its source, or as a placeholder. (2026-10-02)
 11. **Nothing is connected in V1.** LinkedIn is a spreadsheet the person uploads. (2026-09-28)
 12. **Any email is accepted,** work or personal. (2026-09-22)
-13. **Privacy is said once, on "What ExecHQ is,"** before anything personal is asked. (2026-10-02)
+13. **Privacy is said once, on "What ExecEngine is,"** before anything personal is asked. (2026-10-02)
 14. **The Done page lists only what is left,** and does not repeat what the person has seen. (2026-10-02)
 15. **No step counters, percentages or scores** appear anywhere in the flow.
 16. **No open responses.** Every answer in onboarding is a choice. The only typing is the account email, an invite code, and refining the story (a role, what the person is responsible for, a result, a name for the bio, and editing the draft). (2026-10-02)
