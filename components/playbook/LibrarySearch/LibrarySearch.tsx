@@ -105,7 +105,7 @@ export function LibrarySearch({ items, onPick, copy, initial = "", limit = 8, de
           className="field__control library-search__input"
         />
       </div>
-      <p className="library-search__heading" id={`${id}-heading`} aria-live="polite">
+      <p className={q && !shown.length ? "library-search__none" : "library-search__heading"} id={`${id}-heading`} aria-live="polite">
         {heading}
       </p>
       {shown.length ? (

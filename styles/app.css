@@ -19120,6 +19120,16 @@ ul.li-shares {
   margin: 0;
 }
 
+/* No match is a sentence to read, so it is body text, not a label. */
+.library-search__none {
+  margin: 0;
+  font-family: var(--type-body-font);
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
+  line-height: var(--type-body-leading);
+  color: var(--color-text-secondary);
+}
+
 .library-search__list {
   display: flex;
   flex-direction: column;
