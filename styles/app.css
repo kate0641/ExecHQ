@@ -19272,7 +19272,8 @@ ul.li-shares {
   gap: var(--space-xs);
   padding: var(--space-sm);
   border-radius: var(--radius-md);
-  background-color: var(--color-surface-raised);
+  /* Light blue, so the step stands out from the empty library around it. */
+  background-color: var(--color-surface-for-her);
   font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
   text-decoration: none;
