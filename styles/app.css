@@ -2537,6 +2537,8 @@ ul.chrome__nav-list {
   max-block-size: none;
   background: transparent;
   color: inherit;
+  /* It draws inside the concierge host, which lets presses through to the page; the tour must catch them. */
+  pointer-events: auto;
 }
 
 /* In the catalogue, the tour draws inside its own box rather than over the page. */
