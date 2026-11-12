@@ -5,6 +5,7 @@ import { ToolIllustration } from "./ToolIllustration";
 export const toolIllustrationStates = defineComponentStates({
   name: "ToolIllustration",
   group: "primitives",
+  feature: "Playbook",
   status: "draft",
   flows: ["playbook"],
   description:

@@ -5,6 +5,7 @@ import { BriefingEnd } from "./BriefingEnd";
 export const briefingEndStates = defineComponentStates({
   name: "BriefingEnd",
   group: "feedback",
+  feature: "Briefing",
   status: "draft",
   flows: ["daily-briefing"],
   description:

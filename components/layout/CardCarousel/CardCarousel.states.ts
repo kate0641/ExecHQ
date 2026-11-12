@@ -14,6 +14,7 @@ const three = [
 export const cardCarouselStates = defineComponentStates({
   name: "CardCarousel",
   group: "layout",
+  feature: "Home",
   status: "draft",
   flows: ["homepage"],
   description:

@@ -20,6 +20,7 @@ const pitchChoice = { label: "What are you pitching for?", options: ["Speaking",
 export const toolUseCaseStates = defineComponentStates({
   name: "ToolUseCase",
   group: "layout",
+  feature: "Playbook",
   status: "draft",
   flows: ["playbook-flow"],
   description:

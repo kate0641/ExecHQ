@@ -29,6 +29,7 @@ const base = { stages, items, today, startHref: "/playbook-flow/concept-3", onAs
 export const planAgendaStates = defineComponentStates({
   name: "PlanAgenda",
   group: "cards",
+  feature: "Plan",
   status: "draft",
   flows: ["plan"],
   description:

@@ -8,6 +8,7 @@ const lead = { kind: "situation-brief" as const, step: "Brief your manager befor
 export const toolPickerStates = defineComponentStates({
   name: "ToolPicker",
   group: "navigation",
+  feature: "Playbook",
   status: "draft",
   flows: ["playbook"],
   description:

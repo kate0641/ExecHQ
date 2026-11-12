@@ -8,6 +8,7 @@ const [first, presence] = PLAN_TEMPLATES;
 export const recommendationCardStates = defineComponentStates({
   name: "RecommendationCard",
   group: "cards",
+  feature: "Onboarding",
   status: "draft",
   flows: ["onboarding"],
   description:

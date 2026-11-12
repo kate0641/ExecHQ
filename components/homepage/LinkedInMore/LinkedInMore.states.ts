@@ -8,6 +8,7 @@ const base = { status: "none", fileName: null, onChoose: noop, onSendSteps: noop
 export const linkedInMoreStates = defineComponentStates({
   name: "LinkedInMore",
   group: "form controls",
+  feature: "Plan",
   status: "draft",
   flows: ["signals"],
   description:

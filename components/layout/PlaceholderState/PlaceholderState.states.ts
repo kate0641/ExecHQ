@@ -5,6 +5,7 @@ import { PlaceholderState } from "./PlaceholderState";
 export const placeholderStateStates = defineComponentStates({
   name: "PlaceholderState",
   group: "feedback",
+  feature: "Prototype only",
   status: "draft",
   flows: [
     "onboarding",

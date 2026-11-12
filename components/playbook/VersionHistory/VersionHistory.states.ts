@@ -10,6 +10,7 @@ const three = [...versions, { n: 3, when: "Mon, Oct 5, 2026, 9:31", what: "Your 
 export const versionHistoryStates = defineComponentStates({
   name: "VersionHistory",
   group: "navigation",
+  feature: "Playbook",
   status: "draft",
   flows: ["playbook-flow"],
   description:

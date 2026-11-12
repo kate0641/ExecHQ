@@ -9,6 +9,7 @@ const pitches = { tool: "pitch" as const, name: "Pitches", summary: "Last change
 export const libraryFolderStates = defineComponentStates({
   name: "LibraryFolder",
   group: "cards",
+  feature: "Playbook",
   status: "draft",
   flows: ["playbook"],
   description:

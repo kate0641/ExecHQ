@@ -9,6 +9,7 @@ const editHref = "/onboarding/concept-3?edit=1";
 export const planDirectionStates = defineComponentStates({
   name: "PlanDirection",
   group: "cards",
+  feature: "Plan",
   status: "draft",
   flows: ["plan"],
   description:

@@ -6,6 +6,7 @@ import { PointList } from "./PointList";
 export const pointListStates = defineComponentStates({
   name: "PointList",
   group: "cards",
+  feature: "Onboarding",
   status: "draft",
   flows: ["onboarding"],
   description:

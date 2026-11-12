@@ -8,6 +8,7 @@ const base = { open: true, inline: true, onClose: noop, onSave: noop, today: "20
 export const entryDrawerStates = defineComponentStates({
   name: "EntryDrawer",
   group: "layout",
+  feature: "Plan",
   status: "draft",
   flows: ["signals"],
   description:

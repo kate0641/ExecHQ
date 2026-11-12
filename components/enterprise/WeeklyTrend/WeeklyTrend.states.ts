@@ -25,6 +25,7 @@ const longRun: TrendView = {
 export const weeklyTrendStates = defineComponentStates({
   name: "WeeklyTrend",
   group: "cards",
+  feature: "Admin",
   status: "draft",
   flows: ["enterprise"],
   description:

@@ -9,6 +9,7 @@ const c = GUIDE_C3.story.draft.next;
 export const nextStepsStates = defineComponentStates({
   name: "NextSteps",
   group: "cards",
+  feature: "Onboarding",
   status: "draft",
   flows: ["onboarding"],
   description:

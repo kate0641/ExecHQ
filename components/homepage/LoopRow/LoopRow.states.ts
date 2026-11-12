@@ -10,6 +10,7 @@ const noop = () => {};
 export const loopRowStates = defineComponentStates({
   name: "LoopRow",
   group: "cards",
+  feature: "Home",
   status: "draft",
   flows: ["homepage"],
   description:

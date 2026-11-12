@@ -11,6 +11,7 @@ const steps = (id: string) => ({ name: at(id).name, outlet: at(id), today, onCop
 export const sendStepsStates = defineComponentStates({
   name: "SendSteps",
   group: "cards",
+  feature: "Playbook",
   status: "draft",
   flows: ["playbook-flow"],
   description:

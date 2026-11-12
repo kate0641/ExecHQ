@@ -7,6 +7,7 @@ const noop = () => {};
 export const addToPlanSheetStates = defineComponentStates({
   name: "AddToPlanSheet",
   group: "layout",
+  feature: "Plan",
   status: "draft",
   flows: ["plan"],
   description:

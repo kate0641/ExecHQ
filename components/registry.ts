@@ -8,7 +8,13 @@
  * Adding a component to the catalogue: write `X.states.ts` next to it, then add
  * one line to this file.
  */
-import { COMPONENT_GROUPS, type ComponentGroup, type RegisteredComponent } from "./types";
+import {
+  COMPONENT_GROUPS,
+  FEATURE_AREAS,
+  type ComponentGroup,
+  type FeatureArea,
+  type RegisteredComponent,
+} from "./types";
 
 import { mapRingsStates } from "./homepage/MapRings/MapRings.states";
 import { cardCarouselStates } from "./layout/CardCarousel/CardCarousel.states";
@@ -73,7 +79,6 @@ import { presenceCardStates } from "./homepage/PresenceCard/PresenceCard.states"
 import { loopRowStates } from "./homepage/LoopRow/LoopRow.states";
 import { checkInStates } from "./loop/CheckIn/CheckIn.states";
 import { outcomeNextStates } from "./loop/OutcomeNext/OutcomeNext.states";
-import { monogramStates } from "./primitives/Monogram/Monogram.states";
 import { switchStates } from "./form/Switch/Switch.states";
 import { settingsGroupStates } from "./profile/SettingsGroup/SettingsGroup.states";
 import { settingsRowStates } from "./profile/SettingsRow/SettingsRow.states";
@@ -202,7 +207,6 @@ export const registry: RegisteredComponent[] = [
   loopRowStates,
   checkInStates,
   outcomeNextStates,
-  monogramStates,
   switchStates,
   settingsGroupStates,
   settingsRowStates,
@@ -279,15 +283,28 @@ export function getComponent(id: string): RegisteredComponent | undefined {
   return registry.find((component) => componentId(component) === id);
 }
 
-/** The registry grouped by type, in the order declared in `types.ts`, with
- *  empty groups dropped. */
+/** The core library grouped by type, in the order declared in `types.ts`,
+ *  with empty groups dropped. Feature pieces are left out; see
+ *  `registryByFeature`. */
 export function registryByGroup(
   components: RegisteredComponent[] = registry
 ): { group: ComponentGroup; components: RegisteredComponent[] }[] {
   return COMPONENT_GROUPS.map((group) => ({
     group,
     components: components
-      .filter((component) => component.group === group)
+      .filter((component) => !component.feature && component.group === group)
+      .sort((a, b) => a.name.localeCompare(b.name)),
+  })).filter((entry) => entry.components.length > 0);
+}
+
+/** Components one feature alone uses, grouped by that feature. */
+export function registryByFeature(
+  components: RegisteredComponent[] = registry
+): { feature: FeatureArea; components: RegisteredComponent[] }[] {
+  return FEATURE_AREAS.map((feature) => ({
+    feature,
+    components: components
+      .filter((component) => component.feature === feature)
       .sort((a, b) => a.name.localeCompare(b.name)),
   })).filter((entry) => entry.components.length > 0);
 }

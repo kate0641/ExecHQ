@@ -9,6 +9,7 @@ const speaking = suggestedOutlets("Speaking");
 export const outletSuggestionsStates = defineComponentStates({
   name: "OutletSuggestions",
   group: "form controls",
+  feature: "Playbook",
   status: "draft",
   flows: ["playbook-flow"],
   description:

@@ -7,6 +7,7 @@ const noop = () => {};
 export const revisionControlsStates = defineComponentStates({
   name: "RevisionControls",
   group: "form controls",
+  feature: "Playbook",
   status: "draft",
   flows: ["playbook-flow"],
   description:

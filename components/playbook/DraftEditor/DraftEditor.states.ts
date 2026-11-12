@@ -20,6 +20,7 @@ const base = { label: DRAFT_COPY.label(1), sections: v1.sections, onEditSection:
 export const draftEditorStates = defineComponentStates({
   name: "DraftEditor",
   group: "form controls",
+  feature: "Playbook",
   status: "draft",
   flows: ["playbook-flow"],
   description:

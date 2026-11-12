@@ -3765,7 +3765,33 @@ ol.concierge-list {
 .catalogue__nav {
   display: flex;
   flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.catalogue__section {
+  display: flex;
+  flex-direction: column;
   gap: var(--space-md);
+}
+
+.catalogue__section + .catalogue__section {
+  padding-top: var(--space-xl);
+  border-top: var(--border-width-thin) solid var(--color-border);
+}
+
+.catalogue__section-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.catalogue__section-note {
+  margin: calc(var(--space-sm) - var(--space-md)) 0 0;
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
 }
 
 .catalogue__group {
@@ -9942,36 +9968,6 @@ ul.baseline-list__rows {
   font-size: var(--text-xs);
   line-height: var(--leading-normal);
   color: var(--color-text-secondary);
-}
-
-/* --- Homepage Concept 3 — Plan (Chapters) --- */
-
-/* --- PROFILE — Concept 1, Grouped --- */
-
-/* --- Monogram --- */
-.monogram {
-  display: grid;
-  flex: none;
-  place-items: center;
-  border-radius: 50%;
-  background-color: var(--color-surface-inverse);
-  color: var(--color-text-inverse);
-  font-family: var(--font-display);
-  letter-spacing: var(--tracking-normal);
-  font-weight: var(--weight-bold);
-  line-height: 1;
-}
-
-.monogram--md {
-  width: 48px;
-  height: 48px;
-  font-size: var(--text-xl);
-}
-
-.monogram--lg {
-  width: 88px;
-  height: 88px;
-  font-size: var(--text-3xl);
 }
 
 /* --- Switch --- */
@@ -20623,8 +20619,6 @@ ul.li-shares {
   line-height: var(--type-caption-leading);
   color: var(--color-text-secondary);
 }
-
-/* --- What a figure counts --- */
 
 /* --- The dates --- */
 

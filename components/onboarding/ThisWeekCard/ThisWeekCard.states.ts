@@ -8,6 +8,7 @@ const [first, , moment] = PLAN_TEMPLATES;
 export const thisWeekCardStates = defineComponentStates({
   name: "ThisWeekCard",
   group: "cards",
+  feature: "Onboarding",
   status: "draft",
   flows: ["onboarding"],
   description:
