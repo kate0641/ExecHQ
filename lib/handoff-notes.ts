@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "onboarding-linkedin-to-signals",
+    title: "Onboarding: LinkedIn moves to Signals",
+    description:
+      "The Signals step and the LinkedIn upload page leave onboarding; Account goes straight to Direction and Done no longer mentions LinkedIn. The Signals page's own upload is unchanged (12 Nov).",
+  },
+  {
     slug: "onboarding-account-personal-email",
     title: "Onboarding: a personal email, and everyone has a code",
     description:

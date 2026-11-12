@@ -16,7 +16,6 @@ import { AnswerDrawer } from "@/components/onboarding/AnswerDrawer";
 import { ExportLinks } from "@/components/onboarding/ExportLinks";
 import { GeneratingState } from "@/components/onboarding/GeneratingState";
 import { GoodExample } from "@/components/onboarding/GoodExample";
-import { LinkedInUpload } from "@/components/onboarding/LinkedInUpload";
 import { StoryDraft } from "@/components/onboarding/StoryDraft";
 import { StoryText } from "@/components/onboarding/StoryText";
 import { ToggleGroup } from "@/components/form/ToggleGroup";
@@ -30,12 +29,10 @@ import { PointList } from "@/components/onboarding/PointList";
 import { ProductIntro } from "@/components/onboarding/ProductIntro";
 import { RecommendationCard } from "@/components/onboarding/RecommendationCard";
 import { ReflectionReply } from "@/components/onboarding/ReflectionReply";
-import { SignalSources } from "@/components/onboarding/SignalSources";
 import { Button } from "@/components/primitives/Button";
 import {
   useOnboardingFlow,
   type AccountRoute,
-  linkedInIn,
   type OnboardingFlow,
   type OnboardingStep,
   type PositioningInputs,
@@ -60,7 +57,6 @@ import {
   type BioLength,
   DRAFT_EXPORTS,
   GUIDE_C3,
-  LINKEDIN_UPLOAD,
   POSITIONING_C1,
   PLAN_C1,
   PLAN_TEMPLATES,
@@ -75,7 +71,6 @@ import {
   firstDraftFor,
   isSharpened,
   isValidInviteCode,
-  looksLikeLinkedInExport,
   planById,
   recommendC3,
   refinementFor,
@@ -112,11 +107,10 @@ import {
  *  - It stops to make the user reflect, with questions that are not needed
  *    for the plan but are worth sitting with.
  *
- * Signals come early, straight after the account, by decision on
- * 2026-09-24: connecting LinkedIn first means the first draft
- * already sounds like the user. The privacy promise is said before that, on
- * the page that says what ExecEngine is (2026-10-02), because signals are the
- * first time the user is asked for their data.
+ * LinkedIn is not asked for here: it lives on the Signals page (Kate,
+ * 2026-11-12, reversing "signals come early" of 2026-09-24). The privacy
+ * promise is said on the page that says what ExecEngine is, before anything
+ * personal is asked (2026-10-02).
  *
  * Pages are this concept's own; each maps to the shared step it belongs to,
  * so a step-bar jump fills in everything before it the same way it does in
@@ -127,8 +121,6 @@ type PageId =
   | "about"
   | "account"
   | "verify"
-  | "signals"
-  | "linkedin"
   | "direction"
   | "decide"
   | "rec"
@@ -166,9 +158,6 @@ const PAGES: Page[] = [
   // The emailed code, for a typed address only: Google and Apple have
   // confirmed theirs, so Account moves past it (2026-10-08).
   { id: "verify", label: "Check your email", step: "account", offBar: true, aside: true },
-  { id: "signals", label: "Signals", step: "direction" },
-  // LinkedIn's upload, reached from Signals: the steps and the picker.
-  { id: "linkedin", label: "LinkedIn", step: "direction", offBar: true, aside: true },
   { id: "direction", label: "Direction", step: "direction" },
   // The question that decides the plan comes first, so the recommendation is
   // made once. Only some directions have one; the page is passed otherwise.
@@ -208,7 +197,7 @@ interface DrawerControl {
 /** What every page is handed about where it sits. */
 /** Steps with no drawer, flooded navy so the flow alternates quiet screens with ExecEngine moments
  *  (designer, 2026-10-15). A step with a navy drawer stays light. */
-const NAVY_PAGES = new Set<string>(["about", "signals", "rec", "plan-week", "draft", "done"]);
+const NAVY_PAGES = new Set<string>(["about", "rec", "plan-week", "draft", "done"]);
 
 type Frame = Pick<ComponentProps<typeof GuidePage>, "headingId" | "part" | "file" | "sky" | "glow" | "progress">;
 
@@ -239,7 +228,6 @@ const GLOW_FOR: Partial<Record<PageId, SkyGlow>> = {
 const PROGRESS_PAGES = PAGES.filter((page) => !page.aside && page.id !== "welcome").map((page) => page.id);
 const ASIDE_FROM: Partial<Record<PageId, PageId>> = {
   verify: "account",
-  linkedin: "signals",
   "plan-others": "rec",
   sharpen: "draft",
   versions: "draft",
@@ -507,55 +495,6 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
         />
       );
 
-    case "signals": {
-      const c = GUIDE_C3.signals;
-      // Handled: the file is in, or the steps were emailed for later.
-      const handled = linkedInIn(a.linkedin) || a.linkedin.status === "sent";
-      return (
-        <GuidePage
-          {...frame()}
-          navy
-          kicker={c.kicker}
-          title={c.title}
-          lede={c.lede}
-          primaryLabel={handled ? c.done : c.add}
-          onPrimary={handled ? next : () => goTo("linkedin")}
-          secondaryLabel={handled ? undefined : c.skip}
-          onSecondary={handled ? undefined : next}
-        >
-          <SignalSources linkedin={a.linkedin} onOpenLinkedIn={() => goTo("linkedin")} />
-        </GuidePage>
-      );
-    }
-
-    case "linkedin": {
-      const fileIn = linkedInIn(a.linkedin);
-      return (
-        <GuidePage
-          {...frame()}
-          kicker={LINKEDIN_UPLOAD.eyebrow}
-          title={LINKEDIN_UPLOAD.title}
-          lede={fileIn ? undefined : LINKEDIN_UPLOAD.lede}
-          primaryLabel={fileIn ? LINKEDIN_UPLOAD.done : LINKEDIN_UPLOAD.skip}
-          primaryVariant={fileIn ? undefined : "secondary"}
-          onPrimary={() => goTo("signals")}
-        >
-          <LinkedInUpload
-            status={a.linkedin.status}
-            fileName={a.linkedin.fileName}
-            email={a.email}
-            onChoose={(fileName) =>
-              dispatch({
-                type: "set-linkedin",
-                patch: { fileName, status: looksLikeLinkedInExport(fileName) ? "reading" : "wrong-file" },
-              })
-            }
-            onSendSteps={() => dispatch({ type: "set-linkedin", patch: { status: "sent" } })}
-          />
-        </GuidePage>
-      );
-    }
-
     case "direction":
       return (
         <DirectionPage
@@ -816,12 +755,11 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
       const c = GUIDE_C3.done;
       const stages = plan?.stages ?? [];
       // What is left to do, in order: the rest of the story, then the plan's
-      // next stage, then the LinkedIn numbers if they have not come in.
+      // next stage. LinkedIn is not mentioned: it lives on Signals (2026-11-12).
       const steps: { title: string; detail: string }[] = [];
       if (!sharpened) steps.push(c.nextDetail);
       if (!builtVersions) steps.push(c.nextVersions);
       if (stages[1]) steps.push({ title: stages[1].title, detail: stages[1].outcomes[0] ?? "" });
-      if (!linkedInIn(a.linkedin)) steps.push(c.nextSignals);
       return (
         <GuidePage
           headingId={headingId}

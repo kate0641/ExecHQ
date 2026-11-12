@@ -2438,10 +2438,6 @@ export const GUIDE_C3 = {
       title: "Build longer versions",
       detail: "In your Playbook. Short, medium and long, built from your story and ready to send ahead of you.",
     },
-    nextSignals: {
-      title: "Bring in your LinkedIn numbers",
-      detail: "So your plan and your drafts start from how you already show up.",
-    },
     home: "Go to my homepage",
   },
 } as const;

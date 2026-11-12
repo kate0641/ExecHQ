@@ -19,7 +19,7 @@ The whole flow speaks in ExecEngine's voice, in the third person ("ExecEngine wi
 
 What it deliberately does not do:
 
-- **Connect to anything.** In V1 there is nothing to connect: the only outside data is a LinkedIn analytics spreadsheet the person exports and uploads themselves.
+- **Connect to anything, or ask for LinkedIn.** In V1 there is nothing to connect. The one outside source, a LinkedIn analytics spreadsheet the person exports and uploads, lives on the Signals page, not in onboarding (Kate, 2026-11-12).
 - **Score, rank or compare.** No answer, fact or plan ranks the person against anyone.
 - **Post or share anything.** Nothing leaves the person's account.
 - **Ask for more than it needs.** An email (typed and confirmed, or from Google or Apple), an invite code, a direction, a choice of plan and an answer to each reflection are the only required steps. Every other question can be skipped, and the person can come back to it.
@@ -36,32 +36,29 @@ In the prototype the route is `/onboarding/concept-3` and the flow opens on the 
 
 ## 2. The flow at a glance
 
-The prototype's step bar names twelve steps. A few pages are reached only from another page and have no step of their own.
+The prototype's step bar names eleven steps. A few pages are reached only from another page and have no step of their own.
 
 | # | Step bar | What happens | Required |
 | --- | --- | --- | --- |
 | 1 | Welcome | The opening statement | — |
 | 2 | What ExecEngine is | What it is, in one page, and the privacy promise | — |
 | 3 | Account | Google, Apple or a personal email, and the invite code. *Aside:* Check your email, for a typed address | An email, confirmed by its code or by Google or Apple, and an invite code |
-| 4 | Signals | Optionally bring in LinkedIn numbers. *Aside:* the LinkedIn upload page | No |
-| 5 | Direction | Where the person wants to go: pick, then narrow it down | At least one pick |
-| 6 | Recommendation | A question about what is in the way (for most directions), then the recommended plan, chosen here. *Aside:* the other plans | Choose a plan |
-| 7 | Reflection | One question to sit with, with a reply | An answer |
-| 8 | Questions | Up to three "Making it yours" questions, with two more reflections between them | No |
-| 9 | Your plan | The plan, tuned to their answers: this week, then the stages | — |
-| 10 | Your story | A question to sit with, about saying what they lead | An answer |
-| 11 | First draft | The first draft, and the choice of what next. *Asides:* add more detail, longer versions. This is the **Playbook** (Positioning Builder) | — |
-| 12 | Done | What is saved and what to do next | — |
+| 4 | Direction | Where the person wants to go: pick, then narrow it down | At least one pick |
+| 5 | Recommendation | A question about what is in the way (for most directions), then the recommended plan, chosen here. *Aside:* the other plans | Choose a plan |
+| 6 | Reflection | One question to sit with, with a reply | An answer |
+| 7 | Questions | Up to three "Making it yours" questions, with two more reflections between them | No |
+| 8 | Your plan | The plan, tuned to their answers: this week, then the stages | — |
+| 9 | Your story | A question to sit with, about saying what they lead | An answer |
+| 10 | First draft | The first draft, and the choice of what next. *Asides:* add more detail, longer versions. This is the **Playbook** (Positioning Builder) | — |
+| 11 | Done | What is saved and what to do next | — |
 
 ```
 Welcome ─▶ What ExecEngine is ─▶ Account ──(typed email)──▶ Check your email ─┐
                                 │ (Google or Apple)                         │
                                 ▼                                           │
-                             Signals ◀──────────────────────────────────────┘
-                                │ ──(Add)──▶ LinkedIn upload ─┐
-                                │◀────────────────────────────┘
-                                           ▼
-                                       Direction ─▶ Narrow it down ─┐
+                            Direction ◀─────────────────────────────────────┘
+                                │
+                                └──────────────▶ Narrow it down ─┐
                                                                     ▼
                           What's in the way? (deciding question, if the direction has one)
                                                                     ▼
@@ -84,7 +81,7 @@ Welcome ─▶ What ExecEngine is ─▶ Account ──(typed email)──▶ Ch
 
 The order is a decision, not an accident of the list (see section 10). Three points matter most:
 
-- **The plan is chosen at step 6, before the personalising questions,** so the person knows what they are agreeing to. Steps 7 to 9 make it theirs. They do not reverse it.
+- **The plan is chosen at step 5, before the personalising questions,** so the person knows what they are agreeing to. Steps 6 to 8 make it theirs. They do not reverse it.
 - **The question that can change the plan is asked before the recommendation,** so the recommendation is made once.
 - **The first draft comes before any extra detail is asked,** so the person has something in hand first, then chooses what to do with it.
 
@@ -141,7 +138,7 @@ Rules:
 - **A personal address is asked for, not enforced** (Kate, 2026-11-12, replacing "any address" from 2026-09-22). The field's name and hint ask for one; a work address is still accepted, because a work domain cannot be told from a personal one reliably. The same goes for Google and Apple: a work Google account and Apple's **Hide my email** relay address both make an account, with no warning. An empty field shows "We need an email address to create the account."
 - **Everyone has an invite code,** so it is a required field, with no "I don't have a code". **Continue** stays off until both the email (or a Google or Apple account) and a code are given. A recognized code is kept. An unrecognized one shows the notice "We do not recognize that code. Check it against the invitation you were sent. A code only changes who pays, never what you get." Coming back to the page, the code is kept, and so is the way in (Google, Apple or a typed email).
 - **Continue sends the answer in one press,** with the keyboard up. Return on a real keyboard does the same.
-- **Where Continue goes.** With Google or Apple, the address is already confirmed, so Continue goes straight to Signals. With a typed address it goes to **Check your email** (3.3a), unless that same address has already been confirmed in this session.
+- **Where Continue goes.** With Google or Apple, the address is already confirmed, so Continue goes straight to Direction. With a typed address it goes to **Check your email** (3.3a), unless that same address has already been confirmed in this session.
 
 ### 3.3a Check your email
 
@@ -153,41 +150,16 @@ Reached only from Account, for a typed address, by decision on 2026-10-08. It ha
 - **The email arrives** about 1.6 seconds after the page opens, as the phone's own notification over the top of the page: **ExecEngine**, **Confirm your email**, "Here's the code to finish setting up." Its arrival is announced politely. Tapping it opens the email in a sheet: subject **Confirm your email**, the line "Type this code in ExecEngine to confirm your email:", the code large, and "This code works for 10 minutes and only once. If you didn't ask for it, you can ignore this email." **Inbox** closes it.
 - **The subject and preview say nothing about the person's career,** so nothing private shows on a lock screen, the same rule as Login's email.
 - **Send it again** clears the cells, sends a new email (it arrives the same way) and announces "Sent again."
-- Continue confirms the address and goes on to Signals.
+- Continue confirms the address and goes on to Direction.
 
 **Wrong and expired codes** use Login's screens, by decision on 2026-10-08:
 
 - **A wrong code.** Continue with six digits that are not the emailed code keeps the person on the page, shows Login's error under the cells ("That code doesn't match. Check the latest email and try again."), clears the cells and puts focus back in the first one. The cells are marked invalid and the error is announced. Typing again clears it. **After five wrong tries** the code stops working and the expired screen shows, as on Login.
 - **An expired code** (10 minutes, or five wrong tries). The page becomes Login's expired screen, still labeled **Your account**, with no drawer: heading **That code has expired**, line "Codes work for 10 minutes and only once. ExecEngine can send a new one to {email}." (Login's line, in onboarding's voice.) Button **Send a new code**, which brings the code page back with empty cells, the 30-second wait restarted and the new email on its way, and announces "Sent again." Under it, **Use a different address**, back to Account. Focus moves to the heading each way. In the prototype the 10 minutes are reached from the drawn email's **Open it again after 10 minutes**, as on Login.
 
-### 3.4 Signals
+### 3.4 Signals (removed)
 
-- Label **Optional.** Heading: **Start from how you already show up.** Line: "ExecEngine reads how far your posts reach, and who they reach, so your plan starts from where you already are."
-- One row: the LinkedIn mark, **LinkedIn**, "Your posts and audience, from the past year." It is not a button.
-- "You'll be able to add other signals later." and, with a lock: "Nothing is posted or shared. Delete the file anytime."
-- Actions, as equal peers: **Add LinkedIn numbers** and **Skip for now.** Once a file is in, or the steps have been emailed, there is one button, **Continue**, and the row shows a status chip (**Reading…**, **Ready**, **Read**, **Steps sent**) that opens the upload page again.
-
-#### The LinkedIn upload page
-
-Reached from Signals. Label **Optional · LinkedIn.** Heading **Bring in your LinkedIn numbers.** Line: "Export a spreadsheet from LinkedIn and add it here. About a minute, on a computer."
-
-- Three steps: **1.** Open your LinkedIn analytics (a link that opens LinkedIn in a new tab). **2.** At the top, choose **Past 365 days.** **3.** Press **Export**, then **Confirm.** A spreadsheet downloads.
-- A disclosure, **I don't see Export**: "Analytics show once you've posted at least once. If you haven't posted yet, leave this for now: your plan will help you start."
-- **Upload the spreadsheet** (the page's main button, with the hint "The spreadsheet from step 3") opens a real file picker for `.xlsx` and `.xls` files.
-- **On your phone? Email me these steps** sends the steps to the address given. The page then says "Sent to {email}. Do it on your computer when you're ready. It'll be on your plan too."
-- **Not now** (a quiet secondary at the foot) goes back to Signals.
-
-What the file does:
-
-| State | What the person sees |
-| --- | --- |
-| Reading | "Reading it now. Carry on, and it'll be ready by the time you need it." with a progress bar. The person can carry on at once. |
-| Ready | "{n} posts and your audience, from the last year." |
-| No posts | "Read it. No posts in the last year, so there's nothing to measure yet. Your plan will help you start." |
-| Wrong file | "That doesn't look like a LinkedIn analytics export. It should be the .xlsx from step 3. Try again, or leave it for now." |
-| Failed | "That didn't upload. Nothing was saved. Try again, or carry on without it." |
-
-Reading happens in the background and never makes the person wait. Once a file is in, the page shows its name and status, **Choose a different file**, and **Continue,** which returns to Signals.
+Onboarding no longer has a Signals step or a LinkedIn upload page (Kate, 2026-11-12). LinkedIn lives on the Signals page ("Add more LinkedIn data", Signals spec 5.4), and onboarding does not mention it, Done included. Account goes straight to Direction.
 
 ### 3.5 Direction
 
@@ -311,7 +283,8 @@ None is the default, so leaving it for later is a real choice.
   1. **Add more detail,** if the draft has no role or result yet. Its line begins "In your Playbook."
   2. **Build longer versions,** if they have not been opened. Its line begins "In your Playbook."
   3. The plan's **next stage** (its name and first outcome).
-  4. **Bring in your LinkedIn numbers,** if they have not come in.
+
+LinkedIn is not on the list: it lives on the Signals page (2026-11-12).
 - Button **Go to my homepage.**
 
 The list shrinks as steps are done. It never repeats what the person has just seen, and it does not summarize their answers: the plan page already did.
@@ -364,7 +337,7 @@ Every figure shown as data is **real, sourced and shown with its source.** It ap
 
 ### 4.7 Waiting
 
-Where ExecEngine writes something, a short state names it. The draft shows "Writing your first draft", for 1.1 seconds in the prototype. The LinkedIn file reads in the background for 8 seconds and the person is never kept waiting for it.
+Where ExecEngine writes something, a short state names it. The draft shows "Writing your first draft", for 1.1 seconds in the prototype.
 
 ### 4.8 Focus and announcements
 
@@ -376,8 +349,8 @@ Where ExecEngine writes something, a short state names it. The draft shows "Writ
 
 A thin line at the very top of every page after the Welcome shows how far through onboarding the person is. It has no words, count or percentage. (Kate, 2026-11-12, reversing "no progress" from 2026-09-24.)
 
-- **What it measures.** The pages a person moves on through, in order, Welcome excluded: What ExecEngine is is the first, Done the last and full. In the prototype that is 17 pages, so each fills about 6%.
-- **Pages reached from another page** (Check your email, the LinkedIn upload, the other plans, Add more detail, Longer versions) show the fill of the page they came from, and do not move it.
+- **What it measures.** The pages a person moves on through, in order, Welcome excluded: What ExecEngine is is the first, Done the last and full. In the prototype that is 16 pages, so each fills about 6%.
+- **Pages reached from another page** (Check your email, the other plans, Add more detail, Longer versions) show the fill of the page they came from, and do not move it.
 - **Pages a path passes** move it on. A direction with no deciding question, or with fewer than three questions, passes those pages and the line moves further. That is why it is an estimate, never a count: some paths are shorter than others.
 - **Not in edit mode.** Changing direction from the Plan keeps its own "Change your direction" header, with no line.
 - **Look.** 3px (`--border-width-thick`) tall, pill ends, the full width of the page's content. The track is the border color and the fill the primary text color, so on a navy page both turn to their inverse colors on their own. On web it spans the question's column, not the answer card.
@@ -390,7 +363,7 @@ Every screen says what it needs in **40 words or fewer.** (Kate, 2026-11-12.)
 
 - **Counts:** the label, the heading, the line, "Why this matters", and every card, reply and "Worth knowing" fact.
 - **Does not count:** answer options, buttons and links (including "None of these? Show me more options"), the person's own words (what they picked, their draft, what they typed), a fact's source line.
-- **Where it stands.** Within it: Welcome (33), What ExecEngine is (40), Account (29). Most other screens are over: about 110 to 120 words on the Recommendation and the First draft. Each is cut to fit as its own edit is approved; this section is updated as they are.
+- **Where it stands.** Within it: Welcome (33), What ExecEngine is (40), Account (29). The Signals step (53) is gone. Most other screens are over: about 110 to 120 words on the Recommendation and the First draft. Each is cut to fit as its own edit is approved; this section is updated as they are.
 
 ---
 
@@ -481,7 +454,6 @@ Use the design tokens in the real build, never the raw numbers. The pixel values
 | Wait before "Send it again" | 30 seconds | none |
 | Email notification | Inset 16px from the top and sides; on web, 24rem wide at the top right | `--space-md` |
 | Generating state | 1.1 seconds (prototype) | none |
-| LinkedIn file read | 8 seconds, in the background (prototype) | none |
 | Focus ring | 1.5px solid, 2px offset | `--focus-ring`, `--focus-ring-offset` |
 
 All colors, type, spacing, radii, borders and shadows are tokens. No color is hard-coded. The product is built in greyscale first, with color switched on from the dock.
@@ -553,7 +525,6 @@ Production must give every control a tappable area of at least 44px, drawn small
 | `ProductIntro` | What ExecEngine is: the three statements and their drawings, the Playbook's tools and the privacy line, and the build-in. |
 | `PointList`, `RecommendationCard`, `ReflectionReply` | Numbered points; the plan card; the pull-quote reply and its fact. |
 | `ThisWeekCard`, `StoryDraft`, `StoryText`, `ExportLinks`, `NextSteps` | The task card with its data; the editable draft; the story with its gaps; Copy, Download and Email; the "What next?" choices. |
-| `SignalSources`, `LinkedInUpload`, `LinkedInSteps` | The LinkedIn row, and the upload page and its steps. |
 | `PlanTemplateCard`, `GoodExample`, `GeneratingState`, `Notice` | The other plans; what good looks like; the waiting state; the invite-code notice. |
 | `Button` | Every button. |
 
@@ -570,7 +541,6 @@ Production must give every control a tappable area of at least 44px, drawn small
 | Google and Apple open a drawn stand-in for their pickers, with marks in one colour. | Their own sign-in windows, with the buttons drawn to Google's and Apple's brand rules. |
 | No email is sent. The code email is drawn on screen; only its code (482913) confirms the address, as on Login. Five wrong tries expire it; on time, it expires only when the email's "Open it again after 10 minutes" is pressed. | A real code is emailed and works once, for 10 minutes. A wrong one shows the error with the cells; an expired one shows the expired screen. |
 | Nothing is sent. "Email me these steps", "Email it to me" and "Download" confirm what they would do. | They send and download for real. |
-| The LinkedIn file is never read, only named. Reading is a timer. | The file is read and the figures are used for the plan and the drafts. |
 | The first draft, the versions and the replies are written from fixed templates. | They are written for the person (the generation approach is not specified here). |
 | A drawn keyboard appears under the drawer on the phone and tablet frames when a field has focus. | The real keyboard. The drawn one is not built. On web the prototype draws none. |
 | A step bar above the canvas jumps to any step, filling in sample answers, and a dock switches viewport and color. | Neither exists. People move only forward, or back through **Change.** |
@@ -593,7 +563,7 @@ These are settled. They are the specified behavior. The dates are when they were
 8. **Direction is two steps:** pick, then narrow each pick to one of two more specific versions. (2026-10-02)
 9. **The first draft comes first,** then a choice: add detail, build longer versions, or save and come back. The three detail questions are not put in front of the draft. (2026-10-02, reversing the order tried earlier that day)
 10. **Data is real or marked.** A figure is shown with its source, or as a placeholder. (2026-10-02)
-11. **Nothing is connected in V1.** LinkedIn is a spreadsheet the person uploads. (2026-09-28)
+11. **Nothing is connected in V1.** LinkedIn is a spreadsheet the person uploads, on the Signals page, not in onboarding. (2026-09-28; out of onboarding 2026-11-12)
 12. **A personal email is asked for,** by the field's name and a hint, and a work one is still accepted. (2026-11-12, replacing "any email", 2026-09-22)
 13. **Privacy is said once, on "What ExecEngine is,"** before anything personal is asked, in one line. (2026-10-02; one line from 2026-11-12)
 14. **The Done page lists only what is left,** and does not repeat what the person has seen. (2026-10-02)
@@ -605,6 +575,7 @@ These are settled. They are the specified behavior. The dates are when they were
 20. **On web the longer versions fill in live,** beside their fields, with no button. On phone and tablet a button applies the answers. (2026-10-02)
 21. **Google and Apple sign up on Account,** the same buttons as Login's, and any account they give is accepted. A typed email is confirmed on a page of its own by a 6-digit code, the same as Login's; Google and Apple pass it, because they have confirmed the address already. A wrong or expired code uses Login's screens and rules: the error under the cells, which clear, and after five wrong tries or 10 minutes **That code has expired** with **Send a new code**. (2026-10-08)
 22. **Forty words or fewer on every screen,** counting the page's own words, not the options, buttons or the person's own words (4.10). (2026-11-12)
+23. **LinkedIn is not in onboarding.** No Signals step and no upload page; Account goes straight to Direction, and Done does not mention it. It lives on the Signals page. (2026-11-12, reversing "signals come early", 2026-09-24)
 
 ---
 
