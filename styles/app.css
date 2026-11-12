@@ -16868,11 +16868,12 @@ ul.li-shares {
   line-height: inherit;
 }
 
+/* White at rest, the darker light blue on hover, navy with white words when pressed or saved:
+   never dark words on a dark fill. */
 .read-actions__toggle:hover,
 .read-actions__toggle.is-hover,
 .read-actions__answer:hover {
-  border-color: var(--color-border-strong);
-  background-color: var(--color-surface-hover);
+  background-color: var(--color-surface-active);
 }
 
 .read-actions__toggle {
@@ -16881,21 +16882,16 @@ ul.li-shares {
 
 .read-actions__toggle:active,
 .read-actions__toggle.is-active,
-.read-actions__answer:active {
-  background-color: var(--color-surface-active);
-}
-
+.read-actions__answer:active,
 .read-actions__toggle.is-on {
-  border-color: var(--color-text-primary);
-  background-color: var(--color-surface-selected);
+  border-color: var(--color-selected);
+  background-color: var(--color-selected);
+  color: var(--color-text-inverse);
 }
 
-.brief-read--lead .read-actions__toggle {
-  text-decoration: none;
-}
-
-.read-actions__toggle.is-on {
-  background-color: var(--color-surface-inverse-hover);
+.read-actions__toggle.is-on:hover {
+  border-color: var(--color-selected-hover);
+  background-color: var(--color-selected-hover);
 }
 
 .read-actions__toggle:focus-visible,
@@ -16975,7 +16971,11 @@ ul.li-shares {
   gap: var(--space-3xs);
 }
 
+/* The pencil sits in line with "Write a post about this"; the hint runs the full width under it. */
 .respond-link__label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
   font-weight: var(--weight-semibold);
 }
 

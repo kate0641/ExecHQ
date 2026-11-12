@@ -79,7 +79,7 @@ export function ReadActions({
         </button>
         {onMarkRead ? (
           <button type="button" className="choice-pill read-actions__toggle" onClick={() => onMarkRead(!isRead)}>
-            <Icon name={isRead ? "undo" : "check"} size={16} />
+            <Icon name="check" size={16} />
             {isRead ? C.read.markUnread : C.read.markRead}
             <span className="u-visually-hidden">: {title}</span>
           </button>
