@@ -298,9 +298,25 @@ None is the default, so leaving it for later is a real choice.
   3. The plan's **next stage** (its name and first outcome).
 
 LinkedIn is not on the list: it lives on the Signals page (2026-11-12).
-- Button **Go to my homepage.**
+- Button **Go to my homepage**, which opens Home with its first-visit tour (3.12).
 
 The list shrinks as steps are done. It never repeats what the person has just seen, and it does not summarize their answers: the plan page already did.
+
+### 3.12 The first visit to Home: a short tour
+
+After Done, Home opens with a three-stop tour of how to get around (Kate, 2026-11-12). Everything is reached from the **Ask or go** pill, and the tour shows it. The screen dims, one thing at a time is lit with a yellow ring, and a short card beside it says what it is.
+
+| Stop | Lit | Card |
+| --- | --- | --- |
+| 1 of 3 | The Ask or go pill | **Everything starts here.** "Tap to go anywhere, or ask ExecEngine anything." |
+| 2 of 3 | Go to, in the panel (it opens for this stop) | **Six places, one tap away.** "Your plan, your signals, your Playbook, the daily briefing and your profile." |
+| 3 of 3 | Ask me and the field to type in, together | **Chat with ExecEngine.** "Ask anything about your plan, or tap a question to start. It knows what you've told it." |
+
+- Each card has **Next** (on the last, **Got it**) and **Skip the tour**. The card sits above what is lit when it is low on the screen, below it otherwise.
+- **Got it** ends the tour with the panel still open and the cursor in its field, so she can type at once. **Skip the tour** (or Escape) ends it and closes the panel.
+- **A dialog:** focus goes to the card's main button at each stop, and nothing behind can be pressed until it ends.
+- **Once.** In production it shows on the first visit to Home after onboarding, once per account. In the prototype it runs whenever Home is opened with `?tour=1`, which Done's button adds; the address loses it when the tour ends.
+- **Home and the Ask or go panel are unchanged;** the tour is drawn over them.
 
 ---
 
@@ -595,6 +611,7 @@ These are settled. They are the specified behavior. The dates are when they were
 29. **Meatier influence questions, and nothing that assumes leaving.** The influence path asks which decision in the next few months the person wants a say in, and who decides it and how well they know her work, one answer each. Answers that assumed leaving the company are swapped for ones inside it (Appendix B); "Wrong company for it" no longer sends anyone to Find your next direction. (2026-11-12)
 30. **Meatier questions on every path.** Each question is about a real role, person, moment or decision, and some take one answer so the plan has one target (Appendix B). On a move within the company, "What would you keep?" and "How soon?" are replaced by "Which part of the business are you curious about?" and "Who have you talked to about it?". (2026-11-12)
 31. **The plan is one page, a path to the goal,** with this week's step drawn as the Plan page's move card and the Plan page's stage bar. Each stage's finish line is a sign it's working ("Done when someone repeats your one-line story back to you"); the same lines are the Plan page's stage milestones. The plan page is exempt from the 40-word rule. (2026-11-12)
+32. **Home opens with a three-stop tour after onboarding:** the Ask or go pill, Go to, and chatting with ExecEngine; skippable; once. The Plan page is not part of it. (2026-11-12)
 23. **LinkedIn is not in onboarding.** No Signals step and no upload page; Account goes straight to Direction, and Done does not mention it. It lives on the Signals page. (2026-11-12, reversing "signals come early", 2026-09-24)
 
 ---

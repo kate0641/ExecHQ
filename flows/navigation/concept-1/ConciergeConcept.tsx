@@ -37,6 +37,8 @@ import { usePlaybookLinks } from "@/lib/playbook-links";
 import { useNewSignals } from "@/lib/new-signals";
 import { useViewport } from "@/lib/viewport-context";
 import { CONCIERGE_COPY as C } from "@/mock/concierge";
+import { TOUR_COPY } from "@/mock/onboarding";
+import { FirstVisitTour, type TourRect } from "@/components/navigation/FirstVisitTour";
 import type { NavConceptProps } from "../types";
 
 /**
@@ -254,11 +256,122 @@ export function ConciergeNav(props: NavConceptProps) {
               <div className="concierge-host__panel" inert={!concierge.open}>
                 <Conversation {...props} mode={mobile ? "sheet" : "card"} />
               </div>
+              <Tour screen={screen} />
             </div>,
             screen
           )
         : null}
     </>
+  );
+}
+
+/* -----------------------------------------------------------------------------
+   The first-visit tour
+   -------------------------------------------------------------------------- */
+
+/** What each stop lights (one box around all of them), and its corners. */
+const TOUR_STOPS: { selectors: string[]; radius: number; opens: boolean }[] = [
+  { selectors: [`#${PILL_ID}`], radius: 26, opens: false },
+  { selectors: [`#${PANEL_ID} .icon-row`], radius: 16, opens: true },
+  // Chatting: the questions to tap and the field to type in, together.
+  { selectors: [`#${PANEL_ID} [aria-labelledby="concierge-ask"]`, `#${PANEL_ID} .chat-composer`], radius: 16, opens: true },
+];
+
+/** Whether this visit should start the tour: onboarding's last button arrives with ?tour=1. */
+function tourAsked(): boolean {
+  return typeof window !== "undefined" && new URLSearchParams(window.location.search).get("tour") === "1";
+}
+
+/** Takes ?tour=1 off the address once the tour ends, so a reload shows Home as it is. */
+function forgetTour() {
+  const url = new URL(window.location.href);
+  url.searchParams.delete("tour");
+  window.history.replaceState(window.history.state, "", url.toString());
+}
+
+/**
+ * Her first visit to Home, after onboarding (Kate, 2026-11-12): the pill, then
+ * Go to, then chatting with ExecEngine, one lit at a time. The panel opens for
+ * the second stop and stays open at the end, the cursor in its field, so she
+ * can type straight away. Skipping closes it. In production it shows once per
+ * account; in the prototype, whenever Home is opened with ?tour=1.
+ */
+function Tour({ screen }: { screen: HTMLElement }) {
+  // Mounted only on the client, after the screen is found, so reading the
+  // address here can't disagree with the server's render.
+  const [step, setStep] = useState<number | null>(() => (tourAsked() ? 0 : null));
+  const [rect, setRect] = useState<TourRect | null>(null);
+
+  useEffect(() => {
+    if (step === null) return;
+    const stop = TOUR_STOPS[step];
+    function measure() {
+      const targets = stop.selectors.map((selector) => screen.querySelector<HTMLElement>(selector)).filter((el): el is HTMLElement => Boolean(el));
+      if (!targets.length) return;
+      const frame = screen.getBoundingClientRect();
+      const boxes = targets.map((el) => el.getBoundingClientRect());
+      const box = {
+        top: Math.min(...boxes.map((b) => b.top)),
+        left: Math.min(...boxes.map((b) => b.left)),
+        width: Math.max(...boxes.map((b) => b.right)) - Math.min(...boxes.map((b) => b.left)),
+        height: Math.max(...boxes.map((b) => b.bottom)) - Math.min(...boxes.map((b) => b.top)),
+      };
+      const next = { top: box.top - frame.top, left: box.left - frame.left, width: box.width, height: box.height, radius: stop.radius };
+      // Only a real move re-renders.
+      setRect((was) =>
+        was && Math.abs(was.top - next.top) < 0.5 && Math.abs(was.left - next.left) < 0.5 && Math.abs(was.width - next.width) < 0.5 && Math.abs(was.height - next.height) < 0.5
+          ? was
+          : next
+      );
+    }
+    // Measured every frame while the panel slides in, for up to two seconds,
+    // then again whenever the window changes.
+    let frame = 0;
+    const until = performance.now() + 2000;
+    function follow() {
+      measure();
+      if (performance.now() < until) frame = window.requestAnimationFrame(follow);
+    }
+    frame = window.requestAnimationFrame(follow);
+    window.addEventListener("resize", measure);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("resize", measure);
+    };
+  }, [step, screen]);
+
+  if (step === null) return null;
+  const copy = TOUR_COPY.steps[step];
+  const last = step === TOUR_STOPS.length - 1;
+  const frameHeight = screen.getBoundingClientRect().height;
+  const placement = rect && rect.top + rect.height / 2 > frameHeight / 2 ? "above" : "below";
+
+  function end(keepOpen: boolean) {
+    setStep(null);
+    setRect(null);
+    forgetTour();
+    if (keepOpen) screen.querySelector<HTMLInputElement>(`#${PANEL_ID} .chat-composer__field`)?.focus();
+    else closePanel();
+  }
+
+  return (
+    <FirstVisitTour
+      rect={rect}
+      placement={placement}
+      counter={TOUR_COPY.counter(step + 1, TOUR_STOPS.length)}
+      title={copy.title}
+      body={copy.body}
+      nextLabel={last ? TOUR_COPY.done : TOUR_COPY.next}
+      skipLabel={TOUR_COPY.skip}
+      label={TOUR_COPY.label}
+      onSkip={() => end(false)}
+      onNext={() => {
+        if (last) return end(true);
+        if (TOUR_STOPS[step + 1].opens) update({ open: true });
+        setRect(null);
+        setStep(step + 1);
+      }}
+    />
   );
 }
 

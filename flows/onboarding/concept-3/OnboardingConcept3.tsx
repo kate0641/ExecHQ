@@ -759,8 +759,9 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
           lede={c.lede}
           className="guide--done"
           navy
+          // Home opens with its first-visit tour (Kate, 2026-11-12).
           primaryLabel={c.home}
-          onPrimary={() => router.push(DONE_C1.homeHref)}
+          onPrimary={() => router.push(`${DONE_C1.homeHref}?tour=1`)}
         >
           <PointList items={steps} numbered label={c.nextLabel} />
         </GuidePage>

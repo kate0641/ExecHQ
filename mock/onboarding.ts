@@ -2024,6 +2024,20 @@ export const CHAT_C2 = {
   },
 } as const;
 
+/** The first visit to Home, after onboarding (Kate, 2026-11-12): three stops, then she can type. */
+export const TOUR_COPY = {
+  label: "A quick tour",
+  counter: (at: number, of: number) => `${at} of ${of}`,
+  next: "Next",
+  done: "Got it",
+  skip: "Skip the tour",
+  steps: [
+    { id: "pill", title: "Everything starts here", body: "Tap to go anywhere, or ask ExecEngine anything." },
+    { id: "places", title: "Six places, one tap away", body: "Your plan, your signals, your Playbook, the daily briefing and your profile." },
+    { id: "chat", title: "Chat with ExecEngine", body: "Ask anything about your plan, or tap a question to start. It knows what you\u2019ve told it." },
+  ],
+} as const;
+
 /* -----------------------------------------------------------------------------
    CONCEPT 3: THE GUIDED ONBOARDING
    -------------------------------------------------------------------------- */
