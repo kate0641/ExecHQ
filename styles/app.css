@@ -9290,6 +9290,187 @@ ol.ring-detail__timeline {
 /* Explained points. */
 /* What ExecEngine is (Kate, 2026-11-12): three statements with a drawing each, the Playbook's
    tools by name, privacy in a line. It sits on the navy page, so it takes the inverse set. */
+/* The plan as a path (Kate, 2026-11-12), on onboarding's navy page. Its stage bar and its first
+   card are the Plan page's own (the guided check-in's top card), so tomorrow's page looks familiar. */
+.plan-path {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.plan-path__where {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.plan-path__where-text {
+  margin: 0;
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-inverse-muted);
+}
+
+.plan-path__bar {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.plan-path__bar > li {
+  block-size: var(--border-width-thick);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-border-inverse);
+}
+
+.plan-path__bar > li.is-now {
+  background-color: var(--color-text-inverse);
+}
+
+/* Doubled class: list resets elsewhere in the guide outrank a single one and zero the indent. */
+.plan-path .plan-path__steps {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin: 0;
+  padding: 0 0 0 calc(var(--space-xl) + var(--space-xs));
+  list-style: none;
+}
+
+/* The path: one line behind the markers, from the first to the last. */
+.plan-path__steps::before {
+  content: "";
+  position: absolute;
+  inset-block: var(--space-sm);
+  inset-inline-start: calc(var(--space-sm) + var(--space-3xs));
+  inline-size: var(--border-width-thick);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-border-inverse);
+}
+
+.plan-path__step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+.plan-path__marker {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: calc(-1 * (var(--space-xl) + var(--space-xs)));
+  display: grid;
+  place-items: center;
+  inline-size: calc(var(--space-lg) + var(--space-3xs));
+  block-size: calc(var(--space-lg) + var(--space-3xs));
+  border: var(--border-width-medium) solid var(--color-border-inverse);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-quiet-on-inverse);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-inverse-muted);
+}
+
+.plan-path__step--now .plan-path__marker {
+  inset-block-start: var(--space-lg);
+  border-color: var(--color-headline-on-inverse);
+  background-color: var(--color-headline-on-inverse);
+}
+
+.plan-path__step--goal .plan-path__marker {
+  border-color: var(--color-headline-on-navy-quiet);
+  background-color: transparent;
+  color: var(--color-headline-on-navy-quiet);
+}
+
+/* This week's step, as the Plan page's top card draws it. */
+.plan-path__move {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding: var(--space-md);
+  border: var(--border-width-thin) solid var(--color-border-inverse);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface-quiet-on-inverse);
+}
+
+.plan-path__move-label {
+  margin: 0;
+  font-family: var(--type-eyebrow-font);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-eyebrow-on-inverse);
+}
+
+.plan-path__move-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  color: var(--color-headline-on-inverse);
+}
+
+.plan-path__move-line {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-inverse-muted);
+}
+
+.plan-path__stage {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+  color: var(--color-text-inverse);
+}
+
+.plan-path__step--goal .plan-path__stage {
+  color: var(--color-headline-on-navy-quiet);
+}
+
+.plan-path__done {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+  color: var(--color-text-inverse-muted);
+}
+
+.plan-path__done-label {
+  font-weight: var(--weight-semibold);
+  color: var(--color-headline-on-navy-quiet);
+}
+
+.plan-path__heard-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-sm);
+  padding-block-start: var(--space-sm);
+  border-block-start: var(--border-width-thin) solid var(--color-border-inverse);
+  font-size: var(--text-sm);
+  color: var(--color-text-inverse-muted);
+}
+
+/* Builds in once: each step rises into place after the one before. */
+@media (prefers-reduced-motion: no-preference) {
+  .plan-path--animate .plan-path__in {
+    animation: product-intro-rise var(--duration-slow) var(--easing-standard) both;
+    animation-delay: var(--path-delay, 0s);
+  }
+}
+
 .product-intro {
   display: flex;
   flex-direction: column;

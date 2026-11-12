@@ -48,7 +48,7 @@ The prototype's step bar names twelve steps. A few pages are reached only from a
 | 6 | Choose your plan | A question about what is in the way (for most directions), then the five plans, ExecEngine's pick first and marked; the person chooses | Choose a plan |
 | 7 | Reflection | One question to sit with, with a reply | An answer |
 | 8 | Questions | Up to three "Making it yours" questions, with two more reflections between them | No |
-| 9 | Your plan | The plan, tuned to their answers: this week, then the stages | — |
+| 9 | Your plan | The plan as a path: this week, the stages with their finish lines, the goal | — |
 | 10 | Your story | A question to sit with, about saying what they lead | An answer |
 | 11 | First draft | The first draft, and the choice of what next. *Asides:* add more detail, longer versions. This is the **Playbook** (Positioning Builder) | — |
 | 12 | Done | What is saved and what to do next | — |
@@ -67,7 +67,7 @@ Welcome ─▶ What ExecEngine is ─▶ Account ──(typed email)──▶ Ch
                 ▼   Use this plan
           Reflection ─▶ Question ─▶ Reflection ─▶ Question ─▶ Reflection ─▶ Question
                                                                     ▼
-                                          Your plan: This week ─▶ Three stages
+                                          Your plan (one page, a path to the goal)
                                                                     ▼
                                     Your story (a question) ─▶ First draft
                                                                     │
@@ -244,19 +244,18 @@ The reflections are:
 
 ### 3.9 Your plan
 
-The plan, tuned to what the person said. Two pages.
+The plan, one page, drawn as a path to the person's goal (Kate, 2026-11-12; it was two pages, "This week" then "Three stages"). Its stage bar and its first card are the Plan page's own, so the Plan page she opens next looks like the one she has just made.
 
-**Page one: This week.** Label **Your plan.** Heading **This week.** Line "Here's your plan, tuned to what you've said, one part at a time."
-
-- **Built from what you said:** a short list of the person's answers, each with a **Change** link. The first row is where they are today (3.4a), the second their direction. The rest are the questions they answered. **Change** on where they are today, or on a question, goes to it and returns here when it is answered. **Change** on the direction starts the questions again from Direction, with their picks kept; a new direction clears the plan they chose for the old one.
-- A dark card with **the one task to do first** (for example "Write the story of what you lead"), a line of detail, **Why now:** a short reason, and the **data** behind it with its source (see 4.6).
-- Button **Next part.**
-
-**Page two: Three stages.** Heading **Three stages**, with "Each stage sets up the next, so the effort adds up." and "Stage by stage, toward {the goal}."
-
-- Three stages, each with its name, what the person will have, and **Done when:** a checkable finish line. The first stage is marked **First · This week**, so the task on the first page is seen as the first step of stage one.
-- A closing line: "Once these stages are done, ExecEngine will plan the next stretch with you, based on what worked and what didn't. It sharpens as you go: every draft you make and every conversation you log tells ExecEngine what to do next."
-- Button **Continue.**
+- Label **Your plan.** Heading **Your path to {the goal}** (for example "Your path to the C-suite within three years").
+- Under it, as the Plan page says it: **{Plan} · Stage 1 of {n} · {first stage}**, with the stage bar, its first segment lit.
+- **The path:** a line with a marker at each point.
+  1. **You are here · This week:** this week's step as the Plan page's move card (darkest navy, its headline in yellow), with "ExecEngine drafts it with you next."
+  2. **Each stage**, numbered: its name, and **Done when** with a sign it's working (Appendix C), for example "Done when someone repeats your one-line story back to you."
+  3. **The goal**, with a star.
+- **Built from your {n} answers** with **See or change**, a single line that opens the list of the person's answers, each with a **Change** link (and **Hide** to fold it again). The first row is where they are today (3.4a), the second their direction. **Change** on where they are today, or on a question, goes to it and returns here when it is answered. **Change** on the direction starts the questions again from Direction, with their picks kept; a new direction clears the plan they chose for the old one.
+- Button **Continue** (in Change your direction, **Save my plan**).
+- **It builds in once**, each step rising into place after the one before (from 0.2s, 0.4s apart); at rest with reduced motion.
+- **Removed with the second page:** the "Why now" reason and its fact, what each stage produces, and the closing paragraph about the next stretch. The Plan page keeps them.
 
 A plan has no end date and no length. A stage is never given a deadline.
 
@@ -363,7 +362,7 @@ Where ExecEngine writes something, a short state names it. The draft shows "Writ
 
 A thin line at the very top of every page after the Welcome shows how far through onboarding the person is. It has no words, count or percentage. (Kate, 2026-11-12, reversing "no progress" from 2026-09-24.)
 
-- **What it measures.** The pages a person moves on through, in order, Welcome excluded: What ExecEngine is is the first, Done the last and full. In the prototype that is 17 pages, so each fills about 6%.
+- **What it measures.** The pages a person moves on through, in order, Welcome excluded: What ExecEngine is is the first, Done the last and full. In the prototype that is 16 pages, so each fills about 6%.
 - **Pages reached from another page** (Check your email, Add more detail, Longer versions) show the fill of the page they came from, and do not move it.
 - **Pages a path passes** move it on. A direction with no deciding question, or with fewer than three questions, passes those pages and the line moves further. That is why it is an estimate, never a count: some paths are shorter than others.
 - **Not in edit mode.** Changing direction from the Plan keeps its own "Change your direction" header, with no line.
@@ -377,7 +376,7 @@ Every screen says what it needs in **40 words or fewer.** (Kate, 2026-11-12.)
 
 - **Counts:** the label, the heading, the line, "Why this matters", and every card, reply and "Worth knowing" fact.
 - **Does not count:** answer options, buttons and links (including "None of these? Show me more options"), the person's own words (what they picked, their draft, what they typed), a fact's source line.
-- **Where it stands.** Within it: Welcome (33), What ExecEngine is (40), Account (29), Where are you today (25), Choose your plan (13, plus the reason on ExecEngine's pick). The Signals step (53) is gone. Most other screens are over: about 110 to 120 words on the plan page's stages and the First draft. Each is cut to fit as its own edit is approved; this section is updated as they are.
+- **Where it stands.** Within it: Welcome (33), What ExecEngine is (40), Account (29), Where are you today (25), Choose your plan (13, plus the reason on ExecEngine's pick). Over it: Your plan, about 85 words with its three finish lines (decision 31). The Signals step (53) is gone. Most other screens are over: about 110 to 120 words on the plan page's stages and the First draft. Each is cut to fit as its own edit is approved; this section is updated as they are.
 
 ---
 
@@ -594,6 +593,7 @@ These are settled. They are the specified behavior. The dates are when they were
 28. **No deciding question on the influence path.** What's holding you back? is dropped; the influence directions go from narrowing straight to Choose your plan, and "Too junior on paper" no longer sends anyone to Step Up. (2026-11-12)
 29. **Meatier influence questions, and nothing that assumes leaving.** The influence path asks which decision in the next few months the person wants a say in, and who decides it and how well they know her work, one answer each. Answers that assumed leaving the company are swapped for ones inside it (Appendix B); "Wrong company for it" no longer sends anyone to Find your next direction. (2026-11-12)
 30. **Meatier questions on every path.** Each question is about a real role, person, moment or decision, and some take one answer so the plan has one target (Appendix B). On a move within the company, "What would you keep?" and "How soon?" are replaced by "Which part of the business are you curious about?" and "Who have you talked to about it?". (2026-11-12)
+31. **The plan is one page, a path to the goal,** with this week's step drawn as the Plan page's move card and the Plan page's stage bar. Each stage's finish line is a sign it's working ("Done when someone repeats your one-line story back to you"); the same lines are the Plan page's stage milestones. The page runs over 40 words with all three finish lines showing, by choice. (2026-11-12)
 23. **LinkedIn is not in onboarding.** No Signals step and no upload page; Account goes straight to Direction, and Done does not mention it. It lives on the Signals page. (2026-11-12, reversing "signals come early", 2026-09-24)
 
 ---
@@ -688,3 +688,13 @@ The first page shows the five **first options**. "None of these? Show me more op
 | **Make the Move** (Prepare for a career inflection point) | A promotion, review, board presentation or negotiation is coming up. | Write the story you’ll tell in the room | It’s the core of your case, and the thing you’ll rehearse. *Placeholder: a sourced fact is still needed.* | This week: Get the situation on paper; Before the date: Prepare your case; After: Capture what happened |
 | **Lead Where You Are** (Strengthen influence in the current organization) | You want to grow where you already are. | Write the story of what you own | Your work gets heard when it’s described in the terms decisions are made in. *Placeholder: a sourced fact is still needed.* | First: Make your work easy to see; Next: Widen who hears about it; Then: Become the go-to |
 | **Find your next direction** (Explore and clarify a next direction) | You want a different role here, or aren’t sure yet which. *(2026-11-12; was "You feel stuck but can’t yet name the next role.")* | Write the story of what you’re good at | It shows which strengths go with you anywhere, before you choose where. People who use their strengths every day are six times as likely to be engaged at work. — Gallup, 2015 | First: Work out what travels; Next: Test it cheaply; Then: Choose your direction |
+
+**Done when, by stage** (2026-11-12): each a sign the stage is working, shown on the plan page and as the Plan page's milestones.
+
+| Plan | First stage | Next | Then |
+| --- | --- | --- | --- |
+| Step Up | Someone repeats your one-line story back to you. | Your boss uses your wins to make your case. | The person who decides asks to talk to you. |
+| Make Your Mark | A colleague can say what you stand for. | Someone you don’t know responds to something you said. | You’re asked to speak, not just allowed to. |
+| Make the Move | You know their pushback before they say it. | You can make your case in ninety seconds, out loud. | Your next move is decided, not drifted into. |
+| Lead Where You Are | Your boss describes your work the way you would. | People outside your team come to you first. | A bigger problem lands on your desk by default. |
+| Find your next direction | You can name the strengths you’d take anywhere in the business. | You’ve seen the work up close, and crossed off what doesn’t fit. | You can name the role you want, and someone is helping you get it. |

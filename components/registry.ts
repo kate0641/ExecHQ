@@ -54,6 +54,7 @@ import { guidePageStates } from "./onboarding/GuidePage/GuidePage.states";
 import { advisorFileStates } from "./onboarding/AdvisorFile/AdvisorFile.states";
 import { pointListStates } from "./onboarding/PointList/PointList.states";
 import { productIntroStates } from "./onboarding/ProductIntro/ProductIntro.states";
+import { planPathStates } from "./onboarding/PlanPath/PlanPath.states";
 import { reflectionReplyStates } from "./onboarding/ReflectionReply/ReflectionReply.states";
 import { recommendationCardStates } from "./onboarding/RecommendationCard/RecommendationCard.states";
 import { signalSourcesStates } from "./onboarding/SignalSources/SignalSources.states";
@@ -191,6 +192,7 @@ export const registry: RegisteredComponent[] = [
   advisorFileStates,
   pointListStates,
   productIntroStates,
+  planPathStates,
   reflectionReplyStates,
   recommendationCardStates,
   storyDraftStates,

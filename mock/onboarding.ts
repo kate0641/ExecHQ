@@ -747,7 +747,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
           "The story of what you lead, ready to say out loud",
           "A bio in short, medium and long versions",
         ],
-        done: "You can describe your scope in a sentence, and your bio is ready to send.",
+        done: "Someone repeats your one-line story back to you.",
       },
       {
         window: "Next",
@@ -756,7 +756,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
           "Three wins written up to show how much you ran, not just what you did",
           "Talking points for your next career conversation",
         ],
-        done: "Your manager has seen your three wins, in writing.",
+        done: "Your boss uses your wins to make your case.",
       },
       {
         window: "Then",
@@ -765,7 +765,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
           "Two conversations with people who influence the decision",
           "Notes on what each one needs to see from you",
         ],
-        done: "You know who decides on the role, and what they need to see from you.",
+        done: "The person who decides asks to talk to you.",
       },
     ],
   },
@@ -800,7 +800,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
           "How you describe yourself, in your words, not your employer\u2019s",
           "A point of view you\u2019re willing to defend",
         ],
-        done: "You can say what you stand for in one sentence, without mentioning where you work.",
+        done: "A colleague can say what you stand for.",
       },
       {
         window: "Next",
@@ -809,7 +809,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
           "Three posts or articles under your own name",
           "A short list of events and groups worth being part of",
         ],
-        done: "Three pieces are published, and you know which rooms you want to be in.",
+        done: "Someone you don\u2019t know responds to something you said.",
       },
       {
         window: "Then",
@@ -818,7 +818,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
           "Two pitches sent to events or podcasts",
           "A follow-up plan for each one",
         ],
-        done: "Two pitches are out, to events or shows the people you want to reach actually follow.",
+        done: "You\u2019re asked to speak, not just allowed to.",
       },
     ],
   },
@@ -850,7 +850,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
           "The story you\u2019ll tell in the room, in draft",
           "A one-page brief: what\u2019s being decided, by whom, and on what basis",
         ],
-        done: "You can say what\u2019s being decided, who decides, and what they\u2019ll push back on.",
+        done: "You know their pushback before they say it.",
       },
       {
         window: "Before the date",
@@ -859,7 +859,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
           "A ninety-second version you can say without notes",
           "Proof for every claim, and answers to the two hardest objections",
         ],
-        done: "You can give your case without notes, with proof behind every claim.",
+        done: "You can make your case in ninety seconds, out loud.",
       },
       {
         window: "After",
@@ -900,7 +900,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
           "Your role described in the words your leadership uses",
           "One recent win reframed as impact on the business",
         ],
-        done: "Your role and one win are written in your leadership\u2019s language, ready to use.",
+        done: "Your boss describes your work the way you would.",
       },
       {
         window: "Next",
@@ -909,7 +909,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
           "Three people outside your team who know what you do",
           "A regular reason to be in one meeting you\u2019re not in yet",
         ],
-        done: "Three people outside your team could explain what you do.",
+        done: "People outside your team come to you first.",
       },
       {
         window: "Then",
@@ -918,7 +918,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
           "One problem that comes to you by default",
           "A specific piece of bigger scope, asked for",
         ],
-        done: "You\u2019ve asked for a specific piece of bigger scope, and had an answer.",
+        done: "A bigger problem lands on your desk by default.",
       },
     ],
   },
@@ -954,7 +954,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
           "What you\u2019re good at, separated from where you\u2019ve done it",
           "The parts of the job you wouldn\u2019t miss",
         ],
-        done: "You have a short list of strengths that would matter anywhere.",
+        done: "You can name the strengths you\u2019d take anywhere in the business.",
       },
       {
         window: "Next",
@@ -963,7 +963,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
           "Four conversations with people in adjacent roles",
           "Two directions ruled out on evidence, not nerves",
         ],
-        done: "You\u2019ve crossed at least two options off, for real reasons.",
+        done: "You\u2019ve seen the work up close, and crossed off what doesn\u2019t fit.",
       },
       {
         window: "Then",
@@ -972,7 +972,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
           "A direction specific enough to plan around",
           "A story that makes the move look deliberate",
         ],
-        done: "You can name the role you\u2019re going for, and why.",
+        done: "You can name the role you want, and someone is helping you get it.",
       },
     ],
   },
@@ -2287,31 +2287,22 @@ export const GUIDE_C3 = {
       why: "The people who decide your next role can only back what they know you want.",
     },
   },
+  /** The plan, one page, as a path (Kate, 2026-11-12): where she is, this week's step as the Plan
+   *  page's move card, three stages each with a sign it's working, and her goal at the end. */
   plan: {
     kicker: "Your plan",
-    /** The first page of the plan, tuned to what the user said. */
-    firstLede: "Here\u2019s your plan, tuned to what you\u2019ve said, one part at a time.",
-    /** The answers the plan is built from, each with a way back to change it. */
+    title: (goal: string) => `Your path to ${goal}`,
+    where: (plan: string, count: number, first: string) => `${plan} \u00b7 Stage 1 of ${count} \u00b7 ${first}`,
+    here: "You are here \u00b7 This week",
+    thisWeekLine: "ExecEngine drafts it with you next.",
+    doneLabel: "Done when",
+    /** The answers the plan is built from, folded into one line that opens them. */
     heardLabel: "Built from what you said",
     heardDirection: "Where you\u2019re going",
-    parts: [
-      {
-        id: "week",
-        title: "This week",
-        what: "The one thing to do first.",
-        helps: "You always know the next move, so nothing stalls.",
-      },
-      {
-        id: "stages",
-        title: "Three stages",
-        what: "What your plan builds toward, in order, each with a finish line. When they\u2019re done, ExecEngine plans the next stretch with you.",
-        helps: "Each stage sets up the next, so the effort adds up.",
-      },
-    ],
-    next: "Next part",
+    heardToggle: (count: number) => `Built from your ${count} answer${count === 1 ? "" : "s"}`,
+    heardOpen: "See or change",
+    heardClose: "Hide",
     continue: "Continue",
-    others: "See other plans",
-    use: "Use this plan",
   },
   story: {
     /** The story is made in the Playbook, in its Positioning Builder, so the

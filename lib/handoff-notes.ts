@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "onboarding-plan-as-a-path",
+    title: "Onboarding: the plan, as a path",
+    description:
+      "The plan's two pages become one path to her goal, with this week's step as the Plan page's move card; every stage's \"done when\" becomes a sign it's working, on the Plan page too (12 Nov).",
+  },
+  {
     slug: "onboarding-meatier-questions-all-paths",
     title: "Onboarding: meatier questions on every path",
     description:

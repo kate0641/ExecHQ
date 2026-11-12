@@ -20,12 +20,12 @@ import { StoryDraft } from "@/components/onboarding/StoryDraft";
 import { StoryText } from "@/components/onboarding/StoryText";
 import { ToggleGroup } from "@/components/form/ToggleGroup";
 import { PlanTemplateCard } from "@/components/onboarding/PlanTemplateCard";
-import { ThisWeekCard } from "@/components/onboarding/ThisWeekCard";
 import { GuidePage, type SkyGlow } from "@/components/onboarding/GuidePage";
 import { NextSteps } from "@/components/onboarding/NextSteps";
 import { Notice } from "@/components/onboarding/Notice";
 import { WelcomeSplit } from "@/components/onboarding/WelcomeSplit";
 import { PointList } from "@/components/onboarding/PointList";
+import { PlanPath } from "@/components/onboarding/PlanPath";
 import { ProductIntro } from "@/components/onboarding/ProductIntro";
 import { ReflectionReply } from "@/components/onboarding/ReflectionReply";
 import { Button } from "@/components/primitives/Button";
@@ -57,7 +57,6 @@ import {
   DRAFT_EXPORTS,
   GUIDE_C3,
   POSITIONING_C1,
-  PLAN_C1,
   PLAN_TEMPLATES,
   SIGNUP_PROVIDER_ACCOUNTS,
   checkEmail,
@@ -131,7 +130,6 @@ type PageId =
   | "reflect-conversation"
   | "t-2"
   | "plan-week"
-  | "plan-stages"
   | "reflect-story"
   | "draft"
   | "sharpen"
@@ -176,7 +174,6 @@ const PAGES: Page[] = [
   // The plan was chosen on the recommendation. Here it is, tuned to what the
   // user said, a part at a time.
   { id: "plan-week", label: "Your plan", step: "plan" },
-  { id: "plan-stages", label: "Stages", step: "plan", offBar: true },
   // The story: a reflection, then a first draft written from what the user
   // has said. After it the user chooses: add detail now, build longer
   // versions, or save it and come back to either later (2026-10-02). The
@@ -247,7 +244,6 @@ function barEntry(id: PageId): PageId {
   for (let i = pageIndex(id); i >= 0; i--) if (!PAGES[i].offBar) return PAGES[i].id;
   return "welcome";
 }
-const PLAN_PARTS: PageId[] = ["plan-week", "plan-stages"];
 
 /** Pages whose answers live only in this concept, cleared when a jump lands
  *  on or before them. */
@@ -288,6 +284,8 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
   const [reflections, setReflections] = useState<Record<string, string>>({});
   // Where she is today: as many as are true, and her own words for Other.
   const [today, setToday] = useState<TodayAnswer>({ picks: [], other: "" });
+  // The plan page's read-back, folded to one line until she opens it.
+  const [heardOpen, setHeardOpen] = useState(false);
   // The current page's answer drawer: open, folded to a peek, or answered.
   const [chosenMode, setMode] = useState<DrawerMode>("open");
   const { viewport } = useViewport();
@@ -613,27 +611,44 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
       );
     }
 
-    case "plan-week":
-    case "plan-stages": {
+    case "plan-week": {
       if (!plan) return null;
       const c = GUIDE_C3.plan;
-      const index = PLAN_PARTS.indexOf(pageId);
-      const part = c.parts[index];
-      const last = pageId === "plan-stages";
+      const stages = plan.stages ?? [];
+      const goal = towardFor(direction);
       return (
         <GuidePage
           {...frame()}
-          navy={pageId === "plan-week"}
+          navy
           kicker={c.kicker}
-          title={part.title}
-          lede={pageId === "plan-week" ? c.firstLede : part.helps}
-          primaryLabel={last ? (edit ? EDIT_FLOW_COPY.save : c.continue) : c.next}
-          onPrimary={last && edit ? finishEdit : next}
+          title={c.title(goal)}
+          primaryLabel={edit ? EDIT_FLOW_COPY.save : c.continue}
+          onPrimary={edit ? finishEdit : next}
         >
-          {pageId === "plan-week" && heardRows.length ? (
+          <PlanPath
+            where={c.where(plan.name, stages.length, stages[0]?.title ?? "")}
+            thisWeek={{ label: c.here, title: plan.thisWeek?.title ?? "", line: c.thisWeekLine }}
+            stages={stages.map((stage) => ({ title: stage.title, done: stage.done }))}
+            goal={goal.charAt(0).toUpperCase() + goal.slice(1)}
+            doneLabel={c.doneLabel}
+          />
+          {heardRows.length ? (
             <section className="guide__heard-rows" aria-label={c.heardLabel}>
-              <p className="guide__yours-label">{c.heardLabel}</p>
-              <div className="card card--reads">
+              <div className="plan-path__heard-toggle">
+                <span>{c.heardToggle(heardRows.length)}</span>
+                <button
+                  type="button"
+                  className="link"
+                  aria-expanded={heardOpen}
+                  aria-controls={`${headingId}-heard`}
+                  onClick={() => setHeardOpen((open) => !open)}
+                >
+                  {heardOpen ? c.heardClose : c.heardOpen}
+                </button>
+              </div>
+              {/* Drawn only when open: the card's display rule would outrank [hidden]. */}
+              {heardOpen ? (
+              <div className="card card--reads" id={`${headingId}-heard`}>
                 {heardRows.map((row) => (
                   <Said
                     key={row.label}
@@ -649,9 +664,9 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
                   />
                 ))}
               </div>
+              ) : null}
             </section>
           ) : null}
-          <PlanPart part={pageId} plan={plan} direction={direction} />
         </GuidePage>
       );
     }
@@ -1824,53 +1839,6 @@ function SharpenPage({
       <GoodExample label={c.goodLabel} whyLabel={c.goodWhy} {...current.good} />
     </GuidePage>
   );
-}
-
-/** The user's own version of one part of the plan. */
-function PlanPart({
-  part,
-  plan,
-  direction,
-}: {
-  part: PageId;
-  plan: PlanTemplate;
-  direction: string;
-}) {
-  if (part === "plan-week")
-    return plan.thisWeek ? <ThisWeekCard label={PLAN_C1.thisWeek} whyLabel={PLAN_C1.why} labelHidden {...plan.thisWeek} /> : null;
-  if (part === "plan-stages")
-    return (
-      <div className="plan-ahead">
-        <p className="plan-ahead__toward">
-          {plan.horizon}, toward <b>{towardFor(direction)}</b>
-        </p>
-        <ol className="guide__stages">
-          {plan.stages?.map((stage, index) => (
-            <li key={stage.title}>
-              <p className="guide__stage-when">
-                {stage.window}
-                {index === 0 ? ` \u00b7 ${PLAN_C1.now}` : ""}
-              </p>
-              <p className="guide__stage-title">{stage.title}</p>
-              <ul>
-                {stage.outcomes.map((outcome) => (
-                  <li key={outcome}>{outcome}</li>
-                ))}
-              </ul>
-              {stage.done ? (
-                <p className="guide__stage-done">
-                  <b>{PLAN_C1.doneWhen}</b> {stage.done}
-                </p>
-              ) : null}
-            </li>
-          ))}
-        </ol>
-        <p className="guide__next">
-          {plan.after} {PLAN_C1.grows}
-        </p>
-      </div>
-    );
-  return null;
 }
 
 export default OnboardingConcept3;
