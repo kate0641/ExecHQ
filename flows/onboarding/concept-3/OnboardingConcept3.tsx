@@ -24,7 +24,7 @@ import { GuidePage, type SkyGlow } from "@/components/onboarding/GuidePage";
 import { NextSteps } from "@/components/onboarding/NextSteps";
 import { Notice } from "@/components/onboarding/Notice";
 import { WelcomeSplit } from "@/components/onboarding/WelcomeSplit";
-import { PointList } from "@/components/onboarding/PointList";
+import { Icon } from "@/components/primitives/Icon";
 import { PlanPath } from "@/components/onboarding/PlanPath";
 import { ProductIntro } from "@/components/onboarding/ProductIntro";
 import { ReflectionReply } from "@/components/onboarding/ReflectionReply";
@@ -146,6 +146,9 @@ interface Page {
   offBar?: boolean;
   /** Reached only from another page, never by moving on. */
   aside?: boolean;
+  /** After onboarding: the plan's first step, begun from Done if she likes.
+   *  No progress line, since it is the product rather than setup. */
+  branch?: boolean;
 }
 
 const PAGES: Page[] = [
@@ -174,15 +177,18 @@ const PAGES: Page[] = [
   // The plan was chosen on the recommendation. Here it is, tuned to what the
   // user said, a part at a time.
   { id: "plan-week", label: "Your plan", step: "plan" },
-  // The story: a reflection, then a first draft written from what the user
-  // has said. After it the user chooses: add detail now, build longer
-  // versions, or save it and come back to either later (2026-10-02). The
-  // detail questions and the longer versions are reached only from the draft.
-  { id: "reflect-story", label: "Your story", step: "artifact" },
-  { id: "draft", label: "First draft", step: "artifact" },
+  // Onboarding ends here, right after the plan (Kate, 2026-11-12): this
+  // week's step, then "Get started with your plan" or "Go to my homepage".
+  { id: "done", label: "Done", step: "complete" },
+  // The plan's first step, optional and begun from Done: the story's
+  // reflection, then a first draft written from what the user has said. After
+  // it the user chooses: add detail now, build longer versions, or save it and
+  // go home (2026-10-02, 2026-11-12). The detail questions and the longer
+  // versions are reached only from the draft.
+  { id: "reflect-story", label: "Your story", step: "artifact", branch: true },
+  { id: "draft", label: "First draft", step: "artifact", branch: true },
   { id: "sharpen", label: "Add detail", step: "artifact", offBar: true, aside: true },
   { id: "versions", label: "Longer versions", step: "artifact", offBar: true, aside: true },
-  { id: "done", label: "Done", step: "complete" },
 ];
 /** An answer drawer's state: open, folded to a peek, or answered (gone). */
 type DrawerMode = "open" | "peek" | "done";
@@ -219,11 +225,11 @@ const GLOW_FOR: Partial<Record<PageId, SkyGlow>> = {
 };
 
 /** The progress line (Kate, 2026-11-12): how far through the pages she moves on through, Welcome
- *  excluded, so Done is full. A page reached from another (the emailed code, the other plans, the
+ *  excluded, so Done is full. The story and its draft come after Done and have none. A page reached from another (the emailed code, the other plans, the
  *  draft's detail and lengths) shows the fill of the page it came from. Pages a path passes (a
  *  direction with no deciding question, fewer questions) make the line move on further, so it is
  *  an estimate and never a count. */
-const PROGRESS_PAGES = PAGES.filter((page) => !page.aside && page.id !== "welcome").map((page) => page.id);
+const PROGRESS_PAGES = PAGES.filter((page) => !page.aside && !page.branch && page.id !== "welcome").map((page) => page.id);
 const ASIDE_FROM: Partial<Record<PageId, PageId>> = {
   verify: "account",
   sharpen: "draft",
@@ -330,8 +336,6 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
   const [returnTo, setReturnTo] = useState<PageId | null>(null);
   // Where the detail questions go back to: the draft, or the longer versions.
   const [detailBack, setDetailBack] = useState<PageId>("draft");
-  // Whether the longer versions have been looked at, for the Done page.
-  const [builtVersions, setBuiltVersions] = useState(false);
   // The Playbook is introduced once, on the first draft.
   const [playbookSeen, setPlaybookSeen] = useState(false);
   const next = () => {
@@ -426,6 +430,11 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
         </Link>
       ),
     };
+  }
+
+  /** Home, with its first-visit tour (Kate, 2026-11-12): from Done, or once the first draft is saved. */
+  function goHome() {
+    router.push(`${DONE_C1.homeHref}?tour=1`);
   }
 
   /** Saves what she chose and takes her back to her plan: her direction, and her plan if it is another. */
@@ -681,7 +690,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
         );
       const saveAndFinish = () => {
         dispatch({ type: "save-artifact" });
-        goTo("done");
+        goHome();
       };
       return (
         <DraftPage
@@ -697,7 +706,6 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
           }}
           onVersions={() => {
             setPlaybookSeen(true);
-            setBuiltVersions(true);
             goTo("versions");
           }}
           onLater={() => {
@@ -736,34 +744,41 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
           onBack={() => goTo("draft")}
           onSave={() => {
             dispatch({ type: "save-artifact" });
-            goTo("done");
+            goHome();
           }}
         />
       );
 
     case "done": {
       const c = GUIDE_C3.done;
-      const stages = plan?.stages ?? [];
-      // What is left to do, in order: the rest of the story, then the plan's
-      // next stage. LinkedIn is not mentioned: it lives on Signals (2026-11-12).
-      const steps: { title: string; detail: string }[] = [];
-      if (!sharpened) steps.push(c.nextDetail);
-      if (!builtVersions) steps.push(c.nextVersions);
-      if (stages[1]) steps.push({ title: stages[1].title, detail: stages[1].outcomes[0] ?? "" });
       return (
         <GuidePage
           headingId={headingId}
           progress={edit ? undefined : progressAt("done")}
           kicker={c.kicker}
           title={c.title}
-          lede={c.lede}
           className="guide--done"
           navy
-          // Home opens with its first-visit tour (Kate, 2026-11-12).
-          primaryLabel={c.home}
-          onPrimary={() => router.push(`${DONE_C1.homeHref}?tour=1`)}
+          // Two equal ways on (Kate, 2026-11-12): begin this week's step, or go home. Home opens
+          // with its first-visit tour either way.
+          primaryLabel={c.start}
+          onPrimary={() => goTo("reflect-story")}
+          secondaryLabel={c.home}
+          onSecondary={goHome}
         >
-          <PointList items={steps} numbered label={c.nextLabel} />
+          {plan?.thisWeek ? (
+            <div className="plan-path__move done__first">
+              <p className="plan-path__move-label">{c.firstLabel}</p>
+              <p className="plan-path__move-title">{plan.thisWeek.title}</p>
+              <p className="plan-path__move-line">{c.firstLine}</p>
+            </div>
+          ) : null}
+          {plan ? (
+            <p className="done__saved">
+              <Icon name="check" className="done__tick" />
+              {c.saved(plan.name)}
+            </p>
+          ) : null}
         </GuidePage>
       );
     }

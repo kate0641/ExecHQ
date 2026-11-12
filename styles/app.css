@@ -8974,6 +8974,31 @@ ol.ring-detail__timeline {
   padding-top: var(--space-md);
 }
 
+/* Done (Kate, 2026-11-12): this week's step as a big card, set a size up from the Plan page's, and a tick
+   for the plan she has. */
+.done__first {
+  gap: var(--space-xs);
+  padding: var(--space-lg) var(--space-md);
+}
+
+.done__first .plan-path__move-title {
+  font-size: var(--text-2xl);
+}
+
+.done__saved {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin: var(--space-sm) 0 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-inverse-muted);
+}
+
+.done__tick {
+  flex: none;
+  color: var(--color-headline-on-inverse);
+}
+
 /* A navy page (designer, 2026-10-15): onboarding's steps with no drawer (Signals, the recommendation,
    the first draft, Done) are flooded navy, so the flow alternates quiet screens with ExecEngine moments.
    A screen with a navy drawer stays light: the drawer is already its colour. The page's tokens remap

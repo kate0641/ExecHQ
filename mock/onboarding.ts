@@ -2365,13 +2365,13 @@ export const GUIDE_C3 = {
           detail: "Short, medium and long, for a bio, an introduction or LinkedIn.",
         },
         later: {
-          label: "Save it and come back later",
+          label: "Save it and go to my homepage",
           // "as next" held together so "as" opens the second line instead of
           // hanging at the end of the first (designer, 2026-10-13).
           detail: "It\u2019s saved. Both of these wait for you as\u00a0next steps on your plan.",
         },
       },
-      cta: "Save it and finish",
+      cta: "Save it and go to my homepage",
       writing: "Writing your first draft",
     },
     /** The longer versions: the same story in three lengths. */
@@ -2389,7 +2389,7 @@ export const GUIDE_C3 = {
         updated: "Bio updated.",
         peek: "Tap to add the rest",
       },
-      save: "Save it and finish",
+      save: "Save it and go to my homepage",
       back: "Back to my draft",
     },
     /** Sharpening: the three facts, one at a time in the drawer. */
@@ -2423,20 +2423,16 @@ export const GUIDE_C3 = {
     },
     cta: "Continue",
   },
+  /** The end of onboarding, right after the plan (Kate, 2026-11-12): this week's step, and two equal ways
+   *  on. The story and its first draft are the plan's first step, done now or later, not setup. */
   done: {
     kicker: "You\u2019re set up",
-    title: "Your plan and story are saved",
-    lede: "You\u2019ve done the hardest part: saying where you want to go.",
-    nextLabel: "What to do next",
-    /** What is left of the story, by what has been done. */
-    nextDetail: {
-      title: "Add more detail",
-      detail: "In your Playbook. Add your role and one result, so your draft says what you lead.",
-    },
-    nextVersions: {
-      title: "Build longer versions",
-      detail: "In your Playbook. Short, medium and long, built from your story and ready to send ahead of you.",
-    },
+    title: "Momentum starts this week",
+    firstLabel: "Your first step",
+    firstLine: "ExecEngine drafts it with you, now or later.",
+    /** The tick for what she has: "Your plan: Step Up, saved". */
+    saved: (plan: string) => `Your plan: ${plan}, saved`,
+    start: "Get started with your plan",
     home: "Go to my homepage",
   },
 } as const;

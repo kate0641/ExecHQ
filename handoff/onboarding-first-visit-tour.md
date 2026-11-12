@@ -30,7 +30,7 @@ After onboarding, Home opens with a three-stop tour of how to get around: the As
 | Running it | `Tour` in `flows/navigation/concept-1/ConciergeConcept.tsx` |
 | The words | `TOUR_COPY` in `mock/onboarding.ts` |
 | Styles | `.tour` in `styles/app.css` |
-| Starting it | Done's button in `flows/onboarding/concept-3/OnboardingConcept3.tsx` |
+| Starting it | `goHome` in `flows/onboarding/concept-3/OnboardingConcept3.tsx`: Done's Go to my homepage, and the draft's Save it and go to my homepage |
 | In the catalogue | FirstVisitTour: each stop, and nothing found to light |
 
 ## Not part of it
