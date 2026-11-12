@@ -31,7 +31,7 @@ export interface SignalActivityProps {
   className?: string;
 }
 
-/** "Tuesday, October 13, 2026", or "Today". */
+/** "Tue, Oct 13, 2026", or "Today". */
 function dayLabel(date: string, today?: string): string {
   return date === today ? "Today" : fullDate(date);
 }

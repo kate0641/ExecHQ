@@ -14,7 +14,7 @@ export interface BriefingEditorialProps {
   href: string;
   /** "Today's Briefing". */
   heading?: string;
-  /** "Tuesday, October 20, 2026 · 3 reads". */
+  /** "Tue, Oct 20, 2026 · 3 reads". */
   meta: string;
   /** Today's reads, in the Briefing's order. The first leads. */
   reads: BriefingEditorialRead[];

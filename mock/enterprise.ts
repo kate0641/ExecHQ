@@ -134,7 +134,7 @@ export function rangeHasFigures(range: DateRange, cohort: Cohort): boolean {
   return daysIn(range.from < cohort.startsOn ? cohort.startsOn : range.from, range.to > cohort.asOf ? cohort.asOf : range.to) > 0;
 }
 
-/** "Sunday, October 18, 2026 – Saturday, October 24, 2026", or one day. */
+/** "Sun, Oct 18, 2026 – Sat, Oct 24, 2026", or one day. */
 export function rangeLabel(range: DateRange): string {
   if (range.from === range.to) return abbrevDate(range.from);
   return `${abbrevDate(range.from)} – ${abbrevDate(range.to)}`;
@@ -592,7 +592,7 @@ export function weeksIn(day: number): string {
   return weeks < 1 ? "First week" : weeks === 1 ? "1 week in" : `${weeks} weeks in`;
 }
 
-/** "Monday, September 14, 2026": every date on the dashboard, as everywhere
+/** "Mon, Sep 14, 2026": every date on the dashboard, as everywhere
  *  else (Kate, 2 Nov). */
 export const abbrevDate = fullDate;
 

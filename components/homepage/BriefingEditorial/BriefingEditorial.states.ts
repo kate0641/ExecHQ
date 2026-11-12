@@ -6,7 +6,7 @@ import { BriefingEditorial } from "./BriefingEditorial";
 const base = {
   href: "/daily-briefing/concept-2",
   heading: B.heading,
-  meta: B.meta("Tuesday, October 20, 2026", B.reads),
+  meta: B.meta("Tue, Oct 20, 2026", B.reads),
   reads: B.list,
 };
 

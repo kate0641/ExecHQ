@@ -18,7 +18,7 @@ export const dateRangePickerStates = defineComponentStates({
   notApplicable: {
     loading: "The dates and their figures are in the page already: choosing waits for nothing.",
     error: "Only days that have figures can be chosen, so no choice is invalid.",
-    "long text": "Dates have a fixed shape: the longest is a range name and two dates, “Last 90 days · Saturday, September 12, 2026 – Thursday, December 10, 2026”.",
+    "long text": "Dates have a fixed shape: the longest is a range name and two dates, “Last 90 days · Sat, Sep 12, 2026 – Thu, Dec 10, 2026”.",
   },
   variants: [
     { label: "This week — default", props: { cohort: pilot, value: thisWeek } },

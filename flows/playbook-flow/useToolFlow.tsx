@@ -87,7 +87,7 @@ export function focusSoon(id: string): void {
   setTimeout(() => document.getElementById(id)?.focus({ preventScroll: true }), 0);
 }
 
-/** "Monday, October 5, 2026, 9:14": the snapshot's day, the reviewer's time. */
+/** "Mon, Oct 5, 2026, 9:14": the snapshot's day, the reviewer's time. */
 function stamp(today: string): string {
   const now = new Date();
   return `${fullDate(today)}, ${now.getHours()}:${String(now.getMinutes()).padStart(2, "0")}`;

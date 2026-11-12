@@ -4,16 +4,16 @@ import { StageCheckIn } from "./StageCheckIn";
 
 const noop = () => {};
 const items: CheckInItem[] = [
-  { id: "use-story", from: "execHQ", title: "Your leadership story", what: "Used Tuesday, October 13, 2026", asksTone: true },
+  { id: "use-story", from: "execHQ", title: "Your leadership story", what: "Used Tue, Oct 13, 2026", asksTone: true },
   {
     id: "add-wins",
     from: "step",
     title: "Add three recent accomplishments",
-    what: "Done Friday, October 9, 2026",
+    what: "Done Fri, Oct 9, 2026",
     feedback: { tone: "positive", words: "My manager used two of them in her own update." },
     asksTone: true,
   },
-  { id: "added-1", from: "you", title: "Planning as a leadership skill · The Modern CMO", what: "Added Saturday, October 17, 2026", asksTone: false },
+  { id: "added-1", from: "you", title: "Planning as a leadership skill · The Modern CMO", what: "Added Sat, Oct 17, 2026", asksTone: false },
   { id: "cross-functional", from: "step", title: "Identify a cross-functional initiative", what: "", passed: true, asksTone: false },
 ];
 const reported = items.map((i) => (i.passed || i.feedback ? i : { ...i, feedback: { tone: i.asksTone ? ("neutral" as const) : undefined, words: "Good conversation. She wants to see it in writing." } }));
