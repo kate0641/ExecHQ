@@ -407,6 +407,19 @@ const PAGES: { page: string; date: string; added: string[] }[] = [
       "Tokens: one name per palette colour, no unused tokens, no Kulim spacing; unused styles and dated notes removed.",
     ],
   },
+  {
+    page: "Every-screen review",
+    date: "11 November 2026",
+    added: [
+      "The large logo is 36px tall everywhere (Welcome, onboarding, chat, Signed out); Login keeps its panel height, the room going above the logo.",
+      "One size each: medium buttons have 20px sides and 14px text, small buttons 14px, every text link 14px, every outline 1px (the outline button too).",
+      "Choice pills are 36 tall wherever they sit, with one of two edges: stone 250 on light surfaces, blue 300 on navy.",
+      "Pinned actions fade in over a 12px gradient from clear to the page, never a shadow.",
+      "Stay on track: every card centres its content in the white space under its band, with Save or the footer links kept at the bottom; a read-back is the band.",
+      "Plan's roadmap shows 40px under every stage card's text, open or closed.",
+      "With the drawn keyboard up, an answer drawer keeps its full height and the page above gives way.",
+    ],
+  },
 ];
 
 /** A section built only from the shared pieces, at phone width. */
