@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "onboarding-choose-your-plan",
+    title: "Onboarding: she chooses her plan",
+    description:
+      "The Recommendation becomes Choose your plan: all five plans on one page, ExecEngine's pick first, marked and chosen to start with; See other plans is removed. About 110 words to 13 (12 Nov).",
+  },
+  {
     slug: "plan-names-from-briefs",
     title: "The plans take the plan briefs' names",
     description:

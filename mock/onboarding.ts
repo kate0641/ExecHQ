@@ -730,7 +730,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     id: "leadership-scope",
     name: "Step Up",
     formalName: "Increase leadership scope",
-    bestFor: "You\u2019re ready for a bigger role and want the promotion or remit to match.",
+    bestFor: "You\u2019re ready for a bigger role and want the remit to match.",
     emphasis: "Your leadership story, proof of what you\u2019ve delivered, and the conversations that decide it.",
     thisWeek: {
       title: "Write the story of what you lead",
@@ -836,7 +836,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     id: "inflection-point",
     name: "Make the Move",
     formalName: "Prepare for a career inflection point",
-    bestFor: "A promotion, review, board presentation or negotiation is coming up.",
+    bestFor: "A promotion, review, presentation or negotiation is coming up.",
     emphasis: "A clear brief, a strong case, and a plan for the people in the room.",
     thisWeek: {
       title: "Write the story you\u2019ll tell in the room",
@@ -2206,21 +2206,15 @@ export const GUIDE_C3 = {
     why: "Everything ExecEngine builds points here. Pick all that are true, and it will start with the one that matters most.",
     cta: "Continue",
   },
+  /** She chooses her plan, with ExecEngine's pick marked (Kate, 2026-11-12). The plans are the
+   *  answers, so the page's own words are the label, the heading and the line. */
   rec: {
-    kicker: "ExecEngine\u2019s recommendation",
-    title: "Here\u2019s where ExecEngine would start",
-    next: "Next, a few quick questions to make it yours.",
-    /** The other directions picked, said so they are not lost. */
-    also: (goals: string, count: number) =>
-      `You also picked: ${goals}. ExecEngine will keep ${count > 1 ? "them" : "it"} in view as your plan grows.`,
-    why: "You should get a clear starting point, not a menu of options. ExecEngine will show you how it got there, and you can always change it.",
-    /** What a plan is, said where the plan is chosen. */
-    whatIs: "A plan is how you get from where you are to where you want to be. Yours has two parts.",
-    /** When the user chose a plan other than the recommended one. */
-    switched: (recommended: string) => `You chose this one instead. ExecEngine recommended ${recommended}.`,
+    kicker: "Your plan",
+    title: "Choose your plan",
+    lede: "Whichever you choose, the next few questions make it yours.",
     cta: "Use this plan",
-    others: "See other plans",
   },
+
   reflect: {
     kicker: "A question to sit with",
     answerLabel: "Your answer",
@@ -2339,9 +2333,6 @@ export const GUIDE_C3 = {
     continue: "Continue",
     others: "See other plans",
     use: "Use this plan",
-    othersTitle: "The other plans",
-    othersLede: "Each one is built for a different kind of next step. ExecEngine\u2019s recommendation is marked.",
-    othersCta: "Use this one",
   },
   story: {
     /** The story is made in the Playbook, in its Positioning Builder, so the

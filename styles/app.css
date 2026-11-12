@@ -6660,6 +6660,20 @@ ol.ring-detail__timeline {
   gap: var(--space-sm);
 }
 
+/* Choosing the plan in onboarding (Kate, 2026-11-12): all five on one page, so each card is the plan's
+   name and when it is for, plus the reason on ExecEngine's pick; the focus line is left to the plan page. */
+.plan-set--choose {
+  gap: var(--space-xs);
+}
+
+.plan-set--choose .plan-card__label {
+  padding: var(--space-sm) var(--space-md);
+}
+
+.plan-set--choose .plan-card__emphasis {
+  display: none;
+}
+
 .plan-set__actions {
   display: flex;
   flex-wrap: wrap;

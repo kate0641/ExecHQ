@@ -45,7 +45,7 @@ The prototype's step bar names twelve steps. A few pages are reached only from a
 | 3 | Account | Google, Apple or a personal email, and the invite code. *Aside:* Check your email, for a typed address | An email, confirmed by its code or by Google or Apple, and an invite code |
 | 4 | Where you are | Where the person is today: as many as are true, or their own words under Other | At least one answer |
 | 5 | Direction | Where the person wants to go: pick, then narrow it down | At least one pick |
-| 6 | Recommendation | A question about what is in the way (for most directions), then the recommended plan, chosen here. *Aside:* the other plans | Choose a plan |
+| 6 | Choose your plan | A question about what is in the way (for most directions), then the five plans, ExecEngine's pick first and marked; the person chooses | Choose a plan |
 | 7 | Reflection | One question to sit with, with a reply | An answer |
 | 8 | Questions | Up to three "Making it yours" questions, with two more reflections between them | No |
 | 9 | Your plan | The plan, tuned to their answers: this week, then the stages | — |
@@ -63,8 +63,7 @@ Welcome ─▶ What ExecEngine is ─▶ Account ──(typed email)──▶ Ch
                                                                     ▼
                           What's in the way? (deciding question, if the direction has one)
                                                                     ▼
-          Recommendation ──(See other plans)──▶ Other plans ──(Use this one)──┐
-                │◀──────────────────────────────────────────────────────────────┘
+          Choose your plan (five plans, ExecEngine's pick first and marked)
                 ▼   Use this plan
           Reflection ─▶ Question ─▶ Reflection ─▶ Question ─▶ Reflection ─▶ Question
                                                                     ▼
@@ -170,7 +169,7 @@ Where the person is now, asked before where they want to go (Kate, 2026-11-12). 
 - In the drawer, six answers, each with a **tick box**, as many as are true: **Doing well, and ready for more · New in my role · Stuck, or passed over · Going through a restructure or merger · My role is changing with AI · Other.**
 - **Other** stands in for "None of these? Show me more options": there are no held-back answers. Ticking it opens a field, **In your own words**, under the list and puts the cursor in it. Unticking it closes the field and clears it. Other can be ticked with any of the others.
 - Button **Next**, off until something is ticked, and while Other is ticked with its field empty. Return in the field does the same as Next. The peek bar says how many are picked.
-- **What it does:** the answers open the Recommendation's reason (3.7), as "Today, you're new in your role and you're going through a restructure or merger.", her own words quoted as she wrote them. They are said back first on the plan page's **Built from what you said** (3.9), as **Where you are today**, in the list's order with her own words last, with **Change**. They do not change which plan is recommended.
+- **What it does:** the answers open the reason on ExecEngine's pick (3.7), as "Today, you're new in your role and you're going through a restructure or merger.", her own words quoted as she wrote them. They are said back first on the plan page's **Built from what you said** (3.9), as **Where you are today**, in the list's order with her own words last, with **Change**. They do not change which plan is recommended.
 
 This page alone uses tick boxes and Other; every other question keeps the pattern in 4.3 (Kate, 2026-11-12).
 
@@ -196,7 +195,7 @@ No answer leads out of the person's company: ExecEngine doesn't steer anyone out
 What is kept:
 
 - The chosen version becomes the person's direction, and is said back as they chose it. It stands for the option it came from: the plan, the goal and the questions all follow the option (section 5).
-- The other picks are kept as "also picked" and said again on the Recommendation.
+- The other picks are kept as "also picked" and said again on the plan page's Built from what you said.
 
 ### 3.6 What's in the way (the deciding question)
 
@@ -204,20 +203,19 @@ For most directions, one question is asked before the recommendation, because it
 
 - Five options, multiple choice, and **None of these? Show me more options** (four more). See Appendix B.
 - Buttons: **Next** and **Skip this one.** The person can skip.
-- Directions about a coming moment (a board presentation, a review) have no deciding question, and go straight to the Recommendation.
+- Directions about a coming moment (a board presentation, a review) have no deciding question, and go straight to Choose your plan.
 
-### 3.7 Recommendation: choose the plan
+### 3.7 Choose your plan
 
-This is where the plan is chosen.
+This is where the plan is chosen, and the person chooses it (Kate, 2026-11-12). ExecEngine says which it would pick and why, but all five are on the page as equals to choose from. It replaces the Recommendation page and its "See other plans" page.
 
-- Label **ExecEngine's recommendation.** The heading is the **plan's name** (for example **Step Up**).
-- A card: "This plan is for when you're ready for a bigger role and want the promotion or remit to match." Then the reason, built from what the person said: where they are today ("Today, you're new in your role and you're going through a restructure or merger."; 2026-11-12), their direction, then what is in their way, then "That's what this plan is for." If an answer sent the plan somewhere else, that answer's own reason is used.
-- If other directions were picked: "You also picked: {them}. ExecEngine will keep {it/them} in view as your plan grows."
-- "A plan is how you get from where you are to where you want to be. Yours has two parts." with two numbered lines: **This week:** the one thing to do first. **Three stages:** what your plan builds toward, in order, each with a finish line. When they're done, ExecEngine plans the next stretch with you.
-- "Next, a few quick questions to make it yours."
-- Buttons: **Use this plan** and **See other plans.**
+- Label **Your plan.** Heading **Choose your plan.** Line: "Whichever you choose, the next few questions make it yours." 13 words of the page's own; the plans are the answers.
+- The five plans as cards, one choice (a radio group named "Choose your plan"). Each card is the plan's **name** and when it is for (Appendix C). The plan's focus line is left to the plan page.
+- **ExecEngine's pick comes first and is chosen to start with**, so one press of **Use this plan** carries on. It is marked **Recommended** and carries its reason, built from what the person said: where they are today ("Today, you're new in your role and you're going through a restructure or merger."; 2026-11-12), their direction, then what is in their way, then "That's what this plan is for." If an answer sent the plan somewhere else, that answer's own reason is used. The other four follow in the usual order.
+- Button **Use this plan.** Choosing another card and pressing it chooses that plan and goes straight on.
+- **Removed with the old page:** what a plan is ("A plan is how you get… two parts"), said on the plan page anyway; "You also picked: {them}…" (the other picks are still kept, and said on the plan page's **Built from what you said**); "You chose this one instead…".
 
-**See other plans** opens the five plans as cards to compare (Appendix C), with ExecEngine's recommendation marked. Choosing one and pressing **Use this one** chooses it and **goes straight on** to the next page. It does not return to the Recommendation. If the person chose a different plan, the Recommendation (if they come back to it) says "You chose this one instead. ExecEngine recommended {plan}."
+On phone and tablet the list scrolls under a pinned **Use this plan**; about three cards show at once.
 
 ### 3.8 Reflection and the questions that make it yours
 
@@ -366,7 +364,7 @@ Where ExecEngine writes something, a short state names it. The draft shows "Writ
 A thin line at the very top of every page after the Welcome shows how far through onboarding the person is. It has no words, count or percentage. (Kate, 2026-11-12, reversing "no progress" from 2026-09-24.)
 
 - **What it measures.** The pages a person moves on through, in order, Welcome excluded: What ExecEngine is is the first, Done the last and full. In the prototype that is 17 pages, so each fills about 6%.
-- **Pages reached from another page** (Check your email, the other plans, Add more detail, Longer versions) show the fill of the page they came from, and do not move it.
+- **Pages reached from another page** (Check your email, Add more detail, Longer versions) show the fill of the page they came from, and do not move it.
 - **Pages a path passes** move it on. A direction with no deciding question, or with fewer than three questions, passes those pages and the line moves further. That is why it is an estimate, never a count: some paths are shorter than others.
 - **Not in edit mode.** Changing direction from the Plan keeps its own "Change your direction" header, with no line.
 - **Look.** 3px (`--border-width-thick`) tall, pill ends, the full width of the page's content. The track is the border color and the fill the primary text color, so on a navy page both turn to their inverse colors on their own. On web it spans the question's column, not the answer card.
@@ -379,7 +377,7 @@ Every screen says what it needs in **40 words or fewer.** (Kate, 2026-11-12.)
 
 - **Counts:** the label, the heading, the line, "Why this matters", and every card, reply and "Worth knowing" fact.
 - **Does not count:** answer options, buttons and links (including "None of these? Show me more options"), the person's own words (what they picked, their draft, what they typed), a fact's source line.
-- **Where it stands.** Within it: Welcome (33), What ExecEngine is (40), Account (29), Where are you today (25). The Signals step (53) is gone. Most other screens are over: about 110 to 120 words on the Recommendation and the First draft. Each is cut to fit as its own edit is approved; this section is updated as they are.
+- **Where it stands.** Within it: Welcome (33), What ExecEngine is (40), Account (29), Where are you today (25), Choose your plan (13, plus the reason on ExecEngine's pick). The Signals step (53) is gone. Most other screens are over: about 110 to 120 words on the plan page's stages and the First draft. Each is cut to fit as its own edit is approved; this section is updated as they are.
 
 ---
 
@@ -432,7 +430,7 @@ A question can hold several chosen options. Each chosen option adds its own sent
 
 ### 5.5 Choosing and changing the plan
 
-- The plan is chosen once, on the Recommendation. Choosing another plan from **See other plans** is the same act.
+- The plan is chosen once, on Choose your plan, by the person; ExecEngine's pick is first and chosen to start with.
 - The questions after personalize the plan the person chose. They never change which plan it is.
 - **Changing the direction clears the chosen plan,** because the old choice was for a different goal. Changing a question answer keeps it.
 - Jumping back is possible only through **Change** on the plan page. (The step bar is a prototype tool; see section 9.)
@@ -539,9 +537,9 @@ Production must give every control a tappable area of at least 44px, drawn small
 | `ProviderButtons`, `AccountPicker` | Continue with Google and Apple, and the stand-in for each provider's picker. Shared with Login. |
 | `CodeField`, `MailNotification`, `SignInEmail`, `Sheet` | The six code cells, the email's notification (carried by `GuidePage`'s overlay), the drawn email with onboarding's wording, and the sheet it opens in. Shared with Login. |
 | `ProductIntro` | What ExecEngine is: the three statements and their drawings, the Playbook's tools and the privacy line, and the build-in. |
-| `PointList`, `RecommendationCard`, `ReflectionReply` | Numbered points; the plan card; the pull-quote reply and its fact. |
+| `PointList`, `PlanTemplateCard`, `ReflectionReply` | Numbered points; the plan cards on Choose your plan; the pull-quote reply and its fact. (`RecommendationCard` is no longer used in onboarding.) |
 | `ThisWeekCard`, `StoryDraft`, `StoryText`, `ExportLinks`, `NextSteps` | The task card with its data; the editable draft; the story with its gaps; Copy, Download and Email; the "What next?" choices. |
-| `PlanTemplateCard`, `GoodExample`, `GeneratingState`, `Notice` | The other plans; what good looks like; the waiting state; the invite-code notice. |
+| `GoodExample`, `GeneratingState`, `Notice` | What good looks like; the waiting state; the invite-code notice. |
 | `Button` | Every button. |
 
 `flows/onboarding/shared` holds the answers and their rules, and `mock/onboarding.ts` holds every word and option, which is why the appendices here can be checked against it.
@@ -571,7 +569,7 @@ These are settled. They are the specified behavior. The dates are when they were
 
 1. **Concept 3 is the onboarding.** (2026-10-02)
 2. **ExecEngine speaks in the third person,** and the person's own words stay in the first. (2026-10-02)
-3. **The plan is chosen at the Recommendation,** with what a plan is said there, before the personalising questions. Choosing another plan goes straight on. (2026-10-02)
+3. **The plan is chosen on Choose your plan, by the person,** from all five, with ExecEngine's pick first, marked and chosen to start with, before the personalising questions. (2026-10-02; the person chooses from 2026-11-12)
 4. **The question that can change the plan is asked before the recommendation,** so it is made once. (2026-09-30)
 5. **The read-back page is gone.** What ExecEngine heard is a list on the plan page, each row with a way to change it. A free-text edit that changed nothing downstream is removed. (2026-10-02)
 6. **The plan is two pages:** this week, then three stages with a finish line each. No part counters. A plan has no end date. (2026-10-02, 2026-09-29)
@@ -594,6 +592,7 @@ These are settled. They are the specified behavior. The dates are when they were
 24. **Where are you today? comes before Direction,** as many answers as are true, with tick boxes, and Other opening a field for the person's own words. That page only; the other questions keep their pattern. (2026-11-12)
 25. **No answer leads out of the person's company.** A move within it is in: "Make a move within my company" (another function, or another part of the business) replaces "Find my next move", and "Get out of where I am" is removed. "Nail an upcoming presentation" drops "board". Find your next direction stays, as the plan for a move inside the company. (2026-11-12)
 26. **The plans take the plan briefs' names:** Step Up, Make Your Mark, Make the Move, Lead Where You Are, everywhere a person sees them (onboarding, Home, the Plan page, Profile). The fifth stays Find your next direction until its brief is rewritten. Stages and first steps are not changed yet (open question 12). (2026-11-12)
+27. **The person chooses the plan.** Choose your plan replaces the Recommendation and See other plans: five cards, ExecEngine's pick first, marked and chosen to start with, its reason on it; "Whichever you choose, the next few questions make it yours." (2026-11-12)
 23. **LinkedIn is not in onboarding.** No Signals step and no upload page; Account goes straight to Direction, and Done does not mention it. It lives on the Signals page. (2026-11-12, reversing "signals come early", 2026-09-24)
 
 ---

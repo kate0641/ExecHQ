@@ -27,7 +27,6 @@ import { Notice } from "@/components/onboarding/Notice";
 import { WelcomeSplit } from "@/components/onboarding/WelcomeSplit";
 import { PointList } from "@/components/onboarding/PointList";
 import { ProductIntro } from "@/components/onboarding/ProductIntro";
-import { RecommendationCard } from "@/components/onboarding/RecommendationCard";
 import { ReflectionReply } from "@/components/onboarding/ReflectionReply";
 import { Button } from "@/components/primitives/Button";
 import {
@@ -66,7 +65,6 @@ import {
   decidesPlanC3,
   encodeAnswer,
   parseAnswer,
-  planForWhom,
   recommendationReasonC3,
   todayReadbackC3,
   firstDraftFor,
@@ -132,7 +130,6 @@ type PageId =
   | "t-1"
   | "reflect-conversation"
   | "t-2"
-  | "plan-others"
   | "plan-week"
   | "plan-stages"
   | "reflect-story"
@@ -166,7 +163,7 @@ const PAGES: Page[] = [
   // The question that decides the plan comes first, so the recommendation is
   // made once. Only some directions have one; the page is passed otherwise.
   { id: "decide", label: "Deciding question", step: "refinement", offBar: true },
-  { id: "rec", label: "Recommendation", step: "refinement" },
+  { id: "rec", label: "Choose your plan", step: "refinement" },
   { id: "reflect-time", label: "Reflection", step: "refinement" },
   // The questions that make the plan the user's own, each after a reflection.
   // A direction can come with fewer than three; the missing questions, and
@@ -178,7 +175,6 @@ const PAGES: Page[] = [
   { id: "t-2", label: "Question 3", step: "refinement", offBar: true },
   // The plan was chosen on the recommendation. Here it is, tuned to what the
   // user said, a part at a time.
-  { id: "plan-others", label: "Other plans", step: "refinement", offBar: true, aside: true },
   { id: "plan-week", label: "Your plan", step: "plan" },
   { id: "plan-stages", label: "Stages", step: "plan", offBar: true },
   // The story: a reflection, then a first draft written from what the user
@@ -233,7 +229,6 @@ const GLOW_FOR: Partial<Record<PageId, SkyGlow>> = {
 const PROGRESS_PAGES = PAGES.filter((page) => !page.aside && page.id !== "welcome").map((page) => page.id);
 const ASIDE_FROM: Partial<Record<PageId, PageId>> = {
   verify: "account",
-  "plan-others": "rec",
   sharpen: "draft",
   versions: "draft",
 };
@@ -523,46 +518,46 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
     case "rec": {
       const c = GUIDE_C3.rec;
       if (!plan) return null;
-      // Made once, from the direction and the question that decides it. The
-      // plan is chosen here: the questions after only make it the user's own.
+      // She chooses, with ExecEngine's pick marked, first and chosen to start
+      // with (Kate, 2026-11-12). Made once, from where she is, her direction
+      // and the question that decides it; the questions after make it hers.
       const made = recommendC3(direction, a.refinement);
-      const switched = plan.id !== made.plan.id;
-      const parts = GUIDE_C3.plan.parts;
+      const reason = [todayReadbackC3(today.picks, today.other), recommendationReasonC3(direction, a.refinement, made)]
+        .filter(Boolean)
+        .join(" ");
+      const ordered = [
+        { ...made.plan, rationale: reason },
+        ...PLAN_TEMPLATES.filter((template) => template.id !== made.plan.id),
+      ];
       const usePlan = () => {
         dispatch({
           type: "select-plan",
           planId: plan.id,
-          source: switched ? "switched" : "recommended",
+          source: plan.id === made.plan.id ? "recommended" : "switched",
         });
         next();
       };
       return (
-        <GuidePage
-          {...frame()}
-          navy
-          kicker={c.kicker}
-          title={plan.name}
-          why={c.why}
-          primaryLabel={c.cta}
-          onPrimary={usePlan}
-          secondaryLabel={c.others}
-          onSecondary={() => goTo("plan-others")}
-        >
-          <RecommendationCard
-            forWhom={planForWhom(plan)}
-            // Where she is today first, then where she's going and what's in the way (Kate, 2026-11-12).
-            reason={
-              switched
-                ? c.switched(made.plan.name)
-                : [todayReadbackC3(today.picks, today.other), recommendationReasonC3(direction, a.refinement, made)].filter(Boolean).join(" ")
-            }
-          />
-          {alsoGoals.length ? (
-            <p className="guide__next">{c.also(listGoals(alsoGoals), alsoGoals.length)}</p>
-          ) : null}
-          <p className="guide__next">{c.whatIs}</p>
-          <PointList items={parts.map((part) => ({ title: part.title, detail: part.what }))} numbered />
-          <p className="guide__next">{c.next}</p>
+        <GuidePage {...frame()} navy kicker={c.kicker} title={c.title} lede={c.lede} primaryLabel={c.cta} onPrimary={usePlan}>
+          <div className="plan-set plan-set--choose" role="radiogroup" aria-label={c.title}>
+            {ordered.map((template) => (
+              <PlanTemplateCard
+                key={template.id}
+                plan={template}
+                comparison
+                recommended={template.id === made.plan.id}
+                selected={template.id === plan.id}
+                name="plan-c3"
+                onSelect={(planId) =>
+                  dispatch({
+                    type: "select-plan",
+                    planId,
+                    source: planId === made.plan.id ? "recommended" : "switched",
+                  })
+                }
+              />
+            ))}
+          </div>
         </GuidePage>
       );
     }
@@ -657,43 +652,6 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
             </section>
           ) : null}
           <PlanPart part={pageId} plan={plan} direction={direction} />
-        </GuidePage>
-      );
-    }
-
-    case "plan-others": {
-      const c = GUIDE_C3.plan;
-      const recommendedId = verdict?.plan.id;
-      return (
-        <GuidePage
-          {...frame()}
-          kicker={c.kicker}
-          title={c.othersTitle}
-          lede={c.othersLede}
-          primaryLabel={c.othersCta}
-          // Choosing another plan is choosing the plan: on to what follows the
-          // recommendation, not back to it.
-          onPrimary={() => goTo(pageAfter("rec"))}
-        >
-          <div className="plan-set" role="radiogroup" aria-label="Plans">
-            {PLAN_TEMPLATES.map((template) => (
-              <PlanTemplateCard
-                key={template.id}
-                plan={template}
-                comparison
-                recommended={template.id === recommendedId}
-                selected={template.id === plan?.id}
-                name="plan-c3"
-                onSelect={(planId) =>
-                  dispatch({
-                    type: "select-plan",
-                    planId,
-                    source: planId === verdict?.plan.id ? "recommended" : "switched",
-                  })
-                }
-              />
-            ))}
-          </div>
         </GuidePage>
       );
     }
@@ -1409,11 +1367,6 @@ function DirectionPage({
       }
     />
   );
-}
-
-/** "A, B and C", as the user picked them. */
-function listGoals(goals: string[]): string {
-  return goals.length > 1 ? `${goals.slice(0, -1).join(", ")} and ${goals[goals.length - 1]}` : goals[0];
 }
 
 /** "a, b and c", in lower case, for saying picked goals in a sentence. */
