@@ -22899,6 +22899,39 @@ ul.li-shares {
   color: var(--color-text-inverse-muted);
 }
 
+/* Notices: a light blue band under the header, full width, one line each; a hairline between two. */
+.ent-notices {
+  margin-inline: calc(var(--space-lg) * -1);
+  background-color: var(--color-surface-check-in-band);
+  color: var(--color-text-primary);
+}
+
+.ent-notices__inner {
+  width: 100%;
+  max-width: calc(var(--viewport-web-max) + var(--space-lg) * 2);
+  margin-inline: auto;
+  padding: 0 calc(var(--space-lg) * 2);
+}
+
+.ent-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  margin: 0;
+  padding-block: var(--space-sm);
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+}
+
+.ent-notice + .ent-notice {
+  border-top: var(--border-width-thin) solid var(--color-border-on-for-her);
+}
+
+.ent-notice__icon {
+  flex: none;
+  margin-top: calc((1lh - 16px) / 2);
+}
+
 .ent-band__inner {
   width: 100%;
   max-width: calc(var(--viewport-web-max) + var(--space-lg) * 2);
@@ -23050,53 +23083,10 @@ ul.li-shares {
   justify-content: flex-end;
 }
 
-.ent-late {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-xs);
-  flex: 1;
-  min-width: 0;
-  max-width: var(--content-measure);
-  margin-right: auto;
-  font-size: var(--type-caption-size);
-  line-height: var(--type-caption-leading);
-  color: var(--color-text-secondary);
-}
-
-.ent-late__icon {
-  flex: none;
-  margin-top: 0;
-  color: var(--color-icon-late);
-}
-
 /* Two short words: the panel is as wide as its button, not the menu's usual
    minimum. */
 .ent-export .menu {
   min-width: 100%;
-}
-
-.ent-notice {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-sm);
-  padding: var(--space-card-padding);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-sunken);
-  max-width: var(--content-measure);
-}
-
-.ent-notice > svg {
-  flex: none;
-  margin-top: var(--space-3xs);
-}
-
-.ent-notice__heading {
-  margin-bottom: var(--space-3xs);
-  font-family: var(--type-card-title-font);
-  font-size: var(--type-card-title-size);
-  font-weight: var(--type-card-title-weight);
-  line-height: var(--type-card-title-leading);
-  letter-spacing: var(--type-card-title-tracking);
 }
 
 .ent-readiness__top {
@@ -24277,8 +24267,8 @@ ul.sponsor-profile__points li,
     display: block;
   }
 
-  /* The dates and Export are left out; a late update is still said. */
-  .ent-header__tools > :not(.ent-late) {
+  /* The dates and Export are left out; the notices band still prints. */
+  .ent-header__tools {
     display: none;
   }
 

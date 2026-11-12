@@ -174,15 +174,6 @@ function OpeningStats({ cohort, window }: { cohort: Cohort; window: DateRange })
 function CohortTools({ cohort, window, onWindow }: { cohort: Cohort; window: DateRange; onWindow: (next: DateRange) => void }) {
   return (
     <div className="ent-header__tools ent-tools">
-      {/* Today's update is late: said on the same
-          line as the dates, beside what it is about, not in a box above the
-          cards; on their left, as the buttons sit at the right edge. */}
-      {cohort.lateSince ? (
-        <p className="ent-late">
-          <Icon name="warning" size={16} className="ent-late__icon" />
-          {LATE_COPY.notice(cohort.asOf)}
-        </p>
-      ) : null}
       <DateRangePicker cohort={cohort} value={window} onChange={onWindow} align="end" />
       <DropdownMenu
         className="ent-export"
@@ -471,6 +462,31 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
     <>
       <CohortHeader cohort={cohort} window={window} headingRef={headingRef} />
 
+      {/* What changes how the whole page reads, in a light blue band right under the header: the update
+          being late, then the cohort still filling. Either, both or neither. */}
+      {cohort.lateSince || !above ? (
+        <div className="ent-notices">
+          <div className="ent-notices__inner">
+            {cohort.lateSince ? (
+              <p className="ent-notice">
+                <Icon name="warning" size={16} className="ent-notice__icon" />
+                <span>
+                  <b>{LATE_COPY.lead}</b> {LATE_COPY.rest(cohort.asOf)}
+                </span>
+              </p>
+            ) : null}
+            {!above ? (
+              <p className="ent-notice">
+                <Icon name="lock" size={16} className="ent-notice__icon" />
+                <span>
+                  <b>{C.building.heading}.</b> {C.building.body}
+                </span>
+              </p>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
+
       {/* Follow-through's ring fades, as the page's other charts do
 ; its stroke points at this. */}
       <svg className="u-visually-hidden" aria-hidden="true" focusable="false">
@@ -494,16 +510,6 @@ function Dashboard({ controls, headingRef }: { controls: CohortControls; heading
 
         {/* The story in the order it happened, before the evidence, as four stats. */}
         <OpeningStats cohort={cohort} window={window} />
-
-        {!above ? (
-          <div className="ent-notice">
-            <Icon name="lock" size={20} />
-            <div>
-              <h2 className="ent-notice__heading">{C.building.heading}</h2>
-              <p>{C.building.body}</p>
-            </div>
-          </div>
-        ) : null}
 
         <ReadinessCard cohort={cohort} />
 

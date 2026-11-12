@@ -1671,6 +1671,10 @@ export function lateCohort(cohort: Cohort): Cohort | undefined {
 }
 
 export const LATE_COPY = {
+  /** The notice's lead, set bold, then the rest of it. */
+  lead: "Today’s update is late.",
+  rest: (asOf: string) =>
+    `The figures here are from ${formatAsOf(asOf)}. ExecEngine is looking into it, and changes since a week ago return with the next update.`,
   notice: (asOf: string) =>
     `Today’s update is late. The figures here are from ${formatAsOf(asOf)}. ExecEngine is looking into it, and changes since a week ago return with the next update.`,
   letter: (asOf: string) =>

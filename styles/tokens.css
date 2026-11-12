@@ -256,7 +256,6 @@
   --gradient-outcome-positive: linear-gradient(0deg, var(--brand-green-600), var(--brand-green-400));
   --gradient-outcome-neutral: linear-gradient(0deg, var(--brand-yellow-500), var(--brand-yellow-300));
   --gradient-outcome-negative: linear-gradient(0deg, var(--brand-orange-500), var(--brand-orange-300));
-  --color-icon-late: var(--brand-orange-600);
 
   --color-accent: var(--brand-yellow-700);
   --color-accent-soft: var(--brand-yellow-100);
