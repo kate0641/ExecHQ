@@ -7,7 +7,7 @@ import { StoryDraft } from "./StoryDraft";
 
 const noop = () => {};
 const direction = "Reach the C-suite within three years";
-const answers = { "scope-kind": "a-seat-at-the-top-table", "scope-block": "nobody-sees-my-work" };
+const answers = { "scope-kind": "a-seat-on-the-exec-team", "scope-block": "being-known-above-my-boss" };
 const none = { role: "", own: "", result: "" };
 const sharpened = { role: "VP of Marketing", own: "brand and demand", result: "grew pipeline 40% in a year" };
 

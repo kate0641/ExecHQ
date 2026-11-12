@@ -61,7 +61,7 @@ Welcome ─▶ What ExecEngine is ─▶ Account ──(typed email)──▶ Ch
                                 ▼
                             Direction ─────────▶ Narrow it down ─┐
                                                                     ▼
-                          What's in the way? (deciding question, if the direction has one)
+                    The question before the plan (if the direction has one)
                                                                     ▼
           Choose your plan (five plans, ExecEngine's pick first and marked)
                 ▼   Use this plan
@@ -197,9 +197,9 @@ What is kept:
 - The chosen version becomes the person's direction, and is said back as they chose it. It stands for the option it came from: the plan, the goal and the questions all follow the option (section 5).
 - The other picks are kept as "also picked" and said again on the plan page's Built from what you said.
 
-### 3.6 What's in the way (the deciding question)
+### 3.6 The question before the plan (the deciding question)
 
-For most directions, one question is asked before the recommendation, because its answer can change the plan. Label **Before ExecEngine recommends anything.** Its heading depends on the direction: **What's in the way?** (a bigger role) or **What's making you want a change?** (a move within the company). The influence directions (Take on a bigger leadership role, Carry more weight where I am) have none: **What's holding you back?** was dropped (Kate, 2026-11-12). The line is "Pick as many as are true."
+For most directions, one question is asked before the recommendation, because its answer can change the plan. Label **Before ExecEngine recommends anything.** Its heading depends on the direction: **What would the people deciding say you're missing?** (a bigger role) or **What's made you think about a move?** (a move within the company). The influence directions (Take on a bigger leadership role, Carry more weight where I am) have none: **What's holding you back?** was dropped (Kate, 2026-11-12). The line is "Pick as many as are true."
 
 - Five options, multiple choice, and **None of these? Show me more options** (four more). See Appendix B.
 - Buttons: **Next** and **Skip this one.** The person can skip.
@@ -403,24 +403,24 @@ The need also picks the questions (Appendix B). Each need has three, of which at
 
 | Need | Deciding question | Making it yours |
 | --- | --- | --- |
-| positioning | What's in the way? | What kind of step up? When do you want to get there? |
+| positioning | What would the people deciding say you’re missing? | Which role are you going for? When is the next real chance at it? |
 | influence | none (What's holding you back? dropped 2026-11-12) | Which decision in the next few months do you most want a say in? Who decides it, and how well do they know your work? |
-| visibility | none | Who needs to see you differently? How do they see you now? Where do you show up today? |
-| preparation | none | What's coming up? When is it? How ready do you feel? |
-| exploration | What's making you want a change? | What would you keep? How soon? |
+| visibility | none | Whose view of you matters most right now? If you asked them, what would they say you are? When did people outside your team last hear your view? |
+| preparation | none | What's coming up? When is it? What’s the hardest part of it? |
+| exploration | What’s made you think about a move? | Which part of the business are you curious about? Who have you talked to about it? |
 
 A question is left out when the wording of the direction already answers it (for example a named moment such as a board, or a date).
 
 ### 5.3 The question that can change the plan
 
-Three answers, if chosen, send the plan somewhere else. The reason shown is theirs.
+Two answers, if chosen, change ExecEngine's pick. The reason shown on it is theirs.
 
 | Question | Answer | Plan becomes | Reason shown |
 | --- | --- | --- | --- |
-| What's in the way? | Nobody sees my work | Make Your Mark | The results are there. What's missing is being seen by the people deciding, and that's what this plan is for. |
-| What's making you want a change? | Hit a ceiling | Step Up | A ceiling is a scope problem. Making the case for a bigger role comes before looking elsewhere. |
+| What would the people deciding say you’re missing? | Being known above my boss | Make Your Mark | The results are there. What’s missing is being known above your boss, and that’s what this plan is for. |
+| What’s made you think about a move? | I’ve hit a ceiling in my area | Step Up | A ceiling in your area is a scope problem. Making the case for a bigger role comes first. |
 
-If several answers are chosen, **the first one chosen that changes the plan decides.** The recommendation is made once, after this question. Nothing asked later can reverse it.
+If several answers are chosen, **the first one chosen that changes the plan decides.** ExecEngine's pick is made once, after this question; the person still chooses any plan (3.7).
 
 ### 5.4 Several answers
 
@@ -520,7 +520,7 @@ Production must give every control a tappable area of at least 44px, drawn small
 - **Pressed state.** Option buttons are toggle buttons with a pressed state, so a screen reader hears what is chosen.
 - **Errors** (an empty email, an unrecognised code, a wrong file) sit with their field and are announced.
 - **Motion.** Waiting states and page changes respect `prefers-reduced-motion`.
-- **Change links** carry the question they belong to ("Change: What's in the way?"), so a screen reader never hears four identical links.
+- **Change links** carry the question they belong to ("Change: Which role are you going for?"), so a screen reader never hears four identical links.
 
 ---
 
@@ -593,6 +593,7 @@ These are settled. They are the specified behavior. The dates are when they were
 27. **The person chooses the plan.** Choose your plan replaces the Recommendation and See other plans: five cards, ExecEngine's pick first, marked and chosen to start with, its reason on it; "Whichever you choose, the next few questions make it yours." (2026-11-12)
 28. **No deciding question on the influence path.** What's holding you back? is dropped; the influence directions go from narrowing straight to Choose your plan, and "Too junior on paper" no longer sends anyone to Step Up. (2026-11-12)
 29. **Meatier influence questions, and nothing that assumes leaving.** The influence path asks which decision in the next few months the person wants a say in, and who decides it and how well they know her work, one answer each. Answers that assumed leaving the company are swapped for ones inside it (Appendix B); "Wrong company for it" no longer sends anyone to Find your next direction. (2026-11-12)
+30. **Meatier questions on every path.** Each question is about a real role, person, moment or decision, and some take one answer so the plan has one target (Appendix B). On a move within the company, "What would you keep?" and "How soon?" are replaced by "Which part of the business are you curious about?" and "Who have you talked to about it?". (2026-11-12)
 23. **LinkedIn is not in onboarding.** No Signals step and no upload page; Account goes straight to Direction, and Done does not mention it. It lives on the Signals page. (2026-11-12, reversing "signals come early", 2026-09-24)
 
 ---
@@ -643,9 +644,9 @@ The first page shows the five **first options**. "None of these? Show me more op
 
 | Question | Kind | Asked | Options | Held back |
 | --- | --- | --- | --- | --- |
-| What kind of step up? | Multiple | Making it yours | Bigger team; Broader remit; A seat at the top table; A new title; More budget and say | A bigger role in another part of the business; A bigger P&L; Visibility with the board; A role that doesn’t exist yet |
-| When do you want to get there? | Single | Making it yours (skipped when the direction already says it) | Within a year; 1–2 years; 3+ years; No fixed timeline; When the right role opens | Within six months; In about five years; After my next promotion; Depends on the company |
-| What’s in the way? | Multiple | Deciding | No clear path up; Nobody sees my work; I can’t make my case; The company isn’t growing; My boss isn’t backing me | The role I want is taken; I don’t have the experience yet; A reorganization has stalled things; I don’t know what it would take |
+| Which role are you going for? | Single | Making it yours | My boss’s job; One level up, in my area; Running a whole function; A seat on the exec team; A role that doesn’t exist yet | A bigger role in another part of the business; General manager of a business; A bigger P&L; A board seat |
+| When is the next real chance at it? | Single | Making it yours (skipped when the direction already says it) | The next promotion round; When my boss moves on; At the next reorganization; Within a year, no set moment; I don’t know when | At year-end reviews; When a new role is created; In two to three years; It depends on someone else |
+| What would the people deciding say you’re missing? | Multiple | Deciding | Proof I can run something bigger; Being known above my boss; A clear case for why me; My boss behind me; A role to step into | Experience outside my area; Seen as too operational; A reorganization has stalled things; I don’t know what they’d say |
 
 **Need: influence**
 
@@ -658,9 +659,9 @@ The first page shows the five **first options**. "None of these? Show me more op
 
 | Question | Kind | Asked | Options | Held back |
 | --- | --- | --- | --- | --- |
-| Who needs to see you differently? | Multiple | Making it yours | Leaders in my company; My industry; The board; All of them; Customers and clients | Peers at other companies; Investors; The press and conferences; My own team |
-| How do they see you now? | Single | Making it yours | Strong operator; Specialist; Hard worker, low profile; Not sure; Reliable but forgettable | A technical expert; A fixer; More junior than I am; Someone to watch |
-| Where do you show up today? | Multiple | Making it yours | Meetings only; LinkedIn now and then; Industry events; Nowhere yet; Speaking or panels | Writing or articles; Podcasts or interviews; Boards or advisory roles; Internal town halls |
+| Whose view of you matters most right now? | Single | Making it yours | The exec team; My boss’s peers; The board; Leaders across the company; People in my industry | Customers and clients; Peers at other companies; The press and conferences; My own team |
+| If you asked them, what would they say you are? | Single | Making it yours | A strong operator, not a strategist; The expert in one area; Reliable, but not one to watch; More junior than I am; They don’t really know me | A fixer, called when things break; Great with my team, quiet above it; A technical expert; Someone to watch |
+| When did people outside your team last hear your view? | Single | Making it yours | This month, in a meeting I led; This quarter, at a company-wide moment; This year, somewhere public; Over a year ago; I can’t remember | Only when I’m asked; In writing, not in person; Through my boss; Never on my own topic |
 
 **Need: preparation**
 
@@ -668,15 +669,15 @@ The first page shows the five **first options**. "None of these? Show me more op
 | --- | --- | --- | --- | --- |
 | What’s coming up? | Multiple | Making it yours (skipped when the direction already says it) | Promotion conversation; Performance review; Board or exec presentation; A negotiation; An interview for a role here | Investor or client pitch; A reorganization; A talk or keynote; A difficult conversation |
 | When is it? | Single | Making it yours (skipped when the direction already says it) | This week; This month; Next few months; Not scheduled yet; Tomorrow | In a day or two; In about six months; Next year; It depends on someone else |
-| How ready do you feel? | Single | Making it yours | Ready, want a check; Know what, not how; Not sure where to start; Dreading it; Nervous but prepared | Overprepared; Usually winging it; Worried about one person; Haven’t thought about it yet |
+| What’s the hardest part of it? | Multiple | Making it yours | Making the case for myself; One person in the room; The question I can’t answer; Keeping it short; Not knowing what they want | Staying calm under pushback; Numbers I don’t own; Knowing what to ask for; Following up after |
 
 **Need: exploration**
 
 | Question | Kind | Asked | Options | Held back |
 | --- | --- | --- | --- | --- |
-| What’s making you want a change? | Multiple | Deciding | Hit a ceiling; Lost interest; My area is shrinking; Life has changed; Passed over for a role | New boss or reorganization; Better pay or flexibility; My work doesn’t use my strengths; Ready for a new challenge |
-| What would you keep? | Multiple | Making it yours | My team; My boss; My seniority; Nothing in particular; My location | My function; My pay; My flexibility; My values |
-| How soon? | Single | Making it yours (skipped when the direction already says it) | As soon as a role opens; Within a year; Just exploring; Not sure; When the right thing appears | Within three months; In a year or two; After something big at work; Only if the right role opens |
+| What’s made you think about a move? | Multiple | Deciding | I’ve hit a ceiling in my area; My work doesn’t use my strengths; My area is shrinking; A new boss or a reorganization; I was passed over | I’ve lost interest in the work; Life has changed; I want more flexibility; I’m ready for a new challenge |
+| Which part of the business are you curious about? | Multiple | Making it yours | Sales or commercial; Product; Operations; Strategy; A newer part of the business | Finance; People and HR; Customer-facing roles; I don’t know yet |
+| Who have you talked to about it? | Single | Making it yours | No one yet; My boss; Someone in the area I’m curious about; HR or talent; A mentor outside my line | My boss’s boss; A peer who made a move; Only friends; I’d rather keep it quiet for now |
 
 ### C. Plans
 

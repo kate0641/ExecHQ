@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "onboarding-meatier-questions-all-paths",
+    title: "Onboarding: meatier questions on every path",
+    description:
+      "Step Up, Make Your Mark, Make the Move and Find your next direction ask about a real role, person, moment or decision; some take one answer; two routing answers renamed (12 Nov).",
+  },
+  {
     slug: "onboarding-meatier-influence-questions",
     title: "Onboarding: meatier influence questions, and nothing that assumes leaving",
     description:
