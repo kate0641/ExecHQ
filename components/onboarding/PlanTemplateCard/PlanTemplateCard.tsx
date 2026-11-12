@@ -71,7 +71,7 @@ export function PlanTemplateCard({
       <label className="plan-card__label" id={labelId} htmlFor={inputId}>
         {recommended ? (
           <span className="plan-card__flag">
-            <Badge tone="sprint">Recommended</Badge>
+            <Badge>Recommended</Badge>
           </span>
         ) : null}
         <span className="plan-card__name">{plan.name}</span>

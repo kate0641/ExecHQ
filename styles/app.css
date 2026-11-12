@@ -744,12 +744,6 @@ button.link {
   white-space: normal;
 }
 
-.badge--sprint {
-  background-color: var(--color-surface);
-  border-color: var(--color-border-strong);
-  color: var(--color-text-primary);
-}
-
 .badge--draft {
   background-color: var(--color-status-draft-surface);
   border-color: var(--color-status-draft-border);

@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { STATUS_LABELS, type Status } from "@/lib/manifest";
 
 /** `when` is a date or time in sentence case ("Oct 6", "This week"). */
-export type BadgeTone = "neutral" | "when" | "sprint" | Status;
+export type BadgeTone = "neutral" | "when" | Status;
 
 export interface BadgeProps {
   tone?: BadgeTone;
