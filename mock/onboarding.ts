@@ -153,8 +153,8 @@ export const DIRECTION_PROMPTS_C1: PromptedDirection[] = [
   { id: "c-suite", label: "Reach the C-suite within three years", text: "Reach the C-suite within three years", blurb: "A seat at the top table, with a date on it.", need: "positioning" },
   { id: "leadership", label: "Take on a bigger leadership role", text: "Take on a bigger leadership role", blurb: "More scope or a bigger remit, where you are.", need: "influence" },
   { id: "executive", label: "Be seen as an executive", text: "Be seen as an executive", blurb: "Read as an executive, not only a strong operator.", need: "visibility" },
-  { id: "board", label: "Nail an upcoming board presentation", text: "Nail an upcoming board presentation", blurb: "A specific moment coming up that needs to land.", need: "preparation" },
-  { id: "next-move", label: "Find my next move", text: "Find my next move", blurb: "Working out where to go before choosing.", need: "exploration" },
+  { id: "board", label: "Nail an upcoming presentation", text: "Nail an upcoming presentation", blurb: "A specific moment coming up that needs to land.", need: "preparation" },
+  { id: "next-move", label: "Make a move within my company", text: "Make a move within my company", blurb: "A move inside the company: another function, or another part of the business.", need: "exploration" },
 ];
 
 /** Narrowing it down, in Concept 3: two more specific versions of each option,
@@ -171,11 +171,11 @@ export const DIRECTION_NARROWER_C3: Record<string, [string, string]> = {
     "Be seen as an executive by my own leadership",
     "Be seen as an executive beyond my company",
   ],
-  "Nail an upcoming board presentation": [
-    "Win the board\u2019s backing for a proposal",
+  "Nail an upcoming presentation": [
+    "Win backing for a proposal",
     "Present results and the plan ahead with confidence",
   ],
-  "Find my next move": ["Move to a new company in my field", "Move into a different role or industry"],
+  "Make a move within my company": ["Move into another function, like marketing to sales", "Move to another part of the business"],
   "Lead a bigger organization": ["Run a larger business or division", "Lead across more functions or regions"],
   "Carry more weight where I am": ["Have more say in company decisions", "Be trusted with bigger, more visible work"],
   "Get out of where I am": ["Leave my industry for something new", "Leave my company, but stay in my field"],
@@ -208,7 +208,7 @@ const softCase = (text: string) => (/^[A-Z][a-z]/.test(text) ? lowerFirst(text) 
 export const DIRECTION_MORE_C3: PromptedDirection[] = [
   { id: "bigger-org", label: "Lead a bigger organization", text: "Lead a bigger organization", blurb: "A larger remit than the one you have now.", need: "positioning" },
   { id: "weigh-more", label: "Carry more weight where I am", text: "Carry more weight where I am", blurb: "More say where you already are, without moving to get it.", need: "influence" },
-  { id: "leaving", label: "Get out of where I am", text: "Get out of where I am", blurb: "Out of where you are, before you have named what replaces it.", need: "exploration" },
+  // "Get out of where I am" was here: removed, ExecEngine doesn't steer anyone out of their company (Kate, 2026-11-12).
   // Shown with the first five in Concept 3 (Kate, 2026-11-12), worded as she'd say it.
   { id: "unsure", label: "I\u2019m not sure yet", text: "I do not know yet", blurb: "A ceiling you can feel but cannot put a title to.", need: "exploration" },
 ];
@@ -237,8 +237,8 @@ const PROMPT_TOWARD: Record<string, string> = {
   "Reach the C-suite within three years": "the C-suite within three years",
   "Take on a bigger leadership role": "a bigger leadership role where you are",
   "Be seen as an executive": "being seen as an executive",
-  "Nail an upcoming board presentation": "your board presentation",
-  "Find my next move": "your next move",
+  "Nail an upcoming presentation": "your presentation",
+  "Make a move within my company": "a move within your company",
   "Lead a bigger organization": "a bigger organization to lead",
   "Carry more weight where I am": "more weight where you are",
   "Get out of where I am": "a way out of where you are",
@@ -617,8 +617,8 @@ const PROMPT_READBACK: Record<string, string> = {
   "Reach the C-suite within three years": "You want to reach the C-suite within three years.",
   "Take on a bigger leadership role": "You want to take on more of a leadership role where you are.",
   "Be seen as an executive": "You want to be seen as an executive.",
-  "Nail an upcoming board presentation": "You want to nail an upcoming board presentation.",
-  "Find my next move": "You\u2019re looking for your next move.",
+  "Nail an upcoming presentation": "You want to nail an upcoming presentation.",
+  "Make a move within my company": "You want to make a move within your company.",
   "Lead a bigger organization": "You want to lead a bigger organization.",
   "Carry more weight where I am": "You want to carry more weight where you are.",
   "Get out of where I am": "You want out of where you are, and haven\u2019t yet named what comes next.",
@@ -936,7 +936,8 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
     id: "explore",
     name: "Find your next direction",
     formalName: "Explore and clarify a next direction",
-    bestFor: "You feel stuck but can\u2019t yet name the next role.",
+    // A move within her company, not out of it (Kate, 2026-11-12).
+    bestFor: "You want a different role here, or aren\u2019t sure yet which.",
     emphasis: "What you bring anywhere, cheap ways to test options, and a direction you can commit to.",
     thisWeek: {
       title: "Write the story of what you\u2019re good at",
@@ -1441,8 +1442,8 @@ const PROMPT_GOALS: Record<string, [string, string]> = {
   "Reach the C-suite within three years": ["a C-suite role within three years", "a C-suite role within three years"],
   "Take on a bigger leadership role": ["a bigger leadership role where I am", "a bigger leadership role where they are"],
   "Be seen as an executive": ["being seen as an executive", "being seen as an executive"],
-  "Nail an upcoming board presentation": ["a board presentation that lands", "a board presentation that lands"],
-  "Find my next move": ["my next move", "their next move"],
+  "Nail an upcoming presentation": ["a presentation that lands", "a presentation that lands"],
+  "Make a move within my company": ["a move within my company", "a move within their company"],
   "Lead a bigger organization": ["leading a bigger organization", "leading a bigger organization"],
   "Carry more weight where I am": ["more weight where I am", "more weight where they are"],
   "Get out of where I am": ["a way out of where I am", "a way out of where they are"],
@@ -1637,8 +1638,8 @@ const PROMPT_TOWARD_LINE: Record<string, string> = {
   "Reach the C-suite within three years": "I’m building toward a C-suite role within the next three years.",
   "Take on a bigger leadership role": "I’m building toward a bigger leadership role where I am.",
   "Be seen as an executive": "I’m working on being seen as an executive.",
-  "Nail an upcoming board presentation": "I have a board presentation ahead of me, and I want it to land.",
-  "Find my next move": "I’m working out my next move.",
+  "Nail an upcoming presentation": "I have a presentation ahead of me, and I want it to land.",
+  "Make a move within my company": "I’m working out my next move within my company.",
   "Lead a bigger organization": "I’m building toward leading a bigger organization.",
   "Carry more weight where I am": "I want more influence where I am.",
   "Get out of where I am": "I’m ready to move on from where I am.",

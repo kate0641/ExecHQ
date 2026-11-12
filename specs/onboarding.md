@@ -183,11 +183,13 @@ The second question, after where the person is today. The heading is **Where do 
 - Reach the C-suite within three years
 - Take on a bigger leadership role
 - Be seen as an executive
-- Nail an upcoming board presentation
-- Find my next move
+- Nail an upcoming presentation
+- Make a move within my company
 - I'm not sure yet (shown here, not held back, from 2026-11-12)
 
-Below them: **None of these? Show me more options** (adds three: Lead a bigger organization; Carry more weight where I am; Get out of where I am; the button then disappears). The drawer's peek bar says how many are picked. The button reads **Narrow it down** with one option picked and **Which matters most?** with more than one. There is no field to type in: every answer is a choice.
+Below them: **None of these? Show me more options** (adds two: Lead a bigger organization; Carry more weight where I am; the button then disappears).
+
+No answer leads out of the person's company: ExecEngine doesn't steer anyone out of it, but a move inside it is in (Kate, 2026-11-12). "Get out of where I am" was removed, and "Find my next move" became "Make a move within my company". The drawer's peek bar says how many are picked. The button reads **Narrow it down** with one option picked and **Which matters most?** with more than one. There is no field to type in: every answer is a choice.
 
 **Page two, narrowing.** Each option picked becomes a group of **two more specific versions**, to tap (Appendix A). One is chosen. With several picks the heading is **Which matters most right now?** and the line "ExecEngine will start there, and keep the rest in view." With one pick it is **Which is closest?** and "A little more detail gives ExecEngine a clearer first step.", except when that pick is **I'm not sure yet**, where the line is "That's what ExecEngine is for: it will help you figure it out."
 
@@ -590,6 +592,7 @@ These are settled. They are the specified behavior. The dates are when they were
 21. **Google and Apple sign up on Account,** the same buttons as Login's, and any account they give is accepted. A typed email is confirmed on a page of its own by a 6-digit code, the same as Login's; Google and Apple pass it, because they have confirmed the address already. A wrong or expired code uses Login's screens and rules: the error under the cells, which clear, and after five wrong tries or 10 minutes **That code has expired** with **Send a new code**. (2026-10-08)
 22. **Forty words or fewer on every screen,** counting the page's own words, not the options, buttons or the person's own words (4.10). (2026-11-12)
 24. **Where are you today? comes before Direction,** as many answers as are true, with tick boxes, and Other opening a field for the person's own words. That page only; the other questions keep their pattern. (2026-11-12)
+25. **No answer leads out of the person's company.** A move within it is in: "Make a move within my company" (another function, or another part of the business) replaces "Find my next move", and "Get out of where I am" is removed. "Nail an upcoming presentation" drops "board". Find your next direction stays, as the plan for a move inside the company. (2026-11-12)
 23. **LinkedIn is not in onboarding.** No Signals step and no upload page; Account goes straight to Direction, and Done does not mention it. It lives on the Signals page. (2026-11-12, reversing "signals come early", 2026-09-24)
 
 ---
@@ -605,9 +608,10 @@ These are not decided. They need an answer before this is built.
 5. **Leaving part-way.** Whether a person who leaves can return to where they were, and what is kept, is not designed.
 6. **Reflections cannot be skipped.** Every other question can. Whether that is intended is not decided.
 7. **How the draft and the longer versions are written** for real is not specified. The prototype uses fixed templates with the person's words dropped in.
-8. **More plans and options.** The flow has five plans and nine directions. Whether more are wanted, and who writes them, is a content decision.
+8. **More plans and options.** The flow has five plans and eight directions. Whether more are wanted, and who writes them, is a content decision.
 9. **Status.** The concept is approved, but its status in the manifest stays `draft` until Kate says it has passed final review.
 10. **The full privacy promise.** What ExecEngine is now says only "Private. For your eyes only." Where the longer promise (not your employer or manager; everything is yours to keep, edit and export) is said, in onboarding or the product, is not decided.
+11. **Later questions that assume leaving the company** (Appendix B): "A move to another company", "Wrong company for it", "Industry is shrinking", "The culture doesn't fit", "Better pay or flexibility", "My industry", "My location", "Actively looking", "Only if the offer's right", "Negotiation or offer", "Job interview". To be changed with the questions (decision 25).
 
 ---
 
@@ -624,11 +628,10 @@ The first page shows the five **first options**. "None of these? Show me more op
 | Reach the C-suite within three years | positioning | Become CEO or run a business unit | Become a functional chief, like CMO, CFO or CTO |
 | Take on a bigger leadership role | influence | Run a larger team, or more teams | Own a bigger area of the business |
 | Be seen as an executive | visibility | Be seen as an executive by my own leadership | Be seen as an executive beyond my company |
-| Nail an upcoming board presentation | preparation | Win the board’s backing for a proposal | Present results and the plan ahead with confidence |
-| Find my next move | exploration | Move to a new company in my field | Move into a different role or industry |
+| Nail an upcoming presentation *(was "…board presentation")* | preparation | Win backing for a proposal | Present results and the plan ahead with confidence |
+| Make a move within my company *(was "Find my next move")* | exploration | Move into another function, like marketing to sales | Move to another part of the business |
 | Lead a bigger organization *(held back)* | positioning | Run a larger business or division | Lead across more functions or regions |
 | Carry more weight where I am *(held back)* | influence | Have more say in company decisions | Be trusted with bigger, more visible work |
-| Get out of where I am *(held back)* | exploration | Leave my industry for something new | Leave my company, but stay in my field |
 | I'm not sure yet *(shown with the first five from 2026-11-12; was "I do not know yet", held back)* | exploration | Understand why I’ve hit a ceiling | Explore what else is out there |
 
 ### B. Questions
@@ -683,4 +686,4 @@ The first page shows the five **first options**. "None of these? Show me more op
 | **Build your executive presence** (Build executive presence) | You need to be seen, and to have a clear point of view. | Write how you describe yourself | Everything you say in public builds on it. Executive presence accounts for 26% of what it takes to get promoted. — Center for Talent Innovation, survey of 268 senior executives, 2012 | First: Decide what you stand for; Next: Say it in public; Then: Get invited |
 | **Get ready for a big moment** (Prepare for a career inflection point) | A promotion, review, board presentation or negotiation is coming up. | Write the story you’ll tell in the room | It’s the core of your case, and the thing you’ll rehearse. *Placeholder: a sourced fact is still needed.* | This week: Get the situation on paper; Before the date: Prepare your case; After: Capture what happened |
 | **Grow your influence where you are** (Strengthen influence in the current organization) | You want to grow where you already are. | Write the story of what you own | Your work gets heard when it’s described in the terms decisions are made in. *Placeholder: a sourced fact is still needed.* | First: Make your work easy to see; Next: Widen who hears about it; Then: Become the go-to |
-| **Find your next direction** (Explore and clarify a next direction) | You feel stuck but can’t yet name the next role. | Write the story of what you’re good at | It shows which strengths go with you anywhere, before you choose where. People who use their strengths every day are six times as likely to be engaged at work. — Gallup, 2015 | First: Work out what travels; Next: Test it cheaply; Then: Choose your direction |
+| **Find your next direction** (Explore and clarify a next direction) | You want a different role here, or aren’t sure yet which. *(2026-11-12; was "You feel stuck but can’t yet name the next role.")* | Write the story of what you’re good at | It shows which strengths go with you anywhere, before you choose where. People who use their strengths every day are six times as likely to be engaged at work. — Gallup, 2015 | First: Work out what travels; Next: Test it cheaply; Then: Choose your direction |

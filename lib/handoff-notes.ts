@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "onboarding-direction-within-company",
+    title: "Onboarding: a move within the company, not out of it",
+    description:
+      "\"Find my next move\" becomes \"Make a move within my company\" (another function, or another part of the business), \"Get out of where I am\" is removed, and the presentation answer drops \"board\" (12 Nov).",
+  },
+  {
     slug: "onboarding-where-are-you-today",
     title: "Onboarding: Where are you today?",
     description:

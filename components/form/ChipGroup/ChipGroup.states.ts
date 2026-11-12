@@ -52,12 +52,12 @@ export const chipGroupStates = defineComponentStates({
       description: "Each option says a little more about itself.",
       props: {
         label: "Which matters most right now?",
-        options: ["Be seen as an executive", "Find my next move"],
+        options: ["Be seen as an executive", "Make a move within my company"],
         details: {
           "Be seen as an executive": "Read as an executive, not only a strong operator.",
-          "Find my next move": "Working out where to go before choosing.",
+          "Make a move within my company": "A move inside the company, like marketing to sales.",
         },
-        value: ["Find my next move"],
+        value: ["Make a move within my company"],
         equalWidth: true,
         onChange: noop,
       },
