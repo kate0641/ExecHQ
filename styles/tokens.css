@@ -484,11 +484,12 @@
   --color-text-on-logged: var(--brand-stone-700);
 
   /* Logo — two versions, never recoloured beyond these. The dark logo (gold
-     "Exec", navy "HQ") sits on stone and blue 100 — gold is 5.0:1 on blue 100
+     "Exec", navy "Engine") sits on stone and blue 100 — gold is 5.0:1 on blue 100
      but only 4.2:1 on light blue (200), so never there; the light logo
-     (bright yellow "Exec", light blue "HQ") sits on any dark colour. */
+     (bright yellow "Exec", light blue "Engine") sits on any dark colour.
+     "Engine" is set in the display face until the artwork arrives. */
   --color-logo-exec: var(--brand-gold-yellow);
-  --color-logo-hq: var(--brand-navy);
+  --color-logo-name: var(--brand-navy);
   --color-code-digit: var(--brand-navy);
   --color-headline-on-navy-quiet: var(--brand-green-200);
   /* The Plan on navy (designer, 2026-10-16): a quiet card that lightly contains the top section, a stone
@@ -499,7 +500,7 @@
   --color-drawer-on-inverse-hover: var(--brand-stone-200);
   --color-edge-on-inverse: var(--brand-blue-600);  /* lime: a navy card's headline when yellow isn't justified, the Plan's moves (designer, 2026-10-15) */  /* the numbers in the email code's white boxes (designer, 2026-10-15) */
   --color-logo-exec-on-inverse: var(--brand-bright-yellow);
-  --color-logo-hq-on-inverse: var(--brand-light-blue);
+  --color-logo-name-on-inverse: var(--brand-light-blue);
 
   /* Focus — must stay at least 3:1 against every surface it lands on */
   --color-focus: var(--brand-primary);

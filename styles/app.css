@@ -2248,20 +2248,28 @@ button.link {
   block-size: var(--space-3xl);
 }
 
+/* "Engine" stands in for the brand artwork's second word until it arrives:
+   the display face, semibold, the weight nearest the old "HQ"'s stroke. */
+.logo__name {
+  font-family: var(--font-display);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0;
+}
+
 .logo--dark .logo__exec {
   fill: var(--color-logo-exec);
 }
 
-.logo--dark .logo__hq {
-  fill: var(--color-logo-hq);
+.logo--dark .logo__name {
+  fill: var(--color-logo-name);
 }
 
 .logo--light .logo__exec {
   fill: var(--color-logo-exec-on-inverse);
 }
 
-.logo--light .logo__hq {
-  fill: var(--color-logo-hq-on-inverse);
+.logo--light .logo__name {
+  fill: var(--color-logo-name-on-inverse);
 }
 
 /* The navigation concept's wrapper. Takes no box, so the nav inside it is laid
