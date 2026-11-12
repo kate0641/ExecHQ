@@ -209,7 +209,7 @@ interface DrawerControl {
  *  (designer, 2026-10-15). A step with a navy drawer stays light. */
 const NAVY_PAGES = new Set<string>(["about", "signals", "rec", "plan-week", "draft", "done"]);
 
-type Frame = Pick<ComponentProps<typeof GuidePage>, "headingId" | "part" | "file" | "sky" | "glow">;
+type Frame = Pick<ComponentProps<typeof GuidePage>, "headingId" | "part" | "file" | "sky" | "glow" | "progress">;
 
 /** The sky's glow moves round the panel from one question to the next, so the yellow heart isn't in the same
  *  corner every time (designer, 2026-10-15). Named per page, so the questions she sees in a row never share
@@ -229,6 +229,24 @@ const GLOW_FOR: Partial<Record<PageId, SkyGlow>> = {
   sharpen: "top-right",
   versions: "top-left",
 };
+
+/** The progress line (Kate, 2026-11-12): how far through the pages she moves on through, Welcome
+ *  excluded, so Done is full. A page reached from another (the emailed code, the other plans, the
+ *  draft's detail and lengths) shows the fill of the page it came from. Pages a path passes (a
+ *  direction with no deciding question, fewer questions) make the line move on further, so it is
+ *  an estimate and never a count. */
+const PROGRESS_PAGES = PAGES.filter((page) => !page.aside && page.id !== "welcome").map((page) => page.id);
+const ASIDE_FROM: Partial<Record<PageId, PageId>> = {
+  verify: "account",
+  linkedin: "signals",
+  "plan-others": "rec",
+  sharpen: "draft",
+  versions: "draft",
+};
+function progressAt(id: PageId): number | undefined {
+  const at = PROGRESS_PAGES.indexOf(ASIDE_FROM[id] ?? id);
+  return at < 0 ? undefined : (at + 1) / PROGRESS_PAGES.length;
+}
 
 const STEP_NAV = PAGES.filter((page) => !page.offBar).map((page) => ({ id: page.id, label: page.label }));
 /** Changing her direction from the Plan: the direction, the recommendation, the questions and the plan. */
@@ -399,13 +417,13 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
       target: decidesPlanC3(question.id) ? "decide" : (`t-${tailoring.indexOf(question)}` as PageId),
     });
   });
-  /** Where the page sits. Progress and the running file were cut from the
-   *  pages by decision on 2026-09-24; what ExecEngine learned is shown once, as
-   *  the summary on the last page. */
+  /** Where the page sits. The running file was cut from the pages by decision
+   *  on 2026-09-24; what ExecEngine learned is shown once, as the summary on the
+   *  last page. Progress came back on 2026-11-12 as a line with no words. */
   function frame(): Frame {
     // Every question sits in its sky panel; a page without a drawer ignores it.
     const glow = GLOW_FOR[pageId];
-    if (!edit) return { headingId, sky: true, glow };
+    if (!edit) return { headingId, sky: true, glow, progress: progressAt(pageId) };
     return {
       headingId,
       sky: true,
@@ -807,6 +825,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
       return (
         <GuidePage
           headingId={headingId}
+          progress={edit ? undefined : progressAt("done")}
           kicker={c.kicker}
           title={c.title}
           lede={c.lede}

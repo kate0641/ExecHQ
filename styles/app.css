@@ -8566,6 +8566,43 @@ ol.ring-detail__timeline {
   gap: var(--space-xl);
 }
 
+/* Onboarding's progress line (Kate, 2026-11-12): one thin line at the top of every page after the
+   Welcome, no words. The track is the border colour and the fill the text colour, so a navy page
+   remaps both to its inverse set. */
+.guide__progress {
+  display: block;
+  flex: none;
+  inline-size: 100%;
+  block-size: var(--border-width-thick);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-border);
+  color: var(--color-text-primary);
+  overflow: hidden;
+  appearance: none;
+}
+
+.guide__progress::-webkit-progress-bar {
+  background-color: var(--color-border);
+  border-radius: var(--radius-pill);
+}
+
+.guide__progress::-webkit-progress-value {
+  background-color: var(--color-text-primary);
+  border-radius: var(--radius-pill);
+}
+
+.guide__progress::-moz-progress-bar {
+  background-color: var(--color-text-primary);
+  border-radius: var(--radius-pill);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .guide__progress::-webkit-progress-value {
+    transition: inline-size var(--duration-base) ease;
+  }
+}
+
 .guide__top {
   display: flex;
   flex-direction: column;

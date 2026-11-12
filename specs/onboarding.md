@@ -24,7 +24,7 @@ What it deliberately does not do:
 - **Post or share anything.** Nothing leaves the person's account.
 - **Ask for more than it needs.** An email (typed and confirmed, or from Google or Apple), an invite code (or saying there is none), a direction, a choice of plan and an answer to each reflection are the only required steps. Every other question can be skipped, and the person can come back to it.
 - **Ask the person to type an answer.** Every question is a choice. The only typing is the account email, its 6-digit confirmation code, an invite code, and refining the story (section 3.10).
-- **Show progress as a number.** There are no step counters or percentages in the flow.
+- **Show progress as a number.** Progress is a thin line with no words (4.9). There are no step counters or percentages in the flow.
 
 ### Where it appears
 
@@ -362,6 +362,26 @@ Where ExecEngine writes something, a short state names it. The draft shows "Writ
 - The heading shows a visible focus ring when it takes focus from the keyboard.
 - Confirmations (copied, emailed, sent) are announced politely.
 
+### 4.9 Progress
+
+A thin line at the very top of every page after the Welcome shows how far through onboarding the person is. It has no words, count or percentage. (Kate, 2026-11-12, reversing "no progress" from 2026-09-24.)
+
+- **What it measures.** The pages a person moves on through, in order, Welcome excluded: What ExecEngine is is the first, Done the last and full. In the prototype that is 17 pages, so each fills about 6%.
+- **Pages reached from another page** (Check your email, the LinkedIn upload, the other plans, Add more detail, Longer versions) show the fill of the page they came from, and do not move it.
+- **Pages a path passes** move it on. A direction with no deciding question, or with fewer than three questions, passes those pages and the line moves further. That is why it is an estimate, never a count: some paths are shorter than others.
+- **Not in edit mode.** Changing direction from the Plan keeps its own "Change your direction" header, with no line.
+- **Look.** 3px (`--border-width-thick`) tall, pill ends, the full width of the page's content. The track is the border color and the fill the primary text color, so on a navy page both turn to their inverse colors on their own. On web it spans the question's column, not the answer card.
+- **Motion.** The fill grows over `--duration-base` (200ms) when it changes, and does not animate when reduced motion is asked for.
+- **Accessibility.** A native `progress` element named "Onboarding progress", with its value 0 to 100, so a screen reader says "Onboarding progress, 35%". Focus never moves to it.
+
+### 4.10 Forty words a screen
+
+Every screen says what it needs in **40 words or fewer.** (Kate, 2026-11-12.)
+
+- **Counts:** the label, the heading, the line, "Why this matters", and every card, reply and "Worth knowing" fact.
+- **Does not count:** answer options, buttons and links (including "None of these? Show me more options"), the person's own words (what they picked, their draft, what they typed), a fact's source line.
+- **Where it stands.** Most screens are over today: about 120 words on What ExecEngine is, the Recommendation and the First draft. Each is cut to fit as its own edit is approved; this section is updated as they are.
+
 ---
 
 ## 5. How it decides
@@ -515,7 +535,7 @@ Production must give every control a tappable area of at least 44px, drawn small
 | Component | Role |
 | --- | --- |
 | `OnboardingConcept3` (in `flows/onboarding/concept-3`) | The flow: the pages, their order, and how the answers become the plan. |
-| `GuidePage` | The page: label, heading, line, content, "Why this matters", actions, and the drawer. |
+| `GuidePage` | The page: the progress line (`progress`, 0 to 1), label, heading, line, content, "Why this matters", actions, and the drawer. |
 | `AnswerDrawer`, `DeviceKeyboard` | The drawer that carries the answer, and the drawn keyboard. |
 | `ChipGroup`, `Input`, `ToggleGroup` | The options (equal-width, single or several), the fields, and the length switch. |
 | `ProviderButtons`, `AccountPicker` | Continue with Google and Apple, and the stand-in for each provider's picker. Shared with Login. |
@@ -566,13 +586,14 @@ These are settled. They are the specified behavior. The dates are when they were
 12. **Any email is accepted,** work or personal. (2026-09-22)
 13. **Privacy is said once, on "What ExecEngine is,"** before anything personal is asked. (2026-10-02)
 14. **The Done page lists only what is left,** and does not repeat what the person has seen. (2026-10-02)
-15. **No step counters, percentages or scores** appear anywhere in the flow.
+15. **No step counters, percentages or scores** appear anywhere in the flow. **Progress is a thin line with no words** at the top of every page after the Welcome (4.9). (2026-11-12, replacing "no progress", 2026-09-24)
 16. **No open responses.** Every answer in onboarding is a choice. The only typing is the account email, an invite code, and refining the story (a role, what the person is responsible for, a result, a name for the bio, and editing the draft). (2026-10-02)
 17. **The invite code is a required choice:** a code, or "I don't have a code." (2026-10-02)
 18. **The story build-out is the Playbook, and the pages say so.** The draft, add-detail and longer-versions pages are labeled "Playbook · Positioning Builder," the Playbook is explained once on the first draft, and Done says "In your Playbook" on the story steps that are left. Onboarding does not use the Playbook's own frame or navigation. (2026-10-02)
 19. **Tablet is the phone layout; only web changes.** On web the answers sit in a card beside the question, with no bottom sheet and no drawn keyboard, and the Welcome splits as Login's does. (2026-10-02)
 20. **On web the longer versions fill in live,** beside their fields, with no button. On phone and tablet a button applies the answers. (2026-10-02)
 21. **Google and Apple sign up on Account,** the same buttons as Login's, and any account they give is accepted. A typed email is confirmed on a page of its own by a 6-digit code, the same as Login's; Google and Apple pass it, because they have confirmed the address already. A wrong or expired code uses Login's screens and rules: the error under the cells, which clear, and after five wrong tries or 10 minutes **That code has expired** with **Send a new code**. (2026-10-08)
+22. **Forty words or fewer on every screen,** counting the page's own words, not the options, buttons or the person's own words (4.10). (2026-11-12)
 
 ---
 

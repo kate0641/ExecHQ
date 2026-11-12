@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "onboarding-progress-and-word-budget",
+    title: "Onboarding: a progress line, and forty words a screen",
+    description:
+      "A thin line with no words at the top of every onboarding page after the Welcome, filled to how far she is; and the rule that every screen says what it needs in 40 words or fewer (12 Nov).",
+  },
+  {
     slug: "renamed-execengine",
     title: "Renamed: ExecHQ is now ExecEngine",
     description:
