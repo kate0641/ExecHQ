@@ -56,6 +56,9 @@ export interface GuidePageProps {
    *  one at the foot: the stage check-in's read-back.
    *  Any foot actions then stay in the page, unpinned. */
   headAction?: ReactNode;
+  /** Inside the top card, under the lede: the Plan's "Where are you with
+   *  this?" while its drawer is folded. */
+  headFoot?: ReactNode;
   /** Drawn over the top of the page: an email's notification arriving. */
   overlay?: ReactNode;
   /** With a drawer: the question sits in its own panel of the sky Home shows at this hour (dawn, day, dusk,
@@ -115,6 +118,7 @@ export function GuidePage({
   navyPanel = false,
   navy = false,
   headAction,
+  headFoot,
   className,
 }: GuidePageProps) {
   const sky = useSky();
@@ -154,6 +158,7 @@ export function GuidePage({
           {title}
         </h1>
         {lede ? <p className="guide__lede">{keepAfterComma(lede)}</p> : null}
+        {headFoot ? <div className="guide__head-foot">{headFoot}</div> : null}
       </header>
 
       {headAction ? <div className="guide__head-action">{headAction}</div> : null}

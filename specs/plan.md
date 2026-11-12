@@ -195,13 +195,18 @@ So finishing a stage early pulls every later stage earlier, and finishing late p
 
 The answers sit in a drawer pinned to the foot of the screen. The page scrolls above it, so the question and its reason are read together and the drawer holds only the answer.
 
-- The drawer's **handle** is a button that folds it to a **peek bar**: "Where are you with this?" with "Tap to answer". The bar is a button that opens it again. Nothing needs dragging.
-- **While the drawer is open**, the navigation's "Ask or go" pill and the roadmap's add button step aside. Folded to the peek bar, or once they have answered, both come back, and the add button rises clear of the bar.
+- The drawer's **handle** is a button that folds it **off the screen**. Nothing is left at the foot for it: no peek bar (Kate, 11 Nov 2026).
+- **The move card asks the question.** Under the lede, inside the card, a full-width outline button, "Where are you with this?", in the card's light text, 16px below the lede, with no icon. It is there until they answer the move, whether the drawer is open or folded.
+  - **Folded:** outlined. Pressing it opens the drawer.
+  - **Open:** filled white with navy words, the way a chosen pill looks on navy, to say the drawer is open. Pressing it folds the drawer. On a phone the open drawer may cover it; that is fine.
+- **Focus.** Pressing the card's button leaves focus on it. Folding with the drawer's handle moves focus to the card's button.
+- **The pill floats.** Folded, the page scrolls on under the Ask or go pill, with room at its foot so its last card clears it; there is no band behind the pill.
+- **While the drawer is open**, the navigation's "Ask or go" pill and the roadmap's add button step aside. Folded, or once they have answered, both come back, the add button in its usual place above the pill.
 - Folding the drawer is how they see the roadmap under the move on a phone.
 
 ### 5.2 Tablet
 
-The same drawer, with its contents at the reading width. While it is open it reaches up to the move's last line, Why this matters, and the roadmap is out of the way; folding it brings the roadmap back with the peek bar.
+The same drawer, with its contents at the reading width. While it is open it reaches up to the move's last line, Why this matters, and the roadmap is out of the way; folding it brings the roadmap back, and the move card's "Where are you with this?" button opens it again.
 
 ### 5.3 Web
 
@@ -330,7 +335,7 @@ The Plan changes with where the person is. In the prototype the dock lists five 
 
 - Each page has one level 1, the move or the check-in page's heading. Your roadmap is a level 2, each stage head a level 3; Your direction is a level 2.
 - Focus moves to the new page's heading after an answer or Next, never on first arrival. Opened from the roadmap, the check-in's heading takes focus at once.
-- The drawer's handle and peek bar are real buttons, so nothing needs dragging (WCAG 2.2 SC 2.5.7). While the drawer is open, the pill and the add button leave the tab order, not only the screen.
+- The drawer's handle and the move card's "Where are you with this?" are real buttons that say whether the drawer is open, so nothing needs dragging (WCAG 2.2 SC 2.5.7). While the drawer is open, the pill and the add button leave the tab order, not only the screen.
 - The answers are buttons and chips with visible labels; the chips report their pressed state. Where an answer area has no visible question on web, its question is its heading.
 - Your direction's row and each stage head are toggle buttons that say whether they are open. Your direction is read as "Your direction: {their words}".
 - Stage status is said in words ("Done", "You are here"), never by tone alone. "Not reported yet" is a word, not only a dashed outline.

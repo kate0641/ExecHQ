@@ -33,6 +33,10 @@ export interface AnswerDrawerProps {
   webTitle?: string;
   /** No buttons: the page acts on each answer as it is given. */
   hideActions?: boolean;
+  /** Folded, the drawer leaves the screen instead of showing its peek bar:
+   *  the page carries its own way back. The Plan, whose move card says
+   *  "Where are you with this?". */
+  noPeek?: boolean;
   /** Return in a one-line field sends the answer. */
   className?: string;
 }
@@ -74,6 +78,7 @@ export function AnswerDrawer({
   autoFocusField = false,
   webTitle,
   hideActions = false,
+  noPeek = false,
   className,
 }: AnswerDrawerProps) {
   const panel = useRef<HTMLElement>(null);
@@ -124,6 +129,8 @@ export function AnswerDrawer({
       node.removeEventListener("focusout", onOut);
     };
   }, [open]);
+
+  if (!open && noPeek) return null;
 
   if (!open) {
     return (

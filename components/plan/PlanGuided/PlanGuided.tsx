@@ -107,6 +107,19 @@ export function PlanGuided({
   const [adding, setAdding] = useState(Boolean(demoAdding));
   const [note, setNote] = useState("");
   const first = useRef(true);
+  // Folding with the drawer's handle hands focus to the card's button. Never on first paint.
+  const askRef = useRef<HTMLButtonElement>(null);
+  const toggled = useRef(false);
+  useEffect(() => {
+    if (!toggled.current) return;
+    toggled.current = false;
+    if (!open) askRef.current?.focus();
+  }, [open]);
+  // Pressed on the card, focus stays on the card's button, which is still there either way.
+  const toggle = (next: boolean, stay = false) => {
+    toggled.current = !stay;
+    setOpen(next);
+  };
   // Once she answers, the order is frozen: a step that leaves her plan stays on its page, and any step offered
   // in its place comes after the rest.
   const [frozen, setFrozen] = useState<string[] | null>(null);
@@ -231,6 +244,22 @@ export function PlanGuided({
         title={step.title}
         lede={step.whyLine}
         why={step.whyThis}
+        headFoot={
+          // The move card asks the question, and the drawer's foot bar is gone: one less bar at the foot,
+          // where the add button, Ask or go and the browser's toolbar already sit. It stays
+          // while the drawer is open, filled to say so, and pressing it then folds the drawer.
+          answer ? undefined : (
+            <button
+              ref={askRef}
+              type="button"
+              className={["btn btn--outline btn--md btn--full plan-guided__ask", open ? "is-open" : null].filter(Boolean).join(" ")}
+              aria-expanded={open}
+              onClick={() => toggle(!open, true)}
+            >
+              {G.question}
+            </button>
+          )
+        }
         className={["plan-guided", className].filter(Boolean).join(" ")}
         primaryLabel={done ? (page + 1 < moves.length ? G.next : G.seeRoad) : undefined}
         onPrimary={done ? () => (setPage(page + 1), setOpen(true)) : undefined}
@@ -241,8 +270,8 @@ export function PlanGuided({
               webTitle={G.question}
               questionId={headingId}
               open={open}
-              onToggle={() => setOpen(!open)}
-              peekStatus={G.peek}
+              onToggle={() => toggle(!open)}
+              noPeek
               primaryLabel={label}
               onPrimary={() => undefined}
               hideActions
