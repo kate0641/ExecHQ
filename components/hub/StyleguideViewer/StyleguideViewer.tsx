@@ -1,5 +1,4 @@
 import { Notice, type NoticeTone } from "@/components/onboarding/Notice";
-import { Badge, type FeedbackBadgeTone } from "@/components/primitives/Badge";
 import { Logo, type LogoTone } from "@/components/primitives/Logo";
 import { TextLink } from "@/components/primitives/TextLink";
 import { getHubPage } from "@/lib/hub-pages";
@@ -188,7 +187,6 @@ function Sample({
         <Notice tone={set.notice} label={set.label}>
           An example {set.label.toLowerCase()} notice.
         </Notice>
-        <Badge tone={set.tone as FeedbackBadgeTone}>{set.label} tag</Badge>
         <ul className="styleguide__sample-tokens">
           {["dot", "halo", "border", "text", "surface"].map((end) =>
             tokens.has(part(end)) ? (
