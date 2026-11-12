@@ -21707,9 +21707,13 @@ ul.li-shares {
 .outcome-next__offer {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   gap: var(--space-2xs);
   padding: var(--space-divided-item) 0;
+}
+
+/* The first offer sits under the heading at the card's own gap; lines split the rest. */
+.outcome-next__offer:first-child {
+  padding-top: 0;
 }
 
 .outcome-next__offer + .outcome-next__offer {
@@ -21736,8 +21740,24 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
+/* Each offer's button sits right, in reach of the thumb. */
 .outcome-next__action {
+  align-self: flex-end;
   margin-top: var(--space-2xs);
+}
+
+/* In Stay on track the read-back is the card's band, as on the other cards there. */
+.card-carousel__slide .outcome-next {
+  overflow: hidden;
+}
+
+.card-carousel__slide .outcome-next__readback {
+  justify-content: center;
+  margin: calc(var(--space-md) * -1) calc(var(--space-md) * -1) 0;
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-surface-check-in-band);
+  font-size: var(--type-caption-size);
+  color: var(--color-text-primary);
 }
 
 .outcome-next__done {
