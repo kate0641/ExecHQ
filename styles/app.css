@@ -15896,9 +15896,8 @@ fieldset.agenda__whens {
   border-color: var(--color-selected-hover);
 }
 
-/* The answers stay white with the ink, a ring of their own inside the navy. */
+/* The answers keep the light pill's stone edge (no white-on-white edge), with a focus ring of their own. */
 :is([data-viewport="mobile"], [data-viewport="tablet"]) :is(.plan-guided, .guide--sky:not(.tool-flow-questions)) .answer-drawer .chip-group__chip {
-  border-color: var(--color-surface-raised);
   --focus-ring: var(--focus-ring-width) solid var(--color-focus-inverse);
 }
 
