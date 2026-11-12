@@ -15617,6 +15617,11 @@ fieldset.agenda__whens {
   color: var(--color-text-primary);
 }
 
+/* The body's padding is the room under its last step, the same 40 that shows under a closed card. */
+.agenda--stack .agenda__stage:not(:last-child) .agenda__body .agenda__item:last-child {
+  padding-bottom: 0;
+}
+
 .agenda--stack .agenda__stage:last-child .agenda__body {
   /* Nothing covers the last card's foot, and the last step brings its own padding. */
   padding-bottom: 0;
