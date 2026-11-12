@@ -14,6 +14,7 @@
  */
 
 import { shortCapsDate } from "@/components/dates";
+import { shortCapsDate } from "@/components/dates";
 import { fullDate } from "@/lib/loop";
 
 /** No figure is shown for fewer active participants than this. Settled in the
@@ -135,10 +136,10 @@ export function rangeHasFigures(range: DateRange, cohort: Cohort): boolean {
   return daysIn(range.from < cohort.startsOn ? cohort.startsOn : range.from, range.to > cohort.asOf ? cohort.asOf : range.to) > 0;
 }
 
-/** "Sunday, October 18, 2026 – Saturday, October 24, 2026", or one day. */
+/** "Sun, Oct 18, 2026 – Sat, Oct 24, 2026", or one day: the short form, as on a label. */
 export function rangeLabel(range: DateRange): string {
-  if (range.from === range.to) return abbrevDate(range.from);
-  return `${abbrevDate(range.from)} – ${abbrevDate(range.to)}`;
+  if (range.from === range.to) return shortCapsDate(range.from);
+  return `${shortCapsDate(range.from)} – ${shortCapsDate(range.to)}`;
 }
 
 /** What the dashboard opens on, before it knows the cohort. */
@@ -1505,8 +1506,8 @@ export const C1_COPY = {
   /** The line under the name: when it started, how long it has run, and
    *  how many people are in it. No end date: there is none. */
   meta: {
-    started: (startsOn: string) => `Started ${abbrevDate(startsOn)}`,
-    starts: (startsOn: string) => `Starts ${abbrevDate(startsOn)}`,
+    started: (startsOn: string) => `Started ${shortCapsDate(startsOn)}`,
+    starts: (startsOn: string) => `Starts ${shortCapsDate(startsOn)}`,
     people: (joined: number) => (joined === 0 ? "No one yet" : joined === 1 ? "1 person" : `${count.format(joined)} people`),
   },
   exportMenu: "Export",
