@@ -85,7 +85,7 @@ export function usePlanPage() {
 
   const choices = useRoadmapChoices(loop.id);
   const checkIns = useCheckIns(loop.id);
-  // Next steps are written for Step up only; another plan starts with none.
+  // Next steps are written for Step Up only; another plan starts with none.
   const switchedTo = choices?.history.length ? choices.planId : null;
   const stepsKey = planStepsKey(loop.id, choices);
   const savedSteps = useSavedSteps(stepsKey);
@@ -446,7 +446,7 @@ export function usePlanPage() {
         const key = checkInKey(planId, checkInStage.index);
         setCheckInShowing({ scenario: loop.id, key, startAt: "summary" });
         // What she said changes her plan: a step at the gap, a different way at what didn't go as hoped, and
-        // an important step she passed on, once more. Steps are written for Step up only.
+        // an important step she passed on, once more. Steps are written for Step Up only.
         let again = savedCheckIn?.again ?? [];
         if (!switchedTo) {
           const notHoped = didInStage(checkInStage.index)

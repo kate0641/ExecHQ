@@ -2,6 +2,8 @@
 
 **Template: Explore and clarify a new opportunity or direction.** User-facing name: **Chart a New Course**.
 
+**To be rewritten (Kate, 12 November 2026).** ExecEngine doesn't steer anyone out of their company, so this plan becomes the one for working out a move *within* it (another function, or another part of the business). This brief is still written for leaving, and the product calls the plan **Find your next direction** until it is rewritten.
+
 **Status: draft.** The name, template, stages and the routing example are Kate's (12 October 2026). **Everything else is Proposed**: drafted by Claude from Step Up's recipe and the prototype, for Kate to confirm. Rules every plan shares are in `plans/shared.md`.
 
 ---

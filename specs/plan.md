@@ -349,7 +349,7 @@ The Plan changes with where the person is. In the prototype the dock lists five 
 | In the prototype | In production |
 | --- | --- |
 | Maya is the only person, with five fixed moments picked from the dock | The Plan is built from the person's own account, plan and work |
-| Steps, their order and their reasons are a fixed queue written for "Step up" | They are chosen and ranked for the person by the model; another plan has none in the prototype |
+| Steps, their order and their reasons are a fixed queue written for "Step Up" | They are chosen and ranked for the person by the model; another plan has none in the prototype |
 | Which steps are "important", the step aimed at each stage's gap, and the different way at each step are fixed lists in the mock | ExecEngine chooses them from the plan and what the person has said |
 | "Talk it through" offers fixed replies in the chat, and "It feels too big" changes nothing | The advisor answers, and what they say can change the plan |
 | A stage is finished when every step taken on in it is confirmed in the Loop, against fixed sample work | The same rule, against their real work |
@@ -371,7 +371,7 @@ Written from the approved prototype. These are choices the prototype makes that 
 4. **"Not yet" keeps the stage open** only until the one step aimed at the gap is done; ExecEngine does not ask again when it closes.
 5. **Things passed on** are listed in the check-in but never asked about.
 6. **The open drawer on tablet** leaves room under its answers on a tall screen (5.2). Whether the answers sit at the top or nearer the thumb is open.
-7. **Steps for another plan.** Only "Step up" has steps in the prototype; switching plans starts with none.
+7. **Steps for another plan.** Only "Step Up" has steps in the prototype; switching plans starts with none.
 8. **Moves are not spaced apart** (4.7). Steps offered together that are not tied to an event get the same suggested day, so up to three short-term moves can all say "This week". A rule could stagger them, for example a week apart in the plan's order.
 9. **The horizon offsets are shorter than the plans' own horizons.** The plan rules give medium-term as about 30 to 60 days and long-term as a quarter or longer; the prototype suggests 14 and 60 days.
 10. **"Later" in Change when.** This spec listed it as a choice, but the prototype does not offer it, and it would need a day to stand for (4.7).

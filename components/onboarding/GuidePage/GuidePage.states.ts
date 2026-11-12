@@ -147,7 +147,7 @@ export const guidePageStates = defineComponentStates({
       props: {
         sky: true,
         navyPanel: true,
-        part: "Step up",
+        part: "Step Up",
         position: "Stage 2 of 4 · Show the proof",
         partIndex: 1,
         partCount: 4,

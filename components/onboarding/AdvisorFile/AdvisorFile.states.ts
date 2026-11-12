@@ -7,7 +7,7 @@ const noop = () => {};
 const items = [
   { label: "Signals", value: "LinkedIn connected" },
   { label: "Where you’re going", value: "Reach the C-suite within three years" },
-  { label: "Starting point", value: "Step up" },
+  { label: "Starting point", value: "Step Up" },
 ];
 
 export const advisorFileStates = defineComponentStates({

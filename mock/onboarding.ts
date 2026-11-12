@@ -728,7 +728,7 @@ export interface PlanTemplate {
 export const PLAN_TEMPLATES: PlanTemplate[] = [
   {
     id: "leadership-scope",
-    name: "Step up",
+    name: "Step Up",
     formalName: "Increase leadership scope",
     bestFor: "You\u2019re ready for a bigger role and want the promotion or remit to match.",
     emphasis: "Your leadership story, proof of what you\u2019ve delivered, and the conversations that decide it.",
@@ -781,7 +781,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
   },
   {
     id: "executive-presence",
-    name: "Build your executive presence",
+    name: "Make Your Mark",
     formalName: "Build executive presence",
     bestFor: "You need to be seen, and to have a clear point of view.",
     emphasis: "What you stand for, where you say it, and getting invited to say more.",
@@ -834,7 +834,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
   },
   {
     id: "inflection-point",
-    name: "Get ready for a big moment",
+    name: "Make the Move",
     formalName: "Prepare for a career inflection point",
     bestFor: "A promotion, review, board presentation or negotiation is coming up.",
     emphasis: "A clear brief, a strong case, and a plan for the people in the room.",
@@ -884,7 +884,7 @@ export const PLAN_TEMPLATES: PlanTemplate[] = [
   },
   {
     id: "current-org",
-    name: "Grow your influence where you are",
+    name: "Lead Where You Are",
     formalName: "Strengthen influence in the current organization",
     bestFor: "You want to grow where you already are.",
     emphasis: "Making your work visible, widening who knows it, and becoming the go-to.",

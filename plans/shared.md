@@ -16,7 +16,7 @@ Five plan templates make up V1. They are the routing backbone of onboarding and 
 | **Make Your Mark** | Enhance overall executive presence | `plans/make-your-mark.md` |
 | **Make the Move** | Prepare for a career inflection point (promotion, new role, new career path, board position, and so on) | `plans/make-the-move.md` |
 | **Lead Where You Are** | Strengthen influence and presence in your current organization | `plans/lead-where-you-are.md` |
-| **Chart a New Course** | Explore and clarify a new opportunity or direction | `plans/chart-a-new-course.md` |
+| **Chart a New Course** *(shown as Find your next direction until rewritten for a move within the company, 2026-11-12)* | Explore and clarify a new opportunity or direction | `plans/chart-a-new-course.md` |
 
 The user only ever sees the user-facing name. The template name is for the agent and the team.
 

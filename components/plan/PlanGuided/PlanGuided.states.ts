@@ -42,7 +42,7 @@ const roadmap = createElement(PlanAgenda, {
   onAdd: noop,
 });
 const base = {
-  planName: "Step up",
+  planName: "Step Up",
   stageIndex: 0,
   stages,
   moves,

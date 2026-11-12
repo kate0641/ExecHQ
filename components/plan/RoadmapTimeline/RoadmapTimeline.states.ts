@@ -39,7 +39,7 @@ export const roadmapTimelineStates = defineComponentStates({
     filled: "Not an input, so there is nothing to fill in.",
   },
   variants: [
-    { label: "Step up, in stage one — default, no sparks yet", props: { ...base, headingId: "rt-default" } },
+    { label: "Step Up, in stage one — default, no sparks yet", props: { ...base, headingId: "rt-default" } },
     {
       label: "Sparks on the rail, after the stage they happened in",
       description: "A step finished, a step passed on, something recorded: what happened and how the plan moved, never why.",
@@ -162,7 +162,7 @@ export const roadmapTimelineStates = defineComponentStates({
           directionEdits: [{ on: "2026-10-20", switched: true }],
         },
         onChoices: noop,
-        sparks: sparks(empty(4), [[spark("d", "direction", N.directionMoved("Step up", "Build your executive presence"), "2026-10-20")]]),
+        sparks: sparks(empty(4), [[spark("d", "direction", N.directionMoved("Step Up", "Make Your Mark"), "2026-10-20")]]),
         headingId: "rt-switched",
       },
     },

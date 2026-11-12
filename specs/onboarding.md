@@ -210,7 +210,7 @@ For most directions, one question is asked before the recommendation, because it
 
 This is where the plan is chosen.
 
-- Label **ExecEngine's recommendation.** The heading is the **plan's name** (for example **Step up**).
+- Label **ExecEngine's recommendation.** The heading is the **plan's name** (for example **Step Up**).
 - A card: "This plan is for when you're ready for a bigger role and want the promotion or remit to match." Then the reason, built from what the person said: where they are today ("Today, you're new in your role and you're going through a restructure or merger."; 2026-11-12), their direction, then what is in their way, then "That's what this plan is for." If an answer sent the plan somewhere else, that answer's own reason is used.
 - If other directions were picked: "You also picked: {them}. ExecEngine will keep {it/them} in view as your plan grows."
 - "A plan is how you get from where you are to where you want to be. Yours has two parts." with two numbered lines: **This week:** the one thing to do first. **Three stages:** what your plan builds toward, in order, each with a finish line. When they're done, ExecEngine plans the next stretch with you.
@@ -387,14 +387,14 @@ Every screen says what it needs in **40 words or fewer.** (Kate, 2026-11-12.)
 
 ### 5.1 From direction to plan
 
-Every direction has a **need.** The need picks the recommended plan.
+Every direction has a **need.** The need picks the recommended plan. The plans' names are the plan briefs' (`plans/`), from 2026-11-12, except the fifth: the brief calls it Chart a New Course, but it is shown as Find your next direction until the brief is rewritten for a move within the company.
 
 | Need | Recommended plan |
 | --- | --- |
-| positioning | Step up |
-| influence | Grow your influence where you are |
-| visibility | Build your executive presence |
-| preparation | Get ready for a big moment |
+| positioning | Step Up |
+| influence | Lead Where You Are |
+| visibility | Make Your Mark |
+| preparation | Make the Move |
 | exploration | Find your next direction |
 
 - An option from the list has its own need (Appendix A). Rewording an option, or choosing a narrower version, never changes it.
@@ -419,10 +419,10 @@ Three answers, if chosen, send the plan somewhere else. The reason shown is thei
 
 | Question | Answer | Plan becomes | Reason shown |
 | --- | --- | --- | --- |
-| What's in the way? | Nobody sees my work | Build your executive presence | The results are there. What's missing is being seen by the people deciding, and that's what this plan is for. |
+| What's in the way? | Nobody sees my work | Make Your Mark | The results are there. What's missing is being seen by the people deciding, and that's what this plan is for. |
 | What's in the way? | Wrong company for it | Find your next direction | If the next step may not be where you are, it's worth working out the direction before making the case. |
-| What's holding you back? | Too junior on paper | Step up | Your title undersells what you do, so the case for a bigger role comes first. |
-| What's making you want a change? | Hit a ceiling | Step up | A ceiling is a scope problem. Making the case for a bigger role comes before looking elsewhere. |
+| What's holding you back? | Too junior on paper | Step Up | Your title undersells what you do, so the case for a bigger role comes first. |
+| What's making you want a change? | Hit a ceiling | Step Up | A ceiling is a scope problem. Making the case for a bigger role comes before looking elsewhere. |
 
 If several answers are chosen, **the first one chosen that changes the plan decides.** The recommendation is made once, after this question. Nothing asked later can reverse it.
 
@@ -593,6 +593,7 @@ These are settled. They are the specified behavior. The dates are when they were
 22. **Forty words or fewer on every screen,** counting the page's own words, not the options, buttons or the person's own words (4.10). (2026-11-12)
 24. **Where are you today? comes before Direction,** as many answers as are true, with tick boxes, and Other opening a field for the person's own words. That page only; the other questions keep their pattern. (2026-11-12)
 25. **No answer leads out of the person's company.** A move within it is in: "Make a move within my company" (another function, or another part of the business) replaces "Find my next move", and "Get out of where I am" is removed. "Nail an upcoming presentation" drops "board". Find your next direction stays, as the plan for a move inside the company. (2026-11-12)
+26. **The plans take the plan briefs' names:** Step Up, Make Your Mark, Make the Move, Lead Where You Are, everywhere a person sees them (onboarding, Home, the Plan page, Profile). The fifth stays Find your next direction until its brief is rewritten. Stages and first steps are not changed yet (open question 12). (2026-11-12)
 23. **LinkedIn is not in onboarding.** No Signals step and no upload page; Account goes straight to Direction, and Done does not mention it. It lives on the Signals page. (2026-11-12, reversing "signals come early", 2026-09-24)
 
 ---
@@ -601,7 +602,7 @@ These are settled. They are the specified behavior. The dates are when they were
 
 These are not decided. They need an answer before this is built.
 
-1. **Two plans have no sourced "Why now" data:** Get ready for a big moment and Grow your influence where you are. The Step up figure (LinkedIn @Work study, 46%) needs its original date and sample confirmed.
+1. **Two plans have no sourced "Why now" data:** Make the Move and Lead Where You Are. The Step Up figure (LinkedIn @Work study, 46%) needs its original date and sample confirmed.
 2. **Tap targets.** Most controls are 30 to 40px. They need a 44px tappable area (section 6).
 3. **Linking an Apple relay address** to the person's real one later is open, as on Login.
 4. **What the invite code does.** The notice says a code "only changes who pays." What the code is, who issues it and how it is checked is not specified.
@@ -612,6 +613,7 @@ These are not decided. They need an answer before this is built.
 9. **Status.** The concept is approved, but its status in the manifest stays `draft` until Kate says it has passed final review.
 10. **The full privacy promise.** What ExecEngine is now says only "Private. For your eyes only." Where the longer promise (not your employer or manager; everything is yours to keep, edit and export) is said, in onboarding or the product, is not decided.
 11. **Later questions that assume leaving the company** (Appendix B): "A move to another company", "Wrong company for it", "Industry is shrinking", "The culture doesn't fit", "Better pay or flexibility", "My industry", "My location", "Actively looking", "Only if the offer's right", "Negotiation or offer", "Job interview". To be changed with the questions (decision 25).
+12. **The plans' stages and first steps** still follow onboarding as built (three stages each), not the plan briefs (three to five, and a different first step for Make the Move, Lead Where You Are and Find your next direction). Lining them up changes the Plan page's roadmap. The names already match (decision 26).
 
 ---
 
@@ -682,8 +684,8 @@ The first page shows the five **first options**. "None of these? Show me more op
 
 | Plan (formal name) | For when | This week | Why now, with data | The three stages |
 | --- | --- | --- | --- | --- |
-| **Step up** (Increase leadership scope) | You’re ready for a bigger role and want the promotion or remit to match. | Write the story of what you lead | Every conversation about a bigger role starts with “what do you lead?” 46% of professionals said they would not feel confident describing their achievements to their dream employer if they met them on the street. — LinkedIn @Work study | First: Say what you lead; Next: Show the proof; Then: Get in front of the deciders |
-| **Build your executive presence** (Build executive presence) | You need to be seen, and to have a clear point of view. | Write how you describe yourself | Everything you say in public builds on it. Executive presence accounts for 26% of what it takes to get promoted. — Center for Talent Innovation, survey of 268 senior executives, 2012 | First: Decide what you stand for; Next: Say it in public; Then: Get invited |
-| **Get ready for a big moment** (Prepare for a career inflection point) | A promotion, review, board presentation or negotiation is coming up. | Write the story you’ll tell in the room | It’s the core of your case, and the thing you’ll rehearse. *Placeholder: a sourced fact is still needed.* | This week: Get the situation on paper; Before the date: Prepare your case; After: Capture what happened |
-| **Grow your influence where you are** (Strengthen influence in the current organization) | You want to grow where you already are. | Write the story of what you own | Your work gets heard when it’s described in the terms decisions are made in. *Placeholder: a sourced fact is still needed.* | First: Make your work easy to see; Next: Widen who hears about it; Then: Become the go-to |
+| **Step Up** (Increase leadership scope) | You’re ready for a bigger role and want the promotion or remit to match. | Write the story of what you lead | Every conversation about a bigger role starts with “what do you lead?” 46% of professionals said they would not feel confident describing their achievements to their dream employer if they met them on the street. — LinkedIn @Work study | First: Say what you lead; Next: Show the proof; Then: Get in front of the deciders |
+| **Make Your Mark** (Build executive presence) | You need to be seen, and to have a clear point of view. | Write how you describe yourself | Everything you say in public builds on it. Executive presence accounts for 26% of what it takes to get promoted. — Center for Talent Innovation, survey of 268 senior executives, 2012 | First: Decide what you stand for; Next: Say it in public; Then: Get invited |
+| **Make the Move** (Prepare for a career inflection point) | A promotion, review, board presentation or negotiation is coming up. | Write the story you’ll tell in the room | It’s the core of your case, and the thing you’ll rehearse. *Placeholder: a sourced fact is still needed.* | This week: Get the situation on paper; Before the date: Prepare your case; After: Capture what happened |
+| **Lead Where You Are** (Strengthen influence in the current organization) | You want to grow where you already are. | Write the story of what you own | Your work gets heard when it’s described in the terms decisions are made in. *Placeholder: a sourced fact is still needed.* | First: Make your work easy to see; Next: Widen who hears about it; Then: Become the go-to |
 | **Find your next direction** (Explore and clarify a next direction) | You want a different role here, or aren’t sure yet which. *(2026-11-12; was "You feel stuck but can’t yet name the next role.")* | Write the story of what you’re good at | It shows which strengths go with you anywhere, before you choose where. People who use their strengths every day are six times as likely to be engaged at work. — Gallup, 2015 | First: Work out what travels; Next: Test it cheaply; Then: Choose your direction |

@@ -77,7 +77,7 @@ export const MAYA: Account = {
   towardVerb: "lead a broader marketing organization",
   plan: {
     id: "leadership-scope",
-    name: "Step up",
+    name: "Step Up",
     formalName: "Increase leadership scope",
     startedOn: "2026-10-05",
   },
