@@ -252,7 +252,7 @@ export function PlanGuided({
             <button
               ref={askRef}
               type="button"
-              className={["btn btn--outline btn--md btn--full plan-guided__ask", open ? "is-open" : null].filter(Boolean).join(" ")}
+              className={["btn btn--md btn--full plan-guided__ask", open ? "is-open" : null].filter(Boolean).join(" ")}
               aria-expanded={open}
               onClick={() => toggle(!open, true)}
             >

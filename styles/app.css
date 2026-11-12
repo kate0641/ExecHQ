@@ -7304,17 +7304,20 @@ ol.concierge-list {
 }
 
 /* The Plan's move card asks the question itself, and its drawer folds off the screen: an
-   outline button in the card's light words. While the drawer is open it is filled white with navy words, the
-   way a chosen pill is on navy. */
+   pill on navy at button size: the light edge every pill on navy has, and light words. While the drawer is
+   open it is filled white with navy words, the way a chosen pill is on navy. */
 .guide__head-foot {
   margin-top: var(--space-md);
 }
 
 .guide--navy .plan-guided__ask {
-  --color-outline-ink: var(--color-text-inverse);
+  border: var(--border-width-thin) solid var(--color-pill-edge-on-inverse);
+  background-color: transparent;
+  color: var(--color-text-inverse);
 }
 
-.guide--navy .plan-guided__ask:hover {
+.guide--navy .plan-guided__ask:hover,
+.guide--navy .plan-guided__ask:active {
   background-color: var(--color-surface-inverse);
 }
 
@@ -23016,22 +23019,6 @@ ul.letter-archive__list {
 .btn--strong.is-active {
   border-color: var(--color-action-strong-active);
   background-color: var(--color-action-strong-active);
-}
-
-.btn--outline {
-  border: var(--border-width-thin) solid var(--color-outline-ink);
-  background-color: transparent;
-  color: var(--color-outline-ink);
-}
-
-.btn--outline:hover,
-.btn--outline.is-hover {
-  background-color: var(--color-surface-active);
-}
-
-.btn--outline:active,
-.btn--outline.is-active {
-  background-color: var(--color-surface-active);
 }
 
 /* One icon button: round, 44px; 32px inside a field (the chat composer), where the field gives the tap
