@@ -20881,8 +20881,14 @@ ul.li-shares {
   width: 2.5rem;
   height: 2.5rem;
   border-radius: var(--radius-pill);
-  background-color: var(--color-surface-sunken);
-  color: var(--color-text-secondary);
+  /* The Playbook tool chip: the dawn gradient, on the phone's card and the web rail alike. */
+  background: radial-gradient(
+    circle at 50% 100%,
+    var(--tool-chip-heart),
+    var(--tool-chip-ring) 45%,
+    var(--tool-chip-sky) 90%
+  );
+  color: var(--color-text-primary);
 }
 
 .tool-picker__text {
@@ -20957,13 +20963,6 @@ ul.li-shares {
 .tool-picker--card .tool-picker__disc {
   width: var(--tool-picker-chip);
   height: var(--tool-picker-chip);
-  background: radial-gradient(
-    circle at 50% 100%,
-    var(--tool-chip-heart),
-    var(--tool-chip-ring) 45%,
-    var(--tool-chip-sky) 90%
-  );
-  color: var(--color-text-primary);
 }
 
 .tool-picker--card .tool-picker__text {
