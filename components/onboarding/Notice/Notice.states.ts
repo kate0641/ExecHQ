@@ -45,7 +45,7 @@ export const noticeStates = defineComponentStates({
         tone: "explain" as const,
         title: "We do not recognise that code",
         children:
-          "Check it against the invitation you were sent. You can also continue without one — the code only changes who pays, never what you get.",
+          "Check it against the invitation you were sent. A code only changes who pays, never what you get.",
       },
     },
     {

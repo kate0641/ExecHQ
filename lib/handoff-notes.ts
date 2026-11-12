@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "onboarding-account-personal-email",
+    title: "Onboarding: a personal email, and everyone has a code",
+    description:
+      "Account asks for \"Your personal email\" with the reason under it, then \"Your invite code\" as a required field; \"I don't have a code\" is gone, and the page drops from 55 words to 29 (12 Nov).",
+  },
+  {
     slug: "onboarding-what-execengine-is",
     title: "Onboarding: What ExecEngine is, in a glance",
     description:

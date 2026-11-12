@@ -22,7 +22,7 @@ What it deliberately does not do:
 - **Connect to anything.** In V1 there is nothing to connect: the only outside data is a LinkedIn analytics spreadsheet the person exports and uploads themselves.
 - **Score, rank or compare.** No answer, fact or plan ranks the person against anyone.
 - **Post or share anything.** Nothing leaves the person's account.
-- **Ask for more than it needs.** An email (typed and confirmed, or from Google or Apple), an invite code (or saying there is none), a direction, a choice of plan and an answer to each reflection are the only required steps. Every other question can be skipped, and the person can come back to it.
+- **Ask for more than it needs.** An email (typed and confirmed, or from Google or Apple), an invite code, a direction, a choice of plan and an answer to each reflection are the only required steps. Every other question can be skipped, and the person can come back to it.
 - **Ask the person to type an answer.** Every question is a choice. The only typing is the account email, its 6-digit confirmation code, an invite code, and refining the story (section 3.10).
 - **Show progress as a number.** Progress is a thin line with no words (4.9). There are no step counters or percentages in the flow.
 
@@ -42,7 +42,7 @@ The prototype's step bar names twelve steps. A few pages are reached only from a
 | --- | --- | --- | --- |
 | 1 | Welcome | The opening statement | — |
 | 2 | What ExecEngine is | What it is, in one page, and the privacy promise | — |
-| 3 | Account | Google, Apple or an email, and whether they have an invite code. *Aside:* Check your email, for a typed address | An email, confirmed by its code or by Google or Apple, and an invite code or "I don't have a code" |
+| 3 | Account | Google, Apple or a personal email, and the invite code. *Aside:* Check your email, for a typed address | An email, confirmed by its code or by Google or Apple, and an invite code |
 | 4 | Signals | Optionally bring in LinkedIn numbers. *Aside:* the LinkedIn upload page | No |
 | 5 | Direction | Where the person wants to go: pick, then narrow it down | At least one pick |
 | 6 | Recommendation | A question about what is in the way (for most directions), then the recommended plan, chosen here. *Aside:* the other plans | Choose a plan |
@@ -130,15 +130,16 @@ The privacy promise is said here, before anything personal is asked. There is no
 
 ### 3.3 Account
 
-- Label **Your account.** Heading: **First, somewhere to keep all this.** Line: "Your plan and your story are saved to your account, so you can come back to them."
-- "Why this matters": "Everything you tell ExecEngine builds on what came before. Your account is how it remembers, and how you come back to it."
-- The answer drawer opens with **Continue with Google** and **Continue with Apple**, the same buttons as Login's, then a divider reading "or", then **What's your email?** (one field, placeholder you@example.com). Under them, **Do you have an invite code?** with two equal choices, **I have an invite code** and **I don't have a code.** Choosing the first opens an **Invite code** field and puts the cursor in it. Button **Continue.**
-- **Google or Apple** opens that provider's own account picker (a stand-in in the prototype, as on Login). Once an account is picked, the buttons, the divider and the field give way to one line: a small label **With Google** (or **With Apple**), the address, and **Change.** Change brings the buttons and an empty field back, with the cursor in the field. The invite-code question stays, and is still required.
+A personal email, then the invite code, both required (Kate, 2026-11-12). 29 words.
+
+- Label **Your account.** Heading: **First, somewhere to keep all this.** No line and no "Why this matters": the drawer covered both, so the reason for a personal address sits under its field instead.
+- The answer drawer opens with **Continue with Google** and **Continue with Apple**, the same buttons as Login's, then a divider reading "or", then **Your personal email** (required; placeholder you@example.com) with the hint "Not your work one, so it stays yours wherever your career goes." Under it, **Your invite code** (required) with the hint "From your invitation." Button **Continue.**
+- **Google or Apple** opens that provider's own account picker (a stand-in in the prototype, as on Login). Once an account is picked, the buttons, the divider and the field give way to one line: a small label **With Google** (or **With Apple**), the address, and **Change.** Change brings the buttons and an empty field back, with the cursor in the field. The invite-code field stays, and is still required.
 
 Rules:
 
-- **Any address is accepted,** work or personal, by decision on 2026-09-22: the account is the person's and they can change the address whenever they like. That holds for Google and Apple too: a work Google account and Apple's **Hide my email** relay address both make an account, with no warning. An empty field shows "We need an email address to create the account."
-- **The invite code is a required choice.** The person must say which: enter a code, or choose **I don't have a code.** **Continue** stays off until they have, and until a code is typed if they chose to have one. A recognized code is kept. An unrecognized one shows the notice "We do not recognize that code. Check it against the invitation you were sent. If you don't have one, choose "I don't have a code". A code only changes who pays, never what you get." Coming back to the page, the choice made is kept, and so is the way in (Google, Apple or a typed email).
+- **A personal address is asked for, not enforced** (Kate, 2026-11-12, replacing "any address" from 2026-09-22). The field's name and hint ask for one; a work address is still accepted, because a work domain cannot be told from a personal one reliably. The same goes for Google and Apple: a work Google account and Apple's **Hide my email** relay address both make an account, with no warning. An empty field shows "We need an email address to create the account."
+- **Everyone has an invite code,** so it is a required field, with no "I don't have a code". **Continue** stays off until both the email (or a Google or Apple account) and a code are given. A recognized code is kept. An unrecognized one shows the notice "We do not recognize that code. Check it against the invitation you were sent. A code only changes who pays, never what you get." Coming back to the page, the code is kept, and so is the way in (Google, Apple or a typed email).
 - **Continue sends the answer in one press,** with the keyboard up. Return on a real keyboard does the same.
 - **Where Continue goes.** With Google or Apple, the address is already confirmed, so Continue goes straight to Signals. With a typed address it goes to **Check your email** (3.3a), unless that same address has already been confirmed in this session.
 
@@ -338,7 +339,7 @@ Every page after the Welcome is one **guide page**, in this order: a small label
 
 ### 4.3 The answer pattern
 
-Used by Direction, the deciding question, the "Making it yours" questions and the reflections. **The one place the person types is the account email and its code, and, if they have one, an invite code, and the details they add to refine their story** (3.10):
+Used by Direction, the deciding question, the "Making it yours" questions and the reflections. **The one place the person types is the account email and its code, the invite code, and the details they add to refine their story** (3.10):
 
 1. **Options** are equal-width buttons, one to a row, never wrapping tags.
 2. **Choices only.** There is no field to type an answer in. Where the person's situation is not listed, **None of these? Show me more options** adds more, and **Skip this one** is always there.
@@ -389,7 +390,7 @@ Every screen says what it needs in **40 words or fewer.** (Kate, 2026-11-12.)
 
 - **Counts:** the label, the heading, the line, "Why this matters", and every card, reply and "Worth knowing" fact.
 - **Does not count:** answer options, buttons and links (including "None of these? Show me more options"), the person's own words (what they picked, their draft, what they typed), a fact's source line.
-- **Where it stands.** Within it: Welcome (33), What ExecEngine is (40). Most other screens are over: about 110 to 120 words on the Recommendation and the First draft. Each is cut to fit as its own edit is approved; this section is updated as they are.
+- **Where it stands.** Within it: Welcome (33), What ExecEngine is (40), Account (29). Most other screens are over: about 110 to 120 words on the Recommendation and the First draft. Each is cut to fit as its own edit is approved; this section is updated as they are.
 
 ---
 
@@ -565,7 +566,7 @@ Production must give every control a tappable area of at least 44px, drawn small
 | Prototype | Production |
 | --- | --- |
 | Nothing is stored. Answers live in the page and are lost on reload. | The account is created and the flow can be resumed (see Open questions). |
-| Any non-empty email is accepted. Any invite code is accepted, as long as one is typed or "I don't have a code" is chosen. | Any address is accepted, as decided. The invite code is checked, and an unrecognised one shows the notice. |
+| Any non-empty email is accepted. Any typed invite code is accepted. | Any address is accepted, as decided; the hint asks for a personal one. The invite code is checked, and an unrecognised one shows the notice. |
 | Google and Apple open a drawn stand-in for their pickers, with marks in one colour. | Their own sign-in windows, with the buttons drawn to Google's and Apple's brand rules. |
 | No email is sent. The code email is drawn on screen; only its code (482913) confirms the address, as on Login. Five wrong tries expire it; on time, it expires only when the email's "Open it again after 10 minutes" is pressed. | A real code is emailed and works once, for 10 minutes. A wrong one shows the error with the cells; an expired one shows the expired screen. |
 | Nothing is sent. "Email me these steps", "Email it to me" and "Download" confirm what they would do. | They send and download for real. |
@@ -593,12 +594,12 @@ These are settled. They are the specified behavior. The dates are when they were
 9. **The first draft comes first,** then a choice: add detail, build longer versions, or save and come back. The three detail questions are not put in front of the draft. (2026-10-02, reversing the order tried earlier that day)
 10. **Data is real or marked.** A figure is shown with its source, or as a placeholder. (2026-10-02)
 11. **Nothing is connected in V1.** LinkedIn is a spreadsheet the person uploads. (2026-09-28)
-12. **Any email is accepted,** work or personal. (2026-09-22)
+12. **A personal email is asked for,** by the field's name and a hint, and a work one is still accepted. (2026-11-12, replacing "any email", 2026-09-22)
 13. **Privacy is said once, on "What ExecEngine is,"** before anything personal is asked, in one line. (2026-10-02; one line from 2026-11-12)
 14. **The Done page lists only what is left,** and does not repeat what the person has seen. (2026-10-02)
 15. **No step counters, percentages or scores** appear anywhere in the flow. **Progress is a thin line with no words** at the top of every page after the Welcome (4.9). (2026-11-12, replacing "no progress", 2026-09-24)
 16. **No open responses.** Every answer in onboarding is a choice. The only typing is the account email, an invite code, and refining the story (a role, what the person is responsible for, a result, a name for the bio, and editing the draft). (2026-10-02)
-17. **The invite code is a required choice:** a code, or "I don't have a code." (2026-10-02)
+17. **Everyone has an invite code:** it is a required field, with no "I don't have a code". (2026-11-12, replacing the required choice of 2026-10-02)
 18. **The story build-out is the Playbook, and the pages say so.** The draft, add-detail and longer-versions pages are labeled "Playbook · Positioning Builder," the Playbook is explained once on the first draft, and Done says "In your Playbook" on the story steps that are left. Onboarding does not use the Playbook's own frame or navigation. (2026-10-02)
 19. **Tablet is the phone layout; only web changes.** On web the answers sit in a card beside the question, with no bottom sheet and no drawn keyboard, and the Welcome splits as Login's does. (2026-10-02)
 20. **On web the longer versions fill in live,** beside their fields, with no button. On phone and tablet a button applies the answers. (2026-10-02)

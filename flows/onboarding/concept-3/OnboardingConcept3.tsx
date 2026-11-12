@@ -841,10 +841,7 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
   }
 }
 
-/**
- * The account: email, and an invite code for those who have one. Same rules
- * as Concept 1: any address, and a code only changes who pays.
- */
+/** What every page component is handed. */
 interface PageProps {
   flow: OnboardingFlow;
   frame: Frame;
@@ -889,9 +886,9 @@ function Said({
 }
 
 /**
- * The account: Google or Apple, or an email, and an invite code for those who
- * have one. Same rules as Concept 1: any address, and a code only changes who
- * pays. A typed address is confirmed by a code on the next page; Google and
+ * The account: Google or Apple, or a personal email, and the invite code,
+ * which everyone has (Kate, 2026-11-12). A work address is asked against, not
+ * refused, and a code only changes who pays. A typed address is confirmed by a code on the next page; Google and
  * Apple, as on Login, have confirmed theirs, so `onDone` says which it was.
  */
 function AccountPage({
@@ -908,11 +905,7 @@ function AccountPage({
   // Google or Apple, once an account is picked in its window.
   const [route, setRoute] = useState<AccountRoute>(state.answers.accountRoute ?? "email");
   const [picker, setPicker] = useState<Provider | null>(null);
-  // The invite code is a required choice: a code, or "I don't have a code".
-  // Coming back to the page, an email already given means the choice was made.
-  const [choice, setChoice] = useState<"yes" | "no" | null>(
-    state.answers.inviteCode ? "yes" : state.answers.email ? "no" : null
-  );
+  // Everyone has an invite code, so it is a required field of its own (Kate, 2026-11-12).
   const [codeError, setCodeError] = useState(false);
   const [verdict, setVerdict] = useState<ReturnType<typeof checkEmail> | null>(null);
   const codeBox = useRef<HTMLDivElement>(null);
@@ -926,19 +919,13 @@ function AccountPage({
     emailBox.current?.querySelector("input")?.focus();
   }, [route]);
 
-  // Choosing "I have an invite code" puts the cursor in its field.
-  useEffect(() => {
-    if (choice === "yes" && !code) codeBox.current?.querySelector("input")?.focus();
-    // Only when the choice changes, not as the code is typed.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [choice]);
-
-  const hasCode = choice === "yes";
   const via = route === "email" ? null : route;
 
+  const ready = Boolean(email.trim()) && Boolean(code.trim());
+
   function submit() {
-    if (!choice || (hasCode && !code.trim())) return;
-    const codeOk = !hasCode || isValidInviteCode(code);
+    if (!ready) return;
+    const codeOk = isValidInviteCode(code);
     const check = checkEmail(email);
     setCodeError(!codeOk);
     setVerdict(check === "ok" ? null : check);
@@ -946,7 +933,7 @@ function AccountPage({
     const address = email.trim();
     // Confirmed already: Google or Apple, or the address the code confirmed.
     const confirmed = via !== null || (state.answers.emailVerified && state.answers.email === address);
-    dispatch({ type: "set-invite-code", code: hasCode ? code.trim() : null });
+    dispatch({ type: "set-invite-code", code: code.trim() });
     dispatch({ type: "set-email", email: address, route });
     onDone(confirmed);
   }
@@ -958,8 +945,6 @@ function AccountPage({
         {...frame}
         kicker={c.kicker}
         title={c.title}
-        lede={c.lede}
-        why={c.why}
         drawer={
           <AnswerDrawer
             question={c.ask}
@@ -967,7 +952,7 @@ function AccountPage({
             open={open}
             onToggle={toggle(drawer)}
             primaryLabel={c.cta}
-            primaryDisabled={!choice || (hasCode && !code.trim())}
+            primaryDisabled={!ready}
             onPrimary={submit}
             autoFocusField={via === null}
           >
@@ -992,6 +977,7 @@ function AccountPage({
                     required
                     autoComplete="email"
                     placeholder="you@example.com"
+                    hint={c.emailHint}
                     value={email}
                     error={
                       verdict === "empty"
@@ -1008,33 +994,22 @@ function AccountPage({
                 </div>
               </>
             )}
-            <ChipGroup
-              label={c.inviteAsk}
-              options={[c.inviteYes, c.inviteNo]}
-              equalWidth
-              value={choice ? [choice === "yes" ? c.inviteYes : c.inviteNo] : []}
-              onChange={(next) => {
-                setChoice(next[0] === c.inviteYes ? "yes" : next[0] === c.inviteNo ? "no" : null);
-                setCodeError(false);
-              }}
-            />
-            {hasCode ? (
-              <div ref={codeBox}>
-                <Input
-                  label={c.inviteField}
-                  autoComplete="off"
-                  value={code}
-                  onChange={(event) => {
-                    setCode(event.target.value);
-                    setCodeError(false);
-                  }}
-                />
-              </div>
-            ) : null}
+            <div ref={codeBox}>
+              <Input
+                label={c.inviteField}
+                required
+                autoComplete="off"
+                hint={c.inviteHint}
+                value={code}
+                onChange={(event) => {
+                  setCode(event.target.value);
+                  setCodeError(false);
+                }}
+              />
+            </div>
             {codeError ? (
               <Notice tone="explain" title="We do not recognize that code" live>
-                Check it against the invitation you were sent. If you don’t have one, choose “{c.inviteNo}”.
-                A code only changes who pays, never what you get.
+                Check it against the invitation you were sent. A code only changes who pays, never what you get.
               </Notice>
             ) : null}
           </AnswerDrawer>

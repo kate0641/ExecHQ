@@ -2106,17 +2106,16 @@ export const GUIDE_C3 = {
     privacy: "Private. For your eyes only.",
     cta: "Continue",
   },
+  /** A personal email, then the invite code, both required (Kate, 2026-11-12): everyone has a code,
+   *  so "I don't have a code" is gone, and the reason for a personal address sits under its field,
+   *  where the drawer can't cover it. The line and "Why this matters" were cut: the drawer hid them. */
   account: {
     kicker: "Your account",
-    ask: "What\u2019s your email?",
+    ask: "Your personal email",
+    emailHint: "Not your work one, so it stays yours wherever your career goes.",
     title: "First, somewhere to keep all this",
-    lede: "Your plan and your story are saved to your account, so you can come back to them.",
-    /** Required: a code, or saying there isn\u2019t one. */
-    inviteAsk: "Do you have an invite code?",
-    inviteYes: "I have an invite code",
-    inviteNo: "I don\u2019t have a code",
-    inviteField: "Invite code",
-    why: "Everything you tell ExecEngine builds on what came before. Your account is how it remembers, and how you come back to it.",
+    inviteField: "Your invite code",
+    inviteHint: "From your invitation.",
     cta: "Continue",
     /** Google and Apple, as on Login, by decision on 2026-10-08. */
     or: "or",
