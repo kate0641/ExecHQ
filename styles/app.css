@@ -9829,6 +9829,13 @@ ol.signal__list {
   letter-spacing: var(--type-subheading-tracking);
 }
 
+/* In Stay on track's cards the question keeps a reading width, two balanced lines on a wide card. */
+.card-carousel__slide .check-in__question {
+  max-width: 40ch;
+  margin-inline: auto;
+  text-wrap: balance;
+}
+
 .check-in__question:focus,
 .check-in__readback:focus,
 .check-in__thread span:focus {
