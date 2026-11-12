@@ -22713,11 +22713,17 @@ ul.li-shares {
 
 /* --- The cohort's code --- */
 
+/* In groups: the label close to the code, the explanation close to how many joined, 24 above the buttons. */
 .invite-code {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--space-xs);
+  gap: var(--space-md);
+}
+
+.invite-code__heading + .invite-code__code,
+.invite-code__explain + .invite-code__joined {
+  margin-top: calc(var(--space-xs) - var(--space-md));
 }
 
 .invite-code--panel {
@@ -22788,7 +22794,7 @@ ul.li-shares {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-sm);
-  margin-top: var(--space-2xs);
+  margin-top: calc(var(--space-before-actions) - var(--space-md));
 }
 
 /* --- Starting a cohort --- */
@@ -24022,10 +24028,6 @@ ul.ent-chain__key {
 
 .ent-page > .ent-close .invite-code__code {
   font-size: var(--text-2xl);
-}
-
-.ent-page > .ent-close .invite-code__actions {
-  margin-top: var(--space-sm);
 }
 
 .ent-page__foot {
