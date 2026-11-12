@@ -8702,6 +8702,14 @@ ol.ring-detail__timeline {
   flex-direction: column;
 }
 
+/* With the drawn keyboard up, the drawer keeps its full height and the question above gives way,
+   scrolled to its foot, as a phone scrolls the page to keep the field in view. */
+.guide--drawer:has(.device-keyboard) > .guide__page {
+  min-height: 0;
+  overflow-y: auto;
+  justify-content: flex-end;
+}
+
 .answer-drawer {
   flex: 0 1 auto;
   min-height: 0;
