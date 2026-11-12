@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "onboarding-welcome-line",
+    title: "Onboarding: the Welcome's new line",
+    description:
+      "The Welcome's line becomes \"Part coach, part advisor, part confidant. Private to you, and built around where you want to go.\" on phone, tablet and web; heading and serif line unchanged (12 Nov).",
+  },
+  {
     slug: "onboarding-progress-and-word-budget",
     title: "Onboarding: a progress line, and forty words a screen",
     description:

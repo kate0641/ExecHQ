@@ -2078,7 +2078,8 @@ export const GUIDE_C3 = {
   welcome: {
     wordmark: "ExecEngine",
     title: "Somewhere to work on what comes next.",
-    lede: "Your private career advisor that doesn\u2019t just show you the way \u2014 it works for you and with you to get you there.",
+    // Part of Eric's why statement (Kate, 2026-11-12).
+    lede: "Part coach, part advisor, part confidant. Private to you, and built around where you want to go.",
     quote: "From \u201cI\u2019d like to be\u201d to \u201cI\u2019m going to be.\u201d",
     cta: "Get started",
   },

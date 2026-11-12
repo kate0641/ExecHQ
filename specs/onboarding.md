@@ -98,13 +98,13 @@ The cover. A large statement on the page surface.
 
 - Small label: **ExecEngine**.
 - Heading: **Somewhere to work on what comes next.**
-- Line: "Your private career advisor that doesn't just show you the way — it works for you and with you to get you there."
+- Line: "Part coach, part advisor, part confidant. Private to you, and built around where you want to go." (Kate, 2026-11-12, from Eric's why statement; 33 words on the page.)
 - Closing line, in italic serif: "From "I'd like to be" to "I'm going to be.""
 - Button: **Get started.**
 
-The same wordmark and line open Login, so a returning person and a new one see one product.
+The same wordmark and serif line open Login, so a returning person and a new one see one product. Login's own line is its own and was not changed with this one.
 
-**On web the Welcome splits,** as Login's does. A dark panel on the left (40% of the width) carries the **ExecEngine** wordmark and, in italic serif, "Somewhere to work on what comes next." The sheet on the right carries the heading **From "I'd like to be" to "I'm going to be."**, the line "Your private career advisor that doesn't just show you the way — it works for you and with you to get you there.", and **Get started**, centered across and down the sheet. Phone and tablet keep the cover above.
+**On web the Welcome splits,** as Login's does. A dark panel on the left (40% of the width) carries the **ExecEngine** wordmark and, in italic serif, "Somewhere to work on what comes next." The sheet on the right carries the heading **From "I'd like to be" to "I'm going to be."**, the line "Part coach, part advisor, part confidant. Private to you, and built around where you want to go.", and **Get started**, centered across and down the sheet. Phone and tablet keep the cover above.
 
 ### 3.2 What ExecEngine is
 
