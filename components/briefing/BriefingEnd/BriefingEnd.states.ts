@@ -21,6 +21,5 @@ export const briefingEndStates = defineComponentStates({
   variants: [
     { label: "Under the three — default", props: { headingId: "be-1" } },
     { label: "All three read", props: { allRead: true, headingId: "be-2" } },
-    { label: "The last screen (Concept 2)", props: { layout: "screen", headingId: "be-3" } },
   ],
 });

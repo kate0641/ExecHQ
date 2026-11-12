@@ -60,31 +60,6 @@ export const inputStates = defineComponentStates({
       },
     },
     {
-      label: "Statement",
-      description:
-        "No box. An underlined line in the serif, for text being composed rather than a form being completed.",
-      props: {
-        label: "What would you like to move toward?",
-        labelHidden: true,
-        variant: "statement" as const,
-        multiline: true,
-        rows: 2,
-        defaultValue:
-          "I want to lead a larger organization, with a broader remit than I have now.",
-      },
-    },
-    {
-      label: "Statement — empty",
-      props: {
-        label: "What would you like to move toward?",
-        labelHidden: true,
-        variant: "statement" as const,
-        multiline: true,
-        rows: 2,
-        placeholder: "A role, a scope, an aspiration or a challenge.",
-      },
-    },
-    {
       label: "Pill",
       description: "A rounded field with its label inside the top edge, for a short form like sign in.",
       props: { label: "Your personal email", variant: "pill" as const, type: "email" },

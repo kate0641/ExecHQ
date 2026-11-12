@@ -11,8 +11,8 @@ const noop = () => {};
 const goesWith = createElement(List, {
   label: USE_CASE_COPY.goesWith,
   items: [
-    { id: "story", primary: "Your leadership story", secondary: `Draft · ${GOES_WITH.drawsOn.pitch}`, leading: { type: "icon", name: "person" } },
-    { id: "pitch", primary: "Pitch for the Q1 planning review", secondary: `Waiting to hear · ${GOES_WITH.lastPitch}`, leading: { type: "icon", name: "mic" } },
+    { id: "story", primary: "Your leadership story", secondary: `Draft · ${GOES_WITH.drawsOn.pitch}`, icon: "person" },
+    { id: "pitch", primary: "Pitch for the Q1 planning review", secondary: `Waiting to hear · ${GOES_WITH.lastPitch}`, icon: "mic" },
   ],
 });
 const pitchChoice = { label: "What are you pitching for?", options: ["Speaking", "Podcast", "Press"], value: "Podcast", onChange: noop, note: USE_CASE_COPY.fromPlan };

@@ -2758,16 +2758,6 @@ ul.concierge-suggest {
   border-radius: var(--radius-pill);
 }
 
-/* Large: the Playbook's tools, which lead their page. */
-.icon-row--lg .icon-row__chip {
-  width: 3.25rem;
-  height: 3.25rem;
-}
-
-.icon-row--lg .icon-row__item {
-  font-size: var(--text-sm);
-}
-
 .icon-row__item.is-current .icon-row__chip {
   background-color: var(--color-nav-current);
   color: var(--color-nav-current-icon);
@@ -6956,36 +6946,7 @@ ol.concierge-list {
 .export > .btn {
   flex: 1 1 0;
   min-width: 0;
-}
-
-/* --- The statement field --- */
-
-/* No box: a line being written rather than a field being completed. The
-   underline is the whole affordance, so it is the strong border weight and the
-   surrounding copy says the text can be changed. */
-.field__control--statement {
-  font-family: var(--font-serif);
-  font-size: var(--text-lg);
-  line-height: var(--leading-relaxed);
-  padding: var(--space-2xs) 0 var(--space-sm);
-  background-color: transparent;
-  border: 0;
-  border-bottom: var(--border-width-medium) solid var(--color-border-strong);
-  border-radius: 0;
-  resize: none;
-}
-
-.field__control--statement:focus-visible {
-  outline: none;
-  border-bottom-color: var(--color-text-primary);
-  box-shadow: 0 var(--border-width-medium) 0 0 var(--color-text-primary);
-}
-
-.field__control--statement.is-hover:hover {
-  border-bottom-color: var(--color-text-primary);
-}
-
-/* --- Concept 3: the guided onboarding --- */
+}/* --- Concept 3: the guided onboarding --- */
 /* Paged like Concept 1, but read like an advisor's briefing: progress said in
    words, a file of what ExecEngine knows, and a margin note on every page in the
    same place, just above the action. */
@@ -8344,8 +8305,7 @@ button.device-keyboard__key {
 /* The Briefing is a dark card wherever it appears: navy, no outline. Its
    colours switch to the inverse set here, so the text, links, dividers and
    tiles inside follow without their own rules. */
-.briefing-editorial,
-.spark--celebrate .spark__note {
+.briefing-editorial {
   --color-surface-raised: var(--color-surface-inverse);
   --color-surface-sunken: var(--color-surface-inverse-hover);
   --color-surface-hover: var(--color-surface-inverse-hover);
@@ -9029,8 +8989,7 @@ button.device-keyboard__key {
 }
 
 .check-in__question:focus,
-.check-in__readback:focus,
-.check-in__thread span:focus {
+.check-in__readback:focus {
   outline: none;
 }
 
@@ -9187,70 +9146,6 @@ button.device-keyboard__key {
 .check-in__note-field:focus-visible {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
-}
-
-/* Stepper: three steps across, the current one opened underneath. */
-ol.check-in__steps {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-2xs);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.check-in__steps li {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3xs);
-  font-size: var(--text-xs);
-  color: var(--color-text-muted);
-}
-
-.check-in__steps li::before {
-  content: "";
-  height: 4px;
-  border-radius: 2px;
-  background-color: var(--color-border);
-}
-
-.check-in__steps li.is-done::before {
-  background-color: var(--color-text-primary);
-}
-
-.check-in__steps li.is-now::before {
-  background-color: var(--color-action);
-}
-
-.check-in__steps b {
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-primary);
-}
-
-.check-in__panel {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-md) var(--space-md);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface);
-}
-
-.check-in__panel .check-in__readback {
-  background-color: var(--color-surface-raised);
-}
-
-/* Conversation: no card; the advisor's words sit on the page. */
-.check-in--chat {
-  padding: 0;
-  border: 0;
-  background-color: transparent;
-}
-
-.check-in__thread {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
 }
 
 .baseline-list {
@@ -9800,55 +9695,10 @@ ul.spark {
   align-items: flex-end;
 }
 
-/* Celebrate (Homepage): a navy card, no mark. The first sentence is a yellow
-   headline with the source beside it and an × at the end; the rest sits
-   close under it. Navy takes the inverse colours set with the Briefing. */
-.spark--celebrate .spark__note {
-  display: block;
-  padding: var(--space-sm) var(--space-sm) var(--space-md) var(--space-md);
-  border-radius: var(--radius-xl);
-  background-color: var(--color-surface-inverse);
-  box-shadow: none;
-}
-
-.spark__head {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  column-gap: var(--space-xs);
-}
-
-.spark__headline {
-  margin: 0;
-  font-family: var(--type-subheading-font);
-  font-size: var(--type-subheading-size);
-  font-weight: var(--type-subheading-weight);
-  line-height: var(--type-subheading-leading);
-  letter-spacing: var(--type-subheading-tracking);
-  color: var(--color-accent-on-inverse);
-}
-
-.spark--celebrate .spark__source {
-  display: inline;
-  margin: 0;
-  color: var(--color-text-primary);
-}
-
 .spark__note .spark__close {
   align-self: center;
   margin-left: auto;
   padding: var(--space-2xs);
-  color: var(--color-text-primary);
-}
-
-.spark__body {
-  margin: var(--space-2xs) 0 0;
-  padding-right: var(--space-xs);
-  font-family: var(--type-body-sm-font);
-  font-size: var(--type-body-sm-size);
-  font-weight: var(--type-body-sm-weight);
-  line-height: var(--type-body-sm-leading);
-  letter-spacing: var(--type-body-sm-tracking);
   color: var(--color-text-primary);
 }
 
@@ -13492,48 +13342,6 @@ ol.entry-drawer__rows {
   }
 }
 
-/* The strip: one thin bar split into a part for each card. The parts are buttons with a 24px target. */
-.card-carousel__strip {
-  flex: 1;
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
-  gap: var(--space-2xs);
-  min-width: 0;
-}
-
-.card-carousel__strip button {
-  display: flex;
-  align-items: center;
-  height: 1.5rem;
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
-}
-
-.card-carousel__strip button:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.card-carousel__strip i {
-  display: block;
-  width: 100%;
-  height: var(--space-2xs);
-  border-radius: var(--radius-xs);
-  background-color: var(--color-border);
-}
-
-.card-carousel__strip button:hover i {
-  background-color: var(--color-border-strong);
-}
-
-.card-carousel__strip button.is-now i {
-  height: var(--space-xs);
-  background-color: var(--color-text-primary);
-}
-
 .card-carousel__dots b {
   width: var(--border-width-thin);
   height: 0.75rem;
@@ -15663,16 +15471,6 @@ ul.li-shares {
   padding-top: var(--space-xs);
 }
 
-.brief-end--screen {
-  gap: var(--space-sm);
-  padding-top: var(--space-lg);
-}
-
-.brief-end--screen .brief-end__heading {
-  font-size: var(--type-editorial-size);
-  font-weight: var(--weight-regular);
-}
-
 /* --- Concept 1: front page --- */
 
 .briefing-front {
@@ -17278,99 +17076,10 @@ ul.li-shares {
   outline-offset: var(--focus-ring-offset);
 }
 
-/* Tiles: 2×2 on a phone, one row of four wider. */
-.tool-picker--tiles .tool-picker__list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-xs);
-}
-
-[data-viewport="tablet"] .tool-picker--tiles .tool-picker__list,
-[data-viewport="web"] .tool-picker--tiles .tool-picker__list {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
-.tool-picker--tiles .tool-picker__tool {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3xs);
-  height: 100%;
-  padding: var(--space-sm);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface-raised);
-  transition: border-color var(--duration-fast) var(--easing-standard);
-}
-
-.tool-picker--tiles .tool-picker__tool:hover,
-.tool-picker--tiles .tool-picker__tool.is-hover {
-  border-color: var(--color-border-strong);
-}
-
-.tool-picker--tiles .tool-picker__tool:active,
-.tool-picker--tiles .tool-picker__tool.is-active {
-  background-color: var(--color-surface-active);
-}
-
-.tool-picker--tiles .tool-picker__icon {
-  margin-bottom: var(--space-3xs);
-  color: var(--color-text-secondary);
-}
-
-.tool-picker--tiles .tool-picker__name {
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-}
-
 .tool-picker__short {
   font-size: var(--text-xs);
   line-height: var(--leading-snug);
   color: var(--color-text-secondary);
-}
-
-/* Chips: one row that scrolls sideways, past the screen's edge. */
-.tool-picker--chips .tool-picker__list {
-  display: flex;
-  gap: var(--space-between-pills);
-  margin-inline: calc(-1 * var(--space-screen-side));
-  padding: var(--space-3xs) var(--space-screen-side);
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-[data-viewport="web"] .tool-picker--chips .tool-picker__list {
-  flex-wrap: wrap;
-  margin-inline: 0;
-  padding-inline: 0;
-  overflow: visible;
-}
-
-.tool-picker--chips .tool-picker__tool {
-  min-height: var(--pill-height);
-  padding: var(--pill-padding-block) var(--pill-padding-inline);
-  display: inline-flex;
-  flex: none;
-  align-items: center;
-  gap: var(--space-2xs);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface-raised);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  white-space: nowrap;
-  color: var(--color-text-primary);
-  text-decoration: none;
-}
-
-.tool-picker--chips .tool-picker__tool:hover,
-.tool-picker--chips .tool-picker__tool.is-hover {
-  border-color: var(--color-border-strong);
-}
-
-.tool-picker--chips .tool-picker__tool:active,
-.tool-picker--chips .tool-picker__tool.is-active {
-  background-color: var(--color-surface-active);
 }
 
 /* --- The library --- */
@@ -18792,19 +18501,6 @@ ul.li-shares {
   border-top: var(--border-width-thin) solid var(--list-divider);
 }
 
-.list--dividers-inset .list__item + .list__item::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: var(--list-divider-inset);
-  border-top: var(--border-width-thin) solid var(--list-divider);
-}
-
-.list--reorderable.list--dividers-inset .list__item + .list__item::before {
-  left: calc(var(--list-divider-inset) + var(--button-target));
-}
-
 /* A row with a link: the whole row opens it. */
 .list__item--link:hover,
 .list__item--link.is-hover {
@@ -18859,42 +18555,6 @@ ul.li-shares {
   color: var(--color-text-secondary);
 }
 
-.list__leading--avatar {
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface-inverse);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-inverse);
-}
-
-.list__checkbox {
-  width: 1.25rem;
-  height: 1.25rem;
-  margin: 0;
-  accent-color: var(--color-text-primary);
-}
-
-.list__checkbox:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.list__check {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.25rem;
-  height: 1.25rem;
-  border: var(--border-width-medium) solid var(--color-border-strong);
-  border-radius: var(--radius-xs);
-}
-
-.list__check.is-on {
-  border-color: var(--color-text-primary);
-  background-color: var(--color-text-primary);
-  color: var(--color-surface-raised);
-}
-
 /* --- Text --- */
 
 .list__text {
@@ -18940,9 +18600,7 @@ ul.li-shares {
 }
 
 /* Actions sit above the row's stretched link, so they get their own press. */
-.list__actions,
-.list__handle,
-.list__nudge {
+.list__actions {
   position: relative;
   z-index: 1;
 }
@@ -18951,157 +18609,7 @@ ul.li-shares {
   display: inline-flex;
   align-items: center;
   gap: var(--space-3xs);
-}
-
-/* --- Selectable --- */
-
-.list--selectable .list__item {
-  padding: 0;
-}
-
-.list__option {
-  display: flex;
-  flex: 1;
-  align-items: center;
-  gap: var(--list-item-gap);
-  min-height: var(--button-target);
-  padding: var(--list-item-padding-block) var(--list-item-padding-inline);
-  border: 0;
-  background: none;
-  font: inherit;
-  color: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-
-.list__item--two .list__option {
-  align-items: flex-start;
-}
-
-.list__option:hover,
-.list__item.is-hover .list__option {
-  background-color: var(--list-item-hover);
-}
-
-.list__option:active,
-.list__item.is-active .list__option {
-  background-color: var(--list-item-active);
-}
-
-.list__option[aria-pressed="true"] {
-  background-color: var(--list-item-selected);
-}
-
-.list__option:focus-visible,
-.list__item.is-focus .list__option {
-  outline: var(--focus-ring);
-  outline-offset: calc(-1 * var(--focus-ring-width));
-}
-
-.list__option:disabled {
-  color: var(--color-text-disabled);
-  cursor: not-allowed;
-}
-
-.list__option:disabled .list__primary,
-.list__option:disabled .list__secondary {
-  color: var(--color-text-disabled);
-}
-
-.list__tick {
-  flex: none;
-  align-self: center;
-}
-
-/* --- Reorderable --- */
-
-.list--reorderable .list__item {
-  padding-left: var(--space-2xs);
-}
-
-.list__handle {
-  display: inline-flex;
-  flex: none;
-  align-items: center;
-  justify-content: center;
-  width: var(--button-target);
-  height: var(--button-target);
-  border: 0;
-  border-radius: var(--radius-sm);
-  background: none;
-  color: var(--color-text-secondary);
-  cursor: grab;
-  touch-action: none;
-}
-
-.list__handle:hover {
-  background-color: var(--list-item-hover);
-}
-
-.list__handle:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: calc(-1 * var(--focus-ring-width));
-}
-
-.list__handle[aria-pressed="true"] {
-  cursor: grabbing;
-  background-color: var(--list-item-selected);
-  color: var(--color-text-primary);
-}
-
-/* The row she is holding lifts off the list. */
-.list__item.is-held {
-  z-index: 2;
-  background-color: var(--list-surface);
-  box-shadow: var(--shadow-md);
-}
-
-.list__nudge {
-  display: inline-flex;
-  flex: none;
-  flex-direction: column;
-}
-
-.list__nudge-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  /* 24px: the smallest target WCAG 2.2 AA allows (SC 2.5.8). */
-  width: 1.75rem;
-  height: 1.5rem;
-  border: 0;
-  border-radius: var(--radius-xs);
-  background: none;
-  color: var(--color-text-secondary);
-  cursor: pointer;
-}
-
-.list__nudge-button:hover {
-  background-color: var(--list-item-hover);
-}
-
-.list__nudge-button:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: calc(-1 * var(--focus-ring-width));
-}
-
-.list__nudge-button:disabled {
-  color: var(--color-text-disabled);
-  cursor: not-allowed;
-}
-
-.list__nudge-up {
-  transform: rotate(-90deg);
-}
-
-.list__nudge-down {
-  transform: rotate(90deg);
-}
-
-.list__item.is-disabled .list__primary,
-.list__item.is-disabled .list__secondary {
-  color: var(--color-text-disabled);
-}
+}/* --- Selectable --- */
 
 @media (prefers-reduced-motion: reduce) {
   .list__item {
@@ -19276,28 +18784,7 @@ ul.li-shares {
   .tool-picker--card .tool-picker__tool {
     transition: none;
   }
-}
-
-/* --- Icons with the next step under them (Concept 2) --- */
-
-/* Each tool's icon sits in a small dawn: the sun
-   rises from the circle's base, so the row has colour without a card. */
-.tool-picker--icons .icon-row__chip {
-  background: radial-gradient(
-    circle at 50% 100%,
-    var(--tool-chip-heart),
-    var(--tool-chip-ring) 45%,
-    var(--tool-chip-sky) 90%
-  );
-}
-
-.tool-picker--with-lead {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-/* --- LIBRARY FOLDERS — one card --- */
+}/* --- LIBRARY FOLDERS — one card --- */
 
 .library-folder {
   display: flex;

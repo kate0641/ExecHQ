@@ -18,13 +18,9 @@ export interface InputProps
   labelHidden?: boolean;
   /** Renders a multi-line field instead. */
   multiline?: boolean;
-  /** `field` is the default bordered box. `statement` drops the box for an
-   *  underlined line set in the serif — for text the user is composing rather
-   *  than a form they are completing. Weaker affordance by design, so use it
-   *  only where the surrounding copy makes the editability obvious. `pill`
-   *  is a rounded field with its label set small inside its top edge, for a
+  /** `field` is the default bordered box. `pill` is a rounded field with its label set small inside its top edge, for a
    *  short form with one or two fields (sign in). Single line only. */
-  variant?: "field" | "statement" | "pill";
+  variant?: "field" | "pill";
   rows?: number;
   /** A control drawn inside the field's bottom edge, e.g. a mic button. The
    *  field pads itself so typed text never runs under it. */
@@ -59,7 +55,6 @@ export function Input({
 
   const fieldClasses = [
     "field__control",
-    variant === "statement" ? "field__control--statement" : null,
     variant === "pill" ? "field__control--pill" : null,
     error ? "field__control--error" : null,
     adornment ? "field__control--adorned" : null,
