@@ -13,6 +13,7 @@ A new question before "Where do you want to go next?": where the person is now. 
 | Progress line | 16 pages | 17 pages |
 | Direction's first list | Five, with "I do not know yet" behind "Show me more options" | Six: the five, then **I'm not sure yet** |
 | Narrowing "I'm not sure yet" on its own | "A little more detail gives ExecEngine a clearer first step." | "That's what ExecEngine is for: it will help you figure it out." |
+| Recommendation's reason | Opens with where she's going | Opens with where she is: "Today, you're new in your role and you're going through a restructure or merger." |
 | Plan page, Built from what you said | Starts with Where you're going | Starts with **Where you are today** |
 
 ## The page
@@ -22,7 +23,8 @@ A new question before "Where do you want to go next?": where the person is now. 
 - **Other** replaces "None of these? Show me more options"; there are no held-back answers. Ticked, it opens **In your own words** under the list and puts the cursor in it. Unticked, the field closes and is cleared.
 - **Next** is off until something is ticked, and while Other is ticked with an empty field. The peek bar says "{n} picked".
 - Said back on the plan page in the list's order, her own words last, with **Change** (which returns to the plan page once answered).
-- **In the prototype** the answers change neither the plan nor the recommendation.
+- **The Recommendation's reason opens with them**, one phrase per answer joined with "and": Doing well → "you're doing well and ready for more"; New in my role → "you're new in your role"; Stuck → "you feel stuck, or passed over"; Restructure → "you're going through a restructure or merger"; AI → "your role is changing with AI"; Other → "you said “{her words}”". Then the reason as before. Not when she chose a different plan ("You chose this one instead…").
+- **They don't change which plan is recommended.**
 
 ## Only this page
 
@@ -45,4 +47,4 @@ Tick boxes and Other are used here only, by Kate's decision. Direction, the deci
 
 ## Still open
 
-- **What the answers do** in production: they could steer the recommendation (a restructure toward Lead Where You Are, say) and be read for her own words. Not decided.
+- **Whether the answers should change which plan is recommended** (a restructure toward Lead Where You Are, say), and how her own words are read in production. Not decided.

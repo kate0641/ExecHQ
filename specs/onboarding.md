@@ -170,7 +170,7 @@ Where the person is now, asked before where they want to go (Kate, 2026-11-12). 
 - In the drawer, six answers, each with a **tick box**, as many as are true: **Doing well, and ready for more · New in my role · Stuck, or passed over · Going through a restructure or merger · My role is changing with AI · Other.**
 - **Other** stands in for "None of these? Show me more options": there are no held-back answers. Ticking it opens a field, **In your own words**, under the list and puts the cursor in it. Unticking it closes the field and clears it. Other can be ticked with any of the others.
 - Button **Next**, off until something is ticked, and while Other is ticked with its field empty. Return in the field does the same as Next. The peek bar says how many are picked.
-- **What it does:** the answers are said back first on the plan page's **Built from what you said** (3.9), as **Where you are today**, in the list's order with her own words last, with **Change**. In the prototype they do not change the plan or the recommendation.
+- **What it does:** the answers open the Recommendation's reason (3.7), as "Today, you're new in your role and you're going through a restructure or merger.", her own words quoted as she wrote them. They are said back first on the plan page's **Built from what you said** (3.9), as **Where you are today**, in the list's order with her own words last, with **Change**. They do not change which plan is recommended.
 
 This page alone uses tick boxes and Other; every other question keeps the pattern in 4.3 (Kate, 2026-11-12).
 
@@ -209,7 +209,7 @@ For most directions, one question is asked before the recommendation, because it
 This is where the plan is chosen.
 
 - Label **ExecEngine's recommendation.** The heading is the **plan's name** (for example **Step up**).
-- A card: "This plan is for when you're ready for a bigger role and want the promotion or remit to match." Then the reason, built from what the person said: their direction, then what is in their way, then "That's what this plan is for." If an answer sent the plan somewhere else, that answer's own reason is used.
+- A card: "This plan is for when you're ready for a bigger role and want the promotion or remit to match." Then the reason, built from what the person said: where they are today ("Today, you're new in your role and you're going through a restructure or merger."; 2026-11-12), their direction, then what is in their way, then "That's what this plan is for." If an answer sent the plan somewhere else, that answer's own reason is used.
 - If other directions were picked: "You also picked: {them}. ExecEngine will keep {it/them} in view as your plan grows."
 - "A plan is how you get from where you are to where you want to be. Yours has two parts." with two numbered lines: **This week:** the one thing to do first. **Three stages:** what your plan builds toward, in order, each with a finish line. When they're done, ExecEngine plans the next stretch with you.
 - "Next, a few quick questions to make it yours."

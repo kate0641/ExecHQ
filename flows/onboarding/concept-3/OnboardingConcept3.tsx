@@ -68,6 +68,7 @@ import {
   parseAnswer,
   planForWhom,
   recommendationReasonC3,
+  todayReadbackC3,
   firstDraftFor,
   isSharpened,
   isValidInviteCode,
@@ -549,7 +550,12 @@ function OnboardingGuide({ edit }: { edit: boolean }) {
         >
           <RecommendationCard
             forWhom={planForWhom(plan)}
-            reason={switched ? c.switched(made.plan.name) : recommendationReasonC3(direction, a.refinement, made)}
+            // Where she is today first, then where she's going and what's in the way (Kate, 2026-11-12).
+            reason={
+              switched
+                ? c.switched(made.plan.name)
+                : [todayReadbackC3(today.picks, today.other), recommendationReasonC3(direction, a.refinement, made)].filter(Boolean).join(" ")
+            }
           />
           {alsoGoals.length ? (
             <p className="guide__next">{c.also(listGoals(alsoGoals), alsoGoals.length)}</p>

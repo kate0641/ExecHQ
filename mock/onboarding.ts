@@ -2545,6 +2545,29 @@ export function recommendationReasonC3(
   return where;
 }
 
+/** Where she is today, as the Recommendation's reason opens with it (Kate, 2026-11-12):
+ *  "Today, you\u2019re new in your role and going through a restructure or merger." Her own
+ *  words under Other are quoted as she wrote them. Empty when she gave none. */
+const TODAY_HEARD: Record<string, string> = {
+  "Doing well, and ready for more": "you\u2019re doing well and ready for more",
+  "New in my role": "you\u2019re new in your role",
+  "Stuck, or passed over": "you feel stuck, or passed over",
+  "Going through a restructure or merger": "you\u2019re going through a restructure or merger",
+  "My role is changing with AI": "your role is changing with AI",
+};
+
+export function todayReadbackC3(picks: readonly string[], other: string): string {
+  const c = GUIDE_C3.today;
+  const order: readonly string[] = [...c.options, c.other];
+  const parts = [...picks]
+    .sort((x, y) => order.indexOf(x) - order.indexOf(y))
+    .map((pick) => (pick === c.other ? (other.trim() ? `you said \u201c${other.trim().replace(/[.]$/, "")}\u201d` : "") : TODAY_HEARD[pick] ?? pick))
+    .filter(Boolean);
+  if (!parts.length) return "";
+  const list = parts.length === 1 ? parts[0] : `${parts.slice(0, -1).join(", ")} and ${parts[parts.length - 1]}`;
+  return `Today, ${list}.`;
+}
+
 /** When the plan is for, as a sentence: the lead-in under the plan's name. */
 export function planForWhom(plan: PlanTemplate): string {
   return `This plan is for when ${plan.bestFor.charAt(0).toLowerCase()}${plan.bestFor.slice(1)}`;

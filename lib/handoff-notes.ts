@@ -21,7 +21,7 @@ export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
     slug: "onboarding-where-are-you-today",
     title: "Onboarding: Where are you today?",
     description:
-      "A new question before Direction, with tick boxes and Other opening a field for her own words; Direction shows \"I'm not sure yet\" with the first five; the plan page says the answer back first (12 Nov).",
+      "A new question before Direction, with tick boxes and Other opening a field for her own words; Direction shows \"I'm not sure yet\" with the first five; the answer opens the Recommendation's reason and the plan page's read-back (12 Nov).",
   },
   {
     slug: "onboarding-linkedin-to-signals",
