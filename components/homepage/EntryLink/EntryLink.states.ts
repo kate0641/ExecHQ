@@ -40,7 +40,7 @@ export const entryLinkStates = defineComponentStates({
     },
     {
       label: "A draft to pick up",
-      props: { href: "/playbook-flow/concept-3", icon: "draft", eyebrow: "Pick up where you left off", title: "Brief for your manager check-in", detail: "Edited Monday, October 19, 2026" },
+      props: { href: "/playbook-flow/concept-3", icon: "draft", eyebrow: "Pick up where you left off", title: "Brief for your manager check-in", detail: "Edited Mon, Oct 19, 2026" },
     },
     { label: "Title only", props: { ...plan, detail: undefined } },
     {

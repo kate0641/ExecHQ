@@ -18,6 +18,12 @@ export interface HandoffNoteEntry {
 /** Newest first. */
 export const HANDOFF_NOTES: readonly HandoffNoteEntry[] = [
   {
+    slug: "date-format",
+    title: "Dates: short day and month",
+    description:
+      "Every full date is now written short, \"Thu, Nov 12, 2026\", replacing the spelled-out style of 2 Nov (12 Nov). Ranges, times and relative words like \"last Tuesday\" explained.",
+  },
+  {
     slug: "plan-fold-to-card",
     title: "Plan: folding leaves no bar",
     description:

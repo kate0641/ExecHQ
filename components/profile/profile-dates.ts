@@ -1,6 +1,6 @@
 import { fullDate } from "@/lib/loop";
 
-/** "Friday, October 9, 2026": when she joined or something happened. */
+/** "Fri, Oct 9, 2026": when she joined or something happened. */
 export function dayMonthYear(date: string): string {
   return fullDate(date);
 }
