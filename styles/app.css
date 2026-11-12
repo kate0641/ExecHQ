@@ -5451,6 +5451,12 @@ ol.ring-detail__timeline {
   flex: none;
 }
 
+/* The welcome sheet's title breaks in even lines, so a quoted phrase stays whole
+   (From “I'd like to be” / to “I'm going to be.”). */
+.welcome__sheet .step-header__title {
+  text-wrap: balance;
+}
+
 .welcome__quote {
   font-family: var(--type-editorial-font);
   font-size: var(--type-editorial-size);
